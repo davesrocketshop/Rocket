@@ -30,7 +30,8 @@ import FreeCADGui
 from App.OpenRocket import _msg, _err, _trace
 
 from App.Component.Component import Component
-from App.NoseCone import NoseCone, ViewProviderNoseCone
+from App.ShapeNoseCone import ShapeNoseCone
+from Gui.ViewNoseCone import ViewProviderNoseCone
 
 class NoseconeComponent(Component):
 
@@ -55,17 +56,26 @@ class NoseconeComponent(Component):
     def draw(self, parent):
         _trace(self.__class__.__name__, "draw")
 
-        obj = self._doc.addObject('Part::FeaturePython', 'NoseCone')
+        obj = self._doc.addObject('App::FeaturePython', 'NoseCone')
         obj.Label= self._name
 
-        #guiObj = Gui.ActiveDocument.getObject(self._name)
-        noseCone = NoseCone(obj, self._shape, "solid",
-            self._length, self._aftRadius, 2.0, self._shapeParameter, 100,
-            (self._aftShoulderLength > 0), self._aftShoulderLength, self._aftShoulderRadius, self._aftShoulderThickness)
-        if FreeCAD.GuiUp:
-            ViewProviderNoseCone(noseCone.ViewObject)
+        noseCone = ShapeNoseCone(obj)
 
-        #noseCone.draw(obj)
+		obj.NoseType = self._shape
+		obj.NoseStyle = "solid"
+
+		obj.Length = self._length
+		obj.Radius = self._aftRadius
+		obj.Thickness = 2.0
+		obj.Shoulder = (self._aftShoulderLength > 0)
+		obj.ShoulderLength = self._aftShoulderLength
+		obj.ShoulderRadius = self._aftShoulderRadius
+		obj.ShoulderThickness = self._aftShoulderThickness
+		obj.Coefficient = self._shapeParameter
+
+        # if FreeCAD.GuiUp:
+        #     ViewProviderNoseCone(noseCone.ViewObject)
+
         parent.addObject(obj)
 
         # draw any subcomponents
