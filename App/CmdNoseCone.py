@@ -28,7 +28,13 @@ __url__ = "https://www.davesrocketshop.com"
 class CmdNoseCone:
     def Activated(self):
         FreeCAD.Console.PrintMessage("Nose cone command\n")
+
     def IsActive(self):
+        if FreeCAD.ActiveDocument == None:
+            return False
         return True
+        
     def GetResources(self):
-        return {'Pixmap': 'freecad', 'MenuText': 'Hello World', 'ToolTip': 'Print Hello World'}
+        return {'MenuText': 'Nose Cone',
+                'ToolTip': 'Nose cone design',
+                'Pixmap': 'freecad'}

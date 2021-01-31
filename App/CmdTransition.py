@@ -28,7 +28,13 @@ __url__ = "https://www.davesrocketshop.com"
 class CmdTransition:
     def Activated(self):
         FreeCAD.Console.PrintMessage("Transition Command\n")
+
     def IsActive(self):
+        if FreeCAD.ActiveDocument == None:
+            return False
         return True
+        
     def GetResources(self):
-        return {'Pixmap': 'freecad', 'MenuText': 'Hello World', 'ToolTip': 'Print Hello World'}
+        return {'MenuText': 'Transition',
+                'ToolTip': 'Transition design',
+                'Pixmap': 'freecad'}

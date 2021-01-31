@@ -20,15 +20,21 @@
 # ***************************************************************************
 """Class for drawing nose cones"""
 
-__title__ = "FreeCAD Nose Cones"
+__title__ = "FreeCAD Fins"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
     
 
-class CmdHelloWorld:
+class CmdFin:
     def Activated(self):
         FreeCAD.Console.PrintMessage("Fin Command\n")
+
     def IsActive(self):
+        if FreeCAD.ActiveDocument == None:
+            return False
         return True
+        
     def GetResources(self):
-        return {'Pixmap': 'freecad', 'MenuText': 'Hello World', 'ToolTip': 'Print Hello World'}
+        return {'MenuText': 'Fin',
+                'ToolTip': 'Fin design',
+                'Pixmap': 'freecad'}
