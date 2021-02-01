@@ -31,11 +31,18 @@ import Part
 
 class ViewProviderTransition:
 
-	def __init__(self, obj):
-		obj.Proxy = self
+    def __init__(self, vobj):
+        vobj.Proxy = self
+        
+    def getIcon(self):
+        return FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Transition.svg"
 
-	def getDefaultDisplayMode(self):
-		return "Flat Lines"
+    def attach(self, vobj):
+        self.ViewObject = vobj
+        self.Object = vobj.Object
 
-	def onChanged(self, vp, prop):
-		FreeCAD.Console.PrintMessage('Change property: ' + str(prop) + '\n')
+    def getDefaultDisplayMode(self):
+        return "Flat Lines"
+
+    def onChanged(self, vp, prop):
+        FreeCAD.Console.PrintMessage('Change property: ' + str(prop) + '\n')

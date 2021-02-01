@@ -30,7 +30,7 @@ import Part
 import math
 
 from App.Constants import TYPE_CONE, TYPE_ELLIPTICAL, TYPE_HAACK, TYPE_OGIVE, TYPE_VON_KARMAN, TYPE_PARABOLA, TYPE_PARABOLIC, TYPE_POWER
-from App.Constants import STYLE_CAPPED, STYLE_HOLLOW, STYLE_SOLID
+from App.Constants import STYLE_CAPPED, STYLE_HOLLOW, STYLE_SOLID, STYLE_SOLID_CORE
 
 from App.Utilities import _msg, _err, _trace
 
@@ -39,13 +39,13 @@ class TransitionShapeHandler():
         _trace(self.__class__.__name__, "__init__")
 
         # Common parameters        
-        self._style = str(obj.NoseStyle)
+        self._style = str(obj.TransitionStyle)
         self._thickness = float(obj.Thickness)
 
         self._length = float(obj.Length)
         self._foreRadius = float(obj.ForeRadius)
         self._aftRadius = float(obj.AftRadius)
-        self._CoreRadius = float(obj.CoreRadius)
+        self._coreRadius = float(obj.CoreRadius)
         self._coefficient = float(obj.Coefficient)
         self._resolution = int(obj.Resolution)
 
@@ -73,31 +73,50 @@ class TransitionShapeHandler():
     def isValidShape(self):
         _trace(self.__class__.__name__, "isValidShape")
         
-        # Perform some general validations
-        # if self._style in [STYLE_HOLLOW, STYLE_CAPPED]:
-        # 	if self._thickness <= 0:
-        # 		_err("For %s nose cones thickness must be > 0" % self._style)
-        # 		return False
-        # 	if self._thickness >= self._radius:
-        # 		_err("Nose cones thickness must be less than the nose cone radius")
-        # 		return False
-        # if self._shoulder:
-        # 	if self._shoulderLength <= 0:
-        # 		_err("Shoulder length must be > 0")
-        # 		return False
-        # 	if self._shoulderRadius <= 0:
-        # 		_err("Shoulder radius must be > 0")
-        # 		return False
-        # 	if self._shoulderRadius > self._radius:
-        # 		_err("Shoulder radius can not exceed the nose cone radius")
-        # 		return False
-        # 	if self._style in [STYLE_HOLLOW, STYLE_CAPPED]:
-        # 		if self._shoulderThickness <= 0:
-        # 			_err("For %s nose cones with a shoulder, shoulder thickness must be > 0" % self._style)
-        # 			return False
-        # 		if self._shoulderThickness >= self._shoulderRadius:
-        # 			_err("Shoulder thickness must be less than the shoulder radius")
-        # 			return False
+        #Perform some general validations
+        if self._style in [STYLE_HOLLOW, STYLE_CAPPED]:
+        	if self._thickness <= 0:
+        		_err("For %s transitions thickness must be > 0" % self._style)
+        		return False
+        	if self._thickness >= self._foreRadius or self._thickness >= self._aftRadius:
+        		_err("Transition thickness must be less than the front or back radius")
+        		return False
+
+        if self._foreShoulder:
+        	if self._foreShoulderLength <= 0:
+        		_err("Forward shoulder length must be > 0")
+        		return False
+        	if self._foreShoulderRadius <= 0:
+        		_err("Forward shoulder radius must be > 0")
+        		return False
+        	if self._foreShoulderRadius > self._foreRadius:
+        		_err("Forward shoulder radius can not exceed the transition radius at the shoulder")
+        		return False
+        	if self._style in [STYLE_HOLLOW, STYLE_CAPPED]:
+        		if self._foreShoulderThickness <= 0:
+        			_err("For %s transitions with a shoulder, shoulder thickness must be > 0" % self._style)
+        			return False
+        		if self._foreShoulderThickness >= self._foreShoulderRadius:
+        			_err("Shoulder thickness must be less than the shoulder radius")
+        			return False
+
+        if self._aftShoulder:
+        	if self._aftShoulderLength <= 0:
+        		_err("Aft shoulder length must be > 0")
+        		return False
+        	if self._aftShoulderRadius <= 0:
+        		_err("Aft shoulder radius must be > 0")
+        		return False
+        	if self._aftShoulderRadius > self._aftRadius:
+        		_err("Aft shoulder radius can not exceed the transition radius at the shoulder")
+        		return False
+        	if self._style in [STYLE_HOLLOW, STYLE_CAPPED]:
+        		if self._aftShoulderThickness <= 0:
+        			_err("For %s transitions with a shoulder, shoulder thickness must be > 0" % self._style)
+        			return False
+        		if self._aftShoulderThickness >= self._aftShoulderRadius:
+        			_err("Shoulder thickness must be less than the shoulder radius")
+        			return False
 
         return True
         
@@ -148,99 +167,214 @@ class TransitionShapeHandler():
     def solidLines(self, outerShape):
         _trace(self.__class__.__name__, "solidLines")
         
-        center = FreeCAD.Vector(0.0, 0.0)
-        major = FreeCAD.Vector(self._length, 0.0)
-        minor = FreeCAD.Vector(0.0, self._radius)
+        foreCenter = FreeCAD.Vector(0.0, 0.0)
+        aftCenter = FreeCAD.Vector(self._length, 0.0)
 
-        line1 = Part.LineSegment(center, major)
-        line2 = Part.LineSegment(center, minor)
-        return [outerShape.toShape(), line1.toShape(), line2.toShape()]
+        foreRadius = FreeCAD.Vector(0.0, self._foreRadius)
+        aftRadius = FreeCAD.Vector(self._length, self._aftRadius)
+
+        line1 = Part.LineSegment(foreRadius, foreCenter)
+        line2 = Part.LineSegment(foreCenter, aftCenter)
+        line3 = Part.LineSegment(aftCenter, aftRadius)
+        return [outerShape.toShape(), line1.toShape(), line2.toShape(), line3.toShape()]
 
     def solidShoulderLines(self, outerShape):
         _trace(self.__class__.__name__, "solidShoulderLines")
+
+        front = []
+        back = []
+        if self._foreShoulder:
+            line1 = Part.LineSegment(FreeCAD.Vector(0, self._foreRadius),                                FreeCAD.Vector(0, self._foreShoulderRadius))
+            line2 = Part.LineSegment(FreeCAD.Vector(0, self._foreShoulderRadius),                        FreeCAD.Vector(-self._foreShoulderLength,self._foreShoulderRadius))
+            line3 = Part.LineSegment(FreeCAD.Vector(-self._foreShoulderLength,self._foreShoulderRadius), FreeCAD.Vector(-self._foreShoulderLength,0))
+
+            # Have to factor in an aft shoulder
+            if self._aftShoulder:
+                line4 = Part.LineSegment(FreeCAD.Vector(-self._foreShoulderLength,0), FreeCAD.Vector(self._length + self._aftShoulderLength, 0))
+            else:
+                line4 = Part.LineSegment(FreeCAD.Vector(-self._foreShoulderLength,0), FreeCAD.Vector(self._length, 0))
+            front = [line1.toShape(), line2.toShape(), line3.toShape(), line4.toShape()]
+        else:
+            line1 = Part.LineSegment(FreeCAD.Vector(0.0, self._foreRadius), FreeCAD.Vector(0, 0))
+
+            # Have to factor in an aft shoulder
+            if self._aftShoulder:
+                line2 = Part.LineSegment(FreeCAD.Vector(0,0), FreeCAD.Vector(self._length + self._aftShoulderLength, 0))
+            else:
+                line2 = Part.LineSegment(FreeCAD.Vector(0,0), FreeCAD.Vector(self._length, 0))
+            front = [line1.toShape(), line2.toShape()]
+
+        if self._aftShoulder:
+            line1 = Part.LineSegment(FreeCAD.Vector(self._length, self._aftRadius),                                  FreeCAD.Vector(self._length, self._aftShoulderRadius))
+            line2 = Part.LineSegment(FreeCAD.Vector(self._length, self._aftShoulderRadius),                          FreeCAD.Vector(self._length + self._aftShoulderLength,self._aftShoulderRadius))
+            line3 = Part.LineSegment(FreeCAD.Vector(self._length + self._aftShoulderLength,self._aftShoulderRadius), FreeCAD.Vector(self._length + self._aftShoulderLength,0))
+            back = [line1.toShape(), line2.toShape(), line3.toShape()]
+        else:
+            line1 = Part.LineSegment(FreeCAD.Vector(self._length, self._aftRadius), FreeCAD.Vector(self._length, 0))
+            back = [line1.toShape()]
+
+        return [outerShape.toShape()] + front + back
+
+    def solidCoreLines(self, outerShape):
+        _trace(self.__class__.__name__, "solidCoreLines")
         
-        center = FreeCAD.Vector(0,0)
-        major = FreeCAD.Vector(self._length,0)
-        minor = FreeCAD.Vector(0,self._radius)
+        foreCenter = FreeCAD.Vector(0.0, self._coreRadius)
+        aftCenter = FreeCAD.Vector(self._length, self._coreRadius)
 
-        line1 = Part.LineSegment(major,                                                     FreeCAD.Vector(-self._shoulderLength,0))
-        line2 = Part.LineSegment(FreeCAD.Vector(-self._shoulderLength,0),                   FreeCAD.Vector(-self._shoulderLength,self._shoulderRadius))
-        line3 = Part.LineSegment(FreeCAD.Vector(-self._shoulderLength,self._shoulderRadius),FreeCAD.Vector(0,self._shoulderRadius))
-        line4 = Part.LineSegment(FreeCAD.Vector(0,self._shoulderRadius),                     minor)
-        return [outerShape.toShape(), line1.toShape(), line2.toShape(), line3.toShape(), line4.toShape()]
+        foreRadius = FreeCAD.Vector(0.0, self._foreRadius)
+        aftRadius = FreeCAD.Vector(self._length, self._aftRadius)
 
-    def hollowLines(self, max_x, outerShape, innerShape):
+        line1 = Part.LineSegment(foreRadius, foreCenter)
+        line2 = Part.LineSegment(foreCenter, aftCenter)
+        line3 = Part.LineSegment(aftCenter, aftRadius)
+        return [outerShape.toShape(), line1.toShape(), line2.toShape(), line3.toShape()]
+
+    def solidShoulderCoreLines(self, outerShape):
+        _trace(self.__class__.__name__, "solidShoulderCoreLines")
+        
+        front = []
+        back = []
+        if self._foreShoulder:
+            line1 = Part.LineSegment(FreeCAD.Vector(0, self._foreRadius),                                FreeCAD.Vector(0, self._foreShoulderRadius))
+            line2 = Part.LineSegment(FreeCAD.Vector(0, self._foreShoulderRadius),                        FreeCAD.Vector(-self._foreShoulderLength,self._foreShoulderRadius))
+            line3 = Part.LineSegment(FreeCAD.Vector(-self._foreShoulderLength,self._foreShoulderRadius), FreeCAD.Vector(-self._foreShoulderLength,self._coreRadius))
+
+            # Have to factor in an aft shoulder
+            if self._aftShoulder:
+                line4 = Part.LineSegment(FreeCAD.Vector(-self._foreShoulderLength,self._coreRadius), FreeCAD.Vector(self._length + self._aftShoulderLength, self._coreRadius))
+            else:
+                line4 = Part.LineSegment(FreeCAD.Vector(-self._foreShoulderLength,self._coreRadius), FreeCAD.Vector(self._length, self._coreRadius))
+            front = [line1.toShape(), line2.toShape(), line3.toShape(), line4.toShape()]
+        else:
+            line1 = Part.LineSegment(FreeCAD.Vector(0.0, self._foreRadius), FreeCAD.Vector(0, self._coreRadius))
+
+            # Have to factor in an aft shoulder
+            if self._aftShoulder:
+                line2 = Part.LineSegment(FreeCAD.Vector(0,self._coreRadius), FreeCAD.Vector(self._length + self._aftShoulderLength, self._coreRadius))
+            else:
+                line2 = Part.LineSegment(FreeCAD.Vector(0,self._coreRadius), FreeCAD.Vector(self._length, self._coreRadius))
+            front = [line1.toShape(), line2.toShape()]
+
+        if self._aftShoulder:
+            line1 = Part.LineSegment(FreeCAD.Vector(self._length, self._aftRadius),                                  FreeCAD.Vector(self._length, self._aftShoulderRadius))
+            line2 = Part.LineSegment(FreeCAD.Vector(self._length, self._aftShoulderRadius),                          FreeCAD.Vector(self._length + self._aftShoulderLength,self._aftShoulderRadius))
+            line3 = Part.LineSegment(FreeCAD.Vector(self._length + self._aftShoulderLength,self._aftShoulderRadius), FreeCAD.Vector(self._length + self._aftShoulderLength,self._coreRadius))
+            back = [line1.toShape(), line2.toShape(), line3.toShape()]
+        else:
+            line1 = Part.LineSegment(FreeCAD.Vector(self._length, self._aftRadius), FreeCAD.Vector(self._length, self._coreRadius))
+            back = [line1.toShape()]
+
+        return [outerShape.toShape()] + front + back
+
+    def hollowLines(self, outerShape, innerShape):
         _trace(self.__class__.__name__, "hollowLines")
         
-        major = FreeCAD.Vector(self._length,0)
-        minor = FreeCAD.Vector(0,self._radius)
+        major = FreeCAD.Vector(self._length, self._aftRadius)
+        minor = FreeCAD.Vector(0.0, self._foreRadius)
 
-        innerMajor = FreeCAD.Vector(max_x,0)
-        innerMinor = FreeCAD.Vector(0,self._radius - self._thickness)
+        innerMajor = FreeCAD.Vector(self._length, self._aftRadius - self._thickness)
+        innerMinor = FreeCAD.Vector(0.0, self._foreRadius - self._thickness)
 
         line1 = Part.LineSegment(major, innerMajor)
         line2 = Part.LineSegment(minor, innerMinor)
         return [outerShape.toShape(), line1.toShape(), line2.toShape(), innerShape.toShape()]
 
-    def hollowShoulderLines(self, max_x, minor_y, outerShape, innerShape):
+    def hollowShoulderLines(self, foreY, aftY, outerShape, innerShape):
         _trace(self.__class__.__name__, "hollowShoulderLines")
-        
-        major = FreeCAD.Vector(self._length,0)
-        minor = FreeCAD.Vector(0,self._radius)
 
-        innerMajor = FreeCAD.Vector(max_x,0)
-        innerMinor = FreeCAD.Vector(self._thickness, minor_y)
+        front = []
+        back = []
+        if self._foreShoulder:
+            line1 = Part.LineSegment(FreeCAD.Vector(0, self._foreRadius),                                                              FreeCAD.Vector(0, self._foreShoulderRadius))
+            line2 = Part.LineSegment(FreeCAD.Vector(0, self._foreShoulderRadius),                                                      FreeCAD.Vector(-self._foreShoulderLength,self._foreShoulderRadius))
+            line3 = Part.LineSegment(FreeCAD.Vector(-self._foreShoulderLength,self._foreShoulderRadius),                               FreeCAD.Vector(-self._foreShoulderLength,self._foreShoulderRadius - self._foreShoulderThickness))
+            line4 = Part.LineSegment(FreeCAD.Vector(-self._foreShoulderLength,self._foreShoulderRadius - self._foreShoulderThickness), FreeCAD.Vector(self._thickness,self._foreShoulderRadius - self._foreShoulderThickness))
+            line5 = Part.LineSegment(FreeCAD.Vector(self._thickness,self._foreShoulderRadius - self._foreShoulderThickness),           FreeCAD.Vector(self._thickness,foreY))
 
-        end2 = FreeCAD.Vector(0,                       self._shoulderRadius)
-        end3 = FreeCAD.Vector(-self._shoulderLength,   self._shoulderRadius)
-        end4 = FreeCAD.Vector(-self._shoulderLength,   self._shoulderRadius - self._shoulderThickness)
-        end5 = FreeCAD.Vector(self._thickness, self._shoulderRadius - self._shoulderThickness)
-        line1 = Part.LineSegment(major, innerMajor)
-        line2 = Part.LineSegment(minor, end2)
-        line3 = Part.LineSegment(end2,  end3)
-        line4 = Part.LineSegment(end3,  end4)
-        line5 = Part.LineSegment(end4,  end5)
-        line6 = Part.LineSegment(end5,  innerMinor)
-        return [outerShape.toShape(), line1.toShape(), line2.toShape(), line3.toShape(), line4.toShape(), line5.toShape(), line6.toShape(), innerShape.toShape()]
+            front = [line1.toShape(), line2.toShape(), line3.toShape(), line4.toShape(), line5.toShape()]
+        else:
+            line1 = Part.LineSegment(FreeCAD.Vector(0.0, self._foreRadius), FreeCAD.Vector(0.0, self._foreRadius - self._thickness))
 
-    def cappedLines(self, max_x, minor_y, outerShape, innerShape):
+            front = [line1.toShape()]
+
+        if self._aftShoulder:
+            line1 = Part.LineSegment(FreeCAD.Vector(self._length, self._aftRadius),                                                               FreeCAD.Vector(self._length, self._aftShoulderRadius))
+            line2 = Part.LineSegment(FreeCAD.Vector(self._length, self._aftShoulderRadius),                                                       FreeCAD.Vector(self._length + self._aftShoulderLength,self._aftShoulderRadius))
+            line3 = Part.LineSegment(FreeCAD.Vector(self._length + self._aftShoulderLength,self._aftShoulderRadius),                              FreeCAD.Vector(self._length + self._aftShoulderLength,self._aftShoulderRadius - self._aftShoulderThickness))
+            line4 = Part.LineSegment(FreeCAD.Vector(self._length + self._aftShoulderLength,self._aftShoulderRadius - self._aftShoulderThickness), FreeCAD.Vector(self._length - self._thickness,self._aftShoulderRadius - self._aftShoulderThickness))
+            line5 = Part.LineSegment(FreeCAD.Vector(self._length - self._thickness,self._aftShoulderRadius - self._aftShoulderThickness),         FreeCAD.Vector(self._length - self._thickness,aftY))
+
+            back = [line1.toShape(), line2.toShape(), line3.toShape(), line4.toShape(), line5.toShape()]
+        else:
+            line1 = Part.LineSegment(FreeCAD.Vector(self._length, self._aftRadius), FreeCAD.Vector(self._length, self._aftRadius - self._thickness))
+
+            back = [line1.toShape()]
+
+        return [outerShape.toShape()] + front + back + [innerShape.toShape()]
+
+    def cappedLines(self, foreY, aftY, outerShape, innerShape):
         _trace(self.__class__.__name__, "cappedLines")
-        
-        center = FreeCAD.Vector(0,0)
-        major = FreeCAD.Vector(self._length,0)
-        minor = FreeCAD.Vector(0,self._radius)
+         
+        fore = FreeCAD.Vector(0.0, self._foreRadius)
+        aft = FreeCAD.Vector(self._length, self._aftRadius)
 
-        innerMajor = FreeCAD.Vector(max_x,0)
-        innerMinor = FreeCAD.Vector(self._thickness, minor_y)
+        foreInner = FreeCAD.Vector(self._thickness, foreY)
+        aftIinner = FreeCAD.Vector(self._length - self._thickness, aftY)
+       
+        foreCenter = FreeCAD.Vector(0,0)
+        aftCenter = FreeCAD.Vector(self._length,0)
 
-        line1 = Part.LineSegment(major, innerMajor)
-        line2 = Part.LineSegment(minor, center)
-        line3 = Part.LineSegment(center, FreeCAD.Vector(self._thickness, 0))
-        line4 = Part.LineSegment(FreeCAD.Vector(self._thickness, 0), innerMinor)
-        return [outerShape.toShape(), line1.toShape(), line2.toShape(), line3.toShape(), line4.toShape(), innerShape.toShape()]
+        foreInnerCenter = FreeCAD.Vector(self._thickness,0)
+        aftInnerCenter = FreeCAD.Vector(self._length - self._thickness,0)
 
-    def cappedShoulderLines(self, max_x, minor_y, outerShape, innerShape):
+        line1 = Part.LineSegment(fore, foreCenter)
+        line2 = Part.LineSegment(foreCenter, foreInnerCenter)
+        line3 = Part.LineSegment(foreInnerCenter, foreInner)
+        line4 = Part.LineSegment(aft, aftCenter)
+        line5 = Part.LineSegment(aftCenter, aftInnerCenter)
+        line6 = Part.LineSegment(aftInnerCenter, aftIinner)
+        return [outerShape.toShape(), line1.toShape(), line2.toShape(), line3.toShape(), innerShape.toShape(), line4.toShape(), line5.toShape(), line6.toShape(), innerShape.toShape()]
+
+    def cappedShoulderLines(self, foreY, aftY, outerShape, innerShape):
         _trace(self.__class__.__name__, "cappedShoulderLines")
-        
-        major = FreeCAD.Vector(self._length,0)
-        minor = FreeCAD.Vector(0,self._radius)
 
-        innerMajor = FreeCAD.Vector(max_x,0)
-        innerMinor = FreeCAD.Vector(self._thickness, minor_y)
+        front = []
+        back = []
+        if self._foreShoulder:
+            line1 = Part.LineSegment(FreeCAD.Vector(0, self._foreRadius),                                                                FreeCAD.Vector(0, self._foreShoulderRadius))
+            line2 = Part.LineSegment(FreeCAD.Vector(0, self._foreShoulderRadius),                                                        FreeCAD.Vector(-self._foreShoulderLength,self._foreShoulderRadius))
+            line3 = Part.LineSegment(FreeCAD.Vector(-self._foreShoulderLength,self._foreShoulderRadius),                                 FreeCAD.Vector(-self._foreShoulderLength,0))
+            line4 = Part.LineSegment(FreeCAD.Vector(-self._foreShoulderLength,0),                                                        FreeCAD.Vector(-self._foreShoulderLength + self._foreShoulderThickness,0))
+            line5 = Part.LineSegment(FreeCAD.Vector(-self._foreShoulderLength + self._foreShoulderThickness,0),                          FreeCAD.Vector(-self._foreShoulderLength + self._foreShoulderThickness,self._foreShoulderRadius - self._foreShoulderThickness))
+            line6 = Part.LineSegment(FreeCAD.Vector(-self._foreShoulderLength + self._foreShoulderThickness,self._foreShoulderRadius - self._foreShoulderThickness),
+                                                                                                                                         FreeCAD.Vector(self._thickness,self._foreShoulderRadius - self._foreShoulderThickness))
+            line7 = Part.LineSegment(FreeCAD.Vector(self._thickness,self._foreShoulderRadius - self._foreShoulderThickness),
+                                                                                                                                         FreeCAD.Vector(self._thickness,foreY))
 
-        end2 = FreeCAD.Vector(0,                                            self._shoulderRadius)
-        end3 = FreeCAD.Vector(-self._shoulderLength,                        self._shoulderRadius)
-        end4 = FreeCAD.Vector(-self._shoulderLength,                        0)
-        end5 = FreeCAD.Vector(self._shoulderThickness-self._shoulderLength, 0)
-        end6 = FreeCAD.Vector(self._shoulderThickness-self._shoulderLength, self._shoulderRadius-self._shoulderThickness)
-        end7 = FreeCAD.Vector(self._thickness,                              self._shoulderRadius-self._shoulderThickness)
-        line1 = Part.LineSegment(major, innerMajor)
-        line2 = Part.LineSegment(minor, end2)
-        line3 = Part.LineSegment(end2,  end3)
-        line4 = Part.LineSegment(end3,  end4)
-        line5 = Part.LineSegment(end4,  end5)
-        line6 = Part.LineSegment(end5,  end6)
-        line7 = Part.LineSegment(end6,  end7)
-        line8 = Part.LineSegment(end7,  innerMinor)
-        return [outerShape.toShape(), line1.toShape(), line2.toShape(), line3.toShape(), line4.toShape(), 
-                line5.toShape(), line6.toShape(), line7.toShape(), line8.toShape(), innerShape.toShape()]
+            front = [line1.toShape(), line2.toShape(), line3.toShape(), line4.toShape(), line5.toShape(), line6.toShape(), line7.toShape()]
+        else:
+            line1 = Part.LineSegment(FreeCAD.Vector(0.0, self._foreRadius), FreeCAD.Vector(0, 0))
+            line2 = Part.LineSegment(FreeCAD.Vector(0.0, 0),                FreeCAD.Vector(self._thickness, 0))
+            line3 = Part.LineSegment(FreeCAD.Vector(self._thickness, 0),    FreeCAD.Vector(self._thickness, foreY))
+
+            front = [line1.toShape(), line2.toShape(), line3.toShape()]
+
+        if self._aftShoulder:
+            line1 = Part.LineSegment(FreeCAD.Vector(self._length, self._aftRadius),                                                       FreeCAD.Vector(self._length, self._aftShoulderRadius))
+            line2 = Part.LineSegment(FreeCAD.Vector(self._length, self._aftShoulderRadius),                                               FreeCAD.Vector(self._length + self._aftShoulderLength,self._aftShoulderRadius))
+            line3 = Part.LineSegment(FreeCAD.Vector(self._length + self._aftShoulderLength,self._aftShoulderRadius),                      FreeCAD.Vector(self._length + self._aftShoulderLength,0))
+            line4 = Part.LineSegment(FreeCAD.Vector(self._length + self._aftShoulderLength,0),                                            FreeCAD.Vector(self._length + self._aftShoulderLength - self._aftShoulderThickness,0))
+            line5 = Part.LineSegment(FreeCAD.Vector(self._length + self._aftShoulderLength - self._aftShoulderThickness,0),               FreeCAD.Vector(self._length + self._aftShoulderLength - self._aftShoulderThickness,self._aftShoulderRadius - self._aftShoulderThickness))
+            line6 = Part.LineSegment(FreeCAD.Vector(self._length + self._aftShoulderLength - self._aftShoulderThickness,self._aftShoulderRadius - self._aftShoulderThickness), 
+                                                                                                                                          FreeCAD.Vector(self._length - self._thickness,self._aftShoulderRadius - self._aftShoulderThickness))
+            line7 = Part.LineSegment(FreeCAD.Vector(self._length - self._thickness,self._aftShoulderRadius - self._aftShoulderThickness), FreeCAD.Vector(self._length - self._thickness,aftY))
+
+            back = [line1.toShape(), line2.toShape(), line3.toShape(), line4.toShape(), line5.toShape(), line6.toShape(), line7.toShape()]
+        else:
+            line1 = Part.LineSegment(FreeCAD.Vector(self._length, self._aftRadius),     FreeCAD.Vector(self._length, 0))
+            line2 = Part.LineSegment(FreeCAD.Vector(self._length, 0),                   FreeCAD.Vector(self._length - self._thickness, 0))
+            line3 = Part.LineSegment(FreeCAD.Vector(self._length - self._thickness, 0), FreeCAD.Vector(self._length - self._thickness, aftY))
+
+            back = [line1.toShape(), line2.toShape(), line3.toShape()]
+
+        return [outerShape.toShape()] + front + back + [innerShape.toShape()]

@@ -333,4 +333,4 @@ class CmdNoseCone:
     def GetResources(self):
         return {'MenuText': 'Nose Cone',
                 'ToolTip': 'Nose cone design',
-                'Pixmap': 'freecad'}
+                'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_NoseCone.svg"}

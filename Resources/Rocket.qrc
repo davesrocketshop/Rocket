@@ -1,5 +1,7 @@
 <!DOCTYPE RCC><RCC version="1.0">
     <qresource> 
         <file>icons/RocketWorkbench.svg</file>
+        <file>icons/Rocket_NoseCone.svg</file>
+        <file>icons/Rocket_Transition.svg</file>
     </qresource>
 </RCC> 
