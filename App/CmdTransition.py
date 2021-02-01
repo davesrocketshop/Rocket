@@ -472,4 +472,4 @@ class CmdTransition:
     def GetResources(self):
         return {'MenuText': 'Transition',
                 'ToolTip': 'Transition design',
-                'Pixmap': 'freecad'}
+                'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Transition.svg"}

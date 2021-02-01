@@ -24,6 +24,7 @@ __title__ = "FreeCAD Fins"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
     
+import FreeCAD
 
 class CmdFin:
     def Activated(self):
@@ -37,4 +38,4 @@ class CmdFin:
     def GetResources(self):
         return {'MenuText': 'Fin',
                 'ToolTip': 'Fin design',
-                'Pixmap': 'freecad'}
+                'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Fin.svg"}
