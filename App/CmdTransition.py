@@ -59,13 +59,14 @@ class CmdTransitionDialog(QDialog):
         self.transitionTypeLabel = QtGui.QLabel("Transition type", self)
 
         self.transitionTypes = (TYPE_CONE,
-                                TYPE_ELLIPTICAL,
-                                TYPE_OGIVE,
-                                TYPE_PARABOLA,
-                                TYPE_PARABOLIC,
-                                TYPE_POWER,
-                                TYPE_VON_KARMAN,
-                                TYPE_HAACK)
+                                #TYPE_ELLIPTICAL,
+                                #TYPE_OGIVE,
+                                #TYPE_PARABOLA,
+                                #TYPE_PARABOLIC,
+                                #TYPE_POWER,
+                                #TYPE_VON_KARMAN,
+                                #TYPE_HAACK
+                                )
         self.transitionTypesCombo = QtGui.QComboBox(self)
         self.transitionTypesCombo.addItems(self.transitionTypes)
         self.transitionTypesCombo.setCurrentIndex(self.transitionTypes.index(TYPE_CONE))
@@ -365,7 +366,7 @@ class CmdTransitionDialog(QDialog):
 
     def onAftShoulder(self, state):
         if self.aftShoulderCheckbox.isChecked():
-            self.aftShoulderRadiusInput.setText("8.00")
+            self.aftShoulderRadiusInput.setText("18.00")
             self.aftShoulderRadiusInput.setEnabled(True)
 
             self.aftShoulderLengthInput.setText("10.00")
