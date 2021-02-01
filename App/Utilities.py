@@ -18,24 +18,31 @@
 # *   USA                                                                   *
 # *                                                                         *
 # ***************************************************************************
-"""Class for drawing transitions"""
+"""General utilities for the Rocket Workbench"""
 
-__title__ = "FreeCAD Transition View Provider"
+__title__ = "General utilities for the Rocket Workbench"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
-    
-from PySide import QtGui, QtCore
+
 import FreeCAD
-import FreeCADGui
-import Part
 
-class ViewProviderTransition:
+def _msg(message):
+    """Write messages to the console including the line ending."""
+    FreeCAD.Console.PrintMessage(message + "\n")
 
-	def __init__(self, obj):
-		obj.Proxy = self
+def _wrn(message):
+    """Write warnings to the console including the line ending."""
+    FreeCAD.Console.PrintWarning(message + "\n")
 
-	def getDefaultDisplayMode(self):
-		return "Flat Lines"
+def _err(message):
+    """Write errors  to the console including the line ending."""
+    FreeCAD.Console.PrintError(message + "\n")
 
-	def onChanged(self, vp, prop):
-		FreeCAD.Console.PrintMessage('Change property: ' + str(prop) + '\n')
+def _trace(className, functionName, message = None):
+    """Write errors  to the console including the line ending."""
+    trace = True
+    if trace:
+        if message is None:
+        	FreeCAD.Console.PrintMessage("%s:%s()\n" % (className, functionName))
+        else:
+        	FreeCAD.Console.PrintMessage("%s:%s(%s)\n" % (className, functionName, message))

@@ -27,37 +27,18 @@ __url__ = "https://www.davesrocketshop.com"
 import math
 import os
 import re
-# import xml.sax
-# from xml.dom import minidom
+
 import xml.etree.ElementTree as ET
 
 import FreeCAD
-# import Draft
-# import DraftVecUtils
 from FreeCAD import Vector
 from draftutils.translate import translate
-#from draftutils.messages import _msg, _wrn, _err
 
 # Save the native open function to avoid collisions
 if open.__module__ in ['__builtin__', 'io']:
     pythonopen = open
 
-def _msg(message):
-    """Write errors  to the console including the line ending."""
-    FreeCAD.Console.PrintMessage(message + "\n")
-
-def _err(message):
-    """Write errors  to the console including the line ending."""
-    FreeCAD.Console.PrintError(message + "\n")
-
-def _trace(className, functionName, message = None):
-    """Write errors  to the console including the line ending."""
-    trace = True
-    if trace:
-        if message is None:
-        	FreeCAD.Console.PrintMessage("%s:%s()\n" % (className, functionName))
-        else:
-        	FreeCAD.Console.PrintMessage("%s:%s(%s)\n" % (className, functionName, message))
+from App.Utilities import _msg, _err, _trace
 
 from App.Component.AxialStageComponent import AxialStageComponent
 from App.Component.NoseconeComponent import NoseconeComponent

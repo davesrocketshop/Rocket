@@ -29,7 +29,6 @@ import FreeCAD
 import FreeCADGui
 import Part
 
-#from App.OpenRocket import _msg, _err, _trace
 from App.NoseConeShapeHandler import NoseConeShapeHandler
 from App.NoseEllipseShapeHandler import NoseEllipseShapeHandler
 from App.NoseHaackShapeHandler import NoseHaackShapeHandler
@@ -37,8 +36,8 @@ from App.NoseOgiveShapeHandler import NoseOgiveShapeHandler
 from App.NoseParabolicShapeHandler import NoseParabolicShapeHandler
 from App.NosePowerShapeHandler import NosePowerShapeHandler
 
-from App.NoseShapeHandler import TYPE_CONE, TYPE_ELLIPTICAL, TYPE_HAACK, TYPE_OGIVE, TYPE_VON_KARMAN, TYPE_PARABOLA, TYPE_PARABOLIC, TYPE_POWER
-from App.NoseShapeHandler import STYLE_CAPPED, STYLE_HOLLOW, STYLE_SOLID
+from App.Constants import TYPE_CONE, TYPE_ELLIPTICAL, TYPE_HAACK, TYPE_OGIVE, TYPE_VON_KARMAN, TYPE_PARABOLA, TYPE_PARABOLIC, TYPE_POWER
+from App.Constants import STYLE_CAPPED, STYLE_HOLLOW, STYLE_SOLID
 
 class ShapeNoseCone:
 

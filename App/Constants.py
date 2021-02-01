@@ -18,24 +18,24 @@
 # *   USA                                                                   *
 # *                                                                         *
 # ***************************************************************************
-"""Class for drawing transitions"""
+"""Rocket Workbench Constants"""
 
-__title__ = "FreeCAD Transition View Provider"
+__title__ = "FreeCAD Rocket Workbench Constants"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
     
-from PySide import QtGui, QtCore
-import FreeCAD
-import FreeCADGui
-import Part
+# Part styles
+STYLE_SOLID = "solid"
+STYLE_SOLID_CORE = "solid core" # Used by transitions, not nose cones
+STYLE_HOLLOW = "hollow"
+STYLE_CAPPED = "capped"
 
-class ViewProviderTransition:
-
-	def __init__(self, obj):
-		obj.Proxy = self
-
-	def getDefaultDisplayMode(self):
-		return "Flat Lines"
-
-	def onChanged(self, vp, prop):
-		FreeCAD.Console.PrintMessage('Change property: ' + str(prop) + '\n')
+# Part shapes
+TYPE_CONE = "cone"
+TYPE_ELLIPTICAL = "elliptical"
+TYPE_OGIVE = "ogive"
+TYPE_PARABOLA = "parabola"
+TYPE_VON_KARMAN = "Von Karman"
+TYPE_PARABOLIC = "parabolic series"
+TYPE_POWER = "power series"
+TYPE_HAACK = "Haack series"

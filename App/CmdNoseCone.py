@@ -35,8 +35,8 @@ import os
 import sys
 from PySide2.QtWidgets import QApplication, QDialog, QLineEdit, QPushButton,QHBoxLayout,QVBoxLayout,QGridLayout
 
-from App.NoseShapeHandler import TYPE_CONE, TYPE_ELLIPTICAL, TYPE_HAACK, TYPE_OGIVE, TYPE_VON_KARMAN, TYPE_PARABOLA, TYPE_PARABOLIC, TYPE_POWER
-from App.NoseShapeHandler import STYLE_CAPPED, STYLE_HOLLOW, STYLE_SOLID
+from App.Constants import TYPE_CONE, TYPE_ELLIPTICAL, TYPE_HAACK, TYPE_OGIVE, TYPE_VON_KARMAN, TYPE_PARABOLA, TYPE_PARABOLIC, TYPE_POWER
+from App.Constants import STYLE_CAPPED, STYLE_HOLLOW, STYLE_SOLID
 
 from App.ShapeNoseCone import ShapeNoseCone
 from Gui.ViewNoseCone import ViewProviderNoseCone

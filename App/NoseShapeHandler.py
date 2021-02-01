@@ -29,24 +29,14 @@ import FreeCADGui
 import Part
 import math
 
-TYPE_CONE = "cone"
-TYPE_ELLIPTICAL = "elliptical"
-TYPE_OGIVE = "ogive"
-TYPE_PARABOLA = "parabola"
-TYPE_VON_KARMAN = "Von Karman"
-TYPE_PARABOLIC = "parabolic series"
-TYPE_POWER = "power series"
-TYPE_HAACK = "Haack series"
+from App.Constants import TYPE_CONE, TYPE_ELLIPTICAL, TYPE_HAACK, TYPE_OGIVE, TYPE_VON_KARMAN, TYPE_PARABOLA, TYPE_PARABOLIC, TYPE_POWER
+from App.Constants import STYLE_CAPPED, STYLE_HOLLOW, STYLE_SOLID
 
-STYLE_SOLID = "solid"
-STYLE_HOLLOW = "hollow"
-STYLE_CAPPED = "capped"
-
-#from App.OpenRocket import _msg, _err, _trace
+from App.Utilities import _msg, _err, _trace
 
 class NoseShapeHandler():
 	def __init__(self, obj):
-		# _trace(self.__class__.__name__, "__init__")
+		_trace(self.__class__.__name__, "__init__")
 
 		# Common parameters        
 		self._style = str(obj.NoseStyle)
@@ -64,14 +54,14 @@ class NoseShapeHandler():
 		self._obj = obj
 
 	def makeSpline(self, points):
-		#_trace(self.__class__.__name__, "makeSpline")
+		_trace(self.__class__.__name__, "makeSpline")
 		
 		spline = Part.BSplineCurve()
 		spline.buildFromPoles(points)
 		return spline
 
 	def isValidShape(self):
-		#_trace(self.__class__.__name__, "isValidShape")
+		_trace(self.__class__.__name__, "isValidShape")
 		
 		# Perform some general validations
 		if self._style in [STYLE_HOLLOW, STYLE_CAPPED]:
@@ -102,7 +92,7 @@ class NoseShapeHandler():
 		return True
         
 	def draw(self):
-		#_trace(self.__class__.__name__, "draw")
+		_trace(self.__class__.__name__, "draw")
 		
 		if not self.isValidShape():
 			return
@@ -141,7 +131,7 @@ class NoseShapeHandler():
 			_err("Nose cone parameters produce an invalid shape")
 
 	def solidLines(self, outerShape):
-		#_trace(self.__class__.__name__, "solidLines")
+		_trace(self.__class__.__name__, "solidLines")
 		
 		center = FreeCAD.Vector(0.0, 0.0)
 		major = FreeCAD.Vector(self._length, 0.0)
@@ -152,7 +142,7 @@ class NoseShapeHandler():
 		return [outerShape.toShape(), line1.toShape(), line2.toShape()]
 
 	def solidShoulderLines(self, outerShape):
-		#_trace(self.__class__.__name__, "solidShoulderLines")
+		_trace(self.__class__.__name__, "solidShoulderLines")
 		
 		center = FreeCAD.Vector(0,0)
 		major = FreeCAD.Vector(self._length,0)
@@ -165,7 +155,7 @@ class NoseShapeHandler():
 		return [outerShape.toShape(), line1.toShape(), line2.toShape(), line3.toShape(), line4.toShape()]
 
 	def hollowLines(self, max_x, outerShape, innerShape):
-		#_trace(self.__class__.__name__, "hollowLines")
+		_trace(self.__class__.__name__, "hollowLines")
 		
 		major = FreeCAD.Vector(self._length,0)
 		minor = FreeCAD.Vector(0,self._radius)
@@ -178,7 +168,7 @@ class NoseShapeHandler():
 		return [outerShape.toShape(), line1.toShape(), line2.toShape(), innerShape.toShape()]
 
 	def hollowShoulderLines(self, max_x, minor_y, outerShape, innerShape):
-		#_trace(self.__class__.__name__, "hollowShoulderLines")
+		_trace(self.__class__.__name__, "hollowShoulderLines")
 		
 		major = FreeCAD.Vector(self._length,0)
 		minor = FreeCAD.Vector(0,self._radius)
@@ -199,7 +189,7 @@ class NoseShapeHandler():
 		return [outerShape.toShape(), line1.toShape(), line2.toShape(), line3.toShape(), line4.toShape(), line5.toShape(), line6.toShape(), innerShape.toShape()]
 
 	def cappedLines(self, max_x, minor_y, outerShape, innerShape):
-		#_trace(self.__class__.__name__, "cappedLines")
+		_trace(self.__class__.__name__, "cappedLines")
 		
 		center = FreeCAD.Vector(0,0)
 		major = FreeCAD.Vector(self._length,0)
@@ -215,7 +205,7 @@ class NoseShapeHandler():
 		return [outerShape.toShape(), line1.toShape(), line2.toShape(), line3.toShape(), line4.toShape(), innerShape.toShape()]
 
 	def cappedShoulderLines(self, max_x, minor_y, outerShape, innerShape):
-		#_trace(self.__class__.__name__, "cappedShoulderLines")
+		_trace(self.__class__.__name__, "cappedShoulderLines")
 		
 		major = FreeCAD.Vector(self._length,0)
 		minor = FreeCAD.Vector(0,self._radius)
@@ -239,21 +229,3 @@ class NoseShapeHandler():
 		line8 = Part.LineSegment(end7,  innerMinor)
 		return [outerShape.toShape(), line1.toShape(), line2.toShape(), line3.toShape(), line4.toShape(), 
 				line5.toShape(), line6.toShape(), line7.toShape(), line8.toShape(), innerShape.toShape()]
-    
-	def drawSolid(self):
-		pass
-    
-	def drawSolidShoulder(self):
-		pass
-    
-	def drawHollow(self):
-		pass
-    
-	def drawHollowShoulder(self):
-		pass
-    
-	def drawCapped(self):
-		pass
-    
-	def drawCappedShoulder(self):
-		pass
