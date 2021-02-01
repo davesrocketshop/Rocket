@@ -30,7 +30,7 @@ import Part
 import math
 
 from App.Constants import TYPE_CONE, TYPE_ELLIPTICAL, TYPE_HAACK, TYPE_OGIVE, TYPE_VON_KARMAN, TYPE_PARABOLA, TYPE_PARABOLIC, TYPE_POWER
-from App.Constants import STYLE_CAPPED, STYLE_HOLLOW, STYLE_SOLID
+from App.Constants import STYLE_CAPPED, STYLE_HOLLOW, STYLE_SOLID, STYLE_SOLID_CORE
 
 from App.Utilities import _msg, _err, _trace
 
@@ -39,7 +39,7 @@ class TransitionShapeHandler():
         _trace(self.__class__.__name__, "__init__")
 
         # Common parameters        
-        self._style = str(obj.NoseStyle)
+        self._style = str(obj.TransitionStyle)
         self._thickness = float(obj.Thickness)
 
         self._length = float(obj.Length)
@@ -148,13 +148,16 @@ class TransitionShapeHandler():
     def solidLines(self, outerShape):
         _trace(self.__class__.__name__, "solidLines")
         
-        center = FreeCAD.Vector(0.0, 0.0)
-        major = FreeCAD.Vector(self._length, 0.0)
-        minor = FreeCAD.Vector(0.0, self._radius)
+        foreCenter = FreeCAD.Vector(0.0, 0.0)
+        aftCenter = FreeCAD.Vector(self._length, 0.0)
 
-        line1 = Part.LineSegment(center, major)
-        line2 = Part.LineSegment(center, minor)
-        return [outerShape.toShape(), line1.toShape(), line2.toShape()]
+        foreRadius = FreeCAD.Vector(0.0, self._foreRadius)
+        aftRadius = FreeCAD.Vector(self._length, self._aftRadius)
+
+        line1 = Part.LineSegment(foreRadius, foreCenter)
+        line2 = Part.LineSegment(foreCenter, aftCenter)
+        line3 = Part.LineSegment(aftCenter, aftRadius)
+        return [outerShape.toShape(), line1.toShape(), line2.toShape(), line3.toShape()]
 
     def solidShoulderLines(self, outerShape):
         _trace(self.__class__.__name__, "solidShoulderLines")
@@ -169,14 +172,28 @@ class TransitionShapeHandler():
         line4 = Part.LineSegment(FreeCAD.Vector(0,self._shoulderRadius),                     minor)
         return [outerShape.toShape(), line1.toShape(), line2.toShape(), line3.toShape(), line4.toShape()]
 
-    def hollowLines(self, max_x, outerShape, innerShape):
+    def solidCoreLines(self, outerShape):
+        _trace(self.__class__.__name__, "solidLines")
+        
+        foreCenter = FreeCAD.Vector(0.0, self._CoreRadius)
+        aftCenter = FreeCAD.Vector(self._length, self._CoreRadius)
+
+        foreRadius = FreeCAD.Vector(0.0, self._foreRadius)
+        aftRadius = FreeCAD.Vector(self._length, self._aftRadius)
+
+        line1 = Part.LineSegment(foreRadius, foreCenter)
+        line2 = Part.LineSegment(foreCenter, aftCenter)
+        line3 = Part.LineSegment(aftCenter, aftRadius)
+        return [outerShape.toShape(), line1.toShape(), line2.toShape(), line3.toShape()]
+
+    def hollowLines(self, outerShape, innerShape):
         _trace(self.__class__.__name__, "hollowLines")
         
-        major = FreeCAD.Vector(self._length,0)
-        minor = FreeCAD.Vector(0,self._radius)
+        major = FreeCAD.Vector(self._length, self._aftRadius)
+        minor = FreeCAD.Vector(0.0, self._foreRadius)
 
-        innerMajor = FreeCAD.Vector(max_x,0)
-        innerMinor = FreeCAD.Vector(0,self._radius - self._thickness)
+        innerMajor = FreeCAD.Vector(self._length, self._aftRadius - self._thickness)
+        innerMinor = FreeCAD.Vector(0.0, self._foreRadius - self._thickness)
 
         line1 = Part.LineSegment(major, innerMajor)
         line2 = Part.LineSegment(minor, innerMinor)
@@ -203,21 +220,42 @@ class TransitionShapeHandler():
         line6 = Part.LineSegment(end5,  innerMinor)
         return [outerShape.toShape(), line1.toShape(), line2.toShape(), line3.toShape(), line4.toShape(), line5.toShape(), line6.toShape(), innerShape.toShape()]
 
-    def cappedLines(self, max_x, minor_y, outerShape, innerShape):
+    def cappedLines(self, foreY, aftY, outerShape, innerShape):
         _trace(self.__class__.__name__, "cappedLines")
-        
-        center = FreeCAD.Vector(0,0)
-        major = FreeCAD.Vector(self._length,0)
-        minor = FreeCAD.Vector(0,self._radius)
+         
+        fore = FreeCAD.Vector(0.0, self._foreRadius)
+        aft = FreeCAD.Vector(self._length, self._aftRadius)
 
-        innerMajor = FreeCAD.Vector(max_x,0)
-        innerMinor = FreeCAD.Vector(self._thickness, minor_y)
+        foreInner = FreeCAD.Vector(self._thickness, foreY)
+        aftIinner = FreeCAD.Vector(self._length - self._thickness, aftY)
+       
+        foreCenter = FreeCAD.Vector(0,0)
+        aftCenter = FreeCAD.Vector(self._length,0)
 
-        line1 = Part.LineSegment(major, innerMajor)
-        line2 = Part.LineSegment(minor, center)
-        line3 = Part.LineSegment(center, FreeCAD.Vector(self._thickness, 0))
-        line4 = Part.LineSegment(FreeCAD.Vector(self._thickness, 0), innerMinor)
-        return [outerShape.toShape(), line1.toShape(), line2.toShape(), line3.toShape(), line4.toShape(), innerShape.toShape()]
+        foreInnerCenter = FreeCAD.Vector(self._thickness,0)
+        aftInnerCenter = FreeCAD.Vector(self._length - self._thickness,0)
+
+        _msg("Fore (%f,%f)->(%f,%f)->(%f,%f)->(%f,%f)" %
+            (fore.x, fore.y,
+            foreCenter.x, foreCenter.y,
+            foreInnerCenter.x, foreInnerCenter.y,
+            foreInner.x, foreInner.y)
+        )
+
+        _msg("Aft  (%f,%f)->(%f,%f)->(%f,%f)->(%f,%f)" %
+            (aft.x, aft.y,
+            aftCenter.x, aftCenter.y,
+            aftInnerCenter.x, aftInnerCenter.y,
+            aftIinner.x, aftIinner.y)
+        )
+
+        line1 = Part.LineSegment(fore, foreCenter)
+        line2 = Part.LineSegment(foreCenter, foreInnerCenter)
+        line3 = Part.LineSegment(foreInnerCenter, foreInner)
+        line4 = Part.LineSegment(aft, aftCenter)
+        line5 = Part.LineSegment(aftCenter, aftInnerCenter)
+        line6 = Part.LineSegment(aftInnerCenter, aftIinner)
+        return [outerShape.toShape(), line1.toShape(), line2.toShape(), line3.toShape(), innerShape.toShape(), line4.toShape(), line5.toShape(), line6.toShape()]
 
     def cappedShoulderLines(self, max_x, minor_y, outerShape, innerShape):
         _trace(self.__class__.__name__, "cappedShoulderLines")

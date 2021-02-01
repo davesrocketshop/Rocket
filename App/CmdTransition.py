@@ -68,7 +68,7 @@ class CmdTransitionDialog(QDialog):
                                 TYPE_HAACK)
         self.transitionTypesCombo = QtGui.QComboBox(self)
         self.transitionTypesCombo.addItems(self.transitionTypes)
-        self.transitionTypesCombo.setCurrentIndex(self.transitionTypes.index(TYPE_VON_KARMAN))
+        self.transitionTypesCombo.setCurrentIndex(self.transitionTypes.index(TYPE_CONE))
         self.transitionTypesCombo.activated[str].connect(self.onTransitionType)
 
         self.clippedLabel = QtGui.QLabel("Clipped", self)
@@ -86,7 +86,7 @@ class CmdTransitionDialog(QDialog):
                                 STYLE_CAPPED)
         self.transitionStylesCombo = QtGui.QComboBox(self)
         self.transitionStylesCombo.addItems(self.transitionStyles)
-        self.transitionStylesCombo.setCurrentIndex(self.transitionStyles.index(STYLE_HOLLOW))
+        self.transitionStylesCombo.setCurrentIndex(self.transitionStyles.index(STYLE_SOLID))
         self.transitionStylesCombo.activated[str].connect(self.onTransitionStyle)
 
         # Get the nose cone paramters: length, width, etc...
@@ -395,6 +395,12 @@ class CmdTransitionDialog(QDialog):
 class CmdTransitionTaskPanel:
     def __init__(self):
         self.form = CmdTransitionDialog()
+
+    def _toFloat(self, input, defaultValue = 0.0):
+        if input == '':
+            return defaultValue
+        return float(input)
+
         
     def accept(self):
     
@@ -405,54 +411,22 @@ class CmdTransitionTaskPanel:
         transitionType = self.form.transitionTypesCombo.currentText()
         clipped = self.form.clippedCheckbox.isChecked()
         transitionStyle = self.form.transitionStylesCombo.currentText()
-        length = float(self.form.lengthInput.text())
-        foreRadius = float(self.form.foreRadiusInput.text())
-        aftRadius = float(self.form.aftRadiusInput.text())
-        coreRadius = float(self.form.coreRadiusInput.text())
-        thickness = self.form.thicknessInput.text()
-        if thickness == '':
-            thickness = 0
-        else:
-            thickness = float(thickness)
-        coefficient = self.form.coefficientInput.text()
-        if coefficient == '':
-            coefficient = 0
-        else:
-            coefficient = float(coefficient)
+        length = self._toFloat(self.form.lengthInput.text())
+        foreRadius = self._toFloat(self.form.foreRadiusInput.text())
+        aftRadius = self._toFloat(self.form.aftRadiusInput.text())
+        coreRadius = self._toFloat(self.form.coreRadiusInput.text())
+        thickness = self._toFloat(self.form.thicknessInput.text())
+        coefficient = self._toFloat(self.form.coefficientInput.text())
 
         foreShoulder = self.form.foreShoulderCheckbox.isChecked()
-        foreShoulderRadius = self.form.foreShoulderRadiusInput.text()
-        if foreShoulderRadius == '':
-            foreShoulderRadius = 0
-        else:
-            foreShoulderRadius = float(foreShoulderRadius)
-        foreShoulderLength = self.form.foreShoulderLengthInput.text()
-        if foreShoulderLength == '':
-            foreShoulderLength = 0
-        else:
-            foreShoulderLength = float(foreShoulderLength)
-        foreShoulderThickness = self.form.foreShoulderThicknessInput.text()
-        if foreShoulderThickness == '':
-            foreShoulderThickness = 0
-        else:
-            foreShoulderThickness = float(foreShoulderThickness)
+        foreShoulderRadius = self._toFloat(self.form.foreShoulderRadiusInput.text())
+        foreShoulderLength = self._toFloat(self.form.foreShoulderLengthInput.text())
+        foreShoulderThickness = self._toFloat(self.form.foreShoulderThicknessInput.text())
 
         aftShoulder = self.form.aftShoulderCheckbox.isChecked()
-        aftShoulderRadius = self.form.aftShoulderRadiusInput.text()
-        if aftShoulderRadius == '':
-            aftShoulderRadius = 0
-        else:
-            aftShoulderRadius = float(aftShoulderRadius)
-        aftShoulderLength = self.form.aftShoulderLengthInput.text()
-        if aftShoulderLength == '':
-            aftShoulderLength = 0
-        else:
-            aftShoulderLength = float(aftShoulderLength)
-        aftShoulderThickness = self.form.aftShoulderThicknessInput.text()
-        if aftShoulderThickness == '':
-            aftShoulderThickness = 0
-        else:
-            aftShoulderThickness = float(aftShoulderThickness)
+        aftShoulderRadius = self._toFloat(self.form.aftShoulderRadiusInput.text())
+        aftShoulderLength = self._toFloat(self.form.aftShoulderLengthInput.text())
+        aftShoulderThickness = self._toFloat(self.form.aftShoulderThicknessInput.text())
 
         transition = FreeCAD.ActiveDocument.addObject('Part::FeaturePython', 'Transition')
         ShapeTransition(transition)
