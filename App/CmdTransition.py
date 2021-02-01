@@ -89,7 +89,7 @@ class CmdTransitionDialog(QDialog):
         self.transitionStylesCombo.setCurrentIndex(self.transitionStyles.index(STYLE_HOLLOW))
         self.transitionStylesCombo.activated[str].connect(self.onTransitionStyle)
 
-        # Get the nose cone paramters: length, width, etc...
+        # Get the nose cone parameters: length, width, etc...
         self.lengthLabel = QtGui.QLabel("Length", self)
 
         self.lengthValidator = QtGui.QDoubleValidator(self)

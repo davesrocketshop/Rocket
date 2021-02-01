@@ -82,7 +82,7 @@ class CmdNoseConeDialog(QDialog):
         self.noseStylesCombo.setCurrentIndex(self.noseStyles.index(STYLE_HOLLOW))
         self.noseStylesCombo.activated[str].connect(self.onNoseStyle)
 
-        # Get the nose cone paramters: length, width, etc...
+        # Get the nose cone parameters: length, width, etc...
         self.lengthLabel = QtGui.QLabel("Length (mm)", self)
 
         self.lengthValidator = QtGui.QDoubleValidator(self)
