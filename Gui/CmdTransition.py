@@ -138,9 +138,10 @@ class CmdTransitionDialog(QDialog):
         self.thicknessValidator.setBottom(0.0)
 
         self.thicknessInput = QtGui.QLineEdit(self)
-        self.thicknessInput.setText("2.00")
+        self.thicknessInput.setText("")
         self.thicknessInput.setFixedWidth(100)
         self.thicknessInput.setValidator(self.thicknessValidator)
+        self.thicknessInput.setEnabled(False)
 
         self.coefficientLabel = QtGui.QLabel("Coefficient", self)
 
@@ -156,7 +157,7 @@ class CmdTransitionDialog(QDialog):
         self.foreShoulderLabel = QtGui.QLabel("Forward Shoulder", self)
 
         self.foreShoulderCheckbox = QtGui.QCheckBox(self)
-        self.foreShoulderCheckbox.setCheckState(QtCore.Qt.Unchecked)
+        self.foreShoulderCheckbox.setCheckState(QtCore.Qt.Checked)
         self.foreShoulderCheckbox.stateChanged.connect(self.onForeShoulder)
 
         self.foreShoulderRadiusLabel = QtGui.QLabel("Radius", self)
@@ -165,10 +166,10 @@ class CmdTransitionDialog(QDialog):
         self.foreShoulderRadiusValidator.setBottom(0.0)
 
         self.foreShoulderRadiusInput = QtGui.QLineEdit(self)
-        self.foreShoulderRadiusInput.setText("")
+        self.foreShoulderRadiusInput.setText("8.00")
         self.foreShoulderRadiusInput.setFixedWidth(100)
         self.foreShoulderRadiusInput.setValidator(self.foreShoulderRadiusValidator)
-        self.foreShoulderRadiusInput.setEnabled(False)
+        #self.foreShoulderRadiusInput.setEnabled(False)
 
         self.foreShoulderLengthLabel = QtGui.QLabel("Length", self)
 
@@ -176,10 +177,10 @@ class CmdTransitionDialog(QDialog):
         self.foreShoulderLengthValidator.setBottom(0.0)
 
         self.foreShoulderLengthInput = QtGui.QLineEdit(self)
-        self.foreShoulderLengthInput.setText("")
+        self.foreShoulderLengthInput.setText("10.00")
         self.foreShoulderLengthInput.setFixedWidth(100)
         self.foreShoulderLengthInput.setValidator(self.foreShoulderLengthValidator)
-        self.foreShoulderLengthInput.setEnabled(False)
+        #self.foreShoulderLengthInput.setEnabled(False)
 
         self.foreShoulderThicknessLabel = QtGui.QLabel("Thickness", self)
 
@@ -195,7 +196,7 @@ class CmdTransitionDialog(QDialog):
         self.aftShoulderLabel = QtGui.QLabel("Aft Shoulder", self)
 
         self.aftShoulderCheckbox = QtGui.QCheckBox(self)
-        self.aftShoulderCheckbox.setCheckState(QtCore.Qt.Unchecked)
+        self.aftShoulderCheckbox.setCheckState(QtCore.Qt.Checked)
         self.aftShoulderCheckbox.stateChanged.connect(self.onAftShoulder)
 
         self.aftShoulderRadiusLabel = QtGui.QLabel("Radius", self)
@@ -204,10 +205,10 @@ class CmdTransitionDialog(QDialog):
         self.aftShoulderRadiusValidator.setBottom(0.0)
 
         self.aftShoulderRadiusInput = QtGui.QLineEdit(self)
-        self.aftShoulderRadiusInput.setText("")
+        self.aftShoulderRadiusInput.setText("18.00")
         self.aftShoulderRadiusInput.setFixedWidth(100)
         self.aftShoulderRadiusInput.setValidator(self.aftShoulderRadiusValidator)
-        self.aftShoulderRadiusInput.setEnabled(False)
+        #self.aftShoulderRadiusInput.setEnabled(False)
 
         self.aftShoulderLengthLabel = QtGui.QLabel("Length", self)
 
@@ -215,10 +216,10 @@ class CmdTransitionDialog(QDialog):
         self.aftShoulderLengthValidator.setBottom(0.0)
 
         self.aftShoulderLengthInput = QtGui.QLineEdit(self)
-        self.aftShoulderLengthInput.setText("")
+        self.aftShoulderLengthInput.setText("10.00")
         self.aftShoulderLengthInput.setFixedWidth(100)
         self.aftShoulderLengthInput.setValidator(self.aftShoulderLengthValidator)
-        self.aftShoulderLengthInput.setEnabled(False)
+        #self.aftShoulderLengthInput.setEnabled(False)
 
         self.aftShoulderThicknessLabel = QtGui.QLabel("Thickness", self)
 
