@@ -29,7 +29,7 @@ Again, restart FC to use the latest changes.
 
 ## Feedback
 
-For any feedback, bugs, features, and disucssion please refer to the Rocketry workbench FreeCAD [forum thread](https://forum.freecadweb.org/viewtopic.php?f=8&t=54496).
+For any feedback, bugs, features, and discussion please refer to the Rocketry workbench FreeCAD [forum thread](https://forum.freecadweb.org/viewtopic.php?f=8&t=54496).
 
 ## Developers
 
