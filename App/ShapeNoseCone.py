@@ -83,7 +83,7 @@ class ShapeNoseCone:
 		elif obj.NoseType == TYPE_OGIVE:
 			shape = NoseOgiveShapeHandler(obj)
 		elif obj.NoseType == TYPE_VON_KARMAN:
-			self._obj.Coefficient = 0.0
+			obj.Coefficient = 0.0
 			shape = NoseHaackShapeHandler(obj)
 		elif obj.NoseType == TYPE_HAACK:
 			shape = NoseHaackShapeHandler(obj)

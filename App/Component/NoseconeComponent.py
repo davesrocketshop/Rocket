@@ -61,17 +61,17 @@ class NoseconeComponent(Component):
 
         noseCone = ShapeNoseCone(obj)
 
-		obj.NoseType = self._shape
-		obj.NoseStyle = "solid"
+        obj.NoseType = self._shape
+        obj.NoseStyle = "solid"
 
-		obj.Length = self._length
-		obj.Radius = self._aftRadius
-		obj.Thickness = 2.0
-		obj.Shoulder = (self._aftShoulderLength > 0)
-		obj.ShoulderLength = self._aftShoulderLength
-		obj.ShoulderRadius = self._aftShoulderRadius
-		obj.ShoulderThickness = self._aftShoulderThickness
-		obj.Coefficient = self._shapeParameter
+        obj.Length = self._length
+        obj.Radius = self._aftRadius
+        obj.Thickness = 2.0
+        obj.Shoulder = (self._aftShoulderLength > 0)
+        obj.ShoulderLength = self._aftShoulderLength
+        obj.ShoulderRadius = self._aftShoulderRadius
+        obj.ShoulderThickness = self._aftShoulderThickness
+        obj.Coefficient = self._shapeParameter
 
         # if FreeCAD.GuiUp:
         #     ViewProviderNoseCone(noseCone.ViewObject)

@@ -29,11 +29,9 @@ import FreeCAD
 import FreeCADGui
 import Part
 
-from App.OpenRocket import _msg, _err, _trace
-
 class ViewProviderNoseCone:
 
-	def __init__(self, viewObject):
+	def __init__(self, obj):
 		obj.Proxy = self
 
 	def getDefaultDisplayMode(self):
