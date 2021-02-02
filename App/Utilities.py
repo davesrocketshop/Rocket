@@ -46,3 +46,8 @@ def _trace(className, functionName, message = None):
         	FreeCAD.Console.PrintMessage("%s:%s()\n" % (className, functionName))
         else:
         	FreeCAD.Console.PrintMessage("%s:%s(%s)\n" % (className, functionName, message))
+
+def _toFloat(input, defaultValue = 0.0):
+    if input == '':
+        return defaultValue
+    return float(input)

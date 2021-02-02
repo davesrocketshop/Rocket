@@ -29,33 +29,39 @@ import FreeCAD
 import FreeCADGui
 import Part
 
-#from App.CmdNoseCone import CmdNoseConeTaskPanel
+from Gui.TaskPanelNoseCone import TaskPanelNoseCone
+from App.Utilities import _trace
 
 class ViewProviderNoseCone:
 
     def __init__(self, vobj):
+        _trace(self.__class__.__name__, "__init__")
         vobj.Proxy = self
         
     def getIcon(self):
+        _trace(self.__class__.__name__, "getIcon")
         return FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_NoseCone.svg"
 
     def attach(self, vobj):
+        _trace(self.__class__.__name__, "attach")
         self.ViewObject = vobj
         self.Object = vobj.Object
-
-    def getDefaultDisplayMode(self):
-        return "Flat Lines"
-
-    def onChanged(self, vp, prop):
-        FreeCAD.Console.PrintMessage('Change property: ' + str(prop) + '\n')
   
-    # def setEdit(self,vobj,mode):
-    #     taskd = CmdNoseConeTaskPanel(self.Object,mode)
-    #     taskd.obj = vobj.Object
-    #     taskd.update()
-    #     FreeCADGui.Control.showDialog(taskd)
-    #     return True
+    def setEdit(self,vobj,mode):
+        _trace(self.__class__.__name__, "setEdit")
+        taskd = TaskPanelNoseCone(self.Object,mode)
+        taskd.obj = vobj.Object
+        taskd.update()
+        FreeCADGui.Control.showDialog(taskd)
+        return True
     
-    # def unsetEdit(self,vobj,mode):
-    #     FreeCADGui.Control.closeDialog()
-    #     return
+    def unsetEdit(self,vobj,mode):
+        _trace(self.__class__.__name__, "unsetEdit")
+        FreeCADGui.Control.closeDialog()
+        return
+
+    def __getstate__(self):
+        return None
+
+    def __setstate__(self,state):
+        return None

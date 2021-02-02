@@ -27,7 +27,9 @@ import FreeCAD, FreeCADGui
 from Gui.CmdNoseCone import CmdNoseCone
 from Gui.CmdTransition import CmdTransition
 from Gui.CmdFin import CmdFin
+from Gui.CmdFinCan import CmdFinCan
 
 FreeCADGui.addCommand('Rocket_NoseCone', CmdNoseCone())
 FreeCADGui.addCommand('Rocket_Transition', CmdTransition())
 FreeCADGui.addCommand('Rocket_Fin', CmdFin())
+FreeCADGui.addCommand('Rocket_FinCan', CmdFinCan())

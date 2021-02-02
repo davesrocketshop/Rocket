@@ -18,23 +18,24 @@
 # *   USA                                                                   *
 # *                                                                         *
 # ***************************************************************************
+"""Class for drawing fin cans"""
 
+__title__ = "FreeCAD Fin Cans"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
-
-class RocketWorkbench ( Workbench ):
-    "Rocket workbench object"
-    Icon = FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/RocketWorkbench.svg"
-    MenuText = "Rocket"
-    ToolTip = "Rocket workbench"
     
-    def Initialize(self):
-        # load the module
-        import RocketGui
-        self.appendToolbar('Rocket',['Rocket_NoseCone', 'Rocket_Transition', 'Rocket_Fin', 'Rocket_FinCan'])
-        self.appendMenu('Rocket',['Rocket_NoseCone', 'Rocket_Transition', 'Rocket_Fin', 'Rocket_FinCan'])
-    
-    def GetClassName(self):
-        return "Gui::PythonWorkbench"
+import FreeCAD
 
-Gui.addWorkbench(RocketWorkbench())
+class CmdFinCan:
+    def Activated(self):
+        FreeCAD.Console.PrintMessage("Fin Can Command\n")
+
+    def IsActive(self):
+        if FreeCAD.ActiveDocument == None:
+            return False
+        return True
+        
+    def GetResources(self):
+        return {'MenuText': 'Fin Can',
+                'ToolTip': 'Fin can design',
+                'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_FinCan.svg"}

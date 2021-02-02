@@ -18,7 +18,7 @@
 # *   USA                                                                   *
 # *                                                                         *
 # ***************************************************************************
-"""Class for drawing nose cones"""
+"""Class for drawing fins"""
 
 __title__ = "FreeCAD Fins"
 __author__ = "David Carter"
