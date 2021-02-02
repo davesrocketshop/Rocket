@@ -28,6 +28,7 @@ __url__ = "https://www.davesrocketshop.com"
 # from PySide import QtGui, QtCore
 import FreeCAD
 import FreeCADGui
+from PySide import QtGui
 
 from App.ShapeNoseCone import ShapeNoseCone
 from Ui.ViewNoseCone import ViewProviderNoseCone

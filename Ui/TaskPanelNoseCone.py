@@ -36,9 +36,6 @@ from App.Constants import STYLE_CAPPED, STYLE_HOLLOW, STYLE_SOLID
 
 from App.Utilities import _toFloat, _msg
 
-userCancelled = "Cancelled"
-# userOK = "OK"
-
 class _NoseConeDialog(QDialog):
 
     def __init__(self, parent=None):
@@ -48,7 +45,6 @@ class _NoseConeDialog(QDialog):
         # define our window
         self.setGeometry(250, 250, 400, 350)
         self.setWindowTitle("Nose Cone Parameter")
-        # self.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
 
         # Select the type of nose cone
         self.noseConeTypeLabel = QtGui.QLabel("Nose cone type", self)
@@ -64,7 +60,6 @@ class _NoseConeDialog(QDialog):
         self.noseConeTypesCombo = QtGui.QComboBox(self)
         self.noseConeTypesCombo.addItems(self.noseConeTypes)
         self.noseConeTypesCombo.setCurrentIndex(self.noseConeTypes.index(TYPE_VON_KARMAN))
-        self.noseConeTypesCombo.activated[str].connect(self.onNoseConeType)
 
         # Select the type of sketch
         self.noseStyleLabel = QtGui.QLabel("Nose Style", self)
@@ -75,7 +70,6 @@ class _NoseConeDialog(QDialog):
         self.noseStylesCombo = QtGui.QComboBox(self)
         self.noseStylesCombo.addItems(self.noseStyles)
         self.noseStylesCombo.setCurrentIndex(self.noseStyles.index(STYLE_HOLLOW))
-        self.noseStylesCombo.activated[str].connect(self.onNoseStyle)
 
         # Get the nose cone parameters: length, width, etc...
         self.lengthLabel = QtGui.QLabel("Length (mm)", self)
@@ -123,7 +117,6 @@ class _NoseConeDialog(QDialog):
 
         self.shoulderCheckbox = QtGui.QCheckBox(self)
         self.shoulderCheckbox.setCheckState(QtCore.Qt.Unchecked)
-        self.shoulderCheckbox.stateChanged.connect(self.onShoulder)
 
         self.shoulderRadiusLabel = QtGui.QLabel("Radius (mm)", self)
 
@@ -192,65 +185,6 @@ class _NoseConeDialog(QDialog):
 
         self.setLayout(layout)
 
-
-    def onNoseConeType(self, selectedText):
-        if selectedText == TYPE_HAACK or selectedText == TYPE_PARABOLIC:
-            self.coefficientInput.setText("1.00")
-            self.coefficientInput.setEnabled(True)
-        elif selectedText == TYPE_POWER:
-            self.coefficientInput.setText("1.00")
-            self.coefficientInput.setEnabled(True)
-        else:
-            self.coefficientInput.setText("")
-            self.coefficientInput.setEnabled(False)
-
-    def onNoseStyle(self, selectedText):
-        if selectedText == STYLE_HOLLOW or selectedText == STYLE_CAPPED:
-            self.thicknessInput.setText("2.00")
-            self.thicknessInput.setEnabled(True)
-
-            if self.shoulderCheckbox.isChecked():
-                self.shoulderThicknessInput.setText("2.00")
-                self.shoulderThicknessInput.setEnabled(True)
-            else:
-                self.shoulderThicknessInput.setText("")
-                self.shoulderThicknessInput.setEnabled(False)
-        else:
-            self.thicknessInput.setText("")
-            self.thicknessInput.setEnabled(False)
-
-            self.shoulderThicknessInput.setText("")
-            self.shoulderThicknessInput.setEnabled(False)
-
-    def onShoulder(self, state):
-        if self.shoulderCheckbox.isChecked():
-            self.shoulderRadiusInput.setText("8.00")
-            self.shoulderRadiusInput.setEnabled(True)
-
-            self.shoulderLengthInput.setText("10.00")
-            self.shoulderLengthInput.setEnabled(True)
-
-            selectedText = self.noseStylesCombo.currentText()
-            if selectedText == STYLE_HOLLOW or selectedText == STYLE_CAPPED:
-                self.shoulderThicknessInput.setText("2.00")
-                self.shoulderThicknessInput.setEnabled(True)
-            else:
-                self.shoulderThicknessInput.setText("")
-                self.shoulderThicknessInput.setEnabled(False)
-        else:
-            self.shoulderRadiusInput.setText("")
-            self.shoulderRadiusInput.setEnabled(False)
-
-            self.shoulderLengthInput.setText("")
-            self.shoulderLengthInput.setEnabled(False)
-
-            self.shoulderThicknessInput.setText("")
-            self.shoulderThicknessInput.setEnabled(False)
-
-    # def onCancel(self):
-    #     self.result = userCancelled
-    #     self.close()
-
 class TaskPanelNoseCone:
 
     def __init__(self,obj,mode):
@@ -259,13 +193,18 @@ class TaskPanelNoseCone:
         self.form = _NoseConeDialog()
         self.form.setWindowIcon(QtGui.QIcon(":/icons/Rocket_NoseCone.svg"))
         
-        # QtCore.QObject.connect(self.form.Quantity_Modules, QtCore.SIGNAL("valueChanged(double)"), self.modulesChanged)
-        # QtCore.QObject.connect(self.form.Quantity_PressureAngle, QtCore.SIGNAL("valueChanged(double)"), self.angleChanged)
-        # QtCore.QObject.connect(self.form.spinBox_NumberOfTeeth, QtCore.SIGNAL("valueChanged(int)"), self.numTeethChanged)
-        # QtCore.QObject.connect(self.form.comboBox_HighPrecision, QtCore.SIGNAL("currentIndexChanged(int)"), self.numCurvesChanged)
-        # #QtCore.QObject.connect(self.form.comboBox_ExternalGear, QtCore.SIGNAL("activated(QString)"), self.externalGearChanged)
-        # #QtCore.QObject.connect(self.form.comboBox_ExternalGear, QtCore.SIGNAL("currentIndexChanged(int)"), self.externalGearChanged)
-        # QtCore.QObject.connect(self.form.comboBox_ExternalGear, QtCore.SIGNAL("currentIndexChanged(int)"), self.externalGearChanged)
+        QtCore.QObject.connect(self.form.noseConeTypesCombo, QtCore.SIGNAL("currentTextChanged(QString)"), self.onNoseType)
+        QtCore.QObject.connect(self.form.noseStylesCombo, QtCore.SIGNAL("currentTextChanged(QString)"), self.onNoseStyle)
+
+        self.form.lengthInput.textEdited.connect(self.onLengthChanged)
+        self.form.radiusInput.textEdited.connect(self.onRadiusChanged)
+        self.form.thicknessInput.textEdited.connect(self.onThicknessChanged)
+        self.form.coefficientInput.textEdited.connect(self.onCoefficientChanged)
+
+        self.form.shoulderCheckbox.stateChanged.connect(self.onShoulderChanged)
+        self.form.shoulderRadiusInput.textEdited.connect(self.onShoulderRadiusChanged)
+        self.form.shoulderLengthInput.textEdited.connect(self.onShoulderLengthChanged)
+        self.form.shoulderThicknessInput.textEdited.connect(self.onShoulderThicknessChanged)
         
         self.update()
         
@@ -302,6 +241,99 @@ class TaskPanelNoseCone:
         self.form.shoulderLengthInput.setText("%f" % self.obj.ShoulderLength)
         self.form.shoulderThicknessInput.setText("%f" % self.obj.ShoulderThickness)
         
+    def onNoseType(self, value):
+        _msg("onNoseType(%s)" % str(value))
+
+        if value == TYPE_HAACK or value == TYPE_PARABOLIC:
+            self.form.coefficientInput.setEnabled(True)
+        elif value == TYPE_POWER:
+            self.form.coefficientInput.setEnabled(True)
+        else:
+            self.form.coefficientInput.setEnabled(False)
+
+        self.obj.NoseType = value
+        self.obj.Proxy.execute(self.obj)
+        
+    def onNoseStyle(self, value):
+        _msg("onNoseStyle(%s)" % str(value))
+
+        if value == STYLE_HOLLOW or value == STYLE_CAPPED:
+            self.form.thicknessInput.setEnabled(True)
+
+            if self.form.shoulderCheckbox.isChecked():
+                self.form.shoulderThicknessInput.setEnabled(True)
+            else:
+                self.form.shoulderThicknessInput.setEnabled(False)
+        else:
+            self.form.thicknessInput.setEnabled(False)
+            self.form.shoulderThicknessInput.setEnabled(False)
+
+        self.obj.NoseStyle = value
+        self.obj.Proxy.execute(self.obj)
+        
+    def onLengthChanged(self, value):
+        _msg("onLengthChanged(%s)" % str(value))
+
+        self.obj.Length = _toFloat(value)
+        self.obj.Proxy.execute(self.obj)
+
+        
+    def onRadiusChanged(self, value):
+        _msg("onRadiusChanged(%s)" % str(value))
+
+        self.obj.Radius = _toFloat(value)
+        self.obj.Proxy.execute(self.obj)
+        
+    def onThicknessChanged(self, value):
+        _msg("onThicknessChanged(%s)" % str(value))
+
+        self.obj.Thickness = _toFloat(value)
+        self.obj.Proxy.execute(self.obj)
+        
+    def onCoefficientChanged(self, value):
+        _msg("onCoefficientChanged(%s)" % str(value))
+
+        self.obj.Coefficient = _toFloat(value)
+        self.obj.Proxy.execute(self.obj)
+        
+    def onShoulderChanged(self, value):
+        _msg("onShoulderChanged(%s)" % str(value))
+
+        self.obj.Shoulder = self.form.shoulderCheckbox.isChecked()
+        if self.obj.Shoulder:
+            self.form.shoulderRadiusInput.setEnabled(True)
+            self.form.shoulderLengthInput.setEnabled(True)
+
+            selectedText = self.form.noseStylesCombo.currentText()
+            if selectedText == STYLE_HOLLOW or selectedText == STYLE_CAPPED:
+                self.form.shoulderThicknessInput.setEnabled(True)
+            else:
+                self.form.shoulderThicknessInput.setEnabled(False)
+        else:
+            self.form.shoulderRadiusInput.setEnabled(False)
+            self.form.shoulderLengthInput.setEnabled(False)
+            self.form.shoulderThicknessInput.setEnabled(False)
+
+        self.obj.Proxy.execute(self.obj)
+        
+    def onShoulderRadiusChanged(self, value):
+        _msg("onShoulderRadiusChanged(%s)" % str(value))
+
+        self.obj.ShoulderRadius = _toFloat(value)
+        self.obj.Proxy.execute(self.obj)
+        
+    def onShoulderLengthChanged(self, value):
+        _msg("onShoulderLengthChanged(%s)" % str(value))
+
+        self.obj.ShoulderLength = _toFloat(value)
+        self.obj.Proxy.execute(self.obj)
+        
+    def onShoulderThicknessChanged(self, value):
+        _msg("onShoulderThicknessChanged(%s)" % str(value))
+
+        self.obj.ShoulderThickness = _toFloat(value)
+        self.obj.Proxy.execute(self.obj)
+        
     def getStandardButtons(self):
         return int(QtGui.QDialogButtonBox.Ok) | int(QtGui.QDialogButtonBox.Cancel)| int(QtGui.QDialogButtonBox.Apply)
     
@@ -326,3 +358,4 @@ class TaskPanelNoseCone:
         _msg('reject(self)')
         FreeCADGui.ActiveDocument.resetEdit()
         FreeCAD.ActiveDocument.abortTransaction()
+        FreeCAD.ActiveDocument.recompute() #??? Should the object not be created?

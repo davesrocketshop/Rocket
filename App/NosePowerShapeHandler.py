@@ -30,6 +30,7 @@ import Part
 import math
 
 from App.NoseShapeHandler import NoseShapeHandler
+from App.Utilities import _err
 
     
 class NosePowerShapeHandler(NoseShapeHandler):
