@@ -43,7 +43,7 @@ class ShapeTransition:
 		obj.addProperty('App::PropertyLength', 'Length', 'Transition', 'Length of the transition not including any shoulder').Length = 60.0
 		obj.addProperty('App::PropertyLength', 'ForeRadius', 'Transition', 'Radius at the front of the transition').ForeRadius = 10.0
 		obj.addProperty('App::PropertyLength', 'AftRadius', 'Transition', 'Radius at the base of the transition').AftRadius = 20.0
-		obj.addProperty('App::PropertyLength', 'CoreRadius', 'Transition', 'Radius of the transition core').CoreRadius = 20.0
+		obj.addProperty('App::PropertyLength', 'CoreRadius', 'Transition', 'Radius of the transition core').CoreRadius = 5.0
 		obj.addProperty('App::PropertyLength', 'Thickness', 'Transition', 'Transition thickness').Thickness = 2.0
 		obj.addProperty('App::PropertyBool', 'Clipped', 'Transition', 'If the transition is not clipped, then the profile is extended at the center by the corresponding radius').Clipped = False
 		obj.addProperty('App::PropertyBool', 'ForeShoulder', 'Transition', 'Set to true if the part includes a forward shoulder').ForeShoulder = False
@@ -52,7 +52,7 @@ class ShapeTransition:
 		obj.addProperty('App::PropertyLength', 'ForeShoulderThickness', 'Transition', 'Forward Shoulder thickness').ForeShoulderThickness = 2.0
 		obj.addProperty('App::PropertyBool', 'AftShoulder', 'Transition', 'Set to true if the part includes an aft shoulder').ForeShoulder = False
 		obj.addProperty('App::PropertyLength', 'AftShoulderLength', 'Transition', 'Aft Shoulder Length').AftShoulderLength = 10.0
-		obj.addProperty('App::PropertyLength', 'AftShoulderRadius', 'Transition', 'Aft Shoulder radius').AftShoulderRadius = 8.0
+		obj.addProperty('App::PropertyLength', 'AftShoulderRadius', 'Transition', 'Aft Shoulder radius').AftShoulderRadius = 18.0
 		obj.addProperty('App::PropertyLength', 'AftShoulderThickness', 'Transition', 'Aft Shoulder thickness').AftShoulderThickness = 2.0
 		obj.addProperty('App::PropertyFloat', 'Coefficient', 'Transition', 'Coefficient').Coefficient = 0.0
 		obj.addProperty('App::PropertyInteger', 'Resolution', 'Transition', 'Resolution').Resolution = 100

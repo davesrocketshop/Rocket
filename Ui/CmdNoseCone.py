@@ -25,7 +25,6 @@ __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
     
 
-# from PySide import QtGui, QtCore
 import FreeCAD
 import FreeCADGui
 from PySide import QtGui
@@ -33,16 +32,13 @@ from PySide import QtGui
 from App.ShapeNoseCone import ShapeNoseCone
 from Ui.ViewNoseCone import ViewProviderNoseCone
 
-# from App.Utilities import _toFloat, _msg
-
 def makeNoseCone(name):
-    '''makeInvoluteGear(name): makes an InvoluteGear'''
+    '''makeNoseCone(name): makes a Nose Cone'''
     obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
     ShapeNoseCone(obj)
     if FreeCAD.GuiUp:
         ViewProviderNoseCone(obj.ViewObject)
-    #FreeCAD.ActiveDocument.recompute()
-    if FreeCAD.GuiUp:
+
         body=FreeCADGui.ActiveDocument.ActiveView.getActiveObject("pdbody")
         part=FreeCADGui.ActiveDocument.ActiveView.getActiveObject("part")
         if body:

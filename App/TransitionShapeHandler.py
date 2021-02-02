@@ -18,9 +18,9 @@
 # *   USA                                                                   *
 # *                                                                         *
 # ***************************************************************************
-"""Base class for drawing nose cones"""
+"""Base class for drawing transitions"""
 
-__title__ = "FreeCAD Nose Shape Handler"
+__title__ = "FreeCAD Transition Shape Handler"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
     
@@ -81,6 +81,19 @@ class TransitionShapeHandler():
         	if self._thickness >= self._foreRadius or self._thickness >= self._aftRadius:
         		_err("Transition thickness must be less than the front or back radius")
         		return False
+
+        elif self._style == STYLE_SOLID_CORE:
+            if self._coreRadius >= self._foreRadius or self._coreRadius >= self._aftRadius:
+                _err("Transition core must be less than the front or back radius")
+                return False
+            if self._foreShoulder:
+                if self._coreRadius >= self._foreShoulderRadius:
+                    _err("Transition core must be less than the shoulder radius")
+                    return False
+            if self._aftShoulder:
+                if self._coreRadius >= self._aftShoulderRadius:
+                    _err("Transition core must be less than the shoulder radius")
+                    return False
 
         if self._foreShoulder:
         	if self._foreShoulderLength <= 0:
@@ -150,7 +163,7 @@ class TransitionShapeHandler():
                 else:
                     edges = self.drawCapped()
         except (ZeroDivisionError, Part.OCCError):
-            _err("Nose cone parameters produce an invalid shape")
+            _err("Transition parameters produce an invalid shape")
             return
 
         if edges is not None:
@@ -159,10 +172,10 @@ class TransitionShapeHandler():
                 face = Part.Face(wire)
                 self._obj.Shape = face.revolve(FreeCAD.Vector(0, 0, 0),FreeCAD.Vector(1, 0, 0), 360)
             except Part.OCCError:
-                _err("Nose cone parameters produce an invalid shape")
+                _err("Transition parameters produce an invalid shape")
                 return
         else:
-            _err("Nose cone parameters produce an invalid shape")
+            _err("Transition parameters produce an invalid shape")
 
     def solidLines(self, outerShape):
         _trace(self.__class__.__name__, "solidLines")

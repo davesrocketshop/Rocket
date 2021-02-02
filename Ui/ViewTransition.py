@@ -24,10 +24,10 @@ __title__ = "FreeCAD Transition View Provider"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
     
-from PySide import QtGui, QtCore
 import FreeCAD
 import FreeCADGui
-import Part
+
+from Ui.TaskPanelTransition import TaskPanelTransition
 
 class ViewProviderTransition:
 
@@ -40,9 +40,20 @@ class ViewProviderTransition:
     def attach(self, vobj):
         self.ViewObject = vobj
         self.Object = vobj.Object
+  
+    def setEdit(self,vobj,mode):
+        taskd = TaskPanelTransition(self.Object,mode)
+        taskd.obj = vobj.Object
+        taskd.update()
+        FreeCADGui.Control.showDialog(taskd)
+        return True
+    
+    def unsetEdit(self,vobj,mode):
+        FreeCADGui.Control.closeDialog()
+        return
 
-    def getDefaultDisplayMode(self):
-        return "Flat Lines"
+    def __getstate__(self):
+        return None
 
-    def onChanged(self, vp, prop):
-        FreeCAD.Console.PrintMessage('Change property: ' + str(prop) + '\n')
+    def __setstate__(self,state):
+        return None

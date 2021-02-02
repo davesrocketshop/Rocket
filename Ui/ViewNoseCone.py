@@ -24,10 +24,8 @@ __title__ = "FreeCAD Nose Cones View Provider"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
     
-from PySide import QtGui, QtCore
 import FreeCAD
 import FreeCADGui
-import Part
 
 from Ui.TaskPanelNoseCone import TaskPanelNoseCone
 from App.Utilities import _trace

@@ -59,7 +59,6 @@ class _NoseConeDialog(QDialog):
                                 TYPE_HAACK)
         self.noseConeTypesCombo = QtGui.QComboBox(self)
         self.noseConeTypesCombo.addItems(self.noseConeTypes)
-        self.noseConeTypesCombo.setCurrentIndex(self.noseConeTypes.index(TYPE_VON_KARMAN))
 
         # Select the type of sketch
         self.noseStyleLabel = QtGui.QLabel("Nose Style", self)
@@ -69,36 +68,32 @@ class _NoseConeDialog(QDialog):
                                 STYLE_CAPPED)
         self.noseStylesCombo = QtGui.QComboBox(self)
         self.noseStylesCombo.addItems(self.noseStyles)
-        self.noseStylesCombo.setCurrentIndex(self.noseStyles.index(STYLE_HOLLOW))
 
         # Get the nose cone parameters: length, width, etc...
-        self.lengthLabel = QtGui.QLabel("Length (mm)", self)
+        self.lengthLabel = QtGui.QLabel("Length", self)
 
         self.lengthValidator = QtGui.QDoubleValidator(self)
         self.lengthValidator.setBottom(0.0)
 
         self.lengthInput = QtGui.QLineEdit(self)
-        self.lengthInput.setText("60.00")
         self.lengthInput.setFixedWidth(100)
         self.lengthInput.setValidator(self.lengthValidator)
 
-        self.radiusLabel = QtGui.QLabel("Radius (mm)", self)
+        self.radiusLabel = QtGui.QLabel("Radius", self)
 
         self.radiusValidator = QtGui.QDoubleValidator(self)
         self.radiusValidator.setBottom(0.0)
 
         self.radiusInput = QtGui.QLineEdit(self)
-        self.radiusInput.setText("10.00")
         self.radiusInput.setFixedWidth(100)
         self.radiusInput.setValidator(self.radiusValidator)
 
-        self.thicknessLabel = QtGui.QLabel("Thickness (mm)", self)
+        self.thicknessLabel = QtGui.QLabel("Thickness", self)
 
         self.thicknessValidator = QtGui.QDoubleValidator(self)
         self.thicknessValidator.setBottom(0.0)
 
         self.thicknessInput = QtGui.QLineEdit(self)
-        self.thicknessInput.setText("2.00")
         self.thicknessInput.setFixedWidth(100)
         self.thicknessInput.setValidator(self.thicknessValidator)
 
@@ -108,7 +103,6 @@ class _NoseConeDialog(QDialog):
         self.coefficientValidator.setBottom(0.0)
 
         self.coefficientInput = QtGui.QLineEdit(self)
-        self.coefficientInput.setText("")
         self.coefficientInput.setFixedWidth(100)
         self.coefficientInput.setValidator(self.coefficientValidator)
         self.coefficientInput.setEnabled(False)
@@ -118,35 +112,32 @@ class _NoseConeDialog(QDialog):
         self.shoulderCheckbox = QtGui.QCheckBox(self)
         self.shoulderCheckbox.setCheckState(QtCore.Qt.Unchecked)
 
-        self.shoulderRadiusLabel = QtGui.QLabel("Radius (mm)", self)
+        self.shoulderRadiusLabel = QtGui.QLabel("Radius", self)
 
         self.shoulderRadiusValidator = QtGui.QDoubleValidator(self)
         self.shoulderRadiusValidator.setBottom(0.0)
 
         self.shoulderRadiusInput = QtGui.QLineEdit(self)
-        self.shoulderRadiusInput.setText("")
         self.shoulderRadiusInput.setFixedWidth(100)
         self.shoulderRadiusInput.setValidator(self.shoulderRadiusValidator)
         self.shoulderRadiusInput.setEnabled(False)
 
-        self.shoulderLengthLabel = QtGui.QLabel("Length (mm)", self)
+        self.shoulderLengthLabel = QtGui.QLabel("Length", self)
 
         self.shoulderLengthValidator = QtGui.QDoubleValidator(self)
         self.shoulderLengthValidator.setBottom(0.0)
 
         self.shoulderLengthInput = QtGui.QLineEdit(self)
-        self.shoulderLengthInput.setText("")
         self.shoulderLengthInput.setFixedWidth(100)
         self.shoulderLengthInput.setValidator(self.shoulderLengthValidator)
         self.shoulderLengthInput.setEnabled(False)
 
-        self.shoulderThicknessLabel = QtGui.QLabel("Thickness (mm)", self)
+        self.shoulderThicknessLabel = QtGui.QLabel("Thickness", self)
 
         self.shoulderThicknessValidator = QtGui.QDoubleValidator(self)
         self.shoulderThicknessValidator.setBottom(0.0)
 
         self.shoulderThicknessInput = QtGui.QLineEdit(self)
-        self.shoulderThicknessInput.setText("")
         self.shoulderThicknessInput.setFixedWidth(100)
         self.shoulderThicknessInput.setValidator(self.shoulderThicknessValidator)
         self.shoulderThicknessInput.setEnabled(False)
@@ -227,16 +218,13 @@ class TaskPanelNoseCone:
     
     def transferFrom(self):
         "Transfer from the object to the dialog"
-        self.form.noseConeTypesCombo.setCurrentIndex(self.form.noseConeTypes.index(self.obj.NoseType))
-        self.form.noseStylesCombo.setCurrentIndex(self.form.noseStyles.index(self.obj.NoseStyle))
+        self.form.noseConeTypesCombo.setCurrentText(self.obj.NoseType)
+        self.form.noseStylesCombo.setCurrentText(self.obj.NoseStyle)
         self.form.lengthInput.setText("%f" % self.obj.Length)
         self.form.radiusInput.setText("%f" % self.obj.Radius)
         self.form.thicknessInput.setText("%f" % self.obj.Thickness)
         self.form.coefficientInput.setText("%f" % self.obj.Coefficient)
-        if self.obj.Shoulder:
-            self.form.shoulderCheckbox.setCheckState(QtCore.Qt.Checked)
-        else:
-            self.form.shoulderCheckbox.setCheckState(QtCore.Qt.Unchecked)
+        self.form.shoulderCheckbox.setChecked(self.obj.Shoulder)
         self.form.shoulderRadiusInput.setText("%f" % self.obj.ShoulderRadius)
         self.form.shoulderLengthInput.setText("%f" % self.obj.ShoulderLength)
         self.form.shoulderThicknessInput.setText("%f" % self.obj.ShoulderThickness)
