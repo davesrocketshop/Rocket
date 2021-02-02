@@ -24,10 +24,10 @@ __url__ = "https://www.davesrocketshop.com"
 
 import FreeCAD, FreeCADGui
 
-from Gui.CmdNoseCone import CmdNoseCone
-from Gui.CmdTransition import CmdTransition
-from Gui.CmdFin import CmdFin
-from Gui.CmdFinCan import CmdFinCan
+from Ui.CmdNoseCone import CmdNoseCone
+from Ui.CmdTransition import CmdTransition
+from Ui.CmdFin import CmdFin
+from Ui.CmdFinCan import CmdFinCan
 
 FreeCADGui.addCommand('Rocket_NoseCone', CmdNoseCone())
 FreeCADGui.addCommand('Rocket_Transition', CmdTransition())

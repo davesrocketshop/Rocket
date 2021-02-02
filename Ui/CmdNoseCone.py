@@ -28,18 +28,9 @@ __url__ = "https://www.davesrocketshop.com"
 # from PySide import QtGui, QtCore
 import FreeCAD
 import FreeCADGui
-# import Part
-# import math
-# import os
-
-# import sys
-# from PySide2.QtWidgets import QApplication, QDialog, QLineEdit, QPushButton,QHBoxLayout,QVBoxLayout,QGridLayout
-
-# from App.Constants import TYPE_CONE, TYPE_ELLIPTICAL, TYPE_HAACK, TYPE_OGIVE, TYPE_VON_KARMAN, TYPE_PARABOLA, TYPE_PARABOLIC, TYPE_POWER
-# from App.Constants import STYLE_CAPPED, STYLE_HOLLOW, STYLE_SOLID
 
 from App.ShapeNoseCone import ShapeNoseCone
-from Gui.ViewNoseCone import ViewProviderNoseCone
+from Ui.ViewNoseCone import ViewProviderNoseCone
 
 # from App.Utilities import _toFloat, _msg
 
@@ -62,8 +53,8 @@ def makeNoseCone(name):
 class CmdNoseCone:
     def Activated(self):
         FreeCAD.ActiveDocument.openTransaction("Create nose cone")
-        FreeCADGui.addModule("Gui.CmdNoseCone")
-        FreeCADGui.doCommand("Gui.CmdNoseCone.makeNoseCone('NoseCone')")
+        FreeCADGui.addModule("Ui.CmdNoseCone")
+        FreeCADGui.doCommand("Ui.CmdNoseCone.makeNoseCone('NoseCone')")
         FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
 
     def IsActive(self):

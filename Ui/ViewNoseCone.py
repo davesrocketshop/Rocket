@@ -29,7 +29,7 @@ import FreeCAD
 import FreeCADGui
 import Part
 
-from Gui.TaskPanelNoseCone import TaskPanelNoseCone
+from Ui.TaskPanelNoseCone import TaskPanelNoseCone
 from App.Utilities import _trace
 
 class ViewProviderNoseCone:

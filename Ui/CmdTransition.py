@@ -39,7 +39,7 @@ from App.Constants import TYPE_CONE, TYPE_ELLIPTICAL, TYPE_HAACK, TYPE_OGIVE, TY
 from App.Constants import STYLE_CAPPED, STYLE_HOLLOW, STYLE_SOLID, STYLE_SOLID_CORE
 
 from App.ShapeTransition import ShapeTransition
-from Gui.ViewTransition import ViewProviderTransition
+from Ui.ViewTransition import ViewProviderTransition
 
 userCancelled = "Cancelled"
 userOK = "OK"
