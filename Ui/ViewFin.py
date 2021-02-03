@@ -24,10 +24,10 @@ __title__ = "FreeCAD Fin View Provider"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
     
-from PySide import QtGui, QtCore
 import FreeCAD
 import FreeCADGui
-import Part
+
+from Ui.TaskPanelFin import TaskPanelFin
 
 class ViewProviderFin:
 
@@ -41,8 +41,19 @@ class ViewProviderFin:
         self.ViewObject = vobj
         self.Object = vobj.Object
 
-    def getDefaultDisplayMode(self):
-        return "Flat Lines"
+    def setEdit(self,vobj,mode):
+        taskd = TaskPanelFin(self.Object,mode)
+        taskd.obj = vobj.Object
+        taskd.update()
+        FreeCADGui.Control.showDialog(taskd)
+        return True
+    
+    def unsetEdit(self,vobj,mode):
+        FreeCADGui.Control.closeDialog()
+        return
 
-    def onChanged(self, vp, prop):
-        FreeCAD.Console.PrintMessage('Change property: ' + str(prop) + '\n')
+    def __getstate__(self):
+        return None
+
+    def __setstate__(self,state):
+        return None

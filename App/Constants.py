@@ -39,3 +39,14 @@ TYPE_VON_KARMAN = "Von Karman"
 TYPE_PARABOLIC = "parabolic series"
 TYPE_POWER = "power series"
 TYPE_HAACK = "Haack series"
+
+# Fin types
+FIN_TYPE_TRAPEZOID = "trapezoid"
+FIN_TYPE_ELLIPSE = "elliptical"
+FIN_TYPE_TUBE = "tube"
+FIN_TYPE_SKETCH = "custom"
+
+# Fin cross sections
+FIN_CROSS_SQUARE = "square"
+FIN_CROSS_ROUND = "round"
+FIN_CROSS_AIRFOIL = "airfoil"

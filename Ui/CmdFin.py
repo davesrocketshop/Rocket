@@ -25,15 +25,38 @@ __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
     
 import FreeCAD
+import FreeCADGui
+from PySide import QtGui
+
+from App.ShapeFin import ShapeFin
+from Ui.ViewFin import ViewProviderFin
+
+def makeFin(name):
+    '''makeFin(name): makes a Fin'''
+    obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
+    ShapeFin(obj)
+    if FreeCAD.GuiUp:
+        ViewProviderFin(obj.ViewObject)
+
+        body=FreeCADGui.ActiveDocument.ActiveView.getActiveObject("pdbody")
+        part=FreeCADGui.ActiveDocument.ActiveView.getActiveObject("part")
+        if body:
+            body.Group=body.Group+[obj]
+        elif part:
+            part.Group=part.Group+[obj]
+    return obj
 
 class CmdFin:
     def Activated(self):
-        FreeCAD.Console.PrintMessage("Fin Command\n")
+        FreeCAD.ActiveDocument.openTransaction("Create nose cone")
+        FreeCADGui.addModule("Ui.CmdFin")
+        FreeCADGui.doCommand("Ui.CmdFin.makeFin('Fin')")
+        FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
 
     def IsActive(self):
-        if FreeCAD.ActiveDocument == None:
-            return False
-        return True
+        if FreeCAD.ActiveDocument:
+            return True
+        return False
         
     def GetResources(self):
         return {'MenuText': 'Fin',

@@ -27,11 +27,11 @@ __url__ = "https://www.davesrocketshop.com"
 import FreeCAD
 import FreeCADGui
 
-from App.OpenRocket import _msg, _err, _trace
-
 from App.Component.Component import Component
 from App.ShapeNoseCone import ShapeNoseCone
-from Gui.ViewNoseCone import ViewProviderNoseCone
+from Ui.ViewNoseCone import ViewProviderNoseCone
+
+from App.Utilities import _msg, _err, _trace
 
 class NoseconeComponent(Component):
 
