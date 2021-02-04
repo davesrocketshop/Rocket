@@ -49,17 +49,21 @@ class ShapeFin:
         obj.FinCrossSection = FIN_CROSS_SQUARE
 
         obj.addProperty('App::PropertyLength', 'RootChord', 'Fin', 'Length of the base of the fin').RootChord = 10.0
+        obj.addProperty('App::PropertyLength', 'RootThickness', 'Fin', 'Fin root thickness').RootThickness = 2.0
+        obj.addProperty('App::PropertyBool', 'RootPerCent', 'Fin', 'Root chord lengths are percentages').RootPerCent = True
         obj.addProperty('App::PropertyLength', 'RootLength1', 'Fin', 'Root chord length 1').RootLength1 = 20.0
         obj.addProperty('App::PropertyLength', 'RootLength2', 'Fin', 'Root chord length 2').RootLength2 = 80.0
-        obj.addProperty('App::PropertyBool', 'RootPerCent', 'Fin', 'Root chord lengths are percentages').RootPerCent = True
         obj.addProperty('App::PropertyLength', 'TipChord', 'Fin', 'Length of the tip of the fin').TipChord = 5.0
+
+        obj.addProperty('App::PropertyBool', 'TipPerCent', 'Fin', 'Tip chord lengths are percentages').TipPerCent = True
+        obj.addProperty('App::PropertyLength', 'TipThickness', 'Fin', 'Fin tip thickness').TipThickness = 2.0
         obj.addProperty('App::PropertyLength', 'TipLength1', 'Fin', 'Tip chord length 1').TipLength1 = 20.0
         obj.addProperty('App::PropertyLength', 'TipLength2', 'Fin', 'Tip chord length 2').TipLength2 = 80.0
-        obj.addProperty('App::PropertyBool', 'TipPerCent', 'Fin', 'Tip chord lengths are percentages').TipPerCent = True
+
         obj.addProperty('App::PropertyLength', 'Height', 'Fin', 'Fin semi-span').Height = 10.0
         obj.addProperty('App::PropertyDistance', 'SweepLength', 'Fin', 'Sweep length').SweepLength = 3.0 # Must be distance since it can be negative
         obj.addProperty('App::PropertyAngle', 'SweepAngle', 'Fin', 'Sweep angle').SweepAngle = 0.0
-        obj.addProperty('App::PropertyLength', 'Thickness', 'Fin', 'Fin thickness').Thickness = 2.0
+
         obj.addProperty('App::PropertyBool', 'Ttw', 'Fin', 'Throgh the wall (TTW) tab').Ttw = False
         obj.addProperty('App::PropertyLength', 'TtwOffset', 'Fin', 'TTW Offset from fin root').TtwOffset = 2.0
         obj.addProperty('App::PropertyLength', 'TtwLength', 'Fin', 'TTW Length').TtwLength = 6.0
@@ -252,11 +256,11 @@ class ShapeFin:
 
     def _makeRootProfile(self):
         # Create the root profile, casting everything to float to avoid typing issues
-        return self._makeChordProfile(float(self._obj.RootChord), float(self._obj.RootChord), float(self._obj.Thickness), 0.0, self._obj.RootPerCent, float(self._obj.RootLength1), float(self._obj.RootLength2))
+        return self._makeChordProfile(float(self._obj.RootChord), float(self._obj.RootChord), float(self._obj.RootThickness), 0.0, self._obj.RootPerCent, float(self._obj.RootLength1), float(self._obj.RootLength2))
 
     def _makeTipProfile(self):
         # Create the tip profile, casting everything to float to avoid typing issues
-        return self._makeChordProfile(float(self._obj.RootChord - self._obj.SweepLength), float(self._obj.TipChord), float(self._obj.Thickness), float(self._obj.Height), self._obj.TipPerCent, float(self._obj.TipLength1), float(self._obj.TipLength2))
+        return self._makeChordProfile(float(self._obj.RootChord - self._obj.SweepLength), float(self._obj.TipChord), float(self._obj.TipThickness), float(self._obj.Height), self._obj.TipPerCent, float(self._obj.TipLength1), float(self._obj.TipLength2))
 
     def _makeTtw(self):
         # Create the Ttw tab
