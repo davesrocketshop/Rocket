@@ -32,6 +32,8 @@ import math
 from App.Constants import FIN_TYPE_TRAPEZOID, FIN_TYPE_ELLIPSE, FIN_TYPE_TUBE, FIN_TYPE_SKETCH
 from App.Constants import FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL
 
+from App.Utilities import _err
+
 class ShapeFin:
 
     def __init__(self, obj):
@@ -47,9 +49,14 @@ class ShapeFin:
         obj.addProperty('App::PropertyLength', 'RootChord', 'Fin', 'Length of the base of the fin').RootChord = 10.0
         obj.addProperty('App::PropertyLength', 'TipChord', 'Fin', 'Length of the tip of the fin').TipChord = 5.0
         obj.addProperty('App::PropertyLength', 'Height', 'Fin', 'Fin semi-span').Height = 10.0
-        obj.addProperty('App::PropertyDistance', 'SweepLength', 'Fin', 'Sweep length').SweepLength = 0.0 # Must be distance since it can be negative
+        obj.addProperty('App::PropertyDistance', 'SweepLength', 'Fin', 'Sweep length').SweepLength = 3.0 # Must be distance since it can be negative
         obj.addProperty('App::PropertyAngle', 'SweepAngle', 'Fin', 'Sweep angle').SweepAngle = 0.0
         obj.addProperty('App::PropertyLength', 'Thickness', 'Fin', 'Fin thickness').Thickness = 2.0
+        obj.addProperty('App::PropertyBool', 'Ttw', 'Fin', 'Throgh the wall (TTW) tab').Ttw = False
+        obj.addProperty('App::PropertyLength', 'TtwOffset', 'Fin', 'TTW Offset from fin root').TtwOffset = 2.0
+        obj.addProperty('App::PropertyLength', 'TtwLength', 'Fin', 'TTW Length').TtwLength = 6.0
+        obj.addProperty('App::PropertyLength', 'TtwHeight', 'Fin', 'TTW Height').TtwHeight = 10.0
+        obj.addProperty('App::PropertyLength', 'TtwThickness', 'Fin', 'TTW thickness').TtwThickness = 1.0
 
         obj.addProperty('Part::PropertyPartShape', 'Shape', 'Fin', 'Shape of the fin')
         obj.Proxy=self
@@ -112,8 +119,26 @@ class ShapeFin:
         # Create the tip profile
         return self._makeChordProfile(self._obj.RootChord - self._obj.SweepLength, self._obj.TipChord, self._obj.Thickness, self._obj.Height)
 
+    def _makeTtw(self):
+        # Create the Ttw tab
+        origin = FreeCAD.Vector(self._obj.RootChord - self._obj.TtwOffset - self._obj.TtwLength, -0.5 * self._obj.TtwThickness, -1.0 * self._obj.TtwHeight)
+        return Part.makeBox(self._obj.TtwLength, self._obj.TtwThickness, self._obj.TtwHeight, origin)
+
     def isValidShape(self):
         # Add error checking here
+        if self._obj.Ttw:
+            if self._obj.TtwOffset >= self._obj.RootChord:
+                _err("Ttw offset must be less than the root chord")
+                return False
+            if self._obj.TtwLength <= 0:
+                _err("Ttw length must be greater than 0")
+                return False
+            if self._obj.TtwHeight <= 0:
+                _err("Ttw height must be greater than 0")
+                return False
+            if self._obj.TtwThickness <= 0:
+                _err("Ttw thickness must be greater than 0")
+                return False
         return True
 
     def execute(self, obj):
@@ -127,6 +152,10 @@ class ShapeFin:
             if rootProfile is not None and tipProfile is not None:
                 loft = Part.makeLoft([rootProfile, tipProfile], True)
                 if loft is not None:
+                    if self._obj.Ttw:
+                        ttw = self._makeTtw()
+                        if ttw:
+                            loft = loft.fuse(ttw)
                     self._obj.Shape = loft
         except (ZeroDivisionError, Part.OCCError):
             _err("Fin parameters produce an invalid shape")

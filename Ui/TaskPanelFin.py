@@ -115,6 +115,47 @@ class _FinDialog(QDialog):
         self.thicknessInput.setFixedWidth(100)
         self.thicknessInput.setValidator(self.thicknessValidator)
 
+        self.ttwLabel = QtGui.QLabel("TTW Tab", self)
+
+        self.ttwCheckbox = QtGui.QCheckBox(self)
+        self.ttwCheckbox.setCheckState(QtCore.Qt.Unchecked)
+
+        self.ttwOffsetLabel = QtGui.QLabel("Offset", self)
+
+        self.ttwOffsetValidator = QtGui.QDoubleValidator(self)
+        self.ttwOffsetValidator.setBottom(0.0)
+
+        self.ttwOffsetInput = QtGui.QLineEdit(self)
+        self.ttwOffsetInput.setFixedWidth(100)
+        self.ttwOffsetInput.setValidator(self.ttwOffsetValidator)
+
+        self.ttwLengthLabel = QtGui.QLabel("Length", self)
+
+        self.ttwLengthValidator = QtGui.QDoubleValidator(self)
+        self.ttwLengthValidator.setBottom(0.0)
+
+        self.ttwLengthInput = QtGui.QLineEdit(self)
+        self.ttwLengthInput.setFixedWidth(100)
+        self.ttwLengthInput.setValidator(self.ttwLengthValidator)
+
+        self.ttwHeightLabel = QtGui.QLabel("Height", self)
+
+        self.ttwHeightValidator = QtGui.QDoubleValidator(self)
+        self.ttwHeightValidator.setBottom(0.0)
+
+        self.ttwHeightInput = QtGui.QLineEdit(self)
+        self.ttwHeightInput.setFixedWidth(100)
+        self.ttwHeightInput.setValidator(self.ttwHeightValidator)
+
+        self.ttwThicknessLabel = QtGui.QLabel("Thickness", self)
+
+        self.ttwThicknessValidator = QtGui.QDoubleValidator(self)
+        self.ttwThicknessValidator.setBottom(0.0)
+
+        self.ttwThicknessInput = QtGui.QLineEdit(self)
+        self.ttwThicknessInput.setFixedWidth(100)
+        self.ttwThicknessInput.setValidator(self.ttwThicknessValidator)
+
         layout = QGridLayout()
 
         layout.addWidget(self.finTypeLabel, 0, 0, 1, 2)
@@ -141,6 +182,21 @@ class _FinDialog(QDialog):
         layout.addWidget(self.thicknessLabel, 7, 0)
         layout.addWidget(self.thicknessInput, 7, 1)
 
+        layout.addWidget(self.ttwLabel, 8, 0)
+        layout.addWidget(self.ttwCheckbox, 8, 1)
+
+        layout.addWidget(self.ttwOffsetLabel, 9, 0)
+        layout.addWidget(self.ttwOffsetInput, 9, 1)
+
+        layout.addWidget(self.ttwLengthLabel, 10, 0)
+        layout.addWidget(self.ttwLengthInput, 10, 1)
+
+        layout.addWidget(self.ttwHeightLabel, 11, 0)
+        layout.addWidget(self.ttwHeightInput, 11, 1)
+
+        layout.addWidget(self.ttwThicknessLabel, 12, 0)
+        layout.addWidget(self.ttwThicknessInput, 12, 1)
+
         self.setLayout(layout)
 
 class TaskPanelFin:
@@ -160,6 +216,12 @@ class TaskPanelFin:
         self.form.sweepLengthInput.textEdited.connect(self.onSweepLength)
         self.form.sweepAngleInput.textEdited.connect(self.onSweepAngle)
         self.form.thicknessInput.textEdited.connect(self.onThickness)
+
+        self.form.ttwCheckbox.stateChanged.connect(self.onTtw)
+        self.form.ttwOffsetInput.textEdited.connect(self.onTTWOffset)
+        self.form.ttwLengthInput.textEdited.connect(self.onTTWLength)
+        self.form.ttwHeightInput.textEdited.connect(self.onTTWHeight)
+        self.form.ttwThicknessInput.textEdited.connect(self.onTTWThickness)
         
         self.update()
         
@@ -177,6 +239,12 @@ class TaskPanelFin:
         self.obj.SweepLength = _toFloat(self.form.sweepLengthInput.text())
         self.obj.SweepAngle = _toFloat(self.form.sweepAngleInput.text())
         self.obj.Thickness = _toFloat(self.form.thicknessInput.text())
+
+        self.obj.Ttw = self.form.ttwCheckbox.isChecked()
+        self.obj.TtwOffset = _toFloat(self.form.ttwOffsetInput.text())
+        self.obj.TtwLength = _toFloat(self.form.ttwLengthInput.text())
+        self.obj.TtwHeight = _toFloat(self.form.ttwHeightInput.text())
+        self.obj.TtwThickness = _toFloat(self.form.ttwThicknessInput.text())
     
     def transferFrom(self):
         "Transfer from the object to the dialog"
@@ -188,6 +256,15 @@ class TaskPanelFin:
         self.form.sweepLengthInput.setText("%f" % self.obj.SweepLength)
         self.form.sweepAngleInput.setText("%f" % self.obj.SweepAngle)
         self.form.thicknessInput.setText("%f" % self.obj.Thickness)
+
+        self.form.ttwCheckbox.setChecked(self.obj.Ttw)
+        self.form.ttwOffsetInput.setText("%f" % self.obj.TtwOffset)
+        self.form.ttwLengthInput.setText("%f" % self.obj.TtwLength)
+        self.form.ttwHeightInput.setText("%f" % self.obj.TtwHeight)
+        self.form.ttwThicknessInput.setText("%f" % self.obj.TtwThickness)
+
+        self._sweepAngleFromLength()
+        self._setTtwState()
         
     def onFinTypes(self, value):
         self.obj.FinType = value
@@ -237,6 +314,34 @@ class TaskPanelFin:
         
     def onThickness(self, value):
         self.obj.Thickness = _toFloat(value)
+        self.obj.Proxy.execute(self.obj)
+        
+    def _setTtwState(self):
+        self.form.ttwOffsetInput.setEnabled(self.obj.Ttw)
+        self.form.ttwLengthInput.setEnabled(self.obj.Ttw)
+        self.form.ttwHeightInput.setEnabled(self.obj.Ttw)
+        self.form.ttwThicknessInput.setEnabled(self.obj.Ttw)
+        
+    def onTtw(self, value):
+        self.obj.Ttw = self.form.ttwCheckbox.isChecked()
+        self._setTtwState()
+
+        self.obj.Proxy.execute(self.obj)
+        
+    def onTTWOffset(self, value):
+        self.obj.TtwOffset = _toFloat(value)
+        self.obj.Proxy.execute(self.obj)
+        
+    def onTTWLength(self, value):
+        self.obj.TtwLength = _toFloat(value)
+        self.obj.Proxy.execute(self.obj)
+        
+    def onTTWHeight(self, value):
+        self.obj.TtwHeight = _toFloat(value)
+        self.obj.Proxy.execute(self.obj)
+        
+    def onTTWThickness(self, value):
+        self.obj.TtwThickness = _toFloat(value)
         self.obj.Proxy.execute(self.obj)
         
     def getStandardButtons(self):
