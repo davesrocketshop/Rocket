@@ -33,7 +33,7 @@ from PySide2.QtWidgets import QDialog, QGridLayout
 import math
 
 from App.Constants import FIN_TYPE_TRAPEZOID, FIN_TYPE_ELLIPSE, FIN_TYPE_TUBE, FIN_TYPE_SKETCH
-from App.Constants import FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL
+from App.Constants import FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE
 
 from App.Utilities import _toFloat, _err
 
@@ -57,7 +57,7 @@ class _FinDialog(QDialog):
         # Select the type of cross section
         self.finCrossSectionLabel = QtGui.QLabel("Fin Cross Section", self)
 
-        self.finCrossSections = (FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL)
+        self.finCrossSections = (FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE)
         self.finCrossSectionsCombo = QtGui.QComboBox(self)
         self.finCrossSectionsCombo.addItems(self.finCrossSections)
 

@@ -30,7 +30,7 @@ import Part
 import math
 
 from App.Constants import FIN_TYPE_TRAPEZOID, FIN_TYPE_ELLIPSE, FIN_TYPE_TUBE, FIN_TYPE_SKETCH
-from App.Constants import FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL
+from App.Constants import FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE
 
 from App.Utilities import _err
 
@@ -43,7 +43,7 @@ class ShapeFin:
         obj.FinType = FIN_TYPE_TRAPEZOID
 
         obj.addProperty('App::PropertyEnumeration', 'FinCrossSection', 'Fin', 'Fin cross section')
-        obj.FinCrossSection = [FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL]
+        obj.FinCrossSection = [FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE]
         obj.FinCrossSection = FIN_CROSS_SQUARE
 
         obj.addProperty('App::PropertyLength', 'RootChord', 'Fin', 'Length of the base of the fin').RootChord = 10.0
@@ -100,6 +100,21 @@ class ShapeFin:
         wire = Part.Wire([ellipse.toShape(), line1.toShape(), line2.toShape()])
         return wire
 
+    def _makeChordProfileWedge(self, foreX, chord, thickness, height):
+        # Create the root rectangle
+        chordFore = foreX
+        chordAft = foreX - chord
+        halfThickness = thickness / 2
+        v1 = FreeCAD.Vector(chordFore, 0.0, height)
+        v2 = FreeCAD.Vector(chordAft, -halfThickness, height)
+        v3 = FreeCAD.Vector(chordAft, halfThickness, height)
+        line1 = Part.LineSegment(v1, v2)
+        line2 = Part.LineSegment(v1, v3)
+        line3 = Part.LineSegment(v2, v3)
+        
+        wire = Part.Wire([line1.toShape(), line2.toShape(), line3.toShape()])
+        return wire
+
     def _makeChordProfile(self, foreX, chord, thickness, height):
         # At the moment, only square cross sections are supported
         if self._obj.FinCrossSection == FIN_CROSS_SQUARE:
@@ -108,6 +123,8 @@ class ShapeFin:
             return self._makeChordProfileRound(foreX, chord, thickness, height)
         elif self._obj.FinCrossSection == FIN_CROSS_AIRFOIL:
             return self._makeChordProfileAirfoil(foreX, chord, thickness, height)
+        elif self._obj.FinCrossSection == FIN_CROSS_WEDGE:
+            return self._makeChordProfileWedge(foreX, chord, thickness, height)
 
         return None
 
