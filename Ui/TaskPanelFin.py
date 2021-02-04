@@ -33,7 +33,8 @@ from PySide2.QtWidgets import QDialog, QGridLayout
 import math
 
 from App.Constants import FIN_TYPE_TRAPEZOID, FIN_TYPE_ELLIPSE, FIN_TYPE_TUBE, FIN_TYPE_SKETCH
-from App.Constants import FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE
+from App.Constants import FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE, \
+    FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE
 
 from App.Utilities import _toFloat, _err
 
@@ -57,7 +58,8 @@ class _FinDialog(QDialog):
         # Select the type of cross section
         self.finCrossSectionLabel = QtGui.QLabel("Fin Cross Section", self)
 
-        self.finCrossSections = (FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE)
+        self.finCrossSections = (FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE,
+            FIN_CROSS_DIAMOND)
         self.finCrossSectionsCombo = QtGui.QComboBox(self)
         self.finCrossSectionsCombo.addItems(self.finCrossSections)
 
@@ -71,6 +73,29 @@ class _FinDialog(QDialog):
         self.rootChordInput.setFixedWidth(100)
         self.rootChordInput.setValidator(self.rootChordValidator)
 
+        self.rootPerCentLabel = QtGui.QLabel("Use percentage", self)
+
+        self.rootPerCentCheckbox = QtGui.QCheckBox(self)
+        self.rootPerCentCheckbox.setCheckState(QtCore.Qt.Unchecked)
+
+        self.rootLength1Label = QtGui.QLabel("Length 1", self)
+
+        self.rootLength1Validator = QtGui.QDoubleValidator(self)
+        self.rootLength1Validator.setBottom(0.0)
+
+        self.rootLength1Input = QtGui.QLineEdit(self)
+        self.rootLength1Input.setFixedWidth(100)
+        self.rootLength1Input.setValidator(self.rootLength1Validator)
+
+        self.rootLength2Label = QtGui.QLabel("Length 2", self)
+
+        self.rootLength2Validator = QtGui.QDoubleValidator(self)
+        self.rootLength2Validator.setBottom(0.0)
+
+        self.rootLength2Input = QtGui.QLineEdit(self)
+        self.rootLength2Input.setFixedWidth(100)
+        self.rootLength2Input.setValidator(self.rootLength2Validator)
+
         self.tipChordLabel = QtGui.QLabel("Tip Chord", self)
 
         self.tipChordValidator = QtGui.QDoubleValidator(self)
@@ -79,6 +104,29 @@ class _FinDialog(QDialog):
         self.tipChordInput = QtGui.QLineEdit(self)
         self.tipChordInput.setFixedWidth(100)
         self.tipChordInput.setValidator(self.tipChordValidator)
+
+        self.tipPerCentLabel = QtGui.QLabel("Use percentage", self)
+
+        self.tipPerCentCheckbox = QtGui.QCheckBox(self)
+        self.tipPerCentCheckbox.setCheckState(QtCore.Qt.Unchecked)
+
+        self.tipLength1Label = QtGui.QLabel("Length 1", self)
+
+        self.tipLength1Validator = QtGui.QDoubleValidator(self)
+        self.tipLength1Validator.setBottom(0.0)
+
+        self.tipLength1Input = QtGui.QLineEdit(self)
+        self.tipLength1Input.setFixedWidth(100)
+        self.tipLength1Input.setValidator(self.tipLength1Validator)
+
+        self.tipLength2Label = QtGui.QLabel("Length 2", self)
+
+        self.tipLength2Validator = QtGui.QDoubleValidator(self)
+        self.tipLength2Validator.setBottom(0.0)
+
+        self.tipLength2Input = QtGui.QLineEdit(self)
+        self.tipLength2Input.setFixedWidth(100)
+        self.tipLength2Input.setValidator(self.tipLength2Validator)
 
         self.heightLabel = QtGui.QLabel("Height", self)
 
@@ -156,46 +204,83 @@ class _FinDialog(QDialog):
         self.ttwThicknessInput.setFixedWidth(100)
         self.ttwThicknessInput.setValidator(self.ttwThicknessValidator)
 
+        row = 0
         layout = QGridLayout()
 
-        layout.addWidget(self.finTypeLabel, 0, 0, 1, 2)
-        layout.addWidget(self.finTypesCombo, 0, 1)
+        layout.addWidget(self.finTypeLabel, row, 0, 1, 2)
+        layout.addWidget(self.finTypesCombo, row, 1)
+        row += 1
 
-        layout.addWidget(self.finCrossSectionLabel, 1, 0)
-        layout.addWidget(self.finCrossSectionsCombo, 1, 1)
+        layout.addWidget(self.finCrossSectionLabel, row, 0)
+        layout.addWidget(self.finCrossSectionsCombo, row, 1)
+        row += 1
 
-        layout.addWidget(self.rootChordLabel, 2, 0)
-        layout.addWidget(self.rootChordInput, 2, 1)
+        layout.addWidget(self.rootChordLabel, row, 0)
+        layout.addWidget(self.rootChordInput, row, 1)
+        row += 1
 
-        layout.addWidget(self.tipChordLabel, 3, 0)
-        layout.addWidget(self.tipChordInput, 3, 1)
+        layout.addWidget(self.rootPerCentLabel, row, 1)
+        layout.addWidget(self.rootPerCentCheckbox, row, 2)
+        row += 1
 
-        layout.addWidget(self.heightLabel, 4, 0)
-        layout.addWidget(self.heightInput, 4, 1)
+        layout.addWidget(self.rootLength1Label, row, 1)
+        layout.addWidget(self.rootLength1Input, row, 2)
+        row += 1
 
-        layout.addWidget(self.sweepLengthLabel, 5, 0)
-        layout.addWidget(self.sweepLengthInput, 5, 1)
+        layout.addWidget(self.rootLength2Label, row, 1)
+        layout.addWidget(self.rootLength2Input, row, 2)
+        row += 1
 
-        layout.addWidget(self.sweepAngleLabel, 6, 0)
-        layout.addWidget(self.sweepAngleInput, 6, 1)
+        layout.addWidget(self.tipChordLabel, row, 0)
+        layout.addWidget(self.tipChordInput, row, 1)
+        row += 1
 
-        layout.addWidget(self.thicknessLabel, 7, 0)
-        layout.addWidget(self.thicknessInput, 7, 1)
+        layout.addWidget(self.tipPerCentLabel, row, 1)
+        layout.addWidget(self.tipPerCentCheckbox, row, 2)
+        row += 1
 
-        layout.addWidget(self.ttwLabel, 8, 0)
-        layout.addWidget(self.ttwCheckbox, 8, 1)
+        layout.addWidget(self.tipLength1Label, row, 1)
+        layout.addWidget(self.tipLength1Input, row, 2)
+        row += 1
 
-        layout.addWidget(self.ttwOffsetLabel, 9, 0)
-        layout.addWidget(self.ttwOffsetInput, 9, 1)
+        layout.addWidget(self.tipLength2Label, row, 1)
+        layout.addWidget(self.tipLength2Input, row, 2)
+        row += 1
 
-        layout.addWidget(self.ttwLengthLabel, 10, 0)
-        layout.addWidget(self.ttwLengthInput, 10, 1)
+        layout.addWidget(self.heightLabel, row, 0)
+        layout.addWidget(self.heightInput, row, 1)
+        row += 1
 
-        layout.addWidget(self.ttwHeightLabel, 11, 0)
-        layout.addWidget(self.ttwHeightInput, 11, 1)
+        layout.addWidget(self.sweepLengthLabel, row, 0)
+        layout.addWidget(self.sweepLengthInput, row, 1)
+        row += 1
 
-        layout.addWidget(self.ttwThicknessLabel, 12, 0)
-        layout.addWidget(self.ttwThicknessInput, 12, 1)
+        layout.addWidget(self.sweepAngleLabel, row, 0)
+        layout.addWidget(self.sweepAngleInput, row, 1)
+        row += 1
+
+        layout.addWidget(self.thicknessLabel, row, 0)
+        layout.addWidget(self.thicknessInput, row, 1)
+        row += 1
+
+        layout.addWidget(self.ttwLabel, row, 0)
+        layout.addWidget(self.ttwCheckbox, row, 1)
+        row += 1
+
+        layout.addWidget(self.ttwOffsetLabel, row, 0)
+        layout.addWidget(self.ttwOffsetInput, row, 1)
+        row += 1
+
+        layout.addWidget(self.ttwLengthLabel, row, 0)
+        layout.addWidget(self.ttwLengthInput, row, 1)
+        row += 1
+
+        layout.addWidget(self.ttwHeightLabel, row, 0)
+        layout.addWidget(self.ttwHeightInput, row, 1)
+        row += 1
+
+        layout.addWidget(self.ttwThicknessLabel, row, 0)
+        layout.addWidget(self.ttwThicknessInput, row, 1)
 
         self.setLayout(layout)
 
@@ -211,7 +296,15 @@ class TaskPanelFin:
         self.form.finCrossSectionsCombo.currentTextChanged.connect(self.onFinCrossSection)
 
         self.form.rootChordInput.textEdited.connect(self.onRootChord)
+        self.form.rootPerCentCheckbox.stateChanged.connect(self.onRootPerCent)
+        self.form.rootLength1Input.textEdited.connect(self.onRootLength1)
+        self.form.rootLength2Input.textEdited.connect(self.onRootLength2)
+
         self.form.tipChordInput.textEdited.connect(self.onTipChord)
+        self.form.tipPerCentCheckbox.stateChanged.connect(self.onTipPerCent)
+        self.form.tipLength1Input.textEdited.connect(self.onTipLength1)
+        self.form.tipLength2Input.textEdited.connect(self.onTipLength2)
+
         self.form.heightInput.textEdited.connect(self.onHeight)
         self.form.sweepLengthInput.textEdited.connect(self.onSweepLength)
         self.form.sweepAngleInput.textEdited.connect(self.onSweepAngle)
@@ -233,8 +326,17 @@ class TaskPanelFin:
         "Transfer from the dialog to the object" 
         self.obj.FinType = str(self.form.finTypesCombo.currentText())
         self.obj.FinCrossSection = str(self.form.finCrossSectionsCombo.currentText())
+
         self.obj.RootChord = _toFloat(self.form.rootChordInput.text())
+        self.obj.RootPerCent = self.form.rootPerCentCheckbox.isChecked()
+        self.obj.RootLength1 = _toFloat(self.form.rootLength1Input.text())
+        self.obj.RootLength2 = _toFloat(self.form.rootLength2Input.text())
+
         self.obj.TipChord = _toFloat(self.form.tipChordInput.text())
+        self.obj.TipPerCent = self.form.tipPerCentCheckbox.isChecked()
+        self.obj.TipLength1 = _toFloat(self.form.tipLength1Input.text())
+        self.obj.TipLength2 = _toFloat(self.form.tipLength2Input.text())
+
         self.obj.Height = _toFloat(self.form.heightInput.text())
         self.obj.SweepLength = _toFloat(self.form.sweepLengthInput.text())
         self.obj.SweepAngle = _toFloat(self.form.sweepAngleInput.text())
@@ -250,8 +352,17 @@ class TaskPanelFin:
         "Transfer from the object to the dialog"
         self.form.finTypesCombo.setCurrentText(self.obj.FinType)
         self.form.finCrossSectionsCombo.setCurrentText(self.obj.FinCrossSection)
+
         self.form.rootChordInput.setText("%f" % self.obj.RootChord)
+        self.form.rootPerCentCheckbox.setChecked(self.obj.RootPerCent)
+        self.form.rootLength1Input.setText("%f" % self.obj.RootLength1)
+        self.form.rootLength2Input.setText("%f" % self.obj.RootLength2)
+
         self.form.tipChordInput.setText("%f" % self.obj.TipChord)
+        self.form.tipPerCentCheckbox.setChecked(self.obj.TipPerCent)
+        self.form.tipLength1Input.setText("%f" % self.obj.TipLength1)
+        self.form.tipLength2Input.setText("%f" % self.obj.TipLength2)
+
         self.form.heightInput.setText("%f" % self.obj.Height)
         self.form.sweepLengthInput.setText("%f" % self.obj.SweepLength)
         self.form.sweepAngleInput.setText("%f" % self.obj.SweepAngle)
@@ -278,10 +389,36 @@ class TaskPanelFin:
         self.obj.RootChord = _toFloat(value)
         self.obj.Proxy.execute(self.obj)
         
+    def onRootPerCent(self, value):
+        self.obj.RootPerCent = self.form.rootPerCentCheckbox.isChecked()
+
+        self.obj.Proxy.execute(self.obj)
+        
+    def onRootLength1(self, value):
+        self.obj.RootLength1 = _toFloat(value)
+        self.obj.Proxy.execute(self.obj)
+        
+    def onRootLength2(self, value):
+        self.obj.RootLength2 = _toFloat(value)
+        self.obj.Proxy.execute(self.obj)
+        
     def onTipChord(self, value):
         self.obj.TipChord = _toFloat(value)
         self.obj.Proxy.execute(self.obj)
         
+    def onTipPerCent(self, value):
+        self.obj.TipPerCent = self.form.rootPerCentCheckbox.isChecked()
+
+        self.obj.Proxy.execute(self.obj)
+        
+    def onTipLength1(self, value):
+        self.obj.TipLength1 = _toFloat(value)
+        self.obj.Proxy.execute(self.obj)
+        
+    def onTipLength2(self, value):
+        self.obj.TipLength2 = _toFloat(value)
+        self.obj.Proxy.execute(self.obj)
+
     def onHeight(self, value):
         self._sweepAngleFromLength()
         self.obj.Thickness = _toFloat(value)
