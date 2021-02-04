@@ -164,6 +164,66 @@ class ShapeFin:
         wire = Part.Wire([line1.toShape(), line2.toShape(), line3.toShape(), line4.toShape()])
         return wire
 
+    def _makeChordProfileTaperLE(self, foreX, chord, thickness, height, maxChord):
+        chordFore = foreX
+        chordMid = foreX - maxChord
+        chordAft = foreX - chord
+        halfThickness = thickness / 2
+        v1 = FreeCAD.Vector(chordFore, 0.0, height)
+        v2 = FreeCAD.Vector(chordMid, halfThickness, height)
+        v3 = FreeCAD.Vector(chordMid, -halfThickness, height)
+        v4 = FreeCAD.Vector(chordAft, halfThickness, height)
+        v5 = FreeCAD.Vector(chordAft, -halfThickness, height)
+        line1 = Part.LineSegment(v1, v2)
+        line2 = Part.LineSegment(v2, v4)
+        line3 = Part.LineSegment(v4, v5)
+        line4 = Part.LineSegment(v5, v3)
+        line5 = Part.LineSegment(v3, v1)
+        
+        wire = Part.Wire([line1.toShape(), line2.toShape(), line3.toShape(), line4.toShape(), line5.toShape()])
+        return wire
+
+    def _makeChordProfileTaperTE(self, foreX, chord, thickness, height, maxChord):
+        chordFore = foreX
+        chordMid = foreX - chord + maxChord
+        chordAft = foreX - chord
+        halfThickness = thickness / 2
+        v1 = FreeCAD.Vector(chordAft, 0.0, height)
+        v2 = FreeCAD.Vector(chordMid, halfThickness, height)
+        v3 = FreeCAD.Vector(chordMid, -halfThickness, height)
+        v4 = FreeCAD.Vector(chordFore, halfThickness, height)
+        v5 = FreeCAD.Vector(chordFore, -halfThickness, height)
+        line1 = Part.LineSegment(v1, v2)
+        line2 = Part.LineSegment(v2, v4)
+        line3 = Part.LineSegment(v4, v5)
+        line4 = Part.LineSegment(v5, v3)
+        line5 = Part.LineSegment(v3, v1)
+        
+        wire = Part.Wire([line1.toShape(), line2.toShape(), line3.toShape(), line4.toShape(), line5.toShape()])
+        return wire
+
+    def _makeChordProfileTaperLETE(self, foreX, chord, thickness, height, foreChord, aftChord):
+        chordFore = foreX
+        chordFore1 = foreX - foreChord
+        chordAft1 = foreX - chord + foreChord
+        chordAft = foreX - chord
+        halfThickness = thickness / 2
+        v1 = FreeCAD.Vector(chordFore, 0.0, height)
+        v2 = FreeCAD.Vector(chordFore1, halfThickness, height)
+        v3 = FreeCAD.Vector(chordFore1, -halfThickness, height)
+        v4 = FreeCAD.Vector(chordAft1, halfThickness, height)
+        v5 = FreeCAD.Vector(chordAft1, -halfThickness, height)
+        v6 = FreeCAD.Vector(chordAft, 0, height)
+        line1 = Part.LineSegment(v1, v2)
+        line2 = Part.LineSegment(v2, v4)
+        line3 = Part.LineSegment(v4, v6)
+        line4 = Part.LineSegment(v6, v5)
+        line5 = Part.LineSegment(v5, v3)
+        line6 = Part.LineSegment(v3, v1)
+        
+        wire = Part.Wire([line1.toShape(), line2.toShape(), line3.toShape(), line4.toShape(), line5.toShape(), line6.toShape()])
+        return wire
+
     def _makeChordProfile(self, foreX, chord, thickness, height, lengthPerCent, length1, length2):
         l1 = length1
         l2 = length2
@@ -181,6 +241,12 @@ class ShapeFin:
             return self._makeChordProfileWedge(foreX, chord, thickness, height)
         elif self._obj.FinCrossSection == FIN_CROSS_DIAMOND:
             return self._makeChordProfileDiamond(foreX, chord, thickness, height, l1)
+        elif self._obj.FinCrossSection == FIN_CROSS_TAPER_LE:
+            return self._makeChordProfileTaperLE(foreX, chord, thickness, height, l1)
+        elif self._obj.FinCrossSection == FIN_CROSS_TAPER_TE:
+            return self._makeChordProfileTaperTE(foreX, chord, thickness, height, l1)
+        elif self._obj.FinCrossSection == FIN_CROSS_TAPER_LETE:
+            return self._makeChordProfileTaperLETE(foreX, chord, thickness, height, l1, l2)
 
         return None
 

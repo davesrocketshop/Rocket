@@ -59,7 +59,7 @@ class _FinDialog(QDialog):
         self.finCrossSectionLabel = QtGui.QLabel("Fin Cross Section", self)
 
         self.finCrossSections = (FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE,
-            FIN_CROSS_DIAMOND)
+            FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE)
         self.finCrossSectionsCombo = QtGui.QComboBox(self)
         self.finCrossSectionsCombo.addItems(self.finCrossSections)
 
