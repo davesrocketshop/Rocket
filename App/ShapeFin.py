@@ -43,18 +43,24 @@ class ShapeFin:
         obj.FinType = [FIN_TYPE_TRAPEZOID, FIN_TYPE_ELLIPSE, FIN_TYPE_TUBE, FIN_TYPE_SKETCH]
         obj.FinType = FIN_TYPE_TRAPEZOID
 
-        obj.addProperty('App::PropertyEnumeration', 'FinCrossSection', 'Fin', 'Fin cross section')
-        obj.FinCrossSection = [FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE, 
+        obj.addProperty('App::PropertyEnumeration', 'RootCrossSection', 'Fin', 'Fin root cross section')
+        obj.RootCrossSection = [FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE, 
             FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE]
-        obj.FinCrossSection = FIN_CROSS_SQUARE
+        obj.RootCrossSection = FIN_CROSS_SQUARE
 
         obj.addProperty('App::PropertyLength', 'RootChord', 'Fin', 'Length of the base of the fin').RootChord = 10.0
         obj.addProperty('App::PropertyLength', 'RootThickness', 'Fin', 'Fin root thickness').RootThickness = 2.0
         obj.addProperty('App::PropertyBool', 'RootPerCent', 'Fin', 'Root chord lengths are percentages').RootPerCent = True
         obj.addProperty('App::PropertyLength', 'RootLength1', 'Fin', 'Root chord length 1').RootLength1 = 20.0
         obj.addProperty('App::PropertyLength', 'RootLength2', 'Fin', 'Root chord length 2').RootLength2 = 80.0
-        obj.addProperty('App::PropertyLength', 'TipChord', 'Fin', 'Length of the tip of the fin').TipChord = 5.0
 
+        obj.addProperty('App::PropertyEnumeration', 'TipCrossSection', 'Fin', 'Fin tip cross section')
+        obj.TipCrossSection = [FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE, 
+            FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE]
+        obj.TipCrossSection = FIN_CROSS_SQUARE
+
+        obj.addProperty('App::PropertyLength', 'TipChord', 'Fin', 'Length of the tip of the fin').TipChord = 5.0
+        obj.addProperty('App::PropertyLength', 'TipThickness', 'Fin', 'Fin tip thickness').TipThickness = 2.0
         obj.addProperty('App::PropertyBool', 'TipPerCent', 'Fin', 'Tip chord lengths are percentages').TipPerCent = True
         obj.addProperty('App::PropertyLength', 'TipThickness', 'Fin', 'Fin tip thickness').TipThickness = 2.0
         obj.addProperty('App::PropertyLength', 'TipLength1', 'Fin', 'Tip chord length 1').TipLength1 = 20.0
@@ -228,39 +234,39 @@ class ShapeFin:
         wire = Part.Wire([line1.toShape(), line2.toShape(), line3.toShape(), line4.toShape(), line5.toShape(), line6.toShape()])
         return wire
 
-    def _makeChordProfile(self, foreX, chord, thickness, height, lengthPerCent, length1, length2):
+    def _makeChordProfile(self, crossSection, foreX, chord, thickness, height, lengthPerCent, length1, length2):
         l1 = length1
         l2 = length2
         if lengthPerCent:
             l1 = chord * (length1 / 100.0)
             l2 = chord * (length2 / 100.0)
 
-        if self._obj.FinCrossSection == FIN_CROSS_SQUARE:
+        if crossSection == FIN_CROSS_SQUARE:
             return self._makeChordProfileSquare(foreX, chord, thickness, height)
-        elif self._obj.FinCrossSection == FIN_CROSS_ROUND:
+        elif crossSection == FIN_CROSS_ROUND:
             return self._makeChordProfileRound(foreX, chord, thickness, height)
-        elif self._obj.FinCrossSection == FIN_CROSS_AIRFOIL:
+        elif crossSection == FIN_CROSS_AIRFOIL:
             return self._makeChordProfileAirfoil(foreX, chord, thickness, height)
-        elif self._obj.FinCrossSection == FIN_CROSS_WEDGE:
+        elif crossSection == FIN_CROSS_WEDGE:
             return self._makeChordProfileWedge(foreX, chord, thickness, height)
-        elif self._obj.FinCrossSection == FIN_CROSS_DIAMOND:
+        elif crossSection == FIN_CROSS_DIAMOND:
             return self._makeChordProfileDiamond(foreX, chord, thickness, height, l1)
-        elif self._obj.FinCrossSection == FIN_CROSS_TAPER_LE:
+        elif crossSection == FIN_CROSS_TAPER_LE:
             return self._makeChordProfileTaperLE(foreX, chord, thickness, height, l1)
-        elif self._obj.FinCrossSection == FIN_CROSS_TAPER_TE:
+        elif crossSection == FIN_CROSS_TAPER_TE:
             return self._makeChordProfileTaperTE(foreX, chord, thickness, height, l1)
-        elif self._obj.FinCrossSection == FIN_CROSS_TAPER_LETE:
+        elif crossSection == FIN_CROSS_TAPER_LETE:
             return self._makeChordProfileTaperLETE(foreX, chord, thickness, height, l1, l2)
 
         return None
 
     def _makeRootProfile(self):
         # Create the root profile, casting everything to float to avoid typing issues
-        return self._makeChordProfile(float(self._obj.RootChord), float(self._obj.RootChord), float(self._obj.RootThickness), 0.0, self._obj.RootPerCent, float(self._obj.RootLength1), float(self._obj.RootLength2))
+        return self._makeChordProfile(self._obj.RootCrossSection, float(self._obj.RootChord), float(self._obj.RootChord), float(self._obj.RootThickness), 0.0, self._obj.RootPerCent, float(self._obj.RootLength1), float(self._obj.RootLength2))
 
     def _makeTipProfile(self):
         # Create the tip profile, casting everything to float to avoid typing issues
-        return self._makeChordProfile(float(self._obj.RootChord - self._obj.SweepLength), float(self._obj.TipChord), float(self._obj.TipThickness), float(self._obj.Height), self._obj.TipPerCent, float(self._obj.TipLength1), float(self._obj.TipLength2))
+        return self._makeChordProfile(self._obj.TipCrossSection, float(self._obj.RootChord - self._obj.SweepLength), float(self._obj.TipChord), float(self._obj.TipThickness), float(self._obj.Height), self._obj.TipPerCent, float(self._obj.TipLength1), float(self._obj.TipLength2))
 
     def _makeTtw(self):
         # Create the Ttw tab

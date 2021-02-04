@@ -55,16 +55,19 @@ class _FinDialog(QDialog):
         self.finTypesCombo = QtGui.QComboBox(self)
         self.finTypesCombo.addItems(self.finTypes)
 
-        # Select the type of cross section
-        self.finCrossSectionLabel = QtGui.QLabel("Fin Cross Section", self)
+        # Get the fin parameters: length, width, etc...
+        self.rootLabel = QtGui.QLabel("Fin Root", self)
 
-        self.finCrossSections = (FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE,
+        # Select the type of cross section
+        self.rootCrossSectionLabel = QtGui.QLabel("Cross Section", self)
+
+        self.rootCrossSections = (FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE,
             FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE)
-        self.finCrossSectionsCombo = QtGui.QComboBox(self)
-        self.finCrossSectionsCombo.addItems(self.finCrossSections)
+        self.rootCrossSectionsCombo = QtGui.QComboBox(self)
+        self.rootCrossSectionsCombo.addItems(self.rootCrossSections)
 
         # Get the fin parameters: length, width, etc...
-        self.rootChordLabel = QtGui.QLabel("Root Chord", self)
+        self.rootChordLabel = QtGui.QLabel("Chord", self)
 
         self.rootChordValidator = QtGui.QDoubleValidator(self)
         self.rootChordValidator.setBottom(0.0)
@@ -105,7 +108,17 @@ class _FinDialog(QDialog):
         self.rootLength2Input.setFixedWidth(100)
         self.rootLength2Input.setValidator(self.rootLength2Validator)
 
-        self.tipChordLabel = QtGui.QLabel("Tip Chord", self)
+        self.tipLabel = QtGui.QLabel("Fin Tip", self)
+
+        # Select the type of cross section
+        self.tipCrossSectionLabel = QtGui.QLabel("Cross Section", self)
+
+        self.tipCrossSections = (FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE,
+            FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE)
+        self.tipCrossSectionsCombo = QtGui.QComboBox(self)
+        self.tipCrossSectionsCombo.addItems(self.tipCrossSections)
+
+        self.tipChordLabel = QtGui.QLabel("Chord", self)
 
         self.tipChordValidator = QtGui.QDoubleValidator(self)
         self.tipChordValidator.setBottom(0.0)
@@ -220,10 +233,6 @@ class _FinDialog(QDialog):
         layout.addWidget(self.finTypesCombo, row, 1)
         row += 1
 
-        layout.addWidget(self.finCrossSectionLabel, row, 0)
-        layout.addWidget(self.finCrossSectionsCombo, row, 1)
-        row += 1
-
         layout.addWidget(self.heightLabel, row, 0)
         layout.addWidget(self.heightInput, row, 1)
         row += 1
@@ -236,8 +245,13 @@ class _FinDialog(QDialog):
         layout.addWidget(self.sweepAngleInput, row, 1)
         row += 1
 
-        layout.addWidget(self.rootChordLabel, row, 0)
-        layout.addWidget(self.rootChordInput, row, 1)
+        layout.addWidget(self.rootLabel, row, 0)
+        layout.addWidget(self.rootCrossSectionLabel, row, 1)
+        layout.addWidget(self.rootCrossSectionsCombo, row, 2)
+        row += 1
+
+        layout.addWidget(self.rootChordLabel, row, 1)
+        layout.addWidget(self.rootChordInput, row, 2)
         row += 1
 
         layout.addWidget(self.rootThicknessLabel, row, 1)
@@ -256,8 +270,13 @@ class _FinDialog(QDialog):
         layout.addWidget(self.rootLength2Input, row, 2)
         row += 1
 
-        layout.addWidget(self.tipChordLabel, row, 0)
-        layout.addWidget(self.tipChordInput, row, 1)
+        layout.addWidget(self.tipLabel, row, 0)
+        layout.addWidget(self.tipCrossSectionLabel, row, 1)
+        layout.addWidget(self.tipCrossSectionsCombo, row, 2)
+        row += 1
+
+        layout.addWidget(self.tipChordLabel, row, 1)
+        layout.addWidget(self.tipChordInput, row, 2)
         row += 1
 
         layout.addWidget(self.tipThicknessLabel, row, 1)
@@ -306,14 +325,15 @@ class TaskPanelFin:
         self.form.setWindowIcon(QtGui.QIcon(":/icons/Rocket_Fin.svg"))
         
         self.form.finTypesCombo.currentTextChanged.connect(self.onFinTypes)
-        self.form.finCrossSectionsCombo.currentTextChanged.connect(self.onFinCrossSection)
 
+        self.form.rootCrossSectionsCombo.currentTextChanged.connect(self.onRootCrossSection)
         self.form.rootChordInput.textEdited.connect(self.onRootChord)
         self.form.rootThicknessInput.textEdited.connect(self.onRootThickness)
         self.form.rootPerCentCheckbox.stateChanged.connect(self.onRootPerCent)
         self.form.rootLength1Input.textEdited.connect(self.onRootLength1)
         self.form.rootLength2Input.textEdited.connect(self.onRootLength2)
 
+        self.form.tipCrossSectionsCombo.currentTextChanged.connect(self.onTipCrossSection)
         self.form.tipChordInput.textEdited.connect(self.onTipChord)
         self.form.tipThicknessInput.textEdited.connect(self.onTipThickness)
         self.form.tipPerCentCheckbox.stateChanged.connect(self.onTipPerCent)
@@ -339,14 +359,15 @@ class TaskPanelFin:
     def transferTo(self):
         "Transfer from the dialog to the object" 
         self.obj.FinType = str(self.form.finTypesCombo.currentText())
-        self.obj.FinCrossSection = str(self.form.finCrossSectionsCombo.currentText())
 
+        self.obj.RootCrossSection = str(self.form.rootCrossSectionsCombo.currentText())
         self.obj.RootChord = _toFloat(self.form.rootChordInput.text())
         self.obj.RootThickness = _toFloat(self.form.rootThicknessInput.text())
         self.obj.RootPerCent = self.form.rootPerCentCheckbox.isChecked()
         self.obj.RootLength1 = _toFloat(self.form.rootLength1Input.text())
         self.obj.RootLength2 = _toFloat(self.form.rootLength2Input.text())
 
+        self.obj.TipCrossSection = str(self.form.tipCrossSectionsCombo.currentText())
         self.obj.TipChord = _toFloat(self.form.tipChordInput.text())
         self.obj.TipThickness = _toFloat(self.form.tipThicknessInput.text())
         self.obj.TipPerCent = self.form.tipPerCentCheckbox.isChecked()
@@ -366,14 +387,15 @@ class TaskPanelFin:
     def transferFrom(self):
         "Transfer from the object to the dialog"
         self.form.finTypesCombo.setCurrentText(self.obj.FinType)
-        self.form.finCrossSectionsCombo.setCurrentText(self.obj.FinCrossSection)
 
+        self.form.rootCrossSectionsCombo.setCurrentText(self.obj.RootCrossSection)
         self.form.rootChordInput.setText("%f" % self.obj.RootChord)
         self.form.rootThicknessInput.setText("%f" % self.obj.RootThickness)
         self.form.rootPerCentCheckbox.setChecked(self.obj.RootPerCent)
         self.form.rootLength1Input.setText("%f" % self.obj.RootLength1)
         self.form.rootLength2Input.setText("%f" % self.obj.RootLength2)
 
+        self.form.tipCrossSectionsCombo.setCurrentText(self.obj.TipCrossSection)
         self.form.tipChordInput.setText("%f" % self.obj.TipChord)
         self.form.tipThicknessInput.setText("%f" % self.obj.TipThickness)
         self.form.tipPerCentCheckbox.setChecked(self.obj.TipPerCent)
@@ -397,8 +419,8 @@ class TaskPanelFin:
         self.obj.FinType = value
         self.obj.Proxy.execute(self.obj)
         
-    def onFinCrossSection(self, value):
-        self.obj.FinCrossSection = value
+    def onRootCrossSection(self, value):
+        self.obj.RootCrossSection = value
         self.obj.Proxy.execute(self.obj)
         
     def onRootChord(self, value):
@@ -420,6 +442,10 @@ class TaskPanelFin:
         
     def onRootLength2(self, value):
         self.obj.RootLength2 = _toFloat(value)
+        self.obj.Proxy.execute(self.obj)
+        
+    def onTipCrossSection(self, value):
+        self.obj.TipCrossSection = value
         self.obj.Proxy.execute(self.obj)
         
     def onTipChord(self, value):
@@ -445,7 +471,7 @@ class TaskPanelFin:
 
     def onHeight(self, value):
         self._sweepAngleFromLength()
-        self.obj.Thickness = _toFloat(value)
+        self.obj.Height = _toFloat(value)
         self.obj.Proxy.execute(self.obj)
 
     def _sweepLengthFromAngle(self):
