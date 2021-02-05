@@ -299,20 +299,20 @@ class _FinDialog(QDialog):
         layout.addWidget(self.ttwCheckbox, row, 1)
         row += 1
 
-        layout.addWidget(self.ttwOffsetLabel, row, 0)
-        layout.addWidget(self.ttwOffsetInput, row, 1)
+        layout.addWidget(self.ttwOffsetLabel, row, 1)
+        layout.addWidget(self.ttwOffsetInput, row, 2)
         row += 1
 
-        layout.addWidget(self.ttwLengthLabel, row, 0)
-        layout.addWidget(self.ttwLengthInput, row, 1)
+        layout.addWidget(self.ttwLengthLabel, row, 1)
+        layout.addWidget(self.ttwLengthInput, row, 2)
         row += 1
 
-        layout.addWidget(self.ttwHeightLabel, row, 0)
-        layout.addWidget(self.ttwHeightInput, row, 1)
+        layout.addWidget(self.ttwHeightLabel, row, 1)
+        layout.addWidget(self.ttwHeightInput, row, 2)
         row += 1
 
-        layout.addWidget(self.ttwThicknessLabel, row, 0)
-        layout.addWidget(self.ttwThicknessInput, row, 1)
+        layout.addWidget(self.ttwThicknessLabel, row, 1)
+        layout.addWidget(self.ttwThicknessInput, row, 2)
 
         self.setLayout(layout)
 
@@ -329,14 +329,14 @@ class TaskPanelFin:
         self.form.rootCrossSectionsCombo.currentTextChanged.connect(self.onRootCrossSection)
         self.form.rootChordInput.textEdited.connect(self.onRootChord)
         self.form.rootThicknessInput.textEdited.connect(self.onRootThickness)
-        self.form.rootPerCentCheckbox.stateChanged.connect(self.onRootPerCent)
+        self.form.rootPerCentCheckbox.clicked.connect(self.onRootPerCent)
         self.form.rootLength1Input.textEdited.connect(self.onRootLength1)
         self.form.rootLength2Input.textEdited.connect(self.onRootLength2)
 
         self.form.tipCrossSectionsCombo.currentTextChanged.connect(self.onTipCrossSection)
         self.form.tipChordInput.textEdited.connect(self.onTipChord)
         self.form.tipThicknessInput.textEdited.connect(self.onTipThickness)
-        self.form.tipPerCentCheckbox.stateChanged.connect(self.onTipPerCent)
+        self.form.tipPerCentCheckbox.clicked.connect(self.onTipPerCent)
         self.form.tipLength1Input.textEdited.connect(self.onTipLength1)
         self.form.tipLength2Input.textEdited.connect(self.onTipLength2)
 
@@ -412,15 +412,47 @@ class TaskPanelFin:
         self.form.ttwHeightInput.setText("%f" % self.obj.TtwHeight)
         self.form.ttwThicknessInput.setText("%f" % self.obj.TtwThickness)
 
+        self._enableRootLengths()
+        self._enableTipLengths()
         self._sweepAngleFromLength()
         self._setTtwState()
         
     def onFinTypes(self, value):
         self.obj.FinType = value
         self.obj.Proxy.execute(self.obj)
+
+    def _enableRootLengths(self):
+        value = self.obj.RootCrossSection
+        if value in [FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE]:
+            self.form.rootPerCentCheckbox.setEnabled(True)
+            self.form.rootLength1Input.setEnabled(True)
+            if value == FIN_CROSS_TAPER_LETE:
+                self.form.rootLength2Input.setEnabled(True)
+            else:
+                self.form.rootLength2Input.setEnabled(False)
+        else:
+            self.form.rootPerCentCheckbox.setEnabled(False)
+            self.form.rootLength1Input.setEnabled(False)
+            self.form.rootLength2Input.setEnabled(False)
+
+    def _enableTipLengths(self):
+        value = self.obj.TipCrossSection
+        if value in [FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE]:
+            self.form.tipPerCentCheckbox.setEnabled(True)
+            self.form.tipLength1Input.setEnabled(True)
+            if value == FIN_CROSS_TAPER_LETE:
+                self.form.tipLength2Input.setEnabled(True)
+            else:
+                self.form.tipLength2Input.setEnabled(False)
+        else:
+            self.form.tipPerCentCheckbox.setEnabled(False)
+            self.form.tipLength1Input.setEnabled(False)
+            self.form.tipLength2Input.setEnabled(False)
         
     def onRootCrossSection(self, value):
         self.obj.RootCrossSection = value
+        self._enableRootLengths()
+
         self.obj.Proxy.execute(self.obj)
         
     def onRootChord(self, value):
@@ -430,9 +462,37 @@ class TaskPanelFin:
     def onRootThickness(self, value):
         self.obj.RootThickness = _toFloat(value)
         self.obj.Proxy.execute(self.obj)
+
+    def _toPercent(self, length, chord):
+        percent = 100.0 * length / chord
+        if percent > 100.0:
+            percent = 100.0
+        if percent < 0.0:
+            percent = 0.0
+        return percent
+
+    def _toLength(self, percent, chord):
+        length = percent * chord / 100.0
+        if length > chord:
+            length = chord
+        if length < 0.0:
+            length = 0.0
+        return length
         
     def onRootPerCent(self, value):
         self.obj.RootPerCent = self.form.rootPerCentCheckbox.isChecked()
+        if self.obj.RootPerCent:
+            # Convert to percentages
+            self.obj.RootLength1 = self._toPercent(float(self.obj.RootLength1), float(self.obj.RootChord))
+            self.obj.RootLength2 = self._toPercent(float(self.obj.RootLength2), float(self.obj.RootChord))
+            self.form.rootLength1Input.setText("%f" % self.obj.RootLength1)
+            self.form.rootLength2Input.setText("%f" % self.obj.RootLength2)
+        else:
+            # Convert to lengths
+            self.obj.RootLength1 = self._toLength(float(self.obj.RootLength1), float(self.obj.RootChord))
+            self.obj.RootLength2 = self._toLength(float(self.obj.RootLength2), float(self.obj.RootChord))
+            self.form.rootLength1Input.setText("%f" % self.obj.RootLength1)
+            self.form.rootLength2Input.setText("%f" % self.obj.RootLength2)
 
         self.obj.Proxy.execute(self.obj)
         
@@ -446,6 +506,8 @@ class TaskPanelFin:
         
     def onTipCrossSection(self, value):
         self.obj.TipCrossSection = value
+        self._enableTipLengths()
+
         self.obj.Proxy.execute(self.obj)
         
     def onTipChord(self, value):
@@ -457,7 +519,19 @@ class TaskPanelFin:
         self.obj.Proxy.execute(self.obj)
         
     def onTipPerCent(self, value):
-        self.obj.TipPerCent = self.form.rootPerCentCheckbox.isChecked()
+        self.obj.TipPerCent = self.form.tipPerCentCheckbox.isChecked()
+        if self.obj.TipPerCent:
+            # Convert to percentages
+            self.obj.TipLength1 = self._toPercent(float(self.obj.TipLength1), float(self.obj.TipChord))
+            self.obj.TipLength2 = self._toPercent(float(self.obj.TipLength2), float(self.obj.TipChord))
+            self.form.tipLength1Input.setText("%f" % self.obj.TipLength1)
+            self.form.tipLength2Input.setText("%f" % self.obj.TipLength2)
+        else:
+            # Convert to lengths
+            self.obj.TipLength1 = self._toLength(float(self.obj.TipLength1), float(self.obj.TipChord))
+            self.obj.TipLength2 = self._toLength(float(self.obj.TipLength2), float(self.obj.TipChord))
+            self.form.tipLength1Input.setText("%f" % self.obj.TipLength1)
+            self.form.tipLength2Input.setText("%f" % self.obj.TipLength2)
 
         self.obj.Proxy.execute(self.obj)
         
