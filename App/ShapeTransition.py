@@ -28,7 +28,7 @@ import FreeCADGui
 import Part
 
 from App.TransitionConeShapeHandler import TransitionConeShapeHandler
-# from App.TransitionEllipseShapeHandler import TransitionEllipseShapeHandler
+from App.TransitionEllipseShapeHandler import TransitionEllipseShapeHandler
 # from App.TransitionHaackShapeHandler import TransitionHaackShapeHandler
 # from App.TransitionOgiveShapeHandler import TransitionOgiveShapeHandler
 # from App.TransitionParabolicShapeHandler import TransitionParabolicShapeHandler
@@ -45,7 +45,7 @@ class ShapeTransition:
 		obj.addProperty('App::PropertyLength', 'AftRadius', 'Transition', 'Radius at the base of the transition').AftRadius = 20.0
 		obj.addProperty('App::PropertyLength', 'CoreRadius', 'Transition', 'Radius of the transition core').CoreRadius = 5.0
 		obj.addProperty('App::PropertyLength', 'Thickness', 'Transition', 'Transition thickness').Thickness = 2.0
-		obj.addProperty('App::PropertyBool', 'Clipped', 'Transition', 'If the transition is not clipped, then the profile is extended at the center by the corresponding radius').Clipped = False
+		obj.addProperty('App::PropertyBool', 'Clipped', 'Transition', 'If the transition is not clipped, then the profile is extended at the center by the corresponding radius').Clipped = True
 		obj.addProperty('App::PropertyBool', 'ForeShoulder', 'Transition', 'Set to true if the part includes a forward shoulder').ForeShoulder = False
 		obj.addProperty('App::PropertyLength', 'ForeShoulderLength', 'Transition', 'Forward Shoulder Length').ForeShoulderLength = 10.0
 		obj.addProperty('App::PropertyLength', 'ForeShoulderRadius', 'Transition', 'Forward Shoulder radius').ForeShoulderRadius = 8.0
@@ -83,8 +83,8 @@ class ShapeTransition:
 		shape = None
 		if obj.TransitionType == TYPE_CONE:
 			shape = TransitionConeShapeHandler(obj)
-		# elif obj.TransitionType == TYPE_ELLIPTICAL:
-		# 	shape = TransitionEllipseShapeHandler(obj)
+		elif obj.TransitionType == TYPE_ELLIPTICAL:
+		 	shape = TransitionEllipseShapeHandler(obj)
 		# elif obj.TransitionType == TYPE_OGIVE:
 		# 	shape = TransitionOgiveShapeHandler(obj)
 		# elif obj.TransitionType == TYPE_VON_KARMAN:

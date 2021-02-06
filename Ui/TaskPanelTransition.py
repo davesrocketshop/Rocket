@@ -50,7 +50,7 @@ class _TransitionDialog(QDialog):
         self.transitionTypeLabel = QtGui.QLabel("Transition type", self)
 
         self.transitionTypes = (TYPE_CONE,
-                                #TYPE_ELLIPTICAL,
+                                TYPE_ELLIPTICAL,
                                 #TYPE_OGIVE,
                                 #TYPE_PARABOLA,
                                 #TYPE_PARABOLIC,

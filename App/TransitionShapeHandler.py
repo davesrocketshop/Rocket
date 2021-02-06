@@ -1,6 +1,10 @@
 # ***************************************************************************
 # *   Copyright (c) 2021 David Carter <dcarter@davidcarter.ca>              *
 # *                                                                         *
+# *   Significant portions of this code are derived directly or indirectly  *
+# *   from the OpenRocket project                                           *
+# *   https://github.com/openrocket/openrocket                              *
+# *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
 # *   as published by the Free Software Foundation; either version 2 of     *
@@ -31,7 +35,9 @@ import Part
 from App.Constants import TYPE_CONE, TYPE_ELLIPTICAL, TYPE_HAACK, TYPE_OGIVE, TYPE_VON_KARMAN, TYPE_PARABOLA, TYPE_PARABOLIC, TYPE_POWER
 from App.Constants import STYLE_CAPPED, STYLE_HOLLOW, STYLE_SOLID, STYLE_SOLID_CORE
 
-from App.Utilities import _err
+from App.Utilities import _err, _msg
+
+CLIP_PRECISION = 0.0001
 
 class TransitionShapeHandler():
     def __init__(self, obj):
@@ -46,6 +52,9 @@ class TransitionShapeHandler():
         self._coreRadius = float(obj.CoreRadius)
         self._coefficient = float(obj.Coefficient)
         self._resolution = int(obj.Resolution)
+
+        self._clipped = bool(obj.Clipped)
+        self._clipLength = -1
 
         self._foreShoulder = bool(obj.ForeShoulder)
         self._foreShoulderLength = float(obj.ForeShoulderLength)
@@ -128,7 +137,97 @@ class TransitionShapeHandler():
         			return False
 
         return True
-        
+
+    def getRadius(self, x):
+        # Get the radius at the given value of x.
+        if x <= 0:
+            return self._foreRadius
+        if x >= self._length:
+            return self._aftRadius
+
+        r1 = self._foreRadius
+        r2 = self._aftRadius
+
+        if r1 == r2:
+            return r1
+
+        if r1 > r2:
+            x = self._length - x
+            tmp = r1
+            r1 = r2
+            r2 = tmp
+
+        if self._clipped:
+            # Check clip calculation
+            if self._clipLength < 0:
+                self._calculateClip(r1, r2)
+            return self._getRadius(self._clipLength + x, r2, self._clipLength + self._length, self._coefficient)
+        else:
+            # Not clipped
+            return r1 + self._getRadius(x, r2 - r1, self._length, self._coefficient)
+
+    def _getRadius(self, x, radius, length, param):
+        return 0.0
+
+    def _drawCurve(self, radius, length, resolution, min = 0):
+        points = []
+        for i in range(0, resolution):
+            
+            x = float(i) * ((length - min) / float(resolution))
+            y = self.getRadius(x)
+            _msg("(%f,%f)" % (length - x, y))
+            points.append(FreeCAD.Vector(length - x, y))
+
+        # points.append(FreeCAD.Vector(min, self.getRadius(length)))
+        points.append(FreeCAD.Vector(min, self.getRadius(length)))
+        _msg("(%f,%f)" % (length, self.getRadius(length)))
+        spline = self.makeSpline(points)
+        return spline
+
+    #
+    # Numerically solve clipLength from the equation
+    #     r1 == self._getRadius(clipLength,r2,clipLength+length)
+    # using a binary search.  It assumes getOuterRadius() to be monotonically increasing.
+    #
+    def _calculateClip(self, r1, r2):
+        min = 0
+        max = self._length
+
+        if r1 >= r2:
+            tmp = r1
+            r1 = r2
+            r2 = tmp
+
+        if r1 == 0:
+            self._clipLength = 0
+            return
+
+        if self._length <= 0:
+            self._clipLength = 0
+            return
+
+        # Required:
+        #    getR(min,min+length,r2) - r1 < 0
+        #    getR(max,max+length,r2) - r1 > 0
+
+        n = 0
+        while self._getRadius(max, r2, max + self._length, self._coefficient) - r1 < 0:
+            min = max
+            max *= 2
+            n += 1
+            if n > 10:
+                break
+
+        while True:
+            self._clipLength = (min + max) / 2;
+            if (max - min) < CLIP_PRECISION:
+                return
+            val = self._getRadius(self._clipLength, r2, self._clipLength + self._length, self._coefficient)
+            if (val - r1) > 0:
+                max = self._clipLength
+            else:
+                min = self._clipLength
+
     def draw(self):
         
         if not self.isValidShape():

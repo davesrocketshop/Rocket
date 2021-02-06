@@ -18,9 +18,9 @@
 # *   USA                                                                   *
 # *                                                                         *
 # ***************************************************************************
-"""Base class for drawing conical nose cones"""
+"""Base class for drawing conical transitions"""
 
-__title__ = "FreeCAD Conical Nose Shape Handler"
+__title__ = "FreeCAD Conical Transition Shape Handler"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
     
