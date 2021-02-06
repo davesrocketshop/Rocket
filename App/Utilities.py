@@ -51,3 +51,8 @@ def _toFloat(input, defaultValue = 0.0):
     if input == '':
         return defaultValue
     return float(input)
+
+def _toInt(input, defaultValue = 0):
+    if input == '':
+        return defaultValue
+    return int(input)

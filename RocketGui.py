@@ -26,10 +26,16 @@ import FreeCAD, FreeCADGui
 
 from Ui.CmdNoseCone import CmdNoseCone
 from Ui.CmdTransition import CmdTransition
+from Ui.CmdCenteringRing import CmdCenteringRing
+from Ui.CmdBodyTube import CmdBodyTube
+from Ui.CmdBulkhead import CmdBulkhead
 from Ui.CmdFin import CmdFin
 from Ui.CmdFinCan import CmdFinCan
 
 FreeCADGui.addCommand('Rocket_NoseCone', CmdNoseCone())
 FreeCADGui.addCommand('Rocket_Transition', CmdTransition())
+FreeCADGui.addCommand('Rocket_CenteringRing', CmdCenteringRing())
+FreeCADGui.addCommand('Rocket_BodyTube', CmdBodyTube())
+FreeCADGui.addCommand('Rocket_Bulkhead', CmdBulkhead())
 FreeCADGui.addCommand('Rocket_Fin', CmdFin())
 FreeCADGui.addCommand('Rocket_FinCan', CmdFinCan())

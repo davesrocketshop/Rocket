@@ -18,23 +18,31 @@
 # *   USA                                                                   *
 # *                                                                         *
 # ***************************************************************************
+"""Class for drawing body tubes"""
 
+__title__ = "FreeCAD Body Tubes"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
-
-class RocketWorkbench ( Workbench ):
-    "Rocket workbench object"
-    Icon = FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/RocketWorkbench.svg"
-    MenuText = "Rocket"
-    ToolTip = "Rocket workbench"
     
-    def Initialize(self):
-        # load the module
-        import RocketGui
-        self.appendToolbar('Rocket',['Rocket_NoseCone', 'Rocket_Transition', 'Rocket_BodyTube', 'Rocket_CenteringRing', 'Rocket_Bulkhead', 'Rocket_Fin']) #, 'Rocket_FinCan'])
-        self.appendMenu('Rocket',['Rocket_NoseCone', 'Rocket_Transition', 'Rocket_BodyTube', 'Rocket_CenteringRing', 'Rocket_Bulkhead', 'Rocket_Fin']) #, 'Rocket_FinCan'])
-    
-    def GetClassName(self):
-        return "Gui::PythonWorkbench"
+import FreeCAD
+import FreeCADGui
+import Part
 
-Gui.addWorkbench(RocketWorkbench())
+from App.BodyTubeShapeHandler import BodyTubeShapeHandler
+
+class ShapeBodyTube:
+
+    def __init__(self, obj):
+
+        # Default set to a BT-50
+        obj.addProperty('App::PropertyLength', 'InnerDiameter', 'BodyTube', 'Diameter of the inside of the body tube').InnerDiameter = 24.1
+        obj.addProperty('App::PropertyLength', 'OuterDiameter', 'BodyTube', 'Diameter of the outside of the body tube').OuterDiameter = 24.8
+        obj.addProperty('App::PropertyLength', 'Length', 'BodyTube', 'Length of the body tube').Length = 457.0
+
+        obj.addProperty('Part::PropertyPartShape', 'Shape', 'Fin', 'Shape of the body tube')
+        obj.Proxy=self
+
+    def execute(self, obj):
+        shape = BodyTubeShapeHandler(obj)
+        if shape is not None:
+            shape.draw()

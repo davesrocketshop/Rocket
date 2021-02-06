@@ -18,23 +18,42 @@
 # *   USA                                                                   *
 # *                                                                         *
 # ***************************************************************************
+"""Class for drawing bulkheads"""
 
+__title__ = "FreeCAD Bulkhead View Provider"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
-
-class RocketWorkbench ( Workbench ):
-    "Rocket workbench object"
-    Icon = FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/RocketWorkbench.svg"
-    MenuText = "Rocket"
-    ToolTip = "Rocket workbench"
     
-    def Initialize(self):
-        # load the module
-        import RocketGui
-        self.appendToolbar('Rocket',['Rocket_NoseCone', 'Rocket_Transition', 'Rocket_BodyTube', 'Rocket_CenteringRing', 'Rocket_Bulkhead', 'Rocket_Fin']) #, 'Rocket_FinCan'])
-        self.appendMenu('Rocket',['Rocket_NoseCone', 'Rocket_Transition', 'Rocket_BodyTube', 'Rocket_CenteringRing', 'Rocket_Bulkhead', 'Rocket_Fin']) #, 'Rocket_FinCan'])
-    
-    def GetClassName(self):
-        return "Gui::PythonWorkbench"
+import FreeCAD
+import FreeCADGui
 
-Gui.addWorkbench(RocketWorkbench())
+from Ui.TaskPanelBulkhead import TaskPanelBulkhead
+
+class ViewProviderBulkhead:
+
+    def __init__(self, vobj):
+        vobj.Proxy = self
+        
+    def getIcon(self):
+        return FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Bulkhead.svg"
+
+    def attach(self, vobj):
+        self.ViewObject = vobj
+        self.Object = vobj.Object
+  
+    def setEdit(self,vobj,mode):
+        taskd = TaskPanelBulkhead(self.Object, mode)
+        taskd.obj = vobj.Object
+        taskd.update()
+        FreeCADGui.Control.showDialog(taskd)
+        return True
+    
+    def unsetEdit(self,vobj,mode):
+        FreeCADGui.Control.closeDialog()
+        return
+
+    def __getstate__(self):
+        return None
+
+    def __setstate__(self,state):
+        return None

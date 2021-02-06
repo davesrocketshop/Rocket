@@ -18,23 +18,46 @@
 # *   USA                                                                   *
 # *                                                                         *
 # ***************************************************************************
+"""Class for drawing body tubes"""
 
+__title__ = "FreeCAD Body Tubes"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
-
-class RocketWorkbench ( Workbench ):
-    "Rocket workbench object"
-    Icon = FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/RocketWorkbench.svg"
-    MenuText = "Rocket"
-    ToolTip = "Rocket workbench"
     
-    def Initialize(self):
-        # load the module
-        import RocketGui
-        self.appendToolbar('Rocket',['Rocket_NoseCone', 'Rocket_Transition', 'Rocket_BodyTube', 'Rocket_CenteringRing', 'Rocket_Bulkhead', 'Rocket_Fin']) #, 'Rocket_FinCan'])
-        self.appendMenu('Rocket',['Rocket_NoseCone', 'Rocket_Transition', 'Rocket_BodyTube', 'Rocket_CenteringRing', 'Rocket_Bulkhead', 'Rocket_Fin']) #, 'Rocket_FinCan'])
-    
-    def GetClassName(self):
-        return "Gui::PythonWorkbench"
+import FreeCAD
+import FreeCADGui
 
-Gui.addWorkbench(RocketWorkbench())
+from App.ShapeBodyTube import ShapeBodyTube
+from Ui.ViewBodyTube import ViewProviderBodyTube
+
+def makeBodyTube(name):
+    '''makeBodyTube(name): makes a Body Tube'''
+    obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
+    ShapeBodyTube(obj)
+    if FreeCAD.GuiUp:
+        ViewProviderBodyTube(obj.ViewObject)
+
+        body=FreeCADGui.ActiveDocument.ActiveView.getActiveObject("pdbody")
+        part=FreeCADGui.ActiveDocument.ActiveView.getActiveObject("part")
+        if body:
+            body.Group=body.Group+[obj]
+        elif part:
+            part.Group=part.Group+[obj]
+    return obj
+
+class CmdBodyTube:
+    def Activated(self):
+        FreeCAD.ActiveDocument.openTransaction("Create body tube")
+        FreeCADGui.addModule("Ui.CmdBodyTube")
+        FreeCADGui.doCommand("Ui.CmdBodyTube.makeBodyTube('BodyTube')")
+        FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
+
+    def IsActive(self):
+        if FreeCAD.ActiveDocument:
+            return True
+        return False
+         
+    def GetResources(self):
+        return {'MenuText': 'Body Tube',
+                'ToolTip': 'Body tube design',
+                'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_BodyTube.svg"}

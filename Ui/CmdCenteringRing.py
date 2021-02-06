@@ -18,23 +18,24 @@
 # *   USA                                                                   *
 # *                                                                         *
 # ***************************************************************************
+"""Class for drawing centering rings"""
 
+__title__ = "FreeCAD Centering Rings"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
-
-class RocketWorkbench ( Workbench ):
-    "Rocket workbench object"
-    Icon = FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/RocketWorkbench.svg"
-    MenuText = "Rocket"
-    ToolTip = "Rocket workbench"
     
-    def Initialize(self):
-        # load the module
-        import RocketGui
-        self.appendToolbar('Rocket',['Rocket_NoseCone', 'Rocket_Transition', 'Rocket_BodyTube', 'Rocket_CenteringRing', 'Rocket_Bulkhead', 'Rocket_Fin']) #, 'Rocket_FinCan'])
-        self.appendMenu('Rocket',['Rocket_NoseCone', 'Rocket_Transition', 'Rocket_BodyTube', 'Rocket_CenteringRing', 'Rocket_Bulkhead', 'Rocket_Fin']) #, 'Rocket_FinCan'])
-    
-    def GetClassName(self):
-        return "Gui::PythonWorkbench"
+import FreeCAD
 
-Gui.addWorkbench(RocketWorkbench())
+class CmdCenteringRing:
+    def Activated(self):
+        FreeCAD.Console.PrintMessage("Centering Ring Command\n")
+
+    def IsActive(self):
+        if FreeCAD.ActiveDocument == None:
+            return False
+        return True
+        
+    def GetResources(self):
+        return {'MenuText': 'Centering Ring',
+                'ToolTip': 'Centering Ring design',
+                'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_CenteringRing.svg"}
