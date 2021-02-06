@@ -20,44 +20,40 @@
 # ***************************************************************************
 """Class for drawing centering rings"""
 
-__title__ = "FreeCAD Centering Rings"
+__title__ = "FreeCAD Centering Ring View Provider"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
     
 import FreeCAD
 import FreeCADGui
 
-from App.ShapeCenteringRing import ShapeCenteringRing
-from Ui.ViewCenteringRing import ViewProviderCenteringRing
+from Ui.TaskPanelBulkhead import TaskPanelBulkhead
 
-def makeCenteringRing(name):
-    '''makeCenteringRing(name): makes a centering ring'''
-    obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
-    ShapeCenteringRing(obj)
-    if FreeCAD.GuiUp:
-        ViewProviderCenteringRing(obj.ViewObject)
+class ViewProviderCenteringRing:
 
-        body=FreeCADGui.ActiveDocument.ActiveView.getActiveObject("pdbody")
-        part=FreeCADGui.ActiveDocument.ActiveView.getActiveObject("part")
-        if body:
-            body.Group=body.Group+[obj]
-        elif part:
-            part.Group=part.Group+[obj]
-    return obj
-
-class CmdCenteringRing:
-    def Activated(self):
-        FreeCAD.ActiveDocument.openTransaction("Create centering ring")
-        FreeCADGui.addModule("Ui.CmdCenteringRing")
-        FreeCADGui.doCommand("Ui.CmdCenteringRing.makeCenteringRing('CenteringRing')")
-        FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
-
-    def IsActive(self):
-        if FreeCAD.ActiveDocument:
-            return True
-        return False
+    def __init__(self, vobj):
+        vobj.Proxy = self
         
-    def GetResources(self):
-        return {'MenuText': 'Centering Ring',
-                'ToolTip': 'Centering Ring design',
-                'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_CenteringRing.svg"}
+    def getIcon(self):
+        return FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_CenteringRing.svg"
+
+    def attach(self, vobj):
+        self.ViewObject = vobj
+        self.Object = vobj.Object
+  
+    def setEdit(self,vobj,mode):
+        taskd = TaskPanelBulkhead(self.Object, True, mode)
+        taskd.obj = vobj.Object
+        taskd.update()
+        FreeCADGui.Control.showDialog(taskd)
+        return True
+    
+    def unsetEdit(self,vobj,mode):
+        FreeCADGui.Control.closeDialog()
+        return
+
+    def __getstate__(self):
+        return None
+
+    def __setstate__(self,state):
+        return None

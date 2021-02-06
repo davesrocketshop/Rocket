@@ -42,7 +42,7 @@ class ViewProviderBulkhead:
         self.Object = vobj.Object
   
     def setEdit(self,vobj,mode):
-        taskd = TaskPanelBulkhead(self.Object, mode)
+        taskd = TaskPanelBulkhead(self.Object, False, mode)
         taskd.obj = vobj.Object
         taskd.update()
         FreeCADGui.Control.showDialog(taskd)

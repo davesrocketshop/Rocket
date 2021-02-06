@@ -24,44 +24,28 @@ __title__ = "FreeCAD Centering Rings"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
     
-import FreeCAD
-import FreeCADGui
-import Part
+from App.ShapeBulkhead import ShapeBulkhead
+from App.CenteringRingShapeHandler import CenteringRingShapeHandler
 
-class ShapeFin:
+#
+# Centering rings are an extension of bulkheads
+#
+class ShapeCenteringRing(ShapeBulkhead):
 
     def __init__(self, obj):
+        super().__init__(obj)
 
-        obj.addProperty('App::PropertyLength', 'RootChord', 'Fin', 'Length of the base of the fin').RootChord = 10.0
-        obj.addProperty('App::PropertyLength', 'RootThickness', 'Fin', 'Fin root thickness').RootThickness = 2.0
-        obj.addProperty('App::PropertyBool', 'RootPerCent', 'Fin', 'Root chord lengths are percentages').RootPerCent = True
-        obj.addProperty('App::PropertyLength', 'RootLength1', 'Fin', 'Root chord length 1').RootLength1 = 20.0
-        obj.addProperty('App::PropertyLength', 'RootLength2', 'Fin', 'Root chord length 2').RootLength2 = 80.0
+        obj.addProperty('App::PropertyLength', 'CenterDiameter', 'CenteringRing', 'Diameter of the central hole').CenterDiameter = 10.0
 
-        obj.addProperty('App::PropertyEnumeration', 'TipCrossSection', 'Fin', 'Fin tip cross section')
-        obj.TipCrossSection = [FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE, 
-            FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE]
-        obj.TipCrossSection = FIN_CROSS_SQUARE
+        obj.addProperty('App::PropertyBool', 'Notched', 'CenteringRing', 'Include a notch for an engine hook').Notched = False
+        obj.addProperty('App::PropertyLength', 'NotchWidth', 'CenteringRing', 'Width of the engine hook notch').NotchWidth = 3.0
+        obj.addProperty('App::PropertyLength', 'NotchHeight', 'CenteringRing', 'Height of the engine hook notch').NotchHeight = 3.0
 
-        obj.addProperty('App::PropertyLength', 'TipChord', 'Fin', 'Length of the tip of the fin').TipChord = 5.0
-        obj.addProperty('App::PropertyLength', 'TipThickness', 'Fin', 'Fin tip thickness').TipThickness = 2.0
-        obj.addProperty('App::PropertyBool', 'TipPerCent', 'Fin', 'Tip chord lengths are percentages').TipPerCent = True
-        obj.addProperty('App::PropertyLength', 'TipThickness', 'Fin', 'Fin tip thickness').TipThickness = 2.0
-        obj.addProperty('App::PropertyLength', 'TipLength1', 'Fin', 'Tip chord length 1').TipLength1 = 20.0
-        obj.addProperty('App::PropertyLength', 'TipLength2', 'Fin', 'Tip chord length 2').TipLength2 = 80.0
-
-        obj.addProperty('App::PropertyLength', 'Height', 'Fin', 'Fin semi-span').Height = 10.0
-        obj.addProperty('App::PropertyDistance', 'SweepLength', 'Fin', 'Sweep length').SweepLength = 3.0 # Must be distance since it can be negative
-        obj.addProperty('App::PropertyAngle', 'SweepAngle', 'Fin', 'Sweep angle').SweepAngle = 0.0
-
-        obj.addProperty('App::PropertyBool', 'Ttw', 'Fin', 'Throgh the wall (TTW) tab').Ttw = False
-        obj.addProperty('App::PropertyLength', 'TtwOffset', 'Fin', 'TTW Offset from fin root').TtwOffset = 2.0
-        obj.addProperty('App::PropertyLength', 'TtwLength', 'Fin', 'TTW Length').TtwLength = 6.0
-        obj.addProperty('App::PropertyLength', 'TtwHeight', 'Fin', 'TTW Height').TtwHeight = 10.0
-        obj.addProperty('App::PropertyLength', 'TtwThickness', 'Fin', 'TTW thickness').TtwThickness = 1.0
-
-        obj.addProperty('Part::PropertyPartShape', 'Shape', 'Fin', 'Shape of the fin')
-        obj.Proxy=self
+        # Default values changed to match a central hole
+        obj.HoleDiameter = 2.0
+        obj.HoleCenter = 7.0
 
     def execute(self, obj):
-        pass
+        shape = CenteringRingShapeHandler(obj)
+        if shape is not None:
+            shape.draw()

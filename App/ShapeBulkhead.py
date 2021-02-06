@@ -24,10 +24,6 @@ __title__ = "FreeCAD Bulkheads"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
     
-import FreeCAD
-import FreeCADGui
-import Part
-
 from App.BulkheadShapeHandler import BulkheadShapeHandler
 
 class ShapeBulkhead:
@@ -37,11 +33,11 @@ class ShapeBulkhead:
         obj.addProperty('App::PropertyLength', 'Diameter', 'Bulkhead', 'Outer diameter of the bulkhead').Diameter = 25.0
         obj.addProperty('App::PropertyLength', 'Thickness', 'Bulkhead', 'Thickness of the bulkhead without any inner step').Thickness = 2.0
 
-        obj.addProperty('App::PropertyBool', 'Step', 'Fin', 'Bulkheads may have a step that fits a smaller diameter').Step = False
+        obj.addProperty('App::PropertyBool', 'Step', 'Bulkhead', 'Bulkheads may have a step that fits a smaller diameter').Step = False
         obj.addProperty('App::PropertyLength', 'StepDiameter', 'Bulkhead', 'Outer diameter of the step').StepDiameter = 21.0
         obj.addProperty('App::PropertyLength', 'StepThickness', 'Bulkhead', 'Thickness of the step').StepThickness = 2.0
 
-        obj.addProperty('App::PropertyBool', 'Holes', 'Fin', 'Bulkheads may have holes for attaching eyebolts or retainers').Holes = False
+        obj.addProperty('App::PropertyBool', 'Holes', 'Bulkhead', 'Bulkheads may have holes for attaching eyebolts or retainers').Holes = False
         obj.addProperty('App::PropertyLength', 'HoleDiameter', 'Bulkhead', 'Hole diameter').HoleDiameter = 5.0
         obj.addProperty('App::PropertyLength', 'HoleCenter', 'Bulkhead', 'Distance from the center of the bulkhead to the center of the hole').HoleCenter = 6.25
         obj.addProperty('App::PropertyInteger', 'HoleCount', 'Bulkhead', 'Number of holes in a radial pattern').HoleCount = 1

@@ -18,9 +18,9 @@
 # *   USA                                                                   *
 # *                                                                         *
 # ***************************************************************************
-"""Class for drawing body tubes"""
+"""Class for drawing bulkheads"""
 
-__title__ = "FreeCAD Body Tube Handler"
+__title__ = "FreeCAD Bulkhead Handler"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
     
@@ -48,9 +48,29 @@ class BulkheadShapeHandler():
 
     def isValidShape(self):
         # Perform some general validations
-        if self._diameter < 0:
-            _err("Bulkhead diameter must be greater than zero")
+        if self._diameter <= 0:
+            _err("Outer diameter must be greater than zero")
             return False
+
+        if self._step:
+            if self._stepDiameter <= 0:
+                _err("Step diameter must be greater than zero")
+                return False
+            if self._stepDiameter >= self._diameter:
+                _err("Step diameter must less than the outer diameter")
+                return False
+
+        if self._holes:
+            if self._holeDiameter <= 0:
+                _err("Hole diameter must be greater than zero")
+                return False
+            if self._holeCenter + (self._holeDiameter / 2.0) >= (self._diameter / 2.0):
+                _err("Hole extends outside the outer diameter")
+                return False
+            if self._step:
+                if self._holeCenter + (self._holeDiameter / 2.0) >= (self._stepDiameter / 2.0):
+                    _err("Hole extends outside the step diameter")
+                    return False
 
         return True
 
@@ -79,8 +99,6 @@ class BulkheadShapeHandler():
     def draw(self):
         if not self.isValidShape():
             return
-
-        edges = None
 
         try:
             self._obj.Shape = self._drawBulkhead()

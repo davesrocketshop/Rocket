@@ -165,14 +165,14 @@ class _NoseConeDialog(QDialog):
         layout.addWidget(self.shoulderLabel, 6, 0)
         layout.addWidget(self.shoulderCheckbox, 6, 1)
 
-        layout.addWidget(self.shoulderLengthLabel, 7, 0)
-        layout.addWidget(self.shoulderLengthInput, 7, 1)
+        layout.addWidget(self.shoulderLengthLabel, 7, 1)
+        layout.addWidget(self.shoulderLengthInput, 7, 2)
 
-        layout.addWidget(self.shoulderRadiusLabel, 8, 0)
-        layout.addWidget(self.shoulderRadiusInput, 8, 1)
+        layout.addWidget(self.shoulderRadiusLabel, 8, 1)
+        layout.addWidget(self.shoulderRadiusInput, 8, 2)
 
-        layout.addWidget(self.shoulderThicknessLabel, 9, 0)
-        layout.addWidget(self.shoulderThicknessInput, 9, 1)
+        layout.addWidget(self.shoulderThicknessLabel, 9, 1)
+        layout.addWidget(self.shoulderThicknessInput, 9, 2)
 
         self.setLayout(layout)
 
