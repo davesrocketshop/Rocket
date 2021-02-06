@@ -41,7 +41,10 @@ class _BulkheadDialog(QDialog):
 
         # define our window
         self.setGeometry(250, 250, 400, 350)
-        self.setWindowTitle("Bulkhead Parameter")
+        if crPanel:
+            self.setWindowTitle("Centering Ring Parameter")
+        else:
+            self.setWindowTitle("Bulkhead Parameter")
 
         # Get the body tube parameters: length, ID, etc...
         self.diameterLabel = QtGui.QLabel("Diameter", self)
