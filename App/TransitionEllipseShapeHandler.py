@@ -36,41 +36,18 @@ from App.Utilities import _err, _msg
     
 class TransitionEllipseShapeHandler(TransitionShapeHandler):
 
-    # def _getRadius(self, x, radius, length, param):
-    #     if x < 0 or x > length:
-    #         _err("Value of x is outside the transition")
-    #         return 0.0
-    #     if radius < 0:
-    #         _err("Radius is less than 0")
-    #         return 0.0
-    #     x = x * radius / length
-    #     return math.sqrt(2 * radius * x - x * x)
-
-    def _radiusAt(self, major, minor, pos):
-        _msg("major = %f" % major)
-        _msg("minor = %f" % minor)
-        _msg("pos = %f" % pos)
-        y = (minor / major) * math.sqrt(major * major - pos * pos)
-        _msg("y = %f" % y)
-        return y
-
-    # def _radiusAt(self, major, minor, pos):
-    #     # x = x * minor / major
-    #     # return math.sqrt(2 * minor * x - x * x)
-
-    #     _msg("major = %f" % major)
-    #     _msg("minor = %f" % minor)
-    #     _msg("pos = %f" % pos)
-    #     y = (minor / major) * math.sqrt(major * major - pos * pos)
-    #     _msg("y = %f" % y)
-    #     return y
-    #     # a = pos
-    #     # # b = self._radius - self._thickness
-    #     # b = major - self._thickness
-    #     # x = self._thickness
-
-    #     # inner_minor = (b / a) * math.sqrt(a * a - x * x)
-    #     # return inner_minor
+    def _radiusAt(self, r1, r2, length, pos):
+        major = length
+        if r1 > r2:
+            minor = r1 - r2
+            center = r2
+            x = length - pos
+        else:
+            minor = r2 - r1
+            center = r1
+            x = pos
+        y = (minor / major) * math.sqrt(major * major - x * x)
+        return y + center
 
     def _ellipseCurve(self):
         if self._foreRadius > self._aftRadius:
@@ -84,11 +61,11 @@ class TransitionEllipseShapeHandler(TransitionShapeHandler):
         else:
             return Part.ArcOfEllipse(Part.Ellipse(FreeCAD.Vector(0, self._foreRadius - self._thickness), self._length, self._aftRadius - self._foreRadius), 0.0, math.pi/2)
 
-    def _ellipseCurveInner(self, foreX, aftX):
+    def _ellipseCurveInner(self, foreX, aftX, foreY, aftY):
         if self._foreRadius > self._aftRadius:
-            return Part.ArcOfEllipse(Part.Ellipse(FreeCAD.Vector(foreX, self._aftRadius - self._thickness), foreX - aftX, self._foreRadius - self._aftRadius), math.pi/2, math.pi)
+            return Part.ArcOfEllipse(Part.Ellipse(FreeCAD.Vector(foreX, aftY), foreX - aftX, foreY - aftY), math.pi/2, math.pi)
         else:
-            return Part.ArcOfEllipse(Part.Ellipse(FreeCAD.Vector(aftX, self._foreRadius - self._thickness), foreX - aftX, self._aftRadius - self._foreRadius), 0.0, math.pi/2)
+            return Part.ArcOfEllipse(Part.Ellipse(FreeCAD.Vector(aftX, foreY), foreX - aftX, aftY - foreY), 0.0, math.pi/2)
 
     def drawSolid(self):
         outer_curve = self._ellipseCurve()
@@ -130,28 +107,37 @@ class TransitionEllipseShapeHandler(TransitionShapeHandler):
         if self._aftShoulder:
             innerAftX = self._thickness
 
+        innerForeY = self._radiusAt(self._foreRadius - self._thickness, self._aftRadius - self._thickness, self._length, innerForeX)
+        innerAftY = self._radiusAt(self._foreRadius - self._thickness, self._aftRadius - self._thickness, self._length, innerAftX)
+
         outer_curve = self._ellipseCurve()
-        inner_curve = self._ellipseCurveInner(innerForeX, innerAftX)
+        inner_curve = self._ellipseCurveInner(innerForeX, innerAftX, innerForeY, innerAftY)
 
-        minor = math.fabs(self._foreRadius - self._aftRadius)
-        major = math.fabs(innerForeX - innerAftX)
-
-        if self._foreRadius > self._aftRadius:
-            edges = self.hollowShoulderLines(self._radiusAt(major, minor, innerForeX - self._thickness) + self._foreRadius - self._thickness, self._radiusAt(major, minor, innerAftX - self._thickness) + self._foreRadius - self._thickness, outer_curve, inner_curve)
-        else:
-            edges = self.hollowShoulderLines(self._radiusAt(major, minor, innerAftX - self._thickness) + self._aftRadius  - self._thickness, self._radiusAt(major, minor, innerForeX - self._thickness) + self._aftRadius  - self._thickness, outer_curve, inner_curve)
+        edges = self.hollowShoulderLines(innerForeY, innerAftY, outer_curve, inner_curve)
         return edges
 
     def drawCapped(self):
-        outer_curve = self._ellipseCurve()
-        inner_curve = Part.LineSegment(FreeCAD.Vector(self._thickness, self._radiusAt(self._thickness)), FreeCAD.Vector(self._length - self._thickness, self._radiusAt(self._length - self._thickness)))
+        innerForeX = self._length - self._thickness
+        innerAftX = self._thickness
 
-        edges = self.cappedLines(self._radiusAt(self._length - self._thickness), self._radiusAt(self._thickness), outer_curve, inner_curve)
+        innerForeY = self._radiusAt(self._foreRadius - self._thickness, self._aftRadius - self._thickness, self._length, innerForeX)
+        innerAftY = self._radiusAt(self._foreRadius - self._thickness, self._aftRadius - self._thickness, self._length, innerAftX)
+
+        outer_curve = self._ellipseCurve()
+        inner_curve = self._ellipseCurveInner(innerForeX, innerAftX, innerForeY, innerAftY)
+
+        edges = self.cappedLines(innerForeY, innerAftY, outer_curve, inner_curve)
         return edges
 
     def drawCappedShoulder(self):
-        outer_curve = self._ellipseCurve()
-        inner_curve = Part.LineSegment(FreeCAD.Vector(self._thickness, self._radiusAt(self._thickness)), FreeCAD.Vector(self._length - self._thickness, self._radiusAt(self._length - self._thickness)))
+        innerForeX = self._length - self._thickness
+        innerAftX = self._thickness
 
-        edges = self.cappedShoulderLines(self._radiusAt(self._length - self._thickness), self._radiusAt(self._thickness), outer_curve, inner_curve)
+        innerForeY = self._radiusAt(self._foreRadius - self._thickness, self._aftRadius - self._thickness, self._length, innerForeX)
+        innerAftY = self._radiusAt(self._foreRadius - self._thickness, self._aftRadius - self._thickness, self._length, innerAftX)
+
+        outer_curve = self._ellipseCurve()
+        inner_curve = self._ellipseCurveInner(innerForeX, innerAftX, innerForeY, innerAftY)
+
+        edges = self.cappedShoulderLines(innerForeY, innerAftY, outer_curve, inner_curve)
         return edges
