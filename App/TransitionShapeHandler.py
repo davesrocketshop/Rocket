@@ -139,51 +139,51 @@ class TransitionShapeHandler():
 
         return True
 
-    def getRadius(self, x):
-        # Get the radius at the given value of x.
-        if x <= 0:
-            return self._foreRadius
-        if x >= self._length:
-            return self._aftRadius
+    # def getRadius(self, x):
+    #     # Get the radius at the given value of x.
+    #     if x <= 0:
+    #         return self._foreRadius
+    #     if x >= self._length:
+    #         return self._aftRadius
 
-        r1 = self._foreRadius
-        r2 = self._aftRadius
+    #     r1 = self._foreRadius
+    #     r2 = self._aftRadius
 
-        if r1 == r2:
-            return r1
+    #     if r1 == r2:
+    #         return r1
 
-        if r1 > r2:
-            x = self._length - x
-            tmp = r1
-            r1 = r2
-            r2 = tmp
+    #     if r1 > r2:
+    #         x = self._length - x
+    #         tmp = r1
+    #         r1 = r2
+    #         r2 = tmp
 
-        if self._clipped:
-            # Check clip calculation
-            if self._clipLength < 0:
-                self._calculateClip(r1, r2)
-            return self._getRadius(self._clipLength + x, r2, self._clipLength + self._length, self._coefficient)
-        else:
-            # Not clipped
-            return r1 + self._getRadius(x, r2 - r1, self._length, self._coefficient)
+    #     if self._clipped:
+    #         # Check clip calculation
+    #         if self._clipLength < 0:
+    #             self._calculateClip(r1, r2)
+    #         return self._getRadius(self._clipLength + x, r2, self._clipLength + self._length, self._coefficient)
+    #     else:
+    #         # Not clipped
+    #         return r1 + self._getRadius(x, r2 - r1, self._length, self._coefficient)
 
-    def _getRadius(self, x, radius, length, param):
-        return 0.0
+    # def _getRadius(self, x, radius, length, param):
+    #     return 0.0
 
-    def _drawCurve(self, radius, length, resolution, min = 0):
-        points = []
-        for i in range(0, resolution):
+    # def _drawCurve(self, radius, length, resolution, min = 0):
+    #     points = []
+    #     for i in range(0, resolution):
             
-            x = float(i) * ((length - min) / float(resolution))
-            y = self.getRadius(x)
-            _msg("(%f,%f)" % (length - x, y))
-            points.append(FreeCAD.Vector(length - x, y))
+    #         x = float(i) * ((length - min) / float(resolution))
+    #         y = self.getRadius(x)
+    #         _msg("(%f,%f)" % (length - x, y))
+    #         points.append(FreeCAD.Vector(length - x, y))
 
-        # points.append(FreeCAD.Vector(min, self.getRadius(length)))
-        points.append(FreeCAD.Vector(min, self.getRadius(length)))
-        _msg("(%f,%f)" % (length, self.getRadius(length)))
-        spline = self.makeSpline(points)
-        return spline
+    #     # points.append(FreeCAD.Vector(min, self.getRadius(length)))
+    #     points.append(FreeCAD.Vector(min, self.getRadius(length)))
+    #     _msg("(%f,%f)" % (length, self.getRadius(length)))
+    #     spline = self.makeSpline(points)
+    #     return spline
 
     #
     # Numerically solve clipLength from the equation
@@ -239,24 +239,24 @@ class TransitionShapeHandler():
         try:
             if self._style == STYLE_SOLID:
                 if self._shoulder:
-                    edges = self.drawSolidShoulder()
+                    edges = self._drawSolidShoulder()
                 else:
-                    edges = self.drawSolid()
+                    edges = self._drawSolid()
             elif self._style == STYLE_SOLID_CORE:
                 if self._shoulder:
-                    edges = self.drawSolidShoulderCore()
+                    edges = self._drawSolidShoulderCore()
                 else:
-                    edges = self.drawSolidCore()
+                    edges = self._drawSolidCore()
             elif self._style == STYLE_HOLLOW:
                 if self._shoulder:
-                    edges = self.drawHollowShoulder()
+                    edges = self._drawHollowShoulder()
                 else:
-                    edges = self.drawHollow()
+                    edges = self._drawHollow()
             else:
                 if self._shoulder:
-                    edges = self.drawCappedShoulder()
+                    edges = self._drawCappedShoulder()
                 else:
-                    edges = self.drawCapped()
+                    edges = self._drawCapped()
         except (ZeroDivisionError, Part.OCCError):
             _err("Transition parameters produce an invalid shape")
             return
@@ -272,7 +272,110 @@ class TransitionShapeHandler():
         else:
             _err("Transition parameters produce an invalid shape")
 
-    def solidLines(self, outerShape):
+    def _generateCurve(self, r1, r2, length, min = 0):
+        if r1 > r2:
+            radius = r1 - r2
+        else:
+            radius = r2 - r1
+
+        points = []
+        for i in range(0, self._resolution):
+            
+            x = length - (float(i) * ((length - min) / float(self._resolution)))
+            y = self._radiusAt(r1, r2, length, x)
+            points.append(FreeCAD.Vector(x, y))
+
+        points.append(FreeCAD.Vector(min, r2))
+        return self.makeSpline(points)
+
+    def _curve(self):
+        curve = self._generateCurve(self._foreRadius, self._aftRadius, self._length)
+        return curve
+
+    def _curveInnerHollow(self):
+        curve = self._generateCurve(self._foreRadius - self._thickness, self._aftRadius - self._thickness, self._length)
+        return curve
+
+    def _curveInner(self, foreX, aftX, foreY, aftY):
+        curve = self._generateCurve(foreY, aftY, foreX, aftX)
+        return curve
+
+    def _drawSolid(self):
+        outer_curve = self._curve()
+
+        edges = self._solidLines(outer_curve)
+        return edges
+
+    def _drawSolidShoulder(self):
+        outer_curve = self._curve()
+
+        edges = self._solidShoulderLines(outer_curve)
+        return edges
+
+    def _drawSolidCore(self):
+        outer_curve = self._curve()
+
+        edges = self._solidCoreLines(outer_curve)
+        return edges
+
+    def _drawSolidShoulderCore(self):
+        outer_curve = self._curve()
+
+        edges = self._solidShoulderCoreLines(outer_curve)
+        return edges
+
+    def _drawHollow(self):
+        outer_curve = self._curve()
+        inner_curve = self._curveInnerHollow()
+
+        edges = self._hollowLines(outer_curve, inner_curve)
+        return edges
+
+    def _drawHollowShoulder(self):
+        innerForeX = self._length
+        if self._foreShoulder:
+            innerForeX = self._length - self._thickness
+
+        innerAftX = 0.0
+        if self._aftShoulder:
+            innerAftX = self._thickness
+
+        innerForeY = self._radiusAt(self._foreRadius - self._thickness, self._aftRadius - self._thickness, self._length, innerForeX)
+        innerAftY = self._radiusAt(self._foreRadius - self._thickness, self._aftRadius - self._thickness, self._length, innerAftX)
+
+        outer_curve = self._curve()
+        inner_curve = self._curveInner(innerForeX, innerAftX, innerForeY, innerAftY)
+
+        edges = self._hollowShoulderLines(innerForeY, innerAftY, outer_curve, inner_curve)
+        return edges
+
+    def _drawCapped(self):
+        innerForeX = self._length - self._thickness
+        innerAftX = self._thickness
+
+        innerForeY = self._radiusAt(self._foreRadius - self._thickness, self._aftRadius - self._thickness, self._length, innerForeX)
+        innerAftY = self._radiusAt(self._foreRadius - self._thickness, self._aftRadius - self._thickness, self._length, innerAftX)
+
+        outer_curve = self._curve()
+        inner_curve = self._curveInner(innerForeX, innerAftX, innerForeY, innerAftY)
+
+        edges = self._cappedLines(innerForeY, innerAftY, outer_curve, inner_curve)
+        return edges
+
+    def _drawCappedShoulder(self):
+        innerForeX = self._length - self._thickness
+        innerAftX = self._thickness
+
+        innerForeY = self._radiusAt(self._foreRadius - self._thickness, self._aftRadius - self._thickness, self._length, innerForeX)
+        innerAftY = self._radiusAt(self._foreRadius - self._thickness, self._aftRadius - self._thickness, self._length, innerAftX)
+
+        outer_curve = self._curve()
+        inner_curve = self._curveInner(innerForeX, innerAftX, innerForeY, innerAftY)
+
+        edges = self._cappedShoulderLines(innerForeY, innerAftY, outer_curve, inner_curve)
+        return edges
+
+    def _solidLines(self, outerShape):
         
         foreCenter = FreeCAD.Vector(self._length, 0.0)
         aftCenter = FreeCAD.Vector(0.0, 0.0)
@@ -285,7 +388,7 @@ class TransitionShapeHandler():
         line3 = Part.LineSegment(aftCenter, aftRadius)
         return [outerShape.toShape(), line1.toShape(), line2.toShape(), line3.toShape()]
 
-    def solidShoulderLines(self, outerShape):
+    def _solidShoulderLines(self, outerShape):
 
         front = []
         back = []
@@ -321,7 +424,7 @@ class TransitionShapeHandler():
 
         return [outerShape.toShape()] + front + back
 
-    def solidCoreLines(self, outerShape):
+    def _solidCoreLines(self, outerShape):
         
         foreCenter = FreeCAD.Vector(self._length, self._coreRadius)
         aftCenter = FreeCAD.Vector(0.0, self._coreRadius)
@@ -334,7 +437,7 @@ class TransitionShapeHandler():
         line3 = Part.LineSegment(aftCenter, aftRadius)
         return [outerShape.toShape(), line1.toShape(), line2.toShape(), line3.toShape()]
 
-    def solidShoulderCoreLines(self, outerShape):
+    def _solidShoulderCoreLines(self, outerShape):
         
         front = []
         back = []
@@ -370,7 +473,7 @@ class TransitionShapeHandler():
 
         return [outerShape.toShape()] + front + back
 
-    def hollowLines(self, outerShape, innerShape):
+    def _hollowLines(self, outerShape, innerShape):
         
         major = FreeCAD.Vector(0.0, self._aftRadius)
         minor = FreeCAD.Vector(self._length, self._foreRadius)
@@ -382,7 +485,7 @@ class TransitionShapeHandler():
         line2 = Part.LineSegment(minor, innerMinor)
         return [outerShape.toShape(), line1.toShape(), line2.toShape(), innerShape.toShape()]
 
-    def hollowShoulderLines(self, foreY, aftY, outerShape, innerShape):
+    def _hollowShoulderLines(self, foreY, aftY, outerShape, innerShape):
 
         front = []
         back = []
@@ -414,7 +517,7 @@ class TransitionShapeHandler():
 
         return [outerShape.toShape()] + front + back + [innerShape.toShape()]
 
-    def cappedLines(self, foreY, aftY, outerShape, innerShape):
+    def _cappedLines(self, foreY, aftY, outerShape, innerShape):
          
         fore = FreeCAD.Vector(self._length, self._foreRadius)
         aft = FreeCAD.Vector(0.0, self._aftRadius)
@@ -436,7 +539,7 @@ class TransitionShapeHandler():
         line6 = Part.LineSegment(aftInnerCenter, aftIinner)
         return [outerShape.toShape(), line1.toShape(), line2.toShape(), line3.toShape(), innerShape.toShape(), line4.toShape(), line5.toShape(), line6.toShape(), innerShape.toShape()]
 
-    def cappedShoulderLines(self, foreY, aftY, outerShape, innerShape):
+    def _cappedShoulderLines(self, foreY, aftY, outerShape, innerShape):
 
         front = []
         back = []

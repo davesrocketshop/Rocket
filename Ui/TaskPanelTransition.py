@@ -353,6 +353,16 @@ class TaskPanelTransition:
             self.form.coefficientInput.setEnabled(True)
         elif value == TYPE_POWER:
             self.form.coefficientInput.setEnabled(True)
+        elif value == TYPE_PARABOLA:
+            # Set the coefficient, but don't enable it
+            self.obj.Coefficient = 0.5
+            self.form.coefficientInput.setText("%f" % self.obj.Coefficient)
+            self.form.coefficientInput.setEnabled(False)
+        elif value == TYPE_VON_KARMAN:
+            # Set the coefficient, but don't enable it
+            self.obj.Coefficient = 0.0
+            self.form.coefficientInput.setText("%f" % self.obj.Coefficient)
+            self.form.coefficientInput.setEnabled(False)
         else:
             self.form.coefficientInput.setEnabled(False)
 

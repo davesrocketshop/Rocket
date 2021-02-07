@@ -33,69 +33,85 @@ from App.TransitionShapeHandler import TransitionShapeHandler
     
 class TransitionConeShapeHandler(TransitionShapeHandler):
 
-	def _radiusAt(self, x):
-		intercept = self._aftRadius - self._thickness
-		# Slope is the same for inner and outer curves
-		slope = (self._foreRadius - self._aftRadius) / self._length
-		y = x * slope + intercept
-		return y
- 
-	def drawSolid(self):
-		outer_curve = Part.LineSegment(FreeCAD.Vector(0.0, self._aftRadius), FreeCAD.Vector(self._length, self._foreRadius))
+    def _radiusAt(self, r1, r2, length, pos):
+        if r1 > r2:
+            intercept = r1
+        else:
+            intercept = r2
 
-		edges = self.solidLines(outer_curve)
-		return edges
-    
-	def drawSolidShoulder(self):
-		outer_curve = Part.LineSegment(FreeCAD.Vector(0.0, self._aftRadius), FreeCAD.Vector(self._length, self._foreRadius))
+        slope = (r1 - r2) / length
+        y = pos * slope + intercept
+        return y
 
-		edges = self.solidShoulderLines(outer_curve)
-		return edges
- 
-	def drawSolidCore(self):
-		outer_curve = Part.LineSegment(FreeCAD.Vector(0.0, self._aftRadius), FreeCAD.Vector(self._length, self._foreRadius))
+    # def _radiusAt(self, x):
+    #     intercept = self._aftRadius - self._thickness
 
-		edges = self.solidCoreLines(outer_curve)
-		return edges
-    
-	def drawSolidShoulderCore(self):
-		outer_curve = Part.LineSegment(FreeCAD.Vector(0.0, self._aftRadius), FreeCAD.Vector(self._length, self._foreRadius))
+    #     # Slope is the same for inner and outer curves
+    #     slope = (self._foreRadius - self._aftRadius) / self._length
+    #     y = x * slope + intercept
+    #     return y
 
-		edges = self.solidShoulderCoreLines(outer_curve)
-		return edges
-    
-	def drawHollow(self):
-		outer_curve = Part.LineSegment(FreeCAD.Vector(0.0, self._aftRadius), FreeCAD.Vector(self._length, self._foreRadius))
-		inner_curve = Part.LineSegment(FreeCAD.Vector(0.0, self._aftRadius - self._thickness), FreeCAD.Vector(self._length, self._foreRadius - self._thickness))
+    # Override the default to use native shapes
+    def _generateCurve(self, r1, r2, length, min = 0):
+        curve = Part.LineSegment(FreeCAD.Vector(min, r2), FreeCAD.Vector(length, r1))
+        return curve
 
-		edges = self.hollowLines(outer_curve, inner_curve)
-		return edges
-    
-	def drawHollowShoulder(self):
-		innerForeX = 0.0
-		if self._foreShoulder:
-			innerForeX = self._length - self._thickness
+    # def drawSolid(self):
+    # 	outer_curve = Part.LineSegment(FreeCAD.Vector(0.0, self._aftRadius), FreeCAD.Vector(self._length, self._foreRadius))
 
-		innerAftX = self._length
-		if self._aftShoulder:
-			innerAftX = self._thickness
+    # 	edges = self.solidLines(outer_curve)
+    # 	return edges
 
-		outer_curve = Part.LineSegment(FreeCAD.Vector(0.0, self._aftRadius), FreeCAD.Vector(self._length, self._foreRadius))
-		inner_curve = Part.LineSegment(FreeCAD.Vector(innerAftX, self._radiusAt(innerAftX)), FreeCAD.Vector(innerForeX, self._radiusAt(innerForeX)))
+    # def drawSolidShoulder(self):
+    # 	outer_curve = Part.LineSegment(FreeCAD.Vector(0.0, self._aftRadius), FreeCAD.Vector(self._length, self._foreRadius))
 
-		edges = self.hollowShoulderLines(self._radiusAt(innerForeX), self._radiusAt(innerAftX), outer_curve, inner_curve)
-		return edges
-    
-	def drawCapped(self):
-		outer_curve = Part.LineSegment(FreeCAD.Vector(0.0, self._aftRadius), FreeCAD.Vector(self._length, self._foreRadius))
-		inner_curve = Part.LineSegment(FreeCAD.Vector(self._thickness, self._radiusAt(self._thickness)), FreeCAD.Vector(self._length - self._thickness, self._radiusAt(self._length - self._thickness)))
+    # 	edges = self.solidShoulderLines(outer_curve)
+    # 	return edges
 
-		edges = self.cappedLines(self._radiusAt(self._length - self._thickness), self._radiusAt(self._thickness), outer_curve, inner_curve)
-		return edges
-    
-	def drawCappedShoulder(self):
-		outer_curve = Part.LineSegment(FreeCAD.Vector(0.0, self._aftRadius), FreeCAD.Vector(self._length, self._foreRadius))
-		inner_curve = Part.LineSegment(FreeCAD.Vector(self._thickness, self._radiusAt(self._thickness)), FreeCAD.Vector(self._length - self._thickness, self._radiusAt(self._length - self._thickness)))
+    # def drawSolidCore(self):
+    # 	outer_curve = Part.LineSegment(FreeCAD.Vector(0.0, self._aftRadius), FreeCAD.Vector(self._length, self._foreRadius))
 
-		edges = self.cappedShoulderLines(self._radiusAt(self._length - self._thickness), self._radiusAt(self._thickness), outer_curve, inner_curve)
-		return edges
+    # 	edges = self.solidCoreLines(outer_curve)
+    # 	return edges
+
+    # def drawSolidShoulderCore(self):
+    # 	outer_curve = Part.LineSegment(FreeCAD.Vector(0.0, self._aftRadius), FreeCAD.Vector(self._length, self._foreRadius))
+
+    # 	edges = self.solidShoulderCoreLines(outer_curve)
+    # 	return edges
+
+    # def drawHollow(self):
+    # 	outer_curve = Part.LineSegment(FreeCAD.Vector(0.0, self._aftRadius), FreeCAD.Vector(self._length, self._foreRadius))
+    # 	inner_curve = Part.LineSegment(FreeCAD.Vector(0.0, self._aftRadius - self._thickness), FreeCAD.Vector(self._length, self._foreRadius - self._thickness))
+
+    # 	edges = self.hollowLines(outer_curve, inner_curve)
+    # 	return edges
+
+    # def drawHollowShoulder(self):
+    # 	innerForeX = 0.0
+    # 	if self._foreShoulder:
+    # 		innerForeX = self._length - self._thickness
+
+    # 	innerAftX = self._length
+    # 	if self._aftShoulder:
+    # 		innerAftX = self._thickness
+
+    # 	outer_curve = Part.LineSegment(FreeCAD.Vector(0.0, self._aftRadius), FreeCAD.Vector(self._length, self._foreRadius))
+    # 	inner_curve = Part.LineSegment(FreeCAD.Vector(innerAftX, self._radiusAt(innerAftX)), FreeCAD.Vector(innerForeX, self._radiusAt(innerForeX)))
+
+    # 	edges = self.hollowShoulderLines(self._radiusAt(innerForeX), self._radiusAt(innerAftX), outer_curve, inner_curve)
+    # 	return edges
+
+    # def drawCapped(self):
+    # 	outer_curve = Part.LineSegment(FreeCAD.Vector(0.0, self._aftRadius), FreeCAD.Vector(self._length, self._foreRadius))
+    # 	inner_curve = Part.LineSegment(FreeCAD.Vector(self._thickness, self._radiusAt(self._thickness)), FreeCAD.Vector(self._length - self._thickness, self._radiusAt(self._length - self._thickness)))
+
+    # 	edges = self.cappedLines(self._radiusAt(self._length - self._thickness), self._radiusAt(self._thickness), outer_curve, inner_curve)
+    # 	return edges
+
+    # def drawCappedShoulder(self):
+    # 	outer_curve = Part.LineSegment(FreeCAD.Vector(0.0, self._aftRadius), FreeCAD.Vector(self._length, self._foreRadius))
+    # 	inner_curve = Part.LineSegment(FreeCAD.Vector(self._thickness, self._radiusAt(self._thickness)), FreeCAD.Vector(self._length - self._thickness, self._radiusAt(self._length - self._thickness)))
+
+    # 	edges = self.cappedShoulderLines(self._radiusAt(self._length - self._thickness), self._radiusAt(self._thickness), outer_curve, inner_curve)
+    # 	return edges

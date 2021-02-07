@@ -46,119 +46,12 @@ class TransitionParabolicShapeHandler(TransitionShapeHandler):
         if r1 > r2:
             radius = r1 - r2
             center = r2
-            x = length - pos
+            x = pos
         else:
             radius = r2 - r1
             center = r1
-            x = pos
+            x = length - pos
 
         ratio = x / length
         y = radius * ((2 * ratio) - (self._coefficient * ratio * ratio)) / (2 - self._coefficient)
         return y + center
-
-    def _parabolic(self, r1, r2, length, min = 0):
-        if r1 > r2:
-            radius = r1 - r2
-        else:
-            radius = r2 - r1
-
-        points = []
-        for i in range(0, self._resolution):
-            
-            x = float(i) * ((length - min) / float(self._resolution))
-            y = self._radiusAt(r1, r2, length, x)
-            points.append(FreeCAD.Vector(length - x, y))
-
-        points.append(FreeCAD.Vector(min, r2))
-        return points
-
-    def _curve(self):
-        curve = self._parabolic(self._foreRadius, self._aftRadius, self._length)
-        return self.makeSpline(curve)
-
-    def _curveInnerHollow(self):
-        curve = self._parabolic(self._foreRadius - self._thickness, self._aftRadius - self._thickness, self._length)
-        ogive = self.makeSpline(curve)
-
-        return ogive
-
-    def _curveInner(self, foreX, aftX, foreY, aftY):
-        curve = self._parabolic(foreY, aftY, foreX, aftX)
-        ogive = self.makeSpline(curve)
-
-        return ogive
-
-    def drawSolid(self):
-        outer_curve = self._curve()
-
-        edges = self.solidLines(outer_curve)
-        return edges
-
-    def drawSolidShoulder(self):
-        outer_curve = self._curve()
-
-        edges = self.solidShoulderLines(outer_curve)
-        return edges
-
-    def drawSolidCore(self):
-        outer_curve = self._curve()
-
-        edges = self.solidCoreLines(outer_curve)
-        return edges
-
-    def drawSolidShoulderCore(self):
-        outer_curve = self._curve()
-
-        edges = self.solidShoulderCoreLines(outer_curve)
-        return edges
-
-    def drawHollow(self):
-        outer_curve = self._curve()
-        inner_curve = self._curveInnerHollow()
-
-        edges = self.hollowLines(outer_curve, inner_curve)
-        return edges
-
-    def drawHollowShoulder(self):
-        innerForeX = self._length
-        if self._foreShoulder:
-            innerForeX = self._length - self._thickness
-
-        innerAftX = 0.0
-        if self._aftShoulder:
-            innerAftX = self._thickness
-
-        innerForeY = self._radiusAt(self._aftRadius - self._thickness, self._foreRadius - self._thickness, self._length, innerForeX)
-        innerAftY = self._radiusAt(self._aftRadius - self._thickness, self._foreRadius - self._thickness, self._length, innerAftX)
-
-        outer_curve = self._curve()
-        inner_curve = self._curveInner(innerForeX, innerAftX, innerForeY, innerAftY)
-
-        edges = self.hollowShoulderLines(innerForeY, innerAftY, outer_curve, inner_curve)
-        return edges
-
-    def drawCapped(self):
-        innerForeX = self._length - self._thickness
-        innerAftX = self._thickness
-
-        innerForeY = self._radiusAt(self._aftRadius - self._thickness, self._foreRadius - self._thickness, self._length, innerForeX)
-        innerAftY = self._radiusAt(self._aftRadius - self._thickness, self._foreRadius - self._thickness, self._length, innerAftX)
-
-        outer_curve = self._curve()
-        inner_curve = self._curveInner(innerForeX, innerAftX, innerForeY, innerAftY)
-
-        edges = self.cappedLines(innerForeY, innerAftY, outer_curve, inner_curve)
-        return edges
-
-    def drawCappedShoulder(self):
-        innerForeX = self._length - self._thickness
-        innerAftX = self._thickness
-
-        innerForeY = self._radiusAt(self._aftRadius - self._thickness, self._foreRadius - self._thickness, self._length, innerForeX)
-        innerAftY = self._radiusAt(self._aftRadius - self._thickness, self._foreRadius - self._thickness, self._length, innerAftX)
-
-        outer_curve = self._curve()
-        inner_curve = self._curveInner(innerForeX, innerAftX, innerForeY, innerAftY)
-
-        edges = self.cappedShoulderLines(innerForeY, innerAftY, outer_curve, inner_curve)
-        return edges
