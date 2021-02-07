@@ -33,118 +33,118 @@ from App.NoseShapeHandler import NoseShapeHandler
 
 class NoseOgiveShapeHandler(NoseShapeHandler):
             
-	def ogive_y(self, x, length, radius, rho):
-		y = math.sqrt(rho * rho - math.pow(length - x, 2)) + radius - rho
-		return y
+    def ogive_y(self, x, length, radius, rho):
+        y = math.sqrt(rho * rho - math.pow(length - x, 2)) + radius - rho
+        return y
 
-	def innerMinor(self, last):
-		radius = self._radius - self._thickness
-		length = last
-		rho = (radius * radius + length * length) / (2.0 * radius)
+    def innerMinor(self, last):
+        radius = self._radius - self._thickness
+        length = last
+        rho = (radius * radius + length * length) / (2.0 * radius)
 
-		inner_minor = self.ogive_y(length - self._thickness, length, radius, rho)
-		return inner_minor
- 
-	def ogive_curve(self, length, radius, resolution, min = 0):
-		rho = (radius * radius + length * length) / (2.0 * radius)
-		points = []
-		for i in range(0, resolution):
-			
-			x = float(i) * ((length - min) / float(resolution))
-			y = self.ogive_y(x, length, radius, rho)
-			points.append(FreeCAD.Vector(length - x, y))
+        inner_minor = self.ogive_y(length - self._thickness, length, radius, rho)
+        return inner_minor
 
-		points.append(FreeCAD.Vector(min, radius))
-		return points
-           
-	def findOgiveY(self, thickness, length, radius):
-		rho = (radius * radius + length * length) / (2.0 * radius)
+    def ogive_curve(self, length, radius, resolution, min = 0):
+        rho = (radius * radius + length * length) / (2.0 * radius)
+        points = []
+        for i in range(0, resolution):
+            
+            x = float(i) * ((length - min) / float(resolution))
+            y = self.ogive_y(x, length, radius, rho)
+            points.append(FreeCAD.Vector(length - x, y))
 
-		min = 0
-		max = length
-		x = 0
+        points.append(FreeCAD.Vector(min, radius))
+        return points
+            
+    def findOgiveY(self, thickness, length, radius):
+        rho = (radius * radius + length * length) / (2.0 * radius)
 
-		# Do a binary search to see where f(x) = thickness, to 1 mm
-		while (max - min) > 0.1:
-			y = self.ogive_y(length - x, length, radius, rho)
-			if (y == thickness):
-				return x
-			if (y > thickness):
-				min = x
-			else:
-				max = x
-			x = (max - min) / 2 + min
-		return x
-    
-	def drawSolid(self):
-		outer_curve = self.ogive_curve(self._length, self._radius, self._resolution)
-		ogive = self.makeSpline(outer_curve)
+        min = 0
+        max = length
+        x = 0
 
-		edges = self.solidLines(ogive)
-		return edges
-    
-	def drawSolidShoulder(self):
-		outer_curve = self.ogive_curve(self._length, self._radius, self._resolution)
-		ogive = self.makeSpline(outer_curve)
+        # Do a binary search to see where f(x) = thickness, to 1 mm
+        while (max - min) > 0.1:
+            y = self.ogive_y(length - x, length, radius, rho)
+            if (y == thickness):
+                return x
+            if (y > thickness):
+                min = x
+            else:
+                max = x
+            x = (max - min) / 2 + min
+        return x
 
-		edges = self.solidShoulderLines(ogive)
-		return edges
-    
-	def drawHollow(self):
-		# Find the point where the thickness matches the desired thickness, so we don't get too narrow at the tip
-		x = self.findOgiveY(self._thickness, self._length, self._radius)
+    def drawSolid(self):
+        outer_curve = self.ogive_curve(self._length, self._radius, self._resolution)
+        ogive = self.makeSpline(outer_curve)
 
-		outer_curve = self.ogive_curve(self._length, self._radius, self._resolution)
-		inner_curve = self.ogive_curve(x, self._radius - self._thickness, self._resolution)
+        edges = self.solidLines(ogive)
+        return edges
 
-		# Create the splines.
-		ogive = self.makeSpline(outer_curve)
-		innerOgive = self.makeSpline(inner_curve)
+    def drawSolidShoulder(self):
+        outer_curve = self.ogive_curve(self._length, self._radius, self._resolution)
+        ogive = self.makeSpline(outer_curve)
 
-		edges = self.hollowLines(x, ogive, innerOgive)
-		return edges
-    
-	def drawHollowShoulder(self):
-		# Find the point where the thickness matches the desired thickness, so we don't get too narrow at the tip
-		x = self.findOgiveY(self._thickness, self._length, self._radius)
-		minor_y = self.innerMinor(x)
+        edges = self.solidShoulderLines(ogive)
+        return edges
 
-		outer_curve = self.ogive_curve(self._length, self._radius, self._resolution)
-		inner_curve = self.ogive_curve(x, minor_y, self._resolution, self._thickness)
+    def drawHollow(self):
+        # Find the point where the thickness matches the desired thickness, so we don't get too narrow at the tip
+        x = self.findOgiveY(self._thickness, self._length, self._radius)
 
-		# Create the splines.
-		ogive = self.makeSpline(outer_curve)
-		innerOgive = self.makeSpline(inner_curve)
+        outer_curve = self.ogive_curve(self._length, self._radius, self._resolution)
+        inner_curve = self.ogive_curve(x, self._radius - self._thickness, self._resolution)
 
-		edges = self.hollowShoulderLines(x, minor_y, ogive, innerOgive)
-		return edges
-    
-	def drawCapped(self):
-		# Find the point where the thickness matches the desired thickness, so we don't get too narrow at the tip
-		x = self.findOgiveY(self._thickness, self._length, self._radius)
-		minor_y = self.innerMinor(x)
+        # Create the splines.
+        ogive = self.makeSpline(outer_curve)
+        innerOgive = self.makeSpline(inner_curve)
 
-		outer_curve = self.ogive_curve(self._length, self._radius, self._resolution)
-		inner_curve = self.ogive_curve(x, minor_y, self._resolution, self._thickness)
+        edges = self.hollowLines(x, ogive, innerOgive)
+        return edges
 
-		# Create the splines.
-		ogive = self.makeSpline(outer_curve)
-		innerOgive = self.makeSpline(inner_curve)
+    def drawHollowShoulder(self):
+        # Find the point where the thickness matches the desired thickness, so we don't get too narrow at the tip
+        x = self.findOgiveY(self._thickness, self._length, self._radius)
+        minor_y = self.innerMinor(x)
 
-		edges = self.cappedLines(x, minor_y, ogive, innerOgive)
-		return edges
-    
-	def drawCappedShoulder(self):
-		# Find the point where the thickness matches the desired thickness, so we don't get too narrow at the tip
-		x = self.findOgiveY(self._thickness, self._length, self._radius)
-		minor_y = self.innerMinor(x)
+        outer_curve = self.ogive_curve(self._length, self._radius, self._resolution)
+        inner_curve = self.ogive_curve(x, minor_y, self._resolution, self._thickness)
 
-		outer_curve = self.ogive_curve(self._length, self._radius, self._resolution)
-		inner_curve = self.ogive_curve(x, minor_y, self._resolution, self._thickness)
+        # Create the splines.
+        ogive = self.makeSpline(outer_curve)
+        innerOgive = self.makeSpline(inner_curve)
 
-		# Create the splines.
-		ogive = self.makeSpline(outer_curve)
-		innerOgive = self.makeSpline(inner_curve)
+        edges = self.hollowShoulderLines(x, minor_y, ogive, innerOgive)
+        return edges
 
-		edges = self.cappedShoulderLines(x, minor_y, ogive, innerOgive)
-		return edges
+    def drawCapped(self):
+        # Find the point where the thickness matches the desired thickness, so we don't get too narrow at the tip
+        x = self.findOgiveY(self._thickness, self._length, self._radius)
+        minor_y = self.innerMinor(x)
+
+        outer_curve = self.ogive_curve(self._length, self._radius, self._resolution)
+        inner_curve = self.ogive_curve(x, minor_y, self._resolution, self._thickness)
+
+        # Create the splines.
+        ogive = self.makeSpline(outer_curve)
+        innerOgive = self.makeSpline(inner_curve)
+
+        edges = self.cappedLines(x, minor_y, ogive, innerOgive)
+        return edges
+
+    def drawCappedShoulder(self):
+        # Find the point where the thickness matches the desired thickness, so we don't get too narrow at the tip
+        x = self.findOgiveY(self._thickness, self._length, self._radius)
+        minor_y = self.innerMinor(x)
+
+        outer_curve = self.ogive_curve(self._length, self._radius, self._resolution)
+        inner_curve = self.ogive_curve(x, minor_y, self._resolution, self._thickness)
+
+        # Create the splines.
+        ogive = self.makeSpline(outer_curve)
+        innerOgive = self.makeSpline(inner_curve)
+
+        edges = self.cappedShoulderLines(x, minor_y, ogive, innerOgive)
+        return edges

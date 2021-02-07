@@ -51,7 +51,7 @@ class _TransitionDialog(QDialog):
 
         self.transitionTypes = (TYPE_CONE,
                                 TYPE_ELLIPTICAL,
-                                #TYPE_OGIVE,
+                                TYPE_OGIVE,
                                 #TYPE_PARABOLA,
                                 #TYPE_PARABOLIC,
                                 #TYPE_POWER,
@@ -65,6 +65,7 @@ class _TransitionDialog(QDialog):
 
         self.clippedCheckbox = QtGui.QCheckBox(self)
         self.clippedCheckbox.setCheckState(QtCore.Qt.Checked)
+        self.clippedCheckbox.setEnabled(False) # Not supported yet
 
         # Select the type of sketch
         self.transitionStyleLabel = QtGui.QLabel("Transition Style", self)
@@ -200,58 +201,76 @@ class _TransitionDialog(QDialog):
         self.aftShoulderThicknessInput.setValidator(self.aftShoulderThicknessValidator)
         self.aftShoulderThicknessInput.setEnabled(False)
 
+        row = 0
         layout = QGridLayout()
 
-        layout.addWidget(self.transitionTypeLabel, 0, 0, 1, 2)
-        layout.addWidget(self.transitionTypesCombo, 0, 1)
+        layout.addWidget(self.transitionTypeLabel, row, 0, 1, 2)
+        layout.addWidget(self.transitionTypesCombo, row, 1)
+        row += 1
 
-        layout.addWidget(self.transitionStyleLabel, 1, 0)
-        layout.addWidget(self.transitionStylesCombo, 1, 1)
+        layout.addWidget(self.transitionStyleLabel, row, 0)
+        layout.addWidget(self.transitionStylesCombo, row, 1)
+        row += 1
 
-        layout.addWidget(self.lengthLabel, 2, 0)
-        layout.addWidget(self.lengthInput, 2, 1)
+        layout.addWidget(self.lengthLabel, row, 0)
+        layout.addWidget(self.lengthInput, row, 1)
+        row += 1
 
-        layout.addWidget(self.clippedLabel, 3, 0)
-        layout.addWidget(self.clippedCheckbox, 3, 1)
+        layout.addWidget(self.clippedLabel, row, 0)
+        layout.addWidget(self.clippedCheckbox, row, 1)
+        row += 1
 
-        layout.addWidget(self.foreRadiusLabel, 4, 0)
-        layout.addWidget(self.foreRadiusInput, 4, 1)
+        layout.addWidget(self.foreRadiusLabel, row, 0)
+        layout.addWidget(self.foreRadiusInput, row, 1)
+        row += 1
 
-        layout.addWidget(self.aftRadiusLabel, 5, 0)
-        layout.addWidget(self.aftRadiusInput, 5, 1)
+        layout.addWidget(self.aftRadiusLabel, row, 0)
+        layout.addWidget(self.aftRadiusInput, row, 1)
+        row += 1
 
-        layout.addWidget(self.coreRadiusLabel, 6, 0)
-        layout.addWidget(self.coreRadiusInput, 6, 1)
+        layout.addWidget(self.coreRadiusLabel, row, 0)
+        layout.addWidget(self.coreRadiusInput, row, 1)
+        row += 1
 
-        layout.addWidget(self.thicknessLabel, 7, 0)
-        layout.addWidget(self.thicknessInput, 7, 1)
+        layout.addWidget(self.thicknessLabel, row, 0)
+        layout.addWidget(self.thicknessInput, row, 1)
+        row += 1
 
-        layout.addWidget(self.coefficientLabel, 8, 0)
-        layout.addWidget(self.coefficientInput, 8, 1)
+        layout.addWidget(self.coefficientLabel, row, 0)
+        layout.addWidget(self.coefficientInput, row, 1)
+        row += 1
 
-        layout.addWidget(self.foreShoulderLabel, 9, 0)
-        layout.addWidget(self.foreShoulderCheckbox, 9, 1)
+        layout.addWidget(self.foreShoulderLabel, row, 0)
+        layout.addWidget(self.foreShoulderCheckbox, row, 1)
+        row += 1
 
-        layout.addWidget(self.foreShoulderLengthLabel, 10, 0)
-        layout.addWidget(self.foreShoulderLengthInput, 10, 1)
+        layout.addWidget(self.foreShoulderLengthLabel, row, 1)
+        layout.addWidget(self.foreShoulderLengthInput, row, 2)
+        row += 1
 
-        layout.addWidget(self.foreShoulderRadiusLabel, 11, 0)
-        layout.addWidget(self.foreShoulderRadiusInput, 11, 1)
+        layout.addWidget(self.foreShoulderRadiusLabel, row, 1)
+        layout.addWidget(self.foreShoulderRadiusInput, row, 2)
+        row += 1
 
-        layout.addWidget(self.foreShoulderThicknessLabel, 12, 0)
-        layout.addWidget(self.foreShoulderThicknessInput, 12, 1)
+        layout.addWidget(self.foreShoulderThicknessLabel, row, 1)
+        layout.addWidget(self.foreShoulderThicknessInput, row, 2)
+        row += 1
 
-        layout.addWidget(self.aftShoulderLabel, 13, 0)
-        layout.addWidget(self.aftShoulderCheckbox, 13, 1)
+        layout.addWidget(self.aftShoulderLabel, row, 0)
+        layout.addWidget(self.aftShoulderCheckbox, row, 1)
+        row += 1
 
-        layout.addWidget(self.aftShoulderLengthLabel, 14, 0)
-        layout.addWidget(self.aftShoulderLengthInput, 14, 1)
+        layout.addWidget(self.aftShoulderLengthLabel, row, 1)
+        layout.addWidget(self.aftShoulderLengthInput, row, 2)
+        row += 1
 
-        layout.addWidget(self.aftShoulderRadiusLabel, 15, 0)
-        layout.addWidget(self.aftShoulderRadiusInput, 15, 1)
+        layout.addWidget(self.aftShoulderRadiusLabel, row, 1)
+        layout.addWidget(self.aftShoulderRadiusInput, row, 2)
+        row += 1
 
-        layout.addWidget(self.aftShoulderThicknessLabel, 16, 0)
-        layout.addWidget(self.aftShoulderThicknessInput, 16, 1)
+        layout.addWidget(self.aftShoulderThicknessLabel, row, 1)
+        layout.addWidget(self.aftShoulderThicknessInput, row, 2)
+        row += 1
 
         self.setLayout(layout)
 
