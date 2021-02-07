@@ -103,7 +103,7 @@ class _BulkheadDialog(QDialog):
         self.stepCheckbox = QtGui.QCheckBox(self)
         self.stepCheckbox.setCheckState(QtCore.Qt.Unchecked)
 
-        self.stepDiameterLabel = QtGui.QLabel("Step Diameter", self)
+        self.stepDiameterLabel = QtGui.QLabel("Diameter", self)
 
         self.stepDiameterValidator = QtGui.QDoubleValidator(self)
         self.stepDiameterValidator.setBottom(0.0)
@@ -112,7 +112,7 @@ class _BulkheadDialog(QDialog):
         self.stepDiameterInput.setFixedWidth(100)
         self.stepDiameterInput.setValidator(self.stepDiameterValidator)
 
-        self.stepThicknessLabel = QtGui.QLabel("Step Thickness", self)
+        self.stepThicknessLabel = QtGui.QLabel("Thickness", self)
 
         self.stepThicknessValidator = QtGui.QDoubleValidator(self)
         self.stepThicknessValidator.setBottom(0.0)
@@ -126,7 +126,7 @@ class _BulkheadDialog(QDialog):
         self.holeCheckbox = QtGui.QCheckBox(self)
         self.holeCheckbox.setCheckState(QtCore.Qt.Unchecked)
 
-        self.holeDiameterLabel = QtGui.QLabel("Hole Diameter", self)
+        self.holeDiameterLabel = QtGui.QLabel("Diameter", self)
 
         self.holeDiameterValidator = QtGui.QDoubleValidator(self)
         self.holeDiameterValidator.setBottom(0.0)
@@ -135,7 +135,7 @@ class _BulkheadDialog(QDialog):
         self.holeDiameterInput.setFixedWidth(100)
         self.holeDiameterInput.setValidator(self.holeDiameterValidator)
 
-        self.holeCenterLabel = QtGui.QLabel("Hole Center", self)
+        self.holeCenterLabel = QtGui.QLabel("Center", self)
 
         self.holeCenterValidator = QtGui.QDoubleValidator(self)
         self.holeCenterValidator.setBottom(0.0)
@@ -144,16 +144,14 @@ class _BulkheadDialog(QDialog):
         self.holeCenterInput.setFixedWidth(100)
         self.holeCenterInput.setValidator(self.holeCenterValidator)
 
-        self.holeCountLabel = QtGui.QLabel("Hole Count", self)
+        self.holeCountLabel = QtGui.QLabel(" Count", self)
 
-        self.holeCountValidator = QtGui.QIntValidator(self)
-        self.holeCountValidator.setBottom(0)
+        self.holeCountSpinBox = QtGui.QSpinBox(self)
+        self.holeCountSpinBox.setFixedWidth(100)
+        self.holeCountSpinBox.setMinimum(1)
+        self.holeCountSpinBox.setMaximum(10000)
 
-        self.holeCountInput = QtGui.QLineEdit(self)
-        self.holeCountInput.setFixedWidth(100)
-        self.holeCountInput.setValidator(self.holeCountValidator)
-
-        self.holeOffsetLabel = QtGui.QLabel("Hole Offset", self)
+        self.holeOffsetLabel = QtGui.QLabel("Offset", self)
 
         # Offsets can be positive or negative so no validator required
         self.holeOffsetInput = QtGui.QLineEdit(self)
@@ -212,7 +210,7 @@ class _BulkheadDialog(QDialog):
         row += 1
 
         layout.addWidget(self.holeCountLabel, row, 1)
-        layout.addWidget(self.holeCountInput, row, 2)
+        layout.addWidget(self.holeCountSpinBox, row, 2)
         row += 1
 
         layout.addWidget(self.holeOffsetLabel, row, 1)
@@ -243,7 +241,7 @@ class TaskPanelBulkhead:
         self.form.holeCheckbox.stateChanged.connect(self.onHole)
         self.form.holeDiameterInput.textEdited.connect(self.onHoleDiameter)
         self.form.holeCenterInput.textEdited.connect(self.onHoleCenter)
-        self.form.holeCountInput.textEdited.connect(self.onHoleCount)
+        self.form.holeCountSpinBox.valueChanged.connect(self.onHoleCount)
         self.form.holeOffsetInput.textEdited.connect(self.onHoleOffset)
 
         if self._crPanel:
@@ -271,7 +269,7 @@ class TaskPanelBulkhead:
         self.obj.Holes = self.form.holeCheckbox.isChecked()
         self.obj.HoleDiameter = _toFloat(self.form.holeDiameterInput.text())
         self.obj.HoleCenter = _toFloat(self.form.holeCenterInput.text())
-        self.obj.HoleCount = _toInt(self.form.holeCountInput.text())
+        self.obj.HoleCount = self.form.holeCountSpinBox.value()
         self.obj.HoleOffset = _toFloat(self.form.holeOffsetInput.text())
 
         if self._crPanel:
@@ -293,7 +291,7 @@ class TaskPanelBulkhead:
         self.form.holeCheckbox.setChecked(self.obj.Holes)
         self.form.holeDiameterInput.setText("%f" % self.obj.HoleDiameter)
         self.form.holeCenterInput.setText("%f" % self.obj.HoleCenter)
-        self.form.holeCountInput.setText("%d" % self.obj.HoleCount)
+        self.form.holeCountSpinBox.setValue(self.obj.HoleCount)
         self.form.holeOffsetInput.setText("%f" % self.obj.HoleOffset)
 
         if self._crPanel:
@@ -340,7 +338,7 @@ class TaskPanelBulkhead:
     def _setHoleState(self):
         self.form.holeDiameterInput.setEnabled(self.obj.Holes)
         self.form.holeCenterInput.setEnabled(self.obj.Holes)
-        self.form.holeCountInput.setEnabled(self.obj.Holes)
+        self.form.holeCountSpinBox.setEnabled(self.obj.Holes)
         self.form.holeOffsetInput.setEnabled(self.obj.Holes)
         
     def onHole(self, value):
@@ -358,7 +356,7 @@ class TaskPanelBulkhead:
         self.obj.Proxy.execute(self.obj)
         
     def onHoleCount(self, value):
-        self.obj.HoleCount = _toInt(value)
+        self.obj.HoleCount = int(value)
         self.obj.Proxy.execute(self.obj)
         
     def onHoleOffset(self, value):
