@@ -29,7 +29,7 @@ import FreeCADGui
 import Part
 import math
 
-from App.Utilities import _err, _trace
+from App.Utilities import _err
 
 class BodyTubeShapeHandler():
     def __init__(self, obj):
@@ -40,7 +40,6 @@ class BodyTubeShapeHandler():
         self._obj = obj
 
     def isValidShape(self):
-        _trace(self.__class__.__name__, "isValidShape")
         
         # Perform some general validations
         if self._ID < 0:

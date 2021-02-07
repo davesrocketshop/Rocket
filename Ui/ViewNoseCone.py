@@ -28,25 +28,20 @@ import FreeCAD
 import FreeCADGui
 
 from Ui.TaskPanelNoseCone import TaskPanelNoseCone
-from App.Utilities import _trace
 
 class ViewProviderNoseCone:
 
     def __init__(self, vobj):
-        _trace(self.__class__.__name__, "__init__")
         vobj.Proxy = self
         
     def getIcon(self):
-        _trace(self.__class__.__name__, "getIcon")
         return FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_NoseCone.svg"
 
     def attach(self, vobj):
-        _trace(self.__class__.__name__, "attach")
         self.ViewObject = vobj
         self.Object = vobj.Object
   
     def setEdit(self,vobj,mode):
-        _trace(self.__class__.__name__, "setEdit")
         taskd = TaskPanelNoseCone(self.Object,mode)
         taskd.obj = vobj.Object
         taskd.update()
@@ -54,7 +49,6 @@ class ViewProviderNoseCone:
         return True
     
     def unsetEdit(self,vobj,mode):
-        _trace(self.__class__.__name__, "unsetEdit")
         FreeCADGui.Control.closeDialog()
         return
 
