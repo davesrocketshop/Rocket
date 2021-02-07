@@ -401,6 +401,6 @@ class TaskPanelBulkhead:
         
                     
     def reject(self):
-        FreeCADGui.ActiveDocument.resetEdit()
         FreeCAD.ActiveDocument.abortTransaction()
-        FreeCAD.ActiveDocument.recompute() #??? Should the object not be created?
+        FreeCAD.ActiveDocument.recompute()
+        FreeCADGui.ActiveDocument.resetEdit()

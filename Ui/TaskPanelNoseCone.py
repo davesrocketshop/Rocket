@@ -230,8 +230,6 @@ class TaskPanelNoseCone:
         self.form.shoulderThicknessInput.setText("%f" % self.obj.ShoulderThickness)
         
     def onNoseType(self, value):
-        _msg("onNoseType(%s)" % str(value))
-
         if value == TYPE_HAACK or value == TYPE_PARABOLIC:
             self.form.coefficientInput.setEnabled(True)
         elif value == TYPE_POWER:
@@ -243,8 +241,6 @@ class TaskPanelNoseCone:
         self.obj.Proxy.execute(self.obj)
         
     def onNoseStyle(self, value):
-        _msg("onNoseStyle(%s)" % str(value))
-
         if value == STYLE_HOLLOW or value == STYLE_CAPPED:
             self.form.thicknessInput.setEnabled(True)
 
@@ -260,33 +256,23 @@ class TaskPanelNoseCone:
         self.obj.Proxy.execute(self.obj)
         
     def onLengthChanged(self, value):
-        _msg("onLengthChanged(%s)" % str(value))
-
         self.obj.Length = _toFloat(value)
         self.obj.Proxy.execute(self.obj)
 
         
     def onRadiusChanged(self, value):
-        _msg("onRadiusChanged(%s)" % str(value))
-
         self.obj.Radius = _toFloat(value)
         self.obj.Proxy.execute(self.obj)
         
     def onThicknessChanged(self, value):
-        _msg("onThicknessChanged(%s)" % str(value))
-
         self.obj.Thickness = _toFloat(value)
         self.obj.Proxy.execute(self.obj)
         
     def onCoefficientChanged(self, value):
-        _msg("onCoefficientChanged(%s)" % str(value))
-
         self.obj.Coefficient = _toFloat(value)
         self.obj.Proxy.execute(self.obj)
         
     def onShoulderChanged(self, value):
-        _msg("onShoulderChanged(%s)" % str(value))
-
         self.obj.Shoulder = self.form.shoulderCheckbox.isChecked()
         if self.obj.Shoulder:
             self.form.shoulderRadiusInput.setEnabled(True)
@@ -305,20 +291,14 @@ class TaskPanelNoseCone:
         self.obj.Proxy.execute(self.obj)
         
     def onShoulderRadiusChanged(self, value):
-        _msg("onShoulderRadiusChanged(%s)" % str(value))
-
         self.obj.ShoulderRadius = _toFloat(value)
         self.obj.Proxy.execute(self.obj)
         
     def onShoulderLengthChanged(self, value):
-        _msg("onShoulderLengthChanged(%s)" % str(value))
-
         self.obj.ShoulderLength = _toFloat(value)
         self.obj.Proxy.execute(self.obj)
         
     def onShoulderThicknessChanged(self, value):
-        _msg("onShoulderThicknessChanged(%s)" % str(value))
-
         self.obj.ShoulderThickness = _toFloat(value)
         self.obj.Proxy.execute(self.obj)
         
@@ -336,14 +316,12 @@ class TaskPanelNoseCone:
         self.transferFrom()
                 
     def accept(self):
-        _msg('accept(self)')
         self.transferTo()
         FreeCAD.ActiveDocument.recompute()
         FreeCADGui.ActiveDocument.resetEdit()
         
                     
     def reject(self):
-        _msg('reject(self)')
-        FreeCADGui.ActiveDocument.resetEdit()
         FreeCAD.ActiveDocument.abortTransaction()
-        FreeCAD.ActiveDocument.recompute() #??? Should the object not be created?
+        FreeCAD.ActiveDocument.recompute()
+        FreeCADGui.ActiveDocument.resetEdit()

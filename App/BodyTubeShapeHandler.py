@@ -29,7 +29,7 @@ import FreeCADGui
 import Part
 import math
 
-from App.Utilities import _msg, _err, _trace
+from App.Utilities import _err, _trace
 
 class BodyTubeShapeHandler():
     def __init__(self, obj):

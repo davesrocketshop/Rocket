@@ -34,7 +34,7 @@ from PySide2.QtWidgets import QDialog, QGridLayout
 from App.Constants import TYPE_CONE, TYPE_ELLIPTICAL, TYPE_HAACK, TYPE_OGIVE, TYPE_VON_KARMAN, TYPE_PARABOLA, TYPE_PARABOLIC, TYPE_POWER
 from App.Constants import STYLE_CAPPED, STYLE_HOLLOW, STYLE_SOLID, STYLE_SOLID_CORE
 
-from App.Utilities import _toFloat, _msg
+from App.Utilities import _toFloat
 
 class _TransitionDialog(QDialog):
 
@@ -330,8 +330,6 @@ class TaskPanelTransition:
         
         
     def onTransitionType(self, value):
-        _msg("onTransitionType(%s)" % str(value))
-
         if value == TYPE_HAACK or value == TYPE_PARABOLIC:
             self.form.coefficientInput.setEnabled(True)
         elif value == TYPE_POWER:
@@ -343,8 +341,6 @@ class TaskPanelTransition:
         self.obj.Proxy.execute(self.obj)
        
     def onTransitionStyle(self, value):
-        _msg("onTransitionStyle(%s)" % str(value))
-
         if value == STYLE_HOLLOW or value == STYLE_CAPPED:
             self.form.thicknessInput.setEnabled(True)
             self.form.coreRadiusInput.setEnabled(False)
@@ -375,50 +371,34 @@ class TaskPanelTransition:
         self.obj.Proxy.execute(self.obj)
         
     def onLength(self, value):
-        _msg("onLength(%s)" % str(value))
-
         self.obj.Length = _toFloat(value)
         self.obj.Proxy.execute(self.obj)
         
     def onForeRadius(self, value):
-        _msg("onForeRadius(%s)" % str(value))
-
         self.obj.ForeRadius = _toFloat(value)
         self.obj.Proxy.execute(self.obj)
         
     def onAftRadius(self, value):
-        _msg("onAftRadius(%s)" % str(value))
-
         self.obj.AftRadius = _toFloat(value)
         self.obj.Proxy.execute(self.obj)
         
     def onCoreRadius(self, value):
-        _msg("onCoreRadius(%s)" % str(value))
-
         self.obj.CoreRadius = _toFloat(value)
         self.obj.Proxy.execute(self.obj)
         
     def onThickness(self, value):
-        _msg("onThickness(%s)" % str(value))
-
         self.obj.Thickness = _toFloat(value)
         self.obj.Proxy.execute(self.obj)
         
     def onCoefficient(self, value):
-        _msg("onCoefficient(%s)" % str(value))
-
         self.obj.Coefficient = _toFloat(value)
         self.obj.Proxy.execute(self.obj)
         
     def onClipped(self, value):
-        _msg("onClipped(%s)" % str(value))
-
         self.obj.Clipped = self.form.clippedCheckbox.isChecked()
         self.obj.Proxy.execute(self.obj)
         
     def onForeShoulder(self, value):
-        _msg("onForeShoulder(%s)" % str(value))
-
         self.obj.ForeShoulder = self.form.foreShoulderCheckbox.isChecked()
         if self.obj.ForeShoulder:
             self.form.foreShoulderRadiusInput.setEnabled(True)
@@ -437,26 +417,18 @@ class TaskPanelTransition:
         self.obj.Proxy.execute(self.obj)
         
     def onForeShoulderRadius(self, value):
-        _msg("onForeShoulderRadius(%s)" % str(value))
-
         self.obj.ForeShoulderRadius = _toFloat(value)
         self.obj.Proxy.execute(self.obj)
         
     def onForeShoulderLength(self, value):
-        _msg("onForeShoulderLength(%s)" % str(value))
-
         self.obj.ForeShoulderLength = _toFloat(value)
         self.obj.Proxy.execute(self.obj)
         
     def onForeShoulderThickness(self, value):
-        _msg("onForeShoulderThickness(%s)" % str(value))
-
         self.obj.ForeShoulderThickness = _toFloat(value)
         self.obj.Proxy.execute(self.obj)
         
     def onAftShoulder(self, value):
-        _msg("onAftShoulder(%s)" % str(value))
-
         self.obj.AftShoulder = self.form.aftShoulderCheckbox.isChecked()
         if self.obj.AftShoulder:
             self.form.aftShoulderRadiusInput.setEnabled(True)
@@ -475,20 +447,14 @@ class TaskPanelTransition:
         self.obj.Proxy.execute(self.obj)
         
     def onAftShoulderRadius(self, value):
-        _msg("onAftShoulderRadius(%s)" % str(value))
-
         self.obj.AftShoulderRadius = _toFloat(value)
         self.obj.Proxy.execute(self.obj)
         
     def onAftShoulderLength(self, value):
-        _msg("onAftShoulderLength(%s)" % str(value))
-
         self.obj.AftShoulderLength = _toFloat(value)
         self.obj.Proxy.execute(self.obj)
         
     def onAftShoulderThickness(self, value):
-        _msg("onAftShoulderThickness(%s)" % str(value))
-
         self.obj.AftShoulderThickness = _toFloat(value)
         self.obj.Proxy.execute(self.obj)
         
@@ -506,14 +472,12 @@ class TaskPanelTransition:
         self.transferFrom()
                 
     def accept(self):
-        _msg('accept(self)')
         self.transferTo()
         FreeCAD.ActiveDocument.recompute()
         FreeCADGui.ActiveDocument.resetEdit()
         
                     
     def reject(self):
-        _msg('reject(self)')
-        FreeCADGui.ActiveDocument.resetEdit()
         FreeCAD.ActiveDocument.abortTransaction()
-        FreeCAD.ActiveDocument.recompute() #??? Should the object not be created?
+        FreeCAD.ActiveDocument.recompute()
+        FreeCADGui.ActiveDocument.resetEdit()
