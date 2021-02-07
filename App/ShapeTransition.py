@@ -31,7 +31,7 @@ from App.TransitionConeShapeHandler import TransitionConeShapeHandler
 from App.TransitionEllipseShapeHandler import TransitionEllipseShapeHandler
 from App.TransitionHaackShapeHandler import TransitionHaackShapeHandler
 from App.TransitionOgiveShapeHandler import TransitionOgiveShapeHandler
-# from App.TransitionParabolicShapeHandler import TransitionParabolicShapeHandler
+from App.TransitionParabolicShapeHandler import TransitionParabolicShapeHandler
 # from App.TransitionPowerShapeHandler import TransitionPowerShapeHandler
 
 from App.Constants import TYPE_CONE, TYPE_ELLIPTICAL, TYPE_HAACK, TYPE_OGIVE, TYPE_VON_KARMAN, TYPE_PARABOLA, TYPE_PARABOLIC, TYPE_POWER
@@ -92,8 +92,8 @@ class ShapeTransition:
 			shape = TransitionHaackShapeHandler(obj)
 		elif obj.TransitionType == TYPE_HAACK:
 			shape = TransitionHaackShapeHandler(obj)
-		# elif obj.TransitionType == TYPE_PARABOLIC:
-		# 	shape = TransitionParabolicShapeHandler(obj)
+		elif obj.TransitionType == TYPE_PARABOLIC:
+			shape = TransitionParabolicShapeHandler(obj)
 		# elif obj.TransitionType == TYPE_PARABOLA:
 		# 	obj.Coefficient = 0.5
 		# 	shape = TransitionPowerShapeHandler(obj)

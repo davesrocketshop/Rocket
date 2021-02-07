@@ -53,7 +53,7 @@ class _TransitionDialog(QDialog):
                                 TYPE_ELLIPTICAL,
                                 TYPE_OGIVE,
                                 #TYPE_PARABOLA,
-                                #TYPE_PARABOLIC,
+                                TYPE_PARABOLIC,
                                 #TYPE_POWER,
                                 TYPE_VON_KARMAN,
                                 TYPE_HAACK
