@@ -34,16 +34,13 @@ from App.TransitionShapeHandler import TransitionShapeHandler
 from App.Utilities import _err, _msg
     
     
-class TransitionHaackShapeHandler(TransitionShapeHandler):
+class TransitionPowerShapeHandler(TransitionShapeHandler):
 
     def isValidShape(self):
-        if self._coefficient < 0:
-            _err("For %s transitions the coefficient must be >= 0" % self._type)
+        if self._coefficient <= 0 or self._coefficient > 1:
+            _err("For %s transitions the coefficient must be in the range (0 < coefficient <= 1)" % self._type)
             return False
         return super().isValidShape()
-
-    def _theta(self, x, length):
-        return  math.acos(1 - 2*x/length)
             
     def _radiusAt(self, r1, r2, length, pos):
         if r1 > r2:
@@ -55,12 +52,10 @@ class TransitionHaackShapeHandler(TransitionShapeHandler):
             center = r1
             x = pos
 
-        theta = self._theta(x, length)
-        y = radius * math.sqrt(theta - math.sin(2 * theta)/2
-            + self._coefficient * math.pow(math.sin(theta), 3)) / math.sqrt(math.pi)
+        y = radius * math.pow((x / length), self._coefficient)
         return y + center
 
-    def _haack(self, r1, r2, length, min = 0):
+    def _power(self, r1, r2, length, min = 0):
         if r1 > r2:
             radius = r1 - r2
         else:
@@ -77,17 +72,17 @@ class TransitionHaackShapeHandler(TransitionShapeHandler):
         return points
 
     def _curve(self):
-        curve = self._haack(self._foreRadius, self._aftRadius, self._length)
+        curve = self._power(self._foreRadius, self._aftRadius, self._length)
         return self.makeSpline(curve)
 
     def _curveInnerHollow(self):
-        curve = self._haack(self._foreRadius - self._thickness, self._aftRadius - self._thickness, self._length)
+        curve = self._power(self._foreRadius - self._thickness, self._aftRadius - self._thickness, self._length)
         ogive = self.makeSpline(curve)
 
         return ogive
 
     def _curveInner(self, foreX, aftX, foreY, aftY):
-        curve = self._haack(foreY, aftY, foreX, aftX)
+        curve = self._power(foreY, aftY, foreX, aftX)
         ogive = self.makeSpline(curve)
 
         return ogive

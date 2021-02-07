@@ -42,7 +42,8 @@ CLIP_PRECISION = 0.0001
 class TransitionShapeHandler():
     def __init__(self, obj):
 
-        # Common parameters        
+        # Common parameters
+        self._type = str(obj.TransitionType)
         self._style = str(obj.TransitionStyle)
         self._thickness = float(obj.Thickness)
 

@@ -52,9 +52,9 @@ class _TransitionDialog(QDialog):
         self.transitionTypes = (TYPE_CONE,
                                 TYPE_ELLIPTICAL,
                                 TYPE_OGIVE,
-                                #TYPE_PARABOLA,
+                                TYPE_PARABOLA,
                                 TYPE_PARABOLIC,
-                                #TYPE_POWER,
+                                TYPE_POWER,
                                 TYPE_VON_KARMAN,
                                 TYPE_HAACK
                                 )

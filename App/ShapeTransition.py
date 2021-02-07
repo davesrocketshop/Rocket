@@ -32,7 +32,7 @@ from App.TransitionEllipseShapeHandler import TransitionEllipseShapeHandler
 from App.TransitionHaackShapeHandler import TransitionHaackShapeHandler
 from App.TransitionOgiveShapeHandler import TransitionOgiveShapeHandler
 from App.TransitionParabolicShapeHandler import TransitionParabolicShapeHandler
-# from App.TransitionPowerShapeHandler import TransitionPowerShapeHandler
+from App.TransitionPowerShapeHandler import TransitionPowerShapeHandler
 
 from App.Constants import TYPE_CONE, TYPE_ELLIPTICAL, TYPE_HAACK, TYPE_OGIVE, TYPE_VON_KARMAN, TYPE_PARABOLA, TYPE_PARABOLIC, TYPE_POWER
 from App.Constants import STYLE_CAPPED, STYLE_HOLLOW, STYLE_SOLID, STYLE_SOLID_CORE
@@ -94,11 +94,11 @@ class ShapeTransition:
 			shape = TransitionHaackShapeHandler(obj)
 		elif obj.TransitionType == TYPE_PARABOLIC:
 			shape = TransitionParabolicShapeHandler(obj)
-		# elif obj.TransitionType == TYPE_PARABOLA:
-		# 	obj.Coefficient = 0.5
-		# 	shape = TransitionPowerShapeHandler(obj)
-		# elif obj.TransitionType == TYPE_POWER:
-		# 	shape = TransitionPowerShapeHandler(obj)
+		elif obj.TransitionType == TYPE_PARABOLA:
+			obj.Coefficient = 0.5
+			shape = TransitionPowerShapeHandler(obj)
+		elif obj.TransitionType == TYPE_POWER:
+			shape = TransitionPowerShapeHandler(obj)
 
 		if shape is not None:
 			shape.draw()
