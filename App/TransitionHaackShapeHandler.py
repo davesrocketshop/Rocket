@@ -18,9 +18,9 @@
 # *   USA                                                                   *
 # *                                                                         *
 # ***************************************************************************
-"""Base class for drawing ogive transitions"""
+"""Base class for drawing Haack transitions"""
 
-__title__ = "FreeCAD Ogive Transition Handler"
+__title__ = "FreeCAD Haack Transition Handler"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
     
@@ -34,7 +34,16 @@ from App.TransitionShapeHandler import TransitionShapeHandler
 from App.Utilities import _err, _msg
     
     
-class TransitionOgiveShapeHandler(TransitionShapeHandler):
+class TransitionHaackShapeHandler(TransitionShapeHandler):
+
+    def isValidShape(self):
+        if self._coefficient < 0:
+            _err("For %s transitions the coefficient must be >= 0" % self._type)
+            return False
+        return super().isValidShape()
+
+    def _theta(self, x, length):
+        return  math.acos(1 - 2*x/length);
             
     def _radiusAt(self, r1, r2, length, pos):
         if r1 > r2:
@@ -45,12 +54,13 @@ class TransitionOgiveShapeHandler(TransitionShapeHandler):
             radius = r2 - r1
             center = r1
             x = pos
-        rho = (radius * radius + length * length) / (2.0 * radius)
 
-        y = math.sqrt(rho * rho - math.pow(length - x, 2)) + radius - rho
+        theta = self._theta(x, length)
+        y = radius * math.sqrt(theta - math.sin(2 * theta)/2
+            + self._coefficient * math.pow(math.sin(theta), 3)) / math.sqrt(math.pi)
         return y + center
 
-    def _ogive(self, r1, r2, length, min = 0):
+    def _haack(self, r1, r2, length, min = 0):
         if r1 > r2:
             radius = r1 - r2
         else:
@@ -67,16 +77,20 @@ class TransitionOgiveShapeHandler(TransitionShapeHandler):
         return points
 
     def _curve(self):
-        curve = self._ogive(self._foreRadius, self._aftRadius, self._length)
+        curve = self._haack(self._foreRadius, self._aftRadius, self._length)
         return self.makeSpline(curve)
 
     def _curveInnerHollow(self):
-        curve = self._ogive(self._foreRadius - self._thickness, self._aftRadius - self._thickness, self._length)
-        return self.makeSpline(curve)
+        curve = self._haack(self._foreRadius - self._thickness, self._aftRadius - self._thickness, self._length)
+        ogive = self.makeSpline(curve)
+
+        return ogive
 
     def _curveInner(self, foreX, aftX, foreY, aftY):
-        curve = self._ogive(foreY, aftY, foreX, aftX)
-        return self.makeSpline(curve)
+        curve = self._haack(foreY, aftY, foreX, aftX)
+        ogive = self.makeSpline(curve)
+
+        return ogive
 
     def drawSolid(self):
         outer_curve = self._curve()

@@ -55,8 +55,8 @@ class _TransitionDialog(QDialog):
                                 #TYPE_PARABOLA,
                                 #TYPE_PARABOLIC,
                                 #TYPE_POWER,
-                                #TYPE_VON_KARMAN,
-                                #TYPE_HAACK
+                                TYPE_VON_KARMAN,
+                                TYPE_HAACK
                                 )
         self.transitionTypesCombo = QtGui.QComboBox(self)
         self.transitionTypesCombo.addItems(self.transitionTypes)
