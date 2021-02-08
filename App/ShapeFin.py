@@ -39,7 +39,11 @@ class ShapeFin:
     def __init__(self, obj):
 
         obj.addProperty('App::PropertyEnumeration', 'FinType', 'Fin', 'Fin type')
-        obj.FinType = [FIN_TYPE_TRAPEZOID, FIN_TYPE_ELLIPSE, FIN_TYPE_TUBE, FIN_TYPE_SKETCH]
+        obj.FinType = [FIN_TYPE_TRAPEZOID, 
+                # FIN_TYPE_ELLIPSE, 
+                # FIN_TYPE_TUBE, 
+                # FIN_TYPE_SKETCH
+                ]
         obj.FinType = FIN_TYPE_TRAPEZOID
 
         obj.addProperty('App::PropertyEnumeration', 'RootCrossSection', 'Fin', 'Fin root cross section')

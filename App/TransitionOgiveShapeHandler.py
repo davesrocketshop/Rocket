@@ -35,6 +35,10 @@ from App.Utilities import _err, _msg
     
     
 class TransitionOgiveShapeHandler(TransitionShapeHandler):
+
+    def isClippable(self):
+        # Clipped shape is the same as the unclipped
+        return False
             
     def _radiusAt(self, r1, r2, length, pos):
         if r1 > r2:

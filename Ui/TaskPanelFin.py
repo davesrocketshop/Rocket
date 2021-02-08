@@ -51,7 +51,11 @@ class _FinDialog(QDialog):
         # Select the type of nose cone
         self.finTypeLabel = QtGui.QLabel("Fin type", self)
 
-        self.finTypes = (FIN_TYPE_TRAPEZOID, FIN_TYPE_ELLIPSE, FIN_TYPE_TUBE, FIN_TYPE_SKETCH)
+        self.finTypes = (FIN_TYPE_TRAPEZOID, 
+            #FIN_TYPE_ELLIPSE, 
+            #FIN_TYPE_TUBE, 
+            #FIN_TYPE_SKETCH
+            )
         self.finTypesCombo = QtGui.QComboBox(self)
         self.finTypesCombo.addItems(self.finTypes)
 

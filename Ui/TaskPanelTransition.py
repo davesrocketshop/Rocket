@@ -65,7 +65,7 @@ class _TransitionDialog(QDialog):
 
         self.clippedCheckbox = QtGui.QCheckBox(self)
         self.clippedCheckbox.setCheckState(QtCore.Qt.Checked)
-        self.clippedCheckbox.setEnabled(False) # Not supported yet
+        # self.clippedCheckbox.setEnabled(False) # Not supported yet
 
         # Select the type of sketch
         self.transitionStyleLabel = QtGui.QLabel("Transition Style", self)
@@ -346,6 +346,17 @@ class TaskPanelTransition:
         self.form.aftShoulderRadiusInput.setText("%f" % self.obj.AftShoulderRadius)
         self.form.aftShoulderLengthInput.setText("%f" % self.obj.AftShoulderLength)
         self.form.aftShoulderThicknessInput.setText("%f" % self.obj.AftShoulderThickness)
+
+        self._showClippable()
+
+    def _showClippable(self):
+        if str(self.obj.TransitionType) in [TYPE_CONE, TYPE_OGIVE]:
+            # These types aren't clippable
+            self.obj.Clipped = False
+            self.form.clippedCheckbox.setChecked(self.obj.Clipped)
+            self.form.clippedCheckbox.setEnabled(False)
+        else:
+            self.form.clippedCheckbox.setEnabled(True)
         
         
     def onTransitionType(self, value):
@@ -367,6 +378,8 @@ class TaskPanelTransition:
             self.form.coefficientInput.setEnabled(False)
 
         self.obj.TransitionType = value
+        self._showClippable()
+
         self.obj.Proxy.execute(self.obj)
        
     def onTransitionStyle(self, value):
