@@ -73,10 +73,21 @@ class NoseconeComponent(Component):
         obj.ShoulderThickness = self._aftShoulderThickness
         obj.Coefficient = self._shapeParameter
 
-        # if FreeCAD.GuiUp:
-        #     ViewProviderNoseCone(noseCone.ViewObject)
+        if FreeCAD.GuiUp:
+            ViewProviderNoseCone(obj.ViewObject)
 
-        parent.addObject(obj)
+            body=FreeCADGui.ActiveDocument.ActiveView.getActiveObject("pdbody")
+            part=FreeCADGui.ActiveDocument.ActiveView.getActiveObject("part")
+            if body:
+                body.Group=body.Group+[obj]
+            elif part:
+                part.Group=part.Group+[obj]
+
+        if parent is not None:
+            parent.addObject(obj)
 
         # draw any subcomponents
         super().draw(obj)
+
+        obj.Proxy.execute(obj) 
+        FreeCAD.ActiveDocument.recompute()

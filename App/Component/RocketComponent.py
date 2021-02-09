@@ -40,5 +40,5 @@ class RocketComponent(Component):
     def draw(self, parent=None):
         #obj = self._doc.addObject('Part::FeaturePython', self._name)
         obj = App.ActiveDocument.addObject("App::DocumentObjectGroupPython", self._name)
-        super().draw(obj)
+        super().draw(None)
 
