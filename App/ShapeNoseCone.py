@@ -29,6 +29,8 @@ import FreeCAD
 import FreeCADGui
 import Part
 
+from App.ShapeComponent import ShapeComponent
+
 from App.NoseConeShapeHandler import NoseConeShapeHandler
 from App.NoseEllipseShapeHandler import NoseEllipseShapeHandler
 from App.NoseHaackShapeHandler import NoseHaackShapeHandler
@@ -39,60 +41,61 @@ from App.NosePowerShapeHandler import NosePowerShapeHandler
 from App.Constants import TYPE_CONE, TYPE_ELLIPTICAL, TYPE_HAACK, TYPE_OGIVE, TYPE_VON_KARMAN, TYPE_PARABOLA, TYPE_PARABOLIC, TYPE_POWER
 from App.Constants import STYLE_CAPPED, STYLE_HOLLOW, STYLE_SOLID
 
-class ShapeNoseCone:
+class ShapeNoseCone(ShapeComponent):
 
-	def __init__(self, obj):
-		obj.addProperty('App::PropertyLength', 'Length', 'NoseCone', 'Length of the nose not including any shoulder').Length = 60.0
-		obj.addProperty('App::PropertyLength', 'Radius', 'NoseCone', 'Radius at the base of the nose').Radius = 10.0
-		obj.addProperty('App::PropertyLength', 'Thickness', 'NoseCone', 'Nose cone thickness').Thickness = 2.0
-		obj.addProperty('App::PropertyBool', 'Shoulder', 'NoseCone', 'Set to true if the part includes a shoulder').Shoulder = False
-		obj.addProperty('App::PropertyLength', 'ShoulderLength', 'NoseCone', 'Shoulder Length').ShoulderLength = 10.0
-		obj.addProperty('App::PropertyLength', 'ShoulderRadius', 'NoseCone', 'Shoulder radius').ShoulderRadius = 8.0
-		obj.addProperty('App::PropertyLength', 'ShoulderThickness', 'NoseCone', 'Shoulder thickness').ShoulderThickness = 2.0
-		obj.addProperty('App::PropertyFloat', 'Coefficient', 'NoseCone', 'Coefficient').Coefficient = 0.0
-		obj.addProperty('App::PropertyInteger', 'Resolution', 'NoseCone', 'Resolution').Resolution = 100
+    def __init__(self, obj):
+        super().__init__(obj)
+        
+        obj.addProperty('App::PropertyLength', 'Length', 'NoseCone', 'Length of the nose not including any shoulder').Length = 60.0
+        obj.addProperty('App::PropertyLength', 'Radius', 'NoseCone', 'Radius at the base of the nose').Radius = 10.0
+        obj.addProperty('App::PropertyLength', 'Thickness', 'NoseCone', 'Nose cone thickness').Thickness = 2.0
+        obj.addProperty('App::PropertyBool', 'Shoulder', 'NoseCone', 'Set to true if the part includes a shoulder').Shoulder = False
+        obj.addProperty('App::PropertyLength', 'ShoulderLength', 'NoseCone', 'Shoulder Length').ShoulderLength = 10.0
+        obj.addProperty('App::PropertyLength', 'ShoulderRadius', 'NoseCone', 'Shoulder radius').ShoulderRadius = 8.0
+        obj.addProperty('App::PropertyLength', 'ShoulderThickness', 'NoseCone', 'Shoulder thickness').ShoulderThickness = 2.0
+        obj.addProperty('App::PropertyFloat', 'Coefficient', 'NoseCone', 'Coefficient').Coefficient = 0.0
+        obj.addProperty('App::PropertyInteger', 'Resolution', 'NoseCone', 'Resolution').Resolution = 100
 
-		obj.addProperty('App::PropertyEnumeration', 'NoseType', 'NoseCone', 'Nose cone type')
-		obj.NoseType = [TYPE_CONE,
-					TYPE_ELLIPTICAL,
-					TYPE_OGIVE,
-					TYPE_VON_KARMAN,
-					TYPE_PARABOLA,
-					TYPE_PARABOLIC,
-					TYPE_POWER,
-					TYPE_HAACK]
-		obj.NoseType = TYPE_OGIVE
+        obj.addProperty('App::PropertyEnumeration', 'NoseType', 'NoseCone', 'Nose cone type')
+        obj.NoseType = [TYPE_CONE,
+                    TYPE_ELLIPTICAL,
+                    TYPE_OGIVE,
+                    TYPE_VON_KARMAN,
+                    TYPE_PARABOLA,
+                    TYPE_PARABOLIC,
+                    TYPE_POWER,
+                    TYPE_HAACK]
+        obj.NoseType = TYPE_OGIVE
 
-		obj.addProperty('App::PropertyEnumeration', 'NoseStyle', 'NoseCone', 'Nose cone style')
-		obj.NoseStyle = [STYLE_SOLID,
-							STYLE_HOLLOW,
-							STYLE_CAPPED]
-		obj.NoseStyle = STYLE_SOLID
+        obj.addProperty('App::PropertyEnumeration', 'NoseStyle', 'NoseCone', 'Nose cone style')
+        obj.NoseStyle = [STYLE_SOLID,
+                            STYLE_HOLLOW,
+                            STYLE_CAPPED]
+        obj.NoseStyle = STYLE_SOLID
 
-		obj.addProperty('Part::PropertyPartShape', 'Shape', 'NoseCone', 'Shape of the nose cone')
-		obj.Proxy=self
+        obj.addProperty('Part::PropertyPartShape', 'Shape', 'NoseCone', 'Shape of the nose cone')
 
 
-	def execute(self, obj):
-		shape = None
-		if obj.NoseType == TYPE_CONE:
-			shape = NoseConeShapeHandler(obj)
-		elif obj.NoseType == TYPE_ELLIPTICAL:
-			shape = NoseEllipseShapeHandler(obj)
-		elif obj.NoseType == TYPE_OGIVE:
-			shape = NoseOgiveShapeHandler(obj)
-		elif obj.NoseType == TYPE_VON_KARMAN:
-			obj.Coefficient = 0.0
-			shape = NoseHaackShapeHandler(obj)
-		elif obj.NoseType == TYPE_HAACK:
-			shape = NoseHaackShapeHandler(obj)
-		elif obj.NoseType == TYPE_PARABOLIC:
-			shape = NoseParabolicShapeHandler(obj)
-		elif obj.NoseType == TYPE_PARABOLA:
-			obj.Coefficient = 0.5
-			shape = NosePowerShapeHandler(obj)
-		elif obj.NoseType == TYPE_POWER:
-			shape = NosePowerShapeHandler(obj)
+    def execute(self, obj):
+        shape = None
+        if obj.NoseType == TYPE_CONE:
+            shape = NoseConeShapeHandler(obj)
+        elif obj.NoseType == TYPE_ELLIPTICAL:
+            shape = NoseEllipseShapeHandler(obj)
+        elif obj.NoseType == TYPE_OGIVE:
+            shape = NoseOgiveShapeHandler(obj)
+        elif obj.NoseType == TYPE_VON_KARMAN:
+            obj.Coefficient = 0.0
+            shape = NoseHaackShapeHandler(obj)
+        elif obj.NoseType == TYPE_HAACK:
+            shape = NoseHaackShapeHandler(obj)
+        elif obj.NoseType == TYPE_PARABOLIC:
+            shape = NoseParabolicShapeHandler(obj)
+        elif obj.NoseType == TYPE_PARABOLA:
+            obj.Coefficient = 0.5
+            shape = NosePowerShapeHandler(obj)
+        elif obj.NoseType == TYPE_POWER:
+            shape = NosePowerShapeHandler(obj)
 
-		if shape is not None:
-			shape.draw()
+        if shape is not None:
+            shape.draw()

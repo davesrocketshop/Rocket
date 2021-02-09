@@ -117,7 +117,7 @@ class OpenRocket(object):
                 nose._aftRadius = float(child.text)
             elif tag == "aftouterdiameter":
                 self.trace("processNosecone", "Processing '%s'" % child.tag)
-                nose._aftOuterDiameter = float(child.text)
+                nose._aftRadius = float(child.text) / 2.0
             elif tag == "aftshoulderradius":
                 self.trace("processNosecone", "Processing '%s'" % child.tag)
                 nose._aftShoulderRadius = float(child.text)

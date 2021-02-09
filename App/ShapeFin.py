@@ -28,15 +28,18 @@ import FreeCAD
 import FreeCADGui
 import Part
 
+from App.ShapeComponent import ShapeComponent
+
 from App.Constants import FIN_TYPE_TRAPEZOID, FIN_TYPE_ELLIPSE, FIN_TYPE_TUBE, FIN_TYPE_SKETCH
 from App.Constants import FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE, \
     FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE
 
 from App.FinTrapezoidShapeHandler import FinTrapezoidShapeHandler
 
-class ShapeFin:
+class ShapeFin(ShapeComponent):
 
     def __init__(self, obj):
+        super().__init__(obj)
 
         obj.addProperty('App::PropertyEnumeration', 'FinType', 'Fin', 'Fin type')
         obj.FinType = [FIN_TYPE_TRAPEZOID, 
@@ -80,7 +83,6 @@ class ShapeFin:
         obj.addProperty('App::PropertyLength', 'TtwThickness', 'Fin', 'TTW thickness').TtwThickness = 1.0
 
         obj.addProperty('Part::PropertyPartShape', 'Shape', 'Fin', 'Shape of the fin')
-        obj.Proxy=self
 
     def execute(self, obj):
 

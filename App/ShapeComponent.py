@@ -18,37 +18,25 @@
 # *   USA                                                                   *
 # *                                                                         *
 # ***************************************************************************
-"""Class for drawing centering rings"""
+"""Base class for rocket components"""
 
-__title__ = "FreeCAD Centering Rings"
+__title__ = "FreeCAD Rocket Components"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
-    
-from App.ShapeBulkhead import ShapeBulkhead
 
-from App.CenteringRingShapeHandler import CenteringRingShapeHandler
+from App.Utilities import _err
 
-#
-# Centering rings are an extension of bulkheads
-#
-class ShapeCenteringRing(ShapeBulkhead):
+class ShapeComponent:
 
     def __init__(self, obj):
-        super().__init__(obj)
+        obj.addProperty('App::PropertyString', 'Manufacturer', 'RocketComponent', 'Component manufacturer').Manufacturer = ""
+        obj.addProperty('App::PropertyString', 'PartNumber', 'RocketComponent', 'Component manufacturer part number').PartNumber = ""
+        obj.addProperty('App::PropertyString', 'Description', 'RocketComponent', 'Component description').Description = ""
+        obj.addProperty('App::PropertyString', 'Material', 'RocketComponent', 'Component material').Material = ""
 
-        obj.addProperty('App::PropertyLength', 'CenterDiameter', 'CenteringRing', 'Diameter of the central hole').CenterDiameter = 10.0
+        obj.Proxy=self
 
-        obj.addProperty('App::PropertyBool', 'Notched', 'CenteringRing', 'Include a notch for an engine hook').Notched = False
-        obj.addProperty('App::PropertyLength', 'NotchWidth', 'CenteringRing', 'Width of the engine hook notch').NotchWidth = 3.0
-        obj.addProperty('App::PropertyLength', 'NotchHeight', 'CenteringRing', 'Height of the engine hook notch').NotchHeight = 3.0
 
-        obj.addProperty('Part::PropertyPartShape', 'Shape', 'CenteringRing', 'Shape of the centering ring')
-
-        # Default values changed to match a central hole
-        obj.HoleDiameter = 2.0
-        obj.HoleCenter = 7.0
-
+    # This will be implemented in the derived class
     def execute(self, obj):
-        shape = CenteringRingShapeHandler(obj)
-        if shape is not None:
-            shape.draw()
+        _err("No execute method defined for %s" % (self.__class__.__name__))

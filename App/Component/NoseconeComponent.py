@@ -43,18 +43,19 @@ class NoseconeComponent(Component):
         _trace(self.__class__.__name__, "__init__")
 
         self._manufacturer = ""
-        self._partNo = None
-        self._description = None
-        self._shape = None
-        self._shapeClipped = None
-        self._shapeParameter = None
-        self._aftRadius = None
-        self._aftOuterDiameter = None
-        self._aftShoulderRadius = None
-        self._aftShoulderLength = None
-        self._aftShoulderThickness = None
-        self._aftShoulderCapped = None
-        self._length = None
+        self._partNo = ""
+        self._description = ""
+        self._material = ""
+        self._filled = False
+        self._shape = TYPE_CONE
+        self._shapeClipped = False
+        self._shapeParameter = 1.0
+        self._aftRadius = -1.0
+        self._aftShoulderRadius = -1.0
+        self._aftShoulderLength = -1.0
+        self._aftShoulderThickness = -1.0
+        self._aftShoulderCapped = False
+        self._length = -1.0
 
     def create(self, parent):
         _trace(self.__class__.__name__, "create")
@@ -65,13 +66,13 @@ class NoseconeComponent(Component):
         noseCone = ShapeNoseCone(obj)
 
         obj.NoseType = self._shape
-        if (self._thickness > 0) and (self._thickness < self._aftShoulderRadius):
+        if self._filled:
+            obj.NoseStyle = STYLE_SOLID
+        else:
             if self._aftShoulderCapped:
                 obj.NoseStyle = STYLE_CAPPED
             else:
                 obj.NoseStyle = STYLE_HOLLOW
-        else:
-            obj.NoseStyle = STYLE_SOLID
         # obj.Description = self._description
 
         obj.Length = self._fromOrkLength(self._length)

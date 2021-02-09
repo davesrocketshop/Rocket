@@ -27,6 +27,8 @@ import FreeCAD
 import FreeCADGui
 import Part
 
+from App.ShapeComponent import ShapeComponent
+
 from App.TransitionConeShapeHandler import TransitionConeShapeHandler
 from App.TransitionEllipseShapeHandler import TransitionEllipseShapeHandler
 from App.TransitionHaackShapeHandler import TransitionHaackShapeHandler
@@ -37,68 +39,69 @@ from App.TransitionPowerShapeHandler import TransitionPowerShapeHandler
 from App.Constants import TYPE_CONE, TYPE_ELLIPTICAL, TYPE_HAACK, TYPE_OGIVE, TYPE_VON_KARMAN, TYPE_PARABOLA, TYPE_PARABOLIC, TYPE_POWER
 from App.Constants import STYLE_CAPPED, STYLE_HOLLOW, STYLE_SOLID, STYLE_SOLID_CORE
 
-class ShapeTransition:
+class ShapeTransition(ShapeComponent):
 
-	def __init__(self, obj):
-		obj.addProperty('App::PropertyLength', 'Length', 'Transition', 'Length of the transition not including any shoulder').Length = 60.0
-		obj.addProperty('App::PropertyLength', 'ForeRadius', 'Transition', 'Radius at the front of the transition').ForeRadius = 10.0
-		obj.addProperty('App::PropertyLength', 'AftRadius', 'Transition', 'Radius at the base of the transition').AftRadius = 20.0
-		obj.addProperty('App::PropertyLength', 'CoreRadius', 'Transition', 'Radius of the transition core').CoreRadius = 5.0
-		obj.addProperty('App::PropertyLength', 'Thickness', 'Transition', 'Transition thickness').Thickness = 2.0
-		obj.addProperty('App::PropertyBool', 'Clipped', 'Transition', 'If the transition is not clipped, then the profile is extended at the center by the corresponding radius').Clipped = True
-		obj.addProperty('App::PropertyBool', 'ForeShoulder', 'Transition', 'Set to true if the part includes a forward shoulder').ForeShoulder = False
-		obj.addProperty('App::PropertyLength', 'ForeShoulderLength', 'Transition', 'Forward Shoulder Length').ForeShoulderLength = 10.0
-		obj.addProperty('App::PropertyLength', 'ForeShoulderRadius', 'Transition', 'Forward Shoulder radius').ForeShoulderRadius = 8.0
-		obj.addProperty('App::PropertyLength', 'ForeShoulderThickness', 'Transition', 'Forward Shoulder thickness').ForeShoulderThickness = 2.0
-		obj.addProperty('App::PropertyBool', 'AftShoulder', 'Transition', 'Set to true if the part includes an aft shoulder').ForeShoulder = False
-		obj.addProperty('App::PropertyLength', 'AftShoulderLength', 'Transition', 'Aft Shoulder Length').AftShoulderLength = 10.0
-		obj.addProperty('App::PropertyLength', 'AftShoulderRadius', 'Transition', 'Aft Shoulder radius').AftShoulderRadius = 18.0
-		obj.addProperty('App::PropertyLength', 'AftShoulderThickness', 'Transition', 'Aft Shoulder thickness').AftShoulderThickness = 2.0
-		obj.addProperty('App::PropertyFloat', 'Coefficient', 'Transition', 'Coefficient').Coefficient = 0.0
-		obj.addProperty('App::PropertyInteger', 'Resolution', 'Transition', 'Resolution').Resolution = 100
+    def __init__(self, obj):
+        super().__init__(obj)
 
-		obj.addProperty('App::PropertyEnumeration', 'TransitionType', 'Transition', 'Transition type')
-		obj.TransitionType = [TYPE_CONE,
-					TYPE_ELLIPTICAL,
-					TYPE_OGIVE,
-					TYPE_VON_KARMAN,
-					TYPE_PARABOLA,
-					TYPE_PARABOLIC,
-					TYPE_POWER,
-					TYPE_HAACK]
-		obj.TransitionType = TYPE_CONE
+        obj.addProperty('App::PropertyLength', 'Length', 'Transition', 'Length of the transition not including any shoulder').Length = 60.0
+        obj.addProperty('App::PropertyLength', 'ForeRadius', 'Transition', 'Radius at the front of the transition').ForeRadius = 10.0
+        obj.addProperty('App::PropertyLength', 'AftRadius', 'Transition', 'Radius at the base of the transition').AftRadius = 20.0
+        obj.addProperty('App::PropertyLength', 'CoreRadius', 'Transition', 'Radius of the transition core').CoreRadius = 5.0
+        obj.addProperty('App::PropertyLength', 'Thickness', 'Transition', 'Transition thickness').Thickness = 2.0
+        obj.addProperty('App::PropertyBool', 'Clipped', 'Transition', 'If the transition is not clipped, then the profile is extended at the center by the corresponding radius').Clipped = True
+        obj.addProperty('App::PropertyBool', 'ForeShoulder', 'Transition', 'Set to true if the part includes a forward shoulder').ForeShoulder = False
+        obj.addProperty('App::PropertyLength', 'ForeShoulderLength', 'Transition', 'Forward Shoulder Length').ForeShoulderLength = 10.0
+        obj.addProperty('App::PropertyLength', 'ForeShoulderRadius', 'Transition', 'Forward Shoulder radius').ForeShoulderRadius = 8.0
+        obj.addProperty('App::PropertyLength', 'ForeShoulderThickness', 'Transition', 'Forward Shoulder thickness').ForeShoulderThickness = 2.0
+        obj.addProperty('App::PropertyBool', 'AftShoulder', 'Transition', 'Set to true if the part includes an aft shoulder').ForeShoulder = False
+        obj.addProperty('App::PropertyLength', 'AftShoulderLength', 'Transition', 'Aft Shoulder Length').AftShoulderLength = 10.0
+        obj.addProperty('App::PropertyLength', 'AftShoulderRadius', 'Transition', 'Aft Shoulder radius').AftShoulderRadius = 18.0
+        obj.addProperty('App::PropertyLength', 'AftShoulderThickness', 'Transition', 'Aft Shoulder thickness').AftShoulderThickness = 2.0
+        obj.addProperty('App::PropertyFloat', 'Coefficient', 'Transition', 'Coefficient').Coefficient = 0.0
+        obj.addProperty('App::PropertyInteger', 'Resolution', 'Transition', 'Resolution').Resolution = 100
 
-		obj.addProperty('App::PropertyEnumeration', 'TransitionStyle', 'Transition', 'Transition style')
-		obj.TransitionStyle = [STYLE_SOLID,
+        obj.addProperty('App::PropertyEnumeration', 'TransitionType', 'Transition', 'Transition type')
+        obj.TransitionType = [TYPE_CONE,
+                    TYPE_ELLIPTICAL,
+                    TYPE_OGIVE,
+                    TYPE_VON_KARMAN,
+                    TYPE_PARABOLA,
+                    TYPE_PARABOLIC,
+                    TYPE_POWER,
+                    TYPE_HAACK]
+        obj.TransitionType = TYPE_CONE
+
+        obj.addProperty('App::PropertyEnumeration', 'TransitionStyle', 'Transition', 'Transition style')
+        obj.TransitionStyle = [STYLE_SOLID,
                             STYLE_SOLID_CORE,
-							STYLE_HOLLOW,
-							STYLE_CAPPED]
-		obj.TransitionStyle = STYLE_SOLID
+                            STYLE_HOLLOW,
+                            STYLE_CAPPED]
+        obj.TransitionStyle = STYLE_SOLID
 
-		obj.addProperty('Part::PropertyPartShape', 'Shape', 'Transition', 'Shape of the transition')
-		obj.Proxy=self
+        obj.addProperty('Part::PropertyPartShape', 'Shape', 'Transition', 'Shape of the transition')
 
 
-	def execute(self, obj):
-		shape = None
-		if obj.TransitionType == TYPE_CONE:
-			shape = TransitionConeShapeHandler(obj)
-		elif obj.TransitionType == TYPE_ELLIPTICAL:
-		 	shape = TransitionEllipseShapeHandler(obj)
-		elif obj.TransitionType == TYPE_OGIVE:
-			shape = TransitionOgiveShapeHandler(obj)
-		elif obj.TransitionType == TYPE_VON_KARMAN:
-			obj.Coefficient = 0.0
-			shape = TransitionHaackShapeHandler(obj)
-		elif obj.TransitionType == TYPE_HAACK:
-			shape = TransitionHaackShapeHandler(obj)
-		elif obj.TransitionType == TYPE_PARABOLIC:
-			shape = TransitionParabolicShapeHandler(obj)
-		elif obj.TransitionType == TYPE_PARABOLA:
-			obj.Coefficient = 0.5
-			shape = TransitionPowerShapeHandler(obj)
-		elif obj.TransitionType == TYPE_POWER:
-			shape = TransitionPowerShapeHandler(obj)
+    def execute(self, obj):
+        shape = None
+        if obj.TransitionType == TYPE_CONE:
+            shape = TransitionConeShapeHandler(obj)
+        elif obj.TransitionType == TYPE_ELLIPTICAL:
+            shape = TransitionEllipseShapeHandler(obj)
+        elif obj.TransitionType == TYPE_OGIVE:
+            shape = TransitionOgiveShapeHandler(obj)
+        elif obj.TransitionType == TYPE_VON_KARMAN:
+            obj.Coefficient = 0.0
+            shape = TransitionHaackShapeHandler(obj)
+        elif obj.TransitionType == TYPE_HAACK:
+            shape = TransitionHaackShapeHandler(obj)
+        elif obj.TransitionType == TYPE_PARABOLIC:
+            shape = TransitionParabolicShapeHandler(obj)
+        elif obj.TransitionType == TYPE_PARABOLA:
+            obj.Coefficient = 0.5
+            shape = TransitionPowerShapeHandler(obj)
+        elif obj.TransitionType == TYPE_POWER:
+            shape = TransitionPowerShapeHandler(obj)
 
-		if shape is not None:
-			shape.draw()
+        if shape is not None:
+            shape.draw()

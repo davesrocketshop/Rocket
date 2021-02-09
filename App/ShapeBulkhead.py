@@ -24,11 +24,14 @@ __title__ = "FreeCAD Bulkheads"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
     
+from App.ShapeComponent import ShapeComponent
+
 from App.BulkheadShapeHandler import BulkheadShapeHandler
 
-class ShapeBulkhead:
+class ShapeBulkhead(ShapeComponent):
 
     def __init__(self, obj):
+        super().__init__(obj)
 
         obj.addProperty('App::PropertyLength', 'Diameter', 'Bulkhead', 'Outer diameter of the bulkhead').Diameter = 25.0
         obj.addProperty('App::PropertyLength', 'Thickness', 'Bulkhead', 'Thickness of the bulkhead without any inner step').Thickness = 2.0
@@ -43,8 +46,7 @@ class ShapeBulkhead:
         obj.addProperty('App::PropertyInteger', 'HoleCount', 'Bulkhead', 'Number of holes in a radial pattern').HoleCount = 1
         obj.addProperty('App::PropertyAngle', 'HoleOffset', 'Bulkhead', 'Outer diameter of the bulkhead').HoleOffset = 0
 
-        obj.addProperty('Part::PropertyPartShape', 'Shape', 'Fin', 'Shape of the fin')
-        obj.Proxy=self
+        obj.addProperty('Part::PropertyPartShape', 'Shape', 'Bulkhead', 'Shape of the bulkhead')
 
     def execute(self, obj):
         shape = BulkheadShapeHandler(obj)
