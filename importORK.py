@@ -50,7 +50,7 @@ def open(filename):
     ork = ET.parse(filename)
     rocket = OpenRocket(doc)
     rocket.process(ork)
-    rocket.draw()
+    rocket.create()
 
     doc.recompute()
     return doc
@@ -84,6 +84,6 @@ def insert(filename, docname):
     ork = ET.parse(filename)
     rocket = OpenRocket(doc)
     rocket.process(ork)
-    rocket.draw()
+    rocket.create()
 
     doc.recompute()

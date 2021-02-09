@@ -50,14 +50,19 @@ class OpenRocket(object):
         self._doc = doc
         self._rocket = None
 
-    def draw(self):
+    def create(self):
         if self._rocket is not None:
-            self._rocket.draw()
+            self._rocket.create()
 
     def trace(self, method, message):
         trace = True
         if trace:
             _msg("%s:%s" % (method, message))
+
+    def _toBoolean(self, value):
+        if str(value).strip().lower() == "true":
+            return True
+        return False
 
     def processComponentTag(self, parent, child):
         # Tags common to all components
@@ -97,13 +102,13 @@ class OpenRocket(object):
                 nose._description = child.text
             elif tag == "thickness":
                 self.trace("processNosecone", "Processing '%s'" % child.tag)
-                nose._thickness = child.text
+                nose._thickness = float(child.text)
             elif tag == "shape":
                 self.trace("processNosecone", "Processing '%s'" % child.tag)
                 nose._shape = child.text
             elif tag == "shapeclipped":
                 self.trace("processNosecone", "Processing '%s'" % child.tag)
-                nose._shapeClipped = child.text
+                nose._shapeClipped = self._toBoolean(child.text)
             elif tag == "shapeparameter":
                 self.trace("processNosecone", "Processing '%s'" % child.tag)
                 nose._shapeParameter = float(child.text)
@@ -127,7 +132,7 @@ class OpenRocket(object):
                 nose._aftShoulderThickness = float(child.text)
             elif tag == "aftshouldercapped":
                 self.trace("processNosecone", "Processing '%s'" % child.tag)
-                nose._aftShoulderCapped = (child.text.strip().lower() == "true")
+                nose._aftShoulderCapped = self._toBoolean(child.text)
             elif tag == "length":
                 self.trace("processNosecone", "Processing '%s'" % child.tag)
                 nose._length = float(child.text)

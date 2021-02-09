@@ -54,13 +54,20 @@ class Component:
 
         self._subComponents.append(subComponent)
 
-    def draw(self, parent):
-        _trace(self.__class__.__name__, "draw")
+    def create(self, parent):
+        """ Create the objects from the imported model """
+        _trace(self.__class__.__name__, "create")
 
         for sub in self._subComponents:
-            sub.draw(parent)
+            sub.create(parent)
         
     def calculatePosition(self, parentBase):
         _trace(self.__class__.__name__, "calculatePosition")
 
         self._axialPosition = parentBase
+
+    def _fromOrkLength(self, length):
+        """ Convert from an ORK length to a FreeCAD length """
+
+        # ORK internal units are meters
+        return length * 1000.0

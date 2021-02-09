@@ -33,6 +33,9 @@ from Ui.ViewNoseCone import ViewProviderNoseCone
 
 from App.Utilities import _msg, _err, _trace
 
+from App.Constants import TYPE_CONE, TYPE_ELLIPTICAL, TYPE_HAACK, TYPE_OGIVE, TYPE_VON_KARMAN, TYPE_PARABOLA, TYPE_PARABOLIC, TYPE_POWER
+from App.Constants import STYLE_CAPPED, STYLE_HOLLOW, STYLE_SOLID
+
 class NoseconeComponent(Component):
 
     def __init__(self, doc):
@@ -53,41 +56,37 @@ class NoseconeComponent(Component):
         self._aftShoulderCapped = None
         self._length = None
 
-    def draw(self, parent):
-        _trace(self.__class__.__name__, "draw")
+    def create(self, parent):
+        _trace(self.__class__.__name__, "create")
 
-        obj = self._doc.addObject('App::FeaturePython', 'NoseCone')
+        obj = self._doc.addObject('Part::FeaturePython', 'NoseCone')
         obj.Label= self._name
 
         noseCone = ShapeNoseCone(obj)
 
         obj.NoseType = self._shape
-        obj.NoseStyle = "solid"
+        if (self._thickness > 0) and (self._thickness < self._aftShoulderRadius):
+            if self._aftShoulderCapped:
+                obj.NoseStyle = STYLE_CAPPED
+            else:
+                obj.NoseStyle = STYLE_HOLLOW
+        else:
+            obj.NoseStyle = STYLE_SOLID
+        # obj.Description = self._description
 
-        obj.Length = self._length
-        obj.Radius = self._aftRadius
-        obj.Thickness = 2.0
+        obj.Length = self._fromOrkLength(self._length)
+        obj.Radius = self._fromOrkLength(self._aftRadius)
+        obj.Thickness = self._fromOrkLength(self._thickness)
         obj.Shoulder = (self._aftShoulderLength > 0)
-        obj.ShoulderLength = self._aftShoulderLength
-        obj.ShoulderRadius = self._aftShoulderRadius
-        obj.ShoulderThickness = self._aftShoulderThickness
+        obj.ShoulderLength = self._fromOrkLength(self._aftShoulderLength)
+        obj.ShoulderRadius = self._fromOrkLength(self._aftShoulderRadius)
+        obj.ShoulderThickness = self._fromOrkLength(self._aftShoulderThickness)
         obj.Coefficient = self._shapeParameter
 
         if FreeCAD.GuiUp:
             ViewProviderNoseCone(obj.ViewObject)
 
-            body=FreeCADGui.ActiveDocument.ActiveView.getActiveObject("pdbody")
-            part=FreeCADGui.ActiveDocument.ActiveView.getActiveObject("part")
-            if body:
-                body.Group=body.Group+[obj]
-            elif part:
-                part.Group=part.Group+[obj]
-
         if parent is not None:
             parent.addObject(obj)
 
-        # draw any subcomponents
-        super().draw(obj)
-
-        obj.Proxy.execute(obj) 
-        FreeCAD.ActiveDocument.recompute()
+        super().create(obj)
