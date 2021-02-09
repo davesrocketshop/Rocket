@@ -56,7 +56,7 @@ class CmdBodyTube:
         if FreeCAD.ActiveDocument:
             return True
         return False
-         
+            
     def GetResources(self):
         return {'MenuText': 'Body Tube',
                 'ToolTip': 'Body tube design',

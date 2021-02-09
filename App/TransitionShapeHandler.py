@@ -85,12 +85,12 @@ class TransitionShapeHandler():
         
         #Perform some general validations
         if self._style in [STYLE_HOLLOW, STYLE_CAPPED]:
-        	if self._thickness <= 0:
-        		_err("For %s transitions thickness must be > 0" % self._style)
-        		return False
-        	if self._thickness >= self._foreRadius or self._thickness >= self._aftRadius:
-        		_err("Transition thickness must be less than the front or back radius")
-        		return False
+            if self._thickness <= 0:
+                _err("For %s transitions thickness must be > 0" % self._style)
+                return False
+            if self._thickness >= self._foreRadius or self._thickness >= self._aftRadius:
+                _err("Transition thickness must be less than the front or back radius")
+                return False
 
         elif self._style == STYLE_SOLID_CORE:
             if self._coreRadius >= self._foreRadius or self._coreRadius >= self._aftRadius:
@@ -106,40 +106,40 @@ class TransitionShapeHandler():
                     return False
 
         if self._foreShoulder:
-        	if self._foreShoulderLength <= 0:
-        		_err("Forward shoulder length must be > 0")
-        		return False
-        	if self._foreShoulderRadius <= 0:
-        		_err("Forward shoulder radius must be > 0")
-        		return False
-        	if self._foreShoulderRadius > self._foreRadius:
-        		_err("Forward shoulder radius can not exceed the transition radius at the shoulder")
-        		return False
-        	if self._style in [STYLE_HOLLOW, STYLE_CAPPED]:
-        		if self._foreShoulderThickness <= 0:
-        			_err("For %s transitions with a shoulder, shoulder thickness must be > 0" % self._style)
-        			return False
-        		if self._foreShoulderThickness >= self._foreShoulderRadius:
-        			_err("Shoulder thickness must be less than the shoulder radius")
-        			return False
+            if self._foreShoulderLength <= 0:
+                _err("Forward shoulder length must be > 0")
+                return False
+            if self._foreShoulderRadius <= 0:
+                _err("Forward shoulder radius must be > 0")
+                return False
+            if self._foreShoulderRadius > self._foreRadius:
+                _err("Forward shoulder radius can not exceed the transition radius at the shoulder")
+                return False
+            if self._style in [STYLE_HOLLOW, STYLE_CAPPED]:
+                if self._foreShoulderThickness <= 0:
+                    _err("For %s transitions with a shoulder, shoulder thickness must be > 0" % self._style)
+                    return False
+                if self._foreShoulderThickness >= self._foreShoulderRadius:
+                    _err("Shoulder thickness must be less than the shoulder radius")
+                    return False
 
         if self._aftShoulder:
-        	if self._aftShoulderLength <= 0:
-        		_err("Aft shoulder length must be > 0")
-        		return False
-        	if self._aftShoulderRadius <= 0:
-        		_err("Aft shoulder radius must be > 0")
-        		return False
-        	if self._aftShoulderRadius > self._aftRadius:
-        		_err("Aft shoulder radius can not exceed the transition radius at the shoulder")
-        		return False
-        	if self._style in [STYLE_HOLLOW, STYLE_CAPPED]:
-        		if self._aftShoulderThickness <= 0:
-        			_err("For %s transitions with a shoulder, shoulder thickness must be > 0" % self._style)
-        			return False
-        		if self._aftShoulderThickness >= self._aftShoulderRadius:
-        			_err("Shoulder thickness must be less than the shoulder radius")
-        			return False
+            if self._aftShoulderLength <= 0:
+                _err("Aft shoulder length must be > 0")
+                return False
+            if self._aftShoulderRadius <= 0:
+                _err("Aft shoulder radius must be > 0")
+                return False
+            if self._aftShoulderRadius > self._aftRadius:
+                _err("Aft shoulder radius can not exceed the transition radius at the shoulder")
+                return False
+            if self._style in [STYLE_HOLLOW, STYLE_CAPPED]:
+                if self._aftShoulderThickness <= 0:
+                    _err("For %s transitions with a shoulder, shoulder thickness must be > 0" % self._style)
+                    return False
+                if self._aftShoulderThickness >= self._aftShoulderRadius:
+                    _err("Shoulder thickness must be less than the shoulder radius")
+                    return False
 
         return True
 
@@ -501,13 +501,13 @@ class TransitionShapeHandler():
         return [outerShape.toShape()] + front + back + [innerShape.toShape()]
 
     def _cappedLines(self, foreY, aftY, outerShape, innerShape):
-         
+            
         fore = FreeCAD.Vector(self._length, self._foreRadius)
         aft = FreeCAD.Vector(0.0, self._aftRadius)
 
         foreInner = FreeCAD.Vector(self._length - self._thickness, foreY)
         aftIinner = FreeCAD.Vector(self._thickness, aftY)
-       
+        
         foreCenter = FreeCAD.Vector(self._length,0)
         aftCenter = FreeCAD.Vector(0,0)
 
@@ -533,9 +533,9 @@ class TransitionShapeHandler():
             line4 = Part.LineSegment(FreeCAD.Vector(self._length + self._foreShoulderLength,0),                                                        FreeCAD.Vector(self._length + self._foreShoulderLength - self._foreShoulderThickness,0))
             line5 = Part.LineSegment(FreeCAD.Vector(self._length + self._foreShoulderLength - self._foreShoulderThickness,0),                          FreeCAD.Vector(self._length + self._foreShoulderLength - self._foreShoulderThickness,self._foreShoulderRadius - self._foreShoulderThickness))
             line6 = Part.LineSegment(FreeCAD.Vector(self._length + self._foreShoulderLength - self._foreShoulderThickness,self._foreShoulderRadius - self._foreShoulderThickness),
-                                                                                                                                         FreeCAD.Vector(self._length - self._thickness,self._foreShoulderRadius - self._foreShoulderThickness))
+                                                                                                                                            FreeCAD.Vector(self._length - self._thickness,self._foreShoulderRadius - self._foreShoulderThickness))
             line7 = Part.LineSegment(FreeCAD.Vector(self._length - self._thickness,self._foreShoulderRadius - self._foreShoulderThickness),
-                                                                                                                                         FreeCAD.Vector(self._length - self._thickness,foreY))
+                                                                                                                                            FreeCAD.Vector(self._length - self._thickness,foreY))
 
             front = [line1.toShape(), line2.toShape(), line3.toShape(), line4.toShape(), line5.toShape(), line6.toShape(), line7.toShape()]
         else:
@@ -552,7 +552,7 @@ class TransitionShapeHandler():
             line4 = Part.LineSegment(FreeCAD.Vector(-self._aftShoulderLength,0),                                            FreeCAD.Vector(-self._aftShoulderLength + self._aftShoulderThickness,0))
             line5 = Part.LineSegment(FreeCAD.Vector(-self._aftShoulderLength + self._aftShoulderThickness,0),               FreeCAD.Vector(-self._aftShoulderLength + self._aftShoulderThickness,self._aftShoulderRadius - self._aftShoulderThickness))
             line6 = Part.LineSegment(FreeCAD.Vector(-self._aftShoulderLength + self._aftShoulderThickness,self._aftShoulderRadius - self._aftShoulderThickness), 
-                                                                                                                                          FreeCAD.Vector(self._thickness,self._aftShoulderRadius - self._aftShoulderThickness))
+                                                                                                                                            FreeCAD.Vector(self._thickness,self._aftShoulderRadius - self._aftShoulderThickness))
             line7 = Part.LineSegment(FreeCAD.Vector(self._thickness,self._aftShoulderRadius - self._aftShoulderThickness), FreeCAD.Vector(self._thickness,aftY))
 
             back = [line1.toShape(), line2.toShape(), line3.toShape(), line4.toShape(), line5.toShape(), line6.toShape(), line7.toShape()]

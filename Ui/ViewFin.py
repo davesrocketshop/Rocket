@@ -41,19 +41,19 @@ class ViewProviderFin:
         self.ViewObject = vobj
         self.Object = vobj.Object
 
-    def setEdit(self,vobj,mode):
+    def setEdit(self, vobj, mode):
         taskd = TaskPanelFin(self.Object,mode)
         taskd.obj = vobj.Object
         taskd.update()
         FreeCADGui.Control.showDialog(taskd)
         return True
-    
-    def unsetEdit(self,vobj,mode):
+
+    def unsetEdit(self, vobj, mode):
         FreeCADGui.Control.closeDialog()
         return
 
     def __getstate__(self):
         return None
 
-    def __setstate__(self,state):
+    def __setstate__(self, state):
         return None

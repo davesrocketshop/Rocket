@@ -387,7 +387,7 @@ class TaskPanelFin:
         self.obj.TtwLength = _toFloat(self.form.ttwLengthInput.text())
         self.obj.TtwHeight = _toFloat(self.form.ttwHeightInput.text())
         self.obj.TtwThickness = _toFloat(self.form.ttwThicknessInput.text())
-    
+
     def transferFrom(self):
         "Transfer from the object to the dialog"
         self.form.finTypesCombo.setCurrentText(self.obj.FinType)
@@ -561,7 +561,7 @@ class TaskPanelFin:
         length = _toFloat(self.form.heightInput.text()) / math.tan(theta)
         self.form.sweepLengthInput.setText("%f" % length)
         self.obj.SweepLength = length
- 
+
     def _sweepAngleFromLength(self):
         theta = 90.0 - math.degrees(math.atan2(_toFloat(self.form.heightInput.text()), _toFloat(self.form.sweepLengthInput.text())))
         self.form.sweepAngleInput.setText("%f" % theta)
@@ -607,7 +607,7 @@ class TaskPanelFin:
         
     def getStandardButtons(self):
         return int(QtGui.QDialogButtonBox.Ok) | int(QtGui.QDialogButtonBox.Cancel)| int(QtGui.QDialogButtonBox.Apply)
-    
+
     def clicked(self,button):
         if button == QtGui.QDialogButtonBox.Apply:
             #print "Apply"

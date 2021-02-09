@@ -215,7 +215,7 @@ class TaskPanelNoseCone:
         self.obj.ShoulderRadius = _toFloat(self.form.shoulderRadiusInput.text())
         self.obj.ShoulderLength = _toFloat(self.form.shoulderLengthInput.text())
         self.obj.ShoulderThickness = _toFloat(self.form.shoulderThicknessInput.text())
-    
+
     def transferFrom(self):
         "Transfer from the object to the dialog"
         self.form.noseConeTypesCombo.setCurrentText(self.obj.NoseType)
@@ -304,7 +304,7 @@ class TaskPanelNoseCone:
         
     def getStandardButtons(self):
         return int(QtGui.QDialogButtonBox.Ok) | int(QtGui.QDialogButtonBox.Cancel)| int(QtGui.QDialogButtonBox.Apply)
-    
+
     def clicked(self,button):
         if button == QtGui.QDialogButtonBox.Apply:
             #print "Apply"

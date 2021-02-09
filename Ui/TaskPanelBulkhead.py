@@ -278,7 +278,7 @@ class TaskPanelBulkhead:
             self.obj.Notched = self.form.notchedCheckbox.isChecked()
             self.obj.NotchWidth = _toFloat(self.form.notchWidthInput.text())
             self.obj.NotchHeight = _toFloat(self.form.notchHeightInput.text())
-    
+
     def transferFrom(self):
         "Transfer from the object to the dialog"
         self.form.diameterInput.setText("%f" % self.obj.Diameter)
@@ -383,7 +383,7 @@ class TaskPanelBulkhead:
         
     def getStandardButtons(self):
         return int(QtGui.QDialogButtonBox.Ok) | int(QtGui.QDialogButtonBox.Cancel)| int(QtGui.QDialogButtonBox.Apply)
-    
+
     def clicked(self,button):
         if button == QtGui.QDialogButtonBox.Apply:
             #print "Apply"

@@ -43,9 +43,9 @@ def _trace(className, functionName, message = None):
     trace = True
     if trace:
         if message is None:
-        	FreeCAD.Console.PrintMessage("%s:%s()\n" % (className, functionName))
+            FreeCAD.Console.PrintMessage("%s:%s()\n" % (className, functionName))
         else:
-        	FreeCAD.Console.PrintMessage("%s:%s(%s)\n" % (className, functionName, message))
+            FreeCAD.Console.PrintMessage("%s:%s(%s)\n" % (className, functionName, message))
 
 def _toFloat(input, defaultValue = 0.0):
     if input == '':

@@ -107,7 +107,7 @@ class TaskPanelBodyTube:
         self.obj.InnerDiameter = _toFloat(self.form.idInput.text())
         self.obj.OuterDiameter = _toFloat(self.form.odInput.text())
         self.obj.Length = _toFloat(self.form.lengthInput.text())
-    
+
     def transferFrom(self):
         "Transfer from the object to the dialog"
         self.form.idInput.setText("%f" % self.obj.InnerDiameter)
@@ -129,7 +129,7 @@ class TaskPanelBodyTube:
         
     def getStandardButtons(self):
         return int(QtGui.QDialogButtonBox.Ok) | int(QtGui.QDialogButtonBox.Cancel)| int(QtGui.QDialogButtonBox.Apply)
-    
+
     def clicked(self,button):
         if button == QtGui.QDialogButtonBox.Apply:
             #print "Apply"

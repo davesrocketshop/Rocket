@@ -326,7 +326,7 @@ class TaskPanelTransition:
         self.obj.AftShoulderRadius = _toFloat(self.form.aftShoulderRadiusInput.text())
         self.obj.AftShoulderLength = _toFloat(self.form.aftShoulderLengthInput.text())
         self.obj.AftShoulderThickness = _toFloat(self.form.aftShoulderThicknessInput.text())
-    
+
     def transferFrom(self):
         "Transfer from the object to the dialog"
         self.form.transitionTypesCombo.setCurrentText(self.obj.TransitionType)
@@ -381,7 +381,7 @@ class TaskPanelTransition:
         self._showClippable()
 
         self.obj.Proxy.execute(self.obj)
-       
+        
     def onTransitionStyle(self, value):
         if value == STYLE_HOLLOW or value == STYLE_CAPPED:
             self.form.thicknessInput.setEnabled(True)
@@ -502,7 +502,7 @@ class TaskPanelTransition:
         
     def getStandardButtons(self):
         return int(QtGui.QDialogButtonBox.Ok) | int(QtGui.QDialogButtonBox.Cancel)| int(QtGui.QDialogButtonBox.Apply)
-    
+
     def clicked(self,button):
         if button == QtGui.QDialogButtonBox.Apply:
             #print "Apply"

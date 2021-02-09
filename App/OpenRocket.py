@@ -197,22 +197,22 @@ class OpenRocket(object):
                 self.processRocketSubComponents(rocket, child)
 
             elif tag == "designer":
-               self.trace("processRocket", "Processing '%s'" % child.tag)
-               rocket._designer = child.tag
+                self.trace("processRocket", "Processing '%s'" % child.tag)
+                rocket._designer = child.tag
 
             elif tag == "appearance":
                 self.trace("processRocket", "Processing '%s'" % child.tag)
             elif tag == "motormount":
                 self.trace("processRocket", "Processing '%s'" % child.tag)
             elif tag == "finpoints":
-               self.trace("processRocket", "Processing '%s'" % child.tag)
+                self.trace("processRocket", "Processing '%s'" % child.tag)
             elif tag in SUPPORTED_TAGS:
                 self.trace("processRocket", "unprocessed tag '%s'" % (child.tag))
             elif not self.processComponentTag(rocket, child):
                 self.trace("processRocket", "unrecognized tag '%s'" % (child.tag))
 
         self._rocket = rocket
- 
+
     def process(self, ork):
 
         # Tags that are recognized but currently ignored
