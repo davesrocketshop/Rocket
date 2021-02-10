@@ -27,6 +27,10 @@ Again, restart FC to use the latest changes.
 
 </details>
 
+## Internationalization
+
+This workbench has been written with multiple language support. If you are willing to provide a translation to your native language please open an issue and we'll work to get that done.
+
 ## Feedback
 
 For any feedback, bugs, features, and discussion please refer to the Rocketry workbench FreeCAD [forum thread](https://forum.freecadweb.org/viewtopic.php?f=8&t=54496).
