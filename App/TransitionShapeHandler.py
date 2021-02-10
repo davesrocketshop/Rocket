@@ -236,9 +236,12 @@ class TransitionShapeHandler():
         if max <= 0:
             max = self._length
 
-        points = [FreeCAD.Vector(max, r1)]
-        # points = []
-        for i in range(0, self._resolution):
+        if r1 > r2 and self._clipped:
+            points = [FreeCAD.Vector(min, r2)]
+        else:
+            points = [FreeCAD.Vector(max, r1)]
+
+        for i in range(1, self._resolution):
             
             if self._clipped:
                 if r2 > r1:
@@ -253,7 +256,11 @@ class TransitionShapeHandler():
                 y = self._radiusAt(r1, r2, length, x + min)
             points.append(FreeCAD.Vector(x, y))
 
-        points.append(FreeCAD.Vector(min, r2))
+        if r1 > r2 and self._clipped:
+            points.append(FreeCAD.Vector(max, r1))
+        else:
+            points.append(FreeCAD.Vector(min, r2))
+
         return self.makeSpline(points)
 
     def _getLength(self):
