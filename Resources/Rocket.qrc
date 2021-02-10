@@ -1,6 +1,11 @@
 <!DOCTYPE RCC><RCC version="1.0">
     <qresource> 
         <file>icons/RocketWorkbench.svg</file>
+        <file>icons/Rocket_BodyTube.svg</file>
+        <file>icons/Rocket_Bulkhead.svg</file>
+        <file>icons/Rocket_CenteringRing.svg</file>
+        <file>icons/Rocket_Fin.svg</file>
+        <file>icons/Rocket_FinCan.svg</file>
         <file>icons/Rocket_NoseCone.svg</file>
         <file>icons/Rocket_Transition.svg</file>
     </qresource>
