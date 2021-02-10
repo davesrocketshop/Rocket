@@ -31,10 +31,12 @@ import FreeCADGui
 from PySide import QtGui, QtCore
 from PySide2.QtWidgets import QDialog, QGridLayout
 
+from DraftTools import translate
+
 from App.Constants import TYPE_CONE, TYPE_ELLIPTICAL, TYPE_HAACK, TYPE_OGIVE, TYPE_VON_KARMAN, TYPE_PARABOLA, TYPE_PARABOLIC, TYPE_POWER
 from App.Constants import STYLE_CAPPED, STYLE_HOLLOW, STYLE_SOLID, STYLE_SOLID_CORE
 
-from App.Utilities import _toFloat, _translate
+from App.Utilities import _toFloat
 
 class _TransitionDialog(QDialog):
 
@@ -44,10 +46,10 @@ class _TransitionDialog(QDialog):
 
         # define our window
         self.setGeometry(250, 250, 400, 350)
-        self.setWindowTitle(_translate("Transition Parameter"))
+        self.setWindowTitle(translate('Rocket', "Transition Parameter"))
 
         # Select the type of transition
-        self.transitionTypeLabel = QtGui.QLabel(_translate("Transition type"), self)
+        self.transitionTypeLabel = QtGui.QLabel(translate('Rocket', "Transition type"), self)
 
         self.transitionTypes = (TYPE_CONE,
                                 TYPE_ELLIPTICAL,
@@ -61,14 +63,14 @@ class _TransitionDialog(QDialog):
         self.transitionTypesCombo = QtGui.QComboBox(self)
         self.transitionTypesCombo.addItems(self.transitionTypes)
 
-        self.clippedLabel = QtGui.QLabel(_translate("Clipped"), self)
+        self.clippedLabel = QtGui.QLabel(translate('Rocket', "Clipped"), self)
 
         self.clippedCheckbox = QtGui.QCheckBox(self)
         self.clippedCheckbox.setCheckState(QtCore.Qt.Checked)
         # self.clippedCheckbox.setEnabled(False) # Not supported yet
 
         # Select the type of sketch
-        self.transitionStyleLabel = QtGui.QLabel(_translate("Transition Style"), self)
+        self.transitionStyleLabel = QtGui.QLabel(translate('Rocket', "Transition Style"), self)
 
         self.transitionStyles = (STYLE_SOLID,
                                 STYLE_SOLID_CORE,
@@ -78,7 +80,7 @@ class _TransitionDialog(QDialog):
         self.transitionStylesCombo.addItems(self.transitionStyles)
 
         # Get the transition parameters: length, width, etc...
-        self.lengthLabel = QtGui.QLabel(_translate("Length"), self)
+        self.lengthLabel = QtGui.QLabel(translate('Rocket', "Length"), self)
 
         self.lengthValidator = QtGui.QDoubleValidator(self)
         self.lengthValidator.setBottom(0.0)
@@ -87,7 +89,7 @@ class _TransitionDialog(QDialog):
         self.lengthInput.setFixedWidth(100)
         self.lengthInput.setValidator(self.lengthValidator)
 
-        self.foreRadiusLabel = QtGui.QLabel(_translate("Forward Radius"), self)
+        self.foreRadiusLabel = QtGui.QLabel(translate('Rocket', "Forward Radius"), self)
 
         self.foreRadiusValidator = QtGui.QDoubleValidator(self)
         self.foreRadiusValidator.setBottom(0.0)
@@ -96,7 +98,7 @@ class _TransitionDialog(QDialog):
         self.foreRadiusInput.setFixedWidth(100)
         self.foreRadiusInput.setValidator(self.foreRadiusValidator)
 
-        self.aftRadiusLabel = QtGui.QLabel(_translate("Aft Radius"), self)
+        self.aftRadiusLabel = QtGui.QLabel(translate('Rocket', "Aft Radius"), self)
 
         self.aftRadiusValidator = QtGui.QDoubleValidator(self)
         self.aftRadiusValidator.setBottom(0.0)
@@ -105,7 +107,7 @@ class _TransitionDialog(QDialog):
         self.aftRadiusInput.setFixedWidth(100)
         self.aftRadiusInput.setValidator(self.aftRadiusValidator)
 
-        self.coreRadiusLabel = QtGui.QLabel(_translate("Core Radius"), self)
+        self.coreRadiusLabel = QtGui.QLabel(translate('Rocket', "Core Radius"), self)
 
         self.coreRadiusValidator = QtGui.QDoubleValidator(self)
         self.coreRadiusValidator.setBottom(0.0)
@@ -115,7 +117,7 @@ class _TransitionDialog(QDialog):
         self.coreRadiusInput.setValidator(self.aftRadiusValidator)
         self.coreRadiusInput.setEnabled(False)
 
-        self.thicknessLabel = QtGui.QLabel(_translate("Thickness"), self)
+        self.thicknessLabel = QtGui.QLabel(translate('Rocket', "Thickness"), self)
 
         self.thicknessValidator = QtGui.QDoubleValidator(self)
         self.thicknessValidator.setBottom(0.0)
@@ -125,7 +127,7 @@ class _TransitionDialog(QDialog):
         self.thicknessInput.setValidator(self.thicknessValidator)
         self.thicknessInput.setEnabled(False)
 
-        self.coefficientLabel = QtGui.QLabel(_translate("Coefficient"), self)
+        self.coefficientLabel = QtGui.QLabel(translate('Rocket', "Coefficient"), self)
 
         self.coefficientValidator = QtGui.QDoubleValidator(self)
         self.coefficientValidator.setBottom(0.0)
@@ -135,12 +137,12 @@ class _TransitionDialog(QDialog):
         self.coefficientInput.setValidator(self.coefficientValidator)
         self.coefficientInput.setEnabled(False)
 
-        self.foreShoulderLabel = QtGui.QLabel(_translate("Forward Shoulder"), self)
+        self.foreShoulderLabel = QtGui.QLabel(translate('Rocket', "Forward Shoulder"), self)
 
         self.foreShoulderCheckbox = QtGui.QCheckBox(self)
         self.foreShoulderCheckbox.setCheckState(QtCore.Qt.Checked)
 
-        self.foreShoulderRadiusLabel = QtGui.QLabel(_translate("Radius"), self)
+        self.foreShoulderRadiusLabel = QtGui.QLabel(translate('Rocket', "Radius"), self)
 
         self.foreShoulderRadiusValidator = QtGui.QDoubleValidator(self)
         self.foreShoulderRadiusValidator.setBottom(0.0)
@@ -149,7 +151,7 @@ class _TransitionDialog(QDialog):
         self.foreShoulderRadiusInput.setFixedWidth(100)
         self.foreShoulderRadiusInput.setValidator(self.foreShoulderRadiusValidator)
 
-        self.foreShoulderLengthLabel = QtGui.QLabel(_translate("Length"), self)
+        self.foreShoulderLengthLabel = QtGui.QLabel(translate('Rocket', "Length"), self)
 
         self.foreShoulderLengthValidator = QtGui.QDoubleValidator(self)
         self.foreShoulderLengthValidator.setBottom(0.0)
@@ -158,7 +160,7 @@ class _TransitionDialog(QDialog):
         self.foreShoulderLengthInput.setFixedWidth(100)
         self.foreShoulderLengthInput.setValidator(self.foreShoulderLengthValidator)
 
-        self.foreShoulderThicknessLabel = QtGui.QLabel(_translate("Thickness"), self)
+        self.foreShoulderThicknessLabel = QtGui.QLabel(translate('Rocket', "Thickness"), self)
 
         self.foreShoulderThicknessValidator = QtGui.QDoubleValidator(self)
         self.foreShoulderThicknessValidator.setBottom(0.0)
@@ -168,12 +170,12 @@ class _TransitionDialog(QDialog):
         self.foreShoulderThicknessInput.setValidator(self.foreShoulderThicknessValidator)
         self.foreShoulderThicknessInput.setEnabled(False)
 
-        self.aftShoulderLabel = QtGui.QLabel(_translate("Aft Shoulder"), self)
+        self.aftShoulderLabel = QtGui.QLabel(translate('Rocket', "Aft Shoulder"), self)
 
         self.aftShoulderCheckbox = QtGui.QCheckBox(self)
         self.aftShoulderCheckbox.setCheckState(QtCore.Qt.Checked)
 
-        self.aftShoulderRadiusLabel = QtGui.QLabel(_translate("Radius"), self)
+        self.aftShoulderRadiusLabel = QtGui.QLabel(translate('Rocket', "Radius"), self)
 
         self.aftShoulderRadiusValidator = QtGui.QDoubleValidator(self)
         self.aftShoulderRadiusValidator.setBottom(0.0)
@@ -182,7 +184,7 @@ class _TransitionDialog(QDialog):
         self.aftShoulderRadiusInput.setFixedWidth(100)
         self.aftShoulderRadiusInput.setValidator(self.aftShoulderRadiusValidator)
 
-        self.aftShoulderLengthLabel = QtGui.QLabel(_translate("Length"), self)
+        self.aftShoulderLengthLabel = QtGui.QLabel(translate('Rocket', "Length"), self)
 
         self.aftShoulderLengthValidator = QtGui.QDoubleValidator(self)
         self.aftShoulderLengthValidator.setBottom(0.0)
@@ -191,7 +193,7 @@ class _TransitionDialog(QDialog):
         self.aftShoulderLengthInput.setFixedWidth(100)
         self.aftShoulderLengthInput.setValidator(self.aftShoulderLengthValidator)
 
-        self.aftShoulderThicknessLabel = QtGui.QLabel(_translate("Thickness"), self)
+        self.aftShoulderThicknessLabel = QtGui.QLabel(translate('Rocket', "Thickness"), self)
 
         self.aftShoulderThicknessValidator = QtGui.QDoubleValidator(self)
         self.aftShoulderThicknessValidator.setBottom(0.0)

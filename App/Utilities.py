@@ -27,10 +27,6 @@ __url__ = "https://www.davesrocketshop.com"
 import FreeCAD
 from DraftTools import translate
 
-def _translate(message):
-    """ Translate console and UI messages """
-    return translate('Rocket', message)
-
 def _msg(message):
     """Write messages to the console including the line ending."""
     FreeCAD.Console.PrintMessage(message + "\n")

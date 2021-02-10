@@ -29,16 +29,17 @@ import FreeCADGui
 import Part
 import math
 
+from DraftTools import translate
+
 from App.TransitionShapeHandler import TransitionShapeHandler
 
-from App.Utilities import _err, _translate
-    
+from App.Utilities import _err    
     
 class TransitionParabolicShapeHandler(TransitionShapeHandler):
 
     def isValidShape(self):
         if self._coefficient < 0 or self._coefficient > 1:
-            _err(_translate("For %s transitions the coefficient must be in the range (0 <= coefficient <= 1)") % self._type)
+            _err(translate('Rocket', "For %s transitions the coefficient must be in the range (0 <= coefficient <= 1)") % self._type)
             return False
         return super().isValidShape()
             

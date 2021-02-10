@@ -28,10 +28,12 @@ __url__ = "https://www.davesrocketshop.com"
 import FreeCAD
 import FreeCADGui
 
+from DraftTools import translate
+
 from PySide import QtGui, QtCore
 from PySide2.QtWidgets import QDialog, QGridLayout
 
-from App.Utilities import _toFloat, _translate
+from App.Utilities import _toFloat
 
 class _BodyTubeDialog(QDialog):
 
@@ -41,10 +43,10 @@ class _BodyTubeDialog(QDialog):
 
         # define our window
         self.setGeometry(250, 250, 400, 350)
-        self.setWindowTitle(_translate("Body Tube Parameter"))
+        self.setWindowTitle(translate('Rocket', "Body Tube Parameter"))
 
         # Get the body tube parameters: length, ID, etc...
-        self.idLabel = QtGui.QLabel(_translate("Inner Diameter"), self)
+        self.idLabel = QtGui.QLabel(translate('Rocket', "Inner Diameter"), self)
 
         self.idValidator = QtGui.QDoubleValidator(self)
         self.idValidator.setBottom(0.0)
@@ -53,7 +55,7 @@ class _BodyTubeDialog(QDialog):
         self.idInput.setFixedWidth(100)
         self.idInput.setValidator(self.idValidator)
 
-        self.odLabel = QtGui.QLabel(_translate("Outer Diameter"), self)
+        self.odLabel = QtGui.QLabel(translate('Rocket', "Outer Diameter"), self)
 
         self.odValidator = QtGui.QDoubleValidator(self)
         self.odValidator.setBottom(0.0)
@@ -62,7 +64,7 @@ class _BodyTubeDialog(QDialog):
         self.odInput.setFixedWidth(100)
         self.odInput.setValidator(self.odValidator)
 
-        self.lengthLabel = QtGui.QLabel(_translate("Length"), self)
+        self.lengthLabel = QtGui.QLabel(translate('Rocket', "Length"), self)
 
         self.lengthValidator = QtGui.QDoubleValidator(self)
         self.lengthValidator.setBottom(0.0)

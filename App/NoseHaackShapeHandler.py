@@ -29,15 +29,16 @@ import FreeCADGui
 import Part
 import math
 
+from DraftTools import translate
+
 from App.NoseShapeHandler import NoseShapeHandler
-from App.Utilities import _err, _translate
-    
+from App.Utilities import _err
     
 class NoseHaackShapeHandler(NoseShapeHandler):
 
     def isValidShape(self):
         if self._coefficient < 0:
-            _err(_translate("For %s nose cones the coefficient must be >= 0") % self._type)
+            _err(translate('Rocket', "For %s nose cones the coefficient must be >= 0") % self._type)
             return False
         return super().isValidShape()
 

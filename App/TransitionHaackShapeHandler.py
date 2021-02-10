@@ -29,16 +29,17 @@ import FreeCADGui
 import Part
 import math
 
+from DraftTools import translate
+
 from App.TransitionShapeHandler import TransitionShapeHandler
 
-from App.Utilities import _err, _translate
-    
+from App.Utilities import _err    
     
 class TransitionHaackShapeHandler(TransitionShapeHandler):
 
     def isValidShape(self):
         if self._coefficient < 0:
-            _err(_translate("For %s transitions the coefficient must be >= 0") % self._type)
+            _err(translate('Rocket', "For %s transitions the coefficient must be >= 0") % self._type)
             return False
         return super().isValidShape()
 

@@ -31,7 +31,9 @@ import FreeCADGui
 from PySide import QtGui, QtCore
 from PySide2.QtWidgets import QDialog, QGridLayout
 
-from App.Utilities import _toFloat, _toInt, _translate
+from DraftTools import translate
+
+from App.Utilities import _toFloat, _toInt
 
 class _BulkheadDialog(QDialog):
 
@@ -42,12 +44,12 @@ class _BulkheadDialog(QDialog):
         # define our window
         self.setGeometry(250, 250, 400, 350)
         if crPanel:
-            self.setWindowTitle(_translate("Centering Ring Parameter"))
+            self.setWindowTitle(translate('Rocket', "Centering Ring Parameter"))
         else:
-            self.setWindowTitle(_translate("Bulkhead Parameter"))
+            self.setWindowTitle(translate('Rocket', "Bulkhead Parameter"))
 
         # Get the body tube parameters: length, ID, etc...
-        self.diameterLabel = QtGui.QLabel(_translate("Diameter"), self)
+        self.diameterLabel = QtGui.QLabel(translate('Rocket', "Diameter"), self)
 
         self.diameterValidator = QtGui.QDoubleValidator(self)
         self.diameterValidator.setBottom(0.0)
@@ -56,7 +58,7 @@ class _BulkheadDialog(QDialog):
         self.diameterInput.setFixedWidth(100)
         self.diameterInput.setValidator(self.diameterValidator)
 
-        self.thicknessLabel = QtGui.QLabel(_translate("Thickness"), self)
+        self.thicknessLabel = QtGui.QLabel(translate('Rocket', "Thickness"), self)
 
         self.thicknessValidator = QtGui.QDoubleValidator(self)
         self.thicknessValidator.setBottom(0.0)
@@ -66,7 +68,7 @@ class _BulkheadDialog(QDialog):
         self.thicknessInput.setValidator(self.thicknessValidator)
 
         if crPanel:
-            self.centerDiameterLabel = QtGui.QLabel(_translate("Center Diameter"), self)
+            self.centerDiameterLabel = QtGui.QLabel(translate('Rocket', "Center Diameter"), self)
 
             self.centerDiameterValidator = QtGui.QDoubleValidator(self)
             self.centerDiameterValidator.setBottom(0.0)
@@ -75,12 +77,12 @@ class _BulkheadDialog(QDialog):
             self.centerDiameterInput.setFixedWidth(100)
             self.centerDiameterInput.setValidator(self.centerDiameterValidator)
 
-            self.notchedLabel = QtGui.QLabel(_translate("Notched"), self)
+            self.notchedLabel = QtGui.QLabel(translate('Rocket', "Notched"), self)
 
             self.notchedCheckbox = QtGui.QCheckBox(self)
             self.notchedCheckbox.setCheckState(QtCore.Qt.Unchecked)
 
-            self.notchWidthLabel = QtGui.QLabel(_translate("Width"), self)
+            self.notchWidthLabel = QtGui.QLabel(translate('Rocket', "Width"), self)
 
             self.notchWidthValidator = QtGui.QDoubleValidator(self)
             self.notchWidthValidator.setBottom(0.0)
@@ -89,7 +91,7 @@ class _BulkheadDialog(QDialog):
             self.notchWidthInput.setFixedWidth(100)
             self.notchWidthInput.setValidator(self.notchWidthValidator)
 
-            self.notchHeightLabel = QtGui.QLabel(_translate("Height"), self)
+            self.notchHeightLabel = QtGui.QLabel(translate('Rocket', "Height"), self)
 
             self.notchHeightValidator = QtGui.QDoubleValidator(self)
             self.notchHeightValidator.setBottom(0.0)
@@ -98,12 +100,12 @@ class _BulkheadDialog(QDialog):
             self.notchHeightInput.setFixedWidth(100)
             self.notchHeightInput.setValidator(self.notchHeightValidator)
 
-        self.stepLabel = QtGui.QLabel(_translate("Step"), self)
+        self.stepLabel = QtGui.QLabel(translate('Rocket', "Step"), self)
 
         self.stepCheckbox = QtGui.QCheckBox(self)
         self.stepCheckbox.setCheckState(QtCore.Qt.Unchecked)
 
-        self.stepDiameterLabel = QtGui.QLabel(_translate("Diameter"), self)
+        self.stepDiameterLabel = QtGui.QLabel(translate('Rocket', "Diameter"), self)
 
         self.stepDiameterValidator = QtGui.QDoubleValidator(self)
         self.stepDiameterValidator.setBottom(0.0)
@@ -112,7 +114,7 @@ class _BulkheadDialog(QDialog):
         self.stepDiameterInput.setFixedWidth(100)
         self.stepDiameterInput.setValidator(self.stepDiameterValidator)
 
-        self.stepThicknessLabel = QtGui.QLabel(_translate("Thickness"), self)
+        self.stepThicknessLabel = QtGui.QLabel(translate('Rocket', "Thickness"), self)
 
         self.stepThicknessValidator = QtGui.QDoubleValidator(self)
         self.stepThicknessValidator.setBottom(0.0)
@@ -121,12 +123,12 @@ class _BulkheadDialog(QDialog):
         self.stepThicknessInput.setFixedWidth(100)
         self.stepThicknessInput.setValidator(self.stepThicknessValidator)
 
-        self.holeLabel = QtGui.QLabel(_translate("Holes"), self)
+        self.holeLabel = QtGui.QLabel(translate('Rocket', "Holes"), self)
 
         self.holeCheckbox = QtGui.QCheckBox(self)
         self.holeCheckbox.setCheckState(QtCore.Qt.Unchecked)
 
-        self.holeDiameterLabel = QtGui.QLabel(_translate("Diameter"), self)
+        self.holeDiameterLabel = QtGui.QLabel(translate('Rocket', "Diameter"), self)
 
         self.holeDiameterValidator = QtGui.QDoubleValidator(self)
         self.holeDiameterValidator.setBottom(0.0)
@@ -135,7 +137,7 @@ class _BulkheadDialog(QDialog):
         self.holeDiameterInput.setFixedWidth(100)
         self.holeDiameterInput.setValidator(self.holeDiameterValidator)
 
-        self.holeCenterLabel = QtGui.QLabel(_translate("Center"), self)
+        self.holeCenterLabel = QtGui.QLabel(translate('Rocket', "Center"), self)
 
         self.holeCenterValidator = QtGui.QDoubleValidator(self)
         self.holeCenterValidator.setBottom(0.0)
@@ -144,14 +146,14 @@ class _BulkheadDialog(QDialog):
         self.holeCenterInput.setFixedWidth(100)
         self.holeCenterInput.setValidator(self.holeCenterValidator)
 
-        self.holeCountLabel = QtGui.QLabel(_translate("Count"), self)
+        self.holeCountLabel = QtGui.QLabel(translate('Rocket', "Count"), self)
 
         self.holeCountSpinBox = QtGui.QSpinBox(self)
         self.holeCountSpinBox.setFixedWidth(100)
         self.holeCountSpinBox.setMinimum(1)
         self.holeCountSpinBox.setMaximum(10000)
 
-        self.holeOffsetLabel = QtGui.QLabel(_translate("Offset"), self)
+        self.holeOffsetLabel = QtGui.QLabel(translate('Rocket', "Offset"), self)
 
         # Offsets can be positive or negative so no validator required
         self.holeOffsetInput = QtGui.QLineEdit(self)

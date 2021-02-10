@@ -29,7 +29,8 @@ import FreeCADGui
 import Part
 import math
 
-from App.Utilities import _err, _translate
+from App.Utilities import _err
+from DraftTools import translate
 
 class BodyTubeShapeHandler():
     def __init__(self, obj):
@@ -43,13 +44,13 @@ class BodyTubeShapeHandler():
         
         # Perform some general validations
         if self._ID < 0:
-            _err(_translate("Body tube inner diameter must be greater than zero"))
+            _err(translate('Rocket', "Body tube inner diameter must be greater than zero"))
             return False
         if self._OD <= self._ID:
-            _err(_translate("Body tube outer diameter must be greater than the inner"))
+            _err(translate('Rocket', "Body tube outer diameter must be greater than the inner"))
             return False
         if self._length < 0:
-            _err(_translate("Body tube length must be greater than zero"))
+            _err(translate('Rocket', "Body tube length must be greater than zero"))
             return False
 
         return True
@@ -74,7 +75,7 @@ class BodyTubeShapeHandler():
         try:
             edges = self._drawTubeEdges()
         except (ZeroDivisionError, Part.OCCError):
-            _err(_translate("Body tube parameters produce an invalid shape"))
+            _err(translate('Rocket', "Body tube parameters produce an invalid shape"))
             return
 
         if edges is not None:
@@ -83,7 +84,7 @@ class BodyTubeShapeHandler():
                 face = Part.Face(wire)
                 self._obj.Shape = face.revolve(FreeCAD.Vector(0, 0, 0),FreeCAD.Vector(1, 0, 0), 360)
             except Part.OCCError:
-                _err(_translate("Body tube parameters produce an invalid shape"))
+                _err(translate('Rocket', "Body tube parameters produce an invalid shape"))
                 return
         else:
-            _err(_translate("Body tube parameters produce an invalid shape"))
+            _err(translate('Rocket', "Body tube parameters produce an invalid shape"))

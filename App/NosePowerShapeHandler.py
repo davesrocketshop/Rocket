@@ -29,15 +29,16 @@ import FreeCADGui
 import Part
 import math
 
-from App.NoseShapeHandler import NoseShapeHandler
-from App.Utilities import _err, _translate
+from DraftTools import translate
 
+from App.NoseShapeHandler import NoseShapeHandler
+from App.Utilities import _err
     
 class NosePowerShapeHandler(NoseShapeHandler):
 
     def isValidShape(self):
         if self._coefficient <= 0 or self._coefficient > 1:
-            _err(_translate("For %s nose cones the coefficient must be in the range (0 < coefficient <= 1)") % self._type)
+            _err(translate('Rocket', "For %s nose cones the coefficient must be in the range (0 < coefficient <= 1)") % self._type)
             return False
         return super().isValidShape()
 

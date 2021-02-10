@@ -32,11 +32,13 @@ from PySide import QtGui, QtCore
 from PySide2.QtWidgets import QDialog, QGridLayout
 import math
 
+from DraftTools import translate
+
 from App.Constants import FIN_TYPE_TRAPEZOID, FIN_TYPE_ELLIPSE, FIN_TYPE_TUBE, FIN_TYPE_SKETCH
 from App.Constants import FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE, \
     FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE
 
-from App.Utilities import _toFloat, _err, _translate
+from App.Utilities import _toFloat, _err
 
 class _FinDialog(QDialog):
 
@@ -46,10 +48,10 @@ class _FinDialog(QDialog):
 
         # define our window
         self.setGeometry(250, 250, 400, 350)
-        self.setWindowTitle(_translate("Fin Parameter"))
+        self.setWindowTitle(translate('Rocket', "Fin Parameter"))
 
         # Select the type of nose cone
-        self.finTypeLabel = QtGui.QLabel(_translate("Fin type"), self)
+        self.finTypeLabel = QtGui.QLabel(translate('Rocket', "Fin type"), self)
 
         self.finTypes = (FIN_TYPE_TRAPEZOID, 
             #FIN_TYPE_ELLIPSE, 
@@ -60,10 +62,10 @@ class _FinDialog(QDialog):
         self.finTypesCombo.addItems(self.finTypes)
 
         # Get the fin parameters: length, width, etc...
-        self.rootLabel = QtGui.QLabel(_translate("Fin Root"), self)
+        self.rootLabel = QtGui.QLabel(translate('Rocket', "Fin Root"), self)
 
         # Select the type of cross section
-        self.rootCrossSectionLabel = QtGui.QLabel(_translate("Cross Section"), self)
+        self.rootCrossSectionLabel = QtGui.QLabel(translate('Rocket', "Cross Section"), self)
 
         self.rootCrossSections = (FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE,
             FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE)
@@ -71,7 +73,7 @@ class _FinDialog(QDialog):
         self.rootCrossSectionsCombo.addItems(self.rootCrossSections)
 
         # Get the fin parameters: length, width, etc...
-        self.rootChordLabel = QtGui.QLabel(_translate("Chord"), self)
+        self.rootChordLabel = QtGui.QLabel(translate('Rocket', "Chord"), self)
 
         self.rootChordValidator = QtGui.QDoubleValidator(self)
         self.rootChordValidator.setBottom(0.0)
@@ -80,7 +82,7 @@ class _FinDialog(QDialog):
         self.rootChordInput.setFixedWidth(100)
         self.rootChordInput.setValidator(self.rootChordValidator)
 
-        self.rootThicknessLabel = QtGui.QLabel(_translate("Thickness"), self)
+        self.rootThicknessLabel = QtGui.QLabel(translate('Rocket', "Thickness"), self)
 
         self.rootThicknessValidator = QtGui.QDoubleValidator(self)
         self.rootThicknessValidator.setBottom(0.0)
@@ -89,12 +91,12 @@ class _FinDialog(QDialog):
         self.rootThicknessInput.setFixedWidth(100)
         self.rootThicknessInput.setValidator(self.rootThicknessValidator)
 
-        self.rootPerCentLabel = QtGui.QLabel(_translate("Use percentage"), self)
+        self.rootPerCentLabel = QtGui.QLabel(translate('Rocket', "Use percentage"), self)
 
         self.rootPerCentCheckbox = QtGui.QCheckBox(self)
         self.rootPerCentCheckbox.setCheckState(QtCore.Qt.Unchecked)
 
-        self.rootLength1Label = QtGui.QLabel(_translate("Length 1"), self)
+        self.rootLength1Label = QtGui.QLabel(translate('Rocket', "Length 1"), self)
 
         self.rootLength1Validator = QtGui.QDoubleValidator(self)
         self.rootLength1Validator.setBottom(0.0)
@@ -103,7 +105,7 @@ class _FinDialog(QDialog):
         self.rootLength1Input.setFixedWidth(100)
         self.rootLength1Input.setValidator(self.rootLength1Validator)
 
-        self.rootLength2Label = QtGui.QLabel(_translate("Length 2"), self)
+        self.rootLength2Label = QtGui.QLabel(translate('Rocket', "Length 2"), self)
 
         self.rootLength2Validator = QtGui.QDoubleValidator(self)
         self.rootLength2Validator.setBottom(0.0)
@@ -112,17 +114,17 @@ class _FinDialog(QDialog):
         self.rootLength2Input.setFixedWidth(100)
         self.rootLength2Input.setValidator(self.rootLength2Validator)
 
-        self.tipLabel = QtGui.QLabel(_translate("Fin Tip"), self)
+        self.tipLabel = QtGui.QLabel(translate('Rocket', "Fin Tip"), self)
 
         # Select the type of cross section
-        self.tipCrossSectionLabel = QtGui.QLabel(_translate("Cross Section"), self)
+        self.tipCrossSectionLabel = QtGui.QLabel(translate('Rocket', "Cross Section"), self)
 
         self.tipCrossSections = (FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE,
             FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE)
         self.tipCrossSectionsCombo = QtGui.QComboBox(self)
         self.tipCrossSectionsCombo.addItems(self.tipCrossSections)
 
-        self.tipChordLabel = QtGui.QLabel(_translate("Chord"), self)
+        self.tipChordLabel = QtGui.QLabel(translate('Rocket', "Chord"), self)
 
         self.tipChordValidator = QtGui.QDoubleValidator(self)
         self.tipChordValidator.setBottom(0.0)
@@ -131,7 +133,7 @@ class _FinDialog(QDialog):
         self.tipChordInput.setFixedWidth(100)
         self.tipChordInput.setValidator(self.tipChordValidator)
 
-        self.tipThicknessLabel = QtGui.QLabel(_translate("Thickness"), self)
+        self.tipThicknessLabel = QtGui.QLabel(translate('Rocket', "Thickness"), self)
 
         self.tipThicknessValidator = QtGui.QDoubleValidator(self)
         self.tipThicknessValidator.setBottom(0.0)
@@ -140,12 +142,12 @@ class _FinDialog(QDialog):
         self.tipThicknessInput.setFixedWidth(100)
         self.tipThicknessInput.setValidator(self.tipThicknessValidator)
 
-        self.tipPerCentLabel = QtGui.QLabel(_translate("Use percentage"), self)
+        self.tipPerCentLabel = QtGui.QLabel(translate('Rocket', "Use percentage"), self)
 
         self.tipPerCentCheckbox = QtGui.QCheckBox(self)
         self.tipPerCentCheckbox.setCheckState(QtCore.Qt.Unchecked)
 
-        self.tipLength1Label = QtGui.QLabel(_translate("Length 1"), self)
+        self.tipLength1Label = QtGui.QLabel(translate('Rocket', "Length 1"), self)
 
         self.tipLength1Validator = QtGui.QDoubleValidator(self)
         self.tipLength1Validator.setBottom(0.0)
@@ -154,7 +156,7 @@ class _FinDialog(QDialog):
         self.tipLength1Input.setFixedWidth(100)
         self.tipLength1Input.setValidator(self.tipLength1Validator)
 
-        self.tipLength2Label = QtGui.QLabel(_translate("Length 2"), self)
+        self.tipLength2Label = QtGui.QLabel(translate('Rocket', "Length 2"), self)
 
         self.tipLength2Validator = QtGui.QDoubleValidator(self)
         self.tipLength2Validator.setBottom(0.0)
@@ -163,7 +165,7 @@ class _FinDialog(QDialog):
         self.tipLength2Input.setFixedWidth(100)
         self.tipLength2Input.setValidator(self.tipLength2Validator)
 
-        self.heightLabel = QtGui.QLabel(_translate("Height"), self)
+        self.heightLabel = QtGui.QLabel(translate('Rocket', "Height"), self)
 
         self.heightValidator = QtGui.QDoubleValidator(self)
         self.heightValidator.setBottom(0.0)
@@ -173,13 +175,13 @@ class _FinDialog(QDialog):
         self.heightInput.setValidator(self.heightValidator)
 
         # Sweep can be forward (-sweep) or backward (+sweep)
-        self.sweepLengthLabel = QtGui.QLabel(_translate("Sweep Length"), self)
+        self.sweepLengthLabel = QtGui.QLabel(translate('Rocket', "Sweep Length"), self)
 
         self.sweepLengthInput = QtGui.QLineEdit(self)
         self.sweepLengthInput.setFixedWidth(100)
 
         # Sweep angle is tied to sweep length. It can be forward (> -90) or backward (< 90)
-        self.sweepAngleLabel = QtGui.QLabel(_translate("Sweep Angle"), self)
+        self.sweepAngleLabel = QtGui.QLabel(translate('Rocket', "Sweep Angle"), self)
 
         self.sweepAngleValidator = QtGui.QDoubleValidator(self)
         self.sweepAngleValidator.setBottom(-90.0)
@@ -189,12 +191,12 @@ class _FinDialog(QDialog):
         self.sweepAngleInput.setFixedWidth(100)
         self.sweepAngleInput.setValidator(self.sweepAngleValidator)
 
-        self.ttwLabel = QtGui.QLabel(_translate("TTW Tab"), self)
+        self.ttwLabel = QtGui.QLabel(translate('Rocket', "TTW Tab"), self)
 
         self.ttwCheckbox = QtGui.QCheckBox(self)
         self.ttwCheckbox.setCheckState(QtCore.Qt.Unchecked)
 
-        self.ttwOffsetLabel = QtGui.QLabel(_translate("Offset"), self)
+        self.ttwOffsetLabel = QtGui.QLabel(translate('Rocket', "Offset"), self)
 
         self.ttwOffsetValidator = QtGui.QDoubleValidator(self)
         self.ttwOffsetValidator.setBottom(0.0)
@@ -203,7 +205,7 @@ class _FinDialog(QDialog):
         self.ttwOffsetInput.setFixedWidth(100)
         self.ttwOffsetInput.setValidator(self.ttwOffsetValidator)
 
-        self.ttwLengthLabel = QtGui.QLabel(_translate("Length"), self)
+        self.ttwLengthLabel = QtGui.QLabel(translate('Rocket', "Length"), self)
 
         self.ttwLengthValidator = QtGui.QDoubleValidator(self)
         self.ttwLengthValidator.setBottom(0.0)
@@ -212,7 +214,7 @@ class _FinDialog(QDialog):
         self.ttwLengthInput.setFixedWidth(100)
         self.ttwLengthInput.setValidator(self.ttwLengthValidator)
 
-        self.ttwHeightLabel = QtGui.QLabel(_translate("Height"), self)
+        self.ttwHeightLabel = QtGui.QLabel(translate('Rocket', "Height"), self)
 
         self.ttwHeightValidator = QtGui.QDoubleValidator(self)
         self.ttwHeightValidator.setBottom(0.0)
@@ -221,7 +223,7 @@ class _FinDialog(QDialog):
         self.ttwHeightInput.setFixedWidth(100)
         self.ttwHeightInput.setValidator(self.ttwHeightValidator)
 
-        self.ttwThicknessLabel = QtGui.QLabel(_translate("Thickness"), self)
+        self.ttwThicknessLabel = QtGui.QLabel(translate('Rocket', "Thickness"), self)
 
         self.ttwThicknessValidator = QtGui.QDoubleValidator(self)
         self.ttwThicknessValidator.setBottom(0.0)
