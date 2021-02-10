@@ -30,7 +30,7 @@ import Part
 import math
 
 from App.BulkheadShapeHandler import BulkheadShapeHandler
-from App.Utilities import _err
+from App.Utilities import _err, _translate
 
 class CenteringRingShapeHandler(BulkheadShapeHandler):
     def __init__(self, obj):
@@ -48,32 +48,32 @@ class CenteringRingShapeHandler(BulkheadShapeHandler):
 
         # Perform some general validations
         if self._centerDiameter <= 0:
-            _err("Centering ring center diameter must be greater than zero")
+            _err(_translate("Centering ring center diameter must be greater than zero"))
             return False
 
         if self._centerDiameter >= self._diameter:
-            _err("Centering ring center diameter must be less than the outer diameter")
+            _err(_translate("Centering ring center diameter must be less than the outer diameter"))
             return False
 
         if self._step:
             if self._centerDiameter >= self._stepDiameter:
-                _err("Centering ring center diameter must be less than the step diameter")
+                _err(_translate("Centering ring center diameter must be less than the step diameter"))
                 return False
 
         if self._notched:
             if self._notchWidth > self._centerDiameter:
-                _err("The notch width must be less than or equal to the center diameter")
+                _err(_translate("The notch width must be less than or equal to the center diameter"))
                 return False
             if self._notchWidth <= 0:
-                _err("The notch width must be greater than zero")
+                _err(_translate("The notch width must be greater than zero"))
                 return False
             if self._notchHeight <= 0:
-                _err("The notch height must be greater than zero")
+                _err(_translate("The notch height must be greater than zero"))
                 return False
 
         if self._holes:
             if self._holeCenter - (self._holeDiameter / 2.0) <= (self._centerDiameter / 2.0):
-                _err("Hole extends inside the center diameter")
+                _err(_translate("Hole extends inside the center diameter"))
                 return False
 
         return True
@@ -103,5 +103,5 @@ class CenteringRingShapeHandler(BulkheadShapeHandler):
         try:
             self._obj.Shape = self._drawCenteringRing()
         except (ZeroDivisionError, Part.OCCError):
-            _err("Bulkhead parameters produce an invalid shape")
+            _err(_translate("Centering ring parameters produce an invalid shape"))
             return

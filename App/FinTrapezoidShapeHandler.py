@@ -33,7 +33,7 @@ from App.Constants import FIN_TYPE_TRAPEZOID, FIN_TYPE_ELLIPSE, FIN_TYPE_TUBE, F
 from App.Constants import FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE, \
     FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE
 
-from App.Utilities import _err
+from App.Utilities import _err, _translate
 
 class FinTrapezoidShapeHandler:
 
@@ -237,16 +237,16 @@ class FinTrapezoidShapeHandler:
         # Add error checking here
         if self._obj.Ttw:
             if self._obj.TtwOffset >= self._obj.RootChord:
-                _err("Ttw offset must be less than the root chord")
+                _err(_translate("Ttw offset must be less than the root chord"))
                 return False
             if self._obj.TtwLength <= 0:
-                _err("Ttw length must be greater than 0")
+                _err(_translate("Ttw length must be greater than 0"))
                 return False
             if self._obj.TtwHeight <= 0:
-                _err("Ttw height must be greater than 0")
+                _err(_translate("Ttw height must be greater than 0"))
                 return False
             if self._obj.TtwThickness <= 0:
-                _err("Ttw thickness must be greater than 0")
+                _err(_translate("Ttw thickness must be greater than 0"))
                 return False
         return True
 
@@ -267,5 +267,5 @@ class FinTrapezoidShapeHandler:
                             loft = loft.fuse(ttw)
                     self._obj.Shape = loft
         except (ZeroDivisionError, Part.OCCError):
-            _err("Fin parameters produce an invalid shape")
+            _err(_translate("Fin parameters produce an invalid shape"))
             return

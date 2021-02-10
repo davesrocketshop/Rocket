@@ -36,7 +36,7 @@ import math
 from App.Constants import TYPE_CONE, TYPE_ELLIPTICAL, TYPE_HAACK, TYPE_OGIVE, TYPE_VON_KARMAN, TYPE_PARABOLA, TYPE_PARABOLIC, TYPE_POWER
 from App.Constants import STYLE_CAPPED, STYLE_HOLLOW, STYLE_SOLID, STYLE_SOLID_CORE
 
-from App.Utilities import _err, _msg
+from App.Utilities import _err, _translate
 
 CLIP_PRECISION = 0.0001
 
@@ -86,59 +86,59 @@ class TransitionShapeHandler():
         #Perform some general validations
         if self._style in [STYLE_HOLLOW, STYLE_CAPPED]:
             if self._thickness <= 0:
-                _err("For %s transitions thickness must be > 0" % self._style)
+                _err(_translate("For %s transitions thickness must be > 0") % self._style)
                 return False
             if self._thickness >= self._foreRadius or self._thickness >= self._aftRadius:
-                _err("Transition thickness must be less than the front or back radius")
+                _err(_translate("Transition thickness must be less than the front or back radius"))
                 return False
 
         elif self._style == STYLE_SOLID_CORE:
             if self._coreRadius >= self._foreRadius or self._coreRadius >= self._aftRadius:
-                _err("Transition core must be less than the front or back radius")
+                _err(_translate("Transition core must be less than the front or back radius"))
                 return False
             if self._foreShoulder:
                 if self._coreRadius >= self._foreShoulderRadius:
-                    _err("Transition core must be less than the shoulder radius")
+                    _err(_translate("Transition core must be less than the shoulder radius"))
                     return False
             if self._aftShoulder:
                 if self._coreRadius >= self._aftShoulderRadius:
-                    _err("Transition core must be less than the shoulder radius")
+                    _err(_translate("Transition core must be less than the shoulder radius"))
                     return False
 
         if self._foreShoulder:
             if self._foreShoulderLength <= 0:
-                _err("Forward shoulder length must be > 0")
+                _err(_translate("Forward shoulder length must be > 0"))
                 return False
             if self._foreShoulderRadius <= 0:
-                _err("Forward shoulder radius must be > 0")
+                _err(_translate("Forward shoulder radius must be > 0"))
                 return False
             if self._foreShoulderRadius > self._foreRadius:
-                _err("Forward shoulder radius can not exceed the transition radius at the shoulder")
+                _err(_translate("Forward shoulder radius can not exceed the transition radius at the shoulder"))
                 return False
             if self._style in [STYLE_HOLLOW, STYLE_CAPPED]:
                 if self._foreShoulderThickness <= 0:
-                    _err("For %s transitions with a shoulder, shoulder thickness must be > 0" % self._style)
+                    _err(_translate("For %s transitions with a shoulder, shoulder thickness must be > 0") % self._style)
                     return False
                 if self._foreShoulderThickness >= self._foreShoulderRadius:
-                    _err("Shoulder thickness must be less than the shoulder radius")
+                    _err(_translate("Shoulder thickness must be less than the shoulder radius"))
                     return False
 
         if self._aftShoulder:
             if self._aftShoulderLength <= 0:
-                _err("Aft shoulder length must be > 0")
+                _err(_translate("Aft shoulder length must be > 0"))
                 return False
             if self._aftShoulderRadius <= 0:
-                _err("Aft shoulder radius must be > 0")
+                _err(_translate("Aft shoulder radius must be > 0"))
                 return False
             if self._aftShoulderRadius > self._aftRadius:
-                _err("Aft shoulder radius can not exceed the transition radius at the shoulder")
+                _err(_translate("Aft shoulder radius can not exceed the transition radius at the shoulder"))
                 return False
             if self._style in [STYLE_HOLLOW, STYLE_CAPPED]:
                 if self._aftShoulderThickness <= 0:
-                    _err("For %s transitions with a shoulder, shoulder thickness must be > 0" % self._style)
+                    _err(_translate("For %s transitions with a shoulder, shoulder thickness must be > 0") % self._style)
                     return False
                 if self._aftShoulderThickness >= self._aftShoulderRadius:
-                    _err("Shoulder thickness must be less than the shoulder radius")
+                    _err(_translate("Shoulder thickness must be less than the shoulder radius"))
                     return False
 
         return True
@@ -216,7 +216,7 @@ class TransitionShapeHandler():
                 else:
                     edges = self._drawCapped()
         except (ValueError, ZeroDivisionError, Part.OCCError):
-            _err("Transition parameters produce an invalid shape")
+            _err(_translate("Transition parameters produce an invalid shape"))
             return
 
         if edges is not None:
@@ -225,10 +225,10 @@ class TransitionShapeHandler():
                 face = Part.Face(wire)
                 self._obj.Shape = face.revolve(FreeCAD.Vector(0, 0, 0),FreeCAD.Vector(1, 0, 0), 360)
             except Part.OCCError:
-                _err("Transition parameters produce an invalid shape")
+                _err(_translate("Transition parameters produce an invalid shape"))
                 return
         else:
-            _err("Transition parameters produce an invalid shape")
+            _err(_translate("Transition parameters produce an invalid shape"))
 
     def _generateCurve(self, r1, r2, length, min = 0, max = 0.0):
         if max <= 0:
@@ -321,10 +321,6 @@ class TransitionShapeHandler():
 
         innerForeY = self._clippedInnerRadius(self._foreRadius, self._aftRadius, innerForeX)
         innerAftY = self._clippedInnerRadius(self._foreRadius, self._aftRadius, innerAftX)
-
-        # self._calculateInnerClip(self._foreRadius - self._thickness, self._aftRadius - self._thickness)
-        # innerForeY = self._clippedInnerRadius(self._foreRadius - self._thickness, self._aftRadius - self._thickness, innerForeX)
-        # innerAftY = self._clippedInnerRadius(self._foreRadius - self._thickness, self._aftRadius - self._thickness, innerAftX)
 
         outer_curve = self._curve()
         inner_curve = self._curveInner(innerForeX, innerAftX, innerForeY, innerAftY)

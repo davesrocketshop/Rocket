@@ -32,11 +32,12 @@ import math
 from App.Constants import TYPE_CONE, TYPE_ELLIPTICAL, TYPE_HAACK, TYPE_OGIVE, TYPE_VON_KARMAN, TYPE_PARABOLA, TYPE_PARABOLIC, TYPE_POWER
 from App.Constants import STYLE_CAPPED, STYLE_HOLLOW, STYLE_SOLID
 
-from App.Utilities import _err
+from App.Utilities import _err, _translate
 
 class NoseShapeHandler():
     def __init__(self, obj):
-        # Common parameters        
+        # Common parameters    
+        self._type = str(obj.NoseType)    
         self._style = str(obj.NoseStyle)
         self._thickness = float(obj.Thickness)
 
@@ -60,27 +61,27 @@ class NoseShapeHandler():
         # Perform some general validations
         if self._style in [STYLE_HOLLOW, STYLE_CAPPED]:
             if self._thickness <= 0:
-                _err("For %s nose cones thickness must be > 0" % self._style)
+                _err(_translate("For %s nose cones thickness must be > 0") % self._style)
                 return False
             if self._thickness >= self._radius:
-                _err("Nose cones thickness must be less than the nose cone radius")
+                _err(_translate("Nose cones thickness must be less than the nose cone radius"))
                 return False
         if self._shoulder:
             if self._shoulderLength <= 0:
-                _err("Shoulder length must be > 0")
+                _err(_translate("Shoulder length must be > 0"))
                 return False
             if self._shoulderRadius <= 0:
-                _err("Shoulder radius must be > 0")
+                _err(_translate("Shoulder radius must be > 0"))
                 return False
             if self._shoulderRadius > self._radius:
-                _err("Shoulder radius can not exceed the nose cone radius")
+                _err(_translate("Shoulder radius can not exceed the nose cone radius"))
                 return False
             if self._style in [STYLE_HOLLOW, STYLE_CAPPED]:
                 if self._shoulderThickness <= 0:
-                    _err("For %s nose cones with a shoulder, shoulder thickness must be > 0" % self._style)
+                    _err(_translate("For %s nose cones with a shoulder, shoulder thickness must be > 0") % self._style)
                     return False
                 if self._shoulderThickness >= self._shoulderRadius:
-                    _err("Shoulder thickness must be less than the shoulder radius")
+                    _err(_translate("Shoulder thickness must be less than the shoulder radius"))
                     return False
 
         return True
@@ -108,7 +109,7 @@ class NoseShapeHandler():
                 else:
                     edges = self.drawCapped()
         except (ZeroDivisionError, Part.OCCError):
-            _err("Nose cone parameters produce an invalid shape")
+            _err(_translate("Nose cone parameters produce an invalid shape"))
             return
 
         if edges is not None:
@@ -117,10 +118,10 @@ class NoseShapeHandler():
                 face = Part.Face(wire)
                 self._obj.Shape = face.revolve(FreeCAD.Vector(0, 0, 0),FreeCAD.Vector(1, 0, 0), 360)
             except Part.OCCError:
-                _err("Nose cone parameters produce an invalid shape")
+                _err(_translate("Nose cone parameters produce an invalid shape"))
                 return
         else:
-            _err("Nose cone parameters produce an invalid shape")
+            _err(_translate("Nose cone parameters produce an invalid shape"))
 
     def solidLines(self, outerShape):
         center = FreeCAD.Vector(0.0, 0.0)

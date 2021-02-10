@@ -30,14 +30,14 @@ import Part
 import math
 
 from App.NoseShapeHandler import NoseShapeHandler
-from App.Utilities import _err
+from App.Utilities import _err, _translate
 
     
 class NoseParabolicShapeHandler(NoseShapeHandler):
 
     def isValidShape(self):
         if self._coefficient < 0 or self._coefficient > 1:
-            _err("For %s nose cones the coefficient must be in the range (0 <= coefficient <= 1)" % self._type)
+            _err(_translate("For %s nose cones the coefficient must be in the range (0 <= coefficient <= 1)") % self._type)
             return False
         return super().isValidShape()
 

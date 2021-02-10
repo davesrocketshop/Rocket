@@ -29,7 +29,7 @@ import FreeCADGui
 import Part
 import math
 
-from App.Utilities import _err
+from App.Utilities import _err, _translate
 
 class BulkheadShapeHandler():
     def __init__(self, obj):
@@ -49,27 +49,27 @@ class BulkheadShapeHandler():
     def isValidShape(self):
         # Perform some general validations
         if self._diameter <= 0:
-            _err("Outer diameter must be greater than zero")
+            _err(_translate("Outer diameter must be greater than zero"))
             return False
 
         if self._step:
             if self._stepDiameter <= 0:
-                _err("Step diameter must be greater than zero")
+                _err(_translate("Step diameter must be greater than zero"))
                 return False
             if self._stepDiameter >= self._diameter:
-                _err("Step diameter must less than the outer diameter")
+                _err(_translate("Step diameter must less than the outer diameter"))
                 return False
 
         if self._holes:
             if self._holeDiameter <= 0:
-                _err("Hole diameter must be greater than zero")
+                _err(_translate("Hole diameter must be greater than zero"))
                 return False
             if self._holeCenter + (self._holeDiameter / 2.0) >= (self._diameter / 2.0):
-                _err("Hole extends outside the outer diameter")
+                _err(_translate("Hole extends outside the outer diameter"))
                 return False
             if self._step:
                 if self._holeCenter + (self._holeDiameter / 2.0) >= (self._stepDiameter / 2.0):
-                    _err("Hole extends outside the step diameter")
+                    _err(_translate("Hole extends outside the step diameter"))
                     return False
 
         return True
@@ -103,5 +103,5 @@ class BulkheadShapeHandler():
         try:
             self._obj.Shape = self._drawBulkhead()
         except (ZeroDivisionError, Part.OCCError):
-            _err("Bulkhead parameters produce an invalid shape")
+            _err(_translate("Bulkhead parameters produce an invalid shape"))
             return

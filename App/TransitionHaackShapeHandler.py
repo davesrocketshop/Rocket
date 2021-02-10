@@ -31,14 +31,14 @@ import math
 
 from App.TransitionShapeHandler import TransitionShapeHandler
 
-from App.Utilities import _err, _msg
+from App.Utilities import _err, _translate
     
     
 class TransitionHaackShapeHandler(TransitionShapeHandler):
 
     def isValidShape(self):
         if self._coefficient < 0:
-            _err("For %s transitions the coefficient must be >= 0" % self._type)
+            _err(_translate("For %s transitions the coefficient must be >= 0") % self._type)
             return False
         return super().isValidShape()
 
