@@ -31,6 +31,9 @@ from PySide import QtGui
 from App.ShapeFin import ShapeFin
 from Ui.ViewFin import ViewProviderFin
 
+def QT_TRANSLATE_NOOP(scope, text):
+    return text
+
 def makeFin(name):
     '''makeFin(name): makes a Fin'''
     obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
@@ -59,6 +62,6 @@ class CmdFin:
         return False
         
     def GetResources(self):
-        return {'MenuText': 'Fin',
-                'ToolTip': 'Fin design',
+        return {'MenuText': QT_TRANSLATE_NOOP("Rocket_Fin", 'Fin'),
+                'ToolTip': QT_TRANSLATE_NOOP("Rocket_Fin", 'Fin design'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Fin.svg"}

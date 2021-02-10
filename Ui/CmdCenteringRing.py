@@ -30,6 +30,9 @@ import FreeCADGui
 from App.ShapeCenteringRing import ShapeCenteringRing
 from Ui.ViewCenteringRing import ViewProviderCenteringRing
 
+def QT_TRANSLATE_NOOP(scope, text):
+    return text
+
 def makeCenteringRing(name):
     '''makeCenteringRing(name): makes a centering ring'''
     obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
@@ -58,6 +61,6 @@ class CmdCenteringRing:
         return False
         
     def GetResources(self):
-        return {'MenuText': 'Centering Ring',
-                'ToolTip': 'Centering Ring design',
+        return {'MenuText': QT_TRANSLATE_NOOP("Rocket_CenteringRing", 'Centering Ring'),
+                'ToolTip': QT_TRANSLATE_NOOP("Rocket_CenteringRing", 'Centering Ring design'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_CenteringRing.svg"}

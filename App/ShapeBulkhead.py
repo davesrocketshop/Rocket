@@ -28,25 +28,28 @@ from App.ShapeComponent import ShapeComponent
 
 from App.BulkheadShapeHandler import BulkheadShapeHandler
 
+def QT_TRANSLATE_NOOP(scope, text):
+    return text
+
 class ShapeBulkhead(ShapeComponent):
 
     def __init__(self, obj):
         super().__init__(obj)
 
-        obj.addProperty('App::PropertyLength', 'Diameter', 'Bulkhead', 'Outer diameter of the bulkhead').Diameter = 25.0
-        obj.addProperty('App::PropertyLength', 'Thickness', 'Bulkhead', 'Thickness of the bulkhead without any inner step').Thickness = 2.0
+        obj.addProperty('App::PropertyLength', 'Diameter', 'Bulkhead', QT_TRANSLATE_NOOP('App::Property', 'Outer diameter of the bulkhead')).Diameter = 25.0
+        obj.addProperty('App::PropertyLength', 'Thickness', 'Bulkhead', QT_TRANSLATE_NOOP('App::Property', 'Thickness of the bulkhead without any inner step')).Thickness = 2.0
 
-        obj.addProperty('App::PropertyBool', 'Step', 'Bulkhead', 'Bulkheads may have a step that fits a smaller diameter').Step = False
-        obj.addProperty('App::PropertyLength', 'StepDiameter', 'Bulkhead', 'Outer diameter of the step').StepDiameter = 21.0
-        obj.addProperty('App::PropertyLength', 'StepThickness', 'Bulkhead', 'Thickness of the step').StepThickness = 2.0
+        obj.addProperty('App::PropertyBool', 'Step', 'Bulkhead', QT_TRANSLATE_NOOP('App::Property', 'Bulkheads may have a step that fits a smaller diameter')).Step = False
+        obj.addProperty('App::PropertyLength', 'StepDiameter', 'Bulkhead', QT_TRANSLATE_NOOP('App::Property', 'Outer diameter of the step')).StepDiameter = 21.0
+        obj.addProperty('App::PropertyLength', 'StepThickness', 'Bulkhead', QT_TRANSLATE_NOOP('App::Property', 'Thickness of the step')).StepThickness = 2.0
 
-        obj.addProperty('App::PropertyBool', 'Holes', 'Bulkhead', 'Bulkheads may have holes for attaching eyebolts or retainers').Holes = False
-        obj.addProperty('App::PropertyLength', 'HoleDiameter', 'Bulkhead', 'Hole diameter').HoleDiameter = 5.0
-        obj.addProperty('App::PropertyLength', 'HoleCenter', 'Bulkhead', 'Distance from the center of the bulkhead to the center of the hole').HoleCenter = 6.25
-        obj.addProperty('App::PropertyInteger', 'HoleCount', 'Bulkhead', 'Number of holes in a radial pattern').HoleCount = 1
-        obj.addProperty('App::PropertyAngle', 'HoleOffset', 'Bulkhead', 'Outer diameter of the bulkhead').HoleOffset = 0
+        obj.addProperty('App::PropertyBool', 'Holes', 'Bulkhead', QT_TRANSLATE_NOOP('App::Property', 'Bulkheads may have holes for attaching eyebolts or retainers')).Holes = False
+        obj.addProperty('App::PropertyLength', 'HoleDiameter', 'Bulkhead', QT_TRANSLATE_NOOP('App::Property', 'Hole diameter')).HoleDiameter = 5.0
+        obj.addProperty('App::PropertyLength', 'HoleCenter', 'Bulkhead', QT_TRANSLATE_NOOP('App::Property', 'Distance from the center of the bulkhead to the center of the hole')).HoleCenter = 6.25
+        obj.addProperty('App::PropertyInteger', 'HoleCount', 'Bulkhead', QT_TRANSLATE_NOOP('App::Property', 'Number of holes in a radial pattern')).HoleCount = 1
+        obj.addProperty('App::PropertyAngle', 'HoleOffset', 'Bulkhead', QT_TRANSLATE_NOOP('App::Property', 'Outer diameter of the bulkhead')).HoleOffset = 0
 
-        obj.addProperty('Part::PropertyPartShape', 'Shape', 'Bulkhead', 'Shape of the bulkhead')
+        obj.addProperty('Part::PropertyPartShape', 'Shape', 'Bulkhead', QT_TRANSLATE_NOOP('App::Property', 'Shape of the bulkhead'))
 
     def execute(self, obj):
         shape = BulkheadShapeHandler(obj)

@@ -32,6 +32,9 @@ from PySide import QtGui
 from App.ShapeTransition import ShapeTransition
 from Ui.ViewTransition import ViewProviderTransition
 
+def QT_TRANSLATE_NOOP(scope, text):
+    return text
+
 def makeTransition(name):
     '''makeTransition(name): makes a Transition'''
     obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
@@ -60,6 +63,6 @@ class CmdTransition:
         return False
         
     def GetResources(self):
-        return {'MenuText': 'Transition',
-                'ToolTip': 'Transition design',
+        return {'MenuText': QT_TRANSLATE_NOOP("Rocket_Transition", 'Transition'),
+                'ToolTip': QT_TRANSLATE_NOOP("Rocket_Transition", 'Transition design'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Transition.svg"}

@@ -26,13 +26,16 @@ __url__ = "https://www.davesrocketshop.com"
 
 from App.Utilities import _err
 
+def QT_TRANSLATE_NOOP(scope, text):
+    return text
+
 class ShapeComponent:
 
     def __init__(self, obj):
-        obj.addProperty('App::PropertyString', 'Manufacturer', 'RocketComponent', 'Component manufacturer').Manufacturer = ""
-        obj.addProperty('App::PropertyString', 'PartNumber', 'RocketComponent', 'Component manufacturer part number').PartNumber = ""
-        obj.addProperty('App::PropertyString', 'Description', 'RocketComponent', 'Component description').Description = ""
-        obj.addProperty('App::PropertyString', 'Material', 'RocketComponent', 'Component material').Material = ""
+        obj.addProperty('App::PropertyString', 'Manufacturer', 'RocketComponent', QT_TRANSLATE_NOOP('App::Property', 'Component manufacturer')).Manufacturer = ""
+        obj.addProperty('App::PropertyString', 'PartNumber', 'RocketComponent', QT_TRANSLATE_NOOP('App::Property', 'Component manufacturer part number')).PartNumber = ""
+        obj.addProperty('App::PropertyString', 'Description', 'RocketComponent', QT_TRANSLATE_NOOP('App::Property', 'Component description')).Description = ""
+        obj.addProperty('App::PropertyString', 'Material', 'RocketComponent', QT_TRANSLATE_NOOP('App::Property', 'Component material')).Material = ""
 
         obj.Proxy=self
 

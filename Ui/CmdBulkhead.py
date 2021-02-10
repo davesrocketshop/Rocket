@@ -30,6 +30,9 @@ import FreeCADGui
 from App.ShapeBulkhead import ShapeBulkhead
 from Ui.ViewBulkhead import ViewProviderBulkhead
 
+def QT_TRANSLATE_NOOP(scope, text):
+    return text
+
 def makeBulkhead(name):
     '''makeBulkhead(name): makes a bulkhead'''
     obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
@@ -58,6 +61,6 @@ class CmdBulkhead:
         return False
         
     def GetResources(self):
-        return {'MenuText': 'Bulkhead',
-                'ToolTip': 'Bulkhead design',
+        return {'MenuText': QT_TRANSLATE_NOOP("Rocket_Bulkhead", 'Bulkhead'),
+                'ToolTip': QT_TRANSLATE_NOOP("Rocket_Bulkhead", 'Bulkhead design'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Bulkhead.svg"}

@@ -32,17 +32,20 @@ from App.ShapeComponent import ShapeComponent
 
 from App.BodyTubeShapeHandler import BodyTubeShapeHandler
 
+def QT_TRANSLATE_NOOP(scope, text):
+    return text
+
 class ShapeBodyTube(ShapeComponent):
 
     def __init__(self, obj):
         super().__init__(obj)
 
         # Default set to a BT-50
-        obj.addProperty('App::PropertyLength', 'InnerDiameter', 'BodyTube', 'Diameter of the inside of the body tube').InnerDiameter = 24.1
-        obj.addProperty('App::PropertyLength', 'OuterDiameter', 'BodyTube', 'Diameter of the outside of the body tube').OuterDiameter = 24.8
-        obj.addProperty('App::PropertyLength', 'Length', 'BodyTube', 'Length of the body tube').Length = 457.0
+        obj.addProperty('App::PropertyLength', 'InnerDiameter', 'BodyTube', QT_TRANSLATE_NOOP('App::Property', 'Diameter of the inside of the body tube')).InnerDiameter = 24.1
+        obj.addProperty('App::PropertyLength', 'OuterDiameter', 'BodyTube', QT_TRANSLATE_NOOP('App::Property', 'Diameter of the outside of the body tube')).OuterDiameter = 24.8
+        obj.addProperty('App::PropertyLength', 'Length', 'BodyTube', QT_TRANSLATE_NOOP('App::Property', 'Length of the body tube')).Length = 457.0
 
-        obj.addProperty('Part::PropertyPartShape', 'Shape', 'BodyTube', 'Shape of the body tube')
+        obj.addProperty('Part::PropertyPartShape', 'Shape', 'BodyTube', QT_TRANSLATE_NOOP('App::Property', 'Shape of the body tube'))
 
     def execute(self, obj):
         shape = BodyTubeShapeHandler(obj)

@@ -28,6 +28,9 @@ from App.ShapeBulkhead import ShapeBulkhead
 
 from App.CenteringRingShapeHandler import CenteringRingShapeHandler
 
+def QT_TRANSLATE_NOOP(scope, text):
+    return text
+
 #
 # Centering rings are an extension of bulkheads
 #
@@ -36,13 +39,13 @@ class ShapeCenteringRing(ShapeBulkhead):
     def __init__(self, obj):
         super().__init__(obj)
 
-        obj.addProperty('App::PropertyLength', 'CenterDiameter', 'CenteringRing', 'Diameter of the central hole').CenterDiameter = 10.0
+        obj.addProperty('App::PropertyLength', 'CenterDiameter', 'CenteringRing', QT_TRANSLATE_NOOP('App::Property', 'Diameter of the central hole')).CenterDiameter = 10.0
 
-        obj.addProperty('App::PropertyBool', 'Notched', 'CenteringRing', 'Include a notch for an engine hook').Notched = False
-        obj.addProperty('App::PropertyLength', 'NotchWidth', 'CenteringRing', 'Width of the engine hook notch').NotchWidth = 3.0
-        obj.addProperty('App::PropertyLength', 'NotchHeight', 'CenteringRing', 'Height of the engine hook notch').NotchHeight = 3.0
+        obj.addProperty('App::PropertyBool', 'Notched', 'CenteringRing', QT_TRANSLATE_NOOP('App::Property', 'Include a notch for an engine hook')).Notched = False
+        obj.addProperty('App::PropertyLength', 'NotchWidth', 'CenteringRing', QT_TRANSLATE_NOOP('App::Property', 'Width of the engine hook notch')).NotchWidth = 3.0
+        obj.addProperty('App::PropertyLength', 'NotchHeight', 'CenteringRing', QT_TRANSLATE_NOOP('App::Property', 'Height of the engine hook notch')).NotchHeight = 3.0
 
-        obj.addProperty('Part::PropertyPartShape', 'Shape', 'CenteringRing', 'Shape of the centering ring')
+        obj.addProperty('Part::PropertyPartShape', 'Shape', 'CenteringRing', QT_TRANSLATE_NOOP('App::Property', 'Shape of the centering ring'))
 
         # Default values changed to match a central hole
         obj.HoleDiameter = 2.0

@@ -29,10 +29,14 @@ class RocketWorkbench ( Workbench ):
     ToolTip = "Rocket workbench"
 
     def Initialize(self):
+        FreeCADGui.addLanguagePath(FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/translations")
+
         # load the module
         import RocketGui
-        self.appendToolbar('Rocket',['Rocket_NoseCone', 'Rocket_Transition', 'Rocket_BodyTube', 'Rocket_CenteringRing', 'Rocket_Bulkhead', 'Rocket_Fin']) #, 'Rocket_FinCan'])
-        self.appendMenu('Rocket',['Rocket_NoseCone', 'Rocket_Transition', 'Rocket_BodyTube', 'Rocket_CenteringRing', 'Rocket_Bulkhead', 'Rocket_Fin']) #, 'Rocket_FinCan'])
+        from PySide.QtCore import QT_TRANSLATE_NOOP
+        
+        self.appendToolbar(QT_TRANSLATE_NOOP('Rocket', 'Rocket'), ['Rocket_NoseCone', 'Rocket_Transition', 'Rocket_BodyTube', 'Rocket_CenteringRing', 'Rocket_Bulkhead', 'Rocket_Fin']) #, 'Rocket_FinCan'])
+        self.appendMenu(QT_TRANSLATE_NOOP('Rocket', 'Rocket'), ['Rocket_NoseCone', 'Rocket_Transition', 'Rocket_BodyTube', 'Rocket_CenteringRing', 'Rocket_Bulkhead', 'Rocket_Fin']) #, 'Rocket_FinCan'])
 
     def GetClassName(self):
         return "Gui::PythonWorkbench"

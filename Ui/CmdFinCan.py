@@ -26,6 +26,9 @@ __url__ = "https://www.davesrocketshop.com"
     
 import FreeCAD
 
+def QT_TRANSLATE_NOOP(scope, text):
+    return text
+
 class CmdFinCan:
     def Activated(self):
         FreeCAD.Console.PrintMessage("Fin Can Command\n")
@@ -36,6 +39,6 @@ class CmdFinCan:
         return True
         
     def GetResources(self):
-        return {'MenuText': 'Fin Can',
-                'ToolTip': 'Fin can design',
+        return {'MenuText': QT_TRANSLATE_NOOP("Rocket_FinCan", 'Fin Can'),
+                'ToolTip': QT_TRANSLATE_NOOP("Rocket_FinCan", 'Fin can design'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_FinCan.svg"}
