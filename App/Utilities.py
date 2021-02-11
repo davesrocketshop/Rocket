@@ -57,3 +57,8 @@ def _toInt(input, defaultValue = 0):
     if input == '':
         return defaultValue
     return int(input)
+
+def _toBoolean(value):
+    if str(value).strip().lower() == "true":
+        return True
+    return False

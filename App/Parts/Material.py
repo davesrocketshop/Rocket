@@ -18,27 +18,43 @@
 # *   USA                                                                   *
 # *                                                                         *
 # ***************************************************************************
+"""Class for rocket part materials"""
 
+__title__ = "FreeCAD Open Rocket Part Material"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
-class RocketWorkbench ( Workbench ):
-    "Rocket workbench object"
-    Icon = FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/RocketWorkbench.svg"
-    MenuText = "Rocket"
-    ToolTip = "Rocket workbench"
+# from App.OpenRocket import _msg, _err, _trace
 
-    def Initialize(self):
-        FreeCADGui.addLanguagePath(FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/translations")
+class Material:
 
-        # load the module
-        import RocketGui
-        from PySide.QtCore import QT_TRANSLATE_NOOP
-        
-        self.appendToolbar(QT_TRANSLATE_NOOP('Rocket', 'Rocket'), ['Rocket_NoseCone', 'Rocket_Transition', 'Rocket_BodyTube', 'Rocket_CenteringRing', 'Rocket_Bulkhead', 'Rocket_Fin']) #, 'Rocket_FinCan'])
-        self.appendMenu(QT_TRANSLATE_NOOP('Rocket', 'Rocket'), ['Rocket_NoseCone', 'Rocket_Transition', 'Rocket_BodyTube', 'Rocket_CenteringRing', 'Rocket_Bulkhead', 'Rocket_Fin', 'Rocket_PartsDatabase']) #, 'Rocket_FinCan'])
+    def __init__(self):
+        self._manufacturer = ""
+        self._name = ""
+        self._type = MATERIAL_TYPE_BULK
+        self._density = 0.0
+        self._units = "g/cm3" # This should be changed?
 
-    def GetClassName(self):
-        return "Gui::PythonWorkbench"
+    def validString(value):
+        if value is None:
+            return False
+        return True
 
-Gui.addWorkbench(RocketWorkbench())
+    def validNonEmptyString(value):
+        if validString(value) and (str(value).strip().length() > 0):
+            return True
+        return False
+
+    def isValid():
+        if not validString(self._manufacturer):
+            return False
+        if not validNonEmptyString(self._name):
+            return False
+        if not validNonEmptyString(self._units):
+            return False
+        if self._type not in [MATERIAL_TYPE_BULK, MATERIAL_TYPE_SURFACE, MATERIAL_TYPE_LINE]:
+            return False
+        if self._density < 0.0:
+            return False
+
+        return True

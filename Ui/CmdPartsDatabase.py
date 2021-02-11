@@ -18,27 +18,38 @@
 # *   USA                                                                   *
 # *                                                                         *
 # ***************************************************************************
+"""Class for recreating the parts database"""
 
+__title__ = "FreeCAD Parts Database Generation"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
+    
+import FreeCAD
+import FreeCADGui
 
-class RocketWorkbench ( Workbench ):
-    "Rocket workbench object"
-    Icon = FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/RocketWorkbench.svg"
-    MenuText = "Rocket"
-    ToolTip = "Rocket workbench"
+from App.Parts.PartDatabase import PartDatabase
 
-    def Initialize(self):
-        FreeCADGui.addLanguagePath(FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/translations")
+def QT_TRANSLATE_NOOP(scope, text):
+    return text
 
-        # load the module
-        import RocketGui
-        from PySide.QtCore import QT_TRANSLATE_NOOP
-        
-        self.appendToolbar(QT_TRANSLATE_NOOP('Rocket', 'Rocket'), ['Rocket_NoseCone', 'Rocket_Transition', 'Rocket_BodyTube', 'Rocket_CenteringRing', 'Rocket_Bulkhead', 'Rocket_Fin']) #, 'Rocket_FinCan'])
-        self.appendMenu(QT_TRANSLATE_NOOP('Rocket', 'Rocket'), ['Rocket_NoseCone', 'Rocket_Transition', 'Rocket_BodyTube', 'Rocket_CenteringRing', 'Rocket_Bulkhead', 'Rocket_Fin', 'Rocket_PartsDatabase']) #, 'Rocket_FinCan'])
+def makePartsDatabase():
+    '''makePartsDatabase(): makes a Body Tube'''
+    db = PartDatabase()
+    db.updateDatabase()
 
-    def GetClassName(self):
-        return "Gui::PythonWorkbench"
+class CmdPartsDatabase:
+    def Activated(self):
+        FreeCAD.ActiveDocument.openTransaction("Create body tube")
+        FreeCADGui.addModule("Ui.CmdPartsDatabase")
+        FreeCADGui.doCommand("Ui.CmdPartsDatabase.makePartsDatabase()")
+        # FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
 
-Gui.addWorkbench(RocketWorkbench())
+    def IsActive(self):
+        if FreeCAD.ActiveDocument:
+            return True
+        return False
+            
+    def GetResources(self):
+        return {'MenuText': QT_TRANSLATE_NOOP("Rocket_PartsDatabase", 'Create Parts Database...'),
+                'ToolTip': QT_TRANSLATE_NOOP("Rocket_PartsDatabase", 'Create Parts Database'),
+                'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_PartsDatabase.svg"}

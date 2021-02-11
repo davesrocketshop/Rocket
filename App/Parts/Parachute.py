@@ -18,27 +18,19 @@
 # *   USA                                                                   *
 # *                                                                         *
 # ***************************************************************************
+"""Class for rocket part components"""
 
+__title__ = "FreeCAD Open Rocket Part Parachute"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
-class RocketWorkbench ( Workbench ):
-    "Rocket workbench object"
-    Icon = FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/RocketWorkbench.svg"
-    MenuText = "Rocket"
-    ToolTip = "Rocket workbench"
+class Parachute(Component):
 
-    def Initialize(self):
-        FreeCADGui.addLanguagePath(FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/translations")
+    def __init__(self):
+        super().__init__()
 
-        # load the module
-        import RocketGui
-        from PySide.QtCore import QT_TRANSLATE_NOOP
-        
-        self.appendToolbar(QT_TRANSLATE_NOOP('Rocket', 'Rocket'), ['Rocket_NoseCone', 'Rocket_Transition', 'Rocket_BodyTube', 'Rocket_CenteringRing', 'Rocket_Bulkhead', 'Rocket_Fin']) #, 'Rocket_FinCan'])
-        self.appendMenu(QT_TRANSLATE_NOOP('Rocket', 'Rocket'), ['Rocket_NoseCone', 'Rocket_Transition', 'Rocket_BodyTube', 'Rocket_CenteringRing', 'Rocket_Bulkhead', 'Rocket_Fin', 'Rocket_PartsDatabase']) #, 'Rocket_FinCan'])
-
-    def GetClassName(self):
-        return "Gui::PythonWorkbench"
-
-Gui.addWorkbench(RocketWorkbench())
+        self._diameter = (0.0, "")
+        self._sides = 0
+        self._lineCount = 0
+        self._lineLength = (0.0, "")
+        self._lineMaterial = ("", MATERIAL_TYPE_LINE)
