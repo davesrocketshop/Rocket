@@ -18,44 +18,13 @@
 # *   USA                                                                   *
 # *                                                                         *
 # ***************************************************************************
-"""Class for rocket part materials"""
+"""Class for recreating the parts database"""
 
-__title__ = "FreeCAD Open Rocket Part Material"
+__title__ = "FreeCAD Parts Database Generation"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
+    
+from App.Parts.PartDatabase import PartDatabase
 
-# from App.OpenRocket import _msg, _err, _trace
-from App.Constants import MATERIAL_TYPE_BULK, MATERIAL_TYPE_SURFACE, MATERIAL_TYPE_LINE
-
-class Material:
-
-    def __init__(self):
-        self._manufacturer = ""
-        self._name = ""
-        self._type = MATERIAL_TYPE_BULK
-        self._density = 0.0
-        self._units = "g/cm3" # This should be changed?
-
-    def validString(self, value):
-        if value is None:
-            return False
-        return True
-
-    def validNonEmptyString(self, value):
-        if self.validString(value) and (len(str(value).strip()) > 0):
-            return True
-        return False
-
-    def isValid(self):
-        if not self.validString(self._manufacturer):
-            return False
-        if not self.validNonEmptyString(self._name):
-            return False
-        if not self.validNonEmptyString(self._units):
-            return False
-        if self._type not in [MATERIAL_TYPE_BULK, MATERIAL_TYPE_SURFACE, MATERIAL_TYPE_LINE]:
-            return False
-        if self._density < 0.0:
-            return False
-
-        return True
+db = PartDatabase()
+db.updateDatabase()

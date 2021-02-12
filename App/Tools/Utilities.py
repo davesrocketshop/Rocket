@@ -18,38 +18,44 @@
 # *   USA                                                                   *
 # *                                                                         *
 # ***************************************************************************
-"""Class for recreating the parts database"""
+"""General utilities for the Rocket Workbench"""
 
-__title__ = "FreeCAD Parts Database Generation"
+__title__ = "General utilities for the Rocket Workbench"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
-    
-import FreeCAD
-import FreeCADGui
 
-from App.Parts.PartDatabase import PartDatabase
+def _msg(message):
+    """Write messages to the console including the line ending."""
+    print(message)
 
-def QT_TRANSLATE_NOOP(scope, text):
-    return text
+def _wrn(message):
+    """Write warnings to the console including the line ending."""
+    print(message)
 
-def makePartsDatabase():
-    '''makePartsDatabase(): makes a Body Tube'''
-    db = PartDatabase()
-    db.updateDatabase()
+def _err(message):
+    """Write errors  to the console including the line ending."""
+    print(message)
 
-class CmdPartsDatabase:
-    def Activated(self):
-        FreeCAD.ActiveDocument.openTransaction("Create body tube")
-        FreeCADGui.addModule("Ui.CmdPartsDatabase")
-        FreeCADGui.doCommand("Ui.CmdPartsDatabase.makePartsDatabase()")
-        # FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
+def _trace(className, functionName, message = None):
+    """Write errors  to the console including the line ending."""
+    trace = True
+    if trace:
+        if message is None:
+            print("%s:%s()" % (className, functionName))
+        else:
+            print("%s:%s(%s)" % (className, functionName, message))
 
-    def IsActive(self):
-        if FreeCAD.ActiveDocument:
-            return True
-        return False
-            
-    def GetResources(self):
-        return {'MenuText': QT_TRANSLATE_NOOP("Rocket_PartsDatabase", 'Create Parts Database...'),
-                'ToolTip': QT_TRANSLATE_NOOP("Rocket_PartsDatabase", 'Create Parts Database'),
-                'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_PartsDatabase.svg"}
+def _toFloat(input, defaultValue = 0.0):
+    if input == '':
+        return defaultValue
+    return float(input)
+
+def _toInt(input, defaultValue = 0):
+    if input == '':
+        return defaultValue
+    return int(input)
+
+def _toBoolean(value):
+    if str(value).strip().lower() == "true":
+        return True
+    return False

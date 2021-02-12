@@ -24,14 +24,14 @@ __title__ = "FreeCAD Open Rocket Part Component Database"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
-import FreeCAD
+# import FreeCAD
 import sqlite3
 from os import walk
 
 import xml.sax
 
 from App.Parts.PartDatabaseOrcImporter import PartDatabaseOrcImporter
-from App.Utilities import _msg
+from App.Tools.Utilities import _msg
 
 class PartDatabase:
 
@@ -40,14 +40,16 @@ class PartDatabase:
 
     def getConnection(self, ro=True):
         # By default get a read only connection
-        if ro:
-            connection = sqlite3.connect("file:" + FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/parts/Parts.db?mode=ro", uri=True)
-        else:
-            connection = sqlite3.connect(FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/parts/Parts.db")
-        return connection
+        # if ro:
+        #     connection = sqlite3.connect("file:" + FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/parts/Parts.db?mode=ro", uri=True)
+        # else:
+        #     connection = sqlite3.connect(FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/parts/Parts.db")
+        # return connection
+        pass
 
     def updateDatabase(self):
-        connection = sqlite3.connect(FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/parts/Parts.db")
+        # connection = sqlite3.connect(FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/parts/Parts.db")
+        connection = sqlite3.connect("./Resources/parts/Parts.db")
 
         self._createTables(connection)
         self._importFiles(connection)
@@ -73,7 +75,8 @@ class PartDatabase:
         connection.commit()
 
     def _importFiles(self, connection):
-        for (dirpath, dirnames, filenames) in walk(FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/parts/openrocket_components/"):
+        # for (dirpath, dirnames, filenames) in walk(FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/parts/openrocket_components/"):
+        for (dirpath, dirnames, filenames) in walk("./Resources/parts/openrocket_components/"):
             # _msg("dirpath = %s, dirname = %s, filename = %s" % (dirpath, dirnames, filenames))
             for file in filenames:
                 self._importOrcPartFile(connection, dirpath + file)

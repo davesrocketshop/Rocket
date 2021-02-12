@@ -31,11 +31,7 @@ import re
 import xml.etree.ElementTree as ET
 import xml.sax
 
-import FreeCAD
-from FreeCAD import Vector
-from draftutils.translate import translate
-
-from App.Utilities import _msg, _err, _trace, _toFloat, _toBoolean
+from App.Tools.Utilities import _msg, _err, _trace, _toFloat, _toBoolean
 from App.Parts.BodyTube import BodyTube
 from App.Parts.Bulkhead import Bulkhead
 from App.Parts.CenteringRing import CenteringRing
@@ -48,6 +44,7 @@ from App.Parts.Parachute import Parachute
 from App.Parts.Streamer import Streamer
 from App.Parts.Transition import Transition
 
+from App.Constants import TYPE_CONE, TYPE_ELLIPTICAL, TYPE_HAACK, TYPE_OGIVE, TYPE_VON_KARMAN, TYPE_PARABOLA, TYPE_PARABOLIC, TYPE_POWER
 from App.Constants import MATERIAL_TYPE_BULK
 
 class Element:
@@ -62,7 +59,7 @@ class Element:
         print("Start %s" % tag)
 
     def end(self):
-        print("End %s" % self._tag)
+        # print("End %s" % self._tag)
         return self._parent
 
     def isChildElement(self, tag):
@@ -125,15 +122,15 @@ class MaterialsElement(Element):
     def __init__(self, parent, tag, attributes, connection):
         super().__init__(parent, tag, attributes, connection)
 
-        self._validChildren = { 'materials' : MaterialsElement,
+        self._validChildren = { 'material' : MaterialElement,
                                 'components' : ComponentsElement
                               }
 
     def validChildren(self):
         return ['material']
 
-    def createChild(self, tag, attributes):
-        return MaterialElement(self, tag, attributes)
+    # def createChild(self, tag, attributes):
+    #     return MaterialElement(self, tag, attributes)
 
 class MaterialElement(Element):
 
@@ -245,7 +242,7 @@ class BodyTubeElement(ComponentElement):
     def __init__(self, parent, tag, attributes, connection):
         super().__init__(parent, tag, attributes, connection)
 
-        self._knownTags.append(["insidediameter", "outsidediameter", "length"])
+        self._knownTags = self._knownTags + ["insidediameter", "outsidediameter", "length"]
 
         self._ID = (0.0, "")
         self._OD = (0.0, "")
@@ -275,25 +272,25 @@ class BodyTubeElement(ComponentElement):
 
     def end(self):
         if self._tag.lower() == "bodytube":
-            tube = BodyTube()
+            obj = BodyTube()
         elif self._tag.lower() == "tubecoupler":
-            tube = Coupler()
+            obj = Coupler()
         elif self._tag.lower() == "engineblock":
-            tube = EngineBlock()
+            obj = EngineBlock()
         elif self._tag.lower() == "launchlug":
-            tube = LaunchLug()
+            obj = LaunchLug()
         elif self._tag.lower() == "centeringring":
-            tube = LaunchLug()
+            obj = LaunchLug()
         else:
             _err("Unable to close body tube object for %s" % self._tag)
             return super().end()
 
-        super().setValues(tube)
-        tube._ID = self._ID
-        tube._OD = self._OD
-        tube._length = self._length
+        super().setValues(obj)
+        obj._ID = self._ID
+        obj._OD = self._OD
+        obj._length = self._length
 
-        if not tube.isValid():
+        if not obj.isValid():
             _err("Invalid %s" % self._tag)
 
         return super().end()
@@ -302,7 +299,100 @@ class BulkheadElement(ComponentElement):
     pass
 
 class TransitionElement(ComponentElement):
-    pass
+
+    def __init__(self, parent, tag, attributes, connection):
+        super().__init__(parent, tag, attributes, connection)
+
+        self._knownTags = self._knownTags + ["filled", "shape", "foreoutsidediameter", "foreshoulderdiameter", "foreshoulderlength", 
+            "aftoutsidediameter", "aftshoulderdiameter", "aftshoulderlength", "length", "thickness"]
+
+        # Map import shape names to internal names. There may be multiple entries for the same type
+        self._shapeMap = { "conical" : TYPE_CONE.lower(),
+                           "ellipsoid" : TYPE_ELLIPTICAL.lower(),
+                           "ogive" : TYPE_OGIVE.lower()
+                         }
+        
+        self._noseType = "" # Shape
+        self._filled = False
+
+        self._foreOutsideDiameter = (0.0, "")
+        self._foreShoulderDiameter = (0.0, "")
+        self._foreShoulderLength = (0.0, "")
+        self._aftOutsideDiameter = (0.0, "")
+        self._aftShoulderDiameter = (0.0, "")
+        self._aftShoulderLength = (0.0, "")
+        self._length = (0.0, "")
+        self._thickness = (0.0, "")
+
+    def handleTag(self, tag, attributes):
+        _tag = tag.lower().strip()
+        if _tag == "foreoutsidediameter":
+            self._foreOutsideDiameter = (self._foreOutsideDiameter[0], attributes['Unit'])
+        elif _tag == "foreshoulderdiameter":
+            self._foreShoulderDiameter = (self._foreShoulderDiameter[0], attributes['Unit'])
+        elif _tag == "foreshoulderlength":
+            self._foreShoulderLength = (self._foreShoulderLength[0], attributes['Unit'])
+        elif _tag == "aftoutsidediameter":
+            self._aftOutsideDiameter = (self._aftOutsideDiameter[0], attributes['Unit'])
+        elif _tag == "aftshoulderdiameter":
+            self._aftShoulderDiameter = (self._aftShoulderDiameter[0], attributes['Unit'])
+        elif _tag == "aftshoulderlength":
+            self._aftShoulderLength = (self._aftShoulderLength[0], attributes['Unit'])
+        elif _tag == "length":
+            self._length = (self._length[0], attributes['Unit'])
+        else:
+            super().handleTag(tag, attributes)
+
+    def _mapShape(self, shape):
+        _shape = shape.lower()
+        if _shape in self._shapeMap:
+            return self._shapeMap[_shape]
+        return shape
+
+    def handleEndTag(self, tag, content):
+        _tag = tag.lower().strip()
+        if _tag == "filled":
+            self._filled = _toBoolean(content)
+        elif _tag == "shape":
+            self._noseType = self._mapShape(content)
+        elif _tag == "foreoutsidediameter":
+            self._foreOutsideDiameter = (_toFloat(content), self._foreOutsideDiameter[1])
+        elif _tag == "foreshoulderdiameter":
+            self._foreShoulderDiameter = (_toFloat(content), self._foreShoulderDiameter[1])
+        elif _tag == "foreshoulderlength":
+            self._foreShoulderLength = (_toFloat(content), self._foreShoulderLength[1])
+        elif _tag == "aftoutsidediameter":
+            self._aftOutsideDiameter = (_toFloat(content), self._aftOutsideDiameter[1])
+        elif _tag == "aftshoulderdiameter":
+            self._aftShoulderDiameter = (_toFloat(content), self._aftShoulderDiameter[1])
+        elif _tag == "aftshoulderlength":
+            self._aftShoulderLength = (_toFloat(content), self._aftShoulderLength[1])
+        elif _tag == "length":
+            self._length = (_toFloat(content), self._length[1])
+        else:
+            super().handleEndTag(tag, content)
+
+    def end(self):
+        obj = Transition()
+
+        super().setValues(obj)
+
+        obj._noseType = self._noseType
+        obj._filled = self._filled
+
+        obj._foreOutsideDiameter = self._foreOutsideDiameter
+        obj._foreShoulderDiameter = self._foreShoulderDiameter
+        obj._foreShoulderLength = self._foreShoulderLength
+        obj._aftOutsideDiameter = self._aftOutsideDiameter
+        obj._aftShoulderDiameter = self._aftShoulderDiameter
+        obj._aftShoulderLength = self._aftShoulderLength
+        obj._length = self._length
+        obj._thickness = self._thickness
+
+        if not obj.isValid():
+            _err("Invalid %s" % self._tag)
+
+        return super().end()
 
 class ParachuteElement(ComponentElement):
     pass

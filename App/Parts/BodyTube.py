@@ -25,7 +25,7 @@ __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
 from App.Parts.Component import Component
-from App.Utilities import _err
+from App.Tools.Utilities import _err
 
 class BodyTube(Component):
 
