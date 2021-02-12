@@ -25,6 +25,8 @@ __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
 from App.Parts.Component import Component
+from App.Constants import MATERIAL_TYPE_BULK, MATERIAL_TYPE_SURFACE, MATERIAL_TYPE_LINE
+from App.Tools.Utilities import _err
 
 class Parachute(Component):
 
@@ -36,3 +38,35 @@ class Parachute(Component):
         self._lineCount = 0
         self._lineLength = (0.0, "")
         self._lineMaterial = ("", MATERIAL_TYPE_LINE)
+
+    def isValid(self):
+        if not super().isValid():
+            _err("Parachute: super invalid")
+            return False
+
+        if self._diameter[0] <= 0.0:
+            _err("Parachute: _diameter invalid")
+            return False
+        if self._sides < 0:
+            _err("Parachute: _sides invalid")
+            return False
+        if self._lineCount <= 0:
+            _err("Parachute: _lineCount invalid")
+            return False
+        if self._lineLength[0] < 0.0:
+            _err("Parachute: _lineLength invalid")
+            return False
+        # if self.validNonEmptyString(self._lineMaterial[0]):
+        #     _err("Parachute: _lineMaterial invalid")
+        #     return False
+        if not self.validNonEmptyString(self._diameter[1]):
+            _err("Parachute: _diameter Units invalid '%s" % self._diameter[1])
+            return False
+        if not self.validNonEmptyString(self._lineLength[1]):
+            _err("Parachute: _lineLength Units invalid '%s" % self._lineLength[1])
+            return False
+        # if self._lineMaterial[1].lower() != MATERIAL_TYPE_LINE.lower():
+        #     _err("Parachute: _lineMaterial Units invalid '%s" % self._lineMaterial[1])
+        #     return False
+
+        return True

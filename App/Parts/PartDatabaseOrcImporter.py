@@ -31,7 +31,7 @@ import re
 import xml.etree.ElementTree as ET
 import xml.sax
 
-from App.Tools.Utilities import _msg, _err, _trace, _toFloat, _toBoolean
+from App.Tools.Utilities import _msg, _err, _trace, _toFloat, _toBoolean, _toInt
 from App.Parts.BodyTube import BodyTube
 from App.Parts.Bulkhead import Bulkhead
 from App.Parts.CenteringRing import CenteringRing
@@ -45,7 +45,7 @@ from App.Parts.Streamer import Streamer
 from App.Parts.Transition import Transition
 
 from App.Constants import TYPE_CONE, TYPE_ELLIPTICAL, TYPE_HAACK, TYPE_OGIVE, TYPE_VON_KARMAN, TYPE_PARABOLA, TYPE_PARABOLIC, TYPE_POWER
-from App.Constants import MATERIAL_TYPE_BULK
+from App.Constants import MATERIAL_TYPE_BULK, MATERIAL_TYPE_SURFACE, MATERIAL_TYPE_LINE
 
 class Element:
 
@@ -296,7 +296,45 @@ class BodyTubeElement(ComponentElement):
         return super().end()
 
 class BulkheadElement(ComponentElement):
-    pass
+
+    def __init__(self, parent, tag, attributes, connection):
+        super().__init__(parent, tag, attributes, connection)
+
+        # The 'filled' tag is recognized but not used
+        self._knownTags = self._knownTags + ["filled", "outsidediameter", "length"]
+
+        self._OD = (0.0, "")
+        self._length = (0.0, "")
+
+    def handleTag(self, tag, attributes):
+        _tag = tag.lower().strip()
+        if _tag == "outsidediameter":
+            self._OD = (self._OD[0], attributes['Unit'])
+        elif _tag == "length":
+            self._length = (self._length[0], attributes['Unit'])
+        else:
+            super().handleTag(tag, attributes)
+
+    def handleEndTag(self, tag, content):
+        _tag = tag.lower().strip()
+        if _tag == "outsidediameter":
+            self._OD = (_toFloat(content), self._OD[1])
+        elif _tag == "length":
+            self._length = (_toFloat(content), self._length[1])
+        else:
+            super().handleEndTag(tag, content)
+
+    def end(self):
+        obj = Bulkhead()
+
+        super().setValues(obj)
+        obj._OD = self._OD
+        obj._length = self._length
+
+        if not obj.isValid():
+            _err("Invalid %s" % self._tag)
+
+        return super().end()
 
 class TransitionElement(ComponentElement):
 
@@ -395,13 +433,189 @@ class TransitionElement(ComponentElement):
         return super().end()
 
 class ParachuteElement(ComponentElement):
-    pass
+
+    def __init__(self, parent, tag, attributes, connection):
+        super().__init__(parent, tag, attributes, connection)
+
+        self._knownTags = self._knownTags + ["diameter", "sides", "linecount", "linelength", "linematerial"]
+
+        self._diameter = (0.0, "")
+        self._sides = 0
+        self._lineCount = 0
+        self._lineLength = (0.0, "")
+        self._lineMaterial = ("", MATERIAL_TYPE_LINE)
+
+    def handleTag(self, tag, attributes):
+        _tag = tag.lower().strip()
+        if _tag == "diameter":
+            self._diameter = (self._diameter[0], attributes['Unit'])
+        elif _tag == "linelength":
+            self._lineLength = (self._lineLength[0], attributes['Unit'])
+        elif _tag == "linematerial":
+            self._lineMaterial = (self._lineMaterial[0], attributes['Type'])
+        else:
+            super().handleTag(tag, attributes)
+
+    def handleEndTag(self, tag, content):
+        _tag = tag.lower().strip()
+        if _tag == "diameter":
+            self._diameter = (_toFloat(content), self._diameter[1])
+        elif _tag == "sides":
+            self._sides = _toInt(content)
+        elif _tag == "linecount":
+            self._lineCount = _toInt(content)
+        elif _tag == "linelength":
+            self._lineLength = (_toFloat(content), self._lineLength[1])
+        elif _tag == "linematerial":
+            self._lineMaterial = (content, self._lineMaterial[1])
+        else:
+            super().handleEndTag(tag, content)
+
+    def end(self):
+        obj = Parachute()
+
+        super().setValues(obj)
+
+        obj._diameter = self._diameter
+        obj._sides = self._sides
+        obj._lineCount = self._lineCount
+        obj._lineLength = self._lineLength
+        obj._lineMaterial = self._lineMaterial
+
+        if not obj.isValid():
+            _err("Invalid %s" % self._tag)
+
+        return super().end()
 
 class StreamerElement(ComponentElement):
-    pass
+
+    def __init__(self, parent, tag, attributes, connection):
+        super().__init__(parent, tag, attributes, connection)
+
+        self._knownTags = self._knownTags + ["length", "width", "thickness"]
+
+        self._length = (0.0, "")
+        self._width = (0.0, "")
+        self._thickness = (0.0, "")
+
+    def handleTag(self, tag, attributes):
+        _tag = tag.lower().strip()
+        if _tag == "length":
+            self._length = (self._length[0], attributes['Unit'])
+        elif _tag == "width":
+            self._width = (self._width[0], attributes['Unit'])
+        elif _tag == "thickness":
+            self._thickness = (self._thickness[0], attributes['Unit'])
+        else:
+            super().handleTag(tag, attributes)
+
+    def handleEndTag(self, tag, content):
+        _tag = tag.lower().strip()
+        if _tag == "length":
+            self._length = (_toFloat(content), self._length[1])
+        elif _tag == "width":
+            self._width = (_toFloat(content), self._width[1])
+        elif _tag == "thickness":
+            self._thickness = (_toFloat(content), self._thickness[1])
+        else:
+            super().handleEndTag(tag, content)
+
+    def end(self):
+        obj = Streamer()
+
+        super().setValues(obj)
+
+        obj._length = self._length
+        obj._width = self._width
+        obj._thickness = self._thickness
+
+        if not obj.isValid():
+            _err("Invalid %s" % self._tag)
+
+        return super().end()
 
 class NoseConeElement(ComponentElement):
-    pass
+
+    def __init__(self, parent, tag, attributes, connection):
+        super().__init__(parent, tag, attributes, connection)
+
+        self._knownTags = self._knownTags + ["filled", "shape", "foreoutsidediameter", "foreshoulderdiameter", "foreshoulderlength", 
+            "aftoutsidediameter", "aftshoulderdiameter", "aftshoulderlength", "length", "thickness"]
+
+        # Map import shape names to internal names. There may be multiple entries for the same type
+        self._shapeMap = { "conical" : TYPE_CONE.lower(),
+                           "ellipsoid" : TYPE_ELLIPTICAL.lower(),
+                           "ogive" : TYPE_OGIVE.lower(),
+                           "parabolic" : TYPE_PARABOLA.lower(),
+                           "haack" : TYPE_HAACK.lower(),
+                           "power" : TYPE_POWER.lower()
+                         }
+        
+        self._noseType = "" # Shape
+        self._filled = False
+
+        self._outsideDiameter = (0.0, "")
+        self._shoulderDiameter = (0.0, "")
+        self._shoulderLength = (0.0, "")
+        self._length = (0.0, "")
+        self._thickness = (0.0, "")
+
+    def handleTag(self, tag, attributes):
+        _tag = tag.lower().strip()
+        if _tag == "outsidediameter":
+            self._outsideDiameter = (self._outsideDiameter[0], attributes['Unit'])
+        elif _tag == "shoulderdiameter":
+            self._shoulderDiameter = (self._shoulderDiameter[0], attributes['Unit'])
+        elif _tag == "shoulderlength":
+            self._shoulderLength = (self._shoulderLength[0], attributes['Unit'])
+        elif _tag == "length":
+            self._length = (self._length[0], attributes['Unit'])
+        elif _tag == "thickness":
+            self._length = (self._length[0], attributes['Unit'])
+        else:
+            super().handleTag(tag, attributes)
+
+    def _mapShape(self, shape):
+        _shape = shape.lower()
+        if _shape in self._shapeMap:
+            return self._shapeMap[_shape]
+        return shape
+
+    def handleEndTag(self, tag, content):
+        _tag = tag.lower().strip()
+        if _tag == "filled":
+            self._filled = _toBoolean(content)
+        elif _tag == "shape":
+            self._noseType = self._mapShape(content)
+        elif _tag == "outsidediameter":
+            self._outsideDiameter = (_toFloat(content), self._outsideDiameter[1])
+        elif _tag == "shoulderdiameter":
+            self._shoulderDiameter = (_toFloat(content), self._shoulderDiameter[1])
+        elif _tag == "shoulderlength":
+            self._shoulderLength = (_toFloat(content), self._shoulderLength[1])
+        elif _tag == "length":
+            self._length = (_toFloat(content), self._length[1])
+        else:
+            super().handleEndTag(tag, content)
+
+    def end(self):
+        obj = NoseCone()
+
+        super().setValues(obj)
+
+        obj._noseType = self._noseType
+        obj._filled = self._filled
+
+        obj._outsideDiameter = self._outsideDiameter
+        obj._shoulderDiameter = self._shoulderDiameter
+        obj._shoulderLength = self._shoulderLength
+        obj._length = self._length
+        obj._thickness = self._thickness
+
+        if not obj.isValid():
+            _err("Invalid %s" % self._tag)
+
+        return super().end()
 
 class PartDatabaseOrcImporter(xml.sax.ContentHandler):
     def __init__(self, connection):

@@ -26,5 +26,5 @@ __url__ = "https://www.davesrocketshop.com"
     
 from App.Parts.PartDatabase import PartDatabase
 
-db = PartDatabase()
+db = PartDatabase(".") # Current directory is the root directory
 db.updateDatabase()

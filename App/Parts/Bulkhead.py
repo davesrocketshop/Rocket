@@ -33,3 +33,23 @@ class Bulkhead(Component):
 
         self._OD = (0.0, "")
         self._length = (0.0, "")
+
+    def isValid(self):
+        if not super().isValid():
+            _err("Bulkhead: super invalid")
+            return False
+
+        if self._OD[0] <= 0.0:
+            _err("Bulkhead: OD invalid")
+            return False
+        if self._length[0] <= 0.0:
+            _err("Bulkhead: length invalid")
+            return False
+        if not self.validNonEmptyString(self._OD[1]):
+            _err("Bulkhead: OD Units invalid '%s" % self._OD[1])
+            return False
+        if not self.validNonEmptyString(self._length[1]):
+            _err("Bulkhead: length Units invalid '%s" % self._length[1])
+            return False
+
+        return True
