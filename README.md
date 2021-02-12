@@ -1,5 +1,8 @@
 ## FreeCAD Rocketry Workbench
 
+A rocket design workbench for FreeCAD
+
+![Demo Components](Resources/RocketAnim.gif)
 
 ## Install
 
@@ -40,3 +43,4 @@ For any feedback, bugs, features, and discussion please refer to the Rocketry wo
 David Carter AKA [@davesrocketshop](https://github.com/davesrocketshop)
 
 ## License
+GPLv2.1 (see [LICENSE](LICENSE))
