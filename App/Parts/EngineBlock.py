@@ -24,6 +24,8 @@ __title__ = "FreeCAD Open Rocket Part Engine Block"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
+from App.Parts.BodyTube import BodyTube
+
 class EngineBlock(BodyTube):
 
     def __init__(self):

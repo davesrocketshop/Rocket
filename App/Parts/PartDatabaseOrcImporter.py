@@ -36,7 +36,19 @@ from FreeCAD import Vector
 from draftutils.translate import translate
 
 from App.Utilities import _msg, _err, _trace, _toFloat, _toBoolean
+from App.Parts.BodyTube import BodyTube
+from App.Parts.Bulkhead import Bulkhead
+from App.Parts.CenteringRing import CenteringRing
+from App.Parts.Coupler import Coupler
+from App.Parts.EngineBlock import EngineBlock
+from App.Parts.LaunchLug import LaunchLug
 from App.Parts.Material import Material
+from App.Parts.NoseCone import NoseCone
+from App.Parts.Parachute import Parachute
+from App.Parts.Streamer import Streamer
+from App.Parts.Transition import Transition
+
+from App.Constants import MATERIAL_TYPE_BULK
 
 class Element:
 
@@ -59,19 +71,19 @@ class Element:
     def isTag(self, tag):
         return str(tag).lower() == self._tag.lower()
 
-    def handleTag(self, tag):
+    def handleTag(self, tag, attributes):
         _tag = tag.lower().strip()
         if _tag in self._knownTags:
             return
         else:
-            _msg('Unknown tag %s' % tag)
+            _msg('\tUnknown tag %s' % tag)
 
     def handleEndTag(self, tag, content):
         _tag = tag.lower().strip()
         if _tag in self._knownTags:
             return
         else:
-            _msg('Unknown tag %s' % tag)
+            _msg('\tUnknown tag /%s' % tag)
 
     def createChild(self, tag, attributes):
         _tag = tag.lower().strip()
@@ -106,7 +118,7 @@ class OpenRocketComponentElement(Element):
                 # throw exception
             return
         else:
-            super().handleEndTag(content)
+            super().handleEndTag(tag, content)
 
 class MaterialsElement(Element):
 
@@ -147,7 +159,7 @@ class MaterialElement(Element):
         elif _tag == "density":
             self._type = _toFloat(content.strip())
         else:
-            super().handleEndTag(content)
+            super().handleEndTag(tag, content)
 
     def end(self):
         material = Material()
@@ -169,13 +181,136 @@ class ComponentsElement(Element):
         super().__init__(parent, tag, attributes, connection)
 
         self._validChildren = { 'bodytube' : BodyTubeElement,
-                                'tubecoupler' : TubeCouplerElement
+                                'tubecoupler' : BodyTubeElement,
+                                'transition' : TransitionElement,
+                                'engineblock' : BodyTubeElement,
+                                'parachute' : ParachuteElement,
+                                'streamer' : StreamerElement,
+                                'nosecone' : NoseConeElement,
+                                'centeringring' : BodyTubeElement,
+                                'bulkhead' : BulkheadElement,
+                                'launchlug' : BodyTubeElement
                               }
 
-class BodyTubeElement(Element):
+class ComponentElement(Element):
+
+    def __init__(self, parent, tag, attributes, connection):
+        super().__init__(parent, tag, attributes, connection)
+
+        self._validChildren = {}
+        self._knownTags = ["manufacturer", "partnumber", "description", "material", "mass"]
+
+        self._manufacturer = ""
+        self._partNumber = ""
+        self._description = ""
+        self._material = ("", MATERIAL_TYPE_BULK)
+        self._mass = (0.0, "")
+
+    def handleTag(self, tag, attributes):
+        _tag = tag.lower().strip()
+        if _tag == "material":
+            self._material = (self._material[0], attributes['Type'])
+        elif _tag == "mass":
+            self._mass = (self._mass[0], attributes['Unit'])
+        else:
+            super().handleTag(tag, attributes)
+
+    def handleEndTag(self, tag, content):
+        _tag = tag.lower().strip()
+        if _tag == "manufacturer":
+            self._manufacturer = content
+        elif _tag == "partnumber":
+            self._partNumber = content
+        elif _tag == "description":
+            self._description = content
+        elif _tag == "material":
+            self._material = (content, self._material[1])
+        elif _tag == "mass":
+            self._mass = (_toFloat(content.strip()), self._mass[1])
+        else:
+            super().handleEndTag(tag, content)
+
+    def setValues(self, obj):
+        obj._manufacturer = self._manufacturer
+        obj._partNumber = self._partNumber
+        obj._description = self._description
+        obj._material = self._material
+        obj._mass = self._mass
+
+    def end(self):
+        return super().end()
+
+class BodyTubeElement(ComponentElement):
+
+    def __init__(self, parent, tag, attributes, connection):
+        super().__init__(parent, tag, attributes, connection)
+
+        self._knownTags.append(["insidediameter", "outsidediameter", "length"])
+
+        self._ID = (0.0, "")
+        self._OD = (0.0, "")
+        self._length = (0.0, "")
+
+    def handleTag(self, tag, attributes):
+        _tag = tag.lower().strip()
+        if _tag == "insidediameter":
+            self._ID = (self._ID[0], attributes['Unit'])
+        elif _tag == "outsidediameter":
+            self._OD = (self._OD[0], attributes['Unit'])
+        elif _tag == "length":
+            self._length = (self._length[0], attributes['Unit'])
+        else:
+            super().handleTag(tag, attributes)
+
+    def handleEndTag(self, tag, content):
+        _tag = tag.lower().strip()
+        if _tag == "insidediameter":
+            self._ID = (_toFloat(content), self._ID[1])
+        elif _tag == "outsidediameter":
+            self._OD = (_toFloat(content), self._OD[1])
+        elif _tag == "length":
+            self._length = (_toFloat(content), self._length[1])
+        else:
+            super().handleEndTag(tag, content)
+
+    def end(self):
+        if self._tag.lower() == "bodytube":
+            tube = BodyTube()
+        elif self._tag.lower() == "tubecoupler":
+            tube = Coupler()
+        elif self._tag.lower() == "engineblock":
+            tube = EngineBlock()
+        elif self._tag.lower() == "launchlug":
+            tube = LaunchLug()
+        elif self._tag.lower() == "centeringring":
+            tube = LaunchLug()
+        else:
+            _err("Unable to close body tube object for %s" % self._tag)
+            return super().end()
+
+        super().setValues(tube)
+        tube._ID = self._ID
+        tube._OD = self._OD
+        tube._length = self._length
+
+        if not tube.isValid():
+            _err("Invalid %s" % self._tag)
+
+        return super().end()
+
+class BulkheadElement(ComponentElement):
     pass
 
-class TubeCouplerElement(Element):
+class TransitionElement(ComponentElement):
+    pass
+
+class ParachuteElement(ComponentElement):
+    pass
+
+class StreamerElement(ComponentElement):
+    pass
+
+class NoseConeElement(ComponentElement):
     pass
 
 class PartDatabaseOrcImporter(xml.sax.ContentHandler):
@@ -190,7 +325,7 @@ class PartDatabaseOrcImporter(xml.sax.ContentHandler):
             self._current = self._current.createChild(tag, attributes)
             self._content = ''
         else:
-            self._current.handleTag(tag)
+            self._current.handleTag(tag, attributes)
 
     # Call when an elements ends
     def endElement(self, tag):

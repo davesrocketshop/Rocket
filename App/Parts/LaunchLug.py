@@ -24,6 +24,8 @@ __title__ = "FreeCAD Open Rocket Part Launch Lug"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
+from App.Parts.BodyTube import BodyTube
+
 class LaunchLug(BodyTube):
 
     def __init__(self):

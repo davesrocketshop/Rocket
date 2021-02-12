@@ -25,6 +25,7 @@ __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
 from App.Constants import MATERIAL_TYPE_BULK, MATERIAL_TYPE_SURFACE, MATERIAL_TYPE_LINE
+from App.Utilities import _err
 
 class Component:
 
@@ -35,32 +36,39 @@ class Component:
         self._material = ("", MATERIAL_TYPE_BULK)
         self._mass = (0.0, "")
 
-    def validString(value):
+    def validString(self, value):
         if value is None:
             return False
         return True
 
-    def validNonEmptyString(value):
-        if validString(value) and (str(value).strip().length() > 0):
+    def validNonEmptyString(self, value):
+        if self.validString(value) and (len(str(value).strip()) > 0):
             return True
         return False
 
-    def isValid():
-        if not validString(self._manufacturer):
+    def isValid(self):
+        if not self.validString(self._manufacturer):
+            _err("Component: _manufacturer invalid")
             return False
-        if not validNonEmptyString(self._partNumber):
+        if not self.validNonEmptyString(self._partNumber):
+            _err("Component: _partNumber invalid")
             return False
-        if not validString(self._description):
+        if not self.validString(self._description):
+            _err("Component: _description invalid")
             return False
-        if not validNonEmptyString(self._material[0]):
+        if not self.validNonEmptyString(self._material[0]):
+            _err("Component: _material invalid")
             return False
-        if self._material[0] not in [MATERIAL_TYPE_BULK, MATERIAL_TYPE_SURFACE, MATERIAL_TYPE_LINE]:
+        if self._material[1] not in [MATERIAL_TYPE_BULK, MATERIAL_TYPE_SURFACE, MATERIAL_TYPE_LINE]:
+            _err("Component: _material type invalid")
             return False
 
         if self._mass[0] < 0.0:
+            _err("Component: _mass invalid")
             return False
         elif self._mass[0] > 0.0: # No units required for 0 mass
-            if not validNonEmptyString(self._mass[1]):
+            if not self.validNonEmptyString(self._mass[1]):
+                _err("Component: _mass units invalid")
                 return False
 
         return True

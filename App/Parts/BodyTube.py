@@ -24,6 +24,9 @@ __title__ = "FreeCAD Open Rocket Part Body Tube"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
+from App.Parts.Component import Component
+from App.Utilities import _err
+
 class BodyTube(Component):
 
     def __init__(self):
@@ -32,3 +35,29 @@ class BodyTube(Component):
         self._ID = (0.0, "")
         self._OD = (0.0, "")
         self._length = (0.0, "")
+
+    def isValid(self):
+        if not super().isValid():
+            _err("BodyTube: super invalid")
+            return False
+
+        if self._ID[0] <= 0.0:
+            _err("BodyTube: ID invalid")
+            return False
+        if self._OD[0] <= 0.0:
+            _err("BodyTube: OD invalid")
+            return False
+        if self._length[0] <= 0.0:
+            _err("BodyTube: length invalid")
+            return False
+        if not self.validNonEmptyString(self._ID[1]):
+            _err("BodyTube: ID Units invalid '%s" % self._ID[1])
+            return False
+        if not self.validNonEmptyString(self._OD[1]):
+            _err("BodyTube: OD Units invalid '%s" % self._OD[1])
+            return False
+        if not self.validNonEmptyString(self._length[1]):
+            _err("BodyTube: length Units invalid '%s" % self._length[1])
+            return False
+
+        return True

@@ -24,6 +24,8 @@ __title__ = "FreeCAD Open Rocket Part Bulkhead"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
+from App.Parts.Component import Component
+
 class Bulkhead(Component):
 
     def __init__(self):

@@ -24,6 +24,8 @@ __title__ = "FreeCAD Open Rocket Part Transition"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
+from App.Parts.Component import Component
+
 class Transition(Component):
 
     def __init__(self):
