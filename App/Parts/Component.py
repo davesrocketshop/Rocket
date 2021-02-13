@@ -25,7 +25,8 @@ __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
 from App.Constants import MATERIAL_TYPE_BULK, MATERIAL_TYPE_SURFACE, MATERIAL_TYPE_LINE
-from App.Tools.Utilities import _err
+from App.Parts.Exceptions import InvalidError
+from App.Parts.Material import Material
 
 class Component:
 
@@ -36,39 +37,51 @@ class Component:
         self._material = ("", MATERIAL_TYPE_BULK)
         self._mass = (0.0, "")
 
-    def validString(self, value):
+    def validateString(self, value, message):
         if value is None:
-            return False
-        return True
+            self.raiseInvalid(message)
 
-    def validNonEmptyString(self, value):
-        if self.validString(value) and (len(str(value).strip()) > 0):
-            return True
-        return False
+    def validateNonEmptyString(self, value, message):
+        self.validateString(value, message)
+        if len(str(value).strip()) <= 0:
+            self.raiseInvalid(message)
 
-    def isValid(self):
-        if not self.validString(self._manufacturer):
-            _err("Component: _manufacturer invalid")
-            return False
-        if not self.validNonEmptyString(self._partNumber):
-            _err("Component: _partNumber invalid")
-            return False
-        if not self.validString(self._description):
-            _err("Component: _description invalid")
-            return False
-        if not self.validNonEmptyString(self._material[0]):
-            _err("Component: _material invalid")
-            return False
+    def validatePositive(self, value, message):
+        if value <= 0.0:
+            self.raiseInvalid(message)
+
+    def validateNonNegative(self, value, message):
+        if value < 0.0:
+            self.raiseInvalid(message)
+
+    def raiseInvalid(self, message):
+        raise InvalidError(self._manufacturer, self._partNumber, message)
+
+    def validate(self):
+        self.validateString(self._manufacturer, "Manufacturer invalid")
+        self.validateNonEmptyString(self._partNumber, "Part Number invalid")
+        self.validateString(self._description, "Description invalid")
+
+        if len(str(self._material[0]).strip()) == 0:
+            self._material = ("unspecified", self._material[1])
         if self._material[1] not in [MATERIAL_TYPE_BULK, MATERIAL_TYPE_SURFACE, MATERIAL_TYPE_LINE]:
-            _err("Component: _material type invalid")
-            return False
+            self.raiseInvalid("Material type invalid")
 
-        if self._mass[0] < 0.0:
-            _err("Component: _mass invalid")
-            return False
-        elif self._mass[0] > 0.0: # No units required for 0 mass
-            if not self.validNonEmptyString(self._mass[1]):
-                _err("Component: _mass units invalid")
-                return False
+        self.validateNonNegative(self._mass[0], "_mass invalid")
+        if self._mass[0] > 0.0: # No units required for 0 mass
+            self.validateNonEmptyString(self._mass[1], "_mass units invalid")
 
-        return True
+    def persist(self, connection):
+        material_index = Material.getMaterial(connection, self._material[0], self._material[1])
+        if material_index > 0:
+            cursor = connection.cursor()
+
+            cursor.execute("INSERT INTO component (manufacturer, part_number, description, material_index, mass, mass_units) VALUES (?,?,?,?,?,?)",
+                                (self._manufacturer, self._partNumber, self._description, material_index, self._mass[0], self._mass[1]))
+            id = cursor.lastrowid
+
+            connection.commit()
+
+            return id
+
+        return 0

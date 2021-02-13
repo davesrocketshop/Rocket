@@ -47,9 +47,14 @@ class PartDatabase:
 
     def updateDatabase(self):
         connection = sqlite3.connect(self._rootFolder + "/Resources/parts/Parts.db")
+        connection.row_factory = sqlite3.Row
 
         self._createTables(connection)
         self._importFiles(connection)
+
+        with open('dump.sql', 'w') as f:
+            for line in connection.iterdump():
+                f.write("%s\n" % line)
 
         connection.close()
 
@@ -58,6 +63,7 @@ class PartDatabase:
 
         cursor.execute("DROP TABLE IF EXISTS material")
         cursor.execute("CREATE TABLE material (material_index INTEGER PRIMARY KEY ASC, manufacturer, name, type, density, units)")
+        cursor.execute("INSERT INTO material(manufacturer, name, type, density, units) VALUES ('','unspecified','BULK','0.0',''), ('','unspecified','SURFACE','0.0',''), ('','unspecified','LINE','0.0','')")
 
         cursor.execute("DROP TABLE IF EXISTS component")
         cursor.execute("CREATE TABLE component (component_index INTEGER PRIMARY KEY ASC, manufacturer, part_number, description, material_index, mass, mass_units)")

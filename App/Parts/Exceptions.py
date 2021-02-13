@@ -18,36 +18,20 @@
 # *   USA                                                                   *
 # *                                                                         *
 # ***************************************************************************
-"""Class for rocket part components"""
+"""Class for part import exceptions"""
 
-__title__ = "FreeCAD Open Rocket Part Parachute"
+__title__ = "FreeCAD Rocket Import Exceptions"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
-from App.Parts.Component import Component
-from App.Constants import MATERIAL_TYPE_LINE
+class InvalidError(Exception):
 
-class Parachute(Component):
+    def __init__(self, manufacturer, partNo, message):
+        self._manufacturer = manufacturer
+        self._name = partNo
+        self._message = message
 
-    def __init__(self):
-        super().__init__()
+class MultipleEntryError(Exception):
 
-        self._diameter = (0.0, "")
-        self._sides = 0
-        self._lineCount = 0
-        self._lineLength = (0.0, "")
-        self._lineMaterial = ("", MATERIAL_TYPE_LINE)
-
-    def validate(self):
-        super().validate()
-
-        self.validatePositive(self._diameter[0], "Diameter invalid")
-        self.validateNonNegative(self._sides, "Sides invalid")  # Circular has zero sides
-        self.validatePositive(self._lineCount, "Line Count invalid")
-        self.validateNonNegative(self._lineLength[0], "Line Length invalid")
-
-        self.validateNonEmptyString(self._lineMaterial[0], "Line Material invalid")
-        self.validateNonEmptyString(self._diameter[1], "Diameter Units invalid '%s" % self._diameter[1])
-        self.validateNonEmptyString(self._lineLength[1], "Line Length Units invalid '%s" % self._lineLength[1])
-        if self._lineMaterial[1].lower() != MATERIAL_TYPE_LINE.lower():
-            self.raiseInvalid("Line Material Units invalid '%s" % self._lineMaterial[1])
+    def __init__(self, message):
+        self._message = message    

@@ -25,7 +25,6 @@ __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
 from App.Parts.Component import Component
-from App.Tools.Utilities import _err
 
 class Streamer(Component):
 
@@ -36,28 +35,13 @@ class Streamer(Component):
         self._width = (0.0, "")
         self._thickness = (0.0, "")
 
-    def isValid(self):
-        if not super().isValid():
-            _err("Streamer: super invalid")
-            return False
+    def validate(self):
+        super().validate()
 
-        if self._length[0] <= 0.0:
-            _err("Streamer: _length invalid")
-            return False
-        if self._width[0] <= 0.0:
-            _err("Streamer: _width invalid")
-            return False
-        if self._thickness[0] <= 0.0:
-            _err("Streamer: _thickness invalid")
-            return False
-        if not self.validNonEmptyString(self._length[1]):
-            _err("Streamer: _length units invalid '%s'" % self._length[1])
-            return False
-        if not self.validNonEmptyString(self._width[1]):
-            _err("Streamer: _width Units invalid '%s'" % self._width[1])
-            return False
-        if not self.validNonEmptyString(self._thickness[1]):
-            _err("Streamer: _thickness Units invalid '%s'" % self._lineLength[1])
-            return False
+        self.validatePositive(self._length[0], "Length invalid")
+        self.validatePositive(self._width[0], "Width invalid")
+        self.validatePositive(self._thickness[0], "Thickness invalid")
 
-        return True
+        self.validateNonEmptyString(self._length[1], "Length units invalid '%s'" % self._length[1])
+        self.validateNonEmptyString(self._width[1], "Width Units invalid '%s'" % self._width[1])
+        self.validateNonEmptyString(self._thickness[1], "Thickness Units invalid '%s'" % self._thickness[1])

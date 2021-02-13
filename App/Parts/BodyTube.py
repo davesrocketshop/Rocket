@@ -25,7 +25,6 @@ __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
 from App.Parts.Component import Component
-from App.Tools.Utilities import _err
 
 class BodyTube(Component):
 
@@ -36,28 +35,15 @@ class BodyTube(Component):
         self._OD = (0.0, "")
         self._length = (0.0, "")
 
-    def isValid(self):
-        if not super().isValid():
-            _err("BodyTube: super invalid")
-            return False
+    def validate(self):
+        super().validate()
 
-        if self._ID[0] <= 0.0:
-            _err("BodyTube: ID invalid")
-            return False
-        if self._OD[0] <= 0.0:
-            _err("BodyTube: OD invalid")
-            return False
-        if self._length[0] <= 0.0:
-            _err("BodyTube: length invalid")
-            return False
-        if not self.validNonEmptyString(self._ID[1]):
-            _err("BodyTube: ID Units invalid '%s" % self._ID[1])
-            return False
-        if not self.validNonEmptyString(self._OD[1]):
-            _err("BodyTube: OD Units invalid '%s" % self._OD[1])
-            return False
-        if not self.validNonEmptyString(self._length[1]):
-            _err("BodyTube: length Units invalid '%s" % self._length[1])
-            return False
+        # This should be positive, but some tube couplers are actually thick bulkheads
+        self.validateNonNegative(self._ID[0], "ID invalid")
 
-        return True
+        self.validatePositive(self._OD[0], "OD invalid")
+        self.validatePositive(self._length[0], "Length invalid")
+
+        self.validateNonEmptyString(self._ID[1], "ID Units invalid '%s" % self._ID[1])
+        self.validateNonEmptyString(self._OD[1], "OD Units invalid '%s" % self._OD[1])
+        self.validateNonEmptyString(self._length[1], "Length Units invalid '%s" % self._length[1])

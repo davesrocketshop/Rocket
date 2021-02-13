@@ -42,44 +42,24 @@ class NoseCone(Component):
         self._length = (0.0, "")
         self._thickness = (0.0, "")
 
-    def isValid(self):
-        if not super().isValid():
-            _err("NoseCone: super invalid")
-            return False
+    def validate(self):
+        super().validate()
 
         if self._noseType not in [TYPE_CONE.lower(), TYPE_ELLIPTICAL.lower(), TYPE_HAACK.lower(), TYPE_OGIVE.lower(), TYPE_VON_KARMAN.lower(), TYPE_PARABOLA.lower(), TYPE_PARABOLIC.lower(), TYPE_POWER.lower()]:
             _err("NoseCone: Shape is invalid '%s'" % self._noseType)
             return False
 
-        if self._outsideDiameter[0] <= 0.0:
-            _err("NoseCone: _outsideDiameter invalid")
-            return False
-        if self._shoulderDiameter[0] <= 0.0:
-            _err("NoseCone: _shoulderDiameter invalid")
-            return False
-        if self._shoulderLength[0] <= 0.0:
-            _err("NoseCone: _shoulderLength invalid")
-            return False
-        if self._length[0] <= 0.0:
-            _err("NoseCone: _length invalid")
-            return False
-        if self._thickness[0] <= 0.0 and not self._filled:
-            _err("NoseCone: _thickness invalid")
-            return False
-        if not self.validNonEmptyString(self._outsideDiameter[1]):
-            _err("NoseCone: _outsideDiameter Units invalid '%s" % self._foreOutsideDiameter[1])
-            return False
-        if not self.validNonEmptyString(self._shoulderDiameter[1]):
-            _err("NoseCone: _shoulderDiameter Units invalid '%s" % self._foreShoulderDiameter[1])
-            return False
-        if not self.validNonEmptyString(self._shoulderLength[1]):
-            _err("NoseCone: _shoulderLength Units invalid '%s" % self._foreShoulderLength[1])
-            return False
-        if not self.validNonEmptyString(self._length[1]):
-            _err("NoseCone: _length Units invalid '%s" % self._length[1])
-            return False
-        if not self.validNonEmptyString(self._thickness[1]) and not self._filled:
-            _err("NoseCone: _thickness Units invalid '%s" % self._thickness[1])
-            return False
+        self.validatePositive(self._outsideDiameter[0], "Outside Diameter invalid")
+        self.validateNonNegative(self._shoulderDiameter[0], "Shoulder Diameter invalid")
+        self.validateNonNegative(self._shoulderLength[0], "Shoulder Length invalid")
+        self.validatePositive(self._length[0], "Length invalid")
+        if not self._filled:
+            self.validatePositive(self._thickness[0], "Thickness invalid")
 
-        return True
+        self.validateNonEmptyString(self._outsideDiameter[1], "Outside Diameter Units invalid '%s" % self._outsideDiameter[1])
+        self.validateNonEmptyString(self._shoulderDiameter[1], "Shoulder Diameter Units invalid '%s" % self._shoulderDiameter[1])
+        self.validateNonEmptyString(self._shoulderLength[1], "Shoulder Length Units invalid '%s" % self._shoulderLength[1])
+        self.validateNonEmptyString(self._length[1], "Length Units invalid '%s" % self._length[1])
+        if not self._filled:
+            self.validateNonEmptyString(self._thickness[1], "Thickness Units invalid '%s" % self._thickness[1])
+

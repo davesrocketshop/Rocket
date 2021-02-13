@@ -44,6 +44,8 @@ from App.Parts.Parachute import Parachute
 from App.Parts.Streamer import Streamer
 from App.Parts.Transition import Transition
 
+from App.Parts.Exceptions import InvalidError
+
 from App.Constants import TYPE_CONE, TYPE_ELLIPTICAL, TYPE_HAACK, TYPE_OGIVE, TYPE_VON_KARMAN, TYPE_PARABOLA, TYPE_PARABOLIC, TYPE_POWER
 from App.Constants import MATERIAL_TYPE_BULK, MATERIAL_TYPE_SURFACE, MATERIAL_TYPE_LINE
 
@@ -56,7 +58,7 @@ class Element:
         
         self._validChildren = {}
         self._knownTags = []
-        print("Start %s" % tag)
+        # print("Start %s" % tag)
 
     def end(self):
         # print("End %s" % self._tag)
@@ -129,9 +131,6 @@ class MaterialsElement(Element):
     def validChildren(self):
         return ['material']
 
-    # def createChild(self, tag, attributes):
-    #     return MaterialElement(self, tag, attributes)
-
 class MaterialElement(Element):
 
     def __init__(self, parent, tag, attributes, connection):
@@ -147,10 +146,16 @@ class MaterialElement(Element):
         self._density = 0.0
         self._units = attributes["UnitsOfMeasure"]
 
+    def _sanitizeName(self, content):
+        # LOCPrecision daa has [material:name...] format
+        while str(content).startswith('[material:'):
+            content = content[10:len(content) - 1]
+        return content
+
     def handleEndTag(self, tag, content):
         _tag = tag.lower().strip()
         if _tag == "name":
-            self._name = content
+            self._name = self._sanitizeName(content)
         elif _tag == "type":
             self._type = content
         elif _tag == "density":
@@ -158,17 +163,27 @@ class MaterialElement(Element):
         else:
             super().handleEndTag(tag, content)
 
-    def end(self):
-        material = Material()
+    def setValues(self, obj):
+        # super().setValues(obj)
 
         # Manufacturer is unknown
-        material._name = self._name
-        material._type = self._type
-        material._density = self._density
-        material._units = self._units
+        obj._name = self._name
+        obj._type = self._type
+        obj._density = self._density
+        obj._units = self._units
 
-        if not material.isValid():
-            _err("Invalid material")
+    def validate(self, obj):
+        try:
+            obj.validate()
+        except InvalidError as e:
+            print ("Invalid %s: name %s %s" % (self.__class__.__name__, e._name, e._message))
+
+    def end(self):
+        obj = Material()
+
+        self.setValues(obj)
+        self.validate(obj)
+        obj.persist(self._connection)
 
         return super().end()
 
@@ -203,6 +218,12 @@ class ComponentElement(Element):
         self._material = ("", MATERIAL_TYPE_BULK)
         self._mass = (0.0, "")
 
+    def _sanitizeName(self, content):
+        # LOCPrecision daa has [material:name...] format
+        while str(content).startswith('[material:'):
+            content = content[10:len(content) - 1]
+        return content
+
     def handleTag(self, tag, attributes):
         _tag = tag.lower().strip()
         if _tag == "material":
@@ -221,7 +242,7 @@ class ComponentElement(Element):
         elif _tag == "description":
             self._description = content
         elif _tag == "material":
-            self._material = (content, self._material[1])
+            self._material = (self._sanitizeName(content), self._material[1])
         elif _tag == "mass":
             self._mass = (_toFloat(content.strip()), self._mass[1])
         else:
@@ -234,8 +255,17 @@ class ComponentElement(Element):
         obj._material = self._material
         obj._mass = self._mass
 
+    def validate(self, obj):
+        try:
+            obj.validate()
+        except InvalidError as e:
+            print ("Invalid %s: manufacturer %s, part number %s %s" % (self.__class__.__name__, e._manufacturer, e._name, e._message))
+
     def end(self):
         return super().end()
+
+    def persist(self, obj, connection):
+        obj.persist(connection)
 
 class BodyTubeElement(ComponentElement):
 
@@ -270,6 +300,13 @@ class BodyTubeElement(ComponentElement):
         else:
             super().handleEndTag(tag, content)
 
+    def setValues(self, obj):
+        super().setValues(obj)
+
+        obj._ID = self._ID
+        obj._OD = self._OD
+        obj._length = self._length
+
     def end(self):
         if self._tag.lower() == "bodytube":
             obj = BodyTube()
@@ -285,13 +322,9 @@ class BodyTubeElement(ComponentElement):
             _err("Unable to close body tube object for %s" % self._tag)
             return super().end()
 
-        super().setValues(obj)
-        obj._ID = self._ID
-        obj._OD = self._OD
-        obj._length = self._length
-
-        if not obj.isValid():
-            _err("Invalid %s" % self._tag)
+        self.setValues(obj)
+        self.validate(obj)
+        self.persist(obj, self._connection)
 
         return super().end()
 
@@ -324,15 +357,18 @@ class BulkheadElement(ComponentElement):
         else:
             super().handleEndTag(tag, content)
 
-    def end(self):
-        obj = Bulkhead()
-
+    def setValues(self, obj):
         super().setValues(obj)
+
         obj._OD = self._OD
         obj._length = self._length
 
-        if not obj.isValid():
-            _err("Invalid %s" % self._tag)
+    def end(self):
+        obj = Bulkhead()
+
+        self.setValues(obj)
+        self.validate(obj)
+        self.persist(obj, self._connection)
 
         return super().end()
 
@@ -410,9 +446,7 @@ class TransitionElement(ComponentElement):
         else:
             super().handleEndTag(tag, content)
 
-    def end(self):
-        obj = Transition()
-
+    def setValues(self, obj):
         super().setValues(obj)
 
         obj._noseType = self._noseType
@@ -427,8 +461,12 @@ class TransitionElement(ComponentElement):
         obj._length = self._length
         obj._thickness = self._thickness
 
-        if not obj.isValid():
-            _err("Invalid %s" % self._tag)
+    def end(self):
+        obj = Transition()
+
+        self.setValues(obj)
+        self.validate(obj)
+        self.persist(obj, self._connection)
 
         return super().end()
 
@@ -471,9 +509,7 @@ class ParachuteElement(ComponentElement):
         else:
             super().handleEndTag(tag, content)
 
-    def end(self):
-        obj = Parachute()
-
+    def setValues(self, obj):
         super().setValues(obj)
 
         obj._diameter = self._diameter
@@ -482,8 +518,12 @@ class ParachuteElement(ComponentElement):
         obj._lineLength = self._lineLength
         obj._lineMaterial = self._lineMaterial
 
-        if not obj.isValid():
-            _err("Invalid %s" % self._tag)
+    def end(self):
+        obj = Parachute()
+
+        self.setValues(obj)
+        self.validate(obj)
+        self.persist(obj, self._connection)
 
         return super().end()
 
@@ -520,17 +560,19 @@ class StreamerElement(ComponentElement):
         else:
             super().handleEndTag(tag, content)
 
-    def end(self):
-        obj = Streamer()
-
+    def setValues(self, obj):
         super().setValues(obj)
 
         obj._length = self._length
         obj._width = self._width
         obj._thickness = self._thickness
 
-        if not obj.isValid():
-            _err("Invalid %s" % self._tag)
+    def end(self):
+        obj = Streamer()
+
+        self.setValues(obj)
+        self.validate(obj)
+        self.persist(obj, self._connection)
 
         return super().end()
 
@@ -571,7 +613,7 @@ class NoseConeElement(ComponentElement):
         elif _tag == "length":
             self._length = (self._length[0], attributes['Unit'])
         elif _tag == "thickness":
-            self._length = (self._length[0], attributes['Unit'])
+            self._thickness = (self._thickness[0], attributes['Unit'])
         else:
             super().handleTag(tag, attributes)
 
@@ -595,12 +637,12 @@ class NoseConeElement(ComponentElement):
             self._shoulderLength = (_toFloat(content), self._shoulderLength[1])
         elif _tag == "length":
             self._length = (_toFloat(content), self._length[1])
+        elif _tag == "thickness":
+            self._thickness = (_toFloat(content), self._thickness[1])
         else:
             super().handleEndTag(tag, content)
 
-    def end(self):
-        obj = NoseCone()
-
+    def setValues(self, obj):
         super().setValues(obj)
 
         obj._noseType = self._noseType
@@ -612,8 +654,12 @@ class NoseConeElement(ComponentElement):
         obj._length = self._length
         obj._thickness = self._thickness
 
-        if not obj.isValid():
-            _err("Invalid %s" % self._tag)
+    def end(self):
+        obj = NoseCone()
+
+        self.setValues(obj)
+        self.validate(obj)
+        self.persist(obj, self._connection)
 
         return super().end()
 

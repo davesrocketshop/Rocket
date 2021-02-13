@@ -45,62 +45,32 @@ class Transition(Component):
         self._length = (0.0, "")
         self._thickness = (0.0, "")
 
-    def isValid(self):
-        if not super().isValid():
-            _err("Transition: super invalid")
-            return False
+    def validate(self):
+        super().validate()
 
         if self._noseType not in [TYPE_CONE.lower(), TYPE_ELLIPTICAL.lower(), TYPE_HAACK.lower(), TYPE_OGIVE.lower(), TYPE_VON_KARMAN.lower(), TYPE_PARABOLA.lower(), TYPE_PARABOLIC.lower(), TYPE_POWER.lower()]:
-            _err("Transition: Shape is invalid '%s'" % self._noseType)
-            return False
+            self.raiseInvalid("Shape is invalid '%s'" % self._noseType)
 
-        if self._foreOutsideDiameter[0] <= 0.0:
-            _err("Transition: _foreOutsideDiameter invalid")
-            return False
-        if self._foreShoulderDiameter[0] <= 0.0:
-            _err("Transition: _foreShoulderDiameter invalid")
-            return False
-        if self._foreShoulderLength[0] <= 0.0:
-            _err("Transition: _foreShoulderLength invalid")
-            return False
-        if self._aftOutsideDiameter[0] <= 0.0:
-            _err("Transition: _aftOutsideDiameter invalid")
-            return False
-        if self._aftShoulderDiameter[0] <= 0.0:
-            _err("Transition: _aftShoulderDiameter invalid")
-            return False
-        if self._aftShoulderLength[0] <= 0.0:
-            _err("Transition: _aftShoulderLength invalid")
-            return False
-        if self._length[0] <= 0.0:
-            _err("Transition: _length invalid")
-            return False
-        if self._thickness[0] <= 0.0 and not self._filled:
-            _err("Transition: _thickness invalid")
-            return False
-        if not self.validNonEmptyString(self._foreOutsideDiameter[1]):
-            _err("Transition: _foreOutsideDiameter Units invalid '%s" % self._foreOutsideDiameter[1])
-            return False
-        if not self.validNonEmptyString(self._foreShoulderDiameter[1]):
-            _err("Transition: _foreShoulderDiameter Units invalid '%s" % self._foreShoulderDiameter[1])
-            return False
-        if not self.validNonEmptyString(self._foreShoulderLength[1]):
-            _err("Transition: _foreShoulderLength Units invalid '%s" % self._foreShoulderLength[1])
-            return False
-        if not self.validNonEmptyString(self._aftOutsideDiameter[1]):
-            _err("Transition: _aftOutsideDiameter Units invalid '%s" % self._aftOutsideDiameter[1])
-            return False
-        if not self.validNonEmptyString(self._aftShoulderDiameter[1]):
-            _err("Transition: _aftShoulderDiameter Units invalid '%s" % self._aftShoulderDiameter[1])
-            return False
-        if not self.validNonEmptyString(self._aftShoulderLength[1]):
-            _err("Transition: _aftShoulderLength Units invalid '%s" % self._aftShoulderLength[1])
-            return False
-        if not self.validNonEmptyString(self._length[1]):
-            _err("Transition: _length Units invalid '%s" % self._length[1])
-            return False
-        if not self.validNonEmptyString(self._thickness[1]) and not self._filled:
-            _err("Transition: _thickness Units invalid '%s" % self._thickness[1])
-            return False
+        self.validateNonNegative(self._foreOutsideDiameter[0], "Fore Outside Diameter invalid")
+        self.validateNonNegative(self._foreShoulderDiameter[0], "Fore Shoulder Diameter invalid")
+        self.validateNonNegative(self._foreShoulderLength[0], "Fore Shoulder Length invalid")
+        self.validateNonNegative(self._aftOutsideDiameter[0], "Aft Outside Diameter invalid")
+        self.validateNonNegative(self._aftShoulderDiameter[0], "Aft Shoulder Diameter invalid")
+        self.validateNonNegative(self._aftShoulderLength[0], "Aft Shoulder Length invalid")
+        self.validatePositive(self._length[0], "Length invalid")
 
-        return True
+        if self._thickness[0] == 0.0:
+            self._filled = True
+        elif not self._filled:
+            self.validatePositive(self._thickness[0], "Thickness invalid")
+
+        self.validateNonEmptyString(self._foreOutsideDiameter[1], "Fore Outside Diameter Units invalid '%s" % self._foreOutsideDiameter[1])
+        self.validateNonEmptyString(self._foreShoulderDiameter[1], "Fore Shoulder Diameter Units invalid '%s" % self._foreShoulderDiameter[1])
+        self.validateNonEmptyString(self._foreShoulderLength[1], "Fore Shoulder Length Units invalid '%s" % self._foreShoulderLength[1])
+        self.validateNonEmptyString(self._aftOutsideDiameter[1], "Aft Outside Diameter Units invalid '%s" % self._aftOutsideDiameter[1])
+        self.validateNonEmptyString(self._aftShoulderDiameter[1], "Aft Shoulder Diameter Units invalid '%s" % self._aftShoulderDiameter[1])
+        self.validateNonEmptyString(self._aftShoulderLength[1], "Aft Shoulder Length Units invalid '%s" % self._aftShoulderLength[1])
+        self.validateNonEmptyString(self._length[1], "Length Units invalid '%s" % self._length[1])
+        if not self._filled:
+            self.validateNonEmptyString(self._thickness[1], "Thickness Units invalid '%s" % self._thickness[1])
+
