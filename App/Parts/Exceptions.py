@@ -35,3 +35,18 @@ class MultipleEntryError(Exception):
 
     def __init__(self, message):
         self._message = message    
+
+class UnknownManufacturerError(Exception):
+
+    def __init__(self, message="Unknown manufacturer"):
+        self._message = message
+
+class MaterialNotFoundError(Exception):
+
+    def __init__(self, message="Unknown material"):
+        self._message = message
+
+class NotFoundError(Exception):
+
+    def __init__(self, message="Unknown material"):
+        self._message = message

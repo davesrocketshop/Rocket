@@ -25,6 +25,7 @@ __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
 from App.Parts.Component import Component
+from App.Parts.Exceptions import NotFoundError
 
 class BodyTube(Component):
 
@@ -34,6 +35,7 @@ class BodyTube(Component):
         self._ID = (0.0, "")
         self._OD = (0.0, "")
         self._length = (0.0, "")
+        self._tubeType = "body tube" # Used to support multiple components
 
     def validate(self):
         super().validate()
@@ -47,3 +49,32 @@ class BodyTube(Component):
         self.validateNonEmptyString(self._ID[1], "ID Units invalid '%s" % self._ID[1])
         self.validateNonEmptyString(self._OD[1], "OD Units invalid '%s" % self._OD[1])
         self.validateNonEmptyString(self._length[1], "Length Units invalid '%s" % self._length[1])
+
+    def getTubeType(connection, tubeType):
+        cursor = connection.cursor()
+
+        cursor.execute("SELECT tube_type_index FROM tube_type WHERE type=:type", {
+                            "type" : tubeType
+                        })
+
+        rows = cursor.fetchall()
+        if len(rows) < 1:
+            raise NotFoundError("Tube type %s not found" % tubeType)
+
+        return rows[0]['tube_type_index']
+
+    def persist(self, connection):
+        component_id = super().persist(connection)
+
+        # May throw a NotFoundError
+        tube_id = BodyTube.getTubeType(connection, self._tubeType)
+
+        cursor = connection.cursor()
+
+        cursor.execute("INSERT INTO body_tube (component_index, tube_type_index, inner_diameter, inner_diameter_units, outer_diameter, outer_diameter_units, length, length_units) VALUES (?,?,?,?,?,?,?,?)",
+                            (component_id, tube_id, self._ID[0], self._ID[1], self._OD[0], self._OD[1], self._length[0], self._length[1]))
+        id = cursor.lastrowid
+
+        connection.commit()
+
+        return id

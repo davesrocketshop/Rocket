@@ -25,7 +25,7 @@ __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
 from App.Constants import MATERIAL_TYPE_BULK, MATERIAL_TYPE_SURFACE, MATERIAL_TYPE_LINE
-from App.Parts.Exceptions import InvalidError
+from App.Parts.Exceptions import InvalidError, MaterialNotFoundError
 from App.Parts.Material import Material
 
 class Component:
@@ -72,16 +72,22 @@ class Component:
             self.validateNonEmptyString(self._mass[1], "_mass units invalid")
 
     def persist(self, connection):
-        material_index = Material.getMaterial(connection, self._material[0], self._material[1])
-        if material_index > 0:
-            cursor = connection.cursor()
+        try:
+            material_index = Material.getMaterial(connection, self._manufacturer, self._material[0], self._material[1])
+        except MaterialNotFoundError:
+            try:
+                print("Unable to find material for '%s':'%s' - setting to any type" % (self._manufacturer, self._partNumber))
+                material_index = Material.getMaterialAnyType(connection, self._manufacturer, self._material[0])
+            except MaterialNotFoundError:
+                print("Unable to find material for '%s':'%s' - setting to unspecified" % (self._manufacturer, self._partNumber))
+                material_index = Material.getMaterial(connection, 'unspecified', 'unspecified', self._material[1])
 
-            cursor.execute("INSERT INTO component (manufacturer, part_number, description, material_index, mass, mass_units) VALUES (?,?,?,?,?,?)",
-                                (self._manufacturer, self._partNumber, self._description, material_index, self._mass[0], self._mass[1]))
-            id = cursor.lastrowid
+        cursor = connection.cursor()
 
-            connection.commit()
+        cursor.execute("INSERT INTO component (manufacturer, part_number, description, material_index, mass, mass_units) VALUES (?,?,?,?,?,?)",
+                            (self._manufacturer, self._partNumber, self._description, material_index, self._mass[0], self._mass[1]))
+        id = cursor.lastrowid
 
-            return id
+        connection.commit()
 
-        return 0
+        return id

@@ -61,9 +61,11 @@ class PartDatabase:
     def _createTables(self, connection):
         cursor = connection.cursor()
 
+        cursor.execute("DROP TABLE IF EXISTS alias")
+        cursor.execute("CREATE TABLE alias (alias_index INTEGER PRIMARY KEY ASC, alias_type, name, alias_name)")
+
         cursor.execute("DROP TABLE IF EXISTS material")
         cursor.execute("CREATE TABLE material (material_index INTEGER PRIMARY KEY ASC, manufacturer, name, type, density, units)")
-        cursor.execute("INSERT INTO material(manufacturer, name, type, density, units) VALUES ('','unspecified','BULK','0.0',''), ('','unspecified','SURFACE','0.0',''), ('','unspecified','LINE','0.0','')")
 
         cursor.execute("DROP TABLE IF EXISTS component")
         cursor.execute("CREATE TABLE component (component_index INTEGER PRIMARY KEY ASC, manufacturer, part_number, description, material_index, mass, mass_units)")
@@ -78,8 +80,12 @@ class PartDatabase:
         connection.commit()
 
     def _importFiles(self, connection):
+        # Import files with initial definitions, or corrections to incomplete definitions
+        for (dirpath, dirnames, filenames) in walk(self._rootFolder + "/Resources/parts/workbench/"):
+            for file in filenames:
+                self._importOrcPartFile(connection, dirpath + file)
+
         for (dirpath, dirnames, filenames) in walk(self._rootFolder + "/Resources/parts/openrocket_components/"):
-            # _msg("dirpath = %s, dirname = %s, filename = %s" % (dirpath, dirnames, filenames))
             for file in filenames:
                 self._importOrcPartFile(connection, dirpath + file)
 
@@ -93,7 +99,7 @@ class PartDatabase:
         parser.setFeature(xml.sax.handler.feature_namespaces, 0)
 
         # override the default ContextHandler
-        handler = PartDatabaseOrcImporter(connection)
+        handler = PartDatabaseOrcImporter(connection, filename)
         parser.setContentHandler(handler)
         parser.parse(filename)
 

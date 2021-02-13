@@ -27,6 +27,7 @@ __url__ = "https://www.davesrocketshop.com"
 import math
 import os
 import re
+from pathlib import PurePath
 
 import xml.etree.ElementTree as ET
 import xml.sax
@@ -44,17 +45,19 @@ from App.Parts.Parachute import Parachute
 from App.Parts.Streamer import Streamer
 from App.Parts.Transition import Transition
 
-from App.Parts.Exceptions import InvalidError
+from App.Parts.Exceptions import InvalidError, MultipleEntryError, UnknownManufacturerError
 
 from App.Constants import TYPE_CONE, TYPE_ELLIPTICAL, TYPE_HAACK, TYPE_OGIVE, TYPE_VON_KARMAN, TYPE_PARABOLA, TYPE_PARABOLIC, TYPE_POWER
 from App.Constants import MATERIAL_TYPE_BULK, MATERIAL_TYPE_SURFACE, MATERIAL_TYPE_LINE
 
 class Element:
 
-    def __init__(self, parent, tag, attributes, connection):
+    def __init__(self, parent, tag, attributes, connection, filename, line):
         self._tag = tag
         self._parent = parent
         self._connection = connection
+        self._filename = filename
+        self._line = line
         
         self._validChildren = {}
         self._knownTags = []
@@ -84,24 +87,24 @@ class Element:
         else:
             _msg('\tUnknown tag /%s' % tag)
 
-    def createChild(self, tag, attributes):
+    def createChild(self, tag, attributes, filename, line):
         _tag = tag.lower().strip()
         if not _tag in self._validChildren:
             print("Invalid element %s" % tag)
             return None
-        return self._validChildren[_tag](self, tag, attributes, self._connection)
+        return self._validChildren[_tag](self, tag, attributes, self._connection, filename, line)
 
 class RootElement(Element):
 
-    def __init__(self, parent, tag, attributes, connection):
-        super().__init__(parent, tag, attributes, connection)
+    def __init__(self, parent, tag, attributes, connection, filename, line):
+        super().__init__(parent, tag, attributes, connection, filename, line)
 
         self._validChildren = {'openrocketcomponent' : OpenRocketComponentElement}
 
 class OpenRocketComponentElement(Element):
 
-    def __init__(self, parent, tag, attributes, connection):
-        super().__init__(parent, tag, attributes, connection)
+    def __init__(self, parent, tag, attributes, connection, filename, line):
+        super().__init__(parent, tag, attributes, connection, filename, line)
 
         self._validChildren = { 'materials' : MaterialsElement,
                                 'components' : ComponentsElement
@@ -121,8 +124,8 @@ class OpenRocketComponentElement(Element):
 
 class MaterialsElement(Element):
 
-    def __init__(self, parent, tag, attributes, connection):
-        super().__init__(parent, tag, attributes, connection)
+    def __init__(self, parent, tag, attributes, connection, filename, line):
+        super().__init__(parent, tag, attributes, connection, filename, line)
 
         self._validChildren = { 'material' : MaterialElement,
                                 'components' : ComponentsElement
@@ -133,23 +136,45 @@ class MaterialsElement(Element):
 
 class MaterialElement(Element):
 
-    def __init__(self, parent, tag, attributes, connection):
-        super().__init__(parent, tag, attributes, connection)
+    def __init__(self, parent, tag, attributes, connection, filename, line):
+        super().__init__(parent, tag, attributes, connection, filename, line)
 
         self._validChildren = {}
         self._knownTags = ["name", "type", "density"]
         self._supportedVersions = ["0.1"]
 
-        self._manufacturer = ""
+        self._manufacturer = self._defaultManufacturer()
         self._name = ""
         self._type = None
         self._density = 0.0
         self._units = attributes["UnitsOfMeasure"]
 
+    def _defaultManufacturer(self):
+        # The defailt manufacturer is based on the filename
+        manufacturers = {
+            "preseed.orc" : "unspecified",
+            "bluetube.orc" : "Always Ready Rocketry",
+            "bms.orc" : "BalsaMachining.com",
+            "estes.orc" : "Estes",
+            "fliskits.orc" : "FlisKits",
+            "giantleaprocketry.orc" : "Giant Leap",
+            "locprecision.orc" : "LOC/Precision",
+            "publicmissiles.orc" : "Public Missiles",
+            "quest.orc" : "Quest Aerospace",
+            "semroc.orc" : "SEMROC Astronautics"
+        }
+
+        name = PurePath(self._filename).name.lower()
+        if name not in manufacturers:
+            print("Unknown manufacturer for '%s'" % name)
+            raise UnknownManufacturerError("Unknown manufacturer for '%s'" % name)
+        return manufacturers[name]
+
     def _sanitizeName(self, content):
         # LOCPrecision daa has [material:name...] format
+        content = content.strip()
         while str(content).startswith('[material:'):
-            content = content[10:len(content) - 1]
+            content = content[10:].rstrip(']').strip()
         return content
 
     def handleEndTag(self, tag, content):
@@ -159,38 +184,39 @@ class MaterialElement(Element):
         elif _tag == "type":
             self._type = content
         elif _tag == "density":
-            self._type = _toFloat(content.strip())
+            self._density = _toFloat(content.strip())
         else:
             super().handleEndTag(tag, content)
 
     def setValues(self, obj):
         # super().setValues(obj)
 
-        # Manufacturer is unknown
+        obj._manufacturer = self._manufacturer
         obj._name = self._name
         obj._type = self._type
         obj._density = self._density
         obj._units = self._units
 
-    def validate(self, obj):
+    def persist(self, obj):
         try:
             obj.validate()
-        except InvalidError as e:
-            print ("Invalid %s: name %s %s" % (self.__class__.__name__, e._name, e._message))
+            obj.persist(self._connection)
+        except (InvalidError, MultipleEntryError) as e:
+            print("Error in %s at line %s" % (self._filename, str(self._line)))
+            #print ("Invalid %s: name %s %s" % (self.__class__.__name__, e._name, e._message))
 
     def end(self):
         obj = Material()
 
         self.setValues(obj)
-        self.validate(obj)
-        obj.persist(self._connection)
+        self.persist(obj)
 
         return super().end()
 
 class ComponentsElement(Element):
 
-    def __init__(self, parent, tag, attributes, connection):
-        super().__init__(parent, tag, attributes, connection)
+    def __init__(self, parent, tag, attributes, connection, filename, line):
+        super().__init__(parent, tag, attributes, connection, filename, line)
 
         self._validChildren = { 'bodytube' : BodyTubeElement,
                                 'tubecoupler' : BodyTubeElement,
@@ -206,17 +232,50 @@ class ComponentsElement(Element):
 
 class ComponentElement(Element):
 
-    def __init__(self, parent, tag, attributes, connection):
-        super().__init__(parent, tag, attributes, connection)
+    def __init__(self, parent, tag, attributes, connection, filename, line):
+        super().__init__(parent, tag, attributes, connection, filename, line)
 
         self._validChildren = {}
         self._knownTags = ["manufacturer", "partnumber", "description", "material", "mass"]
 
-        self._manufacturer = ""
+        self._manufacturer = self._defaultManufacturer()
         self._partNumber = ""
         self._description = ""
         self._material = ("", MATERIAL_TYPE_BULK)
         self._mass = (0.0, "")
+
+    def _defaultManufacturer(self):
+        # The defailt manufacturer is based on the filename
+        manufacturers = {
+            "preseed.orc" : "unspecified",
+            "bluetube.orc" : "Always Ready Rocketry",
+            "bms.orc" : "BalsaMachining.com",
+            "estes.orc" : "Estes",
+            "fliskits.orc" : "FlisKits",
+            "giantleaprocketry.orc" : "Giant Leap",
+            "locprecision.orc" : "LOC/Precision",
+            "publicmissiles.orc" : "Public Missiles",
+            "quest.orc" : "Quest Aerospace",
+            "semroc.orc" : "SEMROC Astronautics"
+        }
+
+        name = PurePath(self._filename).name.lower()
+        if name not in manufacturers:
+            print("Unknown manufacturer for '%s'" % name)
+            raise UnknownManufacturerError("Unknown manufacturer for '%s'" % name)
+        return manufacturers[name]
+
+    def _unaliasManufacturer(self, content):
+        # Ensure manufacturer names are consistent
+        manufacturers = {
+            "loc" : "LOC/Precision"
+        }
+
+        name = content.strip().lower()
+        if name in manufacturers:
+            return manufacturers[name]
+
+        return content
 
     def _sanitizeName(self, content):
         # LOCPrecision daa has [material:name...] format
@@ -236,7 +295,7 @@ class ComponentElement(Element):
     def handleEndTag(self, tag, content):
         _tag = tag.lower().strip()
         if _tag == "manufacturer":
-            self._manufacturer = content
+            self._manufacturer = self._unaliasManufacturer(content)
         elif _tag == "partnumber":
             self._partNumber = content
         elif _tag == "description":
@@ -269,8 +328,8 @@ class ComponentElement(Element):
 
 class BodyTubeElement(ComponentElement):
 
-    def __init__(self, parent, tag, attributes, connection):
-        super().__init__(parent, tag, attributes, connection)
+    def __init__(self, parent, tag, attributes, connection, filename, line):
+        super().__init__(parent, tag, attributes, connection, filename, line)
 
         self._knownTags = self._knownTags + ["insidediameter", "outsidediameter", "length"]
 
@@ -330,8 +389,8 @@ class BodyTubeElement(ComponentElement):
 
 class BulkheadElement(ComponentElement):
 
-    def __init__(self, parent, tag, attributes, connection):
-        super().__init__(parent, tag, attributes, connection)
+    def __init__(self, parent, tag, attributes, connection, filename, line):
+        super().__init__(parent, tag, attributes, connection, filename, line)
 
         # The 'filled' tag is recognized but not used
         self._knownTags = self._knownTags + ["filled", "outsidediameter", "length"]
@@ -374,8 +433,8 @@ class BulkheadElement(ComponentElement):
 
 class TransitionElement(ComponentElement):
 
-    def __init__(self, parent, tag, attributes, connection):
-        super().__init__(parent, tag, attributes, connection)
+    def __init__(self, parent, tag, attributes, connection, filename, line):
+        super().__init__(parent, tag, attributes, connection, filename, line)
 
         self._knownTags = self._knownTags + ["filled", "shape", "foreoutsidediameter", "foreshoulderdiameter", "foreshoulderlength", 
             "aftoutsidediameter", "aftshoulderdiameter", "aftshoulderlength", "length", "thickness"]
@@ -472,8 +531,8 @@ class TransitionElement(ComponentElement):
 
 class ParachuteElement(ComponentElement):
 
-    def __init__(self, parent, tag, attributes, connection):
-        super().__init__(parent, tag, attributes, connection)
+    def __init__(self, parent, tag, attributes, connection, filename, line):
+        super().__init__(parent, tag, attributes, connection, filename, line)
 
         self._knownTags = self._knownTags + ["diameter", "sides", "linecount", "linelength", "linematerial"]
 
@@ -529,8 +588,8 @@ class ParachuteElement(ComponentElement):
 
 class StreamerElement(ComponentElement):
 
-    def __init__(self, parent, tag, attributes, connection):
-        super().__init__(parent, tag, attributes, connection)
+    def __init__(self, parent, tag, attributes, connection, filename, line):
+        super().__init__(parent, tag, attributes, connection, filename, line)
 
         self._knownTags = self._knownTags + ["length", "width", "thickness"]
 
@@ -578,8 +637,8 @@ class StreamerElement(ComponentElement):
 
 class NoseConeElement(ComponentElement):
 
-    def __init__(self, parent, tag, attributes, connection):
-        super().__init__(parent, tag, attributes, connection)
+    def __init__(self, parent, tag, attributes, connection, filename, line):
+        super().__init__(parent, tag, attributes, connection, filename, line)
 
         self._knownTags = self._knownTags + ["filled", "shape", "foreoutsidediameter", "foreshoulderdiameter", "foreshoulderlength", 
             "aftoutsidediameter", "aftshoulderdiameter", "aftshoulderlength", "length", "thickness"]
@@ -664,15 +723,19 @@ class NoseConeElement(ComponentElement):
         return super().end()
 
 class PartDatabaseOrcImporter(xml.sax.ContentHandler):
-    def __init__(self, connection):
+    def __init__(self, connection, filename):
         self._connection = connection
-        self._current = RootElement(None, "root", None, self._connection)
+        self._filename = filename
+        self._current = RootElement(None, "root", None, self._connection, filename, 0)
         self._content = ''
 
     # Call when an element starts
     def startElement(self, tag, attributes):
+        loc = self._locator
+        if loc is not None:
+            line = loc.getLineNumber()
         if self._current.isChildElement(tag):
-            self._current = self._current.createChild(tag, attributes)
+            self._current = self._current.createChild(tag, attributes, self._filename, line)
             self._content = ''
         else:
             self._current.handleTag(tag, attributes)
@@ -690,193 +753,80 @@ class PartDatabaseOrcImporter(xml.sax.ContentHandler):
     def characters(self, content):
         self._content = content
 
-class PartDatabaseOrcImporterX(object):
-
-    def __init__(self, doc, connection):
-        self._doc = doc
-        self._connection = connection
-
-    def processComponentTag(self, parent, child):
-        # Tags common to all components
-        SUPPORTED_TAGS = []
-
-        tag = child.tag.strip().lower()
-        if tag == "manufacturer":
-            _trace("processComponentTag", "Processing '%s'" % child.tag)
-            parent._manufacturer = child.text.strip()
-            return True
-        elif tag == "partnumber":
-            _trace("processComponentTag", "Processing '%s'" % child.tag)
-            parent._partNumber = child.text.strip()
-            return True
-        elif tag == "description":
-            _trace("processComponentTag", "Processing '%s'" % child.tag)
-            parent._description = child.text.strip()
-            return True
-        elif tag == "material":
-            _trace("processComponentTag", "Processing '%s'" % child.tag)
-            parent._material = (child.text, child.attrib['Type'])
-            return True
-        elif tag == "mass":
-            _trace("processComponentTag", "Processing '%s'" % child.tag)
-            parent._mass = (_toFloat(child.text), child.attrib['Unit'])
-            return True
-        elif tag in SUPPORTED_TAGS:
-            _trace("processComponentTag", "unprocessed component tag '%s'" % (child.tag))
-            return True
-
-        return False # Tag was not handled
-
-    # def processNosecone(self, parent, context):
+    # def processComponents(self, parent, context):
     #     # Tags that are recognized but currently ignored
-    #     SUPPORTED_TAGS = ["manufacturer", "partno", "description", "thickness", "shape", "shapeclipped", "shapeparameter", "aftradius", "aftouterdiameter", "aftshoulderradius", "aftshoulderdiameter", "aftshoulderlength", "aftshoulderthickness", "aftshouldercapped", "length"]
+    #     SUPPORTED_TAGS = ["bodytube", "transition", "trapezoidfinset", "ellipticalfinset", "freeformfinset", "tubefinset", "launchlug", "railbutton",
+    #             "engineblock", "innertube", "tubecoupler", "bulkhead", "centeringring", "masscomponent", "shockcord", "parachute", "streamer", 
+    #             "boosterset", "parallelstage", "podset"]
 
-    #     nose = NoseconeComponent(self._doc)
     #     for child in context:
     #         tag = child.tag.strip().lower()
-    #         if tag == "manufacturer":
-    #             _trace("processNosecone", "Processing '%s'" % child.tag)
-    #             nose._manufacturer = child.text
-    #         elif tag == "partno":
-    #             _trace("processNosecone", "Processing '%s'" % child.tag)
-    #             nose._partNo = child.text
-    #         elif tag == "description":
-    #             _trace("processNosecone", "Processing '%s'" % child.tag)
-    #             nose._description = child.text
-    #         elif tag == "thickness":
-    #             _trace("processNosecone", "Processing '%s'" % child.tag)
-    #             nose._thickness = float(child.text)
-    #         elif tag == "shape":
-    #             _trace("processNosecone", "Processing '%s'" % child.tag)
-    #             nose._shape = child.text
-    #         elif tag == "shapeclipped":
-    #             _trace("processNosecone", "Processing '%s'" % child.tag)
-    #             nose._shapeClipped = _toBoolean(child.text)
-    #         elif tag == "shapeparameter":
-    #             _trace("processNosecone", "Processing '%s'" % child.tag)
-    #             nose._shapeParameter = float(child.text)
-    #         elif tag == "aftradius":
-    #             _trace("processNosecone", "Processing '%s'" % child.tag)
-    #             nose._aftRadius = float(child.text)
-    #         elif tag == "aftouterdiameter":
-    #             _trace("processNosecone", "Processing '%s'" % child.tag)
-    #             nose._aftRadius = float(child.text) / 2.0
-    #         elif tag == "aftshoulderradius":
-    #             _trace("processNosecone", "Processing '%s'" % child.tag)
-    #             nose._aftShoulderRadius = float(child.text)
-    #         elif tag == "aftshoulderdiameter":
-    #             _trace("processNosecone", "Processing '%s'" % child.tag)
-    #             nose._aftShoulderRadius = 2.0 * float(child.text)
-    #         elif tag == "aftshoulderlength":
-    #             _trace("processNosecone", "Processing '%s'" % child.tag)
-    #             nose._aftShoulderLength = float(child.text)
-    #         elif tag == "aftshoulderthickness":
-    #             _trace("processNosecone", "Processing '%s'" % child.tag)
-    #             nose._aftShoulderThickness = float(child.text)
-    #         elif tag == "aftshouldercapped":
-    #             _trace("processNosecone", "Processing '%s'" % child.tag)
-    #             nose._aftShoulderCapped = _toBoolean(child.text)
-    #         elif tag == "length":
-    #             _trace("processNosecone", "Processing '%s'" % child.tag)
-    #             nose._length = float(child.text)
+    #         if tag == 'stage':
+    #             _trace("processComponents", "Processing '%s'" % child.tag)
+    #             stage = self.processAxialStage(parent, child)
+    #             if stage is not None:
+    #                 parent.append(stage)
+    #         elif tag == 'nosecone':
+    #             _trace("processComponents", "Processing '%s'" % child.tag)
+    #             nose = self.processNosecone(parent, child)
+    #             if nose is not None:
+    #                 parent.append(nose)
     #         elif tag in SUPPORTED_TAGS:
-    #             _trace("processNosecone", "unprocessed tag '%s'" % (child.tag))
-    #         elif not self.processComponentTag(nose, child):
-    #             _trace("processNosecone", "unrecognized tag '%s'" % (child.tag))
+    #             _trace("processComponents", "unprocessed tag '%s'" % (child.tag))
+    #         #elif not self.processComponentTag(parent, child):
+    #         else:
+    #             _trace("processComponents", "unrecognized tag '%s'" % (child.tag))
 
-    #     return nose
-
-    # def processAxialStage(self, parent, context):
+    # def processMaterials(self, context):
     #     # Tags that are recognized but currently ignored
     #     SUPPORTED_TAGS = []
 
-    #     stage = AxialStageComponent(self._doc)
+    #     # Initialize material properties
+    #     self._units = context.attrib['UnitsOfMeasure']
     #     for child in context:
     #         tag = child.tag.strip().lower()
-    #         if tag == "subcomponents":
-    #             _trace("processAxialStage", "Processing '%s'" % child.tag)
-    #             self.processRocketSubComponents(stage, child)
+    #         if tag == "name":
+    #             _trace("processMaterials", "Processing '%s'" % child.tag)
+    #             parent._name = child.text
+    #         elif tag == "type":
+    #             _trace("processMaterials", "Processing '%s'" % child.tag)
+    #             parent._type = child.text
+    #         elif tag == "density":
+    #             parent._density = _toFloat(child.text)
     #         elif tag in SUPPORTED_TAGS:
-    #             _trace("processAxialStage", "unprocessed tag '%s'" % (child.tag))
-    #         elif not self.processComponentTag(stage, child):
-    #             _trace("processAxialStage", "unrecognized tag '%s'" % (child.tag))
+    #             _trace("processMaterials", "unprocessed tag '%s'" % (child.tag))
+    #         elif not self.processComponentTag(rocket, child):
+    #             _trace("processMaterials", "unrecognized tag '%s'" % (child.tag))
 
-    #     return stage
+    #     self._rocket = rocket
 
-    def processComponents(self, parent, context):
-        # Tags that are recognized but currently ignored
-        SUPPORTED_TAGS = ["bodytube", "transition", "trapezoidfinset", "ellipticalfinset", "freeformfinset", "tubefinset", "launchlug", "railbutton",
-                "engineblock", "innertube", "tubecoupler", "bulkhead", "centeringring", "masscomponent", "shockcord", "parachute", "streamer", 
-                "boosterset", "parallelstage", "podset"]
+    # def importParts(self):
 
-        for child in context:
-            tag = child.tag.strip().lower()
-            if tag == 'stage':
-                _trace("processComponents", "Processing '%s'" % child.tag)
-                stage = self.processAxialStage(parent, child)
-                if stage is not None:
-                    parent.append(stage)
-            elif tag == 'nosecone':
-                _trace("processComponents", "Processing '%s'" % child.tag)
-                nose = self.processNosecone(parent, child)
-                if nose is not None:
-                    parent.append(nose)
-            elif tag in SUPPORTED_TAGS:
-                _trace("processComponents", "unprocessed tag '%s'" % (child.tag))
-            #elif not self.processComponentTag(parent, child):
-            else:
-                _trace("processComponents", "unrecognized tag '%s'" % (child.tag))
+    #     # Tags that are recognized but currently ignored
+    #     SUPPORTED_TAGS = []
+    #     SUPPORTED_VERSIONS = ["0.1"]
 
-    def processMaterials(self, context):
-        # Tags that are recognized but currently ignored
-        SUPPORTED_TAGS = []
+    #     root = self._doc.getroot()
+    #     if root.tag != "openrocket":
+    #         _err("unsupported root node %s" % (root.tag))
+    #         return
+    #     else:
+    #         ork_version = root.get("version")
+    #         ork_creator = root.get("creator")
+    #         _trace("process", "process(%s, %s)" % (ork_version, ork_creator))
+    #         if ork_version not in SUPPORTED_VERSIONS:
+    #             _err("unsupported version")
+    #             return
 
-        # Initialize material properties
-        self._units = context.attrib['UnitsOfMeasure']
-        for child in context:
-            tag = child.tag.strip().lower()
-            if tag == "name":
-                _trace("processMaterials", "Processing '%s'" % child.tag)
-                parent._name = child.text
-            elif tag == "type":
-                _trace("processMaterials", "Processing '%s'" % child.tag)
-                parent._type = child.text
-            elif tag == "density":
-                parent._density = _toFloat(child.text)
-            elif tag in SUPPORTED_TAGS:
-                _trace("processMaterials", "unprocessed tag '%s'" % (child.tag))
-            elif not self.processComponentTag(rocket, child):
-                _trace("processMaterials", "unrecognized tag '%s'" % (child.tag))
-
-        self._rocket = rocket
-
-    def importParts(self):
-
-        # Tags that are recognized but currently ignored
-        SUPPORTED_TAGS = []
-        SUPPORTED_VERSIONS = ["0.1"]
-
-        root = self._doc.getroot()
-        if root.tag != "openrocket":
-            _err("unsupported root node %s" % (root.tag))
-            return
-        else:
-            ork_version = root.get("version")
-            ork_creator = root.get("creator")
-            _trace("process", "process(%s, %s)" % (ork_version, ork_creator))
-            if ork_version not in SUPPORTED_VERSIONS:
-                _err("unsupported version")
-                return
-
-            for child in root:
-                tag = child.tag.strip().lower()
-                if tag == "materials":
-                    _trace("process", "Processing '%s'" % child.tag)
-                    self.processMaterials(child)
-                if tag == "components":
-                    _trace("process", "Processing '%s'" % child.tag)
-                    # self.processComponents(child)
-                elif tag in SUPPORTED_TAGS:
-                    _trace("process", "unprocessed tag '%s'" % (child.tag))
-                elif not self.processComponentTag(parent, context):
-                    _trace("process", "unrecognized tag '%s'" % (child.tag))
+    #         for child in root:
+    #             tag = child.tag.strip().lower()
+    #             if tag == "materials":
+    #                 _trace("process", "Processing '%s'" % child.tag)
+    #                 self.processMaterials(child)
+    #             if tag == "components":
+    #                 _trace("process", "Processing '%s'" % child.tag)
+    #                 # self.processComponents(child)
+    #             elif tag in SUPPORTED_TAGS:
+    #                 _trace("process", "unprocessed tag '%s'" % (child.tag))
+    #             elif not self.processComponentTag(parent, context):
+    #                 _trace("process", "unrecognized tag '%s'" % (child.tag))

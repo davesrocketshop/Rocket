@@ -30,3 +30,5 @@ class CenteringRing(BodyTube):
 
     def __init__(self):
         super().__init__()
+
+        self._tubeType = "centering ring"

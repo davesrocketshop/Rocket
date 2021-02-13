@@ -30,3 +30,5 @@ class Coupler(BodyTube):
 
     def __init__(self):
         super().__init__()
+
+        self._tubeType = "coupler"

@@ -26,7 +26,7 @@ __url__ = "https://www.davesrocketshop.com"
 
 # from App.OpenRocket import _msg, _err, _trace
 from App.Constants import MATERIAL_TYPE_BULK, MATERIAL_TYPE_SURFACE, MATERIAL_TYPE_LINE
-from App.Parts.Exceptions import InvalidError, MultipleEntryError
+from App.Parts.Exceptions import InvalidError, MultipleEntryError, MaterialNotFoundError
 
 class Material:
 
@@ -58,7 +58,7 @@ class Material:
         raise InvalidError(self._manufacturer, self._name, message)
 
     def validate(self):
-        self.validateString(self._manufacturer, "Manufacturer invalid")
+        self.validateNonEmptyString(self._manufacturer, "Manufacturer invalid")
         self.validateNonEmptyString(self._name, "Name invalid")
         self.validateNonEmptyString(self._units, "Units invalid")
         if self._type not in [MATERIAL_TYPE_BULK, MATERIAL_TYPE_SURFACE, MATERIAL_TYPE_LINE]:
@@ -69,8 +69,12 @@ class Material:
         cursor = connection.cursor()
 
         # Check to see if an entry exists
-        cursor.execute("SELECT * FROM material WHERE name = ? AND  type = ?",
-                            (self._name, self._type))
+        cursor.execute("SELECT * FROM material WHERE manufacturer=:manufacturer AND name=:name AND  type=:type", 
+                            {
+                                "manufacturer" : self._manufacturer,
+                                "name" : self._name, 
+                                "type" :self._type
+                            })
         row = cursor.fetchone()
         if row is not None:
             # See if this is a complete duplicate
@@ -79,8 +83,9 @@ class Material:
 
             raise MultipleEntryError("Material database contains multiple entries for name:'%s', type:'%s'" % (self._name, self._type))
 
-        cursor.execute("INSERT INTO material(name, type, density, units) VALUES (:name,:type,:density,:units)",
-                            {"name" : self._name, 
+        cursor.execute("INSERT INTO material(manufacturer, name, type, density, units) VALUES (:manufacturer,:name,:type,:density,:units)",
+                            {"manufacturer" : self._manufacturer,
+                             "name" : self._name, 
                              "type" : self._type,
                              "density" : self._density,
                              "units" : self._units})
@@ -89,21 +94,48 @@ class Material:
         connection.commit()
         return id
 
-    def getMaterial(connection, name, type):
+    def getMaterial(connection, manufacturer, name, type):
         cursor = connection.cursor()
 
-        cursor.execute("SELECT material_index FROM material WHERE name = ? AND  type = ?",
-                            (name, type))
+        cursor.execute("SELECT material_index FROM material WHERE manufacturer=:manufacturer AND name=:name AND  type=:type", {
+                            "manufacturer" : manufacturer,
+                            "name" : name, 
+                            "type" : type
+                        })
 
         rows = cursor.fetchall()
         if len(rows) < 1:
-            print("Material '%s' of type '%s' not found" % (name, type))
-            return 0
+            raise MaterialNotFoundError()
 
         if len(rows) > 1:
             print("%d rows found!" % len(rows))        
-            cursor.execute("SELECT * FROM material WHERE name = ? AND  type = ?",
-                            (name, type))
+            cursor.execute("SELECT * FROM material WHERE name=:name AND  type=:type",
+                            {"name" : name, 
+                             "type" : type})
+            rows = cursor.fetchall()
+            i = 0
+            for row in rows:
+                print("%d: %s" % (i, str(row)))
+                i += 1
+
+        return rows[0]['material_index']
+
+    def getMaterialAnyType(connection, manufacturer, name):
+        cursor = connection.cursor()
+
+        cursor.execute("SELECT material_index FROM material WHERE manufacturer=:manufacturer AND name=:name", {
+                            "manufacturer" : manufacturer,
+                            "name" : name
+                        })
+
+        rows = cursor.fetchall()
+        if len(rows) < 1:
+            raise MaterialNotFoundError()
+
+        if len(rows) > 1:
+            print("%d rows found!" % len(rows))        
+            cursor.execute("SELECT * FROM material WHERE name=:name",
+                            {"name" : name})
             rows = cursor.fetchall()
             i = 0
             for row in rows:
