@@ -26,6 +26,7 @@ __url__ = "https://www.davesrocketshop.com"
 
 from App.Parts.Component import Component
 from App.Constants import TYPE_CONE, TYPE_ELLIPTICAL, TYPE_HAACK, TYPE_OGIVE, TYPE_VON_KARMAN, TYPE_PARABOLA, TYPE_PARABOLIC, TYPE_POWER
+from App.Constants import STYLE_SOLID, STYLE_SOLID_CORE, STYLE_HOLLOW, STYLE_CAPPED
 from App.Tools.Utilities import _err
 
 class Transition(Component):
@@ -73,4 +74,33 @@ class Transition(Component):
         self.validateNonEmptyString(self._length[1], "Length Units invalid '%s" % self._length[1])
         if not self._filled:
             self.validateNonEmptyString(self._thickness[1], "Thickness Units invalid '%s" % self._thickness[1])
+
+    def _tranStyle(self):
+        # Not enough information to fully determine core or hollow
+        if self._filled or self._thickness == 0.0:
+            return STYLE_SOLID
+        return STYLE_CAPPED
+
+    def persist(self, connection):
+        style = self._tranStyle()
+
+        component_id = super().persist(connection)
+
+        cursor = connection.cursor()
+
+        cursor.execute("""INSERT INTO transition (component_index, shape, style, 
+                fore_outside_diameter, fore_outside_diameter_units, fore_shoulder_diameter, fore_shoulder_diameter_units, fore_shoulder_length, fore_shoulder_length_units,
+                aft_outside_diameter, aft_outside_diameter_units, aft_shoulder_diameter, aft_shoulder_diameter_units, aft_shoulder_length, aft_shoulder_length_units,
+                length, length_units, thickness, thickness_units)
+            VALUES
+                (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)""",
+                    (component_id, self._noseType, style,
+                    self._foreOutsideDiameter[0], self._foreOutsideDiameter[1], self._foreShoulderDiameter[0], self._foreShoulderDiameter[1], self._foreShoulderLength[0], self._foreShoulderLength[1],
+                    self._aftOutsideDiameter[0], self._aftOutsideDiameter[1], self._aftShoulderDiameter[0], self._aftShoulderDiameter[1], self._aftShoulderLength[0], self._aftShoulderLength[1],
+                    self._length[0], self._length[1], self._thickness[0], self._thickness[1]))
+        id = cursor.lastrowid
+
+        connection.commit()
+
+        return id
 

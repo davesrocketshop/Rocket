@@ -26,6 +26,7 @@ __url__ = "https://www.davesrocketshop.com"
 
 from App.Parts.Component import Component
 from App.Constants import TYPE_CONE, TYPE_ELLIPTICAL, TYPE_HAACK, TYPE_OGIVE, TYPE_VON_KARMAN, TYPE_PARABOLA, TYPE_PARABOLIC, TYPE_POWER
+from App.Constants import STYLE_SOLID, STYLE_SOLID_CORE, STYLE_HOLLOW, STYLE_CAPPED
 from App.Tools.Utilities import _err
 
 class NoseCone(Component):
@@ -62,4 +63,30 @@ class NoseCone(Component):
         self.validateNonEmptyString(self._length[1], "Length Units invalid '%s" % self._length[1])
         if not self._filled:
             self.validateNonEmptyString(self._thickness[1], "Thickness Units invalid '%s" % self._thickness[1])
+
+    def _noseStyle(self):
+        # Not enough information to fully determine core or hollow
+        if self._filled or self._thickness == 0.0:
+            return STYLE_SOLID
+        return STYLE_CAPPED
+
+    def persist(self, connection):
+        style = self._noseStyle()
+
+        component_id = super().persist(connection)
+
+        cursor = connection.cursor()
+
+        cursor.execute("""INSERT INTO nose (component_index, shape, style, diameter, diameter_units,
+                length, length_units, thickness, thickness_units, shoulder_diameter, shoulder_diameter_units, shoulder_length, shoulder_length_units)
+            VALUES
+                (?,?,?,?,?,?,?,?,?,?,?,?,?)""",
+                            (component_id, self._noseType, style, self._outsideDiameter[0], self._outsideDiameter[1], 
+                            self._length[0], self._length[1], self._thickness[0], self._thickness[1],
+                            self._shoulderDiameter[0], self._shoulderDiameter[1], self._shoulderLength[0], self._shoulderLength[1]))
+        id = cursor.lastrowid
+
+        connection.commit()
+
+        return id
 

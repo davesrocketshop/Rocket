@@ -77,6 +77,22 @@ class PartDatabase:
         cursor.execute("DROP TABLE IF EXISTS body_tube")
         cursor.execute("CREATE TABLE body_tube (body_tube_index INTEGER PRIMARY KEY ASC, component_index, tube_type_index, inner_diameter, inner_diameter_units, outer_diameter, outer_diameter_units, length, length_units)")
 
+        cursor.execute("DROP TABLE IF EXISTS nose")
+        cursor.execute("""CREATE TABLE nose (nose_index INTEGER PRIMARY KEY ASC, component_index, shape, style, diameter, diameter_units,
+            length, length_units, thickness, thickness_units, shoulder_diameter, shoulder_diameter_units, shoulder_length, shoulder_length_units)""")
+
+        cursor.execute("DROP TABLE IF EXISTS transition")
+        cursor.execute("""CREATE TABLE transition (transition_index INTEGER PRIMARY KEY ASC, component_index, shape, style, 
+            fore_outside_diameter, fore_outside_diameter_units, fore_shoulder_diameter, fore_shoulder_diameter_units, fore_shoulder_length, fore_shoulder_length_units,
+            aft_outside_diameter, aft_outside_diameter_units, aft_shoulder_diameter, aft_shoulder_diameter_units, aft_shoulder_length, aft_shoulder_length_units,
+            length, length_units, thickness, thickness_units)""")
+
+        cursor.execute("DROP TABLE IF EXISTS parachute")
+        cursor.execute("CREATE TABLE parachute (parachute_index INTEGER PRIMARY KEY ASC, component_index, line_material_index, sides, lines, diameter, diameter_units, line_length, line_length_units)")
+            
+        cursor.execute("DROP TABLE IF EXISTS streamer")
+        cursor.execute("CREATE TABLE streamer (streamer_index INTEGER PRIMARY KEY ASC, component_index, length, length_units, width, width_units, thickness, thickness_units)")
+
         connection.commit()
 
     def _importFiles(self, connection):
