@@ -33,15 +33,42 @@ from PySide2.QtWidgets import QDialog, QGridLayout
 
 from DraftTools import translate
 
+from Ui.TaskPanelDatabase import TaskPanelDatabase
 from App.Constants import TYPE_CONE, TYPE_ELLIPTICAL, TYPE_HAACK, TYPE_OGIVE, TYPE_VON_KARMAN, TYPE_PARABOLA, TYPE_PARABOLIC, TYPE_POWER
 from App.Constants import STYLE_CAPPED, STYLE_HOLLOW, STYLE_SOLID
+from App.Constants import COMPONENT_TYPE_NOSECONE
 
 from App.Utilities import _toFloat
+
+class _testDialog(QDialog):
+
+    def __init__(self, parent=None):
+        super().__init__(parent)
+
+
+        # define our window
+        self.setGeometry(250, 250, 400, 350)
+        self.setWindowTitle(translate('Rocket', "Component Lookup"))
+
+        # Select the type of nose cone
+        self.testTypeLabel = QtGui.QLabel(translate('Rocket', "Test type"), self)
+
+        self.testTypes = ("Test 1",
+                                "Test 2")
+        self.testTypesCombo = QtGui.QComboBox(self)
+        self.testTypesCombo.addItems(self.testTypes)
+
+        layout = QGridLayout()
+
+        layout.addWidget(self.testTypeLabel, 0, 0, 1, 2)
+        layout.addWidget(self.testTypesCombo, 0, 1)
+
+        self.setLayout(layout)
 
 class _NoseConeDialog(QDialog):
 
     def __init__(self, parent=None):
-        super(_NoseConeDialog, self).__init__(parent)
+        super().__init__(parent)
 
 
         # define our window
@@ -183,21 +210,24 @@ class TaskPanelNoseCone:
     def __init__(self,obj,mode):
         self.obj = obj
         
-        self.form = _NoseConeDialog()
-        self.form.setWindowIcon(QtGui.QIcon(":/icons/Rocket_NoseCone.svg"))
+        self._noseForm = _NoseConeDialog()
+        self._dbForm = TaskPanelDatabase.getForm(COMPONENT_TYPE_NOSECONE)
+
+        self.form = [self._dbForm, self._noseForm]
+        self._noseForm.setWindowIcon(QtGui.QIcon(":/icons/Rocket_NoseCone.svg"))
         
-        QtCore.QObject.connect(self.form.noseConeTypesCombo, QtCore.SIGNAL("currentTextChanged(QString)"), self.onNoseType)
-        QtCore.QObject.connect(self.form.noseStylesCombo, QtCore.SIGNAL("currentTextChanged(QString)"), self.onNoseStyle)
+        QtCore.QObject.connect(self._noseForm.noseConeTypesCombo, QtCore.SIGNAL("currentTextChanged(QString)"), self.onNoseType)
+        QtCore.QObject.connect(self._noseForm.noseStylesCombo, QtCore.SIGNAL("currentTextChanged(QString)"), self.onNoseStyle)
 
-        self.form.lengthInput.textEdited.connect(self.onLengthChanged)
-        self.form.radiusInput.textEdited.connect(self.onRadiusChanged)
-        self.form.thicknessInput.textEdited.connect(self.onThicknessChanged)
-        self.form.coefficientInput.textEdited.connect(self.onCoefficientChanged)
+        self._noseForm.lengthInput.textEdited.connect(self.onLengthChanged)
+        self._noseForm.radiusInput.textEdited.connect(self.onRadiusChanged)
+        self._noseForm.thicknessInput.textEdited.connect(self.onThicknessChanged)
+        self._noseForm.coefficientInput.textEdited.connect(self.onCoefficientChanged)
 
-        self.form.shoulderCheckbox.stateChanged.connect(self.onShoulderChanged)
-        self.form.shoulderRadiusInput.textEdited.connect(self.onShoulderRadiusChanged)
-        self.form.shoulderLengthInput.textEdited.connect(self.onShoulderLengthChanged)
-        self.form.shoulderThicknessInput.textEdited.connect(self.onShoulderThicknessChanged)
+        self._noseForm.shoulderCheckbox.stateChanged.connect(self.onShoulderChanged)
+        self._noseForm.shoulderRadiusInput.textEdited.connect(self.onShoulderRadiusChanged)
+        self._noseForm.shoulderLengthInput.textEdited.connect(self.onShoulderLengthChanged)
+        self._noseForm.shoulderThicknessInput.textEdited.connect(self.onShoulderThicknessChanged)
         
         self.update()
         
@@ -207,52 +237,52 @@ class TaskPanelNoseCone:
         
     def transferTo(self):
         "Transfer from the dialog to the object" 
-        self.obj.NoseType = str(self.form.noseConeTypesCombo.currentText())
-        self.obj.NoseStyle = str(self.form.noseStylesCombo.currentText())
-        self.obj.Length = _toFloat(self.form.lengthInput.text())
-        self.obj.Radius = _toFloat(self.form.radiusInput.text())
-        self.obj.Thickness = _toFloat(self.form.thicknessInput.text())
-        self.obj.Coefficient = _toFloat(self.form.coefficientInput.text())
-        self.obj.Shoulder = self.form.shoulderCheckbox.isChecked()
-        self.obj.ShoulderRadius = _toFloat(self.form.shoulderRadiusInput.text())
-        self.obj.ShoulderLength = _toFloat(self.form.shoulderLengthInput.text())
-        self.obj.ShoulderThickness = _toFloat(self.form.shoulderThicknessInput.text())
+        self.obj.NoseType = str(self._noseForm.noseConeTypesCombo.currentText())
+        self.obj.NoseStyle = str(self._noseForm.noseStylesCombo.currentText())
+        self.obj.Length = _toFloat(self._noseForm.lengthInput.text())
+        self.obj.Radius = _toFloat(self._noseForm.radiusInput.text())
+        self.obj.Thickness = _toFloat(self._noseForm.thicknessInput.text())
+        self.obj.Coefficient = _toFloat(self._noseForm.coefficientInput.text())
+        self.obj.Shoulder = self._noseForm.shoulderCheckbox.isChecked()
+        self.obj.ShoulderRadius = _toFloat(self._noseForm.shoulderRadiusInput.text())
+        self.obj.ShoulderLength = _toFloat(self._noseForm.shoulderLengthInput.text())
+        self.obj.ShoulderThickness = _toFloat(self._noseForm.shoulderThicknessInput.text())
 
     def transferFrom(self):
         "Transfer from the object to the dialog"
-        self.form.noseConeTypesCombo.setCurrentText(self.obj.NoseType)
-        self.form.noseStylesCombo.setCurrentText(self.obj.NoseStyle)
-        self.form.lengthInput.setText("%f" % self.obj.Length)
-        self.form.radiusInput.setText("%f" % self.obj.Radius)
-        self.form.thicknessInput.setText("%f" % self.obj.Thickness)
-        self.form.coefficientInput.setText("%f" % self.obj.Coefficient)
-        self.form.shoulderCheckbox.setChecked(self.obj.Shoulder)
-        self.form.shoulderRadiusInput.setText("%f" % self.obj.ShoulderRadius)
-        self.form.shoulderLengthInput.setText("%f" % self.obj.ShoulderLength)
-        self.form.shoulderThicknessInput.setText("%f" % self.obj.ShoulderThickness)
+        self._noseForm.noseConeTypesCombo.setCurrentText(self.obj.NoseType)
+        self._noseForm.noseStylesCombo.setCurrentText(self.obj.NoseStyle)
+        self._noseForm.lengthInput.setText("%f" % self.obj.Length)
+        self._noseForm.radiusInput.setText("%f" % self.obj.Radius)
+        self._noseForm.thicknessInput.setText("%f" % self.obj.Thickness)
+        self._noseForm.coefficientInput.setText("%f" % self.obj.Coefficient)
+        self._noseForm.shoulderCheckbox.setChecked(self.obj.Shoulder)
+        self._noseForm.shoulderRadiusInput.setText("%f" % self.obj.ShoulderRadius)
+        self._noseForm.shoulderLengthInput.setText("%f" % self.obj.ShoulderLength)
+        self._noseForm.shoulderThicknessInput.setText("%f" % self.obj.ShoulderThickness)
         
     def onNoseType(self, value):
         if value == TYPE_HAACK or value == TYPE_PARABOLIC:
-            self.form.coefficientInput.setEnabled(True)
+            self._noseForm.coefficientInput.setEnabled(True)
         elif value == TYPE_POWER:
-            self.form.coefficientInput.setEnabled(True)
+            self._noseForm.coefficientInput.setEnabled(True)
         else:
-            self.form.coefficientInput.setEnabled(False)
+            self._noseForm.coefficientInput.setEnabled(False)
 
         self.obj.NoseType = value
         self.obj.Proxy.execute(self.obj)
         
     def onNoseStyle(self, value):
         if value == STYLE_HOLLOW or value == STYLE_CAPPED:
-            self.form.thicknessInput.setEnabled(True)
+            self._noseForm.thicknessInput.setEnabled(True)
 
-            if self.form.shoulderCheckbox.isChecked():
-                self.form.shoulderThicknessInput.setEnabled(True)
+            if self._noseForm.shoulderCheckbox.isChecked():
+                self._noseForm.shoulderThicknessInput.setEnabled(True)
             else:
-                self.form.shoulderThicknessInput.setEnabled(False)
+                self._noseForm.shoulderThicknessInput.setEnabled(False)
         else:
-            self.form.thicknessInput.setEnabled(False)
-            self.form.shoulderThicknessInput.setEnabled(False)
+            self._noseForm.thicknessInput.setEnabled(False)
+            self._noseForm.shoulderThicknessInput.setEnabled(False)
 
         self.obj.NoseStyle = value
         self.obj.Proxy.execute(self.obj)
@@ -275,20 +305,20 @@ class TaskPanelNoseCone:
         self.obj.Proxy.execute(self.obj)
         
     def onShoulderChanged(self, value):
-        self.obj.Shoulder = self.form.shoulderCheckbox.isChecked()
+        self.obj.Shoulder = self._noseForm.shoulderCheckbox.isChecked()
         if self.obj.Shoulder:
-            self.form.shoulderRadiusInput.setEnabled(True)
-            self.form.shoulderLengthInput.setEnabled(True)
+            self._noseForm.shoulderRadiusInput.setEnabled(True)
+            self._noseForm.shoulderLengthInput.setEnabled(True)
 
-            selectedText = self.form.noseStylesCombo.currentText()
+            selectedText = self._noseForm.noseStylesCombo.currentText()
             if selectedText == STYLE_HOLLOW or selectedText == STYLE_CAPPED:
-                self.form.shoulderThicknessInput.setEnabled(True)
+                self._noseForm.shoulderThicknessInput.setEnabled(True)
             else:
-                self.form.shoulderThicknessInput.setEnabled(False)
+                self._noseForm.shoulderThicknessInput.setEnabled(False)
         else:
-            self.form.shoulderRadiusInput.setEnabled(False)
-            self.form.shoulderLengthInput.setEnabled(False)
-            self.form.shoulderThicknessInput.setEnabled(False)
+            self._noseForm.shoulderRadiusInput.setEnabled(False)
+            self._noseForm.shoulderLengthInput.setEnabled(False)
+            self._noseForm.shoulderThicknessInput.setEnabled(False)
 
         self.obj.Proxy.execute(self.obj)
         

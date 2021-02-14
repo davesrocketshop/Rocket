@@ -30,6 +30,7 @@ from os import walk
 import xml.sax
 
 from App.Parts.PartDatabaseOrcImporter import PartDatabaseOrcImporter
+from App.Parts.Component import Component
 from App.Tools.Utilities import _msg
 
 class PartDatabase:
@@ -44,6 +45,14 @@ class PartDatabase:
         else:
             connection = sqlite3.connect(self._rootFolder + "/Resources/parts/Parts.db")
         return connection
+
+    def getManufacturers(self):
+        connection = self.getConnection()
+
+        manufacturers = Component.getManufacturers(connection)
+
+        connection.close()
+        return manufacturers
 
     def updateDatabase(self):
         connection = sqlite3.connect(self._rootFolder + "/Resources/parts/Parts.db")

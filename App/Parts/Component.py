@@ -25,7 +25,7 @@ __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
 from App.Constants import MATERIAL_TYPE_BULK, MATERIAL_TYPE_SURFACE, MATERIAL_TYPE_LINE
-from App.Parts.Exceptions import InvalidError, MaterialNotFoundError
+from App.Parts.Exceptions import InvalidError, MaterialNotFoundError, NotFoundError
 from App.Parts.Material import Material
 
 class Component:
@@ -91,3 +91,15 @@ class Component:
         connection.commit()
 
         return id
+
+    def getManufacturers(connection):
+        cursor = connection.cursor()
+
+        cursor.execute("SELECT DISTINCT manufacturer FROM component")
+
+        rows = cursor.fetchall()
+        if len(rows) < 1:
+            raise NotFoundError()
+
+        manufacturers = [row[0] for row in rows]
+        return manufacturers
