@@ -40,14 +40,23 @@ class TransitionConeShapeHandler(TransitionShapeHandler):
     def _radiusAt(self, r1, r2, length, pos):
         if r1 > r2:
             intercept = r1
+            x = length - pos
+            slope = (r2 - r1) / length
         else:
             intercept = r2
+            x = pos
+            slope = (r1 - r2) / length
 
-        slope = (r1 - r2) / length
-        y = pos * slope + intercept
+        y = x * slope + intercept
         return y
 
     # Override the default to use native shapes
-    def _generateCurve(self, r1, r2, length, min = 0):
-        curve = Part.LineSegment(FreeCAD.Vector(min, r2), FreeCAD.Vector(length, r1))
+    def _generateCurve(self, r1, r2, length, min = 0, max = 0):
+        if max == 0.0:
+            max = length
+        # if r1 > r2:
+        #     tmp = r1
+        #     r1 = r2
+        #     r2 = tmp
+        curve = Part.LineSegment(FreeCAD.Vector(min, r2), FreeCAD.Vector(max, r1))
         return curve

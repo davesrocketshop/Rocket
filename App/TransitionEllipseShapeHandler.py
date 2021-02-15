@@ -50,38 +50,16 @@ class TransitionEllipseShapeHandler(TransitionShapeHandler):
         return y + center
 
     # Override the default to use native shapes
-    def _generateCurve(self, r1, r2, length, min = 0):
+    def _generateCurve(self, r1, r2, length, min = 0, max = 0):
+        if max == 0.0:
+            max = length - min
         if self._clipped:
-            return super()._generateCurve(r1, r2, length, min)
+            return super()._generateCurve(r1, r2, length, min, max)
         if r1 > r2:
             radius = r1 - r2
-            curve = Part.ArcOfEllipse(Part.Ellipse(FreeCAD.Vector(length, r2), length - min, radius), math.pi/2, math.pi)
+            curve = Part.ArcOfEllipse(Part.Ellipse(FreeCAD.Vector(max, r2), max - min, radius), math.pi/2, math.pi)
             return curve
 
         radius = r2 - r1
-        curve = Part.ArcOfEllipse(Part.Ellipse(FreeCAD.Vector(min, r1), length - min, radius), 0.0, math.pi/2)
+        curve = Part.ArcOfEllipse(Part.Ellipse(FreeCAD.Vector(min, r1), max - min, radius), 0.0, math.pi/2)
         return curve
-
-    # def _generateCurve(self, r1, r2, length, min = 0, max = 0.0, inner=0.0):
-    #     if max <= 0:
-    #         max = self._length
-
-    #     points = [FreeCAD.Vector(max, r1)]
-    #     # points = []
-    #     for i in range(0, self._resolution):
-            
-    #         if self._clipped:
-    #             if r2 > r1:
-    #                 x = max - (float(i) * ((max - min) / float(self._resolution)))
-    #                 y = self._radiusAt(0.0, r2, length, x) - inner
-    #             else:
-    #                 x = max - min - (float(i) * ((max - min) / float(self._resolution)))
-    #                 y = self._radiusAt(0.0, r1, length, x) - inner
-    #                 x = self._length - x
-    #         else:
-    #             x = max - (float(i) * ((max - min) / float(self._resolution)))
-    #             y = self._radiusAt(r1, r2, length, x + min) - inner
-    #         points.append(FreeCAD.Vector(x, y))
-
-    #     points.append(FreeCAD.Vector(min, r2))
-    #     return self.makeSpline(points)
