@@ -40,6 +40,7 @@ class _BodyTubeDialog(QDialog):
     def __init__(self, parent=None):
         super(_BodyTubeDialog, self).__init__(parent)
 
+        ui = FreeCADGui.UiLoader()
 
         # define our window
         self.setGeometry(250, 250, 400, 350)
@@ -48,30 +49,21 @@ class _BodyTubeDialog(QDialog):
         # Get the body tube parameters: length, ID, etc...
         self.idLabel = QtGui.QLabel(translate('Rocket', "Inner Diameter"), self)
 
-        self.idValidator = QtGui.QDoubleValidator(self)
-        self.idValidator.setBottom(0.0)
-
-        self.idInput = QtGui.QLineEdit(self)
+        self.idInput = ui.createWidget("Gui::InputField")
+        self.idInput.unit = 'mm'
         self.idInput.setFixedWidth(100)
-        self.idInput.setValidator(self.idValidator)
 
         self.odLabel = QtGui.QLabel(translate('Rocket', "Outer Diameter"), self)
 
-        self.odValidator = QtGui.QDoubleValidator(self)
-        self.odValidator.setBottom(0.0)
-
-        self.odInput = QtGui.QLineEdit(self)
+        self.odInput = ui.createWidget("Gui::InputField")
+        self.odInput.unit = 'mm'
         self.odInput.setFixedWidth(100)
-        self.odInput.setValidator(self.odValidator)
 
         self.lengthLabel = QtGui.QLabel(translate('Rocket', "Length"), self)
 
-        self.lengthValidator = QtGui.QDoubleValidator(self)
-        self.lengthValidator.setBottom(0.0)
-
-        self.lengthInput = QtGui.QLineEdit(self)
+        self.lengthInput = ui.createWidget("Gui::InputField")
+        self.lengthInput.unit = 'mm'
         self.lengthInput.setFixedWidth(100)
-        self.lengthInput.setValidator(self.lengthValidator)
 
         layout = QGridLayout()
 
@@ -106,26 +98,26 @@ class TaskPanelBodyTube:
         
     def transferTo(self):
         "Transfer from the dialog to the object" 
-        self.obj.InnerDiameter = _toFloat(self.form.idInput.text())
-        self.obj.OuterDiameter = _toFloat(self.form.odInput.text())
-        self.obj.Length = _toFloat(self.form.lengthInput.text())
+        self.obj.InnerDiameter = self.form.idInput.text()
+        self.obj.OuterDiameter = self.form.odInput.text()
+        self.obj.Length = self.form.lengthInput.text()
 
     def transferFrom(self):
         "Transfer from the object to the dialog"
-        self.form.idInput.setText("%f" % self.obj.InnerDiameter)
-        self.form.odInput.setText("%f" % self.obj.OuterDiameter)
-        self.form.lengthInput.setText("%f" % self.obj.Length)
+        self.form.idInput.setText(self.obj.InnerDiameter.UserString)
+        self.form.odInput.setText(self.obj.OuterDiameter.UserString)
+        self.form.lengthInput.setText(self.obj.Length.UserString)
         
     def onIdChanged(self, value):
-        self.obj.InnerDiameter = _toFloat(value)
+        self.obj.InnerDiameter = value
         self.obj.Proxy.execute(self.obj)
         
     def onOdChanged(self, value):
-        self.obj.OuterDiameter = _toFloat(value)
+        self.obj.OuterDiameter = value
         self.obj.Proxy.execute(self.obj)
         
     def onLengthChanged(self, value):
-        self.obj.Length = _toFloat(value)
+        self.obj.Length = value
         self.obj.Proxy.execute(self.obj)
 
         

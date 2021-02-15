@@ -31,6 +31,7 @@ import xml.sax
 
 from App.Parts.PartDatabaseOrcImporter import PartDatabaseOrcImporter
 from App.Parts.Component import Component
+from App.Parts.Exceptions import NotFoundError
 from App.Tools.Utilities import _msg
 
 class PartDatabase:
@@ -48,8 +49,11 @@ class PartDatabase:
 
     def getManufacturers(self):
         connection = self.getConnection()
-
-        manufacturers = Component.getManufacturers(connection)
+        
+        try:
+            manufacturers = Component.getManufacturers(connection)
+        except NotFoundError:
+            manufacturers = []
 
         connection.close()
         return manufacturers

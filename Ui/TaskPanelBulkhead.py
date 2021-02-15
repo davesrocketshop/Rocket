@@ -40,6 +40,7 @@ class _BulkheadDialog(QDialog):
     def __init__(self, crPanel, parent=None):
         super(_BulkheadDialog, self).__init__(parent)
 
+        ui = FreeCADGui.UiLoader()
 
         # define our window
         self.setGeometry(250, 250, 400, 350)
@@ -51,32 +52,22 @@ class _BulkheadDialog(QDialog):
         # Get the body tube parameters: length, ID, etc...
         self.diameterLabel = QtGui.QLabel(translate('Rocket', "Diameter"), self)
 
-        self.diameterValidator = QtGui.QDoubleValidator(self)
-        self.diameterValidator.setBottom(0.0)
-
-        self.diameterInput = QtGui.QLineEdit(self)
+        self.diameterInput = ui.createWidget("Gui::InputField")
+        self.diameterInput.unit = 'mm'
         self.diameterInput.setFixedWidth(100)
-        self.diameterInput.setValidator(self.diameterValidator)
 
         self.thicknessLabel = QtGui.QLabel(translate('Rocket', "Thickness"), self)
 
-        self.thicknessValidator = QtGui.QDoubleValidator(self)
-        self.thicknessValidator.setBottom(0.0)
-
-        self.thicknessInput = QtGui.QLineEdit(self)
+        self.thicknessInput = ui.createWidget("Gui::InputField")
+        self.thicknessInput.unit = 'mm'
         self.thicknessInput.setFixedWidth(100)
-        self.thicknessInput.setValidator(self.thicknessValidator)
 
         if crPanel:
             self.centerDiameterLabel = QtGui.QLabel(translate('Rocket', "Center Diameter"), self)
 
-            self.centerDiameterValidator = QtGui.QDoubleValidator(self)
-            self.centerDiameterValidator.setBottom(0.0)
-
-            self.centerDiameterInput = QtGui.QLineEdit(self)
+            self.centerDiameterInput = ui.createWidget("Gui::InputField")
+            self.centerDiameterInput.unit = 'mm'
             self.centerDiameterInput.setFixedWidth(100)
-            self.centerDiameterInput.setValidator(self.centerDiameterValidator)
-
             self.notchedLabel = QtGui.QLabel(translate('Rocket', "Notched"), self)
 
             self.notchedCheckbox = QtGui.QCheckBox(self)
@@ -84,21 +75,15 @@ class _BulkheadDialog(QDialog):
 
             self.notchWidthLabel = QtGui.QLabel(translate('Rocket', "Width"), self)
 
-            self.notchWidthValidator = QtGui.QDoubleValidator(self)
-            self.notchWidthValidator.setBottom(0.0)
-
-            self.notchWidthInput = QtGui.QLineEdit(self)
+            self.notchWidthInput = ui.createWidget("Gui::InputField")
+            self.notchWidthInput.unit = 'mm'
             self.notchWidthInput.setFixedWidth(100)
-            self.notchWidthInput.setValidator(self.notchWidthValidator)
 
             self.notchHeightLabel = QtGui.QLabel(translate('Rocket', "Height"), self)
 
-            self.notchHeightValidator = QtGui.QDoubleValidator(self)
-            self.notchHeightValidator.setBottom(0.0)
-
-            self.notchHeightInput = QtGui.QLineEdit(self)
+            self.notchHeightInput = ui.createWidget("Gui::InputField")
+            self.notchHeightInput.unit = 'mm'
             self.notchHeightInput.setFixedWidth(100)
-            self.notchHeightInput.setValidator(self.notchHeightValidator)
 
         self.stepLabel = QtGui.QLabel(translate('Rocket', "Step"), self)
 
@@ -107,21 +92,15 @@ class _BulkheadDialog(QDialog):
 
         self.stepDiameterLabel = QtGui.QLabel(translate('Rocket', "Diameter"), self)
 
-        self.stepDiameterValidator = QtGui.QDoubleValidator(self)
-        self.stepDiameterValidator.setBottom(0.0)
-
-        self.stepDiameterInput = QtGui.QLineEdit(self)
+        self.stepDiameterInput = ui.createWidget("Gui::InputField")
+        self.stepDiameterInput.unit = 'mm'
         self.stepDiameterInput.setFixedWidth(100)
-        self.stepDiameterInput.setValidator(self.stepDiameterValidator)
 
         self.stepThicknessLabel = QtGui.QLabel(translate('Rocket', "Thickness"), self)
 
-        self.stepThicknessValidator = QtGui.QDoubleValidator(self)
-        self.stepThicknessValidator.setBottom(0.0)
-
-        self.stepThicknessInput = QtGui.QLineEdit(self)
+        self.stepThicknessInput = ui.createWidget("Gui::InputField")
+        self.stepThicknessInput.unit = 'mm'
         self.stepThicknessInput.setFixedWidth(100)
-        self.stepThicknessInput.setValidator(self.stepThicknessValidator)
 
         self.holeLabel = QtGui.QLabel(translate('Rocket', "Holes"), self)
 
@@ -130,21 +109,15 @@ class _BulkheadDialog(QDialog):
 
         self.holeDiameterLabel = QtGui.QLabel(translate('Rocket', "Diameter"), self)
 
-        self.holeDiameterValidator = QtGui.QDoubleValidator(self)
-        self.holeDiameterValidator.setBottom(0.0)
-
-        self.holeDiameterInput = QtGui.QLineEdit(self)
+        self.holeDiameterInput = ui.createWidget("Gui::InputField")
+        self.holeDiameterInput.unit = 'mm'
         self.holeDiameterInput.setFixedWidth(100)
-        self.holeDiameterInput.setValidator(self.holeDiameterValidator)
 
         self.holeCenterLabel = QtGui.QLabel(translate('Rocket', "Center"), self)
 
-        self.holeCenterValidator = QtGui.QDoubleValidator(self)
-        self.holeCenterValidator.setBottom(0.0)
-
-        self.holeCenterInput = QtGui.QLineEdit(self)
+        self.holeCenterInput = ui.createWidget("Gui::InputField")
+        self.holeCenterInput.unit = 'mm'
         self.holeCenterInput.setFixedWidth(100)
-        self.holeCenterInput.setValidator(self.holeCenterValidator)
 
         self.holeCountLabel = QtGui.QLabel(translate('Rocket', "Count"), self)
 
@@ -156,7 +129,8 @@ class _BulkheadDialog(QDialog):
         self.holeOffsetLabel = QtGui.QLabel(translate('Rocket', "Offset"), self)
 
         # Offsets can be positive or negative so no validator required
-        self.holeOffsetInput = QtGui.QLineEdit(self)
+        self.holeOffsetInput = ui.createWidget("Gui::InputField")
+        self.holeOffsetInput.unit = 'deg'
         self.holeOffsetInput.setFixedWidth(100)
 
         row = 0
@@ -261,62 +235,62 @@ class TaskPanelBulkhead:
         
     def transferTo(self):
         "Transfer from the dialog to the object" 
-        self.obj.Diameter = _toFloat(self.form.diameterInput.text())
-        self.obj.Thickness = _toFloat(self.form.thicknessInput.text())
+        self.obj.Diameter = self.form.diameterInput.text()
+        self.obj.Thickness = self.form.thicknessInput.text()
 
         self.obj.Step = self.form.stepCheckbox.isChecked()
-        self.obj.StepDiameter = _toFloat(self.form.stepDiameterInput.text())
-        self.obj.StepThickness = _toFloat(self.form.stepThicknessInput.text())
+        self.obj.StepDiameter = self.form.stepDiameterInput.text()
+        self.obj.StepThickness = self.form.stepThicknessInput.text()
 
         self.obj.Holes = self.form.holeCheckbox.isChecked()
-        self.obj.HoleDiameter = _toFloat(self.form.holeDiameterInput.text())
-        self.obj.HoleCenter = _toFloat(self.form.holeCenterInput.text())
+        self.obj.HoleDiameter = self.form.holeDiameterInput.text()
+        self.obj.HoleCenter = self.form.holeCenterInput.text()
         self.obj.HoleCount = self.form.holeCountSpinBox.value()
-        self.obj.HoleOffset = _toFloat(self.form.holeOffsetInput.text())
+        self.obj.HoleOffset = self.form.holeOffsetInput.text()
 
         if self._crPanel:
-            self.obj.CenterDiameter = _toFloat(self.form.centerDiameterInput.text())
+            self.obj.CenterDiameter = self.form.centerDiameterInput.text()
 
             self.obj.Notched = self.form.notchedCheckbox.isChecked()
-            self.obj.NotchWidth = _toFloat(self.form.notchWidthInput.text())
-            self.obj.NotchHeight = _toFloat(self.form.notchHeightInput.text())
+            self.obj.NotchWidth = self.form.notchWidthInput.text()
+            self.obj.NotchHeight = self.form.notchHeightInput.text()
 
     def transferFrom(self):
         "Transfer from the object to the dialog"
-        self.form.diameterInput.setText("%f" % self.obj.Diameter)
-        self.form.thicknessInput.setText("%f" % self.obj.Thickness)
+        self.form.diameterInput.setText(self.obj.Diameter.UserString)
+        self.form.thicknessInput.setText(self.obj.Thickness.UserString)
 
         self.form.stepCheckbox.setChecked(self.obj.Step)
-        self.form.stepDiameterInput.setText("%f" % self.obj.StepDiameter)
-        self.form.stepThicknessInput.setText("%f" % self.obj.StepThickness)
+        self.form.stepDiameterInput.setText(self.obj.StepDiameter.UserString)
+        self.form.stepThicknessInput.setText(self.obj.StepThickness.UserString)
 
         self.form.holeCheckbox.setChecked(self.obj.Holes)
-        self.form.holeDiameterInput.setText("%f" % self.obj.HoleDiameter)
-        self.form.holeCenterInput.setText("%f" % self.obj.HoleCenter)
+        self.form.holeDiameterInput.setText(self.obj.HoleDiameter.UserString)
+        self.form.holeCenterInput.setText(self.obj.HoleCenter.UserString)
         self.form.holeCountSpinBox.setValue(self.obj.HoleCount)
-        self.form.holeOffsetInput.setText("%f" % self.obj.HoleOffset)
+        self.form.holeOffsetInput.setText(self.obj.HoleOffset.UserString)
 
         if self._crPanel:
-            self.form.centerDiameterInput.setText("%f" % self.obj.CenterDiameter)
+            self.form.centerDiameterInput.setText(self.obj.CenterDiameter.UserString)
 
             self.form.notchedCheckbox.setChecked(self.obj.Notched)
-            self.form.notchWidthInput.setText("%f" % self.obj.NotchWidth)
-            self.form.notchHeightInput.setText("%f" % self.obj.NotchHeight)
+            self.form.notchWidthInput.setText(self.obj.NotchWidth.UserString)
+            self.form.notchHeightInput.setText(self.obj.NotchHeight.UserString)
             self._setNotchedState()
 
         self._setStepState()
         self._setHoleState()
         
     def onDiameter(self, value):
-        self.obj.Diameter = _toFloat(value)
+        self.obj.Diameter = value
         self.obj.Proxy.execute(self.obj)
         
     def onThickness(self, value):
-        self.obj.Thickness = _toFloat(value)
+        self.obj.Thickness = value
         self.obj.Proxy.execute(self.obj)
         
     def onCenterDiameter(self, value):
-        self.obj.CenterDiameter = _toFloat(value)
+        self.obj.CenterDiameter = value
         self.obj.Proxy.execute(self.obj)
         
     def _setStepState(self):
@@ -330,11 +304,11 @@ class TaskPanelBulkhead:
         self.obj.Proxy.execute(self.obj)
         
     def onStepDiameter(self, value):
-        self.obj.StepDiameter = _toFloat(value)
+        self.obj.StepDiameter = value
         self.obj.Proxy.execute(self.obj)
         
     def onStepThickness(self, value):
-        self.obj.StepThickness = _toFloat(value)
+        self.obj.StepThickness = value
         self.obj.Proxy.execute(self.obj)
         
     def _setHoleState(self):
@@ -350,11 +324,11 @@ class TaskPanelBulkhead:
         self.obj.Proxy.execute(self.obj)
         
     def onHoleDiameter(self, value):
-        self.obj.HoleDiameter = _toFloat(value)
+        self.obj.HoleDiameter = value
         self.obj.Proxy.execute(self.obj)
         
     def onHoleCenter(self, value):
-        self.obj.HoleCenter = _toFloat(value)
+        self.obj.HoleCenter = value
         self.obj.Proxy.execute(self.obj)
         
     def onHoleCount(self, value):
@@ -362,7 +336,7 @@ class TaskPanelBulkhead:
         self.obj.Proxy.execute(self.obj)
         
     def onHoleOffset(self, value):
-        self.obj.HoleOffset = _toFloat(value)
+        self.obj.HoleOffset = value
         self.obj.Proxy.execute(self.obj)
         
     def _setNotchedState(self):
@@ -376,11 +350,11 @@ class TaskPanelBulkhead:
         self.obj.Proxy.execute(self.obj)
         
     def onNotchWidth(self, value):
-        self.obj.NotchWidth = _toFloat(value)
+        self.obj.NotchWidth = value
         self.obj.Proxy.execute(self.obj)
         
     def onNotchHeight(self, value):
-        self.obj.NotchHeight = _toFloat(value)
+        self.obj.NotchHeight = value
         self.obj.Proxy.execute(self.obj)
         
     def getStandardButtons(self):
