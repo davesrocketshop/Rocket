@@ -45,6 +45,9 @@ CLIP_PRECISION = 0.0001
 class TransitionShapeHandler():
     def __init__(self, obj):
 
+        # This gets changed when redrawn so it's very important to save a copy
+        self._placement = obj.Placement
+
         # Common parameters
         self._type = str(obj.TransitionType)
         self._style = str(obj.TransitionStyle)
@@ -226,6 +229,7 @@ class TransitionShapeHandler():
                 wire = Part.Wire(edges)
                 face = Part.Face(wire)
                 self._obj.Shape = face.revolve(FreeCAD.Vector(0, 0, 0),FreeCAD.Vector(1, 0, 0), 360)
+                self._obj.Placement = self._placement
             except Part.OCCError:
                 _err(translate('Rocket', "Transition parameters produce an invalid shape"))
                 return

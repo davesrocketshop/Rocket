@@ -38,6 +38,10 @@ from App.Utilities import _err
 
 class NoseShapeHandler():
     def __init__(self, obj):
+
+        # This gets changed when redrawn so it's very important to save a copy
+        self._placement = obj.Placement
+
         # Common parameters    
         self._type = str(obj.NoseType)    
         self._style = str(obj.NoseStyle)
@@ -119,6 +123,7 @@ class NoseShapeHandler():
                 wire = Part.Wire(edges)
                 face = Part.Face(wire)
                 self._obj.Shape = face.revolve(FreeCAD.Vector(0, 0, 0),FreeCAD.Vector(1, 0, 0), 360)
+                self._obj.Placement = self._placement
             except Part.OCCError:
                 _err(translate('Rocket', "Nose cone parameters produce an invalid shape"))
                 return

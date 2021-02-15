@@ -34,6 +34,10 @@ from DraftTools import translate
 
 class BulkheadShapeHandler():
     def __init__(self, obj):
+
+        # This gets changed when redrawn so it's very important to save a copy
+        self._placement = obj.Placement
+
         self._diameter = float(obj.Diameter)
         self._thickness = float(obj.Thickness)
         self._step = bool(obj.Step)
@@ -103,6 +107,7 @@ class BulkheadShapeHandler():
 
         try:
             self._obj.Shape = self._drawBulkhead()
+            self._obj.Placement = self._placement
         except (ZeroDivisionError, Part.OCCError):
             _err(translate('Rocket', "Bulkhead parameters produce an invalid shape"))
             return

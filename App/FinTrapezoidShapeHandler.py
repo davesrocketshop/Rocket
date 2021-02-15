@@ -42,6 +42,9 @@ class FinTrapezoidShapeHandler:
     def __init__(self, obj):
         self._obj = obj
 
+        # This gets changed when redrawn so it's very important to save a copy
+        self._placement = obj.Placement
+
     def _makeChordProfileSquare(self, foreX, chord, thickness, height):
         # Create the root rectangle
         chordFore = foreX
@@ -268,6 +271,7 @@ class FinTrapezoidShapeHandler:
                         if ttw:
                             loft = loft.fuse(ttw)
                     self._obj.Shape = loft
+            self._obj.Placement = self._placement
         except (ZeroDivisionError, Part.OCCError):
             _err(translate('Rocket', "Fin parameters produce an invalid shape"))
             return
