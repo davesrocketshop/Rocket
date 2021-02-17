@@ -110,11 +110,6 @@ class TransitionEllipseShapeHandler(TransitionShapeHandler):
         return curve
 
     # Override the default to use native shapes
-<<<<<<< Updated upstream
-    def _generateCurve(self, r1, r2, length, min = 0):
-        if self._clipped:
-            return super()._generateCurve(r1, r2, length, min)
-=======
     def _generateCurve(self, r1, r2, length, min = 0, max = 0):
         if self._clipped:
             self._debugShape = True
@@ -125,7 +120,6 @@ class TransitionEllipseShapeHandler(TransitionShapeHandler):
             print ("r1 = %f, r2 = %f, min = %f, max = %f, length = %f" % (r1, r2, min, max, length))
         if max == 0.0:
             max = length - min
->>>>>>> Stashed changes
         if r1 > r2:
             radius = r1 - r2
             curve = Part.ArcOfEllipse(Part.Ellipse(FreeCAD.Vector(length, r2), length - min, radius), math.pi/2, math.pi)
