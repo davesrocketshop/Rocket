@@ -40,7 +40,7 @@ from App.Constants import STYLE_CAPPED, STYLE_HOLLOW, STYLE_SOLID, STYLE_SOLID_C
 
 from App.Utilities import _err
 
-CLIP_PRECISION = 0.0001
+CLIP_PRECISION = 0.00001
 
 class TransitionShapeHandler():
     def __init__(self, obj):
@@ -62,6 +62,8 @@ class TransitionShapeHandler():
 
         self._clipped = (bool(obj.Clipped) and self.isClippable())
         self._clipLength = -1.0
+        self._clipR1 = -1.0
+        self._clipR2 = -1.0
 
         self._foreShoulder = bool(obj.ForeShoulder)
         self._foreShoulderLength = float(obj.ForeShoulderLength)
@@ -74,6 +76,9 @@ class TransitionShapeHandler():
         self._aftShoulderThickness = float(obj.AftShoulderThickness)
 
         self._shoulder = (self._foreShoulder or self._aftShoulder)
+
+        # Used to show the shape outline for debugging
+        self._debugShape = False
 
         self._obj = obj
 
@@ -154,8 +159,18 @@ class TransitionShapeHandler():
     # using a binary search.  It assumes getOuterRadius() to be monotonically increasing.
     #
     def _calculateClip(self, r1, r2):
+
+        # check if already calculated
+        if self._clipR1 == r1 and self._clipR2 == r2:
+            return
+        self._clipR1 = r1
+        self._clipR2 = r2
+
         min = 0.0
         max = self._length
+
+        if self._debugShape:
+            print("_calculateClip: r1 = %f, r2 = %f, length = %f" % (r1, r2, self._length))
 
         if r1 >= r2:
             tmp = r1
@@ -183,6 +198,8 @@ class TransitionShapeHandler():
             val =self. _radiusAt(0.0, r2, self._clipLength, self._length)
             err = (val - r1)
             if math.fabs(err) < CLIP_PRECISION:
+                if self._debugShape:
+                   print("_calculateClip: r1 = %f, r2 = %f, clip length = %f, err = %f" % (r1, r2, self._clipLength, err))
                 return
             if err > 0:
                 max = self._clipLength
@@ -195,10 +212,11 @@ class TransitionShapeHandler():
         if not self.isValidShape():
             return
 
+        self._debugShape = False
         edges = None
         try:
-            if self._clipped:
-                self._calculateClip(self._foreRadius, self._aftRadius)
+            # if self._clipped:
+            #     self._calculateClip(self._foreRadius, self._aftRadius)
 
             if self._style == STYLE_SOLID:
                 if self._shoulder:
@@ -220,17 +238,24 @@ class TransitionShapeHandler():
                     edges = self._drawCappedShoulder()
                 else:
                     edges = self._drawCapped()
-        except (ValueError, ZeroDivisionError, Part.OCCError):
+        except (ValueError, ZeroDivisionError, Part.OCCError) as ex:
+            if self._debugShape:
+                raise ex
             _err(translate('Rocket', "Transition parameters produce an invalid shape"))
             return
 
         if edges is not None:
             try:
+                if self._debugShape:
+                    for edge in edges:
+                        Part.show(edge)
                 wire = Part.Wire(edges)
                 face = Part.Face(wire)
                 self._obj.Shape = face.revolve(FreeCAD.Vector(0, 0, 0),FreeCAD.Vector(1, 0, 0), 360)
                 self._obj.Placement = self._placement
             except Part.OCCError:
+                if self._debugShape:
+                    raise ex
                 _err(translate('Rocket', "Transition parameters produce an invalid shape"))
                 return
         else:
@@ -273,19 +298,29 @@ class TransitionShapeHandler():
         return self._length
 
     def _curve(self):
+        if self._clipped:
+            self._calculateClip(self._foreRadius, self._aftRadius)
+
         curve = self._generateCurve(self._foreRadius, self._aftRadius, self._getLength())
         return curve
 
     def _curveInnerHollow(self):
+        if self._clipped:
+            self._calculateClip(self._foreRadius - self._thickness, self._aftRadius - self._thickness)
+
         curve = self._generateCurve(self._foreRadius - self._thickness, self._aftRadius - self._thickness, self._getLength())
         return curve
 
     def _curveInner(self, foreX, aftX, foreY, aftY):
+        if self._clipped:
+            self._calculateClip(foreY, aftY)
+
         curve = self._generateCurve(foreY, aftY, self._getLength(), aftX, foreX)
         return curve
 
     def _clippedInnerRadius(self, r1, r2, pos):
         if self._clipped:
+            self._calculateClip(r1, r2)
             if r2 > r1:
                 return self._radiusAt(0.0, r2, self._clipLength, pos) - self._thickness
             else:
