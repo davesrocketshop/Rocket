@@ -48,42 +48,45 @@ class _databaseLookupDialog(QDialog):
 
         # define our window
         self.setGeometry(250, 250, 400, 350)
-        self.setWindowTitle(translate('Rocket', "Component Database"))
+        self.setWindowTitle(translate('Rocket', "Rocket Component Parameter"))
 
-        # Select the type of component
-        self.componentTypeLabel = QtGui.QLabel(translate('Rocket', "Component type"), self)
+        self.manufacturerLabel = QtGui.QLabel(translate('Rocket', "Manufacturer"), self)
 
-        self.componentTypes = (
-                                COMPONENT_TYPE_BODYTUBE,
-                                COMPONENT_TYPE_BULKHEAD,
-                                COMPONENT_TYPE_CENTERINGRING,
-                                COMPONENT_TYPE_COUPLER,
-                                COMPONENT_TYPE_ENGINEBLOCK,
-                                COMPONENT_TYPE_LAUNCHLUG,
-                                COMPONENT_TYPE_NOSECONE,
-                                COMPONENT_TYPE_PARACHUTE,
-                                COMPONENT_TYPE_STREAMER,
-                                COMPONENT_TYPE_TRANSITION
-                            )
-        self.componentTypesCombo = QtGui.QComboBox(self)
-        self.componentTypesCombo.addItems(self.componentTypes)
-        self.componentTypesCombo.setCurrentText(lookup)
+        self.manufacturerInput = QtGui.QLineEdit(self)
+        self.manufacturerInput.setFixedWidth(100)
+        
+        self.partNumberLabel = QtGui.QLabel(translate('Rocket', "Part Number"), self)
 
-        self.manufacturerTypeLabel = QtGui.QLabel(translate('Rocket', "Manufacturer"), self)
+        self.partNumberInput = QtGui.QLineEdit(self)
+        self.partNumberInput.setFixedWidth(100)
 
-        self.manufacturerTypes = ["All"] + self._database.getManufacturers()
-        self.manufacturerTypesCombo = QtGui.QComboBox(self)
-        self.manufacturerTypesCombo.addItems(self.manufacturerTypes)
+        self.descriptionLabel = QtGui.QLabel(translate('Rocket', "Description"), self)
+
+        self.descriptionInput = QtGui.QLineEdit(self)
+        self.descriptionInput.setFixedWidth(100)
+
+        self.materialLabel = QtGui.QLabel(translate('Rocket', "Material"), self)
+
+        self.materialInput = QtGui.QLineEdit(self)
+        self.materialInput.setFixedWidth(100)
 
         layout = QGridLayout()
 
         n = 0
-        layout.addWidget(self.componentTypeLabel, n, 0, 1, 2)
-        layout.addWidget(self.componentTypesCombo, n, 1)
+        layout.addWidget(self.manufacturerLabel, n, 0, 1, 2)
+        layout.addWidget(self.manufacturerInput, n, 1)
         n += 1
 
-        layout.addWidget(self.manufacturerTypeLabel, n, 0)
-        layout.addWidget(self.manufacturerTypesCombo, n, 1)
+        layout.addWidget(self.partNumberLabel, n, 0)
+        layout.addWidget(self.partNumberInput, n, 1)
+        n += 1
+
+        layout.addWidget(self.descriptionLabel, n, 0)
+        layout.addWidget(self.descriptionInput, n, 1)
+        n += 1
+
+        layout.addWidget(self.materialLabel, n, 0)
+        layout.addWidget(self.materialInput, n, 1)
         n += 1
 
         self.setLayout(layout)
@@ -94,9 +97,10 @@ class TaskPanelDatabase:
         self._form = form
         # self._form.setWindowIcon(QtGui.QIcon(":/icons/Rocket_BodyTube.svg"))
         
-        # self._form.idInput.textEdited.connect(self.onIdChanged)
-        # self._form.odInput.textEdited.connect(self.onOdChanged)
-        # self._form.lengthInput.textEdited.connect(self.onLengthChanged)
+        self._form.manufacturerInput.textEdited.connect(self.onManufacturer)
+        self._form.partNumberInput.textEdited.connect(self.onPartNumber)
+        self._form.descriptionInput.textEdited.connect(self.onDescription)
+        self._form.materialInput.textEdited.connect(self.onMaterial)
         
         self.update()
 
@@ -105,54 +109,30 @@ class TaskPanelDatabase:
         
     def transferTo(self):
         "Transfer from the dialog to the object" 
-        # self.obj.InnerDiameter = _toFloat(self._form.idInput.text())
-        # self.obj.OuterDiameter = _toFloat(self._form.odInput.text())
-        # self.obj.Length = _toFloat(self._form.lengthInput.text())
-        pass
+        self.obj.Manufacturer = self._form.manufacturerInput.text()
+        self.obj.PartNumber = self._form.partNumberInput.text()
+        self.obj.Description = self._form.descriptionInput.text()
+        self.obj.Material = self._form.materialInput.text()
 
     def transferFrom(self):
         "Transfer from the object to the dialog"
-        # self._form.idInput.setText("%f" % self.obj.InnerDiameter)
-        # self._form.odInput.setText("%f" % self.obj.OuterDiameter)
-        # self._form.lengthInput.setText("%f" % self.obj.Length)
-        pass
+        self._form.manufacturerInput.setText(self.obj.Manufacturer)
+        self._form.partNumberInput.setText(self.obj.PartNumber)
+        self._form.descriptionInput.setText(self.obj.Description)
+        self._form.materialInput.setText(self.obj.Material)
         
-    def onIdChanged(self, value):
-        # self.obj.InnerDiameter = _toFloat(value)
-        # self.obj.Proxy.execute(self.obj)
-        pass
+    def onManufacturer(self, value):
+        self.obj.Manufacturer = value
         
-    def onOdChanged(self, value):
-        # self.obj.OuterDiameter = _toFloat(value)
-        # self.obj.Proxy.execute(self.obj)
-        pass
+    def onPartNumber(self, value):
+        self.obj.PartNumber = value
         
-    def onLengthChanged(self, value):
-        # self.obj.Length = _toFloat(value)
-        # self.obj.Proxy.execute(self.obj)
-        pass
-
+    def onDescription(self, value):
+        self.obj.Description = value
         
-    # def getStandardButtons(self):
-    #     return int(QtGui.QDialogButtonBox.Ok) | int(QtGui.QDialogButtonBox.Cancel)| int(QtGui.QDialogButtonBox.Apply)
-
-    # def clicked(self,button):
-    #     if button == QtGui.QDialogButtonBox.Apply:
-    #         #print "Apply"
-    #         self.transferTo()
-    #         self.obj.Proxy.execute(self.obj) 
+    def onMaterial(self, value):
+        self.obj.Material = value
         
     def update(self):
         'fills the widgets'
         self.transferFrom()
-                
-    # def accept(self):
-    #     self.transferTo()
-    #     FreeCAD.ActiveDocument.recompute()
-    #     FreeCADGui.ActiveDocument.resetEdit()
-        
-                    
-    # def reject(self):
-    #     FreeCAD.ActiveDocument.abortTransaction()
-    #     FreeCAD.ActiveDocument.recompute()
-    #     FreeCADGui.ActiveDocument.resetEdit()
