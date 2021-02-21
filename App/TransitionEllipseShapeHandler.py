@@ -62,18 +62,20 @@ class TransitionEllipseShapeHandler(TransitionShapeHandler):
         return eTheta
 
     # Override the default to use native shapes
+    #
+    # Doesn't work at the moment due to the extreme precision required in calculating the angles. The math is right
+    # but the points are off by thousandths of a mm resulting in discontinuities. Kept here for further
+    # development if desired
     def _generateClippedCurve(self, r1, r2, length, min = 0, max = 0):
         if max == 0.0:
             max = self._length
 
-        print ("r1 = %f, r2 = %f, min = %f, max = %f, length = %f" % (r1, r2, min, max, length))
         if r1 > r2:
             major = length - min
             minor = r1
             if min <= 0:
                 theta1 = math.pi/2
             else:
-                # theta2 = math.atan2(r1, min)
                 theta1 = self._eTheta(major, minor, (r1 / min))
             theta2 = math.pi - self._eTheta(major, minor, (r2 / max))
 
@@ -82,11 +84,6 @@ class TransitionEllipseShapeHandler(TransitionShapeHandler):
             for vertex in Part.Wire(curve.toShape()).Vertexes:
                 print(vertex.Point)
 
-            Part.show(curve.toShape())
-            Part.show(Part.makeLine((0,0,0), (min, r2, 0)))
-            Part.show(Part.makeLine((0,0,0), (max, r1, 0)))
-            Part.show(Part.makeLine((max,0,0), (max, r1, 0)))
-            Part.show(Part.makeLine((max,0,0), (0, 0, 0)))
             return curve
 
         major = length - min
@@ -96,26 +93,15 @@ class TransitionEllipseShapeHandler(TransitionShapeHandler):
         else:
             theta2 = self._eTheta(major, minor, (r2 / min))
         theta1 = self._eTheta(major, minor, (r1 / max))
-        print ("tan %f,%f compared to %f,%f" % (theta1, theta2, 0.0, math.pi/2))
         curve = Part.ArcOfEllipse(Part.Ellipse(FreeCAD.Vector(min, 0.0), major, minor), theta1, theta2)
-        Part.show(Part.makeLine((0,0,0), Part.Wire(curve.toShape()).Vertexes[0].Point))
-        # for vertex in Part.Wire(curve.toShape()).Vertexes:
-        #     print(vertex.Point)
 
-        # Part.show(curve.toShape())
-        # Part.show(Part.makeLine((0,0,0), (min, r2, 0)))
-        # Part.show(Part.makeLine((0,0,0), (max, r1, 0)))
-        # Part.show(Part.makeLine((max,0,0), (max, r1, 0)))
-        # Part.show(Part.makeLine((max,0,0), (0, 0, 0)))
         return curve
 
     # Override the default to use native shapes
     def _generateCurve(self, r1, r2, length, min = 0, max = 0):
         if self._clipped:
-            self._debugShape = True
-            return self._generateClippedCurve(r1, r2, length, min, max)
+            return super()._generateCurve(r1, r2, length, min, max)
 
-        self._debugShape = True
         if self._debugShape:
             print ("r1 = %f, r2 = %f, min = %f, max = %f, length = %f" % (r1, r2, min, max, length))
         if max == 0.0:
