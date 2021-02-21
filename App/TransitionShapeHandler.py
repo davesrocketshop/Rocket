@@ -329,13 +329,16 @@ class TransitionShapeHandler():
         return curve
 
     def _clippedInnerRadius(self, r1, r2, pos):
+        r1 -= self._thickness
+        r2 -= self._thickness
+
         if self._clipped:
             self._calculateClip(r1, r2)
             if r2 > r1:
-                return self._radiusAt(0.0, r2, self._clipLength, pos) - self._thickness
+                return self._radiusAt(0.0, r2, self._clipLength, pos)
             else:
-                return self._radiusAt(0.0, r1, self._clipLength, self._length - pos) - self._thickness
-        return self._radiusAt(r1, r2, self._length, pos) - self._thickness
+                return self._radiusAt(0.0, r1, self._clipLength, self._length - pos)
+        return self._radiusAt(r1, r2, self._length, pos)
 
     def _drawSolid(self):
         outer_curve = self._curve()
@@ -390,8 +393,8 @@ class TransitionShapeHandler():
         innerForeX = self._length - self._thickness
         innerAftX = self._thickness
 
-        innerForeY = self._radiusAt(self._foreRadius - self._thickness, self._aftRadius - self._thickness, self._length, innerForeX)
-        innerAftY = self._radiusAt(self._foreRadius - self._thickness, self._aftRadius - self._thickness, self._length, innerAftX)
+        innerForeY = self._clippedInnerRadius(self._foreRadius, self._aftRadius, innerForeX)
+        innerAftY = self._clippedInnerRadius(self._foreRadius, self._aftRadius, innerAftX)
 
         outer_curve = self._curve()
         inner_curve = self._curveInner(innerForeX, innerAftX, innerForeY, innerAftY)
@@ -403,8 +406,8 @@ class TransitionShapeHandler():
         innerForeX = self._length - self._thickness
         innerAftX = self._thickness
 
-        innerForeY = self._radiusAt(self._foreRadius - self._thickness, self._aftRadius - self._thickness, self._length, innerForeX)
-        innerAftY = self._radiusAt(self._foreRadius - self._thickness, self._aftRadius - self._thickness, self._length, innerAftX)
+        innerForeY = self._clippedInnerRadius(self._foreRadius, self._aftRadius, innerForeX)
+        innerAftY = self._clippedInnerRadius(self._foreRadius, self._aftRadius, innerAftX)
 
         outer_curve = self._curve()
         inner_curve = self._curveInner(innerForeX, innerAftX, innerForeY, innerAftY)
