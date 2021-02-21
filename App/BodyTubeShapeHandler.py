@@ -35,6 +35,9 @@ from DraftTools import translate
 class BodyTubeShapeHandler():
     def __init__(self, obj):
 
+        # This gets changed when redrawn so it's very important to save a copy
+        self._placement = obj.Placement
+
         self._ID = float(obj.InnerDiameter)
         self._OD = float(obj.OuterDiameter)
         self._length = float(obj.Length)
@@ -83,6 +86,7 @@ class BodyTubeShapeHandler():
                 wire = Part.Wire(edges)
                 face = Part.Face(wire)
                 self._obj.Shape = face.revolve(FreeCAD.Vector(0, 0, 0),FreeCAD.Vector(1, 0, 0), 360)
+                self._obj.Placement = self._placement
             except Part.OCCError:
                 _err(translate('Rocket', "Body tube parameters produce an invalid shape"))
                 return

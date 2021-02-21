@@ -244,19 +244,36 @@ class TaskPanelNoseCone:
         self._noseForm.shoulderRadiusInput.setText(self.obj.ShoulderRadius.UserString)
         self._noseForm.shoulderLengthInput.setText(self.obj.ShoulderLength.UserString)
         self._noseForm.shoulderThicknessInput.setText(self.obj.ShoulderThickness.UserString)
+
+        self._setTypeState()
+        self._setStyleState()
+        self._setShoulderState()
         
-    def onNoseType(self, value):
+    def _setTypeState(self):
+        value = self.obj.NoseType
         if value == TYPE_HAACK or value == TYPE_PARABOLIC:
             self._noseForm.coefficientInput.setEnabled(True)
         elif value == TYPE_POWER:
             self._noseForm.coefficientInput.setEnabled(True)
+        elif value == TYPE_VON_KARMAN:
+            self.obj.Coefficient = 0.0
+            self._noseForm.coefficientInput.setText("%f" % self.obj.Coefficient)
+            self._noseForm.coefficientInput.setEnabled(False)
+        elif value == TYPE_PARABOLA:
+            self.obj.Coefficient = 0.5
+            self._noseForm.coefficientInput.setText("%f" % self.obj.Coefficient)
+            self._noseForm.coefficientInput.setEnabled(False)
         else:
             self._noseForm.coefficientInput.setEnabled(False)
 
+    def onNoseType(self, value):
         self.obj.NoseType = value
+        self._setTypeState()
+
         self.obj.Proxy.execute(self.obj)
-        
-    def onNoseStyle(self, value):
+
+    def _setStyleState(self):
+        value = self.obj.NoseStyle
         if value == STYLE_HOLLOW or value == STYLE_CAPPED:
             self._noseForm.thicknessInput.setEnabled(True)
 
@@ -267,8 +284,11 @@ class TaskPanelNoseCone:
         else:
             self._noseForm.thicknessInput.setEnabled(False)
             self._noseForm.shoulderThicknessInput.setEnabled(False)
-
+        
+    def onNoseStyle(self, value):
         self.obj.NoseStyle = value
+        self._setStyleState()
+
         self.obj.Proxy.execute(self.obj)
         
     def onLengthChanged(self, value):
@@ -287,9 +307,8 @@ class TaskPanelNoseCone:
     def onCoefficientChanged(self, value):
         self.obj.Coefficient = _toFloat(value)
         self.obj.Proxy.execute(self.obj)
-        
-    def onShoulderChanged(self, value):
-        self.obj.Shoulder = self._noseForm.shoulderCheckbox.isChecked()
+
+    def _setShoulderState(self):
         if self.obj.Shoulder:
             self._noseForm.shoulderRadiusInput.setEnabled(True)
             self._noseForm.shoulderLengthInput.setEnabled(True)
@@ -303,6 +322,10 @@ class TaskPanelNoseCone:
             self._noseForm.shoulderRadiusInput.setEnabled(False)
             self._noseForm.shoulderLengthInput.setEnabled(False)
             self._noseForm.shoulderThicknessInput.setEnabled(False)
+        
+    def onShoulderChanged(self, value):
+        self.obj.Shoulder = self._noseForm.shoulderCheckbox.isChecked()
+        self._setShoulderState()
 
         self.obj.Proxy.execute(self.obj)
         

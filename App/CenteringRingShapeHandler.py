@@ -104,6 +104,7 @@ class CenteringRingShapeHandler(BulkheadShapeHandler):
 
         try:
             self._obj.Shape = self._drawCenteringRing()
+            self._obj.Placement = self._placement
         except (ZeroDivisionError, Part.OCCError):
             _err(translate('Rocket', "Centering ring parameters produce an invalid shape"))
             return
