@@ -203,9 +203,9 @@ class TaskPanelBulkhead:
         
         self.form = _BulkheadDialog(self._crPanel)
         if self._crPanel:
-            self.form.setWindowIcon(QtGui.QIcon(":/icons/Rocket_CenterinRing.svg"))
+            self.form.setWindowIcon(QtGui.QIcon(FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_CenterinRing.svg"))
         else:
-            self.form.setWindowIcon(QtGui.QIcon(":/icons/Rocket_Bulkhead.svg"))
+            self.form.setWindowIcon(QtGui.QIcon(FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Bulkhead.svg"))
         
         self.form.diameterInput.textEdited.connect(self.onDiameter)
         self.form.thicknessInput.textEdited.connect(self.onThickness)

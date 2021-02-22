@@ -84,7 +84,7 @@ class TaskPanelBodyTube:
         self.obj = obj
         
         self.form = _BodyTubeDialog()
-        self.form.setWindowIcon(QtGui.QIcon(":/icons/Rocket_BodyTube.svg"))
+        self.form.setWindowIcon(QtGui.QIcon(FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_BodyTube.svg"))
         
         self.form.idInput.textEdited.connect(self.onIdChanged)
         self.form.odInput.textEdited.connect(self.onOdChanged)

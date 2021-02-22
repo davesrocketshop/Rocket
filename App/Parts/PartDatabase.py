@@ -78,7 +78,7 @@ class PartDatabase:
         cursor.execute("CREATE TABLE alias (alias_index INTEGER PRIMARY KEY ASC, alias_type, name, alias_name)")
 
         cursor.execute("DROP TABLE IF EXISTS material")
-        cursor.execute("CREATE TABLE material (material_index INTEGER PRIMARY KEY ASC, manufacturer, name, type, density, units)")
+        cursor.execute("CREATE TABLE material (material_index INTEGER PRIMARY KEY ASC, manufacturer, material_name, type, density, units)")
 
         cursor.execute("DROP TABLE IF EXISTS component")
         cursor.execute("CREATE TABLE component (component_index INTEGER PRIMARY KEY ASC, manufacturer, part_number, description, material_index, mass, mass_units)")

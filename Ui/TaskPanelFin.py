@@ -287,7 +287,7 @@ class TaskPanelFin:
         self.obj = obj
         
         self.form = _FinDialog()
-        self.form.setWindowIcon(QtGui.QIcon(":/icons/Rocket_Fin.svg"))
+        self.form.setWindowIcon(QtGui.QIcon(FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Fin.svg"))
         
         self.form.finTypesCombo.currentTextChanged.connect(self.onFinTypes)
 

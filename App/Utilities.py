@@ -62,3 +62,13 @@ def _toBoolean(value):
     if str(value).strip().lower() == "true":
         return True
     return False
+
+def _valueWithUnits(value, units):
+    if units == "m":
+        return float(value) * 1000.0
+    elif units == "cm":
+        return float(value) * 10.0
+
+    if len(str(units)) > 0:
+        _err("Unknown units '%s'" % str(units))
+    return float(value)

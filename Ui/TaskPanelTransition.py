@@ -283,7 +283,7 @@ class TaskPanelTransition:
         self.obj = obj
         
         self.form = _TransitionDialog()
-        self.form.setWindowIcon(QtGui.QIcon(":/icons/Rocket_Transition.svg"))
+        self.form.setWindowIcon(QtGui.QIcon(FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Transition.svg"))
         
         self.form.transitionTypesCombo.currentTextChanged.connect(self.onTransitionType)
         self.form.transitionStylesCombo.currentTextChanged.connect(self.onTransitionStyle)

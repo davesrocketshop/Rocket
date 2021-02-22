@@ -69,7 +69,7 @@ class Material:
         cursor = connection.cursor()
 
         # Check to see if an entry exists
-        cursor.execute("SELECT * FROM material WHERE manufacturer=:manufacturer AND name=:name AND  type=:type", 
+        cursor.execute("SELECT * FROM material WHERE manufacturer=:manufacturer AND material_name=:name AND  type=:type", 
                             {
                                 "manufacturer" : self._manufacturer,
                                 "name" : self._name, 
@@ -81,9 +81,9 @@ class Material:
             if row['density'] == self._density and row['units'] == self._units:
                 return row['material_index']
 
-            raise MultipleEntryError("Material database contains multiple entries for name:'%s', type:'%s'" % (self._name, self._type))
+            raise MultipleEntryError("Material database contains multiple entries for material_name:'%s', type:'%s'" % (self._name, self._type))
 
-        cursor.execute("INSERT INTO material(manufacturer, name, type, density, units) VALUES (:manufacturer,:name,:type,:density,:units)",
+        cursor.execute("INSERT INTO material(manufacturer, material_name, type, density, units) VALUES (:manufacturer,:name,:type,:density,:units)",
                             {"manufacturer" : self._manufacturer,
                              "name" : self._name, 
                              "type" : self._type,
@@ -97,7 +97,7 @@ class Material:
     def getMaterial(connection, manufacturer, name, type):
         cursor = connection.cursor()
 
-        cursor.execute("SELECT material_index FROM material WHERE manufacturer=:manufacturer AND name=:name AND  type=:type", {
+        cursor.execute("SELECT material_index FROM material WHERE manufacturer=:manufacturer AND material_name=:name AND  type=:type", {
                             "manufacturer" : manufacturer,
                             "name" : name, 
                             "type" : type
@@ -109,7 +109,7 @@ class Material:
 
         if len(rows) > 1:
             print("%d rows found!" % len(rows))        
-            cursor.execute("SELECT * FROM material WHERE name=:name AND  type=:type",
+            cursor.execute("SELECT * FROM material WHERE material_name=:name AND  type=:type",
                             {"name" : name, 
                              "type" : type})
             rows = cursor.fetchall()
@@ -123,7 +123,7 @@ class Material:
     def getMaterialAnyType(connection, manufacturer, name):
         cursor = connection.cursor()
 
-        cursor.execute("SELECT material_index FROM material WHERE manufacturer=:manufacturer AND name=:name", {
+        cursor.execute("SELECT material_index FROM material WHERE manufacturer=:manufacturer AND material_name=:name", {
                             "manufacturer" : manufacturer,
                             "name" : name
                         })
@@ -134,7 +134,7 @@ class Material:
 
         if len(rows) > 1:
             print("%d rows found!" % len(rows))        
-            cursor.execute("SELECT * FROM material WHERE name=:name",
+            cursor.execute("SELECT * FROM material WHERE material_name=:name",
                             {"name" : name})
             rows = cursor.fetchall()
             i = 0

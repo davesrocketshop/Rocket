@@ -104,19 +104,19 @@ class _NoseConeDialog(QDialog):
 
         self.lengthInput = ui.createWidget("Gui::InputField")
         self.lengthInput.unit = 'mm'
-        self.lengthInput.setFixedWidth(100)
+        self.lengthInput.setFixedWidth(80)
 
         self.radiusLabel = QtGui.QLabel(translate('Rocket', "Radius"), self)
 
         self.radiusInput = ui.createWidget("Gui::InputField")
         self.radiusInput.unit = 'mm'
-        self.radiusInput.setFixedWidth(100)
+        self.radiusInput.setFixedWidth(80)
 
         self.thicknessLabel = QtGui.QLabel(translate('Rocket', "Thickness"), self)
 
         self.thicknessInput = ui.createWidget("Gui::InputField")
         self.thicknessInput.unit = 'mm'
-        self.thicknessInput.setFixedWidth(100)
+        self.thicknessInput.setFixedWidth(80)
         self.thicknessInput.setEnabled(False)
 
         self.coefficientLabel = QtGui.QLabel(translate('Rocket', "Coefficient"), self)
@@ -125,7 +125,7 @@ class _NoseConeDialog(QDialog):
         self.coefficientValidator.setBottom(0.0)
 
         self.coefficientInput = QtGui.QLineEdit(self)
-        self.coefficientInput.setFixedWidth(100)
+        self.coefficientInput.setFixedWidth(80)
         self.coefficientInput.setValidator(self.coefficientValidator)
         self.coefficientInput.setEnabled(False)
 
@@ -138,21 +138,21 @@ class _NoseConeDialog(QDialog):
 
         self.shoulderRadiusInput = ui.createWidget("Gui::InputField")
         self.shoulderRadiusInput.unit = 'mm'
-        self.shoulderRadiusInput.setFixedWidth(100)
+        self.shoulderRadiusInput.setFixedWidth(80)
         self.shoulderRadiusInput.setEnabled(False)
 
         self.shoulderLengthLabel = QtGui.QLabel(translate('Rocket', "Length"), self)
 
         self.shoulderLengthInput = ui.createWidget("Gui::InputField")
         self.shoulderLengthInput.unit = 'mm'
-        self.shoulderLengthInput.setFixedWidth(100)
+        self.shoulderLengthInput.setFixedWidth(80)
         self.shoulderLengthInput.setEnabled(False)
 
         self.shoulderThicknessLabel = QtGui.QLabel(translate('Rocket', "Thickness"), self)
 
         self.shoulderThicknessInput = ui.createWidget("Gui::InputField")
         self.shoulderThicknessInput.unit = 'mm'
-        self.shoulderThicknessInput.setFixedWidth(100)
+        self.shoulderThicknessInput.setFixedWidth(80)
         self.shoulderThicknessInput.setEnabled(False)
 
         layout = QGridLayout()
@@ -195,13 +195,14 @@ class TaskPanelNoseCone:
         self.obj = obj
         
         self._noseForm = _NoseConeDialog()
-        self._dbForm = TaskPanelDatabase.getForm(COMPONENT_TYPE_NOSECONE)
+        self._db = TaskPanelDatabase(obj, COMPONENT_TYPE_NOSECONE)
+        self._dbForm = self._db.getForm()
 
-        self.form = [self._dbForm, self._noseForm]
-        self._noseForm.setWindowIcon(QtGui.QIcon(":/icons/Rocket_NoseCone.svg"))
+        self.form = [self._noseForm, self._dbForm]
+        self._noseForm.setWindowIcon(QtGui.QIcon(FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_NoseCone.svg"))
         
-        QtCore.QObject.connect(self._noseForm.noseConeTypesCombo, QtCore.SIGNAL("currentTextChanged(QString)"), self.onNoseType)
-        QtCore.QObject.connect(self._noseForm.noseStylesCombo, QtCore.SIGNAL("currentTextChanged(QString)"), self.onNoseStyle)
+        self._noseForm.noseConeTypesCombo.currentTextChanged.connect(self.onNoseType)
+        self._noseForm.noseStylesCombo.currentTextChanged.connect(self.onNoseStyle)
 
         self._noseForm.lengthInput.textEdited.connect(self.onLengthChanged)
         self._noseForm.radiusInput.textEdited.connect(self.onRadiusChanged)
@@ -212,6 +213,8 @@ class TaskPanelNoseCone:
         self._noseForm.shoulderRadiusInput.textEdited.connect(self.onShoulderRadiusChanged)
         self._noseForm.shoulderLengthInput.textEdited.connect(self.onShoulderLengthChanged)
         self._noseForm.shoulderThicknessInput.textEdited.connect(self.onShoulderThicknessChanged)
+
+        self._db.dbLoad.connect(self.onLookup)
         
         self.update()
         
@@ -340,6 +343,9 @@ class TaskPanelNoseCone:
     def onShoulderThicknessChanged(self, value):
         self.obj.ShoulderThickness = value
         self.obj.Proxy.execute(self.obj)
+        
+    def onLookup(self):
+        self.update()
         
     def getStandardButtons(self):
         return int(QtGui.QDialogButtonBox.Ok) | int(QtGui.QDialogButtonBox.Cancel)| int(QtGui.QDialogButtonBox.Apply)

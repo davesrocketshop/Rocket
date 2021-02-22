@@ -90,3 +90,31 @@ class NoseCone(Component):
 
         return id
 
+    def listNoseCones(connection):
+        cursor = connection.cursor()
+
+        cursor.execute("""SELECT nose_index, manufacturer, part_number, description, shape, diameter, diameter_units, length, length_units, 
+                            shoulder_diameter, shoulder_diameter_units, shoulder_length, shoulder_length_units
+                        FROM component c, nose n WHERE n.component_index = c.component_index""")
+
+        rows = cursor.fetchall()
+        return rows
+
+    def getNoseCone(connection, index):
+        cursor = connection.cursor()
+
+        cursor.execute("""SELECT nose_index, c.manufacturer, part_number, description, material_name, mass, mass_units,
+                            shape, style, diameter, diameter_units, length, length_units, thickness, thickness_units,
+                            shoulder_diameter, shoulder_diameter_units, shoulder_length, shoulder_length_units
+                        FROM component c, nose n, material m WHERE n.component_index = c.component_index AND c.material_index = m.material_index AND n.nose_index = :index""", {
+                            "index" : index
+                        })
+
+        rows = cursor.fetchall()
+        if len(rows) < 1:
+            raise NotFoundError()
+
+        if len(rows) > 1:
+            raise MultipleEntryError()
+
+        return rows[0]
