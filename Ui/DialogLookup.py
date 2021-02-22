@@ -33,7 +33,7 @@ from DraftTools import translate
 
 from PySide import QtGui, QtCore
 from PySide.QtGui import QStandardItemModel, QStandardItem
-from PySide.QtCore import QModelIndex
+from PySide.QtCore import QModelIndex, Qt
 from PySide2.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QTableView
 
 from App.Constants import COMPONENT_TYPE_BODYTUBE, COMPONENT_TYPE_BULKHEAD, COMPONENT_TYPE_CENTERINGRING, \
@@ -87,6 +87,7 @@ class DialogLookup(QtGui.QDialog):
 
         self._searchInput = QtGui.QLineEdit(self)
         self._searchInput.setFixedWidth(80)
+        self._searchInput.textEdited.connect(self.onSearch)
 
         lookupTypeLabel = QtGui.QLabel(translate('Rocket', "Component"), self)
 
@@ -141,6 +142,26 @@ class DialogLookup(QtGui.QDialog):
 
     def onLookupType(self, value):
         self._updateModel()
+
+    def onSearch(self, value):
+        rows = []
+        value = str(value).strip()
+        if len(value) > 0:
+            for column in range(self._model.columnCount()):
+                items = self._model.findItems(value, Qt.MatchContains, column)
+                for item in items:
+                    row = item.row()
+                    if not row in rows:
+                        rows.append(row)
+
+            for row in range(self._model.rowCount()):
+                if row in rows:
+                    self._dbTable.showRow(row)
+                else:
+                    self._dbTable.hideRow(row)
+        else:
+            for row in range(self._model.rowCount()):
+                self._dbTable.showRow(row)
 
     def onTableDoubleClick(self, selected):
         self.result = self._getSelected(selected.row())
