@@ -107,6 +107,7 @@ class TaskPanelDatabase(QObject):
 
         self._obj = obj
         self._lookup = lookup # Default component type
+        self._lookupResult = None
         self._form = _databaseLookupDialog(lookup, parent)
         
         self._form.setWindowIcon(QtGui.QIcon(FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/RocketWorkbench.svg"))
@@ -117,13 +118,14 @@ class TaskPanelDatabase(QObject):
         self._form.materialInput.textEdited.connect(self.onMaterial)
 
         self._form.lookupButton.clicked.connect(self.onLookup)
-
-        # self.dbLoad.connect(self.getForm)
         
         self.update()
 
     def getForm(self):
         return self._form
+
+    def getLookupResult(self):
+        return self._lookupResult
         
     def transferTo(self):
         "Transfer from the dialog to the object" 
@@ -157,16 +159,16 @@ class TaskPanelDatabase(QObject):
         self._obj.Description = result["description"]
         self._obj.Material = result["material_name"]
 
-        self._obj.NoseType = str(result["shape"])
-        self._obj.NoseStyle = str(result["style"])
-        self._obj.Length = _valueWithUnits(result["length"], result["length_units"])
-        self._obj.Radius = _valueWithUnits(result["diameter"], result["diameter_units"]) / 2.0
-        self._obj.Thickness = _valueWithUnits(result["thickness"], result["thickness_units"])
-        # self._obj.Coefficient = _toFloat(self._noseForm.coefficientInput.text())
-        self._obj.ShoulderRadius = _valueWithUnits(result["shoulder_diameter"], result["shoulder_diameter_units"]) / 2.0
-        self._obj.ShoulderLength = _valueWithUnits(result["shoulder_length"], result["shoulder_length_units"])
-        self._obj.Shoulder = (self._obj.ShoulderRadius > 0.0) or (self._obj.ShoulderLength >= 0)
-        self._obj.ShoulderThickness = self._obj.Thickness
+        # self._obj.NoseType = str(result["shape"])
+        # self._obj.NoseStyle = str(result["style"])
+        # self._obj.Length = _valueWithUnits(result["length"], result["length_units"])
+        # self._obj.Radius = _valueWithUnits(result["diameter"], result["diameter_units"]) / 2.0
+        # self._obj.Thickness = _valueWithUnits(result["thickness"], result["thickness_units"])
+        # # self._obj.Coefficient = _toFloat(self._noseForm.coefficientInput.text())
+        # self._obj.ShoulderRadius = _valueWithUnits(result["shoulder_diameter"], result["shoulder_diameter_units"]) / 2.0
+        # self._obj.ShoulderLength = _valueWithUnits(result["shoulder_length"], result["shoulder_length_units"])
+        # self._obj.Shoulder = (self._obj.ShoulderRadius > 0.0) or (self._obj.ShoulderLength >= 0)
+        # self._obj.ShoulderThickness = self._obj.Thickness
 
         self.transferFrom()
 
@@ -177,6 +179,7 @@ class TaskPanelDatabase(QObject):
         form.exec_()
 
         if len(form.result) > 0:
+            self._lookupResult = form.result
             self._lookupUpdate(form.result)
         
     def update(self):

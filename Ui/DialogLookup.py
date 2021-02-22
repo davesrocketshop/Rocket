@@ -41,6 +41,7 @@ from App.Constants import COMPONENT_TYPE_BODYTUBE, COMPONENT_TYPE_BULKHEAD, COMP
     COMPONENT_TYPE_PARACHUTE, COMPONENT_TYPE_STREAMER, COMPONENT_TYPE_TRANSITION
 
 from App.Parts.NoseCone import NoseCone
+from App.Parts.Transition import Transition
 
 
 # Constant definitions
@@ -180,7 +181,7 @@ class DialogLookup(QtGui.QDialog):
             self.result = {}
         self.close()
 
-    def _getSelected(self, row):
+    def _getSelectedNose(self, row):
         try:
             index = int(self._model.item(row, 0).text())
             cone = NoseCone.getNoseCone(self._connection, index)
@@ -189,6 +190,41 @@ class DialogLookup(QtGui.QDialog):
             _err(translate('Rocket', "Nose cone not found"))
         except MultipleEntryError:
             _err(translate('Rocket', "Multiple identical entries found"))
+        return {}
+
+    def _getSelectedTransition(self, row):
+        try:
+            index = int(self._model.item(row, 0).text())
+            tran = Transition.getTransition(self._connection, index)
+            return tran
+        except NotFoundError:
+            _err(translate('Rocket', "Transition not found"))
+        except MultipleEntryError:
+            _err(translate('Rocket', "Multiple identical entries found"))
+        return {}
+
+    def _getSelected(self, row):
+        queryType = str(self._lookupTypeCombo.currentText())
+        if queryType == COMPONENT_TYPE_BODYTUBE:
+            pass
+        elif queryType == COMPONENT_TYPE_BULKHEAD:
+            pass
+        elif queryType == COMPONENT_TYPE_CENTERINGRING:
+            pass
+        elif queryType == COMPONENT_TYPE_COUPLER:
+            pass
+        elif queryType == COMPONENT_TYPE_ENGINEBLOCK:
+            pass
+        elif queryType == COMPONENT_TYPE_LAUNCHLUG:
+            pass
+        elif queryType == COMPONENT_TYPE_NOSECONE:
+            return self._getSelectedNose(row)
+        elif queryType == COMPONENT_TYPE_PARACHUTE:
+            pass
+        elif queryType == COMPONENT_TYPE_STREAMER:
+            pass
+        elif queryType == COMPONENT_TYPE_TRANSITION:
+            return self._getSelectedTransition(row)
         return {}
 
     def _itemWithDimension(self, value, dim):
@@ -231,6 +267,49 @@ class DialogLookup(QtGui.QDialog):
 
             rowCount += 1
 
+    def _queryTransition(self):
+        rows = Transition.listTransitions(self._connection)
+
+        self._model.setRowCount(len(rows))
+        self._model.setColumnCount(12)
+        self._dbTable.hideColumn(0) # This holds index for lookups
+        self._dbTable.setVerticalHeader(None)
+
+        # Add the column headers
+        self._model.setHorizontalHeaderItem(1, self._newItem(translate('Rocket', "Manufacturer")))
+        self._model.setHorizontalHeaderItem(2, self._newItem(translate('Rocket', "Part Number")))
+        self._model.setHorizontalHeaderItem(3, self._newItem(translate('Rocket', "Description")))
+        self._model.setHorizontalHeaderItem(4, self._newItem(translate('Rocket', "Fore Diameter")))
+        self._model.setHorizontalHeaderItem(5, self._newItem(translate('Rocket', "Aft Diameter")))
+        self._model.setHorizontalHeaderItem(6, self._newItem(translate('Rocket', "Length")))
+        self._model.setHorizontalHeaderItem(7, self._newItem(translate('Rocket', "Fore Shoulder Diameter")))
+        self._model.setHorizontalHeaderItem(8, self._newItem(translate('Rocket', "Fore Shoulder Length")))
+        self._model.setHorizontalHeaderItem(9, self._newItem(translate('Rocket', "Aft Shoulder Diameter")))
+        self._model.setHorizontalHeaderItem(10, self._newItem(translate('Rocket', "Aft Shoulder Length")))
+        self._model.setHorizontalHeaderItem(11, self._newItem(translate('Rocket', "Shape")))
+
+        rowCount = 0
+        for row in rows:
+            self._model.setItem(rowCount, 0, self._newItem(str(row["transition_index"])))
+            self._model.setItem(rowCount, 1, self._newItem(str(row["manufacturer"])))
+            self._model.setItem(rowCount, 2, self._newItem(str(row["part_number"])))
+            self._model.setItem(rowCount, 3, self._newItem(str(row["description"])))
+            self._model.setItem(rowCount, 4, self._newItem(self._itemWithDimension(row["fore_outside_diameter"], row["fore_outside_diameter_units"])))
+            self._model.setItem(rowCount, 5, self._newItem(self._itemWithDimension(row["aft_outside_diameter"], row["aft_outside_diameter_units"])))
+            self._model.setItem(rowCount, 6, self._newItem(self._itemWithDimension(row["length"], row["length_units"])))
+            self._model.setItem(rowCount, 7, self._newItem(self._itemWithDimension(row["fore_shoulder_diameter"], row["fore_shoulder_diameter_units"])))
+            self._model.setItem(rowCount, 8, self._newItem(self._itemWithDimension(row["fore_shoulder_length"], row["fore_shoulder_length_units"])))
+            self._model.setItem(rowCount, 9, self._newItem(self._itemWithDimension(row["aft_shoulder_diameter"], row["aft_shoulder_diameter_units"])))
+            self._model.setItem(rowCount, 10, self._newItem(self._itemWithDimension(row["aft_shoulder_length"], row["aft_shoulder_length_units"])))
+            self._model.setItem(rowCount, 11, self._newItem(str(row["shape"])))
+
+            rowCount += 1
+        # cursor.execute("""SELECT transition_index, manufacturer, part_number, description,
+        #                     shape, length, length_units, 
+        #                     fore_outside_diameter, fore_outside_diameter_units, fore_shoulder_diameter, fore_shoulder_diameter_units, fore_shoulder_length, fore_shoulder_length_units,
+        #                     aft_outside_diameter, aft_outside_diameter_units, aft_shoulder_diameter, aft_shoulder_diameter_units, aft_shoulder_length, aft_shoulder_length_units,
+        #                 FROM component c, transition t WHERE t.component_index = c.component_index""")
+
     def _updateModel(self):
         queryType = str(self._lookupTypeCombo.currentText())
         if queryType == COMPONENT_TYPE_BODYTUBE:
@@ -252,7 +331,7 @@ class DialogLookup(QtGui.QDialog):
         elif queryType == COMPONENT_TYPE_STREAMER:
             pass
         elif queryType == COMPONENT_TYPE_TRANSITION:
-            pass
+            self._queryTransition()
 
     def update():
         # Update the SQL query

@@ -33,16 +33,19 @@ from PySide2.QtWidgets import QDialog, QGridLayout
 
 from DraftTools import translate
 
+from Ui.TaskPanelDatabase import TaskPanelDatabase
 from App.Constants import TYPE_CONE, TYPE_ELLIPTICAL, TYPE_HAACK, TYPE_OGIVE, TYPE_VON_KARMAN, TYPE_PARABOLA, TYPE_PARABOLIC, TYPE_POWER
 from App.Constants import STYLE_CAPPED, STYLE_HOLLOW, STYLE_SOLID, STYLE_SOLID_CORE
+from App.Constants import COMPONENT_TYPE_TRANSITION
 
-from App.Utilities import _toFloat
+from App.Utilities import _toFloat, _valueWithUnits
 
 class _TransitionDialog(QDialog):
 
     def __init__(self, parent=None):
         super(_TransitionDialog, self).__init__(parent)
 
+        ui = FreeCADGui.UiLoader()
 
         # define our window
         self.setGeometry(250, 250, 400, 350)
@@ -82,50 +85,33 @@ class _TransitionDialog(QDialog):
         # Get the transition parameters: length, width, etc...
         self.lengthLabel = QtGui.QLabel(translate('Rocket', "Length"), self)
 
-        self.lengthValidator = QtGui.QDoubleValidator(self)
-        self.lengthValidator.setBottom(0.0)
-
-        self.lengthInput = QtGui.QLineEdit(self)
-        self.lengthInput.setFixedWidth(100)
-        self.lengthInput.setValidator(self.lengthValidator)
+        self.lengthInput = ui.createWidget("Gui::InputField")
+        self.lengthInput.unit = 'mm'
+        self.lengthInput.setFixedWidth(80)
 
         self.foreRadiusLabel = QtGui.QLabel(translate('Rocket', "Forward Radius"), self)
 
-        self.foreRadiusValidator = QtGui.QDoubleValidator(self)
-        self.foreRadiusValidator.setBottom(0.0)
-
-        self.foreRadiusInput = QtGui.QLineEdit(self)
-        self.foreRadiusInput.setFixedWidth(100)
-        self.foreRadiusInput.setValidator(self.foreRadiusValidator)
+        self.foreRadiusInput = ui.createWidget("Gui::InputField")
+        self.foreRadiusInput.unit = 'mm'
+        self.foreRadiusInput.setFixedWidth(80)
 
         self.aftRadiusLabel = QtGui.QLabel(translate('Rocket', "Aft Radius"), self)
 
-        self.aftRadiusValidator = QtGui.QDoubleValidator(self)
-        self.aftRadiusValidator.setBottom(0.0)
-
-        self.aftRadiusInput = QtGui.QLineEdit(self)
-        self.aftRadiusInput.setFixedWidth(100)
-        self.aftRadiusInput.setValidator(self.aftRadiusValidator)
+        self.aftRadiusInput = ui.createWidget("Gui::InputField")
+        self.aftRadiusInput.unit = 'mm'
+        self.aftRadiusInput.setFixedWidth(80)
 
         self.coreRadiusLabel = QtGui.QLabel(translate('Rocket', "Core Radius"), self)
 
-        self.coreRadiusValidator = QtGui.QDoubleValidator(self)
-        self.coreRadiusValidator.setBottom(0.0)
-
-        self.coreRadiusInput = QtGui.QLineEdit(self)
-        self.coreRadiusInput.setFixedWidth(100)
-        self.coreRadiusInput.setValidator(self.aftRadiusValidator)
-        self.coreRadiusInput.setEnabled(False)
+        self.coreRadiusInput = ui.createWidget("Gui::InputField")
+        self.coreRadiusInput.unit = 'mm'
+        self.coreRadiusInput.setFixedWidth(80)
 
         self.thicknessLabel = QtGui.QLabel(translate('Rocket', "Thickness"), self)
 
-        self.thicknessValidator = QtGui.QDoubleValidator(self)
-        self.thicknessValidator.setBottom(0.0)
-
-        self.thicknessInput = QtGui.QLineEdit(self)
-        self.thicknessInput.setFixedWidth(100)
-        self.thicknessInput.setValidator(self.thicknessValidator)
-        self.thicknessInput.setEnabled(False)
+        self.thicknessInput = ui.createWidget("Gui::InputField")
+        self.thicknessInput.unit = 'mm'
+        self.thicknessInput.setFixedWidth(80)
 
         self.coefficientLabel = QtGui.QLabel(translate('Rocket', "Coefficient"), self)
 
@@ -144,31 +130,21 @@ class _TransitionDialog(QDialog):
 
         self.foreShoulderRadiusLabel = QtGui.QLabel(translate('Rocket', "Radius"), self)
 
-        self.foreShoulderRadiusValidator = QtGui.QDoubleValidator(self)
-        self.foreShoulderRadiusValidator.setBottom(0.0)
-
-        self.foreShoulderRadiusInput = QtGui.QLineEdit(self)
-        self.foreShoulderRadiusInput.setFixedWidth(100)
-        self.foreShoulderRadiusInput.setValidator(self.foreShoulderRadiusValidator)
+        self.foreShoulderRadiusInput = ui.createWidget("Gui::InputField")
+        self.foreShoulderRadiusInput.unit = 'mm'
+        self.foreShoulderRadiusInput.setFixedWidth(80)
 
         self.foreShoulderLengthLabel = QtGui.QLabel(translate('Rocket', "Length"), self)
 
-        self.foreShoulderLengthValidator = QtGui.QDoubleValidator(self)
-        self.foreShoulderLengthValidator.setBottom(0.0)
-
-        self.foreShoulderLengthInput = QtGui.QLineEdit(self)
-        self.foreShoulderLengthInput.setFixedWidth(100)
-        self.foreShoulderLengthInput.setValidator(self.foreShoulderLengthValidator)
+        self.foreShoulderLengthInput = ui.createWidget("Gui::InputField")
+        self.foreShoulderLengthInput.unit = 'mm'
+        self.foreShoulderLengthInput.setFixedWidth(80)
 
         self.foreShoulderThicknessLabel = QtGui.QLabel(translate('Rocket', "Thickness"), self)
 
-        self.foreShoulderThicknessValidator = QtGui.QDoubleValidator(self)
-        self.foreShoulderThicknessValidator.setBottom(0.0)
-
-        self.foreShoulderThicknessInput = QtGui.QLineEdit(self)
-        self.foreShoulderThicknessInput.setFixedWidth(100)
-        self.foreShoulderThicknessInput.setValidator(self.foreShoulderThicknessValidator)
-        self.foreShoulderThicknessInput.setEnabled(False)
+        self.foreShoulderThicknessInput = ui.createWidget("Gui::InputField")
+        self.foreShoulderThicknessInput.unit = 'mm'
+        self.foreShoulderThicknessInput.setFixedWidth(80)
 
         self.aftShoulderLabel = QtGui.QLabel(translate('Rocket', "Aft Shoulder"), self)
 
@@ -177,31 +153,21 @@ class _TransitionDialog(QDialog):
 
         self.aftShoulderRadiusLabel = QtGui.QLabel(translate('Rocket', "Radius"), self)
 
-        self.aftShoulderRadiusValidator = QtGui.QDoubleValidator(self)
-        self.aftShoulderRadiusValidator.setBottom(0.0)
-
-        self.aftShoulderRadiusInput = QtGui.QLineEdit(self)
-        self.aftShoulderRadiusInput.setFixedWidth(100)
-        self.aftShoulderRadiusInput.setValidator(self.aftShoulderRadiusValidator)
+        self.aftShoulderRadiusInput = ui.createWidget("Gui::InputField")
+        self.aftShoulderRadiusInput.unit = 'mm'
+        self.aftShoulderRadiusInput.setFixedWidth(80)
 
         self.aftShoulderLengthLabel = QtGui.QLabel(translate('Rocket', "Length"), self)
 
-        self.aftShoulderLengthValidator = QtGui.QDoubleValidator(self)
-        self.aftShoulderLengthValidator.setBottom(0.0)
-
-        self.aftShoulderLengthInput = QtGui.QLineEdit(self)
-        self.aftShoulderLengthInput.setFixedWidth(100)
-        self.aftShoulderLengthInput.setValidator(self.aftShoulderLengthValidator)
+        self.aftShoulderLengthInput = ui.createWidget("Gui::InputField")
+        self.aftShoulderLengthInput.unit = 'mm'
+        self.aftShoulderLengthInput.setFixedWidth(80)
 
         self.aftShoulderThicknessLabel = QtGui.QLabel(translate('Rocket', "Thickness"), self)
 
-        self.aftShoulderThicknessValidator = QtGui.QDoubleValidator(self)
-        self.aftShoulderThicknessValidator.setBottom(0.0)
-
-        self.aftShoulderThicknessInput = QtGui.QLineEdit(self)
-        self.aftShoulderThicknessInput.setFixedWidth(100)
-        self.aftShoulderThicknessInput.setValidator(self.aftShoulderThicknessValidator)
-        self.aftShoulderThicknessInput.setEnabled(False)
+        self.aftShoulderThicknessInput = ui.createWidget("Gui::InputField")
+        self.aftShoulderThicknessInput.unit = 'mm'
+        self.aftShoulderThicknessInput.setFixedWidth(80)
 
         row = 0
         layout = QGridLayout()
@@ -280,227 +246,268 @@ class _TransitionDialog(QDialog):
 class TaskPanelTransition:
 
     def __init__(self,obj,mode):
-        self.obj = obj
+        self._obj = obj
         
-        self.form = _TransitionDialog()
-        self.form.setWindowIcon(QtGui.QIcon(FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Transition.svg"))
+        self._tranForm = _TransitionDialog()
+        self._db = TaskPanelDatabase(obj, COMPONENT_TYPE_TRANSITION)
+        self._dbForm = self._db.getForm()
+
+        self.form = [self._tranForm, self._dbForm]
+        self._tranForm.setWindowIcon(QtGui.QIcon(FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Transition.svg"))
         
-        self.form.transitionTypesCombo.currentTextChanged.connect(self.onTransitionType)
-        self.form.transitionStylesCombo.currentTextChanged.connect(self.onTransitionStyle)
-        self.form.lengthInput.textEdited.connect(self.onLength)
-        self.form.foreRadiusInput.textEdited.connect(self.onForeRadius)
-        self.form.aftRadiusInput.textEdited.connect(self.onAftRadius)
-        self.form.coreRadiusInput.textEdited.connect(self.onCoreRadius)
-        self.form.thicknessInput.textEdited.connect(self.onThickness)
-        self.form.coefficientInput.textEdited.connect(self.onCoefficient)
-        self.form.clippedCheckbox.stateChanged.connect(self.onClipped)
-        self.form.foreShoulderCheckbox.stateChanged.connect(self.onForeShoulder)
-        self.form.foreShoulderRadiusInput.textEdited.connect(self.onForeShoulderRadius)
-        self.form.foreShoulderLengthInput.textEdited.connect(self.onForeShoulderLength)
-        self.form.foreShoulderThicknessInput.textEdited.connect(self.onForeShoulderThickness)
-        self.form.aftShoulderCheckbox.stateChanged.connect(self.onAftShoulder)
-        self.form.aftShoulderRadiusInput.textEdited.connect(self.onAftShoulderRadius)
-        self.form.aftShoulderLengthInput.textEdited.connect(self.onAftShoulderLength)
-        self.form.aftShoulderThicknessInput.textEdited.connect(self.onAftShoulderThickness)
+        self._tranForm.transitionTypesCombo.currentTextChanged.connect(self.onTransitionType)
+        self._tranForm.transitionStylesCombo.currentTextChanged.connect(self.onTransitionStyle)
+        self._tranForm.lengthInput.textEdited.connect(self.onLength)
+        self._tranForm.foreRadiusInput.textEdited.connect(self.onForeRadius)
+        self._tranForm.aftRadiusInput.textEdited.connect(self.onAftRadius)
+        self._tranForm.coreRadiusInput.textEdited.connect(self.onCoreRadius)
+        self._tranForm.thicknessInput.textEdited.connect(self.onThickness)
+        self._tranForm.coefficientInput.textEdited.connect(self.onCoefficient)
+        self._tranForm.clippedCheckbox.stateChanged.connect(self.onClipped)
+        self._tranForm.foreShoulderCheckbox.stateChanged.connect(self.onForeShoulder)
+        self._tranForm.foreShoulderRadiusInput.textEdited.connect(self.onForeShoulderRadius)
+        self._tranForm.foreShoulderLengthInput.textEdited.connect(self.onForeShoulderLength)
+        self._tranForm.foreShoulderThicknessInput.textEdited.connect(self.onForeShoulderThickness)
+        self._tranForm.aftShoulderCheckbox.stateChanged.connect(self.onAftShoulder)
+        self._tranForm.aftShoulderRadiusInput.textEdited.connect(self.onAftShoulderRadius)
+        self._tranForm.aftShoulderLengthInput.textEdited.connect(self.onAftShoulderLength)
+        self._tranForm.aftShoulderThicknessInput.textEdited.connect(self.onAftShoulderThickness)
+
+        self._db.dbLoad.connect(self.onLookup)
         
         self.update()
         
         if mode == 0: # fresh created
-            self.obj.Proxy.execute(self.obj)  # calculate once 
+            self._obj.Proxy.execute(self._obj)  # calculate once 
             FreeCAD.Gui.SendMsgToActiveView("ViewFit")
         
     def transferTo(self):
         "Transfer from the dialog to the object" 
-        self.obj.TransitionType = str(self.form.transitionTypesCombo.currentText())
-        self.obj.TransitionStyle = str(self.form.transitionStylesCombo.currentText())
-        self.obj.Length = _toFloat(self.form.lengthInput.text())
-        self.obj.ForeRadius = _toFloat(self.form.foreRadiusInput.text())
-        self.obj.AftRadius = _toFloat(self.form.aftRadiusInput.text())
-        self.obj.CoreRadius = _toFloat(self.form.coreRadiusInput.text())
-        self.obj.Thickness = _toFloat(self.form.thicknessInput.text())
-        self.obj.Coefficient = _toFloat(self.form.coefficientInput.text())
-        self.obj.Clipped = self.form.clippedCheckbox.isChecked()
-        self.obj.ForeShoulder = self.form.foreShoulderCheckbox.isChecked()
-        self.obj.ForeShoulderRadius = _toFloat(self.form.foreShoulderRadiusInput.text())
-        self.obj.ForeShoulderLength = _toFloat(self.form.foreShoulderLengthInput.text())
-        self.obj.ForeShoulderThickness = _toFloat(self.form.foreShoulderThicknessInput.text())
-        self.obj.AftShoulder = self.form.aftShoulderCheckbox.isChecked()
-        self.obj.AftShoulderRadius = _toFloat(self.form.aftShoulderRadiusInput.text())
-        self.obj.AftShoulderLength = _toFloat(self.form.aftShoulderLengthInput.text())
-        self.obj.AftShoulderThickness = _toFloat(self.form.aftShoulderThicknessInput.text())
+        self._obj.TransitionType = str(self._tranForm.transitionTypesCombo.currentText())
+        self._obj.TransitionStyle = str(self._tranForm.transitionStylesCombo.currentText())
+        self._obj.Length = self._tranForm.lengthInput.text()
+        self._obj.ForeRadius = self._tranForm.foreRadiusInput.text()
+        self._obj.AftRadius = self._tranForm.aftRadiusInput.text()
+        self._obj.CoreRadius = self._tranForm.coreRadiusInput.text()
+        self._obj.Thickness = self._tranForm.thicknessInput.text()
+        self._obj.Coefficient = _toFloat(self._tranForm.coefficientInput.text())
+        self._obj.Clipped = self._tranForm.clippedCheckbox.isChecked()
+        self._obj.ForeShoulder = self._tranForm.foreShoulderCheckbox.isChecked()
+        self._obj.ForeShoulderRadius = self._tranForm.foreShoulderRadiusInput.text()
+        self._obj.ForeShoulderLength =self._tranForm.foreShoulderLengthInput.text()
+        self._obj.ForeShoulderThickness = self._tranForm.foreShoulderThicknessInput.text()
+        self._obj.AftShoulder = self._tranForm.aftShoulderCheckbox.isChecked()
+        self._obj.AftShoulderRadius = self._tranForm.aftShoulderRadiusInput.text()
+        self._obj.AftShoulderLength = self._tranForm.aftShoulderLengthInput.text()
+        self._obj.AftShoulderThickness =self._tranForm.aftShoulderThicknessInput.text()
 
     def transferFrom(self):
         "Transfer from the object to the dialog"
-        self.form.transitionTypesCombo.setCurrentText(self.obj.TransitionType)
-        self.form.transitionStylesCombo.setCurrentText(self.obj.TransitionStyle)
-        self.form.lengthInput.setText("%f" % self.obj.Length)
-        self.form.foreRadiusInput.setText("%f" % self.obj.ForeRadius)
-        self.form.aftRadiusInput.setText("%f" % self.obj.AftRadius)
-        self.form.coreRadiusInput.setText("%f" % self.obj.CoreRadius)
-        self.form.thicknessInput.setText("%f" % self.obj.Thickness)
-        self.form.coefficientInput.setText("%f" % self.obj.Coefficient)
-        self.form.clippedCheckbox.setChecked(self.obj.Clipped)
-        self.form.foreShoulderCheckbox.setChecked(self.obj.ForeShoulder)
-        self.form.foreShoulderRadiusInput.setText("%f" % self.obj.ForeShoulderRadius)
-        self.form.foreShoulderLengthInput.setText("%f" % self.obj.ForeShoulderLength)
-        self.form.foreShoulderThicknessInput.setText("%f" % self.obj.ForeShoulderThickness)
-        self.form.aftShoulderCheckbox.setChecked(self.obj.AftShoulder)
-        self.form.aftShoulderRadiusInput.setText("%f" % self.obj.AftShoulderRadius)
-        self.form.aftShoulderLengthInput.setText("%f" % self.obj.AftShoulderLength)
-        self.form.aftShoulderThicknessInput.setText("%f" % self.obj.AftShoulderThickness)
+        self._tranForm.transitionTypesCombo.setCurrentText(self._obj.TransitionType)
+        self._tranForm.transitionStylesCombo.setCurrentText(self._obj.TransitionStyle)
+        self._tranForm.lengthInput.setText(self._obj.Length.UserString)
+        self._tranForm.foreRadiusInput.setText(self._obj.ForeRadius.UserString)
+        self._tranForm.aftRadiusInput.setText(self._obj.AftRadius.UserString)
+        self._tranForm.coreRadiusInput.setText(self._obj.CoreRadius.UserString)
+        self._tranForm.thicknessInput.setText(self._obj.Thickness.UserString)
+        self._tranForm.coefficientInput.setText("%f" % self._obj.Coefficient)
+        self._tranForm.clippedCheckbox.setChecked(self._obj.Clipped)
+        self._tranForm.foreShoulderCheckbox.setChecked(self._obj.ForeShoulder)
+        self._tranForm.foreShoulderRadiusInput.setText(self._obj.ForeShoulderRadius.UserString)
+        self._tranForm.foreShoulderLengthInput.setText(self._obj.ForeShoulderLength.UserString)
+        self._tranForm.foreShoulderThicknessInput.setText(self._obj.ForeShoulderThickness.UserString)
+        self._tranForm.aftShoulderCheckbox.setChecked(self._obj.AftShoulder)
+        self._tranForm.aftShoulderRadiusInput.setText(self._obj.AftShoulderRadius.UserString)
+        self._tranForm.aftShoulderLengthInput.setText(self._obj.AftShoulderLength.UserString)
+        self._tranForm.aftShoulderThicknessInput.setText(self._obj.AftShoulderThickness.UserString)
 
+        self._showTransitionType()
         self._showClippable()
+        self._showTransitionStyle()
 
     def _showClippable(self):
-        if str(self.obj.TransitionType) in [TYPE_CONE, TYPE_OGIVE]:
+        if str(self._obj.TransitionType) in [TYPE_CONE, TYPE_OGIVE]:
             # These types aren't clippable
-            self.obj.Clipped = False
-            self.form.clippedCheckbox.setChecked(self.obj.Clipped)
-            self.form.clippedCheckbox.setEnabled(False)
+            self._obj.Clipped = False
+            self._tranForm.clippedCheckbox.setChecked(self._obj.Clipped)
+            self._tranForm.clippedCheckbox.setEnabled(False)
         else:
-            self.form.clippedCheckbox.setEnabled(True)
+            self._tranForm.clippedCheckbox.setEnabled(True)
         
         
-    def onTransitionType(self, value):
+    def _showTransitionType(self):
+        value = self._obj.TransitionType
         if value == TYPE_HAACK or value == TYPE_PARABOLIC:
-            self.form.coefficientInput.setEnabled(True)
+            self._tranForm.coefficientInput.setEnabled(True)
         elif value == TYPE_POWER:
-            self.form.coefficientInput.setEnabled(True)
+            self._tranForm.coefficientInput.setEnabled(True)
         elif value == TYPE_PARABOLA:
             # Set the coefficient, but don't enable it
-            self.obj.Coefficient = 0.5
-            self.form.coefficientInput.setText("%f" % self.obj.Coefficient)
-            self.form.coefficientInput.setEnabled(False)
+            self._obj.Coefficient = 0.5
+            self._tranForm.coefficientInput.setText("%f" % self._obj.Coefficient)
+            self._tranForm.coefficientInput.setEnabled(False)
         elif value == TYPE_VON_KARMAN:
             # Set the coefficient, but don't enable it
-            self.obj.Coefficient = 0.0
-            self.form.coefficientInput.setText("%f" % self.obj.Coefficient)
-            self.form.coefficientInput.setEnabled(False)
+            self._obj.Coefficient = 0.0
+            self._tranForm.coefficientInput.setText("%f" % self._obj.Coefficient)
+            self._tranForm.coefficientInput.setEnabled(False)
         else:
-            self.form.coefficientInput.setEnabled(False)
+            self._tranForm.coefficientInput.setEnabled(False)
+        
+    def onTransitionType(self, value):
+        self._obj.TransitionType = value
 
-        self.obj.TransitionType = value
+        self._showTransitionType()
         self._showClippable()
 
-        self.obj.Proxy.execute(self.obj)
+        self._obj.Proxy.execute(self._obj)
+        
+    def _showTransitionStyle(self):
+        value = self._obj.TransitionStyle
+        if value == STYLE_HOLLOW or value == STYLE_CAPPED:
+            self._tranForm.thicknessInput.setEnabled(True)
+            self._tranForm.coreRadiusInput.setEnabled(False)
+
+            if self._tranForm.foreShoulderCheckbox.isChecked():
+                self._tranForm.foreShoulderThicknessInput.setEnabled(True)
+            else:
+                self._tranForm.foreShoulderThicknessInput.setEnabled(False)
+
+            if self._tranForm.aftShoulderCheckbox.isChecked():
+                self._tranForm.aftShoulderThicknessInput.setEnabled(True)
+            else:
+                self._tranForm.aftShoulderThicknessInput.setEnabled(False)
+        elif value == STYLE_SOLID_CORE:
+            self._tranForm.thicknessInput.setEnabled(False)
+            self._tranForm.coreRadiusInput.setEnabled(True)
+
+            self._tranForm.foreShoulderThicknessInput.setEnabled(False)
+            self._tranForm.aftShoulderThicknessInput.setEnabled(False)
+        else:
+            self._tranForm.thicknessInput.setEnabled(False)
+            self._tranForm.coreRadiusInput.setEnabled(False)
+
+            self._tranForm.foreShoulderThicknessInput.setEnabled(False)
+            self._tranForm.aftShoulderThicknessInput.setEnabled(False)
+
         
     def onTransitionStyle(self, value):
-        if value == STYLE_HOLLOW or value == STYLE_CAPPED:
-            self.form.thicknessInput.setEnabled(True)
-            self.form.coreRadiusInput.setEnabled(False)
+        self._obj.TransitionStyle = value
 
-            if self.form.foreShoulderCheckbox.isChecked():
-                self.form.foreShoulderThicknessInput.setEnabled(True)
-            else:
-                self.form.foreShoulderThicknessInput.setEnabled(False)
-
-            if self.form.aftShoulderCheckbox.isChecked():
-                self.form.aftShoulderThicknessInput.setEnabled(True)
-            else:
-                self.form.aftShoulderThicknessInput.setEnabled(False)
-        elif value == STYLE_SOLID_CORE:
-            self.form.thicknessInput.setEnabled(False)
-            self.form.coreRadiusInput.setEnabled(True)
-
-            self.form.foreShoulderThicknessInput.setEnabled(False)
-            self.form.aftShoulderThicknessInput.setEnabled(False)
-        else:
-            self.form.thicknessInput.setEnabled(False)
-            self.form.coreRadiusInput.setEnabled(False)
-
-            self.form.foreShoulderThicknessInput.setEnabled(False)
-            self.form.aftShoulderThicknessInput.setEnabled(False)
-
-        self.obj.TransitionStyle = value
-        self.obj.Proxy.execute(self.obj)
+        self._showTransitionStyle()
+        self._obj.Proxy.execute(self._obj)
         
     def onLength(self, value):
-        self.obj.Length = _toFloat(value)
-        self.obj.Proxy.execute(self.obj)
+        self._obj.Length = value
+        self._obj.Proxy.execute(self._obj)
         
     def onForeRadius(self, value):
-        self.obj.ForeRadius = _toFloat(value)
-        self.obj.Proxy.execute(self.obj)
+        self._obj.ForeRadius = value
+        self._obj.Proxy.execute(self._obj)
         
     def onAftRadius(self, value):
-        self.obj.AftRadius = _toFloat(value)
-        self.obj.Proxy.execute(self.obj)
+        self._obj.AftRadius =value
+        self._obj.Proxy.execute(self._obj)
         
     def onCoreRadius(self, value):
-        self.obj.CoreRadius = _toFloat(value)
-        self.obj.Proxy.execute(self.obj)
+        self._obj.CoreRadius =value
+        self._obj.Proxy.execute(self._obj)
         
     def onThickness(self, value):
-        self.obj.Thickness = _toFloat(value)
-        self.obj.Proxy.execute(self.obj)
+        self._obj.Thickness = value
+        self._obj.Proxy.execute(self._obj)
         
     def onCoefficient(self, value):
-        self.obj.Coefficient = _toFloat(value)
-        self.obj.Proxy.execute(self.obj)
+        self._obj.Coefficient = _toFloat(value)
+        self._obj.Proxy.execute(self._obj)
         
     def onClipped(self, value):
-        self.obj.Clipped = self.form.clippedCheckbox.isChecked()
-        self.obj.Proxy.execute(self.obj)
+        self._obj.Clipped = self._tranForm.clippedCheckbox.isChecked()
+        self._obj.Proxy.execute(self._obj)
         
     def onForeShoulder(self, value):
-        self.obj.ForeShoulder = self.form.foreShoulderCheckbox.isChecked()
-        if self.obj.ForeShoulder:
-            self.form.foreShoulderRadiusInput.setEnabled(True)
-            self.form.foreShoulderLengthInput.setEnabled(True)
+        self._obj.ForeShoulder = self._tranForm.foreShoulderCheckbox.isChecked()
+        if self._obj.ForeShoulder:
+            self._tranForm.foreShoulderRadiusInput.setEnabled(True)
+            self._tranForm.foreShoulderLengthInput.setEnabled(True)
 
-            selectedText = self.form.transitionStylesCombo.currentText()
+            selectedText = self._tranForm.transitionStylesCombo.currentText()
             if selectedText == STYLE_HOLLOW or selectedText == STYLE_CAPPED:
-                self.form.foreShoulderThicknessInput.setEnabled(True)
+                self._tranForm.foreShoulderThicknessInput.setEnabled(True)
             else:
-                self.form.foreShoulderThicknessInput.setEnabled(False)
+                self._tranForm.foreShoulderThicknessInput.setEnabled(False)
         else:
-            self.form.foreShoulderRadiusInput.setEnabled(False)
-            self.form.foreShoulderLengthInput.setEnabled(False)
-            self.form.foreShoulderThicknessInput.setEnabled(False)
+            self._tranForm.foreShoulderRadiusInput.setEnabled(False)
+            self._tranForm.foreShoulderLengthInput.setEnabled(False)
+            self._tranForm.foreShoulderThicknessInput.setEnabled(False)
 
-        self.obj.Proxy.execute(self.obj)
+        self._obj.Proxy.execute(self._obj)
         
     def onForeShoulderRadius(self, value):
-        self.obj.ForeShoulderRadius = _toFloat(value)
-        self.obj.Proxy.execute(self.obj)
+        self._obj.ForeShoulderRadius = value
+        self._obj.Proxy.execute(self._obj)
         
     def onForeShoulderLength(self, value):
-        self.obj.ForeShoulderLength = _toFloat(value)
-        self.obj.Proxy.execute(self.obj)
+        self._obj.ForeShoulderLength = value
+        self._obj.Proxy.execute(self._obj)
         
     def onForeShoulderThickness(self, value):
-        self.obj.ForeShoulderThickness = _toFloat(value)
-        self.obj.Proxy.execute(self.obj)
+        self._obj.ForeShoulderThickness =value
+        self._obj.Proxy.execute(self._obj)
         
     def onAftShoulder(self, value):
-        self.obj.AftShoulder = self.form.aftShoulderCheckbox.isChecked()
-        if self.obj.AftShoulder:
-            self.form.aftShoulderRadiusInput.setEnabled(True)
-            self.form.aftShoulderLengthInput.setEnabled(True)
+        self._obj.AftShoulder = self._tranForm.aftShoulderCheckbox.isChecked()
+        if self._obj.AftShoulder:
+            self._tranForm.aftShoulderRadiusInput.setEnabled(True)
+            self._tranForm.aftShoulderLengthInput.setEnabled(True)
 
-            selectedText = self.form.transitionStylesCombo.currentText()
+            selectedText = self._tranForm.transitionStylesCombo.currentText()
             if selectedText == STYLE_HOLLOW or selectedText == STYLE_CAPPED:
-                self.form.aftShoulderThicknessInput.setEnabled(True)
+                self._tranForm.aftShoulderThicknessInput.setEnabled(True)
             else:
-                self.form.aftShoulderThicknessInput.setEnabled(False)
+                self._tranForm.aftShoulderThicknessInput.setEnabled(False)
         else:
-            self.form.aftShoulderRadiusInput.setEnabled(False)
-            self.form.aftShoulderLengthInput.setEnabled(False)
-            self.form.aftShoulderThicknessInput.setEnabled(False)
+            self._tranForm.aftShoulderRadiusInput.setEnabled(False)
+            self._tranForm.aftShoulderLengthInput.setEnabled(False)
+            self._tranForm.aftShoulderThicknessInput.setEnabled(False)
 
-        self.obj.Proxy.execute(self.obj)
+        self._obj.Proxy.execute(self._obj)
         
     def onAftShoulderRadius(self, value):
-        self.obj.AftShoulderRadius = _toFloat(value)
-        self.obj.Proxy.execute(self.obj)
+        self._obj.AftShoulderRadius = value
+        self._obj.Proxy.execute(self._obj)
         
     def onAftShoulderLength(self, value):
-        self.obj.AftShoulderLength = _toFloat(value)
-        self.obj.Proxy.execute(self.obj)
+        self._obj.AftShoulderLength = value
+        self._obj.Proxy.execute(self._obj)
         
     def onAftShoulderThickness(self, value):
-        self.obj.AftShoulderThickness = _toFloat(value)
-        self.obj.Proxy.execute(self.obj)
+        self._obj.AftShoulderThickness = value
+        self._obj.Proxy.execute(self._obj)
+        
+    def onLookup(self):
+        result = self._db.getLookupResult()
+
+        self._obj.TransitionType = str(result["shape"])
+        self._obj.TransitionStyle = str(result["style"])
+        self._obj.Length = _valueWithUnits(result["length"], result["length_units"])
+        self._obj.ForeRadius = _valueWithUnits(result["fore_outside_diameter"], result["fore_outside_diameter_units"]) / 2.0
+        self._obj.AftRadius = _valueWithUnits(result["aft_outside_diameter"], result["aft_outside_diameter_units"]) / 2.0
+        self._obj.CoreRadius = 0.0
+        self._obj.Thickness = _valueWithUnits(result["thickness"], result["thickness_units"])
+        self._obj.Coefficient = 0.0
+        self._obj.Clipped = True
+        self._obj.ForeShoulderRadius = _valueWithUnits(result["fore_shoulder_diameter"], result["fore_shoulder_diameter_units"]) / 2.0
+        self._obj.ForeShoulderLength = _valueWithUnits(result["fore_shoulder_length"], result["fore_shoulder_length_units"])
+        self._obj.ForeShoulderThickness = self._obj.Thickness
+        self._obj.AftShoulderRadius = _valueWithUnits(result["aft_shoulder_diameter"], result["aft_shoulder_diameter_units"]) / 2.0
+        self._obj.AftShoulderLength = _valueWithUnits(result["aft_shoulder_length"], result["aft_shoulder_length_units"])
+        self._obj.AftShoulderThickness = self._obj.Thickness
+
+        self._obj.ForeShoulder = (self._obj.ForeShoulderRadius > 0.0) and (self._obj.ForeShoulderLength >= 0)
+        self._obj.AftShoulder = (self._obj.AftShoulderRadius > 0.0) and (self._obj.AftShoulderLength >= 0)
+
+        self.update()
         
     def getStandardButtons(self):
         return int(QtGui.QDialogButtonBox.Ok) | int(QtGui.QDialogButtonBox.Cancel)| int(QtGui.QDialogButtonBox.Apply)
@@ -509,7 +516,7 @@ class TaskPanelTransition:
         if button == QtGui.QDialogButtonBox.Apply:
             #print "Apply"
             self.transferTo()
-            self.obj.Proxy.execute(self.obj) 
+            self._obj.Proxy.execute(self._obj) 
         
     def update(self):
         'fills the widgets'
