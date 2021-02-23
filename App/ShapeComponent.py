@@ -42,7 +42,7 @@ class ShapeComponent:
             obj.addProperty('App::PropertyString', 'Material', 'RocketComponent', QT_TRANSLATE_NOOP('App::Property', 'Component material')).Material = ""
 
         obj.Proxy=self
-        self.version = '1.1'
+        self.version = '2.0'
 
     def __getstate__(self):
         return self.version
