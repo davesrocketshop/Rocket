@@ -38,8 +38,9 @@ from PySide2.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QTableView
 
 from App.Constants import COMPONENT_TYPE_BODYTUBE, COMPONENT_TYPE_BULKHEAD, COMPONENT_TYPE_CENTERINGRING, \
     COMPONENT_TYPE_COUPLER, COMPONENT_TYPE_ENGINEBLOCK, COMPONENT_TYPE_LAUNCHLUG, COMPONENT_TYPE_NOSECONE, \
-    COMPONENT_TYPE_PARACHUTE, COMPONENT_TYPE_STREAMER, COMPONENT_TYPE_TRANSITION
+    COMPONENT_TYPE_PARACHUTE, COMPONENT_TYPE_STREAMER, COMPONENT_TYPE_TRANSITION, COMPONENT_TYPE_ANY
 
+from App.Parts.BodyTube import BodyTube
 from App.Parts.NoseCone import NoseCone
 from App.Parts.Transition import Transition
 
@@ -50,12 +51,12 @@ userOK          = "OK"
 
 # Compatible component lookup types
 _compatible = {
-    COMPONENT_TYPE_BODYTUBE : (COMPONENT_TYPE_BODYTUBE, COMPONENT_TYPE_COUPLER, COMPONENT_TYPE_ENGINEBLOCK, COMPONENT_TYPE_LAUNCHLUG,),
+    COMPONENT_TYPE_BODYTUBE : (COMPONENT_TYPE_ANY, COMPONENT_TYPE_BODYTUBE, COMPONENT_TYPE_COUPLER, COMPONENT_TYPE_ENGINEBLOCK, COMPONENT_TYPE_LAUNCHLUG,),
     COMPONENT_TYPE_BULKHEAD : (COMPONENT_TYPE_BULKHEAD,),
     COMPONENT_TYPE_CENTERINGRING : (COMPONENT_TYPE_CENTERINGRING,),
-    COMPONENT_TYPE_COUPLER : (COMPONENT_TYPE_BODYTUBE, COMPONENT_TYPE_COUPLER, COMPONENT_TYPE_ENGINEBLOCK, COMPONENT_TYPE_LAUNCHLUG,),
-    COMPONENT_TYPE_ENGINEBLOCK : (COMPONENT_TYPE_BODYTUBE, COMPONENT_TYPE_COUPLER, COMPONENT_TYPE_ENGINEBLOCK, COMPONENT_TYPE_LAUNCHLUG,),
-    COMPONENT_TYPE_LAUNCHLUG : (COMPONENT_TYPE_BODYTUBE, COMPONENT_TYPE_COUPLER, COMPONENT_TYPE_ENGINEBLOCK, COMPONENT_TYPE_LAUNCHLUG,),
+    COMPONENT_TYPE_COUPLER : (COMPONENT_TYPE_ANY, COMPONENT_TYPE_BODYTUBE, COMPONENT_TYPE_COUPLER, COMPONENT_TYPE_ENGINEBLOCK, COMPONENT_TYPE_LAUNCHLUG,),
+    COMPONENT_TYPE_ENGINEBLOCK : (COMPONENT_TYPE_ANY, COMPONENT_TYPE_BODYTUBE, COMPONENT_TYPE_COUPLER, COMPONENT_TYPE_ENGINEBLOCK, COMPONENT_TYPE_LAUNCHLUG,),
+    COMPONENT_TYPE_LAUNCHLUG : (COMPONENT_TYPE_ANY, COMPONENT_TYPE_BODYTUBE, COMPONENT_TYPE_COUPLER, COMPONENT_TYPE_ENGINEBLOCK, COMPONENT_TYPE_LAUNCHLUG,),
     COMPONENT_TYPE_NOSECONE : (COMPONENT_TYPE_NOSECONE,),
     COMPONENT_TYPE_PARACHUTE : (COMPONENT_TYPE_PARACHUTE, COMPONENT_TYPE_STREAMER,),
     COMPONENT_TYPE_STREAMER : (COMPONENT_TYPE_PARACHUTE, COMPONENT_TYPE_STREAMER,),
@@ -80,7 +81,7 @@ class DialogLookup(QtGui.QDialog):
 
         # create our window
         # define window		xLoc,yLoc,xDim,yDim
-        self.setGeometry(	250, 250, 400, 350)
+        self.setGeometry(	250, 250, 640, 480)
         self.setWindowTitle(translate('Rocket', "Component lookup..."))
         self.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
 
@@ -181,6 +182,17 @@ class DialogLookup(QtGui.QDialog):
             self.result = {}
         self.close()
 
+    def _getSelectedBodyTube(self, row):
+        try:
+            index = int(self._model.item(row, 0).text())
+            cone = BodyTube.getBodyTube(self._connection, index)
+            return cone
+        except NotFoundError:
+            _err(translate('Rocket', "Body tube not found"))
+        except MultipleEntryError:
+            _err(translate('Rocket', "Multiple identical entries found"))
+        return {}
+
     def _getSelectedNose(self, row):
         try:
             index = int(self._model.item(row, 0).text())
@@ -205,26 +217,22 @@ class DialogLookup(QtGui.QDialog):
 
     def _getSelected(self, row):
         queryType = str(self._lookupTypeCombo.currentText())
-        if queryType == COMPONENT_TYPE_BODYTUBE:
-            pass
-        elif queryType == COMPONENT_TYPE_BULKHEAD:
-            pass
-        elif queryType == COMPONENT_TYPE_CENTERINGRING:
-            pass
-        elif queryType == COMPONENT_TYPE_COUPLER:
-            pass
-        elif queryType == COMPONENT_TYPE_ENGINEBLOCK:
-            pass
-        elif queryType == COMPONENT_TYPE_LAUNCHLUG:
-            pass
-        elif queryType == COMPONENT_TYPE_NOSECONE:
+        if queryType == COMPONENT_TYPE_ANY:
+            query = self._lookup
+        else:
+            query = queryType
+
+        if query in [COMPONENT_TYPE_BODYTUBE, COMPONENT_TYPE_COUPLER, COMPONENT_TYPE_ENGINEBLOCK,
+                COMPONENT_TYPE_LAUNCHLUG, COMPONENT_TYPE_CENTERINGRING, COMPONENT_TYPE_BULKHEAD]:
+            return self._getSelectedBodyTube(row)
+        elif query == COMPONENT_TYPE_NOSECONE:
             return self._getSelectedNose(row)
-        elif queryType == COMPONENT_TYPE_PARACHUTE:
-            pass
-        elif queryType == COMPONENT_TYPE_STREAMER:
-            pass
-        elif queryType == COMPONENT_TYPE_TRANSITION:
+        elif query == COMPONENT_TYPE_TRANSITION:
             return self._getSelectedTransition(row)
+        # elif query == COMPONENT_TYPE_PARACHUTE:
+        #     pass
+        # elif query == COMPONENT_TYPE_STREAMER:
+        #     pass
         return {}
 
     def _itemWithDimension(self, value, dim):
@@ -234,6 +242,45 @@ class DialogLookup(QtGui.QDialog):
         item = QStandardItem(text)
         item.setEditable(False)
         return item
+
+    def _queryBodyTube(self, queryType):
+        rows = BodyTube.listBodyTubes(self._connection, queryType)
+
+        self._model.setRowCount(len(rows))
+        if queryType == COMPONENT_TYPE_BULKHEAD:
+            self._model.setColumnCount(7)
+        else:
+            self._model.setColumnCount(8)
+        self._dbTable.hideColumn(0) # This holds index for lookups
+        self._dbTable.setVerticalHeader(None)
+
+        # Add the column headers
+        self._model.setHorizontalHeaderItem(1, self._newItem(translate('Rocket', "Type")))
+        self._model.setHorizontalHeaderItem(2, self._newItem(translate('Rocket', "Manufacturer")))
+        self._model.setHorizontalHeaderItem(3, self._newItem(translate('Rocket', "Part Number")))
+        self._model.setHorizontalHeaderItem(4, self._newItem(translate('Rocket', "Description")))
+        self._model.setHorizontalHeaderItem(5, self._newItem(translate('Rocket', "Outer Diameter")))
+        if queryType == COMPONENT_TYPE_BULKHEAD:
+            self._model.setHorizontalHeaderItem(6, self._newItem(translate('Rocket', "Length")))
+        else:
+            self._model.setHorizontalHeaderItem(6, self._newItem(translate('Rocket', "Inner Diameter")))
+            self._model.setHorizontalHeaderItem(7, self._newItem(translate('Rocket', "Length")))
+
+        rowCount = 0
+        for row in rows:
+            self._model.setItem(rowCount, 0, self._newItem(str(row["body_tube_index"])))
+            self._model.setItem(rowCount, 1, self._newItem(str(row["type"])))
+            self._model.setItem(rowCount, 2, self._newItem(str(row["manufacturer"])))
+            self._model.setItem(rowCount, 3, self._newItem(str(row["part_number"])))
+            self._model.setItem(rowCount, 4, self._newItem(str(row["description"])))
+            self._model.setItem(rowCount, 5, self._newItem(self._itemWithDimension(row["outer_diameter"], row["outer_diameter_units"])))
+            if queryType == COMPONENT_TYPE_BULKHEAD:
+                self._model.setItem(rowCount, 6, self._newItem(self._itemWithDimension(row["length"], row["length_units"])))
+            else:
+                self._model.setItem(rowCount, 6, self._newItem(self._itemWithDimension(row["inner_diameter"], row["inner_diameter_units"])))
+                self._model.setItem(rowCount, 7, self._newItem(self._itemWithDimension(row["length"], row["length_units"])))
+
+            rowCount += 1
 
     def _queryNoseCone(self):
         rows = NoseCone.listNoseCones(self._connection)
@@ -304,34 +351,25 @@ class DialogLookup(QtGui.QDialog):
             self._model.setItem(rowCount, 11, self._newItem(str(row["shape"])))
 
             rowCount += 1
-        # cursor.execute("""SELECT transition_index, manufacturer, part_number, description,
-        #                     shape, length, length_units, 
-        #                     fore_outside_diameter, fore_outside_diameter_units, fore_shoulder_diameter, fore_shoulder_diameter_units, fore_shoulder_length, fore_shoulder_length_units,
-        #                     aft_outside_diameter, aft_outside_diameter_units, aft_shoulder_diameter, aft_shoulder_diameter_units, aft_shoulder_length, aft_shoulder_length_units,
-        #                 FROM component c, transition t WHERE t.component_index = c.component_index""")
 
     def _updateModel(self):
         queryType = str(self._lookupTypeCombo.currentText())
-        if queryType == COMPONENT_TYPE_BODYTUBE:
-            pass
-        elif queryType == COMPONENT_TYPE_BULKHEAD:
-            pass
-        elif queryType == COMPONENT_TYPE_CENTERINGRING:
-            pass
-        elif queryType == COMPONENT_TYPE_COUPLER:
-            pass
-        elif queryType == COMPONENT_TYPE_ENGINEBLOCK:
-            pass
-        elif queryType == COMPONENT_TYPE_LAUNCHLUG:
-            pass
-        elif queryType == COMPONENT_TYPE_NOSECONE:
+        if queryType == COMPONENT_TYPE_ANY:
+            query = self._lookup
+        else:
+            query = queryType
+
+        if query in [COMPONENT_TYPE_BODYTUBE, COMPONENT_TYPE_COUPLER, COMPONENT_TYPE_ENGINEBLOCK,
+                COMPONENT_TYPE_LAUNCHLUG, COMPONENT_TYPE_CENTERINGRING, COMPONENT_TYPE_BULKHEAD]:
+            self._queryBodyTube(queryType)
+        elif query == COMPONENT_TYPE_NOSECONE:
             self._queryNoseCone()
-        elif queryType == COMPONENT_TYPE_PARACHUTE:
-            pass
-        elif queryType == COMPONENT_TYPE_STREAMER:
-            pass
-        elif queryType == COMPONENT_TYPE_TRANSITION:
+        elif query == COMPONENT_TYPE_TRANSITION:
             self._queryTransition()
+        # elif query == COMPONENT_TYPE_PARACHUTE:
+        #     pass
+        # elif query == COMPONENT_TYPE_STREAMER:
+        #     pass
 
     def update():
         # Update the SQL query

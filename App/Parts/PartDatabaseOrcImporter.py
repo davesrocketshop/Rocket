@@ -376,7 +376,7 @@ class BodyTubeElement(ComponentElement):
         elif self._tag.lower() == "launchlug":
             obj = LaunchLug()
         elif self._tag.lower() == "centeringring":
-            obj = LaunchLug()
+            obj = CenteringRing()
         else:
             _err("Unable to close body tube object for %s" % self._tag)
             return super().end()
@@ -752,81 +752,3 @@ class PartDatabaseOrcImporter(xml.sax.ContentHandler):
     # Call when a character is read
     def characters(self, content):
         self._content = content
-
-    # def processComponents(self, parent, context):
-    #     # Tags that are recognized but currently ignored
-    #     SUPPORTED_TAGS = ["bodytube", "transition", "trapezoidfinset", "ellipticalfinset", "freeformfinset", "tubefinset", "launchlug", "railbutton",
-    #             "engineblock", "innertube", "tubecoupler", "bulkhead", "centeringring", "masscomponent", "shockcord", "parachute", "streamer", 
-    #             "boosterset", "parallelstage", "podset"]
-
-    #     for child in context:
-    #         tag = child.tag.strip().lower()
-    #         if tag == 'stage':
-    #             _trace("processComponents", "Processing '%s'" % child.tag)
-    #             stage = self.processAxialStage(parent, child)
-    #             if stage is not None:
-    #                 parent.append(stage)
-    #         elif tag == 'nosecone':
-    #             _trace("processComponents", "Processing '%s'" % child.tag)
-    #             nose = self.processNosecone(parent, child)
-    #             if nose is not None:
-    #                 parent.append(nose)
-    #         elif tag in SUPPORTED_TAGS:
-    #             _trace("processComponents", "unprocessed tag '%s'" % (child.tag))
-    #         #elif not self.processComponentTag(parent, child):
-    #         else:
-    #             _trace("processComponents", "unrecognized tag '%s'" % (child.tag))
-
-    # def processMaterials(self, context):
-    #     # Tags that are recognized but currently ignored
-    #     SUPPORTED_TAGS = []
-
-    #     # Initialize material properties
-    #     self._units = context.attrib['UnitsOfMeasure']
-    #     for child in context:
-    #         tag = child.tag.strip().lower()
-    #         if tag == "name":
-    #             _trace("processMaterials", "Processing '%s'" % child.tag)
-    #             parent._name = child.text
-    #         elif tag == "type":
-    #             _trace("processMaterials", "Processing '%s'" % child.tag)
-    #             parent._type = child.text
-    #         elif tag == "density":
-    #             parent._density = _toFloat(child.text)
-    #         elif tag in SUPPORTED_TAGS:
-    #             _trace("processMaterials", "unprocessed tag '%s'" % (child.tag))
-    #         elif not self.processComponentTag(rocket, child):
-    #             _trace("processMaterials", "unrecognized tag '%s'" % (child.tag))
-
-    #     self._rocket = rocket
-
-    # def importParts(self):
-
-    #     # Tags that are recognized but currently ignored
-    #     SUPPORTED_TAGS = []
-    #     SUPPORTED_VERSIONS = ["0.1"]
-
-    #     root = self._doc.getroot()
-    #     if root.tag != "openrocket":
-    #         _err("unsupported root node %s" % (root.tag))
-    #         return
-    #     else:
-    #         ork_version = root.get("version")
-    #         ork_creator = root.get("creator")
-    #         _trace("process", "process(%s, %s)" % (ork_version, ork_creator))
-    #         if ork_version not in SUPPORTED_VERSIONS:
-    #             _err("unsupported version")
-    #             return
-
-    #         for child in root:
-    #             tag = child.tag.strip().lower()
-    #             if tag == "materials":
-    #                 _trace("process", "Processing '%s'" % child.tag)
-    #                 self.processMaterials(child)
-    #             if tag == "components":
-    #                 _trace("process", "Processing '%s'" % child.tag)
-    #                 # self.processComponents(child)
-    #             elif tag in SUPPORTED_TAGS:
-    #                 _trace("process", "unprocessed tag '%s'" % (child.tag))
-    #             elif not self.processComponentTag(parent, context):
-    #                 _trace("process", "unrecognized tag '%s'" % (child.tag))

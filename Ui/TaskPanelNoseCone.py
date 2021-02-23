@@ -358,6 +358,7 @@ class TaskPanelNoseCone:
         self._obj.Shoulder = (self._obj.ShoulderRadius > 0.0) and (self._obj.ShoulderLength >= 0)
         self._obj.ShoulderThickness = self._obj.Thickness
         self.update()
+        self._obj.Proxy.execute(self._obj) 
         
     def getStandardButtons(self):
         return int(QtGui.QDialogButtonBox.Ok) | int(QtGui.QDialogButtonBox.Cancel)| int(QtGui.QDialogButtonBox.Apply)

@@ -85,7 +85,7 @@ class PartDatabase:
 
         cursor.execute("DROP TABLE IF EXISTS tube_type")
         cursor.execute("CREATE TABLE tube_type (tube_type_index INTEGER PRIMARY KEY ASC, type)")
-        cursor.execute("INSERT INTO tube_type(type) VALUES ('body tube'), ('centering ring'), ('coupler'), ('engine block'), ('launch lug')")
+        cursor.execute("INSERT INTO tube_type(type) VALUES ('Body Tube'), ('Centering Ring'), ('Tube Coupler'), ('Engine Block'), ('Launch Lug'), ('Bulkhead')")
 
         cursor.execute("DROP TABLE IF EXISTS body_tube")
         cursor.execute("CREATE TABLE body_tube (body_tube_index INTEGER PRIMARY KEY ASC, component_index, tube_type_index, inner_diameter, inner_diameter_units, outer_diameter, outer_diameter_units, length, length_units)")

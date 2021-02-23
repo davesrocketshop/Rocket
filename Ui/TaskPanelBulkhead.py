@@ -33,7 +33,10 @@ from PySide2.QtWidgets import QDialog, QGridLayout
 
 from DraftTools import translate
 
-from App.Utilities import _toFloat, _toInt
+from Ui.TaskPanelDatabase import TaskPanelDatabase
+from App.Constants import COMPONENT_TYPE_BULKHEAD, COMPONENT_TYPE_CENTERINGRING
+
+from App.Utilities import _toFloat, _toInt, _valueWithUnits
 
 class _BulkheadDialog(QDialog):
 
@@ -198,164 +201,199 @@ class _BulkheadDialog(QDialog):
 class TaskPanelBulkhead:
 
     def __init__(self, obj, crPanel, mode):
-        self.obj = obj
+        self._obj = obj
         self._crPanel = crPanel
         
-        self.form = _BulkheadDialog(self._crPanel)
-        if self._crPanel:
-            self.form.setWindowIcon(QtGui.QIcon(FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_CenterinRing.svg"))
+        self._bulkForm = _BulkheadDialog(self._crPanel)
+        if crPanel:
+            self._db = TaskPanelDatabase(obj, COMPONENT_TYPE_CENTERINGRING)
         else:
-            self.form.setWindowIcon(QtGui.QIcon(FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Bulkhead.svg"))
+            self._db = TaskPanelDatabase(obj, COMPONENT_TYPE_BULKHEAD)
+        self._dbForm = self._db.getForm()
+
+        self.form = [self._bulkForm, self._dbForm]
+        if self._crPanel:
+            self._bulkForm.setWindowIcon(QtGui.QIcon(FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_CenterinRing.svg"))
+        else:
+            self._bulkForm.setWindowIcon(QtGui.QIcon(FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Bulkhead.svg"))
         
-        self.form.diameterInput.textEdited.connect(self.onDiameter)
-        self.form.thicknessInput.textEdited.connect(self.onThickness)
+        self._bulkForm.diameterInput.textEdited.connect(self.onDiameter)
+        self._bulkForm.thicknessInput.textEdited.connect(self.onThickness)
 
-        self.form.stepCheckbox.stateChanged.connect(self.onStep)
-        self.form.stepDiameterInput.textEdited.connect(self.onStepDiameter)
-        self.form.stepThicknessInput.textEdited.connect(self.onStepThickness)
+        self._bulkForm.stepCheckbox.stateChanged.connect(self.onStep)
+        self._bulkForm.stepDiameterInput.textEdited.connect(self.onStepDiameter)
+        self._bulkForm.stepThicknessInput.textEdited.connect(self.onStepThickness)
 
-        self.form.holeCheckbox.stateChanged.connect(self.onHole)
-        self.form.holeDiameterInput.textEdited.connect(self.onHoleDiameter)
-        self.form.holeCenterInput.textEdited.connect(self.onHoleCenter)
-        self.form.holeCountSpinBox.valueChanged.connect(self.onHoleCount)
-        self.form.holeOffsetInput.textEdited.connect(self.onHoleOffset)
+        self._bulkForm.holeCheckbox.stateChanged.connect(self.onHole)
+        self._bulkForm.holeDiameterInput.textEdited.connect(self.onHoleDiameter)
+        self._bulkForm.holeCenterInput.textEdited.connect(self.onHoleCenter)
+        self._bulkForm.holeCountSpinBox.valueChanged.connect(self.onHoleCount)
+        self._bulkForm.holeOffsetInput.textEdited.connect(self.onHoleOffset)
 
         if self._crPanel:
-            self.form.centerDiameterInput.textEdited.connect(self.onCenterDiameter)
+            self._bulkForm.centerDiameterInput.textEdited.connect(self.onCenterDiameter)
 
-            self.form.notchedCheckbox.stateChanged.connect(self.onNotched)
-            self.form.notchWidthInput.textEdited.connect(self.onNotchWidth)
-            self.form.notchHeightInput.textEdited.connect(self.onNotchHeight)
+            self._bulkForm.notchedCheckbox.stateChanged.connect(self.onNotched)
+            self._bulkForm.notchWidthInput.textEdited.connect(self.onNotchWidth)
+            self._bulkForm.notchHeightInput.textEdited.connect(self.onNotchHeight)
+
+        self._db.dbLoad.connect(self.onLookup)
         
         self.update()
         
         if mode == 0: # fresh created
-            self.obj.Proxy.execute(self.obj)  # calculate once 
+            self._obj.Proxy.execute(self._obj)  # calculate once 
             FreeCAD.Gui.SendMsgToActiveView("ViewFit")
         
     def transferTo(self):
         "Transfer from the dialog to the object" 
-        self.obj.Diameter = self.form.diameterInput.text()
-        self.obj.Thickness = self.form.thicknessInput.text()
+        self._obj.Diameter = self._bulkForm.diameterInput.text()
+        self._obj.Thickness = self._bulkForm.thicknessInput.text()
 
-        self.obj.Step = self.form.stepCheckbox.isChecked()
-        self.obj.StepDiameter = self.form.stepDiameterInput.text()
-        self.obj.StepThickness = self.form.stepThicknessInput.text()
+        self._obj.Step = self._bulkForm.stepCheckbox.isChecked()
+        self._obj.StepDiameter = self._bulkForm.stepDiameterInput.text()
+        self._obj.StepThickness = self._bulkForm.stepThicknessInput.text()
 
-        self.obj.Holes = self.form.holeCheckbox.isChecked()
-        self.obj.HoleDiameter = self.form.holeDiameterInput.text()
-        self.obj.HoleCenter = self.form.holeCenterInput.text()
-        self.obj.HoleCount = self.form.holeCountSpinBox.value()
-        self.obj.HoleOffset = self.form.holeOffsetInput.text()
+        self._obj.Holes = self._bulkForm.holeCheckbox.isChecked()
+        self._obj.HoleDiameter = self._bulkForm.holeDiameterInput.text()
+        self._obj.HoleCenter = self._bulkForm.holeCenterInput.text()
+        self._obj.HoleCount = self._bulkForm.holeCountSpinBox.value()
+        self._obj.HoleOffset = self._bulkForm.holeOffsetInput.text()
 
         if self._crPanel:
-            self.obj.CenterDiameter = self.form.centerDiameterInput.text()
+            self._obj.CenterDiameter = self._bulkForm.centerDiameterInput.text()
 
-            self.obj.Notched = self.form.notchedCheckbox.isChecked()
-            self.obj.NotchWidth = self.form.notchWidthInput.text()
-            self.obj.NotchHeight = self.form.notchHeightInput.text()
+            self._obj.Notched = self._bulkForm.notchedCheckbox.isChecked()
+            self._obj.NotchWidth = self._bulkForm.notchWidthInput.text()
+            self._obj.NotchHeight = self._bulkForm.notchHeightInput.text()
 
     def transferFrom(self):
         "Transfer from the object to the dialog"
-        self.form.diameterInput.setText(self.obj.Diameter.UserString)
-        self.form.thicknessInput.setText(self.obj.Thickness.UserString)
+        self._bulkForm.diameterInput.setText(self._obj.Diameter.UserString)
+        self._bulkForm.thicknessInput.setText(self._obj.Thickness.UserString)
 
-        self.form.stepCheckbox.setChecked(self.obj.Step)
-        self.form.stepDiameterInput.setText(self.obj.StepDiameter.UserString)
-        self.form.stepThicknessInput.setText(self.obj.StepThickness.UserString)
+        self._bulkForm.stepCheckbox.setChecked(self._obj.Step)
+        self._bulkForm.stepDiameterInput.setText(self._obj.StepDiameter.UserString)
+        self._bulkForm.stepThicknessInput.setText(self._obj.StepThickness.UserString)
 
-        self.form.holeCheckbox.setChecked(self.obj.Holes)
-        self.form.holeDiameterInput.setText(self.obj.HoleDiameter.UserString)
-        self.form.holeCenterInput.setText(self.obj.HoleCenter.UserString)
-        self.form.holeCountSpinBox.setValue(self.obj.HoleCount)
-        self.form.holeOffsetInput.setText(self.obj.HoleOffset.UserString)
+        self._bulkForm.holeCheckbox.setChecked(self._obj.Holes)
+        self._bulkForm.holeDiameterInput.setText(self._obj.HoleDiameter.UserString)
+        self._bulkForm.holeCenterInput.setText(self._obj.HoleCenter.UserString)
+        self._bulkForm.holeCountSpinBox.setValue(self._obj.HoleCount)
+        self._bulkForm.holeOffsetInput.setText(self._obj.HoleOffset.UserString)
 
         if self._crPanel:
-            self.form.centerDiameterInput.setText(self.obj.CenterDiameter.UserString)
+            self._bulkForm.centerDiameterInput.setText(self._obj.CenterDiameter.UserString)
 
-            self.form.notchedCheckbox.setChecked(self.obj.Notched)
-            self.form.notchWidthInput.setText(self.obj.NotchWidth.UserString)
-            self.form.notchHeightInput.setText(self.obj.NotchHeight.UserString)
+            self._bulkForm.notchedCheckbox.setChecked(self._obj.Notched)
+            self._bulkForm.notchWidthInput.setText(self._obj.NotchWidth.UserString)
+            self._bulkForm.notchHeightInput.setText(self._obj.NotchHeight.UserString)
             self._setNotchedState()
 
         self._setStepState()
         self._setHoleState()
         
     def onDiameter(self, value):
-        self.obj.Diameter = value
-        self.obj.Proxy.execute(self.obj)
+        self._obj.Diameter = value
+        self._obj.Proxy.execute(self._obj)
         
     def onThickness(self, value):
-        self.obj.Thickness = value
-        self.obj.Proxy.execute(self.obj)
+        self._obj.Thickness = value
+        self._obj.Proxy.execute(self._obj)
         
     def onCenterDiameter(self, value):
-        self.obj.CenterDiameter = value
-        self.obj.Proxy.execute(self.obj)
+        self._obj.CenterDiameter = value
+        self._obj.Proxy.execute(self._obj)
         
     def _setStepState(self):
-        self.form.stepDiameterInput.setEnabled(self.obj.Step)
-        self.form.stepThicknessInput.setEnabled(self.obj.Step)
+        self._bulkForm.stepDiameterInput.setEnabled(self._obj.Step)
+        self._bulkForm.stepThicknessInput.setEnabled(self._obj.Step)
         
     def onStep(self, value):
-        self.obj.Step = self.form.stepCheckbox.isChecked()
+        self._obj.Step = self._bulkForm.stepCheckbox.isChecked()
         self._setStepState()
 
-        self.obj.Proxy.execute(self.obj)
+        self._obj.Proxy.execute(self._obj)
         
     def onStepDiameter(self, value):
-        self.obj.StepDiameter = value
-        self.obj.Proxy.execute(self.obj)
+        self._obj.StepDiameter = value
+        self._obj.Proxy.execute(self._obj)
         
     def onStepThickness(self, value):
-        self.obj.StepThickness = value
-        self.obj.Proxy.execute(self.obj)
+        self._obj.StepThickness = value
+        self._obj.Proxy.execute(self._obj)
         
     def _setHoleState(self):
-        self.form.holeDiameterInput.setEnabled(self.obj.Holes)
-        self.form.holeCenterInput.setEnabled(self.obj.Holes)
-        self.form.holeCountSpinBox.setEnabled(self.obj.Holes)
-        self.form.holeOffsetInput.setEnabled(self.obj.Holes)
+        self._bulkForm.holeDiameterInput.setEnabled(self._obj.Holes)
+        self._bulkForm.holeCenterInput.setEnabled(self._obj.Holes)
+        self._bulkForm.holeCountSpinBox.setEnabled(self._obj.Holes)
+        self._bulkForm.holeOffsetInput.setEnabled(self._obj.Holes)
         
     def onHole(self, value):
-        self.obj.Holes = self.form.holeCheckbox.isChecked()
+        self._obj.Holes = self._bulkForm.holeCheckbox.isChecked()
         self._setHoleState()
 
-        self.obj.Proxy.execute(self.obj)
+        self._obj.Proxy.execute(self._obj)
         
     def onHoleDiameter(self, value):
-        self.obj.HoleDiameter = value
-        self.obj.Proxy.execute(self.obj)
+        self._obj.HoleDiameter = value
+        self._obj.Proxy.execute(self._obj)
         
     def onHoleCenter(self, value):
-        self.obj.HoleCenter = value
-        self.obj.Proxy.execute(self.obj)
+        self._obj.HoleCenter = value
+        self._obj.Proxy.execute(self._obj)
         
     def onHoleCount(self, value):
-        self.obj.HoleCount = int(value)
-        self.obj.Proxy.execute(self.obj)
+        self._obj.HoleCount = int(value)
+        self._obj.Proxy.execute(self._obj)
         
     def onHoleOffset(self, value):
-        self.obj.HoleOffset = value
-        self.obj.Proxy.execute(self.obj)
+        self._obj.HoleOffset = value
+        self._obj.Proxy.execute(self._obj)
         
     def _setNotchedState(self):
-        self.form.notchWidthInput.setEnabled(self.obj.Notched)
-        self.form.notchHeightInput.setEnabled(self.obj.Notched)
+        self._bulkForm.notchWidthInput.setEnabled(self._obj.Notched)
+        self._bulkForm.notchHeightInput.setEnabled(self._obj.Notched)
         
     def onNotched(self, value):
-        self.obj.Notched = self.form.notchedCheckbox.isChecked()
+        self._obj.Notched = self._bulkForm.notchedCheckbox.isChecked()
         self._setNotchedState()
 
-        self.obj.Proxy.execute(self.obj)
+        self._obj.Proxy.execute(self._obj)
         
     def onNotchWidth(self, value):
-        self.obj.NotchWidth = value
-        self.obj.Proxy.execute(self.obj)
+        self._obj.NotchWidth = value
+        self._obj.Proxy.execute(self._obj)
         
     def onNotchHeight(self, value):
-        self.obj.NotchHeight = value
-        self.obj.Proxy.execute(self.obj)
+        self._obj.NotchHeight = value
+        self._obj.Proxy.execute(self._obj)
+        
+    def onLookup(self):
+        result = self._db.getLookupResult()
+
+        self._obj.Diameter = _valueWithUnits(result["outer_diameter"], result["outer_diameter_units"])
+        self._obj.Thickness =_valueWithUnits(result["length"], result["length_units"])
+
+        self._obj.Step = False
+        self._obj.StepDiameter = 0.0
+        self._obj.StepThickness = 0.0
+
+        self._obj.Holes = False
+        self._obj.HoleDiameter = 0.0
+        self._obj.HoleCenter = 0.0
+        self._obj.HoleCount = 1
+        self._obj.HoleOffset = 0.0
+
+        if self._crPanel:
+            self._obj.CenterDiameter = _valueWithUnits(result["inner_diameter"], result["inner_diameter_units"])
+
+            self._obj.Notched = False
+            self._obj.NotchWidth = 0.0
+            self._obj.NotchHeight = 0.0
+        
+        self.update()
+        self._obj.Proxy.execute(self._obj) 
         
     def getStandardButtons(self):
         return int(QtGui.QDialogButtonBox.Ok) | int(QtGui.QDialogButtonBox.Cancel)| int(QtGui.QDialogButtonBox.Apply)
@@ -364,7 +402,7 @@ class TaskPanelBulkhead:
         if button == QtGui.QDialogButtonBox.Apply:
             #print "Apply"
             self.transferTo()
-            self.obj.Proxy.execute(self.obj) 
+            self._obj.Proxy.execute(self._obj) 
         
     def update(self):
         'fills the widgets'

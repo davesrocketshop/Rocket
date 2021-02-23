@@ -33,7 +33,10 @@ from DraftTools import translate
 from PySide import QtGui, QtCore
 from PySide2.QtWidgets import QDialog, QGridLayout
 
-from App.Utilities import _toFloat
+from Ui.TaskPanelDatabase import TaskPanelDatabase
+from App.Constants import COMPONENT_TYPE_BODYTUBE
+
+from App.Utilities import _toFloat, _valueWithUnits
 
 class _BodyTubeDialog(QDialog):
 
@@ -81,45 +84,60 @@ class _BodyTubeDialog(QDialog):
 class TaskPanelBodyTube:
 
     def __init__(self,obj,mode):
-        self.obj = obj
+        self._obj = obj
         
-        self.form = _BodyTubeDialog()
-        self.form.setWindowIcon(QtGui.QIcon(FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_BodyTube.svg"))
+        self._btForm = _BodyTubeDialog()
+        self._db = TaskPanelDatabase(obj, COMPONENT_TYPE_BODYTUBE)
+        self._dbForm = self._db.getForm()
+
+        self.form = [self._btForm, self._dbForm]
+        self._btForm.setWindowIcon(QtGui.QIcon(FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_BodyTube.svg"))
         
-        self.form.idInput.textEdited.connect(self.onIdChanged)
-        self.form.odInput.textEdited.connect(self.onOdChanged)
-        self.form.lengthInput.textEdited.connect(self.onLengthChanged)
+        self._btForm.idInput.textEdited.connect(self.onIdChanged)
+        self._btForm.odInput.textEdited.connect(self.onOdChanged)
+        self._btForm.lengthInput.textEdited.connect(self.onLengthChanged)
+
+        self._db.dbLoad.connect(self.onLookup)
         
         self.update()
         
         if mode == 0: # fresh created
-            self.obj.Proxy.execute(self.obj)  # calculate once 
+            self._obj.Proxy.execute(self._obj)  # calculate once 
             FreeCAD.Gui.SendMsgToActiveView("ViewFit")
         
     def transferTo(self):
         "Transfer from the dialog to the object" 
-        self.obj.InnerDiameter = self.form.idInput.text()
-        self.obj.OuterDiameter = self.form.odInput.text()
-        self.obj.Length = self.form.lengthInput.text()
+        self._obj.InnerDiameter = self._btForm.idInput.text()
+        self._obj.OuterDiameter = self._btForm.odInput.text()
+        self._obj.Length = self._btForm.lengthInput.text()
 
     def transferFrom(self):
         "Transfer from the object to the dialog"
-        self.form.idInput.setText(self.obj.InnerDiameter.UserString)
-        self.form.odInput.setText(self.obj.OuterDiameter.UserString)
-        self.form.lengthInput.setText(self.obj.Length.UserString)
+        self._btForm.idInput.setText(self._obj.InnerDiameter.UserString)
+        self._btForm.odInput.setText(self._obj.OuterDiameter.UserString)
+        self._btForm.lengthInput.setText(self._obj.Length.UserString)
         
     def onIdChanged(self, value):
-        self.obj.InnerDiameter = value
-        self.obj.Proxy.execute(self.obj)
+        self._obj.InnerDiameter = value
+        self._obj.Proxy.execute(self._obj)
         
     def onOdChanged(self, value):
-        self.obj.OuterDiameter = value
-        self.obj.Proxy.execute(self.obj)
+        self._obj.OuterDiameter = value
+        self._obj.Proxy.execute(self._obj)
         
     def onLengthChanged(self, value):
-        self.obj.Length = value
-        self.obj.Proxy.execute(self.obj)
+        self._obj.Length = value
+        self._obj.Proxy.execute(self._obj)
+        
+    def onLookup(self):
+        result = self._db.getLookupResult()
 
+        self._obj.InnerDiameter = _valueWithUnits(result["inner_diameter"], result["inner_diameter_units"])
+        self._obj.OuterDiameter = _valueWithUnits(result["outer_diameter"], result["outer_diameter_units"])
+        self._obj.Length = _valueWithUnits(result["length"], result["length_units"])
+
+        self.update()
+        self._obj.Proxy.execute(self._obj) 
         
     def getStandardButtons(self):
         return int(QtGui.QDialogButtonBox.Ok) | int(QtGui.QDialogButtonBox.Cancel)| int(QtGui.QDialogButtonBox.Apply)
@@ -128,7 +146,7 @@ class TaskPanelBodyTube:
         if button == QtGui.QDialogButtonBox.Apply:
             #print "Apply"
             self.transferTo()
-            self.obj.Proxy.execute(self.obj) 
+            self._obj.Proxy.execute(self._obj) 
         
     def update(self):
         'fills the widgets'

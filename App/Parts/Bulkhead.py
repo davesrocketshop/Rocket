@@ -24,21 +24,14 @@ __title__ = "FreeCAD Open Rocket Part Bulkhead"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
-from App.Parts.Component import Component
+from App.Parts.BodyTube import BodyTube
 
-class Bulkhead(Component):
+class Bulkhead(BodyTube):
+
 
     def __init__(self):
         super().__init__()
 
-        self._OD = (0.0, "")
-        self._length = (0.0, "")
+        self._ID = (0.0, "mm") # Not used, but must have units
 
-    def validate(self):
-        super().validate()
-
-        self.validatePositive(self._OD[0], "OD invalid")
-        self.validatePositive(self._length[0], "Length invalid")
-
-        self.validateNonEmptyString(self._OD[1], "OD Units invalid '%s" % self._OD[1])
-        self.validateNonEmptyString(self._length[1], "Length Units invalid '%s" % self._length[1])
+        self._tubeType = "bulkhead"

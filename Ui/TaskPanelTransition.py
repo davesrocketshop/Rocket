@@ -508,6 +508,7 @@ class TaskPanelTransition:
         self._obj.AftShoulder = (self._obj.AftShoulderRadius > 0.0) and (self._obj.AftShoulderLength >= 0)
 
         self.update()
+        self._obj.Proxy.execute(self._obj) 
         
     def getStandardButtons(self):
         return int(QtGui.QDialogButtonBox.Ok) | int(QtGui.QDialogButtonBox.Cancel)| int(QtGui.QDialogButtonBox.Apply)

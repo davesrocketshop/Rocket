@@ -25,7 +25,9 @@ __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
 from App.Parts.Component import Component
-from App.Parts.Exceptions import NotFoundError
+from App.Parts.Exceptions import MultipleEntryError, NotFoundError
+from App.Constants import COMPONENT_TYPE_ANY, COMPONENT_TYPE_BODYTUBE, COMPONENT_TYPE_COUPLER, \
+    COMPONENT_TYPE_LAUNCHLUG, COMPONENT_TYPE_ENGINEBLOCK, COMPONENT_TYPE_CENTERINGRING, COMPONENT_TYPE_BULKHEAD
 
 class BodyTube(Component):
 
@@ -53,8 +55,17 @@ class BodyTube(Component):
     def getTubeType(connection, tubeType):
         cursor = connection.cursor()
 
+        alias = {
+            'body tube': COMPONENT_TYPE_BODYTUBE,
+            'coupler': COMPONENT_TYPE_COUPLER,
+            'launch lug': COMPONENT_TYPE_LAUNCHLUG,
+            'engine block': COMPONENT_TYPE_ENGINEBLOCK,
+            'centering ring': COMPONENT_TYPE_CENTERINGRING,
+            'bulkhead' : COMPONENT_TYPE_BULKHEAD
+        }
+
         cursor.execute("SELECT tube_type_index FROM tube_type WHERE type=:type", {
-                            "type" : tubeType
+                            "type" : alias[tubeType]
                         })
 
         rows = cursor.fetchall()
@@ -78,3 +89,41 @@ class BodyTube(Component):
         connection.commit()
 
         return id
+
+    def listBodyTubes(connection, tubeType=None):
+        cursor = connection.cursor()
+
+        if tubeType is None or tubeType == COMPONENT_TYPE_ANY:
+            cursor.execute("""SELECT body_tube_index, type, manufacturer, part_number, description, inner_diameter, inner_diameter_units, 
+                                outer_diameter, outer_diameter_units, length, length_units
+                            FROM component c, body_tube b, tube_type t
+                            WHERE b.component_index = c.component_index AND b.tube_type_index = t.tube_type_index
+                                AND NOT t.type = 'Centering Ring' AND NOT t.type = 'Bulkhead'""")
+        else:
+            cursor.execute("""SELECT body_tube_index, type, manufacturer, part_number, description, inner_diameter, inner_diameter_units, 
+                                outer_diameter, outer_diameter_units, length, length_units
+                            FROM component c, body_tube b, tube_type t 
+                            WHERE b.component_index = c.component_index AND b.tube_type_index = t.tube_type_index AND t.type = :type""", {
+                                "type" : tubeType
+                            })
+
+        rows = cursor.fetchall()
+        return rows
+
+    def getBodyTube(connection, index):
+        cursor = connection.cursor()
+
+        cursor.execute("""SELECT body_tube_index, c.manufacturer, part_number, description, material_name, mass, mass_units,
+                            inner_diameter, inner_diameter_units, outer_diameter, outer_diameter_units, length, length_units
+                        FROM component c, body_tube b, material m WHERE b.component_index = c.component_index AND c.material_index = m.material_index AND b.body_tube_index = :index""", {
+                            "index" : index
+                        })
+
+        rows = cursor.fetchall()
+        if len(rows) < 1:
+            raise NotFoundError()
+
+        if len(rows) > 1:
+            raise MultipleEntryError()
+
+        return rows[0]
