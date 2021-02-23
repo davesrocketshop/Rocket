@@ -41,25 +41,52 @@ from App.NosePowerShapeHandler import NosePowerShapeHandler
 from App.Constants import TYPE_CONE, TYPE_ELLIPTICAL, TYPE_HAACK, TYPE_OGIVE, TYPE_VON_KARMAN, TYPE_PARABOLA, TYPE_PARABOLIC, TYPE_POWER
 from App.Constants import STYLE_CAPPED, STYLE_HOLLOW, STYLE_SOLID
 
+from App.Utilities import _wrn
+
 def QT_TRANSLATE_NOOP(scope, text):
     return text
+
+def _migrate_from_1_0(obj):
+    _wrn("Nose cone migrating object from 1.0")
+
+    old = {}
+    old["Radius"] = obj.Radius
+    old["ShoulderRadius"] = obj.ShoulderRadius
+
+    obj.removeProperty("Radius")
+    obj.removeProperty("ShoulderRadius")
+
+    ShapeNoseCone(obj)
+
+    obj.Diameter = 2.0 * old["Radius"]
+    obj.ShoulderDiameter = 2.0 * old["ShoulderRadius"]
 
 class ShapeNoseCone(ShapeComponent):
 
     def __init__(self, obj):
         super().__init__(obj)
         
-        obj.addProperty('App::PropertyLength', 'Length', 'NoseCone', QT_TRANSLATE_NOOP('App::Property', 'Length of the nose not including any shoulder')).Length = 60.0
-        obj.addProperty('App::PropertyLength', 'Radius', 'NoseCone', QT_TRANSLATE_NOOP('App::Property', 'Radius at the base of the nose')).Radius = 10.0
-        obj.addProperty('App::PropertyLength', 'Thickness', 'NoseCone', QT_TRANSLATE_NOOP('App::Property', 'Nose cone thickness')).Thickness = 2.0
-        obj.addProperty('App::PropertyBool', 'Shoulder', 'NoseCone', QT_TRANSLATE_NOOP('App::Property', 'Set to true if the part includes a shoulder')).Shoulder = False
-        obj.addProperty('App::PropertyLength', 'ShoulderLength', 'NoseCone', QT_TRANSLATE_NOOP('App::Property', 'Shoulder Length')).ShoulderLength = 10.0
-        obj.addProperty('App::PropertyLength', 'ShoulderRadius', 'NoseCone', QT_TRANSLATE_NOOP('App::Property', 'Shoulder radius')).ShoulderRadius = 8.0
-        obj.addProperty('App::PropertyLength', 'ShoulderThickness', 'NoseCone', QT_TRANSLATE_NOOP('App::Property', 'Shoulder thickness')).ShoulderThickness = 2.0
-        obj.addProperty('App::PropertyFloat', 'Coefficient', 'NoseCone', QT_TRANSLATE_NOOP('App::Property', 'Coefficient')).Coefficient = 0.0
-        obj.addProperty('App::PropertyInteger', 'Resolution', 'NoseCone', QT_TRANSLATE_NOOP('App::Property', 'Resolution')).Resolution = 100
+        if not hasattr(obj, 'Length'):
+            obj.addProperty('App::PropertyLength', 'Length', 'NoseCone', QT_TRANSLATE_NOOP('App::Property', 'Length of the nose not including any shoulder')).Length = 60.0
+        if not hasattr(obj, 'Diameter'):
+            obj.addProperty('App::PropertyLength', 'Diameter', 'NoseCone', QT_TRANSLATE_NOOP('App::Property', 'Diameter at the base of the nose')).Diameter = 20.0
+        if not hasattr(obj, 'Thickness'):
+            obj.addProperty('App::PropertyLength', 'Thickness', 'NoseCone', QT_TRANSLATE_NOOP('App::Property', 'Nose cone thickness')).Thickness = 2.0
+        if not hasattr(obj, 'Shoulder'):
+            obj.addProperty('App::PropertyBool', 'Shoulder', 'NoseCone', QT_TRANSLATE_NOOP('App::Property', 'Set to true if the part includes a shoulder')).Shoulder = False
+        if not hasattr(obj, 'ShoulderLength'):
+            obj.addProperty('App::PropertyLength', 'ShoulderLength', 'NoseCone', QT_TRANSLATE_NOOP('App::Property', 'Shoulder Length')).ShoulderLength = 10.0
+        if not hasattr(obj, 'ShoulderDiameter'):
+            obj.addProperty('App::PropertyLength', 'ShoulderDiameter', 'NoseCone', QT_TRANSLATE_NOOP('App::Property', 'Shoulder diameter')).ShoulderDiameter = 16.0
+        if not hasattr(obj, 'ShoulderThickness'):
+            obj.addProperty('App::PropertyLength', 'ShoulderThickness', 'NoseCone', QT_TRANSLATE_NOOP('App::Property', 'Shoulder thickness')).ShoulderThickness = 2.0
+        if not hasattr(obj, 'Coefficient'):
+            obj.addProperty('App::PropertyFloat', 'Coefficient', 'NoseCone', QT_TRANSLATE_NOOP('App::Property', 'Coefficient')).Coefficient = 0.0
+        if not hasattr(obj, 'Resolution'):
+            obj.addProperty('App::PropertyInteger', 'Resolution', 'NoseCone', QT_TRANSLATE_NOOP('App::Property', 'Resolution')).Resolution = 100
 
-        obj.addProperty('App::PropertyEnumeration', 'NoseType', 'NoseCone', QT_TRANSLATE_NOOP('App::Property', 'Nose cone type'))
+        if not hasattr(obj, 'NoseType'):
+            obj.addProperty('App::PropertyEnumeration', 'NoseType', 'NoseCone', QT_TRANSLATE_NOOP('App::Property', 'Nose cone type'))
         obj.NoseType = [TYPE_CONE,
                     TYPE_ELLIPTICAL,
                     TYPE_OGIVE,
@@ -70,14 +97,29 @@ class ShapeNoseCone(ShapeComponent):
                     TYPE_HAACK]
         obj.NoseType = TYPE_OGIVE
 
-        obj.addProperty('App::PropertyEnumeration', 'NoseStyle', 'NoseCone', QT_TRANSLATE_NOOP('App::Property', 'Nose cone style'))
+        if not hasattr(obj, 'NoseStyle'):
+            obj.addProperty('App::PropertyEnumeration', 'NoseStyle', 'NoseCone', QT_TRANSLATE_NOOP('App::Property', 'Nose cone style'))
         obj.NoseStyle = [STYLE_SOLID,
                             STYLE_HOLLOW,
                             STYLE_CAPPED]
         obj.NoseStyle = STYLE_SOLID
 
-        obj.addProperty('Part::PropertyPartShape', 'Shape', 'NoseCone', QT_TRANSLATE_NOOP('App::Property', 'Shape of the nose cone'))
+        if not hasattr(obj, 'Shape'):
+            obj.addProperty('Part::PropertyPartShape', 'Shape', 'NoseCone', QT_TRANSLATE_NOOP('App::Property', 'Shape of the nose cone'))
 
+        obj.Proxy = self
+        self.version = '1.1'
+
+    def __getstate__(self):
+        return self.version
+
+    def __setstate__(self, state):
+        if state:
+            self.version = state
+
+    def onDocumentRestored(self, obj):
+        if hasattr(obj, "Radius"):
+            _migrate_from_1_0(obj)
 
     def execute(self, obj):
         shape = None

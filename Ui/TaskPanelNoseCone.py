@@ -106,11 +106,11 @@ class _NoseConeDialog(QDialog):
         self.lengthInput.unit = 'mm'
         self.lengthInput.setFixedWidth(80)
 
-        self.radiusLabel = QtGui.QLabel(translate('Rocket', "Radius"), self)
+        self.diameterLabel = QtGui.QLabel(translate('Rocket', "Diameter"), self)
 
-        self.radiusInput = ui.createWidget("Gui::InputField")
-        self.radiusInput.unit = 'mm'
-        self.radiusInput.setFixedWidth(80)
+        self.diameterInput = ui.createWidget("Gui::InputField")
+        self.diameterInput.unit = 'mm'
+        self.diameterInput.setFixedWidth(80)
 
         self.thicknessLabel = QtGui.QLabel(translate('Rocket', "Thickness"), self)
 
@@ -134,12 +134,12 @@ class _NoseConeDialog(QDialog):
         self.shoulderCheckbox = QtGui.QCheckBox(self)
         self.shoulderCheckbox.setCheckState(QtCore.Qt.Unchecked)
 
-        self.shoulderRadiusLabel = QtGui.QLabel(translate('Rocket', "Radius"), self)
+        self.shoulderDiameterLabel = QtGui.QLabel(translate('Rocket', "Diameter"), self)
 
-        self.shoulderRadiusInput = ui.createWidget("Gui::InputField")
-        self.shoulderRadiusInput.unit = 'mm'
-        self.shoulderRadiusInput.setFixedWidth(80)
-        self.shoulderRadiusInput.setEnabled(False)
+        self.shoulderDiameterInput = ui.createWidget("Gui::InputField")
+        self.shoulderDiameterInput.unit = 'mm'
+        self.shoulderDiameterInput.setFixedWidth(80)
+        self.shoulderDiameterInput.setEnabled(False)
 
         self.shoulderLengthLabel = QtGui.QLabel(translate('Rocket', "Length"), self)
 
@@ -166,8 +166,8 @@ class _NoseConeDialog(QDialog):
         layout.addWidget(self.lengthLabel, 2, 0)
         layout.addWidget(self.lengthInput, 2, 1)
 
-        layout.addWidget(self.radiusLabel, 3, 0)
-        layout.addWidget(self.radiusInput, 3, 1)
+        layout.addWidget(self.diameterLabel, 3, 0)
+        layout.addWidget(self.diameterInput, 3, 1)
 
         layout.addWidget(self.thicknessLabel, 4, 0)
         layout.addWidget(self.thicknessInput, 4, 1)
@@ -181,8 +181,8 @@ class _NoseConeDialog(QDialog):
         layout.addWidget(self.shoulderLengthLabel, 7, 1)
         layout.addWidget(self.shoulderLengthInput, 7, 2)
 
-        layout.addWidget(self.shoulderRadiusLabel, 8, 1)
-        layout.addWidget(self.shoulderRadiusInput, 8, 2)
+        layout.addWidget(self.shoulderDiameterLabel, 8, 1)
+        layout.addWidget(self.shoulderDiameterInput, 8, 2)
 
         layout.addWidget(self.shoulderThicknessLabel, 9, 1)
         layout.addWidget(self.shoulderThicknessInput, 9, 2)
@@ -205,12 +205,12 @@ class TaskPanelNoseCone:
         self._noseForm.noseStylesCombo.currentTextChanged.connect(self.onNoseStyle)
 
         self._noseForm.lengthInput.textEdited.connect(self.onLengthChanged)
-        self._noseForm.radiusInput.textEdited.connect(self.onRadiusChanged)
+        self._noseForm.diameterInput.textEdited.connect(self.onDiameterChanged)
         self._noseForm.thicknessInput.textEdited.connect(self.onThicknessChanged)
         self._noseForm.coefficientInput.textEdited.connect(self.onCoefficientChanged)
 
         self._noseForm.shoulderCheckbox.stateChanged.connect(self.onShoulderChanged)
-        self._noseForm.shoulderRadiusInput.textEdited.connect(self.onShoulderRadiusChanged)
+        self._noseForm.shoulderDiameterInput.textEdited.connect(self.onShoulderDiameterChanged)
         self._noseForm.shoulderLengthInput.textEdited.connect(self.onShoulderLengthChanged)
         self._noseForm.shoulderThicknessInput.textEdited.connect(self.onShoulderThicknessChanged)
 
@@ -227,11 +227,11 @@ class TaskPanelNoseCone:
         self._obj.NoseType = str(self._noseForm.noseConeTypesCombo.currentText())
         self._obj.NoseStyle = str(self._noseForm.noseStylesCombo.currentText())
         self._obj.Length = self._noseForm.lengthInput.text()
-        self._obj.Radius = self._noseForm.radiusInput.text()
+        self._obj.Diameter = self._noseForm.diameterInput.text()
         self._obj.Thickness = self._noseForm.thicknessInput.text()
         self._obj.Coefficient = _toFloat(self._noseForm.coefficientInput.text())
         self._obj.Shoulder = self._noseForm.shoulderCheckbox.isChecked()
-        self._obj.ShoulderRadius = self._noseForm.shoulderRadiusInput.text()
+        self._obj.ShoulderDiameter = self._noseForm.shoulderDiameterInput.text()
         self._obj.ShoulderLength = self._noseForm.shoulderLengthInput.text()
         self._obj.ShoulderThickness = self._noseForm.shoulderThicknessInput.text()
 
@@ -240,11 +240,11 @@ class TaskPanelNoseCone:
         self._noseForm.noseConeTypesCombo.setCurrentText(self._obj.NoseType)
         self._noseForm.noseStylesCombo.setCurrentText(self._obj.NoseStyle)
         self._noseForm.lengthInput.setText(self._obj.Length.UserString)
-        self._noseForm.radiusInput.setText(self._obj.Radius.UserString)
+        self._noseForm.diameterInput.setText(self._obj.Diameter.UserString)
         self._noseForm.thicknessInput.setText(self._obj.Thickness.UserString)
         self._noseForm.coefficientInput.setText("%f" % self._obj.Coefficient)
         self._noseForm.shoulderCheckbox.setChecked(self._obj.Shoulder)
-        self._noseForm.shoulderRadiusInput.setText(self._obj.ShoulderRadius.UserString)
+        self._noseForm.shoulderDiameterInput.setText(self._obj.ShoulderDiameter.UserString)
         self._noseForm.shoulderLengthInput.setText(self._obj.ShoulderLength.UserString)
         self._noseForm.shoulderThicknessInput.setText(self._obj.ShoulderThickness.UserString)
 
@@ -299,8 +299,8 @@ class TaskPanelNoseCone:
         self._obj.Proxy.execute(self._obj)
 
         
-    def onRadiusChanged(self, value):
-        self._obj.Radius = value
+    def onDiameterChanged(self, value):
+        self._obj.Diameter = value
         self._obj.Proxy.execute(self._obj)
         
     def onThicknessChanged(self, value):
@@ -313,7 +313,7 @@ class TaskPanelNoseCone:
 
     def _setShoulderState(self):
         if self._obj.Shoulder:
-            self._noseForm.shoulderRadiusInput.setEnabled(True)
+            self._noseForm.shoulderDiameterInput.setEnabled(True)
             self._noseForm.shoulderLengthInput.setEnabled(True)
 
             selectedText = self._noseForm.noseStylesCombo.currentText()
@@ -322,7 +322,7 @@ class TaskPanelNoseCone:
             else:
                 self._noseForm.shoulderThicknessInput.setEnabled(False)
         else:
-            self._noseForm.shoulderRadiusInput.setEnabled(False)
+            self._noseForm.shoulderDiameterInput.setEnabled(False)
             self._noseForm.shoulderLengthInput.setEnabled(False)
             self._noseForm.shoulderThicknessInput.setEnabled(False)
         
@@ -332,8 +332,8 @@ class TaskPanelNoseCone:
 
         self._obj.Proxy.execute(self._obj)
         
-    def onShoulderRadiusChanged(self, value):
-        self._obj.ShoulderRadius = value
+    def onShoulderDiameterChanged(self, value):
+        self._obj.ShoulderDiameter = value
         self._obj.Proxy.execute(self._obj)
         
     def onShoulderLengthChanged(self, value):
@@ -350,12 +350,12 @@ class TaskPanelNoseCone:
         self._obj.NoseType = str(result["shape"])
         self._obj.NoseStyle = str(result["style"])
         self._obj.Length = _valueWithUnits(result["length"], result["length_units"])
-        self._obj.Radius = _valueWithUnits(result["diameter"], result["diameter_units"]) / 2.0
+        self._obj.Diameter = _valueWithUnits(result["diameter"], result["diameter_units"])
         self._obj.Thickness = _valueWithUnits(result["thickness"], result["thickness_units"])
         # self._obj.Coefficient = _toFloat(self._noseForm.coefficientInput.text())
-        self._obj.ShoulderRadius = _valueWithUnits(result["shoulder_diameter"], result["shoulder_diameter_units"]) / 2.0
+        self._obj.ShoulderDiameter = _valueWithUnits(result["shoulder_diameter"], result["shoulder_diameter_units"])
         self._obj.ShoulderLength = _valueWithUnits(result["shoulder_length"], result["shoulder_length_units"])
-        self._obj.Shoulder = (self._obj.ShoulderRadius > 0.0) and (self._obj.ShoulderLength >= 0)
+        self._obj.Shoulder = (self._obj.ShoulderDiameter > 0.0) and (self._obj.ShoulderLength >= 0)
         self._obj.ShoulderThickness = self._obj.Thickness
         self.update()
         self._obj.Proxy.execute(self._obj) 
