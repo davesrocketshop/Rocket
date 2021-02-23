@@ -107,16 +107,6 @@ class ShapeNoseCone(ShapeComponent):
         if not hasattr(obj, 'Shape'):
             obj.addProperty('Part::PropertyPartShape', 'Shape', 'NoseCone', QT_TRANSLATE_NOOP('App::Property', 'Shape of the nose cone'))
 
-        obj.Proxy = self
-        self.version = '1.1'
-
-    def __getstate__(self):
-        return self.version
-
-    def __setstate__(self, state):
-        if state:
-            self.version = state
-
     def onDocumentRestored(self, obj):
         if hasattr(obj, "Radius"):
             _migrate_from_1_0(obj)

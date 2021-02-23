@@ -32,12 +32,24 @@ def QT_TRANSLATE_NOOP(scope, text):
 class ShapeComponent:
 
     def __init__(self, obj):
-        obj.addProperty('App::PropertyString', 'Manufacturer', 'RocketComponent', QT_TRANSLATE_NOOP('App::Property', 'Component manufacturer')).Manufacturer = ""
-        obj.addProperty('App::PropertyString', 'PartNumber', 'RocketComponent', QT_TRANSLATE_NOOP('App::Property', 'Component manufacturer part number')).PartNumber = ""
-        obj.addProperty('App::PropertyString', 'Description', 'RocketComponent', QT_TRANSLATE_NOOP('App::Property', 'Component description')).Description = ""
-        obj.addProperty('App::PropertyString', 'Material', 'RocketComponent', QT_TRANSLATE_NOOP('App::Property', 'Component material')).Material = ""
+        if not hasattr(obj, 'Manufacturer'):
+            obj.addProperty('App::PropertyString', 'Manufacturer', 'RocketComponent', QT_TRANSLATE_NOOP('App::Property', 'Component manufacturer')).Manufacturer = ""
+        if not hasattr(obj, 'PartNumber'):
+            obj.addProperty('App::PropertyString', 'PartNumber', 'RocketComponent', QT_TRANSLATE_NOOP('App::Property', 'Component manufacturer part number')).PartNumber = ""
+        if not hasattr(obj, 'Description'):
+            obj.addProperty('App::PropertyString', 'Description', 'RocketComponent', QT_TRANSLATE_NOOP('App::Property', 'Component description')).Description = ""
+        if not hasattr(obj, 'Material'):
+            obj.addProperty('App::PropertyString', 'Material', 'RocketComponent', QT_TRANSLATE_NOOP('App::Property', 'Component material')).Material = ""
 
         obj.Proxy=self
+        self.version = '1.1'
+
+    def __getstate__(self):
+        return self.version
+
+    def __setstate__(self, state):
+        if state:
+            self.version = state
 
 
     # This will be implemented in the derived class

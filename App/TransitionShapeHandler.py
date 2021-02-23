@@ -54,9 +54,9 @@ class TransitionShapeHandler():
         self._thickness = float(obj.Thickness)
 
         self._length = float(obj.Length)
-        self._foreRadius = float(obj.ForeRadius)
-        self._aftRadius = float(obj.AftRadius)
-        self._coreRadius = float(obj.CoreRadius)
+        self._foreRadius = float(obj.ForeDiameter) / 2.0
+        self._aftRadius = float(obj.AftDiameter) / 2.0
+        self._coreRadius = float(obj.CoreDiameter) / 2.0
         self._coefficient = float(obj.Coefficient)
         self._resolution = int(obj.Resolution)
 
@@ -67,12 +67,12 @@ class TransitionShapeHandler():
 
         self._foreShoulder = bool(obj.ForeShoulder)
         self._foreShoulderLength = float(obj.ForeShoulderLength)
-        self._foreShoulderRadius = float(obj.ForeShoulderRadius)
+        self._foreShoulderRadius = float(obj.ForeShoulderDiameter) / 2.0
         self._foreShoulderThickness = float(obj.ForeShoulderThickness)
 
         self._aftShoulder = bool(obj.AftShoulder)
         self._aftShoulderLength = float(obj.AftShoulderLength)
-        self._aftShoulderRadius = float(obj.AftShoulderRadius)
+        self._aftShoulderRadius = float(obj.AftShoulderDiameter) / 2.0
         self._aftShoulderThickness = float(obj.AftShoulderThickness)
 
         self._shoulder = (self._foreShoulder or self._aftShoulder)
@@ -104,15 +104,15 @@ class TransitionShapeHandler():
 
         elif self._style == STYLE_SOLID_CORE:
             if self._coreRadius >= self._foreRadius or self._coreRadius >= self._aftRadius:
-                _err(translate('Rocket', "Transition core must be less than the front or back radius"))
+                _err(translate('Rocket', "Transition core must be less than the front or back diameter"))
                 return False
             if self._foreShoulder:
                 if self._coreRadius >= self._foreShoulderRadius:
-                    _err(translate('Rocket', "Transition core must be less than the shoulder radius"))
+                    _err(translate('Rocket', "Transition core must be less than the shoulder diameter"))
                     return False
             if self._aftShoulder:
                 if self._coreRadius >= self._aftShoulderRadius:
-                    _err(translate('Rocket', "Transition core must be less than the shoulder radius"))
+                    _err(translate('Rocket', "Transition core must be less than the shoulder diameter"))
                     return False
 
         if self._foreShoulder:
@@ -120,10 +120,10 @@ class TransitionShapeHandler():
                 _err(translate('Rocket', "Forward shoulder length must be > 0"))
                 return False
             if self._foreShoulderRadius <= 0:
-                _err(translate('Rocket', "Forward shoulder radius must be > 0"))
+                _err(translate('Rocket', "Forward shoulder diameter must be > 0"))
                 return False
             if self._foreShoulderRadius > self._foreRadius:
-                _err(translate('Rocket', "Forward shoulder radius can not exceed the transition radius at the shoulder"))
+                _err(translate('Rocket', "Forward shoulder diameter can not exceed the transition diameter at the shoulder"))
                 return False
             if self._style in [STYLE_HOLLOW, STYLE_CAPPED]:
                 if self._foreShoulderThickness <= 0:
@@ -138,10 +138,10 @@ class TransitionShapeHandler():
                 _err(translate('Rocket', "Aft shoulder length must be > 0"))
                 return False
             if self._aftShoulderRadius <= 0:
-                _err(translate('Rocket', "Aft shoulder radius must be > 0"))
+                _err(translate('Rocket', "Aft shoulder diameter must be > 0"))
                 return False
             if self._aftShoulderRadius > self._aftRadius:
-                _err(translate('Rocket', "Aft shoulder radius can not exceed the transition radius at the shoulder"))
+                _err(translate('Rocket', "Aft shoulder diameter can not exceed the transition diameter at the shoulder"))
                 return False
             if self._style in [STYLE_HOLLOW, STYLE_CAPPED]:
                 if self._aftShoulderThickness <= 0:

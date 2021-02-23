@@ -39,32 +39,75 @@ from App.TransitionPowerShapeHandler import TransitionPowerShapeHandler
 from App.Constants import TYPE_CONE, TYPE_ELLIPTICAL, TYPE_HAACK, TYPE_OGIVE, TYPE_VON_KARMAN, TYPE_PARABOLA, TYPE_PARABOLIC, TYPE_POWER
 from App.Constants import STYLE_CAPPED, STYLE_HOLLOW, STYLE_SOLID, STYLE_SOLID_CORE
 
+from App.Utilities import _wrn
+
 def QT_TRANSLATE_NOOP(scope, text):
     return text
+
+def _migrate_from_1_0(obj):
+    _wrn("Transition migrating object from 1.0")
+
+    old = {}
+    old["ForeRadius"] = obj.ForeRadius
+    old["AftRadius"] = obj.AftRadius
+    old["CoreRadius"] = obj.CoreRadius
+    old["ForeShoulderRadius"] = obj.ForeShoulderRadius
+    old["AftShoulderRadius"] = obj.AftShoulderRadius
+
+    obj.removeProperty("ForeRadius")
+    obj.removeProperty("AftRadius")
+    obj.removeProperty("CoreRadius")
+    obj.removeProperty("ForeShoulderRadius")
+    obj.removeProperty("AftShoulderRadius")
+
+    ShapeTransition(obj)
+
+    obj.ForeDiameter = 2.0 * old["ForeRadius"]
+    obj.AftDiameter = 2.0 * old["AftRadius"]
+    obj.CoreDiameter = 2.0 * old["CoreRadius"]
+    obj.ForeShoulderDiameter = 2.0 * old["ForeShoulderRadius"]
+    obj.AftShoulderDiameter = 2.0 * old["AftShoulderRadius"]
 
 class ShapeTransition(ShapeComponent):
 
     def __init__(self, obj):
         super().__init__(obj)
 
-        obj.addProperty('App::PropertyLength', 'Length', 'Transition', QT_TRANSLATE_NOOP('App::Property', 'Length of the transition not including any shoulder')).Length = 60.0
-        obj.addProperty('App::PropertyLength', 'ForeRadius', 'Transition', QT_TRANSLATE_NOOP('App::Property', 'Radius at the front of the transition')).ForeRadius = 10.0
-        obj.addProperty('App::PropertyLength', 'AftRadius', 'Transition', QT_TRANSLATE_NOOP('App::Property', 'Radius at the base of the transition')).AftRadius = 20.0
-        obj.addProperty('App::PropertyLength', 'CoreRadius', 'Transition', QT_TRANSLATE_NOOP('App::Property', 'Radius of the transition core')).CoreRadius = 5.0
-        obj.addProperty('App::PropertyLength', 'Thickness', 'Transition', QT_TRANSLATE_NOOP('App::Property', 'Transition thickness')).Thickness = 2.0
-        obj.addProperty('App::PropertyBool', 'Clipped', 'Transition', QT_TRANSLATE_NOOP('App::Property', 'If the transition is not clipped, then the profile is extended at the center by the corresponding radius')).Clipped = True
-        obj.addProperty('App::PropertyBool', 'ForeShoulder', 'Transition', QT_TRANSLATE_NOOP('App::Property', 'Set to true if the part includes a forward shoulder')).ForeShoulder = False
-        obj.addProperty('App::PropertyLength', 'ForeShoulderLength', 'Transition', QT_TRANSLATE_NOOP('App::Property', 'Forward Shoulder Length')).ForeShoulderLength = 10.0
-        obj.addProperty('App::PropertyLength', 'ForeShoulderRadius', 'Transition', QT_TRANSLATE_NOOP('App::Property', 'Forward Shoulder radius')).ForeShoulderRadius = 8.0
-        obj.addProperty('App::PropertyLength', 'ForeShoulderThickness', 'Transition', QT_TRANSLATE_NOOP('App::Property', 'Forward Shoulder thickness')).ForeShoulderThickness = 2.0
-        obj.addProperty('App::PropertyBool', 'AftShoulder', 'Transition', QT_TRANSLATE_NOOP('App::Property', 'Set to true if the part includes an aft shoulder')).ForeShoulder = False
-        obj.addProperty('App::PropertyLength', 'AftShoulderLength', 'Transition', QT_TRANSLATE_NOOP('App::Property', 'Aft Shoulder Length')).AftShoulderLength = 10.0
-        obj.addProperty('App::PropertyLength', 'AftShoulderRadius', 'Transition', QT_TRANSLATE_NOOP('App::Property', 'Aft Shoulder radius')).AftShoulderRadius = 18.0
-        obj.addProperty('App::PropertyLength', 'AftShoulderThickness', 'Transition', QT_TRANSLATE_NOOP('App::Property', 'Aft Shoulder thickness')).AftShoulderThickness = 2.0
-        obj.addProperty('App::PropertyFloat', 'Coefficient', 'Transition', QT_TRANSLATE_NOOP('App::Property', 'Coefficient')).Coefficient = 0.0
-        obj.addProperty('App::PropertyInteger', 'Resolution', 'Transition', QT_TRANSLATE_NOOP('App::Property', 'Resolution')).Resolution = 100
+        if not hasattr(obj, 'Length'):
+            obj.addProperty('App::PropertyLength', 'Length', 'Transition', QT_TRANSLATE_NOOP('App::Property', 'Length of the transition not including any shoulder')).Length = 60.0
+        if not hasattr(obj, 'ForeDiameter'):
+            obj.addProperty('App::PropertyLength', 'ForeDiameter', 'Transition', QT_TRANSLATE_NOOP('App::Property', 'Diameter at the front of the transition')).ForeDiameter = 20.0
+        if not hasattr(obj, 'AftDiameter'):
+            obj.addProperty('App::PropertyLength', 'AftDiameter', 'Transition', QT_TRANSLATE_NOOP('App::Property', 'Diameter at the base of the transition')).AftDiameter = 40.0
+        if not hasattr(obj, 'CoreDiameter'):
+            obj.addProperty('App::PropertyLength', 'CoreDiameter', 'Transition', QT_TRANSLATE_NOOP('App::Property', 'Diameter of the transition core')).CoreDiameter = 10.0
+        if not hasattr(obj, 'Thickness'):
+            obj.addProperty('App::PropertyLength', 'Thickness', 'Transition', QT_TRANSLATE_NOOP('App::Property', 'Transition thickness')).Thickness = 2.0
+        if not hasattr(obj, 'Clipped'):
+            obj.addProperty('App::PropertyBool', 'Clipped', 'Transition', QT_TRANSLATE_NOOP('App::Property', 'If the transition is not clipped, then the profile is extended at the center by the corresponding radius')).Clipped = True
+        if not hasattr(obj, 'ForeShoulder'):
+            obj.addProperty('App::PropertyBool', 'ForeShoulder', 'Transition', QT_TRANSLATE_NOOP('App::Property', 'Set to true if the part includes a forward shoulder')).ForeShoulder = False
+        if not hasattr(obj, 'ForeShoulderLength'):
+            obj.addProperty('App::PropertyLength', 'ForeShoulderLength', 'Transition', QT_TRANSLATE_NOOP('App::Property', 'Forward Shoulder Length')).ForeShoulderLength = 10.0
+        if not hasattr(obj, 'ForeShoulderDiameter'):
+            obj.addProperty('App::PropertyLength', 'ForeShoulderDiameter', 'Transition', QT_TRANSLATE_NOOP('App::Property', 'Forward Shoulder diameter')).ForeShoulderDiameter = 16.0
+        if not hasattr(obj, 'ForeShoulderThickness'):
+            obj.addProperty('App::PropertyLength', 'ForeShoulderThickness', 'Transition', QT_TRANSLATE_NOOP('App::Property', 'Forward Shoulder thickness')).ForeShoulderThickness = 2.0
+        if not hasattr(obj, 'AftShoulder'):
+            obj.addProperty('App::PropertyBool', 'AftShoulder', 'Transition', QT_TRANSLATE_NOOP('App::Property', 'Set to true if the part includes an aft shoulder')).ForeShoulder = False
+        if not hasattr(obj, 'AftShoulderLength'):
+            obj.addProperty('App::PropertyLength', 'AftShoulderLength', 'Transition', QT_TRANSLATE_NOOP('App::Property', 'Aft Shoulder Length')).AftShoulderLength = 10.0
+        if not hasattr(obj, 'AftShoulderDiameter'):
+            obj.addProperty('App::PropertyLength', 'AftShoulderDiameter', 'Transition', QT_TRANSLATE_NOOP('App::Property', 'Aft Shoulder diameter')).AftShoulderDiameter = 36.0
+        if not hasattr(obj, 'AftShoulderThickness'):
+            obj.addProperty('App::PropertyLength', 'AftShoulderThickness', 'Transition', QT_TRANSLATE_NOOP('App::Property', 'Aft Shoulder thickness')).AftShoulderThickness = 2.0
+        if not hasattr(obj, 'Coefficient'):
+            obj.addProperty('App::PropertyFloat', 'Coefficient', 'Transition', QT_TRANSLATE_NOOP('App::Property', 'Coefficient')).Coefficient = 0.0
+        if not hasattr(obj, 'Resolution'):
+            obj.addProperty('App::PropertyInteger', 'Resolution', 'Transition', QT_TRANSLATE_NOOP('App::Property', 'Resolution')).Resolution = 100
 
-        obj.addProperty('App::PropertyEnumeration', 'TransitionType', 'Transition', QT_TRANSLATE_NOOP('App::Property', 'Transition type'))
+        if not hasattr(obj, 'TransitionType'):
+            obj.addProperty('App::PropertyEnumeration', 'TransitionType', 'Transition', QT_TRANSLATE_NOOP('App::Property', 'Transition type'))
         obj.TransitionType = [TYPE_CONE,
                     TYPE_ELLIPTICAL,
                     TYPE_OGIVE,
@@ -75,14 +118,20 @@ class ShapeTransition(ShapeComponent):
                     TYPE_HAACK]
         obj.TransitionType = TYPE_CONE
 
-        obj.addProperty('App::PropertyEnumeration', 'TransitionStyle', 'Transition', QT_TRANSLATE_NOOP('App::Property', 'Transition style'))
+        if not hasattr(obj, 'TransitionStyle'):
+            obj.addProperty('App::PropertyEnumeration', 'TransitionStyle', 'Transition', QT_TRANSLATE_NOOP('App::Property', 'Transition style'))
         obj.TransitionStyle = [STYLE_SOLID,
                             STYLE_SOLID_CORE,
                             STYLE_HOLLOW,
                             STYLE_CAPPED]
         obj.TransitionStyle = STYLE_SOLID
 
-        obj.addProperty('Part::PropertyPartShape', 'Shape', 'Transition', QT_TRANSLATE_NOOP('App::Property', 'Shape of the transition'))
+        if not hasattr(obj, 'Shape'):
+            obj.addProperty('Part::PropertyPartShape', 'Shape', 'Transition', QT_TRANSLATE_NOOP('App::Property', 'Shape of the transition'))
+
+    def onDocumentRestored(self, obj):
+        if hasattr(obj, "ForeRadius"):
+            _migrate_from_1_0(obj)
 
 
     def execute(self, obj):
