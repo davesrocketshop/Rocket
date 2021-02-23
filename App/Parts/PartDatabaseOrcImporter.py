@@ -64,7 +64,6 @@ class Element:
         # print("Start %s" % tag)
 
     def end(self):
-        # print("End %s" % self._tag)
         return self._parent
 
     def isChildElement(self, tag):
@@ -564,7 +563,7 @@ class ParachuteElement(ComponentElement):
         elif _tag == "linelength":
             self._lineLength = (_toFloat(content), self._lineLength[1])
         elif _tag == "linematerial":
-            self._lineMaterial = (content, self._lineMaterial[1])
+            self._lineMaterial = (self._sanitizeName(content), self._lineMaterial[1])
         else:
             super().handleEndTag(tag, content)
 
@@ -744,11 +743,11 @@ class PartDatabaseOrcImporter(xml.sax.ContentHandler):
     def endElement(self, tag):
         if self._current.isTag(tag):
             self._current = self._current.end()
-            self._content = ''
         else:
-            self._current.handleEndTag(tag, self._content)
+            self._current.handleEndTag(tag, self._content.strip())
+        self._content = ''
 
 
     # Call when a character is read
     def characters(self, content):
-        self._content = content
+        self._content += content

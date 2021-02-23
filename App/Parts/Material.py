@@ -62,7 +62,7 @@ class Material:
         self.validateNonEmptyString(self._name, "Name invalid")
         self.validateNonEmptyString(self._units, "Units invalid")
         if self._type not in [MATERIAL_TYPE_BULK, MATERIAL_TYPE_SURFACE, MATERIAL_TYPE_LINE]:
-            self.raiseInvalid(message)
+            self.raiseInvalid("Invalid material tyle '%s'" % self._type)
         self.validateNonNegative(self._density, "Material type invalid")
 
     def persist(self, connection):
@@ -97,7 +97,7 @@ class Material:
     def getMaterial(connection, manufacturer, name, type):
         cursor = connection.cursor()
 
-        cursor.execute("SELECT material_index FROM material WHERE manufacturer=:manufacturer AND material_name=:name AND  type=:type", {
+        cursor.execute("SELECT material_index FROM material WHERE manufacturer=:manufacturer AND material_name=:name COLLATE NOCASE AND  type=:type", {
                             "manufacturer" : manufacturer,
                             "name" : name, 
                             "type" : type
