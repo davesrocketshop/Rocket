@@ -18,43 +18,57 @@
 # *   USA                                                                   *
 # *                                                                         *
 # ***************************************************************************
-"""Class for drawing body tubes"""
+"""Class for rocket assemblies"""
 
-__title__ = "FreeCAD Body Tubes"
+__title__ = "FreeCAD Rocket Assembly"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
-    
+
 import FreeCAD
 import FreeCADGui
-import Part
 
-from App.ShapeComponent import ShapeComponent
-
-from App.BodyTubeShapeHandler import BodyTubeShapeHandler
+from App.Utilities import _err
+from Ui.ViewRocket import ViewProviderRocket
 
 def QT_TRANSLATE_NOOP(scope, text):
     return text
 
-class ShapeBodyTube(ShapeComponent):
+class ShapeRocket:
 
     def __init__(self, obj):
-        super().__init__(obj)
-
-        # Default set to a BT-50
-        if not hasattr(obj,"InnerDiameter"):
-            obj.addProperty('App::PropertyLength', 'InnerDiameter', 'BodyTube', QT_TRANSLATE_NOOP('App::Property', 'Diameter of the inside of the body tube')).InnerDiameter = 24.1
-        if not hasattr(obj,"OuterDiameter"):
-            obj.addProperty('App::PropertyLength', 'OuterDiameter', 'BodyTube', QT_TRANSLATE_NOOP('App::Property', 'Diameter of the outside of the body tube')).OuterDiameter = 24.8
-        if not hasattr(obj,"Length"):
-            obj.addProperty('App::PropertyLength', 'Length', 'BodyTube', QT_TRANSLATE_NOOP('App::Property', 'Length of the body tube')).Length = 457.0
-
-        if not hasattr(obj,"Shape"):
-            obj.addProperty('Part::PropertyPartShape', 'Shape', 'BodyTube', QT_TRANSLATE_NOOP('App::Property', 'Shape of the body tube'))
-
         if not hasattr(obj,"Group"):
             obj.addExtension("App::GroupExtensionPython")
 
-    def execute(self, obj):
-        shape = BodyTubeShapeHandler(obj)
-        if shape is not None:
-            shape.draw()
+        obj.Proxy=self
+        self.version = '1.0'
+
+    def __getstate__(self):
+        return self.version
+
+    def execute(self,obj):
+        """Method run when the object is recomputed.
+
+        If the site has no Shape or Terrain property assigned, do nothing.
+
+        Perform additions and subtractions on terrain, and assign to the site's
+        Shape.
+
+            see Mod/Arch/ArchSite.py for more information
+        """
+
+        if not hasattr(obj,'Shape'): # old-style Site
+            return
+
+def makeRocket(name='Rocket'):
+    obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
+    ShapeRocket(obj)
+    if FreeCAD.GuiUp:
+        ViewProviderRocket(obj.ViewObject)
+
+        body=FreeCADGui.ActiveDocument.ActiveView.getActiveObject("pdbody")
+        part=FreeCADGui.ActiveDocument.ActiveView.getActiveObject("part")
+        if body:
+            body.Group=body.Group+[obj]
+        elif part:
+            part.Group=part.Group+[obj]
+    return obj

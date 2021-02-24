@@ -33,7 +33,7 @@ from Ui.ViewCenteringRing import ViewProviderCenteringRing
 def QT_TRANSLATE_NOOP(scope, text):
     return text
 
-def makeCenteringRing(name):
+def makeCenteringRing(name='CenteringRing'):
     '''makeCenteringRing(name): makes a centering ring'''
     obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
     ShapeCenteringRing(obj)

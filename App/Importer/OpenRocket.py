@@ -32,9 +32,12 @@ from App.Exceptions import UnsupportedVersion
 
 from App.Importer.SaxElement import Element, NullElement
 from App.Importer.ComponentElement import ComponentElement
+from App.Importer.SubElement import SubElement
 from App.Importer.NoseElement import NoseElement
 
-from Ui.CmdBodyTube import makeBodyTube
+from App.Utilities import _msg
+
+from App.ShapeRocket import makeRocket
 
 class RootElement(ComponentElement):
 
@@ -64,106 +67,14 @@ class RocketElement(ComponentElement):
     def __init__(self, parent, tag, attributes, parentObj, filename, line):
         super().__init__(parent, tag, attributes, parentObj, filename, line)
 
-        self._validChildren = { 'subcomponents' : SubComponentElement,
+        self._validChildren = { 'subcomponents' : SubElement,
                               }
         self._knownTags = ["subcomponents", "designer", "appearance", "motormount", "finpoints", "motorconfiguration", "flightconfiguration", "deploymentconfiguration", "separationconfiguration", "referencetype", "customreference", "revision"]
 
-        self._obj = FreeCAD.ActiveDocument.addObject("App::DocumentObjectGroupPython", "Rocket")
+        self._obj = makeRocket()
 
     def onName(self, content):
         self._obj.Label = content
-
-class SubComponentElement(ComponentElement):
-
-    def __init__(self, parent, tag, attributes, parentObj, filename, line):
-        super().__init__(parent, tag, attributes, parentObj, filename, line)
-
-        self._validChildren = { 'stage' : StageElement,
-                                'nosecone' : NoseElement,
-                                'bodytube' : BodyTubeElement,
-                                'subcomponents' : SubComponentElement,
-                                'transition' : NullElement,
-                                'trapezoidfinset' : NullElement,
-                                'ellipticalfinset' : NullElement,
-                                'freeformfinset' : NullElement,
-                                'tubefinset' : NullElement,
-                                'launchlug' : NullElement,
-                                'railbutton' : NullElement,
-                                'engineblock' : NullElement,
-                                'innertube' : NullElement,
-                                'tubecoupler' : NullElement,
-                                'bulkhead' : NullElement,
-                                'centeringring' : NullElement,
-                                'masscomponent' : NullElement,
-                                'shockcord' : NullElement,
-                                'parachute' : NullElement,
-                                'streamer' : NullElement,
-                                'boosterset' : NullElement,
-                                'parallelstage' : NullElement,
-                                'podset' : NullElement,
-                              }
-        self._knownTags = ["stage", "nosecone", "bodytube", "transition", "trapezoidfinset", "ellipticalfinset", "freeformfinset", "tubefinset", "launchlug", "railbutton",
-                "engineblock", "innertube", "tubecoupler", "bulkhead", "centeringring", "masscomponent", "shockcord", "parachute", "streamer", 
-                "boosterset", "parallelstage", "podset"]
-
-class StageElement(ComponentElement):
-
-    def __init__(self, parent, tag, attributes, parentObj, filename, line):
-        super().__init__(parent, tag, attributes, parentObj, filename, line)
-
-        self._validChildren = { 'subcomponents' : SubComponentElement,
-                              }
-
-        self._obj = FreeCAD.ActiveDocument.addObject("App::DocumentObjectGroupPython", "Rocket")
-        if self._parentObj is not None:
-            self._parentObj.addObject(self._obj)
-
-    def onName(self, content):
-            self._obj.Label = content
-
-class BodyTubeElement(ComponentElement):
-
-    def __init__(self, parent, tag, attributes, parentObj, filename, line):
-        super().__init__(parent, tag, attributes, parentObj, filename, line)
-
-        self._validChildren = { 'subcomponents' : SubComponentElement,
-                              }
-        self._knownTags = ["length", "thickness", "radius"]
-
-        self._obj = makeBodyTube()
-        if self._parentObj is not None:
-            self._parentObj.addObject(self._obj)
-
-    def handleEndTag(self, tag, content):
-        _tag = tag.lower().strip()
-        if _tag == "length":
-            self._obj.Length = content + "m"
-        elif _tag == "thickness":
-            self._obj.Proxy.setScratch("thickness", content)
-        elif _tag == "radius":
-            self._obj.Proxy.setScratch("radius", content)
-            if str(content).lower() == "auto":
-                diameter = "0.0"
-            else:
-                diameter = float(content) * 2.0
-            self._obj.OuterDiameter = str(diameter) + "m"
-        else:
-            super().handleEndTag(tag, content)
-
-    def onName(self, content):
-            self._obj.Label = content
-
-    def end(self):
-        # Auto diameters need to be calculated later
-        if  self._obj.Proxy.getScratch("radius") != "auto":
-            if self._obj.Proxy.isScratch("thickness"):
-                thickness = float( self._obj.Proxy.getScratch("thickness"))
-                diameter = float(self._obj.OuterDiameter) - 2.0 * thickness
-            if diameter < 0:
-                diameter = self._thickness
-            self._obj.InnerDiameter = str(diameter) + "m"
-
-        return super().end()
 
 class OpenRocketImporter(xml.sax.ContentHandler):
     def __init__(self, filename):
@@ -194,3 +105,16 @@ class OpenRocketImporter(xml.sax.ContentHandler):
     # Call when a character is read
     def characters(self, content):
         self._content += content
+
+    def importFile(filename):
+        _msg("Importing %s..." % filename)
+        # create an XMLReader
+        parser = xml.sax.make_parser()
+
+        # turn off namepsaces
+        parser.setFeature(xml.sax.handler.feature_namespaces, 0)
+
+        # override the default ContextHandler
+        handler = OpenRocketImporter(filename)
+        parser.setContentHandler(handler)
+        parser.parse(filename)

@@ -20,60 +20,52 @@
 # ***************************************************************************
 """Provides support for importing Open Rocket files."""
 
-__title__ = "FreeCAD Open Rocket Importer Commmon Component"
+__title__ = "FreeCAD Open Rocket Importer"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
-from App.Importer.SaxElement import Element
+from App.Importer.ComponentElement import ComponentElement
 
-class ComponentElement(Element):
+from Ui.CmdCenteringRing import makeCenteringRing
+
+class CenteringRingElement(ComponentElement):
 
     def __init__(self, parent, tag, attributes, parentObj, filename, line):
         super().__init__(parent, tag, attributes, parentObj, filename, line)
 
-        self._componentTags = ["name", "color", "linestyle", "position", "axialoffset", "overridemass", "overridecg", "overridecd", 
-            "overridesubcomponents", "comment", "preset", "finish", "material"]
+        self._shoulderCapped = False
+
+        self._knownTags = ["length", "radialposition", "radialdirection", "outerradius", "innerradius"]
+
+        self._obj = makeCenteringRing()
+        if self._parentObj is not None:
+            self._parentObj.addObject(self._obj)
 
     def handleEndTag(self, tag, content):
         _tag = tag.lower().strip()
-        if _tag == "name":
-            self.onName(content)
-        elif _tag == "color":
-            self.onColor(content)
-        elif _tag == "linestyle":
-            self.onLinestyle(content)
-        elif _tag == "position":
-             pass # <position type="bottom">0.0</position>
-        elif _tag == "axialoffset":
-            pass
-        elif _tag == "overridemass":
-            # diameter = float(content) * 2.0
-            # self._obj.Diameter = str(diameter) + "m"
-            pass
-        elif _tag == "overridecg":
-            pass
-        elif _tag == "overridecd":
-            pass
-        elif _tag == "overridesubcomponents":
-            pass
-        elif _tag == "comment":
-            self.onComment(content)
-        elif _tag == "preset":
-            self.onPreset(content)
+        if _tag == "length":
+            self._obj.Thickness = content + "m"
+        elif _tag == "outerradius":
+            self._obj.Proxy.setScratch("outerradius", content)
+            if str(content).lower() == "auto":
+                diameter = "0.0"
+            else:
+                diameter = float(content) * 2.0
+            self._obj.Diameter = str(diameter) + "m"
+        elif _tag == "innerradius":
+            self._obj.Proxy.setScratch("innerradius", content)
+            if str(content).lower() == "auto":
+                diameter = "0.0"
+            else:
+                diameter = float(content) * 2.0
+            self._obj.CenterDiameter = str(diameter) + "m"
         else:
             super().handleEndTag(tag, content)
 
     def onName(self, content):
-        pass
+        self._obj.Label = content
 
-    def onColor(self, content):
-        pass
+    def end(self):
+        # Validate the shape here
 
-    def onLinestyle(self, content):
-        pass
-
-    def onComment(self, content):
-        pass
-
-    def onPreset(self, content):
-        pass
+        return super().end()

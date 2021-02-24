@@ -18,43 +18,44 @@
 # *   USA                                                                   *
 # *                                                                         *
 # ***************************************************************************
-"""Class for drawing body tubes"""
+"""Class for drawing rockets"""
 
-__title__ = "FreeCAD Body Tubes"
+__title__ = "FreeCAD Rocket View Provider"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
     
 import FreeCAD
 import FreeCADGui
-import Part
 
-from App.ShapeComponent import ShapeComponent
+from App.Utilities import _msg
 
-from App.BodyTubeShapeHandler import BodyTubeShapeHandler
+class ViewProviderRocket:
 
-def QT_TRANSLATE_NOOP(scope, text):
-    return text
+    def __init__(self, vobj):
+        vobj.Proxy = self
+        
+    def getIcon(self):
+        return FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/RocketWorkbench.svg"
 
-class ShapeBodyTube(ShapeComponent):
+    def attach(self, vobj):
+        self.ViewObject = vobj
+        self.Object = vobj.Object
 
-    def __init__(self, obj):
-        super().__init__(obj)
+    def claimChildren(self):
+        """Define which objects will appear as children in the tree view.
 
-        # Default set to a BT-50
-        if not hasattr(obj,"InnerDiameter"):
-            obj.addProperty('App::PropertyLength', 'InnerDiameter', 'BodyTube', QT_TRANSLATE_NOOP('App::Property', 'Diameter of the inside of the body tube')).InnerDiameter = 24.1
-        if not hasattr(obj,"OuterDiameter"):
-            obj.addProperty('App::PropertyLength', 'OuterDiameter', 'BodyTube', QT_TRANSLATE_NOOP('App::Property', 'Diameter of the outside of the body tube')).OuterDiameter = 24.8
-        if not hasattr(obj,"Length"):
-            obj.addProperty('App::PropertyLength', 'Length', 'BodyTube', QT_TRANSLATE_NOOP('App::Property', 'Length of the body tube')).Length = 457.0
+        Returns
+        -------
+        list of <App::DocumentObject>s:
+            The objects claimed as children.
+        """
+        objs = []
+        if hasattr(self,"Object"):
+            objs = self.Object.Group
+        return objs
 
-        if not hasattr(obj,"Shape"):
-            obj.addProperty('Part::PropertyPartShape', 'Shape', 'BodyTube', QT_TRANSLATE_NOOP('App::Property', 'Shape of the body tube'))
+    def __getstate__(self):
+        return None
 
-        if not hasattr(obj,"Group"):
-            obj.addExtension("App::GroupExtensionPython")
-
-    def execute(self, obj):
-        shape = BodyTubeShapeHandler(obj)
-        if shape is not None:
-            shape.draw()
+    def __setstate__(self, state):
+        return None

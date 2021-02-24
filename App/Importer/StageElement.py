@@ -18,43 +18,28 @@
 # *   USA                                                                   *
 # *                                                                         *
 # ***************************************************************************
-"""Class for drawing body tubes"""
+"""Provides support for importing Open Rocket files."""
 
-__title__ = "FreeCAD Body Tubes"
+__title__ = "FreeCAD Open Rocket Importer"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
-    
-import FreeCAD
-import FreeCADGui
-import Part
 
-from App.ShapeComponent import ShapeComponent
+from App.Importer.ComponentElement import ComponentElement
+import App.Importer as Importer
 
-from App.BodyTubeShapeHandler import BodyTubeShapeHandler
+from App.ShapeStage import makeStage
 
-def QT_TRANSLATE_NOOP(scope, text):
-    return text
+class StageElement(ComponentElement):
 
-class ShapeBodyTube(ShapeComponent):
+    def __init__(self, parent, tag, attributes, parentObj, filename, line):
+        super().__init__(parent, tag, attributes, parentObj, filename, line)
 
-    def __init__(self, obj):
-        super().__init__(obj)
+        self._validChildren = { 'subcomponents' : Importer.SubElement.SubElement,
+                              }
 
-        # Default set to a BT-50
-        if not hasattr(obj,"InnerDiameter"):
-            obj.addProperty('App::PropertyLength', 'InnerDiameter', 'BodyTube', QT_TRANSLATE_NOOP('App::Property', 'Diameter of the inside of the body tube')).InnerDiameter = 24.1
-        if not hasattr(obj,"OuterDiameter"):
-            obj.addProperty('App::PropertyLength', 'OuterDiameter', 'BodyTube', QT_TRANSLATE_NOOP('App::Property', 'Diameter of the outside of the body tube')).OuterDiameter = 24.8
-        if not hasattr(obj,"Length"):
-            obj.addProperty('App::PropertyLength', 'Length', 'BodyTube', QT_TRANSLATE_NOOP('App::Property', 'Length of the body tube')).Length = 457.0
+        self._obj = makeStage()
+        if self._parentObj is not None:
+            self._parentObj.addObject(self._obj)
 
-        if not hasattr(obj,"Shape"):
-            obj.addProperty('Part::PropertyPartShape', 'Shape', 'BodyTube', QT_TRANSLATE_NOOP('App::Property', 'Shape of the body tube'))
-
-        if not hasattr(obj,"Group"):
-            obj.addExtension("App::GroupExtensionPython")
-
-    def execute(self, obj):
-        shape = BodyTubeShapeHandler(obj)
-        if shape is not None:
-            shape.draw()
+    def onName(self, content):
+            self._obj.Label = content

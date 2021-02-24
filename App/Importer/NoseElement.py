@@ -24,13 +24,6 @@ __title__ = "FreeCAD Open Rocket Importer"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
-import xml.sax
-import FreeCAD
-import FreeCADGui
-
-from App.Exceptions import UnsupportedVersion
-
-from App.Importer.SaxElement import Element, NullElement
 from App.Importer.ComponentElement import ComponentElement
 from App.Utilities import _toBoolean
 from App.Constants import STYLE_CAPPED, STYLE_HOLLOW, STYLE_SOLID
@@ -44,8 +37,6 @@ class NoseElement(ComponentElement):
 
         self._shoulderCapped = False
 
-        # self._validChildren = { 'subcomponents' : SubComponentElement,
-        #                       }
         self._knownTags = ["manufacturer", "partno", "description", "thickness", "shape", "shapeclipped", "shapeparameter", 
                 "aftradius", "aftouterdiameter", "aftshoulderradius", "aftshoulderdiameter", "aftshoulderlength", "aftshoulderthickness", "aftshouldercapped", "length"]
 
