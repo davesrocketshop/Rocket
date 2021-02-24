@@ -33,7 +33,7 @@ from Ui.ViewBodyTube import ViewProviderBodyTube
 def QT_TRANSLATE_NOOP(scope, text):
     return text
 
-def makeBodyTube(name):
+def makeBodyTube(name='BodyTube'):
     '''makeBodyTube(name): makes a Body Tube'''
     obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
     ShapeBodyTube(obj)

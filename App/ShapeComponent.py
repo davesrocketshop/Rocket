@@ -43,6 +43,7 @@ class ShapeComponent:
 
         obj.Proxy=self
         self.version = '2.0'
+        self._scratch = {} # None persistent property storage, for import properties and similar
 
     def __getstate__(self):
         return self.version
@@ -51,6 +52,14 @@ class ShapeComponent:
         if state:
             self.version = state
 
+    def setScratch(self, name, value):
+        self._scratch[name] = value
+
+    def getScratch(self, name):
+        return self._scratch[name]
+
+    def isScratch(self, name):
+        return name in self._scratch
 
     # This will be implemented in the derived class
     def execute(self, obj):

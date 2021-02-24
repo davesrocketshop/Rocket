@@ -24,11 +24,15 @@ __title__ = "FreeCAD Open Rocket Importer"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
-import xml.etree.ElementTree as ET
+# import xml.etree.ElementTree as ET
+import xml.sax
+import os
 
 import FreeCAD
 
-from App.OpenRocket import OpenRocket
+# from App.OpenRocket import OpenRocket
+from App.Importer.OpenRocket import OpenRocketImporter
+from App.Utilities import _msg
 
 def open(filename):
     """Open filename and parse using the orkHandler().
@@ -47,10 +51,22 @@ def open(filename):
     doc = FreeCAD.newDocument(docname)
     doc.Label = docname[:-4]
 
-    ork = ET.parse(filename)
-    rocket = OpenRocket(doc)
-    rocket.process(ork)
-    rocket.create()
+    # ork = ET.parse(filename)
+    # rocket = OpenRocket(doc)
+    # rocket.process(ork)
+    # rocket.create()
+
+    _msg("Importing %s..." % filename)
+    # create an XMLReader
+    parser = xml.sax.make_parser()
+
+    # turn off namepsaces
+    parser.setFeature(xml.sax.handler.feature_namespaces, 0)
+
+    # override the default ContextHandler
+    handler = OpenRocketImporter(filename)
+    parser.setContentHandler(handler)
+    parser.parse(filename)
 
     doc.recompute()
     return doc
@@ -81,9 +97,21 @@ def insert(filename, docname):
         doc = FreeCAD.newDocument(docname)
     FreeCAD.ActiveDocument = doc
 
-    ork = ET.parse(filename)
-    rocket = OpenRocket(doc)
-    rocket.process(ork)
-    rocket.create()
+    # ork = ET.parse(filename)
+    # rocket = OpenRocket(doc)
+    # rocket.process(ork)
+    # rocket.create()
+
+    _msg("Importing %s..." % filename)
+    # create an XMLReader
+    parser = xml.sax.make_parser()
+
+    # turn off namepsaces
+    parser.setFeature(xml.sax.handler.feature_namespaces, 0)
+
+    # override the default ContextHandler
+    handler = OpenRocketImporter(filename)
+    parser.setContentHandler(handler)
+    parser.parse(filename)
 
     doc.recompute()

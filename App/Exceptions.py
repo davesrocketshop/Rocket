@@ -18,51 +18,14 @@
 # *   USA                                                                   *
 # *                                                                         *
 # ***************************************************************************
-"""Class for drawing nose cones"""
+"""Class for part import exceptions"""
 
-__title__ = "FreeCAD Nose Cones"
+__title__ = "FreeCAD Rocket Import Exceptions"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
-    
 
-import FreeCAD
-import FreeCADGui
-from PySide import QtGui
+class UnsupportedVersion(Exception):
 
-from App.ShapeNoseCone import ShapeNoseCone
-from Ui.ViewNoseCone import ViewProviderNoseCone
+    def __init__(self, message="Unknown manufacturer"):
+        self._message = message
 
-def QT_TRANSLATE_NOOP(scope, text):
-    return text
-
-def makeNoseCone(name='NoseCone'):
-    '''makeNoseCone(name): makes a Nose Cone'''
-    obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
-    ShapeNoseCone(obj)
-    if FreeCAD.GuiUp:
-        ViewProviderNoseCone(obj.ViewObject)
-
-        body=FreeCADGui.ActiveDocument.ActiveView.getActiveObject("pdbody")
-        part=FreeCADGui.ActiveDocument.ActiveView.getActiveObject("part")
-        if body:
-            body.Group=body.Group+[obj]
-        elif part:
-            part.Group=part.Group+[obj]
-    return obj
-
-class CmdNoseCone:
-    def Activated(self):
-        FreeCAD.ActiveDocument.openTransaction("Create nose cone")
-        FreeCADGui.addModule("Ui.CmdNoseCone")
-        FreeCADGui.doCommand("Ui.CmdNoseCone.makeNoseCone('NoseCone')")
-        FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
-
-    def IsActive(self):
-        if FreeCAD.ActiveDocument:
-            return True
-        return False
-
-    def GetResources(self):
-        return {'MenuText': QT_TRANSLATE_NOOP("Rocket_NoseCone", 'Nose Cone'),
-                'ToolTip': QT_TRANSLATE_NOOP("Rocket_NoseCone", 'Nose cone design'),
-                'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_NoseCone.svg"}
