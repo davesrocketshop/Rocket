@@ -28,14 +28,14 @@ import FreeCAD
 import FreeCADGui
 import Part
 
-from App.ShapeComponent import ShapeComponent
+from App.ShapeComponent import ShapeLocation
 
 from App.BodyTubeShapeHandler import BodyTubeShapeHandler
 
 def QT_TRANSLATE_NOOP(scope, text):
     return text
 
-class ShapeBodyTube(ShapeComponent):
+class ShapeBodyTube(ShapeLocation):
 
     def __init__(self, obj):
         super().__init__(obj)

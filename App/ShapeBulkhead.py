@@ -24,14 +24,14 @@ __title__ = "FreeCAD Bulkheads"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
     
-from App.ShapeComponent import ShapeComponent
+from App.ShapeComponent import ShapeLocation
 
 from App.BulkheadShapeHandler import BulkheadShapeHandler
 
 def QT_TRANSLATE_NOOP(scope, text):
     return text
 
-class ShapeBulkhead(ShapeComponent):
+class ShapeBulkhead(ShapeLocation):
 
     def __init__(self, obj):
         super().__init__(obj)

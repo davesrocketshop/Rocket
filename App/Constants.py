@@ -23,6 +23,8 @@
 __title__ = "FreeCAD Rocket Workbench Constants"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
+
+from DraftTools import translate
     
 # Part styles
 STYLE_SOLID = "solid"
@@ -73,3 +75,9 @@ COMPONENT_TYPE_NOSECONE = "Nose Cone"
 COMPONENT_TYPE_PARACHUTE = "Parachute"
 COMPONENT_TYPE_STREAMER = "Streamer"
 COMPONENT_TYPE_TRANSITION = "Transition"
+
+# Location Reference
+LOCATION_PARENT_TOP = translate('Rocket', "Top of the parent component")
+LOCATION_PARENT_MIDDLE = translate('Rocket', "Middle of the parent component")
+LOCATION_PARENT_BOTTOM = translate('Rocket', "Bottom of the parent component")
+LOCATION_BASE = translate('Rocket', "Base of the rocket")

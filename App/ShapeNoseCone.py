@@ -61,6 +61,12 @@ def _migrate_from_1_0(obj):
     obj.Diameter = 2.0 * old["Radius"]
     obj.ShoulderDiameter = 2.0 * old["ShoulderRadius"]
 
+def _migrate_from_2_0(obj):
+    _wrn("Nose cone migrating object from 2.0")
+
+    # Object with new properties
+    ShapeNoseCone(obj)
+
 class ShapeNoseCone(ShapeComponent):
 
     def __init__(self, obj):
@@ -110,6 +116,9 @@ class ShapeNoseCone(ShapeComponent):
     def onDocumentRestored(self, obj):
         if hasattr(obj, "Radius"):
             _migrate_from_1_0(obj)
+        # elif hasattr(obj, "version") and obj.version:
+        #     if obj.version == "2.0":
+        #         _migrate_from_2_0(obj)
 
     def execute(self, obj):
         shape = None

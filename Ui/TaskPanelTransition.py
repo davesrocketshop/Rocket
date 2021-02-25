@@ -119,7 +119,7 @@ class _TransitionDialog(QDialog):
         self.coefficientValidator.setBottom(0.0)
 
         self.coefficientInput = QtGui.QLineEdit(self)
-        self.coefficientInput.setFixedWidth(100)
+        self.coefficientInput.setFixedWidth(80)
         self.coefficientInput.setValidator(self.coefficientValidator)
         self.coefficientInput.setEnabled(False)
 

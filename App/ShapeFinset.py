@@ -18,45 +18,43 @@
 # *   USA                                                                   *
 # *                                                                         *
 # ***************************************************************************
-"""Class for drawing stages"""
+"""Class for drawing body tubes"""
 
-__title__ = "FreeCAD Stage View Provider"
+__title__ = "FreeCAD Body Tubes"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
-    
-import FreeCAD
-import FreeCADGui
 
-from App.Utilities import _msg
+import Part
 
-class ViewProviderStage:
+from App.ShapeComponent import ShapeComponent
 
-    def __init__(self, vobj):
-        vobj.addExtension("Gui::ViewProviderGroupExtensionPython")
-        vobj.Proxy = self
-        
-    def getIcon(self):
-        return FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/RocketWorkbench.svg"
+from App.BodyTubeShapeHandler import BodyTubeShapeHandler
 
-    def attach(self, vobj):
-        self.ViewObject = vobj
-        self.Object = vobj.Object
+def QT_TRANSLATE_NOOP(scope, text):
+    return text
 
-    def claimChildren(self):
-        """Define which objects will appear as children in the tree view.
+class ShapeFinset(ShapeComponent):
 
-        Returns
-        -------
-        list of <App::DocumentObject>s:
-            The objects claimed as children.
-        """
-        objs = []
-        if hasattr(self,"Object"):
-            objs = self.Object.Group
-        return objs
+    def __init__(self, obj):
+        super().__init__(obj)
 
-    def __getstate__(self):
-        return None
+        if not hasattr(obj,"InnerDiameter"):
+            obj.addProperty('App::PropertyInteger', 'FinCount', 'FinSet', QT_TRANSLATE_NOOP('App::Property', 'Number of fins in a radial pattern')).FinCount = 3
+        # Default set to a BT-50
+        if not hasattr(obj,"Diameter"):
+            obj.addProperty('App::PropertyLength', 'Diameter', 'FinSet', QT_TRANSLATE_NOOP('App::Property', 'Diameter of the fin base')).InnerDiameter = 24.8
+        if not hasattr(obj,"Offset"):
+            obj.addProperty('App::PropertyAngle', 'Offset', 'FinSet', QT_TRANSLATE_NOOP('App::Property', 'Initial fin offset from vertical')).Offset = 0
+        if not hasattr(obj,"Spacing"):
+            obj.addProperty('App::PropertyAngle', 'Spacing', 'FinSet', QT_TRANSLATE_NOOP('App::Property', 'Angle between consecutive fins')).Spacing = 120
 
-    def __setstate__(self, state):
-        return None
+        if not hasattr(obj,"Shape"):
+            obj.addProperty('Part::PropertyPartShape', 'Shape', 'BodyTube', QT_TRANSLATE_NOOP('App::Property', 'Shape of the fin can'))
+
+        if not hasattr(obj,"Group"):
+            obj.addExtension("App::GroupExtensionPython")
+
+    def execute(self, obj):
+        shape = FinSetShapeHandler(obj)
+        if shape is not None:
+            shape.draw()

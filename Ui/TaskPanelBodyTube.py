@@ -54,19 +54,19 @@ class _BodyTubeDialog(QDialog):
 
         self.idInput = ui.createWidget("Gui::InputField")
         self.idInput.unit = 'mm'
-        self.idInput.setFixedWidth(100)
+        self.idInput.setFixedWidth(80)
 
         self.odLabel = QtGui.QLabel(translate('Rocket', "Outer Diameter"), self)
 
         self.odInput = ui.createWidget("Gui::InputField")
         self.odInput.unit = 'mm'
-        self.odInput.setFixedWidth(100)
+        self.odInput.setFixedWidth(80)
 
         self.lengthLabel = QtGui.QLabel(translate('Rocket', "Length"), self)
 
         self.lengthInput = ui.createWidget("Gui::InputField")
         self.lengthInput.unit = 'mm'
-        self.lengthInput.setFixedWidth(100)
+        self.lengthInput.setFixedWidth(80)
 
         layout = QGridLayout()
 

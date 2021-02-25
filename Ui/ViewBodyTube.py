@@ -32,6 +32,7 @@ from Ui.TaskPanelBodyTube import TaskPanelBodyTube
 class ViewProviderBodyTube:
 
     def __init__(self, vobj):
+        vobj.addExtension("Gui::ViewProviderGroupExtensionPython")
         vobj.Proxy = self
         
     def getIcon(self):

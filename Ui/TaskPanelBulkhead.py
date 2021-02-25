@@ -57,20 +57,20 @@ class _BulkheadDialog(QDialog):
 
         self.diameterInput = ui.createWidget("Gui::InputField")
         self.diameterInput.unit = 'mm'
-        self.diameterInput.setFixedWidth(100)
+        self.diameterInput.setFixedWidth(80)
 
         self.thicknessLabel = QtGui.QLabel(translate('Rocket', "Thickness"), self)
 
         self.thicknessInput = ui.createWidget("Gui::InputField")
         self.thicknessInput.unit = 'mm'
-        self.thicknessInput.setFixedWidth(100)
+        self.thicknessInput.setFixedWidth(80)
 
         if crPanel:
             self.centerDiameterLabel = QtGui.QLabel(translate('Rocket', "Center Diameter"), self)
 
             self.centerDiameterInput = ui.createWidget("Gui::InputField")
             self.centerDiameterInput.unit = 'mm'
-            self.centerDiameterInput.setFixedWidth(100)
+            self.centerDiameterInput.setFixedWidth(80)
             self.notchedLabel = QtGui.QLabel(translate('Rocket', "Notched"), self)
 
             self.notchedCheckbox = QtGui.QCheckBox(self)
@@ -80,13 +80,13 @@ class _BulkheadDialog(QDialog):
 
             self.notchWidthInput = ui.createWidget("Gui::InputField")
             self.notchWidthInput.unit = 'mm'
-            self.notchWidthInput.setFixedWidth(100)
+            self.notchWidthInput.setFixedWidth(80)
 
             self.notchHeightLabel = QtGui.QLabel(translate('Rocket', "Height"), self)
 
             self.notchHeightInput = ui.createWidget("Gui::InputField")
             self.notchHeightInput.unit = 'mm'
-            self.notchHeightInput.setFixedWidth(100)
+            self.notchHeightInput.setFixedWidth(80)
 
         self.stepLabel = QtGui.QLabel(translate('Rocket', "Step"), self)
 
@@ -97,13 +97,13 @@ class _BulkheadDialog(QDialog):
 
         self.stepDiameterInput = ui.createWidget("Gui::InputField")
         self.stepDiameterInput.unit = 'mm'
-        self.stepDiameterInput.setFixedWidth(100)
+        self.stepDiameterInput.setFixedWidth(80)
 
         self.stepThicknessLabel = QtGui.QLabel(translate('Rocket', "Thickness"), self)
 
         self.stepThicknessInput = ui.createWidget("Gui::InputField")
         self.stepThicknessInput.unit = 'mm'
-        self.stepThicknessInput.setFixedWidth(100)
+        self.stepThicknessInput.setFixedWidth(80)
 
         self.holeLabel = QtGui.QLabel(translate('Rocket', "Holes"), self)
 
@@ -114,18 +114,18 @@ class _BulkheadDialog(QDialog):
 
         self.holeDiameterInput = ui.createWidget("Gui::InputField")
         self.holeDiameterInput.unit = 'mm'
-        self.holeDiameterInput.setFixedWidth(100)
+        self.holeDiameterInput.setFixedWidth(80)
 
         self.holeCenterLabel = QtGui.QLabel(translate('Rocket', "Center"), self)
 
         self.holeCenterInput = ui.createWidget("Gui::InputField")
         self.holeCenterInput.unit = 'mm'
-        self.holeCenterInput.setFixedWidth(100)
+        self.holeCenterInput.setFixedWidth(80)
 
         self.holeCountLabel = QtGui.QLabel(translate('Rocket', "Count"), self)
 
         self.holeCountSpinBox = QtGui.QSpinBox(self)
-        self.holeCountSpinBox.setFixedWidth(100)
+        self.holeCountSpinBox.setFixedWidth(80)
         self.holeCountSpinBox.setMinimum(1)
         self.holeCountSpinBox.setMaximum(10000)
 
@@ -134,7 +134,7 @@ class _BulkheadDialog(QDialog):
         # Offsets can be positive or negative so no validator required
         self.holeOffsetInput = ui.createWidget("Gui::InputField")
         self.holeOffsetInput.unit = 'deg'
-        self.holeOffsetInput.setFixedWidth(100)
+        self.holeOffsetInput.setFixedWidth(80)
 
         row = 0
         layout = QGridLayout()

@@ -26,6 +26,8 @@ __url__ = "https://www.davesrocketshop.com"
 
 from App.Utilities import _err
 
+from App.Constants import LOCATION_PARENT_TOP, LOCATION_PARENT_MIDDLE, LOCATION_PARENT_BOTTOM, LOCATION_BASE
+
 def QT_TRANSLATE_NOOP(scope, text):
     return text
 
@@ -42,7 +44,7 @@ class ShapeComponent:
             obj.addProperty('App::PropertyString', 'Material', 'RocketComponent', QT_TRANSLATE_NOOP('App::Property', 'Component material')).Material = ""
 
         obj.Proxy=self
-        self.version = '2.0'
+        self.version = '3.0'
         self._scratch = {} # None persistent property storage, for import properties and similar
 
     def __getstate__(self):
@@ -64,3 +66,22 @@ class ShapeComponent:
     # This will be implemented in the derived class
     def execute(self, obj):
         _err("No execute method defined for %s" % (self.__class__.__name__))
+
+class ShapeLocation(ShapeComponent):
+
+    def __init__(self, obj):
+        super().__init__(obj)
+        
+        if not hasattr(obj, 'LocationReference'):
+            obj.addProperty('App::PropertyEnumeration', 'LocationReference', 'RocketComponent', QT_TRANSLATE_NOOP('App::Property', 'Reference location for the location'))
+        obj.LocationReference = [
+                    LOCATION_PARENT_TOP,
+                    LOCATION_PARENT_MIDDLE,
+                    LOCATION_PARENT_BOTTOM,
+                    LOCATION_BASE
+                ]
+        obj.LocationReference = LOCATION_PARENT_BOTTOM
+        if not hasattr(obj, 'Location'):
+            obj.addProperty('App::PropertyDistance', 'Location', 'RocketComponent', QT_TRANSLATE_NOOP('App::Property', 'Location offset from the reference')).Location = 0.0
+        if not hasattr(obj, 'RadialOffset'):
+            obj.addProperty('App::PropertyAngle', 'RadialOffset', 'RocketComponent', QT_TRANSLATE_NOOP('App::Property', 'Radial offset from the vertical')).RadialOffset = 0.0

@@ -68,6 +68,12 @@ def _migrate_from_1_0(obj):
     obj.ForeShoulderDiameter = 2.0 * old["ForeShoulderRadius"]
     obj.AftShoulderDiameter = 2.0 * old["AftShoulderRadius"]
 
+def _migrate_from_2_0(obj):
+    _wrn("Transition migrating object from 2.0")
+
+    # Object with new properties
+    ShapeTransition(obj)
+
 class ShapeTransition(ShapeComponent):
 
     def __init__(self, obj):
@@ -132,7 +138,9 @@ class ShapeTransition(ShapeComponent):
     def onDocumentRestored(self, obj):
         if hasattr(obj, "ForeRadius"):
             _migrate_from_1_0(obj)
-
+        # elif hasattr(obj, "version") and obj.version:
+        #     if obj.version == "2.0":
+        #         _migrate_from_2_0(obj)
 
     def execute(self, obj):
         shape = None
