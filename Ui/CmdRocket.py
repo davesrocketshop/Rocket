@@ -18,46 +18,59 @@
 # *   USA                                                                   *
 # *                                                                         *
 # ***************************************************************************
-"""Class for drawing bulkheads"""
+"""Class for drawing rocket assemblies"""
 
-__title__ = "FreeCAD Bulkheads"
+__title__ = "FreeCAD Rocket Assembly"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
     
+
 import FreeCAD
 import FreeCADGui
+from PySide import QtGui
 
-from App.ShapeBulkhead import ShapeBulkhead
-from Ui.ViewBulkhead import ViewProviderBulkhead
+from App.ShapeRocket import ShapeRocket
+from Ui.ViewRocket import ViewProviderRocket
+from Ui.CmdStage import makeStage
 
 def QT_TRANSLATE_NOOP(scope, text):
     return text
 
-def makeBulkhead(name):
-    '''makeBulkhead(name): makes a bulkhead'''
+def makeRocket(name='Rocket', makeSustainer=True):
     obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
-    ShapeBulkhead(obj)
+    ShapeRocket(obj)
     if FreeCAD.GuiUp:
-        ViewProviderBulkhead(obj.ViewObject)
+        ViewProviderRocket(obj.ViewObject)
 
-        stage=FreeCADGui.ActiveDocument.ActiveView.getActiveObject("stage")
-        if stage:
-            stage.Group=stage.Group+[obj]
+        # body=FreeCADGui.ActiveDocument.ActiveView.getActiveObject("pdbody")
+        # part=FreeCADGui.ActiveDocument.ActiveView.getActiveObject("part")
+        # if body:
+        #     body.Group=body.Group+[obj]
+        # elif part:
+        #     part.Group=part.Group+[obj]
+
+    if makeSustainer:
+        sustainer = makeStage()
+        sustainer.Label = 'Sustainer'
+        obj.addObject(sustainer)
+        FreeCADGui.ActiveDocument.ActiveView.setActiveObject('stage', sustainer)
+    
+    FreeCADGui.ActiveDocument.ActiveView.setActiveObject('rocket', obj)
     return obj
 
-class CmdBulkhead:
+class CmdRocket:
     def Activated(self):
-        FreeCAD.ActiveDocument.openTransaction("Create bulkhead")
-        FreeCADGui.addModule("Ui.CmdBulkhead")
-        FreeCADGui.doCommand("Ui.CmdBulkhead.makeBulkhead('Bulkhead')")
+        FreeCAD.ActiveDocument.openTransaction("Create rocket assembly")
+        FreeCADGui.addModule("Ui.CmdRocket")
+        FreeCADGui.doCommand("Ui.CmdRocket.makeRocket('Rocket')")
         FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
 
     def IsActive(self):
         if FreeCAD.ActiveDocument:
             return True
         return False
-        
+
     def GetResources(self):
-        return {'MenuText': QT_TRANSLATE_NOOP("Rocket_Bulkhead", 'Bulkhead'),
-                'ToolTip': QT_TRANSLATE_NOOP("Rocket_Bulkhead", 'Bulkhead design'),
-                'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Bulkhead.svg"}
+        return {'MenuText': QT_TRANSLATE_NOOP("Rocket_Rocket", 'Rocket'),
+                'ToolTip': QT_TRANSLATE_NOOP("Rocket_Rocket", 'Rocket assembly'),
+                'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Rocket.svg"}

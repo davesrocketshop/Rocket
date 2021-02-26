@@ -24,6 +24,8 @@ __url__ = "https://www.davesrocketshop.com"
 
 import FreeCAD, FreeCADGui
 
+from Ui.CmdRocket import CmdRocket
+from Ui.CmdStage import CmdStage
 from Ui.CmdNoseCone import CmdNoseCone
 from Ui.CmdTransition import CmdTransition
 from Ui.CmdCenteringRing import CmdCenteringRing
@@ -32,6 +34,8 @@ from Ui.CmdBulkhead import CmdBulkhead
 from Ui.CmdFin import CmdFin
 from Ui.CmdFinCan import CmdFinCan
 
+FreeCADGui.addCommand('Rocket_Rocket', CmdRocket())
+FreeCADGui.addCommand('Rocket_Stage', CmdStage())
 FreeCADGui.addCommand('Rocket_NoseCone', CmdNoseCone())
 FreeCADGui.addCommand('Rocket_Transition', CmdTransition())
 FreeCADGui.addCommand('Rocket_CenteringRing', CmdCenteringRing())

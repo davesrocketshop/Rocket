@@ -42,12 +42,9 @@ def makeTransition(name):
     if FreeCAD.GuiUp:
         ViewProviderTransition(obj.ViewObject)
 
-        body=FreeCADGui.ActiveDocument.ActiveView.getActiveObject("pdbody")
-        part=FreeCADGui.ActiveDocument.ActiveView.getActiveObject("part")
-        if body:
-            body.Group=body.Group+[obj]
-        elif part:
-            part.Group=part.Group+[obj]
+        stage=FreeCADGui.ActiveDocument.ActiveView.getActiveObject("stage")
+        if stage:
+            stage.Group=stage.Group+[obj]
     return obj
 
 class CmdTransition:

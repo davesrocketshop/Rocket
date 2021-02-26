@@ -24,12 +24,6 @@ __title__ = "FreeCAD Rocket Assembly"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
-import FreeCAD
-import FreeCADGui
-
-from App.Utilities import _err
-from Ui.ViewStage import ViewProviderStage
-
 def QT_TRANSLATE_NOOP(scope, text):
     return text
 
@@ -58,17 +52,3 @@ class ShapeStage:
 
         if not hasattr(obj,'Shape'): # old-style Site
             return
-
-def makeStage(name='Stage'):
-    obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
-    ShapeStage(obj)
-    if FreeCAD.GuiUp:
-        ViewProviderStage(obj.ViewObject)
-
-        body=FreeCADGui.ActiveDocument.ActiveView.getActiveObject("pdbody")
-        part=FreeCADGui.ActiveDocument.ActiveView.getActiveObject("part")
-        if body:
-            body.Group=body.Group+[obj]
-        elif part:
-            part.Group=part.Group+[obj]
-    return obj

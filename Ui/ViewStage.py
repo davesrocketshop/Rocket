@@ -36,7 +36,7 @@ class ViewProviderStage:
         vobj.Proxy = self
         
     def getIcon(self):
-        return FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/RocketWorkbench.svg"
+        return FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Stage.svg"
 
     def attach(self, vobj):
         self.ViewObject = vobj

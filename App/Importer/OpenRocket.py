@@ -37,7 +37,7 @@ from App.Importer.NoseElement import NoseElement
 
 from App.Utilities import _msg
 
-from App.ShapeRocket import makeRocket
+from Ui.CmdRocket import makeRocket
 
 class RootElement(ComponentElement):
 
@@ -71,7 +71,7 @@ class RocketElement(ComponentElement):
                               }
         self._knownTags = ["subcomponents", "designer", "appearance", "motormount", "finpoints", "motorconfiguration", "flightconfiguration", "deploymentconfiguration", "separationconfiguration", "referencetype", "customreference", "revision"]
 
-        self._obj = makeRocket()
+        self._obj = makeRocket(makeSustainer=False)
 
     def onName(self, content):
         self._obj.Label = content

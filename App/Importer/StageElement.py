@@ -27,7 +27,7 @@ __url__ = "https://www.davesrocketshop.com"
 from App.Importer.ComponentElement import ComponentElement
 import App.Importer as Importer
 
-from App.ShapeStage import makeStage
+from Ui.CmdStage import makeStage
 
 class StageElement(ComponentElement):
 

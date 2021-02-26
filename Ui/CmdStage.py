@@ -18,37 +18,49 @@
 # *   USA                                                                   *
 # *                                                                         *
 # ***************************************************************************
-"""Class for rocket assemblies"""
+"""Class for drawing nose cones"""
 
-__title__ = "FreeCAD Rocket Assembly"
+__title__ = "FreeCAD Nose Cones"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
+    
+
+import FreeCAD
+import FreeCADGui
+from PySide import QtGui
+
+from App.ShapeStage import ShapeStage
+from Ui.ViewStage import ViewProviderStage
 
 def QT_TRANSLATE_NOOP(scope, text):
     return text
 
-class ShapeRocket:
+def makeStage(name='Stage'):
+    obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
+    ShapeStage(obj)
+    if FreeCAD.GuiUp:
+        ViewProviderStage(obj.ViewObject)
 
-    def __init__(self, obj):
-        if not hasattr(obj,"Group"):
-            obj.addExtension("App::GroupExtensionPython")
+        rocket=FreeCADGui.ActiveDocument.ActiveView.getActiveObject("rocket")
+        if rocket:
+            rocket.Group=rocket.Group+[obj]
 
-        obj.Proxy=self
-        self.version = '1.0'
+    FreeCADGui.ActiveDocument.ActiveView.setActiveObject('stage', obj)
+    return obj
 
-    def __getstate__(self):
-        return self.version
+class CmdStage:
+    def Activated(self):
+        FreeCAD.ActiveDocument.openTransaction("Create rocket stage")
+        FreeCADGui.addModule("Ui.CmdStage")
+        FreeCADGui.doCommand("Ui.CmdStage.makeStage('Stage')")
+        FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
 
-    def execute(self,obj):
-        """Method run when the object is recomputed.
+    def IsActive(self):
+        if FreeCAD.ActiveDocument:
+            return True
+        return False
 
-        If the site has no Shape or Terrain property assigned, do nothing.
-
-        Perform additions and subtractions on terrain, and assign to the site's
-        Shape.
-
-            see Mod/Arch/ArchSite.py for more information
-        """
-
-        if not hasattr(obj,'Shape'): # old-style Site
-            return
+    def GetResources(self):
+        return {'MenuText': QT_TRANSLATE_NOOP("Rocket_Stage", 'Stage'),
+                'ToolTip': QT_TRANSLATE_NOOP("Rocket_Stage", 'Rocket Stage'),
+                'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Stage.svg"}

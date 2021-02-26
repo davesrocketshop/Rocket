@@ -76,6 +76,8 @@ class ShapeNoseCone(ShapeComponent):
             obj.addProperty('App::PropertyLength', 'Length', 'NoseCone', QT_TRANSLATE_NOOP('App::Property', 'Length of the nose not including any shoulder')).Length = 60.0
         if not hasattr(obj, 'Diameter'):
             obj.addProperty('App::PropertyLength', 'Diameter', 'NoseCone', QT_TRANSLATE_NOOP('App::Property', 'Diameter at the base of the nose')).Diameter = 20.0
+        if not hasattr(obj, 'AutoDiameter'):
+            obj.addProperty('App::PropertyBool', 'AutoDiameter', 'NoseCone', QT_TRANSLATE_NOOP('App::Property', 'Automatically set the nose diameter when possible')).AutoDiameter = False
         if not hasattr(obj, 'Thickness'):
             obj.addProperty('App::PropertyLength', 'Thickness', 'NoseCone', QT_TRANSLATE_NOOP('App::Property', 'Nose cone thickness')).Thickness = 2.0
         if not hasattr(obj, 'Shoulder'):
@@ -84,6 +86,8 @@ class ShapeNoseCone(ShapeComponent):
             obj.addProperty('App::PropertyLength', 'ShoulderLength', 'NoseCone', QT_TRANSLATE_NOOP('App::Property', 'Shoulder Length')).ShoulderLength = 10.0
         if not hasattr(obj, 'ShoulderDiameter'):
             obj.addProperty('App::PropertyLength', 'ShoulderDiameter', 'NoseCone', QT_TRANSLATE_NOOP('App::Property', 'Shoulder diameter')).ShoulderDiameter = 16.0
+        if not hasattr(obj, 'ShoulderAutoDiameter'):
+            obj.addProperty('App::PropertyBool', 'ShoulderAutoDiameter', 'NoseCone', QT_TRANSLATE_NOOP('App::Property', 'Automatically set the nose shoulder diameter when possible')).ShoulderAutoDiameter = False
         if not hasattr(obj, 'ShoulderThickness'):
             obj.addProperty('App::PropertyLength', 'ShoulderThickness', 'NoseCone', QT_TRANSLATE_NOOP('App::Property', 'Shoulder thickness')).ShoulderThickness = 2.0
         if not hasattr(obj, 'Coefficient'):
