@@ -29,9 +29,9 @@ import FreeCADGui
 
 from App.ShapeBodyTube import ShapeBodyTube
 from Ui.ViewBodyTube import ViewProviderBodyTube
+from Ui.CmdStage import addToStage
 
-def QT_TRANSLATE_NOOP(scope, text):
-    return text
+from DraftTools import translate
 
 def makeBodyTube(name='BodyTube'):
     '''makeBodyTube(name): makes a Body Tube'''
@@ -40,9 +40,7 @@ def makeBodyTube(name='BodyTube'):
     if FreeCAD.GuiUp:
         ViewProviderBodyTube(obj.ViewObject)
 
-        stage=FreeCADGui.ActiveDocument.ActiveView.getActiveObject("stage")
-        if stage:
-            stage.Group=stage.Group+[obj]
+        addToStage(obj)
     return obj
 
 class CmdBodyTube:
@@ -58,6 +56,6 @@ class CmdBodyTube:
         return False
             
     def GetResources(self):
-        return {'MenuText': QT_TRANSLATE_NOOP("Rocket_BodyTube", 'Body Tube'),
-                'ToolTip': QT_TRANSLATE_NOOP("Rocket_BodyTube", 'Body tube design'),
+        return {'MenuText': translate("Rocket", 'Body Tube'),
+                'ToolTip': translate("Rocket", 'Body tube design'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_BodyTube.svg"}

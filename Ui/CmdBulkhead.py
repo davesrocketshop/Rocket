@@ -29,9 +29,9 @@ import FreeCADGui
 
 from App.ShapeBulkhead import ShapeBulkhead
 from Ui.ViewBulkhead import ViewProviderBulkhead
+from Ui.CmdStage import addToStage
 
-def QT_TRANSLATE_NOOP(scope, text):
-    return text
+from DraftTools import translate
 
 def makeBulkhead(name):
     '''makeBulkhead(name): makes a bulkhead'''
@@ -40,9 +40,7 @@ def makeBulkhead(name):
     if FreeCAD.GuiUp:
         ViewProviderBulkhead(obj.ViewObject)
 
-        stage=FreeCADGui.ActiveDocument.ActiveView.getActiveObject("stage")
-        if stage:
-            stage.Group=stage.Group+[obj]
+        addToStage(obj)
     return obj
 
 class CmdBulkhead:
@@ -58,6 +56,6 @@ class CmdBulkhead:
         return False
         
     def GetResources(self):
-        return {'MenuText': QT_TRANSLATE_NOOP("Rocket_Bulkhead", 'Bulkhead'),
-                'ToolTip': QT_TRANSLATE_NOOP("Rocket_Bulkhead", 'Bulkhead design'),
+        return {'MenuText': translate("Rocket", 'Bulkhead'),
+                'ToolTip': translate("Rocket", 'Bulkhead design'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Bulkhead.svg"}

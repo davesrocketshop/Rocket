@@ -30,9 +30,9 @@ from PySide import QtGui
 
 from App.ShapeFin import ShapeFin
 from Ui.ViewFin import ViewProviderFin
+from Ui.CmdStage import addToStage
 
-def QT_TRANSLATE_NOOP(scope, text):
-    return text
+from DraftTools import translate
 
 def makeFin(name):
     '''makeFin(name): makes a Fin'''
@@ -41,9 +41,7 @@ def makeFin(name):
     if FreeCAD.GuiUp:
         ViewProviderFin(obj.ViewObject)
 
-        stage=FreeCADGui.ActiveDocument.ActiveView.getActiveObject("stage")
-        if stage:
-            stage.Group=stage.Group+[obj]
+        addToStage(obj)
     return obj
 
 class CmdFin:
@@ -59,6 +57,6 @@ class CmdFin:
         return False
         
     def GetResources(self):
-        return {'MenuText': QT_TRANSLATE_NOOP("Rocket_Fin", 'Fin'),
-                'ToolTip': QT_TRANSLATE_NOOP("Rocket_Fin", 'Fin design'),
+        return {'MenuText': translate("Rocket", 'Fin'),
+                'ToolTip': translate("Rocket", 'Fin design'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Fin.svg"}

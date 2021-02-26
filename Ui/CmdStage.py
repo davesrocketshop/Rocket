@@ -32,8 +32,19 @@ from PySide import QtGui
 from App.ShapeStage import ShapeStage
 from Ui.ViewStage import ViewProviderStage
 
-def QT_TRANSLATE_NOOP(scope, text):
-    return text
+from DraftTools import translate
+
+def addToStage(obj):
+    stage=FreeCADGui.ActiveDocument.ActiveView.getActiveObject("stage")
+    if stage:
+        # Add to the last item in the stage if it is a group object
+        if len(stage.Group) > 0:
+            groupObj = stage.Group[len(stage.Group) - 1]
+            if hasattr(groupObj,"Group"):
+                groupObj.Group = groupObj.Group + [obj]
+                return
+
+        stage.Group=stage.Group + [obj]
 
 def makeStage(name='Stage'):
     obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
@@ -53,7 +64,7 @@ class CmdStage:
         FreeCAD.ActiveDocument.openTransaction("Create rocket stage")
         FreeCADGui.addModule("Ui.CmdStage")
         FreeCADGui.doCommand("Ui.CmdStage.makeStage('Stage')")
-        FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
+        FreeCADGui.doCommand("App.activeDocument().recompute(None,True,True)")
 
     def IsActive(self):
         if FreeCAD.ActiveDocument:
@@ -61,6 +72,25 @@ class CmdStage:
         return False
 
     def GetResources(self):
-        return {'MenuText': QT_TRANSLATE_NOOP("Rocket_Stage", 'Stage'),
-                'ToolTip': QT_TRANSLATE_NOOP("Rocket_Stage", 'Rocket Stage'),
+        return {'MenuText': translate("Rocket", 'Stage'),
+                'ToolTip': translate("Rocket", 'Rocket Stage'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Stage.svg"}
+
+
+class CmdToggleStage:
+    "the ToggleStage command definition"
+    def GetResources(self):
+        return {'MenuText': translate("Rocket","Toggle active stage"),
+                'ToolTip' : translate("Rocket","Toggle the active stage")}
+
+    def IsActive(self):
+        return bool(FreeCADGui.Selection.getSelection())
+
+    def Activated(self):
+        view = FreeCADGui.ActiveDocument.ActiveView
+
+        for obj in FreeCADGui.Selection.getSelection():
+            if view.getActiveObject('stage') == obj:
+                view.setActiveObject("stage", None)
+            else:
+                view.setActiveObject("stage", obj)

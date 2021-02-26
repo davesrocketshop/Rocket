@@ -27,6 +27,10 @@ __url__ = "https://www.davesrocketshop.com"
 import FreeCAD
 import FreeCADGui
 
+from PySide import QtCore,QtGui
+
+from DraftTools import translate
+
 from App.Utilities import _msg
 
 class ViewProviderStage:
@@ -54,6 +58,15 @@ class ViewProviderStage:
         if hasattr(self,"Object"):
             objs = self.Object.Group
         return objs
+
+    def setupContextMenu(self, vobj, menu):
+        """Add the component specific options to the context menu."""
+        action1 = QtGui.QAction(translate("Rocket","Toggle active stage"),menu)
+        QtCore.QObject.connect(action1,QtCore.SIGNAL("triggered()"),self.toggleStage)
+        menu.addAction(action1)
+
+    def toggleStage(self):
+        FreeCADGui.runCommand("Rocket_ToggleStage")
 
     def __getstate__(self):
         return None

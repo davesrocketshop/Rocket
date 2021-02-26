@@ -29,25 +29,17 @@ import FreeCAD
 import FreeCADGui
 from PySide import QtGui
 
+from DraftTools import translate
+
 from App.ShapeRocket import ShapeRocket
 from Ui.ViewRocket import ViewProviderRocket
 from Ui.CmdStage import makeStage
-
-def QT_TRANSLATE_NOOP(scope, text):
-    return text
 
 def makeRocket(name='Rocket', makeSustainer=True):
     obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
     ShapeRocket(obj)
     if FreeCAD.GuiUp:
         ViewProviderRocket(obj.ViewObject)
-
-        # body=FreeCADGui.ActiveDocument.ActiveView.getActiveObject("pdbody")
-        # part=FreeCADGui.ActiveDocument.ActiveView.getActiveObject("part")
-        # if body:
-        #     body.Group=body.Group+[obj]
-        # elif part:
-        #     part.Group=part.Group+[obj]
 
     if makeSustainer:
         sustainer = makeStage()
@@ -63,7 +55,7 @@ class CmdRocket:
         FreeCAD.ActiveDocument.openTransaction("Create rocket assembly")
         FreeCADGui.addModule("Ui.CmdRocket")
         FreeCADGui.doCommand("Ui.CmdRocket.makeRocket('Rocket')")
-        FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
+        FreeCADGui.doCommand("App.activeDocument().recompute(None,True,True)")
 
     def IsActive(self):
         if FreeCAD.ActiveDocument:
@@ -71,6 +63,6 @@ class CmdRocket:
         return False
 
     def GetResources(self):
-        return {'MenuText': QT_TRANSLATE_NOOP("Rocket_Rocket", 'Rocket'),
-                'ToolTip': QT_TRANSLATE_NOOP("Rocket_Rocket", 'Rocket assembly'),
+        return {'MenuText': translate("Rocket", 'Rocket'),
+                'ToolTip': translate("Rocket", 'Rocket assembly'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Rocket.svg"}
