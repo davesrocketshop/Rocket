@@ -24,6 +24,8 @@ __url__ = "https://www.davesrocketshop.com"
 
 import FreeCAD, FreeCADGui
 
+from DraftTools import translate
+
 from Ui.CmdNoseCone import CmdNoseCone
 from Ui.CmdTransition import CmdTransition
 from Ui.CmdCenteringRing import CmdCenteringRing
@@ -32,6 +34,10 @@ from Ui.CmdBulkhead import CmdBulkhead
 from Ui.CmdFin import CmdFin
 from Ui.CmdFinCan import CmdFinCan
 
+# Calculators
+from Ui.CmdCalcThrustToWeight import CmdCalcThrustToWeight
+from Ui.CmdCalcVentHoles import CmdCalcVentHoles
+
 FreeCADGui.addCommand('Rocket_NoseCone', CmdNoseCone())
 FreeCADGui.addCommand('Rocket_Transition', CmdTransition())
 FreeCADGui.addCommand('Rocket_CenteringRing', CmdCenteringRing())
@@ -39,3 +45,20 @@ FreeCADGui.addCommand('Rocket_BodyTube', CmdBodyTube())
 FreeCADGui.addCommand('Rocket_Bulkhead', CmdBulkhead())
 FreeCADGui.addCommand('Rocket_Fin', CmdFin())
 FreeCADGui.addCommand('Rocket_FinCan', CmdFinCan())
+
+FreeCADGui.addCommand('Rocket_CalcThrustToWeight', CmdCalcThrustToWeight())
+FreeCADGui.addCommand('Rocket_CalcVentHoles', CmdCalcVentHoles())
+
+class _CalculatorGroupCommand:
+
+    def GetCommands(self):
+        return tuple(['Rocket_CalcThrustToWeight', 'Rocket_CalcVentHoles'])
+    def GetResources(self):
+        return {
+            'MenuText': translate('Rocket', 'Calculators'),
+            'ToolTip': translate('Rocket', 'Calculators')
+        }
+    def IsActive(self):
+        return not FreeCAD.ActiveDocument is None
+
+FreeCADGui.addCommand('Rocket_Calculators', _CalculatorGroupCommand())

@@ -18,33 +18,34 @@
 # *   USA                                                                   *
 # *                                                                         *
 # ***************************************************************************
+"""Class for calculating thrust to weight"""
 
+__title__ = "FreeCAD Thrust To Weight Command"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
+    
+import FreeCAD
+import FreeCADGui
 
-class RocketWorkbench ( Workbench ):
-    "Rocket workbench object"
-    Icon = FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/RocketWorkbench.svg"
-    MenuText = "Rocket"
-    ToolTip = "Rocket workbench"
+from DraftTools import translate
 
-    def Initialize(self):
-        FreeCADGui.addLanguagePath(FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/translations")
+from Ui.DialogThrustToWeight import DialogThrustToWeight
 
-        # load the module
-        import RocketGui
-        from PySide.QtCore import QT_TRANSLATE_NOOP
+def calcThrustToWeight():
+    form = DialogThrustToWeight()
+    form.exec_()
+
+class CmdCalcThrustToWeight:
+    def Activated(self):
+        FreeCADGui.addModule("Ui.CmdCalcThrustToWeight")
+        FreeCADGui.doCommand("Ui.CmdCalcThrustToWeight.calcThrustToWeight()")
+
+    def IsActive(self):
+        if FreeCAD.ActiveDocument:
+            return True
+        return False
         
-        self.appendToolbar(QT_TRANSLATE_NOOP('Rocket', 'Rocket'),
-                        ['Rocket_NoseCone', 'Rocket_Transition', 'Rocket_BodyTube', 'Rocket_CenteringRing', 'Rocket_Bulkhead', 'Rocket_Fin', 'Separator', 'Rocket_Calculators'])
-
-        self.appendMenu(QT_TRANSLATE_NOOP('Rocket', 'Rocket'), 
-                        ['Rocket_NoseCone', 'Rocket_Transition', 'Rocket_BodyTube', 'Rocket_CenteringRing', 'Rocket_Bulkhead', 'Rocket_Fin', 'Separator'])
-        self.appendMenu([QT_TRANSLATE_NOOP("Rocket", "Rocket"),
-                         QT_TRANSLATE_NOOP("Rocket", "Calculators")],
-                        ['Rocket_CalcThrustToWeight', 'Rocket_CalcVentHoles'])
-
-    def GetClassName(self):
-        return "Gui::PythonWorkbench"
-
-Gui.addWorkbench(RocketWorkbench())
+    def GetResources(self):
+        return {'MenuText': translate("Rocket", 'Calculate Thrust To Weight'),
+                'ToolTip': translate("Rocket", 'Calculate Thrust To Weight'),
+                'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Calculator.svg"}
