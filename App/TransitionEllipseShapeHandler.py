@@ -56,7 +56,7 @@ class TransitionEllipseShapeHandler(TransitionShapeHandler):
 
     def _eTheta(self, major, minor, tanTheta):
         #
-        # Adgusts the angle to account for the eccentric anomolies. Refer to
+        # Adgusts the angle to account for the eccentric anomalies. Refer to
         #  https://forum.freecadweb.org/viewtopic.php?f=22&t=55655
         eTheta = math.atan(major / minor * tanTheta)
         return eTheta

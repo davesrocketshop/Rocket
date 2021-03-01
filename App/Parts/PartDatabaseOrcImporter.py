@@ -149,7 +149,7 @@ class MaterialElement(Element):
         self._units = attributes["UnitsOfMeasure"]
 
     def _defaultManufacturer(self):
-        # The defailt manufacturer is based on the filename
+        # The default manufacturer is based on the filename
         manufacturers = {
             "preseed.orc" : "unspecified",
             "bluetube.orc" : "Always Ready Rocketry",
@@ -170,7 +170,7 @@ class MaterialElement(Element):
         return manufacturers[name]
 
     def _sanitizeName(self, content):
-        # LOCPrecision daa has [material:name...] format
+        # LOCPrecision data has [material:name...] format
         content = content.strip()
         while str(content).startswith('[material:'):
             content = content[10:].rstrip(']').strip()
@@ -244,7 +244,7 @@ class ComponentElement(Element):
         self._mass = (0.0, "")
 
     def _defaultManufacturer(self):
-        # The defailt manufacturer is based on the filename
+        # The default manufacturer is based on the filename
         manufacturers = {
             "preseed.orc" : "unspecified",
             "bluetube.orc" : "Always Ready Rocketry",
@@ -277,7 +277,7 @@ class ComponentElement(Element):
         return content
 
     def _sanitizeName(self, content):
-        # LOCPrecision daa has [material:name...] format
+        # LOCPrecision data has [material:name...] format
         while str(content).startswith('[material:'):
             content = content[10:len(content) - 1]
         return content
