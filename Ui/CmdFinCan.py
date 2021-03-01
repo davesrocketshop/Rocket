@@ -34,7 +34,7 @@ class CmdFinCan:
         FreeCAD.Console.PrintMessage("Fin Can Command\n")
 
     def IsActive(self):
-        if FreeCAD.ActiveDocument == None:
+        if FreeCAD.ActiveDocument is None:
             return False
         return True
         
