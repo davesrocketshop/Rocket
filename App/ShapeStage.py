@@ -24,6 +24,8 @@ __title__ = "FreeCAD Rocket Assembly"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
+import FreeCAD
+
 def QT_TRANSLATE_NOOP(scope, text):
     return text
 
@@ -39,6 +41,17 @@ class ShapeStage:
     def __getstate__(self):
         return self.version
 
+    def position(obj):
+        # Dynamic placements
+        length = 0.0
+        i = len(obj.Group) - 1
+        while i >= 0:
+            child = obj.Group[i]
+            child.Proxy.setAxialPosition(length)
+
+            length += float(child.Proxy.getAxialLength())
+            i -= 1
+
     def execute(self,obj):
         """Method run when the object is recomputed.
 
@@ -52,3 +65,4 @@ class ShapeStage:
 
         if not hasattr(obj,'Shape'): # old-style Site
             return
+

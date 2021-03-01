@@ -142,6 +142,10 @@ class ShapeTransition(ShapeComponent):
         #     if obj.version == "2.0":
         #         _migrate_from_2_0(obj)
 
+    def getAxialLength(self):
+        # Return the length of this component along the central axis
+        return self._obj.Length
+
     def execute(self, obj):
         shape = None
         if obj.TransitionType == TYPE_CONE:

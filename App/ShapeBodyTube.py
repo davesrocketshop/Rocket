@@ -42,9 +42,9 @@ class ShapeBodyTube(ShapeLocation):
 
         # Default set to a BT-50
         if not hasattr(obj,"InnerDiameter"):
-            obj.addProperty('App::PropertyLength', 'InnerDiameter', 'BodyTube', QT_TRANSLATE_NOOP('App::Property', 'Diameter of the inside of the body tube')).InnerDiameter = 24.1
+            obj.addProperty('App::PropertyLength', 'InnerDiameter', 'BodyTube', QT_TRANSLATE_NOOP('App::Property', 'Diameter of the inside of the body tube')).InnerDiameter = 24.13
         if not hasattr(obj,"OuterDiameter"):
-            obj.addProperty('App::PropertyLength', 'OuterDiameter', 'BodyTube', QT_TRANSLATE_NOOP('App::Property', 'Diameter of the outside of the body tube')).OuterDiameter = 24.8
+            obj.addProperty('App::PropertyLength', 'OuterDiameter', 'BodyTube', QT_TRANSLATE_NOOP('App::Property', 'Diameter of the outside of the body tube')).OuterDiameter = 24.79
         if not hasattr(obj,"Length"):
             obj.addProperty('App::PropertyLength', 'Length', 'BodyTube', QT_TRANSLATE_NOOP('App::Property', 'Length of the body tube')).Length = 457.0
 
@@ -53,6 +53,14 @@ class ShapeBodyTube(ShapeLocation):
 
         if not hasattr(obj,"Group"):
             obj.addExtension("App::GroupExtensionPython")
+
+    def getAxialLength(self):
+        # Return the length of this component along the central axis
+        return self._obj.Length
+
+    def getRadius(self):
+        # For placing objects on the outer part of the parent
+        return self._obj.OuterDiameter / 2.0
 
     def execute(self, obj):
         shape = BodyTubeShapeHandler(obj)

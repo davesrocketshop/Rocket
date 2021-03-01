@@ -32,6 +32,7 @@ from App.Utilities import _msg
 class ViewProviderRocket:
 
     def __init__(self, vobj):
+        vobj.addExtension("Gui::ViewProviderGroupExtensionPython")
         vobj.Proxy = self
         
     def getIcon(self):
@@ -53,6 +54,13 @@ class ViewProviderRocket:
         if hasattr(self,"Object"):
             objs = self.Object.Group
         return objs
+
+    def setEdit(self,vobj,mode):
+        # No editor associated with this object
+        return False
+
+    def unsetEdit(self,vobj,mode):
+        return False
 
     def __getstate__(self):
         return None

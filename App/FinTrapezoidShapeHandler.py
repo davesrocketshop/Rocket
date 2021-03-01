@@ -255,22 +255,45 @@ class FinTrapezoidShapeHandler:
                 return False
         return True
 
+    def _drawFin(self):
+        rootProfile = self._makeRootProfile()
+        tipProfile = self._makeTipProfile()
+        if rootProfile is not None and tipProfile is not None:
+            loft = Part.makeLoft([rootProfile, tipProfile], True)
+            if loft is not None:
+                if self._obj.Ttw:
+                    ttw = self._makeTtw()
+                    if ttw:
+                        loft = loft.fuse(ttw)
+        return loft
+
+    def _drawFinSet(self):
+        fins = []
+        for i in range(self._obj.FinCount):
+            fin = self._drawFin()
+            fin.translate(FreeCAD.Vector(0,0,self._obj.ParentRadius))
+            # fin.rotate(FreeCAD.Vector(0, 0, -self._obj.ParentRadius), FreeCAD.Vector(1,0,0), i * float(self._obj.FinSpacing))
+            fin.rotate(FreeCAD.Vector(0, 0, 0), FreeCAD.Vector(1,0,0), i * float(self._obj.FinSpacing))
+            fins.append(fin)
+
+        line = Part.LineSegment(FreeCAD.Vector(0.0, 0.0, self._obj.ParentRadius), FreeCAD.Vector(self._obj.RootChord, 0.0, self._obj.ParentRadius))
+        # wire = Part.Wire([line])
+        # face = Part.Face(wire)
+        can = line.toShape().revolve(FreeCAD.Vector(0, 0, 0),FreeCAD.Vector(1, 0, 0), 360)
+        # can = Part.makeCylinder(self._obj.ParentRadius, self._obj.RootChord, FreeCAD.Vector(0,0,0), FreeCAD.Vector(1,0,0), 360)
+        # can = can.fuse(fins)
+        return can
+
     def draw(self):
         
         if not self.isValidShape():
             return
 
         try:
-            rootProfile = self._makeRootProfile()
-            tipProfile = self._makeTipProfile()
-            if rootProfile is not None and tipProfile is not None:
-                loft = Part.makeLoft([rootProfile, tipProfile], True)
-                if loft is not None:
-                    if self._obj.Ttw:
-                        ttw = self._makeTtw()
-                        if ttw:
-                            loft = loft.fuse(ttw)
-                    self._obj.Shape = loft
+            if self._obj.FinSet:
+                self._obj.Shape = self._drawFinSet()
+            else:
+                self._obj.Shape = self._drawFin()
             self._obj.Placement = self._placement
         except (ZeroDivisionError, Part.OCCError):
             _err(translate('Rocket', "Fin parameters produce an invalid shape"))

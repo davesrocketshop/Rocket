@@ -24,6 +24,8 @@ __title__ = "FreeCAD Rocket Components"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
+import FreeCAD
+
 from App.Utilities import _err
 
 from App.Constants import LOCATION_PARENT_TOP, LOCATION_PARENT_MIDDLE, LOCATION_PARENT_BOTTOM, LOCATION_BASE
@@ -34,6 +36,8 @@ def QT_TRANSLATE_NOOP(scope, text):
 class ShapeComponent:
 
     def __init__(self, obj):
+        self._obj = obj
+
         if not hasattr(obj, 'Manufacturer'):
             obj.addProperty('App::PropertyString', 'Manufacturer', 'RocketComponent', QT_TRANSLATE_NOOP('App::Property', 'Component manufacturer')).Manufacturer = ""
         if not hasattr(obj, 'PartNumber'):
@@ -62,6 +66,59 @@ class ShapeComponent:
 
     def isScratch(self, name):
         return name in self._scratch
+
+    def getAxialLength(self):
+        # Return the length of this component along the central axis
+        return 0.0
+
+    def getRadius(self):
+        # For placing objects on the outer part of the parent
+        return 0.0
+
+    def setAxialPosition(self, partBase):
+        base = self._obj.Placement.Base
+        self._obj.Placement = FreeCAD.Placement(FreeCAD.Vector(partBase, base.y, base.z), FreeCAD.Rotation(0,0,0))
+
+        self.positionChildren(partBase)
+
+    def positionChildren(self, partBase):
+        # Dynamic placements
+        if hasattr(self._obj, "Group"):
+            for child in self._obj.Group:
+                child.Proxy.positionChild(child, self._obj, partBase, self.getAxialLength(), self.getRadius())
+
+    def positionChild(self, obj, parent, parentBase, parentLength, parentRadius):
+        print("ShapeComponent: positionChild")
+
+        if not hasattr(obj, 'LocationReference'):
+            partBase = parentBase
+            roll = 0.0
+        else:
+            if obj.LocationReference == LOCATION_PARENT_TOP:
+                partBase = (parentBase + parentLength) - float(obj.Location)
+            elif obj.LocationReference == LOCATION_PARENT_MIDDLE:
+                partBase = (parentBase + (parentLength / 2.0)) + float(obj.Location)
+            elif obj.LocationReference == LOCATION_PARENT_BOTTOM:
+                partBase = parentBase + float(obj.Location)
+            elif obj.LocationReference == LOCATION_BASE:
+                partBase = float(obj.Location)
+
+            roll = float(obj.RadialOffset)
+
+        base = obj.Placement.Base
+        newPlacement = FreeCAD.Placement(FreeCAD.Vector(partBase, 0, parentRadius), FreeCAD.Rotation(FreeCAD.Vector(1,0,0), roll), FreeCAD.Vector(0, 0, -parentRadius))
+        if obj.Placement != newPlacement:
+            print("Placement changed")
+            obj.Placement = newPlacement
+
+    def getOuterRadius(self):
+        return 0.0
+
+    def getInnerRadius(self):
+        return 0.0
+
+    def setRadialPosition(self, outerRadius, innerRadius):
+        pass
 
     # This will be implemented in the derived class
     def execute(self, obj):

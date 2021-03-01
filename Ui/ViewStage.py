@@ -32,6 +32,7 @@ from PySide import QtCore,QtGui
 from DraftTools import translate
 
 from App.Utilities import _msg
+from App.ShapeStage import ShapeStage
 
 class ViewProviderStage:
 
@@ -67,6 +68,24 @@ class ViewProviderStage:
 
     def toggleStage(self):
         FreeCADGui.runCommand("Rocket_ToggleStage")
+
+    def updateData(self,obj,prop):
+        print("updateData")
+        print(obj)
+        print(prop)
+        ShapeStage.position(self.Object)
+
+    def onChanged(self,vobj,prop):
+        print("onChanged")
+        print(vobj)
+        print(prop)
+
+    def setEdit(self,vobj,mode):
+        # No editor associated with this object
+        return False
+
+    def unsetEdit(self,vobj,mode):
+        return False
 
     def __getstate__(self):
         return None

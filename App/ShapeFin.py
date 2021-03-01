@@ -33,6 +33,7 @@ from App.ShapeComponent import ShapeLocation
 from App.Constants import FIN_TYPE_TRAPEZOID, FIN_TYPE_ELLIPSE, FIN_TYPE_TUBE, FIN_TYPE_SKETCH
 from App.Constants import FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE, \
     FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE
+from App.Constants import LOCATION_PARENT_TOP, LOCATION_PARENT_MIDDLE, LOCATION_PARENT_BOTTOM, LOCATION_BASE
 
 from App.FinTrapezoidShapeHandler import FinTrapezoidShapeHandler
 
@@ -57,12 +58,12 @@ class ShapeFin(ShapeLocation):
             obj.addProperty('App::PropertyEnumeration', 'RootCrossSection', 'Fin', QT_TRANSLATE_NOOP('App::Property', 'Fin root cross section'))
         obj.RootCrossSection = [FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE, 
             FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE]
-        obj.RootCrossSection = FIN_CROSS_SQUARE
+        obj.RootCrossSection = FIN_CROSS_AIRFOIL
 
         if not hasattr(obj,"RootChord"):
-            obj.addProperty('App::PropertyLength', 'RootChord', 'Fin', QT_TRANSLATE_NOOP('App::Property', 'Length of the base of the fin')).RootChord = 10.0
+            obj.addProperty('App::PropertyLength', 'RootChord', 'Fin', QT_TRANSLATE_NOOP('App::Property', 'Length of the base of the fin')).RootChord = 57.15
         if not hasattr(obj,"RootThickness"):
-            obj.addProperty('App::PropertyLength', 'RootThickness', 'Fin', QT_TRANSLATE_NOOP('App::Property', 'Fin root thickness')).RootThickness = 2.0
+            obj.addProperty('App::PropertyLength', 'RootThickness', 'Fin', QT_TRANSLATE_NOOP('App::Property', 'Fin root thickness')).RootThickness = 1.4
         if not hasattr(obj,"RootPerCent"):
             obj.addProperty('App::PropertyBool', 'RootPerCent', 'Fin', QT_TRANSLATE_NOOP('App::Property', 'Root chord lengths are percentages')).RootPerCent = True
         if not hasattr(obj,"RootLength1"):
@@ -74,12 +75,12 @@ class ShapeFin(ShapeLocation):
             obj.addProperty('App::PropertyEnumeration', 'TipCrossSection', 'Fin', QT_TRANSLATE_NOOP('App::Property', 'Fin tip cross section'))
         obj.TipCrossSection = [FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE, 
             FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE]
-        obj.TipCrossSection = FIN_CROSS_SQUARE
+        obj.TipCrossSection = FIN_CROSS_AIRFOIL
 
         if not hasattr(obj,"TipChord"):
-            obj.addProperty('App::PropertyLength', 'TipChord', 'Fin', QT_TRANSLATE_NOOP('App::Property', 'Length of the tip of the fin')).TipChord = 5.0
+            obj.addProperty('App::PropertyLength', 'TipChord', 'Fin', QT_TRANSLATE_NOOP('App::Property', 'Length of the tip of the fin')).TipChord = 30.48
         if not hasattr(obj,"TipThickness"):
-            obj.addProperty('App::PropertyLength', 'TipThickness', 'Fin', QT_TRANSLATE_NOOP('App::Property', 'Fin tip thickness')).TipThickness = 2.0
+            obj.addProperty('App::PropertyLength', 'TipThickness', 'Fin', QT_TRANSLATE_NOOP('App::Property', 'Fin tip thickness')).TipThickness = 1.4
         if not hasattr(obj,"TipPerCent"):
             obj.addProperty('App::PropertyBool', 'TipPerCent', 'Fin', QT_TRANSLATE_NOOP('App::Property', 'Tip chord lengths are percentages')).TipPerCent = True
         if not hasattr(obj,"TipThickness"):
@@ -90,9 +91,9 @@ class ShapeFin(ShapeLocation):
             obj.addProperty('App::PropertyLength', 'TipLength2', 'Fin', QT_TRANSLATE_NOOP('App::Property', 'Tip chord length 2')).TipLength2 = 80.0
 
         if not hasattr(obj,"Height"):
-            obj.addProperty('App::PropertyLength', 'Height', 'Fin', QT_TRANSLATE_NOOP('App::Property', 'Fin semi-span')).Height = 10.0
+            obj.addProperty('App::PropertyLength', 'Height', 'Fin', QT_TRANSLATE_NOOP('App::Property', 'Fin semi-span')).Height = 40.64
         if not hasattr(obj,"SweepLength"):
-            obj.addProperty('App::PropertyDistance', 'SweepLength', 'Fin', QT_TRANSLATE_NOOP('App::Property', 'Sweep length')).SweepLength = 3.0 # Must be distance since it can be negative
+            obj.addProperty('App::PropertyDistance', 'SweepLength', 'Fin', QT_TRANSLATE_NOOP('App::Property', 'Sweep length')).SweepLength = 69.86 # Must be distance since it can be negative
         if not hasattr(obj,"SweepAngle"):
             obj.addProperty('App::PropertyAngle', 'SweepAngle', 'Fin', QT_TRANSLATE_NOOP('App::Property', 'Sweep angle')).SweepAngle = 0.0
 
@@ -114,12 +115,43 @@ class ShapeFin(ShapeLocation):
         if not hasattr(obj,"FinSpacing"):
             obj.addProperty('App::PropertyAngle', 'FinSpacing', 'Fin', QT_TRANSLATE_NOOP('App::Property', 'Angle between consecutive fins')).FinSpacing = 120
 
+        # Hidden properties used for calculation
+        if not hasattr(obj,"ParentRadius"):
+            obj.addProperty('App::PropertyLength', 'ParentRadius', 'Fin', QT_TRANSLATE_NOOP('App::Property', 'Parent radius')).ParentRadius = 20.0
+        obj.setEditorMode('ParentRadius', 2)  # hide
+
         obj.addProperty('Part::PropertyPartShape', 'Shape', 'Fin', QT_TRANSLATE_NOOP('App::Property', 'Shape of the fin'))
+
+    def getAxialLength(self):
+        # Return the length of this component along the central axis
+        return self._obj.RootChord
+
+    def positionChild(self, obj, parent, parentBase, parentLength, parentRadius):
+        print("ShapeFin: positionChild")
+
+        self._obj.ParentRadius = parentRadius
+
+        if obj.LocationReference == LOCATION_PARENT_TOP:
+            partBase = (parentBase + parentLength) - float(obj.Location)
+        elif obj.LocationReference == LOCATION_PARENT_MIDDLE:
+            partBase = (parentBase + (parentLength / 2.0)) + float(obj.Location)
+        elif obj.LocationReference == LOCATION_PARENT_BOTTOM:
+            partBase = parentBase + float(obj.Location)
+        elif obj.LocationReference == LOCATION_BASE:
+            partBase = float(obj.Location)
+
+        roll = float(obj.RadialOffset)
+
+        base = obj.Placement.Base
+        obj.Placement = FreeCAD.Placement(FreeCAD.Vector(partBase, 0, 0), FreeCAD.Rotation(FreeCAD.Vector(1,0,0), roll), FreeCAD.Vector(0, 0, 0))
 
     def execute(self, obj):
 
         if obj.FinType == FIN_TYPE_TRAPEZOID:
             shape = FinTrapezoidShapeHandler(obj)
+            shape1 = FinTrapezoidShapeHandler(obj)
+            shape1.Placement = FreeCAD.Placement(FreeCAD.Vector(obj.Placement.Base.x, 0, obj.ParentRadius), FreeCAD.Rotation(FreeCAD.Vector(1,0,0), obj.FinSpacing), FreeCAD.Vector(0, 0, -obj.ParentRadius))
 
         if shape is not None:
             shape.draw()
+            shape1.draw()

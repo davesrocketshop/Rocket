@@ -51,6 +51,10 @@ class ShapeBulkhead(ShapeLocation):
 
         obj.addProperty('Part::PropertyPartShape', 'Shape', 'Bulkhead', QT_TRANSLATE_NOOP('App::Property', 'Shape of the bulkhead'))
 
+    def getAxialLength(self):
+        # Return the length of this component along the central axis
+        return self._obj.Thickness
+
     def execute(self, obj):
         shape = BulkheadShapeHandler(obj)
         if shape is not None:
