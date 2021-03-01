@@ -33,7 +33,7 @@ class InvalidError(Exception):
 
 class MultipleEntryError(Exception):
 
-    def __init__(self, message):
+    def __init__(self, message="Multiple entries found"):
         self._message = message    
 
 class UnknownManufacturerError(Exception):

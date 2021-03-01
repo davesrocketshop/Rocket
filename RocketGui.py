@@ -22,7 +22,7 @@
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
-import FreeCAD, FreeCADGui
+import FreeCADGui
 
 from DraftTools import translate
 
@@ -32,7 +32,6 @@ from Ui.CmdCenteringRing import CmdCenteringRing
 from Ui.CmdBodyTube import CmdBodyTube
 from Ui.CmdBulkhead import CmdBulkhead
 from Ui.CmdFin import CmdFin
-from Ui.CmdFinCan import CmdFinCan
 
 # Calculators
 from Ui.CmdCalcThrustToWeight import CmdCalcThrustToWeight
@@ -44,7 +43,6 @@ FreeCADGui.addCommand('Rocket_CenteringRing', CmdCenteringRing())
 FreeCADGui.addCommand('Rocket_BodyTube', CmdBodyTube())
 FreeCADGui.addCommand('Rocket_Bulkhead', CmdBulkhead())
 FreeCADGui.addCommand('Rocket_Fin', CmdFin())
-FreeCADGui.addCommand('Rocket_FinCan', CmdFinCan())
 
 FreeCADGui.addCommand('Rocket_CalcThrustToWeight', CmdCalcThrustToWeight())
 FreeCADGui.addCommand('Rocket_CalcVentHoles', CmdCalcVentHoles())
