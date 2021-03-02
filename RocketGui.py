@@ -34,6 +34,7 @@ from Ui.CmdBulkhead import CmdBulkhead
 from Ui.CmdFin import CmdFin
 
 # Calculators
+from Ui.CmdCalcBlackPowder import CmdCalcBlackPowder
 from Ui.CmdCalcThrustToWeight import CmdCalcThrustToWeight
 from Ui.CmdCalcVentHoles import CmdCalcVentHoles
 
@@ -44,13 +45,14 @@ FreeCADGui.addCommand('Rocket_BodyTube', CmdBodyTube())
 FreeCADGui.addCommand('Rocket_Bulkhead', CmdBulkhead())
 FreeCADGui.addCommand('Rocket_Fin', CmdFin())
 
+FreeCADGui.addCommand('Rocket_CalcBlackPowder', CmdCalcBlackPowder())
 FreeCADGui.addCommand('Rocket_CalcThrustToWeight', CmdCalcThrustToWeight())
 FreeCADGui.addCommand('Rocket_CalcVentHoles', CmdCalcVentHoles())
 
 class _CalculatorGroupCommand:
 
     def GetCommands(self):
-        return tuple(['Rocket_CalcThrustToWeight', 'Rocket_CalcVentHoles'])
+        return tuple(['Rocket_CalcBlackPowder', 'Rocket_CalcThrustToWeight', 'Rocket_CalcVentHoles'])
     def GetResources(self):
         return {
             'MenuText': translate('Rocket', 'Calculators'),
