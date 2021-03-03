@@ -41,9 +41,8 @@ class CmdCalcThrustToWeight:
         FreeCADGui.doCommand("Ui.CmdCalcThrustToWeight.calcThrustToWeight()")
 
     def IsActive(self):
-        if FreeCAD.ActiveDocument:
-            return True
-        return False
+        # Always available, even without active document
+        return True
         
     def GetResources(self):
         return {'MenuText': translate("Rocket", 'Calculate Thrust To Weight'),

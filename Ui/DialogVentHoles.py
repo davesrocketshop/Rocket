@@ -38,7 +38,6 @@ from PySide2.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QGridLayout
 from App.Utilities import _valueWithUnits
 
 class DialogVentHole(QtGui.QDialog):
-    """"""
     def __init__(self):
         super().__init__()
 

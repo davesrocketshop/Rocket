@@ -18,9 +18,9 @@
 # *   USA                                                                   *
 # *                                                                         *
 # ***************************************************************************
-"""Class for calculating vent hole size"""
+"""Class for calculating ejection charge size"""
 
-__title__ = "FreeCAD Vent Hole Calculator"
+__title__ = "FreeCAD Black Powder Calculator"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
     
@@ -41,9 +41,8 @@ class CmdCalcBlackPowder:
         FreeCADGui.doCommand("Ui.CmdCalcBlackPowder.calcBlackPowder()")
 
     def IsActive(self):
-        if FreeCAD.ActiveDocument:
-            return True
-        return False
+        # Always available, even without active document
+        return True
         
     def GetResources(self):
         return {'MenuText': translate("Rocket", 'Calculate ejection charge'),

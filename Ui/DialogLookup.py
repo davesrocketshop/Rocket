@@ -65,7 +65,6 @@ _compatible = {
 }
 
 class DialogLookup(QtGui.QDialog):
-    """"""
     def __init__(self, lookup):
         super().__init__()
 

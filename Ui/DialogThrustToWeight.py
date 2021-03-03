@@ -36,7 +36,6 @@ from PySide2.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QGridLayout
 from App.Utilities import _valueWithUnits
 
 class DialogThrustToWeight(QtGui.QDialog):
-    """"""
     def __init__(self):
         super().__init__()
 
