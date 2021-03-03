@@ -8,7 +8,7 @@ A rocket design workbench for FreeCAD
 
 ### Automatic
 
-TBD
+The Rocket Workbench is available as part of the Addon Manager. See https://wiki.freecadweb.org/Std_AddonMgr
   
 ### Manual
 
@@ -41,6 +41,8 @@ For any feedback, bugs, features, and discussion please refer to the Rocketry wo
 ## Developers
 
 David Carter AKA [@davesrocketshop](https://github.com/davesrocketshop)
+
+Component database taken from the Open Rocket project (https://github.com/openrocket/openrocket)
 
 ## License
 GPLv2.1 (see [LICENSE](LICENSE))

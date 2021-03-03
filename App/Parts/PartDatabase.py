@@ -124,7 +124,7 @@ class PartDatabase:
         # create an XMLReader
         parser = xml.sax.make_parser()
 
-        # turn off namepsaces
+        # turn off namespaces
         parser.setFeature(xml.sax.handler.feature_namespaces, 0)
 
         # override the default ContextHandler
