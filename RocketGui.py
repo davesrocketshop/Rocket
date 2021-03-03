@@ -22,7 +22,10 @@
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
-import FreeCAD, FreeCADGui
+import FreeCAD
+import FreeCADGui
+
+from DraftTools import translate
 
 from Ui.CmdRocket import CmdRocket
 from Ui.CmdStage import CmdStage, CmdToggleStage
@@ -32,6 +35,12 @@ from Ui.CmdCenteringRing import CmdCenteringRing
 from Ui.CmdBodyTube import CmdBodyTube
 from Ui.CmdBulkhead import CmdBulkhead
 from Ui.CmdFin import CmdFin
+
+# Calculators
+from Ui.CmdCalcBlackPowder import CmdCalcBlackPowder
+from Ui.CmdCalcParachute import CmdCalcParachute
+from Ui.CmdCalcThrustToWeight import CmdCalcThrustToWeight
+from Ui.CmdCalcVentHoles import CmdCalcVentHoles
 
 FreeCADGui.addCommand('Rocket_Rocket', CmdRocket())
 FreeCADGui.addCommand('Rocket_Stage', CmdStage())
@@ -43,3 +52,24 @@ FreeCADGui.addCommand('Rocket_CenteringRing', CmdCenteringRing())
 FreeCADGui.addCommand('Rocket_BodyTube', CmdBodyTube())
 FreeCADGui.addCommand('Rocket_Bulkhead', CmdBulkhead())
 FreeCADGui.addCommand('Rocket_Fin', CmdFin())
+
+FreeCADGui.addCommand('Rocket_CalcBlackPowder', CmdCalcBlackPowder())
+FreeCADGui.addCommand('Rocket_CalcParachute', CmdCalcParachute())
+FreeCADGui.addCommand('Rocket_CalcThrustToWeight', CmdCalcThrustToWeight())
+FreeCADGui.addCommand('Rocket_CalcVentHoles', CmdCalcVentHoles())
+
+class _CalculatorGroupCommand:
+
+    def GetCommands(self):
+        return tuple(['Rocket_CalcBlackPowder', 'Rocket_CalcParachute', 'Rocket_CalcThrustToWeight', 'Rocket_CalcVentHoles'])
+    def GetResources(self):
+        return {
+            'MenuText': translate('Rocket', 'Calculators'),
+            'ToolTip': translate('Rocket', 'Calculators'),
+            'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Calculator.svg"
+        }
+    def IsActive(self):
+        # Always available, even without active document
+        return True
+
+FreeCADGui.addCommand('Rocket_Calculators', _CalculatorGroupCommand())

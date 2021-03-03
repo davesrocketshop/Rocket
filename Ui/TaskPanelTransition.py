@@ -398,24 +398,39 @@ class TaskPanelTransition:
         self._obj.Proxy.execute(self._obj)
         
     def onLength(self, value):
-        self._obj.Length = value
-        self._obj.Proxy.execute(self._obj)
+        try:
+            self._obj.Length = FreeCAD.Units.Quantity(value).Value
+            self._obj.Proxy.execute(self._obj)
+        except ValueError:
+            pass
         
     def onForeDiameter(self, value):
-        self._obj.ForeDiameter = value
-        self._obj.Proxy.execute(self._obj)
+        try:
+            self._obj.ForeDiameter = FreeCAD.Units.Quantity(value).Value
+            self._obj.Proxy.execute(self._obj)
+        except ValueError:
+            pass
         
     def onAftDiameter(self, value):
-        self._obj.AftDiameter =value
-        self._obj.Proxy.execute(self._obj)
+        try:
+            self._obj.AftDiameter = FreeCAD.Units.Quantity(value).Value
+            self._obj.Proxy.execute(self._obj)
+        except ValueError:
+            pass
         
     def onCoreDiameter(self, value):
-        self._obj.CoreDiameter =value
-        self._obj.Proxy.execute(self._obj)
+        try:
+            self._obj.CoreDiameter = FreeCAD.Units.Quantity(value).Value
+            self._obj.Proxy.execute(self._obj)
+        except ValueError:
+            pass
         
     def onThickness(self, value):
-        self._obj.Thickness = value
-        self._obj.Proxy.execute(self._obj)
+        try:
+            self._obj.Thickness = FreeCAD.Units.Quantity(value).Value
+            self._obj.Proxy.execute(self._obj)
+        except ValueError:
+            pass
         
     def onCoefficient(self, value):
         self._obj.Coefficient = _toFloat(value)
@@ -444,16 +459,25 @@ class TaskPanelTransition:
         self._obj.Proxy.execute(self._obj)
         
     def onForeShoulderDiameter(self, value):
-        self._obj.ForeShoulderDiameter = value
-        self._obj.Proxy.execute(self._obj)
+        try:
+            self._obj.ForeShoulderDiameter = FreeCAD.Units.Quantity(value).Value
+            self._obj.Proxy.execute(self._obj)
+        except ValueError:
+            pass
         
     def onForeShoulderLength(self, value):
-        self._obj.ForeShoulderLength = value
-        self._obj.Proxy.execute(self._obj)
+        try:
+            self._obj.ForeShoulderLength = FreeCAD.Units.Quantity(value).Value
+            self._obj.Proxy.execute(self._obj)
+        except ValueError:
+            pass
         
     def onForeShoulderThickness(self, value):
-        self._obj.ForeShoulderThickness =value
-        self._obj.Proxy.execute(self._obj)
+        try:
+            self._obj.ForeShoulderThickness = FreeCAD.Units.Quantity(value).Value
+            self._obj.Proxy.execute(self._obj)
+        except ValueError:
+            pass
         
     def onAftShoulder(self, value):
         self._obj.AftShoulder = self._tranForm.aftShoulderCheckbox.isChecked()
@@ -474,16 +498,25 @@ class TaskPanelTransition:
         self._obj.Proxy.execute(self._obj)
         
     def onAftShoulderDiameter(self, value):
-        self._obj.AftShoulderDiameter = value
-        self._obj.Proxy.execute(self._obj)
+        try:
+            self._obj.AftShoulderDiameter = FreeCAD.Units.Quantity(value).Value
+            self._obj.Proxy.execute(self._obj)
+        except ValueError:
+            pass
         
     def onAftShoulderLength(self, value):
-        self._obj.AftShoulderLength = value
-        self._obj.Proxy.execute(self._obj)
+        try:
+            self._obj.AftShoulderLength = FreeCAD.Units.Quantity(value).Value
+            self._obj.Proxy.execute(self._obj)
+        except ValueError:
+            pass
         
     def onAftShoulderThickness(self, value):
-        self._obj.AftShoulderThickness = value
-        self._obj.Proxy.execute(self._obj)
+        try:
+            self._obj.AftShoulderThickness = FreeCAD.Units.Quantity(value).Value
+            self._obj.Proxy.execute(self._obj)
+        except ValueError:
+            pass
         
     def onLookup(self):
         result = self._db.getLookupResult()

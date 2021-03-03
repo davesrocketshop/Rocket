@@ -30,8 +30,7 @@ from App.Utilities import _err
 
 from App.Constants import LOCATION_PARENT_TOP, LOCATION_PARENT_MIDDLE, LOCATION_PARENT_BOTTOM, LOCATION_BASE
 
-def QT_TRANSLATE_NOOP(scope, text):
-    return text
+from DraftTools import translate
 
 class ShapeComponent:
 
@@ -39,13 +38,13 @@ class ShapeComponent:
         self._obj = obj
 
         if not hasattr(obj, 'Manufacturer'):
-            obj.addProperty('App::PropertyString', 'Manufacturer', 'RocketComponent', QT_TRANSLATE_NOOP('App::Property', 'Component manufacturer')).Manufacturer = ""
+            obj.addProperty('App::PropertyString', 'Manufacturer', 'RocketComponent', translate('App::Property', 'Component manufacturer')).Manufacturer = ""
         if not hasattr(obj, 'PartNumber'):
-            obj.addProperty('App::PropertyString', 'PartNumber', 'RocketComponent', QT_TRANSLATE_NOOP('App::Property', 'Component manufacturer part number')).PartNumber = ""
+            obj.addProperty('App::PropertyString', 'PartNumber', 'RocketComponent', translate('App::Property', 'Component manufacturer part number')).PartNumber = ""
         if not hasattr(obj, 'Description'):
-            obj.addProperty('App::PropertyString', 'Description', 'RocketComponent', QT_TRANSLATE_NOOP('App::Property', 'Component description')).Description = ""
+            obj.addProperty('App::PropertyString', 'Description', 'RocketComponent', translate('App::Property', 'Component description')).Description = ""
         if not hasattr(obj, 'Material'):
-            obj.addProperty('App::PropertyString', 'Material', 'RocketComponent', QT_TRANSLATE_NOOP('App::Property', 'Component material')).Material = ""
+            obj.addProperty('App::PropertyString', 'Material', 'RocketComponent', translate('App::Property', 'Component material')).Material = ""
 
         obj.Proxy=self
         self.version = '3.0'
@@ -130,7 +129,7 @@ class ShapeLocation(ShapeComponent):
         super().__init__(obj)
         
         if not hasattr(obj, 'LocationReference'):
-            obj.addProperty('App::PropertyEnumeration', 'LocationReference', 'RocketComponent', QT_TRANSLATE_NOOP('App::Property', 'Reference location for the location'))
+            obj.addProperty('App::PropertyEnumeration', 'LocationReference', 'RocketComponent', translate('App::Property', 'Reference location for the location'))
         obj.LocationReference = [
                     LOCATION_PARENT_TOP,
                     LOCATION_PARENT_MIDDLE,
@@ -139,6 +138,6 @@ class ShapeLocation(ShapeComponent):
                 ]
         obj.LocationReference = LOCATION_PARENT_BOTTOM
         if not hasattr(obj, 'Location'):
-            obj.addProperty('App::PropertyDistance', 'Location', 'RocketComponent', QT_TRANSLATE_NOOP('App::Property', 'Location offset from the reference')).Location = 0.0
+            obj.addProperty('App::PropertyDistance', 'Location', 'RocketComponent', translate('App::Property', 'Location offset from the reference')).Location = 0.0
         if not hasattr(obj, 'RadialOffset'):
-            obj.addProperty('App::PropertyAngle', 'RadialOffset', 'RocketComponent', QT_TRANSLATE_NOOP('App::Property', 'Radial offset from the vertical')).RadialOffset = 0.0
+            obj.addProperty('App::PropertyAngle', 'RadialOffset', 'RocketComponent', translate('App::Property', 'Radial offset from the vertical')).RadialOffset = 0.0

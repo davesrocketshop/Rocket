@@ -192,7 +192,6 @@ class TransitionShapeHandler():
             rmax = self._radiusAt(0.0, r2, max, self._length)
 
         # Do a binary search to see where we fit within tolerance
-        val = 0.0
         while True:
             self._clipLength = (min + max) / 2.0
             val =self. _radiusAt(0.0, r2, self._clipLength, self._length)

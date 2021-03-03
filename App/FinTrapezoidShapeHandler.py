@@ -180,7 +180,7 @@ class FinTrapezoidShapeHandler:
     def _makeChordProfileTaperLETE(self, foreX, chord, thickness, height, foreChord, aftChord):
         chordFore = foreX
         chordFore1 = foreX - foreChord
-        chordAft1 = foreX - chord + foreChord
+        chordAft1 = foreX - aftChord
         chordAft = foreX - chord
         halfThickness = thickness / 2
         v1 = FreeCAD.Vector(chordFore, 0.0, height)
@@ -195,7 +195,7 @@ class FinTrapezoidShapeHandler:
         line4 = Part.LineSegment(v6, v5)
         line5 = Part.LineSegment(v5, v3)
         line6 = Part.LineSegment(v3, v1)
-        
+
         wire = Part.Wire([line1.toShape(), line2.toShape(), line3.toShape(), line4.toShape(), line5.toShape(), line6.toShape()])
         return wire
 

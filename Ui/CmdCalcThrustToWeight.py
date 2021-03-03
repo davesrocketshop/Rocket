@@ -18,39 +18,33 @@
 # *   USA                                                                   *
 # *                                                                         *
 # ***************************************************************************
-"""Class for drawing centering rings"""
+"""Class for calculating thrust to weight"""
 
-__title__ = "FreeCAD Centering Rings"
+__title__ = "FreeCAD Thrust To Weight Command"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
     
-from App.ShapeBulkhead import ShapeBulkhead
-
-from App.CenteringRingShapeHandler import CenteringRingShapeHandler
+import FreeCAD
+import FreeCADGui
 
 from DraftTools import translate
 
-#
-# Centering rings are an extension of bulkheads
-#
-class ShapeCenteringRing(ShapeBulkhead):
+from Ui.DialogThrustToWeight import DialogThrustToWeight
 
-    def __init__(self, obj):
-        super().__init__(obj)
+def calcThrustToWeight():
+    form = DialogThrustToWeight()
+    form.exec_()
 
-        obj.addProperty('App::PropertyLength', 'CenterDiameter', 'CenteringRing', translate('App::Property', 'Diameter of the central hole')).CenterDiameter = 10.0
+class CmdCalcThrustToWeight:
+    def Activated(self):
+        FreeCADGui.addModule("Ui.CmdCalcThrustToWeight")
+        FreeCADGui.doCommand("Ui.CmdCalcThrustToWeight.calcThrustToWeight()")
 
-        obj.addProperty('App::PropertyBool', 'Notched', 'CenteringRing', translate('App::Property', 'Include a notch for an engine hook')).Notched = False
-        obj.addProperty('App::PropertyLength', 'NotchWidth', 'CenteringRing', translate('App::Property', 'Width of the engine hook notch')).NotchWidth = 3.0
-        obj.addProperty('App::PropertyLength', 'NotchHeight', 'CenteringRing', translate('App::Property', 'Height of the engine hook notch')).NotchHeight = 3.0
-
-        obj.addProperty('Part::PropertyPartShape', 'Shape', 'CenteringRing', translate('App::Property', 'Shape of the centering ring'))
-
-        # Default values changed to match a central hole
-        obj.HoleDiameter = 2.0
-        obj.HoleCenter = 7.0
-
-    def execute(self, obj):
-        shape = CenteringRingShapeHandler(obj)
-        if shape is not None:
-            shape.draw()
+    def IsActive(self):
+        # Always available, even without active document
+        return True
+        
+    def GetResources(self):
+        return {'MenuText': translate("Rocket", 'Calculate Thrust To Weight'),
+                'ToolTip': translate("Rocket", 'Calculate Thrust To Weight'),
+                'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Calculator.svg"}

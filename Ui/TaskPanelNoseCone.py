@@ -325,15 +325,19 @@ class TaskPanelNoseCone:
         self._obj.Proxy.execute(self._obj)
         
     def onLength(self, value):
-        self._obj.Length = value
-        self._obj.Proxy.execute(self._obj)
+        try:
+            self._obj.Length = FreeCAD.Units.Quantity(value).Value
+            self._obj.Proxy.execute(self._obj)
+        except ValueError:
+            pass
 
     def onDiameter(self, value):
-        self._obj.Diameter = value
-        self._obj.AutoDiameter = False
-        self._setAutoDiameterState()
-
-        self._obj.Proxy.execute(self._obj)
+        try:
+            self._obj.Diameter = FreeCAD.Units.Quantity(value).Value
+            self._obj.AutoDiameter = False
+            self._obj.Proxy.execute(self._obj)
+        except ValueError:
+            pass
         
     def _setAutoDiameterState(self):
         self._noseForm.diameterInput.setEnabled(not self._obj.AutoDiameter)
@@ -346,8 +350,11 @@ class TaskPanelNoseCone:
         self._obj.Proxy.execute(self._obj)
         
     def onThickness(self, value):
-        self._obj.Thickness = value
-        self._obj.Proxy.execute(self._obj)
+        try:
+            self._obj.Thickness = FreeCAD.Units.Quantity(value).Value
+            self._obj.Proxy.execute(self._obj)
+        except ValueError:
+            pass
         
     def onCoefficient(self, value):
         self._obj.Coefficient = _toFloat(value)
@@ -377,12 +384,13 @@ class TaskPanelNoseCone:
         self._obj.Proxy.execute(self._obj)
         
     def onShoulderDiameter(self, value):
-        self._obj.ShoulderDiameter = value
-        self._obj.ShoulderAutoDiameter = False
-        self._setAutoShoulderDiameterState()
-
-        self._obj.Proxy.execute(self._obj)
-        
+        try:
+            self._obj.ShoulderDiameter = FreeCAD.Units.Quantity(value).Value
+            self._obj.ShoulderAutoDiameter = False
+            self._obj.Proxy.execute(self._obj)
+        except ValueError:
+            pass
+       
     def _setAutoShoulderDiameterState(self):
         self._noseForm.shoulderDiameterInput.setEnabled((not self._obj.ShoulderAutoDiameter) and self._obj.Shoulder)
         self._noseForm.shoulderAutoDiameterCheckbox.setChecked(self._obj.ShoulderAutoDiameter)
@@ -395,12 +403,18 @@ class TaskPanelNoseCone:
         self._obj.Proxy.execute(self._obj)
         
     def onShoulderLength(self, value):
-        self._obj.ShoulderLength = value
-        self._obj.Proxy.execute(self._obj)
+        try:
+            self._obj.ShoulderLength = FreeCAD.Units.Quantity(value).Value
+            self._obj.Proxy.execute(self._obj)
+        except ValueError:
+            pass
         
     def onShoulderThickness(self, value):
-        self._obj.ShoulderThickness = value
-        self._obj.Proxy.execute(self._obj)
+        try:
+            self._obj.ShoulderThickness = FreeCAD.Units.Quantity(value).Value
+            self._obj.Proxy.execute(self._obj)
+        except ValueError:
+            pass
         
     def onLookup(self):
         result = self._db.getLookupResult()

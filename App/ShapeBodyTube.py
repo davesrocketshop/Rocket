@@ -32,8 +32,7 @@ from App.ShapeComponent import ShapeLocation
 
 from App.BodyTubeShapeHandler import BodyTubeShapeHandler
 
-def QT_TRANSLATE_NOOP(scope, text):
-    return text
+from DraftTools import translate
 
 class ShapeBodyTube(ShapeLocation):
 
@@ -42,14 +41,21 @@ class ShapeBodyTube(ShapeLocation):
 
         # Default set to a BT-50
         if not hasattr(obj,"InnerDiameter"):
-            obj.addProperty('App::PropertyLength', 'InnerDiameter', 'BodyTube', QT_TRANSLATE_NOOP('App::Property', 'Diameter of the inside of the body tube')).InnerDiameter = 24.13
+            obj.addProperty('App::PropertyLength', 'InnerDiameter', 'BodyTube', translate('App::Property', 'Diameter of the inside of the body tube')).InnerDiameter = 24.13
         if not hasattr(obj,"OuterDiameter"):
-            obj.addProperty('App::PropertyLength', 'OuterDiameter', 'BodyTube', QT_TRANSLATE_NOOP('App::Property', 'Diameter of the outside of the body tube')).OuterDiameter = 24.79
+            obj.addProperty('App::PropertyLength', 'OuterDiameter', 'BodyTube', translate('App::Property', 'Diameter of the outside of the body tube')).OuterDiameter = 24.79
         if not hasattr(obj,"Length"):
-            obj.addProperty('App::PropertyLength', 'Length', 'BodyTube', QT_TRANSLATE_NOOP('App::Property', 'Length of the body tube')).Length = 457.0
+            obj.addProperty('App::PropertyLength', 'Length', 'BodyTube', translate('App::Property', 'Length of the body tube')).Length = 457.0
+
+        if not hasattr(obj,"InnerDiameter"):
+            obj.addProperty('App::PropertyLength', 'InnerDiameter', 'BodyTube', translate('App::Property', 'Diameter of the inside of the body tube')).InnerDiameter = 24.1
+        if not hasattr(obj,"OuterDiameter"):
+            obj.addProperty('App::PropertyLength', 'OuterDiameter', 'BodyTube', translate('App::Property', 'Diameter of the outside of the body tube')).OuterDiameter = 24.8
+        if not hasattr(obj,"Length"):
+            obj.addProperty('App::PropertyLength', 'Length', 'BodyTube', QT_TRANSLATtranslateE_NOOP('App::Property', 'Length of the body tube')).Length = 457.0
 
         if not hasattr(obj,"Shape"):
-            obj.addProperty('Part::PropertyPartShape', 'Shape', 'BodyTube', QT_TRANSLATE_NOOP('App::Property', 'Shape of the body tube'))
+            obj.addProperty('Part::PropertyPartShape', 'Shape', 'BodyTube', translate('App::Property', 'Shape of the body tube'))
 
         if not hasattr(obj,"Group"):
             obj.addExtension("App::GroupExtensionPython")
