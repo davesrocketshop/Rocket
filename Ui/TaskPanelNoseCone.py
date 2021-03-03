@@ -295,17 +295,25 @@ class TaskPanelNoseCone:
         self._obj.Proxy.execute(self._obj)
         
     def onLengthChanged(self, value):
-        self._obj.Length = value
-        self._obj.Proxy.execute(self._obj)
-
+        try:
+            self._obj.Length = FreeCAD.Units.Quantity(value).Value
+            self._obj.Proxy.execute(self._obj)
+        except ValueError:
+            pass
         
     def onDiameterChanged(self, value):
-        self._obj.Diameter = value
-        self._obj.Proxy.execute(self._obj)
+        try:
+            self._obj.Diameter = FreeCAD.Units.Quantity(value).Value
+            self._obj.Proxy.execute(self._obj)
+        except ValueError:
+            pass
         
     def onThicknessChanged(self, value):
-        self._obj.Thickness = value
-        self._obj.Proxy.execute(self._obj)
+        try:
+            self._obj.Thickness = FreeCAD.Units.Quantity(value).Value
+            self._obj.Proxy.execute(self._obj)
+        except ValueError:
+            pass
         
     def onCoefficientChanged(self, value):
         self._obj.Coefficient = _toFloat(value)
@@ -333,16 +341,25 @@ class TaskPanelNoseCone:
         self._obj.Proxy.execute(self._obj)
         
     def onShoulderDiameterChanged(self, value):
-        self._obj.ShoulderDiameter = value
-        self._obj.Proxy.execute(self._obj)
+        try:
+            self._obj.ShoulderDiameter = FreeCAD.Units.Quantity(value).Value
+            self._obj.Proxy.execute(self._obj)
+        except ValueError:
+            pass
         
     def onShoulderLengthChanged(self, value):
-        self._obj.ShoulderLength = value
-        self._obj.Proxy.execute(self._obj)
+        try:
+            self._obj.ShoulderLength = FreeCAD.Units.Quantity(value).Value
+            self._obj.Proxy.execute(self._obj)
+        except ValueError:
+            pass
         
     def onShoulderThicknessChanged(self, value):
-        self._obj.ShoulderThickness = value
-        self._obj.Proxy.execute(self._obj)
+        try:
+            self._obj.ShoulderThickness = FreeCAD.Units.Quantity(value).Value
+            self._obj.Proxy.execute(self._obj)
+        except ValueError:
+            pass
         
     def onLookup(self):
         result = self._db.getLookupResult()

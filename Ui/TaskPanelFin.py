@@ -379,6 +379,8 @@ class TaskPanelFin:
 
         self._enableRootLengths()
         self._enableTipLengths()
+        self._enableRootPercent()
+        self._enableTipPercent()
         self._sweepAngleFromLength(self.obj.SweepLength)
         self._setTtwState()
         
@@ -421,12 +423,18 @@ class TaskPanelFin:
         self.obj.Proxy.execute(self.obj)
         
     def onRootChord(self, value):
-        self.obj.RootChord = value
-        self.obj.Proxy.execute(self.obj)
+        try:
+            self.obj.RootChord = FreeCAD.Units.Quantity(value).Value
+            self.obj.Proxy.execute(self.obj)
+        except ValueError:
+            pass
         
     def onRootThickness(self, value):
-        self.obj.RootThickness = value
-        self.obj.Proxy.execute(self.obj)
+        try:
+            self.obj.RootThickness = FreeCAD.Units.Quantity(value).Value
+            self.obj.Proxy.execute(self.obj)
+        except ValueError:
+            pass
 
     def _toPercent(self, length, chord):
         percent = 100.0 * length / chord
@@ -443,31 +451,49 @@ class TaskPanelFin:
         if length < 0.0:
             length = 0.0
         return length
+
+    def _enableRootPercent(self):
+        if self.obj.RootPerCent:
+            self.form.rootLength1Input.unit = ''
+            self.form.rootLength2Input.unit = ''
+            self.form.rootLength1Input.setText(str(self.obj.RootLength1.Value))
+            self.form.rootLength2Input.setText(str(self.obj.RootLength2.Value))
+        else:
+            self.form.rootLength1Input.unit = 'mm'
+            self.form.rootLength2Input.unit = 'mm'
+            self.form.rootLength1Input.setText(self.obj.RootLength1.UserString)
+            self.form.rootLength2Input.setText(self.obj.RootLength2.UserString)
+
+    def _convertRootPercent(self):
+        if self.obj.RootPerCent:
+            # Convert to percentages
+            self.obj.RootLength1 = self._toPercent(self.obj.RootLength1.Value, self.obj.RootChord.Value)
+            self.obj.RootLength2 = self._toPercent(self.obj.RootLength2.Value, self.obj.RootChord.Value)
+        else:
+            # Convert to lengths
+            self.obj.RootLength1 = self._toLength(self.obj.RootLength1.Value, self.obj.RootChord.Value)
+            self.obj.RootLength2 = self._toLength(self.obj.RootLength2.Value, self.obj.RootChord.Value)
+        self._enableRootPercent()
         
     def onRootPerCent(self, value):
         self.obj.RootPerCent = self.form.rootPerCentCheckbox.isChecked()
-        if self.obj.RootPerCent:
-            # Convert to percentages
-            self.obj.RootLength1 = self._toPercent(self.obj.RootLength1.property("quantity").Value, self.obj.RootChord.property("quantity").Value)
-            self.obj.RootLength2 = self._toPercent(self.obj.RootLength2.property("quantity").Value, self.obj.RootChord.property("quantity").Value)
-            self.form.rootLength1Input.setText(self.obj.RootLength1.UserString)
-            self.form.rootLength2Input.setText(self.obj.RootLength2.UserString)
-        else:
-            # Convert to lengths
-            self.obj.RootLength1 = self._toLength(self.obj.RootLength1.property("quantity").Value, self.obj.RootChord.property("quantity").Value)
-            self.obj.RootLength2 = self._toLength(self.obj.RootLength2.property("quantity").Value, self.obj.RootChord.property("quantity").Value)
-            self.form.rootLength1Input.setText(self.obj.RootLength1.UserString)
-            self.form.rootLength2Input.setText(self.obj.RootLength2.UserString)
+        self._convertRootPercent()
 
         self.obj.Proxy.execute(self.obj)
         
     def onRootLength1(self, value):
-        self.obj.RootLength1 = value
-        self.obj.Proxy.execute(self.obj)
+        try:
+            self.obj.RootLength1 = FreeCAD.Units.Quantity(value).Value
+            self.obj.Proxy.execute(self.obj)
+        except ValueError:
+            pass
         
     def onRootLength2(self, value):
-        self.obj.RootLength2 = value
-        self.obj.Proxy.execute(self.obj)
+        try:
+            self.obj.RootLength2 = FreeCAD.Units.Quantity(value).Value
+            self.obj.Proxy.execute(self.obj)
+        except ValueError:
+            pass
         
     def onTipCrossSection(self, value):
         self.obj.TipCrossSection = value
@@ -476,42 +502,69 @@ class TaskPanelFin:
         self.obj.Proxy.execute(self.obj)
         
     def onTipChord(self, value):
-        self.obj.TipChord = value
-        self.obj.Proxy.execute(self.obj)
+        try:
+            self.obj.TipChord = FreeCAD.Units.Quantity(value).Value
+            self.obj.Proxy.execute(self.obj)
+        except ValueError:
+            pass
         
     def onTipThickness(self, value):
-        self.obj.TipThickness = value
-        self.obj.Proxy.execute(self.obj)
+        try:
+            self.obj.TipThickness = FreeCAD.Units.Quantity(value).Value
+            self.obj.Proxy.execute(self.obj)
+        except ValueError:
+            pass
+
+    def _enableTipPercent(self):
+        if self.obj.TipPerCent:
+            self.form.tipLength1Input.unit = ''
+            self.form.tipLength2Input.unit = ''
+            self.form.tipLength1Input.setText(str(self.obj.TipLength1.Value))
+            self.form.tipLength2Input.setText(str(self.obj.TipLength2.Value))
+        else:
+            self.form.tipLength1Input.unit = 'mm'
+            self.form.tipLength2Input.unit = 'mm'
+            self.form.tipLength1Input.setText(self.obj.TipLength1.UserString)
+            self.form.tipLength2Input.setText(self.obj.TipLength2.UserString)
+
+    def _convertTipPercent(self):
+        if self.obj.TipPerCent:
+            # Convert to percentages
+            self.obj.TipLength1 = self._toPercent(self.obj.TipLength1.Value, self.obj.TipChord.Value)
+            self.obj.TipLength2 = self._toPercent(self.obj.TipLength2.Value, self.obj.TipChord.Value)
+        else:
+            # Convert to lengths
+            self.obj.TipLength1 = self._toLength(self.obj.TipLength1.Value, self.obj.TipChord.Value)
+            self.obj.TipLength2 = self._toLength(self.obj.TipLength2.Value, self.obj.TipChord.Value)
+        self._enableTipPercent()
         
     def onTipPerCent(self, value):
         self.obj.TipPerCent = self.form.tipPerCentCheckbox.isChecked()
-        if self.obj.TipPerCent:
-            # Convert to percentages
-            self.obj.TipLength1 = self._toPercent(self.obj.TipLength1.property("quantity").Value, self.obj.TipChord.property("quantity").Value)
-            self.obj.TipLength2 = self._toPercent(self.obj.TipLength2.property("quantity").Value, self.obj.TipChord.property("quantity").Value)
-            self.form.tipLength1Input.setText(self.obj.TipLength1.UserString)
-            self.form.tipLength2Input.setText(self.obj.TipLength2.UserString)
-        else:
-            # Convert to lengths
-            self.obj.TipLength1 = self._toLength(self.obj.TipLength1.property("quantity").Value, self.obj.TipChord.property("quantity").Value)
-            self.obj.TipLength2 = self._toLength(self.obj.TipLength2.property("quantity").Value, self.obj.TipChord.property("quantity").Value)
-            self.form.tipLength1Input.setText(self.obj.TipLength1.UserString)
-            self.form.tipLength2Input.setText(self.obj.TipLength2.UserString)
+        self._convertTipPercent()
 
         self.obj.Proxy.execute(self.obj)
         
     def onTipLength1(self, value):
-        self.obj.TipLength1 = value
-        self.obj.Proxy.execute(self.obj)
+        try:
+            self.obj.TipLength1 = FreeCAD.Units.Quantity(value).Value
+            self.obj.Proxy.execute(self.obj)
+        except ValueError:
+            pass
         
     def onTipLength2(self, value):
-        self.obj.TipLength2 = value
-        self.obj.Proxy.execute(self.obj)
+        try:
+            self.obj.TipLength2 = FreeCAD.Units.Quantity(value).Value
+            self.obj.Proxy.execute(self.obj)
+        except ValueError:
+            pass
 
     def onHeight(self, value):
-        self.obj.Height = value
-        self._sweepAngleFromLength(self.form.sweepLengthInput.property("quantity").Value)
-        self.obj.Proxy.execute(self.obj)
+        try:
+            self.obj.Height = FreeCAD.Units.Quantity(value).Value
+            self._sweepAngleFromLength(self.form.sweepLengthInput.property("quantity").Value)
+            self.obj.Proxy.execute(self.obj)
+        except ValueError:
+            pass
 
     def _sweepLengthFromAngle(self, value):
         theta = _toFloat(value)
@@ -530,14 +583,20 @@ class TaskPanelFin:
         self.obj.SweepAngle = theta
         
     def onSweepLength(self, value):
-        self.obj.SweepLength = value
-        self._sweepAngleFromLength(value)
-        self.obj.Proxy.execute(self.obj)
+        try:
+            self.obj.SweepLength = FreeCAD.Units.Quantity(value).Value
+            self._sweepAngleFromLength(value)
+            self.obj.Proxy.execute(self.obj)
+        except ValueError:
+            pass
         
     def onSweepAngle(self, value):
-        self.obj.SweepAngle = value
-        self._sweepLengthFromAngle(value)
-        self.obj.Proxy.execute(self.obj)
+        try:
+            self.obj.SweepAngle = FreeCAD.Units.Quantity(value).Value
+            self._sweepLengthFromAngle(value)
+            self.obj.Proxy.execute(self.obj)
+        except ValueError:
+            pass
         
     def _setTtwState(self):
         self.form.ttwOffsetInput.setEnabled(self.obj.Ttw)
@@ -552,20 +611,32 @@ class TaskPanelFin:
         self.obj.Proxy.execute(self.obj)
         
     def onTTWOffset(self, value):
-        self.obj.TtwOffset = value
-        self.obj.Proxy.execute(self.obj)
+        try:
+            self.obj.TtwOffset = FreeCAD.Units.Quantity(value).Value
+            self.obj.Proxy.execute(self.obj)
+        except ValueError:
+            pass
         
     def onTTWLength(self, value):
-        self.obj.TtwLength = value
-        self.obj.Proxy.execute(self.obj)
+        try:
+            self.obj.TtwLength = FreeCAD.Units.Quantity(value).Value
+            self.obj.Proxy.execute(self.obj)
+        except ValueError:
+            pass
         
     def onTTWHeight(self, value):
-        self.obj.TtwHeight = value
-        self.obj.Proxy.execute(self.obj)
+        try:
+            self.obj.TtwHeight = FreeCAD.Units.Quantity(value).Value
+            self.obj.Proxy.execute(self.obj)
+        except ValueError:
+            pass
         
     def onTTWThickness(self, value):
-        self.obj.TtwThickness = value
-        self.obj.Proxy.execute(self.obj)
+        try:
+            self.obj.TtwThickness = FreeCAD.Units.Quantity(value).Value
+            self.obj.Proxy.execute(self.obj)
+        except ValueError:
+            pass
         
     def getStandardButtons(self):
         return int(QtGui.QDialogButtonBox.Ok) | int(QtGui.QDialogButtonBox.Cancel)| int(QtGui.QDialogButtonBox.Apply)

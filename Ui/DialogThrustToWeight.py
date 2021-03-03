@@ -100,9 +100,12 @@ class DialogThrustToWeight(QtGui.QDialog):
 
     def onWeight(self, value):
         # Use the quantity object for units conversion
-        weight = FreeCAD.Units.Quantity(str(value))
-        thrust = FreeCAD.Units.Quantity(str(weight.Value * (9.807 * 5)) + "N")
-        self.thrustInput.setText(thrust.UserString)
+        try:
+            weight = FreeCAD.Units.Quantity(str(value))
+            thrust = FreeCAD.Units.Quantity(str(weight.Value * (9.807 * 5)) + "N")
+            self.thrustInput.setText(thrust.UserString)
+        except ValueError:
+            pass
 
     def onOk(self):
         self.close()

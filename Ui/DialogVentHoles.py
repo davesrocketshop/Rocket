@@ -143,13 +143,22 @@ class DialogVentHole(QtGui.QDialog):
         self.sizeInput.setText(FreeCAD.Units.Quantity(str(size) + "mm").UserString)
 
     def onDiameter(self, value):
-        self._calc()
+        try:
+            self._calc()
+        except ValueError:
+            pass
 
     def onLength(self, value):
-        self._calc()
+        try:
+            self._calc()
+        except ValueError:
+            pass
 
     def onHoleCount(self, value):
-        self._calc()
+        try:
+            self._calc()
+        except ValueError:
+            pass
 
     def onOk(self):
         self.close()
