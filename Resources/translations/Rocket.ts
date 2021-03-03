@@ -371,22 +371,22 @@
 <context>
     <name>Rocket</name>
     <message>
-        <location filename="../../Ui/CmdCalcBlackPowder.py" line="50"/>
+        <location filename="../../Ui/CmdCalcBlackPowder.py" line="49"/>
         <source>Calculate ejection charge</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Ui/CmdCalcThrustToWeight.py" line="50"/>
+        <location filename="../../Ui/CmdCalcThrustToWeight.py" line="49"/>
         <source>Calculate Thrust To Weight</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Ui/CmdCalcVentHoles.py" line="50"/>
+        <location filename="../../Ui/CmdCalcVentHoles.py" line="49"/>
         <source>Calculate vent hole size</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Ui/DialogBlackPowder.py" line="37"/>
+        <location filename="../../Ui/DialogParachute.py" line="41"/>
         <source>Custom</source>
         <translation type="unfinished"></translation>
     </message>
@@ -661,7 +661,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RocketGui.py" line="60"/>
+        <location filename="../../RocketGui.py" line="62"/>
         <source>Calculators</source>
         <translation type="unfinished"></translation>
     </message>
@@ -973,6 +973,211 @@
     <message>
         <location filename="../../Ui/CmdTransition.py" line="66"/>
         <source>Transition design</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../Ui/CmdCalcParachute.py" line="49"/>
+        <source>Calculate parachute size</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../Ui/DialogBlackPowder.py" line="55"/>
+        <source>Ejection Charge Calculator</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../Ui/DialogBlackPowder.py" line="61"/>
+        <source>
+        &lt;html&gt;
+        &lt;h1&gt;WARNING&lt;/h1&gt;
+        &lt;p&gt;This calculator is an estimate only. Ground test your ejection system before flying. In certain cases this calculation may overestimate the amount of powder required&lt;/p&gt;
+        &lt;/html&gt;
+        </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../Ui/DialogVentHoles.py" line="58"/>
+        <source>Body Tube Diameter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../Ui/DialogVentHoles.py" line="66"/>
+        <source>Body Tube Length</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../Ui/DialogBlackPowder.py" line="86"/>
+        <source>Force</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../Ui/DialogBlackPowder.py" line="94"/>
+        <source>Pressure</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../Ui/DialogBlackPowder.py" line="112"/>
+        <source>FFFFg Powder</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../Ui/DialogLookup.py" line="85"/>
+        <source>Component lookup...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../Ui/DialogLookup.py" line="88"/>
+        <source>Search</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../Ui/DialogLookup.py" line="94"/>
+        <source>Component</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../Ui/DialogLookup.py" line="191"/>
+        <source>Body tube not found</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../Ui/DialogLookup.py" line="215"/>
+        <source>Multiple identical entries found</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../Ui/DialogLookup.py" line="202"/>
+        <source>Nose cone not found</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../Ui/DialogLookup.py" line="213"/>
+        <source>Transition not found</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../Ui/DialogLookup.py" line="258"/>
+        <source>Type</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../Ui/DialogLookup.py" line="299"/>
+        <source>Shoulder Diameter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../Ui/DialogLookup.py" line="300"/>
+        <source>Shoulder Length</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../Ui/DialogLookup.py" line="336"/>
+        <source>Shape</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../Ui/DialogLookup.py" line="329"/>
+        <source>Fore Diameter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../Ui/DialogLookup.py" line="332"/>
+        <source>Fore Shoulder Diameter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../Ui/DialogLookup.py" line="333"/>
+        <source>Fore Shoulder Length</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../Ui/DialogLookup.py" line="334"/>
+        <source>Aft Shoulder Diameter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../Ui/DialogLookup.py" line="335"/>
+        <source>Aft Shoulder Length</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../Ui/DialogParachute.py" line="38"/>
+        <source>Drogue</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../Ui/DialogParachute.py" line="39"/>
+        <source>Main</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../Ui/DialogParachute.py" line="42"/>
+        <source>Dome</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../Ui/DialogParachute.py" line="43"/>
+        <source>Round</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../Ui/DialogParachute.py" line="44"/>
+        <source>Hexagonal</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../Ui/DialogParachute.py" line="45"/>
+        <source>Square</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../Ui/DialogParachute.py" line="61"/>
+        <source>Parachute Calculator</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../Ui/DialogParachute.py" line="65"/>
+        <source>Rocket Weight</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../Ui/DialogParachute.py" line="73"/>
+        <source>Terminal Velocity</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../Ui/DialogParachute.py" line="91"/>
+        <source>Drag Coefficient</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../Ui/DialogThrustToWeight.py" line="52"/>
+        <source>Minimum Thrust to Weight Calculator</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../Ui/DialogThrustToWeight.py" line="56"/>
+        <source>Weight</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../Ui/DialogThrustToWeight.py" line="64"/>
+        <source>Minimum Thrust</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../Ui/DialogVentHoles.py" line="54"/>
+        <source>Vent Hole Size Calculator</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../Ui/DialogVentHoles.py" line="74"/>
+        <source>Vent Hole Count</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../Ui/DialogVentHoles.py" line="83"/>
+        <source>Vent Hole Size</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
