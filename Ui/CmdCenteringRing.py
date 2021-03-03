@@ -30,8 +30,7 @@ import FreeCADGui
 from App.ShapeCenteringRing import ShapeCenteringRing
 from Ui.ViewCenteringRing import ViewProviderCenteringRing
 
-def QT_TRANSLATE_NOOP(scope, text):
-    return text
+from DraftTools import translate
 
 def makeCenteringRing(name):
     '''makeCenteringRing(name): makes a centering ring'''
@@ -61,6 +60,6 @@ class CmdCenteringRing:
         return False
         
     def GetResources(self):
-        return {'MenuText': QT_TRANSLATE_NOOP("Rocket_CenteringRing", 'Centering Ring'),
-                'ToolTip': QT_TRANSLATE_NOOP("Rocket_CenteringRing", 'Centering Ring design'),
+        return {'MenuText': translate("Rocket", 'Centering Ring'),
+                'ToolTip': translate("Rocket", 'Centering Ring design'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_CenteringRing.svg"}

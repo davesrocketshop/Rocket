@@ -32,8 +32,7 @@ from PySide import QtGui
 from App.ShapeNoseCone import ShapeNoseCone
 from Ui.ViewNoseCone import ViewProviderNoseCone
 
-def QT_TRANSLATE_NOOP(scope, text):
-    return text
+from DraftTools import translate
 
 def makeNoseCone(name):
     '''makeNoseCone(name): makes a Nose Cone'''
@@ -63,6 +62,6 @@ class CmdNoseCone:
         return False
 
     def GetResources(self):
-        return {'MenuText': QT_TRANSLATE_NOOP("Rocket_NoseCone", 'Nose Cone'),
-                'ToolTip': QT_TRANSLATE_NOOP("Rocket_NoseCone", 'Nose cone design'),
+        return {'MenuText': translate("Rocket", 'Nose Cone'),
+                'ToolTip': translate("Rocket", 'Nose cone design'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_NoseCone.svg"}

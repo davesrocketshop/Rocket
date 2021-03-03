@@ -22,6 +22,7 @@
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
+import FreeCAD
 import FreeCADGui
 
 from DraftTools import translate
@@ -56,7 +57,8 @@ class _CalculatorGroupCommand:
     def GetResources(self):
         return {
             'MenuText': translate('Rocket', 'Calculators'),
-            'ToolTip': translate('Rocket', 'Calculators')
+            'ToolTip': translate('Rocket', 'Calculators'),
+            'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Calculator.svg"
         }
     def IsActive(self):
         return not FreeCAD.ActiveDocument is None
