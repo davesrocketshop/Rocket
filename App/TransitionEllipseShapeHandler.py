@@ -25,14 +25,10 @@ __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
     
 import FreeCAD
-import FreeCADGui
 import Part
 import math
 
 from App.TransitionShapeHandler import TransitionShapeHandler
-
-from App.Utilities import _err, _msg
-    
     
 class TransitionEllipseShapeHandler(TransitionShapeHandler):
 

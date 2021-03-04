@@ -30,13 +30,13 @@ import FreeCADGui
 
 from DraftTools import translate
 
-from PySide import QtGui, QtCore
+from PySide import QtGui
 from PySide2.QtWidgets import QDialog, QGridLayout
 
 from Ui.TaskPanelDatabase import TaskPanelDatabase
 from App.Constants import COMPONENT_TYPE_BODYTUBE
 
-from App.Utilities import _toFloat, _valueWithUnits
+from App.Utilities import _valueWithUnits
 
 class _BodyTubeDialog(QDialog):
 

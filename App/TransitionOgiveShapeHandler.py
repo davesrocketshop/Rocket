@@ -24,16 +24,10 @@ __title__ = "FreeCAD Ogive Transition Handler"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
     
-import FreeCAD
-import FreeCADGui
-import Part
 import math
 
 from App.TransitionShapeHandler import TransitionShapeHandler
 
-from App.Utilities import _err, _msg
-    
-    
 class TransitionOgiveShapeHandler(TransitionShapeHandler):
 
     def isClippable(self):

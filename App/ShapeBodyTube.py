@@ -24,10 +24,6 @@ __title__ = "FreeCAD Body Tubes"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
     
-import FreeCAD
-import FreeCADGui
-import Part
-
 from App.ShapeComponent import ShapeLocation
 
 from App.BodyTubeShapeHandler import BodyTubeShapeHandler

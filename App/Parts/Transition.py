@@ -26,8 +26,7 @@ __url__ = "https://www.davesrocketshop.com"
 
 from App.Parts.Component import Component
 from App.Constants import TYPE_CONE, TYPE_ELLIPTICAL, TYPE_HAACK, TYPE_OGIVE, TYPE_VON_KARMAN, TYPE_PARABOLA, TYPE_PARABOLIC, TYPE_POWER
-from App.Constants import STYLE_SOLID, STYLE_SOLID_CORE, STYLE_HOLLOW, STYLE_CAPPED
-from App.Tools.Utilities import _err
+from App.Constants import STYLE_SOLID, STYLE_CAPPED
 from App.Parts.Exceptions import MultipleEntryError, NotFoundError
 
 class Transition(Component):
@@ -105,34 +104,34 @@ class Transition(Component):
 
         return id
 
-    def listTransitions(connection):
-        cursor = connection.cursor()
+def listTransitions(connection):
+    cursor = connection.cursor()
 
-        cursor.execute("""SELECT transition_index, manufacturer, part_number, description,
-                            shape, length, length_units, 
-                            fore_outside_diameter, fore_outside_diameter_units, fore_shoulder_diameter, fore_shoulder_diameter_units, fore_shoulder_length, fore_shoulder_length_units,
-                            aft_outside_diameter, aft_outside_diameter_units, aft_shoulder_diameter, aft_shoulder_diameter_units, aft_shoulder_length, aft_shoulder_length_units
-                        FROM component c, transition t WHERE t.component_index = c.component_index""")
+    cursor.execute("""SELECT transition_index, manufacturer, part_number, description,
+                        shape, length, length_units, 
+                        fore_outside_diameter, fore_outside_diameter_units, fore_shoulder_diameter, fore_shoulder_diameter_units, fore_shoulder_length, fore_shoulder_length_units,
+                        aft_outside_diameter, aft_outside_diameter_units, aft_shoulder_diameter, aft_shoulder_diameter_units, aft_shoulder_length, aft_shoulder_length_units
+                    FROM component c, transition t WHERE t.component_index = c.component_index""")
 
-        rows = cursor.fetchall()
-        return rows
+    rows = cursor.fetchall()
+    return rows
 
-    def getTransition(connection, index):
-        cursor = connection.cursor()
+def getTransition(connection, index):
+    cursor = connection.cursor()
 
-        cursor.execute("""SELECT transition_index, c.manufacturer, part_number, description, material_name, mass, mass_units,
-                            shape, style, length, length_units, thickness, thickness_units,
-                            fore_outside_diameter, fore_outside_diameter_units, fore_shoulder_diameter, fore_shoulder_diameter_units, fore_shoulder_length, fore_shoulder_length_units,
-                            aft_outside_diameter, aft_outside_diameter_units, aft_shoulder_diameter, aft_shoulder_diameter_units, aft_shoulder_length, aft_shoulder_length_units
-                        FROM component c, transition t, material m WHERE t.component_index = c.component_index AND c.material_index = m.material_index AND t.transition_index = :index""", {
-                            "index" : index
-                        })
+    cursor.execute("""SELECT transition_index, c.manufacturer, part_number, description, material_name, mass, mass_units,
+                        shape, style, length, length_units, thickness, thickness_units,
+                        fore_outside_diameter, fore_outside_diameter_units, fore_shoulder_diameter, fore_shoulder_diameter_units, fore_shoulder_length, fore_shoulder_length_units,
+                        aft_outside_diameter, aft_outside_diameter_units, aft_shoulder_diameter, aft_shoulder_diameter_units, aft_shoulder_length, aft_shoulder_length_units
+                    FROM component c, transition t, material m WHERE t.component_index = c.component_index AND c.material_index = m.material_index AND t.transition_index = :index""", {
+                        "index" : index
+                    })
 
-        rows = cursor.fetchall()
-        if len(rows) < 1:
-            raise NotFoundError()
+    rows = cursor.fetchall()
+    if len(rows) < 1:
+        raise NotFoundError()
 
-        if len(rows) > 1:
-            raise MultipleEntryError()
+    if len(rows) > 1:
+        raise MultipleEntryError()
 
-        return rows[0]
+    return rows[0]

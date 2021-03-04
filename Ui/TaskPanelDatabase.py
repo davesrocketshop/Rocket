@@ -18,28 +18,23 @@
 # *   USA                                                                   *
 # *                                                                         *
 # ***************************************************************************
-"""Class for drawing nose cones"""
+"""Class for database lookups"""
 
-__title__ = "FreeCAD Nose Cones"
+__title__ = "FreeCAD Database Lookup"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
     
 
 import FreeCAD
-import FreeCADGui
 
 from DraftTools import translate
 
-from PySide import QtGui, QtCore
+from PySide import QtGui
 from PySide.QtCore import QObject, Signal
 from PySide2.QtWidgets import QDialog, QGridLayout
 
-from App.Utilities import _toFloat, _valueWithUnits
-from App.Constants import COMPONENT_TYPE_BODYTUBE, COMPONENT_TYPE_BULKHEAD, COMPONENT_TYPE_CENTERINGRING, COMPONENT_TYPE_COUPLER, \
-    COMPONENT_TYPE_ENGINEBLOCK, COMPONENT_TYPE_LAUNCHLUG, COMPONENT_TYPE_NOSECONE, COMPONENT_TYPE_PARACHUTE, COMPONENT_TYPE_STREAMER, COMPONENT_TYPE_TRANSITION
-
 from App.Parts.PartDatabase import PartDatabase
-from Ui.DialogLookup import DialogLookup, userOK, userCancelled
+from Ui.DialogLookup import DialogLookup
 
 class _databaseLookupDialog(QDialog):
 

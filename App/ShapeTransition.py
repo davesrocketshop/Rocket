@@ -22,11 +22,6 @@
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
     
-from PySide import QtGui, QtCore
-import FreeCAD
-import FreeCADGui
-import Part
-
 from App.ShapeComponent import ShapeComponent
 
 from App.TransitionConeShapeHandler import TransitionConeShapeHandler

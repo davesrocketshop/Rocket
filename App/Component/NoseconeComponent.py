@@ -25,15 +25,14 @@ __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
 import FreeCAD
-import FreeCADGui
 
 from App.Component.Component import Component
 from App.ShapeNoseCone import ShapeNoseCone
 from Ui.ViewNoseCone import ViewProviderNoseCone
 
-from App.Utilities import _msg, _err, _trace
+from App.Utilities import _trace
 
-from App.Constants import TYPE_CONE, TYPE_ELLIPTICAL, TYPE_HAACK, TYPE_OGIVE, TYPE_VON_KARMAN, TYPE_PARABOLA, TYPE_PARABOLIC, TYPE_POWER
+from App.Constants import TYPE_CONE
 from App.Constants import STYLE_CAPPED, STYLE_HOLLOW, STYLE_SOLID
 
 class NoseconeComponent(Component):
@@ -63,7 +62,7 @@ class NoseconeComponent(Component):
         obj = self._doc.addObject('Part::FeaturePython', 'NoseCone')
         obj.Label= self._name
 
-        noseCone = ShapeNoseCone(obj)
+        noseCone = ShapeNoseCone(obj) # lgtm [py/unused-local-variable]
 
         obj.NoseType = self._shape
         if self._filled:

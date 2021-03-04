@@ -25,7 +25,6 @@ __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
     
 import FreeCAD
-import FreeCADGui
 import Part
 
 from App.TransitionShapeHandler import TransitionShapeHandler

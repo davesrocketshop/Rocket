@@ -32,12 +32,9 @@ import FreeCADGui
 from DraftTools import translate
 
 from PySide import QtGui, QtCore
-# from PySide.QtCore import QModelIndex, Qt
 from PySide2.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QGridLayout
 
-from App.Utilities import _valueWithUnits
-
-class DialogVentHole(QtGui.QDialog):
+class DialogVentHole(QDialog):
     def __init__(self):
         super().__init__()
 

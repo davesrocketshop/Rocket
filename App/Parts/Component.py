@@ -26,7 +26,7 @@ __url__ = "https://www.davesrocketshop.com"
 
 from App.Constants import MATERIAL_TYPE_BULK, MATERIAL_TYPE_SURFACE, MATERIAL_TYPE_LINE
 from App.Parts.Exceptions import InvalidError, MaterialNotFoundError, NotFoundError
-from App.Parts.Material import Material
+from App.Parts.Material import getMaterial, getMaterialAnyType
 
 class Component:
 
@@ -73,14 +73,15 @@ class Component:
 
     def persist(self, connection):
         try:
-            material_index = Material.getMaterial(connection, self._manufacturer, self._material[0], self._material[1])
+            # material_index = Material.getMaterial(connection, self._manufacturer, self._material[0], self._material[1])
+            material_index = getMaterial(connection, self._manufacturer, self._material[0], self._material[1])
         except MaterialNotFoundError:
             try:
                 print("Unable to find material for '%s':'%s' - setting to any type" % (self._manufacturer, self._partNumber))
-                material_index = Material.getMaterialAnyType(connection, self._manufacturer, self._material[0])
+                material_index = getMaterialAnyType(connection, self._manufacturer, self._material[0])
             except MaterialNotFoundError:
                 print("Unable to find material for '%s':'%s' - setting to unspecified" % (self._manufacturer, self._partNumber))
-                material_index = Material.getMaterial(connection, 'unspecified', 'unspecified', self._material[1])
+                material_index = getMaterial(connection, 'unspecified', 'unspecified', self._material[1])
 
         cursor = connection.cursor()
 
@@ -92,14 +93,14 @@ class Component:
 
         return id
 
-    def getManufacturers(connection):
-        cursor = connection.cursor()
+def getManufacturers(connection):
+    cursor = connection.cursor()
 
-        cursor.execute("SELECT DISTINCT manufacturer FROM component")
+    cursor.execute("SELECT DISTINCT manufacturer FROM component")
 
-        rows = cursor.fetchall()
-        if len(rows) < 1:
-            raise NotFoundError()
+    rows = cursor.fetchall()
+    if len(rows) < 1:
+        raise NotFoundError()
 
-        manufacturers = [row[0] for row in rows]
-        return manufacturers
+    manufacturers = [row[0] for row in rows]
+    return manufacturers

@@ -24,15 +24,11 @@ __title__ = "FreeCAD Open Rocket Importer"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
-import math
-import os
-import re
 from pathlib import PurePath
 
-import xml.etree.ElementTree as ET
 import xml.sax
 
-from App.Tools.Utilities import _msg, _err, _trace, _toFloat, _toBoolean, _toInt
+from App.Tools.Utilities import _msg, _err, _toFloat, _toBoolean, _toInt
 from App.Parts.BodyTube import BodyTube
 from App.Parts.Bulkhead import Bulkhead
 from App.Parts.CenteringRing import CenteringRing
@@ -47,8 +43,8 @@ from App.Parts.Transition import Transition
 
 from App.Parts.Exceptions import InvalidError, MultipleEntryError, UnknownManufacturerError
 
-from App.Constants import TYPE_CONE, TYPE_ELLIPTICAL, TYPE_HAACK, TYPE_OGIVE, TYPE_VON_KARMAN, TYPE_PARABOLA, TYPE_PARABOLIC, TYPE_POWER
-from App.Constants import MATERIAL_TYPE_BULK, MATERIAL_TYPE_SURFACE, MATERIAL_TYPE_LINE
+from App.Constants import TYPE_CONE, TYPE_ELLIPTICAL, TYPE_HAACK, TYPE_OGIVE, TYPE_PARABOLA, TYPE_POWER
+from App.Constants import MATERIAL_TYPE_BULK, MATERIAL_TYPE_LINE
 
 class Element:
 

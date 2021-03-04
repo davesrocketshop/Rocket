@@ -94,52 +94,52 @@ class Material:
         connection.commit()
         return id
 
-    def getMaterial(connection, manufacturer, name, type):
-        cursor = connection.cursor()
+def getMaterial(connection, manufacturer, name, type):
+    cursor = connection.cursor()
 
-        cursor.execute("SELECT material_index FROM material WHERE manufacturer=:manufacturer AND material_name=:name COLLATE NOCASE AND  type=:type", {
-                            "manufacturer" : manufacturer,
-                            "name" : name, 
-                            "type" : type
-                        })
+    cursor.execute("SELECT material_index FROM material WHERE manufacturer=:manufacturer AND material_name=:name COLLATE NOCASE AND  type=:type", {
+                        "manufacturer" : manufacturer,
+                        "name" : name, 
+                        "type" : type
+                    })
 
+    rows = cursor.fetchall()
+    if len(rows) < 1:
+        raise MaterialNotFoundError()
+
+    if len(rows) > 1:
+        print("%d rows found!" % len(rows))        
+        cursor.execute("SELECT * FROM material WHERE material_name=:name AND  type=:type",
+                        {"name" : name, 
+                            "type" : type})
         rows = cursor.fetchall()
-        if len(rows) < 1:
-            raise MaterialNotFoundError()
+        i = 0
+        for row in rows:
+            print("%d: %s" % (i, str(row)))
+            i += 1
 
-        if len(rows) > 1:
-            print("%d rows found!" % len(rows))        
-            cursor.execute("SELECT * FROM material WHERE material_name=:name AND  type=:type",
-                            {"name" : name, 
-                             "type" : type})
-            rows = cursor.fetchall()
-            i = 0
-            for row in rows:
-                print("%d: %s" % (i, str(row)))
-                i += 1
+    return rows[0]['material_index']
 
-        return rows[0]['material_index']
+def getMaterialAnyType(connection, manufacturer, name):
+    cursor = connection.cursor()
 
-    def getMaterialAnyType(connection, manufacturer, name):
-        cursor = connection.cursor()
+    cursor.execute("SELECT material_index FROM material WHERE manufacturer=:manufacturer AND material_name=:name", {
+                        "manufacturer" : manufacturer,
+                        "name" : name
+                    })
 
-        cursor.execute("SELECT material_index FROM material WHERE manufacturer=:manufacturer AND material_name=:name", {
-                            "manufacturer" : manufacturer,
-                            "name" : name
-                        })
+    rows = cursor.fetchall()
+    if len(rows) < 1:
+        raise MaterialNotFoundError()
 
+    if len(rows) > 1:
+        print("%d rows found!" % len(rows))        
+        cursor.execute("SELECT * FROM material WHERE material_name=:name",
+                        {"name" : name})
         rows = cursor.fetchall()
-        if len(rows) < 1:
-            raise MaterialNotFoundError()
+        i = 0
+        for row in rows:
+            print("%d: %s" % (i, str(row)))
+            i += 1
 
-        if len(rows) > 1:
-            print("%d rows found!" % len(rows))        
-            cursor.execute("SELECT * FROM material WHERE material_name=:name",
-                            {"name" : name})
-            rows = cursor.fetchall()
-            i = 0
-            for row in rows:
-                print("%d: %s" % (i, str(row)))
-                i += 1
-
-        return rows[0]['material_index']
+    return rows[0]['material_index']

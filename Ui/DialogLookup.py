@@ -27,14 +27,13 @@ __url__ = "https://www.davesrocketshop.com"
 import sqlite3
 
 import FreeCAD
-import FreeCADGui
 
 from DraftTools import translate
 
 from PySide import QtGui, QtCore
 from PySide.QtGui import QStandardItemModel, QStandardItem
-from PySide.QtCore import QModelIndex, Qt
-from PySide2.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QTableView
+from PySide.QtCore import Qt
+from PySide2.QtWidgets import QVBoxLayout, QHBoxLayout
 
 from App.Constants import COMPONENT_TYPE_BODYTUBE, COMPONENT_TYPE_BULKHEAD, COMPONENT_TYPE_CENTERINGRING, \
     COMPONENT_TYPE_COUPLER, COMPONENT_TYPE_ENGINEBLOCK, COMPONENT_TYPE_LAUNCHLUG, COMPONENT_TYPE_NOSECONE, \
@@ -371,6 +370,6 @@ class DialogLookup(QtGui.QDialog):
         # elif query == COMPONENT_TYPE_STREAMER:
         #     pass
 
-    def update():
+    def update(self):
         # Update the SQL query
         pass

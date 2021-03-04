@@ -24,25 +24,9 @@ __title__ = "FreeCAD Open Rocket Importer"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
-import math
-import os
-import re
-
-import xml.etree.ElementTree as ET
-
-import FreeCAD
-from FreeCAD import Vector
-from draftutils.translate import translate
-
 # Save the native open function to avoid collisions
 if open.__module__ in ['__builtin__', 'io']:
     pythonopen = open
-
-from App.Utilities import _msg, _err, _trace
-
-from App.Component.AxialStageComponent import AxialStageComponent
-from App.Component.NoseconeComponent import NoseconeComponent
-from App.Component.RocketComponent import RocketComponent
 
 class OpenRocket(object):
 
@@ -88,6 +72,7 @@ class OpenRocket(object):
         # Tags that are recognized but currently ignored
         SUPPORTED_TAGS = ["manufacturer", "partno", "description", "thickness", "shape", "shapeclipped", "shapeparameter", "aftradius", "aftouterdiameter", "aftshoulderradius", "aftshoulderdiameter", "aftshoulderlength", "aftshoulderthickness", "aftshouldercapped", "length"]
 
+        from App.Component.NoseconeComponent import NoseconeComponent
         nose = NoseconeComponent(self._doc)
         for child in context:
             tag = child.tag.strip().lower()
@@ -147,6 +132,7 @@ class OpenRocket(object):
         # Tags that are recognized but currently ignored
         SUPPORTED_TAGS = []
 
+        from App.Component.AxialStageComponent import AxialStageComponent
         stage = AxialStageComponent(self._doc)
         for child in context:
             tag = child.tag.strip().lower()
@@ -189,6 +175,7 @@ class OpenRocket(object):
         SUPPORTED_TAGS = ["motorconfiguration", "flightconfiguration", "deploymentconfiguration", "separationconfiguration", "referencetype", "customreference", "revision"]
 
         # Initialize rocket properties
+        from App.Component.RocketComponent import RocketComponent
         rocket = RocketComponent(self._doc)
         for child in context:
             tag = child.tag.strip().lower()

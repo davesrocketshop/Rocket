@@ -36,7 +36,7 @@ from DraftTools import translate
 from Ui.TaskPanelDatabase import TaskPanelDatabase
 from App.Constants import COMPONENT_TYPE_BULKHEAD, COMPONENT_TYPE_CENTERINGRING
 
-from App.Utilities import _toFloat, _toInt, _valueWithUnits
+from App.Utilities import _valueWithUnits
 
 class _BulkheadDialog(QDialog):
 

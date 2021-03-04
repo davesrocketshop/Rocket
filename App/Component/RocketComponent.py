@@ -25,7 +25,6 @@ __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
 import FreeCAD as App
-import FreeCADGui as Gui
 
 from App.Component.Component import Component
 

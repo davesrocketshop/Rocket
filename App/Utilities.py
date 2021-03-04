@@ -25,7 +25,6 @@ __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
 import FreeCAD
-from DraftTools import translate
 
 def _msg(message):
     """Write messages to the console including the line ending."""
