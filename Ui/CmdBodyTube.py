@@ -30,8 +30,7 @@ import FreeCADGui
 from App.ShapeBodyTube import ShapeBodyTube
 from Ui.ViewBodyTube import ViewProviderBodyTube
 
-def QT_TRANSLATE_NOOP(scope, text):
-    return text
+from DraftTools import translate
 
 def makeBodyTube(name):
     '''makeBodyTube(name): makes a Body Tube'''
@@ -61,6 +60,6 @@ class CmdBodyTube:
         return False
             
     def GetResources(self):
-        return {'MenuText': QT_TRANSLATE_NOOP("Rocket_BodyTube", 'Body Tube'),
-                'ToolTip': QT_TRANSLATE_NOOP("Rocket_BodyTube", 'Body tube design'),
+        return {'MenuText': translate("Rocket", 'Body Tube'),
+                'ToolTip': translate("Rocket", 'Body tube design'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_BodyTube.svg"}

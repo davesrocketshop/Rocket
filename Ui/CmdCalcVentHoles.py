@@ -18,27 +18,33 @@
 # *   USA                                                                   *
 # *                                                                         *
 # ***************************************************************************
-"""Class for drawing fin cans"""
+"""Class for calculating vent hole size"""
 
-__title__ = "FreeCAD Fin Cans"
+__title__ = "FreeCAD Vent Hole Calculator"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
     
 import FreeCAD
+import FreeCADGui
 
-def QT_TRANSLATE_NOOP(scope, text):
-    return text
+from DraftTools import translate
 
-class CmdFinCan:
+from Ui.DialogVentHoles import DialogVentHole
+
+def calcVentHoles():
+    form = DialogVentHole()
+    form.exec_()
+
+class CmdCalcVentHoles:
     def Activated(self):
-        FreeCAD.Console.PrintMessage("Fin Can Command\n")
+        FreeCADGui.addModule("Ui.CmdCalcVentHoles")
+        FreeCADGui.doCommand("Ui.CmdCalcVentHoles.calcVentHoles()")
 
     def IsActive(self):
-        if FreeCAD.ActiveDocument == None:
-            return False
+        # Always available, even without active document
         return True
         
     def GetResources(self):
-        return {'MenuText': QT_TRANSLATE_NOOP("Rocket_FinCan", 'Fin Can'),
-                'ToolTip': QT_TRANSLATE_NOOP("Rocket_FinCan", 'Fin can design'),
-                'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_FinCan.svg"}
+        return {'MenuText': translate("Rocket", 'Calculate vent hole size'),
+                'ToolTip': translate("Rocket", 'Calculate vent hole size'),
+                'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Calculator.svg"}

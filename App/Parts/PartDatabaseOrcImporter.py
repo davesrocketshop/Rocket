@@ -723,6 +723,8 @@ class NoseConeElement(ComponentElement):
 
 class PartDatabaseOrcImporter(xml.sax.ContentHandler):
     def __init__(self, connection, filename):
+        super().__init__()
+        
         self._connection = connection
         self._filename = filename
         self._current = RootElement(None, "root", None, self._connection, filename, 0)

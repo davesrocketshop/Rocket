@@ -294,16 +294,25 @@ class TaskPanelBulkhead:
         self._setHoleState()
         
     def onDiameter(self, value):
-        self._obj.Diameter = value
-        self._obj.Proxy.execute(self._obj)
+        try:
+            self._obj.Diameter = FreeCAD.Units.Quantity(value).Value
+            self._obj.Proxy.execute(self._obj)
+        except ValueError:
+            pass
         
     def onThickness(self, value):
-        self._obj.Thickness = value
-        self._obj.Proxy.execute(self._obj)
+        try:
+            self._obj.Thickness = FreeCAD.Units.Quantity(value).Value
+            self._obj.Proxy.execute(self._obj)
+        except ValueError:
+            pass
         
     def onCenterDiameter(self, value):
-        self._obj.CenterDiameter = value
-        self._obj.Proxy.execute(self._obj)
+        try:
+            self._obj.CenterDiameter = FreeCAD.Units.Quantity(value).Value
+            self._obj.Proxy.execute(self._obj)
+        except ValueError:
+            pass
         
     def _setStepState(self):
         self._bulkForm.stepDiameterInput.setEnabled(self._obj.Step)
@@ -316,12 +325,18 @@ class TaskPanelBulkhead:
         self._obj.Proxy.execute(self._obj)
         
     def onStepDiameter(self, value):
-        self._obj.StepDiameter = value
-        self._obj.Proxy.execute(self._obj)
+        try:
+            self._obj.StepDiameter = FreeCAD.Units.Quantity(value).Value
+            self._obj.Proxy.execute(self._obj)
+        except ValueError:
+            pass
         
     def onStepThickness(self, value):
-        self._obj.StepThickness = value
-        self._obj.Proxy.execute(self._obj)
+        try:
+            self._obj.StepThickness = FreeCAD.Units.Quantity(value).Value
+            self._obj.Proxy.execute(self._obj)
+        except ValueError:
+            pass
         
     def _setHoleState(self):
         self._bulkForm.holeDiameterInput.setEnabled(self._obj.Holes)
@@ -336,20 +351,29 @@ class TaskPanelBulkhead:
         self._obj.Proxy.execute(self._obj)
         
     def onHoleDiameter(self, value):
-        self._obj.HoleDiameter = value
-        self._obj.Proxy.execute(self._obj)
+        try:
+            self._obj.HoleDiameter = FreeCAD.Units.Quantity(value).Value
+            self._obj.Proxy.execute(self._obj)
+        except ValueError:
+            pass
         
     def onHoleCenter(self, value):
-        self._obj.HoleCenter = value
-        self._obj.Proxy.execute(self._obj)
+        try:
+            self._obj.HoleCenter = FreeCAD.Units.Quantity(value).Value
+            self._obj.Proxy.execute(self._obj)
+        except ValueError:
+            pass
         
     def onHoleCount(self, value):
         self._obj.HoleCount = int(value)
         self._obj.Proxy.execute(self._obj)
         
     def onHoleOffset(self, value):
-        self._obj.HoleOffset = value
-        self._obj.Proxy.execute(self._obj)
+        try:
+            self._obj.HoleOffset = FreeCAD.Units.Quantity(value).Value
+            self._obj.Proxy.execute(self._obj)
+        except ValueError:
+            pass
         
     def _setNotchedState(self):
         self._bulkForm.notchWidthInput.setEnabled(self._obj.Notched)
@@ -362,12 +386,18 @@ class TaskPanelBulkhead:
         self._obj.Proxy.execute(self._obj)
         
     def onNotchWidth(self, value):
-        self._obj.NotchWidth = value
-        self._obj.Proxy.execute(self._obj)
+        try:
+            self._obj.NotchWidth = FreeCAD.Units.Quantity(value).Value
+            self._obj.Proxy.execute(self._obj)
+        except ValueError:
+            pass
         
     def onNotchHeight(self, value):
-        self._obj.NotchHeight = value
-        self._obj.Proxy.execute(self._obj)
+        try:
+            self._obj.NotchHeight = FreeCAD.Units.Quantity(value).Value
+            self._obj.Proxy.execute(self._obj)
+        except ValueError:
+            pass
         
     def onLookup(self):
         result = self._db.getLookupResult()

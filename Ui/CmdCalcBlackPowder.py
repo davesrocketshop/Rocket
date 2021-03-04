@@ -18,50 +18,33 @@
 # *   USA                                                                   *
 # *                                                                         *
 # ***************************************************************************
-"""Class for drawing transitions"""
+"""Class for calculating ejection charge size"""
 
-__title__ = "FreeCAD Transitions"
+__title__ = "FreeCAD Black Powder Calculator"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
     
-
 import FreeCAD
 import FreeCADGui
-from PySide import QtGui
-
-from App.ShapeTransition import ShapeTransition
-from Ui.ViewTransition import ViewProviderTransition
 
 from DraftTools import translate
 
-def makeTransition(name):
-    '''makeTransition(name): makes a Transition'''
-    obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
-    ShapeTransition(obj)
-    if FreeCAD.GuiUp:
-        ViewProviderTransition(obj.ViewObject)
+from Ui.DialogBlackPowder import DialogBlackPowder
 
-        body=FreeCADGui.ActiveDocument.ActiveView.getActiveObject("pdbody")
-        part=FreeCADGui.ActiveDocument.ActiveView.getActiveObject("part")
-        if body:
-            body.Group=body.Group+[obj]
-        elif part:
-            part.Group=part.Group+[obj]
-    return obj
+def calcBlackPowder():
+    form = DialogBlackPowder()
+    form.exec_()
 
-class CmdTransition:
+class CmdCalcBlackPowder:
     def Activated(self):
-        FreeCAD.ActiveDocument.openTransaction("Create transition")
-        FreeCADGui.addModule("Ui.CmdTransition")
-        FreeCADGui.doCommand("Ui.CmdTransition.makeTransition('Transition')")
-        FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
+        FreeCADGui.addModule("Ui.CmdCalcBlackPowder")
+        FreeCADGui.doCommand("Ui.CmdCalcBlackPowder.calcBlackPowder()")
 
     def IsActive(self):
-        if FreeCAD.ActiveDocument:
-            return True
-        return False
+        # Always available, even without active document
+        return True
         
     def GetResources(self):
-        return {'MenuText': translate("Rocket", 'Transition'),
-                'ToolTip': translate("Rocket", 'Transition design'),
-                'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Transition.svg"}
+        return {'MenuText': translate("Rocket", 'Calculate ejection charge'),
+                'ToolTip': translate("Rocket", 'Calculate ejection charge'),
+                'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Calculator.svg"}

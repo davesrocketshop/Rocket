@@ -118,16 +118,25 @@ class TaskPanelBodyTube:
         self._btForm.lengthInput.setText(self._obj.Length.UserString)
         
     def onIdChanged(self, value):
-        self._obj.InnerDiameter = value
-        self._obj.Proxy.execute(self._obj)
+        try:
+            self._obj.InnerDiameter = FreeCAD.Units.Quantity(value).Value
+            self._obj.Proxy.execute(self._obj)
+        except ValueError:
+            pass
         
     def onOdChanged(self, value):
-        self._obj.OuterDiameter = value
-        self._obj.Proxy.execute(self._obj)
+        try:
+            self._obj.OuterDiameter = FreeCAD.Units.Quantity(value).Value
+            self._obj.Proxy.execute(self._obj)
+        except ValueError:
+            pass
         
     def onLengthChanged(self, value):
-        self._obj.Length = value
-        self._obj.Proxy.execute(self._obj)
+        try:
+            self._obj.Length = FreeCAD.Units.Quantity(value).Value
+            self._obj.Proxy.execute(self._obj)
+        except ValueError:
+            pass
         
     def onLookup(self):
         result = self._db.getLookupResult()
