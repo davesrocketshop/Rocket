@@ -25,13 +25,10 @@ __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
     
 import FreeCAD
-import FreeCADGui
 import Part
-import math
 
 from DraftTools import translate
 
-from App.Constants import TYPE_CONE, TYPE_ELLIPTICAL, TYPE_HAACK, TYPE_OGIVE, TYPE_VON_KARMAN, TYPE_PARABOLA, TYPE_PARABOLIC, TYPE_POWER
 from App.Constants import STYLE_CAPPED, STYLE_HOLLOW, STYLE_SOLID
 
 from App.Utilities import _err
@@ -140,7 +137,6 @@ class NoseShapeHandler():
         return [outerShape.toShape(), line1.toShape(), line2.toShape()]
 
     def solidShoulderLines(self, outerShape):
-        center = FreeCAD.Vector(0,0)
         major = FreeCAD.Vector(self._length,0)
         minor = FreeCAD.Vector(0,self._radius)
 

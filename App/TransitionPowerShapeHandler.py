@@ -24,9 +24,6 @@ __title__ = "FreeCAD Haack Transition Handler"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
     
-import FreeCAD
-import FreeCADGui
-import Part
 import math
 
 from DraftTools import translate

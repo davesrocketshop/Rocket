@@ -24,21 +24,9 @@ __title__ = "FreeCAD Open Rocket Importer"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
-import math
-import os
-import re
-
-import xml.etree.ElementTree as ET
-
-import FreeCAD
-from FreeCAD import Vector
-from draftutils.translate import translate
-
 # Save the native open function to avoid collisions
 if open.__module__ in ['__builtin__', 'io']:
     pythonopen = open
-
-from App.Utilities import _msg, _err, _trace
 
 class OpenRocket(object):
 
