@@ -292,6 +292,9 @@ class TaskPanelBulkhead:
 
         self._setStepState()
         self._setHoleState()
+
+    def setEdited(self):
+        self._obj.Proxy.setEdited()
         
     def onDiameter(self, value):
         try:
@@ -299,6 +302,7 @@ class TaskPanelBulkhead:
             self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
+        self.setEdited()
         
     def onThickness(self, value):
         try:
@@ -306,6 +310,7 @@ class TaskPanelBulkhead:
             self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
+        self.setEdited()
         
     def onCenterDiameter(self, value):
         try:
@@ -313,6 +318,7 @@ class TaskPanelBulkhead:
             self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
+        self.setEdited()
         
     def _setStepState(self):
         self._bulkForm.stepDiameterInput.setEnabled(self._obj.Step)
@@ -323,6 +329,7 @@ class TaskPanelBulkhead:
         self._setStepState()
 
         self._obj.Proxy.execute(self._obj)
+        self.setEdited()
         
     def onStepDiameter(self, value):
         try:
@@ -330,6 +337,7 @@ class TaskPanelBulkhead:
             self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
+        self.setEdited()
         
     def onStepThickness(self, value):
         try:
@@ -337,6 +345,7 @@ class TaskPanelBulkhead:
             self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
+        self.setEdited()
         
     def _setHoleState(self):
         self._bulkForm.holeDiameterInput.setEnabled(self._obj.Holes)
@@ -349,6 +358,7 @@ class TaskPanelBulkhead:
         self._setHoleState()
 
         self._obj.Proxy.execute(self._obj)
+        self.setEdited()
         
     def onHoleDiameter(self, value):
         try:
@@ -356,6 +366,7 @@ class TaskPanelBulkhead:
             self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
+        self.setEdited()
         
     def onHoleCenter(self, value):
         try:
@@ -363,10 +374,12 @@ class TaskPanelBulkhead:
             self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
+        self.setEdited()
         
     def onHoleCount(self, value):
         self._obj.HoleCount = int(value)
         self._obj.Proxy.execute(self._obj)
+        self.setEdited()
         
     def onHoleOffset(self, value):
         try:
@@ -374,6 +387,7 @@ class TaskPanelBulkhead:
             self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
+        self.setEdited()
         
     def _setNotchedState(self):
         self._bulkForm.notchWidthInput.setEnabled(self._obj.Notched)
@@ -384,6 +398,7 @@ class TaskPanelBulkhead:
         self._setNotchedState()
 
         self._obj.Proxy.execute(self._obj)
+        self.setEdited()
         
     def onNotchWidth(self, value):
         try:
@@ -391,6 +406,7 @@ class TaskPanelBulkhead:
             self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
+        self.setEdited()
         
     def onNotchHeight(self, value):
         try:
@@ -398,6 +414,7 @@ class TaskPanelBulkhead:
             self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
+        self.setEdited()
         
     def onLookup(self):
         result = self._db.getLookupResult()
@@ -424,6 +441,7 @@ class TaskPanelBulkhead:
         
         self.update()
         self._obj.Proxy.execute(self._obj) 
+        self.setEdited()
         
     def getStandardButtons(self):
         return int(QtGui.QDialogButtonBox.Ok) | int(QtGui.QDialogButtonBox.Cancel)| int(QtGui.QDialogButtonBox.Apply)
@@ -448,3 +466,4 @@ class TaskPanelBulkhead:
         FreeCAD.ActiveDocument.abortTransaction()
         FreeCAD.ActiveDocument.recompute()
         FreeCADGui.ActiveDocument.resetEdit()
+        self.setEdited()

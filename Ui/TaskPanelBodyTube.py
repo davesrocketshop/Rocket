@@ -116,6 +116,9 @@ class TaskPanelBodyTube:
         self._btForm.idInput.setText(self._obj.InnerDiameter.UserString)
         self._btForm.odInput.setText(self._obj.OuterDiameter.UserString)
         self._btForm.lengthInput.setText(self._obj.Length.UserString)
+
+    def setEdited(self):
+        self._obj.Proxy.setEdited()
         
     def onIdChanged(self, value):
         try:
@@ -123,6 +126,7 @@ class TaskPanelBodyTube:
             self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
+        self.setEdited()
         
     def onOdChanged(self, value):
         try:
@@ -130,6 +134,7 @@ class TaskPanelBodyTube:
             self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
+        self.setEdited()
         
     def onLengthChanged(self, value):
         try:
@@ -137,6 +142,7 @@ class TaskPanelBodyTube:
             self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
+        self.setEdited()
         
     def onLookup(self):
         result = self._db.getLookupResult()
@@ -147,6 +153,7 @@ class TaskPanelBodyTube:
 
         self.update()
         self._obj.Proxy.execute(self._obj) 
+        self.setEdited()
         
     def getStandardButtons(self):
         return int(QtGui.QDialogButtonBox.Ok) | int(QtGui.QDialogButtonBox.Cancel)| int(QtGui.QDialogButtonBox.Apply)
@@ -171,3 +178,4 @@ class TaskPanelBodyTube:
         FreeCAD.ActiveDocument.abortTransaction()
         FreeCAD.ActiveDocument.recompute()
         FreeCADGui.ActiveDocument.resetEdit()
+        self.setEdited()

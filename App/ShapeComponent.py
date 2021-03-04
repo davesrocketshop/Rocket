@@ -26,15 +26,19 @@ __url__ = "https://www.davesrocketshop.com"
 
 import FreeCAD
 
+from PySide.QtCore import QObject, Signal
 from App.Utilities import _err
 
 from App.Constants import LOCATION_PARENT_TOP, LOCATION_PARENT_MIDDLE, LOCATION_PARENT_BOTTOM, LOCATION_BASE
 
 from DraftTools import translate
 
-class ShapeComponent:
+class ShapeComponent(QObject):
+
+    edited = Signal()
 
     def __init__(self, obj):
+        super().__init__()
         self._obj = obj
 
         if not hasattr(obj, 'Manufacturer'):
@@ -45,6 +49,10 @@ class ShapeComponent:
             obj.addProperty('App::PropertyString', 'Description', 'RocketComponent', translate('App::Property', 'Component description')).Description = ""
         if not hasattr(obj, 'Material'):
             obj.addProperty('App::PropertyString', 'Material', 'RocketComponent', translate('App::Property', 'Component material')).Material = ""
+
+        # if not hasattr(obj, 'Edited'):
+        #     obj.addProperty('App::PropertyBool', 'Edited', 'RocketComponent', translate('App::Property', 'True when the component has been edited')).Edited = False
+        # obj.setEditorMode('Edited', 2)  # hide
 
         obj.Proxy=self
         self.version = '3.0'
@@ -57,6 +65,16 @@ class ShapeComponent:
         if state:
             self.version = state
 
+    # def onChanged(self, fp, prop):
+    #     print("onChanged")
+    #     print(fp)
+    #     print(prop)
+
+    # def onEdited(self, fp, prop):
+    #     print("onEdited()")
+    #     print(fp)
+    #     print(prop)
+
     def setScratch(self, name, value):
         self._scratch[name] = value
 
@@ -65,6 +83,27 @@ class ShapeComponent:
 
     def isScratch(self, name):
         return name in self._scratch
+
+    def setEdited(self, edited=True):
+        # self._obj.Edited = edited
+
+        # if hasattr(self._obj, "Group"):
+        #     for child in self._obj.Group:
+        #         child.Proxy.setEdited(edited)
+
+        if edited:
+            self.edited.emit()
+
+    # def isEdited(self):
+    #     if self._obj.Edited:
+    #         return True
+
+    #     if hasattr(self._obj, "Group"):
+    #         for child in self._obj.Group:
+    #             if child.Proxy.isEdited():
+    #                 return True
+
+    #     return False
 
     def getAxialLength(self):
         # Return the length of this component along the central axis
@@ -87,8 +126,6 @@ class ShapeComponent:
                 child.Proxy.positionChild(child, self._obj, partBase, self.getAxialLength(), self.getRadius())
 
     def positionChild(self, obj, parent, parentBase, parentLength, parentRadius):
-        print("ShapeComponent: positionChild")
-
         if not hasattr(obj, 'LocationReference'):
             partBase = parentBase
             roll = 0.0

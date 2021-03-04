@@ -389,10 +389,14 @@ class TaskPanelFin:
         self._enableTipPercent()
         self._sweepAngleFromLength(self.obj.SweepLength)
         self._setTtwState()
+
+    def setEdited(self):
+        self._obj.Proxy.setEdited()
         
     def onFinTypes(self, value):
         self.obj.FinType = value
         self.obj.Proxy.execute(self.obj)
+        self.setEdited()
 
     def _enableRootLengths(self):
         value = self.obj.RootCrossSection
@@ -427,6 +431,7 @@ class TaskPanelFin:
         self._enableRootLengths()
 
         self.obj.Proxy.execute(self.obj)
+        self.setEdited()
         
     def onRootChord(self, value):
         try:
@@ -434,6 +439,7 @@ class TaskPanelFin:
             self.obj.Proxy.execute(self.obj)
         except ValueError:
             pass
+        self.setEdited()
         
     def onRootThickness(self, value):
         try:
@@ -441,6 +447,7 @@ class TaskPanelFin:
             self.obj.Proxy.execute(self.obj)
         except ValueError:
             pass
+        self.setEdited()
 
     def _toPercent(self, length, chord):
         percent = 100.0 * length / chord
@@ -486,6 +493,7 @@ class TaskPanelFin:
         self._convertRootPercent()
 
         self.obj.Proxy.execute(self.obj)
+        self.setEdited()
         
     def onRootLength1(self, value):
         try:
@@ -493,6 +501,7 @@ class TaskPanelFin:
             self.obj.Proxy.execute(self.obj)
         except ValueError:
             pass
+        self.setEdited()
         
     def onRootLength2(self, value):
         try:
@@ -500,12 +509,14 @@ class TaskPanelFin:
             self.obj.Proxy.execute(self.obj)
         except ValueError:
             pass
+        self.setEdited()
         
     def onTipCrossSection(self, value):
         self.obj.TipCrossSection = value
         self._enableTipLengths()
 
         self.obj.Proxy.execute(self.obj)
+        self.setEdited()
         
     def onTipChord(self, value):
         try:
@@ -513,6 +524,7 @@ class TaskPanelFin:
             self.obj.Proxy.execute(self.obj)
         except ValueError:
             pass
+        self.setEdited()
         
     def onTipThickness(self, value):
         try:
@@ -520,6 +532,7 @@ class TaskPanelFin:
             self.obj.Proxy.execute(self.obj)
         except ValueError:
             pass
+        self.setEdited()
 
     def _enableTipPercent(self):
         if self.obj.TipPerCent:
@@ -549,6 +562,7 @@ class TaskPanelFin:
         self._convertTipPercent()
 
         self.obj.Proxy.execute(self.obj)
+        self.setEdited()
         
     def onTipLength1(self, value):
         try:
@@ -556,6 +570,7 @@ class TaskPanelFin:
             self.obj.Proxy.execute(self.obj)
         except ValueError:
             pass
+        self.setEdited()
         
     def onTipLength2(self, value):
         try:
@@ -563,6 +578,7 @@ class TaskPanelFin:
             self.obj.Proxy.execute(self.obj)
         except ValueError:
             pass
+        self.setEdited()
 
     def onHeight(self, value):
         try:
@@ -571,6 +587,7 @@ class TaskPanelFin:
             self.obj.Proxy.execute(self.obj)
         except ValueError:
             pass
+        self.setEdited()
 
     def _sweepLengthFromAngle(self, value):
         theta = _toFloat(value)
@@ -595,6 +612,7 @@ class TaskPanelFin:
             self.obj.Proxy.execute(self.obj)
         except ValueError:
             pass
+        self.setEdited()
         
     def onSweepAngle(self, value):
         try:
@@ -603,6 +621,7 @@ class TaskPanelFin:
             self.obj.Proxy.execute(self.obj)
         except ValueError:
             pass
+        self.setEdited()
         
     def _setTtwState(self):
         self._finForm.ttwOffsetInput.setEnabled(self.obj.Ttw)
@@ -615,6 +634,7 @@ class TaskPanelFin:
         self._setTtwState()
 
         self.obj.Proxy.execute(self.obj)
+        self.setEdited()
         
     def onTTWOffset(self, value):
         try:
@@ -622,6 +642,7 @@ class TaskPanelFin:
             self.obj.Proxy.execute(self.obj)
         except ValueError:
             pass
+        self.setEdited()
         
     def onTTWLength(self, value):
         try:
@@ -629,6 +650,7 @@ class TaskPanelFin:
             self.obj.Proxy.execute(self.obj)
         except ValueError:
             pass
+        self.setEdited()
         
     def onTTWHeight(self, value):
         try:
@@ -636,6 +658,7 @@ class TaskPanelFin:
             self.obj.Proxy.execute(self.obj)
         except ValueError:
             pass
+        self.setEdited()
         
     def onTTWThickness(self, value):
         try:
@@ -643,6 +666,7 @@ class TaskPanelFin:
             self.obj.Proxy.execute(self.obj)
         except ValueError:
             pass
+        self.setEdited()
         
     def getStandardButtons(self):
         return int(QtGui.QDialogButtonBox.Ok) | int(QtGui.QDialogButtonBox.Cancel)| int(QtGui.QDialogButtonBox.Apply)
@@ -667,3 +691,4 @@ class TaskPanelFin:
         FreeCAD.ActiveDocument.abortTransaction()
         FreeCAD.ActiveDocument.recompute()
         FreeCADGui.ActiveDocument.resetEdit()
+        self.setEdited()

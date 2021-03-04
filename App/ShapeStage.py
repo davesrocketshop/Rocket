@@ -24,6 +24,8 @@ __title__ = "FreeCAD Rocket Assembly"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
+import FreeCAD
+
 class ShapeStage:
 
     def __init__(self, obj):
@@ -32,20 +34,10 @@ class ShapeStage:
 
         obj.Proxy=self
         self.version = '1.0'
+        self._obj = obj
 
     def __getstate__(self):
         return self.version
-
-    def position(obj):
-        # Dynamic placements
-        length = 0.0
-        i = len(obj.Group) - 1
-        while i >= 0:
-            child = obj.Group[i]
-            child.Proxy.setAxialPosition(length)
-
-            length += float(child.Proxy.getAxialLength())
-            i -= 1
 
     def execute(self,obj):
         """Method run when the object is recomputed.
@@ -60,4 +52,30 @@ class ShapeStage:
 
         if not hasattr(obj,'Shape'): # old-style Site
             return
+
+    def positionChildren(self):
+        # Dynamic placements
+        length = 0.0
+        i = len(self._obj.Group) - 1
+        while i >= 0:
+            child = self._obj.Group[i]
+            child.Proxy.setAxialPosition(length)
+
+            length += float(child.Proxy.getAxialLength())
+            i -= 1
+
+            child.Proxy.setEdited(False)
+            FreeCAD.ActiveDocument.recompute()
+
+def hookChildren(obj, group, oldGroup):
+    for child in group:
+        if child not in oldGroup:
+            child.Proxy.edited.connect(obj.Proxy.positionChildren)
+            print("add hook for %s" % str(child.Label))
+
+    for child in oldGroup:
+        if child not in group:
+            child.Proxy.edited.connect(None)
+            print("remove hook for %s" % str(child.Label))
+    obj.Proxy.positionChildren()
 

@@ -32,13 +32,14 @@ from PySide import QtCore,QtGui
 from DraftTools import translate
 
 from App.Utilities import _msg
-from App.ShapeStage import ShapeStage
+from App.ShapeStage import hookChildren
 
 class ViewProviderStage:
 
     def __init__(self, vobj):
         vobj.addExtension("Gui::ViewProviderGroupExtensionPython")
         vobj.Proxy = self
+        self._oldChildren = []
         
     def getIcon(self):
         return FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Stage.svg"
@@ -58,6 +59,10 @@ class ViewProviderStage:
         objs = []
         if hasattr(self,"Object"):
             objs = self.Object.Group
+
+        hookChildren(self.Object, objs, self._oldChildren)
+        self._oldChildren = objs
+
         return objs
 
     def setupContextMenu(self, vobj, menu):
@@ -68,17 +73,6 @@ class ViewProviderStage:
 
     def toggleStage(self):
         FreeCADGui.runCommand("Rocket_ToggleStage")
-
-    def updateData(self,obj,prop):
-        print("updateData")
-        print(obj)
-        print(prop)
-        ShapeStage.position(self.Object)
-
-    def onChanged(self,vobj,prop):
-        print("onChanged")
-        print(vobj)
-        print(prop)
 
     def setEdit(self,vobj,mode):
         # No editor associated with this object

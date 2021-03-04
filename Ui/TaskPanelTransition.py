@@ -325,6 +325,9 @@ class TaskPanelTransition:
         self._showClippable()
         self._showTransitionStyle()
 
+    def setEdited(self):
+        self._obj.Proxy.setEdited()
+
     def _showClippable(self):
         if str(self._obj.TransitionType) in [TYPE_CONE, TYPE_OGIVE]:
             # These types aren't clippable
@@ -361,6 +364,7 @@ class TaskPanelTransition:
         self._showClippable()
 
         self._obj.Proxy.execute(self._obj)
+        self.setEdited()
         
     def _showTransitionStyle(self):
         value = self._obj.TransitionStyle
@@ -396,6 +400,7 @@ class TaskPanelTransition:
 
         self._showTransitionStyle()
         self._obj.Proxy.execute(self._obj)
+        self.setEdited()
         
     def onLength(self, value):
         try:
@@ -403,6 +408,7 @@ class TaskPanelTransition:
             self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
+        self.setEdited()
         
     def onForeDiameter(self, value):
         try:
@@ -410,6 +416,7 @@ class TaskPanelTransition:
             self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
+        self.setEdited()
         
     def onAftDiameter(self, value):
         try:
@@ -417,6 +424,7 @@ class TaskPanelTransition:
             self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
+        self.setEdited()
         
     def onCoreDiameter(self, value):
         try:
@@ -424,6 +432,7 @@ class TaskPanelTransition:
             self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
+        self.setEdited()
         
     def onThickness(self, value):
         try:
@@ -431,14 +440,17 @@ class TaskPanelTransition:
             self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
+        self.setEdited()
         
     def onCoefficient(self, value):
         self._obj.Coefficient = _toFloat(value)
         self._obj.Proxy.execute(self._obj)
+        self.setEdited()
         
     def onClipped(self, value):
         self._obj.Clipped = self._tranForm.clippedCheckbox.isChecked()
         self._obj.Proxy.execute(self._obj)
+        self.setEdited()
         
     def onForeShoulder(self, value):
         self._obj.ForeShoulder = self._tranForm.foreShoulderCheckbox.isChecked()
@@ -457,6 +469,7 @@ class TaskPanelTransition:
             self._tranForm.foreShoulderThicknessInput.setEnabled(False)
 
         self._obj.Proxy.execute(self._obj)
+        self.setEdited()
         
     def onForeShoulderDiameter(self, value):
         try:
@@ -464,6 +477,7 @@ class TaskPanelTransition:
             self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
+        self.setEdited()
         
     def onForeShoulderLength(self, value):
         try:
@@ -471,6 +485,7 @@ class TaskPanelTransition:
             self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
+        self.setEdited()
         
     def onForeShoulderThickness(self, value):
         try:
@@ -478,6 +493,7 @@ class TaskPanelTransition:
             self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
+        self.setEdited()
         
     def onAftShoulder(self, value):
         self._obj.AftShoulder = self._tranForm.aftShoulderCheckbox.isChecked()
@@ -496,6 +512,7 @@ class TaskPanelTransition:
             self._tranForm.aftShoulderThicknessInput.setEnabled(False)
 
         self._obj.Proxy.execute(self._obj)
+        self.setEdited()
         
     def onAftShoulderDiameter(self, value):
         try:
@@ -503,6 +520,7 @@ class TaskPanelTransition:
             self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
+        self.setEdited()
         
     def onAftShoulderLength(self, value):
         try:
@@ -510,6 +528,7 @@ class TaskPanelTransition:
             self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
+        self.setEdited()
         
     def onAftShoulderThickness(self, value):
         try:
@@ -517,6 +536,7 @@ class TaskPanelTransition:
             self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
+        self.setEdited()
         
     def onLookup(self):
         result = self._db.getLookupResult()
@@ -542,6 +562,7 @@ class TaskPanelTransition:
 
         self.update()
         self._obj.Proxy.execute(self._obj) 
+        self.setEdited()
         
     def getStandardButtons(self):
         return int(QtGui.QDialogButtonBox.Ok) | int(QtGui.QDialogButtonBox.Cancel)| int(QtGui.QDialogButtonBox.Apply)
@@ -566,3 +587,4 @@ class TaskPanelTransition:
         FreeCAD.ActiveDocument.abortTransaction()
         FreeCAD.ActiveDocument.recompute()
         FreeCADGui.ActiveDocument.resetEdit()
+        self.setEdited()

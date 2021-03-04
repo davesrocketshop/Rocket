@@ -24,6 +24,8 @@ __title__ = "FreeCAD Fins"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
     
+import FreeCAD
+
 from App.ShapeComponent import ShapeLocation
 
 from App.Constants import FIN_TYPE_TRAPEZOID

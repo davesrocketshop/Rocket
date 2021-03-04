@@ -41,13 +41,13 @@ def addToStage(obj):
         if len(stage.Group) > 0:
             groupObj = stage.Group[len(stage.Group) - 1]
             if hasattr(groupObj,"Group"):
-                groupObj.Group = groupObj.Group + [obj]
-                ShapeStage.position(stage)
+                groupObj.addObject(obj) # groupObj.Group = groupObj.Group + [obj]
+                stage.Proxy.positionChildren()
                 return
 
-        stage.Group=stage.Group + [obj]
+        stage.addObject(obj) # stage.Group=stage.Group + [obj]
 
-    ShapeStage.position(stage)
+    stage.Proxy.positionChildren()
 
 def makeStage(name='Stage'):
     obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)

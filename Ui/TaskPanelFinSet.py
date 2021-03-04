@@ -169,7 +169,10 @@ class TaskPanelFinSet(QObject):
         self._form.locationInput.setText(self._obj.Location.UserString)
 
         self._setFinSetState()
-        
+ 
+    def setEdited(self):
+        self._obj.Proxy.setEdited()
+       
     def _setFinSetState(self):
         checked = self._form.finSetCheckbox.isChecked()
 
@@ -182,23 +185,29 @@ class TaskPanelFinSet(QObject):
     def onFinSet(self, value):
         self._obj.FinSet = self._form.finSetCheckbox.isChecked()
         self._setFinSetState()
+        self.setEdited()
         
     def onCount(self, value):
         self._obj.FinCount = value
         self._obj.FinSpacing = 360.0 / float(value)
         self._form.finSpacingInput.setText(self._obj.FinSpacing.UserString)
+        self.setEdited()
         
     def onSpacing(self, value):
         self._obj.FinSpacing = value
+        self.setEdited()
         
     def onOffset(self, value):
         self._obj.RadialOffset = value
+        self.setEdited()
         
     def onReference(self, value):
         self._obj.LocationReference = value
+        self.setEdited()
         
     def onLocation(self, value):
         self._obj.Location = value
+        self.setEdited()
         
     def update(self):
         'fills the widgets'

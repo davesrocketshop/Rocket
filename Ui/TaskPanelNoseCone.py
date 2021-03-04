@@ -40,31 +40,6 @@ from App.Constants import COMPONENT_TYPE_NOSECONE
 
 from App.Utilities import _toFloat, _valueWithUnits
 
-class _testDialog(QDialog):
-
-    def __init__(self, parent=None):
-        super().__init__(parent)
-
-
-        # define our window
-        self.setGeometry(250, 250, 400, 350)
-        self.setWindowTitle(translate('Rocket', "Component Lookup"))
-
-        # Select the type of nose cone
-        self.testTypeLabel = QtGui.QLabel(translate('Rocket', "Test type"), self)
-
-        self.testTypes = ("Test 1",
-                                "Test 2")
-        self.testTypesCombo = QtGui.QComboBox(self)
-        self.testTypesCombo.addItems(self.testTypes)
-
-        layout = QGridLayout()
-
-        layout.addWidget(self.testTypeLabel, 0, 0, 1, 2)
-        layout.addWidget(self.testTypesCombo, 0, 1)
-
-        self.setLayout(layout)
-
 class _NoseConeDialog(QDialog):
 
     def __init__(self, parent=None):
@@ -281,6 +256,9 @@ class TaskPanelNoseCone:
         self._setStyleState()
         self._setAutoDiameterState()
         self._setShoulderState()
+
+    def setEdited(self):
+        self._obj.Proxy.setEdited()
         
     def _setTypeState(self):
         value = self._obj.NoseType
@@ -304,6 +282,7 @@ class TaskPanelNoseCone:
         self._setTypeState()
 
         self._obj.Proxy.execute(self._obj)
+        self.setEdited()
 
     def _setStyleState(self):
         value = self._obj.NoseStyle
@@ -323,6 +302,7 @@ class TaskPanelNoseCone:
         self._setStyleState()
 
         self._obj.Proxy.execute(self._obj)
+        self.setEdited()
         
     def onLength(self, value):
         try:
@@ -330,6 +310,7 @@ class TaskPanelNoseCone:
             self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
+        self.setEdited()
 
     def onDiameter(self, value):
         try:
@@ -338,6 +319,7 @@ class TaskPanelNoseCone:
             self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
+        self.setEdited()
         
     def _setAutoDiameterState(self):
         self._noseForm.diameterInput.setEnabled(not self._obj.AutoDiameter)
@@ -348,6 +330,7 @@ class TaskPanelNoseCone:
         self._setAutoDiameterState()
 
         self._obj.Proxy.execute(self._obj)
+        self.setEdited()
         
     def onThickness(self, value):
         try:
@@ -355,10 +338,12 @@ class TaskPanelNoseCone:
             self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
+        self.setEdited()
         
     def onCoefficient(self, value):
         self._obj.Coefficient = _toFloat(value)
         self._obj.Proxy.execute(self._obj)
+        self.setEdited()
 
     def _setShoulderState(self):
         if self._obj.Shoulder:
@@ -382,6 +367,7 @@ class TaskPanelNoseCone:
         self._setShoulderState()
 
         self._obj.Proxy.execute(self._obj)
+        self.setEdited()
         
     def onShoulderDiameter(self, value):
         try:
@@ -390,6 +376,7 @@ class TaskPanelNoseCone:
             self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
+        self.setEdited()
        
     def _setAutoShoulderDiameterState(self):
         self._noseForm.shoulderDiameterInput.setEnabled((not self._obj.ShoulderAutoDiameter) and self._obj.Shoulder)
@@ -401,6 +388,7 @@ class TaskPanelNoseCone:
         self._setAutoShoulderDiameterState()
 
         self._obj.Proxy.execute(self._obj)
+        self.setEdited()
         
     def onShoulderLength(self, value):
         try:
@@ -408,6 +396,7 @@ class TaskPanelNoseCone:
             self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
+        self.setEdited()
         
     def onShoulderThickness(self, value):
         try:
@@ -415,7 +404,8 @@ class TaskPanelNoseCone:
             self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
-        
+        self.setEdited()
+       
     def onLookup(self):
         result = self._db.getLookupResult()
 
@@ -431,6 +421,7 @@ class TaskPanelNoseCone:
         self._obj.ShoulderThickness = self._obj.Thickness
         self.update()
         self._obj.Proxy.execute(self._obj) 
+        self.setEdited()
         
     def getStandardButtons(self):
         return int(QtGui.QDialogButtonBox.Ok) | int(QtGui.QDialogButtonBox.Cancel)| int(QtGui.QDialogButtonBox.Apply)
@@ -455,3 +446,4 @@ class TaskPanelNoseCone:
         FreeCAD.ActiveDocument.abortTransaction()
         FreeCAD.ActiveDocument.recompute()
         FreeCADGui.ActiveDocument.resetEdit()
+        self.setEdited()
