@@ -60,7 +60,7 @@ class TransitionShapeHandler():
         self._coefficient = float(obj.Coefficient)
         self._resolution = int(obj.Resolution)
 
-        self._clipped = (bool(obj.Clipped) and self.isClippable())
+        self._clipped = (bool(obj.Clipped) and self.isClippable()) # lgtm [py/init-calls-subclass]
         self._clipLength = -1.0
         self._clipR1 = -1.0
         self._clipR2 = -1.0

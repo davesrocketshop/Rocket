@@ -40,10 +40,6 @@ if open.__module__ in ['__builtin__', 'io']:
 
 from App.Utilities import _msg, _err, _trace
 
-from App.Component.AxialStageComponent import AxialStageComponent
-from App.Component.NoseconeComponent import NoseconeComponent
-from App.Component.RocketComponent import RocketComponent
-
 class OpenRocket(object):
 
     def __init__(self, doc):
@@ -88,6 +84,7 @@ class OpenRocket(object):
         # Tags that are recognized but currently ignored
         SUPPORTED_TAGS = ["manufacturer", "partno", "description", "thickness", "shape", "shapeclipped", "shapeparameter", "aftradius", "aftouterdiameter", "aftshoulderradius", "aftshoulderdiameter", "aftshoulderlength", "aftshoulderthickness", "aftshouldercapped", "length"]
 
+        from App.Component.NoseconeComponent import NoseconeComponent
         nose = NoseconeComponent(self._doc)
         for child in context:
             tag = child.tag.strip().lower()
@@ -147,6 +144,7 @@ class OpenRocket(object):
         # Tags that are recognized but currently ignored
         SUPPORTED_TAGS = []
 
+        from App.Component.AxialStageComponent import AxialStageComponent
         stage = AxialStageComponent(self._doc)
         for child in context:
             tag = child.tag.strip().lower()
@@ -189,6 +187,7 @@ class OpenRocket(object):
         SUPPORTED_TAGS = ["motorconfiguration", "flightconfiguration", "deploymentconfiguration", "separationconfiguration", "referencetype", "customreference", "revision"]
 
         # Initialize rocket properties
+        from App.Component.RocketComponent import RocketComponent
         rocket = RocketComponent(self._doc)
         for child in context:
             tag = child.tag.strip().lower()

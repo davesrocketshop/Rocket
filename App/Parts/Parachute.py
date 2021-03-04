@@ -25,7 +25,7 @@ __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
 from App.Parts.Component import Component
-from App.Parts.Material import Material
+from App.Parts.Material import getMaterial, getMaterialAnyType
 from App.Parts.Exceptions import MaterialNotFoundError
 
 from App.Constants import MATERIAL_TYPE_LINE
@@ -57,14 +57,14 @@ class Parachute(Component):
 
     def _getLineMaterial(self, connection):
         try:
-            material_index = Material.getMaterial(connection, self._manufacturer, self._lineMaterial[0], self._lineMaterial[1])
+            material_index = getMaterial(connection, self._manufacturer, self._lineMaterial[0], self._lineMaterial[1])
         except MaterialNotFoundError:
             try:
                 print("Unable to find material for '%s':'%s' - setting to any type" % (self._manufacturer, self._lineMaterial[0]))
-                material_index = Material.getMaterialAnyType(connection, self._manufacturer, self._lineMaterial[0])
+                material_index = getMaterialAnyType(connection, self._manufacturer, self._lineMaterial[0])
             except MaterialNotFoundError:
                 print("Unable to find material for '%s':'%s' - setting to unspecified" % (self._manufacturer, self._lineMaterial[0]))
-                material_index = Material.getMaterial(connection, 'unspecified', 'unspecified', self._lineMaterial[1])
+                material_index = getMaterial(connection, 'unspecified', 'unspecified', self._lineMaterial[1])
 
         return material_index
 
