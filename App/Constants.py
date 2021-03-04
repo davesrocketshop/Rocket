@@ -24,7 +24,8 @@ __title__ = "FreeCAD Rocket Workbench Constants"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
-from DraftTools import translate
+def QT_TRANSLATE_NOOP(scope, text):
+    return text
     
 # Part styles
 STYLE_SOLID = "solid"
@@ -77,7 +78,7 @@ COMPONENT_TYPE_STREAMER = "Streamer"
 COMPONENT_TYPE_TRANSITION = "Transition"
 
 # Location Reference
-LOCATION_PARENT_TOP = translate('Rocket', "Top of the parent component")
-LOCATION_PARENT_MIDDLE = translate('Rocket', "Middle of the parent component")
-LOCATION_PARENT_BOTTOM = translate('Rocket', "Bottom of the parent component")
-LOCATION_BASE = translate('Rocket', "Base of the rocket")
+LOCATION_PARENT_TOP = QT_TRANSLATE_NOOP('Rocket', "Top of the parent component")
+LOCATION_PARENT_MIDDLE = QT_TRANSLATE_NOOP('Rocket', "Middle of the parent component")
+LOCATION_PARENT_BOTTOM = QT_TRANSLATE_NOOP('Rocket', "Bottom of the parent component")
+LOCATION_BASE = QT_TRANSLATE_NOOP('Rocket', "Base of the rocket")

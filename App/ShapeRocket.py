@@ -24,9 +24,6 @@ __title__ = "FreeCAD Rocket Assembly"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
-def QT_TRANSLATE_NOOP(scope, text):
-    return text
-
 class ShapeRocket:
 
     def __init__(self, obj):
