@@ -23,7 +23,7 @@ __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
 
-import FreeCAD as App
+# import FreeCAD as App
 
 # add Import/Export types
 # App.addImportType("Open Rocket (*.ork)", "importORK")
