@@ -27,7 +27,7 @@ import FreeCADGui
 
 from DraftTools import translate
 
-from Ui.CmdRocket import CmdRocket
+from Ui.CmdRocket import CmdRocket, CmdToggleRocket
 from Ui.CmdStage import CmdStage, CmdToggleStage
 from Ui.CmdNoseCone import CmdNoseCone
 from Ui.CmdTransition import CmdTransition
@@ -43,6 +43,7 @@ from Ui.CmdCalcThrustToWeight import CmdCalcThrustToWeight
 from Ui.CmdCalcVentHoles import CmdCalcVentHoles
 
 FreeCADGui.addCommand('Rocket_Rocket', CmdRocket())
+FreeCADGui.addCommand('Rocket_ToggleRocket', CmdToggleRocket())
 FreeCADGui.addCommand('Rocket_Stage', CmdStage())
 FreeCADGui.addCommand('Rocket_ToggleStage', CmdToggleStage())
 

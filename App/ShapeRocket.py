@@ -24,28 +24,44 @@ __title__ = "FreeCAD Rocket Assembly"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
-class ShapeRocket:
+import FreeCAD
+
+from App.ShapeBase import ShapeBase
+
+class ShapeRocket(ShapeBase):
 
     def __init__(self, obj):
+        super().__init__(obj)
+        
         if not hasattr(obj,"Group"):
             obj.addExtension("App::GroupExtensionPython")
 
-        obj.Proxy=self
-        self.version = '1.0'
-
-    def __getstate__(self):
-        return self.version
-
     def execute(self,obj):
-        """Method run when the object is recomputed.
-
-        If the site has no Shape or Terrain property assigned, do nothing.
-
-        Perform additions and subtractions on terrain, and assign to the site's
-        Shape.
-
-            see Mod/Arch/ArchSite.py for more information
-        """
-
-        if not hasattr(obj,'Shape'): # old-style Site
+        if not hasattr(obj,'Shape'):
             return
+
+    def positionChildren(self):
+        # Dynamic placements
+        length = 0.0
+        i = len(self._obj.Group) - 1
+        while i >= 0:
+            child = self._obj.Group[i]
+            child.Proxy.setAxialPosition(length)
+
+            length += float(child.Proxy.getAxialLength())
+            i -= 1
+
+        FreeCAD.ActiveDocument.recompute()
+
+def hookChildren(obj, group, oldGroup):
+    for child in group:
+        if child not in oldGroup:
+            child.Proxy.resetPlacement()
+            child.Proxy.edited.connect(obj.Proxy.positionChildren)
+
+    for child in oldGroup:
+        if child not in group:
+            child.Proxy.edited.connect(None)
+
+    obj.Proxy.positionChildren()
+

@@ -40,9 +40,9 @@ class ShapeStage(ShapeBase):
         if not hasattr(obj,'Shape'):
             return
 
-    def positionChildren(self):
+    def positionChildren(self, partBase=0.0):
         # Dynamic placements
-        length = 0.0
+        length = partBase
         i = len(self._obj.Group) - 1
         while i >= 0:
             child = self._obj.Group[i]

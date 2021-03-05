@@ -41,11 +41,11 @@ def addToStage(obj):
         if len(stage.Group) > 0:
             groupObj = stage.Group[len(stage.Group) - 1]
             if hasattr(groupObj,"Group"):
-                groupObj.addObject(obj) # groupObj.Group = groupObj.Group + [obj]
+                groupObj.addObject(obj)
                 stage.Proxy.positionChildren()
                 return
 
-        stage.addObject(obj) # stage.Group=stage.Group + [obj]
+        stage.addObject(obj)
 
     stage.Proxy.positionChildren()
 

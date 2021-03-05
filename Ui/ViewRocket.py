@@ -27,13 +27,19 @@ __url__ = "https://www.davesrocketshop.com"
 import FreeCAD
 import FreeCADGui
 
+from PySide import QtCore,QtGui
+
+from DraftTools import translate
+
 from App.Utilities import _msg
+from App.ShapeRocket import hookChildren
 
 class ViewProviderRocket:
 
     def __init__(self, vobj):
         vobj.addExtension("Gui::ViewProviderGroupExtensionPython")
         vobj.Proxy = self
+        self._oldChildren = []
         
     def getIcon(self):
         return FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Rocket.svg"
@@ -53,7 +59,21 @@ class ViewProviderRocket:
         objs = []
         if hasattr(self,"Object"):
             objs = self.Object.Group
+
+        hookChildren(self.Object, objs, self._oldChildren)
+        self._oldChildren = objs
+
         return objs
+
+    def setupContextMenu(self, vobj, menu):
+        """Add the component specific options to the context menu."""
+        action1 = QtGui.QAction(translate("Rocket","Toggle active rocket"),menu)
+        QtCore.QObject.connect(action1,QtCore.SIGNAL("triggered()"),self.toggleRocket)
+        menu.addAction(action1)
+
+    def toggleRocket(self):
+        FreeCADGui.runCommand("Rocket_ToggleRocket")
+        FreeCADGui.runCommand("Rocket_ToggleStage")
 
     def setEdit(self,vobj,mode):
         # No editor associated with this object
