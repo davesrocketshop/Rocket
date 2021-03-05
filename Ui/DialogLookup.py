@@ -40,9 +40,9 @@ from App.Constants import COMPONENT_TYPE_BODYTUBE, COMPONENT_TYPE_BULKHEAD, COMP
     COMPONENT_TYPE_PARACHUTE, COMPONENT_TYPE_STREAMER, COMPONENT_TYPE_TRANSITION, COMPONENT_TYPE_ANY
 from App.Utilities import _valueWithUnits
 
-from App.Parts.BodyTube import BodyTube
-from App.Parts.NoseCone import NoseCone
-from App.Parts.Transition import Transition
+from App.Parts.BodyTube import listBodyTubes, getBodyTube
+from App.Parts.NoseCone import listNoseCones, getNoseCone
+from App.Parts.Transition import listTransitions, getTransition
 
 
 # Constant definitions
@@ -184,7 +184,7 @@ class DialogLookup(QtGui.QDialog):
     def _getSelectedBodyTube(self, row):
         try:
             index = int(self._model.item(row, 0).text())
-            cone = BodyTube.getBodyTube(self._connection, index)
+            cone = getBodyTube(self._connection, index)
             return cone
         except NotFoundError:
             _err(translate('Rocket', "Body tube not found"))
@@ -195,7 +195,7 @@ class DialogLookup(QtGui.QDialog):
     def _getSelectedNose(self, row):
         try:
             index = int(self._model.item(row, 0).text())
-            cone = NoseCone.getNoseCone(self._connection, index)
+            cone = getNoseCone(self._connection, index)
             return cone
         except NotFoundError:
             _err(translate('Rocket', "Nose cone not found"))
@@ -206,7 +206,7 @@ class DialogLookup(QtGui.QDialog):
     def _getSelectedTransition(self, row):
         try:
             index = int(self._model.item(row, 0).text())
-            tran = Transition.getTransition(self._connection, index)
+            tran = getTransition(self._connection, index)
             return tran
         except NotFoundError:
             _err(translate('Rocket', "Transition not found"))
@@ -243,7 +243,7 @@ class DialogLookup(QtGui.QDialog):
         return item
 
     def _queryBodyTube(self, queryType):
-        rows = BodyTube.listBodyTubes(self._connection, queryType)
+        rows = listBodyTubes(self._connection, queryType)
 
         self._model.setRowCount(len(rows))
         if queryType == COMPONENT_TYPE_BULKHEAD:
@@ -282,7 +282,7 @@ class DialogLookup(QtGui.QDialog):
             rowCount += 1
 
     def _queryNoseCone(self):
-        rows = NoseCone.listNoseCones(self._connection)
+        rows = listNoseCones(self._connection)
 
         self._model.setRowCount(len(rows))
         self._model.setColumnCount(9)
@@ -314,7 +314,7 @@ class DialogLookup(QtGui.QDialog):
             rowCount += 1
 
     def _queryTransition(self):
-        rows = Transition.listTransitions(self._connection)
+        rows = listTransitions(self._connection)
 
         self._model.setRowCount(len(rows))
         self._model.setColumnCount(12)
