@@ -28,12 +28,14 @@ import FreeCAD
 import FreeCADGui
 
 from Ui.TaskPanelBodyTube import TaskPanelBodyTube
+from App.ShapeBodyTube import hookChildren
 
 class ViewProviderBodyTube:
 
     def __init__(self, vobj):
         vobj.addExtension("Gui::ViewProviderGroupExtensionPython")
         vobj.Proxy = self
+        self._oldChildren = []
         
     def getIcon(self):
         return FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_BodyTube.svg"
@@ -64,6 +66,10 @@ class ViewProviderBodyTube:
         objs = []
         if hasattr(self,"Object"):
             objs = self.Object.Group
+
+        hookChildren(self.Object, objs, self._oldChildren)
+        self._oldChildren = objs
+
         return objs
 
     def __getstate__(self):

@@ -27,19 +27,20 @@ __url__ = "https://www.davesrocketshop.com"
 import FreeCAD
 
 from PySide.QtCore import QObject, Signal
+
+from App.ShapeBase import ShapeBase
 from App.Utilities import _err
 
 from App.Constants import LOCATION_PARENT_TOP, LOCATION_PARENT_MIDDLE, LOCATION_PARENT_BOTTOM, LOCATION_BASE
 
 from DraftTools import translate
 
-class ShapeComponent(QObject):
+class ShapeComponent(ShapeBase):
 
     edited = Signal()
 
     def __init__(self, obj):
-        super().__init__()
-        self._obj = obj
+        super().__init__(obj)
 
         if not hasattr(obj, 'Manufacturer'):
             obj.addProperty('App::PropertyString', 'Manufacturer', 'RocketComponent', translate('App::Property', 'Component manufacturer')).Manufacturer = ""
@@ -49,81 +50,6 @@ class ShapeComponent(QObject):
             obj.addProperty('App::PropertyString', 'Description', 'RocketComponent', translate('App::Property', 'Component description')).Description = ""
         if not hasattr(obj, 'Material'):
             obj.addProperty('App::PropertyString', 'Material', 'RocketComponent', translate('App::Property', 'Component material')).Material = ""
-
-        # if not hasattr(obj, 'Edited'):
-        #     obj.addProperty('App::PropertyBool', 'Edited', 'RocketComponent', translate('App::Property', 'True when the component has been edited')).Edited = False
-        # obj.setEditorMode('Edited', 2)  # hide
-
-        obj.Proxy=self
-        self.version = '3.0'
-        self._scratch = {} # None persistent property storage, for import properties and similar
-
-    def __getstate__(self):
-        return self.version
-
-    def __setstate__(self, state):
-        if state:
-            self.version = state
-
-    # def onChanged(self, fp, prop):
-    #     print("onChanged")
-    #     print(fp)
-    #     print(prop)
-
-    # def onEdited(self, fp, prop):
-    #     print("onEdited()")
-    #     print(fp)
-    #     print(prop)
-
-    def setScratch(self, name, value):
-        self._scratch[name] = value
-
-    def getScratch(self, name):
-        return self._scratch[name]
-
-    def isScratch(self, name):
-        return name in self._scratch
-
-    def setEdited(self, edited=True):
-        # self._obj.Edited = edited
-
-        # if hasattr(self._obj, "Group"):
-        #     for child in self._obj.Group:
-        #         child.Proxy.setEdited(edited)
-
-        if edited:
-            self.edited.emit()
-
-    # def isEdited(self):
-    #     if self._obj.Edited:
-    #         return True
-
-    #     if hasattr(self._obj, "Group"):
-    #         for child in self._obj.Group:
-    #             if child.Proxy.isEdited():
-    #                 return True
-
-    #     return False
-
-    def getAxialLength(self):
-        # Return the length of this component along the central axis
-        return 0.0
-
-    def getRadius(self):
-        # For placing objects on the outer part of the parent
-        return 0.0
-
-    def setAxialPosition(self, partBase):
-        base = self._obj.Placement.Base
-        self._obj.Placement = FreeCAD.Placement(FreeCAD.Vector(partBase, base.y, base.z), FreeCAD.Rotation(0,0,0))
-
-        self.positionChildren(partBase)
-
-    def positionChildren(self, partBase):
-        # Dynamic placements
-        if hasattr(self._obj, "Group"):
-            for child in self._obj.Group:
-                child.Proxy.positionChild(child, self._obj, partBase, self.getAxialLength(), self.getRadius())
 
     def positionChild(self, obj, parent, parentBase, parentLength, parentRadius):
         if not hasattr(obj, 'LocationReference'):
@@ -144,21 +70,7 @@ class ShapeComponent(QObject):
         base = obj.Placement.Base
         newPlacement = FreeCAD.Placement(FreeCAD.Vector(partBase, 0, parentRadius), FreeCAD.Rotation(FreeCAD.Vector(1,0,0), roll), FreeCAD.Vector(0, 0, -parentRadius))
         if obj.Placement != newPlacement:
-            print("Placement changed")
             obj.Placement = newPlacement
-
-    def getOuterRadius(self):
-        return 0.0
-
-    def getInnerRadius(self):
-        return 0.0
-
-    def setRadialPosition(self, outerRadius, innerRadius):
-        pass
-
-    # This will be implemented in the derived class
-    def execute(self, obj):
-        _err("No execute method defined for %s" % (self.__class__.__name__))
 
 class ShapeLocation(ShapeComponent):
 

@@ -26,31 +26,18 @@ __url__ = "https://www.davesrocketshop.com"
 
 import FreeCAD
 
-class ShapeStage:
+from App.ShapeBase import ShapeBase
+
+class ShapeStage(ShapeBase):
 
     def __init__(self, obj):
+        super().__init__(obj)
+        
         if not hasattr(obj,"Group"):
             obj.addExtension("App::GroupExtensionPython")
 
-        obj.Proxy=self
-        self.version = '1.0'
-        self._obj = obj
-
-    def __getstate__(self):
-        return self.version
-
     def execute(self,obj):
-        """Method run when the object is recomputed.
-
-        If the site has no Shape or Terrain property assigned, do nothing.
-
-        Perform additions and subtractions on terrain, and assign to the site's
-        Shape.
-
-            see Mod/Arch/ArchSite.py for more information
-        """
-
-        if not hasattr(obj,'Shape'): # old-style Site
+        if not hasattr(obj,'Shape'):
             return
 
     def positionChildren(self):
@@ -64,18 +51,17 @@ class ShapeStage:
             length += float(child.Proxy.getAxialLength())
             i -= 1
 
-            child.Proxy.setEdited(False)
-            FreeCAD.ActiveDocument.recompute()
+        FreeCAD.ActiveDocument.recompute()
 
 def hookChildren(obj, group, oldGroup):
     for child in group:
         if child not in oldGroup:
+            child.Proxy.resetPlacement()
             child.Proxy.edited.connect(obj.Proxy.positionChildren)
-            print("add hook for %s" % str(child.Label))
 
     for child in oldGroup:
         if child not in group:
             child.Proxy.edited.connect(None)
-            print("remove hook for %s" % str(child.Label))
+
     obj.Proxy.positionChildren()
 

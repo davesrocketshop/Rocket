@@ -68,3 +68,30 @@ class ShapeBodyTube(ShapeLocation):
         shape = BodyTubeShapeHandler(obj)
         if shape is not None:
             shape.draw()
+
+    def onChildEdited(self):
+        # Dynamic placements
+        # length = 0.0
+        # i = len(self._obj.Group) - 1
+        # while i >= 0:
+        #     child = self._obj.Group[i]
+        #     child.Proxy.setAxialPosition(length)
+
+        #     length += float(child.Proxy.getAxialLength())
+        #     i -= 1
+
+        #     child.Proxy.setEdited(False)
+        #     FreeCAD.ActiveDocument.recompute()
+        self._obj.Proxy.setEdited()
+
+def hookChildren(obj, group, oldGroup):
+    for child in group:
+        if child not in oldGroup:
+            child.Proxy.resetPlacement()
+            child.Proxy.edited.connect(obj.Proxy.onChildEdited)
+
+    for child in oldGroup:
+        if child not in group:
+            child.Proxy.edited.connect(None)
+    obj.Proxy.setEdited()
+

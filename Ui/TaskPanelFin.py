@@ -286,7 +286,7 @@ class _FinDialog(QDialog):
 class TaskPanelFin:
 
     def __init__(self,obj,mode):
-        self.obj = obj
+        self._obj = obj
         
         self._finForm = _FinDialog()
         self._tpFinSet = TaskPanelFinSet(obj)
@@ -324,82 +324,82 @@ class TaskPanelFin:
         self.update()
         
         if mode == 0: # fresh created
-            self.obj.Proxy.execute(self.obj)  # calculate once 
+            self._obj.Proxy.execute(self._obj)  # calculate once 
             FreeCAD.Gui.SendMsgToActiveView("ViewFit")
         
     def transferTo(self):
         "Transfer from the dialog to the object" 
-        self.obj.FinType = str(self._finForm.finTypesCombo.currentText())
+        self._obj.FinType = str(self._finForm.finTypesCombo.currentText())
 
-        self.obj.RootCrossSection = str(self._finForm.rootCrossSectionsCombo.currentText())
-        self.obj.RootChord = self._finForm.rootChordInput.text()
-        self.obj.RootThickness = self._finForm.rootThicknessInput.text()
-        self.obj.RootPerCent = self._finForm.rootPerCentCheckbox.isChecked()
-        self.obj.RootLength1 = self._finForm.rootLength1Input.text()
-        self.obj.RootLength2 = self._finForm.rootLength2Input.text()
+        self._obj.RootCrossSection = str(self._finForm.rootCrossSectionsCombo.currentText())
+        self._obj.RootChord = self._finForm.rootChordInput.text()
+        self._obj.RootThickness = self._finForm.rootThicknessInput.text()
+        self._obj.RootPerCent = self._finForm.rootPerCentCheckbox.isChecked()
+        self._obj.RootLength1 = self._finForm.rootLength1Input.text()
+        self._obj.RootLength2 = self._finForm.rootLength2Input.text()
 
-        self.obj.TipCrossSection = str(self._finForm.tipCrossSectionsCombo.currentText())
-        self.obj.TipChord = self._finForm.tipChordInput.text()
-        self.obj.TipThickness = self._finForm.tipThicknessInput.text()
-        self.obj.TipPerCent = self._finForm.tipPerCentCheckbox.isChecked()
-        self.obj.TipLength1 = self._finForm.tipLength1Input.text()
-        self.obj.TipLength2 =self._finForm.tipLength2Input.text()
+        self._obj.TipCrossSection = str(self._finForm.tipCrossSectionsCombo.currentText())
+        self._obj.TipChord = self._finForm.tipChordInput.text()
+        self._obj.TipThickness = self._finForm.tipThicknessInput.text()
+        self._obj.TipPerCent = self._finForm.tipPerCentCheckbox.isChecked()
+        self._obj.TipLength1 = self._finForm.tipLength1Input.text()
+        self._obj.TipLength2 =self._finForm.tipLength2Input.text()
 
-        self.obj.Height = self._finForm.heightInput.text()
-        self.obj.SweepLength = self._finForm.sweepLengthInput.text()
-        self.obj.SweepAngle = self._finForm.sweepAngleInput.text()
+        self._obj.Height = self._finForm.heightInput.text()
+        self._obj.SweepLength = self._finForm.sweepLengthInput.text()
+        self._obj.SweepAngle = self._finForm.sweepAngleInput.text()
 
-        self.obj.Ttw = self._finForm.ttwCheckbox.isChecked()
-        self.obj.TtwOffset = self._finForm.ttwOffsetInput.text()
-        self.obj.TtwLength = self._finForm.ttwLengthInput.text()
-        self.obj.TtwHeight = self._finForm.ttwHeightInput.text()
-        self.obj.TtwThickness = self._finForm.ttwThicknessInput.text()
+        self._obj.Ttw = self._finForm.ttwCheckbox.isChecked()
+        self._obj.TtwOffset = self._finForm.ttwOffsetInput.text()
+        self._obj.TtwLength = self._finForm.ttwLengthInput.text()
+        self._obj.TtwHeight = self._finForm.ttwHeightInput.text()
+        self._obj.TtwThickness = self._finForm.ttwThicknessInput.text()
 
     def transferFrom(self):
         "Transfer from the object to the dialog"
-        self._finForm.finTypesCombo.setCurrentText(self.obj.FinType)
+        self._finForm.finTypesCombo.setCurrentText(self._obj.FinType)
 
-        self._finForm.rootCrossSectionsCombo.setCurrentText(self.obj.RootCrossSection)
-        self._finForm.rootChordInput.setText(self.obj.RootChord.UserString)
-        self._finForm.rootThicknessInput.setText(self.obj.RootThickness.UserString)
-        self._finForm.rootPerCentCheckbox.setChecked(self.obj.RootPerCent)
-        self._finForm.rootLength1Input.setText(self.obj.RootLength1.UserString)
-        self._finForm.rootLength2Input.setText(self.obj.RootLength2.UserString)
+        self._finForm.rootCrossSectionsCombo.setCurrentText(self._obj.RootCrossSection)
+        self._finForm.rootChordInput.setText(self._obj.RootChord.UserString)
+        self._finForm.rootThicknessInput.setText(self._obj.RootThickness.UserString)
+        self._finForm.rootPerCentCheckbox.setChecked(self._obj.RootPerCent)
+        self._finForm.rootLength1Input.setText(self._obj.RootLength1.UserString)
+        self._finForm.rootLength2Input.setText(self._obj.RootLength2.UserString)
 
-        self._finForm.tipCrossSectionsCombo.setCurrentText(self.obj.TipCrossSection)
-        self._finForm.tipChordInput.setText(self.obj.TipChord.UserString)
-        self._finForm.tipThicknessInput.setText(self.obj.TipThickness.UserString)
-        self._finForm.tipPerCentCheckbox.setChecked(self.obj.TipPerCent)
-        self._finForm.tipLength1Input.setText(self.obj.TipLength1.UserString)
-        self._finForm.tipLength2Input.setText(self.obj.TipLength2.UserString)
+        self._finForm.tipCrossSectionsCombo.setCurrentText(self._obj.TipCrossSection)
+        self._finForm.tipChordInput.setText(self._obj.TipChord.UserString)
+        self._finForm.tipThicknessInput.setText(self._obj.TipThickness.UserString)
+        self._finForm.tipPerCentCheckbox.setChecked(self._obj.TipPerCent)
+        self._finForm.tipLength1Input.setText(self._obj.TipLength1.UserString)
+        self._finForm.tipLength2Input.setText(self._obj.TipLength2.UserString)
 
-        self._finForm.heightInput.setText(self.obj.Height.UserString)
-        self._finForm.sweepLengthInput.setText(self.obj.SweepLength.UserString)
-        self._finForm.sweepAngleInput.setText(self.obj.SweepAngle.UserString)
+        self._finForm.heightInput.setText(self._obj.Height.UserString)
+        self._finForm.sweepLengthInput.setText(self._obj.SweepLength.UserString)
+        self._finForm.sweepAngleInput.setText(self._obj.SweepAngle.UserString)
 
-        self._finForm.ttwCheckbox.setChecked(self.obj.Ttw)
-        self._finForm.ttwOffsetInput.setText(self.obj.TtwOffset.UserString)
-        self._finForm.ttwLengthInput.setText(self.obj.TtwLength.UserString)
-        self._finForm.ttwHeightInput.setText(self.obj.TtwHeight.UserString)
-        self._finForm.ttwThicknessInput.setText(self.obj.TtwThickness.UserString)
+        self._finForm.ttwCheckbox.setChecked(self._obj.Ttw)
+        self._finForm.ttwOffsetInput.setText(self._obj.TtwOffset.UserString)
+        self._finForm.ttwLengthInput.setText(self._obj.TtwLength.UserString)
+        self._finForm.ttwHeightInput.setText(self._obj.TtwHeight.UserString)
+        self._finForm.ttwThicknessInput.setText(self._obj.TtwThickness.UserString)
 
         self._enableRootLengths()
         self._enableTipLengths()
         self._enableRootPercent()
         self._enableTipPercent()
-        self._sweepAngleFromLength(self.obj.SweepLength)
+        self._sweepAngleFromLength(self._obj.SweepLength)
         self._setTtwState()
 
     def setEdited(self):
         self._obj.Proxy.setEdited()
         
     def onFinTypes(self, value):
-        self.obj.FinType = value
-        self.obj.Proxy.execute(self.obj)
+        self._obj.FinType = value
+        self._obj.Proxy.execute(self._obj)
         self.setEdited()
 
     def _enableRootLengths(self):
-        value = self.obj.RootCrossSection
+        value = self._obj.RootCrossSection
         if value in [FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE]:
             self._finForm.rootPerCentCheckbox.setEnabled(True)
             self._finForm.rootLength1Input.setEnabled(True)
@@ -413,7 +413,7 @@ class TaskPanelFin:
             self._finForm.rootLength2Input.setEnabled(False)
 
     def _enableTipLengths(self):
-        value = self.obj.TipCrossSection
+        value = self._obj.TipCrossSection
         if value in [FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE]:
             self._finForm.tipPerCentCheckbox.setEnabled(True)
             self._finForm.tipLength1Input.setEnabled(True)
@@ -427,24 +427,24 @@ class TaskPanelFin:
             self._finForm.tipLength2Input.setEnabled(False)
         
     def onRootCrossSection(self, value):
-        self.obj.RootCrossSection = value
+        self._obj.RootCrossSection = value
         self._enableRootLengths()
 
-        self.obj.Proxy.execute(self.obj)
+        self._obj.Proxy.execute(self._obj)
         self.setEdited()
         
     def onRootChord(self, value):
         try:
-            self.obj.RootChord = FreeCAD.Units.Quantity(value).Value
-            self.obj.Proxy.execute(self.obj)
+            self._obj.RootChord = FreeCAD.Units.Quantity(value).Value
+            self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
         self.setEdited()
         
     def onRootThickness(self, value):
         try:
-            self.obj.RootThickness = FreeCAD.Units.Quantity(value).Value
-            self.obj.Proxy.execute(self.obj)
+            self._obj.RootThickness = FreeCAD.Units.Quantity(value).Value
+            self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
         self.setEdited()
@@ -466,125 +466,125 @@ class TaskPanelFin:
         return length
 
     def _enableRootPercent(self):
-        if self.obj.RootPerCent:
+        if self._obj.RootPerCent:
             self._finForm.rootLength1Input.unit = ''
             self._finForm.rootLength2Input.unit = ''
-            self._finForm.rootLength1Input.setText(str(self.obj.RootLength1.Value))
-            self._finForm.rootLength2Input.setText(str(self.obj.RootLength2.Value))
+            self._finForm.rootLength1Input.setText(str(self._obj.RootLength1.Value))
+            self._finForm.rootLength2Input.setText(str(self._obj.RootLength2.Value))
         else:
             self._finForm.rootLength1Input.unit = 'mm'
             self._finForm.rootLength2Input.unit = 'mm'
-            self._finForm.rootLength1Input.setText(self.obj.RootLength1.UserString)
-            self._finForm.rootLength2Input.setText(self.obj.RootLength2.UserString)
+            self._finForm.rootLength1Input.setText(self._obj.RootLength1.UserString)
+            self._finForm.rootLength2Input.setText(self._obj.RootLength2.UserString)
 
     def _convertRootPercent(self):
-        if self.obj.RootPerCent:
+        if self._obj.RootPerCent:
             # Convert to percentages
-            self.obj.RootLength1 = self._toPercent(self.obj.RootLength1.Value, self.obj.RootChord.Value)
-            self.obj.RootLength2 = self._toPercent(self.obj.RootLength2.Value, self.obj.RootChord.Value)
+            self._obj.RootLength1 = self._toPercent(self._obj.RootLength1.Value, self._obj.RootChord.Value)
+            self._obj.RootLength2 = self._toPercent(self._obj.RootLength2.Value, self._obj.RootChord.Value)
         else:
             # Convert to lengths
-            self.obj.RootLength1 = self._toLength(self.obj.RootLength1.Value, self.obj.RootChord.Value)
-            self.obj.RootLength2 = self._toLength(self.obj.RootLength2.Value, self.obj.RootChord.Value)
+            self._obj.RootLength1 = self._toLength(self._obj.RootLength1.Value, self._obj.RootChord.Value)
+            self._obj.RootLength2 = self._toLength(self._obj.RootLength2.Value, self._obj.RootChord.Value)
         self._enableRootPercent()
         
     def onRootPerCent(self, value):
-        self.obj.RootPerCent = self.form.rootPerCentCheckbox.isChecked()
+        self._obj.RootPerCent = self.form.rootPerCentCheckbox.isChecked()
         self._convertRootPercent()
 
-        self.obj.Proxy.execute(self.obj)
+        self._obj.Proxy.execute(self._obj)
         self.setEdited()
         
     def onRootLength1(self, value):
         try:
-            self.obj.RootLength1 = FreeCAD.Units.Quantity(value).Value
-            self.obj.Proxy.execute(self.obj)
+            self._obj.RootLength1 = FreeCAD.Units.Quantity(value).Value
+            self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
         self.setEdited()
         
     def onRootLength2(self, value):
         try:
-            self.obj.RootLength2 = FreeCAD.Units.Quantity(value).Value
-            self.obj.Proxy.execute(self.obj)
+            self._obj.RootLength2 = FreeCAD.Units.Quantity(value).Value
+            self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
         self.setEdited()
         
     def onTipCrossSection(self, value):
-        self.obj.TipCrossSection = value
+        self._obj.TipCrossSection = value
         self._enableTipLengths()
 
-        self.obj.Proxy.execute(self.obj)
+        self._obj.Proxy.execute(self._obj)
         self.setEdited()
         
     def onTipChord(self, value):
         try:
-            self.obj.TipChord = FreeCAD.Units.Quantity(value).Value
-            self.obj.Proxy.execute(self.obj)
+            self._obj.TipChord = FreeCAD.Units.Quantity(value).Value
+            self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
         self.setEdited()
         
     def onTipThickness(self, value):
         try:
-            self.obj.TipThickness = FreeCAD.Units.Quantity(value).Value
-            self.obj.Proxy.execute(self.obj)
+            self._obj.TipThickness = FreeCAD.Units.Quantity(value).Value
+            self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
         self.setEdited()
 
     def _enableTipPercent(self):
-        if self.obj.TipPerCent:
+        if self._obj.TipPerCent:
             self._finForm.tipLength1Input.unit = ''
             self._finForm.tipLength2Input.unit = ''
-            self._finForm.tipLength1Input.setText(str(self.obj.TipLength1.Value))
-            self._finForm.tipLength2Input.setText(str(self.obj.TipLength2.Value))
+            self._finForm.tipLength1Input.setText(str(self._obj.TipLength1.Value))
+            self._finForm.tipLength2Input.setText(str(self._obj.TipLength2.Value))
         else:
             self._finForm.tipLength1Input.unit = 'mm'
             self._finForm.tipLength2Input.unit = 'mm'
-            self._finForm.tipLength1Input.setText(self.obj.TipLength1.UserString)
-            self._finForm.tipLength2Input.setText(self.obj.TipLength2.UserString)
+            self._finForm.tipLength1Input.setText(self._obj.TipLength1.UserString)
+            self._finForm.tipLength2Input.setText(self._obj.TipLength2.UserString)
 
     def _convertTipPercent(self):
-        if self.obj.TipPerCent:
+        if self._obj.TipPerCent:
             # Convert to percentages
-            self.obj.TipLength1 = self._toPercent(self.obj.TipLength1.Value, self.obj.TipChord.Value)
-            self.obj.TipLength2 = self._toPercent(self.obj.TipLength2.Value, self.obj.TipChord.Value)
+            self._obj.TipLength1 = self._toPercent(self._obj.TipLength1.Value, self._obj.TipChord.Value)
+            self._obj.TipLength2 = self._toPercent(self._obj.TipLength2.Value, self._obj.TipChord.Value)
         else:
             # Convert to lengths
-            self.obj.TipLength1 = self._toLength(self.obj.TipLength1.Value, self.obj.TipChord.Value)
-            self.obj.TipLength2 = self._toLength(self.obj.TipLength2.Value, self.obj.TipChord.Value)
+            self._obj.TipLength1 = self._toLength(self._obj.TipLength1.Value, self._obj.TipChord.Value)
+            self._obj.TipLength2 = self._toLength(self._obj.TipLength2.Value, self._obj.TipChord.Value)
         self._enableTipPercent()
         
     def onTipPerCent(self, value):
-        self.obj.TipPerCent = self.form.tipPerCentCheckbox.isChecked()
+        self._obj.TipPerCent = self.form.tipPerCentCheckbox.isChecked()
         self._convertTipPercent()
 
-        self.obj.Proxy.execute(self.obj)
+        self._obj.Proxy.execute(self._obj)
         self.setEdited()
         
     def onTipLength1(self, value):
         try:
-            self.obj.TipLength1 = FreeCAD.Units.Quantity(value).Value
-            self.obj.Proxy.execute(self.obj)
+            self._obj.TipLength1 = FreeCAD.Units.Quantity(value).Value
+            self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
         self.setEdited()
         
     def onTipLength2(self, value):
         try:
-            self.obj.TipLength2 = FreeCAD.Units.Quantity(value).Value
-            self.obj.Proxy.execute(self.obj)
+            self._obj.TipLength2 = FreeCAD.Units.Quantity(value).Value
+            self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
         self.setEdited()
 
     def onHeight(self, value):
         try:
-            self.obj.Height = FreeCAD.Units.Quantity(value).Value
+            self._obj.Height = FreeCAD.Units.Quantity(value).Value
             self._sweepAngleFromLength(self.form.sweepLengthInput.property("quantity").Value)
-            self.obj.Proxy.execute(self.obj)
+            self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
         self.setEdited()
@@ -597,73 +597,73 @@ class TaskPanelFin:
         theta = math.radians(-1.0 * (theta + 90.0))
         length = self._finForm.heightInput.property("quantity").Value / math.tan(theta)
         self._finForm.sweepLengthInput.setText("%f" % length)
-        self.obj.SweepLength = length
+        self._obj.SweepLength = length
 
     def _sweepAngleFromLength(self, value):
         length = _toFloat(value)
         theta = 90.0 - math.degrees(math.atan2(self._finForm.heightInput.property("quantity").Value, length))
         self._finForm.sweepAngleInput.setText("%f" % theta)
-        self.obj.SweepAngle = theta
+        self._obj.SweepAngle = theta
         
     def onSweepLength(self, value):
         try:
-            self.obj.SweepLength = FreeCAD.Units.Quantity(value).Value
+            self._obj.SweepLength = FreeCAD.Units.Quantity(value).Value
             self._sweepAngleFromLength(value)
-            self.obj.Proxy.execute(self.obj)
+            self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
         self.setEdited()
         
     def onSweepAngle(self, value):
         try:
-            self.obj.SweepAngle = FreeCAD.Units.Quantity(value).Value
+            self._obj.SweepAngle = FreeCAD.Units.Quantity(value).Value
             self._sweepLengthFromAngle(value)
-            self.obj.Proxy.execute(self.obj)
+            self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
         self.setEdited()
         
     def _setTtwState(self):
-        self._finForm.ttwOffsetInput.setEnabled(self.obj.Ttw)
-        self._finForm.ttwLengthInput.setEnabled(self.obj.Ttw)
-        self._finForm.ttwHeightInput.setEnabled(self.obj.Ttw)
-        self._finForm.ttwThicknessInput.setEnabled(self.obj.Ttw)
+        self._finForm.ttwOffsetInput.setEnabled(self._obj.Ttw)
+        self._finForm.ttwLengthInput.setEnabled(self._obj.Ttw)
+        self._finForm.ttwHeightInput.setEnabled(self._obj.Ttw)
+        self._finForm.ttwThicknessInput.setEnabled(self._obj.Ttw)
         
     def onTtw(self, value):
-        self.obj.Ttw = self._finForm.ttwCheckbox.isChecked()
+        self._obj.Ttw = self._finForm.ttwCheckbox.isChecked()
         self._setTtwState()
 
-        self.obj.Proxy.execute(self.obj)
+        self._obj.Proxy.execute(self._obj)
         self.setEdited()
         
     def onTTWOffset(self, value):
         try:
-            self.obj.TtwOffset = FreeCAD.Units.Quantity(value).Value
-            self.obj.Proxy.execute(self.obj)
+            self._obj.TtwOffset = FreeCAD.Units.Quantity(value).Value
+            self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
         self.setEdited()
         
     def onTTWLength(self, value):
         try:
-            self.obj.TtwLength = FreeCAD.Units.Quantity(value).Value
-            self.obj.Proxy.execute(self.obj)
+            self._obj.TtwLength = FreeCAD.Units.Quantity(value).Value
+            self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
         self.setEdited()
         
     def onTTWHeight(self, value):
         try:
-            self.obj.TtwHeight = FreeCAD.Units.Quantity(value).Value
-            self.obj.Proxy.execute(self.obj)
+            self._obj.TtwHeight = FreeCAD.Units.Quantity(value).Value
+            self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
         self.setEdited()
         
     def onTTWThickness(self, value):
         try:
-            self.obj.TtwThickness = FreeCAD.Units.Quantity(value).Value
-            self.obj.Proxy.execute(self.obj)
+            self._obj.TtwThickness = FreeCAD.Units.Quantity(value).Value
+            self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
         self.setEdited()
@@ -673,9 +673,8 @@ class TaskPanelFin:
 
     def clicked(self,button):
         if button == QtGui.QDialogButtonBox.Apply:
-            #print "Apply"
             self.transferTo()
-            self.obj.Proxy.execute(self.obj) 
+            self._obj.Proxy.execute(self._obj) 
         
     def update(self):
         'fills the widgets'
