@@ -26,6 +26,7 @@ __url__ = "https://www.davesrocketshop.com"
     
 import FreeCAD
 import Part
+import Draft
 import math
 
 from DraftTools import translate
@@ -274,11 +275,7 @@ class FinTrapezoidShapeHandler:
             fin.rotate(FreeCAD.Vector(0, 0, 0), FreeCAD.Vector(1,0,0), i * float(self._obj.FinSpacing))
             fins.append(fin)
 
-        # line = Part.LineSegment(FreeCAD.Vector(0.0, 0.0, self._obj.ParentRadius), FreeCAD.Vector(self._obj.RootChord, 0.0, self._obj.ParentRadius))
-        # can = line.toShape().revolve(FreeCAD.Vector(0, 0, 0),FreeCAD.Vector(1, 0, 0), 360)
-        can = Part.makeCylinder(self._obj.ParentRadius, self._obj.RootChord, FreeCAD.Vector(0,0,0), FreeCAD.Vector(1,0,0), 360)
-        can = can.fuse(fins)
-        return can
+        return Part.makeCompound(fins)
 
     def draw(self):
         

@@ -57,9 +57,9 @@ class ShapeBase(QObject):
     def isScratch(self, name):
         return name in self._scratch
 
-    def setEdited(self, edited=True):
-        if edited:
-            self.edited.emit()
+    def setEdited(self):
+        print("%s: setEdited()" % (self.__class__.__name__))
+        self.edited.emit()
 
     def getAxialLength(self):
         # Return the length of this component along the central axis

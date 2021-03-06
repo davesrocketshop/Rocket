@@ -146,9 +146,6 @@ class ShapeFin(ShapeLocation):
 
         if obj.FinType == FIN_TYPE_TRAPEZOID:
             shape = FinTrapezoidShapeHandler(obj)
-            shape1 = FinTrapezoidShapeHandler(obj)
-            shape1.Placement = FreeCAD.Placement(FreeCAD.Vector(obj.Placement.Base.x, 0, obj.ParentRadius), FreeCAD.Rotation(FreeCAD.Vector(1,0,0), obj.FinSpacing), FreeCAD.Vector(0, 0, -obj.ParentRadius))
 
         if shape is not None:
             shape.draw()
-            shape1.draw()

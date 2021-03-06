@@ -26,6 +26,8 @@ __url__ = "https://www.davesrocketshop.com"
 
 import FreeCAD
 
+from PySide import QtCore
+
 from App.ShapeBase import ShapeBase
 
 class ShapeStage(ShapeBase):
@@ -57,7 +59,7 @@ def hookChildren(obj, group, oldGroup):
     for child in group:
         if child not in oldGroup:
             child.Proxy.resetPlacement()
-            child.Proxy.edited.connect(obj.Proxy.positionChildren)
+            child.Proxy.edited.connect(obj.Proxy.positionChildren, QtCore.Qt.QueuedConnection)
 
     for child in oldGroup:
         if child not in group:

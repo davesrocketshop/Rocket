@@ -171,7 +171,7 @@ class TaskPanelFinSet(QObject):
         self._setFinSetState()
  
     def setEdited(self):
-        self._obj.Proxy.setEdited()
+        self.finSetChange.emit()
        
     def _setFinSetState(self):
         checked = self._form.finSetCheckbox.isChecked()

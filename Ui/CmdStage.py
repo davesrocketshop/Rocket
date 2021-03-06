@@ -47,7 +47,7 @@ def addToStage(obj):
 
         stage.addObject(obj)
 
-    stage.Proxy.positionChildren()
+        stage.Proxy.positionChildren()
 
 def makeStage(name='Stage'):
     obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)

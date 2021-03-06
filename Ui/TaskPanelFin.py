@@ -320,6 +320,8 @@ class TaskPanelFin:
         self._finForm.ttwLengthInput.textEdited.connect(self.onTTWLength)
         self._finForm.ttwHeightInput.textEdited.connect(self.onTTWHeight)
         self._finForm.ttwThicknessInput.textEdited.connect(self.onTTWThickness)
+
+        self._tpFinSet.finSetChange.connect(self.onFinSet, QtCore.Qt.QueuedConnection)
         
         self.update()
         
@@ -666,6 +668,10 @@ class TaskPanelFin:
             self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
+        self.setEdited()
+       
+    def onFinSet(self):
+        self._obj.Proxy.execute(self._obj) 
         self.setEdited()
         
     def getStandardButtons(self):
