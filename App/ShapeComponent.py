@@ -57,11 +57,11 @@ class ShapeComponent(ShapeBase):
             roll = 0.0
         else:
             if obj.LocationReference == LOCATION_PARENT_TOP:
-                partBase = (parentBase + parentLength) - float(obj.Location)
+                partBase = (float(parentBase) + float(parentLength)) - float(obj.Location)
             elif obj.LocationReference == LOCATION_PARENT_MIDDLE:
-                partBase = (parentBase + (parentLength / 2.0)) + float(obj.Location)
+                partBase = (float(parentBase) + (float(parentLength) / 2.0)) + float(obj.Location)
             elif obj.LocationReference == LOCATION_PARENT_BOTTOM:
-                partBase = parentBase + float(obj.Location)
+                partBase = float(parentBase) + float(obj.Location)
             elif obj.LocationReference == LOCATION_BASE:
                 partBase = float(obj.Location)
 
@@ -89,5 +89,7 @@ class ShapeLocation(ShapeComponent):
         obj.LocationReference = LOCATION_PARENT_BOTTOM
         if not hasattr(obj, 'Location'):
             obj.addProperty('App::PropertyDistance', 'Location', 'RocketComponent', translate('App::Property', 'Location offset from the reference')).Location = 0.0
+        if not hasattr(obj, 'AxialOffset'):
+            obj.addProperty('App::PropertyDistance', 'AxialOffset', 'RocketComponent', translate('App::Property', 'Axial offset from the center line')).AxialOffset = 0.0
         if not hasattr(obj, 'RadialOffset'):
             obj.addProperty('App::PropertyAngle', 'RadialOffset', 'RocketComponent', translate('App::Property', 'Radial offset from the vertical')).RadialOffset = 0.0

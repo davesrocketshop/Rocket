@@ -34,6 +34,7 @@ from PySide2.QtWidgets import QDialog, QGridLayout
 from DraftTools import translate
 
 from Ui.TaskPanelDatabase import TaskPanelDatabase
+from Ui.TaskPanelLocation import TaskPanelLocation
 from App.Constants import COMPONENT_TYPE_BULKHEAD, COMPONENT_TYPE_CENTERINGRING
 
 from App.Utilities import _valueWithUnits
@@ -211,7 +212,10 @@ class TaskPanelBulkhead:
             self._db = TaskPanelDatabase(obj, COMPONENT_TYPE_BULKHEAD)
         self._dbForm = self._db.getForm()
 
-        self.form = [self._bulkForm, self._dbForm]
+        self._location = TaskPanelLocation(obj)
+        self._locationForm = self._location.getForm()
+
+        self.form = [self._bulkForm, self._locationForm, self._dbForm]
         if self._crPanel:
             self._bulkForm.setWindowIcon(QtGui.QIcon(FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_CenterinRing.svg"))
         else:
@@ -238,6 +242,7 @@ class TaskPanelBulkhead:
             self._bulkForm.notchHeightInput.textEdited.connect(self.onNotchHeight)
 
         self._db.dbLoad.connect(self.onLookup)
+        self._location.locationChange.connect(self.onLocation)
         
         self.update()
         
@@ -440,6 +445,10 @@ class TaskPanelBulkhead:
             self._obj.NotchHeight = 0.0
         
         self.update()
+        self._obj.Proxy.execute(self._obj) 
+        self.setEdited()
+
+    def onLocation(self):
         self._obj.Proxy.execute(self._obj) 
         self.setEdited()
         

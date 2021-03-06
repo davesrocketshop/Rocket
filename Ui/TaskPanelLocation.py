@@ -18,9 +18,9 @@
 # *   USA                                                                   *
 # *                                                                         *
 # ***************************************************************************
-"""Class for drawing fin sets"""
+"""Class for setting object location"""
 
-__title__ = "FreeCAD Fin Sets"
+__title__ = "FreeCAD Location"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
     
@@ -40,7 +40,7 @@ from App.Constants import LOCATION_PARENT_TOP, LOCATION_PARENT_MIDDLE, LOCATION_
 from App.Parts.PartDatabase import PartDatabase
 from Ui.DialogLookup import DialogLookup, userOK, userCancelled
 
-class _finSetDialog(QDialog):
+class _locationDialog(QDialog):
 
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -49,31 +49,7 @@ class _finSetDialog(QDialog):
 
         # define our window
         self.setGeometry(250, 250, 400, 350)
-        self.setWindowTitle(translate('Rocket', "Fin Set Parameter"))
-
-        self.finSetLabel = QtGui.QLabel(translate('Rocket', "Fin Set"), self)
-
-        self.finSetCheckbox = QtGui.QCheckBox(self)
-        self.finSetCheckbox.setCheckState(QtCore.Qt.Unchecked)
-        
-        self.finCountLabel = QtGui.QLabel(translate('Rocket', "Fin Count"), self)
-
-        self.finCountSpinBox = QtGui.QSpinBox(self)
-        self.finCountSpinBox.setFixedWidth(80)
-        self.finCountSpinBox.setMinimum(1)
-        self.finCountSpinBox.setMaximum(10000)
-
-        self.finSpacingLabel = QtGui.QLabel(translate('Rocket', "Fin Spacing"), self)
-
-        self.finSpacingInput = ui.createWidget("Gui::InputField")
-        self.finSpacingInput.unit = 'deg'
-        self.finSpacingInput.setFixedWidth(80)
-
-        self.offsetLabel = QtGui.QLabel(translate('Rocket', "Fin Offset"), self)
-
-        self.offsetInput = ui.createWidget("Gui::InputField")
-        self.offsetInput.unit = 'deg'
-        self.offsetInput.setFixedWidth(80)
+        self.setWindowTitle(translate('Rocket', "Location Parameter"))
 
         # Select the fin set location reference
         self.referenceLabel = QtGui.QLabel(translate('Rocket', "Location Reference"), self)
@@ -93,26 +69,22 @@ class _finSetDialog(QDialog):
         self.locationInput.unit = 'mm'
         self.locationInput.setFixedWidth(80)
 
+        self.axialOffsetLabel = QtGui.QLabel(translate('Rocket', "Axial Offset"), self)
+
+        self.axialOffsetInput = ui.createWidget("Gui::InputField")
+        self.axialOffsetInput.unit = 'mm'
+        self.axialOffsetInput.setFixedWidth(80)
+
+        self.radialOffsetLabel = QtGui.QLabel(translate('Rocket', "Radial Offset"), self)
+
+        self.radialOffsetInput = ui.createWidget("Gui::InputField")
+        self.radialOffsetInput.unit = 'deg'
+        self.radialOffsetInput.setFixedWidth(80)
+
         layout = QGridLayout()
 
         n = 0
-        layout.addWidget(self.finSetLabel, n, 0, 1, 2)
-        layout.addWidget(self.finSetCheckbox, n, 1)
-        n += 1
-
-        layout.addWidget(self.finCountLabel, n, 0)
-        layout.addWidget(self.finCountSpinBox, n, 1)
-        n += 1
-
-        layout.addWidget(self.finSpacingLabel, n, 0)
-        layout.addWidget(self.finSpacingInput, n, 1)
-        n += 1
-
-        layout.addWidget(self.offsetLabel, n, 0)
-        layout.addWidget(self.offsetInput, n, 1)
-        n += 1
-
-        layout.addWidget(self.referenceLabel, n, 0)
+        layout.addWidget(self.referenceLabel, n, 0, 1, 2)
         layout.addWidget(self.referenceCombo, n, 1)
         n += 1
 
@@ -120,27 +92,31 @@ class _finSetDialog(QDialog):
         layout.addWidget(self.locationInput, n, 1)
         n += 1
 
+        layout.addWidget(self.axialOffsetLabel, n, 0)
+        layout.addWidget(self.axialOffsetInput, n, 1)
+        n += 1
+
+        layout.addWidget(self.radialOffsetLabel, n, 0)
+        layout.addWidget(self.radialOffsetInput, n, 1)
+
         self.setLayout(layout)
 
-class TaskPanelFinSet(QObject):
+class TaskPanelLocation(QObject):
 
-    finSetChange = Signal()   # emitted when a database lookup has completed
+    locationChange = Signal()   # emitted when location has changed
 
     def __init__(self, obj, parent=None):
         super().__init__()
 
         self._obj = obj
-        self._form = _finSetDialog(parent)
+        self._form = _locationDialog(parent)
         
-        self._form.setWindowIcon(QtGui.QIcon(FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_FinCan.svg"))
+        self._form.setWindowIcon(QtGui.QIcon(FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Location.svg"))
         
-        self._form.finSetCheckbox.stateChanged.connect(self.onFinSet)
-        self._form.finCountSpinBox.valueChanged.connect(self.onCount)
-        self._form.finSpacingInput.textEdited.connect(self.onSpacing)
-        self._form.offsetInput.textEdited.connect(self.onOffset)
         self._form.referenceCombo.currentIndexChanged.connect(self.onReference)
         self._form.locationInput.textEdited.connect(self.onLocation)
-
+        self._form.axialOffsetInput.textEdited.connect(self.onAxialOffset)
+        self._form.radialOffsetInput.textEdited.connect(self.onRadialOffset)
         
         self.update()
 
@@ -152,61 +128,35 @@ class TaskPanelFinSet(QObject):
         
     def transferTo(self):
         "Transfer from the dialog to the object" 
-        self._obj.FinSet = self._form.finSetCheckbox.isChecked()
-        self._obj.FinCount = self._form.finCountSpinBox.value()
-        self._obj.FinSpacing = self._form.finSpacingInput.text()
-        self._obj.RadialOffset = self._form.offsetInput.text()
         self._obj.LocationReference = str(self._form.referenceCombo.currentText())
         self._obj.Location = self._form.locationInput.text()
+        self._obj.AxialOffset = self._form.axialOffsetInput.text()
+        self._obj.RadialOffset = self._form.radialOffsetInput.text()
 
     def transferFrom(self):
         "Transfer from the object to the dialog"
-        self._form.finSetCheckbox.setChecked(self._obj.FinSet)
-        self._form.finCountSpinBox.setValue(self._obj.FinCount)
-        self._form.finSpacingInput.setText(self._obj.FinSpacing.UserString)
-        self._form.offsetInput.setText(self._obj.RadialOffset.UserString)
         self._form.referenceCombo.setCurrentText(self._obj.LocationReference)
         self._form.locationInput.setText(self._obj.Location.UserString)
-
-        self._setFinSetState()
+        self._form.axialOffsetInput.setText(self._obj.AxialOffset.UserString)
+        self._form.radialOffsetInput.setText(self._obj.RadialOffset.UserString)
  
     def setEdited(self):
-        self.finSetChange.emit()
+        self.locationChange.emit()
        
-    def _setFinSetState(self):
-        checked = self._form.finSetCheckbox.isChecked()
-
-        self._form.finCountSpinBox.setEnabled(checked)
-        self._form.finSpacingInput.setEnabled(checked)
-        self._form.offsetInput.setEnabled(checked)
-        self._form.referenceCombo.setEnabled(checked)
-        self._form.locationInput.setEnabled(checked)
-
-    def onFinSet(self, value):
-        self._obj.FinSet = self._form.finSetCheckbox.isChecked()
-        self._setFinSetState()
-        self.setEdited()
-        
-    def onCount(self, value):
-        self._obj.FinCount = value
-        self._obj.FinSpacing = 360.0 / float(value)
-        self._form.finSpacingInput.setText(self._obj.FinSpacing.UserString)
-        self.setEdited()
-        
-    def onSpacing(self, value):
-        self._obj.FinSpacing = value
-        self.setEdited()
-        
-    def onOffset(self, value):
-        self._obj.RadialOffset = value
-        self.setEdited()
-        
     def onReference(self, value):
         self._obj.LocationReference = value
         self.setEdited()
         
     def onLocation(self, value):
         self._obj.Location = value
+        self.setEdited()
+        
+    def onAxialOffset(self, value):
+        self._obj.AxialOffset = value
+        self.setEdited()
+        
+    def onRadialOffset(self, value):
+        self._obj.RadialOffset = value
         self.setEdited()
         
     def update(self):
