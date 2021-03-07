@@ -79,8 +79,12 @@ class ShapeTransition(ShapeComponent):
             obj.addProperty('App::PropertyLength', 'Length', 'Transition', translate('App::Property', 'Length of the transition not including any shoulder')).Length = 60.0
         if not hasattr(obj, 'ForeDiameter'):
             obj.addProperty('App::PropertyLength', 'ForeDiameter', 'Transition', translate('App::Property', 'Diameter at the front of the transition')).ForeDiameter = 20.0
+        if not hasattr(obj, 'ForeAutoDiameter'):
+            obj.addProperty('App::PropertyBool', 'ForeAutoDiameter', 'NoseCone', translate('App::Property', 'Automatically set the forward diameter when possible')).ForeAutoDiameter = False
         if not hasattr(obj, 'AftDiameter'):
             obj.addProperty('App::PropertyLength', 'AftDiameter', 'Transition', translate('App::Property', 'Diameter at the base of the transition')).AftDiameter = 40.0
+        if not hasattr(obj, 'AftAutoDiameter'):
+            obj.addProperty('App::PropertyBool', 'AftAutoDiameter', 'NoseCone', translate('App::Property', 'Automatically set the aft diameter when possible')).AftAutoDiameter = False
         if not hasattr(obj, 'CoreDiameter'):
             obj.addProperty('App::PropertyLength', 'CoreDiameter', 'Transition', translate('App::Property', 'Diameter of the transition core')).CoreDiameter = 10.0
         if not hasattr(obj, 'Thickness'):

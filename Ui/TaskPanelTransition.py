@@ -29,7 +29,7 @@ import FreeCAD
 import FreeCADGui
 
 from PySide import QtGui, QtCore
-from PySide2.QtWidgets import QDialog, QGridLayout
+from PySide2.QtWidgets import QDialog, QGridLayout, QVBoxLayout, QSizePolicy
 
 from DraftTools import translate
 
@@ -45,14 +45,28 @@ class _TransitionDialog(QDialog):
     def __init__(self, parent=None):
         super(_TransitionDialog, self).__init__(parent)
 
-        ui = FreeCADGui.UiLoader()
-
         # define our window
         self.setGeometry(250, 250, 400, 350)
         self.setWindowTitle(translate('Rocket', "Transition Parameter"))
 
+        self.tabWidget = QtGui.QTabWidget()
+        self.tabGeneral = QtGui.QWidget()
+        self.tabShoulder = QtGui.QWidget()
+        self.tabWidget.addTab(self.tabGeneral, translate('Rocket', "General"))
+        self.tabWidget.addTab(self.tabShoulder, translate('Rocket', "Shoulder"))
+
+        layout = QVBoxLayout()
+        layout.addWidget(self.tabWidget)
+        self.setLayout(layout)
+
+        self.setTabGeneral()
+        self.setTabShoulder()
+
+    def setTabGeneral(self):
+        ui = FreeCADGui.UiLoader()
+
         # Select the type of transition
-        self.transitionTypeLabel = QtGui.QLabel(translate('Rocket', "Transition type"), self)
+        self.transitionTypeLabel = QtGui.QLabel(translate('Rocket', "Transition Shape"), self)
 
         self.transitionTypes = (TYPE_CONE,
                                 TYPE_ELLIPTICAL,
@@ -66,14 +80,21 @@ class _TransitionDialog(QDialog):
         self.transitionTypesCombo = QtGui.QComboBox(self)
         self.transitionTypesCombo.addItems(self.transitionTypes)
 
-        self.clippedLabel = QtGui.QLabel(translate('Rocket', "Clipped"), self)
-
-        self.clippedCheckbox = QtGui.QCheckBox(self)
+        self.clippedCheckbox = QtGui.QCheckBox(translate('Rocket', "Clipped"), self)
         self.clippedCheckbox.setCheckState(QtCore.Qt.Checked)
-        # self.clippedCheckbox.setEnabled(False) # Not supported yet
+
+        self.coefficientLabel = QtGui.QLabel(translate('Rocket', "Shape Parameter"), self)
+
+        self.coefficientValidator = QtGui.QDoubleValidator(self)
+        self.coefficientValidator.setBottom(0.0)
+
+        self.coefficientInput = QtGui.QLineEdit(self)
+        self.coefficientInput.setFixedWidth(80)
+        self.coefficientInput.setValidator(self.coefficientValidator)
+        self.coefficientInput.setEnabled(False)
 
         # Select the type of sketch
-        self.transitionStyleLabel = QtGui.QLabel(translate('Rocket', "Transition Style"), self)
+        self.transitionStyleLabel = QtGui.QLabel(translate('Rocket', "Style"), self)
 
         self.transitionStyles = (STYLE_SOLID,
                                 STYLE_SOLID_CORE,
@@ -95,11 +116,17 @@ class _TransitionDialog(QDialog):
         self.foreDiameterInput.unit = 'mm'
         self.foreDiameterInput.setFixedWidth(80)
 
+        self.foreAutoDiameterCheckbox = QtGui.QCheckBox(translate('Rocket', "auto"), self)
+        self.foreAutoDiameterCheckbox.setCheckState(QtCore.Qt.Unchecked)
+
         self.aftDiameterLabel = QtGui.QLabel(translate('Rocket', "Aft Diameter"), self)
 
         self.aftDiameterInput = ui.createWidget("Gui::InputField")
         self.aftDiameterInput.unit = 'mm'
         self.aftDiameterInput.setFixedWidth(80)
+
+        self.aftAutoDiameterCheckbox = QtGui.QCheckBox(translate('Rocket', "auto"), self)
+        self.aftAutoDiameterCheckbox.setCheckState(QtCore.Qt.Unchecked)
 
         self.coreDiameterLabel = QtGui.QLabel(translate('Rocket', "Core Diameter"), self)
 
@@ -113,20 +140,52 @@ class _TransitionDialog(QDialog):
         self.thicknessInput.unit = 'mm'
         self.thicknessInput.setFixedWidth(80)
 
-        self.coefficientLabel = QtGui.QLabel(translate('Rocket', "Coefficient"), self)
+        row = 0
+        layout = QGridLayout()
 
-        self.coefficientValidator = QtGui.QDoubleValidator(self)
-        self.coefficientValidator.setBottom(0.0)
+        layout.addWidget(self.transitionTypeLabel, row, 0, 1, 2)
+        layout.addWidget(self.transitionTypesCombo, row, 1)
+        layout.addWidget(self.clippedCheckbox, row, 2)
+        row += 1
 
-        self.coefficientInput = QtGui.QLineEdit(self)
-        self.coefficientInput.setFixedWidth(80)
-        self.coefficientInput.setValidator(self.coefficientValidator)
-        self.coefficientInput.setEnabled(False)
+        layout.addWidget(self.coefficientLabel, row, 0)
+        layout.addWidget(self.coefficientInput, row, 1)
+        row += 1
 
-        self.foreShoulderLabel = QtGui.QLabel(translate('Rocket', "Forward Shoulder"), self)
+        layout.addWidget(self.transitionStyleLabel, row, 0)
+        layout.addWidget(self.transitionStylesCombo, row, 1)
+        row += 1
 
-        self.foreShoulderCheckbox = QtGui.QCheckBox(self)
-        self.foreShoulderCheckbox.setCheckState(QtCore.Qt.Checked)
+        layout.addWidget(self.lengthLabel, row, 0)
+        layout.addWidget(self.lengthInput, row, 1)
+        row += 1
+
+        layout.addWidget(self.foreDiameterLabel, row, 0)
+        layout.addWidget(self.foreDiameterInput, row, 1)
+        layout.addWidget(self.foreAutoDiameterCheckbox, row, 2)
+        row += 1
+
+        layout.addWidget(self.aftDiameterLabel, row, 0)
+        layout.addWidget(self.aftDiameterInput, row, 1)
+        layout.addWidget(self.aftAutoDiameterCheckbox, row, 2)
+        row += 1
+
+        layout.addWidget(self.coreDiameterLabel, row, 0)
+        layout.addWidget(self.coreDiameterInput, row, 1)
+        row += 1
+
+        layout.addWidget(self.thicknessLabel, row, 0)
+        layout.addWidget(self.thicknessInput, row, 1)
+
+        layout.addItem(QtGui.QSpacerItem(0,0, QSizePolicy.Expanding, QSizePolicy.Expanding))
+
+        self.tabGeneral.setLayout(layout)
+
+    def setTabShoulder(self):
+        ui = FreeCADGui.UiLoader()
+
+        self.foreGroup = QtGui.QGroupBox(translate('Rocket', "Forward Shoulder"))
+        self.foreGroup.setCheckable(True)
 
         self.foreShoulderDiameterLabel = QtGui.QLabel(translate('Rocket', "Diameter"), self)
 
@@ -146,10 +205,8 @@ class _TransitionDialog(QDialog):
         self.foreShoulderThicknessInput.unit = 'mm'
         self.foreShoulderThicknessInput.setFixedWidth(80)
 
-        self.aftShoulderLabel = QtGui.QLabel(translate('Rocket', "Aft Shoulder"), self)
-
-        self.aftShoulderCheckbox = QtGui.QCheckBox(self)
-        self.aftShoulderCheckbox.setCheckState(QtCore.Qt.Checked)
+        self.aftGroup = QtGui.QGroupBox(translate('Rocket', "Aft Shoulder"))
+        self.aftGroup.setCheckable(True)
 
         self.aftShoulderDiameterLabel = QtGui.QLabel(translate('Rocket', "Diameter"), self)
 
@@ -172,75 +229,39 @@ class _TransitionDialog(QDialog):
         row = 0
         layout = QGridLayout()
 
-        layout.addWidget(self.transitionTypeLabel, row, 0, 1, 2)
-        layout.addWidget(self.transitionTypesCombo, row, 1)
+        layout.addWidget(self.foreShoulderLengthLabel, row, 0)
+        layout.addWidget(self.foreShoulderLengthInput, row, 1)
         row += 1
 
-        layout.addWidget(self.transitionStyleLabel, row, 0)
-        layout.addWidget(self.transitionStylesCombo, row, 1)
+        layout.addWidget(self.foreShoulderDiameterLabel, row, 0)
+        layout.addWidget(self.foreShoulderDiameterInput, row, 1)
         row += 1
 
-        layout.addWidget(self.lengthLabel, row, 0)
-        layout.addWidget(self.lengthInput, row, 1)
+        layout.addWidget(self.foreShoulderThicknessLabel, row, 0)
+        layout.addWidget(self.foreShoulderThicknessInput, row, 1)
+        self.foreGroup.setLayout(layout)
+
+        row = 0
+        layout = QGridLayout()
+
+        layout.addWidget(self.aftShoulderLengthLabel, row, 0)
+        layout.addWidget(self.aftShoulderLengthInput, row, 1)
         row += 1
 
-        layout.addWidget(self.clippedLabel, row, 0)
-        layout.addWidget(self.clippedCheckbox, row, 1)
+        layout.addWidget(self.aftShoulderDiameterLabel, row, 0)
+        layout.addWidget(self.aftShoulderDiameterInput, row, 1)
         row += 1
 
-        layout.addWidget(self.foreDiameterLabel, row, 0)
-        layout.addWidget(self.foreDiameterInput, row, 1)
-        row += 1
+        layout.addWidget(self.aftShoulderThicknessLabel, row, 0)
+        layout.addWidget(self.aftShoulderThicknessInput, row, 1)
+        self.aftGroup.setLayout(layout)
 
-        layout.addWidget(self.aftDiameterLabel, row, 0)
-        layout.addWidget(self.aftDiameterInput, row, 1)
-        row += 1
+        layout = QVBoxLayout()
+        layout.addWidget(self.foreGroup)
+        layout.addWidget(self.aftGroup)
+        layout.addItem(QtGui.QSpacerItem(0,0, QSizePolicy.Expanding, QSizePolicy.Expanding))
 
-        layout.addWidget(self.coreDiameterLabel, row, 0)
-        layout.addWidget(self.coreDiameterInput, row, 1)
-        row += 1
-
-        layout.addWidget(self.thicknessLabel, row, 0)
-        layout.addWidget(self.thicknessInput, row, 1)
-        row += 1
-
-        layout.addWidget(self.coefficientLabel, row, 0)
-        layout.addWidget(self.coefficientInput, row, 1)
-        row += 1
-
-        layout.addWidget(self.foreShoulderLabel, row, 0)
-        layout.addWidget(self.foreShoulderCheckbox, row, 1)
-        row += 1
-
-        layout.addWidget(self.foreShoulderLengthLabel, row, 1)
-        layout.addWidget(self.foreShoulderLengthInput, row, 2)
-        row += 1
-
-        layout.addWidget(self.foreShoulderDiameterLabel, row, 1)
-        layout.addWidget(self.foreShoulderDiameterInput, row, 2)
-        row += 1
-
-        layout.addWidget(self.foreShoulderThicknessLabel, row, 1)
-        layout.addWidget(self.foreShoulderThicknessInput, row, 2)
-        row += 1
-
-        layout.addWidget(self.aftShoulderLabel, row, 0)
-        layout.addWidget(self.aftShoulderCheckbox, row, 1)
-        row += 1
-
-        layout.addWidget(self.aftShoulderLengthLabel, row, 1)
-        layout.addWidget(self.aftShoulderLengthInput, row, 2)
-        row += 1
-
-        layout.addWidget(self.aftShoulderDiameterLabel, row, 1)
-        layout.addWidget(self.aftShoulderDiameterInput, row, 2)
-        row += 1
-
-        layout.addWidget(self.aftShoulderThicknessLabel, row, 1)
-        layout.addWidget(self.aftShoulderThicknessInput, row, 2)
-        row += 1
-
-        self.setLayout(layout)
+        self.tabShoulder.setLayout(layout)
 
 
 class TaskPanelTransition:
@@ -259,16 +280,18 @@ class TaskPanelTransition:
         self._tranForm.transitionStylesCombo.currentTextChanged.connect(self.onTransitionStyle)
         self._tranForm.lengthInput.textEdited.connect(self.onLength)
         self._tranForm.foreDiameterInput.textEdited.connect(self.onForeDiameter)
+        self._tranForm.foreAutoDiameterCheckbox.stateChanged.connect(self.onForeAutoDiameter)
         self._tranForm.aftDiameterInput.textEdited.connect(self.onAftDiameter)
+        self._tranForm.aftAutoDiameterCheckbox.stateChanged.connect(self.onAftAutoDiameter)
         self._tranForm.coreDiameterInput.textEdited.connect(self.onCoreDiameter)
         self._tranForm.thicknessInput.textEdited.connect(self.onThickness)
         self._tranForm.coefficientInput.textEdited.connect(self.onCoefficient)
         self._tranForm.clippedCheckbox.stateChanged.connect(self.onClipped)
-        self._tranForm.foreShoulderCheckbox.stateChanged.connect(self.onForeShoulder)
+        self._tranForm.foreGroup.toggled.connect(self.onForeShoulder)
         self._tranForm.foreShoulderDiameterInput.textEdited.connect(self.onForeShoulderDiameter)
         self._tranForm.foreShoulderLengthInput.textEdited.connect(self.onForeShoulderLength)
         self._tranForm.foreShoulderThicknessInput.textEdited.connect(self.onForeShoulderThickness)
-        self._tranForm.aftShoulderCheckbox.stateChanged.connect(self.onAftShoulder)
+        self._tranForm.aftGroup.toggled.connect(self.onAftShoulder)
         self._tranForm.aftShoulderDiameterInput.textEdited.connect(self.onAftShoulderDiameter)
         self._tranForm.aftShoulderLengthInput.textEdited.connect(self.onAftShoulderLength)
         self._tranForm.aftShoulderThicknessInput.textEdited.connect(self.onAftShoulderThickness)
@@ -287,16 +310,18 @@ class TaskPanelTransition:
         self._obj.TransitionStyle = str(self._tranForm.transitionStylesCombo.currentText())
         self._obj.Length = self._tranForm.lengthInput.text()
         self._obj.ForeDiameter = self._tranForm.foreDiameterInput.text()
+        self._obj.ForeAutoDiameter = self._tranForm.foreAutoDiameterCheckbox.isChecked()
         self._obj.AftDiameter = self._tranForm.aftDiameterInput.text()
+        self._obj.AftAutoDiameter = self._tranForm.aftAutoDiameterCheckbox.isChecked()
         self._obj.CoreDiameter = self._tranForm.coreDiameterInput.text()
         self._obj.Thickness = self._tranForm.thicknessInput.text()
         self._obj.Coefficient = _toFloat(self._tranForm.coefficientInput.text())
         self._obj.Clipped = self._tranForm.clippedCheckbox.isChecked()
-        self._obj.ForeShoulder = self._tranForm.foreShoulderCheckbox.isChecked()
+        self._obj.ForeShoulder = self._tranForm.foreGroup.isChecked()
         self._obj.ForeShoulderDiameter = self._tranForm.foreShoulderDiameterInput.text()
         self._obj.ForeShoulderLength =self._tranForm.foreShoulderLengthInput.text()
         self._obj.ForeShoulderThickness = self._tranForm.foreShoulderThicknessInput.text()
-        self._obj.AftShoulder = self._tranForm.aftShoulderCheckbox.isChecked()
+        self._obj.AftShoulder = self._tranForm.aftGroup.isChecked()
         self._obj.AftShoulderDiameter = self._tranForm.aftShoulderDiameterInput.text()
         self._obj.AftShoulderLength = self._tranForm.aftShoulderLengthInput.text()
         self._obj.AftShoulderThickness =self._tranForm.aftShoulderThicknessInput.text()
@@ -307,26 +332,34 @@ class TaskPanelTransition:
         self._tranForm.transitionStylesCombo.setCurrentText(self._obj.TransitionStyle)
         self._tranForm.lengthInput.setText(self._obj.Length.UserString)
         self._tranForm.foreDiameterInput.setText(self._obj.ForeDiameter.UserString)
+        self._tranForm.foreAutoDiameterCheckbox.setChecked(self._obj.ForeAutoDiameter)
         self._tranForm.aftDiameterInput.setText(self._obj.AftDiameter.UserString)
+        self._tranForm.aftAutoDiameterCheckbox.setChecked(self._obj.AftAutoDiameter)
         self._tranForm.coreDiameterInput.setText(self._obj.CoreDiameter.UserString)
         self._tranForm.thicknessInput.setText(self._obj.Thickness.UserString)
         self._tranForm.coefficientInput.setText("%f" % self._obj.Coefficient)
         self._tranForm.clippedCheckbox.setChecked(self._obj.Clipped)
-        self._tranForm.foreShoulderCheckbox.setChecked(self._obj.ForeShoulder)
+        self._tranForm.foreGroup.setChecked(self._obj.ForeShoulder)
         self._tranForm.foreShoulderDiameterInput.setText(self._obj.ForeShoulderDiameter.UserString)
         self._tranForm.foreShoulderLengthInput.setText(self._obj.ForeShoulderLength.UserString)
         self._tranForm.foreShoulderThicknessInput.setText(self._obj.ForeShoulderThickness.UserString)
-        self._tranForm.aftShoulderCheckbox.setChecked(self._obj.AftShoulder)
+        self._tranForm.aftGroup.setChecked(self._obj.AftShoulder)
         self._tranForm.aftShoulderDiameterInput.setText(self._obj.AftShoulderDiameter.UserString)
         self._tranForm.aftShoulderLengthInput.setText(self._obj.AftShoulderLength.UserString)
         self._tranForm.aftShoulderThicknessInput.setText(self._obj.AftShoulderThickness.UserString)
 
+        self._setForeAutoDiameterState()
+        self._setAftAutoDiameterState()
         self._showTransitionType()
         self._showClippable()
         self._showTransitionStyle()
 
     def setEdited(self):
-        self._obj.Proxy.setEdited()
+        try:
+            self._obj.Proxy.setEdited()
+        except ReferenceError:
+            # Object may be deleted
+            pass
 
     def _showClippable(self):
         if str(self._obj.TransitionType) in [TYPE_CONE, TYPE_OGIVE]:
@@ -372,12 +405,12 @@ class TaskPanelTransition:
             self._tranForm.thicknessInput.setEnabled(True)
             self._tranForm.coreDiameterInput.setEnabled(False)
 
-            if self._tranForm.foreShoulderCheckbox.isChecked():
+            if self._tranForm.foreGroup.isChecked():
                 self._tranForm.foreShoulderThicknessInput.setEnabled(True)
             else:
                 self._tranForm.foreShoulderThicknessInput.setEnabled(False)
 
-            if self._tranForm.aftShoulderCheckbox.isChecked():
+            if self._tranForm.aftGroup.isChecked():
                 self._tranForm.aftShoulderThicknessInput.setEnabled(True)
             else:
                 self._tranForm.aftShoulderThicknessInput.setEnabled(False)
@@ -418,12 +451,34 @@ class TaskPanelTransition:
             pass
         self.setEdited()
         
+    def _setForeAutoDiameterState(self):
+        self._tranForm.foreDiameterInput.setEnabled(not self._obj.ForeAutoDiameter)
+        self._tranForm.foreAutoDiameterCheckbox.setChecked(self._obj.ForeAutoDiameter)
+         
+    def onForeAutoDiameter(self, value):
+        self._obj.ForeAutoDiameter = self._tranForm.foreAutoDiameterCheckbox.isChecked()
+        self._setForeAutoDiameterState()
+
+        self._obj.Proxy.execute(self._obj)
+        self.setEdited()
+        
     def onAftDiameter(self, value):
         try:
             self._obj.AftDiameter = FreeCAD.Units.Quantity(value).Value
             self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
+        self.setEdited()
+        
+    def _setAftAutoDiameterState(self):
+        self._tranForm.aftDiameterInput.setEnabled(not self._obj.AftAutoDiameter)
+        self._tranForm.aftAutoDiameterCheckbox.setChecked(self._obj.AftAutoDiameter)
+         
+    def onAftAutoDiameter(self, value):
+        self._obj.AftAutoDiameter = self._tranForm.aftAutoDiameterCheckbox.isChecked()
+        self._setAftAutoDiameterState()
+
+        self._obj.Proxy.execute(self._obj)
         self.setEdited()
         
     def onCoreDiameter(self, value):
@@ -453,7 +508,7 @@ class TaskPanelTransition:
         self.setEdited()
         
     def onForeShoulder(self, value):
-        self._obj.ForeShoulder = self._tranForm.foreShoulderCheckbox.isChecked()
+        self._obj.ForeShoulder = self._tranForm.foreGroup.isChecked()
         if self._obj.ForeShoulder:
             self._tranForm.foreShoulderDiameterInput.setEnabled(True)
             self._tranForm.foreShoulderLengthInput.setEnabled(True)
@@ -496,7 +551,7 @@ class TaskPanelTransition:
         self.setEdited()
         
     def onAftShoulder(self, value):
-        self._obj.AftShoulder = self._tranForm.aftShoulderCheckbox.isChecked()
+        self._obj.AftShoulder = self._tranForm.aftGroup.isChecked()
         if self._obj.AftShoulder:
             self._tranForm.aftShoulderDiameterInput.setEnabled(True)
             self._tranForm.aftShoulderLengthInput.setEnabled(True)

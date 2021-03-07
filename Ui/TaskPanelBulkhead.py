@@ -29,7 +29,7 @@ import FreeCAD
 import FreeCADGui
 
 from PySide import QtGui, QtCore
-from PySide2.QtWidgets import QDialog, QGridLayout
+from PySide2.QtWidgets import QDialog, QGridLayout, QVBoxLayout
 
 from DraftTools import translate
 
@@ -54,7 +54,7 @@ class _BulkheadDialog(QDialog):
             self.setWindowTitle(translate('Rocket', "Bulkhead Parameter"))
 
         # Get the body tube parameters: length, ID, etc...
-        self.diameterLabel = QtGui.QLabel(translate('Rocket', "Diameter"), self)
+        self.diameterLabel = QtGui.QLabel(translate('Rocket', "Outer Diameter"), self)
 
         self.diameterInput = ui.createWidget("Gui::InputField")
         self.diameterInput.unit = 'mm'
@@ -67,15 +67,14 @@ class _BulkheadDialog(QDialog):
         self.thicknessInput.setFixedWidth(80)
 
         if crPanel:
-            self.centerDiameterLabel = QtGui.QLabel(translate('Rocket', "Center Diameter"), self)
+            self.centerDiameterLabel = QtGui.QLabel(translate('Rocket', "Inner Diameter"), self)
 
             self.centerDiameterInput = ui.createWidget("Gui::InputField")
             self.centerDiameterInput.unit = 'mm'
             self.centerDiameterInput.setFixedWidth(80)
-            self.notchedLabel = QtGui.QLabel(translate('Rocket', "Notched"), self)
 
-            self.notchedCheckbox = QtGui.QCheckBox(self)
-            self.notchedCheckbox.setCheckState(QtCore.Qt.Unchecked)
+            self.notchGroup = QtGui.QGroupBox(translate('Rocket', "Notched"))
+            self.notchGroup.setCheckable(True)
 
             self.notchWidthLabel = QtGui.QLabel(translate('Rocket', "Width"), self)
 
@@ -89,10 +88,8 @@ class _BulkheadDialog(QDialog):
             self.notchHeightInput.unit = 'mm'
             self.notchHeightInput.setFixedWidth(80)
 
-        self.stepLabel = QtGui.QLabel(translate('Rocket', "Step"), self)
-
-        self.stepCheckbox = QtGui.QCheckBox(self)
-        self.stepCheckbox.setCheckState(QtCore.Qt.Unchecked)
+        self.stepGroup = QtGui.QGroupBox(translate('Rocket', "Step"))
+        self.stepGroup.setCheckable(True)
 
         self.stepDiameterLabel = QtGui.QLabel(translate('Rocket', "Diameter"), self)
 
@@ -106,10 +103,8 @@ class _BulkheadDialog(QDialog):
         self.stepThicknessInput.unit = 'mm'
         self.stepThicknessInput.setFixedWidth(80)
 
-        self.holeLabel = QtGui.QLabel(translate('Rocket', "Holes"), self)
-
-        self.holeCheckbox = QtGui.QCheckBox(self)
-        self.holeCheckbox.setCheckState(QtCore.Qt.Unchecked)
+        self.holeGroup = QtGui.QGroupBox(translate('Rocket', "Holes"))
+        self.holeGroup.setCheckable(True)
 
         self.holeDiameterLabel = QtGui.QLabel(translate('Rocket', "Diameter"), self)
 
@@ -137,65 +132,78 @@ class _BulkheadDialog(QDialog):
         self.holeOffsetInput.unit = 'deg'
         self.holeOffsetInput.setFixedWidth(80)
 
+        # Notch group
+        if crPanel:
+            row = 0
+            layout = QGridLayout()
+
+            layout.addWidget(self.notchWidthLabel, row, 0)
+            layout.addWidget(self.notchWidthInput, row, 1)
+            row += 1
+
+            layout.addWidget(self.notchHeightLabel, row, 0)
+            layout.addWidget(self.notchHeightInput, row, 1)
+
+            self.notchGroup.setLayout(layout)
+
+        # Step group
         row = 0
         layout = QGridLayout()
 
-        layout.addWidget(self.diameterLabel, row, 0, 1, 2)
-        layout.addWidget(self.diameterInput, row, 1)
+        layout.addWidget(self.stepDiameterLabel, row, 0)
+        layout.addWidget(self.stepDiameterInput, row, 1)
         row += 1
 
-        layout.addWidget(self.thicknessLabel, row, 0)
-        layout.addWidget(self.thicknessInput, row, 1)
+        layout.addWidget(self.stepThicknessLabel, row, 0)
+        layout.addWidget(self.stepThicknessInput, row, 1)
+
+        self.stepGroup.setLayout(layout)
+
+        # Hole group
+        row = 0
+        layout = QGridLayout()
+
+        layout.addWidget(self.holeDiameterLabel, row, 0)
+        layout.addWidget(self.holeDiameterInput, row, 1)
+        row += 1
+
+        layout.addWidget(self.holeCenterLabel, row, 0)
+        layout.addWidget(self.holeCenterInput, row, 1)
+        row += 1
+
+        layout.addWidget(self.holeCountLabel, row, 0)
+        layout.addWidget(self.holeCountSpinBox, row, 1)
+        row += 1
+
+        layout.addWidget(self.holeOffsetLabel, row, 0)
+        layout.addWidget(self.holeOffsetInput, row, 1)
+
+        self.holeGroup.setLayout(layout)
+
+        # Main items
+        row = 0
+        grid = QGridLayout()
+
+        grid.addWidget(self.diameterLabel, row, 0)
+        grid.addWidget(self.diameterInput, row, 1)
         row += 1
 
         if crPanel:
-            layout.addWidget(self.centerDiameterLabel, row, 0)
-            layout.addWidget(self.centerDiameterInput, row, 1)
+            grid.addWidget(self.centerDiameterLabel, row, 0)
+            grid.addWidget(self.centerDiameterInput, row, 1)
             row += 1
 
-            layout.addWidget(self.notchedLabel, row, 0)
-            layout.addWidget(self.notchedCheckbox, row, 1)
-            row += 1
+        grid.addWidget(self.thicknessLabel, row, 0)
+        grid.addWidget(self.thicknessInput, row, 1)
 
-            layout.addWidget(self.notchWidthLabel, row, 1)
-            layout.addWidget(self.notchWidthInput, row, 2)
-            row += 1
+        # Final layout
+        layout = QVBoxLayout()
+        layout.addItem(grid)
+        if crPanel:
+            layout.addWidget(self.notchGroup)
 
-            layout.addWidget(self.notchHeightLabel, row, 1)
-            layout.addWidget(self.notchHeightInput, row, 2)
-            row += 1
-
-        layout.addWidget(self.stepLabel, row, 0)
-        layout.addWidget(self.stepCheckbox, row, 1)
-        row += 1
-
-        layout.addWidget(self.stepDiameterLabel, row, 1)
-        layout.addWidget(self.stepDiameterInput, row, 2)
-        row += 1
-
-        layout.addWidget(self.stepThicknessLabel, row, 1)
-        layout.addWidget(self.stepThicknessInput, row, 2)
-        row += 1
-
-        layout.addWidget(self.holeLabel, row, 0)
-        layout.addWidget(self.holeCheckbox, row, 1)
-        row += 1
-
-        layout.addWidget(self.holeDiameterLabel, row, 1)
-        layout.addWidget(self.holeDiameterInput, row, 2)
-        row += 1
-
-        layout.addWidget(self.holeCenterLabel, row, 1)
-        layout.addWidget(self.holeCenterInput, row, 2)
-        row += 1
-
-        layout.addWidget(self.holeCountLabel, row, 1)
-        layout.addWidget(self.holeCountSpinBox, row, 2)
-        row += 1
-
-        layout.addWidget(self.holeOffsetLabel, row, 1)
-        layout.addWidget(self.holeOffsetInput, row, 2)
-        row += 1
+        layout.addWidget(self.stepGroup)
+        layout.addWidget(self.holeGroup)
 
         self.setLayout(layout)
 
@@ -224,11 +232,11 @@ class TaskPanelBulkhead:
         self._bulkForm.diameterInput.textEdited.connect(self.onDiameter)
         self._bulkForm.thicknessInput.textEdited.connect(self.onThickness)
 
-        self._bulkForm.stepCheckbox.stateChanged.connect(self.onStep)
+        self._bulkForm.stepGroup.toggled.connect(self.onStep)
         self._bulkForm.stepDiameterInput.textEdited.connect(self.onStepDiameter)
         self._bulkForm.stepThicknessInput.textEdited.connect(self.onStepThickness)
 
-        self._bulkForm.holeCheckbox.stateChanged.connect(self.onHole)
+        self._bulkForm.holeGroup.toggled.connect(self.onHole)
         self._bulkForm.holeDiameterInput.textEdited.connect(self.onHoleDiameter)
         self._bulkForm.holeCenterInput.textEdited.connect(self.onHoleCenter)
         self._bulkForm.holeCountSpinBox.valueChanged.connect(self.onHoleCount)
@@ -237,7 +245,7 @@ class TaskPanelBulkhead:
         if self._crPanel:
             self._bulkForm.centerDiameterInput.textEdited.connect(self.onCenterDiameter)
 
-            self._bulkForm.notchedCheckbox.stateChanged.connect(self.onNotched)
+            self._bulkForm.notchGroup.toggled.connect(self.onNotched)
             self._bulkForm.notchWidthInput.textEdited.connect(self.onNotchWidth)
             self._bulkForm.notchHeightInput.textEdited.connect(self.onNotchHeight)
 
@@ -255,11 +263,11 @@ class TaskPanelBulkhead:
         self._obj.Diameter = self._bulkForm.diameterInput.text()
         self._obj.Thickness = self._bulkForm.thicknessInput.text()
 
-        self._obj.Step = self._bulkForm.stepCheckbox.isChecked()
+        self._obj.Step = self._bulkForm.stepGroup.isChecked()
         self._obj.StepDiameter = self._bulkForm.stepDiameterInput.text()
         self._obj.StepThickness = self._bulkForm.stepThicknessInput.text()
 
-        self._obj.Holes = self._bulkForm.holeCheckbox.isChecked()
+        self._obj.Holes = self._bulkForm.holeGroup.isChecked()
         self._obj.HoleDiameter = self._bulkForm.holeDiameterInput.text()
         self._obj.HoleCenter = self._bulkForm.holeCenterInput.text()
         self._obj.HoleCount = self._bulkForm.holeCountSpinBox.value()
@@ -268,7 +276,7 @@ class TaskPanelBulkhead:
         if self._crPanel:
             self._obj.CenterDiameter = self._bulkForm.centerDiameterInput.text()
 
-            self._obj.Notched = self._bulkForm.notchedCheckbox.isChecked()
+            self._obj.Notched = self._bulkForm.notchGroup.isChecked()
             self._obj.NotchWidth = self._bulkForm.notchWidthInput.text()
             self._obj.NotchHeight = self._bulkForm.notchHeightInput.text()
 
@@ -277,11 +285,11 @@ class TaskPanelBulkhead:
         self._bulkForm.diameterInput.setText(self._obj.Diameter.UserString)
         self._bulkForm.thicknessInput.setText(self._obj.Thickness.UserString)
 
-        self._bulkForm.stepCheckbox.setChecked(self._obj.Step)
+        self._bulkForm.stepGroup.setChecked(self._obj.Step)
         self._bulkForm.stepDiameterInput.setText(self._obj.StepDiameter.UserString)
         self._bulkForm.stepThicknessInput.setText(self._obj.StepThickness.UserString)
 
-        self._bulkForm.holeCheckbox.setChecked(self._obj.Holes)
+        self._bulkForm.holeGroup.setChecked(self._obj.Holes)
         self._bulkForm.holeDiameterInput.setText(self._obj.HoleDiameter.UserString)
         self._bulkForm.holeCenterInput.setText(self._obj.HoleCenter.UserString)
         self._bulkForm.holeCountSpinBox.setValue(self._obj.HoleCount)
@@ -290,7 +298,7 @@ class TaskPanelBulkhead:
         if self._crPanel:
             self._bulkForm.centerDiameterInput.setText(self._obj.CenterDiameter.UserString)
 
-            self._bulkForm.notchedCheckbox.setChecked(self._obj.Notched)
+            self._bulkForm.notchGroup.setChecked(self._obj.Notched)
             self._bulkForm.notchWidthInput.setText(self._obj.NotchWidth.UserString)
             self._bulkForm.notchHeightInput.setText(self._obj.NotchHeight.UserString)
             self._setNotchedState()
@@ -299,7 +307,11 @@ class TaskPanelBulkhead:
         self._setHoleState()
 
     def setEdited(self):
-        self._obj.Proxy.setEdited()
+        try:
+            self._obj.Proxy.setEdited()
+        except ReferenceError:
+            # Object may be deleted
+            pass
         
     def onDiameter(self, value):
         try:
@@ -330,7 +342,7 @@ class TaskPanelBulkhead:
         self._bulkForm.stepThicknessInput.setEnabled(self._obj.Step)
         
     def onStep(self, value):
-        self._obj.Step = self._bulkForm.stepCheckbox.isChecked()
+        self._obj.Step = self._bulkForm.stepGroup.isChecked()
         self._setStepState()
 
         self._obj.Proxy.execute(self._obj)
@@ -359,7 +371,7 @@ class TaskPanelBulkhead:
         self._bulkForm.holeOffsetInput.setEnabled(self._obj.Holes)
         
     def onHole(self, value):
-        self._obj.Holes = self._bulkForm.holeCheckbox.isChecked()
+        self._obj.Holes = self._bulkForm.holeGroup.isChecked()
         self._setHoleState()
 
         self._obj.Proxy.execute(self._obj)
@@ -399,7 +411,7 @@ class TaskPanelBulkhead:
         self._bulkForm.notchHeightInput.setEnabled(self._obj.Notched)
         
     def onNotched(self, value):
-        self._obj.Notched = self._bulkForm.notchedCheckbox.isChecked()
+        self._obj.Notched = self._bulkForm.notchGroup.isChecked()
         self._setNotchedState()
 
         self._obj.Proxy.execute(self._obj)

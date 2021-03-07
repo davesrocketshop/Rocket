@@ -48,19 +48,28 @@ class _FinDialog(QDialog):
     def __init__(self, parent=None):
         super(_FinDialog, self).__init__(parent)
 
-        ui = FreeCADGui.UiLoader()
-
         # define our window
         self.setGeometry(250, 250, 400, 350)
         self.setWindowTitle(translate('Rocket', "Fin Parameter"))
 
         self.tabWidget = QtGui.QTabWidget()
-        self.tabFin = QtGui.QWidget()
+        self.tabGeneral = QtGui.QWidget()
         self.tabTtw = QtGui.QWidget()
-        self.tabWidget.addTab(self.tabFin, translate('Rocket', "General"))
+        self.tabWidget.addTab(self.tabGeneral, translate('Rocket', "General"))
         self.tabWidget.addTab(self.tabTtw, translate('Rocket', "Fin Tabs"))
 
-        # Select the type of nose cone
+        layout = QVBoxLayout()
+        layout.addWidget(self.tabWidget)
+        self.setLayout(layout)
+
+        self.setTabGeneral()
+        self.setTabTtw()
+
+    def setTabGeneral(self):
+
+        ui = FreeCADGui.UiLoader()
+
+        # Select the type of fin
         self.finTypeLabel = QtGui.QLabel(translate('Rocket', "Fin type"), self)
 
         self.finTypes = (FIN_TYPE_TRAPEZOID, 
@@ -71,10 +80,8 @@ class _FinDialog(QDialog):
         self.finTypesCombo = QtGui.QComboBox(self)
         self.finTypesCombo.addItems(self.finTypes)
 
-        self.finSetLabel = QtGui.QLabel(translate('Rocket', "Fin Set"), self)
-
-        self.finSetCheckbox = QtGui.QCheckBox(self)
-        self.finSetCheckbox.setCheckState(QtCore.Qt.Unchecked)
+        self.finSetGroup = QtGui.QGroupBox(translate('Rocket', "Fin Set"))
+        self.finSetGroup.setCheckable(True)
         
         self.finCountLabel = QtGui.QLabel(translate('Rocket', "Fin Count"), self)
 
@@ -90,7 +97,7 @@ class _FinDialog(QDialog):
         self.finSpacingInput.setFixedWidth(80)
 
         # Get the fin parameters: length, width, etc...
-        self.rootLabel = QtGui.QLabel(translate('Rocket', "Fin Root"), self)
+        self.rootGroup = QtGui.QGroupBox(translate('Rocket', "Fin Root"))
 
         # Select the type of cross section
         self.rootCrossSectionLabel = QtGui.QLabel(translate('Rocket', "Cross Section"), self)
@@ -130,7 +137,7 @@ class _FinDialog(QDialog):
         self.rootLength2Input.unit = 'mm'
         self.rootLength2Input.setFixedWidth(80)
 
-        self.tipLabel = QtGui.QLabel(translate('Rocket', "Fin Tip"), self)
+        self.tipGroup = QtGui.QGroupBox(translate('Rocket', "Fin Tip"), self)
 
         # Select the type of cross section
         self.tipCrossSectionLabel = QtGui.QLabel(translate('Rocket', "Cross Section"), self)
@@ -189,10 +196,112 @@ class _FinDialog(QDialog):
         self.sweepAngleInput.unit = 'deg'
         self.sweepAngleInput.setFixedWidth(80)
 
-        self.ttwLabel = QtGui.QLabel(translate('Rocket', "TTW Tab"), self)
+        # Fin set group
+        row = 0
+        grid = QGridLayout()
 
-        self.ttwCheckbox = QtGui.QCheckBox(self)
-        self.ttwCheckbox.setCheckState(QtCore.Qt.Unchecked)
+        grid.addWidget(self.finCountLabel, row, 0)
+        grid.addWidget(self.finCountSpinBox, row, 1)
+        row += 1
+
+        grid.addWidget(self.finSpacingLabel, row, 0)
+        grid.addWidget(self.finSpacingInput, row, 1)
+
+        self.finSetGroup.setLayout(grid)
+
+        # Root group
+        row = 0
+        grid = QGridLayout()
+
+        grid.addWidget(self.rootCrossSectionLabel, row, 0)
+        grid.addWidget(self.rootCrossSectionsCombo, row, 1)
+        row += 1
+
+        grid.addWidget(self.rootChordLabel, row, 0)
+        grid.addWidget(self.rootChordInput, row, 1)
+        row += 1
+
+        grid.addWidget(self.rootThicknessLabel, row, 0)
+        grid.addWidget(self.rootThicknessInput, row, 1)
+        row += 1
+
+        grid.addWidget(self.rootPerCentLabel, row, 0)
+        grid.addWidget(self.rootPerCentCheckbox, row, 1)
+        row += 1
+
+        grid.addWidget(self.rootLength1Label, row, 0)
+        grid.addWidget(self.rootLength1Input, row, 1)
+        row += 1
+
+        grid.addWidget(self.rootLength2Label, row, 0)
+        grid.addWidget(self.rootLength2Input, row, 1)
+
+        self.rootGroup.setLayout(grid)
+
+        # Tip group
+        row = 0
+        grid = QGridLayout()
+
+        grid.addWidget(self.tipCrossSectionLabel, row, 0)
+        grid.addWidget(self.tipCrossSectionsCombo, row, 1)
+        row += 1
+
+        grid.addWidget(self.tipChordLabel, row, 0)
+        grid.addWidget(self.tipChordInput, row, 1)
+        row += 1
+
+        grid.addWidget(self.tipThicknessLabel, row, 0)
+        grid.addWidget(self.tipThicknessInput, row, 1)
+        row += 1
+
+        grid.addWidget(self.tipPerCentLabel, row, 0)
+        grid.addWidget(self.tipPerCentCheckbox, row, 1)
+        row += 1
+
+        grid.addWidget(self.tipLength1Label, row, 0)
+        grid.addWidget(self.tipLength1Input, row, 1)
+        row += 1
+
+        grid.addWidget(self.tipLength2Label, row, 0)
+        grid.addWidget(self.tipLength2Input, row, 1)
+
+        self.tipGroup.setLayout(grid)
+
+        # Main items
+        row = 0
+        grid = QGridLayout()
+
+        grid.addWidget(self.finTypeLabel, row, 0)
+        grid.addWidget(self.finTypesCombo, row, 1)
+        row += 1
+
+        grid.addWidget(self.heightLabel, row, 0)
+        grid.addWidget(self.heightInput, row, 1)
+        row += 1
+
+        grid.addWidget(self.sweepLengthLabel, row, 0)
+        grid.addWidget(self.sweepLengthInput, row, 1)
+        row += 1
+
+        grid.addWidget(self.sweepAngleLabel, row, 0)
+        grid.addWidget(self.sweepAngleInput, row, 1)
+
+
+        layout = QVBoxLayout()
+        layout.addItem(grid)
+        layout.addWidget(self.finSetGroup)
+        layout.addWidget(self.rootGroup)
+        layout.addWidget(self.tipGroup)
+        layout.addItem(QtGui.QSpacerItem(0,0, QSizePolicy.Expanding, QSizePolicy.Expanding))
+
+        self.tabGeneral.setLayout(layout)
+
+    def setTabTtw(self):
+
+        ui = FreeCADGui.UiLoader()
+
+        self.ttwGroup = QtGui.QGroupBox(translate('Rocket', "TTW Tab"))
+        self.ttwGroup.setCheckable(True)
 
         self.ttwOffsetLabel = QtGui.QLabel(translate('Rocket', "Offset"), self)
 
@@ -218,123 +327,28 @@ class _FinDialog(QDialog):
         self.ttwThicknessInput.unit = 'mm'
         self.ttwThicknessInput.setFixedWidth(80)
 
+        row = 0
+        grid = QGridLayout()
+
+        grid.addWidget(self.ttwOffsetLabel, row, 0)
+        grid.addWidget(self.ttwOffsetInput, row, 1)
+        row += 1
+
+        grid.addWidget(self.ttwLengthLabel, row, 0)
+        grid.addWidget(self.ttwLengthInput, row, 1)
+        row += 1
+
+        grid.addWidget(self.ttwHeightLabel, row, 0)
+        grid.addWidget(self.ttwHeightInput, row, 1)
+        row += 1
+
+        grid.addWidget(self.ttwThicknessLabel, row, 0)
+        grid.addWidget(self.ttwThicknessInput, row, 1)
+
+        self.ttwGroup.setLayout(grid)
+
         layout = QVBoxLayout()
-        layout.addWidget(self.tabWidget)
-        self.setLayout(layout)
-
-        self.setFinTabLayout()
-        self.setTtwTabLayout()
-
-    def setFinTabLayout(self):
-        row = 0
-        layout = QGridLayout()
-
-        layout.addWidget(self.finTypeLabel, row, 0, 1, 2)
-        layout.addWidget(self.finTypesCombo, row, 1)
-        row += 1
-
-        layout.addWidget(self.finSetLabel, row, 0)
-        layout.addWidget(self.finSetCheckbox, row, 1)
-        row += 1
-
-        layout.addWidget(self.finCountLabel, row, 0)
-        layout.addWidget(self.finCountSpinBox, row, 1)
-        row += 1
-
-        layout.addWidget(self.finSpacingLabel, row, 0)
-        layout.addWidget(self.finSpacingInput, row, 1)
-        row += 1
-
-        layout.addWidget(self.heightLabel, row, 0)
-        layout.addWidget(self.heightInput, row, 1)
-        row += 1
-
-        layout.addWidget(self.sweepLengthLabel, row, 0)
-        layout.addWidget(self.sweepLengthInput, row, 1)
-        row += 1
-
-        layout.addWidget(self.sweepAngleLabel, row, 0)
-        layout.addWidget(self.sweepAngleInput, row, 1)
-        row += 1
-
-        layout.addWidget(self.rootLabel, row, 0)
-        row += 1
-        layout.addWidget(self.rootCrossSectionLabel, row, 0)
-        layout.addWidget(self.rootCrossSectionsCombo, row, 1)
-        row += 1
-
-        layout.addWidget(self.rootChordLabel, row, 0)
-        layout.addWidget(self.rootChordInput, row, 1)
-        row += 1
-
-        layout.addWidget(self.rootThicknessLabel, row, 0)
-        layout.addWidget(self.rootThicknessInput, row, 1)
-        row += 1
-
-        layout.addWidget(self.rootPerCentLabel, row, 0)
-        layout.addWidget(self.rootPerCentCheckbox, row, 1)
-        row += 1
-
-        layout.addWidget(self.rootLength1Label, row, 0)
-        layout.addWidget(self.rootLength1Input, row, 1)
-        row += 1
-
-        layout.addWidget(self.rootLength2Label, row, 0)
-        layout.addWidget(self.rootLength2Input, row, 1)
-        row += 1
-
-        layout.addWidget(self.tipLabel, row, 0)
-        row += 1
-        layout.addWidget(self.tipCrossSectionLabel, row, 0)
-        layout.addWidget(self.tipCrossSectionsCombo, row, 1)
-        row += 1
-
-        layout.addWidget(self.tipChordLabel, row, 0)
-        layout.addWidget(self.tipChordInput, row, 1)
-        row += 1
-
-        layout.addWidget(self.tipThicknessLabel, row, 0)
-        layout.addWidget(self.tipThicknessInput, row, 1)
-        row += 1
-
-        layout.addWidget(self.tipPerCentLabel, row, 0)
-        layout.addWidget(self.tipPerCentCheckbox, row, 1)
-        row += 1
-
-        layout.addWidget(self.tipLength1Label, row, 0)
-        layout.addWidget(self.tipLength1Input, row, 1)
-        row += 1
-
-        layout.addWidget(self.tipLength2Label, row, 0)
-        layout.addWidget(self.tipLength2Input, row, 1)
-
-        layout.addItem(QtGui.QSpacerItem(0,0, QSizePolicy.Expanding, QSizePolicy.Expanding))
-
-        self.tabFin.setLayout(layout)
-
-    def setTtwTabLayout(self):
-        row = 0
-        layout = QGridLayout()
-
-        layout.addWidget(self.ttwLabel, row, 0, 1, 2)
-        layout.addWidget(self.ttwCheckbox, row, 1)
-        row += 1
-
-        layout.addWidget(self.ttwOffsetLabel, row, 0)
-        layout.addWidget(self.ttwOffsetInput, row, 1)
-        row += 1
-
-        layout.addWidget(self.ttwLengthLabel, row, 0)
-        layout.addWidget(self.ttwLengthInput, row, 1)
-        row += 1
-
-        layout.addWidget(self.ttwHeightLabel, row, 0)
-        layout.addWidget(self.ttwHeightInput, row, 1)
-        row += 1
-
-        layout.addWidget(self.ttwThicknessLabel, row, 0)
-        layout.addWidget(self.ttwThicknessInput, row, 1)
-
+        layout.addWidget(self.ttwGroup)
         layout.addItem(QtGui.QSpacerItem(0,0, QSizePolicy.Expanding, QSizePolicy.Expanding))
 
         self.tabTtw.setLayout(layout)
@@ -358,7 +372,7 @@ class TaskPanelFin(QObject):
         
         self._finForm.finTypesCombo.currentTextChanged.connect(self.onFinTypes)
 
-        self._finForm.finSetCheckbox.stateChanged.connect(self.onFinSet)
+        self._finForm.finSetGroup.toggled.connect(self.onFinSet)
         self._finForm.finCountSpinBox.valueChanged.connect(self.onCount)
         self._finForm.finSpacingInput.textEdited.connect(self.onSpacing)
 
@@ -380,7 +394,7 @@ class TaskPanelFin(QObject):
         self._finForm.sweepLengthInput.textEdited.connect(self.onSweepLength)
         self._finForm.sweepAngleInput.textEdited.connect(self.onSweepAngle)
 
-        self._finForm.ttwCheckbox.stateChanged.connect(self.onTtw)
+        self._finForm.ttwGroup.toggled.connect(self.onTtw)
         self._finForm.ttwOffsetInput.textEdited.connect(self.onTTWOffset)
         self._finForm.ttwLengthInput.textEdited.connect(self.onTTWLength)
         self._finForm.ttwHeightInput.textEdited.connect(self.onTTWHeight)
@@ -399,7 +413,7 @@ class TaskPanelFin(QObject):
         "Transfer from the dialog to the object" 
         self._obj.FinType = str(self._finForm.finTypesCombo.currentText())
 
-        self._obj.FinSet = self._finForm.finSetCheckbox.isChecked()
+        self._obj.FinSet = self._finForm.finSetGroup.isChecked()
         self._obj.FinCount = self._finForm.finCountSpinBox.value()
         self._obj.FinSpacing = self._finForm.finSpacingInput.text()
 
@@ -421,7 +435,7 @@ class TaskPanelFin(QObject):
         self._obj.SweepLength = self._finForm.sweepLengthInput.text()
         self._obj.SweepAngle = self._finForm.sweepAngleInput.text()
 
-        self._obj.Ttw = self._finForm.ttwCheckbox.isChecked()
+        self._obj.Ttw = self._finForm.ttwGroup.isChecked()
         self._obj.TtwOffset = self._finForm.ttwOffsetInput.text()
         self._obj.TtwLength = self._finForm.ttwLengthInput.text()
         self._obj.TtwHeight = self._finForm.ttwHeightInput.text()
@@ -431,7 +445,7 @@ class TaskPanelFin(QObject):
         "Transfer from the object to the dialog"
         self._finForm.finTypesCombo.setCurrentText(self._obj.FinType)
 
-        self._finForm.finSetCheckbox.setChecked(self._obj.FinSet)
+        self._finForm.finSetGroup.setChecked(self._obj.FinSet)
         self._finForm.finCountSpinBox.setValue(self._obj.FinCount)
         self._finForm.finSpacingInput.setText(self._obj.FinSpacing.UserString)
 
@@ -453,7 +467,7 @@ class TaskPanelFin(QObject):
         self._finForm.sweepLengthInput.setText(self._obj.SweepLength.UserString)
         self._finForm.sweepAngleInput.setText(self._obj.SweepAngle.UserString)
 
-        self._finForm.ttwCheckbox.setChecked(self._obj.Ttw)
+        self._finForm.ttwGroup.setChecked(self._obj.Ttw)
         self._finForm.ttwOffsetInput.setText(self._obj.TtwOffset.UserString)
         self._finForm.ttwLengthInput.setText(self._obj.TtwLength.UserString)
         self._finForm.ttwHeightInput.setText(self._obj.TtwHeight.UserString)
@@ -470,7 +484,8 @@ class TaskPanelFin(QObject):
     def setEdited(self):
         try:
             self._obj.Proxy.setEdited()
-        except Exception:
+        except ReferenceError:
+            # Object may be deleted
             pass
 
     def redraw(self):
@@ -482,13 +497,13 @@ class TaskPanelFin(QObject):
         self.setEdited()
        
     def _setFinSetState(self):
-        checked = self._finForm.finSetCheckbox.isChecked()
+        checked = self._finForm.finSetGroup.isChecked()
 
         self._finForm.finCountSpinBox.setEnabled(checked)
         self._finForm.finSpacingInput.setEnabled(checked)
 
     def onFinSet(self, value):
-        self._obj.FinSet = self._finForm.finSetCheckbox.isChecked()
+        self._obj.FinSet = self._finForm.finSetGroup.isChecked()
         self._setFinSetState()
         self.redraw()
         self.setEdited()
@@ -737,7 +752,7 @@ class TaskPanelFin(QObject):
         self._finForm.ttwThicknessInput.setEnabled(self._obj.Ttw)
         
     def onTtw(self, value):
-        self._obj.Ttw = self._finForm.ttwCheckbox.isChecked()
+        self._obj.Ttw = self._finForm.ttwGroup.isChecked()
         self._setTtwState()
 
         self.redraw()

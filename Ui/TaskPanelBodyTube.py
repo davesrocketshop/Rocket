@@ -123,7 +123,12 @@ class TaskPanelBodyTube:
         self._btForm.lengthInput.setText(self._obj.Length.UserString)
 
     def setEdited(self):
-        self._obj.Proxy.setEdited()
+        try:
+            self._obj.Proxy.setEdited()
+        except ReferenceError:
+            # Object may be deleted
+            pass
+
         
     def onIdChanged(self, value):
         try:
