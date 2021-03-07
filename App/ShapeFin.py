@@ -27,6 +27,7 @@ __url__ = "https://www.davesrocketshop.com"
 import FreeCAD
 
 from App.ShapeComponent import ShapeLocation
+from App.Constants import FEATURE_FIN
 
 from App.Constants import FIN_TYPE_TRAPEZOID
 from App.Constants import FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE, \
@@ -41,6 +42,7 @@ class ShapeFin(ShapeLocation):
 
     def __init__(self, obj):
         super().__init__(obj)
+        self.Type = FEATURE_FIN
 
         if not hasattr(obj,"FinType"):
             obj.addProperty('App::PropertyEnumeration', 'FinType', 'Fin', translate('App::Property', 'Fin type'))
@@ -118,6 +120,11 @@ class ShapeFin(ShapeLocation):
         obj.setEditorMode('ParentRadius', 2)  # hide
 
         obj.addProperty('Part::PropertyPartShape', 'Shape', 'Fin', translate('App::Property', 'Shape of the fin'))
+
+    def setParent(self, obj):
+        super().setParent(obj)
+        print("ShapeFin: setParent()")
+        self.FinSet = (self.getParent() is not None)
 
     def getAxialLength(self):
         # Return the length of this component along the central axis

@@ -25,6 +25,7 @@ __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
     
 from App.ShapeComponent import ShapeLocation
+from App.Constants import FEATURE_BULKHEAD
 
 from App.BulkheadShapeHandler import BulkheadShapeHandler
 
@@ -34,6 +35,7 @@ class ShapeBulkhead(ShapeLocation):
 
     def __init__(self, obj):
         super().__init__(obj)
+        self.Type = FEATURE_BULKHEAD
 
         obj.addProperty('App::PropertyLength', 'Diameter', 'Bulkhead', translate('App::Property', 'Outer diameter of the bulkhead')).Diameter = 25.0
         obj.addProperty('App::PropertyLength', 'Thickness', 'Bulkhead', translate('App::Property', 'Thickness of the bulkhead without any inner step')).Thickness = 2.0

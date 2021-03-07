@@ -34,20 +34,22 @@ from Ui.ViewStage import ViewProviderStage
 
 from DraftTools import translate
 
+def _addChild(stage, parent, child):
+    child.Proxy.setParent(parent)
+    parent.addObject(child)
+    stage.Proxy.positionChildren()
+
 def addToStage(obj):
     stage=FreeCADGui.ActiveDocument.ActiveView.getActiveObject("stage")
     if stage:
         # Add to the last item in the stage if it is a group object
         if len(stage.Group) > 0:
             groupObj = stage.Group[len(stage.Group) - 1]
-            if hasattr(groupObj,"Group"):
-                groupObj.addObject(obj)
-                stage.Proxy.positionChildren()
+            if groupObj.Proxy.eligibleChild(obj.Proxy.Type):
+                _addChild(stage, groupObj, obj)
                 return
 
-        stage.addObject(obj)
-
-        stage.Proxy.positionChildren()
+        _addChild(stage, stage, obj)
 
 def makeStage(name='Stage'):
     obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)

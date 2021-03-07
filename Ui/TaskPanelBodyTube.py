@@ -34,6 +34,7 @@ from PySide import QtGui
 from PySide2.QtWidgets import QDialog, QGridLayout
 
 from Ui.TaskPanelDatabase import TaskPanelDatabase
+from Ui.TaskPanelLocation import TaskPanelLocation
 from App.Constants import COMPONENT_TYPE_BODYTUBE
 
 from App.Utilities import _valueWithUnits
@@ -90,7 +91,10 @@ class TaskPanelBodyTube:
         self._db = TaskPanelDatabase(obj, COMPONENT_TYPE_BODYTUBE)
         self._dbForm = self._db.getForm()
 
-        self.form = [self._btForm, self._dbForm]
+        self._location = TaskPanelLocation(obj)
+        self._locationForm = self._location.getForm()
+
+        self.form = [self._btForm, self._locationForm, self._dbForm]
         self._btForm.setWindowIcon(QtGui.QIcon(FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_BodyTube.svg"))
         
         self._btForm.idInput.textEdited.connect(self.onIdChanged)
@@ -98,6 +102,7 @@ class TaskPanelBodyTube:
         self._btForm.lengthInput.textEdited.connect(self.onLengthChanged)
 
         self._db.dbLoad.connect(self.onLookup)
+        self._location.locationChange.connect(self.onLocation)
         
         self.update()
         
@@ -152,6 +157,10 @@ class TaskPanelBodyTube:
         self._obj.Length = _valueWithUnits(result["length"], result["length_units"])
 
         self.update()
+        self._obj.Proxy.execute(self._obj) 
+        self.setEdited()
+
+    def onLocation(self):
         self._obj.Proxy.execute(self._obj) 
         self.setEdited()
         

@@ -27,6 +27,7 @@ __url__ = "https://www.davesrocketshop.com"
 from PySide import QtCore
     
 from App.ShapeComponent import ShapeLocation
+from App.Constants import FEATURE_BODY_TUBE, FEATURE_BULKHEAD, FEATURE_BODY_TUBE, FEATURE_CENTERING_RING, FEATURE_FIN
 
 from App.BodyTubeShapeHandler import BodyTubeShapeHandler
 
@@ -36,6 +37,7 @@ class ShapeBodyTube(ShapeLocation):
 
     def __init__(self, obj):
         super().__init__(obj)
+        self.Type = FEATURE_BODY_TUBE
 
         # Default set to a BT-50
         if not hasattr(obj,"InnerDiameter"):
@@ -71,19 +73,10 @@ class ShapeBodyTube(ShapeLocation):
         if shape is not None:
             shape.draw()
 
+    def eligibleChild(self, childType):
+        return childType in [FEATURE_BULKHEAD, FEATURE_BODY_TUBE, FEATURE_CENTERING_RING, FEATURE_FIN]
+
     def onChildEdited(self):
-        # Dynamic placements
-        # length = 0.0
-        # i = len(self._obj.Group) - 1
-        # while i >= 0:
-        #     child = self._obj.Group[i]
-        #     child.Proxy.setAxialPosition(length)
-
-        #     length += float(child.Proxy.getAxialLength())
-        #     i -= 1
-
-        #     child.Proxy.setEdited(False)
-        #     FreeCAD.ActiveDocument.recompute()
         print("%s: onChildEdited()" % (self.__class__.__name__))
         self._obj.Proxy.setEdited()
 

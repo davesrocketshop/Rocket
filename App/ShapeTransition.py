@@ -23,6 +23,7 @@ __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
     
 from App.ShapeComponent import ShapeComponent
+from App.Constants import FEATURE_TRANSITION
 
 from App.TransitionConeShapeHandler import TransitionConeShapeHandler
 from App.TransitionEllipseShapeHandler import TransitionEllipseShapeHandler
@@ -72,6 +73,7 @@ class ShapeTransition(ShapeComponent):
 
     def __init__(self, obj):
         super().__init__(obj)
+        self.Type = FEATURE_TRANSITION
 
         if not hasattr(obj, 'Length'):
             obj.addProperty('App::PropertyLength', 'Length', 'Transition', translate('App::Property', 'Length of the transition not including any shoulder')).Length = 60.0

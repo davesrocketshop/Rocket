@@ -25,6 +25,7 @@ __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
     
 from App.ShapeComponent import ShapeComponent
+from App.Constants import FEATURE_NOSE_CONE
 
 from App.NoseConeShapeHandler import NoseConeShapeHandler
 from App.NoseEllipseShapeHandler import NoseEllipseShapeHandler
@@ -65,6 +66,7 @@ class ShapeNoseCone(ShapeComponent):
 
     def __init__(self, obj):
         super().__init__(obj)
+        self.Type = FEATURE_NOSE_CONE
         
         if not hasattr(obj, 'Length'):
             obj.addProperty('App::PropertyLength', 'Length', 'NoseCone', translate('App::Property', 'Length of the nose not including any shoulder')).Length = 67.31

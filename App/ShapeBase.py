@@ -35,18 +35,21 @@ class ShapeBase(QObject):
 
     def __init__(self, obj):
         super().__init__()
-        self._obj = obj
-
-        obj.Proxy=self
+        self.Type = "RocketComponent"
         self.version = '3.0'
+
+        self._obj = obj
+        self._parent = None
+        obj.Proxy=self
         self._scratch = {} # None persistent property storage, for import properties and similar
 
     def __getstate__(self):
-        return self.version
+        return self.Type, self.version
 
     def __setstate__(self, state):
         if state:
-            self.version = state
+            self.Type = state[0]
+            self.version = state[1]
 
     def setScratch(self, name, value):
         self._scratch[name] = value
@@ -58,8 +61,16 @@ class ShapeBase(QObject):
         return name in self._scratch
 
     def setEdited(self):
-        print("%s: setEdited()" % (self.__class__.__name__))
         self.edited.emit()
+
+    def eligibleChild(self, childType):
+        return False
+
+    def setParent(self, obj):
+        self._parent = obj
+
+    def getParent(self):
+        return self._parent
 
     def getAxialLength(self):
         # Return the length of this component along the central axis

@@ -26,6 +26,16 @@ __url__ = "https://www.davesrocketshop.com"
 
 def QT_TRANSLATE_NOOP(scope, text):
     return text
+
+# Feature types
+FEATURE_ROCKET = "Rocket"
+FEATURE_STAGE = "RocketStage"
+FEATURE_BULKHEAD = "RocketBulkhead"
+FEATURE_BODY_TUBE = "RocketBodyTube"
+FEATURE_CENTERING_RING = "RocketCenteringRing"
+FEATURE_FIN = "RocketFin"
+FEATURE_NOSE_CONE = "RocketNoseCone"
+FEATURE_TRANSITION = "RocketTransition"
     
 # Part styles
 STYLE_SOLID = "solid"

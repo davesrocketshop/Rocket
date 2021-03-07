@@ -25,6 +25,7 @@ __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
     
 from App.ShapeBulkhead import ShapeBulkhead
+from App.Constants import FEATURE_CENTERING_RING
 
 from App.CenteringRingShapeHandler import CenteringRingShapeHandler
 
@@ -37,6 +38,7 @@ class ShapeCenteringRing(ShapeBulkhead):
 
     def __init__(self, obj):
         super().__init__(obj)
+        self.Type = FEATURE_CENTERING_RING
 
         obj.addProperty('App::PropertyLength', 'CenterDiameter', 'CenteringRing', translate('App::Property', 'Diameter of the central hole')).CenterDiameter = 10.0
 

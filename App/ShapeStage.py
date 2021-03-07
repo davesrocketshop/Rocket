@@ -29,11 +29,13 @@ import FreeCAD
 from PySide import QtCore
 
 from App.ShapeBase import ShapeBase
+from App.Constants import FEATURE_ROCKET, FEATURE_STAGE
 
 class ShapeStage(ShapeBase):
 
     def __init__(self, obj):
         super().__init__(obj)
+        self.Type = FEATURE_STAGE
         
         if not hasattr(obj,"Group"):
             obj.addExtension("App::GroupExtensionPython")
@@ -41,6 +43,9 @@ class ShapeStage(ShapeBase):
     def execute(self,obj):
         if not hasattr(obj,'Shape'):
             return
+
+    def eligibleChild(self, childType):
+        return childType != FEATURE_ROCKET
 
     def positionChildren(self, partBase=0.0):
         # Dynamic placements
