@@ -172,7 +172,7 @@ class DialogBlackPowder(QDialog):
         length = float(FreeCAD.Units.Quantity(self.lengthInput.text()).Value) / 1000.0
         pressure = float(FreeCAD.Units.Quantity(self.pressureInput.text()).Value) * 1000.0
 
-        coefficient = 1.0 / (9.81 * 12.1579 * 1739.0) # 1 / (ag * R * T) [(m / sec /sec) (m / K) (K)]
+        coefficient = 1.0 / (9.807 * 12.1579 * 1739.0) # 1 / (g * R * T) [(m / sec /sec) (m / K) (K)]
         bp = coefficient * pressure * (diameter * diameter) / 4.0 * math.pi * length
 
         self.powderInput.setText("%f g" % (bp * 1000.0)) # Always report in grams
