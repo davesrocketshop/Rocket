@@ -36,8 +36,11 @@ class BodyTubeShapeHandler():
         # This gets changed when redrawn so it's very important to save a copy
         self._placement = obj.Placement
 
-        self._ID = float(obj.InnerDiameter)
         self._OD = float(obj.OuterDiameter)
+        if self._OD > 0.0:
+            self._ID = self._OD - 2.0 * float(obj.Thickness)
+        else:
+            self._ID = float(obj.Thickness)
         self._length = float(obj.Length)
         self._obj = obj
 

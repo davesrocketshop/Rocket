@@ -66,3 +66,8 @@ def _valueWithUnits(value, units):
     ''' Converts units to user preferred '''
     qty = FreeCAD.Units.Quantity(str(value) + str(units))
     return qty.UserString
+
+def _valueOnly(value, units):
+    ''' Converts units to user preferred '''
+    qty = FreeCAD.Units.Quantity(str(value) + str(units))
+    return qty.Value

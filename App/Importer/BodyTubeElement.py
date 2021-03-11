@@ -29,14 +29,36 @@ import App.Importer as Importer
 
 from Ui.CmdBodyTube import makeBodyTube
 
-class BodyTubeElement(ComponentElement):
+class MotorMountElement(ComponentElement):
 
     def __init__(self, parent, tag, attributes, parentObj, filename, line):
         super().__init__(parent, tag, attributes, parentObj, filename, line)
 
         self._validChildren = { 'subcomponents' : Importer.SubElement.SubElement,
                               }
-        self._knownTags = ["length", "thickness", "radius", "outerradius"]
+        self._knownTags = ["overhang"]
+
+        if self._parentObj is not None:
+            self._obj = self._parentObj
+            print("MotorMount parent %s" % (self._parentObj.Label))
+            self._obj.MotorMount = True
+
+    def handleEndTag(self, tag, content):
+        _tag = tag.lower().strip()
+        if _tag == "overhang":
+            self._obj.Overhang = content + "m"
+        else:
+            super().handleEndTag(tag, content)
+
+class BodyTubeElement(ComponentElement):
+
+    def __init__(self, parent, tag, attributes, parentObj, filename, line):
+        super().__init__(parent, tag, attributes, parentObj, filename, line)
+
+        self._validChildren = { 'subcomponents' : Importer.SubElement.SubElement,
+                                'motormount' : MotorMountElement,
+                              }
+        self._knownTags = ["length", "thickness", "radius", "outerradius"] #, "motormount"]
 
         self._obj = makeBodyTube()
         if self._parentObj is not None:
@@ -47,28 +69,23 @@ class BodyTubeElement(ComponentElement):
         if _tag == "length":
             self._obj.Length = content + "m"
         elif _tag == "thickness":
-            self._obj.Proxy.setScratch("thickness", content)
+            self._obj.Thickness = content + "m"
         elif _tag == "radius" or _tag == "outerradius":
-            self._obj.Proxy.setScratch("radius", content)
             if str(content).lower() == "auto":
-                diameter = "0.0"
+                # self._obj.OuterDiameter = "0.0 m" - use the object default
+                self._obj.AutoOuterDiameter = True 
             else:
                 diameter = float(content) * 2.0
-            self._obj.OuterDiameter = str(diameter) + "m"
+                self._obj.OuterDiameter = str(diameter) + "m"
+                self._obj.AutoOuterDiameter = False 
         else:
             super().handleEndTag(tag, content)
 
     def onName(self, content):
             self._obj.Label = content
 
-    def end(self):
-        # Auto diameters need to be calculated later
-        if  self._obj.Proxy.getScratch("radius") != "auto":
-            if self._obj.Proxy.isScratch("thickness"):
-                thickness = float( self._obj.Proxy.getScratch("thickness"))
-                diameter = float(self._obj.OuterDiameter) - 2.0 * thickness
-            if diameter < 0:
-                diameter = self._thickness
-            self._obj.InnerDiameter = str(diameter) + "m"
+    def onPositionType(self, value):
+        self._obj.LocationReference = value
 
-        return super().end()
+    def onPosition(self, content):
+        self._obj.Location = content + "m"

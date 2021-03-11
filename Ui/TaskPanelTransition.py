@@ -184,7 +184,7 @@ class _TransitionDialog(QDialog):
     def setTabShoulder(self):
         ui = FreeCADGui.UiLoader()
 
-        self.foreGroup = QtGui.QGroupBox(translate('Rocket', "Forward Shoulder"))
+        self.foreGroup = QtGui.QGroupBox(translate('Rocket', "Forward Shoulder"), self)
         self.foreGroup.setCheckable(True)
 
         self.foreShoulderDiameterLabel = QtGui.QLabel(translate('Rocket', "Diameter"), self)
@@ -205,7 +205,7 @@ class _TransitionDialog(QDialog):
         self.foreShoulderThicknessInput.unit = 'mm'
         self.foreShoulderThicknessInput.setFixedWidth(80)
 
-        self.aftGroup = QtGui.QGroupBox(translate('Rocket', "Aft Shoulder"))
+        self.aftGroup = QtGui.QGroupBox(translate('Rocket', "Aft Shoulder"), self)
         self.aftGroup.setCheckable(True)
 
         self.aftShoulderDiameterLabel = QtGui.QLabel(translate('Rocket', "Diameter"), self)
@@ -454,6 +454,10 @@ class TaskPanelTransition:
     def _setForeAutoDiameterState(self):
         self._tranForm.foreDiameterInput.setEnabled(not self._obj.ForeAutoDiameter)
         self._tranForm.foreAutoDiameterCheckbox.setChecked(self._obj.ForeAutoDiameter)
+
+        if self._obj.ForeAutoDiameter:
+            self._obj.ForeDiameter = 2.0 * self._obj.Proxy.getForeRadius()
+            self._tranForm.foreDiameterInput.setText(self._obj.ForeDiameter.UserString)
          
     def onForeAutoDiameter(self, value):
         self._obj.ForeAutoDiameter = self._tranForm.foreAutoDiameterCheckbox.isChecked()
@@ -473,6 +477,10 @@ class TaskPanelTransition:
     def _setAftAutoDiameterState(self):
         self._tranForm.aftDiameterInput.setEnabled(not self._obj.AftAutoDiameter)
         self._tranForm.aftAutoDiameterCheckbox.setChecked(self._obj.AftAutoDiameter)
+
+        if self._obj.AftAutoDiameter:
+            self._obj.AftDiameter = 2.0 * self._obj.Proxy.getAftRadius()
+            self._tranForm.aftDiameterInput.setText(self._obj.AftDiameter.UserString)
          
     def onAftAutoDiameter(self, value):
         self._obj.AftAutoDiameter = self._tranForm.aftAutoDiameterCheckbox.isChecked()

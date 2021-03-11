@@ -108,7 +108,7 @@ class ShapeFin(ShapeLocation):
             obj.addProperty('App::PropertyLength', 'TtwThickness', 'Fin', translate('App::Property', 'TTW thickness')).TtwThickness = 1.0
 
         if not hasattr(obj,"FinSet"):
-            obj.addProperty('App::PropertyBool', 'FinSet', 'Fin', translate('App::Property', 'True when describing a set of fins')).FinSet = False
+            obj.addProperty('App::PropertyBool', 'FinSet', 'Fin', translate('App::Property', 'True when describing a set of fins')).FinSet = True
         if not hasattr(obj,"FinCount"):
             obj.addProperty('App::PropertyInteger', 'FinCount', 'Fin', translate('App::Property', 'Number of fins in a radial pattern')).FinCount = 3
         if not hasattr(obj,"FinSpacing"):

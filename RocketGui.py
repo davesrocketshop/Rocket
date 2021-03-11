@@ -35,6 +35,7 @@ from Ui.CmdCenteringRing import CmdCenteringRing
 from Ui.CmdBodyTube import CmdBodyTube
 from Ui.CmdBulkhead import CmdBulkhead
 from Ui.CmdFin import CmdFin
+from Ui.CmdEditTree import CmdMoveUp, CmdMoveDown, CmdEdit, CmdDelete
 
 # Calculators
 from Ui.CmdCalcBlackPowder import CmdCalcBlackPowder
@@ -58,6 +59,11 @@ FreeCADGui.addCommand('Rocket_CalcBlackPowder', CmdCalcBlackPowder())
 FreeCADGui.addCommand('Rocket_CalcParachute', CmdCalcParachute())
 FreeCADGui.addCommand('Rocket_CalcThrustToWeight', CmdCalcThrustToWeight())
 FreeCADGui.addCommand('Rocket_CalcVentHoles', CmdCalcVentHoles())
+
+FreeCADGui.addCommand('Rocket_MoveUp', CmdMoveUp())
+FreeCADGui.addCommand('Rocket_MoveDown', CmdMoveDown())
+FreeCADGui.addCommand('Rocket_Edit', CmdEdit())
+FreeCADGui.addCommand('Rocket_Delete', CmdDelete())
 
 class _CalculatorGroupCommand:
 

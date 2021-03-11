@@ -33,6 +33,21 @@ from App.BodyTubeShapeHandler import BodyTubeShapeHandler
 
 from DraftTools import translate
 
+def _migrate_from_1_0(obj):
+    _wrn("Body tube migrating object from 1.0")
+
+    old = {}
+    old["InnerDiameter"] = obj.InnerDiameter
+
+    obj.removeProperty("InnerDiameter")
+
+    ShapeNoseCone(obj)
+
+    od = float(obj.OuterDiameter)
+    if od > 0.0:
+        thickness = (od - float(old["InnerDiameter"])) / 2.0
+        obj.Thickness = thickness
+
 class ShapeBodyTube(ShapeLocation):
 
     def __init__(self, obj):
@@ -40,19 +55,19 @@ class ShapeBodyTube(ShapeLocation):
         self.Type = FEATURE_BODY_TUBE
 
         # Default set to a BT-50
-        if not hasattr(obj,"InnerDiameter"):
-            obj.addProperty('App::PropertyLength', 'InnerDiameter', 'BodyTube', translate('App::Property', 'Diameter of the inside of the body tube')).InnerDiameter = 24.13
         if not hasattr(obj,"OuterDiameter"):
             obj.addProperty('App::PropertyLength', 'OuterDiameter', 'BodyTube', translate('App::Property', 'Diameter of the outside of the body tube')).OuterDiameter = 24.79
+        if not hasattr(obj, 'AutoDiameter'):
+            obj.addProperty('App::PropertyBool', 'AutoDiameter', 'BodyTube', translate('App::Property', 'Automatically set the outer diameter when possible')).AutoDiameter = False
+        if not hasattr(obj,"Thickness"):
+            obj.addProperty('App::PropertyLength', 'Thickness', 'BodyTube', translate('App::Property', 'Diameter of the inside of the body tube')).Thickness = 0.33
         if not hasattr(obj,"Length"):
             obj.addProperty('App::PropertyLength', 'Length', 'BodyTube', translate('App::Property', 'Length of the body tube')).Length = 457.0
 
-        if not hasattr(obj,"InnerDiameter"):
-            obj.addProperty('App::PropertyLength', 'InnerDiameter', 'BodyTube', translate('App::Property', 'Diameter of the inside of the body tube')).InnerDiameter = 24.1
-        if not hasattr(obj,"OuterDiameter"):
-            obj.addProperty('App::PropertyLength', 'OuterDiameter', 'BodyTube', translate('App::Property', 'Diameter of the outside of the body tube')).OuterDiameter = 24.8
-        if not hasattr(obj,"Length"):
-            obj.addProperty('App::PropertyLength', 'Length', 'BodyTube', QT_TRANSLATtranslateE_NOOP('App::Property', 'Length of the body tube')).Length = 457.0
+        if not hasattr(obj, 'MotorMount'):
+            obj.addProperty('App::PropertyBool', 'MotorMount', 'BodyTube', translate('App::Property', 'This component is a motor mount')).MotorMount = False
+        if not hasattr(obj,"Overhang"):
+            obj.addProperty('App::PropertyDistance', 'Overhang', 'BodyTube', translate('App::Property', 'Motor overhang')).Overhang = 3.0
 
         if not hasattr(obj,"Shape"):
             obj.addProperty('Part::PropertyPartShape', 'Shape', 'BodyTube', translate('App::Property', 'Shape of the body tube'))
@@ -60,12 +75,31 @@ class ShapeBodyTube(ShapeLocation):
         if not hasattr(obj,"Group"):
             obj.addExtension("App::GroupExtensionPython")
 
+    def onDocumentRestored(self, obj):
+        if hasattr(obj, "InnerDiameter"):
+            _migrate_from_1_0(obj)
+
     def getAxialLength(self):
         # Return the length of this component along the central axis
         return self._obj.Length
 
-    def getRadius(self):
+    def getForeRadius(self):
         # For placing objects on the outer part of the parent
+        if self._obj.AutoDiameter:
+            radius = 0.0
+            previous = self.getPrevious()
+            if previous is not None:
+                radius = previous.Proxy.getAftRadius()
+            if radius <= 0.0:
+                next = self.getNext()
+                if next is not None:
+                    radius = next.Proxy.getForeRadius()
+            if radius <= 0.0:
+                radius = 24.79 # Default to BT50
+            diameter = 2.0 * radius
+            if self._obj.OuterDiameter != diameter:
+                self._obj.OuterDiameter = diameter
+                self.setEdited()
         return self._obj.OuterDiameter / 2.0
 
     def execute(self, obj):

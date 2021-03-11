@@ -146,6 +146,41 @@ class ShapeTransition(ShapeComponent):
         # Return the length of this component along the central axis
         return self._obj.Length
 
+    def getForeRadius(self):
+        # For placing objects on the outer part of the parent
+        if self._obj.ForeAutoDiameter:
+            radius = 0.0
+            previous = self.getPrevious()
+            if previous is not None:
+                radius = previous.Proxy.getAftRadius()
+            if radius <= 0.0:
+                radius = 24.79 # Default to BT50
+            diameter = 2.0 * radius
+            if self._obj.ForeDiameter != diameter:
+                self._obj.ForeDiameter = diameter
+                self.setEdited()
+        return self._obj.ForeDiameter / 2.0
+
+    def getAftRadius(self):
+        # For placing objects on the outer part of the parent
+        if self._obj.AftAutoDiameter:
+            radius = 0.0
+            next = self.getNext()
+            if next is not None:
+                radius = next.Proxy.getForeRadius()
+            if radius <= 0.0:
+                radius = 24.79 # Default to BT50
+            diameter = 2.0 * radius
+            if self._obj.AftDiameter != diameter:
+                self._obj.AftDiameter = diameter
+                self.setEdited()
+        return self._obj.AftDiameter / 2.0
+
+    def setRadius(self):
+        # Calculate auto radii
+        self.getForeRadius()
+        self.getAftRadius()
+
     def execute(self, obj):
         shape = None
         if obj.TransitionType == TYPE_CONE:

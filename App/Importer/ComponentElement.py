@@ -25,6 +25,8 @@ __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
 from App.Importer.SaxElement import Element
+from App.Constants import LOCATION_PARENT_TOP, LOCATION_PARENT_MIDDLE, LOCATION_PARENT_BOTTOM, \
+    LOCATION_BASE, LOCATION_AFTER
 
 class ComponentElement(Element):
 
@@ -33,6 +35,24 @@ class ComponentElement(Element):
 
         self._componentTags = ["name", "color", "linestyle", "position", "axialoffset", "overridemass", "overridecg", "overridecd", 
             "overridesubcomponents", "comment", "preset", "finish", "material"]
+
+    def handleTag(self, tag, attributes):
+        _tag = tag.lower().strip()
+        if _tag == "position":
+            positionType = attributes["type"]
+            print("positionType = %s" % (positionType))
+            if positionType == "after":
+                self.onPositionType(LOCATION_AFTER)
+            elif positionType == "top":
+                self.onPositionType(LOCATION_PARENT_TOP)
+            elif positionType == "middle":
+                self.onPositionType(LOCATION_PARENT_MIDDLE)
+            elif positionType == "bottom":
+                self.onPositionType(LOCATION_PARENT_BOTTOM)
+            else:
+                self.onPositionType(LOCATION_BASE)
+        else:
+            super().handleTag(tag, attributes)
 
     def handleEndTag(self, tag, content):
         _tag = tag.lower().strip()
@@ -43,7 +63,7 @@ class ComponentElement(Element):
         elif _tag == "linestyle":
             self.onLinestyle(content)
         elif _tag == "position":
-             pass # <position type="bottom">0.0</position>
+            self.onPosition(content)
         elif _tag == "axialoffset":
             pass
         elif _tag == "overridemass":
@@ -76,4 +96,10 @@ class ComponentElement(Element):
         pass
 
     def onPreset(self, content):
+        pass
+
+    def onPositionType(self, value):
+        pass
+
+    def onPosition(self, content):
         pass

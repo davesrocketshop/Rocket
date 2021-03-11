@@ -52,6 +52,9 @@ class ShapeComponent(ShapeBase):
             obj.addProperty('App::PropertyString', 'Material', 'RocketComponent', translate('App::Property', 'Component material')).Material = ""
 
     def positionChild(self, obj, parent, parentBase, parentLength, parentRadius):
+        # Calculate any auto radii
+        obj.Proxy.setRadius()
+
         if not hasattr(obj, 'LocationReference'):
             partBase = parentBase
             roll = 0.0

@@ -73,7 +73,7 @@ class _BulkheadDialog(QDialog):
             self.centerDiameterInput.unit = 'mm'
             self.centerDiameterInput.setFixedWidth(80)
 
-            self.notchGroup = QtGui.QGroupBox(translate('Rocket', "Notched"))
+            self.notchGroup = QtGui.QGroupBox(translate('Rocket', "Notched"), self)
             self.notchGroup.setCheckable(True)
 
             self.notchWidthLabel = QtGui.QLabel(translate('Rocket', "Width"), self)
@@ -88,7 +88,7 @@ class _BulkheadDialog(QDialog):
             self.notchHeightInput.unit = 'mm'
             self.notchHeightInput.setFixedWidth(80)
 
-        self.stepGroup = QtGui.QGroupBox(translate('Rocket', "Step"))
+        self.stepGroup = QtGui.QGroupBox(translate('Rocket', "Step"), self)
         self.stepGroup.setCheckable(True)
 
         self.stepDiameterLabel = QtGui.QLabel(translate('Rocket', "Diameter"), self)
@@ -103,7 +103,7 @@ class _BulkheadDialog(QDialog):
         self.stepThicknessInput.unit = 'mm'
         self.stepThicknessInput.setFixedWidth(80)
 
-        self.holeGroup = QtGui.QGroupBox(translate('Rocket', "Holes"))
+        self.holeGroup = QtGui.QGroupBox(translate('Rocket', "Holes"), self)
         self.holeGroup.setCheckable(True)
 
         self.holeDiameterLabel = QtGui.QLabel(translate('Rocket', "Diameter"), self)

@@ -80,7 +80,7 @@ class _FinDialog(QDialog):
         self.finTypesCombo = QtGui.QComboBox(self)
         self.finTypesCombo.addItems(self.finTypes)
 
-        self.finSetGroup = QtGui.QGroupBox(translate('Rocket', "Fin Set"))
+        self.finSetGroup = QtGui.QGroupBox(translate('Rocket', "Fin Set"), self)
         self.finSetGroup.setCheckable(True)
         
         self.finCountLabel = QtGui.QLabel(translate('Rocket', "Fin Count"), self)
@@ -97,7 +97,7 @@ class _FinDialog(QDialog):
         self.finSpacingInput.setFixedWidth(80)
 
         # Get the fin parameters: length, width, etc...
-        self.rootGroup = QtGui.QGroupBox(translate('Rocket', "Fin Root"))
+        self.rootGroup = QtGui.QGroupBox(translate('Rocket', "Fin Root"), self)
 
         # Select the type of cross section
         self.rootCrossSectionLabel = QtGui.QLabel(translate('Rocket', "Cross Section"), self)
@@ -300,7 +300,7 @@ class _FinDialog(QDialog):
 
         ui = FreeCADGui.UiLoader()
 
-        self.ttwGroup = QtGui.QGroupBox(translate('Rocket', "TTW Tab"))
+        self.ttwGroup = QtGui.QGroupBox(translate('Rocket', "TTW Tab"), self)
         self.ttwGroup.setCheckable(True)
 
         self.ttwOffsetLabel = QtGui.QLabel(translate('Rocket', "Offset"), self)
@@ -611,7 +611,7 @@ class TaskPanelFin(QObject):
         self._enableRootPercent()
         
     def onRootPerCent(self, value):
-        self._obj.RootPerCent = self.form.rootPerCentCheckbox.isChecked()
+        self._obj.RootPerCent = self._finForm.rootPerCentCheckbox.isChecked()
         self._convertRootPercent()
 
         self.redraw()
@@ -680,7 +680,7 @@ class TaskPanelFin(QObject):
         self._enableTipPercent()
         
     def onTipPerCent(self, value):
-        self._obj.TipPerCent = self.form.tipPerCentCheckbox.isChecked()
+        self._obj.TipPerCent = self._finForm.tipPerCentCheckbox.isChecked()
         self._convertTipPercent()
 
         self.redraw()
@@ -705,7 +705,7 @@ class TaskPanelFin(QObject):
     def onHeight(self, value):
         try:
             self._obj.Height = FreeCAD.Units.Quantity(value).Value
-            self._sweepAngleFromLength(self.form.sweepLengthInput.property("quantity").Value)
+            self._sweepAngleFromLength(self._finForm.sweepLengthInput.property("quantity").Value)
             self.redraw()
         except ValueError:
             pass

@@ -124,6 +124,25 @@ class ShapeNoseCone(ShapeComponent):
         # Return the length of this component along the central axis
         return self._obj.Length
 
+    def getForeRadius(self):
+        # For placing objects on the outer part of the parent
+        if self._obj.AutoDiameter:
+            radius = 0.0
+            previous = self.getPrevious()
+            if previous is not None:
+                radius = previous.Proxy.getAftRadius()
+            if radius <= 0.0:
+                next = self.getNext()
+                if next is not None:
+                    radius = next.Proxy.getForeRadius()
+            if radius <= 0.0:
+                radius = 24.79 # Default to BT50
+            diameter = 2.0 * radius
+            if self._obj.Diameter != diameter:
+                self._obj.Diameter = diameter
+                self.setEdited()
+        return self._obj.Diameter / 2.0
+
     def execute(self, obj):
         shape = None
         if obj.NoseType == TYPE_CONE:
