@@ -94,7 +94,6 @@ class ShapeBase(QObject):
 
     def getNext(self, obj=None):
         "Next item along the rocket axis"
-        print("getNext(%s, %s)" % (self, obj))
         if obj is None:
             if self._parent is not None:
                 return self._parent.Proxy.getNext(self)
@@ -161,30 +160,23 @@ class ShapeBase(QObject):
 
     def moveUp(self):
         # Move the part up in the tree
-        print("moveUp(%s)" % (self._obj.Label))
         if self._parent is not None:
-            print("\tparent %s" % (self._parent))
             self._parent.Proxy._moveChildUp(self._obj)
-        else:
-            print("No parent")
 
     def _moveChildUp(self, obj):
-        print("\t_moveChildUp(%s,%s)" % (self._obj.Label, obj.Label))
         if hasattr(self._obj, "Group"):
             index = 0
             for child in self._obj.Group:
-                print("\t%s,%s" % (child.Proxy, obj.Proxy))
                 if child.Proxy == obj.Proxy:
                     if index > 0:
+                        # print("\t2")
                         if self._obj.Group[index - 1].Proxy.eligibleChild(obj.Proxy.Type):
                             # Append to the end of the previous entry
-                            print("Add to previous")
-                            self._obj.Group.pop(index)
+                            self._obj.removeObject(obj)
                             parent = self._obj.Group[index - 1]
                             obj.Proxy.setParent(parent)
                             parent.addObject(obj)
                         else:
-                            print("Swap")
                             # Swap with the previous entry
                             group = self._obj.Group
                             temp = group[index - 1]
@@ -200,9 +192,8 @@ class ShapeBase(QObject):
                             index = 0
                             for child in grandparent.Group:
                                 if child.Proxy == parent and grandparent.Proxy.eligibleChild(obj.Proxy.Type):
-                                    print("Add to grandparent")
-
-                                    self._obj.Group.pop(0)
+                                    parent._obj.removeObject(obj)
+                                    obj.Proxy.setParent(grandparent)
                                     group = grandparent.Group
                                     group.insert(index, obj)
                                     grandparent.Group = group
@@ -214,7 +205,7 @@ class ShapeBase(QObject):
                         parent = grandparent
                         while parent is not None:
                             if parent.Proxy.eligibleChild(obj.Proxy.Type):
-                                self._obj.Group.pop(0)
+                                self._obj.removeObject(obj)
                                 obj.Proxy.setParent(parent)
                                 parent.addObject(obj)
                                 return
@@ -222,48 +213,66 @@ class ShapeBase(QObject):
                 index += 1
 
         if self._parent is not None:
+            # print("\t9")
             self._parent.Proxy._moveChildUp(self._obj)
+        # print("\t10")
         return
 
     def moveDown(self):
         # Move the part up in the tree
-        print("moveDown(%s)" % (self._obj.Label))
         if self._parent is not None:
-            print("\tparent %s" % (self._parent))
             self._parent.Proxy._moveChildDown(self._obj)
         else:
             print("No parent")
 
     def _moveChildDown(self, obj):
-        print("\_moveChildDown(%s,%s)" % (self._obj.Label, obj.Label))
         if hasattr(self._obj, "Group"):
             index = 0
             last = len(self._obj.Group) - 1
             for child in self._obj.Group:
-                print("\t%s,%s" % (child.Proxy, obj.Proxy))
                 if child.Proxy == obj.Proxy:
                     if index < last:
-                        print("Swap")
-                        # Swap with the previous entry
-                        group = self._obj.Group
-                        temp = group[index + 1]
-                        group[index + 1] = obj
-                        group[index] = temp
-                        self._obj.Group = group
-                        return
+                        # If the next entry is a group object, add it to that
+                        if self._obj.Group[index + 1].Proxy.eligibleChild(obj.Proxy.Type):
+                            parent = self._obj.Group[index + 1]
+                            self._obj.removeObject(obj)
+                            obj.Proxy.setParent(parent)
+                            group = parent.Group
+                            group.insert(0, obj)
+                            parent.Group = group
+                            return
+                        else:
+                            # Swap with the next entry
+                            group = self._obj.Group
+                            temp = group[index + 1]
+                            group[index + 1] = obj
+                            group[index] = temp
+                            self._obj.Group = group
+                            return
                     else:
+                        current = self
                         parent = self._parent
                         while parent is not None:
                             if parent.Proxy.eligibleChild(obj.Proxy.Type):
-                                self._obj.Group.pop(0)
-                                obj.Proxy.setParent(parent)
-                                parent.addObject(obj)
-                                return
+                                parentLen = len(parent.Group)
+                                index1 = 0
+                                for child in parent.Group:
+                                    if child.Proxy == current:
+                                        self._obj.removeObject(obj)
+                                        obj.Proxy.setParent(parent)
+                                        group = parent.Group
+                                        group.insert(index1 + 1, obj)
+                                        parent.Group = group
+                                        return
+                                    index1 += 1
+                            else:
+                                break
+                            current = parent
                             parent = parent._parent
                 index += 1
 
         if self._parent is not None:
-            self._parent.Proxy._moveChildUp(self._obj)
+            self._parent.Proxy._moveChildDown(self._obj)
         return
 
     # This will be implemented in the derived class
