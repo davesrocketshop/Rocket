@@ -165,11 +165,17 @@ class DialogParachute(QDialog):
         Cd = float(FreeCAD.Units.Quantity(self.dragInput.text()).Value)
 
         rho = 1.22 # air density, average at sea level in kg/m^3 at 15C
-        g = 9.81 # gravity in m/s^2, standard model at sea level on 45 latitude
-        So = round(float(2*M*g)/(rho*V**2*Cd),3) # Calculate nominal surface area (So)
-        Do = round(float(math.sqrt((4*So)/(math.pi))),3) # Calculate the nominal desired diameter Do
+        g = 9.807 # gravity in m/s^2, standard model at sea level on 45 latitude
+        A = float(2*M*g)/(rho*V**2*Cd) # Calculate nominal surface area (So)
+        shape = self.dragCombo.currentText()
+        if shape == DRAG_HEX:
+            D = math.sqrt(2.0 * A / math.sqrt(3.0))
+        elif shape == DRAG_SQUARE:
+            D = math.sqrt(A)
+        else: # Assume round
+            D = math.sqrt((4*A)/(math.pi))
 
-        self.diameterInput.setText(FreeCAD.Units.Quantity(str(Do) + "m").UserString)
+        self.diameterInput.setText(FreeCAD.Units.Quantity(str(D) + "m").UserString)
 
     def onWeight(self, value):
         try:
