@@ -26,11 +26,12 @@ __url__ = "https://www.davesrocketshop.com"
     
 from App.ShapeComponent import ShapeComponent
 
-from App.Constants import FIN_TYPE_TRAPEZOID
-from App.Constants import FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE, \
+from App.Constants import FIN_TYPE_TRAPEZOID, FIN_TYPE_ELLIPSE
+from App.Constants import FIN_CROSS_SAME, FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE, \
     FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE
 
 from App.FinTrapezoidShapeHandler import FinTrapezoidShapeHandler
+from App.FinEllipseShapeHandler import FinEllipseShapeHandler
 
 from DraftTools import translate
 
@@ -41,7 +42,7 @@ class ShapeFin(ShapeComponent):
 
         obj.addProperty('App::PropertyEnumeration', 'FinType', 'Fin', translate('App::Property', 'Fin type'))
         obj.FinType = [FIN_TYPE_TRAPEZOID, 
-                # FIN_TYPE_ELLIPSE, 
+                FIN_TYPE_ELLIPSE, 
                 # FIN_TYPE_TUBE, 
                 # FIN_TYPE_SKETCH
                 ]
@@ -59,9 +60,9 @@ class ShapeFin(ShapeComponent):
         obj.addProperty('App::PropertyLength', 'RootLength2', 'Fin', translate('App::Property', 'Root chord length 2')).RootLength2 = 80.0
 
         obj.addProperty('App::PropertyEnumeration', 'TipCrossSection', 'Fin', translate('App::Property', 'Fin tip cross section'))
-        obj.TipCrossSection = [FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE, 
+        obj.TipCrossSection = [FIN_CROSS_SAME, FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE, 
             FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE]
-        obj.TipCrossSection = FIN_CROSS_SQUARE
+        obj.TipCrossSection = FIN_CROSS_SAME
 
         obj.addProperty('App::PropertyLength', 'TipChord', 'Fin', translate('App::Property', 'Length of the tip of the fin')).TipChord = 5.0
         obj.addProperty('App::PropertyLength', 'TipThickness', 'Fin', translate('App::Property', 'Fin tip thickness')).TipThickness = 2.0
@@ -86,6 +87,8 @@ class ShapeFin(ShapeComponent):
 
         if obj.FinType == FIN_TYPE_TRAPEZOID:
             shape = FinTrapezoidShapeHandler(obj)
+        elif obj.FinType == FIN_TYPE_ELLIPSE:
+            shape = FinEllipseShapeHandler(obj)
 
         if shape is not None:
             shape.draw()

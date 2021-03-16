@@ -34,8 +34,8 @@ import math
 
 from DraftTools import translate
 
-from App.Constants import FIN_TYPE_TRAPEZOID
-from App.Constants import FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE, \
+from App.Constants import FIN_TYPE_TRAPEZOID, FIN_TYPE_ELLIPSE
+from App.Constants import FIN_CROSS_SAME, FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE, \
     FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE
 
 from App.Utilities import _err, _toFloat
@@ -55,7 +55,7 @@ class _FinDialog(QDialog):
         self.finTypeLabel = QtGui.QLabel(translate('Rocket', "Fin type"), self)
 
         self.finTypes = (FIN_TYPE_TRAPEZOID, 
-            #FIN_TYPE_ELLIPSE, 
+            FIN_TYPE_ELLIPSE, 
             #FIN_TYPE_TUBE, 
             #FIN_TYPE_SKETCH
             )
@@ -70,6 +70,8 @@ class _FinDialog(QDialog):
 
         self.rootCrossSections = (FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE,
             FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE)
+        self.rootEllipseCrossSections = (FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE,
+            FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LETE)
         self.rootCrossSectionsCombo = QtGui.QComboBox(self)
         self.rootCrossSectionsCombo.addItems(self.rootCrossSections)
 
@@ -108,7 +110,7 @@ class _FinDialog(QDialog):
         # Select the type of cross section
         self.tipCrossSectionLabel = QtGui.QLabel(translate('Rocket', "Cross Section"), self)
 
-        self.tipCrossSections = (FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE,
+        self.tipCrossSections = (FIN_CROSS_SAME, FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE,
             FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE)
         self.tipCrossSectionsCombo = QtGui.QComboBox(self)
         self.tipCrossSectionsCombo.addItems(self.tipCrossSections)
@@ -378,14 +380,95 @@ class TaskPanelFin:
         self.form.ttwThicknessInput.setText(self.obj.TtwThickness.UserString)
 
         self._enableRootLengths()
-        self._enableTipLengths()
+        self._enableFinTypes() # This calls _enableTipLengths()
         self._enableRootPercent()
         self._enableTipPercent()
         self._sweepAngleFromLength(self.obj.SweepLength)
         self._setTtwState()
+
+    def _enableFinTypes(self):
+        if self.obj.FinType == FIN_TYPE_TRAPEZOID:
+            old = self.obj.RootCrossSection # This must be saved and restored
+            self.form.rootCrossSectionsCombo.clear()
+            self.form.rootCrossSectionsCombo.addItems(self.form.rootCrossSections)
+            self.obj.RootCrossSection = old
+
+            self.form.rootCrossSectionsCombo.setCurrentText(self.obj.RootCrossSection)
+
+            self.form.sweepLengthInput.setEnabled(True)
+            self.form.sweepAngleInput.setEnabled(True)
+            self.form.tipCrossSectionsCombo.setEnabled(True)
+            self.form.tipChordInput.setEnabled(True)
+            self.form.tipThicknessInput.setEnabled(True)
+
+            self.form.sweepLengthLabel.setHidden(False)
+            self.form.sweepLengthInput.setHidden(False)
+            self.form.sweepAngleLabel.setHidden(False)
+            self.form.sweepAngleInput.setHidden(False)
+
+            self.form.rootLength2Label.setHidden(False)
+            self.form.rootLength2Input.setHidden(False)
+
+            self.form.tipLabel.setHidden(False)
+            self.form.tipCrossSectionLabel.setHidden(False)
+            self.form.tipCrossSectionsCombo.setHidden(False)
+            self.form.tipChordLabel.setHidden(False)
+            self.form.tipChordInput.setHidden(False)
+            self.form.tipThicknessLabel.setHidden(False)
+            self.form.tipThicknessInput.setHidden(False)
+            self.form.tipPerCentLabel.setHidden(False)
+            self.form.tipPerCentCheckbox.setHidden(False)
+            self.form.tipLength1Label.setHidden(False)
+            self.form.tipLength1Input.setHidden(False)
+            self.form.tipLength2Label.setHidden(False)
+            self.form.tipLength2Input.setHidden(False)
+
+            self._enableTipLengths()
+        else:
+            old = self.obj.RootCrossSection # This must be saved and restored
+            self.form.rootCrossSectionsCombo.clear()
+            self.form.rootCrossSectionsCombo.addItems(self.form.rootEllipseCrossSections)
+            self.obj.RootCrossSection = old
+
+            if self.obj.RootCrossSection in [FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE]:
+                self.obj.RootCrossSection = FIN_CROSS_TAPER_LETE
+            self.form.rootCrossSectionsCombo.setCurrentText(self.obj.RootCrossSection)
+
+            self.form.sweepLengthInput.setEnabled(False)
+            self.form.sweepAngleInput.setEnabled(False)
+            self.form.tipCrossSectionsCombo.setEnabled(False)
+            self.form.tipChordInput.setEnabled(False)
+            self.form.tipThicknessInput.setEnabled(False)
+            
+            self.form.tipPerCentCheckbox.setEnabled(False)
+            self.form.tipLength1Input.setEnabled(False)
+            self.form.tipLength2Input.setEnabled(False)
+            
+            self.form.sweepLengthLabel.setHidden(True)
+            self.form.sweepLengthInput.setHidden(True)
+            self.form.sweepAngleLabel.setHidden(True)
+            self.form.sweepAngleInput.setHidden(True)
+
+            self.form.rootLength2Label.setHidden(True)
+            self.form.rootLength2Input.setHidden(True)
+
+            self.form.tipLabel.setHidden(True)
+            self.form.tipCrossSectionLabel.setHidden(True)
+            self.form.tipCrossSectionsCombo.setHidden(True)
+            self.form.tipChordLabel.setHidden(True)
+            self.form.tipChordInput.setHidden(True)
+            self.form.tipThicknessLabel.setHidden(True)
+            self.form.tipThicknessInput.setHidden(True)
+            self.form.tipPerCentLabel.setHidden(True)
+            self.form.tipPerCentCheckbox.setHidden(True)
+            self.form.tipLength1Label.setHidden(True)
+            self.form.tipLength1Input.setHidden(True)
+            self.form.tipLength2Label.setHidden(True)
+            self.form.tipLength2Input.setHidden(True)
         
     def onFinTypes(self, value):
         self.obj.FinType = value
+        self._enableFinTypes()
         self.obj.Proxy.execute(self.obj)
 
     def _enableRootLengths(self):
@@ -403,22 +486,31 @@ class TaskPanelFin:
             self.form.rootLength2Input.setEnabled(False)
 
     def _enableTipLengths(self):
-        value = self.obj.TipCrossSection
-        if value in [FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE]:
-            self.form.tipPerCentCheckbox.setEnabled(True)
-            self.form.tipLength1Input.setEnabled(True)
-            if value == FIN_CROSS_TAPER_LETE:
-                self.form.tipLength2Input.setEnabled(True)
+        if self.obj.FinType == FIN_TYPE_TRAPEZOID:
+            value = self.obj.TipCrossSection
+            if value == FIN_CROSS_SAME:
+                value = self.obj.RootCrossSection
+            if value in [FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE]:
+                self.form.tipPerCentCheckbox.setEnabled(True)
+                self.form.tipLength1Input.setEnabled(True)
+                if value == FIN_CROSS_TAPER_LETE:
+                    self.form.tipLength2Input.setEnabled(True)
+                else:
+                    self.form.tipLength2Input.setEnabled(False)
             else:
+                self.form.tipPerCentCheckbox.setEnabled(False)
+                self.form.tipLength1Input.setEnabled(False)
                 self.form.tipLength2Input.setEnabled(False)
-        else:
-            self.form.tipPerCentCheckbox.setEnabled(False)
-            self.form.tipLength1Input.setEnabled(False)
-            self.form.tipLength2Input.setEnabled(False)
         
     def onRootCrossSection(self, value):
+        if len(value) <= 0:
+            return
+            
         self.obj.RootCrossSection = value
         self._enableRootLengths()
+
+        if self.obj.TipCrossSection == FIN_CROSS_SAME:
+            self._enableTipLengths()
 
         self.obj.Proxy.execute(self.obj)
         
