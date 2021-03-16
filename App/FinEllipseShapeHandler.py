@@ -28,7 +28,7 @@ import FreeCAD
 import Part
 import math
 
-from App.Constants import FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE, \
+from App.Constants import FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE, \
     FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LETE
 
 from App.FinShapeHandler import FinShapeHandler
@@ -81,9 +81,22 @@ class FinEllipseShapeHandler(FinShapeHandler):
 
         return [[side1, center], [center, side2]]
 
+    def _squareEllipse(self):
+        # The loft is 3 ellipses, center and both sides
+        midChord = float(self._obj.RootChord) / 2.0
+        height = float(self._obj.Height)
+        halfThickness = float(self._obj.RootThickness) / 2.0
+
+        side1 = self._halfEllipse(height, midChord, -halfThickness, midChord)
+        side2 = self._halfEllipse(height, midChord,  halfThickness, midChord)
+
+        return [side1, side2]
+
     def _makeProfiles(self):
         if self._obj.RootCrossSection == FIN_CROSS_TAPER_LETE:
             return self._taperedEllipse()
+        if self._obj.RootCrossSection == FIN_CROSS_SQUARE:
+            return self._squareEllipse()
 
         ellipses = []
         midChord = float(self._obj.RootChord) / 2.0
