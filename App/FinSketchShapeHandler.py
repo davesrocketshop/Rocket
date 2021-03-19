@@ -18,34 +18,28 @@
 # *   USA                                                                   *
 # *                                                                         *
 # ***************************************************************************
+"""Class for drawing fins"""
 
+__title__ = "FreeCAD Fins"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
+    
+import FreeCAD
+import Part
+import math
 
-class RocketWorkbench ( Workbench ):
-    "Rocket workbench object"
-    Icon = FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/RocketWorkbench.svg"
-    MenuText = "Rocket"
-    ToolTip = "Rocket workbench"
+from App.Constants import FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE, \
+    FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LETE
 
-    def Initialize(self):
-        FreeCADGui.addLanguagePath(FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/translations")
+from App.FinShapeHandler import FinShapeHandler
 
-        # load the module
-        import RocketGui
-        import SketcherGui
-        from PySide.QtCore import QT_TRANSLATE_NOOP
-        
-        self.appendToolbar(QT_TRANSLATE_NOOP('Rocket', 'Rocket'),
-                        ['Rocket_NoseCone', 'Rocket_Transition', 'Rocket_BodyTube', 'Rocket_CenteringRing', 'Rocket_Bulkhead', 'Rocket_Fin', 'Separator', 'Rocket_Calculators', 'Separator', 'Sketcher_NewSketch', 'Sketcher_EditSketch'])
+CROSS_SECTIONS = 100  # Number of cross sections for the ellipse
 
-        self.appendMenu(QT_TRANSLATE_NOOP('Rocket', 'Rocket'), 
-                        ['Rocket_NoseCone', 'Rocket_Transition', 'Rocket_BodyTube', 'Rocket_CenteringRing', 'Rocket_Bulkhead', 'Rocket_Fin', 'Separator'])
-        self.appendMenu([QT_TRANSLATE_NOOP("Rocket", "Rocket"),
-                         QT_TRANSLATE_NOOP("Rocket", "Calculators")],
-                        ['Rocket_CalcBlackPowder', 'Rocket_CalcParachute', 'Rocket_CalcThrustToWeight', 'Rocket_CalcVentHoles'])
+class FinSketchShapeHandler(FinShapeHandler):
 
-    def GetClassName(self):
-        return "Gui::PythonWorkbench"
+    def __init__(self, obj):
+        super().__init__(obj)
 
-Gui.addWorkbench(RocketWorkbench())
+    def _makeProfiles(self):
+        profiles = []
+        return profiles

@@ -34,7 +34,7 @@ import math
 
 from DraftTools import translate
 
-from App.Constants import FIN_TYPE_TRAPEZOID, FIN_TYPE_ELLIPSE
+from App.Constants import FIN_TYPE_TRAPEZOID, FIN_TYPE_ELLIPSE, FIN_TYPE_SKETCH
 from App.Constants import FIN_CROSS_SAME, FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE, \
     FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE
 
@@ -57,7 +57,7 @@ class _FinDialog(QDialog):
         self.finTypes = (FIN_TYPE_TRAPEZOID, 
             FIN_TYPE_ELLIPSE, 
             #FIN_TYPE_TUBE, 
-            #FIN_TYPE_SKETCH
+            FIN_TYPE_SKETCH
             )
         self.finTypesCombo = QtGui.QComboBox(self)
         self.finTypesCombo.addItems(self.finTypes)
