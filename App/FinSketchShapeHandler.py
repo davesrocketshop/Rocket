@@ -40,6 +40,43 @@ class FinSketchShapeHandler(FinShapeHandler):
     def __init__(self, obj):
         super().__init__(obj)
 
+    def getFace(self):
+        profile = self._obj.Profile
+        print("Profile %s" % profile)
+        print("Fully constrained %s" % str(profile.FullyConstrained))
+        shape = profile.Shape
+        print("Shape %s" % profile.Shape)
+        if shape is None:
+            print("shape is empty")
+            return None
+        else:
+            return Part.Wire(shape)
+            # auto shape = getProfileShape();
+            # if(shape.isNull())
+            #     err = "Linked shape object is empty";
+            # else {
+            #     auto faces = shape.getSubTopoShapes(TopAbs_FACE);
+            #     if(faces.empty()) {
+            #         if(!shape.hasSubShape(TopAbs_WIRE))
+            #             shape = shape.makEWires();
+            #         if(shape.hasSubShape(TopAbs_WIRE))
+            #             shape = shape.makEFace(0,"Part::FaceMakerCheese");
+            #         else
+            #             err = "Cannot make face from profile";
+            #     } else if (faces.size() == 1)
+            #         shape = faces.front();
+            #     else
+            #         shape = TopoShape().makECompound(faces);
+            # }
+
     def _makeProfiles(self):
-        profiles = []
+        halfThickness = float(self._obj.RootThickness) / 2.0
+
+        face1 = self.getFace()
+        face1.translate(FreeCAD.Vector(0, -halfThickness, 0))
+
+        face2 = self.getFace()
+        face2.translate(FreeCAD.Vector(0,  halfThickness, 0))
+
+        profiles = [face1, face2]
         return profiles

@@ -40,6 +40,9 @@ from Ui.CmdCalcParachute import CmdCalcParachute
 from Ui.CmdCalcThrustToWeight import CmdCalcThrustToWeight
 from Ui.CmdCalcVentHoles import CmdCalcVentHoles
 
+# Rocket specific sketcher
+from Ui.CmdSketcher import CmdNewSketch
+
 FreeCADGui.addCommand('Rocket_NoseCone', CmdNoseCone())
 FreeCADGui.addCommand('Rocket_Transition', CmdTransition())
 FreeCADGui.addCommand('Rocket_CenteringRing', CmdCenteringRing())
@@ -51,6 +54,8 @@ FreeCADGui.addCommand('Rocket_CalcBlackPowder', CmdCalcBlackPowder())
 FreeCADGui.addCommand('Rocket_CalcParachute', CmdCalcParachute())
 FreeCADGui.addCommand('Rocket_CalcThrustToWeight', CmdCalcThrustToWeight())
 FreeCADGui.addCommand('Rocket_CalcVentHoles', CmdCalcVentHoles())
+
+FreeCADGui.addCommand('Rocket_NewSketch', CmdNewSketch())
 
 class _CalculatorGroupCommand:
 

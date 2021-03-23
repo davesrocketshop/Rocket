@@ -18,34 +18,37 @@
 # *   USA                                                                   *
 # *                                                                         *
 # ***************************************************************************
+"""Class for calculatingparachute size"""
 
+__title__ = "FreeCAD Parachute Calculator"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
+    
+import FreeCAD
+import FreeCADGui
 
-class RocketWorkbench ( Workbench ):
-    "Rocket workbench object"
-    Icon = FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/RocketWorkbench.svg"
-    MenuText = "Rocket"
-    ToolTip = "Rocket workbench"
+from DraftTools import translate
 
-    def Initialize(self):
-        FreeCADGui.addLanguagePath(FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/translations")
+def newSketch():
+    obj = FreeCAD.ActiveDocument.addObject("Sketcher::SketchObject","Sketch")
+    # Select the XZ plane for consistency
+    obj.Placement = FreeCAD.Placement(FreeCAD.Vector(0, 0, 0), FreeCAD.Vector(1, 0, 0), 90)
+    obj.MapMode = "Deactivated"
+    FreeCADGui.activeDocument().setEdit(obj.Name,0)
 
-        # load the module
-        import RocketGui
-        import SketcherGui
-        from PySide.QtCore import QT_TRANSLATE_NOOP
+    return obj
+
+class CmdNewSketch:
+    def Activated(self):
+        FreeCADGui.addModule("Ui.CmdSketcher")
+        FreeCADGui.doCommand("Ui.CmdSketcher.newSketch()")
+
+    def IsActive(self):
+        if FreeCAD.ActiveDocument:
+            return True
+        return False
         
-        self.appendToolbar(QT_TRANSLATE_NOOP('Rocket', 'Rocket'),
-                        ['Rocket_NoseCone', 'Rocket_Transition', 'Rocket_BodyTube', 'Rocket_CenteringRing', 'Rocket_Bulkhead', 'Rocket_Fin', 'Separator', 'Rocket_Calculators', 'Separator', 'Rocket_NewSketch', 'Sketcher_EditSketch'])
-
-        self.appendMenu(QT_TRANSLATE_NOOP('Rocket', 'Rocket'), 
-                        ['Rocket_NoseCone', 'Rocket_Transition', 'Rocket_BodyTube', 'Rocket_CenteringRing', 'Rocket_Bulkhead', 'Rocket_Fin', 'Separator'])
-        self.appendMenu([QT_TRANSLATE_NOOP("Rocket", "Rocket"),
-                         QT_TRANSLATE_NOOP("Rocket", "Calculators")],
-                        ['Rocket_CalcBlackPowder', 'Rocket_CalcParachute', 'Rocket_CalcThrustToWeight', 'Rocket_CalcVentHoles'])
-
-    def GetClassName(self):
-        return "Gui::PythonWorkbench"
-
-Gui.addWorkbench(RocketWorkbench())
+    def GetResources(self):
+        return {'MenuText': translate("Rocket", 'Create sketch'),
+                'ToolTip': translate("Rocket", 'Create a new sketch'),
+                'Pixmap': "Sketcher_NewSketch" } #FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Calculator.svg"}

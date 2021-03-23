@@ -82,6 +82,9 @@ class ShapeFin(ShapeComponent):
         obj.addProperty('App::PropertyLength', 'TtwHeight', 'Fin', translate('App::Property', 'TTW Height')).TtwHeight = 10.0
         obj.addProperty('App::PropertyLength', 'TtwThickness', 'Fin', translate('App::Property', 'TTW thickness')).TtwThickness = 1.0
 
+        if not hasattr(obj, "Profile"):
+            obj.addProperty('App::PropertyLink', 'Profile', 'Fin', translate('App::Property', 'Custom fin sketch')).Profile = None
+
         obj.addProperty('Part::PropertyPartShape', 'Shape', 'Fin', translate('App::Property', 'Shape of the fin'))
 
     def execute(self, obj):
