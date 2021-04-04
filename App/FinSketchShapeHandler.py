@@ -26,14 +26,14 @@ __url__ = "https://www.davesrocketshop.com"
     
 import FreeCAD
 import Part
-import math
 
-from App.Constants import FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE, \
+from DraftTools import translate
+
+from App.Constants import FIN_CROSS_SQUARE, FIN_CROSS_WEDGE, \
     FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE
 
 from App.FinShapeHandler import FinShapeHandler
-
-CROSS_SECTIONS = 100  # Number of cross sections for the ellipse
+from App.Utilities import _err
 
 class FinSketchShapeHandler(FinShapeHandler):
 
@@ -42,17 +42,17 @@ class FinSketchShapeHandler(FinShapeHandler):
 
     def verifyShape(self, shape):
         if shape is None:
-            print("shape is empty")
+            _err(translate('Rocket', "shape is empty"))
             return False
 
         if issubclass(type(shape), Part.Compound):
-            print("Compound objects not supported")
+            _err(translate('Rocket', "Compound objects not supported"))
             return False
 
         # Verify the shape creates a closed face
         face = Part.Face(shape.Wires)
         if not face.isValid():
-            print("Sketch must create a valid face")
+            _err(translate('Rocket', "Sketch must create a valid face"))
             return False
         return True
 
@@ -76,7 +76,7 @@ class FinSketchShapeHandler(FinShapeHandler):
 
     def _zInVertex(self, z, vertexes, tolerance):
         if len(vertexes) != 2:
-            print("Unable to handle shapes other than lines")
+            _err(translate('Rocket', "Unable to handle shapes other than lines"))
             return False
 
         return self._pointOnLine(z, vertexes[0].Point.z - tolerance, vertexes[1].Point.z + tolerance) or \
@@ -178,15 +178,19 @@ class FinSketchShapeHandler(FinShapeHandler):
         return profiles
 
     def _makeChord(self, chord, rootLength2):
+        height = float(chord[0].z)
+
         if len(chord) > 1:
             chordLength = float(chord[1].x - chord[0].x)
             offset = float(chord[1].x)
-        else:
+            profile = self._makeChordProfile(self._obj.RootCrossSection, offset, chordLength, float(self._obj.RootThickness), height, self._obj.RootPerCent, float(self._obj.RootLength1), rootLength2)
+        elif self._obj.RootCrossSection in [FIN_CROSS_SQUARE, FIN_CROSS_WEDGE, FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE]:
             chordLength = 1e-6  # Very small chord length
             offset = float(chord[0].x)
+            profile = self._makeChordProfile(self._obj.RootCrossSection, offset, chordLength, float(self._obj.RootThickness), height, self._obj.RootPerCent, float(self._obj.RootLength1), rootLength2)
+        else:
+            profile = Part.Vertex(FreeCAD.Vector(float(chord[0].x), 0.0, float(chord[0].z)))
 
-        height = float(chord[0].z)
-        profile = self._makeChordProfile(self._obj.RootCrossSection, offset, chordLength, float(self._obj.RootThickness), height, self._obj.RootPerCent, float(self._obj.RootLength1), rootLength2)
         return profile
 
     def straightProfiles(self, shape):
@@ -214,7 +218,6 @@ class FinSketchShapeHandler(FinShapeHandler):
         # The mask will be the fin outline, scaled very slightly
         shape = self.getFaceScaled()
         tolerance = shape.getTolerance(1, Part.Shape)
-        # tolerance = 1
 
         half = float(self._obj.RootThickness) / 2.0
 
