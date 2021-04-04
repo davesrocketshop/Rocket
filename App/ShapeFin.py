@@ -54,8 +54,8 @@ class ShapeFin(ShapeComponent):
             FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE]
         obj.RootCrossSection = FIN_CROSS_SQUARE
 
-        obj.addProperty('App::PropertyLength', 'RootChord', 'Fin', translate('App::Property', 'Length of the base of the fin')).RootChord = 10.0
-        obj.addProperty('App::PropertyLength', 'RootThickness', 'Fin', translate('App::Property', 'Fin root thickness')).RootThickness = 2.0
+        obj.addProperty('App::PropertyLength', 'RootChord', 'Fin', translate('App::Property', 'Length of the base of the fin')).RootChord = 57.15
+        obj.addProperty('App::PropertyLength', 'RootThickness', 'Fin', translate('App::Property', 'Fin root thickness')).RootThickness = 1.4
         obj.addProperty('App::PropertyBool', 'RootPerCent', 'Fin', translate('App::Property', 'Root chord lengths are percentages')).RootPerCent = True
         obj.addProperty('App::PropertyLength', 'RootLength1', 'Fin', translate('App::Property', 'Root chord length 1')).RootLength1 = 20.0
         obj.addProperty('App::PropertyLength', 'RootLength2', 'Fin', translate('App::Property', 'Root chord length 2')).RootLength2 = 80.0
@@ -65,15 +65,15 @@ class ShapeFin(ShapeComponent):
             FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE]
         obj.TipCrossSection = FIN_CROSS_SAME
 
-        obj.addProperty('App::PropertyLength', 'TipChord', 'Fin', translate('App::Property', 'Length of the tip of the fin')).TipChord = 5.0
-        obj.addProperty('App::PropertyLength', 'TipThickness', 'Fin', translate('App::Property', 'Fin tip thickness')).TipThickness = 2.0
+        obj.addProperty('App::PropertyLength', 'TipChord', 'Fin', translate('App::Property', 'Length of the tip of the fin')).TipChord = 20.48
+        obj.addProperty('App::PropertyLength', 'TipThickness', 'Fin', translate('App::Property', 'Fin tip thickness')).TipThickness = 1.4
         obj.addProperty('App::PropertyBool', 'TipPerCent', 'Fin', translate('App::Property', 'Tip chord lengths are percentages')).TipPerCent = True
         obj.addProperty('App::PropertyLength', 'TipThickness', 'Fin', translate('App::Property', 'Fin tip thickness')).TipThickness = 2.0
         obj.addProperty('App::PropertyLength', 'TipLength1', 'Fin', translate('App::Property', 'Tip chord length 1')).TipLength1 = 20.0
         obj.addProperty('App::PropertyLength', 'TipLength2', 'Fin', translate('App::Property', 'Tip chord length 2')).TipLength2 = 80.0
 
-        obj.addProperty('App::PropertyLength', 'Height', 'Fin', translate('App::Property', 'Fin semi-span')).Height = 10.0
-        obj.addProperty('App::PropertyDistance', 'SweepLength', 'Fin', translate('App::Property', 'Sweep length')).SweepLength = 3.0 # Must be distance since it can be negative
+        obj.addProperty('App::PropertyLength', 'Height', 'Fin', translate('App::Property', 'Fin semi-span')).Height = 40.64
+        obj.addProperty('App::PropertyDistance', 'SweepLength', 'Fin', translate('App::Property', 'Sweep length')).SweepLength = 69.86 # Must be distance since it can be negative
         obj.addProperty('App::PropertyAngle', 'SweepAngle', 'Fin', translate('App::Property', 'Sweep angle')).SweepAngle = 0.0
 
         obj.addProperty('App::PropertyBool', 'Ttw', 'Fin', translate('App::Property', 'Through the wall (TTW) tab')).Ttw = False
