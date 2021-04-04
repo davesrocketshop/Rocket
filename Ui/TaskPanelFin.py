@@ -42,7 +42,7 @@ from App.Utilities import _err, _toFloat
 
 class _FinDialog(QDialog):
 
-    def __init__(self, parent=None):
+    def __init__(self, sketch, parent=None):
         super(_FinDialog, self).__init__(parent)
 
         ui = FreeCADGui.UiLoader()
@@ -54,11 +54,13 @@ class _FinDialog(QDialog):
         # Select the type of nose cone
         self.finTypeLabel = QtGui.QLabel(translate('Rocket', "Fin type"), self)
 
-        self.finTypes = (FIN_TYPE_TRAPEZOID, 
-            FIN_TYPE_ELLIPSE, 
-            #FIN_TYPE_TUBE, 
-            FIN_TYPE_SKETCH
-            )
+        if not sketch:
+            self.finTypes = (FIN_TYPE_TRAPEZOID, 
+                FIN_TYPE_ELLIPSE, 
+                #FIN_TYPE_TUBE, 
+                )
+        else:
+            self.finTypes = ( FIN_TYPE_SKETCH, )
         self.finTypesCombo = QtGui.QComboBox(self)
         self.finTypesCombo.addItems(self.finTypes)
 
@@ -288,7 +290,7 @@ class TaskPanelFin:
     def __init__(self,obj,mode):
         self.obj = obj
         
-        self.form = _FinDialog()
+        self.form = _FinDialog(self.obj.FinType == FIN_TYPE_SKETCH)
         self.form.setWindowIcon(QtGui.QIcon(FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Fin.svg"))
         
         self.form.finTypesCombo.currentTextChanged.connect(self.onFinTypes)
@@ -486,7 +488,7 @@ class TaskPanelFin:
     def _enableFinTypeSketch(self):
         old = self.obj.RootCrossSection # This must be saved and restored
         self.form.rootCrossSectionsCombo.clear()
-        self.form.rootCrossSectionsCombo.addItems(self.form.rootEllipseCrossSections)
+        self.form.rootCrossSectionsCombo.addItems(self.form.rootCrossSections)
         self.obj.RootCrossSection = old
 
         # if self.obj.RootCrossSection in [FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE]:
@@ -512,8 +514,6 @@ class TaskPanelFin:
 
         self.form.rootChordLabel.setHidden(True)
         self.form.rootChordInput.setHidden(True)
-        self.form.rootLength2Label.setHidden(True)
-        self.form.rootLength2Input.setHidden(True)
 
         self.form.tipLabel.setHidden(True)
         self.form.tipCrossSectionLabel.setHidden(True)

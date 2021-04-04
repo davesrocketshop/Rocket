@@ -44,6 +44,7 @@ def makeFin(name):
         if sketch.isDerivedFrom('Sketcher::SketchObject'):
             obj.FinType = FIN_TYPE_SKETCH
             obj.Profile = sketch
+            sketch.Visibility = False
 
     if FreeCAD.GuiUp:
         ViewProviderFin(obj.ViewObject)

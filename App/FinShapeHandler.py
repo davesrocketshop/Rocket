@@ -275,26 +275,26 @@ class FinShapeHandler:
         if not self.isValidShape():
             return
 
-        try:
-            profiles = self._makeProfiles()
-            if profiles is not None and len(profiles) > 0:
-                if isinstance(profiles[0], list):
-                    loft = None
-                    for profile in profiles:
-                        if loft is None:
-                            loft = Part.makeLoft(profile, True)
-                        else:
-                            loft = loft.fuse(Part.makeLoft(profile, True))
-                else:
-                    loft = Part.makeLoft(profiles, True)
+        # try:
+        profiles = self._makeProfiles()
+        if profiles is not None and len(profiles) > 0:
+            if isinstance(profiles[0], list):
+                loft = None
+                for profile in profiles:
+                    if loft is None:
+                        loft = Part.makeLoft(profile, True)
+                    else:
+                        loft = loft.fuse(Part.makeLoft(profile, True))
+            else:
+                loft = Part.makeLoft(profiles, True)
 
-                if loft is not None:
-                    if self._obj.Ttw:
-                        ttw = self._makeTtw()
-                        if ttw:
-                            loft = loft.fuse(ttw)
-                    self._obj.Shape = loft
-            self._obj.Placement = self._placement
-        except (ZeroDivisionError, Part.OCCError):
-            _err(translate('Rocket', "Fin parameters produce an invalid shape"))
-            return
+            if loft is not None:
+                if self._obj.Ttw:
+                    ttw = self._makeTtw()
+                    if ttw:
+                        loft = loft.fuse(ttw)
+                self._obj.Shape = loft
+        self._obj.Placement = self._placement
+        # except (ZeroDivisionError, Part.OCCError):
+        #     _err(translate('Rocket', "Fin parameters produce an invalid shape"))
+        #     return
