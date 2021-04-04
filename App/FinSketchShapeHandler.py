@@ -84,10 +84,10 @@ class FinSketchShapeHandler(FinShapeHandler):
 
     def findChords(self, shape):
         zArray = []
-        if self.isCurved(shape):
-            print("Curved shape")
-        else:
-            print("Straight edged shape")
+        # if self.isCurved(shape):
+        #     print("Curved shape")
+        # else:
+        #     print("Straight edged shape")
 
         tolerance = shape.getTolerance(1, Part.Shape) # Maximum tolerance
         for v in shape.Vertexes:
@@ -149,6 +149,19 @@ class FinSketchShapeHandler(FinShapeHandler):
         else:
             return Part.Wire(shape)
 
+    def getFaceScaled(self):
+        profile = self._obj.Profile
+        shape = profile.Shape
+
+        if not self.verifyShape(shape):
+            return None
+        else:
+            box = profile.Shape.BoundBox
+            center = FreeCAD.Vector(box.XLength / 2.0, 0, box.ZLength / 2.0)
+            shape = Part.Shape(shape).scaled(1.001, center) # Very small increase in size to accomodate OpenCascade problems with coincident edges
+
+            return Part.Wire(shape)
+
     def curvedProfiles(self, shape):
         halfThickness = float(self._obj.RootThickness) / 2.0
 
@@ -166,9 +179,7 @@ class FinSketchShapeHandler(FinShapeHandler):
 
     def _makeChord(self, chord, rootLength2):
         if len(chord) > 1:
-            print(chord)
             chordLength = float(chord[1].x - chord[0].x)
-            print("Chord length %f" % chordLength)
             offset = float(chord[1].x)
         else:
             chordLength = 1e-6  # Very small chord length
@@ -181,10 +192,7 @@ class FinSketchShapeHandler(FinShapeHandler):
     def straightProfiles(self, shape):
         chords = self.findChords(shape)
         profiles = []
-        # if self._obj.RootPerCent:
         rootLength2 = float(self._obj.RootLength2)
-        # else:
-        #     rootLength2 = float(self._obj.RootChord) - float(self._obj.RootLength2)
 
         for index in range(len(chords) - 1):
             profile1 = self._makeChord(chords[index], rootLength2)
@@ -201,3 +209,17 @@ class FinSketchShapeHandler(FinShapeHandler):
         if self.isCurved(shape):
             return self.curvedProfiles(shape)
         return self.straightProfiles(shape)
+
+    def _makeCommon(self):
+        # The mask will be the fin outline, scaled very slightly
+        shape = self.getFaceScaled()
+        tolerance = shape.getTolerance(1, Part.Shape)
+        # tolerance = 1
+
+        half = float(self._obj.RootThickness) / 2.0
+
+        face = Part.Shape(shape) # Make copies
+        face.translate(FreeCAD.Vector(0, -half - tolerance, 0))
+
+        mask = Part.Face(face).extrude(FreeCAD.Vector(0, float(self._obj.RootThickness) + (2.0 * tolerance), 0))
+        return mask
