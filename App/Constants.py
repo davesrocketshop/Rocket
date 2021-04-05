@@ -60,6 +60,7 @@ FIN_TYPE_TUBE = "tube"
 FIN_TYPE_SKETCH = "custom"
 
 # Fin cross sections
+FIN_CROSS_SAME = "Same as root"
 FIN_CROSS_SQUARE = "square"
 FIN_CROSS_ROUND = "round"
 FIN_CROSS_AIRFOIL = "airfoil"

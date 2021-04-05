@@ -29,12 +29,14 @@ import FreeCAD
 from App.ShapeComponent import ShapeLocation
 from App.Constants import FEATURE_FIN
 
-from App.Constants import FIN_TYPE_TRAPEZOID
-from App.Constants import FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE, \
+from App.Constants import FIN_TYPE_TRAPEZOID, FIN_TYPE_ELLIPSE, FIN_TYPE_SKETCH
+from App.Constants import FIN_CROSS_SAME, FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE, \
     FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE
 from App.Constants import LOCATION_PARENT_TOP, LOCATION_PARENT_MIDDLE, LOCATION_PARENT_BOTTOM, LOCATION_BASE
 
 from App.FinTrapezoidShapeHandler import FinTrapezoidShapeHandler
+from App.FinEllipseShapeHandler import FinEllipseShapeHandler
+from App.FinSketchShapeHandler import FinSketchShapeHandler
 
 from DraftTools import translate
 
@@ -47,9 +49,9 @@ class ShapeFin(ShapeLocation):
         if not hasattr(obj,"FinType"):
             obj.addProperty('App::PropertyEnumeration', 'FinType', 'Fin', translate('App::Property', 'Fin type'))
         obj.FinType = [FIN_TYPE_TRAPEZOID, 
-                # FIN_TYPE_ELLIPSE, 
+                FIN_TYPE_ELLIPSE, 
                 # FIN_TYPE_TUBE, 
-                # FIN_TYPE_SKETCH
+                FIN_TYPE_SKETCH
                 ]
         obj.FinType = FIN_TYPE_TRAPEZOID
 
@@ -72,9 +74,9 @@ class ShapeFin(ShapeLocation):
 
         if not hasattr(obj,"TipCrossSection"):
             obj.addProperty('App::PropertyEnumeration', 'TipCrossSection', 'Fin', translate('App::Property', 'Fin tip cross section'))
-        obj.TipCrossSection = [FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE, 
+        obj.TipCrossSection = [FIN_CROSS_SAME, FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE, 
             FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE]
-        obj.TipCrossSection = FIN_CROSS_AIRFOIL
+        obj.TipCrossSection = FIN_CROSS_SAME
 
         if not hasattr(obj,"TipChord"):
             obj.addProperty('App::PropertyLength', 'TipChord', 'Fin', translate('App::Property', 'Length of the tip of the fin')).TipChord = 30.48
@@ -119,6 +121,9 @@ class ShapeFin(ShapeLocation):
             obj.addProperty('App::PropertyLength', 'ParentRadius', 'Fin', translate('App::Property', 'Parent radius')).ParentRadius = 20.0
         obj.setEditorMode('ParentRadius', 2)  # hide
 
+        if not hasattr(obj, "Profile"):
+            obj.addProperty('App::PropertyLink', 'Profile', 'Fin', translate('App::Property', 'Custom fin sketch')).Profile = None
+
         obj.addProperty('Part::PropertyPartShape', 'Shape', 'Fin', translate('App::Property', 'Shape of the fin'))
 
     def setParent(self, obj):
@@ -153,6 +158,10 @@ class ShapeFin(ShapeLocation):
 
         if obj.FinType == FIN_TYPE_TRAPEZOID:
             shape = FinTrapezoidShapeHandler(obj)
+        elif obj.FinType == FIN_TYPE_ELLIPSE:
+            shape = FinEllipseShapeHandler(obj)
+        elif obj.FinType == FIN_TYPE_SKETCH:
+            shape = FinSketchShapeHandler(obj)
 
         if shape is not None:
             shape.draw()

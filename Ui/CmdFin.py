@@ -27,6 +27,7 @@ __url__ = "https://www.davesrocketshop.com"
 import FreeCAD
 import FreeCADGui
 
+from App.Constants import FIN_TYPE_SKETCH
 from App.ShapeFin import ShapeFin
 from Ui.ViewFin import ViewProviderFin
 from Ui.CmdStage import addToStage
@@ -37,6 +38,14 @@ def makeFin(name):
     '''makeFin(name): makes a Fin'''
     obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
     ShapeFin(obj)
+
+    # See if we have a sketch selected. If so, this is a custom fin
+    for sketch in FreeCADGui.Selection.getSelection():
+        if sketch.isDerivedFrom('Sketcher::SketchObject'):
+            obj.FinType = FIN_TYPE_SKETCH
+            obj.Profile = sketch
+            sketch.Visibility = False
+
     if FreeCAD.GuiUp:
         ViewProviderFin(obj.ViewObject)
 

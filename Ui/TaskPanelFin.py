@@ -37,15 +37,15 @@ from DraftTools import translate
 
 from Ui.TaskPanelLocation import TaskPanelLocation
 
-from App.Constants import FIN_TYPE_TRAPEZOID
-from App.Constants import FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE, \
+from App.Constants import FIN_TYPE_TRAPEZOID, FIN_TYPE_ELLIPSE, FIN_TYPE_SKETCH
+from App.Constants import FIN_CROSS_SAME, FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE, \
     FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE
 
 from App.Utilities import _err, _toFloat
 
 class _FinDialog(QDialog):
 
-    def __init__(self, parent=None):
+    def __init__(self, sketch, parent=None):
         super(_FinDialog, self).__init__(parent)
 
         # define our window
@@ -62,21 +62,23 @@ class _FinDialog(QDialog):
         layout.addWidget(self.tabWidget)
         self.setLayout(layout)
 
-        self.setTabGeneral()
+        self.setTabGeneral(sketch)
         self.setTabTtw()
 
-    def setTabGeneral(self):
+    def setTabGeneral(self, sketch):
 
         ui = FreeCADGui.UiLoader()
 
         # Select the type of fin
         self.finTypeLabel = QtGui.QLabel(translate('Rocket', "Fin type"), self)
 
-        self.finTypes = (FIN_TYPE_TRAPEZOID, 
-            #FIN_TYPE_ELLIPSE, 
-            #FIN_TYPE_TUBE, 
-            #FIN_TYPE_SKETCH
-            )
+        if not sketch:
+            self.finTypes = (FIN_TYPE_TRAPEZOID, 
+                FIN_TYPE_ELLIPSE, 
+                #FIN_TYPE_TUBE, 
+                )
+        else:
+            self.finTypes = ( FIN_TYPE_SKETCH, )
         self.finTypesCombo = QtGui.QComboBox(self)
         self.finTypesCombo.addItems(self.finTypes)
 
@@ -104,6 +106,8 @@ class _FinDialog(QDialog):
 
         self.rootCrossSections = (FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE,
             FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE)
+        self.rootEllipseCrossSections = (FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE,
+            FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LETE)
         self.rootCrossSectionsCombo = QtGui.QComboBox(self)
         self.rootCrossSectionsCombo.addItems(self.rootCrossSections)
 
@@ -142,7 +146,7 @@ class _FinDialog(QDialog):
         # Select the type of cross section
         self.tipCrossSectionLabel = QtGui.QLabel(translate('Rocket', "Cross Section"), self)
 
-        self.tipCrossSections = (FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE,
+        self.tipCrossSections = (FIN_CROSS_SAME, FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE,
             FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE)
         self.tipCrossSectionsCombo = QtGui.QComboBox(self)
         self.tipCrossSectionsCombo.addItems(self.tipCrossSections)
@@ -362,7 +366,7 @@ class TaskPanelFin(QObject):
 
         self._obj = obj
         
-        self._finForm = _FinDialog()
+        self._finForm = _FinDialog(self._obj.FinType == FIN_TYPE_SKETCH)
 
         self._location = TaskPanelLocation(obj)
         self._locationForm = self._location.getForm()
@@ -475,7 +479,7 @@ class TaskPanelFin(QObject):
 
         self._setFinSetState()
         self._enableRootLengths()
-        self._enableTipLengths()
+        self._enableFinTypes() # This calls _enableTipLengths()
         self._enableRootPercent()
         self._enableTipPercent()
         self._sweepAngleFromLength(self._obj.SweepLength)
@@ -520,6 +524,152 @@ class TaskPanelFin(QObject):
         self.redraw()
         self.setEdited()
 
+    def _enableFinTypes(self):
+        if self._obj.FinType == FIN_TYPE_TRAPEZOID:
+            self._enableFinTypeTrapezoid()
+        elif self._obj.FinType == FIN_TYPE_ELLIPSE:
+            self._enableFinTypeEllipse()
+        else:
+            self._enableFinTypeSketch()
+
+
+    def _enableFinTypeTrapezoid(self):
+        old = self._obj.RootCrossSection # This must be saved and restored
+        self._finForm.rootCrossSectionsCombo.clear()
+        self._finForm.rootCrossSectionsCombo.addItems(self._finForm.rootCrossSections)
+        self._obj.RootCrossSection = old
+
+        self._finForm.rootCrossSectionsCombo.setCurrentText(self._obj.RootCrossSection)
+
+        self._finForm.heightLabel.setHidden(False)
+        self._finForm.heightInput.setHidden(False)
+        self._finForm.sweepLengthInput.setEnabled(True)
+        self._finForm.sweepAngleInput.setEnabled(True)
+        self._finForm.tipCrossSectionsCombo.setEnabled(True)
+        self._finForm.tipChordInput.setEnabled(True)
+        self._finForm.tipThicknessInput.setEnabled(True)
+
+        self._finForm.sweepLengthLabel.setHidden(False)
+        self._finForm.sweepLengthInput.setHidden(False)
+        self._finForm.sweepAngleLabel.setHidden(False)
+        self._finForm.sweepAngleInput.setHidden(False)
+
+        self._finForm.rootChordLabel.setHidden(False)
+        self._finForm.rootChordInput.setHidden(False)
+        self._finForm.rootLength2Label.setHidden(False)
+        self._finForm.rootLength2Input.setHidden(False)
+
+        # self._finForm.tipLabel.setHidden(False)
+        self._finForm.tipCrossSectionLabel.setHidden(False)
+        self._finForm.tipCrossSectionsCombo.setHidden(False)
+        self._finForm.tipChordLabel.setHidden(False)
+        self._finForm.tipChordInput.setHidden(False)
+        self._finForm.tipThicknessLabel.setHidden(False)
+        self._finForm.tipThicknessInput.setHidden(False)
+        self._finForm.tipPerCentLabel.setHidden(False)
+        self._finForm.tipPerCentCheckbox.setHidden(False)
+        self._finForm.tipLength1Label.setHidden(False)
+        self._finForm.tipLength1Input.setHidden(False)
+        self._finForm.tipLength2Label.setHidden(False)
+        self._finForm.tipLength2Input.setHidden(False)
+
+        self._enableTipLengths()
+
+    def _enableFinTypeEllipse(self):
+        old = self._obj.RootCrossSection # This must be saved and restored
+        self._finForm.rootCrossSectionsCombo.clear()
+        self._finForm.rootCrossSectionsCombo.addItems(self._finForm.rootEllipseCrossSections)
+        self._obj.RootCrossSection = old
+
+        if self._obj.RootCrossSection in [FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE]:
+            self._obj.RootCrossSection = FIN_CROSS_TAPER_LETE
+        self._finForm.rootCrossSectionsCombo.setCurrentText(self._obj.RootCrossSection)
+
+        self._finForm.heightLabel.setHidden(False)
+        self._finForm.heightInput.setHidden(False)
+        self._finForm.sweepLengthInput.setEnabled(False)
+        self._finForm.sweepAngleInput.setEnabled(False)
+        self._finForm.tipCrossSectionsCombo.setEnabled(False)
+        self._finForm.tipChordInput.setEnabled(False)
+        self._finForm.tipThicknessInput.setEnabled(False)
+        
+        self._finForm.tipPerCentCheckbox.setEnabled(False)
+        self._finForm.tipLength1Input.setEnabled(False)
+        self._finForm.tipLength2Input.setEnabled(False)
+        
+        self._finForm.sweepLengthLabel.setHidden(True)
+        self._finForm.sweepLengthInput.setHidden(True)
+        self._finForm.sweepAngleLabel.setHidden(True)
+        self._finForm.sweepAngleInput.setHidden(True)
+
+        self._finForm.rootChordLabel.setHidden(False)
+        self._finForm.rootChordInput.setHidden(False)
+        self._finForm.rootLength2Label.setHidden(True)
+        self._finForm.rootLength2Input.setHidden(True)
+
+        # self._finForm.tipLabel.setHidden(True)
+        self._finForm.tipCrossSectionLabel.setHidden(True)
+        self._finForm.tipCrossSectionsCombo.setHidden(True)
+        self._finForm.tipChordLabel.setHidden(True)
+        self._finForm.tipChordInput.setHidden(True)
+        self._finForm.tipThicknessLabel.setHidden(True)
+        self._finForm.tipThicknessInput.setHidden(True)
+        self._finForm.tipPerCentLabel.setHidden(True)
+        self._finForm.tipPerCentCheckbox.setHidden(True)
+        self._finForm.tipLength1Label.setHidden(True)
+        self._finForm.tipLength1Input.setHidden(True)
+        self._finForm.tipLength2Label.setHidden(True)
+        self._finForm.tipLength2Input.setHidden(True)
+
+    def _enableFinTypeSketch(self):
+        old = self._obj.RootCrossSection # This must be saved and restored
+        self._finForm.rootCrossSectionsCombo.clear()
+        self._finForm.rootCrossSectionsCombo.addItems(self._finForm.rootCrossSections)
+        self._obj.RootCrossSection = old
+
+        # if self._obj.RootCrossSection in [FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE]:
+        #     self._obj.RootCrossSection = FIN_CROSS_TAPER_LETE
+        self._finForm.rootCrossSectionsCombo.setCurrentText(self._obj.RootCrossSection)
+
+        self._finForm.heightLabel.setHidden(True)
+        self._finForm.heightInput.setHidden(True)
+        self._finForm.sweepLengthInput.setEnabled(False)
+        self._finForm.sweepAngleInput.setEnabled(False)
+        self._finForm.tipCrossSectionsCombo.setEnabled(False)
+        self._finForm.tipChordInput.setEnabled(False)
+        self._finForm.tipThicknessInput.setEnabled(False)
+        
+        self._finForm.tipPerCentCheckbox.setEnabled(False)
+        self._finForm.tipLength1Input.setEnabled(False)
+        self._finForm.tipLength2Input.setEnabled(False)
+        
+        self._finForm.sweepLengthLabel.setHidden(True)
+        self._finForm.sweepLengthInput.setHidden(True)
+        self._finForm.sweepAngleLabel.setHidden(True)
+        self._finForm.sweepAngleInput.setHidden(True)
+
+        self._finForm.rootChordLabel.setHidden(True)
+        self._finForm.rootChordInput.setHidden(True)
+
+        # self._finForm.tipLabel.setHidden(True)
+        self._finForm.tipCrossSectionLabel.setHidden(True)
+        self._finForm.tipCrossSectionsCombo.setHidden(True)
+        self._finForm.tipChordLabel.setHidden(True)
+        self._finForm.tipChordInput.setHidden(True)
+        self._finForm.tipThicknessLabel.setHidden(True)
+        self._finForm.tipThicknessInput.setHidden(True)
+        self._finForm.tipPerCentLabel.setHidden(True)
+        self._finForm.tipPerCentCheckbox.setHidden(True)
+        self._finForm.tipLength1Label.setHidden(True)
+        self._finForm.tipLength1Input.setHidden(True)
+        self._finForm.tipLength2Label.setHidden(True)
+        self._finForm.tipLength2Input.setHidden(True)
+        
+    # def onFinTypes(self, value):
+    #     self._obj.FinType = value
+    #     self._enableFinTypes()
+    #     self._obj.Proxy.execute(self._obj)
+
     def _enableRootLengths(self):
         value = self._obj.RootCrossSection
         if value in [FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE]:
@@ -535,25 +685,52 @@ class TaskPanelFin(QObject):
             self._finForm.rootLength2Input.setEnabled(False)
 
     def _enableTipLengths(self):
-        value = self._obj.TipCrossSection
-        if value in [FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE]:
-            self._finForm.tipPerCentCheckbox.setEnabled(True)
-            self._finForm.tipLength1Input.setEnabled(True)
-            if value == FIN_CROSS_TAPER_LETE:
-                self._finForm.tipLength2Input.setEnabled(True)
+        #     value = self._obj.TipCrossSection
+        #     if value in [FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE]:
+        #         self._finForm.tipPerCentCheckbox.setEnabled(True)
+        #         self._finForm.tipLength1Input.setEnabled(True)
+        #         if value == FIN_CROSS_TAPER_LETE:
+        #             self._finForm.tipLength2Input.setEnabled(True)
+        #         else:
+        #             self._finForm.tipLength2Input.setEnabled(False)
+        #     else:
+        #         self._finForm.tipPerCentCheckbox.setEnabled(False)
+        #         self._finForm.tipLength1Input.setEnabled(False)
+        #         self._finForm.tipLength2Input.setEnabled(False)
+            
+        # def onRootCrossSection(self, value):
+        #     self._obj.RootCrossSection = value
+        #     self._enableRootLengths()
+
+        #     self.redraw()
+        #     self.setEdited()
+        if self._obj.FinType == FIN_TYPE_TRAPEZOID:
+            value = self._obj.TipCrossSection
+            if value == FIN_CROSS_SAME:
+                value = self._obj.RootCrossSection
+            if value in [FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE]:
+                self._finForm.tipPerCentCheckbox.setEnabled(True)
+                self._finForm.tipLength1Input.setEnabled(True)
+                if value == FIN_CROSS_TAPER_LETE:
+                    self._finForm.tipLength2Input.setEnabled(True)
+                else:
+                    self._finForm.tipLength2Input.setEnabled(False)
             else:
+                self._finForm.tipPerCentCheckbox.setEnabled(False)
+                self._finForm.tipLength1Input.setEnabled(False)
                 self._finForm.tipLength2Input.setEnabled(False)
-        else:
-            self._finForm.tipPerCentCheckbox.setEnabled(False)
-            self._finForm.tipLength1Input.setEnabled(False)
-            self._finForm.tipLength2Input.setEnabled(False)
         
     def onRootCrossSection(self, value):
+        if len(value) <= 0:
+            return
+            
         self._obj.RootCrossSection = value
         self._enableRootLengths()
 
-        self.redraw()
-        self.setEdited()
+        if self._obj.TipCrossSection == FIN_CROSS_SAME:
+            self._enableTipLengths()
+
+        self._obj.Proxy.execute(self._obj)
         
     def onRootChord(self, value):
         try:

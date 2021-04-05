@@ -18,47 +18,37 @@
 # *   USA                                                                   *
 # *                                                                         *
 # ***************************************************************************
-"""Class for drawing fins"""
+"""Class for calculatingparachute size"""
 
-__title__ = "FreeCAD Fin View Provider"
+__title__ = "FreeCAD Parachute Calculator"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
     
 import FreeCAD
 import FreeCADGui
 
-from Ui.TaskPanelFin import TaskPanelFin
+from DraftTools import translate
 
-class ViewProviderFin:
+def newSketch():
+    obj = FreeCAD.ActiveDocument.addObject("Sketcher::SketchObject","Sketch")
+    # Select the XZ plane for consistency
+    obj.Placement = FreeCAD.Placement(FreeCAD.Vector(0, 0, 0), FreeCAD.Vector(1, 0, 0), 90)
+    obj.MapMode = "Deactivated"
+    FreeCADGui.activeDocument().setEdit(obj.Name,0)
 
-    def __init__(self, vobj):
-        vobj.Proxy = self
+    return obj
+
+class CmdNewSketch:
+    def Activated(self):
+        FreeCADGui.addModule("Ui.CmdSketcher")
+        FreeCADGui.doCommand("Ui.CmdSketcher.newSketch()")
+
+    def IsActive(self):
+        if FreeCAD.ActiveDocument:
+            return True
+        return False
         
-    def getIcon(self):
-        return FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Fin.svg"
-
-    def attach(self, vobj):
-        self.ViewObject = vobj
-        self.Object = vobj.Object
-
-    def setEdit(self, vobj, mode):
-        taskd = TaskPanelFin(self.Object,mode)
-        taskd.obj = vobj.Object
-        taskd.update()
-        FreeCADGui.Control.showDialog(taskd)
-        return True
-
-    def unsetEdit(self, vobj, mode):
-        FreeCADGui.Control.closeDialog()
-        return
-
-    def claimChildren(self):
-        if hasattr(self.Object, "Profile"):
-            return [self.Object.Profile]
-        return None
-
-    def __getstate__(self):
-        return None
-
-    def __setstate__(self, state):
-        return None
+    def GetResources(self):
+        return {'MenuText': translate("Rocket", 'Create sketch'),
+                'ToolTip': translate("Rocket", 'Create a new sketch'),
+                'Pixmap': "Sketcher_NewSketch" } #FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Calculator.svg"}
