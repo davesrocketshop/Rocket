@@ -271,8 +271,43 @@ class FinShapeHandler:
         return profiles
 
     def _makeCommon(self):
-        # Override this id we have a "masking" shape
+        # Override this if we have a "masking" shape
         return None
+
+    def _drawFin(self):
+        profiles = self._makeProfiles()
+        if profiles is not None and len(profiles) > 0:
+            if isinstance(profiles[0], list):
+                loft = None
+                for profile in profiles:
+                    if loft is None:
+                        loft = Part.makeLoft(profile, True)
+                    else:
+                        loft = loft.fuse(Part.makeLoft(profile, True))
+            else:
+                loft = Part.makeLoft(profiles, True)
+
+            if loft is not None:
+                if self._obj.Ttw:
+                    ttw = self._makeTtw()
+                    if ttw:
+                        loft = loft.fuse(ttw)
+                mask = self._makeCommon()
+                if mask is not None:
+                    loft = loft.common(mask)
+
+        return loft
+
+    def _drawFinSet(self):
+        fins = []
+        base = self._drawFin()
+        for i in range(self._obj.FinCount):
+            fin = Part.Shape(base) # Create a copy
+            fin.translate(FreeCAD.Vector(0,0,self._obj.ParentRadius))
+            fin.rotate(FreeCAD.Vector(0, 0, 0), FreeCAD.Vector(1,0,0), i * float(self._obj.FinSpacing))
+            fins.append(fin)
+
+        return Part.makeCompound(fins)
 
     def draw(self):
         
@@ -280,29 +315,18 @@ class FinShapeHandler:
             return
 
         try:
-            profiles = self._makeProfiles()
-            if profiles is not None and len(profiles) > 0:
-                if isinstance(profiles[0], list):
-                    loft = None
-                    for profile in profiles:
-                        if loft is None:
-                            loft = Part.makeLoft(profile, True)
-                        else:
-                            loft = loft.fuse(Part.makeLoft(profile, True))
-                else:
-                    loft = Part.makeLoft(profiles, True)
+            # import cProfile
+            # pr = cProfile.Profile()
+            # pr.enable()
 
-                if loft is not None:
-                    if self._obj.Ttw:
-                        ttw = self._makeTtw()
-                        if ttw:
-                            loft = loft.fuse(ttw)
-                    mask = self._makeCommon()
-                    if mask is not None:
-                        loft = loft.common(mask)
-
-                    self._obj.Shape = loft
+            if self._obj.FinSet:
+                self._obj.Shape = self._drawFinSet()
+            else:
+                self._obj.Shape = self._drawFin()
             self._obj.Placement = self._placement
+
+            # pr.disable()
+            # pr.dump_stats("/tmp/profile.cprof")
         except (ZeroDivisionError, Part.OCCError):
             _err(translate('Rocket', "Fin parameters produce an invalid shape"))
             return

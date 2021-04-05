@@ -57,11 +57,6 @@ class FinTrapezoidShapeHandler(FinShapeHandler):
             tipLength2 = float(self._obj.TipChord) - float(self._obj.TipLength2)
         return self._makeChordProfile(crossSection, float(self._obj.RootChord - self._obj.SweepLength), float(self._obj.TipChord), float(self._obj.TipThickness), float(self._obj.Height), self._obj.TipPerCent, float(self._obj.TipLength1), tipLength2)
 
-    def _makeTtw(self):
-        # Create the Ttw tab
-        origin = FreeCAD.Vector(self._obj.RootChord - self._obj.TtwOffset - self._obj.TtwLength, -0.5 * self._obj.TtwThickness, -1.0 * self._obj.TtwHeight)
-        return Part.makeBox(self._obj.TtwLength, self._obj.TtwThickness, self._obj.TtwHeight, origin)
-
     def isValidShape(self):
         # Add error checking here
         if self._obj.Ttw:
@@ -79,47 +74,8 @@ class FinTrapezoidShapeHandler(FinShapeHandler):
                 return False
         return True
 
-    def _drawFin(self):
-        rootProfile = self._makeRootProfile()
-        tipProfile = self._makeTipProfile()
-        if rootProfile is not None and tipProfile is not None:
-            loft = Part.makeLoft([rootProfile, tipProfile], True)
-            if loft is not None:
-                if self._obj.Ttw:
-                    ttw = self._makeTtw()
-                    if ttw:
-                        loft = loft.fuse(ttw)
-        return loft
-
-    def _drawFinSet(self):
-        fins = []
-        for i in range(self._obj.FinCount):
-            fin = self._drawFin()
-            fin.translate(FreeCAD.Vector(0,0,self._obj.ParentRadius))
-            # fin.rotate(FreeCAD.Vector(0, 0, -self._obj.ParentRadius), FreeCAD.Vector(1,0,0), i * float(self._obj.FinSpacing))
-            fin.rotate(FreeCAD.Vector(0, 0, 0), FreeCAD.Vector(1,0,0), i * float(self._obj.FinSpacing))
-            fins.append(fin)
-
-        return Part.makeCompound(fins)
-
-    def draw(self):
-        
-        if not self.isValidShape():
-            return
-
-        try:
-            if self._obj.FinSet:
-                self._obj.Shape = self._drawFinSet()
-            else:
-                self._obj.Shape = self._drawFin()
-            self._obj.Placement = self._placement
-        except (ZeroDivisionError, Part.OCCError):
-            _err(translate('Rocket', "Fin parameters produce an invalid shape"))
-            return
-
-
-    # def _makeProfiles(self):
-    #     profiles = []
-    #     profiles.append(self._makeRootProfile())
-    #     profiles.append(self._makeTipProfile())
-    #     return profiles
+    def _makeProfiles(self):
+        profiles = []
+        profiles.append(self._makeRootProfile())
+        profiles.append(self._makeTipProfile())
+        return profiles
