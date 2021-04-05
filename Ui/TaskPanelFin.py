@@ -405,6 +405,8 @@ class TaskPanelFin(QObject):
         self._finForm.ttwThicknessInput.textEdited.connect(self.onTTWThickness)
 
         self._location.locationChange.connect(self.onLocation)
+
+        self._redrawPending = False
         self.redrawRequired.connect(self.onRedraw, QtCore.Qt.QueuedConnection)
         
         self.update()
@@ -493,7 +495,9 @@ class TaskPanelFin(QObject):
             pass
 
     def redraw(self):
-        self.redrawRequired.emit()
+        if not self._redrawPending:
+            self._redrawPending = True
+            self.redrawRequired.emit()
         
     def onFinTypes(self, value):
         self._obj.FinType = value
@@ -645,7 +649,7 @@ class TaskPanelFin(QObject):
         if self._obj.TipCrossSection == FIN_CROSS_SAME:
             self._enableTipLengths()
 
-        self._obj.Proxy.execute(self._obj)
+        self.redraw()
         
     def onRootChord(self, value):
         try:
@@ -888,6 +892,7 @@ class TaskPanelFin(QObject):
 
     def onRedraw(self):
         self._obj.Proxy.execute(self._obj)
+        self._redrawPending = False
         
     def getStandardButtons(self):
         return int(QtGui.QDialogButtonBox.Ok) | int(QtGui.QDialogButtonBox.Cancel)| int(QtGui.QDialogButtonBox.Apply)
@@ -895,7 +900,7 @@ class TaskPanelFin(QObject):
     def clicked(self,button):
         if button == QtGui.QDialogButtonBox.Apply:
             self.transferTo()
-            self._obj.Proxy.execute(self._obj) 
+            self.redraw()
         
     def update(self):
         'fills the widgets'

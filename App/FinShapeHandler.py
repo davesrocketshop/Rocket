@@ -278,12 +278,12 @@ class FinShapeHandler:
         profiles = self._makeProfiles()
         if profiles is not None and len(profiles) > 0:
             if isinstance(profiles[0], list):
-                loft = None
+                fuseShapes = []
                 for profile in profiles:
-                    if loft is None:
-                        loft = Part.makeLoft(profile, True)
-                    else:
-                        loft = loft.fuse(Part.makeLoft(profile, True))
+                    fuseShapes.append(Part.makeLoft(profile, True))
+
+                # This is significantly faster than the .fuse() operation
+                loft = Part.makeCompound(fuseShapes)
             else:
                 loft = Part.makeLoft(profiles, True)
 
@@ -291,7 +291,8 @@ class FinShapeHandler:
                 if self._obj.Ttw:
                     ttw = self._makeTtw()
                     if ttw:
-                        loft = loft.fuse(ttw)
+                        loft = Part.makeCompound([loft, ttw])
+
                 mask = self._makeCommon()
                 if mask is not None:
                     loft = loft.common(mask)
@@ -315,18 +316,12 @@ class FinShapeHandler:
             return
 
         try:
-            # import cProfile
-            # pr = cProfile.Profile()
-            # pr.enable()
-
             if self._obj.FinSet:
                 self._obj.Shape = self._drawFinSet()
             else:
                 self._obj.Shape = self._drawFin()
             self._obj.Placement = self._placement
 
-            # pr.disable()
-            # pr.dump_stats("/tmp/profile.cprof")
         except (ZeroDivisionError, Part.OCCError):
             _err(translate('Rocket', "Fin parameters produce an invalid shape"))
             return
