@@ -68,7 +68,10 @@ class FinShapeHandler:
             
     def _airfoilY(self, x, maxThickness):
         # NACA symmetrical airfoil https://en.wikipedia.org/wiki/NACA_airfoil
-        y = 5 * maxThickness * ((0.2969 * math.sqrt(x)) - (0.1260 * x) - (0.3516 * x * x) + (0.2843 * x * x * x) - (0.1015 * x * x * x * x))
+        # y = 5 * maxThickness * ((0.2969 * math.sqrt(x)) - (0.1260 * x) - (0.3516 * x * x) + (0.2843 * x * x * x) - (0.1015 * x * x * x * x))
+
+        # Apply Horner's rule
+        y = 5 * maxThickness * (0.2969 * math.sqrt(x) + x * (-0.1260 +  x * (-0.3516 + x * (0.2843 - x * 0.1015))))
         return y
 
     def _airfoilCurve(self, foreX, chord, thickness, height, resolution):
@@ -80,6 +83,13 @@ class FinShapeHandler:
             points.append(FreeCAD.Vector(foreX - (x * chord), y, height))
 
         points.append(FreeCAD.Vector(foreX - chord, 0.0, height))
+
+        # Circle back for the other side of the airfoil
+        for i in range(0, resolution):
+            vector = points[resolution - i]
+            points.append(FreeCAD.Vector(vector.x, -vector.y, vector.z))
+        points.append(FreeCAD.Vector(foreX, 0.0, height))
+
         return points 
 
     def _makeSpline(self, points):
@@ -93,7 +103,6 @@ class FinShapeHandler:
         return value
 
     def _midAftChordLimit(self, chord, value, midChordLimit):
-        # print(" _mid %f, %f, %f, %f, %f" % (chord, value, (value - chord), (chord - value), (chord / 2.0)))
         if midChordLimit and value > (chord / 2.0):
             return chord / 2.0
         return value
@@ -102,18 +111,9 @@ class FinShapeHandler:
         # Standard NACA 4 digit symmetrical airfoil
 
         points = self._airfoilCurve(foreX, chord, thickness, height, 100)
-        splineUpper = self._makeSpline(points)
-        splineLower = self._makeSpline(points)
+        spline = self._makeSpline(points)
 
-        # Mirror the lower spline
-        aTrsf=FreeCAD.Matrix()
-        aTrsf.rotateX(math.pi)
-        if height > 0:
-            aTrsf.move(FreeCAD.Vector(0, 0, 2 * height))
-        mirrorWire = Part.Wire([splineLower.toShape()])
-        mirrorWire.transformShape(aTrsf)
-
-        wire = Part.Wire([mirrorWire, splineUpper.toShape()])
+        wire = Part.Wire([spline.toShape()])
         return wire
 
     def _makeChordProfileWedge(self, foreX, chord, thickness, height):
@@ -191,7 +191,7 @@ class FinShapeHandler:
         chordFore1 = foreX - self._midForeChordLimit(chord, foreChord, midChordLimit)
         chordAft1 = foreX - chord + self._midAftChordLimit(chord, aftChord, midChordLimit)
         chordAft = foreX - chord
-        # print("Profile: (%f, %f, %f, %f)" % (chordFore, chordFore1, chordAft1, chordAft))
+
         halfThickness = thickness / 2
         v1 = FreeCAD.Vector(chordFore, 0.0, height)
         v2 = FreeCAD.Vector(chordFore1, halfThickness, height)
