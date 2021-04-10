@@ -293,9 +293,9 @@ class FinShapeHandler:
                     if ttw:
                         loft = Part.makeCompound([loft, ttw])
 
-                mask = self._makeCommon()
-                if mask is not None:
-                    loft = loft.common(mask)
+                # mask = self._makeCommon()
+                # if mask is not None:
+                #     loft = loft.common(mask)
 
         return loft
 
