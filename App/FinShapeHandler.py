@@ -297,13 +297,14 @@ class FinShapeHandler:
                     loft = Part.makeLoft(profiles, True)
 
                 if loft is not None:
+                    mask = self._makeCommon()
+                    if mask is not None:
+                        loft = loft.common(mask)
+
                     if self._obj.Ttw:
                         ttw = self._makeTtw()
                         if ttw:
                             loft = loft.fuse(ttw)
-                    mask = self._makeCommon()
-                    if mask is not None:
-                        loft = loft.common(mask)
 
                     self._obj.Shape = loft
             self._obj.Placement = self._placement
