@@ -149,16 +149,29 @@ class FinSketchShapeHandler(FinShapeHandler):
         else:
             return Part.Wire(shape)
 
-    def getFaceScaled(self):
+    # def getFaceScaled(self):
+    #     profile = self._obj.Profile
+    #     shape = profile.Shape
+
+    #     if not self.verifyShape(shape):
+    #         return None
+    #     else:
+    #         box = profile.Shape.BoundBox
+    #         center = FreeCAD.Vector(box.XLength / 2.0, 0, box.ZLength / 2.0)
+    #         shape = Part.Shape(shape).scaled(1.001, center) # Very small increase in size to accomodate OpenCascade problems with coincident edges
+
+    #         return Part.Wire(shape)
+
+    def getOffsetFace(self):
         profile = self._obj.Profile
         shape = profile.Shape
 
         if not self.verifyShape(shape):
             return None
         else:
-            box = profile.Shape.BoundBox
-            center = FreeCAD.Vector(box.XLength / 2.0, 0, box.ZLength / 2.0)
-            shape = Part.Shape(shape).scaled(1.001, center) # Very small increase in size to accomodate OpenCascade problems with coincident edges
+            # tolerance = 10 * shape.getTolerance(1, Part.Shape)
+            tolerance = 1e-3 # Small, but many orders of magnitude larger than the tolerance
+            shape = shape.makeOffset2D(tolerance)
 
             return Part.Wire(shape)
 
@@ -216,8 +229,8 @@ class FinSketchShapeHandler(FinShapeHandler):
 
     def _makeCommon(self):
         # The mask will be the fin outline, scaled very slightly
-        shape = self.getFaceScaled()
-        tolerance = shape.getTolerance(1, Part.Shape)
+        shape = self.getOffsetFace()
+        tolerance = 10 * shape.getTolerance(1, Part.Shape)
 
         half = float(self._obj.RootThickness) / 2.0
 
