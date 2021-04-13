@@ -32,6 +32,7 @@ from DraftTools import translate
 
 from App.Constants import FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE, \
     FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE
+from App.Constants import FIN_DEBUG_FULL, FIN_DEBUG_PROFILE_ONLY, FIN_DEBUG_MASK_ONLY
 
 from App.Utilities import _err
 
@@ -274,16 +275,19 @@ class FinShapeHandler:
         # Override this if we have a "masking" shape
         return None
 
-    def _drawFin(self):
+    def _drawFinDebug(self, debug):
         profiles = self._makeProfiles()
         if profiles is not None and len(profiles) > 0:
             if isinstance(profiles[0], list):
-                fuseShapes = []
-                for profile in profiles:
-                    fuseShapes.append(Part.makeLoft(profile, True))
+                # Using a compound instead of a fuse makes drawing much faster, but also leads to
+                # a number of 'BOPAlgo SelfIntersect' errors. Se we stick with the fuse
 
-                # This is significantly faster than the .fuse() operation
-                loft = Part.makeCompound(fuseShapes)
+                loft = None
+                for profile in profiles:
+                    if loft is None:
+                        loft = Part.makeLoft(profile, True)
+                    else:
+                        loft = loft.fuse(Part.makeLoft(profile, True))
             else:
                 loft = Part.makeLoft(profiles, True)
 
@@ -293,11 +297,18 @@ class FinShapeHandler:
                     if ttw:
                         loft = Part.makeCompound([loft, ttw])
 
-                # mask = self._makeCommon()
-                # if mask is not None:
-                #     loft = loft.common(mask)
+                mask = self._makeCommon()
+                if debug == FIN_DEBUG_MASK_ONLY:
+                    loft = mask
+                elif mask is not None and (debug != FIN_DEBUG_PROFILE_ONLY):
+                    loft = loft.common(mask)
 
         return loft
+
+    def _drawFin(self):
+        if hasattr(self._obj,"DebugSketch"):
+            return self._drawFinDebug(self._obj.DebugSketch)
+        return self._drawFinDebug(FIN_DEBUG_FULL)
 
     def _drawFinSet(self):
         fins = []

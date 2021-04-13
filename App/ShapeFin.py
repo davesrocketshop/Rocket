@@ -32,6 +32,7 @@ from App.Constants import FEATURE_FIN
 from App.Constants import FIN_TYPE_TRAPEZOID, FIN_TYPE_ELLIPSE, FIN_TYPE_SKETCH
 from App.Constants import FIN_CROSS_SAME, FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE, \
     FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE
+from App.Constants import FIN_DEBUG_FULL, FIN_DEBUG_PROFILE_ONLY, FIN_DEBUG_MASK_ONLY
 from App.Constants import LOCATION_PARENT_TOP, LOCATION_PARENT_MIDDLE, LOCATION_PARENT_BOTTOM, LOCATION_BASE
 
 from App.FinTrapezoidShapeHandler import FinTrapezoidShapeHandler
@@ -39,6 +40,8 @@ from App.FinEllipseShapeHandler import FinEllipseShapeHandler
 from App.FinSketchShapeHandler import FinSketchShapeHandler
 
 from DraftTools import translate
+
+DEBUG_SKETCH_FINS = 0 # Set > 0 when debugging sketch based fins
 
 class ShapeFin(ShapeLocation):
 
@@ -59,7 +62,7 @@ class ShapeFin(ShapeLocation):
             obj.addProperty('App::PropertyEnumeration', 'RootCrossSection', 'Fin', translate('App::Property', 'Fin root cross section'))
         obj.RootCrossSection = [FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE, 
             FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE]
-        obj.RootCrossSection = FIN_CROSS_AIRFOIL
+        obj.RootCrossSection = FIN_CROSS_SQUARE
 
         if not hasattr(obj,"RootChord"):
             obj.addProperty('App::PropertyLength', 'RootChord', 'Fin', translate('App::Property', 'Length of the base of the fin')).RootChord = 57.15
@@ -125,6 +128,13 @@ class ShapeFin(ShapeLocation):
             obj.addProperty('App::PropertyLink', 'Profile', 'Fin', translate('App::Property', 'Custom fin sketch')).Profile = None
 
         obj.addProperty('Part::PropertyPartShape', 'Shape', 'Fin', translate('App::Property', 'Shape of the fin'))
+
+        # A transient property for debugging sketch based fins
+        if DEBUG_SKETCH_FINS > 0:
+            if not hasattr(obj,"DebugSketch"):
+                obj.addProperty('App::PropertyEnumeration', 'DebugSketch', 'Fin', translate('App::Property', 'Sketch based fin debugging options'), 2)
+            obj.DebugSketch = [FIN_DEBUG_FULL, FIN_DEBUG_PROFILE_ONLY, FIN_DEBUG_MASK_ONLY]
+            obj.DebugSketch = FIN_DEBUG_FULL
 
     def setParent(self, obj):
         super().setParent(obj)
