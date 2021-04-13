@@ -139,6 +139,28 @@ class FinSketchShapeHandler(FinShapeHandler):
 
         return chords
 
+    def findRootChord(self, shape):
+        tolerance = shape.getTolerance(1, Part.Shape) # Maximum tolerance
+
+        # Find all x's associated with all z's
+        ends = []
+        z = 0.0
+        for edge in shape.Edges:
+            if self._zInVertex(z, edge.Vertexes, tolerance):
+                # Get the x,y for z
+                x = self._xOnLine(z, edge.Vertexes[0], edge.Vertexes[1])
+                ends.append(x)
+
+        # Use the x's to find the chord
+        xmin = ends[0]
+        xmax = ends[0]
+        for x in ends:
+            if xmin > x:
+                xmin = x
+            elif xmax < x:
+                xmax = x
+        return (xmin, xmax)
+
     def getFace(self):
         profile = self._obj.Profile
         # print("Fully constrained %s" % str(profile.FullyConstrained)) # Issue a warning?
@@ -230,3 +252,14 @@ class FinSketchShapeHandler(FinShapeHandler):
 
         mask = Part.Face(face).extrude(FreeCAD.Vector(0, float(self._obj.RootThickness) + (2.0 * tolerance), 0))
         return mask
+
+    def _makeTtw(self):
+        # Create the Ttw tab - No clear root chord like regular fins
+        shape = self.getFace()
+        if shape is None:
+            return []
+
+        xmin, xmax = self.findRootChord(shape)
+
+        origin = FreeCAD.Vector(float(xmax) - float(self._obj.TtwOffset) - float(self._obj.TtwLength), -0.5 * self._obj.TtwThickness, -1.0 * self._obj.TtwHeight)
+        return Part.makeBox(self._obj.TtwLength, self._obj.TtwThickness, self._obj.TtwHeight, origin)

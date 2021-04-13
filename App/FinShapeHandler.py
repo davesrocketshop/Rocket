@@ -292,16 +292,16 @@ class FinShapeHandler:
                 loft = Part.makeLoft(profiles, True)
 
             if loft is not None:
-                if self._obj.Ttw:
-                    ttw = self._makeTtw()
-                    if ttw:
-                        loft = Part.makeCompound([loft, ttw])
-
                 mask = self._makeCommon()
                 if debug == FIN_DEBUG_MASK_ONLY:
                     loft = mask
                 elif mask is not None and (debug != FIN_DEBUG_PROFILE_ONLY):
                     loft = loft.common(mask)
+
+                if self._obj.Ttw:
+                    ttw = self._makeTtw()
+                    if ttw:
+                        loft = loft = loft.fuse(ttw)
 
         return loft
 
