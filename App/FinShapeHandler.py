@@ -68,7 +68,10 @@ class FinShapeHandler:
             
     def _airfoilY(self, x, maxThickness):
         # NACA symmetrical airfoil https://en.wikipedia.org/wiki/NACA_airfoil
-        y = 5 * maxThickness * ((0.2969 * math.sqrt(x)) - (0.1260 * x) - (0.3516 * x * x) + (0.2843 * x * x * x) - (0.1015 * x * x * x * x))
+        # y = 5 * maxThickness * ((0.2969 * math.sqrt(x)) - (0.1260 * x) - (0.3516 * x * x) + (0.2843 * x * x * x) - (0.1015 * x * x * x * x))
+
+        # Apply Horner's rule
+        y = 5 * maxThickness * (0.2969 * math.sqrt(x) + x * (-0.1260 +  x * (-0.3516 + x * (0.2843 - x * 0.1015))))
         return y
 
     def _airfoilCurve(self, foreX, chord, thickness, height, resolution):
@@ -80,6 +83,13 @@ class FinShapeHandler:
             points.append(FreeCAD.Vector(foreX - (x * chord), y, height))
 
         points.append(FreeCAD.Vector(foreX - chord, 0.0, height))
+
+        # Circle back for the other side of the airfoil
+        for i in range(0, resolution):
+            vector = points[resolution - i]
+            points.append(FreeCAD.Vector(vector.x, -vector.y, vector.z))
+        points.append(FreeCAD.Vector(foreX, 0.0, height))
+
         return points 
 
     def _makeSpline(self, points):
@@ -102,18 +112,9 @@ class FinShapeHandler:
         # Standard NACA 4 digit symmetrical airfoil
 
         points = self._airfoilCurve(foreX, chord, thickness, height, 100)
-        splineUpper = self._makeSpline(points)
-        splineLower = self._makeSpline(points)
+        spline = self._makeSpline(points)
 
-        # Mirror the lower spline
-        aTrsf=FreeCAD.Matrix()
-        aTrsf.rotateX(math.pi)
-        if height > 0:
-            aTrsf.move(FreeCAD.Vector(0, 0, 2 * height))
-        mirrorWire = Part.Wire([splineLower.toShape()])
-        mirrorWire.transformShape(aTrsf)
-
-        wire = Part.Wire([mirrorWire, splineUpper.toShape()])
+        wire = Part.Wire([spline.toShape()])
         return wire
 
     def _makeChordProfileWedge(self, foreX, chord, thickness, height):
@@ -283,6 +284,9 @@ class FinShapeHandler:
             profiles = self._makeProfiles()
             if profiles is not None and len(profiles) > 0:
                 if isinstance(profiles[0], list):
+                    # Using a compound instead of a fuse makes drawing much faster, but also leads to
+                    # a number of 'BOPAlgo SelfIntersect' errors. Se we stick with the fuse
+
                     loft = None
                     for profile in profiles:
                         if loft is None:
@@ -293,13 +297,14 @@ class FinShapeHandler:
                     loft = Part.makeLoft(profiles, True)
 
                 if loft is not None:
+                    mask = self._makeCommon()
+                    if mask is not None:
+                        loft = loft.common(mask)
+
                     if self._obj.Ttw:
                         ttw = self._makeTtw()
                         if ttw:
                             loft = loft.fuse(ttw)
-                    mask = self._makeCommon()
-                    if mask is not None:
-                        loft = loft.common(mask)
 
                     self._obj.Shape = loft
             self._obj.Placement = self._placement
