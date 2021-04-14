@@ -103,7 +103,6 @@ class FinShapeHandler:
         return value
 
     def _midAftChordLimit(self, chord, value, midChordLimit):
-        # print(" _mid %f, %f, %f, %f, %f" % (chord, value, (value - chord), (chord - value), (chord / 2.0)))
         if midChordLimit and value > (chord / 2.0):
             return chord / 2.0
         return value
@@ -192,8 +191,8 @@ class FinShapeHandler:
         chordFore1 = foreX - self._midForeChordLimit(chord, foreChord, midChordLimit)
         chordAft1 = foreX - chord + self._midAftChordLimit(chord, aftChord, midChordLimit)
         chordAft = foreX - chord
-        # print("Profile: (%f, %f, %f, %f)" % (chordFore, chordFore1, chordAft1, chordAft))
         halfThickness = thickness / 2
+
         v1 = FreeCAD.Vector(chordFore, 0.0, height)
         v2 = FreeCAD.Vector(chordFore1, halfThickness, height)
         v3 = FreeCAD.Vector(chordFore1, -halfThickness, height)
@@ -224,7 +223,6 @@ class FinShapeHandler:
         if lengthPerCent:
             l1 = chord * (length1 / 100.0)
             l2 = chord * ((100.0 - length2) / 100.0)
-            # print("\tpercent (%f->%f, %f->%f, chord=%f)" % (length1, l1, length2, l2, chord))
 
         if crossSection == FIN_CROSS_SQUARE:
             return self._makeChordProfileSquare(foreX, chord, thickness, height)

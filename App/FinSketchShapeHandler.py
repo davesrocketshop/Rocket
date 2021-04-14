@@ -84,10 +84,6 @@ class FinSketchShapeHandler(FinShapeHandler):
 
     def findChords(self, shape):
         zArray = []
-        # if self.isCurved(shape):
-        #     print("Curved shape")
-        # else:
-        #     print("Straight edged shape")
 
         tolerance = shape.getTolerance(1, Part.Shape) # Maximum tolerance
         for v in shape.Vertexes:
