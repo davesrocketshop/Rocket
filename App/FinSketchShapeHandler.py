@@ -84,10 +84,6 @@ class FinSketchShapeHandler(FinShapeHandler):
 
     def findChords(self, shape):
         zArray = []
-        # if self.isCurved(shape):
-        #     print("Curved shape")
-        # else:
-        #     print("Straight edged shape")
 
         tolerance = shape.getTolerance(1, Part.Shape) # Maximum tolerance
         for v in shape.Vertexes:
@@ -243,14 +239,11 @@ class FinSketchShapeHandler(FinShapeHandler):
     def _makeCommon(self):
         # The mask will be the fin outline, scaled very slightly
         shape = self.getOffsetFace()
-        tolerance = shape.getTolerance(1, Part.Shape) * 10
-
-        half = float(self._obj.RootThickness) / 2.0
 
         face = Part.Shape(shape) # Make copies
-        face.translate(FreeCAD.Vector(0, -half - tolerance, 0))
+        face.translate(FreeCAD.Vector(0, -float(self._obj.RootThickness), 0))
 
-        mask = Part.Face(face).extrude(FreeCAD.Vector(0, float(self._obj.RootThickness) + (2.0 * tolerance), 0))
+        mask = Part.Face(face).extrude(FreeCAD.Vector(0, 2.0 * float(self._obj.RootThickness), 0))
         return mask
 
     def _makeTtw(self):
