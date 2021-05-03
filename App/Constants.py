@@ -98,3 +98,12 @@ LOCATION_PARENT_MIDDLE = QT_TRANSLATE_NOOP('Rocket', "Middle of the parent compo
 LOCATION_PARENT_BOTTOM = QT_TRANSLATE_NOOP('Rocket', "Bottom of the parent component")
 LOCATION_BASE = QT_TRANSLATE_NOOP('Rocket', "Base of the rocket")
 LOCATION_AFTER = QT_TRANSLATE_NOOP('Rocket', "After the target component")
+
+# Part properties, defined in /App/PropertyContainer.h for cpp
+# These can be bitwise or'ed to combine properties
+PROP_NONE = 0           # No special property type
+PROP_READONLY = 1       # Property is read-only in the editor
+PROP_TRANSIENT = 2      # Property won't be saved to file
+PROP_HIDDEN = 4         # Property won't appear in the editor
+PROP_OUTPUT = 8         # Modified property doesn't touch its parent container
+PROP_NORECOMPUTE = 16   # Modified property doesn't touch its container for recompute

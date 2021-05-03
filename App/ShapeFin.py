@@ -34,6 +34,7 @@ from App.Constants import FIN_CROSS_SAME, FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN
     FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE
 from App.Constants import FIN_DEBUG_FULL, FIN_DEBUG_PROFILE_ONLY, FIN_DEBUG_MASK_ONLY
 from App.Constants import LOCATION_PARENT_TOP, LOCATION_PARENT_MIDDLE, LOCATION_PARENT_BOTTOM, LOCATION_BASE
+from App.Constants import PROP_TRANSIENT, PROP_HIDDEN
 
 from App.FinTrapezoidShapeHandler import FinTrapezoidShapeHandler
 from App.FinEllipseShapeHandler import FinEllipseShapeHandler
@@ -122,7 +123,7 @@ class ShapeFin(ShapeLocation):
         # Hidden properties used for calculation
         if not hasattr(obj,"ParentRadius"):
             obj.addProperty('App::PropertyLength', 'ParentRadius', 'Fin', translate('App::Property', 'Parent radius')).ParentRadius = 20.0
-        obj.setEditorMode('ParentRadius', 2)  # hide
+        obj.setEditorMode('ParentRadius', PROP_TRANSIENT | PROP_HIDDEN)  # hide
 
         if not hasattr(obj, "Profile"):
             obj.addProperty('App::PropertyLink', 'Profile', 'Fin', translate('App::Property', 'Custom fin sketch')).Profile = None
@@ -132,7 +133,7 @@ class ShapeFin(ShapeLocation):
         # A transient property for debugging sketch based fins
         if DEBUG_SKETCH_FINS > 0:
             if not hasattr(obj,"DebugSketch"):
-                obj.addProperty('App::PropertyEnumeration', 'DebugSketch', 'Fin', translate('App::Property', 'Sketch based fin debugging options'), 2)
+                obj.addProperty('App::PropertyEnumeration', 'DebugSketch', 'Fin', translate('App::Property', 'Sketch based fin debugging options'), PROP_TRANSIENT)
             obj.DebugSketch = [FIN_DEBUG_FULL, FIN_DEBUG_PROFILE_ONLY, FIN_DEBUG_MASK_ONLY]
             obj.DebugSketch = FIN_DEBUG_FULL
 
