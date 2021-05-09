@@ -48,14 +48,17 @@ class ShapeRocket(ShapeBase):
         return childType == FEATURE_STAGE
 
     def positionChildren(self):
+        # print("Rocket::positionChildren()")
         # Dynamic placements
         length = 0.0
         i = len(self._obj.Group) - 1
         while i >= 0:
             child = self._obj.Group[i]
+            # print(child.Label)
             child.Proxy.setAxialPosition(length)
 
             length += float(child.Proxy.getAxialLength())
+            # print("length = %f" % length)
             i -= 1
 
         FreeCAD.ActiveDocument.recompute()

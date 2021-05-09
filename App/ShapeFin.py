@@ -139,7 +139,7 @@ class ShapeFin(ShapeLocation):
 
     def setParent(self, obj):
         super().setParent(obj)
-        print("ShapeFin: setParent()")
+        # print("ShapeFin: setParent()")
         self.FinSet = (self.getParent() is not None)
 
     def getAxialLength(self):
@@ -147,7 +147,7 @@ class ShapeFin(ShapeLocation):
         return self._obj.RootChord
 
     def positionChild(self, obj, parent, parentBase, parentLength, parentRadius):
-        print("ShapeFin: positionChild")
+        # print("ShapeFin: positionChild")
 
         self._obj.ParentRadius = parentRadius
 

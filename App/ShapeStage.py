@@ -27,9 +27,11 @@ __url__ = "https://www.davesrocketshop.com"
 import FreeCAD
 
 from PySide import QtCore
+from DraftTools import translate
 
 from App.ShapeBase import ShapeBase
 from App.Constants import FEATURE_ROCKET, FEATURE_STAGE
+from App.Constants import PROP_TRANSIENT, PROP_HIDDEN, PROP_NORECOMPUTE
 
 class ShapeStage(ShapeBase):
 
@@ -39,6 +41,9 @@ class ShapeStage(ShapeBase):
         
         if not hasattr(obj,"Group"):
             obj.addExtension("App::GroupExtensionPython")
+        if not hasattr(obj, 'AxialOffset'):
+            # obj.addProperty('App::PropertyDistance', 'AxialOffset', 'RocketComponent', translate('App::Property', 'Axial offset from the center line'), PROP_TRANSIENT|PROP_HIDDEN|PROP_NORECOMPUTE).AxialOffset = 0.0
+            obj.addProperty('App::PropertyDistance', 'AxialOffset', 'RocketComponent', translate('App::Property', 'Axial offset from the center line'), PROP_TRANSIENT|PROP_NORECOMPUTE).AxialOffset = 0.0
 
     def execute(self,obj):
         if not hasattr(obj,'Shape'):
@@ -47,8 +52,21 @@ class ShapeStage(ShapeBase):
     def eligibleChild(self, childType):
         return childType != FEATURE_ROCKET
 
+    def setAxialPosition(self, partBase):
+        # print("Stage(%s)::setAxialPosition(%f)" % (self._obj.Label, partBase))
+
+        base = self._obj.Placement.Base
+        # self._obj.Placement = FreeCAD.Placement(FreeCAD.Vector(partBase, base.y, base.z), FreeCAD.Rotation(0,0,0))
+        self._obj.Placement = FreeCAD.Placement(FreeCAD.Vector(0.0, base.y, base.z), FreeCAD.Rotation(0,0,0))
+
+        self.positionChildren(partBase)
+        # self.positionChildren(0.0)
+
     def positionChildren(self, partBase=0.0):
+        # print("Stage(%s)::positionChildren(%f)" % (self._obj.Label, partBase))
+        
         # Dynamic placements
+        self._obj.AxialOffset = partBase
         length = partBase
         i = len(self._obj.Group) - 1
         while i >= 0:
@@ -60,19 +78,26 @@ class ShapeStage(ShapeBase):
 
         FreeCAD.ActiveDocument.recompute()
 
+def hookChild(obj, child, oldGroup):
+    if child not in oldGroup:
+        child.Proxy.resetPlacement()
+        child.Proxy.edited.connect(obj.Proxy.positionChildren, QtCore.Qt.QueuedConnection)
+
+
+def unhookChild(obj, child, group):
+    if child not in group:
+        try:
+            child.Proxy.edited.connect(None)
+        except ReferenceError:
+            # Object may be deleted
+            pass
+
 def hookChildren(obj, group, oldGroup):
     for child in group:
-        if child not in oldGroup:
-            child.Proxy.resetPlacement()
-            child.Proxy.edited.connect(obj.Proxy.positionChildren, QtCore.Qt.QueuedConnection)
+        hookChild(obj, child, oldGroup)
 
     for child in oldGroup:
-        if child not in group:
-            try:
-                child.Proxy.edited.connect(None)
-            except ReferenceError:
-                # Object may be deleted
-                pass
+        unhookChild(obj, child, group)
 
-    obj.Proxy.positionChildren()
+    # obj.Proxy.positionChildren(float(obj.AxialOffset))
 

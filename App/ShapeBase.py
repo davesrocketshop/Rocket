@@ -114,7 +114,12 @@ class ShapeBase(QObject):
 
     def getAxialLength(self):
         # Return the length of this component along the central axis
-        return 0.0
+        length = 0.0
+        if hasattr(self._obj, "Group"):
+            for child in self._obj.Group:
+                length += float(child.Proxy.getAxialLength())
+
+        return length
 
     def getForeRadius(self):
         # For placing objects on the outer part of the parent
@@ -135,6 +140,7 @@ class ShapeBase(QObject):
         self._obj.Placement = FreeCAD.Placement()
 
     def setAxialPosition(self, partBase):
+        # print("setAxialPosition(%s, %f)" % (self._obj.Label, partBase))
         base = self._obj.Placement.Base
         self._obj.Placement = FreeCAD.Placement(FreeCAD.Vector(partBase, base.y, base.z), FreeCAD.Rotation(0,0,0))
 
@@ -222,8 +228,8 @@ class ShapeBase(QObject):
         # Move the part up in the tree
         if self._parent is not None:
             self._parent.Proxy._moveChildDown(self._obj)
-        else:
-            print("No parent")
+        # else:
+        #     print("No parent")
 
     def _moveChildDown(self, obj):
         if hasattr(self._obj, "Group"):
