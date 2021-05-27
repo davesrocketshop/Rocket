@@ -18,9 +18,9 @@
 # *   USA                                                                   *
 # *                                                                         *
 # ***************************************************************************
-"""Class for drawing body tubes"""
+"""Class for drawing launch guides"""
 
-__title__ = "FreeCAD Body Tubes"
+__title__ = "FreeCAD Launch Guides"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
     
@@ -28,13 +28,24 @@ import FreeCAD
 import FreeCADGui
 
 from App.ShapeBodyTube import ShapeBodyTube
+from App.ShapeLaunchLug import ShapeLaunchLug
 from Ui.ViewBodyTube import ViewProviderBodyTube
 from Ui.CmdStage import addToStage
 
 from DraftTools import translate
 
-def makeBodyTube(name='BodyTube'):
-    '''makeBodyTube(name): makes a Body Tube'''
+def makeLaunchLug(name='LaunchLug'):
+    '''makeBodyTube(name): makes a Launch Lug'''
+    obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
+    ShapeLaunchLug(obj)
+    if FreeCAD.GuiUp:
+        ViewProviderBodyTube(obj.ViewObject)
+
+        addToStage(obj)
+    return obj
+
+def makeLaunchGuide(name='LaunchGuide'):
+    '''makeBodyTube(name): makes a Launch Guide'''
     obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
     ShapeBodyTube(obj)
     if FreeCAD.GuiUp:
@@ -43,11 +54,11 @@ def makeBodyTube(name='BodyTube'):
         addToStage(obj)
     return obj
 
-class CmdBodyTube:
+class CmdLaunchLug:
     def Activated(self):
-        FreeCAD.ActiveDocument.openTransaction("Create body tube")
-        FreeCADGui.addModule("Ui.CmdBodyTube")
-        FreeCADGui.doCommand("Ui.CmdBodyTube.makeBodyTube('BodyTube')")
+        FreeCAD.ActiveDocument.openTransaction("Create launch lug")
+        FreeCADGui.addModule("Ui.CmdLaunchGuides")
+        FreeCADGui.doCommand("Ui.CmdLaunchGuides.makeLaunchLug('LaunchLug')")
         FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
 
     def IsActive(self):
@@ -56,15 +67,15 @@ class CmdBodyTube:
         return False
             
     def GetResources(self):
-        return {'MenuText': translate("Rocket", 'Body Tube'),
-                'ToolTip': translate("Rocket", 'Body tube design'),
+        return {'MenuText': translate("Rocket", 'Launch Lug'),
+                'ToolTip': translate("Rocket", 'Launch lug design'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_BodyTube.svg"}
 
-class CmdCoupler:
+class CmdRailButton:
     def Activated(self):
-        FreeCAD.ActiveDocument.openTransaction("Create coupler")
-        FreeCADGui.addModule("Ui.CmdBodyTube")
-        FreeCADGui.doCommand("Ui.CmdBodyTube.makeBodyTube('Coupler')")
+        FreeCAD.ActiveDocument.openTransaction("Create rail button")
+        FreeCADGui.addModule("Ui.CmdLaunchGuides")
+        FreeCADGui.doCommand("Ui.CmdLaunchGuides.makeLaunchGuide('RailButton')")
         FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
 
     def IsActive(self):
@@ -73,15 +84,15 @@ class CmdCoupler:
         return False
             
     def GetResources(self):
-        return {'MenuText': translate("Rocket", 'Coupler'),
-                'ToolTip': translate("Rocket", 'Coupler design'),
+        return {'MenuText': translate("Rocket", 'Rail Button'),
+                'ToolTip': translate("Rocket", 'Rail button design'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_BodyTube.svg"}
 
-class CmdInnerTube:
+class CmdLaunchGuide:
     def Activated(self):
-        FreeCAD.ActiveDocument.openTransaction("Create inner tube")
-        FreeCADGui.addModule("Ui.CmdBodyTube")
-        FreeCADGui.doCommand("Ui.CmdBodyTube.makeBodyTube('InnerTube')")
+        FreeCAD.ActiveDocument.openTransaction("Create launch guide")
+        FreeCADGui.addModule("Ui.CmdLaunchGuides")
+        FreeCADGui.doCommand("Ui.CmdLaunchGuides.makeLaunchGuide('LaunchGuide')")
         FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
 
     def IsActive(self):
@@ -90,6 +101,23 @@ class CmdInnerTube:
         return False
             
     def GetResources(self):
-        return {'MenuText': translate("Rocket", 'Inner Tube'),
-                'ToolTip': translate("Rocket", 'Inner tube design'),
+        return {'MenuText': translate("Rocket", 'Launch Guide'),
+                'ToolTip': translate("Rocket", 'Launch guide design'),
+                'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_BodyTube.svg"}
+
+class CmdStandOff:
+    def Activated(self):
+        FreeCAD.ActiveDocument.openTransaction("Create stand off")
+        FreeCADGui.addModule("Ui.CmdLaunchGuides")
+        FreeCADGui.doCommand("Ui.CmdLaunchGuides.makeLaunchGuide('StandOff')")
+        FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
+
+    def IsActive(self):
+        if FreeCAD.ActiveDocument:
+            return True
+        return False
+            
+    def GetResources(self):
+        return {'MenuText': translate("Rocket", 'Stand Off'),
+                'ToolTip': translate("Rocket", 'Stand off design'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_BodyTube.svg"}

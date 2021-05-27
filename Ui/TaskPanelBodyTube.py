@@ -35,7 +35,8 @@ from PySide2.QtWidgets import QDialog, QGridLayout, QVBoxLayout
 
 from Ui.TaskPanelDatabase import TaskPanelDatabase
 from Ui.TaskPanelLocation import TaskPanelLocation
-from App.Constants import COMPONENT_TYPE_BODYTUBE
+from App.Constants import COMPONENT_TYPE_BODYTUBE, COMPONENT_TYPE_LAUNCHLUG
+from App.Constants import FEATURE_LAUNCH_LUG
 
 from App.Utilities import _valueWithUnits, _valueOnly
 
@@ -128,7 +129,10 @@ class TaskPanelBodyTube:
         self._obj = obj
         
         self._btForm = _BodyTubeDialog()
-        self._db = TaskPanelDatabase(obj, COMPONENT_TYPE_BODYTUBE)
+        if self._obj.Proxy.Type == FEATURE_LAUNCH_LUG:
+            self._db = TaskPanelDatabase(obj, COMPONENT_TYPE_LAUNCHLUG)
+        else:
+            self._db = TaskPanelDatabase(obj, COMPONENT_TYPE_BODYTUBE)
         self._dbForm = self._db.getForm()
 
         self._location = TaskPanelLocation(obj)
@@ -252,8 +256,12 @@ class TaskPanelBodyTube:
         self.setEdited()
         
     def _setMotorState(self):
-        self._btForm.overhangInput.setEnabled(self._obj.MotorMount)
-        self._btForm.motorGroup.setChecked(self._obj.MotorMount)
+        if self._obj.Proxy.Type == FEATURE_LAUNCH_LUG:
+            self._btForm.overhangInput.setHidden(True)
+            self._btForm.motorGroup.setHidden(True)
+        else:
+            self._btForm.overhangInput.setEnabled(self._obj.MotorMount)
+            self._btForm.motorGroup.setChecked(self._obj.MotorMount)
 
     def onMotor(self, value):
         self._obj.MotorMount = value

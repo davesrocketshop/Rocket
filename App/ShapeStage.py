@@ -42,8 +42,7 @@ class ShapeStage(ShapeBase):
         if not hasattr(obj,"Group"):
             obj.addExtension("App::GroupExtensionPython")
         if not hasattr(obj, 'AxialOffset'):
-            # obj.addProperty('App::PropertyDistance', 'AxialOffset', 'RocketComponent', translate('App::Property', 'Axial offset from the center line'), PROP_TRANSIENT|PROP_HIDDEN|PROP_NORECOMPUTE).AxialOffset = 0.0
-            obj.addProperty('App::PropertyDistance', 'AxialOffset', 'RocketComponent', translate('App::Property', 'Axial offset from the center line'), PROP_TRANSIENT|PROP_NORECOMPUTE).AxialOffset = 0.0
+            obj.addProperty('App::PropertyDistance', 'AxialOffset', 'RocketComponent', translate('App::Property', 'Axial offset from the center line'), PROP_TRANSIENT|PROP_HIDDEN|PROP_NORECOMPUTE).AxialOffset = 0.0
 
     def execute(self,obj):
         if not hasattr(obj,'Shape'):

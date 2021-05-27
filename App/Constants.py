@@ -36,6 +36,7 @@ FEATURE_CENTERING_RING = "RocketCenteringRing"
 FEATURE_FIN = "RocketFin"
 FEATURE_NOSE_CONE = "RocketNoseCone"
 FEATURE_TRANSITION = "RocketTransition"
+FEATURE_LAUNCH_LUG = "RocketLaunchLug"
     
 # Part styles
 STYLE_SOLID = "solid"

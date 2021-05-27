@@ -32,9 +32,10 @@ from Ui.CmdStage import CmdStage, CmdToggleStage
 from Ui.CmdNoseCone import CmdNoseCone
 from Ui.CmdTransition import CmdTransition
 from Ui.CmdCenteringRing import CmdCenteringRing
-from Ui.CmdBodyTube import CmdBodyTube
+from Ui.CmdBodyTube import CmdBodyTube, CmdCoupler, CmdInnerTube
 from Ui.CmdBulkhead import CmdBulkhead
 from Ui.CmdFin import CmdFin
+from Ui.CmdLaunchGuides import CmdLaunchLug, CmdRailButton, CmdLaunchGuide, CmdStandOff
 from Ui.CmdEditTree import CmdMoveUp, CmdMoveDown, CmdEdit, CmdDelete
 
 # Calculators
@@ -54,9 +55,17 @@ FreeCADGui.addCommand('Rocket_ToggleStage', CmdToggleStage())
 FreeCADGui.addCommand('Rocket_NoseCone', CmdNoseCone())
 FreeCADGui.addCommand('Rocket_Transition', CmdTransition())
 FreeCADGui.addCommand('Rocket_CenteringRing', CmdCenteringRing())
-FreeCADGui.addCommand('Rocket_BodyTube', CmdBodyTube())
 FreeCADGui.addCommand('Rocket_Bulkhead', CmdBulkhead())
 FreeCADGui.addCommand('Rocket_Fin', CmdFin())
+
+FreeCADGui.addCommand('Rocket_BodyTube', CmdBodyTube())
+FreeCADGui.addCommand('Rocket_Coupler', CmdCoupler())
+FreeCADGui.addCommand('Rocket_InnerTube', CmdInnerTube())
+
+FreeCADGui.addCommand('Rocket_LaunchLug', CmdLaunchLug())
+FreeCADGui.addCommand('Rocket_RailButton', CmdRailButton())
+FreeCADGui.addCommand('Rocket_LaunchGuide', CmdLaunchGuide())
+FreeCADGui.addCommand('Rocket_Standoff', CmdStandOff())
 
 FreeCADGui.addCommand('Rocket_CalcBlackPowder', CmdCalcBlackPowder())
 FreeCADGui.addCommand('Rocket_CalcParachute', CmdCalcParachute())
@@ -84,4 +93,36 @@ class _CalculatorGroupCommand:
         # Always available, even without active document
         return True
 
+class _TubeGroupCommand:
+
+    def GetCommands(self):
+        return tuple(['Rocket_BodyTube', 'Rocket_Coupler', 'Rocket_InnerTube'])
+    def GetResources(self):
+        return {
+            'MenuText': translate('Rocket', 'Body Tubes'),
+            'ToolTip': translate('Rocket', 'Body Tubes'),
+            'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_BodyTube.svg"
+        }
+    def IsActive(self):
+        if FreeCAD.ActiveDocument:
+            return True
+        return False
+
+class _GuidesGroupCommand:
+
+    def GetCommands(self):
+        return tuple(['Rocket_LaunchLug', 'Rocket_RailButton', 'Rocket_LaunchGuide', 'Rocket_Standoff'])
+    def GetResources(self):
+        return {
+            'MenuText': translate('Rocket', 'Launch Guides'),
+            'ToolTip': translate('Rocket', 'Launch Guides'),
+            'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_BodyTube.svg"
+        }
+    def IsActive(self):
+        if FreeCAD.ActiveDocument:
+            return True
+        return False
+
 FreeCADGui.addCommand('Rocket_Calculators', _CalculatorGroupCommand())
+FreeCADGui.addCommand('Rocket_BodyTubes', _TubeGroupCommand())
+FreeCADGui.addCommand('Rocket_LaunchGuides', _GuidesGroupCommand())
