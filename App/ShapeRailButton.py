@@ -1,0 +1,86 @@
+# ***************************************************************************
+# *   Copyright (c) 2021 David Carter <dcarter@davidcarter.ca>              *
+# *                                                                         *
+# *   This program is free software; you can redistribute it and/or modify  *
+# *   it under the terms of the GNU Lesser General Public License (LGPL)    *
+# *   as published by the Free Software Foundation; either version 2 of     *
+# *   the License, or (at your option) any later version.                   *
+# *   for detail see the LICENCE text file.                                 *
+# *                                                                         *
+# *   This program is distributed in the hope that it will be useful,       *
+# *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+# *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+# *   GNU Library General Public License for more details.                  *
+# *                                                                         *
+# *   You should have received a copy of the GNU Library General Public     *
+# *   License along with this program; if not, write to the Free Software   *
+# *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  *
+# *   USA                                                                   *
+# *                                                                         *
+# ***************************************************************************
+"""Class for drawing rail buttons"""
+
+__title__ = "FreeCAD Rail Buttons"
+__author__ = "David Carter"
+__url__ = "https://www.davesrocketshop.com"
+
+from PySide import QtCore
+    
+from App.ShapeComponent import ShapeLocation
+from App.Constants import FEATURE_RAIL_BUTTON
+from App.Constants import RAIL_BUTTON_ROUND, RAIL_BUTTON_AIRFOIL
+
+from App.BodyTubeShapeHandler import BodyTubeShapeHandler
+
+from DraftTools import translate
+
+#
+# Button dimensions were obtained here: https://www.rocketryforum.com/threads/rail-button-dimensions.30354/
+# These have not been verified
+#
+
+class ShapeRailButton(ShapeLocation):
+
+    def __init__(self, obj):
+        super().__init__(obj)
+        self.Type = FEATURE_RAIL_BUTTON
+
+        # Default set to a BT-50
+        if not hasattr(obj,"RailButtonType"):
+            obj.addProperty('App::PropertyEnumeration', 'RailButtonType', 'Fin', translate('App::Property', 'Rail button type'))
+        obj.RailButtonType = [RAIL_BUTTON_ROUND, 
+                RAIL_BUTTON_AIRFOIL
+                ]
+        obj.RailButtonType = RAIL_BUTTON_ROUND
+
+        if not hasattr(obj,"OuterDiameter"):
+            obj.addProperty('App::PropertyLength', 'OuterDiameter', 'BodyTube', translate('App::Property', 'Diameter of the outside of the rail button')).OuterDiameter = 9.462
+        if not hasattr(obj, 'InnerDiameter'):
+            obj.addProperty('App::PropertyLength', 'InnerDiameter', 'BodyTube', translate('App::Property', 'Diameter of the inside of the rail button')).InnerDiameter = 6.2375
+        if not hasattr(obj,"OuterThickness"):
+            obj.addProperty('App::PropertyLength', 'OuterThickness', 'BodyTube', translate('App::Property', 'Thickness of the outboard part of the rail button')).OuterThickness = 2.096
+        if not hasattr(obj,"InnerThickness"):
+            obj.addProperty('App::PropertyLength', 'InnerThickness', 'BodyTube', translate('App::Property', 'Thickness of the inside part of the rail button')).InnerThickness = 3.429
+        if not hasattr(obj,"Thickness"):
+            obj.addProperty('App::PropertyLength', 'Thickness', 'BodyTube', translate('App::Property', 'Total thickness of the rail button')).Thickness = 7.62
+        if not hasattr(obj,"Length"):
+            obj.addProperty('App::PropertyLength', 'Length', 'BodyTube', translate('App::Property', 'Length of the rail button')).Length = 9.462
+
+        if not hasattr(obj,"Shape"):
+            obj.addProperty('Part::PropertyPartShape', 'Shape', 'BodyTube', translate('App::Property', 'Shape of the body tube'))
+
+    def getAxialLength(self):
+        # Return the length of this component along the central axis
+        return self._obj.Length
+
+    def execute(self, obj):
+        shape = BodyTubeShapeHandler(obj)
+        if shape is not None:
+            shape.draw()
+
+    def eligibleChild(self, childType):
+        return False
+
+    def onChildEdited(self):
+        # print("%s: onChildEdited()" % (self.__class__.__name__))
+        self._obj.Proxy.setEdited()

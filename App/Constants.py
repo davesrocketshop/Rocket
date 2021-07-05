@@ -37,6 +37,8 @@ FEATURE_FIN = "RocketFin"
 FEATURE_NOSE_CONE = "RocketNoseCone"
 FEATURE_TRANSITION = "RocketTransition"
 FEATURE_LAUNCH_LUG = "RocketLaunchLug"
+FEATURE_RAIL_BUTTON = "RocketRailButton"
+FEATURE_RAIL_GUIDE = "RocketRailGuide"
     
 # Part styles
 STYLE_SOLID = "solid"
@@ -79,6 +81,10 @@ FIN_DEBUG_MASK_ONLY = "Mask"
 MATERIAL_TYPE_BULK = "BULK"
 MATERIAL_TYPE_SURFACE = "SURFACE"
 MATERIAL_TYPE_LINE = "LINE"
+
+# Rail button types
+RAIL_BUTTON_ROUND = "Round"
+RAIL_BUTTON_AIRFOIL = "Airfoil"
 
 # Components in the database
 COMPONENT_TYPE_ANY = "Any"
