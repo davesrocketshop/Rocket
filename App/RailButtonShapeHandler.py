@@ -26,10 +26,9 @@ __url__ = "https://www.davesrocketshop.com"
     
 import FreeCAD
 import Part
-import math
 
-from App.Utilities import _err
-from DraftTools import translate
+# from App.Utilities import _err
+# from DraftTools import translate
 
 class RailButtonShapeHandler():
     def __init__(self, obj):
@@ -76,12 +75,13 @@ class RailButtonShapeHandler():
 
     def _drawButton(self):
         # For now, only round buttons
-        spool = Part.makeCylinder(self._innerDiameter / 2.0, self._thickness, FreeCAD.Vector(0,0,0), FreeCAD.Vector(1,0,0))
+        spool = Part.makeCylinder(self._innerDiameter / 2.0, self._thickness, FreeCAD.Vector(0,0,0), FreeCAD.Vector(0,0,1))
 
-        spoolTop = Part.makeCylinder(self._outerDiameter / 2.0, self._outerThickness, FreeCAD.Vector(self._thickness - self._outerThickness,0,0), FreeCAD.Vector(1,0,0))
+        spoolTop = Part.makeCylinder(self._outerDiameter / 2.0, self._outerThickness, FreeCAD.Vector(0,0,self._thickness - self._outerThickness), FreeCAD.Vector(0,0,1))
         spool = spool.fuse(spoolTop)
 
-        spoolBottom = Part.makeCylinder(self._outerDiameter / 2.0, self._thickness - self._outerThickness, FreeCAD.Vector(0,0,0), FreeCAD.Vector(1,0,0))
+        # spoolBottom = Part.makeCylinder(self._outerDiameter / 2.0, self._thickness - self._outerThickness, FreeCAD.Vector(0,0,0), FreeCAD.Vector(1,0,0))
+        spoolBottom = Part.makeCylinder(self._outerDiameter / 2.0, self._innerThickness, FreeCAD.Vector(0,0,0), FreeCAD.Vector(0,0,1))
         spool = spool.fuse(spoolBottom)
 
         return spool

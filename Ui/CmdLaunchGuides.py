@@ -29,13 +29,15 @@ import FreeCADGui
 
 from App.ShapeBodyTube import ShapeBodyTube
 from App.ShapeLaunchLug import ShapeLaunchLug
+from App.ShapeRailButton import ShapeRailButton
 from Ui.ViewBodyTube import ViewProviderBodyTube
+from Ui.ViewLaunchGuide import ViewProviderRailButton
 from Ui.CmdStage import addToStage
 
 from DraftTools import translate
 
 def makeLaunchLug(name='LaunchLug'):
-    '''makeBodyTube(name): makes a Launch Lug'''
+    '''makeLaunchLug(name): makes a Launch Lug'''
     obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
     ShapeLaunchLug(obj)
     if FreeCAD.GuiUp:
@@ -44,8 +46,18 @@ def makeLaunchLug(name='LaunchLug'):
         addToStage(obj)
     return obj
 
+def makeRailButton(name='RailButton'):
+    '''makeRailButton(name): makes a Rail Button'''
+    obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
+    ShapeRailButton(obj)
+    if FreeCAD.GuiUp:
+        ViewProviderRailButton(obj.ViewObject)
+
+        addToStage(obj)
+    return obj
+
 def makeLaunchGuide(name='LaunchGuide'):
-    '''makeBodyTube(name): makes a Launch Guide'''
+    '''makeLaunchGuide(name): makes a Launch Guide'''
     obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
     ShapeBodyTube(obj)
     if FreeCAD.GuiUp:
@@ -75,7 +87,7 @@ class CmdRailButton:
     def Activated(self):
         FreeCAD.ActiveDocument.openTransaction("Create rail button")
         FreeCADGui.addModule("Ui.CmdLaunchGuides")
-        FreeCADGui.doCommand("Ui.CmdLaunchGuides.makeLaunchGuide('RailButton')")
+        FreeCADGui.doCommand("Ui.CmdLaunchGuides.makeRailButton('RailButton')")
         FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
 
     def IsActive(self):

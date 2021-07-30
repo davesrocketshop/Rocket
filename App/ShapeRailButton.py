@@ -24,13 +24,11 @@ __title__ = "FreeCAD Rail Buttons"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
-from PySide import QtCore
-    
 from App.ShapeComponent import ShapeLocation
 from App.Constants import FEATURE_RAIL_BUTTON
 from App.Constants import RAIL_BUTTON_ROUND, RAIL_BUTTON_AIRFOIL
 
-from App.BodyTubeShapeHandler import BodyTubeShapeHandler
+from App.RailButtonShapeHandler import RailButtonShapeHandler
 
 from DraftTools import translate
 
@@ -67,14 +65,14 @@ class ShapeRailButton(ShapeLocation):
             obj.addProperty('App::PropertyLength', 'Length', 'BodyTube', translate('App::Property', 'Length of the rail button')).Length = 9.462
 
         if not hasattr(obj,"Shape"):
-            obj.addProperty('Part::PropertyPartShape', 'Shape', 'BodyTube', translate('App::Property', 'Shape of the body tube'))
+            obj.addProperty('Part::PropertyPartShape', 'Shape', 'BodyTube', translate('App::Property', 'Shape of the rail button'))
 
     def getAxialLength(self):
         # Return the length of this component along the central axis
         return self._obj.Length
 
     def execute(self, obj):
-        shape = BodyTubeShapeHandler(obj)
+        shape = RailButtonShapeHandler(obj)
         if shape is not None:
             shape.draw()
 
