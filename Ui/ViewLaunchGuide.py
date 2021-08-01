@@ -30,14 +30,15 @@ import FreeCADGui
 from Ui.TaskPanelRailButton import TaskPanelRailButton
 # from Ui.TaskPanelBodyTube import TaskPanelBodyTube
 # from App.ShapeBodyTube import hookChildren
+from Ui.ViewBodyTube import ViewProviderBodyTube
 
-class ViewProviderRailButton:
+class ViewProviderLaunchGuide:
 
     def __init__(self, vobj):
         vobj.Proxy = self
         
     def getIcon(self):
-        return FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_BodyTube.svg"
+        return FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_LaunchGuide.svg"
 
     def attach(self, vobj):
         self.ViewObject = vobj
@@ -59,3 +60,27 @@ class ViewProviderRailButton:
 
     def __setstate__(self, state):
         return None
+
+class ViewProviderRailButton(ViewProviderLaunchGuide):
+        
+    def getIcon(self):
+        return FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_RailButton.svg"
+
+    def setEdit(self, vobj, mode):
+        taskd = TaskPanelRailButton(self.Object, mode)
+        taskd.obj = vobj.Object
+        taskd.update()
+        FreeCADGui.Control.showDialog(taskd)
+        return True
+
+class ViewProviderLaunchLug(ViewProviderBodyTube):
+        
+    def getIcon(self):
+        return FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_LaunchLug.svg"
+
+    # def setEdit(self, vobj, mode):
+    #     taskd = TaskPanelRailButton(self.Object, mode)
+    #     taskd.obj = vobj.Object
+    #     taskd.update()
+    #     FreeCADGui.Control.showDialog(taskd)
+    #     return True

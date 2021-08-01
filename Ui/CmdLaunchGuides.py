@@ -31,7 +31,7 @@ from App.ShapeBodyTube import ShapeBodyTube
 from App.ShapeLaunchLug import ShapeLaunchLug
 from App.ShapeRailButton import ShapeRailButton
 from Ui.ViewBodyTube import ViewProviderBodyTube
-from Ui.ViewLaunchGuide import ViewProviderRailButton
+from Ui.ViewLaunchGuide import ViewProviderRailButton, ViewProviderLaunchLug
 from Ui.CmdStage import addToStage
 
 from DraftTools import translate
@@ -41,7 +41,7 @@ def makeLaunchLug(name='LaunchLug'):
     obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
     ShapeLaunchLug(obj)
     if FreeCAD.GuiUp:
-        ViewProviderBodyTube(obj.ViewObject)
+        ViewProviderLaunchLug(obj.ViewObject)
 
         addToStage(obj)
     return obj
@@ -81,7 +81,7 @@ class CmdLaunchLug:
     def GetResources(self):
         return {'MenuText': translate("Rocket", 'Launch Lug'),
                 'ToolTip': translate("Rocket", 'Launch lug design'),
-                'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_BodyTube.svg"}
+                'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_LaunchLug.svg"}
 
 class CmdRailButton:
     def Activated(self):
@@ -98,7 +98,7 @@ class CmdRailButton:
     def GetResources(self):
         return {'MenuText': translate("Rocket", 'Rail Button'),
                 'ToolTip': translate("Rocket", 'Rail button design'),
-                'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_BodyTube.svg"}
+                'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_RailButton.svg"}
 
 class CmdLaunchGuide:
     def Activated(self):
@@ -115,7 +115,7 @@ class CmdLaunchGuide:
     def GetResources(self):
         return {'MenuText': translate("Rocket", 'Launch Guide'),
                 'ToolTip': translate("Rocket", 'Launch guide design'),
-                'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_BodyTube.svg"}
+                'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_LaunchGuide.svg"}
 
 class CmdStandOff:
     def Activated(self):
@@ -132,4 +132,4 @@ class CmdStandOff:
     def GetResources(self):
         return {'MenuText': translate("Rocket", 'Stand Off'),
                 'ToolTip': translate("Rocket", 'Stand off design'),
-                'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_BodyTube.svg"}
+                'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Standoff.svg"}

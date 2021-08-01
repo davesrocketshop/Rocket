@@ -111,12 +111,12 @@ class _TubeGroupCommand:
 class _GuidesGroupCommand:
 
     def GetCommands(self):
-        return tuple(['Rocket_LaunchLug', 'Rocket_RailButton', 'Rocket_LaunchGuide', 'Rocket_Standoff'])
+        return tuple(['Rocket_LaunchLug', 'Rocket_RailButton', 'Rocket_LaunchGuide'])
     def GetResources(self):
         return {
             'MenuText': translate('Rocket', 'Launch Guides'),
             'ToolTip': translate('Rocket', 'Launch Guides'),
-            'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_BodyTube.svg"
+            'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_LaunchLug.svg"
         }
     def IsActive(self):
         if FreeCAD.ActiveDocument:

@@ -164,6 +164,9 @@ class ShapeBase(QObject):
     def setRadialPosition(self, outerRadius, innerRadius):
         pass
 
+    def getRadialPositionOffset(self):
+        return 0.0
+
     def moveUp(self):
         # Move the part up in the tree
         if self._parent is not None:

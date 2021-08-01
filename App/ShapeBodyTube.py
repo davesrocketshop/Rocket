@@ -27,7 +27,7 @@ __url__ = "https://www.davesrocketshop.com"
 from PySide import QtCore
     
 from App.ShapeComponent import ShapeLocation
-from App.Constants import FEATURE_BODY_TUBE, FEATURE_BULKHEAD, FEATURE_CENTERING_RING, FEATURE_FIN, FEATURE_LAUNCH_LUG
+from App.Constants import FEATURE_BODY_TUBE, FEATURE_BULKHEAD, FEATURE_CENTERING_RING, FEATURE_FIN, FEATURE_LAUNCH_LUG, FEATURE_RAIL_BUTTON, FEATURE_RAIL_GUIDE
 
 from App.BodyTubeShapeHandler import BodyTubeShapeHandler
 
@@ -108,7 +108,7 @@ class ShapeBodyTube(ShapeLocation):
             shape.draw()
 
     def eligibleChild(self, childType):
-        return childType in [FEATURE_BULKHEAD, FEATURE_BODY_TUBE, FEATURE_CENTERING_RING, FEATURE_FIN, FEATURE_LAUNCH_LUG]
+        return childType in [FEATURE_BULKHEAD, FEATURE_BODY_TUBE, FEATURE_CENTERING_RING, FEATURE_FIN, FEATURE_LAUNCH_LUG, FEATURE_RAIL_BUTTON, FEATURE_RAIL_GUIDE]
 
     def onChildEdited(self):
         # print("%s: onChildEdited()" % (self.__class__.__name__))

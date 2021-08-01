@@ -26,12 +26,14 @@ __url__ = "https://www.davesrocketshop.com"
 
 import FreeCAD
 
-from PySide.QtCore import QObject, Signal
+from PySide.QtCore import Signal
 
 from App.ShapeBase import ShapeBase
-from App.Utilities import _err
+# from App.Utilities import _err
 
+from App.Constants import PROP_HIDDEN, PROP_TRANSIENT
 from App.Constants import LOCATION_PARENT_TOP, LOCATION_PARENT_MIDDLE, LOCATION_PARENT_BOTTOM, LOCATION_BASE
+from App.Constants import PLACEMENT_AXIAL #, PLACEMENT_RADIAL
 
 from DraftTools import translate
 
@@ -50,6 +52,8 @@ class ShapeComponent(ShapeBase):
             obj.addProperty('App::PropertyString', 'Description', 'RocketComponent', translate('App::Property', 'Component description')).Description = ""
         if not hasattr(obj, 'Material'):
             obj.addProperty('App::PropertyString', 'Material', 'RocketComponent', translate('App::Property', 'Component material')).Material = ""
+        if not hasattr(obj, 'PlacementType'):
+            obj.addProperty('App::PropertyString', 'PlacementType', 'RocketComponent', translate('App::Property', 'Component placement type'), PROP_HIDDEN|PROP_TRANSIENT).PlacementType = PLACEMENT_AXIAL
 
     def positionChild(self, obj, parent, parentBase, parentLength, parentRadius):
         # Calculate any auto radii
@@ -70,9 +74,24 @@ class ShapeComponent(ShapeBase):
 
             roll = float(obj.RadialOffset)
 
-        base = obj.Placement.Base
+        # base = obj.Placement.Base
+
+        if self._obj.PlacementType == PLACEMENT_AXIAL:
+            self._positionChildAxial(obj, partBase, roll)
+        else:
+            self._positionChildRadial(obj, parent, parentRadius, partBase, roll)
+
+    def _positionChildAxial(self, obj, partBase, roll):
         # newPlacement = FreeCAD.Placement(FreeCAD.Vector(partBase, 0, parentRadius), FreeCAD.Rotation(FreeCAD.Vector(1,0,0), roll), FreeCAD.Vector(0, 0, -parentRadius))
         newPlacement = FreeCAD.Placement(FreeCAD.Vector(partBase, 0, 0), FreeCAD.Rotation(FreeCAD.Vector(1,0,0), roll), FreeCAD.Vector(0, 0, 0))
+        if obj.Placement != newPlacement:
+            obj.Placement = newPlacement
+
+    def _positionChildRadial(self, obj, parent, parentRadius, partBase, roll):
+        radial = float(parentRadius) + float(obj.Proxy.getRadialPositionOffset()) # Need to add current parent radial
+        if hasattr(obj, 'AxialOffset'):
+            radial += float(obj.AxialOffset)
+        newPlacement = FreeCAD.Placement(FreeCAD.Vector(partBase, 0, radial), FreeCAD.Rotation(FreeCAD.Vector(1,0,0), roll), FreeCAD.Vector(0, 0, 0))
         if obj.Placement != newPlacement:
             obj.Placement = newPlacement
 

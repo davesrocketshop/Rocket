@@ -39,6 +39,7 @@ FEATURE_TRANSITION = "RocketTransition"
 FEATURE_LAUNCH_LUG = "RocketLaunchLug"
 FEATURE_RAIL_BUTTON = "RocketRailButton"
 FEATURE_RAIL_GUIDE = "RocketRailGuide"
+FEATURE_OFFSET = "RocketOffset"
     
 # Part styles
 STYLE_SOLID = "solid"
@@ -98,6 +99,10 @@ COMPONENT_TYPE_NOSECONE = "Nose Cone"
 COMPONENT_TYPE_PARACHUTE = "Parachute"
 COMPONENT_TYPE_STREAMER = "Streamer"
 COMPONENT_TYPE_TRANSITION = "Transition"
+
+# Component placement type
+PLACEMENT_AXIAL = "Axial"
+PLACEMENT_RADIAL = "Radial"
 
 # Location Reference
 LOCATION_PARENT_TOP = QT_TRANSLATE_NOOP('Rocket', "Top of the parent component")

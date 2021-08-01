@@ -28,6 +28,7 @@ from PySide import QtCore
     
 from App.Constants import FEATURE_LAUNCH_LUG
 from App.Constants import PROP_HIDDEN
+from App.Constants import PLACEMENT_RADIAL
 
 from App.ShapeBodyTube import ShapeBodyTube
 
@@ -36,6 +37,7 @@ class ShapeLaunchLug(ShapeBodyTube):
     def __init__(self, obj):
         super().__init__(obj)
         self.Type = FEATURE_LAUNCH_LUG
+        self._obj.PlacementType = PLACEMENT_RADIAL
 
         # Default set to 1/8" launch lug
         self._obj.OuterDiameter = 4.06
@@ -44,6 +46,9 @@ class ShapeLaunchLug(ShapeBodyTube):
 
         obj.setEditorMode('MotorMount', PROP_HIDDEN)  # hide
         obj.setEditorMode('Overhang', PROP_HIDDEN)  # hide
+
+    def getRadialPositionOffset(self):
+        return self._obj.OuterDiameter / 2.0
 
     def eligibleChild(self, childType):
         return False

@@ -50,7 +50,7 @@ class RocketWorkbench ( Workbench ):
                         ['Rocket_CenteringRing', 'Rocket_Bulkhead', 'Rocket_Fin'])
         self.appendMenu([QT_TRANSLATE_NOOP('Rocket', 'Rocket'), 
                          QT_TRANSLATE_NOOP("Rocket", "Launch Guides")],
-                        ['Rocket_LaunchLug', 'Rocket_RailButton', 'Rocket_LaunchGuide', 'Rocket_Standoff'])
+                        ['Rocket_LaunchLug', 'Rocket_RailButton', 'Rocket_LaunchGuide'])
         self.appendMenu(QT_TRANSLATE_NOOP('Rocket', 'Rocket'), 
                         ['Separator'])
         self.appendMenu([QT_TRANSLATE_NOOP("Rocket", "Rocket"),
