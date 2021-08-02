@@ -25,6 +25,7 @@ __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
 import FreeCAD
+import math
 
 from PySide.QtCore import Signal
 
@@ -91,7 +92,12 @@ class ShapeComponent(ShapeBase):
         radial = float(parentRadius) + float(obj.Proxy.getRadialPositionOffset()) # Need to add current parent radial
         if hasattr(obj, 'AxialOffset'):
             radial += float(obj.AxialOffset)
-        newPlacement = FreeCAD.Placement(FreeCAD.Vector(partBase, 0, radial), FreeCAD.Rotation(FreeCAD.Vector(1,0,0), roll), FreeCAD.Vector(0, 0, 0))
+
+        # Use a matrix for transformations, otherwise it rotates around the part axis not the rocket axis
+        matrix = FreeCAD.Matrix()
+        matrix.move(FreeCAD.Vector(partBase, 0, radial))
+        matrix.rotateX(math.radians(roll))
+        newPlacement = FreeCAD.Placement(matrix)
         if obj.Placement != newPlacement:
             obj.Placement = newPlacement
 
