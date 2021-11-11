@@ -27,7 +27,7 @@ __url__ = "https://www.davesrocketshop.com"
 import FreeCAD
 
 from App.ShapeComponent import ShapeLocation
-from App.Constants import FEATURE_FIN
+from App.Constants import FEATURE_FIN, FEATURE_LAUNCH_LUG, FEATURE_RAIL_BUTTON, FEATURE_RAIL_GUIDE
 
 from App.Constants import FIN_TYPE_TRAPEZOID, FIN_TYPE_ELLIPSE, FIN_TYPE_SKETCH
 from App.Constants import FIN_CROSS_SAME, FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE, \
@@ -128,6 +128,9 @@ class ShapeFin(ShapeLocation):
         if not hasattr(obj, "Profile"):
             obj.addProperty('App::PropertyLink', 'Profile', 'Fin', translate('App::Property', 'Custom fin sketch')).Profile = None
 
+        if not hasattr(obj,"Group"):
+            obj.addExtension("App::GroupExtensionPython")
+
         obj.addProperty('Part::PropertyPartShape', 'Shape', 'Fin', translate('App::Property', 'Shape of the fin'))
 
         # A transient property for debugging sketch based fins
@@ -149,21 +152,21 @@ class ShapeFin(ShapeLocation):
     def positionChild(self, obj, parent, parentBase, parentLength, parentRadius):
         # print("ShapeFin: positionChild")
 
+        super().positionChild(obj, parent, parentBase, parentLength, parentRadius)
         self._obj.ParentRadius = parentRadius
 
-        if obj.LocationReference == LOCATION_PARENT_TOP:
-            partBase = (parentBase + parentLength) - float(obj.Location)
-        elif obj.LocationReference == LOCATION_PARENT_MIDDLE:
-            partBase = (parentBase + (parentLength / 2.0)) + float(obj.Location)
-        elif obj.LocationReference == LOCATION_PARENT_BOTTOM:
-            partBase = parentBase + float(obj.Location)
-        elif obj.LocationReference == LOCATION_BASE:
-            partBase = float(obj.Location)
+        # if obj.LocationReference == LOCATION_PARENT_TOP:
+        #     partBase = (parentBase + parentLength) - float(obj.Location)
+        # elif obj.LocationReference == LOCATION_PARENT_MIDDLE:
+        #     partBase = (parentBase + (parentLength / 2.0)) + float(obj.Location)
+        # elif obj.LocationReference == LOCATION_PARENT_BOTTOM:
+        #     partBase = parentBase + float(obj.Location)
+        # elif obj.LocationReference == LOCATION_BASE:
+        #     partBase = float(obj.Location)
 
-        roll = float(obj.RadialOffset)
+        # roll = float(obj.RadialOffset)
 
-        base = obj.Placement.Base
-        obj.Placement = FreeCAD.Placement(FreeCAD.Vector(partBase, 0, 0), FreeCAD.Rotation(FreeCAD.Vector(1,0,0), roll), FreeCAD.Vector(0, 0, 0))
+        # obj.Placement = FreeCAD.Placement(FreeCAD.Vector(partBase, 0, 0), FreeCAD.Rotation(FreeCAD.Vector(1,0,0), roll), FreeCAD.Vector(0, 0, 0))
 
     def execute(self, obj):
 
@@ -176,3 +179,6 @@ class ShapeFin(ShapeLocation):
 
         if shape is not None:
             shape.draw()
+
+    def eligibleChild(self, childType):
+        return childType in [FEATURE_FIN, FEATURE_LAUNCH_LUG, FEATURE_RAIL_BUTTON, FEATURE_RAIL_GUIDE]
