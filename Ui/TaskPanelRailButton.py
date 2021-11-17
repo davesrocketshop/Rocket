@@ -68,17 +68,17 @@ class _RailButtonDialog(QDialog):
         self.idInput.unit = 'mm'
         self.idInput.setFixedWidth(80)
 
-        self.outerThicknessLabel = QtGui.QLabel(translate('Rocket', "Outer Thickness"), self)
+        self.topThicknessLabel = QtGui.QLabel(translate('Rocket', "Top Thickness"), self)
 
-        self.outerThicknessInput = ui.createWidget("Gui::InputField")
-        self.outerThicknessInput.unit = 'mm'
-        self.outerThicknessInput.setFixedWidth(80)
+        self.topThicknessInput = ui.createWidget("Gui::InputField")
+        self.topThicknessInput.unit = 'mm'
+        self.topThicknessInput.setFixedWidth(80)
 
-        self.innerThicknessLabel = QtGui.QLabel(translate('Rocket', "Inner Thickness"), self)
+        self.bottomThicknessLabel = QtGui.QLabel(translate('Rocket', "Bottom Thickness"), self)
 
-        self.innerThicknessInput = ui.createWidget("Gui::InputField")
-        self.innerThicknessInput.unit = 'mm'
-        self.innerThicknessInput.setFixedWidth(80)
+        self.bottomThicknessInput = ui.createWidget("Gui::InputField")
+        self.bottomThicknessInput.unit = 'mm'
+        self.bottomThicknessInput.setFixedWidth(80)
 
         self.thicknessLabel = QtGui.QLabel(translate('Rocket', "Total Thickness"), self)
 
@@ -108,12 +108,12 @@ class _RailButtonDialog(QDialog):
         grid.addWidget(self.idInput, row, 1)
         row += 1
 
-        grid.addWidget(self.outerThicknessLabel, row, 0)
-        grid.addWidget(self.outerThicknessInput, row, 1)
+        grid.addWidget(self.topThicknessLabel, row, 0)
+        grid.addWidget(self.topThicknessInput, row, 1)
         row += 1
 
-        grid.addWidget(self.innerThicknessLabel, row, 0)
-        grid.addWidget(self.innerThicknessInput, row, 1)
+        grid.addWidget(self.bottomThicknessLabel, row, 0)
+        grid.addWidget(self.bottomThicknessInput, row, 1)
         row += 1
 
         grid.addWidget(self.thicknessLabel, row, 0)
@@ -142,8 +142,8 @@ class TaskPanelRailButton:
         
         self._btForm.odInput.textEdited.connect(self.onOd)
         self._btForm.idInput.textEdited.connect(self.onId)
-        self._btForm.outerThicknessInput.textEdited.connect(self.onOuterThickness)
-        self._btForm.innerThicknessInput.textEdited.connect(self.onInnerThickness)
+        self._btForm.topThicknessInput.textEdited.connect(self.onTopThickness)
+        self._btForm.bottomThicknessInput.textEdited.connect(self.onBottomThickness)
         self._btForm.thicknessInput.textEdited.connect(self.onThickness)
         self._btForm.lengthInput.textEdited.connect(self.onLength)
 
@@ -160,8 +160,8 @@ class TaskPanelRailButton:
         self._obj.RailButtonType = str(self._btForm.railButtonTypeCombo.currentText())
         self._obj.OuterDiameter = self._btForm.odInput.text()
         self._obj.InnerDiameter = self._btForm.idInput.text()
-        self._obj.OuterThickness = self._btForm.outerThicknessInput.text()
-        self._obj.InnerThickness = self._btForm.innerThicknessInput.text()
+        self._obj.TopThickness = self._btForm.topThicknessInput.text()
+        self._obj.BottomThickness = self._btForm.bottomThicknessInput.text()
         self._obj.Thickness = self._btForm.thicknessInput.text()
         self._obj.Length = self._btForm.lengthInput.text()
 
@@ -170,8 +170,8 @@ class TaskPanelRailButton:
         self._btForm.railButtonTypeCombo.setCurrentText(self._obj.RailButtonType)
         self._btForm.odInput.setText(self._obj.OuterDiameter.UserString)
         self._btForm.idInput.setText(self._obj.InnerDiameter.UserString)
-        self._btForm.outerThicknessInput.setText(self._obj.OuterThickness.UserString)
-        self._btForm.innerThicknessInput.setText(self._obj.InnerThickness.UserString)
+        self._btForm.topThicknessInput.setText(self._obj.TopThickness.UserString)
+        self._btForm.bottomThicknessInput.setText(self._obj.BottomThickness.UserString)
         self._btForm.thicknessInput.setText(self._obj.Thickness.UserString)
         self._btForm.lengthInput.setText(self._obj.Length.UserString)
 
@@ -214,17 +214,17 @@ class TaskPanelRailButton:
             pass
         self.setEdited()
         
-    def onOuterThickness(self, value):
+    def onTopThickness(self, value):
         try:
-            self._obj.OuterThickness = FreeCAD.Units.Quantity(value).Value
+            self._obj.TopThickness = FreeCAD.Units.Quantity(value).Value
             self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
         self.setEdited()
         
-    def onInnerThickness(self, value):
+    def onBottomThickness(self, value):
         try:
-            self._obj.InnerThickness = FreeCAD.Units.Quantity(value).Value
+            self._obj.BottomThickness = FreeCAD.Units.Quantity(value).Value
             self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass

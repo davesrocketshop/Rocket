@@ -47,27 +47,27 @@ class ShapeRailButton(ShapeLocation):
 
         # Default set to a BT-50
         if not hasattr(obj,"RailButtonType"):
-            obj.addProperty('App::PropertyEnumeration', 'RailButtonType', 'Fin', translate('App::Property', 'Rail button type'))
+            obj.addProperty('App::PropertyEnumeration', 'RailButtonType', 'RailButton', translate('App::Property', 'Rail button type'))
         obj.RailButtonType = [RAIL_BUTTON_ROUND, 
                 RAIL_BUTTON_AIRFOIL
                 ]
         obj.RailButtonType = RAIL_BUTTON_ROUND
 
         if not hasattr(obj,"OuterDiameter"):
-            obj.addProperty('App::PropertyLength', 'OuterDiameter', 'BodyTube', translate('App::Property', 'Diameter of the outside of the rail button')).OuterDiameter = 9.462
+            obj.addProperty('App::PropertyLength', 'OuterDiameter', 'RailButton', translate('App::Property', 'Diameter of the outside of the rail button')).OuterDiameter = 9.462
         if not hasattr(obj, 'InnerDiameter'):
-            obj.addProperty('App::PropertyLength', 'InnerDiameter', 'BodyTube', translate('App::Property', 'Diameter of the inside of the rail button')).InnerDiameter = 6.2375
-        if not hasattr(obj,"OuterThickness"):
-            obj.addProperty('App::PropertyLength', 'OuterThickness', 'BodyTube', translate('App::Property', 'Thickness of the outboard part of the rail button')).OuterThickness = 2.096
-        if not hasattr(obj,"InnerThickness"):
-            obj.addProperty('App::PropertyLength', 'InnerThickness', 'BodyTube', translate('App::Property', 'Thickness of the inside part of the rail button')).InnerThickness = 3.429
+            obj.addProperty('App::PropertyLength', 'InnerDiameter', 'RailButton', translate('App::Property', 'Diameter of the inside of the rail button')).InnerDiameter = 6.2375
+        if not hasattr(obj,"TopThickness"):
+            obj.addProperty('App::PropertyLength', 'TopThickness', 'RailButton', translate('App::Property', 'Thickness of the outboard part of the rail button')).TopThickness = 2.096
+        if not hasattr(obj,"BottomThickness"):
+            obj.addProperty('App::PropertyLength', 'BottomThickness', 'RailButton', translate('App::Property', 'Thickness of the inside part of the rail button')).BottomThickness = 3.429
         if not hasattr(obj,"Thickness"):
-            obj.addProperty('App::PropertyLength', 'Thickness', 'BodyTube', translate('App::Property', 'Total thickness of the rail button')).Thickness = 7.62
+            obj.addProperty('App::PropertyLength', 'Thickness', 'RailButton', translate('App::Property', 'Total thickness of the rail button')).Thickness = 7.62
         if not hasattr(obj,"Length"):
-            obj.addProperty('App::PropertyLength', 'Length', 'BodyTube', translate('App::Property', 'Length of the rail button')).Length = 9.462
+            obj.addProperty('App::PropertyLength', 'Length', 'RailButton', translate('App::Property', 'Length of the rail button')).Length = 12.0
 
         if not hasattr(obj,"Shape"):
-            obj.addProperty('Part::PropertyPartShape', 'Shape', 'BodyTube', translate('App::Property', 'Shape of the rail button'))
+            obj.addProperty('Part::PropertyPartShape', 'Shape', 'RailButton', translate('App::Property', 'Shape of the rail button'))
 
     def getAxialLength(self):
         # Return the length of this component along the central axis
