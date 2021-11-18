@@ -35,7 +35,7 @@ from Ui.CmdCenteringRing import CmdCenteringRing
 from Ui.CmdBodyTube import CmdBodyTube, CmdCoupler, CmdInnerTube
 from Ui.CmdBulkhead import CmdBulkhead
 from Ui.CmdFin import CmdFin
-from Ui.CmdLaunchGuides import CmdLaunchLug, CmdRailButton, CmdLaunchGuide, CmdStandOff
+from Ui.CmdLaunchGuides import CmdLaunchLug, CmdRailButton, CmdRailGuide, CmdStandOff
 from Ui.CmdEditTree import CmdMoveUp, CmdMoveDown, CmdEdit, CmdDelete
 
 # Calculators
@@ -64,7 +64,7 @@ FreeCADGui.addCommand('Rocket_InnerTube', CmdInnerTube())
 
 FreeCADGui.addCommand('Rocket_LaunchLug', CmdLaunchLug())
 FreeCADGui.addCommand('Rocket_RailButton', CmdRailButton())
-FreeCADGui.addCommand('Rocket_LaunchGuide', CmdLaunchGuide())
+FreeCADGui.addCommand('Rocket_RailGuide', CmdRailGuide())
 FreeCADGui.addCommand('Rocket_Standoff', CmdStandOff())
 
 FreeCADGui.addCommand('Rocket_CalcBlackPowder', CmdCalcBlackPowder())
@@ -111,7 +111,7 @@ class _TubeGroupCommand:
 class _GuidesGroupCommand:
 
     def GetCommands(self):
-        return tuple(['Rocket_LaunchLug', 'Rocket_RailButton', 'Rocket_LaunchGuide'])
+        return tuple(['Rocket_LaunchLug', 'Rocket_RailButton', 'Rocket_RailGuide'])
     def GetResources(self):
         return {
             'MenuText': translate('Rocket', 'Launch Guides'),

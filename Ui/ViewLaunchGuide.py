@@ -27,25 +27,26 @@ __url__ = "https://www.davesrocketshop.com"
 import FreeCAD
 import FreeCADGui
 
+from Ui.TaskPanelRailGuide import TaskPanelRailGuide
 from Ui.TaskPanelRailButton import TaskPanelRailButton
 # from Ui.TaskPanelBodyTube import TaskPanelBodyTube
 # from App.ShapeBodyTube import hookChildren
 from Ui.ViewBodyTube import ViewProviderBodyTube
 
-class ViewProviderLaunchGuide:
+class ViewProviderRailGuide:
 
     def __init__(self, vobj):
         vobj.Proxy = self
         
     def getIcon(self):
-        return FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_LaunchGuide.svg"
+        return FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_RailGuide.svg"
 
     def attach(self, vobj):
         self.ViewObject = vobj
         self.Object = vobj.Object
 
     def setEdit(self, vobj, mode):
-        taskd = TaskPanelRailButton(self.Object, mode)
+        taskd = TaskPanelRailGuide(self.Object, mode)
         taskd.obj = vobj.Object
         taskd.update()
         FreeCADGui.Control.showDialog(taskd)
@@ -61,7 +62,7 @@ class ViewProviderLaunchGuide:
     def __setstate__(self, state):
         return None
 
-class ViewProviderRailButton(ViewProviderLaunchGuide):
+class ViewProviderRailButton(ViewProviderRailGuide):
         
     def getIcon(self):
         return FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_RailButton.svg"
