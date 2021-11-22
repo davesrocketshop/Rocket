@@ -87,6 +87,11 @@ MATERIAL_TYPE_LINE = "LINE"
 RAIL_BUTTON_ROUND = "Round"
 RAIL_BUTTON_AIRFOIL = "Airfoil"
 
+# Rail guide base types
+RAIL_GUIDE_BASE_FLAT = "Flat"
+RAIL_GUIDE_BASE_CONFORMAL = "Conformal"
+RAIL_GUIDE_BASE_V = "V Shaped"
+
 # Components in the database
 COMPONENT_TYPE_ANY = "Any"
 COMPONENT_TYPE_BODYTUBE = "Body Tube"

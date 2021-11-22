@@ -43,7 +43,7 @@ class RailButtonShapeHandler():
         self._outerDiameter = float(obj.OuterDiameter)
         self._innerDiameter = float(obj.InnerDiameter)
         self._topThickness = float(obj.TopThickness)
-        self._bottomThickness = float(obj.BottomThickness)
+        self._baseThickness = float(obj.BaseThickness)
         self._thickness = float(obj.Thickness)
         self._length = float(obj.Length)
 
@@ -63,14 +63,14 @@ class RailButtonShapeHandler():
         if self._topThickness <= 0:
             _err(translate('Rocket', "Top thickness must be greater than zero"))
             return False
-        if self._bottomThickness <= 0:
-            _err(translate('Rocket', "Bottom thickness must be greater than zero"))
+        if self._baseThickness <= 0:
+            _err(translate('Rocket', "Base thickness must be greater than zero"))
             return False
         if self._thickness <= 0:
             _err(translate('Rocket', "Thickness must be greater than zero"))
             return False
-        if self._thickness <= (self._topThickness + self._bottomThickness):
-            _err(translate('Rocket', "Top and bottom thickness can not excedd the total thickness"))
+        if self._thickness <= (self._topThickness + self._baseThickness):
+            _err(translate('Rocket', "Top and base thickness can not excedd the total thickness"))
             return False
 
         if self._railButtonType == RAIL_BUTTON_AIRFOIL:
@@ -92,7 +92,7 @@ class RailButtonShapeHandler():
         spool = spool.fuse(spoolTop)
 
         # spoolBottom = Part.makeCylinder(self._outerDiameter / 2.0, self._thickness - self._topThickness, FreeCAD.Vector(0,0,0), FreeCAD.Vector(1,0,0))
-        spoolBottom = Part.makeCylinder(self._outerDiameter / 2.0, self._bottomThickness, FreeCAD.Vector(0,0,0), FreeCAD.Vector(0,0,1))
+        spoolBottom = Part.makeCylinder(self._outerDiameter / 2.0, self._baseThickness, FreeCAD.Vector(0,0,0), FreeCAD.Vector(0,0,1))
         spool = spool.fuse(spoolBottom)
 
         return spool
@@ -126,8 +126,8 @@ class RailButtonShapeHandler():
         spoolTop = self._airfoil(self._thickness - self._topThickness, self._topThickness, self._outerDiameter, self._length)
         spool = spool.fuse(spoolTop)
 
-        spoolBottom = Part.makeCylinder(self._outerDiameter / 2.0, self._bottomThickness, FreeCAD.Vector(0,0,0), FreeCAD.Vector(0,0,1))
-        spoolBottom = self._airfoil(0.0, self._bottomThickness, self._outerDiameter, self._length)
+        spoolBottom = Part.makeCylinder(self._outerDiameter / 2.0, self._baseThickness, FreeCAD.Vector(0,0,0), FreeCAD.Vector(0,0,1))
+        spoolBottom = self._airfoil(0.0, self._baseThickness, self._outerDiameter, self._length)
         spool = spool.fuse(spoolBottom)
 
         return spool

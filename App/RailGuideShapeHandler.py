@@ -26,9 +26,12 @@ __url__ = "https://www.davesrocketshop.com"
     
 import FreeCAD
 import Part
+import math
 
-# from App.Utilities import _err
-# from DraftTools import translate
+from App.Constants import RAIL_GUIDE_BASE_FLAT, RAIL_GUIDE_BASE_CONFORMAL, RAIL_GUIDE_BASE_V
+
+from App.Utilities import _err
+from DraftTools import translate
 
 class RailGuideShapeHandler():
     def __init__(self, obj):
@@ -36,13 +39,18 @@ class RailGuideShapeHandler():
         # This gets changed when redrawn so it's very important to save a copy
         self._placement = obj.Placement
 
+        self._railGuideBaseType = obj.RailGuideBaseType
+
         self._topWidth = float(obj.TopWidth)
         self._middleWidth = float(obj.MiddleWidth)
         self._baseWidth = float(obj.BaseWidth)
         self._topThickness = float(obj.TopThickness)
-        self._bottomThickness = float(obj.BottomThickness)
+        self._baseThickness = float(obj.BaseThickness)
         self._thickness = float(obj.Thickness)
         self._length = float(obj.Length)
+
+        self._diameter = float(obj.Diameter)
+        self._autoDiameter = obj.AutoDiameter
 
         self._obj = obj
 
@@ -74,18 +82,57 @@ class RailGuideShapeHandler():
 
         return True
 
+    def _drawBaseFlat(self):
+        base = Part.makeBox(self._length, self._baseWidth, self._baseThickness, FreeCAD.Vector(0,-self._baseWidth / 2.0,0), FreeCAD.Vector(0,0,1))
+        return base
+
+    def _drawBaseConformal(self):
+        # Calculate end points
+        radius = self._diameter / 2.0
+        theta = math.asin(self._baseWidth / (self._diameter))
+        a = math.cos(theta) * radius
+        z = -(radius - a)
+        y = self._baseWidth / 2.0
+
+        # draw end face
+        v1 = FreeCAD.Vector(0,-y, z)
+        v2 = FreeCAD.Vector(0,-y, z + self._baseThickness)
+        v3 = FreeCAD.Vector(0, y, z)
+        v4 = FreeCAD.Vector(0, y, z + self._baseThickness)
+        v5 = FreeCAD.Vector(0, 0, 0)
+        v6 = FreeCAD.Vector(0, 0, self._baseThickness)
+
+        arc1 = Part.Arc(v1,v5,v3)
+        arc2 = Part.Arc(v2,v6,v4)
+        line1 = Part.LineSegment(v1, v2)
+        line2 = Part.LineSegment(v3, v4)
+        shape = Part.Shape([arc1, line1, line2, arc2])
+        # Part.show(shape)
+        wire = Part.Wire(shape.Edges)
+        face = Part.Face(wire)
+        base = face.extrude(FreeCAD.Vector(self._length, 0, 0))
+
+        return base
+
+    def _drawBaseV(self):
+        return self._drawBaseFlat()
+
+    def _drawBase(self):
+        if self._railGuideBaseType == RAIL_GUIDE_BASE_CONFORMAL:
+            return self._drawBaseConformal()
+        elif self._railGuideBaseType == RAIL_GUIDE_BASE_V:
+            return self._drawBaseV()
+        else:
+            return self._drawBaseFlat()
+
     def _drawGuide(self):
         # Essentially creating an I beam
-        # guide = Part.makeCylinder(self._middleWidth / 2.0, self._thickness, FreeCAD.Vector(0,0,0), FreeCAD.Vector(0,0,1))
         guide = Part.makeBox(self._length, self._middleWidth, self._thickness, FreeCAD.Vector(0,-self._middleWidth / 2.0,0), FreeCAD.Vector(0,0,1))
 
-        # guideTop = Part.makeCylinder(self._topWidth / 2.0, self._topThickness, FreeCAD.Vector(0,0,self._thickness - self._topThickness), FreeCAD.Vector(0,0,1))
         guideTop = Part.makeBox(self._length, self._topWidth, self._topThickness, FreeCAD.Vector(0,-self._topWidth / 2.0,self._thickness - self._topThickness), FreeCAD.Vector(0,0,1))
         guide = guide.fuse(guideTop)
 
-        # guideBottom = Part.makeCylinder(self._topWidth / 2.0, self._thickness - self._topThickness, FreeCAD.Vector(0,0,0), FreeCAD.Vector(1,0,0))
-        # guideBottom = Part.makeCylinder(self._topWidth / 2.0, self._bottomThickness, FreeCAD.Vector(0,0,0), FreeCAD.Vector(0,0,1))
-        guideBottom = Part.makeBox(self._length, self._baseWidth, self._bottomThickness, FreeCAD.Vector(0,-self._baseWidth / 2.0,0), FreeCAD.Vector(0,0,1))
+        guideBottom = self._drawBase()
         guide = guide.fuse(guideBottom)
 
         return guide
