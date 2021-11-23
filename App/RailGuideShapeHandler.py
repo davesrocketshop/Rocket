@@ -28,7 +28,7 @@ import FreeCAD
 import Part
 import math
 
-from App.Constants import RAIL_GUIDE_BASE_FLAT, RAIL_GUIDE_BASE_CONFORMAL, RAIL_GUIDE_BASE_V
+from App.Constants import RAIL_GUIDE_BASE_CONFORMAL, RAIL_GUIDE_BASE_V
 
 from App.Utilities import _err
 from DraftTools import translate
@@ -51,6 +51,7 @@ class RailGuideShapeHandler():
 
         self._diameter = float(obj.Diameter)
         self._autoDiameter = obj.AutoDiameter
+        self._vAngle = math.radians(float(obj.VAngle))
 
         self._obj = obj
 
@@ -115,7 +116,33 @@ class RailGuideShapeHandler():
         return base
 
     def _drawBaseV(self):
-        return self._drawBaseFlat()
+        # Calculate end points
+        theta = self._vAngle / 2.0
+        a = (self._baseWidth / 2.0) / math.fabs(math.tan(theta))
+        z = -a
+        y = self._baseWidth / 2.0
+
+        # draw end face
+        v1 = FreeCAD.Vector(0,-y, z)
+        v2 = FreeCAD.Vector(0,-y, z + self._baseThickness)
+        v3 = FreeCAD.Vector(0, y, z)
+        v4 = FreeCAD.Vector(0, y, z + self._baseThickness)
+        v5 = FreeCAD.Vector(0, 0, 0)
+        v6 = FreeCAD.Vector(0, 0, self._baseThickness)
+
+        line1 = Part.LineSegment(v1, v5)
+        line2 = Part.LineSegment(v5, v3)
+        line3 = Part.LineSegment(v3, v4)
+        line4 = Part.LineSegment(v4, v6)
+        line5 = Part.LineSegment(v6, v2)
+        line6 = Part.LineSegment(v1, v2)
+        shape = Part.Shape([line1, line2, line3, line4, line5, line6])
+        # Part.show(shape)
+        wire = Part.Wire(shape.Edges)
+        face = Part.Face(wire)
+        base = face.extrude(FreeCAD.Vector(self._length, 0, 0))
+
+        return base
 
     def _drawBase(self):
         if self._railGuideBaseType == RAIL_GUIDE_BASE_CONFORMAL:
