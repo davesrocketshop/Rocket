@@ -116,6 +116,21 @@ class _RailGuideDialog(QDialog):
         self.vAngleInput.unit = 'deg'
         self.vAngleInput.setFixedWidth(80)
 
+        # Rake parameters
+        self.forwardRakeCheckbox = QtGui.QCheckBox(translate('Rocket', "Forward Rake"), self)
+        self.forwardRakeCheckbox.setCheckState(QtCore.Qt.Unchecked)
+
+        self.forwardRakeInput = ui.createWidget("Gui::InputField")
+        self.forwardRakeInput.unit = 'deg'
+        self.forwardRakeInput.setFixedWidth(80)
+
+        self.aftRakeCheckbox = QtGui.QCheckBox(translate('Rocket', "Aft Rake"), self)
+        self.aftRakeCheckbox.setCheckState(QtCore.Qt.Unchecked)
+
+        self.aftRakeInput = ui.createWidget("Gui::InputField")
+        self.aftRakeInput.unit = 'deg'
+        self.aftRakeInput.setFixedWidth(80)
+
         # General paramaters
         row = 0
         grid = QGridLayout()
@@ -162,6 +177,14 @@ class _RailGuideDialog(QDialog):
         grid.addWidget(self.vAngleInput, row, 1)
         row += 1
 
+        grid.addWidget(self.forwardRakeCheckbox, row, 0)
+        grid.addWidget(self.forwardRakeInput, row, 1)
+        row += 1
+
+        grid.addWidget(self.aftRakeCheckbox, row, 0)
+        grid.addWidget(self.aftRakeInput, row, 1)
+        row += 1
+
         self.setLayout(grid)
 
 class TaskPanelRailGuide:
@@ -189,6 +212,10 @@ class TaskPanelRailGuide:
         self._btForm.diameterInput.textEdited.connect(self.onDiameter)
         self._btForm.autoDiameterCheckbox.stateChanged.connect(self.onAutoDiameter)
         self._btForm.vAngleInput.textEdited.connect(self.onVAngle)
+        self._btForm.forwardRakeCheckbox.stateChanged.connect(self.onForwardRake)
+        self._btForm.forwardRakeInput.textEdited.connect(self.onForwardRakeAngle)
+        self._btForm.aftRakeCheckbox.stateChanged.connect(self.onAftRake)
+        self._btForm.aftRakeInput.textEdited.connect(self.onAftRakeAngle)
 
         self._location.locationChange.connect(self.onLocation)
         
@@ -211,6 +238,10 @@ class TaskPanelRailGuide:
         self._obj.Diameter = self._btForm.diameterInput.text()
         self._obj.AutoDiameter = self._btForm.autoDiameterCheckbox.isChecked()
         self._obj.VAngle = self._btForm.vAngleInput.text()
+        self._obj.ForwardRake = self._btForm.forwardRakeCheckbox.isChecked()
+        self._obj.ForwardRakeAngle = self._btForm.forwardRakeInput.text()
+        self._obj.AftRake = self._btForm.aftRakeCheckbox.isChecked()
+        self._obj.AftRakeAngle = self._btForm.aftRakeInput.text()
 
     def transferFrom(self):
         "Transfer from the object to the dialog"
@@ -225,8 +256,14 @@ class TaskPanelRailGuide:
         self._btForm.diameterInput.setText(self._obj.Diameter.UserString)
         self._btForm.autoDiameterCheckbox.setChecked(self._obj.AutoDiameter)
         self._btForm.vAngleInput.setText(self._obj.VAngle.UserString)
+        self._btForm.forwardRakeCheckbox.setChecked(self._obj.ForwardRake)
+        self._btForm.forwardRakeInput.setText(self._obj.ForwardRakeAngle.UserString)
+        self._btForm.aftRakeCheckbox.setChecked(self._obj.AftRake)
+        self._btForm.aftRakeInput.setText(self._obj.AftRakeAngle.UserString)
 
         self._setTypeState()
+        self._setForwardRakeState()
+        self._setAftRakeState()
 
     def setEdited(self):
         try:
@@ -346,6 +383,44 @@ class TaskPanelRailGuide:
     def onVAngle(self, value):
         try:
             self._obj.VAngle = FreeCAD.Units.Quantity(value).Value
+            self._obj.Proxy.execute(self._obj)
+        except ValueError:
+            pass
+        self.setEdited()
+        
+    def _setForwardRakeState(self):
+        self._btForm.forwardRakeInput.setEnabled(self._obj.ForwardRake)
+        self._btForm.forwardRakeCheckbox.setChecked(self._obj.ForwardRake)
+        
+    def onForwardRake(self, value):
+        self._obj.ForwardRake = value
+        self._setForwardRakeState()
+
+        self._obj.Proxy.execute(self._obj)
+        self.setEdited()
+        
+    def onForwardRakeAngle(self, value):
+        try:
+            self._obj.ForwardRakeAngle = FreeCAD.Units.Quantity(value).Value
+            self._obj.Proxy.execute(self._obj)
+        except ValueError:
+            pass
+        self.setEdited()
+        
+    def _setAftRakeState(self):
+        self._btForm.aftRakeInput.setEnabled(self._obj.AftRake)
+        self._btForm.aftRakeCheckbox.setChecked(self._obj.AftRake)
+        
+    def onAftRake(self, value):
+        self._obj.AftRake = value
+        self._setAftRakeState()
+
+        self._obj.Proxy.execute(self._obj)
+        self.setEdited()
+        
+    def onAftRakeAngle(self, value):
+        try:
+            self._obj.AftRakeAngle = FreeCAD.Units.Quantity(value).Value
             self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass

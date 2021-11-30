@@ -67,7 +67,15 @@ class ShapeRailGuide(ShapeLocation):
         if not hasattr(obj, 'AutoDiameter'):
             obj.addProperty('App::PropertyBool', 'AutoDiameter', 'RailGuide', translate('App::Property', 'Automatically set the diameter when possible')).AutoDiameter = True
         if not hasattr(obj,"VAngle"):
-            obj.addProperty('App::PropertyLength', 'VAngle', 'RailGuide', translate('App::Property', 'Angle for V base type')).VAngle = 135.0
+            obj.addProperty('App::PropertyAngle', 'VAngle', 'RailGuide', translate('App::Property', 'Angle for V base type')).VAngle = 135.0
+        if not hasattr(obj, 'ForwardRake'):
+            obj.addProperty('App::PropertyBool', 'ForwardRake', 'RailGuide', translate('App::Property', 'The component has a rake at the forward end')).ForwardRake = False
+        if not hasattr(obj,"ForwardRakeAngle"):
+            obj.addProperty('App::PropertyAngle', 'ForwardRakeAngle', 'RailGuide', translate('App::Property', 'Angle for the foreward end rake')).ForwardRakeAngle = 30.0
+        if not hasattr(obj, 'AftRake'):
+            obj.addProperty('App::PropertyBool', 'AftRake', 'RailGuide', translate('App::Property', 'The component has a rake at the aft end')).AftRake = False
+        if not hasattr(obj,"AftRakeAngle"):
+            obj.addProperty('App::PropertyAngle', 'AftRakeAngle', 'RailGuide', translate('App::Property', 'Angle for the aft end rake')).AftRakeAngle = 30.0
 
         if not hasattr(obj,"Shape"):
             obj.addProperty('Part::PropertyPartShape', 'Shape', 'RailGuide', translate('App::Property', 'Shape of the launch guide'))

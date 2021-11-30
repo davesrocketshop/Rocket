@@ -33,6 +33,8 @@ from App.Constants import RAIL_GUIDE_BASE_CONFORMAL, RAIL_GUIDE_BASE_V
 from App.Utilities import _err
 from DraftTools import translate
 
+TOLERANCE_OFFSET = 0.5     # Distance to offset a vertex
+
 class RailGuideShapeHandler():
     def __init__(self, obj):
 
@@ -52,6 +54,13 @@ class RailGuideShapeHandler():
         self._diameter = float(obj.Diameter)
         self._autoDiameter = obj.AutoDiameter
         self._vAngle = math.radians(float(obj.VAngle))
+
+        self._forwardRake = obj.ForwardRake
+        self._forwardRakeAngle = math.radians(float(obj.ForwardRakeAngle))
+        self._aftRake = obj.AftRake
+        self._aftRakeAngle = math.radians(float(obj.AftRakeAngle))
+
+        self._zMin = 0 # Used fo rake
 
         self._obj = obj
 
@@ -95,6 +104,8 @@ class RailGuideShapeHandler():
         z = -(radius - a)
         y = self._baseWidth / 2.0
 
+        self._zMin = z
+
         # draw end face
         v1 = FreeCAD.Vector(0,-y, z)
         v2 = FreeCAD.Vector(0,-y, z + self._baseThickness)
@@ -121,6 +132,8 @@ class RailGuideShapeHandler():
         a = (self._baseWidth / 2.0) / math.fabs(math.tan(theta))
         z = -a
         y = self._baseWidth / 2.0
+
+        self._zMin = z
 
         # draw end face
         v1 = FreeCAD.Vector(0,-y, z)
@@ -152,6 +165,69 @@ class RailGuideShapeHandler():
         else:
             return self._drawBaseFlat()
 
+    def rakeZ(self, x, slope, intercept):
+        z = x * slope + intercept # In the (x,z) plane
+        return z
+
+    def _drawForwardRake(self):
+        # We need to calculate our vertices outside of the part to avoid OpenCASCADE's "too exact" problem
+        o = self._thickness * math.tan(self._forwardRakeAngle)
+        slope = -self._thickness / o
+        intercept = self._zMin - (slope * self._length)
+
+        y = max(self._topWidth, self._middleWidth, self._baseWidth) / 2.0 + TOLERANCE_OFFSET
+
+        x1 = self._length + TOLERANCE_OFFSET
+        z1 = self.rakeZ(x1, slope, intercept)        
+        v1 = FreeCAD.Vector(x1, y, z1)
+
+        # x2 = self._length - (o + TOLERANCE_OFFSET)
+        x2 = self._length - (((self._thickness + math.fabs(self._zMin)) * math.tan(self._aftRakeAngle)) + TOLERANCE_OFFSET)
+        z2 = self.rakeZ(x2, slope, intercept)        
+        v2 = FreeCAD.Vector(x2, y, z2)
+
+        v3 = FreeCAD.Vector(x1, y, z2)
+
+        line1 = Part.LineSegment(v1, v2)
+        line2 = Part.LineSegment(v2, v3)
+        line3 = Part.LineSegment(v3, v1)
+        shape = Part.Shape([line1, line2, line3])
+        # Part.show(shape)
+        wire = Part.Wire(shape.Edges)
+        face = Part.Face(wire)
+        rake = face.extrude(FreeCAD.Vector(0, -2.0 * y, 0))
+
+        return rake
+
+    def _drawAftRake(self):
+        # We need to calculate our vertices outside of the part to avoid OpenCASCADE's "too exact" problem
+        o = self._thickness * math.tan(self._aftRakeAngle)
+        slope = self._thickness / o
+
+        y = max(self._topWidth, self._middleWidth, self._baseWidth) / 2.0 + TOLERANCE_OFFSET
+
+        x1 = -TOLERANCE_OFFSET
+        z1 = self.rakeZ(x1, slope, self._zMin)        
+        v1 = FreeCAD.Vector(x1, y, z1)
+
+        # x2 = o + TOLERANCE_OFFSET
+        x2 = ((self._thickness + math.fabs(self._zMin)) * math.tan(self._aftRakeAngle)) + TOLERANCE_OFFSET
+        z2 = self.rakeZ(x2, slope, self._zMin)        
+        v2 = FreeCAD.Vector(x2, y, z2)
+
+        v3 = FreeCAD.Vector(x1, y, z2)
+
+        line1 = Part.LineSegment(v1, v2)
+        line2 = Part.LineSegment(v2, v3)
+        line3 = Part.LineSegment(v3, v1)
+        shape = Part.Shape([line1, line2, line3])
+        # Part.show(shape)
+        wire = Part.Wire(shape.Edges)
+        face = Part.Face(wire)
+        rake = face.extrude(FreeCAD.Vector(0, -2.0 * y, 0))
+
+        return rake
+
     def _drawGuide(self):
         # Essentially creating an I beam
         guide = Part.makeBox(self._length, self._middleWidth, self._thickness, FreeCAD.Vector(0,-self._middleWidth / 2.0,0), FreeCAD.Vector(0,0,1))
@@ -161,6 +237,13 @@ class RailGuideShapeHandler():
 
         guideBottom = self._drawBase()
         guide = guide.fuse(guideBottom)
+
+        if self._forwardRake:
+            rake = self._drawForwardRake()
+            guide = guide.cut(rake)
+        if self._aftRake:
+            rake = self._drawAftRake()
+            guide = guide.cut(rake)
 
         return guide
         
@@ -172,5 +255,5 @@ class RailGuideShapeHandler():
             self._obj.Shape = self._drawGuide()
             self._obj.Placement = self._placement
         except (ZeroDivisionError, Part.OCCError):
-            _err(translate('Rocket', "Launch Guide parameters produce an invalid shape"))
+            _err(translate('Rocket', "Rail Guide parameters produce an invalid shape"))
             return
