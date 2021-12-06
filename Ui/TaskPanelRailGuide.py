@@ -31,7 +31,7 @@ import FreeCADGui
 from DraftTools import translate
 
 from PySide import QtGui, QtCore
-from PySide2.QtWidgets import QDialog, QGridLayout
+from PySide2.QtWidgets import QDialog, QGridLayout, QVBoxLayout, QSizePolicy
 
 from Ui.TaskPanelLocation import TaskPanelLocation
 
@@ -116,20 +116,74 @@ class _RailGuideDialog(QDialog):
         self.vAngleInput.unit = 'deg'
         self.vAngleInput.setFixedWidth(80)
 
-        # Rake parameters
-        self.forwardRakeCheckbox = QtGui.QCheckBox(translate('Rocket', "Forward Rake"), self)
-        self.forwardRakeCheckbox.setCheckState(QtCore.Qt.Unchecked)
+        # Sweep parameters
+        self.forwardSweepGroup = QtGui.QGroupBox(translate('Rocket', "Forward Sweep"), self)
+        self.forwardSweepGroup.setCheckable(True)
 
-        self.forwardRakeInput = ui.createWidget("Gui::InputField")
-        self.forwardRakeInput.unit = 'deg'
-        self.forwardRakeInput.setFixedWidth(80)
+        self.forwardSweepLabel = QtGui.QLabel(translate('Rocket', "Sweep Angle"), self)
 
-        self.aftRakeCheckbox = QtGui.QCheckBox(translate('Rocket', "Aft Rake"), self)
-        self.aftRakeCheckbox.setCheckState(QtCore.Qt.Unchecked)
+        self.forwardSweepInput = ui.createWidget("Gui::InputField")
+        self.forwardSweepInput.unit = 'deg'
+        self.forwardSweepInput.setFixedWidth(80)
 
-        self.aftRakeInput = ui.createWidget("Gui::InputField")
-        self.aftRakeInput.unit = 'deg'
-        self.aftRakeInput.setFixedWidth(80)
+        self.aftSweepGroup = QtGui.QGroupBox(translate('Rocket', "Aft Sweep"), self)
+        self.aftSweepGroup.setCheckable(True)
+
+        self.aftSweepLabel = QtGui.QLabel(translate('Rocket', "Sweep Angle"), self)
+
+        self.aftSweepInput = ui.createWidget("Gui::InputField")
+        self.aftSweepInput.unit = 'deg'
+        self.aftSweepInput.setFixedWidth(80)
+
+        # Notch parameters
+        self.notchGroup = QtGui.QGroupBox(translate('Rocket', "Notch"), self)
+        self.notchGroup.setCheckable(True)
+
+        self.notchWidthLabel = QtGui.QLabel(translate('Rocket', "Width"), self)
+
+        self.notchWidthInput = ui.createWidget("Gui::InputField")
+        self.notchWidthInput.unit = 'mm'
+        self.notchWidthInput.setFixedWidth(80)
+
+        self.notchDepthLabel = QtGui.QLabel(translate('Rocket', "Depth"), self)
+
+        self.notchDepthInput = ui.createWidget("Gui::InputField")
+        self.notchDepthInput.unit = 'mm'
+        self.notchDepthInput.setFixedWidth(80)
+
+        # Forward sweep group
+        row = 0
+        grid = QGridLayout()
+
+        grid.addWidget(self.forwardSweepLabel, row, 0)
+        grid.addWidget(self.forwardSweepInput, row, 1)
+        row += 1
+
+        self.forwardSweepGroup.setLayout(grid)
+
+        # Aft sweep group
+        row = 0
+        grid = QGridLayout()
+
+        grid.addWidget(self.aftSweepLabel, row, 0)
+        grid.addWidget(self.aftSweepInput, row, 1)
+        row += 1
+
+        self.aftSweepGroup.setLayout(grid)
+
+        # Notch group
+        row = 0
+        grid = QGridLayout()
+
+        grid.addWidget(self.notchWidthLabel, row, 0)
+        grid.addWidget(self.notchWidthInput, row, 1)
+        row += 1
+
+        grid.addWidget(self.notchDepthLabel, row, 0)
+        grid.addWidget(self.notchDepthInput, row, 1)
+        row += 1
+
+        self.notchGroup.setLayout(grid)
 
         # General paramaters
         row = 0
@@ -177,15 +231,14 @@ class _RailGuideDialog(QDialog):
         grid.addWidget(self.vAngleInput, row, 1)
         row += 1
 
-        grid.addWidget(self.forwardRakeCheckbox, row, 0)
-        grid.addWidget(self.forwardRakeInput, row, 1)
-        row += 1
+        layout = QVBoxLayout()
+        layout.addItem(grid)
+        layout.addWidget(self.forwardSweepGroup)
+        layout.addWidget(self.aftSweepGroup)
+        layout.addWidget(self.notchGroup)
+        layout.addItem(QtGui.QSpacerItem(0,0, QSizePolicy.Expanding, QSizePolicy.Expanding))
 
-        grid.addWidget(self.aftRakeCheckbox, row, 0)
-        grid.addWidget(self.aftRakeInput, row, 1)
-        row += 1
-
-        self.setLayout(grid)
+        self.setLayout(layout)
 
 class TaskPanelRailGuide:
 
@@ -212,10 +265,13 @@ class TaskPanelRailGuide:
         self._btForm.diameterInput.textEdited.connect(self.onDiameter)
         self._btForm.autoDiameterCheckbox.stateChanged.connect(self.onAutoDiameter)
         self._btForm.vAngleInput.textEdited.connect(self.onVAngle)
-        self._btForm.forwardRakeCheckbox.stateChanged.connect(self.onForwardRake)
-        self._btForm.forwardRakeInput.textEdited.connect(self.onForwardRakeAngle)
-        self._btForm.aftRakeCheckbox.stateChanged.connect(self.onAftRake)
-        self._btForm.aftRakeInput.textEdited.connect(self.onAftRakeAngle)
+        self._btForm.forwardSweepGroup.toggled.connect(self.onForwardSweep)
+        self._btForm.forwardSweepInput.textEdited.connect(self.onForwardSweepAngle)
+        self._btForm.aftSweepGroup.toggled.connect(self.onAftSweep)
+        self._btForm.aftSweepInput.textEdited.connect(self.onAftSweepAngle)
+        self._btForm.notchGroup.toggled.connect(self.onNotch)
+        self._btForm.notchWidthInput.textEdited.connect(self.onNotchWidth)
+        self._btForm.notchDepthInput.textEdited.connect(self.onNotchDepth)
 
         self._location.locationChange.connect(self.onLocation)
         
@@ -238,10 +294,13 @@ class TaskPanelRailGuide:
         self._obj.Diameter = self._btForm.diameterInput.text()
         self._obj.AutoDiameter = self._btForm.autoDiameterCheckbox.isChecked()
         self._obj.VAngle = self._btForm.vAngleInput.text()
-        self._obj.ForwardRake = self._btForm.forwardRakeCheckbox.isChecked()
-        self._obj.ForwardRakeAngle = self._btForm.forwardRakeInput.text()
-        self._obj.AftRake = self._btForm.aftRakeCheckbox.isChecked()
-        self._obj.AftRakeAngle = self._btForm.aftRakeInput.text()
+        self._obj.ForwardSweep = self._btForm.forwardSweepGroup.isChecked()
+        self._obj.ForwardSweepAngle = self._btForm.forwardSweepInput.text()
+        self._obj.AftSweep = self._btForm.aftSweepGroup.isChecked()
+        self._obj.AftSweepAngle = self._btForm.aftSweepInput.text()
+        self._obj.Notch = self._btForm.notchGroup.isChecked()
+        self._obj.NotchWidth = self._btForm.notchWidthInput.text()
+        self._obj.NotchDepth = self._btForm.notchDepthInput.text()
 
     def transferFrom(self):
         "Transfer from the object to the dialog"
@@ -256,14 +315,17 @@ class TaskPanelRailGuide:
         self._btForm.diameterInput.setText(self._obj.Diameter.UserString)
         self._btForm.autoDiameterCheckbox.setChecked(self._obj.AutoDiameter)
         self._btForm.vAngleInput.setText(self._obj.VAngle.UserString)
-        self._btForm.forwardRakeCheckbox.setChecked(self._obj.ForwardRake)
-        self._btForm.forwardRakeInput.setText(self._obj.ForwardRakeAngle.UserString)
-        self._btForm.aftRakeCheckbox.setChecked(self._obj.AftRake)
-        self._btForm.aftRakeInput.setText(self._obj.AftRakeAngle.UserString)
+        self._btForm.forwardSweepGroup.setChecked(self._obj.ForwardSweep)
+        self._btForm.forwardSweepInput.setText(self._obj.ForwardSweepAngle.UserString)
+        self._btForm.aftSweepGroup.setChecked(self._obj.AftSweep)
+        self._btForm.aftSweepInput.setText(self._obj.AftSweepAngle.UserString)
+        self._btForm.notchGroup.setChecked(self._obj.Notch)
+        self._btForm.notchWidthInput.setText(self._obj.NotchWidth.UserString)
+        self._btForm.notchDepthInput.setText(self._obj.NotchDepth.UserString)
 
         self._setTypeState()
-        self._setForwardRakeState()
-        self._setAftRakeState()
+        self._setForwardSweepState()
+        self._setAftSweepState()
 
     def setEdited(self):
         try:
@@ -388,39 +450,62 @@ class TaskPanelRailGuide:
             pass
         self.setEdited()
         
-    def _setForwardRakeState(self):
-        self._btForm.forwardRakeInput.setEnabled(self._obj.ForwardRake)
-        self._btForm.forwardRakeCheckbox.setChecked(self._obj.ForwardRake)
+    def _setForwardSweepState(self):
+        self._btForm.forwardSweepInput.setEnabled(self._obj.ForwardSweep)
+        self._btForm.forwardSweepGroup.setChecked(self._obj.ForwardSweep)
         
-    def onForwardRake(self, value):
-        self._obj.ForwardRake = value
-        self._setForwardRakeState()
+    def onForwardSweep(self, value):
+        self._obj.ForwardSweep = value
+        self._setForwardSweepState()
 
         self._obj.Proxy.execute(self._obj)
         self.setEdited()
         
-    def onForwardRakeAngle(self, value):
+    def onForwardSweepAngle(self, value):
         try:
-            self._obj.ForwardRakeAngle = FreeCAD.Units.Quantity(value).Value
+            self._obj.ForwardSweepAngle = FreeCAD.Units.Quantity(value).Value
             self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
         self.setEdited()
         
-    def _setAftRakeState(self):
-        self._btForm.aftRakeInput.setEnabled(self._obj.AftRake)
-        self._btForm.aftRakeCheckbox.setChecked(self._obj.AftRake)
+    def _setAftSweepState(self):
+        self._btForm.aftSweepInput.setEnabled(self._obj.AftSweep)
+        self._btForm.aftSweepGroup.setChecked(self._obj.AftSweep)
         
-    def onAftRake(self, value):
-        self._obj.AftRake = value
-        self._setAftRakeState()
+    def onAftSweep(self, value):
+        self._obj.AftSweep = value
+        self._setAftSweepState()
 
         self._obj.Proxy.execute(self._obj)
         self.setEdited()
         
-    def onAftRakeAngle(self, value):
+    def onAftSweepAngle(self, value):
         try:
-            self._obj.AftRakeAngle = FreeCAD.Units.Quantity(value).Value
+            self._obj.AftSweepAngle = FreeCAD.Units.Quantity(value).Value
+            self._obj.Proxy.execute(self._obj)
+        except ValueError:
+            pass
+        self.setEdited()
+        
+    def onNotch(self, value):
+        self._obj.Notch = value
+        # self._setAftSweepState()
+
+        self._obj.Proxy.execute(self._obj)
+        self.setEdited()
+        
+    def onNotchWidth(self, value):
+        try:
+            self._obj.NotchWidth = FreeCAD.Units.Quantity(value).Value
+            self._obj.Proxy.execute(self._obj)
+        except ValueError:
+            pass
+        self.setEdited()
+        
+    def onNotchDepth(self, value):
+        try:
+            self._obj.NotchDepth = FreeCAD.Units.Quantity(value).Value
             self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass

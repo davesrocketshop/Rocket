@@ -55,10 +55,14 @@ class RailGuideShapeHandler():
         self._autoDiameter = obj.AutoDiameter
         self._vAngle = math.radians(float(obj.VAngle))
 
-        self._forwardRake = obj.ForwardRake
-        self._forwardRakeAngle = math.radians(float(obj.ForwardRakeAngle))
-        self._aftRake = obj.AftRake
-        self._aftRakeAngle = math.radians(float(obj.AftRakeAngle))
+        self._forwardSweep = obj.ForwardSweep
+        self._forwardSweepAngle = math.radians(float(obj.ForwardSweepAngle))
+        self._aftSweep = obj.AftSweep
+        self._aftSweepAngle = math.radians(float(obj.AftSweepAngle))
+
+        self._notch = obj.Notch
+        self._notchWidth = float(obj.NotchWidth)
+        self._notchDepth = float(obj.NotchDepth)
 
         self._zMin = 0 # Used fo rake
 
@@ -66,29 +70,60 @@ class RailGuideShapeHandler():
 
     def isValidShape(self):
         # Perform some general validations
-        # if self._diameter <= 0:
-        #     _err(translate('Rocket', "Outer diameter must be greater than zero"))
-        #     return False
+        if self._middleWidth <= 0:
+            _err(translate('Rocket', "Middle width must be greater than zero"))
+            return False
 
-        # if self._step:
-        #     if self._stepDiameter <= 0:
-        #         _err(translate('Rocket', "Step diameter must be greater than zero"))
-        #         return False
-        #     if self._stepDiameter >= self._diameter:
-        #         _err(translate('Rocket', "Step diameter must less than the outer diameter"))
-        #         return False
+        if self._topWidth <= self._middleWidth:
+            _err(translate('Rocket', "Top width must be greater than the middle width"))
+            return False
 
-        # if self._holes:
-        #     if self._holeDiameter <= 0:
-        #         _err(translate('Rocket', "Hole diameter must be greater than zero"))
-        #         return False
-        #     if self._holeCenter + (self._holeDiameter / 2.0) >= (self._diameter / 2.0):
-        #         _err(translate('Rocket', "Hole extends outside the outer diameter"))
-        #         return False
-        #     if self._step:
-        #         if self._holeCenter + (self._holeDiameter / 2.0) >= (self._stepDiameter / 2.0):
-        #             _err(translate('Rocket', "Hole extends outside the step diameter"))
-        #             return False
+        if self._baseWidth <= self._middleWidth:
+            _err(translate('Rocket', "Base width must be greater than the middle width"))
+            return False
+
+        if self._topThickness <= 0:
+            _err(translate('Rocket', "Top thickness must be greater than zero"))
+            return False
+
+        if self._baseThickness <= 0:
+            _err(translate('Rocket', "Base thickness must be greater than zero"))
+            return False
+
+        if self._thickness <= (self._topThickness + self._baseThickness):
+            _err(translate('Rocket', "Total thickness must be greater than the sum of top and base thickness"))
+            return False
+
+        if self._length <= 0:
+            _err(translate('Rocket', "Length must be greater than zero"))
+            return False
+
+        if self._forwardSweep:
+            if (self._forwardSweepAngle <= 0.0) or (self._forwardSweepAngle >= 90.0):
+                _err(translate('Rocket', "Forward sweep angle must be greater than 0 degrees and less than 90 degrees"))
+                return False
+
+        if self._aftSweep:
+            if (self._aftSweepAngle <= 0.0) or (self._aftSweepAngle >= 90.0):
+                _err(translate('Rocket', "Aft sweep angle must be greater than 0 degrees and less than 90 degrees"))
+                return False
+
+        if self._notch:
+            if self._notchWidth <= 0:
+                _err(translate('Rocket', "Notch width must be greater than zero"))
+                return False
+
+            if self._notchWidth >= self._middleWidth:
+                _err(translate('Rocket', "Notch width can not exceed the middle width"))
+                return False
+
+            if self._notchDepth <= 0:
+                _err(translate('Rocket', "Notch depth must be greater than zero"))
+                return False
+
+            if self._notchDepth >= self._thickness:
+                _err(translate('Rocket', "Notch depth can not exceed the total thickness"))
+                return False
 
         return True
 
@@ -169,9 +204,9 @@ class RailGuideShapeHandler():
         z = x * slope + intercept # In the (x,z) plane
         return z
 
-    def _drawForwardRake(self):
+    def _drawForwardSweep(self):
         # We need to calculate our vertices outside of the part to avoid OpenCASCADE's "too exact" problem
-        o = self._thickness * math.tan(self._forwardRakeAngle)
+        o = self._thickness * math.tan(self._forwardSweepAngle)
         slope = -self._thickness / o
         intercept = self._zMin - (slope * self._length)
 
@@ -182,7 +217,7 @@ class RailGuideShapeHandler():
         v1 = FreeCAD.Vector(x1, y, z1)
 
         # x2 = self._length - (o + TOLERANCE_OFFSET)
-        x2 = self._length - (((self._thickness + math.fabs(self._zMin)) * math.tan(self._aftRakeAngle)) + TOLERANCE_OFFSET)
+        x2 = self._length - (((self._thickness + math.fabs(self._zMin)) * math.tan(self._forwardSweepAngle)) + TOLERANCE_OFFSET)
         z2 = self.rakeZ(x2, slope, intercept)        
         v2 = FreeCAD.Vector(x2, y, z2)
 
@@ -199,9 +234,9 @@ class RailGuideShapeHandler():
 
         return rake
 
-    def _drawAftRake(self):
+    def _drawAftSweep(self):
         # We need to calculate our vertices outside of the part to avoid OpenCASCADE's "too exact" problem
-        o = self._thickness * math.tan(self._aftRakeAngle)
+        o = self._thickness * math.tan(self._aftSweepAngle)
         slope = self._thickness / o
 
         y = max(self._topWidth, self._middleWidth, self._baseWidth) / 2.0 + TOLERANCE_OFFSET
@@ -211,7 +246,7 @@ class RailGuideShapeHandler():
         v1 = FreeCAD.Vector(x1, y, z1)
 
         # x2 = o + TOLERANCE_OFFSET
-        x2 = ((self._thickness + math.fabs(self._zMin)) * math.tan(self._aftRakeAngle)) + TOLERANCE_OFFSET
+        x2 = ((self._thickness + math.fabs(self._zMin)) * math.tan(self._aftSweepAngle)) + TOLERANCE_OFFSET
         z2 = self.rakeZ(x2, slope, self._zMin)        
         v2 = FreeCAD.Vector(x2, y, z2)
 
@@ -228,6 +263,9 @@ class RailGuideShapeHandler():
 
         return rake
 
+    def _drawNotch(self):
+        return Part.makeBox(self._length, self._notchWidth, self._notchDepth, FreeCAD.Vector(0,-self._notchWidth / 2.0, self._thickness - self._notchDepth), FreeCAD.Vector(0,0,1))
+
     def _drawGuide(self):
         # Essentially creating an I beam
         guide = Part.makeBox(self._length, self._middleWidth, self._thickness, FreeCAD.Vector(0,-self._middleWidth / 2.0,0), FreeCAD.Vector(0,0,1))
@@ -238,12 +276,15 @@ class RailGuideShapeHandler():
         guideBottom = self._drawBase()
         guide = guide.fuse(guideBottom)
 
-        if self._forwardRake:
-            rake = self._drawForwardRake()
+        if self._forwardSweep:
+            rake = self._drawForwardSweep()
             guide = guide.cut(rake)
-        if self._aftRake:
-            rake = self._drawAftRake()
+        if self._aftSweep:
+            rake = self._drawAftSweep()
             guide = guide.cut(rake)
+        if self._notch:
+            notch = self._drawNotch()
+            guide = guide.cut(notch)
 
         return guide
         

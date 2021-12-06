@@ -68,14 +68,20 @@ class ShapeRailGuide(ShapeLocation):
             obj.addProperty('App::PropertyBool', 'AutoDiameter', 'RailGuide', translate('App::Property', 'Automatically set the diameter when possible')).AutoDiameter = True
         if not hasattr(obj,"VAngle"):
             obj.addProperty('App::PropertyAngle', 'VAngle', 'RailGuide', translate('App::Property', 'Angle for V base type')).VAngle = 135.0
-        if not hasattr(obj, 'ForwardRake'):
-            obj.addProperty('App::PropertyBool', 'ForwardRake', 'RailGuide', translate('App::Property', 'The component has a rake at the forward end')).ForwardRake = False
-        if not hasattr(obj,"ForwardRakeAngle"):
-            obj.addProperty('App::PropertyAngle', 'ForwardRakeAngle', 'RailGuide', translate('App::Property', 'Angle for the foreward end rake')).ForwardRakeAngle = 30.0
-        if not hasattr(obj, 'AftRake'):
-            obj.addProperty('App::PropertyBool', 'AftRake', 'RailGuide', translate('App::Property', 'The component has a rake at the aft end')).AftRake = False
-        if not hasattr(obj,"AftRakeAngle"):
-            obj.addProperty('App::PropertyAngle', 'AftRakeAngle', 'RailGuide', translate('App::Property', 'Angle for the aft end rake')).AftRakeAngle = 30.0
+        if not hasattr(obj, 'ForwardSweep'):
+            obj.addProperty('App::PropertyBool', 'ForwardSweep', 'RailGuide', translate('App::Property', 'The component has a sweep at the forward end')).ForwardSweep = False
+        if not hasattr(obj,"ForwardSweepAngle"):
+            obj.addProperty('App::PropertyAngle', 'ForwardSweepAngle', 'RailGuide', translate('App::Property', 'Angle for the foreward end sweep')).ForwardSweepAngle = 30.0
+        if not hasattr(obj, 'AftSweep'):
+            obj.addProperty('App::PropertyBool', 'AftSweep', 'RailGuide', translate('App::Property', 'The component has a sweep at the aft end')).AftSweep = False
+        if not hasattr(obj,"AftSweepAngle"):
+            obj.addProperty('App::PropertyAngle', 'AftSweepAngle', 'RailGuide', translate('App::Property', 'Angle for the aft end sweep')).AftSweepAngle = 30.0
+        if not hasattr(obj, 'Notch'):
+            obj.addProperty('App::PropertyBool', 'Notch', 'RailGuide', translate('App::Property', 'The component has a notch down the middle')).Notch = False
+        if not hasattr(obj,"NotchWidth"):
+            obj.addProperty('App::PropertyLength', 'NotchWidth', 'RailGuide', translate('App::Property', 'Width of the notch')).NotchWidth = 3.00
+        if not hasattr(obj,"NotchDepth"):
+            obj.addProperty('App::PropertyLength', 'NotchDepth', 'RailGuide', translate('App::Property', 'Depth of the notch')).NotchDepth = 4.20
 
         if not hasattr(obj,"Shape"):
             obj.addProperty('Part::PropertyPartShape', 'Shape', 'RailGuide', translate('App::Property', 'Shape of the launch guide'))
