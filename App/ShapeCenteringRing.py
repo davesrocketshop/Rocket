@@ -40,13 +40,21 @@ class ShapeCenteringRing(ShapeBulkhead):
         super().__init__(obj)
         self.Type = FEATURE_CENTERING_RING
 
-        obj.addProperty('App::PropertyLength', 'CenterDiameter', 'CenteringRing', translate('App::Property', 'Diameter of the central hole')).CenterDiameter = 10.0
+        if not hasattr(obj, 'CenterDiameter'):
+            obj.addProperty('App::PropertyLength', 'CenterDiameter', 'CenteringRing', translate('App::Property', 'Diameter of the central hole')).CenterDiameter = 10.0
+        if not hasattr(obj, 'CenterAutoDiameter'):
+            obj.addProperty('App::PropertyBool', 'CenterAutoDiameter', 'CenteringRing', translate('App::Property', 'Automatically set the center diameter when possible')).CenterAutoDiameter = False
 
-        obj.addProperty('App::PropertyBool', 'Notched', 'CenteringRing', translate('App::Property', 'Include a notch for an engine hook')).Notched = False
-        obj.addProperty('App::PropertyLength', 'NotchWidth', 'CenteringRing', translate('App::Property', 'Width of the engine hook notch')).NotchWidth = 3.0
-        obj.addProperty('App::PropertyLength', 'NotchHeight', 'CenteringRing', translate('App::Property', 'Height of the engine hook notch')).NotchHeight = 3.0
+        if not hasattr(obj, 'Notched'):
+            obj.addProperty('App::PropertyBool', 'Notched', 'CenteringRing', translate('App::Property', 'Include a notch for an engine hook')).Notched = False
+        if not hasattr(obj, 'NotchWidth'):
+            obj.addProperty('App::PropertyLength', 'NotchWidth', 'CenteringRing', translate('App::Property', 'Width of the engine hook notch')).NotchWidth = 3.0
+        if not hasattr(obj, 'NotchHeight'):
+            obj.addProperty('App::PropertyLength', 'NotchHeight', 'CenteringRing', translate('App::Property', 'Height of the engine hook notch')).NotchHeight = 3.0
 
-        obj.addProperty('Part::PropertyPartShape', 'Shape', 'CenteringRing', translate('App::Property', 'Shape of the centering ring'))
+
+        if not hasattr(obj, 'Shape'):
+            obj.addProperty('Part::PropertyPartShape', 'Shape', 'CenteringRing', translate('App::Property', 'Shape of the centering ring'))
 
         # Default values changed to match a central hole
         obj.HoleDiameter = 2.0

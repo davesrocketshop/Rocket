@@ -60,6 +60,9 @@ class _BulkheadDialog(QDialog):
         self.diameterInput.unit = 'mm'
         self.diameterInput.setFixedWidth(80)
 
+        self.autoDiameterCheckbox = QtGui.QCheckBox(translate('Rocket', "auto"), self)
+        self.autoDiameterCheckbox.setCheckState(QtCore.Qt.Unchecked)
+
         self.thicknessLabel = QtGui.QLabel(translate('Rocket', "Thickness"), self)
 
         self.thicknessInput = ui.createWidget("Gui::InputField")
@@ -72,6 +75,9 @@ class _BulkheadDialog(QDialog):
             self.centerDiameterInput = ui.createWidget("Gui::InputField")
             self.centerDiameterInput.unit = 'mm'
             self.centerDiameterInput.setFixedWidth(80)
+
+            self.autoCenterDiameterCheckbox = QtGui.QCheckBox(translate('Rocket', "auto"), self)
+            self.autoCenterDiameterCheckbox.setCheckState(QtCore.Qt.Unchecked)
 
             self.notchGroup = QtGui.QGroupBox(translate('Rocket', "Notched"), self)
             self.notchGroup.setCheckable(True)
@@ -186,11 +192,13 @@ class _BulkheadDialog(QDialog):
 
         grid.addWidget(self.diameterLabel, row, 0)
         grid.addWidget(self.diameterInput, row, 1)
+        grid.addWidget(self.autoDiameterCheckbox, row, 2)
         row += 1
 
         if crPanel:
             grid.addWidget(self.centerDiameterLabel, row, 0)
             grid.addWidget(self.centerDiameterInput, row, 1)
+            grid.addWidget(self.autoCenterDiameterCheckbox, row, 2)
             row += 1
 
         grid.addWidget(self.thicknessLabel, row, 0)
@@ -230,6 +238,7 @@ class TaskPanelBulkhead:
             self._bulkForm.setWindowIcon(QtGui.QIcon(FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Bulkhead.svg"))
         
         self._bulkForm.diameterInput.textEdited.connect(self.onDiameter)
+        self._bulkForm.autoDiameterCheckbox.stateChanged.connect(self.onAutoDiameter)
         self._bulkForm.thicknessInput.textEdited.connect(self.onThickness)
 
         self._bulkForm.stepGroup.toggled.connect(self.onStep)
@@ -244,6 +253,7 @@ class TaskPanelBulkhead:
 
         if self._crPanel:
             self._bulkForm.centerDiameterInput.textEdited.connect(self.onCenterDiameter)
+            self._bulkForm.autoCenterDiameterCheckbox.stateChanged.connect(self.onAutoCenterDiameter)
 
             self._bulkForm.notchGroup.toggled.connect(self.onNotched)
             self._bulkForm.notchWidthInput.textEdited.connect(self.onNotchWidth)
@@ -261,6 +271,7 @@ class TaskPanelBulkhead:
     def transferTo(self):
         "Transfer from the dialog to the object" 
         self._obj.Diameter = self._bulkForm.diameterInput.text()
+        self._obj.AutoDiameter = self._bulkForm.autoDiameterCheckbox.isChecked()
         self._obj.Thickness = self._bulkForm.thicknessInput.text()
 
         self._obj.Step = self._bulkForm.stepGroup.isChecked()
@@ -275,6 +286,7 @@ class TaskPanelBulkhead:
 
         if self._crPanel:
             self._obj.CenterDiameter = self._bulkForm.centerDiameterInput.text()
+            self._obj.CenterAutoDiameter = self._bulkForm.autoCenterDiameterCheckbox.isChecked()
 
             self._obj.Notched = self._bulkForm.notchGroup.isChecked()
             self._obj.NotchWidth = self._bulkForm.notchWidthInput.text()
@@ -283,6 +295,7 @@ class TaskPanelBulkhead:
     def transferFrom(self):
         "Transfer from the object to the dialog"
         self._bulkForm.diameterInput.setText(self._obj.Diameter.UserString)
+        self._bulkForm.autoDiameterCheckbox.setChecked(self._obj.AutoDiameter)
         self._bulkForm.thicknessInput.setText(self._obj.Thickness.UserString)
 
         self._bulkForm.stepGroup.setChecked(self._obj.Step)
@@ -297,12 +310,15 @@ class TaskPanelBulkhead:
 
         if self._crPanel:
             self._bulkForm.centerDiameterInput.setText(self._obj.CenterDiameter.UserString)
+            self._bulkForm.autoCenterDiameterCheckbox.setChecked(self._obj.CenterAutoDiameter)
 
             self._bulkForm.notchGroup.setChecked(self._obj.Notched)
             self._bulkForm.notchWidthInput.setText(self._obj.NotchWidth.UserString)
             self._bulkForm.notchHeightInput.setText(self._obj.NotchHeight.UserString)
             self._setNotchedState()
+            self._setAutoCenterDiameterState()
 
+        self._setAutoDiameterState()
         self._setStepState()
         self._setHoleState()
 
@@ -321,6 +337,21 @@ class TaskPanelBulkhead:
             pass
         self.setEdited()
         
+    def _setAutoDiameterState(self):
+        self._bulkForm.diameterInput.setEnabled(not self._obj.AutoDiameter)
+        self._bulkForm.autoDiameterCheckbox.setChecked(self._obj.AutoDiameter)
+
+        if self._obj.AutoDiameter:
+            self._obj.Diameter = 2.0 * self._obj.Proxy.getRadius()
+            self._bulkForm.diameterInput.setText(self._obj.Diameter.UserString)
+
+    def onAutoDiameter(self, value):
+        self._obj.AutoDiameter = value
+        self._setAutoDiameterState()
+
+        self._obj.Proxy.execute(self._obj)
+        self.setEdited()
+        
     def onThickness(self, value):
         try:
             self._obj.Thickness = FreeCAD.Units.Quantity(value).Value
@@ -335,6 +366,21 @@ class TaskPanelBulkhead:
             self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
+        self.setEdited()
+        
+    def _setAutoCenterDiameterState(self):
+        self._bulkForm.centerDiameterInput.setEnabled(not self._obj.CenterAutoDiameter)
+        self._bulkForm.autoCenterDiameterCheckbox.setChecked(self._obj.CenterAutoDiameter)
+
+        if self._obj.CenterAutoDiameter:
+            self._obj.CenterDiameter = 2.0 * self._obj.Proxy.getRadius()
+            self._bulkForm.centerDiameterInput.setText(self._obj.CenterDiameter.UserString)
+
+    def onAutoCenterDiameter(self, value):
+        self._obj.CenterAutoDiameter = value
+        self._setAutoCenterDiameterState()
+
+        self._obj.Proxy.execute(self._obj)
         self.setEdited()
         
     def _setStepState(self):
