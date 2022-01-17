@@ -24,10 +24,13 @@ __title__ = "FreeCAD Rail Button Handler"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
     
-from App.Constants import RAIL_BUTTON_AIRFOIL
 import FreeCAD
 import Part
 import math
+
+from App.Constants import RAIL_BUTTON_AIRFOIL, RAIL_BUTTON_AIRFOIL2
+from App.Constants import CONTERSINK_ANGLE_60, CONTERSINK_ANGLE_82, CONTERSINK_ANGLE_90, CONTERSINK_ANGLE_100, \
+                            CONTERSINK_ANGLE_110, CONTERSINK_ANGLE_120
 
 from App.Utilities import _err
 from DraftTools import translate
@@ -46,6 +49,11 @@ class RailButtonShapeHandler():
         self._baseThickness = float(obj.BaseThickness)
         self._thickness = float(obj.Thickness)
         self._length = float(obj.Length)
+
+        self._hasFastener = obj.Fastener
+        self._countersinkAngle = obj.CountersinkAngle
+        self._headDiameter = float(obj.HeadDiameter)
+        self._shankDiameter = float(obj.ShankDiameter)
 
         self._obj = obj
 
@@ -73,7 +81,7 @@ class RailButtonShapeHandler():
             _err(translate('Rocket', "Top and base thickness can not excedd the total thickness"))
             return False
 
-        if self._railButtonType == RAIL_BUTTON_AIRFOIL:
+        if self._railButtonType in [RAIL_BUTTON_AIRFOIL, RAIL_BUTTON_AIRFOIL2]:
             if self._length <= 0:
                 _err(translate('Rocket', "Length must be greater than zero for airfoil rail buttons"))
                 return False
@@ -83,6 +91,36 @@ class RailButtonShapeHandler():
                 return False
 
         return True
+
+    def _fastenerCountersinkHeight(self):
+        angle = 0
+        # Use the half angle
+        if self._countersinkAngle == CONTERSINK_ANGLE_60:
+            angle = 30.0
+        elif self._countersinkAngle == CONTERSINK_ANGLE_82:
+            angle = 41.0
+        elif self._countersinkAngle == CONTERSINK_ANGLE_90:
+            angle = 45.0
+        elif self._countersinkAngle == CONTERSINK_ANGLE_100:
+            angle = 50.0
+        elif self._countersinkAngle == CONTERSINK_ANGLE_110:
+            angle = 55.0
+        elif self._countersinkAngle == CONTERSINK_ANGLE_120:
+            angle = 60.0
+
+        height = (self._headDiameter / 2.0) / math.tan(math.radians(angle))
+        
+        return height
+
+    def _fastener(self):
+        fastener = Part.makeCone(self._headDiameter / 2.0, 0, self._fastenerCountersinkHeight(),
+                        FreeCAD.Vector(0,0,self._thickness),
+                        FreeCAD.Vector(0,0,-1))
+        shank = Part.makeCylinder(self._shankDiameter / 2.0, self._thickness)
+
+        fastener = fastener.fuse(shank)
+
+        return fastener
 
     def _drawButton(self):
         # For now, only round buttons
@@ -94,6 +132,9 @@ class RailButtonShapeHandler():
         # spoolBottom = Part.makeCylinder(self._outerDiameter / 2.0, self._thickness - self._topThickness, FreeCAD.Vector(0,0,0), FreeCAD.Vector(1,0,0))
         spoolBottom = Part.makeCylinder(self._outerDiameter / 2.0, self._baseThickness, FreeCAD.Vector(0,0,0), FreeCAD.Vector(0,0,1))
         spool = spool.fuse(spoolBottom)
+
+        if self._hasFastener:
+            spool = spool.cut(self._fastener())
 
         return spool
 
@@ -122,15 +163,57 @@ class RailButtonShapeHandler():
     def _drawAirfoil(self):
         spool = self._airfoil(0.0, self._thickness, self._innerDiameter, (self._length - (self._outerDiameter - self._innerDiameter)))
 
-        spoolTop = Part.makeCylinder(self._outerDiameter / 2.0, self._topThickness, FreeCAD.Vector(0,0,self._thickness - self._topThickness), FreeCAD.Vector(0,0,1))
         spoolTop = self._airfoil(self._thickness - self._topThickness, self._topThickness, self._outerDiameter, self._length)
         spool = spool.fuse(spoolTop)
 
-        spoolBottom = Part.makeCylinder(self._outerDiameter / 2.0, self._baseThickness, FreeCAD.Vector(0,0,0), FreeCAD.Vector(0,0,1))
         spoolBottom = self._airfoil(0.0, self._baseThickness, self._outerDiameter, self._length)
         spool = spool.fuse(spoolBottom)
 
+        if self._hasFastener:
+            spool = spool.cut(self._fastener())
+
         return spool
+
+    def _drawAirfoil2(self):
+        spool = self._airfoil(0.0, self._thickness, self._innerDiameter, (self._length - ((self._outerDiameter - self._innerDiameter) / 2.0)))
+
+        # The fore part extends the airfoil to the outer diameter
+        fore = Part.makeCylinder(self._outerDiameter / 2.0, self._thickness, FreeCAD.Vector(0,0,0), FreeCAD.Vector(0,0,1))
+        fore1 = Part.makeBox(self._length, self._innerDiameter, self._thickness, FreeCAD.Vector(0.0, -self._innerDiameter / 2.0, 0.0))
+        fore = fore.common(fore1)
+        spool = spool.fuse(fore)
+
+        spoolTop = self._airfoil(self._thickness - self._topThickness, self._topThickness, self._outerDiameter, self._length)
+        spool = spool.fuse(spoolTop)
+
+        spoolBottom = self._airfoil(0.0, self._baseThickness, self._outerDiameter, self._length)
+        spool = spool.fuse(spoolBottom)
+
+        if self._hasFastener:
+            spool = spool.cut(self._fastener())
+
+        return spool
+
+    # def _drawAirfoil2(self):
+    #     spool = self._airfoil(0.0, self._thickness, self._outerDiameter, self._length)
+
+    #     length = 2.0 * self._length
+    #     width = self._outerDiameter - self._innerDiameter
+    #     height = self._thickness - self._topThickness - self._baseThickness
+
+    #     x_offset = -self._length
+    #     y_offset = self._innerDiameter / 2.0
+    #     z_offset = self._baseThickness
+
+    #     cut1 = Part.makeBox(length, width, height,
+    #                 FreeCAD.Vector(x_offset, y_offset, z_offset))
+    #     spool = spool.cut(cut1)
+
+    #     cut2 = Part.makeBox(length, width, height,
+    #                 FreeCAD.Vector(x_offset, -(y_offset + width), z_offset))
+    #     spool = spool.cut(cut2)
+
+    #     return spool
         
     def draw(self):
         if not self.isValidShape():
@@ -139,6 +222,8 @@ class RailButtonShapeHandler():
         try:
             if self._railButtonType == RAIL_BUTTON_AIRFOIL:
                 self._obj.Shape = self._drawAirfoil()
+            elif self._railButtonType == RAIL_BUTTON_AIRFOIL2:
+                self._obj.Shape = self._drawAirfoil2()
             else:
                 self._obj.Shape = self._drawButton()
             self._obj.Placement = self._placement

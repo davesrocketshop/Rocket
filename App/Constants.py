@@ -86,6 +86,7 @@ MATERIAL_TYPE_LINE = "LINE"
 # Rail button types
 RAIL_BUTTON_ROUND = "Round"
 RAIL_BUTTON_AIRFOIL = "Airfoil"
+RAIL_BUTTON_AIRFOIL2 = "Airfoil 2"
 
 # Rail guide base types
 RAIL_GUIDE_BASE_FLAT = "Flat"
@@ -124,3 +125,28 @@ PROP_TRANSIENT = 2      # Property won't be saved to file
 PROP_HIDDEN = 4         # Property won't appear in the editor
 PROP_OUTPUT = 8         # Modified property doesn't touch its parent container
 PROP_NORECOMPUTE = 16   # Modified property doesn't touch its container for recompute
+
+# Fastener properties
+CONTERSINK_ANGLE_60 = "60"
+CONTERSINK_ANGLE_82 = "82 (American inch screws)"
+CONTERSINK_ANGLE_90 = "90 (Metric)"
+CONTERSINK_ANGLE_100 = "100 (British Imperial inch screws"
+CONTERSINK_ANGLE_110 = "110"
+CONTERSINK_ANGLE_120 = "120"
+
+FASTENER_PRESET_6 = '#6'
+FASTENER_PRESET_8 = '#8'
+FASTENER_PRESET_10 = '#10'
+FASTENER_PRESET_1_4 = '1/4"'
+
+FASTENER_PRESET_6_HEAD = '0.307"'
+FASTENER_PRESET_6_SHANK = '0.1380"'
+
+FASTENER_PRESET_8_HEAD = '0.359"'
+FASTENER_PRESET_8_SHANK = '0.1640"'
+
+FASTENER_PRESET_10_HEAD = '0.411"'
+FASTENER_PRESET_10_SHANK = '0.1900"'
+
+FASTENER_PRESET_1_4_HEAD = '0.531"'
+FASTENER_PRESET_1_4_SHANK = '0.2500"'

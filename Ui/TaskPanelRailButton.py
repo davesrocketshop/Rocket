@@ -31,11 +31,20 @@ import FreeCADGui
 from DraftTools import translate
 
 from PySide import QtGui
-from PySide2.QtWidgets import QDialog, QGridLayout
+from PySide2.QtWidgets import QDialog, QGridLayout, QVBoxLayout, QSizePolicy
 
 from Ui.TaskPanelLocation import TaskPanelLocation
 
-from App.Constants import RAIL_BUTTON_ROUND, RAIL_BUTTON_AIRFOIL
+from App.Constants import RAIL_BUTTON_AIRFOIL2, RAIL_BUTTON_ROUND, RAIL_BUTTON_AIRFOIL
+from App.Constants import CONTERSINK_ANGLE_60, CONTERSINK_ANGLE_82, CONTERSINK_ANGLE_90, CONTERSINK_ANGLE_100, \
+                            CONTERSINK_ANGLE_110, CONTERSINK_ANGLE_120
+from App.Constants import FASTENER_PRESET_6, FASTENER_PRESET_8, FASTENER_PRESET_10, FASTENER_PRESET_1_4
+from App.Constants import FASTENER_PRESET_6_HEAD, FASTENER_PRESET_6_SHANK
+from App.Constants import FASTENER_PRESET_8_HEAD, FASTENER_PRESET_8_SHANK
+from App.Constants import FASTENER_PRESET_10_HEAD, FASTENER_PRESET_10_SHANK
+from App.Constants import FASTENER_PRESET_1_4_HEAD, FASTENER_PRESET_1_4_SHANK
+
+
 
 class _RailButtonDialog(QDialog):
 
@@ -51,7 +60,8 @@ class _RailButtonDialog(QDialog):
         self.railButtonTypeLabel = QtGui.QLabel(translate('Rocket', "Rail Button Shape"), self)
 
         self.railButtonTypes = (RAIL_BUTTON_ROUND,
-                                RAIL_BUTTON_AIRFOIL)
+                                RAIL_BUTTON_AIRFOIL,
+                                RAIL_BUTTON_AIRFOIL2)
         self.railButtonTypeCombo = QtGui.QComboBox(self)
         self.railButtonTypeCombo.addItems(self.railButtonTypes)
 
@@ -92,6 +102,63 @@ class _RailButtonDialog(QDialog):
         self.lengthInput.unit = 'mm'
         self.lengthInput.setFixedWidth(80)
 
+        self.fastenerGroup = QtGui.QGroupBox(translate('Rocket', "Fastener"), self)
+        self.fastenerGroup.setCheckable(True)
+
+        self.countersinkLabel = QtGui.QLabel(translate('Rocket', "Contersink Angle"), self)
+
+        self.countersinkTypes = (CONTERSINK_ANGLE_60,
+                                    CONTERSINK_ANGLE_82,
+                                    CONTERSINK_ANGLE_90,
+                                    CONTERSINK_ANGLE_100,
+                                    CONTERSINK_ANGLE_110,
+                                    CONTERSINK_ANGLE_120)
+        self.countersinkTypeCombo = QtGui.QComboBox(self)
+        self.countersinkTypeCombo.addItems(self.countersinkTypes)
+
+        self.headDiameterLabel = QtGui.QLabel(translate('Rocket', "Head Diameter"), self)
+
+        self.headDiameterInput = ui.createWidget("Gui::InputField")
+        self.headDiameterInput.unit = 'mm'
+        self.headDiameterInput.setFixedWidth(80)
+
+        self.shankDiameterLabel = QtGui.QLabel(translate('Rocket', "Shank Diameter"), self)
+
+        self.shankDiameterInput = ui.createWidget("Gui::InputField")
+        self.shankDiameterInput.unit = 'mm'
+        self.shankDiameterInput.setFixedWidth(80)
+
+        self.fastenerPresetLabel = QtGui.QLabel(translate('Rocket', "Presets"), self)
+
+        self.fastenerPresetTypes = ("",
+                                    FASTENER_PRESET_6,
+                                    FASTENER_PRESET_8,
+                                    FASTENER_PRESET_10,
+                                    FASTENER_PRESET_1_4)
+        self.fastenerPresetCombo = QtGui.QComboBox(self)
+        self.fastenerPresetCombo.addItems(self.fastenerPresetTypes)
+
+        # Fastener group
+        row = 0
+        grid = QGridLayout()
+
+        grid.addWidget(self.countersinkLabel, row, 0)
+        grid.addWidget(self.countersinkTypeCombo, row, 1)
+        row += 1
+
+        grid.addWidget(self.headDiameterLabel, row, 0)
+        grid.addWidget(self.headDiameterInput, row, 1)
+        row += 1
+
+        grid.addWidget(self.shankDiameterLabel, row, 0)
+        grid.addWidget(self.shankDiameterInput, row, 1)
+        row += 1
+
+        grid.addWidget(self.fastenerPresetLabel, row, 0)
+        grid.addWidget(self.fastenerPresetCombo, row, 1)
+
+        self.fastenerGroup.setLayout(grid)
+
         # General paramaters
         row = 0
         grid = QGridLayout()
@@ -123,7 +190,11 @@ class _RailButtonDialog(QDialog):
         grid.addWidget(self.lengthLabel, row, 0)
         grid.addWidget(self.lengthInput, row, 1)
 
-        self.setLayout(grid)
+        layout = QVBoxLayout()
+        layout.addItem(grid)
+        layout.addWidget(self.fastenerGroup)
+
+        self.setLayout(layout)
 
 class TaskPanelRailButton:
 
@@ -147,6 +218,12 @@ class TaskPanelRailButton:
         self._btForm.thicknessInput.textEdited.connect(self.onThickness)
         self._btForm.lengthInput.textEdited.connect(self.onLength)
 
+        self._btForm.fastenerGroup.toggled.connect(self.onFastener)
+        self._btForm.countersinkTypeCombo.currentTextChanged.connect(self.onCountersink)
+        self._btForm.headDiameterInput.textEdited.connect(self.onHeadDiameter)
+        self._btForm.shankDiameterInput.textEdited.connect(self.onShankDiameter)
+        self._btForm.fastenerPresetCombo.currentTextChanged.connect(self.onFastenerPreset)
+
         self._location.locationChange.connect(self.onLocation)
         
         self.update()
@@ -165,6 +242,11 @@ class TaskPanelRailButton:
         self._obj.Thickness = self._btForm.thicknessInput.text()
         self._obj.Length = self._btForm.lengthInput.text()
 
+        self._obj.Fastener = self._btForm.fastenerGroup.isChecked()
+        self._obj.CountersinkAngle = str(self._btForm.countersinkTypeCombo.currentText())
+        self._obj.HeadDiameter = self._btForm.headDiameterInput.text()
+        self._obj.ShankDiameter = self._btForm.shankDiameterInput.text()
+
     def transferFrom(self):
         "Transfer from the object to the dialog"
         self._btForm.railButtonTypeCombo.setCurrentText(self._obj.RailButtonType)
@@ -174,6 +256,12 @@ class TaskPanelRailButton:
         self._btForm.baseThicknessInput.setText(self._obj.BaseThickness.UserString)
         self._btForm.thicknessInput.setText(self._obj.Thickness.UserString)
         self._btForm.lengthInput.setText(self._obj.Length.UserString)
+
+        self._btForm.fastenerGroup.setChecked(self._obj.Fastener)
+        self._btForm.countersinkTypeCombo.setCurrentText(self._obj.CountersinkAngle)
+        self._btForm.headDiameterInput.setText(self._obj.HeadDiameter.UserString)
+        self._btForm.shankDiameterInput.setText(self._obj.ShankDiameter.UserString)
+        self._btForm.fastenerPresetCombo.setCurrentText("")
 
         self._setTypeState()
 
@@ -186,12 +274,14 @@ class TaskPanelRailButton:
         
     def _setTypeState(self):
         value = self._obj.RailButtonType
-        if value == RAIL_BUTTON_AIRFOIL:
+        if value in [RAIL_BUTTON_AIRFOIL, RAIL_BUTTON_AIRFOIL2]:
             self._btForm.lengthInput.setEnabled(True)
             self._btForm.lengthInput.setVisible(True)
+            self._btForm.lengthLabel.setVisible(True)
         else:
             self._btForm.lengthInput.setEnabled(False)
             self._btForm.lengthInput.setVisible(False)
+            self._btForm.lengthLabel.setVisible(False)
 
     def onRailButtonType(self, value):
         self._obj.RailButtonType = value
@@ -248,6 +338,94 @@ class TaskPanelRailButton:
             pass
         self.setEdited()
 
+    def onFastener(self, value):
+        self._obj.Fastener = value
+        self._obj.Proxy.execute(self._obj)
+        self.setEdited()
+
+    def _setFasteners(self):
+        self._btForm.countersinkTypeCombo.setCurrentText(self._obj.CountersinkAngle)
+        self._btForm.headDiameterInput.setText(self._obj.HeadDiameter.UserString)
+        self._btForm.shankDiameterInput.setText(self._obj.ShankDiameter.UserString)
+
+    def onCountersink(self, value):
+        self._obj.CountersinkAngle = value
+        self._btForm.fastenerPresetCombo.setCurrentText("")
+        self._obj.Proxy.execute(self._obj)
+        self.setEdited()
+    
+    def onHeadDiameter(self, value):
+        try:
+            self._obj.HeadDiameter = FreeCAD.Units.Quantity(value).Value
+            self._btForm.fastenerPresetCombo.setCurrentText("")
+            self._obj.Proxy.execute(self._obj)
+        except ValueError:
+            pass
+        self.setEdited()
+    
+    def onShankDiameter(self, value):
+        try:
+            self._obj.ShankDiameter = FreeCAD.Units.Quantity(value).Value
+            self._btForm.fastenerPresetCombo.setCurrentText("")
+            self._obj.Proxy.execute(self._obj)
+        except ValueError:
+            pass
+        self.setEdited()
+
+    def preset6(self):
+        try:
+            self._obj.CountersinkAngle = CONTERSINK_ANGLE_82
+            self._obj.HeadDiameter = FreeCAD.Units.Quantity(FASTENER_PRESET_6_HEAD).Value
+            self._obj.ShankDiameter = FreeCAD.Units.Quantity(FASTENER_PRESET_6_SHANK).Value
+            self._setFasteners()
+            self._obj.Proxy.execute(self._obj)
+        except ValueError:
+            pass
+        self.setEdited()
+
+    def preset8(self):
+        try:
+            self._obj.CountersinkAngle = CONTERSINK_ANGLE_82
+            self._obj.HeadDiameter = FreeCAD.Units.Quantity(FASTENER_PRESET_8_HEAD).Value
+            self._obj.ShankDiameter = FreeCAD.Units.Quantity(FASTENER_PRESET_8_SHANK).Value
+            self._setFasteners()
+            self._obj.Proxy.execute(self._obj)
+        except ValueError:
+            pass
+        self.setEdited()
+
+    def preset10(self):
+        try:
+            self._obj.CountersinkAngle = CONTERSINK_ANGLE_82
+            self._obj.HeadDiameter = FreeCAD.Units.Quantity(FASTENER_PRESET_10_HEAD).Value
+            self._obj.ShankDiameter = FreeCAD.Units.Quantity(FASTENER_PRESET_10_SHANK).Value
+            self._setFasteners()
+            self._obj.Proxy.execute(self._obj)
+        except ValueError:
+            pass
+        self.setEdited()
+
+    def preset1_4(self):
+        try:
+            self._obj.CountersinkAngle = CONTERSINK_ANGLE_82
+            self._obj.HeadDiameter = FreeCAD.Units.Quantity(FASTENER_PRESET_1_4_HEAD).Value
+            self._obj.ShankDiameter = FreeCAD.Units.Quantity(FASTENER_PRESET_1_4_SHANK).Value
+            self._setFasteners()
+            self._obj.Proxy.execute(self._obj)
+        except ValueError:
+            pass
+        self.setEdited()
+    
+    def onFastenerPreset(self, value):
+        if value == FASTENER_PRESET_6:
+            self.preset6()
+        elif value == FASTENER_PRESET_8:
+            self.preset8()
+        elif value == FASTENER_PRESET_10:
+            self.preset10()
+        elif value == FASTENER_PRESET_1_4:
+            self.preset1_4()
+    
     def onLocation(self):
         self._obj.Proxy.execute(self._obj) 
         self.setEdited()

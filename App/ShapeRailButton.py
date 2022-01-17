@@ -26,8 +26,11 @@ __url__ = "https://www.davesrocketshop.com"
 
 from App.ShapeComponent import ShapeLocation
 from App.Constants import FEATURE_RAIL_BUTTON
-from App.Constants import RAIL_BUTTON_ROUND, RAIL_BUTTON_AIRFOIL
+from App.Constants import RAIL_BUTTON_ROUND, RAIL_BUTTON_AIRFOIL, RAIL_BUTTON_AIRFOIL2
 from App.Constants import PLACEMENT_RADIAL
+from App.Constants import CONTERSINK_ANGLE_60, CONTERSINK_ANGLE_82, CONTERSINK_ANGLE_90, CONTERSINK_ANGLE_100, \
+                            CONTERSINK_ANGLE_110, CONTERSINK_ANGLE_120
+
 
 from App.RailButtonShapeHandler import RailButtonShapeHandler
 
@@ -49,7 +52,8 @@ class ShapeRailButton(ShapeLocation):
         if not hasattr(obj,"RailButtonType"):
             obj.addProperty('App::PropertyEnumeration', 'RailButtonType', 'RailButton', translate('App::Property', 'Rail button type'))
         obj.RailButtonType = [RAIL_BUTTON_ROUND, 
-                RAIL_BUTTON_AIRFOIL
+                RAIL_BUTTON_AIRFOIL,
+                RAIL_BUTTON_AIRFOIL2
                 ]
         obj.RailButtonType = RAIL_BUTTON_ROUND
 
@@ -65,6 +69,27 @@ class ShapeRailButton(ShapeLocation):
             obj.addProperty('App::PropertyLength', 'Thickness', 'RailButton', translate('App::Property', 'Total thickness of the rail button')).Thickness = 7.62
         if not hasattr(obj,"Length"):
             obj.addProperty('App::PropertyLength', 'Length', 'RailButton', translate('App::Property', 'Length of the rail button')).Length = 12.0
+
+        # Default fastener is a #6 screw
+        if not hasattr(obj, 'Fastener'):
+            obj.addProperty('App::PropertyBool', 'Fastener', 'RailButton', translate('App::Property', 'Create a countersunk hole for the fastener')).Fastener = True
+        if not hasattr(obj,"CountersinkAngle"):
+            obj.addProperty('App::PropertyEnumeration', 'CountersinkAngle', 'RailButton', translate('App::Property', 'Fastener countersink angle'))
+        obj.CountersinkAngle = [CONTERSINK_ANGLE_60,
+                CONTERSINK_ANGLE_82,
+                CONTERSINK_ANGLE_90,
+                CONTERSINK_ANGLE_100,
+                CONTERSINK_ANGLE_110,
+                CONTERSINK_ANGLE_120
+                ]
+        obj.CountersinkAngle = CONTERSINK_ANGLE_82
+        if not hasattr(obj,"ShankDiameter"):
+            obj.addProperty('App::PropertyLength', 'ShankDiameter', 'RailButton', translate('App::Property', 'Fastener shank diameter')).ShankDiameter = 3.51
+        if not hasattr(obj,"HeadDiameter"):
+            obj.addProperty('App::PropertyLength', 'HeadDiameter', 'RailButton', translate('App::Property', 'Fastener head diameter')).HeadDiameter = 7.80
+
+        if not hasattr(obj, 'FilletedTop'):
+            obj.addProperty('App::PropertyBool', 'FilletedTop', 'RailButton', translate('App::Property', 'Apply a fillet to the top of the rail button')).FilletedTop = False
 
         if not hasattr(obj,"Shape"):
             obj.addProperty('Part::PropertyPartShape', 'Shape', 'RailButton', translate('App::Property', 'Shape of the rail button'))
