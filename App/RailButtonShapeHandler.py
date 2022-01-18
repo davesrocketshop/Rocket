@@ -55,6 +55,9 @@ class RailButtonShapeHandler():
         self._headDiameter = float(obj.HeadDiameter)
         self._shankDiameter = float(obj.ShankDiameter)
 
+        self._hasFillet = obj.FilletedTop
+        self._filletRadius = float(obj.FilletRadius)
+
         self._obj = obj
 
     def isValidShape(self):
@@ -127,6 +130,8 @@ class RailButtonShapeHandler():
         spool = Part.makeCylinder(self._innerDiameter / 2.0, self._thickness, FreeCAD.Vector(0,0,0), FreeCAD.Vector(0,0,1))
 
         spoolTop = Part.makeCylinder(self._outerDiameter / 2.0, self._topThickness, FreeCAD.Vector(0,0,self._thickness - self._topThickness), FreeCAD.Vector(0,0,1))
+        if self._hasFillet:
+            spoolTop = spoolTop.makeFillet(self._filletRadius, [spoolTop.Edges[0]])
         spool = spool.fuse(spoolTop)
 
         # spoolBottom = Part.makeCylinder(self._outerDiameter / 2.0, self._thickness - self._topThickness, FreeCAD.Vector(0,0,0), FreeCAD.Vector(1,0,0))
@@ -164,6 +169,8 @@ class RailButtonShapeHandler():
         spool = self._airfoil(0.0, self._thickness, self._innerDiameter, (self._length - (self._outerDiameter - self._innerDiameter)))
 
         spoolTop = self._airfoil(self._thickness - self._topThickness, self._topThickness, self._outerDiameter, self._length)
+        if self._hasFillet:
+            spoolTop = spoolTop.makeFillet(self._filletRadius, [spoolTop.Edges[3], spoolTop.Edges[6], spoolTop.Edges[8]])
         spool = spool.fuse(spoolTop)
 
         spoolBottom = self._airfoil(0.0, self._baseThickness, self._outerDiameter, self._length)
@@ -176,14 +183,18 @@ class RailButtonShapeHandler():
 
     def _drawAirfoil2(self):
         spool = self._airfoil(0.0, self._thickness, self._innerDiameter, (self._length - ((self._outerDiameter - self._innerDiameter) / 2.0)))
+        if self._hasFillet:
+            spool = spool.makeFillet(self._filletRadius, [spool.Edges[3], spool.Edges[6], spool.Edges[8]])
 
         # The fore part extends the airfoil to the outer diameter
-        fore = Part.makeCylinder(self._outerDiameter / 2.0, self._thickness, FreeCAD.Vector(0,0,0), FreeCAD.Vector(0,0,1))
-        fore1 = Part.makeBox(self._length, self._innerDiameter, self._thickness, FreeCAD.Vector(0.0, -self._innerDiameter / 2.0, 0.0))
+        fore = Part.makeCylinder(self._outerDiameter / 2.0, self._thickness - self._topThickness, FreeCAD.Vector(0,0,0), FreeCAD.Vector(0,0,1))
+        fore1 = Part.makeBox(self._length, self._innerDiameter, self._thickness - self._topThickness, FreeCAD.Vector(0.0, -self._innerDiameter / 2.0, 0.0))
         fore = fore.common(fore1)
         spool = spool.fuse(fore)
 
         spoolTop = self._airfoil(self._thickness - self._topThickness, self._topThickness, self._outerDiameter, self._length)
+        if self._hasFillet:
+            spoolTop = spoolTop.makeFillet(self._filletRadius, [spoolTop.Edges[3], spoolTop.Edges[6], spoolTop.Edges[8]])
         spool = spool.fuse(spoolTop)
 
         spoolBottom = self._airfoil(0.0, self._baseThickness, self._outerDiameter, self._length)
@@ -193,27 +204,6 @@ class RailButtonShapeHandler():
             spool = spool.cut(self._fastener())
 
         return spool
-
-    # def _drawAirfoil2(self):
-    #     spool = self._airfoil(0.0, self._thickness, self._outerDiameter, self._length)
-
-    #     length = 2.0 * self._length
-    #     width = self._outerDiameter - self._innerDiameter
-    #     height = self._thickness - self._topThickness - self._baseThickness
-
-    #     x_offset = -self._length
-    #     y_offset = self._innerDiameter / 2.0
-    #     z_offset = self._baseThickness
-
-    #     cut1 = Part.makeBox(length, width, height,
-    #                 FreeCAD.Vector(x_offset, y_offset, z_offset))
-    #     spool = spool.cut(cut1)
-
-    #     cut2 = Part.makeBox(length, width, height,
-    #                 FreeCAD.Vector(x_offset, -(y_offset + width), z_offset))
-    #     spool = spool.cut(cut2)
-
-    #     return spool
         
     def draw(self):
         if not self.isValidShape():

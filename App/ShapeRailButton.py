@@ -90,6 +90,8 @@ class ShapeRailButton(ShapeLocation):
 
         if not hasattr(obj, 'FilletedTop'):
             obj.addProperty('App::PropertyBool', 'FilletedTop', 'RailButton', translate('App::Property', 'Apply a fillet to the top of the rail button')).FilletedTop = False
+        if not hasattr(obj,"FilletRadius"):
+            obj.addProperty('App::PropertyLength', 'FilletRadius', 'RailButton', translate('App::Property', 'Fillet radius')).FilletRadius = 0.5
 
         if not hasattr(obj,"Shape"):
             obj.addProperty('Part::PropertyPartShape', 'Shape', 'RailButton', translate('App::Property', 'Shape of the rail button'))

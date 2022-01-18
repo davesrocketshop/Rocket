@@ -138,6 +138,15 @@ class _RailButtonDialog(QDialog):
         self.fastenerPresetCombo = QtGui.QComboBox(self)
         self.fastenerPresetCombo.addItems(self.fastenerPresetTypes)
 
+        self.filletGroup = QtGui.QGroupBox(translate('Rocket', "Top Fillet"), self)
+        self.filletGroup.setCheckable(True)
+
+        self.filletRadiusLevel = QtGui.QLabel(translate('Rocket', "Radius"), self)
+
+        self.filletRadiusInput = ui.createWidget("Gui::InputField")
+        self.filletRadiusInput.unit = 'mm'
+        self.filletRadiusInput.setFixedWidth(80)
+
         # Fastener group
         row = 0
         grid = QGridLayout()
@@ -158,6 +167,16 @@ class _RailButtonDialog(QDialog):
         grid.addWidget(self.fastenerPresetCombo, row, 1)
 
         self.fastenerGroup.setLayout(grid)
+
+        # Fillet group
+        row = 0
+        grid = QGridLayout()
+
+        grid.addWidget(self.filletRadiusLevel, row, 0)
+        grid.addWidget(self.filletRadiusInput, row, 1)
+        row += 1
+
+        self.filletGroup.setLayout(grid)
 
         # General paramaters
         row = 0
@@ -193,6 +212,7 @@ class _RailButtonDialog(QDialog):
         layout = QVBoxLayout()
         layout.addItem(grid)
         layout.addWidget(self.fastenerGroup)
+        layout.addWidget(self.filletGroup)
 
         self.setLayout(layout)
 
@@ -224,6 +244,9 @@ class TaskPanelRailButton:
         self._btForm.shankDiameterInput.textEdited.connect(self.onShankDiameter)
         self._btForm.fastenerPresetCombo.currentTextChanged.connect(self.onFastenerPreset)
 
+        self._btForm.filletGroup.toggled.connect(self.onFillet)
+        self._btForm.filletRadiusInput.textEdited.connect(self.onFilletRadius)
+
         self._location.locationChange.connect(self.onLocation)
         
         self.update()
@@ -247,6 +270,9 @@ class TaskPanelRailButton:
         self._obj.HeadDiameter = self._btForm.headDiameterInput.text()
         self._obj.ShankDiameter = self._btForm.shankDiameterInput.text()
 
+        self._obj.FilletedTop = self._btForm.filletGroup.isChecked()
+        self._obj.FilletRadius = self._btForm.filletRadiusInput.text()
+
     def transferFrom(self):
         "Transfer from the object to the dialog"
         self._btForm.railButtonTypeCombo.setCurrentText(self._obj.RailButtonType)
@@ -262,6 +288,9 @@ class TaskPanelRailButton:
         self._btForm.headDiameterInput.setText(self._obj.HeadDiameter.UserString)
         self._btForm.shankDiameterInput.setText(self._obj.ShankDiameter.UserString)
         self._btForm.fastenerPresetCombo.setCurrentText("")
+
+        self._btForm.filletGroup.setChecked(self._obj.FilletedTop)
+        self._btForm.filletRadiusInput.setText(self._obj.FilletRadius.UserString)
 
         self._setTypeState()
 
@@ -425,6 +454,19 @@ class TaskPanelRailButton:
             self.preset10()
         elif value == FASTENER_PRESET_1_4:
             self.preset1_4()
+
+    def onFillet(self, value):
+        self._obj.FilletedTop = value
+        self._obj.Proxy.execute(self._obj)
+        self.setEdited()
+    
+    def onFilletRadius(self, value):
+        try:
+            self._obj.FilletRadius = FreeCAD.Units.Quantity(value).Value
+            self._obj.Proxy.execute(self._obj)
+        except ValueError:
+            pass
+        self.setEdited()
     
     def onLocation(self):
         self._obj.Proxy.execute(self._obj) 
