@@ -86,7 +86,6 @@ MATERIAL_TYPE_LINE = "LINE"
 # Rail button types
 RAIL_BUTTON_ROUND = "Round"
 RAIL_BUTTON_AIRFOIL = "Airfoil"
-RAIL_BUTTON_AIRFOIL2 = "Airfoil 2"
 
 # Rail guide base types
 RAIL_GUIDE_BASE_FLAT = "Flat"

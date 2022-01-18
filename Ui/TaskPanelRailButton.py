@@ -35,7 +35,7 @@ from PySide2.QtWidgets import QDialog, QGridLayout, QVBoxLayout
 
 from Ui.TaskPanelLocation import TaskPanelLocation
 
-from App.Constants import RAIL_BUTTON_AIRFOIL2, RAIL_BUTTON_ROUND, RAIL_BUTTON_AIRFOIL
+from App.Constants import RAIL_BUTTON_ROUND, RAIL_BUTTON_AIRFOIL
 from App.Constants import CONTERSINK_ANGLE_60, CONTERSINK_ANGLE_82, CONTERSINK_ANGLE_90, CONTERSINK_ANGLE_100, \
                             CONTERSINK_ANGLE_110, CONTERSINK_ANGLE_120
 from App.Constants import FASTENER_PRESET_6, FASTENER_PRESET_8, FASTENER_PRESET_10, FASTENER_PRESET_1_4
@@ -60,8 +60,7 @@ class _RailButtonDialog(QDialog):
         self.railButtonTypeLabel = QtGui.QLabel(translate('Rocket', "Rail Button Shape"), self)
 
         self.railButtonTypes = (RAIL_BUTTON_ROUND,
-                                RAIL_BUTTON_AIRFOIL,
-                                RAIL_BUTTON_AIRFOIL2)
+                                RAIL_BUTTON_AIRFOIL)
         self.railButtonTypeCombo = QtGui.QComboBox(self)
         self.railButtonTypeCombo.addItems(self.railButtonTypes)
 
@@ -303,7 +302,7 @@ class TaskPanelRailButton:
         
     def _setTypeState(self):
         value = self._obj.RailButtonType
-        if value in [RAIL_BUTTON_AIRFOIL, RAIL_BUTTON_AIRFOIL2]:
+        if value == RAIL_BUTTON_AIRFOIL:
             self._btForm.lengthInput.setEnabled(True)
             self._btForm.lengthInput.setVisible(True)
             self._btForm.lengthLabel.setVisible(True)

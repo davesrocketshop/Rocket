@@ -28,7 +28,7 @@ import FreeCAD
 import Part
 import math
 
-from App.Constants import RAIL_BUTTON_AIRFOIL, RAIL_BUTTON_AIRFOIL2
+from App.Constants import RAIL_BUTTON_AIRFOIL
 from App.Constants import CONTERSINK_ANGLE_60, CONTERSINK_ANGLE_82, CONTERSINK_ANGLE_90, CONTERSINK_ANGLE_100, \
                             CONTERSINK_ANGLE_110, CONTERSINK_ANGLE_120
 
@@ -84,7 +84,7 @@ class RailButtonShapeHandler():
             _err(translate('Rocket', "Top and base thickness can not excedd the total thickness"))
             return False
 
-        if self._railButtonType in [RAIL_BUTTON_AIRFOIL, RAIL_BUTTON_AIRFOIL2]:
+        if self._railButtonType == RAIL_BUTTON_AIRFOIL:
             if self._length <= 0:
                 _err(translate('Rocket', "Length must be greater than zero for airfoil rail buttons"))
                 return False
@@ -166,31 +166,10 @@ class RailButtonShapeHandler():
         return airfoil
 
     def _drawAirfoil(self):
-        spool = self._airfoil(0.0, self._thickness, self._innerDiameter, (self._length - (self._outerDiameter - self._innerDiameter)))
-
-        spoolTop = self._airfoil(self._thickness - self._topThickness, self._topThickness, self._outerDiameter, self._length)
-        if self._hasFillet:
-            spoolTop = spoolTop.makeFillet(self._filletRadius, [spoolTop.Edges[3], spoolTop.Edges[6], spoolTop.Edges[8]])
-        spool = spool.fuse(spoolTop)
-
-        spoolBottom = self._airfoil(0.0, self._baseThickness, self._outerDiameter, self._length)
-        spool = spool.fuse(spoolBottom)
-
-        if self._hasFastener:
-            spool = spool.cut(self._fastener())
-
-        return spool
-
-    def _drawAirfoil2(self):
-        spool = self._airfoil(0.0, self._thickness, self._innerDiameter, (self._length - ((self._outerDiameter - self._innerDiameter) / 2.0)))
+        spool = self._airfoil(0.0, self._thickness, self._innerDiameter, self._length)
+        spool.translate(FreeCAD.Vector((self._outerDiameter - self._innerDiameter) / 2.0, 0, 0))
         if self._hasFillet:
             spool = spool.makeFillet(self._filletRadius, [spool.Edges[3], spool.Edges[6], spool.Edges[8]])
-
-        # The fore part extends the airfoil to the outer diameter
-        fore = Part.makeCylinder(self._outerDiameter / 2.0, self._thickness - self._topThickness, FreeCAD.Vector(0,0,0), FreeCAD.Vector(0,0,1))
-        fore1 = Part.makeBox(self._length, self._innerDiameter, self._thickness - self._topThickness, FreeCAD.Vector(0.0, -self._innerDiameter / 2.0, 0.0))
-        fore = fore.common(fore1)
-        spool = spool.fuse(fore)
 
         spoolTop = self._airfoil(self._thickness - self._topThickness, self._topThickness, self._outerDiameter, self._length)
         if self._hasFillet:
@@ -212,8 +191,6 @@ class RailButtonShapeHandler():
         try:
             if self._railButtonType == RAIL_BUTTON_AIRFOIL:
                 self._obj.Shape = self._drawAirfoil()
-            elif self._railButtonType == RAIL_BUTTON_AIRFOIL2:
-                self._obj.Shape = self._drawAirfoil2()
             else:
                 self._obj.Shape = self._drawButton()
             self._obj.Placement = self._placement
