@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<package format="1" xmlns="https://wiki.freecad.org/Package_Metadata">
+  <name>Rocket</name>
+  <description>A workbench for designing model rockets.</description>
+  <version>3.0.0-alpha</version>
+  <maintainer email="dcarter@davidcarter.ca">David Carter</maintainer>
+  <license file="LICENSE">LGPLv2.1</license>
+  <url type="repository" branch="main">https://github.com/davesrocketshop/Rocket</url>
+  <icon>Resources/icons/RocketWorkbench.svg</icon>
+
+  <content>
+    <workbench>
+      <classname>RocketWorkbench</classname>
+      <subdirectory>./</subdirectory>
+      <tag>rocket</tag>
+    </workbench>
+  </content>
+
+</package>
