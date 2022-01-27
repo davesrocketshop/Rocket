@@ -71,7 +71,7 @@ class ShapeRailGuide(ShapeLocation):
         if not hasattr(obj, 'ForwardSweep'):
             obj.addProperty('App::PropertyBool', 'ForwardSweep', 'RailGuide', translate('App::Property', 'The component has a sweep at the forward end')).ForwardSweep = False
         if not hasattr(obj,"ForwardSweepAngle"):
-            obj.addProperty('App::PropertyAngle', 'ForwardSweepAngle', 'RailGuide', translate('App::Property', 'Angle for the foreward end sweep')).ForwardSweepAngle = 30.0
+            obj.addProperty('App::PropertyAngle', 'ForwardSweepAngle', 'RailGuide', translate('App::Property', 'Angle for the forward end sweep')).ForwardSweepAngle = 30.0
         if not hasattr(obj, 'AftSweep'):
             obj.addProperty('App::PropertyBool', 'AftSweep', 'RailGuide', translate('App::Property', 'The component has a sweep at the aft end')).AftSweep = False
         if not hasattr(obj,"AftSweepAngle"):

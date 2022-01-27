@@ -185,7 +185,7 @@ class _RailGuideDialog(QDialog):
 
         self.notchGroup.setLayout(grid)
 
-        # General paramaters
+        # General parameters
         row = 0
         grid = QGridLayout()
 

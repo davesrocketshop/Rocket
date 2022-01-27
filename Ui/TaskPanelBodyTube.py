@@ -97,7 +97,7 @@ class _BodyTubeDialog(QDialog):
 
         self.motorGroup.setLayout(grid)
 
-        # General paramaters
+        # General parameters
         row = 0
         grid = QGridLayout()
 
