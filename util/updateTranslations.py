@@ -90,6 +90,8 @@ class ResponseHandler( xml.sax.ContentHandler ):
     "handler for the command responses"
 
     def __init__(self):
+        super().__init__()
+        
         self.current = ""
         self.data = ""
         self.translated = 1
