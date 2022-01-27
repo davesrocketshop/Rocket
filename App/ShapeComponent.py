@@ -56,6 +56,17 @@ class ShapeComponent(ShapeBase):
         if not hasattr(obj, 'PlacementType'):
             obj.addProperty('App::PropertyString', 'PlacementType', 'RocketComponent', translate('App::Property', 'Component placement type'), PROP_HIDDEN|PROP_TRANSIENT).PlacementType = PLACEMENT_AXIAL
 
+        if not hasattr(obj,"MassOverride"):
+            obj.addProperty('App::PropertyBool', 'MassOverride', 'RocketComponent', translate('App::Property', 'Override the calculated mass of this component')).MassOverride = False
+        if not hasattr(obj, 'OverrideChildren'):
+            obj.addProperty('App::PropertyBool', 'OverrideChildren', 'RocketComponent', translate('App::Property', 'True when the overridden mass includes the mass of the children')).OverrideChildren = False
+
+        # Mass of the component based either on its material and volume, or override
+        if not hasattr(obj,"OverrideMass"):
+            obj.addProperty('App::PropertyQuantity', 'OverrideMass', 'RocketComponent', translate('App::Property', 'Override the calculated mass of this component')).OverrideMass = 0.0
+        if not hasattr(obj, 'Mass'):
+            obj.addProperty('App::PropertyQuantity', 'Mass', 'RocketComponent', translate('App::Property', 'Calculated or overridden component mass'), PROP_HIDDEN|PROP_TRANSIENT).Mass = 0.0
+
     def positionChild(self, obj, parent, parentBase, parentLength, parentRadius):
         # Calculate any auto radii
         obj.Proxy.setRadius()
