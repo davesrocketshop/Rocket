@@ -177,7 +177,7 @@ class _RailButtonDialog(QDialog):
 
         self.filletGroup.setLayout(grid)
 
-        # General paramaters
+        # General parameters
         row = 0
         grid = QGridLayout()
 

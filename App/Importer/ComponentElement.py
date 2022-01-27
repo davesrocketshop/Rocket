@@ -20,7 +20,7 @@
 # ***************************************************************************
 """Provides support for importing Open Rocket files."""
 
-__title__ = "FreeCAD Open Rocket Importer Commmon Component"
+__title__ = "FreeCAD Open Rocket Importer Common Component"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 

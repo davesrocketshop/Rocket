@@ -64,7 +64,7 @@ class RailGuideShapeHandler():
         self._notchWidth = float(obj.NotchWidth)
         self._notchDepth = float(obj.NotchDepth)
 
-        self._zMin = 0 # Used fo rake
+        self._zMin = 0 # Used for rake
 
         self._obj = obj
 
