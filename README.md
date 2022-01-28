@@ -44,7 +44,7 @@ David Carter AKA [@davesrocketshop](https://github.com/davesrocketshop)
 
 Component database taken from the Open Rocket project (https://github.com/openrocket/openrocket)
 
-[![Total alerts](https://img.shields.io/lgtm/alerts/g/davesrocketshop/Rocket.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/davesrocketshop/Rocket/alerts/)[![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/davesrocketshop/Rocket.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/davesrocketshop/Rocket/context:python)
+[![Total alerts](https://img.shields.io/lgtm/alerts/g/davesrocketshop/Rocket.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/davesrocketshop/Rocket/alerts/)  [![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/davesrocketshop/Rocket.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/davesrocketshop/Rocket/context:python)
 
 ## License
 GPLv2.1 (see [LICENSE](LICENSE))
