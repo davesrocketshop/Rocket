@@ -304,17 +304,23 @@ class FinShapeHandler:
 
         return loft
 
-    def _drawFin(self):
+    def _drawSingleFin(self):
         if hasattr(self._obj,"DebugSketch"):
             return self._drawFinDebug(self._obj.DebugSketch)
         return self._drawFinDebug(FIN_DEBUG_FULL)
 
+    def _drawFin(self):
+        fin = self._drawSingleFin()
+        fin.translate(FreeCAD.Vector(0,0,float(self._obj.ParentRadius) + float(self._obj.AxialOffset)))
+        # print ("Translate (%s,%s,%s)" % (0, 0, self._obj.ParentRadius))
+        return Part.makeCompound([fin])
+
     def _drawFinSet(self):
         fins = []
-        base = self._drawFin()
+        base = self._drawSingleFin()
         for i in range(self._obj.FinCount):
             fin = Part.Shape(base) # Create a copy
-            fin.translate(FreeCAD.Vector(0,0,self._obj.ParentRadius))
+            fin.translate(FreeCAD.Vector(0,0,float(self._obj.ParentRadius) + float(self._obj.AxialOffset)))
             fin.rotate(FreeCAD.Vector(0, 0, 0), FreeCAD.Vector(1,0,0), i * float(self._obj.FinSpacing))
             fins.append(fin)
 

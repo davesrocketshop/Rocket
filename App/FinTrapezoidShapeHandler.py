@@ -24,12 +24,9 @@ __title__ = "FreeCAD Fins"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
     
-import FreeCAD
-import Part
-# import Draft
-# import math
-
 from App.Constants import FIN_CROSS_SAME
+
+from App.Utilities import _err
 
 from App.FinShapeHandler import FinShapeHandler
 
