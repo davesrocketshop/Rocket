@@ -131,7 +131,8 @@ class ShapeFin(ShapeLocation):
         if not hasattr(obj,"Group"):
             obj.addExtension("App::GroupExtensionPython")
 
-        obj.addProperty('Part::PropertyPartShape', 'Shape', 'Fin', translate('App::Property', 'Shape of the fin'))
+        if not hasattr(obj,"Shape"):
+            obj.addProperty('Part::PropertyPartShape', 'Shape', 'Fin', translate('App::Property', 'Shape of the fin'))
 
         # A transient property for debugging sketch based fins
         if DEBUG_SKETCH_FINS > 0:
