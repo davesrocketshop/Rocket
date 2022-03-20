@@ -32,7 +32,7 @@ import xml.sax
 from App.Parts.PartDatabaseOrcImporter import PartDatabaseOrcImporter
 from App.Parts.Component import Component
 from App.Parts.Exceptions import NotFoundError
-from App.Tools.Utilities import _msg
+from App.Utilities import _msg
 
 class PartDatabase:
 

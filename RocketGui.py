@@ -32,6 +32,7 @@ from Ui.CmdTransition import CmdTransition
 from Ui.CmdCenteringRing import CmdCenteringRing
 from Ui.CmdBodyTube import CmdBodyTube
 from Ui.CmdBulkhead import CmdBulkhead
+from Ui.CmdLaunchGuides import CmdLaunchLug, CmdRailButton, CmdRailGuide, CmdStandOff
 from Ui.CmdFin import CmdFin
 
 # Calculators
@@ -46,9 +47,15 @@ from Ui.CmdSketcher import CmdNewSketch
 FreeCADGui.addCommand('Rocket_NoseCone', CmdNoseCone())
 FreeCADGui.addCommand('Rocket_Transition', CmdTransition())
 FreeCADGui.addCommand('Rocket_CenteringRing', CmdCenteringRing())
-FreeCADGui.addCommand('Rocket_BodyTube', CmdBodyTube())
 FreeCADGui.addCommand('Rocket_Bulkhead', CmdBulkhead())
 FreeCADGui.addCommand('Rocket_Fin', CmdFin())
+
+FreeCADGui.addCommand('Rocket_BodyTube', CmdBodyTube())
+
+FreeCADGui.addCommand('Rocket_LaunchLug', CmdLaunchLug())
+FreeCADGui.addCommand('Rocket_RailButton', CmdRailButton())
+FreeCADGui.addCommand('Rocket_RailGuide', CmdRailGuide())
+FreeCADGui.addCommand('Rocket_Standoff', CmdStandOff())
 
 FreeCADGui.addCommand('Rocket_CalcBlackPowder', CmdCalcBlackPowder())
 FreeCADGui.addCommand('Rocket_CalcParachute', CmdCalcParachute())
@@ -71,4 +78,20 @@ class _CalculatorGroupCommand:
         # Always available, even without active document
         return True
 
+class _GuidesGroupCommand:
+
+    def GetCommands(self):
+        return tuple(['Rocket_LaunchLug', 'Rocket_RailButton', 'Rocket_RailGuide'])
+    def GetResources(self):
+        return {
+            'MenuText': translate('Rocket', 'Launch Guides'),
+            'ToolTip': translate('Rocket', 'Launch Guides'),
+            'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_LaunchLug.svg"
+        }
+    def IsActive(self):
+        if FreeCAD.ActiveDocument:
+            return True
+        return False
+
 FreeCADGui.addCommand('Rocket_Calculators', _CalculatorGroupCommand())
+FreeCADGui.addCommand('Rocket_LaunchGuides', _GuidesGroupCommand())

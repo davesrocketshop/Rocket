@@ -36,11 +36,15 @@ class ShapeBodyTube(ShapeComponent):
         super().__init__(obj)
 
         # Default set to a BT-50
-        obj.addProperty('App::PropertyLength', 'InnerDiameter', 'BodyTube', translate('App::Property', 'Diameter of the inside of the body tube')).InnerDiameter = 24.1
-        obj.addProperty('App::PropertyLength', 'OuterDiameter', 'BodyTube', translate('App::Property', 'Diameter of the outside of the body tube')).OuterDiameter = 24.8
-        obj.addProperty('App::PropertyLength', 'Length', 'BodyTube', translate('App::Property', 'Length of the body tube')).Length = 457.0
+        if not hasattr(obj,"InnerDiameter"):
+            obj.addProperty('App::PropertyLength', 'InnerDiameter', 'BodyTube', translate('App::Property', 'Diameter of the inside of the body tube')).InnerDiameter = 24.1
+        if not hasattr(obj,"OuterDiameter"):
+            obj.addProperty('App::PropertyLength', 'OuterDiameter', 'BodyTube', translate('App::Property', 'Diameter of the outside of the body tube')).OuterDiameter = 24.8
+        if not hasattr(obj,"Length"):
+            obj.addProperty('App::PropertyLength', 'Length', 'BodyTube', translate('App::Property', 'Length of the body tube')).Length = 457.0
 
-        obj.addProperty('Part::PropertyPartShape', 'Shape', 'BodyTube', translate('App::Property', 'Shape of the body tube'))
+        if not hasattr(obj,"Shape"):
+            obj.addProperty('Part::PropertyPartShape', 'Shape', 'BodyTube', translate('App::Property', 'Shape of the body tube'))
 
     def execute(self, obj):
         shape = BodyTubeShapeHandler(obj)

@@ -18,44 +18,34 @@
 # *   USA                                                                   *
 # *                                                                         *
 # ***************************************************************************
-"""General utilities for the Rocket Workbench"""
+"""Class for drawing body tubes"""
 
-__title__ = "General utilities for the Rocket Workbench"
+__title__ = "FreeCAD Body Tubes"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
-def _msg(message):
-    """Write messages to the console including the line ending."""
-    print(message)
+from PySide import QtCore
+    
+from App.Constants import FEATURE_LAUNCH_LUG
+from App.Constants import PROP_HIDDEN
+from App.Constants import PLACEMENT_RADIAL
 
-def _wrn(message):
-    """Write warnings to the console including the line ending."""
-    print(message)
+from App.ShapeBodyTube import ShapeBodyTube
 
-def _err(message):
-    """Write errors  to the console including the line ending."""
-    print(message)
+class ShapeLaunchLug(ShapeBodyTube):
 
-def _trace(className, functionName, message = None):
-    """Write errors  to the console including the line ending."""
-    trace = True
-    if trace:
-        if message is None:
-            print("%s:%s()" % (className, functionName))
-        else:
-            print("%s:%s(%s)" % (className, functionName, message))
+    def __init__(self, obj):
+        super().__init__(obj)
+        self.Type = FEATURE_LAUNCH_LUG
 
-def _toFloat(input, defaultValue = 0.0):
-    if input == '':
-        return defaultValue
-    return float(input)
+        # Default set to 1/8" launch lug
+        self._obj.OuterDiameter = 4.06
+        self._obj.InnerDiameter = 3.56
+        self._obj.Length = 25.4
 
-def _toInt(input, defaultValue = 0):
-    if input == '':
-        return defaultValue
-    return int(input)
+    def getRadialPositionOffset(self):
+        return self._obj.OuterDiameter / 2.0
 
-def _toBoolean(value):
-    if str(value).strip().lower() == "true":
-        return True
-    return False
+    def eligibleChild(self, childType):
+        return False
+

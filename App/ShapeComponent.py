@@ -40,6 +40,7 @@ class ShapeComponent:
         if not hasattr(obj, 'Material'):
             obj.addProperty('App::PropertyString', 'Material', 'RocketComponent', translate('App::Property', 'Component material')).Material = ""
 
+        self._obj = obj
         obj.Proxy=self
         self.version = '2.0'
 

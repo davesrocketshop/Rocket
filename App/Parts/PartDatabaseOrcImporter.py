@@ -28,7 +28,7 @@ from pathlib import PurePath
 
 import xml.sax
 
-from App.Tools.Utilities import _msg, _err, _toFloat, _toBoolean, _toInt
+from App.Utilities import _msg, _err, _toFloat, _toBoolean, _toInt
 from App.Parts.BodyTube import BodyTube
 from App.Parts.Bulkhead import Bulkhead
 from App.Parts.CenteringRing import CenteringRing
