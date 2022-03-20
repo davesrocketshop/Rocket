@@ -32,7 +32,7 @@ from PySide.QtCore import Signal
 from App.ShapeBase import ShapeBase
 # from App.Utilities import _err
 
-from App.Constants import PROP_HIDDEN, PROP_TRANSIENT
+from App.Constants import PROP_HIDDEN, PROP_TRANSIENT, PROP_READONLY
 from App.Constants import LOCATION_PARENT_TOP, LOCATION_PARENT_MIDDLE, LOCATION_PARENT_BOTTOM, LOCATION_BASE
 from App.Constants import PLACEMENT_AXIAL #, PLACEMENT_RADIAL
 
@@ -60,12 +60,16 @@ class ShapeComponent(ShapeBase):
             obj.addProperty('App::PropertyBool', 'MassOverride', 'RocketComponent', translate('App::Property', 'Override the calculated mass of this component')).MassOverride = False
         if not hasattr(obj, 'OverrideChildren'):
             obj.addProperty('App::PropertyBool', 'OverrideChildren', 'RocketComponent', translate('App::Property', 'True when the overridden mass includes the mass of the children')).OverrideChildren = False
-
-        # Mass of the component based either on its material and volume, or override
         if not hasattr(obj,"OverrideMass"):
             obj.addProperty('App::PropertyQuantity', 'OverrideMass', 'RocketComponent', translate('App::Property', 'Override the calculated mass of this component')).OverrideMass = 0.0
+
+        # Adhesive has non-zero mass and must be accounted for, especially on larger rockets
+        if not hasattr(obj,"AdhesiveMass"):
+            obj.addProperty('App::PropertyQuantity', 'AdhesiveMass', 'RocketComponent', translate('App::Property', 'Mass of the adhesive used to attach this component to the rocket. This includes fillet mass')).AdhesiveMass = 0.0
+
+        # Mass of the component based either on its material and volume, or override
         if not hasattr(obj, 'Mass'):
-            obj.addProperty('App::PropertyQuantity', 'Mass', 'RocketComponent', translate('App::Property', 'Calculated or overridden component mass'), PROP_HIDDEN|PROP_TRANSIENT).Mass = 0.0
+            obj.addProperty('App::PropertyQuantity', 'Mass', 'RocketComponent', translate('App::Property', 'Calculated or overridden component mass'), PROP_READONLY|PROP_TRANSIENT).Mass = 0.0
 
     def positionChild(self, obj, parent, parentBase, parentLength, parentRadius):
         # Calculate any auto radii
