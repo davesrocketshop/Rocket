@@ -82,22 +82,6 @@ class _FinDialog(QDialog):
         self.finTypesCombo = QtGui.QComboBox(self)
         self.finTypesCombo.addItems(self.finTypes)
 
-        self.finSetGroup = QtGui.QGroupBox(translate('Rocket', "Fin Set"), self)
-        self.finSetGroup.setCheckable(True)
-        
-        self.finCountLabel = QtGui.QLabel(translate('Rocket', "Fin Count"), self)
-
-        self.finCountSpinBox = QtGui.QSpinBox(self)
-        self.finCountSpinBox.setFixedWidth(80)
-        self.finCountSpinBox.setMinimum(1)
-        self.finCountSpinBox.setMaximum(10000)
-
-        self.finSpacingLabel = QtGui.QLabel(translate('Rocket', "Fin Spacing"), self)
-
-        self.finSpacingInput = ui.createWidget("Gui::InputField")
-        self.finSpacingInput.unit = 'deg'
-        self.finSpacingInput.setFixedWidth(80)
-
         # Get the fin parameters: length, width, etc...
         self.rootGroup = QtGui.QGroupBox(translate('Rocket', "Fin Root"), self)
 
@@ -200,19 +184,6 @@ class _FinDialog(QDialog):
         self.sweepAngleInput.unit = 'deg'
         self.sweepAngleInput.setFixedWidth(80)
 
-        # Fin set group
-        row = 0
-        grid = QGridLayout()
-
-        grid.addWidget(self.finCountLabel, row, 0)
-        grid.addWidget(self.finCountSpinBox, row, 1)
-        row += 1
-
-        grid.addWidget(self.finSpacingLabel, row, 0)
-        grid.addWidget(self.finSpacingInput, row, 1)
-
-        self.finSetGroup.setLayout(grid)
-
         # Root group
         row = 0
         grid = QGridLayout()
@@ -293,7 +264,6 @@ class _FinDialog(QDialog):
 
         layout = QVBoxLayout()
         layout.addItem(grid)
-        layout.addWidget(self.finSetGroup)
         layout.addWidget(self.rootGroup)
         layout.addWidget(self.tipGroup)
         layout.addItem(QtGui.QSpacerItem(0,0, QSizePolicy.Expanding, QSizePolicy.Expanding))
