@@ -29,7 +29,7 @@ import FreeCAD
 import FreeCADGui
 
 from PySide import QtGui, QtCore
-from PySide2.QtWidgets import QDialog, QGridLayout
+from PySide2.QtWidgets import QDialog, QGridLayout, QVBoxLayout, QSizePolicy
 
 from DraftTools import translate
 
@@ -40,44 +40,33 @@ from App.Constants import COMPONENT_TYPE_NOSECONE
 
 from App.Utilities import _toFloat, _valueWithUnits
 
-class _testDialog(QDialog):
-
-    def __init__(self, parent=None):
-        super().__init__(parent)
-
-
-        # define our window
-        self.setGeometry(250, 250, 400, 350)
-        self.setWindowTitle(translate('Rocket', "Component Lookup"))
-
-        # Select the type of nose cone
-        self.testTypeLabel = QtGui.QLabel(translate('Rocket', "Test type"), self)
-
-        self.testTypes = ("Test 1",
-                                "Test 2")
-        self.testTypesCombo = QtGui.QComboBox(self)
-        self.testTypesCombo.addItems(self.testTypes)
-
-        layout = QGridLayout()
-
-        layout.addWidget(self.testTypeLabel, 0, 0, 1, 2)
-        layout.addWidget(self.testTypesCombo, 0, 1)
-
-        self.setLayout(layout)
-
 class _NoseConeDialog(QDialog):
 
     def __init__(self, parent=None):
         super().__init__(parent)
 
-        ui = FreeCADGui.UiLoader()
-
         # define our window
         self.setGeometry(250, 250, 400, 350)
         self.setWindowTitle(translate('Rocket', "Nose Cone Parameter"))
 
+        self.tabWidget = QtGui.QTabWidget()
+        self.tabGeneral = QtGui.QWidget()
+        self.tabShoulder = QtGui.QWidget()
+        self.tabWidget.addTab(self.tabGeneral, translate('Rocket', "General"))
+        self.tabWidget.addTab(self.tabShoulder, translate('Rocket', "Shoulder"))
+
+        layout = QVBoxLayout()
+        layout.addWidget(self.tabWidget)
+        self.setLayout(layout)
+
+        self.setTabGeneral()
+        self.setTabShoulder()
+
+    def setTabGeneral(self):
+        ui = FreeCADGui.UiLoader()
+
         # Select the type of nose cone
-        self.noseConeTypeLabel = QtGui.QLabel(translate('Rocket', "Nose cone type"), self)
+        self.noseConeTypeLabel = QtGui.QLabel(translate('Rocket', "Nose Cone Shape"), self)
 
         self.noseConeTypes = (TYPE_CONE,
                                 TYPE_ELLIPTICAL,
@@ -90,8 +79,18 @@ class _NoseConeDialog(QDialog):
         self.noseConeTypesCombo = QtGui.QComboBox(self)
         self.noseConeTypesCombo.addItems(self.noseConeTypes)
 
+        self.coefficientLabel = QtGui.QLabel(translate('Rocket', "Shape Parameter"), self)
+
+        self.coefficientValidator = QtGui.QDoubleValidator(self)
+        self.coefficientValidator.setBottom(0.0)
+
+        self.coefficientInput = QtGui.QLineEdit(self)
+        self.coefficientInput.setFixedWidth(80)
+        self.coefficientInput.setValidator(self.coefficientValidator)
+        self.coefficientInput.setEnabled(False)
+
         # Select the type of sketch
-        self.noseStyleLabel = QtGui.QLabel(translate('Rocket', "Nose Style"), self)
+        self.noseStyleLabel = QtGui.QLabel(translate('Rocket', "Style"), self)
 
         self.noseStyles = (STYLE_SOLID,
                                 STYLE_HOLLOW,
@@ -111,7 +110,6 @@ class _NoseConeDialog(QDialog):
         self.diameterInput = ui.createWidget("Gui::InputField")
         self.diameterInput.unit = 'mm'
         self.diameterInput.setFixedWidth(80)
-
         self.thicknessLabel = QtGui.QLabel(translate('Rocket', "Thickness"), self)
 
         self.thicknessInput = ui.createWidget("Gui::InputField")
@@ -119,15 +117,38 @@ class _NoseConeDialog(QDialog):
         self.thicknessInput.setFixedWidth(80)
         self.thicknessInput.setEnabled(False)
 
-        self.coefficientLabel = QtGui.QLabel(translate('Rocket', "Coefficient"), self)
+        layout = QGridLayout()
+        row = 0
 
-        self.coefficientValidator = QtGui.QDoubleValidator(self)
-        self.coefficientValidator.setBottom(0.0)
+        layout.addWidget(self.noseConeTypeLabel, row, 0, 1, 2)
+        layout.addWidget(self.noseConeTypesCombo, row, 1)
+        row += 1
 
-        self.coefficientInput = QtGui.QLineEdit(self)
-        self.coefficientInput.setFixedWidth(80)
-        self.coefficientInput.setValidator(self.coefficientValidator)
-        self.coefficientInput.setEnabled(False)
+        layout.addWidget(self.coefficientLabel, row, 0)
+        layout.addWidget(self.coefficientInput, row, 1)
+        row += 1
+
+        layout.addWidget(self.noseStyleLabel, row, 0)
+        layout.addWidget(self.noseStylesCombo, row, 1)
+        row += 1
+
+        layout.addWidget(self.lengthLabel, row, 0)
+        layout.addWidget(self.lengthInput, row, 1)
+        row += 1
+
+        layout.addWidget(self.diameterLabel, row, 0)
+        layout.addWidget(self.diameterInput, row, 1)
+        row += 1
+
+        layout.addWidget(self.thicknessLabel, row, 0)
+        layout.addWidget(self.thicknessInput, row, 1)
+
+        layout.addItem(QtGui.QSpacerItem(0,0, QSizePolicy.Expanding, QSizePolicy.Expanding))
+
+        self.tabGeneral.setLayout(layout)
+
+    def setTabShoulder(self):
+        ui = FreeCADGui.UiLoader()
 
         self.shoulderLabel = QtGui.QLabel(translate('Rocket', "Shoulder"), self)
 
@@ -156,38 +177,26 @@ class _NoseConeDialog(QDialog):
         self.shoulderThicknessInput.setEnabled(False)
 
         layout = QGridLayout()
+        row = 0
 
-        layout.addWidget(self.noseConeTypeLabel, 0, 0, 1, 2)
-        layout.addWidget(self.noseConeTypesCombo, 0, 1)
+        layout.addWidget(self.shoulderLabel, row, 0, 1, 2)
+        layout.addWidget(self.shoulderCheckbox, row, 1)
+        row += 1
 
-        layout.addWidget(self.noseStyleLabel, 1, 0)
-        layout.addWidget(self.noseStylesCombo, 1, 1)
+        layout.addWidget(self.shoulderLengthLabel, row, 0)
+        layout.addWidget(self.shoulderLengthInput, row, 1)
+        row += 1
 
-        layout.addWidget(self.lengthLabel, 2, 0)
-        layout.addWidget(self.lengthInput, 2, 1)
+        layout.addWidget(self.shoulderDiameterLabel, row, 0)
+        layout.addWidget(self.shoulderDiameterInput, row, 1)
+        row += 1
 
-        layout.addWidget(self.diameterLabel, 3, 0)
-        layout.addWidget(self.diameterInput, 3, 1)
+        layout.addWidget(self.shoulderThicknessLabel, row, 0)
+        layout.addWidget(self.shoulderThicknessInput, row, 1)
 
-        layout.addWidget(self.thicknessLabel, 4, 0)
-        layout.addWidget(self.thicknessInput, 4, 1)
+        layout.addItem(QtGui.QSpacerItem(0,0, QSizePolicy.Expanding, QSizePolicy.Expanding))
 
-        layout.addWidget(self.coefficientLabel, 5, 0)
-        layout.addWidget(self.coefficientInput, 5, 1)
-
-        layout.addWidget(self.shoulderLabel, 6, 0)
-        layout.addWidget(self.shoulderCheckbox, 6, 1)
-
-        layout.addWidget(self.shoulderLengthLabel, 7, 1)
-        layout.addWidget(self.shoulderLengthInput, 7, 2)
-
-        layout.addWidget(self.shoulderDiameterLabel, 8, 1)
-        layout.addWidget(self.shoulderDiameterInput, 8, 2)
-
-        layout.addWidget(self.shoulderThicknessLabel, 9, 1)
-        layout.addWidget(self.shoulderThicknessInput, 9, 2)
-
-        self.setLayout(layout)
+        self.tabShoulder.setLayout(layout)
 
 class TaskPanelNoseCone:
 
