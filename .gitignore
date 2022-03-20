@@ -3,3 +3,5 @@ __pycache__/
 *.py[cod]
 *$py.class
 dump.sql
+util/freecad-addons.zip
+.vscode/launch.json
