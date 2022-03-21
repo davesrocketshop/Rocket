@@ -27,7 +27,6 @@ __url__ = "https://www.davesrocketshop.com"
 from App.ShapeComponent import ShapeComponent
 from App.Constants import FEATURE_RAIL_BUTTON
 from App.Constants import RAIL_BUTTON_ROUND, RAIL_BUTTON_AIRFOIL
-from App.Constants import PLACEMENT_RADIAL
 from App.Constants import CONTERSINK_ANGLE_60, CONTERSINK_ANGLE_82, CONTERSINK_ANGLE_90, CONTERSINK_ANGLE_100, \
                             CONTERSINK_ANGLE_110, CONTERSINK_ANGLE_120
 

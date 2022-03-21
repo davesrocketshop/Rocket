@@ -24,11 +24,7 @@ __title__ = "FreeCAD Body Tubes"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
-from PySide import QtCore
-    
 from App.Constants import FEATURE_LAUNCH_LUG
-from App.Constants import PROP_HIDDEN
-from App.Constants import PLACEMENT_RADIAL
 
 from App.ShapeBodyTube import ShapeBodyTube
 

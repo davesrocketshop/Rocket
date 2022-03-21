@@ -26,7 +26,6 @@ __url__ = "https://www.davesrocketshop.com"
 
 from App.ShapeComponent import ShapeComponent
 from App.Constants import FEATURE_RAIL_GUIDE
-from App.Constants import PLACEMENT_RADIAL
 from App.Constants import RAIL_GUIDE_BASE_FLAT, RAIL_GUIDE_BASE_CONFORMAL, RAIL_GUIDE_BASE_V
 
 from App.RailGuideShapeHandler import RailGuideShapeHandler

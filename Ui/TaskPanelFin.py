@@ -46,8 +46,6 @@ class _FinDialog(QDialog):
     def __init__(self, sketch, parent=None):
         super(_FinDialog, self).__init__(parent)
 
-        ui = FreeCADGui.UiLoader()
-
         # define our window
         self.setGeometry(250, 250, 400, 350)
         self.setWindowTitle(translate('Rocket', "Fin Parameter"))
