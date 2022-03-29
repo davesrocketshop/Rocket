@@ -45,8 +45,6 @@ class _TransitionDialog(QDialog):
     def __init__(self, parent=None):
         super(_TransitionDialog, self).__init__(parent)
 
-        ui = FreeCADGui.UiLoader()
-
         # define our window
         self.setGeometry(250, 250, 400, 350)
         self.setWindowTitle(translate('Rocket', "Transition Parameter"))
