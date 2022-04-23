@@ -83,16 +83,6 @@ class _NoseConeDialog(QDialog):
         self.noseConeTypesCombo = QtGui.QComboBox(self)
         self.noseConeTypesCombo.addItems(self.noseConeTypes)
 
-        self.coefficientLabel = QtGui.QLabel(translate('Rocket', "Shape Parameter"), self)
-
-        self.coefficientValidator = QtGui.QDoubleValidator(self)
-        self.coefficientValidator.setBottom(0.0)
-
-        self.coefficientInput = QtGui.QLineEdit(self)
-        self.coefficientInput.setFixedWidth(80)
-        self.coefficientInput.setValidator(self.coefficientValidator)
-        self.coefficientInput.setEnabled(False)
-
         # Select the type of sketch
         self.noseStyleLabel = QtGui.QLabel(translate('Rocket', "Style"), self)
 
@@ -109,12 +99,6 @@ class _NoseConeDialog(QDialog):
         self.lengthInput.unit = 'mm'
         self.lengthInput.setFixedWidth(80)
 
-        self.bluntedLabel = QtGui.QLabel(translate('Rocket', "Blunted Radius"), self)
-
-        self.bluntedInput = ui.createWidget("Gui::InputField")
-        self.bluntedInput.unit = 'mm'
-        self.bluntedInput.setFixedWidth(80)
-
         self.diameterLabel = QtGui.QLabel(translate('Rocket', "Diameter"), self)
 
         self.diameterInput = ui.createWidget("Gui::InputField")
@@ -127,15 +111,35 @@ class _NoseConeDialog(QDialog):
         self.thicknessInput.setFixedWidth(80)
         self.thicknessInput.setEnabled(False)
 
+        #
+        # Type dependent parameters
+        self.coefficientLabel = QtGui.QLabel(translate('Rocket', "Shape Parameter"), self)
+
+        self.coefficientValidator = QtGui.QDoubleValidator(self)
+        self.coefficientValidator.setBottom(0.0)
+
+        self.coefficientInput = QtGui.QLineEdit(self)
+        self.coefficientInput.setFixedWidth(80)
+        self.coefficientInput.setValidator(self.coefficientValidator)
+        self.coefficientInput.setEnabled(False)
+
+        self.bluntedLabel = QtGui.QLabel(translate('Rocket', "Blunted Radius"), self)
+
+        self.bluntedInput = ui.createWidget("Gui::InputField")
+        self.bluntedInput.unit = 'mm'
+        self.bluntedInput.setFixedWidth(80)
+
+        self.ogiveRadiusLabel = QtGui.QLabel(translate('Rocket', "Ogive Radius"), self)
+
+        self.ogiveRadiusInput = ui.createWidget("Gui::InputField")
+        self.ogiveRadiusInput.unit = 'mm'
+        self.ogiveRadiusInput.setFixedWidth(80)
+
         layout = QGridLayout()
         row = 0
 
         layout.addWidget(self.noseConeTypeLabel, row, 0, 1, 2)
         layout.addWidget(self.noseConeTypesCombo, row, 1)
-        row += 1
-
-        layout.addWidget(self.coefficientLabel, row, 0)
-        layout.addWidget(self.coefficientInput, row, 1)
         row += 1
 
         layout.addWidget(self.noseStyleLabel, row, 0)
@@ -146,16 +150,25 @@ class _NoseConeDialog(QDialog):
         layout.addWidget(self.lengthInput, row, 1)
         row += 1
 
-        layout.addWidget(self.bluntedLabel, row, 0)
-        layout.addWidget(self.bluntedInput, row, 1)
-        row += 1
-
         layout.addWidget(self.diameterLabel, row, 0)
         layout.addWidget(self.diameterInput, row, 1)
         row += 1
 
         layout.addWidget(self.thicknessLabel, row, 0)
         layout.addWidget(self.thicknessInput, row, 1)
+        row += 1
+
+        layout.addWidget(self.coefficientLabel, row, 0)
+        layout.addWidget(self.coefficientInput, row, 1)
+        row += 1
+
+        layout.addWidget(self.ogiveRadiusLabel, row, 0)
+        layout.addWidget(self.ogiveRadiusInput, row, 1)
+        row += 1
+
+        layout.addWidget(self.bluntedLabel, row, 0)
+        layout.addWidget(self.bluntedInput, row, 1)
+        # row += 1
 
         layout.addItem(QtGui.QSpacerItem(0,0, QSizePolicy.Expanding, QSizePolicy.Expanding))
 
@@ -232,6 +245,7 @@ class TaskPanelNoseCone:
         self._noseForm.diameterInput.textEdited.connect(self.onDiameterChanged)
         self._noseForm.thicknessInput.textEdited.connect(self.onThicknessChanged)
         self._noseForm.coefficientInput.textEdited.connect(self.onCoefficientChanged)
+        self._noseForm.ogiveRadiusInput.textEdited.connect(self.onOgiveRadiusChanged)
 
         self._noseForm.shoulderCheckbox.stateChanged.connect(self.onShoulderChanged)
         self._noseForm.shoulderDiameterInput.textEdited.connect(self.onShoulderDiameterChanged)
@@ -255,6 +269,7 @@ class TaskPanelNoseCone:
         self._obj.Diameter = self._noseForm.diameterInput.text()
         self._obj.Thickness = self._noseForm.thicknessInput.text()
         self._obj.Coefficient = _toFloat(self._noseForm.coefficientInput.text())
+        self._obj.OgiveRadius = self._noseForm.ogiveRadiusInput.text()
         self._obj.Shoulder = self._noseForm.shoulderCheckbox.isChecked()
         self._obj.ShoulderDiameter = self._noseForm.shoulderDiameterInput.text()
         self._obj.ShoulderLength = self._noseForm.shoulderLengthInput.text()
@@ -269,6 +284,7 @@ class TaskPanelNoseCone:
         self._noseForm.diameterInput.setText(self._obj.Diameter.UserString)
         self._noseForm.thicknessInput.setText(self._obj.Thickness.UserString)
         self._noseForm.coefficientInput.setText("%f" % self._obj.Coefficient)
+        self._noseForm.ogiveRadiusInput.setText(self._obj.OgiveRadius.UserString)
         self._noseForm.shoulderCheckbox.setChecked(self._obj.Shoulder)
         self._noseForm.shoulderDiameterInput.setText(self._obj.ShoulderDiameter.UserString)
         self._noseForm.shoulderLengthInput.setText(self._obj.ShoulderLength.UserString)
@@ -278,7 +294,7 @@ class TaskPanelNoseCone:
         self._setStyleState()
         self._setShoulderState()
         
-    def _setTypeState(self):
+    def _setCoeffientState(self):
         value = self._obj.NoseType
         if value == TYPE_HAACK or value == TYPE_PARABOLIC:
             self._noseForm.coefficientInput.setEnabled(True)
@@ -294,6 +310,35 @@ class TaskPanelNoseCone:
             self._noseForm.coefficientInput.setEnabled(False)
         else:
             self._noseForm.coefficientInput.setEnabled(False)
+        
+    def _setBluntState(self):
+        value = self._obj.NoseType
+        if value in [TYPE_BLUNTED_CONE, TYPE_BLUNTED_OGIVE]:
+            self._noseForm.bluntedInput.setEnabled(True)
+        else:
+            self._noseForm.bluntedInput.setEnabled(False)
+        
+    def _setOgiveRadiusState(self):
+        value = self._obj.NoseType
+        if value == TYPE_SECANT_OGIVE:
+            self._noseForm.ogiveRadiusInput.setEnabled(True)
+        else:
+            self._noseForm.ogiveRadiusInput.setEnabled(False)
+        
+    def _setLengthState(self):
+        value = self._obj.NoseType
+        if value == TYPE_SPHERICAL:
+            self._obj.Length = float(self._obj.Diameter) / 2.0
+            self._noseForm.lengthInput.setText("%f" % self._obj.Length)
+            self._noseForm.lengthInput.setEnabled(False)
+        else:
+            self._noseForm.lengthInput.setEnabled(True)
+        
+    def _setTypeState(self):
+        self._setCoeffientState()
+        self._setBluntState()
+        self._setOgiveRadiusState()
+        self._setLengthState()
 
     def onNoseType(self, value):
         self._obj.NoseType = value
@@ -338,6 +383,8 @@ class TaskPanelNoseCone:
         try:
             self._obj.Diameter = FreeCAD.Units.Quantity(value).Value
             self._obj.Proxy.execute(self._obj)
+
+            self._setLengthState() # Update for spherical noses
         except ValueError:
             pass
         
@@ -351,6 +398,13 @@ class TaskPanelNoseCone:
     def onCoefficientChanged(self, value):
         self._obj.Coefficient = _toFloat(value)
         self._obj.Proxy.execute(self._obj)
+        
+    def onOgiveRadiusChanged(self, value):
+        try:
+            self._obj.OgiveRadius = FreeCAD.Units.Quantity(value).Value
+            self._obj.Proxy.execute(self._obj)
+        except ValueError:
+            pass
 
     def _setShoulderState(self):
         if self._obj.Shoulder:
@@ -416,7 +470,6 @@ class TaskPanelNoseCone:
 
     def clicked(self,button):
         if button == QtGui.QDialogButtonBox.Apply:
-            #print "Apply"
             self.transferTo()
             self._obj.Proxy.execute(self._obj) 
         

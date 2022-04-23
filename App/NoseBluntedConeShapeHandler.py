@@ -62,12 +62,10 @@ class NoseBluntedConeShapeHandler(NoseShapeHandler):
         while (max - min) > precision:
             mid = (max + min) / 2.0
             counter += 1
-            print("%d: (min, max, mid) -> (%f, %f, %f)" % (counter, min, max, mid))
             Xt = self.getXt(mid, radius, noseRadius)
             Yt = self.getYt(Xt, mid, radius)
             Xo = self.getXo(Xt, Yt, noseRadius)
             Xa = self.getXa(Xo, noseRadius)
-            print("\tXt = %f, Yt = %f, X0 = %f, Xa = %f" % (Xt, Yt, Xo, Xa))
             if (length + Xa) > mid:
                 min = mid
             else:
@@ -99,7 +97,6 @@ class NoseBluntedConeShapeHandler(NoseShapeHandler):
         if offset > 0:
             self._offsetRadius = self.innerMinor(vLength, radius, offset)
         line = Part.LineSegment(FreeCAD.Vector(offset, self._offsetRadius), FreeCAD.Vector(vLength - Xt, Yt))
-        print(type(line))
         curve = Part.Wire([blunt.toShape(), line.toShape()])
 
         return curve
@@ -114,7 +111,6 @@ class NoseBluntedConeShapeHandler(NoseShapeHandler):
         return edges
 
     def drawSolidShoulder(self):
-        # outer_curve = Part.LineSegment(FreeCAD.Vector(self._length, 0.0), FreeCAD.Vector(0.0, self._radius))
         outer_curve = self.getOuterCurve()
 
         edges = self.solidShoulderLines(outer_curve)

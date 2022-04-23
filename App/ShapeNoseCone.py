@@ -32,6 +32,7 @@ from App.NoseEllipseShapeHandler import NoseEllipseShapeHandler
 from App.NoseHaackShapeHandler import NoseHaackShapeHandler
 from App.NoseOgiveShapeHandler import NoseOgiveShapeHandler
 from App.NoseBluntedOgiveShapeHandler import NoseBluntedOgiveShapeHandler
+from App.NoseSecantOgiveShapeHandler import NoseSecantOgiveShapeHandler
 from App.NoseParabolicShapeHandler import NoseParabolicShapeHandler
 from App.NosePowerShapeHandler import NosePowerShapeHandler
 
@@ -80,6 +81,8 @@ class ShapeNoseCone(ShapeComponent):
             obj.addProperty('App::PropertyLength', 'ShoulderThickness', 'NoseCone', translate('App::Property', 'Shoulder thickness')).ShoulderThickness = 2.0
         if not hasattr(obj, 'Coefficient'):
             obj.addProperty('App::PropertyFloat', 'Coefficient', 'NoseCone', translate('App::Property', 'Coefficient')).Coefficient = 0.0
+        if not hasattr(obj, 'OgiveRadius'):
+            obj.addProperty('App::PropertyLength', 'OgiveRadius', 'NoseCone', translate('App::Property', 'The radius of the circle used to define a secant ogive')).OgiveRadius = 60.0
         if not hasattr(obj, 'Resolution'):
             obj.addProperty('App::PropertyInteger', 'Resolution', 'NoseCone', translate('App::Property', 'Resolution')).Resolution = 100
 
@@ -128,7 +131,7 @@ class ShapeNoseCone(ShapeComponent):
         elif obj.NoseType == TYPE_BLUNTED_OGIVE:
             shape = NoseBluntedOgiveShapeHandler(obj)
         elif obj.NoseType == TYPE_SECANT_OGIVE:
-            shape = NoseOgiveShapeHandler(obj)
+            shape = NoseSecantOgiveShapeHandler(obj)
         elif obj.NoseType == TYPE_VON_KARMAN:
             obj.Coefficient = 0.0
             shape = NoseHaackShapeHandler(obj)

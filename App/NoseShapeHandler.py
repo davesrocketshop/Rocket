@@ -53,6 +53,7 @@ class NoseShapeHandler():
         self._radius = float(obj.Diameter) / 2.0
         self._noseRadius = float(obj.BluntedRadius)
         self._coefficient = float(obj.Coefficient)
+        self._ogiveRadius = float(obj.OgiveRadius)
         self._resolution = int(obj.Resolution)
         self._obj = obj
 
