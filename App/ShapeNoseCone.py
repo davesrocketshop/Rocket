@@ -31,6 +31,7 @@ from App.NoseBluntedConeShapeHandler import NoseBluntedConeShapeHandler
 from App.NoseEllipseShapeHandler import NoseEllipseShapeHandler
 from App.NoseHaackShapeHandler import NoseHaackShapeHandler
 from App.NoseOgiveShapeHandler import NoseOgiveShapeHandler
+from App.NoseBluntedOgiveShapeHandler import NoseBluntedOgiveShapeHandler
 from App.NoseParabolicShapeHandler import NoseParabolicShapeHandler
 from App.NosePowerShapeHandler import NosePowerShapeHandler
 
@@ -125,7 +126,7 @@ class ShapeNoseCone(ShapeComponent):
         elif obj.NoseType == TYPE_OGIVE:
             shape = NoseOgiveShapeHandler(obj)
         elif obj.NoseType == TYPE_BLUNTED_OGIVE:
-            shape = NoseOgiveShapeHandler(obj)
+            shape = NoseBluntedOgiveShapeHandler(obj)
         elif obj.NoseType == TYPE_SECANT_OGIVE:
             shape = NoseOgiveShapeHandler(obj)
         elif obj.NoseType == TYPE_VON_KARMAN:
