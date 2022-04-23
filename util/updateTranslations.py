@@ -197,7 +197,7 @@ if __name__ == "__main__":
     elif arg == "download":
 
         print("Downloading all.zip in current directory...")
-        cmd = "wget -O freecad-addons.zip "+url+"download/all.zip"+key
+        cmd = "wget -O freecad-addons.zip \""+url+"download/all.zip"+key+"\""
         os.system(cmd)
 
     elif arg == "upload":
