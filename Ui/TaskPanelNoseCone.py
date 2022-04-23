@@ -34,7 +34,7 @@ from PySide2.QtWidgets import QDialog, QGridLayout, QVBoxLayout, QSizePolicy
 from DraftTools import translate
 
 from Ui.TaskPanelDatabase import TaskPanelDatabase
-from App.Constants import TYPE_CONE, TYPE_ELLIPTICAL, TYPE_HAACK, TYPE_OGIVE, TYPE_VON_KARMAN, TYPE_PARABOLA, TYPE_PARABOLIC, TYPE_POWER
+from App.Constants import TYPE_CONE, TYPE_BLUNTED_CONE, TYPE_SPHERICAL, TYPE_ELLIPTICAL, TYPE_HAACK, TYPE_OGIVE, TYPE_BLUNTED_OGIVE, TYPE_SECANT_OGIVE, TYPE_VON_KARMAN, TYPE_PARABOLA, TYPE_PARABOLIC, TYPE_POWER
 from App.Constants import STYLE_CAPPED, STYLE_HOLLOW, STYLE_SOLID
 from App.Constants import COMPONENT_TYPE_NOSECONE
 
@@ -69,8 +69,12 @@ class _NoseConeDialog(QDialog):
         self.noseConeTypeLabel = QtGui.QLabel(translate('Rocket', "Nose Cone Shape"), self)
 
         self.noseConeTypes = (TYPE_CONE,
+                                TYPE_BLUNTED_CONE,
+                                TYPE_SPHERICAL,
                                 TYPE_ELLIPTICAL,
                                 TYPE_OGIVE,
+                                TYPE_BLUNTED_OGIVE,
+                                TYPE_SECANT_OGIVE,
                                 TYPE_PARABOLA,
                                 TYPE_PARABOLIC,
                                 TYPE_POWER,
@@ -105,6 +109,12 @@ class _NoseConeDialog(QDialog):
         self.lengthInput.unit = 'mm'
         self.lengthInput.setFixedWidth(80)
 
+        self.bluntedLabel = QtGui.QLabel(translate('Rocket', "Blunted Radius"), self)
+
+        self.bluntedInput = ui.createWidget("Gui::InputField")
+        self.bluntedInput.unit = 'mm'
+        self.bluntedInput.setFixedWidth(80)
+
         self.diameterLabel = QtGui.QLabel(translate('Rocket', "Diameter"), self)
 
         self.diameterInput = ui.createWidget("Gui::InputField")
@@ -134,6 +144,10 @@ class _NoseConeDialog(QDialog):
 
         layout.addWidget(self.lengthLabel, row, 0)
         layout.addWidget(self.lengthInput, row, 1)
+        row += 1
+
+        layout.addWidget(self.bluntedLabel, row, 0)
+        layout.addWidget(self.bluntedInput, row, 1)
         row += 1
 
         layout.addWidget(self.diameterLabel, row, 0)
@@ -214,6 +228,7 @@ class TaskPanelNoseCone:
         self._noseForm.noseStylesCombo.currentTextChanged.connect(self.onNoseStyle)
 
         self._noseForm.lengthInput.textEdited.connect(self.onLengthChanged)
+        self._noseForm.bluntedInput.textEdited.connect(self.onBluntedChanged)
         self._noseForm.diameterInput.textEdited.connect(self.onDiameterChanged)
         self._noseForm.thicknessInput.textEdited.connect(self.onThicknessChanged)
         self._noseForm.coefficientInput.textEdited.connect(self.onCoefficientChanged)
@@ -236,6 +251,7 @@ class TaskPanelNoseCone:
         self._obj.NoseType = str(self._noseForm.noseConeTypesCombo.currentText())
         self._obj.NoseStyle = str(self._noseForm.noseStylesCombo.currentText())
         self._obj.Length = self._noseForm.lengthInput.text()
+        self._obj.BluntedRadius = self._noseForm.bluntedInput.text()
         self._obj.Diameter = self._noseForm.diameterInput.text()
         self._obj.Thickness = self._noseForm.thicknessInput.text()
         self._obj.Coefficient = _toFloat(self._noseForm.coefficientInput.text())
@@ -249,6 +265,7 @@ class TaskPanelNoseCone:
         self._noseForm.noseConeTypesCombo.setCurrentText(self._obj.NoseType)
         self._noseForm.noseStylesCombo.setCurrentText(self._obj.NoseStyle)
         self._noseForm.lengthInput.setText(self._obj.Length.UserString)
+        self._noseForm.bluntedInput.setText(self._obj.BluntedRadius.UserString)
         self._noseForm.diameterInput.setText(self._obj.Diameter.UserString)
         self._noseForm.thicknessInput.setText(self._obj.Thickness.UserString)
         self._noseForm.coefficientInput.setText("%f" % self._obj.Coefficient)
@@ -306,6 +323,13 @@ class TaskPanelNoseCone:
     def onLengthChanged(self, value):
         try:
             self._obj.Length = FreeCAD.Units.Quantity(value).Value
+            self._obj.Proxy.execute(self._obj)
+        except ValueError:
+            pass
+        
+    def onBluntedChanged(self, value):
+        try:
+            self._obj.BluntedRadius = FreeCAD.Units.Quantity(value).Value
             self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
@@ -376,6 +400,7 @@ class TaskPanelNoseCone:
         self._obj.NoseType = str(result["shape"])
         self._obj.NoseStyle = str(result["style"])
         self._obj.Length = _valueWithUnits(result["length"], result["length_units"])
+        self._obj.BluntedRadius = _valueWithUnits("0", "mm")
         self._obj.Diameter = _valueWithUnits(result["diameter"], result["diameter_units"])
         self._obj.Thickness = _valueWithUnits(result["thickness"], result["thickness_units"])
         # self._obj.Coefficient = _toFloat(self._noseForm.coefficientInput.text())

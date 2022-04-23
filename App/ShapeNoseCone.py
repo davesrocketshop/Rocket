@@ -27,13 +27,14 @@ __url__ = "https://www.davesrocketshop.com"
 from App.ShapeComponent import ShapeComponent
 
 from App.NoseConeShapeHandler import NoseConeShapeHandler
+from App.NoseBluntedConeShapeHandler import NoseBluntedConeShapeHandler
 from App.NoseEllipseShapeHandler import NoseEllipseShapeHandler
 from App.NoseHaackShapeHandler import NoseHaackShapeHandler
 from App.NoseOgiveShapeHandler import NoseOgiveShapeHandler
 from App.NoseParabolicShapeHandler import NoseParabolicShapeHandler
 from App.NosePowerShapeHandler import NosePowerShapeHandler
 
-from App.Constants import TYPE_CONE, TYPE_ELLIPTICAL, TYPE_HAACK, TYPE_OGIVE, TYPE_VON_KARMAN, TYPE_PARABOLA, TYPE_PARABOLIC, TYPE_POWER
+from App.Constants import TYPE_CONE, TYPE_BLUNTED_CONE, TYPE_SPHERICAL, TYPE_ELLIPTICAL, TYPE_HAACK, TYPE_OGIVE, TYPE_BLUNTED_OGIVE, TYPE_SECANT_OGIVE, TYPE_VON_KARMAN, TYPE_PARABOLA, TYPE_PARABOLIC, TYPE_POWER
 from App.Constants import STYLE_CAPPED, STYLE_HOLLOW, STYLE_SOLID
 
 from App.Utilities import _wrn
@@ -62,6 +63,8 @@ class ShapeNoseCone(ShapeComponent):
         
         if not hasattr(obj, 'Length'):
             obj.addProperty('App::PropertyLength', 'Length', 'NoseCone', translate('App::Property', 'Length of the nose not including any shoulder')).Length = 60.0
+        if not hasattr(obj, 'BluntedRadius'):
+            obj.addProperty('App::PropertyLength', 'BluntedRadius', 'NoseCone', translate('App::Property', 'Nose Radius for a blunted nose cone')).BluntedRadius = 5.0
         if not hasattr(obj, 'Diameter'):
             obj.addProperty('App::PropertyLength', 'Diameter', 'NoseCone', translate('App::Property', 'Diameter at the base of the nose')).Diameter = 20.0
         if not hasattr(obj, 'Thickness'):
@@ -82,8 +85,12 @@ class ShapeNoseCone(ShapeComponent):
         if not hasattr(obj, 'NoseType'):
             obj.addProperty('App::PropertyEnumeration', 'NoseType', 'NoseCone', translate('App::Property', 'Nose cone type'))
         obj.NoseType = [TYPE_CONE,
+                    TYPE_BLUNTED_CONE,
+                    TYPE_SPHERICAL,
                     TYPE_ELLIPTICAL,
                     TYPE_OGIVE,
+                    TYPE_BLUNTED_OGIVE,
+                    TYPE_SECANT_OGIVE,
                     TYPE_VON_KARMAN,
                     TYPE_PARABOLA,
                     TYPE_PARABOLIC,
@@ -109,9 +116,17 @@ class ShapeNoseCone(ShapeComponent):
         shape = None
         if obj.NoseType == TYPE_CONE:
             shape = NoseConeShapeHandler(obj)
+        elif obj.NoseType == TYPE_BLUNTED_CONE:
+            shape = NoseBluntedConeShapeHandler(obj)
+        elif obj.NoseType == TYPE_SPHERICAL:
+            shape = NoseEllipseShapeHandler(obj)
         elif obj.NoseType == TYPE_ELLIPTICAL:
             shape = NoseEllipseShapeHandler(obj)
         elif obj.NoseType == TYPE_OGIVE:
+            shape = NoseOgiveShapeHandler(obj)
+        elif obj.NoseType == TYPE_BLUNTED_OGIVE:
+            shape = NoseOgiveShapeHandler(obj)
+        elif obj.NoseType == TYPE_SECANT_OGIVE:
             shape = NoseOgiveShapeHandler(obj)
         elif obj.NoseType == TYPE_VON_KARMAN:
             obj.Coefficient = 0.0
