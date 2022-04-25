@@ -123,7 +123,7 @@ class _NoseConeDialog(QDialog):
         self.coefficientInput.setValidator(self.coefficientValidator)
         self.coefficientInput.setEnabled(False)
 
-        self.bluntedLabel = QtGui.QLabel(translate('Rocket', "Blunted Radius"), self)
+        self.bluntedLabel = QtGui.QLabel(translate('Rocket', "Blunted Diameter"), self)
 
         self.bluntedInput = ui.createWidget("Gui::InputField")
         self.bluntedInput.unit = 'mm'
@@ -265,7 +265,7 @@ class TaskPanelNoseCone:
         self._obj.NoseType = str(self._noseForm.noseConeTypesCombo.currentText())
         self._obj.NoseStyle = str(self._noseForm.noseStylesCombo.currentText())
         self._obj.Length = self._noseForm.lengthInput.text()
-        self._obj.BluntedRadius = self._noseForm.bluntedInput.text()
+        self._obj.BluntedDiameter = self._noseForm.bluntedInput.text()
         self._obj.Diameter = self._noseForm.diameterInput.text()
         self._obj.Thickness = self._noseForm.thicknessInput.text()
         self._obj.Coefficient = _toFloat(self._noseForm.coefficientInput.text())
@@ -280,7 +280,7 @@ class TaskPanelNoseCone:
         self._noseForm.noseConeTypesCombo.setCurrentText(self._obj.NoseType)
         self._noseForm.noseStylesCombo.setCurrentText(self._obj.NoseStyle)
         self._noseForm.lengthInput.setText(self._obj.Length.UserString)
-        self._noseForm.bluntedInput.setText(self._obj.BluntedRadius.UserString)
+        self._noseForm.bluntedInput.setText(self._obj.BluntedDiameter.UserString)
         self._noseForm.diameterInput.setText(self._obj.Diameter.UserString)
         self._noseForm.thicknessInput.setText(self._obj.Thickness.UserString)
         self._noseForm.coefficientInput.setText("%f" % self._obj.Coefficient)
@@ -374,7 +374,7 @@ class TaskPanelNoseCone:
         
     def onBluntedChanged(self, value):
         try:
-            self._obj.BluntedRadius = FreeCAD.Units.Quantity(value).Value
+            self._obj.BluntedDiameter = FreeCAD.Units.Quantity(value).Value
             self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
@@ -454,7 +454,7 @@ class TaskPanelNoseCone:
         self._obj.NoseType = str(result["shape"])
         self._obj.NoseStyle = str(result["style"])
         self._obj.Length = _valueWithUnits(result["length"], result["length_units"])
-        self._obj.BluntedRadius = _valueWithUnits("0", "mm")
+        self._obj.BluntedDiameter = _valueWithUnits("0", "mm")
         self._obj.Diameter = _valueWithUnits(result["diameter"], result["diameter_units"])
         self._obj.Thickness = _valueWithUnits(result["thickness"], result["thickness_units"])
         # self._obj.Coefficient = _toFloat(self._noseForm.coefficientInput.text())

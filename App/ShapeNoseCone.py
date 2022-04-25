@@ -49,14 +49,36 @@ def _migrate_from_1_0(obj):
     old = {}
     old["Radius"] = obj.Radius
     old["ShoulderRadius"] = obj.ShoulderRadius
+    old["NoseType"] = obj.NoseType
 
     obj.removeProperty("Radius")
     obj.removeProperty("ShoulderRadius")
+    obj.removeProperty("NoseType")
 
     ShapeNoseCone(obj)
 
     obj.Diameter = 2.0 * old["Radius"]
     obj.ShoulderDiameter = 2.0 * old["ShoulderRadius"]
+    obj.NoseType = old["NoseType"]
+
+def _migrate_from_2_0(obj):
+    _wrn("Nose cone migrating object from 2.0")
+
+    blunted = False
+    old = {}
+    if hasattr(obj, 'BluntedRadius'):
+        old["BluntedRadius"] = obj.BluntedRadius
+        blunted = True
+    old["NoseType"] = obj.NoseType
+
+    obj.removeProperty("BluntedRadius")
+    obj.removeProperty("NoseType")
+
+    ShapeNoseCone(obj)
+
+    if blunted:
+        obj.BluntedDiameter = 2.0 * old["BluntedRadius"]
+    obj.NoseType = old["NoseType"]
 
 class ShapeNoseCone(ShapeComponent):
 
@@ -65,8 +87,8 @@ class ShapeNoseCone(ShapeComponent):
         
         if not hasattr(obj, 'Length'):
             obj.addProperty('App::PropertyLength', 'Length', 'NoseCone', translate('App::Property', 'Length of the nose not including any shoulder')).Length = 60.0
-        if not hasattr(obj, 'BluntedRadius'):
-            obj.addProperty('App::PropertyLength', 'BluntedRadius', 'NoseCone', translate('App::Property', 'Nose Radius for a blunted nose cone')).BluntedRadius = 5.0
+        if not hasattr(obj, 'BluntedDiameter'):
+            obj.addProperty('App::PropertyLength', 'BluntedDiameter', 'NoseCone', translate('App::Property', 'Nose Radius for a blunted nose cone')).BluntedDiameter = 5.0
         if not hasattr(obj, 'Diameter'):
             obj.addProperty('App::PropertyLength', 'Diameter', 'NoseCone', translate('App::Property', 'Diameter at the base of the nose')).Diameter = 20.0
         if not hasattr(obj, 'Thickness'):
@@ -115,6 +137,9 @@ class ShapeNoseCone(ShapeComponent):
     def onDocumentRestored(self, obj):
         if hasattr(obj, "Radius"):
             _migrate_from_1_0(obj)
+        if hasattr(obj.Proxy, "version") and obj.Proxy.version:
+            if obj.Proxy.version == "2.0":
+                _migrate_from_2_0(obj)
 
     def execute(self, obj):
         shape = None
