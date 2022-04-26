@@ -129,11 +129,11 @@ class _NoseConeDialog(QDialog):
         self.bluntedInput.unit = 'mm'
         self.bluntedInput.setFixedWidth(80)
 
-        self.ogiveRadiusLabel = QtGui.QLabel(translate('Rocket', "Ogive Radius"), self)
+        self.ogiveDiameterLabel = QtGui.QLabel(translate('Rocket', "Ogive Diameter"), self)
 
-        self.ogiveRadiusInput = ui.createWidget("Gui::InputField")
-        self.ogiveRadiusInput.unit = 'mm'
-        self.ogiveRadiusInput.setFixedWidth(80)
+        self.ogiveDiameterInput = ui.createWidget("Gui::InputField")
+        self.ogiveDiameterInput.unit = 'mm'
+        self.ogiveDiameterInput.setFixedWidth(80)
 
         layout = QGridLayout()
         row = 0
@@ -162,8 +162,8 @@ class _NoseConeDialog(QDialog):
         layout.addWidget(self.coefficientInput, row, 1)
         row += 1
 
-        layout.addWidget(self.ogiveRadiusLabel, row, 0)
-        layout.addWidget(self.ogiveRadiusInput, row, 1)
+        layout.addWidget(self.ogiveDiameterLabel, row, 0)
+        layout.addWidget(self.ogiveDiameterInput, row, 1)
         row += 1
 
         layout.addWidget(self.bluntedLabel, row, 0)
@@ -245,7 +245,7 @@ class TaskPanelNoseCone:
         self._noseForm.diameterInput.textEdited.connect(self.onDiameterChanged)
         self._noseForm.thicknessInput.textEdited.connect(self.onThicknessChanged)
         self._noseForm.coefficientInput.textEdited.connect(self.onCoefficientChanged)
-        self._noseForm.ogiveRadiusInput.textEdited.connect(self.onOgiveRadiusChanged)
+        self._noseForm.ogiveDiameterInput.textEdited.connect(self.onOgiveDiameterChanged)
 
         self._noseForm.shoulderCheckbox.stateChanged.connect(self.onShoulderChanged)
         self._noseForm.shoulderDiameterInput.textEdited.connect(self.onShoulderDiameterChanged)
@@ -269,7 +269,7 @@ class TaskPanelNoseCone:
         self._obj.Diameter = self._noseForm.diameterInput.text()
         self._obj.Thickness = self._noseForm.thicknessInput.text()
         self._obj.Coefficient = _toFloat(self._noseForm.coefficientInput.text())
-        self._obj.OgiveRadius = self._noseForm.ogiveRadiusInput.text()
+        self._obj.OgiveDiameter = self._noseForm.ogiveDiameterInput.text()
         self._obj.Shoulder = self._noseForm.shoulderCheckbox.isChecked()
         self._obj.ShoulderDiameter = self._noseForm.shoulderDiameterInput.text()
         self._obj.ShoulderLength = self._noseForm.shoulderLengthInput.text()
@@ -284,7 +284,7 @@ class TaskPanelNoseCone:
         self._noseForm.diameterInput.setText(self._obj.Diameter.UserString)
         self._noseForm.thicknessInput.setText(self._obj.Thickness.UserString)
         self._noseForm.coefficientInput.setText("%f" % self._obj.Coefficient)
-        self._noseForm.ogiveRadiusInput.setText(self._obj.OgiveRadius.UserString)
+        self._noseForm.ogiveDiameterInput.setText(self._obj.OgiveDiameter.UserString)
         self._noseForm.shoulderCheckbox.setChecked(self._obj.Shoulder)
         self._noseForm.shoulderDiameterInput.setText(self._obj.ShoulderDiameter.UserString)
         self._noseForm.shoulderLengthInput.setText(self._obj.ShoulderLength.UserString)
@@ -318,12 +318,12 @@ class TaskPanelNoseCone:
         else:
             self._noseForm.bluntedInput.setEnabled(False)
         
-    def _setOgiveRadiusState(self):
+    def _setOgiveDiameterState(self):
         value = self._obj.NoseType
         if value == TYPE_SECANT_OGIVE:
-            self._noseForm.ogiveRadiusInput.setEnabled(True)
+            self._noseForm.ogiveDiameterInput.setEnabled(True)
         else:
-            self._noseForm.ogiveRadiusInput.setEnabled(False)
+            self._noseForm.ogiveDiameterInput.setEnabled(False)
         
     def _setLengthState(self):
         value = self._obj.NoseType
@@ -337,7 +337,7 @@ class TaskPanelNoseCone:
     def _setTypeState(self):
         self._setCoeffientState()
         self._setBluntState()
-        self._setOgiveRadiusState()
+        self._setOgiveDiameterState()
         self._setLengthState()
 
     def onNoseType(self, value):
@@ -399,9 +399,9 @@ class TaskPanelNoseCone:
         self._obj.Coefficient = _toFloat(value)
         self._obj.Proxy.execute(self._obj)
         
-    def onOgiveRadiusChanged(self, value):
+    def onOgiveDiameterChanged(self, value):
         try:
-            self._obj.OgiveRadius = FreeCAD.Units.Quantity(value).Value
+            self._obj.OgiveDiameter = FreeCAD.Units.Quantity(value).Value
             self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass

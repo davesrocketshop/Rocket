@@ -27,9 +27,12 @@ __url__ = "https://www.davesrocketshop.com"
 import FreeCAD
 import Part
 
+import math
+
 from DraftTools import translate
 
 from App.Constants import STYLE_CAPPED, STYLE_HOLLOW, STYLE_SOLID
+from App.Constants import TYPE_BLUNTED_CONE, TYPE_BLUNTED_OGIVE, TYPE_SECANT_OGIVE
 
 from App.Utilities import _err
 
@@ -53,7 +56,7 @@ class NoseShapeHandler():
         self._radius = float(obj.Diameter) / 2.0
         self._noseRadius = float(obj.BluntedDiameter) / 2.0
         self._coefficient = float(obj.Coefficient)
-        self._ogiveRadius = float(obj.OgiveRadius)
+        self._ogiveRadius = float(obj.OgiveDiameter) / 2.0
         self._resolution = int(obj.Resolution)
         self._obj = obj
 
@@ -70,6 +73,18 @@ class NoseShapeHandler():
                 return False
             if self._thickness >= self._radius:
                 _err(translate('Rocket', "Nose cones thickness must be less than the nose cone radius"))
+                return False
+        if self._type in [TYPE_BLUNTED_CONE, TYPE_BLUNTED_OGIVE]:
+            if self._noseRadius >= self._radius:
+                _err(translate('Rocket', "Nose diameter must be less than the base diameter"))
+                return False
+            if self._noseRadius <= 0:
+                _err(translate('Rocket', "Nose diameter must be greater than zero"))
+                return False
+        if self._type == TYPE_SECANT_OGIVE:
+            minDiameter = math.sqrt(self._length * self._length + self._radius * self._radius)
+            if self._ogiveRadius < (minDiameter / 2.0):
+                _err(translate('Rocket', "Ogive diameter must be greater than %f (sqrt(length^2 + radius^2))" % minDiameter))
                 return False
         if self._shoulder:
             if self._shoulderLength <= 0:

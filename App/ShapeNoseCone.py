@@ -65,19 +65,26 @@ def _migrate_from_2_0(obj):
     _wrn("Nose cone migrating object from 2.0")
 
     blunted = False
+    secant = False
     old = {}
     if hasattr(obj, 'BluntedRadius'):
         old["BluntedRadius"] = obj.BluntedRadius
         blunted = True
+    if hasattr(obj, 'OgiveRadius'):
+        old["OgiveRadius"] = obj.OgiveRadius
+        secant = True
     old["NoseType"] = obj.NoseType
 
     obj.removeProperty("BluntedRadius")
+    obj.removeProperty("OgiveRadius")
     obj.removeProperty("NoseType")
 
     ShapeNoseCone(obj)
 
     if blunted:
         obj.BluntedDiameter = 2.0 * old["BluntedRadius"]
+    if secant:
+        obj.OgiveDiameter = 2.0 * old["OgiveRadius"]
     obj.NoseType = old["NoseType"]
 
 class ShapeNoseCone(ShapeComponent):
@@ -103,8 +110,8 @@ class ShapeNoseCone(ShapeComponent):
             obj.addProperty('App::PropertyLength', 'ShoulderThickness', 'NoseCone', translate('App::Property', 'Shoulder thickness')).ShoulderThickness = 2.0
         if not hasattr(obj, 'Coefficient'):
             obj.addProperty('App::PropertyFloat', 'Coefficient', 'NoseCone', translate('App::Property', 'Coefficient')).Coefficient = 0.0
-        if not hasattr(obj, 'OgiveRadius'):
-            obj.addProperty('App::PropertyLength', 'OgiveRadius', 'NoseCone', translate('App::Property', 'The radius of the circle used to define a secant ogive')).OgiveRadius = 60.0
+        if not hasattr(obj, 'OgiveDiameter'):
+            obj.addProperty('App::PropertyLength', 'OgiveDiameter', 'NoseCone', translate('App::Property', 'The radius of the circle used to define a secant ogive')).OgiveDiameter = 120.0
         if not hasattr(obj, 'Resolution'):
             obj.addProperty('App::PropertyInteger', 'Resolution', 'NoseCone', translate('App::Property', 'Resolution')).Resolution = 100
 
@@ -138,7 +145,7 @@ class ShapeNoseCone(ShapeComponent):
         if hasattr(obj, "Radius"):
             _migrate_from_1_0(obj)
         if hasattr(obj.Proxy, "version") and obj.Proxy.version:
-            if obj.Proxy.version == "2.0":
+            if obj.Proxy.version in ["2.0", "2.1"]:
                 _migrate_from_2_0(obj)
 
     def execute(self, obj):
