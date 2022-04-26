@@ -42,7 +42,7 @@ class ShapeComponent:
 
         self._obj = obj
         obj.Proxy=self
-        self.version = '2.1'
+        self.version = '2.2'
 
     def __getstate__(self):
         return self.version
