@@ -28,32 +28,25 @@ import FreeCAD
 import FreeCADGui
 
 from Ui.TaskPanelBulkhead import TaskPanelBulkhead
+from Ui.ViewProvider import ViewProvider
 
-class ViewProviderBulkhead:
+class ViewProviderBulkhead(ViewProvider):
 
     def __init__(self, vobj):
-        vobj.Proxy = self
-        
+        super().__init__(vobj)
+         
     def getIcon(self):
         return FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Bulkhead.svg"
 
-    def attach(self, vobj):
-        self.ViewObject = vobj
-        self.Object = vobj.Object
-
     def setEdit(self, vobj, mode):
-        taskd = TaskPanelBulkhead(self.Object, False, mode)
-        taskd.obj = vobj.Object
-        taskd.update()
-        FreeCADGui.Control.showDialog(taskd)
-        return True
+        if mode == 0:
+            taskd = TaskPanelBulkhead(self.Object, False, mode)
+            taskd.obj = vobj.Object
+            taskd.update()
+            FreeCADGui.Control.showDialog(taskd)
+            return True
 
     def unsetEdit(self, vobj, mode):
-        FreeCADGui.Control.closeDialog()
-        return
-
-    def __getstate__(self):
-        return None
-
-    def __setstate__(self, state):
-        return None
+        if mode == 0:
+            FreeCADGui.Control.closeDialog()
+            return
