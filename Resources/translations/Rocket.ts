@@ -223,37 +223,37 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ShapeNoseCone.py" line="67"/>
+        <location filename="ShapeNoseCone.py" line="96"/>
         <source>Length of the nose not including any shoulder</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ShapeNoseCone.py" line="71"/>
+        <location filename="ShapeNoseCone.py" line="100"/>
         <source>Diameter at the base of the nose</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ShapeNoseCone.py" line="73"/>
+        <location filename="ShapeNoseCone.py" line="102"/>
         <source>Nose cone thickness</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ShapeNoseCone.py" line="75"/>
+        <location filename="ShapeNoseCone.py" line="104"/>
         <source>Set to true if the part includes a shoulder</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ShapeNoseCone.py" line="77"/>
+        <location filename="ShapeNoseCone.py" line="106"/>
         <source>Shoulder Length</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ShapeNoseCone.py" line="79"/>
+        <location filename="ShapeNoseCone.py" line="108"/>
         <source>Shoulder diameter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ShapeNoseCone.py" line="81"/>
+        <location filename="ShapeNoseCone.py" line="110"/>
         <source>Shoulder thickness</source>
         <translation type="unfinished"></translation>
     </message>
@@ -268,17 +268,17 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ShapeNoseCone.py" line="90"/>
+        <location filename="ShapeNoseCone.py" line="119"/>
         <source>Nose cone type</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ShapeNoseCone.py" line="106"/>
+        <location filename="ShapeNoseCone.py" line="135"/>
         <source>Nose cone style</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ShapeNoseCone.py" line="113"/>
+        <location filename="ShapeNoseCone.py" line="142"/>
         <source>Shape of the nose cone</source>
         <translation type="unfinished"></translation>
     </message>
@@ -543,12 +543,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ShapeNoseCone.py" line="69"/>
+        <location filename="ShapeNoseCone.py" line="98"/>
         <source>Nose Radius for a blunted nose cone</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ShapeNoseCone.py" line="85"/>
+        <location filename="ShapeNoseCone.py" line="114"/>
         <source>The radius of the circle used to define a secant ogive</source>
         <translation type="unfinished"></translation>
     </message>
@@ -951,32 +951,32 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="NoseShapeHandler.py" line="69"/>
+        <location filename="NoseShapeHandler.py" line="72"/>
         <source>For %s nose cones thickness must be &gt; 0</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="NoseShapeHandler.py" line="72"/>
+        <location filename="NoseShapeHandler.py" line="75"/>
         <source>Nose cones thickness must be less than the nose cone radius</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="NoseShapeHandler.py" line="76"/>
+        <location filename="NoseShapeHandler.py" line="91"/>
         <source>Shoulder length must be &gt; 0</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="NoseShapeHandler.py" line="79"/>
+        <location filename="NoseShapeHandler.py" line="94"/>
         <source>Shoulder diameter must be &gt; 0</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="NoseShapeHandler.py" line="82"/>
+        <location filename="NoseShapeHandler.py" line="97"/>
         <source>Shoulder diameter can not exceed the nose cone diameter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="NoseShapeHandler.py" line="86"/>
+        <location filename="NoseShapeHandler.py" line="101"/>
         <source>For %s nose cones with a shoulder, shoulder thickness must be &gt; 0</source>
         <translation type="unfinished"></translation>
     </message>
@@ -986,7 +986,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="NoseShapeHandler.py" line="130"/>
+        <location filename="NoseShapeHandler.py" line="145"/>
         <source>Nose cone parameters produce an invalid shape</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1681,13 +1681,28 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="NoseShapeHandler.py" line="79"/>
+        <source>Nose diameter must be less than the base diameter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="NoseShapeHandler.py" line="82"/>
+        <source>Nose diameter must be greater than zero</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="TaskPanelNoseCone.py" line="126"/>
-        <source>Blunted Radius</source>
+        <source>Blunted Diameter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="TaskPanelNoseCone.py" line="132"/>
-        <source>Ogive Radius</source>
+        <source>Ogive Diameter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="ViewProvider.py" line="46"/>
+        <source>Edit %1</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

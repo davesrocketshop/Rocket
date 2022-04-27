@@ -224,37 +224,37 @@
       <translation>Kształt statecznika</translation>
     </message>
     <message>
-      <location filename="ShapeNoseCone.py" line="67"/>
+      <location filename="ShapeNoseCone.py" line="96"/>
       <source>Length of the nose not including any shoulder</source>
       <translation>Długość dziobu bez uwzględnienia czopu</translation>
     </message>
     <message>
-      <location filename="ShapeNoseCone.py" line="71"/>
+      <location filename="ShapeNoseCone.py" line="100"/>
       <source>Diameter at the base of the nose</source>
       <translation>Średnica przy podstawie dziobu</translation>
     </message>
     <message>
-      <location filename="ShapeNoseCone.py" line="73"/>
+      <location filename="ShapeNoseCone.py" line="102"/>
       <source>Nose cone thickness</source>
       <translation>Grubość dziobu</translation>
     </message>
     <message>
-      <location filename="ShapeNoseCone.py" line="75"/>
+      <location filename="ShapeNoseCone.py" line="104"/>
       <source>Set to true if the part includes a shoulder</source>
       <translation type="unfinished">Set to true if the part includes a shoulder</translation>
     </message>
     <message>
-      <location filename="ShapeNoseCone.py" line="77"/>
+      <location filename="ShapeNoseCone.py" line="106"/>
       <source>Shoulder Length</source>
       <translation>Długość czopa</translation>
     </message>
     <message>
-      <location filename="ShapeNoseCone.py" line="79"/>
+      <location filename="ShapeNoseCone.py" line="108"/>
       <source>Shoulder diameter</source>
       <translation>Średnica czopu</translation>
     </message>
     <message>
-      <location filename="ShapeNoseCone.py" line="81"/>
+      <location filename="ShapeNoseCone.py" line="110"/>
       <source>Shoulder thickness</source>
       <translation>Grubość czopu</translation>
     </message>
@@ -269,17 +269,17 @@
       <translation>Rozdzielczość</translation>
     </message>
     <message>
-      <location filename="ShapeNoseCone.py" line="90"/>
+      <location filename="ShapeNoseCone.py" line="119"/>
       <source>Nose cone type</source>
       <translation>Typ dziobu</translation>
     </message>
     <message>
-      <location filename="ShapeNoseCone.py" line="106"/>
+      <location filename="ShapeNoseCone.py" line="135"/>
       <source>Nose cone style</source>
       <translation>Styl dziobu</translation>
     </message>
     <message>
-      <location filename="ShapeNoseCone.py" line="113"/>
+      <location filename="ShapeNoseCone.py" line="142"/>
       <source>Shape of the nose cone</source>
       <translation>Kształt dziobu</translation>
     </message>
@@ -461,12 +461,12 @@
     <message>
       <location filename="ShapeRailGuide.py" line="80"/>
       <source>Width of the notch</source>
-      <translation type="unfinished">Width of the notch</translation>
+      <translation>Szerokość nacięcia</translation>
     </message>
     <message>
       <location filename="ShapeRailGuide.py" line="82"/>
       <source>Depth of the notch</source>
-      <translation type="unfinished">Depth of the notch</translation>
+      <translation>Głębokość nacięcia</translation>
     </message>
     <message>
       <location filename="ShapeRailGuide.py" line="85"/>
@@ -544,12 +544,12 @@
       <translation>Kształt przycisku szyny</translation>
     </message>
     <message>
-      <location filename="ShapeNoseCone.py" line="69"/>
+      <location filename="ShapeNoseCone.py" line="98"/>
       <source>Nose Radius for a blunted nose cone</source>
       <translation type="unfinished">Nose Radius for a blunted nose cone</translation>
     </message>
     <message>
-      <location filename="ShapeNoseCone.py" line="85"/>
+      <location filename="ShapeNoseCone.py" line="114"/>
       <source>The radius of the circle used to define a secant ogive</source>
       <translation type="unfinished">The radius of the circle used to define a secant ogive</translation>
     </message>
@@ -952,32 +952,32 @@
       <translation>Dla %s dziobów współczynnik musi być w zakresie (0 &lt; współczynnik &lt;= 1)</translation>
     </message>
     <message>
-      <location filename="NoseShapeHandler.py" line="69"/>
+      <location filename="NoseShapeHandler.py" line="72"/>
       <source>For %s nose cones thickness must be &gt; 0</source>
       <translation>Dla %s dziobów grubość musi być &gt; 0</translation>
     </message>
     <message>
-      <location filename="NoseShapeHandler.py" line="72"/>
+      <location filename="NoseShapeHandler.py" line="75"/>
       <source>Nose cones thickness must be less than the nose cone radius</source>
       <translation>Grubość dziobu musi być mniejsza od promienia dziobu</translation>
     </message>
     <message>
-      <location filename="NoseShapeHandler.py" line="76"/>
+      <location filename="NoseShapeHandler.py" line="91"/>
       <source>Shoulder length must be &gt; 0</source>
       <translation type="unfinished">Shoulder length must be &gt; 0</translation>
     </message>
     <message>
-      <location filename="NoseShapeHandler.py" line="79"/>
+      <location filename="NoseShapeHandler.py" line="94"/>
       <source>Shoulder diameter must be &gt; 0</source>
       <translation type="unfinished">Shoulder diameter must be &gt; 0</translation>
     </message>
     <message>
-      <location filename="NoseShapeHandler.py" line="82"/>
+      <location filename="NoseShapeHandler.py" line="97"/>
       <source>Shoulder diameter can not exceed the nose cone diameter</source>
       <translation type="unfinished">Shoulder diameter can not exceed the nose cone diameter</translation>
     </message>
     <message>
-      <location filename="NoseShapeHandler.py" line="86"/>
+      <location filename="NoseShapeHandler.py" line="101"/>
       <source>For %s nose cones with a shoulder, shoulder thickness must be &gt; 0</source>
       <translation type="unfinished">For %s nose cones with a shoulder, shoulder thickness must be &gt; 0</translation>
     </message>
@@ -987,7 +987,7 @@
       <translation type="unfinished">Shoulder thickness must be less than the shoulder radius</translation>
     </message>
     <message>
-      <location filename="NoseShapeHandler.py" line="130"/>
+      <location filename="NoseShapeHandler.py" line="145"/>
       <source>Nose cone parameters produce an invalid shape</source>
       <translation>Parametry dziobu tworzą nieprawidłowy kształt</translation>
     </message>
@@ -1687,14 +1687,29 @@
       <translation type="unfinished">Fin Tabs</translation>
     </message>
     <message>
+      <location filename="NoseShapeHandler.py" line="79"/>
+      <source>Nose diameter must be less than the base diameter</source>
+      <translation type="unfinished">Nose diameter must be less than the base diameter</translation>
+    </message>
+    <message>
+      <location filename="NoseShapeHandler.py" line="82"/>
+      <source>Nose diameter must be greater than zero</source>
+      <translation type="unfinished">Nose diameter must be greater than zero</translation>
+    </message>
+    <message>
       <location filename="TaskPanelNoseCone.py" line="126"/>
-      <source>Blunted Radius</source>
-      <translation type="unfinished">Blunted Radius</translation>
+      <source>Blunted Diameter</source>
+      <translation type="unfinished">Blunted Diameter</translation>
     </message>
     <message>
       <location filename="TaskPanelNoseCone.py" line="132"/>
-      <source>Ogive Radius</source>
-      <translation type="unfinished">Ogive Radius</translation>
+      <source>Ogive Diameter</source>
+      <translation type="unfinished">Ogive Diameter</translation>
+    </message>
+    <message>
+      <location filename="ViewProvider.py" line="46"/>
+      <source>Edit %1</source>
+      <translation type="unfinished">Edit %1</translation>
     </message>
   </context>
 </TS>
