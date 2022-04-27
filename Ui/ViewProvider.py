@@ -18,40 +18,37 @@
 # *   USA                                                                   *
 # *                                                                         *
 # ***************************************************************************
-"""Class for drawing fins"""
+"""Superclass for view providers"""
 
-__title__ = "FreeCAD Fin View Provider"
+__title__ = "FreeCAD View Provider"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
     
-import FreeCAD
-import FreeCADGui
+from DraftTools import translate
 
-from Ui.TaskPanelFin import TaskPanelFin
-from Ui.ViewProvider import ViewProvider
-
-class ViewProviderFin(ViewProvider):
+class ViewProvider:
 
     def __init__(self, vobj):
-        super().__init__(vobj)
-        
-    def getIcon(self):
-        return FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Fin.svg"
+        vobj.Proxy = self
 
-    def setEdit(self, vobj, mode):
-        if mode == 0:
-            taskd = TaskPanelFin(self.Object,mode)
-            taskd.obj = vobj.Object
-            taskd.update()
-            FreeCADGui.Control.showDialog(taskd)
-            return True
+    def attach(self, vobj):
+        self.ViewObject = vobj
+        self.Object = vobj.Object
 
-    def unsetEdit(self, vobj, mode):
-        if mode == 0:
-            FreeCADGui.Control.closeDialog()
-            return
+    def setupContextMenu(self, viewObject, menu):
+        action = menu.addAction(translate('Rocket', 'Edit %1').replace('%1', viewObject.Object.Label))
+        action.triggered.connect(lambda: self.startDefaultEditMode(viewObject))
+        return False
 
-    def claimChildren(self):
-        if hasattr(self.Object, "Profile"):
-            return [self.Object.Profile]
+    def startDefaultEditMode(self, viewObject):
+        document = viewObject.Document.Document
+        if not document.HasPendingTransaction:
+            text = translate('Rocket', 'Edit %1').replace('%1', viewObject.Object.Label)
+            document.openTransaction(text)
+        viewObject.Document.setEdit(viewObject.Object, 0)
+
+    def __getstate__(self):
+        return None
+
+    def __setstate__(self, state):
         return None
