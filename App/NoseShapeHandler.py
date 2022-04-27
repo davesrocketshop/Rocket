@@ -27,9 +27,12 @@ __url__ = "https://www.davesrocketshop.com"
 import FreeCAD
 import Part
 
+import math
+
 from DraftTools import translate
 
 from App.Constants import STYLE_CAPPED, STYLE_HOLLOW, STYLE_SOLID
+from App.Constants import TYPE_BLUNTED_CONE, TYPE_BLUNTED_OGIVE, TYPE_SECANT_OGIVE
 
 from App.Utilities import _err
 
@@ -51,7 +54,9 @@ class NoseShapeHandler():
 
         self._length = float(obj.Length)
         self._radius = float(obj.Diameter) / 2.0
+        self._noseRadius = float(obj.BluntedDiameter) / 2.0
         self._coefficient = float(obj.Coefficient)
+        self._ogiveRadius = float(obj.OgiveDiameter) / 2.0
         self._resolution = int(obj.Resolution)
         self._obj = obj
 
@@ -68,6 +73,18 @@ class NoseShapeHandler():
                 return False
             if self._thickness >= self._radius:
                 _err(translate('Rocket', "Nose cones thickness must be less than the nose cone radius"))
+                return False
+        if self._type in [TYPE_BLUNTED_CONE, TYPE_BLUNTED_OGIVE]:
+            if self._noseRadius >= self._radius:
+                _err(translate('Rocket', "Nose diameter must be less than the base diameter"))
+                return False
+            if self._noseRadius <= 0:
+                _err(translate('Rocket', "Nose diameter must be greater than zero"))
+                return False
+        if self._type == TYPE_SECANT_OGIVE:
+            minDiameter = math.sqrt(self._length * self._length + self._radius * self._radius)
+            if self._ogiveRadius < (minDiameter / 2.0):
+                _err(translate('Rocket', "Ogive diameter must be greater than %f (sqrt(length^2 + radius^2))" % minDiameter))
                 return False
         if self._shoulder:
             if self._shoulderLength <= 0:
@@ -127,6 +144,11 @@ class NoseShapeHandler():
         else:
             _err(translate('Rocket', "Nose cone parameters produce an invalid shape"))
 
+    def toShape(self, shapeObject):
+        if hasattr(shapeObject, 'toShape'):
+            return shapeObject.toShape()
+        return shapeObject
+
     def solidLines(self, outerShape):
         center = FreeCAD.Vector(0.0, 0.0)
         major = FreeCAD.Vector(self._length, 0.0)
@@ -134,7 +156,7 @@ class NoseShapeHandler():
 
         line1 = Part.LineSegment(center, major)
         line2 = Part.LineSegment(center, minor)
-        return [outerShape.toShape(), line1.toShape(), line2.toShape()]
+        return [self.toShape(outerShape), line1.toShape(), line2.toShape()]
 
     def solidShoulderLines(self, outerShape):
         major = FreeCAD.Vector(self._length,0)
@@ -144,7 +166,7 @@ class NoseShapeHandler():
         line2 = Part.LineSegment(FreeCAD.Vector(-self._shoulderLength,0),                   FreeCAD.Vector(-self._shoulderLength,self._shoulderRadius))
         line3 = Part.LineSegment(FreeCAD.Vector(-self._shoulderLength,self._shoulderRadius),FreeCAD.Vector(0,self._shoulderRadius))
         line4 = Part.LineSegment(FreeCAD.Vector(0,self._shoulderRadius),                     minor)
-        return [outerShape.toShape(), line1.toShape(), line2.toShape(), line3.toShape(), line4.toShape()]
+        return [self.toShape(outerShape), line1.toShape(), line2.toShape(), line3.toShape(), line4.toShape()]
 
     def hollowLines(self, max_x, outerShape, innerShape):
         major = FreeCAD.Vector(self._length,0)
@@ -155,7 +177,7 @@ class NoseShapeHandler():
 
         line1 = Part.LineSegment(major, innerMajor)
         line2 = Part.LineSegment(minor, innerMinor)
-        return [outerShape.toShape(), line1.toShape(), line2.toShape(), innerShape.toShape()]
+        return [self.toShape(outerShape), line1.toShape(), line2.toShape(), self.toShape(innerShape)]
 
     def hollowShoulderLines(self, max_x, minor_y, outerShape, innerShape):
         major = FreeCAD.Vector(self._length,0)
@@ -174,7 +196,7 @@ class NoseShapeHandler():
         line4 = Part.LineSegment(end3,  end4)
         line5 = Part.LineSegment(end4,  end5)
         line6 = Part.LineSegment(end5,  innerMinor)
-        return [outerShape.toShape(), line1.toShape(), line2.toShape(), line3.toShape(), line4.toShape(), line5.toShape(), line6.toShape(), innerShape.toShape()]
+        return [self.toShape(outerShape), line1.toShape(), line2.toShape(), line3.toShape(), line4.toShape(), line5.toShape(), line6.toShape(), self.toShape(innerShape)]
 
     def cappedLines(self, max_x, minor_y, outerShape, innerShape):
         center = FreeCAD.Vector(0,0)
@@ -188,7 +210,7 @@ class NoseShapeHandler():
         line2 = Part.LineSegment(minor, center)
         line3 = Part.LineSegment(center, FreeCAD.Vector(self._thickness, 0))
         line4 = Part.LineSegment(FreeCAD.Vector(self._thickness, 0), innerMinor)
-        return [outerShape.toShape(), line1.toShape(), line2.toShape(), line3.toShape(), line4.toShape(), innerShape.toShape()]
+        return [self.toShape(outerShape), line1.toShape(), line2.toShape(), line3.toShape(), line4.toShape(), self.toShape(innerShape)]
 
     def cappedShoulderLines(self, max_x, minor_y, outerShape, innerShape):
         major = FreeCAD.Vector(self._length,0)
@@ -211,5 +233,5 @@ class NoseShapeHandler():
         line6 = Part.LineSegment(end5,  end6)
         line7 = Part.LineSegment(end6,  end7)
         line8 = Part.LineSegment(end7,  innerMinor)
-        return [outerShape.toShape(), line1.toShape(), line2.toShape(), line3.toShape(), line4.toShape(), 
-                line5.toShape(), line6.toShape(), line7.toShape(), line8.toShape(), innerShape.toShape()]
+        return [self.toShape(outerShape), line1.toShape(), line2.toShape(), line3.toShape(), line4.toShape(), 
+                line5.toShape(), line6.toShape(), line7.toShape(), line8.toShape(), self.toShape(innerShape)]

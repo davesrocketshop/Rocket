@@ -28,13 +28,16 @@ from App.ShapeComponent import ShapeComponent
 from App.Constants import FEATURE_NOSE_CONE
 
 from App.NoseConeShapeHandler import NoseConeShapeHandler
+from App.NoseBluntedConeShapeHandler import NoseBluntedConeShapeHandler
 from App.NoseEllipseShapeHandler import NoseEllipseShapeHandler
 from App.NoseHaackShapeHandler import NoseHaackShapeHandler
 from App.NoseOgiveShapeHandler import NoseOgiveShapeHandler
+from App.NoseBluntedOgiveShapeHandler import NoseBluntedOgiveShapeHandler
+from App.NoseSecantOgiveShapeHandler import NoseSecantOgiveShapeHandler
 from App.NoseParabolicShapeHandler import NoseParabolicShapeHandler
 from App.NosePowerShapeHandler import NosePowerShapeHandler
 
-from App.Constants import TYPE_CONE, TYPE_ELLIPTICAL, TYPE_HAACK, TYPE_OGIVE, TYPE_VON_KARMAN, TYPE_PARABOLA, TYPE_PARABOLIC, TYPE_POWER
+from App.Constants import TYPE_CONE, TYPE_BLUNTED_CONE, TYPE_SPHERICAL, TYPE_ELLIPTICAL, TYPE_HAACK, TYPE_OGIVE, TYPE_BLUNTED_OGIVE, TYPE_SECANT_OGIVE, TYPE_VON_KARMAN, TYPE_PARABOLA, TYPE_PARABOLIC, TYPE_POWER
 from App.Constants import STYLE_CAPPED, STYLE_HOLLOW, STYLE_SOLID
 
 from App.Utilities import _wrn
@@ -47,20 +50,43 @@ def _migrate_from_1_0(obj):
     old = {}
     old["Radius"] = obj.Radius
     old["ShoulderRadius"] = obj.ShoulderRadius
+    old["NoseType"] = obj.NoseType
 
     obj.removeProperty("Radius")
     obj.removeProperty("ShoulderRadius")
+    obj.removeProperty("NoseType")
 
     ShapeNoseCone(obj)
 
     obj.Diameter = 2.0 * old["Radius"]
     obj.ShoulderDiameter = 2.0 * old["ShoulderRadius"]
+    obj.NoseType = old["NoseType"]
 
 def _migrate_from_2_0(obj):
     _wrn("Nose cone migrating object from 2.0")
 
-    # Object with new properties
+    blunted = False
+    secant = False
+    old = {}
+    if hasattr(obj, 'BluntedRadius'):
+        old["BluntedRadius"] = obj.BluntedRadius
+        blunted = True
+    if hasattr(obj, 'OgiveRadius'):
+        old["OgiveRadius"] = obj.OgiveRadius
+        secant = True
+    old["NoseType"] = obj.NoseType
+
+    obj.removeProperty("BluntedRadius")
+    obj.removeProperty("OgiveRadius")
+    obj.removeProperty("NoseType")
+
     ShapeNoseCone(obj)
+
+    if blunted:
+        obj.BluntedDiameter = 2.0 * old["BluntedRadius"]
+    if secant:
+        obj.OgiveDiameter = 2.0 * old["OgiveRadius"]
+    obj.NoseType = old["NoseType"]
 
 class ShapeNoseCone(ShapeComponent):
 
@@ -70,6 +96,8 @@ class ShapeNoseCone(ShapeComponent):
         
         if not hasattr(obj, 'Length'):
             obj.addProperty('App::PropertyLength', 'Length', 'NoseCone', translate('App::Property', 'Length of the nose not including any shoulder')).Length = 67.31
+        if not hasattr(obj, 'BluntedDiameter'):
+            obj.addProperty('App::PropertyLength', 'BluntedDiameter', 'NoseCone', translate('App::Property', 'Nose Radius for a blunted nose cone')).BluntedDiameter = 5.0
         if not hasattr(obj, 'Diameter'):
             obj.addProperty('App::PropertyLength', 'Diameter', 'NoseCone', translate('App::Property', 'Diameter at the base of the nose')).Diameter = 24.79
         if not hasattr(obj, 'AutoDiameter'):
@@ -88,20 +116,26 @@ class ShapeNoseCone(ShapeComponent):
             obj.addProperty('App::PropertyLength', 'ShoulderThickness', 'NoseCone', translate('App::Property', 'Shoulder thickness')).ShoulderThickness = 1.57
         if not hasattr(obj, 'Coefficient'):
             obj.addProperty('App::PropertyFloat', 'Coefficient', 'NoseCone', translate('App::Property', 'Coefficient')).Coefficient = 0.47
+        if not hasattr(obj, 'OgiveDiameter'):
+            obj.addProperty('App::PropertyLength', 'OgiveDiameter', 'NoseCone', translate('App::Property', 'The radius of the circle used to define a secant ogive')).OgiveDiameter = 120.0
         if not hasattr(obj, 'Resolution'):
             obj.addProperty('App::PropertyInteger', 'Resolution', 'NoseCone', translate('App::Property', 'Resolution')).Resolution = 100
 
         if not hasattr(obj, 'NoseType'):
             obj.addProperty('App::PropertyEnumeration', 'NoseType', 'NoseCone', translate('App::Property', 'Nose cone type'))
         obj.NoseType = [TYPE_CONE,
+                    TYPE_BLUNTED_CONE,
+                    TYPE_SPHERICAL,
                     TYPE_ELLIPTICAL,
                     TYPE_OGIVE,
+                    TYPE_BLUNTED_OGIVE,
+                    TYPE_SECANT_OGIVE,
                     TYPE_VON_KARMAN,
                     TYPE_PARABOLA,
                     TYPE_PARABOLIC,
                     TYPE_POWER,
                     TYPE_HAACK]
-        obj.NoseType = TYPE_POWER
+        obj.NoseType = TYPE_OGIVE
 
         if not hasattr(obj, 'NoseStyle'):
             obj.addProperty('App::PropertyEnumeration', 'NoseStyle', 'NoseCone', translate('App::Property', 'Nose cone style'))
@@ -116,9 +150,9 @@ class ShapeNoseCone(ShapeComponent):
     def onDocumentRestored(self, obj):
         if hasattr(obj, "Radius"):
             _migrate_from_1_0(obj)
-        # elif hasattr(obj, "version") and obj.version:
-        #     if obj.version == "2.0":
-        #         _migrate_from_2_0(obj)
+        if hasattr(obj.Proxy, "version") and obj.Proxy.version:
+            if obj.Proxy.version in ["2.0", "2.1"]:
+                _migrate_from_2_0(obj)
 
     def getAxialLength(self):
         # Return the length of this component along the central axis
@@ -147,10 +181,18 @@ class ShapeNoseCone(ShapeComponent):
         shape = None
         if obj.NoseType == TYPE_CONE:
             shape = NoseConeShapeHandler(obj)
+        elif obj.NoseType == TYPE_BLUNTED_CONE:
+            shape = NoseBluntedConeShapeHandler(obj)
+        elif obj.NoseType == TYPE_SPHERICAL:
+            shape = NoseEllipseShapeHandler(obj)
         elif obj.NoseType == TYPE_ELLIPTICAL:
             shape = NoseEllipseShapeHandler(obj)
         elif obj.NoseType == TYPE_OGIVE:
             shape = NoseOgiveShapeHandler(obj)
+        elif obj.NoseType == TYPE_BLUNTED_OGIVE:
+            shape = NoseBluntedOgiveShapeHandler(obj)
+        elif obj.NoseType == TYPE_SECANT_OGIVE:
+            shape = NoseSecantOgiveShapeHandler(obj)
         elif obj.NoseType == TYPE_VON_KARMAN:
             obj.Coefficient = 0.0
             shape = NoseHaackShapeHandler(obj)

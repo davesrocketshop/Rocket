@@ -29,38 +29,29 @@ import FreeCADGui
 
 from Ui.TaskPanelRailGuide import TaskPanelRailGuide
 from Ui.TaskPanelRailButton import TaskPanelRailButton
-# from Ui.TaskPanelBodyTube import TaskPanelBodyTube
-# from App.ShapeBodyTube import hookChildren
 from Ui.ViewBodyTube import ViewProviderBodyTube
+from Ui.ViewProvider import ViewProvider
 
-class ViewProviderRailGuide:
+class ViewProviderRailGuide(ViewProvider):
 
     def __init__(self, vobj):
-        vobj.Proxy = self
+        super().__init__(vobj)
         
     def getIcon(self):
         return FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_RailGuide.svg"
 
-    def attach(self, vobj):
-        self.ViewObject = vobj
-        self.Object = vobj.Object
-
     def setEdit(self, vobj, mode):
-        taskd = TaskPanelRailGuide(self.Object, mode)
-        taskd.obj = vobj.Object
-        taskd.update()
-        FreeCADGui.Control.showDialog(taskd)
-        return True
+        if mode == 0:
+            taskd = TaskPanelRailGuide(self.Object, mode)
+            taskd.obj = vobj.Object
+            taskd.update()
+            FreeCADGui.Control.showDialog(taskd)
+            return True
 
     def unsetEdit(self, vobj, mode):
-        FreeCADGui.Control.closeDialog()
-        return
-
-    def __getstate__(self):
-        return None
-
-    def __setstate__(self, state):
-        return None
+        if mode == 0:
+            FreeCADGui.Control.closeDialog()
+            return
 
 class ViewProviderRailButton(ViewProviderRailGuide):
         
@@ -68,20 +59,14 @@ class ViewProviderRailButton(ViewProviderRailGuide):
         return FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_RailButton.svg"
 
     def setEdit(self, vobj, mode):
-        taskd = TaskPanelRailButton(self.Object, mode)
-        taskd.obj = vobj.Object
-        taskd.update()
-        FreeCADGui.Control.showDialog(taskd)
-        return True
+        if mode == 0:
+            taskd = TaskPanelRailButton(self.Object, mode)
+            taskd.obj = vobj.Object
+            taskd.update()
+            FreeCADGui.Control.showDialog(taskd)
+            return True
 
 class ViewProviderLaunchLug(ViewProviderBodyTube):
         
     def getIcon(self):
         return FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_LaunchLug.svg"
-
-    # def setEdit(self, vobj, mode):
-    #     taskd = TaskPanelRailButton(self.Object, mode)
-    #     taskd.obj = vobj.Object
-    #     taskd.update()
-    #     FreeCADGui.Control.showDialog(taskd)
-    #     return True

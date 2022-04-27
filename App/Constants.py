@@ -49,8 +49,12 @@ STYLE_CAPPED = "capped"
 
 # Part shapes
 TYPE_CONE = "cone"
+TYPE_BLUNTED_CONE = "blunted cone"
+TYPE_SPHERICAL = "spherical"
 TYPE_ELLIPTICAL = "elliptical"
 TYPE_OGIVE = "ogive"
+TYPE_BLUNTED_OGIVE = "blunted ogive"
+TYPE_SECANT_OGIVE = "secant ogive"
 TYPE_PARABOLA = "parabola"
 TYPE_VON_KARMAN = "Von Karman"
 TYPE_PARABOLIC = "parabolic series"

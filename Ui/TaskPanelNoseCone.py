@@ -34,7 +34,7 @@ from PySide2.QtWidgets import QDialog, QGridLayout, QVBoxLayout, QSizePolicy
 from DraftTools import translate
 
 from Ui.TaskPanelDatabase import TaskPanelDatabase
-from App.Constants import TYPE_CONE, TYPE_ELLIPTICAL, TYPE_HAACK, TYPE_OGIVE, TYPE_VON_KARMAN, TYPE_PARABOLA, TYPE_PARABOLIC, TYPE_POWER
+from App.Constants import TYPE_CONE, TYPE_BLUNTED_CONE, TYPE_SPHERICAL, TYPE_ELLIPTICAL, TYPE_HAACK, TYPE_OGIVE, TYPE_BLUNTED_OGIVE, TYPE_SECANT_OGIVE, TYPE_VON_KARMAN, TYPE_PARABOLA, TYPE_PARABOLIC, TYPE_POWER
 from App.Constants import STYLE_CAPPED, STYLE_HOLLOW, STYLE_SOLID
 from App.Constants import COMPONENT_TYPE_NOSECONE
 
@@ -69,8 +69,12 @@ class _NoseConeDialog(QDialog):
         self.noseConeTypeLabel = QtGui.QLabel(translate('Rocket', "Nose Cone Shape"), self)
 
         self.noseConeTypes = (TYPE_CONE,
+                                TYPE_BLUNTED_CONE,
+                                TYPE_SPHERICAL,
                                 TYPE_ELLIPTICAL,
                                 TYPE_OGIVE,
+                                TYPE_BLUNTED_OGIVE,
+                                TYPE_SECANT_OGIVE,
                                 TYPE_PARABOLA,
                                 TYPE_PARABOLIC,
                                 TYPE_POWER,
@@ -78,16 +82,6 @@ class _NoseConeDialog(QDialog):
                                 TYPE_HAACK)
         self.noseConeTypesCombo = QtGui.QComboBox(self)
         self.noseConeTypesCombo.addItems(self.noseConeTypes)
-
-        self.coefficientLabel = QtGui.QLabel(translate('Rocket', "Shape Parameter"), self)
-
-        self.coefficientValidator = QtGui.QDoubleValidator(self)
-        self.coefficientValidator.setBottom(0.0)
-
-        self.coefficientInput = QtGui.QLineEdit(self)
-        self.coefficientInput.setFixedWidth(80)
-        self.coefficientInput.setValidator(self.coefficientValidator)
-        self.coefficientInput.setEnabled(False)
 
         # Select the type of sketch
         self.noseStyleLabel = QtGui.QLabel(translate('Rocket', "Style"), self)
@@ -121,15 +115,35 @@ class _NoseConeDialog(QDialog):
         self.thicknessInput.setFixedWidth(80)
         self.thicknessInput.setEnabled(False)
 
+        self.coefficientLabel = QtGui.QLabel(translate('Rocket', "Shape Parameter"), self)
+
+        #
+        # Type dependent parameters
+        self.coefficientValidator = QtGui.QDoubleValidator(self)
+        self.coefficientValidator.setBottom(0.0)
+
+        self.coefficientInput = QtGui.QLineEdit(self)
+        self.coefficientInput.setFixedWidth(80)
+        self.coefficientInput.setValidator(self.coefficientValidator)
+        self.coefficientInput.setEnabled(False)
+
+        self.bluntedLabel = QtGui.QLabel(translate('Rocket', "Blunted Diameter"), self)
+
+        self.bluntedInput = ui.createWidget("Gui::InputField")
+        self.bluntedInput.unit = 'mm'
+        self.bluntedInput.setFixedWidth(80)
+
+        self.ogiveDiameterLabel = QtGui.QLabel(translate('Rocket', "Ogive Diameter"), self)
+
+        self.ogiveDiameterInput = ui.createWidget("Gui::InputField")
+        self.ogiveDiameterInput.unit = 'mm'
+        self.ogiveDiameterInput.setFixedWidth(80)
+
         layout = QGridLayout()
         row = 0
 
         layout.addWidget(self.noseConeTypeLabel, row, 0, 1, 2)
         layout.addWidget(self.noseConeTypesCombo, row, 1)
-        row += 1
-
-        layout.addWidget(self.coefficientLabel, row, 0)
-        layout.addWidget(self.coefficientInput, row, 1)
         row += 1
 
         layout.addWidget(self.noseStyleLabel, row, 0)
@@ -147,8 +161,21 @@ class _NoseConeDialog(QDialog):
 
         layout.addWidget(self.thicknessLabel, row, 0)
         layout.addWidget(self.thicknessInput, row, 1)
+        row += 1
 
-        layout.addItem(QtGui.QSpacerItem(0,0, QSizePolicy.Expanding, QSizePolicy.Expanding))
+        layout.addWidget(self.coefficientLabel, row, 0)
+        layout.addWidget(self.coefficientInput, row, 1)
+        row += 1
+
+        layout.addWidget(self.ogiveDiameterLabel, row, 0)
+        layout.addWidget(self.ogiveDiameterInput, row, 1)
+        row += 1
+
+        layout.addWidget(self.bluntedLabel, row, 0)
+        layout.addWidget(self.bluntedInput, row, 1)
+        row += 1
+
+        layout.addItem(QtGui.QSpacerItem(0,0, QSizePolicy.Expanding, QSizePolicy.Expanding), row, 0)
 
         self.tabGeneral.setLayout(layout)
 
@@ -202,8 +229,9 @@ class _NoseConeDialog(QDialog):
 
         layout.addWidget(self.shoulderThicknessLabel, row, 0)
         layout.addWidget(self.shoulderThicknessInput, row, 1)
+        row += 1
 
-        layout.addItem(QtGui.QSpacerItem(0,0, QSizePolicy.Expanding, QSizePolicy.Expanding))
+        layout.addItem(QtGui.QSpacerItem(0,0, QSizePolicy.Expanding, QSizePolicy.Expanding), row, 0)
 
         self.tabShoulder.setLayout(layout)
 
@@ -227,6 +255,8 @@ class TaskPanelNoseCone:
         self._noseForm.autoDiameterCheckbox.stateChanged.connect(self.onAutoDiameter)
         self._noseForm.thicknessInput.textEdited.connect(self.onThickness)
         self._noseForm.coefficientInput.textEdited.connect(self.onCoefficient)
+        self._noseForm.bluntedInput.textEdited.connect(self.onBlunted)
+        self._noseForm.ogiveDiameterInput.textEdited.connect(self.onOgiveDiameter)
 
         self._noseForm.shoulderCheckbox.stateChanged.connect(self.onShoulder)
         self._noseForm.shoulderDiameterInput.textEdited.connect(self.onShoulderDiameter)
@@ -251,6 +281,8 @@ class TaskPanelNoseCone:
         self._obj.AutoDiameter = self._noseForm.autoDiameterCheckbox.isChecked()
         self._obj.Thickness = self._noseForm.thicknessInput.text()
         self._obj.Coefficient = _toFloat(self._noseForm.coefficientInput.text())
+        self._obj.BluntedDiameter = self._noseForm.bluntedInput.text()
+        self._obj.OgiveDiameter = self._noseForm.ogiveDiameterInput.text()
         self._obj.Shoulder = self._noseForm.shoulderCheckbox.isChecked()
         self._obj.ShoulderDiameter = self._noseForm.shoulderDiameterInput.text()
         self._obj.ShoulderAutoDiameter = self._noseForm.shoulderAutoDiameterCheckbox.isChecked()
@@ -266,6 +298,8 @@ class TaskPanelNoseCone:
         self._noseForm.autoDiameterCheckbox.setChecked(self._obj.AutoDiameter)
         self._noseForm.thicknessInput.setText(self._obj.Thickness.UserString)
         self._noseForm.coefficientInput.setText("%f" % self._obj.Coefficient)
+        self._noseForm.bluntedInput.setText(self._obj.BluntedDiameter.UserString)
+        self._noseForm.ogiveDiameterInput.setText(self._obj.OgiveDiameter.UserString)
         self._noseForm.shoulderCheckbox.setChecked(self._obj.Shoulder)
         self._noseForm.shoulderDiameterInput.setText(self._obj.ShoulderDiameter.UserString)
         self._noseForm.shoulderAutoDiameterCheckbox.setChecked(self._obj.ShoulderAutoDiameter)
@@ -284,7 +318,7 @@ class TaskPanelNoseCone:
             # Object may be deleted
             pass
         
-    def _setTypeState(self):
+    def _setCoeffientState(self):
         value = self._obj.NoseType
         if value == TYPE_HAACK or value == TYPE_PARABOLIC:
             self._noseForm.coefficientInput.setEnabled(True)
@@ -300,6 +334,35 @@ class TaskPanelNoseCone:
             self._noseForm.coefficientInput.setEnabled(False)
         else:
             self._noseForm.coefficientInput.setEnabled(False)
+        
+    def _setBluntState(self):
+        value = self._obj.NoseType
+        if value in [TYPE_BLUNTED_CONE, TYPE_BLUNTED_OGIVE]:
+            self._noseForm.bluntedInput.setEnabled(True)
+        else:
+            self._noseForm.bluntedInput.setEnabled(False)
+        
+    def _setOgiveDiameterState(self):
+        value = self._obj.NoseType
+        if value == TYPE_SECANT_OGIVE:
+            self._noseForm.ogiveDiameterInput.setEnabled(True)
+        else:
+            self._noseForm.ogiveDiameterInput.setEnabled(False)
+        
+    def _setLengthState(self):
+        value = self._obj.NoseType
+        if value == TYPE_SPHERICAL:
+            self._obj.Length = float(self._obj.Diameter) / 2.0
+            self._noseForm.lengthInput.setText("%f" % self._obj.Length)
+            self._noseForm.lengthInput.setEnabled(False)
+        else:
+            self._noseForm.lengthInput.setEnabled(True)
+        
+    def _setTypeState(self):
+        self._setCoeffientState()
+        self._setBluntState()
+        self._setOgiveDiameterState()
+        self._setLengthState()
 
     def onNoseType(self, value):
         self._obj.NoseType = value
@@ -335,12 +398,14 @@ class TaskPanelNoseCone:
         except ValueError:
             pass
         self.setEdited()
-
+        
     def onDiameter(self, value):
         try:
             self._obj.Diameter = FreeCAD.Units.Quantity(value).Value
             self._obj.AutoDiameter = False
             self._obj.Proxy.execute(self._obj)
+
+            self._setLengthState() # Update for spherical noses
         except ValueError:
             pass
         self.setEdited()
@@ -367,6 +432,22 @@ class TaskPanelNoseCone:
     def onCoefficient(self, value):
         self._obj.Coefficient = _toFloat(value)
         self._obj.Proxy.execute(self._obj)
+        self.setEdited()
+
+    def onBlunted(self, value):
+        try:
+            self._obj.BluntedDiameter = FreeCAD.Units.Quantity(value).Value
+            self._obj.Proxy.execute(self._obj)
+        except ValueError:
+            pass
+        self.setEdited()
+        
+    def onOgiveDiameter(self, value):
+        try:
+            self._obj.OgiveDiameter = FreeCAD.Units.Quantity(value).Value
+            self._obj.Proxy.execute(self._obj)
+        except ValueError:
+            pass
         self.setEdited()
 
     def _setShoulderState(self):
@@ -439,6 +520,7 @@ class TaskPanelNoseCone:
         self._obj.Diameter = _valueWithUnits(result["diameter"], result["diameter_units"])
         self._obj.Thickness = _valueWithUnits(result["thickness"], result["thickness_units"])
         # self._obj.Coefficient = _toFloat(self._noseForm.coefficientInput.text())
+        # self._obj.BluntedDiameter = _valueWithUnits("0", "mm")
         self._obj.ShoulderDiameter = _valueWithUnits(result["shoulder_diameter"], result["shoulder_diameter_units"])
         self._obj.ShoulderLength = _valueWithUnits(result["shoulder_length"], result["shoulder_length_units"])
         self._obj.Shoulder = (self._obj.ShoulderDiameter > 0.0) and (self._obj.ShoulderLength >= 0)
@@ -452,7 +534,6 @@ class TaskPanelNoseCone:
 
     def clicked(self,button):
         if button == QtGui.QDialogButtonBox.Apply:
-            #print "Apply"
             self.transferTo()
             self._obj.Proxy.execute(self._obj) 
         

@@ -18,44 +18,37 @@
 # *   USA                                                                   *
 # *                                                                         *
 # ***************************************************************************
-"""General utilities for the Rocket Workbench"""
+"""Superclass for view providers"""
 
-__title__ = "General utilities for the Rocket Workbench"
+__title__ = "FreeCAD View Provider"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
+    
+from DraftTools import translate
 
-def _msg(message):
-    """Write messages to the console including the line ending."""
-    print(message)
+class ViewProvider:
 
-def _wrn(message):
-    """Write warnings to the console including the line ending."""
-    print(message)
+    def __init__(self, vobj):
+        vobj.Proxy = self
 
-def _err(message):
-    """Write errors  to the console including the line ending."""
-    print(message)
+    def attach(self, vobj):
+        self.ViewObject = vobj
+        self.Object = vobj.Object
 
-def _trace(className, functionName, message = None):
-    """Write errors  to the console including the line ending."""
-    trace = True
-    if trace:
-        if message is None:
-            print("%s:%s()" % (className, functionName))
-        else:
-            print("%s:%s(%s)" % (className, functionName, message))
+    def setupContextMenu(self, viewObject, menu):
+        action = menu.addAction(translate('Rocket', 'Edit %1').replace('%1', viewObject.Object.Label))
+        action.triggered.connect(lambda: self.startDefaultEditMode(viewObject))
+        return False
 
-def _toFloat(input, defaultValue = 0.0):
-    if input == '':
-        return defaultValue
-    return float(input)
+    def startDefaultEditMode(self, viewObject):
+        document = viewObject.Document.Document
+        if not document.HasPendingTransaction:
+            text = translate('Rocket', 'Edit %1').replace('%1', viewObject.Object.Label)
+            document.openTransaction(text)
+        viewObject.Document.setEdit(viewObject.Object, 0)
 
-def _toInt(input, defaultValue = 0):
-    if input == '':
-        return defaultValue
-    return int(input)
+    def __getstate__(self):
+        return None
 
-def _toBoolean(value):
-    if str(value).strip().lower() == "true":
-        return True
-    return False
+    def __setstate__(self, state):
+        return None

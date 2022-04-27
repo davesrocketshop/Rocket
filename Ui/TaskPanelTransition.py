@@ -176,8 +176,9 @@ class _TransitionDialog(QDialog):
 
         layout.addWidget(self.thicknessLabel, row, 0)
         layout.addWidget(self.thicknessInput, row, 1)
+        row += 1
 
-        layout.addItem(QtGui.QSpacerItem(0,0, QSizePolicy.Expanding, QSizePolicy.Expanding))
+        layout.addItem(QtGui.QSpacerItem(0,0, QSizePolicy.Expanding, QSizePolicy.Expanding), row, 0)
 
         self.tabGeneral.setLayout(layout)
 

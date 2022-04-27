@@ -70,6 +70,10 @@ class ShapeComponent(ShapeBase):
         # Mass of the component based either on its material and volume, or override
         if not hasattr(obj, 'Mass'):
             obj.addProperty('App::PropertyQuantity', 'Mass', 'RocketComponent', translate('App::Property', 'Calculated or overridden component mass'), PROP_READONLY|PROP_TRANSIENT).Mass = 0.0
+            
+        self._obj = obj
+        obj.Proxy=self
+        self.version = '2.2'
 
     def positionChild(self, obj, parent, parentBase, parentLength, parentRadius):
         # Calculate any auto radii

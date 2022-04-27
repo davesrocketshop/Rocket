@@ -34,6 +34,7 @@ from Ui.CmdTransition import CmdTransition
 from Ui.CmdCenteringRing import CmdCenteringRing
 from Ui.CmdBodyTube import CmdBodyTube, CmdCoupler, CmdInnerTube
 from Ui.CmdBulkhead import CmdBulkhead
+from Ui.CmdLaunchGuides import CmdLaunchLug, CmdRailButton, CmdRailGuide, CmdStandOff
 from Ui.CmdFin import CmdFin
 from Ui.CmdLaunchGuides import CmdLaunchLug, CmdRailButton, CmdRailGuide, CmdStandOff
 from Ui.CmdEditTree import CmdMoveUp, CmdMoveDown, CmdEdit, CmdDelete
