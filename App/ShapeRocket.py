@@ -67,11 +67,13 @@ def hookChildren(obj, group, oldGroup):
     for child in group:
         if child not in oldGroup:
             child.Proxy.resetPlacement()
-            child.Proxy.edited.connect(obj.Proxy.positionChildren, QtCore.Qt.QueuedConnection)
+            # child.Proxy.edited.connect(obj.Proxy.positionChildren, QtCore.Qt.QueuedConnection)
+            child.Proxy.connect(obj.Proxy.positionChildren, QtCore.Qt.QueuedConnection)
 
     for child in oldGroup:
         if child not in group:
-            child.Proxy.edited.connect(None)
+            # child.Proxy.edited.connect(None)
+            child.Proxy.disconnect()
 
     obj.Proxy.positionChildren()
 

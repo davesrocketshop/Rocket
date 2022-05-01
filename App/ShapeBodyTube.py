@@ -121,13 +121,15 @@ def hookChildren(obj, group, oldGroup):
         if child not in oldGroup:
             # print("%s: hookChildren added" % (child.__class__.__name__))
             child.Proxy.resetPlacement()
-            child.Proxy.edited.connect(obj.Proxy.onChildEdited, QtCore.Qt.QueuedConnection)
+            # child.Proxy.edited.connect(obj.Proxy.onChildEdited, QtCore.Qt.QueuedConnection)
+            child.Proxy.connect(obj.Proxy.onChildEdited, QtCore.Qt.QueuedConnection)
             changed = True
 
     for child in oldGroup:
         if child not in group:
             # print("%s: hookChildren removed" % (child.__class__.__name__))
-            child.Proxy.edited.connect(None)
+            # child.Proxy.edited.connect(None)
+            child.Proxy.disconnect()
             changed = True
 
     if changed:
