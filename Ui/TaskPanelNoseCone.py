@@ -97,18 +97,18 @@ class _NoseConeDialog(QDialog):
 
         self.lengthInput = ui.createWidget("Gui::InputField")
         self.lengthInput.unit = 'mm'
-        self.lengthInput.setFixedWidth(80)
+        self.lengthInput.setMinimumWidth(100)
 
         self.diameterLabel = QtGui.QLabel(translate('Rocket', "Diameter"), self)
 
         self.diameterInput = ui.createWidget("Gui::InputField")
         self.diameterInput.unit = 'mm'
-        self.diameterInput.setFixedWidth(80)
+        self.diameterInput.setMinimumWidth(100)
         self.thicknessLabel = QtGui.QLabel(translate('Rocket', "Thickness"), self)
 
         self.thicknessInput = ui.createWidget("Gui::InputField")
         self.thicknessInput.unit = 'mm'
-        self.thicknessInput.setFixedWidth(80)
+        self.thicknessInput.setMinimumWidth(100)
         self.thicknessInput.setEnabled(False)
 
         #
@@ -119,7 +119,7 @@ class _NoseConeDialog(QDialog):
         self.coefficientValidator.setBottom(0.0)
 
         self.coefficientInput = QtGui.QLineEdit(self)
-        self.coefficientInput.setFixedWidth(80)
+        self.coefficientInput.setMinimumWidth(100)
         self.coefficientInput.setValidator(self.coefficientValidator)
         self.coefficientInput.setEnabled(False)
 
@@ -127,13 +127,13 @@ class _NoseConeDialog(QDialog):
 
         self.bluntedInput = ui.createWidget("Gui::InputField")
         self.bluntedInput.unit = 'mm'
-        self.bluntedInput.setFixedWidth(80)
+        self.bluntedInput.setMinimumWidth(100)
 
         self.ogiveDiameterLabel = QtGui.QLabel(translate('Rocket', "Ogive Diameter"), self)
 
         self.ogiveDiameterInput = ui.createWidget("Gui::InputField")
         self.ogiveDiameterInput.unit = 'mm'
-        self.ogiveDiameterInput.setFixedWidth(80)
+        self.ogiveDiameterInput.setMinimumWidth(100)
 
         layout = QGridLayout()
         row = 0
@@ -186,21 +186,21 @@ class _NoseConeDialog(QDialog):
 
         self.shoulderDiameterInput = ui.createWidget("Gui::InputField")
         self.shoulderDiameterInput.unit = 'mm'
-        self.shoulderDiameterInput.setFixedWidth(80)
+        self.shoulderDiameterInput.setMinimumWidth(100)
         self.shoulderDiameterInput.setEnabled(False)
 
         self.shoulderLengthLabel = QtGui.QLabel(translate('Rocket', "Length"), self)
 
         self.shoulderLengthInput = ui.createWidget("Gui::InputField")
         self.shoulderLengthInput.unit = 'mm'
-        self.shoulderLengthInput.setFixedWidth(80)
+        self.shoulderLengthInput.setMinimumWidth(100)
         self.shoulderLengthInput.setEnabled(False)
 
         self.shoulderThicknessLabel = QtGui.QLabel(translate('Rocket', "Thickness"), self)
 
         self.shoulderThicknessInput = ui.createWidget("Gui::InputField")
         self.shoulderThicknessInput.unit = 'mm'
-        self.shoulderThicknessInput.setFixedWidth(80)
+        self.shoulderThicknessInput.setMinimumWidth(100)
         self.shoulderThicknessInput.setEnabled(False)
 
         layout = QGridLayout()

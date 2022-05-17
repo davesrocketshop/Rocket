@@ -50,22 +50,22 @@ class _databaseLookupDialog(QDialog):
         self.manufacturerLabel = QtGui.QLabel(translate('Rocket', "Manufacturer"), self)
 
         self.manufacturerInput = QtGui.QLineEdit(self)
-        self.manufacturerInput.setFixedWidth(80)
+        self.manufacturerInput.setMinimumWidth(100)
         
         self.partNumberLabel = QtGui.QLabel(translate('Rocket', "Part Number"), self)
 
         self.partNumberInput = QtGui.QLineEdit(self)
-        self.partNumberInput.setFixedWidth(80)
+        self.partNumberInput.setMinimumWidth(100)
 
         self.descriptionLabel = QtGui.QLabel(translate('Rocket', "Description"), self)
 
         self.descriptionInput = QtGui.QLineEdit(self)
-        self.descriptionInput.setFixedWidth(80)
+        self.descriptionInput.setMinimumWidth(100)
 
         self.materialLabel = QtGui.QLabel(translate('Rocket', "Material"), self)
 
         self.materialInput = QtGui.QLineEdit(self)
-        self.materialInput.setFixedWidth(80)
+        self.materialInput.setMinimumWidth(100)
 
         self.lookupButton = QtGui.QPushButton(translate('Rocket', "Lookup..."), self)
 

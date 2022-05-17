@@ -67,37 +67,37 @@ class _RailButtonDialog(QDialog):
 
         self.odInput = ui.createWidget("Gui::InputField")
         self.odInput.unit = 'mm'
-        self.odInput.setFixedWidth(80)
+        self.odInput.setMinimumWidth(100)
 
         self.idLabel = QtGui.QLabel(translate('Rocket', "Inner Diameter"), self)
 
         self.idInput = ui.createWidget("Gui::InputField")
         self.idInput.unit = 'mm'
-        self.idInput.setFixedWidth(80)
+        self.idInput.setMinimumWidth(100)
 
         self.topThicknessLabel = QtGui.QLabel(translate('Rocket', "Top Thickness"), self)
 
         self.topThicknessInput = ui.createWidget("Gui::InputField")
         self.topThicknessInput.unit = 'mm'
-        self.topThicknessInput.setFixedWidth(80)
+        self.topThicknessInput.setMinimumWidth(100)
 
         self.baseThicknessLabel = QtGui.QLabel(translate('Rocket', "Base Thickness"), self)
 
         self.baseThicknessInput = ui.createWidget("Gui::InputField")
         self.baseThicknessInput.unit = 'mm'
-        self.baseThicknessInput.setFixedWidth(80)
+        self.baseThicknessInput.setMinimumWidth(100)
 
         self.thicknessLabel = QtGui.QLabel(translate('Rocket', "Total Thickness"), self)
 
         self.thicknessInput = ui.createWidget("Gui::InputField")
         self.thicknessInput.unit = 'mm'
-        self.thicknessInput.setFixedWidth(80)
+        self.thicknessInput.setMinimumWidth(100)
 
         self.lengthLabel = QtGui.QLabel(translate('Rocket', "Length"), self)
 
         self.lengthInput = ui.createWidget("Gui::InputField")
         self.lengthInput.unit = 'mm'
-        self.lengthInput.setFixedWidth(80)
+        self.lengthInput.setMinimumWidth(100)
 
         self.fastenerGroup = QtGui.QGroupBox(translate('Rocket', "Fastener"), self)
         self.fastenerGroup.setCheckable(True)
@@ -117,13 +117,13 @@ class _RailButtonDialog(QDialog):
 
         self.headDiameterInput = ui.createWidget("Gui::InputField")
         self.headDiameterInput.unit = 'mm'
-        self.headDiameterInput.setFixedWidth(80)
+        self.headDiameterInput.setMinimumWidth(100)
 
         self.shankDiameterLabel = QtGui.QLabel(translate('Rocket', "Shank Diameter"), self)
 
         self.shankDiameterInput = ui.createWidget("Gui::InputField")
         self.shankDiameterInput.unit = 'mm'
-        self.shankDiameterInput.setFixedWidth(80)
+        self.shankDiameterInput.setMinimumWidth(100)
 
         self.fastenerPresetLabel = QtGui.QLabel(translate('Rocket', "Presets"), self)
 
@@ -142,7 +142,7 @@ class _RailButtonDialog(QDialog):
 
         self.filletRadiusInput = ui.createWidget("Gui::InputField")
         self.filletRadiusInput.unit = 'mm'
-        self.filletRadiusInput.setFixedWidth(80)
+        self.filletRadiusInput.setMinimumWidth(100)
 
         # Fastener group
         row = 0
