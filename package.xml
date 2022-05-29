@@ -6,7 +6,7 @@
   <date>2022-04-27</date>
   <maintainer email="dcarter@davidcarter.ca">David Carter</maintainer>
   <license file="LICENSE">LGPLv2.1</license>
-  <url type="repository" branch="main">https://github.com/davesrocketshop/Rocket</url>
+  <url type="repository" branch="master">https://github.com/davesrocketshop/Rocket</url>
   <icon>Resources/icons/RocketWorkbench.svg</icon>
 
   <content>
