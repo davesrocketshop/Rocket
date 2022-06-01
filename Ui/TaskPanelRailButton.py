@@ -102,7 +102,7 @@ class _RailButtonDialog(QDialog):
         self.fastenerGroup = QtGui.QGroupBox(translate('Rocket', "Fastener"), self)
         self.fastenerGroup.setCheckable(True)
 
-        self.countersinkLabel = QtGui.QLabel(translate('Rocket', "Contersink Angle"), self)
+        self.countersinkLabel = QtGui.QLabel(translate('Rocket', "Countersink Angle"), self)
 
         self.countersinkTypes = (CONTERSINK_ANGLE_60,
                                     CONTERSINK_ANGLE_82,
