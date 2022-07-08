@@ -23,53 +23,47 @@
 __title__ = "FreeCAD Fins"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
-    
+
 import FreeCAD
-import FreeCADGui
+import Part
 
-from App.Constants import FIN_TYPE_SKETCH
-from App.ShapeFin import ShapeFin
-from Ui.ViewFin import ViewProviderFin
-# import Sketcher
+from App.FinTrapezoidShapeHandler import FinTrapezoidShapeHandler
 
-from DraftTools import translate
+class FinCanTrapezoidShapeHandler(FinTrapezoidShapeHandler):
 
-def makeFin(name):
-    '''makeFin(name): makes a Fin'''
-    obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
-    ShapeFin(obj)
+    def __init__(self, obj):
+        super().__init__(obj)
 
-    # See if we have a sketch selected. If so, this is a custom fin
-    for sketch in FreeCADGui.Selection.getSelection():
-        if sketch.isDerivedFrom('Sketcher::SketchObject'):
-            obj.FinType = FIN_TYPE_SKETCH
-            obj.Profile = sketch
-            sketch.Visibility = False
+    def isValidShape(self):
+        # Add error checking here
 
-    if FreeCAD.GuiUp:
-        ViewProviderFin(obj.ViewObject)
+        return True
 
-        body=FreeCADGui.ActiveDocument.ActiveView.getActiveObject("pdbody")
-        part=FreeCADGui.ActiveDocument.ActiveView.getActiveObject("part")
-        if body:
-            body.Group=body.Group+[obj]
-        elif part:
-            part.Group=part.Group+[obj]
-    return obj
+    def _drawFinCan(self):
+        # First make the can
+        point = FreeCAD.Vector((self._obj.RootChord - self._obj.Length + self._obj.LeadingEdgeOffset),0,0)
+        direction = FreeCAD.Vector(1,0,0)
+        radius = self._obj.InnerDiameter / 2.0
+        outerRadius = radius + self._obj.Thickness
+        outer = Part.makeCylinder(outerRadius, self._obj.Length, point, direction)
+        inner = Part.makeCylinder(radius, self._obj.Length, point, direction)
+        can = outer.cut(inner)
 
-class CmdFin:
-    def Activated(self):
-        FreeCAD.ActiveDocument.openTransaction("Create fin")
-        FreeCADGui.addModule("Ui.CmdFin")
-        FreeCADGui.doCommand("Ui.CmdFin.makeFin('Fin')")
-        FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
+        fins = self._drawFinSet()
+        finCan = Part.makeCompound([can, fins])
 
-    def IsActive(self):
-        if FreeCAD.ActiveDocument:
-            return True
-        return False
+        return Part.makeCompound(finCan)
+
+    def draw(self):
         
-    def GetResources(self):
-        return {'MenuText': translate("Rocket", 'Fin'),
-                'ToolTip': translate("Rocket", 'Fin design'),
-                'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Fin.svg"}
+        if not self.isValidShape():
+            return
+
+        try:
+            self._obj.Shape = self._drawFinCan()
+
+            self._obj.Placement = self._placement
+
+        except (ZeroDivisionError, Part.OCCError):
+            _err(translate('Rocket', "Fin can parameters produce an invalid shape"))
+            return

@@ -32,6 +32,7 @@ from DraftTools import translate
 
 from App.Constants import FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE, \
     FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE
+from App.Constants import FIN_DEBUG_FULL, FIN_DEBUG_PROFILE_ONLY, FIN_DEBUG_MASK_ONLY
 
 from App.Utilities import _err
 
@@ -273,39 +274,70 @@ class FinShapeHandler:
         # Override this id we have a "masking" shape
         return None
 
+    def _drawFinDebug(self, debug):
+        profiles = self._makeProfiles()
+        if profiles is not None and len(profiles) > 0:
+            if isinstance(profiles[0], list):
+                # Using a compound instead of a fuse makes drawing much faster, but also leads to
+                # a number of 'BOPAlgo SelfIntersect' errors. Se we stick with the fuse
+
+                loft = None
+                for profile in profiles:
+                    if loft is None:
+                        loft = Part.makeLoft(profile, True)
+                    else:
+                        loft = loft.fuse(Part.makeLoft(profile, True))
+            else:
+                loft = Part.makeLoft(profiles, True)
+
+            if loft is not None:
+                mask = self._makeCommon()
+                if debug == FIN_DEBUG_MASK_ONLY:
+                    loft = mask
+                elif mask is not None and (debug != FIN_DEBUG_PROFILE_ONLY):
+                    loft = loft.common(mask)
+
+                if self._obj.Ttw:
+                    ttw = self._makeTtw()
+                    if ttw:
+                        loft = loft = loft.fuse(ttw)
+
+        return loft
+
+    def _drawSingleFin(self):
+        if hasattr(self._obj,"DebugSketch"):
+            return self._drawFinDebug(self._obj.DebugSketch)
+        return self._drawFinDebug(FIN_DEBUG_FULL)
+
+    def _drawFin(self):
+        fin = self._drawSingleFin()
+        fin.translate(FreeCAD.Vector(0,0,float(self._obj.ParentRadius)))
+        # print ("Translate (%s,%s,%s)" % (0, 0, self._obj.ParentRadius))
+        return Part.makeCompound([fin])
+
+    def _drawFinSet(self):
+        fins = []
+        base = self._drawSingleFin()
+        for i in range(self._obj.FinCount):
+            fin = Part.Shape(base) # Create a copy
+            fin.translate(FreeCAD.Vector(0,0,float(self._obj.ParentRadius)))
+            fin.rotate(FreeCAD.Vector(0, 0, 0), FreeCAD.Vector(1,0,0), i * float(self._obj.FinSpacing))
+            fins.append(fin)
+
+        return Part.makeCompound(fins)
+
     def draw(self):
         
         if not self.isValidShape():
             return
 
         try:
-            profiles = self._makeProfiles()
-            if profiles is not None and len(profiles) > 0:
-                if isinstance(profiles[0], list):
-                    # Using a compound instead of a fuse makes drawing much faster, but also leads to
-                    # a number of 'BOPAlgo SelfIntersect' errors. Se we stick with the fuse
-
-                    loft = None
-                    for profile in profiles:
-                        if loft is None:
-                            loft = Part.makeLoft(profile, True)
-                        else:
-                            loft = loft.fuse(Part.makeLoft(profile, True))
-                else:
-                    loft = Part.makeLoft(profiles, True)
-
-                if loft is not None:
-                    mask = self._makeCommon()
-                    if mask is not None:
-                        loft = loft.common(mask)
-
-                    if self._obj.Ttw:
-                        ttw = self._makeTtw()
-                        if ttw:
-                            loft = loft.fuse(ttw)
-
-                    self._obj.Shape = loft
+            if self._obj.FinSet:
+                self._obj.Shape = self._drawFinSet()
+            else:
+                self._obj.Shape = self._drawFin()
             self._obj.Placement = self._placement
+
         except (ZeroDivisionError, Part.OCCError):
             _err(translate('Rocket', "Fin parameters produce an invalid shape"))
             return
