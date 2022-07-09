@@ -76,6 +76,11 @@ FIN_CROSS_TAPER_LE = "LE taper"
 FIN_CROSS_TAPER_TE = "TE taper"
 FIN_CROSS_TAPER_LETE = "taper"
 
+# Fin can edges
+FINCAN_CROSS_SQUARE = "square"
+FINCAN_CROSS_ROUND = "round"
+FINCAN_CROSS_TAPER = "taper"
+
 FIN_DEBUG_FULL = "Full"
 FIN_DEBUG_PROFILE_ONLY = "Profile"
 FIN_DEBUG_MASK_ONLY = "Mask"

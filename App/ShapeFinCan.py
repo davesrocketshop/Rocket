@@ -25,11 +25,12 @@ __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
 from App.ShapeFin import ShapeFin
-from App.Constants import FIN_TYPE_TRAPEZOID, FIN_TYPE_ELLIPSE, FIN_TYPE_SKETCH
+from App.Constants import FIN_TYPE_TRAPEZOID, FIN_TYPE_ELLIPSE, FIN_TYPE_SKETCH, \
+                            FINCAN_CROSS_SQUARE, FINCAN_CROSS_ROUND, FINCAN_CROSS_TAPER
 
-from App.FinCanTrapezoidShapeHandler import FinCanTrapezoidShapeHandler
-from App.FinEllipseShapeHandler import FinEllipseShapeHandler
-from App.FinSketchShapeHandler import FinSketchShapeHandler
+from App.FinCanShapeHandler import FinCanTrapezoidShapeHandler
+from App.FinCanShapeHandler import FinCanEllipseShapeHandler
+from App.FinCanShapeHandler import FinCanSketchShapeHandler
 
 from DraftTools import translate
 
@@ -52,8 +53,22 @@ class ShapeFinCan(ShapeFin):
         if not hasattr(obj,"LeadingEdgeOffset"):
             obj.addProperty('App::PropertyDistance', 'LeadingEdgeOffset', 'Fin', translate('App::Property', 'Distance between the fin can leading edge and the fin leading edge')).LeadingEdgeOffset = 0.0
 
+        if not hasattr(obj,"LeadingEdge"):
+            obj.addProperty('App::PropertyEnumeration', 'LeadingEdge', 'Fin', translate('App::Property', 'Leading Edge'))
+        obj.LeadingEdge = [FINCAN_CROSS_SQUARE, FINCAN_CROSS_ROUND, FINCAN_CROSS_TAPER]
+        obj.LeadingEdge = FINCAN_CROSS_SQUARE
+        if not hasattr(obj,"LeadingLength"):
+            obj.addProperty('App::PropertyLength', 'LeadingLength', 'Fin', translate('App::Property', 'Leading Edge Length')).LeadingLength = 5.0
+
+        if not hasattr(obj,"TrailingEdge"):
+            obj.addProperty('App::PropertyEnumeration', 'TrailingEdge', 'Fin', translate('App::Property', 'Trailing Edge'))
+        obj.TrailingEdge = [FINCAN_CROSS_SQUARE, FINCAN_CROSS_ROUND, FINCAN_CROSS_TAPER]
+        obj.TrailingEdge = FINCAN_CROSS_SQUARE
+        if not hasattr(obj,"TrailingLength"):
+            obj.addProperty('App::PropertyLength', 'TrailingLength', 'Fin', translate('App::Property', 'Trailing Edge Length')).TrailingLength = 5.0
+
         # Set the Parent Radius to the OD
-        obj.ParentRadius = (obj.InnerDiameter / 2.0) + obj.Thickness
+        obj.ParentRadius = (obj.InnerDiameter / 2.0) # + obj.Thickness
 
 
 
@@ -62,9 +77,9 @@ class ShapeFinCan(ShapeFin):
         if obj.FinType == FIN_TYPE_TRAPEZOID:
             shape = FinCanTrapezoidShapeHandler(obj)
         elif obj.FinType == FIN_TYPE_ELLIPSE:
-            shape = FinEllipseShapeHandler(obj)
+            shape = FinCanEllipseShapeHandler(obj)
         elif obj.FinType == FIN_TYPE_SKETCH:
-            shape = FinSketchShapeHandler(obj)
+            shape = FinCanSketchShapeHandler(obj)
 
         if shape is not None:
             shape.draw()

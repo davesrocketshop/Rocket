@@ -38,6 +38,7 @@ from DraftTools import translate
 from App.Constants import FIN_TYPE_TRAPEZOID, FIN_TYPE_ELLIPSE, FIN_TYPE_SKETCH
 from App.Constants import FIN_CROSS_SAME, FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE, \
     FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE
+from App.Constants import FINCAN_CROSS_SQUARE, FINCAN_CROSS_ROUND, FINCAN_CROSS_TAPER
 
 from App.Utilities import _err, _toFloat
 
@@ -325,6 +326,60 @@ class _FinCanDialog(QDialog):
         self.canLeadingOffsetInput.unit = 'mm'
         self.canLeadingOffsetInput.setMinimumWidth(100)
 
+        # Fin can leading and trailing edges
+        self.canLeadingGroup = QtGui.QGroupBox(translate('Rocket', "Leading Edge"), self)
+
+        self.canLeadingLabel = QtGui.QLabel(translate('Rocket', "Edge Style"), self)
+
+        self.canEdges = (FINCAN_CROSS_SQUARE, FINCAN_CROSS_ROUND, FINCAN_CROSS_TAPER)
+        self.canLeadingCombo = QtGui.QComboBox(self)
+        self.canLeadingCombo.addItems(self.canEdges)
+
+        self.canLeadingLengthLabel = QtGui.QLabel(translate('Rocket', "Length"), self)
+
+        self.canLeadingLengthInput = ui.createWidget("Gui::InputField")
+        self.canLeadingLengthInput.unit = 'mm'
+        self.canLeadingLengthInput.setMinimumWidth(100)
+
+        self.canTrailingGroup = QtGui.QGroupBox(translate('Rocket', "Trailing Edge"), self)
+
+        self.canTrailingLabel = QtGui.QLabel(translate('Rocket', "Edge Style"), self)
+
+        self.canTrailingCombo = QtGui.QComboBox(self)
+        self.canTrailingCombo.addItems(self.canEdges)
+
+        self.canTrailingLengthLabel = QtGui.QLabel(translate('Rocket', "Length"), self)
+
+        self.canTrailingLengthInput = ui.createWidget("Gui::InputField")
+        self.canTrailingLengthInput.unit = 'mm'
+        self.canTrailingLengthInput.setMinimumWidth(100)
+
+        # Leading Edge group
+        row = 0
+        grid = QGridLayout()
+
+        grid.addWidget(self.canLeadingLabel, row, 0)
+        grid.addWidget(self.canLeadingCombo, row, 1)
+        row += 1
+
+        grid.addWidget(self.canLeadingLengthLabel, row, 0)
+        grid.addWidget(self.canLeadingLengthInput, row, 1)
+
+        self.canLeadingGroup.setLayout(grid)
+
+        # Trailing Edge group
+        row = 0
+        grid = QGridLayout()
+
+        grid.addWidget(self.canTrailingLabel, row, 0)
+        grid.addWidget(self.canTrailingCombo, row, 1)
+        row += 1
+
+        grid.addWidget(self.canTrailingLengthLabel, row, 0)
+        grid.addWidget(self.canTrailingLengthInput, row, 1)
+
+        self.canTrailingGroup.setLayout(grid)
+
         row = 0
         grid = QGridLayout()
 
@@ -345,6 +400,8 @@ class _FinCanDialog(QDialog):
 
         layout = QVBoxLayout()
         layout.addItem(grid)
+        layout.addWidget(self.canLeadingGroup)
+        layout.addWidget(self.canTrailingGroup)
         layout.addItem(QtGui.QSpacerItem(0,0, QSizePolicy.Expanding, QSizePolicy.Expanding))
 
         self.tabTtw.setLayout(layout)
@@ -391,6 +448,11 @@ class TaskPanelFinCan(QObject):
         self._finForm.canLengthInput.textEdited.connect(self.onCanLength)
         self._finForm.canLeadingOffsetInput.textEdited.connect(self.onCanLeadingEdgeOffset)
 
+        self._finForm.canLeadingCombo.currentTextChanged.connect(self.onCanLeadingEdge)
+        self._finForm.canLeadingLengthInput.textEdited.connect(self.onCanLeadingLength)
+        self._finForm.canTrailingCombo.currentTextChanged.connect(self.onCanTrailingEdge)
+        self._finForm.canTrailingLengthInput.textEdited.connect(self.onCanTrailingLength)
+
         self._redrawPending = False
         self.redrawRequired.connect(self.onRedraw, QtCore.Qt.QueuedConnection)
         
@@ -430,6 +492,11 @@ class TaskPanelFinCan(QObject):
         self._obj.Length = self._finForm.canLengthInput.text()
         self._obj.LeadingEdgeOffset = self._finForm.canLeadingOffsetInput.text()
 
+        self._obj.LeadingEdge = str(self._finForm.canLeadingCombo.currentText())
+        self._obj.LeadingLength = self._finForm.canLeadingLengthInput.text()
+        self._obj.TrailingEdge = str(self._finForm.canTrailingCombo.currentText())
+        self._obj.TrailingLength = self._finForm.canTrailingLengthInput.text()
+
     def transferFrom(self):
         "Transfer from the object to the dialog"
         self._finForm.finTypesCombo.setCurrentText(self._obj.FinType)
@@ -460,11 +527,18 @@ class TaskPanelFinCan(QObject):
         self._finForm.canLengthInput.setText(self._obj.Length.UserString)
         self._finForm.canLeadingOffsetInput.setText(self._obj.LeadingEdgeOffset.UserString)
 
+        self._finForm.canLeadingCombo.setCurrentText(self._obj.LeadingEdge)
+        self._finForm.canLeadingLengthInput.setText(self._obj.LeadingLength.UserString)
+        self._finForm.canTrailingCombo.setCurrentText(self._obj.TrailingEdge)
+        self._finForm.canTrailingLengthInput.setText(self._obj.TrailingLength.UserString)
+
         self._enableRootLengths()
         self._enableFinTypes() # This calls _enableTipLengths()
         self._enableRootPercent()
         self._enableTipPercent()
         self._sweepAngleFromLength(self._obj.SweepLength)
+        self._enableLeadingEdge()
+        self._enableTrailingEdge()
 
     def redraw(self):
         if not self._redrawPending:
@@ -788,7 +862,7 @@ class TaskPanelFinCan(QObject):
     def onCanInnerDiameter(self, value):
         try:
             self._obj.InnerDiameter = FreeCAD.Units.Quantity(value).Value
-            self._obj.ParentRadius = (self._obj.InnerDiameter / 2.0) + self._obj.Thickness
+            self._obj.ParentRadius = (self._obj.InnerDiameter / 2.0) # + self._obj.Thickness
             self.redraw()
         except ValueError:
             pass
@@ -796,7 +870,7 @@ class TaskPanelFinCan(QObject):
     def onCanThickness(self, value):
         try:
             self._obj.Thickness = FreeCAD.Units.Quantity(value).Value
-            self._obj.ParentRadius = (self._obj.InnerDiameter / 2.0) + self._obj.Thickness
+            self._obj.ParentRadius = (self._obj.InnerDiameter / 2.0) # + self._obj.Thickness
             self.redraw()
         except ValueError:
             pass
@@ -815,6 +889,50 @@ class TaskPanelFinCan(QObject):
         except ValueError:
             pass
 
+
+    def _enableLeadingEdge(self):
+        if self._obj.LeadingEdge == FINCAN_CROSS_SQUARE:
+            self._finForm.canLeadingLengthInput.setEnabled(False)
+        else:
+            self._finForm.canLeadingLengthInput.setEnabled(True)
+        
+    def onCanLeadingEdge(self, value):
+        if len(value) <= 0:
+            return
+            
+        self._obj.LeadingEdge = value
+        self._enableLeadingEdge()
+
+        self.redraw()
+        
+    def onCanLeadingLength(self, value):
+        try:
+            self._obj.LeadingLength = FreeCAD.Units.Quantity(value).Value
+            self.redraw()
+        except ValueError:
+            pass
+
+    def _enableTrailingEdge(self):
+        if self._obj.TrailingEdge == FINCAN_CROSS_SQUARE:
+            self._finForm.canTrailingLengthInput.setEnabled(False)
+        else:
+            self._finForm.canTrailingLengthInput.setEnabled(True)
+        
+    def onCanTrailingEdge(self, value):
+        if len(value) <= 0:
+            return
+            
+        self._obj.TrailingEdge = value
+        self._enableTrailingEdge()
+
+        self.redraw()
+        
+    def onCanTrailingLength(self, value):
+        try:
+            self._obj.TrailingLength = FreeCAD.Units.Quantity(value).Value
+            self.redraw()
+        except ValueError:
+            pass
 
     def onRedraw(self):
         self._obj.Proxy.execute(self._obj)
