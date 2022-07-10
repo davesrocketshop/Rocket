@@ -67,8 +67,19 @@ class ShapeFinCan(ShapeFin):
         if not hasattr(obj,"TrailingLength"):
             obj.addProperty('App::PropertyLength', 'TrailingLength', 'Fin', translate('App::Property', 'Trailing Edge Length')).TrailingLength = 5.0
 
-        # Set the Parent Radius to the OD
-        obj.ParentRadius = (obj.InnerDiameter / 2.0) # + obj.Thickness
+        if not hasattr(obj,"LaunchLug"):
+            obj.addProperty('App::PropertyBool', 'LaunchLug', 'Fin', translate('App::Property', 'Fin can includes a launch lug')).LaunchLug = True
+        if not hasattr(obj,"LugInnerDiameter"):
+            obj.addProperty('App::PropertyLength', 'LugInnerDiameter', 'Fin', translate('App::Property', 'Diameter of the inside of the launch lug')).LugInnerDiameter = 3.56
+        if not hasattr(obj,"LugThickness"):
+            obj.addProperty('App::PropertyLength', 'LugThickness', 'Fin', translate('App::Property', 'Thickness of the launch lug')).LugThickness = 1.0
+        if not hasattr(obj,"LugLength"):
+            obj.addProperty('App::PropertyLength', 'LugLength', 'Fin', translate('App::Property', 'Length of the launch')).LugLength = 60.0
+        if not hasattr(obj,"LugAutoLength"):
+            obj.addProperty('App::PropertyBool', 'LugAutoLength', 'Fin', translate('App::Property', 'Automatically adjust the length of the launch lug')).LugAutoLength = True
+
+        # Set the Parent Radius to the ID
+        obj.ParentRadius = (obj.InnerDiameter / 2.0)
 
 
 

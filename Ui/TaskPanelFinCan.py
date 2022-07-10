@@ -53,9 +53,11 @@ class _FinCanDialog(QDialog):
 
         self.tabWidget = QtGui.QTabWidget()
         self.tabGeneral = QtGui.QWidget()
-        self.tabTtw = QtGui.QWidget()
+        self.tabFinCan = QtGui.QWidget()
+        self.tabLaunchLug = QtGui.QWidget()
         self.tabWidget.addTab(self.tabGeneral, translate('Rocket', "Fins"))
-        self.tabWidget.addTab(self.tabTtw, translate('Rocket', "Fin Can"))
+        self.tabWidget.addTab(self.tabFinCan, translate('Rocket', "Fin Can"))
+        self.tabWidget.addTab(self.tabLaunchLug, translate('Rocket', "Launch Lug"))
 
         layout = QVBoxLayout()
         layout.addWidget(self.tabWidget)
@@ -63,6 +65,7 @@ class _FinCanDialog(QDialog):
 
         self.setTabGeneral(sketch)
         self.setTabCan()
+        self.setTabLaunchLug()
 
     def setTabGeneral(self, sketch):
 
@@ -404,7 +407,61 @@ class _FinCanDialog(QDialog):
         layout.addWidget(self.canTrailingGroup)
         layout.addItem(QtGui.QSpacerItem(0,0, QSizePolicy.Expanding, QSizePolicy.Expanding))
 
-        self.tabTtw.setLayout(layout)
+        self.tabFinCan.setLayout(layout)
+
+    def setTabLaunchLug(self):
+
+        ui = FreeCADGui.UiLoader()
+
+        # Fin can leading and trailing edges
+        self.lugGroup = QtGui.QGroupBox(translate('Rocket', "Launch Lug"), self)
+        self.lugGroup.setCheckable(True)
+
+        self.lugInnerDiameterLabel = QtGui.QLabel(translate('Rocket', "Inner Diameter"), self)
+
+        self.lugInnerDiameterInput = ui.createWidget("Gui::InputField")
+        self.lugInnerDiameterInput.unit = 'mm'
+        self.lugInnerDiameterInput.setMinimumWidth(100)
+
+        self.lugThicknessLabel = QtGui.QLabel(translate('Rocket', "Thickness"), self)
+
+        self.lugThicknessInput = ui.createWidget("Gui::InputField")
+        self.lugThicknessInput.unit = 'mm'
+        self.lugThicknessInput.setMinimumWidth(100)
+
+        self.lugLengthLabel = QtGui.QLabel(translate('Rocket', "Length"), self)
+
+        self.lugLengthInput = ui.createWidget("Gui::InputField")
+        self.lugLengthInput.unit = 'mm'
+        self.lugLengthInput.setMinimumWidth(100)
+
+        self.lugAutoLengthCheckbox = QtGui.QCheckBox(translate('Rocket', "auto"), self)
+        self.lugAutoLengthCheckbox.setCheckState(QtCore.Qt.Checked)
+
+        # Launch Lug group
+        row = 0
+        grid = QGridLayout()
+
+        grid.addWidget(self.lugInnerDiameterLabel, row, 0)
+        grid.addWidget(self.lugInnerDiameterInput, row, 1)
+        row += 1
+
+        grid.addWidget(self.lugThicknessLabel, row, 0)
+        grid.addWidget(self.lugThicknessInput, row, 1)
+        row += 1
+
+        grid.addWidget(self.lugLengthLabel, row, 0)
+        grid.addWidget(self.lugLengthInput, row, 1)
+        grid.addWidget(self.lugAutoLengthCheckbox, row, 2)
+        row += 1
+
+        self.lugGroup.setLayout(grid)
+
+        layout = QVBoxLayout()
+        layout.addWidget(self.lugGroup)
+        layout.addItem(QtGui.QSpacerItem(0,0, QSizePolicy.Expanding, QSizePolicy.Expanding))
+
+        self.tabLaunchLug.setLayout(layout)
 
 class TaskPanelFinCan(QObject):
 
@@ -453,6 +510,12 @@ class TaskPanelFinCan(QObject):
         self._finForm.canTrailingCombo.currentTextChanged.connect(self.onCanTrailingEdge)
         self._finForm.canTrailingLengthInput.textEdited.connect(self.onCanTrailingLength)
 
+        self._finForm.lugGroup.toggled.connect(self.onLug)
+        self._finForm.lugInnerDiameterInput.textEdited.connect(self.onLugInnerDiameter)
+        self._finForm.lugThicknessInput.textEdited.connect(self.onLugThickness)
+        self._finForm.lugLengthInput.textEdited.connect(self.onLugLength)
+        self._finForm.lugAutoLengthCheckbox.stateChanged.connect(self.onLugAutoLength)
+
         self._redrawPending = False
         self.redrawRequired.connect(self.onRedraw, QtCore.Qt.QueuedConnection)
         
@@ -497,6 +560,12 @@ class TaskPanelFinCan(QObject):
         self._obj.TrailingEdge = str(self._finForm.canTrailingCombo.currentText())
         self._obj.TrailingLength = self._finForm.canTrailingLengthInput.text()
 
+        self._obj.LaunchLug = self._finForm.lugGroup.isChecked()
+        self._obj.LugInnerDiameter = self._finForm.lugInnerDiameterInput.text()
+        self._obj.LugThickness = self._finForm.lugThicknessInput.text()
+        self._obj.LugLength = self._finForm.lugLengthInput.text()
+        self._obj.LugAutoLength = self._finForm.lugAutoLengthCheckbox.isChecked()
+
     def transferFrom(self):
         "Transfer from the object to the dialog"
         self._finForm.finTypesCombo.setCurrentText(self._obj.FinType)
@@ -532,6 +601,12 @@ class TaskPanelFinCan(QObject):
         self._finForm.canTrailingCombo.setCurrentText(self._obj.TrailingEdge)
         self._finForm.canTrailingLengthInput.setText(self._obj.TrailingLength.UserString)
 
+        self._finForm.lugGroup.setChecked(self._obj.LaunchLug)
+        self._finForm.lugInnerDiameterInput.setText(self._obj.LugInnerDiameter.UserString)
+        self._finForm.lugThicknessInput.setText(self._obj.LugThickness.UserString)
+        self._finForm.lugLengthInput.setText(self._obj.LugLength.UserString)
+        self._finForm.lugAutoLengthCheckbox.setChecked(self._obj.LugAutoLength)
+
         self._enableRootLengths()
         self._enableFinTypes() # This calls _enableTipLengths()
         self._enableRootPercent()
@@ -539,6 +614,7 @@ class TaskPanelFinCan(QObject):
         self._sweepAngleFromLength(self._obj.SweepLength)
         self._enableLeadingEdge()
         self._enableTrailingEdge()
+        self._setLugAutoLengthState()
 
     def redraw(self):
         if not self._redrawPending:
@@ -902,12 +978,14 @@ class TaskPanelFinCan(QObject):
             
         self._obj.LeadingEdge = value
         self._enableLeadingEdge()
+        self._setLugAutoLengthState()
 
         self.redraw()
         
     def onCanLeadingLength(self, value):
         try:
             self._obj.LeadingLength = FreeCAD.Units.Quantity(value).Value
+            self._setLugAutoLengthState()
             self.redraw()
         except ValueError:
             pass
@@ -924,15 +1002,62 @@ class TaskPanelFinCan(QObject):
             
         self._obj.TrailingEdge = value
         self._enableTrailingEdge()
+        self._setLugAutoLengthState()
 
         self.redraw()
         
     def onCanTrailingLength(self, value):
         try:
             self._obj.TrailingLength = FreeCAD.Units.Quantity(value).Value
+            self._setLugAutoLengthState()
             self.redraw()
         except ValueError:
             pass
+       
+    def onLug(self, value):
+        self._obj.LaunchLug = self._finForm.lugGroup.isChecked()
+
+        self.redraw()
+        
+    def onLugInnerDiameter(self, value):
+        try:
+            self._obj.LugInnerDiameter = FreeCAD.Units.Quantity(value).Value
+            self.redraw()
+        except ValueError:
+            pass
+        
+    def onLugThickness(self, value):
+        try:
+            self._obj.LugThickness = FreeCAD.Units.Quantity(value).Value
+            self.redraw()
+        except ValueError:
+            pass
+        
+    def onLugLength(self, value):
+        try:
+            self._obj.LugLength = FreeCAD.Units.Quantity(value).Value
+            self.redraw()
+        except ValueError:
+            pass
+     
+    def _setLugAutoLengthState(self):
+        self._finForm.lugLengthInput.setEnabled(not self._obj.LugAutoLength)
+        self._finForm.lugAutoLengthCheckbox.setChecked(self._obj.LugAutoLength)
+
+        if self._obj.LugAutoLength:
+            length = float(self._obj.Length)
+            if self._obj.LeadingEdge != FINCAN_CROSS_SQUARE:
+                length -= float(self._obj.LeadingLength)
+            if self._obj.TrailingEdge != FINCAN_CROSS_SQUARE:
+                length -= float(self._obj.TrailingLength)
+            self._obj.LugLength = length
+            self._finForm.lugLengthInput.setText(self._obj.LugLength.UserString)
+
+    def onLugAutoLength(self, value):
+        self._obj.LugAutoLength = value
+        self._setLugAutoLengthState()
+
+        self.redraw()
 
     def onRedraw(self):
         self._obj.Proxy.execute(self._obj)

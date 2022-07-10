@@ -53,9 +53,9 @@ class FinCanShapeHandler(FinShapeHandler):
 
         edge = 0.0
         if self._obj.LeadingEdge != FINCAN_CROSS_SQUARE:
-            edge += self._obj.LeadingLength
+            edge += float(self._obj.LeadingLength)
         if self._obj.TrailingEdge != FINCAN_CROSS_SQUARE:
-            edge += self._obj.TrailingLength
+            edge += float(self._obj.TrailingLength)
         if edge > self._obj.Length:
             _err(translate('Rocket', "Fin can leading and trailing edges can not exceed total length"))
             return False
@@ -148,6 +148,59 @@ class FinCanShapeHandler(FinShapeHandler):
             return self._trailingTaper()
         return None
 
+    def _launchLug(self):
+        if self._obj.LaunchLug:
+            try:
+                radius = self._obj.LugInnerDiameter / 2.0
+                outerRadius = radius + self._obj.LugThickness
+
+                base = float(self._obj.RootChord - self._obj.Length + self._obj.LeadingEdgeOffset)
+                if self._obj.TrailingEdge != FINCAN_CROSS_SQUARE:
+                    base += float(self._obj.TrailingLength)
+
+                point = FreeCAD.Vector(base, 0, outerRadius + self._obj.InnerDiameter / 2.0 + self._obj.Thickness)
+                direction = FreeCAD.Vector(1,0,0)
+
+                outer = Part.makeCylinder(outerRadius, self._obj.LugLength, point, direction)
+                inner = Part.makeCylinder(radius, self._obj.LugLength, point, direction)
+
+                # Make the fillet
+                point = FreeCAD.Vector(base, 2 * outerRadius, self._obj.InnerDiameter / 2.0)
+                filletBase = Part.makeBox(outerRadius + self._obj.Thickness, 4 * outerRadius, self._obj.LugLength, point, direction)
+                lug = outer.fuse(filletBase)
+
+                center_x = base
+                center_y = 2 * outerRadius
+                center_z = outerRadius + self._obj.InnerDiameter / 2.0 + self._obj.Thickness
+                center = FreeCAD.Vector(center_x, center_y, center_z)
+                major  = outerRadius + self._obj.Thickness
+                minor  = outerRadius
+                ellipse = Part.Ellipse(FreeCAD.Vector(center_x, center_y, center_z + major), FreeCAD.Vector(center_x, center_y + minor, center_z), center)
+                wire = Part.Wire(ellipse.toShape())
+                face = Part.Face(wire)
+                fillet1 = face.extrude(FreeCAD.Vector(self._obj.LugLength, 0, 0))
+                lug = lug.cut(fillet1)
+
+                center_y = -2 * outerRadius
+                center = FreeCAD.Vector(center_x, center_y, center_z)
+                ellipse = Part.Ellipse(FreeCAD.Vector(center_x, center_y, center_z + major), FreeCAD.Vector(center_x, center_y + minor, center_z), center)
+                wire = Part.Wire(ellipse.toShape())
+                face = Part.Face(wire)
+                fillet2 = face.extrude(FreeCAD.Vector(self._obj.LugLength, 0, 0))
+                lug = lug.cut(fillet2)
+
+                # Poke a hole for the launch rod
+                lug = lug.cut(inner)
+
+                # Rotate to place midway between fins
+                lug.rotate(FreeCAD.Vector(0,0,0), FreeCAD.Vector(1,0,0), self._obj.FinSpacing / 2.0)
+
+                return lug
+            except:
+                _err(translate('Rocket', "Launch lug parameters produce an invalid shape"))
+
+        return None
+
     def _drawFinCan(self):
         # Make the can
         point = FreeCAD.Vector((self._obj.RootChord - self._obj.Length + self._obj.LeadingEdgeOffset),0,0)
@@ -165,6 +218,11 @@ class FinCanShapeHandler(FinShapeHandler):
         shape = self._trailingEdge()
         if shape is not None:
             can = can.cut(shape)
+
+        # Add the launch lug
+        shape = self._launchLug()
+        if shape is not None:
+            can = can.fuse(shape)
 
         # Add the fins
         fins = self._drawFinSet()
