@@ -78,6 +78,15 @@ class ShapeFinCan(ShapeFin):
         if not hasattr(obj,"LugAutoLength"):
             obj.addProperty('App::PropertyBool', 'LugAutoLength', 'Fin', translate('App::Property', 'Automatically adjust the length of the launch lug')).LugAutoLength = True
 
+        if not hasattr(obj,"LaunchLugForwardSweep"):
+            obj.addProperty('App::PropertyBool', 'LaunchLugForwardSweep', 'Fin', translate('App::Property', 'Forward side of the launch lug is swept')).LaunchLugForwardSweep = True
+        if not hasattr(obj,"LaunchLugForwardSweepAngle"):
+            obj.addProperty('App::PropertyLength', 'LaunchLugForwardSweepAngle', 'Fin', translate('App::Property', 'Forward sweep angle')).LaunchLugForwardSweepAngle = 30.0
+        if not hasattr(obj,"LaunchLugAftSweep"):
+            obj.addProperty('App::PropertyBool', 'LaunchLugAftSweep', 'Fin', translate('App::Property', 'Aft side of the launch lug is swept')).LaunchLugAftSweep = True
+        if not hasattr(obj,"LaunchLugAftSweepAngle"):
+            obj.addProperty('App::PropertyLength', 'LaunchLugAftSweepAngle', 'Fin', translate('App::Property', 'Aft sweep angle')).LaunchLugAftSweepAngle = 30.0
+
         # Set the Parent Radius to the ID
         obj.ParentRadius = (obj.InnerDiameter / 2.0)
 

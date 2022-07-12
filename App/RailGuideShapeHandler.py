@@ -206,8 +206,7 @@ class RailGuideShapeHandler():
 
     def _drawForwardSweep(self):
         # We need to calculate our vertices outside of the part to avoid OpenCASCADE's "too exact" problem
-        o = self._thickness * math.tan(self._forwardSweepAngle)
-        slope = -self._thickness / o
+        slope = -1.0 / math.tan(self._forwardSweepAngle)
         intercept = self._zMin - (slope * self._length)
 
         y = max(self._topWidth, self._middleWidth, self._baseWidth) / 2.0 + TOLERANCE_OFFSET
@@ -236,8 +235,7 @@ class RailGuideShapeHandler():
 
     def _drawAftSweep(self):
         # We need to calculate our vertices outside of the part to avoid OpenCASCADE's "too exact" problem
-        o = self._thickness * math.tan(self._aftSweepAngle)
-        slope = self._thickness / o
+        slope = 1.0 / math.tan(self._aftSweepAngle)
 
         y = max(self._topWidth, self._middleWidth, self._baseWidth) / 2.0 + TOLERANCE_OFFSET
 

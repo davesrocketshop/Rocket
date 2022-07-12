@@ -38,6 +38,8 @@ from App.FinTrapezoidShapeHandler import FinTrapezoidShapeHandler
 from App.FinEllipseShapeHandler import FinEllipseShapeHandler
 from App.FinSketchShapeHandler import FinSketchShapeHandler
 
+TOLERANCE_OFFSET = 0.5     # Distance to offset a vertex
+
 class FinCanShapeHandler(FinShapeHandler):
 
     def __init__(self, obj):
@@ -148,6 +150,64 @@ class FinCanShapeHandler(FinShapeHandler):
             return self._trailingTaper()
         return None
 
+    def rakeZ(self, x, slope, intercept):
+        z = x * slope + intercept # In the (x,z) plane
+        return z
+
+    def _drawForwardSweep(self, outerRadius, OR, xFore, xAft):
+        # We need to calculate our vertices outside of the part to avoid OpenCASCADE's "too exact" problem
+        slope = -1.0 / math.tan(math.radians(self._obj.LaunchLugForwardSweepAngle))
+        intercept = float(float(OR) - (slope * xFore))
+
+        y = 2.0 * float(outerRadius) + TOLERANCE_OFFSET
+
+        x1 = float(xFore) + TOLERANCE_OFFSET
+        z1 = self.rakeZ(x1, slope, intercept)        
+        v1 = FreeCAD.Vector(x1, y, z1)
+
+        x2 = float(xAft) - TOLERANCE_OFFSET
+        z2 = self.rakeZ(x2, slope, intercept)        
+        v2 = FreeCAD.Vector(x2, y, z2)
+
+        v3 = FreeCAD.Vector(x1, y, z2)
+
+        line1 = Part.LineSegment(v1, v2)
+        line2 = Part.LineSegment(v2, v3)
+        line3 = Part.LineSegment(v3, v1)
+        shape = Part.Shape([line1, line2, line3])
+        wire = Part.Wire(shape.Edges)
+        face = Part.Face(wire)
+        rake = face.extrude(FreeCAD.Vector(0, -2.0 * y, 0))
+
+        return rake
+
+    def _drawAftSweep(self, outerRadius, OR, xFore, xAft):
+        # We need to calculate our vertices outside of the part to avoid OpenCASCADE's "too exact" problem
+        slope = 1.0 / math.tan(math.radians(self._obj.LaunchLugAftSweepAngle))
+        intercept = float(float(OR) - (slope * xAft))
+
+        y = 2.0 * float(outerRadius) + TOLERANCE_OFFSET
+
+        x1 = float(xFore) + TOLERANCE_OFFSET
+        z1 = self.rakeZ(x1, slope, intercept)        
+        v1 = FreeCAD.Vector(x1, y, z1)
+
+        x2 = float(xAft) - TOLERANCE_OFFSET
+        z2 = self.rakeZ(x2, slope, intercept)        
+        v2 = FreeCAD.Vector(x2, y, z2)
+
+        v3 = FreeCAD.Vector(x2, y, z1)
+
+        line1 = Part.LineSegment(v1, v2)
+        line2 = Part.LineSegment(v2, v3)
+        line3 = Part.LineSegment(v3, v1)
+        shape = Part.Shape([line1, line2, line3])
+        wire = Part.Wire(shape.Edges)
+        face = Part.Face(wire)
+        rake = face.extrude(FreeCAD.Vector(0, -2.0 * y, 0))
+
+        return rake
+
     def _launchLug(self):
         if self._obj.LaunchLug:
             try:
@@ -189,6 +249,17 @@ class FinCanShapeHandler(FinShapeHandler):
                 fillet2 = face.extrude(FreeCAD.Vector(self._obj.LugLength, 0, 0))
                 lug = lug.cut(fillet2)
 
+                # Add the sweeps
+                if self._obj.LaunchLugForwardSweep or self._obj.LaunchLugAftSweep:
+                    xFore = base + float(self._obj.LugLength)
+                    xAft = base
+                    if self._obj.LaunchLugForwardSweep:
+                        rake = self._drawForwardSweep(outerRadius, self._obj.InnerDiameter / 2.0 + self._obj.Thickness, xFore, xAft)
+                        lug = lug.cut(rake)
+                    if self._obj.LaunchLugAftSweep:
+                        rake = self._drawAftSweep(outerRadius, self._obj.InnerDiameter / 2.0 + self._obj.Thickness, xFore, xAft)
+                        lug = lug.cut(rake)
+
                 # Poke a hole for the launch rod
                 lug = lug.cut(inner)
 
@@ -196,8 +267,12 @@ class FinCanShapeHandler(FinShapeHandler):
                 lug.rotate(FreeCAD.Vector(0,0,0), FreeCAD.Vector(1,0,0), self._obj.FinSpacing / 2.0)
 
                 return lug
-            except:
+            except BaseException as ex:
+                print(ex)
+                print(f"Unexpected {ex=}, {type(ex)=}")
                 _err(translate('Rocket', "Launch lug parameters produce an invalid shape"))
+
+                raise ex
 
         return None
 

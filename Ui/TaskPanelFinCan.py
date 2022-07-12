@@ -438,6 +438,45 @@ class _FinCanDialog(QDialog):
         self.lugAutoLengthCheckbox = QtGui.QCheckBox(translate('Rocket', "auto"), self)
         self.lugAutoLengthCheckbox.setCheckState(QtCore.Qt.Checked)
 
+        # Sweep parameters
+        self.forwardSweepGroup = QtGui.QGroupBox(translate('Rocket', "Forward Sweep"), self)
+        self.forwardSweepGroup.setCheckable(True)
+
+        self.forwardSweepLabel = QtGui.QLabel(translate('Rocket', "Sweep Angle"), self)
+
+        self.forwardSweepInput = ui.createWidget("Gui::InputField")
+        self.forwardSweepInput.unit = 'deg'
+        self.forwardSweepInput.setMinimumWidth(100)
+
+        self.aftSweepGroup = QtGui.QGroupBox(translate('Rocket', "Aft Sweep"), self)
+        self.aftSweepGroup.setCheckable(True)
+
+        self.aftSweepLabel = QtGui.QLabel(translate('Rocket', "Sweep Angle"), self)
+
+        self.aftSweepInput = ui.createWidget("Gui::InputField")
+        self.aftSweepInput.unit = 'deg'
+        self.aftSweepInput.setMinimumWidth(100)
+
+        # Forward sweep group
+        row = 0
+        grid = QGridLayout()
+
+        grid.addWidget(self.forwardSweepLabel, row, 0)
+        grid.addWidget(self.forwardSweepInput, row, 1)
+        row += 1
+
+        self.forwardSweepGroup.setLayout(grid)
+
+        # Aft sweep group
+        row = 0
+        grid = QGridLayout()
+
+        grid.addWidget(self.aftSweepLabel, row, 0)
+        grid.addWidget(self.aftSweepInput, row, 1)
+        row += 1
+
+        self.aftSweepGroup.setLayout(grid)
+
         # Launch Lug group
         row = 0
         grid = QGridLayout()
@@ -453,6 +492,12 @@ class _FinCanDialog(QDialog):
         grid.addWidget(self.lugLengthLabel, row, 0)
         grid.addWidget(self.lugLengthInput, row, 1)
         grid.addWidget(self.lugAutoLengthCheckbox, row, 2)
+        row += 1
+
+        grid.addWidget(self.forwardSweepGroup, row, 0, 1, 3) # 1 row, 3 columns
+        row += 1
+
+        grid.addWidget(self.aftSweepGroup, row, 0, 1, 3)
         row += 1
 
         self.lugGroup.setLayout(grid)
@@ -516,6 +561,11 @@ class TaskPanelFinCan(QObject):
         self._finForm.lugLengthInput.textEdited.connect(self.onLugLength)
         self._finForm.lugAutoLengthCheckbox.stateChanged.connect(self.onLugAutoLength)
 
+        self._finForm.forwardSweepGroup.toggled.connect(self.onForwardSweep)
+        self._finForm.forwardSweepInput.textEdited.connect(self.onForwardSweepAngle)
+        self._finForm.aftSweepGroup.toggled.connect(self.onAftSweep)
+        self._finForm.aftSweepInput.textEdited.connect(self.onAftSweepAngle)
+
         self._redrawPending = False
         self.redrawRequired.connect(self.onRedraw, QtCore.Qt.QueuedConnection)
         
@@ -566,6 +616,11 @@ class TaskPanelFinCan(QObject):
         self._obj.LugLength = self._finForm.lugLengthInput.text()
         self._obj.LugAutoLength = self._finForm.lugAutoLengthCheckbox.isChecked()
 
+        self._obj.LaunchLugForwardSweep = self._finForm.forwardSweepGroup.isChecked()
+        self._obj.LaunchLugForwardSweepAngle = self._finForm.forwardSweepInput.text()
+        self._obj.LaunchLugAftSweep = self._finForm.aftSweepGroup.isChecked()
+        self._obj.LaunchLugAftSweepAngle = self._finForm.aftSweepInput.text()
+
     def transferFrom(self):
         "Transfer from the object to the dialog"
         self._finForm.finTypesCombo.setCurrentText(self._obj.FinType)
@@ -606,6 +661,11 @@ class TaskPanelFinCan(QObject):
         self._finForm.lugThicknessInput.setText(self._obj.LugThickness.UserString)
         self._finForm.lugLengthInput.setText(self._obj.LugLength.UserString)
         self._finForm.lugAutoLengthCheckbox.setChecked(self._obj.LugAutoLength)
+
+        self._finForm.forwardSweepGroup.setChecked(self._obj.LaunchLugForwardSweep)
+        self._finForm.forwardSweepInput.setText(self._obj.LaunchLugForwardSweepAngle.UserString)
+        self._finForm.aftSweepGroup.setChecked(self._obj.LaunchLugAftSweep)
+        self._finForm.aftSweepInput.setText(self._obj.LaunchLugAftSweepAngle.UserString)
 
         self._enableRootLengths()
         self._enableFinTypes() # This calls _enableTipLengths()
@@ -1058,6 +1118,40 @@ class TaskPanelFinCan(QObject):
         self._setLugAutoLengthState()
 
         self.redraw()
+        
+    def _setForwardSweepState(self):
+        # self._finForm.forwardSweepInput.setEnabled(self._obj.LaunchLugForwardSweep)
+        self._finForm.forwardSweepGroup.setChecked(self._obj.LaunchLugForwardSweep)
+        
+    def onForwardSweep(self, value):
+        self._obj.LaunchLugForwardSweep = value
+        self._setForwardSweepState()
+
+        self._obj.Proxy.execute(self._obj)
+        
+    def onForwardSweepAngle(self, value):
+        try:
+            self._obj.LaunchLugForwardSweepAngle = FreeCAD.Units.Quantity(value).Value
+            self._obj.Proxy.execute(self._obj)
+        except ValueError:
+            pass
+        
+    def _setAftSweepState(self):
+        # self._finForm.aftSweepInput.setEnabled(self._obj.LaunchLugAftSweep)
+        self._finForm.aftSweepGroup.setChecked(self._obj.LaunchLugAftSweep)
+        
+    def onAftSweep(self, value):
+        self._obj.LaunchLugAftSweep = value
+        self._setAftSweepState()
+
+        self._obj.Proxy.execute(self._obj)
+        
+    def onAftSweepAngle(self, value):
+        try:
+            self._obj.LaunchLugAftSweepAngle = FreeCAD.Units.Quantity(value).Value
+            self._obj.Proxy.execute(self._obj)
+        except ValueError:
+            pass
 
     def onRedraw(self):
         self._obj.Proxy.execute(self._obj)
