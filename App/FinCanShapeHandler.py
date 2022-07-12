@@ -267,12 +267,8 @@ class FinCanShapeHandler(FinShapeHandler):
                 lug.rotate(FreeCAD.Vector(0,0,0), FreeCAD.Vector(1,0,0), self._obj.FinSpacing / 2.0)
 
                 return lug
-            except BaseException as ex:
-                print(ex)
-                print(f"Unexpected {ex=}, {type(ex)=}")
+            except:
                 _err(translate('Rocket', "Launch lug parameters produce an invalid shape"))
-
-                raise ex
 
         return None
 
