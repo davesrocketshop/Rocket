@@ -213,6 +213,22 @@ class FinCanShapeHandler(FinShapeHandler):
         width = outer * math.sin(theta)
         return width
 
+    def _safeEllipse(self, major, minor, center_x, center_y, center_z):
+            majorVector = FreeCAD.Vector(center_x, center_y, center_z + major)
+            minorVector = FreeCAD.Vector(center_x, center_y + minor, center_z)
+            centerVector = FreeCAD.Vector(center_x, center_y, center_z)
+            if major < minor:
+                return Part.Ellipse(minorVector, majorVector, centerVector)
+            return Part.Ellipse(majorVector, minorVector, centerVector)
+
+    def _cutFillet(self, lug, major, minor, center_x, center_y, center_z):
+            ellipse = self._safeEllipse(major, minor, center_x, center_y, center_z)
+            wire = Part.Wire(ellipse.toShape())
+            face = Part.Face(wire)
+            fillet1 = face.extrude(FreeCAD.Vector(self._obj.LugLength, 0, 0))
+            return lug.cut(fillet1)
+
+
     def _launchLug(self):
         if self._obj.LaunchLug:
             try:
@@ -224,7 +240,12 @@ class FinCanShapeHandler(FinShapeHandler):
                 if self._obj.TrailingEdge != FINCAN_EDGE_SQUARE:
                     base += float(self._obj.TrailingLength)
 
-                point = FreeCAD.Vector(base, 0, outerRadius + self._obj.InnerDiameter / 2.0 + self._obj.Thickness)
+                if self._obj.LugThickness > self._obj.Thickness:
+                    lugCenterZ = radius + self._obj.LugThickness
+                else:
+                    lugCenterZ = radius + self._obj.Thickness
+
+                point = FreeCAD.Vector(base, 0, lugCenterZ + self._obj.InnerDiameter / 2.0)
                 direction = FreeCAD.Vector(1,0,0)
 
                 outer = Part.makeCylinder(outerRadius, self._obj.LugLength, point, direction)
@@ -232,29 +253,19 @@ class FinCanShapeHandler(FinShapeHandler):
 
                 # Make the fillet
                 point = FreeCAD.Vector(base, width, self._obj.InnerDiameter / 2.0)
-                filletBase = Part.makeBox(outerRadius + self._obj.Thickness, 2 * width, self._obj.LugLength, point, direction)
+                filletBase = Part.makeBox(lugCenterZ, 2 * width, self._obj.LugLength, point, direction)
                 lug = outer.fuse(filletBase)
-                # Part.show(lug)
 
                 center_x = base
                 center_y = width
-                center_z = outerRadius + self._obj.InnerDiameter / 2.0 + self._obj.Thickness
-                center = FreeCAD.Vector(center_x, center_y, center_z)
-                major  = outerRadius + self._obj.Thickness
+                center_z = lugCenterZ + self._obj.InnerDiameter / 2.0
+
+                major  = lugCenterZ
                 minor  = width - outerRadius
-                ellipse = Part.Ellipse(FreeCAD.Vector(center_x, center_y, center_z + major), FreeCAD.Vector(center_x, center_y + minor, center_z), center)
-                wire = Part.Wire(ellipse.toShape())
-                face = Part.Face(wire)
-                fillet1 = face.extrude(FreeCAD.Vector(self._obj.LugLength, 0, 0))
-                lug = lug.cut(fillet1)
+                lug = self._cutFillet(lug, major, minor, center_x, center_y, center_z)
 
                 center_y = -width
-                center = FreeCAD.Vector(center_x, center_y, center_z)
-                ellipse = Part.Ellipse(FreeCAD.Vector(center_x, center_y, center_z + major), FreeCAD.Vector(center_x, center_y + minor, center_z), center)
-                wire = Part.Wire(ellipse.toShape())
-                face = Part.Face(wire)
-                fillet2 = face.extrude(FreeCAD.Vector(self._obj.LugLength, 0, 0))
-                lug = lug.cut(fillet2)
+                lug = self._cutFillet(lug, major, minor, center_x, center_y, center_z)
 
                 # Add the sweeps
                 if self._obj.LaunchLugForwardSweep or self._obj.LaunchLugAftSweep:
@@ -274,8 +285,12 @@ class FinCanShapeHandler(FinShapeHandler):
                 lug.rotate(FreeCAD.Vector(0,0,0), FreeCAD.Vector(1,0,0), self._obj.FinSpacing / 2.0)
 
                 return lug
-            except:
+            except BaseException as ex:
+                print((ex))
+                print(f"Unexpected {ex=}, {type(ex)=}")
                 _err(translate('Rocket', "Launch lug parameters produce an invalid shape"))
+
+                raise ex
 
         return None
 

@@ -436,6 +436,9 @@ class _FinCanDialog(QDialog):
         self.lugThicknessInput.unit = 'mm'
         self.lugThicknessInput.setMinimumWidth(100)
 
+        self.lugAutoThicknessCheckbox = QtGui.QCheckBox(translate('Rocket', "auto"), self)
+        self.lugAutoThicknessCheckbox.setCheckState(QtCore.Qt.Checked)
+
         self.lugLengthLabel = QtGui.QLabel(translate('Rocket', "Length"), self)
 
         self.lugLengthInput = ui.createWidget("Gui::InputField")
@@ -498,6 +501,7 @@ class _FinCanDialog(QDialog):
 
         grid.addWidget(self.lugThicknessLabel, row, 0)
         grid.addWidget(self.lugThicknessInput, row, 1)
+        grid.addWidget(self.lugAutoThicknessCheckbox, row, 2)
         row += 1
 
         grid.addWidget(self.lugLengthLabel, row, 0)
@@ -570,8 +574,8 @@ class TaskPanelFinCan(QObject):
         self._finForm.lugInnerDiameterInput.textEdited.connect(self.onLugInnerDiameter)
         self._finForm.lugPresetsCombo.currentTextChanged.connect(self.onLugInnerDiameterPreset)
         self._finForm.lugThicknessInput.textEdited.connect(self.onLugThickness)
+        self._finForm.lugAutoThicknessCheckbox.stateChanged.connect(self.onLugAutoThickness)
         self._finForm.lugLengthInput.textEdited.connect(self.onLugLength)
-        self._finForm.lugAutoLengthCheckbox.stateChanged.connect(self.onLugAutoLength)
 
         self._finForm.forwardSweepGroup.toggled.connect(self.onForwardSweep)
         self._finForm.forwardSweepInput.textEdited.connect(self.onForwardSweepAngle)
@@ -626,6 +630,7 @@ class TaskPanelFinCan(QObject):
         self._obj.LugInnerDiameter = self._finForm.lugInnerDiameterInput.text()
         self._obj.LaunchLugPreset = str(self._finForm.lugPresetsCombo.currentText())
         self._obj.LugThickness = self._finForm.lugThicknessInput.text()
+        self._obj.LugAutoThickness = self._finForm.lugAutoThicknessCheckbox.isChecked()
         self._obj.LugLength = self._finForm.lugLengthInput.text()
         self._obj.LugAutoLength = self._finForm.lugAutoLengthCheckbox.isChecked()
 
@@ -673,6 +678,7 @@ class TaskPanelFinCan(QObject):
         self._finForm.lugInnerDiameterInput.setText(self._obj.LugInnerDiameter.UserString)
         self._finForm.lugPresetsCombo.setCurrentText(self._obj.LaunchLugPreset)
         self._finForm.lugThicknessInput.setText(self._obj.LugThickness.UserString)
+        self._finForm.lugAutoThicknessCheckbox.setChecked(self._obj.LugAutoThickness)
         self._finForm.lugLengthInput.setText(self._obj.LugLength.UserString)
         self._finForm.lugAutoLengthCheckbox.setChecked(self._obj.LugAutoLength)
 
@@ -688,6 +694,7 @@ class TaskPanelFinCan(QObject):
         self._sweepAngleFromLength(self._obj.SweepLength)
         self._enableLeadingEdge()
         self._enableTrailingEdge()
+        self._setLugAutoThicknessState()
         self._setLugAutoLengthState()
 
     def redraw(self):
@@ -1021,6 +1028,7 @@ class TaskPanelFinCan(QObject):
         try:
             self._obj.Thickness = FreeCAD.Units.Quantity(value).Value
             self._obj.ParentRadius = (self._obj.InnerDiameter / 2.0) # + self._obj.Thickness
+            self._setLugAutoThicknessState()
             self.redraw()
         except ValueError:
             pass
@@ -1123,6 +1131,20 @@ class TaskPanelFinCan(QObject):
             self.redraw()
         except ValueError:
             pass
+     
+    def _setLugAutoThicknessState(self):
+        self._finForm.lugThicknessInput.setEnabled(not self._obj.LugAutoThickness)
+        self._finForm.lugAutoThicknessCheckbox.setChecked(self._obj.LugAutoThickness)
+
+        if self._obj.LugAutoThickness:
+            self._obj.LugThickness = self._obj.Thickness
+            self._finForm.lugThicknessInput.setText(self._obj.Thickness.UserString)
+
+    def onLugAutoThickness(self, value):
+        self._obj.LugAutoThickness = value
+        self._setLugAutoThicknessState()
+
+        self.redraw()
         
     def onLugLength(self, value):
         try:

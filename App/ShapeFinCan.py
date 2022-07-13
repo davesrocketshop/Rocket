@@ -73,7 +73,9 @@ class ShapeFinCan(ShapeFin):
         if not hasattr(obj,"LugInnerDiameter"):
             obj.addProperty('App::PropertyLength', 'LugInnerDiameter', 'Fin', translate('App::Property', 'Diameter of the inside of the launch lug')).LugInnerDiameter = 3.56
         if not hasattr(obj,"LugThickness"):
-            obj.addProperty('App::PropertyLength', 'LugThickness', 'Fin', translate('App::Property', 'Thickness of the launch lug')).LugThickness = 1.0
+            obj.addProperty('App::PropertyLength', 'LugThickness', 'Fin', translate('App::Property', 'Thickness of the launch lug')).LugThickness = 1.5
+        if not hasattr(obj,"LugAutoThickness"):
+            obj.addProperty('App::PropertyBool', 'LugAutoThickness', 'Fin', translate('App::Property', 'Launch lug thickness is the same as the fin can')).LugAutoThickness = True
         if not hasattr(obj,"LugLength"):
             obj.addProperty('App::PropertyLength', 'LugLength', 'Fin', translate('App::Property', 'Length of the launch')).LugLength = 60.0
         if not hasattr(obj,"LugAutoLength"):
