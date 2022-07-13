@@ -38,7 +38,8 @@ from DraftTools import translate
 from App.Constants import FIN_TYPE_TRAPEZOID, FIN_TYPE_ELLIPSE, FIN_TYPE_SKETCH
 from App.Constants import FIN_CROSS_SAME, FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE, \
     FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE
-from App.Constants import FINCAN_CROSS_SQUARE, FINCAN_CROSS_ROUND, FINCAN_CROSS_TAPER
+from App.Constants import FINCAN_EDGE_SQUARE, FINCAN_EDGE_ROUND, FINCAN_EDGE_TAPER
+from App.Constants import FINCAN_PRESET_CUSTOM, FINCAN_PRESET_1_8, FINCAN_PRESET_3_16, FINCAN_PRESET_1_4
 
 from App.Utilities import _err, _toFloat
 
@@ -334,7 +335,7 @@ class _FinCanDialog(QDialog):
 
         self.canLeadingLabel = QtGui.QLabel(translate('Rocket', "Edge Style"), self)
 
-        self.canEdges = (FINCAN_CROSS_SQUARE, FINCAN_CROSS_ROUND, FINCAN_CROSS_TAPER)
+        self.canEdges = (FINCAN_EDGE_SQUARE, FINCAN_EDGE_ROUND, FINCAN_EDGE_TAPER)
         self.canLeadingCombo = QtGui.QComboBox(self)
         self.canLeadingCombo.addItems(self.canEdges)
 
@@ -423,6 +424,12 @@ class _FinCanDialog(QDialog):
         self.lugInnerDiameterInput.unit = 'mm'
         self.lugInnerDiameterInput.setMinimumWidth(100)
 
+        self.lugInnerDiameterPresetLabel = QtGui.QLabel(translate('Rocket', "Presets"), self)
+
+        self.lugPresets = (FINCAN_PRESET_CUSTOM, FINCAN_PRESET_1_8, FINCAN_PRESET_3_16, FINCAN_PRESET_1_4)
+        self.lugPresetsCombo = QtGui.QComboBox(self)
+        self.lugPresetsCombo.addItems(self.lugPresets)
+
         self.lugThicknessLabel = QtGui.QLabel(translate('Rocket', "Thickness"), self)
 
         self.lugThicknessInput = ui.createWidget("Gui::InputField")
@@ -482,6 +489,10 @@ class _FinCanDialog(QDialog):
         grid = QGridLayout()
 
         grid.addWidget(self.lugInnerDiameterLabel, row, 0)
+        grid.addWidget(self.lugPresetsCombo, row, 1)
+        grid.addWidget(self.lugInnerDiameterPresetLabel, row, 2)
+        row += 1
+
         grid.addWidget(self.lugInnerDiameterInput, row, 1)
         row += 1
 
@@ -557,6 +568,7 @@ class TaskPanelFinCan(QObject):
 
         self._finForm.lugGroup.toggled.connect(self.onLug)
         self._finForm.lugInnerDiameterInput.textEdited.connect(self.onLugInnerDiameter)
+        self._finForm.lugPresetsCombo.currentTextChanged.connect(self.onLugInnerDiameterPreset)
         self._finForm.lugThicknessInput.textEdited.connect(self.onLugThickness)
         self._finForm.lugLengthInput.textEdited.connect(self.onLugLength)
         self._finForm.lugAutoLengthCheckbox.stateChanged.connect(self.onLugAutoLength)
@@ -612,6 +624,7 @@ class TaskPanelFinCan(QObject):
 
         self._obj.LaunchLug = self._finForm.lugGroup.isChecked()
         self._obj.LugInnerDiameter = self._finForm.lugInnerDiameterInput.text()
+        self._obj.LaunchLugPreset = str(self._finForm.lugPresetsCombo.currentText())
         self._obj.LugThickness = self._finForm.lugThicknessInput.text()
         self._obj.LugLength = self._finForm.lugLengthInput.text()
         self._obj.LugAutoLength = self._finForm.lugAutoLengthCheckbox.isChecked()
@@ -658,6 +671,7 @@ class TaskPanelFinCan(QObject):
 
         self._finForm.lugGroup.setChecked(self._obj.LaunchLug)
         self._finForm.lugInnerDiameterInput.setText(self._obj.LugInnerDiameter.UserString)
+        self._finForm.lugPresetsCombo.setCurrentText(self._obj.LaunchLugPreset)
         self._finForm.lugThicknessInput.setText(self._obj.LugThickness.UserString)
         self._finForm.lugLengthInput.setText(self._obj.LugLength.UserString)
         self._finForm.lugAutoLengthCheckbox.setChecked(self._obj.LugAutoLength)
@@ -1027,7 +1041,7 @@ class TaskPanelFinCan(QObject):
 
 
     def _enableLeadingEdge(self):
-        if self._obj.LeadingEdge == FINCAN_CROSS_SQUARE:
+        if self._obj.LeadingEdge == FINCAN_EDGE_SQUARE:
             self._finForm.canLeadingLengthInput.setEnabled(False)
         else:
             self._finForm.canLeadingLengthInput.setEnabled(True)
@@ -1051,7 +1065,7 @@ class TaskPanelFinCan(QObject):
             pass
 
     def _enableTrailingEdge(self):
-        if self._obj.TrailingEdge == FINCAN_CROSS_SQUARE:
+        if self._obj.TrailingEdge == FINCAN_EDGE_SQUARE:
             self._finForm.canTrailingLengthInput.setEnabled(False)
         else:
             self._finForm.canTrailingLengthInput.setEnabled(True)
@@ -1082,10 +1096,27 @@ class TaskPanelFinCan(QObject):
     def onLugInnerDiameter(self, value):
         try:
             self._obj.LugInnerDiameter = FreeCAD.Units.Quantity(value).Value
+            self._finForm.lugPresetsCombo.setCurrentText(FINCAN_PRESET_CUSTOM)
             self.redraw()
         except ValueError:
             pass
-        
+
+    def _setLugDiameter(self, value):
+        try:
+            self._obj.LugInnerDiameter = value
+            self._finForm.lugInnerDiameterInput.setText(self._obj.LugInnerDiameter.UserString)
+            self.redraw()
+        except ValueError:
+            pass
+
+    def onLugInnerDiameterPreset(self, value):
+        if value == FINCAN_PRESET_1_8:
+            self._setLugDiameter(3.56)
+        elif value == FINCAN_PRESET_3_16:
+            self._setLugDiameter(5.56)
+        elif value == FINCAN_PRESET_1_4:
+            self._setLugDiameter(6.35)
+
     def onLugThickness(self, value):
         try:
             self._obj.LugThickness = FreeCAD.Units.Quantity(value).Value
@@ -1106,9 +1137,9 @@ class TaskPanelFinCan(QObject):
 
         if self._obj.LugAutoLength:
             length = float(self._obj.Length)
-            if self._obj.LeadingEdge != FINCAN_CROSS_SQUARE:
+            if self._obj.LeadingEdge != FINCAN_EDGE_SQUARE:
                 length -= float(self._obj.LeadingLength)
-            if self._obj.TrailingEdge != FINCAN_CROSS_SQUARE:
+            if self._obj.TrailingEdge != FINCAN_EDGE_SQUARE:
                 length -= float(self._obj.TrailingLength)
             self._obj.LugLength = length
             self._finForm.lugLengthInput.setText(self._obj.LugLength.UserString)

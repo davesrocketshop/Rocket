@@ -30,7 +30,7 @@ import math
 
 from DraftTools import translate
 
-from App.Constants import FINCAN_CROSS_SQUARE, FINCAN_CROSS_ROUND, FINCAN_CROSS_TAPER
+from App.Constants import FINCAN_EDGE_SQUARE, FINCAN_EDGE_ROUND, FINCAN_EDGE_TAPER
 from App.Utilities import _err
 
 from App.FinShapeHandler import FinShapeHandler
@@ -54,9 +54,9 @@ class FinCanShapeHandler(FinShapeHandler):
             return False
 
         edge = 0.0
-        if self._obj.LeadingEdge != FINCAN_CROSS_SQUARE:
+        if self._obj.LeadingEdge != FINCAN_EDGE_SQUARE:
             edge += float(self._obj.LeadingLength)
-        if self._obj.TrailingEdge != FINCAN_CROSS_SQUARE:
+        if self._obj.TrailingEdge != FINCAN_EDGE_SQUARE:
             edge += float(self._obj.TrailingLength)
         if edge > self._obj.Length:
             _err(translate('Rocket', "Fin can leading and trailing edges can not exceed total length"))
@@ -101,9 +101,9 @@ class FinCanShapeHandler(FinShapeHandler):
         return shape
 
     def _leadingEdge(self):
-        if self._obj.LeadingEdge == FINCAN_CROSS_ROUND:
+        if self._obj.LeadingEdge == FINCAN_EDGE_ROUND:
             return self._leadingRound()
-        elif self._obj.LeadingEdge == FINCAN_CROSS_TAPER:
+        elif self._obj.LeadingEdge == FINCAN_EDGE_TAPER:
             return self._leadingTaper()
         return None
 
@@ -144,9 +144,9 @@ class FinCanShapeHandler(FinShapeHandler):
         return shape
 
     def _trailingEdge(self):
-        if self._obj.TrailingEdge == FINCAN_CROSS_ROUND:
+        if self._obj.TrailingEdge == FINCAN_EDGE_ROUND:
             return self._trailingRound()
-        elif self._obj.TrailingEdge == FINCAN_CROSS_TAPER:
+        elif self._obj.TrailingEdge == FINCAN_EDGE_TAPER:
             return self._trailingTaper()
         return None
 
@@ -215,7 +215,7 @@ class FinCanShapeHandler(FinShapeHandler):
                 outerRadius = radius + self._obj.LugThickness
 
                 base = float(self._obj.RootChord - self._obj.Length + self._obj.LeadingEdgeOffset)
-                if self._obj.TrailingEdge != FINCAN_CROSS_SQUARE:
+                if self._obj.TrailingEdge != FINCAN_EDGE_SQUARE:
                     base += float(self._obj.TrailingLength)
 
                 point = FreeCAD.Vector(base, 0, outerRadius + self._obj.InnerDiameter / 2.0 + self._obj.Thickness)

@@ -25,8 +25,9 @@ __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
 from App.ShapeFin import ShapeFin
-from App.Constants import FIN_TYPE_TRAPEZOID, FIN_TYPE_ELLIPSE, FIN_TYPE_SKETCH, \
-                            FINCAN_CROSS_SQUARE, FINCAN_CROSS_ROUND, FINCAN_CROSS_TAPER
+from App.Constants import FIN_TYPE_TRAPEZOID, FIN_TYPE_ELLIPSE, FIN_TYPE_SKETCH
+from App.Constants import FINCAN_EDGE_SQUARE, FINCAN_EDGE_ROUND, FINCAN_EDGE_TAPER
+from App.Constants import FINCAN_PRESET_CUSTOM, FINCAN_PRESET_1_8, FINCAN_PRESET_3_16, FINCAN_PRESET_1_4
 
 from App.FinCanShapeHandler import FinCanTrapezoidShapeHandler
 from App.FinCanShapeHandler import FinCanEllipseShapeHandler
@@ -55,15 +56,15 @@ class ShapeFinCan(ShapeFin):
 
         if not hasattr(obj,"LeadingEdge"):
             obj.addProperty('App::PropertyEnumeration', 'LeadingEdge', 'Fin', translate('App::Property', 'Leading Edge'))
-        obj.LeadingEdge = [FINCAN_CROSS_SQUARE, FINCAN_CROSS_ROUND, FINCAN_CROSS_TAPER]
-        obj.LeadingEdge = FINCAN_CROSS_SQUARE
+        obj.LeadingEdge = [FINCAN_EDGE_SQUARE, FINCAN_EDGE_ROUND, FINCAN_EDGE_TAPER]
+        obj.LeadingEdge = FINCAN_EDGE_SQUARE
         if not hasattr(obj,"LeadingLength"):
             obj.addProperty('App::PropertyLength', 'LeadingLength', 'Fin', translate('App::Property', 'Leading Edge Length')).LeadingLength = 5.0
 
         if not hasattr(obj,"TrailingEdge"):
             obj.addProperty('App::PropertyEnumeration', 'TrailingEdge', 'Fin', translate('App::Property', 'Trailing Edge'))
-        obj.TrailingEdge = [FINCAN_CROSS_SQUARE, FINCAN_CROSS_ROUND, FINCAN_CROSS_TAPER]
-        obj.TrailingEdge = FINCAN_CROSS_SQUARE
+        obj.TrailingEdge = [FINCAN_EDGE_SQUARE, FINCAN_EDGE_ROUND, FINCAN_EDGE_TAPER]
+        obj.TrailingEdge = FINCAN_EDGE_SQUARE
         if not hasattr(obj,"TrailingLength"):
             obj.addProperty('App::PropertyLength', 'TrailingLength', 'Fin', translate('App::Property', 'Trailing Edge Length')).TrailingLength = 5.0
 
@@ -77,6 +78,14 @@ class ShapeFinCan(ShapeFin):
             obj.addProperty('App::PropertyLength', 'LugLength', 'Fin', translate('App::Property', 'Length of the launch')).LugLength = 60.0
         if not hasattr(obj,"LugAutoLength"):
             obj.addProperty('App::PropertyBool', 'LugAutoLength', 'Fin', translate('App::Property', 'Automatically adjust the length of the launch lug')).LugAutoLength = True
+
+        if not hasattr(obj, 'LaunchLugPreset'):
+            obj.addProperty('App::PropertyEnumeration', 'LaunchLugPreset', 'Fin', translate('App::Property', 'Launch lug size preset'))
+        obj.LaunchLugPreset = [FINCAN_PRESET_CUSTOM,
+                            FINCAN_PRESET_1_8, 
+                            FINCAN_PRESET_3_16,
+                            FINCAN_PRESET_1_4]
+        obj.LaunchLugPreset = FINCAN_PRESET_1_8
 
         if not hasattr(obj,"LaunchLugForwardSweep"):
             obj.addProperty('App::PropertyBool', 'LaunchLugForwardSweep', 'Fin', translate('App::Property', 'Forward side of the launch lug is swept')).LaunchLugForwardSweep = True
