@@ -29,12 +29,16 @@ from App.ShapeComponent import ShapeComponent
 from App.Constants import FIN_TYPE_TRAPEZOID, FIN_TYPE_ELLIPSE, FIN_TYPE_SKETCH
 from App.Constants import FIN_CROSS_SAME, FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE, \
     FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE
+from App.Constants import FIN_DEBUG_FULL, FIN_DEBUG_PROFILE_ONLY, FIN_DEBUG_MASK_ONLY
+from App.Constants import PROP_TRANSIENT, PROP_HIDDEN
 
 from App.FinTrapezoidShapeHandler import FinTrapezoidShapeHandler
 from App.FinEllipseShapeHandler import FinEllipseShapeHandler
 from App.FinSketchShapeHandler import FinSketchShapeHandler
 
 from DraftTools import translate
+
+DEBUG_SKETCH_FINS = 0 # Set > 0 when debugging sketch based fins
 
 class ShapeFin(ShapeComponent):
 
@@ -104,11 +108,32 @@ class ShapeFin(ShapeComponent):
         if not hasattr(obj,"TtwThickness"):
             obj.addProperty('App::PropertyLength', 'TtwThickness', 'Fin', translate('App::Property', 'TTW thickness')).TtwThickness = 1.0
 
+        # These are only exposed for fin cans
+        if not hasattr(obj,"FinSet"):
+            obj.addProperty('App::PropertyBool', 'FinSet', 'Fin', translate('App::Property', 'True when describing a set of fins')).FinSet = False
+        obj.setEditorMode('FinSet', PROP_TRANSIENT | PROP_HIDDEN)  # hide
+        if not hasattr(obj,"FinCount"):
+            obj.addProperty('App::PropertyInteger', 'FinCount', 'Fin', translate('App::Property', 'Number of fins in a radial pattern')).FinCount = 3
+        if not hasattr(obj,"FinSpacing"):
+            obj.addProperty('App::PropertyAngle', 'FinSpacing', 'Fin', translate('App::Property', 'Angle between consecutive fins')).FinSpacing = 120
+
+        # Hidden properties used for calculation
+        if not hasattr(obj,"ParentRadius"):
+            obj.addProperty('App::PropertyLength', 'ParentRadius', 'Fin', translate('App::Property', 'Parent radius')).ParentRadius = 20.0
+        obj.setEditorMode('ParentRadius', PROP_TRANSIENT | PROP_HIDDEN)  # hide
+
         if not hasattr(obj, "Profile"):
             obj.addProperty('App::PropertyLink', 'Profile', 'Fin', translate('App::Property', 'Custom fin sketch')).Profile = None
 
         if not hasattr(obj,"Shape"):
             obj.addProperty('Part::PropertyPartShape', 'Shape', 'Fin', translate('App::Property', 'Shape of the fin'))
+
+        # A transient property for debugging sketch based fins
+        if DEBUG_SKETCH_FINS > 0:
+            if not hasattr(obj,"DebugSketch"):
+                obj.addProperty('App::PropertyEnumeration', 'DebugSketch', 'Fin', translate('App::Property', 'Sketch based fin debugging options'), PROP_TRANSIENT)
+            obj.DebugSketch = [FIN_DEBUG_FULL, FIN_DEBUG_PROFILE_ONLY, FIN_DEBUG_MASK_ONLY]
+            obj.DebugSketch = FIN_DEBUG_FULL
 
     def execute(self, obj):
 

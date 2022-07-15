@@ -18,9 +18,9 @@
 # *   USA                                                                   *
 # *                                                                         *
 # ***************************************************************************
-"""Class for drawing fins"""
+"""Class for drawing fin cans"""
 
-__title__ = "FreeCAD Fins"
+__title__ = "FreeCAD Fin Can"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
     
@@ -28,16 +28,16 @@ import FreeCAD
 import FreeCADGui
 
 from App.Constants import FIN_TYPE_SKETCH
-from App.ShapeFin import ShapeFin
-from Ui.ViewFin import ViewProviderFin
+from App.ShapeFinCan import ShapeFinCan
+from Ui.ViewFinCan import ViewProviderFinCan
 # import Sketcher
 
 from DraftTools import translate
 
-def makeFin(name):
-    '''makeFin(name): makes a Fin'''
+def makeFinCan(name):
+    '''makeFinCan(name): makes a Fin Can'''
     obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
-    ShapeFin(obj)
+    ShapeFinCan(obj)
 
     # See if we have a sketch selected. If so, this is a custom fin
     for sketch in FreeCADGui.Selection.getSelection():
@@ -47,7 +47,7 @@ def makeFin(name):
             sketch.Visibility = False
 
     if FreeCAD.GuiUp:
-        ViewProviderFin(obj.ViewObject)
+        ViewProviderFinCan(obj.ViewObject)
 
         body=FreeCADGui.ActiveDocument.ActiveView.getActiveObject("pdbody")
         part=FreeCADGui.ActiveDocument.ActiveView.getActiveObject("part")
@@ -57,11 +57,11 @@ def makeFin(name):
             part.Group=part.Group+[obj]
     return obj
 
-class CmdFin:
+class CmdFinCan:
     def Activated(self):
-        FreeCAD.ActiveDocument.openTransaction("Create fin")
-        FreeCADGui.addModule("Ui.CmdFin")
-        FreeCADGui.doCommand("Ui.CmdFin.makeFin('Fin')")
+        FreeCAD.ActiveDocument.openTransaction("Create fin can")
+        FreeCADGui.addModule("Ui.CmdFinCan")
+        FreeCADGui.doCommand("Ui.CmdFinCan.makeFinCan('FinCan')")
         FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
 
     def IsActive(self):
@@ -70,6 +70,6 @@ class CmdFin:
         return False
         
     def GetResources(self):
-        return {'MenuText': translate("Rocket", 'Fin'),
-                'ToolTip': translate("Rocket", 'Fin design'),
-                'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Fin.svg"}
+        return {'MenuText': translate("Rocket", 'Fin Can'),
+                'ToolTip': translate("Rocket", 'Fin can design'),
+                'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_FinCan.svg"}

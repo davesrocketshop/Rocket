@@ -59,50 +59,50 @@ class _RailGuideDialog(QDialog):
 
         self.topWidthInput = ui.createWidget("Gui::InputField")
         self.topWidthInput.unit = 'mm'
-        self.topWidthInput.setFixedWidth(80)
+        self.topWidthInput.setMinimumWidth(100)
 
         self.middleWidthLabel = QtGui.QLabel(translate('Rocket', "Middle Width"), self)
 
         self.middleWidthInput = ui.createWidget("Gui::InputField")
         self.middleWidthInput.unit = 'mm'
-        self.middleWidthInput.setFixedWidth(80)
+        self.middleWidthInput.setMinimumWidth(100)
 
         self.baseWidthLabel = QtGui.QLabel(translate('Rocket', "Base Width"), self)
 
         self.baseWidthInput = ui.createWidget("Gui::InputField")
         self.baseWidthInput.unit = 'mm'
-        self.baseWidthInput.setFixedWidth(80)
+        self.baseWidthInput.setMinimumWidth(100)
 
         self.topThicknessLabel = QtGui.QLabel(translate('Rocket', "Top Thickness"), self)
 
         self.topThicknessInput = ui.createWidget("Gui::InputField")
         self.topThicknessInput.unit = 'mm'
-        self.topThicknessInput.setFixedWidth(80)
+        self.topThicknessInput.setMinimumWidth(100)
 
         self.baseThicknessLabel = QtGui.QLabel(translate('Rocket', "Base Thickness"), self)
 
         self.baseThicknessInput = ui.createWidget("Gui::InputField")
         self.baseThicknessInput.unit = 'mm'
-        self.baseThicknessInput.setFixedWidth(80)
+        self.baseThicknessInput.setMinimumWidth(100)
 
         self.thicknessLabel = QtGui.QLabel(translate('Rocket', "Total Thickness"), self)
 
         self.thicknessInput = ui.createWidget("Gui::InputField")
         self.thicknessInput.unit = 'mm'
-        self.thicknessInput.setFixedWidth(80)
+        self.thicknessInput.setMinimumWidth(100)
 
         self.lengthLabel = QtGui.QLabel(translate('Rocket', "Length"), self)
 
         self.lengthInput = ui.createWidget("Gui::InputField")
         self.lengthInput.unit = 'mm'
-        self.lengthInput.setFixedWidth(80)
+        self.lengthInput.setMinimumWidth(100)
 
         # Conformal base parameters
         self.diameterLabel = QtGui.QLabel(translate('Rocket', "Body Tube Diameter"), self)
 
         self.diameterInput = ui.createWidget("Gui::InputField")
         self.diameterInput.unit = 'mm'
-        self.diameterInput.setFixedWidth(80)
+        self.diameterInput.setMinimumWidth(100)
 
         self.autoDiameterCheckbox = QtGui.QCheckBox(translate('Rocket', "auto"), self)
         self.autoDiameterCheckbox.setCheckState(QtCore.Qt.Unchecked)
@@ -112,7 +112,7 @@ class _RailGuideDialog(QDialog):
 
         self.vAngleInput = ui.createWidget("Gui::InputField")
         self.vAngleInput.unit = 'deg'
-        self.vAngleInput.setFixedWidth(80)
+        self.vAngleInput.setMinimumWidth(100)
 
         # Sweep parameters
         self.forwardSweepGroup = QtGui.QGroupBox(translate('Rocket', "Forward Sweep"), self)
@@ -122,7 +122,7 @@ class _RailGuideDialog(QDialog):
 
         self.forwardSweepInput = ui.createWidget("Gui::InputField")
         self.forwardSweepInput.unit = 'deg'
-        self.forwardSweepInput.setFixedWidth(80)
+        self.forwardSweepInput.setMinimumWidth(100)
 
         self.aftSweepGroup = QtGui.QGroupBox(translate('Rocket', "Aft Sweep"), self)
         self.aftSweepGroup.setCheckable(True)
@@ -131,7 +131,7 @@ class _RailGuideDialog(QDialog):
 
         self.aftSweepInput = ui.createWidget("Gui::InputField")
         self.aftSweepInput.unit = 'deg'
-        self.aftSweepInput.setFixedWidth(80)
+        self.aftSweepInput.setMinimumWidth(100)
 
         # Notch parameters
         self.notchGroup = QtGui.QGroupBox(translate('Rocket', "Notch"), self)
@@ -141,13 +141,13 @@ class _RailGuideDialog(QDialog):
 
         self.notchWidthInput = ui.createWidget("Gui::InputField")
         self.notchWidthInput.unit = 'mm'
-        self.notchWidthInput.setFixedWidth(80)
+        self.notchWidthInput.setMinimumWidth(100)
 
         self.notchDepthLabel = QtGui.QLabel(translate('Rocket', "Depth"), self)
 
         self.notchDepthInput = ui.createWidget("Gui::InputField")
         self.notchDepthInput.unit = 'mm'
-        self.notchDepthInput.setFixedWidth(80)
+        self.notchDepthInput.setMinimumWidth(100)
 
         # Forward sweep group
         row = 0

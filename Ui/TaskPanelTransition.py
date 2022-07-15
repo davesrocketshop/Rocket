@@ -89,7 +89,7 @@ class _TransitionDialog(QDialog):
         self.coefficientValidator.setBottom(0.0)
 
         self.coefficientInput = QtGui.QLineEdit(self)
-        self.coefficientInput.setFixedWidth(80)
+        self.coefficientInput.setMinimumWidth(100)
         self.coefficientInput.setValidator(self.coefficientValidator)
         self.coefficientInput.setEnabled(False)
 
@@ -108,31 +108,31 @@ class _TransitionDialog(QDialog):
 
         self.lengthInput = ui.createWidget("Gui::InputField")
         self.lengthInput.unit = 'mm'
-        self.lengthInput.setFixedWidth(80)
+        self.lengthInput.setMinimumWidth(100)
 
         self.foreDiameterLabel = QtGui.QLabel(translate('Rocket', "Forward Diameter"), self)
 
         self.foreDiameterInput = ui.createWidget("Gui::InputField")
         self.foreDiameterInput.unit = 'mm'
-        self.foreDiameterInput.setFixedWidth(80)
+        self.foreDiameterInput.setMinimumWidth(100)
 
         self.aftDiameterLabel = QtGui.QLabel(translate('Rocket', "Aft Diameter"), self)
 
         self.aftDiameterInput = ui.createWidget("Gui::InputField")
         self.aftDiameterInput.unit = 'mm'
-        self.aftDiameterInput.setFixedWidth(80)
+        self.aftDiameterInput.setMinimumWidth(100)
 
         self.coreDiameterLabel = QtGui.QLabel(translate('Rocket', "Core Diameter"), self)
 
         self.coreDiameterInput = ui.createWidget("Gui::InputField")
         self.coreDiameterInput.unit = 'mm'
-        self.coreDiameterInput.setFixedWidth(80)
+        self.coreDiameterInput.setMinimumWidth(100)
 
         self.thicknessLabel = QtGui.QLabel(translate('Rocket', "Thickness"), self)
 
         self.thicknessInput = ui.createWidget("Gui::InputField")
         self.thicknessInput.unit = 'mm'
-        self.thicknessInput.setFixedWidth(80)
+        self.thicknessInput.setMinimumWidth(100)
 
         row = 0
         layout = QGridLayout()
@@ -183,19 +183,19 @@ class _TransitionDialog(QDialog):
 
         self.foreShoulderDiameterInput = ui.createWidget("Gui::InputField")
         self.foreShoulderDiameterInput.unit = 'mm'
-        self.foreShoulderDiameterInput.setFixedWidth(80)
+        self.foreShoulderDiameterInput.setMinimumWidth(100)
 
         self.foreShoulderLengthLabel = QtGui.QLabel(translate('Rocket', "Length"), self)
 
         self.foreShoulderLengthInput = ui.createWidget("Gui::InputField")
         self.foreShoulderLengthInput.unit = 'mm'
-        self.foreShoulderLengthInput.setFixedWidth(80)
+        self.foreShoulderLengthInput.setMinimumWidth(100)
 
         self.foreShoulderThicknessLabel = QtGui.QLabel(translate('Rocket', "Thickness"), self)
 
         self.foreShoulderThicknessInput = ui.createWidget("Gui::InputField")
         self.foreShoulderThicknessInput.unit = 'mm'
-        self.foreShoulderThicknessInput.setFixedWidth(80)
+        self.foreShoulderThicknessInput.setMinimumWidth(100)
 
         self.aftGroup = QtGui.QGroupBox(translate('Rocket', "Aft Shoulder"), self)
         self.aftGroup.setCheckable(True)
@@ -204,19 +204,19 @@ class _TransitionDialog(QDialog):
 
         self.aftShoulderDiameterInput = ui.createWidget("Gui::InputField")
         self.aftShoulderDiameterInput.unit = 'mm'
-        self.aftShoulderDiameterInput.setFixedWidth(80)
+        self.aftShoulderDiameterInput.setMinimumWidth(100)
 
         self.aftShoulderLengthLabel = QtGui.QLabel(translate('Rocket', "Length"), self)
 
         self.aftShoulderLengthInput = ui.createWidget("Gui::InputField")
         self.aftShoulderLengthInput.unit = 'mm'
-        self.aftShoulderLengthInput.setFixedWidth(80)
+        self.aftShoulderLengthInput.setMinimumWidth(100)
 
         self.aftShoulderThicknessLabel = QtGui.QLabel(translate('Rocket', "Thickness"), self)
 
         self.aftShoulderThicknessInput = ui.createWidget("Gui::InputField")
         self.aftShoulderThicknessInput.unit = 'mm'
-        self.aftShoulderThicknessInput.setFixedWidth(80)
+        self.aftShoulderThicknessInput.setMinimumWidth(100)
 
         row = 0
         layout = QGridLayout()
