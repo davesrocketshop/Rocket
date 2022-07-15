@@ -339,17 +339,14 @@ class FinCanShapeHandler(FinShapeHandler):
 class FinCanTrapezoidShapeHandler(FinCanShapeHandler, FinTrapezoidShapeHandler):
 
     def __init__(self, obj):
-        FinCanShapeHandler.__init__(self, obj)
-        FinTrapezoidShapeHandler.__init__(self, obj)
+        super().__init__(obj)
 
 class FinCanEllipseShapeHandler(FinCanShapeHandler, FinEllipseShapeHandler):
 
     def __init__(self, obj):
-        FinCanShapeHandler.__init__(self, obj)
-        FinEllipseShapeHandler.__init__(self, obj)
+        super().__init__(obj)
 
 class FinCanSketchShapeHandler(FinCanShapeHandler, FinSketchShapeHandler):
 
     def __init__(self, obj):
-        FinCanShapeHandler.__init__(self, obj)
-        FinSketchShapeHandler.__init__(self, obj)
+        super().__init__(obj)
