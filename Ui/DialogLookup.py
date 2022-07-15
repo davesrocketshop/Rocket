@@ -84,7 +84,7 @@ class ProxyModel(QSortFilterProxyModel):
                 rightQty = FreeCAD.Units.Quantity(rightData)
 
                 return leftQty < rightQty
-        except:
+        except Exception:
             pass
 
         return super().lessThan(left, right)

@@ -288,12 +288,8 @@ class FinCanShapeHandler(FinShapeHandler):
                 lug.rotate(FreeCAD.Vector(0,0,0), FreeCAD.Vector(1,0,0), self._obj.FinSpacing / 2.0)
 
                 return lug
-            except BaseException as ex:
-                # print((ex))
-                # print(f"Unexpected {ex=}, {type(ex)=}")
+            except Exception:
                 _err(translate('Rocket', "Launch lug parameters produce an invalid shape"))
-
-                # raise ex
 
         return None
 
@@ -343,14 +339,14 @@ class FinCanShapeHandler(FinShapeHandler):
 class FinCanTrapezoidShapeHandler(FinCanShapeHandler, FinTrapezoidShapeHandler):
 
     def __init__(self, obj):
-        super().__init__(obj)
+        FinCanShapeHandler.__init__(self, obj)
 
 class FinCanEllipseShapeHandler(FinCanShapeHandler, FinEllipseShapeHandler):
 
     def __init__(self, obj):
-        super().__init__(obj)
+        FinCanShapeHandler.__init__(self, obj)
 
 class FinCanSketchShapeHandler(FinCanShapeHandler, FinSketchShapeHandler):
 
     def __init__(self, obj):
-        super().__init__(obj)
+        FinCanShapeHandler.__init__(self, obj)
