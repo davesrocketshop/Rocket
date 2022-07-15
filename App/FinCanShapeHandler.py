@@ -336,17 +336,17 @@ class FinCanShapeHandler(FinShapeHandler):
             _err(translate('Rocket', "Fin can parameters produce an invalid shape"))
             return
 
-class FinCanTrapezoidShapeHandler(FinCanShapeHandler, FinTrapezoidShapeHandler):
+class FinCanTrapezoidShapeHandler(FinCanShapeHandler, FinTrapezoidShapeHandler): # lgtm [py/missing-call-to-init]
 
     def __init__(self, obj):
         super().__init__(obj)
 
-class FinCanEllipseShapeHandler(FinCanShapeHandler, FinEllipseShapeHandler):
+class FinCanEllipseShapeHandler(FinCanShapeHandler, FinEllipseShapeHandler): # lgtm [py/missing-call-to-init]
 
     def __init__(self, obj):
         super().__init__(obj)
 
-class FinCanSketchShapeHandler(FinCanShapeHandler, FinSketchShapeHandler):
+class FinCanSketchShapeHandler(FinCanShapeHandler, FinSketchShapeHandler): # lgtm [py/missing-call-to-init]
 
     def __init__(self, obj):
         super().__init__(obj)
