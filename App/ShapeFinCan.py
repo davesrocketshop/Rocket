@@ -81,7 +81,7 @@ class ShapeFinCan(ShapeFin):
         if not hasattr(obj,"LugAutoLength"):
             obj.addProperty('App::PropertyBool', 'LugAutoLength', 'Fin', translate('App::Property', 'Automatically adjust the length of the launch lug')).LugAutoLength = True
         if not hasattr(obj,"LugFilletRadius"):
-            obj.addProperty('App::PropertyLength', 'LugFilletRadius', 'Fin', translate('App::Property', 'Launch lug fillet radius')).LugFilletRadius = 1.0
+            obj.addProperty('App::PropertyLength', 'LugFilletRadius', 'Fin', translate('App::Property', 'Launch lug fillet radius')).LugFilletRadius = 3.0
 
         if not hasattr(obj, 'LaunchLugPreset'):
             obj.addProperty('App::PropertyEnumeration', 'LaunchLugPreset', 'Fin', translate('App::Property', 'Launch lug size preset'))
