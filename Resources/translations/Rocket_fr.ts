@@ -114,112 +114,112 @@
       <translation>Matériau du composant</translation>
     </message>
     <message>
-      <location filename="ShapeFin.py" line="45"/>
+      <location filename="ShapeFin.py" line="49"/>
       <source>Fin type</source>
       <translation>Type d'ailette</translation>
     </message>
     <message>
-      <location filename="ShapeFin.py" line="54"/>
+      <location filename="ShapeFin.py" line="58"/>
       <source>Fin root cross section</source>
       <translation>Section transversale de la racine de l'ailette</translation>
     </message>
     <message>
-      <location filename="ShapeFin.py" line="60"/>
+      <location filename="ShapeFin.py" line="64"/>
       <source>Length of the base of the fin</source>
       <translation>Longueur de la base de l'ailette</translation>
     </message>
     <message>
-      <location filename="ShapeFin.py" line="62"/>
+      <location filename="ShapeFin.py" line="66"/>
       <source>Fin root thickness</source>
       <translation>Épaisseur de la racine de l'ailette</translation>
     </message>
     <message>
-      <location filename="ShapeFin.py" line="64"/>
+      <location filename="ShapeFin.py" line="68"/>
       <source>Root chord lengths are percentages</source>
       <translation>Les longueurs de corde de racine sont des pourcentages</translation>
     </message>
     <message>
-      <location filename="ShapeFin.py" line="66"/>
+      <location filename="ShapeFin.py" line="70"/>
       <source>Root chord length 1</source>
       <translation>Longueur de corde de racine 1</translation>
     </message>
     <message>
-      <location filename="ShapeFin.py" line="68"/>
+      <location filename="ShapeFin.py" line="72"/>
       <source>Root chord length 2</source>
       <translation>Longueur de corde de racine 2</translation>
     </message>
     <message>
-      <location filename="ShapeFin.py" line="71"/>
+      <location filename="ShapeFin.py" line="75"/>
       <source>Fin tip cross section</source>
       <translation>Section transversale de l'extrêmité de l'ailette</translation>
     </message>
     <message>
-      <location filename="ShapeFin.py" line="77"/>
+      <location filename="ShapeFin.py" line="81"/>
       <source>Length of the tip of the fin</source>
       <translation>Longueur de l'extrémité de l'ailette</translation>
     </message>
     <message>
-      <location filename="ShapeFin.py" line="83"/>
+      <location filename="ShapeFin.py" line="87"/>
       <source>Fin tip thickness</source>
       <translation>Épaisseur de l’extrémité de l'ailette</translation>
     </message>
     <message>
-      <location filename="ShapeFin.py" line="81"/>
+      <location filename="ShapeFin.py" line="85"/>
       <source>Tip chord lengths are percentages</source>
       <translation>Les longueurs de corde d’extrémité sont des pourcentages</translation>
     </message>
     <message>
-      <location filename="ShapeFin.py" line="85"/>
+      <location filename="ShapeFin.py" line="89"/>
       <source>Tip chord length 1</source>
       <translation>Longueur de corde d’extrémité 1</translation>
     </message>
     <message>
-      <location filename="ShapeFin.py" line="87"/>
+      <location filename="ShapeFin.py" line="91"/>
       <source>Tip chord length 2</source>
       <translation>Longueur de corde d’extrémité 1</translation>
     </message>
     <message>
-      <location filename="ShapeFin.py" line="90"/>
+      <location filename="ShapeFin.py" line="94"/>
       <source>Fin semi-span</source>
       <translation>Demi-portée de l'ailette</translation>
     </message>
     <message>
-      <location filename="ShapeFin.py" line="92"/>
+      <location filename="ShapeFin.py" line="96"/>
       <source>Sweep length</source>
       <translation>Longueur de balayage</translation>
     </message>
     <message>
-      <location filename="ShapeFin.py" line="94"/>
+      <location filename="ShapeFin.py" line="98"/>
       <source>Sweep angle</source>
       <translation>Angle de balayage</translation>
     </message>
     <message>
-      <location filename="ShapeFin.py" line="97"/>
+      <location filename="ShapeFin.py" line="101"/>
       <source>Through the wall (TTW) tab</source>
       <translation>Languette "à travers le mur" (ATLM)</translation>
     </message>
     <message>
-      <location filename="ShapeFin.py" line="99"/>
+      <location filename="ShapeFin.py" line="103"/>
       <source>TTW Offset from fin root</source>
       <translation>Décalage ATLM depuis la racine de l'ailette</translation>
     </message>
     <message>
-      <location filename="ShapeFin.py" line="101"/>
+      <location filename="ShapeFin.py" line="105"/>
       <source>TTW Length</source>
       <translation>Longueur ATLM</translation>
     </message>
     <message>
-      <location filename="ShapeFin.py" line="103"/>
+      <location filename="ShapeFin.py" line="107"/>
       <source>TTW Height</source>
       <translation>Hauteur ATLM</translation>
     </message>
     <message>
-      <location filename="ShapeFin.py" line="105"/>
+      <location filename="ShapeFin.py" line="109"/>
       <source>TTW thickness</source>
       <translation>Épaisseur ATLM</translation>
     </message>
     <message>
-      <location filename="ShapeFin.py" line="111"/>
+      <location filename="ShapeFin.py" line="129"/>
       <source>Shape of the fin</source>
       <translation>Forme de l'ailette</translation>
     </message>
@@ -371,187 +371,312 @@
     <message>
       <location filename="ShapeBodyTube.py" line="44"/>
       <source>Length of the body tube</source>
-      <translation type="unfinished">Length of the body tube</translation>
+      <translation>Longueur du tube du corps</translation>
     </message>
     <message>
-      <location filename="ShapeFin.py" line="108"/>
+      <location filename="ShapeFin.py" line="126"/>
       <source>Custom fin sketch</source>
-      <translation type="unfinished">Custom fin sketch</translation>
+      <translation>Esquisse de l'aileron personnalisé</translation>
     </message>
     <message>
       <location filename="ShapeRailGuide.py" line="42"/>
       <source>Rail guide base type</source>
-      <translation type="unfinished">Rail guide base type</translation>
+      <translation>Type de base de guidage du rail</translation>
     </message>
     <message>
       <location filename="ShapeRailGuide.py" line="50"/>
       <source>Width of the top of the launch guide</source>
-      <translation type="unfinished">Width of the top of the launch guide</translation>
+      <translation>Largeur du haut du guide de lancement</translation>
     </message>
     <message>
       <location filename="ShapeRailGuide.py" line="52"/>
       <source>Width of the inside of the launch guide</source>
-      <translation type="unfinished">Width of the inside of the launch guide</translation>
+      <translation>Largeur de l'intérieur du guide de lancement</translation>
     </message>
     <message>
       <location filename="ShapeRailGuide.py" line="54"/>
       <source>Width of the base or bottom of the launch guide</source>
-      <translation type="unfinished">Width of the base or bottom of the launch guide</translation>
+      <translation>Largeur de la base ou du fond du guide de lancement</translation>
     </message>
     <message>
       <location filename="ShapeRailGuide.py" line="56"/>
       <source>Thickness of the top part of the launch guide</source>
-      <translation type="unfinished">Thickness of the top part of the launch guide</translation>
+      <translation>Épaisseur de la partie supérieure du guide de lancement</translation>
     </message>
     <message>
       <location filename="ShapeRailGuide.py" line="58"/>
       <source>Thickness of the inside part of the launch guide</source>
-      <translation type="unfinished">Thickness of the inside part of the launch guide</translation>
+      <translation>Épaisseur de la partie intérieure du guide de lancement</translation>
     </message>
     <message>
       <location filename="ShapeRailGuide.py" line="60"/>
       <source>Total thickness of the launch guide</source>
-      <translation type="unfinished">Total thickness of the launch guide</translation>
+      <translation>Épaisseur totale du guide de lancement</translation>
     </message>
     <message>
       <location filename="ShapeRailGuide.py" line="62"/>
       <source>Length of the launch guide</source>
-      <translation type="unfinished">Length of the launch guide</translation>
+      <translation>Longueur du guide de lancement</translation>
     </message>
     <message>
       <location filename="ShapeRailGuide.py" line="64"/>
       <source>Diameter of the outside of the body tube for conformal base type</source>
-      <translation type="unfinished">Diameter of the outside of the body tube for conformal base type</translation>
+      <translation>Diamètre de l'extérieur du tube du corps pour le type de base conforme</translation>
     </message>
     <message>
       <location filename="ShapeRailGuide.py" line="66"/>
       <source>Automatically set the diameter when possible</source>
-      <translation type="unfinished">Automatically set the diameter when possible</translation>
+      <translation>Définir automatiquement le diamètre lorsque cela est possible</translation>
     </message>
     <message>
       <location filename="ShapeRailGuide.py" line="68"/>
       <source>Angle for V base type</source>
-      <translation type="unfinished">Angle for V base type</translation>
+      <translation>Angle pour le type de base V</translation>
     </message>
     <message>
       <location filename="ShapeRailGuide.py" line="70"/>
       <source>The component has a sweep at the forward end</source>
-      <translation type="unfinished">The component has a sweep at the forward end</translation>
+      <translation>Le composant présente un balayage à l'extrémité avant</translation>
     </message>
     <message>
       <location filename="ShapeRailGuide.py" line="72"/>
       <source>Angle for the forward end sweep</source>
-      <translation type="unfinished">Angle for the forward end sweep</translation>
+      <translation>Angle pour le balayage de l'extrémité avant</translation>
     </message>
     <message>
       <location filename="ShapeRailGuide.py" line="74"/>
       <source>The component has a sweep at the aft end</source>
-      <translation type="unfinished">The component has a sweep at the aft end</translation>
+      <translation>L'élément est doté d'un balayage à l'extrémité arrière</translation>
     </message>
     <message>
       <location filename="ShapeRailGuide.py" line="76"/>
       <source>Angle for the aft end sweep</source>
-      <translation type="unfinished">Angle for the aft end sweep</translation>
+      <translation>Angle pour le balayage de l'extrémité arrière</translation>
     </message>
     <message>
       <location filename="ShapeRailGuide.py" line="78"/>
       <source>The component has a notch down the middle</source>
-      <translation type="unfinished">The component has a notch down the middle</translation>
+      <translation>Le composant a une encoche au milieu</translation>
     </message>
     <message>
       <location filename="ShapeRailGuide.py" line="80"/>
       <source>Width of the notch</source>
-      <translation type="unfinished">Width of the notch</translation>
+      <translation>Largeur de l'encoche</translation>
     </message>
     <message>
       <location filename="ShapeRailGuide.py" line="82"/>
       <source>Depth of the notch</source>
-      <translation type="unfinished">Depth of the notch</translation>
+      <translation>Profondeur de l'encoche</translation>
     </message>
     <message>
       <location filename="ShapeRailGuide.py" line="85"/>
       <source>Shape of the launch guide</source>
-      <translation type="unfinished">Shape of the launch guide</translation>
+      <translation>Forme du guide de lancement</translation>
     </message>
     <message>
       <location filename="ShapeRailButton.py" line="51"/>
       <source>Rail button type</source>
-      <translation type="unfinished">Rail button type</translation>
+      <translation>Type de bouton rail</translation>
     </message>
     <message>
       <location filename="ShapeRailButton.py" line="58"/>
       <source>Diameter of the outside of the rail button</source>
-      <translation type="unfinished">Diameter of the outside of the rail button</translation>
+      <translation>Diamètre de l'extérieur du bouton du rail</translation>
     </message>
     <message>
       <location filename="ShapeRailButton.py" line="60"/>
       <source>Diameter of the inside of the rail button</source>
-      <translation type="unfinished">Diameter of the inside of the rail button</translation>
+      <translation>Diamètre de l'intérieur du bouton du rail</translation>
     </message>
     <message>
       <location filename="ShapeRailButton.py" line="62"/>
       <source>Thickness of the outboard part of the rail button</source>
-      <translation type="unfinished">Thickness of the outboard part of the rail button</translation>
+      <translation>Épaisseur de la partie extérieure du bouton de rail</translation>
     </message>
     <message>
       <location filename="ShapeRailButton.py" line="64"/>
       <source>Thickness of the inside part of the rail button</source>
-      <translation type="unfinished">Thickness of the inside part of the rail button</translation>
+      <translation>Épaisseur de la partie intérieure du bouton de rail</translation>
     </message>
     <message>
       <location filename="ShapeRailButton.py" line="66"/>
       <source>Total thickness of the rail button</source>
-      <translation type="unfinished">Total thickness of the rail button</translation>
+      <translation>Épaisseur totale du bouton de rail</translation>
     </message>
     <message>
       <location filename="ShapeRailButton.py" line="68"/>
       <source>Length of the rail button</source>
-      <translation type="unfinished">Length of the rail button</translation>
+      <translation>Longueur du bouton du rail</translation>
     </message>
     <message>
       <location filename="ShapeRailButton.py" line="72"/>
       <source>Create a countersunk hole for the fastener</source>
-      <translation type="unfinished">Create a countersunk hole for the fastener</translation>
+      <translation>Créez un trou fraisé pour la fixation</translation>
     </message>
     <message>
       <location filename="ShapeRailButton.py" line="74"/>
       <source>Fastener countersink angle</source>
-      <translation type="unfinished">Fastener countersink angle</translation>
+      <translation>Angle de fraisage de l'élément de fixation</translation>
     </message>
     <message>
       <location filename="ShapeRailButton.py" line="84"/>
       <source>Fastener shank diameter</source>
-      <translation type="unfinished">Fastener shank diameter</translation>
+      <translation>Diamètre de la tige de l'attache</translation>
     </message>
     <message>
       <location filename="ShapeRailButton.py" line="86"/>
       <source>Fastener head diameter</source>
-      <translation type="unfinished">Fastener head diameter</translation>
+      <translation>Diamètre de la tête de l'attache</translation>
     </message>
     <message>
       <location filename="ShapeRailButton.py" line="89"/>
       <source>Apply a fillet to the top of the rail button</source>
-      <translation type="unfinished">Apply a fillet to the top of the rail button</translation>
+      <translation>Appliquer un congé au sommet du bouton du rail</translation>
     </message>
     <message>
       <location filename="ShapeRailButton.py" line="91"/>
       <source>Fillet radius</source>
-      <translation type="unfinished">Fillet radius</translation>
+      <translation>Rayon du congé</translation>
     </message>
     <message>
       <location filename="ShapeRailButton.py" line="94"/>
       <source>Shape of the rail button</source>
-      <translation type="unfinished">Shape of the rail button</translation>
+      <translation>Forme du bouton du rail</translation>
     </message>
     <message>
       <location filename="ShapeNoseCone.py" line="98"/>
       <source>Nose Radius for a blunted nose cone</source>
-      <translation type="unfinished">Nose Radius for a blunted nose cone</translation>
+      <translation>Rayon de la coiffe pour un cône de coiffe émoussé</translation>
     </message>
     <message>
       <location filename="ShapeNoseCone.py" line="114"/>
       <source>The radius of the circle used to define a secant ogive</source>
-      <translation type="unfinished">The radius of the circle used to define a secant ogive</translation>
+      <translation>Le rayon du cercle utilisé pour définir une ogive sécante</translation>
+    </message>
+    <message>
+      <location filename="ShapeFin.py" line="113"/>
+      <source>True when describing a set of fins</source>
+      <translation type="unfinished">True when describing a set of fins</translation>
+    </message>
+    <message>
+      <location filename="ShapeFin.py" line="116"/>
+      <source>Number of fins in a radial pattern</source>
+      <translation type="unfinished">Number of fins in a radial pattern</translation>
+    </message>
+    <message>
+      <location filename="ShapeFin.py" line="118"/>
+      <source>Angle between consecutive fins</source>
+      <translation type="unfinished">Angle between consecutive fins</translation>
+    </message>
+    <message>
+      <location filename="ShapeFin.py" line="122"/>
+      <source>Parent radius</source>
+      <translation type="unfinished">Parent radius</translation>
+    </message>
+    <message>
+      <location filename="ShapeFin.py" line="134"/>
+      <source>Sketch based fin debugging options</source>
+      <translation type="unfinished">Sketch based fin debugging options</translation>
+    </message>
+    <message>
+      <location filename="ShapeFinCan.py" line="49"/>
+      <source>Diameter of the inside of the fin can</source>
+      <translation type="unfinished">Diameter of the inside of the fin can</translation>
+    </message>
+    <message>
+      <location filename="ShapeFinCan.py" line="51"/>
+      <source>Thickness of the fin can</source>
+      <translation type="unfinished">Thickness of the fin can</translation>
+    </message>
+    <message>
+      <location filename="ShapeFinCan.py" line="53"/>
+      <source>Length of the fin can</source>
+      <translation type="unfinished">Length of the fin can</translation>
+    </message>
+    <message>
+      <location filename="ShapeFinCan.py" line="55"/>
+      <source>Distance between the fin can leading edge and the fin leading edge</source>
+      <translation type="unfinished">Distance between the fin can leading edge and the fin leading edge</translation>
+    </message>
+    <message>
+      <location filename="ShapeFinCan.py" line="58"/>
+      <source>Leading Edge</source>
+      <translation type="unfinished">Leading Edge</translation>
+    </message>
+    <message>
+      <location filename="ShapeFinCan.py" line="62"/>
+      <source>Leading Edge Length</source>
+      <translation type="unfinished">Leading Edge Length</translation>
+    </message>
+    <message>
+      <location filename="ShapeFinCan.py" line="65"/>
+      <source>Trailing Edge</source>
+      <translation type="unfinished">Trailing Edge</translation>
+    </message>
+    <message>
+      <location filename="ShapeFinCan.py" line="69"/>
+      <source>Trailing Edge Length</source>
+      <translation type="unfinished">Trailing Edge Length</translation>
+    </message>
+    <message>
+      <location filename="ShapeFinCan.py" line="72"/>
+      <source>Fin can includes a launch lug</source>
+      <translation type="unfinished">Fin can includes a launch lug</translation>
+    </message>
+    <message>
+      <location filename="ShapeFinCan.py" line="74"/>
+      <source>Diameter of the inside of the launch lug</source>
+      <translation type="unfinished">Diameter of the inside of the launch lug</translation>
+    </message>
+    <message>
+      <location filename="ShapeFinCan.py" line="76"/>
+      <source>Thickness of the launch lug</source>
+      <translation type="unfinished">Thickness of the launch lug</translation>
+    </message>
+    <message>
+      <location filename="ShapeFinCan.py" line="78"/>
+      <source>Launch lug thickness is the same as the fin can</source>
+      <translation type="unfinished">Launch lug thickness is the same as the fin can</translation>
+    </message>
+    <message>
+      <location filename="ShapeFinCan.py" line="80"/>
+      <source>Length of the launch</source>
+      <translation type="unfinished">Length of the launch</translation>
+    </message>
+    <message>
+      <location filename="ShapeFinCan.py" line="82"/>
+      <source>Automatically adjust the length of the launch lug</source>
+      <translation type="unfinished">Automatically adjust the length of the launch lug</translation>
+    </message>
+    <message>
+      <location filename="ShapeFinCan.py" line="84"/>
+      <source>Launch lug fillet radius</source>
+      <translation type="unfinished">Launch lug fillet radius</translation>
+    </message>
+    <message>
+      <location filename="ShapeFinCan.py" line="87"/>
+      <source>Launch lug size preset</source>
+      <translation type="unfinished">Launch lug size preset</translation>
+    </message>
+    <message>
+      <location filename="ShapeFinCan.py" line="95"/>
+      <source>Forward side of the launch lug is swept</source>
+      <translation type="unfinished">Forward side of the launch lug is swept</translation>
+    </message>
+    <message>
+      <location filename="ShapeFinCan.py" line="97"/>
+      <source>Forward sweep angle</source>
+      <translation type="unfinished">Forward sweep angle</translation>
+    </message>
+    <message>
+      <location filename="ShapeFinCan.py" line="99"/>
+      <source>Aft side of the launch lug is swept</source>
+      <translation type="unfinished">Aft side of the launch lug is swept</translation>
+    </message>
+    <message>
+      <location filename="ShapeFinCan.py" line="101"/>
+      <source>Aft sweep angle</source>
+      <translation type="unfinished">Aft sweep angle</translation>
     </message>
   </context>
   <context>
@@ -592,17 +717,17 @@
       <translation>Paramétré de Corps Tubulaire</translation>
     </message>
     <message>
-      <location filename="TaskPanelBodyTube.py" line="53"/>
+      <location filename="TaskPanelRailButton.py" line="72"/>
       <source>Inner Diameter</source>
       <translation>Diamètre intérieur</translation>
     </message>
     <message>
-      <location filename="TaskPanelBodyTube.py" line="59"/>
+      <location filename="TaskPanelRailButton.py" line="66"/>
       <source>Outer Diameter</source>
       <translation>Diamètre extérieur</translation>
     </message>
     <message>
-      <location filename="TaskPanelTransition.py" line="209"/>
+      <location filename="TaskPanelNoseCone.py" line="192"/>
       <source>Length</source>
       <translation>Longueur</translation>
     </message>
@@ -617,12 +742,12 @@
       <translation>Paramètre de Cloison</translation>
     </message>
     <message>
-      <location filename="TaskPanelTransition.py" line="203"/>
+      <location filename="TaskPanelBulkhead.py" line="113"/>
       <source>Diameter</source>
       <translation>Diamètre</translation>
     </message>
     <message>
-      <location filename="TaskPanelTransition.py" line="215"/>
+      <location filename="TaskPanelBulkhead.py" line="102"/>
       <source>Thickness</source>
       <translation>Épaisseur</translation>
     </message>
@@ -637,7 +762,7 @@
       <translation>Encoché</translation>
     </message>
     <message>
-      <location filename="TaskPanelRailGuide.py" line="140"/>
+      <location filename="TaskPanelBulkhead.py" line="79"/>
       <source>Width</source>
       <translation>Largeur</translation>
     </message>
@@ -767,7 +892,7 @@
       <translation>Paramètre de Coiffe</translation>
     </message>
     <message>
-      <location filename="TaskPanelTransition.py" line="56"/>
+      <location filename="TaskPanelNoseCone.py" line="180"/>
       <source>Shoulder</source>
       <translation>Épaulement</translation>
     </message>
@@ -812,7 +937,7 @@
       <translation>Fusée</translation>
     </message>
     <message>
-      <location filename="RocketGui.py" line="74"/>
+      <location filename="RocketGui.py" line="76"/>
       <source>Calculators</source>
       <translation>Calculateurs</translation>
     </message>
@@ -912,27 +1037,27 @@
       <translation>Les paramètres d'anneau de centrage produisent une forme invalide</translation>
     </message>
     <message>
-      <location filename="FinShapeHandler.py" line="255"/>
+      <location filename="FinShapeHandler.py" line="256"/>
       <source>Ttw offset must be less than the root chord</source>
       <translation>Le décalage ATLM doit être inférieur à la corde de la racine</translation>
     </message>
     <message>
-      <location filename="FinShapeHandler.py" line="258"/>
+      <location filename="FinShapeHandler.py" line="259"/>
       <source>Ttw length must be greater than 0</source>
       <translation>La longueur ATLM doit être supérieur à 0</translation>
     </message>
     <message>
-      <location filename="FinShapeHandler.py" line="261"/>
+      <location filename="FinShapeHandler.py" line="262"/>
       <source>Ttw height must be greater than 0</source>
       <translation>La hauteur ATLM doit être supérieure à 0</translation>
     </message>
     <message>
-      <location filename="FinShapeHandler.py" line="264"/>
+      <location filename="FinShapeHandler.py" line="265"/>
       <source>Ttw thickness must be greater than 0</source>
       <translation>L'épaisseur ATLM doit être supérieure à 0</translation>
     </message>
     <message>
-      <location filename="FinShapeHandler.py" line="310"/>
+      <location filename="FinShapeHandler.py" line="342"/>
       <source>Fin parameters produce an invalid shape</source>
       <translation>Les paramètres d'ailette produisent une forme invalide</translation>
     </message>
@@ -1152,12 +1277,12 @@
         </translation>
     </message>
     <message>
-      <location filename="TaskPanelRailGuide.py" line="101"/>
+      <location filename="DialogBlackPowder.py" line="70"/>
       <source>Body Tube Diameter</source>
       <translation>Diamètre de Corps Tubulaire</translation>
     </message>
     <message>
-      <location filename="DialogVentHoles.py" line="63"/>
+      <location filename="DialogBlackPowder.py" line="78"/>
       <source>Body Tube Length</source>
       <translation>Longueur de Corps Tubulaire</translation>
     </message>
@@ -1177,82 +1302,82 @@
       <translation>Poudre FFFFg</translation>
     </message>
     <message>
-      <location filename="DialogLookup.py" line="84"/>
+      <location filename="DialogLookup.py" line="117"/>
       <source>Component lookup...</source>
       <translation>Recherche de composant...</translation>
     </message>
     <message>
-      <location filename="DialogLookup.py" line="87"/>
+      <location filename="DialogLookup.py" line="120"/>
       <source>Search</source>
       <translation>Rechercher</translation>
     </message>
     <message>
-      <location filename="DialogLookup.py" line="93"/>
+      <location filename="DialogLookup.py" line="126"/>
       <source>Component</source>
       <translation>Composant</translation>
     </message>
     <message>
-      <location filename="DialogLookup.py" line="190"/>
+      <location filename="DialogLookup.py" line="231"/>
       <source>Body tube not found</source>
       <translation>Corps tubulaire non trouvé</translation>
     </message>
     <message>
-      <location filename="DialogLookup.py" line="214"/>
+      <location filename="DialogLookup.py" line="255"/>
       <source>Multiple identical entries found</source>
       <translation>Multiples entrées identiques trouvées</translation>
     </message>
     <message>
-      <location filename="DialogLookup.py" line="201"/>
+      <location filename="DialogLookup.py" line="242"/>
       <source>Nose cone not found</source>
       <translation>Cône de nez non trouvée</translation>
     </message>
     <message>
-      <location filename="DialogLookup.py" line="212"/>
+      <location filename="DialogLookup.py" line="253"/>
       <source>Transition not found</source>
       <translation>Transition non trouvée</translation>
     </message>
     <message>
-      <location filename="DialogLookup.py" line="257"/>
+      <location filename="DialogLookup.py" line="298"/>
       <source>Type</source>
       <translation>Type</translation>
     </message>
     <message>
-      <location filename="DialogLookup.py" line="298"/>
+      <location filename="DialogLookup.py" line="340"/>
       <source>Shoulder Diameter</source>
       <translation>Diamètre d’Épaulement</translation>
     </message>
     <message>
-      <location filename="DialogLookup.py" line="299"/>
+      <location filename="DialogLookup.py" line="341"/>
       <source>Shoulder Length</source>
       <translation>Longueur d’Épaulement</translation>
     </message>
     <message>
-      <location filename="DialogLookup.py" line="335"/>
+      <location filename="DialogLookup.py" line="369"/>
       <source>Shape</source>
       <translation>Forme</translation>
     </message>
     <message>
-      <location filename="DialogLookup.py" line="328"/>
+      <location filename="DialogLookup.py" line="370"/>
       <source>Fore Diameter</source>
       <translation>Diamètre Avant</translation>
     </message>
     <message>
-      <location filename="DialogLookup.py" line="331"/>
+      <location filename="DialogLookup.py" line="373"/>
       <source>Fore Shoulder Diameter</source>
       <translation>Diamètre d’Épaulement Avant</translation>
     </message>
     <message>
-      <location filename="DialogLookup.py" line="332"/>
+      <location filename="DialogLookup.py" line="374"/>
       <source>Fore Shoulder Length</source>
       <translation>Longueur d’Épaulement Avant</translation>
     </message>
     <message>
-      <location filename="DialogLookup.py" line="333"/>
+      <location filename="DialogLookup.py" line="375"/>
       <source>Aft Shoulder Diameter</source>
       <translation>Diamètre d’Épaulement Arrière</translation>
     </message>
     <message>
-      <location filename="DialogLookup.py" line="334"/>
+      <location filename="DialogLookup.py" line="376"/>
       <source>Aft Shoulder Length</source>
       <translation>Longueur d’Épaulement Arrière</translation>
     </message>
@@ -1339,377 +1464,457 @@
     <message>
       <location filename="FinSketchShapeHandler.py" line="45"/>
       <source>shape is empty</source>
-      <translation type="unfinished">shape is empty</translation>
+      <translation>la forme est vide</translation>
     </message>
     <message>
       <location filename="FinSketchShapeHandler.py" line="49"/>
       <source>Compound objects not supported</source>
-      <translation type="unfinished">Compound objects not supported</translation>
+      <translation>Les objets composés ne sont pas pris en charge</translation>
     </message>
     <message>
       <location filename="FinSketchShapeHandler.py" line="55"/>
       <source>Sketch must create a valid face</source>
-      <translation type="unfinished">Sketch must create a valid face</translation>
+      <translation>L'esquisse doit créer une face valide</translation>
     </message>
     <message>
       <location filename="FinSketchShapeHandler.py" line="79"/>
       <source>Unable to handle shapes other than lines</source>
-      <translation type="unfinished">Unable to handle shapes other than lines</translation>
+      <translation>Impossible de gérer des formes autres que des lignes</translation>
     </message>
     <message>
       <location filename="CmdSketcher.py" line="52"/>
       <source>Create sketch</source>
-      <translation type="unfinished">Create sketch</translation>
+      <translation>Créer une esquisse</translation>
     </message>
     <message>
       <location filename="CmdSketcher.py" line="53"/>
       <source>Create a new sketch</source>
-      <translation type="unfinished">Create a new sketch</translation>
+      <translation>Créer une nouvelle esquisse</translation>
     </message>
     <message>
-      <location filename="RocketGui.py" line="88"/>
+      <location filename="RocketGui.py" line="90"/>
       <source>Launch Guides</source>
-      <translation type="unfinished">Launch Guides</translation>
+      <translation>Guides de lancement</translation>
     </message>
     <message>
-      <location filename="Constants.py" line="112"/>
+      <location filename="Constants.py" line="126"/>
       <source>Top of the parent component</source>
-      <translation type="unfinished">Top of the parent component</translation>
+      <translation>Haut du composant parent</translation>
     </message>
     <message>
-      <location filename="Constants.py" line="113"/>
+      <location filename="Constants.py" line="127"/>
       <source>Middle of the parent component</source>
-      <translation type="unfinished">Middle of the parent component</translation>
+      <translation>Milieu du composant parent</translation>
     </message>
     <message>
-      <location filename="Constants.py" line="114"/>
+      <location filename="Constants.py" line="128"/>
       <source>Bottom of the parent component</source>
-      <translation type="unfinished">Bottom of the parent component</translation>
+      <translation>Bas du composant parent</translation>
     </message>
     <message>
-      <location filename="Constants.py" line="115"/>
+      <location filename="Constants.py" line="129"/>
       <source>Base of the rocket</source>
-      <translation type="unfinished">Base of the rocket</translation>
+      <translation>Base de la fusée</translation>
     </message>
     <message>
-      <location filename="Constants.py" line="119"/>
+      <location filename="Constants.py" line="133"/>
       <source>After the target component</source>
-      <translation type="unfinished">After the target component</translation>
+      <translation>Après le composant cible</translation>
     </message>
     <message>
       <location filename="RailButtonShapeHandler.py" line="69"/>
       <source>Inner diameter must be greater than zero</source>
-      <translation type="unfinished">Inner diameter must be greater than zero</translation>
+      <translation>Le diamètre intérieur doit être supérieur à zéro</translation>
     </message>
     <message>
       <location filename="RailButtonShapeHandler.py" line="72"/>
       <source>Outer diameter must be greater than the inner diameter</source>
-      <translation type="unfinished">Outer diameter must be greater than the inner diameter</translation>
+      <translation>Le diamètre extérieur doit être supérieur au diamètre intérieur</translation>
     </message>
     <message>
-      <location filename="RailButtonShapeHandler.py" line="75"/>
+      <location filename="RailGuideShapeHandler.py" line="86"/>
       <source>Top thickness must be greater than zero</source>
-      <translation type="unfinished">Top thickness must be greater than zero</translation>
+      <translation>L'épaisseur du sommet doit être supérieure à zéro</translation>
     </message>
     <message>
-      <location filename="RailButtonShapeHandler.py" line="78"/>
+      <location filename="RailGuideShapeHandler.py" line="90"/>
       <source>Base thickness must be greater than zero</source>
-      <translation type="unfinished">Base thickness must be greater than zero</translation>
+      <translation>L'épaisseur de la base doit être supérieure à zéro</translation>
     </message>
     <message>
       <location filename="RailButtonShapeHandler.py" line="81"/>
       <source>Thickness must be greater than zero</source>
-      <translation type="unfinished">Thickness must be greater than zero</translation>
+      <translation>L'épaisseur doit être supérieure à zéro</translation>
     </message>
     <message>
       <location filename="RailButtonShapeHandler.py" line="84"/>
       <source>Top and base thickness can not excedd the total thickness</source>
-      <translation type="unfinished">Top and base thickness can not excedd the total thickness</translation>
+      <translation>L'épaisseur du sommet et de la base ne peut dépasser l'épaisseur totale</translation>
     </message>
     <message>
       <location filename="RailButtonShapeHandler.py" line="89"/>
       <source>Length must be greater than zero for airfoil rail buttons</source>
-      <translation type="unfinished">Length must be greater than zero for airfoil rail buttons</translation>
+      <translation>La longueur doit être supérieure à zéro pour les boutons de rail d'ailettes</translation>
     </message>
     <message>
       <location filename="RailButtonShapeHandler.py" line="93"/>
       <source>Length must be greater than the outer diameter for airfoil rail buttons</source>
-      <translation type="unfinished">Length must be greater than the outer diameter for airfoil rail buttons</translation>
+      <translation>La longueur doit être supérieure au diamètre extérieur pour les boutons de rail d'ailettes</translation>
     </message>
     <message>
       <location filename="RailButtonShapeHandler.py" line="198"/>
       <source>Rail button parameters produce an invalid shape</source>
-      <translation type="unfinished">Rail button parameters produce an invalid shape</translation>
+      <translation>Les paramètres du bouton du rail produisent une forme invalide</translation>
     </message>
     <message>
       <location filename="RailGuideShapeHandler.py" line="74"/>
       <source>Middle width must be greater than zero</source>
-      <translation type="unfinished">Middle width must be greater than zero</translation>
+      <translation>La largeur du milieu doit être supérieure à zéro</translation>
     </message>
     <message>
       <location filename="RailGuideShapeHandler.py" line="78"/>
       <source>Top width must be greater than the middle width</source>
-      <translation type="unfinished">Top width must be greater than the middle width</translation>
+      <translation>La largeur du haut doit être supérieure à celle du milieu</translation>
     </message>
     <message>
       <location filename="RailGuideShapeHandler.py" line="82"/>
       <source>Base width must be greater than the middle width</source>
-      <translation type="unfinished">Base width must be greater than the middle width</translation>
+      <translation>La largeur de la base doit être supérieure à la largeur du milieu</translation>
     </message>
     <message>
       <location filename="RailGuideShapeHandler.py" line="94"/>
       <source>Total thickness must be greater than the sum of top and base thickness</source>
-      <translation type="unfinished">Total thickness must be greater than the sum of top and base thickness</translation>
+      <translation>L'épaisseur totale doit être supérieure à la somme des épaisseurs du sommet et de la base</translation>
     </message>
     <message>
       <location filename="RailGuideShapeHandler.py" line="98"/>
       <source>Length must be greater than zero</source>
-      <translation type="unfinished">Length must be greater than zero</translation>
+      <translation>La longueur doit être supérieure à zéro</translation>
     </message>
     <message>
       <location filename="RailGuideShapeHandler.py" line="103"/>
       <source>Forward sweep angle must be greater than 0 degrees and less than 90 degrees</source>
-      <translation type="unfinished">Forward sweep angle must be greater than 0 degrees and less than 90 degrees</translation>
+      <translation>L'angle de balayage avant doit être supérieur à 0 degré et inférieur à 90 degrés</translation>
     </message>
     <message>
       <location filename="RailGuideShapeHandler.py" line="108"/>
       <source>Aft sweep angle must be greater than 0 degrees and less than 90 degrees</source>
-      <translation type="unfinished">Aft sweep angle must be greater than 0 degrees and less than 90 degrees</translation>
+      <translation>L'angle de balayage arrière doit être supérieur à 0 degré et inférieur à 90 degrés</translation>
     </message>
     <message>
       <location filename="RailGuideShapeHandler.py" line="113"/>
       <source>Notch width must be greater than zero</source>
-      <translation type="unfinished">Notch width must be greater than zero</translation>
+      <translation>La largeur de l'encoche doit être supérieure à zéro</translation>
     </message>
     <message>
       <location filename="RailGuideShapeHandler.py" line="117"/>
       <source>Notch width can not exceed the middle width</source>
-      <translation type="unfinished">Notch width can not exceed the middle width</translation>
+      <translation>La largeur de l'encoche ne peut pas dépasser la largeur du milieu</translation>
     </message>
     <message>
       <location filename="RailGuideShapeHandler.py" line="121"/>
       <source>Notch depth must be greater than zero</source>
-      <translation type="unfinished">Notch depth must be greater than zero</translation>
+      <translation>La profondeur de l'encoche doit être supérieure à zéro</translation>
     </message>
     <message>
       <location filename="RailGuideShapeHandler.py" line="125"/>
       <source>Notch depth can not exceed the total thickness</source>
-      <translation type="unfinished">Notch depth can not exceed the total thickness</translation>
+      <translation>La profondeur de l'entaille ne peut pas dépasser l'épaisseur totale</translation>
     </message>
     <message>
-      <location filename="RailGuideShapeHandler.py" line="299"/>
+      <location filename="RailGuideShapeHandler.py" line="297"/>
       <source>Rail Guide parameters produce an invalid shape</source>
-      <translation type="unfinished">Rail Guide parameters produce an invalid shape</translation>
+      <translation>Les paramètres du rail guide produisent une forme invalide</translation>
     </message>
     <message>
-      <location filename="CmdLaunchGuides.py" line="95"/>
+      <location filename="TaskPanelFinCan.py" line="418"/>
       <source>Launch Lug</source>
-      <translation type="unfinished">Launch Lug</translation>
+      <translation>Rampe de lancement</translation>
     </message>
     <message>
       <location filename="CmdLaunchGuides.py" line="96"/>
       <source>Launch lug design</source>
-      <translation type="unfinished">Launch lug design</translation>
+      <translation>Conception de la rampe de lancement</translation>
     </message>
     <message>
       <location filename="CmdLaunchGuides.py" line="112"/>
       <source>Rail Button</source>
-      <translation type="unfinished">Rail Button</translation>
+      <translation>Bouton rail</translation>
     </message>
     <message>
       <location filename="CmdLaunchGuides.py" line="113"/>
       <source>Rail button design</source>
-      <translation type="unfinished">Rail button design</translation>
+      <translation>Conception du bouton rail</translation>
     </message>
     <message>
       <location filename="CmdLaunchGuides.py" line="129"/>
       <source>Rail Guide</source>
-      <translation type="unfinished">Rail Guide</translation>
+      <translation>Guide rail</translation>
     </message>
     <message>
       <location filename="CmdLaunchGuides.py" line="130"/>
       <source>Rail guide design</source>
-      <translation type="unfinished">Rail guide design</translation>
+      <translation>Conception du guide rail</translation>
     </message>
     <message>
       <location filename="CmdLaunchGuides.py" line="146"/>
       <source>Stand Off</source>
-      <translation type="unfinished">Stand Off</translation>
+      <translation>Entretoise</translation>
     </message>
     <message>
       <location filename="CmdLaunchGuides.py" line="147"/>
       <source>Stand off design</source>
-      <translation type="unfinished">Stand off design</translation>
+      <translation>Conception de l'entretoise</translation>
     </message>
     <message>
       <location filename="TaskPanelRailGuide.py" line="47"/>
       <source>Rail Guide Parameter</source>
-      <translation type="unfinished">Rail Guide Parameter</translation>
+      <translation>Paramètre du guide rail</translation>
     </message>
     <message>
       <location filename="TaskPanelRailGuide.py" line="50"/>
       <source>Rail Guide Base</source>
-      <translation type="unfinished">Rail Guide Base</translation>
+      <translation>Base du guide rail</translation>
     </message>
     <message>
       <location filename="TaskPanelRailGuide.py" line="58"/>
       <source>Top Width</source>
-      <translation type="unfinished">Top Width</translation>
+      <translation>Largeur du haut</translation>
     </message>
     <message>
       <location filename="TaskPanelRailGuide.py" line="64"/>
       <source>Middle Width</source>
-      <translation type="unfinished">Middle Width</translation>
+      <translation>Largeur du milieu</translation>
     </message>
     <message>
       <location filename="TaskPanelRailGuide.py" line="70"/>
       <source>Base Width</source>
-      <translation type="unfinished">Base Width</translation>
+      <translation>Largeur de la base</translation>
     </message>
     <message>
-      <location filename="TaskPanelRailGuide.py" line="76"/>
+      <location filename="TaskPanelRailButton.py" line="78"/>
       <source>Top Thickness</source>
-      <translation type="unfinished">Top Thickness</translation>
+      <translation>Épaisseur du haut</translation>
     </message>
     <message>
-      <location filename="TaskPanelRailGuide.py" line="82"/>
+      <location filename="TaskPanelRailButton.py" line="84"/>
       <source>Base Thickness</source>
-      <translation type="unfinished">Base Thickness</translation>
+      <translation>Épaisseur de la base</translation>
     </message>
     <message>
-      <location filename="TaskPanelRailGuide.py" line="88"/>
+      <location filename="TaskPanelRailButton.py" line="90"/>
       <source>Total Thickness</source>
-      <translation type="unfinished">Total Thickness</translation>
+      <translation>Épaisseur totale</translation>
     </message>
     <message>
       <location filename="TaskPanelRailGuide.py" line="107"/>
       <source>auto</source>
-      <translation type="unfinished">auto</translation>
+      <translation>auto</translation>
     </message>
     <message>
       <location filename="TaskPanelRailGuide.py" line="111"/>
       <source>V Angle</source>
-      <translation type="unfinished">V Angle</translation>
+      <translation>Angle V</translation>
     </message>
     <message>
       <location filename="TaskPanelRailGuide.py" line="118"/>
       <source>Forward Sweep</source>
-      <translation type="unfinished">Forward Sweep</translation>
+      <translation>Balayage avant</translation>
     </message>
     <message>
       <location filename="TaskPanelRailGuide.py" line="127"/>
       <source>Aft Sweep</source>
-      <translation type="unfinished">Aft Sweep</translation>
+      <translation>Balayage arrière</translation>
     </message>
     <message>
       <location filename="TaskPanelRailGuide.py" line="137"/>
       <source>Notch</source>
-      <translation type="unfinished">Notch</translation>
+      <translation>Encoche</translation>
     </message>
     <message>
       <location filename="TaskPanelRailGuide.py" line="146"/>
       <source>Depth</source>
-      <translation type="unfinished">Depth</translation>
+      <translation>Profondeur</translation>
     </message>
     <message>
-      <location filename="TaskPanelTransition.py" line="55"/>
+      <location filename="TaskPanelNoseCone.py" line="55"/>
       <source>General</source>
-      <translation type="unfinished">General</translation>
+      <translation>Général</translation>
     </message>
     <message>
       <location filename="TaskPanelTransition.py" line="69"/>
       <source>Transition Shape</source>
-      <translation type="unfinished">Transition Shape</translation>
+      <translation>Forme de la transition</translation>
     </message>
     <message>
-      <location filename="TaskPanelTransition.py" line="86"/>
+      <location filename="TaskPanelNoseCone.py" line="116"/>
       <source>Shape Parameter</source>
-      <translation type="unfinished">Shape Parameter</translation>
+      <translation>Paramètre de la forme</translation>
     </message>
     <message>
-      <location filename="TaskPanelTransition.py" line="97"/>
+      <location filename="TaskPanelNoseCone.py" line="87"/>
       <source>Style</source>
-      <translation type="unfinished">Style</translation>
+      <translation>Style</translation>
     </message>
     <message>
       <location filename="TaskPanelRailButton.py" line="56"/>
       <source>Rail Button Parameter</source>
-      <translation type="unfinished">Rail Button Parameter</translation>
+      <translation>Paramètre du bouton rail</translation>
     </message>
     <message>
       <location filename="TaskPanelRailButton.py" line="58"/>
       <source>Rail Button Shape</source>
-      <translation type="unfinished">Rail Button Shape</translation>
+      <translation>Forme du bouton rail</translation>
     </message>
     <message>
       <location filename="TaskPanelRailButton.py" line="102"/>
       <source>Fastener</source>
-      <translation type="unfinished">Fastener</translation>
-    </message>
-    <message>
-      <location filename="TaskPanelRailButton.py" line="105"/>
-      <source>Contersink Angle</source>
-      <translation type="unfinished">Contersink Angle</translation>
+      <translation>Fixation</translation>
     </message>
     <message>
       <location filename="TaskPanelRailButton.py" line="116"/>
       <source>Head Diameter</source>
-      <translation type="unfinished">Head Diameter</translation>
+      <translation>Diamètre de la tête</translation>
     </message>
     <message>
       <location filename="TaskPanelRailButton.py" line="122"/>
       <source>Shank Diameter</source>
-      <translation type="unfinished">Shank Diameter</translation>
+      <translation>Diamètre de la tige</translation>
     </message>
     <message>
       <location filename="TaskPanelRailButton.py" line="128"/>
       <source>Presets</source>
-      <translation type="unfinished">Presets</translation>
+      <translation>Préréglages</translation>
     </message>
     <message>
       <location filename="TaskPanelRailButton.py" line="138"/>
       <source>Top Fillet</source>
-      <translation type="unfinished">Top Fillet</translation>
+      <translation>Congé supérieur</translation>
     </message>
     <message>
       <location filename="TaskPanelRailButton.py" line="141"/>
       <source>Radius</source>
-      <translation type="unfinished">Radius</translation>
+      <translation>Rayon</translation>
     </message>
     <message>
       <location filename="TaskPanelNoseCone.py" line="69"/>
       <source>Nose Cone Shape</source>
-      <translation type="unfinished">Nose Cone Shape</translation>
+      <translation>Type de cône de la coiffe</translation>
     </message>
     <message>
       <location filename="TaskPanelFin.py" line="57"/>
       <source>Fin Tabs</source>
-      <translation type="unfinished">Fin Tabs</translation>
+      <translation>Onglets d'aileron</translation>
     </message>
     <message>
       <location filename="NoseShapeHandler.py" line="79"/>
       <source>Nose diameter must be less than the base diameter</source>
-      <translation type="unfinished">Nose diameter must be less than the base diameter</translation>
+      <translation>Le diamètre de la coiffe doit être inférieur au diamètre de la base</translation>
     </message>
     <message>
       <location filename="NoseShapeHandler.py" line="82"/>
       <source>Nose diameter must be greater than zero</source>
-      <translation type="unfinished">Nose diameter must be greater than zero</translation>
+      <translation>Le diamètre de la coiffe doit être supérieur à zéro</translation>
     </message>
     <message>
       <location filename="TaskPanelNoseCone.py" line="126"/>
       <source>Blunted Diameter</source>
-      <translation type="unfinished">Blunted Diameter</translation>
+      <translation>Diamètre tronqué</translation>
     </message>
     <message>
       <location filename="TaskPanelNoseCone.py" line="132"/>
       <source>Ogive Diameter</source>
-      <translation type="unfinished">Ogive Diameter</translation>
+      <translation>Diamètre de l'ogive</translation>
     </message>
     <message>
       <location filename="ViewProvider.py" line="46"/>
       <source>Edit %1</source>
-      <translation type="unfinished">Edit %1</translation>
+      <translation>Modifier %1</translation>
+    </message>
+    <message>
+      <location filename="FinCanShapeHandler.py" line="50"/>
+      <source>Fin can thickness must be greater than zero</source>
+      <translation type="unfinished">Fin can thickness must be greater than zero</translation>
+    </message>
+    <message>
+      <location filename="FinCanShapeHandler.py" line="53"/>
+      <source>Fin can length must be greater than zero</source>
+      <translation type="unfinished">Fin can length must be greater than zero</translation>
+    </message>
+    <message>
+      <location filename="FinCanShapeHandler.py" line="62"/>
+      <source>Fin can leading and trailing edges can not exceed total length</source>
+      <translation type="unfinished">Fin can leading and trailing edges can not exceed total length</translation>
+    </message>
+    <message>
+      <location filename="FinCanShapeHandler.py" line="292"/>
+      <source>Launch lug parameters produce an invalid shape</source>
+      <translation type="unfinished">Launch lug parameters produce an invalid shape</translation>
+    </message>
+    <message>
+      <location filename="FinCanShapeHandler.py" line="336"/>
+      <source>Fin can parameters produce an invalid shape</source>
+      <translation type="unfinished">Fin can parameters produce an invalid shape</translation>
+    </message>
+    <message>
+      <location filename="TaskPanelFinCan.py" line="59"/>
+      <source>Fins</source>
+      <translation type="unfinished">Fins</translation>
+    </message>
+    <message>
+      <location filename="CmdFinCan.py" line="73"/>
+      <source>Fin Can</source>
+      <translation type="unfinished">Fin Can</translation>
+    </message>
+    <message>
+      <location filename="TaskPanelFinCan.py" line="88"/>
+      <source>Fin Set</source>
+      <translation type="unfinished">Fin Set</translation>
+    </message>
+    <message>
+      <location filename="TaskPanelFinCan.py" line="90"/>
+      <source>Fin Count</source>
+      <translation type="unfinished">Fin Count</translation>
+    </message>
+    <message>
+      <location filename="TaskPanelFinCan.py" line="97"/>
+      <source>Fin Spacing</source>
+      <translation type="unfinished">Fin Spacing</translation>
+    </message>
+    <message>
+      <location filename="TaskPanelFinCan.py" line="327"/>
+      <source>Leading Edge Offset</source>
+      <translation type="unfinished">Leading Edge Offset</translation>
+    </message>
+    <message>
+      <location filename="TaskPanelFinCan.py" line="334"/>
+      <source>Leading Edge</source>
+      <translation type="unfinished">Leading Edge</translation>
+    </message>
+    <message>
+      <location filename="TaskPanelFinCan.py" line="350"/>
+      <source>Edge Style</source>
+      <translation type="unfinished">Edge Style</translation>
+    </message>
+    <message>
+      <location filename="TaskPanelFinCan.py" line="348"/>
+      <source>Trailing Edge</source>
+      <translation type="unfinished">Trailing Edge</translation>
+    </message>
+    <message>
+      <location filename="TaskPanelFinCan.py" line="451"/>
+      <source>Fillet radius</source>
+      <translation type="unfinished">Fillet radius</translation>
+    </message>
+    <message>
+      <location filename="CmdFinCan.py" line="74"/>
+      <source>Fin can design</source>
+      <translation type="unfinished">Fin can design</translation>
+    </message>
+    <message>
+      <location filename="TaskPanelRailButton.py" line="105"/>
+      <source>Countersink Angle</source>
+      <translation type="unfinished">Countersink Angle</translation>
     </message>
   </context>
 </TS>
