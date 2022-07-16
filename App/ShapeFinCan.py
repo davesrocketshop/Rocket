@@ -77,7 +77,7 @@ class ShapeFinCan(ShapeFin):
         if not hasattr(obj,"LugAutoThickness"):
             obj.addProperty('App::PropertyBool', 'LugAutoThickness', 'Fin', translate('App::Property', 'Launch lug thickness is the same as the fin can')).LugAutoThickness = True
         if not hasattr(obj,"LugLength"):
-            obj.addProperty('App::PropertyLength', 'LugLength', 'Fin', translate('App::Property', 'Length of the launch')).LugLength = 60.0
+            obj.addProperty('App::PropertyLength', 'LugLength', 'Fin', translate('App::Property', 'Length of the launch lug')).LugLength = 60.0
         if not hasattr(obj,"LugAutoLength"):
             obj.addProperty('App::PropertyBool', 'LugAutoLength', 'Fin', translate('App::Property', 'Automatically adjust the length of the launch lug')).LugAutoLength = True
         if not hasattr(obj,"LugFilletRadius"):
