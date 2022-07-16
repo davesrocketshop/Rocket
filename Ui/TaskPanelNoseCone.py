@@ -36,6 +36,7 @@ from DraftTools import translate
 from Ui.TaskPanelDatabase import TaskPanelDatabase
 from App.Constants import TYPE_CONE, TYPE_BLUNTED_CONE, TYPE_SPHERICAL, TYPE_ELLIPTICAL, TYPE_HAACK, TYPE_OGIVE, TYPE_BLUNTED_OGIVE, TYPE_SECANT_OGIVE, TYPE_VON_KARMAN, TYPE_PARABOLA, TYPE_PARABOLIC, TYPE_POWER
 from App.Constants import STYLE_CAPPED, STYLE_HOLLOW, STYLE_SOLID
+from App.Constants import STYLE_CAP_SOLID, STYLE_CAP_BAR, STYLE_CAP_CROSS
 from App.Constants import COMPONENT_TYPE_NOSECONE
 
 from App.Utilities import _toFloat, _valueWithUnits
@@ -91,6 +92,14 @@ class _NoseConeDialog(QDialog):
                                 STYLE_CAPPED)
         self.noseStylesCombo = QtGui.QComboBox(self)
         self.noseStylesCombo.addItems(self.noseStyles)
+
+        self.noseCapStyleLabel = QtGui.QLabel(translate('Rocket', "Cap style"), self)
+
+        self.noseCapStyles = (STYLE_CAP_SOLID,
+                                STYLE_CAP_BAR,
+                                STYLE_CAP_CROSS)
+        self.noseCapStylesCombo = QtGui.QComboBox(self)
+        self.noseCapStylesCombo.addItems(self.noseCapStyles)
 
         # Get the nose cone parameters: length, width, etc...
         self.lengthLabel = QtGui.QLabel(translate('Rocket', "Length"), self)
