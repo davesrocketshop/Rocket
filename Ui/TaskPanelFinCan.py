@@ -993,7 +993,7 @@ class TaskPanelFinCan(QObject):
     def onHeight(self, value):
         try:
             self._obj.Height = FreeCAD.Units.Quantity(value).Value
-            self._sweepAngleFromLength(self._finForm.sweepLengthInput.property("quantity").Value)
+            self._sweepAngleFromLength(self._obj.SweepLength)
             self.redraw()
         except ValueError:
             pass
@@ -1004,20 +1004,20 @@ class TaskPanelFinCan(QObject):
             _err("Sweep angle must be greater than -90 and less than +90")
             return
         theta = math.radians(-1.0 * (theta + 90.0))
-        length = self._finForm.heightInput.property("quantity").Value / math.tan(theta)
-        self._finForm.sweepLengthInput.setText("%f" % length)
+        length = _toFloat(self._obj.Height) / math.tan(theta)
         self._obj.SweepLength = length
+        self._finForm.sweepLengthInput.setText(self._obj.SweepLength.UserString)
 
     def _sweepAngleFromLength(self, value):
         length = _toFloat(value)
-        theta = 90.0 - math.degrees(math.atan2(self._finForm.heightInput.property("quantity").Value, length))
-        self._finForm.sweepAngleInput.setText("%f" % theta)
+        theta = 90.0 - math.degrees(math.atan2(_toFloat(self._obj.Height), length))
         self._obj.SweepAngle = theta
+        self._finForm.sweepAngleInput.setText(self._obj.SweepAngle.UserString)
         
     def onSweepLength(self, value):
         try:
             self._obj.SweepLength = FreeCAD.Units.Quantity(value).Value
-            self._sweepAngleFromLength(value)
+            self._sweepAngleFromLength(self._obj.SweepLength)
             self.redraw()
         except ValueError:
             pass
@@ -1025,7 +1025,7 @@ class TaskPanelFinCan(QObject):
     def onSweepAngle(self, value):
         try:
             self._obj.SweepAngle = FreeCAD.Units.Quantity(value).Value
-            self._sweepLengthFromAngle(value)
+            self._sweepLengthFromAngle(self._obj.SweepAngle)
             self.redraw()
         except ValueError:
             pass
