@@ -111,7 +111,7 @@ class ShapeFin(ShapeComponent):
         # These are only exposed for fin cans
         if not hasattr(obj,"FinSet"):
             obj.addProperty('App::PropertyBool', 'FinSet', 'Fin', translate('App::Property', 'True when describing a set of fins')).FinSet = False
-        obj.setEditorMode('FinSet', PROP_TRANSIENT | PROP_HIDDEN)  # hide
+        obj.setEditorMode('FinSet', PROP_HIDDEN)  # hide
         if not hasattr(obj,"FinCount"):
             obj.addProperty('App::PropertyInteger', 'FinCount', 'Fin', translate('App::Property', 'Number of fins in a radial pattern')).FinCount = 3
         if not hasattr(obj,"FinSpacing"):
@@ -119,7 +119,7 @@ class ShapeFin(ShapeComponent):
 
         # Hidden properties used for calculation
         if not hasattr(obj,"ParentRadius"):
-            obj.addProperty('App::PropertyLength', 'ParentRadius', 'Fin', translate('App::Property', 'Parent radius')).ParentRadius = 20.0
+            obj.addProperty('App::PropertyLength', 'ParentRadius', 'Fin', 'Parent radius').ParentRadius = 20.0 # No translation required for a hidden parameter
         obj.setEditorMode('ParentRadius', PROP_TRANSIENT | PROP_HIDDEN)  # hide
 
         if not hasattr(obj, "Profile"):

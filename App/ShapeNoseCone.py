@@ -93,6 +93,8 @@ class ShapeNoseCone(ShapeComponent):
     def __init__(self, obj):
         super().__init__(obj)
         
+        if not hasattr(obj, 'CapBarWidth'):
+            obj.addProperty('App::PropertyLength', 'CapBarWidth', 'NoseCone', translate('App::Property', 'Width of the nose cap bar')).CapBarWidth = 3.0
         if not hasattr(obj, 'Length'):
             obj.addProperty('App::PropertyLength', 'Length', 'NoseCone', translate('App::Property', 'Length of the nose not including any shoulder')).Length = 60.0
         if not hasattr(obj, 'BluntedDiameter'):
