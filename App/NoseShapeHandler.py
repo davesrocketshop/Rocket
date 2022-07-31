@@ -32,6 +32,7 @@ import math
 from DraftTools import translate
 
 from App.Constants import STYLE_CAPPED, STYLE_HOLLOW, STYLE_SOLID
+from App.Constants import STYLE_CAP_BAR, STYLE_CAP_CROSS
 from App.Constants import TYPE_BLUNTED_CONE, TYPE_BLUNTED_OGIVE, TYPE_SECANT_OGIVE
 
 from App.Utilities import _err
@@ -45,6 +46,8 @@ class NoseShapeHandler():
         # Common parameters    
         self._type = str(obj.NoseType)    
         self._style = str(obj.NoseStyle)
+        self._capStyle = str(obj.CapStyle)
+        self._capBarWidth = float(obj.CapBarWidth)
         self._thickness = float(obj.Thickness)
 
         self._shoulder = bool(obj.Shoulder)
@@ -105,6 +108,31 @@ class NoseShapeHandler():
                     return False
 
         return True
+
+    def _barCap(self):
+        return self._crossCap(barOnly = True)
+
+    def _crossCap(self, barOnly = False):
+        BASE_WIDTH = 5
+        base = 0.0 - BASE_WIDTH
+        length = self._thickness + BASE_WIDTH
+        if self._shoulder:
+            length += self._shoulderLength
+            base -= self._shoulderLength
+
+        point = FreeCAD.Vector(base, 0, 0)
+        direction = FreeCAD.Vector(1,0,0)
+
+        mask = Part.makeCylinder(self._shoulderRadius - self._shoulderThickness, length, point, direction)
+
+        point = FreeCAD.Vector(base + BASE_WIDTH, self._radius, -(self._capBarWidth / 2.0))
+        box = Part.makeBox(self._capBarWidth, 2.0 * self._radius, length - BASE_WIDTH, point, direction)
+        mask = mask.cut(box)
+        if not barOnly:
+            point = FreeCAD.Vector(base + BASE_WIDTH, (self._capBarWidth / 2.0), -self._radius)
+            box = Part.makeBox(2.0 * self._radius, self._capBarWidth, length - BASE_WIDTH, point, direction)
+            mask = mask.cut(box)
+        return mask
         
     def draw(self):
         if not self.isValidShape():
@@ -132,17 +160,35 @@ class NoseShapeHandler():
             _err(translate('Rocket', "Nose cone parameters produce an invalid shape"))
             return
 
+        shape = None
         if edges is not None:
             try:
                 wire = Part.Wire(edges)
                 face = Part.Face(wire)
-                self._obj.Shape = face.revolve(FreeCAD.Vector(0, 0, 0),FreeCAD.Vector(1, 0, 0), 360)
-                self._obj.Placement = self._placement
+                shape = face.revolve(FreeCAD.Vector(0, 0, 0),FreeCAD.Vector(1, 0, 0), 360)
             except Part.OCCError:
                 _err(translate('Rocket', "Nose cone parameters produce an invalid shape"))
                 return
         else:
             _err(translate('Rocket', "Nose cone parameters produce an invalid shape"))
+            return
+
+        try:
+            if self._style == STYLE_CAPPED:
+                mask = None
+                if self._capStyle == STYLE_CAP_BAR:
+                    mask = self._barCap()
+                elif self._capStyle == STYLE_CAP_CROSS:
+                    mask = self._crossCap()
+
+                if mask is not None:
+                    shape = shape.cut(mask)
+        except Part.OCCError:
+            _err(translate('Rocket', "Nose cone cap style produces an invalid shape"))
+            return
+
+        self._obj.Shape = shape
+        self._obj.Placement = self._placement
 
     def toShape(self, shapeObject):
         if hasattr(shapeObject, 'toShape'):

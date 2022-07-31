@@ -32,6 +32,7 @@ FEATURE_BULKHEAD = "RocketBulkhead"
 FEATURE_BODY_TUBE = "RocketBodyTube"
 FEATURE_CENTERING_RING = "RocketCenteringRing"
 FEATURE_FIN = "RocketFin"
+FEATURE_FINCAN = "RocketFincan"
 FEATURE_NOSE_CONE = "RocketNoseCone"
 FEATURE_TRANSITION = "RocketTransition"
 FEATURE_LAUNCH_LUG = "RocketLaunchLug"
@@ -44,6 +45,11 @@ STYLE_SOLID = "solid"
 STYLE_SOLID_CORE = "solid core" # Used by transitions, not nose cones
 STYLE_HOLLOW = "hollow"
 STYLE_CAPPED = "capped"
+
+# Cap styles
+STYLE_CAP_SOLID = "solid"
+STYLE_CAP_BAR = "bar"
+STYLE_CAP_CROSS = "cross"
 
 # Part shapes
 TYPE_CONE = "cone"

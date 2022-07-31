@@ -38,6 +38,7 @@ from App.NosePowerShapeHandler import NosePowerShapeHandler
 
 from App.Constants import TYPE_CONE, TYPE_BLUNTED_CONE, TYPE_SPHERICAL, TYPE_ELLIPTICAL, TYPE_HAACK, TYPE_OGIVE, TYPE_BLUNTED_OGIVE, TYPE_SECANT_OGIVE, TYPE_VON_KARMAN, TYPE_PARABOLA, TYPE_PARABOLIC, TYPE_POWER
 from App.Constants import STYLE_CAPPED, STYLE_HOLLOW, STYLE_SOLID
+from App.Constants import STYLE_CAP_SOLID, STYLE_CAP_BAR, STYLE_CAP_CROSS
 
 from App.Utilities import _wrn
 
@@ -92,6 +93,8 @@ class ShapeNoseCone(ShapeComponent):
     def __init__(self, obj):
         super().__init__(obj)
         
+        if not hasattr(obj, 'CapBarWidth'):
+            obj.addProperty('App::PropertyLength', 'CapBarWidth', 'NoseCone', translate('App::Property', 'Width of the nose cap bar')).CapBarWidth = 3.0
         if not hasattr(obj, 'Length'):
             obj.addProperty('App::PropertyLength', 'Length', 'NoseCone', translate('App::Property', 'Length of the nose not including any shoulder')).Length = 60.0
         if not hasattr(obj, 'BluntedDiameter'):
@@ -137,6 +140,13 @@ class ShapeNoseCone(ShapeComponent):
                             STYLE_HOLLOW,
                             STYLE_CAPPED]
         obj.NoseStyle = STYLE_SOLID
+
+        if not hasattr(obj, 'CapStyle'):
+            obj.addProperty('App::PropertyEnumeration', 'CapStyle', 'NoseCone', translate('App::Property', 'Nose cone cap style'))
+        obj.CapStyle = [STYLE_CAP_SOLID,
+                            STYLE_CAP_BAR,
+                            STYLE_CAP_CROSS]
+        obj.CapStyle = STYLE_CAP_SOLID
 
         if not hasattr(obj, 'Shape'):
             obj.addProperty('Part::PropertyPartShape', 'Shape', 'NoseCone', translate('App::Property', 'Shape of the nose cone'))
