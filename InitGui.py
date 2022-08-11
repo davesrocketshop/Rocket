@@ -37,12 +37,12 @@ class RocketWorkbench ( Workbench ):
         from PySide.QtCore import QT_TRANSLATE_NOOP
         
         self.appendToolbar(QT_TRANSLATE_NOOP('Rocket', 'Rocket'),
-                        ['Rocket_Rocket', 'Rocket_Stage', 'Rocket_NoseCone', 'Rocket_Transition', 'Rocket_BodyTubes', 'Rocket_CenteringRing', 'Rocket_Bulkhead', 'Rocket_Fin', 'Rocket_LaunchGuides', 
+                        ['Rocket_Rocket', 'Rocket_Stage', 'Rocket_ParallelStage', 'Rocket_NoseCone', 'Rocket_Transition', 'Rocket_Pod', 'Rocket_BodyTubes', 'Rocket_CenteringRing', 'Rocket_Bulkhead', 'Rocket_Fin', 'Rocket_LaunchGuides', 
                         'Separator', 'Rocket_MoveUp', 'Rocket_MoveDown', 'Rocket_Edit', 'Rocket_Delete',
                         'Separator', 'Rocket_Calculators', 'Separator', 'Rocket_NewSketch', 'Sketcher_EditSketch'])
 
         self.appendMenu(QT_TRANSLATE_NOOP('Rocket', 'Rocket'), 
-                        ['Rocket_Rocket', 'Rocket_Stage', 'Rocket_NoseCone', 'Rocket_Transition'])
+                        ['Rocket_Rocket', 'Rocket_Stage', 'Rocket_ParallelStage', 'Rocket_NoseCone', 'Rocket_Transition', 'Rocket_Pod'])
         self.appendMenu([QT_TRANSLATE_NOOP('Rocket', 'Rocket'), 
                          QT_TRANSLATE_NOOP("Rocket", "Body Tubes")],
                         ['Rocket_BodyTube', 'Rocket_Coupler', 'Rocket_InnerTube'])

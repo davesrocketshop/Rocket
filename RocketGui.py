@@ -29,10 +29,12 @@ from DraftTools import translate
 
 from Ui.CmdRocket import CmdRocket, CmdToggleRocket
 from Ui.CmdStage import CmdStage, CmdToggleStage
+from Ui.CmdParallelStage import CmdParallelStage, CmdToggleParallelStage
 from Ui.CmdNoseCone import CmdNoseCone
 from Ui.CmdTransition import CmdTransition
 from Ui.CmdCenteringRing import CmdCenteringRing
 from Ui.CmdBodyTube import CmdBodyTube, CmdCoupler, CmdInnerTube
+from Ui.CmdPod import CmdPod
 from Ui.CmdBulkhead import CmdBulkhead
 from Ui.CmdLaunchGuides import CmdLaunchLug, CmdRailButton, CmdRailGuide, CmdStandOff
 from Ui.CmdFin import CmdFin
@@ -52,6 +54,8 @@ FreeCADGui.addCommand('Rocket_Rocket', CmdRocket())
 FreeCADGui.addCommand('Rocket_ToggleRocket', CmdToggleRocket())
 FreeCADGui.addCommand('Rocket_Stage', CmdStage())
 FreeCADGui.addCommand('Rocket_ToggleStage', CmdToggleStage())
+FreeCADGui.addCommand('Rocket_ParallelStage', CmdParallelStage())
+FreeCADGui.addCommand('Rocket_ToggleParallelStage', CmdToggleParallelStage())
 
 FreeCADGui.addCommand('Rocket_NoseCone', CmdNoseCone())
 FreeCADGui.addCommand('Rocket_Transition', CmdTransition())
@@ -62,6 +66,8 @@ FreeCADGui.addCommand('Rocket_Fin', CmdFin())
 FreeCADGui.addCommand('Rocket_BodyTube', CmdBodyTube())
 FreeCADGui.addCommand('Rocket_Coupler', CmdCoupler())
 FreeCADGui.addCommand('Rocket_InnerTube', CmdInnerTube())
+
+FreeCADGui.addCommand('Rocket_Pod', CmdPod())
 
 FreeCADGui.addCommand('Rocket_LaunchLug', CmdLaunchLug())
 FreeCADGui.addCommand('Rocket_RailButton', CmdRailButton())
