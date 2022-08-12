@@ -24,19 +24,21 @@ __title__ = "FreeCAD Launch Guide"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
-from App.ShapeComponent import ShapeComponent
+from App.ShapeComponent import ShapeLocation
 from App.Constants import FEATURE_RAIL_GUIDE
+from App.Constants import PLACEMENT_RADIAL
 from App.Constants import RAIL_GUIDE_BASE_FLAT, RAIL_GUIDE_BASE_CONFORMAL, RAIL_GUIDE_BASE_V
 
 from App.RailGuideShapeHandler import RailGuideShapeHandler
 
 from DraftTools import translate
 
-class ShapeRailGuide(ShapeComponent):
+class ShapeRailGuide(ShapeLocation):
 
     def __init__(self, obj):
         super().__init__(obj)
         self.Type = FEATURE_RAIL_GUIDE
+        self._obj.PlacementType = PLACEMENT_RADIAL
 
         if not hasattr(obj,"RailGuideBaseType"):
             obj.addProperty('App::PropertyEnumeration', 'RailGuideBaseType', 'RailGuide', translate('App::Property', 'Rail guide base type'))
@@ -84,7 +86,18 @@ class ShapeRailGuide(ShapeComponent):
         if not hasattr(obj,"Shape"):
             obj.addProperty('Part::PropertyPartShape', 'Shape', 'RailGuide', translate('App::Property', 'Shape of the launch guide'))
 
+    def getAxialLength(self):
+        # Return the length of this component along the central axis
+        return self._obj.Length
+
     def execute(self, obj):
         shape = RailGuideShapeHandler(obj)
         if shape is not None:
             shape.draw()
+
+    def eligibleChild(self, childType):
+        return False
+
+    def onChildEdited(self):
+        # print("%s: onChildEdited()" % (self.__class__.__name__))
+        self._obj.Proxy.setEdited()

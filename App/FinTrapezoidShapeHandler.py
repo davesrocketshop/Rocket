@@ -24,7 +24,11 @@ __title__ = "FreeCAD Fins"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
+from DraftTools import translate
+    
 from App.Constants import FIN_CROSS_SAME
+
+from App.Utilities import _err
 
 from App.FinShapeHandler import FinShapeHandler
 
@@ -51,6 +55,23 @@ class FinTrapezoidShapeHandler(FinShapeHandler):
         else:
             tipLength2 = float(self._obj.TipChord) - float(self._obj.TipLength2)
         return self._makeChordProfile(crossSection, float(self._obj.RootChord - self._obj.SweepLength), float(self._obj.TipChord), float(self._obj.TipThickness), float(self._obj.Height), self._obj.TipPerCent, float(self._obj.TipLength1), tipLength2)
+
+    def isValidShape(self):
+        # Add error checking here
+        if self._obj.Ttw:
+            if self._obj.TtwOffset >= self._obj.RootChord:
+                _err(translate('Rocket', "Ttw offset must be less than the root chord"))
+                return False
+            if self._obj.TtwLength <= 0:
+                _err(translate('Rocket', "Ttw length must be greater than 0"))
+                return False
+            if self._obj.TtwHeight <= 0:
+                _err(translate('Rocket', "Ttw height must be greater than 0"))
+                return False
+            if self._obj.TtwThickness <= 0:
+                _err(translate('Rocket', "Ttw thickness must be greater than 0"))
+                return False
+        return True
 
     def _makeProfiles(self):
         profiles = []

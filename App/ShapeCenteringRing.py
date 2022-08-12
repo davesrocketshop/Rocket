@@ -25,6 +25,7 @@ __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
     
 from App.ShapeBulkhead import ShapeBulkhead
+from App.Constants import FEATURE_CENTERING_RING
 
 from App.CenteringRingShapeHandler import CenteringRingShapeHandler
 
@@ -37,18 +38,22 @@ class ShapeCenteringRing(ShapeBulkhead):
 
     def __init__(self, obj):
         super().__init__(obj)
+        self.Type = FEATURE_CENTERING_RING
 
-        if not hasattr(obj,"CenterDiameter"):
+        if not hasattr(obj, 'CenterDiameter'):
             obj.addProperty('App::PropertyLength', 'CenterDiameter', 'CenteringRing', translate('App::Property', 'Diameter of the central hole')).CenterDiameter = 10.0
+        if not hasattr(obj, 'CenterAutoDiameter'):
+            obj.addProperty('App::PropertyBool', 'CenterAutoDiameter', 'CenteringRing', translate('App::Property', 'Automatically set the center diameter when possible')).CenterAutoDiameter = False
 
-        if not hasattr(obj,"Notched"):
+        if not hasattr(obj, 'Notched'):
             obj.addProperty('App::PropertyBool', 'Notched', 'CenteringRing', translate('App::Property', 'Include a notch for an engine hook')).Notched = False
-        if not hasattr(obj,"NotchWidth"):
+        if not hasattr(obj, 'NotchWidth'):
             obj.addProperty('App::PropertyLength', 'NotchWidth', 'CenteringRing', translate('App::Property', 'Width of the engine hook notch')).NotchWidth = 3.0
-        if not hasattr(obj,"NotchHeight"):
+        if not hasattr(obj, 'NotchHeight'):
             obj.addProperty('App::PropertyLength', 'NotchHeight', 'CenteringRing', translate('App::Property', 'Height of the engine hook notch')).NotchHeight = 3.0
 
-        if not hasattr(obj,"Shape"):
+
+        if not hasattr(obj, 'Shape'):
             obj.addProperty('Part::PropertyPartShape', 'Shape', 'CenteringRing', translate('App::Property', 'Shape of the centering ring'))
 
         # Default values changed to match a central hole

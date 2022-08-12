@@ -30,7 +30,7 @@ import FreeCADGui
 from App.Constants import FIN_TYPE_SKETCH
 from App.ShapeFin import ShapeFin
 from Ui.ViewFin import ViewProviderFin
-# import Sketcher
+from Ui.CmdStage import addToStage
 
 from DraftTools import translate
 
@@ -49,12 +49,7 @@ def makeFin(name):
     if FreeCAD.GuiUp:
         ViewProviderFin(obj.ViewObject)
 
-        body=FreeCADGui.ActiveDocument.ActiveView.getActiveObject("pdbody")
-        part=FreeCADGui.ActiveDocument.ActiveView.getActiveObject("part")
-        if body:
-            body.Group=body.Group+[obj]
-        elif part:
-            part.Group=part.Group+[obj]
+        addToStage(obj)
     return obj
 
 class CmdFin:

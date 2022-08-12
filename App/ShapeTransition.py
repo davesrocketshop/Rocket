@@ -23,6 +23,7 @@ __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
     
 from App.ShapeComponent import ShapeComponent
+from App.Constants import FEATURE_TRANSITION
 
 from App.TransitionConeShapeHandler import TransitionConeShapeHandler
 from App.TransitionEllipseShapeHandler import TransitionEllipseShapeHandler
@@ -62,17 +63,28 @@ def _migrate_from_1_0(obj):
     obj.ForeShoulderDiameter = 2.0 * old["ForeShoulderRadius"]
     obj.AftShoulderDiameter = 2.0 * old["AftShoulderRadius"]
 
+def _migrate_from_2_0(obj):
+    _wrn("Transition migrating object from 2.0")
+
+    # Object with new properties
+    ShapeTransition(obj)
+
 class ShapeTransition(ShapeComponent):
 
     def __init__(self, obj):
         super().__init__(obj)
+        self.Type = FEATURE_TRANSITION
 
         if not hasattr(obj, 'Length'):
             obj.addProperty('App::PropertyLength', 'Length', 'Transition', translate('App::Property', 'Length of the transition not including any shoulder')).Length = 60.0
         if not hasattr(obj, 'ForeDiameter'):
             obj.addProperty('App::PropertyLength', 'ForeDiameter', 'Transition', translate('App::Property', 'Diameter at the front of the transition')).ForeDiameter = 20.0
+        if not hasattr(obj, 'ForeAutoDiameter'):
+            obj.addProperty('App::PropertyBool', 'ForeAutoDiameter', 'NoseCone', translate('App::Property', 'Automatically set the forward diameter when possible')).ForeAutoDiameter = False
         if not hasattr(obj, 'AftDiameter'):
             obj.addProperty('App::PropertyLength', 'AftDiameter', 'Transition', translate('App::Property', 'Diameter at the base of the transition')).AftDiameter = 40.0
+        if not hasattr(obj, 'AftAutoDiameter'):
+            obj.addProperty('App::PropertyBool', 'AftAutoDiameter', 'NoseCone', translate('App::Property', 'Automatically set the aft diameter when possible')).AftAutoDiameter = False
         if not hasattr(obj, 'CoreDiameter'):
             obj.addProperty('App::PropertyLength', 'CoreDiameter', 'Transition', translate('App::Property', 'Diameter of the transition core')).CoreDiameter = 10.0
         if not hasattr(obj, 'Thickness'):
@@ -126,7 +138,48 @@ class ShapeTransition(ShapeComponent):
     def onDocumentRestored(self, obj):
         if hasattr(obj, "ForeRadius"):
             _migrate_from_1_0(obj)
+        # elif hasattr(obj, "version") and obj.version:
+        #     if obj.version == "2.0":
+        #         _migrate_from_2_0(obj)
 
+    def getAxialLength(self):
+        # Return the length of this component along the central axis
+        return self._obj.Length
+
+    def getForeRadius(self):
+        # For placing objects on the outer part of the parent
+        if self._obj.ForeAutoDiameter:
+            radius = 0.0
+            previous = self.getPrevious()
+            if previous is not None:
+                radius = previous.Proxy.getAftRadius()
+            if radius <= 0.0:
+                radius = 24.79 # Default to BT50
+            diameter = 2.0 * radius
+            if self._obj.ForeDiameter != diameter:
+                self._obj.ForeDiameter = diameter
+                self.setEdited()
+        return self._obj.ForeDiameter / 2.0
+
+    def getAftRadius(self):
+        # For placing objects on the outer part of the parent
+        if self._obj.AftAutoDiameter:
+            radius = 0.0
+            next = self.getNext()
+            if next is not None:
+                radius = next.Proxy.getForeRadius()
+            if radius <= 0.0:
+                radius = 24.79 # Default to BT50
+            diameter = 2.0 * radius
+            if self._obj.AftDiameter != diameter:
+                self._obj.AftDiameter = diameter
+                self.setEdited()
+        return self._obj.AftDiameter / 2.0
+
+    def setRadius(self):
+        # Calculate auto radii
+        self.getForeRadius()
+        self.getAftRadius()
 
     def execute(self, obj):
         shape = None

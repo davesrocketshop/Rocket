@@ -180,6 +180,7 @@ class FinSketchShapeHandler(FinShapeHandler):
 
             return Part.Wire(shape)
 
+
     def curvedProfiles(self, shape):
         halfThickness = float(self._obj.RootThickness) / 2.0
 
@@ -195,7 +196,7 @@ class FinSketchShapeHandler(FinShapeHandler):
             profiles = []
         return profiles
 
-    def _makeChord(self, chord, rootLength2):
+    def _makeChord(self, chord, rootLength2, tolerance):
         height = float(chord[0].z)
 
         if len(chord) > 1:
@@ -203,7 +204,8 @@ class FinSketchShapeHandler(FinShapeHandler):
             offset = float(chord[1].x)
             profile = self._makeChordProfile(self._obj.RootCrossSection, offset, chordLength, float(self._obj.RootThickness), height, self._obj.RootPerCent, float(self._obj.RootLength1), rootLength2)
         elif self._obj.RootCrossSection in [FIN_CROSS_SQUARE, FIN_CROSS_WEDGE, FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE]:
-            chordLength = 1e-6  # Very small chord length
+            chordLength = 1e-3  # Very small chord length
+            # chordLength = 2.0 * tolerance # Very small chord length
             offset = float(chord[0].x)
             profile = self._makeChordProfile(self._obj.RootCrossSection, offset, chordLength, float(self._obj.RootThickness), height, self._obj.RootPerCent, float(self._obj.RootLength1), rootLength2)
         else:
@@ -211,14 +213,14 @@ class FinSketchShapeHandler(FinShapeHandler):
 
         return profile
 
-    def straightProfiles(self, shape):
+    def straightProfiles(self, shape, tolerance):
         chords = self.findChords(shape)
         profiles = []
         rootLength2 = float(self._obj.RootLength2)
 
         for index in range(len(chords) - 1):
-            profile1 = self._makeChord(chords[index], rootLength2)
-            profile2 = self._makeChord(chords[index + 1], rootLength2)
+            profile1 = self._makeChord(chords[index], rootLength2, tolerance)
+            profile2 = self._makeChord(chords[index + 1], rootLength2, tolerance)
             profiles.append([profile1, profile2])
 
         return profiles
@@ -228,21 +230,20 @@ class FinSketchShapeHandler(FinShapeHandler):
         if shape is None:
             return []
 
+        # print("Global Tolerance")
+        # print(shape.globalTolerance(1))
         if self.isCurved(shape):
             return self.curvedProfiles(shape)
-        return self.straightProfiles(shape)
+        return self.straightProfiles(shape, shape.globalTolerance(1))
 
     def _makeCommon(self):
         # The mask will be the fin outline, scaled very slightly
         shape = self.getOffsetFace()
-        tolerance = 10 * shape.getTolerance(1, Part.Shape)
-
-        half = float(self._obj.RootThickness) / 2.0
 
         face = Part.Shape(shape) # Make copies
-        face.translate(FreeCAD.Vector(0, -half - tolerance, 0))
+        face.translate(FreeCAD.Vector(0, -float(self._obj.RootThickness), 0))
 
-        mask = Part.Face(face).extrude(FreeCAD.Vector(0, float(self._obj.RootThickness) + (2.0 * tolerance), 0))
+        mask = Part.Face(face).extrude(FreeCAD.Vector(0, 2.0 * float(self._obj.RootThickness), 0))
         return mask
 
     def _makeTtw(self):

@@ -28,11 +28,15 @@ def QT_TRANSLATE_NOOP(scope, text):
     return text
 
 # Feature types
+FEATURE_ROCKET = "Rocket"
+FEATURE_STAGE = "RocketStage"
+FEATURE_PARALLEL_STAGE = "RocketParallelStage"
 FEATURE_BULKHEAD = "RocketBulkhead"
+FEATURE_POD = "RocketPod"
 FEATURE_BODY_TUBE = "RocketBodyTube"
 FEATURE_CENTERING_RING = "RocketCenteringRing"
 FEATURE_FIN = "RocketFin"
-FEATURE_FINCAN = "RocketFincan"
+FEATURE_FINCAN = "RocketFinCan"
 FEATURE_NOSE_CONE = "RocketNoseCone"
 FEATURE_TRANSITION = "RocketTransition"
 FEATURE_LAUNCH_LUG = "RocketLaunchLug"
@@ -81,6 +85,10 @@ FIN_CROSS_DIAMOND = "diamond"
 FIN_CROSS_TAPER_LE = "LE taper"
 FIN_CROSS_TAPER_TE = "TE taper"
 FIN_CROSS_TAPER_LETE = "taper"
+
+FIN_DEBUG_FULL = "Full"
+FIN_DEBUG_PROFILE_ONLY = "Profile"
+FIN_DEBUG_MASK_ONLY = "Mask"
 
 # Fin can edges
 FINCAN_EDGE_SQUARE = "square"
@@ -133,6 +141,8 @@ LOCATION_PARENT_MIDDLE = QT_TRANSLATE_NOOP('Rocket', "Middle of the parent compo
 LOCATION_PARENT_BOTTOM = QT_TRANSLATE_NOOP('Rocket', "Bottom of the parent component")
 LOCATION_BASE = QT_TRANSLATE_NOOP('Rocket', "Base of the rocket")
 LOCATION_AFTER = QT_TRANSLATE_NOOP('Rocket', "After the target component")
+LOCATION_SURFACE = QT_TRANSLATE_NOOP('Rocket', "Surface of the parent component")
+LOCATION_CENTER = QT_TRANSLATE_NOOP('Rocket', "Center of the parent component")
 
 # Part properties, defined in /App/PropertyContainer.h for cpp
 # These can be bitwise or'ed to combine properties

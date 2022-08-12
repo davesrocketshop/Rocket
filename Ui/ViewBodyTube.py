@@ -30,10 +30,15 @@ import FreeCADGui
 from Ui.TaskPanelBodyTube import TaskPanelBodyTube
 from Ui.ViewProvider import ViewProvider
 
+from App.ShapeBodyTube import hookChildren
+
 class ViewProviderBodyTube(ViewProvider):
 
     def __init__(self, vobj):
         super().__init__(vobj)
+
+        vobj.addExtension("Gui::ViewProviderGroupExtensionPython")
+        self._oldChildren = []
         
     def getIcon(self):
         return FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_BodyTube.svg"
@@ -50,3 +55,20 @@ class ViewProviderBodyTube(ViewProvider):
         if mode == 0:
             FreeCADGui.Control.closeDialog()
             return
+
+    def claimChildren(self):
+        """Define which objects will appear as children in the tree view.
+
+        Returns
+        -------
+        list of <App::DocumentObject>s:
+            The objects claimed as children.
+        """
+        objs = []
+        if hasattr(self,"Object"):
+            objs = self.Object.Group
+
+        hookChildren(self.Object, objs, self._oldChildren)
+        self._oldChildren = objs
+
+        return objs

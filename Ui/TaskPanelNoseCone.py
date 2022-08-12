@@ -104,7 +104,11 @@ class _NoseConeDialog(QDialog):
 
         self.diameterInput = ui.createWidget("Gui::InputField")
         self.diameterInput.unit = 'mm'
-        self.diameterInput.setMinimumWidth(100)
+        self.diameterInput.setMinimumWidth(80)
+
+        self.autoDiameterCheckbox = QtGui.QCheckBox(translate('Rocket', "auto"), self)
+        self.autoDiameterCheckbox.setCheckState(QtCore.Qt.Unchecked)
+
         self.thicknessLabel = QtGui.QLabel(translate('Rocket', "Thickness"), self)
 
         self.thicknessInput = ui.createWidget("Gui::InputField")
@@ -112,10 +116,10 @@ class _NoseConeDialog(QDialog):
         self.thicknessInput.setMinimumWidth(100)
         self.thicknessInput.setEnabled(False)
 
-        #
-        # Type dependent parameters
         self.coefficientLabel = QtGui.QLabel(translate('Rocket', "Shape Parameter"), self)
 
+        #
+        # Type dependent parameters
         self.coefficientValidator = QtGui.QDoubleValidator(self)
         self.coefficientValidator.setBottom(0.0)
 
@@ -186,6 +190,7 @@ class _NoseConeDialog(QDialog):
 
         layout.addWidget(self.diameterLabel, row, 0)
         layout.addWidget(self.diameterInput, row, 1)
+        layout.addWidget(self.autoDiameterCheckbox, row, 2)
         row += 1
 
         layout.addWidget(self.thicknessLabel, row, 0)
@@ -202,9 +207,9 @@ class _NoseConeDialog(QDialog):
 
         layout.addWidget(self.bluntedLabel, row, 0)
         layout.addWidget(self.bluntedInput, row, 1)
-        # row += 1
+        row += 1
 
-        layout.addItem(QtGui.QSpacerItem(0,0, QSizePolicy.Expanding, QSizePolicy.Expanding))
+        layout.addItem(QtGui.QSpacerItem(0,0, QSizePolicy.Expanding, QSizePolicy.Expanding), row, 0)
 
         self.tabGeneral.setLayout(layout)
 
@@ -222,6 +227,9 @@ class _NoseConeDialog(QDialog):
         self.shoulderDiameterInput.unit = 'mm'
         self.shoulderDiameterInput.setMinimumWidth(100)
         self.shoulderDiameterInput.setEnabled(False)
+
+        self.shoulderAutoDiameterCheckbox = QtGui.QCheckBox(translate('Rocket', "auto"), self)
+        self.shoulderAutoDiameterCheckbox.setCheckState(QtCore.Qt.Unchecked)
 
         self.shoulderLengthLabel = QtGui.QLabel(translate('Rocket', "Length"), self)
 
@@ -250,12 +258,14 @@ class _NoseConeDialog(QDialog):
 
         layout.addWidget(self.shoulderDiameterLabel, row, 0)
         layout.addWidget(self.shoulderDiameterInput, row, 1)
+        layout.addWidget(self.shoulderAutoDiameterCheckbox, row, 2)
         row += 1
 
         layout.addWidget(self.shoulderThicknessLabel, row, 0)
         layout.addWidget(self.shoulderThicknessInput, row, 1)
+        row += 1
 
-        layout.addItem(QtGui.QSpacerItem(0,0, QSizePolicy.Expanding, QSizePolicy.Expanding))
+        layout.addItem(QtGui.QSpacerItem(0,0, QSizePolicy.Expanding, QSizePolicy.Expanding), row, 0)
 
         self.tabShoulder.setLayout(layout)
 
@@ -276,17 +286,19 @@ class TaskPanelNoseCone:
         self._noseForm.noseCapStylesCombo.currentTextChanged.connect(self.onNoseCapStyle)
         self._noseForm.noseCapBarWidthInput.textEdited.connect(self.onBarWidthChanged)
 
-        self._noseForm.lengthInput.textEdited.connect(self.onLengthChanged)
-        self._noseForm.bluntedInput.textEdited.connect(self.onBluntedChanged)
-        self._noseForm.diameterInput.textEdited.connect(self.onDiameterChanged)
-        self._noseForm.thicknessInput.textEdited.connect(self.onThicknessChanged)
-        self._noseForm.coefficientInput.textEdited.connect(self.onCoefficientChanged)
-        self._noseForm.ogiveDiameterInput.textEdited.connect(self.onOgiveDiameterChanged)
+        self._noseForm.lengthInput.textEdited.connect(self.onLength)
+        self._noseForm.diameterInput.textEdited.connect(self.onDiameter)
+        self._noseForm.autoDiameterCheckbox.stateChanged.connect(self.onAutoDiameter)
+        self._noseForm.thicknessInput.textEdited.connect(self.onThickness)
+        self._noseForm.coefficientInput.textEdited.connect(self.onCoefficient)
+        self._noseForm.bluntedInput.textEdited.connect(self.onBlunted)
+        self._noseForm.ogiveDiameterInput.textEdited.connect(self.onOgiveDiameter)
 
-        self._noseForm.shoulderCheckbox.stateChanged.connect(self.onShoulderChanged)
-        self._noseForm.shoulderDiameterInput.textEdited.connect(self.onShoulderDiameterChanged)
-        self._noseForm.shoulderLengthInput.textEdited.connect(self.onShoulderLengthChanged)
-        self._noseForm.shoulderThicknessInput.textEdited.connect(self.onShoulderThicknessChanged)
+        self._noseForm.shoulderCheckbox.stateChanged.connect(self.onShoulder)
+        self._noseForm.shoulderDiameterInput.textEdited.connect(self.onShoulderDiameter)
+        self._noseForm.shoulderAutoDiameterCheckbox.stateChanged.connect(self.onShoulderAutoDiameter)
+        self._noseForm.shoulderLengthInput.textEdited.connect(self.onShoulderLength)
+        self._noseForm.shoulderThicknessInput.textEdited.connect(self.onShoulderThickness)
 
         self._db.dbLoad.connect(self.onLookup)
         
@@ -303,13 +315,15 @@ class TaskPanelNoseCone:
         self._obj.CapStyle = str(self._noseForm.noseCapStylesCombo.currentText())
         self._obj.CapBarWidth = self._noseForm.noseCapBarWidthInput.text()
         self._obj.Length = self._noseForm.lengthInput.text()
-        self._obj.BluntedDiameter = self._noseForm.bluntedInput.text()
         self._obj.Diameter = self._noseForm.diameterInput.text()
+        self._obj.AutoDiameter = self._noseForm.autoDiameterCheckbox.isChecked()
         self._obj.Thickness = self._noseForm.thicknessInput.text()
         self._obj.Coefficient = _toFloat(self._noseForm.coefficientInput.text())
+        self._obj.BluntedDiameter = self._noseForm.bluntedInput.text()
         self._obj.OgiveDiameter = self._noseForm.ogiveDiameterInput.text()
         self._obj.Shoulder = self._noseForm.shoulderCheckbox.isChecked()
         self._obj.ShoulderDiameter = self._noseForm.shoulderDiameterInput.text()
+        self._obj.ShoulderAutoDiameter = self._noseForm.shoulderAutoDiameterCheckbox.isChecked()
         self._obj.ShoulderLength = self._noseForm.shoulderLengthInput.text()
         self._obj.ShoulderThickness = self._noseForm.shoulderThicknessInput.text()
 
@@ -320,19 +334,29 @@ class TaskPanelNoseCone:
         self._noseForm.noseCapStylesCombo.setCurrentText(self._obj.CapStyle)
         self._noseForm.noseCapBarWidthInput.setText(self._obj.CapBarWidth.UserString)
         self._noseForm.lengthInput.setText(self._obj.Length.UserString)
-        self._noseForm.bluntedInput.setText(self._obj.BluntedDiameter.UserString)
         self._noseForm.diameterInput.setText(self._obj.Diameter.UserString)
+        self._noseForm.autoDiameterCheckbox.setChecked(self._obj.AutoDiameter)
         self._noseForm.thicknessInput.setText(self._obj.Thickness.UserString)
         self._noseForm.coefficientInput.setText("%f" % self._obj.Coefficient)
+        self._noseForm.bluntedInput.setText(self._obj.BluntedDiameter.UserString)
         self._noseForm.ogiveDiameterInput.setText(self._obj.OgiveDiameter.UserString)
         self._noseForm.shoulderCheckbox.setChecked(self._obj.Shoulder)
         self._noseForm.shoulderDiameterInput.setText(self._obj.ShoulderDiameter.UserString)
+        self._noseForm.shoulderAutoDiameterCheckbox.setChecked(self._obj.ShoulderAutoDiameter)
         self._noseForm.shoulderLengthInput.setText(self._obj.ShoulderLength.UserString)
         self._noseForm.shoulderThicknessInput.setText(self._obj.ShoulderThickness.UserString)
 
         self._setTypeState()
         self._setStyleState()
+        self._setAutoDiameterState()
         self._setShoulderState()
+
+    def setEdited(self):
+        try:
+            self._obj.Proxy.setEdited()
+        except ReferenceError:
+            # Object may be deleted
+            pass
         
     def _setCoeffientState(self):
         value = self._obj.NoseType
@@ -385,6 +409,7 @@ class TaskPanelNoseCone:
         self._setTypeState()
 
         self._obj.Proxy.execute(self._obj)
+        self.setEdited()
 
     def _setStyleState(self):
         value = self._obj.NoseStyle
@@ -431,46 +456,70 @@ class TaskPanelNoseCone:
         except ValueError:
             pass
         
-    def onLengthChanged(self, value):
+    def onLength(self, value):
         try:
             self._obj.Length = FreeCAD.Units.Quantity(value).Value
             self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
         
-    def onBluntedChanged(self, value):
+    def onBlunted(self, value):
         try:
             self._obj.BluntedDiameter = FreeCAD.Units.Quantity(value).Value
             self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
         
-    def onDiameterChanged(self, value):
+    def onDiameter(self, value):
         try:
             self._obj.Diameter = FreeCAD.Units.Quantity(value).Value
+            self._obj.AutoDiameter = False
             self._obj.Proxy.execute(self._obj)
 
             self._setLengthState() # Update for spherical noses
         except ValueError:
             pass
+        self.setEdited()
         
-    def onThicknessChanged(self, value):
+    def _setAutoDiameterState(self):
+        self._noseForm.diameterInput.setEnabled(not self._obj.AutoDiameter)
+        self._noseForm.autoDiameterCheckbox.setChecked(self._obj.AutoDiameter)
+
+    def onAutoDiameter(self, value):
+        self._obj.AutoDiameter = value
+        self._setAutoDiameterState()
+
+        self._obj.Proxy.execute(self._obj)
+        self.setEdited()
+         
+    def onThickness(self, value):
         try:
             self._obj.Thickness = FreeCAD.Units.Quantity(value).Value
             self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
+        self.setEdited()
         
-    def onCoefficientChanged(self, value):
+    def onCoefficient(self, value):
         self._obj.Coefficient = _toFloat(value)
         self._obj.Proxy.execute(self._obj)
+        self.setEdited()
+
+    def onBlunted(self, value):
+        try:
+            self._obj.BluntedDiameter = FreeCAD.Units.Quantity(value).Value
+            self._obj.Proxy.execute(self._obj)
+        except ValueError:
+            pass
+        self.setEdited()
         
-    def onOgiveDiameterChanged(self, value):
+    def onOgiveDiameter(self, value):
         try:
             self._obj.OgiveDiameter = FreeCAD.Units.Quantity(value).Value
             self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
+        self.setEdited()
 
     def _setShoulderState(self):
         if self._obj.Shoulder:
@@ -486,50 +535,70 @@ class TaskPanelNoseCone:
             self._noseForm.shoulderDiameterInput.setEnabled(False)
             self._noseForm.shoulderLengthInput.setEnabled(False)
             self._noseForm.shoulderThicknessInput.setEnabled(False)
+
+        self._setAutoShoulderDiameterState()
         
-    def onShoulderChanged(self, value):
+    def onShoulder(self, value):
         self._obj.Shoulder = self._noseForm.shoulderCheckbox.isChecked()
         self._setShoulderState()
 
         self._obj.Proxy.execute(self._obj)
+        self.setEdited()
         
-    def onShoulderDiameterChanged(self, value):
+    def onShoulderDiameter(self, value):
         try:
             self._obj.ShoulderDiameter = FreeCAD.Units.Quantity(value).Value
+            self._obj.ShoulderAutoDiameter = False
             self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
+        self.setEdited()
+       
+    def _setAutoShoulderDiameterState(self):
+        self._noseForm.shoulderDiameterInput.setEnabled((not self._obj.ShoulderAutoDiameter) and self._obj.Shoulder)
+        self._noseForm.shoulderAutoDiameterCheckbox.setChecked(self._obj.ShoulderAutoDiameter)
+        self._noseForm.shoulderAutoDiameterCheckbox.setEnabled(self._obj.Shoulder)
         
-    def onShoulderLengthChanged(self, value):
+    def onShoulderAutoDiameter(self, value):
+        self._obj.ShoulderAutoDiameter = value
+        self._setAutoShoulderDiameterState()
+
+        self._obj.Proxy.execute(self._obj)
+        self.setEdited()
+        
+    def onShoulderLength(self, value):
         try:
             self._obj.ShoulderLength = FreeCAD.Units.Quantity(value).Value
             self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
+        self.setEdited()
         
-    def onShoulderThicknessChanged(self, value):
+    def onShoulderThickness(self, value):
         try:
             self._obj.ShoulderThickness = FreeCAD.Units.Quantity(value).Value
             self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
-        
+        self.setEdited()
+       
     def onLookup(self):
         result = self._db.getLookupResult()
 
         self._obj.NoseType = str(result["shape"])
         self._obj.NoseStyle = str(result["style"])
         self._obj.Length = _valueWithUnits(result["length"], result["length_units"])
-        self._obj.BluntedDiameter = _valueWithUnits("0", "mm")
         self._obj.Diameter = _valueWithUnits(result["diameter"], result["diameter_units"])
         self._obj.Thickness = _valueWithUnits(result["thickness"], result["thickness_units"])
         # self._obj.Coefficient = _toFloat(self._noseForm.coefficientInput.text())
+        # self._obj.BluntedDiameter = _valueWithUnits("0", "mm")
         self._obj.ShoulderDiameter = _valueWithUnits(result["shoulder_diameter"], result["shoulder_diameter_units"])
         self._obj.ShoulderLength = _valueWithUnits(result["shoulder_length"], result["shoulder_length_units"])
         self._obj.Shoulder = (self._obj.ShoulderDiameter > 0.0) and (self._obj.ShoulderLength >= 0)
         self._obj.ShoulderThickness = self._obj.Thickness
         self.update()
         self._obj.Proxy.execute(self._obj) 
+        self.setEdited()
         
     def getStandardButtons(self):
         return int(QtGui.QDialogButtonBox.Ok) | int(QtGui.QDialogButtonBox.Cancel)| int(QtGui.QDialogButtonBox.Apply)
@@ -553,3 +622,4 @@ class TaskPanelNoseCone:
         FreeCAD.ActiveDocument.abortTransaction()
         FreeCAD.ActiveDocument.recompute()
         FreeCADGui.ActiveDocument.resetEdit()
+        self.setEdited()

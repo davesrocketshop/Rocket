@@ -116,11 +116,17 @@ class _TransitionDialog(QDialog):
         self.foreDiameterInput.unit = 'mm'
         self.foreDiameterInput.setMinimumWidth(100)
 
+        self.foreAutoDiameterCheckbox = QtGui.QCheckBox(translate('Rocket', "auto"), self)
+        self.foreAutoDiameterCheckbox.setCheckState(QtCore.Qt.Unchecked)
+
         self.aftDiameterLabel = QtGui.QLabel(translate('Rocket', "Aft Diameter"), self)
 
         self.aftDiameterInput = ui.createWidget("Gui::InputField")
         self.aftDiameterInput.unit = 'mm'
         self.aftDiameterInput.setMinimumWidth(100)
+
+        self.aftAutoDiameterCheckbox = QtGui.QCheckBox(translate('Rocket', "auto"), self)
+        self.aftAutoDiameterCheckbox.setCheckState(QtCore.Qt.Unchecked)
 
         self.coreDiameterLabel = QtGui.QLabel(translate('Rocket', "Core Diameter"), self)
 
@@ -156,10 +162,12 @@ class _TransitionDialog(QDialog):
 
         layout.addWidget(self.foreDiameterLabel, row, 0)
         layout.addWidget(self.foreDiameterInput, row, 1)
+        layout.addWidget(self.foreAutoDiameterCheckbox, row, 2)
         row += 1
 
         layout.addWidget(self.aftDiameterLabel, row, 0)
         layout.addWidget(self.aftDiameterInput, row, 1)
+        layout.addWidget(self.aftAutoDiameterCheckbox, row, 2)
         row += 1
 
         layout.addWidget(self.coreDiameterLabel, row, 0)
@@ -168,8 +176,9 @@ class _TransitionDialog(QDialog):
 
         layout.addWidget(self.thicknessLabel, row, 0)
         layout.addWidget(self.thicknessInput, row, 1)
+        row += 1
 
-        layout.addItem(QtGui.QSpacerItem(0,0, QSizePolicy.Expanding, QSizePolicy.Expanding))
+        layout.addItem(QtGui.QSpacerItem(0,0, QSizePolicy.Expanding, QSizePolicy.Expanding), row, 0)
 
         self.tabGeneral.setLayout(layout)
 
@@ -272,7 +281,9 @@ class TaskPanelTransition:
         self._tranForm.transitionStylesCombo.currentTextChanged.connect(self.onTransitionStyle)
         self._tranForm.lengthInput.textEdited.connect(self.onLength)
         self._tranForm.foreDiameterInput.textEdited.connect(self.onForeDiameter)
+        self._tranForm.foreAutoDiameterCheckbox.stateChanged.connect(self.onForeAutoDiameter)
         self._tranForm.aftDiameterInput.textEdited.connect(self.onAftDiameter)
+        self._tranForm.aftAutoDiameterCheckbox.stateChanged.connect(self.onAftAutoDiameter)
         self._tranForm.coreDiameterInput.textEdited.connect(self.onCoreDiameter)
         self._tranForm.thicknessInput.textEdited.connect(self.onThickness)
         self._tranForm.coefficientInput.textEdited.connect(self.onCoefficient)
@@ -300,7 +311,9 @@ class TaskPanelTransition:
         self._obj.TransitionStyle = str(self._tranForm.transitionStylesCombo.currentText())
         self._obj.Length = self._tranForm.lengthInput.text()
         self._obj.ForeDiameter = self._tranForm.foreDiameterInput.text()
+        self._obj.ForeAutoDiameter = self._tranForm.foreAutoDiameterCheckbox.isChecked()
         self._obj.AftDiameter = self._tranForm.aftDiameterInput.text()
+        self._obj.AftAutoDiameter = self._tranForm.aftAutoDiameterCheckbox.isChecked()
         self._obj.CoreDiameter = self._tranForm.coreDiameterInput.text()
         self._obj.Thickness = self._tranForm.thicknessInput.text()
         self._obj.Coefficient = _toFloat(self._tranForm.coefficientInput.text())
@@ -320,7 +333,9 @@ class TaskPanelTransition:
         self._tranForm.transitionStylesCombo.setCurrentText(self._obj.TransitionStyle)
         self._tranForm.lengthInput.setText(self._obj.Length.UserString)
         self._tranForm.foreDiameterInput.setText(self._obj.ForeDiameter.UserString)
+        self._tranForm.foreAutoDiameterCheckbox.setChecked(self._obj.ForeAutoDiameter)
         self._tranForm.aftDiameterInput.setText(self._obj.AftDiameter.UserString)
+        self._tranForm.aftAutoDiameterCheckbox.setChecked(self._obj.AftAutoDiameter)
         self._tranForm.coreDiameterInput.setText(self._obj.CoreDiameter.UserString)
         self._tranForm.thicknessInput.setText(self._obj.Thickness.UserString)
         self._tranForm.coefficientInput.setText("%f" % self._obj.Coefficient)
@@ -334,9 +349,18 @@ class TaskPanelTransition:
         self._tranForm.aftShoulderLengthInput.setText(self._obj.AftShoulderLength.UserString)
         self._tranForm.aftShoulderThicknessInput.setText(self._obj.AftShoulderThickness.UserString)
 
+        self._setForeAutoDiameterState()
+        self._setAftAutoDiameterState()
         self._showTransitionType()
         self._showClippable()
         self._showTransitionStyle()
+
+    def setEdited(self):
+        try:
+            self._obj.Proxy.setEdited()
+        except ReferenceError:
+            # Object may be deleted
+            pass
 
     def _showClippable(self):
         if str(self._obj.TransitionType) in [TYPE_CONE, TYPE_OGIVE]:
@@ -374,6 +398,7 @@ class TaskPanelTransition:
         self._showClippable()
 
         self._obj.Proxy.execute(self._obj)
+        self.setEdited()
         
     def _showTransitionStyle(self):
         value = self._obj.TransitionStyle
@@ -409,6 +434,7 @@ class TaskPanelTransition:
 
         self._showTransitionStyle()
         self._obj.Proxy.execute(self._obj)
+        self.setEdited()
         
     def onLength(self, value):
         try:
@@ -416,6 +442,7 @@ class TaskPanelTransition:
             self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
+        self.setEdited()
         
     def onForeDiameter(self, value):
         try:
@@ -423,6 +450,22 @@ class TaskPanelTransition:
             self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
+        self.setEdited()
+        
+    def _setForeAutoDiameterState(self):
+        self._tranForm.foreDiameterInput.setEnabled(not self._obj.ForeAutoDiameter)
+        self._tranForm.foreAutoDiameterCheckbox.setChecked(self._obj.ForeAutoDiameter)
+
+        if self._obj.ForeAutoDiameter:
+            self._obj.ForeDiameter = 2.0 * self._obj.Proxy.getForeRadius()
+            self._tranForm.foreDiameterInput.setText(self._obj.ForeDiameter.UserString)
+         
+    def onForeAutoDiameter(self, value):
+        self._obj.ForeAutoDiameter = self._tranForm.foreAutoDiameterCheckbox.isChecked()
+        self._setForeAutoDiameterState()
+
+        self._obj.Proxy.execute(self._obj)
+        self.setEdited()
         
     def onAftDiameter(self, value):
         try:
@@ -430,6 +473,22 @@ class TaskPanelTransition:
             self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
+        self.setEdited()
+        
+    def _setAftAutoDiameterState(self):
+        self._tranForm.aftDiameterInput.setEnabled(not self._obj.AftAutoDiameter)
+        self._tranForm.aftAutoDiameterCheckbox.setChecked(self._obj.AftAutoDiameter)
+
+        if self._obj.AftAutoDiameter:
+            self._obj.AftDiameter = 2.0 * self._obj.Proxy.getAftRadius()
+            self._tranForm.aftDiameterInput.setText(self._obj.AftDiameter.UserString)
+         
+    def onAftAutoDiameter(self, value):
+        self._obj.AftAutoDiameter = self._tranForm.aftAutoDiameterCheckbox.isChecked()
+        self._setAftAutoDiameterState()
+
+        self._obj.Proxy.execute(self._obj)
+        self.setEdited()
         
     def onCoreDiameter(self, value):
         try:
@@ -437,6 +496,7 @@ class TaskPanelTransition:
             self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
+        self.setEdited()
         
     def onThickness(self, value):
         try:
@@ -444,14 +504,17 @@ class TaskPanelTransition:
             self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
+        self.setEdited()
         
     def onCoefficient(self, value):
         self._obj.Coefficient = _toFloat(value)
         self._obj.Proxy.execute(self._obj)
+        self.setEdited()
         
     def onClipped(self, value):
         self._obj.Clipped = self._tranForm.clippedCheckbox.isChecked()
         self._obj.Proxy.execute(self._obj)
+        self.setEdited()
         
     def onForeShoulder(self, value):
         self._obj.ForeShoulder = self._tranForm.foreGroup.isChecked()
@@ -470,6 +533,7 @@ class TaskPanelTransition:
             self._tranForm.foreShoulderThicknessInput.setEnabled(False)
 
         self._obj.Proxy.execute(self._obj)
+        self.setEdited()
         
     def onForeShoulderDiameter(self, value):
         try:
@@ -477,6 +541,7 @@ class TaskPanelTransition:
             self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
+        self.setEdited()
         
     def onForeShoulderLength(self, value):
         try:
@@ -484,6 +549,7 @@ class TaskPanelTransition:
             self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
+        self.setEdited()
         
     def onForeShoulderThickness(self, value):
         try:
@@ -491,6 +557,7 @@ class TaskPanelTransition:
             self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
+        self.setEdited()
         
     def onAftShoulder(self, value):
         self._obj.AftShoulder = self._tranForm.aftGroup.isChecked()
@@ -509,6 +576,7 @@ class TaskPanelTransition:
             self._tranForm.aftShoulderThicknessInput.setEnabled(False)
 
         self._obj.Proxy.execute(self._obj)
+        self.setEdited()
         
     def onAftShoulderDiameter(self, value):
         try:
@@ -516,6 +584,7 @@ class TaskPanelTransition:
             self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
+        self.setEdited()
         
     def onAftShoulderLength(self, value):
         try:
@@ -523,6 +592,7 @@ class TaskPanelTransition:
             self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
+        self.setEdited()
         
     def onAftShoulderThickness(self, value):
         try:
@@ -530,6 +600,7 @@ class TaskPanelTransition:
             self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
+        self.setEdited()
         
     def onLookup(self):
         result = self._db.getLookupResult()
@@ -555,6 +626,7 @@ class TaskPanelTransition:
 
         self.update()
         self._obj.Proxy.execute(self._obj) 
+        self.setEdited()
         
     def getStandardButtons(self):
         return int(QtGui.QDialogButtonBox.Ok) | int(QtGui.QDialogButtonBox.Cancel)| int(QtGui.QDialogButtonBox.Apply)
@@ -579,3 +651,4 @@ class TaskPanelTransition:
         FreeCAD.ActiveDocument.abortTransaction()
         FreeCAD.ActiveDocument.recompute()
         FreeCADGui.ActiveDocument.resetEdit()
+        self.setEdited()

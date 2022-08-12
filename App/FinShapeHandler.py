@@ -271,7 +271,7 @@ class FinShapeHandler:
         return profiles
 
     def _makeCommon(self):
-        # Override this id we have a "masking" shape
+        # Override this if we have a "masking" shape
         return None
 
     def _drawFinDebug(self, debug):
@@ -297,10 +297,10 @@ class FinShapeHandler:
                 elif mask is not None and (debug != FIN_DEBUG_PROFILE_ONLY):
                     loft = loft.common(mask)
 
-                if self._obj.Ttw:
-                    ttw = self._makeTtw()
-                    if ttw:
-                        loft = loft = loft.fuse(ttw)
+                    if self._obj.Ttw:
+                        ttw = self._makeTtw()
+                        if ttw:
+                            loft = loft.fuse(ttw)
 
         return loft
 
@@ -311,6 +311,7 @@ class FinShapeHandler:
 
     def _drawFin(self):
         fin = self._drawSingleFin()
+        # fin.translate(FreeCAD.Vector(0,0,float(self._obj.ParentRadius) + float(self._obj.AxialOffset)))
         fin.translate(FreeCAD.Vector(0,0,float(self._obj.ParentRadius)))
         # print ("Translate (%s,%s,%s)" % (0, 0, self._obj.ParentRadius))
         return Part.makeCompound([fin])
@@ -320,6 +321,7 @@ class FinShapeHandler:
         base = self._drawSingleFin()
         for i in range(self._obj.FinCount):
             fin = Part.Shape(base) # Create a copy
+            # fin.translate(FreeCAD.Vector(0,0,float(self._obj.ParentRadius) + float(self._obj.AxialOffset)))
             fin.translate(FreeCAD.Vector(0,0,float(self._obj.ParentRadius)))
             fin.rotate(FreeCAD.Vector(0, 0, 0), FreeCAD.Vector(1,0,0), i * float(self._obj.FinSpacing))
             fins.append(fin)

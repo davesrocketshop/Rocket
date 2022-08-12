@@ -33,6 +33,8 @@ from DraftTools import translate
 from PySide import QtGui
 from PySide2.QtWidgets import QDialog, QGridLayout, QVBoxLayout
 
+from Ui.TaskPanelLocation import TaskPanelLocation
+
 from App.Constants import RAIL_BUTTON_ROUND, RAIL_BUTTON_AIRFOIL
 from App.Constants import CONTERSINK_ANGLE_60, CONTERSINK_ANGLE_82, CONTERSINK_ANGLE_90, CONTERSINK_ANGLE_100, \
                             CONTERSINK_ANGLE_110, CONTERSINK_ANGLE_120
@@ -220,7 +222,10 @@ class TaskPanelRailButton:
         
         self._btForm = _RailButtonDialog()
 
-        self.form = [self._btForm]
+        self._location = TaskPanelLocation(obj)
+        self._locationForm = self._location.getForm()
+
+        self.form = [self._btForm, self._locationForm]
         self._btForm.setWindowIcon(QtGui.QIcon(FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_BodyTube.svg"))
         
         self._btForm.railButtonTypeCombo.currentTextChanged.connect(self.onRailButtonType)
@@ -240,6 +245,8 @@ class TaskPanelRailButton:
 
         self._btForm.filletGroup.toggled.connect(self.onFillet)
         self._btForm.filletRadiusInput.textEdited.connect(self.onFilletRadius)
+
+        self._location.locationChange.connect(self.onLocation)
         
         self.update()
         
@@ -285,6 +292,13 @@ class TaskPanelRailButton:
         self._btForm.filletRadiusInput.setText(self._obj.FilletRadius.UserString)
 
         self._setTypeState()
+
+    def setEdited(self):
+        try:
+            self._obj.Proxy.setEdited()
+        except ReferenceError:
+            # Object may be deleted
+            pass
         
     def _setTypeState(self):
         value = self._obj.RailButtonType
@@ -302,6 +316,7 @@ class TaskPanelRailButton:
         self._setTypeState()
 
         self._obj.Proxy.execute(self._obj)
+        self.setEdited()
         
     def onOd(self, value):
         try:
@@ -309,6 +324,7 @@ class TaskPanelRailButton:
             self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
+        self.setEdited()
         
     def onId(self, value):
         try:
@@ -316,6 +332,7 @@ class TaskPanelRailButton:
             self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
+        self.setEdited()
         
     def onTopThickness(self, value):
         try:
@@ -323,6 +340,7 @@ class TaskPanelRailButton:
             self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
+        self.setEdited()
         
     def onBaseThickness(self, value):
         try:
@@ -330,6 +348,7 @@ class TaskPanelRailButton:
             self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
+        self.setEdited()
         
     def onThickness(self, value):
         try:
@@ -337,6 +356,7 @@ class TaskPanelRailButton:
             self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
+        self.setEdited()
         
     def onLength(self, value):
         try:
@@ -344,10 +364,12 @@ class TaskPanelRailButton:
             self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
+        self.setEdited()
 
     def onFastener(self, value):
         self._obj.Fastener = value
         self._obj.Proxy.execute(self._obj)
+        self.setEdited()
 
     def _setFasteners(self):
         self._btForm.countersinkTypeCombo.setCurrentText(self._obj.CountersinkAngle)
@@ -358,6 +380,7 @@ class TaskPanelRailButton:
         self._obj.CountersinkAngle = value
         self._btForm.fastenerPresetCombo.setCurrentText("")
         self._obj.Proxy.execute(self._obj)
+        self.setEdited()
     
     def onHeadDiameter(self, value):
         try:
@@ -366,6 +389,7 @@ class TaskPanelRailButton:
             self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
+        self.setEdited()
     
     def onShankDiameter(self, value):
         try:
@@ -374,6 +398,7 @@ class TaskPanelRailButton:
             self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
+        self.setEdited()
 
     def preset6(self):
         try:
@@ -384,6 +409,7 @@ class TaskPanelRailButton:
             self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
+        self.setEdited()
 
     def preset8(self):
         try:
@@ -394,6 +420,7 @@ class TaskPanelRailButton:
             self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
+        self.setEdited()
 
     def preset10(self):
         try:
@@ -404,6 +431,7 @@ class TaskPanelRailButton:
             self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
+        self.setEdited()
 
     def preset1_4(self):
         try:
@@ -414,6 +442,7 @@ class TaskPanelRailButton:
             self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
+        self.setEdited()
     
     def onFastenerPreset(self, value):
         if value == FASTENER_PRESET_6:
@@ -428,6 +457,7 @@ class TaskPanelRailButton:
     def onFillet(self, value):
         self._obj.FilletedTop = value
         self._obj.Proxy.execute(self._obj)
+        self.setEdited()
     
     def onFilletRadius(self, value):
         try:
@@ -435,9 +465,11 @@ class TaskPanelRailButton:
             self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
+        self.setEdited()
     
     def onLocation(self):
         self._obj.Proxy.execute(self._obj) 
+        self.setEdited()
         
     def getStandardButtons(self):
         return int(QtGui.QDialogButtonBox.Ok) | int(QtGui.QDialogButtonBox.Cancel)| int(QtGui.QDialogButtonBox.Apply)
@@ -462,3 +494,4 @@ class TaskPanelRailButton:
         FreeCAD.ActiveDocument.abortTransaction()
         FreeCAD.ActiveDocument.recompute()
         FreeCADGui.ActiveDocument.resetEdit()
+        self.setEdited()

@@ -26,7 +26,7 @@ __url__ = "https://www.davesrocketshop.com"
 # import FreeCAD as App
 
 # add Import/Export types
-# App.addImportType("Open Rocket (*.ork)", "importORK")
+App.addImportType("Open Rocket (*.ork)", "importORK")
 # App.addImportType("Rocksim (*.rkt)", "importRKT")
 
 #App.__unit_test__ += ["TestRocketImport"]

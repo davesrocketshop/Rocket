@@ -24,9 +24,10 @@ __title__ = "FreeCAD Rail Buttons"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
-from App.ShapeComponent import ShapeComponent
+from App.ShapeComponent import ShapeLocation
 from App.Constants import FEATURE_RAIL_BUTTON
 from App.Constants import RAIL_BUTTON_ROUND, RAIL_BUTTON_AIRFOIL
+from App.Constants import PLACEMENT_RADIAL
 from App.Constants import CONTERSINK_ANGLE_60, CONTERSINK_ANGLE_82, CONTERSINK_ANGLE_90, CONTERSINK_ANGLE_100, \
                             CONTERSINK_ANGLE_110, CONTERSINK_ANGLE_120
 
@@ -40,11 +41,12 @@ from DraftTools import translate
 # These have not been verified
 #
 
-class ShapeRailButton(ShapeComponent):
+class ShapeRailButton(ShapeLocation):
 
     def __init__(self, obj):
         super().__init__(obj)
         self.Type = FEATURE_RAIL_BUTTON
+        self._obj.PlacementType = PLACEMENT_RADIAL
 
         # Default set to a BT-50
         if not hasattr(obj,"RailButtonType"):

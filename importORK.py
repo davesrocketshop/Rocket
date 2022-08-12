@@ -24,11 +24,12 @@ __title__ = "FreeCAD Open Rocket Importer"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
-import xml.etree.ElementTree as ET
+import os
 
 import FreeCAD
 
-from App.OpenRocket import OpenRocket
+# from App.OpenRocket import OpenRocket
+from App.Importer.OpenRocket import OpenRocketImporter
 
 def open(filename):
     """Open filename and parse using the orkHandler().
@@ -47,10 +48,7 @@ def open(filename):
     doc = FreeCAD.newDocument(docname)
     doc.Label = docname[:-4]
 
-    ork = ET.parse(filename)
-    rocket = OpenRocket(doc)
-    rocket.process(ork)
-    rocket.create()
+    OpenRocketImporter.importFile(filename)
 
     doc.recompute()
     return doc
@@ -81,9 +79,6 @@ def insert(filename, docname):
         doc = FreeCAD.newDocument(docname)
     FreeCAD.ActiveDocument = doc
 
-    ork = ET.parse(filename)
-    rocket = OpenRocket(doc)
-    rocket.process(ork)
-    rocket.create()
+    OpenRocketImporter.importFile(filename)
 
     doc.recompute()

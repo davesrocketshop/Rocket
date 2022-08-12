@@ -27,14 +27,19 @@ import FreeCADGui
 
 from DraftTools import translate
 
+from Ui.CmdRocket import CmdRocket, CmdToggleRocket
+from Ui.CmdStage import CmdStage, CmdToggleStage
+from Ui.CmdParallelStage import CmdParallelStage, CmdToggleParallelStage
 from Ui.CmdNoseCone import CmdNoseCone
 from Ui.CmdTransition import CmdTransition
 from Ui.CmdCenteringRing import CmdCenteringRing
-from Ui.CmdBodyTube import CmdBodyTube
+from Ui.CmdBodyTube import CmdBodyTube, CmdCoupler, CmdInnerTube
+from Ui.CmdPod import CmdPod
 from Ui.CmdBulkhead import CmdBulkhead
 from Ui.CmdLaunchGuides import CmdLaunchLug, CmdRailButton, CmdRailGuide, CmdStandOff
 from Ui.CmdFin import CmdFin
 from Ui.CmdFinCan import CmdFinCan
+from Ui.CmdEditTree import CmdMoveUp, CmdMoveDown, CmdEdit, CmdDelete
 
 # Calculators
 from Ui.CmdCalcBlackPowder import CmdCalcBlackPowder
@@ -45,6 +50,13 @@ from Ui.CmdCalcVentHoles import CmdCalcVentHoles
 # Rocket specific sketcher
 from Ui.CmdSketcher import CmdNewSketch
 
+FreeCADGui.addCommand('Rocket_Rocket', CmdRocket())
+FreeCADGui.addCommand('Rocket_ToggleRocket', CmdToggleRocket())
+FreeCADGui.addCommand('Rocket_Stage', CmdStage())
+FreeCADGui.addCommand('Rocket_ToggleStage', CmdToggleStage())
+FreeCADGui.addCommand('Rocket_ParallelStage', CmdParallelStage())
+FreeCADGui.addCommand('Rocket_ToggleParallelStage', CmdToggleParallelStage())
+
 FreeCADGui.addCommand('Rocket_NoseCone', CmdNoseCone())
 FreeCADGui.addCommand('Rocket_Transition', CmdTransition())
 FreeCADGui.addCommand('Rocket_CenteringRing', CmdCenteringRing())
@@ -53,6 +65,10 @@ FreeCADGui.addCommand('Rocket_Fin', CmdFin())
 FreeCADGui.addCommand('Rocket_FinCan', CmdFinCan())
 
 FreeCADGui.addCommand('Rocket_BodyTube', CmdBodyTube())
+FreeCADGui.addCommand('Rocket_Coupler', CmdCoupler())
+FreeCADGui.addCommand('Rocket_InnerTube', CmdInnerTube())
+
+FreeCADGui.addCommand('Rocket_Pod', CmdPod())
 
 FreeCADGui.addCommand('Rocket_LaunchLug', CmdLaunchLug())
 FreeCADGui.addCommand('Rocket_RailButton', CmdRailButton())
@@ -63,6 +79,11 @@ FreeCADGui.addCommand('Rocket_CalcBlackPowder', CmdCalcBlackPowder())
 FreeCADGui.addCommand('Rocket_CalcParachute', CmdCalcParachute())
 FreeCADGui.addCommand('Rocket_CalcThrustToWeight', CmdCalcThrustToWeight())
 FreeCADGui.addCommand('Rocket_CalcVentHoles', CmdCalcVentHoles())
+
+FreeCADGui.addCommand('Rocket_MoveUp', CmdMoveUp())
+FreeCADGui.addCommand('Rocket_MoveDown', CmdMoveDown())
+FreeCADGui.addCommand('Rocket_Edit', CmdEdit())
+FreeCADGui.addCommand('Rocket_Delete', CmdDelete())
 
 FreeCADGui.addCommand('Rocket_NewSketch', CmdNewSketch())
 
@@ -80,6 +101,21 @@ class _CalculatorGroupCommand:
         # Always available, even without active document
         return True
 
+class _TubeGroupCommand:
+
+    def GetCommands(self):
+        return tuple(['Rocket_BodyTube', 'Rocket_Coupler', 'Rocket_InnerTube'])
+    def GetResources(self):
+        return {
+            'MenuText': translate('Rocket', 'Body Tubes'),
+            'ToolTip': translate('Rocket', 'Body Tubes'),
+            'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_BodyTube.svg"
+        }
+    def IsActive(self):
+        if FreeCAD.ActiveDocument:
+            return True
+        return False
+
 class _GuidesGroupCommand:
 
     def GetCommands(self):
@@ -96,4 +132,5 @@ class _GuidesGroupCommand:
         return False
 
 FreeCADGui.addCommand('Rocket_Calculators', _CalculatorGroupCommand())
+FreeCADGui.addCommand('Rocket_BodyTubes', _TubeGroupCommand())
 FreeCADGui.addCommand('Rocket_LaunchGuides', _GuidesGroupCommand())

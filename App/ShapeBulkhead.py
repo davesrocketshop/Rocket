@@ -24,42 +24,50 @@ __title__ = "FreeCAD Bulkheads"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
     
-from App.ShapeComponent import ShapeComponent
+from App.ShapeComponent import ShapeLocation
+from App.Constants import FEATURE_BULKHEAD
 
 from App.BulkheadShapeHandler import BulkheadShapeHandler
 
 from DraftTools import translate
 
-class ShapeBulkhead(ShapeComponent):
+class ShapeBulkhead(ShapeLocation):
 
     def __init__(self, obj):
         super().__init__(obj)
+        self.Type = FEATURE_BULKHEAD
 
-        if not hasattr(obj,"Diameter"):
+        if not hasattr(obj, 'Diameter'):
             obj.addProperty('App::PropertyLength', 'Diameter', 'Bulkhead', translate('App::Property', 'Outer diameter of the bulkhead')).Diameter = 25.0
-        if not hasattr(obj,"Thickness"):
+        if not hasattr(obj, 'AutoDiameter'):
+            obj.addProperty('App::PropertyBool', 'AutoDiameter', 'Bulkhead', translate('App::Property', 'Automatically set the outer diameter when possible')).AutoDiameter = False
+        if not hasattr(obj, 'Thickness'):
             obj.addProperty('App::PropertyLength', 'Thickness', 'Bulkhead', translate('App::Property', 'Thickness of the bulkhead without any inner step')).Thickness = 2.0
 
-        if not hasattr(obj,"Step"):
+        if not hasattr(obj, 'Step'):
             obj.addProperty('App::PropertyBool', 'Step', 'Bulkhead', translate('App::Property', 'Bulkheads may have a step that fits a smaller diameter')).Step = False
-        if not hasattr(obj,"StepDiameter"):
+        if not hasattr(obj, 'StepDiameter'):
             obj.addProperty('App::PropertyLength', 'StepDiameter', 'Bulkhead', translate('App::Property', 'Outer diameter of the step')).StepDiameter = 21.0
-        if not hasattr(obj,"StepThickness"):
+        if not hasattr(obj, 'StepThickness'):
             obj.addProperty('App::PropertyLength', 'StepThickness', 'Bulkhead', translate('App::Property', 'Thickness of the step')).StepThickness = 2.0
 
-        if not hasattr(obj,"Holes"):
+        if not hasattr(obj, 'Holes'):
             obj.addProperty('App::PropertyBool', 'Holes', 'Bulkhead', translate('App::Property', 'Bulkheads may have holes for attaching eyebolts or retainers')).Holes = False
-        if not hasattr(obj,"HoleDiameter"):
+        if not hasattr(obj, 'HoleDiameter'):
             obj.addProperty('App::PropertyLength', 'HoleDiameter', 'Bulkhead', translate('App::Property', 'Hole diameter')).HoleDiameter = 5.0
-        if not hasattr(obj,"HoleCenter"):
+        if not hasattr(obj, 'HoleCenter'):
             obj.addProperty('App::PropertyLength', 'HoleCenter', 'Bulkhead', translate('App::Property', 'Distance from the center of the bulkhead to the center of the hole')).HoleCenter = 6.25
-        if not hasattr(obj,"HoleCount"):
+        if not hasattr(obj, 'HoleCount'):
             obj.addProperty('App::PropertyInteger', 'HoleCount', 'Bulkhead', translate('App::Property', 'Number of holes in a radial pattern')).HoleCount = 1
-        if not hasattr(obj,"HoleOffset"):
+        if not hasattr(obj, 'HoleOffset'):
             obj.addProperty('App::PropertyAngle', 'HoleOffset', 'Bulkhead', translate('App::Property', 'Outer diameter of the bulkhead')).HoleOffset = 0
 
-        if not hasattr(obj,"Shape"):
+        if not hasattr(obj, 'Shape'):
             obj.addProperty('Part::PropertyPartShape', 'Shape', 'Bulkhead', translate('App::Property', 'Shape of the bulkhead'))
+
+    def getAxialLength(self):
+        # Return the length of this component along the central axis
+        return self._obj.Thickness
 
     def execute(self, obj):
         shape = BulkheadShapeHandler(obj)

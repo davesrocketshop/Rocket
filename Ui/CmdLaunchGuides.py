@@ -31,6 +31,7 @@ from App.ShapeRailGuide import ShapeRailGuide
 from App.ShapeLaunchLug import ShapeLaunchLug
 from App.ShapeRailButton import ShapeRailButton
 from Ui.ViewLaunchGuide import ViewProviderRailButton, ViewProviderLaunchLug, ViewProviderRailGuide
+from Ui.CmdStage import addToStage
 
 from DraftTools import translate
 
@@ -41,12 +42,7 @@ def makeLaunchLug(name='LaunchLug'):
     if FreeCAD.GuiUp:
         ViewProviderLaunchLug(obj.ViewObject)
 
-        body=FreeCADGui.ActiveDocument.ActiveView.getActiveObject("pdbody")
-        part=FreeCADGui.ActiveDocument.ActiveView.getActiveObject("part")
-        if body:
-            body.Group=body.Group+[obj]
-        elif part:
-            part.Group=part.Group+[obj]
+        addToStage(obj)
     return obj
 
 def makeRailButton(name='RailButton'):
@@ -56,12 +52,7 @@ def makeRailButton(name='RailButton'):
     if FreeCAD.GuiUp:
         ViewProviderRailButton(obj.ViewObject)
 
-        body=FreeCADGui.ActiveDocument.ActiveView.getActiveObject("pdbody")
-        part=FreeCADGui.ActiveDocument.ActiveView.getActiveObject("part")
-        if body:
-            body.Group=body.Group+[obj]
-        elif part:
-            part.Group=part.Group+[obj]
+        addToStage(obj)
     return obj
 
 def makeRailGuide(name='RailGuide'):
@@ -71,12 +62,7 @@ def makeRailGuide(name='RailGuide'):
     if FreeCAD.GuiUp:
         ViewProviderRailGuide(obj.ViewObject)
 
-        body=FreeCADGui.ActiveDocument.ActiveView.getActiveObject("pdbody")
-        part=FreeCADGui.ActiveDocument.ActiveView.getActiveObject("part")
-        if body:
-            body.Group=body.Group+[obj]
-        elif part:
-            part.Group=part.Group+[obj]
+        addToStage(obj)
     return obj
 
 class CmdLaunchLug:

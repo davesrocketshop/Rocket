@@ -29,6 +29,7 @@ import FreeCADGui
 
 from App.ShapeBulkhead import ShapeBulkhead
 from Ui.ViewBulkhead import ViewProviderBulkhead
+from Ui.CmdStage import addToStage
 
 from DraftTools import translate
 
@@ -39,12 +40,7 @@ def makeBulkhead(name):
     if FreeCAD.GuiUp:
         ViewProviderBulkhead(obj.ViewObject)
 
-        body=FreeCADGui.ActiveDocument.ActiveView.getActiveObject("pdbody")
-        part=FreeCADGui.ActiveDocument.ActiveView.getActiveObject("part")
-        if body:
-            body.Group=body.Group+[obj]
-        elif part:
-            part.Group=part.Group+[obj]
+        addToStage(obj)
     return obj
 
 class CmdBulkhead:

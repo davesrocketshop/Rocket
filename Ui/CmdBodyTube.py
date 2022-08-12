@@ -29,22 +29,18 @@ import FreeCADGui
 
 from App.ShapeBodyTube import ShapeBodyTube
 from Ui.ViewBodyTube import ViewProviderBodyTube
+from Ui.CmdStage import addToStage
 
 from DraftTools import translate
 
-def makeBodyTube(name):
+def makeBodyTube(name='BodyTube'):
     '''makeBodyTube(name): makes a Body Tube'''
     obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
     ShapeBodyTube(obj)
     if FreeCAD.GuiUp:
         ViewProviderBodyTube(obj.ViewObject)
 
-        body=FreeCADGui.ActiveDocument.ActiveView.getActiveObject("pdbody")
-        part=FreeCADGui.ActiveDocument.ActiveView.getActiveObject("part")
-        if body:
-            body.Group=body.Group+[obj]
-        elif part:
-            part.Group=part.Group+[obj]
+        addToStage(obj)
     return obj
 
 class CmdBodyTube:
@@ -62,4 +58,38 @@ class CmdBodyTube:
     def GetResources(self):
         return {'MenuText': translate("Rocket", 'Body Tube'),
                 'ToolTip': translate("Rocket", 'Body tube design'),
+                'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_BodyTube.svg"}
+
+class CmdCoupler:
+    def Activated(self):
+        FreeCAD.ActiveDocument.openTransaction("Create coupler")
+        FreeCADGui.addModule("Ui.CmdBodyTube")
+        FreeCADGui.doCommand("Ui.CmdBodyTube.makeBodyTube('Coupler')")
+        FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
+
+    def IsActive(self):
+        if FreeCAD.ActiveDocument:
+            return True
+        return False
+            
+    def GetResources(self):
+        return {'MenuText': translate("Rocket", 'Coupler'),
+                'ToolTip': translate("Rocket", 'Coupler design'),
+                'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_BodyTube.svg"}
+
+class CmdInnerTube:
+    def Activated(self):
+        FreeCAD.ActiveDocument.openTransaction("Create inner tube")
+        FreeCADGui.addModule("Ui.CmdBodyTube")
+        FreeCADGui.doCommand("Ui.CmdBodyTube.makeBodyTube('InnerTube')")
+        FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
+
+    def IsActive(self):
+        if FreeCAD.ActiveDocument:
+            return True
+        return False
+            
+    def GetResources(self):
+        return {'MenuText': translate("Rocket", 'Inner Tube'),
+                'ToolTip': translate("Rocket", 'Inner tube design'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_BodyTube.svg"}

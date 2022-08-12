@@ -30,22 +30,18 @@ import FreeCADGui
 
 from App.ShapeNoseCone import ShapeNoseCone
 from Ui.ViewNoseCone import ViewProviderNoseCone
+from Ui.CmdStage import addToStage
 
 from DraftTools import translate
 
-def makeNoseCone(name):
+def makeNoseCone(name='NoseCone'):
     '''makeNoseCone(name): makes a Nose Cone'''
     obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
     ShapeNoseCone(obj)
     if FreeCAD.GuiUp:
         ViewProviderNoseCone(obj.ViewObject)
 
-        body=FreeCADGui.ActiveDocument.ActiveView.getActiveObject("pdbody")
-        part=FreeCADGui.ActiveDocument.ActiveView.getActiveObject("part")
-        if body:
-            body.Group=body.Group+[obj]
-        elif part:
-            part.Group=part.Group+[obj]
+        addToStage(obj)
     return obj
 
 class CmdNoseCone:

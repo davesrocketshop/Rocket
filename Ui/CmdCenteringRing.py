@@ -29,22 +29,18 @@ import FreeCADGui
 
 from App.ShapeCenteringRing import ShapeCenteringRing
 from Ui.ViewCenteringRing import ViewProviderCenteringRing
+from Ui.CmdStage import addToStage
 
 from DraftTools import translate
 
-def makeCenteringRing(name):
+def makeCenteringRing(name='CenteringRing'):
     '''makeCenteringRing(name): makes a centering ring'''
     obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
     ShapeCenteringRing(obj)
     if FreeCAD.GuiUp:
         ViewProviderCenteringRing(obj.ViewObject)
 
-        body=FreeCADGui.ActiveDocument.ActiveView.getActiveObject("pdbody")
-        part=FreeCADGui.ActiveDocument.ActiveView.getActiveObject("part")
-        if body:
-            body.Group=body.Group+[obj]
-        elif part:
-            part.Group=part.Group+[obj]
+        addToStage(obj)
     return obj
 
 class CmdCenteringRing:

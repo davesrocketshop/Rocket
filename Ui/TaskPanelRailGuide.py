@@ -33,6 +33,8 @@ from DraftTools import translate
 from PySide import QtGui, QtCore
 from PySide2.QtWidgets import QDialog, QGridLayout, QVBoxLayout, QSizePolicy
 
+from Ui.TaskPanelLocation import TaskPanelLocation
+
 from App.Constants import RAIL_GUIDE_BASE_FLAT, RAIL_GUIDE_BASE_CONFORMAL, RAIL_GUIDE_BASE_V
 
 class _RailGuideDialog(QDialog):
@@ -245,7 +247,10 @@ class TaskPanelRailGuide:
         
         self._btForm = _RailGuideDialog()
 
-        self.form = [self._btForm]
+        self._location = TaskPanelLocation(obj)
+        self._locationForm = self._location.getForm()
+
+        self.form = [self._btForm, self._locationForm]
         self._btForm.setWindowIcon(QtGui.QIcon(FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_BodyTube.svg"))
         
         self._btForm.railGuideBaseTypeCombo.currentTextChanged.connect(self.onRailGuideBaseType)
@@ -267,6 +272,8 @@ class TaskPanelRailGuide:
         self._btForm.notchGroup.toggled.connect(self.onNotch)
         self._btForm.notchWidthInput.textEdited.connect(self.onNotchWidth)
         self._btForm.notchDepthInput.textEdited.connect(self.onNotchDepth)
+
+        self._location.locationChange.connect(self.onLocation)
         
         self.update()
         
@@ -319,6 +326,13 @@ class TaskPanelRailGuide:
         self._setTypeState()
         self._setForwardSweepState()
         self._setAftSweepState()
+
+    def setEdited(self):
+        try:
+            self._obj.Proxy.setEdited()
+        except ReferenceError:
+            # Object may be deleted
+            pass
         
     def _setTypeState(self):
         value = self._obj.RailGuideBaseType
@@ -347,6 +361,7 @@ class TaskPanelRailGuide:
         self._setTypeState()
 
         self._obj.Proxy.execute(self._obj)
+        self.setEdited()
 
     def onTopWidth(self, value):
         try:
@@ -354,6 +369,7 @@ class TaskPanelRailGuide:
             self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
+        self.setEdited()
         
     def onMiddleWidth(self, value):
         try:
@@ -361,6 +377,7 @@ class TaskPanelRailGuide:
             self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
+        self.setEdited()
         
     def onBaseWidth(self, value):
         try:
@@ -368,6 +385,7 @@ class TaskPanelRailGuide:
             self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
+        self.setEdited()
         
     def onTopThickness(self, value):
         try:
@@ -375,6 +393,7 @@ class TaskPanelRailGuide:
             self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
+        self.setEdited()
         
     def onBaseThickness(self, value):
         try:
@@ -382,6 +401,7 @@ class TaskPanelRailGuide:
             self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
+        self.setEdited()
         
     def onThickness(self, value):
         try:
@@ -389,6 +409,7 @@ class TaskPanelRailGuide:
             self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
+        self.setEdited()
         
     def onLength(self, value):
         try:
@@ -396,6 +417,7 @@ class TaskPanelRailGuide:
             self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
+        self.setEdited()
         
     def onDiameter(self, value):
         try:
@@ -403,16 +425,22 @@ class TaskPanelRailGuide:
             self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
+        self.setEdited()
         
     def _setAutoDiameterState(self):
         self._btForm.diameterInput.setEnabled(not self._obj.AutoDiameter)
         self._btForm.autoDiameterCheckbox.setChecked(self._obj.AutoDiameter)
+
+        # if self._obj.AutoDiameter:
+        #     self._obj.Diameter = 2.0 * self._obj.Proxy.getRadius()
+        #     self._btForm.diameterInput.setText(self._obj.Diameter.UserString)
 
     def onAutoDiameter(self, value):
         self._obj.AutoDiameter = value
         self._setAutoDiameterState()
 
         self._obj.Proxy.execute(self._obj)
+        self.setEdited()
         
     def onVAngle(self, value):
         try:
@@ -420,6 +448,7 @@ class TaskPanelRailGuide:
             self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
+        self.setEdited()
         
     def _setForwardSweepState(self):
         self._btForm.forwardSweepInput.setEnabled(self._obj.ForwardSweep)
@@ -430,6 +459,7 @@ class TaskPanelRailGuide:
         self._setForwardSweepState()
 
         self._obj.Proxy.execute(self._obj)
+        self.setEdited()
         
     def onForwardSweepAngle(self, value):
         try:
@@ -437,6 +467,7 @@ class TaskPanelRailGuide:
             self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
+        self.setEdited()
         
     def _setAftSweepState(self):
         self._btForm.aftSweepInput.setEnabled(self._obj.AftSweep)
@@ -447,6 +478,7 @@ class TaskPanelRailGuide:
         self._setAftSweepState()
 
         self._obj.Proxy.execute(self._obj)
+        self.setEdited()
         
     def onAftSweepAngle(self, value):
         try:
@@ -454,12 +486,14 @@ class TaskPanelRailGuide:
             self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
+        self.setEdited()
         
     def onNotch(self, value):
         self._obj.Notch = value
         # self._setAftSweepState()
 
         self._obj.Proxy.execute(self._obj)
+        self.setEdited()
         
     def onNotchWidth(self, value):
         try:
@@ -467,6 +501,7 @@ class TaskPanelRailGuide:
             self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
+        self.setEdited()
         
     def onNotchDepth(self, value):
         try:
@@ -474,9 +509,11 @@ class TaskPanelRailGuide:
             self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
+        self.setEdited()
 
     def onLocation(self):
         self._obj.Proxy.execute(self._obj) 
+        self.setEdited()
         
     def getStandardButtons(self):
         return int(QtGui.QDialogButtonBox.Ok) | int(QtGui.QDialogButtonBox.Cancel)| int(QtGui.QDialogButtonBox.Apply)
@@ -501,3 +538,4 @@ class TaskPanelRailGuide:
         FreeCAD.ActiveDocument.abortTransaction()
         FreeCAD.ActiveDocument.recompute()
         FreeCADGui.ActiveDocument.resetEdit()
+        self.setEdited()

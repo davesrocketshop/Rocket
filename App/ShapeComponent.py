@@ -24,13 +24,28 @@ __title__ = "FreeCAD Rocket Components"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
-from App.Utilities import _err
+import FreeCAD
+import math
+
+from PySide.QtCore import Signal
+
+from App.ShapeBase import ShapeBase
+# from App.Utilities import _err
+
+from App.Constants import PROP_HIDDEN, PROP_TRANSIENT, PROP_READONLY
+from App.Constants import LOCATION_PARENT_TOP, LOCATION_PARENT_MIDDLE, LOCATION_PARENT_BOTTOM, LOCATION_BASE
+from App.Constants import LOCATION_SURFACE, LOCATION_CENTER
+from App.Constants import PLACEMENT_AXIAL #, PLACEMENT_RADIAL
 
 from DraftTools import translate
 
-class ShapeComponent:
+class ShapeComponent(ShapeBase):
+
+    edited = Signal()
 
     def __init__(self, obj):
+        super().__init__(obj)
+
         if not hasattr(obj, 'Manufacturer'):
             obj.addProperty('App::PropertyString', 'Manufacturer', 'RocketComponent', translate('App::Property', 'Component manufacturer')).Manufacturer = ""
         if not hasattr(obj, 'PartNumber'):
@@ -39,19 +54,104 @@ class ShapeComponent:
             obj.addProperty('App::PropertyString', 'Description', 'RocketComponent', translate('App::Property', 'Component description')).Description = ""
         if not hasattr(obj, 'Material'):
             obj.addProperty('App::PropertyString', 'Material', 'RocketComponent', translate('App::Property', 'Component material')).Material = ""
+        if not hasattr(obj, 'PlacementType'):
+            obj.addProperty('App::PropertyString', 'PlacementType', 'RocketComponent', translate('App::Property', 'Component placement type'), PROP_HIDDEN|PROP_TRANSIENT).PlacementType = PLACEMENT_AXIAL
 
+        if not hasattr(obj,"MassOverride"):
+            obj.addProperty('App::PropertyBool', 'MassOverride', 'RocketComponent', translate('App::Property', 'Override the calculated mass of this component')).MassOverride = False
+        if not hasattr(obj, 'OverrideChildren'):
+            obj.addProperty('App::PropertyBool', 'OverrideChildren', 'RocketComponent', translate('App::Property', 'True when the overridden mass includes the mass of the children')).OverrideChildren = False
+        if not hasattr(obj,"OverrideMass"):
+            obj.addProperty('App::PropertyQuantity', 'OverrideMass', 'RocketComponent', translate('App::Property', 'Override the calculated mass of this component')).OverrideMass = 0.0
+
+        # Adhesive has non-zero mass and must be accounted for, especially on larger rockets
+        if not hasattr(obj,"AdhesiveMass"):
+            obj.addProperty('App::PropertyQuantity', 'AdhesiveMass', 'RocketComponent', translate('App::Property', 'Mass of the adhesive used to attach this component to the rocket. This includes fillet mass')).AdhesiveMass = 0.0
+
+        # Mass of the component based either on its material and volume, or override
+        if not hasattr(obj, 'Mass'):
+            obj.addProperty('App::PropertyQuantity', 'Mass', 'RocketComponent', translate('App::Property', 'Calculated or overridden component mass'), PROP_READONLY|PROP_TRANSIENT).Mass = 0.0
+            
         self._obj = obj
         obj.Proxy=self
         self.version = '2.2'
 
-    def __getstate__(self):
-        return self.version
+    def positionChild(self, obj, parent, parentBase, parentLength, parentRadius):
+        # Calculate any auto radii
+        obj.Proxy.setRadius()
 
-    def __setstate__(self, state):
-        if state:
-            self.version = state
+        if not hasattr(obj, 'LocationReference'):
+            partBase = parentBase
+            roll = 0.0
+        else:
+            if obj.LocationReference == LOCATION_PARENT_TOP:
+                partBase = (float(parentBase) + float(parentLength)) - float(obj.Location)
+            elif obj.LocationReference == LOCATION_PARENT_MIDDLE:
+                partBase = (float(parentBase) + (float(parentLength) / 2.0)) + float(obj.Location)
+            elif obj.LocationReference == LOCATION_PARENT_BOTTOM:
+                partBase = float(parentBase) + float(obj.Location)
+            elif obj.LocationReference == LOCATION_BASE:
+                partBase = float(obj.Location)
 
+            roll = float(obj.RadialOffset)
 
-    # This will be implemented in the derived class
-    def execute(self, obj):
-        _err("No execute method defined for %s" % (self.__class__.__name__))
+        # base = obj.Placement.Base
+
+        if self._obj.PlacementType == PLACEMENT_AXIAL:
+            self._positionChildAxial(obj, partBase, roll)
+        else:
+            self._positionChildRadial(obj, parent, parentRadius, partBase, roll)
+
+    def _positionChildAxial(self, obj, partBase, roll):
+        # newPlacement = FreeCAD.Placement(FreeCAD.Vector(partBase, 0, parentRadius), FreeCAD.Rotation(FreeCAD.Vector(1,0,0), roll), FreeCAD.Vector(0, 0, -parentRadius))
+        newPlacement = FreeCAD.Placement(FreeCAD.Vector(partBase, 0, 0), FreeCAD.Rotation(FreeCAD.Vector(1,0,0), roll), FreeCAD.Vector(0, 0, 0))
+        if obj.Placement != newPlacement:
+            obj.Placement = newPlacement
+
+    def _positionChildRadial(self, obj, parent, parentRadius, partBase, roll):
+        radial = float(parentRadius) + float(obj.Proxy.getRadialPositionOffset()) # Need to add current parent radial
+        if hasattr(obj, 'AxialOffset'):
+            radial += float(obj.AxialOffset)
+
+        # Use a matrix for transformations, otherwise it rotates around the part axis not the rocket axis
+        matrix = FreeCAD.Matrix()
+        matrix.move(FreeCAD.Vector(partBase, 0, radial))
+        matrix.rotateX(math.radians(roll))
+        newPlacement = FreeCAD.Placement(matrix)
+        if obj.Placement != newPlacement:
+            obj.Placement = newPlacement
+
+class ShapeLocation(ShapeComponent):
+
+    def __init__(self, obj):
+        super().__init__(obj)
+        
+        if not hasattr(obj, 'LocationReference'):
+            obj.addProperty('App::PropertyEnumeration', 'LocationReference', 'RocketComponent', translate('App::Property', 'Reference location for the location'))
+        obj.LocationReference = [
+                    LOCATION_PARENT_TOP,
+                    LOCATION_PARENT_MIDDLE,
+                    LOCATION_PARENT_BOTTOM,
+                    LOCATION_BASE
+                ]
+        obj.LocationReference = LOCATION_PARENT_BOTTOM
+        if not hasattr(obj, 'Location'):
+            obj.addProperty('App::PropertyDistance', 'Location', 'RocketComponent', translate('App::Property', 'Location offset from the reference')).Location = 0.0
+        if not hasattr(obj, 'RadialOffset'):
+            obj.addProperty('App::PropertyAngle', 'RadialOffset', 'RocketComponent', translate('App::Property', 'Radial offset from the vertical')).RadialOffset = 0.0
+
+class ShapeAxialLocation(ShapeLocation):
+
+    def __init__(self, obj):
+        super().__init__(obj)
+        
+        if not hasattr(obj, 'AxialReference'):
+            obj.addProperty('App::PropertyEnumeration', 'AxialReference', 'RocketComponent', translate('App::Property', 'Reference location for the axial offset'))
+        obj.AxialReference = [
+                    LOCATION_SURFACE,
+                    LOCATION_CENTER
+                ]
+        obj.AxialReference = LOCATION_SURFACE
+
+        if not hasattr(obj, 'AxialOffset'):
+            obj.addProperty('App::PropertyDistance', 'AxialOffset', 'RocketComponent', translate('App::Property', 'Axial offset from the center line')).AxialOffset = 0.0
