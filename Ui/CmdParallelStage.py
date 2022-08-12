@@ -29,7 +29,7 @@ import FreeCAD
 import FreeCADGui
 from PySide import QtGui
 
-from App.ShapeStage import ShapeStage
+from App.ShapeParallelStage import ShapeParallelStage
 from Ui.ViewParallelStage import ViewProviderParallelStage
 
 from DraftTools import translate
@@ -53,7 +53,7 @@ def addToParallelStage(obj):
 
 def makeParallelStage(name='Stage'):
     obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
-    ShapeStage(obj)
+    ShapeParallelStage(obj)
     if FreeCAD.GuiUp:
         ViewProviderParallelStage(obj.ViewObject)
 

@@ -34,6 +34,8 @@ from DraftTools import translate
 from App.Utilities import _msg
 from App.ShapeStage import hookChildren
 
+from Ui.TaskPanelParallelStage import TaskPanelParallelStage
+
 class ViewProviderParallelStage:
 
     def __init__(self, vobj):
@@ -47,6 +49,9 @@ class ViewProviderParallelStage:
     def attach(self, vobj):
         self.ViewObject = vobj
         self.Object = vobj.Object
+
+    def canDropObject(self, obj):
+        return self.Object.Proxy.eligibleChild(obj.Proxy.Type)
 
     def claimChildren(self):
         """Define which objects will appear as children in the tree view.
@@ -71,15 +76,33 @@ class ViewProviderParallelStage:
         QtCore.QObject.connect(action1,QtCore.SIGNAL("triggered()"),self.toggleParallelStage)
         menu.addAction(action1)
 
+        action = menu.addAction(translate('Rocket', 'Edit %1').replace('%1', vobj.Object.Label))
+        action.triggered.connect(lambda: self.startDefaultEditMode(vobj))
+        return False
+
+    def startDefaultEditMode(self, vobj):
+        document = vobj.Document.Document
+        if not document.HasPendingTransaction:
+            text = translate('Rocket', 'Edit %1').replace('%1', vobj.Object.Label)
+            document.openTransaction(text)
+        vobj.Document.setEdit(vobj.Object, 0)
+
+
     def toggleParallelStage(self):
         FreeCADGui.runCommand("Rocket_ToggleParallelStage")
 
-    def setEdit(self,vobj,mode):
-        # No editor associated with this object
-        return False
+    def setEdit(self, vobj, mode):
+        if True: #mode == 0:
+            taskd = TaskPanelParallelStage(self.Object, mode)
+            taskd.obj = vobj.Object
+            taskd.update()
+            FreeCADGui.Control.showDialog(taskd)
+            return True
 
-    def unsetEdit(self,vobj,mode):
-        return False
+    def unsetEdit(self, vobj, mode):
+        if mode == 0:
+            FreeCADGui.Control.closeDialog()
+            return
 
     def __getstate__(self):
         return None

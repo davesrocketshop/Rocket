@@ -30,56 +30,29 @@ from PySide import QtCore
 from DraftTools import translate
 
 from App.ShapeBase import ShapeBase
-from App.Constants import FEATURE_ROCKET, FEATURE_STAGE
+from App.ShapeStage import ShapeStage
+from App.ShapeComponent import ShapeAxialLocation
+from App.Constants import FEATURE_ROCKET, FEATURE_STAGE, FEATURE_PARALLEL_STAGE
 from App.Constants import PROP_TRANSIENT, PROP_HIDDEN, PROP_NORECOMPUTE
+from App.Constants import PLACEMENT_RADIAL
 
-class ShapeStage(ShapeBase):
+
+class ShapeParallelStage(ShapeAxialLocation, ShapeStage):
 
     def __init__(self, obj):
         super().__init__(obj)
-
         self._initShapeStage(obj)
 
-    def _initShapeStage(self, obj):
-        self.Type = FEATURE_STAGE
-        
-        if not hasattr(obj,"Group"):
-            obj.addExtension("App::GroupExtensionPython")
-        if not hasattr(obj, 'AxialOffset'):
-            obj.addProperty('App::PropertyDistance', 'AxialOffset', 'RocketComponent', translate('App::Property', 'Axial offset from the center line'), PROP_TRANSIENT|PROP_HIDDEN|PROP_NORECOMPUTE).AxialOffset = 0.0
+        self.Type = FEATURE_PARALLEL_STAGE
+        self._obj.PlacementType = PLACEMENT_RADIAL
 
-    def execute(self,obj):
-        if not hasattr(obj,'Shape'):
-            return
+        if not hasattr(obj,"StageCount"):
+            obj.addProperty('App::PropertyInteger', 'StageCount', 'Stage', translate('App::Property', 'Number of stages in a radial pattern')).StageCount = 2
+        if not hasattr(obj,"StageSpacing"):
+            obj.addProperty('App::PropertyAngle', 'StageSpacing', 'Stage', translate('App::Property', 'Angle between consecutive stages')).StageSpacing = 180
 
     def eligibleChild(self, childType):
-        return childType not in [FEATURE_ROCKET, FEATURE_STAGE]
-
-    def setAxialPosition(self, partBase):
-        # print("Stage(%s)::setAxialPosition(%f)" % (self._obj.Label, partBase))
-
-        base = self._obj.Placement.Base
-        # self._obj.Placement = FreeCAD.Placement(FreeCAD.Vector(partBase, base.y, base.z), FreeCAD.Rotation(0,0,0))
-        self._obj.Placement = FreeCAD.Placement(FreeCAD.Vector(0.0, base.y, base.z), FreeCAD.Rotation(0,0,0))
-
-        self.positionChildren(partBase)
-        # self.positionChildren(0.0)
-
-    def positionChildren(self, partBase=0.0):
-        # print("Stage(%s)::positionChildren(%f)" % (self._obj.Label, partBase))
-        
-        # Dynamic placements
-        self._obj.AxialOffset = partBase
-        length = partBase
-        i = len(self._obj.Group) - 1
-        while i >= 0:
-            child = self._obj.Group[i]
-            child.Proxy.setAxialPosition(length)
-
-            length += float(child.Proxy.getAxialLength())
-            i -= 1
-
-        FreeCAD.ActiveDocument.recompute()
+        return childType not in [FEATURE_ROCKET, FEATURE_STAGE, FEATURE_PARALLEL_STAGE]
 
 def hookChild(obj, child, oldGroup):
     if child not in oldGroup:

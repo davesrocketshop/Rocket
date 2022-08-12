@@ -34,6 +34,7 @@ from App.ShapeBase import ShapeBase
 
 from App.Constants import PROP_HIDDEN, PROP_TRANSIENT, PROP_READONLY
 from App.Constants import LOCATION_PARENT_TOP, LOCATION_PARENT_MIDDLE, LOCATION_PARENT_BOTTOM, LOCATION_BASE
+from App.Constants import LOCATION_SURFACE, LOCATION_CENTER
 from App.Constants import PLACEMENT_AXIAL #, PLACEMENT_RADIAL
 
 from DraftTools import translate
@@ -136,7 +137,21 @@ class ShapeLocation(ShapeComponent):
         obj.LocationReference = LOCATION_PARENT_BOTTOM
         if not hasattr(obj, 'Location'):
             obj.addProperty('App::PropertyDistance', 'Location', 'RocketComponent', translate('App::Property', 'Location offset from the reference')).Location = 0.0
-        if not hasattr(obj, 'AxialOffset'):
-            obj.addProperty('App::PropertyDistance', 'AxialOffset', 'RocketComponent', translate('App::Property', 'Axial offset from the center line')).AxialOffset = 0.0
         if not hasattr(obj, 'RadialOffset'):
             obj.addProperty('App::PropertyAngle', 'RadialOffset', 'RocketComponent', translate('App::Property', 'Radial offset from the vertical')).RadialOffset = 0.0
+
+class ShapeAxialLocation(ShapeLocation):
+
+    def __init__(self, obj):
+        super().__init__(obj)
+        
+        if not hasattr(obj, 'AxialReference'):
+            obj.addProperty('App::PropertyEnumeration', 'AxialReference', 'RocketComponent', translate('App::Property', 'Reference location for the axial offset'))
+        obj.AxialReference = [
+                    LOCATION_SURFACE,
+                    LOCATION_CENTER
+                ]
+        obj.AxialReference = LOCATION_CENTER
+
+        if not hasattr(obj, 'AxialOffset'):
+            obj.addProperty('App::PropertyDistance', 'AxialOffset', 'RocketComponent', translate('App::Property', 'Axial offset from the center line')).AxialOffset = 0.0

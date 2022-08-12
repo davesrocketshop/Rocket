@@ -23,6 +23,8 @@
 __title__ = "FreeCAD Fins"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
+
+from DraftTools import translate
     
 from App.Constants import FIN_CROSS_SAME
 

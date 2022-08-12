@@ -48,6 +48,9 @@ class ViewProviderRocket:
         self.ViewObject = vobj
         self.Object = vobj.Object
 
+    def canDropObject(self, obj):
+        return self.Object.Proxy.eligibleChild(obj.Proxy.Type)
+
     def claimChildren(self):
         """Define which objects will appear as children in the tree view.
 

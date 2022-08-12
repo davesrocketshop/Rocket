@@ -35,6 +35,9 @@ class ViewProvider:
         self.ViewObject = vobj
         self.Object = vobj.Object
 
+    def canDropObject(self, obj):
+        return self.Object.Proxy.eligibleChild(obj.Proxy.Type)
+
     def setupContextMenu(self, viewObject, menu):
         action = menu.addAction(translate('Rocket', 'Edit %1').replace('%1', viewObject.Object.Label))
         action.triggered.connect(lambda: self.startDefaultEditMode(viewObject))
