@@ -31,6 +31,8 @@ from PySide import QtGui
 
 from App.ShapeStage import ShapeStage
 from Ui.ViewStage import ViewProviderStage
+from App.Constants import FEATURE_PARALLEL_STAGE
+
 
 from DraftTools import translate
 
@@ -45,7 +47,7 @@ def addToStage(obj):
         # Add to the last item in the stage if it is a group object
         if len(stage.Group) > 0:
             groupObj = stage.Group[len(stage.Group) - 1]
-            if groupObj.Proxy.eligibleChild(obj.Proxy.Type):
+            if groupObj.Proxy.eligibleChild(obj.Proxy.Type) and not groupObj.Proxy.Type == FEATURE_PARALLEL_STAGE:
                 _addChild(stage, groupObj, obj)
                 return
 

@@ -30,7 +30,7 @@ import FreeCADGui
 from App.Constants import FIN_TYPE_SKETCH
 from App.ShapeFinCan import ShapeFinCan
 from Ui.ViewFinCan import ViewProviderFinCan
-# import Sketcher
+from Ui.CmdStage import addToStage
 
 from DraftTools import translate
 
@@ -48,13 +48,8 @@ def makeFinCan(name):
 
     if FreeCAD.GuiUp:
         ViewProviderFinCan(obj.ViewObject)
+        addToStage(obj)
 
-        body=FreeCADGui.ActiveDocument.ActiveView.getActiveObject("pdbody")
-        part=FreeCADGui.ActiveDocument.ActiveView.getActiveObject("part")
-        if body:
-            body.Group=body.Group+[obj]
-        elif part:
-            part.Group=part.Group+[obj]
     return obj
 
 class CmdFinCan:

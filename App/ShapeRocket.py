@@ -72,8 +72,11 @@ def hookChildren(obj, group, oldGroup):
 
     for child in oldGroup:
         if child not in group:
-            # child.Proxy.edited.connect(None)
-            child.Proxy.disconnect()
+            try:
+                # child.Proxy.edited.connect(None)
+                child.Proxy.disconnect()
+            except ReferenceError:
+                pass # object may be deleted
 
     obj.Proxy.positionChildren()
 

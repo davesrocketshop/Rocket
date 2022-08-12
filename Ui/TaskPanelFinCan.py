@@ -43,6 +43,8 @@ from App.Constants import FINCAN_PRESET_CUSTOM, FINCAN_PRESET_1_8, FINCAN_PRESET
 
 from App.Utilities import _err, _toFloat
 
+from Ui.TaskPanelLocation import TaskPanelLocation
+
 class _FinCanDialog(QDialog):
 
     def __init__(self, sketch, parent=None):
@@ -544,7 +546,10 @@ class TaskPanelFinCan(QObject):
         
         self._finForm = _FinCanDialog(self._obj.FinType == FIN_TYPE_SKETCH)
 
-        self.form = [self._finForm]
+        self._location = TaskPanelLocation(obj)
+        self._locationForm = self._location.getForm()
+
+        self.form = [self._finForm, self._locationForm]
         self._finForm.setWindowIcon(QtGui.QIcon(FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Fin.svg"))
         
         self._finForm.finTypesCombo.currentTextChanged.connect(self.onFinTypes)
@@ -593,6 +598,8 @@ class TaskPanelFinCan(QObject):
         self._finForm.forwardSweepInput.textEdited.connect(self.onForwardSweepAngle)
         self._finForm.aftSweepGroup.toggled.connect(self.onAftSweep)
         self._finForm.aftSweepInput.textEdited.connect(self.onAftSweepAngle)
+
+        self._location.locationChange.connect(self.onLocation)
 
         self._redrawPending = False
         self.redrawRequired.connect(self.onRedraw, QtCore.Qt.QueuedConnection)
@@ -1226,6 +1233,9 @@ class TaskPanelFinCan(QObject):
             self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
+
+    def onLocation(self):
+        self.redraw()
 
     def onRedraw(self):
         self._obj.Proxy.execute(self._obj)

@@ -25,6 +25,7 @@ __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
 from App.ShapeFin import ShapeFin
+from App.Constants import FEATURE_FINCAN, FEATURE_LAUNCH_LUG, FEATURE_RAIL_BUTTON, FEATURE_RAIL_GUIDE, FEATURE_POD
 from App.Constants import FIN_TYPE_TRAPEZOID, FIN_TYPE_ELLIPSE, FIN_TYPE_SKETCH
 from App.Constants import FINCAN_EDGE_SQUARE, FINCAN_EDGE_ROUND, FINCAN_EDGE_TAPER
 from App.Constants import FINCAN_PRESET_CUSTOM, FINCAN_PRESET_1_8, FINCAN_PRESET_3_16, FINCAN_PRESET_1_4
@@ -39,6 +40,7 @@ class ShapeFinCan(ShapeFin):
 
     def __init__(self, obj):
         super().__init__(obj)
+        self.Type = FEATURE_FINCAN
 
         # Fin cans aren't TTW and are a fin set
         obj.Ttw = False
@@ -116,3 +118,10 @@ class ShapeFinCan(ShapeFin):
 
         if shape is not None:
             shape.draw()
+
+    def eligibleChild(self, childType):
+        return childType in [
+            FEATURE_POD, 
+            FEATURE_LAUNCH_LUG, 
+            FEATURE_RAIL_BUTTON, 
+            FEATURE_RAIL_GUIDE]

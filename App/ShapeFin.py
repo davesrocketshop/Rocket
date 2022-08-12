@@ -27,7 +27,7 @@ __url__ = "https://www.davesrocketshop.com"
 import FreeCAD
 
 from App.ShapeComponent import ShapeLocation
-from App.Constants import FEATURE_FIN, FEATURE_LAUNCH_LUG, FEATURE_RAIL_BUTTON, FEATURE_RAIL_GUIDE
+from App.Constants import FEATURE_FIN, FEATURE_LAUNCH_LUG, FEATURE_RAIL_BUTTON, FEATURE_RAIL_GUIDE, FEATURE_POD
 
 from App.Constants import FIN_TYPE_TRAPEZOID, FIN_TYPE_ELLIPSE, FIN_TYPE_SKETCH
 from App.Constants import FIN_CROSS_SAME, FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE, \
@@ -147,4 +147,8 @@ class ShapeFin(ShapeLocation):
             shape.draw()
 
     def eligibleChild(self, childType):
-        return childType in [FEATURE_FIN, FEATURE_LAUNCH_LUG, FEATURE_RAIL_BUTTON, FEATURE_RAIL_GUIDE]
+        return childType in [
+            FEATURE_POD, 
+            FEATURE_LAUNCH_LUG, 
+            FEATURE_RAIL_BUTTON, 
+            FEATURE_RAIL_GUIDE]

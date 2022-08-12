@@ -95,9 +95,6 @@ class ShapeRailGuide(ShapeLocation):
         if shape is not None:
             shape.draw()
 
-    def eligibleChild(self, childType):
-        return False
-
     def onChildEdited(self):
         # print("%s: onChildEdited()" % (self.__class__.__name__))
         self._obj.Proxy.setEdited()
