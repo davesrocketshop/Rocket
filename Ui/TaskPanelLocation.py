@@ -43,7 +43,7 @@ from Ui.DialogLookup import DialogLookup, userOK, userCancelled
 
 class _locationDialog(QDialog):
 
-    def __init__(self, axial, parent=None):
+    def __init__(self, radial, parent=None):
         super().__init__(parent)
 
         ui = FreeCADGui.UiLoader()
@@ -52,21 +52,21 @@ class _locationDialog(QDialog):
         self.setGeometry(250, 250, 400, 350)
         self.setWindowTitle(translate('Rocket', "Location Parameter"))
 
-        if axial:
-            self.axialReferenceLabel = QtGui.QLabel(translate('Rocket', "Axial Reference"), self)
+        if radial:
+            self.radialReferenceLabel = QtGui.QLabel(translate('Rocket', "Radial Reference"), self)
 
-            self.axialReferenceTypes = (
+            self.radialReferenceTypes = (
                 LOCATION_SURFACE,
                 LOCATION_CENTER
                 )
-            self.axialReferenceCombo = QtGui.QComboBox(self)
-            self.axialReferenceCombo.addItems(self.axialReferenceTypes)
+            self.radialReferenceCombo = QtGui.QComboBox(self)
+            self.radialReferenceCombo.addItems(self.radialReferenceTypes)
 
-            self.axialOffsetLabel = QtGui.QLabel(translate('Rocket', "Axial Offset"), self)
+            self.radialOffsetLabel = QtGui.QLabel(translate('Rocket', "Radial Offset"), self)
 
-            self.axialOffsetInput = ui.createWidget("Gui::InputField")
-            self.axialOffsetInput.unit = 'mm'
-            self.axialOffsetInput.setMinimumWidth(80)
+            self.radialOffsetInput = ui.createWidget("Gui::InputField")
+            self.radialOffsetInput.unit = 'mm'
+            self.radialOffsetInput.setMinimumWidth(80)
 
         # Select the location reference
         self.referenceLabel = QtGui.QLabel(translate('Rocket', "Location Reference"), self)
@@ -86,22 +86,22 @@ class _locationDialog(QDialog):
         self.locationInput.unit = 'mm'
         self.locationInput.setMinimumWidth(80)
 
-        self.radialOffsetLabel = QtGui.QLabel(translate('Rocket', "Radial Offset"), self)
+        self.angleOffsetLabel = QtGui.QLabel(translate('Rocket', "Angle Offset"), self)
 
-        self.radialOffsetInput = ui.createWidget("Gui::InputField")
-        self.radialOffsetInput.unit = 'deg'
-        self.radialOffsetInput.setMinimumWidth(80)
+        self.angleOffsetInput = ui.createWidget("Gui::InputField")
+        self.angleOffsetInput.unit = 'deg'
+        self.angleOffsetInput.setMinimumWidth(80)
 
         layout = QGridLayout()
 
         n = 0
-        if axial:
-            layout.addWidget(self.axialReferenceLabel, n, 0, 1, 2)
-            layout.addWidget(self.axialReferenceCombo, n, 1)
+        if radial:
+            layout.addWidget(self.radialReferenceLabel, n, 0, 1, 2)
+            layout.addWidget(self.radialReferenceCombo, n, 1)
             n += 1
 
-            layout.addWidget(self.axialOffsetLabel, n, 0)
-            layout.addWidget(self.axialOffsetInput, n, 1)
+            layout.addWidget(self.radialOffsetLabel, n, 0)
+            layout.addWidget(self.radialOffsetInput, n, 1)
             n += 1
 
         layout.addWidget(self.referenceLabel, n, 0, 1, 2)
@@ -112,8 +112,8 @@ class _locationDialog(QDialog):
         layout.addWidget(self.locationInput, n, 1)
         n += 1
 
-        layout.addWidget(self.radialOffsetLabel, n, 0)
-        layout.addWidget(self.radialOffsetInput, n, 1)
+        layout.addWidget(self.angleOffsetLabel, n, 0)
+        layout.addWidget(self.angleOffsetInput, n, 1)
 
         self.setLayout(layout)
 
@@ -121,22 +121,22 @@ class TaskPanelLocation(QObject):
 
     locationChange = Signal()   # emitted when location has changed
 
-    def __init__(self, obj, axial=False, parent=None):
+    def __init__(self, obj, radial=False, parent=None):
         super().__init__()
 
         self._obj = obj
-        self._axial = axial
-        self._form = _locationDialog(axial, parent)
+        self._radial = radial
+        self._form = _locationDialog(radial, parent)
         
         self._form.setWindowIcon(QtGui.QIcon(FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Location.svg"))
         
         self._form.referenceCombo.currentIndexChanged.connect(self.onReference)
         self._form.locationInput.textEdited.connect(self.onLocation)
-        self._form.radialOffsetInput.textEdited.connect(self.onRadialOffset)
+        self._form.angleOffsetInput.textEdited.connect(self.onAngleOffset)
 
-        if self._axial:
-            self._form.axialReferenceCombo.currentIndexChanged.connect(self.onAxialReference)
-            self._form.axialOffsetInput.textEdited.connect(self.onAxialOffset)
+        if self._radial:
+            self._form.radialReferenceCombo.currentIndexChanged.connect(self.onRadialReference)
+            self._form.radialOffsetInput.textEdited.connect(self.onRadialOffset)
         
         self.update()
 
@@ -150,21 +150,21 @@ class TaskPanelLocation(QObject):
         "Transfer from the dialog to the object" 
         self._obj.LocationReference = str(self._form.referenceCombo.currentText())
         self._obj.Location = self._form.locationInput.text()
-        self._obj.RadialOffset = self._form.radialOffsetInput.text()
+        self._obj.AngleOffset = self._form.angleOffsetInput.text()
 
-        if self._axial:
-            self._obj.AxialReference = str(self._form.axialReferenceCombo.currentText())
-            self._obj.AxialOffset = self._form.axialOffsetInput.text()
+        if self._radial:
+            self._obj.RadialReference = str(self._form.radialReferenceCombo.currentText())
+            self._obj.RadialOffset = self._form.radialOffsetInput.text()
 
     def transferFrom(self):
         "Transfer from the object to the dialog"
         self._form.referenceCombo.setCurrentText(self._obj.LocationReference)
         self._form.locationInput.setText(self._obj.Location.UserString)
-        self._form.radialOffsetInput.setText(self._obj.RadialOffset.UserString)
+        self._form.angleOffsetInput.setText(self._obj.AngleOffset.UserString)
 
-        if self._axial:
-            self._form.axialReferenceCombo.setCurrentText(self._obj.AxialReference)
-            self._form.axialOffsetInput.setText(self._obj.AxialOffset.UserString)
+        if self._radial:
+            self._form.radialReferenceCombo.setCurrentText(self._obj.RadialReference)
+            self._form.radialOffsetInput.setText(self._obj.RadialOffset.UserString)
  
     def setEdited(self):
         self.locationChange.emit()
@@ -173,16 +173,16 @@ class TaskPanelLocation(QObject):
         self._obj.LocationReference = value
         self.setEdited()
        
-    def onAxialReference(self, value):
-        self._obj.AxialReference = value
+    def onRadialReference(self, value):
+        self._obj.RadialReference = value
         self.setEdited()
         
     def onLocation(self, value):
         self._obj.Location = value
         self.setEdited()
         
-    def onAxialOffset(self, value):
-        self._obj.AxialOffset = value
+    def onAngleOffset(self, value):
+        self._obj.AngleOffset = value
         self.setEdited()
         
     def onRadialOffset(self, value):

@@ -93,7 +93,7 @@ class ShapeComponent(ShapeBase):
             elif obj.LocationReference == LOCATION_BASE:
                 partBase = float(obj.Location)
 
-            roll = float(obj.RadialOffset)
+            roll = float(obj.AngleOffset)
 
         # base = obj.Placement.Base
 
@@ -110,8 +110,8 @@ class ShapeComponent(ShapeBase):
 
     def _positionChildRadial(self, obj, parent, parentRadius, partBase, roll):
         radial = float(parentRadius) + float(obj.Proxy.getRadialPositionOffset()) # Need to add current parent radial
-        if hasattr(obj, 'AxialOffset'):
-            radial += float(obj.AxialOffset)
+        if hasattr(obj, 'AngleOffset'):
+            radial += float(obj.AngleOffset)
 
         # Use a matrix for transformations, otherwise it rotates around the part axis not the rocket axis
         matrix = FreeCAD.Matrix()
@@ -137,21 +137,21 @@ class ShapeLocation(ShapeComponent):
         obj.LocationReference = LOCATION_PARENT_BOTTOM
         if not hasattr(obj, 'Location'):
             obj.addProperty('App::PropertyDistance', 'Location', 'RocketComponent', translate('App::Property', 'Location offset from the reference')).Location = 0.0
-        if not hasattr(obj, 'RadialOffset'):
-            obj.addProperty('App::PropertyAngle', 'RadialOffset', 'RocketComponent', translate('App::Property', 'Radial offset from the vertical')).RadialOffset = 0.0
+        if not hasattr(obj, 'AngleOffset'):
+            obj.addProperty('App::PropertyAngle', 'AngleOffset', 'RocketComponent', translate('App::Property', 'Angle of offset around the center axis')).AngleOffset = 0.0
 
-class ShapeAxialLocation(ShapeLocation):
+class ShapeRadialLocation(ShapeLocation):
 
     def __init__(self, obj):
         super().__init__(obj)
         
-        if not hasattr(obj, 'AxialReference'):
-            obj.addProperty('App::PropertyEnumeration', 'AxialReference', 'RocketComponent', translate('App::Property', 'Reference location for the axial offset'))
-        obj.AxialReference = [
+        if not hasattr(obj, 'RadialReference'):
+            obj.addProperty('App::PropertyEnumeration', 'RadialReference', 'RocketComponent', translate('App::Property', 'Reference location for the radial offset'))
+        obj.RadialReference = [
                     LOCATION_SURFACE,
                     LOCATION_CENTER
                 ]
-        obj.AxialReference = LOCATION_SURFACE
+        obj.RadialReference = LOCATION_SURFACE
 
-        if not hasattr(obj, 'AxialOffset'):
-            obj.addProperty('App::PropertyDistance', 'AxialOffset', 'RocketComponent', translate('App::Property', 'Axial offset from the center line')).AxialOffset = 0.0
+        if not hasattr(obj, 'RadialOffset'):
+            obj.addProperty('App::PropertyDistance', 'RadialOffset', 'RocketComponent', translate('App::Property', 'Radial offset from the reference')).RadialOffset = 0.0

@@ -31,13 +31,13 @@ from DraftTools import translate
 
 from App.ShapeBase import ShapeBase
 from App.ShapeStage import ShapeStage
-from App.ShapeComponent import ShapeAxialLocation
+from App.ShapeComponent import ShapeRadialLocation
 from App.Constants import FEATURE_ROCKET, FEATURE_STAGE, FEATURE_PARALLEL_STAGE
 from App.Constants import PROP_TRANSIENT, PROP_HIDDEN, PROP_NORECOMPUTE
 from App.Constants import PLACEMENT_RADIAL
 
 
-class ShapeParallelStage(ShapeAxialLocation, ShapeStage):
+class ShapeParallelStage(ShapeRadialLocation, ShapeStage):
 
     def __init__(self, obj):
         super().__init__(obj)
@@ -77,5 +77,5 @@ def hookChildren(obj, group, oldGroup):
     for child in oldGroup:
         unhookChild(obj, child, group)
 
-    # obj.Proxy.positionChildren(float(obj.AxialOffset))
+    # obj.Proxy.positionChildren(float(obj.RadialOffset))
 

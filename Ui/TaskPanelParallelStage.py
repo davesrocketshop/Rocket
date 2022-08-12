@@ -89,7 +89,7 @@ class TaskPanelParallelStage:
         
         self._btForm = _ParallelStageDialog()
 
-        self._location = TaskPanelLocation(obj, axial=True)
+        self._location = TaskPanelLocation(obj, radial=True)
         self._locationForm = self._location.getForm()
 
         self.form = [self._btForm, self._locationForm]

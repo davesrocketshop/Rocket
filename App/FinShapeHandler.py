@@ -311,7 +311,7 @@ class FinShapeHandler:
 
     def _drawFin(self):
         fin = self._drawSingleFin()
-        # fin.translate(FreeCAD.Vector(0,0,float(self._obj.ParentRadius) + float(self._obj.AxialOffset)))
+        # fin.translate(FreeCAD.Vector(0,0,float(self._obj.ParentRadius) + float(self._obj.RadialOffset)))
         fin.translate(FreeCAD.Vector(0,0,float(self._obj.ParentRadius)))
         # print ("Translate (%s,%s,%s)" % (0, 0, self._obj.ParentRadius))
         return Part.makeCompound([fin])
@@ -321,7 +321,7 @@ class FinShapeHandler:
         base = self._drawSingleFin()
         for i in range(self._obj.FinCount):
             fin = Part.Shape(base) # Create a copy
-            # fin.translate(FreeCAD.Vector(0,0,float(self._obj.ParentRadius) + float(self._obj.AxialOffset)))
+            # fin.translate(FreeCAD.Vector(0,0,float(self._obj.ParentRadius) + float(self._obj.RadialOffset)))
             fin.translate(FreeCAD.Vector(0,0,float(self._obj.ParentRadius)))
             fin.rotate(FreeCAD.Vector(0, 0, 0), FreeCAD.Vector(1,0,0), i * float(self._obj.FinSpacing))
             fins.append(fin)
