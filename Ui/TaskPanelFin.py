@@ -88,7 +88,7 @@ class _FinDialog(QDialog):
         self.finCountLabel = QtGui.QLabel(translate('Rocket', "Fin Count"), self)
 
         self.finCountSpinBox = QtGui.QSpinBox(self)
-        self.finCountSpinBox.setFixedWidth(80)
+        self.finCountSpinBox.setMinimumWidth(80)
         self.finCountSpinBox.setMinimum(1)
         self.finCountSpinBox.setMaximum(10000)
 
@@ -96,7 +96,7 @@ class _FinDialog(QDialog):
 
         self.finSpacingInput = ui.createWidget("Gui::InputField")
         self.finSpacingInput.unit = 'deg'
-        self.finSpacingInput.setFixedWidth(80)
+        self.finSpacingInput.setMinimumWidth(80)
 
         # Get the fin parameters: length, width, etc...
         self.rootGroup = QtGui.QGroupBox(translate('Rocket', "Fin Root"), self)

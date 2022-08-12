@@ -55,7 +55,7 @@ class _ParallelStageDialog(QDialog):
         self.stageCountLabel = QtGui.QLabel(translate('Rocket', "Stage Count"), self)
 
         self.stageCountSpinBox = QtGui.QSpinBox(self)
-        self.stageCountSpinBox.setFixedWidth(80)
+        self.stageCountSpinBox.setMinimumWidth(80)
         self.stageCountSpinBox.setMinimum(1)
         self.stageCountSpinBox.setMaximum(10000)
 
@@ -63,7 +63,7 @@ class _ParallelStageDialog(QDialog):
 
         self.stageSpacingInput = ui.createWidget("Gui::InputField")
         self.stageSpacingInput.unit = 'deg'
-        self.stageSpacingInput.setFixedWidth(80)
+        self.stageSpacingInput.setMinimumWidth(80)
 
         # General parameters
         row = 0

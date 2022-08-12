@@ -86,7 +86,7 @@ class _BodyTubeDialog(QDialog):
 
         self.overhangInput = ui.createWidget("Gui::InputField")
         self.overhangInput.unit = 'mm'
-        self.overhangInput.setFixedWidth(80)
+        self.overhangInput.setMinimumWidth(80)
 
         # Motor group
         row = 0

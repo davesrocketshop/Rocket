@@ -66,7 +66,7 @@ class _locationDialog(QDialog):
 
             self.axialOffsetInput = ui.createWidget("Gui::InputField")
             self.axialOffsetInput.unit = 'mm'
-            self.axialOffsetInput.setFixedWidth(80)
+            self.axialOffsetInput.setMinimumWidth(80)
 
         # Select the location reference
         self.referenceLabel = QtGui.QLabel(translate('Rocket', "Location Reference"), self)
@@ -84,13 +84,13 @@ class _locationDialog(QDialog):
 
         self.locationInput = ui.createWidget("Gui::InputField")
         self.locationInput.unit = 'mm'
-        self.locationInput.setFixedWidth(80)
+        self.locationInput.setMinimumWidth(80)
 
         self.radialOffsetLabel = QtGui.QLabel(translate('Rocket', "Radial Offset"), self)
 
         self.radialOffsetInput = ui.createWidget("Gui::InputField")
         self.radialOffsetInput.unit = 'deg'
-        self.radialOffsetInput.setFixedWidth(80)
+        self.radialOffsetInput.setMinimumWidth(80)
 
         layout = QGridLayout()
 

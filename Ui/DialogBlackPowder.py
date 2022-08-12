@@ -64,14 +64,14 @@ class DialogBlackPowder(QDialog):
         <p>This calculator is an estimate only. Ground test your ejection system before flying. In certain cases this calculation may overestimate the amount of powder required</p>
         </html>
         '''))
-        # self.warningLabel.setFixedWidth(250)
+        # self.warningLabel.setMinimumWidth(250)
         self.warningLabel.setReadOnly(True)
 
         self.diameterLabel = QtGui.QLabel(translate('Rocket', "Body Tube Diameter"), self)
 
         self.diameterInput = ui.createWidget("Gui::InputField")
         self.diameterInput.unit = 'mm'
-        self.diameterInput.setFixedWidth(100)
+        self.diameterInput.setMinimumWidth(100)
         self.diameterInput.setText("98.0 mm")
         self.diameterInput.textEdited.connect(self.onDiameter)
 
@@ -80,7 +80,7 @@ class DialogBlackPowder(QDialog):
         self.lengthInput = ui.createWidget("Gui::InputField")
         self.lengthInput.unit = 'mm'
         self.lengthInput.setText("300.0 mm")
-        self.lengthInput.setFixedWidth(100)
+        self.lengthInput.setMinimumWidth(100)
         self.lengthInput.textEdited.connect(self.onLength)
 
         self.forceLabel = QtGui.QLabel(translate('Rocket', "Force"), self)
@@ -88,7 +88,7 @@ class DialogBlackPowder(QDialog):
         self.forceInput = ui.createWidget("Gui::InputField")
         self.forceInput.unit = 'N'
         self.forceInput.setText("667.233 N")
-        self.forceInput.setFixedWidth(100)
+        self.forceInput.setMinimumWidth(100)
         self.forceInput.textEdited.connect(self.onForce)
 
         self.pressureLabel = QtGui.QLabel(translate('Rocket', "Pressure"), self)
@@ -96,7 +96,7 @@ class DialogBlackPowder(QDialog):
         self.pressureInput = ui.createWidget("Gui::InputField")
         self.pressureInput.unit = 'kPa'
         self.pressureInput.setText("1034.25 kPa")
-        self.pressureInput.setFixedWidth(100)
+        self.pressureInput.setMinimumWidth(100)
         self.pressureInput.textEdited.connect(self.onPressure)
 
         self.forceTypes = (
@@ -113,7 +113,7 @@ class DialogBlackPowder(QDialog):
 
         self.powderInput = QtGui.QLineEdit()
         self.powderInput.setText("49.0 g")
-        self.powderInput.setFixedWidth(100)
+        self.powderInput.setMinimumWidth(100)
         self.powderInput.setReadOnly(True)
 
         # OK button

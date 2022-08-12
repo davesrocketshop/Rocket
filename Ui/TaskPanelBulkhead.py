@@ -58,7 +58,7 @@ class _BulkheadDialog(QDialog):
 
         self.diameterInput = ui.createWidget("Gui::InputField")
         self.diameterInput.unit = 'mm'
-        self.diameterInput.setMinimumWidth(100)
+        self.diameterInput.setMinimumWidth(80)
 
         self.autoDiameterCheckbox = QtGui.QCheckBox(translate('Rocket', "auto"), self)
         self.autoDiameterCheckbox.setCheckState(QtCore.Qt.Unchecked)
@@ -67,14 +67,14 @@ class _BulkheadDialog(QDialog):
 
         self.thicknessInput = ui.createWidget("Gui::InputField")
         self.thicknessInput.unit = 'mm'
-        self.thicknessInput.setMinimumWidth(100)
+        self.thicknessInput.setMinimumWidth(80)
 
         if crPanel:
             self.centerDiameterLabel = QtGui.QLabel(translate('Rocket', "Inner Diameter"), self)
 
             self.centerDiameterInput = ui.createWidget("Gui::InputField")
             self.centerDiameterInput.unit = 'mm'
-            self.centerDiameterInput.setMinimumWidth(100)
+            self.centerDiameterInput.setMinimumWidth(80)
 
             self.autoCenterDiameterCheckbox = QtGui.QCheckBox(translate('Rocket', "auto"), self)
             self.autoCenterDiameterCheckbox.setCheckState(QtCore.Qt.Unchecked)
@@ -86,13 +86,13 @@ class _BulkheadDialog(QDialog):
 
             self.notchWidthInput = ui.createWidget("Gui::InputField")
             self.notchWidthInput.unit = 'mm'
-            self.notchWidthInput.setMinimumWidth(100)
+            self.notchWidthInput.setMinimumWidth(80)
 
             self.notchHeightLabel = QtGui.QLabel(translate('Rocket', "Height"), self)
 
             self.notchHeightInput = ui.createWidget("Gui::InputField")
             self.notchHeightInput.unit = 'mm'
-            self.notchHeightInput.setMinimumWidth(100)
+            self.notchHeightInput.setMinimumWidth(80)
 
         self.stepGroup = QtGui.QGroupBox(translate('Rocket', "Step"), self)
         self.stepGroup.setCheckable(True)
@@ -101,13 +101,13 @@ class _BulkheadDialog(QDialog):
 
         self.stepDiameterInput = ui.createWidget("Gui::InputField")
         self.stepDiameterInput.unit = 'mm'
-        self.stepDiameterInput.setMinimumWidth(100)
+        self.stepDiameterInput.setMinimumWidth(80)
 
         self.stepThicknessLabel = QtGui.QLabel(translate('Rocket', "Thickness"), self)
 
         self.stepThicknessInput = ui.createWidget("Gui::InputField")
         self.stepThicknessInput.unit = 'mm'
-        self.stepThicknessInput.setMinimumWidth(100)
+        self.stepThicknessInput.setMinimumWidth(80)
 
         self.holeGroup = QtGui.QGroupBox(translate('Rocket', "Holes"), self)
         self.holeGroup.setCheckable(True)
@@ -116,18 +116,18 @@ class _BulkheadDialog(QDialog):
 
         self.holeDiameterInput = ui.createWidget("Gui::InputField")
         self.holeDiameterInput.unit = 'mm'
-        self.holeDiameterInput.setMinimumWidth(100)
+        self.holeDiameterInput.setMinimumWidth(80)
 
         self.holeCenterLabel = QtGui.QLabel(translate('Rocket', "Center"), self)
 
         self.holeCenterInput = ui.createWidget("Gui::InputField")
         self.holeCenterInput.unit = 'mm'
-        self.holeCenterInput.setMinimumWidth(100)
+        self.holeCenterInput.setMinimumWidth(80)
 
         self.holeCountLabel = QtGui.QLabel(translate('Rocket', "Count"), self)
 
         self.holeCountSpinBox = QtGui.QSpinBox(self)
-        self.holeCountSpinBox.setMinimumWidth(100)
+        self.holeCountSpinBox.setMinimumWidth(80)
         self.holeCountSpinBox.setMinimum(1)
         self.holeCountSpinBox.setMaximum(10000)
 
@@ -136,7 +136,7 @@ class _BulkheadDialog(QDialog):
         # Offsets can be positive or negative so no validator required
         self.holeOffsetInput = ui.createWidget("Gui::InputField")
         self.holeOffsetInput.unit = 'deg'
-        self.holeOffsetInput.setMinimumWidth(100)
+        self.holeOffsetInput.setMinimumWidth(80)
 
         # Notch group
         if crPanel:
@@ -152,37 +152,47 @@ class _BulkheadDialog(QDialog):
 
             self.notchGroup.setLayout(layout)
 
-        if crPanel:
-            layout.addWidget(self.centerDiameterLabel, row, 0)
-            layout.addWidget(self.centerDiameterInput, row, 1)
-            row += 1
+        # Step group
+        row = 0
+        layout = QGridLayout()
 
-            layout.addWidget(self.notchedLabel, row, 0)
-            layout.addWidget(self.notchedCheckbox, row, 1)
-            row += 1
-
-            layout.addWidget(self.notchWidthLabel, row, 1)
-            layout.addWidget(self.notchWidthInput, row, 2)
-            row += 1
-
-            layout.addWidget(self.notchHeightLabel, row, 1)
-            layout.addWidget(self.notchHeightInput, row, 2)
-            row += 1
-
-        layout.addWidget(self.stepLabel, row, 0)
-        layout.addWidget(self.stepCheckbox, row, 1)
+        layout.addWidget(self.stepDiameterLabel, row, 0)
+        layout.addWidget(self.stepDiameterInput, row, 1)
         row += 1
 
-        layout.addWidget(self.stepDiameterLabel, row, 1)
-        layout.addWidget(self.stepDiameterInput, row, 2)
+        layout.addWidget(self.stepThicknessLabel, row, 0)
+        layout.addWidget(self.stepThicknessInput, row, 1)
+
+        self.stepGroup.setLayout(layout)
+
+        # Hole group
+        row = 0
+        layout = QGridLayout()
+
+        layout.addWidget(self.holeDiameterLabel, row, 0)
+        layout.addWidget(self.holeDiameterInput, row, 1)
         row += 1
 
-        layout.addWidget(self.stepThicknessLabel, row, 1)
-        layout.addWidget(self.stepThicknessInput, row, 2)
+        layout.addWidget(self.holeCenterLabel, row, 0)
+        layout.addWidget(self.holeCenterInput, row, 1)
         row += 1
 
-        layout.addWidget(self.holeLabel, row, 0)
-        layout.addWidget(self.holeCheckbox, row, 1)
+        layout.addWidget(self.holeCountLabel, row, 0)
+        layout.addWidget(self.holeCountSpinBox, row, 1)
+        row += 1
+
+        layout.addWidget(self.holeOffsetLabel, row, 0)
+        layout.addWidget(self.holeOffsetInput, row, 1)
+
+        self.holeGroup.setLayout(layout)
+
+        # Main items
+        row = 0
+        grid = QGridLayout()
+
+        grid.addWidget(self.diameterLabel, row, 0)
+        grid.addWidget(self.diameterInput, row, 1)
+        grid.addWidget(self.autoDiameterCheckbox, row, 2)
         row += 1
 
         if crPanel:
