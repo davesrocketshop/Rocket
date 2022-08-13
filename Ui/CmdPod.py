@@ -27,7 +27,7 @@ __url__ = "https://www.davesrocketshop.com"
 import FreeCAD
 import FreeCADGui
 
-from App.ShapeBodyTube import ShapeBodyTube
+from App.ShapePod import ShapePod
 from Ui.ViewPod import ViewProviderPod
 from Ui.CmdStage import addToStage
 
@@ -36,7 +36,7 @@ from DraftTools import translate
 def makePod(name='Pod'):
     '''makePod(name): makes a Pod'''
     obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
-    ShapeBodyTube(obj)
+    ShapePod(obj)
     if FreeCAD.GuiUp:
         ViewProviderPod(obj.ViewObject)
 

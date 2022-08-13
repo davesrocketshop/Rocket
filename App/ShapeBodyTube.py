@@ -27,9 +27,11 @@ __url__ = "https://www.davesrocketshop.com"
 from PySide import QtCore
     
 from App.ShapeComponent import ShapeLocation
-from App.Constants import FEATURE_BODY_TUBE, FEATURE_BULKHEAD, FEATURE_CENTERING_RING, FEATURE_FIN, FEATURE_FINCAN, FEATURE_LAUNCH_LUG, FEATURE_RAIL_BUTTON, FEATURE_RAIL_GUIDE
+from App.Constants import FEATURE_BODY_TUBE, FEATURE_BULKHEAD, FEATURE_CENTERING_RING, FEATURE_FIN, FEATURE_FINCAN, FEATURE_LAUNCH_LUG, \
+    FEATURE_PARALLEL_STAGE, FEATURE_POD, FEATURE_RAIL_BUTTON, FEATURE_RAIL_GUIDE
 
 from App.BodyTubeShapeHandler import BodyTubeShapeHandler
+from App.Utilities import _wrn
 
 from DraftTools import translate
 
@@ -41,7 +43,7 @@ def _migrate_from_1_0(obj):
 
     obj.removeProperty("InnerDiameter")
 
-    ShapeNoseCone(obj)
+    ShapeBodyTube(obj)
 
     od = float(obj.OuterDiameter)
     if od > 0.0:
@@ -114,7 +116,9 @@ class ShapeBodyTube(ShapeLocation):
             FEATURE_CENTERING_RING, 
             FEATURE_FIN, 
             FEATURE_FINCAN, 
-            FEATURE_LAUNCH_LUG, 
+            FEATURE_LAUNCH_LUG,
+            FEATURE_PARALLEL_STAGE, 
+            FEATURE_POD,
             FEATURE_RAIL_BUTTON, 
             FEATURE_RAIL_GUIDE]
 

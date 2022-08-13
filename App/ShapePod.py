@@ -18,57 +18,45 @@
 # *   USA                                                                   *
 # *                                                                         *
 # ***************************************************************************
-"""Class for drawing pods"""
+"""Class for rocket pods"""
 
-__title__ = "FreeCAD Pod View Provider"
+__title__ = "FreeCAD Rocket Pod"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
-    
-import FreeCAD
-import FreeCADGui
 
-from Ui.TaskPanelPod import TaskPanelPod
-from Ui.ViewProvider import ViewProvider
+# import FreeCAD
 
-from App.ShapeBodyTube import hookChildren
+from PySide import QtCore
+from DraftTools import translate
 
-class ViewProviderPod(ViewProvider):
+from App.ShapeComponent import ShapeRadialLocation
+from App.Constants import FEATURE_ROCKET, FEATURE_STAGE, FEATURE_PARALLEL_STAGE, FEATURE_POD
+from App.Constants import PLACEMENT_RADIAL
 
-    def __init__(self, vobj):
-        super().__init__(vobj)
 
-        vobj.addExtension("Gui::ViewProviderGroupExtensionPython")
-        self._oldChildren = []
-        
-    def getIcon(self):
-        return FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Pod.svg"
+class ShapePod(ShapeRadialLocation):
 
-    def setEdit(self, vobj, mode):
-        if mode == 0:
-            taskd = TaskPanelPod(self.Object, mode)
-            taskd.obj = vobj.Object
-            taskd.update()
-            FreeCADGui.Control.showDialog(taskd)
-            return True
+    def __init__(self, obj):
+        super().__init__(obj)
 
-    def unsetEdit(self, vobj, mode):
-        if mode == 0:
-            FreeCADGui.Control.closeDialog()
+        self.Type = FEATURE_POD
+        self._obj.PlacementType = PLACEMENT_RADIAL
+
+        if not hasattr(obj,"PodCount"):
+            obj.addProperty('App::PropertyInteger', 'PodCount', 'Pod', translate('App::Property', 'Number of pods in a radial pattern')).PodCount = 1
+        if not hasattr(obj,"PodSpacing"):
+            obj.addProperty('App::PropertyAngle', 'PodSpacing', 'Pod', translate('App::Property', 'Angle between consecutive pods')).PodSpacing = 360
+
+        if not hasattr(obj,"Group"):
+            obj.addExtension("App::GroupExtensionPython")
+
+    def execute(self,obj):
+        if not hasattr(obj,'Shape'):
             return
 
-    def claimChildren(self):
-        """Define which objects will appear as children in the tree view.
+    def eligibleChild(self, childType):
+        return childType not in [FEATURE_ROCKET, FEATURE_STAGE, FEATURE_PARALLEL_STAGE]
 
-        Returns
-        -------
-        list of <App::DocumentObject>s:
-            The objects claimed as children.
-        """
-        objs = []
-        if hasattr(self,"Object"):
-            objs = self.Object.Group
-
-        hookChildren(self.Object, objs, self._oldChildren)
-        self._oldChildren = objs
-
-        return objs
+    def onChildEdited(self):
+        # print("%s: onChildEdited()" % (self.__class__.__name__))
+        self._obj.Proxy.setEdited()
