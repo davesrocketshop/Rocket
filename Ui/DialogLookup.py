@@ -63,38 +63,10 @@ _compatible = {
     COMPONENT_TYPE_TRANSITION : (COMPONENT_TYPE_TRANSITION,)
 }
 
-class ProxyModel(QSortFilterProxyModel):
-
-    def __init__(self, obj=None):
-        super().__init__(obj)
-
-    def lessThan(self, left, right):
-        leftData = self.sourceModel().data(left)
-        rightData = self.sourceModel().data(right)
-
-        try:
-            if (left.column() == 0):
-                leftQty = int(leftData)
-                rightQty = int(rightData)
-
-                return leftQty < rightQty
-
-            if (left.column() > 4):
-                leftQty = FreeCAD.Units.Quantity(leftData)
-                rightQty = FreeCAD.Units.Quantity(rightData)
-
-                return leftQty < rightQty
-        except Exception:
-            pass
-
-        return super().lessThan(left, right)
 
 class DialogLookup(QtGui.QDialog):
     def __init__(self, lookup):
         super().__init__()
-
-        self._proxy = ProxyModel(self)
-        self._proxy.setDynamicSortFilter(False)
 
         self._lookup = lookup
         self._model = QStandardItemModel() # (4, 4)
@@ -131,8 +103,7 @@ class DialogLookup(QtGui.QDialog):
         self._lookupTypeCombo.currentTextChanged.connect(self.onLookupType)
 
         self._dbTable = QtGui.QTableView(self)
-        self._proxy.setSourceModel(self._model)
-        self._dbTable.setModel(self._proxy)
+        self._dbTable.setModel(self._model)
 
         self._dbTable.setSelectionBehavior(QtGui.QTableView.SelectRows)
         self._dbTable.setSelectionMode(QtGui.QTableView.SingleSelection)
@@ -172,9 +143,17 @@ class DialogLookup(QtGui.QDialog):
         self.show()
 
     def initDB(self):
+        import cProfile
+        pr = cProfile.Profile()
+        pr.enable()
+
         self._connection = sqlite3.connect("file:" + FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/parts/Parts.db?mode=ro", uri=True)
         self._connection.row_factory = sqlite3.Row
         self._updateModel()
+
+        pr.disable()
+        # pr.dump_stats("C:\\Users\\User\\Documents\\profile.cprof")
+        pr.dump_stats("/Users/User/Documents/profile.cprof")
 
     def onLookupType(self, value):
         self._updateModel()
@@ -217,9 +196,7 @@ class DialogLookup(QtGui.QDialog):
         self.close()
 
     def _getItemFromRow(self, row):
-        proxyIndex = self._proxy.index(row, 0)
-        sourceIndex = self._proxy.mapToSource(proxyIndex)
-        item = self._model.itemFromIndex(sourceIndex)
+        item = self._model.item(row, 0)
         return item
 
     def _getSelectedBodyTube(self, row):

@@ -547,7 +547,7 @@ class ParachuteElement(ComponentElement):
         self._sides = 0
         self._lineCount = 0
         self._lineLength = (0.0, "")
-        self._lineMaterial = ("", MATERIAL_TYPE_LINE)
+        self._lineMaterial = ("unspecified", MATERIAL_TYPE_LINE)
 
     def handleTag(self, tag, attributes):
         _tag = tag.lower().strip()

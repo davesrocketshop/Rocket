@@ -97,7 +97,7 @@ class Material:
 def getMaterial(connection, manufacturer, name, type):
     cursor = connection.cursor()
 
-    cursor.execute("SELECT material_index FROM material WHERE manufacturer=:manufacturer AND material_name=:name COLLATE NOCASE AND  type=:type", {
+    cursor.execute("SELECT material_index FROM material WHERE manufacturer=:manufacturer COLLATE NOCASE AND material_name=:name COLLATE NOCASE AND  type=:type", {
                         "manufacturer" : manufacturer,
                         "name" : name, 
                         "type" : type
@@ -105,18 +105,20 @@ def getMaterial(connection, manufacturer, name, type):
 
     rows = cursor.fetchall()
     if len(rows) < 1:
-        raise MaterialNotFoundError()
+        cursor.execute("SELECT material_index FROM material WHERE material_name=:name COLLATE NOCASE AND  type=:type", {
+                            "name" : name, 
+                            "type" : type
+                        })
 
-    if len(rows) > 1:
-        print("%d rows found!" % len(rows))        
-        cursor.execute("SELECT * FROM material WHERE material_name=:name AND  type=:type",
-                        {"name" : name, 
-                            "type" : type})
         rows = cursor.fetchall()
-        i = 0
-        for row in rows:
-            print("%d: %s" % (i, str(row)))
-            i += 1
+        if len(rows) < 1:
+            cursor.execute("SELECT material_index FROM material WHERE material_name=:name COLLATE NOCASE", {
+                                "name" : name
+                            })
+            rows = cursor.fetchall()
+            if len(rows) < 1:
+                print("Not found getMaterial('%s', '%s', '%s')" % (manufacturer, name, type))
+                raise MaterialNotFoundError()
 
     return rows[0]['material_index']
 

@@ -119,6 +119,7 @@ class PartDatabase:
                 self._importOrcPartFile(connection, dirpath + file)
 
         for (dirpath, dirnames, filenames) in walk(self._rootFolder + "/Resources/parts/openrocket-database/orc/"):
+            self._importOrcPartFile(connection, dirpath + 'generic_materials.orc')
             for file in filenames:
                 self._importOrcPartFile(connection, dirpath + file)
 
