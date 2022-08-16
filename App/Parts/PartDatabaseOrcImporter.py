@@ -681,7 +681,7 @@ class NoseConeElement(ComponentElement):
         elif _tag == "thickness":
             try:
                 self._thickness = (self._thickness[0], attributes['Unit'])
-            except:
+            except KeyError:
                 self._thickness = (self._thickness[0], "in")
         else:
             super().handleTag(tag, attributes)

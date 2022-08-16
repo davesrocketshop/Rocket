@@ -32,7 +32,6 @@ from DraftTools import translate
 
 from PySide import QtGui, QtCore
 from PySide.QtGui import QStandardItemModel, QStandardItem
-from PySide.QtCore import Qt, QSortFilterProxyModel
 from PySide2.QtWidgets import QVBoxLayout, QHBoxLayout
 
 from App.Constants import COMPONENT_TYPE_BODYTUBE, COMPONENT_TYPE_BULKHEAD, COMPONENT_TYPE_CENTERINGRING, \
