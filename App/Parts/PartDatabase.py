@@ -32,7 +32,7 @@ import xml.sax
 from App.Parts.PartDatabaseOrcImporter import PartDatabaseOrcImporter
 from App.Parts.Component import Component
 from App.Parts.Exceptions import NotFoundError
-from App.Utilities import _msg
+from App.Parts.Utilities import _msg
 
 class PartDatabase:
 
@@ -79,17 +79,21 @@ class PartDatabase:
 
         cursor.execute("DROP TABLE IF EXISTS material")
         cursor.execute("CREATE TABLE material (material_index INTEGER PRIMARY KEY ASC, manufacturer, material_name, type, density, units)")
+        cursor.execute("CREATE INDEX idx_material ON material(manufacturer, material_name, type)")
 
         cursor.execute("DROP TABLE IF EXISTS component")
         cursor.execute("CREATE TABLE component (component_index INTEGER PRIMARY KEY ASC, manufacturer, part_number, description, material_index, mass, mass_units)")
+        cursor.execute("CREATE INDEX idx_component_manufacturer ON component(manufacturer)")
 
         cursor.execute("DROP TABLE IF EXISTS tube_type")
         cursor.execute("CREATE TABLE tube_type (tube_type_index INTEGER PRIMARY KEY ASC, type)")
+        cursor.execute("CREATE INDEX idx_tube_type_type ON tube_type(type)")
         cursor.execute("INSERT INTO tube_type(type) VALUES ('Body Tube'), ('Centering Ring'), ('Tube Coupler'), ('Engine Block'), ('Launch Lug'), ('Bulkhead')")
 
         cursor.execute("DROP TABLE IF EXISTS body_tube")
         cursor.execute("CREATE TABLE body_tube (body_tube_index INTEGER PRIMARY KEY ASC, component_index, tube_type_index, inner_diameter, inner_diameter_units, outer_diameter, outer_diameter_units, length, length_units)")
-
+        cursor.execute("CREATE INDEX idx_body_tube ON body_tube(component_index, tube_type_index)")
+ 
         cursor.execute("DROP TABLE IF EXISTS nose")
         cursor.execute("""CREATE TABLE nose (nose_index INTEGER PRIMARY KEY ASC, component_index, shape, style, diameter, diameter_units,
             length, length_units, thickness, thickness_units, shoulder_diameter, shoulder_diameter_units, shoulder_length, shoulder_length_units)""")
@@ -114,7 +118,8 @@ class PartDatabase:
             for file in filenames:
                 self._importOrcPartFile(connection, dirpath + file)
 
-        for (dirpath, dirnames, filenames) in walk(self._rootFolder + "/Resources/parts/openrocket_components/"):
+        for (dirpath, dirnames, filenames) in walk(self._rootFolder + "/Resources/parts/openrocket-database/orc/"):
+            self._importOrcPartFile(connection, dirpath + 'generic_materials.orc')
             for file in filenames:
                 self._importOrcPartFile(connection, dirpath + file)
 
