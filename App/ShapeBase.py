@@ -29,10 +29,26 @@ import FreeCAD
 from PySide.QtCore import QObject, Signal
 from App.Utilities import _err
 
+class EditedShape(QObject):
+
+    edited = Signal()
+
+    def __init__(self):
+        super().__init__()
+
+    def setEdited(self):
+        self.edited.emit()
+
+    def doConnect(self, fn, type):
+        self.edited.connect(fn, type)
+
+    def doDisconnect(self):
+        self.edited.connect(None)
+
 # class ShapeBase(QObject):
 class ShapeBase():
 
-    # edited = Signal()
+    edited = EditedShape()
 
     def __init__(self, obj):
         super().__init__()
@@ -62,14 +78,13 @@ class ShapeBase():
         return name in self._scratch
 
     def setEdited(self):
-        # self.edited.emit()
-        pass
+        self.edited.setEdited()
 
     def connect(self, fn, type):
-        pass
+        self.edited.doConnect(fn, type)
 
     def disconnect(self):
-        pass
+        self.edited.doDisconnect()
 
     def eligibleChild(self, childType):
         return False

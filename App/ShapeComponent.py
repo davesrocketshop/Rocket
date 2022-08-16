@@ -41,8 +41,6 @@ from DraftTools import translate
 
 class ShapeComponent(ShapeBase):
 
-    edited = Signal()
-
     def __init__(self, obj):
         super().__init__(obj)
 

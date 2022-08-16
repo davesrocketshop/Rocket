@@ -84,14 +84,12 @@ class ShapeStage(ShapeBase):
 def hookChild(obj, child, oldGroup):
     if child not in oldGroup:
         child.Proxy.resetPlacement()
-        # child.Proxy.edited.connect(obj.Proxy.positionChildren, QtCore.Qt.QueuedConnection)
         child.Proxy.connect(obj.Proxy.positionChildren, QtCore.Qt.QueuedConnection)
 
 
 def unhookChild(obj, child, group):
     if child not in group:
         try:
-            # child.Proxy.edited.connect(None)
             child.Proxy.disconnect()
         except ReferenceError:
             # Object may be deleted
