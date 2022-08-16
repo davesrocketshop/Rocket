@@ -27,7 +27,7 @@ __url__ = "https://www.davesrocketshop.com"
 from App.Parts.Component import Component
 from App.Constants import TYPE_CONE, TYPE_ELLIPTICAL, TYPE_HAACK, TYPE_OGIVE, TYPE_VON_KARMAN, TYPE_PARABOLA, TYPE_PARABOLIC, TYPE_POWER
 from App.Constants import STYLE_SOLID, STYLE_CAPPED
-from App.Utilities import _err
+from App.Parts.Utilities import _err
 from App.Parts.Exceptions import MultipleEntryError, NotFoundError
 
 class NoseCone(Component):

@@ -28,7 +28,7 @@ from pathlib import PurePath
 
 import xml.sax
 
-from App.Utilities import _msg, _err, _toFloat, _toBoolean, _toInt
+from App.Parts.Utilities import _msg, _err, _toFloat, _toBoolean, _toInt
 from App.Parts.BodyTube import BodyTube
 from App.Parts.Bulkhead import Bulkhead
 from App.Parts.CenteringRing import CenteringRing
@@ -148,15 +148,21 @@ class MaterialElement(Element):
         # The default manufacturer is based on the filename
         manufacturers = {
             "preseed.orc" : "unspecified",
+            "apogee.orc" : "Apogee",
+            "competition_chutes.orc" : "Generic competition",
             "bluetube.orc" : "Always Ready Rocketry",
             "bms.orc" : "BalsaMachining.com",
-            "estes.orc" : "Estes",
-            "fliskits.orc" : "FlisKits",
+            "estes_classic.orc" : "Estes",
+            "estes_ps2.orc" : "Estes",
+            "generic_materials.orc" : "unspecified",
             "giantleaprocketry.orc" : "Giant Leap",
-            "locprecision.orc" : "LOC/Precision",
+            "loc_precision.orc" : "LOC Precision",
+            "madcow.orc" : "Madcow",
+            "mpc.orc" : "MPC",
             "publicmissiles.orc" : "Public Missiles",
-            "quest.orc" : "Quest Aerospace",
-            "semroc.orc" : "SEMROC Astronautics"
+            "quest.orc" : "Quest",
+            "semroc.orc" : "SEMROC",
+            "top_flight.orc" : "Top Flight Recovery"
         }
 
         name = PurePath(self._filename).name.lower()
@@ -243,15 +249,21 @@ class ComponentElement(Element):
         # The default manufacturer is based on the filename
         manufacturers = {
             "preseed.orc" : "unspecified",
+            "apogee.orc" : "Apogee",
+            "competition_chutes.orc" : "Generic competition",
             "bluetube.orc" : "Always Ready Rocketry",
             "bms.orc" : "BalsaMachining.com",
-            "estes.orc" : "Estes",
-            "fliskits.orc" : "FlisKits",
+            "estes_classic.orc" : "Estes",
+            "estes_ps2.orc" : "Estes",
+            "generic_materials.orc" : "unspecified",
             "giantleaprocketry.orc" : "Giant Leap",
-            "locprecision.orc" : "LOC/Precision",
+            "loc_precision.orc" : "LOC Precision",
+            "madcow.orc" : "Madcow",
+            "mpc.orc" : "MPC",
             "publicmissiles.orc" : "Public Missiles",
-            "quest.orc" : "Quest Aerospace",
-            "semroc.orc" : "SEMROC Astronautics"
+            "quest.orc" : "Quest",
+            "semroc.orc" : "SEMROC",
+            "top_flight.orc" : "Top Flight Recovery"
         }
 
         name = PurePath(self._filename).name.lower()
@@ -535,7 +547,7 @@ class ParachuteElement(ComponentElement):
         self._sides = 0
         self._lineCount = 0
         self._lineLength = (0.0, "")
-        self._lineMaterial = ("", MATERIAL_TYPE_LINE)
+        self._lineMaterial = ("unspecified", MATERIAL_TYPE_LINE)
 
     def handleTag(self, tag, attributes):
         _tag = tag.lower().strip()
@@ -667,7 +679,10 @@ class NoseConeElement(ComponentElement):
         elif _tag == "length":
             self._length = (self._length[0], attributes['Unit'])
         elif _tag == "thickness":
-            self._thickness = (self._thickness[0], attributes['Unit'])
+            try:
+                self._thickness = (self._thickness[0], attributes['Unit'])
+            except KeyError:
+                self._thickness = (self._thickness[0], "in")
         else:
             super().handleTag(tag, attributes)
 
