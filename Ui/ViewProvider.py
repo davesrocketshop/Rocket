@@ -34,6 +34,8 @@ class ViewProvider:
     def attach(self, vobj):
         self.ViewObject = vobj
         self.Object = vobj.Object
+        if not hasattr(self,"_oldChildren"):
+            self._oldChildren = []
 
     def canDropObject(self, obj):
         return self.Object.Proxy.eligibleChild(obj.Proxy.Type)

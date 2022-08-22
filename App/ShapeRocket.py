@@ -41,6 +41,8 @@ class ShapeRocket(ShapeBase):
             obj.addExtension("App::GroupExtensionPython")
 
     def execute(self,obj):
+        print("execute(Rocket)")
+        self.positionChildren()
         if not hasattr(obj,'Shape'):
             return
 
@@ -50,18 +52,22 @@ class ShapeRocket(ShapeBase):
     def positionChildren(self):
         # print("Rocket::positionChildren()")
         # Dynamic placements
-        length = 0.0
-        i = len(self._obj.Group) - 1
-        while i >= 0:
-            child = self._obj.Group[i]
-            # print(child.Label)
-            child.Proxy.setAxialPosition(length)
+        try:
+            length = 0.0
+            i = len(self._obj.Group) - 1
+            while i >= 0:
+                child = self._obj.Group[i]
+                # print(child.Label)
+                child.Proxy.setAxialPosition(length)
 
-            length += float(child.Proxy.getAxialLength())
-            # print("length = %f" % length)
-            i -= 1
+                length += float(child.Proxy.getAxialLength())
+                # print("length = %f" % length)
+                i -= 1
 
-        FreeCAD.ActiveDocument.recompute()
+            # FreeCAD.ActiveDocument.recompute()
+        except ReferenceError:
+            # Deleted object
+            pass
 
 def hookChildren(obj, group, oldGroup):
     for child in group:

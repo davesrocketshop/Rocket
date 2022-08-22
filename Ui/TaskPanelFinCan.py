@@ -718,6 +718,13 @@ class TaskPanelFinCan(QObject):
         self._setLugAutoThicknessState()
         self._setLugAutoLengthState()
 
+    def setEdited(self):
+        try:
+            self._obj.Proxy.setEdited()
+        except ReferenceError:
+            # Object may be deleted
+            pass
+
     def redraw(self):
         if not self._redrawPending:
             self._redrawPending = True
@@ -728,10 +735,12 @@ class TaskPanelFinCan(QObject):
         self._obj.FinSpacing = 360.0 / float(value)
         self._finForm.finSpacingInput.setText(self._obj.FinSpacing.UserString)
         self.redraw()
+        self.setEdited()
         
     def onSpacing(self, value):
         self._obj.FinSpacing = value
         self.redraw()
+        self.setEdited()
 
     def _enableFinTypes(self):
         if self._obj.FinType == FIN_TYPE_TRAPEZOID:
@@ -817,6 +826,7 @@ class TaskPanelFinCan(QObject):
         self._obj.FinType = value
         self._enableFinTypes()
         self.redraw()
+        self.setEdited()
 
     def _enableRootLengths(self):
         value = self._obj.RootCrossSection
@@ -860,6 +870,7 @@ class TaskPanelFinCan(QObject):
             self._enableTipLengths()
 
         self.redraw()
+        self.setEdited()
         
     def onRootChord(self, value):
         try:
@@ -867,6 +878,7 @@ class TaskPanelFinCan(QObject):
             self.redraw()
         except ValueError:
             pass
+        self.setEdited()
         
     def onRootThickness(self, value):
         try:
@@ -874,6 +886,7 @@ class TaskPanelFinCan(QObject):
             self.redraw()
         except ValueError:
             pass
+        self.setEdited()
 
     def _toPercent(self, length, chord):
         percent = 100.0 * length / chord
@@ -919,6 +932,7 @@ class TaskPanelFinCan(QObject):
         self._convertRootPercent()
 
         self.redraw()
+        self.setEdited()
         
     def onRootLength1(self, value):
         try:
@@ -926,6 +940,7 @@ class TaskPanelFinCan(QObject):
             self.redraw()
         except ValueError:
             pass
+        self.setEdited()
         
     def onRootLength2(self, value):
         try:
@@ -933,12 +948,14 @@ class TaskPanelFinCan(QObject):
             self.redraw()
         except ValueError:
             pass
+        self.setEdited()
         
     def onTipCrossSection(self, value):
         self._obj.TipCrossSection = value
         self._enableTipLengths()
 
         self.redraw()
+        self.setEdited()
         
     def onTipChord(self, value):
         try:
@@ -946,6 +963,7 @@ class TaskPanelFinCan(QObject):
             self.redraw()
         except ValueError:
             pass
+        self.setEdited()
         
     def onTipThickness(self, value):
         try:
@@ -953,6 +971,7 @@ class TaskPanelFinCan(QObject):
             self.redraw()
         except ValueError:
             pass
+        self.setEdited()
 
     def _enableTipPercent(self):
         if self._obj.TipPerCent:
@@ -982,6 +1001,7 @@ class TaskPanelFinCan(QObject):
         self._convertTipPercent()
 
         self.redraw()
+        self.setEdited()
         
     def onTipLength1(self, value):
         try:
@@ -989,6 +1009,7 @@ class TaskPanelFinCan(QObject):
             self.redraw()
         except ValueError:
             pass
+        self.setEdited()
         
     def onTipLength2(self, value):
         try:
@@ -996,6 +1017,7 @@ class TaskPanelFinCan(QObject):
             self.redraw()
         except ValueError:
             pass
+        self.setEdited()
 
     def onHeight(self, value):
         try:
@@ -1004,6 +1026,7 @@ class TaskPanelFinCan(QObject):
             self.redraw()
         except ValueError:
             pass
+        self.setEdited()
 
     def _sweepLengthFromAngle(self, value):
         theta = _toFloat(value)
@@ -1028,6 +1051,7 @@ class TaskPanelFinCan(QObject):
             self.redraw()
         except ValueError:
             pass
+        self.setEdited()
         
     def onSweepAngle(self, value):
         try:
@@ -1036,6 +1060,7 @@ class TaskPanelFinCan(QObject):
             self.redraw()
         except ValueError:
             pass
+        self.setEdited()
         
     def onCanInnerDiameter(self, value):
         try:
@@ -1044,6 +1069,7 @@ class TaskPanelFinCan(QObject):
             self.redraw()
         except ValueError:
             pass
+        self.setEdited()
         
     def onCanThickness(self, value):
         try:
@@ -1053,6 +1079,7 @@ class TaskPanelFinCan(QObject):
             self.redraw()
         except ValueError:
             pass
+        self.setEdited()
         
     def onCanLength(self, value):
         try:
@@ -1060,6 +1087,7 @@ class TaskPanelFinCan(QObject):
             self.redraw()
         except ValueError:
             pass
+        self.setEdited()
         
     def onCanLeadingEdgeOffset(self, value):
         try:
@@ -1067,6 +1095,7 @@ class TaskPanelFinCan(QObject):
             self.redraw()
         except ValueError:
             pass
+        self.setEdited()
 
 
     def _enableLeadingEdge(self):
@@ -1084,6 +1113,7 @@ class TaskPanelFinCan(QObject):
         self._setLugAutoLengthState()
 
         self.redraw()
+        self.setEdited()
         
     def onCanLeadingLength(self, value):
         try:
@@ -1092,6 +1122,7 @@ class TaskPanelFinCan(QObject):
             self.redraw()
         except ValueError:
             pass
+        self.setEdited()
 
     def _enableTrailingEdge(self):
         if self._obj.TrailingEdge == FINCAN_EDGE_SQUARE:
@@ -1108,6 +1139,7 @@ class TaskPanelFinCan(QObject):
         self._setLugAutoLengthState()
 
         self.redraw()
+        self.setEdited()
         
     def onCanTrailingLength(self, value):
         try:
@@ -1116,11 +1148,13 @@ class TaskPanelFinCan(QObject):
             self.redraw()
         except ValueError:
             pass
+        self.setEdited()
        
     def onLug(self, value):
         self._obj.LaunchLug = self._finForm.lugGroup.isChecked()
 
         self.redraw()
+        self.setEdited()
         
     def onLugInnerDiameter(self, value):
         try:
@@ -1129,6 +1163,7 @@ class TaskPanelFinCan(QObject):
             self.redraw()
         except ValueError:
             pass
+        self.setEdited()
 
     def _setLugDiameter(self, value):
         try:
@@ -1137,6 +1172,7 @@ class TaskPanelFinCan(QObject):
             self.redraw()
         except ValueError:
             pass
+        self.setEdited()
 
     def onLugInnerDiameterPreset(self, value):
         if value == FINCAN_PRESET_1_8:
@@ -1152,6 +1188,7 @@ class TaskPanelFinCan(QObject):
             self.redraw()
         except ValueError:
             pass
+        self.setEdited()
      
     def _setLugAutoThicknessState(self):
         self._finForm.lugThicknessInput.setEnabled(not self._obj.LugAutoThickness)
@@ -1166,6 +1203,7 @@ class TaskPanelFinCan(QObject):
         self._setLugAutoThicknessState()
 
         self.redraw()
+        self.setEdited()
         
     def onLugLength(self, value):
         try:
@@ -1173,6 +1211,7 @@ class TaskPanelFinCan(QObject):
             self.redraw()
         except ValueError:
             pass
+        self.setEdited()
      
     def _setLugAutoLengthState(self):
         self._finForm.lugLengthInput.setEnabled(not self._obj.LugAutoLength)
@@ -1192,6 +1231,7 @@ class TaskPanelFinCan(QObject):
         self._setLugAutoLengthState()
 
         self.redraw()
+        self.setEdited()
         
     def onLugFilletRadius(self, value):
         try:
@@ -1199,6 +1239,7 @@ class TaskPanelFinCan(QObject):
             self.redraw()
         except ValueError:
             pass
+        self.setEdited()
         
     def _setForwardSweepState(self):
         # self._finForm.forwardSweepInput.setEnabled(self._obj.LaunchLugForwardSweep)
@@ -1236,6 +1277,7 @@ class TaskPanelFinCan(QObject):
 
     def onLocation(self):
         self.redraw()
+        self.setEdited()
 
     def onRedraw(self):
         self._obj.Proxy.execute(self._obj)

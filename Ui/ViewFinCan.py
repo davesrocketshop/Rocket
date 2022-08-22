@@ -52,6 +52,7 @@ class ViewProviderFinCan(ViewProvider):
             return
 
     def claimChildren(self):
+        print("claimChildren(FinCan)")
         if hasattr(self.Object, "Profile"):
             return [self.Object.Profile]
         return None

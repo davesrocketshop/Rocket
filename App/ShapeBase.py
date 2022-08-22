@@ -37,7 +37,8 @@ class EditedShape(QObject):
         super().__init__()
 
     def setEdited(self):
-        self.edited.emit()
+        # self.edited.emit()
+        pass
 
     def doConnect(self, fn, type):
         self.edited.connect(fn, type)
@@ -60,6 +61,12 @@ class ShapeBase():
         obj.Proxy=self
         self._scratch = {} # None persistent property storage, for import properties and similar
 
+    def onDocumentRestored(self, obj):
+        obj.Proxy=self
+        # self.Object = obj
+        self._obj = obj
+        self._parent = None
+    
     def __getstate__(self):
         return self.Type, self.version
 
@@ -162,17 +169,17 @@ class ShapeBase():
     def resetPlacement(self):
         self._obj.Placement = FreeCAD.Placement()
 
-    def setAxialPosition(self, partBase):
+    def setAxialPosition(self, partBase, roll=0.0):
         # print("setAxialPosition(%s, %f)" % (self._obj.Label, partBase))
         base = self._obj.Placement.Base
-        self._obj.Placement = FreeCAD.Placement(FreeCAD.Vector(partBase, base.y, base.z), FreeCAD.Rotation(0,0,0))
+        self._obj.Placement = FreeCAD.Placement(FreeCAD.Vector(partBase, base.y, base.z), FreeCAD.Rotation(FreeCAD.Vector(1,0,0), roll))
 
         self.positionChildren(partBase)
 
     def positionChildren(self, partBase):
         # Dynamic placements
         if hasattr(self._obj, "Group"):
-            for child in self._obj.Group:
+            for child in reversed(self._obj.Group):
                 child.Proxy.positionChild(child, self._obj, partBase, self.getAxialLength(), self.getForeRadius())
 
     def positionChild(self, obj, parent, parentBase, parentLength, parentRadius):

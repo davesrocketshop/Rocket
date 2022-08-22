@@ -47,11 +47,14 @@ class ViewProviderStage:
     def attach(self, vobj):
         self.ViewObject = vobj
         self.Object = vobj.Object
+        if not hasattr(self,"_oldChildren"):
+            self._oldChildren = []
 
     def canDropObject(self, obj):
         return self.Object.Proxy.eligibleChild(obj.Proxy.Type)
 
     def claimChildren(self):
+        print("claimChildren(stage)")
         """Define which objects will appear as children in the tree view.
 
         Returns

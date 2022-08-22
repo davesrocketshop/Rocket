@@ -49,6 +49,8 @@ class ShapeStage(ShapeBase):
             obj.addProperty('App::PropertyDistance', 'AxialOffset', 'RocketComponent', translate('App::Property', 'Axial offset from the center line'), PROP_TRANSIENT|PROP_HIDDEN|PROP_NORECOMPUTE).AxialOffset = 0.0
 
     def execute(self,obj):
+        print("execute(Stage)")
+        self.positionChildren(self._obj.AxialOffset)
         if not hasattr(obj,'Shape'):
             return
 
@@ -59,8 +61,10 @@ class ShapeStage(ShapeBase):
         # print("Stage(%s)::setAxialPosition(%f)" % (self._obj.Label, partBase))
 
         base = self._obj.Placement.Base
-        # self._obj.Placement = FreeCAD.Placement(FreeCAD.Vector(partBase, base.y, base.z), FreeCAD.Rotation(0,0,0))
-        self._obj.Placement = FreeCAD.Placement(FreeCAD.Vector(0.0, base.y, base.z), FreeCAD.Rotation(0,0,0))
+        newBase = FreeCAD.Placement(FreeCAD.Vector(partBase, base.y, base.z), FreeCAD.Rotation(0,0,0))
+        # self._obj.Placement = FreeCAD.Placement(FreeCAD.Vector(0.0, base.y, base.z), FreeCAD.Rotation(0,0,0))
+        if newBase != self._obj.Placement:
+            self._obj.Placement = newBase
 
         self.positionChildren(partBase)
         # self.positionChildren(0.0)
@@ -69,17 +73,24 @@ class ShapeStage(ShapeBase):
         # print("Stage(%s)::positionChildren(%f)" % (self._obj.Label, partBase))
         
         # Dynamic placements
-        self._obj.AxialOffset = partBase
-        length = partBase
-        i = len(self._obj.Group) - 1
-        while i >= 0:
-            child = self._obj.Group[i]
-            child.Proxy.setAxialPosition(length)
+        try:
+            if self._obj.AxialOffset == partBase:
+                return
 
-            length += float(child.Proxy.getAxialLength())
-            i -= 1
+            self._obj.AxialOffset = partBase
+            length = float(partBase)
+            i = len(self._obj.Group) - 1
+            while i >= 0:
+                child = self._obj.Group[i]
+                child.Proxy.setAxialPosition(length)
 
-        FreeCAD.ActiveDocument.recompute()
+                length += float(child.Proxy.getAxialLength())
+                i -= 1
+
+            # FreeCAD.ActiveDocument.recompute()
+        except ReferenceError:
+            # Deleted object
+            pass
 
 def hookChild(obj, child, oldGroup):
     if child not in oldGroup:

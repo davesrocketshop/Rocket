@@ -57,6 +57,7 @@ class ViewProviderPod(ViewProvider):
             return
 
     def claimChildren(self):
+        print("claimChildren(Pod)")
         """Define which objects will appear as children in the tree view.
 
         Returns

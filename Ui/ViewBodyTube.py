@@ -57,6 +57,7 @@ class ViewProviderBodyTube(ViewProvider):
             return
 
     def claimChildren(self):
+        print("claimChildren(BodyTube)")
         """Define which objects will appear as children in the tree view.
 
         Returns

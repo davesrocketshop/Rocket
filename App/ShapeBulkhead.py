@@ -70,6 +70,7 @@ class ShapeBulkhead(ShapeLocation):
         return self._obj.Thickness
 
     def execute(self, obj):
+        print("execute(Bulkhead)")
         shape = BulkheadShapeHandler(obj)
         if shape is not None:
             shape.draw()

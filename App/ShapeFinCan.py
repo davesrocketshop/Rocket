@@ -108,6 +108,8 @@ class ShapeFinCan(ShapeFin):
 
 
     def execute(self, obj):
+        print("execute(Fincan)")
+        self.positionChildren()
 
         if obj.FinType == FIN_TYPE_TRAPEZOID:
             shape = FinCanTrapezoidShapeHandler(obj)

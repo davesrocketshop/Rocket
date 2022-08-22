@@ -135,6 +135,10 @@ class ShapeFin(ShapeLocation):
             obj.addProperty('Part::PropertyPartShape', 'Shape', 'Fin', translate('App::Property', 'Shape of the fin'))
 
     def execute(self, obj):
+        print("execute(Fin)")
+        # print(dir(self._obj.Placement.Base))
+        base = self._obj.Placement.Base.x
+        self.positionChildren(base)
 
         if obj.FinType == FIN_TYPE_TRAPEZOID:
             shape = FinTrapezoidShapeHandler(obj)

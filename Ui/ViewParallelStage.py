@@ -54,6 +54,7 @@ class ViewProviderParallelStage:
         return self.Object.Proxy.eligibleChild(obj.Proxy.Type)
 
     def claimChildren(self):
+        print("claimChildren(ParallelStage)")
         """Define which objects will appear as children in the tree view.
 
         Returns

@@ -78,6 +78,8 @@ class ShapeBodyTube(ShapeLocation):
             obj.addExtension("App::GroupExtensionPython")
 
     def onDocumentRestored(self, obj):
+        super().onDocumentRestored(obj)
+
         if hasattr(obj, "InnerDiameter"):
             _migrate_from_1_0(obj)
 
@@ -105,6 +107,9 @@ class ShapeBodyTube(ShapeLocation):
         return self._obj.OuterDiameter / 2.0
 
     def execute(self, obj):
+        print("execute(BodyTube)")
+        base = self._obj.Placement.Base.x
+        self.positionChildren(base)
         shape = BodyTubeShapeHandler(obj)
         if shape is not None:
             shape.draw()
@@ -123,8 +128,12 @@ class ShapeBodyTube(ShapeLocation):
             FEATURE_RAIL_GUIDE]
 
     def onChildEdited(self):
-        # print("%s: onChildEdited()" % (self.__class__.__name__))
-        self._obj.Proxy.setEdited()
+        try:
+            # print("%s: onChildEdited()" % (self.__class__.__name__))
+            self._obj.Proxy.setEdited()
+        except ReferenceError:
+            # Already deleted object
+            pass
 
 def hookChildren(obj, group, oldGroup):
     # print("hookChildren()")

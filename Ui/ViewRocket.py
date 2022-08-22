@@ -37,6 +37,7 @@ from App.ShapeRocket import hookChildren
 class ViewProviderRocket:
 
     def __init__(self, vobj):
+        print("__init__()")
         vobj.addExtension("Gui::ViewProviderGroupExtensionPython")
         vobj.Proxy = self
         self._oldChildren = []
@@ -45,6 +46,7 @@ class ViewProviderRocket:
         return FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Rocket.svg"
 
     def attach(self, vobj):
+        print("attach()")
         self.ViewObject = vobj
         self.Object = vobj.Object
 
@@ -52,6 +54,7 @@ class ViewProviderRocket:
         return self.Object.Proxy.eligibleChild(obj.Proxy.Type)
 
     def claimChildren(self):
+        print("claimChildren(rocket)")
         """Define which objects will appear as children in the tree view.
 
         Returns
@@ -62,6 +65,8 @@ class ViewProviderRocket:
         objs = []
         if hasattr(self,"Object"):
             objs = self.Object.Group
+        if not hasattr(self,"_oldChildren"):
+            self._oldChildren = []
 
         hookChildren(self.Object, objs, self._oldChildren)
         self._oldChildren = objs

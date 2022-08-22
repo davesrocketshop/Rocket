@@ -158,6 +158,8 @@ class ShapeNoseCone(ShapeComponent):
             obj.addProperty('Part::PropertyPartShape', 'Shape', 'NoseCone', translate('App::Property', 'Shape of the nose cone'))
 
     def onDocumentRestored(self, obj):
+        super().onDocumentRestored(obj)
+        
         if hasattr(obj, "Radius"):
             _migrate_from_1_0(obj)
         if hasattr(obj.Proxy, "version") and obj.Proxy.version:
@@ -188,6 +190,7 @@ class ShapeNoseCone(ShapeComponent):
         return self._obj.Diameter / 2.0
 
     def execute(self, obj):
+        print("execute(NoseCone)")
         shape = None
         if obj.NoseType == TYPE_CONE:
             shape = NoseConeShapeHandler(obj)

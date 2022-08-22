@@ -503,6 +503,7 @@ class TaskPanelFin(QObject):
         self._obj.FinType = value
         self._enableFinTypes()
         self.redraw()
+        self.setEdited()
        
     def _setFinSetState(self):
         checked = self._finForm.finSetGroup.isChecked()
@@ -522,11 +523,6 @@ class TaskPanelFin(QObject):
         self._finForm.finSpacingInput.setText(self._obj.FinSpacing.UserString)
         self.redraw()
         self.setEdited()
-        
-    def onFinTypes(self, value):
-        self._obj.FinType = value
-        self._enableFinTypes()
-        self.redraw()
         
     def onSpacing(self, value):
         self._obj.FinSpacing = value
@@ -655,6 +651,7 @@ class TaskPanelFin(QObject):
             self._enableTipLengths()
 
         self.redraw()
+        self.setEdited()
         
     def onRootChord(self, value):
         try:
@@ -892,6 +889,10 @@ class TaskPanelFin(QObject):
         self.setEdited()
 
     def onLocation(self):
+        # self._obj.LocationReference = str(self._form.referenceCombo.currentText())
+        # self._obj.Location = self._form.locationInput.text()
+        # self._obj.AngleOffset = self._form.angleOffsetInput.text()
+        self._obj.Proxy.setAxialPosition(float(self._obj.Location), float(self._obj.AngleOffset))
         self.redraw()
         self.setEdited()
 

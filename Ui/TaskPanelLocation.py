@@ -142,9 +142,6 @@ class TaskPanelLocation(QObject):
 
     def getForm(self):
         return self._form
-
-    def getLookupResult(self):
-        return self._lookupResult
         
     def transferTo(self):
         "Transfer from the dialog to the object" 
