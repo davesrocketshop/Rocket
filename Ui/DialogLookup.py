@@ -142,17 +142,9 @@ class DialogLookup(QtGui.QDialog):
         self.show()
 
     def initDB(self):
-        import cProfile
-        pr = cProfile.Profile()
-        pr.enable()
-
         self._connection = sqlite3.connect("file:" + FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/parts/Parts.db?mode=ro", uri=True)
         self._connection.row_factory = sqlite3.Row
         self._updateModel()
-
-        pr.disable()
-        # pr.dump_stats("C:\\Users\\User\\Documents\\profile.cprof")
-        pr.dump_stats("/Users/User/Documents/profile.cprof")
 
     def onLookupType(self, value):
         self._updateModel()
