@@ -154,7 +154,7 @@ class DialogLookup(QtGui.QDialog):
         value = str(value).strip()
         if len(value) > 0:
             for column in range(self._model.columnCount()):
-                items = self._model.findItems(value, Qt.MatchContains, column)
+                items = self._model.findItems(value, QtCore.Qt.MatchContains, column)
                 for item in items:
                     row = item.row()
                     if not row in rows:
