@@ -22,6 +22,7 @@
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
     
+from App.ShapeBase import TRACE_POSITION, TRACE_EXECUTION
 from App.ShapeComponent import ShapeComponent
 from App.Constants import FEATURE_TRANSITION
 
@@ -143,10 +144,16 @@ class ShapeTransition(ShapeComponent):
         #         _migrate_from_2_0(obj)
 
     def getAxialLength(self):
+        if TRACE_POSITION:
+            print("P: ShapeTransition::getAxialLength(%s)" % (self._obj.Label))
+
         # Return the length of this component along the central axis
         return self._obj.Length
 
     def getForeRadius(self):
+        if TRACE_POSITION:
+            print("P: ShapeTransition::getForeRadius(%s)" % (self._obj.Label))
+
         # For placing objects on the outer part of the parent
         if self._obj.ForeAutoDiameter:
             radius = 0.0
@@ -162,6 +169,9 @@ class ShapeTransition(ShapeComponent):
         return self._obj.ForeDiameter / 2.0
 
     def getAftRadius(self):
+        if TRACE_POSITION:
+            print("P: ShapeTransition::getAftRadius(%s)" % (self._obj.Label))
+
         # For placing objects on the outer part of the parent
         if self._obj.AftAutoDiameter:
             radius = 0.0
@@ -177,11 +187,17 @@ class ShapeTransition(ShapeComponent):
         return self._obj.AftDiameter / 2.0
 
     def setRadius(self):
+        if TRACE_POSITION:
+            print("P: ShapeTransition::setRadius(%s)" % (self._obj.Label))
+
         # Calculate auto radii
         self.getForeRadius()
         self.getAftRadius()
 
     def execute(self, obj):
+        if TRACE_EXECUTION:
+            print("E: ShapeTransition::execute(%s)" % (self._obj.Label))
+
         shape = None
         if obj.TransitionType == TYPE_CONE:
             shape = TransitionConeShapeHandler(obj)

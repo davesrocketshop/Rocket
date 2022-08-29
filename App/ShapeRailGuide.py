@@ -24,6 +24,7 @@ __title__ = "FreeCAD Launch Guide"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
+from App.ShapeBase import TRACE_POSITION, TRACE_EXECUTION
 from App.ShapeComponent import ShapeLocation
 from App.Constants import FEATURE_RAIL_GUIDE
 from App.Constants import PLACEMENT_RADIAL
@@ -87,10 +88,16 @@ class ShapeRailGuide(ShapeLocation):
             obj.addProperty('Part::PropertyPartShape', 'Shape', 'RailGuide', translate('App::Property', 'Shape of the launch guide'))
 
     def getAxialLength(self):
+        if TRACE_POSITION:
+            print("P: ShapeRailGuide::getAxialLength(%s)" % (self._obj.Label))
+
         # Return the length of this component along the central axis
         return self._obj.Length
 
     def execute(self, obj):
+        if TRACE_EXECUTION:
+            print("E: ShapeRailGuide::execute(%s)" % (self._obj.Label))
+
         shape = RailGuideShapeHandler(obj)
         if shape is not None:
             shape.draw()

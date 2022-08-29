@@ -30,6 +30,7 @@ from App.Constants import FEATURE_LAUNCH_LUG
 from App.Constants import PROP_HIDDEN
 from App.Constants import PLACEMENT_RADIAL
 
+from App.ShapeBase import TRACE_POSITION
 from App.ShapeBodyTube import ShapeBodyTube
 
 class ShapeLaunchLug(ShapeBodyTube):
@@ -48,6 +49,9 @@ class ShapeLaunchLug(ShapeBodyTube):
         obj.setEditorMode('Overhang', PROP_HIDDEN)  # hide
 
     def getRadialPositionOffset(self):
+        if TRACE_POSITION:
+            print("P: ShapeLaunchLug::getRadialPositionOffset(%s)" % (self._obj.Label))
+
         return self._obj.OuterDiameter / 2.0
 
     def eligibleChild(self, childType):

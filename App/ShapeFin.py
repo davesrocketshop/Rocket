@@ -26,6 +26,7 @@ __url__ = "https://www.davesrocketshop.com"
     
 import FreeCAD
 
+from App.ShapeBase import TRACE_EXECUTION
 from App.ShapeComponent import ShapeLocation
 from App.Constants import FEATURE_FIN, FEATURE_LAUNCH_LUG, FEATURE_RAIL_BUTTON, FEATURE_RAIL_GUIDE, FEATURE_POD
 
@@ -135,7 +136,9 @@ class ShapeFin(ShapeLocation):
             obj.addProperty('Part::PropertyPartShape', 'Shape', 'Fin', translate('App::Property', 'Shape of the fin'))
 
     def execute(self, obj):
-        print("execute(Fin)")
+        if TRACE_EXECUTION:
+            print("E: ShapeFin::execute(%s)" % (self._obj.Label))
+
         # print(dir(self._obj.Placement.Base))
         base = self._obj.Placement.Base.x
         self.positionChildren(base)

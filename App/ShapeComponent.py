@@ -29,7 +29,7 @@ import math
 
 from PySide.QtCore import Signal
 
-from App.ShapeBase import ShapeBase
+from App.ShapeBase import ShapeBase, TRACE_POSITION
 # from App.Utilities import _err
 
 from App.Constants import PROP_HIDDEN, PROP_TRANSIENT, PROP_READONLY
@@ -75,6 +75,9 @@ class ShapeComponent(ShapeBase):
         self.version = '2.2'
 
     def positionChild(self, obj, parent, parentBase, parentLength, parentRadius):
+        if TRACE_POSITION:
+            print("P: ShapeComponent::positionChild(%s, %s, %f, %f, %f)" % (self._obj.Label, parent.Label, parentBase, parentLength, parentRadius))
+
         # Calculate any auto radii
         obj.Proxy.setRadius()
 
@@ -101,12 +104,18 @@ class ShapeComponent(ShapeBase):
             self._positionChildRadial(obj, parent, parentRadius, partBase, roll)
 
     def _positionChildAxial(self, obj, partBase, roll):
+        if TRACE_POSITION:
+            print("P: ShapeComponent::_positionChildAxial(%s, %f, %f)" % (self._obj.Label, partBase, roll))
+
         # newPlacement = FreeCAD.Placement(FreeCAD.Vector(partBase, 0, parentRadius), FreeCAD.Rotation(FreeCAD.Vector(1,0,0), roll), FreeCAD.Vector(0, 0, -parentRadius))
         newPlacement = FreeCAD.Placement(FreeCAD.Vector(partBase, 0, 0), FreeCAD.Rotation(FreeCAD.Vector(1,0,0), roll), FreeCAD.Vector(0, 0, 0))
         if obj.Placement != newPlacement:
             obj.Placement = newPlacement
 
     def _positionChildRadial(self, obj, parent, parentRadius, partBase, roll):
+        if TRACE_POSITION:
+            print("P: ShapeComponent::_positionChildRadial(%s, %s, %f, %f, %f)" % (self._obj.Label, parent.Label, parentRadius, partBase, parentRadius))
+
         radial = float(parentRadius) + float(obj.Proxy.getRadialPositionOffset()) # Need to add current parent radial
         if hasattr(obj, 'AngleOffset'):
             radial += float(obj.AngleOffset)

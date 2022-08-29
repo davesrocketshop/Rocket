@@ -28,7 +28,7 @@ import FreeCAD
 
 from PySide import QtCore
 
-from App.ShapeBase import ShapeBase
+from App.ShapeBase import ShapeBase, TRACE_POSITION, TRACE_EXECUTION
 from App.Constants import FEATURE_ROCKET, FEATURE_STAGE
 
 class ShapeRocket(ShapeBase):
@@ -41,7 +41,9 @@ class ShapeRocket(ShapeBase):
             obj.addExtension("App::GroupExtensionPython")
 
     def execute(self,obj):
-        print("execute(Rocket)")
+        if TRACE_EXECUTION:
+            print("E: ShapeRocket::execute(%s)" % (self._obj.Label))
+
         self.positionChildren()
         if not hasattr(obj,'Shape'):
             return
@@ -50,39 +52,42 @@ class ShapeRocket(ShapeBase):
         return childType == FEATURE_STAGE
 
     def positionChildren(self):
-        # print("Rocket::positionChildren()")
-        # Dynamic placements
-        try:
-            length = 0.0
-            i = len(self._obj.Group) - 1
-            while i >= 0:
-                child = self._obj.Group[i]
-                # print(child.Label)
-                child.Proxy.setAxialPosition(length)
+        if TRACE_POSITION:
+            print("P: ShapeRocket::positionChildren(%s)" % (self._obj.Label))
 
-                length += float(child.Proxy.getAxialLength())
-                # print("length = %f" % length)
-                i -= 1
+        # # Dynamic placements
+        # try:
+        #     length = 0.0
+        #     i = len(self._obj.Group) - 1
+        #     while i >= 0:
+        #         child = self._obj.Group[i]
+        #         # print(child.Label)
+        #         child.Proxy.setAxialPosition(length)
 
-            # FreeCAD.ActiveDocument.recompute()
-        except ReferenceError:
-            # Deleted object
-            pass
+        #         length += float(child.Proxy.getAxialLength())
+        #         # print("length = %f" % length)
+        #         i -= 1
+
+        #     # FreeCAD.ActiveDocument.recompute()
+        # except ReferenceError:
+        #     # Deleted object
+        #     pass
 
 def hookChildren(obj, group, oldGroup):
-    for child in group:
-        if child not in oldGroup:
-            child.Proxy.resetPlacement()
+    # for child in group:
+    #     # if child not in oldGroup:
+    #     #     child.Proxy.resetPlacement()
             # child.Proxy.edited.connect(obj.Proxy.positionChildren, QtCore.Qt.QueuedConnection)
-            child.Proxy.connect(obj.Proxy.positionChildren, QtCore.Qt.QueuedConnection)
+            # child.Proxy.connect(obj.Proxy.positionChildren, QtCore.Qt.QueuedConnection)
 
-    for child in oldGroup:
-        if child not in group:
-            try:
-                # child.Proxy.edited.connect(None)
-                child.Proxy.disconnect()
-            except ReferenceError:
-                pass # object may be deleted
+    # for child in oldGroup:
+    #     if child not in group:
+    #         try:
+    #             # child.Proxy.edited.connect(None)
+    #             child.Proxy.disconnect()
+    #         except ReferenceError:
+    #             pass # object may be deleted
 
-    obj.Proxy.positionChildren()
+    # obj.Proxy.positionChildren()
+    pass
 

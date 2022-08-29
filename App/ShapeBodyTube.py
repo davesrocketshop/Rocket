@@ -26,6 +26,7 @@ __url__ = "https://www.davesrocketshop.com"
 
 from PySide import QtCore
     
+from App.ShapeBase import TRACE_POSITION, TRACE_EXECUTION
 from App.ShapeComponent import ShapeLocation
 from App.Constants import FEATURE_BODY_TUBE, FEATURE_BULKHEAD, FEATURE_CENTERING_RING, FEATURE_FIN, FEATURE_FINCAN, FEATURE_LAUNCH_LUG, \
     FEATURE_PARALLEL_STAGE, FEATURE_POD, FEATURE_RAIL_BUTTON, FEATURE_RAIL_GUIDE
@@ -84,10 +85,16 @@ class ShapeBodyTube(ShapeLocation):
             _migrate_from_1_0(obj)
 
     def getAxialLength(self):
+        if TRACE_POSITION:
+            print("P: ShapeBodyTube::getAxialLength(%s)" % (self._obj.Label))
+
         # Return the length of this component along the central axis
         return self._obj.Length
 
     def getForeRadius(self):
+        if TRACE_POSITION:
+            print("P: ShapeBodyTube::getForeRadius(%s)" % (self._obj.Label))
+
         # For placing objects on the outer part of the parent
         if self._obj.AutoDiameter:
             radius = 0.0
@@ -107,7 +114,9 @@ class ShapeBodyTube(ShapeLocation):
         return self._obj.OuterDiameter / 2.0
 
     def execute(self, obj):
-        print("execute(BodyTube)")
+        if TRACE_EXECUTION:
+            print("E: ShapeBodyTube::execute(%s)" % (self._obj.Label))
+
         base = self._obj.Placement.Base.x
         self.positionChildren(base)
         shape = BodyTubeShapeHandler(obj)

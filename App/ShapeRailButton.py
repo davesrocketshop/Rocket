@@ -24,6 +24,7 @@ __title__ = "FreeCAD Rail Buttons"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
+from App.ShapeBase import TRACE_POSITION, TRACE_EXECUTION
 from App.ShapeComponent import ShapeLocation
 from App.Constants import FEATURE_RAIL_BUTTON
 from App.Constants import RAIL_BUTTON_ROUND, RAIL_BUTTON_AIRFOIL
@@ -96,10 +97,16 @@ class ShapeRailButton(ShapeLocation):
             obj.addProperty('Part::PropertyPartShape', 'Shape', 'RailButton', translate('App::Property', 'Shape of the rail button'))
 
     def getAxialLength(self):
+        if TRACE_POSITION:
+            print("P: ShapeRailButton::getAxialLength(%s)" % (self._obj.Label))
+
         # Return the length of this component along the central axis
         return self._obj.Length
 
     def execute(self, obj):
+        if TRACE_EXECUTION:
+            print("E: ShapeRailButton::execute(%s)" % (self._obj.Label))
+
         shape = RailButtonShapeHandler(obj)
         if shape is not None:
             shape.draw()

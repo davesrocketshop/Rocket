@@ -24,6 +24,7 @@ __title__ = "FreeCAD Nose Cones"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
     
+from App.ShapeBase import TRACE_POSITION, TRACE_EXECUTION
 from App.ShapeComponent import ShapeComponent
 from App.Constants import FEATURE_NOSE_CONE
 
@@ -167,10 +168,16 @@ class ShapeNoseCone(ShapeComponent):
                 _migrate_from_2_0(obj)
 
     def getAxialLength(self):
+        if TRACE_POSITION:
+            print("P: ShapeNoseCone::getAxialLength(%s)" % (self._obj.Label))
+
         # Return the length of this component along the central axis
         return self._obj.Length
 
     def getForeRadius(self):
+        if TRACE_POSITION:
+            print("P: ShapeNoseCone::getForeRadius(%s)" % (self._obj.Label))
+
         # For placing objects on the outer part of the parent
         if self._obj.AutoDiameter:
             radius = 0.0
@@ -190,7 +197,9 @@ class ShapeNoseCone(ShapeComponent):
         return self._obj.Diameter / 2.0
 
     def execute(self, obj):
-        print("execute(NoseCone)")
+        if TRACE_EXECUTION:
+            print("E: ShapeNoseCone::execute(%s)" % (self._obj.Label))
+
         shape = None
         if obj.NoseType == TYPE_CONE:
             shape = NoseConeShapeHandler(obj)
@@ -219,5 +228,5 @@ class ShapeNoseCone(ShapeComponent):
         elif obj.NoseType == TYPE_POWER:
             shape = NosePowerShapeHandler(obj)
 
-        if shape is not None:
-            shape.draw()
+        # if shape is not None:
+        #     shape.draw()

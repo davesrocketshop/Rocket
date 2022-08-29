@@ -29,7 +29,7 @@ import FreeCAD
 from PySide import QtCore
 from DraftTools import translate
 
-from App.ShapeBase import ShapeBase
+from App.ShapeBase import ShapeBase, TRACE_POSITION, TRACE_EXECUTION
 from App.Constants import FEATURE_ROCKET, FEATURE_STAGE
 from App.Constants import PROP_TRANSIENT, PROP_HIDDEN, PROP_NORECOMPUTE
 
@@ -49,7 +49,10 @@ class ShapeStage(ShapeBase):
             obj.addProperty('App::PropertyDistance', 'AxialOffset', 'RocketComponent', translate('App::Property', 'Axial offset from the center line'), PROP_TRANSIENT|PROP_HIDDEN|PROP_NORECOMPUTE).AxialOffset = 0.0
 
     def execute(self,obj):
-        print("execute(Stage)")
+        if TRACE_EXECUTION:
+            print("E: ShapeStage::execute(%s)" % (self._obj.Label))
+
+        # print("TypeNoRecompute %d" % (self.TypeNoRecompute))
         self.positionChildren(self._obj.AxialOffset)
         if not hasattr(obj,'Shape'):
             return
@@ -58,7 +61,8 @@ class ShapeStage(ShapeBase):
         return childType not in [FEATURE_ROCKET, FEATURE_STAGE]
 
     def setAxialPosition(self, partBase):
-        # print("Stage(%s)::setAxialPosition(%f)" % (self._obj.Label, partBase))
+        if TRACE_POSITION:
+            print("P: ShapeStage::setAxialPosition(%s, %f)" % (self._obj.Label, partBase))
 
         base = self._obj.Placement.Base
         newBase = FreeCAD.Placement(FreeCAD.Vector(partBase, base.y, base.z), FreeCAD.Rotation(0,0,0))
@@ -66,18 +70,18 @@ class ShapeStage(ShapeBase):
         if newBase != self._obj.Placement:
             self._obj.Placement = newBase
 
-        self.positionChildren(partBase)
+        # self.positionChildren(partBase)
         # self.positionChildren(0.0)
 
     def positionChildren(self, partBase=0.0):
-        # print("Stage(%s)::positionChildren(%f)" % (self._obj.Label, partBase))
+        if TRACE_POSITION:
+            print("P: ShapeStage::positionChildren(%s, %f)" % (self._obj.Label, partBase))
         
         # Dynamic placements
         try:
-            if self._obj.AxialOffset == partBase:
-                return
+            if self._obj.AxialOffset != partBase:
+                self._obj.AxialOffset = partBase
 
-            self._obj.AxialOffset = partBase
             length = float(partBase)
             i = len(self._obj.Group) - 1
             while i >= 0:
@@ -107,11 +111,12 @@ def unhookChild(obj, child, group):
             pass
 
 def hookChildren(obj, group, oldGroup):
-    for child in group:
-        hookChild(obj, child, oldGroup)
+    # for child in group:
+    #     hookChild(obj, child, oldGroup)
 
-    for child in oldGroup:
-        unhookChild(obj, child, group)
+    # for child in oldGroup:
+    #     unhookChild(obj, child, group)
 
     # obj.Proxy.positionChildren(float(obj.AxialOffset))
+    pass
 

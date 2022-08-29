@@ -24,6 +24,7 @@ __title__ = "FreeCAD Bulkheads"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
     
+from App.ShapeBase import TRACE_POSITION, TRACE_EXECUTION
 from App.ShapeComponent import ShapeLocation
 from App.Constants import FEATURE_BULKHEAD
 
@@ -66,11 +67,16 @@ class ShapeBulkhead(ShapeLocation):
             obj.addProperty('Part::PropertyPartShape', 'Shape', 'Bulkhead', translate('App::Property', 'Shape of the bulkhead'))
 
     def getAxialLength(self):
+        if TRACE_POSITION:
+            print("P: ShapeBulkhead::getAxialLength(%s)" % (self._obj.Label))
+
         # Return the length of this component along the central axis
         return self._obj.Thickness
 
     def execute(self, obj):
-        print("execute(Bulkhead)")
+        if TRACE_EXECUTION:
+            print("E: ShapeBulkhead::execute(%s)" % (self._obj.Label))
+
         shape = BulkheadShapeHandler(obj)
         if shape is not None:
             shape.draw()

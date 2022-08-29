@@ -24,6 +24,7 @@ __title__ = "FreeCAD Fins"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
+from App.ShapeBase import TRACE_EXECUTION
 from App.ShapeFin import ShapeFin
 from App.Constants import FEATURE_FINCAN, FEATURE_LAUNCH_LUG, FEATURE_RAIL_BUTTON, FEATURE_RAIL_GUIDE, FEATURE_POD
 from App.Constants import FIN_TYPE_TRAPEZOID, FIN_TYPE_ELLIPSE, FIN_TYPE_SKETCH
@@ -108,8 +109,10 @@ class ShapeFinCan(ShapeFin):
 
 
     def execute(self, obj):
-        print("execute(Fincan)")
-        self.positionChildren()
+        if TRACE_EXECUTION:
+            print("E: ShapeFinCan::execute(%s)" % (self._obj.Label))
+
+        # self.positionChildren()
 
         if obj.FinType == FIN_TYPE_TRAPEZOID:
             shape = FinCanTrapezoidShapeHandler(obj)

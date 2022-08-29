@@ -40,6 +40,9 @@ class ViewProviderStage:
         vobj.addExtension("Gui::ViewProviderGroupExtensionPython")
         vobj.Proxy = self
         self._oldChildren = []
+
+    def onChanged(self, vobj, prop):
+        print("V: ViewProviderStage::onChanged(%s)" % (prop))
         
     def getIcon(self):
         return FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Stage.svg"
