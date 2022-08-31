@@ -139,10 +139,6 @@ class ShapeFin(ShapeLocation):
         if TRACE_EXECUTION:
             print("E: ShapeFin::execute(%s)" % (self._obj.Label))
 
-        # print(dir(self._obj.Placement.Base))
-        base = self._obj.Placement.Base.x
-        self.positionChildren(base)
-
         if obj.FinType == FIN_TYPE_TRAPEZOID:
             shape = FinTrapezoidShapeHandler(obj)
         elif obj.FinType == FIN_TYPE_ELLIPSE:

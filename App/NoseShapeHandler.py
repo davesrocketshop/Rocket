@@ -188,7 +188,7 @@ class NoseShapeHandler():
             return
 
         self._obj.Shape = shape
-        # self._obj.Placement = self._placement
+        self._obj.Placement = self._placement
 
     def toShape(self, shapeObject):
         if hasattr(shapeObject, 'toShape'):

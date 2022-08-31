@@ -25,6 +25,7 @@ __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
 import FreeCAD
+import FreeCADGui
 
 from PySide.QtCore import QObject, Signal
 from App.Utilities import _err
@@ -198,19 +199,29 @@ class ShapeBase():
 
         self._obj.Placement = FreeCAD.Placement()
 
+    def reposition(self):
+        if TRACE_POSITION:
+            print("P: ShapeBase::reposition(%s)" % (self._obj.Label))
+
+        if self._parent is not None:
+            if TRACE_POSITION:
+                print("P: ShapeBase::reposition(%s)._parent(%s)" % (self._obj.Label, self._parent.Label))
+            self._parent.reposition()
+        else:
+            rocket=FreeCADGui.ActiveDocument.ActiveView.getActiveObject("rocket")
+            if rocket:
+                rocket.Proxy.reposition()
+            elif TRACE_POSITION:
+                print("P: ShapeBase::reposition(%s) - NO PARENT" % (self._obj.Label))
+
     def setAxialPosition(self, partBase, roll=0.0):
         if TRACE_POSITION:
             print("P: ShapeBase::setAxialPosition(%s, %f, %f)" % (self._obj.Label, partBase, roll))
 
         base = self._obj.Placement.Base
-        # mode = self._obj.getEditorMode('Placement')
-        mode = self._obj.getTypeOfProperty('Placement')
-        print("Mode " + str(mode))
-        self._obj.setEditorMode('Placement', PROP_NORECOMPUTE | mode)  # hide
         self._obj.Placement = FreeCAD.Placement(FreeCAD.Vector(partBase, base.y, base.z), FreeCAD.Rotation(FreeCAD.Vector(1,0,0), roll))
 
         self.positionChildren(partBase)
-        self._obj.setEditorMode('Placement', mode)  # hide
 
     def positionChildren(self, partBase):
         if TRACE_POSITION:
@@ -255,6 +266,7 @@ class ShapeBase():
         # Move the part up in the tree
         if self._parent is not None:
             self._parent.Proxy._moveChildUp(self._obj)
+            self.reposition()
 
     def _moveChildUp(self, obj):
         if hasattr(self._obj, "Group"):
@@ -315,6 +327,7 @@ class ShapeBase():
         # Move the part up in the tree
         if self._parent is not None:
             self._parent.Proxy._moveChildDown(self._obj)
+            self.reposition()
         # else:
         #     print("No parent")
 

@@ -117,8 +117,6 @@ class ShapeBodyTube(ShapeLocation):
         if TRACE_EXECUTION:
             print("E: ShapeBodyTube::execute(%s)" % (self._obj.Label))
 
-        base = self._obj.Placement.Base.x
-        self.positionChildren(base)
         shape = BodyTubeShapeHandler(obj)
         if shape is not None:
             shape.draw()

@@ -39,7 +39,7 @@ from DraftTools import translate
 def _addChild(stage, parent, child):
     child.Proxy.setParent(parent)
     parent.addObject(child)
-    stage.Proxy.positionChildren()
+    stage.Proxy.reposition()
 
 def addToStage(obj):
     stage=FreeCADGui.ActiveDocument.ActiveView.getActiveObject("stage")

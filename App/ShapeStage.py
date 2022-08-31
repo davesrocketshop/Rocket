@@ -52,8 +52,6 @@ class ShapeStage(ShapeBase):
         if TRACE_EXECUTION:
             print("E: ShapeStage::execute(%s)" % (self._obj.Label))
 
-        # print("TypeNoRecompute %d" % (self.TypeNoRecompute))
-        self.positionChildren(self._obj.AxialOffset)
         if not hasattr(obj,'Shape'):
             return
 
@@ -70,7 +68,7 @@ class ShapeStage(ShapeBase):
         if newBase != self._obj.Placement:
             self._obj.Placement = newBase
 
-        # self.positionChildren(partBase)
+        self.positionChildren(partBase)
         # self.positionChildren(0.0)
 
     def positionChildren(self, partBase=0.0):

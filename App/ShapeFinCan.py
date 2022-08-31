@@ -112,8 +112,6 @@ class ShapeFinCan(ShapeFin):
         if TRACE_EXECUTION:
             print("E: ShapeFinCan::execute(%s)" % (self._obj.Label))
 
-        # self.positionChildren()
-
         if obj.FinType == FIN_TYPE_TRAPEZOID:
             shape = FinCanTrapezoidShapeHandler(obj)
         elif obj.FinType == FIN_TYPE_ELLIPSE:

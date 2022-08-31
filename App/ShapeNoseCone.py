@@ -228,5 +228,5 @@ class ShapeNoseCone(ShapeComponent):
         elif obj.NoseType == TYPE_POWER:
             shape = NosePowerShapeHandler(obj)
 
-        # if shape is not None:
-        #     shape.draw()
+        if shape is not None:
+            shape.draw()

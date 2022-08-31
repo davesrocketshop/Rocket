@@ -44,9 +44,14 @@ class ShapeRocket(ShapeBase):
         if TRACE_EXECUTION:
             print("E: ShapeRocket::execute(%s)" % (self._obj.Label))
 
-        self.positionChildren()
         if not hasattr(obj,'Shape'):
             return
+
+    def reposition(self):
+        if TRACE_POSITION:
+            print("P: ShapeRocket::reposition(%s)" % (self._obj.Label))
+
+        self.positionChildren()
 
     def eligibleChild(self, childType):
         return childType == FEATURE_STAGE
@@ -55,23 +60,23 @@ class ShapeRocket(ShapeBase):
         if TRACE_POSITION:
             print("P: ShapeRocket::positionChildren(%s)" % (self._obj.Label))
 
-        # # Dynamic placements
-        # try:
-        #     length = 0.0
-        #     i = len(self._obj.Group) - 1
-        #     while i >= 0:
-        #         child = self._obj.Group[i]
-        #         # print(child.Label)
-        #         child.Proxy.setAxialPosition(length)
+        # Dynamic placements
+        try:
+            length = 0.0
+            i = len(self._obj.Group) - 1
+            while i >= 0:
+                child = self._obj.Group[i]
+                # print(child.Label)
+                child.Proxy.setAxialPosition(length)
 
-        #         length += float(child.Proxy.getAxialLength())
-        #         # print("length = %f" % length)
-        #         i -= 1
+                length += float(child.Proxy.getAxialLength())
+                # print("length = %f" % length)
+                i -= 1
 
-        #     # FreeCAD.ActiveDocument.recompute()
-        # except ReferenceError:
-        #     # Deleted object
-        #     pass
+            # FreeCAD.ActiveDocument.recompute()
+        except ReferenceError:
+            # Deleted object
+            pass
 
 def hookChildren(obj, group, oldGroup):
     # for child in group:
