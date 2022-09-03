@@ -206,7 +206,7 @@ class ShapeBase():
         if self._parent is not None:
             if TRACE_POSITION:
                 print("P: ShapeBase::reposition(%s)._parent(%s)" % (self._obj.Label, self._parent.Label))
-            self._parent.reposition()
+            self._parent.Proxy.reposition()
         else:
             rocket=FreeCADGui.ActiveDocument.ActiveView.getActiveObject("rocket")
             if rocket:
@@ -229,10 +229,10 @@ class ShapeBase():
 
         # Dynamic placements
         if hasattr(self._obj, "Group"):
-            length = partBase
+            length = float(partBase)
             for child in reversed(self._obj.Group):
                 child.Proxy.positionChild(child, self._obj, length, self.getAxialLength(), self.getForeRadius())
-                length += child.Proxy.getAxialLength()
+                length += float(child.Proxy.getAxialLength())
 
     def positionChild(self, obj, parent, parentBase, parentLength, parentRadius):
         if TRACE_POSITION:

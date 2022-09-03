@@ -63,8 +63,8 @@ class ShapeStage(ShapeBase):
             print("P: ShapeStage::setAxialPosition(%s, %f)" % (self._obj.Label, partBase))
 
         base = self._obj.Placement.Base
-        newBase = FreeCAD.Placement(FreeCAD.Vector(partBase, base.y, base.z), FreeCAD.Rotation(0,0,0))
-        # self._obj.Placement = FreeCAD.Placement(FreeCAD.Vector(0.0, base.y, base.z), FreeCAD.Rotation(0,0,0))
+        # newBase = FreeCAD.Placement(FreeCAD.Vector(partBase, base.y, base.z), FreeCAD.Rotation(0,0,0))
+        newBase = FreeCAD.Placement(FreeCAD.Vector(0.0, base.y, base.z), FreeCAD.Rotation(0,0,0))
         if newBase != self._obj.Placement:
             self._obj.Placement = newBase
 
