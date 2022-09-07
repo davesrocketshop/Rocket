@@ -91,6 +91,12 @@ class ShapeBodyTube(ShapeLocation):
         # Return the length of this component along the central axis
         return self._obj.Length
 
+    def getMaxForwardPosition(self):
+        if TRACE_POSITION:
+            print("P: ShapeBodyTube::getMaxForwardPosition(%s)" % (self._obj.Label))
+
+        return float(self._obj.Length) + float(self._obj.Placement.Base.x)
+
     def getForeRadius(self):
         if TRACE_POSITION:
             print("P: ShapeBodyTube::getForeRadius(%s)" % (self._obj.Label))

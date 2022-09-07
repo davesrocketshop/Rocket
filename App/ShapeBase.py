@@ -26,6 +26,7 @@ __url__ = "https://www.davesrocketshop.com"
 
 import FreeCAD
 import FreeCADGui
+import copy
 
 from PySide.QtCore import QObject, Signal
 from App.Utilities import _err
@@ -164,6 +165,20 @@ class ShapeBase():
             for child in self._obj.Group:
                 length += float(child.Proxy.getAxialLength())
 
+        print("Length = %f" %(length))
+        return length
+
+    def getMaxForwardPosition(self):
+        if TRACE_POSITION:
+            print("P: ShapeBase::getMaxForwardPosition(%s)" % (self._obj.Label))
+
+        # Return the length of this component along the central axis
+        length = 0.0
+        if hasattr(self._obj, "Group"):
+            for child in self._obj.Group:
+                length = max(length, float(child.Proxy.getMaxForwardPosition()))
+
+        # print("Length = %f" %(length))
         return length
 
     def getForeRadius(self):
@@ -216,27 +231,33 @@ class ShapeBase():
 
     def setAxialPosition(self, partBase, roll=0.0):
         if TRACE_POSITION:
-            print("P: ShapeBase::setAxialPosition(%s, %f, %f)" % (self._obj.Label, partBase, roll))
+            print("P: ShapeBase::setAxialPosition(%s, (%f,%f,%f), %f)" % (self._obj.Label, partBase.x, partBase.y, partBase.z, roll))
 
         base = self._obj.Placement.Base
-        self._obj.Placement = FreeCAD.Placement(FreeCAD.Vector(partBase, base.y, base.z), FreeCAD.Rotation(FreeCAD.Vector(1,0,0), roll))
+        self._obj.Placement = FreeCAD.Placement(FreeCAD.Vector(partBase.x, base.y, base.z), FreeCAD.Rotation(FreeCAD.Vector(1,0,0), roll))
 
         self.positionChildren(partBase)
 
     def positionChildren(self, partBase):
         if TRACE_POSITION:
-            print("P: ShapeBase::positionChildren(%s, %f)" % (self._obj.Label, partBase))
+            print("P: ShapeBase::positionChildren(%s, (%f,%f,%f))" % (self._obj.Label, partBase.x, partBase.y, partBase.z))
 
         # Dynamic placements
         if hasattr(self._obj, "Group"):
-            length = float(partBase)
+            # base = FreeCAD.Vector(partBase)
+            base = FreeCAD.Vector(0,0,0)
             for child in reversed(self._obj.Group):
-                child.Proxy.positionChild(child, self._obj, length, self.getAxialLength(), self.getForeRadius())
-                length += float(child.Proxy.getAxialLength())
+                child.Proxy.positionChild(child, self._obj, base, self.getMaxForwardPosition(), self.getForeRadius(), 0.0)
+                # base.x += float(child.Proxy.getAxialLength())
 
-    def positionChild(self, obj, parent, parentBase, parentLength, parentRadius):
+    def positionChild(self, obj, parent, parentBase, parentLength, parentRadius, rotation):
         if TRACE_POSITION:
-            print("P: ShapeBase::positionChild(%s, %s, %f, %f, %f)" % (self._obj.Label, parent.Label, parentBase, parentLength, parentRadius))
+            print("P: ShapeBase::positionChild(%s, %s, (%f,%f,%f), %f, %f, %f)" % (self._obj.Label, parent.Label, parentBase.x, parentBase.y, parentBase.z, parentLength, parentRadius, rotation))
+
+        base = FreeCAD.Vector(parentBase)
+        self.setAxialPosition(base)
+
+        self.positionChildren(base)
 
 
     def getOuterRadius(self):

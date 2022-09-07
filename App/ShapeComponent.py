@@ -74,23 +74,23 @@ class ShapeComponent(ShapeBase):
         obj.Proxy=self
         self.version = '2.2'
 
-    def positionChild(self, obj, parent, parentBase, parentLength, parentRadius):
+    def positionChild(self, obj, parent, parentBase, parentLength, parentRadius, rotation):
         if TRACE_POSITION:
-            print("P: ShapeComponent::positionChild(%s, %s, %f, %f, %f)" % (self._obj.Label, parent.Label, parentBase, parentLength, parentRadius))
+            print("P: ShapeComponent::positionChild(%s, %s, (%f,%f,%f), %f, %f, %f)" % (self._obj.Label, parent.Label, parentBase.x, parentBase.y, parentBase.z, parentLength, parentRadius, rotation))
 
         # Calculate any auto radii
         obj.Proxy.setRadius()
 
         if not hasattr(obj, 'LocationReference'):
-            partBase = parentBase
+            partBase = parentBase.x
             roll = 0.0
         else:
             if obj.LocationReference == LOCATION_PARENT_TOP:
-                partBase = (float(parentBase) + float(parentLength)) - float(obj.Location)
+                partBase = (float(parentBase.x) + float(parentLength)) - float(obj.Location)
             elif obj.LocationReference == LOCATION_PARENT_MIDDLE:
-                partBase = (float(parentBase) + (float(parentLength) / 2.0)) + float(obj.Location)
+                partBase = (float(parentBase.x) + (float(parentLength) / 2.0)) + float(obj.Location)
             elif obj.LocationReference == LOCATION_PARENT_BOTTOM:
-                partBase = float(parentBase) + float(obj.Location)
+                partBase = float(parentBase.x) + float(obj.Location)
             elif obj.LocationReference == LOCATION_BASE:
                 partBase = float(obj.Location)
 

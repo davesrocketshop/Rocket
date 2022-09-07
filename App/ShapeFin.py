@@ -26,7 +26,7 @@ __url__ = "https://www.davesrocketshop.com"
     
 import FreeCAD
 
-from App.ShapeBase import TRACE_EXECUTION
+from App.ShapeBase import TRACE_EXECUTION, TRACE_POSITION
 from App.ShapeComponent import ShapeLocation
 from App.Constants import FEATURE_FIN, FEATURE_LAUNCH_LUG, FEATURE_RAIL_BUTTON, FEATURE_RAIL_GUIDE, FEATURE_POD
 
@@ -125,6 +125,9 @@ class ShapeFin(ShapeLocation):
         if not hasattr(obj,"ParentRadius"):
             obj.addProperty('App::PropertyLength', 'ParentRadius', 'Fin', translate('App::Property', 'Parent radius')).ParentRadius = 20.0
         obj.setEditorMode('ParentRadius', PROP_TRANSIENT | PROP_HIDDEN)  # hide
+        if not hasattr(obj,"AutoInnerDiameter"):
+            obj.addProperty('App::PropertyBool', 'AutoInnerDiameter', 'Fin', translate('App::Property', 'Automatically set inner diameter')).AutoInnerDiameter = True
+        obj.setEditorMode('AutoInnerDiameter', PROP_HIDDEN)  # hide
 
         if not hasattr(obj, "Profile"):
             obj.addProperty('App::PropertyLink', 'Profile', 'Fin', translate('App::Property', 'Custom fin sketch')).Profile = None
@@ -134,6 +137,20 @@ class ShapeFin(ShapeLocation):
 
         if not hasattr(obj,"Shape"):
             obj.addProperty('Part::PropertyPartShape', 'Shape', 'Fin', translate('App::Property', 'Shape of the fin'))
+
+    def positionChild(self, obj, parent, parentBase, parentLength, parentRadius, rotation):
+        if TRACE_POSITION:
+            print("P: ShapeFin::positionChild(%s, %s, (%f,%f,%f), %f, %f, %f)" % (self._obj.Label, parent.Label, parentBase.x, parentBase.y, parentBase.z, parentLength, parentRadius, rotation))
+
+        super().positionChild(obj, parent, parentBase, parentLength, parentRadius, rotation)
+        self.setParentRadius(parentRadius)
+
+    def setParentRadius(self, parentRadius):
+        if TRACE_POSITION:
+            print("P: ShapeFin::setParentRadius(%s, %f)" % (self._obj.Label, parentRadius))
+
+        if self._obj.AutoInnerDiameter and self._obj.ParentRadius != parentRadius:
+            self._obj.ParentRadius = parentRadius
 
     def execute(self, obj):
         if TRACE_EXECUTION:

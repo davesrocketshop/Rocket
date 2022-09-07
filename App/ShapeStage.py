@@ -60,36 +60,37 @@ class ShapeStage(ShapeBase):
 
     def setAxialPosition(self, partBase):
         if TRACE_POSITION:
-            print("P: ShapeStage::setAxialPosition(%s, %f)" % (self._obj.Label, partBase))
+            print("P: ShapeStage::setAxialPosition(%s, (%f,%f,%f))" % (self._obj.Label, partBase.x, partBase.y, partBase.z))
 
         base = self._obj.Placement.Base
-        # newBase = FreeCAD.Placement(FreeCAD.Vector(partBase, base.y, base.z), FreeCAD.Rotation(0,0,0))
-        newBase = FreeCAD.Placement(FreeCAD.Vector(0.0, base.y, base.z), FreeCAD.Rotation(0,0,0))
-        if newBase != self._obj.Placement:
-            self._obj.Placement = newBase
+        newPlacement = FreeCAD.Placement(FreeCAD.Vector(partBase), FreeCAD.Rotation(0,0,0))
+        # newPlacement = FreeCAD.Placement(FreeCAD.Vector(0.0, base.y, base.z), FreeCAD.Rotation(0,0,0))
+        if newPlacement != self._obj.Placement:
+            self._obj.Placement = newPlacement
 
-        self.positionChildren(partBase)
+        # self.positionChildren(partBase)
         # self.positionChildren(0.0)
 
-    def positionChildren(self, partBase=0.0):
+    def positionChildren(self, partBase):
         if TRACE_POSITION:
-            print("P: ShapeStage::positionChildren(%s, %f)" % (self._obj.Label, partBase))
+            print("P: ShapeStage::positionChildren(%s, (%f,%f,%f))" % (self._obj.Label, partBase.x, partBase.y, partBase.z))
         
         # Dynamic placements
         try:
-            if self._obj.AxialOffset != partBase:
-                self._obj.AxialOffset = partBase
+            # if self._obj.AxialOffset != partBase.x:
+            #     self._obj.AxialOffset = partBase.x
 
-            length = float(partBase)
-            i = len(self._obj.Group) - 1
-            while i >= 0:
-                child = self._obj.Group[i]
-                child.Proxy.setAxialPosition(length)
+            base = FreeCAD.Vector(partBase)
+            self.setAxialPosition(base)
 
-                length += float(child.Proxy.getAxialLength())
-                i -= 1
-
-            # FreeCAD.ActiveDocument.recompute()
+            print("start base.x %f, partBase.x %f" % (base.x, partBase.x))
+            # base = FreeCAD.Vector(0,0,0)
+            for child in reversed(self._obj.Group):
+                child.Proxy.setAxialPosition(base)
+                # base.x += float(child.Proxy.getAxialLength())
+                base.x = max(base.x, float(child.Proxy.getMaxForwardPosition()))
+            print("end base.x %f, partBase.x %f" % (base.x, partBase.x))
+ 
         except ReferenceError:
             # Deleted object
             pass

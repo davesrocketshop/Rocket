@@ -63,18 +63,12 @@ class ShapeRocket(ShapeBase):
 
         # Dynamic placements
         try:
-            length = 0.0
-            i = len(self._obj.Group) - 1
-            while i >= 0:
-                child = self._obj.Group[i]
-                # print(child.Label)
-                child.Proxy.setAxialPosition(length)
+            base = FreeCAD.Vector(0, 0, 0)
+            counter = 1
+            for child in reversed(self._obj.Group):
+                child.Proxy.positionChild(child, self._obj, base, 0, 0, 0)
+                base.x += float(child.Proxy.getMaxForwardPosition())
 
-                length += float(child.Proxy.getAxialLength())
-                # print("length = %f" % length)
-                i -= 1
-
-            # FreeCAD.ActiveDocument.recompute()
         except ReferenceError:
             # Deleted object
             pass

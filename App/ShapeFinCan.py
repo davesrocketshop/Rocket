@@ -24,12 +24,13 @@ __title__ = "FreeCAD Fins"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
-from App.ShapeBase import TRACE_EXECUTION
+from App.ShapeBase import TRACE_EXECUTION, TRACE_POSITION
 from App.ShapeFin import ShapeFin
 from App.Constants import FEATURE_FINCAN, FEATURE_LAUNCH_LUG, FEATURE_RAIL_BUTTON, FEATURE_RAIL_GUIDE, FEATURE_POD
 from App.Constants import FIN_TYPE_TRAPEZOID, FIN_TYPE_ELLIPSE, FIN_TYPE_SKETCH
 from App.Constants import FINCAN_EDGE_SQUARE, FINCAN_EDGE_ROUND, FINCAN_EDGE_TAPER
 from App.Constants import FINCAN_PRESET_CUSTOM, FINCAN_PRESET_1_8, FINCAN_PRESET_3_16, FINCAN_PRESET_1_4
+from App.Constants import PROP_NONE
 
 from App.FinCanShapeHandler import FinCanTrapezoidShapeHandler
 from App.FinCanShapeHandler import FinCanEllipseShapeHandler
@@ -103,10 +104,19 @@ class ShapeFinCan(ShapeFin):
         if not hasattr(obj,"LaunchLugAftSweepAngle"):
             obj.addProperty('App::PropertyLength', 'LaunchLugAftSweepAngle', 'Fin', translate('App::Property', 'Aft sweep angle')).LaunchLugAftSweepAngle = 30.0
 
+        # This is hidden for fins, but needs to be visible for fin cans
+        obj.setEditorMode('AutoInnerDiameter', PROP_NONE)  # unhide
+
         # Set the Parent Radius to the ID
         obj.ParentRadius = (obj.InnerDiameter / 2.0)
 
+    def setParentRadius(self, parentRadius):
+        if TRACE_POSITION:
+            print("P: ShapeFinCan::setParentRadius(%s, %f)" % (self._obj.Label, parentRadius))
 
+        if self._obj.AutoInnerDiameter and self._obj.ParentRadius != parentRadius:
+            self._obj.ParentRadius = parentRadius
+            self._obj.InnerDiameter = 2.0 * parentRadius
 
     def execute(self, obj):
         if TRACE_EXECUTION:
