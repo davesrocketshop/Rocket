@@ -224,37 +224,37 @@
       <translation>Forma de la aleta</translation>
     </message>
     <message>
-      <location filename="ShapeNoseCone.py" line="96"/>
+      <location filename="ShapeNoseCone.py" line="99"/>
       <source>Length of the nose not including any shoulder</source>
       <translation type="unfinished">Length of the nose not including any shoulder</translation>
     </message>
     <message>
-      <location filename="ShapeNoseCone.py" line="100"/>
+      <location filename="ShapeNoseCone.py" line="103"/>
       <source>Diameter at the base of the nose</source>
       <translation>Diámetro en la base de la nariz</translation>
     </message>
     <message>
-      <location filename="ShapeNoseCone.py" line="102"/>
+      <location filename="ShapeNoseCone.py" line="105"/>
       <source>Nose cone thickness</source>
       <translation>Espesor del cono de la nariz</translation>
     </message>
     <message>
-      <location filename="ShapeNoseCone.py" line="104"/>
+      <location filename="ShapeNoseCone.py" line="107"/>
       <source>Set to true if the part includes a shoulder</source>
       <translation type="unfinished">Set to true if the part includes a shoulder</translation>
     </message>
     <message>
-      <location filename="ShapeNoseCone.py" line="106"/>
+      <location filename="ShapeNoseCone.py" line="109"/>
       <source>Shoulder Length</source>
       <translation type="unfinished">Shoulder Length</translation>
     </message>
     <message>
-      <location filename="ShapeNoseCone.py" line="108"/>
+      <location filename="ShapeNoseCone.py" line="111"/>
       <source>Shoulder diameter</source>
       <translation type="unfinished">Shoulder diameter</translation>
     </message>
     <message>
-      <location filename="ShapeNoseCone.py" line="110"/>
+      <location filename="ShapeNoseCone.py" line="113"/>
       <source>Shoulder thickness</source>
       <translation type="unfinished">Shoulder thickness</translation>
     </message>
@@ -269,17 +269,17 @@
       <translation>Resolución</translation>
     </message>
     <message>
-      <location filename="ShapeNoseCone.py" line="119"/>
+      <location filename="ShapeNoseCone.py" line="122"/>
       <source>Nose cone type</source>
       <translation>Tipo de cono de nariz</translation>
     </message>
     <message>
-      <location filename="ShapeNoseCone.py" line="135"/>
+      <location filename="ShapeNoseCone.py" line="138"/>
       <source>Nose cone style</source>
       <translation>Estilo de cono de nariz</translation>
     </message>
     <message>
-      <location filename="ShapeNoseCone.py" line="142"/>
+      <location filename="ShapeNoseCone.py" line="152"/>
       <source>Shape of the nose cone</source>
       <translation>Forma del cono de la nariz</translation>
     </message>
@@ -544,12 +544,12 @@
       <translation type="unfinished">Shape of the rail button</translation>
     </message>
     <message>
-      <location filename="ShapeNoseCone.py" line="98"/>
+      <location filename="ShapeNoseCone.py" line="101"/>
       <source>Nose Radius for a blunted nose cone</source>
       <translation type="unfinished">Nose Radius for a blunted nose cone</translation>
     </message>
     <message>
-      <location filename="ShapeNoseCone.py" line="114"/>
+      <location filename="ShapeNoseCone.py" line="117"/>
       <source>The radius of the circle used to define a secant ogive</source>
       <translation type="unfinished">The radius of the circle used to define a secant ogive</translation>
     </message>
@@ -567,11 +567,6 @@
       <location filename="ShapeFin.py" line="118"/>
       <source>Angle between consecutive fins</source>
       <translation type="unfinished">Angle between consecutive fins</translation>
-    </message>
-    <message>
-      <location filename="ShapeFin.py" line="122"/>
-      <source>Parent radius</source>
-      <translation type="unfinished">Parent radius</translation>
     </message>
     <message>
       <location filename="ShapeFin.py" line="134"/>
@@ -639,11 +634,6 @@
       <translation type="unfinished">Launch lug thickness is the same as the fin can</translation>
     </message>
     <message>
-      <location filename="ShapeFinCan.py" line="80"/>
-      <source>Length of the launch</source>
-      <translation type="unfinished">Length of the launch</translation>
-    </message>
-    <message>
       <location filename="ShapeFinCan.py" line="82"/>
       <source>Automatically adjust the length of the launch lug</source>
       <translation type="unfinished">Automatically adjust the length of the launch lug</translation>
@@ -677,6 +667,21 @@
       <location filename="ShapeFinCan.py" line="101"/>
       <source>Aft sweep angle</source>
       <translation type="unfinished">Aft sweep angle</translation>
+    </message>
+    <message>
+      <location filename="ShapeNoseCone.py" line="97"/>
+      <source>Width of the nose cap bar</source>
+      <translation type="unfinished">Width of the nose cap bar</translation>
+    </message>
+    <message>
+      <location filename="ShapeNoseCone.py" line="145"/>
+      <source>Nose cone cap style</source>
+      <translation type="unfinished">Nose cone cap style</translation>
+    </message>
+    <message>
+      <location filename="ShapeFinCan.py" line="80"/>
+      <source>Length of the launch lug</source>
+      <translation type="unfinished">Length of the launch lug</translation>
     </message>
   </context>
   <context>
@@ -727,7 +732,7 @@
       <translation>Diámetro externo</translation>
     </message>
     <message>
-      <location filename="TaskPanelNoseCone.py" line="192"/>
+      <location filename="TaskPanelNoseCone.py" line="226"/>
       <source>Length</source>
       <translation>Largo</translation>
     </message>
@@ -887,12 +892,12 @@
       <translation>Pestaña TTW</translation>
     </message>
     <message>
-      <location filename="TaskPanelNoseCone.py" line="50"/>
+      <location filename="TaskPanelNoseCone.py" line="51"/>
       <source>Nose Cone Parameter</source>
       <translation>Parámetro del cono de nariz</translation>
     </message>
     <message>
-      <location filename="TaskPanelNoseCone.py" line="180"/>
+      <location filename="TaskPanelNoseCone.py" line="214"/>
       <source>Shoulder</source>
       <translation type="unfinished">Shoulder</translation>
     </message>
@@ -1077,32 +1082,32 @@
       <translation>Para los conos de nariz %s, el coeficiente debe estar en el rango (0 &lt; coeficiente &lt;= 1)</translation>
     </message>
     <message>
-      <location filename="NoseShapeHandler.py" line="72"/>
+      <location filename="NoseShapeHandler.py" line="75"/>
       <source>For %s nose cones thickness must be &gt; 0</source>
       <translation>Para grosor de los conos de nariz %s debe ser &gt; 0</translation>
     </message>
     <message>
-      <location filename="NoseShapeHandler.py" line="75"/>
+      <location filename="NoseShapeHandler.py" line="78"/>
       <source>Nose cones thickness must be less than the nose cone radius</source>
       <translation>El grosor de los conos de la nariz debe ser menor que el radio del cono de la nariz</translation>
     </message>
     <message>
-      <location filename="NoseShapeHandler.py" line="91"/>
+      <location filename="NoseShapeHandler.py" line="94"/>
       <source>Shoulder length must be &gt; 0</source>
       <translation type="unfinished">Shoulder length must be &gt; 0</translation>
     </message>
     <message>
-      <location filename="NoseShapeHandler.py" line="94"/>
+      <location filename="NoseShapeHandler.py" line="97"/>
       <source>Shoulder diameter must be &gt; 0</source>
       <translation type="unfinished">Shoulder diameter must be &gt; 0</translation>
     </message>
     <message>
-      <location filename="NoseShapeHandler.py" line="97"/>
+      <location filename="NoseShapeHandler.py" line="100"/>
       <source>Shoulder diameter can not exceed the nose cone diameter</source>
       <translation type="unfinished">Shoulder diameter can not exceed the nose cone diameter</translation>
     </message>
     <message>
-      <location filename="NoseShapeHandler.py" line="101"/>
+      <location filename="NoseShapeHandler.py" line="104"/>
       <source>For %s nose cones with a shoulder, shoulder thickness must be &gt; 0</source>
       <translation type="unfinished">For %s nose cones with a shoulder, shoulder thickness must be &gt; 0</translation>
     </message>
@@ -1112,7 +1117,7 @@
       <translation type="unfinished">Shoulder thickness must be less than the shoulder radius</translation>
     </message>
     <message>
-      <location filename="NoseShapeHandler.py" line="145"/>
+      <location filename="NoseShapeHandler.py" line="173"/>
       <source>Nose cone parameters produce an invalid shape</source>
       <translation>Los parámetros del cono de la nariz producen una forma no válida</translation>
     </message>
@@ -1302,82 +1307,82 @@
       <translation type="unfinished">FFFFg Powder</translation>
     </message>
     <message>
-      <location filename="DialogLookup.py" line="117"/>
+      <location filename="DialogLookup.py" line="88"/>
       <source>Component lookup...</source>
       <translation>Búsqueda de componentes...</translation>
     </message>
     <message>
-      <location filename="DialogLookup.py" line="120"/>
+      <location filename="DialogLookup.py" line="91"/>
       <source>Search</source>
       <translation>Buscar</translation>
     </message>
     <message>
-      <location filename="DialogLookup.py" line="126"/>
+      <location filename="DialogLookup.py" line="97"/>
       <source>Component</source>
       <translation>Componente</translation>
     </message>
     <message>
-      <location filename="DialogLookup.py" line="231"/>
+      <location filename="DialogLookup.py" line="199"/>
       <source>Body tube not found</source>
       <translation>No se encontró el cuerpo tubular</translation>
     </message>
     <message>
-      <location filename="DialogLookup.py" line="255"/>
+      <location filename="DialogLookup.py" line="223"/>
       <source>Multiple identical entries found</source>
       <translation>Se encontraron varias entradas idénticas</translation>
     </message>
     <message>
-      <location filename="DialogLookup.py" line="242"/>
+      <location filename="DialogLookup.py" line="210"/>
       <source>Nose cone not found</source>
       <translation>Cono de nariz no encontrado</translation>
     </message>
     <message>
-      <location filename="DialogLookup.py" line="253"/>
+      <location filename="DialogLookup.py" line="221"/>
       <source>Transition not found</source>
       <translation>Transición no encontrada</translation>
     </message>
     <message>
-      <location filename="DialogLookup.py" line="298"/>
+      <location filename="DialogLookup.py" line="266"/>
       <source>Type</source>
       <translation>Tipo</translation>
     </message>
     <message>
-      <location filename="DialogLookup.py" line="340"/>
+      <location filename="DialogLookup.py" line="308"/>
       <source>Shoulder Diameter</source>
       <translation type="unfinished">Shoulder Diameter</translation>
     </message>
     <message>
-      <location filename="DialogLookup.py" line="341"/>
+      <location filename="DialogLookup.py" line="309"/>
       <source>Shoulder Length</source>
       <translation type="unfinished">Shoulder Length</translation>
     </message>
     <message>
-      <location filename="DialogLookup.py" line="369"/>
+      <location filename="DialogLookup.py" line="337"/>
       <source>Shape</source>
       <translation>Forma</translation>
     </message>
     <message>
-      <location filename="DialogLookup.py" line="370"/>
+      <location filename="DialogLookup.py" line="338"/>
       <source>Fore Diameter</source>
       <translation>Diámetro delantero</translation>
     </message>
     <message>
-      <location filename="DialogLookup.py" line="373"/>
+      <location filename="DialogLookup.py" line="341"/>
       <source>Fore Shoulder Diameter</source>
       <translation type="unfinished">Fore Shoulder Diameter</translation>
     </message>
     <message>
-      <location filename="DialogLookup.py" line="374"/>
+      <location filename="DialogLookup.py" line="342"/>
       <source>Fore Shoulder Length</source>
       <translation type="unfinished">Fore Shoulder Length</translation>
     </message>
     <message>
-      <location filename="DialogLookup.py" line="375"/>
+      <location filename="DialogLookup.py" line="343"/>
       <source>Aft Shoulder Diameter</source>
       <translation type="unfinished">Aft Shoulder Diameter</translation>
     </message>
     <message>
-      <location filename="DialogLookup.py" line="376"/>
+      <location filename="DialogLookup.py" line="344"/>
       <source>Aft Shoulder Length</source>
       <translation type="unfinished">Aft Shoulder Length</translation>
     </message>
@@ -1497,27 +1502,27 @@
       <translation type="unfinished">Launch Guides</translation>
     </message>
     <message>
-      <location filename="Constants.py" line="126"/>
+      <location filename="Constants.py" line="132"/>
       <source>Top of the parent component</source>
       <translation type="unfinished">Top of the parent component</translation>
     </message>
     <message>
-      <location filename="Constants.py" line="127"/>
+      <location filename="Constants.py" line="133"/>
       <source>Middle of the parent component</source>
       <translation type="unfinished">Middle of the parent component</translation>
     </message>
     <message>
-      <location filename="Constants.py" line="128"/>
+      <location filename="Constants.py" line="134"/>
       <source>Bottom of the parent component</source>
       <translation type="unfinished">Bottom of the parent component</translation>
     </message>
     <message>
-      <location filename="Constants.py" line="129"/>
+      <location filename="Constants.py" line="135"/>
       <source>Base of the rocket</source>
       <translation type="unfinished">Base of the rocket</translation>
     </message>
     <message>
-      <location filename="Constants.py" line="133"/>
+      <location filename="Constants.py" line="139"/>
       <source>After the target component</source>
       <translation type="unfinished">After the target component</translation>
     </message>
@@ -1737,7 +1742,7 @@
       <translation type="unfinished">Depth</translation>
     </message>
     <message>
-      <location filename="TaskPanelNoseCone.py" line="55"/>
+      <location filename="TaskPanelNoseCone.py" line="56"/>
       <source>General</source>
       <translation type="unfinished">General</translation>
     </message>
@@ -1747,12 +1752,12 @@
       <translation type="unfinished">Transition Shape</translation>
     </message>
     <message>
-      <location filename="TaskPanelNoseCone.py" line="116"/>
+      <location filename="TaskPanelNoseCone.py" line="117"/>
       <source>Shape Parameter</source>
       <translation type="unfinished">Shape Parameter</translation>
     </message>
     <message>
-      <location filename="TaskPanelNoseCone.py" line="87"/>
+      <location filename="TaskPanelNoseCone.py" line="88"/>
       <source>Style</source>
       <translation type="unfinished">Style</translation>
     </message>
@@ -1797,7 +1802,7 @@
       <translation type="unfinished">Radius</translation>
     </message>
     <message>
-      <location filename="TaskPanelNoseCone.py" line="69"/>
+      <location filename="TaskPanelNoseCone.py" line="70"/>
       <source>Nose Cone Shape</source>
       <translation type="unfinished">Nose Cone Shape</translation>
     </message>
@@ -1807,22 +1812,22 @@
       <translation type="unfinished">Fin Tabs</translation>
     </message>
     <message>
-      <location filename="NoseShapeHandler.py" line="79"/>
+      <location filename="NoseShapeHandler.py" line="82"/>
       <source>Nose diameter must be less than the base diameter</source>
       <translation type="unfinished">Nose diameter must be less than the base diameter</translation>
     </message>
     <message>
-      <location filename="NoseShapeHandler.py" line="82"/>
+      <location filename="NoseShapeHandler.py" line="85"/>
       <source>Nose diameter must be greater than zero</source>
       <translation type="unfinished">Nose diameter must be greater than zero</translation>
     </message>
     <message>
-      <location filename="TaskPanelNoseCone.py" line="126"/>
+      <location filename="TaskPanelNoseCone.py" line="127"/>
       <source>Blunted Diameter</source>
       <translation type="unfinished">Blunted Diameter</translation>
     </message>
     <message>
-      <location filename="TaskPanelNoseCone.py" line="132"/>
+      <location filename="TaskPanelNoseCone.py" line="133"/>
       <source>Ogive Diameter</source>
       <translation type="unfinished">Ogive Diameter</translation>
     </message>
@@ -1915,6 +1920,26 @@
       <location filename="TaskPanelRailButton.py" line="105"/>
       <source>Countersink Angle</source>
       <translation type="unfinished">Countersink Angle</translation>
+    </message>
+    <message>
+      <location filename="NoseShapeHandler.py" line="187"/>
+      <source>Nose cone cap style produces an invalid shape</source>
+      <translation type="unfinished">Nose cone cap style produces an invalid shape</translation>
+    </message>
+    <message>
+      <location filename="TaskPanelNoseCone.py" line="140"/>
+      <source>Nose Cap</source>
+      <translation type="unfinished">Nose Cap</translation>
+    </message>
+    <message>
+      <location filename="TaskPanelNoseCone.py" line="142"/>
+      <source>Cap style</source>
+      <translation type="unfinished">Cap style</translation>
+    </message>
+    <message>
+      <location filename="TaskPanelNoseCone.py" line="150"/>
+      <source>Bar Width</source>
+      <translation type="unfinished">Bar Width</translation>
     </message>
   </context>
 </TS>
