@@ -507,6 +507,7 @@ class TaskPanelBulkhead:
         self.setEdited()
 
     def onLocation(self):
+        self._obj.Proxy.reposition()
         self._obj.Proxy.execute(self._obj) 
         self.setEdited()
         

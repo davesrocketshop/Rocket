@@ -278,7 +278,7 @@ class TaskPanelRailGuide:
         self.update()
         
         if mode == 0: # fresh created
-            self._obj.Proxy.execute(self._obj)  # calculate once 
+            self.redraw()  # calculate once 
             FreeCAD.Gui.SendMsgToActiveView("ViewFit")
   
     def transferTo(self):
@@ -327,6 +327,9 @@ class TaskPanelRailGuide:
         self._setForwardSweepState()
         self._setAftSweepState()
 
+    def redraw(self):
+        self._obj.Proxy.execute(self._obj)
+
     def setEdited(self):
         try:
             self._obj.Proxy.setEdited()
@@ -360,13 +363,13 @@ class TaskPanelRailGuide:
         self._obj.RailGuideBaseType = value
         self._setTypeState()
 
-        self._obj.Proxy.execute(self._obj)
+        self.redraw()
         self.setEdited()
 
     def onTopWidth(self, value):
         try:
             self._obj.TopWidth = FreeCAD.Units.Quantity(value).Value
-            self._obj.Proxy.execute(self._obj)
+            self.redraw()
         except ValueError:
             pass
         self.setEdited()
@@ -374,7 +377,7 @@ class TaskPanelRailGuide:
     def onMiddleWidth(self, value):
         try:
             self._obj.MiddleWidth = FreeCAD.Units.Quantity(value).Value
-            self._obj.Proxy.execute(self._obj)
+            self.redraw()
         except ValueError:
             pass
         self.setEdited()
@@ -382,7 +385,7 @@ class TaskPanelRailGuide:
     def onBaseWidth(self, value):
         try:
             self._obj.BaseWidth = FreeCAD.Units.Quantity(value).Value
-            self._obj.Proxy.execute(self._obj)
+            self.redraw()
         except ValueError:
             pass
         self.setEdited()
@@ -390,7 +393,7 @@ class TaskPanelRailGuide:
     def onTopThickness(self, value):
         try:
             self._obj.TopThickness = FreeCAD.Units.Quantity(value).Value
-            self._obj.Proxy.execute(self._obj)
+            self.redraw()
         except ValueError:
             pass
         self.setEdited()
@@ -398,7 +401,7 @@ class TaskPanelRailGuide:
     def onBaseThickness(self, value):
         try:
             self._obj.BaseThickness = FreeCAD.Units.Quantity(value).Value
-            self._obj.Proxy.execute(self._obj)
+            self.redraw()
         except ValueError:
             pass
         self.setEdited()
@@ -406,7 +409,7 @@ class TaskPanelRailGuide:
     def onThickness(self, value):
         try:
             self._obj.Thickness = FreeCAD.Units.Quantity(value).Value
-            self._obj.Proxy.execute(self._obj)
+            self.redraw()
         except ValueError:
             pass
         self.setEdited()
@@ -414,7 +417,7 @@ class TaskPanelRailGuide:
     def onLength(self, value):
         try:
             self._obj.Length = FreeCAD.Units.Quantity(value).Value
-            self._obj.Proxy.execute(self._obj)
+            self.redraw()
         except ValueError:
             pass
         self.setEdited()
@@ -422,7 +425,7 @@ class TaskPanelRailGuide:
     def onDiameter(self, value):
         try:
             self._obj.Diameter = FreeCAD.Units.Quantity(value).Value
-            self._obj.Proxy.execute(self._obj)
+            self.redraw()
         except ValueError:
             pass
         self.setEdited()
@@ -439,13 +442,13 @@ class TaskPanelRailGuide:
         self._obj.AutoDiameter = value
         self._setAutoDiameterState()
 
-        self._obj.Proxy.execute(self._obj)
+        self.redraw()
         self.setEdited()
         
     def onVAngle(self, value):
         try:
             self._obj.VAngle = FreeCAD.Units.Quantity(value).Value
-            self._obj.Proxy.execute(self._obj)
+            self.redraw()
         except ValueError:
             pass
         self.setEdited()
@@ -458,13 +461,13 @@ class TaskPanelRailGuide:
         self._obj.ForwardSweep = value
         self._setForwardSweepState()
 
-        self._obj.Proxy.execute(self._obj)
+        self.redraw()
         self.setEdited()
         
     def onForwardSweepAngle(self, value):
         try:
             self._obj.ForwardSweepAngle = FreeCAD.Units.Quantity(value).Value
-            self._obj.Proxy.execute(self._obj)
+            self.redraw()
         except ValueError:
             pass
         self.setEdited()
@@ -477,13 +480,13 @@ class TaskPanelRailGuide:
         self._obj.AftSweep = value
         self._setAftSweepState()
 
-        self._obj.Proxy.execute(self._obj)
+        self.redraw()
         self.setEdited()
         
     def onAftSweepAngle(self, value):
         try:
             self._obj.AftSweepAngle = FreeCAD.Units.Quantity(value).Value
-            self._obj.Proxy.execute(self._obj)
+            self.redraw()
         except ValueError:
             pass
         self.setEdited()
@@ -492,13 +495,13 @@ class TaskPanelRailGuide:
         self._obj.Notch = value
         # self._setAftSweepState()
 
-        self._obj.Proxy.execute(self._obj)
+        self.redraw()
         self.setEdited()
         
     def onNotchWidth(self, value):
         try:
             self._obj.NotchWidth = FreeCAD.Units.Quantity(value).Value
-            self._obj.Proxy.execute(self._obj)
+            self.redraw()
         except ValueError:
             pass
         self.setEdited()
@@ -506,13 +509,14 @@ class TaskPanelRailGuide:
     def onNotchDepth(self, value):
         try:
             self._obj.NotchDepth = FreeCAD.Units.Quantity(value).Value
-            self._obj.Proxy.execute(self._obj)
+            self.redraw()
         except ValueError:
             pass
         self.setEdited()
 
     def onLocation(self):
-        self._obj.Proxy.execute(self._obj) 
+        self._obj.Proxy.reposition()
+        self.redraw() 
         self.setEdited()
         
     def getStandardButtons(self):
@@ -522,7 +526,7 @@ class TaskPanelRailGuide:
         if button == QtGui.QDialogButtonBox.Apply:
             #print "Apply"
             self.transferTo()
-            self._obj.Proxy.execute(self._obj) 
+            self.redraw() 
         
     def update(self):
         'fills the widgets'

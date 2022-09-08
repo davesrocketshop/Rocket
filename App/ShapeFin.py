@@ -145,12 +145,25 @@ class ShapeFin(ShapeLocation):
         super().positionChild(obj, parent, parentBase, parentLength, parentRadius, rotation)
         self.setParentRadius(parentRadius)
 
+        base = FreeCAD.Vector(parentBase)
+        base.x += float(self._obj.RootChord - self._obj.SweepLength - self._obj.TipChord) # Base is the base of the outer tip
+        # TODO: Need to add code for sketch based fin
+
+        self.positionChildren(base)
+
     def setParentRadius(self, parentRadius):
         if TRACE_POSITION:
             print("P: ShapeFin::setParentRadius(%s, %f)" % (self._obj.Label, parentRadius))
 
         if self._obj.AutoInnerDiameter and self._obj.ParentRadius != parentRadius:
             self._obj.ParentRadius = parentRadius
+
+    def getForeRadius(self):
+        if TRACE_POSITION:
+            print("P: ShapeFin::getForeRadius(%s)" % (self._obj.Label))
+
+        # For placing objects on the outer part of the parent
+        return float(self._obj.ParentRadius + self._obj.Height)
 
     def execute(self, obj):
         if TRACE_EXECUTION:
