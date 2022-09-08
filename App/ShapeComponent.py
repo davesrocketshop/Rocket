@@ -74,9 +74,9 @@ class ShapeComponent(ShapeBase):
         obj.Proxy=self
         self.version = '2.2'
 
-    def _locationOffset(self, partBase):
+    def _locationOffset(self, partBase, parentLength):
         if TRACE_POSITION:
-            print("P: ShapeComponent::_locationOffset(%s, %f))" % (self._obj.Label, partBase))
+            print("P: ShapeComponent::_locationOffset(%s, %f, %f))" % (self._obj.Label, partBase, parentLength))
 
         base = float(partBase)
         roll = 0.0
@@ -84,9 +84,9 @@ class ShapeComponent(ShapeBase):
             roll = float(self._obj.AngleOffset)
 
             if self._obj.LocationReference == LOCATION_PARENT_TOP:
-                return base + self._parentLength() - float(self._obj.Location), roll
+                return base + float(parentLength) - float(self._obj.Location), roll
             elif self._obj.LocationReference == LOCATION_PARENT_MIDDLE:
-                return base + (self._parentLength() / 2.0) + float(self._obj.Location), roll
+                return base + (float(parentLength) / 2.0) + float(self._obj.Location), roll
             elif self._obj.LocationReference == LOCATION_BASE:
                 return float(self._obj.Location), roll
 
@@ -101,12 +101,14 @@ class ShapeComponent(ShapeBase):
         # Calculate any auto radii
         obj.Proxy.setRadius()
 
-        partBase, roll = self._locationOffset(parentBase.x)
+        partBase, roll = self._locationOffset(parentBase.x, parentLength)
 
         if self._obj.PlacementType == PLACEMENT_AXIAL:
             self._positionChildAxial(obj, partBase, roll)
         else:
             self._positionChildRadial(obj, parent, parentRadius, partBase, roll)
+
+        self.positionChildren(parentBase)
 
     def _positionChildAxial(self, obj, partBase, roll):
         if TRACE_POSITION:
