@@ -39,7 +39,7 @@ class RailGuideShapeHandler():
     def __init__(self, obj):
 
         # This gets changed when redrawn so it's very important to save a copy
-        self._placement = obj.Placement
+        self._placement = FreeCAD.Placement(obj.Placement)
 
         self._railGuideBaseType = obj.RailGuideBaseType
 

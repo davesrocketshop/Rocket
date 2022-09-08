@@ -62,8 +62,11 @@ class ShapeStage(ShapeBase):
         if TRACE_POSITION:
             print("P: ShapeStage::setAxialPosition(%s, (%f,%f,%f))" % (self._obj.Label, partBase.x, partBase.y, partBase.z))
 
-        base = self._obj.Placement.Base
-        newPlacement = FreeCAD.Placement(FreeCAD.Vector(partBase), FreeCAD.Rotation(0,0,0))
+        # base = FreeCAD.Vector(self._obj.Placement.Base)
+        base = FreeCAD.Vector(partBase)
+        base.x = 0.0
+        newPlacement = FreeCAD.Placement(base, FreeCAD.Rotation(0,0,0))
+        # newPlacement = FreeCAD.Placement(FreeCAD.Vector(partBase), FreeCAD.Rotation(0,0,0))
         # newPlacement = FreeCAD.Placement(FreeCAD.Vector(0.0, base.y, base.z), FreeCAD.Rotation(0,0,0))
         if newPlacement != self._obj.Placement:
             self._obj.Placement = newPlacement
@@ -77,18 +80,14 @@ class ShapeStage(ShapeBase):
         
         # Dynamic placements
         try:
-            # if self._obj.AxialOffset != partBase.x:
-            #     self._obj.AxialOffset = partBase.x
-
             base = FreeCAD.Vector(partBase)
             self.setAxialPosition(base)
 
             print("start base.x %f, partBase.x %f" % (base.x, partBase.x))
             # base = FreeCAD.Vector(0,0,0)
             for child in reversed(self._obj.Group):
-                child.Proxy.setAxialPosition(base)
-                # base.x += float(child.Proxy.getAxialLength())
-                base.x = max(base.x, float(child.Proxy.getMaxForwardPosition()))
+                child.Proxy.positionChild(child, self._obj, base, self.getAxialLength(), self.getForeRadius(), 0.0)
+                base.x = max(base.x, float(child.Proxy.getMaxForwardPosition() ))
             print("end base.x %f, partBase.x %f" % (base.x, partBase.x))
  
         except ReferenceError:

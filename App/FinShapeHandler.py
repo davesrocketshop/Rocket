@@ -42,7 +42,7 @@ class FinShapeHandler:
         self._obj = obj
 
         # This gets changed when redrawn so it's very important to save a copy
-        self._placement = obj.Placement
+        self._placement = FreeCAD.Placement(obj.Placement)
 
     def _makeChordProfileSquare(self, foreX, chord, thickness, height):
         # Create the root rectangle

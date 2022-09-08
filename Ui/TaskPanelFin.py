@@ -889,10 +889,7 @@ class TaskPanelFin(QObject):
         self.setEdited()
 
     def onLocation(self):
-        # self._obj.LocationReference = str(self._form.referenceCombo.currentText())
-        # self._obj.Location = self._form.locationInput.text()
-        # self._obj.AngleOffset = self._form.angleOffsetInput.text()
-        self._obj.Proxy.setAxialPosition(float(self._obj.Location), float(self._obj.AngleOffset))
+        self._obj.Proxy.reposition()
         self.redraw()
         self.setEdited()
 

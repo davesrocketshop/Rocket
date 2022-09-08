@@ -314,6 +314,9 @@ class _FinCanDialog(QDialog):
         self.canInnerDiameterInput.unit = 'mm'
         self.canInnerDiameterInput.setMinimumWidth(100)
 
+        self.canAutoDiameterCheckbox = QtGui.QCheckBox(translate('Rocket', "auto"), self)
+        self.canAutoDiameterCheckbox.setCheckState(QtCore.Qt.Checked)
+
         self.canThicknessLabel = QtGui.QLabel(translate('Rocket', "Thickness"), self)
 
         self.canThicknessInput = ui.createWidget("Gui::InputField")
@@ -391,6 +394,7 @@ class _FinCanDialog(QDialog):
 
         grid.addWidget(self.canInnerDiameterLabel, row, 0)
         grid.addWidget(self.canInnerDiameterInput, row, 1)
+        grid.addWidget(self.canAutoDiameterCheckbox, row, 2)
         row += 1
 
         grid.addWidget(self.canThicknessLabel, row, 0)
@@ -576,6 +580,7 @@ class TaskPanelFinCan(QObject):
         self._finForm.sweepAngleInput.textEdited.connect(self.onSweepAngle)
 
         self._finForm.canInnerDiameterInput.textEdited.connect(self.onCanInnerDiameter)
+        self._finForm.canAutoDiameterCheckbox.stateChanged.connect(self.onCanAutoDiameter)
         self._finForm.canThicknessInput.textEdited.connect(self.onCanThickness)
         self._finForm.canLengthInput.textEdited.connect(self.onCanLength)
         self._finForm.canLeadingOffsetInput.textEdited.connect(self.onCanLeadingEdgeOffset)
@@ -636,6 +641,7 @@ class TaskPanelFinCan(QObject):
         self._obj.SweepAngle = self._finForm.sweepAngleInput.text()
 
         self._obj.InnerDiameter = self._finForm.canInnerDiameterInput.text()
+        self._obj.AutoInnerDiameter = self._finForm.canAutoDiameterCheckbox.isChecked()
         self._obj.Thickness = self._finForm.canThicknessInput.text()
         self._obj.Length = self._finForm.canLengthInput.text()
         self._obj.LeadingEdgeOffset = self._finForm.canLeadingOffsetInput.text()
@@ -685,6 +691,7 @@ class TaskPanelFinCan(QObject):
         self._finForm.sweepAngleInput.setText(self._obj.SweepAngle.UserString)
 
         self._finForm.canInnerDiameterInput.setText(self._obj.InnerDiameter.UserString)
+        self._finForm.canAutoDiameterCheckbox.setChecked(self._obj.AutoInnerDiameter)
         self._finForm.canThicknessInput.setText(self._obj.Thickness.UserString)
         self._finForm.canLengthInput.setText(self._obj.Length.UserString)
         self._finForm.canLeadingOffsetInput.setText(self._obj.LeadingEdgeOffset.UserString)
@@ -715,6 +722,7 @@ class TaskPanelFinCan(QObject):
         self._sweepAngleFromLength(self._obj.SweepLength)
         self._enableLeadingEdge()
         self._enableTrailingEdge()
+        self._setCanAutoDiameterState()
         self._setLugAutoThicknessState()
         self._setLugAutoLengthState()
 
@@ -1070,6 +1078,21 @@ class TaskPanelFinCan(QObject):
         except ValueError:
             pass
         self.setEdited()
+     
+    def _setCanAutoDiameterState(self):
+        self._finForm.canInnerDiameterInput.setEnabled(not self._obj.AutoInnerDiameter)
+        self._finForm.canAutoDiameterCheckbox.setChecked(self._obj.AutoInnerDiameter)
+
+        if self._obj.AutoInnerDiameter:
+            self._obj.InnerDiameter = (self._obj.ParentRadius * 2.0)
+            self._finForm.canInnerDiameterInput.setText(self._obj.InnerDiameter.UserString)
+
+    def onCanAutoDiameter(self, value):
+        self._obj.AutoInnerDiameter = value
+        self._setCanAutoDiameterState()
+
+        self.redraw()
+        self.setEdited()
         
     def onCanThickness(self, value):
         try:
@@ -1249,12 +1272,12 @@ class TaskPanelFinCan(QObject):
         self._obj.LaunchLugForwardSweep = value
         self._setForwardSweepState()
 
-        self._obj.Proxy.execute(self._obj)
+        self.redraw()
         
     def onForwardSweepAngle(self, value):
         try:
             self._obj.LaunchLugForwardSweepAngle = FreeCAD.Units.Quantity(value).Value
-            self._obj.Proxy.execute(self._obj)
+            self.redraw()
         except ValueError:
             pass
         
@@ -1266,16 +1289,17 @@ class TaskPanelFinCan(QObject):
         self._obj.LaunchLugAftSweep = value
         self._setAftSweepState()
 
-        self._obj.Proxy.execute(self._obj)
+        self.redraw()
         
     def onAftSweepAngle(self, value):
         try:
             self._obj.LaunchLugAftSweepAngle = FreeCAD.Units.Quantity(value).Value
-            self._obj.Proxy.execute(self._obj)
+            self.redraw()
         except ValueError:
             pass
 
     def onLocation(self):
+        self._obj.Proxy.reposition()
         self.redraw()
         self.setEdited()
 

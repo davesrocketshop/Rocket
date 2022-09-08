@@ -74,6 +74,26 @@ class ShapeComponent(ShapeBase):
         obj.Proxy=self
         self.version = '2.2'
 
+    def _locationOffset(self, partBase):
+        if TRACE_POSITION:
+            print("P: ShapeComponent::_locationOffset(%s, %f))" % (self._obj.Label, partBase))
+
+        base = float(partBase)
+        roll = 0.0
+        if hasattr(self._obj, 'LocationReference'):
+            roll = float(self._obj.AngleOffset)
+
+            if self._obj.LocationReference == LOCATION_PARENT_TOP:
+                return base + self._parentLength() - float(self._obj.Location), roll
+            elif self._obj.LocationReference == LOCATION_PARENT_MIDDLE:
+                return base + (self._parentLength() / 2.0) + float(self._obj.Location), roll
+            elif self._obj.LocationReference == LOCATION_BASE:
+                return float(self._obj.Location), roll
+
+            return base + float(self._obj.Location), roll
+
+        return base, roll
+
     def positionChild(self, obj, parent, parentBase, parentLength, parentRadius, rotation):
         if TRACE_POSITION:
             print("P: ShapeComponent::positionChild(%s, %s, (%f,%f,%f), %f, %f, %f)" % (self._obj.Label, parent.Label, parentBase.x, parentBase.y, parentBase.z, parentLength, parentRadius, rotation))
@@ -81,22 +101,7 @@ class ShapeComponent(ShapeBase):
         # Calculate any auto radii
         obj.Proxy.setRadius()
 
-        if not hasattr(obj, 'LocationReference'):
-            partBase = parentBase.x
-            roll = 0.0
-        else:
-            if obj.LocationReference == LOCATION_PARENT_TOP:
-                partBase = (float(parentBase.x) + float(parentLength)) - float(obj.Location)
-            elif obj.LocationReference == LOCATION_PARENT_MIDDLE:
-                partBase = (float(parentBase.x) + (float(parentLength) / 2.0)) + float(obj.Location)
-            elif obj.LocationReference == LOCATION_PARENT_BOTTOM:
-                partBase = float(parentBase.x) + float(obj.Location)
-            elif obj.LocationReference == LOCATION_BASE:
-                partBase = float(obj.Location)
-
-            roll = float(obj.AngleOffset)
-
-        # base = obj.Placement.Base
+        partBase, roll = self._locationOffset(parentBase.x)
 
         if self._obj.PlacementType == PLACEMENT_AXIAL:
             self._positionChildAxial(obj, partBase, roll)
@@ -146,6 +151,61 @@ class ShapeLocation(ShapeComponent):
             obj.addProperty('App::PropertyDistance', 'Location', 'RocketComponent', translate('App::Property', 'Location offset from the reference')).Location = 0.0
         if not hasattr(obj, 'AngleOffset'):
             obj.addProperty('App::PropertyAngle', 'AngleOffset', 'RocketComponent', translate('App::Property', 'Angle of offset around the center axis')).AngleOffset = 0.0
+
+    # def _parentLength(self):
+    #     if TRACE_POSITION:
+    #         print("P: ShapeLocation::_parentLength(%s)" % (self._obj.Label))
+
+    #     if self._obj.Proxy._parent is not None:
+    #         print("\tParent %s" % (self._obj.Proxy._parent.Label))
+    #         return float(self._obj.Proxy._parent.Proxy.getAxialLength())
+
+    #     print("\rNo parent")
+    #     return 0.0
+
+    # def _parentBase(self):
+    #     if TRACE_POSITION:
+    #         print("P: ShapeLocation::_parentBase(%s)" % (self._obj.Label))
+
+    #     if self._obj.Proxy._parent is not None:
+    #         print("\tParent %s" % (self._obj.Proxy._parent.Label))
+    #         return self._obj.Proxy._parent.Placement.Base
+
+    #     print("\rNo parent")
+    #     return FreeCAD.Vector(0,0,0)
+
+    # def _locationOffset(self, partBase):
+    #     if TRACE_POSITION:
+    #         print("P: ShapeLocation::_locationOffset(%s, (%f,%f,%f))" % (self._obj.Label, partBase.x, partBase.y, partBase.z))
+
+    #     base = partBase.x
+    #     if self._obj.LocationReference == LOCATION_PARENT_TOP:
+    #         return base + self._parentLength() - float(self._obj.Location)
+    #     elif self._obj.LocationReference == LOCATION_PARENT_MIDDLE:
+    #         return base + (self._parentLength() / 2.0) + float(self._obj.Location)
+    #     elif self._obj.LocationReference == LOCATION_BASE:
+    #         return float(self._obj.Location)
+
+    #     return base + float(self._obj.Location)
+
+    # def _locationOffsetBase(self, partBase):
+    #     if TRACE_POSITION:
+    #         print("P: ShapeLocation::_locationOffsetBase(%s, (%f,%f,%f))" % (self._obj.Label, partBase.x, partBase.y, partBase.z))
+
+    #     position = FreeCAD.Vector(partBase)
+    #     position.x = self._locationOffset(partBase)
+
+    #     return position
+
+    # def setAxialPosition(self, partBase, roll=0.0):
+    #     if TRACE_POSITION:
+    #         print("P: ShapeLocation::setAxialPosition(%s, (%f,%f,%f), %f)" % (self._obj.Label, partBase.x, partBase.y, partBase.z, roll))
+
+    #     base = self._locationOffsetBase(partBase)
+    #     # self._obj.Placement = FreeCAD.Placement(FreeCAD.Vector(partBase.x, base.y, base.z), FreeCAD.Rotation(FreeCAD.Vector(1,0,0), roll))
+    #     self._obj.Placement = FreeCAD.Placement(base, FreeCAD.Rotation(FreeCAD.Vector(1,0,0), roll))
+
+    #     self.positionChildren(partBase)
 
 class ShapeRadialLocation(ShapeLocation):
 

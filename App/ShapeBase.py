@@ -244,10 +244,10 @@ class ShapeBase():
 
         # Dynamic placements
         if hasattr(self._obj, "Group"):
-            # base = FreeCAD.Vector(partBase)
-            base = FreeCAD.Vector(0,0,0)
+            base = FreeCAD.Vector(partBase)
+            # base = FreeCAD.Vector(0,0,0)
             for child in reversed(self._obj.Group):
-                child.Proxy.positionChild(child, self._obj, base, self.getMaxForwardPosition(), self.getForeRadius(), 0.0)
+                child.Proxy.positionChild(child, self._obj, base, self.getAxialLength(), self.getForeRadius(), 0.0)
                 # base.x += float(child.Proxy.getAxialLength())
 
     def positionChild(self, obj, parent, parentBase, parentLength, parentRadius, rotation):

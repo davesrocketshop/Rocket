@@ -44,7 +44,7 @@ class TransitionShapeHandler():
     def __init__(self, obj):
 
         # This gets changed when redrawn so it's very important to save a copy
-        self._placement = obj.Placement
+        self._placement = FreeCAD.Placement(obj.Placement)
 
         # Common parameters
         self._type = str(obj.TransitionType)

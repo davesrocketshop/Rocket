@@ -67,7 +67,7 @@ class ShapeRocket(ShapeBase):
             counter = 1
             for child in reversed(self._obj.Group):
                 child.Proxy.positionChild(child, self._obj, base, 0, 0, 0)
-                base.x += float(child.Proxy.getMaxForwardPosition())
+                base.x = max(base.x, float(child.Proxy.getMaxForwardPosition() ))
 
         except ReferenceError:
             # Deleted object
