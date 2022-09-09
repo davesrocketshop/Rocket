@@ -73,6 +73,14 @@ class ShapeBulkhead(ShapeLocation):
         # Return the length of this component along the central axis
         return self._obj.Thickness
 
+    def positionChild(self, obj, parent, parentBase, parentLength, parentRadius, rotation):
+        if TRACE_POSITION:
+            print("P: ShapeBulkhead::positionChild(%s, %s, (%f,%f,%f), %f, %f, %f)" % (self._obj.Label, parent.Label, parentBase.x, parentBase.y, parentBase.z, parentLength, parentRadius, rotation))
+
+        if self._obj.AutoDiameter:
+            self._obj.Diameter = parent.Proxy.getInnerRadius() * 2.0
+        super().positionChild(obj, parent, parentBase, parentLength, parentRadius, rotation)
+
     def execute(self, obj):
         if TRACE_EXECUTION:
             print("E: ShapeBulkhead::execute(%s)" % (self._obj.Label))

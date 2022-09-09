@@ -97,9 +97,9 @@ class ShapeBodyTube(ShapeLocation):
 
         return float(self._obj.Length) + float(self._obj.Placement.Base.x)
 
-    def getForeRadius(self):
+    def _setAutoDiameter(self):
         if TRACE_POSITION:
-            print("P: ShapeBodyTube::getForeRadius(%s)" % (self._obj.Label))
+            print("P: ShapeBodyTube::_setAutoDiameter(%s)" % (self._obj.Label))
 
         # For placing objects on the outer part of the parent
         if self._obj.AutoDiameter:
@@ -112,12 +112,27 @@ class ShapeBodyTube(ShapeLocation):
                 if next is not None:
                     radius = next.Proxy.getForeRadius()
             if radius <= 0.0:
-                radius = 24.79 # Default to BT50
+                radius = (24.79 / 2.0) # Default to BT50
             diameter = 2.0 * radius
             if self._obj.OuterDiameter != diameter:
                 self._obj.OuterDiameter = diameter
                 self.setEdited()
+
+    def getForeRadius(self):
+        if TRACE_POSITION:
+            print("P: ShapeBodyTube::getForeRadius(%s)" % (self._obj.Label))
+
+        # For placing objects on the outer part of the parent
+        self._setAutoDiameter()
         return self._obj.OuterDiameter / 2.0
+
+    def getInnerRadius(self):
+        if TRACE_POSITION:
+            print("P: ShapeBase::getInnerRadius(%s)" % (self._obj.Label))
+
+        # Set any autodiameter first
+        self._setAutoDiameter()
+        return float(self._obj.OuterDiameter) / 2.0 - float(self._obj.Thickness)
 
     def execute(self, obj):
         if TRACE_EXECUTION:

@@ -342,8 +342,10 @@ class TaskPanelBulkhead:
         self._bulkForm.autoDiameterCheckbox.setChecked(self._obj.AutoDiameter)
 
         if self._obj.AutoDiameter:
-            self._obj.Diameter = 2.0 * self._obj.Proxy.getRadius()
-            self._bulkForm.diameterInput.setText(self._obj.Diameter.UserString)
+            parent = self._obj.Proxy._parent
+            if parent is not None:
+                self._obj.Diameter = 2.0 * parent.Proxy.getInnerRadius()
+                self._bulkForm.diameterInput.setText(self._obj.Diameter.UserString)
 
     def onAutoDiameter(self, value):
         self._obj.AutoDiameter = value
