@@ -66,7 +66,7 @@ class ShapeRocket(ShapeBase):
             base = FreeCAD.Vector(0, 0, 0)
             counter = 1
             for child in reversed(self._obj.Group):
-                child.Proxy.positionChild(child, self._obj, base, 0, 0, 0)
+                child.Proxy.positionChild(self._obj, base, 0, 0, 0)
                 base.x = max(base.x, float(child.Proxy.getMaxForwardPosition() ))
 
         except ReferenceError:

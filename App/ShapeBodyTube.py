@@ -150,7 +150,7 @@ class ShapeBodyTube(ShapeLocation):
             FEATURE_FIN, 
             FEATURE_FINCAN, 
             FEATURE_LAUNCH_LUG,
-            FEATURE_PARALLEL_STAGE, 
+            # FEATURE_PARALLEL_STAGE, 
             # FEATURE_POD,
             FEATURE_RAIL_BUTTON, 
             FEATURE_RAIL_GUIDE]

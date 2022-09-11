@@ -30,7 +30,7 @@ from PySide import QtCore
 from DraftTools import translate
 
 from App.ShapeBase import ShapeBase, TRACE_POSITION, TRACE_EXECUTION
-from App.Constants import FEATURE_ROCKET, FEATURE_STAGE
+from App.Constants import FEATURE_ROCKET, FEATURE_STAGE, FEATURE_PARALLEL_STAGE
 from App.Constants import PROP_TRANSIENT, PROP_HIDDEN, PROP_NORECOMPUTE
 
 class ShapeStage(ShapeBase):
@@ -86,8 +86,11 @@ class ShapeStage(ShapeBase):
             print("start base.x %f, partBase.x %f" % (base.x, partBase.x))
             # base = FreeCAD.Vector(0,0,0)
             for child in reversed(self._obj.Group):
-                child.Proxy.positionChild(child, self._obj, base, self.getAxialLength(), self.getForeRadius(), 0.0)
-                base.x = max(base.x, float(child.Proxy.getMaxForwardPosition() ))
+                if child.Proxy.Type == FEATURE_PARALLEL_STAGE:
+                    child.Proxy.positionChild(self._obj, partBase, self.getAxialLength(), self.getForeRadius(), 0.0)
+                else:
+                    child.Proxy.positionChild(self._obj, base, self.getAxialLength(), self.getForeRadius(), 0.0)
+                    base.x = max(base.x, float(child.Proxy.getMaxForwardPosition() ))
             print("end base.x %f, partBase.x %f" % (base.x, partBase.x))
  
         except ReferenceError:

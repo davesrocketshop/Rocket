@@ -94,19 +94,19 @@ class ShapeComponent(ShapeBase):
 
         return base, roll
 
-    def positionChild(self, obj, parent, parentBase, parentLength, parentRadius, rotation):
+    def positionChild(self, parent, parentBase, parentLength, parentRadius, rotation):
         if TRACE_POSITION:
             print("P: ShapeComponent::positionChild(%s, %s, (%f,%f,%f), %f, %f, %f)" % (self._obj.Label, parent.Label, parentBase.x, parentBase.y, parentBase.z, parentLength, parentRadius, rotation))
 
         # Calculate any auto radii
-        obj.Proxy.setRadius()
+        self._obj.Proxy.setRadius()
 
         partBase, roll = self._locationOffset(parentBase.x, parentLength)
 
         if self._obj.PlacementType == PLACEMENT_AXIAL:
-            self._positionChildAxial(obj, partBase, roll)
+            self._positionChildAxial(self._obj, partBase, roll)
         else:
-            self._positionChildRadial(obj, parent, parentRadius, partBase, roll)
+            self._positionChildRadial(self._obj, parent, parentRadius, partBase, roll)
 
         self.positionChildren(parentBase)
 

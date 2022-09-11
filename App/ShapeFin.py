@@ -138,11 +138,11 @@ class ShapeFin(ShapeLocation):
         if not hasattr(obj,"Shape"):
             obj.addProperty('Part::PropertyPartShape', 'Shape', 'Fin', translate('App::Property', 'Shape of the fin'))
 
-    def positionChild(self, obj, parent, parentBase, parentLength, parentRadius, rotation):
+    def positionChild(self, parent, parentBase, parentLength, parentRadius, rotation):
         if TRACE_POSITION:
             print("P: ShapeFin::positionChild(%s, %s, (%f,%f,%f), %f, %f, %f)" % (self._obj.Label, parent.Label, parentBase.x, parentBase.y, parentBase.z, parentLength, parentRadius, rotation))
 
-        super().positionChild(obj, parent, parentBase, parentLength, parentRadius, rotation)
+        super().positionChild(parent, parentBase, parentLength, parentRadius, rotation)
         self.setParentRadius(parentRadius)
 
         base = FreeCAD.Vector(parentBase)

@@ -247,10 +247,10 @@ class ShapeBase():
             base = FreeCAD.Vector(partBase)
             # base = FreeCAD.Vector(0,0,0)
             for child in reversed(self._obj.Group):
-                child.Proxy.positionChild(child, self._obj, base, self.getAxialLength(), self.getForeRadius(), 0.0)
+                child.Proxy.positionChild(self._obj, base, self.getAxialLength(), self.getForeRadius(), 0.0)
                 # base.x += float(child.Proxy.getAxialLength())
 
-    def positionChild(self, obj, parent, parentBase, parentLength, parentRadius, rotation):
+    def positionChild(self, parent, parentBase, parentLength, parentRadius, rotation):
         if TRACE_POSITION:
             print("P: ShapeBase::positionChild(%s, %s, (%f,%f,%f), %f, %f, %f)" % (self._obj.Label, parent.Label, parentBase.x, parentBase.y, parentBase.z, parentLength, parentRadius, rotation))
 
