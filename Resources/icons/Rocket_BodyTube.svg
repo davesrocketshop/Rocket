@@ -5,37 +5,13 @@
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    width="64"
    height="64"
    viewBox="0 0 16.933333 16.933334"
    version="1.1"
-   id="svg904"
-   inkscape:version="1.0.1 (3bc2e813f5, 2020-09-07)"
-   sodipodi:docname="Rocket_BodyTube.svg">
+   id="svg904">
   <defs
      id="defs898" />
-  <sodipodi:namedview
-     id="base"
-     pagecolor="#ffffff"
-     bordercolor="#666666"
-     borderopacity="1.0"
-     inkscape:pageopacity="0.0"
-     inkscape:pageshadow="2"
-     inkscape:zoom="15.839192"
-     inkscape:cx="43.351473"
-     inkscape:cy="32.771485"
-     inkscape:document-units="mm"
-     inkscape:current-layer="layer1"
-     inkscape:document-rotation="0"
-     showgrid="false"
-     units="px"
-     inkscape:window-width="2560"
-     inkscape:window-height="1377"
-     inkscape:window-x="1272"
-     inkscape:window-y="-8"
-     inkscape:window-maximized="1" />
   <metadata
      id="metadata901">
     <rdf:RDF>
@@ -44,25 +20,15 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
   <g
-     inkscape:label="Layer 1"
-     inkscape:groupmode="layer"
      id="layer1">
     <path
        style="fill:#ffff00;stroke:#000000;stroke-width:0.554446;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="path862"
-       sodipodi:type="arc"
-       sodipodi:cx="14.175978"
-       sodipodi:cy="8.4404993"
-       sodipodi:rx="1.7418928"
-       sodipodi:ry="7.0291886"
-       sodipodi:start="4.712389"
-       sodipodi:end="1.5707963"
-       sodipodi:arc-type="slice"
        d="m 14.175978,1.4113107 a 1.7418928,7.0291886 0 0 1 1.741893,7.0291886 1.7418928,7.0291886 0 0 1 -1.741893,7.0291887 V 8.4404993 Z" />
     <ellipse
        style="fill:#ffff00;stroke:#000000;stroke-width:0.574561;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"

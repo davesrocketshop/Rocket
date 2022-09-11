@@ -38,10 +38,13 @@ class RocketWorkbench ( Workbench ):
         
         self.appendToolbar(QT_TRANSLATE_NOOP('Rocket', 'Rocket'),
                         ['Rocket_NoseCone', 'Rocket_Transition', 'Rocket_BodyTube', 'Rocket_CenteringRing', 'Rocket_Bulkhead', 'Rocket_Fin', 'Rocket_FinCan', 'Rocket_LaunchGuides', 
-                        'Separator', 'Rocket_Calculators', 'Separator', 'Rocket_NewSketch', 'Sketcher_EditSketch'])
+                        'Rocket_Parachute',
+                        'Separator', 'Rocket_Calculators', 'Separator', 'Rocket_NewSketch', 'Sketcher_EditSketch',
+                        'Separator', 'Rocket_ParachuteGore',
+                        'Separator', 'Rocket_FinFlutter'])
 
         self.appendMenu(QT_TRANSLATE_NOOP('Rocket', 'Rocket'), 
-                        ['Rocket_NoseCone', 'Rocket_Transition', 'Rocket_BodyTube', 'Rocket_CenteringRing', 'Rocket_Bulkhead', 'Rocket_Fin', 'Rocket_FinCan'])
+                        ['Rocket_NoseCone', 'Rocket_Transition', 'Rocket_BodyTube', 'Rocket_CenteringRing', 'Rocket_Bulkhead', 'Rocket_Fin', 'Rocket_FinCan', 'Rocket_Parachute'])
         self.appendMenu([QT_TRANSLATE_NOOP('Rocket', 'Rocket'), 
                          QT_TRANSLATE_NOOP("Rocket", "Launch Guides")],
                         ['Rocket_LaunchLug', 'Rocket_RailButton', 'Rocket_RailGuide'])
@@ -50,6 +53,12 @@ class RocketWorkbench ( Workbench ):
         self.appendMenu([QT_TRANSLATE_NOOP("Rocket", "Rocket"),
                          QT_TRANSLATE_NOOP("Rocket", "Calculators")],
                         ['Rocket_CalcBlackPowder', 'Rocket_CalcParachute', 'Rocket_CalcThrustToWeight', 'Rocket_CalcVentHoles'])
+        self.appendMenu([QT_TRANSLATE_NOOP("Rocket", "Rocket"),
+                         QT_TRANSLATE_NOOP("Rocket", "Templates")],
+                        ['Rocket_ParachuteGore'])
+        self.appendMenu([QT_TRANSLATE_NOOP("Rocket", "Rocket"),
+                         QT_TRANSLATE_NOOP("Rocket", "Analysis")],
+                        ['Rocket_FinFlutter'])
 
     def GetClassName(self):
         return "Gui::PythonWorkbench"
