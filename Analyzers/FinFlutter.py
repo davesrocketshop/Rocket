@@ -18,18 +18,16 @@
 # *   USA                                                                   *
 # *                                                                         *
 # ***************************************************************************
+"""Class for analyzing fin flutter"""
 
+__title__ = "FreeCAD Fin Flutter Analyzer"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
+    
+import math
+from  Analyzers.USStandardAtmoshere import celsius
 
-import FreeCAD, unittest
+class FinFlutter:
 
-from Analyzers.pyatmos import coesa76
-
-class RocketTestCases(unittest.TestCase):
-
-    def testCoesa76(self):
-        for i in range(1,85):
-            geo = coesa76([i])
-
-            print("[%f, %f, %f, %f]" % (i * 1000.0, geo.rho, geo.T - 273.15, geo.P))
+    def flutter(self, S, AR, lamda, T, P, a):
+        pass
