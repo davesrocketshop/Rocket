@@ -54,7 +54,7 @@ class DialogThrustToWeight(QDialog):
 
         self.weightInput = ui.createWidget("Gui::InputField")
         self.weightInput.unit = 'kg'
-        self.weightInput.setFixedWidth(100)
+        self.weightInput.setMinimumWidth(100)
         self.weightInput.setText("1.0")
         self.weightInput.textEdited.connect(self.onWeight)
 
@@ -63,7 +63,7 @@ class DialogThrustToWeight(QDialog):
         self.thrustInput = ui.createWidget("Gui::InputField")
         self.thrustInput.unit = 'N'
         self.thrustInput.setText("49.0")
-        self.thrustInput.setFixedWidth(100)
+        self.thrustInput.setMinimumWidth(100)
         self.thrustInput.setReadOnly(True)
 
         # OK button
