@@ -83,7 +83,7 @@ class FinFlutter:
         print("t2 %f" % t2)
         t3 = pressure / p0
         print("t3 %f" % t3)
-        Vf = math.sqrt(G / ((39.3 * (self._aspectRatio**3)) / (pow(self._thickness / self._rootChord, 3) * (self._aspectRatio + 2)) * ((self._lambda + 1) / 2) * (pressure / p0)))
+        Vf = math.sqrt(G / ((270964.068 * (self._aspectRatio**3)) / (pow(self._thickness / self._rootChord, 3) * (self._aspectRatio + 2)) * ((self._lambda + 1) / 2) * (pressure / p0)))
         print("Vf %f" % Vf)
 
         # Flutter velocity in m/s
