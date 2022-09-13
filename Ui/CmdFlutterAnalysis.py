@@ -29,11 +29,19 @@ import FreeCADGui
 
 from DraftTools import translate
 
-from Ui.DialogBlackPowder import DialogBlackPowder
+from Ui.DialogFinFlutter import DialogFinFlutter
 
 def calcFinFlutter():
-    form = DialogBlackPowder()
-    form.exec_()
+
+    # See if we have a fin selected. If so, this is a custom fin
+    for fin in FreeCADGui.Selection.getSelection():
+        if fin.isDerivedFrom('Part::FeaturePython'):
+            if hasattr(fin,"FinType"):
+                form = DialogFinFlutter(fin)
+                form.exec_()
+                return
+
+    print('Please select a fin first')
 
 class CmdFinFlutter:
     def Activated(self):

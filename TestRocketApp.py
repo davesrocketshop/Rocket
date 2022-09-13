@@ -33,3 +33,7 @@ class RocketTestCases(unittest.TestCase):
             geo = coesa76([i])
 
             print("[%f, %f, %f, %f]" % (i * 1000.0, geo.rho, geo.T - 273.15, geo.P))
+
+
+    # def testFlutter(self):
+    #     G = 2.620008e+9
