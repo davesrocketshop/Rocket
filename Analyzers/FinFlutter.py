@@ -43,11 +43,11 @@ class FinFlutter:
         self._tipChord = float(fin.TipChord) / 1000.0
         self._rootChord = float(fin.RootChord) / 1000.0
         self._thickness = float(fin.RootThickness) / 1000.0
-        self._semiSpan = float(fin.Height) / 1000.0
+        self._span = float(fin.Height) / 1000.0
 
-        self._area = (self._rootChord + self._tipChord) * self._semiSpan / 2.0
+        self._area = (self._rootChord + self._tipChord) * self._span / 2.0
         print("area %f" % self._area)
-        self._aspectRatio = self._semiSpan**2 / self._area
+        self._aspectRatio = self._span**2 / self._area
         print("aspectRatio %f" % self._aspectRatio)
         self._lambda = self._tipChord / self._rootChord
         print("lambda %f" % self._lambda)
@@ -83,6 +83,8 @@ class FinFlutter:
         print("t2 %f" % t2)
         t3 = pressure / p0
         print("t3 %f" % t3)
+
+        # The coefficient is adjusted for SI units
         Vf = math.sqrt(G / ((270964.068 * (self._aspectRatio**3)) / (pow(self._thickness / self._rootChord, 3) * (self._aspectRatio + 2)) * ((self._lambda + 1) / 2) * (pressure / p0)))
         print("Vf %f" % Vf)
 
@@ -91,7 +93,7 @@ class FinFlutter:
         print("Vfa %f" % Vfa)
 
         # Divergent velocity in Mach
-        Vd = math.sqrt(G / (((3.3 * pressure) / (1 + (2 / self._aspectRatio))) * ((self._rootChord + self._tipChord) / self._thickness**3) * (self._semiSpan**2)))
+        Vd = math.sqrt(G / (((3.3 * pressure) / (1 + (2 / self._aspectRatio))) * ((self._rootChord + self._tipChord) / self._thickness**3) * (self._span**2)))
         print("Vd %f" % Vd)
 
         # Divergent velocity in m/s

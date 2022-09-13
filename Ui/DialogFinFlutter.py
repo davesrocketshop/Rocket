@@ -133,11 +133,17 @@ class DialogFinFlutter(QDialog):
             flutter = self._flutter.flutter(altitude, modulus)
 
             Vf = FreeCAD.Units.Quantity(str(flutter[1]) + "m/s")
+            # self.flutterInput.quantity = Vf
             self.flutterInput.setText(Vf.UserString)
+            # self.flutterInput.setText(Vf.quantityString)
             # self.flutterInput.setText(str(flutter[1]) + "m/s")
 
             Vd = FreeCAD.Units.Quantity(str(flutter[3]) + "m/s")
+            # self.divergenceInput.quantity = Vd
+            # print(Vd.getUserPreferred())
             self.divergenceInput.setText(Vd.UserString)
+            # self.divergenceInput.setText(Vd.getValueAs(self.divergenceInput.unit).UserString + ' ' + self.flutterInput.unit)
+            # self.divergenceInput.setValue(Vd.getValueAs(self.divergenceInput.unit))
         except ValueError:
             pass
 
