@@ -83,7 +83,7 @@ class FinFlutterTestCases(unittest.TestCase):
         finArray.append([1.000, 0.550, 2.426, 248.521, 467.280, 136.687,  34.61])
         finArray.append([1.000, 0.550, 1.375, 330.117, 351.781, 181.564,  47.21])
 
-        sheerModulus = 7.170e+10 # in Pascals, for Al 7075 T651
+        sheerModulus = 7.170e+7 # in kPa, for Al 7075 T651
         altitude = 0 # sea level
 
         for row in finArray:

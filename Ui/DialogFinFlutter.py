@@ -58,7 +58,7 @@ class DialogFinFlutter(QDialog):
         self.modulusLabel = QtGui.QLabel(translate('Rocket', "Sheer Modulus"), self)
 
         self.modulusInput = ui.createWidget("Gui::InputField")
-        self.modulusInput.unit = 'Pa'
+        self.modulusInput.unit = 'Unit::ShearModulus'
         self.modulusInput.setMinimumWidth(100)
         self.modulusInput.setText("2.620008e+9Pa")
         self.modulusInput.textEdited.connect(self.onFlutter)
@@ -66,7 +66,7 @@ class DialogFinFlutter(QDialog):
         self.altitudeLabel = QtGui.QLabel(translate('Rocket', "Altitude"), self)
 
         self.altitudeInput = ui.createWidget("Gui::InputField")
-        self.altitudeInput.unit = 'm'
+        self.altitudeInput.unit = 'Unit::Length'
         self.altitudeInput.setText("914.4m")
         self.altitudeInput.setMinimumWidth(100)
         self.altitudeInput.textEdited.connect(self.onFlutter)
@@ -74,7 +74,7 @@ class DialogFinFlutter(QDialog):
         self.flutterLabel = QtGui.QLabel(translate('Rocket', "Flutter Speed"), self)
 
         self.flutterInput = ui.createWidget("Gui::InputField")
-        self.flutterInput.unit = 'm/s'
+        self.flutterInput.unit = 'Unit::Velocity'
         self.flutterInput.setText("0")
         self.flutterInput.setMinimumWidth(100)
         self.flutterInput.setReadOnly(True)
@@ -82,7 +82,7 @@ class DialogFinFlutter(QDialog):
         self.divergenceLabel = QtGui.QLabel(translate('Rocket', "Divergence Speed"), self)
 
         self.divergenceInput = ui.createWidget("Gui::InputField")
-        self.divergenceInput.unit = 'm/s'
+        self.divergenceInput.unit = "Unit::Velocity"
         self.divergenceInput.setText("0")
         self.divergenceInput.setMinimumWidth(100)
         self.divergenceInput.setReadOnly(True)
@@ -129,21 +129,27 @@ class DialogFinFlutter(QDialog):
         # Use the quantity object for units conversion
         try:
             modulus = float(FreeCAD.Units.Quantity(str(self.modulusInput.text())))
+            # attr = dir(self.modulusInput)
+            # for a in attr:
+            #     print(a)
+            # modulus = float(self.modulusInput.text())
             altitude = float(FreeCAD.Units.Quantity(str(self.altitudeInput.text())))
             flutter = self._flutter.flutter(altitude, modulus)
 
-            Vf = FreeCAD.Units.Quantity(str(flutter[1]) + "m/s")
+            Vf = FreeCAD.Units.Quantity(str(flutter[1]) + " m/s")
             # self.flutterInput.quantity = Vf
             self.flutterInput.setText(Vf.UserString)
             # self.flutterInput.setText(Vf.quantityString)
             # self.flutterInput.setText(str(flutter[1]) + "m/s")
 
-            Vd = FreeCAD.Units.Quantity(str(flutter[3]) + "m/s")
-            # self.divergenceInput.quantity = Vd
-            # print(Vd.getUserPreferred())
-            self.divergenceInput.setText(Vd.UserString)
-            # self.divergenceInput.setText(Vd.getValueAs(self.divergenceInput.unit).UserString + ' ' + self.flutterInput.unit)
-            # self.divergenceInput.setValue(Vd.getValueAs(self.divergenceInput.unit))
+            Vd = FreeCAD.Units.Quantity(str(flutter[3]) + " m/s")
+            print(self.divergenceInput.unit)
+            # # self.divergenceInput.quantity = Vd
+            print(Vd.getUserPreferred())
+            # self.divergenceInput.setText(Vd.UserString)
+            # # self.divergenceInput.setText(Vd.getValueAs(self.divergenceInput.unit).UserString + ' ' + self.flutterInput.unit)
+            # print(Vd.getValueAs(FreeCAD.Units.Quantity(FreeCAD.Units.Unit(1,0,-1))))
+            self.divergenceInput.setText(str(Vd.getValueAs(FreeCAD.Units.Quantity('m/s'))))
         except ValueError:
             pass
 

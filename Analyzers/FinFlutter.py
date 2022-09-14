@@ -46,43 +46,30 @@ class FinFlutter:
         self._span = float(fin.Height) / 1000.0
 
         self._area = (self._rootChord + self._tipChord) * self._span / 2.0
-        print("area %f" % self._area)
         self._aspectRatio = self._span**2 / self._area
-        print("aspectRatio %f" % self._aspectRatio)
         self._lambda = self._tipChord / self._rootChord
-        print("lambda %f" % self._lambda)
 
-    def flutter(self, altitude, G):
+    def atmosphericConditions(self, altitude):
 
         # Get the atmospheric conditions at the specified altitude (convert mm to km)
+        # Uses the coesa76 model which is an extension of US Standard Atmosphere 1976 model to work above 84K
         atmo = coesa76([altitude / (1000.0 * 1000.0)])
 
         temp = atmo.T
-        print("temp %f" % temp)
         pressure = atmo.P
-        print("pressure %f" % pressure)
 
         # speed of sound
         a = math.sqrt(gamma * R_air * temp)
-        print("a %f" % a)
 
-        # Flutter velocity in Mach
-        coeff = 39.3
-        # coeff = 24 * .25 / math.pi * 1.4 * p0
-        print("coeff %f" % coeff)
+        return a,pressure
 
-        # temp -= 273.15
+    def flutter(self, altitude, G):
+        # Calculate fin flutter using the method outlined in NACA Technical Note 4197
 
+        a,pressure = self.atmosphericConditions(altitude)
 
-        print("G %f" % G)
-        t0 = (coeff * (self._aspectRatio**3))
-        print("t0 %g" % t0)
-        t1 = (pow(self._thickness / self._rootChord, 3) * (self._aspectRatio + 2))
-        print("t1 %g" % t1)
-        t2 = (self._lambda + 1) / 2
-        print("t2 %f" % t2)
-        t3 = pressure / p0
-        print("t3 %f" % t3)
+        G *= 1000.0 # Convert from kPa to Pa
+        # print("G %f" % G)
 
         # The coefficient is adjusted for SI units
         Vf = math.sqrt(G / ((270964.068 * (self._aspectRatio**3)) / (pow(self._thickness / self._rootChord, 3) * (self._aspectRatio + 2)) * ((self._lambda + 1) / 2) * (pressure / p0)))
@@ -101,4 +88,38 @@ class FinFlutter:
         print("Vda %f" % Vda)
 
         return Vf, Vfa, Vd, Vda
+
+    def flutterPOF(self, altitude, G):
+        #
+        # Calculate flutter using the formula outlined in Peak of Flight issue 291
+        # There is some discussion that this may over estimate the flutter by a factor of sqrt(2) vs the NACA method
+        #
+
+        a,pressure = self.atmosphericConditions(altitude)
+        print("a %f" % a)
+        print("pressure %f" % pressure)
+
+        # Hardcode for debugging
+        # a = 336.8668089
+        # pressure = 90941.8844
+
+        G *= 1000.0 # Convert from kPa to Pa
+        print("G %f" % G)
+        print("_aspectRatio %f" % self._aspectRatio)
+        print("_thickness %f" % self._thickness)
+        print("_rootChord %f" % self._rootChord)
+        num = (G * 2 * (self._aspectRatio + 2) * pow(self._thickness / self._rootChord, 3))
+        print("num %f" % num)
+        denom = (1.337 * pow(self._aspectRatio, 3) * pressure * (self._lambda + 1))
+        print("denom %f" % denom)
+
+        # Flutter velocity in Mach
+        Vf = math.sqrt((G * 2 * (self._aspectRatio + 2) * pow(self._thickness / self._rootChord, 3)) / (1.337 * pow(self._aspectRatio, 3) * pressure * (self._lambda + 1)))
+        print("Vf %f" % Vf)
+
+        # Flutter velocity in m/s
+        Vfa = a * Vf
+        print("Vfa %f" % Vfa)
+
+        return Vf, Vfa
         
