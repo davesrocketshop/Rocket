@@ -122,7 +122,7 @@
      <rect>
       <x>10</x>
       <y>30</y>
-      <width>351</width>
+      <width>192</width>
       <height>80</height>
      </rect>
     </property>
@@ -146,13 +146,6 @@
      </item>
      <item row="1" column="1">
       <widget class="QSpinBox" name="spinBox"/>
-     </item>
-     <item row="2" column="1">
-      <widget class="QSlider" name="horizontalSlider">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-      </widget>
      </item>
     </layout>
    </widget>
@@ -192,11 +185,30 @@
     <property name="geometry">
      <rect>
       <x>15</x>
-      <y>121</y>
+      <y>141</y>
       <width>561</width>
-      <height>301</height>
+      <height>281</height>
      </rect>
     </property>
+   </widget>
+   <widget class="QWidget" name="horizontalLayoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>110</y>
+      <width>571</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QSlider" name="horizontalSlider">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </widget>
   </widget>
  </widget>
