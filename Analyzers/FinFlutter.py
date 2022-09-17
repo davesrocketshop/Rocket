@@ -49,6 +49,12 @@ class FinFlutter:
         self._aspectRatio = self._span**2 / self._area
         self._lambda = self._tipChord / self._rootChord
 
+    def shearModulus(self, young, poisson):
+        print("young %f" % young)
+        print("poisson %f" % poisson)
+        print("shear %f" % (young / (2.0 * (1.0 + poisson))))
+        return young / (2.0 * (1.0 + poisson))
+
     def atmosphericConditions(self, altitude):
 
         # Get the atmospheric conditions at the specified altitude (convert mm to km)
@@ -63,63 +69,51 @@ class FinFlutter:
 
         return a,pressure
 
-    def flutter(self, altitude, G):
+    def flutter(self, altitude, shear):
         # Calculate fin flutter using the method outlined in NACA Technical Note 4197
 
         a,pressure = self.atmosphericConditions(altitude)
 
-        G *= 1000.0 # Convert from kPa to Pa
-        # print("G %f" % G)
+        shear *= 1000.0 # Convert from kPa to Pa
 
         # The coefficient is adjusted for SI units
-        Vf = math.sqrt(G / ((270964.068 * (self._aspectRatio**3)) / (pow(self._thickness / self._rootChord, 3) * (self._aspectRatio + 2)) * ((self._lambda + 1) / 2) * (pressure / p0)))
-        print("Vf %f" % Vf)
+        Vf = math.sqrt(shear / ((270964.068 * (self._aspectRatio**3)) / (pow(self._thickness / self._rootChord, 3) * (self._aspectRatio + 2)) * ((self._lambda + 1) / 2) * (pressure / p0)))
 
         # Flutter velocity in m/s
         Vfa = a * Vf
-        print("Vfa %f" % Vfa)
 
-        # Divergent velocity in Mach
-        Vd = math.sqrt(G / (((3.3 * pressure) / (1 + (2 / self._aspectRatio))) * ((self._rootChord + self._tipChord) / self._thickness**3) * (self._span**2)))
-        print("Vd %f" % Vd)
+        return Vf, Vfa
 
-        # Divergent velocity in m/s
-        Vda = a * Vd
-        print("Vda %f" % Vda)
-
-        return Vf, Vfa, Vd, Vda
-
-    def flutterPOF(self, altitude, G):
+    def flutterPOF(self, altitude, shear):
         #
         # Calculate flutter using the formula outlined in Peak of Flight issue 291
         # There is some discussion that this may over estimate the flutter by a factor of sqrt(2) vs the NACA method
         #
 
         a,pressure = self.atmosphericConditions(altitude)
-        print("a %f" % a)
-        print("pressure %f" % pressure)
 
-        # Hardcode for debugging
-        # a = 336.8668089
-        # pressure = 90941.8844
-
-        G *= 1000.0 # Convert from kPa to Pa
-        print("G %f" % G)
-        print("_aspectRatio %f" % self._aspectRatio)
-        print("_thickness %f" % self._thickness)
-        print("_rootChord %f" % self._rootChord)
-        num = (G * 2 * (self._aspectRatio + 2) * pow(self._thickness / self._rootChord, 3))
-        print("num %f" % num)
-        denom = (1.337 * pow(self._aspectRatio, 3) * pressure * (self._lambda + 1))
-        print("denom %f" % denom)
+        shear *= 1000.0 # Convert from kPa to Pa
 
         # Flutter velocity in Mach
-        Vf = math.sqrt((G * 2 * (self._aspectRatio + 2) * pow(self._thickness / self._rootChord, 3)) / (1.337 * pow(self._aspectRatio, 3) * pressure * (self._lambda + 1)))
-        print("Vf %f" % Vf)
+        Vf = math.sqrt((shear * 2 * (self._aspectRatio + 2) * pow(self._thickness / self._rootChord, 3)) / (1.337 * pow(self._aspectRatio, 3) * pressure * (self._lambda + 1)))
 
         # Flutter velocity in m/s
         Vfa = a * Vf
-        print("Vfa %f" % Vfa)
 
         return Vf, Vfa
+
+    def divergence(self, altitude, shear):
+        # Calculate fin divergence using the method outlined in NACA Technical Note 4197
+
+        a,pressure = self.atmosphericConditions(altitude)
+
+        shear *= 1000.0 # Convert from kPa to Pa
+
+        # Divergent velocity in Mach
+        Vd = math.sqrt(shear / (((3.3 * pressure) / (1 + (2 / self._aspectRatio))) * ((self._rootChord + self._tipChord) / self._thickness**3) * (self._span**2)))
+
+        # Divergent velocity in m/s
+        Vda = a * Vd
+
+        return Vd, Vda
         

@@ -23,6 +23,7 @@ __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
 import FreeCAD, unittest
+import math
 
 from Analyzers.pyatmos import coesa76
 from Analyzers.FinFlutter import FinFlutter
@@ -56,6 +57,10 @@ class FinFlutterTestCases(unittest.TestCase):
         self._fin.SweepLength = finData[3] - finData[5]
         self.Doc.recompute()
 
+    def _checkTolerance(self, calc, reference, value):
+        message = "{0:s} Calculated {1:.2f} reference {2:.2f}"
+        self.assertLess(math.fabs((calc - reference) / reference), 0.01, message.format(value, calc, reference)) # < 1% difference
+
     def testFins(self):
 
         # Fin array row values
@@ -67,38 +72,43 @@ class FinFlutterTestCases(unittest.TestCase):
         # [5] = tip chord
         # [6] = FEA flutter value
         finArray = []
-        finArray.append([0.500, 0.350, 0.750, 513.200, 259.808, 179.620,  27.36])
-        finArray.append([1.500, 0.350, 0.750, 513.200, 259.808, 179.620, 135.18])
-        finArray.append([0.500, 0.750, 0.750, 395.897, 259.808, 296.923,  26.34])
-        finArray.append([1.500, 0.750, 0.750, 395.897, 259.808, 296.923, 125.06])
-        finArray.append([0.500, 0.350, 2.000, 314.270, 424.264, 109.994,  14.73])
-        finArray.append([1.500, 0.350, 2.000, 314.270, 424.264, 109.994,  74.01])
-        finArray.append([0.500, 0.750, 2.000, 242.437, 424.264, 181.827,  13.33])
-        finArray.append([1.500, 0.750, 2.000, 242.437, 424.264, 181.827,  65.47])
-        finArray.append([0.159, 0.550, 1.375, 330.117, 351.781, 181.564,   3.83])
-        finArray.append([1.841, 0.550, 1.375, 330.117, 351.781, 181.564, 116.41])
-        finArray.append([1.000, 0.214, 1.375, 421.609, 351.781,  90.073,  51.55])
-        finArray.append([1.000, 0.886, 1.375, 271.254, 351.781, 240.428,  44.40])
-        finArray.append([1.000, 0.550, 0.324, 680.186, 170.731, 374.102, 141.06])
-        finArray.append([1.000, 0.550, 2.426, 248.521, 467.280, 136.687,  34.61])
-        finArray.append([1.000, 0.550, 1.375, 330.117, 351.781, 181.564,  47.21])
+        finArray.append([0.500, 0.350, 0.750, 513.200, 259.808, 179.620,  16.54, 15.60])
+        finArray.append([1.500, 0.350, 0.750, 513.200, 259.808, 179.620,  85.96, 81.06])
+        finArray.append([0.500, 0.750, 0.750, 395.897, 259.808, 296.923,  21.44, 15.60])
+        finArray.append([1.500, 0.750, 0.750, 395.897, 259.808, 296.923, 111.43, 81.06])
+        finArray.append([0.500, 0.350, 2.000, 314.270, 424.264, 109.994,   9.56,  9.02])
+        finArray.append([1.500, 0.350, 2.000, 314.270, 424.264, 109.994,  49.68, 46.85])
+        finArray.append([0.500, 0.750, 2.000, 242.437, 424.264, 181.827,  12.39,  9.02])
+        finArray.append([1.500, 0.750, 2.000, 242.437, 424.264, 181.827,  64.40, 46.85])
+        finArray.append([0.159, 0.550, 1.375, 330.117, 351.781, 181.564,   2.39,  1.97])
+        finArray.append([1.841, 0.550, 1.375, 330.117, 351.781, 181.564,  94.36, 77.50])
+        finArray.append([1.000, 0.214, 1.375, 421.609, 351.781,  90.073,  29.58, 31.03])
+        finArray.append([1.000, 0.886, 1.375, 271.254, 351.781, 240.428,  45.97, 31.03])
+        finArray.append([1.000, 0.550, 0.324, 680.186, 170.731, 374.102,  92.70, 76.14])
+        finArray.append([1.000, 0.550, 2.426, 248.521, 467.280, 136.687,  28.26, 23.21])
+        finArray.append([1.000, 0.550, 1.375, 330.117, 351.781, 181.564,  37.77, 31.03])
 
-        sheerModulus = 7.170e+7 # in kPa, for Al 7075 T651
+        shearModulus = 7.170e+7 # in kPa, for Al 7075 T651
         altitude = 0 # sea level
 
         for row in finArray:
             self._setFin(row)
             flutter = FinFlutter(self._fin)
             
-            print('***')
-            results = flutter.flutter(altitude, sheerModulus)
+            results = flutter.flutter(altitude, shearModulus)
 
-            # Vf = FreeCAD.Units.Quantity(str(flutter[1]) + "m/s")
-            # self.flutterInput.setText(Vf.UserString)
-            # # self.flutterInput.setText(str(flutter[1]) + "m/s")
+            # print("Vf: Calc %.2f, reference %0.2f, error %f" % (results[1], row[6], (results[1] - row[6]) / row[6]))
+            self._checkTolerance(results[1], row[6], "Vf")
+            
+            results = flutter.divergence(altitude, shearModulus)
 
-            # Vd = FreeCAD.Units.Quantity(str(flutter[3]) + "m/s")
-            # self.divergenceInput.setText(Vd.UserString)
+            # print("Vd: Calc %.2f, reference %0.2f, error %f" % (results[3], row[7], (results[3] - row[7]) / row[7]))
+            self._checkTolerance(results[1], row[7], "Vd")
+            
+            results = flutter.flutterPOF(altitude, shearModulus)
+
+            # print("Vf: Calc %.2f, reference %0.2f, error %f" % (results[1], row[6], (results[1] - row[6]) / row[6]))
+            self._checkTolerance(results[1], row[6] * math.sqrt(2), "Vf")
 
 
     def tearDown(self):
