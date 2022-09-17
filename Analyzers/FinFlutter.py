@@ -50,9 +50,6 @@ class FinFlutter:
         self._lambda = self._tipChord / self._rootChord
 
     def shearModulus(self, young, poisson):
-        print("young %f" % young)
-        print("poisson %f" % poisson)
-        print("shear %f" % (young / (2.0 * (1.0 + poisson))))
         return young / (2.0 * (1.0 + poisson))
 
     def atmosphericConditions(self, altitude):

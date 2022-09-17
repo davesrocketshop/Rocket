@@ -50,14 +50,30 @@ class DialogFinFlutter(QDialog):
         self.initUI()
         self.onFlutter(None)
 
+    def _isMetricUnitPref(self):
+            param = FreeCAD.ParamGet("User parameter:BaseApp/Preferences/Units")
+            schema = param.GetInt('UserSchema')
+            if schema in [2,3,5,7]:
+                # print ("Schema %d NOT metric" % schema)
+                return False
+
+            # print ("Schema %d metric" % schema)
+            return True
+
     def _shearUnits(self):
-        return "GPa"
+        if self._isMetricUnitPref():
+            return "GPa"
+        return "psi"
 
     def _heightUnits(self):
-        return "m"
+        if self._isMetricUnitPref():
+            return "m"
+        return "ft"
 
     def _velocityUnits(self):
-        return "m/s"
+        if self._isMetricUnitPref():
+            return "m/s"
+        return "ft/s"
 
     def _formatted(self, value, units):
         qty = FreeCAD.Units.Quantity(value)
@@ -80,16 +96,13 @@ class DialogFinFlutter(QDialog):
 
         self.materialPresetCombo = QtGui.QComboBox(self)
         self.fillExistingCombo()
-        # self.materialPresetCombo.textEdited.connect(self.onFlutter)
-        self.materialPresetCombo.currentTextChanged.connect(self.onMaterialChanged)
 
         self.shearLabel = QtGui.QLabel(translate('Rocket', "Sheer Modulus"), self)
 
         self.shearInput = ui.createWidget("Gui::InputField")
         self.shearInput.unit = self._shearUnits() #'Unit::ShearModulus'
         self.shearInput.setMinimumWidth(100)
-        self.shearInput.setText(self._formatted("2.620008e+9Pa", self._shearUnits()))
-        self.shearInput.textEdited.connect(self.onFlutter)
+        self.shearInput.setText("2.620008e+9Pa")
 
         self.calculatedCheckbox = QtGui.QCheckBox(translate('Rocket', "Calculated"), self)
         self.calculatedCheckbox.setCheckState(QtCore.Qt.Unchecked)
@@ -99,8 +112,8 @@ class DialogFinFlutter(QDialog):
         self.youngsInput = ui.createWidget("Gui::InputField")
         self.youngsInput.unit = self._shearUnits() #'Unit::ShearModulus'
         self.youngsInput.setMinimumWidth(100)
-        self.youngsInput.setText(self._formatted("2.620008e+9Pa", self._shearUnits()))
-        self.youngsInput.textEdited.connect(self.onFlutter)
+        self.youngsInput.setText("2.620008e+9Pa")
+        self.youngsInput.setEnabled(False)
 
         self.poissonLabel = QtGui.QLabel(translate('Rocket', "Poisson Ratio"), self)
 
@@ -108,7 +121,7 @@ class DialogFinFlutter(QDialog):
         # self.poissonInput.unit = self._shearUnits() #'Unit::ShearModulus'
         self.poissonInput.setMinimumWidth(100)
         self.poissonInput.setText("0.0")
-        self.poissonInput.textEdited.connect(self.onFlutter)
+        self.poissonInput.setEnabled(False)
 
         self.flutterGroup = QtGui.QGroupBox(translate('Rocket', "Fin Flutter"), self)
 
@@ -116,13 +129,12 @@ class DialogFinFlutter(QDialog):
 
         self.maxAltitudeCombo = QtGui.QComboBox(self)
 
-        self.altitudeLabel = QtGui.QLabel(translate('Rocket', "Target Altitude"), self)
+        self.altitudeLabel = QtGui.QLabel(translate('Rocket', "Altitude at Max Speed"), self)
 
         self.altitudeInput = ui.createWidget("Gui::InputField")
         self.altitudeInput.unit = 'Unit::Length'
         self.altitudeInput.setText("914.4m")
         self.altitudeInput.setMinimumWidth(100)
-        self.altitudeInput.textEdited.connect(self.onFlutter)
 
         self.altitudeSlider = QtGui.QSlider(QtCore.Qt.Horizontal, self)
 
@@ -139,7 +151,7 @@ class DialogFinFlutter(QDialog):
         self.divergenceLabel = QtGui.QLabel(translate('Rocket', "Divergence Speed"), self)
 
         self.divergenceInput = ui.createWidget("Gui::InputField")
-        self.divergenceInput.unit = "Unit::Velocity"
+        self.divergenceInput.unit = self._velocityUnits() #"Unit::Velocity"
         self.divergenceInput.setText("0")
         self.divergenceInput.setMinimumWidth(100)
         self.divergenceInput.setReadOnly(True)
@@ -164,7 +176,6 @@ class DialogFinFlutter(QDialog):
         okButton = QtGui.QPushButton('OK', self)
         okButton.setDefault(False)
         okButton.setAutoDefault(False)
-        okButton.clicked.connect(self.onOk)
 
         # Material group
         row = 0
@@ -243,6 +254,14 @@ class DialogFinFlutter(QDialog):
         layout.addLayout(line)
         self.setLayout(layout)
 
+        self.materialPresetCombo.currentTextChanged.connect(self.onMaterialChanged)
+        self.calculatedCheckbox.clicked.connect(self.onCalculated)
+        self.shearInput.textEdited.connect(self.onFlutter)
+        self.youngsInput.textEdited.connect(self.onFlutter)
+        self.poissonInput.textEdited.connect(self.onFlutter)
+        self.altitudeInput.textEdited.connect(self.onFlutter)
+        okButton.clicked.connect(self.onOk)
+
         # now make the window visible
         self.show()
     
@@ -281,6 +300,13 @@ class DialogFinFlutter(QDialog):
         self.youngsInput.setEnabled(True)
         self.poissonInput.setEnabled(True)
 
+    def calculateShear(self):
+        young = float(FreeCAD.Units.Quantity(self.youngsInput.text()).getValueAs(FreeCAD.Units.Pascal))
+        poisson = float(FreeCAD.Units.Quantity(self.poissonInput.text()))
+        shear = self._flutter.shearModulus(young, poisson)
+
+        self.shearInput.setText(FreeCAD.Units.Quantity(str(shear) + " Pa").UserString)
+
     def onMaterialChanged(self, card):
         "sets self._material from a card"
         # print("onMaterialChanged()")
@@ -304,17 +330,25 @@ class DialogFinFlutter(QDialog):
             if "ShearModulus" in self._material:
                 self.setShearSpecified()
             elif "YoungsModulus" in self._material and "PoissonRatio" in self._material:
-                young = float(FreeCAD.Units.Quantity(self._material["YoungsModulus"])) * 1000.0
-                poisson = float(FreeCAD.Units.Quantity(self._material["PoissonRatio"]))
-                shear = self._flutter.shearModulus(young, poisson)
+                # young = float(FreeCAD.Units.Quantity(self._material["YoungsModulus"])) * 1000.0
+                # poisson = float(FreeCAD.Units.Quantity(self._material["PoissonRatio"]))
+                # shear = self._flutter.shearModulus(young, poisson)
 
-                self.shearInput.setText(FreeCAD.Units.Quantity(str(shear) + " Pa").UserString)
+                # self.shearInput.setText(FreeCAD.Units.Quantity(str(shear) + " Pa").UserString)
                 self.setShearCalculated()
+                self.calculateShear()
             else:
                 self.setShearSpecified()
             print(self._material)
 
             self.onFlutter(None)
+        
+    def onCalculated(self, value):
+        if value:
+            self.setShearCalculated()
+        else:
+            self.setShearSpecified()
+        self.calculateShear()
 
     def _graphFlutter(self):
         pass
@@ -328,21 +362,13 @@ class DialogFinFlutter(QDialog):
             divergence = self._flutter.divergence(altitude, modulus)
 
             Vf = FreeCAD.Units.Quantity(str(flutter[1]) + " m/s")
-            # self.flutterInput.quantity = Vf
-            self.flutterInput.setText(Vf.UserString)
-            # self.flutterInput.setText(Vf.quantityString)
-            # self.flutterInput.setText(str(flutter[1]) + "m/s")
+            self.flutterInput.setText("{0:.2f}".format(float(Vf.getValueAs(FreeCAD.Units.Quantity(self._velocityUnits())))) + ' ' + self._velocityUnits())
             self.flutterMachInput.setText("{0:.2f}".format(flutter[0]))
 
             Vd = FreeCAD.Units.Quantity(str(divergence[1]) + " m/s")
-            print(self.divergenceInput.unit)
-            # # self.divergenceInput.quantity = Vd
-            print(Vd.getUserPreferred())
-            self.divergenceInput.setText(Vd.UserString)
-            # # self.divergenceInput.setText(Vd.getValueAs(self.divergenceInput.unit).UserString + ' ' + self.flutterInput.unit)
-            # print(Vd.getValueAs(FreeCAD.Units.Quantity(FreeCAD.Units.Unit(1,0,-1))))
-            # self.divergenceInput.setText(str(Vd.getValueAs(FreeCAD.Units.Quantity('m/s'))))
+            self.divergenceInput.setText("{0:.2f}".format(float(Vd.getValueAs(FreeCAD.Units.Quantity(self._velocityUnits())))) + ' ' + self._velocityUnits())
             self.divergenceMachInput.setText("{0:.2f}".format(divergence[0]))
+
         except ValueError:
             pass
 
