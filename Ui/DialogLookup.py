@@ -91,7 +91,7 @@ class DialogLookup(QtGui.QDialog):
         searchLabel = QtGui.QLabel(translate('Rocket', "Search"), self)
 
         self._searchInput = QtGui.QLineEdit(self)
-        self._searchInput.setFixedWidth(80)
+        self._searchInput.setMinimumWidth(80)
         self._searchInput.textEdited.connect(self.onSearch)
 
         lookupTypeLabel = QtGui.QLabel(translate('Rocket', "Component"), self)

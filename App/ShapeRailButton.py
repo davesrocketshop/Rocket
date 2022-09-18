@@ -106,5 +106,4 @@ class ShapeRailButton(ShapeComponent):
         return False
 
     def onChildEdited(self):
-        # print("%s: onChildEdited()" % (self.__class__.__name__))
         self._obj.Proxy.setEdited()

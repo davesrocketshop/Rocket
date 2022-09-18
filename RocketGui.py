@@ -35,6 +35,7 @@ from Ui.CmdBulkhead import CmdBulkhead
 from Ui.CmdLaunchGuides import CmdLaunchLug, CmdRailButton, CmdRailGuide, CmdStandOff
 from Ui.CmdFin import CmdFin
 from Ui.CmdFinCan import CmdFinCan
+from Ui.CmdParachute import CmdParachute
 
 # Calculators
 from Ui.CmdCalcBlackPowder import CmdCalcBlackPowder
@@ -44,6 +45,13 @@ from Ui.CmdCalcVentHoles import CmdCalcVentHoles
 
 # Rocket specific sketcher
 from Ui.CmdSketcher import CmdNewSketch
+
+# Template generators
+from Ui.CmdParachuteGore import CmdParachuteGore
+
+# Analysis
+from Ui.CmdFlutterAnalysis import CmdFinFlutter
+from Ui.CmdMaterialEditor import CmdMaterialEditor
 
 FreeCADGui.addCommand('Rocket_NoseCone', CmdNoseCone())
 FreeCADGui.addCommand('Rocket_Transition', CmdTransition())
@@ -59,12 +67,19 @@ FreeCADGui.addCommand('Rocket_RailButton', CmdRailButton())
 FreeCADGui.addCommand('Rocket_RailGuide', CmdRailGuide())
 FreeCADGui.addCommand('Rocket_Standoff', CmdStandOff())
 
+FreeCADGui.addCommand('Rocket_Parachute', CmdParachute())
+
 FreeCADGui.addCommand('Rocket_CalcBlackPowder', CmdCalcBlackPowder())
 FreeCADGui.addCommand('Rocket_CalcParachute', CmdCalcParachute())
 FreeCADGui.addCommand('Rocket_CalcThrustToWeight', CmdCalcThrustToWeight())
 FreeCADGui.addCommand('Rocket_CalcVentHoles', CmdCalcVentHoles())
 
 FreeCADGui.addCommand('Rocket_NewSketch', CmdNewSketch())
+
+FreeCADGui.addCommand('Rocket_ParachuteGore', CmdParachuteGore())
+
+FreeCADGui.addCommand('Rocket_FinFlutter', CmdFinFlutter())
+FreeCADGui.addCommand('Rocket_MaterialEditor', CmdMaterialEditor())
 
 class _CalculatorGroupCommand:
 

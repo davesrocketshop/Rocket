@@ -53,7 +53,6 @@ class FinEllipseShapeHandler(FinShapeHandler):
                     FreeCAD.Vector(midChord, thickness, 0))
             arc = Part.ArcOfEllipse(ellipse, -math.pi/2, math.pi/2)
         else:
-            print("half 1")
             ellipse = Part.Ellipse(FreeCAD.Vector(midChord - minor, thickness, 0), 
                     FreeCAD.Vector(midChord, thickness, major), 
                     FreeCAD.Vector(midChord, thickness, 0))
@@ -112,7 +111,6 @@ class FinEllipseShapeHandler(FinShapeHandler):
                 thickness = 2.0 * self._radiusAt(float(self._obj.RootThickness) / 2.0, float(self._obj.Height), height)
             else:
                 thickness = float(self._obj.RootThickness)
-            # print("%d:(%f,%f)" % (i, height, radius))
             ellipses.append(self._makeChordProfile(self._obj.RootCrossSection,
                 midChord + radius,
                 radius * 2.0,
@@ -126,7 +124,6 @@ class FinEllipseShapeHandler(FinShapeHandler):
 
         # The tip is a special case
         radius = 1e-6 # Really small radius
-        # print("last:(%f,%f)" % (float(self._obj.Height), radius))
         if tapered:
             thickness = radius
         else:

@@ -56,7 +56,7 @@ class DialogVentHole(QDialog):
 
         self.diameterInput = ui.createWidget("Gui::InputField")
         self.diameterInput.unit = 'mm'
-        self.diameterInput.setFixedWidth(100)
+        self.diameterInput.setMinimumWidth(100)
         self.diameterInput.setText("54.0")
         self.diameterInput.textEdited.connect(self.onDiameter)
 
@@ -64,14 +64,14 @@ class DialogVentHole(QDialog):
 
         self.lengthInput = ui.createWidget("Gui::InputField")
         self.lengthInput.unit = 'mm'
-        self.lengthInput.setFixedWidth(100)
+        self.lengthInput.setMinimumWidth(100)
         self.lengthInput.setText("1000.0")
         self.lengthInput.textEdited.connect(self.onLength)
 
         self.holeCountLabel = QtGui.QLabel(translate('Rocket', "Vent Hole Count"), self)
 
         self.holeCountSpinBox = QtGui.QSpinBox(self)
-        self.holeCountSpinBox.setFixedWidth(100)
+        self.holeCountSpinBox.setMinimumWidth(100)
         self.holeCountSpinBox.setMinimum(1)
         self.holeCountSpinBox.setMaximum(10000)
         self.holeCountSpinBox.setValue(3)
@@ -82,7 +82,7 @@ class DialogVentHole(QDialog):
         self.sizeInput = ui.createWidget("Gui::InputField")
         self.sizeInput.unit = 'mm'
         self.sizeInput.setText("49.0")
-        self.sizeInput.setFixedWidth(100)
+        self.sizeInput.setMinimumWidth(100)
         self.sizeInput.setReadOnly(True)
 
         # OK button

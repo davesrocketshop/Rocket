@@ -795,7 +795,6 @@ class TaskPanelFin(QObject):
 
     def clicked(self,button):
         if button == QtGui.QDialogButtonBox.Apply:
-            #print "Apply"
             self.transferTo()
             self.redraw() 
         

@@ -66,7 +66,7 @@ class DialogParachute(QDialog):
 
         self.weightInput = ui.createWidget("Gui::InputField")
         self.weightInput.unit = 'kg'
-        self.weightInput.setFixedWidth(100)
+        self.weightInput.setMinimumWidth(100)
         self.weightInput.setText("0.0")
         self.weightInput.textEdited.connect(self.onWeight)
 
@@ -75,7 +75,7 @@ class DialogParachute(QDialog):
         self.velocityInput = ui.createWidget("Gui::InputField")
         self.velocityInput.unit = "m/s"
         self.velocityInput.setText("6.1")
-        self.velocityInput.setFixedWidth(100)
+        self.velocityInput.setMinimumWidth(100)
         self.velocityInput.textEdited.connect(self.onVelocity)
 
         self.velocityTypes = (
@@ -92,7 +92,7 @@ class DialogParachute(QDialog):
 
         self.dragInput = QtGui.QLineEdit()
         self.dragInput.setText("0.75")
-        self.dragInput.setFixedWidth(100)
+        self.dragInput.setMinimumWidth(100)
         self.dragInput.textEdited.connect(self.onDrag)
 
         self.dragShapes = (
@@ -112,7 +112,7 @@ class DialogParachute(QDialog):
         self.diameterInput = QtGui.QLineEdit() # ui.createWidget("Gui::InputField")
         # self.diameterInput.unit = 'mm'
         self.diameterInput.setText("0.0 N")
-        self.diameterInput.setFixedWidth(100)
+        self.diameterInput.setMinimumWidth(100)
         # self.diameterInput.textEdited.connect(self.onDiameter)
         self.diameterInput.setReadOnly(True)
 
