@@ -40,7 +40,7 @@ class RocketWorkbench ( Workbench ):
                         ['Rocket_NoseCone', 'Rocket_Transition', 'Rocket_BodyTube', 'Rocket_CenteringRing', 'Rocket_Bulkhead', 'Rocket_Fin', 'Rocket_FinCan', 'Rocket_LaunchGuides', 
                         #'Rocket_Parachute',
                         'Separator', 'Rocket_Calculators', 'Separator', 'Rocket_NewSketch', 'Sketcher_EditSketch',
-                        'Separator', 'Rocket_ParachuteGore',
+                        #'Separator', 'Rocket_ParachuteGore',
                         'Separator', 'Rocket_FinFlutter', "Rocket_MaterialEditor"])
 
         self.appendMenu(QT_TRANSLATE_NOOP('Rocket', 'Rocket'), 
@@ -53,9 +53,9 @@ class RocketWorkbench ( Workbench ):
         self.appendMenu([QT_TRANSLATE_NOOP("Rocket", "Rocket"),
                          QT_TRANSLATE_NOOP("Rocket", "Calculators")],
                         ['Rocket_CalcBlackPowder', 'Rocket_CalcParachute', 'Rocket_CalcThrustToWeight', 'Rocket_CalcVentHoles'])
-        self.appendMenu([QT_TRANSLATE_NOOP("Rocket", "Rocket"),
-                         QT_TRANSLATE_NOOP("Rocket", "Templates")],
-                        ['Rocket_ParachuteGore'])
+        # self.appendMenu([QT_TRANSLATE_NOOP("Rocket", "Rocket"),
+        #                  QT_TRANSLATE_NOOP("Rocket", "Templates")],
+        #                 ['Rocket_ParachuteGore'])
         self.appendMenu([QT_TRANSLATE_NOOP("Rocket", "Rocket"),
                          QT_TRANSLATE_NOOP("Rocket", "Analysis")],
                         ['Rocket_FinFlutter', "Rocket_MaterialEditor"])
