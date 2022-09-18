@@ -32,7 +32,7 @@ from DraftTools import translate
 import importFCMat
 
 from PySide import QtGui, QtCore
-from PySide2.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QGridLayout, QGraphicsView
+from PySide2.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QGridLayout #, QGraphicsView
 
 from Analyzers.FinFlutter import FinFlutter
 

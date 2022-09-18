@@ -55,7 +55,8 @@ def coesa76(alts, alt_type='geometric'):
     # Test if altitudes are inside valid range
     check_altitude(zs,(-0.611,1e3),'warning')  
 
-    inds = np.zeros_like(zs,dtype=int)
+    # inds = np.zeros_like(zs,dtype=int)
+    np.zeros_like(zs,dtype=int)
     rhos,Ts,Ps = np.zeros((3,len(zs)))
 
     j = 0

@@ -27,7 +27,6 @@ __url__ = "https://www.davesrocketshop.com"
 import FreeCAD
 import FreeCADGui
 
-from App.Constants import FIN_TYPE_SKETCH
 from App.ShapeFin import ShapeFin
 from Ui.ViewParachute import ViewProviderParachute
 

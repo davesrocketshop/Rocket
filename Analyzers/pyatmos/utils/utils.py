@@ -7,9 +7,8 @@ def vectorize(x):
     Vectorize a number(int, float) or a list to a numpy array.
     '''
     try:
-        n = len(x)
         x = np.array(x)
-    except:
+    except Exception:
         x = np.array([x])
     return x    
           
