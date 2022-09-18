@@ -338,7 +338,7 @@ class DialogFinFlutter(QDialog):
                 self.calculateShear()
             else:
                 self.setShearSpecified()
-            print(self._material)
+            # print(self._material)
 
             self.onFlutter(None)
         

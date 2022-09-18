@@ -312,7 +312,6 @@ class FinShapeHandler:
     def _drawFin(self):
         fin = self._drawSingleFin()
         fin.translate(FreeCAD.Vector(0,0,float(self._obj.ParentRadius)))
-        # print ("Translate (%s,%s,%s)" % (0, 0, self._obj.ParentRadius))
         return Part.makeCompound([fin])
 
     def _drawFinSet(self):

@@ -46,7 +46,7 @@ def calcFinFlutter():
                     QtGui.QMessageBox.information(None, "", str(ex))
                 return
 
-    print('Please select a fin first')
+    QtGui.QMessageBox.information(None, "", translate('Rocket', "Please select a fin first"))
 
 class CmdFinFlutter:
     def Activated(self):
