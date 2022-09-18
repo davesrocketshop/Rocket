@@ -29,6 +29,8 @@ import FreeCADGui
 
 from DraftTools import translate
 
+from PySide import QtGui
+
 from Ui.DialogFinFlutter import DialogFinFlutter
 
 def calcFinFlutter():
@@ -37,8 +39,11 @@ def calcFinFlutter():
     for fin in FreeCADGui.Selection.getSelection():
         if fin.isDerivedFrom('Part::FeaturePython'):
             if hasattr(fin,"FinType"):
-                form = DialogFinFlutter(fin)
-                form.exec_()
+                try:
+                    form = DialogFinFlutter(fin)
+                    form.exec_()
+                except TypeError as ex:
+                    QtGui.QMessageBox.information(None, "", str(ex))
                 return
 
     print('Please select a fin first')

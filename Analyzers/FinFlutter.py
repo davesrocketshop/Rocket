@@ -26,28 +26,43 @@ __url__ = "https://www.davesrocketshop.com"
     
 import math
 
+from DraftTools import translate
+
 from Analyzers.pyatmos import coesa76
 from Analyzers.pyatmos.utils.Const import p0, gamma, R_air
 
-from App.Constants import FIN_TYPE_TRAPEZOID
+from App.Constants import FIN_TYPE_TRAPEZOID, FIN_TYPE_ELLIPSE
 
 class FinFlutter:
 
     def __init__(self, fin):
         self._fin = fin
         
-        if fin.FinType != FIN_TYPE_TRAPEZOID:
-            raise TypeError("Only trapezoidal fins are supported at this time")
+        if fin.FinType == FIN_TYPE_TRAPEZOID:
 
-        # Convert from mm to m
-        self._tipChord = float(fin.TipChord) / 1000.0
-        self._rootChord = float(fin.RootChord) / 1000.0
-        self._thickness = float(fin.RootThickness) / 1000.0
-        self._span = float(fin.Height) / 1000.0
+            # Convert from mm to m
+            self._tipChord = float(fin.TipChord) / 1000.0
+            self._rootChord = float(fin.RootChord) / 1000.0
+            self._thickness = float(fin.RootThickness) / 1000.0
+            self._span = float(fin.Height) / 1000.0
 
-        self._area = (self._rootChord + self._tipChord) * self._span / 2.0
+            self._area = (self._rootChord + self._tipChord) * self._span / 2.0
+        elif fin.FinType == FIN_TYPE_ELLIPSE:
+            raise TypeError(translate('Rocket', "Elliptical fins are not supported at this time"))
+
+            # # Convert from mm to m
+            # self._tipChord = 0.0
+            # self._rootChord = float(fin.RootChord) / 1000.0
+            # self._thickness = float(fin.RootThickness) / 1000.0
+            # self._span = float(fin.Height) / 1000.0
+
+            # self._area = math.pi * (self._rootChord / 2.0) * self._span 
+        else:
+            raise TypeError(translate('Rocket', "Custom fins are not supported at this time"))
+
         self._aspectRatio = self._span**2 / self._area
         self._lambda = self._tipChord / self._rootChord
+
 
     def shearModulus(self, young, poisson):
         return young / (2.0 * (1.0 + poisson))
