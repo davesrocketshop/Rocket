@@ -138,7 +138,7 @@ class DialogFinFlutter(QDialog):
 
         self.altitudeSlider = QtGui.QSlider(QtCore.Qt.Horizontal, self)
 
-        self.chart = QGraphicsView(self)
+        # self.chart = QGraphicsView(self)
 
         self.flutterLabel = QtGui.QLabel(translate('Rocket', "Flutter Speed"), self)
 
@@ -219,10 +219,10 @@ class DialogFinFlutter(QDialog):
 
         vbox.addLayout(sliderLine)
 
-        graph = QHBoxLayout()
-        graph.addWidget(self.chart)
+        # graph = QHBoxLayout()
+        # graph.addWidget(self.chart)
 
-        vbox.addLayout(graph)
+        # vbox.addLayout(graph)
 
         # layout = QVBoxLayout()
         line = QGridLayout()

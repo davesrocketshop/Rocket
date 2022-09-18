@@ -18,9 +18,9 @@
 # *   USA                                                                   *
 # *                                                                         *
 # ***************************************************************************
-"""Class for drawing bulkheads"""
+"""Class for editing materials"""
 
-__title__ = "FreeCAD Bulkheads"
+__title__ = "FreeCAD Materials"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
     
@@ -39,4 +39,4 @@ class CmdMaterialEditor:
     def GetResources(self):
         return {'MenuText': translate("Rocket", 'Material editor'),
                 'ToolTip': translate("Rocket", 'Opens the FreeCAD material editor'),
-                'Pixmap': "Arch_Material_Group" }#FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Bulkhead.svg"}
+                'Pixmap': "Arch_Material_Group" }

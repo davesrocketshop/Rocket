@@ -38,13 +38,13 @@ class RocketWorkbench ( Workbench ):
         
         self.appendToolbar(QT_TRANSLATE_NOOP('Rocket', 'Rocket'),
                         ['Rocket_NoseCone', 'Rocket_Transition', 'Rocket_BodyTube', 'Rocket_CenteringRing', 'Rocket_Bulkhead', 'Rocket_Fin', 'Rocket_FinCan', 'Rocket_LaunchGuides', 
-                        'Rocket_Parachute',
+                        #'Rocket_Parachute',
                         'Separator', 'Rocket_Calculators', 'Separator', 'Rocket_NewSketch', 'Sketcher_EditSketch',
                         'Separator', 'Rocket_ParachuteGore',
                         'Separator', 'Rocket_FinFlutter', "Rocket_MaterialEditor"])
 
         self.appendMenu(QT_TRANSLATE_NOOP('Rocket', 'Rocket'), 
-                        ['Rocket_NoseCone', 'Rocket_Transition', 'Rocket_BodyTube', 'Rocket_CenteringRing', 'Rocket_Bulkhead', 'Rocket_Fin', 'Rocket_FinCan', 'Rocket_Parachute'])
+                        ['Rocket_NoseCone', 'Rocket_Transition', 'Rocket_BodyTube', 'Rocket_CenteringRing', 'Rocket_Bulkhead', 'Rocket_Fin', 'Rocket_FinCan']) #, 'Rocket_Parachute'])
         self.appendMenu([QT_TRANSLATE_NOOP('Rocket', 'Rocket'), 
                          QT_TRANSLATE_NOOP("Rocket", "Launch Guides")],
                         ['Rocket_LaunchLug', 'Rocket_RailButton', 'Rocket_RailGuide'])
