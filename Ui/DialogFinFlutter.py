@@ -97,7 +97,7 @@ class DialogFinFlutter(QDialog):
         self.materialPresetCombo = QtGui.QComboBox(self)
         self.fillExistingCombo()
 
-        self.shearLabel = QtGui.QLabel(translate('Rocket', "Sheer Modulus"), self)
+        self.shearLabel = QtGui.QLabel(translate('Rocket', "Shear Modulus"), self)
 
         self.shearInput = ui.createWidget("Gui::InputField")
         self.shearInput.unit = self._shearUnits() #'Unit::ShearModulus'
@@ -107,7 +107,7 @@ class DialogFinFlutter(QDialog):
         self.calculatedCheckbox = QtGui.QCheckBox(translate('Rocket', "Calculated"), self)
         self.calculatedCheckbox.setCheckState(QtCore.Qt.Unchecked)
 
-        self.youngsLabel = QtGui.QLabel(translate('Rocket', "Youngs Modulus"), self)
+        self.youngsLabel = QtGui.QLabel(translate('Rocket', "Young's Modulus"), self)
 
         self.youngsInput = ui.createWidget("Gui::InputField")
         self.youngsInput.unit = self._shearUnits() #'Unit::ShearModulus'
