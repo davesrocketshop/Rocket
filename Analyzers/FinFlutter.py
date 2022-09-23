@@ -31,27 +31,40 @@ from DraftTools import translate
 from Analyzers.pyatmos import coesa76
 from Analyzers.pyatmos.utils.Const import p0, gamma, R_air
 
-from App.Constants import FIN_TYPE_TRAPEZOID, FIN_TYPE_ELLIPSE
-from App.Constants import FIN_CROSS_SAME, FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE, \
-    FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE
+from App.Constants import FIN_TYPE_TRAPEZOID, FIN_TYPE_ELLIPSE, FIN_TYPE_SKETCH
+
+from App.FinTrapezoidShapeHandler import FinTrapezoidShapeHandler
+from App.FinEllipseShapeHandler import FinEllipseShapeHandler
+from App.FinSketchShapeHandler import FinSketchShapeHandler
 
 class FinFlutter:
 
     def __init__(self, fin):
         self._fin = fin
+
+        # Create the fin shape without any extras such as TTW tabs, fin cans, etc
+        # From this we can get properties such as CG, Volume, etc...
+        handler = None
+        if fin.FinType == FIN_TYPE_TRAPEZOID:
+            handler = FinTrapezoidShapeHandler(fin)
+        elif fin.FinType == FIN_TYPE_ELLIPSE:
+            handler = FinEllipseShapeHandler(fin)
+        elif fin.FinType == FIN_TYPE_SKETCH:
+            handler = FinSketchShapeHandler(fin)
+        self._Shape = handler.finOnlyShape()
         
         if fin.FinType == FIN_TYPE_TRAPEZOID:
 
             # Convert from mm to m
-            self._tipChord = float(fin.TipChord) / 1000.0
-            self._rootChord = float(fin.RootChord) / 1000.0
+            self._tipChord = self._fromMM(fin.TipChord)
+            self._rootChord = self._fromMM(fin.RootChord)
             if float(fin.RootThickness) != float(fin.TipThickness):
                 raise TypeError(translate('Rocket', "Tapered thickness fins are not supported at this time"))
-            self._thickness = self._chordAreaThickness(fin)
-            print("Thickness %f, adjusted %f" % (float(fin.RootThickness) / 1000.0, self._thickness))
 
-            self._span = float(fin.Height) / 1000.0
+            self._span = self._fromMM(fin.Height)
             self._area = (self._rootChord + self._tipChord) * self._span / 2.0
+            self._volume = float(self._Shape.Volume) * 1e-9 # mm^3 to m^3
+            self._thickness = self._volume / self._area
 
         elif fin.FinType == FIN_TYPE_ELLIPSE:
             raise TypeError(translate('Rocket', "Elliptical fins are not supported at this time"))
@@ -68,49 +81,9 @@ class FinFlutter:
 
         self._aspectRatio = self._span**2 / self._area
         self._lambda = self._tipChord / self._rootChord
-            
-    def _airfoilArea(self, chord, maxThickness):
-        # NACA symmetrical airfoil https://en.wikipedia.org/wiki/NACA_airfoil
-        # y = 5 * maxThickness * ((0.2969 * math.sqrt(x)) - (0.1260 * x) - (0.3516 * x * x) + (0.2843 * x * x * x) - (0.1015 * x * x * x * x))
 
-        # integral of y on 0..1
-        # y = 5 * maxThickness * (0.2969 * math.sqrt(x) + x * (-0.1260 +  x * (-0.3516 + x * (0.2843 - x * 0.1015))))
-        # normalized = 5 * maxThickness * 0.06851
-        return 0.3425 * maxThickness * chord
-
-    def _chordArea(self, crossSection, chord, thickness):
-        if crossSection == FIN_CROSS_SQUARE:
-            return thickness * chord
-        elif crossSection == FIN_CROSS_ROUND:
-            return math.pi * (thickness * chord) / 4.0
-        elif crossSection == FIN_CROSS_AIRFOIL:
-            return 2 * self._airfoilArea(chord, thickness/2.0)
-        elif crossSection == FIN_CROSS_WEDGE:
-            return (thickness * chord) / 2.0
-        elif crossSection == FIN_CROSS_DIAMOND:
-            return (thickness * chord) / 2.0 # May not be symettric
-        elif crossSection == FIN_CROSS_TAPER_LE:
-            return thickness * chord
-        elif crossSection == FIN_CROSS_TAPER_TE:
-            return thickness * chord
-        elif crossSection == FIN_CROSS_TAPER_LETE:
-            return thickness * chord
-        else:
-            raise ValueError(translate('Rocket', "Unrecognized fin cross section"))
-        return 0.0
-
-    def _chordAreaThickness(self, fin):
-        # Returns an equivalent square fin thickness for non-square fins
-        rootArea = self._chordArea(fin.RootCrossSection, float(fin.RootChord) / 1000.0, float(fin.RootThickness) / 1000.0)
-        # if fin.TipCrossSection == FIN_CROSS_SAME:
-        #     tipArea = self._chordArea(fin.RootCrossSection, float(fin.TipChord) / 1000.0, float(fin.TipThickness) / 1000.0)
-        # else:
-        #     tipArea = self._chordArea(fin.TipCrossSection, float(fin.TipChord) / 1000.0, float(fin.TipThickness) / 1000.0)
-
-        # print("area %f, root %f, tip %f, calc %f" % (area, rootArea, tipArea, (2 * area / (rootArea + tipArea))))
-
-        # return 2 * area / (rootArea + tipArea)
-        return rootArea / (float(fin.RootChord) / 1000.0)
+    def _fromMM(self, value):
+        return float(value) / 1000.0
 
     def shearModulus(self, young, poisson):
         return young / (2.0 * (1.0 + poisson))
