@@ -274,14 +274,22 @@ class FinShapeHandler:
         # Override this id we have a "masking" shape
         return None
 
-    def _drawFinDebug(self, debug):
+    def finOnlyShape(self):
+        fin = self._finOnlyShape(FIN_DEBUG_FULL)
+        return Part.makeCompound([fin])
+
+    def _finOnlyShape(self, debug):
+        #
+        # Return the shape of a single fin with no additions, such as fin tabs, fin cans, etc
+        #
+        # This can be used to determine characteristics such as mass, cg, and volume
+        loft = None
         profiles = self._makeProfiles()
         if profiles is not None and len(profiles) > 0:
             if isinstance(profiles[0], list):
                 # Using a compound instead of a fuse makes drawing much faster, but also leads to
                 # a number of 'BOPAlgo SelfIntersect' errors. Se we stick with the fuse
 
-                loft = None
                 for profile in profiles:
                     if loft is None:
                         loft = Part.makeLoft(profile, True)
@@ -297,12 +305,17 @@ class FinShapeHandler:
                 elif mask is not None and (debug != FIN_DEBUG_PROFILE_ONLY):
                     loft = loft.common(mask)
 
-                if self._obj.Ttw:
-                    ttw = self._makeTtw()
-                    if ttw:
-                        loft = loft = loft.fuse(ttw)
-
         return loft
+
+    def _drawFinDebug(self, debug):
+        fin = self._finOnlyShape(debug)
+        if fin is not None:
+            if self._obj.Ttw:
+                ttw = self._makeTtw()
+                if ttw:
+                    fin = fin.fuse(ttw)
+
+        return fin
 
     def _drawSingleFin(self):
         if hasattr(self._obj,"DebugSketch"):

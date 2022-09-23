@@ -31,22 +31,41 @@ from DraftTools import translate
 from Analyzers.pyatmos import coesa76
 from Analyzers.pyatmos.utils.Const import p0, gamma, R_air
 
-from App.Constants import FIN_TYPE_TRAPEZOID, FIN_TYPE_ELLIPSE
+from App.Constants import FIN_TYPE_TRAPEZOID, FIN_TYPE_ELLIPSE, FIN_TYPE_SKETCH
+
+from App.FinTrapezoidShapeHandler import FinTrapezoidShapeHandler
+from App.FinEllipseShapeHandler import FinEllipseShapeHandler
+from App.FinSketchShapeHandler import FinSketchShapeHandler
 
 class FinFlutter:
 
     def __init__(self, fin):
         self._fin = fin
+
+        # Create the fin shape without any extras such as TTW tabs, fin cans, etc
+        # From this we can get properties such as CG, Volume, etc...
+        handler = None
+        if fin.FinType == FIN_TYPE_TRAPEZOID:
+            handler = FinTrapezoidShapeHandler(fin)
+        elif fin.FinType == FIN_TYPE_ELLIPSE:
+            handler = FinEllipseShapeHandler(fin)
+        elif fin.FinType == FIN_TYPE_SKETCH:
+            handler = FinSketchShapeHandler(fin)
+        self._Shape = handler.finOnlyShape()
         
         if fin.FinType == FIN_TYPE_TRAPEZOID:
 
             # Convert from mm to m
-            self._tipChord = float(fin.TipChord) / 1000.0
-            self._rootChord = float(fin.RootChord) / 1000.0
-            self._thickness = float(fin.RootThickness) / 1000.0
-            self._span = float(fin.Height) / 1000.0
+            self._tipChord = self._fromMM(fin.TipChord)
+            self._rootChord = self._fromMM(fin.RootChord)
+            if float(fin.RootThickness) != float(fin.TipThickness):
+                raise TypeError(translate('Rocket', "Tapered thickness fins are not supported at this time"))
 
+            self._span = self._fromMM(fin.Height)
             self._area = (self._rootChord + self._tipChord) * self._span / 2.0
+            self._volume = float(self._Shape.Volume) * 1e-9 # mm^3 to m^3
+            self._thickness = self._volume / self._area
+
         elif fin.FinType == FIN_TYPE_ELLIPSE:
             raise TypeError(translate('Rocket', "Elliptical fins are not supported at this time"))
 
@@ -63,6 +82,8 @@ class FinFlutter:
         self._aspectRatio = self._span**2 / self._area
         self._lambda = self._tipChord / self._rootChord
 
+    def _fromMM(self, value):
+        return float(value) / 1000.0
 
     def shearModulus(self, young, poisson):
         return young / (2.0 * (1.0 + poisson))

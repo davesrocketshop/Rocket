@@ -671,17 +671,17 @@
     <message>
       <location filename="ShapeNoseCone.py" line="97"/>
       <source>Width of the nose cap bar</source>
-      <translation type="unfinished">Width of the nose cap bar</translation>
+      <translation>Largeur de la barre du cône de pénétration</translation>
     </message>
     <message>
       <location filename="ShapeNoseCone.py" line="145"/>
       <source>Nose cone cap style</source>
-      <translation type="unfinished">Nose cone cap style</translation>
+      <translation>Style du cône de pénétration</translation>
     </message>
     <message>
       <location filename="ShapeFinCan.py" line="80"/>
       <source>Length of the launch lug</source>
-      <translation type="unfinished">Length of the launch lug</translation>
+      <translation>Longueur du sabot de lancement</translation>
     </message>
   </context>
   <context>
@@ -822,7 +822,7 @@
       <translation>Description</translation>
     </message>
     <message>
-      <location filename="TaskPanelDatabase.py" line="65"/>
+      <location filename="DialogFinFlutter.py" line="93"/>
       <source>Material</source>
       <translation>Matériau</translation>
     </message>
@@ -937,12 +937,12 @@
       <translation>Épaulement arrière</translation>
     </message>
     <message>
-      <location filename="InitGui.py" line="50"/>
+      <location filename="InitGui.py" line="59"/>
       <source>Rocket</source>
       <translation>Fusée</translation>
     </message>
     <message>
-      <location filename="RocketGui.py" line="76"/>
+      <location filename="RocketGui.py" line="91"/>
       <source>Calculators</source>
       <translation>Calculateurs</translation>
     </message>
@@ -1062,7 +1062,7 @@
       <translation>L'épaisseur ATLM doit être supérieure à 0</translation>
     </message>
     <message>
-      <location filename="FinShapeHandler.py" line="342"/>
+      <location filename="FinShapeHandler.py" line="354"/>
       <source>Fin parameters produce an invalid shape</source>
       <translation>Les paramètres d'ailette produisent une forme invalide</translation>
     </message>
@@ -1227,12 +1227,12 @@
       <translation>Conception d'anneau de centrage</translation>
     </message>
     <message>
-      <location filename="CmdFin.py" line="73"/>
+      <location filename="CmdParachuteDesigner.py" line="73"/>
       <source>Fin</source>
       <translation>Ailette</translation>
     </message>
     <message>
-      <location filename="CmdFin.py" line="74"/>
+      <location filename="CmdParachuteDesigner.py" line="74"/>
       <source>Fin design</source>
       <translation>Conception d'ailette</translation>
     </message>
@@ -1497,7 +1497,7 @@
       <translation>Créer une nouvelle esquisse</translation>
     </message>
     <message>
-      <location filename="RocketGui.py" line="90"/>
+      <location filename="RocketGui.py" line="105"/>
       <source>Launch Guides</source>
       <translation>Guides de lancement</translation>
     </message>
@@ -1924,22 +1924,142 @@
     <message>
       <location filename="NoseShapeHandler.py" line="187"/>
       <source>Nose cone cap style produces an invalid shape</source>
-      <translation type="unfinished">Nose cone cap style produces an invalid shape</translation>
+      <translation>Le style du cône de pénétration produit une forme invalide</translation>
     </message>
     <message>
       <location filename="TaskPanelNoseCone.py" line="140"/>
       <source>Nose Cap</source>
-      <translation type="unfinished">Nose Cap</translation>
+      <translation>Cône de pénétration</translation>
     </message>
     <message>
       <location filename="TaskPanelNoseCone.py" line="142"/>
       <source>Cap style</source>
-      <translation type="unfinished">Cap style</translation>
+      <translation>Style de la capsule</translation>
     </message>
     <message>
       <location filename="TaskPanelNoseCone.py" line="150"/>
       <source>Bar Width</source>
-      <translation type="unfinished">Bar Width</translation>
+      <translation>Largeur de la barre</translation>
+    </message>
+    <message>
+      <location filename="FinFlutter.py" line="70"/>
+      <source>Elliptical fins are not supported at this time</source>
+      <translation>Les ailerons elliptiques ne sont pas pris en charge pour l'instant</translation>
+    </message>
+    <message>
+      <location filename="FinFlutter.py" line="80"/>
+      <source>Custom fins are not supported at this time</source>
+      <translation>Les ailerons personnalisés ne sont pas pris en charge pour l'instant</translation>
+    </message>
+    <message>
+      <location filename="InitGui.py" line="60"/>
+      <source>Analysis</source>
+      <translation>Analyse</translation>
+    </message>
+    <message>
+      <location filename="CmdMaterialEditor.py" line="40"/>
+      <source>Material editor</source>
+      <translation>Éditeur de matériaux</translation>
+    </message>
+    <message>
+      <location filename="CmdMaterialEditor.py" line="41"/>
+      <source>Opens the FreeCAD material editor</source>
+      <translation>Ouvre l’éditeur de matériaux de FreeCAD</translation>
+    </message>
+    <message>
+      <location filename="CmdFlutterAnalysis.py" line="61"/>
+      <source>Fin Flutter Analysis</source>
+      <translation>Analyse du flottement des ailerons</translation>
+    </message>
+    <message>
+      <location filename="DialogFinFlutter.py" line="95"/>
+      <source>Preset</source>
+      <translation>Préréglage</translation>
+    </message>
+    <message>
+      <location filename="DialogFinFlutter.py" line="107"/>
+      <source>Calculated</source>
+      <translation>Calculé</translation>
+    </message>
+    <message>
+      <location filename="DialogFinFlutter.py" line="118"/>
+      <source>Poisson Ratio</source>
+      <translation>Coefficient de Poisson</translation>
+    </message>
+    <message>
+      <location filename="DialogFinFlutter.py" line="125"/>
+      <source>Fin Flutter</source>
+      <translation>Flottement des ailerons</translation>
+    </message>
+    <message>
+      <location filename="DialogFinFlutter.py" line="127"/>
+      <source>Maximum Altitude</source>
+      <translation>Altitude maximale</translation>
+    </message>
+    <message>
+      <location filename="DialogFinFlutter.py" line="132"/>
+      <source>Altitude at Max Speed</source>
+      <translation>Altitude à la vitesse maximale</translation>
+    </message>
+    <message>
+      <location filename="DialogFinFlutter.py" line="143"/>
+      <source>Flutter Speed</source>
+      <translation>Vitesse de flottement</translation>
+    </message>
+    <message>
+      <location filename="DialogFinFlutter.py" line="151"/>
+      <source>Divergence Speed</source>
+      <translation>Vitesse de divergence</translation>
+    </message>
+    <message>
+      <location filename="DialogFinFlutter.py" line="166"/>
+      <source>Mach</source>
+      <translation>Mach</translation>
+    </message>
+    <message>
+      <location filename="CmdFlutterAnalysis.py" line="49"/>
+      <source>Please select a fin first</source>
+      <translation>Veuillez d'abord sélectionner un aileron</translation>
+    </message>
+    <message>
+      <location filename="CmdFlutterAnalysis.py" line="62"/>
+      <source>Calculate fin flutter</source>
+      <translation>Calculer le flottement des ailerons</translation>
+    </message>
+    <message>
+      <location filename="CmdParachute.py" line="64"/>
+      <source>Parachute</source>
+      <translation>Parachute</translation>
+    </message>
+    <message>
+      <location filename="CmdParachute.py" line="65"/>
+      <source>Parachute design</source>
+      <translation>Conception du parachute</translation>
+    </message>
+    <message>
+      <location filename="CmdParachuteGore.py" line="65"/>
+      <source>Parachute Gore</source>
+      <translation>Fuseau du parachute</translation>
+    </message>
+    <message>
+      <location filename="CmdParachuteGore.py" line="66"/>
+      <source>Parachute gore design</source>
+      <translation>Conception des fuseaux du parachute</translation>
+    </message>
+    <message>
+      <location filename="FinFlutter.py" line="62"/>
+      <source>Tapered thickness fins are not supported at this time</source>
+      <translation type="unfinished">Tapered thickness fins are not supported at this time</translation>
+    </message>
+    <message>
+      <location filename="DialogFinFlutter.py" line="100"/>
+      <source>Shear Modulus</source>
+      <translation type="unfinished">Shear Modulus</translation>
+    </message>
+    <message>
+      <location filename="DialogFinFlutter.py" line="110"/>
+      <source>Young&apos;s Modulus</source>
+      <translation type="unfinished">Young&apos;s Modulus</translation>
     </message>
   </context>
 </TS>
