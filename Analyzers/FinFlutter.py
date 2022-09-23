@@ -66,6 +66,11 @@ class FinFlutter:
             self._volume = float(self._Shape.Volume) * 1e-9 # mm^3 to m^3
             self._thickness = self._volume / self._area
 
+            cg = self._Shape.CenterOfGravity
+            print("CG(%f, %fm %f)" % (cg.x, cg.y, cg.z))
+            self._epsilon = math.fabs((0.75 * self._rootChord) - self._fromMM(cg.x)) / self._rootChord # Does this work for forward sweeps?
+            print("epsilon %f" % (self._epsilon))
+
         elif fin.FinType == FIN_TYPE_ELLIPSE:
             raise TypeError(translate('Rocket', "Elliptical fins are not supported at this time"))
 
