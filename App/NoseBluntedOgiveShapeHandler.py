@@ -150,20 +150,20 @@ class NoseBluntedOgiveShapeHandler(NoseShapeHandler):
 
     def drawCapped(self):
         last = self._length - self._thickness
+        minor_y = self._radius - self._thickness
 
         outer_curve = self.getCurve(self._length, self._radius, self._noseRadius)
-        inner_curve = self.getCurve(self._length - self._thickness, self._radius - self._thickness, self._noseRadius - self._thickness, self._thickness)
-        minor_y = self._offsetRadius # Only valid immediately after call to getCurve()
+        inner_curve = self.getCurve(self._length - self._thickness, minor_y, self._noseRadius - self._thickness, self._thickness)
 
         edges = self.cappedLines(last, minor_y, outer_curve, inner_curve)
         return edges
 
     def drawCappedShoulder(self):
         last = self._length - self._thickness
+        minor_y = self._radius - self._thickness
 
         outer_curve = self.getCurve(self._length, self._radius, self._noseRadius)
-        inner_curve = self.getCurve(self._length - self._thickness, self._radius - self._thickness, self._noseRadius - self._thickness, self._thickness)
-        minor_y = self._offsetRadius # Only valid immediately after call to getCurve()
+        inner_curve = self.getCurve(self._length - self._thickness, minor_y, self._noseRadius - self._thickness, self._thickness)
 
         edges = self.cappedShoulderLines(last, minor_y, outer_curve, inner_curve)
         return edges
