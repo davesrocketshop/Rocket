@@ -722,17 +722,17 @@
       <translation>Parámetro del cuerpo tubular</translation>
     </message>
     <message>
-      <location filename="TaskPanelRailButton.py" line="72"/>
+      <location filename="TaskPanelBodyTube.py" line="53"/>
       <source>Inner Diameter</source>
       <translation>Diámetro interno</translation>
     </message>
     <message>
-      <location filename="TaskPanelRailButton.py" line="66"/>
+      <location filename="TaskPanelBodyTube.py" line="59"/>
       <source>Outer Diameter</source>
       <translation>Diámetro externo</translation>
     </message>
     <message>
-      <location filename="TaskPanelNoseCone.py" line="226"/>
+      <location filename="TaskPanelTransition.py" line="209"/>
       <source>Length</source>
       <translation>Largo</translation>
     </message>
@@ -747,12 +747,12 @@
       <translation>Parámetro de mamparo</translation>
     </message>
     <message>
-      <location filename="TaskPanelBulkhead.py" line="113"/>
+      <location filename="TaskPanelTransition.py" line="203"/>
       <source>Diameter</source>
       <translation>Diámetro</translation>
     </message>
     <message>
-      <location filename="TaskPanelBulkhead.py" line="102"/>
+      <location filename="TaskPanelTransition.py" line="215"/>
       <source>Thickness</source>
       <translation>Espesor</translation>
     </message>
@@ -767,12 +767,12 @@
       <translation type="unfinished">Notched</translation>
     </message>
     <message>
-      <location filename="TaskPanelBulkhead.py" line="79"/>
+      <location filename="TaskPanelRailGuide.py" line="140"/>
       <source>Width</source>
       <translation>Ancho</translation>
     </message>
     <message>
-      <location filename="TaskPanelBulkhead.py" line="85"/>
+      <location filename="TaskPanelFinCan.py" line="185"/>
       <source>Height</source>
       <translation>Altura</translation>
     </message>
@@ -832,52 +832,52 @@
       <translation>Búsqueda...</translation>
     </message>
     <message>
-      <location filename="TaskPanelFin.py" line="51"/>
+      <location filename="TaskPanelFinCan.py" line="53"/>
       <source>Fin Parameter</source>
       <translation>Parámetro de aleta</translation>
     </message>
     <message>
-      <location filename="TaskPanelFin.py" line="71"/>
+      <location filename="TaskPanelFinCan.py" line="76"/>
       <source>Fin type</source>
       <translation>Tipo de aleta</translation>
     </message>
     <message>
-      <location filename="TaskPanelFin.py" line="84"/>
+      <location filename="TaskPanelFinCan.py" line="104"/>
       <source>Fin Root</source>
       <translation>Origen de aleta</translation>
     </message>
     <message>
-      <location filename="TaskPanelFin.py" line="129"/>
+      <location filename="TaskPanelFinCan.py" line="149"/>
       <source>Cross Section</source>
       <translation>Sección transversal</translation>
     </message>
     <message>
-      <location filename="TaskPanelFin.py" line="136"/>
+      <location filename="TaskPanelFinCan.py" line="156"/>
       <source>Chord</source>
       <translation>Cuerda</translation>
     </message>
     <message>
-      <location filename="TaskPanelFin.py" line="148"/>
+      <location filename="TaskPanelFinCan.py" line="168"/>
       <source>Use percentage</source>
       <translation>Porcentaje de uso</translation>
     </message>
     <message>
-      <location filename="TaskPanelFin.py" line="153"/>
+      <location filename="TaskPanelFinCan.py" line="173"/>
       <source>Length 1</source>
       <translation>Longitud 1</translation>
     </message>
     <message>
-      <location filename="TaskPanelFin.py" line="159"/>
+      <location filename="TaskPanelFinCan.py" line="179"/>
       <source>Length 2</source>
       <translation>Longitud 2</translation>
     </message>
     <message>
-      <location filename="TaskPanelFin.py" line="126"/>
+      <location filename="TaskPanelFinCan.py" line="146"/>
       <source>Fin Tip</source>
       <translation>Punta de aleta</translation>
     </message>
     <message>
-      <location filename="TaskPanelFin.py" line="172"/>
+      <location filename="TaskPanelFinCan.py" line="192"/>
       <source>Sweep Length</source>
       <translation>Longitud de barrido</translation>
     </message>
@@ -897,7 +897,7 @@
       <translation>Parámetro del cono de nariz</translation>
     </message>
     <message>
-      <location filename="TaskPanelNoseCone.py" line="214"/>
+      <location filename="TaskPanelTransition.py" line="56"/>
       <source>Shoulder</source>
       <translation type="unfinished">Shoulder</translation>
     </message>
@@ -1042,27 +1042,27 @@
       <translation>Los parámetros del anillo de centrado producen una forma no válida</translation>
     </message>
     <message>
-      <location filename="FinShapeHandler.py" line="256"/>
+      <location filename="FinShapeHandler.py" line="258"/>
       <source>Ttw offset must be less than the root chord</source>
       <translation>La compensación Ttw debe ser menor que la cuerda de origen</translation>
     </message>
     <message>
-      <location filename="FinShapeHandler.py" line="259"/>
+      <location filename="FinShapeHandler.py" line="261"/>
       <source>Ttw length must be greater than 0</source>
       <translation>La longitud de Ttw debe ser mayor que 0</translation>
     </message>
     <message>
-      <location filename="FinShapeHandler.py" line="262"/>
+      <location filename="FinShapeHandler.py" line="264"/>
       <source>Ttw height must be greater than 0</source>
       <translation>La altura de Ttw debe ser mayor que 0</translation>
     </message>
     <message>
-      <location filename="FinShapeHandler.py" line="265"/>
+      <location filename="FinShapeHandler.py" line="267"/>
       <source>Ttw thickness must be greater than 0</source>
       <translation>El espesor de Ttw debe ser mayor que 0</translation>
     </message>
     <message>
-      <location filename="FinShapeHandler.py" line="354"/>
+      <location filename="FinShapeHandler.py" line="356"/>
       <source>Fin parameters produce an invalid shape</source>
       <translation>Los parámetros de la aleta producen una forma no válida</translation>
     </message>
@@ -1267,27 +1267,12 @@
       <translation>Calculadora de carga de eyección</translation>
     </message>
     <message>
-      <location filename="DialogBlackPowder.py" line="66"/>
-      <source>
-        &lt;html&gt;
-        &lt;h1&gt;WARNING&lt;/h1&gt;
-        &lt;p&gt;This calculator is an estimate only. Ground test your ejection system before flying. In certain cases this calculation may overestimate the amount of powder required&lt;/p&gt;
-        &lt;/html&gt;
-        </source>
-      <translation>
-        &lt;html&gt;
-        &lt;h1&gt;ADVERTENCIA&lt;/h1&gt;
-        &lt;p&gt;Esta calculadora es solo una estimación. Pruebe en tierra su sistema de expulsión antes de volar. En ciertos casos, este cálculo puede sobrestimar la cantidad de polvo necesaria&lt;/p&gt;
-        &lt;/html&gt;
-        </translation>
-    </message>
-    <message>
-      <location filename="DialogBlackPowder.py" line="70"/>
+      <location filename="TaskPanelRailGuide.py" line="101"/>
       <source>Body Tube Diameter</source>
       <translation>Diámetro del cuerpo tubular</translation>
     </message>
     <message>
-      <location filename="DialogBlackPowder.py" line="78"/>
+      <location filename="DialogVentHoles.py" line="63"/>
       <source>Body Tube Length</source>
       <translation>Longitud del cuerpo tubular</translation>
     </message>
@@ -1537,12 +1522,12 @@
       <translation type="unfinished">Outer diameter must be greater than the inner diameter</translation>
     </message>
     <message>
-      <location filename="RailGuideShapeHandler.py" line="86"/>
+      <location filename="RailButtonShapeHandler.py" line="75"/>
       <source>Top thickness must be greater than zero</source>
       <translation type="unfinished">Top thickness must be greater than zero</translation>
     </message>
     <message>
-      <location filename="RailGuideShapeHandler.py" line="90"/>
+      <location filename="RailButtonShapeHandler.py" line="78"/>
       <source>Base thickness must be greater than zero</source>
       <translation type="unfinished">Base thickness must be greater than zero</translation>
     </message>
@@ -1632,7 +1617,7 @@
       <translation type="unfinished">Rail Guide parameters produce an invalid shape</translation>
     </message>
     <message>
-      <location filename="TaskPanelFinCan.py" line="418"/>
+      <location filename="CmdLaunchGuides.py" line="95"/>
       <source>Launch Lug</source>
       <translation type="unfinished">Launch Lug</translation>
     </message>
@@ -1697,17 +1682,17 @@
       <translation type="unfinished">Base Width</translation>
     </message>
     <message>
-      <location filename="TaskPanelRailButton.py" line="78"/>
+      <location filename="TaskPanelRailGuide.py" line="76"/>
       <source>Top Thickness</source>
       <translation type="unfinished">Top Thickness</translation>
     </message>
     <message>
-      <location filename="TaskPanelRailButton.py" line="84"/>
+      <location filename="TaskPanelRailGuide.py" line="82"/>
       <source>Base Thickness</source>
       <translation type="unfinished">Base Thickness</translation>
     </message>
     <message>
-      <location filename="TaskPanelRailButton.py" line="90"/>
+      <location filename="TaskPanelRailGuide.py" line="88"/>
       <source>Total Thickness</source>
       <translation type="unfinished">Total Thickness</translation>
     </message>
@@ -1742,7 +1727,7 @@
       <translation type="unfinished">Depth</translation>
     </message>
     <message>
-      <location filename="TaskPanelNoseCone.py" line="56"/>
+      <location filename="TaskPanelTransition.py" line="55"/>
       <source>General</source>
       <translation type="unfinished">General</translation>
     </message>
@@ -1752,12 +1737,12 @@
       <translation type="unfinished">Transition Shape</translation>
     </message>
     <message>
-      <location filename="TaskPanelNoseCone.py" line="117"/>
+      <location filename="TaskPanelTransition.py" line="86"/>
       <source>Shape Parameter</source>
       <translation type="unfinished">Shape Parameter</translation>
     </message>
     <message>
-      <location filename="TaskPanelNoseCone.py" line="88"/>
+      <location filename="TaskPanelTransition.py" line="97"/>
       <source>Style</source>
       <translation type="unfinished">Style</translation>
     </message>
@@ -1787,7 +1772,7 @@
       <translation type="unfinished">Shank Diameter</translation>
     </message>
     <message>
-      <location filename="TaskPanelRailButton.py" line="128"/>
+      <location filename="TaskPanelFinCan.py" line="427"/>
       <source>Presets</source>
       <translation type="unfinished">Presets</translation>
     </message>
@@ -1867,7 +1852,7 @@
       <translation type="unfinished">Fins</translation>
     </message>
     <message>
-      <location filename="CmdFinCan.py" line="73"/>
+      <location filename="TaskPanelFinCan.py" line="60"/>
       <source>Fin Can</source>
       <translation type="unfinished">Fin Can</translation>
     </message>
@@ -1942,12 +1927,17 @@
       <translation type="unfinished">Bar Width</translation>
     </message>
     <message>
-      <location filename="FinFlutter.py" line="70"/>
+      <location filename="FinFlutter.py" line="62"/>
+      <source>Tapered thickness fins are not supported at this time</source>
+      <translation type="unfinished">Tapered thickness fins are not supported at this time</translation>
+    </message>
+    <message>
+      <location filename="FinFlutter.py" line="78"/>
       <source>Elliptical fins are not supported at this time</source>
       <translation type="unfinished">Elliptical fins are not supported at this time</translation>
     </message>
     <message>
-      <location filename="FinFlutter.py" line="80"/>
+      <location filename="FinFlutter.py" line="88"/>
       <source>Custom fins are not supported at this time</source>
       <translation type="unfinished">Custom fins are not supported at this time</translation>
     </message>
@@ -1955,6 +1945,21 @@
       <location filename="InitGui.py" line="60"/>
       <source>Analysis</source>
       <translation type="unfinished">Analysis</translation>
+    </message>
+    <message>
+      <location filename="CmdFlutterAnalysis.py" line="49"/>
+      <source>Please select a fin first</source>
+      <translation type="unfinished">Please select a fin first</translation>
+    </message>
+    <message>
+      <location filename="DialogFinFlutter.py" line="89"/>
+      <source>Fin Flutter Analysis</source>
+      <translation type="unfinished">Fin Flutter Analysis</translation>
+    </message>
+    <message>
+      <location filename="CmdFlutterAnalysis.py" line="62"/>
+      <source>Calculate fin flutter</source>
+      <translation type="unfinished">Calculate fin flutter</translation>
     </message>
     <message>
       <location filename="CmdMaterialEditor.py" line="40"/>
@@ -1967,9 +1972,24 @@
       <translation type="unfinished">Opens the FreeCAD material editor</translation>
     </message>
     <message>
-      <location filename="CmdFlutterAnalysis.py" line="61"/>
-      <source>Fin Flutter Analysis</source>
-      <translation type="unfinished">Fin Flutter Analysis</translation>
+      <location filename="CmdParachute.py" line="64"/>
+      <source>Parachute</source>
+      <translation type="unfinished">Parachute</translation>
+    </message>
+    <message>
+      <location filename="CmdParachute.py" line="65"/>
+      <source>Parachute design</source>
+      <translation type="unfinished">Parachute design</translation>
+    </message>
+    <message>
+      <location filename="CmdParachuteGore.py" line="65"/>
+      <source>Parachute Gore</source>
+      <translation type="unfinished">Parachute Gore</translation>
+    </message>
+    <message>
+      <location filename="CmdParachuteGore.py" line="66"/>
+      <source>Parachute gore design</source>
+      <translation type="unfinished">Parachute gore design</translation>
     </message>
     <message>
       <location filename="DialogFinFlutter.py" line="95"/>
@@ -1977,9 +1997,19 @@
       <translation type="unfinished">Preset</translation>
     </message>
     <message>
+      <location filename="DialogFinFlutter.py" line="100"/>
+      <source>Shear Modulus</source>
+      <translation type="unfinished">Shear Modulus</translation>
+    </message>
+    <message>
       <location filename="DialogFinFlutter.py" line="107"/>
       <source>Calculated</source>
       <translation type="unfinished">Calculated</translation>
+    </message>
+    <message>
+      <location filename="DialogFinFlutter.py" line="110"/>
+      <source>Young&apos;s Modulus</source>
+      <translation type="unfinished">Young&apos;s Modulus</translation>
     </message>
     <message>
       <location filename="DialogFinFlutter.py" line="118"/>
@@ -2017,49 +2047,19 @@
       <translation type="unfinished">Mach</translation>
     </message>
     <message>
-      <location filename="CmdFlutterAnalysis.py" line="49"/>
-      <source>Please select a fin first</source>
-      <translation type="unfinished">Please select a fin first</translation>
-    </message>
-    <message>
-      <location filename="CmdFlutterAnalysis.py" line="62"/>
-      <source>Calculate fin flutter</source>
-      <translation type="unfinished">Calculate fin flutter</translation>
-    </message>
-    <message>
-      <location filename="CmdParachute.py" line="64"/>
-      <source>Parachute</source>
-      <translation type="unfinished">Parachute</translation>
-    </message>
-    <message>
-      <location filename="CmdParachute.py" line="65"/>
-      <source>Parachute design</source>
-      <translation type="unfinished">Parachute design</translation>
-    </message>
-    <message>
-      <location filename="CmdParachuteGore.py" line="65"/>
-      <source>Parachute Gore</source>
-      <translation type="unfinished">Parachute Gore</translation>
-    </message>
-    <message>
-      <location filename="CmdParachuteGore.py" line="66"/>
-      <source>Parachute gore design</source>
-      <translation type="unfinished">Parachute gore design</translation>
-    </message>
-    <message>
-      <location filename="FinFlutter.py" line="62"/>
-      <source>Tapered thickness fins are not supported at this time</source>
-      <translation type="unfinished">Tapered thickness fins are not supported at this time</translation>
-    </message>
-    <message>
-      <location filename="DialogFinFlutter.py" line="100"/>
-      <source>Shear Modulus</source>
-      <translation type="unfinished">Shear Modulus</translation>
-    </message>
-    <message>
-      <location filename="DialogFinFlutter.py" line="110"/>
-      <source>Young&apos;s Modulus</source>
-      <translation type="unfinished">Young&apos;s Modulus</translation>
+      <location filename="DialogBlackPowder.py" line="66"/>
+      <source>
+        &lt;html&gt;
+        &lt;h1&gt;WARNING&lt;/h1&gt;
+        &lt;p&gt;This calculator is an estimate only. Ground test your ejection system before flying. In certain cases this calculation may overestimate the amount of powder required&lt;/p&gt;
+        &lt;/html&gt;
+        </source>
+      <translation>
+        &lt;html&gt;
+        &lt;h1&gt;ADVERTENCIA&lt;/h1&gt;
+        &lt;p&gt;Esta calculadora es solo una estimación. Pruebe en tierra su sistema de expulsión antes de volar. En ciertos casos, este cálculo puede sobrestimar la cantidad de polvo necesaria&lt;/p&gt;
+        &lt;/html&gt;
+        </translation>
     </message>
   </context>
 </TS>
