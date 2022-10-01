@@ -77,21 +77,24 @@ class FinShapeHandler:
 
     def _airfoilCurve(self, foreX, chord, thickness, height, resolution):
         points = []
+        points1 = []
         for i in range(0, resolution):
             
             x = float(i) / float(resolution)
             y = self._airfoilY(x, thickness)
             points.append(FreeCAD.Vector(foreX - (x * chord), y, height))
+            points1.append(FreeCAD.Vector(foreX - (x * chord), -y, height))
 
         points.append(FreeCAD.Vector(foreX - chord, 0.0, height))
+        points1.append(FreeCAD.Vector(foreX - chord, 0.0, height))
 
-        # Circle back for the other side of the airfoil
-        for i in range(0, resolution):
-            vector = points[resolution - i]
-            points.append(FreeCAD.Vector(vector.x, -vector.y, vector.z))
-        points.append(FreeCAD.Vector(foreX, 0.0, height))
+        # Creating separate splines for each side of the airfoil adds extra reference
+        # points for lofting, reducing geometry errors
+        splines = []
+        splines.append(self._makeSpline(points).toShape())
+        splines.append(self._makeSpline(points1).toShape())
 
-        return points 
+        return splines 
 
     def _makeSpline(self, points):
         spline = Part.BSplineCurve()
@@ -111,10 +114,9 @@ class FinShapeHandler:
     def _makeChordProfileAirfoil(self, foreX, chord, thickness, height):
         # Standard NACA 4 digit symmetrical airfoil
 
-        points = self._airfoilCurve(foreX, chord, thickness, height, 100)
-        spline = self._makeSpline(points)
+        splines = self._airfoilCurve(foreX, chord, thickness, height, 100)
 
-        wire = Part.Wire([spline.toShape()])
+        wire = Part.Wire(splines)
         return wire
 
     def _makeChordProfileWedge(self, foreX, chord, thickness, height):
