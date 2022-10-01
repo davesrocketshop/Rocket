@@ -66,10 +66,13 @@ class FinFlutter:
             self._volume = float(self._Shape.Volume) * 1e-9 # mm^3 to m^3
             self._thickness = self._volume / self._area
 
-            cg = self._Shape.CenterOfGravity
-            print("CG(%f, %fm %f)" % (cg.x, cg.y, cg.z))
-            self._epsilon = math.fabs((0.75 * self._rootChord) - self._fromMM(cg.x)) / self._rootChord # Does this work for forward sweeps?
-            print("epsilon %f" % (self._epsilon))
+            # This is experimental. It's veracity still needs to be confirmed
+            # cg = self._Shape.CenterOfGravity
+            # print("CG(%f, %fm %f)" % (cg.x, cg.y, cg.z))
+            # self._epsilon = math.fabs((0.75 * self._rootChord) - self._fromMM(cg.x)) / self._rootChord # Does this work for forward sweeps?
+            # print("epsilon %f" % (self._epsilon))
+
+            # self._epsilon = self._epsilon / 0.25 # NACA Eqn 18 already has an epsilon value of 0.25, so need to compensate
 
         elif fin.FinType == FIN_TYPE_ELLIPSE:
             raise TypeError(translate('Rocket', "Elliptical fins are not supported at this time"))
@@ -117,6 +120,11 @@ class FinFlutter:
         # The coefficient is adjusted for SI units
         Vf = math.sqrt(shear / ((270964.068 * (self._aspectRatio**3)) / (pow(self._thickness / self._rootChord, 3) * (self._aspectRatio + 2)) * ((self._lambda + 1) / 2) * (pressure / p0)))
 
+        # This is experimental. Its validity is not yet confirmed
+        # Vfe = math.sqrt(shear / ((270964.068 * self._epsilon * (self._aspectRatio**3)) / (pow(self._thickness / self._rootChord, 3) * (self._aspectRatio + 2)) * ((self._lambda + 1) / 2) * (pressure / p0)))
+        # print("Vf %f" % (Vf))
+        # print("Vfe %f" % (Vfe))
+        
         # Flutter velocity in m/s
         Vfa = a * Vf
 
