@@ -701,7 +701,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="DialogParachute.py" line="42"/>
+        <location filename="DialogBlackPowder.py" line="38"/>
         <source>Custom</source>
         <translation type="unfinished"></translation>
     </message>
@@ -721,12 +721,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="TaskPanelRailButton.py" line="72"/>
+        <location filename="TaskPanelBodyTube.py" line="53"/>
         <source>Inner Diameter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="TaskPanelRailButton.py" line="66"/>
+        <location filename="TaskPanelBodyTube.py" line="59"/>
         <source>Outer Diameter</source>
         <translation type="unfinished"></translation>
     </message>
@@ -796,7 +796,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="TaskPanelFin.py" line="278"/>
+        <location filename="TaskPanelBulkhead.py" line="132"/>
         <source>Offset</source>
         <translation type="unfinished"></translation>
     </message>
@@ -821,7 +821,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="TaskPanelDatabase.py" line="65"/>
+        <location filename="DialogFinFlutter.py" line="93"/>
         <source>Material</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1041,27 +1041,27 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FinShapeHandler.py" line="256"/>
+        <location filename="FinShapeHandler.py" line="258"/>
         <source>Ttw offset must be less than the root chord</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FinShapeHandler.py" line="259"/>
+        <location filename="FinShapeHandler.py" line="261"/>
         <source>Ttw length must be greater than 0</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FinShapeHandler.py" line="262"/>
+        <location filename="FinShapeHandler.py" line="264"/>
         <source>Ttw height must be greater than 0</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FinShapeHandler.py" line="265"/>
+        <location filename="FinShapeHandler.py" line="267"/>
         <source>Ttw thickness must be greater than 0</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FinShapeHandler.py" line="354"/>
+        <location filename="FinShapeHandler.py" line="356"/>
         <source>Fin parameters produce an invalid shape</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1521,12 +1521,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="RailGuideShapeHandler.py" line="86"/>
+        <location filename="RailButtonShapeHandler.py" line="75"/>
         <source>Top thickness must be greater than zero</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="RailGuideShapeHandler.py" line="90"/>
+        <location filename="RailButtonShapeHandler.py" line="78"/>
         <source>Base thickness must be greater than zero</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1616,7 +1616,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="TaskPanelFinCan.py" line="418"/>
+        <location filename="CmdLaunchGuides.py" line="95"/>
         <source>Launch Lug</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1771,7 +1771,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="TaskPanelRailButton.py" line="128"/>
+        <location filename="TaskPanelFinCan.py" line="427"/>
         <source>Presets</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1931,12 +1931,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FinFlutter.py" line="70"/>
+        <location filename="FinFlutter.py" line="78"/>
         <source>Elliptical fins are not supported at this time</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FinFlutter.py" line="80"/>
+        <location filename="FinFlutter.py" line="88"/>
         <source>Custom fins are not supported at this time</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1988,16 +1988,6 @@
     <message>
         <location filename="CmdParachuteGore.py" line="66"/>
         <source>Parachute gore design</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="DialogBlackPowder.py" line="66"/>
-        <source><byte value="xd"/>
-        &lt;html&gt;<byte value="xd"/>
-        &lt;h1&gt;WARNING&lt;/h1&gt;<byte value="xd"/>
-        &lt;p&gt;This calculator is an estimate only. Ground test your ejection system before flying. In certain cases this calculation may overestimate the amount of powder required&lt;/p&gt;<byte value="xd"/>
-        &lt;/html&gt;<byte value="xd"/>
-        </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2053,6 +2043,16 @@
     <message>
         <location filename="DialogFinFlutter.py" line="166"/>
         <source>Mach</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="DialogBlackPowder.py" line="66"/>
+        <source>
+        &lt;html&gt;
+        &lt;h1&gt;WARNING&lt;/h1&gt;
+        &lt;p&gt;This calculator is an estimate only. Ground test your ejection system before flying. In certain cases this calculation may overestimate the amount of powder required&lt;/p&gt;
+        &lt;/html&gt;
+        </source>
         <translation type="unfinished"></translation>
     </message>
 </context>
