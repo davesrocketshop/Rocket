@@ -18,47 +18,29 @@
 # *   USA                                                                   *
 # *                                                                         *
 # ***************************************************************************
-"""Class for calculating fin flutter"""
+"""Base class for commands"""
 
-__title__ = "FreeCAD Fin Flutter Calculator"
+__title__ = "FreeCAD Commands"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
     
-import FreeCAD
 import FreeCADGui
 
-from DraftTools import translate
+class Command:
 
-from PySide import QtGui
+    def part_feature_selected(self):
+        if FreeCADGui.ActiveDocument is None:
+            return False
+        sel = FreeCADGui.Selection.getSelection()
+        if len(sel) == 1 and sel[0].isDerivedFrom("Part::Feature"):
+            return True
+        else:
+            return False
 
-from Ui.DialogFinFlutter import DialogFinFlutter
-from Ui.Commands.Command import Command
-
-def calcFinFlutter():
-
-    # See if we have a fin selected
-    for fin in FreeCADGui.Selection.getSelection():
-        if fin.isDerivedFrom('Part::FeaturePython'):
-            if hasattr(fin,"FinType"):
-                try:
-                    form = DialogFinFlutter(fin)
-                    form.exec_()
-                except TypeError as ex:
-                    QtGui.QMessageBox.information(None, "", str(ex))
-                return
-
-    QtGui.QMessageBox.information(None, "", translate('Rocket', "Please select a fin first"))
-
-class CmdFinFlutter(Command):
-    def Activated(self):
-        FreeCADGui.addModule("Ui.Commands.CmdFlutterAnalysis")
-        FreeCADGui.doCommand("Ui.Commands.CmdFlutterAnalysis.calcFinFlutter()")
-
-    def IsActive(self):
-        # Available when a part is selected
-        return self.part_fin_selected()
-        
-    def GetResources(self):
-        return {'MenuText': translate("Rocket", 'Fin Flutter Analysis'),
-                'ToolTip': translate("Rocket", 'Calculate fin flutter'),
-                'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_FinFlutter.svg"}
+    def part_fin_selected(self):
+        if FreeCADGui.ActiveDocument is not None:
+            sel = FreeCADGui.Selection.getSelection()
+            if len(sel) == 1 and sel[0].isDerivedFrom("Part::FeaturePython"):
+                if hasattr(sel[0],"FinType"):
+                    return True
+        return False

@@ -32,30 +32,72 @@ from DraftTools import translate
 from PySide import QtGui
 
 from Ui.DialogFinFlutter import DialogFinFlutter
+from Ui.Commands.Command import Command
 
-def calcFemAnalysis():
+import FemGui
+import ObjectsFem
+from femmesh.gmshtools import GmshTools as gt
 
-    # See if we have a fin selected. If so, this is a custom fin
+def createAnalysis():
+    doc = FreeCAD.ActiveDocument
+
+    analyzer = ObjectsFem.makeAnalysis(doc, 'Analysis')
+    FemGui.setActiveAnalysis(analyzer)
+
+    # create a CalculiX ccx tools solver for any new analysis
+    ObjectsFem.makeSolverCalculixCcxTools(doc)
+    analyzer.addObject(doc.ActiveObject)
+
+def doFemAnalysis():
+    doc = FreeCAD.ActiveDocument
+
+    # See if we have a fin selected
     for fin in FreeCADGui.Selection.getSelection():
         if fin.isDerivedFrom('Part::FeaturePython'):
             if hasattr(fin,"FinType"):
                 try:
-                    form = DialogFinFlutter(fin)
-                    form.exec_()
+                    # a mesh could be made with and without an analysis,
+                    # we're going to check not for an analysis in command manager module
+                    doc.openTransaction("Create FEM mesh by Gmsh")
+                    if FemGui.getActiveAnalysis() is None:
+                        createAnalysis()
+
+                    mesh_obj_name = fin.Name + "_Mesh" #"FEMMeshGmsh"
+                    # if requested by some people add Preference for this
+                    # mesh_obj_name = self.selobj.Name + "_Mesh"
+                    mesh = ObjectsFem.makeMeshGmsh(doc, mesh_obj_name)
+                    doc.ActiveObject.Part = fin
+
+                    # Gmsh mesh object could be added without an active analysis
+                    # but if there is an active analysis move it in there
+                    if FemGui.getActiveAnalysis():
+                        FemGui.getActiveAnalysis().addObject(doc.ActiveObject)
+
+                    FreeCADGui.Selection.clearSelection()
+                    doc.recompute()
+
+                    fin.ViewObject.Visibility = False
+                    doc.recompute()
+
+                    gmsh_mesh = gt(mesh)
+                    error = gmsh_mesh.create_mesh()
+                    print(error)
+                    doc.recompute()
+
                 except TypeError as ex:
                     QtGui.QMessageBox.information(None, "", str(ex))
                 return
 
     QtGui.QMessageBox.information(None, "", translate('Rocket', "Please select a fin first"))
 
-class CmdFemAnalysis:
+class CmdFemAnalysis(Command):
     def Activated(self):
         FreeCADGui.addModule("Ui.Commands.CmdFemAnalysis")
-        FreeCADGui.doCommand("Ui.Commands.CmdFemAnalysis.calcFemAnalysis()")
+        FreeCADGui.doCommand("Ui.Commands.CmdFemAnalysis.doFemAnalysis()")
 
     def IsActive(self):
         # Always available, even without active document
-        return True
+        return self.part_fin_selected()
         
     def GetResources(self):
         return {'MenuText': translate("Rocket", 'Fin FEM Analysis'),
