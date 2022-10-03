@@ -18,26 +18,27 @@
 # *   USA                                                                   *
 # *                                                                         *
 # ***************************************************************************
-"""Class for drawing centering rings"""
+"""Class for drawing transitions"""
 
-__title__ = "FreeCAD Centering Rings"
+__title__ = "FreeCAD Transitions"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
     
+
 import FreeCAD
 import FreeCADGui
 
-from App.ShapeCenteringRing import ShapeCenteringRing
-from Ui.ViewCenteringRing import ViewProviderCenteringRing
+from App.ShapeTransition import ShapeTransition
+from Ui.ViewTransition import ViewProviderTransition
 
 from DraftTools import translate
 
-def makeCenteringRing(name):
-    '''makeCenteringRing(name): makes a centering ring'''
+def makeTransition(name):
+    '''makeTransition(name): makes a Transition'''
     obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
-    ShapeCenteringRing(obj)
+    ShapeTransition(obj)
     if FreeCAD.GuiUp:
-        ViewProviderCenteringRing(obj.ViewObject)
+        ViewProviderTransition(obj.ViewObject)
 
         body=FreeCADGui.ActiveDocument.ActiveView.getActiveObject("pdbody")
         part=FreeCADGui.ActiveDocument.ActiveView.getActiveObject("part")
@@ -47,11 +48,11 @@ def makeCenteringRing(name):
             part.Group=part.Group+[obj]
     return obj
 
-class CmdCenteringRing:
+class CmdTransition:
     def Activated(self):
-        FreeCAD.ActiveDocument.openTransaction("Create centering ring")
-        FreeCADGui.addModule("Ui.CmdCenteringRing")
-        FreeCADGui.doCommand("Ui.CmdCenteringRing.makeCenteringRing('CenteringRing')")
+        FreeCAD.ActiveDocument.openTransaction("Create transition")
+        FreeCADGui.addModule("Ui.Commands.CmdTransition")
+        FreeCADGui.doCommand("Ui.Commands.CmdTransition.makeTransition('Transition')")
         FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
 
     def IsActive(self):
@@ -60,6 +61,6 @@ class CmdCenteringRing:
         return False
         
     def GetResources(self):
-        return {'MenuText': translate("Rocket", 'Centering Ring'),
-                'ToolTip': translate("Rocket", 'Centering Ring design'),
-                'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_CenteringRing.svg"}
+        return {'MenuText': translate("Rocket", 'Transition'),
+                'ToolTip': translate("Rocket", 'Transition design'),
+                'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Transition.svg"}

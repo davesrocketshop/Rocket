@@ -18,46 +18,48 @@
 # *   USA                                                                   *
 # *                                                                         *
 # ***************************************************************************
-"""Class for calculating ejection charge size"""
+"""Class for drawing body tubes"""
 
-__title__ = "FreeCAD Black Powder Calculator"
+__title__ = "FreeCAD Body Tubes"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
     
 import FreeCAD
 import FreeCADGui
 
+from App.ShapeBodyTube import ShapeBodyTube
+from Ui.ViewBodyTube import ViewProviderBodyTube
+
 from DraftTools import translate
 
-from PySide import QtGui
+def makeBodyTube(name):
+    '''makeBodyTube(name): makes a Body Tube'''
+    obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
+    ShapeBodyTube(obj)
+    if FreeCAD.GuiUp:
+        ViewProviderBodyTube(obj.ViewObject)
 
-from Ui.DialogFinFlutter import DialogFinFlutter
+        body=FreeCADGui.ActiveDocument.ActiveView.getActiveObject("pdbody")
+        part=FreeCADGui.ActiveDocument.ActiveView.getActiveObject("part")
+        if body:
+            body.Group=body.Group+[obj]
+        elif part:
+            part.Group=part.Group+[obj]
+    return obj
 
-def calcFinFlutter():
-
-    # See if we have a fin selected. If so, this is a custom fin
-    for fin in FreeCADGui.Selection.getSelection():
-        if fin.isDerivedFrom('Part::FeaturePython'):
-            if hasattr(fin,"FinType"):
-                try:
-                    form = DialogFinFlutter(fin)
-                    form.exec_()
-                except TypeError as ex:
-                    QtGui.QMessageBox.information(None, "", str(ex))
-                return
-
-    QtGui.QMessageBox.information(None, "", translate('Rocket', "Please select a fin first"))
-
-class CmdFinFlutter:
+class CmdBodyTube:
     def Activated(self):
-        FreeCADGui.addModule("Ui.CmdFlutterAnalysis")
-        FreeCADGui.doCommand("Ui.CmdFlutterAnalysis.calcFinFlutter()")
+        FreeCAD.ActiveDocument.openTransaction("Create body tube")
+        FreeCADGui.addModule("Ui.Commands.CmdBodyTube")
+        FreeCADGui.doCommand("Ui.Commands.CmdBodyTube.makeBodyTube('BodyTube')")
+        FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
 
     def IsActive(self):
-        # Always available, even without active document
-        return True
-        
+        if FreeCAD.ActiveDocument:
+            return True
+        return False
+            
     def GetResources(self):
-        return {'MenuText': translate("Rocket", 'Fin Flutter Analysis'),
-                'ToolTip': translate("Rocket", 'Calculate fin flutter'),
-                'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_FinFlutter.svg"}
+        return {'MenuText': translate("Rocket", 'Body Tube'),
+                'ToolTip': translate("Rocket", 'Body tube design'),
+                'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_BodyTube.svg"}

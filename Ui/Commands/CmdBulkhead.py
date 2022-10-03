@@ -18,33 +18,48 @@
 # *   USA                                                                   *
 # *                                                                         *
 # ***************************************************************************
-"""Class for calculating vent hole size"""
+"""Class for drawing bulkheads"""
 
-__title__ = "FreeCAD Vent Hole Calculator"
+__title__ = "FreeCAD Bulkheads"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
     
 import FreeCAD
 import FreeCADGui
 
+from App.ShapeBulkhead import ShapeBulkhead
+from Ui.ViewBulkhead import ViewProviderBulkhead
+
 from DraftTools import translate
 
-from Ui.DialogVentHoles import DialogVentHole
+def makeBulkhead(name):
+    '''makeBulkhead(name): makes a bulkhead'''
+    obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
+    ShapeBulkhead(obj)
+    if FreeCAD.GuiUp:
+        ViewProviderBulkhead(obj.ViewObject)
 
-def calcVentHoles():
-    form = DialogVentHole()
-    form.exec_()
+        body=FreeCADGui.ActiveDocument.ActiveView.getActiveObject("pdbody")
+        part=FreeCADGui.ActiveDocument.ActiveView.getActiveObject("part")
+        if body:
+            body.Group=body.Group+[obj]
+        elif part:
+            part.Group=part.Group+[obj]
+    return obj
 
-class CmdCalcVentHoles:
+class CmdBulkhead:
     def Activated(self):
-        FreeCADGui.addModule("Ui.CmdCalcVentHoles")
-        FreeCADGui.doCommand("Ui.CmdCalcVentHoles.calcVentHoles()")
+        FreeCAD.ActiveDocument.openTransaction("Create bulkhead")
+        FreeCADGui.addModule("Ui.Commands.CmdBulkhead")
+        FreeCADGui.doCommand("Ui.Commands.CmdBulkhead.makeBulkhead('Bulkhead')")
+        FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
 
     def IsActive(self):
-        # Always available, even without active document
-        return True
+        if FreeCAD.ActiveDocument:
+            return True
+        return False
         
     def GetResources(self):
-        return {'MenuText': translate("Rocket", 'Calculate vent hole size'),
-                'ToolTip': translate("Rocket", 'Calculate vent hole size'),
-                'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Calculator.svg"}
+        return {'MenuText': translate("Rocket", 'Bulkhead'),
+                'ToolTip': translate("Rocket", 'Bulkhead design'),
+                'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Bulkhead.svg"}

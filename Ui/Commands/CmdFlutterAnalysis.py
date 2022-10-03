@@ -18,9 +18,9 @@
 # *   USA                                                                   *
 # *                                                                         *
 # ***************************************************************************
-"""Class for calculatingparachute size"""
+"""Class for calculating fin flutter"""
 
-__title__ = "FreeCAD Parachute Calculator"
+__title__ = "FreeCAD Fin Flutter Calculator"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
     
@@ -29,26 +29,44 @@ import FreeCADGui
 
 from DraftTools import translate
 
-def newSketch():
-    obj = FreeCAD.ActiveDocument.addObject("Sketcher::SketchObject","Sketch")
-    # Select the XZ plane for consistency
-    obj.Placement = FreeCAD.Placement(FreeCAD.Vector(0, 0, 0), FreeCAD.Vector(1, 0, 0), 90)
-    obj.MapMode = "Deactivated"
-    FreeCADGui.activeDocument().setEdit(obj.Name,0)
+from PySide import QtGui
 
-    return obj
+from Ui.DialogFinFlutter import DialogFinFlutter
 
-class CmdNewSketch:
+def calcFinFlutter():
+
+    # See if we have a fin selected. If so, this is a custom fin
+    for fin in FreeCADGui.Selection.getSelection():
+        if fin.isDerivedFrom('Part::FeaturePython'):
+            if hasattr(fin,"FinType"):
+                try:
+                    form = DialogFinFlutter(fin)
+                    form.exec_()
+                except TypeError as ex:
+                    QtGui.QMessageBox.information(None, "", str(ex))
+                return
+
+    QtGui.QMessageBox.information(None, "", translate('Rocket', "Please select a fin first"))
+
+class CmdFinFlutter:
     def Activated(self):
-        FreeCADGui.addModule("Ui.CmdSketcher")
-        FreeCADGui.doCommand("Ui.CmdSketcher.newSketch()")
+        FreeCADGui.addModule("Ui.Commands.CmdFlutterAnalysis")
+        FreeCADGui.doCommand("Ui.Commands.CmdFlutterAnalysis.calcFinFlutter()")
 
     def IsActive(self):
-        if FreeCAD.ActiveDocument:
-            return True
-        return False
+        # Always available, even without active document
+        # return True
+        return FreeCADGui.ActiveDocument is not None and self.part_feature_selected()
         
     def GetResources(self):
-        return {'MenuText': translate("Rocket", 'Create sketch'),
-                'ToolTip': translate("Rocket", 'Create a new sketch'),
-                'Pixmap': "Sketcher_NewSketch" } #FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Calculator.svg"}
+        return {'MenuText': translate("Rocket", 'Fin Flutter Analysis'),
+                'ToolTip': translate("Rocket", 'Calculate fin flutter'),
+                'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_FinFlutter.svg"}
+
+    def part_feature_selected(self):
+        sel = FreeCADGui.Selection.getSelection()
+        if len(sel) == 1 and sel[0].isDerivedFrom("Part::Feature"):
+            # self.selobj = sel[0]
+            return True
+        else:
+            return False

@@ -37,8 +37,8 @@ def calcParachute():
 
 class CmdCalcParachute:
     def Activated(self):
-        FreeCADGui.addModule("Ui.CmdCalcParachute")
-        FreeCADGui.doCommand("Ui.CmdCalcParachute.calcParachute()")
+        FreeCADGui.addModule("Ui.Commands.CmdCalcParachute")
+        FreeCADGui.doCommand("Ui.Commands.CmdCalcParachute.calcParachute()")
 
     def IsActive(self):
         # Always available, even without active document

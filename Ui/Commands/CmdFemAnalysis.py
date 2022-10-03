@@ -18,49 +18,46 @@
 # *   USA                                                                   *
 # *                                                                         *
 # ***************************************************************************
-"""Class for drawing transitions"""
+"""Class for calculating fin flutter using FEM"""
 
-__title__ = "FreeCAD Transitions"
+__title__ = "FreeCAD FEM Analyzer"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
     
-
 import FreeCAD
 import FreeCADGui
 
-from App.ShapeTransition import ShapeTransition
-from Ui.ViewTransition import ViewProviderTransition
-
 from DraftTools import translate
 
-def makeTransition(name):
-    '''makeTransition(name): makes a Transition'''
-    obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
-    ShapeTransition(obj)
-    if FreeCAD.GuiUp:
-        ViewProviderTransition(obj.ViewObject)
+from PySide import QtGui
 
-        body=FreeCADGui.ActiveDocument.ActiveView.getActiveObject("pdbody")
-        part=FreeCADGui.ActiveDocument.ActiveView.getActiveObject("part")
-        if body:
-            body.Group=body.Group+[obj]
-        elif part:
-            part.Group=part.Group+[obj]
-    return obj
+from Ui.DialogFinFlutter import DialogFinFlutter
 
-class CmdTransition:
+def calcFemAnalysis():
+
+    # See if we have a fin selected. If so, this is a custom fin
+    for fin in FreeCADGui.Selection.getSelection():
+        if fin.isDerivedFrom('Part::FeaturePython'):
+            if hasattr(fin,"FinType"):
+                try:
+                    form = DialogFinFlutter(fin)
+                    form.exec_()
+                except TypeError as ex:
+                    QtGui.QMessageBox.information(None, "", str(ex))
+                return
+
+    QtGui.QMessageBox.information(None, "", translate('Rocket', "Please select a fin first"))
+
+class CmdFemAnalysis:
     def Activated(self):
-        FreeCAD.ActiveDocument.openTransaction("Create transition")
-        FreeCADGui.addModule("Ui.CmdTransition")
-        FreeCADGui.doCommand("Ui.CmdTransition.makeTransition('Transition')")
-        FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
+        FreeCADGui.addModule("Ui.Commands.CmdFemAnalysis")
+        FreeCADGui.doCommand("Ui.Commands.CmdFemAnalysis.calcFemAnalysis()")
 
     def IsActive(self):
-        if FreeCAD.ActiveDocument:
-            return True
-        return False
+        # Always available, even without active document
+        return True
         
     def GetResources(self):
-        return {'MenuText': translate("Rocket", 'Transition'),
-                'ToolTip': translate("Rocket", 'Transition design'),
-                'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Transition.svg"}
+        return {'MenuText': translate("Rocket", 'Fin FEM Analysis'),
+                'ToolTip': translate("Rocket", 'Fin FEM Analysis'),
+                'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_FinFem.svg"}

@@ -18,41 +18,30 @@
 # *   USA                                                                   *
 # *                                                                         *
 # ***************************************************************************
-"""Class for drawing bulkheads"""
+"""Class for calculatingparachute size"""
 
-__title__ = "FreeCAD Bulkheads"
+__title__ = "FreeCAD Parachute Calculator"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
     
 import FreeCAD
 import FreeCADGui
 
-from App.ShapeBulkhead import ShapeBulkhead
-from Ui.ViewBulkhead import ViewProviderBulkhead
-
 from DraftTools import translate
 
-def makeBulkhead(name):
-    '''makeBulkhead(name): makes a bulkhead'''
-    obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
-    ShapeBulkhead(obj)
-    if FreeCAD.GuiUp:
-        ViewProviderBulkhead(obj.ViewObject)
+def newSketch():
+    obj = FreeCAD.ActiveDocument.addObject("Sketcher::SketchObject","Sketch")
+    # Select the XZ plane for consistency
+    obj.Placement = FreeCAD.Placement(FreeCAD.Vector(0, 0, 0), FreeCAD.Vector(1, 0, 0), 90)
+    obj.MapMode = "Deactivated"
+    FreeCADGui.activeDocument().setEdit(obj.Name,0)
 
-        body=FreeCADGui.ActiveDocument.ActiveView.getActiveObject("pdbody")
-        part=FreeCADGui.ActiveDocument.ActiveView.getActiveObject("part")
-        if body:
-            body.Group=body.Group+[obj]
-        elif part:
-            part.Group=part.Group+[obj]
     return obj
 
-class CmdBulkhead:
+class CmdNewSketch:
     def Activated(self):
-        FreeCAD.ActiveDocument.openTransaction("Create bulkhead")
-        FreeCADGui.addModule("Ui.CmdBulkhead")
-        FreeCADGui.doCommand("Ui.CmdBulkhead.makeBulkhead('Bulkhead')")
-        FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
+        FreeCADGui.addModule("Ui.Commands.CmdSketcher")
+        FreeCADGui.doCommand("Ui.Commands.CmdSketcher.newSketch()")
 
     def IsActive(self):
         if FreeCAD.ActiveDocument:
@@ -60,6 +49,6 @@ class CmdBulkhead:
         return False
         
     def GetResources(self):
-        return {'MenuText': translate("Rocket", 'Bulkhead'),
-                'ToolTip': translate("Rocket", 'Bulkhead design'),
-                'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Bulkhead.svg"}
+        return {'MenuText': translate("Rocket", 'Create sketch'),
+                'ToolTip': translate("Rocket", 'Create a new sketch'),
+                'Pixmap': "Sketcher_NewSketch" } #FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Calculator.svg"}

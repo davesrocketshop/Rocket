@@ -18,26 +18,36 @@
 # *   USA                                                                   *
 # *                                                                         *
 # ***************************************************************************
-"""Class for drawing body tubes"""
+"""Class for drawing fins"""
 
-__title__ = "FreeCAD Body Tubes"
+__title__ = "FreeCAD Fins"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
     
 import FreeCAD
 import FreeCADGui
 
-from App.ShapeBodyTube import ShapeBodyTube
-from Ui.ViewBodyTube import ViewProviderBodyTube
+from App.Constants import FIN_TYPE_SKETCH
+from App.ShapeFin import ShapeFin
+from Ui.ViewFin import ViewProviderFin
+# import Sketcher
 
 from DraftTools import translate
 
-def makeBodyTube(name):
-    '''makeBodyTube(name): makes a Body Tube'''
+def makeFin(name):
+    '''makeFin(name): makes a Fin'''
     obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
-    ShapeBodyTube(obj)
+    ShapeFin(obj)
+
+    # See if we have a sketch selected. If so, this is a custom fin
+    for sketch in FreeCADGui.Selection.getSelection():
+        if sketch.isDerivedFrom('Sketcher::SketchObject'):
+            obj.FinType = FIN_TYPE_SKETCH
+            obj.Profile = sketch
+            sketch.Visibility = False
+
     if FreeCAD.GuiUp:
-        ViewProviderBodyTube(obj.ViewObject)
+        ViewProviderFin(obj.ViewObject)
 
         body=FreeCADGui.ActiveDocument.ActiveView.getActiveObject("pdbody")
         part=FreeCADGui.ActiveDocument.ActiveView.getActiveObject("part")
@@ -47,19 +57,19 @@ def makeBodyTube(name):
             part.Group=part.Group+[obj]
     return obj
 
-class CmdBodyTube:
+class CmdFin:
     def Activated(self):
-        FreeCAD.ActiveDocument.openTransaction("Create body tube")
-        FreeCADGui.addModule("Ui.CmdBodyTube")
-        FreeCADGui.doCommand("Ui.CmdBodyTube.makeBodyTube('BodyTube')")
+        FreeCAD.ActiveDocument.openTransaction("Create fin")
+        FreeCADGui.addModule("Ui.Commands.CmdFin")
+        FreeCADGui.doCommand("Ui.Commands.CmdFin.makeFin('Fin')")
         FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
 
     def IsActive(self):
         if FreeCAD.ActiveDocument:
             return True
         return False
-            
+        
     def GetResources(self):
-        return {'MenuText': translate("Rocket", 'Body Tube'),
-                'ToolTip': translate("Rocket", 'Body tube design'),
-                'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_BodyTube.svg"}
+        return {'MenuText': translate("Rocket", 'Fin'),
+                'ToolTip': translate("Rocket", 'Fin design'),
+                'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Fin.svg"}

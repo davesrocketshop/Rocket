@@ -22,11 +22,23 @@
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
+# import Fem # Requires the FEM workbench to be loaded
+
 class RocketWorkbench ( Workbench ):
     "Rocket workbench object"
     Icon = FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/RocketWorkbench.svg"
     MenuText = "Rocket"
     ToolTip = "Rocket workbench"
+
+    def _loadFemModule(self):
+        # load the FEM module
+        import Fem
+        import FemGui
+        import femcommands.commands
+        # dummy usage to get flake8 and lgtm quiet
+        False if Fem.__name__ else True
+        False if FemGui.__name__ else True
+        False if femcommands.commands.__name__ else True
 
     def Initialize(self):
         FreeCADGui.addLanguagePath(FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/translations")
@@ -35,13 +47,15 @@ class RocketWorkbench ( Workbench ):
         import RocketGui
         import SketcherGui
         from PySide.QtCore import QT_TRANSLATE_NOOP
+
+        self._loadFemModule()
         
         self.appendToolbar(QT_TRANSLATE_NOOP('Rocket', 'Rocket'),
                         ['Rocket_NoseCone', 'Rocket_Transition', 'Rocket_BodyTube', 'Rocket_CenteringRing', 'Rocket_Bulkhead', 'Rocket_Fin', 'Rocket_FinCan', 'Rocket_LaunchGuides', 
                         #'Rocket_Parachute',
                         'Separator', 'Rocket_Calculators', 'Separator', 'Rocket_NewSketch', 'Sketcher_EditSketch',
                         #'Separator', 'Rocket_ParachuteGore',
-                        'Separator', 'Rocket_FinFlutter', "Rocket_MaterialEditor"])
+                        'Separator', 'Rocket_FinFlutter', 'FEM_MeshGmshFromShape', "Rocket_MaterialEditor"])
 
         self.appendMenu(QT_TRANSLATE_NOOP('Rocket', 'Rocket'), 
                         ['Rocket_NoseCone', 'Rocket_Transition', 'Rocket_BodyTube', 'Rocket_CenteringRing', 'Rocket_Bulkhead', 'Rocket_Fin', 'Rocket_FinCan']) #, 'Rocket_Parachute'])
@@ -58,7 +72,7 @@ class RocketWorkbench ( Workbench ):
         #                 ['Rocket_ParachuteGore'])
         self.appendMenu([QT_TRANSLATE_NOOP("Rocket", "Rocket"),
                          QT_TRANSLATE_NOOP("Rocket", "Analysis")],
-                        ['Rocket_FinFlutter', "Rocket_MaterialEditor"])
+                        ['Rocket_FinFlutter', 'FEM_MeshGmshFromShape', "Rocket_MaterialEditor"])
 
     def GetClassName(self):
         return "Gui::PythonWorkbench"

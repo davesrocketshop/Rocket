@@ -17,6 +17,8 @@
 
       <!-- Required by the atmospheric model -->
       <depend>numpy</depend>
+
+      <depend>Fem</depend>
     </workbench>
   </content>
 

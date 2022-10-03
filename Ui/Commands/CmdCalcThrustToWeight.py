@@ -18,58 +18,33 @@
 # *   USA                                                                   *
 # *                                                                         *
 # ***************************************************************************
-"""Class for drawing fins"""
+"""Class for calculating thrust to weight"""
 
-__title__ = "FreeCAD Fins"
+__title__ = "FreeCAD Thrust To Weight Command"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
     
 import FreeCAD
 import FreeCADGui
 
-from App.Constants import FIN_TYPE_SKETCH
-from App.ShapeFin import ShapeFin
-from Ui.ViewFin import ViewProviderFin
-# import Sketcher
-
 from DraftTools import translate
 
-def makeFin(name):
-    '''makeFin(name): makes a Fin'''
-    obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
-    ShapeFin(obj)
+from Ui.DialogThrustToWeight import DialogThrustToWeight
 
-    # See if we have a sketch selected. If so, this is a custom fin
-    for sketch in FreeCADGui.Selection.getSelection():
-        if sketch.isDerivedFrom('Sketcher::SketchObject'):
-            obj.FinType = FIN_TYPE_SKETCH
-            obj.Profile = sketch
-            sketch.Visibility = False
+def calcThrustToWeight():
+    form = DialogThrustToWeight()
+    form.exec_()
 
-    if FreeCAD.GuiUp:
-        ViewProviderFin(obj.ViewObject)
-
-        body=FreeCADGui.ActiveDocument.ActiveView.getActiveObject("pdbody")
-        part=FreeCADGui.ActiveDocument.ActiveView.getActiveObject("part")
-        if body:
-            body.Group=body.Group+[obj]
-        elif part:
-            part.Group=part.Group+[obj]
-    return obj
-
-class CmdFin:
+class CmdCalcThrustToWeight:
     def Activated(self):
-        FreeCAD.ActiveDocument.openTransaction("Create fin")
-        FreeCADGui.addModule("Ui.CmdFin")
-        FreeCADGui.doCommand("Ui.CmdFin.makeFin('Fin')")
-        FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
+        FreeCADGui.addModule("Ui.Commands.CmdCalcThrustToWeight")
+        FreeCADGui.doCommand("Ui.Commands.CmdCalcThrustToWeight.calcThrustToWeight()")
 
     def IsActive(self):
-        if FreeCAD.ActiveDocument:
-            return True
-        return False
+        # Always available, even without active document
+        return True
         
     def GetResources(self):
-        return {'MenuText': translate("Rocket", 'Fin'),
-                'ToolTip': translate("Rocket", 'Fin design'),
-                'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Fin.svg"}
+        return {'MenuText': translate("Rocket", 'Calculate Thrust To Weight'),
+                'ToolTip': translate("Rocket", 'Calculate Thrust To Weight'),
+                'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Calculator.svg"}

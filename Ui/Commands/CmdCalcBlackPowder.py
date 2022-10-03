@@ -18,49 +18,33 @@
 # *   USA                                                                   *
 # *                                                                         *
 # ***************************************************************************
-"""Class for drawing nose cones"""
+"""Class for calculating ejection charge size"""
 
-__title__ = "FreeCAD Nose Cones"
+__title__ = "FreeCAD Black Powder Calculator"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
     
-
 import FreeCAD
 import FreeCADGui
 
-from App.ShapeNoseCone import ShapeNoseCone
-from Ui.ViewNoseCone import ViewProviderNoseCone
-
 from DraftTools import translate
 
-def makeNoseCone(name):
-    '''makeNoseCone(name): makes a Nose Cone'''
-    obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
-    ShapeNoseCone(obj)
-    if FreeCAD.GuiUp:
-        ViewProviderNoseCone(obj.ViewObject)
+from Ui.DialogBlackPowder import DialogBlackPowder
 
-        body=FreeCADGui.ActiveDocument.ActiveView.getActiveObject("pdbody")
-        part=FreeCADGui.ActiveDocument.ActiveView.getActiveObject("part")
-        if body:
-            body.Group=body.Group+[obj]
-        elif part:
-            part.Group=part.Group+[obj]
-    return obj
+def calcBlackPowder():
+    form = DialogBlackPowder()
+    form.exec_()
 
-class CmdNoseCone:
+class CmdCalcBlackPowder:
     def Activated(self):
-        FreeCAD.ActiveDocument.openTransaction("Create nose cone")
-        FreeCADGui.addModule("Ui.CmdNoseCone")
-        FreeCADGui.doCommand("Ui.CmdNoseCone.makeNoseCone('NoseCone')")
-        FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
+        FreeCADGui.addModule("Ui.Commands.CmdCalcBlackPowder")
+        FreeCADGui.doCommand("Ui.Commands.CmdCalcBlackPowder.calcBlackPowder()")
 
     def IsActive(self):
-        if FreeCAD.ActiveDocument:
-            return True
-        return False
-
+        # Always available, even without active document
+        return True
+        
     def GetResources(self):
-        return {'MenuText': translate("Rocket", 'Nose Cone'),
-                'ToolTip': translate("Rocket", 'Nose cone design'),
-                'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_NoseCone.svg"}
+        return {'MenuText': translate("Rocket", 'Calculate ejection charge'),
+                'ToolTip': translate("Rocket", 'Calculate ejection charge'),
+                'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Calculator.svg"}
