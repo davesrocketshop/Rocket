@@ -702,7 +702,7 @@
       <translation type="unfinished">Calculate vent hole size</translation>
     </message>
     <message>
-      <location filename="DialogBlackPowder.py" line="38"/>
+      <location filename="DialogParachute.py" line="42"/>
       <source>Custom</source>
       <translation type="unfinished">Custom</translation>
     </message>
@@ -722,12 +722,12 @@
       <translation type="unfinished">Body Tube Parameter</translation>
     </message>
     <message>
-      <location filename="TaskPanelBodyTube.py" line="53"/>
+      <location filename="TaskPanelRailButton.py" line="72"/>
       <source>Inner Diameter</source>
       <translation type="unfinished">Inner Diameter</translation>
     </message>
     <message>
-      <location filename="TaskPanelBodyTube.py" line="59"/>
+      <location filename="TaskPanelRailButton.py" line="66"/>
       <source>Outer Diameter</source>
       <translation type="unfinished">Outer Diameter</translation>
     </message>
@@ -797,7 +797,7 @@
       <translation type="unfinished">Count</translation>
     </message>
     <message>
-      <location filename="TaskPanelBulkhead.py" line="132"/>
+      <location filename="TaskPanelFin.py" line="278"/>
       <source>Offset</source>
       <translation type="unfinished">Offset</translation>
     </message>
@@ -822,7 +822,7 @@
       <translation type="unfinished">Description</translation>
     </message>
     <message>
-      <location filename="DialogFinFlutter.py" line="93"/>
+      <location filename="TaskPanelDatabase.py" line="65"/>
       <source>Material</source>
       <translation type="unfinished">Material</translation>
     </message>
@@ -1522,12 +1522,12 @@
       <translation type="unfinished">Outer diameter must be greater than the inner diameter</translation>
     </message>
     <message>
-      <location filename="RailButtonShapeHandler.py" line="75"/>
+      <location filename="RailGuideShapeHandler.py" line="86"/>
       <source>Top thickness must be greater than zero</source>
       <translation type="unfinished">Top thickness must be greater than zero</translation>
     </message>
     <message>
-      <location filename="RailButtonShapeHandler.py" line="78"/>
+      <location filename="RailGuideShapeHandler.py" line="90"/>
       <source>Base thickness must be greater than zero</source>
       <translation type="unfinished">Base thickness must be greater than zero</translation>
     </message>
@@ -1617,7 +1617,7 @@
       <translation type="unfinished">Rail Guide parameters produce an invalid shape</translation>
     </message>
     <message>
-      <location filename="CmdLaunchGuides.py" line="95"/>
+      <location filename="TaskPanelFinCan.py" line="418"/>
       <source>Launch Lug</source>
       <translation type="unfinished">Launch Lug</translation>
     </message>
@@ -1772,7 +1772,7 @@
       <translation type="unfinished">Shank Diameter</translation>
     </message>
     <message>
-      <location filename="TaskPanelFinCan.py" line="427"/>
+      <location filename="TaskPanelRailButton.py" line="128"/>
       <source>Presets</source>
       <translation type="unfinished">Presets</translation>
     </message>
@@ -2048,11 +2048,11 @@
     </message>
     <message>
       <location filename="DialogBlackPowder.py" line="66"/>
-      <source>
-        &lt;html&gt;
-        &lt;h1&gt;WARNING&lt;/h1&gt;
-        &lt;p&gt;This calculator is an estimate only. Ground test your ejection system before flying. In certain cases this calculation may overestimate the amount of powder required&lt;/p&gt;
-        &lt;/html&gt;
+      <source><byte value="xd"/>
+        &lt;html&gt;<byte value="xd"/>
+        &lt;h1&gt;WARNING&lt;/h1&gt;<byte value="xd"/>
+        &lt;p&gt;This calculator is an estimate only. Ground test your ejection system before flying. In certain cases this calculation may overestimate the amount of powder required&lt;/p&gt;<byte value="xd"/>
+        &lt;/html&gt;<byte value="xd"/>
         </source>
       <translation type="unfinished">
         &lt;html&gt;
