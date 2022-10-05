@@ -22,10 +22,10 @@ This may be one of the most undervalued type of contribution. FreeCAD and the Ro
 for people speaking the same language as the developers. Translating into common and uncommon languages and 
 their regional dialects requires the contributions of native speakers worldwide.
 
-The Rocket Workbench, like FreeCAD itself, uses Crowdin (https://crowdin.com/project/freecad) for management of
-translations. Create an account and you'll be able to start contributing right away. In addition to providing
-translations, you can also proof read the translations already contributed. Do a little or a lot. Even small
-incremental gains are valuable.
+The Rocket Workbench, like FreeCAD itself, uses Crowdin (https://crowdin.com/project/freecad-addons or
+https://crowdin.com/project/freecad) for management of translations. Create an account and you'll be able 
+to start contributing right away. In addition to providing translations, you can also proof read the translations
+already contributed. Do a little or a lot. Even small incremental gains are valuable.
 
 Translations aren't limited to the software. The online wiki pages can also use translators. See https://wiki.freecadweb.org/Localisation#Translate_the_FreeCAD_wiki to get started.
 
