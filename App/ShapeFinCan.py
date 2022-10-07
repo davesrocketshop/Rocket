@@ -28,6 +28,7 @@ from App.ShapeFin import ShapeFin
 from App.Constants import FIN_TYPE_TRAPEZOID, FIN_TYPE_ELLIPSE, FIN_TYPE_SKETCH
 from App.Constants import FINCAN_EDGE_SQUARE, FINCAN_EDGE_ROUND, FINCAN_EDGE_TAPER
 from App.Constants import FINCAN_PRESET_CUSTOM, FINCAN_PRESET_1_8, FINCAN_PRESET_3_16, FINCAN_PRESET_1_4
+from App.Constants import EDITOR_NONE, EDITOR_HIDDEN
 
 from App.FinCanShapeHandler import FinCanTrapezoidShapeHandler
 from App.FinCanShapeHandler import FinCanEllipseShapeHandler
@@ -103,7 +104,24 @@ class ShapeFinCan(ShapeFin):
         # Set the Parent Radius to the ID
         obj.ParentRadius = (obj.InnerDiameter / 2.0)
 
+        self._setFinCanEditorVisibility()
 
+    def _setFinCanEditorVisibility(self):
+        self._obj.setEditorMode('Ttw', EDITOR_HIDDEN)  # hide
+        self._obj.setEditorMode('TtwOffset', EDITOR_HIDDEN)  # hide
+        self._obj.setEditorMode('TtwLength', EDITOR_HIDDEN)  # hide
+        self._obj.setEditorMode('TtwHeight', EDITOR_HIDDEN)  # hide
+        self._obj.setEditorMode('TtwThickness', EDITOR_HIDDEN)  # hide
+
+        self._obj.setEditorMode('FinSet', EDITOR_HIDDEN)  # hide
+        self._obj.setEditorMode('FinCount', EDITOR_NONE)  # show
+        self._obj.setEditorMode('FinSpacing', EDITOR_NONE)  # show
+
+    def onDocumentRestored(self, obj):
+        if obj is not None:
+            self._obj = obj
+
+        self._setFinCanEditorVisibility()
 
     def execute(self, obj):
 
