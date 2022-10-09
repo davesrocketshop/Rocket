@@ -23,6 +23,8 @@
 __title__ = "FreeCAD Fins"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
+
+import FreeCAD
     
 from App.ShapeComponent import ShapeComponent
 
@@ -133,16 +135,18 @@ class ShapeFin(ShapeComponent):
             obj.DebugSketch = [FIN_DEBUG_FULL, FIN_DEBUG_PROFILE_ONLY, FIN_DEBUG_MASK_ONLY]
             obj.DebugSketch = FIN_DEBUG_FULL
 
-        self._setFinCanEditorVisibility()
+        self._setFinEditorVisibility()
 
     def _setFinEditorVisibility(self):
         self._obj.setEditorMode('FinSet', EDITOR_HIDDEN)  # hide
         self._obj.setEditorMode('FinCount', EDITOR_HIDDEN)  # show
         self._obj.setEditorMode('FinSpacing', EDITOR_HIDDEN)  # show
 
-    def _setFinEditorVisibility(self, obj):
+    def onDocumentRestored(self, obj):
         if obj is not None:
+            ShapeFin(obj) # Update any properties
             self._obj = obj
+            FreeCAD.ActiveDocument.recompute()
 
         self._setFinEditorVisibility()
 

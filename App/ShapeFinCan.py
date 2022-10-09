@@ -24,11 +24,14 @@ __title__ = "FreeCAD Fins"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
+import FreeCAD
+
 from App.ShapeFin import ShapeFin
 from App.Constants import FIN_TYPE_TRAPEZOID, FIN_TYPE_ELLIPSE, FIN_TYPE_SKETCH
 from App.Constants import FINCAN_EDGE_SQUARE, FINCAN_EDGE_ROUND, FINCAN_EDGE_TAPER
 from App.Constants import FINCAN_PRESET_CUSTOM, FINCAN_PRESET_1_8, FINCAN_PRESET_3_16, FINCAN_PRESET_1_4
 from App.Constants import EDITOR_NONE, EDITOR_HIDDEN
+from App.Constants import FINCAN_COUPLER_MATCH_ID, FINCAN_COUPLER_STEPPED
 
 from App.FinCanShapeHandler import FinCanTrapezoidShapeHandler
 from App.FinCanShapeHandler import FinCanEllipseShapeHandler
@@ -101,6 +104,20 @@ class ShapeFinCan(ShapeFin):
         if not hasattr(obj,"LaunchLugAftSweepAngle"):
             obj.addProperty('App::PropertyLength', 'LaunchLugAftSweepAngle', 'Fin', translate('App::Property', 'Aft sweep angle')).LaunchLugAftSweepAngle = 30.0
 
+        if not hasattr(obj,"Coupler"):
+            obj.addProperty('App::PropertyBool', 'Coupler', 'Fin', translate('App::Property', 'Fin can includes coupler')).Coupler = False
+        if not hasattr(obj, 'CouplerStyle'):
+            obj.addProperty('App::PropertyEnumeration', 'CouplerStyle', 'Fin', translate('App::Property', 'Launch lug size preset'))
+        obj.CouplerStyle = [FINCAN_COUPLER_MATCH_ID,
+                            FINCAN_COUPLER_STEPPED]
+        obj.CouplerStyle = FINCAN_COUPLER_MATCH_ID
+        if not hasattr(obj,"CouplerInnerDiameter"):
+            obj.addProperty('App::PropertyLength', 'CouplerInnerDiameter', 'Fin', translate('App::Property', 'Diameter of the inside of the coupler')).CouplerInnerDiameter = 23.1
+        if not hasattr(obj,"CouplerOuterDiameter"):
+            obj.addProperty('App::PropertyLength', 'CouplerOuterDiameter', 'Fin', translate('App::Property', 'Diameter of the outside of the coupler')).CouplerOuterDiameter = 23.8
+        if not hasattr(obj,"CouplerLength"):
+            obj.addProperty('App::PropertyLength', 'CouplerLength', 'Fin', translate('App::Property', 'Length of the coupler')).CouplerLength = 19.05
+
         # Set the Parent Radius to the ID
         obj.ParentRadius = (obj.InnerDiameter / 2.0)
 
@@ -119,7 +136,9 @@ class ShapeFinCan(ShapeFin):
 
     def onDocumentRestored(self, obj):
         if obj is not None:
+            ShapeFinCan(obj) # Update any properties
             self._obj = obj
+            FreeCAD.ActiveDocument.recompute()
 
         self._setFinCanEditorVisibility()
 

@@ -31,6 +31,7 @@ import math
 from DraftTools import translate
 
 from App.Constants import FINCAN_EDGE_SQUARE, FINCAN_EDGE_ROUND, FINCAN_EDGE_TAPER
+from App.Constants import FINCAN_COUPLER_MATCH_ID, FINCAN_COUPLER_STEPPED
 from App.Utilities import _err
 
 from App.FinShapeHandler import FinShapeHandler
@@ -299,9 +300,28 @@ class FinCanShapeHandler(FinShapeHandler):
         direction = FreeCAD.Vector(1,0,0)
         radius = self._obj.InnerDiameter / 2.0
         outerRadius = radius + self._obj.Thickness
-        outer = Part.makeCylinder(outerRadius, self._obj.Length, point, direction)
-        inner = Part.makeCylinder(radius, self._obj.Length, point, direction)
+        if self._obj.Coupler:
+            length = self._obj.Length + self._obj.CouplerLength
+            inner = Part.makeCylinder((self._obj.CouplerInnerDiameter / 2.0), length, point, direction)
+        else:
+            length = self._obj.Length
+            inner = Part.makeCylinder(radius, length, point, direction)
+        # outer = Part.makeCylinder(outerRadius, self._obj.Length, point, direction)
+        outer = Part.makeCylinder(outerRadius, length, point, direction)
         can = outer.cut(inner)
+
+        if self._obj.Coupler:
+            if self._obj.CouplerStyle == FINCAN_COUPLER_STEPPED:
+                # Cut inside up to the step
+                step = Part.makeCylinder(radius, self._obj.Length - self._obj.CouplerLength, point, direction)
+                can = can.cut(step)
+
+            # Cut the outside of the coupler
+            cutPoint = FreeCAD.Vector((self._obj.RootChord + self._obj.LeadingEdgeOffset),0,0)
+            cutOuter = Part.makeCylinder(float(outerRadius) + 1.0, float(self._obj.CouplerLength) + 1.0, cutPoint, direction)
+            cutInner = Part.makeCylinder((self._obj.CouplerOuterDiameter / 2.0), float(self._obj.CouplerLength) + 1.0, cutPoint, direction)
+            cutDisk = cutOuter.cut(cutInner)
+            can = can.cut(cutDisk)
 
         # Shape the leading and trailing edges
         shape = self._leadingEdge()
