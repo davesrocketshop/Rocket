@@ -102,23 +102,23 @@ class ShapeTransition(ShapeComponent):
 
         if not hasattr(obj, 'TransitionType'):
             obj.addProperty('App::PropertyEnumeration', 'TransitionType', 'Transition', translate('App::Property', 'Transition type'))
-        obj.TransitionType = [TYPE_CONE,
-                    TYPE_ELLIPTICAL,
-                    TYPE_OGIVE,
-                    TYPE_VON_KARMAN,
-                    TYPE_PARABOLA,
-                    TYPE_PARABOLIC,
-                    TYPE_POWER,
-                    TYPE_HAACK]
-        obj.TransitionType = TYPE_CONE
+            obj.TransitionType = [TYPE_CONE,
+                        TYPE_ELLIPTICAL,
+                        TYPE_OGIVE,
+                        TYPE_VON_KARMAN,
+                        TYPE_PARABOLA,
+                        TYPE_PARABOLIC,
+                        TYPE_POWER,
+                        TYPE_HAACK]
+            obj.TransitionType = TYPE_CONE
 
         if not hasattr(obj, 'TransitionStyle'):
             obj.addProperty('App::PropertyEnumeration', 'TransitionStyle', 'Transition', translate('App::Property', 'Transition style'))
-        obj.TransitionStyle = [STYLE_SOLID,
-                            STYLE_SOLID_CORE,
-                            STYLE_HOLLOW,
-                            STYLE_CAPPED]
-        obj.TransitionStyle = STYLE_SOLID
+            obj.TransitionStyle = [STYLE_SOLID,
+                                STYLE_SOLID_CORE,
+                                STYLE_HOLLOW,
+                                STYLE_CAPPED]
+            obj.TransitionStyle = STYLE_SOLID
 
         if not hasattr(obj, 'Shape'):
             obj.addProperty('Part::PropertyPartShape', 'Shape', 'Transition', translate('App::Property', 'Shape of the transition'))

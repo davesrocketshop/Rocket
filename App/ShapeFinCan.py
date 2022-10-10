@@ -60,15 +60,15 @@ class ShapeFinCan(ShapeFin):
 
         if not hasattr(obj,"LeadingEdge"):
             obj.addProperty('App::PropertyEnumeration', 'LeadingEdge', 'Fin', translate('App::Property', 'Leading Edge'))
-        obj.LeadingEdge = [FINCAN_EDGE_SQUARE, FINCAN_EDGE_ROUND, FINCAN_EDGE_TAPER]
-        obj.LeadingEdge = FINCAN_EDGE_SQUARE
+            obj.LeadingEdge = [FINCAN_EDGE_SQUARE, FINCAN_EDGE_ROUND, FINCAN_EDGE_TAPER]
+            obj.LeadingEdge = FINCAN_EDGE_SQUARE
         if not hasattr(obj,"LeadingLength"):
             obj.addProperty('App::PropertyLength', 'LeadingLength', 'Fin', translate('App::Property', 'Leading Edge Length')).LeadingLength = 5.0
 
         if not hasattr(obj,"TrailingEdge"):
             obj.addProperty('App::PropertyEnumeration', 'TrailingEdge', 'Fin', translate('App::Property', 'Trailing Edge'))
-        obj.TrailingEdge = [FINCAN_EDGE_SQUARE, FINCAN_EDGE_ROUND, FINCAN_EDGE_TAPER]
-        obj.TrailingEdge = FINCAN_EDGE_SQUARE
+            obj.TrailingEdge = [FINCAN_EDGE_SQUARE, FINCAN_EDGE_ROUND, FINCAN_EDGE_TAPER]
+            obj.TrailingEdge = FINCAN_EDGE_SQUARE
         if not hasattr(obj,"TrailingLength"):
             obj.addProperty('App::PropertyLength', 'TrailingLength', 'Fin', translate('App::Property', 'Trailing Edge Length')).TrailingLength = 5.0
 
@@ -89,11 +89,11 @@ class ShapeFinCan(ShapeFin):
 
         if not hasattr(obj, 'LaunchLugPreset'):
             obj.addProperty('App::PropertyEnumeration', 'LaunchLugPreset', 'Fin', translate('App::Property', 'Launch lug size preset'))
-        obj.LaunchLugPreset = [FINCAN_PRESET_CUSTOM,
-                            FINCAN_PRESET_1_8, 
-                            FINCAN_PRESET_3_16,
-                            FINCAN_PRESET_1_4]
-        obj.LaunchLugPreset = FINCAN_PRESET_1_8
+            obj.LaunchLugPreset = [FINCAN_PRESET_CUSTOM,
+                                FINCAN_PRESET_1_8, 
+                                FINCAN_PRESET_3_16,
+                                FINCAN_PRESET_1_4]
+            obj.LaunchLugPreset = FINCAN_PRESET_1_8
 
         if not hasattr(obj,"LaunchLugForwardSweep"):
             obj.addProperty('App::PropertyBool', 'LaunchLugForwardSweep', 'Fin', translate('App::Property', 'Forward side of the launch lug is swept')).LaunchLugForwardSweep = True
@@ -108,9 +108,9 @@ class ShapeFinCan(ShapeFin):
             obj.addProperty('App::PropertyBool', 'Coupler', 'Fin', translate('App::Property', 'Fin can includes coupler')).Coupler = False
         if not hasattr(obj, 'CouplerStyle'):
             obj.addProperty('App::PropertyEnumeration', 'CouplerStyle', 'Fin', translate('App::Property', 'Launch lug size preset'))
-        obj.CouplerStyle = [FINCAN_COUPLER_MATCH_ID,
-                            FINCAN_COUPLER_STEPPED]
-        obj.CouplerStyle = FINCAN_COUPLER_MATCH_ID
+            obj.CouplerStyle = [FINCAN_COUPLER_MATCH_ID,
+                                FINCAN_COUPLER_STEPPED]
+            obj.CouplerStyle = FINCAN_COUPLER_MATCH_ID
         if not hasattr(obj,"CouplerInnerDiameter"):
             obj.addProperty('App::PropertyLength', 'CouplerInnerDiameter', 'Fin', translate('App::Property', 'Diameter of the inside of the coupler')).CouplerInnerDiameter = 23.1
         if not hasattr(obj,"CouplerOuterDiameter"):
