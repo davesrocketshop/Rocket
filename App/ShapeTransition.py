@@ -21,6 +21,8 @@
 
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
+
+import FreeCAD
     
 from App.ShapeComponent import ShapeComponent
 
@@ -33,6 +35,7 @@ from App.TransitionPowerShapeHandler import TransitionPowerShapeHandler
 
 from App.Constants import TYPE_CONE, TYPE_ELLIPTICAL, TYPE_HAACK, TYPE_OGIVE, TYPE_VON_KARMAN, TYPE_PARABOLA, TYPE_PARABOLIC, TYPE_POWER
 from App.Constants import STYLE_CAPPED, STYLE_HOLLOW, STYLE_SOLID, STYLE_SOLID_CORE
+from App.Constants import STYLE_CAP_SOLID, STYLE_CAP_BAR, STYLE_CAP_CROSS
 
 from App.Utilities import _wrn
 
@@ -99,6 +102,10 @@ class ShapeTransition(ShapeComponent):
             obj.addProperty('App::PropertyFloat', 'Coefficient', 'Transition', translate('App::Property', 'Coefficient')).Coefficient = 0.0
         if not hasattr(obj, 'Resolution'):
             obj.addProperty('App::PropertyInteger', 'Resolution', 'Transition', translate('App::Property', 'Resolution')).Resolution = 100
+        if not hasattr(obj, 'ForeCapBarWidth'):
+            obj.addProperty('App::PropertyLength', 'ForeCapBarWidth', 'Transition', translate('App::Property', 'Width of the foreward cap bar')).ForeCapBarWidth = 3.0
+        if not hasattr(obj, 'AftCapBarWidth'):
+            obj.addProperty('App::PropertyLength', 'AftCapBarWidth', 'Transition', translate('App::Property', 'Width of the aft cap bar')).AftCapBarWidth = 3.0
 
         if not hasattr(obj, 'TransitionType'):
             obj.addProperty('App::PropertyEnumeration', 'TransitionType', 'Transition', translate('App::Property', 'Transition type'))
@@ -120,12 +127,30 @@ class ShapeTransition(ShapeComponent):
                                 STYLE_CAPPED]
             obj.TransitionStyle = STYLE_SOLID
 
+        if not hasattr(obj, 'ForeCapStyle'):
+            obj.addProperty('App::PropertyEnumeration', 'ForeCapStyle', 'Transition', translate('App::Property', 'Foreward cap style'))
+            obj.ForeCapStyle = [STYLE_CAP_SOLID,
+                                STYLE_CAP_BAR,
+                                STYLE_CAP_CROSS]
+            obj.ForeCapStyle = STYLE_CAP_SOLID
+
+        if not hasattr(obj, 'AftCapStyle'):
+            obj.addProperty('App::PropertyEnumeration', 'AftCapStyle', 'Transition', translate('App::Property', 'Aft cap style'))
+            obj.AftCapStyle = [STYLE_CAP_SOLID,
+                                STYLE_CAP_BAR,
+                                STYLE_CAP_CROSS]
+            obj.AftCapStyle = STYLE_CAP_SOLID
+
         if not hasattr(obj, 'Shape'):
             obj.addProperty('Part::PropertyPartShape', 'Shape', 'Transition', translate('App::Property', 'Shape of the transition'))
 
     def onDocumentRestored(self, obj):
         if hasattr(obj, "ForeRadius"):
             _migrate_from_1_0(obj)
+        else:
+            # Update properties
+            ShapeTransition(obj)
+            FreeCAD.ActiveDocument.recompute()
 
 
     def execute(self, obj):
