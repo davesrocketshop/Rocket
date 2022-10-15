@@ -31,7 +31,7 @@ import math
 from DraftTools import translate
 
 from App.Constants import FINCAN_EDGE_SQUARE, FINCAN_EDGE_ROUND, FINCAN_EDGE_TAPER
-from App.Constants import FINCAN_COUPLER_MATCH_ID, FINCAN_COUPLER_STEPPED
+from App.Constants import FINCAN_COUPLER_STEPPED
 from App.Utilities import _err
 
 from App.FinShapeHandler import FinShapeHandler
