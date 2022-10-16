@@ -659,7 +659,7 @@ class TransitionShapeHandler():
         line4 = Part.LineSegment(aft, aftCenter)
         line5 = Part.LineSegment(aftCenter, aftInnerCenter)
         line6 = Part.LineSegment(aftInnerCenter, aftIinner)
-        return [outerShape.toShape(), line1.toShape(), line2.toShape(), line3.toShape(), innerShape.toShape(), line4.toShape(), line5.toShape(), line6.toShape(), innerShape.toShape()]
+        return [outerShape.toShape(), line1.toShape(), line2.toShape(), line3.toShape(), innerShape.toShape(), line4.toShape(), line5.toShape(), line6.toShape()]
 
     def _cappedShoulderLines(self, foreY, aftY, outerShape, innerShape):
 
