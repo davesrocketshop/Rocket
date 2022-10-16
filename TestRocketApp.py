@@ -30,6 +30,10 @@ from Analyzers.FinFlutter import FinFlutter
 from Ui.CmdFin import makeFin
 from Ui.CmdFinCan import makeFinCan
 
+from Tests.TestBodyTube import BodyTubeTests
+from Tests.TestBulkhead import BulkheadTests
+from Tests.TestCenteringRing import CenteringRingTests
+from Tests.TestNoses import NoseTests
 from Tests.TestTransition import TransitionTests
 
 class RocketTestCases(unittest.TestCase):
