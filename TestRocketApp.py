@@ -30,6 +30,8 @@ from Analyzers.FinFlutter import FinFlutter
 from Ui.CmdFin import makeFin
 from Ui.CmdFinCan import makeFinCan
 
+from Tests.TestTransition import TransitionTests
+
 class RocketTestCases(unittest.TestCase):
 
     def testCoesa76(self):
