@@ -120,33 +120,33 @@ class ShapeNoseCone(ShapeComponent):
 
         if not hasattr(obj, 'NoseType'):
             obj.addProperty('App::PropertyEnumeration', 'NoseType', 'NoseCone', translate('App::Property', 'Nose cone type'))
-        obj.NoseType = [TYPE_CONE,
-                    TYPE_BLUNTED_CONE,
-                    TYPE_SPHERICAL,
-                    TYPE_ELLIPTICAL,
-                    TYPE_OGIVE,
-                    TYPE_BLUNTED_OGIVE,
-                    TYPE_SECANT_OGIVE,
-                    TYPE_VON_KARMAN,
-                    TYPE_PARABOLA,
-                    TYPE_PARABOLIC,
-                    TYPE_POWER,
-                    TYPE_HAACK]
-        obj.NoseType = TYPE_OGIVE
+            obj.NoseType = [TYPE_CONE,
+                        TYPE_BLUNTED_CONE,
+                        TYPE_SPHERICAL,
+                        TYPE_ELLIPTICAL,
+                        TYPE_OGIVE,
+                        TYPE_BLUNTED_OGIVE,
+                        TYPE_SECANT_OGIVE,
+                        TYPE_VON_KARMAN,
+                        TYPE_PARABOLA,
+                        TYPE_PARABOLIC,
+                        TYPE_POWER,
+                        TYPE_HAACK]
+            obj.NoseType = TYPE_OGIVE
 
         if not hasattr(obj, 'NoseStyle'):
             obj.addProperty('App::PropertyEnumeration', 'NoseStyle', 'NoseCone', translate('App::Property', 'Nose cone style'))
-        obj.NoseStyle = [STYLE_SOLID,
-                            STYLE_HOLLOW,
-                            STYLE_CAPPED]
-        obj.NoseStyle = STYLE_SOLID
+            obj.NoseStyle = [STYLE_SOLID,
+                                STYLE_HOLLOW,
+                                STYLE_CAPPED]
+            obj.NoseStyle = STYLE_SOLID
 
         if not hasattr(obj, 'CapStyle'):
             obj.addProperty('App::PropertyEnumeration', 'CapStyle', 'NoseCone', translate('App::Property', 'Nose cone cap style'))
-        obj.CapStyle = [STYLE_CAP_SOLID,
-                            STYLE_CAP_BAR,
-                            STYLE_CAP_CROSS]
-        obj.CapStyle = STYLE_CAP_SOLID
+            obj.CapStyle = [STYLE_CAP_SOLID,
+                                STYLE_CAP_BAR,
+                                STYLE_CAP_CROSS]
+            obj.CapStyle = STYLE_CAP_SOLID
 
         if not hasattr(obj, 'Shape'):
             obj.addProperty('Part::PropertyPartShape', 'Shape', 'NoseCone', translate('App::Property', 'Shape of the nose cone'))

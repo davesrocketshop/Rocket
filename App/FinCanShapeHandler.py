@@ -31,6 +31,7 @@ import math
 from DraftTools import translate
 
 from App.Constants import FINCAN_EDGE_SQUARE, FINCAN_EDGE_ROUND, FINCAN_EDGE_TAPER
+from App.Constants import FINCAN_COUPLER_STEPPED
 from App.Utilities import _err
 
 from App.FinShapeHandler import FinShapeHandler
@@ -61,6 +62,23 @@ class FinCanShapeHandler(FinShapeHandler):
         if edge > self._obj.Length:
             _err(translate('Rocket', "Fin can leading and trailing edges can not exceed total length"))
             return False
+
+        if self._obj.Coupler:
+            if self._obj.CouplerLength <= 0:
+                _err(translate('Rocket', "Coupler length must be greater than zero"))
+                return False
+            if self._obj.CouplerInnerDiameter <= 0:
+                _err(translate('Rocket', "Coupler inner diameter must be greater than zero"))
+                return False
+            if self._obj.CouplerOuterDiameter <= self._obj.CouplerInnerDiameter:
+                _err(translate('Rocket', "Coupler outer diameter must be greater than the inner diameter"))
+                return False
+            if self._obj.CouplerInnerDiameter > self._obj.InnerDiameter:
+                _err(translate('Rocket', "Coupler inner diameter must be less than or equal to the fin can inner diameter"))
+                return False
+            if self._obj.CouplerOuterDiameter >= (self._obj.InnerDiameter + self._obj.Thickness):
+                _err(translate('Rocket', "Coupler outer diameter must be less than fin can outer diameter"))
+                return False
 
         return True
 
@@ -293,15 +311,72 @@ class FinCanShapeHandler(FinShapeHandler):
 
         return None
 
-    def _drawFinCan(self):
-        # Make the can
+    def _drawCan(self):
         point = FreeCAD.Vector((self._obj.RootChord - self._obj.Length + self._obj.LeadingEdgeOffset),0,0)
         direction = FreeCAD.Vector(1,0,0)
         radius = self._obj.InnerDiameter / 2.0
         outerRadius = radius + self._obj.Thickness
-        outer = Part.makeCylinder(outerRadius, self._obj.Length, point, direction)
-        inner = Part.makeCylinder(radius, self._obj.Length, point, direction)
+        if self._obj.Coupler:
+            length = self._obj.Length + self._obj.CouplerLength
+            inner = Part.makeCylinder((self._obj.CouplerInnerDiameter / 2.0), length, point, direction)
+        else:
+            length = self._obj.Length
+            inner = Part.makeCylinder(radius, length, point, direction)
+        # outer = Part.makeCylinder(outerRadius, self._obj.Length, point, direction)
+        outer = Part.makeCylinder(outerRadius, length, point, direction)
         can = outer.cut(inner)
+
+        if self._obj.Coupler:
+            # Cut the outside of the coupler
+            cutPoint = FreeCAD.Vector((self._obj.RootChord + self._obj.LeadingEdgeOffset),0,0)
+            cutOuter = Part.makeCylinder(float(outerRadius) + 1.0, float(self._obj.CouplerLength) + 1.0, cutPoint, direction)
+            cutInner = Part.makeCylinder((self._obj.CouplerOuterDiameter / 2.0), float(self._obj.CouplerLength) + 1.0, cutPoint, direction)
+            cutDisk = cutOuter.cut(cutInner)
+            can = can.cut(cutDisk)
+
+            # Add a chamfer
+            length = float(length) + float(point.x)
+            chamfer = ((float(self._obj.CouplerOuterDiameter) - float(self._obj.CouplerInnerDiameter)) / 4.0)
+            point1 = FreeCAD.Vector(length, (float(self._obj.CouplerInnerDiameter) / 2.0) + chamfer, 0.0)
+            point2 = FreeCAD.Vector(length, (float(self._obj.CouplerOuterDiameter) / 2.0), 0.0)
+            point3 = FreeCAD.Vector(length - chamfer, float(self._obj.CouplerOuterDiameter) / 2.0, 0.0)
+
+            edge1 = Part.makeLine(point1, point2)
+            edge2 = Part.makeLine(point2, point3)
+            edge3 = Part.makeLine(point3, point1)
+            wire = Part.Wire([edge1, edge2, edge3])
+            face = Part.Face(wire)
+
+            mask = face.revolve(FreeCAD.Vector(0, 0, 0),FreeCAD.Vector(1, 0, 0), 360)
+            can = can.cut(mask)
+
+            if self._obj.CouplerStyle == FINCAN_COUPLER_STEPPED:
+                # Cut inside up to the step
+                step = Part.makeCylinder(radius, self._obj.Length - self._obj.CouplerLength, point, direction)
+                can = can.cut(step)
+
+                # Add a chamfer
+                length -= + 2.0 * float(self._obj.CouplerLength)
+                chamfer = ((float(self._obj.InnerDiameter) - float(self._obj.CouplerInnerDiameter)) / 2.0)
+                point1 = FreeCAD.Vector(length, (float(self._obj.InnerDiameter) / 2.0), 0.0)
+                point2 = FreeCAD.Vector(length, (float(self._obj.CouplerInnerDiameter) / 2.0), 0.0)
+                point3 = FreeCAD.Vector(length + chamfer, float(self._obj.CouplerInnerDiameter) / 2.0, 0.0)
+
+                edge1 = Part.makeLine(point1, point2)
+                edge2 = Part.makeLine(point2, point3)
+                edge3 = Part.makeLine(point3, point1)
+                wire = Part.Wire([edge1, edge2, edge3])
+                face = Part.Face(wire)
+
+                mask = face.revolve(FreeCAD.Vector(0, 0, 0),FreeCAD.Vector(1, 0, 0), 360)
+                can = can.cut(mask)
+
+
+        return can
+
+    def _drawFinCan(self):
+        # Make the can
+        can = self._drawCan()
 
         # Shape the leading and trailing edges
         shape = self._leadingEdge()

@@ -27,14 +27,94 @@ __url__ = "https://www.davesrocketshop.com"
 import FreeCAD
 import FreeCADGui
 import os
+import math
 
 from DraftTools import translate
 import importFCMat
 
 from PySide import QtGui, QtCore
-from PySide2.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QGridLayout #, QGraphicsView
+from PySide2.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QGridLayout
+from PySide2.QtCharts import QtCharts
 
 from Analyzers.FinFlutter import FinFlutter
+
+class ChartView(QtCharts.QChartView):
+    # Modified code from what is found here https://stackoverflow.com/questions/60058507/draw-cursor-on-a-qchartview-object
+    _x = None
+
+    @property
+    def x(self):
+        return self._x
+
+    @x.setter
+    def x(self, x):
+        self._x = x
+        self.scene().update()
+
+    def _scaleX(self):
+        area = self.chart().plotArea()
+        count = self.chart().series()[0].count() - 1 # Assumes ordered series numbered from 0
+
+        chartX = int((area.width() / count) * (self._x / 1000) + area.left())
+
+        return chartX
+
+    def drawForeground(self, painter, rect):
+        if self.x is None:
+            return
+        painter.save()
+
+        pen = QtGui.QPen(QtGui.QColor("indigo"))
+        pen.setWidth(3)
+        painter.setPen(pen)
+
+        p = QtCore.QPointF(self._scaleX(), 0)
+        r = self.chart().plotArea()
+
+        p1 = QtCore.QPointF(p.x(), r.top())
+        p2 = QtCore.QPointF(p.x(), r.bottom())
+        painter.drawLine(p1, p2)
+
+        value_at_position = self._x / 1000.0 # In km
+        for series_i in self.chart().series():
+            pen2 = QtGui.QPen(series_i.color())
+            pen2.setWidth(10)
+            painter.setPen(pen2)
+
+            # Find the nearest points
+            min_distance_left = math.inf
+            min_distance_right = math.inf
+            nearest_point_left = None
+            nearest_point_right = None
+            exact_point = None
+
+            for p_i in series_i.pointsVector():
+                if p_i.x() > value_at_position:
+                    if p_i.x() - value_at_position < min_distance_right:
+                        min_distance_right = p_i.x() - value_at_position
+                        nearest_point_right = p_i
+                elif p_i.x() < value_at_position:
+                    if value_at_position - p_i.x() < min_distance_left:
+                        min_distance_left = value_at_position - p_i.x()
+                        nearest_point_left = p_i
+                else:
+                    exact_point = p_i
+                    nearest_point_left = None
+                    nearest_point_right = None
+                    break
+            if nearest_point_right is not None and nearest_point_left is not None:
+                # do linear interpolation
+                k = ((nearest_point_right.y() - nearest_point_left.y()) / (nearest_point_right.x() - nearest_point_left.x()))
+                point_interpolated_y = nearest_point_left.y() + k * (value_at_position - nearest_point_left.x())
+                point_interpolated_x = value_at_position
+
+                point_interpolated = QtCore.QPointF(point_interpolated_x, point_interpolated_y)
+
+                painter.drawPoint(self.chart().mapToScene(self.chart().mapToPosition(point_interpolated)))
+            if exact_point is not None:
+                painter.drawPoint(self.chart().mapToScene(self.chart().mapToPosition(exact_point)))
+
+        painter.restore()
 
 class DialogFinFlutter(QDialog):
     def __init__(self, fin):
@@ -48,6 +128,7 @@ class DialogFinFlutter(QDialog):
 
         # self._form = FreeCADGui.PySideUic.loadUi(FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/ui/FlutterAnalysis.ui")
         self.initUI()
+        self._setSeries()
         self.onFlutter(None)
 
     def _isMetricUnitPref(self):
@@ -85,9 +166,9 @@ class DialogFinFlutter(QDialog):
 
         # create our window
         # define window		xLoc,yLoc,xDim,yDim
-        self.setGeometry(	250, 250, 640, 480)
+        self.setGeometry(250, 250, 640, 480)
         self.setWindowTitle(translate('Rocket', "Fin Flutter Analysis"))
-        self.resize(QtCore.QSize(100,100).expandedTo(self.minimumSizeHint())) # sets size of the widget
+        self.resize(QtCore.QSize(640,700).expandedTo(self.minimumSizeHint())) # sets size of the widget
         self.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
 
         self.materialGroup = QtGui.QGroupBox(translate('Rocket', "Material"), self)
@@ -138,7 +219,13 @@ class DialogFinFlutter(QDialog):
 
         self.altitudeSlider = QtGui.QSlider(QtCore.Qt.Horizontal, self)
 
-        # self.chart = QGraphicsView(self)
+        # Creating QChart
+        self.chart = QtCharts.QChart()
+        self.chart.setAnimationOptions(QtCharts.QChart.NoAnimation)
+
+        # Creating QChartView
+        self.chart_view = ChartView(self.chart)
+        self.chart_view.setRenderHint(QtGui.QPainter.Antialiasing)
 
         self.flutterLabel = QtGui.QLabel(translate('Rocket', "Flutter Speed"), self)
 
@@ -214,17 +301,13 @@ class DialogFinFlutter(QDialog):
 
         vbox.addLayout(grid)
 
+        vbox.addWidget(self.chart_view)
+
         sliderLine = QHBoxLayout()
         sliderLine.addWidget(self.altitudeSlider)
 
         vbox.addLayout(sliderLine)
 
-        # graph = QHBoxLayout()
-        # graph.addWidget(self.chart)
-
-        # vbox.addLayout(graph)
-
-        # layout = QVBoxLayout()
         line = QGridLayout()
 
         row = 0
@@ -254,10 +337,10 @@ class DialogFinFlutter(QDialog):
 
         self.materialPresetCombo.currentTextChanged.connect(self.onMaterialChanged)
         self.calculatedCheckbox.clicked.connect(self.onCalculated)
-        self.shearInput.textEdited.connect(self.onFlutter)
+        self.shearInput.textEdited.connect(self.onShear)
         self.youngsInput.textEdited.connect(self.onYoungs)
         self.poissonInput.textEdited.connect(self.onPoisson)
-        self.altitudeInput.textEdited.connect(self.onFlutter)
+        self.altitudeInput.textEdited.connect(self.onAltitude)
         self.maxAltitudeCombo.currentTextChanged.connect(self.onMaxAltitude)
         self.altitudeSlider.valueChanged.connect(self.onSlider)
         okButton.clicked.connect(self.onOk)
@@ -266,6 +349,68 @@ class DialogFinFlutter(QDialog):
 
         # now make the window visible
         self.show()
+
+    def _clearAxes(self, orientation):
+        axes = self.chart.axes(orientation)
+        if axes is not None:
+            for axis in axes:
+                self.chart.removeAxis(axis)
+
+    def _clearAllAxes(self):
+        self._clearAxes(QtCore.Qt.Horizontal)
+        self._clearAxes(QtCore.Qt.Vertical)
+
+    def _setSeries(self):
+
+        self.chart.removeAllSeries()
+
+        # Create QLineSeries
+        self.flutterSeries = QtCharts.QSplineSeries()
+        self.flutterSeries.setName("Flutter")
+
+        self.divergenceSeries = QtCharts.QSplineSeries()
+        self.divergenceSeries.setName("Divergence")
+
+        # Filling QSplineSeries
+        modulus = float(FreeCAD.Units.Quantity(str(self.shearInput.text())))
+        max = int(FreeCAD.Units.Quantity(self.maxAltitudeCombo.currentText()).getValueAs(FreeCAD.Units.Quantity(self._heightUnits())) / 1000)
+
+        for i in range(0, max+1):
+            altitude = i * 1000000.0 # to mm
+            flutter = self._flutter.flutter(altitude, modulus)
+            divergence = self._flutter.divergence(altitude, modulus)
+            # Getting the data
+            x = float(i)
+            y = float(flutter[1])
+
+            if x >= 0 and y >= 0:
+                self.flutterSeries.append(x, y)
+
+            y = float(divergence[1])
+
+            if x >= 0 and y >= 0:
+                self.divergenceSeries.append(x, y)
+
+        self.chart.addSeries(self.flutterSeries)
+        self.chart.addSeries(self.divergenceSeries)
+
+        self._clearAllAxes()
+        self.chart.createDefaultAxes()
+
+        # Setting X-axis
+        self.axis_x = self.chart.axes(QtCore.Qt.Horizontal)[0]
+        self.axis_x.setTickCount(11) # 10 + 0th position
+        self.axis_x.setLabelFormat("%.2f")
+        if self._isMetricUnitPref():
+            self.axis_x.setTitleText("Altitude (km)")
+        else:
+            self.axis_x.setTitleText("Altitude (1000 ft)")
+
+        # Setting Y-axis
+        self.axis_y = self.chart.axes(QtCore.Qt.Vertical)[0]
+        self.axis_y.setTickCount(10)
+        self.axis_y.setLabelFormat("%.2f")
+        self.axis_y.setTitleText("Velocity (%s)" % self._velocityUnits())
     
     def fillExistingCombo(self):
         "fills the combo with the existing FCMat cards"
@@ -291,7 +436,7 @@ class DialogFinFlutter(QDialog):
     def fillAltitudeCombo(self):
         for i in range(0, 110, 10):
             self.maxAltitudeCombo.addItem("{0:d}".format(i * 1000) + ' ' + self._heightUnits())
-        self.maxAltitudeCombo.setCurrentText("{0:d}".format(20000) + ' ' + self._heightUnits())
+        self.maxAltitudeCombo.setCurrentText("{0:d}".format(10000) + ' ' + self._heightUnits())
 
     def setShearSpecified(self):
         self.shearInput.setEnabled(True)
@@ -340,6 +485,7 @@ class DialogFinFlutter(QDialog):
                 self.setShearSpecified()
             # print(self._material)
 
+            self._setSeries()
             self.onFlutter(None)
         
     def onCalculated(self, value):
@@ -349,27 +495,49 @@ class DialogFinFlutter(QDialog):
         else:
             self.setShearSpecified()
 
+    def onShear(self, value):
+        self._setSeries()
+        self.onFlutter(None)
+
     def onYoungs(self, value):
         self.calculateShear()
+        self._setSeries()
         self.onFlutter(None)
 
     def onPoisson(self, value):
         self.calculateShear()
+        self._setSeries()
         self.onFlutter(None)
 
     def _setSlider(self):
-        max = float(FreeCAD.Units.Quantity(self.maxAltitudeCombo.currentText()).getValueAs(FreeCAD.Units.Quantity(self._heightUnits())))
-        current = float(FreeCAD.Units.Quantity(self.altitudeInput.text()).getValueAs(FreeCAD.Units.Quantity(self._heightUnits())))
+        try:
+            max = float(FreeCAD.Units.Quantity(self.maxAltitudeCombo.currentText()).getValueAs(FreeCAD.Units.Quantity(self._heightUnits())))
+            current = float(FreeCAD.Units.Quantity(self.altitudeInput.text()).getValueAs(FreeCAD.Units.Quantity(self._heightUnits())))
 
-        self.altitudeSlider.setMinimum(0)
-        self.altitudeSlider.setMaximum(max)
-        self.altitudeSlider.setValue(current)
+            self.altitudeSlider.setMinimum(0)
+            self.altitudeSlider.setMaximum(max)
+            self.altitudeSlider.setValue(current)
+
+            self.chart_view.x = current
+        except ValueError:
+            # This can happen when editing a field and not yet complete
+            pass
 
     def onMaxAltitude(self, value):
+        self._setSeries()
         self._setSlider()
+
+    def onAltitude(self, value):
+        self._setSeries()
+        self._setSlider()
+        self.onFlutter(None)
 
     def onSlider(self, value):
         self.altitudeInput.setText(self._formatAltitude(FreeCAD.Units.Quantity(str(value) + self._heightUnits())))
+
+        current = float(FreeCAD.Units.Quantity(self.altitudeInput.text()).getValueAs(FreeCAD.Units.Quantity(self._heightUnits())))
+        self.chart_view.x = current
+
         self.onFlutter(None)
 
     def _graphFlutter(self):
