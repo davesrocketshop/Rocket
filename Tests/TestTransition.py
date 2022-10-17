@@ -39,36 +39,36 @@ class TransitionTests(unittest.TestCase):
         self.Doc = FreeCAD.newDocument("TransitionTest")
 
     def testBasic(self):
-        t1 = makeTransition('Transition')
+        feature = makeTransition('Transition')
         self.Doc.recompute()
 
-        self.assertTrue(t1.Shape.isValid())
-        self.assertIsNone(t1.Shape.check(True))
+        self.assertTrue(feature.Shape.isValid())
+        self.assertIsNone(feature.Shape.check(True))
 
-    def _checkStyle(self, t1, message):
-        self.assertTrue(t1.Shape.isValid(), message)
-        self.assertIsNone(t1.Shape.check(True), message)
+    def _checkStyle(self, feature, message):
+        self.assertTrue(feature.Shape.isValid(), message)
+        self.assertIsNone(feature.Shape.check(True), message)
 
-    def _reverse(self, t1):
-        temp = t1.ForeDiameter
-        t1.ForeDiameter = t1.AftDiameter
-        t1.AftDiameter = temp
+    def _reverse(self, feature):
+        temp = feature.ForeDiameter
+        feature.ForeDiameter = feature.AftDiameter
+        feature.AftDiameter = temp
 
-        temp = t1.ForeShoulderDiameter
-        t1.ForeShoulderDiameter = t1.AftShoulderDiameter
-        t1.AftShoulderDiameter = temp
+        temp = feature.ForeShoulderDiameter
+        feature.ForeShoulderDiameter = feature.AftShoulderDiameter
+        feature.AftShoulderDiameter = temp
 
     def _testPlain(self, type, style, clipped, capStyle = STYLE_CAP_SOLID):
-        t1 = makeTransition('Transition')
-        t1.TransitionType = type
+        feature = makeTransition('Transition')
+        feature.TransitionType = type
         if type == TYPE_POWER:
-            t1.Coefficient = 0.5
-        t1.Clipped = clipped
-        t1.TransitionStyle = style
-        t1.ForeShoulder = False
-        t1.AftShoulder = False
-        t1.ForeCapStyle = capStyle
-        t1.AftCapStyle = capStyle
+            feature.Coefficient = 0.5
+        feature.Clipped = clipped
+        feature.TransitionStyle = style
+        feature.ForeShoulder = False
+        feature.AftShoulder = False
+        feature.ForeCapStyle = capStyle
+        feature.AftCapStyle = capStyle
         self.Doc.recompute()
         
         message = type + ": " + style + " Plain"
@@ -76,23 +76,23 @@ class TransitionTests(unittest.TestCase):
         if clipped:
             message += ", clipped"
 
-        self._checkStyle(t1, message)
+        self._checkStyle(feature, message)
 
-        self._reverse(t1)
+        self._reverse(feature)
         message += ", reversed"
-        self._checkStyle(t1, message)
+        self._checkStyle(feature, message)
 
     def _testForeShoulder(self, type, style, clipped, capStyle = STYLE_CAP_SOLID):
-        t1 = makeTransition('Transition')
-        t1.TransitionType = type
+        feature = makeTransition('Transition')
+        feature.TransitionType = type
         if type == TYPE_POWER:
-            t1.Coefficient = 0.5
-        t1.Clipped = clipped
-        t1.TransitionStyle = style
-        t1.ForeShoulder = True
-        t1.AftShoulder = False
-        t1.ForeCapStyle = capStyle
-        t1.AftCapStyle = capStyle
+            feature.Coefficient = 0.5
+        feature.Clipped = clipped
+        feature.TransitionStyle = style
+        feature.ForeShoulder = True
+        feature.AftShoulder = False
+        feature.ForeCapStyle = capStyle
+        feature.AftCapStyle = capStyle
         self.Doc.recompute()
 
         message = type + ": " + style + " Fore Shoulder"
@@ -100,23 +100,23 @@ class TransitionTests(unittest.TestCase):
         if clipped:
             message += ", clipped"
 
-        self._checkStyle(t1, message)
+        self._checkStyle(feature, message)
 
-        self._reverse(t1)
+        self._reverse(feature)
         message += ", reversed"
-        self._checkStyle(t1, message)
+        self._checkStyle(feature, message)
 
     def _testAftShoulder(self, type, style, clipped, capStyle = STYLE_CAP_SOLID):
-        t1 = makeTransition('Transition')
-        t1.TransitionType = type
+        feature = makeTransition('Transition')
+        feature.TransitionType = type
         if type == TYPE_POWER:
-            t1.Coefficient = 0.5
-        t1.Clipped = clipped
-        t1.TransitionStyle = style
-        t1.ForeShoulder = False
-        t1.AftShoulder = True
-        t1.ForeCapStyle = capStyle
-        t1.AftCapStyle = capStyle
+            feature.Coefficient = 0.5
+        feature.Clipped = clipped
+        feature.TransitionStyle = style
+        feature.ForeShoulder = False
+        feature.AftShoulder = True
+        feature.ForeCapStyle = capStyle
+        feature.AftCapStyle = capStyle
         self.Doc.recompute()
 
         message = type + ": " + style + " Aft Shoulder"
@@ -124,23 +124,23 @@ class TransitionTests(unittest.TestCase):
         if clipped:
             message += ", clipped"
 
-        self._checkStyle(t1, message)
+        self._checkStyle(feature, message)
 
-        self._reverse(t1)
+        self._reverse(feature)
         message += ", reversed"
-        self._checkStyle(t1, message)
+        self._checkStyle(feature, message)
 
     def _testBothShoulder(self, type, style, clipped, capStyle = STYLE_CAP_SOLID):
-        t1 = makeTransition('Transition')
-        t1.TransitionType = type
+        feature = makeTransition('Transition')
+        feature.TransitionType = type
         if type == TYPE_POWER:
-            t1.Coefficient = 0.5
-        t1.Clipped = clipped
-        t1.TransitionStyle = style
-        t1.ForeShoulder = True
-        t1.AftShoulder = True
-        t1.ForeCapStyle = capStyle
-        t1.AftCapStyle = capStyle
+            feature.Coefficient = 0.5
+        feature.Clipped = clipped
+        feature.TransitionStyle = style
+        feature.ForeShoulder = True
+        feature.AftShoulder = True
+        feature.ForeCapStyle = capStyle
+        feature.AftCapStyle = capStyle
         self.Doc.recompute()
 
         message = type + ": " + style + " Both Shoulder"
@@ -148,11 +148,11 @@ class TransitionTests(unittest.TestCase):
         if clipped:
             message += ", clipped"
 
-        self._checkStyle(t1, message)
+        self._checkStyle(feature, message)
 
-        self._reverse(t1)
+        self._reverse(feature)
         message += ", reversed"
-        self._checkStyle(t1, message)
+        self._checkStyle(feature, message)
 
     def testTypesSolid(self):
         for type in [TYPE_CONE, TYPE_ELLIPTICAL, TYPE_HAACK, TYPE_OGIVE, TYPE_VON_KARMAN, TYPE_PARABOLA, TYPE_PARABOLIC, TYPE_POWER]:
