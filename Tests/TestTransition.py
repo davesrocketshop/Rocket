@@ -36,7 +36,7 @@ from Ui.CmdTransition import makeTransition
 class TransitionTests(unittest.TestCase):
 
     def setUp(self):
-        self.Doc = FreeCAD.newDocument("FlutterTest")
+        self.Doc = FreeCAD.newDocument("TransitionTest")
 
     def testBasic(self):
         t1 = makeTransition('Transition')
