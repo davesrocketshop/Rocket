@@ -159,7 +159,6 @@ class FinSketchShapeHandler(FinShapeHandler):
 
     def getFace(self):
         profile = self._obj.Profile
-        # print("Fully constrained %s" % str(profile.FullyConstrained)) # Issue a warning?
         shape = profile.Shape
 
         if not self.verifyShape(shape):

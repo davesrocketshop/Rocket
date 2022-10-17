@@ -224,37 +224,37 @@
       <translation>Forme de l'ailette</translation>
     </message>
     <message>
-      <location filename="ShapeNoseCone.py" line="96"/>
+      <location filename="ShapeNoseCone.py" line="99"/>
       <source>Length of the nose not including any shoulder</source>
       <translation>Longueur du nez, à l'exclusion de tout épaulement</translation>
     </message>
     <message>
-      <location filename="ShapeNoseCone.py" line="100"/>
+      <location filename="ShapeNoseCone.py" line="103"/>
       <source>Diameter at the base of the nose</source>
       <translation>Diamètre à la base du nez</translation>
     </message>
     <message>
-      <location filename="ShapeNoseCone.py" line="102"/>
+      <location filename="ShapeNoseCone.py" line="105"/>
       <source>Nose cone thickness</source>
-      <translation>Épaisseur du cône de nez</translation>
+      <translation>Épaisseur de la coiffe</translation>
     </message>
     <message>
-      <location filename="ShapeNoseCone.py" line="104"/>
+      <location filename="ShapeNoseCone.py" line="107"/>
       <source>Set to true if the part includes a shoulder</source>
       <translation>Mettre à vrai si la pièce inclut un épaulement</translation>
     </message>
     <message>
-      <location filename="ShapeNoseCone.py" line="106"/>
+      <location filename="ShapeNoseCone.py" line="109"/>
       <source>Shoulder Length</source>
       <translation>Longueur de l'épaulement</translation>
     </message>
     <message>
-      <location filename="ShapeNoseCone.py" line="108"/>
+      <location filename="ShapeNoseCone.py" line="111"/>
       <source>Shoulder diameter</source>
       <translation>Diamètre de l'épaulement</translation>
     </message>
     <message>
-      <location filename="ShapeNoseCone.py" line="110"/>
+      <location filename="ShapeNoseCone.py" line="113"/>
       <source>Shoulder thickness</source>
       <translation>Épaisseur de l'épaulement</translation>
     </message>
@@ -269,17 +269,17 @@
       <translation>Résolution</translation>
     </message>
     <message>
-      <location filename="ShapeNoseCone.py" line="119"/>
+      <location filename="ShapeNoseCone.py" line="122"/>
       <source>Nose cone type</source>
       <translation>Type de cône du nez</translation>
     </message>
     <message>
-      <location filename="ShapeNoseCone.py" line="135"/>
+      <location filename="ShapeNoseCone.py" line="138"/>
       <source>Nose cone style</source>
-      <translation>Style de cône du nez</translation>
+      <translation>Style de la coiffe</translation>
     </message>
     <message>
-      <location filename="ShapeNoseCone.py" line="142"/>
+      <location filename="ShapeNoseCone.py" line="152"/>
       <source>Shape of the nose cone</source>
       <translation>Forme de cône du nez</translation>
     </message>
@@ -544,139 +544,144 @@
       <translation>Forme du bouton du rail</translation>
     </message>
     <message>
-      <location filename="ShapeNoseCone.py" line="98"/>
+      <location filename="ShapeNoseCone.py" line="101"/>
       <source>Nose Radius for a blunted nose cone</source>
       <translation>Rayon de la coiffe pour un cône de coiffe émoussé</translation>
     </message>
     <message>
-      <location filename="ShapeNoseCone.py" line="114"/>
+      <location filename="ShapeNoseCone.py" line="117"/>
       <source>The radius of the circle used to define a secant ogive</source>
       <translation>Le rayon du cercle utilisé pour définir une ogive sécante</translation>
     </message>
     <message>
       <location filename="ShapeFin.py" line="113"/>
       <source>True when describing a set of fins</source>
-      <translation type="unfinished">True when describing a set of fins</translation>
+      <translation>Vrai quand on décrit un ensemble d'ailerons</translation>
     </message>
     <message>
       <location filename="ShapeFin.py" line="116"/>
       <source>Number of fins in a radial pattern</source>
-      <translation type="unfinished">Number of fins in a radial pattern</translation>
+      <translation>Nombre d'ailerons dans un motif radial</translation>
     </message>
     <message>
       <location filename="ShapeFin.py" line="118"/>
       <source>Angle between consecutive fins</source>
-      <translation type="unfinished">Angle between consecutive fins</translation>
-    </message>
-    <message>
-      <location filename="ShapeFin.py" line="122"/>
-      <source>Parent radius</source>
-      <translation type="unfinished">Parent radius</translation>
+      <translation>Angle entre les ailerons consécutifs</translation>
     </message>
     <message>
       <location filename="ShapeFin.py" line="134"/>
       <source>Sketch based fin debugging options</source>
-      <translation type="unfinished">Sketch based fin debugging options</translation>
+      <translation>Options de débogage des ailerons par esquisse</translation>
     </message>
     <message>
       <location filename="ShapeFinCan.py" line="49"/>
       <source>Diameter of the inside of the fin can</source>
-      <translation type="unfinished">Diameter of the inside of the fin can</translation>
+      <translation>Diamètre de l'intérieur de l'échappement accueillant les ailerons</translation>
     </message>
     <message>
       <location filename="ShapeFinCan.py" line="51"/>
       <source>Thickness of the fin can</source>
-      <translation type="unfinished">Thickness of the fin can</translation>
+      <translation>Épaisseur de l'échappement accueillant les ailerons</translation>
     </message>
     <message>
       <location filename="ShapeFinCan.py" line="53"/>
       <source>Length of the fin can</source>
-      <translation type="unfinished">Length of the fin can</translation>
+      <translation>Longueur de l'échappement accueillant les ailerons</translation>
     </message>
     <message>
       <location filename="ShapeFinCan.py" line="55"/>
       <source>Distance between the fin can leading edge and the fin leading edge</source>
-      <translation type="unfinished">Distance between the fin can leading edge and the fin leading edge</translation>
+      <translation>Distance entre le bord d'attaque de l'échappement accueillant les ailerons et le bord d'attaque de l'aileron</translation>
     </message>
     <message>
       <location filename="ShapeFinCan.py" line="58"/>
       <source>Leading Edge</source>
-      <translation type="unfinished">Leading Edge</translation>
+      <translation>Bord d'attaque</translation>
     </message>
     <message>
       <location filename="ShapeFinCan.py" line="62"/>
       <source>Leading Edge Length</source>
-      <translation type="unfinished">Leading Edge Length</translation>
+      <translation>Longueur du bord d'attaque</translation>
     </message>
     <message>
       <location filename="ShapeFinCan.py" line="65"/>
       <source>Trailing Edge</source>
-      <translation type="unfinished">Trailing Edge</translation>
+      <translation>Bord de fuite</translation>
     </message>
     <message>
       <location filename="ShapeFinCan.py" line="69"/>
       <source>Trailing Edge Length</source>
-      <translation type="unfinished">Trailing Edge Length</translation>
+      <translation>Longueur du bord de fuite</translation>
     </message>
     <message>
       <location filename="ShapeFinCan.py" line="72"/>
       <source>Fin can includes a launch lug</source>
-      <translation type="unfinished">Fin can includes a launch lug</translation>
+      <translation>L'échappement accueillant les ailerons comprend un sabot de lancement</translation>
     </message>
     <message>
       <location filename="ShapeFinCan.py" line="74"/>
       <source>Diameter of the inside of the launch lug</source>
-      <translation type="unfinished">Diameter of the inside of the launch lug</translation>
+      <translation>Diamètre de l'intérieur du sabot de lancement</translation>
     </message>
     <message>
       <location filename="ShapeFinCan.py" line="76"/>
       <source>Thickness of the launch lug</source>
-      <translation type="unfinished">Thickness of the launch lug</translation>
+      <translation>Épaisseur du sabot de lancement</translation>
     </message>
     <message>
       <location filename="ShapeFinCan.py" line="78"/>
       <source>Launch lug thickness is the same as the fin can</source>
-      <translation type="unfinished">Launch lug thickness is the same as the fin can</translation>
-    </message>
-    <message>
-      <location filename="ShapeFinCan.py" line="80"/>
-      <source>Length of the launch</source>
-      <translation type="unfinished">Length of the launch</translation>
+      <translation>L'épaisseur du sabot de lancement est la même que celle de l'échappement accueillant les ailerons</translation>
     </message>
     <message>
       <location filename="ShapeFinCan.py" line="82"/>
       <source>Automatically adjust the length of the launch lug</source>
-      <translation type="unfinished">Automatically adjust the length of the launch lug</translation>
+      <translation>Ajustement automatique de la longueur du sabot de lancement</translation>
     </message>
     <message>
       <location filename="ShapeFinCan.py" line="84"/>
       <source>Launch lug fillet radius</source>
-      <translation type="unfinished">Launch lug fillet radius</translation>
+      <translation>Rayon du congé du sabot de lancement</translation>
     </message>
     <message>
       <location filename="ShapeFinCan.py" line="87"/>
       <source>Launch lug size preset</source>
-      <translation type="unfinished">Launch lug size preset</translation>
+      <translation>Taille du sabot de lancement prédéfini</translation>
     </message>
     <message>
       <location filename="ShapeFinCan.py" line="95"/>
       <source>Forward side of the launch lug is swept</source>
-      <translation type="unfinished">Forward side of the launch lug is swept</translation>
+      <translation>La face avant du sabot de lancement est balayée</translation>
     </message>
     <message>
       <location filename="ShapeFinCan.py" line="97"/>
       <source>Forward sweep angle</source>
-      <translation type="unfinished">Forward sweep angle</translation>
+      <translation>Angle de balayage avant</translation>
     </message>
     <message>
       <location filename="ShapeFinCan.py" line="99"/>
       <source>Aft side of the launch lug is swept</source>
-      <translation type="unfinished">Aft side of the launch lug is swept</translation>
+      <translation>Le côté arrière du sabot de lancement est balayé</translation>
     </message>
     <message>
       <location filename="ShapeFinCan.py" line="101"/>
       <source>Aft sweep angle</source>
-      <translation type="unfinished">Aft sweep angle</translation>
+      <translation>Angle de balayage arrière</translation>
+    </message>
+    <message>
+      <location filename="ShapeNoseCone.py" line="97"/>
+      <source>Width of the nose cap bar</source>
+      <translation>Largeur de la barre du cône de pénétration</translation>
+    </message>
+    <message>
+      <location filename="ShapeNoseCone.py" line="145"/>
+      <source>Nose cone cap style</source>
+      <translation>Style du cône de pénétration</translation>
+    </message>
+    <message>
+      <location filename="ShapeFinCan.py" line="80"/>
+      <source>Length of the launch lug</source>
+      <translation>Longueur du sabot de lancement</translation>
     </message>
   </context>
   <context>
@@ -697,7 +702,7 @@
       <translation>Calculer la taille du trou d'évent</translation>
     </message>
     <message>
-      <location filename="DialogBlackPowder.py" line="38"/>
+      <location filename="DialogParachute.py" line="42"/>
       <source>Custom</source>
       <translation>Personnalisé</translation>
     </message>
@@ -727,7 +732,7 @@
       <translation>Diamètre extérieur</translation>
     </message>
     <message>
-      <location filename="TaskPanelNoseCone.py" line="192"/>
+      <location filename="TaskPanelTransition.py" line="209"/>
       <source>Length</source>
       <translation>Longueur</translation>
     </message>
@@ -742,12 +747,12 @@
       <translation>Paramètre de Cloison</translation>
     </message>
     <message>
-      <location filename="TaskPanelBulkhead.py" line="113"/>
+      <location filename="TaskPanelTransition.py" line="203"/>
       <source>Diameter</source>
       <translation>Diamètre</translation>
     </message>
     <message>
-      <location filename="TaskPanelBulkhead.py" line="102"/>
+      <location filename="TaskPanelTransition.py" line="215"/>
       <source>Thickness</source>
       <translation>Épaisseur</translation>
     </message>
@@ -762,12 +767,12 @@
       <translation>Encoché</translation>
     </message>
     <message>
-      <location filename="TaskPanelBulkhead.py" line="79"/>
+      <location filename="TaskPanelRailGuide.py" line="140"/>
       <source>Width</source>
       <translation>Largeur</translation>
     </message>
     <message>
-      <location filename="TaskPanelBulkhead.py" line="85"/>
+      <location filename="TaskPanelFinCan.py" line="185"/>
       <source>Height</source>
       <translation>Hauteur</translation>
     </message>
@@ -792,7 +797,7 @@
       <translation>Nombre</translation>
     </message>
     <message>
-      <location filename="TaskPanelBulkhead.py" line="132"/>
+      <location filename="TaskPanelFin.py" line="278"/>
       <source>Offset</source>
       <translation>Décalage</translation>
     </message>
@@ -827,52 +832,52 @@
       <translation>Rechercher...</translation>
     </message>
     <message>
-      <location filename="TaskPanelFin.py" line="51"/>
+      <location filename="TaskPanelFinCan.py" line="53"/>
       <source>Fin Parameter</source>
       <translation>Paramètre d'Ailette</translation>
     </message>
     <message>
-      <location filename="TaskPanelFin.py" line="71"/>
+      <location filename="TaskPanelFinCan.py" line="76"/>
       <source>Fin type</source>
       <translation>Type d'ailette</translation>
     </message>
     <message>
-      <location filename="TaskPanelFin.py" line="84"/>
+      <location filename="TaskPanelFinCan.py" line="104"/>
       <source>Fin Root</source>
       <translation>Racine d'ailette</translation>
     </message>
     <message>
-      <location filename="TaskPanelFin.py" line="129"/>
+      <location filename="TaskPanelFinCan.py" line="149"/>
       <source>Cross Section</source>
       <translation>Section Transversale</translation>
     </message>
     <message>
-      <location filename="TaskPanelFin.py" line="136"/>
+      <location filename="TaskPanelFinCan.py" line="156"/>
       <source>Chord</source>
       <translation>Corde</translation>
     </message>
     <message>
-      <location filename="TaskPanelFin.py" line="148"/>
+      <location filename="TaskPanelFinCan.py" line="168"/>
       <source>Use percentage</source>
       <translation>Utiliser un pourcentage</translation>
     </message>
     <message>
-      <location filename="TaskPanelFin.py" line="153"/>
+      <location filename="TaskPanelFinCan.py" line="173"/>
       <source>Length 1</source>
       <translation>Longueur 1</translation>
     </message>
     <message>
-      <location filename="TaskPanelFin.py" line="159"/>
+      <location filename="TaskPanelFinCan.py" line="179"/>
       <source>Length 2</source>
       <translation>Longueur 2</translation>
     </message>
     <message>
-      <location filename="TaskPanelFin.py" line="126"/>
+      <location filename="TaskPanelFinCan.py" line="146"/>
       <source>Fin Tip</source>
       <translation>Extrémité d'ailette</translation>
     </message>
     <message>
-      <location filename="TaskPanelFin.py" line="172"/>
+      <location filename="TaskPanelFinCan.py" line="192"/>
       <source>Sweep Length</source>
       <translation>Longueur de Balayage</translation>
     </message>
@@ -887,12 +892,12 @@
       <translation>Languette ATLM</translation>
     </message>
     <message>
-      <location filename="TaskPanelNoseCone.py" line="50"/>
+      <location filename="TaskPanelNoseCone.py" line="51"/>
       <source>Nose Cone Parameter</source>
-      <translation>Paramètre de Coiffe</translation>
+      <translation>Paramètre de la coiffe</translation>
     </message>
     <message>
-      <location filename="TaskPanelNoseCone.py" line="180"/>
+      <location filename="TaskPanelTransition.py" line="56"/>
       <source>Shoulder</source>
       <translation>Épaulement</translation>
     </message>
@@ -932,12 +937,12 @@
       <translation>Épaulement arrière</translation>
     </message>
     <message>
-      <location filename="InitGui.py" line="50"/>
+      <location filename="InitGui.py" line="59"/>
       <source>Rocket</source>
       <translation>Fusée</translation>
     </message>
     <message>
-      <location filename="RocketGui.py" line="76"/>
+      <location filename="RocketGui.py" line="91"/>
       <source>Calculators</source>
       <translation>Calculateurs</translation>
     </message>
@@ -1037,27 +1042,27 @@
       <translation>Les paramètres d'anneau de centrage produisent une forme invalide</translation>
     </message>
     <message>
-      <location filename="FinShapeHandler.py" line="256"/>
+      <location filename="FinShapeHandler.py" line="258"/>
       <source>Ttw offset must be less than the root chord</source>
       <translation>Le décalage ATLM doit être inférieur à la corde de la racine</translation>
     </message>
     <message>
-      <location filename="FinShapeHandler.py" line="259"/>
+      <location filename="FinShapeHandler.py" line="261"/>
       <source>Ttw length must be greater than 0</source>
       <translation>La longueur ATLM doit être supérieur à 0</translation>
     </message>
     <message>
-      <location filename="FinShapeHandler.py" line="262"/>
+      <location filename="FinShapeHandler.py" line="264"/>
       <source>Ttw height must be greater than 0</source>
       <translation>La hauteur ATLM doit être supérieure à 0</translation>
     </message>
     <message>
-      <location filename="FinShapeHandler.py" line="265"/>
+      <location filename="FinShapeHandler.py" line="267"/>
       <source>Ttw thickness must be greater than 0</source>
       <translation>L'épaisseur ATLM doit être supérieure à 0</translation>
     </message>
     <message>
-      <location filename="FinShapeHandler.py" line="342"/>
+      <location filename="FinShapeHandler.py" line="356"/>
       <source>Fin parameters produce an invalid shape</source>
       <translation>Les paramètres d'ailette produisent une forme invalide</translation>
     </message>
@@ -1077,32 +1082,32 @@
       <translation>Pour les coiffes %s, le coefficient doit être dans l'intervalle (0 &lt; coefficient &lt;= 1)</translation>
     </message>
     <message>
-      <location filename="NoseShapeHandler.py" line="72"/>
+      <location filename="NoseShapeHandler.py" line="75"/>
       <source>For %s nose cones thickness must be &gt; 0</source>
       <translation>Pour les coiffes %s, l'épaisseur doit être &gt; 0</translation>
     </message>
     <message>
-      <location filename="NoseShapeHandler.py" line="75"/>
+      <location filename="NoseShapeHandler.py" line="78"/>
       <source>Nose cones thickness must be less than the nose cone radius</source>
       <translation>L'épaisseur de la coiffe doit être inférieure au rayon de la coiffe</translation>
     </message>
     <message>
-      <location filename="NoseShapeHandler.py" line="91"/>
+      <location filename="NoseShapeHandler.py" line="94"/>
       <source>Shoulder length must be &gt; 0</source>
       <translation>La longueur de l'épaulement doit être &gt; 0</translation>
     </message>
     <message>
-      <location filename="NoseShapeHandler.py" line="94"/>
+      <location filename="NoseShapeHandler.py" line="97"/>
       <source>Shoulder diameter must be &gt; 0</source>
       <translation>Le diamètre de l'épaulement doit être &gt; 0</translation>
     </message>
     <message>
-      <location filename="NoseShapeHandler.py" line="97"/>
+      <location filename="NoseShapeHandler.py" line="100"/>
       <source>Shoulder diameter can not exceed the nose cone diameter</source>
       <translation>Le diamètre de l'épaulement ne peut pas excéder le diamètre de la coiffe</translation>
     </message>
     <message>
-      <location filename="NoseShapeHandler.py" line="101"/>
+      <location filename="NoseShapeHandler.py" line="104"/>
       <source>For %s nose cones with a shoulder, shoulder thickness must be &gt; 0</source>
       <translation>Pour les coiffes %s avec un épaulement, l'épaisseur de l'épaulement doit être &gt; 0</translation>
     </message>
@@ -1112,7 +1117,7 @@
       <translation>L'épaisseur de l'épaulement doit être inférieure au rayon de l'épaulement</translation>
     </message>
     <message>
-      <location filename="NoseShapeHandler.py" line="145"/>
+      <location filename="NoseShapeHandler.py" line="173"/>
       <source>Nose cone parameters produce an invalid shape</source>
       <translation>Les paramètres de coiffe produisent une forme invalide</translation>
     </message>
@@ -1222,12 +1227,12 @@
       <translation>Conception d'anneau de centrage</translation>
     </message>
     <message>
-      <location filename="CmdFin.py" line="73"/>
+      <location filename="CmdParachuteDesigner.py" line="73"/>
       <source>Fin</source>
       <translation>Ailette</translation>
     </message>
     <message>
-      <location filename="CmdFin.py" line="74"/>
+      <location filename="CmdParachuteDesigner.py" line="74"/>
       <source>Fin design</source>
       <translation>Conception d'ailette</translation>
     </message>
@@ -1262,27 +1267,12 @@
       <translation>Calculateur de Charge d’Éjection</translation>
     </message>
     <message>
-      <location filename="DialogBlackPowder.py" line="66"/>
-      <source>
-        &lt;html&gt;
-        &lt;h1&gt;WARNING&lt;/h1&gt;
-        &lt;p&gt;This calculator is an estimate only. Ground test your ejection system before flying. In certain cases this calculation may overestimate the amount of powder required&lt;/p&gt;
-        &lt;/html&gt;
-        </source>
-      <translation>
-        &lt;html&gt;
-        &lt;h1&gt;AVERTISSEMENT&lt;/h1&gt;
-        &lt;p&gt;Ce calculateur est seulement un estimateur. Testez votre système d'éjection au sol avant de mettre en vol. Dans certains cas, ce calcul pourrait surestimer la quantité de poudre requise&lt;/p&gt;
-        &lt;/html&gt;
-        </translation>
-    </message>
-    <message>
-      <location filename="DialogBlackPowder.py" line="70"/>
+      <location filename="TaskPanelRailGuide.py" line="101"/>
       <source>Body Tube Diameter</source>
       <translation>Diamètre de Corps Tubulaire</translation>
     </message>
     <message>
-      <location filename="DialogBlackPowder.py" line="78"/>
+      <location filename="DialogVentHoles.py" line="63"/>
       <source>Body Tube Length</source>
       <translation>Longueur de Corps Tubulaire</translation>
     </message>
@@ -1302,82 +1292,82 @@
       <translation>Poudre FFFFg</translation>
     </message>
     <message>
-      <location filename="DialogLookup.py" line="117"/>
+      <location filename="DialogLookup.py" line="88"/>
       <source>Component lookup...</source>
       <translation>Recherche de composant...</translation>
     </message>
     <message>
-      <location filename="DialogLookup.py" line="120"/>
+      <location filename="DialogLookup.py" line="91"/>
       <source>Search</source>
       <translation>Rechercher</translation>
     </message>
     <message>
-      <location filename="DialogLookup.py" line="126"/>
+      <location filename="DialogLookup.py" line="97"/>
       <source>Component</source>
       <translation>Composant</translation>
     </message>
     <message>
-      <location filename="DialogLookup.py" line="231"/>
+      <location filename="DialogLookup.py" line="199"/>
       <source>Body tube not found</source>
       <translation>Corps tubulaire non trouvé</translation>
     </message>
     <message>
-      <location filename="DialogLookup.py" line="255"/>
+      <location filename="DialogLookup.py" line="223"/>
       <source>Multiple identical entries found</source>
       <translation>Multiples entrées identiques trouvées</translation>
     </message>
     <message>
-      <location filename="DialogLookup.py" line="242"/>
+      <location filename="DialogLookup.py" line="210"/>
       <source>Nose cone not found</source>
       <translation>Cône de nez non trouvée</translation>
     </message>
     <message>
-      <location filename="DialogLookup.py" line="253"/>
+      <location filename="DialogLookup.py" line="221"/>
       <source>Transition not found</source>
       <translation>Transition non trouvée</translation>
     </message>
     <message>
-      <location filename="DialogLookup.py" line="298"/>
+      <location filename="DialogLookup.py" line="266"/>
       <source>Type</source>
       <translation>Type</translation>
     </message>
     <message>
-      <location filename="DialogLookup.py" line="340"/>
+      <location filename="DialogLookup.py" line="308"/>
       <source>Shoulder Diameter</source>
       <translation>Diamètre d’Épaulement</translation>
     </message>
     <message>
-      <location filename="DialogLookup.py" line="341"/>
+      <location filename="DialogLookup.py" line="309"/>
       <source>Shoulder Length</source>
       <translation>Longueur d’Épaulement</translation>
     </message>
     <message>
-      <location filename="DialogLookup.py" line="369"/>
+      <location filename="DialogLookup.py" line="337"/>
       <source>Shape</source>
       <translation>Forme</translation>
     </message>
     <message>
-      <location filename="DialogLookup.py" line="370"/>
+      <location filename="DialogLookup.py" line="338"/>
       <source>Fore Diameter</source>
       <translation>Diamètre Avant</translation>
     </message>
     <message>
-      <location filename="DialogLookup.py" line="373"/>
+      <location filename="DialogLookup.py" line="341"/>
       <source>Fore Shoulder Diameter</source>
       <translation>Diamètre d’Épaulement Avant</translation>
     </message>
     <message>
-      <location filename="DialogLookup.py" line="374"/>
+      <location filename="DialogLookup.py" line="342"/>
       <source>Fore Shoulder Length</source>
       <translation>Longueur d’Épaulement Avant</translation>
     </message>
     <message>
-      <location filename="DialogLookup.py" line="375"/>
+      <location filename="DialogLookup.py" line="343"/>
       <source>Aft Shoulder Diameter</source>
       <translation>Diamètre d’Épaulement Arrière</translation>
     </message>
     <message>
-      <location filename="DialogLookup.py" line="376"/>
+      <location filename="DialogLookup.py" line="344"/>
       <source>Aft Shoulder Length</source>
       <translation>Longueur d’Épaulement Arrière</translation>
     </message>
@@ -1492,32 +1482,32 @@
       <translation>Créer une nouvelle esquisse</translation>
     </message>
     <message>
-      <location filename="RocketGui.py" line="90"/>
+      <location filename="RocketGui.py" line="105"/>
       <source>Launch Guides</source>
       <translation>Guides de lancement</translation>
     </message>
     <message>
-      <location filename="Constants.py" line="126"/>
+      <location filename="Constants.py" line="132"/>
       <source>Top of the parent component</source>
       <translation>Haut du composant parent</translation>
     </message>
     <message>
-      <location filename="Constants.py" line="127"/>
+      <location filename="Constants.py" line="133"/>
       <source>Middle of the parent component</source>
       <translation>Milieu du composant parent</translation>
     </message>
     <message>
-      <location filename="Constants.py" line="128"/>
+      <location filename="Constants.py" line="134"/>
       <source>Bottom of the parent component</source>
       <translation>Bas du composant parent</translation>
     </message>
     <message>
-      <location filename="Constants.py" line="129"/>
+      <location filename="Constants.py" line="135"/>
       <source>Base of the rocket</source>
       <translation>Base de la fusée</translation>
     </message>
     <message>
-      <location filename="Constants.py" line="133"/>
+      <location filename="Constants.py" line="139"/>
       <source>After the target component</source>
       <translation>Après le composant cible</translation>
     </message>
@@ -1629,12 +1619,12 @@
     <message>
       <location filename="TaskPanelFinCan.py" line="418"/>
       <source>Launch Lug</source>
-      <translation>Rampe de lancement</translation>
+      <translation>Sabot de lancement</translation>
     </message>
     <message>
       <location filename="CmdLaunchGuides.py" line="96"/>
       <source>Launch lug design</source>
-      <translation>Conception de la rampe de lancement</translation>
+      <translation>Conception du sabot de lancement</translation>
     </message>
     <message>
       <location filename="CmdLaunchGuides.py" line="112"/>
@@ -1692,17 +1682,17 @@
       <translation>Largeur de la base</translation>
     </message>
     <message>
-      <location filename="TaskPanelRailButton.py" line="78"/>
+      <location filename="TaskPanelRailGuide.py" line="76"/>
       <source>Top Thickness</source>
       <translation>Épaisseur du haut</translation>
     </message>
     <message>
-      <location filename="TaskPanelRailButton.py" line="84"/>
+      <location filename="TaskPanelRailGuide.py" line="82"/>
       <source>Base Thickness</source>
       <translation>Épaisseur de la base</translation>
     </message>
     <message>
-      <location filename="TaskPanelRailButton.py" line="90"/>
+      <location filename="TaskPanelRailGuide.py" line="88"/>
       <source>Total Thickness</source>
       <translation>Épaisseur totale</translation>
     </message>
@@ -1737,7 +1727,7 @@
       <translation>Profondeur</translation>
     </message>
     <message>
-      <location filename="TaskPanelNoseCone.py" line="55"/>
+      <location filename="TaskPanelTransition.py" line="55"/>
       <source>General</source>
       <translation>Général</translation>
     </message>
@@ -1747,12 +1737,12 @@
       <translation>Forme de la transition</translation>
     </message>
     <message>
-      <location filename="TaskPanelNoseCone.py" line="116"/>
+      <location filename="TaskPanelTransition.py" line="86"/>
       <source>Shape Parameter</source>
       <translation>Paramètre de la forme</translation>
     </message>
     <message>
-      <location filename="TaskPanelNoseCone.py" line="87"/>
+      <location filename="TaskPanelTransition.py" line="97"/>
       <source>Style</source>
       <translation>Style</translation>
     </message>
@@ -1797,7 +1787,7 @@
       <translation>Rayon</translation>
     </message>
     <message>
-      <location filename="TaskPanelNoseCone.py" line="69"/>
+      <location filename="TaskPanelNoseCone.py" line="70"/>
       <source>Nose Cone Shape</source>
       <translation>Type de cône de la coiffe</translation>
     </message>
@@ -1807,22 +1797,22 @@
       <translation>Onglets d'aileron</translation>
     </message>
     <message>
-      <location filename="NoseShapeHandler.py" line="79"/>
+      <location filename="NoseShapeHandler.py" line="82"/>
       <source>Nose diameter must be less than the base diameter</source>
       <translation>Le diamètre de la coiffe doit être inférieur au diamètre de la base</translation>
     </message>
     <message>
-      <location filename="NoseShapeHandler.py" line="82"/>
+      <location filename="NoseShapeHandler.py" line="85"/>
       <source>Nose diameter must be greater than zero</source>
       <translation>Le diamètre de la coiffe doit être supérieur à zéro</translation>
     </message>
     <message>
-      <location filename="TaskPanelNoseCone.py" line="126"/>
+      <location filename="TaskPanelNoseCone.py" line="127"/>
       <source>Blunted Diameter</source>
       <translation>Diamètre tronqué</translation>
     </message>
     <message>
-      <location filename="TaskPanelNoseCone.py" line="132"/>
+      <location filename="TaskPanelNoseCone.py" line="133"/>
       <source>Ogive Diameter</source>
       <translation>Diamètre de l'ogive</translation>
     </message>
@@ -1834,87 +1824,242 @@
     <message>
       <location filename="FinCanShapeHandler.py" line="50"/>
       <source>Fin can thickness must be greater than zero</source>
-      <translation type="unfinished">Fin can thickness must be greater than zero</translation>
+      <translation>L'épaisseur de l'échappement accueillant les ailerons doit être supérieure à zéro</translation>
     </message>
     <message>
       <location filename="FinCanShapeHandler.py" line="53"/>
       <source>Fin can length must be greater than zero</source>
-      <translation type="unfinished">Fin can length must be greater than zero</translation>
+      <translation>La longueur de l'échappement accueillant les ailerons doit être supérieure à zéro</translation>
     </message>
     <message>
       <location filename="FinCanShapeHandler.py" line="62"/>
       <source>Fin can leading and trailing edges can not exceed total length</source>
-      <translation type="unfinished">Fin can leading and trailing edges can not exceed total length</translation>
+      <translation>Les bords d'attaque et de fuite de l'échappement accueillant les ailerons ne doivent pas dépasser la longueur totale</translation>
     </message>
     <message>
       <location filename="FinCanShapeHandler.py" line="292"/>
       <source>Launch lug parameters produce an invalid shape</source>
-      <translation type="unfinished">Launch lug parameters produce an invalid shape</translation>
+      <translation>Les paramètres du sabot de lancement produisent une forme invalide</translation>
     </message>
     <message>
       <location filename="FinCanShapeHandler.py" line="336"/>
       <source>Fin can parameters produce an invalid shape</source>
-      <translation type="unfinished">Fin can parameters produce an invalid shape</translation>
+      <translation>Les paramètres de l'échappement accueillant les ailerons produisent une forme invalide</translation>
     </message>
     <message>
       <location filename="TaskPanelFinCan.py" line="59"/>
       <source>Fins</source>
-      <translation type="unfinished">Fins</translation>
+      <translation>Ailerons</translation>
     </message>
     <message>
-      <location filename="CmdFinCan.py" line="73"/>
+      <location filename="TaskPanelFinCan.py" line="60"/>
       <source>Fin Can</source>
-      <translation type="unfinished">Fin Can</translation>
+      <translation>Échappement accueillant les ailerons</translation>
     </message>
     <message>
       <location filename="TaskPanelFinCan.py" line="88"/>
       <source>Fin Set</source>
-      <translation type="unfinished">Fin Set</translation>
+      <translation>Jeu d'ailerons</translation>
     </message>
     <message>
       <location filename="TaskPanelFinCan.py" line="90"/>
       <source>Fin Count</source>
-      <translation type="unfinished">Fin Count</translation>
+      <translation>Nombre d'ailerons</translation>
     </message>
     <message>
       <location filename="TaskPanelFinCan.py" line="97"/>
       <source>Fin Spacing</source>
-      <translation type="unfinished">Fin Spacing</translation>
+      <translation>Espacement des ailerons</translation>
     </message>
     <message>
       <location filename="TaskPanelFinCan.py" line="327"/>
       <source>Leading Edge Offset</source>
-      <translation type="unfinished">Leading Edge Offset</translation>
+      <translation>Décalage du bord d'attaque</translation>
     </message>
     <message>
       <location filename="TaskPanelFinCan.py" line="334"/>
       <source>Leading Edge</source>
-      <translation type="unfinished">Leading Edge</translation>
+      <translation>Bord d'attaque</translation>
     </message>
     <message>
       <location filename="TaskPanelFinCan.py" line="350"/>
       <source>Edge Style</source>
-      <translation type="unfinished">Edge Style</translation>
+      <translation>Style du bord</translation>
     </message>
     <message>
       <location filename="TaskPanelFinCan.py" line="348"/>
       <source>Trailing Edge</source>
-      <translation type="unfinished">Trailing Edge</translation>
+      <translation>Bord de fuite</translation>
     </message>
     <message>
       <location filename="TaskPanelFinCan.py" line="451"/>
       <source>Fillet radius</source>
-      <translation type="unfinished">Fillet radius</translation>
+      <translation>Rayon du congé</translation>
     </message>
     <message>
       <location filename="CmdFinCan.py" line="74"/>
       <source>Fin can design</source>
-      <translation type="unfinished">Fin can design</translation>
+      <translation>Conception de l'échappement accueillant les ailerons</translation>
     </message>
     <message>
       <location filename="TaskPanelRailButton.py" line="105"/>
       <source>Countersink Angle</source>
-      <translation type="unfinished">Countersink Angle</translation>
+      <translation>Angle de fraisage</translation>
+    </message>
+    <message>
+      <location filename="NoseShapeHandler.py" line="187"/>
+      <source>Nose cone cap style produces an invalid shape</source>
+      <translation>Le style du cône de pénétration produit une forme invalide</translation>
+    </message>
+    <message>
+      <location filename="TaskPanelNoseCone.py" line="140"/>
+      <source>Nose Cap</source>
+      <translation>Cône de pénétration</translation>
+    </message>
+    <message>
+      <location filename="TaskPanelNoseCone.py" line="142"/>
+      <source>Cap style</source>
+      <translation>Style de la capsule</translation>
+    </message>
+    <message>
+      <location filename="TaskPanelNoseCone.py" line="150"/>
+      <source>Bar Width</source>
+      <translation>Largeur de la barre</translation>
+    </message>
+    <message>
+      <location filename="FinFlutter.py" line="62"/>
+      <source>Tapered thickness fins are not supported at this time</source>
+      <translation>Les ailerons de forme conique ne sont pas pris en charge pour le moment</translation>
+    </message>
+    <message>
+      <location filename="FinFlutter.py" line="78"/>
+      <source>Elliptical fins are not supported at this time</source>
+      <translation>Les ailerons elliptiques ne sont pas pris en charge pour l'instant</translation>
+    </message>
+    <message>
+      <location filename="FinFlutter.py" line="88"/>
+      <source>Custom fins are not supported at this time</source>
+      <translation>Les ailerons personnalisés ne sont pas pris en charge pour l'instant</translation>
+    </message>
+    <message>
+      <location filename="InitGui.py" line="60"/>
+      <source>Analysis</source>
+      <translation>Analyse</translation>
+    </message>
+    <message>
+      <location filename="CmdFlutterAnalysis.py" line="49"/>
+      <source>Please select a fin first</source>
+      <translation>Veuillez d'abord sélectionner un aileron</translation>
+    </message>
+    <message>
+      <location filename="DialogFinFlutter.py" line="89"/>
+      <source>Fin Flutter Analysis</source>
+      <translation>Analyse du flottement des ailerons</translation>
+    </message>
+    <message>
+      <location filename="CmdFlutterAnalysis.py" line="62"/>
+      <source>Calculate fin flutter</source>
+      <translation>Calculer le flottement des ailerons</translation>
+    </message>
+    <message>
+      <location filename="CmdMaterialEditor.py" line="40"/>
+      <source>Material editor</source>
+      <translation>Éditeur de matériaux</translation>
+    </message>
+    <message>
+      <location filename="CmdMaterialEditor.py" line="41"/>
+      <source>Opens the FreeCAD material editor</source>
+      <translation>Ouvre l’éditeur de matériaux de FreeCAD</translation>
+    </message>
+    <message>
+      <location filename="CmdParachute.py" line="64"/>
+      <source>Parachute</source>
+      <translation>Parachute</translation>
+    </message>
+    <message>
+      <location filename="CmdParachute.py" line="65"/>
+      <source>Parachute design</source>
+      <translation>Conception du parachute</translation>
+    </message>
+    <message>
+      <location filename="CmdParachuteGore.py" line="65"/>
+      <source>Parachute Gore</source>
+      <translation>Fuseau du parachute</translation>
+    </message>
+    <message>
+      <location filename="CmdParachuteGore.py" line="66"/>
+      <source>Parachute gore design</source>
+      <translation>Conception des fuseaux du parachute</translation>
+    </message>
+    <message>
+      <location filename="DialogFinFlutter.py" line="95"/>
+      <source>Preset</source>
+      <translation>Préréglage</translation>
+    </message>
+    <message>
+      <location filename="DialogFinFlutter.py" line="100"/>
+      <source>Shear Modulus</source>
+      <translation>Module de cisaillement</translation>
+    </message>
+    <message>
+      <location filename="DialogFinFlutter.py" line="107"/>
+      <source>Calculated</source>
+      <translation>Calculé</translation>
+    </message>
+    <message>
+      <location filename="DialogFinFlutter.py" line="110"/>
+      <source>Young&apos;s Modulus</source>
+      <translation>Module de Young</translation>
+    </message>
+    <message>
+      <location filename="DialogFinFlutter.py" line="118"/>
+      <source>Poisson Ratio</source>
+      <translation>Coefficient de Poisson</translation>
+    </message>
+    <message>
+      <location filename="DialogFinFlutter.py" line="125"/>
+      <source>Fin Flutter</source>
+      <translation>Flottement des ailerons</translation>
+    </message>
+    <message>
+      <location filename="DialogFinFlutter.py" line="127"/>
+      <source>Maximum Altitude</source>
+      <translation>Altitude maximale</translation>
+    </message>
+    <message>
+      <location filename="DialogFinFlutter.py" line="132"/>
+      <source>Altitude at Max Speed</source>
+      <translation>Altitude à la vitesse maximale</translation>
+    </message>
+    <message>
+      <location filename="DialogFinFlutter.py" line="143"/>
+      <source>Flutter Speed</source>
+      <translation>Vitesse de flottement</translation>
+    </message>
+    <message>
+      <location filename="DialogFinFlutter.py" line="151"/>
+      <source>Divergence Speed</source>
+      <translation>Vitesse de divergence</translation>
+    </message>
+    <message>
+      <location filename="DialogFinFlutter.py" line="166"/>
+      <source>Mach</source>
+      <translation>Mach</translation>
+    </message>
+    <message>
+      <location filename="DialogBlackPowder.py" line="66"/>
+      <source><byte value="xd"/>
+        &lt;html&gt;<byte value="xd"/>
+        &lt;h1&gt;WARNING&lt;/h1&gt;<byte value="xd"/>
+        &lt;p&gt;This calculator is an estimate only. Ground test your ejection system before flying. In certain cases this calculation may overestimate the amount of powder required&lt;/p&gt;<byte value="xd"/>
+        &lt;/html&gt;<byte value="xd"/>
+        </source>
+      <translation>
+        &lt;html&gt;
+        &lt;h1&gt;AVERTISSEMENT&lt;/h1&gt;
+        &lt;p&gt;Ce calculateur est seulement un estimateur. Testez votre système d'éjection au sol avant de mettre en vol. Dans certains cas, ce calcul pourrait surestimer la quantité de poudre requise&lt;/p&gt;
+        &lt;/html&gt;
+        </translation>
     </message>
   </context>
 </TS>

@@ -52,10 +52,10 @@ class ShapeRailButton(ShapeLocation):
         # Default set to a BT-50
         if not hasattr(obj,"RailButtonType"):
             obj.addProperty('App::PropertyEnumeration', 'RailButtonType', 'RailButton', translate('App::Property', 'Rail button type'))
-        obj.RailButtonType = [RAIL_BUTTON_ROUND, 
-                RAIL_BUTTON_AIRFOIL
-                ]
-        obj.RailButtonType = RAIL_BUTTON_ROUND
+            obj.RailButtonType = [RAIL_BUTTON_ROUND, 
+                    RAIL_BUTTON_AIRFOIL
+                    ]
+            obj.RailButtonType = RAIL_BUTTON_ROUND
 
         if not hasattr(obj,"OuterDiameter"):
             obj.addProperty('App::PropertyLength', 'OuterDiameter', 'RailButton', translate('App::Property', 'Diameter of the outside of the rail button')).OuterDiameter = 9.462
@@ -75,14 +75,14 @@ class ShapeRailButton(ShapeLocation):
             obj.addProperty('App::PropertyBool', 'Fastener', 'RailButton', translate('App::Property', 'Create a countersunk hole for the fastener')).Fastener = True
         if not hasattr(obj,"CountersinkAngle"):
             obj.addProperty('App::PropertyEnumeration', 'CountersinkAngle', 'RailButton', translate('App::Property', 'Fastener countersink angle'))
-        obj.CountersinkAngle = [CONTERSINK_ANGLE_60,
-                CONTERSINK_ANGLE_82,
-                CONTERSINK_ANGLE_90,
-                CONTERSINK_ANGLE_100,
-                CONTERSINK_ANGLE_110,
-                CONTERSINK_ANGLE_120
-                ]
-        obj.CountersinkAngle = CONTERSINK_ANGLE_82
+            obj.CountersinkAngle = [CONTERSINK_ANGLE_60,
+                    CONTERSINK_ANGLE_82,
+                    CONTERSINK_ANGLE_90,
+                    CONTERSINK_ANGLE_100,
+                    CONTERSINK_ANGLE_110,
+                    CONTERSINK_ANGLE_120
+                    ]
+            obj.CountersinkAngle = CONTERSINK_ANGLE_82
         if not hasattr(obj,"ShankDiameter"):
             obj.addProperty('App::PropertyLength', 'ShankDiameter', 'RailButton', translate('App::Property', 'Fastener shank diameter')).ShankDiameter = 3.51
         if not hasattr(obj,"HeadDiameter"):
@@ -112,5 +112,4 @@ class ShapeRailButton(ShapeLocation):
             shape.draw()
 
     def onChildEdited(self):
-        # print("%s: onChildEdited()" % (self.__class__.__name__))
         self._obj.Proxy.setEdited()

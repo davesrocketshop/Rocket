@@ -46,7 +46,7 @@ class TransitionEllipseShapeHandler(TransitionShapeHandler):
         try:
             y = (minor / major) * math.sqrt(major * major - x * x)
         except Exception as ex:
-            print("r1 = %f, r2 = %f, length = %f, pos = %f, major = %f, minor = %f, x = %f" % (r1, r2, length, pos, major, minor, x))
+            # print("r1 = %f, r2 = %f, length = %f, pos = %f, major = %f, minor = %f, x = %f" % (r1, r2, length, pos, major, minor, x))
             raise ex
         return y + center
 
@@ -75,10 +75,10 @@ class TransitionEllipseShapeHandler(TransitionShapeHandler):
                 theta1 = self._eTheta(major, minor, (r1 / min))
             theta2 = math.pi - self._eTheta(major, minor, (r2 / max))
 
-            print ("tan %f,%f compared to %f,%f" % (theta1, theta2, math.pi/2, math.pi))
+            # print ("tan %f,%f compared to %f,%f" % (theta1, theta2, math.pi/2, math.pi))
             curve = Part.ArcOfEllipse(Part.Ellipse(FreeCAD.Vector(max, 0.0), major, minor), theta1, theta2)
-            for vertex in Part.Wire(curve.toShape()).Vertexes:
-                print(vertex.Point)
+            # for vertex in Part.Wire(curve.toShape()).Vertexes:
+            #     print(vertex.Point)
 
             return curve
 
@@ -98,8 +98,8 @@ class TransitionEllipseShapeHandler(TransitionShapeHandler):
         if self._clipped:
             return super()._generateCurve(r1, r2, length, min, max)
 
-        if self._debugShape:
-            print ("r1 = %f, r2 = %f, min = %f, max = %f, length = %f" % (r1, r2, min, max, length))
+        # if self._debugShape:
+        #     print ("r1 = %f, r2 = %f, min = %f, max = %f, length = %f" % (r1, r2, min, max, length))
         if max == 0.0:
             max = length - min
         if r1 > r2:

@@ -77,21 +77,24 @@ class FinShapeHandler:
 
     def _airfoilCurve(self, foreX, chord, thickness, height, resolution):
         points = []
+        points1 = []
         for i in range(0, resolution):
             
             x = float(i) / float(resolution)
             y = self._airfoilY(x, thickness)
             points.append(FreeCAD.Vector(foreX - (x * chord), y, height))
+            points1.append(FreeCAD.Vector(foreX - (x * chord), -y, height))
 
         points.append(FreeCAD.Vector(foreX - chord, 0.0, height))
+        points1.append(FreeCAD.Vector(foreX - chord, 0.0, height))
 
-        # Circle back for the other side of the airfoil
-        for i in range(0, resolution):
-            vector = points[resolution - i]
-            points.append(FreeCAD.Vector(vector.x, -vector.y, vector.z))
-        points.append(FreeCAD.Vector(foreX, 0.0, height))
+        # Creating separate splines for each side of the airfoil adds extra reference
+        # points for lofting, reducing geometry errors
+        splines = []
+        splines.append(self._makeSpline(points).toShape())
+        splines.append(self._makeSpline(points1).toShape())
 
-        return points 
+        return splines 
 
     def _makeSpline(self, points):
         spline = Part.BSplineCurve()
@@ -111,10 +114,9 @@ class FinShapeHandler:
     def _makeChordProfileAirfoil(self, foreX, chord, thickness, height):
         # Standard NACA 4 digit symmetrical airfoil
 
-        points = self._airfoilCurve(foreX, chord, thickness, height, 100)
-        spline = self._makeSpline(points)
+        splines = self._airfoilCurve(foreX, chord, thickness, height, 100)
 
-        wire = Part.Wire([spline.toShape()])
+        wire = Part.Wire(splines)
         return wire
 
     def _makeChordProfileWedge(self, foreX, chord, thickness, height):
@@ -274,14 +276,22 @@ class FinShapeHandler:
         # Override this if we have a "masking" shape
         return None
 
-    def _drawFinDebug(self, debug):
+    def finOnlyShape(self):
+        fin = self._finOnlyShape(FIN_DEBUG_FULL)
+        return Part.makeCompound([fin])
+
+    def _finOnlyShape(self, debug):
+        #
+        # Return the shape of a single fin with no additions, such as fin tabs, fin cans, etc
+        #
+        # This can be used to determine characteristics such as mass, cg, and volume
+        loft = None
         profiles = self._makeProfiles()
         if profiles is not None and len(profiles) > 0:
             if isinstance(profiles[0], list):
                 # Using a compound instead of a fuse makes drawing much faster, but also leads to
                 # a number of 'BOPAlgo SelfIntersect' errors. Se we stick with the fuse
 
-                loft = None
                 for profile in profiles:
                     if loft is None:
                         loft = Part.makeLoft(profile, True)
@@ -297,12 +307,17 @@ class FinShapeHandler:
                 elif mask is not None and (debug != FIN_DEBUG_PROFILE_ONLY):
                     loft = loft.common(mask)
 
-                    if self._obj.Ttw:
-                        ttw = self._makeTtw()
-                        if ttw:
-                            loft = loft.fuse(ttw)
-
         return loft
+
+    def _drawFinDebug(self, debug):
+        fin = self._finOnlyShape(debug)
+        if fin is not None:
+            if self._obj.Ttw:
+                ttw = self._makeTtw()
+                if ttw:
+                    fin = fin.fuse(ttw)
+
+        return fin
 
     def _drawSingleFin(self):
         if hasattr(self._obj,"DebugSketch"):
@@ -313,7 +328,6 @@ class FinShapeHandler:
         fin = self._drawSingleFin()
         # fin.translate(FreeCAD.Vector(0,0,float(self._obj.ParentRadius) + float(self._obj.RadialOffset)))
         fin.translate(FreeCAD.Vector(0,0,float(self._obj.ParentRadius)))
-        # print ("Translate (%s,%s,%s)" % (0, 0, self._obj.ParentRadius))
         return Part.makeCompound([fin])
 
     def _drawFinSet(self):

@@ -72,7 +72,7 @@ class ShapeComponent(ShapeBase):
             
         self._obj = obj
         obj.Proxy=self
-        self.version = '2.2'
+        self.version = '2.3'
 
     def _locationOffset(self, partBase, parentLength):
         if TRACE_POSITION:

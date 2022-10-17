@@ -224,37 +224,37 @@
       <translation type="unfinished">Shape of the fin</translation>
     </message>
     <message>
-      <location filename="ShapeNoseCone.py" line="96"/>
+      <location filename="ShapeNoseCone.py" line="99"/>
       <source>Length of the nose not including any shoulder</source>
       <translation type="unfinished">Length of the nose not including any shoulder</translation>
     </message>
     <message>
-      <location filename="ShapeNoseCone.py" line="100"/>
+      <location filename="ShapeNoseCone.py" line="103"/>
       <source>Diameter at the base of the nose</source>
       <translation type="unfinished">Diameter at the base of the nose</translation>
     </message>
     <message>
-      <location filename="ShapeNoseCone.py" line="102"/>
+      <location filename="ShapeNoseCone.py" line="105"/>
       <source>Nose cone thickness</source>
       <translation type="unfinished">Nose cone thickness</translation>
     </message>
     <message>
-      <location filename="ShapeNoseCone.py" line="104"/>
+      <location filename="ShapeNoseCone.py" line="107"/>
       <source>Set to true if the part includes a shoulder</source>
       <translation type="unfinished">Set to true if the part includes a shoulder</translation>
     </message>
     <message>
-      <location filename="ShapeNoseCone.py" line="106"/>
+      <location filename="ShapeNoseCone.py" line="109"/>
       <source>Shoulder Length</source>
       <translation type="unfinished">Shoulder Length</translation>
     </message>
     <message>
-      <location filename="ShapeNoseCone.py" line="108"/>
+      <location filename="ShapeNoseCone.py" line="111"/>
       <source>Shoulder diameter</source>
       <translation type="unfinished">Shoulder diameter</translation>
     </message>
     <message>
-      <location filename="ShapeNoseCone.py" line="110"/>
+      <location filename="ShapeNoseCone.py" line="113"/>
       <source>Shoulder thickness</source>
       <translation type="unfinished">Shoulder thickness</translation>
     </message>
@@ -269,17 +269,17 @@
       <translation type="unfinished">Resolution</translation>
     </message>
     <message>
-      <location filename="ShapeNoseCone.py" line="119"/>
+      <location filename="ShapeNoseCone.py" line="122"/>
       <source>Nose cone type</source>
       <translation type="unfinished">Nose cone type</translation>
     </message>
     <message>
-      <location filename="ShapeNoseCone.py" line="135"/>
+      <location filename="ShapeNoseCone.py" line="138"/>
       <source>Nose cone style</source>
       <translation type="unfinished">Nose cone style</translation>
     </message>
     <message>
-      <location filename="ShapeNoseCone.py" line="142"/>
+      <location filename="ShapeNoseCone.py" line="152"/>
       <source>Shape of the nose cone</source>
       <translation type="unfinished">Shape of the nose cone</translation>
     </message>
@@ -544,12 +544,12 @@
       <translation type="unfinished">Shape of the rail button</translation>
     </message>
     <message>
-      <location filename="ShapeNoseCone.py" line="98"/>
+      <location filename="ShapeNoseCone.py" line="101"/>
       <source>Nose Radius for a blunted nose cone</source>
       <translation type="unfinished">Nose Radius for a blunted nose cone</translation>
     </message>
     <message>
-      <location filename="ShapeNoseCone.py" line="114"/>
+      <location filename="ShapeNoseCone.py" line="117"/>
       <source>The radius of the circle used to define a secant ogive</source>
       <translation type="unfinished">The radius of the circle used to define a secant ogive</translation>
     </message>
@@ -567,11 +567,6 @@
       <location filename="ShapeFin.py" line="118"/>
       <source>Angle between consecutive fins</source>
       <translation type="unfinished">Angle between consecutive fins</translation>
-    </message>
-    <message>
-      <location filename="ShapeFin.py" line="122"/>
-      <source>Parent radius</source>
-      <translation type="unfinished">Parent radius</translation>
     </message>
     <message>
       <location filename="ShapeFin.py" line="134"/>
@@ -639,11 +634,6 @@
       <translation type="unfinished">Launch lug thickness is the same as the fin can</translation>
     </message>
     <message>
-      <location filename="ShapeFinCan.py" line="80"/>
-      <source>Length of the launch</source>
-      <translation type="unfinished">Length of the launch</translation>
-    </message>
-    <message>
       <location filename="ShapeFinCan.py" line="82"/>
       <source>Automatically adjust the length of the launch lug</source>
       <translation type="unfinished">Automatically adjust the length of the launch lug</translation>
@@ -678,6 +668,21 @@
       <source>Aft sweep angle</source>
       <translation type="unfinished">Aft sweep angle</translation>
     </message>
+    <message>
+      <location filename="ShapeNoseCone.py" line="97"/>
+      <source>Width of the nose cap bar</source>
+      <translation type="unfinished">Width of the nose cap bar</translation>
+    </message>
+    <message>
+      <location filename="ShapeNoseCone.py" line="145"/>
+      <source>Nose cone cap style</source>
+      <translation type="unfinished">Nose cone cap style</translation>
+    </message>
+    <message>
+      <location filename="ShapeFinCan.py" line="80"/>
+      <source>Length of the launch lug</source>
+      <translation type="unfinished">Length of the launch lug</translation>
+    </message>
   </context>
   <context>
     <name>Rocket</name>
@@ -697,7 +702,7 @@
       <translation type="unfinished">Calculate vent hole size</translation>
     </message>
     <message>
-      <location filename="DialogBlackPowder.py" line="38"/>
+      <location filename="DialogParachute.py" line="42"/>
       <source>Custom</source>
       <translation type="unfinished">Custom</translation>
     </message>
@@ -727,7 +732,7 @@
       <translation type="unfinished">Outer Diameter</translation>
     </message>
     <message>
-      <location filename="TaskPanelNoseCone.py" line="192"/>
+      <location filename="TaskPanelTransition.py" line="209"/>
       <source>Length</source>
       <translation type="unfinished">Length</translation>
     </message>
@@ -742,12 +747,12 @@
       <translation type="unfinished">Bulkhead Parameter</translation>
     </message>
     <message>
-      <location filename="TaskPanelBulkhead.py" line="113"/>
+      <location filename="TaskPanelTransition.py" line="203"/>
       <source>Diameter</source>
       <translation type="unfinished">Diameter</translation>
     </message>
     <message>
-      <location filename="TaskPanelBulkhead.py" line="102"/>
+      <location filename="TaskPanelTransition.py" line="215"/>
       <source>Thickness</source>
       <translation type="unfinished">Thickness</translation>
     </message>
@@ -762,12 +767,12 @@
       <translation type="unfinished">Notched</translation>
     </message>
     <message>
-      <location filename="TaskPanelBulkhead.py" line="79"/>
+      <location filename="TaskPanelRailGuide.py" line="140"/>
       <source>Width</source>
       <translation type="unfinished">Width</translation>
     </message>
     <message>
-      <location filename="TaskPanelBulkhead.py" line="85"/>
+      <location filename="TaskPanelFinCan.py" line="185"/>
       <source>Height</source>
       <translation type="unfinished">Height</translation>
     </message>
@@ -792,7 +797,7 @@
       <translation type="unfinished">Count</translation>
     </message>
     <message>
-      <location filename="TaskPanelBulkhead.py" line="132"/>
+      <location filename="TaskPanelFin.py" line="278"/>
       <source>Offset</source>
       <translation type="unfinished">Offset</translation>
     </message>
@@ -827,52 +832,52 @@
       <translation type="unfinished">Lookup...</translation>
     </message>
     <message>
-      <location filename="TaskPanelFin.py" line="51"/>
+      <location filename="TaskPanelFinCan.py" line="53"/>
       <source>Fin Parameter</source>
       <translation type="unfinished">Fin Parameter</translation>
     </message>
     <message>
-      <location filename="TaskPanelFin.py" line="71"/>
+      <location filename="TaskPanelFinCan.py" line="76"/>
       <source>Fin type</source>
       <translation type="unfinished">Fin type</translation>
     </message>
     <message>
-      <location filename="TaskPanelFin.py" line="84"/>
+      <location filename="TaskPanelFinCan.py" line="104"/>
       <source>Fin Root</source>
       <translation type="unfinished">Fin Root</translation>
     </message>
     <message>
-      <location filename="TaskPanelFin.py" line="129"/>
+      <location filename="TaskPanelFinCan.py" line="149"/>
       <source>Cross Section</source>
       <translation type="unfinished">Cross Section</translation>
     </message>
     <message>
-      <location filename="TaskPanelFin.py" line="136"/>
+      <location filename="TaskPanelFinCan.py" line="156"/>
       <source>Chord</source>
       <translation type="unfinished">Chord</translation>
     </message>
     <message>
-      <location filename="TaskPanelFin.py" line="148"/>
+      <location filename="TaskPanelFinCan.py" line="168"/>
       <source>Use percentage</source>
       <translation type="unfinished">Use percentage</translation>
     </message>
     <message>
-      <location filename="TaskPanelFin.py" line="153"/>
+      <location filename="TaskPanelFinCan.py" line="173"/>
       <source>Length 1</source>
       <translation type="unfinished">Length 1</translation>
     </message>
     <message>
-      <location filename="TaskPanelFin.py" line="159"/>
+      <location filename="TaskPanelFinCan.py" line="179"/>
       <source>Length 2</source>
       <translation type="unfinished">Length 2</translation>
     </message>
     <message>
-      <location filename="TaskPanelFin.py" line="126"/>
+      <location filename="TaskPanelFinCan.py" line="146"/>
       <source>Fin Tip</source>
       <translation type="unfinished">Fin Tip</translation>
     </message>
     <message>
-      <location filename="TaskPanelFin.py" line="172"/>
+      <location filename="TaskPanelFinCan.py" line="192"/>
       <source>Sweep Length</source>
       <translation type="unfinished">Sweep Length</translation>
     </message>
@@ -887,12 +892,12 @@
       <translation type="unfinished">TTW Tab</translation>
     </message>
     <message>
-      <location filename="TaskPanelNoseCone.py" line="50"/>
+      <location filename="TaskPanelNoseCone.py" line="51"/>
       <source>Nose Cone Parameter</source>
       <translation type="unfinished">Nose Cone Parameter</translation>
     </message>
     <message>
-      <location filename="TaskPanelNoseCone.py" line="180"/>
+      <location filename="TaskPanelTransition.py" line="56"/>
       <source>Shoulder</source>
       <translation type="unfinished">Shoulder</translation>
     </message>
@@ -932,12 +937,12 @@
       <translation type="unfinished">Aft Shoulder</translation>
     </message>
     <message>
-      <location filename="InitGui.py" line="50"/>
+      <location filename="InitGui.py" line="59"/>
       <source>Rocket</source>
       <translation type="unfinished">Rocket</translation>
     </message>
     <message>
-      <location filename="RocketGui.py" line="76"/>
+      <location filename="RocketGui.py" line="91"/>
       <source>Calculators</source>
       <translation type="unfinished">Calculators</translation>
     </message>
@@ -1037,27 +1042,27 @@
       <translation type="unfinished">Centering ring parameters produce an invalid shape</translation>
     </message>
     <message>
-      <location filename="FinShapeHandler.py" line="256"/>
+      <location filename="FinShapeHandler.py" line="258"/>
       <source>Ttw offset must be less than the root chord</source>
       <translation type="unfinished">Ttw offset must be less than the root chord</translation>
     </message>
     <message>
-      <location filename="FinShapeHandler.py" line="259"/>
+      <location filename="FinShapeHandler.py" line="261"/>
       <source>Ttw length must be greater than 0</source>
       <translation type="unfinished">Ttw length must be greater than 0</translation>
     </message>
     <message>
-      <location filename="FinShapeHandler.py" line="262"/>
+      <location filename="FinShapeHandler.py" line="264"/>
       <source>Ttw height must be greater than 0</source>
       <translation type="unfinished">Ttw height must be greater than 0</translation>
     </message>
     <message>
-      <location filename="FinShapeHandler.py" line="265"/>
+      <location filename="FinShapeHandler.py" line="267"/>
       <source>Ttw thickness must be greater than 0</source>
       <translation type="unfinished">Ttw thickness must be greater than 0</translation>
     </message>
     <message>
-      <location filename="FinShapeHandler.py" line="342"/>
+      <location filename="FinShapeHandler.py" line="356"/>
       <source>Fin parameters produce an invalid shape</source>
       <translation type="unfinished">Fin parameters produce an invalid shape</translation>
     </message>
@@ -1077,32 +1082,32 @@
       <translation type="unfinished">For %s nose cones the coefficient must be in the range (0 &lt; coefficient &lt;= 1)</translation>
     </message>
     <message>
-      <location filename="NoseShapeHandler.py" line="72"/>
+      <location filename="NoseShapeHandler.py" line="75"/>
       <source>For %s nose cones thickness must be &gt; 0</source>
       <translation type="unfinished">For %s nose cones thickness must be &gt; 0</translation>
     </message>
     <message>
-      <location filename="NoseShapeHandler.py" line="75"/>
+      <location filename="NoseShapeHandler.py" line="78"/>
       <source>Nose cones thickness must be less than the nose cone radius</source>
       <translation type="unfinished">Nose cones thickness must be less than the nose cone radius</translation>
     </message>
     <message>
-      <location filename="NoseShapeHandler.py" line="91"/>
+      <location filename="NoseShapeHandler.py" line="94"/>
       <source>Shoulder length must be &gt; 0</source>
       <translation type="unfinished">Shoulder length must be &gt; 0</translation>
     </message>
     <message>
-      <location filename="NoseShapeHandler.py" line="94"/>
+      <location filename="NoseShapeHandler.py" line="97"/>
       <source>Shoulder diameter must be &gt; 0</source>
       <translation type="unfinished">Shoulder diameter must be &gt; 0</translation>
     </message>
     <message>
-      <location filename="NoseShapeHandler.py" line="97"/>
+      <location filename="NoseShapeHandler.py" line="100"/>
       <source>Shoulder diameter can not exceed the nose cone diameter</source>
       <translation type="unfinished">Shoulder diameter can not exceed the nose cone diameter</translation>
     </message>
     <message>
-      <location filename="NoseShapeHandler.py" line="101"/>
+      <location filename="NoseShapeHandler.py" line="104"/>
       <source>For %s nose cones with a shoulder, shoulder thickness must be &gt; 0</source>
       <translation type="unfinished">For %s nose cones with a shoulder, shoulder thickness must be &gt; 0</translation>
     </message>
@@ -1112,7 +1117,7 @@
       <translation type="unfinished">Shoulder thickness must be less than the shoulder radius</translation>
     </message>
     <message>
-      <location filename="NoseShapeHandler.py" line="145"/>
+      <location filename="NoseShapeHandler.py" line="173"/>
       <source>Nose cone parameters produce an invalid shape</source>
       <translation type="unfinished">Nose cone parameters produce an invalid shape</translation>
     </message>
@@ -1222,12 +1227,12 @@
       <translation type="unfinished">Centering Ring design</translation>
     </message>
     <message>
-      <location filename="CmdFin.py" line="73"/>
+      <location filename="CmdParachuteDesigner.py" line="73"/>
       <source>Fin</source>
       <translation type="unfinished">Fin</translation>
     </message>
     <message>
-      <location filename="CmdFin.py" line="74"/>
+      <location filename="CmdParachuteDesigner.py" line="74"/>
       <source>Fin design</source>
       <translation type="unfinished">Fin design</translation>
     </message>
@@ -1262,27 +1267,12 @@
       <translation type="unfinished">Ejection Charge Calculator</translation>
     </message>
     <message>
-      <location filename="DialogBlackPowder.py" line="66"/>
-      <source>
-        &lt;html&gt;
-        &lt;h1&gt;WARNING&lt;/h1&gt;
-        &lt;p&gt;This calculator is an estimate only. Ground test your ejection system before flying. In certain cases this calculation may overestimate the amount of powder required&lt;/p&gt;
-        &lt;/html&gt;
-        </source>
-      <translation type="unfinished">
-        &lt;html&gt;
-        &lt;h1&gt;WARNING&lt;/h1&gt;
-        &lt;p&gt;This calculator is an estimate only. Ground test your ejection system before flying. In certain cases this calculation may overestimate the amount of powder required&lt;/p&gt;
-        &lt;/html&gt;
-        </translation>
-    </message>
-    <message>
-      <location filename="DialogBlackPowder.py" line="70"/>
+      <location filename="TaskPanelRailGuide.py" line="101"/>
       <source>Body Tube Diameter</source>
       <translation type="unfinished">Body Tube Diameter</translation>
     </message>
     <message>
-      <location filename="DialogBlackPowder.py" line="78"/>
+      <location filename="DialogVentHoles.py" line="63"/>
       <source>Body Tube Length</source>
       <translation type="unfinished">Body Tube Length</translation>
     </message>
@@ -1302,82 +1292,82 @@
       <translation type="unfinished">FFFFg Powder</translation>
     </message>
     <message>
-      <location filename="DialogLookup.py" line="117"/>
+      <location filename="DialogLookup.py" line="88"/>
       <source>Component lookup...</source>
       <translation type="unfinished">Component lookup...</translation>
     </message>
     <message>
-      <location filename="DialogLookup.py" line="120"/>
+      <location filename="DialogLookup.py" line="91"/>
       <source>Search</source>
       <translation type="unfinished">Search</translation>
     </message>
     <message>
-      <location filename="DialogLookup.py" line="126"/>
+      <location filename="DialogLookup.py" line="97"/>
       <source>Component</source>
       <translation type="unfinished">Component</translation>
     </message>
     <message>
-      <location filename="DialogLookup.py" line="231"/>
+      <location filename="DialogLookup.py" line="199"/>
       <source>Body tube not found</source>
       <translation type="unfinished">Body tube not found</translation>
     </message>
     <message>
-      <location filename="DialogLookup.py" line="255"/>
+      <location filename="DialogLookup.py" line="223"/>
       <source>Multiple identical entries found</source>
       <translation type="unfinished">Multiple identical entries found</translation>
     </message>
     <message>
-      <location filename="DialogLookup.py" line="242"/>
+      <location filename="DialogLookup.py" line="210"/>
       <source>Nose cone not found</source>
       <translation type="unfinished">Nose cone not found</translation>
     </message>
     <message>
-      <location filename="DialogLookup.py" line="253"/>
+      <location filename="DialogLookup.py" line="221"/>
       <source>Transition not found</source>
       <translation type="unfinished">Transition not found</translation>
     </message>
     <message>
-      <location filename="DialogLookup.py" line="298"/>
+      <location filename="DialogLookup.py" line="266"/>
       <source>Type</source>
       <translation type="unfinished">Type</translation>
     </message>
     <message>
-      <location filename="DialogLookup.py" line="340"/>
+      <location filename="DialogLookup.py" line="308"/>
       <source>Shoulder Diameter</source>
       <translation type="unfinished">Shoulder Diameter</translation>
     </message>
     <message>
-      <location filename="DialogLookup.py" line="341"/>
+      <location filename="DialogLookup.py" line="309"/>
       <source>Shoulder Length</source>
       <translation type="unfinished">Shoulder Length</translation>
     </message>
     <message>
-      <location filename="DialogLookup.py" line="369"/>
+      <location filename="DialogLookup.py" line="337"/>
       <source>Shape</source>
       <translation type="unfinished">Shape</translation>
     </message>
     <message>
-      <location filename="DialogLookup.py" line="370"/>
+      <location filename="DialogLookup.py" line="338"/>
       <source>Fore Diameter</source>
       <translation type="unfinished">Fore Diameter</translation>
     </message>
     <message>
-      <location filename="DialogLookup.py" line="373"/>
+      <location filename="DialogLookup.py" line="341"/>
       <source>Fore Shoulder Diameter</source>
       <translation type="unfinished">Fore Shoulder Diameter</translation>
     </message>
     <message>
-      <location filename="DialogLookup.py" line="374"/>
+      <location filename="DialogLookup.py" line="342"/>
       <source>Fore Shoulder Length</source>
       <translation type="unfinished">Fore Shoulder Length</translation>
     </message>
     <message>
-      <location filename="DialogLookup.py" line="375"/>
+      <location filename="DialogLookup.py" line="343"/>
       <source>Aft Shoulder Diameter</source>
       <translation type="unfinished">Aft Shoulder Diameter</translation>
     </message>
     <message>
-      <location filename="DialogLookup.py" line="376"/>
+      <location filename="DialogLookup.py" line="344"/>
       <source>Aft Shoulder Length</source>
       <translation type="unfinished">Aft Shoulder Length</translation>
     </message>
@@ -1492,32 +1482,32 @@
       <translation type="unfinished">Create a new sketch</translation>
     </message>
     <message>
-      <location filename="RocketGui.py" line="90"/>
+      <location filename="RocketGui.py" line="105"/>
       <source>Launch Guides</source>
       <translation type="unfinished">Launch Guides</translation>
     </message>
     <message>
-      <location filename="Constants.py" line="126"/>
+      <location filename="Constants.py" line="132"/>
       <source>Top of the parent component</source>
       <translation type="unfinished">Top of the parent component</translation>
     </message>
     <message>
-      <location filename="Constants.py" line="127"/>
+      <location filename="Constants.py" line="133"/>
       <source>Middle of the parent component</source>
       <translation type="unfinished">Middle of the parent component</translation>
     </message>
     <message>
-      <location filename="Constants.py" line="128"/>
+      <location filename="Constants.py" line="134"/>
       <source>Bottom of the parent component</source>
       <translation type="unfinished">Bottom of the parent component</translation>
     </message>
     <message>
-      <location filename="Constants.py" line="129"/>
+      <location filename="Constants.py" line="135"/>
       <source>Base of the rocket</source>
       <translation type="unfinished">Base of the rocket</translation>
     </message>
     <message>
-      <location filename="Constants.py" line="133"/>
+      <location filename="Constants.py" line="139"/>
       <source>After the target component</source>
       <translation type="unfinished">After the target component</translation>
     </message>
@@ -1692,17 +1682,17 @@
       <translation type="unfinished">Base Width</translation>
     </message>
     <message>
-      <location filename="TaskPanelRailButton.py" line="78"/>
+      <location filename="TaskPanelRailGuide.py" line="76"/>
       <source>Top Thickness</source>
       <translation type="unfinished">Top Thickness</translation>
     </message>
     <message>
-      <location filename="TaskPanelRailButton.py" line="84"/>
+      <location filename="TaskPanelRailGuide.py" line="82"/>
       <source>Base Thickness</source>
       <translation type="unfinished">Base Thickness</translation>
     </message>
     <message>
-      <location filename="TaskPanelRailButton.py" line="90"/>
+      <location filename="TaskPanelRailGuide.py" line="88"/>
       <source>Total Thickness</source>
       <translation type="unfinished">Total Thickness</translation>
     </message>
@@ -1737,7 +1727,7 @@
       <translation type="unfinished">Depth</translation>
     </message>
     <message>
-      <location filename="TaskPanelNoseCone.py" line="55"/>
+      <location filename="TaskPanelTransition.py" line="55"/>
       <source>General</source>
       <translation type="unfinished">General</translation>
     </message>
@@ -1747,12 +1737,12 @@
       <translation type="unfinished">Transition Shape</translation>
     </message>
     <message>
-      <location filename="TaskPanelNoseCone.py" line="116"/>
+      <location filename="TaskPanelTransition.py" line="86"/>
       <source>Shape Parameter</source>
       <translation type="unfinished">Shape Parameter</translation>
     </message>
     <message>
-      <location filename="TaskPanelNoseCone.py" line="87"/>
+      <location filename="TaskPanelTransition.py" line="97"/>
       <source>Style</source>
       <translation type="unfinished">Style</translation>
     </message>
@@ -1797,7 +1787,7 @@
       <translation type="unfinished">Radius</translation>
     </message>
     <message>
-      <location filename="TaskPanelNoseCone.py" line="69"/>
+      <location filename="TaskPanelNoseCone.py" line="70"/>
       <source>Nose Cone Shape</source>
       <translation type="unfinished">Nose Cone Shape</translation>
     </message>
@@ -1807,22 +1797,22 @@
       <translation type="unfinished">Fin Tabs</translation>
     </message>
     <message>
-      <location filename="NoseShapeHandler.py" line="79"/>
+      <location filename="NoseShapeHandler.py" line="82"/>
       <source>Nose diameter must be less than the base diameter</source>
       <translation type="unfinished">Nose diameter must be less than the base diameter</translation>
     </message>
     <message>
-      <location filename="NoseShapeHandler.py" line="82"/>
+      <location filename="NoseShapeHandler.py" line="85"/>
       <source>Nose diameter must be greater than zero</source>
       <translation type="unfinished">Nose diameter must be greater than zero</translation>
     </message>
     <message>
-      <location filename="TaskPanelNoseCone.py" line="126"/>
+      <location filename="TaskPanelNoseCone.py" line="127"/>
       <source>Blunted Diameter</source>
       <translation type="unfinished">Blunted Diameter</translation>
     </message>
     <message>
-      <location filename="TaskPanelNoseCone.py" line="132"/>
+      <location filename="TaskPanelNoseCone.py" line="133"/>
       <source>Ogive Diameter</source>
       <translation type="unfinished">Ogive Diameter</translation>
     </message>
@@ -1862,7 +1852,7 @@
       <translation type="unfinished">Fins</translation>
     </message>
     <message>
-      <location filename="CmdFinCan.py" line="73"/>
+      <location filename="TaskPanelFinCan.py" line="60"/>
       <source>Fin Can</source>
       <translation type="unfinished">Fin Can</translation>
     </message>
@@ -1915,6 +1905,161 @@
       <location filename="TaskPanelRailButton.py" line="105"/>
       <source>Countersink Angle</source>
       <translation type="unfinished">Countersink Angle</translation>
+    </message>
+    <message>
+      <location filename="NoseShapeHandler.py" line="187"/>
+      <source>Nose cone cap style produces an invalid shape</source>
+      <translation type="unfinished">Nose cone cap style produces an invalid shape</translation>
+    </message>
+    <message>
+      <location filename="TaskPanelNoseCone.py" line="140"/>
+      <source>Nose Cap</source>
+      <translation type="unfinished">Nose Cap</translation>
+    </message>
+    <message>
+      <location filename="TaskPanelNoseCone.py" line="142"/>
+      <source>Cap style</source>
+      <translation type="unfinished">Cap style</translation>
+    </message>
+    <message>
+      <location filename="TaskPanelNoseCone.py" line="150"/>
+      <source>Bar Width</source>
+      <translation type="unfinished">Bar Width</translation>
+    </message>
+    <message>
+      <location filename="FinFlutter.py" line="62"/>
+      <source>Tapered thickness fins are not supported at this time</source>
+      <translation type="unfinished">Tapered thickness fins are not supported at this time</translation>
+    </message>
+    <message>
+      <location filename="FinFlutter.py" line="78"/>
+      <source>Elliptical fins are not supported at this time</source>
+      <translation type="unfinished">Elliptical fins are not supported at this time</translation>
+    </message>
+    <message>
+      <location filename="FinFlutter.py" line="88"/>
+      <source>Custom fins are not supported at this time</source>
+      <translation type="unfinished">Custom fins are not supported at this time</translation>
+    </message>
+    <message>
+      <location filename="InitGui.py" line="60"/>
+      <source>Analysis</source>
+      <translation type="unfinished">Analysis</translation>
+    </message>
+    <message>
+      <location filename="CmdFlutterAnalysis.py" line="49"/>
+      <source>Please select a fin first</source>
+      <translation type="unfinished">Please select a fin first</translation>
+    </message>
+    <message>
+      <location filename="DialogFinFlutter.py" line="89"/>
+      <source>Fin Flutter Analysis</source>
+      <translation type="unfinished">Fin Flutter Analysis</translation>
+    </message>
+    <message>
+      <location filename="CmdFlutterAnalysis.py" line="62"/>
+      <source>Calculate fin flutter</source>
+      <translation type="unfinished">Calculate fin flutter</translation>
+    </message>
+    <message>
+      <location filename="CmdMaterialEditor.py" line="40"/>
+      <source>Material editor</source>
+      <translation type="unfinished">Material editor</translation>
+    </message>
+    <message>
+      <location filename="CmdMaterialEditor.py" line="41"/>
+      <source>Opens the FreeCAD material editor</source>
+      <translation type="unfinished">Opens the FreeCAD material editor</translation>
+    </message>
+    <message>
+      <location filename="CmdParachute.py" line="64"/>
+      <source>Parachute</source>
+      <translation type="unfinished">Parachute</translation>
+    </message>
+    <message>
+      <location filename="CmdParachute.py" line="65"/>
+      <source>Parachute design</source>
+      <translation type="unfinished">Parachute design</translation>
+    </message>
+    <message>
+      <location filename="CmdParachuteGore.py" line="65"/>
+      <source>Parachute Gore</source>
+      <translation type="unfinished">Parachute Gore</translation>
+    </message>
+    <message>
+      <location filename="CmdParachuteGore.py" line="66"/>
+      <source>Parachute gore design</source>
+      <translation type="unfinished">Parachute gore design</translation>
+    </message>
+    <message>
+      <location filename="DialogFinFlutter.py" line="95"/>
+      <source>Preset</source>
+      <translation type="unfinished">Preset</translation>
+    </message>
+    <message>
+      <location filename="DialogFinFlutter.py" line="100"/>
+      <source>Shear Modulus</source>
+      <translation type="unfinished">Shear Modulus</translation>
+    </message>
+    <message>
+      <location filename="DialogFinFlutter.py" line="107"/>
+      <source>Calculated</source>
+      <translation type="unfinished">Calculated</translation>
+    </message>
+    <message>
+      <location filename="DialogFinFlutter.py" line="110"/>
+      <source>Young&apos;s Modulus</source>
+      <translation type="unfinished">Young&apos;s Modulus</translation>
+    </message>
+    <message>
+      <location filename="DialogFinFlutter.py" line="118"/>
+      <source>Poisson Ratio</source>
+      <translation type="unfinished">Poisson Ratio</translation>
+    </message>
+    <message>
+      <location filename="DialogFinFlutter.py" line="125"/>
+      <source>Fin Flutter</source>
+      <translation type="unfinished">Fin Flutter</translation>
+    </message>
+    <message>
+      <location filename="DialogFinFlutter.py" line="127"/>
+      <source>Maximum Altitude</source>
+      <translation type="unfinished">Maximum Altitude</translation>
+    </message>
+    <message>
+      <location filename="DialogFinFlutter.py" line="132"/>
+      <source>Altitude at Max Speed</source>
+      <translation type="unfinished">Altitude at Max Speed</translation>
+    </message>
+    <message>
+      <location filename="DialogFinFlutter.py" line="143"/>
+      <source>Flutter Speed</source>
+      <translation type="unfinished">Flutter Speed</translation>
+    </message>
+    <message>
+      <location filename="DialogFinFlutter.py" line="151"/>
+      <source>Divergence Speed</source>
+      <translation type="unfinished">Divergence Speed</translation>
+    </message>
+    <message>
+      <location filename="DialogFinFlutter.py" line="166"/>
+      <source>Mach</source>
+      <translation type="unfinished">Mach</translation>
+    </message>
+    <message>
+      <location filename="DialogBlackPowder.py" line="66"/>
+      <source><byte value="xd"/>
+        &lt;html&gt;<byte value="xd"/>
+        &lt;h1&gt;WARNING&lt;/h1&gt;<byte value="xd"/>
+        &lt;p&gt;This calculator is an estimate only. Ground test your ejection system before flying. In certain cases this calculation may overestimate the amount of powder required&lt;/p&gt;<byte value="xd"/>
+        &lt;/html&gt;<byte value="xd"/>
+        </source>
+      <translation type="unfinished">
+        &lt;html&gt;
+        &lt;h1&gt;WARNING&lt;/h1&gt;
+        &lt;p&gt;This calculator is an estimate only. Ground test your ejection system before flying. In certain cases this calculation may overestimate the amount of powder required&lt;/p&gt;
+        &lt;/html&gt;
+        </translation>
     </message>
   </context>
 </TS>

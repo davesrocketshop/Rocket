@@ -40,6 +40,7 @@ from App.Constants import FIN_CROSS_SAME, FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN
     FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE
 from App.Constants import FINCAN_EDGE_SQUARE, FINCAN_EDGE_ROUND, FINCAN_EDGE_TAPER
 from App.Constants import FINCAN_PRESET_CUSTOM, FINCAN_PRESET_1_8, FINCAN_PRESET_3_16, FINCAN_PRESET_1_4
+from App.Constants import FINCAN_COUPLER_MATCH_ID, FINCAN_COUPLER_STEPPED
 
 from App.Utilities import _err, _toFloat
 
@@ -57,9 +58,11 @@ class _FinCanDialog(QDialog):
         self.tabWidget = QtGui.QTabWidget()
         self.tabGeneral = QtGui.QWidget()
         self.tabFinCan = QtGui.QWidget()
+        self.tabCoupler = QtGui.QWidget()
         self.tabLaunchLug = QtGui.QWidget()
         self.tabWidget.addTab(self.tabGeneral, translate('Rocket', "Fins"))
         self.tabWidget.addTab(self.tabFinCan, translate('Rocket', "Fin Can"))
+        self.tabWidget.addTab(self.tabCoupler, translate('Rocket', "Coupler"))
         self.tabWidget.addTab(self.tabLaunchLug, translate('Rocket', "Launch Lug"))
 
         layout = QVBoxLayout()
@@ -68,6 +71,7 @@ class _FinCanDialog(QDialog):
 
         self.setTabGeneral(sketch)
         self.setTabCan()
+        self.setTabCoupler()
         self.setTabLaunchLug()
 
     def setTabGeneral(self, sketch):
@@ -416,11 +420,70 @@ class _FinCanDialog(QDialog):
 
         self.tabFinCan.setLayout(layout)
 
+    def setTabCoupler(self):
+
+        ui = FreeCADGui.UiLoader()
+
+        self.couplerGroup = QtGui.QGroupBox(translate('Rocket', "Coupler"), self)
+        self.couplerGroup.setCheckable(True)
+
+        self.couplerStyleLabel = QtGui.QLabel(translate('Rocket', "Coupler Style"), self)
+
+        # self.couplerStyles = (FINCAN_COUPLER_MATCH_ID, FINCAN_COUPLER_STEPPED)
+        self.couplerStylesCombo = QtGui.QComboBox(self)
+        self.couplerStylesCombo.addItem(translate('Rocket', "Flush with fin can"), FINCAN_COUPLER_MATCH_ID)
+        self.couplerStylesCombo.addItem(translate('Rocket', "Stepped"), FINCAN_COUPLER_STEPPED)
+
+        self.couplerInnerDiameterLabel = QtGui.QLabel(translate('Rocket', "Inner Diameter"), self)
+
+        self.couplerInnerDiameterInput = ui.createWidget("Gui::InputField")
+        self.couplerInnerDiameterInput.unit = 'mm'
+        self.couplerInnerDiameterInput.setMinimumWidth(100)
+
+        self.couplerOuterDiameterLabel = QtGui.QLabel(translate('Rocket', "Outer Diameter"), self)
+
+        self.couplerOuterDiameterInput = ui.createWidget("Gui::InputField")
+        self.couplerOuterDiameterInput.unit = 'mm'
+        self.couplerOuterDiameterInput.setMinimumWidth(100)
+
+        self.couplerLengthLabel = QtGui.QLabel(translate('Rocket', "Length"), self)
+
+        self.couplerLengthInput = ui.createWidget("Gui::InputField")
+        self.couplerLengthInput.unit = 'mm'
+        self.couplerLengthInput.setMinimumWidth(100)
+
+        # Group
+        row = 0
+        grid = QGridLayout()
+
+        grid.addWidget(self.couplerStyleLabel, row, 0)
+        grid.addWidget(self.couplerStylesCombo, row, 1)
+        row += 1
+
+        grid.addWidget(self.couplerInnerDiameterLabel, row, 0)
+        grid.addWidget(self.couplerInnerDiameterInput, row, 1)
+        row += 1
+
+        grid.addWidget(self.couplerOuterDiameterLabel, row, 0)
+        grid.addWidget(self.couplerOuterDiameterInput, row, 1)
+        row += 1
+
+        grid.addWidget(self.couplerLengthLabel, row, 0)
+        grid.addWidget(self.couplerLengthInput, row, 1)
+        row += 1
+
+        self.couplerGroup.setLayout(grid)
+
+        layout = QVBoxLayout()
+        layout.addWidget(self.couplerGroup)
+        layout.addItem(QtGui.QSpacerItem(0,0, QSizePolicy.Expanding, QSizePolicy.Expanding))
+
+        self.tabCoupler.setLayout(layout)
+
     def setTabLaunchLug(self):
 
         ui = FreeCADGui.UiLoader()
 
-        # Fin can leading and trailing edges
         self.lugGroup = QtGui.QGroupBox(translate('Rocket', "Launch Lug"), self)
         self.lugGroup.setCheckable(True)
 
@@ -590,9 +653,15 @@ class TaskPanelFinCan(QObject):
         self._finForm.canTrailingCombo.currentTextChanged.connect(self.onCanTrailingEdge)
         self._finForm.canTrailingLengthInput.textEdited.connect(self.onCanTrailingLength)
 
+        self._finForm.couplerGroup.toggled.connect(self.onCoupler)
+        self._finForm.couplerStylesCombo.currentIndexChanged.connect(self.onCouplerStyle)
+        self._finForm.couplerInnerDiameterInput.textEdited.connect(self.onCouplerInnerDiameter)
+        self._finForm.couplerOuterDiameterInput.textEdited.connect(self.onCouplerOuterDiameter)
+        self._finForm.couplerLengthInput.textEdited.connect(self.onCouplerLength)
+
         self._finForm.lugGroup.toggled.connect(self.onLug)
         self._finForm.lugInnerDiameterInput.textEdited.connect(self.onLugInnerDiameter)
-        self._finForm.lugPresetsCombo.currentTextChanged.connect(self.onLugInnerDiameterPreset)
+        self._finForm.lugPresetsCombo.currentTextChanged.connect(self.onLugPreset)
         self._finForm.lugThicknessInput.textEdited.connect(self.onLugThickness)
         self._finForm.lugAutoThicknessCheckbox.stateChanged.connect(self.onLugAutoThickness)
         self._finForm.lugLengthInput.textEdited.connect(self.onLugLength)
@@ -651,6 +720,12 @@ class TaskPanelFinCan(QObject):
         self._obj.TrailingEdge = str(self._finForm.canTrailingCombo.currentText())
         self._obj.TrailingLength = self._finForm.canTrailingLengthInput.text()
 
+        self._obj.Coupler = self._finForm.couplerGroup.isChecked()
+        self._obj.CouplerStyle = str(self._finForm.couplerStylesCombo.currentData())
+        self._obj.CouplerInnerDiameter = self._finForm.couplerInnerDiameterInput.text()
+        self._obj.CouplerOuterDiameter = self._finForm.couplerOuterDiameterInput.text()
+        self._obj.CouplerLength = self._finForm.couplerLengthInput.text()
+
         self._obj.LaunchLug = self._finForm.lugGroup.isChecked()
         self._obj.LugInnerDiameter = self._finForm.lugInnerDiameterInput.text()
         self._obj.LaunchLugPreset = str(self._finForm.lugPresetsCombo.currentText())
@@ -700,6 +775,12 @@ class TaskPanelFinCan(QObject):
         self._finForm.canLeadingLengthInput.setText(self._obj.LeadingLength.UserString)
         self._finForm.canTrailingCombo.setCurrentText(self._obj.TrailingEdge)
         self._finForm.canTrailingLengthInput.setText(self._obj.TrailingLength.UserString)
+
+        self._finForm.couplerGroup.setChecked(self._obj.Coupler)
+        self._finForm.couplerStylesCombo.setCurrentIndex(self._finForm.couplerStylesCombo.findData(self._obj.CouplerStyle))
+        self._finForm.couplerInnerDiameterInput.setText(self._obj.CouplerInnerDiameter.UserString)
+        self._finForm.couplerOuterDiameterInput.setText(self._obj.CouplerOuterDiameter.UserString)
+        self._finForm.couplerLengthInput.setText(self._obj.CouplerLength.UserString)
 
         self._finForm.lugGroup.setChecked(self._obj.LaunchLug)
         self._finForm.lugInnerDiameterInput.setText(self._obj.LugInnerDiameter.UserString)
@@ -1173,6 +1254,37 @@ class TaskPanelFinCan(QObject):
             pass
         self.setEdited()
        
+    def onCoupler(self, value):
+        self._obj.Coupler = self._finForm.couplerGroup.isChecked()
+
+        self.redraw()
+        
+    def onCouplerStyle(self, value):
+        self._obj.CouplerStyle = self._finForm.couplerStylesCombo.itemData(value)
+
+        self.redraw()
+        
+    def onCouplerInnerDiameter(self, value):
+        try:
+            self._obj.CouplerInnerDiameter = FreeCAD.Units.Quantity(value).Value
+            self.redraw()
+        except ValueError:
+            pass
+        
+    def onCouplerOuterDiameter(self, value):
+        try:
+            self._obj.CouplerOuterDiameter = FreeCAD.Units.Quantity(value).Value
+            self.redraw()
+        except ValueError:
+            pass
+        
+    def onCouplerLength(self, value):
+        try:
+            self._obj.CouplerLength = FreeCAD.Units.Quantity(value).Value
+            self.redraw()
+        except ValueError:
+            pass
+       
     def onLug(self, value):
         self._obj.LaunchLug = self._finForm.lugGroup.isChecked()
 
@@ -1197,7 +1309,7 @@ class TaskPanelFinCan(QObject):
             pass
         self.setEdited()
 
-    def onLugInnerDiameterPreset(self, value):
+    def onLugPreset(self, value):
         if value == FINCAN_PRESET_1_8:
             self._setLugDiameter(3.56)
         elif value == FINCAN_PRESET_3_16:
@@ -1312,7 +1424,6 @@ class TaskPanelFinCan(QObject):
 
     def clicked(self,button):
         if button == QtGui.QDialogButtonBox.Apply:
-            #print "Apply"
             self.transferTo()
             self.redraw() 
         
