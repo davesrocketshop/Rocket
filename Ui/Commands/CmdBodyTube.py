@@ -46,8 +46,8 @@ def makeBodyTube(name='BodyTube'):
 class CmdBodyTube:
     def Activated(self):
         FreeCAD.ActiveDocument.openTransaction("Create body tube")
-        FreeCADGui.addModule("Ui.CmdBodyTube")
-        FreeCADGui.doCommand("Ui.CmdBodyTube.makeBodyTube('BodyTube')")
+        FreeCADGui.addModule("Ui.Commands.CmdBodyTube")
+        FreeCADGui.doCommand("Ui.Commands.CmdBodyTube.makeBodyTube('BodyTube')")
         FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
 
     def IsActive(self):

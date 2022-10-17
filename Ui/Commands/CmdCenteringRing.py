@@ -18,37 +18,36 @@
 # *   USA                                                                   *
 # *                                                                         *
 # ***************************************************************************
-"""Class for drawing transitions"""
+"""Class for drawing centering rings"""
 
-__title__ = "FreeCAD Transitions"
+__title__ = "FreeCAD Centering Rings"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
     
-
 import FreeCAD
 import FreeCADGui
 
-from App.ShapeTransition import ShapeTransition
-from Ui.ViewTransition import ViewProviderTransition
+from App.ShapeCenteringRing import ShapeCenteringRing
+from Ui.ViewCenteringRing import ViewProviderCenteringRing
 from Ui.CmdStage import addToStage
 
 from DraftTools import translate
 
-def makeTransition(name):
-    '''makeTransition(name): makes a Transition'''
+def makeCenteringRing(name='CenteringRing'):
+    '''makeCenteringRing(name): makes a centering ring'''
     obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
-    ShapeTransition(obj)
+    ShapeCenteringRing(obj)
     if FreeCAD.GuiUp:
-        ViewProviderTransition(obj.ViewObject)
+        ViewProviderCenteringRing(obj.ViewObject)
 
         addToStage(obj)
     return obj
 
-class CmdTransition:
+class CmdCenteringRing:
     def Activated(self):
-        FreeCAD.ActiveDocument.openTransaction("Create transition")
-        FreeCADGui.addModule("Ui.CmdTransition")
-        FreeCADGui.doCommand("Ui.CmdTransition.makeTransition('Transition')")
+        FreeCAD.ActiveDocument.openTransaction("Create centering ring")
+        FreeCADGui.addModule("Ui.Commands.CmdCenteringRing")
+        FreeCADGui.doCommand("Ui.Commands.CmdCenteringRing.makeCenteringRing('CenteringRing')")
         FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
 
     def IsActive(self):
@@ -57,6 +56,6 @@ class CmdTransition:
         return False
         
     def GetResources(self):
-        return {'MenuText': translate("Rocket", 'Transition'),
-                'ToolTip': translate("Rocket", 'Transition design'),
-                'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Transition.svg"}
+        return {'MenuText': translate("Rocket", 'Centering Ring'),
+                'ToolTip': translate("Rocket", 'Centering Ring design'),
+                'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_CenteringRing.svg"}

@@ -18,44 +18,33 @@
 # *   USA                                                                   *
 # *                                                                         *
 # ***************************************************************************
-"""Class for drawing centering rings"""
+"""Class for calculatingparachute size"""
 
-__title__ = "FreeCAD Centering Rings"
+__title__ = "FreeCAD Parachute Calculator"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
     
 import FreeCAD
 import FreeCADGui
 
-from App.ShapeCenteringRing import ShapeCenteringRing
-from Ui.ViewCenteringRing import ViewProviderCenteringRing
-from Ui.CmdStage import addToStage
-
 from DraftTools import translate
 
-def makeCenteringRing(name='CenteringRing'):
-    '''makeCenteringRing(name): makes a centering ring'''
-    obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
-    ShapeCenteringRing(obj)
-    if FreeCAD.GuiUp:
-        ViewProviderCenteringRing(obj.ViewObject)
+from Ui.DialogParachute import DialogParachute
 
-        addToStage(obj)
-    return obj
+def calcParachute():
+    form = DialogParachute()
+    form.exec_()
 
-class CmdCenteringRing:
+class CmdCalcParachute:
     def Activated(self):
-        FreeCAD.ActiveDocument.openTransaction("Create centering ring")
-        FreeCADGui.addModule("Ui.CmdCenteringRing")
-        FreeCADGui.doCommand("Ui.CmdCenteringRing.makeCenteringRing('CenteringRing')")
-        FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
+        FreeCADGui.addModule("Ui.Commands.CmdCalcParachute")
+        FreeCADGui.doCommand("Ui.Commands.CmdCalcParachute.calcParachute()")
 
     def IsActive(self):
-        if FreeCAD.ActiveDocument:
-            return True
-        return False
+        # Always available, even without active document
+        return True
         
     def GetResources(self):
-        return {'MenuText': translate("Rocket", 'Centering Ring'),
-                'ToolTip': translate("Rocket", 'Centering Ring design'),
-                'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_CenteringRing.svg"}
+        return {'MenuText': translate("Rocket", 'Calculate parachute size'),
+                'ToolTip': translate("Rocket", 'Calculate parachute size'),
+                'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Calculator.svg"}

@@ -18,45 +18,37 @@
 # *   USA                                                                   *
 # *                                                                         *
 # ***************************************************************************
-"""Class for drawing fin cans"""
+"""Class for drawing transitions"""
 
-__title__ = "FreeCAD Fin Can"
+__title__ = "FreeCAD Transitions"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
     
+
 import FreeCAD
 import FreeCADGui
 
-from App.Constants import FIN_TYPE_SKETCH
-from App.ShapeFinCan import ShapeFinCan
-from Ui.ViewFinCan import ViewProviderFinCan
+from App.ShapeTransition import ShapeTransition
+from Ui.ViewTransition import ViewProviderTransition
 from Ui.CmdStage import addToStage
 
 from DraftTools import translate
 
-def makeFinCan(name):
-    '''makeFinCan(name): makes a Fin Can'''
+def makeTransition(name):
+    '''makeTransition(name): makes a Transition'''
     obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
-    ShapeFinCan(obj)
-
-    # See if we have a sketch selected. If so, this is a custom fin
-    for sketch in FreeCADGui.Selection.getSelection():
-        if sketch.isDerivedFrom('Sketcher::SketchObject'):
-            obj.FinType = FIN_TYPE_SKETCH
-            obj.Profile = sketch
-            sketch.Visibility = False
-
+    ShapeTransition(obj)
     if FreeCAD.GuiUp:
-        ViewProviderFinCan(obj.ViewObject)
-        addToStage(obj)
+        ViewProviderTransition(obj.ViewObject)
 
+        addToStage(obj)
     return obj
 
-class CmdFinCan:
+class CmdTransition:
     def Activated(self):
-        FreeCAD.ActiveDocument.openTransaction("Create fin can")
-        FreeCADGui.addModule("Ui.CmdFinCan")
-        FreeCADGui.doCommand("Ui.CmdFinCan.makeFinCan('FinCan')")
+        FreeCAD.ActiveDocument.openTransaction("Create transition")
+        FreeCADGui.addModule("Ui.Commands.CmdTransition")
+        FreeCADGui.doCommand("Ui.Commands.CmdTransition.makeTransition('Transition')")
         FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
 
     def IsActive(self):
@@ -65,6 +57,6 @@ class CmdFinCan:
         return False
         
     def GetResources(self):
-        return {'MenuText': translate("Rocket", 'Fin Can'),
-                'ToolTip': translate("Rocket", 'Fin can design'),
-                'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_FinCan.svg"}
+        return {'MenuText': translate("Rocket", 'Transition'),
+                'ToolTip': translate("Rocket", 'Transition design'),
+                'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Transition.svg"}

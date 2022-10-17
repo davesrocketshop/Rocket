@@ -18,45 +18,41 @@
 # *   USA                                                                   *
 # *                                                                         *
 # ***************************************************************************
-"""Class for drawing fins"""
+"""Class for drawing parachutes"""
 
-__title__ = "FreeCAD Fins"
+__title__ = "FreeCAD Parachutes"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
     
 import FreeCAD
 import FreeCADGui
 
-from App.Constants import FIN_TYPE_SKETCH
 from App.ShapeFin import ShapeFin
-from Ui.ViewFin import ViewProviderFin
-from Ui.CmdStage import addToStage
+from Ui.ViewParachute import ViewProviderParachute
 
 from DraftTools import translate
 
-def makeFin(name):
-    '''makeFin(name): makes a Fin'''
+def makeParachute(name):
+    '''makeParachute(name): makes a Parachute'''
     obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
     ShapeFin(obj)
 
-    # See if we have a sketch selected. If so, this is a custom fin
-    for sketch in FreeCADGui.Selection.getSelection():
-        if sketch.isDerivedFrom('Sketcher::SketchObject'):
-            obj.FinType = FIN_TYPE_SKETCH
-            obj.Profile = sketch
-            sketch.Visibility = False
-
     if FreeCAD.GuiUp:
-        ViewProviderFin(obj.ViewObject)
+        ViewProviderParachute(obj.ViewObject)
 
-        addToStage(obj)
+        body=FreeCADGui.ActiveDocument.ActiveView.getActiveObject("pdbody")
+        part=FreeCADGui.ActiveDocument.ActiveView.getActiveObject("part")
+        if body:
+            body.Group=body.Group+[obj]
+        elif part:
+            part.Group=part.Group+[obj]
     return obj
 
-class CmdFin:
+class CmdParachute:
     def Activated(self):
-        FreeCAD.ActiveDocument.openTransaction("Create fin")
-        FreeCADGui.addModule("Ui.CmdFin")
-        FreeCADGui.doCommand("Ui.CmdFin.makeFin('Fin')")
+        FreeCAD.ActiveDocument.openTransaction("Create parachute")
+        FreeCADGui.addModule("Ui.Commands.CmdParachute")
+        FreeCADGui.doCommand("Ui.Commands.CmdParachute.makeParachute('Parachute')")
         FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
 
     def IsActive(self):
@@ -65,6 +61,6 @@ class CmdFin:
         return False
         
     def GetResources(self):
-        return {'MenuText': translate("Rocket", 'Fin'),
-                'ToolTip': translate("Rocket", 'Fin design'),
-                'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Fin.svg"}
+        return {'MenuText': translate("Rocket", 'Parachute'),
+                'ToolTip': translate("Rocket", 'Parachute design'),
+                'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Parachute.svg"}

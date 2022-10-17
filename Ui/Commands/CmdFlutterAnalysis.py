@@ -18,49 +18,47 @@
 # *   USA                                                                   *
 # *                                                                         *
 # ***************************************************************************
-"""Class for drawing parachutes"""
+"""Class for calculating fin flutter"""
 
-__title__ = "FreeCAD Parachutes"
+__title__ = "FreeCAD Fin Flutter Calculator"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
     
 import FreeCAD
 import FreeCADGui
 
-from App.ShapeFin import ShapeFin
-from Ui.ViewParachute import ViewProviderParachute
-
 from DraftTools import translate
 
-def makeParachute(name):
-    '''makeParachute(name): makes a Parachute'''
-    obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
-    ShapeFin(obj)
+from PySide import QtGui
 
-    if FreeCAD.GuiUp:
-        ViewProviderParachute(obj.ViewObject)
+from Ui.DialogFinFlutter import DialogFinFlutter
+from Ui.Commands.Command import Command
 
-        body=FreeCADGui.ActiveDocument.ActiveView.getActiveObject("pdbody")
-        part=FreeCADGui.ActiveDocument.ActiveView.getActiveObject("part")
-        if body:
-            body.Group=body.Group+[obj]
-        elif part:
-            part.Group=part.Group+[obj]
-    return obj
+def calcFinFlutter():
 
-class CmdParachute:
+    # See if we have a fin selected
+    for fin in FreeCADGui.Selection.getSelection():
+        if fin.isDerivedFrom('Part::FeaturePython'):
+            if hasattr(fin,"FinType"):
+                try:
+                    form = DialogFinFlutter(fin)
+                    form.exec_()
+                except TypeError as ex:
+                    QtGui.QMessageBox.information(None, "", str(ex))
+                return
+
+    QtGui.QMessageBox.information(None, "", translate('Rocket', "Please select a fin first"))
+
+class CmdFinFlutter(Command):
     def Activated(self):
-        FreeCAD.ActiveDocument.openTransaction("Create parachute")
-        FreeCADGui.addModule("Ui.CmdParachute")
-        FreeCADGui.doCommand("Ui.CmdParachute.makeParachute('Parachute')")
-        FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
+        FreeCADGui.addModule("Ui.Commands.CmdFlutterAnalysis")
+        FreeCADGui.doCommand("Ui.Commands.CmdFlutterAnalysis.calcFinFlutter()")
 
     def IsActive(self):
-        if FreeCAD.ActiveDocument:
-            return True
-        return False
+        # Available when a part is selected
+        return self.part_fin_selected()
         
     def GetResources(self):
-        return {'MenuText': translate("Rocket", 'Parachute'),
-                'ToolTip': translate("Rocket", 'Parachute design'),
-                'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Parachute.svg"}
+        return {'MenuText': translate("Rocket", 'Fin Flutter Analysis'),
+                'ToolTip': translate("Rocket", 'Calculate fin flutter'),
+                'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_FinFlutter.svg"}

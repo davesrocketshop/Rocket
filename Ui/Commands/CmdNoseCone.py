@@ -47,8 +47,8 @@ def makeNoseCone(name='NoseCone'):
 class CmdNoseCone:
     def Activated(self):
         FreeCAD.ActiveDocument.openTransaction("Create nose cone")
-        FreeCADGui.addModule("Ui.CmdNoseCone")
-        FreeCADGui.doCommand("Ui.CmdNoseCone.makeNoseCone('NoseCone')")
+        FreeCADGui.addModule("Ui.Commands.CmdNoseCone")
+        FreeCADGui.doCommand("Ui.Commands.CmdNoseCone.makeNoseCone('NoseCone')")
         FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
 
     def IsActive(self):

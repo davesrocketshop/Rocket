@@ -18,44 +18,29 @@
 # *   USA                                                                   *
 # *                                                                         *
 # ***************************************************************************
-"""Class for drawing bulkheads"""
+"""Base class for commands"""
 
-__title__ = "FreeCAD Bulkheads"
+__title__ = "FreeCAD Commands"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
     
-import FreeCAD
 import FreeCADGui
 
-from App.ShapeBulkhead import ShapeBulkhead
-from Ui.ViewBulkhead import ViewProviderBulkhead
-from Ui.CmdStage import addToStage
+class Command:
 
-from DraftTools import translate
-
-def makeBulkhead(name):
-    '''makeBulkhead(name): makes a bulkhead'''
-    obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
-    ShapeBulkhead(obj)
-    if FreeCAD.GuiUp:
-        ViewProviderBulkhead(obj.ViewObject)
-
-        addToStage(obj)
-    return obj
-
-class CmdBulkhead:
-    def Activated(self):
-        FreeCAD.ActiveDocument.openTransaction("Create bulkhead")
-        FreeCADGui.addModule("Ui.CmdBulkhead")
-        FreeCADGui.doCommand("Ui.CmdBulkhead.makeBulkhead('Bulkhead')")
-        FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
-
-    def IsActive(self):
-        if FreeCAD.ActiveDocument:
+    def part_feature_selected(self):
+        if FreeCADGui.ActiveDocument is None:
+            return False
+        sel = FreeCADGui.Selection.getSelection()
+        if len(sel) == 1 and sel[0].isDerivedFrom("Part::Feature"):
             return True
+        else:
+            return False
+
+    def part_fin_selected(self):
+        if FreeCADGui.ActiveDocument is not None:
+            sel = FreeCADGui.Selection.getSelection()
+            if len(sel) == 1 and sel[0].isDerivedFrom("Part::FeaturePython"):
+                if hasattr(sel[0],"FinType"):
+                    return True
         return False
-        
-    def GetResources(self):
-        return {'MenuText': translate("Rocket", 'Bulkhead'),
-                'ToolTip': translate("Rocket", 'Bulkhead design'),
-                'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Bulkhead.svg"}

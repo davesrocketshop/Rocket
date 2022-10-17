@@ -40,8 +40,8 @@ def newSketch():
 
 class CmdNewSketch:
     def Activated(self):
-        FreeCADGui.addModule("Ui.CmdSketcher")
-        FreeCADGui.doCommand("Ui.CmdSketcher.newSketch()")
+        FreeCADGui.addModule("Ui.Commands.CmdSketcher")
+        FreeCADGui.doCommand("Ui.Commands.CmdSketcher.newSketch()")
 
     def IsActive(self):
         if FreeCAD.ActiveDocument:

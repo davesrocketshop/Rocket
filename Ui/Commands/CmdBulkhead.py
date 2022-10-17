@@ -18,42 +18,36 @@
 # *   USA                                                                   *
 # *                                                                         *
 # ***************************************************************************
-"""Class for drawing parachute gores"""
+"""Class for drawing bulkheads"""
 
-__title__ = "FreeCAD Parachute Gores"
+__title__ = "FreeCAD Bulkheads"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
     
 import FreeCAD
 import FreeCADGui
 
-from App.ShapeFin import ShapeFin
-from Ui.ViewParachuteGore import ViewProviderParachuteGore
-# import Sketcher
+from App.ShapeBulkhead import ShapeBulkhead
+from Ui.ViewBulkhead import ViewProviderBulkhead
+from Ui.CmdStage import addToStage
 
 from DraftTools import translate
 
-def makeParachuteGore(name):
-    '''makeParachuteGore(name): makes a Fin'''
+def makeBulkhead(name):
+    '''makeBulkhead(name): makes a bulkhead'''
     obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
-    ShapeFin(obj)
-
+    ShapeBulkhead(obj)
     if FreeCAD.GuiUp:
-        ViewProviderParachuteGore(obj.ViewObject)
+        ViewProviderBulkhead(obj.ViewObject)
 
-        body=FreeCADGui.ActiveDocument.ActiveView.getActiveObject("pdbody")
-        part=FreeCADGui.ActiveDocument.ActiveView.getActiveObject("part")
-        if body:
-            body.Group=body.Group+[obj]
-        elif part:
-            part.Group=part.Group+[obj]
+        addToStage(obj)
     return obj
 
-class CmdParachuteGore:
+class CmdBulkhead:
     def Activated(self):
-        FreeCAD.ActiveDocument.openTransaction("Create parachute  gore")
-        FreeCADGui.addModule("Ui.CmdParachuteGore")
-        FreeCADGui.doCommand("Ui.CmdParachuteGore.makeParachuteGore('Gore')")
+        FreeCAD.ActiveDocument.openTransaction("Create bulkhead")
+        FreeCADGui.addModule("Ui.Commands.CmdBulkhead")
+        FreeCADGui.doCommand("Ui.Commands.CmdBulkhead.makeBulkhead('Bulkhead')")
         FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
 
     def IsActive(self):
@@ -62,6 +56,6 @@ class CmdParachuteGore:
         return False
         
     def GetResources(self):
-        return {'MenuText': translate("Rocket", 'Parachute Gore'),
-                'ToolTip': translate("Rocket", 'Parachute gore design'),
-                'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_ParachuteGore.svg"}
+        return {'MenuText': translate("Rocket", 'Bulkhead'),
+                'ToolTip': translate("Rocket", 'Bulkhead design'),
+                'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Bulkhead.svg"}

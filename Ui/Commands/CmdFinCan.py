@@ -18,46 +18,53 @@
 # *   USA                                                                   *
 # *                                                                         *
 # ***************************************************************************
-"""Class for calculating ejection charge size"""
+"""Class for drawing fin cans"""
 
-__title__ = "FreeCAD Black Powder Calculator"
+__title__ = "FreeCAD Fin Can"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
     
 import FreeCAD
 import FreeCADGui
 
+from App.Constants import FIN_TYPE_SKETCH
+from App.ShapeFinCan import ShapeFinCan
+from Ui.ViewFinCan import ViewProviderFinCan
+from Ui.CmdStage import addToStage
+
 from DraftTools import translate
 
-from PySide import QtGui
+def makeFinCan(name):
+    '''makeFinCan(name): makes a Fin Can'''
+    obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
+    ShapeFinCan(obj)
 
-from Ui.DialogFinFlutter import DialogFinFlutter
+    # See if we have a sketch selected. If so, this is a custom fin
+    for sketch in FreeCADGui.Selection.getSelection():
+        if sketch.isDerivedFrom('Sketcher::SketchObject'):
+            obj.FinType = FIN_TYPE_SKETCH
+            obj.Profile = sketch
+            sketch.Visibility = False
 
-def calcFinFlutter():
+    if FreeCAD.GuiUp:
+        ViewProviderFinCan(obj.ViewObject)
+        addToStage(obj)
 
-    # See if we have a fin selected. If so, this is a custom fin
-    for fin in FreeCADGui.Selection.getSelection():
-        if fin.isDerivedFrom('Part::FeaturePython'):
-            if hasattr(fin,"FinType"):
-                try:
-                    form = DialogFinFlutter(fin)
-                    form.exec_()
-                except TypeError as ex:
-                    QtGui.QMessageBox.information(None, "", str(ex))
-                return
+    return obj
 
-    QtGui.QMessageBox.information(None, "", translate('Rocket', "Please select a fin first"))
-
-class CmdFinFlutter:
+class CmdFinCan:
     def Activated(self):
-        FreeCADGui.addModule("Ui.CmdFlutterAnalysis")
-        FreeCADGui.doCommand("Ui.CmdFlutterAnalysis.calcFinFlutter()")
+        FreeCAD.ActiveDocument.openTransaction("Create fin can")
+        FreeCADGui.addModule("Ui.Commands.CmdFinCan")
+        FreeCADGui.doCommand("Ui.Commands.CmdFinCan.makeFinCan('FinCan')")
+        FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
 
     def IsActive(self):
-        # Always available, even without active document
-        return True
+        if FreeCAD.ActiveDocument:
+            return True
+        return False
         
     def GetResources(self):
-        return {'MenuText': translate("Rocket", 'Fin Flutter Analysis'),
-                'ToolTip': translate("Rocket", 'Calculate fin flutter'),
-                'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_FinFlutter.svg"}
+        return {'MenuText': translate("Rocket", 'Fin Can'),
+                'ToolTip': translate("Rocket", 'Fin can design'),
+                'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_FinCan.svg"}

@@ -18,33 +18,50 @@
 # *   USA                                                                   *
 # *                                                                         *
 # ***************************************************************************
-"""Class for calculatingparachute size"""
+"""Class for drawing parachute gores"""
 
-__title__ = "FreeCAD Parachute Calculator"
+__title__ = "FreeCAD Parachute Gores"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
     
 import FreeCAD
 import FreeCADGui
 
+from App.ShapeFin import ShapeFin
+from Ui.ViewParachuteGore import ViewProviderParachuteGore
+# import Sketcher
+
 from DraftTools import translate
 
-from Ui.DialogParachute import DialogParachute
+def makeParachuteGore(name):
+    '''makeParachuteGore(name): makes a Fin'''
+    obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
+    ShapeFin(obj)
 
-def calcParachute():
-    form = DialogParachute()
-    form.exec_()
+    if FreeCAD.GuiUp:
+        ViewProviderParachuteGore(obj.ViewObject)
 
-class CmdCalcParachute:
+        body=FreeCADGui.ActiveDocument.ActiveView.getActiveObject("pdbody")
+        part=FreeCADGui.ActiveDocument.ActiveView.getActiveObject("part")
+        if body:
+            body.Group=body.Group+[obj]
+        elif part:
+            part.Group=part.Group+[obj]
+    return obj
+
+class CmdParachuteGore:
     def Activated(self):
-        FreeCADGui.addModule("Ui.CmdCalcParachute")
-        FreeCADGui.doCommand("Ui.CmdCalcParachute.calcParachute()")
+        FreeCAD.ActiveDocument.openTransaction("Create parachute  gore")
+        FreeCADGui.addModule("Ui.Commands.CmdParachuteGore")
+        FreeCADGui.doCommand("Ui.Commands.CmdParachuteGore.makeParachuteGore('Gore')")
+        FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
 
     def IsActive(self):
-        # Always available, even without active document
-        return True
+        if FreeCAD.ActiveDocument:
+            return True
+        return False
         
     def GetResources(self):
-        return {'MenuText': translate("Rocket", 'Calculate parachute size'),
-                'ToolTip': translate("Rocket", 'Calculate parachute size'),
-                'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Calculator.svg"}
+        return {'MenuText': translate("Rocket", 'Parachute Gore'),
+                'ToolTip': translate("Rocket", 'Parachute gore design'),
+                'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_ParachuteGore.svg"}

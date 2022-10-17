@@ -27,36 +27,37 @@ import FreeCADGui
 
 from DraftTools import translate
 
-from Ui.CmdRocket import CmdRocket, CmdToggleRocket
-from Ui.CmdStage import CmdStage, CmdToggleStage
-from Ui.CmdParallelStage import CmdParallelStage, CmdToggleParallelStage
-from Ui.CmdNoseCone import CmdNoseCone
-from Ui.CmdTransition import CmdTransition
-from Ui.CmdCenteringRing import CmdCenteringRing
-from Ui.CmdBodyTube import CmdBodyTube, CmdCoupler, CmdInnerTube
-from Ui.CmdPod import CmdPod
-from Ui.CmdBulkhead import CmdBulkhead
-from Ui.CmdLaunchGuides import CmdLaunchLug, CmdRailButton, CmdRailGuide, CmdStandOff
-from Ui.CmdFin import CmdFin
-from Ui.CmdFinCan import CmdFinCan
-from Ui.CmdParachute import CmdParachute
-from Ui.CmdEditTree import CmdMoveUp, CmdMoveDown, CmdEdit, CmdDelete
+from Ui.Commands.CmdRocket import CmdRocket, CmdToggleRocket
+from Ui.Commands.CmdStage import CmdStage, CmdToggleStage
+from Ui.Commands.CmdParallelStage import CmdParallelStage, CmdToggleParallelStage
+from Ui.Commands.CmdNoseCone import CmdNoseCone
+from Ui.Commands.CmdTransition import CmdTransition
+from Ui.Commands.CmdCenteringRing import CmdCenteringRing
+from Ui.Commands.CmdBodyTube import CmdBodyTube, CmdCoupler, CmdInnerTube
+from Ui.Commands.CmdPod import CmdPod
+from Ui.Commands.CmdBulkhead import CmdBulkhead
+from Ui.Commands.CmdLaunchGuides import CmdLaunchLug, CmdRailButton, CmdRailGuide, CmdStandOff
+from Ui.Commands.CmdFin import CmdFin
+from Ui.Commands.CmdFinCan import CmdFinCan
+from Ui.Commands.CmdParachute import CmdParachute
+from Ui.Commands.CmdEditTree import CmdMoveUp, CmdMoveDown, CmdEdit, CmdDelete
 
 # Calculators
-from Ui.CmdCalcBlackPowder import CmdCalcBlackPowder
-from Ui.CmdCalcParachute import CmdCalcParachute
-from Ui.CmdCalcThrustToWeight import CmdCalcThrustToWeight
-from Ui.CmdCalcVentHoles import CmdCalcVentHoles
+from Ui.Commands.CmdCalcBlackPowder import CmdCalcBlackPowder
+from Ui.Commands.CmdCalcParachute import CmdCalcParachute
+from Ui.Commands.CmdCalcThrustToWeight import CmdCalcThrustToWeight
+from Ui.Commands.CmdCalcVentHoles import CmdCalcVentHoles
 
 # Rocket specific sketcher
-from Ui.CmdSketcher import CmdNewSketch
+from Ui.Commands.CmdSketcher import CmdNewSketch
 
 # Template generators
-from Ui.CmdParachuteGore import CmdParachuteGore
+from Ui.Commands.CmdParachuteGore import CmdParachuteGore
 
 # Analysis
-from Ui.CmdFlutterAnalysis import CmdFinFlutter
-from Ui.CmdMaterialEditor import CmdMaterialEditor
+from Ui.Commands.CmdFlutterAnalysis import CmdFinFlutter
+from Ui.Commands.CmdFemAnalysis import CmdFemAnalysis
+from Ui.Commands.CmdMaterialEditor import CmdMaterialEditor
 
 FreeCADGui.addCommand('Rocket_Rocket', CmdRocket())
 FreeCADGui.addCommand('Rocket_ToggleRocket', CmdToggleRocket())
@@ -100,6 +101,7 @@ FreeCADGui.addCommand('Rocket_NewSketch', CmdNewSketch())
 FreeCADGui.addCommand('Rocket_ParachuteGore', CmdParachuteGore())
 
 FreeCADGui.addCommand('Rocket_FinFlutter', CmdFinFlutter())
+FreeCADGui.addCommand('Rocket_FemAnalysis', CmdFemAnalysis())
 FreeCADGui.addCommand('Rocket_MaterialEditor', CmdMaterialEditor())
 
 class _CalculatorGroupCommand:

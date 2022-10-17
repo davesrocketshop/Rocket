@@ -18,9 +18,9 @@
 # *   USA                                                                   *
 # *                                                                         *
 # ***************************************************************************
-"""Class for calculating thrust to weight"""
+"""Class for calculating vent hole size"""
 
-__title__ = "FreeCAD Thrust To Weight Command"
+__title__ = "FreeCAD Vent Hole Calculator"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
     
@@ -29,22 +29,22 @@ import FreeCADGui
 
 from DraftTools import translate
 
-from Ui.DialogThrustToWeight import DialogThrustToWeight
+from Ui.DialogVentHoles import DialogVentHole
 
-def calcThrustToWeight():
-    form = DialogThrustToWeight()
+def calcVentHoles():
+    form = DialogVentHole()
     form.exec_()
 
-class CmdCalcThrustToWeight:
+class CmdCalcVentHoles:
     def Activated(self):
-        FreeCADGui.addModule("Ui.CmdCalcThrustToWeight")
-        FreeCADGui.doCommand("Ui.CmdCalcThrustToWeight.calcThrustToWeight()")
+        FreeCADGui.addModule("Ui.Commands.CmdCalcVentHoles")
+        FreeCADGui.doCommand("Ui.Commands.CmdCalcVentHoles.calcVentHoles()")
 
     def IsActive(self):
         # Always available, even without active document
         return True
         
     def GetResources(self):
-        return {'MenuText': translate("Rocket", 'Calculate Thrust To Weight'),
-                'ToolTip': translate("Rocket", 'Calculate Thrust To Weight'),
+        return {'MenuText': translate("Rocket", 'Calculate vent hole size'),
+                'ToolTip': translate("Rocket", 'Calculate vent hole size'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Calculator.svg"}

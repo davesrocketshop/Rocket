@@ -27,8 +27,8 @@ import math
 
 from Analyzers.pyatmos import coesa76
 from Analyzers.FinFlutter import FinFlutter
-from Ui.CmdFin import makeFin
-from Ui.CmdFinCan import makeFinCan
+from Ui.Commands.CmdFin import makeFin
+from Ui.Commands.CmdFinCan import makeFinCan
 
 class RocketTestCases(unittest.TestCase):
 

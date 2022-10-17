@@ -68,8 +68,8 @@ def makeRailGuide(name='RailGuide'):
 class CmdLaunchLug:
     def Activated(self):
         FreeCAD.ActiveDocument.openTransaction("Create launch lug")
-        FreeCADGui.addModule("Ui.CmdLaunchGuides")
-        FreeCADGui.doCommand("Ui.CmdLaunchGuides.makeLaunchLug('LaunchLug')")
+        FreeCADGui.addModule("Ui.Commands.CmdLaunchGuides")
+        FreeCADGui.doCommand("Ui.Commands.CmdLaunchGuides.makeLaunchLug('LaunchLug')")
         FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
 
     def IsActive(self):
@@ -85,8 +85,8 @@ class CmdLaunchLug:
 class CmdRailButton:
     def Activated(self):
         FreeCAD.ActiveDocument.openTransaction("Create rail button")
-        FreeCADGui.addModule("Ui.CmdLaunchGuides")
-        FreeCADGui.doCommand("Ui.CmdLaunchGuides.makeRailButton('RailButton')")
+        FreeCADGui.addModule("Ui.Commands.CmdLaunchGuides")
+        FreeCADGui.doCommand("Ui.Commands.CmdLaunchGuides.makeRailButton('RailButton')")
         FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
 
     def IsActive(self):
@@ -102,8 +102,8 @@ class CmdRailButton:
 class CmdRailGuide:
     def Activated(self):
         FreeCAD.ActiveDocument.openTransaction("Create rail guide")
-        FreeCADGui.addModule("Ui.CmdLaunchGuides")
-        FreeCADGui.doCommand("Ui.CmdLaunchGuides.makeRailGuide('RailGuide')")
+        FreeCADGui.addModule("Ui.Commands.CmdLaunchGuides")
+        FreeCADGui.doCommand("Ui.Commands.CmdLaunchGuides.makeRailGuide('RailGuide')")
         FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
 
     def IsActive(self):
@@ -119,8 +119,8 @@ class CmdRailGuide:
 class CmdStandOff:
     def Activated(self):
         FreeCAD.ActiveDocument.openTransaction("Create stand off")
-        FreeCADGui.addModule("Ui.CmdLaunchGuides")
-        FreeCADGui.doCommand("Ui.CmdLaunchGuides.makeRailGuide('StandOff')")
+        FreeCADGui.addModule("Ui.Commands.CmdLaunchGuides")
+        FreeCADGui.doCommand("Ui.Commands.CmdLaunchGuides.makeRailGuide('StandOff')")
         FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
 
     def IsActive(self):
