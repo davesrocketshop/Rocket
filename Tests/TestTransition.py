@@ -156,62 +156,50 @@ class TransitionTests(unittest.TestCase):
 
     def testTypesSolid(self):
         for type in [TYPE_CONE, TYPE_ELLIPTICAL, TYPE_HAACK, TYPE_OGIVE, TYPE_VON_KARMAN, TYPE_PARABOLA, TYPE_PARABOLIC, TYPE_POWER]:
-            self._testPlain(type, STYLE_SOLID, False)
-            self._testForeShoulder(type, STYLE_SOLID, False)
-            self._testAftShoulder(type, STYLE_SOLID, False)
-            self._testBothShoulder(type, STYLE_SOLID, False)
-            self._testPlain(type, STYLE_SOLID, True)
-            self._testForeShoulder(type, STYLE_SOLID, True)
-            self._testAftShoulder(type, STYLE_SOLID, True)
-            self._testBothShoulder(type, STYLE_SOLID, True)
+            with self.subTest(t=type):
+                self._testPlain(type, STYLE_SOLID, False)
+                self._testForeShoulder(type, STYLE_SOLID, False)
+                self._testAftShoulder(type, STYLE_SOLID, False)
+                self._testBothShoulder(type, STYLE_SOLID, False)
+                self._testPlain(type, STYLE_SOLID, True)
+                self._testForeShoulder(type, STYLE_SOLID, True)
+                self._testAftShoulder(type, STYLE_SOLID, True)
+                self._testBothShoulder(type, STYLE_SOLID, True)
 
     def testTypesSolidCore(self):
         for type in [TYPE_CONE, TYPE_ELLIPTICAL, TYPE_HAACK, TYPE_OGIVE, TYPE_VON_KARMAN, TYPE_PARABOLA, TYPE_PARABOLIC, TYPE_POWER]:
-            self._testPlain(type, STYLE_SOLID_CORE, False)
-            self._testForeShoulder(type, STYLE_SOLID_CORE, False)
-            self._testAftShoulder(type, STYLE_SOLID_CORE, False)
-            self._testBothShoulder(type, STYLE_SOLID_CORE, False)
-            self._testPlain(type, STYLE_SOLID_CORE, True)
-            self._testForeShoulder(type, STYLE_SOLID_CORE, True)
-            self._testAftShoulder(type, STYLE_SOLID_CORE, True)
-            self._testBothShoulder(type, STYLE_SOLID_CORE, True)
+            with self.subTest(t=type):
+                self._testPlain(type, STYLE_SOLID_CORE, False)
+                self._testForeShoulder(type, STYLE_SOLID_CORE, False)
+                self._testAftShoulder(type, STYLE_SOLID_CORE, False)
+                self._testBothShoulder(type, STYLE_SOLID_CORE, False)
+                self._testPlain(type, STYLE_SOLID_CORE, True)
+                self._testForeShoulder(type, STYLE_SOLID_CORE, True)
+                self._testAftShoulder(type, STYLE_SOLID_CORE, True)
+                self._testBothShoulder(type, STYLE_SOLID_CORE, True)
 
     def testTypesHollow(self):
         for type in [TYPE_CONE, TYPE_ELLIPTICAL, TYPE_HAACK, TYPE_OGIVE, TYPE_VON_KARMAN, TYPE_PARABOLA, TYPE_PARABOLIC, TYPE_POWER]:
-            self._testPlain(type, STYLE_HOLLOW, False)
-            self._testForeShoulder(type, STYLE_HOLLOW, False)
-            self._testAftShoulder(type, STYLE_HOLLOW, False)
-            self._testBothShoulder(type, STYLE_HOLLOW, False)
-            self._testPlain(type, STYLE_HOLLOW, True)
-            self._testForeShoulder(type, STYLE_HOLLOW, True)
-            self._testAftShoulder(type, STYLE_HOLLOW, True)
-            self._testBothShoulder(type, STYLE_HOLLOW, True)
+            with self.subTest(t=type):
+                self._testPlain(type, STYLE_HOLLOW, False)
+                self._testForeShoulder(type, STYLE_HOLLOW, False)
+                self._testAftShoulder(type, STYLE_HOLLOW, False)
+                self._testBothShoulder(type, STYLE_HOLLOW, False)
+                self._testPlain(type, STYLE_HOLLOW, True)
+                self._testForeShoulder(type, STYLE_HOLLOW, True)
+                self._testAftShoulder(type, STYLE_HOLLOW, True)
+                self._testBothShoulder(type, STYLE_HOLLOW, True)
 
     def testTypesCapped(self):
         for type in [TYPE_CONE, TYPE_ELLIPTICAL, TYPE_HAACK, TYPE_OGIVE, TYPE_VON_KARMAN, TYPE_PARABOLA, TYPE_PARABOLIC, TYPE_POWER]:
-            self._testPlain(type, STYLE_CAPPED, False)
-            self._testForeShoulder(type, STYLE_CAPPED, False)
-            self._testAftShoulder(type, STYLE_CAPPED, False)
-            self._testBothShoulder(type, STYLE_CAPPED, False)
-            self._testPlain(type, STYLE_CAPPED, True)
-            self._testForeShoulder(type, STYLE_CAPPED, True)
-            self._testAftShoulder(type, STYLE_CAPPED, True)
-            self._testBothShoulder(type, STYLE_CAPPED, True)
-
-            self._testPlain(type, STYLE_CAPPED, False, STYLE_CAP_BAR)
-            self._testForeShoulder(type, STYLE_CAPPED, False, STYLE_CAP_BAR)
-            self._testAftShoulder(type, STYLE_CAPPED, False, STYLE_CAP_BAR)
-            self._testBothShoulder(type, STYLE_CAPPED, False, STYLE_CAP_BAR)
-            self._testPlain(type, STYLE_CAPPED, True, STYLE_CAP_BAR)
-            self._testForeShoulder(type, STYLE_CAPPED, True, STYLE_CAP_BAR)
-            self._testAftShoulder(type, STYLE_CAPPED, True, STYLE_CAP_BAR)
-            self._testBothShoulder(type, STYLE_CAPPED, True, STYLE_CAP_BAR)
-
-            self._testPlain(type, STYLE_CAPPED, False, STYLE_CAP_CROSS)
-            self._testForeShoulder(type, STYLE_CAPPED, False, STYLE_CAP_CROSS)
-            self._testAftShoulder(type, STYLE_CAPPED, False, STYLE_CAP_CROSS)
-            self._testBothShoulder(type, STYLE_CAPPED, False, STYLE_CAP_CROSS)
-            self._testPlain(type, STYLE_CAPPED, True, STYLE_CAP_CROSS)
-            self._testForeShoulder(type, STYLE_CAPPED, True, STYLE_CAP_CROSS)
-            self._testAftShoulder(type, STYLE_CAPPED, True, STYLE_CAP_CROSS)
-            self._testBothShoulder(type, STYLE_CAPPED, True, STYLE_CAP_CROSS)
+            with self.subTest(t=type):
+                for capStyle in [STYLE_CAP_SOLID, STYLE_CAP_BAR, STYLE_CAP_CROSS]:
+                    with self.subTest(capStyle=capStyle):
+                        self._testPlain(type, STYLE_CAPPED, False, capStyle)
+                        self._testForeShoulder(type, STYLE_CAPPED, False, capStyle)
+                        self._testAftShoulder(type, STYLE_CAPPED, False, capStyle)
+                        self._testBothShoulder(type, STYLE_CAPPED, False, capStyle)
+                        self._testPlain(type, STYLE_CAPPED, True, capStyle)
+                        self._testForeShoulder(type, STYLE_CAPPED, True, capStyle)
+                        self._testAftShoulder(type, STYLE_CAPPED, True, capStyle)
+                        self._testBothShoulder(type, STYLE_CAPPED, True, capStyle)
