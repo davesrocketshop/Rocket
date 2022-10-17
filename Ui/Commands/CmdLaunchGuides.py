@@ -31,7 +31,7 @@ from App.ShapeRailGuide import ShapeRailGuide
 from App.ShapeLaunchLug import ShapeLaunchLug
 from App.ShapeRailButton import ShapeRailButton
 from Ui.ViewLaunchGuide import ViewProviderRailButton, ViewProviderLaunchLug, ViewProviderRailGuide
-from Ui.CmdStage import addToStage
+from Ui.Commands.CmdStage import addToStage
 
 from DraftTools import translate
 

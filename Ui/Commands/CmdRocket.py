@@ -18,44 +18,68 @@
 # *   USA                                                                   *
 # *                                                                         *
 # ***************************************************************************
-"""Class for drawing pods"""
+"""Class for drawing rocket assemblies"""
 
-__title__ = "FreeCAD Pods"
+__title__ = "FreeCAD Rocket Assembly"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
     
+
 import FreeCAD
 import FreeCADGui
-
-from App.ShapePod import ShapePod
-from Ui.ViewPod import ViewProviderPod
-from Ui.CmdStage import addToStage
+from PySide import QtGui
 
 from DraftTools import translate
 
-def makePod(name='Pod'):
-    '''makePod(name): makes a Pod'''
-    obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
-    ShapePod(obj)
-    if FreeCAD.GuiUp:
-        ViewProviderPod(obj.ViewObject)
+from App.ShapeRocket import ShapeRocket
+from Ui.ViewRocket import ViewProviderRocket
+from Ui.Commands.CmdStage import makeStage
 
-        addToStage(obj)
+def makeRocket(name='Rocket', makeSustainer=True):
+    obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
+    ShapeRocket(obj)
+    if FreeCAD.GuiUp:
+        ViewProviderRocket(obj.ViewObject)
+
+    if makeSustainer:
+        sustainer = makeStage()
+        sustainer.Label = 'Sustainer'
+        obj.addObject(sustainer)
+        FreeCADGui.ActiveDocument.ActiveView.setActiveObject('stage', sustainer)
+    
+    FreeCADGui.ActiveDocument.ActiveView.setActiveObject('rocket', obj)
     return obj
 
-class CmdPod:
+class CmdRocket:
     def Activated(self):
-        FreeCAD.ActiveDocument.openTransaction("Create pod")
-        FreeCADGui.addModule("Ui.CmdPod")
-        FreeCADGui.doCommand("Ui.CmdPod.makePod('Pod')")
-        FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
+        FreeCAD.ActiveDocument.openTransaction("Create rocket assembly")
+        FreeCADGui.addModule("Ui.CmdRocket")
+        FreeCADGui.doCommand("Ui.CmdRocket.makeRocket('Rocket')")
+        FreeCADGui.doCommand("App.activeDocument().recompute(None,True,True)")
 
     def IsActive(self):
         if FreeCAD.ActiveDocument:
             return True
         return False
-            
+
     def GetResources(self):
-        return {'MenuText': translate("Rocket", 'Pod'),
-                'ToolTip': translate("Rocket", 'Pod design'),
-                'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Pod.svg"}
+        return {'MenuText': translate("Rocket", 'Rocket'),
+                'ToolTip': translate("Rocket", 'Rocket assembly'),
+                'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Rocket.svg"}
+
+class CmdToggleRocket:
+    def GetResources(self):
+        return {'MenuText': translate("Rocket","Toggle active rocket"),
+                'ToolTip' : translate("Rocket","Toggle the active rocket")}
+
+    def IsActive(self):
+        return bool(FreeCADGui.Selection.getSelection())
+
+    def Activated(self):
+        view = FreeCADGui.ActiveDocument.ActiveView
+
+        for obj in FreeCADGui.Selection.getSelection():
+            if view.getActiveObject('rocket') == obj:
+                view.setActiveObject("rocket", None)
+            else:
+                view.setActiveObject("rocket", obj)

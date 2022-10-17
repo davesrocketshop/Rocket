@@ -37,7 +37,7 @@ from App.Importer.NoseElement import NoseElement
 
 from App.Utilities import _msg
 
-from Ui.CmdRocket import makeRocket
+from Ui.Commands.CmdRocket import makeRocket
 
 class RootElement(ComponentElement):
 

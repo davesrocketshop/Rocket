@@ -18,28 +18,44 @@
 # *   USA                                                                   *
 # *                                                                         *
 # ***************************************************************************
-"""Provides support for importing Open Rocket files."""
+"""Class for drawing pods"""
 
-__title__ = "FreeCAD Open Rocket Importer"
+__title__ = "FreeCAD Pods"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
+    
+import FreeCAD
+import FreeCADGui
 
-from App.Importer.ComponentElement import ComponentElement
-import App.Importer as Importer
+from App.ShapePod import ShapePod
+from Ui.ViewPod import ViewProviderPod
+from Ui.Commands.CmdStage import addToStage
 
-from Ui.Commands.CmdStage import makeStage
+from DraftTools import translate
 
-class StageElement(ComponentElement):
+def makePod(name='Pod'):
+    '''makePod(name): makes a Pod'''
+    obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
+    ShapePod(obj)
+    if FreeCAD.GuiUp:
+        ViewProviderPod(obj.ViewObject)
 
-    def __init__(self, parent, tag, attributes, parentObj, filename, line):
-        super().__init__(parent, tag, attributes, parentObj, filename, line)
+        addToStage(obj)
+    return obj
 
-        self._validChildren = { 'subcomponents' : Importer.SubElement.SubElement,
-                              }
+class CmdPod:
+    def Activated(self):
+        FreeCAD.ActiveDocument.openTransaction("Create pod")
+        FreeCADGui.addModule("Ui.CmdPod")
+        FreeCADGui.doCommand("Ui.CmdPod.makePod('Pod')")
+        FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
 
-        self._obj = makeStage()
-        if self._parentObj is not None:
-            self._parentObj.addObject(self._obj)
-
-    def onName(self, content):
-            self._obj.Label = content
+    def IsActive(self):
+        if FreeCAD.ActiveDocument:
+            return True
+        return False
+            
+    def GetResources(self):
+        return {'MenuText': translate("Rocket", 'Pod'),
+                'ToolTip': translate("Rocket", 'Pod design'),
+                'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Pod.svg"}

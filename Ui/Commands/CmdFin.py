@@ -30,7 +30,7 @@ import FreeCADGui
 from App.Constants import FIN_TYPE_SKETCH
 from App.ShapeFin import ShapeFin
 from Ui.ViewFin import ViewProviderFin
-from Ui.CmdStage import addToStage
+from Ui.Commands.CmdStage import addToStage
 
 from DraftTools import translate
 

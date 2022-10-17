@@ -29,7 +29,7 @@ import FreeCADGui
 
 from App.ShapeCenteringRing import ShapeCenteringRing
 from Ui.ViewCenteringRing import ViewProviderCenteringRing
-from Ui.CmdStage import addToStage
+from Ui.Commands.CmdStage import addToStage
 
 from DraftTools import translate
 

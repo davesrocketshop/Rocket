@@ -29,7 +29,7 @@ import FreeCADGui
 
 from App.ShapeBulkhead import ShapeBulkhead
 from Ui.ViewBulkhead import ViewProviderBulkhead
-from Ui.CmdStage import addToStage
+from Ui.Commands.CmdStage import addToStage
 
 from DraftTools import translate
 

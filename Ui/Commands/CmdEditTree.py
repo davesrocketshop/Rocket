@@ -29,7 +29,7 @@ import FreeCADGui
 
 from App.ShapeBodyTube import ShapeBodyTube
 from Ui.ViewBodyTube import ViewProviderBodyTube
-from Ui.CmdStage import addToStage
+from Ui.Commands.CmdStage import addToStage
 
 from DraftTools import translate
 

@@ -30,7 +30,7 @@ import FreeCADGui
 
 from App.ShapeNoseCone import ShapeNoseCone
 from Ui.ViewNoseCone import ViewProviderNoseCone
-from Ui.CmdStage import addToStage
+from Ui.Commands.CmdStage import addToStage
 
 from DraftTools import translate
 

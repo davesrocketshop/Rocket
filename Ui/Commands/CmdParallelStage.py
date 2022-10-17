@@ -18,9 +18,9 @@
 # *   USA                                                                   *
 # *                                                                         *
 # ***************************************************************************
-"""Class for drawing rocket assemblies"""
+"""Class for drawing nose cones"""
 
-__title__ = "FreeCAD Rocket Assembly"
+__title__ = "FreeCAD Nose Cones"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
     
@@ -29,33 +29,46 @@ import FreeCAD
 import FreeCADGui
 from PySide import QtGui
 
+from App.ShapeParallelStage import ShapeParallelStage
+from Ui.ViewParallelStage import ViewProviderParallelStage
+from Ui.Commands.CmdStage import addToStage
+
 from DraftTools import translate
 
-from App.ShapeRocket import ShapeRocket
-from Ui.ViewRocket import ViewProviderRocket
-from Ui.CmdStage import makeStage
+def _addChild(stage, parent, child):
+    child.Proxy.setParent(parent)
+    parent.addObject(child)
+    stage.Proxy.positionChildren()
 
-def makeRocket(name='Rocket', makeSustainer=True):
+def addToParallelStage(obj):
+    stage=FreeCADGui.ActiveDocument.ActiveView.getActiveObject("stage")
+    if stage:
+        # Add to the last item in the stage if it is a group object
+        if len(stage.Group) > 0:
+            groupObj = stage.Group[len(stage.Group) - 1]
+            if groupObj.Proxy.eligibleChild(obj.Proxy.Type):
+                _addChild(stage, groupObj, obj)
+                return
+
+        _addChild(stage, stage, obj)
+
+def makeParallelStage(name='Stage'):
     obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
-    ShapeRocket(obj)
+    ShapeParallelStage(obj)
     if FreeCAD.GuiUp:
-        ViewProviderRocket(obj.ViewObject)
+        ViewProviderParallelStage(obj.ViewObject)
 
-    if makeSustainer:
-        sustainer = makeStage()
-        sustainer.Label = 'Sustainer'
-        obj.addObject(sustainer)
-        FreeCADGui.ActiveDocument.ActiveView.setActiveObject('stage', sustainer)
-    
-    FreeCADGui.ActiveDocument.ActiveView.setActiveObject('rocket', obj)
+        addToStage(obj)
+
+    FreeCADGui.ActiveDocument.ActiveView.setActiveObject('stage', obj)
     return obj
 
-class CmdRocket:
+class CmdParallelStage:
     def Activated(self):
-        FreeCAD.ActiveDocument.openTransaction("Create rocket assembly")
-        FreeCADGui.addModule("Ui.CmdRocket")
-        FreeCADGui.doCommand("Ui.CmdRocket.makeRocket('Rocket')")
-        FreeCADGui.doCommand("App.activeDocument().recompute(None,True,True)")
+        FreeCAD.ActiveDocument.openTransaction("Create rocket parallel stage")
+        FreeCADGui.addModule("Ui.CmdParallelStage")
+        FreeCADGui.doCommand("Ui.CmdParallelStage.makeParallelStage('Stage')")
+        FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
 
     def IsActive(self):
         if FreeCAD.ActiveDocument:
@@ -63,14 +76,16 @@ class CmdRocket:
         return False
 
     def GetResources(self):
-        return {'MenuText': translate("Rocket", 'Rocket'),
-                'ToolTip': translate("Rocket", 'Rocket assembly'),
-                'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Rocket.svg"}
+        return {'MenuText': translate("Rocket", 'Parallel Stage'),
+                'ToolTip': translate("Rocket", 'Rocket Parallel Stage'),
+                'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_ParallelStage.svg"}
 
-class CmdToggleRocket:
+
+class CmdToggleParallelStage:
+    "the ToggleParallelStage command definition"
     def GetResources(self):
-        return {'MenuText': translate("Rocket","Toggle active rocket"),
-                'ToolTip' : translate("Rocket","Toggle the active rocket")}
+        return {'MenuText': translate("Rocket","Toggle active stage"),
+                'ToolTip' : translate("Rocket","Toggle the active stage")}
 
     def IsActive(self):
         return bool(FreeCADGui.Selection.getSelection())
@@ -79,7 +94,7 @@ class CmdToggleRocket:
         view = FreeCADGui.ActiveDocument.ActiveView
 
         for obj in FreeCADGui.Selection.getSelection():
-            if view.getActiveObject('rocket') == obj:
-                view.setActiveObject("rocket", None)
+            if view.getActiveObject('stage') == obj:
+                view.setActiveObject("stage", None)
             else:
-                view.setActiveObject("rocket", obj)
+                view.setActiveObject("stage", obj)

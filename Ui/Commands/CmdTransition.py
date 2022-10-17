@@ -30,7 +30,7 @@ import FreeCADGui
 
 from App.ShapeTransition import ShapeTransition
 from Ui.ViewTransition import ViewProviderTransition
-from Ui.CmdStage import addToStage
+from Ui.Commands.CmdStage import addToStage
 
 from DraftTools import translate
 
