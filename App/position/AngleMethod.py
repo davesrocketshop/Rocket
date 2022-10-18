@@ -24,11 +24,14 @@ __title__ = "FreeCAD Rocket Components"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
+import math
+
 from DraftTools import translate
 
+from App.Utilities import reduce2Pi
 from App.position.DistanceMethod import DistanceMethod
 
-class AxialMethod(DistanceMethod):
+class AngleMethod(DistanceMethod):
 
     _description = None
 
@@ -41,70 +44,44 @@ class AxialMethod(DistanceMethod):
     def clampToZero(self):
         return False
 
-    def getAsOffset(self, position, innerLength, outerLength):
+    def getAngle(self, parentComponent, thisComponent, angleOffset_radians):
         return 0.0
+	
+class RelativeAngleMethod(AngleMethod):
 
-    def getAsPosition(self, offset, innerLength, outerLength):
+    def __init__(self):
+        super().__init__(translate('App::Property', 'Relative to the parent component'))
+
+    def clampToZero(self):
+        return True
+
+    def getAngle(self, parentComponent, thisComponent, angleOffset_radians):
+        return parentComponent.getAngleOffset() + angleOffset_radians
+	
+class FixedAngleMethod(AngleMethod):
+
+    def __init__(self):
+        super().__init__(translate('App::Property', 'Angle is fixed'))
+
+    def clampToZero(self):
+        return True
+
+    def getAngle(self, parentComponent, thisComponent, angleOffset_radians):
         return 0.0
-
-class AbsoluteAxialMethod(AxialMethod):
-
-    def __init__(self):
-        super().__init__(translate('App::Property', 'Tip of the nose cone'))
-
-    def getAsOffset(self, position, innerLength, outerLength):
-        return position
-
-    def getAsPosition(self, offset, innerLength, outerLength):
-        return offset
-
-class AfterAxialMethod(AxialMethod):
+	
+class MirrorXYAngleMethod(AngleMethod):
 
     def __init__(self):
-        super().__init__(translate('App::Property', 'After the sibling component'))
+        super().__init__(translate('App::Property', "Mirror relative to the rocket's x-y plane"))
 
-    def getAsOffset(self, position, innerLength, outerLength):
-        return position - outerLength
+    def getAngle(self, parentComponent, thisComponent, angleOffset_radians):
+        combinedAngle = reduce2Pi( parentComponent.getAngleOffset() + angleOffset_radians );
+        
+        if math.pi > combinedAngle:
+            combinedAngle = -(combinedAngle - math.pi)
+        
+        return combinedAngle
 
-    def getAsPosition(self, offset, innerLength, outerLength):
-        return outerLength + offset
-
-
-class TopAxialMethod(AxialMethod):
-
-    def __init__(self):
-        super().__init__(translate('App::Property', 'Top of the parent component'))
-
-    def getAsOffset(self, position, innerLength, outerLength):
-        return position
-
-    def getAsPosition(self, offset, innerLength, outerLength):
-        return offset
-
-class MiddleAxialMethod(AxialMethod):
-
-    def __init__(self):
-        super().__init__(translate('App::Property', 'Middle of the parent component'))
-
-    def getAsOffset(self, position, innerLength, outerLength):
-        return position + (innerLength - outerLength) / 2
-
-    def getAsPosition(self, offset, innerLength, outerLength):
-        return offset + (outerLength - innerLength) / 2
-
-class BottomAxialMethod(AxialMethod):
-
-    def __init__(self):
-        super().__init__(translate('App::Property', 'Bottom of the parent component'))
-
-    def getAsOffset(self, position, innerLength, outerLength):
-        return position + (innerLength - outerLength)
-
-    def getAsPosition(self, offset, innerLength, outerLength):
-        return offset + (outerLength - innerLength)
-
-ABSOLUTE = AbsoluteAxialMethod()
-AFTER = AfterAxialMethod()
-TOP = TopAxialMethod()
-MIDDLE = MiddleAxialMethod()
-BOTTOM = BottomAxialMethod()
+RELATIVE = RelativeAngleMethod()
+FIXED = FixedAngleMethod()
+MIRROR_XY = MirrorXYAngleMethod()

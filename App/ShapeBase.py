@@ -70,7 +70,6 @@ class ShapeBase():
 
     def onDocumentRestored(self, obj):
         obj.Proxy=self
-        # self.Object = obj
         self._obj = obj
         self._parent = None
     

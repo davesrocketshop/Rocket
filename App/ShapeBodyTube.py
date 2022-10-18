@@ -57,6 +57,8 @@ class ShapeBodyTube(ShapeLocation):
         super().__init__(obj)
         self.Type = FEATURE_BODY_TUBE
 
+        # self.AxialMethod = AxialMethod.AFTER
+
         # Default set to a BT-50
         if not hasattr(obj,"OuterDiameter"):
             obj.addProperty('App::PropertyLength', 'OuterDiameter', 'BodyTube', translate('App::Property', 'Diameter of the outside of the body tube')).OuterDiameter = 24.79

@@ -18,7 +18,7 @@
 # *   USA                                                                   *
 # *                                                                         *
 # ***************************************************************************
-"""Class for radially positioned components"""
+"""Class for angle positioned components"""
 
 __title__ = "FreeCAD Rocket Components"
 __author__ = "David Carter"
@@ -27,30 +27,22 @@ __url__ = "https://www.davesrocketshop.com"
 from abc import ABC, abstractmethod
 from tokenize import Double
 
-from App.position.RadiusMethod import RadiusMethod
+from App.position.AngleMethod import AngleMethod
 
-class RadiusPositionable(ABC):
-
-    @abstractmethod
-    def getBoundingRadius(self) -> Double:
-        pass
+class AnglePositionable(ABC):
 
     @abstractmethod
-    def getRadiusOffset(self) -> Double:
-        pass
-
-    @abstractmethod
-    def setRadiusOffset(self, radius):
+    def getAngleOffset(self) -> Double:
         pass
 	
     @abstractmethod
-    def getRadiusMethod(self) -> RadiusMethod:
-        pass
-
-    @abstractmethod
-    def setRadiusMethod(self, method):
+    def setAngleOffset(self, angle):
         pass
 	
     @abstractmethod
-    def setRadius(self, method, radius):
+    def getAngleMethod(self) -> AngleMethod:
+        pass
+
+    @abstractmethod
+    def setAngleMethod(self, newMethod):
         pass

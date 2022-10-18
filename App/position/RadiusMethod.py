@@ -26,9 +26,9 @@ __url__ = "https://www.davesrocketshop.com"
 
 from DraftTools import translate
 
-class RadialMethod(object):
+from App.position.DistanceMethod import DistanceMethod
 
-	# public static final AxialMethod[] axialOffsetMethods = { ABSOLUTE, TOP, MIDDLE, BOTTOM };
+class RadiusMethod(DistanceMethod):
 
     _description = None
 
@@ -47,7 +47,7 @@ class RadialMethod(object):
     def getAsOffset(self, parentComponent, thisComponent, radius):
         return 0.0
 
-class CoaxialRadialMethod(RadialMethod):
+class CoaxialRadiusMethod(RadiusMethod):
 
     def __init__(self):
         super().__init__(translate('App::Property', 'Same axis as the target component'))
@@ -61,7 +61,7 @@ class CoaxialRadialMethod(RadialMethod):
     def getAsOffset(self, parentComponent, thisComponent, radius):
         return 0.0
 
-class FreeRadialMethod(RadialMethod):
+class FreeRadiusMethod(RadiusMethod):
 
     def __init__(self):
         super().__init__(translate('App::Property', 'Center of the parent component'))
@@ -75,7 +75,7 @@ class FreeRadialMethod(RadialMethod):
     def getAsOffset(self, parentComponent, thisComponent, radius):
         return radius
 
-class RelativeRadialMethod(RadialMethod):
+class RelativeRadiusMethod(RadiusMethod):
 
     def __init__(self):
         super().__init__(translate('App::Property', 'Surface of the parent component'))
@@ -104,7 +104,7 @@ class RelativeRadialMethod(RadialMethod):
 
         return offset
 
-class SurfaceRadialMethod(RadialMethod):
+class SurfaceRadiusMethod(RadiusMethod):
 
     def __init__(self):
         super().__init__(translate('App::Property', 'Surface of the parent component (without offset)'))
@@ -126,7 +126,7 @@ class SurfaceRadialMethod(RadialMethod):
     def getAsOffset(self, parentComponent, thisComponent, radius):
         return 0.0
 
-FREE = FreeRadialMethod()
-SURFACE = SurfaceRadialMethod()
-RELATIVE = RelativeRadialMethod()
-COAXIAL = CoaxialRadialMethod()
+FREE = FreeRadiusMethod()
+SURFACE = SurfaceRadiusMethod()
+RELATIVE = RelativeRadiusMethod()
+COAXIAL = CoaxialRadiusMethod()

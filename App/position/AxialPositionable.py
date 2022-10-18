@@ -18,18 +18,21 @@
 # *   USA                                                                   *
 # *                                                                         *
 # ***************************************************************************
-"""Class for axiallu positioned components"""
+"""Class for axially positioned components"""
 
 __title__ = "FreeCAD Rocket Components"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
 from abc import ABC, abstractmethod
+from tokenize import Double
+
+from App.position.AxialMethod import AxialMethod
 
 class AxialPositionable(ABC):
 
     @abstractmethod
-    def getAxialOffset(self):
+    def getAxialOffset(self) -> Double:
         pass
 	
     @abstractmethod
@@ -37,7 +40,7 @@ class AxialPositionable(ABC):
         pass
 	
     @abstractmethod
-    def getAxialMethod(self):
+    def getAxialMethod(self) -> AxialMethod:
         pass
 	
     @abstractmethod

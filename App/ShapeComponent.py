@@ -27,8 +27,6 @@ __url__ = "https://www.davesrocketshop.com"
 import FreeCAD
 import math
 
-from PySide.QtCore import Signal
-
 from App.ShapeBase import ShapeBase, TRACE_POSITION
 # from App.Utilities import _err
 
@@ -37,7 +35,7 @@ from App.Constants import LOCATION_PARENT_TOP, LOCATION_PARENT_MIDDLE, LOCATION_
 from App.Constants import LOCATION_SURFACE, LOCATION_CENTER
 from App.Constants import PLACEMENT_AXIAL #, PLACEMENT_RADIAL
 
-from App.position import AxialMethod
+from App.position import AxialMethod, AxialPositionable
 
 from DraftTools import translate
 
@@ -71,11 +69,13 @@ class ShapeComponent(ShapeBase):
         # Mass of the component based either on its material and volume, or override
         if not hasattr(obj, 'Mass'):
             obj.addProperty('App::PropertyQuantity', 'Mass', 'RocketComponent', translate('App::Property', 'Calculated or overridden component mass'), PROP_READONLY|PROP_TRANSIENT).Mass = 0.0
+        
+        if not hasattr(obj, 'AxialMethod'):
+            obj.addProperty('App::PropertyPythonObject', 'AxialMethod', 'RocketComponent', translate('App::Property', 'Method for calculating axial offsets')).AxialMethod = AxialMethod.AFTER
             
         self._obj = obj
-        # self._axialMethod = AxialMethod.AFTER
         obj.Proxy=self
-        self.version = '2.3'
+        self.version = '3.0'
 
     def _locationOffset(self, partBase, parentLength):
         if TRACE_POSITION:
@@ -137,6 +137,65 @@ class ShapeComponent(ShapeBase):
         newPlacement = FreeCAD.Placement(matrix)
         if obj.Placement != newPlacement:
             obj.Placement = newPlacement
+
+    def getAxialOffsetFromMethod(self, method):
+        parentLength = 0
+        if self.getParent() is not None:
+            parentLength = self.getParent().getLength()
+
+        if method == AxialMethod.ABSOLUTE:
+            return 0 # this.getComponentLocations()[0].x
+        else:
+            return method.getAsOffset(self._position.x, self._length, parentLength)
+
+    def setAxialOffsetFromMethod(self, method, newAxialOffset):
+        self.checkState()
+
+        newX = math.nan
+
+        if self.getParent() is None:
+            # best-effort approximation.  this should be corrected later on in the initialization process.
+            newX = newAxialOffset;
+        elif method == AxialMethod.ABSOLUTE:
+            # in this case, this is simply the intended result
+            newX = newAxialOffset - self.getParent().getComponentLocations()[0].x
+        elif self.isAfter():
+            self.setAfter()
+            return
+        else:
+            newX = method.getAsPosition(newAxialOffset, self.getLength(), self.getParent().getLength());
+		
+        # snap to zero if less than the threshold 'EPSILON'
+        EPSILON = 0.000001
+        if EPSILON > math.fabs(newX):
+            newX = 0.0;
+        elif math.isnan(newX):
+            raise Exception("setAxialOffset is broken -- attempted to update as NaN: ") # + this.toDebugDetail());
+
+        # store for later:
+        self._obj.AxialMethod = method
+        self._obj.AxialOffset = newAxialOffset
+        self._obj.Placement.x = newX
+
+
+class ShapeComponentAssembly(ShapeComponent, AxialPositionable):
+
+    def __init__(self, obj):
+        super().__init__(obj)
+
+    def getAxialOffset(self):
+        return self.getAxialOffsetFromMethod(self._obj.AxialMethod)
+	
+    def setAxialOffset(self, newAxialOffset):
+        self._updateBounds()
+        self.setAxialOffsetFromMethod(self._obj.AxialMethod, newAxialOffset)
+        pass
+	
+    def getAxialMethod(self) -> AxialMethod:
+        pass
+	
+    def setAxialMethod(self, newMethod):
+        pass
 
 class ShapeLocation(ShapeComponent):
 

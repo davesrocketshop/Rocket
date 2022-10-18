@@ -18,39 +18,19 @@
 # *   USA                                                                   *
 # *                                                                         *
 # ***************************************************************************
-"""Class for radially positioned components"""
+"""Class for placement strategies"""
 
 __title__ = "FreeCAD Rocket Components"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
-from abc import ABC, abstractmethod
-from tokenize import Double
+from App.position.DistanceMethod import DistanceMethod
 
-from App.position.RadiusMethod import RadiusMethod
+class Distance(object):
 
-class RadiusPositionable(ABC):
+    _distanceMethod = None
+    _distance = None
 
-    @abstractmethod
-    def getBoundingRadius(self) -> Double:
-        pass
-
-    @abstractmethod
-    def getRadiusOffset(self) -> Double:
-        pass
-
-    @abstractmethod
-    def setRadiusOffset(self, radius):
-        pass
-	
-    @abstractmethod
-    def getRadiusMethod(self) -> RadiusMethod:
-        pass
-
-    @abstractmethod
-    def setRadiusMethod(self, method):
-        pass
-	
-    @abstractmethod
-    def setRadius(self, method, radius):
-        pass
+    def __init__(self, initialMethod, initialMagnitude):
+        self._distanceMethod = initialMethod
+        self._distance = initialMagnitude
