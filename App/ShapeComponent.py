@@ -37,6 +37,8 @@ from App.Constants import LOCATION_PARENT_TOP, LOCATION_PARENT_MIDDLE, LOCATION_
 from App.Constants import LOCATION_SURFACE, LOCATION_CENTER
 from App.Constants import PLACEMENT_AXIAL #, PLACEMENT_RADIAL
 
+from App.position import AxialMethod
+
 from DraftTools import translate
 
 class ShapeComponent(ShapeBase):
@@ -71,6 +73,7 @@ class ShapeComponent(ShapeBase):
             obj.addProperty('App::PropertyQuantity', 'Mass', 'RocketComponent', translate('App::Property', 'Calculated or overridden component mass'), PROP_READONLY|PROP_TRANSIENT).Mass = 0.0
             
         self._obj = obj
+        # self._axialMethod = AxialMethod.AFTER
         obj.Proxy=self
         self.version = '2.3'
 
