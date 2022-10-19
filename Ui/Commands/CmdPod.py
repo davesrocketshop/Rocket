@@ -46,8 +46,8 @@ def makePod(name='Pod'):
 class CmdPod:
     def Activated(self):
         FreeCAD.ActiveDocument.openTransaction("Create pod")
-        FreeCADGui.addModule("Ui.CmdPod")
-        FreeCADGui.doCommand("Ui.CmdPod.makePod('Pod')")
+        FreeCADGui.addModule("Ui.Commands.CmdPod")
+        FreeCADGui.doCommand("Ui.Commands.CmdPod.makePod('Pod')")
         FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
 
     def IsActive(self):

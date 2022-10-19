@@ -75,8 +75,8 @@ def makeStage(name='Stage'):
 class CmdStage:
     def Activated(self):
         FreeCAD.ActiveDocument.openTransaction("Create rocket stage")
-        FreeCADGui.addModule("Ui.CmdStage")
-        FreeCADGui.doCommand("Ui.CmdStage.makeStage('Stage')")
+        FreeCADGui.addModule("Ui.Commands.CmdStage")
+        FreeCADGui.doCommand("Ui.Commands.CmdStage.makeStage('Stage')")
         FreeCADGui.doCommand("App.activeDocument().recompute(None,True,True)")
 
     def IsActive(self):

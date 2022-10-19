@@ -40,7 +40,7 @@ class RadiusPositionable(ABC):
         pass
 
     @abstractmethod
-    def setRadiusOffset(self, radius):
+    def setRadiusOffset(self, radius : Double) -> None:
         pass
 	
     @abstractmethod
@@ -48,9 +48,9 @@ class RadiusPositionable(ABC):
         pass
 
     @abstractmethod
-    def setRadiusMethod(self, method):
+    def setRadiusMethod(self, method : RadiusMethod) -> None:
         pass
 	
     @abstractmethod
-    def setRadius(self, method, radius):
+    def setRadius(self, method : RadiusMethod, radius : Double) -> None:
         pass

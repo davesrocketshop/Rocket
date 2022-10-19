@@ -43,9 +43,11 @@ class EditedShape(QObject):
     def __init__(self):
         super().__init__()
 
-    def setEdited(self):
-        # self.edited.emit()
-        pass
+    def setEdited(self, event=None):
+        if event is None:
+            self.edited.emit()
+        else:
+            self.edited.emit(event)
 
     def doConnect(self, fn, type):
         self.edited.connect(fn, type)
@@ -53,7 +55,6 @@ class EditedShape(QObject):
     def doDisconnect(self):
         self.edited.connect(None)
 
-# class ShapeBase(QObject):
 class ShapeBase():
 
     edited = EditedShape()
@@ -90,8 +91,8 @@ class ShapeBase():
     def isScratch(self, name):
         return name in self._scratch
 
-    def setEdited(self):
-        self.edited.setEdited()
+    def setEdited(self, event=None):
+        self.edited.setEdited(event)
 
     def connect(self, fn, type):
         self.edited.doConnect(fn, type)

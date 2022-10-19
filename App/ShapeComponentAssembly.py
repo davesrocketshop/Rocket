@@ -18,31 +18,37 @@
 # *   USA                                                                   *
 # *                                                                         *
 # ***************************************************************************
-"""Class for axially positioned components"""
+"""Base class for rocket component assemblies"""
 
 __title__ = "FreeCAD Rocket Components"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
-from abc import ABC, abstractmethod
+# import FreeCAD
+# import math
+
 from tokenize import Double
 
-from App.position.AxialMethod import AxialMethod
+from App.position import AxialMethod
+from App.position.AxialPositionable import AxialPositionable
+from App.ShapeComponent import ShapeComponent
 
-class AxialPositionable(ABC):
+# from DraftTools import translate
 
-    @abstractmethod
+class ShapeComponentAssembly(ShapeComponent, AxialPositionable):
+
+    def __init__(self, obj):
+        super().__init__(obj)
+
     def getAxialOffset(self) -> Double:
-        pass
+        return self.getAxialOffsetFromMethod(self._obj.AxialMethod)
 	
-    @abstractmethod
-    def setAxialOffset(self, newAxialOffset : Double) -> None:
-        pass
+    def setAxialOffset(self, newAxialOffset) -> None:
+        self._updateBounds()
+        self.setAxialOffsetFromMethod(self._obj.AxialMethod, newAxialOffset)
 	
-    @abstractmethod
     def getAxialMethod(self) -> AxialMethod:
-        pass
+        return self._obj.AxialMethod
 	
-    @abstractmethod
-    def setAxialMethod(self, newMethod : AxialMethod) -> None:
-        pass
+    def setAxialMethod(self, newMethod) -> None:
+        self._obj.AxialMethod = newMethod

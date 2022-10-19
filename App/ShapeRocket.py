@@ -28,17 +28,18 @@ import FreeCAD
 
 from PySide import QtCore
 
-from App.ShapeBase import ShapeBase, TRACE_POSITION, TRACE_EXECUTION
+from App.ShapeBase import TRACE_POSITION, TRACE_EXECUTION
+from App.ShapeComponent import ShapeComponent
 from App.Constants import FEATURE_ROCKET, FEATURE_STAGE
 
-class ShapeRocket(ShapeBase):
+class ShapeRocket(ShapeComponent):
 
     def __init__(self, obj):
         super().__init__(obj)
         self.Type = FEATURE_ROCKET
         
-        if not hasattr(obj,"Group"):
-            obj.addExtension("App::GroupExtensionPython")
+        # if not hasattr(obj,"Group"):
+        #     obj.addExtension("App::GroupExtensionPython")
 
     def execute(self,obj):
         if TRACE_EXECUTION:

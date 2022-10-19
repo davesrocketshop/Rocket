@@ -24,8 +24,12 @@ __title__ = "FreeCAD Rocket Components"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
+from App.Coordinate import Coordinate
 import FreeCAD
 import math
+
+from abc import ABC
+from tokenize import Double
 
 from App.ShapeBase import ShapeBase, TRACE_POSITION
 # from App.Utilities import _err
@@ -35,7 +39,10 @@ from App.Constants import LOCATION_PARENT_TOP, LOCATION_PARENT_MIDDLE, LOCATION_
 from App.Constants import LOCATION_SURFACE, LOCATION_CENTER
 from App.Constants import PLACEMENT_AXIAL #, PLACEMENT_RADIAL
 
-from App.position import AxialMethod, AxialPositionable
+from App.position import AxialMethod
+# from App.position.AxialPositionable import AxialPositionable
+from App.Coordinate import Coordinate
+from App.ComponentChangeEvent import ComponentChangeEvent
 
 from DraftTools import translate
 
@@ -72,10 +79,41 @@ class ShapeComponent(ShapeBase):
         
         if not hasattr(obj, 'AxialMethod'):
             obj.addProperty('App::PropertyPythonObject', 'AxialMethod', 'RocketComponent', translate('App::Property', 'Method for calculating axial offsets')).AxialMethod = AxialMethod.AFTER
-            
+
+        # From RocketComponent
+        # if not hasattr(obj,"Length"):
+        #     obj.addProperty('App::PropertyLength', 'Length', 'RocketComponent', translate('App::Property', 'Length of the component')).Length = 0.0
+        if not hasattr(obj,"AxialOffset"):
+            obj.addProperty('App::PropertyLength', 'AxialOffset', 'RocketComponent', translate('App::Property', 'Length of the component')).AxialOffset = 0.0
+        if not hasattr(obj, 'Position'):
+            obj.addProperty('App::PropertyPythonObject', 'Position', 'RocketComponent', translate('App::Property', 'Method for calculating axial offsets')).Position = Coordinate()
+        if not hasattr(obj,"BypassComponentChangeEvent"):
+            obj.addProperty('App::PropertyBool', 'BypassComponentChangeEvent', 'RocketComponent', translate('App::Property', 'Override the calculated mass of this component')).BypassComponentChangeEvent = False
+
+        if not hasattr(obj,"Group"):
+            obj.addExtension("App::GroupExtensionPython")
+
+        self._configListeners = []
+ 
+                    
         self._obj = obj
         obj.Proxy=self
         self.version = '3.0'
+
+    def isAfter(self):
+        return AxialMethod.AFTER == self._obj.AxialMethod
+
+    def isAxisymmetric(self):
+        return True
+
+    
+    #  Called when any component in the tree fires a ComponentChangeEvent.  This is by
+    #  default a no-op, but subclasses may override this method to e.g. invalidate
+    #  cached data.  The overriding method *must* call
+    #  <code>super.componentChanged(e)</code> at some point.
+    def componentChanged(self, event):
+        self.checkState()
+        self.update()
 
     def _locationOffset(self, partBase, parentLength):
         if TRACE_POSITION:
@@ -138,6 +176,25 @@ class ShapeComponent(ShapeBase):
         if obj.Placement != newPlacement:
             obj.Placement = newPlacement
 
+    def setAxialMethod(self, newAxialMethod) :
+        for listener in self._configListeners:
+            listener.setAxialMethod(newAxialMethod)
+
+        if newAxialMethod == self._obj.AxialMethod:
+            # no change.
+            return
+
+        # this variable changes the internal representation, but not the physical position
+        # the relativePosition (method) is just the lens through which external code may view this component's position. 
+        self._obj.AxialMethod = newAxialMethod
+        self._obj.AxialOffset = self.getAxialOffsetFromMethod(newAxialMethod)
+
+        # this doesn't cause any physical change-- just how it's described.
+        self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
+
+    def fireComponentChangeEvent(self, event):
+        self.setEdited(event)
+
     def getAxialOffsetFromMethod(self, method):
         parentLength = 0
         if self.getParent() is not None:
@@ -147,6 +204,9 @@ class ShapeComponent(ShapeBase):
             return 0 # this.getComponentLocations()[0].x
         else:
             return method.getAsOffset(self._position.x, self._length, parentLength)
+
+    def getAxialOffset(self):
+        return self._obj.AxialOffset
 
     def setAxialOffsetFromMethod(self, method, newAxialOffset):
         self.checkState()
@@ -176,26 +236,6 @@ class ShapeComponent(ShapeBase):
         self._obj.AxialMethod = method
         self._obj.AxialOffset = newAxialOffset
         self._obj.Placement.x = newX
-
-
-class ShapeComponentAssembly(ShapeComponent, AxialPositionable):
-
-    def __init__(self, obj):
-        super().__init__(obj)
-
-    def getAxialOffset(self):
-        return self.getAxialOffsetFromMethod(self._obj.AxialMethod)
-	
-    def setAxialOffset(self, newAxialOffset):
-        self._updateBounds()
-        self.setAxialOffsetFromMethod(self._obj.AxialMethod, newAxialOffset)
-        pass
-	
-    def getAxialMethod(self) -> AxialMethod:
-        pass
-	
-    def setAxialMethod(self, newMethod):
-        pass
 
 class ShapeLocation(ShapeComponent):
 

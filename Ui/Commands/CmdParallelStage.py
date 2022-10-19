@@ -66,8 +66,8 @@ def makeParallelStage(name='Stage'):
 class CmdParallelStage:
     def Activated(self):
         FreeCAD.ActiveDocument.openTransaction("Create rocket parallel stage")
-        FreeCADGui.addModule("Ui.CmdParallelStage")
-        FreeCADGui.doCommand("Ui.CmdParallelStage.makeParallelStage('Stage')")
+        FreeCADGui.addModule("Ui.Commands.CmdParallelStage")
+        FreeCADGui.doCommand("Ui.Commands.CmdParallelStage.makeParallelStage('Stage')")
         FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
 
     def IsActive(self):

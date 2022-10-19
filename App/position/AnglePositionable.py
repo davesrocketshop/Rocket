@@ -36,7 +36,7 @@ class AnglePositionable(ABC):
         pass
 	
     @abstractmethod
-    def setAngleOffset(self, angle):
+    def setAngleOffset(self, angle : Double) -> None:
         pass
 	
     @abstractmethod
@@ -44,5 +44,5 @@ class AnglePositionable(ABC):
         pass
 
     @abstractmethod
-    def setAngleMethod(self, newMethod):
+    def setAngleMethod(self, newMethod : AngleMethod) -> None:
         pass

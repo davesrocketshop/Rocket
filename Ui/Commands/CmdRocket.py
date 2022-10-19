@@ -53,8 +53,8 @@ def makeRocket(name='Rocket', makeSustainer=True):
 class CmdRocket:
     def Activated(self):
         FreeCAD.ActiveDocument.openTransaction("Create rocket assembly")
-        FreeCADGui.addModule("Ui.CmdRocket")
-        FreeCADGui.doCommand("Ui.CmdRocket.makeRocket('Rocket')")
+        FreeCADGui.addModule("Ui.Commands.CmdRocket")
+        FreeCADGui.doCommand("Ui.Commands.CmdRocket.makeRocket('Rocket')")
         FreeCADGui.doCommand("App.activeDocument().recompute(None,True,True)")
 
     def IsActive(self):
