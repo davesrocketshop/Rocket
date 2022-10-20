@@ -30,11 +30,11 @@ from PySide import QtCore
 from DraftTools import translate
 
 from App.ShapeBase import TRACE_POSITION, TRACE_EXECUTION
-from App.ShapeComponent import ShapeComponent
+from App.ShapeComponentAssembly import ShapeComponentAssembly
 from App.Constants import FEATURE_ROCKET, FEATURE_STAGE, FEATURE_PARALLEL_STAGE
 from App.Constants import PROP_TRANSIENT, PROP_HIDDEN, PROP_NORECOMPUTE
 
-class ShapeStage(ShapeComponent):
+class ShapeStage(ShapeComponentAssembly):
 
     def __init__(self, obj):
         super().__init__(obj)
@@ -46,8 +46,8 @@ class ShapeStage(ShapeComponent):
         
         # if not hasattr(obj,"Group"):
         #     obj.addExtension("App::GroupExtensionPython")
-        if not hasattr(obj, 'AxialOffset'):
-            obj.addProperty('App::PropertyDistance', 'AxialOffset', 'RocketComponent', translate('App::Property', 'Axial offset from the center line'), PROP_TRANSIENT|PROP_HIDDEN|PROP_NORECOMPUTE).AxialOffset = 0.0
+        # if not hasattr(obj, 'AxialOffset'):
+        #     obj.addProperty('App::PropertyDistance', 'AxialOffset', 'RocketComponent', translate('App::Property', 'Axial offset from the center line'), PROP_TRANSIENT|PROP_HIDDEN|PROP_NORECOMPUTE).AxialOffset = 0.0
         if not hasattr(obj,"StageNumber"):
             obj.addProperty('App::PropertyInteger', 'StageNumber', 'RocketComponent', translate('App::Property', 'Stage number')).StageNumber = 0
  

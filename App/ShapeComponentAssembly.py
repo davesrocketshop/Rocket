@@ -32,6 +32,9 @@ from tokenize import Double
 from App.position import AxialMethod
 from App.position.AxialPositionable import AxialPositionable
 from App.ShapeComponent import ShapeComponent
+from App.ComponentChangeEvent import ComponentChangeEvent
+
+from App.Constants import FEATURE_STAGE, FEATURE_PARALLEL_STAGE, FEATURE_POD
 
 # from DraftTools import translate
 
@@ -39,6 +42,12 @@ class ShapeComponentAssembly(ShapeComponent, AxialPositionable):
 
     def __init__(self, obj):
         super().__init__(obj)
+
+        super().setAxialMethod(AxialMethod.AFTER)
+        self._length = 0
+
+    def allowsChildren(self):
+        return True
 
     def getAxialOffset(self) -> Double:
         return self.getAxialOffsetFromMethod(self._obj.AxialMethod)
@@ -51,4 +60,58 @@ class ShapeComponentAssembly(ShapeComponent, AxialPositionable):
         return self._obj.AxialMethod
 	
     def setAxialMethod(self, newMethod) -> None:
-        self._obj.AxialMethod = newMethod
+        # self._obj.AxialMethod = newMethod
+        for listener in self._configListeners:
+            if isinstance(listener, ShapeComponentAssembly):
+                listener.setAxialMethod(newMethod)
+
+        if self.getParent is None:
+            raise Exception(" a Stage requires a parent before any positioning! ")
+
+        if self.getType() == FEATURE_PARALLEL_STAGE or self.getType() == FEATURE_POD:
+            if newMethod == AxialMethod.AFTER:
+                # log.warn("Stages (or Pods) cannot be relative to other stages via AFTER! Ignoring.");
+                super.setAxialMethod(AxialMethod.TOP)
+            else:
+                super.setAxialMethod(newMethod)
+        elif self.getType() == FEATURE_STAGE:
+            # Centerline stages must be set via AFTER-- regardless of what was requested:
+            super.setAxialMethod(AxialMethod.AFTER)
+        else:
+            raise Exception("Unrecognized subclass of Component Assembly.  Please update this method.")
+
+        self.fireComponentChangeEvent(ComponentChangeEvent.NONFUNCTIONAL_CHANGE);
+
+    # Components have no aerodynamic effect, so return false.
+    def isAerodynamic(self):
+        return False
+
+    # Component have no effect on mass, so return false (even though the override values
+    # may have an effect).
+    def isMassive(self):
+        return False
+
+    def isAxisymmetric(self):
+        # return !(2 == this.getInstanceCount())
+        return False
+
+    def update(self):
+        self.updateBounds()
+        if self.isAfter():
+            self.setAfter()
+        else:
+            super.update()
+
+        self.updateChildSequence()
+
+    def updateBounds(self):
+        # currently only updates the length 
+        self._length = 0
+        for  curChild in self.getChildren():
+            if curChild.Proxy.isAfter():
+                self._length += curChild.Proxy.getLength()
+
+    def updateChildSequence(self):
+        for  curChild in self.getChildren():
+            if curChild.Proxy.getAxialMethod() == AxialMethod.AFTER:
+                curChild.Proxy.setAfter()

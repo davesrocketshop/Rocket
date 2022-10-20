@@ -24,15 +24,16 @@ __title__ = "FreeCAD Rocket Assembly"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
+from App.ShapeComponentAssembly import ShapeComponentAssembly
 import FreeCAD
 
 from PySide import QtCore
 
 from App.ShapeBase import TRACE_POSITION, TRACE_EXECUTION
-from App.ShapeComponent import ShapeComponent
+from App.ShapeComponentAssembly import ShapeComponentAssembly
 from App.Constants import FEATURE_ROCKET, FEATURE_STAGE
 
-class ShapeRocket(ShapeComponent):
+class ShapeRocket(ShapeComponentAssembly):
 
     def __init__(self, obj):
         super().__init__(obj)

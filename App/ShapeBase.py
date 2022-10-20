@@ -115,6 +115,9 @@ class ShapeBase():
     def setChildren(self, list):
         self._obj.Group = list
 
+    def _getChild(self, index):
+        return self._obj.Group[index]
+
     def _setChild(self, index, value):
         list = self._obj.Group
         list.insert(index, value)

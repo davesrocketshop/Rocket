@@ -117,6 +117,9 @@ class ShapeComponent(ShapeBase, ChangeSource):
     def isAxisymmetric(self):
         return True
 
+    def isMotorMount(self):
+        return False
+
     # Return true if the component may have an aerodynamic effect on the rocket.
     def isAerodynamic(self):
         return False
@@ -382,7 +385,7 @@ class ShapeComponent(ShapeBase, ChangeSource):
         self._configListeners.append(listener)
         listener.setBypassChangeEvent(True)
 
-        self.connect(listener.onConfigListener, QtCore.Qt.QueuedConnection)
+        # self.connect(listener.onConfigListener, QtCore.Qt.QueuedConnection)
 
         return True
 
@@ -417,6 +420,29 @@ class ShapeComponent(ShapeBase, ChangeSource):
             return root
 
         raise Exception("getRocket() called with root component " + root.getComponentName())
+
+    # Return the Stage component that this component belongs to.  Throws an
+    # IllegalStateException if a Stage is not in the parentage of this component.
+    def getStage(self):
+        self.checkState()
+
+        current = self
+        while current is not None:
+            if current.Type == FEATURE_STAGE:
+                return current
+            current = current.getParent().Proxy
+
+        raise Exception("getStage() called on hierarchy without an ShapeStage.")
+
+    # Returns all the stages that are a child or sub-child of this component.
+    def getSubStages(self):
+        result = []
+        for current in self.getChildren():
+            proxy = current.Proxy
+            if proxy == FEATURE_STAGE:
+                result.append(proxy)
+
+        return result
 	
     # Adds a ComponentChangeListener to the rocket tree.  The listener is added to the root
     # component, which must be of type Rocket (which overrides this method).  Events of all
@@ -486,6 +512,39 @@ class ShapeComponent(ShapeBase, ChangeSource):
 
         return False
 
+    def setAfter(self):
+        self.checkState()
+        
+        if self.getParent() is None:
+            # Probably initialization order issue.  Ignore for now.
+            return
+        
+        self.AxialMethod = AxialMethod.AFTER
+        self.AxialOffset = 0.0
+        
+        # if first component in the stage. => position from the top of the parent
+        thisIndex = self.getParent().getChildIndex(self)
+        if thisIndex == 0:
+            self._obj.Position.x = 0.0
+        elif 0 < thisIndex:
+            referenceComponent = self.getParent()._getChild( thisIndex - 1 )
+        
+            refLength = referenceComponent.getLength()
+            refRelX = referenceComponent.Position.x
+
+            self._obj.Position.x = refRelX + refLength
+
+    # Returns the position of the child in this components child list, or -1 if the
+    # component is not a child of this component.
+    def getChildIndex(self, child):
+        try:
+            self.checkState()
+            self.checkComponentStructure()
+            return self.getChildren().index(child)
+        except ValueError:
+            pass
+        return -1
+	
 class ShapeLocation(ShapeComponent):
 
     def __init__(self, obj):
