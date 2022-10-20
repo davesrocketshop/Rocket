@@ -25,7 +25,7 @@ __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
     
 from App.ShapeBase import TRACE_POSITION, TRACE_EXECUTION
-from App.ShapeComponent import ShapeComponent
+from App.SymetricComponent import SymetricComponent
 from App.Constants import FEATURE_NOSE_CONE
 
 from App.NoseConeShapeHandler import NoseConeShapeHandler
@@ -90,7 +90,7 @@ def _migrate_from_2_0(obj):
         obj.OgiveDiameter = 2.0 * old["OgiveRadius"]
     obj.NoseType = old["NoseType"]
 
-class ShapeNoseCone(ShapeComponent):
+class ShapeNoseCone(SymetricComponent):
 
     def __init__(self, obj):
         super().__init__(obj)

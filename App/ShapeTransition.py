@@ -25,7 +25,7 @@ __url__ = "https://www.davesrocketshop.com"
 import FreeCAD
     
 from App.ShapeBase import TRACE_POSITION, TRACE_EXECUTION
-from App.ShapeComponent import ShapeComponent
+from App.SymetricComponent import SymetricComponent
 from App.Constants import FEATURE_TRANSITION
 
 from App.TransitionConeShapeHandler import TransitionConeShapeHandler
@@ -73,7 +73,7 @@ def _migrate_from_2_0(obj):
     # Object with new properties
     ShapeTransition(obj)
 
-class ShapeTransition(ShapeComponent):
+class ShapeTransition(SymetricComponent):
 
     def __init__(self, obj):
         super().__init__(obj)

@@ -24,7 +24,7 @@ __title__ = "FreeCAD Rocket Components"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
-from App.Coordinate import Coordinate
+from App.util.Coordinate import Coordinate
 import FreeCAD
 import math
 
@@ -46,7 +46,7 @@ from App.Constants import PLACEMENT_AXIAL #, PLACEMENT_RADIAL
 from App.position import AxialMethod
 # from App.position.AxialPositionable import AxialPositionable
 from App.ChangeSource import ChangeSource
-from App.Coordinate import Coordinate
+from App.util.Coordinate import Coordinate
 from App.ComponentChangeEvent import ComponentChangeEvent
 
 from DraftTools import translate

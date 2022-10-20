@@ -18,31 +18,29 @@
 # *   USA                                                                   *
 # *                                                                         *
 # ***************************************************************************
-"""Class for axially positioned components"""
+"""Interface for rocket components"""
 
 __title__ = "FreeCAD Rocket Components"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
 from abc import ABC, abstractmethod
-from tokenize import Double
 
-from App.position.AxialMethod import AxialMethod
+class RadialParent(ABC):
 
-class AxialPositionable(ABC):
+    # Return the outer radius of the component at local coordinate <code>x</code>.
+    # Values for <code>x < 0</code> and <code>x > getLengthAerodynamic()</code> are undefined.
+    @abstractmethod
+    def getOuterRadius(self, x):
+        pass
 
+    # Return the inner radius of the component at local coordinate <code>x</code>.
+    # Values for <code>x < 0</code> and <code>x > getLengthAerodynamic()</code> are undefined.
     @abstractmethod
-    def getAxialOffset(self) -> Double:
+    def getInnerRadius(self, x):
         pass
-	
+
+    # Return the length of this component.
     @abstractmethod
-    def setAxialOffset(self, newAxialOffset : Double) -> None:
-        pass
-	
-    @abstractmethod
-    def getAxialMethod(self) -> AxialMethod:
-        pass
-	
-    @abstractmethod
-    def setAxialMethod(self, newMethod : AxialMethod) -> None:
+    def getLength(self):
         pass

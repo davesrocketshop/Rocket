@@ -18,31 +18,18 @@
 # *   USA                                                                   *
 # *                                                                         *
 # ***************************************************************************
-"""Class for axially positioned components"""
+"""Interface for rocket components"""
 
 __title__ = "FreeCAD Rocket Components"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
 from abc import ABC, abstractmethod
-from tokenize import Double
 
-from App.position.AxialMethod import AxialMethod
+class BoxBounded(ABC):
 
-class AxialPositionable(ABC):
-
+    # Get a bounding box for a single instance of this component, from its own reference point.
+    # This is expected to be combined with a InstanceContext for bounds in the global / rocket frame
     @abstractmethod
-    def getAxialOffset(self) -> Double:
-        pass
-	
-    @abstractmethod
-    def setAxialOffset(self, newAxialOffset : Double) -> None:
-        pass
-	
-    @abstractmethod
-    def getAxialMethod(self) -> AxialMethod:
-        pass
-	
-    @abstractmethod
-    def setAxialMethod(self, newMethod : AxialMethod) -> None:
+    def getInstanceBoundingBox(self):
         pass

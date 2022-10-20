@@ -24,61 +24,44 @@ __title__ = "FreeCAD Rocket Components"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
-class Coordinate():
-    """ An immutable class of weighted coordinates.  The weights are non-negative.
+import math
+import sys
 
-        Can also be used as non-weighted coordinates with weight=0."""
+from App.util.Coordinate import Coordinate
 
-    def __init__(self):
-        self._x = None
-        self._y = None
-        self._z = None
-        self._weight = None
+class Transformation():
+    """ Defines an affine transformation of the form  A*x+c,  where x and c are Coordinates and
+        A is a 3x3 matrix.
+        
+        The Transformations are immutable.  All modification methods return a new transformation."""
 
-    @property
-    def x(self):
-        return self._x
+    _translate = Coordinate()
+    _rotation = [[0 for i in range(3)] for j in range(3)]
 
-    @x.setter
-    def x(self, value):
-        self._x = value
+    X = 0
+    Y = 1
+    Z = 2
 
-    @x.deleter
-    def x(self):
-        del self._x
+    # Create transformation with given rotation matrix and translation.
+    def __init__(self, rotation = None, translation = None):
+        if rotation is None:
+            self._rotation[self.X][self.X] = 1
+            self._rotation[self.Y][self.Y] = 1
+            self._rotation[self.Z][self.Z] = 1
+        else:
+            for i in range(3):
+                for j in range(3):
+                    self._rotation[i][j] = rotation[i][j]
 
-    @property
-    def y(self):
-        return self._y
+        if translation is None:
+            self._translate = Coordinate(0,0,0,0)
+        else:
+            self._translate = translation
 
-    @y.setter
-    def y(self, value):
-        self._y = value
-
-    @y.deleter
-    def y(self):
-        del self._y
-
-    @property
-    def z(self):
-        return self._z
-
-    @z.setter
-    def z(self, value):
-        self._z = value
-
-    @z.deleter
-    def z(self):
-        del self._z
-
-    @property
-    def weight(self):
-        return self._weight
-
-    @weight.setter
-    def x(self, value):
-        self._weight = value
-
-    @weight.deleter
-    def weight(self):
-        del self._weight
+    # Transform a coordinate according to this transformation.
+    def transform(self, orig):
+        x = self._rotation[self.X][self.X]*orig.x + self._rotation[self.X][self.Y]*orig.y + self._rotation[self.X][self.Z]*orig.z + self._translate.x;
+        y = self._rotation[self.Y][self.X]*orig.x + self._rotation[self.Y][self.Y]*orig.y + self._rotation[self.Y][self.Z]*orig.z + self._translate.y;
+        z = self._rotation[self.Z][self.X]*orig.x + self._rotation[self.Z][self.Y]*orig.y + self._rotation[self.Z][self.Z]*orig.z + self._translate.z;
+        
+        return Coordinate(x,y,z,orig.weight);

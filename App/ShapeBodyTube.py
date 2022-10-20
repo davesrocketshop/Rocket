@@ -26,8 +26,11 @@ __url__ = "https://www.davesrocketshop.com"
 
 from PySide import QtCore
     
+from App.interfaces.BoxBounded import BoxBounded
+from App.interfaces.Coaxial import Coaxial
+
 from App.ShapeBase import TRACE_POSITION, TRACE_EXECUTION
-from App.ShapeComponent import ShapeLocation
+from App.SymetricComponent import SymetricComponent
 from App.Constants import FEATURE_BODY_TUBE, FEATURE_BULKHEAD, FEATURE_CENTERING_RING, FEATURE_FIN, FEATURE_FINCAN, FEATURE_LAUNCH_LUG, \
     FEATURE_PARALLEL_STAGE, FEATURE_POD, FEATURE_RAIL_BUTTON, FEATURE_RAIL_GUIDE
 
@@ -51,7 +54,7 @@ def _migrate_from_1_0(obj):
         thickness = (od - float(old["InnerDiameter"])) / 2.0
         obj.Thickness = thickness
 
-class ShapeBodyTube(ShapeLocation):
+class ShapeBodyTube(SymetricComponent, BoxBounded, Coaxial):
 
     def __init__(self, obj):
         super().__init__(obj)
