@@ -44,10 +44,18 @@ class ShapeStage(ShapeComponent):
     def _initShapeStage(self, obj):
         self.Type = FEATURE_STAGE
         
-        if not hasattr(obj,"Group"):
-            obj.addExtension("App::GroupExtensionPython")
+        # if not hasattr(obj,"Group"):
+        #     obj.addExtension("App::GroupExtensionPython")
         if not hasattr(obj, 'AxialOffset'):
             obj.addProperty('App::PropertyDistance', 'AxialOffset', 'RocketComponent', translate('App::Property', 'Axial offset from the center line'), PROP_TRANSIENT|PROP_HIDDEN|PROP_NORECOMPUTE).AxialOffset = 0.0
+        if not hasattr(obj,"StageNumber"):
+            obj.addProperty('App::PropertyInteger', 'StageNumber', 'RocketComponent', translate('App::Property', 'Stage number')).StageNumber = 0
+ 
+    def setStageNumber(self, newStageNumber):
+        self._obj.StageNumber = newStageNumber
+    
+    def getStageNumber(self):
+        return self._obj.StageNumber
 
     def execute(self,obj):
         if TRACE_EXECUTION:

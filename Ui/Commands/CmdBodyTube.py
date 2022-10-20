@@ -63,8 +63,8 @@ class CmdBodyTube:
 class CmdCoupler:
     def Activated(self):
         FreeCAD.ActiveDocument.openTransaction("Create coupler")
-        FreeCADGui.addModule("Ui.CmdBodyTube")
-        FreeCADGui.doCommand("Ui.CmdBodyTube.makeBodyTube('Coupler')")
+        FreeCADGui.addModule("Ui.Commands.CmdBodyTube")
+        FreeCADGui.doCommand("Ui.Commands.CmdBodyTube.makeBodyTube('Coupler')")
         FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
 
     def IsActive(self):
@@ -80,8 +80,8 @@ class CmdCoupler:
 class CmdInnerTube:
     def Activated(self):
         FreeCAD.ActiveDocument.openTransaction("Create inner tube")
-        FreeCADGui.addModule("Ui.CmdBodyTube")
-        FreeCADGui.doCommand("Ui.CmdBodyTube.makeBodyTube('InnerTube')")
+        FreeCADGui.addModule("Ui.Commands.CmdBodyTube")
+        FreeCADGui.doCommand("Ui.Commands.CmdBodyTube.makeBodyTube('InnerTube')")
         FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
 
     def IsActive(self):

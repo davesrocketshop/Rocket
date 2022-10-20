@@ -38,16 +38,16 @@ TRACE_EXECUTION = True
 
 class EditedShape(QObject):
 
-    edited = Signal()
+    edited = Signal(object)
 
     def __init__(self):
         super().__init__()
 
     def setEdited(self, event=None):
-        if event is None:
-            self.edited.emit()
-        else:
-            self.edited.emit(event)
+        # if event is None:
+        #     self.edited.emit()
+        # else:
+        self.edited.emit(event) #- need to figure this out
 
     def doConnect(self, fn, type):
         self.edited.connect(fn, type)
@@ -111,6 +111,25 @@ class ShapeBase():
 
     def getChildren(self):
         return self._obj.Group
+
+    def setChildren(self, list):
+        self._obj.Group = list
+
+    def _setChild(self, index, value):
+        list = self._obj.Group
+        list.insert(index, value)
+        self._obj.Group = list
+
+    def _moveChild(self, index, value):
+        list = self._obj.Group
+        list.remove(value)
+        list.insert(index, value)
+        self._obj.Group = list
+
+    def _removeChild(self, value):
+        list = self._obj.Group
+        list.remove(value)
+        self._obj.Group = list
 
     def getPrevious(self, obj=None):
         if TRACE_POSITION:
@@ -372,7 +391,7 @@ class ShapeBase():
                             parent.Group = group
                             return
                         else:
-                            # Swap with the next entry
+                            # Swap with the next entrysetParent
                             group = self._obj.Group
                             temp = group[index + 1]
                             group[index + 1] = obj

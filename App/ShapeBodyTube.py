@@ -77,14 +77,16 @@ class ShapeBodyTube(ShapeLocation):
         if not hasattr(obj,"Shape"):
             obj.addProperty('Part::PropertyPartShape', 'Shape', 'BodyTube', translate('App::Property', 'Shape of the body tube'))
 
-        if not hasattr(obj,"Group"):
-            obj.addExtension("App::GroupExtensionPython")
+        # if not hasattr(obj,"Group"):
+        #     obj.addExtension("App::GroupExtensionPython")
 
     def onDocumentRestored(self, obj):
         super().onDocumentRestored(obj)
 
         if hasattr(obj, "InnerDiameter"):
             _migrate_from_1_0(obj)
+        else:
+            ShapeBodyTube(obj)
 
     def getLength(self):
         if TRACE_POSITION:

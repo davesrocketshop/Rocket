@@ -117,11 +117,24 @@ class ShapeComponent(ShapeBase, ChangeSource):
     def isAxisymmetric(self):
         return True
 
+    # Return true if the component may have an aerodynamic effect on the rocket.
+    def isAerodynamic(self):
+        return False
+	
+    # Return true if the component may have an effect on the rocket's mass.
+    def isMassive(self):
+        return False
+
     def allowsChildren(self):
         return False
 
     def update(self):
         self.setAxialOffsetFromMethod(self._obj.AxialMethod, self._obj.AxialOffset)
+
+    # the default implementation is mostly a placeholder here, however in inheriting classes, 
+    # this function is useful to indicate adjacent placements and view sizes
+    def updateBounds(self):
+        return
 
     def updateChildren(self):
         self.update()
@@ -209,7 +222,6 @@ class ShapeComponent(ShapeBase, ChangeSource):
     # This method may be overridden to enforce more strict component addition rules.
     # The tests should be performed first and then this method called.
     def addChildPosition(self, component, index):
-        print("addChildPosition(" + self.getComponentName() + ", " + component.Proxy.getComponentName() + ", " + str(index) + ")")
         self.checkState()
 
         if component.Proxy.getParent() is not None:
@@ -224,20 +236,67 @@ class ShapeComponent(ShapeBase, ChangeSource):
             raise Exception("Component: " + component.Proxy.getComponentName() +
                     " not currently compatible with component: " + self.getComponentName())
 
-        try:
-            self._obj.Group[index] = component
-        except IndexError:
-            self._obj.addObject(component)
+        self._setChild(index, component)
         component.Proxy.setParent(self)
 
         if component.Proxy.getType() == FEATURE_STAGE:
-            nStage = component
-            # self.getRocket().trackStage(nStage)
+            self.getRocket().trackStage(component.Proxy)
 
         self.checkComponentStructure()
         component.Proxy.checkComponentStructure()
 
-        # self.fireAddRemoveEvent(component)
+        self.fireAddRemoveEvent(component)
+
+    # Removes a child from the rocket component tree.
+    # (redirect to the removed-by-component
+    def removeChildPosition(self, n):
+        self.checkState()
+        component = self.getChildren()[n].Proxy
+        self.removeChild(component)
+
+    # Removes a child from the rocket component tree.  Does nothing if the component
+    # is not present as a child.
+    def removeChild(self, component):
+        self.checkState()
+
+        component.checkComponentStructure()
+
+
+        try:
+            self._removeChild(component)
+            component.Proxy.setParent(None)
+            
+            if component.Proxy.Type == FEATURE_STAGE:
+                self.getRocket().forgetStage(component);
+
+            # Remove sub-stages of the removed component
+            for stage in component.getSubStages():
+                self.getRocket().forgetStage(stage)
+            
+            self.checkComponentStructure()
+            component.Proxy.checkComponentStructure()
+            
+            self.fireAddRemoveEvent(component)
+            self.updateBounds()
+            
+            return True
+        except ValueError:
+            pass
+        return False
+
+    # Move a child to another position.
+    def moveChild(self, component, index):
+        self.checkState()
+        try:
+            self._moveChild(index, component)
+            
+            self.checkComponentStructure()
+            component.Proxy.checkComponentStructure()
+            
+            self.updateBounds()
+            self.fireAddRemoveEvent(component)
+        except ValueError:
+            pass
 
     def setAxialMethod(self, newAxialMethod) :
         for listener in self._configListeners:
@@ -254,6 +313,19 @@ class ShapeComponent(ShapeBase, ChangeSource):
 
         # this doesn't cause any physical change-- just how it's described.
         # self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
+
+    # Fires an AERODYNAMIC_CHANGE, MASS_CHANGE or OTHER_CHANGE event depending on the
+    # type of component removed.
+    def fireAddRemoveEvent(self, component):
+        type = ComponentChangeEvent.TREE_CHANGE
+        for obj in component.Group:
+            proxy = obj.Proxy
+            if proxy.isAeroDynamic():
+                type |= ComponentChangeEvent.AERODYNAMIC_CHANGE
+            if proxy.isMassive():
+                type |= ComponentChangeEvent.MASS_CHANGE
+
+        self.fireComponentChangeEvent(type);
 
     def fireComponentChangeEvent(self, event):
         self.setEdited(event)
@@ -341,7 +413,7 @@ class ShapeComponent(ShapeBase, ChangeSource):
     def getRocket(self):
         self.checkState()
         root = self.getRoot()
-        if root.getType == FEATURE_ROCKET:
+        if root.getType() == FEATURE_ROCKET:
             return root
 
         raise Exception("getRocket() called with root component " + root.getComponentName())
@@ -406,7 +478,9 @@ class ShapeComponent(ShapeBase, ChangeSource):
 
     # Check whether the list contains exactly the searched-for component (with == operator)
     def containsExact(self, haystack, needle):
+        print("Haystack %s, needle %s" % (str(type(haystack)), str(type((needle)))))
         for c in haystack:
+            print("\tHaystack %s, c %s" % (str(type(haystack)), str(type((c)))))
             if needle == c.Proxy:
                 return True
 

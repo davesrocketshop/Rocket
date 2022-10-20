@@ -37,6 +37,8 @@ class ShapeRocket(ShapeComponent):
     def __init__(self, obj):
         super().__init__(obj)
         self.Type = FEATURE_ROCKET
+
+        self._stageMap = {}
         
         # if not hasattr(obj,"Group"):
         #     obj.addExtension("App::GroupExtensionPython")
@@ -73,6 +75,32 @@ class ShapeRocket(ShapeComponent):
         except ReferenceError:
             # Deleted object
             pass
+
+    def getNewStageNumber(self):
+        guess = 0
+        while guess in self._stageMap:
+            guess += 1
+
+        return guess
+
+    def trackStage(self, newStage):
+        stageNumber = newStage.getStageNumber()
+        if stageNumber in self._stageMap:
+            value = self._stageMap[stageNumber]
+            
+            if newStage == value:
+                # stage is already added
+                if newStage is not value:
+                    # but the value is the wrong instance
+                    self._stageMap[stageNumber] = newStage
+                return
+
+        stageNumber = self.getNewStageNumber()
+        newStage.setStageNumber(stageNumber)
+        self._stageMap[stageNumber] = newStage
+
+    def forgetStage(self, oldStage):
+        del self._stageMap[oldStage.getStageNumber()]
 
 def hookChildren(obj, group, oldGroup):
     # for child in group:
