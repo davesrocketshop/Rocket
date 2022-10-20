@@ -104,9 +104,14 @@ class ShapeBase():
         return False
 
     def setParent(self, obj):
-        self._parent = obj
+        if hasattr(obj, "Proxy"):
+            self._parent = obj.Proxy
+        else:
+            self._parent = obj
 
     def getParent(self):
+        if hasattr(self._parent, "Proxy"):
+            return self._parent.Proxy
         return self._parent
 
     def getChildren(self):
@@ -243,10 +248,10 @@ class ShapeBase():
         if TRACE_POSITION:
             print("P: ShapeBase::reposition(%s)" % (self._obj.Label))
 
-        if self._parent is not None:
+        if self.getParent() is not None:
             if TRACE_POSITION:
-                print("P: ShapeBase::reposition(%s)._parent(%s)" % (self._obj.Label, self._parent.Label))
-            self._parent.Proxy.reposition()
+                print("P: ShapeBase::reposition(%s)._parent(%s)" % (self._obj.Label, self.getParent()._obj.Label))
+            self.getParent().reposition()
         else:
             rocket=FreeCADGui.ActiveDocument.ActiveView.getActiveObject("rocket")
             if rocket:
@@ -310,8 +315,8 @@ class ShapeBase():
 
     def moveUp(self):
         # Move the part up in the tree
-        if self._parent is not None:
-            self._parent.Proxy._moveChildUp(self._obj)
+        if self.getParent() is not None:
+            self.getParent()._moveChildUp(self._obj)
             self.reposition()
 
     def _moveChildUp(self, obj):
@@ -337,8 +342,8 @@ class ShapeBase():
                             return
                     else:
                         # Add to the grandparent ahead of the parent, or add to the next greater parent
-                        if self._parent is not None:
-                            grandparent = self._parent
+                        if self.getParent() is not None:
+                            grandparent = self.getParent()._obj
                             parent = self
                             index = 0
                             for child in grandparent.Group:
@@ -360,22 +365,18 @@ class ShapeBase():
                                 obj.Proxy.setParent(parent)
                                 parent.addObject(obj)
                                 return
-                            parent = parent._parent
+                            parent = parent.Proxy._parent
                 index += 1
 
-        if self._parent is not None:
-            # print("\t9")
-            self._parent.Proxy._moveChildUp(self._obj)
-        # print("\t10")
+        if self.getParent() is not None:
+            self.getParent()._moveChildUp(self._obj)
         return
 
     def moveDown(self):
         # Move the part up in the tree
-        if self._parent is not None:
-            self._parent.Proxy._moveChildDown(self._obj)
+        if self.getParent() is not None:
+            self.getParent()._moveChildDown(self._obj)
             self.reposition()
-        # else:
-        #     print("No parent")
 
     def _moveChildDown(self, obj):
         if hasattr(self._obj, "Group"):
@@ -403,10 +404,12 @@ class ShapeBase():
                             return
                     else:
                         current = self
-                        parent = self._parent
+                        parent = self.getParent()
+                        if parent is not None:
+                            parent = parent._obj
                         while parent is not None:
                             if parent.Proxy.eligibleChild(obj.Proxy.Type):
-                                parentLen = len(parent.Group)
+                                # parentLen = len(parent.Group)
                                 index1 = 0
                                 for child in parent.Group:
                                     if child.Proxy == current:
@@ -423,8 +426,8 @@ class ShapeBase():
                             parent = parent._parent
                 index += 1
 
-        if self._parent is not None:
-            self._parent.Proxy._moveChildDown(self._obj)
+        if self.getParent() is not None:
+            self.getParent()._moveChildDown(self._obj)
         return
 
     # This will be implemented in the derived class

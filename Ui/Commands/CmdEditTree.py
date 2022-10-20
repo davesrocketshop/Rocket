@@ -43,11 +43,25 @@ def moveDown():
         print("Selected %s" % (obj.Label))
         obj.Proxy.moveDown()
 
+def edit():
+    for obj in FreeCADGui.Selection.getSelection():
+        print("Selected %s" % (obj.Label))
+        FreeCADGui.activeDocument().setEdit(obj.Label,0)
+        return # Only process the first in the selection
+
+def delete():
+    for obj in FreeCADGui.Selection.getSelection():
+        print("Selected %s" % (obj.Label))
+        stage=FreeCADGui.ActiveDocument.ActiveView.getActiveObject("stage")
+        if stage is not None:
+            stage.Proxy.removeChild(obj.Proxy)
+        FreeCAD.ActiveDocument.removeObject(obj.Label)
+
 class CmdMoveUp:
     def Activated(self):
         FreeCAD.ActiveDocument.openTransaction("Move up")
-        FreeCADGui.addModule("Ui.CmdEditTree")
-        FreeCADGui.doCommand("Ui.CmdEditTree.moveUp()")
+        FreeCADGui.addModule("Ui.Commands.CmdEditTree")
+        FreeCADGui.doCommand("Ui.Commands.CmdEditTree.moveUp()")
         FreeCADGui.doCommand("App.activeDocument().recompute(None,True,True)")
 
     def IsActive(self):
@@ -63,8 +77,8 @@ class CmdMoveUp:
 class CmdMoveDown:
     def Activated(self):
         FreeCAD.ActiveDocument.openTransaction("Move down")
-        FreeCADGui.addModule("Ui.CmdEditTree")
-        FreeCADGui.doCommand("Ui.CmdEditTree.moveDown()")
+        FreeCADGui.addModule("Ui.Commands.CmdEditTree")
+        FreeCADGui.doCommand("Ui.Commands.CmdEditTree.moveDown()")
         FreeCADGui.doCommand("App.activeDocument().recompute(None,True,True)")
 
     def IsActive(self):
@@ -79,10 +93,10 @@ class CmdMoveDown:
 
 class CmdEdit:
     def Activated(self):
-        FreeCAD.ActiveDocument.openTransaction("Create body tube")
-        FreeCADGui.addModule("Ui.CmdBodyTube")
-        FreeCADGui.doCommand("Ui.CmdBodyTube.makeBodyTube('BodyTube')")
-        FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
+        FreeCAD.ActiveDocument.openTransaction("Edit")
+        FreeCADGui.addModule("Ui.Commands.CmdEditTree")
+        FreeCADGui.doCommand("Ui.Commands.CmdEditTree.edit()")
+        FreeCADGui.doCommand("App.activeDocument().recompute(None,True,True)")
 
     def IsActive(self):
         if FreeCAD.ActiveDocument:
@@ -96,10 +110,10 @@ class CmdEdit:
 
 class CmdDelete:
     def Activated(self):
-        FreeCAD.ActiveDocument.openTransaction("Create body tube")
-        FreeCADGui.addModule("Ui.CmdBodyTube")
-        FreeCADGui.doCommand("Ui.CmdBodyTube.makeBodyTube('BodyTube')")
-        FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
+        FreeCAD.ActiveDocument.openTransaction("Delete")
+        FreeCADGui.addModule("Ui.Commands.CmdEditTree")
+        FreeCADGui.doCommand("Ui.Commands.CmdEditTree.delete()")
+        FreeCADGui.doCommand("App.activeDocument().recompute(None,True,True)")
 
     def IsActive(self):
         if FreeCAD.ActiveDocument:
