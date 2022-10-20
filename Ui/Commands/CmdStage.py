@@ -31,34 +31,14 @@ from PySide import QtGui
 
 from App.ShapeStage import ShapeStage
 from Ui.ViewStage import ViewProviderStage
-from App.Constants import FEATURE_PARALLEL_STAGE
 
 
 from DraftTools import translate
 
-def _addChild(stage, parent, child):
-    child.Proxy.setParent(parent)
-    parent.addObject(child)
-    stage.Proxy.reposition()
-
 def addToStage(obj):
     stage=FreeCADGui.ActiveDocument.ActiveView.getActiveObject("stage")
-    stage.Proxy.addChild(obj)
-    # if stage:
-    #     # Add to the last item in the stage if it is a group object
-    #     receiver = None
-    #     current = stage
-    #     while hasattr(current, "Group") and len(current.Group) > 0:
-    #         groupObj = current.Group[len(current.Group) - 1]
-    #         if groupObj.Proxy.eligibleChild(obj.Proxy.Type) and not groupObj.Proxy.Type == FEATURE_PARALLEL_STAGE:
-    #             receiver = groupObj
-    #         current = groupObj
-
-    #     if receiver is not None:
-    #         _addChild(stage, groupObj, obj)
-    #         return
-
-    #     _addChild(stage, stage, obj)
+    if stage:
+        stage.Proxy.addChild(obj)
 
 def makeStage(name='Stage'):
     obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)

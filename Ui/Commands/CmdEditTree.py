@@ -27,10 +27,6 @@ __url__ = "https://www.davesrocketshop.com"
 import FreeCAD
 import FreeCADGui
 
-from App.ShapeBodyTube import ShapeBodyTube
-from Ui.ViewBodyTube import ViewProviderBodyTube
-from Ui.Commands.CmdStage import addToStage
-
 from DraftTools import translate
 
 def moveUp():
