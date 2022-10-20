@@ -32,7 +32,7 @@ from PySide import QtCore,QtGui
 from DraftTools import translate
 
 from App.Utilities import _msg
-from App.ShapeRocket import hookChildren
+# from App.ShapeRocket import hookChildren
 
 class ViewProviderRocket:
 
@@ -71,7 +71,7 @@ class ViewProviderRocket:
         if not hasattr(self,"_oldChildren"):
             self._oldChildren = []
 
-        hookChildren(self.Object, objs, self._oldChildren)
+        # hookChildren(self.Object, objs, self._oldChildren)
         self._oldChildren = objs
 
         return objs

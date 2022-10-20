@@ -34,7 +34,7 @@ from App.position.AxialPositionable import AxialPositionable
 from App.ShapeComponent import ShapeComponent
 from App.events.ComponentChangeEvent import ComponentChangeEvent
 
-from App.Constants import FEATURE_STAGE, FEATURE_PARALLEL_STAGE, FEATURE_POD
+from App.Constants import FEATURE_ROCKET, FEATURE_STAGE, FEATURE_PARALLEL_STAGE, FEATURE_POD
 
 # from DraftTools import translate
 
@@ -71,12 +71,15 @@ class ShapeComponentAssembly(ShapeComponent, AxialPositionable):
         if self.getType() == FEATURE_PARALLEL_STAGE or self.getType() == FEATURE_POD:
             if newMethod == AxialMethod.AFTER:
                 # log.warn("Stages (or Pods) cannot be relative to other stages via AFTER! Ignoring.");
-                super.setAxialMethod(AxialMethod.TOP)
+                super().setAxialMethod(AxialMethod.TOP)
             else:
-                super.setAxialMethod(newMethod)
+                super().setAxialMethod(newMethod)
         elif self.getType() == FEATURE_STAGE:
             # Centerline stages must be set via AFTER-- regardless of what was requested:
-            super.setAxialMethod(AxialMethod.AFTER)
+            super().setAxialMethod(AxialMethod.AFTER)
+        elif self.getType() == FEATURE_ROCKET:
+            # Main rocket must be set via ABSOLUTE-- regardless of what was requested:
+            super().setAxialMethod(AxialMethod.ABSOLUTE)
         else:
             raise Exception("Unrecognized subclass of Component Assembly.  Please update this method.")
 

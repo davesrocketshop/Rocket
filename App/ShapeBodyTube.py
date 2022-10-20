@@ -172,25 +172,26 @@ class ShapeBodyTube(SymetricComponent, BoxBounded, Coaxial):
 
 def hookChildren(obj, group, oldGroup):
     # print("hookChildren()")
-    changed = False
-    for child in group:
-        if child not in oldGroup:
-            # print("%s: hookChildren added" % (child.__class__.__name__))
-            child.Proxy.resetPlacement()
-            # child.Proxy.edited.connect(obj.Proxy.onChildEdited, QtCore.Qt.QueuedConnection)
-            child.Proxy.connect(obj.Proxy.onChildEdited, QtCore.Qt.QueuedConnection)
-            changed = True
+    # changed = False
+    # for child in group:
+    #     if child not in oldGroup:
+    #         # print("%s: hookChildren added" % (child.__class__.__name__))
+    #         child.Proxy.resetPlacement()
+    #         # child.Proxy.edited.connect(obj.Proxy.onChildEdited, QtCore.Qt.QueuedConnection)
+    #         child.Proxy.connect(obj.Proxy.onChildEdited, QtCore.Qt.QueuedConnection)
+    #         changed = True
 
-    for child in oldGroup:
-        if child not in group:
-            # print("%s: hookChildren removed" % (child.__class__.__name__))
-            # child.Proxy.edited.connect(None)
-            try:
-                child.Proxy.disconnect()
-                changed = True
-            except ReferenceError:
-                pass # object may be deleted
+    # for child in oldGroup:
+    #     if child not in group:
+    #         # print("%s: hookChildren removed" % (child.__class__.__name__))
+    #         # child.Proxy.edited.connect(None)
+    #         try:
+    #             child.Proxy.disconnect()
+    #             changed = True
+    #         except ReferenceError:
+    #             pass # object may be deleted
 
-    if changed:
-        obj.Proxy.setEdited()
+    # if changed:
+    #     obj.Proxy.setEdited()
+    pass
 

@@ -67,58 +67,58 @@ class ShapeStage(ShapeComponentAssembly):
     def eligibleChild(self, childType):
         return childType not in [FEATURE_ROCKET, FEATURE_STAGE]
 
-    def setAxialPosition(self, partBase):
-        if TRACE_POSITION:
-            print("P: ShapeStage::setAxialPosition(%s, (%f,%f,%f))" % (self._obj.Label, partBase.x, partBase.y, partBase.z))
+    # def setAxialPosition(self, partBase):
+    #     if TRACE_POSITION:
+    #         print("P: ShapeStage::setAxialPosition(%s, (%f,%f,%f))" % (self._obj.Label, partBase.x, partBase.y, partBase.z))
 
-        # base = FreeCAD.Vector(self._obj.Placement.Base)
-        base = FreeCAD.Vector(partBase)
-        base.x = 0.0
-        newPlacement = FreeCAD.Placement(base, FreeCAD.Rotation(0,0,0))
-        # newPlacement = FreeCAD.Placement(FreeCAD.Vector(partBase), FreeCAD.Rotation(0,0,0))
-        # newPlacement = FreeCAD.Placement(FreeCAD.Vector(0.0, base.y, base.z), FreeCAD.Rotation(0,0,0))
-        if newPlacement != self._obj.Placement:
-            self._obj.Placement = newPlacement
+    #     # base = FreeCAD.Vector(self._obj.Placement.Base)
+    #     base = FreeCAD.Vector(partBase)
+    #     base.x = 0.0
+    #     newPlacement = FreeCAD.Placement(base, FreeCAD.Rotation(0,0,0))
+    #     # newPlacement = FreeCAD.Placement(FreeCAD.Vector(partBase), FreeCAD.Rotation(0,0,0))
+    #     # newPlacement = FreeCAD.Placement(FreeCAD.Vector(0.0, base.y, base.z), FreeCAD.Rotation(0,0,0))
+    #     if newPlacement != self._obj.Placement:
+    #         self._obj.Placement = newPlacement
 
-        # self.positionChildren(partBase)
-        # self.positionChildren(0.0)
+    #     # self.positionChildren(partBase)
+    #     # self.positionChildren(0.0)
 
-    def positionChildren(self, partBase):
-        if TRACE_POSITION:
-            print("P: ShapeStage::positionChildren(%s, (%f,%f,%f))" % (self._obj.Label, partBase.x, partBase.y, partBase.z))
+    # def positionChildren(self, partBase):
+    #     if TRACE_POSITION:
+    #         print("P: ShapeStage::positionChildren(%s, (%f,%f,%f))" % (self._obj.Label, partBase.x, partBase.y, partBase.z))
         
-        # Dynamic placements
-        try:
-            base = FreeCAD.Vector(partBase)
-            self.setAxialPosition(base)
+    #     # Dynamic placements
+    #     try:
+    #         base = FreeCAD.Vector(partBase)
+    #         self.setAxialPosition(base)
 
-            print("start base.x %f, partBase.x %f" % (base.x, partBase.x))
-            # base = FreeCAD.Vector(0,0,0)
-            for child in reversed(self._obj.Group):
-                if child.Proxy.Type == FEATURE_PARALLEL_STAGE:
-                    child.Proxy.positionChild(self._obj, partBase, self.getLength(), self.getForeRadius(), 0.0)
-                else:
-                    child.Proxy.positionChild(self._obj, base, self.getLength(), self.getForeRadius(), 0.0)
-                    base.x = max(base.x, float(child.Proxy.getMaxForwardPosition() ))
-            print("end base.x %f, partBase.x %f" % (base.x, partBase.x))
+    #         print("start base.x %f, partBase.x %f" % (base.x, partBase.x))
+    #         # base = FreeCAD.Vector(0,0,0)
+    #         for child in reversed(self._obj.Group):
+    #             if child.Proxy.Type == FEATURE_PARALLEL_STAGE:
+    #                 child.Proxy.positionChild(self._obj, partBase, self.getLength(), self.getForeRadius(), 0.0)
+    #             else:
+    #                 child.Proxy.positionChild(self._obj, base, self.getLength(), self.getForeRadius(), 0.0)
+    #                 base.x = max(base.x, float(child.Proxy.getMaxForwardPosition() ))
+    #         print("end base.x %f, partBase.x %f" % (base.x, partBase.x))
  
-        except ReferenceError:
-            # Deleted object
-            pass
+    #     except ReferenceError:
+    #         # Deleted object
+    #         pass
 
-def hookChild(obj, child, oldGroup):
-    if child not in oldGroup:
-        child.Proxy.resetPlacement()
-        child.Proxy.connect(obj.Proxy.positionChildren, QtCore.Qt.QueuedConnection)
+# def hookChild(obj, child, oldGroup):
+#     if child not in oldGroup:
+#         child.Proxy.resetPlacement()
+#         child.Proxy.connect(obj.Proxy.positionChildren, QtCore.Qt.QueuedConnection)
 
 
-def unhookChild(obj, child, group):
-    if child not in group:
-        try:
-            child.Proxy.disconnect()
-        except ReferenceError:
-            # Object may be deleted
-            pass
+# def unhookChild(obj, child, group):
+#     if child not in group:
+#         try:
+#             child.Proxy.disconnect()
+#         except ReferenceError:
+#             # Object may be deleted
+#             pass
 
 def hookChildren(obj, group, oldGroup):
     # for child in group:

@@ -159,18 +159,18 @@ class ShapeFin(ShapeLocation):
 
         self._setFinEditorVisibility()
 
-    def positionChild(self, parent, parentBase, parentLength, parentRadius, rotation):
-        if TRACE_POSITION:
-            print("P: ShapeFin::positionChild(%s, %s, (%f,%f,%f), %f, %f, %f)" % (self._obj.Label, parent.Label, parentBase.x, parentBase.y, parentBase.z, parentLength, parentRadius, rotation))
+    # def positionChild(self, parent, parentBase, parentLength, parentRadius, rotation):
+    #     if TRACE_POSITION:
+    #         print("P: ShapeFin::positionChild(%s, %s, (%f,%f,%f), %f, %f, %f)" % (self._obj.Label, parent.Label, parentBase.x, parentBase.y, parentBase.z, parentLength, parentRadius, rotation))
 
-        super().positionChild(parent, parentBase, parentLength, parentRadius, rotation)
-        self.setParentRadius(parentRadius)
+    #     super().positionChild(parent, parentBase, parentLength, parentRadius, rotation)
+    #     self.setParentRadius(parentRadius)
 
-        base = FreeCAD.Vector(parentBase)
-        base.x += float(self._obj.RootChord - self._obj.SweepLength - self._obj.TipChord) # Base is the base of the outer tip
-        # TODO: Need to add code for sketch based fin
+    #     base = FreeCAD.Vector(parentBase)
+    #     base.x += float(self._obj.RootChord - self._obj.SweepLength - self._obj.TipChord) # Base is the base of the outer tip
+    #     # TODO: Need to add code for sketch based fin
 
-        self.positionChildren(base)
+    #     self.positionChildren(base)
 
     def setParentRadius(self, parentRadius):
         if TRACE_POSITION:

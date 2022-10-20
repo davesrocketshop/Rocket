@@ -27,6 +27,9 @@ __url__ = "https://www.davesrocketshop.com"
 def QT_TRANSLATE_NOOP(scope, text):
     return text
 
+#  Default values
+DEFAULT_REFERENCE_LENGTH = 0.01
+
 # Feature types
 FEATURE_ROCKET = "Rocket"
 FEATURE_STAGE = "RocketStage"
