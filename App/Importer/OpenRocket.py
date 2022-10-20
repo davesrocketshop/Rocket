@@ -24,97 +24,206 @@ __title__ = "FreeCAD Open Rocket Importer"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
-import xml.sax
-import FreeCAD
-import FreeCADGui
+# Save the native open function to avoid collisions
+if open.__module__ in ['__builtin__', 'io']:
+    pythonopen = open
 
-from App.Exceptions import UnsupportedVersion
+class OpenRocket(object):
 
-from App.Importer.SaxElement import Element, NullElement
-from App.Importer.ComponentElement import ComponentElement
-from App.Importer.SubElement import SubElement
-from App.Importer.NoseElement import NoseElement
+    def __init__(self, doc):
+        self._doc = doc
+        self._rocket = None
 
-from App.Utilities import _msg
+    def create(self):
+        if self._rocket is not None:
+            self._rocket.create()
 
-from Ui.Commands.CmdRocket import makeRocket
+    def trace(self, method, message):
+        trace = True
+        if trace:
+            _msg("%s:%s" % (method, message))
 
-class RootElement(ComponentElement):
+    def _toBoolean(self, value):
+        if str(value).strip().lower() == "true":
+            return True
+        return False
 
-    def __init__(self, parent, tag, attributes, parentObj, filename, line):
-        super().__init__(parent, tag, attributes, parentObj, filename, line)
+    def processComponentTag(self, parent, child):
+        # Tags common to all components
+        SUPPORTED_TAGS = ["name", "color", "linestyle", "position", "axialoffset", "overridemass", "overridecg", "overridecd", 
+            "overridesubcomponents", "comment", "preset"]
 
-        self._validChildren = {'openrocket' : OpenRocketElement}
+        tag = child.tag.strip().lower()
+        if tag == "name": # Actually part of RocketComponent
+            self.trace("processComponentTag", "Processing '%s'" % child.tag)
+            parent._name = child.text
+            return True
+        elif tag == "comment": # Actually part of RocketComponent
+            self.trace("processComponentTag", "Processing '%s'" % child.tag)
+            parent._comment = child.text
+            return True
+        elif tag in SUPPORTED_TAGS:
+            self.trace("processComponentTag", "unprocessed component tag '%s'" % (child.tag))
+            return True
 
-class OpenRocketElement(ComponentElement):
+        return False # Tag was not handled
 
-    def __init__(self, parent, tag, attributes, parentObj, filename, line):
-        super().__init__(parent, tag, attributes, parentObj, filename, line)
+    def processNosecone(self, parent, context):
+        # Tags that are recognized but currently ignored
+        SUPPORTED_TAGS = ["manufacturer", "partno", "description", "thickness", "shape", "shapeclipped", "shapeparameter", "aftradius", "aftouterdiameter", "aftshoulderradius", "aftshoulderdiameter", "aftshoulderlength", "aftshoulderthickness", "aftshouldercapped", "length"]
 
+        from App.Component.NoseconeComponent import NoseconeComponent
+        nose = NoseconeComponent(self._doc)
+        for child in context:
+            tag = child.tag.strip().lower()
+            if tag == "manufacturer":
+                self.trace("processNosecone", "Processing '%s'" % child.tag)
+                nose._manufacturer = child.text
+            elif tag == "partno":
+                self.trace("processNosecone", "Processing '%s'" % child.tag)
+                nose._partNo = child.text
+            elif tag == "description":
+                self.trace("processNosecone", "Processing '%s'" % child.tag)
+                nose._description = child.text
+            elif tag == "thickness":
+                self.trace("processNosecone", "Processing '%s'" % child.tag)
+                nose._thickness = float(child.text)
+            elif tag == "shape":
+                self.trace("processNosecone", "Processing '%s'" % child.tag)
+                nose._shape = child.text
+            elif tag == "shapeclipped":
+                self.trace("processNosecone", "Processing '%s'" % child.tag)
+                nose._shapeClipped = self._toBoolean(child.text)
+            elif tag == "shapeparameter":
+                self.trace("processNosecone", "Processing '%s'" % child.tag)
+                nose._shapeParameter = float(child.text)
+            elif tag == "aftradius":
+                self.trace("processNosecone", "Processing '%s'" % child.tag)
+                nose._aftRadius = float(child.text)
+            elif tag == "aftouterdiameter":
+                self.trace("processNosecone", "Processing '%s'" % child.tag)
+                nose._aftRadius = float(child.text) / 2.0
+            elif tag == "aftshoulderradius":
+                self.trace("processNosecone", "Processing '%s'" % child.tag)
+                nose._aftShoulderRadius = float(child.text)
+            elif tag == "aftshoulderdiameter":
+                self.trace("processNosecone", "Processing '%s'" % child.tag)
+                nose._aftShoulderRadius = 2.0 * float(child.text)
+            elif tag == "aftshoulderlength":
+                self.trace("processNosecone", "Processing '%s'" % child.tag)
+                nose._aftShoulderLength = float(child.text)
+            elif tag == "aftshoulderthickness":
+                self.trace("processNosecone", "Processing '%s'" % child.tag)
+                nose._aftShoulderThickness = float(child.text)
+            elif tag == "aftshouldercapped":
+                self.trace("processNosecone", "Processing '%s'" % child.tag)
+                nose._aftShoulderCapped = self._toBoolean(child.text)
+            elif tag == "length":
+                self.trace("processNosecone", "Processing '%s'" % child.tag)
+                nose._length = float(child.text)
+            elif tag in SUPPORTED_TAGS:
+                self.trace("processNosecone", "unprocessed tag '%s'" % (child.tag))
+            elif not self.processComponentTag(nose, child):
+                self.trace("processNosecone", "unrecognized tag '%s'" % (child.tag))
+
+        return nose
+
+    def processAxialStage(self, parent, context):
+        # Tags that are recognized but currently ignored
+        SUPPORTED_TAGS = []
+
+        from App.Component.AxialStageComponent import AxialStageComponent
+        stage = AxialStageComponent(self._doc)
+        for child in context:
+            tag = child.tag.strip().lower()
+            if tag == "subcomponents":
+                self.trace("processAxialStage", "Processing '%s'" % child.tag)
+                self.processRocketSubComponents(stage, child)
+            elif tag in SUPPORTED_TAGS:
+                self.trace("processAxialStage", "unprocessed tag '%s'" % (child.tag))
+            elif not self.processComponentTag(stage, child):
+                self.trace("processAxialStage", "unrecognized tag '%s'" % (child.tag))
+
+        return stage
+
+    def processRocketSubComponents(self, parent, context):
+        # Tags that are recognized but currently ignored
+        SUPPORTED_TAGS = ["bodytube", "transition", "trapezoidfinset", "ellipticalfinset", "freeformfinset", "tubefinset", "launchlug", "railbutton",
+                "engineblock", "innertube", "tubecoupler", "bulkhead", "centeringring", "masscomponent", "shockcord", "parachute", "streamer", 
+                "boosterset", "parallelstage", "podset"]
+
+        for child in context:
+            tag = child.tag.strip().lower()
+            if tag == 'stage':
+                self.trace("processRocketSubComponents", "Processing '%s'" % child.tag)
+                stage = self.processAxialStage(parent, child)
+                if stage is not None:
+                    parent.append(stage)
+            elif tag == 'nosecone':
+                self.trace("processRocketSubComponents", "Processing '%s'" % child.tag)
+                nose = self.processNosecone(parent, child)
+                if nose is not None:
+                    parent.append(nose)
+            elif tag in SUPPORTED_TAGS:
+                self.trace("processRocketSubComponents", "unprocessed tag '%s'" % (child.tag))
+            #elif not self.processComponentTag(parent, child):
+            else:
+                self.trace("processRocketSubComponents", "unrecognized tag '%s'" % (child.tag))
+
+    def processRocket(self, context):
+        # Tags that are recognized but currently ignored
+        SUPPORTED_TAGS = ["motorconfiguration", "flightconfiguration", "deploymentconfiguration", "separationconfiguration", "referencetype", "customreference", "revision"]
+
+        # Initialize rocket properties
+        from App.Component.RocketComponent import RocketComponent
+        rocket = RocketComponent(self._doc)
+        for child in context:
+            tag = child.tag.strip().lower()
+            if tag == "subcomponents":
+                self.trace("processRocket", "Processing '%s'" % child.tag)
+                self.processRocketSubComponents(rocket, child)
+
+            elif tag == "designer":
+                self.trace("processRocket", "Processing '%s'" % child.tag)
+                rocket._designer = child.tag
+
+            elif tag == "appearance":
+                self.trace("processRocket", "Processing '%s'" % child.tag)
+            elif tag == "motormount":
+                self.trace("processRocket", "Processing '%s'" % child.tag)
+            elif tag == "finpoints":
+                self.trace("processRocket", "Processing '%s'" % child.tag)
+            elif tag in SUPPORTED_TAGS:
+                self.trace("processRocket", "unprocessed tag '%s'" % (child.tag))
+            elif not self.processComponentTag(rocket, child):
+                self.trace("processRocket", "unrecognized tag '%s'" % (child.tag))
+
+        self._rocket = rocket
+
+    def process(self, ork):
+
+        # Tags that are recognized but currently ignored
+        SUPPORTED_TAGS = ["datatypes", "simulations"]
         SUPPORTED_VERSIONS = ["1.0", "1.1", "1.2", "1.3", "1.4", "1.5", "1.6", "1.7", "1.8"]
 
-        if attributes['version'] not in SUPPORTED_VERSIONS:
-            raise UnsupportedVersion("Unsupported version %s" % attributes['version'])
-
-        self._validChildren = { 'rocket' : RocketElement,
-                                'datatypes' : NullElement,
-                                'simulations' : NullElement,
-                              }
-        self._knownTags = ["rocket", "datatypes", "simulations"]
-
-class RocketElement(ComponentElement):
-
-    def __init__(self, parent, tag, attributes, parentObj, filename, line):
-        super().__init__(parent, tag, attributes, parentObj, filename, line)
-
-        self._validChildren = { 'subcomponents' : SubElement,
-                              }
-        self._knownTags = ["subcomponents", "designer", "appearance", "motormount", "finpoints", "motorconfiguration", "flightconfiguration", "deploymentconfiguration", "separationconfiguration", "referencetype", "customreference", "revision"]
-
-        self._obj = makeRocket(makeSustainer=False)
-
-    def onName(self, content):
-        self._obj.Label = content
-
-class OpenRocketImporter(xml.sax.ContentHandler):
-    def __init__(self, filename):
-        self._filename = filename
-        self._current = RootElement(None, "root", None, None, filename, 0)
-        self._content = ''
-
-    # Call when an element starts
-    def startElement(self, tag, attributes):
-        loc = self._locator
-        if loc is not None:
-            line = loc.getLineNumber()
-        if self._current.isChildElement(tag):
-            self._current = self._current.createChild(tag, attributes, self._filename, line)
-            self._content = ''
+        root = ork.getroot()
+        if root.tag != "openrocket":
+            _err("unsupported root node %s" % (root.tag))
+            return
         else:
-            self._current.handleTag(tag, attributes)
+            ork_version = root.get("version")
+            ork_creator = root.get("creator")
+            self.trace("process", "process(%s, %s)" % (ork_version, ork_creator))
+            if ork_version not in SUPPORTED_VERSIONS:
+                _err("unsupported version")
+                return
 
-    # Call when an elements ends
-    def endElement(self, tag):
-        if self._current.isTag(tag):
-            self._current = self._current.end()
-        else:
-            self._current.handleEndTag(tag, self._content.strip())
-        self._content = ''
-
-
-    # Call when a character is read
-    def characters(self, content):
-        self._content += content
-
-    def importFile(filename):
-        _msg("Importing %s..." % filename)
-        # create an XMLReader
-        parser = xml.sax.make_parser()
-
-        # turn off namespaces
-        parser.setFeature(xml.sax.handler.feature_namespaces, 0)
-
-        # override the default ContextHandler
-        handler = OpenRocketImporter(filename)
-        parser.setContentHandler(handler)
-        parser.parse(filename)
+            for child in root:
+                tag = child.tag.strip().lower()
+                if tag == "rocket":
+                    self.trace("process", "Processing '%s'" % child.tag)
+                    self.processRocket(child)
+                elif tag in SUPPORTED_TAGS:
+                    self.trace("process", "unprocessed tag '%s'" % (child.tag))
+                elif not self.processComponentTag(parent, context):
+                    self.trace("process", "unrecognized tag '%s'" % (child.tag))
