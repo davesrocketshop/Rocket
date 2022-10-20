@@ -96,9 +96,9 @@ class ShapeRailButton(ShapeLocation):
         if not hasattr(obj,"Shape"):
             obj.addProperty('Part::PropertyPartShape', 'Shape', 'RailButton', translate('App::Property', 'Shape of the rail button'))
 
-    def getAxialLength(self):
+    def getLength(self):
         if TRACE_POSITION:
-            print("P: ShapeRailButton::getAxialLength(%s)" % (self._obj.Label))
+            print("P: ShapeRailButton::getLength(%s)" % (self._obj.Label))
 
         # Return the length of this component along the central axis
         return self._obj.Length

@@ -109,6 +109,9 @@ class ShapeBase():
     def getParent(self):
         return self._parent
 
+    def getChildren(self):
+        return self._obj.Group
+
     def getPrevious(self, obj=None):
         if TRACE_POSITION:
             print("P: ShapeBase::getPrevious(%s)" % (self._obj.Label))
@@ -155,15 +158,15 @@ class ShapeBase():
 
         return None
 
-    def getAxialLength(self):
+    def getLength(self):
         if TRACE_POSITION:
-            print("P: ShapeBase::getAxialLength(%s)" % (self._obj.Label))
+            print("P: ShapeBase::getLength(%s)" % (self._obj.Label))
 
         # Return the length of this component along the central axis
         length = 0.0
         if hasattr(self._obj, "Group"):
             for child in self._obj.Group:
-                length += float(child.Proxy.getAxialLength())
+                length += float(child.Proxy.getLength())
 
         print("Length = %f" %(length))
         return length
@@ -247,8 +250,8 @@ class ShapeBase():
             base = FreeCAD.Vector(partBase)
             # base = FreeCAD.Vector(0,0,0)
             for child in reversed(self._obj.Group):
-                child.Proxy.positionChild(self._obj, base, self.getAxialLength(), self.getForeRadius(), 0.0)
-                # base.x += float(child.Proxy.getAxialLength())
+                child.Proxy.positionChild(self._obj, base, self.getLength(), self.getForeRadius(), 0.0)
+                # base.x += float(child.Proxy.getLength())
 
     def positionChild(self, parent, parentBase, parentLength, parentRadius, rotation):
         if TRACE_POSITION:

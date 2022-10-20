@@ -66,9 +66,9 @@ class ShapeBulkhead(ShapeLocation):
         if not hasattr(obj, 'Shape'):
             obj.addProperty('Part::PropertyPartShape', 'Shape', 'Bulkhead', translate('App::Property', 'Shape of the bulkhead'))
 
-    def getAxialLength(self):
+    def getLength(self):
         if TRACE_POSITION:
-            print("P: ShapeBulkhead::getAxialLength(%s)" % (self._obj.Label))
+            print("P: ShapeBulkhead::getLength(%s)" % (self._obj.Label))
 
         # Return the length of this component along the central axis
         return self._obj.Thickness

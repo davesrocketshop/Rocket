@@ -168,9 +168,9 @@ class ShapeTransition(ShapeComponent):
             ShapeTransition(obj)
             FreeCAD.ActiveDocument.recompute()
 
-    def getAxialLength(self):
+    def getLength(self):
         if TRACE_POSITION:
-            print("P: ShapeTransition::getAxialLength(%s)" % (self._obj.Label))
+            print("P: ShapeTransition::getLength(%s)" % (self._obj.Label))
 
         # Return the length of this component along the central axis
         return self._obj.Length

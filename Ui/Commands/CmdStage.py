@@ -43,21 +43,22 @@ def _addChild(stage, parent, child):
 
 def addToStage(obj):
     stage=FreeCADGui.ActiveDocument.ActiveView.getActiveObject("stage")
-    if stage:
-        # Add to the last item in the stage if it is a group object
-        receiver = None
-        current = stage
-        while hasattr(current, "Group") and len(current.Group) > 0:
-            groupObj = current.Group[len(current.Group) - 1]
-            if groupObj.Proxy.eligibleChild(obj.Proxy.Type) and not groupObj.Proxy.Type == FEATURE_PARALLEL_STAGE:
-                receiver = groupObj
-            current = groupObj
+    stage.Proxy.addChild(obj)
+    # if stage:
+    #     # Add to the last item in the stage if it is a group object
+    #     receiver = None
+    #     current = stage
+    #     while hasattr(current, "Group") and len(current.Group) > 0:
+    #         groupObj = current.Group[len(current.Group) - 1]
+    #         if groupObj.Proxy.eligibleChild(obj.Proxy.Type) and not groupObj.Proxy.Type == FEATURE_PARALLEL_STAGE:
+    #             receiver = groupObj
+    #         current = groupObj
 
-        if receiver is not None:
-            _addChild(stage, groupObj, obj)
-            return
+    #     if receiver is not None:
+    #         _addChild(stage, groupObj, obj)
+    #         return
 
-        _addChild(stage, stage, obj)
+    #     _addChild(stage, stage, obj)
 
 def makeStage(name='Stage'):
     obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)

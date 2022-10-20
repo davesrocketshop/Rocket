@@ -86,9 +86,9 @@ class ShapeBodyTube(ShapeLocation):
         if hasattr(obj, "InnerDiameter"):
             _migrate_from_1_0(obj)
 
-    def getAxialLength(self):
+    def getLength(self):
         if TRACE_POSITION:
-            print("P: ShapeBodyTube::getAxialLength(%s)" % (self._obj.Label))
+            print("P: ShapeBodyTube::getLength(%s)" % (self._obj.Label))
 
         # Return the length of this component along the central axis
         return self._obj.Length

@@ -28,11 +28,15 @@ from App.Coordinate import Coordinate
 import FreeCAD
 import math
 
+from PySide import QtCore
+
 from abc import ABC
 from tokenize import Double
 
 from App.ShapeBase import ShapeBase, TRACE_POSITION
 # from App.Utilities import _err
+
+from App.Constants import FEATURE_ROCKET, FEATURE_STAGE
 
 from App.Constants import PROP_HIDDEN, PROP_TRANSIENT, PROP_READONLY
 from App.Constants import LOCATION_PARENT_TOP, LOCATION_PARENT_MIDDLE, LOCATION_PARENT_BOTTOM, LOCATION_BASE
@@ -41,12 +45,13 @@ from App.Constants import PLACEMENT_AXIAL #, PLACEMENT_RADIAL
 
 from App.position import AxialMethod
 # from App.position.AxialPositionable import AxialPositionable
+from App.ChangeSource import ChangeSource
 from App.Coordinate import Coordinate
 from App.ComponentChangeEvent import ComponentChangeEvent
 
 from DraftTools import translate
 
-class ShapeComponent(ShapeBase):
+class ShapeComponent(ShapeBase, ChangeSource):
 
     def __init__(self, obj):
         super().__init__(obj)
@@ -100,13 +105,29 @@ class ShapeComponent(ShapeBase):
         obj.Proxy=self
         self.version = '3.0'
 
+    def getComponentName(self):
+        return self._obj.Label
+
+    def getType(self):
+        return self.Type
+
     def isAfter(self):
         return AxialMethod.AFTER == self._obj.AxialMethod
 
     def isAxisymmetric(self):
         return True
 
-    
+    def allowsChildren(self):
+        return False
+
+    def update(self):
+        self.setAxialOffsetFromMethod(self._obj.AxialMethod, self._obj.AxialOffset)
+
+    def updateChildren(self):
+        self.update()
+        for child in self._obj.Group:
+            child.updateChildren()
+
     #  Called when any component in the tree fires a ComponentChangeEvent.  This is by
     #  default a no-op, but subclasses may override this method to e.g. invalidate
     #  cached data.  The overriding method *must* call
@@ -115,66 +136,108 @@ class ShapeComponent(ShapeBase):
         self.checkState()
         self.update()
 
-    def _locationOffset(self, partBase, parentLength):
-        if TRACE_POSITION:
-            print("P: ShapeComponent::_locationOffset(%s, %f, %f))" % (self._obj.Label, partBase, parentLength))
+    # def _locationOffset(self, partBase, parentLength):
+    #     if TRACE_POSITION:
+    #         print("P: ShapeComponent::_locationOffset(%s, %f, %f))" % (self._obj.Label, partBase, parentLength))
 
-        base = float(partBase)
-        roll = 0.0
-        if hasattr(self._obj, 'LocationReference'):
-            roll = float(self._obj.AngleOffset)
+    #     base = float(partBase)
+    #     roll = 0.0
+    #     if hasattr(self._obj, 'LocationReference'):
+    #         roll = float(self._obj.AngleOffset)
 
-            if self._obj.LocationReference == LOCATION_PARENT_TOP:
-                return base + float(parentLength) - float(self._obj.Location), roll
-            elif self._obj.LocationReference == LOCATION_PARENT_MIDDLE:
-                return base + (float(parentLength) / 2.0) + float(self._obj.Location), roll
-            elif self._obj.LocationReference == LOCATION_BASE:
-                return float(self._obj.Location), roll
+    #         if self._obj.LocationReference == LOCATION_PARENT_TOP:
+    #             return base + float(parentLength) - float(self._obj.Location), roll
+    #         elif self._obj.LocationReference == LOCATION_PARENT_MIDDLE:
+    #             return base + (float(parentLength) / 2.0) + float(self._obj.Location), roll
+    #         elif self._obj.LocationReference == LOCATION_BASE:
+    #             return float(self._obj.Location), roll
 
-            return base + float(self._obj.Location), roll
+    #         return base + float(self._obj.Location), roll
 
-        return base, roll
+    #     return base, roll
 
-    def positionChild(self, parent, parentBase, parentLength, parentRadius, rotation):
-        if TRACE_POSITION:
-            print("P: ShapeComponent::positionChild(%s, %s, (%f,%f,%f), %f, %f, %f)" % (self._obj.Label, parent.Label, parentBase.x, parentBase.y, parentBase.z, parentLength, parentRadius, rotation))
+    # def positionChild(self, parent, parentBase, parentLength, parentRadius, rotation):
+    #     if TRACE_POSITION:
+    #         print("P: ShapeComponent::positionChild(%s, %s, (%f,%f,%f), %f, %f, %f)" % (self._obj.Label, parent.Label, parentBase.x, parentBase.y, parentBase.z, parentLength, parentRadius, rotation))
 
-        # Calculate any auto radii
-        self._obj.Proxy.setRadius()
+    #     # Calculate any auto radii
+    #     self._obj.Proxy.setRadius()
 
-        partBase, roll = self._locationOffset(parentBase.x, parentLength)
+    #     partBase, roll = self._locationOffset(parentBase.x, parentLength)
 
-        if self._obj.PlacementType == PLACEMENT_AXIAL:
-            self._positionChildAxial(self._obj, partBase, roll)
-        else:
-            self._positionChildRadial(self._obj, parent, parentRadius, partBase, roll)
+    #     if self._obj.PlacementType == PLACEMENT_AXIAL:
+    #         self._positionChildAxial(self._obj, partBase, roll)
+    #     else:
+    #         self._positionChildRadial(self._obj, parent, parentRadius, partBase, roll)
 
-        self.positionChildren(parentBase)
+    #     self.positionChildren(parentBase)
 
-    def _positionChildAxial(self, obj, partBase, roll):
-        if TRACE_POSITION:
-            print("P: ShapeComponent::_positionChildAxial(%s, %f, %f)" % (self._obj.Label, partBase, roll))
+    # def _positionChildAxial(self, obj, partBase, roll):
+    #     if TRACE_POSITION:
+    #         print("P: ShapeComponent::_positionChildAxial(%s, %f, %f)" % (self._obj.Label, partBase, roll))
 
-        # newPlacement = FreeCAD.Placement(FreeCAD.Vector(partBase, 0, parentRadius), FreeCAD.Rotation(FreeCAD.Vector(1,0,0), roll), FreeCAD.Vector(0, 0, -parentRadius))
-        newPlacement = FreeCAD.Placement(FreeCAD.Vector(partBase, 0, 0), FreeCAD.Rotation(FreeCAD.Vector(1,0,0), roll), FreeCAD.Vector(0, 0, 0))
-        if obj.Placement != newPlacement:
-            obj.Placement = newPlacement
+    #     # newPlacement = FreeCAD.Placement(FreeCAD.Vector(partBase, 0, parentRadius), FreeCAD.Rotation(FreeCAD.Vector(1,0,0), roll), FreeCAD.Vector(0, 0, -parentRadius))
+    #     newPlacement = FreeCAD.Placement(FreeCAD.Vector(partBase, 0, 0), FreeCAD.Rotation(FreeCAD.Vector(1,0,0), roll), FreeCAD.Vector(0, 0, 0))
+    #     if obj.Placement != newPlacement:
+    #         obj.Placement = newPlacement
 
-    def _positionChildRadial(self, obj, parent, parentRadius, partBase, roll):
-        if TRACE_POSITION:
-            print("P: ShapeComponent::_positionChildRadial(%s, %s, %f, %f, %f)" % (self._obj.Label, parent.Label, parentRadius, partBase, parentRadius))
+    # def _positionChildRadial(self, obj, parent, parentRadius, partBase, roll):
+    #     if TRACE_POSITION:
+    #         print("P: ShapeComponent::_positionChildRadial(%s, %s, %f, %f, %f)" % (self._obj.Label, parent.Label, parentRadius, partBase, parentRadius))
 
-        radial = float(parentRadius) + float(obj.Proxy.getRadialPositionOffset()) # Need to add current parent radial
-        if hasattr(obj, 'AngleOffset'):
-            radial += float(obj.AngleOffset)
+    #     radial = float(parentRadius) + float(obj.Proxy.getRadialPositionOffset()) # Need to add current parent radial
+    #     if hasattr(obj, 'AngleOffset'):
+    #         radial += float(obj.AngleOffset)
 
-        # Use a matrix for transformations, otherwise it rotates around the part axis not the rocket axis
-        matrix = FreeCAD.Matrix()
-        matrix.move(FreeCAD.Vector(partBase, 0, radial))
-        matrix.rotateX(math.radians(roll))
-        newPlacement = FreeCAD.Placement(matrix)
-        if obj.Placement != newPlacement:
-            obj.Placement = newPlacement
+    #     # Use a matrix for transformations, otherwise it rotates around the part axis not the rocket axis
+    #     matrix = FreeCAD.Matrix()
+    #     matrix.move(FreeCAD.Vector(partBase, 0, radial))
+    #     matrix.rotateX(math.radians(roll))
+    #     newPlacement = FreeCAD.Placement(matrix)
+    #     if obj.Placement != newPlacement:
+    #         obj.Placement = newPlacement
+
+    # Adds a child to the rocket component tree.  The component is added to the end
+    # of the component's child list.  This is a helper method that calls
+    def addChild(self, component):
+        self.checkState()
+        self.addChildPosition(component, len(self._obj.Group))
+
+    # Adds a child to the rocket component tree.  The component is added to
+    # the given position of the component's child list.
+    # <p>
+    # This method may be overridden to enforce more strict component addition rules.
+    # The tests should be performed first and then this method called.
+    def addChildPosition(self, component, index):
+        print("addChildPosition(" + self.getComponentName() + ", " + component.Proxy.getComponentName() + ", " + str(index) + ")")
+        self.checkState()
+
+        if component.Proxy.getParent() is not None:
+            raise Exception("component " + component.Proxy.getComponentName() + " is already in a tree")
+
+        # Ensure that the no loops are created in component tree [A -> X -> Y -> B, B.addChild(A)]
+        if self.getRoot()._obj == component:
+            raise Exception("Component " + component.Proxy.getComponentName() +
+                    " is a parent of " + self.getComponentName() + ", attempting to create cycle in tree.")
+
+        if not self.eligibleChild(component.Proxy.Type):
+            raise Exception("Component: " + component.Proxy.getComponentName() +
+                    " not currently compatible with component: " + self.getComponentName())
+
+        try:
+            self._obj.Group[index] = component
+        except IndexError:
+            self._obj.addObject(component)
+        component.Proxy.setParent(self)
+
+        if component.Proxy.getType() == FEATURE_STAGE:
+            nStage = component
+            # self.getRocket().trackStage(nStage)
+
+        self.checkComponentStructure()
+        component.Proxy.checkComponentStructure()
+
+        # self.fireAddRemoveEvent(component)
 
     def setAxialMethod(self, newAxialMethod) :
         for listener in self._configListeners:
@@ -190,7 +253,7 @@ class ShapeComponent(ShapeBase):
         self._obj.AxialOffset = self.getAxialOffsetFromMethod(newAxialMethod)
 
         # this doesn't cause any physical change-- just how it's described.
-        self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
+        # self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
 
     def fireComponentChangeEvent(self, event):
         self.setEdited(event)
@@ -237,6 +300,118 @@ class ShapeComponent(ShapeBase):
         self._obj.AxialOffset = newAxialOffset
         self._obj.Placement.x = newX
 
+    def onConfigListener(self, event):
+        pass
+
+    def addConfigListener(self, listener):
+        if listener is None or listener in self._configListeners or listener == self:
+            return False
+
+        self._configListeners.append(listener)
+        listener.setBypassChangeEvent(True)
+
+        self.connect(listener.onConfigListener, QtCore.Qt.QueuedConnection)
+
+        return True
+
+    def removeConfigListener(self, listener):
+        self._configListeners.remove(listener)
+        listener.setBypassChangeEvent(False)
+
+    def clearConfigListeners(self):
+        for listener in self._configListeners:
+            listener.setBypassChangeEvent(False)
+
+        self._configListeners.clear()
+
+    def getConfigListeners(self):
+        return self._configListeners
+
+    # Get the root component of the component tree.
+    def getRoot(self):
+        self.checkState()
+        gp = self
+        while gp.getParent() is not None:
+            gp = gp.getParent()
+
+        return gp
+
+    # Returns the root Rocket component of this component tree.  Throws an
+    # IllegalStateException if the root component is not a Rocket.
+    def getRocket(self):
+        self.checkState()
+        root = self.getRoot()
+        if root.getType == FEATURE_ROCKET:
+            return root
+
+        raise Exception("getRocket() called with root component " + root.getComponentName())
+	
+    # Adds a ComponentChangeListener to the rocket tree.  The listener is added to the root
+    # component, which must be of type Rocket (which overrides this method).  Events of all
+    # subcomponents are sent to all listeners.
+    def addComponentChangeListener(self, listener):
+        self.checkState()
+        self.getRocket().addComponentChangeListener(listener)
+	
+    # Removes a ComponentChangeListener from the rocket tree.  The listener is removed from
+    # the root component, which must be of type Rocket (which overrides this method).
+    # Does nothing if the root component is not a Rocket.  (The asymmetry is so
+    # that listeners can always be removed just in case.)
+    def removeComponentChangeListener(self, listener):
+        if not self.getParent() is None:
+            self.getRoot().removeComponentChangeListener(listener)
+
+    # Adds a <code>ChangeListener</code> to the rocket tree.  This is identical to
+    # <code>addComponentChangeListener()</code> except that it uses a
+    # <code>ChangeListener</code>.  The same events are dispatched to the
+    # <code>ChangeListener</code>, as <code>ComponentChangeEvent</code> is a subclass
+    # of <code>ChangeEvent</code>.
+    def addChangeListener(self, listener):
+        self.addComponentChangeListener(listener)
+	
+    # Removes a ChangeListener from the rocket tree.  This is identical to
+    # removeComponentChangeListener() except it uses a ChangeListener.
+    # Does nothing if the root component is not a Rocket.  (The asymmetry is so
+    # that listeners can always be removed just in case.)
+    def removeChangeListener(self, listener):
+        self.removeComponentChangeListener(listener)
+
+    # Checks whether this component has been invalidated and should no longer be used.
+    # This is a safety check that in-place replaced components are no longer used.
+    # All non-trivial methods (with the exception of methods simply getting a property)
+    # should call this method before changing or computing anything.
+    def checkState(self):
+        # self.invalidator.check(True);
+        # self.mutex.verify();
+        pass
+
+    # Check that the local component structure is correct.  This can be called after changing
+    # the component structure in order to verify the integrity.
+    def checkComponentStructure(self):
+        if self.getParent() is not None:
+            # Test that this component is found in parent's children with == operator
+            if not self.containsExact(self.getParent().getChildren(), self):
+                raise Exception("Inconsistent component structure detected, parent does not contain this " +
+                        "component as a child, parent=" + self.getParent().getComponentName() + " this=" + self.getComponentName())
+        for child in self.getChildren():
+            if child.Proxy.getParent() != self:
+                message = "Inconsistent component structure detected, child does not have this component " + \
+                        "as the parent, this=" + self.getComponentName() + " child=" + child.Proxy.getComponentName() + \
+                        " child.parent="
+                if child.Proxy.getParent() is None:
+                    message += "None"
+                else:
+                    message += child.Proxy.getParent().getComponentName()
+                raise Exception(message)
+
+    # Check whether the list contains exactly the searched-for component (with == operator)
+    def containsExact(self, haystack, needle):
+        for c in haystack:
+            if needle == c.Proxy:
+                return True
+
+        return False
+
 class ShapeLocation(ShapeComponent):
 
     def __init__(self, obj):
@@ -262,7 +437,7 @@ class ShapeLocation(ShapeComponent):
 
     #     if self._obj.Proxy._parent is not None:
     #         print("\tParent %s" % (self._obj.Proxy._parent.Label))
-    #         return float(self._obj.Proxy._parent.Proxy.getAxialLength())
+    #         return float(self._obj.Proxy._parent.Proxy.getLengthFset())
 
     #     print("\rNo parent")
     #     return 0.0

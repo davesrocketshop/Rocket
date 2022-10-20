@@ -167,9 +167,9 @@ class ShapeNoseCone(ShapeComponent):
             if obj.Proxy.version in ["2.0", "2.1"]:
                 _migrate_from_2_0(obj)
 
-    def getAxialLength(self):
+    def getLength(self):
         if TRACE_POSITION:
-            print("P: ShapeNoseCone::getAxialLength(%s)" % (self._obj.Label))
+            print("P: ShapeNoseCone::getLength(%s)" % (self._obj.Label))
 
         # Return the length of this component along the central axis
         return self._obj.Length

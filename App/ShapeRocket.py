@@ -75,20 +75,20 @@ class ShapeRocket(ShapeComponent):
             pass
 
 def hookChildren(obj, group, oldGroup):
-    for child in group:
-        if child not in oldGroup:
-            # child.Proxy.resetPlacement()
-            # child.Proxy.edited.connect(obj.Proxy.reposition, QtCore.Qt.QueuedConnection)
-            child.Proxy.connect(obj.Proxy.reposition, QtCore.Qt.QueuedConnection)
+    # for child in group:
+    #     if child not in oldGroup:
+    #         # child.Proxy.resetPlacement()
+    #         # child.Proxy.edited.connect(obj.Proxy.reposition, QtCore.Qt.QueuedConnection)
+    #         child.Proxy.connect(obj.Proxy.reposition, QtCore.Qt.QueuedConnection)
 
-    for child in oldGroup:
-        if child not in group:
-            try:
-                # child.Proxy.edited.connect(None)
-                child.Proxy.disconnect()
-            except ReferenceError:
-                pass # object may be deleted
+    # for child in oldGroup:
+    #     if child not in group:
+    #         try:
+    #             # child.Proxy.edited.connect(None)
+    #             child.Proxy.disconnect()
+    #         except ReferenceError:
+    #             pass # object may be deleted
 
-    obj.Proxy.reposition()
-    # pass
+    # obj.Proxy.reposition()
+    pass
 
