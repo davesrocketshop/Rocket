@@ -45,9 +45,9 @@ from App.Constants import PLACEMENT_AXIAL #, PLACEMENT_RADIAL
 
 from App.position import AxialMethod
 # from App.position.AxialPositionable import AxialPositionable
-from App.ChangeSource import ChangeSource
+from App.interfaces.ChangeSource import ChangeSource
 from App.util.Coordinate import Coordinate
-from App.ComponentChangeEvent import ComponentChangeEvent
+from App.events.ComponentChangeEvent import ComponentChangeEvent
 
 from DraftTools import translate
 
@@ -66,6 +66,31 @@ class ShapeComponent(ShapeBase, ChangeSource):
             obj.addProperty('App::PropertyString', 'Material', 'RocketComponent', translate('App::Property', 'Component material')).Material = ""
         if not hasattr(obj, 'PlacementType'):
             obj.addProperty('App::PropertyString', 'PlacementType', 'RocketComponent', translate('App::Property', 'Component placement type'), PROP_HIDDEN|PROP_TRANSIENT).PlacementType = PLACEMENT_AXIAL
+        
+        if not hasattr(obj, 'LocationReference'):
+            obj.addProperty('App::PropertyEnumeration', 'LocationReference', 'RocketComponent', translate('App::Property', 'Reference location for the location'))
+            obj.LocationReference = [
+                        LOCATION_PARENT_TOP,
+                        LOCATION_PARENT_MIDDLE,
+                        LOCATION_PARENT_BOTTOM,
+                        LOCATION_BASE
+                    ]
+            obj.LocationReference = LOCATION_PARENT_BOTTOM
+        if not hasattr(obj, 'Location'):
+            obj.addProperty('App::PropertyDistance', 'Location', 'RocketComponent', translate('App::Property', 'Location offset from the reference')).Location = 0.0
+        if not hasattr(obj, 'AngleOffset'):
+            obj.addProperty('App::PropertyAngle', 'AngleOffset', 'RocketComponent', translate('App::Property', 'Angle of offset around the center axis')).AngleOffset = 0.0
+       
+        if not hasattr(obj, 'RadialReference'):
+            obj.addProperty('App::PropertyEnumeration', 'RadialReference', 'RocketComponent', translate('App::Property', 'Reference location for the radial offset'))
+            obj.RadialReference = [
+                        LOCATION_SURFACE,
+                        LOCATION_CENTER
+                    ]
+            obj.RadialReference = LOCATION_SURFACE
+
+        if not hasattr(obj, 'RadialOffset'):
+            obj.addProperty('App::PropertyDistance', 'RadialOffset', 'RocketComponent', translate('App::Property', 'Radial offset from the reference')).RadialOffset = 0.0
 
         if not hasattr(obj,"MassOverride"):
             obj.addProperty('App::PropertyBool', 'MassOverride', 'RocketComponent', translate('App::Property', 'Override the calculated mass of this component')).MassOverride = False
@@ -550,19 +575,19 @@ class ShapeLocation(ShapeComponent):
     def __init__(self, obj):
         super().__init__(obj)
         
-        if not hasattr(obj, 'LocationReference'):
-            obj.addProperty('App::PropertyEnumeration', 'LocationReference', 'RocketComponent', translate('App::Property', 'Reference location for the location'))
-        obj.LocationReference = [
-                    LOCATION_PARENT_TOP,
-                    LOCATION_PARENT_MIDDLE,
-                    LOCATION_PARENT_BOTTOM,
-                    LOCATION_BASE
-                ]
-        obj.LocationReference = LOCATION_PARENT_BOTTOM
-        if not hasattr(obj, 'Location'):
-            obj.addProperty('App::PropertyDistance', 'Location', 'RocketComponent', translate('App::Property', 'Location offset from the reference')).Location = 0.0
-        if not hasattr(obj, 'AngleOffset'):
-            obj.addProperty('App::PropertyAngle', 'AngleOffset', 'RocketComponent', translate('App::Property', 'Angle of offset around the center axis')).AngleOffset = 0.0
+        # if not hasattr(obj, 'LocationReference'):
+        #     obj.addProperty('App::PropertyEnumeration', 'LocationReference', 'RocketComponent', translate('App::Property', 'Reference location for the location'))
+        # obj.LocationReference = [
+        #             LOCATION_PARENT_TOP,
+        #             LOCATION_PARENT_MIDDLE,
+        #             LOCATION_PARENT_BOTTOM,
+        #             LOCATION_BASE
+        #         ]
+        # obj.LocationReference = LOCATION_PARENT_BOTTOM
+        # if not hasattr(obj, 'Location'):
+        #     obj.addProperty('App::PropertyDistance', 'Location', 'RocketComponent', translate('App::Property', 'Location offset from the reference')).Location = 0.0
+        # if not hasattr(obj, 'AngleOffset'):
+        #     obj.addProperty('App::PropertyAngle', 'AngleOffset', 'RocketComponent', translate('App::Property', 'Angle of offset around the center axis')).AngleOffset = 0.0
 
     # def _parentLength(self):
     #     if TRACE_POSITION:
@@ -624,13 +649,13 @@ class ShapeRadialLocation(ShapeLocation):
     def __init__(self, obj):
         super().__init__(obj)
         
-        if not hasattr(obj, 'RadialReference'):
-            obj.addProperty('App::PropertyEnumeration', 'RadialReference', 'RocketComponent', translate('App::Property', 'Reference location for the radial offset'))
-        obj.RadialReference = [
-                    LOCATION_SURFACE,
-                    LOCATION_CENTER
-                ]
-        obj.RadialReference = LOCATION_SURFACE
+        # if not hasattr(obj, 'RadialReference'):
+        #     obj.addProperty('App::PropertyEnumeration', 'RadialReference', 'RocketComponent', translate('App::Property', 'Reference location for the radial offset'))
+        # obj.RadialReference = [
+        #             LOCATION_SURFACE,
+        #             LOCATION_CENTER
+        #         ]
+        # obj.RadialReference = LOCATION_SURFACE
 
-        if not hasattr(obj, 'RadialOffset'):
-            obj.addProperty('App::PropertyDistance', 'RadialOffset', 'RocketComponent', translate('App::Property', 'Radial offset from the reference')).RadialOffset = 0.0
+        # if not hasattr(obj, 'RadialOffset'):
+        #     obj.addProperty('App::PropertyDistance', 'RadialOffset', 'RocketComponent', translate('App::Property', 'Radial offset from the reference')).RadialOffset = 0.0

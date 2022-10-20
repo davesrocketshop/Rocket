@@ -32,7 +32,7 @@ from tokenize import Double
 from App.position import AxialMethod
 from App.position.AxialPositionable import AxialPositionable
 from App.ShapeComponent import ShapeComponent
-from App.ComponentChangeEvent import ComponentChangeEvent
+from App.events.ComponentChangeEvent import ComponentChangeEvent
 
 from App.Constants import FEATURE_STAGE, FEATURE_PARALLEL_STAGE, FEATURE_POD
 

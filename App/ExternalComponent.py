@@ -25,8 +25,8 @@ __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
 from App.ShapeComponent import ShapeComponent
-from App.Finish import Finish
-from App.ComponentChangeEvent import ComponentChangeEvent
+from App.util.Finish import Finish
+from App.events.ComponentChangeEvent import ComponentChangeEvent
 
 # Class of components with well-defined physical appearance and which have an effect on
 # aerodynamic simulation.  They have material defined for them, and the mass of the component
