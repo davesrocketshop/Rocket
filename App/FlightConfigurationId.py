@@ -30,10 +30,16 @@ class FlightConfigurationId():
 
     _key = None
 
-    DEFAULT_MOST_SIG_BITS = 0xF4F2F1F0
-    ERROR_UUID = UUID( bytes=DEFAULT_MOST_SIG_BITS, bytes_le=2489)
+    # Keys are generated differently in Python, so use the strings for these 
+    # Java equivalents
+    #
+    # DEFAULT_MOST_SIG_BITS = 0xF4F2F1F0
+    # ERROR_UUID = UUID( DEFAULT_MOST_SIG_BITS, 2489)
+    # DEFAULT_VALUE_UUID = UUID( DEFAULT_MOST_SIG_BITS, 5676)
+    
+    ERROR_UUID = UUID("ffffffff-f4f2-f1f0-0000-0000000009b9")
     ERROR_KEY_NAME = "ErrorKey"
-    DEFAULT_VALUE_UUID = UUID( bytes=DEFAULT_MOST_SIG_BITS, bytes_le=5676)
+    DEFAULT_VALUE_UUID = UUID("ffffffff-f4f2-f1f0-0000-00000000162c")
     DEFAULT_VALUE_NAME = "DefaultKey"
 
     # builds the id with the given UUID object
