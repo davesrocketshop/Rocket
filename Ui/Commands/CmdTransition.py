@@ -30,7 +30,10 @@ import FreeCADGui
 
 from App.ShapeTransition import ShapeTransition
 from Ui.ViewTransition import ViewProviderTransition
+from Ui.Commands.Command import Command
 from Ui.Commands.CmdStage import addToStage
+
+from App.Constants import FEATURE_TRANSITION
 
 from DraftTools import translate
 
@@ -44,7 +47,7 @@ def makeTransition(name):
         addToStage(obj)
     return obj
 
-class CmdTransition:
+class CmdTransition(Command):
     def Activated(self):
         FreeCAD.ActiveDocument.openTransaction("Create transition")
         FreeCADGui.addModule("Ui.Commands.CmdTransition")
@@ -53,7 +56,7 @@ class CmdTransition:
 
     def IsActive(self):
         if FreeCAD.ActiveDocument:
-            return True
+            return self.part_eligible_feature(FEATURE_TRANSITION)
         return False
         
     def GetResources(self):

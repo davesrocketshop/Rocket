@@ -31,7 +31,10 @@ from App.ShapeRailGuide import ShapeRailGuide
 from App.ShapeLaunchLug import ShapeLaunchLug
 from App.ShapeRailButton import ShapeRailButton
 from Ui.ViewLaunchGuide import ViewProviderRailButton, ViewProviderLaunchLug, ViewProviderRailGuide
+from Ui.Commands.Command import Command
 from Ui.Commands.CmdStage import addToStage
+
+from App.Constants import FEATURE_LAUNCH_LUG, FEATURE_RAIL_BUTTON, FEATURE_RAIL_GUIDE, FEATURE_OFFSET
 
 from DraftTools import translate
 
@@ -65,7 +68,7 @@ def makeRailGuide(name='RailGuide'):
         addToStage(obj)
     return obj
 
-class CmdLaunchLug:
+class CmdLaunchLug(Command):
     def Activated(self):
         FreeCAD.ActiveDocument.openTransaction("Create launch lug")
         FreeCADGui.addModule("Ui.Commands.CmdLaunchGuides")
@@ -74,7 +77,7 @@ class CmdLaunchLug:
 
     def IsActive(self):
         if FreeCAD.ActiveDocument:
-            return True
+            return self.part_eligible_feature(FEATURE_LAUNCH_LUG)
         return False
             
     def GetResources(self):
@@ -82,7 +85,7 @@ class CmdLaunchLug:
                 'ToolTip': translate("Rocket", 'Launch lug design'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_LaunchLug.svg"}
 
-class CmdRailButton:
+class CmdRailButton(Command):
     def Activated(self):
         FreeCAD.ActiveDocument.openTransaction("Create rail button")
         FreeCADGui.addModule("Ui.Commands.CmdLaunchGuides")
@@ -91,7 +94,7 @@ class CmdRailButton:
 
     def IsActive(self):
         if FreeCAD.ActiveDocument:
-            return True
+            return self.part_eligible_feature(FEATURE_RAIL_BUTTON)
         return False
             
     def GetResources(self):
@@ -99,7 +102,7 @@ class CmdRailButton:
                 'ToolTip': translate("Rocket", 'Rail button design'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_RailButton.svg"}
 
-class CmdRailGuide:
+class CmdRailGuide(Command):
     def Activated(self):
         FreeCAD.ActiveDocument.openTransaction("Create rail guide")
         FreeCADGui.addModule("Ui.Commands.CmdLaunchGuides")
@@ -108,7 +111,7 @@ class CmdRailGuide:
 
     def IsActive(self):
         if FreeCAD.ActiveDocument:
-            return True
+            return self.part_eligible_feature(FEATURE_RAIL_GUIDE)
         return False
             
     def GetResources(self):
@@ -116,7 +119,7 @@ class CmdRailGuide:
                 'ToolTip': translate("Rocket", 'Rail guide design'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_RailGuide.svg"}
 
-class CmdStandOff:
+class CmdStandOff(Command):
     def Activated(self):
         FreeCAD.ActiveDocument.openTransaction("Create stand off")
         FreeCADGui.addModule("Ui.Commands.CmdLaunchGuides")
@@ -125,7 +128,7 @@ class CmdStandOff:
 
     def IsActive(self):
         if FreeCAD.ActiveDocument:
-            return True
+            return self.part_eligible_feature(FEATURE_OFFSET)
         return False
             
     def GetResources(self):

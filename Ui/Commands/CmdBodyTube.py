@@ -29,7 +29,10 @@ import FreeCADGui
 
 from App.ShapeBodyTube import ShapeBodyTube
 from Ui.ViewBodyTube import ViewProviderBodyTube
+from Ui.Commands.Command import Command
 from Ui.Commands.CmdStage import addToStage
+
+from App.Constants import FEATURE_BODY_TUBE
 
 from DraftTools import translate
 
@@ -43,7 +46,7 @@ def makeBodyTube(name='BodyTube'):
         addToStage(obj)
     return obj
 
-class CmdBodyTube:
+class CmdBodyTube(Command):
     def Activated(self):
         FreeCAD.ActiveDocument.openTransaction("Create body tube")
         FreeCADGui.addModule("Ui.Commands.CmdBodyTube")
@@ -52,7 +55,7 @@ class CmdBodyTube:
 
     def IsActive(self):
         if FreeCAD.ActiveDocument:
-            return True
+            return self.part_eligible_feature(FEATURE_BODY_TUBE)
         return False
             
     def GetResources(self):
@@ -60,7 +63,7 @@ class CmdBodyTube:
                 'ToolTip': translate("Rocket", 'Body tube design'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_BodyTube.svg"}
 
-class CmdCoupler:
+class CmdCoupler(Command):
     def Activated(self):
         FreeCAD.ActiveDocument.openTransaction("Create coupler")
         FreeCADGui.addModule("Ui.Commands.CmdBodyTube")
@@ -69,7 +72,7 @@ class CmdCoupler:
 
     def IsActive(self):
         if FreeCAD.ActiveDocument:
-            return True
+            return self.part_eligible_feature(FEATURE_BODY_TUBE)
         return False
             
     def GetResources(self):
@@ -77,7 +80,7 @@ class CmdCoupler:
                 'ToolTip': translate("Rocket", 'Coupler design'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_BodyTube.svg"}
 
-class CmdInnerTube:
+class CmdInnerTube(Command):
     def Activated(self):
         FreeCAD.ActiveDocument.openTransaction("Create inner tube")
         FreeCADGui.addModule("Ui.Commands.CmdBodyTube")
@@ -86,7 +89,7 @@ class CmdInnerTube:
 
     def IsActive(self):
         if FreeCAD.ActiveDocument:
-            return True
+            return self.part_eligible_feature(FEATURE_BODY_TUBE)
         return False
             
     def GetResources(self):

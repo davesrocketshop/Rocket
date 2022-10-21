@@ -29,7 +29,10 @@ import FreeCADGui
 
 from App.ShapeCenteringRing import ShapeCenteringRing
 from Ui.ViewCenteringRing import ViewProviderCenteringRing
+from Ui.Commands.Command import Command
 from Ui.Commands.CmdStage import addToStage
+
+from App.Constants import FEATURE_CENTERING_RING
 
 from DraftTools import translate
 
@@ -43,7 +46,7 @@ def makeCenteringRing(name='CenteringRing'):
         addToStage(obj)
     return obj
 
-class CmdCenteringRing:
+class CmdCenteringRing(Command):
     def Activated(self):
         FreeCAD.ActiveDocument.openTransaction("Create centering ring")
         FreeCADGui.addModule("Ui.Commands.CmdCenteringRing")
@@ -52,7 +55,7 @@ class CmdCenteringRing:
 
     def IsActive(self):
         if FreeCAD.ActiveDocument:
-            return True
+            return self.part_eligible_feature(FEATURE_CENTERING_RING)
         return False
         
     def GetResources(self):

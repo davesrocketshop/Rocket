@@ -29,7 +29,10 @@ import FreeCADGui
 
 from App.ShapeBulkhead import ShapeBulkhead
 from Ui.ViewBulkhead import ViewProviderBulkhead
+from Ui.Commands.Command import Command
 from Ui.Commands.CmdStage import addToStage
+
+from App.Constants import FEATURE_BULKHEAD
 
 from DraftTools import translate
 
@@ -43,7 +46,7 @@ def makeBulkhead(name):
         addToStage(obj)
     return obj
 
-class CmdBulkhead:
+class CmdBulkhead(Command):
     def Activated(self):
         FreeCAD.ActiveDocument.openTransaction("Create bulkhead")
         FreeCADGui.addModule("Ui.Commands.CmdBulkhead")
@@ -52,7 +55,7 @@ class CmdBulkhead:
 
     def IsActive(self):
         if FreeCAD.ActiveDocument:
-            return True
+            return self.part_eligible_feature(FEATURE_BULKHEAD)
         return False
         
     def GetResources(self):

@@ -27,9 +27,10 @@ __url__ = "https://www.davesrocketshop.com"
 import FreeCAD
 import FreeCADGui
 
-from App.Constants import FIN_TYPE_SKETCH
+from App.Constants import FEATURE_FIN, FIN_TYPE_SKETCH
 from App.ShapeFin import ShapeFin
 from Ui.ViewFin import ViewProviderFin
+from Ui.Commands.Command import Command
 from Ui.Commands.CmdStage import addToStage
 
 from DraftTools import translate
@@ -52,7 +53,7 @@ def makeFin(name):
         addToStage(obj)
     return obj
 
-class CmdFin:
+class CmdFin(Command):
     def Activated(self):
         FreeCAD.ActiveDocument.openTransaction("Create fin")
         FreeCADGui.addModule("Ui.Commands.CmdFin")
@@ -61,7 +62,7 @@ class CmdFin:
 
     def IsActive(self):
         if FreeCAD.ActiveDocument:
-            return True
+            return self.part_eligible_feature(FEATURE_FIN)
         return False
         
     def GetResources(self):

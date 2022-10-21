@@ -27,6 +27,7 @@ import FreeCADGui
 
 from DraftTools import translate
 
+from Ui.Commands.Command import Command
 from Ui.Commands.CmdRocket import CmdRocket, CmdToggleRocket
 from Ui.Commands.CmdStage import CmdStage, CmdToggleStage
 from Ui.Commands.CmdParallelStage import CmdParallelStage, CmdToggleParallelStage
@@ -58,6 +59,9 @@ from Ui.Commands.CmdParachuteGore import CmdParachuteGore
 from Ui.Commands.CmdFlutterAnalysis import CmdFinFlutter
 from Ui.Commands.CmdFemAnalysis import CmdFemAnalysis
 from Ui.Commands.CmdMaterialEditor import CmdMaterialEditor
+
+from App.Constants import FEATURE_BODY_TUBE
+from App.Constants import FEATURE_LAUNCH_LUG, FEATURE_RAIL_BUTTON, FEATURE_RAIL_GUIDE, FEATURE_OFFSET
 
 FreeCADGui.addCommand('Rocket_Rocket', CmdRocket())
 FreeCADGui.addCommand('Rocket_ToggleRocket', CmdToggleRocket())
@@ -118,7 +122,7 @@ class _CalculatorGroupCommand:
         # Always available, even without active document
         return True
 
-class _TubeGroupCommand:
+class _TubeGroupCommand(Command):
 
     def GetCommands(self):
         return tuple(['Rocket_BodyTube', 'Rocket_Coupler', 'Rocket_InnerTube'])
@@ -130,10 +134,10 @@ class _TubeGroupCommand:
         }
     def IsActive(self):
         if FreeCAD.ActiveDocument:
-            return True
+            return self.part_eligible_feature(FEATURE_BODY_TUBE)
         return False
 
-class _GuidesGroupCommand:
+class _GuidesGroupCommand(Command):
 
     def GetCommands(self):
         return tuple(['Rocket_LaunchLug', 'Rocket_RailButton', 'Rocket_RailGuide'])
@@ -145,7 +149,7 @@ class _GuidesGroupCommand:
         }
     def IsActive(self):
         if FreeCAD.ActiveDocument:
-            return True
+            return self.part_eligible_feature([FEATURE_LAUNCH_LUG, FEATURE_RAIL_BUTTON, FEATURE_RAIL_GUIDE, FEATURE_OFFSET])
         return False
 
 FreeCADGui.addCommand('Rocket_Calculators', _CalculatorGroupCommand())

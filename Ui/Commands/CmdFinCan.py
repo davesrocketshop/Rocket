@@ -30,7 +30,10 @@ import FreeCADGui
 from App.Constants import FIN_TYPE_SKETCH
 from App.ShapeFinCan import ShapeFinCan
 from Ui.ViewFinCan import ViewProviderFinCan
+from Ui.Commands.Command import Command
 from Ui.Commands.CmdStage import addToStage
+
+from App.Constants import FEATURE_FINCAN
 
 from DraftTools import translate
 
@@ -52,7 +55,7 @@ def makeFinCan(name):
 
     return obj
 
-class CmdFinCan:
+class CmdFinCan(Command):
     def Activated(self):
         FreeCAD.ActiveDocument.openTransaction("Create fin can")
         FreeCADGui.addModule("Ui.Commands.CmdFinCan")
@@ -61,7 +64,7 @@ class CmdFinCan:
 
     def IsActive(self):
         if FreeCAD.ActiveDocument:
-            return True
+            return self.part_eligible_feature(FEATURE_FINCAN)
         return False
         
     def GetResources(self):

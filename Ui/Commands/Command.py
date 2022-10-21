@@ -44,3 +44,15 @@ class Command:
                 if hasattr(sel[0],"FinType"):
                     return True
         return False
+
+    def part_eligible_feature(self, feature):
+        if FreeCADGui.ActiveDocument is not None:
+            sel = FreeCADGui.Selection.getSelection()
+            if len(sel) == 1 and sel[0].isDerivedFrom("Part::FeaturePython"):
+                if isinstance(feature, list):
+                    for f in feature:
+                        if sel[0].Proxy.eligibleChild(f):
+                            return True
+                elif sel[0].Proxy.eligibleChild(feature):
+                    return True
+        return False

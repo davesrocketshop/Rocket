@@ -30,7 +30,10 @@ import FreeCADGui
 
 from App.ShapeNoseCone import ShapeNoseCone
 from Ui.ViewNoseCone import ViewProviderNoseCone
+from Ui.Commands.Command import Command
 from Ui.Commands.CmdStage import addToStage
+
+from App.Constants import FEATURE_NOSE_CONE
 
 from DraftTools import translate
 
@@ -44,7 +47,7 @@ def makeNoseCone(name='NoseCone'):
         addToStage(obj)
     return obj
 
-class CmdNoseCone:
+class CmdNoseCone(Command):
     def Activated(self):
         FreeCAD.ActiveDocument.openTransaction("Create nose cone")
         FreeCADGui.addModule("Ui.Commands.CmdNoseCone")
@@ -53,7 +56,7 @@ class CmdNoseCone:
 
     def IsActive(self):
         if FreeCAD.ActiveDocument:
-            return True
+            return self.part_eligible_feature(FEATURE_NOSE_CONE)
         return False
 
     def GetResources(self):

@@ -29,7 +29,10 @@ import FreeCADGui
 
 from App.ShapePod import ShapePod
 from Ui.ViewPod import ViewProviderPod
+from Ui.Commands.Command import Command
 from Ui.Commands.CmdStage import addToStage
+
+from App.Constants import FEATURE_POD
 
 from DraftTools import translate
 
@@ -43,7 +46,7 @@ def makePod(name='Pod'):
         addToStage(obj)
     return obj
 
-class CmdPod:
+class CmdPod(Command):
     def Activated(self):
         FreeCAD.ActiveDocument.openTransaction("Create pod")
         FreeCADGui.addModule("Ui.Commands.CmdPod")
@@ -52,7 +55,7 @@ class CmdPod:
 
     def IsActive(self):
         if FreeCAD.ActiveDocument:
-            return True
+            return self.part_eligible_feature(FEATURE_POD)
         return False
             
     def GetResources(self):

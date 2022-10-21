@@ -30,7 +30,10 @@ import FreeCADGui
 from PySide import QtGui
 
 from App.ShapeStage import ShapeStage
+from Ui.Commands.Command import Command
 from Ui.ViewStage import ViewProviderStage
+
+from App.Constants import FEATURE_STAGE
 
 
 from DraftTools import translate
@@ -39,6 +42,9 @@ def addToStage(obj):
     stage=FreeCADGui.ActiveDocument.ActiveView.getActiveObject("stage")
     if stage:
         stage.Proxy.addChild(obj)
+    # rocket=FreeCADGui.ActiveDocument.ActiveView.getActiveObject("rocket")
+    # if rocket:
+    #     rocket.Proxy.addChild(obj)
 
 def makeStage(name='Stage'):
     obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
@@ -48,12 +54,12 @@ def makeStage(name='Stage'):
 
         rocket=FreeCADGui.ActiveDocument.ActiveView.getActiveObject("rocket")
         if rocket:
-            rocket.Group=rocket.Group+[obj]
+            rocket.Proxy.addChild(obj)
 
     FreeCADGui.ActiveDocument.ActiveView.setActiveObject('stage', obj)
     return obj
 
-class CmdStage:
+class CmdStage(Command):
     def Activated(self):
         FreeCAD.ActiveDocument.openTransaction("Create rocket stage")
         FreeCADGui.addModule("Ui.Commands.CmdStage")
@@ -62,7 +68,7 @@ class CmdStage:
 
     def IsActive(self):
         if FreeCAD.ActiveDocument:
-            return True
+            return self.part_eligible_feature(FEATURE_STAGE)
         return False
 
     def GetResources(self):

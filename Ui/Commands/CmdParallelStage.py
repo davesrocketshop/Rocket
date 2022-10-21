@@ -31,7 +31,10 @@ from PySide import QtGui
 
 from App.ShapeParallelStage import ShapeParallelStage
 from Ui.ViewParallelStage import ViewProviderParallelStage
+from Ui.Commands.Command import Command
 from Ui.Commands.CmdStage import addToStage
+
+from App.Constants import FEATURE_PARALLEL_STAGE
 
 from DraftTools import translate
 
@@ -63,7 +66,7 @@ def makeParallelStage(name='Stage'):
     FreeCADGui.ActiveDocument.ActiveView.setActiveObject('stage', obj)
     return obj
 
-class CmdParallelStage:
+class CmdParallelStage(Command):
     def Activated(self):
         FreeCAD.ActiveDocument.openTransaction("Create rocket parallel stage")
         FreeCADGui.addModule("Ui.Commands.CmdParallelStage")
@@ -72,7 +75,7 @@ class CmdParallelStage:
 
     def IsActive(self):
         if FreeCAD.ActiveDocument:
-            return True
+            return self.part_eligible_feature(FEATURE_PARALLEL_STAGE)
         return False
 
     def GetResources(self):

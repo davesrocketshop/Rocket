@@ -34,41 +34,37 @@ class ReferenceType(ABC):
     def getReferenceLength(self, config):
         pass
 
-class NoseConeReferenceType(ABC):
+class NoseConeReferenceType(ReferenceType):
 
-    @abstractmethod
     def getReferenceLength(self, config):
-        # for c in config.getActiveComponents():
-        #     if isinstance(c, SymetricComponent):
-        #         if c.getForeRadius() >= 0.0005:
-        #             return c.getForeRadius() * 2
-        #         if c.getAftRadius() >= 0.0005:
-        #             return c.getAftRadius() * 2
+        for c in config.getActiveComponents():
+            if isinstance(c, SymetricComponent):
+                if c.getForeRadius() >= 0.0005:
+                    return c.getForeRadius() * 2
+                if c.getAftRadius() >= 0.0005:
+                    return c.getAftRadius() * 2
 
         return DEFAULT_REFERENCE_LENGTH
 
-class MaximumReferenceType(ABC):
+class MaximumReferenceType(ReferenceType):
 
-    @abstractmethod
     def getReferenceLength(self, config):
         r = 0
-        # for c in config.getActiveComponents():
-        #     if isinstance(c, SymetricComponent):
-        #         r = max(r, c.getForeRadius())
-        #         r = max(r, c.getAftRadius())
+        for c in config.getActiveComponents():
+            if isinstance(c, SymetricComponent):
+                r = max(r, c.getForeRadius())
+                r = max(r, c.getAftRadius())
 
         r *= 2
-        if r < 0.001)
+        if r < 0.001:
             r = DEFAULT_REFERENCE_LENGTH
         
         return r
 
-class CustomReferenceType(ABC):
+class CustomReferenceType(ReferenceType):
 
-    @abstractmethod
     def getReferenceLength(self, config):
-        # return config.getRocket().getCustomReferenceLength()
-        return DEFAULT_REFERENCE_LENGTH
+        return config.getRocket().getCustomReferenceLength()
 
 NOSECONE = NoseConeReferenceType()
 MAXIMUM = MaximumReferenceType()
