@@ -24,6 +24,8 @@ __title__ = "FreeCAD Rocket Assembly"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
+from App.FlightConfigurationId import FlightConfigurationId
+
 class FlightConfiguration():
 
     _configurationName = ""
@@ -35,7 +37,7 @@ class FlightConfiguration():
     _configurationInstanceCount = 0
     _configurationInstanceId = None
 
-    def __init__(self, rocket, fcid):
+    def __init__(self, rocket, fcid=None):
         if fcid is None:
             fcid = FlightConfigurationId()
         else:
