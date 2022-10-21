@@ -46,12 +46,12 @@ class ShapeRocket(ShapeComponentAssembly):
     _refType = ReferenceType.MAXIMUM
 
     _designer = ""
+    _stageMap = {}
 
     def __init__(self, obj):
         super().__init__(obj)
         self.Type = FEATURE_ROCKET
 
-        self._stageMap = {}
         self.setAxialMethod(AxialMethod.ABSOLUTE)
         
     def execute(self,obj):

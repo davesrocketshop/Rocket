@@ -24,7 +24,16 @@ __title__ = "FreeCAD Rocket Assembly"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
+import math
+
 from App.FlightConfigurationId import FlightConfigurationId
+from App.ShapeComponentAssembly import ShapeComponentAssembly
+
+from App.Constants import FEATURE_ROCKET, FEATURE_STAGE
+
+#
+# TODO: Not yet complete
+#
 
 class FlightConfiguration():
 
@@ -36,6 +45,8 @@ class FlightConfiguration():
 
     _configurationInstanceCount = 0
     _configurationInstanceId = None
+
+    _stages = None
 
     def __init__(self, rocket, fcid=None):
         if fcid is None:
@@ -68,3 +79,61 @@ class FlightConfiguration():
 
         return traversalOrder
 
+    # Returns all the components on core stages (i.e. centerline)
+    # 
+    # NOTE: components, NOT instances
+    def getCoreComponents(self):
+        toProcess = []
+        toProcess.append(self.rocket)
+        
+        toReturn = []
+        
+        while len(toProcess) > 0:
+            comp = toProcess.pop(0)
+            
+            if comp.type != FEATURE_ROCKET:
+                toReturn.append(comp)
+            
+            for child in comp.getChildren():
+                if child.Proxy.Type == FEATURE_STAGE:
+                    # recurse through Stage -- these are still centerline.
+                    # however -- insist on an exact type match to disallow off-core stages
+                    if self.isStageActive(child.getStageNumber()):
+                        toProcess.append(child.Proxy)
+                elif isinstance(child.Proxy, ShapeComponentAssembly):
+                    # i.e. ParallelStage or PodSet
+                    pass
+                else:
+                    toProcess.append(child.Proxy)
+        
+        return toReturn
+
+    # Return all the stages in this configuration.
+    def getAllStages(self):
+        stages = []
+        for flags in self._stages.values():
+            stages.append(self._rocket.getStage(flags.stageId))
+
+        return stages
+
+    def getActiveStages(self):
+        # For now, all stages are active
+        return self.getAllStages()
+
+    def getActiveStageCount(self):
+        return len(self.getActiveStages())
+
+    def getStageCount(self):
+        return len(self._stages)
+
+    # Return the reference length associated with the current configuration.  The 
+    # reference length type is retrieved from the <code>Rocket</code>.
+    def getReferenceLength(self):
+        if self._rocket.getModID() != refLengthModID:
+            refLengthModID = self._rocket.getModID()
+            cachedRefLength = self._rocket.getReferenceType().getReferenceLength(self)
+
+        return cachedRefLength
+
+    def getReferenceArea(self):
+        return math.pi * math.pow(self.getReferenceLength() / 2, 2)
