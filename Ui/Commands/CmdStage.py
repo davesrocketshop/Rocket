@@ -39,12 +39,17 @@ from App.Constants import FEATURE_STAGE
 from DraftTools import translate
 
 def addToStage(obj):
-    stage=FreeCADGui.ActiveDocument.ActiveView.getActiveObject("stage")
-    if stage:
-        stage.Proxy.addChild(obj)
+    # stage=FreeCADGui.ActiveDocument.ActiveView.getActiveObject("stage")
+    # if stage:
+    #     stage.Proxy.addChild(obj)
     # rocket=FreeCADGui.ActiveDocument.ActiveView.getActiveObject("rocket")
     # if rocket:
     #     rocket.Proxy.addChild(obj)
+    if FreeCADGui.ActiveDocument is None:
+        return
+    sel = FreeCADGui.Selection.getSelection()
+    if sel:
+        sel[0].Proxy.addChild(obj)
 
 def makeStage(name='Stage'):
     obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)

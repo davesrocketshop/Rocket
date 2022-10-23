@@ -248,16 +248,16 @@ class ShapeBase():
         if TRACE_POSITION:
             print("P: ShapeBase::reposition(%s)" % (self._obj.Label))
 
-        if self.getParent() is not None:
-            if TRACE_POSITION:
-                print("P: ShapeBase::reposition(%s)._parent(%s)" % (self._obj.Label, self.getParent()._obj.Label))
-            self.getParent().reposition()
-        else:
-            rocket=FreeCADGui.ActiveDocument.ActiveView.getActiveObject("rocket")
-            if rocket:
-                rocket.Proxy.reposition()
-            elif TRACE_POSITION:
-                print("P: ShapeBase::reposition(%s) - NO PARENT" % (self._obj.Label))
+        # if self.getParent() is not None:
+        #     if TRACE_POSITION:
+        #         print("P: ShapeBase::reposition(%s)._parent(%s)" % (self._obj.Label, self.getParent()._obj.Label))
+        #     self.getParent().reposition()
+        # else:
+        #     rocket=FreeCADGui.ActiveDocument.ActiveView.getActiveObject("rocket")
+        #     if rocket:
+        #         rocket.Proxy.reposition()
+        #     elif TRACE_POSITION:
+        #         print("P: ShapeBase::reposition(%s) - NO PARENT" % (self._obj.Label))
 
     def setAxialPosition(self, partBase, roll=0.0):
         if TRACE_POSITION:
