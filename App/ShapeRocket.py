@@ -77,6 +77,12 @@ class ShapeRocket(ShapeComponentAssembly):
         self.Type = FEATURE_ROCKET
 
         self.setAxialMethod(AxialMethod.ABSOLUTE)
+
+        modID = UniqueID.next();
+        self._massModID = modID;
+        self._aeroModID = modID;
+        self._treeModID = modID;
+        self._functionalModID = modID;
         
     def execute(self,obj):
         if TRACE_EXECUTION:
@@ -104,6 +110,53 @@ class ShapeRocket(ShapeComponentAssembly):
 	
     def eligibleChild(self, childType):
         return childType == FEATURE_STAGE
+
+    """ 
+        Return the non-negative modification ID of this rocket.  The ID is changed
+        every time any change occurs in the rocket.  This can be used to check
+        whether it is necessary to void cached data in cases where listeners can not
+        or should not be used.
+        <p>
+        Three other modification IDs are also available, {@link #getMassModID()},
+        {@link #getAerodynamicModID()} {@link #getTreeModID()}, which change every time
+        a mass change, aerodynamic change, or tree change occur.  Even though the values
+        of the different modification ID's may be equal, they should be treated totally
+        separate.
+        <p>
+        Note that undo events restore the modification IDs that were in use at the
+        corresponding undo level.  Subsequent modifications, however, produce modIDs
+        distinct from those already used.
+    """
+    def getModID(self):
+        return self._modID
+
+    """
+        Return the non-negative mass modification ID of this rocket.  See
+        {@link #getModID()} for details.
+    """
+    def getMassModID(self):
+        return self._massModID
+
+    """
+        Return the non-negative aerodynamic modification ID of this rocket.  See
+        {@link #getModID()} for details.
+    """
+    def getAerodynamicModID(self):
+        return self._aeroModID
+
+    """
+        Return the non-negative tree modification ID of this rocket.  See
+        {@link #getModID()} for details.
+    """
+    def getTreeModID(self):
+        return self.treeModID
+
+    """
+        Return the non-negative functional modificationID of this rocket.
+        This changes every time a functional change occurs.
+    """
+    def getFunctionalModID(self):
+        return self._functionalModID
 
     def getStageCount(self):
         self.checkState()
@@ -247,15 +300,15 @@ class ShapeRocket(ShapeComponentAssembly):
         
         # Update modification ID's only for normal (not undo/redo) events
         if not cce.isUndoChange():
-            modID = UniqueID.next()
+            self._modID = UniqueID.next()
             if cce.isMassChange():
-                self._massModID = modID
+                self._massModID = self._modID
             if cce.isAerodynamicChange():
-                self._aeroModID = modID
+                self._aeroModID = self._modID
             if cce.isTreeChange():
-                self._treeModID = modID
+                self._treeModID = self._modID
             if cce.isFunctionalChange():
-                self._functionalModID = modID
+                self._functionalModID = self._modID
         
         # Check whether frozen
         if self._freezeList is not None:
