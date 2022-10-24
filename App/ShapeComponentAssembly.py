@@ -84,6 +84,12 @@ class ShapeComponentAssembly(ShapeComponent, AxialPositionable):
             raise Exception("Unrecognized subclass of Component Assembly.  Please update this method.")
 
         self.fireComponentChangeEvent(ComponentChangeEvent.NONFUNCTIONAL_CHANGE);
+        
+    """
+        Null method (ComponentAssembly has no bounds of itself).
+    """
+    def getComponentBounds(self):
+        return []
 
     # Components have no aerodynamic effect, so return false.
     def isAerodynamic(self):

@@ -42,6 +42,8 @@ from App.Constants import TYPE_CONE, TYPE_BLUNTED_CONE, TYPE_SPHERICAL, TYPE_ELL
 from App.Constants import STYLE_CAPPED, STYLE_HOLLOW, STYLE_SOLID
 from App.Constants import STYLE_CAP_SOLID, STYLE_CAP_BAR, STYLE_CAP_CROSS
 
+from App.events.ComponentChangeEvent import ComponentChangeEvent
+
 from App.Utilities import _wrn
 
 from DraftTools import translate
@@ -95,6 +97,7 @@ class ShapeNoseCone(SymetricComponent):
     def __init__(self, obj):
         super().__init__(obj)
         self.Type = FEATURE_NOSE_CONE
+        self._shapeHandler = None
         
         if not hasattr(obj, 'CapBarWidth'):
             obj.addProperty('App::PropertyLength', 'CapBarWidth', 'NoseCone', translate('App::Property', 'Width of the nose cap bar')).CapBarWidth = 3.0
@@ -167,6 +170,83 @@ class ShapeNoseCone(SymetricComponent):
             if obj.Proxy.version in ["2.0", "2.1"]:
                 _migrate_from_2_0(obj)
 
+    def getComponentBounds(self):
+        bounds = super().getComponentBounds()
+        if self._obj.ShoulderLength > 0.001:
+            self.addBound(bounds, -self._obj.ShoulderLength, self._obj.ShoulderDiameter / 2.0)
+        return bounds
+
+    def getRadius(self, x):
+        if self._shapeHandler is None:
+            self._setShapeHandler()
+
+        return self._shapeHandler.getRadius(x)
+
+    def getForeRadius(self):
+        return 0
+
+    def setForeRadius(self):
+        pass
+
+    def isForeRadiusAutomatic(self):
+        return False
+
+    def getAftRadius(self):
+        if self.isAftRadiusAutomatic():
+            # Return the auto radius from the rear
+            r = -1
+            c = self.getNextSymmetricComponent()
+            if c is not None:
+                r = c.getRearAutoRadius()
+            if r < 0:
+                r = SymetricComponent.DEFAULT_RADIUS
+            return r
+
+        return self._obj.Diameter / 2.0
+
+    """
+        Return the aft radius that was manually entered, so not the value that the component received from automatic
+        zft radius.
+    """
+    def getAftRadiusNoAutomatic(self):
+        return self._obj.Diameter / 2.0
+
+    def setAftRadius(self, radius):
+        for listener in self._configListeners:
+            if isinstance(listener, ShapeNoseCone): # OR used transition base class
+                listener.setAftRadius(radius)
+
+        diameter = radius * 2.0
+        if self._obj.Diameter == diameter and self._obj.AutoDiameter == False:
+            return
+
+        self._obj.AutoDiameter = False
+        self.Diameter = max(diameter, 0)
+
+        # ????
+        # if (this.thickness > this.foreRadius && this.thickness > this.aftRadius)
+        #     this.thickness = Math.max(this.foreRadius, this.aftRadius);
+
+        # self.clearPreset()
+        self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
+
+
+    def isAftRadiusAutomatic(self):
+        return self._obj.AutoDiameter
+
+    def setAftRadiusAutomatic(self, auto):
+        for listener in self._configListeners:
+            if isinstance(listener, ShapeNoseCone):
+                listener.setAftRadiusAutomatic(auto)
+
+        if self._obj.AutoDiameter == auto:
+            return
+
+        self._obj.AutoDiameter = auto
+
+        # clearPreset();
+        self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
+
     def getLength(self):
         if TRACE_POSITION:
             print("P: ShapeNoseCone::getLength(%s)" % (self._obj.Label))
@@ -202,37 +282,40 @@ class ShapeNoseCone(SymetricComponent):
                 self.setEdited()
         return self._obj.Diameter / 2.0
 
+    def _setShapeHandler(self):
+        obj = self._obj
+        self._shapeHandler = None
+        if obj.NoseType == TYPE_CONE:
+            self._shapeHandler = NoseConeShapeHandler(obj)
+        elif obj.NoseType == TYPE_BLUNTED_CONE:
+            self._shapeHandler = NoseBluntedConeShapeHandler(obj)
+        elif obj.NoseType == TYPE_SPHERICAL:
+            self._shapeHandler = NoseEllipseShapeHandler(obj)
+        elif obj.NoseType == TYPE_ELLIPTICAL:
+            self._shapeHandler = NoseEllipseShapeHandler(obj)
+        elif obj.NoseType == TYPE_OGIVE:
+            self._shapeHandler = NoseOgiveShapeHandler(obj)
+        elif obj.NoseType == TYPE_BLUNTED_OGIVE:
+            self._shapeHandler = NoseBluntedOgiveShapeHandler(obj)
+        elif obj.NoseType == TYPE_SECANT_OGIVE:
+            self._shapeHandler = NoseSecantOgiveShapeHandler(obj)
+        elif obj.NoseType == TYPE_VON_KARMAN:
+            obj.Coefficient = 0.0
+            self._shapeHandler = NoseHaackShapeHandler(obj)
+        elif obj.NoseType == TYPE_HAACK:
+            self._shapeHandler = NoseHaackShapeHandler(obj)
+        elif obj.NoseType == TYPE_PARABOLIC:
+            self._shapeHandler = NoseParabolicShapeHandler(obj)
+        elif obj.NoseType == TYPE_PARABOLA:
+            obj.Coefficient = 0.5
+            self._shapeHandler = NosePowerShapeHandler(obj)
+        elif obj.NoseType == TYPE_POWER:
+            self._shapeHandler = NosePowerShapeHandler(obj)
+
     def execute(self, obj):
         if TRACE_EXECUTION:
             print("E: ShapeNoseCone::execute(%s)" % (self._obj.Label))
 
-        shape = None
-        if obj.NoseType == TYPE_CONE:
-            shape = NoseConeShapeHandler(obj)
-        elif obj.NoseType == TYPE_BLUNTED_CONE:
-            shape = NoseBluntedConeShapeHandler(obj)
-        elif obj.NoseType == TYPE_SPHERICAL:
-            shape = NoseEllipseShapeHandler(obj)
-        elif obj.NoseType == TYPE_ELLIPTICAL:
-            shape = NoseEllipseShapeHandler(obj)
-        elif obj.NoseType == TYPE_OGIVE:
-            shape = NoseOgiveShapeHandler(obj)
-        elif obj.NoseType == TYPE_BLUNTED_OGIVE:
-            shape = NoseBluntedOgiveShapeHandler(obj)
-        elif obj.NoseType == TYPE_SECANT_OGIVE:
-            shape = NoseSecantOgiveShapeHandler(obj)
-        elif obj.NoseType == TYPE_VON_KARMAN:
-            obj.Coefficient = 0.0
-            shape = NoseHaackShapeHandler(obj)
-        elif obj.NoseType == TYPE_HAACK:
-            shape = NoseHaackShapeHandler(obj)
-        elif obj.NoseType == TYPE_PARABOLIC:
-            shape = NoseParabolicShapeHandler(obj)
-        elif obj.NoseType == TYPE_PARABOLA:
-            obj.Coefficient = 0.5
-            shape = NosePowerShapeHandler(obj)
-        elif obj.NoseType == TYPE_POWER:
-            shape = NosePowerShapeHandler(obj)
-
-        if shape is not None:
-            shape.draw()
+        self._setShapeHandler()
+        if self._shapeHandler is not None:
+            self._shapeHandler.draw()

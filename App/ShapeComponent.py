@@ -30,7 +30,7 @@ import math
 
 from PySide import QtCore
 
-from abc import ABC
+from abc import ABC, abstractmethod
 from tokenize import Double
 
 from App.ShapeBase import ShapeBase, TRACE_POSITION
@@ -144,6 +144,16 @@ class ShapeComponent(ShapeBase, ChangeSource):
 
     def isMotorMount(self):
         return False
+
+    """
+        Return a collection of bounding coordinates.  The coordinates must be such that
+        the component is fully enclosed in their convex hull.
+         
+        Note: this function gets the bounds only for this component.  Sub-children must be called individually.
+    """
+    @abstractmethod
+    def getComponentBounds(self):
+        pass
 
     # Return true if the component may have an aerodynamic effect on the rocket.
     def isAerodynamic(self):
@@ -569,6 +579,24 @@ class ShapeComponent(ShapeBase, ChangeSource):
         except ValueError:
             pass
         return -1
+
+    """
+        Helper method to add two points on opposite corners of a box around the rocket centerline.  This box will be (x_max - x_min) long, and 2*r wide/high.
+    """
+    def addBoundingBox(self, bounds, x_min, x_max, r):
+        bounds.append(Coordinate(x_min, -r, -r))
+        bounds.append(Coordinate(x_max, r, r))
+
+    """
+        Helper method to add four bounds rotated around the given x coordinate at radius 'r', and 90deg between each.
+        The X-axis value is <code>x</code> and the radius at the specified position is
+        <code>r</code>.
+    """
+    def addBound(self, bounds, x, r):
+        bounds.append(Coordinate(x, -r, -r))
+        bounds.append(Coordinate(x, r, -r))
+        bounds.append(Coordinate(x, r, r))
+        bounds.append(Coordinate(x, -r, r))
 	
 class ShapeLocation(ShapeComponent):
 

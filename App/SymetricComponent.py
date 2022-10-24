@@ -24,6 +24,7 @@ __title__ = "FreeCAD Rocket Components"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
+from abc import abstractmethod
 import math
 
 from App.interfaces.BoxBounded import BoxBounded
@@ -37,6 +38,8 @@ from App.util.Coordinate import Coordinate
 # a function y=f(x) >= 0 around the x-axis (eg. tube, cone, etc.)
 
 class SymetricComponent(ShapeComponent, BoxBounded, RadialParent):
+
+    DEFAULT_RADIUS = 0.025
 
     def __init__(self, obj):
         super().__init__(obj)
@@ -52,8 +55,43 @@ class SymetricComponent(ShapeComponent, BoxBounded, RadialParent):
 
         return instanceBounds
 
+    """
+        Return the component radius at position x.
+    """
+    @abstractmethod
+    def getRadius(self, x):
+        pass
+
+    @abstractmethod
+    def getForeRadius(self):
+        pass
+
+    @abstractmethod
+    def isForeRadiusAutomatic(self):
+        pass
+
+    @abstractmethod
+    def getAftRadius(self):
+        pass
+
+    @abstractmethod
+    def isAftRadiusAutomatic(self):
+        pass
+
     def getOuterRadius(self, x):
         self.getRadius(x)
 
     def getInnerRadius(self, x):
         self.getRadius(x)
+
+    """
+        Adds component bounds at a number of points between 0...length.
+    """
+    def getComponentBounds(self):
+        list = []
+        for n in range(6): # 0-5
+            x = n * self._obj.Length / 5
+            r = self.getRadius(x)
+            self.addBound(list, x, r)
+
+        return list

@@ -26,9 +26,9 @@ __url__ = "https://www.davesrocketshop.com"
 
 from uuid import uuid4
 
-_nextId = 1
-
 class UniqueID:
+
+    _nextId = 1
 	
     """
     Return a positive integer ID unique during this program execution.
@@ -43,14 +43,12 @@ class UniqueID:
     This method is thread-safe and fast.
     """
     @classmethod
-    def next():
-        global _nextId
-
-        _nextId = _nextId + 1
-        return _nextId
+    def next(cls):
+        cls._nextId += 1
+        return cls._nextId
 
 
     """ Return a new universally unique ID string. """
     @classmethod
-    def uuid():
+    def uuid(cls):
         return uuid4()

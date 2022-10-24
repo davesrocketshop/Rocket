@@ -39,6 +39,8 @@ from App.Constants import TYPE_CONE, TYPE_ELLIPTICAL, TYPE_HAACK, TYPE_OGIVE, TY
 from App.Constants import STYLE_CAPPED, STYLE_HOLLOW, STYLE_SOLID, STYLE_SOLID_CORE
 from App.Constants import STYLE_CAP_SOLID, STYLE_CAP_BAR, STYLE_CAP_CROSS
 
+from App.events.ComponentChangeEvent import ComponentChangeEvent
+
 from App.Utilities import _wrn
 
 from DraftTools import translate
@@ -176,48 +178,144 @@ class ShapeTransition(SymetricComponent):
         return self._obj.Length
 
     def getForeRadius(self):
-        if TRACE_POSITION:
-            print("P: ShapeTransition::getForeRadius(%s)" % (self._obj.Label))
+        if self.isForeRadiusAutomatic():
+            # Get the automatic radius from the front
+            r = -1
+            c = self.getPreviousSymmetricComponent()
+            if c is not None:
+                r = c.getFrontAutoRadius()
+            if r < 0:
+                r = SymetricComponent.DEFAULT_RADIUS
+            return r
 
-        # For placing objects on the outer part of the parent
-        if self._obj.ForeAutoDiameter:
-            radius = 0.0
-            previous = self.getPrevious()
-            if previous is not None:
-                radius = previous.Proxy.getAftRadius()
-            if radius <= 0.0:
-                radius = 24.79 # Default to BT50
-            diameter = 2.0 * radius
-            if self._obj.ForeDiameter != diameter:
-                self._obj.ForeDiameter = diameter
-                self.setEdited()
         return self._obj.ForeDiameter / 2.0
 
-    def getAftRadius(self):
-        if TRACE_POSITION:
-            print("P: ShapeTransition::getAftRadius(%s)" % (self._obj.Label))
+    """
+        Return the fore radius that was manually entered, so not the value that the component received from automatic
+        fore radius.
+    """
+    def getForeRadiusNoAutomatic(self):
+        return self._obj.ForeDiameter / 2.0
 
-        # For placing objects on the outer part of the parent
-        if self._obj.AftAutoDiameter:
-            radius = 0.0
-            next = self.getNext()
-            if next is not None:
-                radius = next.Proxy.getForeRadius()
-            if radius <= 0.0:
-                radius = 24.79 # Default to BT50
-            diameter = 2.0 * radius
-            if self._obj.AftDiameter != diameter:
-                self._obj.AftDiameter = diameter
-                self.setEdited()
+    def setForeRadius(self, radius):
+        for listener in self._configListeners:
+            if isinstance(listener, ShapeTransition):
+                listener.setForeRadius(radius)
+
+        r = self._obj.ForeDiameter / 2.0
+        if r == radius and not self._obj.ForeAutoDiameter:
+            return
+
+        self._obj.ForeAutoDiameter = False
+        self._obj.ForeDiameter = 2.0 * max(radius, 0)
+
+        # if (this.thickness > this.foreRadius && this.thickness > this.aftRadius)
+        #     this.thickness = Math.max(this.foreRadius, this.aftRadius);
+
+        # clearPreset();
+        self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE);
+
+    def isForeRadiusAutomatic(self):
+        return self._obj.ForeAutoDiameter
+
+    def setForeRadiusAutomatic(self, auto):
+        for listener in self._configListeners:
+            if isinstance(listener, ShapeTransition):
+                listener.setForeRadiusAutomatic(auto)
+
+        if self._obj.ForeAutoDiameter == auto:
+            return
+
+        self._obj.ForeAutoDiameter = auto
+
+        # clearPreset();
+        self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
+
+    def getAftRadius(self):
+
+        if self.isAftRadiusAutomatic():
+                # Return the auto radius from the rear
+                r = -1
+                c = self.getNextSymmetricComponent()
+                if c is not None:
+                    r = c.getRearAutoRadius()
+
+                if r < 0:
+                    r = SymetricComponent.DEFAULT_RADIUS
+                return r
+
         return self._obj.AftDiameter / 2.0
 
-    def setRadius(self):
-        if TRACE_POSITION:
-            print("P: ShapeTransition::setRadius(%s)" % (self._obj.Label))
+    """
+        Return the aft radius that was manually entered, so not the value that the component received from automatic
+        aft radius.
+    """
+    def getAftRadiusNoAutomatic(self):
+        return self._obj.AftDiameter / 2.0
 
-        # Calculate auto radii
-        self.getForeRadius()
-        self.getAftRadius()
+    def setAftRadius(self, radius):
+        for listener in self._configListeners:
+            if isinstance(listener, ShapeTransition):
+                listener.setAftRadius(radius)
+
+        r = self._obj.AftDiameter / 2.0
+        if r == radius and not self.isAftRadiusAutomatic():
+            return
+
+        self._obj.AftAutoDiameter = False
+        self._obj.AftDiameter = 2.0 * max(radius, 0)
+
+        # if (this.thickness > this.foreRadius && this.thickness > this.aftRadius)
+        #     this.thickness = Math.max(this.foreRadius, this.aftRadius);
+
+        # clearPreset();
+        self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
+
+    def isAftRadiusAutomatic(self):
+        return self._obj.AftAutoDiameter
+
+    def setAftRadiusAutomatic(self, auto):
+        for listener in self._configListeners:
+            if isinstance(listener, ShapeTransition):
+                listener.setAftRadiusAutomatic(auto)
+
+        if self._obj.AftAutoDiameter == auto:
+            return
+
+        self._obj.AftAutoDiameter = auto
+
+        # clearPreset();
+        self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
+
+    def getFrontAutoRadius(self):
+        if self.isAftRadiusAutomatic():
+            return -1
+        return self.getAftRadius()
+
+    def getRearAutoRadius(self):
+        if self.isForeRadiusAutomatic():
+            return -1
+        return self.getForeRadius()
+
+    def usesPreviousCompAutomatic(self):
+        return self.isForeRadiusAutomatic()
+
+    def usesNextCompAutomatic(self):
+        return self.isAftRadiusAutomatic()
+
+    """
+        Return the radius at point x of the transition.
+    """
+    def getRadius(self, x):
+        return 0.0
+
+    def getComponentBounds(self):
+        bounds = super().getComponentBounds()
+        if self._obj.ForeShoulderLength > 0.001:
+            self.addBound(bounds, self._obj.Length + self._obj.ForeShoulderLength, self._obj.ForeShoulderDiameter / 2.0)
+        if self._obj.AftShoulderLength > 0.001:
+            self.addBound(bounds, -self._obj.AftShoulderLength, self._obj.AftShoulderDiameter / 2.0)
+        return bounds
 
     def execute(self, obj):
         if TRACE_EXECUTION:

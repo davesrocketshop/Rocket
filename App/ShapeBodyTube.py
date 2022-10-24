@@ -125,13 +125,26 @@ class ShapeBodyTube(SymetricComponent, BoxBounded, Coaxial):
                 self._obj.OuterDiameter = diameter
                 self.setEdited()
 
+    def getRadius(self, x):
+        # Body tube has constant diameter
+        return self.getForeRadius()
+
     def getForeRadius(self):
         if TRACE_POSITION:
             print("P: ShapeBodyTube::getForeRadius(%s)" % (self._obj.Label))
 
         # For placing objects on the outer part of the parent
-        self._setAutoDiameter()
+        # self._setAutoDiameter()
         return self._obj.OuterDiameter / 2.0
+
+    def isForeRadiusAutomatic(self):
+        return self._obj.AutoDiameter
+
+    def getAftRadius(self):
+        return self.getForeRadius()
+
+    def isAftRadiusAutomatic(self):
+        return self._obj.AutoDiameter
 
     def getInnerRadius(self):
         if TRACE_POSITION:
