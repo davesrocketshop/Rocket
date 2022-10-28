@@ -33,9 +33,9 @@ from Analyzers.pyatmos.utils.Const import p0, gamma, R_air
 
 from App.Constants import FIN_TYPE_TRAPEZOID, FIN_TYPE_ELLIPSE, FIN_TYPE_SKETCH
 
-from App.FinTrapezoidShapeHandler import FinTrapezoidShapeHandler
-from App.FinEllipseShapeHandler import FinEllipseShapeHandler
-from App.FinSketchShapeHandler import FinSketchShapeHandler
+from App.ShapeHandlers.FinTrapezoidShapeHandler import FinTrapezoidShapeHandler
+from App.ShapeHandlers.FinEllipseShapeHandler import FinEllipseShapeHandler
+from App.ShapeHandlers.FinSketchShapeHandler import FinSketchShapeHandler
 
 class FinFlutter:
 

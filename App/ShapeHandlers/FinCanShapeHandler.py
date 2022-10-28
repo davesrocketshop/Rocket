@@ -34,10 +34,10 @@ from App.Constants import FINCAN_EDGE_SQUARE, FINCAN_EDGE_ROUND, FINCAN_EDGE_TAP
 from App.Constants import FINCAN_COUPLER_STEPPED
 from App.Utilities import _err
 
-from App.FinShapeHandler import FinShapeHandler
-from App.FinTrapezoidShapeHandler import FinTrapezoidShapeHandler
-from App.FinEllipseShapeHandler import FinEllipseShapeHandler
-from App.FinSketchShapeHandler import FinSketchShapeHandler
+from App.ShapeHandlers.FinShapeHandler import FinShapeHandler
+from App.ShapeHandlers.FinTrapezoidShapeHandler import FinTrapezoidShapeHandler
+from App.ShapeHandlers.FinEllipseShapeHandler import FinEllipseShapeHandler
+from App.ShapeHandlers.FinSketchShapeHandler import FinSketchShapeHandler
 
 TOLERANCE_OFFSET = 0.5     # Distance to offset a vertex
 

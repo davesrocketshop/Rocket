@@ -28,7 +28,7 @@ from App.ShapeBase import TRACE_POSITION, TRACE_EXECUTION
 from App.ShapeComponent import ShapeLocation
 from App.Constants import FEATURE_BULKHEAD
 
-from App.BulkheadShapeHandler import BulkheadShapeHandler
+from App.ShapeHandlers.BulkheadShapeHandler import BulkheadShapeHandler
 
 from DraftTools import translate
 
@@ -73,13 +73,16 @@ class ShapeBulkhead(ShapeLocation):
         # Return the length of this component along the central axis
         return self._obj.Thickness
 
-    def positionChild(self, parent, parentBase, parentLength, parentRadius, rotation):
-        if TRACE_POSITION:
-            print("P: ShapeBulkhead::positionChild(%s, %s, (%f,%f,%f), %f, %f, %f)" % (self._obj.Label, parent.Label, parentBase.x, parentBase.y, parentBase.z, parentLength, parentRadius, rotation))
+    # def positionChild(self, parent, parentBase, parentLength, parentRadius, rotation):
+    #     if TRACE_POSITION:
+    #         print("P: ShapeBulkhead::positionChild(%s, %s, (%f,%f,%f), %f, %f, %f)" % (self._obj.Label, parent.Label, parentBase.x, parentBase.y, parentBase.z, parentLength, parentRadius, rotation))
 
-        if self._obj.AutoDiameter:
-            self._obj.Diameter = parent.Proxy.getInnerRadius() * 2.0
-        super().positionChild(parent, parentBase, parentLength, parentRadius, rotation)
+    #     if self._obj.AutoDiameter:
+    #         self._obj.Diameter = parent.Proxy.getInnerRadius() * 2.0
+    #     super().positionChild(parent, parentBase, parentLength, parentRadius, rotation)
+    
+    def getComponentBounds(self):
+        pass
 
     def execute(self, obj):
         if TRACE_EXECUTION:

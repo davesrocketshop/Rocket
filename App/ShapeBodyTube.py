@@ -34,7 +34,7 @@ from App.SymetricComponent import SymetricComponent
 from App.Constants import FEATURE_BODY_TUBE, FEATURE_BULKHEAD, FEATURE_CENTERING_RING, FEATURE_FIN, FEATURE_FINCAN, FEATURE_LAUNCH_LUG, \
     FEATURE_PARALLEL_STAGE, FEATURE_POD, FEATURE_RAIL_BUTTON, FEATURE_RAIL_GUIDE
 
-from App.BodyTubeShapeHandler import BodyTubeShapeHandler
+from App.ShapeHandlers.BodyTubeShapeHandler import BodyTubeShapeHandler
 from App.Utilities import _wrn
 
 from DraftTools import translate

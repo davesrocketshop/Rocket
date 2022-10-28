@@ -28,7 +28,7 @@ import FreeCAD
 import Part
 import math
 
-from App.NoseShapeHandler import NoseShapeHandler
+from App.ShapeHandlers.NoseShapeHandler import NoseShapeHandler
 
 class NoseBluntedOgiveShapeHandler(NoseShapeHandler):
 

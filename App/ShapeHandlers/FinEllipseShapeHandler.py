@@ -31,7 +31,7 @@ import math
 from App.Constants import FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE, \
     FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LETE
 
-from App.FinShapeHandler import FinShapeHandler
+from App.ShapeHandlers.FinShapeHandler import FinShapeHandler
 
 CROSS_SECTIONS = 100  # Number of cross sections for the ellipse
 

@@ -27,7 +27,7 @@ __url__ = "https://www.davesrocketshop.com"
 import FreeCAD
 import Part
 
-from App.TransitionShapeHandler import TransitionShapeHandler
+from App.ShapeHandlers.TransitionShapeHandler import TransitionShapeHandler
     
     
 class TransitionConeShapeHandler(TransitionShapeHandler):

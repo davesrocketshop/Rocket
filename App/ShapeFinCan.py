@@ -36,9 +36,9 @@ from App.Constants import FINCAN_COUPLER_MATCH_ID, FINCAN_COUPLER_STEPPED
 from App.Constants import PROP_NONE
 from App.Constants import EDITOR_NONE, EDITOR_HIDDEN
 
-from App.FinCanShapeHandler import FinCanTrapezoidShapeHandler
-from App.FinCanShapeHandler import FinCanEllipseShapeHandler
-from App.FinCanShapeHandler import FinCanSketchShapeHandler
+from App.ShapeHandlers.FinCanShapeHandler import FinCanTrapezoidShapeHandler
+from App.ShapeHandlers.FinCanShapeHandler import FinCanEllipseShapeHandler
+from App.ShapeHandlers.FinCanShapeHandler import FinCanSketchShapeHandler
 
 from DraftTools import translate
 

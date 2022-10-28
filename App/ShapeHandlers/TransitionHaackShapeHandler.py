@@ -28,7 +28,7 @@ import math
 
 from DraftTools import translate
 
-from App.TransitionShapeHandler import TransitionShapeHandler
+from App.ShapeHandlers.TransitionShapeHandler import TransitionShapeHandler
 
 from App.Utilities import _err    
     

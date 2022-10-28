@@ -28,7 +28,7 @@ import FreeCAD
 import Part
 import math
 
-from App.TransitionShapeHandler import TransitionShapeHandler
+from App.ShapeHandlers.TransitionShapeHandler import TransitionShapeHandler
     
 class TransitionEllipseShapeHandler(TransitionShapeHandler):
 

@@ -28,12 +28,12 @@ from App.ShapeBase import TRACE_POSITION, TRACE_EXECUTION
 from App.SymetricComponent import SymetricComponent
 from App.Constants import FEATURE_TRANSITION
 
-from App.TransitionConeShapeHandler import TransitionConeShapeHandler
-from App.TransitionEllipseShapeHandler import TransitionEllipseShapeHandler
-from App.TransitionHaackShapeHandler import TransitionHaackShapeHandler
-from App.TransitionOgiveShapeHandler import TransitionOgiveShapeHandler
-from App.TransitionParabolicShapeHandler import TransitionParabolicShapeHandler
-from App.TransitionPowerShapeHandler import TransitionPowerShapeHandler
+from App.ShapeHandlers.TransitionConeShapeHandler import TransitionConeShapeHandler
+from App.ShapeHandlers.TransitionEllipseShapeHandler import TransitionEllipseShapeHandler
+from App.ShapeHandlers.TransitionHaackShapeHandler import TransitionHaackShapeHandler
+from App.ShapeHandlers.TransitionOgiveShapeHandler import TransitionOgiveShapeHandler
+from App.ShapeHandlers.TransitionParabolicShapeHandler import TransitionParabolicShapeHandler
+from App.ShapeHandlers.TransitionPowerShapeHandler import TransitionPowerShapeHandler
 
 from App.Constants import TYPE_CONE, TYPE_ELLIPTICAL, TYPE_HAACK, TYPE_OGIVE, TYPE_VON_KARMAN, TYPE_PARABOLA, TYPE_PARABOLIC, TYPE_POWER
 from App.Constants import STYLE_CAPPED, STYLE_HOLLOW, STYLE_SOLID, STYLE_SOLID_CORE
