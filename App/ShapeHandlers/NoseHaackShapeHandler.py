@@ -29,7 +29,7 @@ import math
 
 from DraftTools import translate
 
-from App.NoseShapeHandler import NoseShapeHandler
+from App.ShapeHandlers.NoseShapeHandler import NoseShapeHandler
 from App.Utilities import _err
     
 class NoseHaackShapeHandler(NoseShapeHandler):

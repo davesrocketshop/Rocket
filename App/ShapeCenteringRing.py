@@ -28,7 +28,7 @@ from App.ShapeBase import TRACE_EXECUTION
 from App.ShapeBulkhead import ShapeBulkhead
 from App.Constants import FEATURE_CENTERING_RING
 
-from App.CenteringRingShapeHandler import CenteringRingShapeHandler
+from App.ShapeHandlers.CenteringRingShapeHandler import CenteringRingShapeHandler
 
 from DraftTools import translate
 

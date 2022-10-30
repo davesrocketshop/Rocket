@@ -38,9 +38,9 @@ from App.Constants import FIN_CROSS_SAME, FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN
 from App.Constants import FIN_DEBUG_FULL, FIN_DEBUG_PROFILE_ONLY, FIN_DEBUG_MASK_ONLY
 from App.Constants import PROP_TRANSIENT, PROP_HIDDEN, EDITOR_HIDDEN
 
-from App.FinTrapezoidShapeHandler import FinTrapezoidShapeHandler
-from App.FinEllipseShapeHandler import FinEllipseShapeHandler
-from App.FinSketchShapeHandler import FinSketchShapeHandler
+from App.ShapeHandlers.FinTrapezoidShapeHandler import FinTrapezoidShapeHandler
+from App.ShapeHandlers.FinEllipseShapeHandler import FinEllipseShapeHandler
+from App.ShapeHandlers.FinSketchShapeHandler import FinSketchShapeHandler
 
 from DraftTools import translate
 

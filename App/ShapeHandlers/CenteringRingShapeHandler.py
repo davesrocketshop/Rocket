@@ -29,7 +29,7 @@ import Part
 
 from DraftTools import translate
 
-from App.BulkheadShapeHandler import BulkheadShapeHandler
+from App.ShapeHandlers.BulkheadShapeHandler import BulkheadShapeHandler
 from App.Utilities import _err
 
 class CenteringRingShapeHandler(BulkheadShapeHandler):

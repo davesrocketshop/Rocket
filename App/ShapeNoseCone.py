@@ -28,15 +28,15 @@ from App.ShapeBase import TRACE_POSITION, TRACE_EXECUTION
 from App.SymetricComponent import SymetricComponent
 from App.Constants import FEATURE_NOSE_CONE
 
-from App.NoseConeShapeHandler import NoseConeShapeHandler
-from App.NoseBluntedConeShapeHandler import NoseBluntedConeShapeHandler
-from App.NoseEllipseShapeHandler import NoseEllipseShapeHandler
-from App.NoseHaackShapeHandler import NoseHaackShapeHandler
-from App.NoseOgiveShapeHandler import NoseOgiveShapeHandler
-from App.NoseBluntedOgiveShapeHandler import NoseBluntedOgiveShapeHandler
-from App.NoseSecantOgiveShapeHandler import NoseSecantOgiveShapeHandler
-from App.NoseParabolicShapeHandler import NoseParabolicShapeHandler
-from App.NosePowerShapeHandler import NosePowerShapeHandler
+from App.ShapeHandlers.NoseConeShapeHandler import NoseConeShapeHandler
+from App.ShapeHandlers.NoseBluntedConeShapeHandler import NoseBluntedConeShapeHandler
+from App.ShapeHandlers.NoseEllipseShapeHandler import NoseEllipseShapeHandler
+from App.ShapeHandlers.NoseHaackShapeHandler import NoseHaackShapeHandler
+from App.ShapeHandlers.NoseOgiveShapeHandler import NoseOgiveShapeHandler
+from App.ShapeHandlers.NoseBluntedOgiveShapeHandler import NoseBluntedOgiveShapeHandler
+from App.ShapeHandlers.NoseSecantOgiveShapeHandler import NoseSecantOgiveShapeHandler
+from App.ShapeHandlers.NoseParabolicShapeHandler import NoseParabolicShapeHandler
+from App.ShapeHandlers.NosePowerShapeHandler import NosePowerShapeHandler
 
 from App.Constants import TYPE_CONE, TYPE_BLUNTED_CONE, TYPE_SPHERICAL, TYPE_ELLIPTICAL, TYPE_HAACK, TYPE_OGIVE, TYPE_BLUNTED_OGIVE, TYPE_SECANT_OGIVE, TYPE_VON_KARMAN, TYPE_PARABOLA, TYPE_PARABOLIC, TYPE_POWER
 from App.Constants import STYLE_CAPPED, STYLE_HOLLOW, STYLE_SOLID

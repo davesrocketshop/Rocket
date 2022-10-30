@@ -26,7 +26,7 @@ __url__ = "https://www.davesrocketshop.com"
     
 import math
 
-from App.TransitionShapeHandler import TransitionShapeHandler
+from App.ShapeHandlers.TransitionShapeHandler import TransitionShapeHandler
 
 class TransitionOgiveShapeHandler(TransitionShapeHandler):
 

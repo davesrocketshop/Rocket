@@ -30,7 +30,7 @@ from App.Constants import FIN_CROSS_SAME
 
 from App.Utilities import _err
 
-from App.FinShapeHandler import FinShapeHandler
+from App.ShapeHandlers.FinShapeHandler import FinShapeHandler
 
 class FinTrapezoidShapeHandler(FinShapeHandler):
 

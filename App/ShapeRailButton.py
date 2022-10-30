@@ -33,7 +33,7 @@ from App.Constants import CONTERSINK_ANGLE_60, CONTERSINK_ANGLE_82, CONTERSINK_A
                             CONTERSINK_ANGLE_110, CONTERSINK_ANGLE_120
 
 
-from App.RailButtonShapeHandler import RailButtonShapeHandler
+from App.ShapeHandlers.RailButtonShapeHandler import RailButtonShapeHandler
 
 from DraftTools import translate
 

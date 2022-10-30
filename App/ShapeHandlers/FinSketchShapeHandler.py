@@ -32,7 +32,7 @@ from DraftTools import translate
 from App.Constants import FIN_CROSS_SQUARE, FIN_CROSS_WEDGE, \
     FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE
 
-from App.FinShapeHandler import FinShapeHandler
+from App.ShapeHandlers.FinShapeHandler import FinShapeHandler
 from App.Utilities import _err
 
 class FinSketchShapeHandler(FinShapeHandler):

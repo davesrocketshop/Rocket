@@ -27,7 +27,7 @@ __url__ = "https://www.davesrocketshop.com"
 import FreeCAD
 import math
 
-from App.NoseShapeHandler import NoseShapeHandler
+from App.ShapeHandlers.NoseShapeHandler import NoseShapeHandler
 
 class NoseSecantOgiveShapeHandler(NoseShapeHandler):
 
