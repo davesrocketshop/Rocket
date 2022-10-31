@@ -52,6 +52,7 @@ from Ui.CmdParachuteGore import CmdParachuteGore
 # Analysis
 from Ui.CmdFlutterAnalysis import CmdFinFlutter
 from Ui.CmdMaterialEditor import CmdMaterialEditor
+from Ui.CmdOpenMotor import CmdOpenMotor
 
 FreeCADGui.addCommand('Rocket_NoseCone', CmdNoseCone())
 FreeCADGui.addCommand('Rocket_Transition', CmdTransition())
@@ -80,6 +81,8 @@ FreeCADGui.addCommand('Rocket_ParachuteGore', CmdParachuteGore())
 
 FreeCADGui.addCommand('Rocket_FinFlutter', CmdFinFlutter())
 FreeCADGui.addCommand('Rocket_MaterialEditor', CmdMaterialEditor())
+
+FreeCADGui.addCommand('Rocket_OpenMotor', CmdOpenMotor())
 
 class _CalculatorGroupCommand:
 
