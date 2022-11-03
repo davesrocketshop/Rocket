@@ -50,10 +50,6 @@ class RingComponent(InternalComponent, BoxBounded, Coaxial):
     def __init__(self, obj):
         super().__init__(obj)
 
-        if not hasattr(obj, 'AutoInnerDiameter'):
-            obj.addProperty('App::PropertyBool', 'AutoInnerDiameter', 'Bulkhead', translate('App::Property', 'Automatically set the inner diameter when possible')).AutoInnerDiameter = False
-        if not hasattr(obj, 'AutoOuterDiameter'):
-            obj.addProperty('App::PropertyBool', 'AutoOuterDiameter', 'Bulkhead', translate('App::Property', 'Automatically set the outer diameter when possible')).AutoOuterDiameter = False
         if not hasattr(obj, 'RadialDirection'):
             obj.addProperty('App::PropertyLength', 'RadialDirection', 'Bulkhead', translate('App::Property', 'Inner diameter of the bulkhead')).RadialDirection = 0.0
         if not hasattr(obj, 'RadialPosition'):
@@ -89,29 +85,29 @@ class RingComponent(InternalComponent, BoxBounded, Coaxial):
         pass
 
     def isOuterRadiusAutomatic(self):
-        return self._obj.AutoOuterDiameter
+        return self._obj.AutoDiameter
 
     def setOuterRadiusAutomatic(self, auto):
         for listener in self._configListeners:
             if isinstance(listener, RingComponent):
                 listener.setOuterRadiusAutomatic(auto)
 
-        if self._obj.AutoOuterDiameter == auto:
+        if self._obj.AutoDiameter == auto:
             return
-        self._obj.AutoOuterDiameter = auto
+        self._obj.AutoDiameter = auto
         self.fireComponentChangeEvent(ComponentChangeEvent.MASS_CHANGE);
 
     def isInnerRadiusAutomatic(self):
-        return self._obj.AutoInnerDiameter
+        return self._obj.CenterAutoDiameter
 
     def setInnerRadiusAutomatic(self, auto):
         for listener in self._configListeners:
             if isinstance(listener, RingComponent):
                 listener.setInnerRadiusAutomatic(auto)
 
-        if self._obj.AutoInnerDiameter == auto:
+        if self._obj.CenterAutoDiameter == auto:
             return
-        self._obj.AutoInnerDiameter = auto
+        self._obj.CenterAutoDiameter = auto
         self.fireComponentChangeEvent(ComponentChangeEvent.MASS_CHANGE);
 
     def setLength(self, length):
@@ -120,10 +116,10 @@ class RingComponent(InternalComponent, BoxBounded, Coaxial):
                 listener.setLength(length)
 
         l = max(length, 0)
-        if self._obj.Length == l:
+        if self._obj.Thickness == l:
             return
         
-        self._obj.Length = l
+        self._obj.Thickness = l
         # clearPreset();
         self.fireComponentChangeEvent(ComponentChangeEvent.MASS_CHANGE)
 
