@@ -1,0 +1,247 @@
+# ***************************************************************************
+# *   Copyright (c) 2022 David Carter <dcarter@davidcarter.ca>              *
+# *                                                                         *
+# *   This program is free software; you can redistribute it and/or modify  *
+# *   it under the terms of the GNU Lesser General Public License (LGPL)    *
+# *   as published by the Free Software Foundation; either version 2 of     *
+# *   the License, or (at your option) any later version.                   *
+# *   for detail see the LICENCE text file.                                 *
+# *                                                                         *
+# *   This program is distributed in the hope that it will be useful,       *
+# *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+# *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+# *   GNU Library General Public License for more details.                  *
+# *                                                                         *
+# *   You should have received a copy of the GNU Library General Public     *
+# *   License along with this program; if not, write to the Free Software   *
+# *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  *
+# *   USA                                                                   *
+# *                                                                         *
+# ***************************************************************************
+"""Class for rocket motors"""
+
+__title__ = "FreeCAD Rocket Motors"
+__author__ = "David Carter"
+__url__ = "https://www.davesrocketshop.com"
+
+import numpy as np
+# import skfmm
+# from skimage import measure
+from math import atan, cos, sin
+
+from App.motor.Grain import Grain
+from App.motor import geometry
+from App.motor.simResult import SimAlert, SimAlertLevel, SimAlertType
+
+from App.Constants import GRAIN_GEOMETRY_CONICAL
+from App.Constants import GRAIN_INHIBITED_NEITHER, GRAIN_INHIBITED_TOP, GRAIN_INHIBITED_BOTTOM, GRAIN_INHIBITED_BOTH
+
+from DraftTools import translate
+
+class ConicalGrain(Grain):
+    """A conical grain is similar to a BATES grain except it has different core diameters at each end."""
+
+    def __init__(self, obj):
+        super().__init__(obj)
+
+        self._obj.GeometryName = GRAIN_GEOMETRY_CONICAL
+
+        if not hasattr(obj, 'ForwardCoreDiameter'):
+            obj.addProperty('App::PropertyLength', 'ForwardCoreDiameter', 'Grain', translate('App::Property', 'Foreward core diameter')).ForwardCoreDiameter = 1.0
+        if not hasattr(obj, 'AftCoreDiameter'):
+            obj.addProperty('App::PropertyLength', 'AftCoreDiameter', 'Grain', translate('App::Property', 'Aft core diameter')).AftCoreDiameter = 1.0
+        if not hasattr(obj, 'InhibitedEnds'):
+            obj.addProperty('App::PropertyLength', 'CoreDiameter', 'Grain', translate('App::Property', 'Core diameter')).CoreDiameter = 1.0
+        if not hasattr(obj, 'InhibitedEnds'):
+            obj.addProperty('App::PropertyEnumeration', 'InhibitedEnds', 'Grain', translate('App::Property', 'Inhibited ends'))
+            obj.InhibitedEnds = [GRAIN_INHIBITED_BOTH]
+            obj.InhibitedEnds = GRAIN_INHIBITED_BOTH
+
+
+    def onDocumentRestored(self, obj):
+        super().onDocumentRestored(obj)
+        
+        # Add any missing attributes
+        ConicalGrain(obj)
+
+    def isCoreInverted(self):
+        """A simple helper that returns 'true' if the core's foward diameter is larger than its aft diameter"""
+        return self._obj.ForwardCoreDiameter > self._obj.AftCoreDiameter
+
+    def getFrustumInfo(self, regDist):
+        """Returns the dimensions of the grain's core at a given regression depth. The core is always a frustum and is
+        returned as the aft diameter, forward diameter, and length"""
+        grainDiameter = self._obj.Diameter
+        aftDiameter = self._obj.AftCoreDiameter
+        forwardDiameter = self._obj.ForwardCoreDiameter
+        grainLength = self._obj.Length
+
+        exposedFaces = 0
+        inhibitedEnds = self._obj.InhibitedEnds
+        if inhibitedEnds == GRAIN_INHIBITED_NEITHER:
+            exposedFaces = 2
+        elif inhibitedEnds in [GRAIN_INHIBITED_TOP, GRAIN_INHIBITED_BOTTOM]:
+            exposedFaces = 1
+
+        # These calculations are easiest if we work in terms of the core's "large end" and "small end"
+        if self.isCoreInverted():
+            coreMajorDiameter, coreMinorDiameter = forwardDiameter, aftDiameter
+        else:
+            coreMajorDiameter, coreMinorDiameter = aftDiameter, forwardDiameter
+
+        # Calculate the half angle of the core. This is done with without accounting for regression because it doesn't
+        # change with regression
+        angle = atan((coreMajorDiameter - coreMinorDiameter) / (2 * grainLength))
+
+        # Expand both core diameters by the radial component of the core's regression vector. This is allowed to expand
+        # beyond the casting tube as that condition is checked in a later step
+        regCoreMajorDiameter = coreMajorDiameter + (regDist * 2 * cos(angle))
+        regCoreMinorDiameter = coreMinorDiameter + (regDist * 2 * cos(angle))
+
+        # This is case where the larger core diameter has grown beyond the casting tube diameter. Once this happens,
+        # the diameter of the large end of the core is clamped at the grain diameter and the length is changed to keep
+        # the angle constant, which accounts for the regression of the grain at the major end.
+        if regCoreMajorDiameter >= grainDiameter:
+            majorFrustumDiameter = grainDiameter
+            minorFrustumDiameter = regCoreMinorDiameter
+            # How far past the grain diameter the major end has grown
+            effectiveReg = (regCoreMajorDiameter - grainDiameter) / 2
+            # Reduce the length of the frustum by the axial component of the regression vector
+            grainLength -= (effectiveReg / sin(angle))
+            # Account for the change in length due to face regression before the major end hit the casting tube
+            grainLength -= exposedFaces * (grainDiameter - coreMajorDiameter) / 2
+            # Don't double count face regression
+            grainLength += exposedFaces * effectiveReg
+
+        # If the large end of the core hasn't reached the casting tube, we know that the small end hasn't either. In
+        # this case we just return the current core diameters, and a length calculated from the inhibitor configuration
+        else:
+            majorFrustumDiameter = regCoreMajorDiameter
+            minorFrustumDiameter = regCoreMinorDiameter
+            grainLength -= exposedFaces * regDist
+            
+        if self.isCoreInverted():
+            return minorFrustumDiameter, majorFrustumDiameter, grainLength
+
+        return majorFrustumDiameter, minorFrustumDiameter, grainLength
+
+    def getSurfaceAreaAtRegression(self, regDist):
+        """Returns the surface area of the grain after it has regressed a linear distance of 'regDist'"""
+        aftDiameter, forwardDiameter, length = self.getFrustumInfo(regDist)
+        surfaceArea = geometry.frustumLateralSurfaceArea(aftDiameter, forwardDiameter, length)
+
+        fullFaceArea = geometry.circleArea(self._obj.Diameter)
+        if self._obj.InhibitedEnds in [GRAIN_INHIBITED_NEITHER, GRAIN_INHIBITED_BOTTOM]:
+            surfaceArea += fullFaceArea - geometry.circleArea(forwardDiameter)
+        if self._obj.InhibitedEnds in [GRAIN_INHIBITED_NEITHER, GRAIN_INHIBITED_TOP]:
+            surfaceArea += fullFaceArea - geometry.circleArea(aftDiameter)
+
+        return surfaceArea
+
+    def getVolumeAtRegression(self, regDist):
+        """Returns the volume of propellant in the grain after it has regressed a linear distance 'regDist'"""
+        aftDiameter, forwardDiameter, length = self.getFrustumInfo(regDist)
+        frustumVolume = geometry.frustumVolume(aftDiameter, forwardDiameter, length)
+        outerVolume = geometry.cylinderVolume(self._obj.Diameter, length)
+
+        return outerVolume - frustumVolume
+
+    def getWebLeft(self, regDist):
+        """Returns the shortest distance the grain has to regress to burn out"""
+        aftDiameter, forwardDiameter, length = self.getFrustumInfo(regDist)
+
+        return (self._obj.Diameter - min(aftDiameter, forwardDiameter)) / 2
+
+    def getMassFlow(self, massIn, dTime, regDist, dRegDist, position, density):
+        """Returns the mass flow at a point along the grain. Takes in the mass flow into the grain, a timestep, the
+        distance the grain has regressed so far, the additional distance it will regress during the timestep, a
+        position along the grain measured from the head end, and the density of the propellant."""
+
+        # For now these grains are only allowed with inhibited faces, so we can ignore a lot of messy logic
+        unsteppedFrustum = self.getFrustumInfo(regDist)
+        steppedFrustum = self.getFrustumInfo(regDist + dRegDist)
+
+        """These have to be reordered, because getFrustumInfo returns (aft, forward, length), but splitFrustum wants
+        the position from the forward face"""
+        unsteppedFrustum = (unsteppedFrustum[1], unsteppedFrustum[0], unsteppedFrustum[2])
+        steppedFrustum = (steppedFrustum[1], steppedFrustum[0], steppedFrustum[2])
+
+         # Note that this assumes the forward end of the grain is still at postition 0 - inhibited
+        unsteppedPartialFrustum, _ = geometry.splitFrustum(*unsteppedFrustum, position)
+        steppedPartialFrustum, _ = geometry.splitFrustum(*steppedFrustum, position)
+
+        unsteppedVolume = geometry.frustumVolume(*unsteppedPartialFrustum)
+        steppedVolume = geometry.frustumVolume(*steppedPartialFrustum)
+
+        massFlow = (steppedVolume - unsteppedVolume) * density / dTime
+        massFlow += massIn
+
+        return massFlow, steppedPartialFrustum[1]
+
+    def getMassFlux(self, massIn, dTime, regDist, dRegDist, position, density):
+        """Returns the mass flux at a point along the grain. Takes in the mass flow into the grain, a timestep, the
+        distance the grain has regressed so far, the additional distance it will regress during the timestep, a
+        position along the grain measured from the head end, and the density of the propellant."""
+
+        massFlow, portDiameter = self.getMassFlow(massIn, dTime, regDist, dRegDist, position, density)
+
+        return massFlow / geometry.circleArea(portDiameter) # Index 1 is port diameter OR IS IT
+
+    def getPeakMassFlux(self, massIn, dTime, regDist, dRegDist, density):
+        """Uses the grain's mass flux method to return the max. Need to define this here because I'm not sure what
+        it will look like"""
+
+        forwardMassFlux = self.getMassFlux(massIn, dTime, regDist, dRegDist, self.getEndPositions(regDist)[0], density)
+        aftMassFlux = self.getMassFlux(massIn, dTime, regDist, dRegDist, self.getEndPositions(regDist)[1], density)
+
+        return max(forwardMassFlux, aftMassFlux)
+
+    def getEndPositions(self, regDist):
+        """Returns the positions of the grain ends relative to the original (unburned) grain top. Returns a tuple like
+        (forward, aft)"""
+        originalLength = self._obj.Length
+        aftCoreDiameter, forwardCoreDiameter, currentLength = self.getFrustumInfo(regDist)
+        inhibitedEnds = self._obj.InhibitedEnds
+
+        if self.isCoreInverted():
+            if inhibitedEnds == GRAIN_INHIBITED_BOTTOM or inhibitedEnds == GRAIN_INHIBITED_BOTH:
+                # Because all of the change in length is due to the forward end moving, the forward end's position is
+                # just the amount the the grain has regressed by, The aft end stays where it started
+                return (originalLength - currentLength, originalLength)
+
+            # Neither or Top. In this case, the forward end moving accounts for almost all of the change in total grain
+            # length, except for the aft face having moved up by `regDist`, so that quantity is subtracted from the
+            # total change in grain length to get the forward end position
+            return (originalLength - currentLength - regDist, originalLength - regDist)
+
+        if inhibitedEnds == GRAIN_INHIBITED_TOP or inhibitedEnds == GRAIN_INHIBITED_BOTH:
+            # All of the change in grain length is due to the aft face moving, so the forward face stays at 0 and the
+            # aft face is at the regressed grain length
+            return (0, currentLength)
+
+        # Neither or Bottom
+        return (regDist, regDist + currentLength)
+
+    def getPortArea(self, regDist):
+        """Returns the area of the grain's port when it has regressed a distance of 'regDist'"""
+        aftCoreDiameter, _, _ = self.getFrustumInfo(regDist)
+
+        return geometry.circleArea(aftCoreDiameter)
+
+    def getDetailsString(self, lengthUnit='m'):
+        """Returns a short string describing the grain, formatted using the units that is passed in"""
+        return 'Length: {}'.format(self.props['length'].dispFormat(lengthUnit))
+
+    def simulationSetup(self, config):
+        """Do anything needed to prepare this grain for simulation"""
+        return None
+
+    def getGeometryErrors(self):
+        errors = super().getGeometryErrors()
+        if self._obj.AftCoreDiameter == self._obj.ForwardCoreDiameter:
+            errors.append(SimAlert(SimAlertLevel.ERROR, SimAlertType.GEOMETRY, 'Core diameters cannot be the same, use a BATES for this case.'))
+        if self._obj.AftCoreDiameter > self._obj.Diameter:
+            errors.append(SimAlert(SimAlertLevel.ERROR, SimAlertType.GEOMETRY, 'Aft core diameter cannot be larger than grain diameter.'))
+        if self._obj.ForwardCoreDiameter > self._obj.Diameter:
+            errors.append(SimAlert(SimAlertLevel.ERROR, SimAlertType.GEOMETRY, 'Forward core diameter cannot be larger than grain diameter.'))
+        return errors

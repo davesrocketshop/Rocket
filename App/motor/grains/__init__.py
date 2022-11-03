@@ -1,5 +1,5 @@
 # ***************************************************************************
-# *   Copyright (c) 2021 David Carter <dcarter@davidcarter.ca>              *
+# *   Copyright (c) 2022 David Carter <dcarter@davidcarter.ca>              *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -18,41 +18,42 @@
 # *   USA                                                                   *
 # *                                                                         *
 # ***************************************************************************
-"""Base class for rocket components"""
+"""Class for rocket motors"""
 
-__title__ = "FreeCAD Rocket Components"
+__title__ = "FreeCAD Rocket Motors"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
-from App.Constants import FEATURE_VERSION
-from App.Utilities import _err
+from App.Constants import GRAIN_GEOMETRY_BATES, GRAIN_GEOMETRY_C, GRAIN_GEOMETRY_CONICAL, GRAIN_GEOMETRY_CUSTOM, \
+    GRAIN_GEOMETRY_D, GRAIN_GEOMETRY_END, GRAIN_GEOMETRY_FINOCYL, GRAIN_GEOMETRY_MOONBURNER, GRAIN_GEOMETRY_RODTUBE, \
+    GRAIN_GEOMETRY_STAR, GRAIN_GEOMETRY_XCORE
 
-from DraftTools import translate
+from .endBurner import *
+from .bates import *
+from .finocyl import *
+from .moonBurner import *
+from .star import *
+from .xCore import *
+from .cGrain import *
+from .dGrain import *
+from .rodTube import *
+from .conical import *
+from .custom import *
 
-class ShapeComponent:
+# Generate grain geometry name -> constructor lookup table
+grainTypes = {
+    GRAIN_GEOMETRY_BATES : BatesGrain,
+    GRAIN_GEOMETRY_C : CGrain,
+    GRAIN_GEOMETRY_CONICAL : ConicalGrain,
+    GRAIN_GEOMETRY_CUSTOM : CustomGrain,
+    GRAIN_GEOMETRY_D : DGrain,
+    GRAIN_GEOMETRY_END : EndBurningGrain,
+    GRAIN_GEOMETRY_FINOCYL : Finocyl,
+    GRAIN_GEOMETRY_MOONBURNER : MoonBurner,
+    GRAIN_GEOMETRY_RODTUBE : RodTubeGrain,
+    GRAIN_GEOMETRY_STAR : StarGrain,
+    GRAIN_GEOMETRY_XCORE : XCore
+}
 
-    def __init__(self, obj):
-        if not hasattr(obj, 'Manufacturer'):
-            obj.addProperty('App::PropertyString', 'Manufacturer', 'RocketComponent', translate('App::Property', 'Component manufacturer')).Manufacturer = ""
-        if not hasattr(obj, 'PartNumber'):
-            obj.addProperty('App::PropertyString', 'PartNumber', 'RocketComponent', translate('App::Property', 'Component manufacturer part number')).PartNumber = ""
-        if not hasattr(obj, 'Description'):
-            obj.addProperty('App::PropertyString', 'Description', 'RocketComponent', translate('App::Property', 'Component description')).Description = ""
-        if not hasattr(obj, 'Material'):
-            obj.addProperty('App::PropertyString', 'Material', 'RocketComponent', translate('App::Property', 'Component material')).Material = ""
-
-        self._obj = obj
-        obj.Proxy=self
-        self.version = FEATURE_VERSION
-
-    def __getstate__(self):
-        return self.version
-
-    def __setstate__(self, state):
-        if state:
-            self.version = state
-
-
-    # This will be implemented in the derived class
-    def execute(self, obj):
-        _err("No execute method defined for %s" % (self.__class__.__name__))
+grainClasses = [BatesGrain, EndBurningGrain, Finocyl, MoonBurner, StarGrain, XCore, CGrain, DGrain, RodTubeGrain,
+                ConicalGrain, CustomGrain]

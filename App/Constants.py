@@ -27,6 +27,8 @@ __url__ = "https://www.davesrocketshop.com"
 def QT_TRANSLATE_NOOP(scope, text):
     return text
 
+FEATURE_VERSION = "2.2"
+
 # Feature types
 FEATURE_BULKHEAD = "RocketBulkhead"
 FEATURE_BODY_TUBE = "RocketBodyTube"
@@ -39,6 +41,13 @@ FEATURE_LAUNCH_LUG = "RocketLaunchLug"
 FEATURE_RAIL_BUTTON = "RocketRailButton"
 FEATURE_RAIL_GUIDE = "RocketRailGuide"
 FEATURE_OFFSET = "RocketOffset"
+FEATURE_MOTOR = "RocketMotor"
+FEATURE_MOTOR_CONFIG = "RocketMotorConfig"
+FEATURE_MOTOR_GRAINS = "RocketMotorGrains"
+FEATURE_MOTOR_GRAIN = "RocketMotorGrain"
+FEATURE_MOTOR_NOZZLE = "RocketMotorNozzle"
+FEATURE_PROPELLANT_TAB = "RocketPropellantTab"
+FEATURE_PROPELLANT = "RocketPropellant"
     
 # Part styles
 STYLE_SOLID = "solid"
@@ -167,3 +176,25 @@ FASTENER_PRESET_10_SHANK = '0.1900"'
 
 FASTENER_PRESET_1_4_HEAD = '0.531"'
 FASTENER_PRESET_1_4_SHANK = '0.2500"'
+
+GRAIN_INHIBITED_NEITHER = 'Neither'
+GRAIN_INHIBITED_TOP = 'Top'
+GRAIN_INHIBITED_BOTTOM = 'Bottom'
+GRAIN_INHIBITED_BOTH = 'Both'
+
+GRAIN_GEOMETRY_BATES = "BATES"
+GRAIN_GEOMETRY_C = 'C Grain'
+GRAIN_GEOMETRY_CONICAL = "Conical"
+GRAIN_GEOMETRY_CUSTOM = 'Custom Grain'
+GRAIN_GEOMETRY_D = 'D Grain'
+GRAIN_GEOMETRY_END = 'End Burner'
+GRAIN_GEOMETRY_FINOCYL = 'Finocyl'
+GRAIN_GEOMETRY_MOONBURNER = 'Moon Burner'
+GRAIN_GEOMETRY_RODTUBE = "Rod and Tube"
+GRAIN_GEOMETRY_STAR = 'Star Grain'
+GRAIN_GEOMETRY_XCORE = 'X Core'
+
+"""Constants needed for motor calculations."""
+
+# R, in units of J/(kmol*K)
+GAS_CONSTANT = 8314.462618

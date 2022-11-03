@@ -1,5 +1,5 @@
 # ***************************************************************************
-# *   Copyright (c) 2021 David Carter <dcarter@davidcarter.ca>              *
+# *   Copyright (c) 2022 David Carter <dcarter@davidcarter.ca>              *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -18,32 +18,49 @@
 # *   USA                                                                   *
 # *                                                                         *
 # ***************************************************************************
-"""Base class for rocket components"""
+"""Class for Python Features"""
 
-__title__ = "FreeCAD Rocket Components"
+__title__ = "FreeCAD Rocket Features"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
+from abc import abstractmethod
+
 from App.Constants import FEATURE_VERSION
-from App.Utilities import _err
 
-from DraftTools import translate
-
-class ShapeComponent:
+class FeatureBase:
 
     def __init__(self, obj):
-        if not hasattr(obj, 'Manufacturer'):
-            obj.addProperty('App::PropertyString', 'Manufacturer', 'RocketComponent', translate('App::Property', 'Component manufacturer')).Manufacturer = ""
-        if not hasattr(obj, 'PartNumber'):
-            obj.addProperty('App::PropertyString', 'PartNumber', 'RocketComponent', translate('App::Property', 'Component manufacturer part number')).PartNumber = ""
-        if not hasattr(obj, 'Description'):
-            obj.addProperty('App::PropertyString', 'Description', 'RocketComponent', translate('App::Property', 'Component description')).Description = ""
-        if not hasattr(obj, 'Material'):
-            obj.addProperty('App::PropertyString', 'Material', 'RocketComponent', translate('App::Property', 'Component material')).Material = ""
-
+        super().__init__()
+       
+        self.Type = self.featureType()
         self._obj = obj
         obj.Proxy=self
         self.version = FEATURE_VERSION
+        
+        self._initAttributes(obj)
+        self._initVars(obj)
+
+    def onDocumentRestored(self, obj):
+        obj.Proxy=self
+        
+        # Add any missing attributes
+        self._initAttributes(obj)
+        self._initVars(obj)
+
+        self._obj = obj
+
+    @abstractmethod
+    def _initAttributes(self, obj):
+        pass
+
+    @abstractmethod
+    def _initVars(self, obj):
+        pass
+
+    @abstractmethod
+    def featureType(self):
+        """ Returns the string representing the feature type """
 
     def __getstate__(self):
         return self.version
@@ -51,8 +68,3 @@ class ShapeComponent:
     def __setstate__(self, state):
         if state:
             self.version = state
-
-
-    # This will be implemented in the derived class
-    def execute(self, obj):
-        _err("No execute method defined for %s" % (self.__class__.__name__))

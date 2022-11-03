@@ -1,5 +1,5 @@
 # ***************************************************************************
-# *   Copyright (c) 2021 David Carter <dcarter@davidcarter.ca>              *
+# *   Copyright (c) 2022 David Carter <dcarter@davidcarter.ca>              *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -18,41 +18,52 @@
 # *   USA                                                                   *
 # *                                                                         *
 # ***************************************************************************
-"""Base class for rocket components"""
+"""Class for rocket motors"""
 
-__title__ = "FreeCAD Rocket Components"
+__title__ = "FreeCAD Rocket Motors"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
-from App.Constants import FEATURE_VERSION
-from App.Utilities import _err
 
-from DraftTools import translate
+from App.motor.Grain import Grain
+from App.motor import geometry
 
-class ShapeComponent:
+from App.Constants import GRAIN_GEOMETRY_END
+
+class EndBurningGrain(Grain):
+    """Defines an end-burning grain, which is a simple cylinder that burns on one end."""
 
     def __init__(self, obj):
-        if not hasattr(obj, 'Manufacturer'):
-            obj.addProperty('App::PropertyString', 'Manufacturer', 'RocketComponent', translate('App::Property', 'Component manufacturer')).Manufacturer = ""
-        if not hasattr(obj, 'PartNumber'):
-            obj.addProperty('App::PropertyString', 'PartNumber', 'RocketComponent', translate('App::Property', 'Component manufacturer part number')).PartNumber = ""
-        if not hasattr(obj, 'Description'):
-            obj.addProperty('App::PropertyString', 'Description', 'RocketComponent', translate('App::Property', 'Component description')).Description = ""
-        if not hasattr(obj, 'Material'):
-            obj.addProperty('App::PropertyString', 'Material', 'RocketComponent', translate('App::Property', 'Component material')).Material = ""
+        super().__init__(obj)
 
-        self._obj = obj
-        obj.Proxy=self
-        self.version = FEATURE_VERSION
+        self._obj.GeometryName = GRAIN_GEOMETRY_END
 
-    def __getstate__(self):
-        return self.version
+    def onDocumentRestored(self, obj):
+        super().onDocumentRestored(obj)
+        
+        # Add any missing attributes
+        EndBurningGrain(obj)
 
-    def __setstate__(self, state):
-        if state:
-            self.version = state
+    def getSurfaceAreaAtRegression(self, regDist):
+        diameter = self._obj.Diameter
+        return geometry.circleArea(diameter)
 
+    def getVolumeAtRegression(self, regDist):
+        bLength = self.getRegressedLength(regDist)
+        diameter = self._obj.Diameter
+        return geometry.cylinderVolume(diameter, bLength)
 
-    # This will be implemented in the derived class
-    def execute(self, obj):
-        _err("No execute method defined for %s" % (self.__class__.__name__))
+    def simulationSetup(self, config):
+        pass
+
+    def getWebLeft(self, regDist):
+        return self.getRegressedLength(regDist)
+
+    def getMassFlux(self, massIn, dTime, regDist, dRegDist, position, density):
+        return 0
+
+    def getPortArea(self, regDist):
+        return None
+
+    def getEndPositions(self, regDist):
+        return (0, self._obj.Length - regDist)
