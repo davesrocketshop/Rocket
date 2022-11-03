@@ -26,35 +26,46 @@ __url__ = "https://www.davesrocketshop.com"
 
 from abc import ABC, abstractmethod
 
-# This interface defines the API for components that are axially
-# symmetric.  It differs from RadialParent in that RadialParent applies
-# to axially symmetric components whose radius varies with position, while
-# this interface is for components that have a constant radius over it's length.
+class Instanceable(ABC):
 
-class Coaxial(ABC):
-
-    # Get the length of the radius of the inside dimension, in standard units.
+    """
+        Returns vector coordinates of each instance of this component relative to this component's parent
+         
+        Note: <code> this.getOffsets().length == this.getInstanceCount() </code> should ALWAYS be true.  
+        If getInstanceCount() returns anything besides 1 this function should be overridden as well.  
+    """
     @abstractmethod
-    def getInnerRadius(self):
+    def getInstanceLocations(self):
         pass
 
-    # Set the length of the radius of the inside dimension, in standard units.
+    """
+        Returns vector coordinates of each instance of this component relative to this component's reference point (typically front center)
+         
+        Note: <code> this.getOffsets().length == this.getInstanceCount() </code> should ALWAYS be true.  
+        If getInstanceCount() returns anything besides 1 this function should be overridden as well.  
+    """
     @abstractmethod
-    def setInnerRadius(self, v):
+    def getInstanceOffsets(self):
         pass
 
-    # Get the length of the radius of the outside dimension, in standard units.
+    """
+        How many instances of this component are represented.  This should generally be editable.
+    """
     @abstractmethod
-    def getOuterRadius(self):
+    def setInstanceCount(self, newCount):
         pass
 
-    # Set the length of the radius of the outside dimension, in standard units.
+    """
+         How many instances of this component are represented.  This should generally be editable.
+    """
     @abstractmethod
-    def setOuterRadius(self, v):
+    def getInstanceCount(self):
         pass
 
-    # Get the wall thickness of the component.  Typically this is just
-    # the outer radius - inner radius.
+    """
+        Get a human-readable name for this instance arrangement.
+        Note: the same instance count may have different pattern names   
+    """
     @abstractmethod
-    def getThickness(self):
+    def getPatternName(self):
         pass

@@ -84,3 +84,12 @@ def reduce2Pi(value):
 
     d = math.floor(value / (2 * math.pi))
     return value - d * 2 * math.pi
+
+def clamp(x, min, max):
+    """ Clamps the value x to the range min - max. """
+    if x < min:
+        return min
+    if x > max:
+        return max
+    return x
+
