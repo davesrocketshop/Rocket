@@ -23,6 +23,8 @@
 __title__ = "FreeCAD Fins"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
+
+import FreeCAD
     
 from App.ShapeComponent import ShapeComponent
 
@@ -30,7 +32,7 @@ from App.Constants import FIN_TYPE_TRAPEZOID, FIN_TYPE_ELLIPSE, FIN_TYPE_SKETCH
 from App.Constants import FIN_CROSS_SAME, FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE, \
     FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE
 from App.Constants import FIN_DEBUG_FULL, FIN_DEBUG_PROFILE_ONLY, FIN_DEBUG_MASK_ONLY
-from App.Constants import PROP_TRANSIENT, PROP_HIDDEN
+from App.Constants import PROP_TRANSIENT, PROP_HIDDEN, EDITOR_HIDDEN
 
 from App.FinTrapezoidShapeHandler import FinTrapezoidShapeHandler
 from App.FinEllipseShapeHandler import FinEllipseShapeHandler
@@ -47,18 +49,18 @@ class ShapeFin(ShapeComponent):
 
         if not hasattr(obj,"FinType"):
             obj.addProperty('App::PropertyEnumeration', 'FinType', 'Fin', translate('App::Property', 'Fin type'))
-        obj.FinType = [FIN_TYPE_TRAPEZOID, 
-                FIN_TYPE_ELLIPSE, 
-                # FIN_TYPE_TUBE, 
-                FIN_TYPE_SKETCH
-                ]
-        obj.FinType = FIN_TYPE_TRAPEZOID
+            obj.FinType = [FIN_TYPE_TRAPEZOID, 
+                    FIN_TYPE_ELLIPSE, 
+                    # FIN_TYPE_TUBE, 
+                    FIN_TYPE_SKETCH
+                    ]
+            obj.FinType = FIN_TYPE_TRAPEZOID
 
         if not hasattr(obj,"RootCrossSection"):
             obj.addProperty('App::PropertyEnumeration', 'RootCrossSection', 'Fin', translate('App::Property', 'Fin root cross section'))
-        obj.RootCrossSection = [FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE, 
-            FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE]
-        obj.RootCrossSection = FIN_CROSS_SQUARE
+            obj.RootCrossSection = [FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE, 
+                FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE]
+            obj.RootCrossSection = FIN_CROSS_SQUARE
 
         if not hasattr(obj,"RootChord"):
             obj.addProperty('App::PropertyLength', 'RootChord', 'Fin', translate('App::Property', 'Length of the base of the fin')).RootChord = 57.15
@@ -73,9 +75,9 @@ class ShapeFin(ShapeComponent):
 
         if not hasattr(obj,"TipCrossSection"):
             obj.addProperty('App::PropertyEnumeration', 'TipCrossSection', 'Fin', translate('App::Property', 'Fin tip cross section'))
-        obj.TipCrossSection = [FIN_CROSS_SAME, FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE, 
-            FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE]
-        obj.TipCrossSection = FIN_CROSS_SAME
+            obj.TipCrossSection = [FIN_CROSS_SAME, FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE, 
+                FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE]
+            obj.TipCrossSection = FIN_CROSS_SAME
 
         if not hasattr(obj,"TipChord"):
             obj.addProperty('App::PropertyLength', 'TipChord', 'Fin', translate('App::Property', 'Length of the tip of the fin')).TipChord = 20.48
@@ -111,7 +113,6 @@ class ShapeFin(ShapeComponent):
         # These are only exposed for fin cans
         if not hasattr(obj,"FinSet"):
             obj.addProperty('App::PropertyBool', 'FinSet', 'Fin', translate('App::Property', 'True when describing a set of fins')).FinSet = False
-        obj.setEditorMode('FinSet', PROP_HIDDEN)  # hide
         if not hasattr(obj,"FinCount"):
             obj.addProperty('App::PropertyInteger', 'FinCount', 'Fin', translate('App::Property', 'Number of fins in a radial pattern')).FinCount = 3
         if not hasattr(obj,"FinSpacing"):
@@ -119,8 +120,7 @@ class ShapeFin(ShapeComponent):
 
         # Hidden properties used for calculation
         if not hasattr(obj,"ParentRadius"):
-            obj.addProperty('App::PropertyLength', 'ParentRadius', 'Fin', 'Parent radius').ParentRadius = 20.0 # No translation required for a hidden parameter
-        obj.setEditorMode('ParentRadius', PROP_TRANSIENT | PROP_HIDDEN)  # hide
+            obj.addProperty('App::PropertyLength', 'ParentRadius', 'Fin', 'Parent radius', PROP_TRANSIENT | PROP_HIDDEN).ParentRadius = 20.0 # No translation required for a hidden parameter
 
         if not hasattr(obj, "Profile"):
             obj.addProperty('App::PropertyLink', 'Profile', 'Fin', translate('App::Property', 'Custom fin sketch')).Profile = None
@@ -132,8 +132,23 @@ class ShapeFin(ShapeComponent):
         if DEBUG_SKETCH_FINS > 0:
             if not hasattr(obj,"DebugSketch"):
                 obj.addProperty('App::PropertyEnumeration', 'DebugSketch', 'Fin', translate('App::Property', 'Sketch based fin debugging options'), PROP_TRANSIENT)
-            obj.DebugSketch = [FIN_DEBUG_FULL, FIN_DEBUG_PROFILE_ONLY, FIN_DEBUG_MASK_ONLY]
-            obj.DebugSketch = FIN_DEBUG_FULL
+                obj.DebugSketch = [FIN_DEBUG_FULL, FIN_DEBUG_PROFILE_ONLY, FIN_DEBUG_MASK_ONLY]
+                obj.DebugSketch = FIN_DEBUG_FULL
+
+        self._setFinEditorVisibility()
+
+    def _setFinEditorVisibility(self):
+        self._obj.setEditorMode('FinSet', EDITOR_HIDDEN)  # hide
+        self._obj.setEditorMode('FinCount', EDITOR_HIDDEN)  # show
+        self._obj.setEditorMode('FinSpacing', EDITOR_HIDDEN)  # show
+
+    def onDocumentRestored(self, obj):
+        if obj is not None:
+            ShapeFin(obj) # Update any properties
+            self._obj = obj
+            FreeCAD.ActiveDocument.recompute()
+
+        self._setFinEditorVisibility()
 
     def execute(self, obj):
 

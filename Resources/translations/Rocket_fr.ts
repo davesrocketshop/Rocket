@@ -114,107 +114,107 @@
       <translation>Matériau du composant</translation>
     </message>
     <message>
-      <location filename="ShapeFin.py" line="49"/>
+      <location filename="ShapeFin.py" line="51"/>
       <source>Fin type</source>
       <translation>Type d'ailette</translation>
     </message>
     <message>
-      <location filename="ShapeFin.py" line="58"/>
+      <location filename="ShapeFin.py" line="60"/>
       <source>Fin root cross section</source>
       <translation>Section transversale de la racine de l'ailette</translation>
     </message>
     <message>
-      <location filename="ShapeFin.py" line="64"/>
+      <location filename="ShapeFin.py" line="66"/>
       <source>Length of the base of the fin</source>
       <translation>Longueur de la base de l'ailette</translation>
     </message>
     <message>
-      <location filename="ShapeFin.py" line="66"/>
+      <location filename="ShapeFin.py" line="68"/>
       <source>Fin root thickness</source>
       <translation>Épaisseur de la racine de l'ailette</translation>
     </message>
     <message>
-      <location filename="ShapeFin.py" line="68"/>
+      <location filename="ShapeFin.py" line="70"/>
       <source>Root chord lengths are percentages</source>
       <translation>Les longueurs de corde de racine sont des pourcentages</translation>
     </message>
     <message>
-      <location filename="ShapeFin.py" line="70"/>
+      <location filename="ShapeFin.py" line="72"/>
       <source>Root chord length 1</source>
       <translation>Longueur de corde de racine 1</translation>
     </message>
     <message>
-      <location filename="ShapeFin.py" line="72"/>
+      <location filename="ShapeFin.py" line="74"/>
       <source>Root chord length 2</source>
       <translation>Longueur de corde de racine 2</translation>
     </message>
     <message>
-      <location filename="ShapeFin.py" line="75"/>
+      <location filename="ShapeFin.py" line="77"/>
       <source>Fin tip cross section</source>
       <translation>Section transversale de l'extrêmité de l'ailette</translation>
     </message>
     <message>
-      <location filename="ShapeFin.py" line="81"/>
+      <location filename="ShapeFin.py" line="83"/>
       <source>Length of the tip of the fin</source>
       <translation>Longueur de l'extrémité de l'ailette</translation>
     </message>
     <message>
-      <location filename="ShapeFin.py" line="87"/>
+      <location filename="ShapeFin.py" line="89"/>
       <source>Fin tip thickness</source>
       <translation>Épaisseur de l’extrémité de l'ailette</translation>
     </message>
     <message>
-      <location filename="ShapeFin.py" line="85"/>
+      <location filename="ShapeFin.py" line="87"/>
       <source>Tip chord lengths are percentages</source>
       <translation>Les longueurs de corde d’extrémité sont des pourcentages</translation>
     </message>
     <message>
-      <location filename="ShapeFin.py" line="89"/>
+      <location filename="ShapeFin.py" line="91"/>
       <source>Tip chord length 1</source>
       <translation>Longueur de corde d’extrémité 1</translation>
     </message>
     <message>
-      <location filename="ShapeFin.py" line="91"/>
+      <location filename="ShapeFin.py" line="93"/>
       <source>Tip chord length 2</source>
       <translation>Longueur de corde d’extrémité 1</translation>
     </message>
     <message>
-      <location filename="ShapeFin.py" line="94"/>
+      <location filename="ShapeFin.py" line="96"/>
       <source>Fin semi-span</source>
       <translation>Demi-portée de l'ailette</translation>
     </message>
     <message>
-      <location filename="ShapeFin.py" line="96"/>
+      <location filename="ShapeFin.py" line="98"/>
       <source>Sweep length</source>
       <translation>Longueur de balayage</translation>
     </message>
     <message>
-      <location filename="ShapeFin.py" line="98"/>
+      <location filename="ShapeFin.py" line="100"/>
       <source>Sweep angle</source>
       <translation>Angle de balayage</translation>
     </message>
     <message>
-      <location filename="ShapeFin.py" line="101"/>
+      <location filename="ShapeFin.py" line="103"/>
       <source>Through the wall (TTW) tab</source>
       <translation>Languette "à travers le mur" (ATLM)</translation>
     </message>
     <message>
-      <location filename="ShapeFin.py" line="103"/>
+      <location filename="ShapeFin.py" line="105"/>
       <source>TTW Offset from fin root</source>
       <translation>Décalage ATLM depuis la racine de l'ailette</translation>
     </message>
     <message>
-      <location filename="ShapeFin.py" line="105"/>
+      <location filename="ShapeFin.py" line="107"/>
       <source>TTW Length</source>
       <translation>Longueur ATLM</translation>
     </message>
     <message>
-      <location filename="ShapeFin.py" line="107"/>
+      <location filename="ShapeFin.py" line="109"/>
       <source>TTW Height</source>
       <translation>Hauteur ATLM</translation>
     </message>
     <message>
-      <location filename="ShapeFin.py" line="109"/>
+      <location filename="ShapeFin.py" line="111"/>
       <source>TTW thickness</source>
       <translation>Épaisseur ATLM</translation>
     </message>
@@ -259,12 +259,12 @@
       <translation>Épaisseur de l'épaulement</translation>
     </message>
     <message>
-      <location filename="ShapeTransition.py" line="99"/>
+      <location filename="ShapeTransition.py" line="102"/>
       <source>Coefficient</source>
       <translation>Coefficient</translation>
     </message>
     <message>
-      <location filename="ShapeTransition.py" line="101"/>
+      <location filename="ShapeTransition.py" line="104"/>
       <source>Resolution</source>
       <translation>Résolution</translation>
     </message>
@@ -284,87 +284,87 @@
       <translation>Forme de cône du nez</translation>
     </message>
     <message>
-      <location filename="ShapeTransition.py" line="71"/>
+      <location filename="ShapeTransition.py" line="74"/>
       <source>Length of the transition not including any shoulder</source>
       <translation>Longueur de la transition, à l'exclusion de tout épaulement</translation>
     </message>
     <message>
-      <location filename="ShapeTransition.py" line="73"/>
+      <location filename="ShapeTransition.py" line="76"/>
       <source>Diameter at the front of the transition</source>
       <translation>Diamètre à l'avant de la transition</translation>
     </message>
     <message>
-      <location filename="ShapeTransition.py" line="75"/>
+      <location filename="ShapeTransition.py" line="78"/>
       <source>Diameter at the base of the transition</source>
       <translation>Diamètre à la base de la transition</translation>
     </message>
     <message>
-      <location filename="ShapeTransition.py" line="77"/>
+      <location filename="ShapeTransition.py" line="80"/>
       <source>Diameter of the transition core</source>
       <translation>Diamètre du centre de la transition</translation>
     </message>
     <message>
-      <location filename="ShapeTransition.py" line="79"/>
+      <location filename="ShapeTransition.py" line="82"/>
       <source>Transition thickness</source>
       <translation>Épaisseur de transition</translation>
     </message>
     <message>
-      <location filename="ShapeTransition.py" line="81"/>
+      <location filename="ShapeTransition.py" line="84"/>
       <source>If the transition is not clipped, then the profile is extended at the center by the corresponding radius</source>
       <translation>Si la transition n'est pas coupée, alors le profil est étendu au centre du rayon correspondant</translation>
     </message>
     <message>
-      <location filename="ShapeTransition.py" line="83"/>
+      <location filename="ShapeTransition.py" line="86"/>
       <source>Set to true if the part includes a forward shoulder</source>
       <translation>Mettre à vrai si la pièce inclut un épaulement avant</translation>
     </message>
     <message>
-      <location filename="ShapeTransition.py" line="85"/>
+      <location filename="ShapeTransition.py" line="88"/>
       <source>Forward Shoulder Length</source>
       <translation>Longueur de l'épaulement avant</translation>
     </message>
     <message>
-      <location filename="ShapeTransition.py" line="87"/>
+      <location filename="ShapeTransition.py" line="90"/>
       <source>Forward Shoulder diameter</source>
       <translation>Diamètre de l'épaulement avant</translation>
     </message>
     <message>
-      <location filename="ShapeTransition.py" line="89"/>
+      <location filename="ShapeTransition.py" line="92"/>
       <source>Forward Shoulder thickness</source>
       <translation>Épaisseur de l'épaulement avant</translation>
     </message>
     <message>
-      <location filename="ShapeTransition.py" line="91"/>
+      <location filename="ShapeTransition.py" line="94"/>
       <source>Set to true if the part includes an aft shoulder</source>
       <translation>Mettre à vrai si la pièce inclut un épaulement arrière</translation>
     </message>
     <message>
-      <location filename="ShapeTransition.py" line="93"/>
+      <location filename="ShapeTransition.py" line="96"/>
       <source>Aft Shoulder Length</source>
       <translation>Longueur de l'épaulement arrière</translation>
     </message>
     <message>
-      <location filename="ShapeTransition.py" line="95"/>
+      <location filename="ShapeTransition.py" line="98"/>
       <source>Aft Shoulder diameter</source>
       <translation>Diamètre de l'épaulement arrière</translation>
     </message>
     <message>
-      <location filename="ShapeTransition.py" line="97"/>
+      <location filename="ShapeTransition.py" line="100"/>
       <source>Aft Shoulder thickness</source>
       <translation>Épaisseur de l'épaulement arrière</translation>
     </message>
     <message>
-      <location filename="ShapeTransition.py" line="104"/>
+      <location filename="ShapeTransition.py" line="111"/>
       <source>Transition type</source>
       <translation>Type de transition</translation>
     </message>
     <message>
-      <location filename="ShapeTransition.py" line="116"/>
+      <location filename="ShapeTransition.py" line="123"/>
       <source>Transition style</source>
       <translation>Style de transition</translation>
     </message>
     <message>
-      <location filename="ShapeTransition.py" line="124"/>
+      <location filename="ShapeTransition.py" line="145"/>
       <source>Shape of the transition</source>
       <translation>Forme de transition</translation>
     </message>
@@ -554,17 +554,17 @@
       <translation>Le rayon du cercle utilisé pour définir une ogive sécante</translation>
     </message>
     <message>
-      <location filename="ShapeFin.py" line="113"/>
+      <location filename="ShapeFin.py" line="115"/>
       <source>True when describing a set of fins</source>
       <translation>Vrai quand on décrit un ensemble d'ailerons</translation>
     </message>
     <message>
-      <location filename="ShapeFin.py" line="116"/>
+      <location filename="ShapeFin.py" line="117"/>
       <source>Number of fins in a radial pattern</source>
       <translation>Nombre d'ailerons dans un motif radial</translation>
     </message>
     <message>
-      <location filename="ShapeFin.py" line="118"/>
+      <location filename="ShapeFin.py" line="119"/>
       <source>Angle between consecutive fins</source>
       <translation>Angle entre les ailerons consécutifs</translation>
     </message>
@@ -574,97 +574,97 @@
       <translation>Options de débogage des ailerons par esquisse</translation>
     </message>
     <message>
-      <location filename="ShapeFinCan.py" line="49"/>
-      <source>Diameter of the inside of the fin can</source>
-      <translation>Diamètre de l'intérieur de l'échappement accueillant les ailerons</translation>
-    </message>
-    <message>
-      <location filename="ShapeFinCan.py" line="51"/>
-      <source>Thickness of the fin can</source>
-      <translation>Épaisseur de l'échappement accueillant les ailerons</translation>
-    </message>
-    <message>
       <location filename="ShapeFinCan.py" line="53"/>
-      <source>Length of the fin can</source>
-      <translation>Longueur de l'échappement accueillant les ailerons</translation>
+      <source>Diameter of the inside of the fin can</source>
+      <translation>Diamètre de l'intérieur de l'échappement avec ailerons</translation>
     </message>
     <message>
       <location filename="ShapeFinCan.py" line="55"/>
-      <source>Distance between the fin can leading edge and the fin leading edge</source>
-      <translation>Distance entre le bord d'attaque de l'échappement accueillant les ailerons et le bord d'attaque de l'aileron</translation>
+      <source>Thickness of the fin can</source>
+      <translation>Épaisseur de l'échappement avec ailerons</translation>
     </message>
     <message>
-      <location filename="ShapeFinCan.py" line="58"/>
+      <location filename="ShapeFinCan.py" line="57"/>
+      <source>Length of the fin can</source>
+      <translation>Longueur de l'échappement avec ailerons</translation>
+    </message>
+    <message>
+      <location filename="ShapeFinCan.py" line="59"/>
+      <source>Distance between the fin can leading edge and the fin leading edge</source>
+      <translation>Distance entre le bord d'attaque de l'échappement avec ailerons et le bord d'attaque de l'aileron</translation>
+    </message>
+    <message>
+      <location filename="ShapeFinCan.py" line="62"/>
       <source>Leading Edge</source>
       <translation>Bord d'attaque</translation>
     </message>
     <message>
-      <location filename="ShapeFinCan.py" line="62"/>
+      <location filename="ShapeFinCan.py" line="66"/>
       <source>Leading Edge Length</source>
       <translation>Longueur du bord d'attaque</translation>
     </message>
     <message>
-      <location filename="ShapeFinCan.py" line="65"/>
+      <location filename="ShapeFinCan.py" line="69"/>
       <source>Trailing Edge</source>
       <translation>Bord de fuite</translation>
     </message>
     <message>
-      <location filename="ShapeFinCan.py" line="69"/>
+      <location filename="ShapeFinCan.py" line="73"/>
       <source>Trailing Edge Length</source>
       <translation>Longueur du bord de fuite</translation>
     </message>
     <message>
-      <location filename="ShapeFinCan.py" line="72"/>
+      <location filename="ShapeFinCan.py" line="76"/>
       <source>Fin can includes a launch lug</source>
-      <translation>L'échappement accueillant les ailerons comprend un sabot de lancement</translation>
+      <translation>L'échappement avec ailerons comprend un sabot de lancement</translation>
     </message>
     <message>
-      <location filename="ShapeFinCan.py" line="74"/>
+      <location filename="ShapeFinCan.py" line="78"/>
       <source>Diameter of the inside of the launch lug</source>
       <translation>Diamètre de l'intérieur du sabot de lancement</translation>
     </message>
     <message>
-      <location filename="ShapeFinCan.py" line="76"/>
+      <location filename="ShapeFinCan.py" line="80"/>
       <source>Thickness of the launch lug</source>
       <translation>Épaisseur du sabot de lancement</translation>
     </message>
     <message>
-      <location filename="ShapeFinCan.py" line="78"/>
+      <location filename="ShapeFinCan.py" line="82"/>
       <source>Launch lug thickness is the same as the fin can</source>
-      <translation>L'épaisseur du sabot de lancement est la même que celle de l'échappement accueillant les ailerons</translation>
+      <translation>L'épaisseur du sabot de lancement est la même que celle de l'échappement avec ailerons</translation>
     </message>
     <message>
-      <location filename="ShapeFinCan.py" line="82"/>
+      <location filename="ShapeFinCan.py" line="86"/>
       <source>Automatically adjust the length of the launch lug</source>
       <translation>Ajustement automatique de la longueur du sabot de lancement</translation>
     </message>
     <message>
-      <location filename="ShapeFinCan.py" line="84"/>
+      <location filename="ShapeFinCan.py" line="88"/>
       <source>Launch lug fillet radius</source>
       <translation>Rayon du congé du sabot de lancement</translation>
     </message>
     <message>
-      <location filename="ShapeFinCan.py" line="87"/>
+      <location filename="ShapeFinCan.py" line="110"/>
       <source>Launch lug size preset</source>
       <translation>Taille du sabot de lancement prédéfini</translation>
     </message>
     <message>
-      <location filename="ShapeFinCan.py" line="95"/>
+      <location filename="ShapeFinCan.py" line="99"/>
       <source>Forward side of the launch lug is swept</source>
       <translation>La face avant du sabot de lancement est balayée</translation>
     </message>
     <message>
-      <location filename="ShapeFinCan.py" line="97"/>
+      <location filename="ShapeFinCan.py" line="101"/>
       <source>Forward sweep angle</source>
       <translation>Angle de balayage avant</translation>
     </message>
     <message>
-      <location filename="ShapeFinCan.py" line="99"/>
+      <location filename="ShapeFinCan.py" line="103"/>
       <source>Aft side of the launch lug is swept</source>
       <translation>Le côté arrière du sabot de lancement est balayé</translation>
     </message>
     <message>
-      <location filename="ShapeFinCan.py" line="101"/>
+      <location filename="ShapeFinCan.py" line="105"/>
       <source>Aft sweep angle</source>
       <translation>Angle de balayage arrière</translation>
     </message>
@@ -679,9 +679,49 @@
       <translation>Style du cône de pénétration</translation>
     </message>
     <message>
-      <location filename="ShapeFinCan.py" line="80"/>
+      <location filename="ShapeFinCan.py" line="84"/>
       <source>Length of the launch lug</source>
       <translation>Longueur du sabot de lancement</translation>
+    </message>
+    <message>
+      <location filename="ShapeFinCan.py" line="108"/>
+      <source>Fin can includes coupler</source>
+      <translation type="unfinished">Fin can includes coupler</translation>
+    </message>
+    <message>
+      <location filename="ShapeFinCan.py" line="115"/>
+      <source>Diameter of the inside of the coupler</source>
+      <translation type="unfinished">Diameter of the inside of the coupler</translation>
+    </message>
+    <message>
+      <location filename="ShapeFinCan.py" line="117"/>
+      <source>Diameter of the outside of the coupler</source>
+      <translation type="unfinished">Diameter of the outside of the coupler</translation>
+    </message>
+    <message>
+      <location filename="ShapeFinCan.py" line="119"/>
+      <source>Length of the coupler</source>
+      <translation type="unfinished">Length of the coupler</translation>
+    </message>
+    <message>
+      <location filename="ShapeTransition.py" line="106"/>
+      <source>Width of the foreward cap bar</source>
+      <translation type="unfinished">Width of the foreward cap bar</translation>
+    </message>
+    <message>
+      <location filename="ShapeTransition.py" line="108"/>
+      <source>Width of the aft cap bar</source>
+      <translation type="unfinished">Width of the aft cap bar</translation>
+    </message>
+    <message>
+      <location filename="ShapeTransition.py" line="131"/>
+      <source>Foreward cap style</source>
+      <translation type="unfinished">Foreward cap style</translation>
+    </message>
+    <message>
+      <location filename="ShapeTransition.py" line="138"/>
+      <source>Aft cap style</source>
+      <translation type="unfinished">Aft cap style</translation>
     </message>
   </context>
   <context>
@@ -732,7 +772,7 @@
       <translation>Diamètre extérieur</translation>
     </message>
     <message>
-      <location filename="TaskPanelTransition.py" line="209"/>
+      <location filename="TaskPanelTransition.py" line="276"/>
       <source>Length</source>
       <translation>Longueur</translation>
     </message>
@@ -747,19 +787,19 @@
       <translation>Paramètre de Cloison</translation>
     </message>
     <message>
-      <location filename="TaskPanelTransition.py" line="203"/>
+      <location filename="TaskPanelTransition.py" line="270"/>
       <source>Diameter</source>
       <translation>Diamètre</translation>
     </message>
     <message>
-      <location filename="TaskPanelTransition.py" line="215"/>
+      <location filename="TaskPanelTransition.py" line="282"/>
       <source>Thickness</source>
       <translation>Épaisseur</translation>
     </message>
     <message>
       <location filename="TaskPanelBulkhead.py" line="69"/>
       <source>Center Diameter</source>
-      <translation>Diamètre Central</translation>
+      <translation type="unfinished">Center Diameter</translation>
     </message>
     <message>
       <location filename="TaskPanelBulkhead.py" line="74"/>
@@ -772,7 +812,7 @@
       <translation>Largeur</translation>
     </message>
     <message>
-      <location filename="TaskPanelFinCan.py" line="185"/>
+      <location filename="TaskPanelFinCan.py" line="189"/>
       <source>Height</source>
       <translation>Hauteur</translation>
     </message>
@@ -832,52 +872,52 @@
       <translation>Rechercher...</translation>
     </message>
     <message>
-      <location filename="TaskPanelFinCan.py" line="53"/>
+      <location filename="TaskPanelFinCan.py" line="54"/>
       <source>Fin Parameter</source>
       <translation>Paramètre d'Ailette</translation>
     </message>
     <message>
-      <location filename="TaskPanelFinCan.py" line="76"/>
+      <location filename="TaskPanelFinCan.py" line="80"/>
       <source>Fin type</source>
       <translation>Type d'ailette</translation>
     </message>
     <message>
-      <location filename="TaskPanelFinCan.py" line="104"/>
+      <location filename="TaskPanelFinCan.py" line="108"/>
       <source>Fin Root</source>
       <translation>Racine d'ailette</translation>
     </message>
     <message>
-      <location filename="TaskPanelFinCan.py" line="149"/>
+      <location filename="TaskPanelFinCan.py" line="153"/>
       <source>Cross Section</source>
       <translation>Section Transversale</translation>
     </message>
     <message>
-      <location filename="TaskPanelFinCan.py" line="156"/>
+      <location filename="TaskPanelFinCan.py" line="160"/>
       <source>Chord</source>
       <translation>Corde</translation>
     </message>
     <message>
-      <location filename="TaskPanelFinCan.py" line="168"/>
+      <location filename="TaskPanelFinCan.py" line="172"/>
       <source>Use percentage</source>
       <translation>Utiliser un pourcentage</translation>
     </message>
     <message>
-      <location filename="TaskPanelFinCan.py" line="173"/>
+      <location filename="TaskPanelFinCan.py" line="177"/>
       <source>Length 1</source>
       <translation>Longueur 1</translation>
     </message>
     <message>
-      <location filename="TaskPanelFinCan.py" line="179"/>
+      <location filename="TaskPanelFinCan.py" line="183"/>
       <source>Length 2</source>
       <translation>Longueur 2</translation>
     </message>
     <message>
-      <location filename="TaskPanelFinCan.py" line="146"/>
+      <location filename="TaskPanelFinCan.py" line="150"/>
       <source>Fin Tip</source>
       <translation>Extrémité d'ailette</translation>
     </message>
     <message>
-      <location filename="TaskPanelFinCan.py" line="192"/>
+      <location filename="TaskPanelFinCan.py" line="196"/>
       <source>Sweep Length</source>
       <translation>Longueur de Balayage</translation>
     </message>
@@ -897,42 +937,42 @@
       <translation>Paramètre de la coiffe</translation>
     </message>
     <message>
-      <location filename="TaskPanelTransition.py" line="56"/>
+      <location filename="TaskPanelTransition.py" line="57"/>
       <source>Shoulder</source>
       <translation>Épaulement</translation>
     </message>
     <message>
-      <location filename="TaskPanelTransition.py" line="50"/>
+      <location filename="TaskPanelTransition.py" line="51"/>
       <source>Transition Parameter</source>
       <translation>Paramètre de Transition</translation>
     </message>
     <message>
-      <location filename="TaskPanelTransition.py" line="83"/>
+      <location filename="TaskPanelTransition.py" line="84"/>
       <source>Clipped</source>
       <translation>Coupé</translation>
     </message>
     <message>
-      <location filename="TaskPanelTransition.py" line="113"/>
+      <location filename="TaskPanelTransition.py" line="114"/>
       <source>Forward Diameter</source>
       <translation>Diamètre avant</translation>
     </message>
     <message>
-      <location filename="TaskPanelTransition.py" line="119"/>
+      <location filename="TaskPanelTransition.py" line="120"/>
       <source>Aft Diameter</source>
       <translation>Diamètre arrière</translation>
     </message>
     <message>
-      <location filename="TaskPanelTransition.py" line="125"/>
+      <location filename="TaskPanelTransition.py" line="126"/>
       <source>Core Diameter</source>
       <translation>Diamètre central</translation>
     </message>
     <message>
-      <location filename="TaskPanelTransition.py" line="179"/>
+      <location filename="TaskPanelTransition.py" line="246"/>
       <source>Forward Shoulder</source>
       <translation>Épaulement avant</translation>
     </message>
     <message>
-      <location filename="TaskPanelTransition.py" line="200"/>
+      <location filename="TaskPanelTransition.py" line="267"/>
       <source>Aft Shoulder</source>
       <translation>Épaulement arrière</translation>
     </message>
@@ -1112,7 +1152,7 @@
       <translation>Pour les coiffes %s avec un épaulement, l'épaisseur de l'épaulement doit être &gt; 0</translation>
     </message>
     <message>
-      <location filename="TransitionShapeHandler.py" line="149"/>
+      <location filename="TransitionShapeHandler.py" line="154"/>
       <source>Shoulder thickness must be less than the shoulder radius</source>
       <translation>L'épaisseur de l'épaulement doit être inférieure au rayon de l'épaulement</translation>
     </message>
@@ -1137,62 +1177,62 @@
       <translation>Pour les transitions %s, le coefficient doit être dans l'intervalle (0 &lt; coefficient &lt;= 1)</translation>
     </message>
     <message>
-      <location filename="TransitionShapeHandler.py" line="97"/>
+      <location filename="TransitionShapeHandler.py" line="102"/>
       <source>For %s transitions thickness must be &gt; 0</source>
       <translation>Pour les transitions %s, l'épaisseur doit être &gt; 0</translation>
     </message>
     <message>
-      <location filename="TransitionShapeHandler.py" line="100"/>
+      <location filename="TransitionShapeHandler.py" line="105"/>
       <source>Transition thickness must be less than the front or back radius</source>
       <translation>L'épaisseur de la transition doit être inférieure au rayon avant ou arrière</translation>
     </message>
     <message>
-      <location filename="TransitionShapeHandler.py" line="105"/>
+      <location filename="TransitionShapeHandler.py" line="110"/>
       <source>Transition core must be less than the front or back diameter</source>
       <translation>Le centre de la transition doit être plus petit que le diamètre avant ou arrière</translation>
     </message>
     <message>
-      <location filename="TransitionShapeHandler.py" line="113"/>
+      <location filename="TransitionShapeHandler.py" line="118"/>
       <source>Transition core must be less than the shoulder diameter</source>
       <translation>Le centre de la transition doit être plus petit que le diamètre de l'épaulement</translation>
     </message>
     <message>
-      <location filename="TransitionShapeHandler.py" line="118"/>
+      <location filename="TransitionShapeHandler.py" line="123"/>
       <source>Forward shoulder length must be &gt; 0</source>
       <translation>La longueur de l'épaulement avant doit être &gt; 0</translation>
     </message>
     <message>
-      <location filename="TransitionShapeHandler.py" line="121"/>
+      <location filename="TransitionShapeHandler.py" line="126"/>
       <source>Forward shoulder diameter must be &gt; 0</source>
       <translation>Le diamètre de l'épaulement avant doit être &gt; 0</translation>
     </message>
     <message>
-      <location filename="TransitionShapeHandler.py" line="124"/>
+      <location filename="TransitionShapeHandler.py" line="129"/>
       <source>Forward shoulder diameter can not exceed the transition diameter at the shoulder</source>
       <translation>Le diamètre avant de l'épaulement ne peut pas dépasser le diamètre de la transition à l'épaulement</translation>
     </message>
     <message>
-      <location filename="TransitionShapeHandler.py" line="146"/>
+      <location filename="TransitionShapeHandler.py" line="151"/>
       <source>For %s transitions with a shoulder, shoulder thickness must be &gt; 0</source>
       <translation>Pour les transitions %s avec un épaulement, l'épaisseur de l'épaulement doit être &gt; 0</translation>
     </message>
     <message>
-      <location filename="TransitionShapeHandler.py" line="136"/>
+      <location filename="TransitionShapeHandler.py" line="141"/>
       <source>Aft shoulder length must be &gt; 0</source>
       <translation>La longueur de l'épaulement arrière doit être &gt; 0</translation>
     </message>
     <message>
-      <location filename="TransitionShapeHandler.py" line="139"/>
+      <location filename="TransitionShapeHandler.py" line="144"/>
       <source>Aft shoulder diameter must be &gt; 0</source>
       <translation>Le diamètre de l'épaulement arrière doit être &gt; 0</translation>
     </message>
     <message>
-      <location filename="TransitionShapeHandler.py" line="142"/>
+      <location filename="TransitionShapeHandler.py" line="147"/>
       <source>Aft shoulder diameter can not exceed the transition diameter at the shoulder</source>
       <translation>Le diamètre arrière de l'épaulement ne peut pas dépasser le diamètre de la transition à l'épaulement</translation>
     </message>
     <message>
-      <location filename="TransitionShapeHandler.py" line="256"/>
+      <location filename="TransitionShapeHandler.py" line="310"/>
       <source>Transition parameters produce an invalid shape</source>
       <translation>Les paramètres de transition produisent une forme invalide</translation>
     </message>
@@ -1487,27 +1527,27 @@
       <translation>Guides de lancement</translation>
     </message>
     <message>
-      <location filename="Constants.py" line="132"/>
+      <location filename="Constants.py" line="135"/>
       <source>Top of the parent component</source>
       <translation>Haut du composant parent</translation>
     </message>
     <message>
-      <location filename="Constants.py" line="133"/>
+      <location filename="Constants.py" line="136"/>
       <source>Middle of the parent component</source>
       <translation>Milieu du composant parent</translation>
     </message>
     <message>
-      <location filename="Constants.py" line="134"/>
+      <location filename="Constants.py" line="137"/>
       <source>Bottom of the parent component</source>
       <translation>Bas du composant parent</translation>
     </message>
     <message>
-      <location filename="Constants.py" line="135"/>
+      <location filename="Constants.py" line="138"/>
       <source>Base of the rocket</source>
       <translation>Base de la fusée</translation>
     </message>
     <message>
-      <location filename="Constants.py" line="139"/>
+      <location filename="Constants.py" line="142"/>
       <source>After the target component</source>
       <translation>Après le composant cible</translation>
     </message>
@@ -1617,7 +1657,7 @@
       <translation>Les paramètres du rail guide produisent une forme invalide</translation>
     </message>
     <message>
-      <location filename="TaskPanelFinCan.py" line="418"/>
+      <location filename="TaskPanelFinCan.py" line="481"/>
       <source>Launch Lug</source>
       <translation>Sabot de lancement</translation>
     </message>
@@ -1727,22 +1767,22 @@
       <translation>Profondeur</translation>
     </message>
     <message>
-      <location filename="TaskPanelTransition.py" line="55"/>
+      <location filename="TaskPanelTransition.py" line="56"/>
       <source>General</source>
       <translation>Général</translation>
     </message>
     <message>
-      <location filename="TaskPanelTransition.py" line="69"/>
+      <location filename="TaskPanelTransition.py" line="70"/>
       <source>Transition Shape</source>
       <translation>Forme de la transition</translation>
     </message>
     <message>
-      <location filename="TaskPanelTransition.py" line="86"/>
+      <location filename="TaskPanelTransition.py" line="87"/>
       <source>Shape Parameter</source>
       <translation>Paramètre de la forme</translation>
     </message>
     <message>
-      <location filename="TaskPanelTransition.py" line="97"/>
+      <location filename="TaskPanelTransition.py" line="98"/>
       <source>Style</source>
       <translation>Style</translation>
     </message>
@@ -1822,84 +1862,84 @@
       <translation>Modifier %1</translation>
     </message>
     <message>
-      <location filename="FinCanShapeHandler.py" line="50"/>
+      <location filename="FinCanShapeHandler.py" line="51"/>
       <source>Fin can thickness must be greater than zero</source>
-      <translation>L'épaisseur de l'échappement accueillant les ailerons doit être supérieure à zéro</translation>
+      <translation>L'épaisseur de l'échappement avec ailerons doit être supérieure à zéro</translation>
     </message>
     <message>
-      <location filename="FinCanShapeHandler.py" line="53"/>
+      <location filename="FinCanShapeHandler.py" line="54"/>
       <source>Fin can length must be greater than zero</source>
-      <translation>La longueur de l'échappement accueillant les ailerons doit être supérieure à zéro</translation>
+      <translation>La longueur de l'échappement avec ailerons doit être supérieure à zéro</translation>
     </message>
     <message>
-      <location filename="FinCanShapeHandler.py" line="62"/>
+      <location filename="FinCanShapeHandler.py" line="63"/>
       <source>Fin can leading and trailing edges can not exceed total length</source>
-      <translation>Les bords d'attaque et de fuite de l'échappement accueillant les ailerons ne doivent pas dépasser la longueur totale</translation>
+      <translation>Les bords d'attaque et de fuite de l'échappement avec ailerons ne doivent pas dépasser la longueur totale</translation>
     </message>
     <message>
-      <location filename="FinCanShapeHandler.py" line="292"/>
+      <location filename="FinCanShapeHandler.py" line="310"/>
       <source>Launch lug parameters produce an invalid shape</source>
       <translation>Les paramètres du sabot de lancement produisent une forme invalide</translation>
     </message>
     <message>
-      <location filename="FinCanShapeHandler.py" line="336"/>
+      <location filename="FinCanShapeHandler.py" line="411"/>
       <source>Fin can parameters produce an invalid shape</source>
-      <translation>Les paramètres de l'échappement accueillant les ailerons produisent une forme invalide</translation>
+      <translation>Les paramètres de l'échappement avec ailerons produisent une forme invalide</translation>
     </message>
     <message>
-      <location filename="TaskPanelFinCan.py" line="59"/>
+      <location filename="TaskPanelFinCan.py" line="61"/>
       <source>Fins</source>
       <translation>Ailerons</translation>
     </message>
     <message>
-      <location filename="TaskPanelFinCan.py" line="60"/>
+      <location filename="TaskPanelFinCan.py" line="62"/>
       <source>Fin Can</source>
-      <translation>Échappement accueillant les ailerons</translation>
+      <translation>Échappement avec ailerons</translation>
     </message>
     <message>
-      <location filename="TaskPanelFinCan.py" line="88"/>
+      <location filename="TaskPanelFinCan.py" line="92"/>
       <source>Fin Set</source>
       <translation>Jeu d'ailerons</translation>
     </message>
     <message>
-      <location filename="TaskPanelFinCan.py" line="90"/>
+      <location filename="TaskPanelFinCan.py" line="94"/>
       <source>Fin Count</source>
       <translation>Nombre d'ailerons</translation>
     </message>
     <message>
-      <location filename="TaskPanelFinCan.py" line="97"/>
+      <location filename="TaskPanelFinCan.py" line="101"/>
       <source>Fin Spacing</source>
       <translation>Espacement des ailerons</translation>
     </message>
     <message>
-      <location filename="TaskPanelFinCan.py" line="327"/>
+      <location filename="TaskPanelFinCan.py" line="331"/>
       <source>Leading Edge Offset</source>
       <translation>Décalage du bord d'attaque</translation>
     </message>
     <message>
-      <location filename="TaskPanelFinCan.py" line="334"/>
+      <location filename="TaskPanelFinCan.py" line="338"/>
       <source>Leading Edge</source>
       <translation>Bord d'attaque</translation>
     </message>
     <message>
-      <location filename="TaskPanelFinCan.py" line="350"/>
+      <location filename="TaskPanelFinCan.py" line="354"/>
       <source>Edge Style</source>
       <translation>Style du bord</translation>
     </message>
     <message>
-      <location filename="TaskPanelFinCan.py" line="348"/>
+      <location filename="TaskPanelFinCan.py" line="352"/>
       <source>Trailing Edge</source>
       <translation>Bord de fuite</translation>
     </message>
     <message>
-      <location filename="TaskPanelFinCan.py" line="451"/>
+      <location filename="TaskPanelFinCan.py" line="514"/>
       <source>Fillet radius</source>
       <translation>Rayon du congé</translation>
     </message>
     <message>
       <location filename="CmdFinCan.py" line="74"/>
       <source>Fin can design</source>
-      <translation>Conception de l'échappement accueillant les ailerons</translation>
+      <translation>Conception de l'échappement avec ailerons</translation>
     </message>
     <message>
       <location filename="TaskPanelRailButton.py" line="105"/>
@@ -1917,12 +1957,12 @@
       <translation>Cône de pénétration</translation>
     </message>
     <message>
-      <location filename="TaskPanelNoseCone.py" line="142"/>
+      <location filename="TaskPanelTransition.py" line="158"/>
       <source>Cap style</source>
       <translation>Style de la capsule</translation>
     </message>
     <message>
-      <location filename="TaskPanelNoseCone.py" line="150"/>
+      <location filename="TaskPanelTransition.py" line="166"/>
       <source>Bar Width</source>
       <translation>Largeur de la barre</translation>
     </message>
@@ -1952,7 +1992,7 @@
       <translation>Veuillez d'abord sélectionner un aileron</translation>
     </message>
     <message>
-      <location filename="DialogFinFlutter.py" line="89"/>
+      <location filename="DialogFinFlutter.py" line="170"/>
       <source>Fin Flutter Analysis</source>
       <translation>Analyse du flottement des ailerons</translation>
     </message>
@@ -1992,57 +2032,57 @@
       <translation>Conception des fuseaux du parachute</translation>
     </message>
     <message>
-      <location filename="DialogFinFlutter.py" line="95"/>
+      <location filename="DialogFinFlutter.py" line="176"/>
       <source>Preset</source>
       <translation>Préréglage</translation>
     </message>
     <message>
-      <location filename="DialogFinFlutter.py" line="100"/>
+      <location filename="DialogFinFlutter.py" line="181"/>
       <source>Shear Modulus</source>
       <translation>Module de cisaillement</translation>
     </message>
     <message>
-      <location filename="DialogFinFlutter.py" line="107"/>
+      <location filename="DialogFinFlutter.py" line="188"/>
       <source>Calculated</source>
       <translation>Calculé</translation>
     </message>
     <message>
-      <location filename="DialogFinFlutter.py" line="110"/>
+      <location filename="DialogFinFlutter.py" line="191"/>
       <source>Young&apos;s Modulus</source>
       <translation>Module de Young</translation>
     </message>
     <message>
-      <location filename="DialogFinFlutter.py" line="118"/>
+      <location filename="DialogFinFlutter.py" line="199"/>
       <source>Poisson Ratio</source>
       <translation>Coefficient de Poisson</translation>
     </message>
     <message>
-      <location filename="DialogFinFlutter.py" line="125"/>
+      <location filename="DialogFinFlutter.py" line="206"/>
       <source>Fin Flutter</source>
       <translation>Flottement des ailerons</translation>
     </message>
     <message>
-      <location filename="DialogFinFlutter.py" line="127"/>
+      <location filename="DialogFinFlutter.py" line="208"/>
       <source>Maximum Altitude</source>
       <translation>Altitude maximale</translation>
     </message>
     <message>
-      <location filename="DialogFinFlutter.py" line="132"/>
+      <location filename="DialogFinFlutter.py" line="213"/>
       <source>Altitude at Max Speed</source>
       <translation>Altitude à la vitesse maximale</translation>
     </message>
     <message>
-      <location filename="DialogFinFlutter.py" line="143"/>
+      <location filename="DialogFinFlutter.py" line="230"/>
       <source>Flutter Speed</source>
       <translation>Vitesse de flottement</translation>
     </message>
     <message>
-      <location filename="DialogFinFlutter.py" line="151"/>
+      <location filename="DialogFinFlutter.py" line="238"/>
       <source>Divergence Speed</source>
       <translation>Vitesse de divergence</translation>
     </message>
     <message>
-      <location filename="DialogFinFlutter.py" line="166"/>
+      <location filename="DialogFinFlutter.py" line="253"/>
       <source>Mach</source>
       <translation>Mach</translation>
     </message>
@@ -2060,6 +2100,66 @@
         &lt;p&gt;Ce calculateur est seulement un estimateur. Testez votre système d'éjection au sol avant de mettre en vol. Dans certains cas, ce calcul pourrait surestimer la quantité de poudre requise&lt;/p&gt;
         &lt;/html&gt;
         </translation>
+    </message>
+    <message>
+      <location filename="FinCanShapeHandler.py" line="68"/>
+      <source>Coupler length must be greater than zero</source>
+      <translation type="unfinished">Coupler length must be greater than zero</translation>
+    </message>
+    <message>
+      <location filename="FinCanShapeHandler.py" line="71"/>
+      <source>Coupler inner diameter must be greater than zero</source>
+      <translation type="unfinished">Coupler inner diameter must be greater than zero</translation>
+    </message>
+    <message>
+      <location filename="FinCanShapeHandler.py" line="74"/>
+      <source>Coupler outer diameter must be greater than the inner diameter</source>
+      <translation type="unfinished">Coupler outer diameter must be greater than the inner diameter</translation>
+    </message>
+    <message>
+      <location filename="FinCanShapeHandler.py" line="77"/>
+      <source>Coupler inner diameter must be less than or equal to the fin can inner diameter</source>
+      <translation type="unfinished">Coupler inner diameter must be less than or equal to the fin can inner diameter</translation>
+    </message>
+    <message>
+      <location filename="FinCanShapeHandler.py" line="80"/>
+      <source>Coupler outer diameter must be less than fin can outer diameter</source>
+      <translation type="unfinished">Coupler outer diameter must be less than fin can outer diameter</translation>
+    </message>
+    <message>
+      <location filename="TransitionShapeHandler.py" line="337"/>
+      <source>Forward cap style produces an invalid shape</source>
+      <translation type="unfinished">Forward cap style produces an invalid shape</translation>
+    </message>
+    <message>
+      <location filename="TaskPanelFinCan.py" line="421"/>
+      <source>Coupler</source>
+      <translation type="unfinished">Coupler</translation>
+    </message>
+    <message>
+      <location filename="TaskPanelFinCan.py" line="424"/>
+      <source>Coupler Style</source>
+      <translation type="unfinished">Coupler Style</translation>
+    </message>
+    <message>
+      <location filename="TaskPanelFinCan.py" line="428"/>
+      <source>Flush with fin can</source>
+      <translation type="unfinished">Flush with fin can</translation>
+    </message>
+    <message>
+      <location filename="TaskPanelFinCan.py" line="429"/>
+      <source>Stepped</source>
+      <translation type="unfinished">Stepped</translation>
+    </message>
+    <message>
+      <location filename="TaskPanelTransition.py" line="139"/>
+      <source>Foreward Cap</source>
+      <translation type="unfinished">Foreward Cap</translation>
+    </message>
+    <message>
+      <location filename="TaskPanelTransition.py" line="156"/>
+      <source>Aft Cap</source>
+      <translation type="unfinished">Aft Cap</translation>
     </message>
   </context>
 </TS>

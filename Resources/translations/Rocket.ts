@@ -113,107 +113,107 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ShapeFin.py" line="49"/>
+        <location filename="ShapeFin.py" line="51"/>
         <source>Fin type</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ShapeFin.py" line="58"/>
+        <location filename="ShapeFin.py" line="60"/>
         <source>Fin root cross section</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ShapeFin.py" line="64"/>
+        <location filename="ShapeFin.py" line="66"/>
         <source>Length of the base of the fin</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ShapeFin.py" line="66"/>
+        <location filename="ShapeFin.py" line="68"/>
         <source>Fin root thickness</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ShapeFin.py" line="68"/>
+        <location filename="ShapeFin.py" line="70"/>
         <source>Root chord lengths are percentages</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ShapeFin.py" line="70"/>
+        <location filename="ShapeFin.py" line="72"/>
         <source>Root chord length 1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ShapeFin.py" line="72"/>
+        <location filename="ShapeFin.py" line="74"/>
         <source>Root chord length 2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ShapeFin.py" line="75"/>
+        <location filename="ShapeFin.py" line="77"/>
         <source>Fin tip cross section</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ShapeFin.py" line="81"/>
+        <location filename="ShapeFin.py" line="83"/>
         <source>Length of the tip of the fin</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ShapeFin.py" line="87"/>
+        <location filename="ShapeFin.py" line="89"/>
         <source>Fin tip thickness</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ShapeFin.py" line="85"/>
+        <location filename="ShapeFin.py" line="87"/>
         <source>Tip chord lengths are percentages</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ShapeFin.py" line="89"/>
+        <location filename="ShapeFin.py" line="91"/>
         <source>Tip chord length 1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ShapeFin.py" line="91"/>
+        <location filename="ShapeFin.py" line="93"/>
         <source>Tip chord length 2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ShapeFin.py" line="94"/>
+        <location filename="ShapeFin.py" line="96"/>
         <source>Fin semi-span</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ShapeFin.py" line="96"/>
+        <location filename="ShapeFin.py" line="98"/>
         <source>Sweep length</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ShapeFin.py" line="98"/>
+        <location filename="ShapeFin.py" line="100"/>
         <source>Sweep angle</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ShapeFin.py" line="101"/>
+        <location filename="ShapeFin.py" line="103"/>
         <source>Through the wall (TTW) tab</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ShapeFin.py" line="103"/>
+        <location filename="ShapeFin.py" line="105"/>
         <source>TTW Offset from fin root</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ShapeFin.py" line="105"/>
+        <location filename="ShapeFin.py" line="107"/>
         <source>TTW Length</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ShapeFin.py" line="107"/>
+        <location filename="ShapeFin.py" line="109"/>
         <source>TTW Height</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ShapeFin.py" line="109"/>
+        <location filename="ShapeFin.py" line="111"/>
         <source>TTW thickness</source>
         <translation type="unfinished"></translation>
     </message>
@@ -258,12 +258,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ShapeTransition.py" line="99"/>
+        <location filename="ShapeTransition.py" line="102"/>
         <source>Coefficient</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ShapeTransition.py" line="101"/>
+        <location filename="ShapeTransition.py" line="104"/>
         <source>Resolution</source>
         <translation type="unfinished"></translation>
     </message>
@@ -283,87 +283,87 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ShapeTransition.py" line="71"/>
+        <location filename="ShapeTransition.py" line="74"/>
         <source>Length of the transition not including any shoulder</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ShapeTransition.py" line="73"/>
+        <location filename="ShapeTransition.py" line="76"/>
         <source>Diameter at the front of the transition</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ShapeTransition.py" line="75"/>
+        <location filename="ShapeTransition.py" line="78"/>
         <source>Diameter at the base of the transition</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ShapeTransition.py" line="77"/>
+        <location filename="ShapeTransition.py" line="80"/>
         <source>Diameter of the transition core</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ShapeTransition.py" line="79"/>
+        <location filename="ShapeTransition.py" line="82"/>
         <source>Transition thickness</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ShapeTransition.py" line="81"/>
+        <location filename="ShapeTransition.py" line="84"/>
         <source>If the transition is not clipped, then the profile is extended at the center by the corresponding radius</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ShapeTransition.py" line="83"/>
+        <location filename="ShapeTransition.py" line="86"/>
         <source>Set to true if the part includes a forward shoulder</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ShapeTransition.py" line="85"/>
+        <location filename="ShapeTransition.py" line="88"/>
         <source>Forward Shoulder Length</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ShapeTransition.py" line="87"/>
+        <location filename="ShapeTransition.py" line="90"/>
         <source>Forward Shoulder diameter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ShapeTransition.py" line="89"/>
+        <location filename="ShapeTransition.py" line="92"/>
         <source>Forward Shoulder thickness</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ShapeTransition.py" line="91"/>
+        <location filename="ShapeTransition.py" line="94"/>
         <source>Set to true if the part includes an aft shoulder</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ShapeTransition.py" line="93"/>
+        <location filename="ShapeTransition.py" line="96"/>
         <source>Aft Shoulder Length</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ShapeTransition.py" line="95"/>
+        <location filename="ShapeTransition.py" line="98"/>
         <source>Aft Shoulder diameter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ShapeTransition.py" line="97"/>
+        <location filename="ShapeTransition.py" line="100"/>
         <source>Aft Shoulder thickness</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ShapeTransition.py" line="104"/>
+        <location filename="ShapeTransition.py" line="111"/>
         <source>Transition type</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ShapeTransition.py" line="116"/>
+        <location filename="ShapeTransition.py" line="123"/>
         <source>Transition style</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ShapeTransition.py" line="124"/>
+        <location filename="ShapeTransition.py" line="145"/>
         <source>Shape of the transition</source>
         <translation type="unfinished"></translation>
     </message>
@@ -553,17 +553,17 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ShapeFin.py" line="113"/>
+        <location filename="ShapeFin.py" line="115"/>
         <source>True when describing a set of fins</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ShapeFin.py" line="116"/>
+        <location filename="ShapeFin.py" line="117"/>
         <source>Number of fins in a radial pattern</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ShapeFin.py" line="118"/>
+        <location filename="ShapeFin.py" line="119"/>
         <source>Angle between consecutive fins</source>
         <translation type="unfinished"></translation>
     </message>
@@ -573,97 +573,97 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ShapeFinCan.py" line="49"/>
+        <location filename="ShapeFinCan.py" line="53"/>
         <source>Diameter of the inside of the fin can</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ShapeFinCan.py" line="51"/>
+        <location filename="ShapeFinCan.py" line="55"/>
         <source>Thickness of the fin can</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ShapeFinCan.py" line="53"/>
+        <location filename="ShapeFinCan.py" line="57"/>
         <source>Length of the fin can</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ShapeFinCan.py" line="55"/>
+        <location filename="ShapeFinCan.py" line="59"/>
         <source>Distance between the fin can leading edge and the fin leading edge</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ShapeFinCan.py" line="58"/>
+        <location filename="ShapeFinCan.py" line="62"/>
         <source>Leading Edge</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ShapeFinCan.py" line="62"/>
+        <location filename="ShapeFinCan.py" line="66"/>
         <source>Leading Edge Length</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ShapeFinCan.py" line="65"/>
+        <location filename="ShapeFinCan.py" line="69"/>
         <source>Trailing Edge</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ShapeFinCan.py" line="69"/>
+        <location filename="ShapeFinCan.py" line="73"/>
         <source>Trailing Edge Length</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ShapeFinCan.py" line="72"/>
+        <location filename="ShapeFinCan.py" line="76"/>
         <source>Fin can includes a launch lug</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ShapeFinCan.py" line="74"/>
+        <location filename="ShapeFinCan.py" line="78"/>
         <source>Diameter of the inside of the launch lug</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ShapeFinCan.py" line="76"/>
+        <location filename="ShapeFinCan.py" line="80"/>
         <source>Thickness of the launch lug</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ShapeFinCan.py" line="78"/>
+        <location filename="ShapeFinCan.py" line="82"/>
         <source>Launch lug thickness is the same as the fin can</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ShapeFinCan.py" line="82"/>
+        <location filename="ShapeFinCan.py" line="86"/>
         <source>Automatically adjust the length of the launch lug</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ShapeFinCan.py" line="84"/>
+        <location filename="ShapeFinCan.py" line="88"/>
         <source>Launch lug fillet radius</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ShapeFinCan.py" line="87"/>
+        <location filename="ShapeFinCan.py" line="110"/>
         <source>Launch lug size preset</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ShapeFinCan.py" line="95"/>
+        <location filename="ShapeFinCan.py" line="99"/>
         <source>Forward side of the launch lug is swept</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ShapeFinCan.py" line="97"/>
+        <location filename="ShapeFinCan.py" line="101"/>
         <source>Forward sweep angle</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ShapeFinCan.py" line="99"/>
+        <location filename="ShapeFinCan.py" line="103"/>
         <source>Aft side of the launch lug is swept</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ShapeFinCan.py" line="101"/>
+        <location filename="ShapeFinCan.py" line="105"/>
         <source>Aft sweep angle</source>
         <translation type="unfinished"></translation>
     </message>
@@ -678,8 +678,48 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ShapeFinCan.py" line="80"/>
+        <location filename="ShapeFinCan.py" line="84"/>
         <source>Length of the launch lug</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="ShapeFinCan.py" line="108"/>
+        <source>Fin can includes coupler</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="ShapeFinCan.py" line="115"/>
+        <source>Diameter of the inside of the coupler</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="ShapeFinCan.py" line="117"/>
+        <source>Diameter of the outside of the coupler</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="ShapeFinCan.py" line="119"/>
+        <source>Length of the coupler</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="ShapeTransition.py" line="106"/>
+        <source>Width of the foreward cap bar</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="ShapeTransition.py" line="108"/>
+        <source>Width of the aft cap bar</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="ShapeTransition.py" line="131"/>
+        <source>Foreward cap style</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="ShapeTransition.py" line="138"/>
+        <source>Aft cap style</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -731,7 +771,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="TaskPanelTransition.py" line="209"/>
+        <location filename="TaskPanelTransition.py" line="276"/>
         <source>Length</source>
         <translation type="unfinished"></translation>
     </message>
@@ -746,12 +786,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="TaskPanelTransition.py" line="203"/>
+        <location filename="TaskPanelTransition.py" line="270"/>
         <source>Diameter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="TaskPanelTransition.py" line="215"/>
+        <location filename="TaskPanelTransition.py" line="282"/>
         <source>Thickness</source>
         <translation type="unfinished"></translation>
     </message>
@@ -771,7 +811,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="TaskPanelFinCan.py" line="185"/>
+        <location filename="TaskPanelFinCan.py" line="189"/>
         <source>Height</source>
         <translation type="unfinished"></translation>
     </message>
@@ -831,52 +871,52 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="TaskPanelFinCan.py" line="53"/>
+        <location filename="TaskPanelFinCan.py" line="54"/>
         <source>Fin Parameter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="TaskPanelFinCan.py" line="76"/>
+        <location filename="TaskPanelFinCan.py" line="80"/>
         <source>Fin type</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="TaskPanelFinCan.py" line="104"/>
+        <location filename="TaskPanelFinCan.py" line="108"/>
         <source>Fin Root</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="TaskPanelFinCan.py" line="149"/>
+        <location filename="TaskPanelFinCan.py" line="153"/>
         <source>Cross Section</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="TaskPanelFinCan.py" line="156"/>
+        <location filename="TaskPanelFinCan.py" line="160"/>
         <source>Chord</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="TaskPanelFinCan.py" line="168"/>
+        <location filename="TaskPanelFinCan.py" line="172"/>
         <source>Use percentage</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="TaskPanelFinCan.py" line="173"/>
+        <location filename="TaskPanelFinCan.py" line="177"/>
         <source>Length 1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="TaskPanelFinCan.py" line="179"/>
+        <location filename="TaskPanelFinCan.py" line="183"/>
         <source>Length 2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="TaskPanelFinCan.py" line="146"/>
+        <location filename="TaskPanelFinCan.py" line="150"/>
         <source>Fin Tip</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="TaskPanelFinCan.py" line="192"/>
+        <location filename="TaskPanelFinCan.py" line="196"/>
         <source>Sweep Length</source>
         <translation type="unfinished"></translation>
     </message>
@@ -896,42 +936,42 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="TaskPanelTransition.py" line="56"/>
+        <location filename="TaskPanelTransition.py" line="57"/>
         <source>Shoulder</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="TaskPanelTransition.py" line="50"/>
+        <location filename="TaskPanelTransition.py" line="51"/>
         <source>Transition Parameter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="TaskPanelTransition.py" line="83"/>
+        <location filename="TaskPanelTransition.py" line="84"/>
         <source>Clipped</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="TaskPanelTransition.py" line="113"/>
+        <location filename="TaskPanelTransition.py" line="114"/>
         <source>Forward Diameter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="TaskPanelTransition.py" line="119"/>
+        <location filename="TaskPanelTransition.py" line="120"/>
         <source>Aft Diameter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="TaskPanelTransition.py" line="125"/>
+        <location filename="TaskPanelTransition.py" line="126"/>
         <source>Core Diameter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="TaskPanelTransition.py" line="179"/>
+        <location filename="TaskPanelTransition.py" line="246"/>
         <source>Forward Shoulder</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="TaskPanelTransition.py" line="200"/>
+        <location filename="TaskPanelTransition.py" line="267"/>
         <source>Aft Shoulder</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1111,7 +1151,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="TransitionShapeHandler.py" line="149"/>
+        <location filename="TransitionShapeHandler.py" line="154"/>
         <source>Shoulder thickness must be less than the shoulder radius</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1136,62 +1176,62 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="TransitionShapeHandler.py" line="97"/>
+        <location filename="TransitionShapeHandler.py" line="102"/>
         <source>For %s transitions thickness must be &gt; 0</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="TransitionShapeHandler.py" line="100"/>
+        <location filename="TransitionShapeHandler.py" line="105"/>
         <source>Transition thickness must be less than the front or back radius</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="TransitionShapeHandler.py" line="105"/>
+        <location filename="TransitionShapeHandler.py" line="110"/>
         <source>Transition core must be less than the front or back diameter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="TransitionShapeHandler.py" line="113"/>
+        <location filename="TransitionShapeHandler.py" line="118"/>
         <source>Transition core must be less than the shoulder diameter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="TransitionShapeHandler.py" line="118"/>
+        <location filename="TransitionShapeHandler.py" line="123"/>
         <source>Forward shoulder length must be &gt; 0</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="TransitionShapeHandler.py" line="121"/>
+        <location filename="TransitionShapeHandler.py" line="126"/>
         <source>Forward shoulder diameter must be &gt; 0</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="TransitionShapeHandler.py" line="124"/>
+        <location filename="TransitionShapeHandler.py" line="129"/>
         <source>Forward shoulder diameter can not exceed the transition diameter at the shoulder</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="TransitionShapeHandler.py" line="146"/>
+        <location filename="TransitionShapeHandler.py" line="151"/>
         <source>For %s transitions with a shoulder, shoulder thickness must be &gt; 0</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="TransitionShapeHandler.py" line="136"/>
+        <location filename="TransitionShapeHandler.py" line="141"/>
         <source>Aft shoulder length must be &gt; 0</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="TransitionShapeHandler.py" line="139"/>
+        <location filename="TransitionShapeHandler.py" line="144"/>
         <source>Aft shoulder diameter must be &gt; 0</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="TransitionShapeHandler.py" line="142"/>
+        <location filename="TransitionShapeHandler.py" line="147"/>
         <source>Aft shoulder diameter can not exceed the transition diameter at the shoulder</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="TransitionShapeHandler.py" line="256"/>
+        <location filename="TransitionShapeHandler.py" line="310"/>
         <source>Transition parameters produce an invalid shape</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1486,27 +1526,27 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Constants.py" line="132"/>
+        <location filename="Constants.py" line="135"/>
         <source>Top of the parent component</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Constants.py" line="133"/>
+        <location filename="Constants.py" line="136"/>
         <source>Middle of the parent component</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Constants.py" line="134"/>
+        <location filename="Constants.py" line="137"/>
         <source>Bottom of the parent component</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Constants.py" line="135"/>
+        <location filename="Constants.py" line="138"/>
         <source>Base of the rocket</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Constants.py" line="139"/>
+        <location filename="Constants.py" line="142"/>
         <source>After the target component</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1616,7 +1656,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="TaskPanelFinCan.py" line="418"/>
+        <location filename="TaskPanelFinCan.py" line="481"/>
         <source>Launch Lug</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1726,22 +1766,22 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="TaskPanelTransition.py" line="55"/>
+        <location filename="TaskPanelTransition.py" line="56"/>
         <source>General</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="TaskPanelTransition.py" line="69"/>
+        <location filename="TaskPanelTransition.py" line="70"/>
         <source>Transition Shape</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="TaskPanelTransition.py" line="86"/>
+        <location filename="TaskPanelTransition.py" line="87"/>
         <source>Shape Parameter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="TaskPanelTransition.py" line="97"/>
+        <location filename="TaskPanelTransition.py" line="98"/>
         <source>Style</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1821,77 +1861,77 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FinCanShapeHandler.py" line="50"/>
+        <location filename="FinCanShapeHandler.py" line="51"/>
         <source>Fin can thickness must be greater than zero</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FinCanShapeHandler.py" line="53"/>
+        <location filename="FinCanShapeHandler.py" line="54"/>
         <source>Fin can length must be greater than zero</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FinCanShapeHandler.py" line="62"/>
+        <location filename="FinCanShapeHandler.py" line="63"/>
         <source>Fin can leading and trailing edges can not exceed total length</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FinCanShapeHandler.py" line="292"/>
+        <location filename="FinCanShapeHandler.py" line="310"/>
         <source>Launch lug parameters produce an invalid shape</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FinCanShapeHandler.py" line="336"/>
+        <location filename="FinCanShapeHandler.py" line="411"/>
         <source>Fin can parameters produce an invalid shape</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="TaskPanelFinCan.py" line="59"/>
+        <location filename="TaskPanelFinCan.py" line="61"/>
         <source>Fins</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="TaskPanelFinCan.py" line="60"/>
+        <location filename="TaskPanelFinCan.py" line="62"/>
         <source>Fin Can</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="TaskPanelFinCan.py" line="88"/>
+        <location filename="TaskPanelFinCan.py" line="92"/>
         <source>Fin Set</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="TaskPanelFinCan.py" line="90"/>
+        <location filename="TaskPanelFinCan.py" line="94"/>
         <source>Fin Count</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="TaskPanelFinCan.py" line="97"/>
+        <location filename="TaskPanelFinCan.py" line="101"/>
         <source>Fin Spacing</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="TaskPanelFinCan.py" line="327"/>
+        <location filename="TaskPanelFinCan.py" line="331"/>
         <source>Leading Edge Offset</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="TaskPanelFinCan.py" line="334"/>
+        <location filename="TaskPanelFinCan.py" line="338"/>
         <source>Leading Edge</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="TaskPanelFinCan.py" line="350"/>
+        <location filename="TaskPanelFinCan.py" line="354"/>
         <source>Edge Style</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="TaskPanelFinCan.py" line="348"/>
+        <location filename="TaskPanelFinCan.py" line="352"/>
         <source>Trailing Edge</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="TaskPanelFinCan.py" line="451"/>
+        <location filename="TaskPanelFinCan.py" line="514"/>
         <source>Fillet radius</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1916,12 +1956,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="TaskPanelNoseCone.py" line="142"/>
+        <location filename="TaskPanelTransition.py" line="158"/>
         <source>Cap style</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="TaskPanelNoseCone.py" line="150"/>
+        <location filename="TaskPanelTransition.py" line="166"/>
         <source>Bar Width</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1951,7 +1991,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="DialogFinFlutter.py" line="89"/>
+        <location filename="DialogFinFlutter.py" line="170"/>
         <source>Fin Flutter Analysis</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1991,57 +2031,57 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="DialogFinFlutter.py" line="95"/>
+        <location filename="DialogFinFlutter.py" line="176"/>
         <source>Preset</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="DialogFinFlutter.py" line="100"/>
+        <location filename="DialogFinFlutter.py" line="181"/>
         <source>Shear Modulus</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="DialogFinFlutter.py" line="107"/>
+        <location filename="DialogFinFlutter.py" line="188"/>
         <source>Calculated</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="DialogFinFlutter.py" line="110"/>
+        <location filename="DialogFinFlutter.py" line="191"/>
         <source>Young&apos;s Modulus</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="DialogFinFlutter.py" line="118"/>
+        <location filename="DialogFinFlutter.py" line="199"/>
         <source>Poisson Ratio</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="DialogFinFlutter.py" line="125"/>
+        <location filename="DialogFinFlutter.py" line="206"/>
         <source>Fin Flutter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="DialogFinFlutter.py" line="127"/>
+        <location filename="DialogFinFlutter.py" line="208"/>
         <source>Maximum Altitude</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="DialogFinFlutter.py" line="132"/>
+        <location filename="DialogFinFlutter.py" line="213"/>
         <source>Altitude at Max Speed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="DialogFinFlutter.py" line="143"/>
+        <location filename="DialogFinFlutter.py" line="230"/>
         <source>Flutter Speed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="DialogFinFlutter.py" line="151"/>
+        <location filename="DialogFinFlutter.py" line="238"/>
         <source>Divergence Speed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="DialogFinFlutter.py" line="166"/>
+        <location filename="DialogFinFlutter.py" line="253"/>
         <source>Mach</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2053,6 +2093,66 @@
         &lt;p&gt;This calculator is an estimate only. Ground test your ejection system before flying. In certain cases this calculation may overestimate the amount of powder required&lt;/p&gt;<byte value="xd"/>
         &lt;/html&gt;<byte value="xd"/>
         </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="FinCanShapeHandler.py" line="68"/>
+        <source>Coupler length must be greater than zero</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="FinCanShapeHandler.py" line="71"/>
+        <source>Coupler inner diameter must be greater than zero</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="FinCanShapeHandler.py" line="74"/>
+        <source>Coupler outer diameter must be greater than the inner diameter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="FinCanShapeHandler.py" line="77"/>
+        <source>Coupler inner diameter must be less than or equal to the fin can inner diameter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="FinCanShapeHandler.py" line="80"/>
+        <source>Coupler outer diameter must be less than fin can outer diameter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="TransitionShapeHandler.py" line="337"/>
+        <source>Forward cap style produces an invalid shape</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="TaskPanelFinCan.py" line="421"/>
+        <source>Coupler</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="TaskPanelFinCan.py" line="424"/>
+        <source>Coupler Style</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="TaskPanelFinCan.py" line="428"/>
+        <source>Flush with fin can</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="TaskPanelFinCan.py" line="429"/>
+        <source>Stepped</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="TaskPanelTransition.py" line="139"/>
+        <source>Foreward Cap</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="TaskPanelTransition.py" line="156"/>
+        <source>Aft Cap</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

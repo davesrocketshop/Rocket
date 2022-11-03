@@ -40,11 +40,11 @@ class ShapeRailGuide(ShapeComponent):
 
         if not hasattr(obj,"RailGuideBaseType"):
             obj.addProperty('App::PropertyEnumeration', 'RailGuideBaseType', 'RailGuide', translate('App::Property', 'Rail guide base type'))
-        obj.RailGuideBaseType = [RAIL_GUIDE_BASE_FLAT, 
-                RAIL_GUIDE_BASE_CONFORMAL,
-                RAIL_GUIDE_BASE_V
-                ]
-        obj.RailGuideBaseType = RAIL_GUIDE_BASE_FLAT
+            obj.RailGuideBaseType = [RAIL_GUIDE_BASE_FLAT, 
+                    RAIL_GUIDE_BASE_CONFORMAL,
+                    RAIL_GUIDE_BASE_V
+                    ]
+            obj.RailGuideBaseType = RAIL_GUIDE_BASE_FLAT
 
         if not hasattr(obj,"TopWidth"):
             obj.addProperty('App::PropertyLength', 'TopWidth', 'RailGuide', translate('App::Property', 'Width of the top of the launch guide')).TopWidth = 9.462

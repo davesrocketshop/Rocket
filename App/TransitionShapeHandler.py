@@ -35,6 +35,7 @@ import math
 from DraftTools import translate
 
 from App.Constants import STYLE_CAPPED, STYLE_HOLLOW, STYLE_SOLID, STYLE_SOLID_CORE
+from App.Constants import STYLE_CAP_BAR, STYLE_CAP_CROSS
 
 from App.Utilities import _err
 
@@ -49,6 +50,10 @@ class TransitionShapeHandler():
         # Common parameters
         self._type = str(obj.TransitionType)
         self._style = str(obj.TransitionStyle)
+        self._foreCapStyle = str(obj.ForeCapStyle)
+        self._foreCapBarWidth = float(obj.ForeCapBarWidth)
+        self._aftCapStyle = str(obj.AftCapStyle)
+        self._aftCapBarWidth = float(obj.AftCapBarWidth)
         self._thickness = float(obj.Thickness)
 
         self._length = float(obj.Length)
@@ -203,6 +208,56 @@ class TransitionShapeHandler():
             else:
                 min = self._clipLength
 
+    def _foreBarCap(self):
+        return self._foreCrossCap(barOnly = True)
+
+    def _foreCrossCap(self, barOnly = False):
+        BASE_WIDTH = 5
+        base = self._length + BASE_WIDTH
+        length = self._foreShoulderThickness + 2 * BASE_WIDTH
+        if self._foreShoulder:
+            length += self._foreShoulderLength
+            base += self._foreShoulderLength
+
+        point = FreeCAD.Vector(base, 0, 0)
+        direction = FreeCAD.Vector(-1,0,0)
+
+        mask = Part.makeCylinder(self._foreShoulderRadius - self._foreShoulderThickness, length, point, direction)
+
+        point = FreeCAD.Vector(base + BASE_WIDTH, self._foreShoulderRadius, (self._foreCapBarWidth / 2.0))
+        box = Part.makeBox(self._foreCapBarWidth, 2.0 * self._foreShoulderRadius, length, point, direction)
+        mask = mask.cut(box)
+        if not barOnly:
+            point = FreeCAD.Vector(base + BASE_WIDTH, (self._foreCapBarWidth / 2.0), self._foreShoulderRadius)
+            box = Part.makeBox(2.0 * self._foreShoulderRadius, self._foreCapBarWidth, length, point, direction)
+            mask = mask.cut(box)
+        return mask
+
+    def _aftBarCap(self):
+        return self._aftCrossCap(barOnly = True)
+
+    def _aftCrossCap(self, barOnly = False):
+        BASE_WIDTH = 5
+        base = 0.0 - BASE_WIDTH
+        length = self._aftShoulderThickness + BASE_WIDTH
+        if self._aftShoulder:
+            length += self._aftShoulderLength
+            base -= self._aftShoulderLength
+
+        point = FreeCAD.Vector(base, 0, 0)
+        direction = FreeCAD.Vector(1,0,0)
+
+        mask = Part.makeCylinder(self._aftShoulderRadius - self._aftShoulderThickness, length, point, direction)
+
+        point = FreeCAD.Vector(base + BASE_WIDTH, self._aftShoulderRadius, -(self._aftCapBarWidth / 2.0))
+        box = Part.makeBox(self._aftCapBarWidth, 2.0 * self._aftShoulderRadius, length - BASE_WIDTH, point, direction)
+        mask = mask.cut(box)
+        if not barOnly:
+            point = FreeCAD.Vector(base + BASE_WIDTH, (self._aftCapBarWidth / 2.0), -self._aftShoulderRadius)
+            box = Part.makeBox(2.0 * self._aftShoulderRadius, self._aftCapBarWidth, length - BASE_WIDTH, point, direction)
+            mask = mask.cut(box)
+        return mask
+
 
     def draw(self):
         
@@ -245,8 +300,7 @@ class TransitionShapeHandler():
                         Part.show(edge)
                 wire = Part.Wire(edges)
                 face = Part.Face(wire)
-                self._obj.Shape = face.revolve(FreeCAD.Vector(0, 0, 0),FreeCAD.Vector(1, 0, 0), 360)
-                self._obj.Placement = self._placement
+                shape = face.revolve(FreeCAD.Vector(0, 0, 0),FreeCAD.Vector(1, 0, 0), 360)
             except Part.OCCError as ex:
                 if self._debugShape:
                     raise ex
@@ -254,6 +308,37 @@ class TransitionShapeHandler():
                 return
         else:
             _err(translate('Rocket', "Transition parameters produce an invalid shape"))
+
+        try:
+            if self._style == STYLE_CAPPED:
+                mask = None
+                if self._foreCapStyle == STYLE_CAP_BAR:
+                    mask = self._foreBarCap()
+                elif self._foreCapStyle == STYLE_CAP_CROSS:
+                    mask = self._foreCrossCap()
+
+                if mask is not None:
+                    shape = shape.cut(mask)
+        except Part.OCCError:
+            _err(translate('Rocket', "Forward cap style produces an invalid shape"))
+            return
+
+        try:
+            if self._style == STYLE_CAPPED:
+                mask = None
+                if self._aftCapStyle == STYLE_CAP_BAR:
+                    mask = self._aftBarCap()
+                elif self._aftCapStyle == STYLE_CAP_CROSS:
+                    mask = self._aftCrossCap()
+
+                if mask is not None:
+                    shape = shape.cut(mask)
+        except Part.OCCError:
+            _err(translate('Rocket', "Forward cap style produces an invalid shape"))
+            return
+
+        self._obj.Shape = shape
+        self._obj.Placement = self._placement
 
     def _generateCurve(self, r1, r2, length, min = 0, max = 0.0):
         if self._debugShape:
@@ -574,7 +659,7 @@ class TransitionShapeHandler():
         line4 = Part.LineSegment(aft, aftCenter)
         line5 = Part.LineSegment(aftCenter, aftInnerCenter)
         line6 = Part.LineSegment(aftInnerCenter, aftIinner)
-        return [outerShape.toShape(), line1.toShape(), line2.toShape(), line3.toShape(), innerShape.toShape(), line4.toShape(), line5.toShape(), line6.toShape(), innerShape.toShape()]
+        return [outerShape.toShape(), line1.toShape(), line2.toShape(), line3.toShape(), innerShape.toShape(), line4.toShape(), line5.toShape(), line6.toShape()]
 
     def _cappedShoulderLines(self, foreY, aftY, outerShape, innerShape):
 
