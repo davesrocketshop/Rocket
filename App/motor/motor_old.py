@@ -26,7 +26,7 @@ __url__ = "https://www.davesrocketshop.com"
 
 """Conains the motor class and a supporting configuration property collection."""
 from .grains import grainTypes
-from .nozzle import Nozzle
+from .nozzle_old import Nozzle
 from .propellant_old import Propellant
 from . import geometry
 from .simResult import SimulationResult, SimAlert, SimAlertLevel, SimAlertType

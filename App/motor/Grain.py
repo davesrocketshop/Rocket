@@ -174,13 +174,13 @@ class PerforatedGrain(Grain):
 
     def getEndPositions(self, regDist):
         if self._obj.InhibitedEnds == GRAIN_INHIBITED_NEITHER: # Neither
-            return (regDist, self._obj.Length - regDist)
+            return (regDist, float(self._obj.Length) - regDist)
         if self._obj.InhibitedEnds == GRAIN_INHIBITED_TOP: # Top
-            return (0, self._obj.Length - regDist)
+            return (0, float(self._obj.Length) - regDist)
         if self._obj.InhibitedEnds == GRAIN_INHIBITED_BOTTOM: # Bottom
-            return (regDist, self._obj.Length)
+            return (regDist, float(self._obj.Length))
         if self._obj.InhibitedEnds == GRAIN_INHIBITED_BOTH:
-            return (0, self._obj.Length)
+            return (0, float(self._obj.Length))
 
         # The enum should prevent this from even being raised, but to cover the case where it somehow gets set wrong
         raise ValueError('Invalid number of faces inhibited')

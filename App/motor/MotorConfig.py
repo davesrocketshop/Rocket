@@ -35,23 +35,23 @@ class MotorConfig(object):
        
         # Limits
         if not hasattr(obj, 'MaxPressure'):
-            obj.addProperty('App::PropertyFloatConstraint', 'MaxPressure', 'MotorConfig', translate('App::Property', 'Maximum Allowed Pressure')).MaxPressure = (0, 0, 7e7, 0)
+            obj.addProperty('App::PropertyPressure', 'MaxPressure', 'MotorConfig', translate('App::Property', 'Maximum Allowed Pressure')).MaxPressure = 0 #(0, 0, 7e7, 0)
         if not hasattr(obj, 'MaxMassFlux'):
-            obj.addProperty('App::PropertyFloatConstraint', 'MaxMassFlux', 'MotorConfig', translate('App::Property', 'Maximum Allowed Mass Flux')).MaxMassFlux = (0, 0, 1e4, 0)
+            obj.addProperty('App::PropertyFloat', 'MaxMassFlux', 'MotorConfig', translate('App::Property', 'Maximum Allowed Mass Flux')).MaxMassFlux = 0 #(0, 0, 1e4, 0)
         if not hasattr(obj, 'MinPortThroat'):
-            obj.addProperty('App::PropertyFloatConstraint', 'MinPortThroat', 'MotorConfig', translate('App::Property', 'Minimum Allowed Port/Throat Ratio')).MinPortThroat = (1, 1, 4, 0)
+            obj.addProperty('App::PropertyLength', 'MinPortThroat', 'MotorConfig', translate('App::Property', 'Minimum Allowed Port/Throat Ratio')).MinPortThroat = 1 #(1, 1, 4, 0)
 
         # Simulation
         if not hasattr(obj, 'BurnoutWebThreshold'):
-            obj.addProperty('App::PropertyFloatConstraint', 'BurnoutWebThreshold', 'MotorConfig', translate('App::Property', 'Web Burnout Threshold')).BurnoutWebThreshold = (2.54e-5, 2.54e-5, 3.175e-3, 0)
+            obj.addProperty('App::PropertyFloat', 'BurnoutWebThreshold', 'MotorConfig', translate('App::Property', 'Web Burnout Threshold')).BurnoutWebThreshold = 2.54e-5 #(2.54e-5, 2.54e-5, 3.175e-3, 0)
         if not hasattr(obj, 'BurnoutThrustThreshold'):
-            obj.addProperty('App::PropertyFloatConstraint', 'BurnoutThrustThreshold', 'MotorConfig', translate('App::Property', 'Thrust Burnout Threshold')).BurnoutThrustThreshold = (0.01, 0.01, 10, 0)
+            obj.addProperty('App::PropertyFloat', 'BurnoutThrustThreshold', 'MotorConfig', translate('App::Property', 'Thrust Burnout Threshold')).BurnoutThrustThreshold = 0.01 #(0.01, 0.01, 10, 0)
         if not hasattr(obj, 'TimeStep'):
-            obj.addProperty('App::PropertyFloatConstraint', 'TimeStep', 'MotorConfig', translate('App::Property', 'Simulation Timestep')).TimeStep = (0.0001, 0.0001, 0.1, 0)
+            obj.addProperty('App::PropertyFloat', 'TimeStep', 'MotorConfig', translate('App::Property', 'Simulation Timestep')).TimeStep = 0.0001 #(0.0001, 0.0001, 0.1, 0)
         if not hasattr(obj, 'AmbientPressure'):
-            obj.addProperty('App::PropertyFloatConstraint', 'AmbientPressure', 'MotorConfig', translate('App::Property', 'Ambient Pressure')).AmbientPressure = (0.0001, 0.0001, 10200, 0)
+            obj.addProperty('App::PropertyPressure', 'AmbientPressure', 'MotorConfig', translate('App::Property', 'Ambient Pressure')).AmbientPressure = 0.0001 # (0.0001, 0.0001, 10200, 0)
         if not hasattr(obj, 'MapDimension'):
-            obj.addProperty('App::PropertyIntegerConstraint', 'MapDimension', 'MotorConfig', translate('App::Property', 'Grain Map Dimension')).MapDimension = (250, 250, 2000, 1)
+            obj.addProperty('App::PropertyInteger', 'MapDimension', 'MotorConfig', translate('App::Property', 'Grain Map Dimension')).MapDimension = 250 #(250, 250, 2000, 1)
 
         self.Type = FEATURE_MOTOR_CONFIG
         self._obj = obj

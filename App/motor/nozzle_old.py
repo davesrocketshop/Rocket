@@ -1,91 +1,46 @@
-# ***************************************************************************
-# *   Copyright (c) 2022 David Carter <dcarter@davidcarter.ca>              *
-# *                                                                         *
-# *   This program is free software; you can redistribute it and/or modify  *
-# *   it under the terms of the GNU Lesser General Public License (LGPL)    *
-# *   as published by the Free Software Foundation; either version 2 of     *
-# *   the License, or (at your option) any later version.                   *
-# *   for detail see the LICENCE text file.                                 *
-# *                                                                         *
-# *   This program is distributed in the hope that it will be useful,       *
-# *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
-# *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
-# *   GNU Library General Public License for more details.                  *
-# *                                                                         *
-# *   You should have received a copy of the GNU Library General Public     *
-# *   License along with this program; if not, write to the Free Software   *
-# *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  *
-# *   USA                                                                   *
-# *                                                                         *
-# ***************************************************************************
-"""Class for rocket motors"""
-
-__title__ = "FreeCAD Rocket Motors"
-__author__ = "David Carter"
-__url__ = "https://www.davesrocketshop.com"
-
+"""This submodule houses the nozzle object and functions related to isentropic flow"""
 import math
 
 from scipy.optimize import fsolve
 
-from App.FeatureBase import FeatureBase
+from .properties import FloatProperty, PropertyCollection
+from . import geometry
+from .simResult import SimAlert, SimAlertLevel, SimAlertType
 
-from App.Constants import FEATURE_MOTOR_NOZZLE
-
-from App.motor import geometry
-from App.motor.simResult import SimAlert, SimAlertLevel, SimAlertType
-
-from DraftTools import translate
 
 def eRatioFromPRatio(k, pRatio):
     """Returns the expansion ratio of a nozzle given the pressure ratio it causes."""
     return (((k+1)/2)**(1/(k-1))) * (pRatio ** (1/k)) * ((((k+1)/(k-1))*(1-(pRatio**((k-1)/k))))**0.5)
 
-class Nozzle(FeatureBase):
+class Nozzle(PropertyCollection):
     """An object that contains the details about a motor's nozzle."""
-
-    def _initAttributes(self, obj):
-        super()._initAttributes(obj)
-       
-        if not hasattr(obj, 'Throat'):
-            obj.addProperty('App::PropertyLength', 'Throat', 'Nozzle', translate('App::Property', 'Throat Diameter')).Throat = 0.5
-        if not hasattr(obj, 'Exit'):
-            obj.addProperty('App::PropertyLength', 'Exit', 'Nozzle', translate('App::Property', 'Exit Diameter')).Exit = 1.0
-        if not hasattr(obj, 'Efficiency'):
-            obj.addProperty('App::PropertyFloat', 'Efficiency', 'Nozzle', translate('App::Property', 'Efficiency')).Efficiency = 1.0
-        if not hasattr(obj, 'DivAngle'):
-            obj.addProperty('App::PropertyAngle', 'DivAngle', 'Nozzle', translate('App::Property', 'Divergence Half Angle')).DivAngle = 15.0
-        if not hasattr(obj, 'ConvAngle'):
-            obj.addProperty('App::PropertyAngle', 'ConvAngle', 'Nozzle', translate('App::Property', 'Convergence Half Angle')).ConvAngle = 30.0
-        if not hasattr(obj, 'ThroatLength'):
-            obj.addProperty('App::PropertyLength', 'ThroatLength', 'Nozzle', translate('App::Property', 'Throat Length')).ThroatLength = 0.02
-        if not hasattr(obj, 'SlagCoeff'):
-            obj.addProperty('App::PropertyFloat', 'SlagCoeff', 'Nozzle', translate('App::Property', 'Slag Buildup Coefficien')).SlagCoeff = 1.0
-        if not hasattr(obj, 'ErosionCoeff'):
-            obj.addProperty('App::PropertyFloat', 'ErosionCoeff', 'Nozzle', translate('App::Property', 'Throat Erosion Coefficient')).ErosionCoeff = 1.0
-
-    def _initVars(self, obj):
-        super()._initVars(obj)
-
-    def featureType(self):
-        return FEATURE_MOTOR_NOZZLE
+    def __init__(self):
+        super().__init__()
+        self.props['throat'] = FloatProperty('Throat Diameter', 'm', 0, 0.5)
+        self.props['exit'] = FloatProperty('Exit Diameter', 'm', 0, 1)
+        self.props['efficiency'] = FloatProperty('Efficiency', '', 0, 2)
+        self.props['divAngle'] = FloatProperty('Divergence Half Angle', 'deg', 0, 90)
+        self.props['convAngle'] = FloatProperty('Convergence Half Angle', 'deg', 0, 90)
+        self.props['throatLength'] = FloatProperty('Throat Length', 'm', 0, 0.5)
+        self.props['slagCoeff'] = FloatProperty('Slag Buildup Coefficient', '(m*Pa)/s', 0, 1e6)
+        self.props['erosionCoeff'] = FloatProperty('Throat Erosion Coefficient', 'm/(s*Pa)', 0, 1e6)
 
     def getDetailsString(self, lengthUnit='m'):
         """Returns a human-readable string containing some details about the nozzle."""
-        return 'Throat: {}'.format(self._obj.Throat)
+        return 'Throat: {}'.format(self.props['throat'].dispFormat(lengthUnit))
 
     def calcExpansion(self):
         """Returns the nozzle's expansion ratio."""
-        return float(self._obj.Exit / self._obj.Throat) ** 2
+        return (self.props['exit'].getValue() / self.props['throat'].getValue()) ** 2
 
     def getThroatArea(self, dThroat=0):
         """Returns the area of the nozzle's throat. The optional parameter is added on to the nozzle throat diameter
         allow erosion or slag buildup during a burn."""
-        return geometry.circleArea(float(self._obj.Throat) + dThroat)
+        return geometry.circleArea(self.props['throat'].getValue() + dThroat)
 
     def getExitArea(self):
         """Return the area of the nozzle's exit."""
-        return geometry.circleArea(float(self._obj.Exit))
+        return geometry.circleArea(self.props['exit'].getValue())
 
     def getExitPressure(self, k, inputPressure):
         """Solves for the nozzle's exit pressure, given an input pressure and the gas's specific heat ratio."""
@@ -93,13 +48,13 @@ class Nozzle(FeatureBase):
 
     def getDivergenceLosses(self):
         """Returns nozzle efficiency losses due to divergence angle"""
-        divAngleRad = math.radians(float(self._obj.DivAngle))
+        divAngleRad = math.radians(self.props["divAngle"].getValue())
         return (1 + math.cos(divAngleRad)) / 2
 
     def getThroatLosses(self, dThroat=0):
         """Returns the losses caused by the throat aspect ratio as described in this document:
         http://rasaero.com/dloads/Departures%20from%20Ideal%20Performance.pdf"""
-        throatAspect = float(self._obj.ThroatLength) / (float(self._obj.Throat) + dThroat)
+        throatAspect = self.props['throatLength'].getValue() / (self.props['throat'].getValue() + dThroat)
         if throatAspect > 0.45:
             return 0.95
         return 0.99 - (0.0333 * throatAspect)
@@ -142,19 +97,19 @@ class Nozzle(FeatureBase):
         divLoss = self.getDivergenceLosses()
         throatLoss = self.getThroatLosses(dThroat)
         skinLoss = self.getSkinLosses()
-        efficiency = float(self._obj.Efficiency)
+        efficiency = self.getProperty('efficiency')
         return divLoss * throatLoss * efficiency * (skinLoss * thrustCoeffIdeal + (1 - skinLoss))
 
     def getGeometryErrors(self):
         """Returns a list containing any errors with the nozzle's properties."""
         errors = []
-        if self._obj.Throat == 0:
+        if self.props['throat'].getValue() == 0:
             aText = 'Throat diameter must not be 0'
             errors.append(SimAlert(SimAlertLevel.ERROR, SimAlertType.GEOMETRY, aText, 'Nozzle'))
-        if self._obj.Exit < self._obj.Throat:
+        if self.props['exit'].getValue() < self.props['throat'].getValue():
             aText = 'Exit diameter must not be smaller than throat diameter'
             errors.append(SimAlert(SimAlertLevel.ERROR, SimAlertType.GEOMETRY, aText, 'Nozzle'))
-        if self._obj.Efficiency == 0:
+        if self.props['efficiency'].getValue() == 0:
             aText = 'Efficiency must not be 0'
             errors.append(SimAlert(SimAlertLevel.ERROR, SimAlertType.CONSTRAINT, aText, 'Nozzle'))
         return errors

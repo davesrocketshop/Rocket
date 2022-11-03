@@ -77,8 +77,8 @@ class Propellant:
     def __init__(self, obj):
         super().__init__()
 
-        if not hasattr(obj, 'Name'):
-            obj.addProperty('App::PropertyString', 'Name', 'Propellant', translate('App::Property', 'Name')).Name = ""
+        # if not hasattr(obj, 'Name'):
+        #     obj.addProperty('App::PropertyString', 'Name', 'Propellant', translate('App::Property', 'Name')).Name = ""
         if not hasattr(obj, 'Density'):
             obj.addProperty('App::PropertyFloat', 'Density', 'Propellant', translate('App::Property', 'Density')).Density = 1.0
        
@@ -97,6 +97,9 @@ class Propellant:
         PropellantTab(obj)
 
         self._obj = obj
+
+    def getTabs(self):
+        return self._obj.Group
 
     def __getstate__(self):
         return self.version
@@ -145,16 +148,16 @@ class Propellant:
         """Checks that all tabs have smaller start pressures than their end pressures, and verifies that no ranges
         overlap."""
         errors = []
-        for tabId, tab in enumerate(self.getProperty('tabs')):
+        for tabId, tab in enumerate(self._obj.Group):
             if tab.MaxPressure == tab.MinPressure:
                 errText = 'Tab #{} has the same minimum and maximum pressures.'.format(tabId + 1)
                 errors.append(SimAlert(SimAlertLevel.ERROR, SimAlertType.VALUE, errText, 'Propellant'))
             if tab.MaxPressure < tab.MinPressure:
                 errText = 'Tab #{} has reversed pressure limits.'.format(tabId + 1)
                 errors.append(SimAlert(SimAlertLevel.ERROR, SimAlertType.VALUE, errText, 'Propellant'))
-            for otherTabId, otherTab in enumerate(self.getProperty('tabs')):
+            for otherTabId, otherTab in enumerate(self._obj.Group):
                 if tabId != otherTabId:
-                    if othertab.MinPressure < tab.MaxPressure < othertab.MaxPressure:
+                    if otherTab.MinPressure < tab.MaxPressure < otherTab.MaxPressure:
                         err = 'Tabs #{} and #{} have overlapping ranges.'.format(tabId + 1, otherTabId + 1)
                         errors.append(SimAlert(SimAlertLevel.ERROR, SimAlertType.VALUE, err, 'Propellant'))
         return errors

@@ -49,14 +49,14 @@ class BatesGrain(PerforatedGrain):
             obj.addProperty('App::PropertyLength', 'CoreDiameter', 'Grain', translate('App::Property', 'Core diameter')).CoreDiameter = 1.0
 
     def simulationSetup(self, config):
-        self.wallWeb = (self._obj.Diameter - self._obj.CoreDiameter) / 2
+        self.wallWeb = float(self._obj.Diameter - self._obj.CoreDiameter) / 2
 
     def getCorePerimeter(self, regDist):
-        return geometry.circlePerimeter(self._obj.CoreDiameter + (2 * regDist))
+        return geometry.circlePerimeter(float(self._obj.CoreDiameter) + (2 * regDist))
 
     def getFaceArea(self, regDist):
-        outer = geometry.circleArea(self._obj.Diameter)
-        inner = geometry.circleArea(self._obj.CoreDiameter + (2 * regDist))
+        outer = geometry.circleArea(float(self._obj.Diameter))
+        inner = geometry.circleArea(float(self._obj.CoreDiameter) + (2 * regDist))
         return outer - inner
 
     def getDetailsString(self, lengthUnit='m'):
