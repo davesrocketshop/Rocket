@@ -165,86 +165,74 @@ class Coordinate():
     """
     def length(self):
         if self.length < 0:
-            length = math.sqrt(x * x + y * y + z * z);
-        }
-        return length;
-    }
+            length = math.sqrt(self.length2())
 
-    /**
-        * Square of the distance from the origin to the Coordinate.
-        */
-    public double length2() {
-        return x * x + y * y + z * z;
-    }
+        return length
+
+    """
+        Square of the distance from the origin to the Coordinate.
+    """
+    def length2(self):
+        return self.x * self.x + self.y * self.y + self.z * self.z
 
 
-    /**
-        * Return the largest of the absolute values of the coordinates.  This can be
-        * used as a norm of the vector that is faster to calculate than the
-        * 2-norm.
-        * 
-        * @return	the largest absolute value of (x,y,z)
-        */
-    public double max() {
-        return MathUtil.max(Math.abs(x), Math.abs(y), Math.abs(z));
-    }
+    """
+        Return the largest of the absolute values of the coordinates.  This can be
+        used as a norm of the vector that is faster to calculate than the
+        2-norm.
+    """
+    def max(self):
+        return max(math.abs(self.x), math.abs(self.y), math.abs(self.z))
 
 
-    /**
-        * Returns a new coordinate which has the same direction from the origin as this
-        * coordinate but is at a distance of one.  If this coordinate is the origin,
-        * this method throws an <code>IllegalStateException</code>.  The weight of the
-        * coordinate is unchanged.
-        * 
-        * @return   the coordinate normalized to distance one of the origin.
-        * @throws   IllegalStateException  if this coordinate is the origin.
-        */
-    public Coordinate normalize() {
-        double l = length();
-        if (l < 0.0000001) {
-            throw new IllegalStateException("Cannot normalize zero coordinate");
-        }
-        return new Coordinate(x / l, y / l, z / l, weight);
-    }
+    """
+        Returns a new coordinate which has the same direction from the origin as this
+        coordinate but is at a distance of one.  If this coordinate is the origin,
+        this method throws an <code>IllegalStateException</code>.  The weight of the
+        coordinate is unchanged.
+    """
+    def normalize(self):
+        l = self.length()
+        if l < 0.0000001:
+            #raise IllegalStateException("Cannot normalize zero coordinate")
+            raise Exception("Cannot normalize zero coordinate")
 
+        return Coordinate(self.x / l, self.y / l, self.z / l, self.weight)
 
-
-
-    /**
-        * Weighted average of two coordinates.  If either of the weights are positive,
-        * the result is the weighted average of the coordinates and the weight is the sum
-        * of the original weights.  If the sum of the weights is zero (and especially if
-        * both of the weights are zero), the result is the unweighted average of the 
-        * coordinates with weight zero.
-        * <p>
-        * If <code>other</code> is <code>null</code> then this <code>Coordinate</code> is
-        * returned.
-        */
-    public Coordinate average(Coordinate other) {
-        double x1, y1, z1, w1;
+    """
+        Weighted average of two coordinates.  If either of the weights are positive,
+        the result is the weighted average of the coordinates and the weight is the sum
+        of the original weights.  If the sum of the weights is zero (and especially if
+        both of the weights are zero), the result is the unweighted average of the 
+        coordinates with weight zero.
         
-        if (other == null)
-            return this;
+        If <code>other</code> is <code>null</code> then this <code>Coordinate</code> is
+        returned.
+    """
+    def average(self, other):
         
-        w1 = this.weight + other.weight;
-        if (Math.abs(w1) < MathUtil.pow2(MathUtil.EPSILON)) {
-            x1 = (this.x + other.x) / 2;
-            y1 = (this.y + other.y) / 2;
-            z1 = (this.z + other.z) / 2;
+        if other is None:
+            return self
+        
+        w1 = self.weight + other.weight
+        if abs(w1) < math.pow2(math.EPSILON):
+            x1 = (self.x + other.x) / 2
+            y1 = (self.y + other.y) / 2
+            z1 = (self.z + other.z) / 2
             w1 = 0;
-        } else {
-            x1 = (this.x * this.weight + other.x * other.weight) / w1;
-            y1 = (this.y * this.weight + other.y * other.weight) / w1;
-            z1 = (this.z * this.weight + other.z * other.weight) / w1;
-        }
-        return new Coordinate(x1, y1, z1, w1);
+        else:
+            x1 = (self.x * self.weight + other.x * other.weight) / w1
+            y1 = (self.y * self.weight + other.y * other.weight) / w1
+            z1 = (self.z * self.weight + other.z * other.weight) / w1
 
-ZERO = Coordinate(0, 0, 0, 0);
-NUL = Coordinate(0, 0, 0, 0);
-NAN = Coordinate(math.nan, math.nan,math.nan, math.nan);
-MAX = Coordinate( sys.float_info.max, sys.float_info.max, sys.float_info.max,sys.float_info.max);
-MIN = Coordinate(-sys.float_info.max,-sys.float_info.max,-sys.float_info.max,0.0);
+        return Coordinate(x1, y1, z1, w1)
 
-X_UNIT = Coordinate(1, 0, 0);
-Y_UNIT = Coordinate(0, 1, 0);
-Z_UNIT = Coordinate(0, 0, 1);
+ZERO = Coordinate(0, 0, 0, 0)
+NUL = Coordinate(0, 0, 0, 0)
+NAN = Coordinate(math.nan, math.nan,math.nan, math.nan)
+MAX = Coordinate( sys.float_info.max, sys.float_info.max, sys.float_info.max,sys.float_info.max)
+MIN = Coordinate(-sys.float_info.max,-sys.float_info.max,-sys.float_info.max,0.0)
+
+X_UNIT = Coordinate(1, 0, 0)
+Y_UNIT = Coordinate(0, 1, 0)
+Z_UNIT = Coordinate(0, 0, 1)
