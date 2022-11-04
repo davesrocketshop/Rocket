@@ -71,10 +71,10 @@ class ConicalGrain(Grain):
     def getFrustumInfo(self, regDist):
         """Returns the dimensions of the grain's core at a given regression depth. The core is always a frustum and is
         returned as the aft diameter, forward diameter, and length"""
-        grainDiameter = self._obj.Diameter
-        aftDiameter = self._obj.AftCoreDiameter
-        forwardDiameter = self._obj.ForwardCoreDiameter
-        grainLength = self._obj.Length
+        grainDiameter = float(self._obj.Diameter)
+        aftDiameter = float(self._obj.AftCoreDiameter)
+        forwardDiameter = float(self._obj.ForwardCoreDiameter)
+        grainLength = float(self._obj.Length)
 
         exposedFaces = 0
         inhibitedEnds = self._obj.InhibitedEnds
@@ -142,7 +142,7 @@ class ConicalGrain(Grain):
         """Returns the volume of propellant in the grain after it has regressed a linear distance 'regDist'"""
         aftDiameter, forwardDiameter, length = self.getFrustumInfo(regDist)
         frustumVolume = geometry.frustumVolume(aftDiameter, forwardDiameter, length)
-        outerVolume = geometry.cylinderVolume(self._obj.Diameter, length)
+        outerVolume = geometry.cylinderVolume(float(self._obj.Diameter), length)
 
         return outerVolume - frustumVolume
 
@@ -150,7 +150,7 @@ class ConicalGrain(Grain):
         """Returns the shortest distance the grain has to regress to burn out"""
         aftDiameter, forwardDiameter, length = self.getFrustumInfo(regDist)
 
-        return (self._obj.Diameter - min(aftDiameter, forwardDiameter)) / 2
+        return (float(self._obj.Diameter) - min(aftDiameter, forwardDiameter)) / 2
 
     def getMassFlow(self, massIn, dTime, regDist, dRegDist, position, density):
         """Returns the mass flow at a point along the grain. Takes in the mass flow into the grain, a timestep, the
@@ -199,7 +199,7 @@ class ConicalGrain(Grain):
     def getEndPositions(self, regDist):
         """Returns the positions of the grain ends relative to the original (unburned) grain top. Returns a tuple like
         (forward, aft)"""
-        originalLength = self._obj.Length
+        originalLength = float(self._obj.Length)
         aftCoreDiameter, forwardCoreDiameter, currentLength = self.getFrustumInfo(regDist)
         inhibitedEnds = self._obj.InhibitedEnds
 

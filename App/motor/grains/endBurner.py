@@ -45,12 +45,12 @@ class EndBurningGrain(Grain):
         EndBurningGrain(obj)
 
     def getSurfaceAreaAtRegression(self, regDist):
-        diameter = self._obj.Diameter
+        diameter = float(self._obj.Diameter)
         return geometry.circleArea(diameter)
 
     def getVolumeAtRegression(self, regDist):
         bLength = self.getRegressedLength(regDist)
-        diameter = self._obj.Diameter
+        diameter = float(self._obj.Diameter)
         return geometry.cylinderVolume(diameter, bLength)
 
     def simulationSetup(self, config):
@@ -66,4 +66,4 @@ class EndBurningGrain(Grain):
         return None
 
     def getEndPositions(self, regDist):
-        return (0, self._obj.Length - regDist)
+        return (0, float(self._obj.Length) - regDist)
