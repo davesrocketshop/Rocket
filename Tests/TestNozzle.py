@@ -33,6 +33,8 @@ from App.motor.grains.bates import BatesGrain
 from App.motor.Propellant import Propellant, PropellantTab
 from App.motor.Nozzle import eRatioFromPRatio, Nozzle
 
+from Ui.CmdOpenMotor import makeNozzle
+
 from App.Constants import GRAIN_INHIBITED_NEITHER
 
 class TestNozzleMethods(unittest.TestCase):
@@ -44,8 +46,7 @@ class TestNozzleMethods(unittest.TestCase):
         self.assertAlmostEqual(eRatioFromPRatio(1.15, 0.0156), 0.10650602)
 
     def test_expansionRatio(self):
-        nozzle = FreeCAD.ActiveDocument.addObject("Part::FeaturePython","Nozzle")
-        Nozzle(nozzle)
+        nozzle = makeNozzle()
 
         nozzle.Throat = 0.1
         nozzle.Exit = 0.2
@@ -56,8 +57,7 @@ class TestNozzleMethods(unittest.TestCase):
         self.assertAlmostEqual(nozzle.Proxy.calcExpansion(), 9.0)
 
     def test_getExitPressure(self):
-        nozzle = FreeCAD.ActiveDocument.addObject("Part::FeaturePython","Nozzle")
-        Nozzle(nozzle)
+        nozzle = makeNozzle()
 
         nozzle.Throat = 0.1
         nozzle.Exit = 0.2

@@ -27,7 +27,8 @@ __url__ = "https://www.davesrocketshop.com"
 import FreeCAD
 import unittest
 
-from App.motor.Motor import Motor, makeMotor
+# from App.motor.Motor import Motor, makeMotor
+from Ui.CmdOpenMotor import makeMotor
 from App.motor.MotorConfig import MotorConfig
 from App.motor.grains.bates import BatesGrain
 from App.motor.Propellant import Propellant, PropellantTab
@@ -84,8 +85,10 @@ class TestMotorMethods(unittest.TestCase):
         Propellant(propellant)
         # propellant.Name = 'KNSU'
         propellant.Density = 1890
-        tm.addObject(propellant)
+        # tm.addObject(propellant)
+        tm.Proxy.setPropellant(propellant.Proxy)
         self.assertIsNotNone(tm.Proxy.getPropellant())
+        self.assertEqual(tm.Proxy.getPropellant(), propellant.Proxy)
 
         tab = FreeCAD.ActiveDocument.addObject("Part::FeaturePython","PropellantTab")
         PropellantTab(tab)
@@ -94,7 +97,6 @@ class TestMotorMethods(unittest.TestCase):
         tab.t = 1720
         tab.m = 41.98
         tab.k = 1.133
-        propellant.addObject(tab)
-        # self.assertIsNotNone(tm.Proxy.getPropellant())
+        tm.Proxy.getPropellant()._obj.addObject(tab)
 
         self.assertAlmostEqual(tm.Proxy.calcIdealPressure([0], 0), 4050196, 0)

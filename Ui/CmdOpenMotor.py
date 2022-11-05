@@ -20,7 +20,7 @@
 # ***************************************************************************
 """Class for Motor Analysis"""
 
-__title__ = "FreeCAD Black Powder Calculator"
+__title__ = "FreeCAD Motor Analyzer"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
     
@@ -32,6 +32,97 @@ from DraftTools import translate
 from PySide import QtGui
 
 from Ui.DialogFinFlutter import DialogFinFlutter
+from Ui.ViewMotor import ViewProviderMotor, ViewProviderMotorConfig, ViewProviderPropellant, ViewProviderNozzle, \
+    ViewProviderGrains, ViewProviderGrain
+
+from App.motor.Motor import Motor
+from App.motor.MotorConfig import MotorConfig
+from App.motor.Grain import Grains, Grain
+from App.motor.Nozzle import Nozzle
+from App.motor.Propellant import Propellant
+
+from App.motor.grains.bates import BatesGrain
+
+def makeMotorConfig(name="MotorConfig"):
+
+    config = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
+    MotorConfig(config)
+
+    if FreeCAD.GuiUp:
+        ViewProviderMotorConfig(config.ViewObject)
+
+    return config
+
+def makePropellant(name="Propellant"):
+
+    propellant = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
+    Propellant(propellant)
+
+    if FreeCAD.GuiUp:
+        ViewProviderPropellant(propellant.ViewObject)
+
+    return propellant
+
+def makeNozzle(name="Nozzle"):
+
+    nozzle = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
+    Nozzle(nozzle)
+
+    if FreeCAD.GuiUp:
+        ViewProviderNozzle(nozzle.ViewObject)
+
+    return nozzle
+
+def makeGrains(name="Grains"):
+
+    grains = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
+    Grains(grains)
+
+    if FreeCAD.GuiUp:
+        ViewProviderGrains(grains.ViewObject)
+
+    return grains
+
+def makeGrain(name="Grain"):
+
+    grain = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
+    Grain(grain)
+
+    if FreeCAD.GuiUp:
+        ViewProviderGrain(grain.ViewObject)
+
+    return grain
+
+def makeBatesGrain(name="Grain"):
+
+    grain = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
+    BatesGrain(grain)
+
+    if FreeCAD.GuiUp:
+        ViewProviderGrain(grain.ViewObject)
+
+    return grain
+
+def makeMotor(name="Motor"):
+    motor = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
+    Motor(motor)
+
+    if FreeCAD.GuiUp:
+        ViewProviderMotor(motor.ViewObject)
+
+    config = makeMotorConfig()
+    motor.addObject(config)
+
+    propellant = makePropellant()
+    motor.addObject(propellant)
+
+    nozzle = makeNozzle()
+    motor.addObject(nozzle)
+
+    grains = makeGrains()
+    motor.addObject(grains)
+
+    return motor
 
 def calcOpenMotor():
 

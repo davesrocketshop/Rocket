@@ -52,3 +52,23 @@ class ViewProvider:
 
     def __setstate__(self, state):
         return None
+
+class ViewProviderGroup(ViewProvider):
+
+    def __init__(self, vobj):
+        super().__init__(vobj)
+
+        vobj.addExtension("Gui::ViewProviderGroupExtensionPython")
+
+    def claimChildren(self):
+        """Define which objects will appear as children in the tree view.
+        Returns
+        -------
+        list of <App::DocumentObject>s:
+            The objects claimed as children.
+        """
+        objs = []
+        if hasattr(self,"Object"):
+            objs = self.Object.Group
+
+        return objs

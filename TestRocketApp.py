@@ -36,12 +36,12 @@ from Ui.CmdFinCan import makeFinCan
 # from Tests.TestNoses import NoseTests
 # from Tests.TestTransition import TransitionTests
 
-# from Tests.TestMotor import TestMotorMethods
-# from Tests.TestNozzle import TestNozzleMethods
-# from Tests.TestGeometry import TestGeometryMethods
-# from Tests.TestPropellant import TestPropellantMethods
-# from Tests.Grains.TestBates import BatesGrainMethods
-# from Tests.Grains.TestConical import ConicalGrainMethods
+from Tests.TestMotor import TestMotorMethods
+from Tests.TestNozzle import TestNozzleMethods
+from Tests.TestGeometry import TestGeometryMethods
+from Tests.TestPropellant import TestPropellantMethods
+from Tests.Grains.TestBates import BatesGrainMethods
+from Tests.Grains.TestConical import ConicalGrainMethods
 from Tests.Grains.TestEndburner import EndBurningGrainMethods
 
 class RocketTestCases(unittest.TestCase):

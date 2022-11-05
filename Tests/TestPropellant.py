@@ -29,14 +29,15 @@ import unittest
 
 from App.motor.Propellant import Propellant, PropellantTab
 
+from Ui.CmdOpenMotor import makePropellant
+
 class TestPropellantMethods(unittest.TestCase):
 
     def setUp(self):
         self.Doc = FreeCAD.newDocument("PropellantTest")
 
     def test_proper_propellant_ranges(self):
-        props = FreeCAD.ActiveDocument.addObject("Part::FeaturePython","Propellant")
-        Propellant(props)
+        props = makePropellant()
 
         # props.Name = 'TestProp'
         props.Density = 1650
@@ -55,8 +56,7 @@ class TestPropellantMethods(unittest.TestCase):
         self.assertEqual(len(props.Proxy.getErrors()), 0)
 
     def test_backwards_pressure_ranges(self):
-        props = FreeCAD.ActiveDocument.addObject("Part::FeaturePython","Propellant")
-        Propellant(props)
+        props = makePropellant()
 
         # props.Name = 'TestProp'
         props.Density = 1650

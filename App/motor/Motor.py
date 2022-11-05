@@ -104,6 +104,23 @@ class Motor(object):
 
         return None
 
+    def _replace(self, index, value):
+        list = self._obj.Group
+        list[index] = value
+        self._obj.Group = list
+
+    def setPropellant(self, propellant):
+        if not isinstance(propellant, Propellant):
+            raise ValueError("A propellant object is required")
+
+        for index, obj in enumerate(self._obj.Group):
+            if isinstance(obj.Proxy, Propellant):
+                self._replace(index, propellant._obj)
+                return
+
+        # No propellant found so add it
+        self._obj.addObject(propellant._obj)
+
     def calcBurningSurfaceArea(self, regDepth):
         burnoutThres = self.getMotorConfig().getBurnoutWebThreshold()
         gWithReg = zip(self.getGrains().Group, regDepth)
