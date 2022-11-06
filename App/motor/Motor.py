@@ -106,6 +106,7 @@ class Motor(object):
 
     def _replace(self, index, value):
         list = self._obj.Group
+        FreeCAD.ActiveDocument.removeObject(list[index].Label)
         list[index] = value
         self._obj.Group = list
 

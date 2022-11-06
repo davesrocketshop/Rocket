@@ -32,14 +32,14 @@ from DraftTools import translate
 from PySide import QtGui
 
 from Ui.DialogFinFlutter import DialogFinFlutter
-from Ui.ViewMotor import ViewProviderMotor, ViewProviderMotorConfig, ViewProviderPropellant, ViewProviderNozzle, \
-    ViewProviderGrains, ViewProviderGrain
+from Ui.ViewMotor import ViewProviderMotor, ViewProviderMotorConfig, ViewProviderPropellant, ViewProviderPropellantTab, \
+    ViewProviderNozzle, ViewProviderGrains, ViewProviderGrain
 
 from App.motor.Motor import Motor
 from App.motor.MotorConfig import MotorConfig
 from App.motor.Grain import Grains, Grain
 from App.motor.Nozzle import Nozzle
-from App.motor.Propellant import Propellant
+from App.motor.Propellant import Propellant, PropellantTab
 
 from App.motor.grains.bates import BatesGrain
 
@@ -62,6 +62,16 @@ def makePropellant(name="Propellant"):
         ViewProviderPropellant(propellant.ViewObject)
 
     return propellant
+
+def makePropellantTab(name="PropellantTab"):
+
+    tab = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
+    PropellantTab(tab)
+
+    if FreeCAD.GuiUp:
+        ViewProviderPropellantTab(tab.ViewObject)
+
+    return tab
 
 def makeNozzle(name="Nozzle"):
 

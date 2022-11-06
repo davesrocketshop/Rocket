@@ -73,6 +73,21 @@ class ViewProviderPropellant(ViewProviderGroup):
     def unsetEdit(self,vobj,mode):
         return False
 
+class ViewProviderPropellantTab(ViewProvider):
+
+    def __init__(self, vobj):
+        super().__init__(vobj)
+
+    def getIcon(self):
+        return FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_OpenMotor.svg"
+
+    def setEdit(self,vobj,mode):
+        # No editor associated with this object
+        return False
+
+    def unsetEdit(self,vobj,mode):
+        return False
+
 class ViewProviderNozzle(ViewProvider):
 
     def __init__(self, vobj):

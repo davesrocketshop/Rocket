@@ -28,7 +28,7 @@ import FreeCAD
 import unittest
 
 # from App.motor.Motor import Motor, makeMotor
-from Ui.CmdOpenMotor import makeMotor
+from Ui.CmdOpenMotor import makeMotor, makePropellant, makePropellantTab, makeBatesGrain
 from App.motor.MotorConfig import MotorConfig
 from App.motor.grains.bates import BatesGrain
 from App.motor.Propellant import Propellant, PropellantTab
@@ -47,8 +47,7 @@ class TestMotorMethods(unittest.TestCase):
         self.assertIsNotNone(tm.Proxy.getNozzle())
         self.assertIsNotNone(tm.Proxy.getGrains())
 
-        bg = FreeCAD.ActiveDocument.addObject("Part::FeaturePython","Grain")
-        BatesGrain(bg)
+        bg = makeBatesGrain()
         bg.Diameter = 0.083058
         bg.Length = 0.1397
         bg.CoreDiameter = 0.05
@@ -69,8 +68,7 @@ class TestMotorMethods(unittest.TestCase):
         self.assertIsNotNone(tm.Proxy.getNozzle())
         self.assertIsNotNone(tm.Proxy.getGrains())
 
-        bg = FreeCAD.ActiveDocument.addObject("Part::FeaturePython","Grain")
-        BatesGrain(bg)
+        bg = makeBatesGrain()
         bg.Diameter = 0.083058
         bg.Length = 0.1397
         bg.CoreDiameter = 0.05
@@ -81,8 +79,7 @@ class TestMotorMethods(unittest.TestCase):
 
         tm.Proxy.getNozzle()._obj.Throat = 0.01428
 
-        propellant = FreeCAD.ActiveDocument.addObject("Part::FeaturePython","Propellant")
-        Propellant(propellant)
+        propellant = makePropellant()
         # propellant.Name = 'KNSU'
         propellant.Density = 1890
         # tm.addObject(propellant)
@@ -90,8 +87,7 @@ class TestMotorMethods(unittest.TestCase):
         self.assertIsNotNone(tm.Proxy.getPropellant())
         self.assertEqual(tm.Proxy.getPropellant(), propellant.Proxy)
 
-        tab = FreeCAD.ActiveDocument.addObject("Part::FeaturePython","PropellantTab")
-        PropellantTab(tab)
+        tab = makePropellantTab()
         tab.a = 0.000101
         tab.n = 0.319
         tab.t = 1720
