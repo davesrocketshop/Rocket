@@ -48,9 +48,9 @@ class Nozzle(FeatureBase):
         super()._initAttributes(obj)
        
         if not hasattr(obj, 'Throat'):
-            obj.addProperty('App::PropertyLength', 'Throat', 'Nozzle', translate('App::Property', 'Throat Diameter')).Throat = 0.5
+            obj.addProperty('App::PropertyLength', 'Throat', 'Nozzle', translate('App::Property', 'Throat Diameter')).Throat = 12.7
         if not hasattr(obj, 'Exit'):
-            obj.addProperty('App::PropertyLength', 'Exit', 'Nozzle', translate('App::Property', 'Exit Diameter')).Exit = 1.0
+            obj.addProperty('App::PropertyLength', 'Exit', 'Nozzle', translate('App::Property', 'Exit Diameter')).Exit = 25.4
         if not hasattr(obj, 'Efficiency'):
             obj.addProperty('App::PropertyFloat', 'Efficiency', 'Nozzle', translate('App::Property', 'Efficiency')).Efficiency = 1.0
         if not hasattr(obj, 'DivAngle'):
@@ -58,9 +58,9 @@ class Nozzle(FeatureBase):
         if not hasattr(obj, 'ConvAngle'):
             obj.addProperty('App::PropertyAngle', 'ConvAngle', 'Nozzle', translate('App::Property', 'Convergence Half Angle')).ConvAngle = 30.0
         if not hasattr(obj, 'ThroatLength'):
-            obj.addProperty('App::PropertyLength', 'ThroatLength', 'Nozzle', translate('App::Property', 'Throat Length')).ThroatLength = 0.02
+            obj.addProperty('App::PropertyLength', 'ThroatLength', 'Nozzle', translate('App::Property', 'Throat Length')).ThroatLength = 0.5
         if not hasattr(obj, 'SlagCoeff'):
-            obj.addProperty('App::PropertyFloat', 'SlagCoeff', 'Nozzle', translate('App::Property', 'Slag Buildup Coefficien')).SlagCoeff = 1.0
+            obj.addProperty('App::PropertyFloat', 'SlagCoeff', 'Nozzle', translate('App::Property', 'Slag Buildup Coefficient')).SlagCoeff = 1.0
         if not hasattr(obj, 'ErosionCoeff'):
             obj.addProperty('App::PropertyFloat', 'ErosionCoeff', 'Nozzle', translate('App::Property', 'Throat Erosion Coefficient')).ErosionCoeff = 1.0
 
