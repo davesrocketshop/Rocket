@@ -25,8 +25,23 @@ __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
 import FreeCAD
+import FreeCADGui
+
+from PySide import QtGui
 
 from Ui.ViewProvider import ViewProvider, ViewProviderGroup
+from Ui.MainPanelMotor import MainPanelDialog
+
+def addMotorView(view):
+    "addMotorView(view): adds the given motor view to the FreeCAD MDI area"
+    if FreeCAD.GuiUp:
+        mw = FreeCADGui.getMainWindow()
+        mdi = mw.findChild(QtGui.QMdiArea)
+        sw = mdi.addSubWindow(view)
+        sw.setWindowIcon(QtGui.QIcon(FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_OpenMotor.svg"))
+        sw.show()
+        mdi.setActiveSubWindow(sw)
+        # view.show()
 
 class ViewProviderMotor(ViewProviderGroup):
 
@@ -36,9 +51,13 @@ class ViewProviderMotor(ViewProviderGroup):
     def getIcon(self):
         return FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_OpenMotor.svg"
 
-    def setEdit(self,vobj,mode):
-        # No editor associated with this object
-        return False
+    def setEdit(self,vobj,mode=0):
+        if hasattr(self,"editor"):
+            pass
+        else:
+            self.editor = MainPanelDialog(vobj.Object, mode)
+            addMotorView(self.editor)
+        return True
 
     def unsetEdit(self,vobj,mode):
         return False

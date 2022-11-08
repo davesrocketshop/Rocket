@@ -152,11 +152,20 @@ def calcOpenMotor():
 class CmdOpenMotor:
     def Activated(self):
         FreeCADGui.addModule("Ui.CmdOpenMotor")
-        FreeCADGui.doCommand("Ui.CmdOpenMotor.calcOpenMotor()")
+        FreeCADGui.doCommand("Ui.CmdOpenMotor.makeMotor('Motor')")
+        FreeCADGui.doCommand("FreeCAD.ActiveDocument.recompute()")
+        FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
 
     def IsActive(self):
-        # Always available, even without active document
-        return True
+        # Available with active document
+        try:
+            import skfmm # Not part of the standard FreeCAD install
+            if FreeCAD.ActiveDocument:
+                return True
+        except ModuleNotFoundError:
+            pass
+
+        return False
         
     def GetResources(self):
         return {'MenuText': translate("Rocket", 'Open Motor Analysis'),
