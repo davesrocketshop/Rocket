@@ -31,7 +31,7 @@ import FreeCADGui
 from DraftTools import translate
 
 from PySide import QtGui, QtCore
-from PySide2.QtWidgets import QDialog, QGridLayout, QVBoxLayout, QHBoxLayout, QFrame
+from PySide2.QtWidgets import QGridLayout, QVBoxLayout, QHBoxLayout, QFrame, QSizePolicy
 
 def hLine():
     # Create a horizontal line by creating a frame and setting its shape to QFrame::HLine:
@@ -61,11 +61,13 @@ class MainPanelDialog(QtGui.QWidget):
         self.horizontalLayout = QHBoxLayout(self)
 
         vbox = QVBoxLayout(self)
-        self.resultsWidget = FreeCADGui.PySideUic.loadUi(FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/ui/Motor/ResultsWidget.ui")
+        self.resultsWidget = FreeCADGui.PySideUic.loadUi(FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/ui/Motor/ResultsWidget.ui", self)
+        self.resultsWidget.setParent(self)
         vbox.addWidget(self.resultsWidget)
 
         self.group = QtGui.QGroupBox(translate('Rocket', "Motor Statistics"), self)
         self.group.setCheckable(False)
+        self.group.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
 
         self.labelMotorDesignationText = QtGui.QLabel(translate('Rocket', "Motor Designation:"), self)
         self.labelMotorDesignation = QtGui.QLabel(translate('Rocket', "-"), self)
