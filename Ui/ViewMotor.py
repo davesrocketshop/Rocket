@@ -31,6 +31,7 @@ from PySide import QtGui
 
 from Ui.ViewProvider import ViewProvider, ViewProviderGroup
 from Ui.MainPanelMotor import MainPanelDialog
+from Ui.TaskPanelGrain import TaskPanelGrain
 from Ui.TaskPanelNozzle import TaskPanelNozzle
 
 def addMotorView(view):
@@ -152,9 +153,15 @@ class ViewProviderGrain(ViewProvider):
     def getIcon(self):
         return FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_OpenMotor.svg"
 
-    def setEdit(self,vobj,mode):
-        # No editor associated with this object
-        return False
+    def setEdit(self, vobj, mode):
+        if mode == 0:
+            taskd = TaskPanelGrain(self.Object, mode)
+            taskd.obj = vobj.Object
+            taskd.update()
+            FreeCADGui.Control.showDialog(taskd)
+            return True
 
-    def unsetEdit(self,vobj,mode):
-        return False
+    def unsetEdit(self, vobj, mode):
+        if mode == 0:
+            FreeCADGui.Control.closeDialog()
+            return

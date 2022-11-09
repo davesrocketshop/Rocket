@@ -31,6 +31,9 @@ from App.motor.grains import grainTypes
 
 from App.Constants import FEATURE_MOTOR_GRAINS, FEATURE_MOTOR_GRAIN
 from App.Constants import GRAIN_INHIBITED_NEITHER, GRAIN_INHIBITED_TOP, GRAIN_INHIBITED_BOTTOM, GRAIN_INHIBITED_BOTH
+from App.Constants import GRAIN_GEOMETRY_BATES, GRAIN_GEOMETRY_C, GRAIN_GEOMETRY_CONICAL, GRAIN_GEOMETRY_CUSTOM, GRAIN_GEOMETRY_D, \
+        GRAIN_GEOMETRY_END, GRAIN_GEOMETRY_FINOCYL, GRAIN_GEOMETRY_MOONBURNER, GRAIN_GEOMETRY_RODTUBE, GRAIN_GEOMETRY_STAR, GRAIN_GEOMETRY_XCORE
+
 
 from DraftTools import translate
 
@@ -54,7 +57,10 @@ class Grain(FeatureBase):
         super()._initAttributes(obj)
        
         if not hasattr(obj, 'GeometryName'):
-            obj.addProperty('App::PropertyString', 'GeometryName', 'Grain', translate('App::Property', 'Geometry Name')).GeometryName = ""
+            obj.addProperty('App::PropertyEnumeration', 'GeometryName', 'Grain', translate('App::Property', 'Geometry Name')).GeometryName
+            obj.GeometryName = [GRAIN_GEOMETRY_BATES, GRAIN_GEOMETRY_C, GRAIN_GEOMETRY_CONICAL, GRAIN_GEOMETRY_CUSTOM, GRAIN_GEOMETRY_D, 
+                GRAIN_GEOMETRY_END, GRAIN_GEOMETRY_FINOCYL, GRAIN_GEOMETRY_MOONBURNER, GRAIN_GEOMETRY_RODTUBE, GRAIN_GEOMETRY_STAR, GRAIN_GEOMETRY_XCORE]
+            obj.GeometryName = GRAIN_GEOMETRY_BATES
         if not hasattr(obj, 'Length'):
             obj.addProperty('App::PropertyLength', 'Length', 'Grain', translate('App::Property', 'Length of the grain')).Length = 1.0
         if not hasattr(obj, 'Diameter'):
@@ -106,6 +112,11 @@ class Grain(FeatureBase):
 
         self._handler = None
 
+    def onChanged(self, fp, prop):
+        '''Reset the handler when the geometry changes'''
+        if str(prop) == 'GeometryName':
+            self._handler = None
+
     def _getHandler(self):
         if self._handler is None:
             if self._obj.GeometryName not in grainTypes:
@@ -119,24 +130,23 @@ class Grain(FeatureBase):
     def featureType(self):
         return FEATURE_MOTOR_GRAIN
 
-    # def getVolumeSlice(self, regDist, dRegDist):
-    #     """Returns the amount of propellant volume consumed as the grain regresses from a distance of 'regDist' to
-    #     regDist + dRegDist"""
-    #     return self.getVolumeAtRegression(regDist) - self.getVolumeAtRegression(regDist + dRegDist)
+    def getVolumeSlice(self, regDist, dRegDist):
+        """Returns the amount of propellant volume consumed as the grain regresses from a distance of 'regDist' to
+        regDist + dRegDist"""
+        return self._getHandler().getVolumeSlice(regDist, dRegDist)
 
-    # def isWebLeft(self, regDist, burnoutThres=0.00001):
-    #     """Returns True if the grain has propellant left to burn after it has regressed a distance of 'regDist'"""
-    #     return self.getWebLeft(regDist) > burnoutThres
+    def isWebLeft(self, regDist, burnoutThres=0.00001):
+        """Returns True if the grain has propellant left to burn after it has regressed a distance of 'regDist'"""
+        return self._getHandler().isWebLeft(regDist, burnoutThres)
 
-    # def getPeakMassFlux(self, massIn, dTime, regDist, dRegDist, density):
-    #     """Uses the grain's mass flux method to return the max. Assumes that it will be at the port of the grain!"""
-    #     return self.getMassFlux(massIn, dTime, regDist, dRegDist, self.getEndPositions(regDist)[1], density)
+    def getPeakMassFlux(self, massIn, dTime, regDist, dRegDist, density):
+        """Uses the grain's mass flux method to return the max. Assumes that it will be at the port of the grain!"""
+        return self._getHandler().getPeakMassFlux(massIn, dTime, regDist, dRegDist, density)
 
-    # def getRegressedLength(self, regDist):
-    #     """Returns the length of the grain when it has regressed a distance of 'regDist', taking any possible
-    #     inhibition into account."""
-    #     endPos = self.getEndPositions(regDist)
-    #     return endPos[1] - endPos[0]
+    def getRegressedLength(self, regDist):
+        """Returns the length of the grain when it has regressed a distance of 'regDist', taking any possible
+        inhibition into account."""
+        return self._getHandler().getRegressedLength(regDist)
 
     def getGeometryErrors(self):
         """Returns a list of simAlerts that detail any issues with the geometry of the grain. Errors should be
