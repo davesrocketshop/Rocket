@@ -26,10 +26,8 @@ __url__ = "https://www.davesrocketshop.com"
 
 import numpy as np
 
-from App.motor.Grain import FmmGrain
+from App.motor.GrainHandler import FmmGrain
 from App.motor.simResult import SimAlert, SimAlertLevel, SimAlertType
-
-from App.Constants import GRAIN_GEOMETRY_FINOCYL
 
 from DraftTools import translate
 
@@ -39,23 +37,6 @@ class Finocyl(FmmGrain):
 
     def __init__(self, obj):
         super().__init__(obj)
-
-        self._obj.GeometryName = GRAIN_GEOMETRY_FINOCYL
-
-        if not hasattr(obj, 'NumFins'):
-            obj.addProperty('App::PropertyQuantity', 'NumFins', 'Grain', translate('App::Property', 'Number of fins')).NumFins = 4
-        if not hasattr(obj, 'FinWidth'):
-            obj.addProperty('App::PropertyLength', 'FinWidth', 'Grain', translate('App::Property', 'Fin width')).FinWidth = 0.25
-        if not hasattr(obj, 'FinLength'):
-            obj.addProperty('App::PropertyLength', 'FinLength', 'Grain', translate('App::Property', 'Fin length')).v = 0.5
-        if not hasattr(obj, 'CoreDiameter'):
-            obj.addProperty('App::PropertyLength', 'CoreDiameter', 'Grain', translate('App::Property', 'Core diameter')).CoreDiameter = 1.0
-
-    def onDocumentRestored(self, obj):
-        super().onDocumentRestored(obj)
-        
-        # Add any missing attributes
-        Finocyl(obj)
 
     def generateCoreMap(self):
         coreRadius = self.normalize(self._obj.CoreDiameter) / 2

@@ -41,8 +41,6 @@ from App.motor.Grain import Grains, Grain
 from App.motor.Nozzle import Nozzle
 from App.motor.Propellant import Propellant, PropellantTab
 
-from App.motor.grains.bates import BatesGrain
-
 def makeMotorConfig(name="MotorConfig"):
 
     config = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
@@ -93,20 +91,11 @@ def makeGrains(name="Grains"):
 
     return grains
 
-def makeGrain(name="Grain"):
+def makeGrain(type, name="Grain"):
 
     grain = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
     Grain(grain)
-
-    if FreeCAD.GuiUp:
-        ViewProviderGrain(grain.ViewObject)
-
-    return grain
-
-def makeBatesGrain(name="Grain"):
-
-    grain = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
-    BatesGrain(grain)
+    grain.GeometryName = type
 
     if FreeCAD.GuiUp:
         ViewProviderGrain(grain.ViewObject)

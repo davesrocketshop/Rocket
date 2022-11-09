@@ -28,12 +28,12 @@ import FreeCAD
 import unittest
 
 # from App.motor.Motor import Motor, makeMotor
-from Ui.CmdOpenMotor import makeMotor, makePropellant, makePropellantTab, makeBatesGrain
-from App.motor.MotorConfig import MotorConfig
-from App.motor.grains.bates import BatesGrain
-from App.motor.Propellant import Propellant, PropellantTab
+from Ui.CmdOpenMotor import makeMotor, makePropellant, makePropellantTab, makeGrain
+# from App.motor.MotorConfig import MotorConfig
+# from App.motor.Propellant import Propellant, PropellantTab
 
 from App.Constants import GRAIN_INHIBITED_NEITHER
+from App.Constants import GRAIN_GEOMETRY_BATES
 
 class TestMotorMethods(unittest.TestCase):
 
@@ -47,7 +47,7 @@ class TestMotorMethods(unittest.TestCase):
         self.assertIsNotNone(tm.Proxy.getNozzle())
         self.assertIsNotNone(tm.Proxy.getGrains())
 
-        bg = makeBatesGrain()
+        bg = makeGrain(GRAIN_GEOMETRY_BATES)
         bg.Diameter = 0.083058
         bg.Length = 0.1397
         bg.CoreDiameter = 0.05
@@ -68,7 +68,7 @@ class TestMotorMethods(unittest.TestCase):
         self.assertIsNotNone(tm.Proxy.getNozzle())
         self.assertIsNotNone(tm.Proxy.getGrains())
 
-        bg = makeBatesGrain()
+        bg = makeGrain(GRAIN_GEOMETRY_BATES)
         bg.Diameter = 0.083058
         bg.Length = 0.1397
         bg.CoreDiameter = 0.05

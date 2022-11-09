@@ -26,10 +26,8 @@ __url__ = "https://www.davesrocketshop.com"
 
 import numpy as np
 
-from App.motor.Grain import FmmGrain
+from App.motor.GrainHandler import FmmGrain
 from App.motor.simResult import SimAlert, SimAlertLevel, SimAlertType
-
-from App.Constants import GRAIN_GEOMETRY_XCORE
 
 from DraftTools import translate
 
@@ -38,19 +36,6 @@ class XCore(FmmGrain):
 
     def __init__(self, obj):
         super().__init__(obj)
-
-        self._obj.GeometryName = GRAIN_GEOMETRY_XCORE
-
-        if not hasattr(obj, 'SlotWidth'):
-            obj.addProperty('App::PropertyLength', 'SlotWidth', 'Grain', translate('App::Property', 'Slot width')).SlotWidth = 1.0
-        if not hasattr(obj, 'SlotLength'):
-            obj.addProperty('App::PropertyLength', 'SlotLength', 'Grain', translate('App::Property', 'Slot length')).SlotLength = 1.0
-
-    def onDocumentRestored(self, obj):
-        super().onDocumentRestored(obj)
-        
-        # Add any missing attributes
-        XCore(obj)
 
     def generateCoreMap(self):
         slotWidth = self.normalize(self._obj.SlotWidth)

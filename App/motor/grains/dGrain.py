@@ -24,10 +24,8 @@ __title__ = "FreeCAD Rocket Motors"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
-from App.motor.Grain import FmmGrain
+from App.motor.GrainHandler import FmmGrain
 from App.motor.simResult import SimAlert, SimAlertLevel, SimAlertType
-
-from App.Constants import GRAIN_GEOMETRY_D
 
 from DraftTools import translate
 
@@ -37,17 +35,6 @@ class DGrain(FmmGrain):
 
     def __init__(self, obj):
         super().__init__(obj)
-
-        self._obj.GeometryName = GRAIN_GEOMETRY_D
-
-        if not hasattr(obj, 'SlotOffset'):
-            obj.addProperty('App::PropertyLength', 'SlotOffset', 'Grain', translate('App::Property', 'Slot offset')).SlotOffset = 0.0
-
-    def onDocumentRestored(self, obj):
-        super().onDocumentRestored(obj)
-        
-        # Add any missing attributes
-        DGrain(obj)
 
     def generateCoreMap(self):
         slotOffset = self.normalize(self._obj.SlotOffset)

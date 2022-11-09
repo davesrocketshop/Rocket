@@ -24,10 +24,8 @@ __title__ = "FreeCAD Rocket Motors"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
-from App.motor.Grain import FmmGrain
+from App.motor.GrainHandler import FmmGrain
 from App.motor.simResult import SimAlert, SimAlertLevel, SimAlertType
-
-from App.Constants import GRAIN_GEOMETRY_MOONBURNER
 
 from DraftTools import translate
 
@@ -35,19 +33,6 @@ class MoonBurner(FmmGrain):
     """A moonburner is very similar to a BATES grain except the core is off center by a specified distance."""
     def __init__(self, obj):
         super().__init__(obj)
-
-        self._obj.GeometryName = GRAIN_GEOMETRY_MOONBURNER
-
-        if not hasattr(obj, 'CoreDiameter'):
-            obj.addProperty('App::PropertyLength', 'CoreDiameter', 'Grain', translate('App::Property', 'Core diameter')).CoreDiameter = 1.0
-        if not hasattr(obj, 'CoreOffset'):
-            obj.addProperty('App::PropertyLength', 'CoreOffset', 'Grain', translate('App::Property', 'Core offset')).CoreOffset = 1.0
-
-    def onDocumentRestored(self, obj):
-        super().onDocumentRestored(obj)
-        
-        # Add any missing attributes
-        MoonBurner(obj)
 
     def generateCoreMap(self):
         coreRadius = self.normalize(self._obj.CoreDiameter) / 2

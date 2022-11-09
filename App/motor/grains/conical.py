@@ -29,40 +29,19 @@ import numpy as np
 # from skimage import measure
 from math import atan, cos, sin
 
-from App.motor.Grain import Grain
+from App.motor.GrainHandler import GrainHandler
 from App.motor import geometry
 from App.motor.simResult import SimAlert, SimAlertLevel, SimAlertType
 
-from App.Constants import GRAIN_GEOMETRY_CONICAL
 from App.Constants import GRAIN_INHIBITED_NEITHER, GRAIN_INHIBITED_TOP, GRAIN_INHIBITED_BOTTOM, GRAIN_INHIBITED_BOTH
 
 from DraftTools import translate
 
-class ConicalGrain(Grain):
+class ConicalGrain(GrainHandler):
     """A conical grain is similar to a BATES grain except it has different core diameters at each end."""
 
     def __init__(self, obj):
         super().__init__(obj)
-
-        self._obj.GeometryName = GRAIN_GEOMETRY_CONICAL
-
-        if not hasattr(obj, 'ForwardCoreDiameter'):
-            obj.addProperty('App::PropertyLength', 'ForwardCoreDiameter', 'Grain', translate('App::Property', 'Foreward core diameter')).ForwardCoreDiameter = 1.0
-        if not hasattr(obj, 'AftCoreDiameter'):
-            obj.addProperty('App::PropertyLength', 'AftCoreDiameter', 'Grain', translate('App::Property', 'Aft core diameter')).AftCoreDiameter = 1.0
-        if not hasattr(obj, 'InhibitedEnds'):
-            obj.addProperty('App::PropertyLength', 'CoreDiameter', 'Grain', translate('App::Property', 'Core diameter')).CoreDiameter = 1.0
-        if not hasattr(obj, 'InhibitedEnds'):
-            obj.addProperty('App::PropertyEnumeration', 'InhibitedEnds', 'Grain', translate('App::Property', 'Inhibited ends'))
-            obj.InhibitedEnds = [GRAIN_INHIBITED_BOTH]
-            obj.InhibitedEnds = GRAIN_INHIBITED_BOTH
-
-
-    def onDocumentRestored(self, obj):
-        super().onDocumentRestored(obj)
-        
-        # Add any missing attributes
-        ConicalGrain(obj)
 
     def isCoreInverted(self):
         """A simple helper that returns 'true' if the core's foward diameter is larger than its aft diameter"""

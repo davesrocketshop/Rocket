@@ -28,11 +28,9 @@ import numpy as np
 import skfmm
 from skimage import measure
 
-from App.motor.Grain import PerforatedGrain
+from App.motor.GrainHandler import PerforatedGrain
 from App.motor import geometry
 from App.motor.simResult import SimAlert, SimAlertLevel, SimAlertType
-
-from App.Constants import GRAIN_GEOMETRY_BATES
 
 from DraftTools import translate
 
@@ -40,13 +38,8 @@ class BatesGrain(PerforatedGrain):
     """The BATES grain has a simple cylindrical core. This type is not an FMM grain for performance reasons, as the
     calculations are easy enough to do manually."""
 
-    def _initAttributes(self, obj):
-        super()._initAttributes(obj)
-
-        self._obj.GeometryName = GRAIN_GEOMETRY_BATES
-
-        if not hasattr(obj, 'CoreDiameter'):
-            obj.addProperty('App::PropertyLength', 'CoreDiameter', 'Grain', translate('App::Property', 'Core diameter')).CoreDiameter = 1.0
+    def __init__(self, obj):
+        super().__init__(obj)
 
     def simulationSetup(self, config):
         self.wallWeb = float(self._obj.Diameter - self._obj.CoreDiameter) / 2

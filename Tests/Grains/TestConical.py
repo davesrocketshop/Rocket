@@ -27,9 +27,10 @@ __url__ = "https://www.davesrocketshop.com"
 import FreeCAD
 import unittest
 
-from App.motor.grains.conical import ConicalGrain
+from App.motor.Grain import Grain
 from App.motor.simResult import SimAlertLevel, SimAlertType
 from App.Constants import GRAIN_INHIBITED_BOTH
+from App.Constants import GRAIN_GEOMETRY_CONICAL
 
 class ConicalGrainMethods(unittest.TestCase):
 
@@ -38,21 +39,23 @@ class ConicalGrainMethods(unittest.TestCase):
 
     def test_isCoreInverted(self):
         inverted = FreeCAD.ActiveDocument.addObject("Part::FeaturePython","Grain")
-        ConicalGrain(inverted)
+        Grain(inverted)
+        inverted.GeometryName = GRAIN_GEOMETRY_CONICAL
         inverted.Diameter = 0.01
         inverted.Length = 0.1
         inverted.ForwardCoreDiameter = 0.0025
         inverted.AftCoreDiameter = 0.002
 
         regular = FreeCAD.ActiveDocument.addObject("Part::FeaturePython","Grain")
-        ConicalGrain(regular)
+        Grain(regular)
+        regular.GeometryName = GRAIN_GEOMETRY_CONICAL
         regular.Diameter = 0.01
         regular.Length = 0.1
         regular.ForwardCoreDiameter = 0.003
         regular.AftCoreDiameter = 0.004
 
-        self.assertEqual(inverted.Proxy.isCoreInverted(), True)
-        self.assertEqual(regular.Proxy.isCoreInverted(), False)
+        self.assertEqual(inverted.Proxy._getHandler().isCoreInverted(), True)
+        self.assertEqual(regular.Proxy._getHandler().isCoreInverted(), False)
 
     def test_getFrustumInfo(self):
         properties = {
@@ -64,24 +67,25 @@ class ConicalGrainMethods(unittest.TestCase):
         }
 
         testGrain = FreeCAD.ActiveDocument.addObject("Part::FeaturePython","Grain")
-        ConicalGrain(testGrain)
+        Grain(testGrain)
+        testGrain.GeometryName = GRAIN_GEOMETRY_CONICAL
         testGrain.Diameter = properties['diameter']
         testGrain.Length = properties['length']
         testGrain.ForwardCoreDiameter = properties['forwardCoreDiameter']
         testGrain.AftCoreDiameter = properties['aftCoreDiameter']
         testGrain.InhibitedEnds = GRAIN_INHIBITED_BOTH
 
-        unregressed = testGrain.Proxy.getFrustumInfo(0)
+        unregressed = testGrain.Proxy._getHandler().getFrustumInfo(0)
         self.assertAlmostEqual(unregressed[0], properties['aftCoreDiameter'])
         self.assertAlmostEqual(unregressed[1], properties['forwardCoreDiameter'])
         self.assertAlmostEqual(unregressed[2], properties['length'])
 
-        beforeHittingWall = testGrain.Proxy.getFrustumInfo(0.001)
+        beforeHittingWall = testGrain.Proxy._getHandler().getFrustumInfo(0.001)
         self.assertAlmostEqual(beforeHittingWall[0], 0.003999993750029297)
         self.assertAlmostEqual(beforeHittingWall[1], 0.004499993750029296)
         self.assertAlmostEqual(beforeHittingWall[2], properties['length']) # Length hasn't changed yet
 
-        hitWall = testGrain.Proxy.getFrustumInfo(0.0038)
+        hitWall = testGrain.Proxy._getHandler().getFrustumInfo(0.0038)
         self.assertAlmostEqual(hitWall[0], 0.009599976250111327)
         self.assertAlmostEqual(hitWall[1], properties['diameter']) # This end has burned all the way to the wall
         self.assertAlmostEqual(hitWall[2], 0.08000468749267584)
@@ -100,7 +104,8 @@ class ConicalGrainMethods(unittest.TestCase):
         lateralArea = 0.00070686055598659
 
         testGrain = FreeCAD.ActiveDocument.addObject("Part::FeaturePython","Grain")
-        ConicalGrain(testGrain)
+        Grain(testGrain)
+        testGrain.GeometryName = GRAIN_GEOMETRY_CONICAL
         testGrain.Diameter = properties['diameter']
         testGrain.Length = properties['length']
         testGrain.ForwardCoreDiameter = properties['forwardCoreDiameter']
@@ -130,7 +135,8 @@ class ConicalGrainMethods(unittest.TestCase):
         }
 
         testGrain = FreeCAD.ActiveDocument.addObject("Part::FeaturePython","Grain")
-        ConicalGrain(testGrain)
+        Grain(testGrain)
+        testGrain.GeometryName = GRAIN_GEOMETRY_CONICAL
         testGrain.Diameter = properties['diameter']
         testGrain.Length = properties['length']
         testGrain.ForwardCoreDiameter = properties['forwardCoreDiameter']
@@ -151,7 +157,8 @@ class ConicalGrainMethods(unittest.TestCase):
         }
 
         testGrain = FreeCAD.ActiveDocument.addObject("Part::FeaturePython","Grain")
-        ConicalGrain(testGrain)
+        Grain(testGrain)
+        testGrain.GeometryName = GRAIN_GEOMETRY_CONICAL
         testGrain.Diameter = properties['diameter']
         testGrain.Length = properties['length']
         testGrain.ForwardCoreDiameter = properties['forwardCoreDiameter']

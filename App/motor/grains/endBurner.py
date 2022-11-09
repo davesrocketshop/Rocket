@@ -25,24 +25,14 @@ __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
 
-from App.motor.Grain import Grain
+from App.motor.GrainHandler import GrainHandler
 from App.motor import geometry
 
-from App.Constants import GRAIN_GEOMETRY_END
-
-class EndBurningGrain(Grain):
+class EndBurningGrain(GrainHandler):
     """Defines an end-burning grain, which is a simple cylinder that burns on one end."""
 
     def __init__(self, obj):
         super().__init__(obj)
-
-        self._obj.GeometryName = GRAIN_GEOMETRY_END
-
-    def onDocumentRestored(self, obj):
-        super().onDocumentRestored(obj)
-        
-        # Add any missing attributes
-        EndBurningGrain(obj)
 
     def getSurfaceAreaAtRegression(self, regDist):
         diameter = float(self._obj.Diameter)

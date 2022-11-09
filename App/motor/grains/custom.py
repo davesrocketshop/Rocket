@@ -26,11 +26,9 @@ __url__ = "https://www.davesrocketshop.com"
 
 import skimage.draw as draw
 
-from App.motor.Grain import FmmGrain
+from App.motor.GrainHandler import FmmGrain
 from App.motor.simResult import SimAlert, SimAlertLevel, SimAlertType
 from App.motor.units import getAllConversions, convert
-
-from App.Constants import GRAIN_GEOMETRY_CUSTOM
 
 from DraftTools import translate
 
@@ -40,21 +38,6 @@ class CustomGrain(FmmGrain):
     drawn onto the core map."""
     def __init__(self, obj):
         super().__init__(obj)
-
-        self._obj.GeometryName = GRAIN_GEOMETRY_CUSTOM
-
-        if not hasattr(obj, 'Points'):
-            obj.addProperty('App::PropertyVectorList', 'Points', 'Grain', translate('App::Property', 'Core geometry')).Points = None
-        if not hasattr(obj, 'DfxUnit'):
-            obj.addProperty('App::PropertyEnumeration', 'DfxUnit', 'Grain', translate('App::Property', 'Inhibited ends'))
-            obj.DfxUnit = getAllConversions('m')
-            obj.DfxUnit = 'm'
-
-    def onDocumentRestored(self, obj):
-        super().onDocumentRestored(obj)
-        
-        # Add any missing attributes
-        CustomGrain(obj)
 
     def generateCoreMap(self):
         inUnit = self._obj.DfxUnit

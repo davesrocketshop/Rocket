@@ -27,8 +27,9 @@ __url__ = "https://www.davesrocketshop.com"
 import FreeCAD
 import unittest
 
-from App.motor.grains.bates import BatesGrain
+from App.motor.Grain import Grain
 from App.motor.simResult import SimAlertLevel, SimAlertType
+from App.Constants import GRAIN_GEOMETRY_BATES
 
 class BatesGrainMethods(unittest.TestCase):
 
@@ -37,7 +38,8 @@ class BatesGrainMethods(unittest.TestCase):
 
     def test_getDetailsString(self):
         grain = FreeCAD.ActiveDocument.addObject("Part::FeaturePython","Grain")
-        BatesGrain(grain)
+        Grain(grain)
+        grain.GeometryName = GRAIN_GEOMETRY_BATES
         grain.Diameter = 0.05
         grain.Length = 0.1
         grain.CoreDiameter = 0.02
@@ -47,7 +49,8 @@ class BatesGrainMethods(unittest.TestCase):
 
     def test_getGeometryErrors(self):
         grain = FreeCAD.ActiveDocument.addObject("Part::FeaturePython","Grain")
-        BatesGrain(grain)
+        Grain(grain)
+        grain.GeometryName = GRAIN_GEOMETRY_BATES
         grain.Diameter = 0.05
         grain.Length = 0.1
         grain.CoreDiameter = 0.02

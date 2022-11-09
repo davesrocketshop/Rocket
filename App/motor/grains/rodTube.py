@@ -28,7 +28,7 @@ import numpy as np
 import skfmm
 from skimage import measure
 
-from App.motor.Grain import PerforatedGrain
+from App.motor.GrainHandler import PerforatedGrain
 from App.motor import geometry
 from App.motor.simResult import SimAlert, SimAlertLevel, SimAlertType
 
@@ -42,25 +42,6 @@ class RodTubeGrain(PerforatedGrain):
 
     def __init__(self, obj):
         super().__init__(obj)
-
-        if not hasattr(obj, 'CoreDiameter'):
-            obj.addProperty('App::PropertyLength', 'CoreDiameter', 'Grain', translate('App::Property', 'Core diameter')).CoreDiameter = 1.0
-        if not hasattr(obj, 'RodDiameter'):
-            obj.addProperty('App::PropertyLength', 'RodDiameter', 'Grain', translate('App::Property', 'Rod diameter')).RodDiameter = 1.0
-        if not hasattr(obj, 'SupportDiameter'):
-            obj.addProperty('App::PropertyLength', 'SupportDiameter', 'Grain', translate('App::Property', 'Support diameter')).SupportDiameter = 1.0
-        
-        self._initVars()
-
-    def onDocumentRestored(self, obj):
-        super().onDocumentRestored(obj)
-        
-        # Add any missing attributes
-        RodTubeGrain(obj)      
-        self._initVars()
-
-    def _initVars(self):
-        self._obj.GeometryName = GRAIN_GEOMETRY_RODTUBE
 
         self.tubeWeb = None
         self.rodWeb = None

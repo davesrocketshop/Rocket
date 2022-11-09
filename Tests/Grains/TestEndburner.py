@@ -27,8 +27,9 @@ __url__ = "https://www.davesrocketshop.com"
 import FreeCAD
 import unittest
 
-from App.motor.grains.endBurner import EndBurningGrain
+from App.motor.Grain import Grain
 from App.motor.simResult import SimAlertLevel, SimAlertType
+from App.Constants import GRAIN_GEOMETRY_END
 
 class EndBurningGrainMethods(unittest.TestCase):
 
@@ -37,7 +38,8 @@ class EndBurningGrainMethods(unittest.TestCase):
 
     def test_getSurfaceAreaAtRegression(self):
         grain = FreeCAD.ActiveDocument.addObject("Part::FeaturePython","Grain")
-        EndBurningGrain(grain)
+        Grain(grain)
+        grain.GeometryName = GRAIN_GEOMETRY_END
 
         grain.Diameter = 0.01
         grain.Length = 0.1
@@ -51,7 +53,8 @@ class EndBurningGrainMethods(unittest.TestCase):
 
     def test_getVolumeAtRegression(self):
         grain = FreeCAD.ActiveDocument.addObject("Part::FeaturePython","Grain")
-        EndBurningGrain(grain)
+        Grain(grain)
+        grain.GeometryName = GRAIN_GEOMETRY_END
 
         grain.Diameter = 0.01
         grain.Length = 0.1
@@ -65,7 +68,8 @@ class EndBurningGrainMethods(unittest.TestCase):
 
     def test_getWebLeft(self):
         grain = FreeCAD.ActiveDocument.addObject("Part::FeaturePython","Grain")
-        EndBurningGrain(grain)
+        Grain(grain)
+        grain.GeometryName = GRAIN_GEOMETRY_END
 
         grain.Diameter = 0.01
         grain.Length = 0.1
@@ -79,7 +83,8 @@ class EndBurningGrainMethods(unittest.TestCase):
 
     def test_getEndPositions(self):
         grain = FreeCAD.ActiveDocument.addObject("Part::FeaturePython","Grain")
-        EndBurningGrain(grain)
+        Grain(grain)
+        grain.GeometryName = GRAIN_GEOMETRY_END
 
         grain.Diameter = 0.01
         grain.Length = 0.1

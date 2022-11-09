@@ -26,10 +26,8 @@ __url__ = "https://www.davesrocketshop.com"
 
 import numpy as np
 
-from App.motor.Grain import FmmGrain
+from App.motor.GrainHandler import FmmGrain
 from App.motor.simResult import SimAlert, SimAlertLevel, SimAlertType
-
-from App.Constants import GRAIN_GEOMETRY_STAR
 
 from DraftTools import translate
 
@@ -38,21 +36,6 @@ class StarGrain(FmmGrain):
 
     def __init__(self, obj):
         super().__init__(obj)
-
-        self._obj.GeometryName = GRAIN_GEOMETRY_STAR
-
-        if not hasattr(obj, 'NumPoints'):
-            obj.addProperty('App::PropertyQuantity', 'NumPoints', 'Grain', translate('App::Property', 'Number of points')).NumPoints = 5
-        if not hasattr(obj, 'PointLength'):
-            obj.addProperty('App::PropertyLength', 'PointLength', 'Grain', translate('App::Property', 'Point length')).PointLength = 1.0
-        if not hasattr(obj, 'PointWidth'):
-            obj.addProperty('App::PropertyLength', 'PointWidth', 'Grain', translate('App::Property', 'Point base width')).PointWidth = 1.0
-
-    def onDocumentRestored(self, obj):
-        super().onDocumentRestored(obj)
-        
-        # Add any missing attributes
-        StarGrain(obj)
 
     def generateCoreMap(self):
         numPoints = self._obj.NumPoints
