@@ -91,7 +91,7 @@ class Grain(FeatureBase):
             obj.DfxUnit = ['m', 'ft']
             obj.DfxUnit = 'm'
         if not hasattr(obj, 'NumFins'):
-            obj.addProperty('App::PropertyQuantity', 'NumFins', 'Grain', translate('App::Property', 'Number of fins')).NumFins = 4
+            obj.addProperty('App::PropertyInteger', 'NumFins', 'Grain', translate('App::Property', 'Number of fins')).NumFins = 4
         if not hasattr(obj, 'FinWidth'):
             obj.addProperty('App::PropertyLength', 'FinWidth', 'Grain', translate('App::Property', 'Fin width')).FinWidth = 0.25
         if not hasattr(obj, 'FinLength'):
@@ -101,7 +101,7 @@ class Grain(FeatureBase):
         if not hasattr(obj, 'SupportDiameter'):
             obj.addProperty('App::PropertyLength', 'SupportDiameter', 'Grain', translate('App::Property', 'Support diameter')).SupportDiameter = 1.0
         if not hasattr(obj, 'NumPoints'):
-            obj.addProperty('App::PropertyQuantity', 'NumPoints', 'Grain', translate('App::Property', 'Number of points')).NumPoints = 5
+            obj.addProperty('App::PropertyInteger', 'NumPoints', 'Grain', translate('App::Property', 'Number of points')).NumPoints = 5
         if not hasattr(obj, 'PointLength'):
             obj.addProperty('App::PropertyLength', 'PointLength', 'Grain', translate('App::Property', 'Point length')).PointLength = 1.0
         if not hasattr(obj, 'PointWidth'):
