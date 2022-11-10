@@ -168,7 +168,7 @@ class Motor(object):
         """Calculates the force of the motor at a given regression depth per grain. Calculates exit pressure by
         default, but can also use a value passed in."""
         _, _, gamma, _, _ = self.getPropellant().getCombustionProperties(chamberPres)
-        ambPressure = float(self.getMotorConfig()._obj.AmbPressure)
+        ambPressure = float(self.getMotorConfig()._obj.AmbientPressure)
         thrustCoeff = float(self.getNozzle().getAdjustedThrustCoeff(chamberPres, ambPressure, gamma, dThroat, exitPres))
         thrust = thrustCoeff * float(self.getNozzle().getThroatArea(dThroat)) * chamberPres
         return max(thrust, 0)
@@ -249,7 +249,8 @@ class Motor(object):
         simRes.channels['dThroat'].addData(0)
 
         # Check port/throat ratio and add a warning if it is large enough
-        aftPort = self.grains[-1].getPortArea(0) #???
+        grainList = self.getGrains().Group
+        aftPort = grainList[-1].Proxy.getPortArea(0) #???
         if aftPort is not None:
             minAllowed = float(self.getMotorConfig()._obj.MinPortThroat)
             ratio = aftPort / geometry.circleArea(float(self.getNozzle()._obj.Throat))
@@ -268,11 +269,11 @@ class Motor(object):
             for gid, grain in enumerate(self.getGrains().Group):
                 if grain.Proxy.getWebLeft(perGrainReg[gid]) > burnoutWebThres:
                     # Calculate regression at the current pressure
-                    reg = dTime * self.propellant.getBurnRate(simRes.channels['pressure'].getLast())
+                    reg = dTime * self.getPropellant().getBurnRate(simRes.channels['pressure'].getLast())
                     # Find the mass flux through the grain based on the mass flow fed into from grains above it
-                    perGrainMassFlux[gid] = grain.getPeakMassFlux(massFlow, dTime, perGrainReg[gid], reg, density)
+                    perGrainMassFlux[gid] = grain.Proxy.getPeakMassFlux(massFlow, dTime, perGrainReg[gid], reg, density)
                     # Find the mass of the grain after regression
-                    perGrainMass[gid] = grain.getVolumeAtRegression(perGrainReg[gid]) * density
+                    perGrainMass[gid] = grain.Proxy.getVolumeAtRegression(perGrainReg[gid]) * density
                     # Add the change in grain mass to the mass flow
                     massFlow += (simRes.channels['mass'].getLast()[gid] - perGrainMass[gid]) / dTime
                     # Apply the regression
@@ -324,12 +325,12 @@ class Motor(object):
 
         simRes.success = True
 
-        if simRes.getPeakMassFlux() > float(self.getMotorConfig._obj.MaxMassFlux):
+        if simRes.getPeakMassFlux() > float(self.getMotorConfig()._obj.MaxMassFlux):
             desc = 'Peak mass flux exceeded configured limit'
             alert = SimAlert(SimAlertLevel.WARNING, SimAlertType.CONSTRAINT, desc, 'Motor')
             simRes.addAlert(alert)
 
-        if simRes.getMaxPressure() > float(self.getMotorConfig._obj.MaxPressure):
+        if simRes.getMaxPressure() > float(self.getMotorConfig()._obj.MaxPressure):
             desc = 'Max pressure exceeded configured limit'
             alert = SimAlert(SimAlertLevel.WARNING, SimAlertType.CONSTRAINT, desc, 'Motor')
             simRes.addAlert(alert)

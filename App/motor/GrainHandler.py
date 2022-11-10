@@ -78,7 +78,7 @@ class GrainHandler:
         user of possible non-fatal mistakes in their entered numbers. Subclasses should still call the superclass
         method, as it performs checks that still apply to its subclasses."""
         errors = []
-        if self._obj.Diameter == 0:
+        if float(self._obj.Diameter) == 0:
             errors.append(SimAlert(SimAlertLevel.ERROR, SimAlertType.GEOMETRY, 'Diameter must not be 0'))
         if self._obj.Length == 0:
             errors.append(SimAlert(SimAlertLevel.ERROR, SimAlertType.GEOMETRY, 'Length must not be 0'))
@@ -180,7 +180,7 @@ class PerforatedGrain(GrainHandler):
         return uncored - faceArea
 
     def getMassFlux(self, massIn, dTime, regDist, dRegDist, position, density):
-        diameter = self._obj.Diameter
+        diameter = float(self._obj.Diameter)
 
         endPos = self.getEndPositions(regDist)
         # If a position above the top face is queried, the mass flow is just the input mass and the
@@ -236,28 +236,28 @@ class FmmGrain(PerforatedGrain):
     def normalize(self, value):
         """Transforms real unit quantities into self.mapX, self.mapY coordinates. For use in indexing into the
         coremap."""
-        return value / (0.5 * self._obj.Diameter)
+        return value / (0.5 * float(self._obj.Diameter))
 
     def unNormalize(self, value):
         """Transforms self.mapX, self.mapY coordinates to real unit quantities. Used to determine real lengths in
         coremap."""
-        return (value / 2) * self._obj.Diameter
+        return (value / 2) * float(self._obj.Diameter)
 
     def lengthToMap(self, value):
         """Converts meters to pixels. Used to compare real distances to pixel distances in the regression map."""
-        return self.mapDim * (value / self._obj.Diameter)
+        return self.mapDim * (value / float(self._obj.Diameter))
 
     def mapToLength(self, value):
         """Converts pixels to meters. Used to extract real distances from pixel distances such as contour lengths"""
-        return self._obj.Diameter * (value / self.mapDim)
+        return float(self._obj.Diameter) * (value / self.mapDim)
 
     def areaToMap(self, value):
         """Used to convert sqm to sq pixels, like on the regression map."""
-        return (self.mapDim ** 2) * (value / (self._obj.Diameter ** 2))
+        return (self.mapDim ** 2) * (value / (float(self._obj.Diameter) ** 2))
 
     def mapToArea(self, value):
         """Used to convert sq pixels to sqm. For extracting real areas from the regression map."""
-        return (self._obj.Diameter ** 2) * (value / (self.mapDim ** 2))
+        return (float(self._obj.Diameter) ** 2) * (value / (self.mapDim ** 2))
 
     def initGeometry(self, mapDim):
         """Set up an empty core map and reset the regression map. Takes in the dimension of both maps."""

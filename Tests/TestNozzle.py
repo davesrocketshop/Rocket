@@ -48,23 +48,23 @@ class TestNozzleMethods(unittest.TestCase):
     def test_expansionRatio(self):
         nozzle = makeNozzle()
 
-        nozzle.Throat = 0.1
-        nozzle.Exit = 0.2
+        nozzle.Throat = FreeCAD.Units.Quantity("0.1 m").Value
+        nozzle.Exit = FreeCAD.Units.Quantity("0.2 m").Value
         self.assertAlmostEqual(nozzle.Proxy.calcExpansion(), 4.0)
 
-        nozzle.Throat = 0.1
-        nozzle.Exit = 0.3
+        nozzle.Throat = FreeCAD.Units.Quantity("0.1 m").Value
+        nozzle.Exit = FreeCAD.Units.Quantity("0.3 m").Value
         self.assertAlmostEqual(nozzle.Proxy.calcExpansion(), 9.0)
 
     def test_getExitPressure(self):
         nozzle = makeNozzle()
 
-        nozzle.Throat = 0.1
-        nozzle.Exit = 0.2
+        nozzle.Throat = FreeCAD.Units.Quantity("0.1 m").Value
+        nozzle.Exit = FreeCAD.Units.Quantity("0.2 m").Value
         self.assertAlmostEqual(nozzle.Proxy.getExitPressure(1.25, 5e6), 197579.76030584713)
 
-        nozzle.Throat = 0.1
-        nozzle.Exit = 0.3
+        nozzle.Throat = FreeCAD.Units.Quantity("0.1 m").Value
+        nozzle.Exit = FreeCAD.Units.Quantity("0.3 m").Value
         self.assertAlmostEqual(nozzle.Proxy.getExitPressure(1.25, 5e6), 63174.14300487552)
         self.assertAlmostEqual(nozzle.Proxy.getExitPressure(1.2, 5e6), 72087.22454540983)
         self.assertAlmostEqual(nozzle.Proxy.getExitPressure(1.2, 6e6), 86504.66945449157)

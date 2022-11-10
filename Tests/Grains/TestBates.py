@@ -40,9 +40,9 @@ class BatesGrainMethods(unittest.TestCase):
         grain = FreeCAD.ActiveDocument.addObject("Part::FeaturePython","Grain")
         Grain(grain)
         grain.GeometryName = GRAIN_GEOMETRY_BATES
-        grain.Diameter = 0.05
-        grain.Length = 0.1
-        grain.CoreDiameter = 0.02
+        grain.Diameter = FreeCAD.Units.Quantity("0.05 m").Value
+        grain.Length = FreeCAD.Units.Quantity("0.1 m").Value
+        grain.CoreDiameter = FreeCAD.Units.Quantity("0.02 m").Value
 
         self.assertEqual(grain.Proxy.getDetailsString(), 'Length: 0.1 m, Core: 0.02 m')
         self.assertEqual(grain.Proxy.getDetailsString('cm'), 'Length: 10 cm, Core: 2 cm')
@@ -51,23 +51,23 @@ class BatesGrainMethods(unittest.TestCase):
         grain = FreeCAD.ActiveDocument.addObject("Part::FeaturePython","Grain")
         Grain(grain)
         grain.GeometryName = GRAIN_GEOMETRY_BATES
-        grain.Diameter = 0.05
-        grain.Length = 0.1
-        grain.CoreDiameter = 0.02
+        grain.Diameter = FreeCAD.Units.Quantity("0.05 m").Value
+        grain.Length = FreeCAD.Units.Quantity("0.1 m").Value
+        grain.CoreDiameter = FreeCAD.Units.Quantity("0.02 m").Value
         self.assertEqual(grain.Proxy.getGeometryErrors(), [])
 
-        grain.Diameter = 0.05
-        grain.Length = 0.1
-        grain.CoreDiameter = 0.0
+        grain.Diameter = FreeCAD.Units.Quantity("0.05 m").Value
+        grain.Length = FreeCAD.Units.Quantity("0.1 m").Value
+        grain.CoreDiameter = FreeCAD.Units.Quantity("0.0 m").Value
         errors = grain.Proxy.getGeometryErrors()
         self.assertEqual(len(errors), 1)
         self.assertEqual(errors[0].level, SimAlertLevel.ERROR)
         self.assertEqual(errors[0].type, SimAlertType.GEOMETRY)
         self.assertEqual(errors[0].description, 'Core diameter must not be 0')
 
-        grain.Diameter = 0.05
-        grain.Length = 0.1
-        grain.CoreDiameter = 0.7
+        grain.Diameter = FreeCAD.Units.Quantity("0.05 m").Value
+        grain.Length = FreeCAD.Units.Quantity("0.1 m").Value
+        grain.CoreDiameter = FreeCAD.Units.Quantity("0.7 m").Value
         errors = grain.Proxy.getGeometryErrors()
         self.assertEqual(len(errors), 1)
         self.assertEqual(errors[0].level, SimAlertLevel.ERROR)

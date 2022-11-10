@@ -129,16 +129,16 @@ class Propellant:
         closest = {}
         closestPressure = 1e100
         for tab in self._obj.Group:
-            if tab.MinPressure < pressure < tab.MaxPressure:
-                return tab.a, tab.n, tab.k, tab.t, tab.m
-            if abs(pressure - tab.MinPressure) < closestPressure:
+            if float(tab.MinPressure) < pressure < float(tab.MaxPressure):
+                return float(tab.a), float(tab.n), float(tab.k), float(tab.t), float(tab.m)
+            if abs(pressure - float(tab.MinPressure)) < closestPressure:
                 closest = tab
-                closestPressure = abs(pressure - tab.MinPressure)
-            if abs(pressure - tab.MaxPressure) < closestPressure:
+                closestPressure = abs(pressure - float(tab.MinPressure))
+            if abs(pressure - float(tab.MaxPressure)) < closestPressure:
                 closest = tab
-                closestPressure = abs(pressure - tab.MaxPressure)
+                closestPressure = abs(pressure - float(tab.MaxPressure))
 
-        return closest.a, closest.n, closest.k, closest.t, closest.m
+        return float(closest.a), float(closest.n), float(closest.k), float(closest.t), float(closest.m)
 
     def getMinimumValidPressure(self):
         """Returns the lowest pressure value with associated combustion properties"""
@@ -170,7 +170,7 @@ class Propellant:
         """Returns if the propellant has any errors associated with the supplied pressure such as not having set
         combustion properties"""
         errors = []
-        for tab in self.getProperty('tabs'):
+        for tab in self._obj.Group:
             if tab.MinPressure < pressure < tab.MaxPressure:
                 return errors
         aText = "Chamber pressure deviated from propellant's entered ranges. Results may not be accurate."

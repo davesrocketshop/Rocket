@@ -27,10 +27,7 @@ __url__ = "https://www.davesrocketshop.com"
 import FreeCAD
 import unittest
 
-# from App.motor.Motor import Motor, makeMotor
 from Ui.CmdOpenMotor import makeMotor, makePropellant, makePropellantTab, makeGrain
-# from App.motor.MotorConfig import MotorConfig
-# from App.motor.Propellant import Propellant, PropellantTab
 
 from App.Constants import GRAIN_INHIBITED_NEITHER
 from App.Constants import GRAIN_GEOMETRY_BATES

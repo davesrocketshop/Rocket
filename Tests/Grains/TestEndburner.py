@@ -41,57 +41,61 @@ class EndBurningGrainMethods(unittest.TestCase):
         Grain(grain)
         grain.GeometryName = GRAIN_GEOMETRY_END
 
-        grain.Diameter = 0.01
-        grain.Length = 0.1
-        self.assertAlmostEqual(grain.Proxy.getSurfaceAreaAtRegression(0), 7.853981633974483e-05)
-        self.assertAlmostEqual(grain.Proxy.getSurfaceAreaAtRegression(0.05), 7.853981633974483e-05)
+        grain.Diameter = FreeCAD.Units.Quantity("0.01 m").Value
+        grain.Length = FreeCAD.Units.Quantity("0.1 m").Value
+        self.assertAlmostEqual(grain.Proxy.getSurfaceAreaAtRegression(0), 78.53981633974483)
+        self.assertAlmostEqual(grain.Proxy.getSurfaceAreaAtRegression(50), 78.53981633974483)
 
-        grain.Diameter = 0.02
-        grain.Length = 0.1
-        self.assertAlmostEqual(grain.Proxy.getSurfaceAreaAtRegression(0), 0.0003141592653589793)
-        self.assertAlmostEqual(grain.Proxy.getSurfaceAreaAtRegression(0.05), 0.0003141592653589793)
+        grain.Diameter = FreeCAD.Units.Quantity("0.02 m").Value
+        grain.Length = FreeCAD.Units.Quantity("0.1 m").Value
+        self.assertAlmostEqual(grain.Proxy.getSurfaceAreaAtRegression(0), 314.1592653589793)
+        self.assertAlmostEqual(grain.Proxy.getSurfaceAreaAtRegression(50), 314.1592653589793)
 
     def test_getVolumeAtRegression(self):
         grain = FreeCAD.ActiveDocument.addObject("Part::FeaturePython","Grain")
         Grain(grain)
         grain.GeometryName = GRAIN_GEOMETRY_END
 
-        grain.Diameter = 0.01
-        grain.Length = 0.1
-        self.assertAlmostEqual(grain.Proxy.getVolumeAtRegression(0), 7.853981633974484e-06)
-        self.assertAlmostEqual(grain.Proxy.getVolumeAtRegression(0.05), 3.926990816987242e-06)
+        grain.Diameter = FreeCAD.Units.Quantity("0.01 m").Value
+        grain.Length = FreeCAD.Units.Quantity("0.1 m").Value
+        self.assertAlmostEqual(grain.Proxy.getVolumeAtRegression(0), 7853.981633974484)
+        self.assertAlmostEqual(grain.Proxy.getVolumeAtRegression(50), 3926.990816987242)
 
-        grain.Diameter = 0.02
-        grain.Length = 0.2
-        self.assertAlmostEqual(grain.Proxy.getVolumeAtRegression(0), 6.283185307179587e-05)
-        self.assertAlmostEqual(grain.Proxy.getVolumeAtRegression(0.05), 4.7123889803846906e-05)
+        grain.Diameter = FreeCAD.Units.Quantity("0.02 m").Value
+        grain.Length = FreeCAD.Units.Quantity("0.2 m").Value
+        self.assertAlmostEqual(grain.Proxy.getVolumeAtRegression(0), 62831.85307179587)
+        self.assertAlmostEqual(grain.Proxy.getVolumeAtRegression(50), 47123.889803846906)
 
     def test_getWebLeft(self):
         grain = FreeCAD.ActiveDocument.addObject("Part::FeaturePython","Grain")
         Grain(grain)
         grain.GeometryName = GRAIN_GEOMETRY_END
 
-        grain.Diameter = 0.01
-        grain.Length = 0.1
-        self.assertAlmostEqual(grain.Proxy.getWebLeft(0), 0.1)
-        self.assertAlmostEqual(grain.Proxy.getWebLeft(0.05), 0.1 - 0.05)
+        grain.Diameter = FreeCAD.Units.Quantity("0.01 m").Value
+        grain.Length = FreeCAD.Units.Quantity("0.1 m").Value
+        self.assertAlmostEqual(grain.Proxy.getWebLeft(0), 100)
+        self.assertAlmostEqual(grain.Proxy.getWebLeft(50), 100 - 50)
 
-        grain.Diameter = 0.01
-        grain.Length = 0.2
-        self.assertAlmostEqual(grain.Proxy.getWebLeft(0), 0.2)
-        self.assertAlmostEqual(grain.Proxy.getWebLeft(0.07), 0.2 - 0.07)
+        grain.Diameter = FreeCAD.Units.Quantity("0.01 m").Value
+        grain.Length = FreeCAD.Units.Quantity("0.2 m").Value
+        self.assertAlmostEqual(grain.Proxy.getWebLeft(0), 200)
+        self.assertAlmostEqual(grain.Proxy.getWebLeft(70), 200 - 70)
 
     def test_getEndPositions(self):
         grain = FreeCAD.ActiveDocument.addObject("Part::FeaturePython","Grain")
         Grain(grain)
         grain.GeometryName = GRAIN_GEOMETRY_END
 
-        grain.Diameter = 0.01
-        grain.Length = 0.1
-        self.assertAlmostEqual(grain.Proxy.getEndPositions(0), (0, 0.1))
-        self.assertAlmostEqual(grain.Proxy.getEndPositions(0.05), (0, 0.1 - 0.05))
+        grain.Diameter = FreeCAD.Units.Quantity("0.01 m").Value
+        grain.Length = FreeCAD.Units.Quantity("0.1 m").Value
+        self.assertAlmostEqual(grain.Proxy.getEndPositions(0)[0], 0)
+        self.assertAlmostEqual(grain.Proxy.getEndPositions(0)[1], 100)
+        self.assertAlmostEqual(grain.Proxy.getEndPositions(50)[0], 0)
+        self.assertAlmostEqual(grain.Proxy.getEndPositions(50)[1], 100 - 50)
 
-        grain.Diameter = 0.01
-        grain.Length = 0.2
-        self.assertAlmostEqual(grain.Proxy.getEndPositions(0), (0, 0.2))
-        self.assertAlmostEqual(grain.Proxy.getEndPositions(0.07), (0, 0.2 - 0.07))
+        grain.Diameter = FreeCAD.Units.Quantity("0.01 m").Value
+        grain.Length = FreeCAD.Units.Quantity("0.2 m").Value
+        self.assertAlmostEqual(grain.Proxy.getEndPositions(0)[0], 0)
+        self.assertAlmostEqual(grain.Proxy.getEndPositions(0)[1], 200)
+        self.assertAlmostEqual(grain.Proxy.getEndPositions(70)[0], 0)
+        self.assertAlmostEqual(grain.Proxy.getEndPositions(70)[1], 200 - 70)

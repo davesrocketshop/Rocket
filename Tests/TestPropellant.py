@@ -27,8 +27,6 @@ __url__ = "https://www.davesrocketshop.com"
 import FreeCAD
 import unittest
 
-from App.motor.Propellant import Propellant, PropellantTab
-
 from Ui.CmdOpenMotor import makePropellant, makePropellantTab
 
 class TestPropellantMethods(unittest.TestCase):
@@ -44,7 +42,7 @@ class TestPropellantMethods(unittest.TestCase):
 
         tab = makePropellantTab()
         tab.MinPressure = 0
-        tab.MaxPressure = 6.895e+06
+        tab.MaxPressure = FreeCAD.Units.Quantity("6.895e+06 Pa").Value
         tab.a = 1.467e-05
         tab.n = 0.382
         tab.t = 3500
@@ -61,7 +59,7 @@ class TestPropellantMethods(unittest.TestCase):
         props.Density = 1650
 
         tab = makePropellantTab()
-        tab.MinPressure = 6.895e+06
+        tab.MinPressure = FreeCAD.Units.Quantity("6.895e+06 Pa").Value
         tab.MaxPressure = 0
         tab.a = 1.467e-05
         tab.n = 0.382
@@ -71,8 +69,8 @@ class TestPropellantMethods(unittest.TestCase):
         props.Proxy.addTab(tab)
 
         tab = makePropellantTab()
-        tab.MinPressure = 6.895e+06
-        tab.MaxPressure = 1.379e+07
+        tab.MinPressure = FreeCAD.Units.Quantity("6.895e+06 Pa").Value
+        tab.MaxPressure = FreeCAD.Units.Quantity("1.379e+07 Pa").Value
         tab.a = 1.467e-05
         tab.n = 0.382
         tab.t = 3500

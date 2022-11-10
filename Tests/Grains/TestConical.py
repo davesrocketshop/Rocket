@@ -41,18 +41,18 @@ class ConicalGrainMethods(unittest.TestCase):
         inverted = FreeCAD.ActiveDocument.addObject("Part::FeaturePython","Grain")
         Grain(inverted)
         inverted.GeometryName = GRAIN_GEOMETRY_CONICAL
-        inverted.Diameter = 0.01
-        inverted.Length = 0.1
-        inverted.ForwardCoreDiameter = 0.0025
-        inverted.AftCoreDiameter = 0.002
+        inverted.Diameter = FreeCAD.Units.Quantity("0.01 m").Value
+        inverted.Length = FreeCAD.Units.Quantity("0.1 m").Value
+        inverted.ForwardCoreDiameter = FreeCAD.Units.Quantity("0.0025 m").Value
+        inverted.AftCoreDiameter = FreeCAD.Units.Quantity("0.002 m").Value
 
         regular = FreeCAD.ActiveDocument.addObject("Part::FeaturePython","Grain")
         Grain(regular)
         regular.GeometryName = GRAIN_GEOMETRY_CONICAL
-        regular.Diameter = 0.01
-        regular.Length = 0.1
-        regular.ForwardCoreDiameter = 0.003
-        regular.AftCoreDiameter = 0.004
+        regular.Diameter = FreeCAD.Units.Quantity("0.01 m").Value
+        regular.Length = FreeCAD.Units.Quantity("0.1 m").Value
+        regular.ForwardCoreDiameter = FreeCAD.Units.Quantity("0.003 m").Value
+        regular.AftCoreDiameter = FreeCAD.Units.Quantity("0.004 m").Value
 
         self.assertEqual(inverted.Proxy._getHandler().isCoreInverted(), True)
         self.assertEqual(regular.Proxy._getHandler().isCoreInverted(), False)
@@ -69,26 +69,27 @@ class ConicalGrainMethods(unittest.TestCase):
         testGrain = FreeCAD.ActiveDocument.addObject("Part::FeaturePython","Grain")
         Grain(testGrain)
         testGrain.GeometryName = GRAIN_GEOMETRY_CONICAL
-        testGrain.Diameter = properties['diameter']
-        testGrain.Length = properties['length']
-        testGrain.ForwardCoreDiameter = properties['forwardCoreDiameter']
-        testGrain.AftCoreDiameter = properties['aftCoreDiameter']
+        testGrain.Diameter = FreeCAD.Units.Quantity("{} m".format(properties['diameter'])).Value
+        testGrain.Length = FreeCAD.Units.Quantity("{} m".format(properties['length'])).Value
+        testGrain.ForwardCoreDiameter = FreeCAD.Units.Quantity("{} m".format(properties['forwardCoreDiameter'])).Value
+        testGrain.AftCoreDiameter = FreeCAD.Units.Quantity("{} m".format(properties['aftCoreDiameter'])).Value
         testGrain.InhibitedEnds = GRAIN_INHIBITED_BOTH
 
         unregressed = testGrain.Proxy._getHandler().getFrustumInfo(0)
-        self.assertAlmostEqual(unregressed[0], properties['aftCoreDiameter'])
-        self.assertAlmostEqual(unregressed[1], properties['forwardCoreDiameter'])
-        self.assertAlmostEqual(unregressed[2], properties['length'])
+        self.assertAlmostEqual(unregressed[0], 1000.0 * properties['aftCoreDiameter'])
+        self.assertAlmostEqual(unregressed[1], 1000.0 * properties['forwardCoreDiameter'])
+        self.assertAlmostEqual(unregressed[2], 1000.0 * properties['length'])
 
-        beforeHittingWall = testGrain.Proxy._getHandler().getFrustumInfo(0.001)
-        self.assertAlmostEqual(beforeHittingWall[0], 0.003999993750029297)
-        self.assertAlmostEqual(beforeHittingWall[1], 0.004499993750029296)
-        self.assertAlmostEqual(beforeHittingWall[2], properties['length']) # Length hasn't changed yet
+        # beforeHittingWall = testGrain.Proxy._getHandler().getFrustumInfo(0.001)
+        beforeHittingWall = testGrain.Proxy._getHandler().getFrustumInfo(1)
+        self.assertAlmostEqual(beforeHittingWall[0], 3.999993750029297)
+        self.assertAlmostEqual(beforeHittingWall[1], 4.499993750029296)
+        self.assertAlmostEqual(beforeHittingWall[2], 1000.0 * properties['length']) # Length hasn't changed yet
 
-        hitWall = testGrain.Proxy._getHandler().getFrustumInfo(0.0038)
-        self.assertAlmostEqual(hitWall[0], 0.009599976250111327)
-        self.assertAlmostEqual(hitWall[1], properties['diameter']) # This end has burned all the way to the wall
-        self.assertAlmostEqual(hitWall[2], 0.08000468749267584)
+        hitWall = testGrain.Proxy._getHandler().getFrustumInfo(3.8)
+        self.assertAlmostEqual(hitWall[0], 9.599976250111327)
+        self.assertAlmostEqual(hitWall[1], 1000.0 * properties['diameter']) # This end has burned all the way to the wall
+        self.assertAlmostEqual(hitWall[2], 80.00468749267584)
 
     def test_getSurfaceAreaAtRegression(self):
         properties = {
@@ -101,19 +102,19 @@ class ConicalGrainMethods(unittest.TestCase):
 
         forwardFaceArea = 7.36310778e-05
         aftFaceArea = 7.53982236e-05
-        lateralArea = 0.00070686055598659
+        lateralArea = 706.86055598659
 
         testGrain = FreeCAD.ActiveDocument.addObject("Part::FeaturePython","Grain")
         Grain(testGrain)
         testGrain.GeometryName = GRAIN_GEOMETRY_CONICAL
-        testGrain.Diameter = properties['diameter']
-        testGrain.Length = properties['length']
-        testGrain.ForwardCoreDiameter = properties['forwardCoreDiameter']
-        testGrain.AftCoreDiameter = properties['aftCoreDiameter']
+        testGrain.Diameter = FreeCAD.Units.Quantity("{} m".format(properties['diameter'])).Value
+        testGrain.Length = FreeCAD.Units.Quantity("{} m".format(properties['length'])).Value
+        testGrain.ForwardCoreDiameter = FreeCAD.Units.Quantity("{} m".format(properties['forwardCoreDiameter'])).Value
+        testGrain.AftCoreDiameter = FreeCAD.Units.Quantity("{} m".format(properties['aftCoreDiameter'])).Value
         testGrain.InhibitedEnds = GRAIN_INHIBITED_BOTH
 
         self.assertAlmostEqual(testGrain.Proxy.getSurfaceAreaAtRegression(0), lateralArea)
-        self.assertAlmostEqual(testGrain.Proxy.getSurfaceAreaAtRegression(0.001), 0.0013351790867045452)
+        self.assertAlmostEqual(testGrain.Proxy.getSurfaceAreaAtRegression(1), 1335.1790867045452)
 
         # For when uninibited conical grains work:
         """testGrain.setProperty('inhibitedEnds', 'Top')
@@ -137,15 +138,15 @@ class ConicalGrainMethods(unittest.TestCase):
         testGrain = FreeCAD.ActiveDocument.addObject("Part::FeaturePython","Grain")
         Grain(testGrain)
         testGrain.GeometryName = GRAIN_GEOMETRY_CONICAL
-        testGrain.Diameter = properties['diameter']
-        testGrain.Length = properties['length']
-        testGrain.ForwardCoreDiameter = properties['forwardCoreDiameter']
-        testGrain.AftCoreDiameter = properties['aftCoreDiameter']
+        testGrain.Diameter = FreeCAD.Units.Quantity("{} m".format(properties['diameter'])).Value
+        testGrain.Length = FreeCAD.Units.Quantity("{} m".format(properties['length'])).Value
+        testGrain.ForwardCoreDiameter = FreeCAD.Units.Quantity("{} m".format(properties['forwardCoreDiameter'])).Value
+        testGrain.AftCoreDiameter = FreeCAD.Units.Quantity("{} m".format(properties['aftCoreDiameter'])).Value
         testGrain.InhibitedEnds = GRAIN_INHIBITED_BOTH
 
-        self.assertAlmostEqual(testGrain.Proxy.getVolumeAtRegression(0), 7.454737567580781e-06)
-        self.assertAlmostEqual(testGrain.Proxy.getVolumeAtRegression(0.001), 6.433724127569215e-06)
-        self.assertAlmostEqual(testGrain.Proxy.getVolumeAtRegression(0.0038), 2.480054353678591e-07)
+        self.assertAlmostEqual(testGrain.Proxy.getVolumeAtRegression(0), 7.454737567580781e3)
+        self.assertAlmostEqual(testGrain.Proxy.getVolumeAtRegression(1), 6.433724127569215e3)
+        self.assertAlmostEqual(testGrain.Proxy.getVolumeAtRegression(3.8), 2.480054353678591e2)
 
     def test_getWebLeft(self):
         properties = {
@@ -159,18 +160,18 @@ class ConicalGrainMethods(unittest.TestCase):
         testGrain = FreeCAD.ActiveDocument.addObject("Part::FeaturePython","Grain")
         Grain(testGrain)
         testGrain.GeometryName = GRAIN_GEOMETRY_CONICAL
-        testGrain.Diameter = properties['diameter']
-        testGrain.Length = properties['length']
-        testGrain.ForwardCoreDiameter = properties['forwardCoreDiameter']
-        testGrain.AftCoreDiameter = properties['aftCoreDiameter']
+        testGrain.Diameter = FreeCAD.Units.Quantity("{} m".format(properties['diameter'])).Value
+        testGrain.Length = FreeCAD.Units.Quantity("{} m".format(properties['length'])).Value
+        testGrain.ForwardCoreDiameter = FreeCAD.Units.Quantity("{} m".format(properties['forwardCoreDiameter'])).Value
+        testGrain.AftCoreDiameter = FreeCAD.Units.Quantity("{} m".format(properties['aftCoreDiameter'])).Value
         testGrain.InhibitedEnds = GRAIN_INHIBITED_BOTH
 
-        self.assertAlmostEqual(testGrain.Proxy.getWebLeft(0), 0.004)
-        self.assertAlmostEqual(testGrain.Proxy.getWebLeft(0.001), 0.003)
-        self.assertAlmostEqual(testGrain.Proxy.getWebLeft(0.0038), 0.0002)
+        self.assertAlmostEqual(testGrain.Proxy.getWebLeft(0), 4.0)
+        self.assertAlmostEqual(testGrain.Proxy.getWebLeft(1), 3.0, 4)
+        self.assertAlmostEqual(testGrain.Proxy.getWebLeft(3.8), 0.2, 4)
 
-        testGrain.ForwardCoreDiameter = 0.002
-        testGrain.AftCoreDiameter = 0.0025
-        self.assertAlmostEqual(testGrain.Proxy.getWebLeft(0), 0.004)
-        self.assertAlmostEqual(testGrain.Proxy.getWebLeft(0.001), 0.003)
-        self.assertAlmostEqual(testGrain.Proxy.getWebLeft(0.0038), 0.0002)
+        testGrain.ForwardCoreDiameter = FreeCAD.Units.Quantity("0.002 m").Value
+        testGrain.AftCoreDiameter = FreeCAD.Units.Quantity("0.0025 m").Value
+        self.assertAlmostEqual(testGrain.Proxy.getWebLeft(0), 4.0)
+        self.assertAlmostEqual(testGrain.Proxy.getWebLeft(1), 3.0, 4)
+        self.assertAlmostEqual(testGrain.Proxy.getWebLeft(3.8), 0.2, 4)
