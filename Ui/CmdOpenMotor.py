@@ -109,7 +109,7 @@ def makeGrain(type, name="Grain"):
 
     return grain
 
-def makeMotor(name="Motor"):
+def makeEmptyMotor(name="Motor"):
     motor = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
     Motor(motor)
 
@@ -118,6 +118,11 @@ def makeMotor(name="Motor"):
     
         # Set active so we have a reference for the children
         FreeCADGui.ActiveDocument.ActiveView.setActiveObject('motor', motor)
+
+    return motor
+
+def makeMotor(name="Motor"):
+    motor = makeEmptyMotor(name)
 
     config = makeMotorConfig()
     motor.addObject(config)
@@ -131,8 +136,6 @@ def makeMotor(name="Motor"):
     grains = makeGrains()
     motor.addObject(grains)
 
-    grain = makeGrain(GRAIN_GEOMETRY_BATES)
-
     if FreeCAD.GuiUp:
         # Do this again so the motor is the active object
         FreeCADGui.ActiveDocument.ActiveView.setActiveObject('motor', motor)
@@ -143,6 +146,7 @@ class CmdOpenMotor:
     def Activated(self):
         FreeCADGui.addModule("Ui.CmdOpenMotor")
         FreeCADGui.doCommand("Ui.CmdOpenMotor.makeMotor('Motor')")
+        FreeCADGui.doCommand("Ui.CmdOpenMotor.makeGrain('" + GRAIN_GEOMETRY_BATES + "')") # Add the first grain
         FreeCADGui.doCommand("FreeCAD.ActiveDocument.recompute()")
         FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCADGui.ActiveDocument.ActiveView.getActiveObject('motor'),0)")
 

@@ -77,8 +77,8 @@ class Propellant:
     def __init__(self, obj):
         super().__init__()
 
-        # if not hasattr(obj, 'Name'):
-        #     obj.addProperty('App::PropertyString', 'Name', 'Propellant', translate('App::Property', 'Name')).Name = ""
+        if not hasattr(obj, 'PropellantName'):
+            obj.addProperty('App::PropertyString', 'PropellantName', 'Propellant', translate('App::Property', 'Name')).PropellantName = ""
         if not hasattr(obj, 'Density'):
             obj.addProperty('App::PropertyFloat', 'Density', 'Propellant', translate('App::Property', 'Density')).Density = 1.0
        
@@ -100,6 +100,10 @@ class Propellant:
 
     def getTabs(self):
         return self._obj.Group
+
+    def addTab(self, tab):
+        """Adds a set of combustion properties to the propellant"""
+        self._obj.addObject(tab)
 
     def __getstate__(self):
         return self.version
@@ -172,7 +176,3 @@ class Propellant:
         aText = "Chamber pressure deviated from propellant's entered ranges. Results may not be accurate."
         errors.append(SimAlert(SimAlertLevel.WARNING, SimAlertType.VALUE, aText, 'Propellant'))
         return errors
-
-    def addTab(self, tab):
-        """Adds a set of combustion properties to the propellant"""
-        self.props['tabs'].addTab(tab)

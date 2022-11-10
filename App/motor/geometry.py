@@ -5,11 +5,11 @@ import numpy as np
 
 def circleArea(dia):
     """Returns the area of a circle with diameter dia"""
-    return ((dia / 2) ** 2) * math.pi
+    return ((float(dia) / 2) ** 2) * math.pi
 
 def circlePerimeter(dia):
     """Returns the perimeter (circumference) of a circle with diameter dia"""
-    return dia * math.pi
+    return float(dia) * math.pi
 
 def circleDiameterFromArea(area):
     """Returns the diameter of a circle with area 'area'"""
@@ -17,7 +17,7 @@ def circleDiameterFromArea(area):
 
 def tubeArea(dia, height):
     """Returns the surface area of a tube (cylinder without endcaps) with diameter 'dia' and height 'height'"""
-    return dia * math.pi * height
+    return float(dia) * math.pi * float(height)
 
 def cylinderArea(dia, height):
     """Returns the surface area of a cylinder with diameter 'dia' and height 'height'"""
@@ -25,19 +25,19 @@ def cylinderArea(dia, height):
 
 def cylinderVolume(dia, height):
     """Returns the volume of a cylinder with diameter 'dia' and height 'height'"""
-    return height * circleArea(dia)
+    return float(height) * circleArea(dia)
 
 def frustumLateralSurfaceArea(diameterA, diameterB, length):
     """Returns the surface area of a frustum (truncated cone) with end diameters A and B and length 'length'"""
-    radiusA = diameterA / 2
-    radiusB = diameterB / 2
-    return math.pi * (radiusA + radiusB) * (abs(radiusA - radiusB) ** 2 + length ** 2) ** 0.5
+    radiusA = float(diameterA) / 2
+    radiusB = float(diameterB) / 2
+    return math.pi * (radiusA + radiusB) * (abs(radiusA - radiusB) ** 2 + float(length) ** 2) ** 0.5
 
 def frustumVolume(diameterA, diameterB, length):
     """Returns the volume of a frustum (truncated cone) with end diameters A and B and length 'length'"""
-    radiusA = diameterA / 2
-    radiusB = diameterB / 2
-    return math.pi * (length / 3) * (radiusA ** 2 + radiusA * radiusB + radiusB ** 2)
+    radiusA = float(diameterA) / 2
+    radiusB = float(diameterB) / 2
+    return math.pi * (float(length) / 3) * (radiusA ** 2 + radiusA * radiusB + radiusB ** 2)
 
 def splitFrustum(diameterA, diameterB, length, splitPosition):
     """Takes in info about a frustum (truncated cone) and a position measured from the "diameterA" and returns

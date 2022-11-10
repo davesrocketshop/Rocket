@@ -44,6 +44,8 @@ from Tests.Grains.TestBates import BatesGrainMethods
 from Tests.Grains.TestConical import ConicalGrainMethods
 from Tests.Grains.TestEndburner import EndBurningGrainMethods
 
+from Tests.Regression.TestCGrain import TestCGrain
+
 class RocketTestCases(unittest.TestCase):
 
     def testCoesa76(self):

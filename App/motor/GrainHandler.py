@@ -275,7 +275,7 @@ class FmmGrain(PerforatedGrain):
         means propellant, and a 1 means no propellant."""
 
     def simulationSetup(self, config):
-        mapSize = config.getProperty("mapDim")
+        mapSize = int(config._obj.MapDimension)
 
         self.initGeometry(mapSize)
         self.generateCoreMap()

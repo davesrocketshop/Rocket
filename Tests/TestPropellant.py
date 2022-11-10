@@ -39,7 +39,7 @@ class TestPropellantMethods(unittest.TestCase):
     def test_proper_propellant_ranges(self):
         props = makePropellant()
 
-        # props.Name = 'TestProp'
+        props.PropellantName = 'TestProp'
         props.Density = 1650
 
         tab = makePropellantTab()
@@ -50,14 +50,14 @@ class TestPropellantMethods(unittest.TestCase):
         tab.t = 3500
         tab.m = 23.67
         tab.k = 1.25
-        props.addObject(tab)
+        props.Proxy.addTab(tab)
 
         self.assertEqual(len(props.Proxy.getErrors()), 0)
 
     def test_backwards_pressure_ranges(self):
         props = makePropellant()
 
-        # props.Name = 'TestProp'
+        props.PropellantName = 'TestProp'
         props.Density = 1650
 
         tab = makePropellantTab()
@@ -68,7 +68,7 @@ class TestPropellantMethods(unittest.TestCase):
         tab.t = 3500
         tab.m = 23.67
         tab.k = 1.25
-        props.addObject(tab)
+        props.Proxy.addTab(tab)
 
         tab = makePropellantTab()
         tab.MinPressure = 6.895e+06
@@ -78,6 +78,6 @@ class TestPropellantMethods(unittest.TestCase):
         tab.t = 3500
         tab.m = 23.67
         tab.k = 1.25
-        props.addObject(tab)
+        props.Proxy.addTab(tab)
 
         self.assertIn('Tab #1 has reversed pressure limits.', [err.description for err in props.Proxy.getErrors()])

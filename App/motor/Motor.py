@@ -189,9 +189,9 @@ class Motor(object):
         using the pressure to determine how the motor will regress in the given timestep at the current pressure.
         This process is repeated and regression tracked until all grains have burned out, when the results and any
         warnings are returned."""
-        burnoutWebThres = float(self.getMotorConfig()._obj.BurnoutWebThres)
-        burnoutThrustThres = float(self.getMotorConfig()._obj.BurnoutThrustThres)
-        dTime = float(self.getMotorConfig()._obj.Timestep)
+        burnoutWebThres = float(self.getMotorConfig()._obj.BurnoutWebThreshold)
+        burnoutThrustThres = float(self.getMotorConfig()._obj.BurnoutThrustThreshold)
+        dTime = float(self.getMotorConfig()._obj.TimeStep)
 
         simRes = SimulationResult(self)
 
