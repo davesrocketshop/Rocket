@@ -57,7 +57,7 @@ class Grain(FeatureBase):
         super()._initAttributes(obj)
        
         if not hasattr(obj, 'GeometryName'):
-            obj.addProperty('App::PropertyEnumeration', 'GeometryName', 'Grain', translate('App::Property', 'Geometry Name')).GeometryName
+            obj.addProperty('App::PropertyEnumeration', 'GeometryName', 'Grain', translate('App::Property', 'Geometry Name'))
             obj.GeometryName = [GRAIN_GEOMETRY_BATES, GRAIN_GEOMETRY_C, GRAIN_GEOMETRY_CONICAL, GRAIN_GEOMETRY_CUSTOM, GRAIN_GEOMETRY_D, 
                 GRAIN_GEOMETRY_END, GRAIN_GEOMETRY_FINOCYL, GRAIN_GEOMETRY_MOONBURNER, GRAIN_GEOMETRY_RODTUBE, GRAIN_GEOMETRY_STAR, GRAIN_GEOMETRY_XCORE]
             obj.GeometryName = GRAIN_GEOMETRY_BATES

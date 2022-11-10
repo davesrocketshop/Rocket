@@ -94,7 +94,7 @@ class TestCGrain(unittest.TestCase):
 
         tab = makePropellantTab()
         tab.MinPressure = 0.0
-        tab.MaxPressure = 6895000.0
+        tab.MaxPressure = FreeCAD.Units.Quantity("6895000.0 Pa").Value 
         tab.a = 1.467e-05
         tab.n = 0.382
         tab.k = 1.25
@@ -107,17 +107,17 @@ class TestCGrain(unittest.TestCase):
         nozzle.ConvAngle = 65.0
         nozzle.DivAngle = 15.0
         nozzle.Efficiency = 0.9
-        nozzle.Exit = 0.012700025400050802
-        nozzle.Throat = 0.00444500889001778
-        nozzle.ThroatLength = 0.0025400050800101605
+        nozzle.Exit = FreeCAD.Units.Quantity("0.012700025400050802 m").Value 
+        nozzle.Throat = FreeCAD.Units.Quantity("0.00444500889001778 m").Value
+        nozzle.ThroatLength = FreeCAD.Units.Quantity("0.0025400050800101605 m").Value 
         nozzle.SlagCoeff = 0.0
         nozzle.ErosionCoeff = 0.0
 
         grain = makeGrain(GRAIN_GEOMETRY_C)
-        grain.Diameter = 0.030784861569723144
-        grain.Length = 0.10160020320040641
-        grain.SlotOffset = 0.0031750063500127004
-        grain.SlotWidth = 0.004699009398018796
+        grain.Diameter = FreeCAD.Units.Quantity("0.030784861569723144 m").Value 
+        grain.Length = FreeCAD.Units.Quantity("0.10160020320040641 m").Value 
+        grain.SlotOffset = FreeCAD.Units.Quantity("0.0031750063500127004 m").Value 
+        grain.SlotWidth = FreeCAD.Units.Quantity("0.004699009398018796 m").Value 
         grain.InhibitedEnds = GRAIN_INHIBITED_NEITHER
 
         tm.Proxy.addGrain(grain)

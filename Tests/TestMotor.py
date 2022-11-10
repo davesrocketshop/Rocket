@@ -45,18 +45,18 @@ class TestMotorMethods(unittest.TestCase):
         self.assertIsNotNone(tm.Proxy.getGrains())
 
         bg = makeGrain(GRAIN_GEOMETRY_BATES)
-        bg.Diameter = 0.083058
-        bg.Length = 0.1397
-        bg.CoreDiameter = 0.05
+        bg.Diameter = FreeCAD.Units.Quantity("0.083058 m").Value
+        bg.Length = FreeCAD.Units.Quantity("0.1397 m").Value
+        bg.CoreDiameter = FreeCAD.Units.Quantity("0.05 m").Value
         bg.InhibitedEnds = GRAIN_INHIBITED_NEITHER
 
         tm.Proxy.addGrain(bg)
         bg.Proxy.simulationSetup(tc)
-        tm.Proxy.getNozzle()._obj.Throat = 0.01428
+        tm.Proxy.getNozzle()._obj.Throat = FreeCAD.Units.Quantity("0.01428 m").Value 
 
         self.assertAlmostEqual(tm.Proxy.calcKN([0], 0), 180, 0)
-        self.assertAlmostEqual(tm.Proxy.calcKN([0.0025], 0), 183, 0)
-        self.assertAlmostEqual(tm.Proxy.calcKN([0.005], 0), 185, 0)
+        self.assertAlmostEqual(tm.Proxy.calcKN([2.5], 0), 183, 0)
+        self.assertAlmostEqual(tm.Proxy.calcKN([5], 0), 185, 0)
 
     def test_calcPressure(self):
         tm = makeMotor('Motor')
@@ -66,20 +66,19 @@ class TestMotorMethods(unittest.TestCase):
         self.assertIsNotNone(tm.Proxy.getGrains())
 
         bg = makeGrain(GRAIN_GEOMETRY_BATES)
-        bg.Diameter = 0.083058
-        bg.Length = 0.1397
-        bg.CoreDiameter = 0.05
+        bg.Diameter = FreeCAD.Units.Quantity("0.083058 m").Value
+        bg.Length = FreeCAD.Units.Quantity("0.1397 m").Value
+        bg.CoreDiameter = FreeCAD.Units.Quantity("0.05 m").Value
         bg.InhibitedEnds = GRAIN_INHIBITED_NEITHER
 
         tm.Proxy.addGrain(bg)
         bg.Proxy.simulationSetup(tc)
 
-        tm.Proxy.getNozzle()._obj.Throat = 0.01428
+        tm.Proxy.getNozzle()._obj.Throat = FreeCAD.Units.Quantity("0.01428 m").Value 
 
         propellant = makePropellant()
-        # propellant.Name = 'KNSU'
+        propellant.PropellantName = 'KNSU'
         propellant.Density = 1890
-        # tm.addObject(propellant)
         tm.Proxy.setPropellant(propellant.Proxy)
         self.assertIsNotNone(tm.Proxy.getPropellant())
         self.assertEqual(tm.Proxy.getPropellant(), propellant.Proxy)
@@ -90,6 +89,6 @@ class TestMotorMethods(unittest.TestCase):
         tab.t = 1720
         tab.m = 41.98
         tab.k = 1.133
-        tm.Proxy.getPropellant()._obj.addObject(tab)
+        tm.Proxy.getPropellant().addTab(tab)
 
         self.assertAlmostEqual(tm.Proxy.calcIdealPressure([0], 0), 4050196, 0)
