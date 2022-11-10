@@ -40,6 +40,7 @@ from App.motor.MotorConfig import MotorConfig
 from App.motor.Grain import Grains, Grain
 from App.motor.Nozzle import Nozzle
 from App.motor.Propellant import Propellant, PropellantTab
+from App.Constants import GRAIN_GEOMETRY_BATES
 
 def makeMotorConfig(name="MotorConfig"):
 
@@ -100,6 +101,10 @@ def makeGrain(type, name="Grain"):
     if FreeCAD.GuiUp:
         ViewProviderGrain(grain.ViewObject)
 
+        rocket=FreeCADGui.ActiveDocument.ActiveView.getActiveObject('motor')
+        if rocket:
+            rocket.Proxy.addGrain(grain)
+
     return grain
 
 def makeMotor(name="Motor"):
@@ -108,6 +113,8 @@ def makeMotor(name="Motor"):
 
     if FreeCAD.GuiUp:
         ViewProviderMotor(motor.ViewObject)
+    
+        FreeCADGui.ActiveDocument.ActiveView.setActiveObject('motor', motor)
 
     config = makeMotorConfig()
     motor.addObject(config)
@@ -122,21 +129,6 @@ def makeMotor(name="Motor"):
     motor.addObject(grains)
 
     return motor
-
-def calcOpenMotor():
-
-    # See if we have a fin selected. If so, this is a custom fin
-    for fin in FreeCADGui.Selection.getSelection():
-        if fin.isDerivedFrom('Part::FeaturePython'):
-            if hasattr(fin,"FinType"):
-                try:
-                    form = DialogFinFlutter(fin)
-                    form.exec_()
-                except TypeError as ex:
-                    QtGui.QMessageBox.information(None, "", str(ex))
-                return
-
-    QtGui.QMessageBox.information(None, "", translate('Rocket', "Please select a fin first"))
 
 class CmdOpenMotor:
     def Activated(self):
@@ -160,3 +152,49 @@ class CmdOpenMotor:
         return {'MenuText': translate("Rocket", 'Open Motor Analysis'),
                 'ToolTip': translate("Rocket", 'Open Motor Analysis'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_OpenMotor.svg"}
+
+class CmdOpenMotorNewGrain:
+    def Activated(self):
+        FreeCADGui.addModule("Ui.CmdOpenMotor")
+        FreeCADGui.doCommand("Ui.CmdOpenMotor.makeGrain('" + GRAIN_GEOMETRY_BATES + "')")
+        FreeCADGui.doCommand("FreeCAD.ActiveDocument.recompute()")
+        FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
+
+    def IsActive(self):
+        # Available with active document
+        try:
+            import skfmm # Not part of the standard FreeCAD install
+            if FreeCAD.ActiveDocument:
+                return True
+        except ModuleNotFoundError:
+            pass
+
+        return False
+        
+    def GetResources(self):
+        return {'MenuText': translate("Rocket", 'Add Grain'),
+                'ToolTip': translate("Rocket", 'Add a Grain'),
+                'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_OpenMotorNewGrain.svg"}
+
+class CmdOpenMotorRunSimulation:
+    def Activated(self):
+        FreeCADGui.addModule("Ui.CmdOpenMotor")
+        FreeCADGui.doCommand("Ui.CmdOpenMotor.makeMotor('Motor')")
+        FreeCADGui.doCommand("FreeCAD.ActiveDocument.recompute()")
+        FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
+
+    def IsActive(self):
+        # Available with active document
+        try:
+            import skfmm # Not part of the standard FreeCAD install
+            if FreeCAD.ActiveDocument:
+                return True
+        except ModuleNotFoundError:
+            pass
+
+        return False
+        
+    def GetResources(self):
+        return {'MenuText': translate("Rocket", 'Run Simulation'),
+                'ToolTip': translate("Rocket", 'Run Simulation'),
+                'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_OpenMotorRun.svg"}

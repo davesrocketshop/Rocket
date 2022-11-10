@@ -41,7 +41,8 @@ class RocketWorkbench ( Workbench ):
                         #'Rocket_Parachute',
                         'Separator', 'Rocket_Calculators', 'Separator', 'Rocket_NewSketch', 'Sketcher_EditSketch',
                         #'Separator', 'Rocket_ParachuteGore',
-                        'Separator', 'Rocket_FinFlutter', "Rocket_MaterialEditor", 'Rocket_OpenMotor'])
+                        'Separator', 'Rocket_FinFlutter', "Rocket_MaterialEditor", 'Rocket_OpenMotor', 'Rocket_OpenMotorNewGrain',
+                        'Rocket_OpenMotorRun'])
 
         self.appendMenu(QT_TRANSLATE_NOOP('Rocket', 'Rocket'), 
                         ['Rocket_NoseCone', 'Rocket_Transition', 'Rocket_BodyTube', 'Rocket_CenteringRing', 'Rocket_Bulkhead', 'Rocket_Fin', 'Rocket_FinCan']) #, 'Rocket_Parachute'])
@@ -58,7 +59,8 @@ class RocketWorkbench ( Workbench ):
         #                 ['Rocket_ParachuteGore'])
         self.appendMenu([QT_TRANSLATE_NOOP("Rocket", "Rocket"),
                          QT_TRANSLATE_NOOP("Rocket", "Analysis")],
-                        ['Rocket_FinFlutter', "Rocket_MaterialEditor", 'Rocket_OpenMotor'])
+                        ['Rocket_FinFlutter', "Rocket_MaterialEditor", 'Rocket_OpenMotor', 'Rocket_OpenMotorNewGrain',
+                        'Rocket_OpenMotorRun'])
 
     def GetClassName(self):
         return "Gui::PythonWorkbench"
