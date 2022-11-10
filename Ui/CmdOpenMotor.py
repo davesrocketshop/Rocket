@@ -103,9 +103,9 @@ def makeGrain(type, name="Grain"):
     if FreeCAD.GuiUp:
         ViewProviderGrain(grain.ViewObject)
 
-        rocket=FreeCADGui.ActiveDocument.ActiveView.getActiveObject('motor')
-        if rocket:
-            rocket.Proxy.addGrain(grain)
+        motor=FreeCADGui.ActiveDocument.ActiveView.getActiveObject('motor')
+        if motor:
+            motor.Proxy.addGrain(grain)
 
     return grain
 
@@ -116,6 +116,7 @@ def makeMotor(name="Motor"):
     if FreeCAD.GuiUp:
         ViewProviderMotor(motor.ViewObject)
     
+        # Set active so we have a reference for the children
         FreeCADGui.ActiveDocument.ActiveView.setActiveObject('motor', motor)
 
     config = makeMotorConfig()
@@ -131,7 +132,10 @@ def makeMotor(name="Motor"):
     motor.addObject(grains)
 
     grain = makeGrain(GRAIN_GEOMETRY_BATES)
-    grains.addObject(grain)
+
+    if FreeCAD.GuiUp:
+        # Do this again so the motor is the active object
+        FreeCADGui.ActiveDocument.ActiveView.setActiveObject('motor', motor)
 
     return motor
 
@@ -140,7 +144,7 @@ class CmdOpenMotor:
         FreeCADGui.addModule("Ui.CmdOpenMotor")
         FreeCADGui.doCommand("Ui.CmdOpenMotor.makeMotor('Motor')")
         FreeCADGui.doCommand("FreeCAD.ActiveDocument.recompute()")
-        FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
+        FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCADGui.ActiveDocument.ActiveView.getActiveObject('motor'),0)")
 
     def IsActive(self):
         # Available with active document
