@@ -42,6 +42,8 @@ from App.motor.Nozzle import Nozzle
 from App.motor.Propellant import Propellant, PropellantTab
 from App.Constants import GRAIN_GEOMETRY_BATES
 
+from App.Constants import GRAIN_GEOMETRY_BATES
+
 def makeMotorConfig(name="MotorConfig"):
 
     config = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
@@ -127,6 +129,9 @@ def makeMotor(name="Motor"):
 
     grains = makeGrains()
     motor.addObject(grains)
+
+    grain = makeGrain(GRAIN_GEOMETRY_BATES)
+    grains.addObject(grain)
 
     return motor
 
