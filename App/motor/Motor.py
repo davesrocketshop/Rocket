@@ -140,14 +140,20 @@ class Motor(object):
         optionally be passed in to save time on motors where calculating surface area is expensive."""
         if kn is None:
             kn = self.calcKN(regDepth, dThroat)
+        # print("calcIdealPressure:kn %g" % kn)
         density = self.getPropellant()._obj.Density
         tabPressures = []
         for tab in self.getPropellant().getTabs():
             ballA, ballN, gamma, temp, molarMass = float(tab.a), float(tab.n), float(tab.k), float(tab.t), float(tab.m)
-            num = kn * density * ballA
+            # print("calcIdealPressure:ballA %g, ballN %g, gamma %g, temp %g, molarMass %g" % (ballA, ballN, gamma, temp, molarMass))
+            num = kn * density * ballA * 1e6 # 1e6 is units normalization for distance
+            # print("calcIdealPressure:num %g" % num)
             exponent = 1 / (1 - ballN)
+            # print("calcIdealPressure:exponent %g" % exponent)
             denom = ((gamma / ((GAS_CONSTANT / molarMass) * temp)) * ((2 / (gamma + 1)) ** ((gamma + 1) / (gamma - 1)))) ** 0.5
+            # print("calcIdealPressure:denom %g" % denom)
             tabPressure = (num / denom) ** exponent
+            # print("calcIdealPressure:tabPressure %g" % tabPressure)
             # If the pressure that a burnrate produces falls into its range, we know it is the proper burnrate
             # Due to floating point error, we sometimes get a situation in which no burnrate produces the proper pressure
             # For this scenario, we go by whichever produces the least error
@@ -168,9 +174,14 @@ class Motor(object):
         """Calculates the force of the motor at a given regression depth per grain. Calculates exit pressure by
         default, but can also use a value passed in."""
         _, _, gamma, _, _ = self.getPropellant().getCombustionProperties(chamberPres)
-        ambPressure = float(self.getMotorConfig()._obj.AmbientPressure)
+        # print("calcForce: chamberPres %g" % (chamberPres))
+        # print("calcForce: dThroat %g" % (dThroat))
+        ambPressure = float(self.getMotorConfig()._obj.AmbientPressure) * 1e3 # kPa to Pa
+        # print("calcForce: ambPressure %g" % (ambPressure))
         thrustCoeff = float(self.getNozzle().getAdjustedThrustCoeff(chamberPres, ambPressure, gamma, dThroat, exitPres))
-        thrust = thrustCoeff * float(self.getNozzle().getThroatArea(dThroat)) * chamberPres
+        # print("calcForce: thrustCoeff %g" % (thrustCoeff))
+        thrust = thrustCoeff * float(self.getNozzle().getThroatArea(dThroat)) * chamberPres * 1e-6 # mm^2 to m^2
+        # print("calcForce: thrust %g" % (thrust))
         return max(thrust, 0)
 
     def calcFreeVolume(self, regDepth):
@@ -222,7 +233,7 @@ class Motor(object):
             return simRes
 
         # Pull the required numbers from the propellant
-        density = self.getPropellant()._obj.Density
+        density = float(self.getPropellant()._obj.Density)
 
         # Precalculate these are they don't change
         motorVolume = self.calcTotalVolume()
@@ -260,6 +271,8 @@ class Motor(object):
 
         # Perform timesteps
         while simRes.shouldContinueSim(burnoutThrustThres):
+            # print("-") # Show the iteration
+
             # Calculate regression
             massFlow = 0
             perGrainMass = [0 for grain in self.getGrains().Group]
@@ -267,9 +280,11 @@ class Motor(object):
             perGrainMassFlux = [0 for grain in self.getGrains().Group]
             perGrainWeb = [0 for grain in self.getGrains().Group]
             for gid, grain in enumerate(self.getGrains().Group):
+                # print("getWebLeft[%d] %g" % (gid, grain.Proxy.getWebLeft(perGrainReg[gid])))
                 if grain.Proxy.getWebLeft(perGrainReg[gid]) > burnoutWebThres:
                     # Calculate regression at the current pressure
                     reg = dTime * self.getPropellant().getBurnRate(simRes.channels['pressure'].getLast())
+                    # print("reg[%d] %g" % (gid, reg))
                     # Find the mass flux through the grain based on the mass flow fed into from grains above it
                     perGrainMassFlux[gid] = grain.Proxy.getPeakMassFlux(massFlow, dTime, perGrainReg[gid], reg, density)
                     # Find the mass of the grain after regression
@@ -280,6 +295,10 @@ class Motor(object):
                     perGrainReg[gid] += reg
                     perGrainWeb[gid] = grain.Proxy.getWebLeft(perGrainReg[gid])
                 perGrainMassFlow[gid] = massFlow
+                # print("perGrainReg[%d] %g" % (gid, perGrainReg[gid]))
+                # print("perGrainWeb[%d] %g" % (gid, perGrainWeb[gid]))
+                # print("perGrainMassFlow[%d] %g" % (gid, perGrainMassFlow[gid]))
+
             simRes.channels['regression'].addData(perGrainReg[:])
             simRes.channels['web'].addData(perGrainWeb)
 
@@ -330,7 +349,7 @@ class Motor(object):
             alert = SimAlert(SimAlertLevel.WARNING, SimAlertType.CONSTRAINT, desc, 'Motor')
             simRes.addAlert(alert)
 
-        if simRes.getMaxPressure() > float(self.getMotorConfig()._obj.MaxPressure):
+        if simRes.getMaxPressure() > (float(self.getMotorConfig()._obj.MaxPressure) * 1e3):
             desc = 'Max pressure exceeded configured limit'
             alert = SimAlert(SimAlertLevel.WARNING, SimAlertType.CONSTRAINT, desc, 'Motor')
             simRes.addAlert(alert)
@@ -338,6 +357,7 @@ class Motor(object):
         # Note that this only adds all errors found on the first datapoint where there were errors to avoid repeating
         # errors. It should be revisited if getPressureErrors ever returns multiple types of errors
         for pressure in simRes.channels['pressure'].getData():
+            pressure = pressure / 1e3   # Pa to kPa used internally
             if pressure > 0:
                 err = self.getPropellant().getPressureErrors(pressure)
                 if len(err) > 0:

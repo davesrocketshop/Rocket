@@ -29,6 +29,8 @@ import unittest
 
 from Ui.CmdOpenMotor import makeMotor, makePropellantTab, makeGrain
 
+from App.motor.simResult import alertTypeNames, alertLevelNames
+
 from App.Constants import GRAIN_INHIBITED_NEITHER
 from App.Constants import GRAIN_GEOMETRY_C
 
@@ -90,12 +92,12 @@ class TestCGrain(unittest.TestCase):
 
         prop = tm.Proxy.getPropellant()._obj
         prop.PropellantName = "MIT - Ocean Water"
-        prop.Density = 1650.0
+        prop.Density = FreeCAD.Units.Quantity("1650.0 kg/(m^3)").Value 
 
         tab = makePropellantTab()
         tab.MinPressure = 0.0
         tab.MaxPressure = FreeCAD.Units.Quantity("6895000.0 Pa").Value 
-        tab.a = 1.467e-05
+        tab.a = FreeCAD.Units.Quantity("1.467e-05 m").Value # m/(s * Pa^n) - scale the meters
         tab.n = 0.382
         tab.k = 1.25
         tab.t = 3500.0
@@ -123,8 +125,23 @@ class TestCGrain(unittest.TestCase):
         tm.Proxy.addGrain(grain)
 
     def test_sim(self):
-        simRes = self._motor.Proxy.runSimulation()
+        try:
+            simRes = self._motor.Proxy.runSimulation()
+        except Exception as ex:
+            print("caught exception " + ex)
+
+        with open("C:\\Users\\dcarter\\Documents\\testCGrain.csv", 'w') as outFile:
+            outFile.write(simRes.getCSV())
         self.assertIsNotNone(simRes)
+
+        if len(simRes.alerts) > 0:
+            print("Alerts %d" % len(simRes.alerts))
+            for alert in simRes.alerts:
+                print("\tLevel:\t%s" % alertLevelNames[alert.level])
+                print("\tType:\t%s" % alertTypeNames[alert.type])
+                print("\tDescription:\t%s" % alert.description)
+                print("\tLocation:\t%s" % alert.location)
+                print("-\n")
         self.assertEqual(len(simRes.alerts), 0)
 
         """

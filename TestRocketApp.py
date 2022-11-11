@@ -35,7 +35,7 @@ from Ui.CmdFinCan import makeFinCan
 # from Tests.TestCenteringRing import CenteringRingTests
 # from Tests.TestNoses import NoseTests
 # from Tests.TestTransition import TransitionTests
-from Tests.TestFlutter import FinFlutterTestCases
+# from Tests.TestFlutter import FinFlutterTestCases
 
 from Tests.TestMotor import TestMotorMethods
 from Tests.TestNozzle import TestNozzleMethods

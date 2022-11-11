@@ -119,16 +119,22 @@ class Nozzle(FeatureBase):
 
         if exitPres is None:
             exitPres = self.getExitPressure(gamma, chamberPres)
+        # print("getIdealThrustCoeff: exitPres %g" % (exitPres))
         exitArea = self.getExitArea()
+        # print("getIdealThrustCoeff: exitArea %g" % (exitArea))
         throatArea = self.getThroatArea(dThroat)
+        # print("getIdealThrustCoeff: throatArea %g" % (throatArea))
 
         term1 = (2 * (gamma ** 2)) / (gamma - 1)
         term2 = (2 / (gamma + 1)) ** ((gamma + 1) / (gamma - 1))
         term3 = 1 - ((exitPres / chamberPres) ** ((gamma - 1) / gamma))
 
         momentumThrust = (term1 * term2 * term3) ** 0.5
+        # print("getIdealThrustCoeff: momentumThrust %g" % (momentumThrust))
         pressureThrust = ((exitPres - ambPres) * exitArea) / (throatArea * chamberPres)
+        # print("getIdealThrustCoeff: pressureThrust %g" % (pressureThrust))
 
+        # print("getIdealThrustCoeff: thrust %g" % (momentumThrust + pressureThrust))
         return momentumThrust + pressureThrust
 
     def getAdjustedThrustCoeff(self, chamberPres, ambPres, gamma, dThroat, exitPres=None):

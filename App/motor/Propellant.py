@@ -122,6 +122,8 @@ class Propellant:
     def getBurnRate(self, pressure):
         """Returns the propellant's burn rate for the given pressure"""
         ballA, ballN, _, _, _ = self.getCombustionProperties(pressure)
+        # print("getBurnRate: a %g, n %g, p %g" % (ballA, ballN, pressure))
+        # print("getBurnRate: burn rate %g" % (ballA * (pressure ** ballN)))
         return ballA * (pressure ** ballN)
 
     def getCombustionProperties(self, pressure):

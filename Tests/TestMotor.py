@@ -78,13 +78,13 @@ class TestMotorMethods(unittest.TestCase):
 
         propellant = makePropellant()
         propellant.PropellantName = 'KNSU'
-        propellant.Density = 1890
+        propellant.Density = FreeCAD.Units.Quantity("1890 kg/(m^3)").Value 
         tm.Proxy.setPropellant(propellant.Proxy)
         self.assertIsNotNone(tm.Proxy.getPropellant())
         self.assertEqual(tm.Proxy.getPropellant(), propellant.Proxy)
 
         tab = makePropellantTab()
-        tab.a = 0.000101
+        tab.a = FreeCAD.Units.Quantity("0.000101 m").Value # m/(s * Pa^n) - scale the meters, pressure is scaled separately
         tab.n = 0.319
         tab.t = 1720
         tab.m = 41.98
