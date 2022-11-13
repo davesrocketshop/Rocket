@@ -35,8 +35,8 @@ class MoonBurner(FmmGrain):
         super().__init__(obj)
 
     def generateCoreMap(self):
-        coreRadius = self.normalize(self._obj.CoreDiameter) / 2
-        coreOffset = self.normalize(self._obj.CoreOffset)
+        coreRadius = self.normalize(float(self._obj.CoreDiameter)) / 2
+        coreOffset = self.normalize(float(self._obj.CoreOffset))
 
         # Open up core
         self.coreMap[(self.mapX - coreOffset)**2 + self.mapY**2 < coreRadius**2] = 0
@@ -49,13 +49,13 @@ class MoonBurner(FmmGrain):
 
     def getGeometryErrors(self):
         errors = super().getGeometryErrors()
-        if self._obj.CoreDiameter == 0:
+        if float(self._obj.CoreDiameter) == 0:
             errors.append(SimAlert(SimAlertLevel.ERROR, SimAlertType.GEOMETRY, 'Core diameter must not be 0'))
-        if self._obj.CoreDiameter >= self._obj.Diameter:
+        if float(self._obj.CoreDiameter) >= float(self._obj.Diameter):
             aText = 'Core diameter must be less than or equal to grain diameter'
             errors.append(SimAlert(SimAlertLevel.ERROR, SimAlertType.GEOMETRY, aText))
 
-        if self._obj.CoreOffset * 2 > self._obj.Diameter:
+        if float(self._obj.CoreOffset) * 2 > float(self._obj.Diameter):
             aText = 'Core offset should be less than or equal to grain radius'
             errors.append(SimAlert(SimAlertLevel.WARNING, SimAlertType.GEOMETRY, aText))
 

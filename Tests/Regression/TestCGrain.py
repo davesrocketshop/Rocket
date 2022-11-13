@@ -92,7 +92,7 @@ class TestCGrain(unittest.TestCase):
 
         prop = tm.Proxy.getPropellant()._obj
         prop.PropellantName = "MIT - Ocean Water"
-        prop.Density = FreeCAD.Units.Quantity("1650.0 kg/(m^3)").Value 
+        prop.Density = FreeCAD.Units.Quantity("1650.0 kg/m^3").Value 
 
         tab = makePropellantTab()
         tab.MinPressure = 0.0
@@ -128,7 +128,7 @@ class TestCGrain(unittest.TestCase):
         try:
             simRes = self._motor.Proxy.runSimulation()
         except Exception as ex:
-            print("caught exception " + ex)
+            print("caught exception " + str(ex))
 
         with open("C:\\Users\\dcarter\\Documents\\testCGrain.csv", 'w') as outFile:
             outFile.write(simRes.getCSV())

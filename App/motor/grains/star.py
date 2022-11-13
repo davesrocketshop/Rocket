@@ -38,9 +38,9 @@ class StarGrain(FmmGrain):
         super().__init__(obj)
 
     def generateCoreMap(self):
-        numPoints = self._obj.NumPoints
-        pointWidth = self.normalize(self._obj.PointWidth)
-        pointLength = self.normalize(self._obj.PointLength)
+        numPoints = int(self._obj.NumPoints)
+        pointWidth = self.normalize(float(self._obj.PointWidth))
+        pointLength = self.normalize(float(self._obj.PointLength))
 
         for i in range(0, numPoints):
             theta = 2 * np.pi / numPoints * i
@@ -61,16 +61,16 @@ class StarGrain(FmmGrain):
 
     def getGeometryErrors(self):
         errors = super().getGeometryErrors()
-        if self._obj.NumPoints == 0:
+        if float(self._obj.NumPoints) == 0:
             errors.append(SimAlert(SimAlertLevel.ERROR, SimAlertType.GEOMETRY, 'Star grain has 0 points'))
 
-        if self._obj.PointLength == 0:
+        if float(self._obj.PointLength) == 0:
             errors.append(SimAlert(SimAlertLevel.ERROR, SimAlertType.GEOMETRY, 'Point length must not be 0'))
-        if self._obj.PointLength * 2 > self._obj.Diameter:
+        if float(self._obj.PointLength) * 2 > float(self._obj.Diameter):
             aText = 'Point length should be less than or equal to grain radius'
             errors.append(SimAlert(SimAlertLevel.WARNING, SimAlertType.GEOMETRY, aText))
 
-        if self._obj.PointWidth == 0:
+        if float(self._obj.PointWidth) == 0:
             errors.append(SimAlert(SimAlertLevel.ERROR, SimAlertType.GEOMETRY, 'Point width must not be 0'))
 
         return errors

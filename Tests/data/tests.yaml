@@ -1,0 +1,23 @@
+real: [
+  data/real/p9100/test.yaml,
+  data/real/o3100/test.yaml,
+  data/real/o3800/test.yaml,
+  data/real/n2950/test.yaml
+]
+
+regression: [
+  data/regression/simple/test.yaml,
+  data/regression/moon/test.yaml,
+  data/regression/tiny/test.yaml,
+  data/regression/endburner/test.yaml,
+  data/regression/tabular/test.yaml,
+  data/regression/inhibited/test.yaml,
+  data/regression/c/test.yaml,
+  data/regression/d/test.yaml,
+  data/regression/x/test.yaml,
+  data/regression/rodtube/test.yaml,
+  # data/regression/custom/test.yaml,
+  data/regression/star/test.yaml,
+  data/regression/nozzleErosion/test.yaml,
+  data/regression/nozzleSlag/test.yaml
+]

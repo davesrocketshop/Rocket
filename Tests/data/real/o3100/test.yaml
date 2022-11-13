@@ -1,0 +1,18 @@
+motor: data/real/o3100/motor.ric
+name: 4 Grain 152 Test 1
+data:
+  real:
+    curves: data/real/o3100/223.csv
+    stats:
+      averageThrust: 3100
+      isp: 206
+      burnTime: 9.8
+      propMass: 15.51
+  regression:
+    - version: 0.4.0
+      stats:
+        averageThrust: 3227
+        isp: 205.149
+        burnTime: 9.66
+        propMass: 15.545
+      alerts: ['Initial port/throat ratio of 1.607 was less than 2.0']

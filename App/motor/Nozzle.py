@@ -25,6 +25,7 @@ __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
 import math
+import FreeCAD
 
 from scipy.optimize import fsolve
 
@@ -60,15 +61,35 @@ class Nozzle(FeatureBase):
         if not hasattr(obj, 'ThroatLength'):
             obj.addProperty('App::PropertyLength', 'ThroatLength', 'Nozzle', translate('App::Property', 'Throat Length')).ThroatLength = 0.5
         if not hasattr(obj, 'SlagCoeff'):
-            obj.addProperty('App::PropertyFloat', 'SlagCoeff', 'Nozzle', translate('App::Property', 'Slag Buildup Coefficient')).SlagCoeff = 1.0
+            obj.addProperty('App::PropertyFloat', 'SlagCoeff', 'Nozzle', translate('App::Property', 'Slag Buildup Coefficient')).SlagCoeff = 0.0
         if not hasattr(obj, 'ErosionCoeff'):
-            obj.addProperty('App::PropertyFloat', 'ErosionCoeff', 'Nozzle', translate('App::Property', 'Throat Erosion Coefficient')).ErosionCoeff = 1.0
+            obj.addProperty('App::PropertyFloat', 'ErosionCoeff', 'Nozzle', translate('App::Property', 'Throat Erosion Coefficient')).ErosionCoeff = 0.0
 
     def _initVars(self, obj):
         super()._initVars(obj)
 
     def featureType(self):
         return FEATURE_MOTOR_NOZZLE
+
+    def applyDict(self, dictionary):
+        """Makes the motor copy properties from the dictionary that is passed in, which must be formatted like
+        the result passed out by 'getDict'"""
+        if "throat" in dictionary:
+            self._obj.Throat = FreeCAD.Units.Quantity(str(dictionary['throat']) + " m").Value
+        if "exit" in dictionary:
+            self._obj.Exit = FreeCAD.Units.Quantity(str(dictionary['exit']) + " m").Value
+        if "efficiency" in dictionary:
+            self._obj.Efficiency = dictionary['efficiency']
+        if "divAngle" in dictionary:
+            self._obj.DivAngle = dictionary['divAngle']
+        if "convAngle" in dictionary:
+            self._obj.ConvAngle = dictionary['convAngle']
+        if "throatLength" in dictionary:
+            self._obj.ThroatLength = FreeCAD.Units.Quantity(str(dictionary['throatLength']) + " m").Value
+        if "slagCoeff" in dictionary:
+            self._obj.SlagCoeff = dictionary['slagCoeff']
+        if "erosionCoeff" in dictionary:
+            self._obj.ErosionCoeff = dictionary['erosionCoeff']
 
     def getDetailsString(self, lengthUnit='m'):
         """Returns a human-readable string containing some details about the nozzle."""

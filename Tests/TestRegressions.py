@@ -1,0 +1,93 @@
+import sys
+import os
+import matplotlib
+import yaml
+import warnings
+import unittest
+
+from App.motor.FileIO import loadFile, fileTypes
+from Ui.CmdOpenMotor import makeMotor
+
+separator = '-' * 65
+
+def formatPercent(percent):
+    return str(round(percent * 100, 3)) + '%'
+
+def runSim(path):
+    print('Loading motor from ' + path)
+    res = loadFile(path, fileTypes.MOTOR)
+    if res is not None:
+        motor = makeMotor()
+        motor.Proxy.applyDict(res)
+        print('Simulating burn...')
+        return motor.runSimulation()
+    else:
+        print('Error loading motor for test!')
+
+def compareStat(title, a, b):
+    error = abs(a - b) / b
+    dispError = formatPercent(error)
+    print('\t\t' + title + ': ' + str(round(a, 3)) + ' vs ' + str(round(b, 3)) + ' (' + dispError + ')')
+    return error
+
+def compareStats(simRes, stats):
+    print('\tBasic stats:')
+    thrustError = compareStat('Average Thrust', simRes.getAverageForce(), stats['averageThrust'])
+    btError = compareStat('Burn Time', simRes.getBurnTime(), stats['burnTime'])
+    ispError = compareStat('ISP', simRes.getISP(), stats['isp'])
+    propmassError = compareStat('Propellant Mass', simRes.getPropellantMass(), stats['propMass'])
+    score = 1 - ((1 - btError) * (1 - ispError) * (1 - propmassError))
+    dispScore = formatPercent(score)
+    print('\tOverall error: ' + dispScore)
+    return score
+
+def compareAlerts(simRes, pastAlerts):
+    allMatched = True
+    for alert in simRes.alerts:
+        if alert.description not in pastAlerts:
+            print('\tSimulation produced unexpected alert: ' + color(alert.description, colors.WARNING))
+            allMatched = False
+    for alert in pastAlerts:
+        if alert not in [a.description for a in simRes.alerts]:
+            print('\tSimulation was missing expected alert: ' + color(alert, colors.WARNING))
+
+    if allMatched:
+        print('\tSimulation alerts matched.')
+
+def runTests(path):
+    print(separator)
+    with open(path, 'r') as readLocation:
+        fileData = yaml.load(readLocation)
+        print("Running tests for '" + fileData['name'] + "'")
+        simRes = runSim(fileData['motor'])
+        if 'real' in fileData['data'].keys():
+            print('Compared to real data:')
+            compareStats(simRes, fileData['data']['real']['stats'])
+        if 'regression' in fileData['data'].keys():
+            for version in fileData['data']['regression']:
+                print('Compared to results from ' + str(version['version']) + ':')
+                compareStats(simRes, version['stats'])
+                compareAlerts(simRes, version['alerts'])
+    print(separator)
+
+class RegressionTestCases(unittest.TestCase):
+
+    def testRegressions(self):
+        warnings.filterwarnings('ignore') # Todo: get rid of this. It hides numpy warnings to make output easier to read.
+        os.system('color')
+        filterCategory = None
+        if len(sys.argv) > 1:
+            if sys.argv[-1][-5:] == '.yaml' or sys.argv[-1][-4:] == '.yml':
+                runTests(sys.argv[1])
+                sys.exit()
+            else:
+                filterCategory = sys.argv[1]
+                print("Filtering to category '" + filterCategory + "'")
+        print(separator)
+        with open('data/tests.yaml', 'r') as readLocation:
+            fileData = yaml.load(readLocation)
+            for category in fileData.keys():
+                if filterCategory is None or category == filterCategory:
+                    print("Running tests from category '" + category + "'")
+                    for test in fileData[category]:
+                        runTests(test)

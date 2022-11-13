@@ -24,6 +24,8 @@ __title__ = "FreeCAD Rocket Motors"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
+import FreeCAD
+
 from App.Constants import FEATURE_VERSION, FEATURE_MOTOR_CONFIG
 
 from DraftTools import translate
@@ -73,6 +75,26 @@ class MotorConfig(object):
     def __setstate__(self, state):
         if state:
             self.version = state
+
+    def applyDict(self, dictionary):
+        """Makes the motor copy properties from the dictionary that is passed in, which must be formatted like
+        the result passed out by 'getDict'"""
+        if "maxPressure" in dictionary:
+            self._obj.MaxPressure = FreeCAD.Units.Quantity(str(dictionary['maxPressure']) + " Pa").Value
+        if "maxMassFlux" in dictionary:
+            self._obj.MaxMassFlux = dictionary['maxMassFlux']
+        if "minPortThroat" in dictionary:
+            self._obj.MinPortThroat = dictionary['minPortThroat']
+        if "burnoutWebThres" in dictionary:
+            self._obj.BurnoutWebThreshold = FreeCAD.Units.Quantity(str(dictionary['burnoutWebThres']) + " m").Value
+        if "burnoutThrustThres" in dictionary:
+            self._obj.BurnoutThrustThreshold = dictionary['burnoutThrustThres']
+        if "timestep" in dictionary:
+            self._obj.TimeStep = dictionary['timestep']
+        if "ambPressure" in dictionary:
+            self._obj.AmbientPressure = FreeCAD.Units.Quantity(str(dictionary['ambPressure']) + " Pa").Value
+        if "mapDim" in dictionary:
+            self._obj.MapDimension = dictionary['mapDim']
 
     def getMaxPressure(self):
         return self._obj.MaxPressure

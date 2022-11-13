@@ -94,7 +94,7 @@ def makeGrains(name="Grains"):
 
     return grains
 
-def makeGrain(type, name="Grain"):
+def makeGrain(type=GRAIN_GEOMETRY_BATES, name="Grain"):
 
     grain = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
     Grain(grain)

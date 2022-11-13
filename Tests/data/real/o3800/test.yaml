@@ -1,0 +1,18 @@
+motor: data/real/o3800/motor.ric
+name: 4 Grain 152 Test 2
+data:
+  real:
+    curves: data/real/o3800/223.csv
+    stats:
+      averageThrust: 3800
+      isp: 209
+      burnTime: 7.25
+      propMass: 15.51
+  regression:
+    - version: 0.4.0
+      stats:
+        averageThrust: 4203
+        isp: 218.392
+        burnTime: 7.89
+        propMass: 15.545
+      alerts: []

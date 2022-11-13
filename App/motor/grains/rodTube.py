@@ -47,31 +47,31 @@ class RodTubeGrain(PerforatedGrain):
         self.rodWeb = None
 
     def simulationSetup(self, config):
-        self.tubeWeb = (self._obj.Diameter - self._obj.CoreDiameter) / 2
-        self.rodWeb = (self._obj.RodDiameter - self._obj.SupportDiameter) / 2
+        self.tubeWeb = (float(self._obj.Diameter) - float(self._obj.CoreDiameter)) / 2
+        self.rodWeb = (float(self._obj.RodDiameter) - float(self._obj.SupportDiameter)) / 2
         self.wallWeb = max(self.tubeWeb, self.rodWeb)
 
     def getCorePerimeter(self, regDist):
         if regDist < self.tubeWeb:
-            tubePerimeter = geometry.circlePerimeter(self._obj.CoreDiameter + (2 * regDist))
+            tubePerimeter = geometry.circlePerimeter(float(self._obj.CoreDiameter) + (2 * regDist))
         else:
             tubePerimeter = 0
         if regDist < self.rodWeb:
-            rodPerimeter = geometry.circlePerimeter(self._obj.RodDiameter - (2 * regDist))
+            rodPerimeter = geometry.circlePerimeter(float(self._obj.RodDiameter) - (2 * regDist))
         else:
             rodPerimeter = 0
         return tubePerimeter + rodPerimeter
 
     def getFaceArea(self, regDist):
         if regDist < self.tubeWeb:
-            outer = geometry.circleArea(self._obj.Diameter)
-            inner = geometry.circleArea(self._obj.CoreDiameter + (2 * regDist))
+            outer = geometry.circleArea(float(self._obj.Diameter))
+            inner = geometry.circleArea(float(self._obj.CoreDiameter) + (2 * regDist))
             tubeArea = outer - inner
         else:
             tubeArea = 0
         if regDist < self.rodWeb:
-            outer = geometry.circleArea(self._obj.RodDiameter - (2 * regDist))
-            inner = geometry.circleArea(self._obj.SupportDiameter)
+            outer = geometry.circleArea(float(self._obj.RodDiameter) - (2 * regDist))
+            inner = geometry.circleArea(float(self._obj.SupportDiameter))
             rodArea = outer - inner
         else:
             rodArea = 0
@@ -87,12 +87,12 @@ class RodTubeGrain(PerforatedGrain):
 
     def getGeometryErrors(self):
         errors = super().getGeometryErrors()
-        if self._obj.CoreDiameter == 0:
+        if float(self._obj.CoreDiameter) == 0:
             errors.append(SimAlert(SimAlertLevel.ERROR, SimAlertType.GEOMETRY, 'Core diameter must not be 0'))
-        if self._obj.CoreDiameter >= self._obj.Diameter:
+        if float(self._obj.CoreDiameter) >= float(self._obj.Diameter):
             aText = 'Core diameter must be less than grain diameter'
             errors.append(SimAlert(SimAlertLevel.ERROR, SimAlertType.GEOMETRY, aText))
-        if self._obj.RodDiameter >= self._obj.CoreDiameter:
+        if float(self._obj.RodDiameter) >= float(self._obj.CoreDiameter):
             aText = 'Rod diameter must be less than core diameter'
             errors.append(SimAlert(SimAlertLevel.ERROR, SimAlertType.GEOMETRY, aText))
         return errors
@@ -101,9 +101,9 @@ class RodTubeGrain(PerforatedGrain):
     # signficantly slower
     def getFaceImage(self, mapDim):
         # Normalize core and rod diameters
-        coreRadius = (self._obj.CoreDiameter / (0.5 * self._obj.Diameter)) / 2
-        rodRadius = (self._obj.RodDiameter / (0.5 * self._obj.Diameter)) / 2
-        supportRadius = (self._obj.SupportDiameter / (0.5 * self._obj.Diameter)) / 2
+        coreRadius = (float(self._obj.CoreDiameter) / (0.5 * float(self._obj.Diameter))) / 2
+        rodRadius = (float(self._obj.RodDiameter) / (0.5 * float(self._obj.Diameter))) / 2
+        supportRadius = (float(self._obj.SupportDiameter) / (0.5 * float(self._obj.Diameter))) / 2
 
         mapX, mapY = np.meshgrid(np.linspace(-1, 1, mapDim), np.linspace(-1, 1, mapDim))
         mask = np.logical_or(mapX**2 + mapY**2 > 1, mapX**2 + mapY**2 < supportRadius ** 2)

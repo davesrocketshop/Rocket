@@ -24,6 +24,9 @@ __title__ = "FreeCAD Rocket Motors"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
+import FreeCAD
+import Ui
+
 from App.motor.simResult import SimAlert, SimAlertLevel, SimAlertType
 from App.Constants import FEATURE_PROPELLANT, FEATURE_PROPELLANT_TAB, FEATURE_VERSION, GAS_CONSTANT
 
@@ -69,6 +72,24 @@ class PropellantTab:
     def __setstate__(self, state):
         if state:
             self.version = state
+
+    def applyDict(self, dictionary):
+        """Makes the motor copy properties from the dictionary that is passed in, which must be formatted like
+        the result passed out by 'getDict'"""
+        if "minPressure" in dictionary:
+            self._obj.MinPressure = FreeCAD.Units.Quantity(str(dictionary['minPressure']) + " Pa").Value
+        if "maxPressure" in dictionary:
+            self._obj.MaxPressure = FreeCAD.Units.Quantity(str(dictionary['maxPressure']) + " Pa").Value
+        if "a" in dictionary:
+            self._obj.a = FreeCAD.Units.Quantity(str(dictionary['a']) + " m").Value
+        if "n" in dictionary:
+            self._obj.n = dictionary['n']
+        if "k" in dictionary:
+            self._obj.k = dictionary['k']
+        if "t" in dictionary:
+            self._obj.t = dictionary['t']
+        if "m" in dictionary:
+            self._obj.m = dictionary['m']
  
 
 class Propellant:
@@ -80,7 +101,8 @@ class Propellant:
         if not hasattr(obj, 'PropellantName'):
             obj.addProperty('App::PropertyString', 'PropellantName', 'Propellant', translate('App::Property', 'Name')).PropellantName = ""
         if not hasattr(obj, 'Density'):
-            obj.addProperty('App::PropertyFloat', 'Density', 'Propellant', translate('App::Property', 'Density')).Density = 1.0
+            obj.addProperty('App::PropertyQuantity', 'Density', 'Propellant', translate('App::Property', 'Density')).Density = 1.0
+            obj.Density = FreeCAD.Units.Density
        
         if not hasattr(obj,"Group"):
             obj.addExtension("App::GroupExtensionPython")
@@ -105,12 +127,33 @@ class Propellant:
         """Adds a set of combustion properties to the propellant"""
         self._obj.addObject(tab)
 
+    def clearTabs(self):
+        for tab in self._obj.Group:
+            FreeCAD.ActiveDocument.removeObject(tab.Label)
+
+        self._obj.Group = []
+
     def __getstate__(self):
         return self.version
 
     def __setstate__(self, state):
         if state:
             self.version = state
+
+    def applyDict(self, dictionary):
+        """Makes the motor copy properties from the dictionary that is passed in, which must be formatted like
+        the result passed out by 'getDict'"""
+        if "name" in dictionary:
+            self._obj.PropellantName = dictionary['name']
+        if "density" in dictionary:
+            self._obj.Density = FreeCAD.Units.Quantity(str(dictionary['density']) + " kg/m^3").Value
+
+        if "tabs" in dictionary:
+            tabs = dictionary['tabs']
+            for tab in tabs:
+                propTab = Ui.CmdOpenMotor.makePropellantTab()
+                propTab.Proxy.applyDict(tab)
+                self.addTab(propTab)
 
     def getCStar(self, pressure):
         """Returns the propellant's characteristic velocity."""
@@ -131,14 +174,14 @@ class Propellant:
         closest = {}
         closestPressure = 1e100
         for tab in self._obj.Group:
-            if float(tab.MinPressure) < pressure < float(tab.MaxPressure):
+            if float(tab.MinPressure) < float(pressure) < float(tab.MaxPressure):
                 return float(tab.a), float(tab.n), float(tab.k), float(tab.t), float(tab.m)
-            if abs(pressure - float(tab.MinPressure)) < closestPressure:
+            if abs(float(pressure) - float(tab.MinPressure)) < closestPressure:
                 closest = tab
-                closestPressure = abs(pressure - float(tab.MinPressure))
-            if abs(pressure - float(tab.MaxPressure)) < closestPressure:
+                closestPressure = abs(float(pressure) - float(tab.MinPressure))
+            if abs(float(pressure) - float(tab.MaxPressure)) < closestPressure:
                 closest = tab
-                closestPressure = abs(pressure - float(tab.MaxPressure))
+                closestPressure = abs(float(pressure) - float(tab.MaxPressure))
 
         return float(closest.a), float(closest.n), float(closest.k), float(closest.t), float(closest.m)
 

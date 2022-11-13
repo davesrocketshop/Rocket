@@ -27,10 +27,10 @@ __url__ = "https://www.davesrocketshop.com"
 import FreeCAD
 
 """Conains the motor class and a supporting configuration property collection."""
-from .grains import grainTypes
-from . import geometry
-from .simResult import SimulationResult, SimAlert, SimAlertLevel, SimAlertType
-from .grains import EndBurningGrain
+from App.motor.grains import grainTypes
+from App.motor import geometry
+from App.motor.simResult import SimulationResult, SimAlert, SimAlertLevel, SimAlertType
+from App.motor.grains import EndBurningGrain
 
 from App.Constants import FEATURE_VERSION, FEATURE_MOTOR, GAS_CONSTANT
 
@@ -39,11 +39,13 @@ from App.motor.Grain import Grains
 from App.motor.Nozzle import Nozzle
 from App.motor.Propellant import Propellant
 
+import Ui
+
 from DraftTools import translate
 
 class Motor(object):
 
-    def __init__(self, obj):
+    def __init__(self, obj, propDict=None):
         super().__init__()
        
         if not hasattr(obj,"Group"):
@@ -53,6 +55,9 @@ class Motor(object):
         self._obj = obj
         obj.Proxy=self
         self.version = FEATURE_VERSION
+
+        if propDict is not None:
+            self.applyDict(propDict)
 
     def onDocumentRestored(self, obj):
         obj.Proxy=self
@@ -90,6 +95,11 @@ class Motor(object):
         if grains is not None:
             grains.addObject(grain)
 
+    def clearGrains(self):
+        grains = self.getGrains()
+        if grains is not None:
+            grains.Proxy.clearGrains()
+
     def getNozzle(self):
         for obj in self._obj.Group:
             if isinstance(obj.Proxy, Nozzle):
@@ -122,6 +132,42 @@ class Motor(object):
         # No propellant found so add it
         self._obj.addObject(propellant._obj)
 
+    # def getDict(self):
+    #     """Returns a serializable representation of the motor. The dictionary has keys 'nozzle', 'propellant',
+    #     'grains', and 'config', which hold to the properties of their corresponding fields. Grains is a list
+    #     of dicts, each containing a type and properties. Propellant may be None if the motor has no propellant
+    #     set."""
+    #     motorData = {}
+    #     motorData['nozzle'] = self.nozzle.getProperties()
+    #     if self.propellant is not None:
+    #         motorData['propellant'] = self.propellant.getProperties()
+    #     else:
+    #         motorData['propellant'] = None
+    #     motorData['grains'] = [{'type': grain.geomName, 'properties': grain.getProperties()} for grain in self.grains]
+    #     motorData['config'] = self.config.getProperties()
+    #     return motorData
+
+    def applyDict(self, dictionary):
+        """Makes the motor copy properties from the dictionary that is passed in, which must be formatted like
+        the result passed out by 'getDict'"""
+
+        self.getNozzle().applyDict(dictionary['nozzle'])
+
+        if dictionary['propellant'] is not None:
+            prop = self.getPropellant()
+            if prop is None:
+                prop = Ui.CmdOpenMotor.makePropellant()
+            prop.applyDict(dictionary['propellant'])
+
+        self.clearGrains()
+        for entry in dictionary['grains']:
+            grain = Ui.CmdOpenMotor.makeGrain()
+            grain.Proxy.applyDict(entry)
+            self.addGrain(grain)
+
+        config = self.getMotorConfig()
+        config.applyDict(dictionary['config'])
+
     def calcBurningSurfaceArea(self, regDepth):
         burnoutThres = self.getMotorConfig().getBurnoutWebThreshold()
         gWithReg = zip(self.getGrains().Group, regDepth)
@@ -141,7 +187,7 @@ class Motor(object):
         if kn is None:
             kn = self.calcKN(regDepth, dThroat)
         # print("calcIdealPressure:kn %g" % kn)
-        density = self.getPropellant()._obj.Density
+        density = float(self.getPropellant()._obj.Density)
         tabPressures = []
         for tab in self.getPropellant().getTabs():
             ballA, ballN, gamma, temp, molarMass = float(tab.a), float(tab.n), float(tab.k), float(tab.t), float(tab.m)
@@ -160,14 +206,18 @@ class Motor(object):
             minTabPressure = float(tab.MinPressure)
             maxTabPressure = float(tab.MaxPressure)
             if minTabPressure == self.getPropellant().getMinimumValidPressure() and tabPressure < maxTabPressure:
+                # print("return tabPressure 0")
                 return tabPressure
             if maxTabPressure == self.getPropellant().getMaximumValidPressure() and minTabPressure < tabPressure:
+                # print("return tabPressure 1")
                 return tabPressure
             if minTabPressure < tabPressure < maxTabPressure:
+                # print("return tabPressure 2")
                 return tabPressure
             tabPressures.append([min(abs(minTabPressure - tabPressure), abs(tabPressure - maxTabPressure)), tabPressure])
 
         tabPressures.sort(key=lambda x: x[0]) # Sort by the pressure error
+        # print("return tabPressure 3")
         return tabPressures[0][1] # Return the pressure
 
     def calcForce(self, chamberPres, dThroat, exitPres=None):
@@ -344,7 +394,7 @@ class Motor(object):
 
         simRes.success = True
 
-        if simRes.getPeakMassFlux() > float(self.getMotorConfig()._obj.MaxMassFlux):
+        if (simRes.getPeakMassFlux() * 1e6) > float(self.getMotorConfig()._obj.MaxMassFlux):
             desc = 'Peak mass flux exceeded configured limit'
             alert = SimAlert(SimAlertLevel.WARNING, SimAlertType.CONSTRAINT, desc, 'Motor')
             simRes.addAlert(alert)

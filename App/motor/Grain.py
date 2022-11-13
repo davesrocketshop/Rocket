@@ -24,6 +24,8 @@ __title__ = "FreeCAD Rocket Motors"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
+import FreeCAD
+
 from App.FeatureBase import FeatureBase
 
 from App.motor import geometry
@@ -50,6 +52,12 @@ class Grains(FeatureBase):
 
     def featureType(self):
         return FEATURE_MOTOR_GRAINS
+
+    def clearGrains(self):
+        for grain in self._obj.Group:
+            FreeCAD.ActiveDocument.removeObject(grain.Label)
+
+        self._obj.Group = []
 
 class Grain(FeatureBase):
 
@@ -106,6 +114,56 @@ class Grain(FeatureBase):
             obj.addProperty('App::PropertyLength', 'PointLength', 'Grain', translate('App::Property', 'Point length')).PointLength = 1.0
         if not hasattr(obj, 'PointWidth'):
             obj.addProperty('App::PropertyLength', 'PointWidth', 'Grain', translate('App::Property', 'Point base width')).PointWidth = 1.0
+
+    def applyDict(self, dictionary):
+        """Makes the motor copy properties from the dictionary that is passed in, which must be formatted like
+        the result passed out by 'getDict'"""
+        if "type" in dictionary:
+            self._obj.GeometryName = dictionary['type']
+        if "properties" not in dictionary:
+            return
+
+        dictionary = dictionary['properties']
+        if "length" in dictionary:
+            self._obj.Length = FreeCAD.Units.Quantity(str(dictionary['length']) + " m").Value
+        if "diameter" in dictionary:
+            self._obj.Diameter = FreeCAD.Units.Quantity(str(dictionary['diameter']) + " m").Value
+        if "inhibitedEnds" in dictionary:
+            self._obj.InhibitedEnds = dictionary['inhibitedEnds']
+        if "coreDiameter" in dictionary:
+            self._obj.CoreDiameter = FreeCAD.Units.Quantity(str(dictionary['coreDiameter']) + " m").Value
+        if "coreOffset" in dictionary:
+            self._obj.CoreOffset = FreeCAD.Units.Quantity(str(dictionary['coreOffset']) + " m").Value
+        if "slotWidth" in dictionary:
+            self._obj.SlotWidth = FreeCAD.Units.Quantity(str(dictionary['slotWidth']) + " m").Value
+        if "slotLength" in dictionary:
+            self._obj.SlotLength = FreeCAD.Units.Quantity(str(dictionary['slotLength']) + " m").Value
+        if "slotOffset" in dictionary:
+            self._obj.SlotOffset = FreeCAD.Units.Quantity(str(dictionary['slotOffset']) + " m").Value
+        if "forwardCoreDiameter" in dictionary:
+            self._obj.ForwardCoreDiameter = FreeCAD.Units.Quantity(str(dictionary['forwardCoreDiameter']) + " m").Value
+        if "aftCoreDiameter" in dictionary:
+            self._obj.AftCoreDiameter = FreeCAD.Units.Quantity(str(dictionary['aftCoreDiameter']) + " m").Value
+        if "points" in dictionary:
+            self._obj.Points = dictionary['points']
+        if "dxfUnit" in dictionary:
+            self._obj.DfxUnit = dictionary['dxfUnit']
+        if "numFins" in dictionary:
+            self._obj.NumFins = dictionary['numFins']
+        if "finWidth" in dictionary:
+            self._obj.FinWidth = FreeCAD.Units.Quantity(str(dictionary['finWidth']) + " m").Value
+        if "finLength" in dictionary:
+            self._obj.FinLength = FreeCAD.Units.Quantity(str(dictionary['finLength']) + " m").Value
+        if "rodDiameter" in dictionary:
+            self._obj.RodDiameter = FreeCAD.Units.Quantity(str(dictionary['rodDiameter']) + " m").Value
+        if "supportDiameter" in dictionary:
+            self._obj.SupportDiameter = FreeCAD.Units.Quantity(str(dictionary['supportDiameter']) + " m").Value
+        if "numPoints" in dictionary:
+            self._obj.NumPoints = dictionary['numPoints']
+        if "pointLength" in dictionary:
+            self._obj.PointLength = FreeCAD.Units.Quantity(str(dictionary['pointLength']) + " m").Value
+        if "pointWidth" in dictionary:
+            self._obj.PointWidth = FreeCAD.Units.Quantity(str(dictionary['pointWidth']) + " m").Value
 
     def _initVars(self, obj):
         super()._initVars(obj)
