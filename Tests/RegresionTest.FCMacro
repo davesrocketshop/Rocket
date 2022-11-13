@@ -3,7 +3,6 @@ import os
 import matplotlib
 import yaml
 import warnings
-import unittest
 
 from App.motor.FileIO import loadFile, fileTypes
 from Ui.CmdOpenMotor import makeMotor
@@ -15,12 +14,12 @@ def formatPercent(percent):
 
 def runSim(path):
     print('Loading motor from ' + path)
-    res = loadFile(path, fileTypes.MOTOR)
+    res = loadFile(FreeCAD.getUserAppDataDir() + 'Mod/Rocket/Tests/' + path, fileTypes.MOTOR)
     if res is not None:
         motor = makeMotor()
         motor.Proxy.applyDict(res)
         print('Simulating burn...')
-        return motor.runSimulation()
+        return motor.Proxy.runSimulation()
     else:
         print('Error loading motor for test!')
 
@@ -45,18 +44,18 @@ def compareAlerts(simRes, pastAlerts):
     allMatched = True
     for alert in simRes.alerts:
         if alert.description not in pastAlerts:
-            print('\tSimulation produced unexpected alert: ' + color(alert.description, colors.WARNING))
+            print('\tSimulation produced unexpected alert: ' +alert.description)
             allMatched = False
     for alert in pastAlerts:
         if alert not in [a.description for a in simRes.alerts]:
-            print('\tSimulation was missing expected alert: ' + color(alert, colors.WARNING))
+            print('\tSimulation was missing expected alert: ' + alert)
 
     if allMatched:
         print('\tSimulation alerts matched.')
 
 def runTests(path):
     print(separator)
-    with open(path, 'r') as readLocation:
+    with open(FreeCAD.getUserAppDataDir() + 'Mod/Rocket/Tests/' + path, 'r') as readLocation:
         fileData = yaml.load(readLocation)
         print("Running tests for '" + fileData['name'] + "'")
         simRes = runSim(fileData['motor'])
@@ -70,24 +69,22 @@ def runTests(path):
                 compareAlerts(simRes, version['alerts'])
     print(separator)
 
-class RegressionTestCases(unittest.TestCase):
-
-    def testRegressions(self):
-        warnings.filterwarnings('ignore') # Todo: get rid of this. It hides numpy warnings to make output easier to read.
-        os.system('color')
-        filterCategory = None
-        if len(sys.argv) > 1:
-            if sys.argv[-1][-5:] == '.yaml' or sys.argv[-1][-4:] == '.yml':
-                runTests(sys.argv[1])
-                sys.exit()
-            else:
-                filterCategory = sys.argv[1]
-                print("Filtering to category '" + filterCategory + "'")
-        print(separator)
-        with open('data/tests.yaml', 'r') as readLocation:
-            fileData = yaml.load(readLocation)
-            for category in fileData.keys():
-                if filterCategory is None or category == filterCategory:
-                    print("Running tests from category '" + category + "'")
-                    for test in fileData[category]:
-                        runTests(test)
+warnings.filterwarnings('ignore') # Todo: get rid of this. It hides numpy warnings to make output easier to read.
+Doc = FreeCAD.newDocument("RegressionTest")
+os.system('color')
+filterCategory = None
+if len(sys.argv) > 1:
+    if sys.argv[-1][-5:] == '.yaml' or sys.argv[-1][-4:] == '.yml':
+        runTests(sys.argv[1])
+        sys.exit()
+    else:
+        filterCategory = sys.argv[1]
+        print("Filtering to category '" + filterCategory + "'")
+print(separator)
+with open(FreeCAD.getUserAppDataDir() + 'Mod/Rocket/Tests/data/tests.yaml', 'r') as readLocation:
+    fileData = yaml.load(readLocation)
+    for category in fileData.keys():
+        if filterCategory is None or category == filterCategory:
+            print("Running tests from category '" + category + "'")
+            for test in fileData[category]:
+                runTests(test)
