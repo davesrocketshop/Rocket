@@ -43,15 +43,19 @@ class PropellantTab:
         if not hasattr(obj, 'MaxPressure'):
             obj.addProperty('App::PropertyPressure', 'MaxPressure', 'Propellant', translate('App::Property', 'Maximum Pressure')).MaxPressure = 1.0
         if not hasattr(obj, 'a'):
-            obj.addProperty('App::PropertyLength', 'a', 'Propellant', translate('App::Property', 'Burn rate Coefficient')).a = 3.0
+            obj.addProperty('App::PropertyQuantity', 'a', 'Propellant', translate('App::Property', 'Burn rate Coefficient')).a = 3.0
+            obj.a = FreeCAD.Units.Unit('m/(s*MPa)')
+            # obj.addProperty('App::PropertyLength', 'a', 'Propellant', translate('App::Property', 'Burn rate Coefficient')).a = 3.0
         if not hasattr(obj, 'n'):
             obj.addProperty('App::PropertyLength', 'n', 'Propellant', translate('App::Property', 'Burn rate Exponent')).n = 3.0
         if not hasattr(obj, 'k'):
             obj.addProperty('App::PropertyLength', 'k', 'Propellant', translate('App::Property', 'Specific Heat Ratio')).k = 3.0
         if not hasattr(obj, 't'):
-            obj.addProperty('App::PropertyLength', 't', 'Propellant', translate('App::Property', 'Combustion Temperature')).t = 3.0
+            obj.addProperty('App::PropertyQuantity', 't', 'Propellant', translate('App::Property', 'Combustion Temperature')).t = 3.0
+            obj.t = FreeCAD.Units.Unit('K')
         if not hasattr(obj, 'm'):
-            obj.addProperty('App::PropertyLength', 'm', 'Propellant', translate('App::Property', 'Exhaust Molar Mass')).m = 3.0
+            obj.addProperty('App::PropertyQuantity', 'm', 'Propellant', translate('App::Property', 'Exhaust Molar Mass')).m = 3.0
+            obj.m = FreeCAD.Units.Unit('g/mol')
 
         self.Type = FEATURE_PROPELLANT_TAB
         self._obj = obj
@@ -81,15 +85,16 @@ class PropellantTab:
         if "maxPressure" in dictionary:
             self._obj.MaxPressure = FreeCAD.Units.Quantity(str(dictionary['maxPressure']) + " Pa").Value
         if "a" in dictionary:
-            self._obj.a = FreeCAD.Units.Quantity(str(dictionary['a']) + " m").Value
+            self._obj.a = FreeCAD.Units.Quantity(str(dictionary['a']) + " m/(s*MPa)").Value
+            # self._obj.a = FreeCAD.Units.Quantity(str(dictionary['a']) + " m").Value
         if "n" in dictionary:
             self._obj.n = dictionary['n']
         if "k" in dictionary:
             self._obj.k = dictionary['k']
         if "t" in dictionary:
-            self._obj.t = dictionary['t']
+            self._obj.t = FreeCAD.Units.Quantity(str(dictionary['t']) + " K").Value
         if "m" in dictionary:
-            self._obj.m = dictionary['m']
+            self._obj.m = FreeCAD.Units.Quantity(str(dictionary['m']) + " g/mol").Value
  
 
 class Propellant:
@@ -165,8 +170,8 @@ class Propellant:
     def getBurnRate(self, pressure):
         """Returns the propellant's burn rate for the given pressure"""
         ballA, ballN, _, _, _ = self.getCombustionProperties(pressure)
-        # print("getBurnRate: a %g, n %g, p %g" % (ballA, ballN, pressure))
-        # print("getBurnRate: burn rate %g" % (ballA * (pressure ** ballN)))
+        print("getBurnRate: a %g, n %g, p %g" % (ballA, ballN, pressure))
+        print("getBurnRate: burn rate %g" % (ballA * (pressure ** ballN)))
         return ballA * (pressure ** ballN)
 
     def getCombustionProperties(self, pressure):

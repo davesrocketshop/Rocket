@@ -84,10 +84,10 @@ class TestMotorMethods(unittest.TestCase):
         self.assertEqual(tm.Proxy.getPropellant(), propellant.Proxy)
 
         tab = makePropellantTab()
-        tab.a = FreeCAD.Units.Quantity("0.000101 m").Value # m/(s * Pa^n) - scale the meters, pressure is scaled separately
+        tab.a = FreeCAD.Units.Quantity("0.000101 m/(s*MPa)").Value
         tab.n = 0.319
-        tab.t = 1720
-        tab.m = 41.98
+        tab.t = FreeCAD.Units.Quantity("1720 K").Value 
+        tab.m = FreeCAD.Units.Quantity("41.98 g/mol").Value
         tab.k = 1.133
         tm.Proxy.getPropellant().addTab(tab)
 

@@ -38,15 +38,15 @@ class TestPropellantMethods(unittest.TestCase):
         props = makePropellant()
 
         props.PropellantName = 'TestProp'
-        props.Density = 1650
+        props.Density = FreeCAD.Units.Quantity("1650 kg/(m^3)").Value
 
         tab = makePropellantTab()
-        tab.MinPressure = 0
+        tab.MinPressure = FreeCAD.Units.Quantity("0 Pa").Value
         tab.MaxPressure = FreeCAD.Units.Quantity("6.895e+06 Pa").Value
-        tab.a = 1.467e-05
+        tab.a = FreeCAD.Units.Quantity("1.467e-05 m/(s*MPa)").Value
         tab.n = 0.382
-        tab.t = 3500
-        tab.m = 23.67
+        tab.t = FreeCAD.Units.Quantity("3500 K").Value
+        tab.m = FreeCAD.Units.Quantity("23.67 g/mol").Value
         tab.k = 1.25
         props.Proxy.addTab(tab)
 
@@ -56,25 +56,25 @@ class TestPropellantMethods(unittest.TestCase):
         props = makePropellant()
 
         props.PropellantName = 'TestProp'
-        props.Density = 1650
+        props.Density = FreeCAD.Units.Quantity("1650 kg/(m^3)").Value
 
         tab = makePropellantTab()
         tab.MinPressure = FreeCAD.Units.Quantity("6.895e+06 Pa").Value
-        tab.MaxPressure = 0
-        tab.a = 1.467e-05
+        tab.MaxPressure = FreeCAD.Units.Quantity("0 Pa").Value
+        tab.a = FreeCAD.Units.Quantity("1.467e-05 m/(s*MPa)").Value
         tab.n = 0.382
-        tab.t = 3500
-        tab.m = 23.67
+        tab.t = FreeCAD.Units.Quantity("3500 K").Value
+        tab.m = FreeCAD.Units.Quantity("23.67 g/mol").Value
         tab.k = 1.25
         props.Proxy.addTab(tab)
 
         tab = makePropellantTab()
         tab.MinPressure = FreeCAD.Units.Quantity("6.895e+06 Pa").Value
         tab.MaxPressure = FreeCAD.Units.Quantity("1.379e+07 Pa").Value
-        tab.a = 1.467e-05
+        tab.a = FreeCAD.Units.Quantity("1.467e-05 m/(s*MPa)").Value
         tab.n = 0.382
-        tab.t = 3500
-        tab.m = 23.67
+        tab.t = FreeCAD.Units.Quantity("3500 K").Value
+        tab.m = FreeCAD.Units.Quantity("23.67 g/mol").Value
         tab.k = 1.25
         props.Proxy.addTab(tab)
 

@@ -192,11 +192,11 @@ class Motor(object):
         for tab in self.getPropellant().getTabs():
             ballA, ballN, gamma, temp, molarMass = float(tab.a), float(tab.n), float(tab.k), float(tab.t), float(tab.m)
             # print("calcIdealPressure:ballA %g, ballN %g, gamma %g, temp %g, molarMass %g" % (ballA, ballN, gamma, temp, molarMass))
-            num = kn * density * ballA * 1e6 # 1e6 is units normalization for distance
+            num = kn * density * ballA * 1e9 # 1e6 is units normalization for distance
             # print("calcIdealPressure:num %g" % num)
             exponent = 1 / (1 - ballN)
             # print("calcIdealPressure:exponent %g" % exponent)
-            denom = ((gamma / ((GAS_CONSTANT / molarMass) * temp)) * ((2 / (gamma + 1)) ** ((gamma + 1) / (gamma - 1)))) ** 0.5
+            denom = ((gamma / ((GAS_CONSTANT / (molarMass * 1e3)) * temp)) * ((2 / (gamma + 1)) ** ((gamma + 1) / (gamma - 1)))) ** 0.5
             # print("calcIdealPressure:denom %g" % denom)
             tabPressure = (num / denom) ** exponent
             # print("calcIdealPressure:tabPressure %g" % tabPressure)
@@ -252,6 +252,8 @@ class Motor(object):
         warnings are returned."""
         burnoutWebThres = float(self.getMotorConfig()._obj.BurnoutWebThreshold)
         burnoutThrustThres = float(self.getMotorConfig()._obj.BurnoutThrustThreshold)
+        print("burnoutWebThres %g" % (burnoutWebThres))
+        print("burnoutThrustThres %g" % (burnoutThrustThres))
         dTime = float(self.getMotorConfig()._obj.TimeStep)
 
         simRes = SimulationResult(self)
@@ -320,8 +322,10 @@ class Motor(object):
                 simRes.addAlert(SimAlert(SimAlertLevel.WARNING, SimAlertType.CONSTRAINT, description, 'N/A'))
 
         # Perform timesteps
-        while simRes.shouldContinueSim(burnoutThrustThres):
-            # print("-") # Show the iteration
+        count = 0
+        while simRes.shouldContinueSim(burnoutThrustThres) and count < 5:
+            count += 1
+            print("-") # Show the iteration
 
             # Calculate regression
             massFlow = 0
@@ -330,11 +334,11 @@ class Motor(object):
             perGrainMassFlux = [0 for grain in self.getGrains().Group]
             perGrainWeb = [0 for grain in self.getGrains().Group]
             for gid, grain in enumerate(self.getGrains().Group):
-                # print("getWebLeft[%d] %g" % (gid, grain.Proxy.getWebLeft(perGrainReg[gid])))
+                print("getWebLeft[%d] %g" % (gid, grain.Proxy.getWebLeft(perGrainReg[gid])))
                 if grain.Proxy.getWebLeft(perGrainReg[gid]) > burnoutWebThres:
                     # Calculate regression at the current pressure
                     reg = dTime * self.getPropellant().getBurnRate(simRes.channels['pressure'].getLast())
-                    # print("reg[%d] %g" % (gid, reg))
+                    print("reg[%d] %g" % (gid, reg))
                     # Find the mass flux through the grain based on the mass flow fed into from grains above it
                     perGrainMassFlux[gid] = grain.Proxy.getPeakMassFlux(massFlow, dTime, perGrainReg[gid], reg, density)
                     # Find the mass of the grain after regression
@@ -345,9 +349,10 @@ class Motor(object):
                     perGrainReg[gid] += reg
                     perGrainWeb[gid] = grain.Proxy.getWebLeft(perGrainReg[gid])
                 perGrainMassFlow[gid] = massFlow
-                # print("perGrainReg[%d] %g" % (gid, perGrainReg[gid]))
-                # print("perGrainWeb[%d] %g" % (gid, perGrainWeb[gid]))
-                # print("perGrainMassFlow[%d] %g" % (gid, perGrainMassFlow[gid]))
+                print("perGrainReg[%d] %g" % (gid, perGrainReg[gid]))
+                print("perGrainWeb[%d] %g" % (gid, perGrainWeb[gid]))
+                print("perGrainMassFlux[%d] %g" % (gid, perGrainMassFlux[gid]))
+                print("perGrainMassFlow[%d] %g" % (gid, perGrainMassFlow[gid]))
 
             simRes.channels['regression'].addData(perGrainReg[:])
             simRes.channels['web'].addData(perGrainWeb)
@@ -394,7 +399,9 @@ class Motor(object):
 
         simRes.success = True
 
-        if (simRes.getPeakMassFlux() * 1e6) > float(self.getMotorConfig()._obj.MaxMassFlux):
+        print("simRes.getPeakMassFlux() %g" % simRes.getPeakMassFlux())
+        print("self.getMotorConfig()._obj.MaxMassFlux %g" % self.getMotorConfig()._obj.MaxMassFlux)
+        if simRes.getPeakMassFlux() > float(self.getMotorConfig()._obj.MaxMassFlux):
             desc = 'Peak mass flux exceeded configured limit'
             alert = SimAlert(SimAlertLevel.WARNING, SimAlertType.CONSTRAINT, desc, 'Motor')
             simRes.addAlert(alert)

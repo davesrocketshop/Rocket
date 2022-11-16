@@ -61,9 +61,11 @@ class Nozzle(FeatureBase):
         if not hasattr(obj, 'ThroatLength'):
             obj.addProperty('App::PropertyLength', 'ThroatLength', 'Nozzle', translate('App::Property', 'Throat Length')).ThroatLength = 0.5
         if not hasattr(obj, 'SlagCoeff'):
-            obj.addProperty('App::PropertyFloat', 'SlagCoeff', 'Nozzle', translate('App::Property', 'Slag Buildup Coefficient')).SlagCoeff = 0.0
+            obj.addProperty('App::PropertyQuantity', 'SlagCoeff', 'Nozzle', translate('App::Property', 'Slag Buildup Coefficient')).SlagCoeff = 0.0
+            obj.SlagCoeff = FreeCAD.Units.Unit('(m*Pa)/s')
         if not hasattr(obj, 'ErosionCoeff'):
-            obj.addProperty('App::PropertyFloat', 'ErosionCoeff', 'Nozzle', translate('App::Property', 'Throat Erosion Coefficient')).ErosionCoeff = 0.0
+            obj.addProperty('App::PropertyQuantity', 'ErosionCoeff', 'Nozzle', translate('App::Property', 'Throat Erosion Coefficient')).ErosionCoeff = 0.0
+            obj.ErosionCoeff = FreeCAD.Units.Unit('m/(s*Pa)')
 
     def _initVars(self, obj):
         super()._initVars(obj)
@@ -87,9 +89,9 @@ class Nozzle(FeatureBase):
         if "throatLength" in dictionary:
             self._obj.ThroatLength = FreeCAD.Units.Quantity(str(dictionary['throatLength']) + " m").Value
         if "slagCoeff" in dictionary:
-            self._obj.SlagCoeff = dictionary['slagCoeff']
+            self._obj.SlagCoeff = FreeCAD.Units.Quantity(str(dictionary['slagCoeff']) + " (m*Pa)/s").Value
         if "erosionCoeff" in dictionary:
-            self._obj.ErosionCoeff = dictionary['erosionCoeff']
+            self._obj.ErosionCoeff = FreeCAD.Units.Quantity(str(dictionary['erosionCoeff']) + " m/(s*Pa)").Value
 
     def getDetailsString(self, lengthUnit='m'):
         """Returns a human-readable string containing some details about the nozzle."""

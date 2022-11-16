@@ -182,7 +182,41 @@ class PerforatedGrain(GrainHandler):
     def getMassFlux(self, massIn, dTime, regDist, dRegDist, position, density):
         diameter = float(self._obj.Diameter)
 
+        print("getMassFlux:massIn %g, dTime %g, regDist %d, dRegDist %g, position %g, density %g" % (massIn, dTime, regDist, dRegDist, position, density))
+        # endPos = self.getEndPositions(regDist)
+        # print("getMassFlux:endPos[0] %g" % endPos[0])
+        # # If a position above the top face is queried, the mass flow is just the input mass and the
+        # # diameter is the casting tube
+        # if position < endPos[0]:
+        #     return massIn / geometry.circleArea(diameter)
+        # # If a position in the grain is queried, the mass flow is the input mass, from the top face,
+        # # and from the tube up to the point. The diameter is the core.
+        # if position <= endPos[1]:
+        #     if self.props['inhibitedEnds'].getValue() in ('Top', 'Both'):
+        #         top = 0
+        #         countedCoreLength = position
+        #     else:
+        #         top = self.getFaceArea(regDist + dRegDist) * dRegDist * density
+        #         countedCoreLength = position - (endPos[0] + dRegDist)
+        #     # This block gets the mass of propellant the core burns in the step.
+        #     core = ((self.getPortArea(regDist + dRegDist) * countedCoreLength)
+        #         - (self.getPortArea(regDist) * countedCoreLength))
+        #     core *= density
+
+        #     print("getMassFlux:top %g" % top)
+        #     print("getMassFlux:core %g" % core)
+        #     massFlow = massIn + ((top + core) / dTime)
+        #     print("getMassFlux:massFlow %g" % massFlow)
+        #     print("getMassFlux:return 0 %g" % (massFlow / self.getPortArea(regDist + dRegDist)))
+        #     return massFlow / self.getPortArea(regDist + dRegDist)
+        # # A position past the grain end was specified, so the mass flow includes the input mass flow
+        # # and all mass produced by the grain. Diameter is the casting tube.
+        # massFlow = massIn + (self.getVolumeSlice(regDist, dRegDist) * density / dTime)
+        # print("getMassFlux:return 1 %g" % (massFlow / geometry.circleArea(diameter)))
+        # return massFlow / geometry.circleArea(diameter)
+
         endPos = self.getEndPositions(regDist)
+        print("getMassFlux:endPos[0] %g" % endPos[0])
         # If a position above the top face is queried, the mass flow is just the input mass and the
         # diameter is the casting tube
         if position < endPos[0]:
@@ -201,11 +235,16 @@ class PerforatedGrain(GrainHandler):
                 - (self.getPortArea(regDist) * countedCoreLength))
             core *= density
 
+            print("getMassFlux:top %g" % top)
+            print("getMassFlux:core %g" % core)
             massFlow = massIn + ((top + core) / dTime)
+            print("getMassFlux:massFlow %g" % massFlow)
+            print("getMassFlux:return 0 %g" % (massFlow / self.getPortArea(regDist + dRegDist)))
             return massFlow / self.getPortArea(regDist + dRegDist)
         # A position past the grain end was specified, so the mass flow includes the input mass flow
         # and all mass produced by the grain. Diameter is the casting tube.
         massFlow = massIn + (self.getVolumeSlice(regDist, dRegDist) * density / dTime)
+        print("getMassFlux:return 1 %g" % (massFlow / geometry.circleArea(diameter)))
         return massFlow / geometry.circleArea(diameter)
 
     @abstractmethod

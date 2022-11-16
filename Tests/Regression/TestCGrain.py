@@ -85,10 +85,12 @@ class TestCGrain(unittest.TestCase):
         tc.BurnoutThrustThreshold = 0.1 # %
         tc.BurnoutWebThreshold = FreeCAD.Units.Quantity("0.00025400050800101603 m").Value
         tc.MapDimension = 750
-        tc.MaxMassFlux = 1406.4697609001405
+        tc.MaxMassFlux = FreeCAD.Units.Quantity("1406.4697609001405 kg/(m^2*s)").Value 
+        # tc.MaxMassFlux = 1406.4697609001405
         tc.MaxPressure = FreeCAD.Units.Quantity("10342500.000000002 Pa").Value
         tc.MinPortThroat = 2.0 # Ratio
-        tc.TimeStep = 0.03
+        tc.TimeStep = FreeCAD.Units.Quantity("0.03 s").Value
+        # tc.TimeStep = 0.03
 
         prop = tm.Proxy.getPropellant()._obj
         prop.PropellantName = "MIT - Ocean Water"
@@ -96,14 +98,17 @@ class TestCGrain(unittest.TestCase):
 
         tab = makePropellantTab()
         tab.MinPressure = 0.0
+        # tab.MinPressure = FreeCAD.Units.Quantity("0.0 Pa").Value
         tab.MaxPressure = FreeCAD.Units.Quantity("6895000.0 Pa").Value 
-        tab.a = FreeCAD.Units.Quantity("1.467e-05 m").Value # m/(s * Pa^n) - scale the meters
+        tab.a = FreeCAD.Units.Quantity("1.467e-05 m/(s*MPa)").Value
+        # tab.a = FreeCAD.Units.Quantity("1.467e-05 m").Value # m/(s * Pa^n) - scale the meters
         tab.n = 0.382
         tab.k = 1.25
-        tab.t = 3500.0
-        tab.m = 23.67
+        # tab.t = 3500.0
+        # tab.m = 23.67
+        tab.t = FreeCAD.Units.Quantity("3500.0 K").Value
+        tab.m = FreeCAD.Units.Quantity("23.67 g/mol").Value
         prop.Proxy.addTab(tab)
-        # prop.addTab(tab)
 
         nozzle = tm.Proxy.getNozzle()._obj
         nozzle.ConvAngle = 65.0
