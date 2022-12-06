@@ -111,17 +111,128 @@ class Coordinate():
         
         return Coordinate(x,y,z,orig.weight);
 
-    # Subtract a Coordinate from this Coordinate.  The weight of the resulting Coordinate
-    # is the same as of this Coordinate; i.e. the weight of the argument is ignored.
+    """ Add the coordinate and weight of two coordinates. """
+    def add(self, other):
+        return Coordinate(self.x + other.x, self.y + other.y, self.z + other.z,
+                self.weight + other.weight);
+
+    def addValues(self, x1, y1, z1, w1=0.0):
+        return Coordinate(self.x + x1, self.y + y1, self.z + z1, self.weight + w1)
+
+    """
+        Subtract a Coordinate from this Coordinate.  The weight of the resulting Coordinate
+        is the same as of this Coordinate; i.e. the weight of the argument is ignored.
+    """
     def sub(self, other):
-        return Coordinate(self.x - other.x, self.y - other.y, self.z - other.z, self.weight);
+        return Coordinate(self.x - other.x, self.y - other.y, self.z - other.z, self.weight)
 
-ZERO = Coordinate(0, 0, 0, 0);
-NUL = Coordinate(0, 0, 0, 0);
-NAN = Coordinate(math.nan, math.nan,math.nan, math.nan);
-MAX = Coordinate( sys.float_info.max, sys.float_info.max, sys.float_info.max,sys.float_info.max);
-MIN = Coordinate(-sys.float_info.max,-sys.float_info.max,-sys.float_info.max,0.0);
+    """
+        Subtract the specified values from this Coordinate.  The weight of the result
+        is the same as the weight of this Coordinate.
+    """
+    def subValues(self, x1, y1, z1):
+        return Coordinate(self.x - x1, self.y - y1, self.z - z1, self.weight)
 
-X_UNIT = Coordinate(1, 0, 0);
-Y_UNIT = Coordinate(0, 1, 0);
-Z_UNIT = Coordinate(0, 0, 1);
+
+    """
+        Multiply the <code>Coordinate</code> with a scalar.  All coordinates and the
+        weight are multiplied by the given scalar.
+    """
+    def multiply(self, m):
+        return Coordinate(self.x * m, self.y * m, self.z * m, self.weight * m)
+
+    """
+         Dot product of two Coordinates, taken as vectors.  Equal to
+         x1*x2+y1*y2+z1*z2
+    """
+    def dot(self, other):
+        return self.x * other.x + self.y * other.y + self.z * other.z;\
+
+    """
+        Dot product of two Coordinates.
+    """
+    def dot(self, v1, v2):
+        return v1.x * v2.x + v1.y * v2.y + v1.z * v2.z
+
+    """
+        Cross product of two Coordinates taken as vectors
+    """
+    def cross(self, other):
+        return Coordinate(self.y * other.z - self.z * other.y, self.z * other.x - self.x * other.z, self.x * other.y - self.y * other.x)
+
+    """
+        Distance from the origin to the Coordinate.
+    """
+    def length(self):
+        if self.length < 0:
+            length = math.sqrt(self.length2())
+
+        return length
+
+    """
+        Square of the distance from the origin to the Coordinate.
+    """
+    def length2(self):
+        return self.x * self.x + self.y * self.y + self.z * self.z
+
+
+    """
+        Return the largest of the absolute values of the coordinates.  This can be
+        used as a norm of the vector that is faster to calculate than the
+        2-norm.
+    """
+    def max(self):
+        return max(math.abs(self.x), math.abs(self.y), math.abs(self.z))
+
+
+    """
+        Returns a new coordinate which has the same direction from the origin as this
+        coordinate but is at a distance of one.  If this coordinate is the origin,
+        this method throws an <code>IllegalStateException</code>.  The weight of the
+        coordinate is unchanged.
+    """
+    def normalize(self):
+        l = self.length()
+        if l < 0.0000001:
+            #raise IllegalStateException("Cannot normalize zero coordinate")
+            raise Exception("Cannot normalize zero coordinate")
+
+        return Coordinate(self.x / l, self.y / l, self.z / l, self.weight)
+
+    """
+        Weighted average of two coordinates.  If either of the weights are positive,
+        the result is the weighted average of the coordinates and the weight is the sum
+        of the original weights.  If the sum of the weights is zero (and especially if
+        both of the weights are zero), the result is the unweighted average of the 
+        coordinates with weight zero.
+        
+        If <code>other</code> is <code>null</code> then this <code>Coordinate</code> is
+        returned.
+    """
+    def average(self, other):
+        
+        if other is None:
+            return self
+        
+        w1 = self.weight + other.weight
+        if abs(w1) < math.pow2(math.EPSILON):
+            x1 = (self.x + other.x) / 2
+            y1 = (self.y + other.y) / 2
+            z1 = (self.z + other.z) / 2
+            w1 = 0;
+        else:
+            x1 = (self.x * self.weight + other.x * other.weight) / w1
+            y1 = (self.y * self.weight + other.y * other.weight) / w1
+            z1 = (self.z * self.weight + other.z * other.weight) / w1
+
+        return Coordinate(x1, y1, z1, w1)
+
+ZERO = Coordinate(0, 0, 0, 0)
+NUL = Coordinate(0, 0, 0, 0)
+NAN = Coordinate(math.nan, math.nan,math.nan, math.nan)
+MAX = Coordinate( sys.float_info.max, sys.float_info.max, sys.float_info.max,sys.float_info.max)
+MIN = Coordinate(-sys.float_info.max,-sys.float_info.max,-sys.float_info.max,0.0)
+
+X_UNIT = Coordinate(1, 0, 0)
+Y_UNIT = Coordinate(0, 1, 0)
+Z_UNIT = Coordinate(0, 0, 1)

@@ -336,6 +336,19 @@ class ShapeComponent(ShapeBase, ChangeSource):
         except ValueError:
             pass
 
+    """  Get the positioning of the component relative to its parent component. """
+    def getAxialMethod(self):
+        return self._obj.AxialMethod
+
+    """
+        Set the positioning of the component relative to its parent component.
+        The actual position of the component is maintained to the best ability.
+        
+        The default implementation is of protected visibility, since many components
+        do not support setting the relative position.  A component that does support
+        it should override this with a public method that simply calls this
+        supermethod AND fire a suitable ComponentChangeEvent.
+    """
     def setAxialMethod(self, newAxialMethod) :
         for listener in self._configListeners:
             listener.setAxialMethod(newAxialMethod)
@@ -597,6 +610,26 @@ class ShapeComponent(ShapeBase, ChangeSource):
         bounds.append(Coordinate(x, r, -r))
         bounds.append(Coordinate(x, r, r))
         bounds.append(Coordinate(x, -r, r))
+
+    """
+         Returns coordinates of this component's instances in relation to this.parent.
+        
+        For example, the absolute position of any given instance is the parent's position 
+        plus the instance position returned by this method   
+        
+        NOTE: the length of this array returned always equals this.getInstanceCount()
+    """
+    def getInstanceLocations(self):
+        self.checkState()
+
+        center = self._obj.Position
+        offsets = self.getInstanceOffsets()
+
+        locations = []
+        for instanceNumber in range(len(offsets)):
+            locations.append(center.add(offsets[instanceNumber]))
+
+        return locations
 	
 class ShapeLocation(ShapeComponent):
 

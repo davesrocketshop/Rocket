@@ -26,35 +26,15 @@ __url__ = "https://www.davesrocketshop.com"
 
 from abc import ABC, abstractmethod
 
-# This interface defines the API for components that are axially
-# symmetric.  It differs from RadialParent in that RadialParent applies
-# to axially symmetric components whose radius varies with position, while
-# this interface is for components that have a constant radius over it's length.
+from App.position.AxialPositionable import AxialPositionable
+from App.interfaces.Instanceable import Instanceable
 
-class Coaxial(ABC):
+class LineInstanceable(Instanceable, AxialPositionable):
 
-    # Get the length of the radius of the inside dimension, in standard units.
     @abstractmethod
-    def getInnerRadius(self):
+    def getInstanceSeparation(self):
         pass
 
-    # Set the length of the radius of the inside dimension, in standard units.
     @abstractmethod
-    def setInnerRadius(self, v):
-        pass
-
-    # Get the length of the radius of the outside dimension, in standard units.
-    @abstractmethod
-    def getOuterRadius(self):
-        pass
-
-    # Set the length of the radius of the outside dimension, in standard units.
-    @abstractmethod
-    def setOuterRadius(self, v):
-        pass
-
-    # Get the wall thickness of the component.  Typically this is just
-    # the outer radius - inner radius.
-    @abstractmethod
-    def getThickness(self):
+    def setInstanceSeparation(self, radius):
         pass
