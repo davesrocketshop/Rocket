@@ -24,7 +24,7 @@ __title__ = "FreeCAD Open Rocket Component"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
-from App.Component.Component import Component
+from App.Importer.Component.Component import Component
 
 class BodyTubeComponent(Component):
 

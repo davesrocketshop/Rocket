@@ -24,7 +24,7 @@ __title__ = "FreeCAD Open Rocket Component"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
-from App.Importer.OpenRocket import _msg, _err, _trace
+from App.Utilities import _msg, _err, _trace
 
 class Component:
 

@@ -26,7 +26,7 @@ __url__ = "https://www.davesrocketshop.com"
 
 import FreeCAD as App
 
-from App.Component.Component import Component
+from App.Importer.Component.Component import Component
 
 class RocketComponent(Component):
 

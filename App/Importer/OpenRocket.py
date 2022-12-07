@@ -24,9 +24,61 @@ __title__ = "FreeCAD Open Rocket Importer"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
+from io import TextIOWrapper
+import re
+import zipfile
+from zipfile import ZipFile
+import gzip
+import xml.etree.ElementTree as ET
+
 # Save the native open function to avoid collisions
-if open.__module__ in ['__builtin__', 'io']:
-    pythonopen = open
+# if open.__module__ in ['__builtin__', 'io']:
+#     pythonopen = open
+from App.Utilities import _err, _msg
+
+class OpenRocketImporter:
+
+    def importFile(doc, filename):
+        try:
+            with gzip.open(filename) as orc:
+                orc.peek(10)
+                print("Import file is .gzip format")
+                OpenRocketImporter.importRocket(doc, orc)
+                return
+        except gzip.BadGzipFile:
+            print("gzip.BadGzipFile")
+            pass
+
+        try:
+            if zipfile.is_zipfile(filename):
+                with ZipFile(filename) as orcZip:
+                    print("Import file is .zip format")
+                    for info in orcZip.infolist():
+                        print("info name '%s'" % info.filename)
+                        if re.match('.*\\.[oO][rR][kK]$', info.filename):
+                            print("Match .ork")
+                            with orcZip.open(info.filename) as orc:
+                                OpenRocketImporter.importRocket(doc, orc)
+                        elif re.match('.*\\.[rR][kK][tT]$', info.filename):
+                            with orcZip.open(info.filename) as orc:
+                                OpenRocketImporter.importRocket(doc, orc)
+                return
+        except zipfile.BadZipFile:
+            print("zipfile.BadZipFile")
+            pass
+
+        print("Default plain file")
+        with open(filename, "rb") as orc:
+            OpenRocketImporter.importRocket(doc, orc)
+
+    def importRocket(doc, filestream):
+        orc = TextIOWrapper(filestream)
+        rocketData = orc.read()
+        print(rocketData)
+        tree = ET.fromstring(rocketData)
+
+        rocket = OpenRocket(doc)
+        rocket.process(tree)
 
 class OpenRocket(object):
 
@@ -35,6 +87,7 @@ class OpenRocket(object):
         self._rocket = None
 
     def create(self):
+        """ Create the rocket once the XML tree is processed """
         if self._rocket is not None:
             self._rocket.create()
 
@@ -72,7 +125,7 @@ class OpenRocket(object):
         # Tags that are recognized but currently ignored
         SUPPORTED_TAGS = ["manufacturer", "partno", "description", "thickness", "shape", "shapeclipped", "shapeparameter", "aftradius", "aftouterdiameter", "aftshoulderradius", "aftshoulderdiameter", "aftshoulderlength", "aftshoulderthickness", "aftshouldercapped", "length"]
 
-        from App.Component.NoseconeComponent import NoseconeComponent
+        from App.Importer.Component.NoseconeComponent import NoseconeComponent
         nose = NoseconeComponent(self._doc)
         for child in context:
             tag = child.tag.strip().lower()
@@ -132,7 +185,7 @@ class OpenRocket(object):
         # Tags that are recognized but currently ignored
         SUPPORTED_TAGS = []
 
-        from App.Component.AxialStageComponent import AxialStageComponent
+        from App.Importer.Component.AxialStageComponent import AxialStageComponent
         stage = AxialStageComponent(self._doc)
         for child in context:
             tag = child.tag.strip().lower()
@@ -175,7 +228,7 @@ class OpenRocket(object):
         SUPPORTED_TAGS = ["motorconfiguration", "flightconfiguration", "deploymentconfiguration", "separationconfiguration", "referencetype", "customreference", "revision"]
 
         # Initialize rocket properties
-        from App.Component.RocketComponent import RocketComponent
+        from App.Importer.Component.RocketComponent import RocketComponent
         rocket = RocketComponent(self._doc)
         for child in context:
             tag = child.tag.strip().lower()
@@ -200,13 +253,13 @@ class OpenRocket(object):
 
         self._rocket = rocket
 
-    def process(self, ork):
+    def process(self, root):
 
         # Tags that are recognized but currently ignored
         SUPPORTED_TAGS = ["datatypes", "simulations"]
         SUPPORTED_VERSIONS = ["1.0", "1.1", "1.2", "1.3", "1.4", "1.5", "1.6", "1.7", "1.8"]
 
-        root = ork.getroot()
+        # root = ork.getroot()
         if root.tag != "openrocket":
             _err("unsupported root node %s" % (root.tag))
             return

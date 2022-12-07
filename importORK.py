@@ -48,7 +48,7 @@ def open(filename):
     doc = FreeCAD.newDocument(docname)
     doc.Label = docname[:-4]
 
-    OpenRocketImporter.importFile(filename)
+    OpenRocketImporter.importFile(doc, filename)
 
     doc.recompute()
     return doc
@@ -79,6 +79,6 @@ def insert(filename, docname):
         doc = FreeCAD.newDocument(docname)
     FreeCAD.ActiveDocument = doc
 
-    OpenRocketImporter.importFile(filename)
+    OpenRocketImporter.importFile(doc, filename)
 
     doc.recompute()
