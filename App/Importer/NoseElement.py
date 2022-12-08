@@ -28,7 +28,7 @@ from App.Importer.ComponentElement import ComponentElement
 from App.Utilities import _toBoolean
 from App.Constants import STYLE_CAPPED, STYLE_HOLLOW, STYLE_SOLID
 
-from Ui.CmdNoseCone import makeNoseCone
+from Ui.Commands.CmdNoseCone import makeNoseCone
 
 class NoseElement(ComponentElement):
 

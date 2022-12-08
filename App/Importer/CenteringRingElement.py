@@ -26,7 +26,7 @@ __url__ = "https://www.davesrocketshop.com"
 
 from App.Importer.ComponentElement import ComponentElement
 
-from Ui.CmdCenteringRing import makeCenteringRing
+from Ui.Commands.CmdCenteringRing import makeCenteringRing
 
 class CenteringRingElement(ComponentElement):
 

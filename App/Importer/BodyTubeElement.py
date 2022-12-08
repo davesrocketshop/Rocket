@@ -27,7 +27,7 @@ __url__ = "https://www.davesrocketshop.com"
 from App.Importer.ComponentElement import ComponentElement
 import App.Importer as Importer
 
-from Ui.CmdBodyTube import makeBodyTube
+from Ui.Commands.CmdBodyTube import makeBodyTube
 
 class MotorMountElement(ComponentElement):
 

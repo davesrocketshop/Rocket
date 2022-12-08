@@ -65,17 +65,15 @@ class ComponentElement(Element):
         elif _tag == "position":
             self.onPosition(content)
         elif _tag == "axialoffset":
-            pass
+            self.onAxialOffset(content)
         elif _tag == "overridemass":
-            # diameter = float(content) * 2.0
-            # self._obj.Diameter = str(diameter) + "m"
-            pass
+            self.onOverrideMass(content)
         elif _tag == "overridecg":
-            pass
+            self.onOverrideCG(content)
         elif _tag == "overridecd":
-            pass
+            self.onOverrideCd(content)
         elif _tag == "overridesubcomponents":
-            pass
+            self.onOverrideSubcomponents(content)
         elif _tag == "comment":
             self.onComment(content)
         elif _tag == "preset":
@@ -102,4 +100,19 @@ class ComponentElement(Element):
         pass
 
     def onPosition(self, content):
+        pass
+
+    def onAxialOffset(self, content):
+        pass
+
+    def onOverrideMass(self, content):
+        pass
+
+    def onOverrideCG(self, content):
+        pass
+
+    def onOverrideCd(self, content):
+        pass
+
+    def onOverrideSubcomponents(self, content):
         pass
