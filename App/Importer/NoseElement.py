@@ -66,6 +66,12 @@ class NoseElement(ComponentElement):
             self._obj.ShoulderThickness = content + "m"
         elif _tag == "aftshouldercapped":
             self._shoulderCapped = _toBoolean(content)
+        elif _tag == "manufacturer":
+            self._obj.Manufacturer = content
+        elif _tag == "partno":
+            self._obj.PartNumber = content
+        elif _tag == "description":
+            self._obj.Description = content
         else:
             super().handleEndTag(tag, content)
 
