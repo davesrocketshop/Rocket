@@ -154,6 +154,28 @@ class ShapeBodyTube(SymetricComponent, BoxBounded, Coaxial):
         self._setAutoDiameter()
         return float(self._obj.OuterDiameter) / 2.0 - float(self._obj.Thickness)
 
+    def setInnerRadius(self, radius):
+        for listener in self._configListeners:
+            if isinstance(listener, ShapeBodyTube): # OR used transition base class
+                listener.setInnerRadius(radius)
+
+        diameter = 2.0 * float(radius)
+        self._obj.Thickness = self._obj.OuterDiameter - diameter
+
+
+    def setOuterRadius(self, radius):
+        for listener in self._configListeners:
+            if isinstance(listener, ShapeBodyTube): # OR used transition base class
+                listener.setOuterRadius(radius)
+
+        diameter = 2.0 * float(radius)
+        self._obj.OuterDiameter = diameter
+
+    # Get the wall thickness of the component.  Typically this is just
+    # the outer radius - inner radius.
+    def getThickness(self):
+        return self._obj.Thickness
+
     def execute(self, obj):
         if TRACE_EXECUTION:
             print("E: ShapeBodyTube::execute(%s)" % (self._obj.Label))

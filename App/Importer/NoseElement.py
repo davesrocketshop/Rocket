@@ -24,8 +24,9 @@ __title__ = "FreeCAD Open Rocket Importer"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
+from App.Importer.SaxElement import NullElement
 from App.Importer.ComponentElement import ComponentElement
-from App.Utilities import _toBoolean
+from App.Utilities import _toBoolean, _err
 from App.Constants import STYLE_CAPPED, STYLE_HOLLOW, STYLE_SOLID
 
 from Ui.Commands.CmdNoseCone import makeNoseCone
@@ -37,6 +38,10 @@ class NoseElement(ComponentElement):
 
         self._shoulderCapped = False
 
+        self._validChildren = { 'appearance' : NullElement,
+                                'finish' : NullElement,
+                                'material' : NullElement,
+                              }
         self._knownTags = ["manufacturer", "partno", "description", "thickness", "shape", "shapeclipped", "shapeparameter", 
                 "aftradius", "aftouterdiameter", "aftshoulderradius", "aftshoulderdiameter", "aftshoulderlength", "aftshoulderthickness", "aftshouldercapped", "length"]
 
@@ -52,14 +57,21 @@ class NoseElement(ComponentElement):
             self._obj.Thickness = content + "m"
         elif _tag == "shape":
              self._obj.NoseType = content
+        elif _tag == "shapeclipped":
+            _err("Clipped element not supported") # This is meant for transitions
+            # self._obj.Clipped = _toBoolean(content)
         elif _tag == "shapeparameter":
             self._obj.Coefficient = float(content)
         elif _tag == "aftradius":
             diameter = float(content) * 2.0
             self._obj.Diameter = str(diameter) + "m"
+        elif _tag == "aftouterdiameter":
+            self._obj.Diameter = content + "m"
         elif _tag == "aftshoulderradius":
             diameter = float(content) * 2.0
             self._obj.ShoulderDiameter = str(diameter) + "m"
+        elif _tag == "aftshoulderdiameter":
+            self._obj.ShoulderDiameter = content + "m"
         elif _tag == "aftshoulderlength":
             self._obj.ShoulderLength = content + "m"
         elif _tag == "aftshoulderthickness":

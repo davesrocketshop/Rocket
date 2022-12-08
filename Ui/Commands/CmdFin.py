@@ -35,7 +35,7 @@ from Ui.Commands.CmdStage import addToStage
 
 from DraftTools import translate
 
-def makeFin(name):
+def makeFin(name='Fin'):
     '''makeFin(name): makes a Fin'''
     obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
     ShapeFin(obj)

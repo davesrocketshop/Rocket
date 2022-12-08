@@ -30,6 +30,7 @@ from App.Importer.NoseElement import NoseElement
 from App.Importer.CenteringRingElement import CenteringRingElement
 from App.Importer.StageElement import StageElement
 from App.Importer.BodyTubeElement import BodyTubeElement
+from App.Importer.FreeformFinset import FreeformFinset
 
 from App.Utilities import _msg
 
@@ -45,7 +46,7 @@ class SubElement(ComponentElement):
                                 'transition' : NullElement,
                                 'trapezoidfinset' : NullElement,
                                 'ellipticalfinset' : NullElement,
-                                'freeformfinset' : NullElement,
+                                'freeformfinset' : FreeformFinset,
                                 'tubefinset' : NullElement,
                                 'launchlug' : BodyTubeElement,
                                 'railbutton' : NullElement,

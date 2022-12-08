@@ -144,6 +144,5 @@ class RadiusRingComponent(RingComponent, LineInstanceable):
     def getInstanceCount(self):
         return self._obj.InstanceCount
 
-    # @Override	
-    # public String getPatternName(){
-    #     return (this.getInstanceCount() + "-Line");
+    def getPatternName(self):
+        return str(self.getInstanceCount()) + "-Line"

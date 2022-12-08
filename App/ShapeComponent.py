@@ -336,6 +336,11 @@ class ShapeComponent(ShapeBase, ChangeSource):
         except ValueError:
             pass
 
+    def setAxialOffset(self, _pos):
+        self.updateBounds()
+        super.setAxialOffset(self.axialMethod, _pos)
+        self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
+	
     """  Get the positioning of the component relative to its parent component. """
     def getAxialMethod(self):
         return self._obj.AxialMethod
@@ -389,7 +394,7 @@ class ShapeComponent(ShapeBase, ChangeSource):
         if method == AxialMethod.ABSOLUTE:
             return 0 # this.getComponentLocations()[0].x
         else:
-            return method.getAsOffset(self._position.x, self._length, parentLength)
+            return 0 #method.getAsOffset(self._position.x, self._length, parentLength)
 
     def getAxialOffset(self):
         return self._obj.AxialOffset

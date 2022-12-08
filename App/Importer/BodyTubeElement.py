@@ -73,11 +73,11 @@ class BodyTubeElement(ComponentElement):
         elif _tag == "radius" or _tag == "outerradius":
             if str(content).lower() == "auto":
                 # self._obj.OuterDiameter = "0.0 m" - use the object default
-                self._obj.AutoOuterDiameter = True 
+                self._obj.AutoDiameter = True 
             else:
                 diameter = float(content) * 2.0
                 self._obj.OuterDiameter = str(diameter) + "m"
-                self._obj.AutoOuterDiameter = False 
+                self._obj.AutoDiameter = False 
         else:
             super().handleEndTag(tag, content)
 

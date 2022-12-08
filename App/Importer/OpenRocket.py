@@ -92,6 +92,10 @@ class RocketElement(ComponentElement):
     def onName(self, content):
         self._obj.Label = content
 
+    def onComment(self, content):
+        # FreeCAD.ActiveDocument.Comment = content
+        self._obj.Description = content
+
 class OpenRocketImporter(xml.sax.ContentHandler):
     def __init__(self, filename):
         self._filename = filename
