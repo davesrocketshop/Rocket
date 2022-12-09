@@ -26,14 +26,15 @@ __url__ = "https://www.davesrocketshop.com"
 
 from App.Importer.SaxElement import NullElement
 from App.Importer.ComponentElement import ComponentElement
+from App.Importer.TransitionElement import TransitionElement
 from App.Importer.NoseElement import NoseElement
 from App.Importer.CenteringRingElement import CenteringRingElement
 from App.Importer.StageElement import StageElement
 from App.Importer.BodyTubeElement import BodyTubeElement
-from App.Importer.TrapezoidalFinset import TrapezoidalFinset
-from App.Importer.EllipticalFinset import EllipticalFinset
-from App.Importer.TubeFinset import TubeFinset
-from App.Importer.FreeformFinset import FreeformFinset
+from App.Importer.TrapezoidalFinsetElement import TrapezoidalFinsetElement
+from App.Importer.EllipticalFinsetElement import EllipticalFinsetElement
+from App.Importer.TubeFinsetElement import TubeFinsetElement
+from App.Importer.FreeformFinsetElement import FreeformFinsetElement
 
 from App.Utilities import _msg
 
@@ -46,11 +47,11 @@ class SubElement(ComponentElement):
                                 'nosecone' : NoseElement,
                                 'bodytube' : BodyTubeElement,
                                 'subcomponents' : SubElement,
-                                'transition' : NullElement,
-                                'trapezoidfinset' : TrapezoidalFinset,
-                                'ellipticalfinset' : EllipticalFinset,
-                                'freeformfinset' : FreeformFinset,
-                                'tubefinset' : TubeFinset,
+                                'transition' : TransitionElement,
+                                'trapezoidfinset' : TrapezoidalFinsetElement,
+                                'ellipticalfinset' : EllipticalFinsetElement,
+                                'freeformfinset' : FreeformFinsetElement,
+                                'tubefinset' : TubeFinsetElement,
                                 'launchlug' : BodyTubeElement,
                                 'railbutton' : NullElement,
                                 'engineblock' : BodyTubeElement,

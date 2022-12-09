@@ -89,9 +89,6 @@ class RocketElement(ComponentElement):
         else:
             super().handleEndTag(tag, content)
 
-    def onName(self, content):
-        self._obj.Label = content
-
     def onComment(self, content):
         # FreeCAD.ActiveDocument.Comment = content
         self._obj.Description = content

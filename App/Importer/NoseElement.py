@@ -27,24 +27,26 @@ __url__ = "https://www.davesrocketshop.com"
 import FreeCAD
 
 from App.Importer.SaxElement import NullElement
-from App.Importer.ComponentElement import ComponentElement
+from App.Importer.TransitionElement import TransitionElement
 from App.Utilities import _toBoolean, _err
 from App.Constants import STYLE_CAPPED, STYLE_HOLLOW, STYLE_SOLID
 from App.Constants import TYPE_CONE, TYPE_ELLIPTICAL, TYPE_HAACK, TYPE_OGIVE, TYPE_PARABOLA, TYPE_POWER
 
 from Ui.Commands.CmdNoseCone import makeNoseCone
 
-class NoseElement(ComponentElement):
+class NoseElement(TransitionElement):
 
     def __init__(self, parent, tag, attributes, parentObj, filename, line):
         super().__init__(parent, tag, attributes, parentObj, filename, line)
 
         self._shoulderCapped = False
 
-        self._validChildren.update({ 'appearance' : NullElement,
-                              })
-        self._knownTags.extend(["manufacturer", "partno", "description", "thickness", "shape", "shapeclipped", "shapeparameter", 
-                "aftradius", "aftouterdiameter", "aftshoulderradius", "aftshoulderdiameter", "aftshoulderlength", "aftshoulderthickness", "aftshouldercapped", "length"])
+        self._knownTags.remove("foreradius")
+        self._knownTags.remove("foreshoulderradius")
+        self._knownTags.remove("foreshoulderdiameter")
+        self._knownTags.remove("foreshoulderlength")
+        self._knownTags.remove("foreshoulderthickness")
+        self._knownTags.remove("foreshouldercapped")
 
         self._obj = makeNoseCone()
         if self._parentObj is not None:
@@ -52,14 +54,7 @@ class NoseElement(ComponentElement):
 
     def handleEndTag(self, tag, content):
         _tag = tag.lower().strip()
-        if _tag == "length":
-            self._obj.Length = FreeCAD.Units.Quantity(content + " m").Value
-        elif _tag == "thickness":
-            if content == 'filled':
-                self._obj.Thickness = 0
-            else:
-                self._obj.Thickness = FreeCAD.Units.Quantity(content + " m").Value
-        elif _tag == "shape":
+        if _tag == "shape":
             if content == 'conical':
                 self._obj.NoseType = TYPE_CONE
             elif content == 'ogive':
@@ -100,17 +95,19 @@ class NoseElement(ComponentElement):
             self._obj.ShoulderThickness = FreeCAD.Units.Quantity(content + " m").Value
         elif _tag == "aftshouldercapped":
             self._shoulderCapped = _toBoolean(content)
-        elif _tag == "manufacturer":
-            self._obj.Manufacturer = content
-        elif _tag == "partno":
-            self._obj.PartNumber = content
-        elif _tag == "description":
-            self._obj.Description = content
         else:
             super().handleEndTag(tag, content)
 
-    def onName(self, content):
-        self._obj.Label = content
+    def onLength(self, length):
+        self._obj.Length = length
+
+    def onThickness(self, thickness):
+        self._obj.Thickness = thickness
+        self._obj.ShoulderThickness = thickness
+
+    def onFilled(self, filled):
+        if filled:
+            self._obj.NoseStyle = STYLE_SOLID
 
     def end(self):
         # Validate the nose shape here

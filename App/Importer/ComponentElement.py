@@ -90,7 +90,8 @@ class ComponentElement(Element):
             super().handleEndTag(tag, content)
 
     def onName(self, content):
-        pass
+        if hasattr(self._obj, "Label"):
+            self._obj.Label = content
 
     def onColor(self, content):
         pass

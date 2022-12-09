@@ -34,7 +34,7 @@ import App.util.Coordinate
 from App.util.Coordinate import Coordinate
 
 from App.Constants import FEATURE_FIN, FEATURE_LAUNCH_LUG, FEATURE_RAIL_BUTTON, FEATURE_RAIL_GUIDE, FEATURE_POD
-from App.Constants import FIN_TYPE_TRAPEZOID, FIN_TYPE_ELLIPSE, FIN_TYPE_SKETCH
+from App.Constants import FIN_TYPE_TRAPEZOID, FIN_TYPE_ELLIPSE, FIN_TYPE_TUBE, FIN_TYPE_SKETCH
 from App.Constants import FIN_CROSS_SAME, FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE, \
     FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE
 from App.Constants import FIN_DEBUG_FULL, FIN_DEBUG_PROFILE_ONLY, FIN_DEBUG_MASK_ONLY
@@ -58,7 +58,7 @@ class ShapeFin(ShapeLocation):
             obj.addProperty('App::PropertyEnumeration', 'FinType', 'Fin', translate('App::Property', 'Fin type'))
             obj.FinType = [FIN_TYPE_TRAPEZOID, 
                     FIN_TYPE_ELLIPSE, 
-                    # FIN_TYPE_TUBE, 
+                    FIN_TYPE_TUBE, 
                     FIN_TYPE_SKETCH
                     ]
             obj.FinType = FIN_TYPE_TRAPEZOID
@@ -148,10 +148,16 @@ class ShapeFin(ShapeLocation):
 
         self._setFinEditorVisibility()
 
+    def sweepAngleFromLength(self):
+        length = float(self._obj.SweepLength)
+        theta = 90.0 - math.degrees(math.atan2(float(self._obj.Height), length))
+        self._obj.SweepAngle = theta
+
     def _setFinEditorVisibility(self):
-        self._obj.setEditorMode('FinSet', EDITOR_HIDDEN)  # hide
-        self._obj.setEditorMode('FinCount', EDITOR_HIDDEN)  # show
-        self._obj.setEditorMode('FinSpacing', EDITOR_HIDDEN)  # show
+        # self._obj.setEditorMode('FinSet', EDITOR_HIDDEN)  # hide
+        # self._obj.setEditorMode('FinCount', EDITOR_HIDDEN)  # show
+        # self._obj.setEditorMode('FinSpacing', EDITOR_HIDDEN)  # show
+        pass
 
     def onDocumentRestored(self, obj):
         if obj is not None:
@@ -196,6 +202,9 @@ class ShapeFin(ShapeLocation):
             shape = FinTrapezoidShapeHandler(obj)
         elif obj.FinType == FIN_TYPE_ELLIPSE:
             shape = FinEllipseShapeHandler(obj)
+        elif obj.FinType == FIN_TYPE_TUBE:
+            # shape = FinTubeShapeHandler(obj)
+            shape = None
         elif obj.FinType == FIN_TYPE_SKETCH:
             shape = FinSketchShapeHandler(obj)
 

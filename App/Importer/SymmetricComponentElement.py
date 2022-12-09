@@ -18,48 +18,37 @@
 # *   USA                                                                   *
 # *                                                                         *
 # ***************************************************************************
-"""Class for drawing transitions"""
+"""Provides support for importing Open Rocket files."""
 
-__title__ = "FreeCAD Transitions"
+__title__ = "FreeCAD Open Rocket Importer Common Component"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
-    
 
 import FreeCAD
-import FreeCADGui
 
-from App.ShapeTransition import ShapeTransition
-from Ui.ViewTransition import ViewProviderTransition
-from Ui.Commands.Command import Command
-from Ui.Commands.CmdStage import addToStage
+from App.Importer.ComponentElement import BodyComponentElement
 
-from App.Constants import FEATURE_TRANSITION
+class SymmetricComponentElement(BodyComponentElement):
 
-from DraftTools import translate
+    def __init__(self, parent, tag, attributes, parentObj, filename, line):
+        super().__init__(parent, tag, attributes, parentObj, filename, line)
 
-def makeTransition(name='Transition'):
-    '''makeTransition(name): makes a Transition'''
-    obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
-    ShapeTransition(obj)
-    if FreeCAD.GuiUp:
-        ViewProviderTransition(obj.ViewObject)
+        self._knownTags.extend(["thickness"])
 
-        addToStage(obj)
-    return obj
 
-class CmdTransition(Command):
-    def Activated(self):
-        FreeCAD.ActiveDocument.openTransaction("Create transition")
-        FreeCADGui.addModule("Ui.Commands.CmdTransition")
-        FreeCADGui.doCommand("Ui.Commands.CmdTransition.makeTransition('Transition')")
-        FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
+    def handleEndTag(self, tag, content):
+        _tag = tag.lower().strip()
+        if _tag == "thickness":
+            if content == 'filled':
+                self.onFilled(True)
+            else:
+                self.onFilled(False)
+                self.onThickness(FreeCAD.Units.Quantity(content + " m").Value)
+        else:
+            super().handleEndTag(tag, content)
 
-    def IsActive(self):
-        if FreeCAD.ActiveDocument:
-            return self.part_eligible_feature(FEATURE_TRANSITION)
-        return False
-        
-    def GetResources(self):
-        return {'MenuText': translate("Rocket", 'Transition'),
-                'ToolTip': translate("Rocket", 'Transition design'),
-                'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Transition.svg"}
+    def onThickness(self, thickness):
+        pass
+
+    def onFilled(self, filled):
+        pass
