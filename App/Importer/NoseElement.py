@@ -24,10 +24,13 @@ __title__ = "FreeCAD Open Rocket Importer"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
+import FreeCAD
+
 from App.Importer.SaxElement import NullElement
 from App.Importer.ComponentElement import ComponentElement
 from App.Utilities import _toBoolean, _err
 from App.Constants import STYLE_CAPPED, STYLE_HOLLOW, STYLE_SOLID
+from App.Constants import TYPE_CONE, TYPE_ELLIPTICAL, TYPE_HAACK, TYPE_OGIVE, TYPE_PARABOLA, TYPE_POWER
 
 from Ui.Commands.CmdNoseCone import makeNoseCone
 
@@ -52,30 +55,51 @@ class NoseElement(ComponentElement):
     def handleEndTag(self, tag, content):
         _tag = tag.lower().strip()
         if _tag == "length":
-            self._obj.Length = content + "m"
+            self._obj.Length = FreeCAD.Units.Quantity(content + " m").Value
         elif _tag == "thickness":
-            self._obj.Thickness = content + "m"
+            if content == 'filled':
+                self._obj.Thickness = 0
+            else:
+                self._obj.Thickness = FreeCAD.Units.Quantity(content + " m").Value
         elif _tag == "shape":
-             self._obj.NoseType = content
+            if content == 'conical':
+                self._obj.NoseType = TYPE_CONE
+            elif content == 'ogive':
+                self._obj.NoseType = TYPE_OGIVE
+            elif content == 'ellipsoid':
+                self._obj.NoseType = TYPE_ELLIPTICAL
+            elif content == 'power':
+                self._obj.NoseType = TYPE_POWER
+            elif content == 'parabolic':
+                self._obj.NoseType = TYPE_PARABOLA
+            elif content == 'haack':
+                self._obj.NoseType = TYPE_HAACK
+            else:
+                raise Exception("Unknow nose type " + content)
         elif _tag == "shapeclipped":
-            _err("Clipped element not supported") # This is meant for transitions
+            # _err("Clipped element not supported") # This is meant for transitions
             # self._obj.Clipped = _toBoolean(content)
+            pass
         elif _tag == "shapeparameter":
             self._obj.Coefficient = float(content)
         elif _tag == "aftradius":
-            diameter = float(content) * 2.0
-            self._obj.Diameter = str(diameter) + "m"
+            if content == "auto":
+                self._obj.AutoDiameter = True
+            else:
+                self._obj.AutoDiameter = False
+                diameter = float(content) * 2.0
+                self._obj.Diameter = str(diameter) + "m"
         elif _tag == "aftouterdiameter":
-            self._obj.Diameter = content + "m"
+            self._obj.Diameter = FreeCAD.Units.Quantity(content + " m").Value
         elif _tag == "aftshoulderradius":
             diameter = float(content) * 2.0
             self._obj.ShoulderDiameter = str(diameter) + "m"
         elif _tag == "aftshoulderdiameter":
-            self._obj.ShoulderDiameter = content + "m"
+            self._obj.ShoulderDiameter = FreeCAD.Units.Quantity(content + " m").Value
         elif _tag == "aftshoulderlength":
-            self._obj.ShoulderLength = content + "m"
+            self._obj.ShoulderLength = FreeCAD.Units.Quantity(content + " m").Value
         elif _tag == "aftshoulderthickness":
-            self._obj.ShoulderThickness = content + "m"
+            self._obj.ShoulderThickness = FreeCAD.Units.Quantity(content + " m").Value
         elif _tag == "aftshouldercapped":
             self._shoulderCapped = _toBoolean(content)
         elif _tag == "manufacturer":
