@@ -20,57 +20,32 @@
 # ***************************************************************************
 """Provides support for importing Open Rocket files."""
 
-__title__ = "FreeCAD Open Rocket Importer"
+__title__ = "FreeCAD Open Rocket Importer Common Component"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
-from App.Importer.RingComponentElement import RingComponentElement
+import FreeCAD
 
-from Ui.Commands.CmdCenteringRing import makeCenteringRing
+from App.Importer.StructuralComponentElement import StructuralComponentElement
 
-class CenteringRingElement(RingComponentElement):
+class RingComponentElement(StructuralComponentElement):
 
     def __init__(self, parent, tag, attributes, parentObj, filename, line):
         super().__init__(parent, tag, attributes, parentObj, filename, line)
 
-        self._shoulderCapped = False
+        self._knownTags.extend(["length", "radialposition", "radialdirection"])
 
-        self._knownTags.extend(["outerradius", "innerradius"])
-
-        self._obj = makeCenteringRing()
-        if self._parentObj is not None:
-            self._parentObj.addObject(self._obj)
 
     def handleEndTag(self, tag, content):
         _tag = tag.lower().strip()
-        if _tag == "outerradius":
-            self._obj.Proxy.setScratch("outerradius", content)
-            if str(content).lower() == "auto":
-                diameter = "0.0"
-                self._obj.AutoDiameter = True
-            else:
-                diameter = float(content) * 2.0
-                self._obj.AutoDiameter = False
-            self._obj.Diameter = str(diameter) + "m"
-        elif _tag == "innerradius":
-            self._obj.Proxy.setScratch("innerradius", content)
-            if str(content).lower() == "auto":
-                diameter = "0.0"
-                self._obj.CenterAutoDiameter = True
-            else:
-                diameter = float(content) * 2.0
-                self._obj.CenterAutoDiameter = False
-            self._obj.CenterDiameter = str(diameter) + "m"
+        if _tag == "length":
+            self.onLength(FreeCAD.Units.Quantity(content + " m").Value)
+        elif _tag == "radialposition":
+            pass
+        elif _tag == "radialdirection":
+            pass
         else:
             super().handleEndTag(tag, content)
 
-    def onName(self, content):
-        self._obj.Label = content
-
     def onLength(self, length):
-        self._obj.Thickness = length
-
-    def end(self):
-        # Validate the shape here
-
-        return super().end()
+        pass

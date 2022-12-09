@@ -43,8 +43,6 @@ class ShapeCenteringRing(ShapeBulkhead):
 
         if not hasattr(obj, 'CenterDiameter'):
             obj.addProperty('App::PropertyLength', 'CenterDiameter', 'CenteringRing', translate('App::Property', 'Diameter of the central hole')).CenterDiameter = 10.0
-        if not hasattr(obj, 'CenterAutoDiameter'):
-            obj.addProperty('App::PropertyBool', 'CenterAutoDiameter', 'CenteringRing', translate('App::Property', 'Automatically set the center diameter when possible')).CenterAutoDiameter = False
 
         if not hasattr(obj, 'Notched'):
             obj.addProperty('App::PropertyBool', 'Notched', 'CenteringRing', translate('App::Property', 'Include a notch for an engine hook')).Notched = False

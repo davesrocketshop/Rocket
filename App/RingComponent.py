@@ -50,6 +50,10 @@ class RingComponent(InternalComponent, BoxBounded, Coaxial):
     def __init__(self, obj):
         super().__init__(obj)
 
+        if not hasattr(obj, 'AutoDiameter'):
+            obj.addProperty('App::PropertyBool', 'AutoDiameter', 'Bulkhead', translate('App::Property', 'Automatically set the outer diameter when possible')).AutoDiameter = False
+        if not hasattr(obj, 'CenterAutoDiameter'):
+            obj.addProperty('App::PropertyBool', 'CenterAutoDiameter', 'Bulkhead', translate('App::Property', 'Automatically set the center diameter when possible')).CenterAutoDiameter = False
         if not hasattr(obj, 'RadialDirection'):
             obj.addProperty('App::PropertyLength', 'RadialDirection', 'Bulkhead', translate('App::Property', 'Inner diameter of the bulkhead')).RadialDirection = 0.0
         if not hasattr(obj, 'RadialPosition'):

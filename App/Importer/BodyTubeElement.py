@@ -24,19 +24,22 @@ __title__ = "FreeCAD Open Rocket Importer"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
-from App.Importer.ComponentElement import ComponentElement
+import FreeCAD
+
+from App.Importer.SaxElement import NullElement
+from App.Importer.ComponentElement import ComponentElement, BodyComponentElement
 import App.Importer as Importer
 
 from Ui.Commands.CmdBodyTube import makeBodyTube
 
-class MotorMountElement(ComponentElement):
+class MotorMountElement(BodyComponentElement):
 
     def __init__(self, parent, tag, attributes, parentObj, filename, line):
         super().__init__(parent, tag, attributes, parentObj, filename, line)
 
-        self._validChildren = { 'subcomponents' : Importer.SubElement.SubElement,
-                              }
-        self._knownTags = ["overhang"]
+        self._validChildren.update({ 'motor' : NullElement,
+                              })
+        self._knownTags.extend(["overhang", "ignitionevent", "ignitiondelay"])
 
         if self._parentObj is not None:
             self._obj = self._parentObj
@@ -50,15 +53,15 @@ class MotorMountElement(ComponentElement):
         else:
             super().handleEndTag(tag, content)
 
-class BodyTubeElement(ComponentElement):
+class BodyTubeElement(BodyComponentElement):
 
     def __init__(self, parent, tag, attributes, parentObj, filename, line):
         super().__init__(parent, tag, attributes, parentObj, filename, line)
 
-        self._validChildren = { 'subcomponents' : Importer.SubElement.SubElement,
+        self._validChildren.update({ 'subcomponents' : Importer.SubElement.SubElement,
                                 'motormount' : MotorMountElement,
-                              }
-        self._knownTags = ["length", "thickness", "radius", "outerradius"] #, "motormount"]
+                              })
+        self._knownTags.extend(["thickness", "radius", "outerradius"]) #, "motormount"]
 
         self._obj = makeBodyTube()
         if self._parentObj is not None:
@@ -66,10 +69,8 @@ class BodyTubeElement(ComponentElement):
 
     def handleEndTag(self, tag, content):
         _tag = tag.lower().strip()
-        if _tag == "length":
-            self._obj.Length = content + "m"
-        elif _tag == "thickness":
-            self._obj.Thickness = content + "m"
+        if _tag == "thickness":
+            self._obj.Thickness = FreeCAD.Units.Quantity(content + " m").Value
         elif _tag == "radius" or _tag == "outerradius":
             if str(content).lower() == "auto":
                 # self._obj.OuterDiameter = "0.0 m" - use the object default
@@ -87,5 +88,8 @@ class BodyTubeElement(ComponentElement):
     def onPositionType(self, value):
         self._obj.LocationReference = value
 
-    def onPosition(self, content):
-        self._obj.Location = content + "m"
+    def onPosition(self, position):
+        self._obj.Location = position
+
+    def onLength(self, length):
+        self._obj.Length = length

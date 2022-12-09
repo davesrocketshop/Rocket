@@ -41,12 +41,10 @@ class NoseElement(ComponentElement):
 
         self._shoulderCapped = False
 
-        self._validChildren = { 'appearance' : NullElement,
-                                'finish' : NullElement,
-                                'material' : NullElement,
-                              }
-        self._knownTags = ["manufacturer", "partno", "description", "thickness", "shape", "shapeclipped", "shapeparameter", 
-                "aftradius", "aftouterdiameter", "aftshoulderradius", "aftshoulderdiameter", "aftshoulderlength", "aftshoulderthickness", "aftshouldercapped", "length"]
+        self._validChildren.update({ 'appearance' : NullElement,
+                              })
+        self._knownTags.extend(["manufacturer", "partno", "description", "thickness", "shape", "shapeclipped", "shapeparameter", 
+                "aftradius", "aftouterdiameter", "aftshoulderradius", "aftshoulderdiameter", "aftshoulderlength", "aftshoulderthickness", "aftshouldercapped", "length"])
 
         self._obj = makeNoseCone()
         if self._parentObj is not None:

@@ -94,12 +94,10 @@ class FreeformFinset(ComponentElement):
 
         self._shoulderCapped = False
 
-        self._validChildren = { 'appearance' : NullElement,
-                                'finish' : NullElement,
-                                'material' : NullElement,
+        self._validChildren.update({ 'appearance' : NullElement,
                                 'finpoints' : FreeformFinpoints,
-                              }
-        self._knownTags = ["position", "fincount", "rotation", "thickness", "crosssection", "cant", "finpoints"]
+                              })
+        self._knownTags.extend(["position", "fincount", "rotation", "thickness", "crosssection", "cant", "finpoints"])
 
         self.sketch = newSketchNoEdit()
         self._obj = makeFin()

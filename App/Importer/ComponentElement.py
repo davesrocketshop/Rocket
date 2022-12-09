@@ -24,7 +24,9 @@ __title__ = "FreeCAD Open Rocket Importer Common Component"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
-from App.Importer.SaxElement import Element
+import FreeCAD
+
+from App.Importer.SaxElement import Element, NullElement
 from App.Constants import LOCATION_PARENT_TOP, LOCATION_PARENT_MIDDLE, LOCATION_PARENT_BOTTOM, \
     LOCATION_BASE, LOCATION_AFTER
 
@@ -34,7 +36,7 @@ class ComponentElement(Element):
         super().__init__(parent, tag, attributes, parentObj, filename, line)
 
         self._componentTags = ["name", "color", "linestyle", "position", "axialoffset", "overridemass", "overridecg", "overridecd", 
-            "overridesubcomponents", "comment", "preset", "finish", "material"]
+            "overridesubcomponents", "overridesubcomponentsmass", "overridesubcomponentscg", "overridesubcomponentscd", "comment", "preset", "finish", "material"]
 
     def handleTag(self, tag, attributes):
         _tag = tag.lower().strip()
@@ -63,9 +65,9 @@ class ComponentElement(Element):
         elif _tag == "linestyle":
             self.onLinestyle(content)
         elif _tag == "position":
-            self.onPosition(content)
+            self.onPosition(FreeCAD.Units.Quantity(content + " m").Value)
         elif _tag == "axialoffset":
-            self.onAxialOffset(content)
+            self.onAxialOffset(FreeCAD.Units.Quantity(content + " m").Value)
         elif _tag == "overridemass":
             self.onOverrideMass(content)
         elif _tag == "overridecg":
@@ -74,6 +76,12 @@ class ComponentElement(Element):
             self.onOverrideCd(content)
         elif _tag == "overridesubcomponents":
             self.onOverrideSubcomponents(content)
+        elif _tag == "overridesubcomponentsmass":
+            self.onOverrideSubcomponentsMass(content)
+        elif _tag == "overridesubcomponentscg":
+            self.onOverrideSubcomponentsCG(content)
+        elif _tag == "overridesubcomponentscd":
+            self.onOverrideSubcomponentsCd(content)
         elif _tag == "comment":
             self.onComment(content)
         elif _tag == "preset":
@@ -115,4 +123,42 @@ class ComponentElement(Element):
         pass
 
     def onOverrideSubcomponents(self, content):
+        pass
+
+    def onOverrideSubcomponentsMass(self, content):
+        pass
+
+    def onOverrideSubcomponentsCG(self, content):
+        pass
+
+    def onOverrideSubcomponentsCd(self, content):
+        pass
+
+class ExternalComponentElement(ComponentElement):
+
+    def __init__(self, parent, tag, attributes, parentObj, filename, line):
+        super().__init__(parent, tag, attributes, parentObj, filename, line)
+
+        self._validChildren = { 'finish' : NullElement,
+                                'material' : NullElement,
+                                'appearance' : NullElement,
+                              }
+
+
+class BodyComponentElement(ExternalComponentElement):
+
+    def __init__(self, parent, tag, attributes, parentObj, filename, line):
+        super().__init__(parent, tag, attributes, parentObj, filename, line)
+
+        self._knownTags.extend(["length"])
+
+
+    def handleEndTag(self, tag, content):
+        _tag = tag.lower().strip()
+        if _tag == "length":
+            self.onLength(FreeCAD.Units.Quantity(content + " m").Value)
+        else:
+            super().handleEndTag(tag, content)
+
+    def onLength(self, content):
         pass

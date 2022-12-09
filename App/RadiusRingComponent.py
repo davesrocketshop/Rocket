@@ -44,7 +44,7 @@ class RadiusRingComponent(RingComponent, LineInstanceable):
         if not hasattr(obj, 'Diameter'):
             obj.addProperty('App::PropertyLength', 'Diameter', 'Bulkhead', translate('App::Property', 'Outer diameter of the object')).Diameter = 25.0
         if not hasattr(obj, 'CenterDiameter'):
-            obj.addProperty('App::PropertyLength', 'CenterDiameter', 'CenteringRing', translate('App::Property', 'Diameter of the central hole')).CenterDiameter = 10.0
+            obj.addProperty('App::PropertyLength', 'CenterDiameter', 'Bulkhead', translate('App::Property', 'Diameter of the central hole')).CenterDiameter = 10.0
 
         if not hasattr(obj, 'InstanceCount'):
             obj.addProperty('App::PropertyInteger', 'InstanceCount', 'Bulkhead', translate('App::Property', 'Instance count')).InstanceCount = 1
