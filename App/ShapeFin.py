@@ -25,13 +25,15 @@ __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
 import FreeCAD
-    
-import FreeCAD
+import math
 
 from App.ShapeBase import TRACE_EXECUTION, TRACE_POSITION
 from App.ShapeComponent import ShapeLocation
-from App.Constants import FEATURE_FIN, FEATURE_LAUNCH_LUG, FEATURE_RAIL_BUTTON, FEATURE_RAIL_GUIDE, FEATURE_POD
+from App.SymmetricComponent import SymmetricComponent
+import App.util.Coordinate
+from App.util.Coordinate import Coordinate
 
+from App.Constants import FEATURE_FIN, FEATURE_LAUNCH_LUG, FEATURE_RAIL_BUTTON, FEATURE_RAIL_GUIDE, FEATURE_POD
 from App.Constants import FIN_TYPE_TRAPEZOID, FIN_TYPE_ELLIPSE, FIN_TYPE_SKETCH
 from App.Constants import FIN_CROSS_SAME, FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE, \
     FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE
@@ -206,3 +208,49 @@ class ShapeFin(ShapeLocation):
             FEATURE_LAUNCH_LUG, 
             FEATURE_RAIL_BUTTON, 
             FEATURE_RAIL_GUIDE]
+    """
+        Adds bounding coordinates to the given set.  The body tube will fit within the
+        convex hull of the points.
+        
+        Currently the points are simply a rectangular box around the body tube.
+    """
+    def getComponentBounds(self):
+        bounds = []
+        
+        # should simply return this component's bounds in this component's body frame.
+        
+        x_min = math.inf
+        x_max = -math.inf
+        r_max = 0.0
+        
+        for point in self.getFinPoints():
+            hypot = math.hypot(point.y, point.z)
+            x_cur = point.x
+            if x_min > x_cur:
+                x_min = x_cur
+            if x_max < x_cur:
+                x_max = x_cur
+            if r_max < hypot:
+                r_max = hypot
+        
+        location = self.getLocations()[0]
+        x_max += location.x
+        
+        if isinstance(self.getParent(), SymmetricComponent):
+            r_max += self.getParent().getRadius(0)
+        
+        self.addBoundingBox(bounds, x_min, x_max, r_max)
+        return bounds
+
+    """ Returns the geometry of a trapezoidal fin. """
+    def getFinPoints(self):
+        list = []
+        
+        list.append(Coordinate.NUL)
+        list.append(Coordinate(self._obj.SweepLength, self._obj.Height))
+        if self._obj.TipChord > 0.0001:
+            list.append(Coordinate(self._obj.SweepLength + self._obj.TipChord, self._obj.Height));
+        list.append(Coordinate(math.max(self._obj.RootChord, 0.0001), 0));
+        
+        return list
+

@@ -25,7 +25,7 @@ __url__ = "https://www.davesrocketshop.com"
 import FreeCAD
     
 from App.ShapeBase import TRACE_POSITION, TRACE_EXECUTION
-from App.SymetricComponent import SymetricComponent
+from App.SymmetricComponent import SymmetricComponent
 from App.Constants import FEATURE_TRANSITION
 
 from App.ShapeHandlers.TransitionConeShapeHandler import TransitionConeShapeHandler
@@ -75,7 +75,7 @@ def _migrate_from_2_0(obj):
     # Object with new properties
     ShapeTransition(obj)
 
-class ShapeTransition(SymetricComponent):
+class ShapeTransition(SymmetricComponent):
 
     def __init__(self, obj):
         super().__init__(obj)
@@ -185,7 +185,7 @@ class ShapeTransition(SymetricComponent):
             if c is not None:
                 r = c.getFrontAutoRadius()
             if r < 0:
-                r = SymetricComponent.DEFAULT_RADIUS
+                r = SymmetricComponent.DEFAULT_RADIUS
             return r
 
         return self._obj.ForeDiameter / 2.0
@@ -241,7 +241,7 @@ class ShapeTransition(SymetricComponent):
                     r = c.getRearAutoRadius()
 
                 if r < 0:
-                    r = SymetricComponent.DEFAULT_RADIUS
+                    r = SymmetricComponent.DEFAULT_RADIUS
                 return r
 
         return self._obj.AftDiameter / 2.0

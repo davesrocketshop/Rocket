@@ -26,7 +26,7 @@ __url__ = "https://www.davesrocketshop.com"
 
 from abc import ABC, abstractmethod
 from App.Constants import DEFAULT_REFERENCE_LENGTH
-from App.SymetricComponent import SymetricComponent
+from App.SymmetricComponent import SymmetricComponent
 
 class ReferenceType(ABC):
 
@@ -38,7 +38,7 @@ class NoseConeReferenceType(ReferenceType):
 
     def getReferenceLength(self, config):
         for c in config.getActiveComponents():
-            if isinstance(c, SymetricComponent):
+            if isinstance(c, SymmetricComponent):
                 if c.getForeRadius() >= 0.0005:
                     return c.getForeRadius() * 2
                 if c.getAftRadius() >= 0.0005:
@@ -51,7 +51,7 @@ class MaximumReferenceType(ReferenceType):
     def getReferenceLength(self, config):
         r = 0
         for c in config.getActiveComponents():
-            if isinstance(c, SymetricComponent):
+            if isinstance(c, SymmetricComponent):
                 r = max(r, c.getForeRadius())
                 r = max(r, c.getAftRadius())
 
