@@ -51,18 +51,23 @@ class TubeFinsetElement(FinsetElement):
             if int(content) > 1:
                 self._obj.FinSet = True
                 self._obj.FinCount = int(content)
+                self._obj.FinSpacing = 360.0 / int(content)
             else:
                 self._obj.FinSet = False
         elif _tag == "rotation":
             pass
         elif _tag == "thickness":
             thickness = FreeCAD.Units.Quantity(content + " m").Value
-            self._obj.RootThickness = thickness
-            self._obj.TipThickness = thickness
+            self._obj.TubeThickness = thickness
         elif _tag == "length":
-            pass
+            self._obj.RootChord = FreeCAD.Units.Quantity(content + " m").Value
         elif _tag == "radius":
-            pass
+            if content == "auto":
+                self._obj.TubeAutoOuterDiameter = True
+            else:
+                self._obj.TubeAutoOuterDiameter = False
+                radius = FreeCAD.Units.Quantity(content + " m").Value
+                self._obj.TubeOuterDiameter = 2.0 * radius
         elif _tag == "instancecount":
             pass
         elif _tag == "angleoffset":

@@ -43,6 +43,7 @@ from App.Constants import PROP_TRANSIENT, PROP_HIDDEN, EDITOR_HIDDEN
 from App.ShapeHandlers.FinTrapezoidShapeHandler import FinTrapezoidShapeHandler
 from App.ShapeHandlers.FinEllipseShapeHandler import FinEllipseShapeHandler
 from App.ShapeHandlers.FinSketchShapeHandler import FinSketchShapeHandler
+from App.ShapeHandlers.FinTubeShapeHandler import FinTubeShapeHandler
 
 from DraftTools import translate
 
@@ -124,6 +125,13 @@ class ShapeFin(ShapeLocation):
         if not hasattr(obj,"FinSpacing"):
             obj.addProperty('App::PropertyAngle', 'FinSpacing', 'Fin', translate('App::Property', 'Angle between consecutive fins')).FinSpacing = 120
 
+        if not hasattr(obj,"TubeOuterDiameter"):
+            obj.addProperty('App::PropertyLength', 'TubeOuterDiameter', 'Fin', translate('App::Property', 'Tube fin outer diameter')).TubeOuterDiameter = 30.0
+        if not hasattr(obj,"TubeAutoOuterDiameter"):
+            obj.addProperty('App::PropertyBool', 'TubeAutoOuterDiameter', 'Fin', translate('App::Property', 'Tube fin auto outer diameter')).TubeAutoOuterDiameter = False
+        if not hasattr(obj,"TubeThickness"):
+            obj.addProperty('App::PropertyLength', 'TubeThickness', 'Fin', translate('App::Property', 'Tube fin thickness')).TubeThickness = 1.0
+
         # Hidden properties used for calculation
         if not hasattr(obj,"ParentRadius"):
             obj.addProperty('App::PropertyLength', 'ParentRadius', 'Fin', 'Parent radius', PROP_TRANSIENT | PROP_HIDDEN).ParentRadius = 20.0 # No translation required for a hidden parameter
@@ -203,8 +211,7 @@ class ShapeFin(ShapeLocation):
         elif obj.FinType == FIN_TYPE_ELLIPSE:
             shape = FinEllipseShapeHandler(obj)
         elif obj.FinType == FIN_TYPE_TUBE:
-            # shape = FinTubeShapeHandler(obj)
-            shape = None
+            shape = FinTubeShapeHandler(obj)
         elif obj.FinType == FIN_TYPE_SKETCH:
             shape = FinSketchShapeHandler(obj)
 
