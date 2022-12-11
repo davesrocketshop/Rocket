@@ -180,6 +180,36 @@ class _FinDialog(QDialog):
         self.tipLength2Input.unit = 'mm'
         self.tipLength2Input.setMinimumWidth(100)
 
+        # Tube fin options
+        self.tubeGroup = QtGui.QGroupBox(translate('Rocket', "Tube Fin"), self)
+
+        self.tubeLengthLabel = QtGui.QLabel(translate('Rocket', "Length"), self) # Just the label
+
+        self.tubeLengthInput = ui.createWidget("Gui::InputField") # This is a duplicate of rootChordInput
+        self.tubeLengthInput.unit = 'mm'
+        self.tubeLengthInput.setMinimumWidth(100)
+
+        self.tubeOuterDiameterLabel = QtGui.QLabel(translate('Rocket', "Outer Diameter"), self)
+
+        self.tubeOuterDiameterInput = ui.createWidget("Gui::InputField")
+        self.tubeOuterDiameterInput.unit = 'mm'
+        self.tubeOuterDiameterInput.setMinimumWidth(100)
+
+        self.tubeAutoOuterDiameterCheckbox = QtGui.QCheckBox(translate('Rocket', "auto"), self)
+        self.tubeAutoOuterDiameterCheckbox.setCheckState(QtCore.Qt.Checked)
+
+        self.tubeInnerDiameterLabel = QtGui.QLabel(translate('Rocket', "Inner Diameter"), self)
+
+        self.tubeInnerDiameterInput = ui.createWidget("Gui::InputField")
+        self.tubeInnerDiameterInput.unit = 'mm'
+        self.tubeInnerDiameterInput.setMinimumWidth(100)
+
+        self.tubeThicknessLabel = QtGui.QLabel(translate('Rocket', "Wall Thickness"), self)
+
+        self.tubeThicknessInput = ui.createWidget("Gui::InputField")
+        self.tubeThicknessInput.unit = 'mm'
+        self.tubeThicknessInput.setMinimumWidth(100)
+
         self.heightLabel = QtGui.QLabel(translate('Rocket', "Height"), self)
 
         self.heightInput = ui.createWidget("Gui::InputField")
@@ -271,6 +301,28 @@ class _FinDialog(QDialog):
 
         self.tipGroup.setLayout(grid)
 
+        # Tube group
+        row = 0
+        grid = QGridLayout()
+
+        grid.addWidget(self.tubeLengthLabel, row, 0)
+        grid.addWidget(self.tubeLengthInput, row, 1)
+        row += 1
+
+        grid.addWidget(self.tubeOuterDiameterLabel, row, 0)
+        grid.addWidget(self.tubeOuterDiameterInput, row, 1)
+        grid.addWidget(self.tubeAutoOuterDiameterCheckbox, row, 2)
+        row += 1
+
+        # grid.addWidget(self.tubeInnerDiameterLabel, row, 0)
+        # grid.addWidget(self.tubeInnerDiameterInput, row, 1)
+        # row += 1
+
+        grid.addWidget(self.tubeThicknessLabel, row, 0)
+        grid.addWidget(self.tubeThicknessInput, row, 1)
+
+        self.tubeGroup.setLayout(grid)
+
         # Main items
         row = 0
         grid = QGridLayout()
@@ -296,6 +348,7 @@ class _FinDialog(QDialog):
         layout.addWidget(self.finSetGroup)
         layout.addWidget(self.rootGroup)
         layout.addWidget(self.tipGroup)
+        layout.addWidget(self.tubeGroup)
         layout.addItem(QtGui.QSpacerItem(0,0, QSizePolicy.Expanding, QSizePolicy.Expanding))
 
         self.tabGeneral.setLayout(layout)
@@ -394,6 +447,12 @@ class TaskPanelFin(QObject):
         self._finForm.tipLength1Input.textEdited.connect(self.onTipLength1)
         self._finForm.tipLength2Input.textEdited.connect(self.onTipLength2)
 
+        self._finForm.tubeLengthInput.textEdited.connect(self.onTubeLength)
+        self._finForm.tubeOuterDiameterInput.textEdited.connect(self.onTubeOuterDiameter)
+        self._finForm.tubeAutoOuterDiameterCheckbox.stateChanged.connect(self.onTubeAutoOuterDiameter)
+        # self._finForm.tubeInnerDiameterInput.textEdited.connect(self.onTubeInnerDiameter)
+        self._finForm.tubeThicknessInput.textEdited.connect(self.onTubeThickness)
+
         self._finForm.heightInput.textEdited.connect(self.onHeight)
         self._finForm.sweepLengthInput.textEdited.connect(self.onSweepLength)
         self._finForm.sweepAngleInput.textEdited.connect(self.onSweepAngle)
@@ -424,7 +483,8 @@ class TaskPanelFin(QObject):
         self._obj.FinSpacing = self._finForm.finSpacingInput.text()
 
         self._obj.RootCrossSection = str(self._finForm.rootCrossSectionsCombo.currentText())
-        self._obj.RootChord = self._finForm.rootChordInput.text()
+        if self._obj.FinType != FIN_TYPE_TUBE:
+            self._obj.RootChord = self._finForm.rootChordInput.text()
         self._obj.RootThickness = self._finForm.rootThicknessInput.text()
         self._obj.RootPerCent = self._finForm.rootPerCentCheckbox.isChecked()
         self._obj.RootLength1 = self._finForm.rootLength1Input.text()
@@ -436,6 +496,12 @@ class TaskPanelFin(QObject):
         self._obj.TipPerCent = self._finForm.tipPerCentCheckbox.isChecked()
         self._obj.TipLength1 = self._finForm.tipLength1Input.text()
         self._obj.TipLength2 =self._finForm.tipLength2Input.text()
+
+        if self._obj.FinType == FIN_TYPE_TUBE:
+            self._obj.RootChord = self._finForm.tubeLengthInput.text()
+        self._obj.TubeOuterDiameter = self._finForm.tubeOuterDiameterInput.text()
+        self._obj.TubeAutoOuterDiameter = self._finForm.tubeAutoOuterDiameterCheckbox.isChecked()
+        self._obj.TubeThickness = self._finForm.tubeThicknessInput.text()
 
         self._obj.Height = self._finForm.heightInput.text()
         self._obj.SweepLength = self._finForm.sweepLengthInput.text()
@@ -468,6 +534,11 @@ class TaskPanelFin(QObject):
         self._finForm.tipPerCentCheckbox.setChecked(self._obj.TipPerCent)
         self._finForm.tipLength1Input.setText(self._obj.TipLength1.UserString)
         self._finForm.tipLength2Input.setText(self._obj.TipLength2.UserString)
+
+        self._finForm.tubeLengthInput.setText(self._obj.RootChord.UserString)
+        self._finForm.tubeOuterDiameterInput.setText(self._obj.TubeOuterDiameter.UserString)
+        self._finForm.tubeAutoOuterDiameterCheckbox.setChecked(self._obj.TubeAutoOuterDiameter)
+        self._finForm.tubeThicknessInput.setText(self._obj.TubeThickness.UserString)
 
         self._finForm.heightInput.setText(self._obj.Height.UserString)
         self._finForm.sweepLengthInput.setText(self._obj.SweepLength.UserString)
@@ -534,11 +605,15 @@ class TaskPanelFin(QObject):
             self._enableFinTypeTrapezoid()
         elif self._obj.FinType == FIN_TYPE_ELLIPSE:
             self._enableFinTypeEllipse()
+        elif self._obj.FinType == FIN_TYPE_TUBE:
+            self._enableFinTypeTube()
         else:
             self._enableFinTypeSketch()
 
 
     def _enableFinTypeTrapezoid(self):
+        self._finForm.rootChordInput.setText(self._obj.RootChord.UserString)
+
         old = self._obj.RootCrossSection # This must be saved and restored
         self._finForm.rootCrossSectionsCombo.clear()
         self._finForm.rootCrossSectionsCombo.addItems(self._finForm.rootCrossSections)
@@ -559,11 +634,15 @@ class TaskPanelFin(QObject):
         self._finForm.rootLength2Label.setHidden(False)
         self._finForm.rootLength2Input.setHidden(False)
 
+        self._finForm.rootGroup.setHidden(False)
         self._finForm.tipGroup.setHidden(False)
+        self._finForm.tubeGroup.setHidden(True)
 
         self._enableTipLengths()
 
     def _enableFinTypeEllipse(self):
+        self._finForm.rootChordInput.setText(self._obj.RootChord.UserString)
+
         old = self._obj.RootCrossSection # This must be saved and restored
         self._finForm.rootCrossSectionsCombo.clear()
         self._finForm.rootCrossSectionsCombo.addItems(self._finForm.rootEllipseCrossSections)
@@ -586,7 +665,24 @@ class TaskPanelFin(QObject):
         self._finForm.rootLength2Label.setHidden(True)
         self._finForm.rootLength2Input.setHidden(True)
 
+        self._finForm.rootGroup.setHidden(False)
         self._finForm.tipGroup.setHidden(True)
+        self._finForm.tubeGroup.setHidden(True)
+
+    def _enableFinTypeTube(self):
+        self._finForm.tubeLengthInput.setText(self._obj.RootChord.UserString)
+
+        self._finForm.heightLabel.setHidden(True)
+        self._finForm.heightInput.setHidden(True)
+        
+        self._finForm.sweepLengthLabel.setHidden(True)
+        self._finForm.sweepLengthInput.setHidden(True)
+        self._finForm.sweepAngleLabel.setHidden(True)
+        self._finForm.sweepAngleInput.setHidden(True)
+
+        self._finForm.rootGroup.setHidden(True)
+        self._finForm.tipGroup.setHidden(True)
+        self._finForm.tubeGroup.setHidden(False)
 
     def _enableFinTypeSketch(self):
         old = self._obj.RootCrossSection # This must be saved and restored
@@ -607,7 +703,9 @@ class TaskPanelFin(QObject):
         self._finForm.rootChordLabel.setHidden(True)
         self._finForm.rootChordInput.setHidden(True)
 
+        self._finForm.rootGroup.setHidden(False)
         self._finForm.tipGroup.setHidden(True)
+        self._finForm.tubeGroup.setHidden(True)
 
     def _enableRootLengths(self):
         value = self._obj.RootCrossSection
@@ -795,6 +893,40 @@ class TaskPanelFin(QObject):
     def onTipLength2(self, value):
         try:
             self._obj.TipLength2 = FreeCAD.Units.Quantity(value).Value
+            self.redraw()
+        except ValueError:
+            pass
+        self.setEdited()
+
+    def onTubeLength(self, value):
+        self.onRootChord(value)
+    
+    def onTubeOuterDiameter(self, value):
+        try:
+            self._obj.TubeOuterDiameter = FreeCAD.Units.Quantity(value).Value
+            self.redraw()
+        except ValueError:
+            pass
+        self.setEdited()
+
+    def onTubeAutoOuterDiameter(self, value):
+        self._obj.TubeAutoOuterDiameter = value
+        # self._setAutoDiameterState()
+
+        self.redraw()
+        self.setEdited()
+        
+    def onTubeInnerDiameter(self, value):
+        try:
+            self._obj.TipLength2 = FreeCAD.Units.Quantity(value).Value
+            self.redraw()
+        except ValueError:
+            pass
+        self.setEdited()
+        
+    def onTubeThickness(self, value):
+        try:
+            self._obj.TubeThickness = FreeCAD.Units.Quantity(value).Value
             self.redraw()
         except ValueError:
             pass
