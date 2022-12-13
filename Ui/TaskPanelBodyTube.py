@@ -202,7 +202,7 @@ class TaskPanelBodyTube:
         self._btForm.autoDiameterCheckbox.setChecked(self._obj.AutoDiameter)
 
         if self._obj.AutoDiameter:
-            self._obj.OuterDiameter = 2.0 * self._obj.Proxy.getRadius()
+            self._obj.OuterDiameter = 2.0 * self._obj.Proxy.getRadius(0)
             self._btForm.odInput.setText(self._obj.OuterDiameter.UserString)
 
     def onAutoDiameter(self, value):

@@ -29,6 +29,7 @@ from PySide import QtCore
 from App.interfaces.BoxBounded import BoxBounded
 from App.interfaces.Coaxial import Coaxial
 
+from App.events.ComponentChangeEvent import ComponentChangeEvent
 from App.ShapeBase import TRACE_POSITION, TRACE_EXECUTION
 from App.SymmetricComponent import SymmetricComponent
 from App.Constants import FEATURE_BODY_TUBE, FEATURE_BULKHEAD, FEATURE_CENTERING_RING, FEATURE_FIN, FEATURE_FINCAN, FEATURE_LAUNCH_LUG, \
@@ -56,6 +57,8 @@ def _migrate_from_1_0(obj):
 
 class ShapeBodyTube(SymmetricComponent, BoxBounded, Coaxial):
 
+    _refComp = None	# Reference component that is used for the autoRadius
+
     def __init__(self, obj):
         super().__init__(obj)
         self.Type = FEATURE_BODY_TUBE
@@ -76,6 +79,9 @@ class ShapeBodyTube(SymmetricComponent, BoxBounded, Coaxial):
             obj.addProperty('App::PropertyBool', 'MotorMount', 'BodyTube', translate('App::Property', 'This component is a motor mount')).MotorMount = False
         if not hasattr(obj,"Overhang"):
             obj.addProperty('App::PropertyDistance', 'Overhang', 'BodyTube', translate('App::Property', 'Motor overhang')).Overhang = 3.0
+
+        if not hasattr(obj,"Filled"):
+            obj.addProperty('App::PropertyBool', 'Filled', 'BodyTube', translate('App::Property', 'This component is solid')).Filled = False
 
         if not hasattr(obj,"Shape"):
             obj.addProperty('Part::PropertyPartShape', 'Shape', 'BodyTube', translate('App::Property', 'Shape of the body tube'))
@@ -169,12 +175,77 @@ class ShapeBodyTube(SymmetricComponent, BoxBounded, Coaxial):
                 listener.setOuterRadius(radius)
 
         diameter = 2.0 * float(radius)
-        self._obj.OuterDiameter = diameter
+        if self._obj.OuterDiameter == diameter and not self._obj.AutoDiameter:
+            return
+        
+        self._obj.AutoDiameter = False
+        self._obj.OuterDiameter = max(diameter, 0);
+        
+        if self._obj.Thickness > radius:
+            self._obj.Thickness = radius
 
-    # Get the wall thickness of the component.  Typically this is just
-    # the outer radius - inner radius.
-    def getThickness(self):
-        return self._obj.Thickness
+        self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
+        self.clearPreset()
+
+    """
+        Return the outer radius of the body tube.
+    """
+    def getOuterRadius(self):
+        if self._obj.AutoDiameter:
+            # Return auto radius from front or rear
+            r = -1
+            c = self.getPreviousSymmetricComponent()
+            # Don't use the radius of a component who already has its auto diameter enabled
+            if c is not None and not c.usesNextCompAutomatic():
+                r = c.getFrontAutoRadius()
+                refComp = c
+            if r < 0:
+                c = self.getNextSymmetricComponent()
+                # Don't use the radius of a component who already has its auto diameter enabled
+                if c is not None and not c.usesPreviousCompAutomatic():
+                    r = c.getRearAutoRadius()
+                    refComp = c
+
+            if r < 0:
+                r = self.DEFAULT_RADIUS
+            return r
+
+        return float(self._obj.OuterDiameter) / 2.0
+
+    """
+        Return the outer radius that was manually entered, so not the value that the component received from automatic
+        outer radius.
+    """
+    def getOuterRadiusNoAutomatic(self):
+        return float(self._obj.OuterDiameter) / 2.0
+
+    def getFrontAutoRadius(self):
+        if self.isOuterRadiusAutomatic():
+            # Search for previous SymmetricComponent
+            c = self.getPreviousSymmetricComponent()
+            if c is not None:
+                return c.getFrontAutoRadius()
+            else:
+                return -1
+
+        return self.getOuterRadius()
+
+    def getRearAutoRadius(self):
+        if self.isOuterRadiusAutomatic():
+            # Search for next SymmetricComponent
+            c = self.getNextSymmetricComponent()
+            if c is not None:
+                return c.getRearAutoRadius()
+            else:
+                return -1
+
+        return self.getOuterRadius()
+
+    def usesPreviousCompAutomatic(self):
+        return self.isOuterRadiusAutomatic() and (self._refComp == self.getPreviousSymmetricComponent())
+
+    def usesNextCompAutomatic(self):
+        return self.isOuterRadiusAutomatic() and (self._refComp == self.getNextSymmetricComponent())
 
     def execute(self, obj):
         if TRACE_EXECUTION:

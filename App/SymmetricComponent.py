@@ -27,10 +27,14 @@ __url__ = "https://www.davesrocketshop.com"
 from abc import abstractmethod
 import math
 
+from App.util.MathUtil import MathUtil
 from App.interfaces.BoxBounded import BoxBounded
 from App.interfaces.RadialParent import RadialParent
+from App.events.ComponentChangeEvent import ComponentChangeEvent
 
+from App.ShapeBase import TRACE_POSITION
 from App.ShapeComponent import ShapeComponent
+from App.ShapeComponentAssembly import ShapeComponentAssembly
 from App.util.BoundingBox import BoundingBox
 from App.util.Coordinate import Coordinate
 
@@ -82,7 +86,70 @@ class SymmetricComponent(ShapeComponent, BoxBounded, RadialParent):
         self.getRadius(x)
 
     def getInnerRadius(self, x):
-        self.getRadius(x)
+        # self.getRadius(x)
+        pass
+
+    """
+        Returns the largest radius of the component (either the aft radius, or the fore radius).
+    """
+    def getMaxRadius(self):
+        return max(self.getForeRadius(), self.getAftRadius())
+
+
+    """
+        Return the component wall thickness.
+    """
+    def getThickness(self):
+        if self.isFilled():
+            return max(self.getForeRadius(), self.getAftRadius())
+        return self._obj.Thickness
+
+    """
+        Set the component wall thickness.  If <code>doClamping</code> is true, values greater than
+        the maximum radius will be clamped the thickness to the maximum radius.
+        @param doClamping If true, the thickness will be clamped to the maximum radius.
+    """
+    def setThickness(self, thickness, doClamping = True):
+        for listener in self._configListeners:
+            if isinstance(listener, SymmetricComponent):
+                listener.setThickness(thickness)
+
+        if (self._obj.Thickness == thickness) and not self.isFilled():
+            return
+        if doClamping:
+            self._obj.Thickness = MathUtil.clamp(thickness, 0, self.getMaxRadius())
+        else:
+            self._obj.Thickness = thickness
+        self._obj.Filled = False
+
+        self.fireComponentChangeEvent(ComponentChangeEvent.MASS_CHANGE)
+        self.clearPreset()
+	
+    def isAfter(self): 
+        return True
+
+    """
+        Returns whether the component is set as filled.  If it is set filled, then the
+        wall thickness will have no effect. 
+    """
+    def isFilled(self):
+        return self._obj.Filled
+
+    """
+        Sets whether the component is set as filled.  If the component is filled, then
+        the wall thickness will have no effect.
+    """
+    def setFilled(self, filled):
+        for listener in self._configListeners:
+            if isinstance(listener, SymmetricComponent):
+                listener.setFilled(filled)
+
+        if self.isFilled():
+            return
+
+        self._obj.Filled = filled
+        self.fireComponentChangeEvent(ComponentChangeEvent.MASS_CHANGE)
+        self.clearPreset()
 
     """
         Adds component bounds at a number of points between 0...length.
@@ -95,3 +162,106 @@ class SymmetricComponent(ShapeComponent, BoxBounded, RadialParent):
             self.addBound(list, x, r)
 
         return list
+
+    """
+        Returns the automatic radius for this component towards the 
+        front of the rocket.  The automatics will not search towards the
+        rear of the rocket for a suitable radius.  A positive return value
+        indicates a preferred radius, a negative value indicates that a
+        match was not found.
+    """
+    @abstractmethod
+    def getFrontAutoRadius(self):
+        pass
+
+    """
+        Returns the automatic radius for this component towards the
+        end of the rocket.  The automatics will not search towards the
+        front of the rocket for a suitable radius.  A positive return value
+        indicates a preferred radius, a negative value indicates that a
+        match was not found.
+    """
+    @abstractmethod
+    def getRearAutoRadius(self):
+        pass
+
+    """
+        Return the previous symmetric component, or null if none exists.
+    """
+    def getPreviousSymmetricComponent(self):
+        if TRACE_POSITION:
+            print("P: SymmetricComponent::getPreviousSymmetricComponent(%s)" % (self._obj.Label))
+
+        if self.getParent() is None or self.getParent().getParent() is None:
+            return None
+
+        # might be: (a) Rocket -- for Centerline/Axial stages
+        #           (b) BodyTube -- for Parallel Stages & PodSets
+        grandParent = self.getParent().getParent();
+
+        searchParentIndex = grandParent.getChildPosition(self.getParent())       # position of stage w/in parent
+        searchSiblingIndex = self.getParent().getChildPosition(self)-1           # guess at index of previous stage
+
+        while 0 <= searchParentIndex:
+            searchParent = grandParent.getChild(searchParentIndex)
+
+            if isinstance(searchParent, ShapeComponentAssembly):
+                while 0 <= searchSiblingIndex:
+                    searchSibling = searchParent.getChild(searchSiblingIndex)
+                    if isinstance(searchSibling, SymmetricComponent):
+                        return searchSibling
+                    searchSiblingIndex -= 1
+
+            searchParentIndex -= 1
+            if 0 <= searchParentIndex:
+                searchSiblingIndex = grandParent.getChild(searchParentIndex).getChildCount() - 1
+
+        return None
+
+    """
+         Return the next symmetric component, or null if none exists.
+    """
+    def getNextSymmetricComponent(self):
+        if TRACE_POSITION:
+            print("P: SymmetricComponent::getNextSymmetricComponent(%s)" % (self._obj.Label))
+
+        if self.getParent() is None or self.getParent().getParent() is None:
+            return None
+
+        # might be: (a) Rocket -- for centerline stages
+        #           (b) BodyTube -- for Parallel Stages
+        grandParent = self.getParent().getParent()
+
+        # note:  this is not guaranteed to _contain_ a stage... but that we're _searching_ for one.
+        searchParentIndex = grandParent.getChildPosition(self.getParent());
+        searchSiblingIndex = self.getParent().getChildPosition(self) + 1
+
+        while searchParentIndex < grandParent.getChildCount():
+            searchParent = grandParent.getChild(searchParentIndex)
+
+            if isinstance(searchParent, ShapeComponentAssembly):
+                while searchSiblingIndex < searchParent.getChildCount():
+                    searchSibling = searchParent.getChild(searchSiblingIndex)
+
+                    if isinstance(searchSibling, SymmetricComponent):
+                        return searchSibling
+                    searchSiblingIndex += 1
+
+            searchParentIndex += 1
+            searchSiblingIndex = 0
+
+        return None
+
+    """
+        Checks whether the component uses the previous symmetric component for its auto diameter.
+    """
+    @abstractmethod
+    def usesPreviousCompAutomatic(self):
+        pass
+
+    """
+        Checks whether the component uses the next symmetric component for its auto diameter.
+    """
+    @abstractmethod
+    def usesNextCompAutomatic(self):
+        pass
