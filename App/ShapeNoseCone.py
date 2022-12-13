@@ -253,6 +253,22 @@ class ShapeNoseCone(SymmetricComponent):
 
         # Return the length of this component along the central axis
         return self._obj.Length
+    
+    def getFrontAutoRadius(self):
+        if self.isAftRadiusAutomatic():
+            return -1
+        return self.getAftRadius()
+
+    def getRearAutoRadius(self):
+        if self.isForeRadiusAutomatic():
+            return -1
+        return self.getForeRadius()
+
+    def usesPreviousCompAutomatic(self):
+        return self.isForeRadiusAutomatic()
+
+    def usesNextCompAutomatic(self):
+        return self.isAftRadiusAutomatic()
 
     def setLength(self, length):
         self._obj.Length = length

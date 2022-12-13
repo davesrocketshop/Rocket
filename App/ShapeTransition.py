@@ -209,10 +209,12 @@ class ShapeTransition(SymmetricComponent):
         self._obj.ForeAutoDiameter = False
         self._obj.ForeDiameter = 2.0 * max(radius, 0)
 
-        # if (this.thickness > this.foreRadius && this.thickness > this.aftRadius)
-        #     this.thickness = Math.max(this.foreRadius, this.aftRadius);
+        foreRadius = float(self._obj.ForeDiameter) / 2.0
+        aftRadius = float(self._obj.AftDiameter) / 2.0
+        if self._obj.Thickness > foreRadius and self._obj.Thickness > aftRadius:
+            self._obj.Thickness = max(foreRadius, aftRadius);
 
-        # clearPreset();
+        self.clearPreset()
         self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE);
 
     def isForeRadiusAutomatic(self):
@@ -265,10 +267,12 @@ class ShapeTransition(SymmetricComponent):
         self._obj.AftAutoDiameter = False
         self._obj.AftDiameter = 2.0 * max(radius, 0)
 
-        # if (this.thickness > this.foreRadius && this.thickness > this.aftRadius)
-        #     this.thickness = Math.max(this.foreRadius, this.aftRadius);
+        foreRadius = float(self._obj.ForeDiameter) / 2.0
+        aftRadius = float(self._obj.AftDiameter) / 2.0
+        if self._obj.Thickness > foreRadius and self._obj.Thickness > aftRadius:
+            self._obj.Thickness = max(foreRadius, aftRadius);
 
-        # clearPreset();
+        self.clearPreset();
         self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
 
     def isAftRadiusAutomatic(self):
