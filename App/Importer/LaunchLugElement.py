@@ -26,43 +26,20 @@ __url__ = "https://www.davesrocketshop.com"
 
 import FreeCAD
 
-from App.Importer.SaxElement import NullElement
-from App.Importer.ComponentElement import ComponentElement, BodyComponentElement
-from App.Importer.SymmetricComponentElement import SymmetricComponentElement
+from App.Importer.ComponentElement import ExternalComponentElement
 import App.Importer as Importer
 
 from Ui.Commands.CmdBodyTube import makeBodyTube
 
-class MotorMountElement(BodyComponentElement):
+class LaunchLugElement(ExternalComponentElement):
 
     def __init__(self, parent, tag, attributes, parentObj, filename, line):
         super().__init__(parent, tag, attributes, parentObj, filename, line)
 
-        self._validChildren.update({ 'motor' : NullElement,
-                              })
-        self._knownTags.extend(["overhang", "ignitionevent", "ignitiondelay"])
-
-        if self._parentObj is not None:
-            self._obj = self._parentObj
-            print("MotorMount parent %s" % (self._parentObj.Label))
-            self._obj.MotorMount = True
-
-    def handleEndTag(self, tag, content):
-        _tag = tag.lower().strip()
-        if _tag == "overhang":
-            self._obj.Overhang = content + "m"
-        else:
-            super().handleEndTag(tag, content)
-
-class BodyTubeElement(SymmetricComponentElement):
-
-    def __init__(self, parent, tag, attributes, parentObj, filename, line):
-        super().__init__(parent, tag, attributes, parentObj, filename, line)
-
-        self._validChildren.update({ 'subcomponents' : Importer.SubElement.SubElement,
-                                'motormount' : MotorMountElement,
-                              })
-        self._knownTags.extend(["radius", "outerradius"]) #, "motormount"]
+        # self._validChildren.update({ 'subcomponents' : Importer.SubElement.SubElement,
+        #                         'motormount' : MotorMountElement,
+        #                       })
+        self._knownTags.extend(["instancecount", "instanceseparation", "radialdirection", "angleoffset", "radius", "outerradius", "length", "thickness"])
 
         self._obj = makeBodyTube()
         if self._parentObj is not None:
@@ -70,14 +47,29 @@ class BodyTubeElement(SymmetricComponentElement):
 
     def handleEndTag(self, tag, content):
         _tag = tag.lower().strip()
-        if _tag == "radius" or _tag == "outerradius":
+        if _tag == "instancecount":
+            pass
+        elif tag == "instanceseparation":
+            pass
+        elif tag == "radialdirection":
+            pass
+        elif tag == "angleoffset":
+            pass
+        elif _tag == "radius" or _tag == "outerradius":
             if str(content).lower() == "auto":
                 # self._obj.OuterDiameter = "0.0 m" - use the object default
-                self._obj.AutoDiameter = True 
+                if hasattr(self._obj.Proxy, "setOuterRadiusAutomatic"):
+                    self._obj.Proxy.setOuterRadiusAutomatic(True)
             else:
                 diameter = float(content) * 2.0
-                self._obj.OuterDiameter = str(diameter) + "m"
-                self._obj.AutoDiameter = False 
+                if hasattr(self._obj.Proxy, "setOuterRadius"):
+                    self._obj.Proxy.setOuterRadius(FreeCAD.Units.Quantity(str(diameter) + " m").Value)
+                if hasattr(self._obj.Proxy, "setOuterRadiusAutomatic"):
+                    self._obj.Proxy.setOuterRadiusAutomatic(False)
+        elif _tag == "length":
+            self.onLength(FreeCAD.Units.Quantity(content + " m").Value)
+        elif _tag == "thickness":
+            self.onThickness(FreeCAD.Units.Quantity(content + " m").Value)
         else:
             super().handleEndTag(tag, content)
 
@@ -90,5 +82,10 @@ class BodyTubeElement(SymmetricComponentElement):
     def onThickness(self, length):
         self._obj.Thickness = length
 
-    def onLength(self, length):
-        self._obj.Length = length
+    def onLength(self, content):
+        if hasattr(self._obj.Proxy, "setLength"):
+            self._obj.Proxy.setLength(content)
+
+    def onThickness(self, content):
+        if hasattr(self._obj.Proxy, "setThickness"):
+            self._obj.Proxy.setThickness(content)

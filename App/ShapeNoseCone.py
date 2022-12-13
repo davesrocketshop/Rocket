@@ -254,6 +254,9 @@ class ShapeNoseCone(SymmetricComponent):
         # Return the length of this component along the central axis
         return self._obj.Length
 
+    def setLength(self, length):
+        self._obj.Length = length
+
     def getMaxForwardPosition(self):
         if TRACE_POSITION:
             print("P: ShapeNoseCone::getMaxForwardPosition(%s)" % (self._obj.Label))

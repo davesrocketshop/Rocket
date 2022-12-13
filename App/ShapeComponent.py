@@ -56,6 +56,8 @@ class ShapeComponent(ShapeBase, ChangeSource):
     def __init__(self, obj):
         super().__init__(obj)
 
+        if not hasattr(obj, 'Comment'):
+            obj.addProperty('App::PropertyString', 'Comment', 'RocketComponent', translate('App::Property', 'User comment')).Comment = ""
         if not hasattr(obj, 'Manufacturer'):
             obj.addProperty('App::PropertyString', 'Manufacturer', 'RocketComponent', translate('App::Property', 'Component manufacturer')).Manufacturer = ""
         if not hasattr(obj, 'PartNumber'):
@@ -132,6 +134,18 @@ class ShapeComponent(ShapeBase, ChangeSource):
 
     def getComponentName(self):
         return self._obj.Label
+
+    def setName(self, name):
+        self._obj.Label = name
+
+    def setComment(self, comment):
+        self._obj.Comment = comment
+
+    def setOverrideMass(self, mass):
+        self._obj.OverrideMass = mass
+
+    def setMassOverridden(self, override):
+        self._obj.MassOverride = override
 
     def getType(self):
         return self.Type

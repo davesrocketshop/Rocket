@@ -74,6 +74,9 @@ class ShapeBulkhead(RadiusRingComponent):
         # Return the length of this component along the central axis
         return self._obj.Thickness
 
+    def setLength(self, length):
+        self._obj.Thickness = length
+
     # def positionChild(self, parent, parentBase, parentLength, parentRadius, rotation):
     #     if TRACE_POSITION:
     #         print("P: ShapeBulkhead::positionChild(%s, %s, (%f,%f,%f), %f, %f, %f)" % (self._obj.Label, parent.Label, parentBase.x, parentBase.y, parentBase.z, parentLength, parentRadius, rotation))

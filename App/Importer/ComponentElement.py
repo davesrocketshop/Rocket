@@ -69,9 +69,9 @@ class ComponentElement(Element):
         elif _tag == "axialoffset":
             self.onAxialOffset(FreeCAD.Units.Quantity(content + " m").Value)
         elif _tag == "overridemass":
-            self.onOverrideMass(content)
+            self.onOverrideMass(FreeCAD.Units.Quantity(content + " kg").Value)
         elif _tag == "overridecg":
-            self.onOverrideCG(content)
+            self.onOverrideCG(FreeCAD.Units.Quantity(content + " m").Value)
         elif _tag == "overridecd":
             self.onOverrideCd(content)
         elif _tag == "overridesubcomponents":
@@ -90,8 +90,8 @@ class ComponentElement(Element):
             super().handleEndTag(tag, content)
 
     def onName(self, content):
-        if hasattr(self._obj, "Label"):
-            self._obj.Label = content
+        if hasattr(self._obj.Proxy, "setName"):
+            self._obj.Proxy.setName(content)
 
     def onColor(self, content):
         pass
@@ -100,7 +100,8 @@ class ComponentElement(Element):
         pass
 
     def onComment(self, content):
-        pass
+        if hasattr(self._obj.Proxy, "setComment"):
+            self._obj.Proxy.setComment(content)
 
     def onPreset(self, content):
         pass
@@ -115,7 +116,10 @@ class ComponentElement(Element):
         pass
 
     def onOverrideMass(self, content):
-        pass
+        if hasattr(self._obj.Proxy, "setOverrideMass"):
+            self._obj.Proxy.setOverrideMass(content)
+        if hasattr(self._obj.Proxy, "setMassOverridden"):
+            self._obj.Proxy.setMassOverridden(content > 0)
 
     def onOverrideCG(self, content):
         pass
@@ -162,4 +166,5 @@ class BodyComponentElement(ExternalComponentElement):
             super().handleEndTag(tag, content)
 
     def onLength(self, content):
-        pass
+        if hasattr(self._obj.Proxy, "setLength"):
+            self._obj.Proxy.setLength(content)

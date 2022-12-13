@@ -98,6 +98,18 @@ class ShapeBodyTube(SymmetricComponent, BoxBounded, Coaxial):
         # Return the length of this component along the central axis
         return self._obj.Length
 
+    def setLength(self, length):
+        self._obj.Length = length
+
+    def setThickness(self, thickness):
+        self._obj.Thickness = thickness
+
+    def setOuterRadius(self, diameter):
+        self._obj.OuterDiameter = diameter
+
+    def setOuterRadiusAutomatic(self, auto):
+        self._obj.AutoDiameter = auto
+
     def getMaxForwardPosition(self):
         if TRACE_POSITION:
             print("P: ShapeBodyTube::getMaxForwardPosition(%s)" % (self._obj.Label))
