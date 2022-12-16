@@ -178,17 +178,20 @@ class ShapeTransition(SymmetricComponent):
         return self._obj.Length
 
     def getForeRadius(self):
-        if self.isForeRadiusAutomatic():
+        return self.getForeDiameter() / 2.0
+
+    def getForeDiameter(self):
+        if self.isForeDiameterAutomatic():
             # Get the automatic radius from the front
-            r = -1
+            d = -1
             c = self.getPreviousSymmetricComponent()
             if c is not None:
-                r = c.getFrontAutoRadius()
-            if r < 0:
-                r = SymmetricComponent.DEFAULT_RADIUS
-            return r
+                d = c.getFrontAutoRadius()
+            if d < 0:
+                d = SymmetricComponent.DEFAULT_RADIUS
+            return d
 
-        return self._obj.ForeDiameter / 2.0
+        return self._obj.ForeDiameter
 
     """
         Return the fore radius that was manually entered, so not the value that the component received from automatic
@@ -234,19 +237,22 @@ class ShapeTransition(SymmetricComponent):
         self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
 
     def getAftRadius(self):
+        return self.getAftDiameter() / 2.0
 
-        if self.isAftRadiusAutomatic():
+    def getAftDiameter(self):
+
+        if self.isAftDiameterAutomatic():
                 # Return the auto radius from the rear
-                r = -1
+                d = -1
                 c = self.getNextSymmetricComponent()
                 if c is not None:
-                    r = c.getRearAutoRadius()
+                    d = c.getRearAutoRadius()
 
-                if r < 0:
-                    r = SymmetricComponent.DEFAULT_RADIUS
-                return r
+                if d < 0:
+                    d = SymmetricComponent.DEFAULT_RADIUS
+                return d
 
-        return self._obj.AftDiameter / 2.0
+        return self._obj.AftDiameter
 
     """
         Return the aft radius that was manually entered, so not the value that the component received from automatic
@@ -278,17 +284,23 @@ class ShapeTransition(SymmetricComponent):
     def isAftRadiusAutomatic(self):
         return self._obj.AftAutoDiameter
 
+    def isAftDiameterAutomatic(self):
+        return self._obj.AftAutoDiameter
+
     def setAftRadiusAutomatic(self, auto):
+        self.setAftDiameterAutomatic(auto)
+
+    def setAftDiameterAutomatic(self, auto):
         for listener in self._configListeners:
             if isinstance(listener, ShapeTransition):
-                listener.setAftRadiusAutomatic(auto)
+                listener.setAftDiameterAutomatic(auto)
 
         if self._obj.AftAutoDiameter == auto:
             return
 
         self._obj.AftAutoDiameter = auto
 
-        # clearPreset();
+        self.clearPreset()
         self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
 
     def getFrontAutoRadius(self):
@@ -296,10 +308,20 @@ class ShapeTransition(SymmetricComponent):
             return -1
         return self.getAftRadius()
 
+    def getFrontAutoDiameter(self):
+        if self.isAftDiameterAutomatic():
+            return -1
+        return self.getAftDiameter()
+
     def getRearAutoRadius(self):
         if self.isForeRadiusAutomatic():
             return -1
         return self.getForeRadius()
+
+    def getRearAutoDiameter(self):
+        if self.isForeDiameterAutomatic():
+            return -1
+        return self.getForeDiameter()
 
     def usesPreviousCompAutomatic(self):
         return self.isForeRadiusAutomatic()

@@ -31,7 +31,12 @@ from tokenize import Double
 
 from App.position import AxialMethod
 from App.position.AxialPositionable import AxialPositionable
+from App.util import Coordinate
+from App.util.BoundingBox import BoundingBox
 from App.ShapeComponent import ShapeComponent
+# from App.ShapeBodyTube import ShapeBodyTube
+# from App.ShapeNoseCone import ShapeNoseCone
+# from App.ShapeTransition import ShapeTransition
 from App.events.ComponentChangeEvent import ComponentChangeEvent
 
 from App.Constants import FEATURE_ROCKET, FEATURE_STAGE, FEATURE_PARALLEL_STAGE, FEATURE_POD
@@ -54,7 +59,8 @@ class ShapeComponentAssembly(ShapeComponent, AxialPositionable):
 	
     def setAxialOffset(self, newAxialOffset) -> None:
         self._updateBounds()
-        self.setAxialOffsetFromMethod(self._obj.AxialMethod, newAxialOffset)
+        super()._setAxialOffset(self._obj.AxialMethod, newAxialOffset)
+        self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
 	
     def getAxialMethod(self) -> AxialMethod:
         return self._obj.AxialMethod
@@ -90,6 +96,46 @@ class ShapeComponentAssembly(ShapeComponent, AxialPositionable):
     """
     def getComponentBounds(self):
         return []
+
+    """
+        Null method (ComponentAssembly has no mass of itself).
+    """
+    def getComponentCG(self):
+        return Coordinate.ZERO
+
+    """
+        Null method (ComponentAssembly has no mass of itself).
+    """
+    def getComponentMass(self):
+        return 0
+
+    def getInstanceBoundingBox (self):
+        return BoundingBox()
+
+    """
+        Null method (ComponentAssembly has no mass of itself).
+    """
+    def getLongitudinalUnitInertia(self):
+        return 0
+
+    """
+        Null method (ComponentAssembly has no mass of itself).
+    """
+    def getRotationalUnitInertia(self):
+        return 0
+
+    def getBoundingRadius(self):
+        outerRadius = 0
+        for comp in self.getChildren():
+            thisRadius = 0
+            if isinstance(comp, ShapeBodyTube):
+                thisRadius = comp.getOuterRadius()
+            elif isinstance(comp, ShapeTransition) or isinstance(comp, ShapeNoseCone):
+                thisRadius = max(comp.getForeRadius(), comp.getAftRadius())
+            
+            outerRadius = max(outerRadius, thisRadius)
+
+        return outerRadius
 
     # Components have no aerodynamic effect, so return false.
     def isAerodynamic(self):

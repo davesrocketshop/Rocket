@@ -147,6 +147,17 @@ class ShapeComponent(ShapeBase, ChangeSource):
     def setMassOverridden(self, override):
         self._obj.MassOverride = override
 
+    """
+        Test whether the given component type can be added to this component.  This type safety
+        is enforced by the <code>addChild()</code> methods.  The return value of this method
+        may change to reflect the current state of this component (e.g. two components of some
+        type cannot be placed as children).
+
+        DEPRECATED: use eligibleChild()
+    """
+    def isCompatible(self, type):
+        return self.eligibleChild(type)
+
     def getType(self):
         return self.Type
 
@@ -181,7 +192,10 @@ class ShapeComponent(ShapeBase, ChangeSource):
         return False
 
     def update(self):
-        self.setAxialOffsetFromMethod(self._obj.AxialMethod, self._obj.AxialOffset)
+        if TRACE_POSITION:
+            print("P: ShapeComponent::update(%s)" % (self._obj.Label))
+
+        self._setAxialOffset(self._obj.AxialMethod, self._obj.AxialOffset)
 
     # the default implementation is mostly a placeholder here, however in inheriting classes, 
     # this function is useful to indicate adjacent placements and view sizes
@@ -200,6 +214,16 @@ class ShapeComponent(ShapeBase, ChangeSource):
     def componentChanged(self, event):
         self.checkState()
         self.update()
+
+    """
+        Return true if any of this component's children are a RecoveryDevice
+    """
+    def hasRecoveryDevice(self):
+        # for child in self.getChildren():
+        #     if isinstance(child, RecoveryDevice):
+        #         return True
+
+        return False
 
     # def _locationOffset(self, partBase, parentLength):
     #     if TRACE_POSITION:
@@ -352,7 +376,7 @@ class ShapeComponent(ShapeBase, ChangeSource):
 
     def setAxialOffset(self, _pos):
         self.updateBounds()
-        super.setAxialOffset(self.axialMethod, _pos)
+        super._setAxialOffset(self.axialMethod, _pos)
         self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
 	
     """  Get the positioning of the component relative to its parent component. """
@@ -413,7 +437,10 @@ class ShapeComponent(ShapeBase, ChangeSource):
     def getAxialOffset(self):
         return self._obj.AxialOffset
 
-    def setAxialOffsetFromMethod(self, method, newAxialOffset):
+    def _setAxialOffset(self, method, newAxialOffset):
+        if TRACE_POSITION:
+            print("P: ShapeComponent::_setAxialOffset(%s)" % (self._obj.Label))
+            
         self.checkState()
 
         newX = math.nan
@@ -612,6 +639,19 @@ class ShapeComponent(ShapeBase, ChangeSource):
             pass
         return -1
 
+    def getChildPosition(self, child):
+        return self.getChildIndex(child)
+
+    def getChildCount(self):
+        self.checkState()
+        self.checkComponentStructure()
+        return len(self.getChildren())
+
+    def getChild(self, n):
+        self.checkState()
+        self.checkComponentStructure()
+        return self._obj.Group[n]
+
     """
         Helper method to add two points on opposite corners of a box around the rocket centerline.  This box will be (x_max - x_min) long, and 2*r wide/high.
     """
@@ -649,6 +689,19 @@ class ShapeComponent(ShapeBase, ChangeSource):
             locations.append(center.add(offsets[instanceNumber]))
 
         return locations
+
+    """
+        Clear the current component preset.  This does not affect the component properties
+        otherwise.
+    """
+    def clearPreset(self):
+        for listener in self._configListeners:
+            listener.clearPreset()
+
+        # if presetComponent is None:
+        #     return
+        # presetComponent = None
+        self.fireComponentChangeEvent(ComponentChangeEvent.NONFUNCTIONAL_CHANGE)
 	
 class ShapeLocation(ShapeComponent):
 

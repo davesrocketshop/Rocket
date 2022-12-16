@@ -191,7 +191,8 @@ class TaskPanelBodyTube:
         
     def onOd(self, value):
         try:
-            self._obj.OuterDiameter = FreeCAD.Units.Quantity(value).Value
+            # self._obj.OuterDiameter = FreeCAD.Units.Quantity(value).Value
+            self._obj.Proxy.setOuterDiameter(FreeCAD.Units.Quantity(value).Value)
             self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
@@ -206,7 +207,7 @@ class TaskPanelBodyTube:
             self._btForm.odInput.setText(self._obj.OuterDiameter.UserString)
 
     def onAutoDiameter(self, value):
-        self._obj.AutoDiameter = value
+        self._obj.Proxy.setOuterDiameterAutomatic(value)
         self._setAutoDiameterState()
 
         self._obj.Proxy.execute(self._obj)

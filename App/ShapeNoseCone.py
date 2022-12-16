@@ -185,38 +185,55 @@ class ShapeNoseCone(SymmetricComponent):
     def getForeRadius(self):
         return 0
 
+    def getForeDiameter(self):
+        return 0
+
     def setForeRadius(self):
+        pass
+
+    def setForeDiameter(self):
         pass
 
     def isForeRadiusAutomatic(self):
         return False
 
+    def isForeDiameterAutomatic(self):
+        return False
+
     def getAftRadius(self):
-        if self.isAftRadiusAutomatic():
+        return self.getAftDiameter() / 2.0
+
+    def getAftDiameter(self):
+        if self.isAftDiameterAutomatic():
             # Return the auto radius from the rear
-            r = -1
+            d = -1
             c = self.getNextSymmetricComponent()
             if c is not None:
-                r = c.getRearAutoRadius()
-            if r < 0:
-                r = SymmetricComponent.DEFAULT_RADIUS
-            return r
+                d = c.getRearAutoDiameter()
+            if d < 0:
+                d = SymmetricComponent.DEFAULT_RADIUS * 2.0
+            return d
 
-        return self._obj.Diameter / 2.0
+        return self._obj.Diameter
 
     """
         Return the aft radius that was manually entered, so not the value that the component received from automatic
-        zft radius.
+        aft radius.
     """
     def getAftRadiusNoAutomatic(self):
-        return self._obj.Diameter / 2.0
+        return self.getAftDiameterNoAutomatic() / 2.0
+
+    def getAftDiameterNoAutomatic(self):
+        return self._obj.Diameter
 
     def setAftRadius(self, radius):
+        self.setAftDiameter(radius * 2.0)
+
+    def setAftDiameter(self, diameter):
         for listener in self._configListeners:
             if isinstance(listener, ShapeNoseCone): # OR used transition base class
-                listener.setAftRadius(radius)
+                listener.setAftDiameter(diameter)
 
-        diameter = radius * 2.0
         if self._obj.Diameter == diameter and self._obj.AutoDiameter == False:
             return
 
@@ -227,11 +244,14 @@ class ShapeNoseCone(SymmetricComponent):
         # if (this.thickness > this.foreRadius && this.thickness > this.aftRadius)
         #     this.thickness = Math.max(this.foreRadius, this.aftRadius);
 
-        # self.clearPreset()
+        self.clearPreset()
         self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
 
 
     def isAftRadiusAutomatic(self):
+        return self.isAftDiameterAutomatic()
+
+    def isAftDiameterAutomatic(self):
         return self._obj.AutoDiameter
 
     def setAftRadiusAutomatic(self, auto):
@@ -258,11 +278,21 @@ class ShapeNoseCone(SymmetricComponent):
         if self.isAftRadiusAutomatic():
             return -1
         return self.getAftRadius()
+    
+    def getFrontAutoDiameter(self):
+        if self.isAftDiameterAutomatic():
+            return -1
+        return self.getAftDiameter()
 
     def getRearAutoRadius(self):
         if self.isForeRadiusAutomatic():
             return -1
         return self.getForeRadius()
+
+    def getRearAutoDiameter(self):
+        if self.isForeDiameterAutomatic():
+            return -1
+        return self.getForeDiameter()
 
     def usesPreviousCompAutomatic(self):
         return self.isForeRadiusAutomatic()
