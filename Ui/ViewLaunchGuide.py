@@ -29,7 +29,7 @@ import FreeCADGui
 
 from Ui.TaskPanelRailGuide import TaskPanelRailGuide
 from Ui.TaskPanelRailButton import TaskPanelRailButton
-from Ui.ViewBodyTube import ViewProviderBodyTube
+from Ui.TaskPanelLaunchLug import TaskPanelLaunchLug
 from Ui.ViewProvider import ViewProvider
 
 class ViewProviderRailGuide(ViewProvider):
@@ -66,7 +66,20 @@ class ViewProviderRailButton(ViewProviderRailGuide):
             FreeCADGui.Control.showDialog(taskd)
             return True
 
-class ViewProviderLaunchLug(ViewProviderBodyTube):
+class ViewProviderLaunchLug(ViewProvider):
         
     def getIcon(self):
         return FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_LaunchLug.svg"
+
+    def setEdit(self, vobj, mode):
+        if mode == 0:
+            taskd = TaskPanelLaunchLug(self.Object, mode)
+            taskd.obj = vobj.Object
+            taskd.update()
+            FreeCADGui.Control.showDialog(taskd)
+            return True
+
+    def unsetEdit(self, vobj, mode):
+        if mode == 0:
+            FreeCADGui.Control.closeDialog()
+            return

@@ -465,8 +465,8 @@ class ShapeComponent(ShapeBase, ChangeSource):
             self.setAfter()
             return
         else:
-            newX = method.getAsPosition(newAxialOffset, self.getLength(), self.getParent().getLength());
-		
+            newX = method.getAsPosition(float(newAxialOffset), float(self.getLength()), float(self.getParent().getLength()));
+
         # snap to zero if less than the threshold 'EPSILON'
         EPSILON = 0.000001
         if EPSILON > math.fabs(newX):

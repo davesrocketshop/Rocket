@@ -24,40 +24,10 @@ __title__ = "FreeCAD Rocket Components"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
-from App.ShapeComponent import ShapeComponent
-from App.util import Finish
-from App.events.ComponentChangeEvent import ComponentChangeEvent
+from App.ExternalComponent import ExternalComponent
+from App.interfaces.Coaxial import Coaxial
 
-# Class of components with well-defined physical appearance and which have an effect on
-# aerodynamic simulation.  They have material defined for them, and the mass of the component
-# is calculated using the component's volume.
-
-class ExternalComponent(ShapeComponent):
-
-    finish = Finish.NORMAL
+class Tube(ExternalComponent, Coaxial):
 
     def __init__(self, obj, relativePosition):
-        super().__init__(obj)
-        super().setAxialMethod(relativePosition)
-
-    # ExternalComponent has aerodynamic effect, so return true.
-    def isAerodynamic(self):
-        return True
-
-    # ExternalComponent has effect on the mass, so return true.
-    def isMassive(self):
-        return True
-
-    def getFinish(self):
-        return self.finish
-
-    def setFinish(self, finish):
-        for listener in self._configListeners:
-            if isinstance(listener, ExternalComponent):
-                listener.setFinish(finish)
-
-        if self.finish == finish:
-            return
-        self.finish = finish
-
-        self.fireComponentChangeEvent(ComponentChangeEvent.AERODYNAMIC_CHANGE)
+        super().__init__(obj, relativePosition)
