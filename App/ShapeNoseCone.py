@@ -306,6 +306,21 @@ class ShapeNoseCone(SymmetricComponent):
     def setLength(self, length):
         self._obj.Length = length
 
+    def isFilled(self):
+        return False
+
+    def setFilled(self, filled):
+        for listener in self._configListeners:
+            if isinstance(listener, SymmetricComponent):
+                listener.setFilled(filled)
+
+        # if self.isFilled():
+        #     return
+
+        # self._obj.Filled = filled
+        # self.fireComponentChangeEvent(ComponentChangeEvent.MASS_CHANGE)
+        # self.clearPreset()
+
     def getMaxForwardPosition(self):
         if TRACE_POSITION:
             print("P: ShapeNoseCone::getMaxForwardPosition(%s)" % (self._obj.Label))

@@ -205,7 +205,9 @@ class ShapeComponent(ShapeBase, ChangeSource):
     def updateChildren(self):
         self.update()
         for child in self._obj.Group:
-            child.Proxy.updateChildren()
+            if hasattr(child, "Proxy"):
+                # Sketches for custom fins won't have a proxy
+                child.Proxy.updateChildren()
 
     #  Called when any component in the tree fires a ComponentChangeEvent.  This is by
     #  default a no-op, but subclasses may override this method to e.g. invalidate

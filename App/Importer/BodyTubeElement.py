@@ -42,6 +42,7 @@ class MotorMountElement(BodyComponentElement):
                               })
         self._knownTags.extend(["overhang", "ignitionevent", "ignitiondelay"])
 
+    def makeObject(self):
         if self._parentObj is not None:
             self._obj = self._parentObj
             print("MotorMount parent %s" % (self._parentObj.Label))
@@ -64,6 +65,7 @@ class BodyTubeElement(SymmetricComponentElement):
                               })
         self._knownTags.extend(["radius", "outerradius"]) #, "motormount"]
 
+    def makeObject(self):
         self._obj = makeBodyTube()
         if self._parentObj is not None:
             self._parentObj.addObject(self._obj)

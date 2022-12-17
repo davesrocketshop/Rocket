@@ -38,6 +38,7 @@ class TubeFinsetElement(FinsetElement):
 
         self._knownTags = ["fincount", "rotation", "thickness", "length", "radius", "instancecount", "angleoffset", "radiusoffset"]
 
+    def makeObject(self):
         self._obj = makeFin()
         self._obj.FinType = FIN_TYPE_TUBE
 

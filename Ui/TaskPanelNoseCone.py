@@ -39,7 +39,7 @@ from App.Constants import STYLE_CAPPED, STYLE_HOLLOW, STYLE_SOLID
 from App.Constants import STYLE_CAP_SOLID, STYLE_CAP_BAR, STYLE_CAP_CROSS
 from App.Constants import COMPONENT_TYPE_NOSECONE
 
-from App.Utilities import _toFloat, _valueWithUnits
+from App.Utilities import _toFloat, _valueWithUnits, _valueOnly
 
 class _NoseConeDialog(QDialog):
 
@@ -314,12 +314,10 @@ class TaskPanelNoseCone:
         self._obj.NoseStyle = str(self._noseForm.noseStylesCombo.currentText())
         self._obj.CapStyle = str(self._noseForm.noseCapStylesCombo.currentText())
         self._obj.CapBarWidth = self._noseForm.noseCapBarWidthInput.text()
-        self._obj.Length = self._noseForm.lengthInput.text()
-        # self._obj.Diameter = self._noseForm.diameterInput.text()
+        self._obj.Proxy.setLength(FreeCAD.Units.Quantity(self._noseForm.lengthInput.text()).Value)
         self._obj.Proxy.setAftDiameter(FreeCAD.Units.Quantity(self._noseForm.diameterInput.text()).Value)
-        # self._obj.AutoDiameter = self._noseForm.autoDiameterCheckbox.isChecked()
         self._obj.Proxy.setAftDiameterAutomatic(self._noseForm.autoDiameterCheckbox.isChecked())
-        self._obj.Thickness = self._noseForm.thicknessInput.text()
+        self._obj.Proxy.setThickness(FreeCAD.Units.Quantity(self._noseForm.thicknessInput.text()).Value)
         self._obj.Coefficient = _toFloat(self._noseForm.coefficientInput.text())
         self._obj.BluntedDiameter = self._noseForm.bluntedInput.text()
         self._obj.OgiveDiameter = self._noseForm.ogiveDiameterInput.text()
@@ -394,7 +392,7 @@ class TaskPanelNoseCone:
     def _setLengthState(self):
         value = self._obj.NoseType
         if value == TYPE_SPHERICAL:
-            self._obj.Length = float(self._obj.Diameter) / 2.0
+            self._obj.Proxy.setLength(float(self._obj.Diameter) / 2.0)
             self._noseForm.lengthInput.setText("%f" % self._obj.Length)
             self._noseForm.lengthInput.setEnabled(False)
         else:
@@ -460,7 +458,7 @@ class TaskPanelNoseCone:
         
     def onLength(self, value):
         try:
-            self._obj.Length = FreeCAD.Units.Quantity(value).Value
+            self._obj.Proxy.setLength(FreeCAD.Units.Quantity(value).Value)
             self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
@@ -474,7 +472,6 @@ class TaskPanelNoseCone:
         
     def onDiameter(self, value):
         try:
-            # self._obj.Diameter = FreeCAD.Units.Quantity(value).Value
             self._obj.Proxy.setAftDiameter(FreeCAD.Units.Quantity(value).Value)
             self._obj.Proxy.setAftDiameterAutomatic(False)
             self._obj.Proxy.execute(self._obj)
@@ -497,7 +494,7 @@ class TaskPanelNoseCone:
          
     def onThickness(self, value):
         try:
-            self._obj.Thickness = FreeCAD.Units.Quantity(value).Value
+            self._obj.Proxy.setThickness(FreeCAD.Units.Quantity(value).Value)
             self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
@@ -590,10 +587,9 @@ class TaskPanelNoseCone:
 
         self._obj.NoseType = str(result["shape"])
         self._obj.NoseStyle = str(result["style"])
-        self._obj.Length = _valueWithUnits(result["length"], result["length_units"])
-        # self._obj.Diameter = _valueWithUnits(result["diameter"], result["diameter_units"])
-        self._obj.Proxy.setAftDiameter(_valueWithUnits(result["diameter"], result["diameter_units"]))
-        self._obj.Thickness = _valueWithUnits(result["thickness"], result["thickness_units"])
+        self._obj.Proxy.setLength(_valueOnly(result["length"], result["length_units"]))
+        self._obj.Proxy.setAftDiameter(_valueOnly(result["diameter"], result["diameter_units"]))
+        self._obj.Proxy.setThickness(_valueOnly(result["thickness"], result["thickness_units"]))
         # self._obj.Coefficient = _toFloat(self._noseForm.coefficientInput.text())
         # self._obj.BluntedDiameter = _valueWithUnits("0", "mm")
         self._obj.ShoulderDiameter = _valueWithUnits(result["shoulder_diameter"], result["shoulder_diameter_units"])

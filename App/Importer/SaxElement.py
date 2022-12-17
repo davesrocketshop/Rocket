@@ -24,6 +24,8 @@ __title__ = "FreeCAD XML SAX Element"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
+from abc import ABC, abstractmethod
+
 from App.Utilities import _msg, _err
 
 class Element:
@@ -40,6 +42,12 @@ class Element:
 
         self._parentObj = parentObj
         self._obj = None
+
+        self.makeObject()
+
+    @abstractmethod
+    def makeObject(self):
+        pass
 
     def end(self):
         return self._parent

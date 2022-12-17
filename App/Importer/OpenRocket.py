@@ -42,6 +42,8 @@ from App.Importer.ComponentElement import ComponentElement
 from App.Importer.SubElement import SubElement
 from App.Importer.NoseElement import NoseElement
 
+from App.events.ComponentChangeEvent import ComponentChangeEvent
+
 from App.Utilities import _msg
 
 from Ui.Commands.CmdRocket import makeRocket
@@ -92,6 +94,10 @@ class RocketElement(ComponentElement):
     def onComment(self, content):
         # FreeCAD.ActiveDocument.Comment = content
         self._obj.Description = content
+
+    def end(self):
+        self._obj.Proxy.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
+        return self._parent
 
 class OpenRocketImporter(xml.sax.ContentHandler):
     def __init__(self, filename):

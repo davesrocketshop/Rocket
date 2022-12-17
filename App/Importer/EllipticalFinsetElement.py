@@ -38,6 +38,7 @@ class EllipticalFinsetElement(FinsetElement):
 
         self._knownTags.extend(["rootchord", "height"])
 
+    def makeObject(self):
         self._obj = makeFin()
         self._obj.FinType = FIN_TYPE_ELLIPSE
 

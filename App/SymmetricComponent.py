@@ -120,7 +120,7 @@ class SymmetricComponent(ShapeComponent, BoxBounded, RadialParent):
             self._obj.Thickness = MathUtil.clamp(thickness, 0, self.getMaxRadius())
         else:
             self._obj.Thickness = thickness
-        self._obj.Filled = False
+        self.setFilled(False)
 
         self.fireComponentChangeEvent(ComponentChangeEvent.MASS_CHANGE)
         self.clearPreset()

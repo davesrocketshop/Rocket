@@ -84,6 +84,8 @@ class ShapeRocket(ShapeComponentAssembly, ComponentChangeListener):
         self._treeModID = modID
         self._functionalModID = modID
 
+        self._listenerList = []
+        self._stageMap = {}
         self.addComponentChangeListener(self)
         self._eventsEnabled = True
         
@@ -283,7 +285,7 @@ class ShapeRocket(ShapeComponentAssembly, ComponentChangeListener):
         return len(self._configSet)
 
     def resetListeners(self):
-        self._listenerList = {}
+        self._listenerList = []
 
     def addComponentChangeListener(self, l):
         self.checkState()

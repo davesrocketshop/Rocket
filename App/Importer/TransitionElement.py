@@ -47,6 +47,7 @@ class TransitionElement(SymmetricComponentElement):
                 "foreradius", "aftradius", "aftouterdiameter", "foreshoulderradius", "foreshoulderdiameter", "foreshoulderlength", "foreshoulderthickness", "foreshouldercapped", 
                 "aftshoulderradius", "aftshoulderdiameter", "aftshoulderlength", "aftshoulderthickness", "aftshouldercapped"])
 
+    def makeObject(self):
         self._obj = makeTransition()
         if self._parentObj is not None:
             self._parentObj.addObject(self._obj)

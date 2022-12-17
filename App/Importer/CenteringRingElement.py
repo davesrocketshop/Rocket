@@ -37,6 +37,7 @@ class CenteringRingElement(RingComponentElement):
 
         self._knownTags.extend(["outerradius", "innerradius"])
 
+    def makeObject(self):
         self._obj = makeCenteringRing()
         if self._parentObj is not None:
             self._parentObj.addObject(self._obj)

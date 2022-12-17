@@ -37,9 +37,7 @@ class StageElement(ComponentElement):
         self._validChildren = { 'subcomponents' : Importer.SubElement.SubElement,
                               }
 
+    def makeObject(self):
         self._obj = makeStage()
         if self._parentObj is not None:
             self._parentObj.addObject(self._obj)
-
-    def onName(self, content):
-            self._obj.Label = content

@@ -95,6 +95,7 @@ class FreeformFinsetElement(FinsetElement):
         self._validChildren.update({ 'finpoints' : FreeformFinpoints,
                               })
 
+    def makeObject(self):
         self.sketch = newSketchNoEdit()
         self._obj = makeFin()
         self._obj.FinType = FIN_TYPE_SKETCH

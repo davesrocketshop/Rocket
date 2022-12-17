@@ -41,6 +41,7 @@ class LaunchLugElement(ExternalComponentElement):
         #                       })
         self._knownTags.extend(["instancecount", "instanceseparation", "radialdirection", "angleoffset", "radius", "outerradius", "length", "thickness"])
 
+    def makeObject(self):
         self._obj = makeBodyTube()
         if self._parentObj is not None:
             self._parentObj.addObject(self._obj)

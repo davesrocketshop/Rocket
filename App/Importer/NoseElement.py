@@ -48,6 +48,7 @@ class NoseElement(TransitionElement):
         self._knownTags.remove("foreshoulderthickness")
         self._knownTags.remove("foreshouldercapped")
 
+    def makeObject(self):
         self._obj = makeNoseCone()
         if self._parentObj is not None:
             self._parentObj.addObject(self._obj)

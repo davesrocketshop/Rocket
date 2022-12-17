@@ -38,6 +38,7 @@ class TrapezoidalFinsetElement(FinsetElement):
 
         self._knownTags.extend(["rootchord", "tipchord", "sweeplength", "height"])
 
+    def makeObject(self):
         self._obj = makeFin()
         self._obj.FinType = FIN_TYPE_TRAPEZOID
 
