@@ -238,7 +238,7 @@ class ShapeNoseCone(SymmetricComponent):
             return
 
         self._obj.AutoDiameter = False
-        self.Diameter = max(diameter, 0)
+        self._obj.Diameter = max(diameter, 0)
 
         # ????
         # if (this.thickness > this.foreRadius && this.thickness > this.aftRadius)
@@ -255,6 +255,9 @@ class ShapeNoseCone(SymmetricComponent):
         return self._obj.AutoDiameter
 
     def setAftRadiusAutomatic(self, auto):
+        self.setAftDiameterAutomatic(auto)
+
+    def setAftDiameterAutomatic(self, auto):
         for listener in self._configListeners:
             if isinstance(listener, ShapeNoseCone):
                 listener.setAftRadiusAutomatic(auto)
@@ -264,7 +267,7 @@ class ShapeNoseCone(SymmetricComponent):
 
         self._obj.AutoDiameter = auto
 
-        # clearPreset();
+        self.clearPreset()
         self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
 
     def getLength(self):

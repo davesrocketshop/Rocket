@@ -33,6 +33,7 @@ from App.position import AxialMethod
 from App.position.AxialPositionable import AxialPositionable
 from App.util import Coordinate
 from App.util.BoundingBox import BoundingBox
+from App.ShapeBase import TRACE_POSITION
 from App.ShapeComponent import ShapeComponent
 # from App.ShapeBodyTube import ShapeBodyTube
 # from App.ShapeNoseCone import ShapeNoseCone
@@ -151,6 +152,9 @@ class ShapeComponentAssembly(ShapeComponent, AxialPositionable):
         return False
 
     def update(self):
+        if TRACE_POSITION:
+            print("P: ShapeComponentAssembly::update(%s)" % (self._obj.Label))
+
         self.updateBounds()
         if self.isAfter():
             self.setAfter()
@@ -164,7 +168,7 @@ class ShapeComponentAssembly(ShapeComponent, AxialPositionable):
         self._length = 0
         for  curChild in self.getChildren():
             if curChild.Proxy.isAfter():
-                self._length += curChild.Proxy.getLength()
+                self._length += float(curChild.Proxy.getLength())
 
     def updateChildSequence(self):
         for  curChild in self.getChildren():

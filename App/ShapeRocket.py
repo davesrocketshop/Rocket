@@ -46,12 +46,12 @@ from App.ShapeBase import TRACE_POSITION, TRACE_EXECUTION
 from App.ShapeComponentAssembly import ShapeComponentAssembly
 from App.Constants import FEATURE_ROCKET, FEATURE_STAGE
 
-class ShapeRocket(ShapeComponentAssembly):
+class ShapeRocket(ShapeComponentAssembly, ComponentChangeListener):
 
     """
     List of component change listeners.
     """
-    _listenerList = {}
+    _listenerList = []
 
     """
     When freezeList != null, events are not dispatched but stored in the list.
@@ -78,11 +78,14 @@ class ShapeRocket(ShapeComponentAssembly):
 
         self.setAxialMethod(AxialMethod.ABSOLUTE)
 
-        modID = UniqueID.next();
-        self._massModID = modID;
-        self._aeroModID = modID;
-        self._treeModID = modID;
-        self._functionalModID = modID;
+        modID = UniqueID.next()
+        self._massModID = modID
+        self._aeroModID = modID
+        self._treeModID = modID
+        self._functionalModID = modID
+
+        self.addComponentChangeListener(self)
+        self._eventsEnabled = True
         
     def execute(self,obj):
         if TRACE_EXECUTION:
@@ -238,8 +241,8 @@ class ShapeRocket(ShapeComponentAssembly):
 
         self.fireComponentChangeEvent(ComponentChangeEvent.NONFUNCTIONAL_CHANGE)
 
-    def getLength(self):
-        return self._selectedConfiguration.getLength()
+    # def getLength(self):
+    #     return self._selectedConfiguration.getLength()
 	
 	
     def getCustomReferenceLength(self):
@@ -291,7 +294,11 @@ class ShapeRocket(ShapeComponentAssembly):
         self._listenerList.remove(l)
 
     def fireComponentChangeEvent(self, cce):
+        if TRACE_POSITION:
+            print("P: ShapeRocket::fireComponentChangeEvent(%s)" % (self._obj.Label))
+
         if not self._eventsEnabled:
+            print("\tevents not enabled")
             return
         
         #mutex.lock("fireComponentChangeEvent");
@@ -299,20 +306,21 @@ class ShapeRocket(ShapeComponentAssembly):
         self.checkState()
         
         # Update modification ID's only for normal (not undo/redo) events
-        if not cce.isUndoChange():
-            self._modID = UniqueID.next()
-            if cce.isMassChange():
-                self._massModID = self._modID
-            if cce.isAerodynamicChange():
-                self._aeroModID = self._modID
-            if cce.isTreeChange():
-                self._treeModID = self._modID
-            if cce.isFunctionalChange():
-                self._functionalModID = self._modID
+        # if not cce.isUndoChange():
+        #     self._modID = UniqueID.next()
+        #     if cce.isMassChange():
+        #         self._massModID = self._modID
+        #     if cce.isAerodynamicChange():
+        #         self._aeroModID = self._modID
+        #     if cce.isTreeChange():
+        #         self._treeModID = self._modID
+        #     if cce.isFunctionalChange():
+        #         self._functionalModID = self._modID
         
         # Check whether frozen
         if self._freezeList is not None:
             # log.debug("Rocket is in frozen state, adding event " + cce + " info freeze list");
+            print("\tevents frozen")
             self._freezeList.append(cce)
             return
 
@@ -320,7 +328,7 @@ class ShapeRocket(ShapeComponentAssembly):
         # Notify all components first
         self.componentChanged(cce)
         for item in self.getChildren():
-            item.componentChanged(cce)
+            item.Proxy.componentChanged(cce)
         self.updateConfigurations()
 
         self.notifyAllListeners(cce)
@@ -332,6 +340,7 @@ class ShapeRocket(ShapeComponentAssembly):
         self.updateStageNumbers()
         self.updateStageMap()
         self.updateConfigurations()
+        # self.updateChildren()
 
     """ Update all the stage numbers based on their position in the component tree """
     def updateStageNumbers(self):
@@ -346,8 +355,9 @@ class ShapeRocket(ShapeComponentAssembly):
             self.trackStage(stage)
 
     def updateConfigurations(self):
-        for config in self._configSet:
-            config.update()
+        # for config in self._configSet:
+        #     config.update()
+        pass
 
     def notifyAllListeners(self, cce):
         # Copy the list before iterating to prevent concurrent modification exceptions.

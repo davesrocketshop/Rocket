@@ -161,9 +161,12 @@ class TaskPanelBodyTube:
         
     def transferTo(self):
         "Transfer from the dialog to the object" 
-        self._obj.OuterDiameter = self._btForm.odInput.text()
-        self._obj.AutoDiameter = self._btForm.autoDiameterCheckbox.isChecked()
-        self._obj.Thickness = self._btForm.thicknessInput.text()
+        # self._obj.OuterDiameter = self._btForm.odInput.text()
+        self._obj.Proxy.setOuterDiameter(FreeCAD.Units.Quantity(self._btForm.odInput.text()).Value)
+        # self._obj.AutoDiameter = self._btForm.autoDiameterCheckbox.isChecked()
+        self._obj.Proxy.setOuterDiameterAutomatic(self._btForm.autoDiameterCheckbox.isChecked())
+        # self._obj.Thickness = self._btForm.thicknessInput.text()
+        self._obj.Proxy.setThickness(FreeCAD.Units.Quantity(self._btForm.thicknessInput.text()).Value)
         self._obj.Length = self._btForm.lengthInput.text()
         self._obj.MotorMount = self._btForm.motorGroup.isChecked()
         self._obj.Overhang = self._btForm.overhangInput.text()
@@ -218,9 +221,11 @@ class TaskPanelBodyTube:
         if od > 0.0:
             id = FreeCAD.Units.Quantity(value).Value
             thickness = (od - id) / 2.0
-            self._obj.Thickness = FreeCAD.Units.Quantity(thickness).Value
+            # self._obj.Thickness = FreeCAD.Units.Quantity(thickness).Value
+            self._obj.Proxy.setThickness(FreeCAD.Units.Quantity(thickness).Value)
         else:
-            self._obj.Thickness = FreeCAD.Units.Quantity(0.0).Value
+            # self._obj.Thickness = FreeCAD.Units.Quantity(0.0).Value
+            self._obj.Proxy.setThickness(FreeCAD.Units.Quantity(0.0).Value)
         self._btForm.thicknessInput.setText(self._obj.Thickness.UserString)
         
     def onId(self, value):
@@ -241,7 +246,8 @@ class TaskPanelBodyTube:
         
     def onThickness(self, value):
         try:
-            self._obj.Thickness = FreeCAD.Units.Quantity(value).Value
+            # self._obj.Thickness = FreeCAD.Units.Quantity(value).Value
+            self._obj.Proxy.setThickness(FreeCAD.Units.Quantity(value).Value)
             self._setIdFromThickness()
             self._obj.Proxy.execute(self._obj)
         except ValueError:
@@ -283,8 +289,10 @@ class TaskPanelBodyTube:
         result = self._db.getLookupResult()
 
         diameter = _valueOnly(result["inner_diameter"], result["inner_diameter_units"])
-        self._obj.OuterDiameter = _valueWithUnits(result["outer_diameter"], result["outer_diameter_units"])
-        self._obj.Thickness = (self._obj.OuterDiameter.Value - diameter) / 2.0
+        # self._obj.OuterDiameter = _valueWithUnits(result["outer_diameter"], result["outer_diameter_units"])
+        self._obj.Proxy.setOuterDiameter(_valueWithUnits(result["outer_diameter"], result["outer_diameter_units"]))
+        # self._obj.Thickness = (self._obj.OuterDiameter.Value - diameter) / 2.0
+        self._obj.Proxy.setThickness((self._obj.OuterDiameter.Value - diameter) / 2.0)
         self._obj.Length = _valueWithUnits(result["length"], result["length_units"])
 
         self.update()

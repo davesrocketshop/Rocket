@@ -31,6 +31,7 @@ import copy
 from PySide.QtCore import QObject, Signal
 from App.Utilities import _err
 from App.Constants import PROP_NORECOMPUTE
+from App.events.ComponentChangeEvent import ComponentChangeEvent
 
 # Set to True when debugging
 TRACE_POSITION = True
@@ -317,7 +318,8 @@ class ShapeBase():
         # Move the part up in the tree
         if self.getParent() is not None:
             self.getParent()._moveChildUp(self._obj)
-            self.reposition()
+            # self.reposition()
+            self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
 
     def _moveChildUp(self, obj):
         if hasattr(self._obj, "Group"):
@@ -376,7 +378,8 @@ class ShapeBase():
         # Move the part up in the tree
         if self.getParent() is not None:
             self.getParent()._moveChildDown(self._obj)
-            self.reposition()
+            # self.reposition()
+            self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
 
     def _moveChildDown(self, obj):
         if hasattr(self._obj, "Group"):

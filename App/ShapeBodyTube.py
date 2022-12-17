@@ -104,11 +104,28 @@ class ShapeBodyTube(SymmetricComponent, BoxBounded, Coaxial):
         # Return the length of this component along the central axis
         return self._obj.Length
 
-    def setLength(self, length):
-        self._obj.Length = length
+    # def setLength(self, length):
+    #     self._obj.Length = length
 
-    def setThickness(self, thickness):
-        self._obj.Thickness = thickness
+    """
+        Sets the length of the body component.
+        
+        Note: This should be overridden by the subcomponents which need to call
+        clearPreset().  (BodyTube allows changing length without resetting the preset.)
+    """
+    def setLength(self, length):
+        for listener in self._configListeners:
+            if isinstance(listener, ShapeBodyTube):
+                listener.setLength(length)
+
+        if self._obj.Length == length:
+            return
+
+        self._obj.Length = max(length, 0)
+        self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
+
+    # def setThickness(self, thickness):
+    #     self._obj.Thickness = thickness
 
     def setOuterRadius(self, diameter):
         self._obj.OuterDiameter = diameter
@@ -192,7 +209,7 @@ class ShapeBodyTube(SymmetricComponent, BoxBounded, Coaxial):
         return float(self._obj.OuterDiameter) / 2.0 - float(self._obj.Thickness)
 
     def setInnerRadius(self, radius):
-        self.setInnerRadius(radius * 2.0)
+        self.setInnerDiameter(radius * 2.0)
 
     def setInnerDiameter(self, diameter):
         if TRACE_POSITION:

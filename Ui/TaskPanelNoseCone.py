@@ -315,8 +315,10 @@ class TaskPanelNoseCone:
         self._obj.CapStyle = str(self._noseForm.noseCapStylesCombo.currentText())
         self._obj.CapBarWidth = self._noseForm.noseCapBarWidthInput.text()
         self._obj.Length = self._noseForm.lengthInput.text()
-        self._obj.Diameter = self._noseForm.diameterInput.text()
-        self._obj.AutoDiameter = self._noseForm.autoDiameterCheckbox.isChecked()
+        # self._obj.Diameter = self._noseForm.diameterInput.text()
+        self._obj.Proxy.setAftDiameter(FreeCAD.Units.Quantity(self._noseForm.diameterInput.text()).Value)
+        # self._obj.AutoDiameter = self._noseForm.autoDiameterCheckbox.isChecked()
+        self._obj.Proxy.setAftDiameterAutomatic(self._noseForm.autoDiameterCheckbox.isChecked())
         self._obj.Thickness = self._noseForm.thicknessInput.text()
         self._obj.Coefficient = _toFloat(self._noseForm.coefficientInput.text())
         self._obj.BluntedDiameter = self._noseForm.bluntedInput.text()
@@ -472,8 +474,9 @@ class TaskPanelNoseCone:
         
     def onDiameter(self, value):
         try:
-            self._obj.Diameter = FreeCAD.Units.Quantity(value).Value
-            self._obj.AutoDiameter = False
+            # self._obj.Diameter = FreeCAD.Units.Quantity(value).Value
+            self._obj.Proxy.setAftDiameter(FreeCAD.Units.Quantity(value).Value)
+            self._obj.Proxy.setAftDiameterAutomatic(False)
             self._obj.Proxy.execute(self._obj)
 
             self._setLengthState() # Update for spherical noses
@@ -486,7 +489,7 @@ class TaskPanelNoseCone:
         self._noseForm.autoDiameterCheckbox.setChecked(self._obj.AutoDiameter)
 
     def onAutoDiameter(self, value):
-        self._obj.AutoDiameter = value
+        self._obj.Proxy.setAftDiameterAutomatic(value)
         self._setAutoDiameterState()
 
         self._obj.Proxy.execute(self._obj)
@@ -588,7 +591,8 @@ class TaskPanelNoseCone:
         self._obj.NoseType = str(result["shape"])
         self._obj.NoseStyle = str(result["style"])
         self._obj.Length = _valueWithUnits(result["length"], result["length_units"])
-        self._obj.Diameter = _valueWithUnits(result["diameter"], result["diameter_units"])
+        # self._obj.Diameter = _valueWithUnits(result["diameter"], result["diameter_units"])
+        self._obj.Proxy.setAftDiameter(_valueWithUnits(result["diameter"], result["diameter_units"]))
         self._obj.Thickness = _valueWithUnits(result["thickness"], result["thickness_units"])
         # self._obj.Coefficient = _toFloat(self._noseForm.coefficientInput.text())
         # self._obj.BluntedDiameter = _valueWithUnits("0", "mm")

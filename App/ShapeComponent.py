@@ -205,15 +205,19 @@ class ShapeComponent(ShapeBase, ChangeSource):
     def updateChildren(self):
         self.update()
         for child in self._obj.Group:
-            child.updateChildren()
+            child.Proxy.updateChildren()
 
     #  Called when any component in the tree fires a ComponentChangeEvent.  This is by
     #  default a no-op, but subclasses may override this method to e.g. invalidate
     #  cached data.  The overriding method *must* call
     #  <code>super.componentChanged(e)</code> at some point.
     def componentChanged(self, event):
+        if TRACE_POSITION:
+            print("P: ShapeComponent::componentChanged(%s)" % (self._obj.Label))
+
         self.checkState()
-        self.update()
+        # self.update()
+        self.updateChildren()
 
     """
         Return true if any of this component's children are a RecoveryDevice
@@ -376,7 +380,7 @@ class ShapeComponent(ShapeBase, ChangeSource):
 
     def setAxialOffset(self, _pos):
         self.updateBounds()
-        super._setAxialOffset(self.axialMethod, _pos)
+        self._setAxialOffset(self.axialMethod, _pos)
         self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
 	
     """  Get the positioning of the component relative to its parent component. """
@@ -422,7 +426,11 @@ class ShapeComponent(ShapeBase, ChangeSource):
         self.fireComponentChangeEvent(type);
 
     def fireComponentChangeEvent(self, event):
-        self.setEdited(event)
+        self.checkState()
+        if self.getParent() is None: # or self._bypassComponentChangeEvent:
+            return
+
+        self.getRoot().fireComponentChangeEvent(event)
 
     def getAxialOffsetFromMethod(self, method):
         parentLength = 0
@@ -464,10 +472,12 @@ class ShapeComponent(ShapeBase, ChangeSource):
         elif math.isnan(newX):
             raise Exception("setAxialOffset is broken -- attempted to update as NaN: ") # + this.toDebugDetail());
 
+        print("\tnewX %g" % newX)
+
         # store for later:
         self._obj.AxialMethod = method
         self._obj.AxialOffset = newAxialOffset
-        self._obj.Placement.x = newX
+        self._obj.Placement.Base.x = newX
 
     def onConfigListener(self, event):
         pass
@@ -598,15 +608,18 @@ class ShapeComponent(ShapeBase, ChangeSource):
 
     # Check whether the list contains exactly the searched-for component (with == operator)
     def containsExact(self, haystack, needle):
-        print("Haystack %s, needle %s" % (str(type(haystack)), str(type((needle)))))
+        # print("Haystack %s, needle %s" % (str(type(haystack)), str(type((needle)))))
         for c in haystack:
-            print("\tHaystack %s, c %s" % (str(type(haystack)), str(type((c)))))
+            # print("\tHaystack %s, c %s" % (str(type(haystack)), str(type((c)))))
             if needle == c.Proxy:
                 return True
 
         return False
 
     def setAfter(self):
+        if TRACE_POSITION:
+            print("P: ShapeComponent::setAfter(%s)" % (self._obj.Label))
+
         self.checkState()
         
         if self.getParent() is None:
@@ -619,14 +632,16 @@ class ShapeComponent(ShapeBase, ChangeSource):
         # if first component in the stage. => position from the top of the parent
         thisIndex = self.getParent().getChildIndex(self)
         if thisIndex == 0:
-            self._obj.Position.x = 0.0
+            self._obj.Placement.Base.x = 0.0
+            # self._obj.Placement.Base.x = -float(self.getLength())
         elif 0 < thisIndex:
             referenceComponent = self.getParent()._getChild( thisIndex - 1 )
         
-            refLength = referenceComponent.getLength()
-            refRelX = referenceComponent.Position.x
+            refLength = float(referenceComponent.Proxy.getLength())
+            refRelX = float(referenceComponent.Placement.Base.x)
 
-            self._obj.Position.x = refRelX + refLength
+            self._obj.Placement.Base.x = refRelX + refLength
+            # self._obj.Placement.Base.x = refRelX - (refLength + float(self.getLength()))
 
     # Returns the position of the child in this components child list, or -1 if the
     # component is not a child of this component.
@@ -634,7 +649,7 @@ class ShapeComponent(ShapeBase, ChangeSource):
         try:
             self.checkState()
             self.checkComponentStructure()
-            return self.getChildren().index(child)
+            return self.getChildren().index(child._obj)
         except ValueError:
             pass
         return -1
@@ -681,7 +696,7 @@ class ShapeComponent(ShapeBase, ChangeSource):
     def getInstanceLocations(self):
         self.checkState()
 
-        center = self._obj.Position
+        center = self._obj.Placement
         offsets = self.getInstanceOffsets()
 
         locations = []
