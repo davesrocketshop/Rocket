@@ -107,8 +107,8 @@ class ShapeLaunchLug(Tube, AnglePositionable, BoxBounded):
         if self._obj.OuterDiameter == diameter:
             return
 
-        self._obj.OuterDiameter = diameter;
-        self._obj.Thickness = min(self._obj.Thickness, self._obj.OuterDiameter / 2.0);
+        self._obj.OuterDiameter = diameter
+        self._obj.Thickness = min(self._obj.Thickness, self._obj.OuterDiameter / 2.0)
         self.clearPreset()
         self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
 
@@ -126,7 +126,8 @@ class ShapeLaunchLug(Tube, AnglePositionable, BoxBounded):
             if isinstance(listener, ShapeLaunchLug):
                 listener.setInnerDiameter(diameter)
 
-        self.setOuterRadius(diameter + 2.0 * self._obj.Thickness)
+        # self.setOuterDiameter(float(diameter) + 2.0 * float(self._obj.Thickness))
+        self.setThickness((float(self._obj.OuterDiameter) - float(diameter)) / 2.0)
 
     def getThickness(self):
         return self._obj.Thickness

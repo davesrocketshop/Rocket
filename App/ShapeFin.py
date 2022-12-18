@@ -45,6 +45,8 @@ from App.ShapeHandlers.FinEllipseShapeHandler import FinEllipseShapeHandler
 from App.ShapeHandlers.FinSketchShapeHandler import FinSketchShapeHandler
 from App.ShapeHandlers.FinTubeShapeHandler import FinTubeShapeHandler
 
+from App.Utilities import _err, _toFloat
+
 from DraftTools import translate
 
 DEBUG_SKETCH_FINS = 0 # Set > 0 when debugging sketch based fins
@@ -156,11 +158,6 @@ class ShapeFin(ShapeLocation):
 
         self._setFinEditorVisibility()
 
-    def sweepAngleFromLength(self):
-        length = float(self._obj.SweepLength)
-        theta = 90.0 - math.degrees(math.atan2(float(self._obj.Height), length))
-        self._obj.SweepAngle = theta
-
     def _setFinEditorVisibility(self):
         # self._obj.setEditorMode('FinSet', EDITOR_HIDDEN)  # hide
         # self._obj.setEditorMode('FinCount', EDITOR_HIDDEN)  # show
@@ -201,6 +198,77 @@ class ShapeFin(ShapeLocation):
 
         # For placing objects on the outer part of the parent
         return float(self._obj.ParentRadius + self._obj.Height)
+
+    def getFinCount(self):
+        return self._obj.FinCount
+
+    def setFinCount(self, count):
+        self._obj.FinCount = count
+
+    def getRootChord(self):
+        return self._obj.RootChord
+
+    def setRootChord(self, chord):
+        self._obj.RootChord = chord
+
+    def getRootThickness(self):
+        return self._obj.RootThickness
+
+    def setRootThickness(self, thickness):
+        self._obj.RootThickness = thickness
+
+    def getTipChord(self):
+        return self._obj.TipChord
+
+    def setTipChord(self, chord):
+        self._obj.TipChord = chord
+
+    def getTipThickness(self):
+        return self._obj.TipThickness
+
+    def setTipThickness(self, thickness):
+        self._obj.TipThickness = thickness
+
+    def getThickness(self):
+        return self._obj.RootThickness
+
+    def setThickness(self, thickness):
+        self._obj.RootThickness = thickness
+        self._obj.TipThickness = thickness
+
+    def getHeight(self):
+        return self._obj.Height
+
+    def setHeight(self, height):
+        self._obj.Height = height
+
+    def getSweepLength(self):
+        return self._obj.SweepLength
+
+    def setSweepLength(self, length):
+        self._obj.SweepLength = length
+        self.sweepAngleFromLength()
+
+    def sweepAngleFromLength(self):
+        length = float(self._obj.SweepLength)
+        theta = 90.0 - math.degrees(math.atan2(float(self._obj.Height), length))
+        self._obj.SweepAngle = theta
+
+    def getSweepAngle(self):
+        return self._obj.SweepAngle
+
+    def setSweepAngle(self, angle):
+        self._obj.SweepAngle = angle
+        self.sweepLengthFromAngle()
+
+    def sweepLengthFromAngle(self):
+        theta = _toFloat(self._obj.SweepAngle)
+        if theta <= -90.0 or theta >= 90.0:
+            _err("Sweep angle must be greater than -90 and less than +90")
+            return
+        theta = math.radians(-1.0 * (theta + 90.0))
+        length = _toFloat(self._obj.Height) / math.tan(theta)
+        self._obj.SweepLength = length
 
     def execute(self, obj):
         if TRACE_EXECUTION:

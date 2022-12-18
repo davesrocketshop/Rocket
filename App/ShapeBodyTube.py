@@ -332,6 +332,12 @@ class ShapeBodyTube(SymmetricComponent, BoxBounded, Coaxial):
 
         return self.getOuterDiameter()
 
+    def isMotorMount(self):
+        return self._obj.MotorMount
+
+    def setMotorMount(self, mount):
+        self._obj.MotorMount = mount
+
     def usesPreviousCompAutomatic(self):
         return self.isOuterRadiusAutomatic() and (self._refComp == self.getPreviousSymmetricComponent())
 

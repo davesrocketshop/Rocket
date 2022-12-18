@@ -46,8 +46,9 @@ def makeRocket(name='Rocket', makeSustainer=True):
         sustainer.Label = 'Sustainer'
         obj.Proxy.addChild(sustainer)
         FreeCADGui.ActiveDocument.ActiveView.setActiveObject('stage', sustainer)
-    
-    FreeCADGui.ActiveDocument.ActiveView.setActiveObject('rocket', obj)
+    else:
+        FreeCADGui.ActiveDocument.ActiveView.setActiveObject('rocket', obj)
+
     return obj
 
 class CmdRocket:

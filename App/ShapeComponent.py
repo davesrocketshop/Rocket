@@ -46,7 +46,7 @@ from App.Constants import PLACEMENT_AXIAL #, PLACEMENT_RADIAL
 from App.position import AxialMethod
 # from App.position.AxialPositionable import AxialPositionable
 from App.interfaces.ChangeSource import ChangeSource
-from App.util.Coordinate import Coordinate
+from App.util.Coordinate import Coordinate, ZERO
 from App.events.ComponentChangeEvent import ComponentChangeEvent
 
 from DraftTools import translate
@@ -133,6 +133,9 @@ class ShapeComponent(ShapeBase, ChangeSource):
         self.version = '3.0'
 
     def getComponentName(self):
+        return self._obj.Label
+
+    def getName(self):
         return self._obj.Label
 
     def setName(self, name):
@@ -296,7 +299,10 @@ class ShapeComponent(ShapeBase, ChangeSource):
     # of the component's child list.  This is a helper method that calls
     def addChild(self, component):
         self.checkState()
-        self.addChildPosition(component, len(self._obj.Group))
+        if hasattr(component, "_obj"):
+            self.addChildPosition(component._obj, len(self._obj.Group))
+        else:
+            self.addChildPosition(component, len(self._obj.Group))
 
     # Adds a child to the rocket component tree.  The component is added to
     # the given position of the component's child list.
@@ -382,7 +388,7 @@ class ShapeComponent(ShapeBase, ChangeSource):
 
     def setAxialOffset(self, _pos):
         self.updateBounds()
-        self._setAxialOffset(self.axialMethod, _pos)
+        self._setAxialOffset(self._obj.AxialMethod, _pos)
         self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
 	
     """  Get the positioning of the component relative to its parent component. """
@@ -440,9 +446,9 @@ class ShapeComponent(ShapeBase, ChangeSource):
             parentLength = self.getParent().getLength()
 
         if method == AxialMethod.ABSOLUTE:
-            return 0 # this.getComponentLocations()[0].x
+            return self.getComponentLocations()[0].x
         else:
-            return 0 #method.getAsOffset(self._position.x, self._length, parentLength)
+            return method.getAsOffset(self._obj.Placement.Base.x, self.getLength(), parentLength)
 
     def getAxialOffset(self):
         return self._obj.AxialOffset
@@ -698,11 +704,16 @@ class ShapeComponent(ShapeBase, ChangeSource):
     def getInstanceLocations(self):
         self.checkState()
 
-        center = self._obj.Placement
+        # center = self._obj.Position
+        base = self._obj.Placement.Base
+        center = Coordinate(base.x, base.y, base.z)
         offsets = self.getInstanceOffsets()
+
+        print("center %s" % str(center))
 
         locations = []
         for instanceNumber in range(len(offsets)):
+            print("offset[%d] = %s" % (instanceNumber, offsets[instanceNumber]))
             locations.append(center.add(offsets[instanceNumber]))
 
         return locations
@@ -719,6 +730,46 @@ class ShapeComponent(ShapeBase, ChangeSource):
         #     return
         # presetComponent = None
         self.fireComponentChangeEvent(ComponentChangeEvent.NONFUNCTIONAL_CHANGE)
+
+    """
+        Provides locations of all instances of component relative to this component's reference point
+    """
+    def getInstanceOffsets(self):
+        return [ZERO]
+
+    """
+        Provides locations of all instances of component *accounting for all parent instancing*
+         
+        NOTE: the length of this array MAY OR MAY NOT EQUAL this.getInstanceCount()
+           --> RocketComponent::getInstanceCount() counts how many times this component replicates on its own
+           --> vs. the total instance count due to parent assembly instancing
+    """
+    def getComponentLocations(self):
+        if self.getParent() is None:
+            # == improperly initialized components OR the root Rocket instance 
+            return self.getInstanceOffsets()
+        else:
+            parentPositions = self.getParent().getComponentLocations()
+            parentCount = len(parentPositions)
+            
+            # override <instance>.getInstanceLocations() in each subclass
+            instanceLocations = self.getInstanceLocations()
+            instanceCount = len(instanceLocations)
+            
+            # usual case optimization
+            if parentCount == 1 and instanceCount == 1:
+                coordinates = []
+                coordinates.append(parentPositions[0])
+                coordinates.append(instanceLocations[0])
+                return coordinates
+            
+            thesePositions = []
+            for pi in range(parentCount):
+                for ii in range(instanceCount):
+                    print("%d, %s, %s" % (pi + parentCount*ii, parentPositions[pi], instanceLocations[ii]))
+                    thesePositions.insert(pi + parentCount*ii, parentPositions[pi].add(instanceLocations[ii]))
+
+            return thesePositions
 	
 class ShapeLocation(ShapeComponent):
 

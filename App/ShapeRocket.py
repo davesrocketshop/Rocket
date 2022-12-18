@@ -87,7 +87,24 @@ class ShapeRocket(ShapeComponentAssembly, ComponentChangeListener):
         self._listenerList = []
         self._stageMap = {}
         self.addComponentChangeListener(self)
-        self._eventsEnabled = True
+        # self._eventsEnabled = True
+
+    """
+        Enable the monitoring, relay and production of events in this rocket instance.
+    """
+    def enableEvents(self, enable=True):
+        self._enableEvents(enable)
+        self.update()
+
+    def _enableEvents(self, enable):
+        if self._eventsEnabled and enable:
+            return
+        
+        if enable:
+            self._eventsEnabled = True
+            self.fireComponentChangeEvent(ComponentChangeEvent.AEROMASS_CHANGE)
+        else:
+            self._eventsEnabled = False
         
     def execute(self,obj):
         if TRACE_EXECUTION:

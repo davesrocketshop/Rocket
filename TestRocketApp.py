@@ -30,6 +30,8 @@ from Analyzers.FinFlutter import FinFlutter
 from Ui.Commands.CmdFin import makeFin
 from Ui.Commands.CmdFinCan import makeFinCan
 
+from Tests.Components.RocketTest import RocketTest
+
 class RocketTestCases(unittest.TestCase):
 
     def testCoesa76(self):

@@ -176,6 +176,9 @@ class ShapeNoseCone(SymmetricComponent):
             self.addBound(bounds, -self._obj.ShoulderLength, self._obj.ShoulderDiameter / 2.0)
         return bounds
 
+    def setNoseType(self, type):
+        self._obj.NoseType = type
+
     def getRadius(self, x):
         if self._shapeHandler is None:
             self._setShapeHandler()
@@ -276,6 +279,15 @@ class ShapeNoseCone(SymmetricComponent):
 
         # Return the length of this component along the central axis
         return self._obj.Length
+
+    def setShoulderLength(self, length):
+        self._obj.ShoulderLength = length
+
+    def setShoulderRadius(self, radius):
+        self.setShoulderDiameter(radius * 2.0)
+
+    def setShoulderDiameter(self, diameter):
+        self._obj.ShoulderDiameter = diameter
     
     def getFrontAutoRadius(self):
         if self.isAftRadiusAutomatic():
