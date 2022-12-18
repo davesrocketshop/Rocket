@@ -455,7 +455,7 @@ class ShapeComponent(ShapeBase, ChangeSource):
 
     def _setAxialOffset(self, method, newAxialOffset):
         if TRACE_POSITION:
-            print("P: ShapeComponent::_setAxialOffset(%s)" % (self._obj.Label))
+            print("*** P: ShapeComponent::_setAxialOffset(%s)" % (self._obj.Label))
             
         self.checkState()
 
@@ -463,7 +463,7 @@ class ShapeComponent(ShapeBase, ChangeSource):
 
         if self.getParent() is None:
             # best-effort approximation.  this should be corrected later on in the initialization process.
-            newX = newAxialOffset;
+            newX = newAxialOffset
         elif method == AxialMethod.ABSOLUTE:
             # in this case, this is simply the intended result
             newX = newAxialOffset - self.getParent().getComponentLocations()[0].x
@@ -471,12 +471,12 @@ class ShapeComponent(ShapeBase, ChangeSource):
             self.setAfter()
             return
         else:
-            newX = method.getAsPosition(float(newAxialOffset), float(self.getLength()), float(self.getParent().getLength()));
+            newX = method.getAsPosition(float(newAxialOffset), float(self.getLength()), float(self.getParent().getLength()))
 
         # snap to zero if less than the threshold 'EPSILON'
         EPSILON = 0.000001
         if EPSILON > math.fabs(newX):
-            newX = 0.0;
+            newX = 0.0
         elif math.isnan(newX):
             raise Exception("setAxialOffset is broken -- attempted to update as NaN: ") # + this.toDebugDetail());
 
@@ -626,7 +626,7 @@ class ShapeComponent(ShapeBase, ChangeSource):
 
     def setAfter(self):
         if TRACE_POSITION:
-            print("P: ShapeComponent::setAfter(%s)" % (self._obj.Label))
+            print("*** P: ShapeComponent::setAfter(%s)" % (self._obj.Label))
 
         self.checkState()
         
@@ -636,14 +636,20 @@ class ShapeComponent(ShapeBase, ChangeSource):
         
         self.AxialMethod = AxialMethod.AFTER
         self.AxialOffset = 0.0
+
+        # Stages are reversed from OpenRocket
+        count = self.getParent().getChildCount()
         
         # if first component in the stage. => position from the top of the parent
         thisIndex = self.getParent().getChildIndex(self)
-        if thisIndex == 0:
+        print("index %d, count %d" % (thisIndex, count))
+        if thisIndex == (count - 1):
+            print("\t%s base is 0.0" % (self._obj.Label))
             self._obj.Placement.Base.x = 0.0
             # self._obj.Placement.Base.x = -float(self.getLength())
-        elif 0 < thisIndex:
-            referenceComponent = self.getParent()._getChild( thisIndex - 1 )
+        elif 0 <= thisIndex:
+            referenceComponent = self.getParent()._getChild( thisIndex + 1 )
+            print("\t%s reference %s" % (self._obj.Label, referenceComponent.Label))
         
             refLength = float(referenceComponent.Proxy.getLength())
             refRelX = float(referenceComponent.Placement.Base.x)
