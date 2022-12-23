@@ -31,7 +31,7 @@ from DraftTools import translate
 
 from App.ShapeBase import TRACE_POSITION, TRACE_EXECUTION
 from App.ShapeComponentAssembly import ShapeComponentAssembly
-from App.Constants import FEATURE_ROCKET, FEATURE_STAGE, FEATURE_PARALLEL_STAGE
+from App.Constants import FEATURE_ROCKET, FEATURE_STAGE, FEATURE_PARALLEL_STAGE, FEATURE_NOSE_CONE, FEATURE_BODY_TUBE, FEATURE_TRANSITION
 from App.Constants import PROP_TRANSIENT, PROP_HIDDEN, PROP_NORECOMPUTE
 
 class ShapeStage(ShapeComponentAssembly):
@@ -65,7 +65,8 @@ class ShapeStage(ShapeComponentAssembly):
             return
 
     def eligibleChild(self, childType):
-        return childType not in [FEATURE_ROCKET, FEATURE_STAGE]
+        # return childType not in [FEATURE_ROCKET, FEATURE_STAGE]
+        return childType in [FEATURE_NOSE_CONE, FEATURE_BODY_TUBE, FEATURE_TRANSITION]
 
     # def setAxialPosition(self, partBase):
     #     if TRACE_POSITION:

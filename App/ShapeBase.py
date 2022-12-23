@@ -362,12 +362,14 @@ class ShapeBase():
 
                         parent = grandparent
                         while parent is not None:
+                            if hasattr(parent, "_obj"):
+                                parent = parent._obj
                             if parent.Proxy.eligibleChild(obj.Proxy.Type):
                                 self._obj.removeObject(obj)
                                 obj.Proxy.setParent(parent)
                                 parent.addObject(obj)
                                 return
-                            parent = parent.Proxy._parent
+                            parent = parent.Proxy.getParent()
                 index += 1
 
         if self.getParent() is not None:
