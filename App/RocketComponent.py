@@ -51,7 +51,7 @@ from App.events.ComponentChangeEvent import ComponentChangeEvent
 
 from DraftTools import translate
 
-class ShapeComponent(ShapeBase, ChangeSource):
+class RocketComponent(ShapeBase, ChangeSource):
 
     def __init__(self, obj):
         super().__init__(obj)
@@ -196,7 +196,7 @@ class ShapeComponent(ShapeBase, ChangeSource):
 
     def update(self):
         if TRACE_POSITION:
-            print("P: ShapeComponent::update(%s)" % (self._obj.Label))
+            print("P: RocketComponent::update(%s)" % (self._obj.Label))
 
         self._setAxialOffset(self._obj.AxialMethod, self._obj.AxialOffset)
 
@@ -218,7 +218,7 @@ class ShapeComponent(ShapeBase, ChangeSource):
     #  <code>super.componentChanged(e)</code> at some point.
     def componentChanged(self, event):
         if TRACE_POSITION:
-            print("P: ShapeComponent::componentChanged(%s)" % (self._obj.Label))
+            print("P: RocketComponent::componentChanged(%s)" % (self._obj.Label))
 
         self.checkState()
         # self.update()
@@ -236,7 +236,7 @@ class ShapeComponent(ShapeBase, ChangeSource):
 
     # def _locationOffset(self, partBase, parentLength):
     #     if TRACE_POSITION:
-    #         print("P: ShapeComponent::_locationOffset(%s, %f, %f))" % (self._obj.Label, partBase, parentLength))
+    #         print("P: RocketComponent::_locationOffset(%s, %f, %f))" % (self._obj.Label, partBase, parentLength))
 
     #     base = float(partBase)
     #     roll = 0.0
@@ -256,7 +256,7 @@ class ShapeComponent(ShapeBase, ChangeSource):
 
     # def positionChild(self, parent, parentBase, parentLength, parentRadius, rotation):
     #     if TRACE_POSITION:
-    #         print("P: ShapeComponent::positionChild(%s, %s, (%f,%f,%f), %f, %f, %f)" % (self._obj.Label, parent.Label, parentBase.x, parentBase.y, parentBase.z, parentLength, parentRadius, rotation))
+    #         print("P: RocketComponent::positionChild(%s, %s, (%f,%f,%f), %f, %f, %f)" % (self._obj.Label, parent.Label, parentBase.x, parentBase.y, parentBase.z, parentLength, parentRadius, rotation))
 
     #     # Calculate any auto radii
     #     self._obj.Proxy.setRadius()
@@ -272,7 +272,7 @@ class ShapeComponent(ShapeBase, ChangeSource):
 
     # def _positionChildAxial(self, obj, partBase, roll):
     #     if TRACE_POSITION:
-    #         print("P: ShapeComponent::_positionChildAxial(%s, %f, %f)" % (self._obj.Label, partBase, roll))
+    #         print("P: RocketComponent::_positionChildAxial(%s, %f, %f)" % (self._obj.Label, partBase, roll))
 
     #     # newPlacement = FreeCAD.Placement(FreeCAD.Vector(partBase, 0, parentRadius), FreeCAD.Rotation(FreeCAD.Vector(1,0,0), roll), FreeCAD.Vector(0, 0, -parentRadius))
     #     newPlacement = FreeCAD.Placement(FreeCAD.Vector(partBase, 0, 0), FreeCAD.Rotation(FreeCAD.Vector(1,0,0), roll), FreeCAD.Vector(0, 0, 0))
@@ -281,7 +281,7 @@ class ShapeComponent(ShapeBase, ChangeSource):
 
     # def _positionChildRadial(self, obj, parent, parentRadius, partBase, roll):
     #     if TRACE_POSITION:
-    #         print("P: ShapeComponent::_positionChildRadial(%s, %s, %f, %f, %f)" % (self._obj.Label, parent.Label, parentRadius, partBase, parentRadius))
+    #         print("P: RocketComponent::_positionChildRadial(%s, %s, %f, %f, %f)" % (self._obj.Label, parent.Label, parentRadius, partBase, parentRadius))
 
     #     radial = float(parentRadius) + float(obj.Proxy.getRadialPositionOffset()) # Need to add current parent radial
     #     if hasattr(obj, 'AngleOffset'):
@@ -455,7 +455,7 @@ class ShapeComponent(ShapeBase, ChangeSource):
 
     def _setAxialOffset(self, method, newAxialOffset):
         if TRACE_POSITION:
-            print("*** P: ShapeComponent::_setAxialOffset(%s)" % (self._obj.Label))
+            print("*** P: RocketComponent::_setAxialOffset(%s)" % (self._obj.Label))
             
         self.checkState()
 
@@ -544,7 +544,7 @@ class ShapeComponent(ShapeBase, ChangeSource):
                 return current
             current = current.getParent().Proxy
 
-        raise Exception("getStage() called on hierarchy without an ShapeStage.")
+        raise Exception("getStage() called on hierarchy without an FeatureStage.")
 
     # Returns all the stages that are a child or sub-child of this component.
     def getSubStages(self):
@@ -626,7 +626,7 @@ class ShapeComponent(ShapeBase, ChangeSource):
 
     def setAfter(self):
         if TRACE_POSITION:
-            print("*** P: ShapeComponent::setAfter(%s)" % (self._obj.Label))
+            print("*** P: RocketComponent::setAfter(%s)" % (self._obj.Label))
 
         self.checkState()
         
@@ -777,7 +777,7 @@ class ShapeComponent(ShapeBase, ChangeSource):
 
             return thesePositions
 	
-class ShapeLocation(ShapeComponent):
+class ShapeLocation(RocketComponent):
 
     def __init__(self, obj):
         super().__init__(obj)

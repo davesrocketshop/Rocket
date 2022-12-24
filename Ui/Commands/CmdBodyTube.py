@@ -27,7 +27,7 @@ __url__ = "https://www.davesrocketshop.com"
 import FreeCAD
 import FreeCADGui
 
-from App.ShapeBodyTube import ShapeBodyTube
+from App.FeatureBodyTube import FeatureBodyTube
 from Ui.ViewBodyTube import ViewProviderBodyTube
 from Ui.Commands.Command import Command
 from Ui.Commands.CmdStage import addToStage
@@ -39,7 +39,7 @@ from DraftTools import translate
 def makeBodyTube(name='BodyTube'):
     '''makeBodyTube(name): makes a Body Tube'''
     obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
-    ShapeBodyTube(obj)
+    FeatureBodyTube(obj)
     if FreeCAD.GuiUp:
         ViewProviderBodyTube(obj.ViewObject)
 

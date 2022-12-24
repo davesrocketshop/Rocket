@@ -32,7 +32,7 @@ from PySide import QtCore,QtGui
 from DraftTools import translate
 
 from App.Utilities import _msg
-from App.ShapeStage import hookChildren
+from App.FeatureStage import hookChildren
 
 from Ui.TaskPanelParallelStage import TaskPanelParallelStage
 

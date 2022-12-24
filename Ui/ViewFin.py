@@ -29,7 +29,7 @@ import FreeCADGui
 
 from Ui.TaskPanelFin import TaskPanelFin
 from Ui.ViewProvider import ViewProvider
-# from App.ShapeBodyTube import hookChildren
+# from App.FeatureBodyTube import hookChildren
 
 class ViewProviderFin(ViewProvider):
 

@@ -27,7 +27,7 @@ __url__ = "https://www.davesrocketshop.com"
 import FreeCAD
 
 from App.Importer.Component.Component import Component
-from App.ShapeNoseCone import ShapeNoseCone
+from App.FeatureNoseCone import FeatureNoseCone
 from Ui.ViewNoseCone import ViewProviderNoseCone
 
 from App.Utilities import _trace
@@ -62,7 +62,7 @@ class NoseconeComponent(Component):
         obj = self._doc.addObject('Part::FeaturePython', 'NoseCone')
         obj.Label= self._name
 
-        noseCone = ShapeNoseCone(obj) # lgtm [py/unused-local-variable]
+        noseCone = FeatureNoseCone(obj) # lgtm [py/unused-local-variable]
 
         obj.NoseType = self._shape
         if self._filled:

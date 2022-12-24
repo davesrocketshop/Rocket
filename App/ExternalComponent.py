@@ -24,7 +24,7 @@ __title__ = "FreeCAD Rocket Components"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
-from App.ShapeComponent import ShapeComponent
+from App.RocketComponent import RocketComponent
 from App.util import Finish
 from App.events.ComponentChangeEvent import ComponentChangeEvent
 
@@ -32,7 +32,7 @@ from App.events.ComponentChangeEvent import ComponentChangeEvent
 # aerodynamic simulation.  They have material defined for them, and the mass of the component
 # is calculated using the component's volume.
 
-class ExternalComponent(ShapeComponent):
+class ExternalComponent(RocketComponent):
 
     finish = Finish.NORMAL
 

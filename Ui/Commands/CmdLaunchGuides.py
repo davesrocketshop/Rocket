@@ -27,9 +27,9 @@ __url__ = "https://www.davesrocketshop.com"
 import FreeCAD
 import FreeCADGui
 
-from App.ShapeRailGuide import ShapeRailGuide
-from App.ShapeLaunchLug import ShapeLaunchLug
-from App.ShapeRailButton import ShapeRailButton
+from App.FeatureRailGuide import FeatureRailGuide
+from App.FeatureLaunchLug import FeatureLaunchLug
+from App.FeatureRailButton import FeatureRailButton
 from Ui.ViewLaunchGuide import ViewProviderRailButton, ViewProviderLaunchLug, ViewProviderRailGuide
 from Ui.Commands.Command import Command
 from Ui.Commands.CmdStage import addToStage
@@ -41,7 +41,7 @@ from DraftTools import translate
 def makeLaunchLug(name='LaunchLug'):
     '''makeLaunchLug(name): makes a Launch Lug'''
     obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
-    ShapeLaunchLug(obj)
+    FeatureLaunchLug(obj)
     if FreeCAD.GuiUp:
         ViewProviderLaunchLug(obj.ViewObject)
 
@@ -51,7 +51,7 @@ def makeLaunchLug(name='LaunchLug'):
 def makeRailButton(name='RailButton'):
     '''makeRailButton(name): makes a Rail Button'''
     obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
-    ShapeRailButton(obj)
+    FeatureRailButton(obj)
     if FreeCAD.GuiUp:
         ViewProviderRailButton(obj.ViewObject)
 
@@ -61,7 +61,7 @@ def makeRailButton(name='RailButton'):
 def makeRailGuide(name='RailGuide'):
     '''makeRailGuide(name): makes a Launch Guide'''
     obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
-    ShapeRailGuide(obj)
+    FeatureRailGuide(obj)
     if FreeCAD.GuiUp:
         ViewProviderRailGuide(obj.ViewObject)
 

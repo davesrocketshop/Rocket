@@ -26,14 +26,14 @@ __url__ = "https://www.davesrocketshop.com"
     
 from App.ShapeBase import TRACE_POSITION, TRACE_EXECUTION
 from App.RadiusRingComponent import RadiusRingComponent
-from App.ShapeComponent import ShapeLocation
+from App.RocketComponent import ShapeLocation
 from App.Constants import FEATURE_BULKHEAD
 
 from App.ShapeHandlers.BulkheadShapeHandler import BulkheadShapeHandler
 
 from DraftTools import translate
 
-class ShapeBulkhead(RadiusRingComponent):
+class FeatureBulkhead(RadiusRingComponent):
 
     def __init__(self, obj):
         super().__init__(obj)
@@ -69,7 +69,7 @@ class ShapeBulkhead(RadiusRingComponent):
 
     def getLength(self):
         if TRACE_POSITION:
-            print("P: ShapeBulkhead::getLength(%s)" % (self._obj.Label))
+            print("P: FeatureBulkhead::getLength(%s)" % (self._obj.Label))
 
         # Return the length of this component along the central axis
         return self._obj.Thickness
@@ -79,7 +79,7 @@ class ShapeBulkhead(RadiusRingComponent):
 
     # def positionChild(self, parent, parentBase, parentLength, parentRadius, rotation):
     #     if TRACE_POSITION:
-    #         print("P: ShapeBulkhead::positionChild(%s, %s, (%f,%f,%f), %f, %f, %f)" % (self._obj.Label, parent.Label, parentBase.x, parentBase.y, parentBase.z, parentLength, parentRadius, rotation))
+    #         print("P: FeatureBulkhead::positionChild(%s, %s, (%f,%f,%f), %f, %f, %f)" % (self._obj.Label, parent.Label, parentBase.x, parentBase.y, parentBase.z, parentLength, parentRadius, rotation))
 
     #     if self._obj.AutoDiameter:
     #         self._obj.Diameter = parent.Proxy.getInnerRadius() * 2.0
@@ -90,7 +90,7 @@ class ShapeBulkhead(RadiusRingComponent):
 
     def execute(self, obj):
         if TRACE_EXECUTION:
-            print("E: ShapeBulkhead::execute(%s)" % (self._obj.Label))
+            print("E: FeatureBulkhead::execute(%s)" % (self._obj.Label))
 
         shape = BulkheadShapeHandler(obj)
         if shape is not None:

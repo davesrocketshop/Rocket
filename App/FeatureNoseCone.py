@@ -60,7 +60,7 @@ def _migrate_from_1_0(obj):
     obj.removeProperty("ShoulderRadius")
     obj.removeProperty("NoseType")
 
-    ShapeNoseCone(obj)
+    FeatureNoseCone(obj)
 
     obj.Diameter = 2.0 * old["Radius"]
     obj.ShoulderDiameter = 2.0 * old["ShoulderRadius"]
@@ -84,7 +84,7 @@ def _migrate_from_2_0(obj):
     obj.removeProperty("OgiveRadius")
     obj.removeProperty("NoseType")
 
-    ShapeNoseCone(obj)
+    FeatureNoseCone(obj)
 
     if blunted:
         obj.BluntedDiameter = 2.0 * old["BluntedRadius"]
@@ -92,7 +92,7 @@ def _migrate_from_2_0(obj):
         obj.OgiveDiameter = 2.0 * old["OgiveRadius"]
     obj.NoseType = old["NoseType"]
 
-class ShapeNoseCone(SymmetricComponent):
+class FeatureNoseCone(SymmetricComponent):
 
     def __init__(self, obj):
         super().__init__(obj)
@@ -234,7 +234,7 @@ class ShapeNoseCone(SymmetricComponent):
 
     def setAftDiameter(self, diameter):
         for listener in self._configListeners:
-            if isinstance(listener, ShapeNoseCone): # OR used transition base class
+            if isinstance(listener, FeatureNoseCone): # OR used transition base class
                 listener.setAftDiameter(diameter)
 
         if self._obj.Diameter == diameter and self._obj.AutoDiameter == False:
@@ -262,7 +262,7 @@ class ShapeNoseCone(SymmetricComponent):
 
     def setAftDiameterAutomatic(self, auto):
         for listener in self._configListeners:
-            if isinstance(listener, ShapeNoseCone):
+            if isinstance(listener, FeatureNoseCone):
                 listener.setAftRadiusAutomatic(auto)
 
         if self._obj.AutoDiameter == auto:
@@ -275,7 +275,7 @@ class ShapeNoseCone(SymmetricComponent):
 
     def getLength(self):
         if TRACE_POSITION:
-            print("P: ShapeNoseCone::getLength(%s)" % (self._obj.Label))
+            print("P: FeatureNoseCone::getLength(%s)" % (self._obj.Label))
 
         # Return the length of this component along the central axis
         return self._obj.Length
@@ -335,13 +335,13 @@ class ShapeNoseCone(SymmetricComponent):
 
     def getMaxForwardPosition(self):
         if TRACE_POSITION:
-            print("P: ShapeNoseCone::getMaxForwardPosition(%s)" % (self._obj.Label))
+            print("P: FeatureNoseCone::getMaxForwardPosition(%s)" % (self._obj.Label))
 
         return float(self._obj.Length) + float(self._obj.Placement.Base.x)
 
     def getForeRadius(self):
         if TRACE_POSITION:
-            print("P: ShapeNoseCone::getForeRadius(%s)" % (self._obj.Label))
+            print("P: FeatureNoseCone::getForeRadius(%s)" % (self._obj.Label))
 
         # For placing objects on the outer part of the parent
         if self._obj.AutoDiameter:
@@ -393,7 +393,7 @@ class ShapeNoseCone(SymmetricComponent):
 
     def execute(self, obj):
         if TRACE_EXECUTION:
-            print("E: ShapeNoseCone::execute(%s)" % (self._obj.Label))
+            print("E: FeatureNoseCone::execute(%s)" % (self._obj.Label))
 
         self._setShapeHandler()
         if self._shapeHandler is not None:

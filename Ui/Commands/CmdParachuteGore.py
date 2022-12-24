@@ -27,7 +27,7 @@ __url__ = "https://www.davesrocketshop.com"
 import FreeCAD
 import FreeCADGui
 
-from App.ShapeFin import ShapeFin
+from App.FeatureFin import FeatureFin
 from Ui.ViewParachuteGore import ViewProviderParachuteGore
 # import Sketcher
 
@@ -36,7 +36,7 @@ from DraftTools import translate
 def makeParachuteGore(name):
     '''makeParachuteGore(name): makes a Fin'''
     obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
-    ShapeFin(obj)
+    FeatureFin(obj)
 
     if FreeCAD.GuiUp:
         ViewProviderParachuteGore(obj.ViewObject)

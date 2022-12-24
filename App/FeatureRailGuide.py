@@ -25,7 +25,7 @@ __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
 from App.ShapeBase import TRACE_POSITION, TRACE_EXECUTION
-from App.ShapeComponent import ShapeLocation
+from App.RocketComponent import ShapeLocation
 from App.Constants import FEATURE_RAIL_GUIDE
 from App.Constants import PLACEMENT_RADIAL
 from App.Constants import RAIL_GUIDE_BASE_FLAT, RAIL_GUIDE_BASE_CONFORMAL, RAIL_GUIDE_BASE_V
@@ -34,7 +34,7 @@ from App.ShapeHandlers.RailGuideShapeHandler import RailGuideShapeHandler
 
 from DraftTools import translate
 
-class ShapeRailGuide(ShapeLocation):
+class FeatureRailGuide(ShapeLocation):
 
     def __init__(self, obj):
         super().__init__(obj)
@@ -89,14 +89,14 @@ class ShapeRailGuide(ShapeLocation):
 
     def getLength(self):
         if TRACE_POSITION:
-            print("P: ShapeRailGuide::getLength(%s)" % (self._obj.Label))
+            print("P: FeatureRailGuide::getLength(%s)" % (self._obj.Label))
 
         # Return the length of this component along the central axis
         return self._obj.Length
 
     def execute(self, obj):
         if TRACE_EXECUTION:
-            print("E: ShapeRailGuide::execute(%s)" % (self._obj.Label))
+            print("E: FeatureRailGuide::execute(%s)" % (self._obj.Label))
 
         shape = RailGuideShapeHandler(obj)
         if shape is not None:

@@ -27,7 +27,7 @@ __url__ = "https://www.davesrocketshop.com"
 import FreeCAD
 import FreeCADGui
 
-from App.ShapeBulkhead import ShapeBulkhead
+from App.FeatureBulkhead import FeatureBulkhead
 from Ui.ViewBulkhead import ViewProviderBulkhead
 from Ui.Commands.Command import Command
 from Ui.Commands.CmdStage import addToStage
@@ -39,7 +39,7 @@ from DraftTools import translate
 def makeBulkhead(name):
     '''makeBulkhead(name): makes a bulkhead'''
     obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
-    ShapeBulkhead(obj)
+    FeatureBulkhead(obj)
     if FreeCAD.GuiUp:
         ViewProviderBulkhead(obj.ViewObject)
 

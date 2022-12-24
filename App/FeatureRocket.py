@@ -31,7 +31,7 @@ from PySide import QtCore
 from App.interfaces.ComponentChangeListener import ComponentChangeListener
 from App.interfaces.StateChangeListener import StateChangeListener
 
-from App.ShapeComponentAssembly import ShapeComponentAssembly
+from App.ComponentAssembly import ComponentAssembly
 from App.position import AxialMethod
 
 from App.util.BoundingBox import BoundingBox
@@ -43,10 +43,10 @@ from App.util import ReferenceType
 from App.events.ComponentChangeEvent import ComponentChangeEvent
 
 from App.ShapeBase import TRACE_POSITION, TRACE_EXECUTION
-from App.ShapeComponentAssembly import ShapeComponentAssembly
+from App.ComponentAssembly import ComponentAssembly
 from App.Constants import FEATURE_ROCKET, FEATURE_STAGE
 
-class ShapeRocket(ShapeComponentAssembly, ComponentChangeListener):
+class FeatureRocket(ComponentAssembly, ComponentChangeListener):
 
     """
     List of component change listeners.
@@ -108,7 +108,7 @@ class ShapeRocket(ShapeComponentAssembly, ComponentChangeListener):
         
     def execute(self,obj):
         if TRACE_EXECUTION:
-            print("E: ShapeRocket::execute(%s)" % (self._obj.Label))
+            print("E: FeatureRocket::execute(%s)" % (self._obj.Label))
 
         if not hasattr(obj,'Shape'):
             return
@@ -280,7 +280,7 @@ class ShapeRocket(ShapeComponentAssembly, ComponentChangeListener):
     def getBoundingRadius(self):
         bounding = 0
         for comp in self.getChildren():
-            if isinstance(comp, ShapeComponentAssembly):
+            if isinstance(comp, ComponentAssembly):
                 bounding = max(bounding, comp.getBoundingRadius())
 
         return bounding
@@ -314,7 +314,7 @@ class ShapeRocket(ShapeComponentAssembly, ComponentChangeListener):
 
     def fireComponentChangeEvent(self, cce):
         if TRACE_POSITION:
-            print("P: ShapeRocket::fireComponentChangeEvent(%s)" % (self._obj.Label))
+            print("P: FeatureRocket::fireComponentChangeEvent(%s)" % (self._obj.Label))
 
         if not self._eventsEnabled:
             print("\tevents not enabled")

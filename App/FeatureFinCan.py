@@ -27,7 +27,7 @@ __url__ = "https://www.davesrocketshop.com"
 import FreeCAD
 
 from App.ShapeBase import TRACE_EXECUTION, TRACE_POSITION
-from App.ShapeFin import ShapeFin
+from App.FeatureFin import FeatureFin
 from App.Constants import FEATURE_FINCAN, FEATURE_LAUNCH_LUG, FEATURE_RAIL_BUTTON, FEATURE_RAIL_GUIDE, FEATURE_POD
 from App.Constants import FIN_TYPE_TRAPEZOID, FIN_TYPE_ELLIPSE, FIN_TYPE_SKETCH
 from App.Constants import FINCAN_EDGE_SQUARE, FINCAN_EDGE_ROUND, FINCAN_EDGE_TAPER
@@ -42,7 +42,7 @@ from App.ShapeHandlers.FinCanShapeHandler import FinCanSketchShapeHandler
 
 from DraftTools import translate
 
-class ShapeFinCan(ShapeFin):
+class FeatureFinCan(FeatureFin):
 
     def __init__(self, obj):
         super().__init__(obj)
@@ -143,7 +143,7 @@ class ShapeFinCan(ShapeFin):
 
     def onDocumentRestored(self, obj):
         if obj is not None:
-            ShapeFinCan(obj) # Update any properties
+            FeatureFinCan(obj) # Update any properties
             self._obj = obj
             FreeCAD.ActiveDocument.recompute()
 
@@ -151,7 +151,7 @@ class ShapeFinCan(ShapeFin):
         
     def setParentRadius(self, parentRadius):
         if TRACE_POSITION:
-            print("P: ShapeFinCan::setParentRadius(%s, %f)" % (self._obj.Label, parentRadius))
+            print("P: FeatureFinCan::setParentRadius(%s, %f)" % (self._obj.Label, parentRadius))
 
         if self._obj.AutoInnerDiameter and self._obj.ParentRadius != parentRadius:
             self._obj.ParentRadius = parentRadius
@@ -159,7 +159,7 @@ class ShapeFinCan(ShapeFin):
 
     def execute(self, obj):
         if TRACE_EXECUTION:
-            print("E: ShapeFinCan::execute(%s)" % (self._obj.Label))
+            print("E: FeatureFinCan::execute(%s)" % (self._obj.Label))
 
         if obj.FinType == FIN_TYPE_TRAPEZOID:
             shape = FinCanTrapezoidShapeHandler(obj)

@@ -31,13 +31,13 @@ from PySide import QtGui
 
 from DraftTools import translate
 
-from App.ShapeRocket import ShapeRocket
+from App.FeatureRocket import FeatureRocket
 from Ui.ViewRocket import ViewProviderRocket
 from Ui.Commands.CmdStage import makeStage
 
 def makeRocket(name='Rocket', makeSustainer=True):
     obj = FreeCAD.ActiveDocument.addObject("App::GeometryPython",name)
-    ShapeRocket(obj)
+    FeatureRocket(obj)
     if FreeCAD.GuiUp:
         ViewProviderRocket(obj.ViewObject)
     FreeCADGui.ActiveDocument.ActiveView.setActiveObject('rocket', obj)

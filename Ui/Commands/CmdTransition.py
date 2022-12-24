@@ -28,7 +28,7 @@ __url__ = "https://www.davesrocketshop.com"
 import FreeCAD
 import FreeCADGui
 
-from App.ShapeTransition import ShapeTransition
+from App.FeatureTransition import FeatureTransition
 from Ui.ViewTransition import ViewProviderTransition
 from Ui.Commands.Command import Command
 from Ui.Commands.CmdStage import addToStage
@@ -40,7 +40,7 @@ from DraftTools import translate
 def makeTransition(name='Transition'):
     '''makeTransition(name): makes a Transition'''
     obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
-    ShapeTransition(obj)
+    FeatureTransition(obj)
     if FreeCAD.GuiUp:
         ViewProviderTransition(obj.ViewObject)
 

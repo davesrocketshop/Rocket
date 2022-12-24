@@ -24,7 +24,7 @@ __title__ = "FreeCAD Rocket Components"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
-from App.ShapeComponent import ShapeComponent
+from App.RocketComponent import RocketComponent
 from App.events.ComponentChangeEvent import ComponentChangeEvent
 from App.position.AxialPositionable import AxialPositionable
 from App.position import AxialMethod
@@ -37,7 +37,7 @@ from App.position import AxialMethod
     are always attached relative to the parent component, which can be internal or
     external, or absolutely.
 """
-class InternalComponent(ShapeComponent, AxialPositionable):
+class InternalComponent(RocketComponent, AxialPositionable):
 
     def __init__(self, obj):
         super().__init__(obj)

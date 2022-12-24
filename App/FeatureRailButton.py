@@ -25,7 +25,7 @@ __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
 from App.ShapeBase import TRACE_POSITION, TRACE_EXECUTION
-from App.ShapeComponent import ShapeLocation
+from App.RocketComponent import ShapeLocation
 from App.Constants import FEATURE_RAIL_BUTTON
 from App.Constants import RAIL_BUTTON_ROUND, RAIL_BUTTON_AIRFOIL
 from App.Constants import PLACEMENT_RADIAL
@@ -42,7 +42,7 @@ from DraftTools import translate
 # These have not been verified
 #
 
-class ShapeRailButton(ShapeLocation):
+class FeatureRailButton(ShapeLocation):
 
     def __init__(self, obj):
         super().__init__(obj)
@@ -98,14 +98,14 @@ class ShapeRailButton(ShapeLocation):
 
     def getLength(self):
         if TRACE_POSITION:
-            print("P: ShapeRailButton::getLength(%s)" % (self._obj.Label))
+            print("P: FeatureRailButton::getLength(%s)" % (self._obj.Label))
 
         # Return the length of this component along the central axis
         return self._obj.Length
 
     def execute(self, obj):
         if TRACE_EXECUTION:
-            print("E: ShapeRailButton::execute(%s)" % (self._obj.Label))
+            print("E: FeatureRailButton::execute(%s)" % (self._obj.Label))
 
         shape = RailButtonShapeHandler(obj)
         if shape is not None:

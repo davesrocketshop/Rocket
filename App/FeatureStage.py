@@ -30,18 +30,18 @@ from PySide import QtCore
 from DraftTools import translate
 
 from App.ShapeBase import TRACE_POSITION, TRACE_EXECUTION
-from App.ShapeComponentAssembly import ShapeComponentAssembly
+from App.ComponentAssembly import ComponentAssembly
 from App.Constants import FEATURE_ROCKET, FEATURE_STAGE, FEATURE_PARALLEL_STAGE, FEATURE_NOSE_CONE, FEATURE_BODY_TUBE, FEATURE_TRANSITION
 from App.Constants import PROP_TRANSIENT, PROP_HIDDEN, PROP_NORECOMPUTE
 
-class ShapeStage(ShapeComponentAssembly):
+class FeatureStage(ComponentAssembly):
 
     def __init__(self, obj):
         super().__init__(obj)
 
-        self._initShapeStage(obj)
+        self._initFeatureStage(obj)
 
-    def _initShapeStage(self, obj):
+    def _initFeatureStage(self, obj):
         self.Type = FEATURE_STAGE
         
         # if not hasattr(obj,"Group"):
@@ -59,7 +59,7 @@ class ShapeStage(ShapeComponentAssembly):
 
     def execute(self,obj):
         if TRACE_EXECUTION:
-            print("E: ShapeStage::execute(%s)" % (self._obj.Label))
+            print("E: FeatureStage::execute(%s)" % (self._obj.Label))
 
         if not hasattr(obj,'Shape'):
             return
@@ -70,7 +70,7 @@ class ShapeStage(ShapeComponentAssembly):
 
     # def setAxialPosition(self, partBase):
     #     if TRACE_POSITION:
-    #         print("P: ShapeStage::setAxialPosition(%s, (%f,%f,%f))" % (self._obj.Label, partBase.x, partBase.y, partBase.z))
+    #         print("P: FeatureStage::setAxialPosition(%s, (%f,%f,%f))" % (self._obj.Label, partBase.x, partBase.y, partBase.z))
 
     #     # base = FreeCAD.Vector(self._obj.Placement.Base)
     #     base = FreeCAD.Vector(partBase)
@@ -86,7 +86,7 @@ class ShapeStage(ShapeComponentAssembly):
 
     # def positionChildren(self, partBase):
     #     if TRACE_POSITION:
-    #         print("P: ShapeStage::positionChildren(%s, (%f,%f,%f))" % (self._obj.Label, partBase.x, partBase.y, partBase.z))
+    #         print("P: FeatureStage::positionChildren(%s, (%f,%f,%f))" % (self._obj.Label, partBase.x, partBase.y, partBase.z))
         
     #     # Dynamic placements
     #     try:

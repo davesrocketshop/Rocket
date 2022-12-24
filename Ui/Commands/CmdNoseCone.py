@@ -28,7 +28,7 @@ __url__ = "https://www.davesrocketshop.com"
 import FreeCAD
 import FreeCADGui
 
-from App.ShapeNoseCone import ShapeNoseCone
+from App.FeatureNoseCone import FeatureNoseCone
 from Ui.ViewNoseCone import ViewProviderNoseCone
 from Ui.Commands.Command import Command
 from Ui.Commands.CmdStage import addToStage
@@ -40,7 +40,7 @@ from DraftTools import translate
 def makeNoseCone(name='NoseCone'):
     '''makeNoseCone(name): makes a Nose Cone'''
     obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
-    ShapeNoseCone(obj)
+    FeatureNoseCone(obj)
     if FreeCAD.GuiUp:
         ViewProviderNoseCone(obj.ViewObject)
 

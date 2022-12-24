@@ -25,7 +25,7 @@ __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
     
 from App.ShapeBase import TRACE_EXECUTION
-from App.ShapeBulkhead import ShapeBulkhead
+from App.FeatureBulkhead import FeatureBulkhead
 from App.Constants import FEATURE_CENTERING_RING
 
 from App.ShapeHandlers.CenteringRingShapeHandler import CenteringRingShapeHandler
@@ -35,7 +35,7 @@ from DraftTools import translate
 #
 # Centering rings are an extension of bulkheads
 #
-class ShapeCenteringRing(ShapeBulkhead):
+class FeatureCenteringRing(FeatureBulkhead):
 
     def __init__(self, obj):
         super().__init__(obj)
@@ -61,7 +61,7 @@ class ShapeCenteringRing(ShapeBulkhead):
 
     def execute(self, obj):
         if TRACE_EXECUTION:
-            print("E: ShapeCenteringRing::execute(%s)" % (self._obj.Label))
+            print("E: FeatureCenteringRing::execute(%s)" % (self._obj.Label))
 
         shape = CenteringRingShapeHandler(obj)
         if shape is not None:

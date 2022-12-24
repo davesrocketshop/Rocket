@@ -27,7 +27,7 @@ __url__ = "https://www.davesrocketshop.com"
 import FreeCAD
 import FreeCADGui
 
-from App.ShapeCenteringRing import ShapeCenteringRing
+from App.FeatureCenteringRing import FeatureCenteringRing
 from Ui.ViewCenteringRing import ViewProviderCenteringRing
 from Ui.Commands.Command import Command
 from Ui.Commands.CmdStage import addToStage
@@ -39,7 +39,7 @@ from DraftTools import translate
 def makeCenteringRing(name='CenteringRing'):
     '''makeCenteringRing(name): makes a centering ring'''
     obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
-    ShapeCenteringRing(obj)
+    FeatureCenteringRing(obj)
     if FreeCAD.GuiUp:
         ViewProviderCenteringRing(obj.ViewObject)
 

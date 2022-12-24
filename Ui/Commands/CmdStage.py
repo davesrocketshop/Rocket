@@ -29,7 +29,7 @@ import FreeCAD
 import FreeCADGui
 from PySide import QtGui
 
-from App.ShapeStage import ShapeStage
+from App.FeatureStage import FeatureStage
 from Ui.Commands.Command import Command
 from Ui.ViewStage import ViewProviderStage
 
@@ -53,7 +53,7 @@ def addToStage(obj):
 
 def makeStage(name='Stage'):
     obj = FreeCAD.ActiveDocument.addObject("App::GeometryPython",name)
-    ShapeStage(obj)
+    FeatureStage(obj)
     if FreeCAD.GuiUp:
         ViewProviderStage(obj.ViewObject)
 

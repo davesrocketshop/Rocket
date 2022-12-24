@@ -61,7 +61,7 @@ def _migrate_from_1_0(obj):
     obj.removeProperty("ForeShoulderRadius")
     obj.removeProperty("AftShoulderRadius")
 
-    ShapeTransition(obj)
+    FeatureTransition(obj)
 
     obj.ForeDiameter = 2.0 * old["ForeRadius"]
     obj.AftDiameter = 2.0 * old["AftRadius"]
@@ -73,9 +73,9 @@ def _migrate_from_2_0(obj):
     _wrn("Transition migrating object from 2.0")
 
     # Object with new properties
-    ShapeTransition(obj)
+    FeatureTransition(obj)
 
-class ShapeTransition(SymmetricComponent):
+class FeatureTransition(SymmetricComponent):
 
     def __init__(self, obj):
         super().__init__(obj)
@@ -167,12 +167,12 @@ class ShapeTransition(SymmetricComponent):
         #         _migrate_from_2_0(obj)
         else:
             # Update properties
-            ShapeTransition(obj)
+            FeatureTransition(obj)
             FreeCAD.ActiveDocument.recompute()
 
     def getLength(self):
         if TRACE_POSITION:
-            print("P: ShapeTransition::getLength(%s)" % (self._obj.Label))
+            print("P: FeatureTransition::getLength(%s)" % (self._obj.Label))
 
         # Return the length of this component along the central axis
         return self._obj.Length
@@ -202,7 +202,7 @@ class ShapeTransition(SymmetricComponent):
 
     def setForeRadius(self, radius):
         for listener in self._configListeners:
-            if isinstance(listener, ShapeTransition):
+            if isinstance(listener, FeatureTransition):
                 listener.setForeRadius(radius)
 
         r = self._obj.ForeDiameter / 2.0
@@ -225,7 +225,7 @@ class ShapeTransition(SymmetricComponent):
 
     def setForeRadiusAutomatic(self, auto):
         for listener in self._configListeners:
-            if isinstance(listener, ShapeTransition):
+            if isinstance(listener, FeatureTransition):
                 listener.setForeRadiusAutomatic(auto)
 
         if self._obj.ForeAutoDiameter == auto:
@@ -263,7 +263,7 @@ class ShapeTransition(SymmetricComponent):
 
     def setAftRadius(self, radius):
         for listener in self._configListeners:
-            if isinstance(listener, ShapeTransition):
+            if isinstance(listener, FeatureTransition):
                 listener.setAftRadius(radius)
 
         r = self._obj.AftDiameter / 2.0
@@ -292,7 +292,7 @@ class ShapeTransition(SymmetricComponent):
 
     def setAftDiameterAutomatic(self, auto):
         for listener in self._configListeners:
-            if isinstance(listener, ShapeTransition):
+            if isinstance(listener, FeatureTransition):
                 listener.setAftDiameterAutomatic(auto)
 
         if self._obj.AftAutoDiameter == auto:
@@ -345,7 +345,7 @@ class ShapeTransition(SymmetricComponent):
 
     def execute(self, obj):
         if TRACE_EXECUTION:
-            print("E: ShapeTransition::execute(%s)" % (self._obj.Label))
+            print("E: FeatureTransition::execute(%s)" % (self._obj.Label))
 
         shape = None
         if obj.TransitionType == TYPE_CONE:

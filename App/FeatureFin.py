@@ -28,7 +28,7 @@ import FreeCAD
 import math
 
 from App.ShapeBase import TRACE_EXECUTION, TRACE_POSITION
-from App.ShapeComponent import ShapeLocation
+from App.RocketComponent import ShapeLocation
 from App.SymmetricComponent import SymmetricComponent
 import App.util.Coordinate
 from App.util.Coordinate import Coordinate
@@ -51,7 +51,7 @@ from DraftTools import translate
 
 DEBUG_SKETCH_FINS = 0 # Set > 0 when debugging sketch based fins
 
-class ShapeFin(ShapeLocation):
+class FeatureFin(ShapeLocation):
 
     def __init__(self, obj):
         super().__init__(obj)
@@ -166,7 +166,7 @@ class ShapeFin(ShapeLocation):
 
     def onDocumentRestored(self, obj):
         if obj is not None:
-            ShapeFin(obj) # Update any properties
+            FeatureFin(obj) # Update any properties
             self._obj = obj
             FreeCAD.ActiveDocument.recompute()
 
@@ -174,7 +174,7 @@ class ShapeFin(ShapeLocation):
 
     # def positionChild(self, parent, parentBase, parentLength, parentRadius, rotation):
     #     if TRACE_POSITION:
-    #         print("P: ShapeFin::positionChild(%s, %s, (%f,%f,%f), %f, %f, %f)" % (self._obj.Label, parent.Label, parentBase.x, parentBase.y, parentBase.z, parentLength, parentRadius, rotation))
+    #         print("P: FeatureFin::positionChild(%s, %s, (%f,%f,%f), %f, %f, %f)" % (self._obj.Label, parent.Label, parentBase.x, parentBase.y, parentBase.z, parentLength, parentRadius, rotation))
 
     #     super().positionChild(parent, parentBase, parentLength, parentRadius, rotation)
     #     self.setParentRadius(parentRadius)
@@ -187,14 +187,14 @@ class ShapeFin(ShapeLocation):
 
     def setParentRadius(self, parentRadius):
         if TRACE_POSITION:
-            print("P: ShapeFin::setParentRadius(%s, %f)" % (self._obj.Label, parentRadius))
+            print("P: FeatureFin::setParentRadius(%s, %f)" % (self._obj.Label, parentRadius))
 
         if self._obj.AutoInnerDiameter and self._obj.ParentRadius != parentRadius:
             self._obj.ParentRadius = parentRadius
 
     def getForeRadius(self):
         if TRACE_POSITION:
-            print("P: ShapeFin::getForeRadius(%s)" % (self._obj.Label))
+            print("P: FeatureFin::getForeRadius(%s)" % (self._obj.Label))
 
         # For placing objects on the outer part of the parent
         return float(self._obj.ParentRadius + self._obj.Height)
@@ -272,7 +272,7 @@ class ShapeFin(ShapeLocation):
 
     def execute(self, obj):
         if TRACE_EXECUTION:
-            print("E: ShapeFin::execute(%s)" % (self._obj.Label))
+            print("E: FeatureFin::execute(%s)" % (self._obj.Label))
 
         if obj.FinType == FIN_TYPE_TRAPEZOID:
             shape = FinTrapezoidShapeHandler(obj)

@@ -27,7 +27,7 @@ __url__ = "https://www.davesrocketshop.com"
 import FreeCAD
 import FreeCADGui
 
-from App.ShapeFin import ShapeFin
+from App.FeatureFin import FeatureFin
 from Ui.ViewParachute import ViewProviderParachute
 
 from DraftTools import translate
@@ -35,7 +35,7 @@ from DraftTools import translate
 def makeParachute(name):
     '''makeParachute(name): makes a Parachute'''
     obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
-    ShapeFin(obj)
+    FeatureFin(obj)
 
     if FreeCAD.GuiUp:
         ViewProviderParachute(obj.ViewObject)

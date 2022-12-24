@@ -32,7 +32,7 @@ from App.Constants import FEATURE_LAUNCH_LUG
 # from App.Constants import PLACEMENT_RADIAL
 
 # from App.ShapeBase import TRACE_POSITION
-# from App.ShapeBodyTube import ShapeBodyTube
+# from App.FeatureBodyTube import FeatureBodyTube
 from App.Tube import Tube
 from App.position import AxialMethod
 from App.position.AngleMethod import AngleMethod
@@ -47,7 +47,7 @@ from App.ShapeHandlers.BodyTubeShapeHandler import BodyTubeShapeHandler
 
 from DraftTools import translate
 
-class ShapeLaunchLug(Tube, AnglePositionable, BoxBounded):
+class FeatureLaunchLug(Tube, AnglePositionable, BoxBounded):
 
     def __init__(self, obj):
         super().__init__(obj, AxialMethod.MIDDLE)
@@ -81,7 +81,7 @@ class ShapeLaunchLug(Tube, AnglePositionable, BoxBounded):
 
     def execute(self, obj):
         # if TRACE_EXECUTION:
-        #     print("E: ShapelaunchLug::execute(%s)" % (self._obj.Label))
+        #     print("E: FeatureLaunchLug::execute(%s)" % (self._obj.Label))
 
         shape = BodyTubeShapeHandler(obj)
         if shape is not None:
@@ -101,7 +101,7 @@ class ShapeLaunchLug(Tube, AnglePositionable, BoxBounded):
 
     def setOuterDiameter(self, diameter):
         for listener in self._configListeners:
-            if isinstance(listener, ShapeLaunchLug):
+            if isinstance(listener, FeatureLaunchLug):
                 listener.setOuterDiameter(diameter)
 
         if self._obj.OuterDiameter == diameter:
@@ -123,7 +123,7 @@ class ShapeLaunchLug(Tube, AnglePositionable, BoxBounded):
 
     def setInnerDiameter(self, diameter):
         for listener in self._configListeners:
-            if isinstance(listener, ShapeLaunchLug):
+            if isinstance(listener, FeatureLaunchLug):
                 listener.setInnerDiameter(diameter)
 
         # self.setOuterDiameter(float(diameter) + 2.0 * float(self._obj.Thickness))
@@ -134,7 +134,7 @@ class ShapeLaunchLug(Tube, AnglePositionable, BoxBounded):
 
     def setThickness(self, thickness):
         for listener in self._configListeners:
-            if isinstance(listener, ShapeLaunchLug):
+            if isinstance(listener, FeatureLaunchLug):
                 listener.setThickness(thickness)
 
         if self._obj.Thickness == thickness:
@@ -149,7 +149,7 @@ class ShapeLaunchLug(Tube, AnglePositionable, BoxBounded):
 
     def setAngleOffset(self, newAngleRadians):
         for listener in self._configListeners:
-            if isinstance(listener, ShapeLaunchLug):
+            if isinstance(listener, FeatureLaunchLug):
                 listener.setAngleOffset(newAngleRadians)
 
         rad = Utilities.clamp( newAngleRadians, -math.PI, math.PI);
@@ -161,7 +161,7 @@ class ShapeLaunchLug(Tube, AnglePositionable, BoxBounded):
 
     def setLength(self, length):
         for listener in self._configListeners:
-            if isinstance(listener, ShapeLaunchLug):
+            if isinstance(listener, FeatureLaunchLug):
                 listener.setLength(length)
 
         if self._obj.Length == length:
@@ -257,14 +257,14 @@ class ShapeLaunchLug(Tube, AnglePositionable, BoxBounded):
 
     def setInstanceSeparation(self, separation):
         for listener in self._configListeners:
-            if isinstance(listener, ShapeLaunchLug):
+            if isinstance(listener, FeatureLaunchLug):
                 listener.setInstanceSeparation(separation)
 
         self._obj.InstanceSeparation = separation
 
     def setInstanceCount(self, newCount):
         for listener in self._configListeners:
-            if isinstance(listener, ShapeLaunchLug):
+            if isinstance(listener, FeatureLaunchLug):
                 listener.setInstanceCount(newCount)
 
         if newCount > 0:

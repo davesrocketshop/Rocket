@@ -28,7 +28,7 @@ import FreeCAD
 import FreeCADGui
 
 from App.Constants import FIN_TYPE_SKETCH
-from App.ShapeFinCan import ShapeFinCan
+from App.FeatureFinCan import FeatureFinCan
 from Ui.ViewFinCan import ViewProviderFinCan
 from Ui.Commands.Command import Command
 from Ui.Commands.CmdStage import addToStage
@@ -40,7 +40,7 @@ from DraftTools import translate
 def makeFinCan(name):
     '''makeFinCan(name): makes a Fin Can'''
     obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
-    ShapeFinCan(obj)
+    FeatureFinCan(obj)
 
     # See if we have a sketch selected. If so, this is a custom fin
     for sketch in FreeCADGui.Selection.getSelection():

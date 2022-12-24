@@ -34,17 +34,17 @@ from App.position.AxialPositionable import AxialPositionable
 from App.util import Coordinate
 from App.util.BoundingBox import BoundingBox
 from App.ShapeBase import TRACE_POSITION
-from App.ShapeComponent import ShapeComponent
-# from App.ShapeBodyTube import ShapeBodyTube
-# from App.ShapeNoseCone import ShapeNoseCone
-# from App.ShapeTransition import ShapeTransition
+from App.RocketComponent import RocketComponent
+# from App.FeatureBodyTube import FeatureBodyTube
+# from App.FeatureNoseCone import FeatureNoseCone
+# from App.FeatureTransition import FeatureTransition
 from App.events.ComponentChangeEvent import ComponentChangeEvent
 
 from App.Constants import FEATURE_ROCKET, FEATURE_STAGE, FEATURE_PARALLEL_STAGE, FEATURE_POD
 
 # from DraftTools import translate
 
-class ShapeComponentAssembly(ShapeComponent, AxialPositionable):
+class ComponentAssembly(RocketComponent, AxialPositionable):
 
     def __init__(self, obj):
         super().__init__(obj)
@@ -69,7 +69,7 @@ class ShapeComponentAssembly(ShapeComponent, AxialPositionable):
     def setAxialMethod(self, newMethod) -> None:
         # self._obj.AxialMethod = newMethod
         for listener in self._configListeners:
-            if isinstance(listener, ShapeComponentAssembly):
+            if isinstance(listener, ComponentAssembly):
                 listener.setAxialMethod(newMethod)
 
         if self.getParent is None:
@@ -129,9 +129,9 @@ class ShapeComponentAssembly(ShapeComponent, AxialPositionable):
         outerRadius = 0
         for comp in self.getChildren():
             thisRadius = 0
-            if isinstance(comp, ShapeBodyTube):
+            if isinstance(comp, FeatureBodyTube):
                 thisRadius = comp.getOuterRadius()
-            elif isinstance(comp, ShapeTransition) or isinstance(comp, ShapeNoseCone):
+            elif isinstance(comp, FeatureTransition) or isinstance(comp, FeatureNoseCone):
                 thisRadius = max(comp.getForeRadius(), comp.getAftRadius())
             
             outerRadius = max(outerRadius, thisRadius)
@@ -153,7 +153,7 @@ class ShapeComponentAssembly(ShapeComponent, AxialPositionable):
 
     def update(self):
         if TRACE_POSITION:
-            print("P: ShapeComponentAssembly::update(%s)" % (self._obj.Label))
+            print("P: ComponentAssembly::update(%s)" % (self._obj.Label))
 
         self.updateBounds()
         if self.isAfter():

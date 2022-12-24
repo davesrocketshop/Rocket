@@ -48,14 +48,14 @@ def _migrate_from_1_0(obj):
 
     obj.removeProperty("InnerDiameter")
 
-    ShapeBodyTube(obj)
+    FeatureBodyTube(obj)
 
     od = float(obj.OuterDiameter)
     if od > 0.0:
         thickness = (od - float(old["InnerDiameter"])) / 2.0
         obj.Thickness = thickness
 
-class ShapeBodyTube(SymmetricComponent, BoxBounded, Coaxial):
+class FeatureBodyTube(SymmetricComponent, BoxBounded, Coaxial):
 
     _refComp = None	# Reference component that is used for the autoRadius
 
@@ -95,11 +95,11 @@ class ShapeBodyTube(SymmetricComponent, BoxBounded, Coaxial):
         if hasattr(obj, "InnerDiameter"):
             _migrate_from_1_0(obj)
         else:
-            ShapeBodyTube(obj)
+            FeatureBodyTube(obj)
 
     def getLength(self):
         if TRACE_POSITION:
-            print("P: ShapeBodyTube::getLength(%s)" % (self._obj.Label))
+            print("P: FeatureBodyTube::getLength(%s)" % (self._obj.Label))
 
         # Return the length of this component along the central axis
         return self._obj.Length
@@ -115,7 +115,7 @@ class ShapeBodyTube(SymmetricComponent, BoxBounded, Coaxial):
     """
     def setLength(self, length):
         for listener in self._configListeners:
-            if isinstance(listener, ShapeBodyTube):
+            if isinstance(listener, FeatureBodyTube):
                 listener.setLength(length)
 
         if self._obj.Length == length:
@@ -135,10 +135,10 @@ class ShapeBodyTube(SymmetricComponent, BoxBounded, Coaxial):
     """
     def setOuterDiameterAutomatic(self, auto):
         if TRACE_POSITION:
-            print("P: ShapeBodyTube::setOuterDiameterAutomatic(%s)" % (self._obj.Label))
+            print("P: FeatureBodyTube::setOuterDiameterAutomatic(%s)" % (self._obj.Label))
 
         for listener in self._configListeners:
-            if isinstance(listener, ShapeBodyTube): # OR used transition base class
+            if isinstance(listener, FeatureBodyTube): # OR used transition base class
                 listener.setOuterDiameterAutomatic(auto)
 
         if self._obj.AutoDiameter == auto:
@@ -153,13 +153,13 @@ class ShapeBodyTube(SymmetricComponent, BoxBounded, Coaxial):
 
     def getMaxForwardPosition(self):
         if TRACE_POSITION:
-            print("P: ShapeBodyTube::getMaxForwardPosition(%s)" % (self._obj.Label))
+            print("P: FeatureBodyTube::getMaxForwardPosition(%s)" % (self._obj.Label))
 
         return float(self._obj.Length) + float(self._obj.Placement.Base.x)
 
     def _setAutoDiameter(self):
         if TRACE_POSITION:
-            print("P: ShapeBodyTube::_setAutoDiameter(%s)" % (self._obj.Label))
+            print("P: FeatureBodyTube::_setAutoDiameter(%s)" % (self._obj.Label))
 
         # For placing objects on the outer part of the parent
         if self._obj.AutoDiameter:
@@ -184,7 +184,7 @@ class ShapeBodyTube(SymmetricComponent, BoxBounded, Coaxial):
 
     def getForeRadius(self):
         if TRACE_POSITION:
-            print("P: ShapeBodyTube::getForeRadius(%s)" % (self._obj.Label))
+            print("P: FeatureBodyTube::getForeRadius(%s)" % (self._obj.Label))
 
         # For placing objects on the outer part of the parent
         # self._setAutoDiameter()
@@ -213,10 +213,10 @@ class ShapeBodyTube(SymmetricComponent, BoxBounded, Coaxial):
 
     def setInnerDiameter(self, diameter):
         if TRACE_POSITION:
-            print("P: ShapeBodyTube::setInnerDiameter(%s)" % (self._obj.Label))
+            print("P: FeatureBodyTube::setInnerDiameter(%s)" % (self._obj.Label))
 
         for listener in self._configListeners:
-            if isinstance(listener, ShapeBodyTube): # OR used transition base class
+            if isinstance(listener, FeatureBodyTube): # OR used transition base class
                 listener.setInnerDiameter(diameter)
 
         self.setThickness((self._obj.OuterDiameter - diameter) / 2.0)
@@ -237,10 +237,10 @@ class ShapeBodyTube(SymmetricComponent, BoxBounded, Coaxial):
 
     def setOuterDiameter(self, diameter):
         if TRACE_POSITION:
-            print("P: ShapeBodyTube::setOuterDiameter(%s)" % (self._obj.Label))
+            print("P: FeatureBodyTube::setOuterDiameter(%s)" % (self._obj.Label))
 
         for listener in self._configListeners:
-            if isinstance(listener, ShapeBodyTube): # OR used transition base class
+            if isinstance(listener, FeatureBodyTube): # OR used transition base class
                 listener.setOuterDiameter(diameter)
 
         if self._obj.OuterDiameter == diameter and not self._obj.AutoDiameter:
@@ -263,7 +263,7 @@ class ShapeBodyTube(SymmetricComponent, BoxBounded, Coaxial):
 
     def getOuterDiameter(self):
         if TRACE_POSITION:
-            print("P: ShapeBodyTube::getOuterDiameter(%s)" % (self._obj.Label))
+            print("P: FeatureBodyTube::getOuterDiameter(%s)" % (self._obj.Label))
 
         if self._obj.AutoDiameter:
             # Return auto radius from front or rear
@@ -303,7 +303,7 @@ class ShapeBodyTube(SymmetricComponent, BoxBounded, Coaxial):
 
     def getFrontAutoDiameter(self):
         if TRACE_POSITION:
-            print("P: ShapeBodyTube::getFrontAutoDiameter(%s)" % (self._obj.Label))
+            print("P: FeatureBodyTube::getFrontAutoDiameter(%s)" % (self._obj.Label))
 
         if self.isOuterDiameterAutomatic():
             # Search for previous SymmetricComponent
@@ -320,7 +320,7 @@ class ShapeBodyTube(SymmetricComponent, BoxBounded, Coaxial):
 
     def getRearAutoDiameter(self):
         if TRACE_POSITION:
-            print("P: ShapeBodyTube::getRearAutoDiameter(%s)" % (self._obj.Label))
+            print("P: FeatureBodyTube::getRearAutoDiameter(%s)" % (self._obj.Label))
 
         if self.isOuterDiameterAutomatic():
             # Search for next SymmetricComponent
@@ -346,7 +346,7 @@ class ShapeBodyTube(SymmetricComponent, BoxBounded, Coaxial):
 
     def execute(self, obj):
         if TRACE_EXECUTION:
-            print("E: ShapeBodyTube::execute(%s)" % (self._obj.Label))
+            print("E: FeatureBodyTube::execute(%s)" % (self._obj.Label))
 
         shape = BodyTubeShapeHandler(obj)
         if shape is not None:

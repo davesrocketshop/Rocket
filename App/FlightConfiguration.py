@@ -27,7 +27,7 @@ __url__ = "https://www.davesrocketshop.com"
 import math
 
 from App.FlightConfigurationId import FlightConfigurationId
-from App.ShapeComponentAssembly import ShapeComponentAssembly
+from App.ComponentAssembly import ComponentAssembly
 
 from App.Constants import FEATURE_ROCKET, FEATURE_STAGE
 
@@ -100,7 +100,7 @@ class FlightConfiguration():
                     # however -- insist on an exact type match to disallow off-core stages
                     if self.isStageActive(child.getStageNumber()):
                         toProcess.append(child.Proxy)
-                elif isinstance(child.Proxy, ShapeComponentAssembly):
+                elif isinstance(child.Proxy, ComponentAssembly):
                     # i.e. ParallelStage or PodSet
                     pass
                 else:
