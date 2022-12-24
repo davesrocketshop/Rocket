@@ -36,19 +36,24 @@ from Ui.ViewRocket import ViewProviderRocket
 from Ui.Commands.CmdStage import makeStage
 
 def makeRocket(name='Rocket', makeSustainer=True):
-    obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
+    obj = FreeCAD.ActiveDocument.addObject("App::GeometryPython",name)
     ShapeRocket(obj)
     if FreeCAD.GuiUp:
         ViewProviderRocket(obj.ViewObject)
+    FreeCADGui.ActiveDocument.ActiveView.setActiveObject('rocket', obj)
 
     if makeSustainer:
         sustainer = makeStage()
-        sustainer.Label = 'Sustainer'
-        obj.Proxy.addChild(sustainer)
-        FreeCADGui.ActiveDocument.ActiveView.setActiveObject('stage', sustainer)
+        # sustainer.Label = 'Sustainer'
+        # obj.Proxy.addChild(sustainer)
+        # FreeCADGui.ActiveDocument.ActiveView.setActiveObject('stage', sustainer)
+        # FreeCADGui.Selection.clearSelection()
+        # FreeCADGui.Selection.addSelection(sustainer)
     else:
-        FreeCADGui.ActiveDocument.ActiveView.setActiveObject('rocket', obj)
+        FreeCADGui.Selection.clearSelection()
+        FreeCADGui.Selection.addSelection(obj)
 
+    obj.Proxy.enableEvents()
     return obj
 
 class CmdRocket:
