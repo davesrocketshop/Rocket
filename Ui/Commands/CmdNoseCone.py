@@ -37,21 +37,22 @@ from App.Constants import FEATURE_NOSE_CONE
 
 from DraftTools import translate
 
-def makeNoseCone(name='NoseCone'):
+def makeNoseCone(name='NoseCone', addToTree=False):
     '''makeNoseCone(name): makes a Nose Cone'''
     obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
     FeatureNoseCone(obj)
     if FreeCAD.GuiUp:
         ViewProviderNoseCone(obj.ViewObject)
 
-        addToStage(obj)
+        if addToTree:
+            addToStage(obj)
     return obj
 
 class CmdNoseCone(Command):
     def Activated(self):
         FreeCAD.ActiveDocument.openTransaction("Create nose cone")
         FreeCADGui.addModule("Ui.Commands.CmdNoseCone")
-        FreeCADGui.doCommand("Ui.Commands.CmdNoseCone.makeNoseCone('NoseCone')")
+        FreeCADGui.doCommand("Ui.Commands.CmdNoseCone.makeNoseCone('NoseCone', True)")
         FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
 
     def IsActive(self):

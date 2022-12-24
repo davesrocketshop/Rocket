@@ -43,7 +43,7 @@ def makeRocket(name='Rocket', makeSustainer=True):
     FreeCADGui.ActiveDocument.ActiveView.setActiveObject('rocket', obj)
 
     if makeSustainer:
-        sustainer = makeStage()
+        sustainer = makeStage('Stage', True, True)
     else:
         FreeCADGui.Selection.clearSelection()
         FreeCADGui.Selection.addSelection(obj)

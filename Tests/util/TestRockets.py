@@ -52,7 +52,7 @@ class TestRockets:
 
         stage = makeStage().Proxy
         stage.setName("Stage")
-        # rocket.addChild(stage)
+        rocket.addChild(stage)
                 
         noseconeLength = 70.0
         noseconeRadius = 12.0

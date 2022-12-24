@@ -38,41 +38,44 @@ from App.Constants import FEATURE_LAUNCH_LUG, FEATURE_RAIL_BUTTON, FEATURE_RAIL_
 
 from DraftTools import translate
 
-def makeLaunchLug(name='LaunchLug'):
+def makeLaunchLug(name='LaunchLug', addToTree=False):
     '''makeLaunchLug(name): makes a Launch Lug'''
     obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
     FeatureLaunchLug(obj)
     if FreeCAD.GuiUp:
         ViewProviderLaunchLug(obj.ViewObject)
 
-        addToStage(obj)
+        if addToTree:
+            addToStage(obj)
     return obj
 
-def makeRailButton(name='RailButton'):
+def makeRailButton(name='RailButton', addToTree=False):
     '''makeRailButton(name): makes a Rail Button'''
     obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
     FeatureRailButton(obj)
     if FreeCAD.GuiUp:
         ViewProviderRailButton(obj.ViewObject)
 
-        addToStage(obj)
+        if addToTree:
+            addToStage(obj)
     return obj
 
-def makeRailGuide(name='RailGuide'):
+def makeRailGuide(name='RailGuide', addToTree=False):
     '''makeRailGuide(name): makes a Launch Guide'''
     obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
     FeatureRailGuide(obj)
     if FreeCAD.GuiUp:
         ViewProviderRailGuide(obj.ViewObject)
 
-        addToStage(obj)
+        if addToTree:
+            addToStage(obj)
     return obj
 
 class CmdLaunchLug(Command):
     def Activated(self):
         FreeCAD.ActiveDocument.openTransaction("Create launch lug")
         FreeCADGui.addModule("Ui.Commands.CmdLaunchGuides")
-        FreeCADGui.doCommand("Ui.Commands.CmdLaunchGuides.makeLaunchLug('LaunchLug')")
+        FreeCADGui.doCommand("Ui.Commands.CmdLaunchGuides.makeLaunchLug('LaunchLug', True)")
         FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
 
     def IsActive(self):
@@ -89,7 +92,7 @@ class CmdRailButton(Command):
     def Activated(self):
         FreeCAD.ActiveDocument.openTransaction("Create rail button")
         FreeCADGui.addModule("Ui.Commands.CmdLaunchGuides")
-        FreeCADGui.doCommand("Ui.Commands.CmdLaunchGuides.makeRailButton('RailButton')")
+        FreeCADGui.doCommand("Ui.Commands.CmdLaunchGuides.makeRailButton('RailButton', True)")
         FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
 
     def IsActive(self):
@@ -106,7 +109,7 @@ class CmdRailGuide(Command):
     def Activated(self):
         FreeCAD.ActiveDocument.openTransaction("Create rail guide")
         FreeCADGui.addModule("Ui.Commands.CmdLaunchGuides")
-        FreeCADGui.doCommand("Ui.Commands.CmdLaunchGuides.makeRailGuide('RailGuide')")
+        FreeCADGui.doCommand("Ui.Commands.CmdLaunchGuides.makeRailGuide('RailGuide', True)")
         FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
 
     def IsActive(self):
@@ -123,7 +126,7 @@ class CmdStandOff(Command):
     def Activated(self):
         FreeCAD.ActiveDocument.openTransaction("Create stand off")
         FreeCADGui.addModule("Ui.Commands.CmdLaunchGuides")
-        FreeCADGui.doCommand("Ui.Commands.CmdLaunchGuides.makeRailGuide('StandOff')")
+        FreeCADGui.doCommand("Ui.Commands.CmdLaunchGuides.makeRailGuide('StandOff', True)")
         FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
 
     def IsActive(self):

@@ -51,26 +51,28 @@ def addToStage(obj):
     if sel:
         sel[0].Proxy.addChild(obj)
 
-def makeStage(name='Stage'):
+def makeStage(name='Stage', addToTree=False, setSelected=False):
     obj = FreeCAD.ActiveDocument.addObject("App::GeometryPython",name)
     FeatureStage(obj)
     if FreeCAD.GuiUp:
         ViewProviderStage(obj.ViewObject)
 
-        rocket=FreeCADGui.ActiveDocument.ActiveView.getActiveObject("rocket")
-        if rocket:
-            rocket.Proxy.addChild(obj)
+        if addToTree:
+            rocket=FreeCADGui.ActiveDocument.ActiveView.getActiveObject("rocket")
+            if rocket:
+                rocket.Proxy.addChild(obj)
 
     FreeCADGui.ActiveDocument.ActiveView.setActiveObject('stage', obj)
-    FreeCADGui.Selection.clearSelection()
-    FreeCADGui.Selection.addSelection(obj)
+    if setSelected:
+        FreeCADGui.Selection.clearSelection()
+        FreeCADGui.Selection.addSelection(obj)
     return obj
 
 class CmdStage(Command):
     def Activated(self):
         FreeCAD.ActiveDocument.openTransaction("Create rocket stage")
         FreeCADGui.addModule("Ui.Commands.CmdStage")
-        FreeCADGui.doCommand("Ui.Commands.CmdStage.makeStage('Stage')")
+        FreeCADGui.doCommand("Ui.Commands.CmdStage.makeStage('Stage', True, True)")
         FreeCADGui.doCommand("App.activeDocument().recompute(None,True,True)")
 
     def IsActive(self):

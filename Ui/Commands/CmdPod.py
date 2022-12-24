@@ -36,21 +36,25 @@ from App.Constants import FEATURE_POD
 
 from DraftTools import translate
 
-def makePod(name='Pod'):
+def makePod(name='Pod', addToTree=False, setSelected=False):
     '''makePod(name): makes a Pod'''
     obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
     FeaturePod(obj)
     if FreeCAD.GuiUp:
         ViewProviderPod(obj.ViewObject)
 
-        addToStage(obj)
+        if addToTree:
+            addToStage(obj)
+        if setSelected:
+            FreeCADGui.Selection.clearSelection()
+            FreeCADGui.Selection.addSelection(obj)
     return obj
 
 class CmdPod(Command):
     def Activated(self):
         FreeCAD.ActiveDocument.openTransaction("Create pod")
         FreeCADGui.addModule("Ui.Commands.CmdPod")
-        FreeCADGui.doCommand("Ui.Commands.CmdPod.makePod('Pod')")
+        FreeCADGui.doCommand("Ui.Commands.CmdPod.makePod('Pod', True, True)")
         FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
 
     def IsActive(self):

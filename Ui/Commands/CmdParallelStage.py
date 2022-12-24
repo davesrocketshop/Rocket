@@ -55,13 +55,17 @@ def addToParallelStage(obj):
 
         _addChild(stage, stage, obj)
 
-def makeParallelStage(name='Stage'):
+def makeParallelStage(name='Stage', addToTree=False, setSelected=False):
     obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
     FeatureParallelStage(obj)
     if FreeCAD.GuiUp:
         ViewProviderParallelStage(obj.ViewObject)
 
-        addToStage(obj)
+        if addToTree:
+            addToStage(obj)
+        if setSelected:
+            FreeCADGui.Selection.clearSelection()
+            FreeCADGui.Selection.addSelection(obj)
 
     FreeCADGui.ActiveDocument.ActiveView.setActiveObject('stage', obj)
     return obj
@@ -70,7 +74,7 @@ class CmdParallelStage(Command):
     def Activated(self):
         FreeCAD.ActiveDocument.openTransaction("Create rocket parallel stage")
         FreeCADGui.addModule("Ui.Commands.CmdParallelStage")
-        FreeCADGui.doCommand("Ui.Commands.CmdParallelStage.makeParallelStage('Stage')")
+        FreeCADGui.doCommand("Ui.Commands.CmdParallelStage.makeParallelStage('Stage', True, True)")
         FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
 
     def IsActive(self):

@@ -35,7 +35,7 @@ from Ui.Commands.CmdStage import addToStage
 
 from DraftTools import translate
 
-def makeFin(name='Fin'):
+def makeFin(name='Fin', addToTree=False, setSelected=False):
     '''makeFin(name): makes a Fin'''
     obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
     FeatureFin(obj)
@@ -50,14 +50,20 @@ def makeFin(name='Fin'):
     if FreeCAD.GuiUp:
         ViewProviderFin(obj.ViewObject)
 
-        addToStage(obj)
+        if addToTree:
+            addToStage(obj)
+
+        if setSelected:
+            FreeCADGui.Selection.clearSelection()
+            FreeCADGui.Selection.addSelection(obj)
+
     return obj
 
 class CmdFin(Command):
     def Activated(self):
         FreeCAD.ActiveDocument.openTransaction("Create fin")
         FreeCADGui.addModule("Ui.Commands.CmdFin")
-        FreeCADGui.doCommand("Ui.Commands.CmdFin.makeFin('Fin')")
+        FreeCADGui.doCommand("Ui.Commands.CmdFin.makeFin('Fin', True, False)")
         FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
 
     def IsActive(self):

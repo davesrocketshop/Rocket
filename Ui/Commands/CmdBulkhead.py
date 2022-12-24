@@ -36,21 +36,22 @@ from App.Constants import FEATURE_BULKHEAD
 
 from DraftTools import translate
 
-def makeBulkhead(name):
+def makeBulkhead(name, addToTree=False):
     '''makeBulkhead(name): makes a bulkhead'''
     obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
     FeatureBulkhead(obj)
     if FreeCAD.GuiUp:
         ViewProviderBulkhead(obj.ViewObject)
 
-        addToStage(obj)
+        if addToTree:
+            addToStage(obj)
     return obj
 
 class CmdBulkhead(Command):
     def Activated(self):
         FreeCAD.ActiveDocument.openTransaction("Create bulkhead")
         FreeCADGui.addModule("Ui.Commands.CmdBulkhead")
-        FreeCADGui.doCommand("Ui.Commands.CmdBulkhead.makeBulkhead('Bulkhead')")
+        FreeCADGui.doCommand("Ui.Commands.CmdBulkhead.makeBulkhead('Bulkhead', True)")
         FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
 
     def IsActive(self):

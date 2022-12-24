@@ -36,23 +36,25 @@ from App.Constants import FEATURE_BODY_TUBE
 
 from DraftTools import translate
 
-def makeBodyTube(name='BodyTube'):
+def makeBodyTube(name='BodyTube', addToTree=False, setSelected=False):
     '''makeBodyTube(name): makes a Body Tube'''
     obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
     FeatureBodyTube(obj)
     if FreeCAD.GuiUp:
         ViewProviderBodyTube(obj.ViewObject)
 
-        addToStage(obj)
-        FreeCADGui.Selection.clearSelection()
-        FreeCADGui.Selection.addSelection(obj)
+        if addToTree:
+            addToStage(obj)
+        if setSelected:
+            FreeCADGui.Selection.clearSelection()
+            FreeCADGui.Selection.addSelection(obj)
     return obj
 
 class CmdBodyTube(Command):
     def Activated(self):
         FreeCAD.ActiveDocument.openTransaction("Create body tube")
         FreeCADGui.addModule("Ui.Commands.CmdBodyTube")
-        FreeCADGui.doCommand("Ui.Commands.CmdBodyTube.makeBodyTube('BodyTube')")
+        FreeCADGui.doCommand("Ui.Commands.CmdBodyTube.makeBodyTube('BodyTube', addToTree=True, setSelected=True)")
         FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
 
     def IsActive(self):
