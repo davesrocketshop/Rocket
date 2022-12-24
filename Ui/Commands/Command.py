@@ -31,12 +31,11 @@ class Command:
     def part_feature_selected(self):
         if FreeCADGui.ActiveDocument is None:
             return False
-        # sel = FreeCADGui.Selection.getSelection()
-        # if len(sel) == 1 and (sel[0].isDerivedFrom("Part::Feature") or sel[0].isDerivedFrom("App::GeometryFeature")):
-        #     return True
-        # else:
-        #     return False
-        return True
+        sel = FreeCADGui.Selection.getSelection()
+        if len(sel) == 1 and (sel[0].isDerivedFrom("Part::Feature") or sel[0].isDerivedFrom("App::GeometryFeature")):
+            return True
+        else:
+            return False
 
     def part_fin_selected(self):
         if FreeCADGui.ActiveDocument is not None:
@@ -48,15 +47,14 @@ class Command:
 
     def part_eligible_feature(self, feature):
         if FreeCADGui.ActiveDocument is not None:
-            # sel = FreeCADGui.Selection.getSelection()
-            # if len(sel) == 1 and (sel[0].isDerivedFrom("Part::FeaturePython") or sel[0].isDerivedFrom("App::GeometryFeature")):
-            #     if isinstance(feature, list):
-            #         for f in feature:
-            #             if sel[0].Proxy.eligibleChild(f):
-            #                 return True
-            #     elif sel[0].Proxy.eligibleChild(feature):
-            #         return True
-            return True
+            sel = FreeCADGui.Selection.getSelection()
+            if len(sel) == 1 and (sel[0].isDerivedFrom("Part::FeaturePython") or sel[0].isDerivedFrom("App::GeometryPython")):
+                if isinstance(feature, list):
+                    for f in feature:
+                        if sel[0].Proxy.eligibleChild(f):
+                            return True
+                elif sel[0].Proxy.eligibleChild(feature):
+                    return True
         return False
 
     def no_rocket_builder(self):

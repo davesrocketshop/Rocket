@@ -44,6 +44,8 @@ def makeBodyTube(name='BodyTube'):
         ViewProviderBodyTube(obj.ViewObject)
 
         addToStage(obj)
+        FreeCADGui.Selection.clearSelection()
+        FreeCADGui.Selection.addSelection(obj)
     return obj
 
 class CmdBodyTube(Command):
