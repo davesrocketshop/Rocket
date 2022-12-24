@@ -52,6 +52,20 @@ class ViewProvider:
             document.openTransaction(text)
         viewObject.Document.setEdit(viewObject.Object, 0)
 
+    def claimChildren(self):
+        """Define which objects will appear as children in the tree view.
+
+        Returns
+        -------
+        list of <App::DocumentObject>s:
+            The objects claimed as children.
+        """
+        objs = []
+        if hasattr(self,"Object"):
+            objs = self.Object.Group
+
+        return objs
+
     def __getstate__(self):
         return None
 

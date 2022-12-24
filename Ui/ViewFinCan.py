@@ -51,8 +51,8 @@ class ViewProviderFinCan(ViewProvider):
             FreeCADGui.Control.closeDialog()
             return
 
-    def claimChildren(self):
-        print("claimChildren(FinCan)")
-        if hasattr(self.Object, "Profile"):
-            return [self.Object.Profile]
-        return None
+    # def claimChildren(self):
+    #     print("claimChildren(FinCan)")
+    #     if hasattr(self.Object, "Profile"):
+    #         return [self.Object.Profile]
+    #     return None

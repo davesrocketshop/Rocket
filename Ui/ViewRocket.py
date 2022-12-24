@@ -32,7 +32,6 @@ from PySide import QtCore,QtGui
 from DraftTools import translate
 
 from App.Utilities import _msg
-# from App.ShapeRocket import hookChildren
 
 class ViewProviderRocket:
 
@@ -42,8 +41,8 @@ class ViewProviderRocket:
         vobj.Proxy = self
         self._oldChildren = []
 
-    def onChanged(self, vobj, prop):
-        print("V: ViewProviderRocket::onChanged(%s)" % (prop))
+    # def onChanged(self, vobj, prop):
+    #     print("V: ViewProviderRocket::onChanged(%s)" % (prop))
 
     def getIcon(self):
         return FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Rocket.svg"
@@ -68,11 +67,6 @@ class ViewProviderRocket:
         objs = []
         if hasattr(self,"Object"):
             objs = self.Object.Group
-        if not hasattr(self,"_oldChildren"):
-            self._oldChildren = []
-
-        # hookChildren(self.Object, objs, self._oldChildren)
-        self._oldChildren = objs
 
         return objs
 

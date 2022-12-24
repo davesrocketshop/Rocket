@@ -54,21 +54,3 @@ class ViewProviderFin(ViewProvider):
         if mode == 0:
             FreeCADGui.Control.closeDialog()
             return
-
-    def claimChildren(self):
-        print("claimChildren(Fin)")
-        """Define which objects will appear as children in the tree view.
-
-        Returns
-        -------
-        list of <App::DocumentObject>s:
-            The objects claimed as children.
-        """
-        objs = []
-        if hasattr(self,"Object"):
-            objs = self.Object.Group
-
-        # hookChildren(self.Object, objs, self._oldChildren)
-        # self._oldChildren = objs
-
-        return objs

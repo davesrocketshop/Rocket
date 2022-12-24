@@ -56,3 +56,10 @@ class Command:
                 elif sel[0].Proxy.eligibleChild(feature):
                     return True
         return False
+
+    def no_rocket_builder(self):
+        if FreeCADGui.ActiveDocument is None:
+            return False
+
+        if FreeCADGui.ActiveDocument.ActiveView.getActiveObject("rocket") is None:
+            return True

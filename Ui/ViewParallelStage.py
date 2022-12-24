@@ -53,23 +53,23 @@ class ViewProviderParallelStage:
     def canDropObject(self, obj):
         return self.Object.Proxy.eligibleChild(obj.Proxy.Type)
 
-    def claimChildren(self):
-        print("claimChildren(ParallelStage)")
-        """Define which objects will appear as children in the tree view.
+    # def claimChildren(self):
+    #     print("claimChildren(ParallelStage)")
+    #     """Define which objects will appear as children in the tree view.
 
-        Returns
-        -------
-        list of <App::DocumentObject>s:
-            The objects claimed as children.
-        """
-        objs = []
-        if hasattr(self,"Object"):
-            objs = self.Object.Group
+    #     Returns
+    #     -------
+    #     list of <App::DocumentObject>s:
+    #         The objects claimed as children.
+    #     """
+    #     objs = []
+    #     if hasattr(self,"Object"):
+    #         objs = self.Object.Group
 
-        hookChildren(self.Object, objs, self._oldChildren)
-        self._oldChildren = objs
+    #     hookChildren(self.Object, objs, self._oldChildren)
+    #     self._oldChildren = objs
 
-        return objs
+    #     return objs
 
     def setupContextMenu(self, vobj, menu):
         """Add the component specific options to the context menu."""
