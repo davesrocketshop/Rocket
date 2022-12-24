@@ -47,6 +47,7 @@ class TestRockets:
     """
     def makeEstesAlphaIII():
         rocket = makeRocket('Alpha III', False).Proxy
+        rocket.enableEvents(False)
         rocket.setName("Estes Alpha III / Code Verification Rocket")
 
         stage = makeStage().Proxy

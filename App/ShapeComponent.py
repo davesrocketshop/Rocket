@@ -645,8 +645,8 @@ class ShapeComponent(ShapeBase, ChangeSource):
         print("index %d, count %d" % (thisIndex, count))
         if thisIndex == (count - 1):
             print("\t%s base is 0.0" % (self._obj.Label))
-            self._obj.Placement.Base.x = 0.0
-            # self._obj.Placement.Base.x = -float(self.getLength())
+            self._obj.Placement.Base.x = self.getParent()._obj.Placement.Base.x
+            # self._obj.Placement.Base.x = 0.0
         elif 0 <= thisIndex:
             referenceComponent = self.getParent()._getChild( thisIndex + 1 )
             print("\t%s reference %s" % (self._obj.Label, referenceComponent.Label))

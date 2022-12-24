@@ -52,7 +52,7 @@ def addToStage(obj):
         sel[0].Proxy.addChild(obj)
 
 def makeStage(name='Stage'):
-    obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
+    obj = FreeCAD.ActiveDocument.addObject("App::GeometryPython",name)
     ShapeStage(obj)
     if FreeCAD.GuiUp:
         ViewProviderStage(obj.ViewObject)
@@ -62,6 +62,8 @@ def makeStage(name='Stage'):
             rocket.Proxy.addChild(obj)
 
     FreeCADGui.ActiveDocument.ActiveView.setActiveObject('stage', obj)
+    FreeCADGui.Selection.clearSelection()
+    FreeCADGui.Selection.addSelection(obj)
     return obj
 
 class CmdStage(Command):
