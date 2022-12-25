@@ -70,10 +70,10 @@ class AfterAxialMethod(AxialMethod):
         return outerLength + offset
 
 
-class TopAxialMethod(AxialMethod):
+class BottomAxialMethod(AxialMethod):
 
     def __init__(self):
-        super().__init__(translate('App::Property', 'Top of the parent component'))
+        super().__init__(translate('App::Property', 'Bottom of the parent component'))
 
     def getAsOffset(self, position, innerLength, outerLength):
         return position
@@ -92,10 +92,10 @@ class MiddleAxialMethod(AxialMethod):
     def getAsPosition(self, offset, innerLength, outerLength):
         return offset + (outerLength - innerLength) / 2
 
-class BottomAxialMethod(AxialMethod):
+class TopAxialMethod(AxialMethod):
 
     def __init__(self):
-        super().__init__(translate('App::Property', 'Bottom of the parent component'))
+        super().__init__(translate('App::Property', 'Top of the parent component'))
 
     def getAsOffset(self, position, innerLength, outerLength):
         return position + (innerLength - outerLength)

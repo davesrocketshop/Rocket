@@ -122,7 +122,10 @@ class ShapeBase():
         self._obj.Group = list
 
     def _getChild(self, index):
-        return self._obj.Group[index]
+        try:
+            return self._obj.Group[index]
+        except IndexError:
+            return None
 
     def _setChild(self, index, value):
         list = self._obj.Group

@@ -88,7 +88,7 @@ class TestRockets:
         finset.setSweepLength(finSweep)
         finset.setHeight(finHeight)
         finset.setThickness(3.2)
-        finset.setAxialMethod(AxialMethod.BOTTOM)
+        # finset.setAxialMethod(AxialMethod.BOTTOM)
         finset.setName("3 Fin Set")
         bodytube.addChild(finset)
             

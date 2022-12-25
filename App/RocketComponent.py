@@ -648,7 +648,19 @@ class RocketComponent(ShapeBase, ChangeSource):
             self._obj.Placement.Base.x = self.getParent()._obj.Placement.Base.x
             # self._obj.Placement.Base.x = 0.0
         elif 0 <= thisIndex:
-            referenceComponent = self.getParent()._getChild( thisIndex + 1 )
+            index = thisIndex + 1
+            referenceComponent = self.getParent()._getChild( index )
+            while referenceComponent is not None:
+                if referenceComponent.Proxy.isAfter():
+                    break
+                index = index + 1
+                referenceComponent = self.getParent()._getChild( index )
+
+            if referenceComponent is None:
+                print("\tNo reference")
+                self._obj.Placement.Base.x = self.getParent()._obj.Placement.Base.x
+                return
+
             print("\t%s reference %s" % (self._obj.Label, referenceComponent.Label))
         
             refLength = float(referenceComponent.Proxy.getLength())
