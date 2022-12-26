@@ -98,10 +98,17 @@ class TopAxialMethod(AxialMethod):
         super().__init__(translate('App::Property', 'Top of the parent component'))
 
     def getAsOffset(self, position, innerLength, outerLength):
-        return position + (innerLength - outerLength)
+        # print("P: TopAxialMethod::getAsOffset()")
+        # print("\tposition %g, innerLength %g, outerLength %g" % (position, innerLength, outerLength))
+        # print("\toffset %g" % (float(position) + (float(innerLength) - float(outerLength))))
+        return float(position) + (float(innerLength) - float(outerLength))
 
     def getAsPosition(self, offset, innerLength, outerLength):
-        return offset + (outerLength - innerLength)
+        # print("P: TopAxialMethod::getAsPosition()")
+        # print("\toffset %g, innerLength %g, outerLength %g" % (offset, innerLength, outerLength))
+        # print("\tposition %g" % ((float(outerLength) - float(innerLength)) - float(offset)))
+        # return float(offset) + (float(outerLength) - float(innerLength))
+        return (float(outerLength) - float(innerLength)) - float(offset)
 
 ABSOLUTE = AbsoluteAxialMethod()
 AFTER = AfterAxialMethod()

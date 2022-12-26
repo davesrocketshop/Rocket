@@ -36,22 +36,21 @@ from App.Constants import FEATURE_CENTERING_RING
 
 from DraftTools import translate
 
-def makeCenteringRing(name='CenteringRing', addToTree=False):
+def makeCenteringRing(name='CenteringRing'):
     '''makeCenteringRing(name): makes a centering ring'''
     obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
     FeatureCenteringRing(obj)
     if FreeCAD.GuiUp:
         ViewProviderCenteringRing(obj.ViewObject)
 
-        if addToTree:
-            addToStage(obj)
-    return obj
+    return obj.Proxy
 
 class CmdCenteringRing(Command):
     def Activated(self):
         FreeCAD.ActiveDocument.openTransaction("Create centering ring")
         FreeCADGui.addModule("Ui.Commands.CmdCenteringRing")
-        FreeCADGui.doCommand("Ui.Commands.CmdCenteringRing.makeCenteringRing('CenteringRing', True)")
+        FreeCADGui.doCommand("obj=Ui.Commands.CmdCenteringRing.makeCenteringRing('CenteringRing')")
+        FreeCADGui.doCommand("Ui.Commands.CmdStage.addToStage(obj)")
         FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
 
     def IsActive(self):

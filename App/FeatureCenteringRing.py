@@ -41,8 +41,8 @@ class FeatureCenteringRing(FeatureBulkhead):
         super().__init__(obj)
         self.Type = FEATURE_CENTERING_RING
 
-        if not hasattr(obj, 'CenterDiameter'):
-            obj.addProperty('App::PropertyLength', 'CenterDiameter', 'CenteringRing', translate('App::Property', 'Diameter of the central hole')).CenterDiameter = 10.0
+        # if not hasattr(obj, 'CenterDiameter'):
+        #     obj.addProperty('App::PropertyLength', 'CenterDiameter', 'CenteringRing', translate('App::Property', 'Diameter of the central hole')).CenterDiameter = 10.0
 
         if not hasattr(obj, 'Notched'):
             obj.addProperty('App::PropertyBool', 'Notched', 'CenteringRing', translate('App::Property', 'Include a notch for an engine hook')).Notched = False
@@ -58,6 +58,7 @@ class FeatureCenteringRing(FeatureBulkhead):
         # Default values changed to match a central hole
         obj.HoleDiameter = 2.0
         obj.HoleCenter = 7.0
+        
 
     def execute(self, obj):
         if TRACE_EXECUTION:

@@ -37,7 +37,7 @@ from App.Constants import FEATURE_FINCAN
 
 from DraftTools import translate
 
-def makeFinCan(name, addToTree=False, setSelected=False):
+def makeFinCan(name):
     '''makeFinCan(name): makes a Fin Can'''
     obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
     FeatureFinCan(obj)
@@ -52,20 +52,16 @@ def makeFinCan(name, addToTree=False, setSelected=False):
     if FreeCAD.GuiUp:
         ViewProviderFinCan(obj.ViewObject)
 
-        if addToTree:
-            addToStage(obj)
-
-        if setSelected:
-            FreeCADGui.Selection.clearSelection()
-            FreeCADGui.Selection.addSelection(obj)
-
-    return obj
+    return obj.Proxy
 
 class CmdFinCan(Command):
     def Activated(self):
         FreeCAD.ActiveDocument.openTransaction("Create fin can")
         FreeCADGui.addModule("Ui.Commands.CmdFinCan")
-        FreeCADGui.doCommand("Ui.Commands.CmdFinCan.makeFinCan('FinCan', True)")
+        FreeCADGui.doCommand("obj=Ui.Commands.CmdFinCan.makeFinCan('FinCan')")
+        FreeCADGui.doCommand("Ui.Commands.CmdStage.addToStage(obj)")
+        FreeCADGui.doCommand("FreeCADGui.Selection.clearSelection()")
+        FreeCADGui.doCommand("FreeCADGui.Selection.addSelection(obj._obj)")
         FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
 
     def IsActive(self):

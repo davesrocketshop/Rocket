@@ -33,9 +33,9 @@ from DraftTools import translate
 
 from App.FeatureRocket import FeatureRocket
 from Ui.ViewRocket import ViewProviderRocket
-from Ui.Commands.CmdStage import makeStage
+from Ui.Commands.CmdStage import makeStage, addToStage
 
-def makeRocket(name='Rocket', makeSustainer=True):
+def makeRocket(name='Rocket', makeSustainer=False):
     obj = FreeCAD.ActiveDocument.addObject("App::GeometryPython",name)
     FeatureRocket(obj)
     if FreeCAD.GuiUp:
@@ -43,19 +43,23 @@ def makeRocket(name='Rocket', makeSustainer=True):
     FreeCADGui.ActiveDocument.ActiveView.setActiveObject('rocket', obj)
 
     if makeSustainer:
-        sustainer = makeStage('Stage', True, True)
+        sustainer = makeStage('Stage')
+        obj.Proxy.addChild(sustainer)
+        FreeCADGui.Selection.clearSelection()
+        FreeCADGui.Selection.addSelection(sustainer._obj)
     else:
         FreeCADGui.Selection.clearSelection()
         FreeCADGui.Selection.addSelection(obj)
 
-    obj.Proxy.enableEvents()
-    return obj
+    # obj.Proxy.enableEvents()
+    return obj.Proxy
 
 class CmdRocket:
     def Activated(self):
         FreeCAD.ActiveDocument.openTransaction("Create rocket assembly")
         FreeCADGui.addModule("Ui.Commands.CmdRocket")
-        FreeCADGui.doCommand("Ui.Commands.CmdRocket.makeRocket('Rocket')")
+        FreeCADGui.doCommand("rocket=Ui.Commands.CmdRocket.makeRocket('Rocket', True)")
+        FreeCADGui.doCommand("rocket.enableEvents()")
         FreeCADGui.doCommand("App.activeDocument().recompute(None,True,True)")
 
     def IsActive(self):

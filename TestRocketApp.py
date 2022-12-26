@@ -30,7 +30,8 @@ from Analyzers.FinFlutter import FinFlutter
 from Ui.Commands.CmdFin import makeFin
 from Ui.Commands.CmdFinCan import makeFinCan
 
-from Tests.Components.RocketTest import RocketTest
+# from Tests.Components.RocketTest import RocketTest
+from Tests.Components.PositionTests import PositionTests
 
 class RocketTestCases(unittest.TestCase):
 
@@ -48,8 +49,8 @@ class FinFlutterTestCases(unittest.TestCase):
     def setUp(self):
         self.Doc = FreeCAD.newDocument("FlutterTest")
 
-        self._fin = makeFin('FlutterFin')
-        self._finCan = makeFinCan('flutterFinCan')
+        self._fin = makeFin('FlutterFin')._obj
+        self._finCan = makeFinCan('flutterFinCan')._obj
         self.Doc.recompute()
 
     def _setFin(self, finData):

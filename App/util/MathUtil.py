@@ -26,6 +26,8 @@ __url__ = "https://www.davesrocketshop.com"
 
 from App.util.Coordinate import Coordinate, MAX, MIN
 
+EPSILON = 0.00000001 # 10mm^3 in m^3
+
 class MathUtil:
 
 

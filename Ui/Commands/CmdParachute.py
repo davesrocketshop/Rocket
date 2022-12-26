@@ -40,19 +40,14 @@ def makeParachute(name):
     if FreeCAD.GuiUp:
         ViewProviderParachute(obj.ViewObject)
 
-        body=FreeCADGui.ActiveDocument.ActiveView.getActiveObject("pdbody")
-        part=FreeCADGui.ActiveDocument.ActiveView.getActiveObject("part")
-        if body:
-            body.Group=body.Group+[obj]
-        elif part:
-            part.Group=part.Group+[obj]
-    return obj
+    return obj.Proxy
 
 class CmdParachute:
     def Activated(self):
         FreeCAD.ActiveDocument.openTransaction("Create parachute")
         FreeCADGui.addModule("Ui.Commands.CmdParachute")
-        FreeCADGui.doCommand("Ui.Commands.CmdParachute.makeParachute('Parachute')")
+        FreeCADGui.doCommand("obj=Ui.Commands.CmdParachute.makeParachute('Parachute')")
+        FreeCADGui.doCommand("Ui.Commands.CmdStage.addToStage(obj)")
         FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
 
     def IsActive(self):

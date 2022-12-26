@@ -199,6 +199,16 @@ class FeatureFin(ShapeLocation):
         # For placing objects on the outer part of the parent
         return float(self._obj.ParentRadius + self._obj.Height)
 
+    def getLength(self):
+        if TRACE_POSITION:
+            print("P: FeatureFin::getLength(%s)" % (self._obj.Label))
+
+        # Return the length of this component along the central axis
+        length = self.getRootChord()
+
+        print("Length = %f" %(length))
+        return length
+
     def getFinCount(self):
         return self._obj.FinCount
 

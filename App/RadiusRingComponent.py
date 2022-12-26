@@ -43,23 +43,26 @@ class RadiusRingComponent(RingComponent, LineInstanceable):
 
         if not hasattr(obj, 'Diameter'):
             obj.addProperty('App::PropertyLength', 'Diameter', 'Bulkhead', translate('App::Property', 'Outer diameter of the object')).Diameter = 25.0
+        if not hasattr(obj, 'AutoDiameter'):
+            obj.addProperty('App::PropertyBool', 'AutoDiameter', 'Bulkhead', translate('App::Property', 'Automatically set the outer diameter when possible')).AutoDiameter = False
         if not hasattr(obj, 'CenterDiameter'):
             obj.addProperty('App::PropertyLength', 'CenterDiameter', 'Bulkhead', translate('App::Property', 'Diameter of the central hole')).CenterDiameter = 10.0
 
         if not hasattr(obj, 'InstanceCount'):
             obj.addProperty('App::PropertyInteger', 'InstanceCount', 'Bulkhead', translate('App::Property', 'Instance count')).InstanceCount = 1
         if not hasattr(obj, 'InstanceSeparation'):
-            obj.addProperty('App::PropertyVector', 'InstanceSeparation', 'Bulkhead', translate('App::Property', 'front-front along the positive rocket axis')).InstanceSeparation = FreeCAD.Vector(0, 0, 0)
+            obj.addProperty('App::PropertyDistance', 'InstanceSeparation', 'Bulkhead', translate('App::Property', 'Front to front along the positive rocket axis')).InstanceSeparation = 0.0
 
     def getOuterRadius(self):
-        if self.AutoDiameter and isinstance(self.getParent(), RadialParent):
+        if self._obj.AutoDiameter and isinstance(self.getParent(), RadialParent):
             pos1 = self.toRelative(Coordinate.NUL, self.getParent())[0].x;
             pos2 = self.toRelative(Coordinate(self.getLength()), self.getParent())[0].x;
             pos1 = clamp(pos1, 0, self.getParent().getLength())
             pos2 = clamp(pos2, 0, self.getParent().getLength())
             outerRadius = min(self.getParent().getInnerRadius(pos1), self.getParent().getInnerRadius(pos2))
+            return float(outerRadius)
 
-        return outerRadius
+        return float(self._obj.Diameter) / 2.0
 
     def setOuterRadius(self, r):
         r = max(r,0)
@@ -119,12 +122,12 @@ class RadiusRingComponent(RingComponent, LineInstanceable):
     def getInstanceSeparation(self):
         return self._obj.InstanceSeparation
 
-    def setInstanceSeparation(self, _separation):
-        self._obj.InstanceSeparation = _separation
+    def setInstanceSeparation(self, separation):
+        self._obj.InstanceSeparation = separation
 
         for listener in self._configListeners:
             if isinstance(listener, RadiusRingComponent):
-                listener.setInstanceSeparation(_separation)
+                listener.setInstanceSeparation(separation)
 
     def setInstanceCount(self, newCount):
         for listener in self._configListeners:

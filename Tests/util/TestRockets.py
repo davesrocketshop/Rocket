@@ -35,6 +35,7 @@ from Ui.Commands.CmdStage import makeStage
 from Ui.Commands.CmdNoseCone import makeNoseCone
 from Ui.Commands.CmdFin import makeFin
 from Ui.Commands.CmdLaunchGuides import makeLaunchLug
+from Ui.Commands.CmdCenteringRing import makeCenteringRing
 from App.position import AxialMethod
 
 class TestRockets:
@@ -46,17 +47,17 @@ class TestRockets:
         This function is used for unit, integration tests, DO NOT CHANGE (without updating tests).
     """
     def makeEstesAlphaIII():
-        rocket = makeRocket('Alpha III', False).Proxy
-        rocket.enableEvents(False)
+        rocket = makeRocket('Alpha III', False)
+        # rocket.enableEvents(False)
         rocket.setName("Estes Alpha III / Code Verification Rocket")
 
-        stage = makeStage().Proxy
+        stage = makeStage()
         stage.setName("Stage")
         rocket.addChild(stage)
                 
         noseconeLength = 70.0
         noseconeRadius = 12.0
-        nosecone = makeNoseCone().Proxy
+        nosecone = makeNoseCone()
         nosecone.setNoseType(TYPE_OGIVE)
         nosecone.setLength(noseconeLength)
         nosecone.setAftRadius(noseconeRadius)
@@ -69,7 +70,7 @@ class TestRockets:
         bodytubeLength = 200.0
         bodytubeRadius = 12.0
         bodytubeThickness = 0.3
-        bodytube = makeBodyTube().Proxy
+        bodytube = makeBodyTube()
         bodytube.setLength(bodytubeLength)
         bodytube.setOuterRadius(bodytubeRadius)
         bodytube.setThickness(bodytubeThickness)
@@ -81,18 +82,18 @@ class TestRockets:
         finTipChord = 30.0
         finSweep = 20.0
         finHeight = 50.0
-        finset = makeFin().Proxy
+        finset = makeFin()
         finset.setFinCount(finCount)
         finset.setRootChord(finRootChord)
         finset.setTipChord(finTipChord)
         finset.setSweepLength(finSweep)
         finset.setHeight(finHeight)
         finset.setThickness(3.2)
-        # finset.setAxialMethod(AxialMethod.BOTTOM)
+        finset.setAxialMethod(AxialMethod.BOTTOM)
         finset.setName("3 Fin Set")
         bodytube.addChild(finset)
             
-        lug = makeLaunchLug().Proxy
+        lug = makeLaunchLug()
         lug.setName("Launch Lugs")
         lug.setAxialMethod(AxialMethod.TOP)
         lug.setAxialOffset(111.0)
@@ -101,7 +102,7 @@ class TestRockets:
         lug.setInnerRadius(2.0)
         bodytube.addChild(lug)
             
-        inner = makeBodyTube().Proxy # InnerTube?
+        inner = makeBodyTube() # InnerTube?
         inner.setAxialMethod(AxialMethod.TOP)
         inner.setAxialOffset(133.0)
         inner.setLength(70.0)
@@ -112,16 +113,16 @@ class TestRockets:
         bodytube.addChild(inner)
             
         #     {
-        #         // MotorBlock 
-        #         EngineBlock thrustBlock= new EngineBlock();
-        #         thrustBlock.setAxialMethod(AxialMethod.TOP);
-        #         thrustBlock.setAxialOffset(0.0);
-        #         thrustBlock.setLength(0.005);
-        #         thrustBlock.setOuterRadius(0.009);
-        #         thrustBlock.setThickness(0.0008);
-        #         thrustBlock.setName("Engine Block");
-        #         inner.addChild(thrustBlock);
-        #         inner.setMotorMount( true);
+        # MotorBlock 
+        thrustBlock= makeCenteringRing()
+        thrustBlock.setAxialMethod(AxialMethod.TOP)
+        thrustBlock.setAxialOffset(0.0)
+        thrustBlock.setLength(5.0)
+        thrustBlock.setOuterRadius(9.0)
+        thrustBlock.setThickness(0.8)
+        thrustBlock.setName("Engine Block")
+        inner.addChild(thrustBlock)
+        # inner.setMotorMount( true)
             
         #         {
         #             MotorConfiguration motorConfig = new MotorConfiguration(inner, TEST_FCID_0);
@@ -169,15 +170,15 @@ class TestRockets:
         #     chute.setMassOverridden(true);
         #     bodytube.addChild(chute);
             
-        #     // bulkhead x2
-        #     CenteringRing centerings = new CenteringRing();
-        #     centerings.setName("Centering Rings");
-        #     centerings.setAxialMethod(AxialMethod.TOP);
-        #     centerings.setAxialOffset(0.14);
-        #     centerings.setLength(0.006);
-        #     centerings.setInstanceCount(2);
-        #     centerings.setInstanceSeparation(0.035);
-        #     bodytube.addChild(centerings);
+        # bulkhead x2
+        centerings = makeCenteringRing()
+        centerings.setName("Centering Rings")
+        centerings.setAxialMethod(AxialMethod.TOP)
+        centerings.setAxialOffset(140.0)
+        centerings.setLength(6.0)
+        centerings.setInstanceCount(2)
+        centerings.setInstanceSeparation(35.0)
+        bodytube.addChild(centerings)
         # }
         
         # Material material = Application.getPreferences().getDefaultComponentMaterial(null, Material.Type.BULK);
