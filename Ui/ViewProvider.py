@@ -23,6 +23,8 @@
 __title__ = "FreeCAD View Provider"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
+
+from pivy import coin
     
 from DraftTools import translate
 
@@ -30,12 +32,11 @@ class ViewProvider:
 
     def __init__(self, vobj):
         vobj.Proxy = self
+        vobj.addExtension("Gui::ViewProviderGroupExtensionPython")
 
     def attach(self, vobj):
         self.ViewObject = vobj
         self.Object = vobj.Object
-        if not hasattr(self,"_oldChildren"):
-            self._oldChildren = []
 
     def canDropObject(self, obj):
         return self.Object.Proxy.eligibleChild(obj.Proxy.Type)
@@ -63,6 +64,8 @@ class ViewProvider:
         objs = []
         if hasattr(self,"Object"):
             objs = self.Object.Group
+            if hasattr(self.Object, "Profile"):
+                objs.append(self.Object.Profile)
 
         return objs
 

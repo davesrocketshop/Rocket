@@ -34,9 +34,6 @@ class ViewProviderNoseCone(ViewProvider):
 
     def __init__(self, vobj):
         super().__init__(vobj)
-
-    def onChanged(self, vobj, prop):
-        print("V: ViewProviderNoseCone::onChanged(%s)" % (prop))
         
     def getIcon(self):
         return FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_NoseCone.svg"

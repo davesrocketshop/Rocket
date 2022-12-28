@@ -50,8 +50,3 @@ class ViewProviderFin(ViewProvider):
         if mode == 0:
             FreeCADGui.Control.closeDialog()
             return
-
-    # def claimChildren(self):
-    #     if hasattr(self.Object, "Profile"):
-    #         return [self.Object.Profile]
-    #     return None

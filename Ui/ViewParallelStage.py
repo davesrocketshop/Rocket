@@ -33,43 +33,17 @@ from DraftTools import translate
 
 from App.Utilities import _msg
 from App.FeatureStage import hookChildren
+from Ui.ViewProvider import ViewProvider
 
 from Ui.TaskPanelParallelStage import TaskPanelParallelStage
 
-class ViewProviderParallelStage:
+class ViewProviderParallelStage(ViewProvider):
 
     def __init__(self, vobj):
-        vobj.addExtension("Gui::ViewProviderGroupExtensionPython")
-        vobj.Proxy = self
-        self._oldChildren = []
+        super().__init__(vobj)
         
     def getIcon(self):
         return FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_ParallelStage.svg"
-
-    def attach(self, vobj):
-        self.ViewObject = vobj
-        self.Object = vobj.Object
-
-    def canDropObject(self, obj):
-        return self.Object.Proxy.eligibleChild(obj.Proxy.Type)
-
-    # def claimChildren(self):
-    #     print("claimChildren(ParallelStage)")
-    #     """Define which objects will appear as children in the tree view.
-
-    #     Returns
-    #     -------
-    #     list of <App::DocumentObject>s:
-    #         The objects claimed as children.
-    #     """
-    #     objs = []
-    #     if hasattr(self,"Object"):
-    #         objs = self.Object.Group
-
-    #     hookChildren(self.Object, objs, self._oldChildren)
-    #     self._oldChildren = objs
-
-    #     return objs
 
     def setupContextMenu(self, vobj, menu):
         """Add the component specific options to the context menu."""
@@ -104,9 +78,3 @@ class ViewProviderParallelStage:
         if mode == 0:
             FreeCADGui.Control.closeDialog()
             return
-
-    def __getstate__(self):
-        return None
-
-    def __setstate__(self, state):
-        return None

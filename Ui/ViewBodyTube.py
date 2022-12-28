@@ -37,8 +37,7 @@ class ViewProviderBodyTube(ViewProvider):
     def __init__(self, vobj):
         super().__init__(vobj)
 
-        vobj.addExtension("Gui::ViewProviderGroupExtensionPython")
-        self._oldChildren = []
+        # vobj.addExtension("Gui::ViewProviderGroupExtensionPython")
         
     def getIcon(self):
         return FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_BodyTube.svg"
