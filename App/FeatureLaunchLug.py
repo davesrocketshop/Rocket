@@ -24,15 +24,11 @@ __title__ = "FreeCAD Body Tubes"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
-from PySide import QtCore
 import math
     
 from App.Constants import FEATURE_LAUNCH_LUG
-# from App.Constants import PROP_HIDDEN
-# from App.Constants import PLACEMENT_RADIAL
 
-# from App.ShapeBase import TRACE_POSITION
-# from App.FeatureBodyTube import FeatureBodyTube
+from App.ShapeBase import TRACE_POSITION
 from App.Tube import Tube
 from App.position import AxialMethod
 from App.position.AngleMethod import AngleMethod
@@ -53,14 +49,14 @@ class FeatureLaunchLug(Tube, AnglePositionable, BoxBounded):
         super().__init__(obj, AxialMethod.MIDDLE)
 
         self.Type = FEATURE_LAUNCH_LUG
-        # self._obj.PlacementType = PLACEMENT_RADIAL
 
+        # Default set to 1/8" launch lug
         if not hasattr(obj,"OuterDiameter"):
-            obj.addProperty('App::PropertyLength', 'OuterDiameter', 'LaunchLug', translate('App::Property', 'Diameter of the outside of the body tube')).OuterDiameter = 24.79
+            obj.addProperty('App::PropertyLength', 'OuterDiameter', 'LaunchLug', translate('App::Property', 'Diameter of the outside of the body tube')).OuterDiameter = 4.06
         if not hasattr(obj,"Thickness"):
-            obj.addProperty('App::PropertyLength', 'Thickness', 'LaunchLug', translate('App::Property', 'Diameter of the inside of the body tube')).Thickness = 0.33
+            obj.addProperty('App::PropertyLength', 'Thickness', 'LaunchLug', translate('App::Property', 'Diameter of the inside of the body tube')).Thickness = 0.25
         if not hasattr(obj,"Length"):
-            obj.addProperty('App::PropertyLength', 'Length', 'LaunchLug', translate('App::Property', 'Length of the body tube')).Length = 457.0
+            obj.addProperty('App::PropertyLength', 'Length', 'LaunchLug', translate('App::Property', 'Length of the body tube')).Length = 25.4
 
         if not hasattr(obj,"AngleOffset"):
             obj.addProperty('App::PropertyAngle', 'AngleOffset', 'LaunchLug', translate('App::Property', 'Angle offset')).AngleOffset = 180
@@ -74,11 +70,6 @@ class FeatureLaunchLug(Tube, AnglePositionable, BoxBounded):
         if not hasattr(obj,"Shape"):
             obj.addProperty('Part::PropertyPartShape', 'Shape', 'LaunchLug', translate('App::Property', 'Shape of the launch lug'))
 
-        # Default set to 1/8" launch lug
-        self._obj.OuterDiameter = 4.06
-        self._obj.Thickness = 0.25
-        self._obj.Length = 25.4
-
     def execute(self, obj):
         # if TRACE_EXECUTION:
         #     print("E: FeatureLaunchLug::execute(%s)" % (self._obj.Label))
@@ -89,6 +80,15 @@ class FeatureLaunchLug(Tube, AnglePositionable, BoxBounded):
 
     def eligibleChild(self, childType):
         return False
+
+    def getLength(self):
+        # if TRACE_POSITION:
+        #     print("P: FeatureLaunchLug::getLength(%s)" % (self._obj.Label))
+
+        # Return the length of this component along the central axis
+        length = self._obj.Length
+
+        return float(length)
 
     def getOuterRadius(self):
         return self.getOuterDiameter() / 2.0

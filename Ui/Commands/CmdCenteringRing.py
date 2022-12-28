@@ -30,7 +30,6 @@ import FreeCADGui
 from App.FeatureCenteringRing import FeatureCenteringRing
 from Ui.ViewCenteringRing import ViewProviderCenteringRing
 from Ui.Commands.Command import Command
-from Ui.Commands.CmdStage import addToStage
 
 from App.Constants import FEATURE_CENTERING_RING
 

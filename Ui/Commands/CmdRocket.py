@@ -33,7 +33,7 @@ from DraftTools import translate
 
 from App.FeatureRocket import FeatureRocket
 from Ui.ViewRocket import ViewProviderRocket
-from Ui.Commands.CmdStage import makeStage, addToStage
+from Ui.Commands.CmdStage import makeStage
 
 def makeRocket(name='Rocket', makeSustainer=False):
     obj = FreeCAD.ActiveDocument.addObject("App::GeometryPython",name)

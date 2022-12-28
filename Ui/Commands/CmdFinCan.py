@@ -31,7 +31,6 @@ from App.Constants import FIN_TYPE_SKETCH
 from App.FeatureFinCan import FeatureFinCan
 from Ui.ViewFinCan import ViewProviderFinCan
 from Ui.Commands.Command import Command
-from Ui.Commands.CmdStage import addToStage
 
 from App.Constants import FEATURE_FINCAN
 

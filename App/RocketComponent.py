@@ -116,7 +116,7 @@ class RocketComponent(ShapeBase, ChangeSource):
         # if not hasattr(obj,"Length"):
         #     obj.addProperty('App::PropertyLength', 'Length', 'RocketComponent', translate('App::Property', 'Length of the component')).Length = 0.0
         if not hasattr(obj,"AxialOffset"):
-            obj.addProperty('App::PropertyLength', 'AxialOffset', 'RocketComponent', translate('App::Property', 'Length of the component')).AxialOffset = 0.0
+            obj.addProperty('App::PropertyDistance', 'AxialOffset', 'RocketComponent', translate('App::Property', 'Offset from the reference point')).AxialOffset = 0.0
         if not hasattr(obj, 'Position'):
             obj.addProperty('App::PropertyPythonObject', 'Position', 'RocketComponent', translate('App::Property', 'Method for calculating axial offsets')).Position = Coordinate()
         if not hasattr(obj,"BypassComponentChangeEvent"):
@@ -128,9 +128,9 @@ class RocketComponent(ShapeBase, ChangeSource):
         self._configListeners = []
  
                     
-        self._obj = obj
-        obj.Proxy=self
-        self.version = '3.0'
+        # self._obj = obj
+        # obj.Proxy=self
+        # self.version = '3.0'
 
     def getComponentName(self):
         return self._obj.Label
@@ -439,6 +439,9 @@ class RocketComponent(ShapeBase, ChangeSource):
             return
 
         self.getRoot().fireComponentChangeEvent(event)
+
+    def getPosition(self):
+        return self._obj.Placement.Base
 
     def getAxialOffsetFromMethod(self, method):
         parentLength = 0

@@ -31,7 +31,6 @@ from App.Constants import FEATURE_FIN, FIN_TYPE_SKETCH
 from App.FeatureFin import FeatureFin
 from Ui.ViewFin import ViewProviderFin
 from Ui.Commands.Command import Command
-from Ui.Commands.CmdStage import addToStage
 
 from DraftTools import translate
 

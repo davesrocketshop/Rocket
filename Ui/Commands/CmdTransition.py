@@ -31,28 +31,26 @@ import FreeCADGui
 from App.FeatureTransition import FeatureTransition
 from Ui.ViewTransition import ViewProviderTransition
 from Ui.Commands.Command import Command
-from Ui.Commands.CmdStage import addToStage
 
 from App.Constants import FEATURE_TRANSITION
 
 from DraftTools import translate
 
-def makeTransition(name='Transition', addToTree=False):
+def makeTransition(name='Transition'):
     '''makeTransition(name): makes a Transition'''
     obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
     FeatureTransition(obj)
     if FreeCAD.GuiUp:
         ViewProviderTransition(obj.ViewObject)
 
-        if addToTree:
-            addToStage(obj)
     return obj
 
 class CmdTransition(Command):
     def Activated(self):
         FreeCAD.ActiveDocument.openTransaction("Create transition")
         FreeCADGui.addModule("Ui.Commands.CmdTransition")
-        FreeCADGui.doCommand("Ui.Commands.CmdTransition.makeTransition('Transition', True)")
+        FreeCADGui.doCommand("obj=Ui.Commands.CmdTransition.makeTransition('Transition')")
+        FreeCADGui.doCommand("Ui.Commands.CmdStage.addToStage(obj)")
         FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
 
     def IsActive(self):

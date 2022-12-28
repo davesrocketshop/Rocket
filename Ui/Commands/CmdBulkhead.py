@@ -30,7 +30,6 @@ import FreeCADGui
 from App.FeatureBulkhead import FeatureBulkhead
 from Ui.ViewBulkhead import ViewProviderBulkhead
 from Ui.Commands.Command import Command
-from Ui.Commands.CmdStage import addToStage
 
 from App.Constants import FEATURE_BULKHEAD
 

@@ -189,5 +189,6 @@ class TestRockets:
         # // preserve default default configuration of rocket -- to test what the default is set to upon initialization.
         
         rocket.enableEvents()
+        FreeCAD.activeDocument().recompute(None,True,True)
         return rocket
 

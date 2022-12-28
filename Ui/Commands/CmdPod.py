@@ -30,7 +30,6 @@ import FreeCADGui
 from App.FeaturePod import FeaturePod
 from Ui.ViewPod import ViewProviderPod
 from Ui.Commands.Command import Command
-from Ui.Commands.CmdStage import addToStage
 
 from App.Constants import FEATURE_POD
 

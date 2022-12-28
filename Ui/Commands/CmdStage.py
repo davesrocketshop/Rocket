@@ -27,7 +27,6 @@ __url__ = "https://www.davesrocketshop.com"
 
 import FreeCAD
 import FreeCADGui
-from PySide import QtGui
 
 from App.FeatureStage import FeatureStage
 from Ui.Commands.Command import Command
@@ -48,7 +47,7 @@ def addToStage(obj):
         else:
             sel[0].Proxy.addChild(obj)
 
-def makeStage(name='Stage', addToTree=False, setSelected=False):
+def makeStage(name='Stage'):
     obj = FreeCAD.ActiveDocument.addObject("App::GeometryPython",name)
     FeatureStage(obj)
     if FreeCAD.GuiUp:

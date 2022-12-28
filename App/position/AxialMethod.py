@@ -87,10 +87,10 @@ class MiddleAxialMethod(AxialMethod):
         super().__init__(translate('App::Property', 'Middle of the parent component'))
 
     def getAsOffset(self, position, innerLength, outerLength):
-        return position + (innerLength - outerLength) / 2
+        return float(position) + (float(innerLength) - float(outerLength)) / 2
 
     def getAsPosition(self, offset, innerLength, outerLength):
-        return offset + (outerLength - innerLength) / 2
+        return float(offset) + (float(outerLength) - float(innerLength)) / 2
 
 class TopAxialMethod(AxialMethod):
 

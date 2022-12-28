@@ -31,7 +31,6 @@ import FreeCADGui
 from App.FeatureNoseCone import FeatureNoseCone
 from Ui.ViewNoseCone import ViewProviderNoseCone
 from Ui.Commands.Command import Command
-from Ui.Commands.CmdStage import addToStage
 
 from App.Constants import FEATURE_NOSE_CONE
 

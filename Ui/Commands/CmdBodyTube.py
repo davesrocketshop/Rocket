@@ -30,7 +30,6 @@ import FreeCADGui
 from App.FeatureBodyTube import FeatureBodyTube
 from Ui.ViewBodyTube import ViewProviderBodyTube
 from Ui.Commands.Command import Command
-from Ui.Commands.CmdStage import addToStage
 
 from App.Constants import FEATURE_BODY_TUBE
 

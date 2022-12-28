@@ -32,7 +32,6 @@ from PySide import QtGui
 from App.FeatureParallelStage import FeatureParallelStage
 from Ui.ViewParallelStage import ViewProviderParallelStage
 from Ui.Commands.Command import Command
-from Ui.Commands.CmdStage import addToStage
 
 from App.Constants import FEATURE_PARALLEL_STAGE
 
