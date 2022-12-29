@@ -39,28 +39,28 @@ class TrapezoidalFinsetElement(FinsetElement):
         self._knownTags.extend(["rootchord", "tipchord", "sweeplength", "height"])
 
     def makeObject(self):
-        self._obj = makeFin()
-        self._obj.FinType = FIN_TYPE_TRAPEZOID
+        self._feature = makeFin()
+        self._feature._obj.FinType = FIN_TYPE_TRAPEZOID
 
         if self._parentObj is not None:
-            self._parentObj.addObject(self._obj)
+            self._parentObj._obj.addObject(self._feature._obj)
 
 
     def handleEndTag(self, tag, content):
         _tag = tag.lower().strip()
         if _tag == "rootchord":
-            self._obj.RootChord = FreeCAD.Units.Quantity(content + " m").Value
+            self._feature._obj.RootChord = FreeCAD.Units.Quantity(content + " m").Value
         elif _tag == "tipchord":
-            self._obj.TipChord = FreeCAD.Units.Quantity(content + " m").Value
+            self._feature._obj.TipChord = FreeCAD.Units.Quantity(content + " m").Value
         elif _tag == "sweeplength":
-            self._obj.SweepLength = FreeCAD.Units.Quantity(content + " m").Value
+            self._feature._obj.SweepLength = FreeCAD.Units.Quantity(content + " m").Value
         elif _tag == "height":
-            self._obj.Height = FreeCAD.Units.Quantity(content + " m").Value
+            self._feature._obj.Height = FreeCAD.Units.Quantity(content + " m").Value
         else:
             super().handleEndTag(tag, content)
 
     def end(self):
         # Set the sweep angle
-        self._obj.Proxy.sweepAngleFromLength()
+        self._feature.sweepAngleFromLength()
 
         return super().end()

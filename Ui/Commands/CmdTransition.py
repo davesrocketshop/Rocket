@@ -43,7 +43,7 @@ def makeTransition(name='Transition'):
     if FreeCAD.GuiUp:
         ViewProviderTransition(obj.ViewObject)
 
-    return obj
+    return obj.Proxy
 
 class CmdTransition(Command):
     def Activated(self):

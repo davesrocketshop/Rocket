@@ -46,32 +46,32 @@ class FinsetElement(ExternalComponentElement):
         _tag = tag.lower().strip()
         if _tag == "fincount":
             if int(content) > 1:
-                self._obj.FinSet = True
-                self._obj.FinCount = int(content)
+                self._feature._obj.FinSet = True
+                self._feature._obj.FinCount = int(content)
             else:
-                self._obj.FinSet = False
+                self._feature._obj.FinSet = False
         elif _tag == "thickness":
             thickness = FreeCAD.Units.Quantity(content + " m").Value
-            self._obj.RootThickness = thickness
-            self._obj.TipThickness = thickness
+            self._feature._obj.RootThickness = thickness
+            self._feature._obj.TipThickness = thickness
         elif _tag == "crosssection":
             if content == 'square':
-                self._obj.RootCrossSection = FIN_CROSS_SQUARE
+                self._feature._obj.RootCrossSection = FIN_CROSS_SQUARE
             elif content == 'rounded':
-                self._obj.RootCrossSection = FIN_CROSS_ROUND
+                self._feature._obj.RootCrossSection = FIN_CROSS_ROUND
             elif content == 'airfoil':
-                self._obj.RootCrossSection = FIN_CROSS_AIRFOIL
+                self._feature._obj.RootCrossSection = FIN_CROSS_AIRFOIL
             else:
                 _err("Unrecognized fin cross section %s" % content)
-                self._obj.RootCrossSection = FIN_CROSS_SQUARE
-            self._obj.TipCrossSection = FIN_CROSS_SAME
+                self._feature._obj.RootCrossSection = FIN_CROSS_SQUARE
+            self._feature._obj.TipCrossSection = FIN_CROSS_SAME
         elif _tag == "tabheight":
-            self._obj.Ttw = True # Should we check that height is greater than 0.0001?
-            self._obj.TtwHeight = FreeCAD.Units.Quantity(content + " m").Value
+            self._feature._obj.Ttw = True # Should we check that height is greater than 0.0001?
+            self._feature._obj.TtwHeight = FreeCAD.Units.Quantity(content + " m").Value
         elif _tag == "tablength":
-            self._obj.TtwLength = FreeCAD.Units.Quantity(content + " m").Value
+            self._feature._obj.TtwLength = FreeCAD.Units.Quantity(content + " m").Value
         elif _tag == "tabposition":
-            self._obj.TtwOffset = FreeCAD.Units.Quantity(content + " m").Value
+            self._feature._obj.TtwOffset = FreeCAD.Units.Quantity(content + " m").Value
         else:
             super().handleEndTag(tag, content)
 

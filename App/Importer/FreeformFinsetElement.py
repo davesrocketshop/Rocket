@@ -97,13 +97,13 @@ class FreeformFinsetElement(FinsetElement):
 
     def makeObject(self):
         self.sketch = newSketchNoEdit()
-        self._obj = makeFin()
-        self._obj.FinType = FIN_TYPE_SKETCH
-        self._obj.Profile = self.sketch
-        self._obj.Group = [self.sketch]
+        self._feature = makeFin()
+        self._feature._obj.FinType = FIN_TYPE_SKETCH
+        self._feature._obj.Profile = self.sketch
+        self._feature._obj.Group = [self.sketch]
 
         if self._parentObj is not None:
-            self._parentObj.addObject(self._obj)
+            self._parentObj._obj.addObject(self._feature._obj)
         self.sketch.Visibility = False
 
     def end(self):

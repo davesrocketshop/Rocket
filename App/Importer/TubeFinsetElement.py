@@ -39,36 +39,36 @@ class TubeFinsetElement(FinsetElement):
         self._knownTags = ["fincount", "rotation", "thickness", "length", "radius", "instancecount", "angleoffset", "radiusoffset"]
 
     def makeObject(self):
-        self._obj = makeFin()
-        self._obj.FinType = FIN_TYPE_TUBE
+        self._feature = makeFin()
+        self._feature._obj.FinType = FIN_TYPE_TUBE
 
         if self._parentObj is not None:
-            self._parentObj.addObject(self._obj)
+            self._parentObj._obj.addObject(self._feature._obj)
 
 
     def handleEndTag(self, tag, content):
         _tag = tag.lower().strip()
         if _tag == "fincount":
             if int(content) > 1:
-                self._obj.FinSet = True
-                self._obj.FinCount = int(content)
-                self._obj.FinSpacing = 360.0 / int(content)
+                self._feature._obj.FinSet = True
+                self._feature._obj.FinCount = int(content)
+                self._feature._obj.FinSpacing = 360.0 / int(content)
             else:
-                self._obj.FinSet = False
+                self._feature._obj.FinSet = False
         elif _tag == "rotation":
             pass
         elif _tag == "thickness":
             thickness = FreeCAD.Units.Quantity(content + " m").Value
-            self._obj.TubeThickness = thickness
+            self._feature._obj.TubeThickness = thickness
         elif _tag == "length":
-            self._obj.RootChord = FreeCAD.Units.Quantity(content + " m").Value
+            self._feature._obj.RootChord = FreeCAD.Units.Quantity(content + " m").Value
         elif _tag == "radius":
             if content == "auto":
-                self._obj.TubeAutoOuterDiameter = True
+                self._feature._obj.TubeAutoOuterDiameter = True
             else:
-                self._obj.TubeAutoOuterDiameter = False
+                self._feature._obj.TubeAutoOuterDiameter = False
                 radius = FreeCAD.Units.Quantity(content + " m").Value
-                self._obj.TubeOuterDiameter = 2.0 * radius
+                self._feature._obj.TubeOuterDiameter = 2.0 * radius
         elif _tag == "instancecount":
             pass
         elif _tag == "angleoffset":

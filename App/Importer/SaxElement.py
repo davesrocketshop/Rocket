@@ -41,7 +41,7 @@ class Element:
         self._componentTags = []
 
         self._parentObj = parentObj
-        self._obj = None
+        self._feature = None
 
         self.makeObject()
 
@@ -77,9 +77,12 @@ class Element:
         if not _tag in self._validChildren:
             _err("Invalid element %s" % tag)
             return None
-        obj = self._obj
+        obj = self._feature
         if obj is None:
             obj = self._parentObj
+        # if obj is not None:
+        #     if hasattr(obj, '_obj'):
+        #         obj = obj._obj
         return self._validChildren[_tag](self, tag, attributes, obj, filename, line)
 
 class NullElement(Element):

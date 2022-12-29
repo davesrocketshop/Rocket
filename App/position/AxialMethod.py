@@ -26,6 +26,9 @@ __url__ = "https://www.davesrocketshop.com"
 
 from DraftTools import translate
 
+from App.Constants import LOCATION_PARENT_TOP, LOCATION_PARENT_MIDDLE, LOCATION_PARENT_BOTTOM, \
+    LOCATION_BASE, LOCATION_AFTER
+
 from App.position.DistanceMethod import DistanceMethod
 
 class AxialMethod(DistanceMethod):
@@ -115,3 +118,11 @@ AFTER = AfterAxialMethod()
 TOP = TopAxialMethod()
 MIDDLE = MiddleAxialMethod()
 BOTTOM = BottomAxialMethod()
+
+AXIAL_METHOD_MAP = {
+    LOCATION_PARENT_TOP : TOP, 
+    LOCATION_PARENT_MIDDLE : MIDDLE, 
+    LOCATION_PARENT_BOTTOM : BOTTOM,
+    LOCATION_BASE : ABSOLUTE, 
+    LOCATION_AFTER : AFTER
+}

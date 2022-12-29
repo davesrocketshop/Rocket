@@ -37,7 +37,7 @@ class StructuralComponentElement(ComponentElement):
     def handleEndTag(self, tag, content):
         _tag = tag.lower().strip()
         if _tag == "material":
-            self._obj.Material = content
+            self._feature._obj.Material = content
         else:
             super().handleEndTag(tag, content)
 

@@ -39,19 +39,19 @@ class EllipticalFinsetElement(FinsetElement):
         self._knownTags.extend(["rootchord", "height"])
 
     def makeObject(self):
-        self._obj = makeFin()
-        self._obj.FinType = FIN_TYPE_ELLIPSE
+        self._feature = makeFin()
+        self._feature.FinType = FIN_TYPE_ELLIPSE
 
         if self._parentObj is not None:
-            self._parentObj.addObject(self._obj)
+            self._parentObj._obj.addObject(self._feature._obj)
 
 
     def handleEndTag(self, tag, content):
         _tag = tag.lower().strip()
         if _tag == "rootchord":
-            self._obj.RootChord = FreeCAD.Units.Quantity(content + " m").Value
+            self._feature._obj.RootChord = FreeCAD.Units.Quantity(content + " m").Value
         elif _tag == "height":
-            self._obj.Height = FreeCAD.Units.Quantity(content + " m").Value
+            self._feature._obj.Height = FreeCAD.Units.Quantity(content + " m").Value
         else:
             super().handleEndTag(tag, content)
 

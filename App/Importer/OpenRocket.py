@@ -48,6 +48,12 @@ from App.Utilities import _msg
 
 from Ui.Commands.CmdRocket import makeRocket
 
+# import ptvsd
+# print("Waiting for debugger attach")
+# # 5678 is the default attach port in the VS Code debug configurations
+# ptvsd.enable_attach(address=('localhost', 5678), redirect_output=True)
+# ptvsd.wait_for_attach()
+
 class RootElement(ComponentElement):
 
     def __init__(self, parent, tag, attributes, parentObj, filename, line):
@@ -80,7 +86,7 @@ class RocketElement(ComponentElement):
                               }
         self._knownTags = ["subcomponents", "designer", "appearance", "motormount", "finpoints", "motorconfiguration", "flightconfiguration", "deploymentconfiguration", "separationconfiguration", "referencetype", "customreference", "revision"]
 
-        self._obj = makeRocket(makeSustainer=False)
+        self._feature = makeRocket(makeSustainer=False)
 
     def handleEndTag(self, tag, content):
         _tag = tag.lower().strip()
@@ -93,10 +99,10 @@ class RocketElement(ComponentElement):
 
     def onComment(self, content):
         # FreeCAD.ActiveDocument.Comment = content
-        self._obj.Description = content
+        self._feature._obj.Description = content
 
     def end(self):
-        self._obj.Proxy.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
+        self._feature.enableEvents()
         return self._parent
 
 class OpenRocketImporter(xml.sax.ContentHandler):
@@ -135,6 +141,7 @@ class OpenRocketImporter(xml.sax.ContentHandler):
                 orc.peek(10)
                 print("Import file is .gzip format")
                 OpenRocketImporter.importRocket(doc, orc, filename)
+                doc.recompute(None,True,True)
                 return
         except gzip.BadGzipFile:
             print("gzip.BadGzipFile")
@@ -176,10 +183,3 @@ class OpenRocketImporter(xml.sax.ContentHandler):
         handler = OpenRocketImporter(filename)
         parser.setContentHandler(handler)
         parser.parse(orc)
-
-        # rocketData = orc.read()
-        # print(rocketData)
-        # tree = ET.fromstring(rocketData)
-
-        # rocket = OpenRocket(doc)
-        # rocket.process(tree)

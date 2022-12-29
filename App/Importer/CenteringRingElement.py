@@ -38,38 +38,38 @@ class CenteringRingElement(RingComponentElement):
         self._knownTags.extend(["outerradius", "innerradius"])
 
     def makeObject(self):
-        self._obj = makeCenteringRing()
+        self._feature = makeCenteringRing()
         if self._parentObj is not None:
-            self._parentObj.addObject(self._obj)
+            self._parentObj._obj.addObject(self._feature._obj)
 
     def handleEndTag(self, tag, content):
         _tag = tag.lower().strip()
         if _tag == "outerradius":
-            self._obj.Proxy.setScratch("outerradius", content)
+            self._feature.setScratch("outerradius", content)
             if str(content).lower() == "auto":
                 diameter = "0.0"
-                self._obj.AutoDiameter = True
+                self._feature._obj.AutoDiameter = True
             else:
                 diameter = float(content) * 2.0
-                self._obj.AutoDiameter = False
-            self._obj.Diameter = str(diameter) + "m"
+                self._feature._obj.AutoDiameter = False
+            self._feature._obj.Diameter = str(diameter) + "m"
         elif _tag == "innerradius":
-            self._obj.Proxy.setScratch("innerradius", content)
+            self._feature.setScratch("innerradius", content)
             if str(content).lower() == "auto":
                 diameter = "0.0"
-                self._obj.CenterAutoDiameter = True
+                self._feature._obj.CenterAutoDiameter = True
             else:
                 diameter = float(content) * 2.0
-                self._obj.CenterAutoDiameter = False
-            self._obj.CenterDiameter = str(diameter) + "m"
+                self._feature._obj.CenterAutoDiameter = False
+            self._feature._obj.CenterDiameter = str(diameter) + "m"
         else:
             super().handleEndTag(tag, content)
 
     def onName(self, content):
-        self._obj.Label = content
+        self._feature.setName(content)
 
     def onLength(self, length):
-        self._obj.Thickness = length
+        self._feature.setThickness(length)
 
     def end(self):
         # Validate the shape here

@@ -44,14 +44,14 @@ class MotorMountElement(BodyComponentElement):
 
     def makeObject(self):
         if self._parentObj is not None:
-            self._obj = self._parentObj
-            print("MotorMount parent %s" % (self._parentObj.Label))
-            self._obj.MotorMount = True
+            self._feature = self._parentObj
+            # print("MotorMount parent %s" % (self._parentObj.Label))
+            self._feature._obj.MotorMount = True
 
     def handleEndTag(self, tag, content):
         _tag = tag.lower().strip()
         if _tag == "overhang":
-            self._obj.Overhang = content + "m"
+            self._feature._obj.Overhang = content + "m"
         else:
             super().handleEndTag(tag, content)
 
@@ -66,31 +66,25 @@ class BodyTubeElement(SymmetricComponentElement):
         self._knownTags.extend(["radius", "outerradius"]) #, "motormount"]
 
     def makeObject(self):
-        self._obj = makeBodyTube()
+        self._feature = makeBodyTube()
         if self._parentObj is not None:
-            self._parentObj.addObject(self._obj)
+            self._parentObj._obj.addObject(self._feature._obj)
 
     def handleEndTag(self, tag, content):
         _tag = tag.lower().strip()
         if _tag == "radius" or _tag == "outerradius":
             if str(content).lower() == "auto":
                 # self._obj.OuterDiameter = "0.0 m" - use the object default
-                self._obj.AutoDiameter = True 
+                self._feature._obj.AutoDiameter = True 
             else:
                 diameter = float(content) * 2.0
-                self._obj.OuterDiameter = str(diameter) + "m"
-                self._obj.AutoDiameter = False 
+                self._feature._obj.OuterDiameter = str(diameter) + "m"
+                self._feature._obj.AutoDiameter = False 
         else:
             super().handleEndTag(tag, content)
 
-    def onPositionType(self, value):
-        self._obj.LocationReference = value
-
-    def onPosition(self, position):
-        self._obj.Location = position
-
     def onThickness(self, length):
-        self._obj.Thickness = length
+        self._feature._obj.Thickness = length
 
     def onLength(self, length):
-        self._obj.Length = length
+        self._feature._obj.Length = length

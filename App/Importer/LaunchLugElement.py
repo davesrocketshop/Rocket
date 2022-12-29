@@ -42,9 +42,9 @@ class LaunchLugElement(ExternalComponentElement):
         self._knownTags.extend(["instancecount", "instanceseparation", "radialdirection", "angleoffset", "radius", "outerradius", "length", "thickness"])
 
     def makeObject(self):
-        self._obj = makeBodyTube()
+        self._feature = makeBodyTube()
         if self._parentObj is not None:
-            self._parentObj.addObject(self._obj)
+            self._parentObj._obj.addObject(self._feature._obj)
 
     def handleEndTag(self, tag, content):
         _tag = tag.lower().strip()
@@ -58,15 +58,15 @@ class LaunchLugElement(ExternalComponentElement):
             pass
         elif _tag == "radius" or _tag == "outerradius":
             if str(content).lower() == "auto":
-                # self._obj.OuterDiameter = "0.0 m" - use the object default
-                if hasattr(self._obj.Proxy, "setOuterRadiusAutomatic"):
-                    self._obj.Proxy.setOuterRadiusAutomatic(True)
+                # self._feature._obj.OuterDiameter = "0.0 m" - use the object default
+                if hasattr(self._feature, "setOuterRadiusAutomatic"):
+                    self._feature.setOuterRadiusAutomatic(True)
             else:
                 diameter = float(content) * 2.0
-                if hasattr(self._obj.Proxy, "setOuterRadius"):
-                    self._obj.Proxy.setOuterRadius(FreeCAD.Units.Quantity(str(diameter) + " m").Value)
-                if hasattr(self._obj.Proxy, "setOuterRadiusAutomatic"):
-                    self._obj.Proxy.setOuterRadiusAutomatic(False)
+                if hasattr(self._feature, "setOuterRadius"):
+                    self._feature.setOuterRadius(FreeCAD.Units.Quantity(str(diameter) + " m").Value)
+                if hasattr(self._feature, "setOuterRadiusAutomatic"):
+                    self._feature.setOuterRadiusAutomatic(False)
         elif _tag == "length":
             self.onLength(FreeCAD.Units.Quantity(content + " m").Value)
         elif _tag == "thickness":
@@ -74,19 +74,10 @@ class LaunchLugElement(ExternalComponentElement):
         else:
             super().handleEndTag(tag, content)
 
-    def onPositionType(self, value):
-        self._obj.LocationReference = value
-
-    def onPosition(self, position):
-        self._obj.Location = position
-
-    def onThickness(self, length):
-        self._obj.Thickness = length
-
     def onLength(self, content):
-        if hasattr(self._obj.Proxy, "setLength"):
-            self._obj.Proxy.setLength(content)
+        if hasattr(self._feature, "setLength"):
+            self._feature.setLength(content)
 
     def onThickness(self, content):
-        if hasattr(self._obj.Proxy, "setThickness"):
-            self._obj.Proxy.setThickness(content)
+        if hasattr(self._feature, "setThickness"):
+            self._feature.setThickness(content)

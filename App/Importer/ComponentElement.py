@@ -29,6 +29,7 @@ import FreeCAD
 from App.Importer.SaxElement import Element, NullElement
 from App.Constants import LOCATION_PARENT_TOP, LOCATION_PARENT_MIDDLE, LOCATION_PARENT_BOTTOM, \
     LOCATION_BASE, LOCATION_AFTER
+from App.position.AxialMethod import AXIAL_METHOD_MAP
 
 class ComponentElement(Element):
 
@@ -90,8 +91,8 @@ class ComponentElement(Element):
             super().handleEndTag(tag, content)
 
     def onName(self, content):
-        if hasattr(self._obj.Proxy, "setName"):
-            self._obj.Proxy.setName(content)
+        if hasattr(self._feature, "setName"):
+            self._feature.setName(content)
 
     def onColor(self, content):
         pass
@@ -100,26 +101,35 @@ class ComponentElement(Element):
         pass
 
     def onComment(self, content):
-        if hasattr(self._obj.Proxy, "setComment"):
-            self._obj.Proxy.setComment(content)
+        if hasattr(self._feature, "setComment"):
+            self._feature.setComment(content)
 
     def onPreset(self, content):
         pass
 
     def onPositionType(self, value):
-        pass
+        if hasattr(self._feature._obj, "LocationReference"):
+            self._feature._obj.LocationReference = value
+        if hasattr(self._feature, "setAxialMethod"):
+            self._feature.setAxialMethod(AXIAL_METHOD_MAP[value])
 
     def onPosition(self, content):
-        pass
+        if hasattr(self._feature._obj, "Location"):
+            self._feature._obj.Location = content
+        if hasattr(self._feature, "setAxialOffset"):
+            self._feature.setAxialOffset(content)
 
     def onAxialOffset(self, content):
-        pass
+        if hasattr(self._feature._obj, "Location"):
+            self._feature._obj.Location = content
+        if hasattr(self._feature, "setAxialOffset"):
+            self._feature.setAxialOffset(content)
 
     def onOverrideMass(self, content):
-        if hasattr(self._obj.Proxy, "setOverrideMass"):
-            self._obj.Proxy.setOverrideMass(content)
-        if hasattr(self._obj.Proxy, "setMassOverridden"):
-            self._obj.Proxy.setMassOverridden(content > 0)
+        if hasattr(self._feature, "setOverrideMass"):
+            self._feature.setOverrideMass(content)
+        if hasattr(self._feature, "setMassOverridden"):
+            self._feature.setMassOverridden(content > 0)
 
     def onOverrideCG(self, content):
         pass
@@ -166,5 +176,5 @@ class BodyComponentElement(ExternalComponentElement):
             super().handleEndTag(tag, content)
 
     def onLength(self, content):
-        if hasattr(self._obj.Proxy, "setLength"):
-            self._obj.Proxy.setLength(content)
+        if hasattr(self._feature, "setLength"):
+            self._feature.setLength(content)
