@@ -39,7 +39,7 @@ from App.ShapeBase import ShapeBase, TRACE_POSITION
 from App.Constants import FEATURE_ROCKET, FEATURE_STAGE
 
 from App.Constants import PROP_HIDDEN, PROP_TRANSIENT, PROP_READONLY
-from App.Constants import LOCATION_PARENT_TOP, LOCATION_PARENT_MIDDLE, LOCATION_PARENT_BOTTOM, LOCATION_BASE
+from App.Constants import LOCATION_PARENT_TOP, LOCATION_PARENT_MIDDLE, LOCATION_PARENT_BOTTOM, LOCATION_AFTER, LOCATION_BASE
 from App.Constants import LOCATION_SURFACE, LOCATION_CENTER
 from App.Constants import PLACEMENT_AXIAL #, PLACEMENT_RADIAL
 
@@ -75,6 +75,7 @@ class RocketComponent(ShapeBase, ChangeSource):
                         LOCATION_PARENT_TOP,
                         LOCATION_PARENT_MIDDLE,
                         LOCATION_PARENT_BOTTOM,
+                        LOCATION_AFTER,
                         LOCATION_BASE
                     ]
             obj.LocationReference = LOCATION_PARENT_BOTTOM
