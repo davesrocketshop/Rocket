@@ -40,4 +40,4 @@ class StageElement(ComponentElement):
     def makeObject(self):
         self._feature = makeStage()
         if self._parentObj is not None:
-            self._parentObj._obj.addObject(self._feature._obj)
+            self._parentObj.addChild(self._feature)

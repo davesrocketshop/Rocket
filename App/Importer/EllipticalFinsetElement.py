@@ -43,7 +43,7 @@ class EllipticalFinsetElement(FinsetElement):
         self._feature.FinType = FIN_TYPE_ELLIPSE
 
         if self._parentObj is not None:
-            self._parentObj._obj.addObject(self._feature._obj)
+            self._parentObj.addChild(self._feature)
 
 
     def handleEndTag(self, tag, content):

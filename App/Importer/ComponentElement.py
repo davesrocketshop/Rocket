@@ -66,7 +66,7 @@ class ComponentElement(Element):
         elif _tag == "linestyle":
             self.onLinestyle(content)
         elif _tag == "position":
-            self.onPosition(FreeCAD.Units.Quantity(content + " m").Value)
+            self.onAxialOffset(FreeCAD.Units.Quantity(content + " m").Value)
         elif _tag == "axialoffset":
             self.onAxialOffset(FreeCAD.Units.Quantity(content + " m").Value)
         elif _tag == "overridemass":
@@ -110,20 +110,14 @@ class ComponentElement(Element):
     def onPositionType(self, value):
         if hasattr(self._feature._obj, "LocationReference"):
             self._feature._obj.LocationReference = value
-        if hasattr(self._feature, "setAxialMethod"):
-            self._feature.setAxialMethod(AXIAL_METHOD_MAP[value])
-
-    def onPosition(self, content):
-        if hasattr(self._feature._obj, "Location"):
-            self._feature._obj.Location = content
-        if hasattr(self._feature, "setAxialOffset"):
-            self._feature.setAxialOffset(content)
+        if hasattr(self._feature._obj, "AxialMethod"):
+            self._feature._obj.AxialMethod = AXIAL_METHOD_MAP[value]
 
     def onAxialOffset(self, content):
         if hasattr(self._feature._obj, "Location"):
             self._feature._obj.Location = content
-        if hasattr(self._feature, "setAxialOffset"):
-            self._feature.setAxialOffset(content)
+        if hasattr(self._feature._obj, "AxialOffset"):
+            self._feature._obj.AxialOffset = content
 
     def onOverrideMass(self, content):
         if hasattr(self._feature, "setOverrideMass"):

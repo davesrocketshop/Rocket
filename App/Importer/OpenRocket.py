@@ -48,11 +48,11 @@ from App.Utilities import _msg
 
 from Ui.Commands.CmdRocket import makeRocket
 
-# import ptvsd
-# print("Waiting for debugger attach")
-# # 5678 is the default attach port in the VS Code debug configurations
-# ptvsd.enable_attach(address=('localhost', 5678), redirect_output=True)
-# ptvsd.wait_for_attach()
+import ptvsd
+print("Waiting for debugger attach")
+# 5678 is the default attach port in the VS Code debug configurations
+ptvsd.enable_attach(address=('localhost', 5678), redirect_output=True)
+ptvsd.wait_for_attach()
 
 class RootElement(ComponentElement):
 

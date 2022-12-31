@@ -29,7 +29,7 @@ import FreeCAD
 from App.Importer.ComponentElement import ExternalComponentElement
 import App.Importer as Importer
 
-from Ui.Commands.CmdBodyTube import makeBodyTube
+from Ui.Commands.CmdLaunchGuides import makeLaunchLug
 
 class LaunchLugElement(ExternalComponentElement):
 
@@ -42,9 +42,9 @@ class LaunchLugElement(ExternalComponentElement):
         self._knownTags.extend(["instancecount", "instanceseparation", "radialdirection", "angleoffset", "radius", "outerradius", "length", "thickness"])
 
     def makeObject(self):
-        self._feature = makeBodyTube()
+        self._feature = makeLaunchLug()
         if self._parentObj is not None:
-            self._parentObj._obj.addObject(self._feature._obj)
+            self._parentObj.addChild(self._feature)
 
     def handleEndTag(self, tag, content):
         _tag = tag.lower().strip()

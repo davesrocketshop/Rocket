@@ -43,7 +43,7 @@ class TrapezoidalFinsetElement(FinsetElement):
         self._feature._obj.FinType = FIN_TYPE_TRAPEZOID
 
         if self._parentObj is not None:
-            self._parentObj._obj.addObject(self._feature._obj)
+            self._parentObj.addChild(self._feature)
 
 
     def handleEndTag(self, tag, content):

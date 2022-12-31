@@ -68,7 +68,7 @@ class BodyTubeElement(SymmetricComponentElement):
     def makeObject(self):
         self._feature = makeBodyTube()
         if self._parentObj is not None:
-            self._parentObj._obj.addObject(self._feature._obj)
+            self._parentObj.addChild(self._feature)
 
     def handleEndTag(self, tag, content):
         _tag = tag.lower().strip()
