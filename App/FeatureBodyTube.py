@@ -32,7 +32,7 @@ from App.interfaces.Coaxial import Coaxial
 from App.events.ComponentChangeEvent import ComponentChangeEvent
 from App.ShapeBase import TRACE_POSITION, TRACE_EXECUTION
 from App.SymmetricComponent import SymmetricComponent
-from App.Constants import FEATURE_BODY_TUBE, FEATURE_BULKHEAD, FEATURE_CENTERING_RING, FEATURE_FIN, FEATURE_FINCAN, FEATURE_LAUNCH_LUG, \
+from App.Constants import FEATURE_BODY_TUBE, FEATURE_INNER_TUBE, FEATURE_BULKHEAD, FEATURE_CENTERING_RING, FEATURE_FIN, FEATURE_FINCAN, FEATURE_LAUNCH_LUG, \
     FEATURE_PARALLEL_STAGE, FEATURE_POD, FEATURE_RAIL_BUTTON, FEATURE_RAIL_GUIDE
 
 from App.ShapeHandlers.BodyTubeShapeHandler import BodyTubeShapeHandler
@@ -72,8 +72,8 @@ class FeatureBodyTube(SymmetricComponent, BoxBounded, Coaxial):
             obj.addProperty('App::PropertyBool', 'AutoDiameter', 'BodyTube', translate('App::Property', 'Automatically set the outer diameter when possible')).AutoDiameter = False
         if not hasattr(obj,"Thickness"):
             obj.addProperty('App::PropertyLength', 'Thickness', 'BodyTube', translate('App::Property', 'Diameter of the inside of the body tube')).Thickness = 0.33
-        if not hasattr(obj,"Length"):
-            obj.addProperty('App::PropertyLength', 'Length', 'BodyTube', translate('App::Property', 'Length of the body tube')).Length = 457.0
+        # if not hasattr(obj,"Length"):
+        #     obj.addProperty('App::PropertyLength', 'Length', 'BodyTube', translate('App::Property', 'Length of the body tube')).Length = 457.0
 
         if not hasattr(obj, 'MotorMount'):
             obj.addProperty('App::PropertyBool', 'MotorMount', 'BodyTube', translate('App::Property', 'This component is a motor mount')).MotorMount = False
@@ -86,8 +86,8 @@ class FeatureBodyTube(SymmetricComponent, BoxBounded, Coaxial):
         if not hasattr(obj,"Shape"):
             obj.addProperty('Part::PropertyPartShape', 'Shape', 'BodyTube', translate('App::Property', 'Shape of the body tube'))
 
-        # if not hasattr(obj,"Group"):
-        #     obj.addExtension("App::GroupExtensionPython")
+        obj.Length = 457.0
+
 
     def onDocumentRestored(self, obj):
         super().onDocumentRestored(obj)
@@ -97,12 +97,12 @@ class FeatureBodyTube(SymmetricComponent, BoxBounded, Coaxial):
         else:
             FeatureBodyTube(obj)
 
-    def getLength(self):
-        if TRACE_POSITION:
-            print("P: FeatureBodyTube::getLength(%s)" % (self._obj.Label))
+    # def getLength(self):
+    #     if TRACE_POSITION:
+    #         print("P: FeatureBodyTube::getLength(%s)" % (self._obj.Label))
 
-        # Return the length of this component along the central axis
-        return self._obj.Length
+    #     # Return the length of this component along the central axis
+    #     return self._obj.Length
 
     # def setLength(self, length):
     #     self._obj.Length = length
@@ -356,6 +356,7 @@ class FeatureBodyTube(SymmetricComponent, BoxBounded, Coaxial):
         return childType in [
             FEATURE_BULKHEAD, 
             FEATURE_BODY_TUBE, 
+            FEATURE_INNER_TUBE,
             FEATURE_CENTERING_RING, 
             FEATURE_FIN, 
             FEATURE_FINCAN, 

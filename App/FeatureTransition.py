@@ -81,8 +81,8 @@ class FeatureTransition(SymmetricComponent):
         super().__init__(obj)
         self.Type = FEATURE_TRANSITION
 
-        if not hasattr(obj, 'Length'):
-            obj.addProperty('App::PropertyLength', 'Length', 'Transition', translate('App::Property', 'Length of the transition not including any shoulder')).Length = 60.0
+        # if not hasattr(obj, 'Length'):
+        #     obj.addProperty('App::PropertyLength', 'Length', 'Transition', translate('App::Property', 'Length of the transition not including any shoulder')).Length = 60.0
         if not hasattr(obj, 'ForeDiameter'):
             obj.addProperty('App::PropertyLength', 'ForeDiameter', 'Transition', translate('App::Property', 'Diameter at the front of the transition')).ForeDiameter = 20.0
         if not hasattr(obj, 'ForeAutoDiameter'):
@@ -159,6 +159,9 @@ class FeatureTransition(SymmetricComponent):
         if not hasattr(obj, 'Shape'):
             obj.addProperty('Part::PropertyPartShape', 'Shape', 'Transition', translate('App::Property', 'Shape of the transition'))
 
+        # Set default values
+        obj.Length = 60.0
+
     def onDocumentRestored(self, obj):
         if hasattr(obj, "ForeRadius"):
             _migrate_from_1_0(obj)
@@ -170,12 +173,12 @@ class FeatureTransition(SymmetricComponent):
             FeatureTransition(obj)
             FreeCAD.ActiveDocument.recompute()
 
-    def getLength(self):
-        if TRACE_POSITION:
-            print("P: FeatureTransition::getLength(%s)" % (self._obj.Label))
+    # def getLength(self):
+    #     if TRACE_POSITION:
+    #         print("P: FeatureTransition::getLength(%s)" % (self._obj.Label))
 
-        # Return the length of this component along the central axis
-        return self._obj.Length
+    #     # Return the length of this component along the central axis
+    #     return self._obj.Length
 
     def getForeRadius(self):
         return self.getForeDiameter() / 2.0

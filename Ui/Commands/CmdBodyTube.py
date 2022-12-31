@@ -28,10 +28,11 @@ import FreeCAD
 import FreeCADGui
 
 from App.FeatureBodyTube import FeatureBodyTube
+from App.FeatureInnerTube import FeatureInnerTube
 from Ui.ViewBodyTube import ViewProviderBodyTube
 from Ui.Commands.Command import Command
 
-from App.Constants import FEATURE_BODY_TUBE
+from App.Constants import FEATURE_BODY_TUBE, FEATURE_INNER_TUBE
 
 from DraftTools import translate
 
@@ -39,6 +40,15 @@ def makeBodyTube(name='BodyTube'):
     '''makeBodyTube(name): makes a Body Tube'''
     obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
     FeatureBodyTube(obj)
+    if FreeCAD.GuiUp:
+        ViewProviderBodyTube(obj.ViewObject)
+
+    return obj.Proxy
+
+def makeInnerTube(name='InnerTube'):
+    '''makeInnerTube(name): makes an inner Tube'''
+    obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
+    FeatureInnerTube(obj)
     if FreeCAD.GuiUp:
         ViewProviderBodyTube(obj.ViewObject)
 
@@ -85,12 +95,15 @@ class CmdInnerTube(Command):
     def Activated(self):
         FreeCAD.ActiveDocument.openTransaction("Create inner tube")
         FreeCADGui.addModule("Ui.Commands.CmdBodyTube")
-        FreeCADGui.doCommand("Ui.Commands.CmdBodyTube.makeBodyTube('InnerTube')")
+        FreeCADGui.doCommand("obj=Ui.Commands.CmdBodyTube.makeInnerTube('InnerTube')")
+        FreeCADGui.doCommand("Ui.Commands.CmdStage.addToStage(obj)")
+        FreeCADGui.doCommand("FreeCADGui.Selection.clearSelection()")
+        FreeCADGui.doCommand("FreeCADGui.Selection.addSelection(obj._obj)")
         FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
 
     def IsActive(self):
         if FreeCAD.ActiveDocument:
-            return self.part_eligible_feature(FEATURE_BODY_TUBE)
+            return self.part_eligible_feature(FEATURE_INNER_TUBE)
         return False
             
     def GetResources(self):

@@ -101,8 +101,8 @@ class FeatureNoseCone(SymmetricComponent):
         
         if not hasattr(obj, 'CapBarWidth'):
             obj.addProperty('App::PropertyLength', 'CapBarWidth', 'NoseCone', translate('App::Property', 'Width of the nose cap bar')).CapBarWidth = 3.0
-        if not hasattr(obj, 'Length'):
-            obj.addProperty('App::PropertyLength', 'Length', 'NoseCone', translate('App::Property', 'Length of the nose not including any shoulder')).Length = 67.31
+        # if not hasattr(obj, 'Length'):
+        #     obj.addProperty('App::PropertyLength', 'Length', 'NoseCone', translate('App::Property', 'Length of the nose not including any shoulder')).Length = 67.31
         if not hasattr(obj, 'BluntedDiameter'):
             obj.addProperty('App::PropertyLength', 'BluntedDiameter', 'NoseCone', translate('App::Property', 'Nose Radius for a blunted nose cone')).BluntedDiameter = 5.0
         if not hasattr(obj, 'Diameter'):
@@ -160,6 +160,9 @@ class FeatureNoseCone(SymmetricComponent):
 
         if not hasattr(obj, 'Shape'):
             obj.addProperty('Part::PropertyPartShape', 'Shape', 'NoseCone', translate('App::Property', 'Shape of the nose cone'))
+
+        # Set default values
+        obj.Length = 67.31
 
     def onDocumentRestored(self, obj):
         super().onDocumentRestored(obj)
@@ -273,12 +276,12 @@ class FeatureNoseCone(SymmetricComponent):
         self.clearPreset()
         self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
 
-    def getLength(self):
-        if TRACE_POSITION:
-            print("P: FeatureNoseCone::getLength(%s)" % (self._obj.Label))
+    # def getLength(self):
+    #     if TRACE_POSITION:
+    #         print("P: FeatureNoseCone::getLength(%s)" % (self._obj.Label))
 
-        # Return the length of this component along the central axis
-        return self._obj.Length
+    #     # Return the length of this component along the central axis
+    #     return self._obj.Length
 
     def setShoulderLength(self, length):
         self._obj.ShoulderLength = length

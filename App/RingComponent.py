@@ -91,6 +91,9 @@ class RingComponent(InternalComponent, BoxBounded, Coaxial):
     def isOuterRadiusAutomatic(self):
         return self._obj.AutoDiameter
 
+    def isOuterDiameterAutomatic(self):
+        return self._obj.AutoDiameter
+
     def setOuterRadiusAutomatic(self, auto):
         for listener in self._configListeners:
             if isinstance(listener, RingComponent):
@@ -102,6 +105,9 @@ class RingComponent(InternalComponent, BoxBounded, Coaxial):
         self.fireComponentChangeEvent(ComponentChangeEvent.MASS_CHANGE);
 
     def isInnerRadiusAutomatic(self):
+        return self._obj.CenterAutoDiameter
+
+    def isInnerDiameterAutomatic(self):
         return self._obj.CenterAutoDiameter
 
     def setInnerRadiusAutomatic(self, auto):

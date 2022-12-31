@@ -152,7 +152,7 @@ class FeatureLaunchLug(Tube, AnglePositionable, BoxBounded):
             if isinstance(listener, FeatureLaunchLug):
                 listener.setAngleOffset(newAngleRadians)
 
-        rad = Utilities.clamp( newAngleRadians, -math.PI, math.PI);
+        rad = Utilities.clamp( newAngleRadians, -math.pi, math.pi)
         if self._obj.AngleOffset == rad:
             return
 

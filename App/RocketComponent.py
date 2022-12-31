@@ -57,20 +57,20 @@ class RocketComponent(ShapeBase, ChangeSource):
         super().__init__(obj)
 
         if not hasattr(obj, 'Comment'):
-            obj.addProperty('App::PropertyString', 'Comment', 'RocketComponent', translate('App::Property', 'User comment')).Comment = ""
+            obj.addProperty('App::PropertyString', 'Comment', 'Rocket', translate('App::Property', 'User comment')).Comment = ""
         if not hasattr(obj, 'Manufacturer'):
-            obj.addProperty('App::PropertyString', 'Manufacturer', 'RocketComponent', translate('App::Property', 'Component manufacturer')).Manufacturer = ""
+            obj.addProperty('App::PropertyString', 'Manufacturer', 'Rocket', translate('App::Property', 'Component manufacturer')).Manufacturer = ""
         if not hasattr(obj, 'PartNumber'):
-            obj.addProperty('App::PropertyString', 'PartNumber', 'RocketComponent', translate('App::Property', 'Component manufacturer part number')).PartNumber = ""
+            obj.addProperty('App::PropertyString', 'PartNumber', 'Rocket', translate('App::Property', 'Component manufacturer part number')).PartNumber = ""
         if not hasattr(obj, 'Description'):
-            obj.addProperty('App::PropertyString', 'Description', 'RocketComponent', translate('App::Property', 'Component description')).Description = ""
+            obj.addProperty('App::PropertyString', 'Description', 'Rocket', translate('App::Property', 'Component description')).Description = ""
         if not hasattr(obj, 'Material'):
-            obj.addProperty('App::PropertyString', 'Material', 'RocketComponent', translate('App::Property', 'Component material')).Material = ""
+            obj.addProperty('App::PropertyString', 'Material', 'Rocket', translate('App::Property', 'Component material')).Material = ""
         if not hasattr(obj, 'PlacementType'):
-            obj.addProperty('App::PropertyString', 'PlacementType', 'RocketComponent', translate('App::Property', 'Component placement type'), PROP_HIDDEN|PROP_TRANSIENT).PlacementType = PLACEMENT_AXIAL
+            obj.addProperty('App::PropertyString', 'PlacementType', 'Rocket', translate('App::Property', 'Component placement type'), PROP_HIDDEN|PROP_TRANSIENT).PlacementType = PLACEMENT_AXIAL
         
         if not hasattr(obj, 'LocationReference'):
-            obj.addProperty('App::PropertyEnumeration', 'LocationReference', 'RocketComponent', translate('App::Property', 'Reference location for the location'))
+            obj.addProperty('App::PropertyEnumeration', 'LocationReference', 'Rocket', translate('App::Property', 'Reference location for the location'))
             obj.LocationReference = [
                         LOCATION_PARENT_TOP,
                         LOCATION_PARENT_MIDDLE,
@@ -80,12 +80,12 @@ class RocketComponent(ShapeBase, ChangeSource):
                     ]
             obj.LocationReference = LOCATION_PARENT_BOTTOM
         if not hasattr(obj, 'Location'):
-            obj.addProperty('App::PropertyDistance', 'Location', 'RocketComponent', translate('App::Property', 'Location offset from the reference')).Location = 0.0
+            obj.addProperty('App::PropertyDistance', 'Location', 'Rocket', translate('App::Property', 'Location offset from the reference')).Location = 0.0
         if not hasattr(obj, 'AngleOffset'):
-            obj.addProperty('App::PropertyAngle', 'AngleOffset', 'RocketComponent', translate('App::Property', 'Angle of offset around the center axis')).AngleOffset = 0.0
+            obj.addProperty('App::PropertyAngle', 'AngleOffset', 'Rocket', translate('App::Property', 'Angle of offset around the center axis')).AngleOffset = 0.0
        
         if not hasattr(obj, 'RadialReference'):
-            obj.addProperty('App::PropertyEnumeration', 'RadialReference', 'RocketComponent', translate('App::Property', 'Reference location for the radial offset'))
+            obj.addProperty('App::PropertyEnumeration', 'RadialReference', 'Rocket', translate('App::Property', 'Reference location for the radial offset'))
             obj.RadialReference = [
                         LOCATION_SURFACE,
                         LOCATION_CENTER
@@ -93,35 +93,35 @@ class RocketComponent(ShapeBase, ChangeSource):
             obj.RadialReference = LOCATION_SURFACE
 
         if not hasattr(obj, 'RadialOffset'):
-            obj.addProperty('App::PropertyDistance', 'RadialOffset', 'RocketComponent', translate('App::Property', 'Radial offset from the reference')).RadialOffset = 0.0
+            obj.addProperty('App::PropertyDistance', 'RadialOffset', 'Rocket', translate('App::Property', 'Radial offset from the reference')).RadialOffset = 0.0
 
         if not hasattr(obj,"MassOverride"):
-            obj.addProperty('App::PropertyBool', 'MassOverride', 'RocketComponent', translate('App::Property', 'Override the calculated mass of this component')).MassOverride = False
+            obj.addProperty('App::PropertyBool', 'MassOverride', 'Rocket', translate('App::Property', 'Override the calculated mass of this component')).MassOverride = False
         if not hasattr(obj, 'OverrideChildren'):
-            obj.addProperty('App::PropertyBool', 'OverrideChildren', 'RocketComponent', translate('App::Property', 'True when the overridden mass includes the mass of the children')).OverrideChildren = False
+            obj.addProperty('App::PropertyBool', 'OverrideChildren', 'Rocket', translate('App::Property', 'True when the overridden mass includes the mass of the children')).OverrideChildren = False
         if not hasattr(obj,"OverrideMass"):
-            obj.addProperty('App::PropertyQuantity', 'OverrideMass', 'RocketComponent', translate('App::Property', 'Override the calculated mass of this component')).OverrideMass = 0.0
+            obj.addProperty('App::PropertyQuantity', 'OverrideMass', 'Rocket', translate('App::Property', 'Override the calculated mass of this component')).OverrideMass = 0.0
 
         # Adhesive has non-zero mass and must be accounted for, especially on larger rockets
         if not hasattr(obj,"AdhesiveMass"):
-            obj.addProperty('App::PropertyQuantity', 'AdhesiveMass', 'RocketComponent', translate('App::Property', 'Mass of the adhesive used to attach this component to the rocket. This includes fillet mass')).AdhesiveMass = 0.0
+            obj.addProperty('App::PropertyQuantity', 'AdhesiveMass', 'Rocket', translate('App::Property', 'Mass of the adhesive used to attach this component to the rocket. This includes fillet mass')).AdhesiveMass = 0.0
 
         # Mass of the component based either on its material and volume, or override
         if not hasattr(obj, 'Mass'):
-            obj.addProperty('App::PropertyQuantity', 'Mass', 'RocketComponent', translate('App::Property', 'Calculated or overridden component mass'), PROP_READONLY|PROP_TRANSIENT).Mass = 0.0
+            obj.addProperty('App::PropertyQuantity', 'Mass', 'Rocket', translate('App::Property', 'Calculated or overridden component mass'), PROP_READONLY|PROP_TRANSIENT).Mass = 0.0
         
         if not hasattr(obj, 'AxialMethod'):
-            obj.addProperty('App::PropertyPythonObject', 'AxialMethod', 'RocketComponent', translate('App::Property', 'Method for calculating axial offsets')).AxialMethod = AxialMethod.AFTER
+            obj.addProperty('App::PropertyPythonObject', 'AxialMethod', 'Rocket', translate('App::Property', 'Method for calculating axial offsets')).AxialMethod = AxialMethod.AFTER
 
-        # From RocketComponent
-        # if not hasattr(obj,"Length"):
-        #     obj.addProperty('App::PropertyLength', 'Length', 'RocketComponent', translate('App::Property', 'Length of the component')).Length = 0.0
+        # From Rocket
+        if not hasattr(obj,"Length"):
+            obj.addProperty('App::PropertyLength', 'Length', 'Rocket', translate('App::Property', 'Length of the component')).Length = 0.0
         if not hasattr(obj,"AxialOffset"):
-            obj.addProperty('App::PropertyDistance', 'AxialOffset', 'RocketComponent', translate('App::Property', 'Offset from the reference point')).AxialOffset = 0.0
+            obj.addProperty('App::PropertyDistance', 'AxialOffset', 'Rocket', translate('App::Property', 'Offset from the reference point')).AxialOffset = 0.0
         if not hasattr(obj, 'Position'):
-            obj.addProperty('App::PropertyPythonObject', 'Position', 'RocketComponent', translate('App::Property', 'Method for calculating axial offsets')).Position = Coordinate()
+            obj.addProperty('App::PropertyPythonObject', 'Position', 'Rocket', translate('App::Property', 'Method for calculating axial offsets')).Position = Coordinate()
         if not hasattr(obj,"BypassComponentChangeEvent"):
-            obj.addProperty('App::PropertyBool', 'BypassComponentChangeEvent', 'RocketComponent', translate('App::Property', 'Override the calculated mass of this component')).BypassComponentChangeEvent = False
+            obj.addProperty('App::PropertyBool', 'BypassComponentChangeEvent', 'Rocket', translate('App::Property', 'Override the calculated mass of this component')).BypassComponentChangeEvent = False
 
         if not hasattr(obj,"Group"):
             obj.addExtension("App::GroupExtensionPython")
@@ -150,6 +150,21 @@ class RocketComponent(ShapeBase, ChangeSource):
 
     def setMassOverridden(self, override):
         self._obj.MassOverride = override
+
+    """
+        Get the characteristic length of the component, for example the length of a body tube
+        of the length of the root chord of a fin.  This is used in positioning the component
+        relative to its parent.
+        
+        If the length of a component is settable, the class must define the setter method
+        itself.
+    """
+    def getLength(self):
+        if TRACE_POSITION:
+            print("P: RocketComponent::getLength(%s)" % (self._obj.Label))
+
+        # Return the length of this component along the central axis
+        return self._obj.Length
 
     """
         Test whether the given component type can be added to this component.  This type safety
