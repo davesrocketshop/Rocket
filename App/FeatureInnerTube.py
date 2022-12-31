@@ -37,6 +37,7 @@ from App.ThicknessRingComponent import ThicknessRingComponent
 from App.ClusterConfiguration import SINGLE, CONFIGURATIONS
 from App.util.BoundingBox import BoundingBox
 from App.util.Coordinate import Coordinate
+from App.ShapeHandlers.BodyTubeShapeHandler import BodyTubeShapeHandler
 
 from App.Constants import FEATURE_BODY_TUBE, FEATURE_INNER_TUBE, FEATURE_BULKHEAD, FEATURE_CENTERING_RING
 
@@ -67,6 +68,14 @@ class FeatureInnerTube(ThicknessRingComponent, AxialPositionable, BoxBounded, Ra
         super().onDocumentRestored(obj)
 
         FeatureInnerTube(obj)
+
+    def execute(self, obj):
+        if TRACE_EXECUTION:
+            print("E: FeatureInnerTube::execute(%s)" % (self._obj.Label))
+
+        shape = BodyTubeShapeHandler(obj)
+        if shape is not None:
+            shape.draw()
 
     def isAfter(self):
         return False
