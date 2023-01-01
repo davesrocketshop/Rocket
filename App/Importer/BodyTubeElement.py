@@ -31,7 +31,7 @@ from App.Importer.ComponentElement import ComponentElement, BodyComponentElement
 from App.Importer.SymmetricComponentElement import SymmetricComponentElement
 import App.Importer as Importer
 
-from Ui.Commands.CmdBodyTube import makeBodyTube, makeInnerTube
+from Ui.Commands.CmdBodyTube import makeBodyTube, makeInnerTube, makeEngineBlock
 
 class MotorMountElement(BodyComponentElement):
 
@@ -93,5 +93,12 @@ class InnerTubeElement(BodyTubeElement):
 
     def makeObject(self):
         self._feature = makeInnerTube()
+        if self._parentObj is not None:
+            self._parentObj.addChild(self._feature)
+
+class EngineBlockElement(BodyTubeElement):
+
+    def makeObject(self):
+        self._feature = makeEngineBlock()
         if self._parentObj is not None:
             self._parentObj.addChild(self._feature)

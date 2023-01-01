@@ -29,10 +29,11 @@ import FreeCADGui
 
 from App.FeatureBodyTube import FeatureBodyTube
 from App.FeatureInnerTube import FeatureInnerTube
+from App.FeatureEngineBlock import FeatureEngineBlock
 from Ui.ViewBodyTube import ViewProviderBodyTube
 from Ui.Commands.Command import Command
 
-from App.Constants import FEATURE_BODY_TUBE, FEATURE_INNER_TUBE
+from App.Constants import FEATURE_BODY_TUBE, FEATURE_INNER_TUBE, FEATURE_ENGINE_BLOCK
 
 from DraftTools import translate
 
@@ -49,6 +50,15 @@ def makeInnerTube(name='InnerTube'):
     '''makeInnerTube(name): makes an inner Tube'''
     obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
     FeatureInnerTube(obj)
+    if FreeCAD.GuiUp:
+        ViewProviderBodyTube(obj.ViewObject)
+
+    return obj.Proxy
+
+def makeEngineBlock(name='EngineBlock'):
+    '''makeInnerTube(name): makes an engine block'''
+    obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
+    FeatureEngineBlock(obj)
     if FreeCAD.GuiUp:
         ViewProviderBodyTube(obj.ViewObject)
 
@@ -109,4 +119,24 @@ class CmdInnerTube(Command):
     def GetResources(self):
         return {'MenuText': translate("Rocket", 'Inner Tube'),
                 'ToolTip': translate("Rocket", 'Inner tube design'),
+                'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_BodyTube.svg"}
+
+class CmdEngineBlock(Command):
+    def Activated(self):
+        FreeCAD.ActiveDocument.openTransaction("Create engine block")
+        FreeCADGui.addModule("Ui.Commands.CmdBodyTube")
+        FreeCADGui.doCommand("obj=Ui.Commands.CmdBodyTube.makeEngineBlock('EngineBlock')")
+        FreeCADGui.doCommand("Ui.Commands.CmdStage.addToStage(obj)")
+        FreeCADGui.doCommand("FreeCADGui.Selection.clearSelection()")
+        FreeCADGui.doCommand("FreeCADGui.Selection.addSelection(obj._obj)")
+        FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
+
+    def IsActive(self):
+        if FreeCAD.ActiveDocument:
+            return self.part_eligible_feature(FEATURE_ENGINE_BLOCK)
+        return False
+            
+    def GetResources(self):
+        return {'MenuText': translate("Rocket", 'Engine Block'),
+                'ToolTip': translate("Rocket", 'Engine block design'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_BodyTube.svg"}
