@@ -111,7 +111,7 @@ class TopAxialMethod(AxialMethod):
         # print("\toffset %g, innerLength %g, outerLength %g" % (offset, innerLength, outerLength))
         # print("\tposition %g" % ((float(outerLength) - float(innerLength)) - float(offset)))
         # return float(offset) + (float(outerLength) - float(innerLength))
-        return (float(outerLength) - float(innerLength)) - float(offset)
+        return (float(outerLength) - float(innerLength)) + float(offset)
 
 ABSOLUTE = AbsoluteAxialMethod()
 AFTER = AfterAxialMethod()
