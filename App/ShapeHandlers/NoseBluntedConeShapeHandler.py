@@ -51,7 +51,7 @@ class NoseBluntedConeShapeHandler(NoseShapeHandler):
     def getXa(self, Xo, noseRadius):
         return Xo - noseRadius
             
-    def _getLength(self, length, radius, noseRadius):
+    def getBluntedLength(self, length, radius, noseRadius):
 
         min = length - noseRadius
         max = (-radius * length) / (noseRadius - radius)
@@ -85,7 +85,7 @@ class NoseBluntedConeShapeHandler(NoseShapeHandler):
         return inner_minor
 
     def getCurve(self, length, radius, noseRadius, offset=0.0):
-        (vLength, Xt, Yt, Xo, Xa) = self._getLength(length, radius, noseRadius)
+        (vLength, Xt, Yt, Xo, Xa) = self.getBluntedLength(length, radius, noseRadius)
 
         midX, midY = self.getMidArc(vLength - Xo, vLength - Xt, noseRadius)
         blunt = Part.Arc(
