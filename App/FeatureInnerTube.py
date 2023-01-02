@@ -35,7 +35,7 @@ from App.events.ComponentChangeEvent import ComponentChangeEvent
 from App.ThicknessRingComponent import ThicknessRingComponent
 from App.ClusterConfiguration import SINGLE, CONFIGURATIONS
 from App.util.BoundingBox import BoundingBox
-from App.util.Coordinate import Coordinate
+from App.util.Coordinate import Coordinate, ZERO
 from App.ShapeHandlers.BodyTubeShapeHandler import BodyTubeShapeHandler
 
 from App.Constants import FEATURE_BODY_TUBE, FEATURE_INNER_TUBE, FEATURE_ENGINE_BLOCK, FEATURE_BULKHEAD, FEATURE_CENTERING_RING
@@ -193,7 +193,7 @@ class FeatureInnerTube(ThicknessRingComponent, AxialPositionable, BoxBounded, Ra
         if self.getInstanceCount() == 1:
             yOffset = self.getRadialPosition() * math.cos(self.getRadialDirection())
             zOffset = self.getRadialPosition() * math.sin(self.getRadialDirection())
-            return [Coordinate.ZERO.add(0.0, yOffset, zOffset)]
+            return [ZERO.addValues(0.0, yOffset, zOffset)]
         
         points = self.getClusterPoints()
         

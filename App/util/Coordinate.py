@@ -119,25 +119,25 @@ class Coordinate():
 
     """ Add the coordinate and weight of two coordinates. """
     def add(self, other):
-        return Coordinate(self._x + other._x, self._y + other._y, self._z + other._z,
-                self._weight + other._weight)
+        return Coordinate(float(self._x) + float(other._x), float(self._y) + float(other._y), float(self._z) + float(other._z),
+                float(self._weight) + float(other._weight))
 
     def addValues(self, x1, y1, z1, w1=0.0):
-        return Coordinate(self._x + x1, self._y + y1, self._z + z1, self._weight + w1)
+        return Coordinate(float(self._x) + float(x1), float(self._y) + float(y1), float(self._z) + float(z1), float(self._weight) + float(w1))
 
     """
         Subtract a Coordinate from this Coordinate.  The weight of the resulting Coordinate
         is the same as of this Coordinate; i.e. the weight of the argument is ignored.
     """
     def sub(self, other):
-        return Coordinate(self._x - other._x, self._y - other._y, self._z - other._z, self._weight)
+        return Coordinate(float(self._x) - float(other._x), float(self._y) - float(other._y), float(self._z) - float(other._z), float(self._weight))
 
     """
         Subtract the specified values from this Coordinate.  The weight of the result
         is the same as the weight of this Coordinate.
     """
     def subValues(self, x1, y1, z1):
-        return Coordinate(self._x - x1, self._y - y1, self._z - z1, self._weight)
+        return Coordinate(float(self._x) - float(x1), float(self._y) - float(y1), float(self._z) - float(z1), float(self._weight))
 
 
     """
@@ -145,7 +145,7 @@ class Coordinate():
         weight are multiplied by the given scalar.
     """
     def multiply(self, m):
-        return Coordinate(self._x * m, self._y * m, self._z * m, self._weight * m)
+        return Coordinate(float(self._x) * float(m), float(self._y) * float(m), float(self._z) * float(m), float(self._weight) * float(m))
 
     """
          Dot product of two Coordinates, taken as vectors.  Equal to
@@ -154,19 +154,19 @@ class Coordinate():
     def dot(self, other, v2=None):
         if v2 is not None:
             return self._dot(other, v2)
-        return self._x * other._x + self._y * other._y + self._z * other._z
+        return float(self._x) * float(other._x) + float(self._y) * float(other._y) + float(self._z) * float(other._z)
 
     """
         Dot product of two Coordinates.
     """
     def _dot(self, v1, v2):
-        return v1._x * v2._x + v1._y * v2._y + v1._z * v2._z
+        return float(v1._x) * float(v2._x) + float(v1._y) * float(v2._y) + float(v1._z) * float(v2._z)
 
     """
         Cross product of two Coordinates taken as vectors
     """
     def cross(self, other):
-        return Coordinate(self._y * other._z - self._z * other._y, self._z * other._x - self._x * other._z, self._x * other._y - self._y * other._x)
+        return Coordinate(float(self._y) * float(other._z) - float(self._z) * float(other._y), float(self._z) * float(other._x) - float(self._x) * float(other._z), float(self._x) * float(other._y) - float(self._y) * float(other._x))
 
     """
         Distance from the origin to the Coordinate.
@@ -175,13 +175,13 @@ class Coordinate():
         if self.length < 0:
             length = math.sqrt(self.length2())
 
-        return length
+        return float(length)
 
     """
         Square of the distance from the origin to the Coordinate.
     """
     def length2(self):
-        return self._x * self._x + self._y * self._y + self._z * self._z
+        return float(self._x) * float(self._x) + float(self._y) * float(self._y) + float(self._z) * float(self._z)
 
 
     """

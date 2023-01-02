@@ -193,8 +193,11 @@ class FeatureFin(RocketComponent):
         length = self.getRootChord()
         return length
 
+    def isFinSet(self):
+        return self._obj.FinSet
+
     def getFinCount(self):
-        return self._obj.FinCount
+        return int(self._obj.FinCount)
 
     def setFinCount(self, count):
         self._obj.FinCount = count

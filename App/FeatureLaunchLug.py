@@ -264,7 +264,7 @@ class FeatureLaunchLug(Tube, AnglePositionable, BoxBounded):
             self._obj.InstanceCount = newCount
 
     def getInstanceCount(self):
-        return self._obj.InstanceCount
+        return int(self._obj.InstanceCount)
 
     def getInstanceBoundingBox(self):
         instanceBounds = BoundingBox()

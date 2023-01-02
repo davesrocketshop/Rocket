@@ -760,7 +760,7 @@ class RocketComponent(ShapeBase, ChangeSource):
                 return [parentPositions[0].add(instanceLocations[0])]
             
             thisCount = instanceCount*parentCount
-            thesePositions = []
+            thesePositions = [0] * thisCount
             for pi in range(parentCount):
                 for ii in range(instanceCount):
                     thesePositions[pi + parentCount*ii] = parentPositions[pi].add(instanceLocations[ii])
