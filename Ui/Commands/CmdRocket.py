@@ -27,13 +27,17 @@ __url__ = "https://www.davesrocketshop.com"
 
 import FreeCAD
 import FreeCADGui
-from PySide import QtGui
 
 from DraftTools import translate
 
 from App.FeatureRocket import FeatureRocket
 from Ui.ViewRocket import ViewProviderRocket
 from Ui.Commands.CmdStage import makeStage
+
+def updateRocket():
+    rocket = FreeCADGui.ActiveDocument.ActiveView.getActiveObject("rocket")
+    if rocket is not None:
+        rocket.Proxy.updateChildren()
 
 def makeRocket(name='Rocket', makeSustainer=False):
     obj = FreeCAD.ActiveDocument.addObject("App::GeometryPython",name)

@@ -31,9 +31,6 @@ from DraftTools import translate
 
 from App.FeatureStage import FeatureStage
 from App.Constants import FEATURE_ROCKET, FEATURE_STAGE, FEATURE_PARALLEL_STAGE
-from App.Constants import PROP_TRANSIENT, PROP_HIDDEN, PROP_NORECOMPUTE
-from App.Constants import PLACEMENT_RADIAL
-
 
 class FeatureParallelStage(FeatureStage):
 
@@ -42,7 +39,6 @@ class FeatureParallelStage(FeatureStage):
         self._initFeatureStage(obj)
 
         self.Type = FEATURE_PARALLEL_STAGE
-        self._obj.PlacementType = PLACEMENT_RADIAL
 
         if not hasattr(obj,"StageCount"):
             obj.addProperty('App::PropertyInteger', 'StageCount', 'Stage', translate('App::Property', 'Number of stages in a radial pattern')).StageCount = 2

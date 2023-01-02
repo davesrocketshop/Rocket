@@ -212,3 +212,17 @@ class FeatureInnerTube(ThicknessRingComponent, AxialPositionable, BoxBounded, Ra
 
         self._obj.Overhang = overhang
         self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
+
+    def setMotorMount(self, active):
+        for listener in self._configListeners:
+            if isinstance(listener, FeatureInnerTube):
+                listener.setMotorMount(active)
+
+        if self._obj.MotorMount == active:
+            return
+        self._obj.MotorMount = active
+        self.fireComponentChangeEvent(ComponentChangeEvent.MOTOR_CHANGE)
+
+    def isMotorMount(self):
+        return self._obj.MotorMount
+        

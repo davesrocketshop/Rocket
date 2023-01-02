@@ -30,7 +30,7 @@ from Analyzers.FinFlutter import FinFlutter
 from Ui.Commands.CmdFin import makeFin
 from Ui.Commands.CmdFinCan import makeFinCan
 
-# from Tests.Components.RocketTest import RocketTest
+from Tests.Components.RocketTest import RocketTest
 from Tests.Components.PositionTests import PositionTests
 
 class RocketTestCases(unittest.TestCase):

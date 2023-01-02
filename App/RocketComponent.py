@@ -24,24 +24,20 @@ __title__ = "FreeCAD Rocket Components"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
-from App.util.Coordinate import Coordinate
-import FreeCAD
 import math
 
 from abc import ABC, abstractmethod
 
+from App.util.Coordinate import Coordinate
 from App.ShapeBase import ShapeBase
-# from App.Utilities import _err
 
 from App.Constants import FEATURE_ROCKET, FEATURE_STAGE
 
 from App.Constants import PROP_HIDDEN, PROP_TRANSIENT, PROP_READONLY
 from App.Constants import LOCATION_PARENT_TOP, LOCATION_PARENT_MIDDLE, LOCATION_PARENT_BOTTOM, LOCATION_AFTER, LOCATION_BASE
 from App.Constants import LOCATION_SURFACE, LOCATION_CENTER
-from App.Constants import PLACEMENT_AXIAL #, PLACEMENT_RADIAL
 
 from App.position import AxialMethod
-# from App.position.AxialPositionable import AxialPositionable
 from App.interfaces.ChangeSource import ChangeSource
 from App.util.Coordinate import Coordinate, ZERO
 from App.events.ComponentChangeEvent import ComponentChangeEvent
@@ -63,8 +59,6 @@ class RocketComponent(ShapeBase, ChangeSource):
             obj.addProperty('App::PropertyString', 'Description', 'Rocket', translate('App::Property', 'Component description')).Description = ""
         if not hasattr(obj, 'Material'):
             obj.addProperty('App::PropertyString', 'Material', 'Rocket', translate('App::Property', 'Component material')).Material = ""
-        if not hasattr(obj, 'PlacementType'):
-            obj.addProperty('App::PropertyString', 'PlacementType', 'Rocket', translate('App::Property', 'Component placement type'), PROP_HIDDEN|PROP_TRANSIENT).PlacementType = PLACEMENT_AXIAL
         
         if not hasattr(obj, 'LocationReference'):
             obj.addProperty('App::PropertyEnumeration', 'LocationReference', 'Rocket', translate('App::Property', 'Reference location for the location'))
@@ -237,55 +231,6 @@ class RocketComponent(ShapeBase, ChangeSource):
         #         return True
 
         return False
-
-    # def _locationOffset(self, partBase, parentLength):
-    #     base = float(partBase)
-    #     roll = 0.0
-    #     if hasattr(self._obj, 'LocationReference'):
-    #         roll = float(self._obj.AngleOffset)
-
-    #         if self._obj.LocationReference == LOCATION_PARENT_TOP:
-    #             return base + float(parentLength) - float(self._obj.Location), roll
-    #         elif self._obj.LocationReference == LOCATION_PARENT_MIDDLE:
-    #             return base + (float(parentLength) / 2.0) + float(self._obj.Location), roll
-    #         elif self._obj.LocationReference == LOCATION_BASE:
-    #             return float(self._obj.Location), roll
-
-    #         return base + float(self._obj.Location), roll
-
-    #     return base, roll
-
-    # def positionChild(self, parent, parentBase, parentLength, parentRadius, rotation):
-    #     # Calculate any auto radii
-    #     self._obj.Proxy.setRadius()
-
-    #     partBase, roll = self._locationOffset(parentBase.x, parentLength)
-
-    #     if self._obj.PlacementType == PLACEMENT_AXIAL:
-    #         self._positionChildAxial(self._obj, partBase, roll)
-    #     else:
-    #         self._positionChildRadial(self._obj, parent, parentRadius, partBase, roll)
-
-    #     self.positionChildren(parentBase)
-
-    # def _positionChildAxial(self, obj, partBase, roll):
-    #     # newPlacement = FreeCAD.Placement(FreeCAD.Vector(partBase, 0, parentRadius), FreeCAD.Rotation(FreeCAD.Vector(1,0,0), roll), FreeCAD.Vector(0, 0, -parentRadius))
-    #     newPlacement = FreeCAD.Placement(FreeCAD.Vector(partBase, 0, 0), FreeCAD.Rotation(FreeCAD.Vector(1,0,0), roll), FreeCAD.Vector(0, 0, 0))
-    #     if obj.Placement != newPlacement:
-    #         obj.Placement = newPlacement
-
-    # def _positionChildRadial(self, obj, parent, parentRadius, partBase, roll):
-    #     radial = float(parentRadius) + float(obj.Proxy.getRadialPositionOffset()) # Need to add current parent radial
-    #     if hasattr(obj, 'AngleOffset'):
-    #         radial += float(obj.AngleOffset)
-
-    #     # Use a matrix for transformations, otherwise it rotates around the part axis not the rocket axis
-    #     matrix = FreeCAD.Matrix()
-    #     matrix.move(FreeCAD.Vector(partBase, 0, radial))
-    #     matrix.rotateX(math.radians(roll))
-    #     newPlacement = FreeCAD.Placement(matrix)
-    #     if obj.Placement != newPlacement:
-    #         obj.Placement = newPlacement
 
     # Adds a child to the rocket component tree.  The component is added to the end
     # of the component's child list.  This is a helper method that calls

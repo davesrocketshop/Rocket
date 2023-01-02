@@ -43,11 +43,11 @@ from Tests.util.TestRockets import TestRockets
 
 from App.Constants import TYPE_OGIVE
         
-# import ptvsd
-# print("Waiting for debugger attach")
-# # 5678 is the default attach port in the VS Code debug configurations
-# ptvsd.enable_attach(address=('localhost', 5678), redirect_output=True)
-# ptvsd.wait_for_attach()
+import ptvsd
+print("Waiting for debugger attach")
+# 5678 is the default attach port in the VS Code debug configurations
+ptvsd.enable_attach(address=('localhost', 5678), redirect_output=True)
+ptvsd.wait_for_attach()
 
 class PositionTests(unittest.TestCase):
 

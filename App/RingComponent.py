@@ -132,10 +132,10 @@ class RingComponent(InternalComponent, BoxBounded, Coaxial):
                 listener.setLength(length)
 
         l = max(length, 0)
-        if self._obj.Thickness == l:
+        if self._obj.Length == l:
             return
         
-        self._obj.Thickness = l
+        self._obj.Length = l
         # clearPreset();
         self.fireComponentChangeEvent(ComponentChangeEvent.MASS_CHANGE)
 

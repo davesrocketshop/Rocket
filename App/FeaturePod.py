@@ -31,8 +31,6 @@ from DraftTools import translate
 
 from App.RocketComponent import RocketComponent
 from App.Constants import FEATURE_ROCKET, FEATURE_STAGE, FEATURE_PARALLEL_STAGE, FEATURE_POD
-from App.Constants import PLACEMENT_RADIAL
-
 
 class FeaturePod(RocketComponent):
 
@@ -40,7 +38,6 @@ class FeaturePod(RocketComponent):
         super().__init__(obj)
 
         self.Type = FEATURE_POD
-        self._obj.PlacementType = PLACEMENT_RADIAL
 
         if not hasattr(obj,"PodCount"):
             obj.addProperty('App::PropertyInteger', 'PodCount', 'Pod', translate('App::Property', 'Number of pods in a radial pattern')).PodCount = 1

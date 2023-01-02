@@ -139,10 +139,6 @@ COMPONENT_TYPE_PARACHUTE = "Parachute"
 COMPONENT_TYPE_STREAMER = "Streamer"
 COMPONENT_TYPE_TRANSITION = "Transition"
 
-# Component placement type
-PLACEMENT_AXIAL = "Axial"
-PLACEMENT_RADIAL = "Radial"
-
 # Location Reference
 LOCATION_PARENT_TOP = QT_TRANSLATE_NOOP('Rocket', "Top of the parent component")
 LOCATION_PARENT_MIDDLE = QT_TRANSLATE_NOOP('Rocket', "Middle of the parent component")

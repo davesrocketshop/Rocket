@@ -26,7 +26,6 @@ __url__ = "https://www.davesrocketshop.com"
 
 from App.RocketComponent import RocketComponent
 from App.Constants import FEATURE_RAIL_GUIDE
-from App.Constants import PLACEMENT_RADIAL
 from App.Constants import RAIL_GUIDE_BASE_FLAT, RAIL_GUIDE_BASE_CONFORMAL, RAIL_GUIDE_BASE_V
 
 from App.ShapeHandlers.RailGuideShapeHandler import RailGuideShapeHandler
@@ -38,7 +37,6 @@ class FeatureRailGuide(RocketComponent):
     def __init__(self, obj):
         super().__init__(obj)
         self.Type = FEATURE_RAIL_GUIDE
-        self._obj.PlacementType = PLACEMENT_RADIAL
 
         if not hasattr(obj,"RailGuideBaseType"):
             obj.addProperty('App::PropertyEnumeration', 'RailGuideBaseType', 'RailGuide', translate('App::Property', 'Rail guide base type'))

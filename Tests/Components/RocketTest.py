@@ -36,22 +36,24 @@ class RocketTest(unittest.TestCase):
     def setUp(self):
         self.Doc = FreeCAD.newDocument("RocketTest")
 
+    def assertCoordinateEqual(self, actual, expected, msg):
+        try:
+            self.assertEqual(actual, expected)
+        except AssertionError:
+            msg = "actual %s, expected %s: %s" % (str(actual), str(expected), msg)
+            self.fail(msg)
+
+
     def testEstesAlphaIII(self):
         rocket = TestRockets.makeEstesAlphaIII()
         stage = rocket.getChild(0).Proxy
 
         nose = stage.getChild(0).Proxy
-        expected = Coordinate(0,0,0)
+        expected = Coordinate(200.0,0,0)
         actual = nose.getComponentLocations()[0]
-        print(str(actual))
-        print(str(expected))
-        self.assertTrue(actual == expected, nose.getName() + " not positioned correctly")
+        self.assertCoordinateEqual(actual, expected, nose.getName() + " not positioned correctly")
 
         body = stage.getChild(1).Proxy
-        expected = Coordinate(70.0,0,0)
+        expected = Coordinate(0,0,0)
         actual = body.getComponentLocations()[0]
-        for i, coord in enumerate(body.getComponentLocations()):
-            print("%d, %s" % (i, str(coord)))
-        print(str(actual))
-        print(str(expected))
-        self.assertEqual(actual, expected, body.getName() + " not positioned correctly")
+        self.assertCoordinateEqual(actual, expected, body.getName() + " not positioned correctly")

@@ -25,11 +25,10 @@ __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
     
 import FreeCAD
-import unittest
 
 from App.Constants import TYPE_CONE, TYPE_BLUNTED_CONE, TYPE_SPHERICAL, TYPE_ELLIPTICAL, TYPE_HAACK, TYPE_OGIVE, TYPE_BLUNTED_OGIVE, TYPE_SECANT_OGIVE, TYPE_VON_KARMAN, TYPE_PARABOLA, TYPE_PARABOLIC, TYPE_POWER
 
-from Ui.Commands.CmdBodyTube import makeBodyTube
+from Ui.Commands.CmdBodyTube import makeBodyTube, makeEngineBlock, makeInnerTube
 from Ui.Commands.CmdRocket import makeRocket
 from Ui.Commands.CmdStage import makeStage
 from Ui.Commands.CmdNoseCone import makeNoseCone
@@ -96,15 +95,15 @@ class TestRockets:
         lug = makeLaunchLug()
         lug.setName("Launch Lugs")
         lug.setAxialMethod(AxialMethod.TOP)
-        lug.setAxialOffset(111.0)
+        lug.setAxialOffset(-111.0)
         lug.setLength(50.0)
         lug.setOuterRadius(2.2)
         lug.setInnerRadius(2.0)
         bodytube.addChild(lug)
             
-        inner = makeBodyTube() # InnerTube?
+        inner = makeInnerTube() # InnerTube?
         inner.setAxialMethod(AxialMethod.TOP)
-        inner.setAxialOffset(133.0)
+        inner.setAxialOffset(-133.0)
         inner.setLength(70.0)
         inner.setOuterRadius(9.0)
         inner.setThickness(0.3)
@@ -114,7 +113,7 @@ class TestRockets:
             
         #     {
         # MotorBlock 
-        thrustBlock= makeCenteringRing()
+        thrustBlock= makeEngineBlock()
         thrustBlock.setAxialMethod(AxialMethod.TOP)
         thrustBlock.setAxialOffset(0.0)
         thrustBlock.setLength(5.0)
@@ -122,7 +121,6 @@ class TestRockets:
         thrustBlock.setThickness(0.8)
         thrustBlock.setName("Engine Block")
         inner.addChild(thrustBlock)
-        # inner.setMotorMount( true)
             
         #         {
         #             MotorConfiguration motorConfig = new MotorConfiguration(inner, TEST_FCID_0);
@@ -174,7 +172,7 @@ class TestRockets:
         centerings = makeCenteringRing()
         centerings.setName("Centering Rings")
         centerings.setAxialMethod(AxialMethod.TOP)
-        centerings.setAxialOffset(140.0)
+        centerings.setAxialOffset(-140.0)
         centerings.setLength(6.0)
         centerings.setInstanceCount(2)
         centerings.setInstanceSeparation(35.0)

@@ -24,13 +24,13 @@ __title__ = "FreeCAD Rocket Components"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
-import FreeCAD
-import FreeCADGui
-import copy
+# import FreeCAD
+# import FreeCADGui
+# import copy
+import Ui
 
 from PySide.QtCore import QObject, Signal
 from App.Utilities import _err
-from App.Constants import PROP_NORECOMPUTE
 from App.events.ComponentChangeEvent import ComponentChangeEvent
 
 class EditedShape(QObject):
@@ -221,6 +221,7 @@ class ShapeBase():
             self.getParent()._moveChildUp(self._obj)
             # self.reposition()
             self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
+            Ui.Commands.CmdRocket.updateRocket()
 
     def _moveChildUp(self, obj):
         if hasattr(self._obj, "Group"):
@@ -282,6 +283,7 @@ class ShapeBase():
             self.getParent()._moveChildDown(self._obj)
             # self.reposition()
             self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
+            Ui.Commands.CmdRocket.updateRocket()
 
     def _moveChildDown(self, obj):
         if hasattr(self._obj, "Group"):
