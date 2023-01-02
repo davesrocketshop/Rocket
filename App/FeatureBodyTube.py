@@ -30,7 +30,6 @@ from App.interfaces.BoxBounded import BoxBounded
 from App.interfaces.Coaxial import Coaxial
 
 from App.events.ComponentChangeEvent import ComponentChangeEvent
-from App.ShapeBase import TRACE_POSITION, TRACE_EXECUTION
 from App.SymmetricComponent import SymmetricComponent
 from App.Constants import FEATURE_BODY_TUBE, FEATURE_INNER_TUBE, FEATURE_ENGINE_BLOCK, FEATURE_BULKHEAD, FEATURE_CENTERING_RING, FEATURE_FIN, \
     FEATURE_FINCAN, FEATURE_LAUNCH_LUG, FEATURE_PARALLEL_STAGE, FEATURE_POD, FEATURE_RAIL_BUTTON, FEATURE_RAIL_GUIDE
@@ -97,16 +96,6 @@ class FeatureBodyTube(SymmetricComponent, BoxBounded, Coaxial):
         else:
             FeatureBodyTube(obj)
 
-    # def getLength(self):
-    #     if TRACE_POSITION:
-    #         print("P: FeatureBodyTube::getLength(%s)" % (self._obj.Label))
-
-    #     # Return the length of this component along the central axis
-    #     return self._obj.Length
-
-    # def setLength(self, length):
-    #     self._obj.Length = length
-
     """
         Sets the length of the body component.
         
@@ -134,9 +123,6 @@ class FeatureBodyTube(SymmetricComponent, BoxBounded, Coaxial):
         Sets whether the radius is selected automatically or not.
     """
     def setOuterDiameterAutomatic(self, auto):
-        if TRACE_POSITION:
-            print("P: FeatureBodyTube::setOuterDiameterAutomatic(%s)" % (self._obj.Label))
-
         for listener in self._configListeners:
             if isinstance(listener, FeatureBodyTube): # OR used transition base class
                 listener.setOuterDiameterAutomatic(auto)
@@ -152,15 +138,9 @@ class FeatureBodyTube(SymmetricComponent, BoxBounded, Coaxial):
         self.setOuterDiameterAutomatic(auto)
 
     def getMaxForwardPosition(self):
-        if TRACE_POSITION:
-            print("P: FeatureBodyTube::getMaxForwardPosition(%s)" % (self._obj.Label))
-
         return float(self._obj.Length) + float(self._obj.Placement.Base.x)
 
     def _setAutoDiameter(self):
-        if TRACE_POSITION:
-            print("P: FeatureBodyTube::_setAutoDiameter(%s)" % (self._obj.Label))
-
         # For placing objects on the outer part of the parent
         if self._obj.AutoDiameter:
             radius = 0.0
@@ -183,9 +163,6 @@ class FeatureBodyTube(SymmetricComponent, BoxBounded, Coaxial):
         return self.getForeRadius()
 
     def getForeRadius(self):
-        if TRACE_POSITION:
-            print("P: FeatureBodyTube::getForeRadius(%s)" % (self._obj.Label))
-
         # For placing objects on the outer part of the parent
         # self._setAutoDiameter()
         # return self._obj.OuterDiameter / 2.0
@@ -201,9 +178,6 @@ class FeatureBodyTube(SymmetricComponent, BoxBounded, Coaxial):
         return self.getRearAutoDiameter()
 
     def getInnerRadius(self):
-        if TRACE_POSITION:
-            print("P: ShapeBase::getInnerRadius(%s)" % (self._obj.Label))
-
         # Set any autodiameter first
         # self._setAutoDiameter()
         return float(self._obj.OuterDiameter) / 2.0 - float(self._obj.Thickness)
@@ -212,9 +186,6 @@ class FeatureBodyTube(SymmetricComponent, BoxBounded, Coaxial):
         self.setInnerDiameter(radius * 2.0)
 
     def setInnerDiameter(self, diameter):
-        if TRACE_POSITION:
-            print("P: FeatureBodyTube::setInnerDiameter(%s)" % (self._obj.Label))
-
         for listener in self._configListeners:
             if isinstance(listener, FeatureBodyTube): # OR used transition base class
                 listener.setInnerDiameter(diameter)
@@ -236,9 +207,6 @@ class FeatureBodyTube(SymmetricComponent, BoxBounded, Coaxial):
         self.setOuterDiameter(radius * 2.0)
 
     def setOuterDiameter(self, diameter):
-        if TRACE_POSITION:
-            print("P: FeatureBodyTube::setOuterDiameter(%s)" % (self._obj.Label))
-
         for listener in self._configListeners:
             if isinstance(listener, FeatureBodyTube): # OR used transition base class
                 listener.setOuterDiameter(diameter)
@@ -262,9 +230,6 @@ class FeatureBodyTube(SymmetricComponent, BoxBounded, Coaxial):
         return self.getOuterDiameter() / 2.0
 
     def getOuterDiameter(self):
-        if TRACE_POSITION:
-            print("P: FeatureBodyTube::getOuterDiameter(%s)" % (self._obj.Label))
-
         if self._obj.AutoDiameter:
             # Return auto radius from front or rear
             d = -1
@@ -302,9 +267,6 @@ class FeatureBodyTube(SymmetricComponent, BoxBounded, Coaxial):
         return self.getFrontAutoDiameter() / 2.0
 
     def getFrontAutoDiameter(self):
-        if TRACE_POSITION:
-            print("P: FeatureBodyTube::getFrontAutoDiameter(%s)" % (self._obj.Label))
-
         if self.isOuterDiameterAutomatic():
             # Search for previous SymmetricComponent
             c = self.getPreviousSymmetricComponent()
@@ -319,9 +281,6 @@ class FeatureBodyTube(SymmetricComponent, BoxBounded, Coaxial):
         return self.getRearAutoDiameter() / 2.0
 
     def getRearAutoDiameter(self):
-        if TRACE_POSITION:
-            print("P: FeatureBodyTube::getRearAutoDiameter(%s)" % (self._obj.Label))
-
         if self.isOuterDiameterAutomatic():
             # Search for next SymmetricComponent
             c = self.getNextSymmetricComponent()
@@ -345,9 +304,6 @@ class FeatureBodyTube(SymmetricComponent, BoxBounded, Coaxial):
         return self.isOuterRadiusAutomatic() and (self._refComp == self.getNextSymmetricComponent())
 
     def execute(self, obj):
-        if TRACE_EXECUTION:
-            print("E: FeatureBodyTube::execute(%s)" % (self._obj.Label))
-
         shape = BodyTubeShapeHandler(obj)
         if shape is not None:
             shape.draw()

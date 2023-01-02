@@ -69,7 +69,7 @@ class NoseBluntedOgiveShapeHandler(NoseShapeHandler):
         points.append(FreeCAD.Vector(min, radius))
         return points
             
-    def getLength(self, length, radius, noseRadius):
+    def _getLength(self, length, radius, noseRadius):
 
         min = length - noseRadius
         max = (-radius * length) / (noseRadius - radius)
@@ -97,7 +97,7 @@ class NoseBluntedOgiveShapeHandler(NoseShapeHandler):
         return (x + Xo, y)
 
     def getCurve(self, length, radius, noseRadius, offset=0.0):
-        (rho, vLength, Xt, Yt, Xo, Xa) = self.getLength(length, radius, noseRadius)
+        (rho, vLength, Xt, Yt, Xo, Xa) = self._getLength(length, radius, noseRadius)
 
         midX, midY = self.getMidArc(vLength - Xo, vLength - Xt, noseRadius)
         blunt = Part.Arc(

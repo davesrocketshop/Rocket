@@ -28,12 +28,9 @@ from App.util.Coordinate import Coordinate
 import FreeCAD
 import math
 
-from PySide import QtCore
-
 from abc import ABC, abstractmethod
-from tokenize import Double
 
-from App.ShapeBase import ShapeBase, TRACE_POSITION
+from App.ShapeBase import ShapeBase
 # from App.Utilities import _err
 
 from App.Constants import FEATURE_ROCKET, FEATURE_STAGE
@@ -160,9 +157,6 @@ class RocketComponent(ShapeBase, ChangeSource):
         itself.
     """
     def getLength(self):
-        if TRACE_POSITION:
-            print("P: RocketComponent::getLength(%s)" % (self._obj.Label))
-
         # Return the length of this component along the central axis
         return self._obj.Length
 
@@ -211,9 +205,6 @@ class RocketComponent(ShapeBase, ChangeSource):
         return False
 
     def update(self):
-        if TRACE_POSITION:
-            print("P: RocketComponent::update(%s)" % (self._obj.Label))
-
         self._setAxialOffset(self._obj.AxialMethod, self._obj.AxialOffset)
 
     # the default implementation is mostly a placeholder here, however in inheriting classes, 
@@ -233,9 +224,6 @@ class RocketComponent(ShapeBase, ChangeSource):
     #  cached data.  The overriding method *must* call
     #  <code>super.componentChanged(e)</code> at some point.
     def componentChanged(self, event):
-        if TRACE_POSITION:
-            print("P: RocketComponent::componentChanged(%s)" % (self._obj.Label))
-
         self.checkState()
         # self.update()
         self.updateChildren()
@@ -251,9 +239,6 @@ class RocketComponent(ShapeBase, ChangeSource):
         return False
 
     # def _locationOffset(self, partBase, parentLength):
-    #     if TRACE_POSITION:
-    #         print("P: RocketComponent::_locationOffset(%s, %f, %f))" % (self._obj.Label, partBase, parentLength))
-
     #     base = float(partBase)
     #     roll = 0.0
     #     if hasattr(self._obj, 'LocationReference'):
@@ -271,9 +256,6 @@ class RocketComponent(ShapeBase, ChangeSource):
     #     return base, roll
 
     # def positionChild(self, parent, parentBase, parentLength, parentRadius, rotation):
-    #     if TRACE_POSITION:
-    #         print("P: RocketComponent::positionChild(%s, %s, (%f,%f,%f), %f, %f, %f)" % (self._obj.Label, parent.Label, parentBase.x, parentBase.y, parentBase.z, parentLength, parentRadius, rotation))
-
     #     # Calculate any auto radii
     #     self._obj.Proxy.setRadius()
 
@@ -287,18 +269,12 @@ class RocketComponent(ShapeBase, ChangeSource):
     #     self.positionChildren(parentBase)
 
     # def _positionChildAxial(self, obj, partBase, roll):
-    #     if TRACE_POSITION:
-    #         print("P: RocketComponent::_positionChildAxial(%s, %f, %f)" % (self._obj.Label, partBase, roll))
-
     #     # newPlacement = FreeCAD.Placement(FreeCAD.Vector(partBase, 0, parentRadius), FreeCAD.Rotation(FreeCAD.Vector(1,0,0), roll), FreeCAD.Vector(0, 0, -parentRadius))
     #     newPlacement = FreeCAD.Placement(FreeCAD.Vector(partBase, 0, 0), FreeCAD.Rotation(FreeCAD.Vector(1,0,0), roll), FreeCAD.Vector(0, 0, 0))
     #     if obj.Placement != newPlacement:
     #         obj.Placement = newPlacement
 
     # def _positionChildRadial(self, obj, parent, parentRadius, partBase, roll):
-    #     if TRACE_POSITION:
-    #         print("P: RocketComponent::_positionChildRadial(%s, %s, %f, %f, %f)" % (self._obj.Label, parent.Label, parentRadius, partBase, parentRadius))
-
     #     radial = float(parentRadius) + float(obj.Proxy.getRadialPositionOffset()) # Need to add current parent radial
     #     if hasattr(obj, 'AngleOffset'):
     #         radial += float(obj.AngleOffset)
@@ -473,9 +449,6 @@ class RocketComponent(ShapeBase, ChangeSource):
         return self._obj.AxialOffset
 
     def _setAxialOffset(self, method, newAxialOffset):
-        if TRACE_POSITION:
-            print("*** P: RocketComponent::_setAxialOffset(%s)" % (self._obj.Label))
-            
         self.checkState()
 
         newX = math.nan
@@ -644,9 +617,6 @@ class RocketComponent(ShapeBase, ChangeSource):
         return False
 
     def setAfter(self):
-        if TRACE_POSITION:
-            print("*** P: RocketComponent::setAfter(%s)" % (self._obj.Label))
-
         self.checkState()
         
         if self.getParent() is None:
@@ -828,9 +798,6 @@ class ShapeLocation(RocketComponent):
         #     obj.addProperty('App::PropertyAngle', 'AngleOffset', 'RocketComponent', translate('App::Property', 'Angle of offset around the center axis')).AngleOffset = 0.0
 
     # def _parentLength(self):
-    #     if TRACE_POSITION:
-    #         print("P: ShapeLocation::_parentLength(%s)" % (self._obj.Label))
-
     #     if self._obj.Proxy._parent is not None:
     #         print("\tParent %s" % (self._obj.Proxy._parent.Label))
     #         return float(self._obj.Proxy._parent.Proxy.getLengthFset())
@@ -839,9 +806,6 @@ class ShapeLocation(RocketComponent):
     #     return 0.0
 
     # def _parentBase(self):
-    #     if TRACE_POSITION:
-    #         print("P: ShapeLocation::_parentBase(%s)" % (self._obj.Label))
-
     #     if self._obj.Proxy._parent is not None:
     #         print("\tParent %s" % (self._obj.Proxy._parent.Label))
     #         return self._obj.Proxy._parent.Placement.Base
@@ -850,9 +814,6 @@ class ShapeLocation(RocketComponent):
     #     return FreeCAD.Vector(0,0,0)
 
     # def _locationOffset(self, partBase):
-    #     if TRACE_POSITION:
-    #         print("P: ShapeLocation::_locationOffset(%s, (%f,%f,%f))" % (self._obj.Label, partBase.x, partBase.y, partBase.z))
-
     #     base = partBase.x
     #     if self._obj.LocationReference == LOCATION_PARENT_TOP:
     #         return base + self._parentLength() - float(self._obj.Location)
@@ -864,18 +825,12 @@ class ShapeLocation(RocketComponent):
     #     return base + float(self._obj.Location)
 
     # def _locationOffsetBase(self, partBase):
-    #     if TRACE_POSITION:
-    #         print("P: ShapeLocation::_locationOffsetBase(%s, (%f,%f,%f))" % (self._obj.Label, partBase.x, partBase.y, partBase.z))
-
     #     position = FreeCAD.Vector(partBase)
     #     position.x = self._locationOffset(partBase)
 
     #     return position
 
     # def setAxialPosition(self, partBase, roll=0.0):
-    #     if TRACE_POSITION:
-    #         print("P: ShapeLocation::setAxialPosition(%s, (%f,%f,%f), %f)" % (self._obj.Label, partBase.x, partBase.y, partBase.z, roll))
-
     #     base = self._locationOffsetBase(partBase)
     #     # self._obj.Placement = FreeCAD.Placement(FreeCAD.Vector(partBase.x, base.y, base.z), FreeCAD.Rotation(FreeCAD.Vector(1,0,0), roll))
     #     self._obj.Placement = FreeCAD.Placement(base, FreeCAD.Rotation(FreeCAD.Vector(1,0,0), roll))

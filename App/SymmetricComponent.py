@@ -32,7 +32,6 @@ from App.interfaces.BoxBounded import BoxBounded
 from App.interfaces.RadialParent import RadialParent
 from App.events.ComponentChangeEvent import ComponentChangeEvent
 
-from App.ShapeBase import TRACE_POSITION
 from App.RocketComponent import RocketComponent
 from App.ComponentAssembly import ComponentAssembly
 from App.util.BoundingBox import BoundingBox
@@ -198,9 +197,6 @@ class SymmetricComponent(RocketComponent, BoxBounded, RadialParent):
     """
     # def getPreviousSymmetricComponent(self):
     def getNextSymmetricComponent(self):
-        if TRACE_POSITION:
-            print("P: SymmetricComponent::getPreviousSymmetricComponent(%s)" % (self._obj.Label))
-
         if self.getParent() is None or self.getParent().getParent() is None:
             return None
 
@@ -238,9 +234,6 @@ class SymmetricComponent(RocketComponent, BoxBounded, RadialParent):
     """
     # def getNextSymmetricComponent(self):
     def getPreviousSymmetricComponent(self):
-        if TRACE_POSITION:
-            print("P: SymmetricComponent::getNextSymmetricComponent(%s)" % (self._obj.Label))
-
         if self.getParent() is None or self.getParent().getParent() is None:
             return None
 

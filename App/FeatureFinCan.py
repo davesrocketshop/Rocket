@@ -26,7 +26,6 @@ __url__ = "https://www.davesrocketshop.com"
 
 import FreeCAD
 
-from App.ShapeBase import TRACE_EXECUTION, TRACE_POSITION
 from App.FeatureFin import FeatureFin
 from App.Constants import FEATURE_FINCAN, FEATURE_LAUNCH_LUG, FEATURE_RAIL_BUTTON, FEATURE_RAIL_GUIDE, FEATURE_POD
 from App.Constants import FIN_TYPE_TRAPEZOID, FIN_TYPE_ELLIPSE, FIN_TYPE_SKETCH
@@ -150,17 +149,11 @@ class FeatureFinCan(FeatureFin):
         self._setFinCanEditorVisibility()
         
     def setParentRadius(self, parentRadius):
-        if TRACE_POSITION:
-            print("P: FeatureFinCan::setParentRadius(%s, %f)" % (self._obj.Label, parentRadius))
-
         if self._obj.AutoInnerDiameter and self._obj.ParentRadius != parentRadius:
             self._obj.ParentRadius = parentRadius
             self._obj.InnerDiameter = 2.0 * parentRadius
 
     def execute(self, obj):
-        if TRACE_EXECUTION:
-            print("E: FeatureFinCan::execute(%s)" % (self._obj.Label))
-
         if obj.FinType == FIN_TYPE_TRAPEZOID:
             shape = FinCanTrapezoidShapeHandler(obj)
         elif obj.FinType == FIN_TYPE_ELLIPSE:

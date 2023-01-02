@@ -24,7 +24,6 @@ __url__ = "https://www.davesrocketshop.com"
 
 import FreeCAD
     
-from App.ShapeBase import TRACE_POSITION, TRACE_EXECUTION
 from App.SymmetricComponent import SymmetricComponent
 from App.Constants import FEATURE_TRANSITION
 
@@ -174,9 +173,6 @@ class FeatureTransition(SymmetricComponent):
             FreeCAD.ActiveDocument.recompute()
 
     # def getLength(self):
-    #     if TRACE_POSITION:
-    #         print("P: FeatureTransition::getLength(%s)" % (self._obj.Label))
-
     #     # Return the length of this component along the central axis
     #     return self._obj.Length
 
@@ -347,9 +343,6 @@ class FeatureTransition(SymmetricComponent):
         return bounds
 
     def execute(self, obj):
-        if TRACE_EXECUTION:
-            print("E: FeatureTransition::execute(%s)" % (self._obj.Label))
-
         shape = None
         if obj.TransitionType == TYPE_CONE:
             shape = TransitionConeShapeHandler(obj)

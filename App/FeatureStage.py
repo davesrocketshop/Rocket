@@ -29,7 +29,6 @@ import FreeCAD
 from PySide import QtCore
 from DraftTools import translate
 
-from App.ShapeBase import TRACE_POSITION, TRACE_EXECUTION
 from App.ComponentAssembly import ComponentAssembly
 from App.Constants import FEATURE_ROCKET, FEATURE_STAGE, FEATURE_PARALLEL_STAGE, FEATURE_NOSE_CONE, FEATURE_BODY_TUBE, FEATURE_TRANSITION
 from App.Constants import PROP_TRANSIENT, PROP_HIDDEN, PROP_NORECOMPUTE
@@ -58,9 +57,6 @@ class FeatureStage(ComponentAssembly):
         return self._obj.StageNumber
 
     def execute(self,obj):
-        if TRACE_EXECUTION:
-            print("E: FeatureStage::execute(%s)" % (self._obj.Label))
-
         if not hasattr(obj,'Shape'):
             return
 
@@ -68,10 +64,17 @@ class FeatureStage(ComponentAssembly):
         # return childType not in [FEATURE_ROCKET, FEATURE_STAGE]
         return childType in [FEATURE_NOSE_CONE, FEATURE_BODY_TUBE, FEATURE_TRANSITION]
 
-    # def setAxialPosition(self, partBase):
-    #     if TRACE_POSITION:
-    #         print("P: FeatureStage::setAxialPosition(%s, (%f,%f,%f))" % (self._obj.Label, partBase.x, partBase.y, partBase.z))
+    def getLength(self):
+        # Return the length of this component along the central axis
+        length = 0.0
+        if hasattr(self._obj, "Group"):
+            for child in self._obj.Group:
+                length += float(child.Proxy.getLength())
 
+        print("Length = %f" %(length))
+        return length
+
+    # def setAxialPosition(self, partBase):
     #     # base = FreeCAD.Vector(self._obj.Placement.Base)
     #     base = FreeCAD.Vector(partBase)
     #     base.x = 0.0
@@ -85,9 +88,6 @@ class FeatureStage(ComponentAssembly):
     #     # self.positionChildren(0.0)
 
     # def positionChildren(self, partBase):
-    #     if TRACE_POSITION:
-    #         print("P: FeatureStage::positionChildren(%s, (%f,%f,%f))" % (self._obj.Label, partBase.x, partBase.y, partBase.z))
-        
     #     # Dynamic placements
     #     try:
     #         base = FreeCAD.Vector(partBase)

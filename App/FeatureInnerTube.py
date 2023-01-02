@@ -32,7 +32,6 @@ from App.interfaces.Clusterable import Clusterable
 from App.interfaces.RadialParent import RadialParent
 
 from App.events.ComponentChangeEvent import ComponentChangeEvent
-from App.ShapeBase import TRACE_POSITION, TRACE_EXECUTION
 from App.ThicknessRingComponent import ThicknessRingComponent
 from App.ClusterConfiguration import SINGLE, CONFIGURATIONS
 from App.util.BoundingBox import BoundingBox
@@ -70,9 +69,6 @@ class FeatureInnerTube(ThicknessRingComponent, AxialPositionable, BoxBounded, Ra
         FeatureInnerTube(obj)
 
     def execute(self, obj):
-        if TRACE_EXECUTION:
-            print("E: FeatureInnerTube::execute(%s)" % (self._obj.Label))
-
         shape = BodyTubeShapeHandler(obj)
         if shape is not None:
             shape.draw()

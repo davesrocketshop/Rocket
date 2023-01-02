@@ -24,7 +24,6 @@ __title__ = "FreeCAD Centering Rings"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
     
-from App.ShapeBase import TRACE_EXECUTION
 from App.FeatureBulkhead import FeatureBulkhead
 from App.Constants import FEATURE_CENTERING_RING
 
@@ -61,9 +60,6 @@ class FeatureCenteringRing(FeatureBulkhead):
         
 
     def execute(self, obj):
-        if TRACE_EXECUTION:
-            print("E: FeatureCenteringRing::execute(%s)" % (self._obj.Label))
-
         shape = CenteringRingShapeHandler(obj)
         if shape is not None:
             shape.draw()

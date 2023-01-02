@@ -33,7 +33,6 @@ from App.position import AxialMethod
 from App.position.AxialPositionable import AxialPositionable
 from App.util import Coordinate
 from App.util.BoundingBox import BoundingBox
-from App.ShapeBase import TRACE_POSITION
 from App.RocketComponent import RocketComponent
 # from App.FeatureBodyTube import FeatureBodyTube
 # from App.FeatureNoseCone import FeatureNoseCone
@@ -152,9 +151,6 @@ class ComponentAssembly(RocketComponent, AxialPositionable):
         return False
 
     def update(self):
-        if TRACE_POSITION:
-            print("P: ComponentAssembly::update(%s)" % (self._obj.Label))
-
         self.updateBounds()
         if self.isAfter():
             self.setAfter()

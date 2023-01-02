@@ -33,10 +33,6 @@ from App.Utilities import _err
 from App.Constants import PROP_NORECOMPUTE
 from App.events.ComponentChangeEvent import ComponentChangeEvent
 
-# Set to True when debugging
-TRACE_POSITION = True
-TRACE_EXECUTION = True
-
 class EditedShape(QObject):
 
     edited = Signal(object)
@@ -144,9 +140,6 @@ class ShapeBase():
         self._obj.Group = list
 
     def getPrevious(self, obj=None):
-        if TRACE_POSITION:
-            print("P: ShapeBase::getPrevious(%s)" % (self._obj.Label))
-
         "Previous item along the rocket axis"
         if obj is None:
             if self._parent is not None:
@@ -167,9 +160,6 @@ class ShapeBase():
         return None
 
     def getNext(self, obj=None):
-        if TRACE_POSITION:
-            print("P: ShapeBase::getNext(%s)" % (self._obj.Label))
-
         "Next item along the rocket axis"
         if obj is None:
             if self._parent is not None:
@@ -189,23 +179,7 @@ class ShapeBase():
 
         return None
 
-    def getLength(self):
-        if TRACE_POSITION:
-            print("P: ShapeBase::getLength(%s)" % (self._obj.Label))
-
-        # Return the length of this component along the central axis
-        length = 0.0
-        if hasattr(self._obj, "Group"):
-            for child in self._obj.Group:
-                length += float(child.Proxy.getLength())
-
-        print("Length = %f" %(length))
-        return length
-
     def getMaxForwardPosition(self):
-        if TRACE_POSITION:
-            print("P: ShapeBase::getMaxForwardPosition(%s)" % (self._obj.Label))
-
         # Return the length of this component along the central axis
         length = 0.0
         if hasattr(self._obj, "Group"):
@@ -216,105 +190,64 @@ class ShapeBase():
         return length
 
     def getForeRadius(self):
-        if TRACE_POSITION:
-            print("P: ShapeBase::getForeRadius(%s)" % (self._obj.Label))
-
         # For placing objects on the outer part of the parent
         return 0.0
 
     def getAftRadius(self):
-        if TRACE_POSITION:
-            print("P: ShapeBase::getAftRadius(%s)" % (self._obj.Label))
-
         # For placing objects on the outer part of the parent
         return self.getForeRadius()
 
     def getRadius(self):
-        if TRACE_POSITION:
-            print("P: ShapeBase::getRadius(%s)" % (self._obj.Label))
-
         return self.getForeRadius()
 
     def setRadius(self):
-        if TRACE_POSITION:
-            print("P: ShapeBase::setRadius(%s)" % (self._obj.Label))
-
         # Calculate any auto radii
         self.getRadius()
 
     def resetPlacement(self):
-        if TRACE_POSITION:
-            print("P: ShapeBase::resetPlacement(%s)" % (self._obj.Label))
-
         self._obj.Placement = FreeCAD.Placement()
 
     def reposition(self):
-        if TRACE_POSITION:
-            print("P: ShapeBase::reposition(%s)" % (self._obj.Label))
-
         # if self.getParent() is not None:
-        #     if TRACE_POSITION:
-        #         print("P: ShapeBase::reposition(%s)._parent(%s)" % (self._obj.Label, self.getParent()._obj.Label))
         #     self.getParent().reposition()
         # else:
         #     rocket=FreeCADGui.ActiveDocument.ActiveView.getActiveObject("rocket")
         #     if rocket:
         #         rocket.Proxy.reposition()
-        #     elif TRACE_POSITION:
-        #         print("P: ShapeBase::reposition(%s) - NO PARENT" % (self._obj.Label))
+        pass
 
-    def setAxialPosition(self, partBase, roll=0.0):
-        if TRACE_POSITION:
-            print("P: ShapeBase::setAxialPosition(%s, (%f,%f,%f), %f)" % (self._obj.Label, partBase.x, partBase.y, partBase.z, roll))
+    # def setAxialPosition(self, partBase, roll=0.0):
+    #     base = self._obj.Placement.Base
+    #     self._obj.Placement = FreeCAD.Placement(FreeCAD.Vector(partBase.x, base.y, base.z), FreeCAD.Rotation(FreeCAD.Vector(1,0,0), roll))
 
-        base = self._obj.Placement.Base
-        self._obj.Placement = FreeCAD.Placement(FreeCAD.Vector(partBase.x, base.y, base.z), FreeCAD.Rotation(FreeCAD.Vector(1,0,0), roll))
+    #     self.positionChildren(partBase)
 
-        self.positionChildren(partBase)
+    # def positionChildren(self, partBase):
+    #     # Dynamic placements
+    #     if hasattr(self._obj, "Group"):
+    #         base = FreeCAD.Vector(partBase)
+    #         # base = FreeCAD.Vector(0,0,0)
+    #         for child in reversed(self._obj.Group):
+    #             child.Proxy.positionChild(self._obj, base, self.getLength(), self.getForeRadius(), 0.0)
+    #             # base.x += float(child.Proxy.getLength())
 
-    def positionChildren(self, partBase):
-        if TRACE_POSITION:
-            print("P: ShapeBase::positionChildren(%s, (%f,%f,%f))" % (self._obj.Label, partBase.x, partBase.y, partBase.z))
+    # def positionChild(self, parent, parentBase, parentLength, parentRadius, rotation):
+    #     base = FreeCAD.Vector(parentBase)
+    #     self.setAxialPosition(base)
 
-        # Dynamic placements
-        if hasattr(self._obj, "Group"):
-            base = FreeCAD.Vector(partBase)
-            # base = FreeCAD.Vector(0,0,0)
-            for child in reversed(self._obj.Group):
-                child.Proxy.positionChild(self._obj, base, self.getLength(), self.getForeRadius(), 0.0)
-                # base.x += float(child.Proxy.getLength())
-
-    def positionChild(self, parent, parentBase, parentLength, parentRadius, rotation):
-        if TRACE_POSITION:
-            print("P: ShapeBase::positionChild(%s, %s, (%f,%f,%f), %f, %f, %f)" % (self._obj.Label, parent.Label, parentBase.x, parentBase.y, parentBase.z, parentLength, parentRadius, rotation))
-
-        base = FreeCAD.Vector(parentBase)
-        self.setAxialPosition(base)
-
-        self.positionChildren(base)
+    #     self.positionChildren(base)
 
 
     def getOuterRadius(self):
-        if TRACE_POSITION:
-            print("P: ShapeBase::getOuterRadius(%s)" % (self._obj.Label))
-
         return 0.0
 
     def getInnerRadius(self):
-        if TRACE_POSITION:
-            print("P: ShapeBase::getInnerRadius(%s)" % (self._obj.Label))
-
         return 0.0
 
     def setRadialPosition(self, outerRadius, innerRadius):
-        if TRACE_POSITION:
-            print("P: ShapeBase::setRadialPosition(%s, %f, %f)" % (self._obj.Label, outerRadius, innerRadius))
-
+        pass
 
     def getRadialPositionOffset(self):
-        if TRACE_POSITION:
-            print("P: ShapeBase::getRadialPositionOffset(%s)" % (self._obj.Label))
-
         return 0.0
 
     def moveUp(self):

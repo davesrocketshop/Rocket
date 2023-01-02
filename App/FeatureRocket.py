@@ -42,7 +42,6 @@ from App.util import ReferenceType
 
 from App.events.ComponentChangeEvent import ComponentChangeEvent
 
-from App.ShapeBase import TRACE_POSITION, TRACE_EXECUTION
 from App.ComponentAssembly import ComponentAssembly
 from App.Constants import FEATURE_ROCKET, FEATURE_STAGE
 
@@ -94,7 +93,7 @@ class FeatureRocket(ComponentAssembly, ComponentChangeListener):
     """
     def enableEvents(self, enable=True):
         self._enableEvents(enable)
-        self.update()
+        self.updateChildren()
 
     def _enableEvents(self, enable):
         if self._eventsEnabled and enable:
@@ -107,9 +106,6 @@ class FeatureRocket(ComponentAssembly, ComponentChangeListener):
             self._eventsEnabled = False
         
     def execute(self,obj):
-        if TRACE_EXECUTION:
-            print("E: FeatureRocket::execute(%s)" % (self._obj.Label))
-
         if not hasattr(obj,'Shape'):
             return
 
@@ -313,9 +309,6 @@ class FeatureRocket(ComponentAssembly, ComponentChangeListener):
         self._listenerList.remove(l)
 
     def fireComponentChangeEvent(self, cce):
-        if TRACE_POSITION:
-            print("P: FeatureRocket::fireComponentChangeEvent(%s)" % (self._obj.Label))
-
         if not self._eventsEnabled:
             print("\tevents not enabled")
             return

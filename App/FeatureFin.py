@@ -27,10 +27,8 @@ __url__ = "https://www.davesrocketshop.com"
 import FreeCAD
 import math
 
-from App.ShapeBase import TRACE_EXECUTION, TRACE_POSITION
 from App.RocketComponent import ShapeLocation
 from App.SymmetricComponent import SymmetricComponent
-import App.util.Coordinate
 from App.util.Coordinate import Coordinate
 
 from App.Constants import FEATURE_FIN, FEATURE_LAUNCH_LUG, FEATURE_RAIL_BUTTON, FEATURE_RAIL_GUIDE, FEATURE_POD
@@ -173,9 +171,6 @@ class FeatureFin(ShapeLocation):
         self._setFinEditorVisibility()
 
     # def positionChild(self, parent, parentBase, parentLength, parentRadius, rotation):
-    #     if TRACE_POSITION:
-    #         print("P: FeatureFin::positionChild(%s, %s, (%f,%f,%f), %f, %f, %f)" % (self._obj.Label, parent.Label, parentBase.x, parentBase.y, parentBase.z, parentLength, parentRadius, rotation))
-
     #     super().positionChild(parent, parentBase, parentLength, parentRadius, rotation)
     #     self.setParentRadius(parentRadius)
 
@@ -186,27 +181,16 @@ class FeatureFin(ShapeLocation):
     #     self.positionChildren(base)
 
     def setParentRadius(self, parentRadius):
-        if TRACE_POSITION:
-            print("P: FeatureFin::setParentRadius(%s, %f)" % (self._obj.Label, parentRadius))
-
         if self._obj.AutoInnerDiameter and self._obj.ParentRadius != parentRadius:
             self._obj.ParentRadius = parentRadius
 
     def getForeRadius(self):
-        if TRACE_POSITION:
-            print("P: FeatureFin::getForeRadius(%s)" % (self._obj.Label))
-
         # For placing objects on the outer part of the parent
         return float(self._obj.ParentRadius + self._obj.Height)
 
     def getLength(self):
-        if TRACE_POSITION:
-            print("P: FeatureFin::getLength(%s)" % (self._obj.Label))
-
         # Return the length of this component along the central axis
         length = self.getRootChord()
-
-        print("Length = %f" %(length))
         return length
 
     def getFinCount(self):
@@ -281,9 +265,6 @@ class FeatureFin(ShapeLocation):
         self._obj.SweepLength = length
 
     def execute(self, obj):
-        if TRACE_EXECUTION:
-            print("E: FeatureFin::execute(%s)" % (self._obj.Label))
-
         if obj.FinType == FIN_TYPE_TRAPEZOID:
             shape = FinTrapezoidShapeHandler(obj)
         elif obj.FinType == FIN_TYPE_ELLIPSE:

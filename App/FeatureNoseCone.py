@@ -24,7 +24,6 @@ __title__ = "FreeCAD Nose Cones"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
     
-from App.ShapeBase import TRACE_POSITION, TRACE_EXECUTION
 from App.SymmetricComponent import SymmetricComponent
 from App.Constants import FEATURE_NOSE_CONE
 
@@ -277,9 +276,6 @@ class FeatureNoseCone(SymmetricComponent):
         self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
 
     # def getLength(self):
-    #     if TRACE_POSITION:
-    #         print("P: FeatureNoseCone::getLength(%s)" % (self._obj.Label))
-
     #     # Return the length of this component along the central axis
     #     return self._obj.Length
 
@@ -337,15 +333,9 @@ class FeatureNoseCone(SymmetricComponent):
         # self.clearPreset()
 
     def getMaxForwardPosition(self):
-        if TRACE_POSITION:
-            print("P: FeatureNoseCone::getMaxForwardPosition(%s)" % (self._obj.Label))
-
         return float(self._obj.Length) + float(self._obj.Placement.Base.x)
 
     def getForeRadius(self):
-        if TRACE_POSITION:
-            print("P: FeatureNoseCone::getForeRadius(%s)" % (self._obj.Label))
-
         # For placing objects on the outer part of the parent
         if self._obj.AutoDiameter:
             radius = 0.0
@@ -395,9 +385,6 @@ class FeatureNoseCone(SymmetricComponent):
             self._shapeHandler = NosePowerShapeHandler(obj)
 
     def execute(self, obj):
-        if TRACE_EXECUTION:
-            print("E: FeatureNoseCone::execute(%s)" % (self._obj.Label))
-
         self._setShapeHandler()
         if self._shapeHandler is not None:
             self._shapeHandler.draw()

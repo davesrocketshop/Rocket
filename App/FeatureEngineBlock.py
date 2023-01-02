@@ -26,7 +26,6 @@ __url__ = "https://www.davesrocketshop.com"
 
 from App.position.AxialPositionable import AxialPositionable
 
-from App.ShapeBase import TRACE_EXECUTION
 from App.ThicknessRingComponent import ThicknessRingComponent
 from App.ShapeHandlers.BodyTubeShapeHandler import BodyTubeShapeHandler
 
@@ -54,9 +53,6 @@ class FeatureEngineBlock(ThicknessRingComponent, AxialPositionable):
         FeatureEngineBlock(obj)
 
     def execute(self, obj):
-        if TRACE_EXECUTION:
-            print("E: FeatureEngineBlock::execute(%s)" % (self._obj.Label))
-
         shape = BodyTubeShapeHandler(obj)
         if shape is not None:
             shape.draw()

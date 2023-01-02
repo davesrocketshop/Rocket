@@ -28,7 +28,6 @@ import math
     
 from App.Constants import FEATURE_LAUNCH_LUG
 
-from App.ShapeBase import TRACE_POSITION
 from App.Tube import Tube
 from App.position import AxialMethod
 from App.position.AngleMethod import AngleMethod
@@ -71,9 +70,6 @@ class FeatureLaunchLug(Tube, AnglePositionable, BoxBounded):
             obj.addProperty('Part::PropertyPartShape', 'Shape', 'LaunchLug', translate('App::Property', 'Shape of the launch lug'))
 
     def execute(self, obj):
-        # if TRACE_EXECUTION:
-        #     print("E: FeatureLaunchLug::execute(%s)" % (self._obj.Label))
-
         shape = BodyTubeShapeHandler(obj)
         if shape is not None:
             shape.draw()
@@ -82,9 +78,6 @@ class FeatureLaunchLug(Tube, AnglePositionable, BoxBounded):
         return False
 
     def getLength(self):
-        # if TRACE_POSITION:
-        #     print("P: FeatureLaunchLug::getLength(%s)" % (self._obj.Label))
-
         # Return the length of this component along the central axis
         length = self._obj.Length
 

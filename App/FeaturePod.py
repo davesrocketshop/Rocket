@@ -29,7 +29,6 @@ __url__ = "https://www.davesrocketshop.com"
 from PySide import QtCore
 from DraftTools import translate
 
-from App.ShapeBase import TRACE_EXECUTION
 from App.RocketComponent import ShapeRadialLocation
 from App.Constants import FEATURE_ROCKET, FEATURE_STAGE, FEATURE_PARALLEL_STAGE, FEATURE_POD
 from App.Constants import PLACEMENT_RADIAL
@@ -52,9 +51,6 @@ class FeaturePod(ShapeRadialLocation):
             obj.addExtension("App::GroupExtensionPython")
 
     def execute(self,obj):
-        if TRACE_EXECUTION:
-            print("E: FeaturePod::execute(%s)" % (self._obj.Label))
-
         if not hasattr(obj,'Shape'):
             return
 

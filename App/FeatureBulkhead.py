@@ -24,7 +24,6 @@ __title__ = "FreeCAD Bulkheads"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
     
-from App.ShapeBase import TRACE_POSITION, TRACE_EXECUTION
 from App.RadiusRingComponent import RadiusRingComponent
 from App.RocketComponent import ShapeLocation
 from App.Constants import FEATURE_BULKHEAD
@@ -68,9 +67,6 @@ class FeatureBulkhead(RadiusRingComponent):
             obj.addProperty('Part::PropertyPartShape', 'Shape', 'Bulkhead', translate('App::Property', 'Shape of the bulkhead'))
 
     def getLength(self):
-        if TRACE_POSITION:
-            print("P: FeatureBulkhead::getLength(%s)" % (self._obj.Label))
-
         # Return the length of this component along the central axis
         return self._obj.Thickness
 
@@ -78,9 +74,6 @@ class FeatureBulkhead(RadiusRingComponent):
         self._obj.Thickness = length
 
     # def positionChild(self, parent, parentBase, parentLength, parentRadius, rotation):
-    #     if TRACE_POSITION:
-    #         print("P: FeatureBulkhead::positionChild(%s, %s, (%f,%f,%f), %f, %f, %f)" % (self._obj.Label, parent.Label, parentBase.x, parentBase.y, parentBase.z, parentLength, parentRadius, rotation))
-
     #     if self._obj.AutoDiameter:
     #         self._obj.Diameter = parent.Proxy.getInnerRadius() * 2.0
     #     super().positionChild(parent, parentBase, parentLength, parentRadius, rotation)
@@ -89,9 +82,6 @@ class FeatureBulkhead(RadiusRingComponent):
         pass
 
     def execute(self, obj):
-        if TRACE_EXECUTION:
-            print("E: FeatureBulkhead::execute(%s)" % (self._obj.Label))
-
         shape = BulkheadShapeHandler(obj)
         if shape is not None:
             shape.draw()

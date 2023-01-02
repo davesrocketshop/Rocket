@@ -29,7 +29,6 @@ import FreeCAD
 from PySide import QtCore
 from DraftTools import translate
 
-from App.ShapeBase import TRACE_POSITION
 from App.FeatureStage import FeatureStage
 from App.RocketComponent import ShapeRadialLocation
 from App.Constants import FEATURE_ROCKET, FEATURE_STAGE, FEATURE_PARALLEL_STAGE
@@ -52,9 +51,6 @@ class FeatureParallelStage(ShapeRadialLocation, FeatureStage):
             obj.addProperty('App::PropertyAngle', 'StageSpacing', 'Stage', translate('App::Property', 'Angle between consecutive stages')).StageSpacing = 180
 
     def positionChild(self, parent, parentBase, parentLength, parentRadius, rotation):
-        if TRACE_POSITION:
-            print("P: FeatureParallelStage::positionChild(%s, %s, (%f,%f,%f), %f, %f, %f)" % (self._obj.Label, parent.Label, parentBase.x, parentBase.y, parentBase.z, parentLength, parentRadius, rotation))
-
         base = FreeCAD.Vector(parentBase)
         base.z = parentRadius
 
