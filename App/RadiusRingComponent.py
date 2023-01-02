@@ -26,7 +26,7 @@ __url__ = "https://www.davesrocketshop.com"
 
 import FreeCAD
 
-from App.util.Coordinate import Coordinate
+from App.util.Coordinate import Coordinate, NUL
 from App.RingComponent import RingComponent
 from App.Utilities import clamp
 from App.interfaces.LineInstanceable import LineInstanceable
@@ -55,12 +55,12 @@ class RadiusRingComponent(RingComponent, LineInstanceable):
 
     def getOuterRadius(self):
         if self._obj.AutoDiameter and isinstance(self.getParent(), RadialParent):
-            pos1 = self.toRelative(Coordinate.NUL, self.getParent())[0].x;
+            pos1 = self.toRelative(NUL, self.getParent())[0].x;
             pos2 = self.toRelative(Coordinate(self.getLength()), self.getParent())[0].x;
             pos1 = clamp(pos1, 0, self.getParent().getLength())
             pos2 = clamp(pos2, 0, self.getParent().getLength())
-            outerRadius = min(self.getParent().getInnerRadius(pos1), self.getParent().getInnerRadius(pos2))
-            return float(outerRadius)
+            self._obj.CenterDiameter = min(self.getParent().getInnerDiameter(pos1), self.getParent().getInnerDiameter(pos2))
+            return float(self._obj.CenterDiameter)
 
         return float(self._obj.Diameter) / 2.0
 
@@ -83,9 +83,11 @@ class RadiusRingComponent(RingComponent, LineInstanceable):
         # self.clearPreset()
         self.fireComponentChangeEvent(ComponentChangeEvent.MASS_CHANGE)
 
+    def getInnerRadius(self, pos=0):
+        return self.getInnerDiameter(pos) / 2.0
 
-    def getInnerRadius(self):
-        return self._obj.CenterDiameter / 2.0
+    def getInnerDiameter(self, pos=0):
+        return self._obj.CenterDiameter
 
     def setInnerRadius(self, r):
         r = max(r,0)
@@ -140,7 +142,7 @@ class RadiusRingComponent(RingComponent, LineInstanceable):
     def getInstanceOffsets(self):
         toReturn = []
         for index in range(self.getInstanceCount()):
-            toReturn.append(Coordinate( index * self._obj.InstanceSeparation, 0, 0))
+            toReturn.append(Coordinate( index * float(self._obj.InstanceSeparation), 0, 0))
         
         return toReturn
 

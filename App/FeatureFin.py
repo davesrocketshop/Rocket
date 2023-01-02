@@ -27,7 +27,7 @@ __url__ = "https://www.davesrocketshop.com"
 import FreeCAD
 import math
 
-from App.RocketComponent import ShapeLocation
+from App.RocketComponent import RocketComponent
 from App.SymmetricComponent import SymmetricComponent
 from App.util.Coordinate import Coordinate
 
@@ -49,7 +49,7 @@ from DraftTools import translate
 
 DEBUG_SKETCH_FINS = 0 # Set > 0 when debugging sketch based fins
 
-class FeatureFin(ShapeLocation):
+class FeatureFin(RocketComponent):
 
     def __init__(self, obj):
         super().__init__(obj)

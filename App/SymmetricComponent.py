@@ -203,22 +203,17 @@ class SymmetricComponent(RocketComponent, BoxBounded, RadialParent):
         # might be: (a) Rocket -- for Centerline/Axial stages
         #           (b) BodyTube -- for Parallel Stages & PodSets
         grandParent = self.getParent().getParent()
-        print("\tgrandparent(%s)" % (grandParent._obj.Label))
         parent = self.getParent()
-        print("\tparent(%s)" % (parent._obj.Label))
 
         searchParentIndex = grandParent.getChildPosition(self.getParent())       # position of stage w/in parent
         searchSiblingIndex = self.getParent().getChildPosition(self)-1           # guess at index of previous stage
 
         while 0 <= searchParentIndex:
-            print("\tsearchParentIndex(%d)" % (searchParentIndex))
             searchParent = grandParent.getChild(searchParentIndex).Proxy
-            print("\tsearchParent(%s)" % (searchParent._obj.Label))
 
             if isinstance(searchParent, ComponentAssembly):
                 while 0 <= searchSiblingIndex:
                     searchSibling = searchParent.getChild(searchSiblingIndex).Proxy
-                    print("\tsearchSibling(%s)" % (searchSibling._obj.Label))
                     if isinstance(searchSibling, SymmetricComponent):
                         return searchSibling
                     searchSiblingIndex -= 1
@@ -240,23 +235,18 @@ class SymmetricComponent(RocketComponent, BoxBounded, RadialParent):
         # might be: (a) Rocket -- for centerline stages
         #           (b) BodyTube -- for Parallel Stages
         grandParent = self.getParent().getParent()
-        print("\tgrandparent(%s)" % (grandParent._obj.Label))
         parent = self.getParent()
-        print("\tparent(%s)" % (parent._obj.Label))
 
         # note:  this is not guaranteed to _contain_ a stage... but that we're _searching_ for one.
         searchParentIndex = grandParent.getChildPosition(self.getParent());
         searchSiblingIndex = self.getParent().getChildPosition(self) + 1
 
         while searchParentIndex < grandParent.getChildCount():
-            print("\tsearchParentIndex(%d)" % (searchParentIndex))
             searchParent = grandParent.getChild(searchParentIndex).Proxy
-            print("\tsearchParent(%s)" % (searchParent._obj.Label))
 
             if isinstance(searchParent, ComponentAssembly):
                 while searchSiblingIndex < searchParent.getChildCount():
                     searchSibling = searchParent.getChild(searchSiblingIndex).Proxy
-                    print("\tsearchSibling(%s)" % (searchSibling._obj.Label))
 
                     if isinstance(searchSibling, SymmetricComponent):
                         return searchSibling

@@ -44,7 +44,7 @@ from App.Importer.NoseElement import NoseElement
 
 from App.events.ComponentChangeEvent import ComponentChangeEvent
 
-from App.Utilities import _msg
+from App.Utilities import _err
 
 from Ui.Commands.CmdRocket import makeRocket
 
@@ -139,22 +139,17 @@ class OpenRocketImporter(xml.sax.ContentHandler):
         try:
             with gzip.open(filename) as orc:
                 orc.peek(10)
-                print("Import file is .gzip format")
                 OpenRocketImporter.importRocket(doc, orc, filename)
                 doc.recompute(None,True,True)
                 return
         except gzip.BadGzipFile:
-            print("gzip.BadGzipFile")
             pass
 
         try:
             if zipfile.is_zipfile(filename):
                 with ZipFile(filename) as orcZip:
-                    print("Import file is .zip format")
                     for info in orcZip.infolist():
-                        print("info name '%s'" % info.filename)
                         if re.match('.*\\.[oO][rR][kK]$', info.filename):
-                            print("Match .ork")
                             with orcZip.open(info.filename) as orc:
                                 OpenRocketImporter.importRocket(doc, orc, info.filename)
                         elif re.match('.*\\.[rR][kK][tT]$', info.filename):
@@ -162,10 +157,8 @@ class OpenRocketImporter(xml.sax.ContentHandler):
                                 OpenRocketImporter.importRocket(doc, orc, info.filename)
                 return
         except zipfile.BadZipFile:
-            print("zipfile.BadZipFile")
             pass
 
-        print("Default plain file")
         with open(filename, "rb") as orc:
             OpenRocketImporter.importRocket(doc, orc, filename)
 

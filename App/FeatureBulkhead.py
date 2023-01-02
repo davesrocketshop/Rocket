@@ -25,7 +25,6 @@ __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
     
 from App.RadiusRingComponent import RadiusRingComponent
-from App.RocketComponent import ShapeLocation
 from App.Constants import FEATURE_BULKHEAD
 
 from App.ShapeHandlers.BulkheadShapeHandler import BulkheadShapeHandler
@@ -68,15 +67,10 @@ class FeatureBulkhead(RadiusRingComponent):
 
     def getLength(self):
         # Return the length of this component along the central axis
-        return self._obj.Thickness
+        return float(self._obj.Thickness)
 
     def setLength(self, length):
         self._obj.Thickness = length
-
-    # def positionChild(self, parent, parentBase, parentLength, parentRadius, rotation):
-    #     if self._obj.AutoDiameter:
-    #         self._obj.Diameter = parent.Proxy.getInnerRadius() * 2.0
-    #     super().positionChild(parent, parentBase, parentLength, parentRadius, rotation)
 
     def getComponentBounds(self):
         pass

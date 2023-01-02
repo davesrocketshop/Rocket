@@ -186,7 +186,6 @@ class ShapeBase():
             for child in self._obj.Group:
                 length = max(length, float(child.Proxy.getMaxForwardPosition()))
 
-        # print("Length = %f" %(length))
         return length
 
     def getForeRadius(self):
@@ -203,40 +202,6 @@ class ShapeBase():
     def setRadius(self):
         # Calculate any auto radii
         self.getRadius()
-
-    def resetPlacement(self):
-        self._obj.Placement = FreeCAD.Placement()
-
-    def reposition(self):
-        # if self.getParent() is not None:
-        #     self.getParent().reposition()
-        # else:
-        #     rocket=FreeCADGui.ActiveDocument.ActiveView.getActiveObject("rocket")
-        #     if rocket:
-        #         rocket.Proxy.reposition()
-        pass
-
-    # def setAxialPosition(self, partBase, roll=0.0):
-    #     base = self._obj.Placement.Base
-    #     self._obj.Placement = FreeCAD.Placement(FreeCAD.Vector(partBase.x, base.y, base.z), FreeCAD.Rotation(FreeCAD.Vector(1,0,0), roll))
-
-    #     self.positionChildren(partBase)
-
-    # def positionChildren(self, partBase):
-    #     # Dynamic placements
-    #     if hasattr(self._obj, "Group"):
-    #         base = FreeCAD.Vector(partBase)
-    #         # base = FreeCAD.Vector(0,0,0)
-    #         for child in reversed(self._obj.Group):
-    #             child.Proxy.positionChild(self._obj, base, self.getLength(), self.getForeRadius(), 0.0)
-    #             # base.x += float(child.Proxy.getLength())
-
-    # def positionChild(self, parent, parentBase, parentLength, parentRadius, rotation):
-    #     base = FreeCAD.Vector(parentBase)
-    #     self.setAxialPosition(base)
-
-    #     self.positionChildren(base)
-
 
     def getOuterRadius(self):
         return 0.0
@@ -263,7 +228,6 @@ class ShapeBase():
             for child in self._obj.Group:
                 if child.Proxy == obj.Proxy:
                     if index > 0:
-                        # print("\t2")
                         if self._obj.Group[index - 1].Proxy.eligibleChild(obj.Proxy.Type):
                             # Append to the end of the previous entry
                             self._obj.removeObject(obj)

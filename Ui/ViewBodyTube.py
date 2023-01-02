@@ -30,8 +30,6 @@ import FreeCADGui
 from Ui.TaskPanelBodyTube import TaskPanelBodyTube
 from Ui.ViewProvider import ViewProvider
 
-from App.FeatureBodyTube import hookChildren
-
 class ViewProviderBodyTube(ViewProvider):
 
     def __init__(self, vobj):

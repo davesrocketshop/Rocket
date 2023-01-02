@@ -310,7 +310,6 @@ class FeatureRocket(ComponentAssembly, ComponentChangeListener):
 
     def fireComponentChangeEvent(self, cce):
         if not self._eventsEnabled:
-            print("\tevents not enabled")
             return
         
         #mutex.lock("fireComponentChangeEvent");
@@ -332,7 +331,6 @@ class FeatureRocket(ComponentAssembly, ComponentChangeListener):
         # Check whether frozen
         if self._freezeList is not None:
             # log.debug("Rocket is in frozen state, adding event " + cce + " info freeze list");
-            print("\tevents frozen")
             self._freezeList.append(cce)
             return
 

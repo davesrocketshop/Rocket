@@ -30,13 +30,12 @@ from PySide import QtCore
 from DraftTools import translate
 
 from App.FeatureStage import FeatureStage
-from App.RocketComponent import ShapeRadialLocation
 from App.Constants import FEATURE_ROCKET, FEATURE_STAGE, FEATURE_PARALLEL_STAGE
 from App.Constants import PROP_TRANSIENT, PROP_HIDDEN, PROP_NORECOMPUTE
 from App.Constants import PLACEMENT_RADIAL
 
 
-class FeatureParallelStage(ShapeRadialLocation, FeatureStage):
+class FeatureParallelStage(FeatureStage):
 
     def __init__(self, obj):
         super().__init__(obj)

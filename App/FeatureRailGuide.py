@@ -24,7 +24,7 @@ __title__ = "FreeCAD Launch Guide"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
-from App.RocketComponent import ShapeLocation
+from App.RocketComponent import RocketComponent
 from App.Constants import FEATURE_RAIL_GUIDE
 from App.Constants import PLACEMENT_RADIAL
 from App.Constants import RAIL_GUIDE_BASE_FLAT, RAIL_GUIDE_BASE_CONFORMAL, RAIL_GUIDE_BASE_V
@@ -33,7 +33,7 @@ from App.ShapeHandlers.RailGuideShapeHandler import RailGuideShapeHandler
 
 from DraftTools import translate
 
-class FeatureRailGuide(ShapeLocation):
+class FeatureRailGuide(RocketComponent):
 
     def __init__(self, obj):
         super().__init__(obj)
@@ -96,5 +96,4 @@ class FeatureRailGuide(ShapeLocation):
             shape.draw()
 
     def onChildEdited(self):
-        # print("%s: onChildEdited()" % (self.__class__.__name__))
         self._obj.Proxy.setEdited()

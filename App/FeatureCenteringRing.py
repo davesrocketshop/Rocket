@@ -25,6 +25,8 @@ __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
     
 from App.FeatureBulkhead import FeatureBulkhead
+from App.FeatureInnerTube import FeatureInnerTube
+from App.util.Coordinate import Coordinate, NUL
 from App.Constants import FEATURE_CENTERING_RING
 
 from App.ShapeHandlers.CenteringRingShapeHandler import CenteringRingShapeHandler
@@ -55,9 +57,37 @@ class FeatureCenteringRing(FeatureBulkhead):
             obj.addProperty('Part::PropertyPartShape', 'Shape', 'CenteringRing', translate('App::Property', 'Shape of the centering ring'))
 
         # Default values changed to match a central hole
+        self.setOuterDiameterAutomatic(True)
+        self.setOuterDiameterAutomatic(True)
+        self.setLength(2.0)
         obj.HoleDiameter = 2.0
         obj.HoleCenter = 7.0
         
+    def getInnerRadius(self):
+        return self.getInnerDiameter() / 2.0
+        
+    def getInnerDiameter(self):
+        # Implement sibling inner radius automation
+        if self.isInnerDiameterAutomatic():
+            self._obj.CenterDiameter = 0
+            # Component can be parentless if detached from rocket
+            if self.getParent() is not None:
+                for sibling in self.getParent().getChildren():
+                    # Only InnerTubes are considered when determining the automatic
+                    # inner radius (for now).
+                    if not isinstance(sibling, FeatureInnerTube): # Excludes itself
+                        continue
+
+                    pos1 = self.toRelative(NUL, sibling)[0].x
+                    pos2 = self.toRelative(Coordinate(self.getLength()), sibling)[0].x
+                    if pos2 < 0 or pos1 > sibling.getLength():
+                        continue
+
+                    self._obj.CenterDiameter = max(self._obj.CenterDiameter, sibling.getOuterDiameter())
+
+                self._obj.CenterDiameter = min(self._obj.CenterDiameter, self.getOuterDiameter())
+
+        return super().getInnerDiameter()
 
     def execute(self, obj):
         shape = CenteringRingShapeHandler(obj)

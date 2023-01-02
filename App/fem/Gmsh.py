@@ -36,7 +36,6 @@ class RocketGmsh(GmshTools):
         super().__init__(gmsh_mesh_obj, analysis)
 
     def create_mesh(self):
-        print("create mesh")
         error = ""
         try:
             self.update_mesh_data()

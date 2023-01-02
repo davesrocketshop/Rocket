@@ -29,12 +29,12 @@ __url__ = "https://www.davesrocketshop.com"
 from PySide import QtCore
 from DraftTools import translate
 
-from App.RocketComponent import ShapeRadialLocation
+from App.RocketComponent import RocketComponent
 from App.Constants import FEATURE_ROCKET, FEATURE_STAGE, FEATURE_PARALLEL_STAGE, FEATURE_POD
 from App.Constants import PLACEMENT_RADIAL
 
 
-class FeaturePod(ShapeRadialLocation):
+class FeaturePod(RocketComponent):
 
     def __init__(self, obj):
         super().__init__(obj)
@@ -58,5 +58,4 @@ class FeaturePod(ShapeRadialLocation):
         return childType not in [FEATURE_ROCKET, FEATURE_STAGE, FEATURE_PARALLEL_STAGE]
 
     def onChildEdited(self):
-        # print("%s: onChildEdited()" % (self.__class__.__name__))
         self._obj.Proxy.setEdited()

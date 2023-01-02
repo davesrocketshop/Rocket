@@ -177,10 +177,15 @@ class FeatureBodyTube(SymmetricComponent, BoxBounded, Coaxial):
     def isAftRadiusAutomatic(self):
         return self.getRearAutoDiameter()
 
-    def getInnerRadius(self):
+    def getInnerRadius(self, r=0):
         # Set any autodiameter first
         # self._setAutoDiameter()
         return float(self._obj.OuterDiameter) / 2.0 - float(self._obj.Thickness)
+
+    def getInnerDiameter(self, r=0):
+        # Set any autodiameter first
+        # self._setAutoDiameter()
+        return float(self._obj.OuterDiameter) - (2.0 * float(self._obj.Thickness))
 
     def setInnerRadius(self, radius):
         self.setInnerDiameter(radius * 2.0)
@@ -325,34 +330,8 @@ class FeatureBodyTube(SymmetricComponent, BoxBounded, Coaxial):
 
     def onChildEdited(self):
         try:
-            # print("%s: onChildEdited()" % (self.__class__.__name__))
             self._obj.Proxy.setEdited()
         except ReferenceError:
             # Already deleted object
             pass
-
-def hookChildren(obj, group, oldGroup):
-    # print("hookChildren()")
-    # changed = False
-    # for child in group:
-    #     if child not in oldGroup:
-    #         # print("%s: hookChildren added" % (child.__class__.__name__))
-    #         child.Proxy.resetPlacement()
-    #         # child.Proxy.edited.connect(obj.Proxy.onChildEdited, QtCore.Qt.QueuedConnection)
-    #         child.Proxy.connect(obj.Proxy.onChildEdited, QtCore.Qt.QueuedConnection)
-    #         changed = True
-
-    # for child in oldGroup:
-    #     if child not in group:
-    #         # print("%s: hookChildren removed" % (child.__class__.__name__))
-    #         # child.Proxy.edited.connect(None)
-    #         try:
-    #             child.Proxy.disconnect()
-    #             changed = True
-    #         except ReferenceError:
-    #             pass # object may be deleted
-
-    # if changed:
-    #     obj.Proxy.setEdited()
-    pass
 

@@ -43,7 +43,6 @@ class ComponentElement(Element):
         _tag = tag.lower().strip()
         if _tag == "position":
             positionType = attributes["type"]
-            print("positionType = %s" % (positionType))
             if positionType == "after":
                 self.onPositionType(LOCATION_AFTER)
             elif positionType == "top":

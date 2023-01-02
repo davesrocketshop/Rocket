@@ -472,8 +472,6 @@ class RocketComponent(ShapeBase, ChangeSource):
         elif math.isnan(newX):
             raise Exception("setAxialOffset is broken -- attempted to update as NaN: ") # + this.toDebugDetail());
 
-        print("\tnewX %g" % newX)
-
         # store for later:
         self._obj.AxialMethod = method
         self._obj.AxialOffset = newAxialOffset
@@ -608,9 +606,7 @@ class RocketComponent(ShapeBase, ChangeSource):
 
     # Check whether the list contains exactly the searched-for component (with == operator)
     def containsExact(self, haystack, needle):
-        # print("Haystack %s, needle %s" % (str(type(haystack)), str(type((needle)))))
         for c in haystack:
-            # print("\tHaystack %s, c %s" % (str(type(haystack)), str(type((c)))))
             if needle == c.Proxy:
                 return True
 
@@ -631,9 +627,7 @@ class RocketComponent(ShapeBase, ChangeSource):
         
         # if first component in the stage. => position from the top of the parent
         thisIndex = self.getParent().getChildIndex(self)
-        print("index %d, count %d" % (thisIndex, count))
         if thisIndex == (count - 1):
-            print("\t%s base is 0.0" % (self._obj.Label))
             self._obj.Placement.Base.x = self.getParent()._obj.Placement.Base.x
             # self._obj.Placement.Base.x = 0.0
         elif 0 <= thisIndex:
@@ -646,11 +640,8 @@ class RocketComponent(ShapeBase, ChangeSource):
                 referenceComponent = self.getParent()._getChild( index )
 
             if referenceComponent is None:
-                print("\tNo reference")
                 self._obj.Placement.Base.x = self.getParent()._obj.Placement.Base.x
                 return
-
-            print("\t%s reference %s" % (self._obj.Label, referenceComponent.Label))
         
             refLength = float(referenceComponent.Proxy.getLength())
             refRelX = float(referenceComponent.Placement.Base.x)
@@ -716,11 +707,8 @@ class RocketComponent(ShapeBase, ChangeSource):
         center = Coordinate(base.x, base.y, base.z)
         offsets = self.getInstanceOffsets()
 
-        print("center %s" % str(center))
-
         locations = []
         for instanceNumber in range(len(offsets)):
-            print("offset[%d] = %s" % (instanceNumber, offsets[instanceNumber]))
             locations.append(center.add(offsets[instanceNumber]))
 
         return locations
@@ -773,82 +761,63 @@ class RocketComponent(ShapeBase, ChangeSource):
             thesePositions = []
             for pi in range(parentCount):
                 for ii in range(instanceCount):
-                    print("%d, %s, %s" % (pi + parentCount*ii, parentPositions[pi], instanceLocations[ii]))
                     thesePositions.insert(pi + parentCount*ii, parentPositions[pi].add(instanceLocations[ii]))
 
             return thesePositions
-	
-class ShapeLocation(RocketComponent):
-
-    def __init__(self, obj):
-        super().__init__(obj)
+    """
+        Return coordinate <code>c</code> described in the coordinate system of
+        <code>dest</code>.  If <code>dest</code> is <code>null</code> returns
+        absolute coordinates.
         
-        # if not hasattr(obj, 'LocationReference'):
-        #     obj.addProperty('App::PropertyEnumeration', 'LocationReference', 'RocketComponent', translate('App::Property', 'Reference location for the location'))
-        # obj.LocationReference = [
-        #             LOCATION_PARENT_TOP,
-        #             LOCATION_PARENT_MIDDLE,
-        #             LOCATION_PARENT_BOTTOM,
-        #             LOCATION_BASE
-        #         ]
-        # obj.LocationReference = LOCATION_PARENT_BOTTOM
-        # if not hasattr(obj, 'Location'):
-        #     obj.addProperty('App::PropertyDistance', 'Location', 'RocketComponent', translate('App::Property', 'Location offset from the reference')).Location = 0.0
-        # if not hasattr(obj, 'AngleOffset'):
-        #     obj.addProperty('App::PropertyAngle', 'AngleOffset', 'RocketComponent', translate('App::Property', 'Angle of offset around the center axis')).AngleOffset = 0.0
-
-    # def _parentLength(self):
-    #     if self._obj.Proxy._parent is not None:
-    #         print("\tParent %s" % (self._obj.Proxy._parent.Label))
-    #         return float(self._obj.Proxy._parent.Proxy.getLengthFset())
-
-    #     print("\rNo parent")
-    #     return 0.0
-
-    # def _parentBase(self):
-    #     if self._obj.Proxy._parent is not None:
-    #         print("\tParent %s" % (self._obj.Proxy._parent.Label))
-    #         return self._obj.Proxy._parent.Placement.Base
-
-    #     print("\rNo parent")
-    #     return FreeCAD.Vector(0,0,0)
-
-    # def _locationOffset(self, partBase):
-    #     base = partBase.x
-    #     if self._obj.LocationReference == LOCATION_PARENT_TOP:
-    #         return base + self._parentLength() - float(self._obj.Location)
-    #     elif self._obj.LocationReference == LOCATION_PARENT_MIDDLE:
-    #         return base + (self._parentLength() / 2.0) + float(self._obj.Location)
-    #     elif self._obj.LocationReference == LOCATION_BASE:
-    #         return float(self._obj.Location)
-
-    #     return base + float(self._obj.Location)
-
-    # def _locationOffsetBase(self, partBase):
-    #     position = FreeCAD.Vector(partBase)
-    #     position.x = self._locationOffset(partBase)
-
-    #     return position
-
-    # def setAxialPosition(self, partBase, roll=0.0):
-    #     base = self._locationOffsetBase(partBase)
-    #     # self._obj.Placement = FreeCAD.Placement(FreeCAD.Vector(partBase.x, base.y, base.z), FreeCAD.Rotation(FreeCAD.Vector(1,0,0), roll))
-    #     self._obj.Placement = FreeCAD.Placement(base, FreeCAD.Rotation(FreeCAD.Vector(1,0,0), roll))
-
-    #     self.positionChildren(partBase)
-
-class ShapeRadialLocation(ShapeLocation):
-
-    def __init__(self, obj):
-        super().__init__(obj)
+        This method returns an array of coordinates, each of which represents a
+        position of the coordinate in clustered cases.  The array is guaranteed
+        to contain at least one element.
         
-        # if not hasattr(obj, 'RadialReference'):
-        #     obj.addProperty('App::PropertyEnumeration', 'RadialReference', 'RocketComponent', translate('App::Property', 'Reference location for the radial offset'))
-        # obj.RadialReference = [
-        #             LOCATION_SURFACE,
-        #             LOCATION_CENTER
-        #         ]
-        # obj.RadialReference = LOCATION_SURFACE
+        The current implementation does not support rotating components.
+    """
+    def toRelative(self, c, dest):
+        if dest is None:
+            raise Exception("calling toRelative(c,null) is being refactored. ")
 
-        # if not hasattr(obj, 'RadialOffset'):
-        #     obj.addProperty('App::PropertyDistance', 'RadialOffset', 'RocketComponent', translate('App::Property', 'Radial offset from the reference')).RadialOffset = 0.0
+        self.checkState()
+
+        # not sure if this will give us an answer, or THE answer... 
+        #final Coordinate sourceLoc = this.getLocation()[0];
+        destLocs = dest.getComponentLocations()
+        toReturn = []
+        for coordIndex in range(len(destLocs)):
+            toReturn.append(self.getComponentLocations()[0].add(c).sub(destLocs[coordIndex]))
+
+        return toReturn
+
+    """
+        Provides locations of all instances of component *accounting for all parent instancing*
+        
+        
+        NOTE: the length of this array MAY OR MAY NOT EQUAL this.getInstanceCount()
+           --> RocketComponent::getInstanceCount() counts how many times this component replicates on its own
+           --> vs. the total instance count due to parent assembly instancing
+    """
+    def getComponentLocations(self):
+        if self.getParent() is None:
+            # == improperly initialized components OR the root Rocket instance 
+            return self.getInstanceOffsets()
+        else:
+            parentPositions = self.getParent().getComponentLocations()
+            parentCount = len(parentPositions)
+            
+            # override <instance>.getInstanceLocations() in each subclass
+            instanceLocations = self.getInstanceLocations()
+            instanceCount = len(instanceLocations)
+            
+            # usual case optimization
+            if parentCount == 1 and instanceCount == 1:
+                return [parentPositions[0].add(instanceLocations[0])]
+            
+            thisCount = instanceCount*parentCount
+            thesePositions = []
+            for pi in range(parentCount):
+                for ii in range(instanceCount):
+                    thesePositions[pi + parentCount*ii] = parentPositions[pi].add(instanceLocations[ii])
+
+            return thesePositions

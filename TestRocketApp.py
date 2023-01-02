@@ -39,8 +39,6 @@ class RocketTestCases(unittest.TestCase):
         for i in range(1,85):
             geo = coesa76([i])
 
-            # print("[%f, %f, %f, %f]" % (i * 1000.0, geo.rho, geo.T - 273.15, geo.P))
-
 
     # def testFlutter(self):
     #     G = 2.620008e+9
@@ -185,4 +183,3 @@ class FinFlutterTestCases(unittest.TestCase):
     def tearDown(self):
         #closing doc
         FreeCAD.closeDocument("FlutterTest")
-        #print ("omit closing document for debugging")

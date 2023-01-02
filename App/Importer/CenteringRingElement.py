@@ -52,7 +52,7 @@ class CenteringRingElement(RingComponentElement):
             else:
                 diameter = float(content) * 2.0
                 self._feature._obj.AutoDiameter = False
-            self._feature._obj.Diameter = str(diameter) + "m"
+                self._feature._obj.Diameter = str(diameter) + "m"
         elif _tag == "innerradius":
             self._feature.setScratch("innerradius", content)
             if str(content).lower() == "auto":
@@ -61,7 +61,7 @@ class CenteringRingElement(RingComponentElement):
             else:
                 diameter = float(content) * 2.0
                 self._feature._obj.CenterAutoDiameter = False
-            self._feature._obj.CenterDiameter = str(diameter) + "m"
+                self._feature._obj.CenterDiameter = str(diameter) + "m"
         else:
             super().handleEndTag(tag, content)
 

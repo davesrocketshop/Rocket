@@ -229,8 +229,6 @@ class FinSketchShapeHandler(FinShapeHandler):
         if shape is None:
             return []
 
-        # print("Global Tolerance")
-        # print(shape.globalTolerance(1))
         if self.isCurved(shape):
             return self.curvedProfiles(shape)
         return self.straightProfiles(shape, shape.globalTolerance(1))

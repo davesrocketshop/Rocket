@@ -45,7 +45,6 @@ class MotorMountElement(BodyComponentElement):
     def makeObject(self):
         if self._parentObj is not None:
             self._feature = self._parentObj
-            # print("MotorMount parent %s" % (self._parentObj.Label))
             self._feature._obj.MotorMount = True
 
     def handleEndTag(self, tag, content):
@@ -91,12 +90,22 @@ class BodyTubeElement(SymmetricComponentElement):
 
 class InnerTubeElement(BodyTubeElement):
 
+    def __init__(self, parent, tag, attributes, parentObj, filename, line):
+        super().__init__(parent, tag, attributes, parentObj, filename, line)
+
+        self._knownTags.extend(["radialposition", "radialdirection", "clusterconfiguration", "clusterscale", "clusterrotation"])
+
     def makeObject(self):
         self._feature = makeInnerTube()
         if self._parentObj is not None:
             self._parentObj.addChild(self._feature)
 
 class EngineBlockElement(BodyTubeElement):
+
+    def __init__(self, parent, tag, attributes, parentObj, filename, line):
+        super().__init__(parent, tag, attributes, parentObj, filename, line)
+
+        self._knownTags.extend(["radialposition", "radialdirection"])
 
     def makeObject(self):
         self._feature = makeEngineBlock()

@@ -31,23 +31,19 @@ from DraftTools import translate
 
 def moveUp():
     for obj in FreeCADGui.Selection.getSelection():
-        print("Selected %s" % (obj.Label))
         obj.Proxy.moveUp()
 
 def moveDown():
     for obj in FreeCADGui.Selection.getSelection():
-        print("Selected %s" % (obj.Label))
         obj.Proxy.moveDown()
 
 def edit():
     for obj in FreeCADGui.Selection.getSelection():
-        print("Selected %s" % (obj.Label))
         FreeCADGui.activeDocument().setEdit(obj.Label,0)
         return # Only process the first in the selection
 
 def delete():
     for obj in FreeCADGui.Selection.getSelection():
-        print("Selected %s" % (obj.Label))
         stage=FreeCADGui.ActiveDocument.ActiveView.getActiveObject("stage")
         if stage is not None:
             stage.Proxy.removeChild(obj.Proxy)

@@ -24,7 +24,7 @@ __title__ = "FreeCAD Rail Buttons"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
-from App.RocketComponent import ShapeLocation
+from App.RocketComponent import RocketComponent
 from App.Constants import FEATURE_RAIL_BUTTON
 from App.Constants import RAIL_BUTTON_ROUND, RAIL_BUTTON_AIRFOIL
 from App.Constants import PLACEMENT_RADIAL
@@ -41,7 +41,7 @@ from DraftTools import translate
 # These have not been verified
 #
 
-class FeatureRailButton(ShapeLocation):
+class FeatureRailButton(RocketComponent):
 
     def __init__(self, obj):
         super().__init__(obj)
