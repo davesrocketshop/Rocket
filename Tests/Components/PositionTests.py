@@ -132,16 +132,6 @@ class PositionTests(unittest.TestCase):
         actLocs = fins.getComponentLocations()
         self.assertEqual(actLocs[0], expLoc, fins.getName() + " not positioned correctly: ")
 
-        # allTestCases = [
-        #     (AxialMethod.BOTTOM, 0.0, AxialMethod.TOP,  150.0, 150.0),
-        #     (AxialMethod.TOP, 0.0, AxialMethod.BOTTOM, -150.0, 0.0),
-        #     (AxialMethod.BOTTOM, -30.0, AxialMethod.TOP, 120.0, 120.0),
-        #     (AxialMethod.BOTTOM, 30.0, AxialMethod.TOP, 180.0, 180.0),
-        #     (AxialMethod.BOTTOM, 30.0, AxialMethod.MIDDLE, 105.0, 180.0),
-        #     (AxialMethod.MIDDLE, 0.0, AxialMethod.TOP, 75.0, 75.0),
-        #     (AxialMethod.MIDDLE, 0.0, AxialMethod.BOTTOM, -75.0, 75.0),
-        #     (AxialMethod.MIDDLE, 5.0, AxialMethod.TOP, 80.0, 80.0)
-        # ]
         allTestCases = [
             (AxialMethod.BOTTOM, 0.0, AxialMethod.TOP,  -150.0, 0.0),
             (AxialMethod.TOP, 0.0, AxialMethod.BOTTOM, 150.0, 150.0),

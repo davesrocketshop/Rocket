@@ -463,7 +463,7 @@ class RocketComponent(ShapeBase, ChangeSource):
             self.setAfter()
             return
         else:
-            newX = method.getAsPosition(float(newAxialOffset), float(self.getLength()), float(self.getParent().getLength()) + float(self.getParent().getPosition().x))
+            newX = method.getAsPosition(float(newAxialOffset), float(self.getLength()), float(self.getParent().getLength())) + float(self.getParent().getPosition().x)
 
         # snap to zero if less than the threshold 'EPSILON'
         EPSILON = 0.000001
