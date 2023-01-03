@@ -364,11 +364,12 @@ class RocketComponent(ShapeBase, ChangeSource):
     def fireAddRemoveEvent(self, component):
         type = ComponentChangeEvent.TREE_CHANGE
         for obj in component.Group:
-            proxy = obj.Proxy
-            if proxy.isAeroDynamic():
-                type |= ComponentChangeEvent.AERODYNAMIC_CHANGE
-            if proxy.isMassive():
-                type |= ComponentChangeEvent.MASS_CHANGE
+            if not obj.isDerivedFrom('Sketcher::SketchObject'):
+                proxy = obj.Proxy
+                if proxy.isAeroDynamic():
+                    type |= ComponentChangeEvent.AERODYNAMIC_CHANGE
+                if proxy.isMassive():
+                    type |= ComponentChangeEvent.MASS_CHANGE
 
         self.fireComponentChangeEvent(type);
 
@@ -544,6 +545,9 @@ class RocketComponent(ShapeBase, ChangeSource):
                 raise Exception("Inconsistent component structure detected, parent does not contain this " +
                         "component as a child, parent=" + self.getParent().getComponentName() + " this=" + self.getComponentName())
         for child in self.getChildren():
+            if child.isDerivedFrom('Sketcher::SketchObject'):
+                continue
+
             if child.Proxy.getParent() != self:
                 message = "Inconsistent component structure detected, child does not have this component " + \
                         "as the parent, this=" + self.getComponentName() + " child=" + child.Proxy.getComponentName() + \

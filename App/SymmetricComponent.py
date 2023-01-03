@@ -220,7 +220,7 @@ class SymmetricComponent(RocketComponent, BoxBounded, RadialParent):
 
             searchParentIndex -= 1
             if 0 <= searchParentIndex:
-                searchSiblingIndex = grandParent.getChild(searchParentIndex).getChildCount() - 1
+                searchSiblingIndex = grandParent.getChild(searchParentIndex).Proxy.getChildCount() - 1
 
         return None
 
