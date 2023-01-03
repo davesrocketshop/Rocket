@@ -119,10 +119,13 @@ class NoseElement(TransitionElement):
     def onFilled(self, filled):
         if filled:
             self._feature._obj.NoseStyle = STYLE_SOLID
+            self._filled = True
+        else:
+            self._filled = False
 
     def end(self):
         # Validate the nose shape here
-        if float(self._feature._obj.Thickness) > 0:
+        if float(self._feature._obj.Thickness) > 0 and not self._filled:
             if float(self._feature._obj.ShoulderThickness) <= 0:
                 self._feature._obj.ShoulderThickness = self._feature._obj.Thickness
             if self._shoulderCapped:

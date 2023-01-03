@@ -47,6 +47,8 @@ class TransitionElement(SymmetricComponentElement):
                 "foreradius", "aftradius", "aftouterdiameter", "foreshoulderradius", "foreshoulderdiameter", "foreshoulderlength", "foreshoulderthickness", "foreshouldercapped", 
                 "aftshoulderradius", "aftshoulderdiameter", "aftshoulderlength", "aftshoulderthickness", "aftshouldercapped"])
 
+        self._filled = False
+
     def makeObject(self):
         self._feature = makeTransition()
         if self._parentObj is not None:
@@ -134,11 +136,14 @@ class TransitionElement(SymmetricComponentElement):
     def onFilled(self, filled):
         if filled:
             self._feature._obj.TransitionStyle = STYLE_SOLID
+            self._filled = True
+        else:
+            self._filled = False
 
     def end(self):
         # Skip if this is a nose cone (derived)
         if not hasattr(self._feature._obj, "NoseStyle"):
-            if float(self._feature._obj.Thickness) > 0:
+            if float(self._feature._obj.Thickness) > 0 and not self._filled:
                 if float(self._feature._obj.ForeShoulderThickness) <= 0:
                     self._feature._obj.ForeShoulderThickness = self._feature._obj.Thickness
                 if float(self._feature._obj.AftShoulderThickness) <= 0:

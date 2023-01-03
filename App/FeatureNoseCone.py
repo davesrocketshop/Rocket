@@ -172,6 +172,13 @@ class FeatureNoseCone(SymmetricComponent):
             if obj.Proxy.version in ["2.0", "2.1"]:
                 _migrate_from_2_0(obj)
 
+    def update(self):
+        super().update()
+
+        # Ensure any automatic variables are set
+        self.getAftDiameter()
+        # self.getAftShoulderDiameter()
+
     def getComponentBounds(self):
         bounds = super().getComponentBounds()
         if self._obj.ShoulderLength > 0.001:
@@ -217,7 +224,7 @@ class FeatureNoseCone(SymmetricComponent):
                 d = c.getRearAutoDiameter()
             if d < 0:
                 d = SymmetricComponent.DEFAULT_RADIUS * 2.0
-            return d
+            self._obj.Diameter = d
 
         return self._obj.Diameter
 
@@ -245,9 +252,9 @@ class FeatureNoseCone(SymmetricComponent):
         self._obj.AutoDiameter = False
         self._obj.Diameter = max(diameter, 0)
 
-        # ????
-        # if (this.thickness > this.foreRadius && this.thickness > this.aftRadius)
-        #     this.thickness = Math.max(this.foreRadius, this.aftRadius);
+        # Ensure thickness doesn't exceed the radius
+        if self._obj.Thickness > (self._obj.Diameter / 2.0):
+            self._obj.Thickness = self._obj.Diameter / 2.0
 
         self.clearPreset()
         self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
@@ -274,10 +281,6 @@ class FeatureNoseCone(SymmetricComponent):
 
         self.clearPreset()
         self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
-
-    # def getLength(self):
-    #     # Return the length of this component along the central axis
-    #     return self._obj.Length
 
     def setShoulderLength(self, length):
         self._obj.ShoulderLength = length

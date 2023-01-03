@@ -69,7 +69,7 @@ class CenteringRingElement(RingComponentElement):
         self._feature.setName(content)
 
     def onLength(self, length):
-        self._feature.setThickness(length)
+        self._feature.setLength(length)
 
     def end(self):
         # Validate the shape here

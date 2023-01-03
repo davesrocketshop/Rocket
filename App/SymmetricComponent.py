@@ -42,15 +42,15 @@ from App.util.Coordinate import Coordinate
 
 class SymmetricComponent(RocketComponent, BoxBounded, RadialParent):
 
-    DEFAULT_RADIUS = 0.025
+    DEFAULT_RADIUS = 25.0
 
     def __init__(self, obj):
         super().__init__(obj)
 
     def getInstanceBoundingBox(self):
-        instanceBounds = BoundingBox();
+        instanceBounds = BoundingBox()
 
-        instanceBounds.update(Coordinate(self.getLength(), 0,0));
+        instanceBounds.update(Coordinate(self.getLength(), 0,0))
 
         r = max(self.getForeRadius(), self.getAftRadius())
         instanceBounds.update(Coordinate(0,r,r))
@@ -195,8 +195,7 @@ class SymmetricComponent(RocketComponent, BoxBounded, RadialParent):
     """
         Return the previous symmetric component, or null if none exists.
     """
-    # def getPreviousSymmetricComponent(self):
-    def getNextSymmetricComponent(self):
+    def getPreviousSymmetricComponent(self):
         if self.getParent() is None or self.getParent().getParent() is None:
             return None
 
@@ -227,8 +226,7 @@ class SymmetricComponent(RocketComponent, BoxBounded, RadialParent):
     """
          Return the next symmetric component, or null if none exists.
     """
-    # def getNextSymmetricComponent(self):
-    def getPreviousSymmetricComponent(self):
+    def getNextSymmetricComponent(self):
         if self.getParent() is None or self.getParent().getParent() is None:
             return None
 

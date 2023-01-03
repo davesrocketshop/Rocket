@@ -155,7 +155,7 @@ class ComponentAssembly(RocketComponent, AxialPositionable):
         if self.isAfter():
             self.setAfter()
         else:
-            super.update()
+            super().update()
 
         self.updateChildSequence()
 

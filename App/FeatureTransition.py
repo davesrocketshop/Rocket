@@ -172,6 +172,14 @@ class FeatureTransition(SymmetricComponent):
             FeatureTransition(obj)
             FreeCAD.ActiveDocument.recompute()
 
+    def update(self):
+        super().update()
+
+        # Ensure any automatic variables are set
+        self.getForeDiameter()
+        self.getAftDiameter()
+        # self.getAftShoulderDiameter()
+
     # def getLength(self):
     #     # Return the length of this component along the central axis
     #     return self._obj.Length
@@ -185,10 +193,10 @@ class FeatureTransition(SymmetricComponent):
             d = -1
             c = self.getPreviousSymmetricComponent()
             if c is not None:
-                d = c.getFrontAutoRadius()
+                d = c.getFrontAutoDiameter()
             if d < 0:
-                d = SymmetricComponent.DEFAULT_RADIUS
-            return d
+                d = SymmetricComponent.DEFAULT_RADIUS * 2.0
+            self._obj.ForeDiameter = d
 
         return self._obj.ForeDiameter
 
@@ -222,10 +230,16 @@ class FeatureTransition(SymmetricComponent):
     def isForeRadiusAutomatic(self):
         return self._obj.ForeAutoDiameter
 
+    def isForeDiameterAutomatic(self):
+        return self._obj.ForeAutoDiameter
+
     def setForeRadiusAutomatic(self, auto):
+        self.setForeDiameterAutomatic(auto)
+
+    def setForeDiameterAutomatic(self, auto):
         for listener in self._configListeners:
             if isinstance(listener, FeatureTransition):
-                listener.setForeRadiusAutomatic(auto)
+                listener.setForeDiameterAutomatic(auto)
 
         if self._obj.ForeAutoDiameter == auto:
             return
@@ -239,17 +253,16 @@ class FeatureTransition(SymmetricComponent):
         return self.getAftDiameter() / 2.0
 
     def getAftDiameter(self):
-
         if self.isAftDiameterAutomatic():
-                # Return the auto radius from the rear
-                d = -1
-                c = self.getNextSymmetricComponent()
-                if c is not None:
-                    d = c.getRearAutoRadius()
+            # Return the auto radius from the rear
+            d = -1
+            c = self.getNextSymmetricComponent()
+            if c is not None:
+                d = c.getRearAutoDiameter()
 
-                if d < 0:
-                    d = SymmetricComponent.DEFAULT_RADIUS
-                return d
+            if d < 0:
+                d = SymmetricComponent.DEFAULT_RADIUS * 2.0
+            self._obj.AftDiameter = d
 
         return self._obj.AftDiameter
 
