@@ -27,6 +27,7 @@ __url__ = "https://www.davesrocketshop.com"
 import FreeCAD
 
 from App.Importer.ComponentElement import BodyComponentElement
+from App.SymmetricComponent import SymmetricComponent
 
 class SymmetricComponentElement(BodyComponentElement):
 
@@ -43,7 +44,10 @@ class SymmetricComponentElement(BodyComponentElement):
                 self.onFilled(True)
             else:
                 self.onFilled(False)
-                self.onThickness(FreeCAD.Units.Quantity(content + " m").Value)
+                thickness = FreeCAD.Units.Quantity(content + " m").Value
+                if thickness <= 0:
+                    thickness = SymmetricComponent.DEFAULT_THICKNESS
+                self.onThickness(thickness)
         else:
             super().handleEndTag(tag, content)
 

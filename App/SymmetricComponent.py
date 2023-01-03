@@ -43,6 +43,7 @@ from App.util.Coordinate import Coordinate
 class SymmetricComponent(RocketComponent, BoxBounded, RadialParent):
 
     DEFAULT_RADIUS = 25.0
+    DEFAULT_THICKNESS = 0.33
 
     def __init__(self, obj):
         super().__init__(obj)

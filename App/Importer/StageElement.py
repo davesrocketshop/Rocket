@@ -24,6 +24,7 @@ __title__ = "FreeCAD Open Rocket Importer"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
+from App.Importer.SaxElement import NullElement
 from App.Importer.ComponentElement import ComponentElement
 import App.Importer as Importer
 
@@ -35,7 +36,10 @@ class StageElement(ComponentElement):
         super().__init__(parent, tag, attributes, parentObj, filename, line)
 
         self._validChildren = { 'subcomponents' : Importer.SubElement.SubElement,
+                                'separationconfiguration' : NullElement,
                               }
+        
+        self._knownTags.extend(["separationevent", "separationdelay"])
 
     def makeObject(self):
         self._feature = makeStage()
