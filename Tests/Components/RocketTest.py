@@ -112,3 +112,12 @@ class RocketTest(unittest.TestCase):
         expLoc = Coordinate(89.0, 0, 0) # - this is not right should b 0.19?
         actLoc = actLocs[1]
         self.assertCoordinateEqual(actLoc, expLoc, ring.getName()+" not positioned correctly")
+
+        bounds = rocket.getBoundingBox()
+        # self.assertEqual(bounds._min._x, 0.0)
+        # self.assertEqual(bounds._max._x, 270.0)
+
+        # self.assertEqual(bounds._min._y, -32.385640)
+        # self.assertEqual(bounds._min._z, -54.493575)
+        # self.assertEqual(bounds._max._y,  62.000000)
+        # self.assertEqual(bounds._max._z,  52.893575)

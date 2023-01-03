@@ -49,55 +49,7 @@ class Coordinate():
 
     def __eq__(self, other):
         return self._x == other._x and self._y == other._y and self._z == other._z and self._weight == other._weight
-
-    @property
-    def x(self):
-        return self._x
-
-    @x.setter
-    def x(self, value):
-        self._x = value
-
-    @x.deleter
-    def x(self):
-        del self._x
-
-    @property
-    def y(self):
-        return self._y
-
-    @y.setter
-    def y(self, value):
-        self._y = value
-
-    @y.deleter
-    def y(self):
-        del self._y
-
-    @property
-    def z(self):
-        return self._z
-
-    @z.setter
-    def z(self, value):
-        self._z = value
-
-    @z.deleter
-    def z(self):
-        del self._z
-
-    @property
-    def weight(self):
-        return self._weight
-
-    @weight.setter
-    def x(self, value):
-        self._weight = value
-
-    @weight.deleter
-    def weight(self):
-        del self._weight
-    
+   
     # Create transformation with given rotation matrix and translation.
     def transformation(self, rotation, translation = None):
         for i in range(3):

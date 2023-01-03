@@ -24,6 +24,7 @@ __title__ = "FreeCAD Rocket Components"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
+import copy
 from App.util.Coordinate import Coordinate, MAX, MIN
 
 class BoundingBox(object):
@@ -31,14 +32,19 @@ class BoundingBox(object):
     _min = Coordinate()
     _max = Coordinate()
 
-    def __init__(self):
+    def __init__(self, min=None, max=None):
         self.clear()
+
+        if min is not None:
+            self._min = copy.deepcopy(min)
+        if max is not None:
+            self._max = copy.deepcopy(max)
 
     def clear(self):
         self._min = MAX
-        self._min.weight = 0.0
+        self._min._weight = 0.0
         self._max = MIN
-        self._max.weight = 0.0
+        self._max._weight = 0.0
 
     def setMinMax(self, min, max):
         self._min = min
