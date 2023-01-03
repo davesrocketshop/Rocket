@@ -35,7 +35,7 @@ from App.position.AnglePositionable import AnglePositionable
 from App.interfaces.BoxBounded import BoxBounded
 from App.events.ComponentChangeEvent import ComponentChangeEvent
 from App.util.BoundingBox import BoundingBox
-from App.util.Coordinate import Coordinate
+from App.util.Coordinate import Coordinate, NUL
 from App import Utilities
 from App.SymmetricComponent import SymmetricComponent
 from App.ShapeHandlers.BodyTubeShapeHandler import BodyTubeShapeHandler
@@ -68,6 +68,13 @@ class FeatureLaunchLug(Tube, AnglePositionable, BoxBounded):
 
         if not hasattr(obj,"Shape"):
             obj.addProperty('Part::PropertyPartShape', 'Shape', 'LaunchLug', translate('App::Property', 'Shape of the launch lug'))
+
+    def update(self):
+        super().update()
+
+        # Ensure any automatic variables are set
+        self._setRadialOffset()
+        self._obj.Placement.Base.y = self._obj.RadialOffset
 
     def execute(self, obj):
         shape = BodyTubeShapeHandler(obj)
@@ -169,17 +176,20 @@ class FeatureLaunchLug(Tube, AnglePositionable, BoxBounded):
     def getInstanceOffsets(self):
         toReturn = []
         
-        yOffset = math.cos(self._obj.AngleOffset) * (self._obj.RadialOffset);
-        zOffset = math.sin(self._obj.AngleOffset) * (self._obj.RadialOffset);
+        yOffset = math.cos(self._obj.AngleOffset) * (self._obj.RadialOffset)
+        zOffset = math.sin(self._obj.AngleOffset) * (self._obj.RadialOffset)
         
         for index in range(self.getInstanceCount()):
             toReturn.append(Coordinate(index*self._obj.InstanceSeparation, yOffset, zOffset))
         
-        return toReturn;
+        return toReturn
 
     def componentChanged(self, e):
         super().componentChanged(e)
-        
+
+        self._setRadialOffset()
+
+    def _setRadialOffset(self):    
         """
             shiftY and shiftZ must be computed here since calculating them
             in shiftCoordinates() would cause an infinite loop due to .toRelative
@@ -196,8 +206,8 @@ class FeatureLaunchLug(Tube, AnglePositionable, BoxBounded):
         if body is None:
             parentRadius = 0
         else:
-            x1 = self.toRelative(Coordinate.NUL, body)[0].x
-            x2 = self.toRelative(Coordinate(self._obj.Length, 0, 0), body)[0].x
+            x1 = self.toRelative(NUL, body)[0]._x
+            x2 = self.toRelative(Coordinate(self._obj.Length, 0, 0), body)[0]._x
             x1 = Utilities.clamp(x1, 0, body.getLength())
             x2 = Utilities.clamp(x2, 0, body.getLength())
             parentRadius = max(body.getRadius(x1), body.getRadius(x2))
@@ -246,7 +256,7 @@ class FeatureLaunchLug(Tube, AnglePositionable, BoxBounded):
         return False
 
     def getInstanceSeparation(self):
-        return self._obj.InstanceSeparation;
+        return self._obj.InstanceSeparation
 
     def setInstanceSeparation(self, separation):
         for listener in self._configListeners:

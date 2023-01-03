@@ -57,16 +57,11 @@ class LaunchLugElement(ExternalComponentElement):
         elif tag == "angleoffset":
             pass
         elif _tag == "radius" or _tag == "outerradius":
-            if str(content).lower() == "auto":
-                # self._feature._obj.OuterDiameter = "0.0 m" - use the object default
-                if hasattr(self._feature, "setOuterRadiusAutomatic"):
-                    self._feature.setOuterRadiusAutomatic(True)
-            else:
-                diameter = float(content) * 2.0
-                if hasattr(self._feature, "setOuterRadius"):
-                    self._feature.setOuterRadius(FreeCAD.Units.Quantity(str(diameter) + " m").Value)
-                if hasattr(self._feature, "setOuterRadiusAutomatic"):
-                    self._feature.setOuterRadiusAutomatic(False)
+            radius = float(content)
+            if hasattr(self._feature, "setOuterRadius"):
+                self._feature.setOuterRadius(FreeCAD.Units.Quantity(str(radius) + " m").Value)
+            if hasattr(self._feature, "setOuterRadiusAutomatic"):
+                self._feature.setOuterRadiusAutomatic(False)
         elif _tag == "length":
             self.onLength(FreeCAD.Units.Quantity(content + " m").Value)
         elif _tag == "thickness":

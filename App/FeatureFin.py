@@ -180,9 +180,26 @@ class FeatureFin(RocketComponent):
 
     #     self.positionChildren(base)
 
-    def setParentRadius(self, parentRadius):
-        if self._obj.AutoInnerDiameter and self._obj.ParentRadius != parentRadius:
-            self._obj.ParentRadius = parentRadius
+    def update(self):
+        super().update()
+
+        # Ensure any automatic variables are set
+        self.setParentDiameter()
+
+    # def setParentRadius(self, parentRadius):
+    #     if self._obj.AutoInnerDiameter and self._obj.ParentRadius != parentRadius:
+    #         self._obj.ParentRadius = parentRadius
+
+    def setParentRadius(self):
+        self.setParentDiameter()
+
+    def setParentDiameter(self):
+        if self._obj.AutoInnerDiameter:
+            parent = self.getParent()
+            if parent is not None:
+                self._obj.ParentRadius = parent.getOuterDiameter() / 2.0
+            else:
+                self._obj.ParentRadius = SymmetricComponent.DEFAULT_RADIUS
 
     def getForeRadius(self):
         # For placing objects on the outer part of the parent

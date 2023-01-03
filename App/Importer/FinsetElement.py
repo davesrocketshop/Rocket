@@ -54,6 +54,9 @@ class FinsetElement(ExternalComponentElement):
             thickness = FreeCAD.Units.Quantity(content + " m").Value
             self._feature._obj.RootThickness = thickness
             self._feature._obj.TipThickness = thickness
+        elif _tag == "rotation":
+            rotation = FreeCAD.Units.Quantity(content + " deg").Value
+            self._feature._obj.AngleOffset = rotation
         elif _tag == "crosssection":
             if content == 'square':
                 self._feature._obj.RootCrossSection = FIN_CROSS_SQUARE

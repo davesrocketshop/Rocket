@@ -24,6 +24,7 @@ __title__ = "FreeCAD Rocket Components"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
+import FreeCAD
 import math
 
 from abc import ABC, abstractmethod
@@ -200,6 +201,7 @@ class RocketComponent(ShapeBase, ChangeSource):
 
     def update(self):
         self._setAxialOffset(self._obj.AxialMethod, self._obj.AxialOffset)
+        self._setRotation()
 
     # the default implementation is mostly a placeholder here, however in inheriting classes, 
     # this function is useful to indicate adjacent placements and view sizes
@@ -421,6 +423,9 @@ class RocketComponent(ShapeBase, ChangeSource):
         self._obj.AxialMethod = method
         self._obj.AxialOffset = newAxialOffset
         self._obj.Placement.Base.x = newX
+
+    def _setRotation(self):
+        self._obj.Placement = FreeCAD.Placement(self._obj.Placement.Base, FreeCAD.Vector(1,0,0), self._obj.AngleOffset)
 
     def onConfigListener(self, event):
         pass

@@ -24,6 +24,7 @@ __title__ = "FreeCAD Open Rocket Importer"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
+from App.Importer.SaxElement import NullElement
 from App.Importer.RingComponentElement import RingComponentElement
 
 from Ui.Commands.CmdCenteringRing import makeCenteringRing
@@ -34,6 +35,8 @@ class CenteringRingElement(RingComponentElement):
         super().__init__(parent, tag, attributes, parentObj, filename, line)
 
         self._shoulderCapped = False
+        self._validChildren.update({ 'appearance' : NullElement, # Shouldn't be in there but it is
+                              })
 
         self._knownTags.extend(["outerradius", "innerradius"])
 
