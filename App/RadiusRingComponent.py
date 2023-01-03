@@ -53,16 +53,24 @@ class RadiusRingComponent(RingComponent, LineInstanceable):
         if not hasattr(obj, 'InstanceSeparation'):
             obj.addProperty('App::PropertyDistance', 'InstanceSeparation', 'Bulkhead', translate('App::Property', 'Front to front along the positive rocket axis')).InstanceSeparation = 0.0
 
+    def update(self):
+        super().update()
+
+        # Ensure any automatic variables are set
+        self.getOuterDiameter()
+
     def getOuterRadius(self):
+        return self.getOuterDiameter() / 2.0
+
+    def getOuterDiameter(self):
         if self._obj.AutoDiameter and isinstance(self.getParent(), RadialParent):
             pos1 = self.toRelative(NUL, self.getParent())[0]._x
             pos2 = self.toRelative(Coordinate(self.getLength()), self.getParent())[0]._x
             pos1 = clamp(pos1, 0, self.getParent().getLength())
             pos2 = clamp(pos2, 0, self.getParent().getLength())
-            self._obj.CenterDiameter = min(self.getParent().getInnerDiameter(pos1), self.getParent().getInnerDiameter(pos2))
-            return float(self._obj.CenterDiameter)
+            self._obj.Diameter = min(self.getParent().getInnerDiameter(pos1), self.getParent().getInnerDiameter(pos2))
 
-        return float(self._obj.Diameter) / 2.0
+        return float(self._obj.Diameter)
 
     def setOuterRadius(self, r):
         r = max(r,0)

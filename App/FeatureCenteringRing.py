@@ -62,6 +62,12 @@ class FeatureCenteringRing(FeatureBulkhead):
         self.setLength(2.0)
         obj.HoleDiameter = 2.0
         obj.HoleCenter = 7.0
+
+    def update(self):
+        super().update()
+
+        # Ensure any automatic variables are set
+        self.getInnerDiameter()
         
     def getInnerRadius(self):
         return self.getInnerDiameter() / 2.0
@@ -75,15 +81,15 @@ class FeatureCenteringRing(FeatureBulkhead):
                 for sibling in self.getParent().getChildren():
                     # Only InnerTubes are considered when determining the automatic
                     # inner radius (for now).
-                    if not isinstance(sibling, FeatureInnerTube): # Excludes itself
+                    if not isinstance(sibling.Proxy, FeatureInnerTube): # Excludes itself
                         continue
 
-                    pos1 = self.toRelative(NUL, sibling)[0].x
-                    pos2 = self.toRelative(Coordinate(self.getLength()), sibling)[0].x
-                    if pos2 < 0 or pos1 > sibling.getLength():
+                    pos1 = self.toRelative(NUL, sibling.Proxy)[0]._x
+                    pos2 = self.toRelative(Coordinate(self.getLength()), sibling.Proxy)[0]._x
+                    if pos2 < 0 or pos1 > sibling.Proxy.getLength():
                         continue
 
-                    self._obj.CenterDiameter = max(self._obj.CenterDiameter, sibling.getOuterDiameter())
+                    self._obj.CenterDiameter = max(self._obj.CenterDiameter, sibling.Proxy.getOuterDiameter())
 
                 self._obj.CenterDiameter = min(self._obj.CenterDiameter, self.getOuterDiameter())
 
