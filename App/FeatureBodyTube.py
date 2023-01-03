@@ -96,6 +96,12 @@ class FeatureBodyTube(SymmetricComponent, BoxBounded, Coaxial):
         else:
             FeatureBodyTube(obj)
 
+    def update(self):
+        super().update()
+
+        # Ensure any automatic variables are set
+        self.getOuterDiameter()
+
     """
         Sets the length of the body component.
         
@@ -254,7 +260,7 @@ class FeatureBodyTube(SymmetricComponent, BoxBounded, Coaxial):
 
             if d < 0:
                 d = self.DEFAULT_RADIUS * 2.0
-            return d
+            self._obj.OuterDiameter = d
 
         return float(self._obj.OuterDiameter)
 
