@@ -28,7 +28,7 @@ from App.Importer.SaxElement import NullElement
 from App.Importer.ComponentElement import ComponentElement
 from App.Importer.TransitionElement import TransitionElement
 from App.Importer.NoseElement import NoseElement
-from App.Importer.CenteringRingElement import CenteringRingElement
+from App.Importer.CenteringRingElement import BulkheadElement, CenteringRingElement
 from App.Importer.StageElement import StageElement
 from App.Importer.BodyTubeElement import BodyTubeElement, InnerTubeElement, TubeCouplerElement, EngineBlockElement
 from App.Importer.LaunchLugElement import LaunchLugElement
@@ -36,8 +36,6 @@ from App.Importer.TrapezoidalFinsetElement import TrapezoidalFinsetElement
 from App.Importer.EllipticalFinsetElement import EllipticalFinsetElement
 from App.Importer.TubeFinsetElement import TubeFinsetElement
 from App.Importer.FreeformFinsetElement import FreeformFinsetElement
-
-from App.Utilities import _msg
 
 class SubElement(ComponentElement):
 
@@ -58,7 +56,7 @@ class SubElement(ComponentElement):
                                 'engineblock' : EngineBlockElement,
                                 'innertube' : InnerTubeElement,
                                 'tubecoupler' : TubeCouplerElement,
-                                'bulkhead' : NullElement,
+                                'bulkhead' : BulkheadElement,
                                 'centeringring' : CenteringRingElement,
                                 'masscomponent' : NullElement,
                                 'shockcord' : NullElement,

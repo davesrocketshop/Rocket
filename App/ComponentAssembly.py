@@ -34,12 +34,9 @@ from App.position.AxialPositionable import AxialPositionable
 from App.util import Coordinate
 from App.util.BoundingBox import BoundingBox
 from App.RocketComponent import RocketComponent
-# from App.FeatureBodyTube import FeatureBodyTube
-# from App.FeatureNoseCone import FeatureNoseCone
-# from App.FeatureTransition import FeatureTransition
 from App.events.ComponentChangeEvent import ComponentChangeEvent
 
-from App.Constants import FEATURE_ROCKET, FEATURE_STAGE, FEATURE_PARALLEL_STAGE, FEATURE_POD
+from App.Constants import FEATURE_ROCKET, FEATURE_STAGE, FEATURE_PARALLEL_STAGE, FEATURE_POD, FEATURE_BODY_TUBE, FEATURE_NOSE_CONE, FEATURE_TRANSITION
 
 # from DraftTools import translate
 
@@ -128,9 +125,9 @@ class ComponentAssembly(RocketComponent, AxialPositionable):
         outerRadius = 0
         for comp in self.getChildren():
             thisRadius = 0
-            if isinstance(comp, FeatureBodyTube):
+            if comp.Type in [FEATURE_BODY_TUBE]:
                 thisRadius = comp.getOuterRadius()
-            elif isinstance(comp, FeatureTransition) or isinstance(comp, FeatureNoseCone):
+            elif comp.Type in [FEATURE_TRANSITION, FEATURE_NOSE_CONE]:
                 thisRadius = max(comp.getForeRadius(), comp.getAftRadius())
             
             outerRadius = max(outerRadius, thisRadius)

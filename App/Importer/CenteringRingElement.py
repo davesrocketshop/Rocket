@@ -27,9 +27,10 @@ __url__ = "https://www.davesrocketshop.com"
 from App.Importer.SaxElement import NullElement
 from App.Importer.RingComponentElement import RingComponentElement
 
+from Ui.Commands.CmdBulkhead import makeBulkhead
 from Ui.Commands.CmdCenteringRing import makeCenteringRing
 
-class CenteringRingElement(RingComponentElement):
+class BulkheadElement(RingComponentElement):
 
     def __init__(self, parent, tag, attributes, parentObj, filename, line):
         super().__init__(parent, tag, attributes, parentObj, filename, line)
@@ -41,7 +42,7 @@ class CenteringRingElement(RingComponentElement):
         self._knownTags.extend(["outerradius", "innerradius"])
 
     def makeObject(self):
-        self._feature = makeCenteringRing()
+        self._feature = makeBulkhead()
         if self._parentObj is not None:
             self._parentObj.addChild(self._feature)
 
@@ -78,3 +79,10 @@ class CenteringRingElement(RingComponentElement):
         # Validate the shape here
 
         return super().end()
+
+class CenteringRingElement(BulkheadElement):
+
+    def makeObject(self):
+        self._feature = makeCenteringRing()
+        if self._parentObj is not None:
+            self._parentObj.addChild(self._feature)
