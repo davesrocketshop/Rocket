@@ -30,7 +30,7 @@ from App.Importer.TransitionElement import TransitionElement
 from App.Importer.NoseElement import NoseElement
 from App.Importer.CenteringRingElement import CenteringRingElement
 from App.Importer.StageElement import StageElement
-from App.Importer.BodyTubeElement import BodyTubeElement, InnerTubeElement, EngineBlockElement
+from App.Importer.BodyTubeElement import BodyTubeElement, InnerTubeElement, TubeCouplerElement, EngineBlockElement
 from App.Importer.LaunchLugElement import LaunchLugElement
 from App.Importer.TrapezoidalFinsetElement import TrapezoidalFinsetElement
 from App.Importer.EllipticalFinsetElement import EllipticalFinsetElement
@@ -57,7 +57,7 @@ class SubElement(ComponentElement):
                                 'railbutton' : NullElement,
                                 'engineblock' : EngineBlockElement,
                                 'innertube' : InnerTubeElement,
-                                'tubecoupler' : BodyTubeElement,
+                                'tubecoupler' : TubeCouplerElement,
                                 'bulkhead' : NullElement,
                                 'centeringring' : CenteringRingElement,
                                 'masscomponent' : NullElement,

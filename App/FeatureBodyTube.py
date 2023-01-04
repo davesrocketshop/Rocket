@@ -31,7 +31,7 @@ from App.interfaces.Coaxial import Coaxial
 
 from App.events.ComponentChangeEvent import ComponentChangeEvent
 from App.SymmetricComponent import SymmetricComponent
-from App.Constants import FEATURE_BODY_TUBE, FEATURE_INNER_TUBE, FEATURE_ENGINE_BLOCK, FEATURE_BULKHEAD, FEATURE_CENTERING_RING, FEATURE_FIN, \
+from App.Constants import FEATURE_BODY_TUBE, FEATURE_INNER_TUBE, FEATURE_TUBE_COUPLER, FEATURE_ENGINE_BLOCK, FEATURE_BULKHEAD, FEATURE_CENTERING_RING, FEATURE_FIN, \
     FEATURE_FINCAN, FEATURE_LAUNCH_LUG, FEATURE_PARALLEL_STAGE, FEATURE_POD, FEATURE_RAIL_BUTTON, FEATURE_RAIL_GUIDE
 
 from App.ShapeHandlers.BodyTubeShapeHandler import BodyTubeShapeHandler
@@ -324,6 +324,7 @@ class FeatureBodyTube(SymmetricComponent, BoxBounded, Coaxial):
             FEATURE_BULKHEAD, 
             FEATURE_BODY_TUBE, 
             FEATURE_INNER_TUBE,
+            FEATURE_TUBE_COUPLER,
             FEATURE_ENGINE_BLOCK,
             FEATURE_CENTERING_RING, 
             FEATURE_FIN, 

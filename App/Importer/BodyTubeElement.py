@@ -31,7 +31,7 @@ from App.Importer.ComponentElement import ComponentElement, BodyComponentElement
 from App.Importer.SymmetricComponentElement import SymmetricComponentElement
 import App.Importer as Importer
 
-from Ui.Commands.CmdBodyTube import makeBodyTube, makeInnerTube, makeEngineBlock
+from Ui.Commands.CmdBodyTube import makeBodyTube, makeInnerTube, makeCoupler, makeEngineBlock
 
 class MotorMountElement(BodyComponentElement):
 
@@ -97,6 +97,18 @@ class InnerTubeElement(BodyTubeElement):
 
     def makeObject(self):
         self._feature = makeInnerTube()
+        if self._parentObj is not None:
+            self._parentObj.addChild(self._feature)
+
+class TubeCouplerElement(BodyTubeElement):
+
+    def __init__(self, parent, tag, attributes, parentObj, filename, line):
+        super().__init__(parent, tag, attributes, parentObj, filename, line)
+
+        self._knownTags.extend(["radialposition", "radialdirection"])
+
+    def makeObject(self):
+        self._feature = makeCoupler()
         if self._parentObj is not None:
             self._parentObj.addChild(self._feature)
 

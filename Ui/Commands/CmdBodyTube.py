@@ -29,11 +29,12 @@ import FreeCADGui
 
 from App.FeatureBodyTube import FeatureBodyTube
 from App.FeatureInnerTube import FeatureInnerTube
+from App.FeatureTubeCoupler import FeatureTubeCoupler
 from App.FeatureEngineBlock import FeatureEngineBlock
 from Ui.ViewBodyTube import ViewProviderBodyTube
 from Ui.Commands.Command import Command
 
-from App.Constants import FEATURE_BODY_TUBE, FEATURE_INNER_TUBE, FEATURE_ENGINE_BLOCK
+from App.Constants import FEATURE_BODY_TUBE, FEATURE_INNER_TUBE, FEATURE_TUBE_COUPLER, FEATURE_ENGINE_BLOCK
 
 from DraftTools import translate
 
@@ -50,6 +51,15 @@ def makeInnerTube(name='InnerTube'):
     '''makeInnerTube(name): makes an inner Tube'''
     obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
     FeatureInnerTube(obj)
+    if FreeCAD.GuiUp:
+        ViewProviderBodyTube(obj.ViewObject)
+
+    return obj.Proxy
+
+def makeCoupler(name='Coupler'):
+    '''makeCoupler(name): makes a tube coupler'''
+    obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
+    FeatureTubeCoupler(obj)
     if FreeCAD.GuiUp:
         ViewProviderBodyTube(obj.ViewObject)
 
@@ -88,12 +98,12 @@ class CmdCoupler(Command):
     def Activated(self):
         FreeCAD.ActiveDocument.openTransaction("Create coupler")
         FreeCADGui.addModule("Ui.Commands.CmdBodyTube")
-        FreeCADGui.doCommand("Ui.Commands.CmdBodyTube.makeBodyTube('Coupler')")
+        FreeCADGui.doCommand("Ui.Commands.CmdBodyTube.makeCoupler('Coupler')")
         FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
 
     def IsActive(self):
         if FreeCAD.ActiveDocument:
-            return self.part_eligible_feature(FEATURE_BODY_TUBE)
+            return self.part_eligible_feature(FEATURE_TUBE_COUPLER)
         return False
             
     def GetResources(self):

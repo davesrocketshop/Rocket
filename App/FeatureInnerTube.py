@@ -38,7 +38,7 @@ from App.util.BoundingBox import BoundingBox
 from App.util.Coordinate import Coordinate, ZERO
 from App.ShapeHandlers.BodyTubeShapeHandler import BodyTubeShapeHandler
 
-from App.Constants import FEATURE_BODY_TUBE, FEATURE_INNER_TUBE, FEATURE_ENGINE_BLOCK, FEATURE_BULKHEAD, FEATURE_CENTERING_RING
+from App.Constants import FEATURE_BODY_TUBE, FEATURE_INNER_TUBE, FEATURE_TUBE_COUPLER, FEATURE_ENGINE_BLOCK, FEATURE_BULKHEAD, FEATURE_CENTERING_RING
 
 from DraftTools import translate
 
@@ -83,6 +83,7 @@ class FeatureInnerTube(ThicknessRingComponent, AxialPositionable, BoxBounded, Ra
         return childType in [
             FEATURE_BULKHEAD,
             FEATURE_INNER_TUBE,
+            FEATURE_TUBE_COUPLER,
             FEATURE_ENGINE_BLOCK,
             FEATURE_BODY_TUBE, 
             FEATURE_CENTERING_RING]
