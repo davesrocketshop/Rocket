@@ -53,6 +53,18 @@ class ComponentElement(Element):
                 self.onPositionType(LOCATION_PARENT_BOTTOM)
             else:
                 self.onPositionType(LOCATION_BASE)
+        elif _tag == "axialoffset":
+            positionType = attributes["method"]
+            if positionType == "after":
+                self.onPositionType(LOCATION_AFTER)
+            elif positionType == "top":
+                self.onPositionType(LOCATION_PARENT_TOP)
+            elif positionType == "middle":
+                self.onPositionType(LOCATION_PARENT_MIDDLE)
+            elif positionType == "bottom":
+                self.onPositionType(LOCATION_PARENT_BOTTOM)
+            else:
+                self.onPositionType(LOCATION_BASE)
         else:
             super().handleTag(tag, attributes)
 

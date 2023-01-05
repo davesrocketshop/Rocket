@@ -207,8 +207,9 @@ class FeatureFin(RocketComponent):
 
     def getLength(self):
         # Return the length of this component along the central axis
-        length = self.getRootChord()
-        return length
+        if self._obj.Length <= 0:
+            self._obj.Length = self.getRootChord()
+        return self._obj.Length
 
     def isFinSet(self):
         return self._obj.FinSet
@@ -220,6 +221,16 @@ class FeatureFin(RocketComponent):
         self._obj.FinCount = count
 
     def getRootChord(self):
+        if self._obj.FinType == FIN_TYPE_SKETCH:
+            if self._obj.RootChord <= 0 or self._obj.Length <= 0:
+                handler = FinSketchShapeHandler(self._obj)
+                shape = handler.getFace()
+                if shape is None:
+                    return 0
+                xmin,xmax = handler.findRootChord(shape)
+                self._obj.RootChord = float(xmax - xmin)
+                self._obj.Length = self._obj.RootChord
+
         return self._obj.RootChord
 
     def setRootChord(self, chord):

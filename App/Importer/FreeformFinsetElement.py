@@ -83,6 +83,7 @@ class FreeformFinpoints(Element):
 
     def end(self):
         self.drawLines()
+        FreeCAD.ActiveDocument.recompute(None,True,True) # Compute the sketch
         return super().end()
 
 class FreeformFinsetElement(FinsetElement):
