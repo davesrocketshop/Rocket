@@ -35,7 +35,7 @@ from App.Constants import FEATURE_BULKHEAD
 
 from DraftTools import translate
 
-def makeBulkhead(name):
+def makeBulkhead(name='Bulkhead'):
     '''makeBulkhead(name): makes a bulkhead'''
     obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
     FeatureBulkhead(obj)
