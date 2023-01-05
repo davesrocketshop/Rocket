@@ -687,38 +687,6 @@ class RocketComponent(ShapeBase, ChangeSource):
         return [ZERO]
 
     """
-        Provides locations of all instances of component *accounting for all parent instancing*
-         
-        NOTE: the length of this array MAY OR MAY NOT EQUAL this.getInstanceCount()
-           --> RocketComponent::getInstanceCount() counts how many times this component replicates on its own
-           --> vs. the total instance count due to parent assembly instancing
-    """
-    def getComponentLocations(self):
-        if self.getParent() is None:
-            # == improperly initialized components OR the root Rocket instance 
-            return self.getInstanceOffsets()
-        else:
-            parentPositions = self.getParent().getComponentLocations()
-            parentCount = len(parentPositions)
-            
-            # override <instance>.getInstanceLocations() in each subclass
-            instanceLocations = self.getInstanceLocations()
-            instanceCount = len(instanceLocations)
-            
-            # usual case optimization
-            if parentCount == 1 and instanceCount == 1:
-                coordinates = []
-                coordinates.append(parentPositions[0])
-                coordinates.append(instanceLocations[0])
-                return coordinates
-            
-            thesePositions = []
-            for pi in range(parentCount):
-                for ii in range(instanceCount):
-                    thesePositions.insert(pi + parentCount*ii, parentPositions[pi].add(instanceLocations[ii]))
-
-            return thesePositions
-    """
         Return coordinate <code>c</code> described in the coordinate system of
         <code>dest</code>.  If <code>dest</code> is <code>null</code> returns
         absolute coordinates.
@@ -735,12 +703,10 @@ class RocketComponent(ShapeBase, ChangeSource):
 
         self.checkState()
 
-        # not sure if this will give us an answer, or THE answer... 
-        #final Coordinate sourceLoc = this.getLocation()[0];
-        destLocs = dest.getComponentLocations()
+        destLocs = dest.getInstanceLocations()
         toReturn = []
         for coordIndex in range(len(destLocs)):
-            toReturn.append(self.getComponentLocations()[0].add(c).sub(destLocs[coordIndex]))
+            toReturn.append(self.getInstanceLocations()[0].add(c).sub(destLocs[coordIndex]))
 
         return toReturn
 
@@ -751,6 +717,8 @@ class RocketComponent(ShapeBase, ChangeSource):
         NOTE: the length of this array MAY OR MAY NOT EQUAL this.getInstanceCount()
            --> RocketComponent::getInstanceCount() counts how many times this component replicates on its own
            --> vs. the total instance count due to parent assembly instancing
+
+        DAC: This may not be correct as the Workbench already supplies absolute coordinates
     """
     def getComponentLocations(self):
         if self.getParent() is None:

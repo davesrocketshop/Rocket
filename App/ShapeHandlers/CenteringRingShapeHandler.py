@@ -30,7 +30,7 @@ import Part
 from DraftTools import translate
 
 from App.ShapeHandlers.BulkheadShapeHandler import BulkheadShapeHandler
-from App.Utilities import _err
+from App.Utilities import _err, _wrn
 
 class CenteringRingShapeHandler(BulkheadShapeHandler):
     def __init__(self, obj):
@@ -48,8 +48,7 @@ class CenteringRingShapeHandler(BulkheadShapeHandler):
 
         # Perform some general validations
         if self._centerDiameter <= 0:
-            _err(translate('Rocket', "Centering ring center diameter must be greater than zero"))
-            return False
+            _wrn(translate('Rocket', "Centering ring has no hole, as the center diameter must be greater than zero"))
 
         if self._centerDiameter >= self._diameter:
             _err(translate('Rocket', "Centering ring center diameter must be less than the outer diameter"))
@@ -87,12 +86,15 @@ class CenteringRingShapeHandler(BulkheadShapeHandler):
             thickness += self._stepDiameter
         centerRadius = self._centerDiameter / 2.0
 
-        hole = Part.makeCylinder(centerRadius, thickness, FreeCAD.Vector(0,0,0), FreeCAD.Vector(1,0,0))
-        cr = bulkhead.cut(hole)
+        if centerRadius > 0:
+            hole = Part.makeCylinder(centerRadius, thickness, FreeCAD.Vector(0,0,0), FreeCAD.Vector(1,0,0))
+            cr = bulkhead.cut(hole)
 
-        if self._notched:
-            hole = Part.makeBox(self._notchHeight + centerRadius, self._notchWidth, thickness, FreeCAD.Vector(0,self._notchWidth / 2,0), FreeCAD.Vector(1,0,0))
-            cr = cr.cut(hole)
+            if self._notched:
+                hole = Part.makeBox(self._notchHeight + centerRadius, self._notchWidth, thickness, FreeCAD.Vector(0,self._notchWidth / 2,0), FreeCAD.Vector(1,0,0))
+                cr = cr.cut(hole)
+        else:
+            cr = bulkhead
 
         return cr
         
