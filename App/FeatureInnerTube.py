@@ -42,7 +42,7 @@ from App.Constants import FEATURE_BODY_TUBE, FEATURE_INNER_TUBE, FEATURE_TUBE_CO
 
 from DraftTools import translate
 
-class FeatureInnerTube(ThicknessRingComponent, AxialPositionable, BoxBounded, RadialParent):#, Clusterable - not sure why this is causing errors
+class FeatureInnerTube(Clusterable, ThicknessRingComponent, AxialPositionable, BoxBounded, RadialParent):
 
     def __init__(self, obj):
         super().__init__(obj)

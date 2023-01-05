@@ -25,12 +25,12 @@ __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
 from App.Importer.SaxElement import NullElement
-from App.Importer.RingComponentElement import RingComponentElement
+from App.Importer.RadiusRingComponentElement import RadiusRingComponentElement
 
 from Ui.Commands.CmdBulkhead import makeBulkhead
 from Ui.Commands.CmdCenteringRing import makeCenteringRing
 
-class BulkheadElement(RingComponentElement):
+class BulkheadElement(RadiusRingComponentElement):
 
     def __init__(self, parent, tag, attributes, parentObj, filename, line):
         super().__init__(parent, tag, attributes, parentObj, filename, line)
