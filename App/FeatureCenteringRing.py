@@ -69,10 +69,10 @@ class FeatureCenteringRing(FeatureBulkhead):
         # Ensure any automatic variables are set
         self.getInnerDiameter()
         
-    def getInnerRadius(self):
+    def getInnerRadius(self, pos=0):
         return self.getInnerDiameter() / 2.0
         
-    def getInnerDiameter(self):
+    def getInnerDiameter(self, pos=0):
         # Implement sibling inner radius automation
         if self.isInnerDiameterAutomatic():
             self._obj.CenterDiameter = 0

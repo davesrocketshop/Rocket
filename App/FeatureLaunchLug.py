@@ -117,7 +117,7 @@ class FeatureLaunchLug(Tube, AnglePositionable, BoxBounded, LineInstanceable):
     def getInnerRadius(self):
         return self.getInnerDiameter() / 2.0
 
-    def getInnerDiameter(self):
+    def getInnerDiameter(self, pos=0):
         return self._obj.OuterDiameter - (2.0 * self._obj.Thickness)
 
     def setInnerRadius(self, radius):

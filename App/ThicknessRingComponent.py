@@ -32,7 +32,7 @@ from App.interfaces.RadialParent import RadialParent
 
 from App.events.ComponentChangeEvent import ComponentChangeEvent
 
-from App.util.Coordinate import Coordinate
+from App.util.Coordinate import Coordinate, NUL
 from App.util.MathUtil import MathUtil
 
 from DraftTools import translate
@@ -59,8 +59,8 @@ class ThicknessRingComponent(RingComponent):
 
     def getOuterDiameter(self):
         if self.isOuterDiameterAutomatic() and isinstance(self.getParent(), RadialParent):
-            pos1 = self.toRelative(Coordinate.NUL, self.getParent())[0].x
-            pos2 = self.toRelative(Coordinate(self.getLength()), self.getParent())[0].x
+            pos1 = self.toRelative(NUL, self.getParent())[0]._x
+            pos2 = self.toRelative(Coordinate(self.getLength()), self.getParent())[0]._x
             pos1 = MathUtil.clamp(pos1, 0, self.getParent().getLength())
             pos2 = MathUtil.clamp(pos2, 0, self.getParent().getLength())
             self._obj.OuterDiameter = min(self.getParent().getInnerDiameter(pos1), self.getParent().getInnerDiameter(pos2))
@@ -109,10 +109,10 @@ class ThicknessRingComponent(RingComponent):
 
         self.fireComponentChangeEvent(ComponentChangeEvent.MASS_CHANGE)
 
-    def getInnerRadius(self):
+    def getInnerRadius(self, pos=0):
         return self.getInnerDiameter() / 2.0
 
-    def getInnerDiameter(self):
+    def getInnerDiameter(self, pos=0):
         return max(self.getOuterDiameter() - (2.0 * self._obj.Thickness), 0)
 
     def setInnerRadius(self, radius):
