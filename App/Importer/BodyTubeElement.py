@@ -88,18 +88,6 @@ class BodyTubeElement(SymmetricComponentElement):
     def onLength(self, length):
         self._feature._obj.Length = length
 
-class InnerTubeElement(BodyTubeElement):
-
-    def __init__(self, parent, tag, attributes, parentObj, filename, line):
-        super().__init__(parent, tag, attributes, parentObj, filename, line)
-
-        self._knownTags.extend(["radialposition", "radialdirection", "clusterconfiguration", "clusterscale", "clusterrotation"])
-
-    def makeObject(self):
-        self._feature = makeInnerTube()
-        if self._parentObj is not None:
-            self._parentObj.addChild(self._feature)
-
 class TubeCouplerElement(BodyTubeElement):
 
     def __init__(self, parent, tag, attributes, parentObj, filename, line):

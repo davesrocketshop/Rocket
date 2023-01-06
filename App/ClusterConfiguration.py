@@ -41,7 +41,7 @@ class ClusterConfiguration:
         return self._name
 
     def getClusterCount(self):
-        return len(self._points) / 2
+        return int(len(self._points) / 2)
 
     """
         Returns the relative positions of the cluster components.  The list is of length
@@ -55,7 +55,7 @@ class ClusterConfiguration:
         Return the points rotated by <code>rotation</code> radians.
         @param rotation  Rotation amount.
     """
-    def getPoints(self, rotation):
+    def getPointsRotated(self, rotation):
         cos = math.cos(rotation)
         sin = math.sin(rotation)
         ret = []

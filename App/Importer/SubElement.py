@@ -30,7 +30,8 @@ from App.Importer.TransitionElement import TransitionElement
 from App.Importer.NoseElement import NoseElement
 from App.Importer.CenteringRingElement import BulkheadElement, CenteringRingElement
 from App.Importer.StageElement import StageElement
-from App.Importer.BodyTubeElement import BodyTubeElement, InnerTubeElement, TubeCouplerElement, EngineBlockElement
+from App.Importer.BodyTubeElement import BodyTubeElement, TubeCouplerElement, EngineBlockElement
+from App.Importer.InnerTubeElement import InnerTubeElement
 from App.Importer.LaunchLugElement import LaunchLugElement
 from App.Importer.TrapezoidalFinsetElement import TrapezoidalFinsetElement
 from App.Importer.EllipticalFinsetElement import EllipticalFinsetElement

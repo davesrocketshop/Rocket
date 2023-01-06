@@ -96,7 +96,7 @@ class FeatureLaunchLug(Tube, AnglePositionable, BoxBounded, LineInstanceable):
         return self.getOuterDiameter() / 2.0
 
     def getOuterDiameter(self):
-        return self._obj.OuterDiameter
+        return float(self._obj.OuterDiameter)
 
     def setOuterRadius(self, radius):
         self.setOuterDiameter(radius * 2.0)
@@ -214,7 +214,7 @@ class FeatureLaunchLug(Tube, AnglePositionable, BoxBounded, LineInstanceable):
             x2 = Utilities.clamp(x2, 0, body.getLength())
             parentRadius = max(body.getRadius(x1), body.getRadius(x2))
         
-        self._obj.RadialOffset = parentRadius + self.getRadius()
+        self._obj.RadialOffset = parentRadius + self.getOuterRadius()
 
     # @Override
     # public double getComponentVolume() {

@@ -36,7 +36,7 @@ from App.ThicknessRingComponent import ThicknessRingComponent
 from App.ClusterConfiguration import SINGLE, CONFIGURATIONS
 from App.util.BoundingBox import BoundingBox
 from App.util.Coordinate import Coordinate, ZERO
-from App.ShapeHandlers.BodyTubeShapeHandler import BodyTubeShapeHandler
+from App.ShapeHandlers.InnerTubeShapeHandler import InnerTubeShapeHandler
 
 from App.Constants import FEATURE_BODY_TUBE, FEATURE_INNER_TUBE, FEATURE_TUBE_COUPLER, FEATURE_ENGINE_BLOCK, FEATURE_BULKHEAD, FEATURE_CENTERING_RING
 
@@ -51,7 +51,7 @@ class FeatureInnerTube(Clusterable, ThicknessRingComponent, AxialPositionable, B
         if not hasattr(obj,"ClusterConfiguration"):
             obj.addProperty('App::PropertyPythonObject', 'ClusterConfiguration', 'Rocket', translate('App::Property', 'Layout of a clustered motor mount')).ClusterConfiguration = SINGLE
         if not hasattr(obj, 'ClusterScale'):
-            obj.addProperty('App::PropertyBool', 'ClusterScale', 'Rocket', translate('App::Property', 'Size scaling for the motor mount cluster')).ClusterScale = False
+            obj.addProperty('App::PropertyFloat', 'ClusterScale', 'Rocket', translate('App::Property', 'Size scaling for the motor mount cluster')).ClusterScale = 1.0
         if not hasattr(obj,"ClusterRotation"):
             obj.addProperty('App::PropertyAngle', 'ClusterRotation', 'Rocket', translate('App::Property', 'Rotation applied to the motor mount cluster')).ClusterRotation = 0.0
 
@@ -69,7 +69,7 @@ class FeatureInnerTube(Clusterable, ThicknessRingComponent, AxialPositionable, B
         FeatureInnerTube(obj)
 
     def execute(self, obj):
-        shape = BodyTubeShapeHandler(obj)
+        shape = InnerTubeShapeHandler(obj)
         if shape is not None:
             shape.draw()
 
@@ -182,9 +182,9 @@ class FeatureInnerTube(Clusterable, ThicknessRingComponent, AxialPositionable, B
 
     def getClusterPoints(self):
         list = []
-        points = self._obj.ClusterConfiguration.getPoints(self._obj.ClusterRotation - self.getRadialDirection())
+        points = self._obj.ClusterConfiguration.getPointsRotated(float(self._obj.ClusterRotation) - self.getRadialDirection())
         separation = self.getClusterSeparation()
-        for i in range(len(points) / 2):
+        for i in range(self._obj.ClusterConfiguration.getClusterCount()):
             list.append(Coordinate(0, points[2 * i] * separation, points[2 * i + 1] * separation))
 
         return list

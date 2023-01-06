@@ -144,7 +144,7 @@ class RingComponent(InternalComponent, BoxBounded, Coaxial):
         is equivalent to the Y-direction.
     """
     def getRadialDirection(self):
-        return self._obj.RadialDirection
+        return float(self._obj.RadialDirection)
 
     """
         Set the radial direction of displacement of the component.  Direction 0
