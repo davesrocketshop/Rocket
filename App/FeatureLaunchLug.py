@@ -33,16 +33,17 @@ from App.position import AxialMethod
 from App.position.AngleMethod import AngleMethod
 from App.position.AnglePositionable import AnglePositionable
 from App.interfaces.BoxBounded import BoxBounded
+from App.interfaces.LineInstanceable import LineInstanceable
 from App.events.ComponentChangeEvent import ComponentChangeEvent
 from App.util.BoundingBox import BoundingBox
 from App.util.Coordinate import Coordinate, NUL
 from App import Utilities
 from App.SymmetricComponent import SymmetricComponent
-from App.ShapeHandlers.BodyTubeShapeHandler import BodyTubeShapeHandler
+from App.ShapeHandlers.LaunchLugShapeHandler import LaunchLugShapeHandler
 
 from DraftTools import translate
 
-class FeatureLaunchLug(Tube, AnglePositionable, BoxBounded):
+class FeatureLaunchLug(Tube, AnglePositionable, BoxBounded, LineInstanceable):
 
     def __init__(self, obj):
         super().__init__(obj, AxialMethod.MIDDLE)
@@ -54,8 +55,6 @@ class FeatureLaunchLug(Tube, AnglePositionable, BoxBounded):
             obj.addProperty('App::PropertyLength', 'OuterDiameter', 'LaunchLug', translate('App::Property', 'Diameter of the outside of the body tube')).OuterDiameter = 4.06
         if not hasattr(obj,"Thickness"):
             obj.addProperty('App::PropertyLength', 'Thickness', 'LaunchLug', translate('App::Property', 'Diameter of the inside of the body tube')).Thickness = 0.25
-        if not hasattr(obj,"Length"):
-            obj.addProperty('App::PropertyLength', 'Length', 'LaunchLug', translate('App::Property', 'Length of the body tube')).Length = 25.4
 
         if not hasattr(obj,"AngleOffset"):
             obj.addProperty('App::PropertyAngle', 'AngleOffset', 'LaunchLug', translate('App::Property', 'Angle offset')).AngleOffset = 180
@@ -69,6 +68,9 @@ class FeatureLaunchLug(Tube, AnglePositionable, BoxBounded):
         if not hasattr(obj,"Shape"):
             obj.addProperty('Part::PropertyPartShape', 'Shape', 'LaunchLug', translate('App::Property', 'Shape of the launch lug'))
 
+        # Set default values
+        self._obj.Length = 25.4
+
     def update(self):
         super().update()
 
@@ -77,7 +79,7 @@ class FeatureLaunchLug(Tube, AnglePositionable, BoxBounded):
         self._obj.Placement.Base.y = self._obj.RadialOffset
 
     def execute(self, obj):
-        shape = BodyTubeShapeHandler(obj)
+        shape = LaunchLugShapeHandler(obj)
         if shape is not None:
             shape.draw()
 
@@ -287,11 +289,8 @@ class FeatureLaunchLug(Tube, AnglePositionable, BoxBounded):
         
         return instanceBounds
 
-    # @Override
-    # public String getPatternName(){
-    #     return (this.getInstanceCount() + "-Line");
-    # }
-
+    def getPatternName(self):
+        return "{0}-Line".format(self.getInstanceCount())
 
     def getAngleMethod(self):
         return AngleMethod.RELATIVE

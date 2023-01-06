@@ -47,13 +47,13 @@ class BodyTubeShapeHandler():
     def isValidShape(self):
         
         # Perform some general validations
-        if self._ID < 0:
+        if self._ID <= 0:
             _err(translate('Rocket', "Body tube inner diameter must be greater than zero"))
             return False
         if self._OD <= self._ID:
             _err(translate('Rocket', "Body tube outer diameter must be greater than the inner"))
             return False
-        if self._length < 0:
+        if self._length <= 0:
             _err(translate('Rocket', "Body tube length must be greater than zero"))
             return False
 

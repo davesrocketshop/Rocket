@@ -49,9 +49,9 @@ class LaunchLugElement(ExternalComponentElement):
     def handleEndTag(self, tag, content):
         _tag = tag.lower().strip()
         if _tag == "instancecount":
-            pass
+            self.onInstanceCount(int(content))
         elif tag == "instanceseparation":
-            pass
+            self.onInstanceSeparation(FreeCAD.Units.Quantity(content + " m").Value)
         elif tag == "radialdirection":
             pass
         elif tag == "angleoffset":
@@ -76,3 +76,11 @@ class LaunchLugElement(ExternalComponentElement):
     def onThickness(self, content):
         if hasattr(self._feature, "setThickness"):
             self._feature.setThickness(content)
+
+    def onInstanceCount(self, count):
+        if hasattr(self._feature._obj, "InstanceCount"):
+            self._feature._obj.InstanceCount = count
+
+    def onInstanceSeparation(self, value):
+        if hasattr(self._feature._obj, "InstanceSeparation"):
+            self._feature._obj.InstanceSeparation = value

@@ -22,6 +22,8 @@
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
+import FreeCAD
+
 # import Fem # Requires the FEM workbench to be loaded
 
 class RocketWorkbench ( Workbench ):
@@ -80,3 +82,11 @@ class RocketWorkbench ( Workbench ):
         return "Gui::PythonWorkbench"
 
 Gui.addWorkbench(RocketWorkbench())
+
+
+import ptvsd
+FreeCAD.Console.PrintMessage("Waiting for debugger attach")
+# 5678 is the default attach port in the VS Code debug configurations
+ptvsd.enable_attach(address=('localhost', 5678), redirect_output=True)
+ptvsd.wait_for_attach()
+
