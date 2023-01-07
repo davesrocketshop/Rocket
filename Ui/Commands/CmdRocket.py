@@ -32,6 +32,7 @@ from DraftTools import translate
 
 from App.FeatureRocket import FeatureRocket
 from Ui.ViewRocket import ViewProviderRocket
+from Ui.Commands.Command import Command
 from Ui.Commands.CmdStage import makeStage
 
 def updateRocket():
@@ -58,7 +59,7 @@ def makeRocket(name='Rocket', makeSustainer=False):
     # obj.Proxy.enableEvents()
     return obj.Proxy
 
-class CmdRocket:
+class CmdRocket(Command):
     def Activated(self):
         FreeCAD.ActiveDocument.openTransaction("Create rocket assembly")
         FreeCADGui.addModule("Ui.Commands.CmdRocket")
@@ -67,9 +68,7 @@ class CmdRocket:
         FreeCADGui.doCommand("App.activeDocument().recompute(None,True,True)")
 
     def IsActive(self):
-        if FreeCAD.ActiveDocument:
-            return True
-        return False
+        return self.no_rocket_builder()
 
     def GetResources(self):
         return {'MenuText': translate("Rocket", 'Rocket'),

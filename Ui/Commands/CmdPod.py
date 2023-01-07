@@ -56,7 +56,7 @@ class CmdPod(Command):
 
     def IsActive(self):
         if FreeCAD.ActiveDocument:
-            return self.part_eligible_feature(FEATURE_POD)
+            return self.part_stage_eligible_feature(FEATURE_POD)
         return False
             
     def GetResources(self):

@@ -56,8 +56,6 @@ class FeatureFinCan(FeatureFin):
             obj.addProperty('App::PropertyLength', 'InnerDiameter', 'Fin', translate('App::Property', 'Diameter of the inside of the fin can')).InnerDiameter = 24.8
         if not hasattr(obj,"Thickness"):
             obj.addProperty('App::PropertyLength', 'Thickness', 'Fin', translate('App::Property', 'Thickness of the fin can')).Thickness = 1.5
-        if not hasattr(obj,"Length"):
-            obj.addProperty('App::PropertyLength', 'Length', 'Fin', translate('App::Property', 'Length of the fin can')).Length = 60.0
         if not hasattr(obj,"LeadingEdgeOffset"):
             obj.addProperty('App::PropertyDistance', 'LeadingEdgeOffset', 'Fin', translate('App::Property', 'Distance between the fin can leading edge and the fin leading edge')).LeadingEdgeOffset = 0.0
 
@@ -126,6 +124,7 @@ class FeatureFinCan(FeatureFin):
 
         # Set the Parent Radius to the ID
         obj.ParentRadius = (obj.InnerDiameter / 2.0)
+        obj.Length = 60.0
 
         self._setFinCanEditorVisibility()
 

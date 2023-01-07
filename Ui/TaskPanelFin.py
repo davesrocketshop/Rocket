@@ -198,11 +198,11 @@ class _FinDialog(QDialog):
         self.tubeAutoOuterDiameterCheckbox = QtGui.QCheckBox(translate('Rocket', "auto"), self)
         self.tubeAutoOuterDiameterCheckbox.setCheckState(QtCore.Qt.Checked)
 
-        self.tubeInnerDiameterLabel = QtGui.QLabel(translate('Rocket', "Inner Diameter"), self)
+        # self.tubeInnerDiameterLabel = QtGui.QLabel(translate('Rocket', "Inner Diameter"), self)
 
-        self.tubeInnerDiameterInput = ui.createWidget("Gui::InputField")
-        self.tubeInnerDiameterInput.unit = 'mm'
-        self.tubeInnerDiameterInput.setMinimumWidth(100)
+        # self.tubeInnerDiameterInput = ui.createWidget("Gui::InputField")
+        # self.tubeInnerDiameterInput.unit = 'mm'
+        # self.tubeInnerDiameterInput.setMinimumWidth(100)
 
         self.tubeThicknessLabel = QtGui.QLabel(translate('Rocket', "Wall Thickness"), self)
 
