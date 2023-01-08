@@ -64,6 +64,9 @@ class ViewProvider:
         objs = []
         if hasattr(self,"Object"):
             objs = self.Object.Group
+            for obj in objs:
+                if hasattr(obj, "Proxy"):
+                    obj.Proxy.setParent(self.Object)
             if hasattr(self.Object, "Profile"):
                 objs.append(self.Object.Profile)
 
