@@ -24,7 +24,21 @@ __title__ = "FreeCAD Launch Guide"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
-from App.RocketComponent import RocketComponent
+import math
+
+from App.events.ComponentChangeEvent import ComponentChangeEvent
+
+from App.ExternalComponent import ExternalComponent
+from App.util.BoundingBox import BoundingBox
+from App.position.AxialMethod import MIDDLE
+from App.position.AngleMethod import AngleMethod
+from App.position.AnglePositionable import AnglePositionable
+from App.interfaces.BoxBounded import BoxBounded
+from App.interfaces.LineInstanceable import LineInstanceable
+from App.util.Coordinate import Coordinate, NUL
+from App import Utilities
+from App.SymmetricComponent import SymmetricComponent
+
 from App.Constants import FEATURE_RAIL_GUIDE
 from App.Constants import RAIL_GUIDE_BASE_FLAT, RAIL_GUIDE_BASE_CONFORMAL, RAIL_GUIDE_BASE_V
 
@@ -32,10 +46,10 @@ from App.ShapeHandlers.RailGuideShapeHandler import RailGuideShapeHandler
 
 from DraftTools import translate
 
-class FeatureRailGuide(RocketComponent):
+class FeatureRailGuide(ExternalComponent, AnglePositionable, BoxBounded, LineInstanceable):
 
     def __init__(self, obj):
-        super().__init__(obj)
+        super().__init__(obj, MIDDLE)
         self.Type = FEATURE_RAIL_GUIDE
 
         if not hasattr(obj,"RailGuideBaseType"):
@@ -58,8 +72,6 @@ class FeatureRailGuide(RocketComponent):
             obj.addProperty('App::PropertyLength', 'BaseThickness', 'RailGuide', translate('App::Property', 'Thickness of the inside part of the launch guide')).BaseThickness = 3.429
         if not hasattr(obj,"Thickness"):
             obj.addProperty('App::PropertyLength', 'Thickness', 'RailGuide', translate('App::Property', 'Total thickness of the launch guide')).Thickness = 7.62
-        if not hasattr(obj,"Length"):
-            obj.addProperty('App::PropertyLength', 'Length', 'RailGuide', translate('App::Property', 'Length of the launch guide')).Length = 20.0
         if not hasattr(obj,"Diameter"):
             obj.addProperty('App::PropertyLength', 'Diameter', 'RailGuide', translate('App::Property', 'Diameter of the outside of the body tube for conformal base type')).Diameter = 24.79
         if not hasattr(obj, 'AutoDiameter'):
@@ -81,17 +93,156 @@ class FeatureRailGuide(RocketComponent):
         if not hasattr(obj,"NotchDepth"):
             obj.addProperty('App::PropertyLength', 'NotchDepth', 'RailGuide', translate('App::Property', 'Depth of the notch')).NotchDepth = 4.20
 
+        if not hasattr(obj,"AngleOffset"):
+            obj.addProperty('App::PropertyAngle', 'AngleOffset', 'RailGuide', translate('App::Property', 'Angle offset')).AngleOffset = 180
+        if not hasattr(obj,"RadialOffset"):
+            obj.addProperty('App::PropertyAngle', 'RadialOffset', 'RailGuide', translate('App::Property', 'Radial offset')).RadialOffset = 0
+        if not hasattr(obj,"InstanceCount"):
+            obj.addProperty('App::PropertyLength', 'InstanceCount', 'RailGuide', translate('App::Property', 'Instance count')).InstanceCount = 1
+        if not hasattr(obj,"InstanceSeparation"):
+            obj.addProperty('App::PropertyLength', 'InstanceSeparation', 'RailGuide', translate('App::Property', 'Instance separation')).InstanceSeparation = 0
+
         if not hasattr(obj,"Shape"):
             obj.addProperty('Part::PropertyPartShape', 'Shape', 'RailGuide', translate('App::Property', 'Shape of the launch guide'))
 
-    def getLength(self):
-        # Return the length of this component along the central axis
-        return self._obj.Length
+        # Set default values
+        obj.Length = 20.0
+
+    def update(self):
+        super().update()
+
+        # Ensure any automatic variables are set
+        self._setRadialOffset()
+        location = self.getInstanceOffsets()
+
+        self._obj.Placement.Base.y = location[0]._y
+        self._obj.Placement.Base.z = location[0]._z
 
     def execute(self, obj):
         shape = RailGuideShapeHandler(obj)
         if shape is not None:
             shape.draw()
 
+    def getLength(self):
+        # Return the length of this component along the central axis
+        length = self._obj.Length
+
+        return float(length)
+
+    def isAfter(self):
+        return False
+
+    def allowsChildren(self):
+        return False
+
+    def isCompatible(self, type):
+        # Allow nothing to be attached to a LaunchLug
+        return False
+
     def onChildEdited(self):
         self._obj.Proxy.setEdited()
+
+    def componentChanged(self, e):
+        super().componentChanged(e)
+
+        self._setRadialOffset()
+
+    def _setRadialOffset(self):    
+        """
+            shiftY and shiftZ must be computed here since calculating them
+            in shiftCoordinates() would cause an infinite loop due to .toRelative
+        """
+        body = None
+        parentRadius = 0.0
+        
+        body = self.getParent()
+        while body is not None:
+            if isinstance(body, SymmetricComponent):
+                break
+            body = body.getParent()
+        
+        if body is None:
+            parentRadius = 0
+        else:
+            x1 = self.toRelative(NUL, body)[0]._x
+            x2 = self.toRelative(Coordinate(self._obj.Length, 0, 0), body)[0]._x
+            x1 = Utilities.clamp(x1, 0, body.getLength())
+            x2 = Utilities.clamp(x2, 0, body.getLength())
+            parentRadius = max(body.getRadius(x1), body.getRadius(x2))
+        
+        self._obj.RadialOffset = parentRadius #+ self.getOuterRadius()
+
+    def getComponentBounds(self):
+        set = []
+        # self.addBound(set, 0, self.getRadius())
+        # self.addBound(set, self.getLength(), self.getRadius())
+        return set
+
+    def getPatternName(self):
+        return "{0}-Line".format(self.getInstanceCount())
+
+    def getAngleMethod(self):
+        return AngleMethod.RELATIVE
+
+
+    def setAngleMethod(self, newMethod):
+        # no-op
+        pass
+
+    def getAngleOffset(self):
+        return self._obj.AngleOffset
+
+    def setAngleOffset(self, newAngleRadians):
+        for listener in self._configListeners:
+            if isinstance(listener, FeatureRailGuide):
+                listener.setAngleOffset(newAngleRadians)
+
+        rad = Utilities.clamp( newAngleRadians, -math.pi, math.pi)
+        if self._obj.AngleOffset == rad:
+            return
+
+        self._obj.AngleOffset = rad
+        self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
+
+    def getInstanceSeparation(self):
+        return self._obj.InstanceSeparation
+
+    def setInstanceSeparation(self, separation):
+        for listener in self._configListeners:
+            if isinstance(listener, FeatureRailGuide):
+                listener.setInstanceSeparation(separation)
+
+        self._obj.InstanceSeparation = separation
+
+    def setInstanceCount(self, newCount):
+        for listener in self._configListeners:
+            if isinstance(listener, FeatureRailGuide):
+                listener.setInstanceCount(newCount)
+
+        if newCount > 0:
+            self._obj.InstanceCount = newCount
+
+    def getInstanceCount(self):
+        return int(self._obj.InstanceCount)
+
+    def getInstanceBoundingBox(self):
+        instanceBounds = BoundingBox()
+        
+        # instanceBounds.update(Coordinate(self.getLength(), 0,0))
+        
+        # r = self.getOuterRadius()
+        # instanceBounds.update(Coordinate(0,r,r))
+        # instanceBounds.update(Coordinate(0,-r,-r))
+        
+        return instanceBounds
+
+    def getInstanceOffsets(self):
+        toReturn = []
+        
+        yOffset = math.sin(math.radians(-self._obj.AngleOffset)) * (self._obj.RadialOffset)
+        zOffset = math.cos(math.radians(-self._obj.AngleOffset)) * (self._obj.RadialOffset)
+        
+        for index in range(self.getInstanceCount()):
+            toReturn.append(Coordinate(index*self._obj.InstanceSeparation, yOffset, zOffset))
+        
+        return toReturn

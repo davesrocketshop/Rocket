@@ -47,8 +47,8 @@ class CenteringRingShapeHandler(BulkheadShapeHandler):
             return
 
         # Perform some general validations
-        if self._centerDiameter <= 0:
-            _wrn(translate('Rocket', "Centering ring has no hole, as the center diameter must be greater than zero"))
+        # if self._centerDiameter <= 0:
+        #     _wrn(translate('Rocket', "Centering ring has no hole, as the center diameter must be greater than zero"))
 
         if self._centerDiameter >= self._diameter:
             _err(translate('Rocket', "Centering ring center diameter must be less than the outer diameter"))

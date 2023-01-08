@@ -54,7 +54,7 @@ class RocketWorkbench ( Workbench ):
         
         self.appendToolbar(QT_TRANSLATE_NOOP('Rocket', 'Rocket'),
                         ['Rocket_Rocket', 'Rocket_Stage', 'Rocket_ParallelStage', 'Rocket_Pod', 'Rocket_NoseCone', 'Rocket_Transition', 'Rocket_BodyTube', 'Rocket_Coupler', 'Rocket_InnerTube', 'Rocket_EngineBlock', 
-                        'Rocket_CenteringRing', 'Rocket_Bulkhead', 'Rocket_Fin', 'Rocket_FinCan', 'Rocket_LaunchGuides', 
+                        'Rocket_CenteringRing', 'Rocket_Bulkhead', 'Rocket_Fin', 'Rocket_FinCan', 'Rocket_LaunchLug', 'Rocket_RailButton', 'Rocket_RailGuide', 
                         #'Rocket_Parachute',
                         ])
         self.appendToolbar(QT_TRANSLATE_NOOP('Rocket', 'Rocket'),
@@ -68,7 +68,7 @@ class RocketWorkbench ( Workbench ):
 
         self.appendMenu(QT_TRANSLATE_NOOP('Rocket', 'Rocket'), 
                         ['Rocket_Rocket', 'Rocket_Stage', 'Rocket_ParallelStage', 'Rocket_Pod', 'Rocket_NoseCone', 'Rocket_Transition', 'Rocket_BodyTube', 'Rocket_Coupler', 'Rocket_InnerTube', 'Rocket_EngineBlock', 
-                        'Rocket_CenteringRing', 'Rocket_Bulkhead', 'Rocket_Fin', 'Rocket_FinCan', 'Rocket_LaunchGuides', 
+                        'Rocket_CenteringRing', 'Rocket_Bulkhead', 'Rocket_Fin', 'Rocket_FinCan', 'Rocket_LaunchLug', 'Rocket_RailButton', 'Rocket_RailGuide', 
                         #'Rocket_Parachute'
                         ])
         self.appendMenu(QT_TRANSLATE_NOOP('Rocket', 'Rocket'), 

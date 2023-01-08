@@ -64,6 +64,8 @@ class FeatureInnerTube(Clusterable, ThicknessRingComponent, AxialPositionable, B
             obj.addProperty('Part::PropertyPartShape', 'Shape', 'Rocket', translate('App::Property', 'Shape of the body tube'))
 
         # Default values
+        self._obj.OuterDiameter = 19.0
+        self._obj.Thickness = 0.5
         self._obj.Length = 70.0
 
     def onDocumentRestored(self, obj):
