@@ -52,3 +52,18 @@ class ViewProviderBodyTube(ViewProvider):
         if mode == 0:
             FreeCADGui.Control.closeDialog()
             return
+
+class ViewProviderInnerTube(ViewProviderBodyTube):
+        
+    def getIcon(self):
+        return FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_InnerTube.svg"
+
+class ViewProviderCoupler(ViewProviderBodyTube):
+        
+    def getIcon(self):
+        return FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Coupler.svg"
+
+class ViewProviderEngineBlock(ViewProviderBodyTube):
+        
+    def getIcon(self):
+        return FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_EngineBlock.svg"

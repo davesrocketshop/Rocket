@@ -58,7 +58,8 @@ class InnerTubeElement(BodyTubeElement):
 
     def onClusterConfiguration(self, name):
         try:
-            self._feature._obj.ClusterConfiguration = CONFIGURATIONS[name]
+            # self._feature._obj.ClusterConfiguration = CONFIGURATIONS[name]
+            pass # Not yet complete
         except:
             _err(translate('Rocket', "Unknown cluster configuration"))
 

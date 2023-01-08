@@ -49,7 +49,8 @@ class LaunchLugElement(ExternalComponentElement):
     def handleEndTag(self, tag, content):
         _tag = tag.lower().strip()
         if _tag == "instancecount":
-            self.onInstanceCount(int(content))
+            # self.onInstanceCount(int(content))
+            pass # Not yet supported
         elif tag == "instanceseparation":
             self.onInstanceSeparation(FreeCAD.Units.Quantity(content + " m").Value)
         elif tag == "radialdirection":

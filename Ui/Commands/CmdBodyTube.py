@@ -31,7 +31,7 @@ from App.FeatureBodyTube import FeatureBodyTube
 from App.FeatureInnerTube import FeatureInnerTube
 from App.FeatureTubeCoupler import FeatureTubeCoupler
 from App.FeatureEngineBlock import FeatureEngineBlock
-from Ui.ViewBodyTube import ViewProviderBodyTube
+from Ui.ViewBodyTube import ViewProviderBodyTube, ViewProviderInnerTube, ViewProviderCoupler, ViewProviderEngineBlock
 from Ui.Commands.Command import Command
 
 from App.Constants import FEATURE_BODY_TUBE, FEATURE_INNER_TUBE, FEATURE_TUBE_COUPLER, FEATURE_ENGINE_BLOCK
@@ -52,7 +52,7 @@ def makeInnerTube(name='InnerTube'):
     obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
     FeatureInnerTube(obj)
     if FreeCAD.GuiUp:
-        ViewProviderBodyTube(obj.ViewObject)
+        ViewProviderInnerTube(obj.ViewObject)
 
     return obj.Proxy
 
@@ -61,7 +61,7 @@ def makeCoupler(name='Coupler'):
     obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
     FeatureTubeCoupler(obj)
     if FreeCAD.GuiUp:
-        ViewProviderBodyTube(obj.ViewObject)
+        ViewProviderCoupler(obj.ViewObject)
 
     return obj.Proxy
 
@@ -70,7 +70,7 @@ def makeEngineBlock(name='EngineBlock'):
     obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
     FeatureEngineBlock(obj)
     if FreeCAD.GuiUp:
-        ViewProviderBodyTube(obj.ViewObject)
+        ViewProviderEngineBlock(obj.ViewObject)
 
     return obj.Proxy
 
@@ -109,7 +109,7 @@ class CmdCoupler(Command):
     def GetResources(self):
         return {'MenuText': translate("Rocket", 'Coupler'),
                 'ToolTip': translate("Rocket", 'Coupler design'),
-                'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_BodyTube.svg"}
+                'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Coupler.svg"}
 
 class CmdInnerTube(Command):
     def Activated(self):
@@ -129,7 +129,7 @@ class CmdInnerTube(Command):
     def GetResources(self):
         return {'MenuText': translate("Rocket", 'Inner Tube'),
                 'ToolTip': translate("Rocket", 'Inner tube design'),
-                'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_BodyTube.svg"}
+                'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_InnerTube.svg"}
 
 class CmdEngineBlock(Command):
     def Activated(self):
@@ -149,4 +149,4 @@ class CmdEngineBlock(Command):
     def GetResources(self):
         return {'MenuText': translate("Rocket", 'Engine Block'),
                 'ToolTip': translate("Rocket", 'Engine block design'),
-                'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_BodyTube.svg"}
+                'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_EngineBlock.svg"}
