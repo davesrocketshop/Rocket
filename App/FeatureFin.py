@@ -27,11 +27,13 @@ __url__ = "https://www.davesrocketshop.com"
 import FreeCAD
 import math
 
-from App.RocketComponent import RocketComponent
+from App.position.AxialMethod import BOTTOM
+from App.ExternalComponent import ExternalComponent
 from App.SymmetricComponent import SymmetricComponent
-from App.util.Coordinate import Coordinate
+from App.FeatureInnerTube import FeatureInnerTube
+from App.util.Coordinate import Coordinate, NUL
 
-from App.Constants import FEATURE_FIN, FEATURE_LAUNCH_LUG, FEATURE_RAIL_BUTTON, FEATURE_RAIL_GUIDE, FEATURE_POD
+from App.Constants import FEATURE_FIN, FEATURE_LAUNCH_LUG, FEATURE_RAIL_BUTTON, FEATURE_POD
 from App.Constants import FIN_TYPE_TRAPEZOID, FIN_TYPE_ELLIPSE, FIN_TYPE_TUBE, FIN_TYPE_SKETCH
 from App.Constants import FIN_CROSS_SAME, FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE, \
     FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE
@@ -49,10 +51,10 @@ from DraftTools import translate
 
 DEBUG_SKETCH_FINS = 0 # Set > 0 when debugging sketch based fins
 
-class FeatureFin(RocketComponent):
+class FeatureFin(ExternalComponent):
 
     def __init__(self, obj):
-        super().__init__(obj)
+        super().__init__(obj, BOTTOM)
         self.Type = FEATURE_FIN
 
         if not hasattr(obj,"FinType"):
@@ -91,10 +93,10 @@ class FeatureFin(RocketComponent):
             obj.addProperty('App::PropertyLength', 'TipChord', 'Fin', translate('App::Property', 'Length of the tip of the fin')).TipChord = 30.48
         if not hasattr(obj,"TipThickness"):
             obj.addProperty('App::PropertyLength', 'TipThickness', 'Fin', translate('App::Property', 'Fin tip thickness')).TipThickness = 1.4
+        if not hasattr(obj,"TipSameThickness"):
+            obj.addProperty('App::PropertyBool', 'TipSameThickness', 'Fin', translate('App::Property', 'Fin tip thickness is the same as the root thickness')).TipSameThickness = True
         if not hasattr(obj,"TipPerCent"):
             obj.addProperty('App::PropertyBool', 'TipPerCent', 'Fin', translate('App::Property', 'Tip chord lengths are percentages')).TipPerCent = True
-        if not hasattr(obj,"TipThickness"):
-            obj.addProperty('App::PropertyLength', 'TipThickness', 'Fin', translate('App::Property', 'Fin tip thickness')).TipThickness = 2.0
         if not hasattr(obj,"TipLength1"):
             obj.addProperty('App::PropertyLength', 'TipLength1', 'Fin', translate('App::Property', 'Tip chord length 1')).TipLength1 = 20.0
         if not hasattr(obj,"TipLength2"):
@@ -115,6 +117,8 @@ class FeatureFin(RocketComponent):
             obj.addProperty('App::PropertyLength', 'TtwLength', 'Fin', translate('App::Property', 'TTW Length')).TtwLength = 6.0
         if not hasattr(obj,"TtwHeight"):
             obj.addProperty('App::PropertyLength', 'TtwHeight', 'Fin', translate('App::Property', 'TTW Height')).TtwHeight = 10.0
+        if not hasattr(obj,"TtwAutoHeight"):
+            obj.addProperty('App::PropertyBool', 'TtwAutoHeight', 'Fin', translate('App::Property', 'Automatically set the TTW Height')).TtwAutoHeight = True
         if not hasattr(obj,"TtwThickness"):
             obj.addProperty('App::PropertyLength', 'TtwThickness', 'Fin', translate('App::Property', 'TTW thickness')).TtwThickness = 1.0
 
@@ -185,6 +189,10 @@ class FeatureFin(RocketComponent):
 
         # Ensure any automatic variables are set
         self.setParentDiameter()
+        self._setTtwAutoHeight()
+
+    def isAfter(self):
+        return False
 
     # def setParentRadius(self, parentRadius):
     #     if self._obj.AutoInnerDiameter and self._obj.ParentRadius != parentRadius:
@@ -200,6 +208,28 @@ class FeatureFin(RocketComponent):
                 self._obj.ParentRadius = parent.getOuterDiameter() / 2.0
             else:
                 self._obj.ParentRadius = SymmetricComponent.DEFAULT_RADIUS
+        
+    def _setTtwAutoHeight(self, pos=0):
+        if self._obj.TtwAutoHeight:
+            centerDiameter = 0
+            # Component can be parentless if detached from rocket
+            if self.getParent() is not None:
+                for sibling in self.getParent().getChildren():
+                    # Only InnerTubes are considered when determining the automatic
+                    # inner radius (for now).
+                    if not isinstance(sibling.Proxy, FeatureInnerTube): # Excludes itself
+                        continue
+
+                    pos1 = self.toRelative(NUL, sibling.Proxy)[0]._x
+                    pos2 = self.toRelative(Coordinate(self.getLength()), sibling.Proxy)[0]._x
+                    if pos2 < 0 or pos1 > sibling.Proxy.getLength():
+                        continue
+
+                    centerDiameter = max(centerDiameter, float(sibling.Proxy.getOuterDiameter()))
+
+                centerDiameter = min(centerDiameter, 2.0 * float(self._obj.ParentRadius))
+
+                self._obj.TtwHeight = float(self._obj.ParentRadius) - (centerDiameter / 2.0)
 
     def getForeRadius(self):
         # For placing objects on the outer part of the parent
