@@ -1040,7 +1040,7 @@ class TaskPanelFin(QObject):
         self.setEdited()
 
     def onLocation(self):
-        self._obj.Proxy.reposition()
+        self._obj.Proxy.updateChildren()
         self.redraw()
         self.setEdited()
 

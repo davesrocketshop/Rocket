@@ -468,7 +468,7 @@ class TaskPanelRailButton:
         self.setEdited()
     
     def onLocation(self):
-        self._obj.Proxy.reposition()
+        self._obj.Proxy.updateChildren()
         self._obj.Proxy.execute(self._obj) 
         self.setEdited()
         
