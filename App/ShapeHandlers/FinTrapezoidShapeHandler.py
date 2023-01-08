@@ -54,7 +54,10 @@ class FinTrapezoidShapeHandler(FinShapeHandler):
             tipLength2 = float(self._obj.TipLength2)
         else:
             tipLength2 = float(self._obj.TipChord) - float(self._obj.TipLength2)
-        return self._makeChordProfile(crossSection, float(self._obj.RootChord - self._obj.SweepLength), float(self._obj.TipChord), float(self._obj.TipThickness), float(self._obj.Height), self._obj.TipPerCent, float(self._obj.TipLength1), tipLength2)
+        tipThickness = float(self._obj.TipThickness)
+        if self._obj.TipSameThickness:
+            tipThickness = float(self._obj.RootThickness)
+        return self._makeChordProfile(crossSection, float(self._obj.RootChord - self._obj.SweepLength), float(self._obj.TipChord), tipThickness, float(self._obj.Height), self._obj.TipPerCent, float(self._obj.TipLength1), tipLength2)
 
     def isValidShape(self):
         # Add error checking here

@@ -163,6 +163,9 @@ class _FinDialog(QDialog):
         self.tipThicknessInput.unit = 'mm'
         self.tipThicknessInput.setMinimumWidth(100)
 
+        self.tipSameThicknessCheckbox = QtGui.QCheckBox(translate('Rocket', "Tip thickness same as root"), self)
+        self.tipSameThicknessCheckbox.setCheckState(QtCore.Qt.Unchecked)
+
         self.tipPerCentLabel = QtGui.QLabel(translate('Rocket', "Use percentage"), self)
 
         self.tipPerCentCheckbox = QtGui.QCheckBox(self)
@@ -197,12 +200,6 @@ class _FinDialog(QDialog):
 
         self.tubeAutoOuterDiameterCheckbox = QtGui.QCheckBox(translate('Rocket', "auto"), self)
         self.tubeAutoOuterDiameterCheckbox.setCheckState(QtCore.Qt.Checked)
-
-        # self.tubeInnerDiameterLabel = QtGui.QLabel(translate('Rocket', "Inner Diameter"), self)
-
-        # self.tubeInnerDiameterInput = ui.createWidget("Gui::InputField")
-        # self.tubeInnerDiameterInput.unit = 'mm'
-        # self.tubeInnerDiameterInput.setMinimumWidth(100)
 
         self.tubeThicknessLabel = QtGui.QLabel(translate('Rocket', "Wall Thickness"), self)
 
@@ -286,6 +283,9 @@ class _FinDialog(QDialog):
 
         grid.addWidget(self.tipThicknessLabel, row, 0)
         grid.addWidget(self.tipThicknessInput, row, 1)
+        row += 1
+
+        grid.addWidget(self.tipSameThicknessCheckbox, row, 1)
         row += 1
 
         grid.addWidget(self.tipPerCentLabel, row, 0)
@@ -378,6 +378,9 @@ class _FinDialog(QDialog):
         self.ttwHeightInput.unit = 'mm'
         self.ttwHeightInput.setMinimumWidth(100)
 
+        self.ttwAutoHeightCheckbox = QtGui.QCheckBox(translate('Rocket', "auto"), self)
+        self.ttwAutoHeightCheckbox.setCheckState(QtCore.Qt.Unchecked)
+
         self.ttwThicknessLabel = QtGui.QLabel(translate('Rocket', "Thickness"), self)
 
         self.ttwThicknessInput = ui.createWidget("Gui::InputField")
@@ -397,6 +400,7 @@ class _FinDialog(QDialog):
 
         grid.addWidget(self.ttwHeightLabel, row, 0)
         grid.addWidget(self.ttwHeightInput, row, 1)
+        grid.addWidget(self.ttwAutoHeightCheckbox, row, 3)
         row += 1
 
         grid.addWidget(self.ttwThicknessLabel, row, 0)
@@ -444,6 +448,7 @@ class TaskPanelFin(QObject):
         self._finForm.tipCrossSectionsCombo.currentTextChanged.connect(self.onTipCrossSection)
         self._finForm.tipChordInput.textEdited.connect(self.onTipChord)
         self._finForm.tipThicknessInput.textEdited.connect(self.onTipThickness)
+        self._finForm.tipSameThicknessCheckbox.stateChanged.connect(self.onTipSameThickness)
         self._finForm.tipPerCentCheckbox.clicked.connect(self.onTipPerCent)
         self._finForm.tipLength1Input.textEdited.connect(self.onTipLength1)
         self._finForm.tipLength2Input.textEdited.connect(self.onTipLength2)
@@ -451,7 +456,6 @@ class TaskPanelFin(QObject):
         self._finForm.tubeLengthInput.textEdited.connect(self.onTubeLength)
         self._finForm.tubeOuterDiameterInput.textEdited.connect(self.onTubeOuterDiameter)
         self._finForm.tubeAutoOuterDiameterCheckbox.stateChanged.connect(self.onTubeAutoOuterDiameter)
-        # self._finForm.tubeInnerDiameterInput.textEdited.connect(self.onTubeInnerDiameter)
         self._finForm.tubeThicknessInput.textEdited.connect(self.onTubeThickness)
 
         self._finForm.heightInput.textEdited.connect(self.onHeight)
@@ -462,6 +466,7 @@ class TaskPanelFin(QObject):
         self._finForm.ttwOffsetInput.textEdited.connect(self.onTTWOffset)
         self._finForm.ttwLengthInput.textEdited.connect(self.onTTWLength)
         self._finForm.ttwHeightInput.textEdited.connect(self.onTTWHeight)
+        self._finForm.ttwAutoHeightCheckbox.stateChanged.connect(self.onTTWAutoHeight)
         self._finForm.ttwThicknessInput.textEdited.connect(self.onTTWThickness)
 
         self._location.locationChange.connect(self.onLocation)
@@ -494,6 +499,7 @@ class TaskPanelFin(QObject):
         self._obj.TipCrossSection = str(self._finForm.tipCrossSectionsCombo.currentText())
         self._obj.TipChord = self._finForm.tipChordInput.text()
         self._obj.TipThickness = self._finForm.tipThicknessInput.text()
+        self._obj.TipSameThickness = self._finForm.tipSameThicknessCheckbox.isChecked()
         self._obj.TipPerCent = self._finForm.tipPerCentCheckbox.isChecked()
         self._obj.TipLength1 = self._finForm.tipLength1Input.text()
         self._obj.TipLength2 =self._finForm.tipLength2Input.text()
@@ -512,6 +518,7 @@ class TaskPanelFin(QObject):
         self._obj.TtwOffset = self._finForm.ttwOffsetInput.text()
         self._obj.TtwLength = self._finForm.ttwLengthInput.text()
         self._obj.TtwHeight = self._finForm.ttwHeightInput.text()
+        self._obj.TtwAutoHeight = self._finForm.ttwAutoHeightCheckbox.isChecked()
         self._obj.TtwThickness = self._finForm.ttwThicknessInput.text()
 
     def transferFrom(self):
@@ -532,6 +539,7 @@ class TaskPanelFin(QObject):
         self._finForm.tipCrossSectionsCombo.setCurrentText(self._obj.TipCrossSection)
         self._finForm.tipChordInput.setText(self._obj.TipChord.UserString)
         self._finForm.tipThicknessInput.setText(self._obj.TipThickness.UserString)
+        self._finForm.tipSameThicknessCheckbox.setChecked(self._obj.TipSameThickness)
         self._finForm.tipPerCentCheckbox.setChecked(self._obj.TipPerCent)
         self._finForm.tipLength1Input.setText(self._obj.TipLength1.UserString)
         self._finForm.tipLength2Input.setText(self._obj.TipLength2.UserString)
@@ -549,6 +557,7 @@ class TaskPanelFin(QObject):
         self._finForm.ttwOffsetInput.setText(self._obj.TtwOffset.UserString)
         self._finForm.ttwLengthInput.setText(self._obj.TtwLength.UserString)
         self._finForm.ttwHeightInput.setText(self._obj.TtwHeight.UserString)
+        self._finForm.ttwAutoHeightCheckbox.setChecked(self._obj.TtwAutoHeight)
         self._finForm.ttwThicknessInput.setText(self._obj.TtwThickness.UserString)
 
         self._setFinSetState()
@@ -590,6 +599,7 @@ class TaskPanelFin(QObject):
 
         self._finForm.finCountSpinBox.setEnabled(checked)
         self._finForm.finSpacingInput.setEnabled(checked)
+        self._finForm.tipThicknessInput.setEnabled(not self._obj.TipSameThickness)
 
     def onFinSet(self, value):
         self._obj.FinSet = self._finForm.finSetGroup.isChecked()
@@ -872,6 +882,15 @@ class TaskPanelFin(QObject):
         except ValueError:
             pass
         self.setEdited()
+        
+    def onTipSameThickness(self, value):
+        try:
+            self._obj.TipSameThickness = value
+            self.redraw()
+            self._setFinSetState()
+        except ValueError:
+            pass
+        self.setEdited()
 
     def _enableTipPercent(self):
         if self._obj.TipPerCent:
@@ -999,7 +1018,11 @@ class TaskPanelFin(QObject):
     def _setTtwState(self):
         self._finForm.ttwOffsetInput.setEnabled(self._obj.Ttw)
         self._finForm.ttwLengthInput.setEnabled(self._obj.Ttw)
-        self._finForm.ttwHeightInput.setEnabled(self._obj.Ttw)
+        if not self._isAssembly:
+            self._obj.TtwAutoHeight = False
+        self._finForm.ttwAutoHeightCheckbox.setChecked(self._obj.TtwAutoHeight)
+        self._finForm.ttwAutoHeightCheckbox.setEnabled(self._isAssembly)
+        self._finForm.ttwHeightInput.setEnabled(self._obj.Ttw and not self._obj.TtwAutoHeight)
         self._finForm.ttwThicknessInput.setEnabled(self._obj.Ttw)
         
     def onTtw(self, value):
@@ -1029,6 +1052,15 @@ class TaskPanelFin(QObject):
         try:
             self._obj.TtwHeight = FreeCAD.Units.Quantity(value).Value
             self.redraw()
+        except ValueError:
+            pass
+        self.setEdited()
+        
+    def onTTWAutoHeight(self, value):
+        try:
+            self._obj.TtwAutoHeight = value
+            self.redraw()
+            self._setTtwState()
         except ValueError:
             pass
         self.setEdited()
