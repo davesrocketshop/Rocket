@@ -713,6 +713,14 @@ class TaskPanelFin(QObject):
         self._finForm.tipGroup.setHidden(True)
         self._finForm.tubeGroup.setHidden(False)
 
+        if self._isAssembly:
+            self._finForm.tubeAutoOuterDiameterCheckbox.setHidden(False)
+        else:
+            self._finForm.tubeAutoOuterDiameterCheckbox.setHidden(True)
+            self._obj.TubeAutoOuterDiameter = False
+        self._finForm.tubeAutoOuterDiameterCheckbox.setChecked(self._obj.TubeAutoOuterDiameter)
+        self._finForm.tubeOuterDiameterInput.setEnabled(not self._obj.TubeAutoOuterDiameter)
+
     def _enableFinTypeSketch(self):
         self._finForm.tabWidget.setTabEnabled(1, True) # Fin tabs is index 1
 
@@ -951,7 +959,12 @@ class TaskPanelFin(QObject):
 
     def onTubeAutoOuterDiameter(self, value):
         self._obj.TubeAutoOuterDiameter = value
-        # self._setAutoDiameterState()
+        self._finForm.tubeOuterDiameterInput.setEnabled(not self._obj.TubeAutoOuterDiameter)
+
+        # Set automatic sizing
+        if self._obj.TubeAutoOuterDiameter:
+            self._obj.Proxy.getTubeOuterDiameter() 
+            self._finForm.tubeOuterDiameterInput.setText(self._obj.TubeOuterDiameter.UserString)
 
         self.redraw()
         self.setEdited()
