@@ -54,7 +54,7 @@ class LaunchLugElement(ExternalComponentElement):
         elif tag == "instanceseparation":
             self.onInstanceSeparation(FreeCAD.Units.Quantity(content + " m").Value)
         elif tag == "radialdirection":
-            pass
+            self.onAngleOffset(FreeCAD.Units.Quantity(content + " deg").Value)
         elif tag == "angleoffset":
             self.onAngleOffset(FreeCAD.Units.Quantity(content + " deg").Value)
         elif _tag == "radius" or _tag == "outerradius":
