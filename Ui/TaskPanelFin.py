@@ -601,6 +601,8 @@ class TaskPanelFin(QObject):
         self._obj.FinCount = value
         self._obj.FinSpacing = 360.0 / float(value)
         self._finForm.finSpacingInput.setText(self._obj.FinSpacing.UserString)
+        self._obj.Proxy.getTubeOuterDiameter() # Set automatic sizing
+        self._finForm.tubeOuterDiameterInput.setText(self._obj.TubeOuterDiameter.UserString)
         self.redraw()
         self.setEdited()
         

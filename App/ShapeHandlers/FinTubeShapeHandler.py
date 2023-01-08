@@ -54,6 +54,17 @@ class FinTubeShapeHandler(FinShapeHandler):
         #
         # This can be used to determine characteristics such as mass, cg, and volume
         radius = self._obj.TubeOuterDiameter / 2.0
-        outer = Part.makeCylinder(radius, self._obj.RootChord, FreeCAD.Vector(0,radius,0), FreeCAD.Vector(1,0,0))
-        inner = Part.makeCylinder(radius - self._obj.TubeThickness, self._obj.RootChord, FreeCAD.Vector(0,radius,0), FreeCAD.Vector(1,0,0))
+        outer = Part.makeCylinder(radius, self._obj.RootChord, FreeCAD.Vector(0,0,0), FreeCAD.Vector(1,0,0))
+        inner = Part.makeCylinder(radius - self._obj.TubeThickness, self._obj.RootChord, FreeCAD.Vector(0,0,0), FreeCAD.Vector(1,0,0))
         return outer.cut(inner)
+
+    def _drawFinSet(self):
+        fins = []
+        base = self._drawSingleFin()
+        for i in range(self._obj.FinCount):
+            fin = Part.Shape(base) # Create a copy
+            fin.translate(FreeCAD.Vector(0,0,float(self._obj.ParentRadius) + float(self._obj.TubeOuterDiameter / 2.0)))
+            fin.rotate(FreeCAD.Vector(0, 0, 0), FreeCAD.Vector(1,0,0), i * float(self._obj.FinSpacing))
+            fins.append(fin)
+
+        return Part.makeCompound(fins)

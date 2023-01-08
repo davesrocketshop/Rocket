@@ -27,6 +27,8 @@ __url__ = "https://www.davesrocketshop.com"
 import FreeCAD
 import math
 
+from App.events.ComponentChangeEvent import ComponentChangeEvent
+
 from App.RocketComponent import RocketComponent
 from App.SymmetricComponent import SymmetricComponent
 from App.util.Coordinate import Coordinate
@@ -128,7 +130,7 @@ class FeatureFin(RocketComponent):
         if not hasattr(obj,"TubeOuterDiameter"):
             obj.addProperty('App::PropertyLength', 'TubeOuterDiameter', 'Fin', translate('App::Property', 'Tube fin outer diameter')).TubeOuterDiameter = 30.0
         if not hasattr(obj,"TubeAutoOuterDiameter"):
-            obj.addProperty('App::PropertyBool', 'TubeAutoOuterDiameter', 'Fin', translate('App::Property', 'Tube fin auto outer diameter')).TubeAutoOuterDiameter = False
+            obj.addProperty('App::PropertyBool', 'TubeAutoOuterDiameter', 'Fin', translate('App::Property', 'Tube fin auto outer diameter')).TubeAutoOuterDiameter = True
         if not hasattr(obj,"TubeThickness"):
             obj.addProperty('App::PropertyLength', 'TubeThickness', 'Fin', translate('App::Property', 'Tube fin thickness')).TubeThickness = 1.0
 
@@ -185,6 +187,7 @@ class FeatureFin(RocketComponent):
 
         # Ensure any automatic variables are set
         self.setParentDiameter()
+        self.getTubeOuterDiameter()
 
     # def setParentRadius(self, parentRadius):
     #     if self._obj.AutoInnerDiameter and self._obj.ParentRadius != parentRadius:
@@ -361,3 +364,79 @@ class FeatureFin(RocketComponent):
         
         return list
 
+    def isTubeOuterRadiusAutomatic(self):
+        return self._obj.TubeAutoOuterDiameter
+
+    """
+        Return the outer radius of the tube-fin
+    """
+    def getTubeOuterRadius(self):
+        return (float(self.getTubeOuterDiameter()) / 2.0)
+
+    def getTubeOuterDiameter(self):
+        if self._obj.TubeAutoOuterDiameter:
+            if self._obj.FinCount < 3:
+                self._obj.TubeOuterDiameter = 2.0 * float(self._obj.ParentRadius)
+            else:
+                self._obj.TubeOuterDiameter = 2.0 * self.getTouchingRadius()
+
+        return float(self._obj.TubeOuterDiameter)
+
+    """
+         Return distance between tubes.
+    """
+    def getTubeSeparation(self):
+        return 2.0 * (self.getTouchingRadius() - self.getTubeOuterRadius())
+
+    """
+        Return the required radius for the fins to be touching
+    """
+    def getTouchingRadius(self):
+        r = self._obj.ParentRadius
+        finSep = math.pi / self._obj.FinCount
+        
+        r *= math.sin(finSep)/(1.0 - math.sin(finSep))
+        
+        return r
+
+    """
+        Set the outer radius of the tube-fin.  If the radius is less than the wall thickness,
+        the wall thickness is decreased accordingly of the value of the radius.
+        This method sets the automatic radius off.
+    """
+    def setTubeOuterRadius(self, radius):
+        self.setTubeOuterDiameter(2.0 * radius)
+
+    def setTubeOuterDiameter(self, radius):
+        for listener in self._configListeners:
+            if isinstance(listener, FeatureFin):
+                listener.setTubeOuterDiameter(radius)
+
+        if self._obj.TubeOuterDiameter == radius and not self._obj.TubeAutoOuterDiameter:
+            return
+        
+        self._obj.TubeAutoOuterDiameter = False
+        self._obj.TubeOuterDiameter = max(radius, 0)
+        
+        if self._obj.TubeThickness > (self._obj.TubeOuterDiameter / 2.0):
+            self._obj.TubeThickness = (self._obj.TubeOuterDiameter / 2.0)
+        self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
+        self.clearPreset()
+
+    """
+        Sets whether the radius is selected automatically or not.
+    """
+    def setTubeOuterRadiusAutomatic(self, auto):
+        self.setTubeOuterDiameterAutomatic(auto)
+
+    def setTubeOuterDiameterAutomatic(self, auto):
+        for listener in self._configListeners:
+            if isinstance(listener, FeatureFin):
+                listener.setTubeOuterDiameterAutomatic(auto)
+
+        if self._obj.TubeAutoOuterDiameter == auto:
+            return
+        
+        self._obj.TubeAutoOuterDiameter = auto
+        self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
+        self.clearPreset()
