@@ -418,6 +418,7 @@ class TaskPanelFin(QObject):
         super().__init__()
 
         self._obj = obj
+        self._isAssembly = self._obj.Proxy.isRocketAssembly()
         
         self._finForm = _FinDialog(self._obj.FinType == FIN_TYPE_SKETCH)
 
@@ -577,7 +578,15 @@ class TaskPanelFin(QObject):
         self.setEdited()
        
     def _setFinSetState(self):
-        checked = self._finForm.finSetGroup.isChecked()
+        if self._isAssembly:
+            checked = self._finForm.finSetGroup.isChecked()
+            self._finForm.finSetGroup.setEnabled(True)
+        else:
+            if self._obj.FinSet:
+                self._obj.FinSet = False
+                self._finForm.finSetGroup.setChecked(self._obj.FinSet)
+            checked = False
+            self._finForm.finSetGroup.setEnabled(False)
 
         self._finForm.finCountSpinBox.setEnabled(checked)
         self._finForm.finSpacingInput.setEnabled(checked)
@@ -612,6 +621,8 @@ class TaskPanelFin(QObject):
 
 
     def _enableFinTypeTrapezoid(self):
+        self._finForm.tabWidget.setTabEnabled(1, True) # Fin tabs is index 1
+
         self._finForm.rootChordInput.setText(self._obj.RootChord.UserString)
 
         old = self._obj.RootCrossSection # This must be saved and restored
@@ -641,6 +652,8 @@ class TaskPanelFin(QObject):
         self._enableTipLengths()
 
     def _enableFinTypeEllipse(self):
+        self._finForm.tabWidget.setTabEnabled(1, True) # Fin tabs is index 1
+
         self._finForm.rootChordInput.setText(self._obj.RootChord.UserString)
 
         old = self._obj.RootCrossSection # This must be saved and restored
@@ -670,6 +683,10 @@ class TaskPanelFin(QObject):
         self._finForm.tubeGroup.setHidden(True)
 
     def _enableFinTypeTube(self):
+        self._finForm.tabWidget.setTabEnabled(1, False) # Fin tabs is index 1
+        self._obj.Ttw = False
+        self._finForm.ttwGroup.setChecked(self._obj.Ttw)
+
         self._finForm.tubeLengthInput.setText(self._obj.RootChord.UserString)
 
         self._finForm.heightLabel.setHidden(True)
@@ -685,6 +702,8 @@ class TaskPanelFin(QObject):
         self._finForm.tubeGroup.setHidden(False)
 
     def _enableFinTypeSketch(self):
+        self._finForm.tabWidget.setTabEnabled(1, True) # Fin tabs is index 1
+
         old = self._obj.RootCrossSection # This must be saved and restored
         self._finForm.rootCrossSectionsCombo.clear()
         self._finForm.rootCrossSectionsCombo.addItems(self._finForm.rootCrossSections)

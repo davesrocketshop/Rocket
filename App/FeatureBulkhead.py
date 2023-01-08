@@ -37,10 +37,6 @@ class FeatureBulkhead(RadiusRingComponent):
         super().__init__(obj)
         self.Type = FEATURE_BULKHEAD
 
-        # if not hasattr(obj, 'Diameter'):
-        #     obj.addProperty('App::PropertyLength', 'Diameter', 'Bulkhead', translate('App::Property', 'Outer diameter of the bulkhead')).Diameter = 25.0
-        # if not hasattr(obj, 'AutoDiameter'):
-        #     obj.addProperty('App::PropertyBool', 'AutoDiameter', 'Bulkhead', translate('App::Property', 'Automatically set the outer diameter when possible')).AutoDiameter = False
         if not hasattr(obj, 'Thickness'):
             obj.addProperty('App::PropertyLength', 'Thickness', 'Bulkhead', translate('App::Property', 'Thickness of the bulkhead without any inner step')).Thickness = 2.0
 
@@ -64,6 +60,10 @@ class FeatureBulkhead(RadiusRingComponent):
 
         if not hasattr(obj, 'Shape'):
             obj.addProperty('Part::PropertyPartShape', 'Shape', 'Bulkhead', translate('App::Property', 'Shape of the bulkhead'))
+
+        # Default values
+        self.setOuterDiameterAutomatic(True)
+        self._obj.Diameter = 25.0
 
     def getLength(self):
         # Return the length of this component along the central axis

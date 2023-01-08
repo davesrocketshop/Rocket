@@ -63,6 +63,9 @@ class FeatureInnerTube(Clusterable, ThicknessRingComponent, AxialPositionable, B
         if not hasattr(obj,"Shape"):
             obj.addProperty('Part::PropertyPartShape', 'Shape', 'Rocket', translate('App::Property', 'Shape of the body tube'))
 
+        # Default values
+        self._obj.Length = 70.0
+
     def onDocumentRestored(self, obj):
         super().onDocumentRestored(obj)
 

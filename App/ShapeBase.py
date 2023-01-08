@@ -196,7 +196,7 @@ class ShapeBase():
         # For placing objects on the outer part of the parent
         return self.getForeRadius()
 
-    def getRadius(self):
+    def getRadius(self, pos=0):
         return self.getForeRadius()
 
     def setRadius(self):

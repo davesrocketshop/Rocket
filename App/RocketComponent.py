@@ -125,6 +125,16 @@ class RocketComponent(ShapeBase, ChangeSource):
         # obj.Proxy=self
         # self.version = '3.0'
 
+    def isRocketAssembly(self):
+        parent = self.getParent()
+        while parent is not None:
+            if parent.Type == FEATURE_ROCKET:
+                return True
+
+            parent = parent.getParent()
+
+        return False
+
     def getComponentName(self):
         return self._obj.Label
 

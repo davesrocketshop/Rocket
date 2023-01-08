@@ -34,7 +34,7 @@ from Ui.Commands.CmdParallelStage import CmdParallelStage, CmdToggleParallelStag
 from Ui.Commands.CmdNoseCone import CmdNoseCone
 from Ui.Commands.CmdTransition import CmdTransition
 from Ui.Commands.CmdCenteringRing import CmdCenteringRing
-from Ui.Commands.CmdBodyTube import CmdBodyTube, CmdCoupler, CmdInnerTube
+from Ui.Commands.CmdBodyTube import CmdBodyTube, CmdCoupler, CmdInnerTube, CmdEngineBlock
 from Ui.Commands.CmdPod import CmdPod
 from Ui.Commands.CmdBulkhead import CmdBulkhead
 from Ui.Commands.CmdLaunchGuides import CmdLaunchLug, CmdRailButton, CmdRailGuide, CmdStandOff
@@ -80,6 +80,7 @@ FreeCADGui.addCommand('Rocket_FinCan', CmdFinCan())
 FreeCADGui.addCommand('Rocket_BodyTube', CmdBodyTube())
 FreeCADGui.addCommand('Rocket_Coupler', CmdCoupler())
 FreeCADGui.addCommand('Rocket_InnerTube', CmdInnerTube())
+FreeCADGui.addCommand('Rocket_EngineBlock', CmdEngineBlock())
 
 FreeCADGui.addCommand('Rocket_Pod', CmdPod())
 

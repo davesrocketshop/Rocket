@@ -127,6 +127,8 @@ class TaskPanelBodyTube:
 
     def __init__(self,obj,mode):
         self._obj = obj
+        self._isAssembly = self._obj.Proxy.isRocketAssembly()
+        self._motorMount = hasattr(self._obj, "MotorMount")
         
         self._btForm = _BodyTubeDialog()
         if self._obj.Proxy.Type == FEATURE_LAUNCH_LUG:
@@ -147,8 +149,9 @@ class TaskPanelBodyTube:
         self._btForm.thicknessInput.textEdited.connect(self.onThickness)
         self._btForm.lengthInput.textEdited.connect(self.onLength)
 
-        self._btForm.motorGroup.toggled.connect(self.onMotor)
-        self._btForm.overhangInput.textEdited.connect(self.onOverhang)
+        if self._motorMount:
+            self._btForm.motorGroup.toggled.connect(self.onMotor)
+            self._btForm.overhangInput.textEdited.connect(self.onOverhang)
 
         self._db.dbLoad.connect(self.onLookup)
         self._location.locationChange.connect(self.onLocation)
@@ -165,8 +168,9 @@ class TaskPanelBodyTube:
         self._obj.Proxy.setOuterDiameterAutomatic(self._btForm.autoDiameterCheckbox.isChecked())
         self._obj.Proxy.setThickness(FreeCAD.Units.Quantity(self._btForm.thicknessInput.text()).Value)
         self._obj.Proxy.setLength(FreeCAD.Units.Quantity(self._btForm.lengthInput.text()).Value)
-        self._obj.MotorMount = self._btForm.motorGroup.isChecked()
-        self._obj.Overhang = self._btForm.overhangInput.text()
+        if self._motorMount:
+            self._obj.MotorMount = self._btForm.motorGroup.isChecked()
+            self._obj.Overhang = self._btForm.overhangInput.text()
 
     def transferFrom(self):
         "Transfer from the object to the dialog"
@@ -175,8 +179,9 @@ class TaskPanelBodyTube:
         self._btForm.idInput.setText("0.0")
         self._btForm.thicknessInput.setText(self._obj.Thickness.UserString)
         self._btForm.lengthInput.setText(self._obj.Length.UserString)
-        self._btForm.motorGroup.setChecked(self._obj.MotorMount)
-        self._btForm.overhangInput.setText(self._obj.Overhang.UserString)
+        if self._motorMount:
+            self._btForm.motorGroup.setChecked(self._obj.MotorMount)
+            self._btForm.overhangInput.setText(self._obj.Overhang.UserString)
 
         self._setAutoDiameterState()
         self._setIdFromThickness()
@@ -199,11 +204,18 @@ class TaskPanelBodyTube:
         self.setEdited()
         
     def _setAutoDiameterState(self):
-        self._btForm.odInput.setEnabled(not self._obj.AutoDiameter)
-        self._btForm.autoDiameterCheckbox.setChecked(self._obj.AutoDiameter)
+        if self._isAssembly:
+            self._btForm.odInput.setEnabled(not self._obj.AutoDiameter)
+            self._btForm.autoDiameterCheckbox.setChecked(self._obj.AutoDiameter)
+            self._btForm.autoDiameterCheckbox.setEnabled(True)
+        else:
+            self._btForm.odInput.setEnabled(True)
+            self._obj.AutoDiameter = False
+            self._btForm.autoDiameterCheckbox.setChecked(self._obj.AutoDiameter)
+            self._btForm.autoDiameterCheckbox.setEnabled(False)
 
         if self._obj.AutoDiameter:
-            self._obj.OuterDiameter = 2.0 * self._obj.Proxy.getRadius(0)
+            self._obj.OuterDiameter = self._obj.Proxy.getOuterDiameter()
             self._btForm.odInput.setText(self._obj.OuterDiameter.UserString)
 
     def onAutoDiameter(self, value):
@@ -259,12 +271,19 @@ class TaskPanelBodyTube:
         self.setEdited()
         
     def _setMotorState(self):
-        if self._obj.Proxy.Type == FEATURE_LAUNCH_LUG:
+        if not self._motorMount: #self._obj.Proxy.Type == FEATURE_LAUNCH_LUG:
             self._btForm.overhangInput.setHidden(True)
             self._btForm.motorGroup.setHidden(True)
         else:
-            self._btForm.overhangInput.setEnabled(self._obj.MotorMount)
-            self._btForm.motorGroup.setChecked(self._obj.MotorMount)
+            if self._isAssembly:
+                self._btForm.motorGroup.setEnabled(True)
+                self._btForm.overhangInput.setEnabled(self._obj.MotorMount)
+                self._btForm.motorGroup.setChecked(self._obj.MotorMount)
+            else:
+                self._obj.MotorMount = False
+                self._btForm.motorGroup.setEnabled(False)
+                self._btForm.overhangInput.setEnabled(self._obj.MotorMount)
+                self._btForm.motorGroup.setChecked(self._obj.MotorMount)
 
     def onMotor(self, value):
         self._obj.MotorMount = value

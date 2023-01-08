@@ -40,12 +40,16 @@ from DraftTools import translate
 def addToStage(obj):
     if FreeCADGui.ActiveDocument is None:
         return
-    sel = FreeCADGui.Selection.getSelection()
-    if sel:
-        if hasattr(obj, '_obj'):
-            sel[0].Proxy.addChild(obj._obj)
-        else:
-            sel[0].Proxy.addChild(obj)
+
+    # Only add when there's an active rocket assembly
+    rocket = FreeCADGui.ActiveDocument.ActiveView.getActiveObject("rocket")
+    if rocket is not None:
+        sel = FreeCADGui.Selection.getSelection()
+        if sel:
+            if hasattr(obj, '_obj'):
+                sel[0].Proxy.addChild(obj._obj)
+            else:
+                sel[0].Proxy.addChild(obj)
 
 def makeStage(name='Stage'):
     obj = FreeCAD.ActiveDocument.addObject("App::GeometryPython",name)

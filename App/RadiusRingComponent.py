@@ -43,8 +43,8 @@ class RadiusRingComponent(RingComponent, LineInstanceable):
 
         if not hasattr(obj, 'Diameter'):
             obj.addProperty('App::PropertyLength', 'Diameter', 'Bulkhead', translate('App::Property', 'Outer diameter of the object')).Diameter = 25.0
-        if not hasattr(obj, 'AutoDiameter'):
-            obj.addProperty('App::PropertyBool', 'AutoDiameter', 'Bulkhead', translate('App::Property', 'Automatically set the outer diameter when possible')).AutoDiameter = False
+        # if not hasattr(obj, 'AutoDiameter'):
+        #     obj.addProperty('App::PropertyBool', 'AutoDiameter', 'Bulkhead', translate('App::Property', 'Automatically set the outer diameter when possible')).AutoDiameter = False
         if not hasattr(obj, 'CenterDiameter'):
             obj.addProperty('App::PropertyLength', 'CenterDiameter', 'Bulkhead', translate('App::Property', 'Diameter of the central hole')).CenterDiameter = 10.0
 
@@ -73,22 +73,25 @@ class RadiusRingComponent(RingComponent, LineInstanceable):
         return float(self._obj.Diameter)
 
     def setOuterRadius(self, r):
-        r = max(r,0)
+        self.setOuterDiameter(r * 2.0)
+
+    def setOuterDiameter(self, d):
+        d = max(d,0)
 
         for listener in self._configListeners:
             if isinstance(listener, RadiusRingComponent):
-                listener.setOuterRadius(r)
+                listener.setOuterDiameter(d)
 
-        if self._obj.Diameter == (2.0 * r) and not self._obj.AutoDiameter:
+        if self._obj.Diameter == d and not self._obj.AutoDiameter:
             return
 
-        self._obj.Diameter = 2.0 * r
+        self._obj.Diameter = d
         self._obj.AutoDiameter = False
-        if self.getInnerRadius() > r:
-            self._obj.CenterDiameter = 2.0 * r
+        if self.getInnerRadius() > (d / 2.0):
+            self._obj.CenterDiameter = d
             self._obj.CenterAutoDiameter = False
 
-        # self.clearPreset()
+        self.clearPreset()
         self.fireComponentChangeEvent(ComponentChangeEvent.MASS_CHANGE)
 
     def getInnerRadius(self, pos=0):
