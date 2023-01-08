@@ -312,8 +312,9 @@ class FeatureFin(RocketComponent):
         return childType in [
             FEATURE_POD, 
             FEATURE_LAUNCH_LUG, 
-            FEATURE_RAIL_BUTTON, 
-            FEATURE_RAIL_GUIDE]
+            FEATURE_RAIL_BUTTON
+            # FEATURE_RAIL_GUIDE - this doesn't make sense on a fin
+            ]
     """
         Adds bounding coordinates to the given set.  The body tube will fit within the
         convex hull of the points.

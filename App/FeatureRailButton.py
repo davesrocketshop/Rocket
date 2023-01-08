@@ -39,7 +39,7 @@ from App.util.Coordinate import Coordinate, NUL
 from App import Utilities
 from App.SymmetricComponent import SymmetricComponent
 
-from App.Constants import FEATURE_RAIL_BUTTON
+from App.Constants import FEATURE_RAIL_BUTTON, FEATURE_FIN, FEATURE_FINCAN
 from App.Constants import RAIL_BUTTON_ROUND, RAIL_BUTTON_AIRFOIL
 from App.Constants import CONTERSINK_ANGLE_60, CONTERSINK_ANGLE_82, CONTERSINK_ANGLE_90, CONTERSINK_ANGLE_100, \
                             CONTERSINK_ANGLE_110, CONTERSINK_ANGLE_120
@@ -168,10 +168,15 @@ class FeatureRailButton(ExternalComponent, AnglePositionable, BoxBounded, LineIn
         while body is not None:
             if isinstance(body, SymmetricComponent):
                 break
+            if body.Type in [FEATURE_FIN, FEATURE_FINCAN]:
+                break
             body = body.getParent()
         
         if body is None:
             parentRadius = 0
+        elif body.Type in [FEATURE_FIN, FEATURE_FINCAN]:
+            body.setParentDiameter() # Set any auto values
+            parentRadius = body.getForeRadius()
         else:
             x1 = self.toRelative(NUL, body)[0]._x
             x2 = self.toRelative(Coordinate(self._obj.Length, 0, 0), body)[0]._x

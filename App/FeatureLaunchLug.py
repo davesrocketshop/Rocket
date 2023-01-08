@@ -26,7 +26,7 @@ __url__ = "https://www.davesrocketshop.com"
 
 import math
     
-from App.Constants import FEATURE_LAUNCH_LUG
+from App.Constants import FEATURE_LAUNCH_LUG, FEATURE_FIN, FEATURE_FINCAN
 
 from App.Tube import Tube
 from App.position import AxialMethod
@@ -203,10 +203,15 @@ class FeatureLaunchLug(Tube, AnglePositionable, BoxBounded, LineInstanceable):
         while body is not None:
             if isinstance(body, SymmetricComponent):
                 break
+            if body.Type in [FEATURE_FIN, FEATURE_FINCAN]:
+                break
             body = body.getParent()
         
         if body is None:
             parentRadius = 0
+        elif body.Type in [FEATURE_FIN, FEATURE_FINCAN]:
+            body.setParentDiameter() # Set any auto values
+            parentRadius = body.getForeRadius()
         else:
             x1 = self.toRelative(NUL, body)[0]._x
             x2 = self.toRelative(Coordinate(self._obj.Length, 0, 0), body)[0]._x
