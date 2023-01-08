@@ -27,7 +27,7 @@ __url__ = "https://www.davesrocketshop.com"
 import FreeCAD
 
 from App.Importer.SaxElement import NullElement
-from App.Importer.ComponentElement import ComponentElement, BodyComponentElement
+from App.Importer.ComponentElement import BodyComponentElement
 from App.Importer.SymmetricComponentElement import SymmetricComponentElement
 import App.Importer as Importer
 
@@ -72,8 +72,7 @@ class BodyTubeElement(SymmetricComponentElement):
     def handleEndTag(self, tag, content):
         _tag = tag.lower().strip()
         if _tag == "radius" or _tag == "outerradius":
-            if str(content).lower() == "auto":
-                # self._obj.OuterDiameter = "0.0 m" - use the object default
+            if str(content).lower().startswith("auto"):
                 self._feature._obj.AutoDiameter = True 
             else:
                 diameter = float(content) * 2.0

@@ -56,8 +56,6 @@ class FeatureLaunchLug(Tube, AnglePositionable, BoxBounded, LineInstanceable):
         if not hasattr(obj,"Thickness"):
             obj.addProperty('App::PropertyLength', 'Thickness', 'LaunchLug', translate('App::Property', 'Diameter of the inside of the body tube')).Thickness = 0.25
 
-        if not hasattr(obj,"AngleOffset"):
-            obj.addProperty('App::PropertyAngle', 'AngleOffset', 'LaunchLug', translate('App::Property', 'Angle offset')).AngleOffset = 180
         if not hasattr(obj,"RadialOffset"):
             obj.addProperty('App::PropertyAngle', 'RadialOffset', 'LaunchLug', translate('App::Property', 'Radial offset')).RadialOffset = 0
         if not hasattr(obj,"InstanceCount"):
@@ -76,7 +74,10 @@ class FeatureLaunchLug(Tube, AnglePositionable, BoxBounded, LineInstanceable):
 
         # Ensure any automatic variables are set
         self._setRadialOffset()
-        self._obj.Placement.Base.y = self._obj.RadialOffset
+        location = self.getInstanceOffsets()
+
+        self._obj.Placement.Base.y = location[0]._y
+        self._obj.Placement.Base.z = location[0]._z
 
     def execute(self, obj):
         shape = LaunchLugShapeHandler(obj)
@@ -128,7 +129,6 @@ class FeatureLaunchLug(Tube, AnglePositionable, BoxBounded, LineInstanceable):
             if isinstance(listener, FeatureLaunchLug):
                 listener.setInnerDiameter(diameter)
 
-        # self.setOuterDiameter(float(diameter) + 2.0 * float(self._obj.Thickness))
         self.setThickness((float(self._obj.OuterDiameter) - float(diameter)) / 2.0)
 
     def getThickness(self):
@@ -149,12 +149,12 @@ class FeatureLaunchLug(Tube, AnglePositionable, BoxBounded, LineInstanceable):
     def getAngleOffset(self):
         return self._obj.AngleOffset
 
-    def setAngleOffset(self, newAngleRadians):
+    def setAngleOffset(self, degrees):
         for listener in self._configListeners:
             if isinstance(listener, FeatureLaunchLug):
-                listener.setAngleOffset(newAngleRadians)
+                listener.setAngleOffset(degrees)
 
-        rad = Utilities.clamp( newAngleRadians, -math.pi, math.pi)
+        rad = math.fmod(degrees, 360)
         if self._obj.AngleOffset == rad:
             return
 
@@ -178,8 +178,8 @@ class FeatureLaunchLug(Tube, AnglePositionable, BoxBounded, LineInstanceable):
     def getInstanceOffsets(self):
         toReturn = []
         
-        yOffset = math.cos(self._obj.AngleOffset) * (self._obj.RadialOffset)
-        zOffset = math.sin(self._obj.AngleOffset) * (self._obj.RadialOffset)
+        yOffset = math.sin(math.radians(-self._obj.AngleOffset)) * (self._obj.RadialOffset)
+        zOffset = math.cos(math.radians(-self._obj.AngleOffset)) * (self._obj.RadialOffset)
         
         for index in range(self.getInstanceCount()):
             toReturn.append(Coordinate(index*self._obj.InstanceSeparation, yOffset, zOffset))

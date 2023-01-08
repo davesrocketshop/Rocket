@@ -55,7 +55,7 @@ class LaunchLugElement(ExternalComponentElement):
         elif tag == "radialdirection":
             pass
         elif tag == "angleoffset":
-            pass
+            self.onAngleOffset(FreeCAD.Units.Quantity(content + " deg").Value)
         elif _tag == "radius" or _tag == "outerradius":
             radius = float(content)
             if hasattr(self._feature, "setOuterRadius"):
@@ -84,3 +84,7 @@ class LaunchLugElement(ExternalComponentElement):
     def onInstanceSeparation(self, value):
         if hasattr(self._feature._obj, "InstanceSeparation"):
             self._feature._obj.InstanceSeparation = value
+
+    def onAngleOffset(self, value):
+        if hasattr(self._feature._obj, "AngleOffset"):
+            self._feature._obj.AngleOffset = value
