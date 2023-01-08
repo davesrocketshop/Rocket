@@ -39,6 +39,7 @@ from App.Constants import LOCATION_PARENT_TOP, LOCATION_PARENT_MIDDLE, LOCATION_
 from App.Constants import LOCATION_SURFACE, LOCATION_CENTER
 
 from App.position import AxialMethod
+from App.position.AxialMethod import AXIAL_METHOD_MAP
 from App.interfaces.ChangeSource import ChangeSource
 from App.util.Coordinate import Coordinate, ZERO
 from App.events.ComponentChangeEvent import ComponentChangeEvent
@@ -67,12 +68,9 @@ class RocketComponent(ShapeBase, ChangeSource):
                         LOCATION_PARENT_TOP,
                         LOCATION_PARENT_MIDDLE,
                         LOCATION_PARENT_BOTTOM,
-                        LOCATION_AFTER,
                         LOCATION_BASE
                     ]
             obj.LocationReference = LOCATION_PARENT_BOTTOM
-        if not hasattr(obj, 'Location'):
-            obj.addProperty('App::PropertyDistance', 'Location', 'Rocket', translate('App::Property', 'Location offset from the reference')).Location = 0.0
         if not hasattr(obj, 'AngleOffset'):
             obj.addProperty('App::PropertyAngle', 'AngleOffset', 'Rocket', translate('App::Property', 'Angle of offset around the center axis')).AngleOffset = 0.0
        
@@ -369,6 +367,9 @@ class RocketComponent(ShapeBase, ChangeSource):
         # this doesn't cause any physical change-- just how it's described.
         # self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
 
+    def setLocationReference(self, reference):
+        self.setAxialMethod(AXIAL_METHOD_MAP[reference])
+
     # Fires an AERODYNAMIC_CHANGE, MASS_CHANGE or OTHER_CHANGE event depending on the
     # type of component removed.
     def fireAddRemoveEvent(self, component):
@@ -399,7 +400,7 @@ class RocketComponent(ShapeBase, ChangeSource):
             parentLength = self.getParent().getLength()
 
         if method == AxialMethod.ABSOLUTE:
-            return self.getComponentLocations()[0].x
+            return self.getComponentLocations()[0]._x
         else:
             return method.getAsOffset(self._obj.Placement.Base.x, self.getLength(), parentLength)
 

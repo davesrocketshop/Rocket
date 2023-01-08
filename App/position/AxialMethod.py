@@ -50,6 +50,9 @@ class AxialMethod(DistanceMethod):
     def getAsPosition(self, offset, innerLength, outerLength):
         return 0.0
 
+    def getMethodName(self):
+        return None
+
 class AbsoluteAxialMethod(AxialMethod):
 
     def __init__(self):
@@ -61,6 +64,9 @@ class AbsoluteAxialMethod(AxialMethod):
     def getAsPosition(self, offset, innerLength, outerLength):
         return offset
 
+    def getMethodName(self):
+        return LOCATION_BASE
+
 class AfterAxialMethod(AxialMethod):
 
     def __init__(self):
@@ -71,6 +77,9 @@ class AfterAxialMethod(AxialMethod):
 
     def getAsPosition(self, offset, innerLength, outerLength):
         return outerLength + offset
+
+    def getMethodName(self):
+        return LOCATION_AFTER
 
 
 class BottomAxialMethod(AxialMethod):
@@ -84,6 +93,9 @@ class BottomAxialMethod(AxialMethod):
     def getAsPosition(self, offset, innerLength, outerLength):
         return offset
 
+    def getMethodName(self):
+        return LOCATION_PARENT_BOTTOM
+
 class MiddleAxialMethod(AxialMethod):
 
     def __init__(self):
@@ -95,6 +107,9 @@ class MiddleAxialMethod(AxialMethod):
     def getAsPosition(self, offset, innerLength, outerLength):
         return float(offset) + (float(outerLength) - float(innerLength)) / 2
 
+    def getMethodName(self):
+        return LOCATION_PARENT_MIDDLE
+
 class TopAxialMethod(AxialMethod):
 
     def __init__(self):
@@ -105,6 +120,9 @@ class TopAxialMethod(AxialMethod):
 
     def getAsPosition(self, offset, innerLength, outerLength):
         return (float(outerLength) - float(innerLength)) + float(offset)
+
+    def getMethodName(self):
+        return LOCATION_PARENT_TOP
 
 ABSOLUTE = AbsoluteAxialMethod()
 AFTER = AfterAxialMethod()

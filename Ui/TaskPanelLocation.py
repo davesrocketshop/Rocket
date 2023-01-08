@@ -43,7 +43,7 @@ from Ui.DialogLookup import DialogLookup, userOK, userCancelled
 
 class _locationDialog(QDialog):
 
-    def __init__(self, radial, parent=None):
+    def __init__(self, radial, axial, parent=None):
         super().__init__(parent)
 
         ui = FreeCADGui.UiLoader()
@@ -69,22 +69,23 @@ class _locationDialog(QDialog):
             self.radialOffsetInput.setMinimumWidth(80)
 
         # Select the location reference
-        self.referenceLabel = QtGui.QLabel(translate('Rocket', "Location Reference"), self)
+        if axial:
+            self.referenceLabel = QtGui.QLabel(translate('Rocket', "Location Reference"), self)
 
-        self.referenceTypes = (
-            LOCATION_PARENT_TOP,
-            LOCATION_PARENT_MIDDLE,
-            LOCATION_PARENT_BOTTOM,
-            LOCATION_BASE,
-            )
-        self.referenceCombo = QtGui.QComboBox(self)
-        self.referenceCombo.addItems(self.referenceTypes)
+            self.referenceTypes = (
+                LOCATION_PARENT_TOP,
+                LOCATION_PARENT_MIDDLE,
+                LOCATION_PARENT_BOTTOM,
+                LOCATION_BASE,
+                )
+            self.referenceCombo = QtGui.QComboBox(self)
+            self.referenceCombo.addItems(self.referenceTypes)
 
-        self.locationLabel = QtGui.QLabel(translate('Rocket', "Location"), self)
+            self.locationLabel = QtGui.QLabel(translate('Rocket', "Location"), self)
 
-        self.locationInput = ui.createWidget("Gui::InputField")
-        self.locationInput.unit = 'mm'
-        self.locationInput.setMinimumWidth(80)
+            self.locationInput = ui.createWidget("Gui::InputField")
+            self.locationInput.unit = 'mm'
+            self.locationInput.setMinimumWidth(80)
 
         self.angleOffsetLabel = QtGui.QLabel(translate('Rocket', "Angle Offset"), self)
 
@@ -104,13 +105,14 @@ class _locationDialog(QDialog):
             layout.addWidget(self.radialOffsetInput, n, 1)
             n += 1
 
-        layout.addWidget(self.referenceLabel, n, 0, 1, 2)
-        layout.addWidget(self.referenceCombo, n, 1)
-        n += 1
+        if axial:
+            layout.addWidget(self.referenceLabel, n, 0, 1, 2)
+            layout.addWidget(self.referenceCombo, n, 1)
+            n += 1
 
-        layout.addWidget(self.locationLabel, n, 0)
-        layout.addWidget(self.locationInput, n, 1)
-        n += 1
+            layout.addWidget(self.locationLabel, n, 0)
+            layout.addWidget(self.locationInput, n, 1)
+            n += 1
 
         layout.addWidget(self.angleOffsetLabel, n, 0)
         layout.addWidget(self.angleOffsetInput, n, 1)
@@ -126,12 +128,14 @@ class TaskPanelLocation(QObject):
 
         self._obj = obj
         self._radial = radial
-        self._form = _locationDialog(radial, parent)
+        self._axial = not obj.Proxy.isAfter()
+        self._form = _locationDialog(radial, self._axial, parent)
         
         self._form.setWindowIcon(QtGui.QIcon(FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Location.svg"))
         
-        self._form.referenceCombo.currentIndexChanged.connect(self.onReference)
-        self._form.locationInput.textEdited.connect(self.onLocation)
+        if self._axial:
+            self._form.referenceCombo.currentTextChanged.connect(self.onReference)
+            self._form.locationInput.textEdited.connect(self.onLocation)
         self._form.angleOffsetInput.textEdited.connect(self.onAngleOffset)
 
         if self._radial:
@@ -144,9 +148,10 @@ class TaskPanelLocation(QObject):
         return self._form
         
     def transferTo(self):
-        "Transfer from the dialog to the object" 
-        self._obj.LocationReference = str(self._form.referenceCombo.currentText())
-        self._obj.Location = self._form.locationInput.text()
+        "Transfer from the dialog to the object"
+        if self._axial:
+            self._obj.Proxy.setLocationReference(str(self._form.referenceCombo.currentText()))
+            self._obj.AxialOffset = self._form.locationInput.text()
         self._obj.AngleOffset = self._form.angleOffsetInput.text()
 
         if self._radial:
@@ -155,8 +160,9 @@ class TaskPanelLocation(QObject):
 
     def transferFrom(self):
         "Transfer from the object to the dialog"
-        self._form.referenceCombo.setCurrentText(self._obj.LocationReference)
-        self._form.locationInput.setText(self._obj.Location.UserString)
+        if self._axial:
+            self._form.referenceCombo.setCurrentText(self._obj.AxialMethod.getMethodName())
+            self._form.locationInput.setText(self._obj.AxialOffset.UserString)
         self._form.angleOffsetInput.setText(self._obj.AngleOffset.UserString)
 
         if self._radial:
@@ -167,23 +173,37 @@ class TaskPanelLocation(QObject):
         self.locationChange.emit()
        
     def onReference(self, value):
-        self._obj.LocationReference = value
+        # self._obj.LocationReference = value
+        self._obj.Proxy.setLocationReference(value)
+        self._form.locationInput.setText(self._obj.AxialOffset.UserString)
         self.setEdited()
        
     def onRadialReference(self, value):
-        self._obj.RadialReference = value
+        try:
+            self._obj.RadialReference = FreeCAD.Units.Quantity(value).Value
+        except ValueError:
+            pass
         self.setEdited()
         
     def onLocation(self, value):
-        self._obj.Location = value
+        try:
+            self._obj.AxialOffset = FreeCAD.Units.Quantity(value).Value
+        except ValueError:
+            pass
         self.setEdited()
         
     def onAngleOffset(self, value):
-        self._obj.AngleOffset = value
+        try:
+            self._obj.AngleOffset = FreeCAD.Units.Quantity(value).Value
+        except ValueError:
+            pass
         self.setEdited()
         
     def onRadialOffset(self, value):
-        self._obj.RadialOffset = value
+        try:
+            self._obj.RadialOffset = FreeCAD.Units.Quantity(value).Value
+        except ValueError:
+            pass
         self.setEdited()
         
     def update(self):
