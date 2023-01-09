@@ -39,6 +39,7 @@ def makeBulkhead(name='Bulkhead'):
     '''makeBulkhead(name): makes a bulkhead'''
     obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
     FeatureBulkhead(obj)
+    obj.Proxy.setDefaults()
     if FreeCAD.GuiUp:
         ViewProviderBulkhead(obj.ViewObject)
 

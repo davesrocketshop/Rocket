@@ -121,12 +121,13 @@ class FeatureFinCan(FeatureFin):
 
         # This is hidden for fins, but needs to be visible for fin cans
         obj.setEditorMode('AutoInnerDiameter', PROP_NONE)  # unhide
-
-        # Set the Parent Radius to the ID
-        obj.ParentRadius = (obj.InnerDiameter / 2.0)
-        obj.Length = 60.0
-
         self._setFinCanEditorVisibility()
+
+    def setDefaults(self):
+        super().setDefaults()
+
+        self._obj.ParentRadius = (self._obj.InnerDiameter / 2.0)
+        self._obj.Length = 60.0
 
     def _setFinCanEditorVisibility(self):
         self._obj.setEditorMode('Ttw', EDITOR_HIDDEN)  # hide
@@ -142,8 +143,8 @@ class FeatureFinCan(FeatureFin):
     def onDocumentRestored(self, obj):
         if obj is not None:
             FeatureFinCan(obj) # Update any properties
+
             self._obj = obj
-            FreeCAD.ActiveDocument.recompute()
 
         self._setFinCanEditorVisibility()
         

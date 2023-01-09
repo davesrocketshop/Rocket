@@ -26,8 +26,6 @@ __url__ = "https://www.davesrocketshop.com"
 
 import FreeCAD
 
-from PySide import QtCore
-
 from App.interfaces.ComponentChangeListener import ComponentChangeListener
 from App.interfaces.StateChangeListener import StateChangeListener
 
@@ -88,6 +86,14 @@ class FeatureRocket(ComponentAssembly, ComponentChangeListener):
         self.addComponentChangeListener(self)
         # self._eventsEnabled = True
 
+    def setDefaults(self):
+        super().setDefaults()
+
+    def onDocumentRestored(self, obj):
+        FeatureRocket(obj)
+
+        self._obj = obj
+
     """
         Enable the monitoring, relay and production of events in this rocket instance.
     """
@@ -106,6 +112,7 @@ class FeatureRocket(ComponentAssembly, ComponentChangeListener):
             self._eventsEnabled = False
         
     def execute(self,obj):
+        # self.updateChildren()
         if not hasattr(obj,'Shape'):
             return
 

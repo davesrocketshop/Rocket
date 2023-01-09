@@ -26,7 +26,6 @@ __url__ = "https://www.davesrocketshop.com"
 
 import FreeCAD
 
-from PySide import QtCore
 from DraftTools import translate
 
 from App.ComponentAssembly import ComponentAssembly
@@ -40,6 +39,9 @@ class FeatureStage(ComponentAssembly):
 
         self._initFeatureStage(obj)
 
+    def setDefaults(self):
+        super().setDefaults()
+
     def _initFeatureStage(self, obj):
         self.Type = FEATURE_STAGE
         
@@ -49,6 +51,11 @@ class FeatureStage(ComponentAssembly):
         #     obj.addProperty('App::PropertyDistance', 'AxialOffset', 'RocketComponent', translate('App::Property', 'Axial offset from the center line'), PROP_TRANSIENT|PROP_HIDDEN|PROP_NORECOMPUTE).AxialOffset = 0.0
         if not hasattr(obj,"StageNumber"):
             obj.addProperty('App::PropertyInteger', 'StageNumber', 'RocketComponent', translate('App::Property', 'Stage number')).StageNumber = 0
+
+    def onDocumentRestored(self, obj):
+        FeatureStage(obj)
+
+        self._obj = obj
  
     def setStageNumber(self, newStageNumber):
         self._obj.StageNumber = newStageNumber

@@ -23,6 +23,8 @@
 __title__ = "FreeCAD Centering Rings"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
+
+import FreeCAD
     
 from App.FeatureBulkhead import FeatureBulkhead
 from App.FeatureInnerTube import FeatureInnerTube
@@ -53,12 +55,19 @@ class FeatureCenteringRing(FeatureBulkhead):
         if not hasattr(obj, 'Shape'):
             obj.addProperty('Part::PropertyPartShape', 'Shape', 'CenteringRing', translate('App::Property', 'Shape of the centering ring'))
 
-        # Default values changed to match a central hole
+    def setDefaults(self):
+        super().setDefaults()
+
         self.setOuterDiameterAutomatic(True)
         self.setInnerDiameterAutomatic(True)
         self.setLength(2.0)
-        obj.HoleDiameter = 2.0
-        obj.HoleCenter = 7.0
+        self._obj.HoleDiameter = 2.0
+        self._obj.HoleCenter = 7.0
+
+    def onDocumentRestored(self, obj):
+        FeatureCenteringRing(obj)
+
+        self._obj = obj
 
     def update(self):
         super().update()

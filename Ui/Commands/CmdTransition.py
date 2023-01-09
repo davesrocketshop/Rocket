@@ -40,6 +40,7 @@ def makeTransition(name='Transition'):
     '''makeTransition(name): makes a Transition'''
     obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
     FeatureTransition(obj)
+    obj.Proxy.setDefaults()
     if FreeCAD.GuiUp:
         ViewProviderTransition(obj.ViewObject)
 

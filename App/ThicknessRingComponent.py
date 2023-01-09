@@ -52,7 +52,9 @@ class ThicknessRingComponent(RingComponent):
             obj.addProperty('App::PropertyLength', 'OuterDiameter', 'BodyTube', translate('App::Property', 'Diameter of the outside of the body tube')).OuterDiameter = 24.79
         if not hasattr(obj,"Thickness"):
             obj.addProperty('App::PropertyLength', 'Thickness', 'BodyTube', translate('App::Property', 'Diameter of the inside of the body tube')).Thickness = 0.33
- 	
+
+    def setDefaults(self):
+        super().setDefaults()
 
     def getOuterRadius(self):
         return self.getOuterDiameter() / 2.0

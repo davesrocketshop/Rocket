@@ -26,7 +26,6 @@ __url__ = "https://www.davesrocketshop.com"
 
 import FreeCAD
 
-from PySide import QtCore
 from DraftTools import translate
 
 from App.FeatureStage import FeatureStage
@@ -44,6 +43,14 @@ class FeatureParallelStage(FeatureStage):
             obj.addProperty('App::PropertyInteger', 'StageCount', 'Stage', translate('App::Property', 'Number of stages in a radial pattern')).StageCount = 2
         if not hasattr(obj,"StageSpacing"):
             obj.addProperty('App::PropertyAngle', 'StageSpacing', 'Stage', translate('App::Property', 'Angle between consecutive stages')).StageSpacing = 180
+
+    def setDefaults(self):
+        super().setDefaults()
+
+    def onDocumentRestored(self, obj):
+        FeatureParallelStage(obj)
+
+        self._obj = obj
 
     def positionChild(self, parent, parentBase, parentLength, parentRadius, rotation):
         base = FreeCAD.Vector(parentBase)

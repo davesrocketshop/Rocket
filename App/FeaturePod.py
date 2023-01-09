@@ -24,9 +24,9 @@ __title__ = "FreeCAD Rocket Pod"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
-# import FreeCAD
+import FreeCAD
 import math
-from PySide import QtCore
+
 from DraftTools import translate
 
 from App.events.ComponentChangeEvent import ComponentChangeEvent
@@ -66,6 +66,14 @@ class FeaturePod(ComponentAssembly, RingInstanceable):
 
         if not hasattr(obj,"Group"):
             obj.addExtension("App::GroupExtensionPython")
+
+    def setDefaults(self):
+        super().setDefaults()
+
+    def onDocumentRestored(self, obj):
+        FeaturePod(obj)
+
+        self._obj = obj
 
     def execute(self,obj):
         if not hasattr(obj,'Shape'):

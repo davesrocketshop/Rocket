@@ -57,6 +57,7 @@ def addToParallelStage(obj):
 def makeParallelStage(name='Stage'):
     obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
     FeatureParallelStage(obj)
+    obj.Proxy.setDefaults()
     if FreeCAD.GuiUp:
         ViewProviderParallelStage(obj.ViewObject)
 

@@ -43,6 +43,7 @@ def updateRocket():
 def makeRocket(name='Rocket', makeSustainer=False):
     obj = FreeCAD.ActiveDocument.addObject("App::GeometryPython",name)
     FeatureRocket(obj)
+    obj.Proxy.setDefaults()
     if FreeCAD.GuiUp:
         ViewProviderRocket(obj.ViewObject)
     FreeCADGui.ActiveDocument.ActiveView.setActiveObject('rocket', obj)

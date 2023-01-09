@@ -48,6 +48,9 @@ class SymmetricComponent(RocketComponent, BoxBounded, RadialParent):
     def __init__(self, obj):
         super().__init__(obj)
 
+    def setDefaults(self):
+        super().setDefaults()
+
     def getInstanceBoundingBox(self):
         instanceBounds = BoundingBox()
 

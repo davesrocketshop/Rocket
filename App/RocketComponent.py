@@ -117,11 +117,9 @@ class RocketComponent(ShapeBase, ChangeSource):
             obj.addExtension("App::GroupExtensionPython")
 
         self._configListeners = []
- 
-                    
-        # self._obj = obj
-        # obj.Proxy=self
-        # self.version = '3.0'
+
+    def setDefaults(self):
+        pass
 
     def isRocketAssembly(self):
         parent = self.getParent()

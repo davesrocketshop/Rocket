@@ -23,6 +23,8 @@
 __title__ = "FreeCAD Bulkheads"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
+
+import FreeCAD
     
 from App.RadiusRingComponent import RadiusRingComponent
 from App.Constants import FEATURE_BULKHEAD
@@ -61,9 +63,16 @@ class FeatureBulkhead(RadiusRingComponent):
         if not hasattr(obj, 'Shape'):
             obj.addProperty('Part::PropertyPartShape', 'Shape', 'Bulkhead', translate('App::Property', 'Shape of the bulkhead'))
 
-        # Default values
+    def setDefaults(self):
+        super().setDefaults()
+
         self.setOuterDiameterAutomatic(True)
         self._obj.Diameter = 25.0
+
+    def onDocumentRestored(self, obj):
+        FeatureBulkhead(obj)
+
+        self._obj = obj
 
     def getLength(self):
         # Return the length of this component along the central axis

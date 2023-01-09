@@ -36,6 +36,7 @@ def makeParachute(name):
     '''makeParachute(name): makes a Parachute'''
     obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
     FeatureFin(obj)
+    obj.Proxy.setDefaults()
 
     if FreeCAD.GuiUp:
         ViewProviderParachute(obj.ViewObject)

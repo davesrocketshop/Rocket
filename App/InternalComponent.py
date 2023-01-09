@@ -45,6 +45,9 @@ class InternalComponent(RocketComponent, AxialPositionable):
         # super().setAxialMethod(AxialMethod.BOTTOM)
         self._obj.AxialMethod = AxialMethod.BOTTOM
 
+    def setDefaults(self):
+        super().setDefaults()
+
     def setAxialMethod(self, newAxialMethod):
         super().setAxialMethod(newAxialMethod)
         self.fireComponentChangeEvent(ComponentChangeEvent.NONFUNCTIONAL_CHANGE)

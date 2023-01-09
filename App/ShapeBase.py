@@ -65,11 +65,6 @@ class ShapeBase():
         self._parent = None
         obj.Proxy=self
         self._scratch = {} # None persistent property storage, for import properties and similar
-
-    def onDocumentRestored(self, obj):
-        obj.Proxy=self
-        self._obj = obj
-        self._parent = None
     
     def __getstate__(self):
         return self.Type, self.version

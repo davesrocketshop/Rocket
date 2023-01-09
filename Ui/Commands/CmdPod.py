@@ -39,6 +39,7 @@ def makePod(name='Pod'):
     '''makePod(name): makes a Pod'''
     obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
     FeaturePod(obj)
+    obj.Proxy.setDefaults()
     if FreeCAD.GuiUp:
         ViewProviderPod(obj.ViewObject)
 

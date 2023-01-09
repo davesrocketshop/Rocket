@@ -40,6 +40,7 @@ def makeNoseCone(name='NoseCone'):
     '''makeNoseCone(name): makes a Nose Cone'''
     obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
     FeatureNoseCone(obj)
+    obj.Proxy.setDefaults()
     if FreeCAD.GuiUp:
         ViewProviderNoseCone(obj.ViewObject)
 

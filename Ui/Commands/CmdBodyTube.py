@@ -42,6 +42,7 @@ def makeBodyTube(name='BodyTube'):
     '''makeBodyTube(name): makes a Body Tube'''
     obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
     FeatureBodyTube(obj)
+    obj.Proxy.setDefaults()
     if FreeCAD.GuiUp:
         ViewProviderBodyTube(obj.ViewObject)
 
@@ -51,6 +52,7 @@ def makeInnerTube(name='InnerTube'):
     '''makeInnerTube(name): makes an inner Tube'''
     obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
     FeatureInnerTube(obj)
+    obj.Proxy.setDefaults()
     if FreeCAD.GuiUp:
         ViewProviderInnerTube(obj.ViewObject)
 
@@ -60,6 +62,7 @@ def makeCoupler(name='Coupler'):
     '''makeCoupler(name): makes a tube coupler'''
     obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
     FeatureTubeCoupler(obj)
+    obj.Proxy.setDefaults()
     if FreeCAD.GuiUp:
         ViewProviderCoupler(obj.ViewObject)
 
@@ -69,6 +72,7 @@ def makeEngineBlock(name='EngineBlock'):
     '''makeInnerTube(name): makes an engine block'''
     obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
     FeatureEngineBlock(obj)
+    obj.Proxy.setDefaults()
     if FreeCAD.GuiUp:
         ViewProviderEngineBlock(obj.ViewObject)
 

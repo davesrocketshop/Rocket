@@ -53,6 +53,9 @@ class RadiusRingComponent(RingComponent, LineInstanceable):
         if not hasattr(obj, 'InstanceSeparation'):
             obj.addProperty('App::PropertyDistance', 'InstanceSeparation', 'Bulkhead', translate('App::Property', 'Front to front along the positive rocket axis')).InstanceSeparation = 0.0
 
+    def setDefaults(self):
+        super().setDefaults()
+
     def update(self):
         super().update()
 

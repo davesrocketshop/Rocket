@@ -1,5 +1,5 @@
 # ***************************************************************************
-# *   Copyright (c) 2021-2023 David Carter <dcarter@davidcarter.ca>         *
+# *   Copyright (c) 2021 David Carter <dcarter@davidcarter.ca>              *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -18,19 +18,17 @@
 # *   USA                                                                   *
 # *                                                                         *
 # ***************************************************************************
-"""Class for rocket components"""
+"""Class for drawing fins"""
 
-__title__ = "FreeCAD Rocket Components"
+__title__ = "FreeCAD Fins"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
-from App.ExternalComponent import ExternalComponent
-from App.interfaces.Coaxial import Coaxial
+import FreeCAD
 
-class Tube(ExternalComponent, Coaxial):
+from App.FeatureFinCan import FeatureFinCan
 
-    def __init__(self, obj, relativePosition):
-        super().__init__(obj, relativePosition)
+class ShapeFinCan:
 
-    def setDefaults(self):
-        super().setDefaults()
+    def onDocumentRestored(self, obj):
+        FeatureFinCan(obj)

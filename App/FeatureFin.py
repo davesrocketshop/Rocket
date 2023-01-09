@@ -162,6 +162,9 @@ class FeatureFin(ExternalComponent):
 
         self._setFinEditorVisibility()
 
+    def setDefaults(self):
+        super().setDefaults()
+
     def _setFinEditorVisibility(self):
         # self._obj.setEditorMode('FinSet', EDITOR_HIDDEN)  # hide
         # self._obj.setEditorMode('FinCount', EDITOR_HIDDEN)  # show
@@ -171,9 +174,9 @@ class FeatureFin(ExternalComponent):
     def onDocumentRestored(self, obj):
         if obj is not None:
             FeatureFin(obj) # Update any properties
-            self._obj = obj
-            FreeCAD.ActiveDocument.recompute()
 
+            self._obj = obj
+            
         self._setFinEditorVisibility()
 
     # def positionChild(self, parent, parentBase, parentLength, parentRadius, rotation):

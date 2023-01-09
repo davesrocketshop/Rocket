@@ -48,6 +48,9 @@ class ComponentAssembly(RocketComponent, AxialPositionable):
         super().setAxialMethod(AxialMethod.AFTER)
         self._length = 0
 
+    def setDefaults(self):
+        super().setDefaults()
+
     def allowsChildren(self):
         return True
 

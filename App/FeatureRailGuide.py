@@ -24,6 +24,7 @@ __title__ = "FreeCAD Launch Guide"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
+import FreeCAD
 import math
 
 from App.events.ComponentChangeEvent import ComponentChangeEvent
@@ -105,8 +106,15 @@ class FeatureRailGuide(ExternalComponent, AnglePositionable, BoxBounded, LineIns
         if not hasattr(obj,"Shape"):
             obj.addProperty('Part::PropertyPartShape', 'Shape', 'RailGuide', translate('App::Property', 'Shape of the launch guide'))
 
-        # Set default values
-        obj.Length = 20.0
+    def setDefaults(self):
+        super().setDefaults()
+
+        self._obj.Length = 20.0
+
+    def onDocumentRestored(self, obj):
+        FeatureRailGuide(obj)
+
+        self._obj = obj
 
     def update(self):
         super().update()

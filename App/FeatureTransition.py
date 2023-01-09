@@ -44,36 +44,6 @@ from App.Utilities import _wrn
 
 from DraftTools import translate
 
-def _migrate_from_1_0(obj):
-    _wrn("Transition migrating object from 1.0")
-
-    old = {}
-    old["ForeRadius"] = obj.ForeRadius
-    old["AftRadius"] = obj.AftRadius
-    old["CoreRadius"] = obj.CoreRadius
-    old["ForeShoulderRadius"] = obj.ForeShoulderRadius
-    old["AftShoulderRadius"] = obj.AftShoulderRadius
-
-    obj.removeProperty("ForeRadius")
-    obj.removeProperty("AftRadius")
-    obj.removeProperty("CoreRadius")
-    obj.removeProperty("ForeShoulderRadius")
-    obj.removeProperty("AftShoulderRadius")
-
-    FeatureTransition(obj)
-
-    obj.ForeDiameter = 2.0 * old["ForeRadius"]
-    obj.AftDiameter = 2.0 * old["AftRadius"]
-    obj.CoreDiameter = 2.0 * old["CoreRadius"]
-    obj.ForeShoulderDiameter = 2.0 * old["ForeShoulderRadius"]
-    obj.AftShoulderDiameter = 2.0 * old["AftShoulderRadius"]
-
-def _migrate_from_2_0(obj):
-    _wrn("Transition migrating object from 2.0")
-
-    # Object with new properties
-    FeatureTransition(obj)
-
 class FeatureTransition(SymmetricComponent):
 
     def __init__(self, obj):
@@ -158,19 +128,15 @@ class FeatureTransition(SymmetricComponent):
         if not hasattr(obj, 'Shape'):
             obj.addProperty('Part::PropertyPartShape', 'Shape', 'Transition', translate('App::Property', 'Shape of the transition'))
 
-        # Set default values
-        obj.Length = 60.0
+    def setDefaults(self):
+        super().setDefaults()
+
+        self._obj.Length = 60.0
 
     def onDocumentRestored(self, obj):
-        if hasattr(obj, "ForeRadius"):
-            _migrate_from_1_0(obj)
-        # elif hasattr(obj, "version") and obj.version:
-        #     if obj.version == "2.0":
-        #         _migrate_from_2_0(obj)
-        else:
-            # Update properties
-            FeatureTransition(obj)
-            FreeCAD.ActiveDocument.recompute()
+        FeatureTransition(obj)
+
+        self._obj = obj
 
     def update(self):
         super().update()

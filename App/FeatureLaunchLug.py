@@ -24,6 +24,7 @@ __title__ = "FreeCAD Body Tubes"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
+import FreeCAD
 import math
     
 from App.Constants import FEATURE_LAUNCH_LUG, FEATURE_FIN, FEATURE_FINCAN
@@ -66,8 +67,15 @@ class FeatureLaunchLug(Tube, AnglePositionable, BoxBounded, LineInstanceable):
         if not hasattr(obj,"Shape"):
             obj.addProperty('Part::PropertyPartShape', 'Shape', 'LaunchLug', translate('App::Property', 'Shape of the launch lug'))
 
-        # Set default values
+    def setDefaults(self):
+        super().setDefaults()
+
         self._obj.Length = 25.4
+
+    def onDocumentRestored(self, obj):
+        FeatureLaunchLug(obj)
+
+        self._obj = obj
 
     def update(self):
         super().update()

@@ -40,6 +40,7 @@ def makeFinCan(name):
     '''makeFinCan(name): makes a Fin Can'''
     obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
     FeatureFinCan(obj)
+    obj.Proxy.setDefaults()
 
     # See if we have a sketch selected. If so, this is a custom fin
     for sketch in FreeCADGui.Selection.getSelection():

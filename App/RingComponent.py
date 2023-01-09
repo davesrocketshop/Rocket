@@ -62,7 +62,9 @@ class RingComponent(InternalComponent, BoxBounded, Coaxial):
             obj.addProperty('App::PropertyLength', 'ShiftY', 'Bulkhead', translate('App::Property', 'Outer diameter of the bulkhead')).ShiftY = 0.0
         if not hasattr(obj, 'ShiftZ'):
             obj.addProperty('App::PropertyLength', 'ShiftZ', 'Bulkhead', translate('App::Property', 'Outer diameter of the bulkhead')).ShiftZ = 0.0
-	
+
+    def setDefaults(self):
+        super().setDefaults()
 
     @abstractmethod
     def getOuterRadius(self):

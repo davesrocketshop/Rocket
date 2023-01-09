@@ -41,6 +41,7 @@ def makeLaunchLug(name='LaunchLug'):
     '''makeLaunchLug(name): makes a Launch Lug'''
     obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
     FeatureLaunchLug(obj)
+    obj.Proxy.setDefaults()
     if FreeCAD.GuiUp:
         ViewProviderLaunchLug(obj.ViewObject)
 
@@ -50,6 +51,7 @@ def makeRailButton(name='RailButton'):
     '''makeRailButton(name): makes a Rail Button'''
     obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
     FeatureRailButton(obj)
+    obj.Proxy.setDefaults()
     if FreeCAD.GuiUp:
         ViewProviderRailButton(obj.ViewObject)
 
@@ -59,6 +61,7 @@ def makeRailGuide(name='RailGuide'):
     '''makeRailGuide(name): makes a Launch Guide'''
     obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
     FeatureRailGuide(obj)
+    obj.Proxy.setDefaults()
     if FreeCAD.GuiUp:
         ViewProviderRailGuide(obj.ViewObject)
 

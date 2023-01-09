@@ -24,7 +24,7 @@ __title__ = "FreeCAD Body Tubes"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
-from PySide import QtCore
+import FreeCAD
     
 from App.interfaces.BoxBounded import BoxBounded
 from App.interfaces.Coaxial import Coaxial
@@ -85,16 +85,15 @@ class FeatureBodyTube(SymmetricComponent, BoxBounded, Coaxial):
         if not hasattr(obj,"Shape"):
             obj.addProperty('Part::PropertyPartShape', 'Shape', 'BodyTube', translate('App::Property', 'Shape of the body tube'))
 
-        obj.Length = 457.0
+    def setDefaults(self):
+        super().setDefaults()
 
+        self._obj.Length = 457.0
 
     def onDocumentRestored(self, obj):
-        super().onDocumentRestored(obj)
+        FeatureBodyTube(obj)
 
-        if hasattr(obj, "InnerDiameter"):
-            _migrate_from_1_0(obj)
-        else:
-            FeatureBodyTube(obj)
+        self._obj = obj
 
     def update(self):
         super().update()

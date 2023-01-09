@@ -24,6 +24,7 @@ __title__ = "FreeCAD Rail Buttons"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
+import FreeCAD
 import math
 
 from App.events.ComponentChangeEvent import ComponentChangeEvent
@@ -116,8 +117,15 @@ class FeatureRailButton(ExternalComponent, AnglePositionable, BoxBounded, LineIn
         if not hasattr(obj,"Shape"):
             obj.addProperty('Part::PropertyPartShape', 'Shape', 'RailButton', translate('App::Property', 'Shape of the rail button'))
 
-        # Set default values
-        obj.Length = 12.0
+    def setDefaults(self):
+        super().setDefaults()
+
+        self._obj.Length = 12.0
+
+    def onDocumentRestored(self, obj):
+        FeatureRailButton(obj)
+
+        self._obj = obj
 
     def update(self):
         super().update()

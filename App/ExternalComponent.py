@@ -42,6 +42,9 @@ class ExternalComponent(RocketComponent):
         # Set the method without calculating the position... yet.
         self._obj.AxialMethod = relativePosition
 
+    def setDefaults(self):
+        super().setDefaults()
+
     # ExternalComponent has aerodynamic effect, so return true.
     def isAerodynamic(self):
         return True

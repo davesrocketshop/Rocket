@@ -24,6 +24,7 @@ __title__ = "FreeCAD Body Tubes"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
+import FreeCAD
 import math
 
 from App.interfaces.BoxBounded import BoxBounded
@@ -63,15 +64,17 @@ class FeatureInnerTube(Clusterable, ThicknessRingComponent, AxialPositionable, B
         if not hasattr(obj,"Shape"):
             obj.addProperty('Part::PropertyPartShape', 'Shape', 'Rocket', translate('App::Property', 'Shape of the body tube'))
 
-        # Default values
+    def setDefaults(self):
+        super().setDefaults()
+
         self._obj.OuterDiameter = 19.0
         self._obj.Thickness = 0.5
         self._obj.Length = 70.0
 
     def onDocumentRestored(self, obj):
-        super().onDocumentRestored(obj)
-
         FeatureInnerTube(obj)
+
+        self._obj = obj
 
     def execute(self, obj):
         shape = InnerTubeShapeHandler(obj)

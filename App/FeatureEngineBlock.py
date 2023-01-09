@@ -24,6 +24,8 @@ __title__ = "FreeCAD Body Tubes"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
+import FreeCAD
+
 from App.position.AxialPositionable import AxialPositionable
 
 from App.ThicknessRingComponent import ThicknessRingComponent
@@ -42,15 +44,17 @@ class FeatureEngineBlock(ThicknessRingComponent, AxialPositionable):
         if not hasattr(obj,"Shape"):
             obj.addProperty('Part::PropertyPartShape', 'Shape', 'Rocket', translate('App::Property', 'Shape of the body tube'))
 
-        # Set default values
+    def setDefaults(self):
+        super().setDefaults()
+
         self._obj.AutoDiameter = True
         self._obj.Thickness = 5.0
         self._obj.Length = 5.0
 
     def onDocumentRestored(self, obj):
-        super().onDocumentRestored(obj)
-
         FeatureEngineBlock(obj)
+
+        self._obj = obj
 
     def execute(self, obj):
         shape = BodyTubeShapeHandler(obj)

@@ -24,6 +24,8 @@ __title__ = "FreeCAD Body Tubes"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
+import FreeCAD
+
 from App.interfaces.RadialParent import RadialParent
 
 from App.ThicknessRingComponent import ThicknessRingComponent
@@ -42,15 +44,17 @@ class FeatureTubeCoupler(ThicknessRingComponent, RadialParent):
         if not hasattr(obj,"Shape"):
             obj.addProperty('Part::PropertyPartShape', 'Shape', 'Rocket', translate('App::Property', 'Shape of the body tube'))
 
-        # Set default values
+    def setDefaults(self):
+        super().setDefaults()
+        
         self._obj.AutoDiameter = True
         self._obj.Thickness = 2.0
         self._obj.Length = 60.0
 
     def onDocumentRestored(self, obj):
-        super().onDocumentRestored(obj)
-
         FeatureTubeCoupler(obj)
+
+        self._obj = obj
 
     def execute(self, obj):
         shape = BodyTubeShapeHandler(obj)
