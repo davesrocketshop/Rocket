@@ -34,15 +34,23 @@ Again, restart FC to use the latest changes.
 
 This workbench has been written with multiple language support. If you are willing to provide a translation to your native language please open an issue and we'll work to get that done.
 
+## Reporting issues
+
+The best method for reporting problems is to create a new issue in [GitHub](https://github.com/davesrocketshop/Rocket/issues). Please include information
+such as the development branch you're using, instructions on how to reproduce the error, and where relavent a copy of the file in which the issue was encountered.
+The more information you provide the easier it will be to pinpoint the problem.
+
 ## Feedback
 
-For any feedback, bugs, features, and discussion please refer to the Rocketry workbench FreeCAD [forum thread](https://forum.freecadweb.org/viewtopic.php?f=8&t=54496).
+For any feedback, features, and discussion please refer to the Rocketry workbench FreeCAD [forum thread](https://forum.freecadweb.org/viewtopic.php?f=8&t=54496).
 
 ## Developers
 
 David Carter AKA [@davesrocketshop](https://github.com/davesrocketshop)
 
-Component database originally taken from the Open Rocket project (https://github.com/openrocket/openrocket)
+## Contributions
+
+Component database originally taken from the Open Rocket project. (https://github.com/openrocket/openrocket) Whole sections of the Open Rocket code have been shamelessly plagiarized.
 
 Now using the improved and curated parts database by Dave Cook instead (https://github.com/dbcook/openrocket-database)
 
