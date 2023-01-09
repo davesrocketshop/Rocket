@@ -9,22 +9,22 @@ Development is done using `git`. If you are comfortable manually installing feel
 For non-developers, FreeCAD provides a mechanism for installing development versions using the Addon Manager. This option is not available by
 default so you will need to enable it. From the `Edit` menu select `Preferences...`. In the left hand column select `Addon Manager`.
 
-![Demo Components](Resources/addon_preferences.png)
+![Addon preferences dialog](Resources/addon_preferences.png)
 
 In the `Advanced Options` section check the `Show option to change branches` option. This will require a restart of FreeCAD to take effect.
 
 Once restarted, select `Tools` and the `Addon manager` from the main menu. Scroll down to the `Rocket` workbench and select. In the installation menu you
 will see the option `Change Branch`. Selecting this will bring up a list of branches allowing you to select the branch to test
 
-![Demo Components](Resources/addon_rwb.png)
+![Rocket Workbench dialog showing Change Branch option](Resources/addon_rwb.png)
 
 ### Testing
 
-== VERY IMPORTANT ==
+** VERY IMPORTANT **
 
-==File formats in test branches may change and are typically not backwards compatible. If you open a file created with a previous version and save it
+*File formats in test branches may change and are typically not backwards compatible. If you open a file created with a previous version and save it
 with the test version you may not be able to open it again. Make sure you save anything important before testing. Even files created during testing
-may not be compatible with the final software version.==
+may not be compatible with the final software version.*
 
 ## Reporting issues
 
