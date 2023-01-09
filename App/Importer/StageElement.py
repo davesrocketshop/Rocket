@@ -1,5 +1,5 @@
 # ***************************************************************************
-# *   Copyright (c) 2021 David Carter <dcarter@davidcarter.ca>              *
+# *   Copyright (c) 2021-2023 David Carter <dcarter@davidcarter.ca>         *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -24,6 +24,7 @@ __title__ = "FreeCAD Open Rocket Importer"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
+from App.Importer.SaxElement import NullElement
 from App.Importer.ComponentElement import ComponentElement
 import App.Importer as Importer
 
@@ -35,11 +36,12 @@ class StageElement(ComponentElement):
         super().__init__(parent, tag, attributes, parentObj, filename, line)
 
         self._validChildren = { 'subcomponents' : Importer.SubElement.SubElement,
+                                'separationconfiguration' : NullElement,
                               }
+        
+        self._knownTags.extend(["separationevent", "separationdelay"])
 
-        self._obj = makeStage()
+    def makeObject(self):
+        self._feature = makeStage()
         if self._parentObj is not None:
-            self._parentObj.addObject(self._obj)
-
-    def onName(self, content):
-            self._obj.Label = content
+            self._parentObj.addChild(self._feature)

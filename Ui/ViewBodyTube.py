@@ -1,5 +1,5 @@
 # ***************************************************************************
-# *   Copyright (c) 2021 David Carter <dcarter@davidcarter.ca>              *
+# *   Copyright (c) 2021-2023 David Carter <dcarter@davidcarter.ca>         *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -30,15 +30,12 @@ import FreeCADGui
 from Ui.TaskPanelBodyTube import TaskPanelBodyTube
 from Ui.ViewProvider import ViewProvider
 
-from App.ShapeBodyTube import hookChildren
-
 class ViewProviderBodyTube(ViewProvider):
 
     def __init__(self, vobj):
         super().__init__(vobj)
 
-        vobj.addExtension("Gui::ViewProviderGroupExtensionPython")
-        self._oldChildren = []
+        # vobj.addExtension("Gui::ViewProviderGroupExtensionPython")
         
     def getIcon(self):
         return FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_BodyTube.svg"
@@ -56,20 +53,17 @@ class ViewProviderBodyTube(ViewProvider):
             FreeCADGui.Control.closeDialog()
             return
 
-    def claimChildren(self):
-        print("claimChildren(BodyTube)")
-        """Define which objects will appear as children in the tree view.
+class ViewProviderInnerTube(ViewProviderBodyTube):
+        
+    def getIcon(self):
+        return FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_InnerTube.svg"
 
-        Returns
-        -------
-        list of <App::DocumentObject>s:
-            The objects claimed as children.
-        """
-        objs = []
-        if hasattr(self,"Object"):
-            objs = self.Object.Group
+class ViewProviderCoupler(ViewProviderBodyTube):
+        
+    def getIcon(self):
+        return FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Coupler.svg"
 
-        hookChildren(self.Object, objs, self._oldChildren)
-        self._oldChildren = objs
-
-        return objs
+class ViewProviderEngineBlock(ViewProviderBodyTube):
+        
+    def getIcon(self):
+        return FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_EngineBlock.svg"

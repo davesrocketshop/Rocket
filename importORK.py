@@ -1,5 +1,5 @@
 # ***************************************************************************
-# *   Copyright (c) 2021 David Carter <dcarter@davidcarter.ca>              *
+# *   Copyright (c) 2021-2023 David Carter <dcarter@davidcarter.ca>         *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -48,7 +48,7 @@ def open(filename):
     doc = FreeCAD.newDocument(docname)
     doc.Label = docname[:-4]
 
-    OpenRocketImporter.importFile(filename)
+    OpenRocketImporter.importFile(doc, filename)
 
     doc.recompute()
     return doc
@@ -79,6 +79,6 @@ def insert(filename, docname):
         doc = FreeCAD.newDocument(docname)
     FreeCAD.ActiveDocument = doc
 
-    OpenRocketImporter.importFile(filename)
+    OpenRocketImporter.importFile(doc, filename)
 
     doc.recompute()

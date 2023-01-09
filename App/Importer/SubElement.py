@@ -1,5 +1,5 @@
 # ***************************************************************************
-# *   Copyright (c) 2021 David Carter <dcarter@davidcarter.ca>              *
+# *   Copyright (c) 2021-2023 David Carter <dcarter@davidcarter.ca>         *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -26,12 +26,17 @@ __url__ = "https://www.davesrocketshop.com"
 
 from App.Importer.SaxElement import NullElement
 from App.Importer.ComponentElement import ComponentElement
+from App.Importer.TransitionElement import TransitionElement
 from App.Importer.NoseElement import NoseElement
-from App.Importer.CenteringRingElement import CenteringRingElement
+from App.Importer.CenteringRingElement import BulkheadElement, CenteringRingElement
 from App.Importer.StageElement import StageElement
-from App.Importer.BodyTubeElement import BodyTubeElement
-
-from App.Utilities import _msg
+from App.Importer.BodyTubeElement import BodyTubeElement, TubeCouplerElement, EngineBlockElement
+from App.Importer.InnerTubeElement import InnerTubeElement
+from App.Importer.LaunchLugElement import LaunchLugElement
+from App.Importer.TrapezoidalFinsetElement import TrapezoidalFinsetElement
+from App.Importer.EllipticalFinsetElement import EllipticalFinsetElement
+from App.Importer.TubeFinsetElement import TubeFinsetElement
+from App.Importer.FreeformFinsetElement import FreeformFinsetElement
 
 class SubElement(ComponentElement):
 
@@ -42,17 +47,17 @@ class SubElement(ComponentElement):
                                 'nosecone' : NoseElement,
                                 'bodytube' : BodyTubeElement,
                                 'subcomponents' : SubElement,
-                                'transition' : NullElement,
-                                'trapezoidfinset' : NullElement,
-                                'ellipticalfinset' : NullElement,
-                                'freeformfinset' : NullElement,
-                                'tubefinset' : NullElement,
-                                'launchlug' : BodyTubeElement,
+                                'transition' : TransitionElement,
+                                'trapezoidfinset' : TrapezoidalFinsetElement,
+                                'ellipticalfinset' : EllipticalFinsetElement,
+                                'freeformfinset' : FreeformFinsetElement,
+                                'tubefinset' : TubeFinsetElement,
+                                'launchlug' : LaunchLugElement,
                                 'railbutton' : NullElement,
-                                'engineblock' : BodyTubeElement,
-                                'innertube' : BodyTubeElement,
-                                'tubecoupler' : BodyTubeElement,
-                                'bulkhead' : NullElement,
+                                'engineblock' : EngineBlockElement,
+                                'innertube' : InnerTubeElement,
+                                'tubecoupler' : TubeCouplerElement,
+                                'bulkhead' : BulkheadElement,
                                 'centeringring' : CenteringRingElement,
                                 'masscomponent' : NullElement,
                                 'shockcord' : NullElement,

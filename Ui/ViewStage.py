@@ -1,5 +1,5 @@
 # ***************************************************************************
-# *   Copyright (c) 2021 David Carter <dcarter@davidcarter.ca>              *
+# *   Copyright (c) 2021-2023 David Carter <dcarter@davidcarter.ca>         *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -28,51 +28,35 @@ import FreeCAD
 import FreeCADGui
 
 from PySide import QtCore,QtGui
+from pivy import coin
+
+from Ui.ViewProvider import ViewProvider
 
 from DraftTools import translate
 
-from App.Utilities import _msg
-from App.ShapeStage import hookChildren
-
-class ViewProviderStage:
+class ViewProviderStage(ViewProvider):
 
     def __init__(self, vobj):
-        vobj.addExtension("Gui::ViewProviderGroupExtensionPython")
-        vobj.Proxy = self
-        self._oldChildren = []
-
-    def onChanged(self, vobj, prop):
-        print("V: ViewProviderStage::onChanged(%s)" % (prop))
+        super().__init__(vobj)
         
     def getIcon(self):
         return FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Stage.svg"
 
     def attach(self, vobj):
-        self.ViewObject = vobj
-        self.Object = vobj.Object
-        if not hasattr(self,"_oldChildren"):
-            self._oldChildren = []
+        super().attach(vobj)
 
-    def canDropObject(self, obj):
-        return self.Object.Proxy.eligibleChild(obj.Proxy.Type)
+        self.sep = coin.SoSeparator()
+        # self.sep.addChild(coin.SoSphere()) # Show a sphere at the Placement.
+        vobj.addDisplayMode(self.sep, "Default")
 
-    def claimChildren(self):
-        print("claimChildren(stage)")
-        """Define which objects will appear as children in the tree view.
+    def getDisplayModes(self,vobj):
+        return ["Default"]
 
-        Returns
-        -------
-        list of <App::DocumentObject>s:
-            The objects claimed as children.
-        """
-        objs = []
-        if hasattr(self,"Object"):
-            objs = self.Object.Group
+    def getDefaultDisplayMode(self):
+        return "Default"
 
-        hookChildren(self.Object, objs, self._oldChildren)
-        self._oldChildren = objs
-
-        return objs
+    def setDisplayMode(self,mode):
+        return mode
 
     def setupContextMenu(self, vobj, menu):
         """Add the component specific options to the context menu."""
@@ -89,9 +73,3 @@ class ViewProviderStage:
 
     def unsetEdit(self,vobj,mode):
         return False
-
-    def __getstate__(self):
-        return None
-
-    def __setstate__(self, state):
-        return None

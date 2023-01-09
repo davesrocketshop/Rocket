@@ -1,5 +1,5 @@
 # ***************************************************************************
-# *   Copyright (c) 2021 David Carter <dcarter@davidcarter.ca>              *
+# *   Copyright (c) 2021-2023 David Carter <dcarter@davidcarter.ca>         *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -24,47 +24,11 @@ __title__ = "FreeCAD Centering Rings"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
     
-from App.ShapeBase import TRACE_EXECUTION
-from App.ShapeBulkhead import ShapeBulkhead
-from App.Constants import FEATURE_CENTERING_RING
+import FreeCAD
 
-from App.CenteringRingShapeHandler import CenteringRingShapeHandler
+from App.FeatureCenteringRing import FeatureCenteringRing
 
-from DraftTools import translate
+class ShapeCenteringRing:
 
-#
-# Centering rings are an extension of bulkheads
-#
-class ShapeCenteringRing(ShapeBulkhead):
-
-    def __init__(self, obj):
-        super().__init__(obj)
-        self.Type = FEATURE_CENTERING_RING
-
-        if not hasattr(obj, 'CenterDiameter'):
-            obj.addProperty('App::PropertyLength', 'CenterDiameter', 'CenteringRing', translate('App::Property', 'Diameter of the central hole')).CenterDiameter = 10.0
-        if not hasattr(obj, 'CenterAutoDiameter'):
-            obj.addProperty('App::PropertyBool', 'CenterAutoDiameter', 'CenteringRing', translate('App::Property', 'Automatically set the center diameter when possible')).CenterAutoDiameter = False
-
-        if not hasattr(obj, 'Notched'):
-            obj.addProperty('App::PropertyBool', 'Notched', 'CenteringRing', translate('App::Property', 'Include a notch for an engine hook')).Notched = False
-        if not hasattr(obj, 'NotchWidth'):
-            obj.addProperty('App::PropertyLength', 'NotchWidth', 'CenteringRing', translate('App::Property', 'Width of the engine hook notch')).NotchWidth = 3.0
-        if not hasattr(obj, 'NotchHeight'):
-            obj.addProperty('App::PropertyLength', 'NotchHeight', 'CenteringRing', translate('App::Property', 'Height of the engine hook notch')).NotchHeight = 3.0
-
-
-        if not hasattr(obj, 'Shape'):
-            obj.addProperty('Part::PropertyPartShape', 'Shape', 'CenteringRing', translate('App::Property', 'Shape of the centering ring'))
-
-        # Default values changed to match a central hole
-        obj.HoleDiameter = 2.0
-        obj.HoleCenter = 7.0
-
-    def execute(self, obj):
-        if TRACE_EXECUTION:
-            print("E: ShapeCenteringRing::execute(%s)" % (self._obj.Label))
-
-        shape = CenteringRingShapeHandler(obj)
-        if shape is not None:
-            shape.draw()
+    def onDocumentRestored(self, obj):
+        FeatureCenteringRing(obj)

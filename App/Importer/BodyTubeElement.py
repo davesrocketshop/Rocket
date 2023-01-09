@@ -1,5 +1,5 @@
 # ***************************************************************************
-# *   Copyright (c) 2021 David Carter <dcarter@davidcarter.ca>              *
+# *   Copyright (c) 2021-2023 David Carter <dcarter@davidcarter.ca>         *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -24,68 +24,89 @@ __title__ = "FreeCAD Open Rocket Importer"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
-from App.Importer.ComponentElement import ComponentElement
+import FreeCAD
+
+from App.Importer.SaxElement import NullElement
+from App.Importer.ComponentElement import BodyComponentElement
+from App.Importer.SymmetricComponentElement import SymmetricComponentElement
 import App.Importer as Importer
 
-from Ui.CmdBodyTube import makeBodyTube
+from Ui.Commands.CmdBodyTube import makeBodyTube, makeInnerTube, makeCoupler, makeEngineBlock
 
-class MotorMountElement(ComponentElement):
+class MotorMountElement(BodyComponentElement):
 
     def __init__(self, parent, tag, attributes, parentObj, filename, line):
         super().__init__(parent, tag, attributes, parentObj, filename, line)
 
-        self._validChildren = { 'subcomponents' : Importer.SubElement.SubElement,
-                              }
-        self._knownTags = ["overhang"]
+        self._validChildren.update({ 'motor' : NullElement,
+                              })
+        self._knownTags.extend(["overhang", "ignitionevent", "ignitiondelay"])
 
+    def makeObject(self):
         if self._parentObj is not None:
-            self._obj = self._parentObj
-            print("MotorMount parent %s" % (self._parentObj.Label))
-            self._obj.MotorMount = True
+            self._feature = self._parentObj
+            self._feature._obj.MotorMount = True
 
     def handleEndTag(self, tag, content):
         _tag = tag.lower().strip()
         if _tag == "overhang":
-            self._obj.Overhang = content + "m"
+            self._feature._obj.Overhang = content + "m"
         else:
             super().handleEndTag(tag, content)
 
-class BodyTubeElement(ComponentElement):
+class BodyTubeElement(SymmetricComponentElement):
 
     def __init__(self, parent, tag, attributes, parentObj, filename, line):
         super().__init__(parent, tag, attributes, parentObj, filename, line)
 
-        self._validChildren = { 'subcomponents' : Importer.SubElement.SubElement,
+        self._validChildren.update({ 'subcomponents' : Importer.SubElement.SubElement,
                                 'motormount' : MotorMountElement,
-                              }
-        self._knownTags = ["length", "thickness", "radius", "outerradius"] #, "motormount"]
+                              })
+        self._knownTags.extend(["radius", "outerradius"]) #, "motormount"]
 
-        self._obj = makeBodyTube()
+    def makeObject(self):
+        self._feature = makeBodyTube()
         if self._parentObj is not None:
-            self._parentObj.addObject(self._obj)
+            self._parentObj.addChild(self._feature)
 
     def handleEndTag(self, tag, content):
         _tag = tag.lower().strip()
-        if _tag == "length":
-            self._obj.Length = content + "m"
-        elif _tag == "thickness":
-            self._obj.Thickness = content + "m"
-        elif _tag == "radius" or _tag == "outerradius":
-            if str(content).lower() == "auto":
-                # self._obj.OuterDiameter = "0.0 m" - use the object default
-                self._obj.AutoOuterDiameter = True 
+        if _tag == "radius" or _tag == "outerradius":
+            if str(content).lower().startswith("auto"):
+                self._feature._obj.AutoDiameter = True 
             else:
                 diameter = float(content) * 2.0
-                self._obj.OuterDiameter = str(diameter) + "m"
-                self._obj.AutoOuterDiameter = False 
+                self._feature._obj.OuterDiameter = str(diameter) + "m"
+                self._feature._obj.AutoDiameter = False 
         else:
             super().handleEndTag(tag, content)
 
-    def onName(self, content):
-            self._obj.Label = content
+    def onThickness(self, length):
+        self._feature._obj.Thickness = length
 
-    def onPositionType(self, value):
-        self._obj.LocationReference = value
+    def onLength(self, length):
+        self._feature._obj.Length = length
 
-    def onPosition(self, content):
-        self._obj.Location = content + "m"
+class TubeCouplerElement(BodyTubeElement):
+
+    def __init__(self, parent, tag, attributes, parentObj, filename, line):
+        super().__init__(parent, tag, attributes, parentObj, filename, line)
+
+        self._knownTags.extend(["radialposition", "radialdirection"])
+
+    def makeObject(self):
+        self._feature = makeCoupler()
+        if self._parentObj is not None:
+            self._parentObj.addChild(self._feature)
+
+class EngineBlockElement(BodyTubeElement):
+
+    def __init__(self, parent, tag, attributes, parentObj, filename, line):
+        super().__init__(parent, tag, attributes, parentObj, filename, line)
+
+        self._knownTags.extend(["radialposition", "radialdirection"])
+
+    def makeObject(self):
+        self._feature = makeEngineBlock()
+        if self._parentObj is not None:
+            self._parentObj.addChild(self._feature)

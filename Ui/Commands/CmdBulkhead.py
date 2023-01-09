@@ -1,5 +1,5 @@
 # ***************************************************************************
-# *   Copyright (c) 2021 David Carter <dcarter@davidcarter.ca>              *
+# *   Copyright (c) 2021-2023 David Carter <dcarter@davidcarter.ca>         *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -27,32 +27,35 @@ __url__ = "https://www.davesrocketshop.com"
 import FreeCAD
 import FreeCADGui
 
-from App.ShapeBulkhead import ShapeBulkhead
+from App.FeatureBulkhead import FeatureBulkhead
 from Ui.ViewBulkhead import ViewProviderBulkhead
-from Ui.Commands.CmdStage import addToStage
+from Ui.Commands.Command import Command
+
+from App.Constants import FEATURE_BULKHEAD
 
 from DraftTools import translate
 
-def makeBulkhead(name):
+def makeBulkhead(name='Bulkhead'):
     '''makeBulkhead(name): makes a bulkhead'''
     obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
-    ShapeBulkhead(obj)
+    FeatureBulkhead(obj)
+    obj.Proxy.setDefaults()
     if FreeCAD.GuiUp:
         ViewProviderBulkhead(obj.ViewObject)
 
-        addToStage(obj)
-    return obj
+    return obj.Proxy
 
-class CmdBulkhead:
+class CmdBulkhead(Command):
     def Activated(self):
         FreeCAD.ActiveDocument.openTransaction("Create bulkhead")
         FreeCADGui.addModule("Ui.Commands.CmdBulkhead")
-        FreeCADGui.doCommand("Ui.Commands.CmdBulkhead.makeBulkhead('Bulkhead')")
+        FreeCADGui.doCommand("obj=Ui.Commands.CmdBulkhead.makeBulkhead('Bulkhead')")
+        FreeCADGui.doCommand("Ui.Commands.CmdStage.addToStage(obj)")
         FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
 
     def IsActive(self):
         if FreeCAD.ActiveDocument:
-            return True
+            return self.part_eligible_feature(FEATURE_BULKHEAD)
         return False
         
     def GetResources(self):

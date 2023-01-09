@@ -1,5 +1,5 @@
 # ***************************************************************************
-# *   Copyright (c) 2021 David Carter <dcarter@davidcarter.ca>              *
+# *   Copyright (c) 2021-2023 David Carter <dcarter@davidcarter.ca>         *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -29,12 +29,20 @@ import FreeCADGui
 
 from DraftTools import translate
 
-def newSketch():
-    obj = FreeCAD.ActiveDocument.addObject("Sketcher::SketchObject","Sketch")
+def newSketch(name='Sketch'):
+    obj = FreeCAD.ActiveDocument.addObject("Sketcher::SketchObject", name)
     # Select the XZ plane for consistency
     obj.Placement = FreeCAD.Placement(FreeCAD.Vector(0, 0, 0), FreeCAD.Vector(1, 0, 0), 90)
     obj.MapMode = "Deactivated"
     FreeCADGui.activeDocument().setEdit(obj.Name,0)
+
+    return obj
+
+def newSketchNoEdit(name='Sketch'):
+    obj = FreeCAD.ActiveDocument.addObject("Sketcher::SketchObject", name)
+    # Select the XZ plane for consistency
+    obj.Placement = FreeCAD.Placement(FreeCAD.Vector(0, 0, 0), FreeCAD.Vector(1, 0, 0), 90)
+    obj.MapMode = "Deactivated"
 
     return obj
 

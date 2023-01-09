@@ -1,5 +1,5 @@
 # ***************************************************************************
-# *   Copyright (c) 2021 David Carter <dcarter@davidcarter.ca>              *
+# *   Copyright (c) 2021-2023 David Carter <dcarter@davidcarter.ca>         *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -25,6 +25,7 @@ __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
 import FreeCAD
+import math
 
 def _msg(message):
     """Write messages to the console including the line ending."""
@@ -71,3 +72,24 @@ def _valueOnly(value, units):
     ''' Converts units to user preferred '''
     qty = FreeCAD.Units.Quantity(str(value) + str(units))
     return qty.Value
+
+def reducePi(value):
+    """ Reduce the angle x to the range -PI - PI """
+
+    d = math.floor((value / (2 * math.pi)) + 0.5) # Round to the nearest integer
+    return value - d * 2 * math.pi
+
+def reduce2Pi(value):
+    """ Reduce the angle x to the range 0 - 2*PI """
+
+    d = math.floor(value / (2 * math.pi))
+    return value - d * 2 * math.pi
+
+def clamp(x, min, max):
+    """ Clamps the value x to the range min - max. """
+    if x < min:
+        return min
+    if x > max:
+        return max
+    return x
+

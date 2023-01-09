@@ -1,5 +1,5 @@
 # ***************************************************************************
-# *   Copyright (c) 2021 David Carter <dcarter@davidcarter.ca>              *
+# *   Copyright (c) 2021-2023 David Carter <dcarter@davidcarter.ca>         *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -27,61 +27,53 @@ __url__ = "https://www.davesrocketshop.com"
 
 import FreeCAD
 import FreeCADGui
-from PySide import QtGui
 
-from App.ShapeStage import ShapeStage
+from App.FeatureStage import FeatureStage
+from Ui.Commands.Command import Command
 from Ui.ViewStage import ViewProviderStage
-from App.Constants import FEATURE_PARALLEL_STAGE
+
+from App.Constants import FEATURE_STAGE
 
 
 from DraftTools import translate
 
-def _addChild(stage, parent, child):
-    child.Proxy.setParent(parent)
-    parent.addObject(child)
-    stage.Proxy.reposition()
-
 def addToStage(obj):
-    stage=FreeCADGui.ActiveDocument.ActiveView.getActiveObject("stage")
-    if stage:
-        # Add to the last item in the stage if it is a group object
-        receiver = None
-        current = stage
-        while hasattr(current, "Group") and len(current.Group) > 0:
-            groupObj = current.Group[len(current.Group) - 1]
-            if groupObj.Proxy.eligibleChild(obj.Proxy.Type) and not groupObj.Proxy.Type == FEATURE_PARALLEL_STAGE:
-                receiver = groupObj
-            current = groupObj
+    if FreeCADGui.ActiveDocument is None:
+        return
 
-        if receiver is not None:
-            _addChild(stage, groupObj, obj)
-            return
-
-        _addChild(stage, stage, obj)
+    # Only add when there's an active rocket assembly
+    rocket = FreeCADGui.ActiveDocument.ActiveView.getActiveObject("rocket")
+    if rocket is not None:
+        sel = FreeCADGui.Selection.getSelection()
+        if sel:
+            if hasattr(obj, '_obj'):
+                sel[0].Proxy.addChild(obj._obj)
+            else:
+                sel[0].Proxy.addChild(obj)
 
 def makeStage(name='Stage'):
-    obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
-    ShapeStage(obj)
+    obj = FreeCAD.ActiveDocument.addObject("App::GeometryPython",name)
+    FeatureStage(obj)
+    obj.Proxy.setDefaults()
     if FreeCAD.GuiUp:
         ViewProviderStage(obj.ViewObject)
 
-        rocket=FreeCADGui.ActiveDocument.ActiveView.getActiveObject("rocket")
-        if rocket:
-            rocket.Group=rocket.Group+[obj]
-
     FreeCADGui.ActiveDocument.ActiveView.setActiveObject('stage', obj)
-    return obj
+    return obj.Proxy
 
-class CmdStage:
+class CmdStage(Command):
     def Activated(self):
         FreeCAD.ActiveDocument.openTransaction("Create rocket stage")
-        FreeCADGui.addModule("Ui.CmdStage")
-        FreeCADGui.doCommand("Ui.CmdStage.makeStage('Stage')")
+        FreeCADGui.addModule("Ui.Commands.CmdStage")
+        FreeCADGui.doCommand("obj=Ui.Commands.CmdStage.makeStage('Stage')")
+        FreeCADGui.doCommand("Ui.Commands.CmdStage.addToStage(obj)")
+        FreeCADGui.doCommand("FreeCADGui.Selection.clearSelection()")
+        FreeCADGui.doCommand("FreeCADGui.Selection.addSelection(obj._obj)")
         FreeCADGui.doCommand("App.activeDocument().recompute(None,True,True)")
 
     def IsActive(self):
         if FreeCAD.ActiveDocument:
-            return True
+            return self.part_stage_eligible_feature(FEATURE_STAGE)
         return False
 
     def GetResources(self):

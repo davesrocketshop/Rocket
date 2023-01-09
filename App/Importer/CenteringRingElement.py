@@ -1,5 +1,5 @@
 # ***************************************************************************
-# *   Copyright (c) 2021 David Carter <dcarter@davidcarter.ca>              *
+# *   Copyright (c) 2021-2023 David Carter <dcarter@davidcarter.ca>         *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -24,48 +24,65 @@ __title__ = "FreeCAD Open Rocket Importer"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
-from App.Importer.ComponentElement import ComponentElement
+from App.Importer.SaxElement import NullElement
+from App.Importer.RadiusRingComponentElement import RadiusRingComponentElement
 
-from Ui.CmdCenteringRing import makeCenteringRing
+from Ui.Commands.CmdBulkhead import makeBulkhead
+from Ui.Commands.CmdCenteringRing import makeCenteringRing
 
-class CenteringRingElement(ComponentElement):
+class BulkheadElement(RadiusRingComponentElement):
 
     def __init__(self, parent, tag, attributes, parentObj, filename, line):
         super().__init__(parent, tag, attributes, parentObj, filename, line)
 
         self._shoulderCapped = False
+        self._validChildren.update({ 'appearance' : NullElement, # Shouldn't be in there but it is
+                              })
 
-        self._knownTags = ["length", "radialposition", "radialdirection", "outerradius", "innerradius"]
+        self._knownTags.extend(["outerradius", "innerradius"])
 
-        self._obj = makeCenteringRing()
+    def makeObject(self):
+        self._feature = makeBulkhead()
         if self._parentObj is not None:
-            self._parentObj.addObject(self._obj)
+            self._parentObj.addChild(self._feature)
 
     def handleEndTag(self, tag, content):
         _tag = tag.lower().strip()
-        if _tag == "length":
-            self._obj.Thickness = content + "m"
-        elif _tag == "outerradius":
-            self._obj.Proxy.setScratch("outerradius", content)
+        if _tag == "outerradius":
+            self._feature.setScratch("outerradius", content)
             if str(content).lower() == "auto":
                 diameter = "0.0"
+                self._feature._obj.AutoDiameter = True
             else:
                 diameter = float(content) * 2.0
-            self._obj.Diameter = str(diameter) + "m"
+                self._feature._obj.AutoDiameter = False
+                self._feature._obj.Diameter = str(diameter) + "m"
         elif _tag == "innerradius":
-            self._obj.Proxy.setScratch("innerradius", content)
+            self._feature.setScratch("innerradius", content)
             if str(content).lower() == "auto":
                 diameter = "0.0"
+                self._feature._obj.CenterAutoDiameter = True
             else:
                 diameter = float(content) * 2.0
-            self._obj.CenterDiameter = str(diameter) + "m"
+                self._feature._obj.CenterAutoDiameter = False
+                self._feature._obj.CenterDiameter = str(diameter) + "m"
         else:
             super().handleEndTag(tag, content)
 
     def onName(self, content):
-        self._obj.Label = content
+        self._feature.setName(content)
+
+    def onLength(self, length):
+        self._feature.setLength(length)
 
     def end(self):
         # Validate the shape here
 
         return super().end()
+
+class CenteringRingElement(BulkheadElement):
+
+    def makeObject(self):
+        self._feature = makeCenteringRing()
+        if self._parentObj is not None:
+            self._parentObj.addChild(self._feature)

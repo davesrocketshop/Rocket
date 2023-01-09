@@ -1,5 +1,5 @@
 # ***************************************************************************
-# *   Copyright (c) 2021 David Carter <dcarter@davidcarter.ca>              *
+# *   Copyright (c) 2021-2023 David Carter <dcarter@davidcarter.ca>         *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -127,6 +127,8 @@ class TaskPanelBodyTube:
 
     def __init__(self,obj,mode):
         self._obj = obj
+        self._isAssembly = self._obj.Proxy.isRocketAssembly()
+        self._motorMount = hasattr(self._obj, "MotorMount")
         
         self._btForm = _BodyTubeDialog()
         if self._obj.Proxy.Type == FEATURE_LAUNCH_LUG:
@@ -147,8 +149,9 @@ class TaskPanelBodyTube:
         self._btForm.thicknessInput.textEdited.connect(self.onThickness)
         self._btForm.lengthInput.textEdited.connect(self.onLength)
 
-        self._btForm.motorGroup.toggled.connect(self.onMotor)
-        self._btForm.overhangInput.textEdited.connect(self.onOverhang)
+        if self._motorMount:
+            self._btForm.motorGroup.toggled.connect(self.onMotor)
+            self._btForm.overhangInput.textEdited.connect(self.onOverhang)
 
         self._db.dbLoad.connect(self.onLookup)
         self._location.locationChange.connect(self.onLocation)
@@ -161,12 +164,13 @@ class TaskPanelBodyTube:
         
     def transferTo(self):
         "Transfer from the dialog to the object" 
-        self._obj.OuterDiameter = self._btForm.odInput.text()
-        self._obj.AutoDiameter = self._btForm.autoDiameterCheckbox.isChecked()
-        self._obj.Thickness = self._btForm.thicknessInput.text()
-        self._obj.Length = self._btForm.lengthInput.text()
-        self._obj.MotorMount = self._btForm.motorGroup.isChecked()
-        self._obj.Overhang = self._btForm.overhangInput.text()
+        self._obj.Proxy.setOuterDiameter(FreeCAD.Units.Quantity(self._btForm.odInput.text()).Value)
+        self._obj.Proxy.setOuterDiameterAutomatic(self._btForm.autoDiameterCheckbox.isChecked())
+        self._obj.Proxy.setThickness(FreeCAD.Units.Quantity(self._btForm.thicknessInput.text()).Value)
+        self._obj.Proxy.setLength(FreeCAD.Units.Quantity(self._btForm.lengthInput.text()).Value)
+        if self._motorMount:
+            self._obj.MotorMount = self._btForm.motorGroup.isChecked()
+            self._obj.Overhang = self._btForm.overhangInput.text()
 
     def transferFrom(self):
         "Transfer from the object to the dialog"
@@ -175,8 +179,9 @@ class TaskPanelBodyTube:
         self._btForm.idInput.setText("0.0")
         self._btForm.thicknessInput.setText(self._obj.Thickness.UserString)
         self._btForm.lengthInput.setText(self._obj.Length.UserString)
-        self._btForm.motorGroup.setChecked(self._obj.MotorMount)
-        self._btForm.overhangInput.setText(self._obj.Overhang.UserString)
+        if self._motorMount:
+            self._btForm.motorGroup.setChecked(self._obj.MotorMount)
+            self._btForm.overhangInput.setText(self._obj.Overhang.UserString)
 
         self._setAutoDiameterState()
         self._setIdFromThickness()
@@ -191,22 +196,32 @@ class TaskPanelBodyTube:
         
     def onOd(self, value):
         try:
-            self._obj.OuterDiameter = FreeCAD.Units.Quantity(value).Value
+            # self._obj.OuterDiameter = FreeCAD.Units.Quantity(value).Value
+            self._obj.Proxy.setOuterDiameter(FreeCAD.Units.Quantity(value).Value)
+            self._setIdFromThickness()
             self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
         self.setEdited()
         
     def _setAutoDiameterState(self):
-        self._btForm.odInput.setEnabled(not self._obj.AutoDiameter)
-        self._btForm.autoDiameterCheckbox.setChecked(self._obj.AutoDiameter)
+        if self._isAssembly:
+            self._btForm.odInput.setEnabled(not self._obj.AutoDiameter)
+            self._btForm.autoDiameterCheckbox.setChecked(self._obj.AutoDiameter)
+            self._btForm.autoDiameterCheckbox.setEnabled(True)
+        else:
+            self._btForm.odInput.setEnabled(True)
+            self._obj.AutoDiameter = False
+            self._btForm.autoDiameterCheckbox.setChecked(self._obj.AutoDiameter)
+            self._btForm.autoDiameterCheckbox.setEnabled(False)
 
         if self._obj.AutoDiameter:
-            self._obj.OuterDiameter = 2.0 * self._obj.Proxy.getRadius()
+            self._obj.OuterDiameter = self._obj.Proxy.getOuterDiameter()
             self._btForm.odInput.setText(self._obj.OuterDiameter.UserString)
+            self._setIdFromThickness()
 
     def onAutoDiameter(self, value):
-        self._obj.AutoDiameter = value
+        self._obj.Proxy.setOuterDiameterAutomatic(value)
         self._setAutoDiameterState()
 
         self._obj.Proxy.execute(self._obj)
@@ -217,9 +232,11 @@ class TaskPanelBodyTube:
         if od > 0.0:
             id = FreeCAD.Units.Quantity(value).Value
             thickness = (od - id) / 2.0
-            self._obj.Thickness = FreeCAD.Units.Quantity(thickness).Value
+            # self._obj.Thickness = FreeCAD.Units.Quantity(thickness).Value
+            self._obj.Proxy.setThickness(FreeCAD.Units.Quantity(thickness).Value)
         else:
-            self._obj.Thickness = FreeCAD.Units.Quantity(0.0).Value
+            # self._obj.Thickness = FreeCAD.Units.Quantity(0.0).Value
+            self._obj.Proxy.setThickness(FreeCAD.Units.Quantity(0.0).Value)
         self._btForm.thicknessInput.setText(self._obj.Thickness.UserString)
         
     def onId(self, value):
@@ -240,7 +257,7 @@ class TaskPanelBodyTube:
         
     def onThickness(self, value):
         try:
-            self._obj.Thickness = FreeCAD.Units.Quantity(value).Value
+            self._obj.Proxy.setThickness(FreeCAD.Units.Quantity(value).Value)
             self._setIdFromThickness()
             self._obj.Proxy.execute(self._obj)
         except ValueError:
@@ -249,19 +266,26 @@ class TaskPanelBodyTube:
         
     def onLength(self, value):
         try:
-            self._obj.Length = FreeCAD.Units.Quantity(value).Value
+            self._obj.Proxy.setLength(FreeCAD.Units.Quantity(value).Value)
             self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
         self.setEdited()
         
     def _setMotorState(self):
-        if self._obj.Proxy.Type == FEATURE_LAUNCH_LUG:
+        if not self._motorMount: #self._obj.Proxy.Type == FEATURE_LAUNCH_LUG:
             self._btForm.overhangInput.setHidden(True)
             self._btForm.motorGroup.setHidden(True)
         else:
-            self._btForm.overhangInput.setEnabled(self._obj.MotorMount)
-            self._btForm.motorGroup.setChecked(self._obj.MotorMount)
+            if self._isAssembly:
+                self._btForm.motorGroup.setEnabled(True)
+                self._btForm.overhangInput.setEnabled(self._obj.MotorMount)
+                self._btForm.motorGroup.setChecked(self._obj.MotorMount)
+            else:
+                self._obj.MotorMount = False
+                self._btForm.motorGroup.setEnabled(False)
+                self._btForm.overhangInput.setEnabled(self._obj.MotorMount)
+                self._btForm.motorGroup.setChecked(self._obj.MotorMount)
 
     def onMotor(self, value):
         self._obj.MotorMount = value
@@ -282,16 +306,16 @@ class TaskPanelBodyTube:
         result = self._db.getLookupResult()
 
         diameter = _valueOnly(result["inner_diameter"], result["inner_diameter_units"])
-        self._obj.OuterDiameter = _valueWithUnits(result["outer_diameter"], result["outer_diameter_units"])
-        self._obj.Thickness = (self._obj.OuterDiameter.Value - diameter) / 2.0
-        self._obj.Length = _valueWithUnits(result["length"], result["length_units"])
+        self._obj.Proxy.setOuterDiameter(_valueOnly(result["outer_diameter"], result["outer_diameter_units"]))
+        self._obj.Proxy.setThickness((self._obj.OuterDiameter.Value - diameter) / 2.0)
+        self._obj.Proxy.setLength(_valueOnly(result["length"], result["length_units"]))
 
         self.update()
         self._obj.Proxy.execute(self._obj) 
         self.setEdited()
 
     def onLocation(self):
-        self._obj.Proxy.reposition()
+        self._obj.Proxy.updateChildren()
         self._obj.Proxy.execute(self._obj) 
         self.setEdited()
         

@@ -1,5 +1,5 @@
 # ***************************************************************************
-# *   Copyright (c) 2021 David Carter <dcarter@davidcarter.ca>              *
+# *   Copyright (c) 2021-2023 David Carter <dcarter@davidcarter.ca>         *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -24,69 +24,120 @@ __title__ = "FreeCAD Open Rocket Importer"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
-from App.Importer.ComponentElement import ComponentElement
-from App.Utilities import _toBoolean
+import FreeCAD
+
+from App.Importer.SaxElement import NullElement
+from App.Importer.TransitionElement import TransitionElement
+from App.Utilities import _toBoolean, _err
 from App.Constants import STYLE_CAPPED, STYLE_HOLLOW, STYLE_SOLID
+from App.Constants import TYPE_CONE, TYPE_ELLIPTICAL, TYPE_HAACK, TYPE_OGIVE, TYPE_PARABOLA, TYPE_POWER
 
-from Ui.CmdNoseCone import makeNoseCone
+from Ui.Commands.CmdNoseCone import makeNoseCone
 
-class NoseElement(ComponentElement):
+class NoseElement(TransitionElement):
 
     def __init__(self, parent, tag, attributes, parentObj, filename, line):
         super().__init__(parent, tag, attributes, parentObj, filename, line)
 
         self._shoulderCapped = False
 
-        self._knownTags = ["manufacturer", "partno", "description", "thickness", "shape", "shapeclipped", "shapeparameter", 
-                "aftradius", "aftouterdiameter", "aftshoulderradius", "aftshoulderdiameter", "aftshoulderlength", "aftshoulderthickness", "aftshouldercapped", "length"]
+        self._knownTags.remove("foreradius")
+        self._knownTags.remove("foreshoulderradius")
+        self._knownTags.remove("foreshoulderdiameter")
+        self._knownTags.remove("foreshoulderlength")
+        self._knownTags.remove("foreshoulderthickness")
+        self._knownTags.remove("foreshouldercapped")
 
-        self._obj = makeNoseCone()
+    def makeObject(self):
+        self._feature = makeNoseCone()
         if self._parentObj is not None:
-            self._parentObj.addObject(self._obj)
+            self._parentObj.addChild(self._feature)
 
     def handleEndTag(self, tag, content):
         _tag = tag.lower().strip()
-        if _tag == "length":
-            self._obj.Length = content + "m"
-        elif _tag == "thickness":
-            self._obj.Thickness = content + "m"
-        elif _tag == "shape":
-             self._obj.NoseType = content
+        if _tag == "shape":
+            if content == 'conical':
+                self._feature._obj.NoseType = TYPE_CONE
+            elif content == 'ogive':
+                self._feature._obj.NoseType = TYPE_OGIVE
+            elif content == 'ellipsoid':
+                self._feature._obj.NoseType = TYPE_ELLIPTICAL
+            elif content == 'power':
+                self._feature._obj.NoseType = TYPE_POWER
+            elif content == 'parabolic':
+                self._feature._obj.NoseType = TYPE_PARABOLA
+            elif content == 'haack':
+                self._feature._obj.NoseType = TYPE_HAACK
+            else:
+                raise Exception("Unknow nose type " + content)
+        elif _tag == "shapeclipped":
+            # _err("Clipped element not supported") # This is meant for transitions
+            # self._feature._obj.Clipped = _toBoolean(content)
+            pass
         elif _tag == "shapeparameter":
-            self._obj.Coefficient = float(content)
+            self._feature._obj.Coefficient = float(content)
         elif _tag == "aftradius":
-            diameter = float(content) * 2.0
-            self._obj.Diameter = str(diameter) + "m"
+            if content == "auto":
+                self._feature._obj.AutoDiameter = True
+                # self._feature._obj.ShoulderAutoDiameter = True
+            else:
+                self._feature._obj.AutoDiameter = False
+                # self._feature._obj.ShoulderAutoDiameter = False
+                diameter = float(content) * 2.0
+                self._feature._obj.Diameter = FreeCAD.Units.Quantity(str(diameter) + " m").Value
+        elif _tag == "aftouterdiameter":
+            self._feature._obj.Diameter = FreeCAD.Units.Quantity(content + " m").Value
         elif _tag == "aftshoulderradius":
-            diameter = float(content) * 2.0
-            self._obj.ShoulderDiameter = str(diameter) + "m"
+            if content == "auto":
+                self._feature._obj.ShoulderAutoDiameter = True
+            else:
+                self._feature._obj.ShoulderAutoDiameter = False
+                diameter = float(content) * 2.0
+                self._feature._obj.ShoulderDiameter = FreeCAD.Units.Quantity(str(diameter) + " m").Value
+        elif _tag == "aftshoulderdiameter":
+            if content == "auto":
+                self._feature._obj.ShoulderAutoDiameter = True
+            else:
+                self._feature._obj.ShoulderAutoDiameter = False
+                self._feature._obj.ShoulderDiameter = FreeCAD.Units.Quantity(content + " m").Value
         elif _tag == "aftshoulderlength":
-            self._obj.ShoulderLength = content + "m"
+            self._feature._obj.ShoulderLength = FreeCAD.Units.Quantity(content + " m").Value
         elif _tag == "aftshoulderthickness":
-            self._obj.ShoulderThickness = content + "m"
+            self._feature._obj.ShoulderThickness = FreeCAD.Units.Quantity(content + " m").Value
         elif _tag == "aftshouldercapped":
             self._shoulderCapped = _toBoolean(content)
         else:
             super().handleEndTag(tag, content)
 
-    def onName(self, content):
-        self._obj.Label = content
+    def onLength(self, length):
+        self._feature._obj.Length = length
+
+    def onThickness(self, thickness):
+        self._feature._obj.Thickness = thickness
+        self._feature._obj.ShoulderThickness = thickness
+
+    def onFilled(self, filled):
+        if filled:
+            self._feature._obj.NoseStyle = STYLE_SOLID
+            self._filled = True
+        else:
+            self._filled = False
 
     def end(self):
         # Validate the nose shape here
-        if float(self._obj.Thickness) > 0:
-            if float(self._obj.ShoulderThickness) <= 0:
-                self._obj.ShoulderThickness = self._obj.Thickness
+        if float(self._feature._obj.Thickness) > 0 and not self._filled:
+            if float(self._feature._obj.ShoulderThickness) <= 0:
+                self._feature._obj.ShoulderThickness = self._feature._obj.Thickness
             if self._shoulderCapped:
-                self._obj.NoseStyle = STYLE_CAPPED
+                self._feature._obj.NoseStyle = STYLE_CAPPED
             else:
-                self._obj.NoseStyle = STYLE_HOLLOW
+                self._feature._obj.NoseStyle = STYLE_HOLLOW
         else:
-            self._obj.NoseStyle = STYLE_SOLID
+            self._feature._obj.NoseStyle = STYLE_SOLID
 
-        if float(self._obj.ShoulderDiameter) > 0 and float(self._obj.ShoulderLength) > 0:
-            self._obj.Shoulder = True
+        if float(self._feature._obj.ShoulderDiameter) > 0 and float(self._feature._obj.ShoulderLength) > 0:
+            self._feature._obj.Shoulder = True
         else:
-            self._obj.Shoulder = False
+            self._feature._obj.Shoulder = False
 
         return super().end()

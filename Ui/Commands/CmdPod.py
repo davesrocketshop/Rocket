@@ -1,5 +1,5 @@
 # ***************************************************************************
-# *   Copyright (c) 2021 David Carter <dcarter@davidcarter.ca>              *
+# *   Copyright (c) 2021-2023 David Carter <dcarter@davidcarter.ca>         *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -27,32 +27,37 @@ __url__ = "https://www.davesrocketshop.com"
 import FreeCAD
 import FreeCADGui
 
-from App.ShapePod import ShapePod
+from App.FeaturePod import FeaturePod
 from Ui.ViewPod import ViewProviderPod
-from Ui.Commands.CmdStage import addToStage
+from Ui.Commands.Command import Command
+
+from App.Constants import FEATURE_POD
 
 from DraftTools import translate
 
 def makePod(name='Pod'):
     '''makePod(name): makes a Pod'''
     obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
-    ShapePod(obj)
+    FeaturePod(obj)
+    obj.Proxy.setDefaults()
     if FreeCAD.GuiUp:
         ViewProviderPod(obj.ViewObject)
 
-        addToStage(obj)
-    return obj
+    return obj.Proxy
 
-class CmdPod:
+class CmdPod(Command):
     def Activated(self):
         FreeCAD.ActiveDocument.openTransaction("Create pod")
-        FreeCADGui.addModule("Ui.CmdPod")
-        FreeCADGui.doCommand("Ui.CmdPod.makePod('Pod')")
+        FreeCADGui.addModule("Ui.Commands.CmdPod")
+        FreeCADGui.doCommand("obj=Ui.Commands.CmdPod.makePod('Pod')")
+        FreeCADGui.doCommand("Ui.Commands.CmdStage.addToStage(obj)")
+        FreeCADGui.doCommand("FreeCADGui.Selection.clearSelection()")
+        FreeCADGui.doCommand("FreeCADGui.Selection.addSelection(obj._obj)")
         FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
 
     def IsActive(self):
         if FreeCAD.ActiveDocument:
-            return True
+            return self.part_stage_eligible_feature(FEATURE_POD)
         return False
             
     def GetResources(self):

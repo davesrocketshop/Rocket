@@ -1,5 +1,5 @@
 # ***************************************************************************
-# *   Copyright (c) 2021 David Carter <dcarter@davidcarter.ca>              *
+# *   Copyright (c) 2021-2023 David Carter <dcarter@davidcarter.ca>         *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -27,54 +27,57 @@ __url__ = "https://www.davesrocketshop.com"
 import FreeCAD
 import FreeCADGui
 
-from App.ShapeRailGuide import ShapeRailGuide
-from App.ShapeLaunchLug import ShapeLaunchLug
-from App.ShapeRailButton import ShapeRailButton
+from App.FeatureRailGuide import FeatureRailGuide
+from App.FeatureLaunchLug import FeatureLaunchLug
+from App.FeatureRailButton import FeatureRailButton
 from Ui.ViewLaunchGuide import ViewProviderRailButton, ViewProviderLaunchLug, ViewProviderRailGuide
-from Ui.Commands.CmdStage import addToStage
+from Ui.Commands.Command import Command
+
+from App.Constants import FEATURE_LAUNCH_LUG, FEATURE_RAIL_BUTTON, FEATURE_RAIL_GUIDE, FEATURE_OFFSET
 
 from DraftTools import translate
 
 def makeLaunchLug(name='LaunchLug'):
     '''makeLaunchLug(name): makes a Launch Lug'''
     obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
-    ShapeLaunchLug(obj)
+    FeatureLaunchLug(obj)
+    obj.Proxy.setDefaults()
     if FreeCAD.GuiUp:
         ViewProviderLaunchLug(obj.ViewObject)
 
-        addToStage(obj)
-    return obj
+    return obj.Proxy
 
 def makeRailButton(name='RailButton'):
     '''makeRailButton(name): makes a Rail Button'''
     obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
-    ShapeRailButton(obj)
+    FeatureRailButton(obj)
+    obj.Proxy.setDefaults()
     if FreeCAD.GuiUp:
         ViewProviderRailButton(obj.ViewObject)
 
-        addToStage(obj)
-    return obj
+    return obj.Proxy
 
 def makeRailGuide(name='RailGuide'):
     '''makeRailGuide(name): makes a Launch Guide'''
     obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
-    ShapeRailGuide(obj)
+    FeatureRailGuide(obj)
+    obj.Proxy.setDefaults()
     if FreeCAD.GuiUp:
         ViewProviderRailGuide(obj.ViewObject)
 
-        addToStage(obj)
-    return obj
+    return obj.Proxy
 
-class CmdLaunchLug:
+class CmdLaunchLug(Command):
     def Activated(self):
         FreeCAD.ActiveDocument.openTransaction("Create launch lug")
         FreeCADGui.addModule("Ui.Commands.CmdLaunchGuides")
-        FreeCADGui.doCommand("Ui.Commands.CmdLaunchGuides.makeLaunchLug('LaunchLug')")
+        FreeCADGui.doCommand("obj=Ui.Commands.CmdLaunchGuides.makeLaunchLug('LaunchLug')")
+        FreeCADGui.doCommand("Ui.Commands.CmdStage.addToStage(obj)")
         FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
 
     def IsActive(self):
         if FreeCAD.ActiveDocument:
-            return True
+            return self.part_eligible_feature(FEATURE_LAUNCH_LUG)
         return False
             
     def GetResources(self):
@@ -82,16 +85,17 @@ class CmdLaunchLug:
                 'ToolTip': translate("Rocket", 'Launch lug design'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_LaunchLug.svg"}
 
-class CmdRailButton:
+class CmdRailButton(Command):
     def Activated(self):
         FreeCAD.ActiveDocument.openTransaction("Create rail button")
         FreeCADGui.addModule("Ui.Commands.CmdLaunchGuides")
-        FreeCADGui.doCommand("Ui.Commands.CmdLaunchGuides.makeRailButton('RailButton')")
+        FreeCADGui.doCommand("obj=Ui.Commands.CmdLaunchGuides.makeRailButton('RailButton')")
+        FreeCADGui.doCommand("Ui.Commands.CmdStage.addToStage(obj)")
         FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
 
     def IsActive(self):
         if FreeCAD.ActiveDocument:
-            return True
+            return self.part_eligible_feature(FEATURE_RAIL_BUTTON)
         return False
             
     def GetResources(self):
@@ -99,16 +103,17 @@ class CmdRailButton:
                 'ToolTip': translate("Rocket", 'Rail button design'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_RailButton.svg"}
 
-class CmdRailGuide:
+class CmdRailGuide(Command):
     def Activated(self):
         FreeCAD.ActiveDocument.openTransaction("Create rail guide")
         FreeCADGui.addModule("Ui.Commands.CmdLaunchGuides")
-        FreeCADGui.doCommand("Ui.Commands.CmdLaunchGuides.makeRailGuide('RailGuide')")
+        FreeCADGui.doCommand("obj=Ui.Commands.CmdLaunchGuides.makeRailGuide('RailGuide')")
+        FreeCADGui.doCommand("Ui.Commands.CmdStage.addToStage(obj)")
         FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
 
     def IsActive(self):
         if FreeCAD.ActiveDocument:
-            return True
+            return self.part_eligible_feature(FEATURE_RAIL_GUIDE)
         return False
             
     def GetResources(self):
@@ -116,16 +121,17 @@ class CmdRailGuide:
                 'ToolTip': translate("Rocket", 'Rail guide design'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_RailGuide.svg"}
 
-class CmdStandOff:
+class CmdStandOff(Command):
     def Activated(self):
         FreeCAD.ActiveDocument.openTransaction("Create stand off")
         FreeCADGui.addModule("Ui.Commands.CmdLaunchGuides")
-        FreeCADGui.doCommand("Ui.Commands.CmdLaunchGuides.makeRailGuide('StandOff')")
+        FreeCADGui.doCommand("obj=Ui.Commands.CmdLaunchGuides.makeRailGuide('StandOff')")
+        FreeCADGui.doCommand("Ui.Commands.CmdStage.addToStage(obj)")
         FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
 
     def IsActive(self):
         if FreeCAD.ActiveDocument:
-            return True
+            return self.part_eligible_feature(FEATURE_OFFSET)
         return False
             
     def GetResources(self):

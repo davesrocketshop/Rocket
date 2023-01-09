@@ -1,5 +1,5 @@
 # ***************************************************************************
-# *   Copyright (c) 2021 David Carter <dcarter@davidcarter.ca>              *
+# *   Copyright (c) 2021-2023 David Carter <dcarter@davidcarter.ca>         *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -27,6 +27,9 @@ __url__ = "https://www.davesrocketshop.com"
 def QT_TRANSLATE_NOOP(scope, text):
     return text
 
+#  Default values
+DEFAULT_REFERENCE_LENGTH = 0.01
+
 # Feature types
 FEATURE_ROCKET = "Rocket"
 FEATURE_STAGE = "RocketStage"
@@ -34,6 +37,9 @@ FEATURE_PARALLEL_STAGE = "RocketParallelStage"
 FEATURE_BULKHEAD = "RocketBulkhead"
 FEATURE_POD = "RocketPod"
 FEATURE_BODY_TUBE = "RocketBodyTube"
+FEATURE_INNER_TUBE = "RocketInnerTube"
+FEATURE_TUBE_COUPLER = "RocketTubeCoupler"
+FEATURE_ENGINE_BLOCK = "RocketEngineBlock"
 FEATURE_CENTERING_RING = "RocketCenteringRing"
 FEATURE_FIN = "RocketFin"
 FEATURE_FINCAN = "RocketFinCan"
@@ -133,10 +139,6 @@ COMPONENT_TYPE_NOSECONE = "Nose Cone"
 COMPONENT_TYPE_PARACHUTE = "Parachute"
 COMPONENT_TYPE_STREAMER = "Streamer"
 COMPONENT_TYPE_TRANSITION = "Transition"
-
-# Component placement type
-PLACEMENT_AXIAL = "Axial"
-PLACEMENT_RADIAL = "Radial"
 
 # Location Reference
 LOCATION_PARENT_TOP = QT_TRANSLATE_NOOP('Rocket', "Top of the parent component")

@@ -1,5 +1,5 @@
 # ***************************************************************************
-# *   Copyright (c) 2021 David Carter <dcarter@davidcarter.ca>              *
+# *   Copyright (c) 2021-2023 David Carter <dcarter@davidcarter.ca>         *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -51,27 +51,23 @@ def createAnalysis():
 def doFemAnalysis():
     doc = FreeCAD.ActiveDocument
 
-    print("0")
     # See if we have a fin selected
     for fin in FreeCADGui.Selection.getSelection():
         if fin.isDerivedFrom('Part::FeaturePython'):
             if hasattr(fin,"FinType"):
                 try:
-                    print("1")
                     # a mesh could be made with and without an analysis,
                     # we're going to check not for an analysis in command manager module
                     doc.openTransaction("Create FEM mesh by Gmsh")
                     if FemGui.getActiveAnalysis() is None:
                         createAnalysis()
 
-                    print("2")
                     mesh_obj_name = fin.Name + "_Mesh" #"FEMMeshGmsh"
                     # if requested by some people add Preference for this
                     # mesh_obj_name = self.selobj.Name + "_Mesh"
                     mesh = ObjectsFem.makeMeshGmsh(doc, mesh_obj_name)
                     doc.ActiveObject.Part = fin
 
-                    print("3")
                     # Gmsh mesh object could be added without an active analysis
                     # but if there is an active analysis move it in there
                     if FemGui.getActiveAnalysis():
@@ -80,27 +76,21 @@ def doFemAnalysis():
                     FreeCADGui.Selection.clearSelection()
                     doc.recompute()
 
-                    print("4")
                     fin.ViewObject.Visibility = False
                     doc.recompute()
 
-                    print("5")
                     gmsh_mesh = RocketGmsh(mesh)
                     error = gmsh_mesh.create_mesh()
-                    print("6")
-                    print(error)
                     doc.recompute()
 
                 except TypeError as ex:
                     QtGui.QMessageBox.information(None, "", str(ex))
-                    print("7")
                 return
 
     QtGui.QMessageBox.information(None, "", translate('Rocket', "Please select a fin first"))
 
 class CmdFemAnalysis(Command):
     def Activated(self):
-        print("0.1")
         FreeCADGui.addModule("Ui.Commands.CmdFemAnalysis")
         FreeCADGui.doCommand("Ui.Commands.CmdFemAnalysis.doFemAnalysis()")
 

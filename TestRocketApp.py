@@ -1,5 +1,5 @@
 # ***************************************************************************
-# *   Copyright (c) 2022 David Carter <dcarter@davidcarter.ca>              *
+# *   Copyright (c) 2022-2023 David Carter <dcarter@davidcarter.ca>         *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -35,14 +35,14 @@ from Tests.TestBulkhead import BulkheadTests
 from Tests.TestCenteringRing import CenteringRingTests
 from Tests.TestNoses import NoseTests
 from Tests.TestTransition import TransitionTests
+from Tests.Components.RocketTest import RocketTest
+from Tests.Components.PositionTests import PositionTests
 
 class RocketTestCases(unittest.TestCase):
 
     def testCoesa76(self):
         for i in range(1,85):
             geo = coesa76([i])
-
-            # print("[%f, %f, %f, %f]" % (i * 1000.0, geo.rho, geo.T - 273.15, geo.P))
 
 
     # def testFlutter(self):
@@ -52,8 +52,8 @@ class FinFlutterTestCases(unittest.TestCase):
     def setUp(self):
         self.Doc = FreeCAD.newDocument("FlutterTest")
 
-        self._fin = makeFin('FlutterFin')
-        self._finCan = makeFinCan('flutterFinCan')
+        self._fin = makeFin('FlutterFin')._obj
+        self._finCan = makeFinCan('flutterFinCan')._obj
         self.Doc.recompute()
 
     def _setFin(self, finData):
@@ -188,4 +188,3 @@ class FinFlutterTestCases(unittest.TestCase):
     def tearDown(self):
         #closing doc
         FreeCAD.closeDocument("FlutterTest")
-        #print ("omit closing document for debugging")

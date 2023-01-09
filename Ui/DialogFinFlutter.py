@@ -1,5 +1,5 @@
 # ***************************************************************************
-# *   Copyright (c) 2021 David Carter <dcarter@davidcarter.ca>              *
+# *   Copyright (c) 2021-2023 David Carter <dcarter@davidcarter.ca>         *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -135,10 +135,8 @@ class DialogFinFlutter(QDialog):
             param = FreeCAD.ParamGet("User parameter:BaseApp/Preferences/Units")
             schema = param.GetInt('UserSchema')
             if schema in [2,3,5,7]:
-                # print ("Schema %d NOT metric" % schema)
                 return False
 
-            # print ("Schema %d metric" % schema)
             return True
 
     def _shearUnits(self):
@@ -483,7 +481,6 @@ class DialogFinFlutter(QDialog):
                 self.calculateShear()
             else:
                 self.setShearSpecified()
-            # print(self._material)
 
             self._setSeries()
             self.onFlutter(None)

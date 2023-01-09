@@ -1,5 +1,5 @@
 # ***************************************************************************
-# *   Copyright (c) 2021 David Carter <dcarter@davidcarter.ca>              *
+# *   Copyright (c) 2021-2023 David Carter <dcarter@davidcarter.ca>         *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -29,9 +29,11 @@ import FreeCAD
 import FreeCADGui
 from PySide import QtGui
 
-from App.ShapeParallelStage import ShapeParallelStage
+from App.FeatureParallelStage import FeatureParallelStage
 from Ui.ViewParallelStage import ViewProviderParallelStage
-from Ui.Commands.CmdStage import addToStage
+from Ui.Commands.Command import Command
+
+from App.Constants import FEATURE_PARALLEL_STAGE
 
 from DraftTools import translate
 
@@ -54,25 +56,27 @@ def addToParallelStage(obj):
 
 def makeParallelStage(name='Stage'):
     obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
-    ShapeParallelStage(obj)
+    FeatureParallelStage(obj)
+    obj.Proxy.setDefaults()
     if FreeCAD.GuiUp:
         ViewProviderParallelStage(obj.ViewObject)
 
-        addToStage(obj)
-
     FreeCADGui.ActiveDocument.ActiveView.setActiveObject('stage', obj)
-    return obj
+    return obj.Proxy
 
-class CmdParallelStage:
+class CmdParallelStage(Command):
     def Activated(self):
         FreeCAD.ActiveDocument.openTransaction("Create rocket parallel stage")
-        FreeCADGui.addModule("Ui.CmdParallelStage")
-        FreeCADGui.doCommand("Ui.CmdParallelStage.makeParallelStage('Stage')")
+        FreeCADGui.addModule("Ui.Commands.CmdParallelStage")
+        FreeCADGui.doCommand("obj=Ui.Commands.CmdParallelStage.makeParallelStage('Stage')")
+        FreeCADGui.doCommand("Ui.Commands.CmdStage.addToStage(obj)")
+        FreeCADGui.doCommand("FreeCADGui.Selection.clearSelection()")
+        FreeCADGui.doCommand("FreeCADGui.Selection.addSelection(obj._obj)")
         FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
 
     def IsActive(self):
         if FreeCAD.ActiveDocument:
-            return True
+            return self.part_stage_eligible_feature(FEATURE_PARALLEL_STAGE)
         return False
 
     def GetResources(self):

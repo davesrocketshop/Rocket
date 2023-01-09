@@ -1,5 +1,5 @@
 # ***************************************************************************
-# *   Copyright (c) 2021 David Carter <dcarter@davidcarter.ca>              *
+# *   Copyright (c) 2021-2023 David Carter <dcarter@davidcarter.ca>         *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -24,6 +24,13 @@ __title__ = "FreeCAD Open Rocket Importer"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
+from io import TextIOWrapper
+import re
+import zipfile
+from zipfile import ZipFile
+import gzip
+import xml.etree.ElementTree as ET
+
 import xml.sax
 import FreeCAD
 import FreeCADGui
@@ -35,7 +42,9 @@ from App.Importer.ComponentElement import ComponentElement
 from App.Importer.SubElement import SubElement
 from App.Importer.NoseElement import NoseElement
 
-from App.Utilities import _msg
+from App.events.ComponentChangeEvent import ComponentChangeEvent
+
+from App.Utilities import _err
 
 from Ui.Commands.CmdRocket import makeRocket
 
@@ -71,10 +80,24 @@ class RocketElement(ComponentElement):
                               }
         self._knownTags = ["subcomponents", "designer", "appearance", "motormount", "finpoints", "motorconfiguration", "flightconfiguration", "deploymentconfiguration", "separationconfiguration", "referencetype", "customreference", "revision"]
 
-        self._obj = makeRocket(makeSustainer=False)
+        self._feature = makeRocket(makeSustainer=False)
 
-    def onName(self, content):
-        self._obj.Label = content
+    def handleEndTag(self, tag, content):
+        _tag = tag.lower().strip()
+        if _tag == "designer":
+            FreeCAD.ActiveDocument.CreatedBy = content
+        elif _tag == "revision":
+            pass
+        else:
+            super().handleEndTag(tag, content)
+
+    def onComment(self, content):
+        # FreeCAD.ActiveDocument.Comment = content
+        self._feature._obj.Description = content
+
+    def end(self):
+        self._feature.enableEvents()
+        return self._parent
 
 class OpenRocketImporter(xml.sax.ContentHandler):
     def __init__(self, filename):
@@ -106,8 +129,37 @@ class OpenRocketImporter(xml.sax.ContentHandler):
     def characters(self, content):
         self._content += content
 
-    def importFile(filename):
-        _msg("Importing %s..." % filename)
+    def importFile(doc, filename):
+        try:
+            with gzip.open(filename) as orc:
+                orc.peek(10)
+                OpenRocketImporter.importRocket(doc, orc, filename)
+                doc.recompute(None,True,True)
+                return
+        except gzip.BadGzipFile:
+            pass
+
+        try:
+            if zipfile.is_zipfile(filename):
+                with ZipFile(filename) as orcZip:
+                    for info in orcZip.infolist():
+                        if re.match('.*\\.[oO][rR][kK]$', info.filename):
+                            with orcZip.open(info.filename) as orc:
+                                OpenRocketImporter.importRocket(doc, orc, info.filename)
+                        elif re.match('.*\\.[rR][kK][tT]$', info.filename):
+                            with orcZip.open(info.filename) as orc:
+                                OpenRocketImporter.importRocket(doc, orc, info.filename)
+                return
+        except zipfile.BadZipFile:
+            pass
+
+        with open(filename, "rb") as orc:
+            OpenRocketImporter.importRocket(doc, orc, filename)
+
+    def importRocket(doc, filestream, filename):
+        # _msg("Importing %s..." % filename)
+        orc = TextIOWrapper(filestream)
+
         # create an XMLReader
         parser = xml.sax.make_parser()
 
@@ -117,4 +169,4 @@ class OpenRocketImporter(xml.sax.ContentHandler):
         # override the default ContextHandler
         handler = OpenRocketImporter(filename)
         parser.setContentHandler(handler)
-        parser.parse(filename)
+        parser.parse(orc)

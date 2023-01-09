@@ -1,5 +1,5 @@
 # ***************************************************************************
-# *   Copyright (c) 2021 David Carter <dcarter@davidcarter.ca>              *
+# *   Copyright (c) 2021-2023 David Carter <dcarter@davidcarter.ca>         *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -442,6 +442,9 @@ class TaskPanelRailGuide:
         self._obj.AutoDiameter = value
         self._setAutoDiameterState()
 
+        self._obj.Proxy.update()
+        self._btForm.diameterInput.setText(self._obj.Diameter.UserString)
+
         self.redraw()
         self.setEdited()
         
@@ -515,7 +518,7 @@ class TaskPanelRailGuide:
         self.setEdited()
 
     def onLocation(self):
-        self._obj.Proxy.reposition()
+        self._obj.Proxy.updateChildren()
         self.redraw() 
         self.setEdited()
         

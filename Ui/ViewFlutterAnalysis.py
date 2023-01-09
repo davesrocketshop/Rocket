@@ -1,5 +1,5 @@
 # ***************************************************************************
-# *   Copyright (c) 2021 David Carter <dcarter@davidcarter.ca>              *
+# *   Copyright (c) 2021-2023 David Carter <dcarter@davidcarter.ca>         *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -51,7 +51,7 @@ class ViewProviderFin(ViewProvider):
             FreeCADGui.Control.closeDialog()
             return
 
-    def claimChildren(self):
-        if hasattr(self.Object, "Profile"):
-            return [self.Object.Profile]
-        return None
+    # def claimChildren(self):
+    #     if hasattr(self.Object, "Profile"):
+    #         return [self.Object.Profile]
+    #     return None

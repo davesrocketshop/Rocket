@@ -1,5 +1,5 @@
 # ***************************************************************************
-# *   Copyright (c) 2021 David Carter <dcarter@davidcarter.ca>              *
+# *   Copyright (c) 2021-2023 David Carter <dcarter@davidcarter.ca>         *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -24,28 +24,27 @@ __title__ = "FreeCAD Rocket Components"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
-import FreeCAD
-import FreeCADGui
-import copy
+# import FreeCAD
+# import FreeCADGui
+# import copy
+import Ui
 
 from PySide.QtCore import QObject, Signal
 from App.Utilities import _err
-from App.Constants import PROP_NORECOMPUTE
-
-# Set to True when debugging
-TRACE_POSITION = True
-TRACE_EXECUTION = True
+from App.events.ComponentChangeEvent import ComponentChangeEvent
 
 class EditedShape(QObject):
 
-    edited = Signal()
+    edited = Signal(object)
 
     def __init__(self):
         super().__init__()
 
-    def setEdited(self):
-        # self.edited.emit()
-        pass
+    def setEdited(self, event=None):
+        # if event is None:
+        #     self.edited.emit()
+        # else:
+        self.edited.emit(event) #- need to figure this out
 
     def doConnect(self, fn, type):
         self.edited.connect(fn, type)
@@ -53,7 +52,6 @@ class EditedShape(QObject):
     def doDisconnect(self):
         self.edited.connect(None)
 
-# class ShapeBase(QObject):
 class ShapeBase():
 
     edited = EditedShape()
@@ -67,12 +65,6 @@ class ShapeBase():
         self._parent = None
         obj.Proxy=self
         self._scratch = {} # None persistent property storage, for import properties and similar
-
-    def onDocumentRestored(self, obj):
-        obj.Proxy=self
-        # self.Object = obj
-        self._obj = obj
-        self._parent = None
     
     def __getstate__(self):
         return self.Type, self.version
@@ -91,8 +83,8 @@ class ShapeBase():
     def isScratch(self, name):
         return name in self._scratch
 
-    def setEdited(self):
-        self.edited.setEdited()
+    def setEdited(self, event=None):
+        self.edited.setEdited(event)
 
     def connect(self, fn, type):
         self.edited.doConnect(fn, type)
@@ -104,15 +96,45 @@ class ShapeBase():
         return False
 
     def setParent(self, obj):
-        self._parent = obj
+        if hasattr(obj, "Proxy"):
+            self._parent = obj.Proxy
+        else:
+            self._parent = obj
 
     def getParent(self):
+        if hasattr(self._parent, "Proxy"):
+            return self._parent.Proxy
         return self._parent
 
-    def getPrevious(self, obj=None):
-        if TRACE_POSITION:
-            print("P: ShapeBase::getPrevious(%s)" % (self._obj.Label))
+    def getChildren(self):
+        return self._obj.Group
 
+    def setChildren(self, list):
+        self._obj.Group = list
+
+    def _getChild(self, index):
+        try:
+            return self._obj.Group[index]
+        except IndexError:
+            return None
+
+    def _setChild(self, index, value):
+        list = self._obj.Group
+        list.insert(index, value)
+        self._obj.Group = list
+
+    def _moveChild(self, index, value):
+        list = self._obj.Group
+        list.remove(value)
+        list.insert(index, value)
+        self._obj.Group = list
+
+    def _removeChild(self, value):
+        list = self._obj.Group
+        list.remove(value)
+        self._obj.Group = list
+
+    def getPrevious(self, obj=None):
         "Previous item along the rocket axis"
         if obj is None:
             if self._parent is not None:
@@ -133,9 +155,6 @@ class ShapeBase():
         return None
 
     def getNext(self, obj=None):
-        if TRACE_POSITION:
-            print("P: ShapeBase::getNext(%s)" % (self._obj.Label))
-
         "Next item along the rocket axis"
         if obj is None:
             if self._parent is not None:
@@ -155,139 +174,49 @@ class ShapeBase():
 
         return None
 
-    def getAxialLength(self):
-        if TRACE_POSITION:
-            print("P: ShapeBase::getAxialLength(%s)" % (self._obj.Label))
-
-        # Return the length of this component along the central axis
-        length = 0.0
-        if hasattr(self._obj, "Group"):
-            for child in self._obj.Group:
-                length += float(child.Proxy.getAxialLength())
-
-        print("Length = %f" %(length))
-        return length
-
     def getMaxForwardPosition(self):
-        if TRACE_POSITION:
-            print("P: ShapeBase::getMaxForwardPosition(%s)" % (self._obj.Label))
-
         # Return the length of this component along the central axis
         length = 0.0
         if hasattr(self._obj, "Group"):
             for child in self._obj.Group:
                 length = max(length, float(child.Proxy.getMaxForwardPosition()))
 
-        # print("Length = %f" %(length))
         return length
 
     def getForeRadius(self):
-        if TRACE_POSITION:
-            print("P: ShapeBase::getForeRadius(%s)" % (self._obj.Label))
-
         # For placing objects on the outer part of the parent
         return 0.0
 
     def getAftRadius(self):
-        if TRACE_POSITION:
-            print("P: ShapeBase::getAftRadius(%s)" % (self._obj.Label))
-
         # For placing objects on the outer part of the parent
         return self.getForeRadius()
 
-    def getRadius(self):
-        if TRACE_POSITION:
-            print("P: ShapeBase::getRadius(%s)" % (self._obj.Label))
-
+    def getRadius(self, pos=0):
         return self.getForeRadius()
 
     def setRadius(self):
-        if TRACE_POSITION:
-            print("P: ShapeBase::setRadius(%s)" % (self._obj.Label))
-
         # Calculate any auto radii
         self.getRadius()
 
-    def resetPlacement(self):
-        if TRACE_POSITION:
-            print("P: ShapeBase::resetPlacement(%s)" % (self._obj.Label))
-
-        self._obj.Placement = FreeCAD.Placement()
-
-    def reposition(self):
-        if TRACE_POSITION:
-            print("P: ShapeBase::reposition(%s)" % (self._obj.Label))
-
-        if self._parent is not None:
-            if TRACE_POSITION:
-                print("P: ShapeBase::reposition(%s)._parent(%s)" % (self._obj.Label, self._parent.Label))
-            self._parent.Proxy.reposition()
-        else:
-            rocket=FreeCADGui.ActiveDocument.ActiveView.getActiveObject("rocket")
-            if rocket:
-                rocket.Proxy.reposition()
-            elif TRACE_POSITION:
-                print("P: ShapeBase::reposition(%s) - NO PARENT" % (self._obj.Label))
-
-    def setAxialPosition(self, partBase, roll=0.0):
-        if TRACE_POSITION:
-            print("P: ShapeBase::setAxialPosition(%s, (%f,%f,%f), %f)" % (self._obj.Label, partBase.x, partBase.y, partBase.z, roll))
-
-        base = self._obj.Placement.Base
-        self._obj.Placement = FreeCAD.Placement(FreeCAD.Vector(partBase.x, base.y, base.z), FreeCAD.Rotation(FreeCAD.Vector(1,0,0), roll))
-
-        self.positionChildren(partBase)
-
-    def positionChildren(self, partBase):
-        if TRACE_POSITION:
-            print("P: ShapeBase::positionChildren(%s, (%f,%f,%f))" % (self._obj.Label, partBase.x, partBase.y, partBase.z))
-
-        # Dynamic placements
-        if hasattr(self._obj, "Group"):
-            base = FreeCAD.Vector(partBase)
-            # base = FreeCAD.Vector(0,0,0)
-            for child in reversed(self._obj.Group):
-                child.Proxy.positionChild(self._obj, base, self.getAxialLength(), self.getForeRadius(), 0.0)
-                # base.x += float(child.Proxy.getAxialLength())
-
-    def positionChild(self, parent, parentBase, parentLength, parentRadius, rotation):
-        if TRACE_POSITION:
-            print("P: ShapeBase::positionChild(%s, %s, (%f,%f,%f), %f, %f, %f)" % (self._obj.Label, parent.Label, parentBase.x, parentBase.y, parentBase.z, parentLength, parentRadius, rotation))
-
-        base = FreeCAD.Vector(parentBase)
-        self.setAxialPosition(base)
-
-        self.positionChildren(base)
-
-
     def getOuterRadius(self):
-        if TRACE_POSITION:
-            print("P: ShapeBase::getOuterRadius(%s)" % (self._obj.Label))
-
         return 0.0
 
     def getInnerRadius(self):
-        if TRACE_POSITION:
-            print("P: ShapeBase::getInnerRadius(%s)" % (self._obj.Label))
-
         return 0.0
 
     def setRadialPosition(self, outerRadius, innerRadius):
-        if TRACE_POSITION:
-            print("P: ShapeBase::setRadialPosition(%s, %f, %f)" % (self._obj.Label, outerRadius, innerRadius))
-
+        pass
 
     def getRadialPositionOffset(self):
-        if TRACE_POSITION:
-            print("P: ShapeBase::getRadialPositionOffset(%s)" % (self._obj.Label))
-
         return 0.0
 
     def moveUp(self):
         # Move the part up in the tree
-        if self._parent is not None:
-            self._parent.Proxy._moveChildUp(self._obj)
-            self.reposition()
+        if self.getParent() is not None:
+            self.getParent()._moveChildUp(self._obj)
+            # self.reposition()
+            self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
+            Ui.Commands.CmdRocket.updateRocket()
 
     def _moveChildUp(self, obj):
         if hasattr(self._obj, "Group"):
@@ -295,7 +224,6 @@ class ShapeBase():
             for child in self._obj.Group:
                 if child.Proxy == obj.Proxy:
                     if index > 0:
-                        # print("\t2")
                         if self._obj.Group[index - 1].Proxy.eligibleChild(obj.Proxy.Type):
                             # Append to the end of the previous entry
                             self._obj.removeObject(obj)
@@ -312,8 +240,8 @@ class ShapeBase():
                             return
                     else:
                         # Add to the grandparent ahead of the parent, or add to the next greater parent
-                        if self._parent is not None:
-                            grandparent = self._parent
+                        if self.getParent() is not None:
+                            grandparent = self.getParent()._obj
                             parent = self
                             index = 0
                             for child in grandparent.Group:
@@ -330,27 +258,27 @@ class ShapeBase():
 
                         parent = grandparent
                         while parent is not None:
+                            if hasattr(parent, "_obj"):
+                                parent = parent._obj
                             if parent.Proxy.eligibleChild(obj.Proxy.Type):
                                 self._obj.removeObject(obj)
                                 obj.Proxy.setParent(parent)
                                 parent.addObject(obj)
                                 return
-                            parent = parent._parent
+                            parent = parent.Proxy.getParent()
                 index += 1
 
-        if self._parent is not None:
-            # print("\t9")
-            self._parent.Proxy._moveChildUp(self._obj)
-        # print("\t10")
+        if self.getParent() is not None:
+            self.getParent()._moveChildUp(self._obj)
         return
 
     def moveDown(self):
         # Move the part up in the tree
-        if self._parent is not None:
-            self._parent.Proxy._moveChildDown(self._obj)
-            self.reposition()
-        # else:
-        #     print("No parent")
+        if self.getParent() is not None:
+            self.getParent()._moveChildDown(self._obj)
+            # self.reposition()
+            self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
+            Ui.Commands.CmdRocket.updateRocket()
 
     def _moveChildDown(self, obj):
         if hasattr(self._obj, "Group"):
@@ -369,7 +297,7 @@ class ShapeBase():
                             parent.Group = group
                             return
                         else:
-                            # Swap with the next entry
+                            # Swap with the next entrysetParent
                             group = self._obj.Group
                             temp = group[index + 1]
                             group[index + 1] = obj
@@ -378,10 +306,12 @@ class ShapeBase():
                             return
                     else:
                         current = self
-                        parent = self._parent
+                        parent = self.getParent()
+                        if parent is not None:
+                            parent = parent._obj
                         while parent is not None:
                             if parent.Proxy.eligibleChild(obj.Proxy.Type):
-                                parentLen = len(parent.Group)
+                                # parentLen = len(parent.Group)
                                 index1 = 0
                                 for child in parent.Group:
                                     if child.Proxy == current:
@@ -398,8 +328,8 @@ class ShapeBase():
                             parent = parent._parent
                 index += 1
 
-        if self._parent is not None:
-            self._parent.Proxy._moveChildDown(self._obj)
+        if self.getParent() is not None:
+            self.getParent()._moveChildDown(self._obj)
         return
 
     # This will be implemented in the derived class

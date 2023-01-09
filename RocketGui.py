@@ -1,5 +1,5 @@
 # ***************************************************************************
-# *   Copyright (c) 2021 David Carter <dcarter@davidcarter.ca>              *
+# *   Copyright (c) 2021-2023 David Carter <dcarter@davidcarter.ca>         *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -27,13 +27,14 @@ import FreeCADGui
 
 from DraftTools import translate
 
+from Ui.Commands.Command import Command
 from Ui.Commands.CmdRocket import CmdRocket, CmdToggleRocket
 from Ui.Commands.CmdStage import CmdStage, CmdToggleStage
 from Ui.Commands.CmdParallelStage import CmdParallelStage, CmdToggleParallelStage
 from Ui.Commands.CmdNoseCone import CmdNoseCone
 from Ui.Commands.CmdTransition import CmdTransition
 from Ui.Commands.CmdCenteringRing import CmdCenteringRing
-from Ui.Commands.CmdBodyTube import CmdBodyTube, CmdCoupler, CmdInnerTube
+from Ui.Commands.CmdBodyTube import CmdBodyTube, CmdCoupler, CmdInnerTube, CmdEngineBlock
 from Ui.Commands.CmdPod import CmdPod
 from Ui.Commands.CmdBulkhead import CmdBulkhead
 from Ui.Commands.CmdLaunchGuides import CmdLaunchLug, CmdRailButton, CmdRailGuide, CmdStandOff
@@ -59,6 +60,9 @@ from Ui.Commands.CmdFlutterAnalysis import CmdFinFlutter
 from Ui.Commands.CmdFemAnalysis import CmdFemAnalysis
 from Ui.Commands.CmdMaterialEditor import CmdMaterialEditor
 
+from App.Constants import FEATURE_BODY_TUBE
+from App.Constants import FEATURE_LAUNCH_LUG, FEATURE_RAIL_BUTTON, FEATURE_RAIL_GUIDE, FEATURE_OFFSET
+
 FreeCADGui.addCommand('Rocket_Rocket', CmdRocket())
 FreeCADGui.addCommand('Rocket_ToggleRocket', CmdToggleRocket())
 FreeCADGui.addCommand('Rocket_Stage', CmdStage())
@@ -76,6 +80,7 @@ FreeCADGui.addCommand('Rocket_FinCan', CmdFinCan())
 FreeCADGui.addCommand('Rocket_BodyTube', CmdBodyTube())
 FreeCADGui.addCommand('Rocket_Coupler', CmdCoupler())
 FreeCADGui.addCommand('Rocket_InnerTube', CmdInnerTube())
+FreeCADGui.addCommand('Rocket_EngineBlock', CmdEngineBlock())
 
 FreeCADGui.addCommand('Rocket_Pod', CmdPod())
 
@@ -118,7 +123,7 @@ class _CalculatorGroupCommand:
         # Always available, even without active document
         return True
 
-class _TubeGroupCommand:
+class _TubeGroupCommand(Command):
 
     def GetCommands(self):
         return tuple(['Rocket_BodyTube', 'Rocket_Coupler', 'Rocket_InnerTube'])
@@ -130,10 +135,10 @@ class _TubeGroupCommand:
         }
     def IsActive(self):
         if FreeCAD.ActiveDocument:
-            return True
+            return self.part_eligible_feature(FEATURE_BODY_TUBE)
         return False
 
-class _GuidesGroupCommand:
+class _GuidesGroupCommand(Command):
 
     def GetCommands(self):
         return tuple(['Rocket_LaunchLug', 'Rocket_RailButton', 'Rocket_RailGuide'])
@@ -145,7 +150,7 @@ class _GuidesGroupCommand:
         }
     def IsActive(self):
         if FreeCAD.ActiveDocument:
-            return True
+            return self.part_eligible_feature([FEATURE_LAUNCH_LUG, FEATURE_RAIL_BUTTON, FEATURE_RAIL_GUIDE, FEATURE_OFFSET])
         return False
 
 FreeCADGui.addCommand('Rocket_Calculators', _CalculatorGroupCommand())

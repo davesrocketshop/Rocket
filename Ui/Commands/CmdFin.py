@@ -1,5 +1,5 @@
 # ***************************************************************************
-# *   Copyright (c) 2021 David Carter <dcarter@davidcarter.ca>              *
+# *   Copyright (c) 2021-2023 David Carter <dcarter@davidcarter.ca>         *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -27,17 +27,18 @@ __url__ = "https://www.davesrocketshop.com"
 import FreeCAD
 import FreeCADGui
 
-from App.Constants import FIN_TYPE_SKETCH
-from App.ShapeFin import ShapeFin
+from App.Constants import FEATURE_FIN, FIN_TYPE_SKETCH
+from App.FeatureFin import FeatureFin
 from Ui.ViewFin import ViewProviderFin
-from Ui.Commands.CmdStage import addToStage
+from Ui.Commands.Command import Command
 
 from DraftTools import translate
 
-def makeFin(name):
+def makeFin(name='Fin'):
     '''makeFin(name): makes a Fin'''
     obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
-    ShapeFin(obj)
+    FeatureFin(obj)
+    obj.Proxy.setDefaults()
 
     # See if we have a sketch selected. If so, this is a custom fin
     for sketch in FreeCADGui.Selection.getSelection():
@@ -49,19 +50,21 @@ def makeFin(name):
     if FreeCAD.GuiUp:
         ViewProviderFin(obj.ViewObject)
 
-        addToStage(obj)
-    return obj
+    return obj.Proxy
 
-class CmdFin:
+class CmdFin(Command):
     def Activated(self):
         FreeCAD.ActiveDocument.openTransaction("Create fin")
         FreeCADGui.addModule("Ui.Commands.CmdFin")
-        FreeCADGui.doCommand("Ui.Commands.CmdFin.makeFin('Fin')")
+        FreeCADGui.doCommand("obj=Ui.Commands.CmdFin.makeFin('Fin')")
+        FreeCADGui.doCommand("Ui.Commands.CmdStage.addToStage(obj)")
+        FreeCADGui.doCommand("FreeCADGui.Selection.clearSelection()")
+        FreeCADGui.doCommand("FreeCADGui.Selection.addSelection(obj._obj)")
         FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
 
     def IsActive(self):
         if FreeCAD.ActiveDocument:
-            return True
+            return self.part_eligible_feature(FEATURE_FIN)
         return False
         
     def GetResources(self):

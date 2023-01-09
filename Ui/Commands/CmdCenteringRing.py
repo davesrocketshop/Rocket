@@ -1,5 +1,5 @@
 # ***************************************************************************
-# *   Copyright (c) 2021 David Carter <dcarter@davidcarter.ca>              *
+# *   Copyright (c) 2021-2023 David Carter <dcarter@davidcarter.ca>         *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -27,32 +27,34 @@ __url__ = "https://www.davesrocketshop.com"
 import FreeCAD
 import FreeCADGui
 
-from App.ShapeCenteringRing import ShapeCenteringRing
+from App.FeatureCenteringRing import FeatureCenteringRing
 from Ui.ViewCenteringRing import ViewProviderCenteringRing
-from Ui.Commands.CmdStage import addToStage
+from Ui.Commands.Command import Command
+
+from App.Constants import FEATURE_CENTERING_RING
 
 from DraftTools import translate
 
 def makeCenteringRing(name='CenteringRing'):
     '''makeCenteringRing(name): makes a centering ring'''
     obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
-    ShapeCenteringRing(obj)
+    FeatureCenteringRing(obj)
     if FreeCAD.GuiUp:
         ViewProviderCenteringRing(obj.ViewObject)
 
-        addToStage(obj)
-    return obj
+    return obj.Proxy
 
-class CmdCenteringRing:
+class CmdCenteringRing(Command):
     def Activated(self):
         FreeCAD.ActiveDocument.openTransaction("Create centering ring")
         FreeCADGui.addModule("Ui.Commands.CmdCenteringRing")
-        FreeCADGui.doCommand("Ui.Commands.CmdCenteringRing.makeCenteringRing('CenteringRing')")
+        FreeCADGui.doCommand("obj=Ui.Commands.CmdCenteringRing.makeCenteringRing('CenteringRing')")
+        FreeCADGui.doCommand("Ui.Commands.CmdStage.addToStage(obj)")
         FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
 
     def IsActive(self):
         if FreeCAD.ActiveDocument:
-            return True
+            return self.part_eligible_feature(FEATURE_CENTERING_RING)
         return False
         
     def GetResources(self):

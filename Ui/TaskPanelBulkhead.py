@@ -1,5 +1,5 @@
 # ***************************************************************************
-# *   Copyright (c) 2021 David Carter <dcarter@davidcarter.ca>              *
+# *   Copyright (c) 2021-2023 David Carter <dcarter@davidcarter.ca>         *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -220,6 +220,7 @@ class TaskPanelBulkhead:
     def __init__(self, obj, crPanel, mode):
         self._obj = obj
         self._crPanel = crPanel
+        self._isAssembly = self._obj.Proxy.isRocketAssembly()
         
         self._bulkForm = _BulkheadDialog(self._crPanel)
         if crPanel:
@@ -338,13 +339,19 @@ class TaskPanelBulkhead:
         self.setEdited()
         
     def _setAutoDiameterState(self):
-        self._bulkForm.diameterInput.setEnabled(not self._obj.AutoDiameter)
-        self._bulkForm.autoDiameterCheckbox.setChecked(self._obj.AutoDiameter)
+        if self._isAssembly:
+            self._bulkForm.diameterInput.setEnabled(not self._obj.AutoDiameter)
+            self._bulkForm.autoDiameterCheckbox.setChecked(self._obj.AutoDiameter)
+        else:
+            self._obj.AutoDiameter = False
+            self._bulkForm.diameterInput.setEnabled(not self._obj.AutoDiameter)
+            self._bulkForm.autoDiameterCheckbox.setChecked(self._obj.AutoDiameter)
+            self._bulkForm.autoDiameterCheckbox.setEnabled(self._obj.AutoDiameter)
 
         if self._obj.AutoDiameter:
-            parent = self._obj.Proxy._parent
+            parent = self._obj.Proxy.getParent()
             if parent is not None:
-                self._obj.Diameter = 2.0 * parent.Proxy.getInnerRadius()
+                self._obj.Diameter = 2.0 * parent.getInnerRadius()
                 self._bulkForm.diameterInput.setText(self._obj.Diameter.UserString)
 
     def onAutoDiameter(self, value):
@@ -371,8 +378,14 @@ class TaskPanelBulkhead:
         self.setEdited()
         
     def _setAutoCenterDiameterState(self):
-        self._bulkForm.centerDiameterInput.setEnabled(not self._obj.CenterAutoDiameter)
-        self._bulkForm.autoCenterDiameterCheckbox.setChecked(self._obj.CenterAutoDiameter)
+        if self._isAssembly:
+            self._bulkForm.centerDiameterInput.setEnabled(not self._obj.CenterAutoDiameter)
+            self._bulkForm.autoCenterDiameterCheckbox.setChecked(self._obj.CenterAutoDiameter)
+        else:
+            self._obj.CenterAutoDiameter = False
+            self._bulkForm.centerDiameterInput.setEnabled(not self._obj.CenterAutoDiameter)
+            self._bulkForm.autoCenterDiameterCheckbox.setChecked(self._obj.CenterAutoDiameter)
+            self._bulkForm.autoCenterDiameterCheckbox.setEnabled(self._obj.CenterAutoDiameter)
 
         if self._obj.CenterAutoDiameter:
             self._obj.CenterDiameter = 2.0 * self._obj.Proxy.getRadius()
@@ -509,7 +522,7 @@ class TaskPanelBulkhead:
         self.setEdited()
 
     def onLocation(self):
-        self._obj.Proxy.reposition()
+        self._obj.Proxy.updateChildren()
         self._obj.Proxy.execute(self._obj) 
         self.setEdited()
         

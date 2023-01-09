@@ -1,5 +1,5 @@
 # ***************************************************************************
-# *   Copyright (c) 2021 David Carter <dcarter@davidcarter.ca>              *
+# *   Copyright (c) 2021-2023 David Carter <dcarter@davidcarter.ca>         *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -24,6 +24,8 @@ __title__ = "FreeCAD XML SAX Element"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
+from abc import ABC, abstractmethod
+
 from App.Utilities import _msg, _err
 
 class Element:
@@ -39,7 +41,13 @@ class Element:
         self._componentTags = []
 
         self._parentObj = parentObj
-        self._obj = None
+        self._feature = None
+
+        self.makeObject()
+
+    @abstractmethod
+    def makeObject(self):
+        pass
 
     def end(self):
         return self._parent
@@ -69,9 +77,12 @@ class Element:
         if not _tag in self._validChildren:
             _err("Invalid element %s" % tag)
             return None
-        obj = self._obj
+        obj = self._feature
         if obj is None:
             obj = self._parentObj
+        # if obj is not None:
+        #     if hasattr(obj, '_obj'):
+        #         obj = obj._obj
         return self._validChildren[_tag](self, tag, attributes, obj, filename, line)
 
 class NullElement(Element):

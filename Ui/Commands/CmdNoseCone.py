@@ -1,5 +1,5 @@
 # ***************************************************************************
-# *   Copyright (c) 2021 David Carter <dcarter@davidcarter.ca>              *
+# *   Copyright (c) 2021-2023 David Carter <dcarter@davidcarter.ca>         *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -28,32 +28,35 @@ __url__ = "https://www.davesrocketshop.com"
 import FreeCAD
 import FreeCADGui
 
-from App.ShapeNoseCone import ShapeNoseCone
+from App.FeatureNoseCone import FeatureNoseCone
 from Ui.ViewNoseCone import ViewProviderNoseCone
-from Ui.Commands.CmdStage import addToStage
+from Ui.Commands.Command import Command
+
+from App.Constants import FEATURE_NOSE_CONE
 
 from DraftTools import translate
 
 def makeNoseCone(name='NoseCone'):
     '''makeNoseCone(name): makes a Nose Cone'''
     obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
-    ShapeNoseCone(obj)
+    FeatureNoseCone(obj)
+    obj.Proxy.setDefaults()
     if FreeCAD.GuiUp:
         ViewProviderNoseCone(obj.ViewObject)
 
-        addToStage(obj)
-    return obj
+    return obj.Proxy
 
-class CmdNoseCone:
+class CmdNoseCone(Command):
     def Activated(self):
         FreeCAD.ActiveDocument.openTransaction("Create nose cone")
         FreeCADGui.addModule("Ui.Commands.CmdNoseCone")
-        FreeCADGui.doCommand("Ui.Commands.CmdNoseCone.makeNoseCone('NoseCone')")
+        FreeCADGui.doCommand("obj=Ui.Commands.CmdNoseCone.makeNoseCone('NoseCone')")
+        FreeCADGui.doCommand("Ui.Commands.CmdStage.addToStage(obj)")
         FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
 
     def IsActive(self):
         if FreeCAD.ActiveDocument:
-            return True
+            return self.part_eligible_feature(FEATURE_NOSE_CONE)
         return False
 
     def GetResources(self):

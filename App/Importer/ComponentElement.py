@@ -1,5 +1,5 @@
 # ***************************************************************************
-# *   Copyright (c) 2021 David Carter <dcarter@davidcarter.ca>              *
+# *   Copyright (c) 2021-2023 David Carter <dcarter@davidcarter.ca>         *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -24,9 +24,12 @@ __title__ = "FreeCAD Open Rocket Importer Common Component"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
-from App.Importer.SaxElement import Element
+import FreeCAD
+
+from App.Importer.SaxElement import Element, NullElement
 from App.Constants import LOCATION_PARENT_TOP, LOCATION_PARENT_MIDDLE, LOCATION_PARENT_BOTTOM, \
     LOCATION_BASE, LOCATION_AFTER
+from App.position.AxialMethod import AXIAL_METHOD_MAP
 
 class ComponentElement(Element):
 
@@ -34,13 +37,24 @@ class ComponentElement(Element):
         super().__init__(parent, tag, attributes, parentObj, filename, line)
 
         self._componentTags = ["name", "color", "linestyle", "position", "axialoffset", "overridemass", "overridecg", "overridecd", 
-            "overridesubcomponents", "comment", "preset", "finish", "material"]
+            "overridesubcomponents", "overridesubcomponentsmass", "overridesubcomponentscg", "overridesubcomponentscd", "comment", "preset", "finish", "material"]
 
     def handleTag(self, tag, attributes):
         _tag = tag.lower().strip()
         if _tag == "position":
             positionType = attributes["type"]
-            print("positionType = %s" % (positionType))
+            if positionType == "after":
+                self.onPositionType(LOCATION_AFTER)
+            elif positionType == "top":
+                self.onPositionType(LOCATION_PARENT_TOP)
+            elif positionType == "middle":
+                self.onPositionType(LOCATION_PARENT_MIDDLE)
+            elif positionType == "bottom":
+                self.onPositionType(LOCATION_PARENT_BOTTOM)
+            else:
+                self.onPositionType(LOCATION_BASE)
+        elif _tag == "axialoffset":
+            positionType = attributes["method"]
             if positionType == "after":
                 self.onPositionType(LOCATION_AFTER)
             elif positionType == "top":
@@ -63,19 +77,23 @@ class ComponentElement(Element):
         elif _tag == "linestyle":
             self.onLinestyle(content)
         elif _tag == "position":
-            self.onPosition(content)
+            self.onAxialOffset(FreeCAD.Units.Quantity(content + " m").Value)
         elif _tag == "axialoffset":
-            pass
+            self.onAxialOffset(FreeCAD.Units.Quantity(content + " m").Value)
         elif _tag == "overridemass":
-            # diameter = float(content) * 2.0
-            # self._obj.Diameter = str(diameter) + "m"
-            pass
+            self.onOverrideMass(FreeCAD.Units.Quantity(content + " kg").Value)
         elif _tag == "overridecg":
-            pass
+            self.onOverrideCG(FreeCAD.Units.Quantity(content + " m").Value)
         elif _tag == "overridecd":
-            pass
+            self.onOverrideCd(content)
         elif _tag == "overridesubcomponents":
-            pass
+            self.onOverrideSubcomponents(content)
+        elif _tag == "overridesubcomponentsmass":
+            self.onOverrideSubcomponentsMass(content)
+        elif _tag == "overridesubcomponentscg":
+            self.onOverrideSubcomponentsCG(content)
+        elif _tag == "overridesubcomponentscd":
+            self.onOverrideSubcomponentsCd(content)
         elif _tag == "comment":
             self.onComment(content)
         elif _tag == "preset":
@@ -84,7 +102,8 @@ class ComponentElement(Element):
             super().handleEndTag(tag, content)
 
     def onName(self, content):
-        pass
+        if hasattr(self._feature, "setName"):
+            self._feature.setName(content)
 
     def onColor(self, content):
         pass
@@ -93,13 +112,74 @@ class ComponentElement(Element):
         pass
 
     def onComment(self, content):
-        pass
+        if hasattr(self._feature, "setComment"):
+            self._feature.setComment(content)
 
     def onPreset(self, content):
         pass
 
     def onPositionType(self, value):
+        if hasattr(self._feature._obj, "LocationReference"):
+            self._feature._obj.LocationReference = value
+        if hasattr(self._feature._obj, "AxialMethod"):
+            self._feature._obj.AxialMethod = AXIAL_METHOD_MAP[value]
+
+    def onAxialOffset(self, content):
+        if hasattr(self._feature._obj, "Location"):
+            self._feature._obj.Location = -content
+        if hasattr(self._feature._obj, "AxialOffset"):
+            self._feature._obj.AxialOffset = -content
+
+    def onOverrideMass(self, content):
+        if hasattr(self._feature, "setOverrideMass"):
+            self._feature.setOverrideMass(content)
+        if hasattr(self._feature, "setMassOverridden"):
+            self._feature.setMassOverridden(content > 0)
+
+    def onOverrideCG(self, content):
         pass
 
-    def onPosition(self, content):
+    def onOverrideCd(self, content):
         pass
+
+    def onOverrideSubcomponents(self, content):
+        pass
+
+    def onOverrideSubcomponentsMass(self, content):
+        pass
+
+    def onOverrideSubcomponentsCG(self, content):
+        pass
+
+    def onOverrideSubcomponentsCd(self, content):
+        pass
+
+class ExternalComponentElement(ComponentElement):
+
+    def __init__(self, parent, tag, attributes, parentObj, filename, line):
+        super().__init__(parent, tag, attributes, parentObj, filename, line)
+
+        self._validChildren = { 'finish' : NullElement,
+                                'material' : NullElement,
+                                'appearance' : NullElement,
+                              }
+
+
+class BodyComponentElement(ExternalComponentElement):
+
+    def __init__(self, parent, tag, attributes, parentObj, filename, line):
+        super().__init__(parent, tag, attributes, parentObj, filename, line)
+
+        self._knownTags.extend(["length"])
+
+
+    def handleEndTag(self, tag, content):
+        _tag = tag.lower().strip()
+        if _tag == "length":
+            self.onLength(FreeCAD.Units.Quantity(content + " m").Value)
+        else:
+            super().handleEndTag(tag, content)
+
+    def onLength(self, content):
+        if hasattr(self._feature, "setLength"):
+            self._feature.setLength(content)

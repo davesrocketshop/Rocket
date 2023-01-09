@@ -1,5 +1,5 @@
 # ***************************************************************************
-# *   Copyright (c) 2021 David Carter <dcarter@davidcarter.ca>              *
+# *   Copyright (c) 2021-2023 David Carter <dcarter@davidcarter.ca>         *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -27,40 +27,49 @@ __url__ = "https://www.davesrocketshop.com"
 
 import FreeCAD
 import FreeCADGui
-from PySide import QtGui
 
 from DraftTools import translate
 
-from App.ShapeRocket import ShapeRocket
+from App.FeatureRocket import FeatureRocket
 from Ui.ViewRocket import ViewProviderRocket
+from Ui.Commands.Command import Command
 from Ui.Commands.CmdStage import makeStage
 
-def makeRocket(name='Rocket', makeSustainer=True):
-    obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
-    ShapeRocket(obj)
+def updateRocket():
+    rocket = FreeCADGui.ActiveDocument.ActiveView.getActiveObject("rocket")
+    if rocket is not None:
+        rocket.Proxy.updateChildren()
+
+def makeRocket(name='Rocket', makeSustainer=False):
+    obj = FreeCAD.ActiveDocument.addObject("App::GeometryPython",name)
+    FeatureRocket(obj)
+    obj.Proxy.setDefaults()
     if FreeCAD.GuiUp:
         ViewProviderRocket(obj.ViewObject)
+    FreeCADGui.ActiveDocument.ActiveView.setActiveObject('rocket', obj)
 
     if makeSustainer:
-        sustainer = makeStage()
-        sustainer.Label = 'Sustainer'
-        obj.addObject(sustainer)
-        FreeCADGui.ActiveDocument.ActiveView.setActiveObject('stage', sustainer)
-    
-    FreeCADGui.ActiveDocument.ActiveView.setActiveObject('rocket', obj)
-    return obj
+        sustainer = makeStage('Stage')
+        obj.Proxy.addChild(sustainer)
+        FreeCADGui.Selection.clearSelection()
+        FreeCADGui.Selection.addSelection(sustainer._obj)
+    else:
+        FreeCADGui.Selection.clearSelection()
+        FreeCADGui.Selection.addSelection(obj)
 
-class CmdRocket:
+    # obj.Proxy.enableEvents()
+    return obj.Proxy
+
+class CmdRocket(Command):
     def Activated(self):
         FreeCAD.ActiveDocument.openTransaction("Create rocket assembly")
-        FreeCADGui.addModule("Ui.CmdRocket")
-        FreeCADGui.doCommand("Ui.CmdRocket.makeRocket('Rocket')")
+        FreeCADGui.addModule("Ui.Commands.CmdRocket")
+        FreeCADGui.doCommand("rocket=Ui.Commands.CmdRocket.makeRocket('Rocket', True)")
+        FreeCADGui.doCommand("rocket.enableEvents()")
         FreeCADGui.doCommand("App.activeDocument().recompute(None,True,True)")
 
     def IsActive(self):
-        if FreeCAD.ActiveDocument:
-            return True
-        return False
+        return self.no_rocket_builder()
 
     def GetResources(self):
         return {'MenuText': translate("Rocket", 'Rocket'),

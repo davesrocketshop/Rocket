@@ -1,5 +1,5 @@
 # ***************************************************************************
-# *   Copyright (c) 2021 David Carter <dcarter@davidcarter.ca>              *
+# *   Copyright (c) 2021-2023 David Carter <dcarter@davidcarter.ca>         *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -32,7 +32,7 @@ class Command:
         if FreeCADGui.ActiveDocument is None:
             return False
         sel = FreeCADGui.Selection.getSelection()
-        if len(sel) == 1 and sel[0].isDerivedFrom("Part::Feature"):
+        if len(sel) == 1 and (sel[0].isDerivedFrom("Part::Feature") or sel[0].isDerivedFrom("App::GeometryFeature")):
             return True
         else:
             return False
@@ -44,3 +44,36 @@ class Command:
                 if hasattr(sel[0],"FinType"):
                     return True
         return False
+
+    def part_stage_eligible_feature(self, feature):
+        if FreeCADGui.ActiveDocument is not None:
+            sel = FreeCADGui.Selection.getSelection()
+            if len(sel) == 1 and (sel[0].isDerivedFrom("Part::FeaturePython") or sel[0].isDerivedFrom("App::GeometryPython")):
+                if isinstance(feature, list):
+                    for f in feature:
+                        if sel[0].Proxy.eligibleChild(f):
+                            return True
+                elif sel[0].Proxy.eligibleChild(feature):
+                    return True
+        return False
+
+    def part_eligible_feature(self, feature):
+        if FreeCADGui.ActiveDocument is not None:
+            if FreeCADGui.ActiveDocument.ActiveView.getActiveObject("rocket") is None:
+                return True
+            sel = FreeCADGui.Selection.getSelection()
+            if len(sel) == 1 and (sel[0].isDerivedFrom("Part::FeaturePython") or sel[0].isDerivedFrom("App::GeometryPython")):
+                if isinstance(feature, list):
+                    for f in feature:
+                        if sel[0].Proxy.eligibleChild(f):
+                            return True
+                elif sel[0].Proxy.eligibleChild(feature):
+                    return True
+        return False
+
+    def no_rocket_builder(self):
+        if FreeCADGui.ActiveDocument is None:
+            return False
+
+        if FreeCADGui.ActiveDocument.ActiveView.getActiveObject("rocket") is None:
+            return True

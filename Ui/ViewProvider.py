@@ -1,5 +1,5 @@
 # ***************************************************************************
-# *   Copyright (c) 2021 David Carter <dcarter@davidcarter.ca>              *
+# *   Copyright (c) 2021-2023 David Carter <dcarter@davidcarter.ca>         *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -23,6 +23,8 @@
 __title__ = "FreeCAD View Provider"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
+
+from pivy import coin
     
 from DraftTools import translate
 
@@ -30,12 +32,11 @@ class ViewProvider:
 
     def __init__(self, vobj):
         vobj.Proxy = self
+        vobj.addExtension("Gui::ViewProviderGroupExtensionPython")
 
     def attach(self, vobj):
         self.ViewObject = vobj
         self.Object = vobj.Object
-        if not hasattr(self,"_oldChildren"):
-            self._oldChildren = []
 
     def canDropObject(self, obj):
         return self.Object.Proxy.eligibleChild(obj.Proxy.Type)
@@ -51,6 +52,25 @@ class ViewProvider:
             text = translate('Rocket', 'Edit %1').replace('%1', viewObject.Object.Label)
             document.openTransaction(text)
         viewObject.Document.setEdit(viewObject.Object, 0)
+
+    def claimChildren(self):
+        """Define which objects will appear as children in the tree view.
+
+        Returns
+        -------
+        list of <App::DocumentObject>s:
+            The objects claimed as children.
+        """
+        objs = []
+        if hasattr(self,"Object"):
+            objs = self.Object.Group
+            for obj in objs:
+                if hasattr(obj, "Proxy"):
+                    obj.Proxy.setParent(self.Object)
+            if hasattr(self.Object, "Profile"):
+                objs.append(self.Object.Profile)
+
+        return objs
 
     def __getstate__(self):
         return None
