@@ -442,6 +442,9 @@ class TaskPanelRailGuide:
         self._obj.AutoDiameter = value
         self._setAutoDiameterState()
 
+        self._obj.Proxy.update()
+        self._btForm.diameterInput.setText(self._obj.Diameter.UserString)
+
         self.redraw()
         self.setEdited()
         

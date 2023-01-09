@@ -415,7 +415,7 @@ class RocketComponent(ShapeBase, ChangeSource):
             newX = newAxialOffset
         elif method == AxialMethod.ABSOLUTE:
             # in this case, this is simply the intended result
-            newX = newAxialOffset - self.getParent().getComponentLocations()[0].x
+            newX = float(newAxialOffset) - float(self.getParent().getComponentLocations()[0]._x)
         elif self.isAfter():
             self.setAfter()
             return

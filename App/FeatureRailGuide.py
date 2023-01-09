@@ -179,6 +179,8 @@ class FeatureRailGuide(ExternalComponent, AnglePositionable, BoxBounded, LineIns
             parentRadius = max(body.getRadius(x1), body.getRadius(x2))
         
         self._obj.RadialOffset = parentRadius #+ self.getOuterRadius()
+        if self._obj.AutoDiameter:
+            self._obj.Diameter = 2.0 * parentRadius
 
     def getComponentBounds(self):
         set = []

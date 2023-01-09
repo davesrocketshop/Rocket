@@ -285,14 +285,25 @@ class RailGuideShapeHandler():
             guide = guide.cut(notch)
 
         return guide
+
+    def getZ0(self):
+        # Calculate end points
+        theta = self._vAngle / 2.0
+        r = (self._diameter / 2.0)
+        z0 = (r / math.sin(theta)) - r
+        return z0
         
     def draw(self):
         if not self.isValidShape():
             return
 
         try:
-            self._obj.Shape = self._drawGuide()
+            shape = self._drawGuide()
+            if self._obj.Proxy.isRocketAssembly() and self._railGuideBaseType == RAIL_GUIDE_BASE_V:
+                shape.translate(FreeCAD.Vector(0,0,self.getZ0()))
+                shape = Part.makeCompound(shape)
+            self._obj.Shape = shape
             self._obj.Placement = self._placement
-        except (ZeroDivisionError, Part.OCCError):
+        except (ValueError, ZeroDivisionError, Part.OCCError):
             _err(translate('Rocket', "Rail Guide parameters produce an invalid shape"))
             return
