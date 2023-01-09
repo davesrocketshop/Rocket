@@ -468,7 +468,7 @@ class DialogFinFlutter(QDialog):
             else:
                 self.shearInput.setText(self._formatPressure(FreeCAD.Units.Quantity("0 kPa")))
             if "YoungsModulus" in self._material:
-                self.shearInput.setText(self._formatPressure(FreeCAD.Units.Quantity(self._material["YoungsModulus"])))
+                self.youngsInput.setText(self._formatPressure(FreeCAD.Units.Quantity(self._material["YoungsModulus"])))
             else:
                 self.youngsInput.setText(self._formatPressure(FreeCAD.Units.Quantity("0 kPa")))
             if "PoissonRatio" in self._material:
