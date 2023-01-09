@@ -20,7 +20,7 @@ will see the option `Change Branch`. Selecting this will bring up a list of bran
 
 ### Testing
 
-** VERY IMPORTANT **
+**_VERY IMPORTANT_**
 
 *File formats in test branches may change and are typically not backwards compatible. If you open a file created with a previous version and save it
 with the test version you may not be able to open it again. Make sure you save anything important before testing. Even files created during testing
