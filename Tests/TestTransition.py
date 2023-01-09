@@ -31,7 +31,7 @@ from App.Constants import TYPE_CONE, TYPE_ELLIPTICAL, TYPE_HAACK, TYPE_OGIVE, TY
 from App.Constants import STYLE_CAPPED, STYLE_HOLLOW, STYLE_SOLID, STYLE_SOLID_CORE
 from App.Constants import STYLE_CAP_SOLID, STYLE_CAP_BAR, STYLE_CAP_CROSS
 
-from Ui.CmdTransition import makeTransition
+from Ui.Commands.CmdTransition import makeTransition
 
 class TransitionTests(unittest.TestCase):
 
@@ -42,33 +42,33 @@ class TransitionTests(unittest.TestCase):
         feature = makeTransition('Transition')
         self.Doc.recompute()
 
-        self.assertTrue(feature.Shape.isValid())
-        self.assertIsNone(feature.Shape.check(True))
+        self.assertTrue(feature._obj.Shape.isValid())
+        self.assertIsNone(feature._obj.Shape.check(True))
 
     def _checkStyle(self, feature, message):
-        self.assertTrue(feature.Shape.isValid(), message)
-        self.assertIsNone(feature.Shape.check(True), message)
+        self.assertTrue(feature._obj.Shape.isValid(), message)
+        self.assertIsNone(feature._obj.Shape.check(True), message)
 
     def _reverse(self, feature):
-        temp = feature.ForeDiameter
-        feature.ForeDiameter = feature.AftDiameter
-        feature.AftDiameter = temp
+        temp = feature._obj.ForeDiameter
+        feature._obj.ForeDiameter = feature._obj.AftDiameter
+        feature._obj.AftDiameter = temp
 
-        temp = feature.ForeShoulderDiameter
-        feature.ForeShoulderDiameter = feature.AftShoulderDiameter
-        feature.AftShoulderDiameter = temp
+        temp = feature._obj.ForeShoulderDiameter
+        feature._obj.ForeShoulderDiameter = feature._obj.AftShoulderDiameter
+        feature._obj.AftShoulderDiameter = temp
 
     def _testPlain(self, type, style, clipped, capStyle = STYLE_CAP_SOLID):
         feature = makeTransition('Transition')
-        feature.TransitionType = type
+        feature._obj.TransitionType = type
         if type == TYPE_POWER:
-            feature.Coefficient = 0.5
-        feature.Clipped = clipped
-        feature.TransitionStyle = style
-        feature.ForeShoulder = False
-        feature.AftShoulder = False
-        feature.ForeCapStyle = capStyle
-        feature.AftCapStyle = capStyle
+            feature._obj.Coefficient = 0.5
+        feature._obj.Clipped = clipped
+        feature._obj.TransitionStyle = style
+        feature._obj.ForeShoulder = False
+        feature._obj.AftShoulder = False
+        feature._obj.ForeCapStyle = capStyle
+        feature._obj.AftCapStyle = capStyle
         self.Doc.recompute()
         
         message = type + ": " + style + " Plain"
@@ -84,15 +84,15 @@ class TransitionTests(unittest.TestCase):
 
     def _testForeShoulder(self, type, style, clipped, capStyle = STYLE_CAP_SOLID):
         feature = makeTransition('Transition')
-        feature.TransitionType = type
+        feature._obj.TransitionType = type
         if type == TYPE_POWER:
-            feature.Coefficient = 0.5
-        feature.Clipped = clipped
-        feature.TransitionStyle = style
-        feature.ForeShoulder = True
-        feature.AftShoulder = False
-        feature.ForeCapStyle = capStyle
-        feature.AftCapStyle = capStyle
+            feature._obj.Coefficient = 0.5
+        feature._obj.Clipped = clipped
+        feature._obj.TransitionStyle = style
+        feature._obj.ForeShoulder = True
+        feature._obj.AftShoulder = False
+        feature._obj.ForeCapStyle = capStyle
+        feature._obj.AftCapStyle = capStyle
         self.Doc.recompute()
 
         message = type + ": " + style + " Fore Shoulder"
@@ -108,15 +108,15 @@ class TransitionTests(unittest.TestCase):
 
     def _testAftShoulder(self, type, style, clipped, capStyle = STYLE_CAP_SOLID):
         feature = makeTransition('Transition')
-        feature.TransitionType = type
+        feature._obj.TransitionType = type
         if type == TYPE_POWER:
-            feature.Coefficient = 0.5
-        feature.Clipped = clipped
-        feature.TransitionStyle = style
-        feature.ForeShoulder = False
-        feature.AftShoulder = True
-        feature.ForeCapStyle = capStyle
-        feature.AftCapStyle = capStyle
+            feature._obj.Coefficient = 0.5
+        feature._obj.Clipped = clipped
+        feature._obj.TransitionStyle = style
+        feature._obj.ForeShoulder = False
+        feature._obj.AftShoulder = True
+        feature._obj.ForeCapStyle = capStyle
+        feature._obj.AftCapStyle = capStyle
         self.Doc.recompute()
 
         message = type + ": " + style + " Aft Shoulder"
@@ -134,13 +134,13 @@ class TransitionTests(unittest.TestCase):
         feature = makeTransition('Transition')
         feature.TransitionType = type
         if type == TYPE_POWER:
-            feature.Coefficient = 0.5
-        feature.Clipped = clipped
-        feature.TransitionStyle = style
-        feature.ForeShoulder = True
-        feature.AftShoulder = True
-        feature.ForeCapStyle = capStyle
-        feature.AftCapStyle = capStyle
+            feature._obj.Coefficient = 0.5
+        feature._obj.Clipped = clipped
+        feature._obj.TransitionStyle = style
+        feature._obj.ForeShoulder = True
+        feature._obj.AftShoulder = True
+        feature._obj.ForeCapStyle = capStyle
+        feature._obj.AftCapStyle = capStyle
         self.Doc.recompute()
 
         message = type + ": " + style + " Both Shoulder"

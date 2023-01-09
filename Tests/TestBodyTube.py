@@ -27,7 +27,7 @@ __url__ = "https://www.davesrocketshop.com"
 import FreeCAD
 import unittest
 
-from Ui.CmdBodyTube import makeBodyTube
+from Ui.Commands.CmdBodyTube import makeBodyTube
 
 class BodyTubeTests(unittest.TestCase):
 
@@ -35,8 +35,8 @@ class BodyTubeTests(unittest.TestCase):
         self.Doc = FreeCAD.newDocument("BodyTest")
 
     def _checkShape(self, feature, message):
-        self.assertTrue(feature.Shape.isValid(), message)
-        self.assertIsNone(feature.Shape.check(True), message)
+        self.assertTrue(feature._obj.Shape.isValid(), message)
+        self.assertIsNone(feature._obj.Shape.check(True), message)
 
     def testBasic(self):
         feature = makeBodyTube('BodyTube')

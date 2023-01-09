@@ -27,7 +27,7 @@ __url__ = "https://www.davesrocketshop.com"
 import FreeCAD
 import unittest
 
-from Ui.CmdCenteringRing import makeCenteringRing
+from Ui.Commands.CmdCenteringRing import makeCenteringRing
 
 class CenteringRingTests(unittest.TestCase):
 
@@ -35,8 +35,8 @@ class CenteringRingTests(unittest.TestCase):
         self.Doc = FreeCAD.newDocument("CenteringRingTest")
 
     def _checkShape(self, feature, message):
-        self.assertTrue(feature.Shape.isValid(), message)
-        self.assertIsNone(feature.Shape.check(True), message)
+        self.assertTrue(feature._obj.Shape.isValid(), message)
+        self.assertIsNone(feature._obj.Shape.check(True), message)
 
     def testBasic(self):
         feature = makeCenteringRing('CenteringRing')
@@ -46,15 +46,15 @@ class CenteringRingTests(unittest.TestCase):
 
     def testStep(self):
         feature = makeCenteringRing('CenteringRing')
-        feature.Step = True
+        feature._obj.Step = True
         self.Doc.recompute()
 
         self._checkShape(feature, "Step")
 
     def testHoles(self):
         feature = makeCenteringRing('CenteringRing')
-        feature.Holes = True
-        feature.HoleCount = 4
+        feature._obj.Holes = True
+        feature._obj.HoleCount = 4
         self.Doc.recompute()
 
         self._checkShape(feature, "Holes")

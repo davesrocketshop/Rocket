@@ -31,7 +31,7 @@ from App.Constants import TYPE_CONE, TYPE_BLUNTED_CONE, TYPE_SPHERICAL, TYPE_ELL
 from App.Constants import STYLE_CAPPED, STYLE_HOLLOW, STYLE_SOLID
 from App.Constants import STYLE_CAP_SOLID, STYLE_CAP_BAR, STYLE_CAP_CROSS
 
-from Ui.CmdNoseCone import makeNoseCone
+from Ui.Commands.CmdNoseCone import makeNoseCone
 
 class NoseTests(unittest.TestCase):
 
@@ -39,8 +39,8 @@ class NoseTests(unittest.TestCase):
         self.Doc = FreeCAD.newDocument("NoseTest")
 
     def _checkShape(self, feature, message):
-        self.assertTrue(feature.Shape.isValid(), message)
-        self.assertIsNone(feature.Shape.check(True), message)
+        self.assertTrue(feature._obj.Shape.isValid(), message)
+        self.assertIsNone(feature._obj.Shape.check(True), message)
 
     def testBasic(self):
         feature = makeNoseCone('NoseCone')
@@ -50,12 +50,12 @@ class NoseTests(unittest.TestCase):
 
     def _testPlain(self, type, style, capStyle = STYLE_CAP_SOLID):
         feature = makeNoseCone('NoseCone')
-        feature.NoseType = type
+        feature._obj.NoseType = type
         if type == TYPE_POWER:
-            feature.Coefficient = 0.5
-        feature.NoseStyle = style
-        feature.Shoulder = False
-        feature.CapStyle = capStyle
+            feature._obj.Coefficient = 0.5
+        feature._obj.NoseStyle = style
+        feature._obj.Shoulder = False
+        feature._obj.CapStyle = capStyle
         self.Doc.recompute()
         
         message = type + ": " + style + " Plain"
@@ -65,12 +65,12 @@ class NoseTests(unittest.TestCase):
 
     def _testShoulder(self, type, style, capStyle = STYLE_CAP_SOLID):
         feature = makeNoseCone('NoseCone')
-        feature.NoseType = type
+        feature._obj.NoseType = type
         if type == TYPE_POWER:
-            feature.Coefficient = 0.5
-        feature.NoseStyle = style
-        feature.Shoulder = True
-        feature.CapStyle = capStyle
+            feature._obj.Coefficient = 0.5
+        feature._obj.NoseStyle = style
+        feature._obj.Shoulder = True
+        feature._obj.CapStyle = capStyle
         self.Doc.recompute()
         
         message = type + ": " + style + " Plain"
