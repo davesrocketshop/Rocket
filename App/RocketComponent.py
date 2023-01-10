@@ -392,6 +392,10 @@ class RocketComponent(ShapeBase, ChangeSource):
     def getPosition(self):
         return self._obj.Placement.Base
 
+    def getPositionAsCoordinate(self):
+        pos = self._obj.Placement.Base
+        return Coordinate(pos.x, pos.y, pos.z)
+
     def getAxialOffsetFromMethod(self, method):
         parentLength = 0
         if self.getParent() is not None:
