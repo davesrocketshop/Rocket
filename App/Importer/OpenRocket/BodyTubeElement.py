@@ -26,12 +26,12 @@ __url__ = "https://www.davesrocketshop.com"
 
 import FreeCAD
 
-from App.Importer.SaxElement import NullElement
-from App.Importer.ComponentElement import BodyComponentElement
-from App.Importer.SymmetricComponentElement import SymmetricComponentElement
-import App.Importer as Importer
+from App.Importer.OpenRocket.SaxElement import NullElement
+from App.Importer.OpenRocket.ComponentElement import BodyComponentElement
+from App.Importer.OpenRocket.SymmetricComponentElement import SymmetricComponentElement
+import App.Importer.OpenRocket as OpenRocket
 
-from Ui.Commands.CmdBodyTube import makeBodyTube, makeInnerTube, makeCoupler, makeEngineBlock
+from Ui.Commands.CmdBodyTube import makeBodyTube, makeCoupler, makeEngineBlock
 
 class MotorMountElement(BodyComponentElement):
 
@@ -59,7 +59,7 @@ class BodyTubeElement(SymmetricComponentElement):
     def __init__(self, parent, tag, attributes, parentObj, filename, line):
         super().__init__(parent, tag, attributes, parentObj, filename, line)
 
-        self._validChildren.update({ 'subcomponents' : Importer.SubElement.SubElement,
+        self._validChildren.update({ 'subcomponents' : OpenRocket.SubElement.SubElement,
                                 'motormount' : MotorMountElement,
                               })
         self._knownTags.extend(["radius", "outerradius"]) #, "motormount"]

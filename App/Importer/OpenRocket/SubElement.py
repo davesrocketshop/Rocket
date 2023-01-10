@@ -24,19 +24,19 @@ __title__ = "FreeCAD Open Rocket Importer"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
-from App.Importer.SaxElement import NullElement
-from App.Importer.ComponentElement import ComponentElement
-from App.Importer.TransitionElement import TransitionElement
-from App.Importer.NoseElement import NoseElement
-from App.Importer.CenteringRingElement import BulkheadElement, CenteringRingElement
-from App.Importer.StageElement import StageElement
-from App.Importer.BodyTubeElement import BodyTubeElement, TubeCouplerElement, EngineBlockElement
-from App.Importer.InnerTubeElement import InnerTubeElement
-from App.Importer.LaunchLugElement import LaunchLugElement
-from App.Importer.TrapezoidalFinsetElement import TrapezoidalFinsetElement
-from App.Importer.EllipticalFinsetElement import EllipticalFinsetElement
-from App.Importer.TubeFinsetElement import TubeFinsetElement
-from App.Importer.FreeformFinsetElement import FreeformFinsetElement
+from App.Importer.OpenRocket.SaxElement import NullElement
+from App.Importer.OpenRocket.ComponentElement import ComponentElement
+from App.Importer.OpenRocket.TransitionElement import TransitionElement
+from App.Importer.OpenRocket.NoseElement import NoseElement
+from App.Importer.OpenRocket.CenteringRingElement import BulkheadElement, CenteringRingElement
+from App.Importer.OpenRocket.StageElement import StageElement
+from App.Importer.OpenRocket.BodyTubeElement import BodyTubeElement, TubeCouplerElement, EngineBlockElement
+from App.Importer.OpenRocket.InnerTubeElement import InnerTubeElement
+from App.Importer.OpenRocket.LaunchLugElement import LaunchLugElement
+from App.Importer.OpenRocket.TrapezoidalFinsetElement import TrapezoidalFinsetElement
+from App.Importer.OpenRocket.EllipticalFinsetElement import EllipticalFinsetElement
+from App.Importer.OpenRocket.TubeFinsetElement import TubeFinsetElement
+from App.Importer.OpenRocket.FreeformFinsetElement import FreeformFinsetElement
 
 class SubElement(ComponentElement):
 

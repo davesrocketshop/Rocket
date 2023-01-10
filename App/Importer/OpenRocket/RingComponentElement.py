@@ -26,7 +26,7 @@ __url__ = "https://www.davesrocketshop.com"
 
 import FreeCAD
 
-from App.Importer.StructuralComponentElement import StructuralComponentElement
+from App.Importer.OpenRocket.StructuralComponentElement import StructuralComponentElement
 
 class RingComponentElement(StructuralComponentElement):
 

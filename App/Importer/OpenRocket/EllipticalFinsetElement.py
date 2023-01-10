@@ -18,15 +18,42 @@
 # *   USA                                                                   *
 # *                                                                         *
 # ***************************************************************************
-"""Component class for rocket axial stage"""
+"""Provides support for importing Open Rocket files."""
 
-__title__ = "FreeCAD Open Rocket Component"
+__title__ = "FreeCAD Open Rocket Importer"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
-from App.Importer.Component.Component import Component
+import FreeCAD
 
-class AxialStageComponent(Component):
+from App.Importer.OpenRocket.FinsetElement import FinsetElement
+from App.Constants import FIN_TYPE_ELLIPSE
 
-    def __init__(self, doc):
-        super().__init__(doc)
+from Ui.Commands.CmdFin import makeFin
+
+class EllipticalFinsetElement(FinsetElement):
+
+    def __init__(self, parent, tag, attributes, parentObj, filename, line):
+        super().__init__(parent, tag, attributes, parentObj, filename, line)
+
+        self._knownTags.extend(["rootchord", "height"])
+
+    def makeObject(self):
+        self._feature = makeFin()
+        self._feature._obj.FinType = FIN_TYPE_ELLIPSE
+
+        if self._parentObj is not None:
+            self._parentObj.addChild(self._feature)
+
+
+    def handleEndTag(self, tag, content):
+        _tag = tag.lower().strip()
+        if _tag == "rootchord":
+            self._feature._obj.RootChord = FreeCAD.Units.Quantity(content + " m").Value
+        elif _tag == "height":
+            self._feature._obj.Height = FreeCAD.Units.Quantity(content + " m").Value
+        else:
+            super().handleEndTag(tag, content)
+
+    def end(self):
+        return super().end()

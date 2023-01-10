@@ -24,24 +24,47 @@ __title__ = "FreeCAD Open Rocket Importer"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
-from App.Importer.SaxElement import NullElement
-from App.Importer.ComponentElement import ComponentElement
-import App.Importer as Importer
+import FreeCAD
 
-from Ui.Commands.CmdStage import makeStage
+from App.Importer.OpenRocket.BodyTubeElement import BodyTubeElement
+from App.ClusterConfiguration import CONFIGURATIONS
+from Ui.Commands.CmdBodyTube import makeInnerTube
 
-class StageElement(ComponentElement):
+from App.Utilities import _err
+from DraftTools import translate
+
+class InnerTubeElement(BodyTubeElement):
 
     def __init__(self, parent, tag, attributes, parentObj, filename, line):
         super().__init__(parent, tag, attributes, parentObj, filename, line)
 
-        self._validChildren = { 'subcomponents' : Importer.SubElement.SubElement,
-                                'separationconfiguration' : NullElement,
-                              }
-        
-        self._knownTags.extend(["separationevent", "separationdelay"])
+        self._knownTags.extend(["radialposition", "radialdirection", "clusterconfiguration", "clusterscale", "clusterrotation"])
 
     def makeObject(self):
-        self._feature = makeStage()
+        self._feature = makeInnerTube()
         if self._parentObj is not None:
             self._parentObj.addChild(self._feature)
+
+    def handleEndTag(self, tag, content):
+        _tag = tag.lower().strip()
+        if _tag == "clusterconfiguration":
+            self.onClusterConfiguration(content)
+        elif _tag == "clusterscale":
+            self.onClusterScale(float(content))
+        elif _tag == "clusterrotation":
+            self.onClusterRotation(FreeCAD.Units.Quantity(str(content) + " deg").Value)
+        else:
+            super().handleEndTag(tag, content)
+
+    def onClusterConfiguration(self, name):
+        try:
+            # self._feature._obj.ClusterConfiguration = CONFIGURATIONS[name]
+            pass # Not yet complete
+        except:
+            _err(translate('Rocket', "Unknown cluster configuration"))
+
+    def onClusterScale(self, value):
+        self._feature._obj.ClusterScale = value
+
+    def onClusterRotation(self, value):
+        self._feature._obj.ClusterRotation = value

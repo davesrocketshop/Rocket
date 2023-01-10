@@ -20,63 +20,39 @@
 # ***************************************************************************
 """Provides support for importing Open Rocket files."""
 
-__title__ = "FreeCAD Open Rocket Importer"
+__title__ = "FreeCAD Open Rocket Importer Common Component"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
 import FreeCAD
 
-from App.Importer.FinsetElement import FinsetElement
-from App.Constants import FIN_TYPE_TUBE
+from App.Importer.OpenRocket.ComponentElement import BodyComponentElement
+from App.SymmetricComponent import SymmetricComponent
 
-from Ui.Commands.CmdFin import makeFin
-
-class TubeFinsetElement(FinsetElement):
+class SymmetricComponentElement(BodyComponentElement):
 
     def __init__(self, parent, tag, attributes, parentObj, filename, line):
         super().__init__(parent, tag, attributes, parentObj, filename, line)
 
-        self._knownTags = ["fincount", "rotation", "thickness", "length", "radius", "instancecount", "angleoffset", "radiusoffset"]
-
-    def makeObject(self):
-        self._feature = makeFin()
-        self._feature._obj.FinType = FIN_TYPE_TUBE
-
-        if self._parentObj is not None:
-            self._parentObj.addChild(self._feature)
+        self._knownTags.extend(["thickness"])
 
 
     def handleEndTag(self, tag, content):
         _tag = tag.lower().strip()
-        if _tag == "fincount":
-            if int(content) > 1:
-                self._feature._obj.FinSet = True
-                self._feature._obj.FinCount = int(content)
-                self._feature._obj.FinSpacing = 360.0 / int(content)
+        if _tag == "thickness":
+            if content == 'filled':
+                self.onFilled(True)
             else:
-                self._feature._obj.FinSet = False
-        elif _tag == "rotation":
-            pass
-        elif _tag == "thickness":
-            thickness = FreeCAD.Units.Quantity(content + " m").Value
-            self._feature._obj.TubeThickness = thickness
-        elif _tag == "length":
-            self._feature._obj.RootChord = FreeCAD.Units.Quantity(content + " m").Value
-        elif _tag == "radius":
-            if content == "auto":
-                self._feature._obj.TubeAutoOuterDiameter = True
-            else:
-                self._feature._obj.TubeAutoOuterDiameter = False
-                radius = FreeCAD.Units.Quantity(content + " m").Value
-                self._feature._obj.TubeOuterDiameter = 2.0 * radius
-        elif _tag == "instancecount":
-            pass
-        elif _tag == "angleoffset":
-            pass
-        elif _tag == "radiusoffset":
-            pass
+                self.onFilled(False)
+                thickness = FreeCAD.Units.Quantity(content + " m").Value
+                if thickness <= 0:
+                    thickness = SymmetricComponent.DEFAULT_THICKNESS
+                self.onThickness(thickness)
         else:
             super().handleEndTag(tag, content)
 
-    def end(self):
-        return super().end()
+    def onThickness(self, thickness):
+        pass
+
+    def onFilled(self, filled):
+        pass

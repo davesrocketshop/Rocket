@@ -1,5 +1,5 @@
 # ***************************************************************************
-# *   Copyright (c) 2021-2023 David Carter <dcarter@davidcarter.ca>         *
+# *   Copyright (c) 2021-2023 David Carter <dcarter@davidcarter.ca>         s*
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -20,40 +20,35 @@
 # ***************************************************************************
 """Provides support for importing Open Rocket files."""
 
-__title__ = "FreeCAD Open Rocket Importer"
+__title__ = "FreeCAD Open Rocket Importer Common Component"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
 import FreeCAD
 
-from App.Importer.FinsetElement import FinsetElement
-from App.Constants import FIN_TYPE_ELLIPSE
+from App.Importer.OpenRocket.RingComponentElement import RingComponentElement
 
-from Ui.Commands.CmdFin import makeFin
-
-class EllipticalFinsetElement(FinsetElement):
+class RadiusRingComponentElement(RingComponentElement):
 
     def __init__(self, parent, tag, attributes, parentObj, filename, line):
         super().__init__(parent, tag, attributes, parentObj, filename, line)
 
-        self._knownTags.extend(["rootchord", "height"])
-
-    def makeObject(self):
-        self._feature = makeFin()
-        self._feature._obj.FinType = FIN_TYPE_ELLIPSE
-
-        if self._parentObj is not None:
-            self._parentObj.addChild(self._feature)
+        self._knownTags.extend(["instancecount", "instanceseparation"])
 
 
     def handleEndTag(self, tag, content):
         _tag = tag.lower().strip()
-        if _tag == "rootchord":
-            self._feature._obj.RootChord = FreeCAD.Units.Quantity(content + " m").Value
-        elif _tag == "height":
-            self._feature._obj.Height = FreeCAD.Units.Quantity(content + " m").Value
+        if _tag == "instancecount":
+            self.onInstanceCount(int(content))
+        elif _tag == "instanceseparation":
+            self.onInstanceSeparation(FreeCAD.Units.Quantity(content + " m").Value)
         else:
             super().handleEndTag(tag, content)
 
-    def end(self):
-        return super().end()
+    def onInstanceCount(self, count):
+        if hasattr(self._feature._obj, "InstanceCount"):
+            self._feature._obj.InstanceCount = count
+
+    def onInstanceSeparation(self, value):
+        if hasattr(self._feature._obj, "InstanceSeparation"):
+            self._feature._obj.InstanceSeparation = value

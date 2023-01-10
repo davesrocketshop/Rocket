@@ -24,47 +24,65 @@ __title__ = "FreeCAD Open Rocket Importer"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
-import FreeCAD
+from App.Importer.OpenRocket.SaxElement import NullElement
+from App.Importer.OpenRocket.RadiusRingComponentElement import RadiusRingComponentElement
 
-from App.Importer.BodyTubeElement import BodyTubeElement
-from App.ClusterConfiguration import CONFIGURATIONS
-from Ui.Commands.CmdBodyTube import makeInnerTube
+from Ui.Commands.CmdBulkhead import makeBulkhead
+from Ui.Commands.CmdCenteringRing import makeCenteringRing
 
-from App.Utilities import _err
-from DraftTools import translate
-
-class InnerTubeElement(BodyTubeElement):
+class BulkheadElement(RadiusRingComponentElement):
 
     def __init__(self, parent, tag, attributes, parentObj, filename, line):
         super().__init__(parent, tag, attributes, parentObj, filename, line)
 
-        self._knownTags.extend(["radialposition", "radialdirection", "clusterconfiguration", "clusterscale", "clusterrotation"])
+        self._shoulderCapped = False
+        self._validChildren.update({ 'appearance' : NullElement, # Shouldn't be in there but it is
+                              })
+
+        self._knownTags.extend(["outerradius", "innerradius"])
 
     def makeObject(self):
-        self._feature = makeInnerTube()
+        self._feature = makeBulkhead()
         if self._parentObj is not None:
             self._parentObj.addChild(self._feature)
 
     def handleEndTag(self, tag, content):
         _tag = tag.lower().strip()
-        if _tag == "clusterconfiguration":
-            self.onClusterConfiguration(content)
-        elif _tag == "clusterscale":
-            self.onClusterScale(float(content))
-        elif _tag == "clusterrotation":
-            self.onClusterRotation(FreeCAD.Units.Quantity(str(content) + " deg").Value)
+        if _tag == "outerradius":
+            self._feature.setScratch("outerradius", content)
+            if str(content).lower() == "auto":
+                diameter = "0.0"
+                self._feature._obj.AutoDiameter = True
+            else:
+                diameter = float(content) * 2.0
+                self._feature._obj.AutoDiameter = False
+                self._feature._obj.Diameter = str(diameter) + "m"
+        elif _tag == "innerradius":
+            self._feature.setScratch("innerradius", content)
+            if str(content).lower() == "auto":
+                diameter = "0.0"
+                self._feature._obj.CenterAutoDiameter = True
+            else:
+                diameter = float(content) * 2.0
+                self._feature._obj.CenterAutoDiameter = False
+                self._feature._obj.CenterDiameter = str(diameter) + "m"
         else:
             super().handleEndTag(tag, content)
 
-    def onClusterConfiguration(self, name):
-        try:
-            # self._feature._obj.ClusterConfiguration = CONFIGURATIONS[name]
-            pass # Not yet complete
-        except:
-            _err(translate('Rocket', "Unknown cluster configuration"))
+    def onName(self, content):
+        self._feature.setName(content)
 
-    def onClusterScale(self, value):
-        self._feature._obj.ClusterScale = value
+    def onLength(self, length):
+        self._feature.setLength(length)
 
-    def onClusterRotation(self, value):
-        self._feature._obj.ClusterRotation = value
+    def end(self):
+        # Validate the shape here
+
+        return super().end()
+
+class CenteringRingElement(BulkheadElement):
+
+    def makeObject(self):
+        self._feature = makeCenteringRing()
+        if self._parentObj is not None:
+            self._parentObj.addChild(self._feature)

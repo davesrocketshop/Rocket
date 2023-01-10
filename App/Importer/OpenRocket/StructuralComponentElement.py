@@ -18,56 +18,26 @@
 # *   USA                                                                   *
 # *                                                                         *
 # ***************************************************************************
-"""Base class for rocket components"""
+"""Provides support for importing Open Rocket files."""
 
-__title__ = "FreeCAD Open Rocket Component"
+__title__ = "FreeCAD Open Rocket Importer Common Component"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
-from App.Utilities import _msg, _err, _trace
+from App.Importer.OpenRocket.ComponentElement import ComponentElement
 
-class Component:
+class StructuralComponentElement(ComponentElement):
 
-    def __init__(self, doc):
-        _trace(self.__class__.__name__, "__init__")
+    def __init__(self, parent, tag, attributes, parentObj, filename, line):
+        super().__init__(parent, tag, attributes, parentObj, filename, line)
 
-        self._doc = doc
+        self._knownTags.extend(["material"])
 
-        self._name = ""
-        self._color = None
-        self._linestyle = None
-        self._position = None
-        self._axialOffset = None
-        self._overrideMass = None
-        self._overrideCG = None
-        self._overrideCD = None
-        self._overrideSubcomponents = None
-        self._comment = None
-        self._preset = None
 
-        self._subComponents = []
+    def handleEndTag(self, tag, content):
+        _tag = tag.lower().strip()
+        if _tag == "material":
+            self._feature._obj.Material = content
+        else:
+            super().handleEndTag(tag, content)
 
-        self._axialPosition = 0 # is this redundant to _position?
-
-    def append(self, subComponent):
-        _trace(self.__class__.__name__, "append")
-
-        self._subComponents.append(subComponent)
-
-    def create(self, parent):
-        """ Create the objects from the imported model """
-        _trace(self.__class__.__name__, "create")
-
-        for sub in self._subComponents:
-            sub.create(parent)
-        
-    def calculatePosition(self, parentBase):
-        _trace(self.__class__.__name__, "calculatePosition")
-
-        self._axialPosition = parentBase
-
-    def _fromOrkLength(self, length):
-        """ Convert from an ORK length to a FreeCAD length """
-
-        # ORK internal units are meters
-        return length * 1000.0

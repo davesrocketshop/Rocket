@@ -37,10 +37,10 @@ import FreeCADGui
 
 from App.Exceptions import UnsupportedVersion
 
-from App.Importer.SaxElement import Element, NullElement
-from App.Importer.ComponentElement import ComponentElement
-from App.Importer.SubElement import SubElement
-from App.Importer.NoseElement import NoseElement
+from App.Importer.OpenRocket.SaxElement import Element, NullElement
+from App.Importer.OpenRocket.ComponentElement import ComponentElement
+from App.Importer.OpenRocket.SubElement import SubElement
+from App.Importer.OpenRocket.NoseElement import NoseElement
 
 from App.events.ComponentChangeEvent import ComponentChangeEvent
 

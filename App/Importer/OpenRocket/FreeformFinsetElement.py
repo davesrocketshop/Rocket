@@ -28,8 +28,8 @@ import FreeCAD
 import Part
 import Sketcher
 
-from App.Importer.SaxElement import Element
-from App.Importer.FinsetElement import FinsetElement
+from App.Importer.OpenRocket.SaxElement import Element
+from App.Importer.OpenRocket.FinsetElement import FinsetElement
 from App.Constants import FIN_TYPE_SKETCH
 
 from Ui.Commands.CmdFin import makeFin

@@ -28,8 +28,7 @@ import os
 
 import FreeCAD
 
-# from App.OpenRocket import OpenRocket
-from App.Importer.OpenRocket import OpenRocketImporter
+from App.Importer.OpenRocket.OpenRocket import OpenRocketImporter
 
 def open(filename):
     """Open filename and parse using the orkHandler().

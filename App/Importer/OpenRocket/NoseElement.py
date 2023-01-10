@@ -26,8 +26,8 @@ __url__ = "https://www.davesrocketshop.com"
 
 import FreeCAD
 
-from App.Importer.SaxElement import NullElement
-from App.Importer.TransitionElement import TransitionElement
+from App.Importer.OpenRocket.SaxElement import NullElement
+from App.Importer.OpenRocket.TransitionElement import TransitionElement
 from App.Utilities import _toBoolean, _err
 from App.Constants import STYLE_CAPPED, STYLE_HOLLOW, STYLE_SOLID
 from App.Constants import TYPE_CONE, TYPE_ELLIPTICAL, TYPE_HAACK, TYPE_OGIVE, TYPE_PARABOLA, TYPE_POWER

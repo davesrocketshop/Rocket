@@ -18,26 +18,30 @@
 # *   USA                                                                   *
 # *                                                                         *
 # ***************************************************************************
-"""Component class for rocket nose cones"""
+"""Provides support for importing Open Rocket files."""
 
-__title__ = "FreeCAD Open Rocket Component"
+__title__ = "FreeCAD Open Rocket Importer"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
-import FreeCAD as App
+from App.Importer.OpenRocket.SaxElement import NullElement
+from App.Importer.OpenRocket.ComponentElement import ComponentElement
+import App.Importer.OpenRocket as OpenRocket
 
-from App.Importer.Component.Component import Component
+from Ui.Commands.CmdStage import makeStage
 
-class RocketComponent(Component):
+class StageElement(ComponentElement):
 
-    def __init__(self, doc):
-        super().__init__(doc)
+    def __init__(self, parent, tag, attributes, parentObj, filename, line):
+        super().__init__(parent, tag, attributes, parentObj, filename, line)
 
-        self._designer = ""
-        self._version = None
+        self._validChildren = { 'subcomponents' : OpenRocket.SubElement.SubElement,
+                                'separationconfiguration' : NullElement,
+                              }
+        
+        self._knownTags.extend(["separationevent", "separationdelay"])
 
-    def create(self, parent=None):
-        #obj = self._doc.addObject('Part::FeaturePython', self._name)
-        obj = App.ActiveDocument.addObject("App::DocumentObjectGroupPython", self._name)
-        super().create(obj)
-
+    def makeObject(self):
+        self._feature = makeStage()
+        if self._parentObj is not None:
+            self._parentObj.addChild(self._feature)

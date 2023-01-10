@@ -26,20 +26,24 @@ __url__ = "https://www.davesrocketshop.com"
 
 import FreeCAD
 
-from App.Importer.ComponentElement import ExternalComponentElement
-from App.Utilities import _err
-from App.Constants import FIN_CROSS_SAME, FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL
+from App.Importer.OpenRocket.FinsetElement import FinsetElement
+from App.Constants import FIN_TYPE_TUBE
 
 from Ui.Commands.CmdFin import makeFin
-from Ui.Commands.CmdSketcher import newSketchNoEdit
 
-class FinsetElement(ExternalComponentElement):
+class TubeFinsetElement(FinsetElement):
 
     def __init__(self, parent, tag, attributes, parentObj, filename, line):
         super().__init__(parent, tag, attributes, parentObj, filename, line)
 
-        self._knownTags.extend(["fincount", "instancecount", "rotation", "angleoffset", "radiusoffset", "thickness", "crosssection", "cant",
-                                "tabheight", "tablength", "tabposition", "filletradius", "filletmaterial"])
+        self._knownTags = ["fincount", "rotation", "thickness", "length", "radius", "instancecount", "angleoffset", "radiusoffset"]
+
+    def makeObject(self):
+        self._feature = makeFin()
+        self._feature._obj.FinType = FIN_TYPE_TUBE
+
+        if self._parentObj is not None:
+            self._parentObj.addChild(self._feature)
 
 
     def handleEndTag(self, tag, content):
@@ -48,33 +52,29 @@ class FinsetElement(ExternalComponentElement):
             if int(content) > 1:
                 self._feature._obj.FinSet = True
                 self._feature._obj.FinCount = int(content)
+                self._feature._obj.FinSpacing = 360.0 / int(content)
             else:
                 self._feature._obj.FinSet = False
+        elif _tag == "rotation":
+            pass
         elif _tag == "thickness":
             thickness = FreeCAD.Units.Quantity(content + " m").Value
-            self._feature._obj.RootThickness = thickness
-            self._feature._obj.TipThickness = thickness
-        elif _tag == "rotation":
-            rotation = FreeCAD.Units.Quantity(content + " deg").Value
-            self._feature._obj.AngleOffset = rotation
-        elif _tag == "crosssection":
-            if content == 'square':
-                self._feature._obj.RootCrossSection = FIN_CROSS_SQUARE
-            elif content == 'rounded':
-                self._feature._obj.RootCrossSection = FIN_CROSS_ROUND
-            elif content == 'airfoil':
-                self._feature._obj.RootCrossSection = FIN_CROSS_AIRFOIL
+            self._feature._obj.TubeThickness = thickness
+        elif _tag == "length":
+            self._feature._obj.RootChord = FreeCAD.Units.Quantity(content + " m").Value
+        elif _tag == "radius":
+            if content == "auto":
+                self._feature._obj.TubeAutoOuterDiameter = True
             else:
-                _err("Unrecognized fin cross section %s" % content)
-                self._feature._obj.RootCrossSection = FIN_CROSS_SQUARE
-            self._feature._obj.TipCrossSection = FIN_CROSS_SAME
-        elif _tag == "tabheight":
-            self._feature._obj.Ttw = True # Should we check that height is greater than 0.0001?
-            self._feature._obj.TtwHeight = FreeCAD.Units.Quantity(content + " m").Value
-        elif _tag == "tablength":
-            self._feature._obj.TtwLength = FreeCAD.Units.Quantity(content + " m").Value
-        elif _tag == "tabposition":
-            self._feature._obj.TtwOffset = FreeCAD.Units.Quantity(content + " m").Value
+                self._feature._obj.TubeAutoOuterDiameter = False
+                radius = FreeCAD.Units.Quantity(content + " m").Value
+                self._feature._obj.TubeOuterDiameter = 2.0 * radius
+        elif _tag == "instancecount":
+            pass
+        elif _tag == "angleoffset":
+            pass
+        elif _tag == "radiusoffset":
+            pass
         else:
             super().handleEndTag(tag, content)
 
