@@ -39,21 +39,6 @@ from App.Utilities import _wrn
 
 from DraftTools import translate
 
-def _migrate_from_1_0(obj):
-    _wrn("Body tube migrating object from 1.0")
-
-    old = {}
-    old["InnerDiameter"] = obj.InnerDiameter
-
-    obj.removeProperty("InnerDiameter")
-
-    FeatureBodyTube(obj)
-
-    od = float(obj.OuterDiameter)
-    if od > 0.0:
-        thickness = (od - float(old["InnerDiameter"])) / 2.0
-        obj.Thickness = thickness
-
 class FeatureBodyTube(SymmetricComponent, BoxBounded, Coaxial):
 
     _refComp = None	# Reference component that is used for the autoRadius
