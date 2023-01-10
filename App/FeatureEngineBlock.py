@@ -41,9 +41,6 @@ class FeatureEngineBlock(ThicknessRingComponent, AxialPositionable):
         super().__init__(obj)
         self.Type = FEATURE_ENGINE_BLOCK
 
-        if not hasattr(obj,"Shape"):
-            obj.addProperty('Part::PropertyPartShape', 'Shape', 'Rocket', translate('App::Property', 'Shape of the body tube'))
-
     def setDefaults(self):
         super().setDefaults()
 

@@ -33,14 +33,14 @@ from App.position import AxialMethod
 from App.position.AxialPositionable import AxialPositionable
 from App.util import Coordinate
 from App.util.BoundingBox import BoundingBox
-from App.RocketComponent import RocketComponent
+from App.RocketComponentShapeless import RocketComponentShapeless
 from App.events.ComponentChangeEvent import ComponentChangeEvent
 
 from App.Constants import FEATURE_ROCKET, FEATURE_STAGE, FEATURE_PARALLEL_STAGE, FEATURE_POD, FEATURE_BODY_TUBE, FEATURE_NOSE_CONE, FEATURE_TRANSITION
 
 # from DraftTools import translate
 
-class ComponentAssembly(RocketComponent, AxialPositionable):
+class ComponentAssembly(RocketComponentShapeless, AxialPositionable):
 
     def __init__(self, obj):
         super().__init__(obj)
@@ -135,10 +135,6 @@ class ComponentAssembly(RocketComponent, AxialPositionable):
     # Component have no effect on mass, so return false (even though the override values
     # may have an effect).
     def isMassive(self):
-        return False
-
-    def isAxisymmetric(self):
-        # return !(2 == this.getInstanceCount())
         return False
 
     def update(self):

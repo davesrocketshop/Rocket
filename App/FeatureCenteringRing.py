@@ -51,10 +51,6 @@ class FeatureCenteringRing(FeatureBulkhead):
         if not hasattr(obj, 'NotchHeight'):
             obj.addProperty('App::PropertyLength', 'NotchHeight', 'CenteringRing', translate('App::Property', 'Height of the engine hook notch')).NotchHeight = 3.0
 
-
-        if not hasattr(obj, 'Shape'):
-            obj.addProperty('Part::PropertyPartShape', 'Shape', 'CenteringRing', translate('App::Property', 'Shape of the centering ring'))
-
     def setDefaults(self):
         super().setDefaults()
 

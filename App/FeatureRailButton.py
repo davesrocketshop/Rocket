@@ -108,9 +108,6 @@ class FeatureRailButton(ExternalComponent, AnglePositionable, BoxBounded, LineIn
         if not hasattr(obj,"InstanceSeparation"):
             obj.addProperty('App::PropertyLength', 'InstanceSeparation', 'RailGuide', translate('App::Property', 'Instance separation')).InstanceSeparation = 0
 
-        if not hasattr(obj,"Shape"):
-            obj.addProperty('Part::PropertyPartShape', 'Shape', 'RailButton', translate('App::Property', 'Shape of the rail button'))
-
     def setDefaults(self):
         super().setDefaults()
 
@@ -141,10 +138,6 @@ class FeatureRailButton(ExternalComponent, AnglePositionable, BoxBounded, LineIn
         return float(self._obj.Length)
 
     def isAfter(self):
-        return False
-
-    def isCompatible(self, type):
-        # Allow nothing to be attached to a LaunchLug
         return False
 
     def onChildEdited(self):

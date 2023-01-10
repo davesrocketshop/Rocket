@@ -60,9 +60,6 @@ class FeatureBulkhead(RadiusRingComponent):
         if not hasattr(obj, 'HoleOffset'):
             obj.addProperty('App::PropertyAngle', 'HoleOffset', 'Bulkhead', translate('App::Property', 'Outer diameter of the bulkhead')).HoleOffset = 0
 
-        if not hasattr(obj, 'Shape'):
-            obj.addProperty('Part::PropertyPartShape', 'Shape', 'Bulkhead', translate('App::Property', 'Shape of the bulkhead'))
-
     def setDefaults(self):
         super().setDefaults()
 

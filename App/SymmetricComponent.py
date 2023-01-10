@@ -196,8 +196,8 @@ class SymmetricComponent(RocketComponent, BoxBounded, RadialParent):
         grandParent = self.getParent().getParent()
         parent = self.getParent()
 
-        searchParentIndex = grandParent.getChildPosition(self.getParent())       # position of stage w/in parent
-        searchSiblingIndex = self.getParent().getChildPosition(self)-1           # guess at index of previous stage
+        searchParentIndex = grandParent.getChildPosition(parent)       # position of stage w/in parent
+        searchSiblingIndex = parent.getChildPosition(self)-1           # guess at index of previous stage
 
         while 0 <= searchParentIndex:
             searchParent = grandParent.getChild(searchParentIndex).Proxy
@@ -228,8 +228,8 @@ class SymmetricComponent(RocketComponent, BoxBounded, RadialParent):
         parent = self.getParent()
 
         # note:  this is not guaranteed to _contain_ a stage... but that we're _searching_ for one.
-        searchParentIndex = grandParent.getChildPosition(self.getParent());
-        searchSiblingIndex = self.getParent().getChildPosition(self) + 1
+        searchParentIndex = grandParent.getChildPosition(parent)
+        searchSiblingIndex = parent.getChildPosition(self) + 1
 
         while searchParentIndex < grandParent.getChildCount():
             searchParent = grandParent.getChild(searchParentIndex).Proxy

@@ -99,9 +99,6 @@ class FeatureRailGuide(ExternalComponent, AnglePositionable, BoxBounded, LineIns
         if not hasattr(obj,"InstanceSeparation"):
             obj.addProperty('App::PropertyLength', 'InstanceSeparation', 'RailGuide', translate('App::Property', 'Instance separation')).InstanceSeparation = 0
 
-        if not hasattr(obj,"Shape"):
-            obj.addProperty('Part::PropertyPartShape', 'Shape', 'RailGuide', translate('App::Property', 'Shape of the launch guide'))
-
     def setDefaults(self):
         super().setDefaults()
 
@@ -134,10 +131,6 @@ class FeatureRailGuide(ExternalComponent, AnglePositionable, BoxBounded, LineIns
         return float(length)
 
     def isAfter(self):
-        return False
-
-    def isCompatible(self, type):
-        # Allow nothing to be attached to a LaunchLug
         return False
 
     def onChildEdited(self):

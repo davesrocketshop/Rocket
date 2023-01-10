@@ -61,9 +61,6 @@ class FeatureInnerTube(Clusterable, ThicknessRingComponent, AxialPositionable, B
         if not hasattr(obj, 'MotorMount'):
             obj.addProperty('App::PropertyBool', 'MotorMount', 'Rocket', translate('App::Property', 'This component is a motor mount')).MotorMount = False
 
-        if not hasattr(obj,"Shape"):
-            obj.addProperty('Part::PropertyPartShape', 'Shape', 'Rocket', translate('App::Property', 'Shape of the body tube'))
-
     def setDefaults(self):
         super().setDefaults()
 

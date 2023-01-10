@@ -65,9 +65,6 @@ class FeatureBodyTube(SymmetricComponent, BoxBounded, Coaxial):
         if not hasattr(obj,"Filled"):
             obj.addProperty('App::PropertyBool', 'Filled', 'BodyTube', translate('App::Property', 'This component is solid')).Filled = False
 
-        if not hasattr(obj,"Shape"):
-            obj.addProperty('Part::PropertyPartShape', 'Shape', 'BodyTube', translate('App::Property', 'Shape of the body tube'))
-
     def setDefaults(self):
         super().setDefaults()
 

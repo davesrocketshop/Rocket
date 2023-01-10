@@ -115,9 +115,6 @@ class FeatureNoseCone(SymmetricComponent):
                                 STYLE_CAP_CROSS]
             obj.CapStyle = STYLE_CAP_SOLID
 
-        if not hasattr(obj, 'Shape'):
-            obj.addProperty('Part::PropertyPartShape', 'Shape', 'NoseCone', translate('App::Property', 'Shape of the nose cone'))
-
     def setDefaults(self):
         super().setDefaults()
 

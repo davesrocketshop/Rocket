@@ -31,6 +31,7 @@ from App.interfaces.StateChangeListener import StateChangeListener
 
 from App.ComponentAssembly import ComponentAssembly
 from App.position import AxialMethod
+from App.position.AxialPositionable import AxialPositionable
 
 from App.util.BoundingBox import BoundingBox
 from App.util.Coordinate import ZERO, X_UNIT
@@ -388,7 +389,7 @@ class FeatureRocket(ComponentAssembly, ComponentChangeListener):
             raise Exception("Attempting to thaw Rocket when it is not frozen")
             return
 
-        if len(freezeList) == 0:
+        if len(self._freezeList) == 0:
             # log.warn("Thawing rocket with no changes made");
             self._freezeList = None
             return

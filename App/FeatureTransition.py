@@ -125,9 +125,6 @@ class FeatureTransition(SymmetricComponent):
                                 STYLE_CAP_CROSS]
             obj.AftCapStyle = STYLE_CAP_SOLID
 
-        if not hasattr(obj, 'Shape'):
-            obj.addProperty('Part::PropertyPartShape', 'Shape', 'Transition', translate('App::Property', 'Shape of the transition'))
-
     def setDefaults(self):
         super().setDefaults()
 

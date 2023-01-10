@@ -41,9 +41,6 @@ class FeatureTubeCoupler(ThicknessRingComponent, RadialParent):
         super().__init__(obj)
         self.Type = FEATURE_TUBE_COUPLER
 
-        if not hasattr(obj,"Shape"):
-            obj.addProperty('Part::PropertyPartShape', 'Shape', 'Rocket', translate('App::Property', 'Shape of the body tube'))
-
     def setDefaults(self):
         super().setDefaults()
         

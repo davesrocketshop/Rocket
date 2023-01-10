@@ -62,9 +62,6 @@ class FeatureLaunchLug(Tube, AnglePositionable, BoxBounded, LineInstanceable):
         if not hasattr(obj,"InstanceSeparation"):
             obj.addProperty('App::PropertyLength', 'InstanceSeparation', 'LaunchLug', translate('App::Property', 'Instance separation')).InstanceSeparation = 0
 
-        if not hasattr(obj,"Shape"):
-            obj.addProperty('Part::PropertyPartShape', 'Shape', 'LaunchLug', translate('App::Property', 'Shape of the launch lug'))
-
     def setDefaults(self):
         super().setDefaults()
 
@@ -226,10 +223,6 @@ class FeatureLaunchLug(Tube, AnglePositionable, BoxBounded, LineInstanceable):
             parentRadius = max(body.getRadius(x1), body.getRadius(x2))
         
         self._obj.RadialOffset = parentRadius + self.getOuterRadius()
-
-    def isCompatible(self, type):
-        # Allow nothing to be attached to a LaunchLug
-        return False
 
     def getInstanceSeparation(self):
         return self._obj.InstanceSeparation

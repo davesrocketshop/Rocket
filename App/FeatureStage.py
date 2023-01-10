@@ -29,6 +29,8 @@ import FreeCAD
 from DraftTools import translate
 
 from App.ComponentAssembly import ComponentAssembly
+from App.position.AxialPositionable import AxialPositionable
+
 from App.Constants import FEATURE_ROCKET, FEATURE_STAGE, FEATURE_PARALLEL_STAGE, FEATURE_NOSE_CONE, FEATURE_BODY_TUBE, FEATURE_TRANSITION
 from App.Constants import PROP_TRANSIENT, PROP_HIDDEN, PROP_NORECOMPUTE
 
@@ -45,10 +47,6 @@ class FeatureStage(ComponentAssembly):
     def _initFeatureStage(self, obj):
         self.Type = FEATURE_STAGE
         
-        # if not hasattr(obj,"Group"):
-        #     obj.addExtension("App::GroupExtensionPython")
-        # if not hasattr(obj, 'AxialOffset'):
-        #     obj.addProperty('App::PropertyDistance', 'AxialOffset', 'RocketComponent', translate('App::Property', 'Axial offset from the center line'), PROP_TRANSIENT|PROP_HIDDEN|PROP_NORECOMPUTE).AxialOffset = 0.0
         if not hasattr(obj,"StageNumber"):
             obj.addProperty('App::PropertyInteger', 'StageNumber', 'RocketComponent', translate('App::Property', 'Stage number')).StageNumber = 0
 
@@ -68,7 +66,6 @@ class FeatureStage(ComponentAssembly):
             return
 
     def eligibleChild(self, childType):
-        # return childType not in [FEATURE_ROCKET, FEATURE_STAGE]
         return childType in [FEATURE_NOSE_CONE, FEATURE_BODY_TUBE, FEATURE_TRANSITION]
 
     def getLength(self):
