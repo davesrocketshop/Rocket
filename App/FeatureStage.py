@@ -29,10 +29,8 @@ import FreeCAD
 from DraftTools import translate
 
 from App.ComponentAssembly import ComponentAssembly
-from App.position.AxialPositionable import AxialPositionable
 
-from App.Constants import FEATURE_ROCKET, FEATURE_STAGE, FEATURE_PARALLEL_STAGE, FEATURE_NOSE_CONE, FEATURE_BODY_TUBE, FEATURE_TRANSITION
-from App.Constants import PROP_TRANSIENT, PROP_HIDDEN, PROP_NORECOMPUTE
+from App.Constants import FEATURE_STAGE, FEATURE_NOSE_CONE, FEATURE_BODY_TUBE, FEATURE_TRANSITION
 
 class FeatureStage(ComponentAssembly):
 

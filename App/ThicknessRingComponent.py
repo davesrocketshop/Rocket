@@ -48,8 +48,6 @@ class ThicknessRingComponent(RingComponent):
     def __init__(self, obj):
         super().__init__(obj)
 
-        if not hasattr(obj,"OuterDiameter"):
-            obj.addProperty('App::PropertyLength', 'OuterDiameter', 'BodyTube', translate('App::Property', 'Diameter of the outside of the body tube')).OuterDiameter = 24.79
         if not hasattr(obj,"Thickness"):
             obj.addProperty('App::PropertyLength', 'Thickness', 'BodyTube', translate('App::Property', 'Diameter of the inside of the body tube')).Thickness = 0.33
 
@@ -65,9 +63,9 @@ class ThicknessRingComponent(RingComponent):
             pos2 = self.toRelative(Coordinate(self.getLength()), self.getParent())[0]._x
             pos1 = MathUtil.clamp(pos1, 0, self.getParent().getLength())
             pos2 = MathUtil.clamp(pos2, 0, self.getParent().getLength())
-            self._obj.OuterDiameter = min(self.getParent().getInnerDiameter(pos1), self.getParent().getInnerDiameter(pos2))
+            self._obj.Diameter = min(self.getParent().getInnerDiameter(pos1), self.getParent().getInnerDiameter(pos2))
                 
-        return self._obj.OuterDiameter
+        return self._obj.Diameter
 
     def setOuterRadius(self, radius):
         self.setOuterDiameter(radius * 2.0)
@@ -78,14 +76,14 @@ class ThicknessRingComponent(RingComponent):
                 listener.setOuterDiameter(diameter)
 
         diameter = max(diameter,0)
-        if self._obj.OuterDiameter == diameter and not self.isOuterDiameterAutomatic():
+        if self._obj.Diameter == diameter and not self.isOuterDiameterAutomatic():
             return
         
-        self._obj.OuterDiameter = diameter
+        self._obj.Diameter = diameter
         self._obj.AutoDiameter = False
 
-        if self._obj.Thickness > (self._obj.OuterDiameter / 2.0):
-            self._obj.Thickness = self._obj.OuterDiameter / 2.0
+        if self._obj.Thickness > (self._obj.Diameter / 2.0):
+            self._obj.Thickness = self._obj.Diameter / 2.0
         
         self.clearPreset()
         

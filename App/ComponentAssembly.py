@@ -88,32 +88,8 @@ class ComponentAssembly(RocketComponentShapeless, AxialPositionable):
 
         self.fireComponentChangeEvent(ComponentChangeEvent.NONFUNCTIONAL_CHANGE);
 
-    """
-        Null method (ComponentAssembly has no mass of itself).
-    """
-    def getComponentCG(self):
-        return Coordinate.ZERO
-
-    """
-        Null method (ComponentAssembly has no mass of itself).
-    """
-    def getComponentMass(self):
-        return 0
-
     def getInstanceBoundingBox (self):
         return BoundingBox()
-
-    """
-        Null method (ComponentAssembly has no mass of itself).
-    """
-    def getLongitudinalUnitInertia(self):
-        return 0
-
-    """
-        Null method (ComponentAssembly has no mass of itself).
-    """
-    def getRotationalUnitInertia(self):
-        return 0
 
     def getBoundingRadius(self):
         outerRadius = 0

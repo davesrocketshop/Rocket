@@ -24,16 +24,12 @@ __title__ = "FreeCAD Body Tubes"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
-import FreeCAD
-
 from App.interfaces.RadialParent import RadialParent
 
 from App.ThicknessRingComponent import ThicknessRingComponent
 from App.ShapeHandlers.BodyTubeShapeHandler import BodyTubeShapeHandler
 
 from App.Constants import FEATURE_BODY_TUBE, FEATURE_INNER_TUBE, FEATURE_TUBE_COUPLER, FEATURE_ENGINE_BLOCK, FEATURE_BULKHEAD, FEATURE_CENTERING_RING
-
-from DraftTools import translate
 
 class FeatureTubeCoupler(ThicknessRingComponent, RadialParent):
 

@@ -69,8 +69,8 @@ class FeatureRailButton(ExternalComponent, AnglePositionable, BoxBounded, LineIn
                     ]
             obj.RailButtonType = RAIL_BUTTON_ROUND
 
-        if not hasattr(obj,"OuterDiameter"):
-            obj.addProperty('App::PropertyLength', 'OuterDiameter', 'RailButton', translate('App::Property', 'Diameter of the outside of the rail button')).OuterDiameter = 9.462
+        if not hasattr(obj,"Diameter"):
+            obj.addProperty('App::PropertyLength', 'Diameter', 'RailButton', translate('App::Property', 'Diameter of the outside of the rail button')).Diameter = 9.462
         if not hasattr(obj, 'InnerDiameter'):
             obj.addProperty('App::PropertyLength', 'InnerDiameter', 'RailButton', translate('App::Property', 'Diameter of the inside of the rail button')).InnerDiameter = 6.2375
         if not hasattr(obj,"TopThickness"):

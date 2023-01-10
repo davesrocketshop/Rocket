@@ -50,8 +50,6 @@ class FeatureTransition(SymmetricComponent):
         super().__init__(obj)
         self.Type = FEATURE_TRANSITION
 
-        # if not hasattr(obj, 'Length'):
-        #     obj.addProperty('App::PropertyLength', 'Length', 'Transition', translate('App::Property', 'Length of the transition not including any shoulder')).Length = 60.0
         if not hasattr(obj, 'ForeDiameter'):
             obj.addProperty('App::PropertyLength', 'ForeDiameter', 'Transition', translate('App::Property', 'Diameter at the front of the transition')).ForeDiameter = 20.0
         if not hasattr(obj, 'ForeAutoDiameter'):
@@ -142,10 +140,6 @@ class FeatureTransition(SymmetricComponent):
         self.getForeDiameter()
         self.getAftDiameter()
         # self.getAftShoulderDiameter()
-
-    # def getLength(self):
-    #     # Return the length of this component along the central axis
-    #     return self._obj.Length
 
     def getForeRadius(self):
         return self.getForeDiameter() / 2.0

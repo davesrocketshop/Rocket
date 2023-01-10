@@ -43,7 +43,7 @@ class RailButtonShapeHandler():
 
         self._railButtonType = obj.RailButtonType
 
-        self._outerDiameter = float(obj.OuterDiameter)
+        self._outerDiameter = float(obj.Diameter)
         self._innerDiameter = float(obj.InnerDiameter)
         self._topThickness = float(obj.TopThickness)
         self._baseThickness = float(obj.BaseThickness)

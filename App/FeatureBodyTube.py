@@ -50,8 +50,8 @@ class FeatureBodyTube(SymmetricComponent, BoxBounded, Coaxial):
         # self.AxialMethod = AxialMethod.AFTER
 
         # Default set to a BT-50
-        if not hasattr(obj,"OuterDiameter"):
-            obj.addProperty('App::PropertyLength', 'OuterDiameter', 'BodyTube', translate('App::Property', 'Diameter of the outside of the body tube')).OuterDiameter = 24.79
+        if not hasattr(obj,"Diameter"):
+            obj.addProperty('App::PropertyLength', 'Diameter', 'BodyTube', translate('App::Property', 'Diameter of the outside of the body tube')).Diameter = 24.79
         if not hasattr(obj, 'AutoDiameter'):
             obj.addProperty('App::PropertyBool', 'AutoDiameter', 'BodyTube', translate('App::Property', 'Automatically set the outer diameter when possible')).AutoDiameter = False
         if not hasattr(obj,"Thickness"):
@@ -98,12 +98,6 @@ class FeatureBodyTube(SymmetricComponent, BoxBounded, Coaxial):
         self._obj.Length = max(length, 0)
         self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
 
-    # def setThickness(self, thickness):
-    #     self._obj.Thickness = thickness
-
-    def setOuterRadius(self, diameter):
-        self._obj.OuterDiameter = diameter
-
     """
         Sets whether the radius is selected automatically or not.
     """
@@ -125,32 +119,12 @@ class FeatureBodyTube(SymmetricComponent, BoxBounded, Coaxial):
     def getMaxForwardPosition(self):
         return float(self._obj.Length) + float(self._obj.Placement.Base.x)
 
-    def _setAutoDiameter(self):
-        # For placing objects on the outer part of the parent
-        if self._obj.AutoDiameter:
-            radius = 0.0
-            previous = self.getPrevious()
-            if previous is not None:
-                radius = previous.Proxy.getAftRadius()
-            if radius <= 0.0:
-                next = self.getNext()
-                if next is not None:
-                    radius = next.Proxy.getForeRadius()
-            if radius <= 0.0:
-                radius = (24.79 / 2.0) # Default to BT50
-            diameter = 2.0 * radius
-            if self._obj.OuterDiameter != diameter:
-                self._obj.OuterDiameter = diameter
-                self.setEdited()
-
     def getRadius(self, x):
         # Body tube has constant diameter
         return self.getForeRadius()
 
     def getForeRadius(self):
         # For placing objects on the outer part of the parent
-        # self._setAutoDiameter()
-        # return self._obj.OuterDiameter / 2.0
         return self.getOuterRadius()
 
     def isForeRadiusAutomatic(self):
@@ -163,14 +137,10 @@ class FeatureBodyTube(SymmetricComponent, BoxBounded, Coaxial):
         return self.getRearAutoDiameter()
 
     def getInnerRadius(self, r=0):
-        # Set any autodiameter first
-        # self._setAutoDiameter()
-        return float(self._obj.OuterDiameter) / 2.0 - float(self._obj.Thickness)
+        return float(self._obj.Diameter) / 2.0 - float(self._obj.Thickness)
 
     def getInnerDiameter(self, r=0):
-        # Set any autodiameter first
-        # self._setAutoDiameter()
-        return float(self._obj.OuterDiameter) - (2.0 * float(self._obj.Thickness))
+        return float(self._obj.Diameter) - (2.0 * float(self._obj.Thickness))
 
     def setInnerRadius(self, radius):
         self.setInnerDiameter(radius * 2.0)
@@ -180,7 +150,7 @@ class FeatureBodyTube(SymmetricComponent, BoxBounded, Coaxial):
             if isinstance(listener, FeatureBodyTube): # OR used transition base class
                 listener.setInnerDiameter(diameter)
 
-        self.setThickness((self._obj.OuterDiameter - diameter) / 2.0)
+        self.setThickness((self._obj.Diameter - diameter) / 2.0)
 
 
     """
@@ -201,11 +171,11 @@ class FeatureBodyTube(SymmetricComponent, BoxBounded, Coaxial):
             if isinstance(listener, FeatureBodyTube): # OR used transition base class
                 listener.setOuterDiameter(diameter)
 
-        if self._obj.OuterDiameter == diameter and not self._obj.AutoDiameter:
+        if self._obj.Diameter == diameter and not self._obj.AutoDiameter:
             return
         
         self._obj.AutoDiameter = False
-        self._obj.OuterDiameter = max(diameter, 0)
+        self._obj.Diameter = max(diameter, 0)
         
         if self._obj.Thickness > (diameter / 2.0):
             self._obj.Thickness = (diameter / 2.0)
@@ -239,9 +209,9 @@ class FeatureBodyTube(SymmetricComponent, BoxBounded, Coaxial):
 
             if d < 0:
                 d = self.DEFAULT_RADIUS * 2.0
-            self._obj.OuterDiameter = d
+            self._obj.Diameter = d
 
-        return float(self._obj.OuterDiameter)
+        return float(self._obj.Diameter)
 
     """
         Return the outer radius that was manually entered, so not the value that the component received from automatic
@@ -251,7 +221,7 @@ class FeatureBodyTube(SymmetricComponent, BoxBounded, Coaxial):
         return self.getOuterDiameterNoAutomatic() / 2.0
 
     def getOuterDiameterNoAutomatic(self):
-        return float(self._obj.OuterDiameter)
+        return float(self._obj.Diameter)
 
     def getFrontAutoRadius(self):
         return self.getFrontAutoDiameter() / 2.0

@@ -58,8 +58,6 @@ class FeatureNoseCone(SymmetricComponent):
         
         if not hasattr(obj, 'CapBarWidth'):
             obj.addProperty('App::PropertyLength', 'CapBarWidth', 'NoseCone', translate('App::Property', 'Width of the nose cap bar')).CapBarWidth = 3.0
-        # if not hasattr(obj, 'Length'):
-        #     obj.addProperty('App::PropertyLength', 'Length', 'NoseCone', translate('App::Property', 'Length of the nose not including any shoulder')).Length = 67.31
         if not hasattr(obj, 'BluntedDiameter'):
             obj.addProperty('App::PropertyLength', 'BluntedDiameter', 'NoseCone', translate('App::Property', 'Nose Radius for a blunted nose cone')).BluntedDiameter = 5.0
         if not hasattr(obj, 'Diameter'):

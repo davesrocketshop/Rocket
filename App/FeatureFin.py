@@ -177,16 +177,6 @@ class FeatureFin(ExternalComponent):
             
         self._setFinEditorVisibility()
 
-    # def positionChild(self, parent, parentBase, parentLength, parentRadius, rotation):
-    #     super().positionChild(parent, parentBase, parentLength, parentRadius, rotation)
-    #     self.setParentRadius(parentRadius)
-
-    #     base = FreeCAD.Vector(parentBase)
-    #     base.x += float(self._obj.RootChord - self._obj.SweepLength - self._obj.TipChord) # Base is the base of the outer tip
-    #     # TODO: Need to add code for sketch based fin
-
-    #     self.positionChildren(base)
-
     def update(self):
         super().update()
 
@@ -197,10 +187,6 @@ class FeatureFin(ExternalComponent):
 
     def isAfter(self):
         return False
-
-    # def setParentRadius(self, parentRadius):
-    #     if self._obj.AutoInnerDiameter and self._obj.ParentRadius != parentRadius:
-    #         self._obj.ParentRadius = parentRadius
 
     def setParentRadius(self):
         self.setParentDiameter()

@@ -174,7 +174,7 @@ class TaskPanelBodyTube:
 
     def transferFrom(self):
         "Transfer from the object to the dialog"
-        self._btForm.odInput.setText(self._obj.OuterDiameter.UserString)
+        self._btForm.odInput.setText(self._obj.Diameter.UserString)
         self._btForm.autoDiameterCheckbox.setChecked(self._obj.AutoDiameter)
         self._btForm.idInput.setText("0.0")
         self._btForm.thicknessInput.setText(self._obj.Thickness.UserString)
@@ -196,7 +196,7 @@ class TaskPanelBodyTube:
         
     def onOd(self, value):
         try:
-            # self._obj.OuterDiameter = FreeCAD.Units.Quantity(value).Value
+            # self._obj.Diameter = FreeCAD.Units.Quantity(value).Value
             self._obj.Proxy.setOuterDiameter(FreeCAD.Units.Quantity(value).Value)
             self._setIdFromThickness()
             self._obj.Proxy.execute(self._obj)
@@ -216,8 +216,8 @@ class TaskPanelBodyTube:
             self._btForm.autoDiameterCheckbox.setEnabled(False)
 
         if self._obj.AutoDiameter:
-            self._obj.OuterDiameter = self._obj.Proxy.getOuterDiameter()
-            self._btForm.odInput.setText(self._obj.OuterDiameter.UserString)
+            self._obj.Diameter = self._obj.Proxy.getOuterDiameter()
+            self._btForm.odInput.setText(self._obj.Diameter.UserString)
             self._setIdFromThickness()
 
     def onAutoDiameter(self, value):
@@ -228,7 +228,7 @@ class TaskPanelBodyTube:
         self.setEdited()
 
     def _setThicknessFromId(self, value):
-        od = float(self._obj.OuterDiameter.Value)
+        od = float(self._obj.Diameter.Value)
         if od > 0.0:
             id = FreeCAD.Units.Quantity(value).Value
             thickness = (od - id) / 2.0
@@ -248,7 +248,7 @@ class TaskPanelBodyTube:
         self.setEdited()
 
     def _setIdFromThickness(self):
-        od = float(self._obj.OuterDiameter.Value)
+        od = float(self._obj.Diameter.Value)
         if od > 0.0:
             id = od - 2.0 * float(self._obj.Thickness)
             self._btForm.idInput.setText(FreeCAD.Units.Quantity(id).UserString)
@@ -307,7 +307,7 @@ class TaskPanelBodyTube:
 
         diameter = _valueOnly(result["inner_diameter"], result["inner_diameter_units"])
         self._obj.Proxy.setOuterDiameter(_valueOnly(result["outer_diameter"], result["outer_diameter_units"]))
-        self._obj.Proxy.setThickness((self._obj.OuterDiameter.Value - diameter) / 2.0)
+        self._obj.Proxy.setThickness((self._obj.Diameter.Value - diameter) / 2.0)
         self._obj.Proxy.setLength(_valueOnly(result["length"], result["length_units"]))
 
         self.update()

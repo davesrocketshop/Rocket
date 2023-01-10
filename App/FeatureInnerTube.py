@@ -34,7 +34,7 @@ from App.interfaces.RadialParent import RadialParent
 
 from App.events.ComponentChangeEvent import ComponentChangeEvent
 from App.ThicknessRingComponent import ThicknessRingComponent
-from App.ClusterConfiguration import SINGLE, CONFIGURATIONS
+from App.ClusterConfiguration import SINGLE
 from App.util.BoundingBox import BoundingBox
 from App.util.Coordinate import Coordinate, ZERO
 from App.ShapeHandlers.InnerTubeShapeHandler import InnerTubeShapeHandler
@@ -43,7 +43,7 @@ from App.Constants import FEATURE_BODY_TUBE, FEATURE_INNER_TUBE, FEATURE_TUBE_CO
 
 from DraftTools import translate
 
-class FeatureInnerTube(Clusterable, ThicknessRingComponent, AxialPositionable, BoxBounded, RadialParent):
+class FeatureInnerTube(ThicknessRingComponent, Clusterable, AxialPositionable, BoxBounded, RadialParent):
 
     def __init__(self, obj):
         super().__init__(obj)
@@ -64,7 +64,7 @@ class FeatureInnerTube(Clusterable, ThicknessRingComponent, AxialPositionable, B
     def setDefaults(self):
         super().setDefaults()
 
-        self._obj.OuterDiameter = 19.0
+        self._obj.Diameter = 19.0
         self._obj.Thickness = 0.5
         self._obj.Length = 70.0
 

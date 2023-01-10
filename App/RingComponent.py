@@ -50,6 +50,8 @@ class RingComponent(InternalComponent, BoxBounded, Coaxial):
     def __init__(self, obj):
         super().__init__(obj)
 
+        if not hasattr(obj, 'Diameter'):
+            obj.addProperty('App::PropertyLength', 'Diameter', 'Bulkhead', translate('App::Property', 'Outer diameter of the object')).Diameter = 25.0
         if not hasattr(obj, 'AutoDiameter'):
             obj.addProperty('App::PropertyBool', 'AutoDiameter', 'Bulkhead', translate('App::Property', 'Automatically set the outer diameter when possible')).AutoDiameter = False
         if not hasattr(obj, 'CenterAutoDiameter'):

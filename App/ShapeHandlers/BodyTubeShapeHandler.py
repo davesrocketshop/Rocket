@@ -36,7 +36,7 @@ class BodyTubeShapeHandler():
         # This gets changed when redrawn so it's very important to save a copy
         self._placement = FreeCAD.Placement(obj.Placement)
 
-        self._OD = float(obj.OuterDiameter)
+        self._OD = float(obj.Diameter)
         if self._OD > 0.0:
             self._ID = self._OD - 2.0 * float(obj.Thickness)
         else:

@@ -54,7 +54,7 @@ class FeaturePod(ComponentAssembly, RingInstanceable):
         if not hasattr(obj, 'AngleMethod'):
             obj.addProperty('App::PropertyPythonObject', 'AngleMethod', 'Rocket', translate('App::Property', 'Method for calculating angle offsets')).AngleMethod = AngleMethod.RELATIVE
         if not hasattr(obj, 'AngleSeparation'):
-            obj.addProperty('App::PropertyAngle', 'AngleSeparation', 'Rocket', translate('App::Property', 'Angle separation')).AngleSeparation = math.pi
+            obj.addProperty('App::PropertyAngle', 'AngleSeparation', 'Rocket', translate('App::Property', 'Angle separation')).AngleSeparation = 180.0
         # if not hasattr(obj, 'AngleOffset'):
         #     obj.addProperty('App::PropertyAngle', 'AngleOffset', 'Rocket', translate('App::Property', 'Angle offset')).AngleOffset = 0
         

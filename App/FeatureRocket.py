@@ -31,17 +31,14 @@ from App.interfaces.StateChangeListener import StateChangeListener
 
 from App.ComponentAssembly import ComponentAssembly
 from App.position import AxialMethod
-from App.position.AxialPositionable import AxialPositionable
 
 from App.util.BoundingBox import BoundingBox
 from App.util.Coordinate import ZERO, X_UNIT
 from App.util.UniqueID import UniqueID
-# from App.util.ReferenceType import ReferenceType
 from App.util import ReferenceType
 
 from App.events.ComponentChangeEvent import ComponentChangeEvent
 
-from App.ComponentAssembly import ComponentAssembly
 from App.Constants import FEATURE_ROCKET, FEATURE_STAGE
 
 class FeatureRocket(ComponentAssembly, ComponentChangeListener):

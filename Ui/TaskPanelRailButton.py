@@ -257,7 +257,7 @@ class TaskPanelRailButton:
     def transferTo(self):
         "Transfer from the dialog to the object" 
         self._obj.RailButtonType = str(self._btForm.railButtonTypeCombo.currentText())
-        self._obj.OuterDiameter = self._btForm.odInput.text()
+        self._obj.Diameter = self._btForm.odInput.text()
         self._obj.InnerDiameter = self._btForm.idInput.text()
         self._obj.TopThickness = self._btForm.topThicknessInput.text()
         self._obj.BaseThickness = self._btForm.baseThicknessInput.text()
@@ -275,7 +275,7 @@ class TaskPanelRailButton:
     def transferFrom(self):
         "Transfer from the object to the dialog"
         self._btForm.railButtonTypeCombo.setCurrentText(self._obj.RailButtonType)
-        self._btForm.odInput.setText(self._obj.OuterDiameter.UserString)
+        self._btForm.odInput.setText(self._obj.Diameter.UserString)
         self._btForm.idInput.setText(self._obj.InnerDiameter.UserString)
         self._btForm.topThicknessInput.setText(self._obj.TopThickness.UserString)
         self._btForm.baseThicknessInput.setText(self._obj.BaseThickness.UserString)
@@ -320,7 +320,7 @@ class TaskPanelRailButton:
         
     def onOd(self, value):
         try:
-            self._obj.OuterDiameter = FreeCAD.Units.Quantity(value).Value
+            self._obj.Diameter = FreeCAD.Units.Quantity(value).Value
             self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass

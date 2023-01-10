@@ -24,8 +24,6 @@ __title__ = "FreeCAD Rocket Components"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
-import FreeCAD
-
 from App.util.Coordinate import Coordinate, NUL
 from App.RingComponent import RingComponent
 from App.Utilities import clamp
@@ -41,10 +39,6 @@ class RadiusRingComponent(RingComponent, LineInstanceable):
     def __init__(self, obj):
         super().__init__(obj)
 
-        if not hasattr(obj, 'Diameter'):
-            obj.addProperty('App::PropertyLength', 'Diameter', 'Bulkhead', translate('App::Property', 'Outer diameter of the object')).Diameter = 25.0
-        # if not hasattr(obj, 'AutoDiameter'):
-        #     obj.addProperty('App::PropertyBool', 'AutoDiameter', 'Bulkhead', translate('App::Property', 'Automatically set the outer diameter when possible')).AutoDiameter = False
         if not hasattr(obj, 'CenterDiameter'):
             obj.addProperty('App::PropertyLength', 'CenterDiameter', 'Bulkhead', translate('App::Property', 'Diameter of the central hole')).CenterDiameter = 10.0
 

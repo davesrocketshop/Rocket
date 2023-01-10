@@ -76,7 +76,7 @@ class BodyTubeElement(SymmetricComponentElement):
                 self._feature._obj.AutoDiameter = True 
             else:
                 diameter = float(content) * 2.0
-                self._feature._obj.OuterDiameter = str(diameter) + "m"
+                self._feature._obj.Diameter = str(diameter) + "m"
                 self._feature._obj.AutoDiameter = False 
         else:
             super().handleEndTag(tag, content)

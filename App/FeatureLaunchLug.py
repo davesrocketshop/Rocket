@@ -52,8 +52,8 @@ class FeatureLaunchLug(Tube, AnglePositionable, BoxBounded, LineInstanceable):
         self.Type = FEATURE_LAUNCH_LUG
 
         # Default set to 1/8" launch lug
-        if not hasattr(obj,"OuterDiameter"):
-            obj.addProperty('App::PropertyLength', 'OuterDiameter', 'LaunchLug', translate('App::Property', 'Diameter of the outside of the body tube')).OuterDiameter = 4.06
+        if not hasattr(obj,"Diameter"):
+            obj.addProperty('App::PropertyLength', 'Diameter', 'LaunchLug', translate('App::Property', 'Diameter of the outside of the body tube')).Diameter = 4.06
         if not hasattr(obj,"Thickness"):
             obj.addProperty('App::PropertyLength', 'Thickness', 'LaunchLug', translate('App::Property', 'Diameter of the inside of the body tube')).Thickness = 0.25
 
@@ -100,7 +100,7 @@ class FeatureLaunchLug(Tube, AnglePositionable, BoxBounded, LineInstanceable):
         return self.getOuterDiameter() / 2.0
 
     def getOuterDiameter(self):
-        return float(self._obj.OuterDiameter)
+        return float(self._obj.Diameter)
 
     def setOuterRadius(self, radius):
         self.setOuterDiameter(radius * 2.0)
@@ -110,11 +110,11 @@ class FeatureLaunchLug(Tube, AnglePositionable, BoxBounded, LineInstanceable):
             if isinstance(listener, FeatureLaunchLug):
                 listener.setOuterDiameter(diameter)
 
-        if self._obj.OuterDiameter == diameter:
+        if self._obj.Diameter == diameter:
             return
 
-        self._obj.OuterDiameter = diameter
-        self._obj.Thickness = min(self._obj.Thickness, self._obj.OuterDiameter / 2.0)
+        self._obj.Diameter = diameter
+        self._obj.Thickness = min(self._obj.Thickness, self._obj.Diameter / 2.0)
         self.clearPreset()
         self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
 
@@ -122,7 +122,7 @@ class FeatureLaunchLug(Tube, AnglePositionable, BoxBounded, LineInstanceable):
         return self.getInnerDiameter() / 2.0
 
     def getInnerDiameter(self, pos=0):
-        return self._obj.OuterDiameter - (2.0 * self._obj.Thickness)
+        return self._obj.Diameter - (2.0 * self._obj.Thickness)
 
     def setInnerRadius(self, radius):
         self.setInnerDiameter(radius * 2.0)
@@ -132,7 +132,7 @@ class FeatureLaunchLug(Tube, AnglePositionable, BoxBounded, LineInstanceable):
             if isinstance(listener, FeatureLaunchLug):
                 listener.setInnerDiameter(diameter)
 
-        self.setThickness((float(self._obj.OuterDiameter) - float(diameter)) / 2.0)
+        self.setThickness((float(self._obj.Diameter) - float(diameter)) / 2.0)
 
     def getThickness(self):
         return self._obj.Thickness
@@ -145,7 +145,7 @@ class FeatureLaunchLug(Tube, AnglePositionable, BoxBounded, LineInstanceable):
         if self._obj.Thickness == thickness:
             return
 
-        self._obj.Thickness = Utilities.clamp(thickness, 0, self._obj.OuterDiameter / 2.0)
+        self._obj.Thickness = Utilities.clamp(thickness, 0, self._obj.Diameter / 2.0)
         self.clearPreset()
         self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
 
@@ -266,12 +266,3 @@ class FeatureLaunchLug(Tube, AnglePositionable, BoxBounded, LineInstanceable):
     def setAngleMethod(self, newMethod):
         # no-op
         pass
-
-    # @Override
-    # public InsideColorComponentHandler getInsideColorComponentHandler() {
-    #     return this.insideColorComponentHandler;
-    # }
-
-    # @Override
-    # public void setInsideColorComponentHandler(InsideColorComponentHandler handler) {
-    #     this.insideColorComponentHandler = handler;
