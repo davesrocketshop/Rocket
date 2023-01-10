@@ -124,7 +124,6 @@ class FeatureRocket(ComponentAssembly, ComponentChangeListener):
         return BoundingBox(ZERO, X_UNIT) # default from default flight config
 
     def getDesigner(self):
-        self.checkState()
         return self._designer
 
     def setDesigner(self, s):
@@ -184,7 +183,6 @@ class FeatureRocket(ComponentAssembly, ComponentChangeListener):
         return self._functionalModID
 
     def getStageCount(self):
-        self.checkState()
         return len(self._stageMap)
 
     def getStageList(self):
@@ -253,7 +251,6 @@ class FeatureRocket(ComponentAssembly, ComponentChangeListener):
         self.Position = ZERO
 
     def getReferenceType(self):
-        self.checkState()
         return self._refType
 
     def setReferenceType(self, type):
@@ -263,12 +260,7 @@ class FeatureRocket(ComponentAssembly, ComponentChangeListener):
 
         self.fireComponentChangeEvent(ComponentChangeEvent.NONFUNCTIONAL_CHANGE)
 
-    # def getLength(self):
-    #     return self._selectedConfiguration.getLength()
-	
-	
     def getCustomReferenceLength(self):
-        self.checkState()
         return self._customReferenceLength
 
     def setCustomReferenceLength(self, length):
@@ -301,15 +293,12 @@ class FeatureRocket(ComponentAssembly, ComponentChangeListener):
         return self._perfectFinish
     
     def getFlightConfigurationCount(self):
-        self.checkState()
         return len(self._configSet)
 
     def resetListeners(self):
         self._listenerList = []
 
     def addComponentChangeListener(self, l):
-        self.checkState()
-
         self._listenerList.append(l)
 
     def removeComponentChangeListener(self, l):
@@ -318,22 +307,6 @@ class FeatureRocket(ComponentAssembly, ComponentChangeListener):
     def fireComponentChangeEvent(self, cce):
         if not self._eventsEnabled:
             return
-        
-        #mutex.lock("fireComponentChangeEvent");
-        #try {
-        self.checkState()
-        
-        # Update modification ID's only for normal (not undo/redo) events
-        # if not cce.isUndoChange():
-        #     self._modID = UniqueID.next()
-        #     if cce.isMassChange():
-        #         self._massModID = self._modID
-        #     if cce.isAerodynamicChange():
-        #         self._aeroModID = self._modID
-        #     if cce.isTreeChange():
-        #         self._treeModID = self._modID
-        #     if cce.isFunctionalChange():
-        #         self._functionalModID = self._modID
         
         # Check whether frozen
         if self._freezeList is not None:
@@ -400,7 +373,6 @@ class FeatureRocket(ComponentAssembly, ComponentChangeListener):
             }
         </pre>"""
     def freeze(self):
-        self.checkState()
         if self._freezeList is None:
             self._freezeList = []
         else:
@@ -412,7 +384,6 @@ class FeatureRocket(ComponentAssembly, ComponentChangeListener):
         last component to have been an event source.
     """
     def thaw(self):
-        self.checkState()
         if self._freezeList is None:
             raise Exception("Attempting to thaw Rocket when it is not frozen")
             return

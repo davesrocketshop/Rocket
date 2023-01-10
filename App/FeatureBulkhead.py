@@ -81,9 +81,6 @@ class FeatureBulkhead(RadiusRingComponent):
     def setLength(self, length):
         self._obj.Thickness = length
 
-    def getComponentBounds(self):
-        pass
-
     def execute(self, obj):
         shape = BulkheadShapeHandler(obj)
         if shape is not None:

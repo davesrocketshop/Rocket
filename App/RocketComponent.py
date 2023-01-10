@@ -51,8 +51,6 @@ class RocketComponent(ShapeBase, ChangeSource):
     def __init__(self, obj):
         super().__init__(obj)
 
-        if not hasattr(obj, 'Comment'):
-            obj.addProperty('App::PropertyString', 'Comment', 'Rocket', translate('App::Property', 'User comment')).Comment = ""
         if not hasattr(obj, 'Manufacturer'):
             obj.addProperty('App::PropertyString', 'Manufacturer', 'Rocket', translate('App::Property', 'Component manufacturer')).Manufacturer = ""
         if not hasattr(obj, 'PartNumber'):
@@ -85,20 +83,20 @@ class RocketComponent(ShapeBase, ChangeSource):
         if not hasattr(obj, 'RadialOffset'):
             obj.addProperty('App::PropertyDistance', 'RadialOffset', 'Rocket', translate('App::Property', 'Radial offset from the reference')).RadialOffset = 0.0
 
-        if not hasattr(obj,"MassOverride"):
-            obj.addProperty('App::PropertyBool', 'MassOverride', 'Rocket', translate('App::Property', 'Override the calculated mass of this component')).MassOverride = False
-        if not hasattr(obj, 'OverrideChildren'):
-            obj.addProperty('App::PropertyBool', 'OverrideChildren', 'Rocket', translate('App::Property', 'True when the overridden mass includes the mass of the children')).OverrideChildren = False
-        if not hasattr(obj,"OverrideMass"):
-            obj.addProperty('App::PropertyQuantity', 'OverrideMass', 'Rocket', translate('App::Property', 'Override the calculated mass of this component')).OverrideMass = 0.0
+        # if not hasattr(obj,"MassOverride"):
+        #     obj.addProperty('App::PropertyBool', 'MassOverride', 'Rocket', translate('App::Property', 'Override the calculated mass of this component')).MassOverride = False
+        # if not hasattr(obj, 'OverrideChildren'):
+        #     obj.addProperty('App::PropertyBool', 'OverrideChildren', 'Rocket', translate('App::Property', 'True when the overridden mass includes the mass of the children')).OverrideChildren = False
+        # if not hasattr(obj,"OverrideMass"):
+        #     obj.addProperty('App::PropertyQuantity', 'OverrideMass', 'Rocket', translate('App::Property', 'Override the calculated mass of this component')).OverrideMass = 0.0
 
         # Adhesive has non-zero mass and must be accounted for, especially on larger rockets
-        if not hasattr(obj,"AdhesiveMass"):
-            obj.addProperty('App::PropertyQuantity', 'AdhesiveMass', 'Rocket', translate('App::Property', 'Mass of the adhesive used to attach this component to the rocket. This includes fillet mass')).AdhesiveMass = 0.0
+        # if not hasattr(obj,"AdhesiveMass"):
+        #     obj.addProperty('App::PropertyQuantity', 'AdhesiveMass', 'Rocket', translate('App::Property', 'Mass of the adhesive used to attach this component to the rocket. This includes fillet mass')).AdhesiveMass = 0.0
 
         # Mass of the component based either on its material and volume, or override
-        if not hasattr(obj, 'Mass'):
-            obj.addProperty('App::PropertyQuantity', 'Mass', 'Rocket', translate('App::Property', 'Calculated or overridden component mass'), PROP_READONLY|PROP_TRANSIENT).Mass = 0.0
+        # if not hasattr(obj, 'Mass'):
+        #     obj.addProperty('App::PropertyQuantity', 'Mass', 'Rocket', translate('App::Property', 'Calculated or overridden component mass'), PROP_READONLY|PROP_TRANSIENT).Mass = 0.0
         
         if not hasattr(obj, 'AxialMethod'):
             obj.addProperty('App::PropertyPythonObject', 'AxialMethod', 'Rocket', translate('App::Property', 'Method for calculating axial offsets')).AxialMethod = AxialMethod.AFTER
@@ -110,8 +108,6 @@ class RocketComponent(ShapeBase, ChangeSource):
             obj.addProperty('App::PropertyDistance', 'AxialOffset', 'Rocket', translate('App::Property', 'Offset from the reference point')).AxialOffset = 0.0
         if not hasattr(obj, 'Position'):
             obj.addProperty('App::PropertyPythonObject', 'Position', 'Rocket', translate('App::Property', 'Method for calculating axial offsets')).Position = Coordinate()
-        if not hasattr(obj,"BypassComponentChangeEvent"):
-            obj.addProperty('App::PropertyBool', 'BypassComponentChangeEvent', 'Rocket', translate('App::Property', 'Override the calculated mass of this component')).BypassComponentChangeEvent = False
 
         if not hasattr(obj,"Group"):
             obj.addExtension("App::GroupExtensionPython")
@@ -139,15 +135,6 @@ class RocketComponent(ShapeBase, ChangeSource):
 
     def setName(self, name):
         self._obj.Label = name
-
-    def setComment(self, comment):
-        self._obj.Comment = comment
-
-    def setOverrideMass(self, mass):
-        self._obj.OverrideMass = mass
-
-    def setMassOverridden(self, override):
-        self._obj.MassOverride = override
 
     """
         Get the characteristic length of the component, for example the length of a body tube
@@ -184,25 +171,12 @@ class RocketComponent(ShapeBase, ChangeSource):
     def isMotorMount(self):
         return False
 
-    """
-        Return a collection of bounding coordinates.  The coordinates must be such that
-        the component is fully enclosed in their convex hull.
-         
-        Note: this function gets the bounds only for this component.  Sub-children must be called individually.
-    """
-    @abstractmethod
-    def getComponentBounds(self):
-        pass
-
     # Return true if the component may have an aerodynamic effect on the rocket.
     def isAerodynamic(self):
         return False
 	
     # Return true if the component may have an effect on the rocket's mass.
     def isMassive(self):
-        return False
-
-    def allowsChildren(self):
         return False
 
     def update(self):
@@ -226,24 +200,11 @@ class RocketComponent(ShapeBase, ChangeSource):
     #  cached data.  The overriding method *must* call
     #  <code>super.componentChanged(e)</code> at some point.
     def componentChanged(self, event):
-        self.checkState()
-        # self.update()
         self.updateChildren()
-
-    """
-        Return true if any of this component's children are a RecoveryDevice
-    """
-    def hasRecoveryDevice(self):
-        # for child in self.getChildren():
-        #     if isinstance(child, RecoveryDevice):
-        #         return True
-
-        return False
 
     # Adds a child to the rocket component tree.  The component is added to the end
     # of the component's child list.  This is a helper method that calls
     def addChild(self, component):
-        self.checkState()
         if hasattr(component, "_obj"):
             self.addChildPosition(component._obj, len(self._obj.Group))
         else:
@@ -255,8 +216,6 @@ class RocketComponent(ShapeBase, ChangeSource):
     # This method may be overridden to enforce more strict component addition rules.
     # The tests should be performed first and then this method called.
     def addChildPosition(self, component, index):
-        self.checkState()
-
         if component.Proxy.getParent() is not None:
             raise Exception("component " + component.Proxy.getComponentName() + " is already in a tree")
 
@@ -283,15 +242,12 @@ class RocketComponent(ShapeBase, ChangeSource):
     # Removes a child from the rocket component tree.
     # (redirect to the removed-by-component
     def removeChildPosition(self, n):
-        self.checkState()
         component = self.getChildren()[n].Proxy
         self.removeChild(component)
 
     # Removes a child from the rocket component tree.  Does nothing if the component
     # is not present as a child.
     def removeChild(self, component):
-        self.checkState()
-
         component.checkComponentStructure()
 
 
@@ -319,7 +275,6 @@ class RocketComponent(ShapeBase, ChangeSource):
 
     # Move a child to another position.
     def moveChild(self, component, index):
-        self.checkState()
         try:
             self._moveChild(index, component)
             
@@ -383,7 +338,6 @@ class RocketComponent(ShapeBase, ChangeSource):
         self.fireComponentChangeEvent(type);
 
     def fireComponentChangeEvent(self, event):
-        self.checkState()
         if self.getParent() is None: # or self._bypassComponentChangeEvent:
             return
 
@@ -410,8 +364,6 @@ class RocketComponent(ShapeBase, ChangeSource):
         return self._obj.AxialOffset
 
     def _setAxialOffset(self, method, newAxialOffset):
-        self.checkState()
-
         newX = math.nan
 
         if self.getParent() is None:
@@ -441,17 +393,12 @@ class RocketComponent(ShapeBase, ChangeSource):
     def _setRotation(self):
         self._obj.Placement = FreeCAD.Placement(self._obj.Placement.Base, FreeCAD.Vector(1,0,0), self._obj.AngleOffset)
 
-    def onConfigListener(self, event):
-        pass
-
     def addConfigListener(self, listener):
         if listener is None or listener in self._configListeners or listener == self:
             return False
 
         self._configListeners.append(listener)
         listener.setBypassChangeEvent(True)
-
-        # self.connect(listener.onConfigListener, QtCore.Qt.QueuedConnection)
 
         return True
 
@@ -470,7 +417,6 @@ class RocketComponent(ShapeBase, ChangeSource):
 
     # Get the root component of the component tree.
     def getRoot(self):
-        self.checkState()
         gp = self
         while gp.getParent() is not None:
             gp = gp.getParent()
@@ -480,7 +426,6 @@ class RocketComponent(ShapeBase, ChangeSource):
     # Returns the root Rocket component of this component tree.  Throws an
     # IllegalStateException if the root component is not a Rocket.
     def getRocket(self):
-        self.checkState()
         root = self.getRoot()
         if root.getType() == FEATURE_ROCKET:
             return root
@@ -490,8 +435,6 @@ class RocketComponent(ShapeBase, ChangeSource):
     # Return the Stage component that this component belongs to.  Throws an
     # IllegalStateException if a Stage is not in the parentage of this component.
     def getStage(self):
-        self.checkState()
-
         current = self
         while current is not None:
             if current.Type == FEATURE_STAGE:
@@ -514,7 +457,6 @@ class RocketComponent(ShapeBase, ChangeSource):
     # component, which must be of type Rocket (which overrides this method).  Events of all
     # subcomponents are sent to all listeners.
     def addComponentChangeListener(self, listener):
-        self.checkState()
         self.getRocket().addComponentChangeListener(listener)
 	
     # Removes a ComponentChangeListener from the rocket tree.  The listener is removed from
@@ -539,15 +481,6 @@ class RocketComponent(ShapeBase, ChangeSource):
     # that listeners can always be removed just in case.)
     def removeChangeListener(self, listener):
         self.removeComponentChangeListener(listener)
-
-    # Checks whether this component has been invalidated and should no longer be used.
-    # This is a safety check that in-place replaced components are no longer used.
-    # All non-trivial methods (with the exception of methods simply getting a property)
-    # should call this method before changing or computing anything.
-    def checkState(self):
-        # self.invalidator.check(True);
-        # self.mutex.verify();
-        pass
 
     # Check that the local component structure is correct.  This can be called after changing
     # the component structure in order to verify the integrity.
@@ -580,8 +513,6 @@ class RocketComponent(ShapeBase, ChangeSource):
         return False
 
     def setAfter(self):
-        self.checkState()
-        
         if self.getParent() is None:
             # Probably initialization order issue.  Ignore for now.
             return
@@ -620,7 +551,6 @@ class RocketComponent(ShapeBase, ChangeSource):
     # component is not a child of this component.
     def getChildIndex(self, child):
         try:
-            self.checkState()
             self.checkComponentStructure()
             return self.getChildren().index(child._obj)
         except ValueError:
@@ -631,32 +561,12 @@ class RocketComponent(ShapeBase, ChangeSource):
         return self.getChildIndex(child)
 
     def getChildCount(self):
-        self.checkState()
         self.checkComponentStructure()
         return len(self.getChildren())
 
     def getChild(self, n):
-        self.checkState()
         self.checkComponentStructure()
         return self._obj.Group[n]
-
-    """
-        Helper method to add two points on opposite corners of a box around the rocket centerline.  This box will be (x_max - x_min) long, and 2*r wide/high.
-    """
-    def addBoundingBox(self, bounds, x_min, x_max, r):
-        bounds.append(Coordinate(x_min, -r, -r))
-        bounds.append(Coordinate(x_max, r, r))
-
-    """
-        Helper method to add four bounds rotated around the given x coordinate at radius 'r', and 90deg between each.
-        The X-axis value is <code>x</code> and the radius at the specified position is
-        <code>r</code>.
-    """
-    def addBound(self, bounds, x, r):
-        bounds.append(Coordinate(x, -r, -r))
-        bounds.append(Coordinate(x, r, -r))
-        bounds.append(Coordinate(x, r, r))
-        bounds.append(Coordinate(x, -r, r))
 
     """
          Returns coordinates of this component's instances in relation to this.parent.
@@ -667,9 +577,6 @@ class RocketComponent(ShapeBase, ChangeSource):
         NOTE: the length of this array returned always equals this.getInstanceCount()
     """
     def getInstanceLocations(self):
-        self.checkState()
-
-        # center = self._obj.Position
         base = self._obj.Placement.Base
         center = Coordinate(base.x, base.y, base.z)
         offsets = self.getInstanceOffsets()
@@ -688,9 +595,6 @@ class RocketComponent(ShapeBase, ChangeSource):
         for listener in self._configListeners:
             listener.clearPreset()
 
-        # if presetComponent is None:
-        #     return
-        # presetComponent = None
         self.fireComponentChangeEvent(ComponentChangeEvent.NONFUNCTIONAL_CHANGE)
 
     """
@@ -713,8 +617,6 @@ class RocketComponent(ShapeBase, ChangeSource):
     def toRelative(self, c, dest):
         if dest is None:
             raise Exception("calling toRelative(c,null) is being refactored. ")
-
-        self.checkState()
 
         destLocs = dest.getInstanceLocations()
         toReturn = []

@@ -351,39 +351,6 @@ class FeatureFin(ExternalComponent):
             FEATURE_RAIL_BUTTON
             # FEATURE_RAIL_GUIDE - this doesn't make sense on a fin
             ]
-    """
-        Adds bounding coordinates to the given set.  The body tube will fit within the
-        convex hull of the points.
-        
-        Currently the points are simply a rectangular box around the body tube.
-    """
-    def getComponentBounds(self):
-        bounds = []
-        
-        # should simply return this component's bounds in this component's body frame.
-        
-        x_min = math.inf
-        x_max = -math.inf
-        r_max = 0.0
-        
-        for point in self.getFinPoints():
-            hypot = math.hypot(point.y, point.z)
-            x_cur = point.x
-            if x_min > x_cur:
-                x_min = x_cur
-            if x_max < x_cur:
-                x_max = x_cur
-            if r_max < hypot:
-                r_max = hypot
-        
-        location = self.getLocations()[0]
-        x_max += location.x
-        
-        if isinstance(self.getParent(), SymmetricComponent):
-            r_max += self.getParent().getRadius(0)
-        
-        self.addBoundingBox(bounds, x_min, x_max, r_max)
-        return bounds
 
     """ Returns the geometry of a trapezoidal fin. """
     def getFinPoints(self):

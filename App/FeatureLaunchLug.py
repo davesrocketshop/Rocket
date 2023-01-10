@@ -57,8 +57,6 @@ class FeatureLaunchLug(Tube, AnglePositionable, BoxBounded, LineInstanceable):
         if not hasattr(obj,"Thickness"):
             obj.addProperty('App::PropertyLength', 'Thickness', 'LaunchLug', translate('App::Property', 'Diameter of the inside of the body tube')).Thickness = 0.25
 
-        if not hasattr(obj,"RadialOffset"):
-            obj.addProperty('App::PropertyAngle', 'RadialOffset', 'LaunchLug', translate('App::Property', 'Radial offset')).RadialOffset = 0
         if not hasattr(obj,"InstanceCount"):
             obj.addProperty('App::PropertyLength', 'InstanceCount', 'LaunchLug', translate('App::Property', 'Instance count')).InstanceCount = 1
         if not hasattr(obj,"InstanceSeparation"):
@@ -228,43 +226,6 @@ class FeatureLaunchLug(Tube, AnglePositionable, BoxBounded, LineInstanceable):
             parentRadius = max(body.getRadius(x1), body.getRadius(x2))
         
         self._obj.RadialOffset = parentRadius + self.getOuterRadius()
-
-    # @Override
-    # public double getComponentVolume() {
-    #     return length * Math.PI * (MathUtil.pow2(radius) - MathUtil.pow2(radius - thickness));
-    # }
-
-    def getComponentBounds(self):
-        set = []
-        self.addBound(set, 0, self.getRadius())
-        self.addBound(set, self.getLength(), self.getRadius())
-        return set
-
-    # @Override
-    # public Coordinate getComponentCG() {
-    #     return new Coordinate(length / 2, 0, 0, getComponentMass());
-    # }
-
-    # @Override
-    # public String getComponentName() {
-    #     //// Launch lug
-    #     return trans.get("LaunchLug.Launchlug");
-    # }
-
-    # @Override
-    # public double getLongitudinalUnitInertia() {
-    #     // 1/12 * (3 * (r2^2 + r1^2) + h^2)
-    #     return (3 * (MathUtil.pow2(getOuterRadius()) + MathUtil.pow2(getInnerRadius())) + MathUtil.pow2(getLength())) / 12;
-    # }
-
-    # @Override
-    # public double getRotationalUnitInertia() {
-    #     // 1/2 * (r1^2 + r2^2)
-    #     return (MathUtil.pow2(getInnerRadius()) + MathUtil.pow2(getOuterRadius())) / 2;
-    # }
-
-    def allowsChildren(self):
-        return False
 
     def isCompatible(self, type):
         # Allow nothing to be attached to a LaunchLug

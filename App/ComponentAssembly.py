@@ -51,9 +51,6 @@ class ComponentAssembly(RocketComponent, AxialPositionable):
     def setDefaults(self):
         super().setDefaults()
 
-    def allowsChildren(self):
-        return True
-
     def getAxialOffset(self) -> Double:
         return self.getAxialOffsetFromMethod(self._obj.AxialMethod)
 	
@@ -90,12 +87,6 @@ class ComponentAssembly(RocketComponent, AxialPositionable):
             raise Exception("Unrecognized subclass of Component Assembly.  Please update this method.")
 
         self.fireComponentChangeEvent(ComponentChangeEvent.NONFUNCTIONAL_CHANGE);
-        
-    """
-        Null method (ComponentAssembly has no bounds of itself).
-    """
-    def getComponentBounds(self):
-        return []
 
     """
         Null method (ComponentAssembly has no mass of itself).

@@ -131,10 +131,11 @@ class ComponentElement(Element):
             self._feature._obj.AxialOffset = -content
 
     def onOverrideMass(self, content):
-        if hasattr(self._feature, "setOverrideMass"):
-            self._feature.setOverrideMass(content)
-        if hasattr(self._feature, "setMassOverridden"):
-            self._feature.setMassOverridden(content > 0)
+        # if hasattr(self._feature, "setOverrideMass"):
+        #     self._feature.setOverrideMass(content)
+        # if hasattr(self._feature, "setMassOverridden"):
+        #     self._feature.setMassOverridden(content > 0)
+        pass
 
     def onOverrideCG(self, content):
         pass

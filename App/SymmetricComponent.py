@@ -155,18 +155,6 @@ class SymmetricComponent(RocketComponent, BoxBounded, RadialParent):
         self.clearPreset()
 
     """
-        Adds component bounds at a number of points between 0...length.
-    """
-    def getComponentBounds(self):
-        list = []
-        for n in range(6): # 0-5
-            x = n * self._obj.Length / 5
-            r = self.getRadius(x)
-            self.addBound(list, x, r)
-
-        return list
-
-    """
         Returns the automatic radius for this component towards the 
         front of the rocket.  The automatics will not search towards the
         rear of the rocket for a suitable radius.  A positive return value

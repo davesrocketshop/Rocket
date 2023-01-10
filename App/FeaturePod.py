@@ -55,8 +55,8 @@ class FeaturePod(ComponentAssembly, RingInstanceable):
             obj.addProperty('App::PropertyPythonObject', 'AngleMethod', 'Rocket', translate('App::Property', 'Method for calculating angle offsets')).AngleMethod = AngleMethod.RELATIVE
         if not hasattr(obj, 'AngleSeparation'):
             obj.addProperty('App::PropertyAngle', 'AngleSeparation', 'Rocket', translate('App::Property', 'Angle separation')).AngleSeparation = math.pi
-        if not hasattr(obj, 'AngleOffset'):
-            obj.addProperty('App::PropertyAngle', 'AngleOffset', 'Rocket', translate('App::Property', 'Angle offset')).AngleOffset = 0
+        # if not hasattr(obj, 'AngleOffset'):
+        #     obj.addProperty('App::PropertyAngle', 'AngleOffset', 'Rocket', translate('App::Property', 'Angle offset')).AngleOffset = 0
         
         if not hasattr(obj, 'RadiusMethod'):
             obj.addProperty('App::PropertyPythonObject', 'RadiusMethod', 'Rocket', translate('App::Property', 'Method for calculating radius offsets')).RadiusMethod = RadiusMethod.RELATIVE
@@ -100,8 +100,6 @@ class FeaturePod(ComponentAssembly, RingInstanceable):
         return result
 
     def getInstanceOffsets(self):
-        self.checkState()
-        
         radius = self.radiusMethod.getRadius(self.getParent(), self, self._obj.RadiusOffset)
         
         toReturn = []

@@ -135,12 +135,6 @@ class FeatureNoseCone(SymmetricComponent):
         self.getAftDiameter()
         # self.getAftShoulderDiameter()
 
-    def getComponentBounds(self):
-        bounds = super().getComponentBounds()
-        if self._obj.ShoulderLength > 0.001:
-            self.addBound(bounds, -self._obj.ShoulderLength, self._obj.ShoulderDiameter / 2.0)
-        return bounds
-
     def setNoseType(self, type):
         self._obj.NoseType = type
 

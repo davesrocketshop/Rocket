@@ -94,10 +94,6 @@ class FeatureRailGuide(ExternalComponent, AnglePositionable, BoxBounded, LineIns
         if not hasattr(obj,"NotchDepth"):
             obj.addProperty('App::PropertyLength', 'NotchDepth', 'RailGuide', translate('App::Property', 'Depth of the notch')).NotchDepth = 4.20
 
-        if not hasattr(obj,"AngleOffset"):
-            obj.addProperty('App::PropertyAngle', 'AngleOffset', 'RailGuide', translate('App::Property', 'Angle offset')).AngleOffset = 180
-        if not hasattr(obj,"RadialOffset"):
-            obj.addProperty('App::PropertyAngle', 'RadialOffset', 'RailGuide', translate('App::Property', 'Radial offset')).RadialOffset = 0
         if not hasattr(obj,"InstanceCount"):
             obj.addProperty('App::PropertyLength', 'InstanceCount', 'RailGuide', translate('App::Property', 'Instance count')).InstanceCount = 1
         if not hasattr(obj,"InstanceSeparation"):
@@ -140,9 +136,6 @@ class FeatureRailGuide(ExternalComponent, AnglePositionable, BoxBounded, LineIns
     def isAfter(self):
         return False
 
-    def allowsChildren(self):
-        return False
-
     def isCompatible(self, type):
         # Allow nothing to be attached to a LaunchLug
         return False
@@ -181,12 +174,6 @@ class FeatureRailGuide(ExternalComponent, AnglePositionable, BoxBounded, LineIns
         self._obj.RadialOffset = parentRadius #+ self.getOuterRadius()
         if self._obj.AutoDiameter:
             self._obj.Diameter = 2.0 * parentRadius
-
-    def getComponentBounds(self):
-        set = []
-        # self.addBound(set, 0, self.getRadius())
-        # self.addBound(set, self.getLength(), self.getRadius())
-        return set
 
     def getPatternName(self):
         return "{0}-Line".format(self.getInstanceCount())

@@ -222,9 +222,3 @@ class RingComponent(InternalComponent, BoxBounded, Coaxial):
         # assert (MathUtil.equals(z, shiftZ));
         
         self.fireComponentChangeEvent(ComponentChangeEvent.MASS_CHANGE);
-
-    def getComponentBounds(self):
-        bounds = []
-        self.addBound(bounds, 0, self.getOuterRadius())
-        self.addBound(bounds, self._obj.Length, self.getOuterRadius())
-        return bounds

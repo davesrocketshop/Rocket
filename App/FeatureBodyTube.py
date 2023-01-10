@@ -56,8 +56,6 @@ class FeatureBodyTube(SymmetricComponent, BoxBounded, Coaxial):
             obj.addProperty('App::PropertyBool', 'AutoDiameter', 'BodyTube', translate('App::Property', 'Automatically set the outer diameter when possible')).AutoDiameter = False
         if not hasattr(obj,"Thickness"):
             obj.addProperty('App::PropertyLength', 'Thickness', 'BodyTube', translate('App::Property', 'Diameter of the inside of the body tube')).Thickness = 0.33
-        # if not hasattr(obj,"Length"):
-        #     obj.addProperty('App::PropertyLength', 'Length', 'BodyTube', translate('App::Property', 'Length of the body tube')).Length = 457.0
 
         if not hasattr(obj, 'MotorMount'):
             obj.addProperty('App::PropertyBool', 'MotorMount', 'BodyTube', translate('App::Property', 'This component is a motor mount')).MotorMount = False

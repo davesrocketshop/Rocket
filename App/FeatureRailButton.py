@@ -79,8 +79,6 @@ class FeatureRailButton(ExternalComponent, AnglePositionable, BoxBounded, LineIn
             obj.addProperty('App::PropertyLength', 'BaseThickness', 'RailButton', translate('App::Property', 'Thickness of the inside part of the rail button')).BaseThickness = 3.429
         if not hasattr(obj,"Thickness"):
             obj.addProperty('App::PropertyLength', 'Thickness', 'RailButton', translate('App::Property', 'Total thickness of the rail button')).Thickness = 7.62
-        # if not hasattr(obj,"Length"):
-        #     obj.addProperty('App::PropertyLength', 'Length', 'RailButton', translate('App::Property', 'Length of the rail button')).Length = 12.0
 
         # Default fastener is a #6 screw
         if not hasattr(obj, 'Fastener'):
@@ -105,10 +103,6 @@ class FeatureRailButton(ExternalComponent, AnglePositionable, BoxBounded, LineIn
         if not hasattr(obj,"FilletRadius"):
             obj.addProperty('App::PropertyLength', 'FilletRadius', 'RailButton', translate('App::Property', 'Fillet radius')).FilletRadius = 0.5
 
-        if not hasattr(obj,"AngleOffset"):
-            obj.addProperty('App::PropertyAngle', 'AngleOffset', 'RailGuide', translate('App::Property', 'Angle offset')).AngleOffset = 180
-        if not hasattr(obj,"RadialOffset"):
-            obj.addProperty('App::PropertyAngle', 'RadialOffset', 'RailGuide', translate('App::Property', 'Radial offset')).RadialOffset = 0
         if not hasattr(obj,"InstanceCount"):
             obj.addProperty('App::PropertyLength', 'InstanceCount', 'RailGuide', translate('App::Property', 'Instance count')).InstanceCount = 1
         if not hasattr(obj,"InstanceSeparation"):
@@ -147,9 +141,6 @@ class FeatureRailButton(ExternalComponent, AnglePositionable, BoxBounded, LineIn
         return float(self._obj.Length)
 
     def isAfter(self):
-        return False
-
-    def allowsChildren(self):
         return False
 
     def isCompatible(self, type):
@@ -193,12 +184,6 @@ class FeatureRailButton(ExternalComponent, AnglePositionable, BoxBounded, LineIn
             parentRadius = max(body.getRadius(x1), body.getRadius(x2))
         
         self._obj.RadialOffset = parentRadius #+ self.getOuterRadius()
-
-    def getComponentBounds(self):
-        set = []
-        # self.addBound(set, 0, self.getRadius())
-        # self.addBound(set, self.getLength(), self.getRadius())
-        return set
 
     def getPatternName(self):
         return "{0}-Line".format(self.getInstanceCount())

@@ -313,14 +313,6 @@ class FeatureTransition(SymmetricComponent):
     def getRadius(self, x):
         return 0.0
 
-    def getComponentBounds(self):
-        bounds = super().getComponentBounds()
-        if self._obj.ForeShoulderLength > 0.001:
-            self.addBound(bounds, self._obj.Length + self._obj.ForeShoulderLength, self._obj.ForeShoulderDiameter / 2.0)
-        if self._obj.AftShoulderLength > 0.001:
-            self.addBound(bounds, -self._obj.AftShoulderLength, self._obj.AftShoulderDiameter / 2.0)
-        return bounds
-
     def execute(self, obj):
         shape = None
         if obj.TransitionType == TYPE_CONE:
