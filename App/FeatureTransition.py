@@ -157,6 +157,19 @@ class FeatureTransition(SymmetricComponent):
 
         return self._obj.ForeDiameter
 
+    def getForeShoulderDiameter(self):
+        # if self.isForeDiameterAutomatic():
+        #     # Get the automatic radius from the front
+        #     d = -1
+        #     c = self.getPreviousSymmetricComponent()
+        #     if c is not None:
+        #         d = c.getFrontAutoDiameter()
+        #     if d < 0:
+        #         d = SymmetricComponent.DEFAULT_RADIUS * 2.0
+        #     self._obj.ForeDiameter = d
+
+        return self._obj.ForeShoulderDiameter
+
     """
         Return the fore radius that was manually entered, so not the value that the component received from automatic
         fore radius.
@@ -206,6 +219,10 @@ class FeatureTransition(SymmetricComponent):
         # clearPreset();
         self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
 
+    def isForeInnerDiameterAutomatic(self):
+        # return self._obj.ForeAutoDiameter
+        return False
+
     def getAftRadius(self):
         return self.getAftDiameter() / 2.0
 
@@ -222,6 +239,20 @@ class FeatureTransition(SymmetricComponent):
             self._obj.AftDiameter = d
 
         return self._obj.AftDiameter
+
+    def getAftShoulderDiameter(self):
+        # if self.isAftDiameterAutomatic():
+        #     # Return the auto radius from the rear
+        #     d = -1
+        #     c = self.getNextSymmetricComponent()
+        #     if c is not None:
+        #         d = c.getRearAutoDiameter()
+
+        #     if d < 0:
+        #         d = SymmetricComponent.DEFAULT_RADIUS * 2.0
+        #     self._obj.AftDiameter = d
+
+        return self._obj.AftShoulderDiameter
 
     """
         Return the aft radius that was manually entered, so not the value that the component received from automatic
@@ -259,6 +290,10 @@ class FeatureTransition(SymmetricComponent):
     def setAftRadiusAutomatic(self, auto):
         self.setAftDiameterAutomatic(auto)
 
+    def isAftInnerDiameterAutomatic(self):
+        # return self._obj.AftAutoDiameter
+        return False
+
     def setAftDiameterAutomatic(self, auto):
         for listener in self._configListeners:
             if isinstance(listener, FeatureTransition):
@@ -282,6 +317,11 @@ class FeatureTransition(SymmetricComponent):
             return -1
         return self.getAftDiameter()
 
+    def getFrontAutoInnerDiameter(self):
+        if self.isAftInnerDiameterAutomatic():
+            return -1
+        return self.getAftShoulderDiameter()
+
     def getRearAutoRadius(self):
         if self.isForeRadiusAutomatic():
             return -1
@@ -291,6 +331,11 @@ class FeatureTransition(SymmetricComponent):
         if self.isForeDiameterAutomatic():
             return -1
         return self.getForeDiameter()
+
+    def getRearAutoInnerDiameter(self):
+        if self.isForeDiameterAutomatic():
+            return -1
+        return self.getForeShoulderDiameter()
 
     def usesPreviousCompAutomatic(self):
         return self.isForeRadiusAutomatic()

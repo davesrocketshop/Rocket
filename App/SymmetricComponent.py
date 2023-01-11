@@ -169,6 +169,10 @@ class SymmetricComponent(RocketComponent, BoxBounded, RadialParent):
     def getFrontAutoDiameter(self):
         pass
 
+    @abstractmethod
+    def getFrontAutoInnerDiameter(self):
+        pass
+
     """
         Returns the automatic radius for this component towards the
         end of the rocket.  The automatics will not search towards the
@@ -182,6 +186,10 @@ class SymmetricComponent(RocketComponent, BoxBounded, RadialParent):
     
     @abstractmethod
     def getRearAutoDiameter(self):
+        pass
+    
+    @abstractmethod
+    def getRearAutoInnerDiameter(self):
         pass
 
     """

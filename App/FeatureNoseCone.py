@@ -128,7 +128,7 @@ class FeatureNoseCone(SymmetricComponent):
 
         # Ensure any automatic variables are set
         self.getAftDiameter()
-        # self.getAftShoulderDiameter()
+        self.getAftShoulderDiameter()
 
     def setNoseType(self, type):
         self._obj.NoseType = type
@@ -145,6 +145,9 @@ class FeatureNoseCone(SymmetricComponent):
     def getForeDiameter(self):
         return 0
 
+    def getForeInnerDiameter(self):
+        return 0
+
     def setForeRadius(self):
         pass
 
@@ -156,6 +159,9 @@ class FeatureNoseCone(SymmetricComponent):
 
     def isForeDiameterAutomatic(self):
         return False
+
+    def isForeInnerDiameterAutomatic(self):
+        return self.isForeInnerDiameterAutomatic()
 
     def getAftRadius(self):
         return self.getAftDiameter() / 2.0
@@ -172,6 +178,19 @@ class FeatureNoseCone(SymmetricComponent):
             self._obj.Diameter = d
 
         return self._obj.Diameter
+
+    def getAftShoulderDiameter(self):
+        if self.isAftShoulderDiameterAutomatic():
+            # Return the auto radius from the rear
+            d = -1
+            c = self.getNextSymmetricComponent()
+            if c is not None:
+                d = c.getRearAutoInnerDiameter()
+            if d < 0:
+                d = SymmetricComponent.DEFAULT_RADIUS * 2.0
+            self._obj.ShoulderDiameter = d
+
+        return self._obj.ShoulderDiameter
 
     """
         Return the aft radius that was manually entered, so not the value that the component received from automatic
@@ -211,18 +230,37 @@ class FeatureNoseCone(SymmetricComponent):
     def isAftDiameterAutomatic(self):
         return self._obj.AutoDiameter
 
+    def isAftInnerDiameterAutomatic(self):
+        return self._obj.ShoulderAutoDiameter
+
     def setAftRadiusAutomatic(self, auto):
         self.setAftDiameterAutomatic(auto)
 
     def setAftDiameterAutomatic(self, auto):
         for listener in self._configListeners:
             if isinstance(listener, FeatureNoseCone):
-                listener.setAftRadiusAutomatic(auto)
+                listener.setAftDiameterAutomatic(auto)
 
         if self._obj.AutoDiameter == auto:
             return
 
         self._obj.AutoDiameter = auto
+
+        self.clearPreset()
+        self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
+
+    def isAftShoulderDiameterAutomatic(self):
+        return self._obj.ShoulderAutoDiameter
+
+    def setAftShoulderDiameterAutomatic(self, auto):
+        for listener in self._configListeners:
+            if isinstance(listener, FeatureNoseCone):
+                listener.setAftShoulderDiameterAutomatic(auto)
+
+        if self._obj.ShoulderAutoDiameter == auto:
+            return
+
+        self._obj.ShoulderAutoDiameter = auto
 
         self.clearPreset()
         self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
@@ -245,6 +283,11 @@ class FeatureNoseCone(SymmetricComponent):
         if self.isAftDiameterAutomatic():
             return -1
         return self.getAftDiameter()
+    
+    def getFrontAutoInnerDiameter(self):
+        if self.isAftInnerDiameterAutomatic():
+            return -1
+        return self.getAftShoulderDiameter()
 
     def getRearAutoRadius(self):
         if self.isForeRadiusAutomatic():
@@ -255,6 +298,11 @@ class FeatureNoseCone(SymmetricComponent):
         if self.isForeDiameterAutomatic():
             return -1
         return self.getForeDiameter()
+
+    def getRearAutoInnerDiameter(self):
+        if self.isForeInnerDiameterAutomatic():
+            return -1
+        return self.getAftShoulderDiameter()
 
     def usesPreviousCompAutomatic(self):
         return self.isForeRadiusAutomatic()
