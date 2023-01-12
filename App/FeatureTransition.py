@@ -65,19 +65,23 @@ class FeatureTransition(SymmetricComponent):
         if not hasattr(obj, 'Clipped'):
             obj.addProperty('App::PropertyBool', 'Clipped', 'Transition', translate('App::Property', 'If the transition is not clipped, then the profile is extended at the center by the corresponding radius')).Clipped = True
         if not hasattr(obj, 'ForeShoulder'):
-            obj.addProperty('App::PropertyBool', 'ForeShoulder', 'Transition', translate('App::Property', 'Set to true if the part includes a forward shoulder')).ForeShoulder = False
+            obj.addProperty('App::PropertyBool', 'ForeShoulder', 'Transition', translate('App::Property', 'Set to true if the part includes a forward shoulder')).ForeShoulder = True
         if not hasattr(obj, 'ForeShoulderLength'):
-            obj.addProperty('App::PropertyLength', 'ForeShoulderLength', 'Transition', translate('App::Property', 'Forward Shoulder Length')).ForeShoulderLength = 10.0
+            obj.addProperty('App::PropertyLength', 'ForeShoulderLength', 'Transition', translate('App::Property', 'Forward Shoulder Length')).ForeShoulderLength = 25.0
         if not hasattr(obj, 'ForeShoulderDiameter'):
             obj.addProperty('App::PropertyLength', 'ForeShoulderDiameter', 'Transition', translate('App::Property', 'Forward Shoulder diameter')).ForeShoulderDiameter = 16.0
+        if not hasattr(obj, 'ForeShoulderAutoDiameter'):
+            obj.addProperty('App::PropertyBool', 'ForeShoulderAutoDiameter', 'NoseCone', translate('App::Property', 'Automatically set the forward transition shoulder diameter when possible')).ForeShoulderAutoDiameter = False
         if not hasattr(obj, 'ForeShoulderThickness'):
             obj.addProperty('App::PropertyLength', 'ForeShoulderThickness', 'Transition', translate('App::Property', 'Forward Shoulder thickness')).ForeShoulderThickness = 2.0
         if not hasattr(obj, 'AftShoulder'):
-            obj.addProperty('App::PropertyBool', 'AftShoulder', 'Transition', translate('App::Property', 'Set to true if the part includes an aft shoulder')).ForeShoulder = False
+            obj.addProperty('App::PropertyBool', 'AftShoulder', 'Transition', translate('App::Property', 'Set to true if the part includes an aft shoulder')).AftShoulder = True
         if not hasattr(obj, 'AftShoulderLength'):
-            obj.addProperty('App::PropertyLength', 'AftShoulderLength', 'Transition', translate('App::Property', 'Aft Shoulder Length')).AftShoulderLength = 10.0
+            obj.addProperty('App::PropertyLength', 'AftShoulderLength', 'Transition', translate('App::Property', 'Aft Shoulder Length')).AftShoulderLength = 25.0
         if not hasattr(obj, 'AftShoulderDiameter'):
             obj.addProperty('App::PropertyLength', 'AftShoulderDiameter', 'Transition', translate('App::Property', 'Aft Shoulder diameter')).AftShoulderDiameter = 36.0
+        if not hasattr(obj, 'AftShoulderAutoDiameter'):
+            obj.addProperty('App::PropertyBool', 'AftShoulderAutoDiameter', 'NoseCone', translate('App::Property', 'Automatically set the aft transition shoulder diameter when possible')).AftShoulderAutoDiameter = False
         if not hasattr(obj, 'AftShoulderThickness'):
             obj.addProperty('App::PropertyLength', 'AftShoulderThickness', 'Transition', translate('App::Property', 'Aft Shoulder thickness')).AftShoulderThickness = 2.0
         if not hasattr(obj, 'Coefficient'):
@@ -139,7 +143,8 @@ class FeatureTransition(SymmetricComponent):
         # Ensure any automatic variables are set
         self.getForeDiameter()
         self.getAftDiameter()
-        # self.getAftShoulderDiameter()
+        self.getForeShoulderDiameter()
+        self.getAftShoulderDiameter()
 
     def getForeRadius(self):
         return self.getForeDiameter() / 2.0
@@ -158,15 +163,15 @@ class FeatureTransition(SymmetricComponent):
         return self._obj.ForeDiameter
 
     def getForeShoulderDiameter(self):
-        # if self.isForeDiameterAutomatic():
-        #     # Get the automatic radius from the front
-        #     d = -1
-        #     c = self.getPreviousSymmetricComponent()
-        #     if c is not None:
-        #         d = c.getFrontAutoDiameter()
-        #     if d < 0:
-        #         d = SymmetricComponent.DEFAULT_RADIUS * 2.0
-        #     self._obj.ForeDiameter = d
+        if self.isForeInnerDiameterAutomatic():
+            # Get the automatic radius from the front
+            d = -1
+            c = self.getPreviousSymmetricComponent()
+            if c is not None:
+                d = c.getFrontAutoInnerDiameter()
+            if d < 0:
+                d = SymmetricComponent.DEFAULT_RADIUS * 2.0
+            self._obj.ForeShoulderDiameter = d
 
         return self._obj.ForeShoulderDiameter
 
@@ -220,8 +225,7 @@ class FeatureTransition(SymmetricComponent):
         self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
 
     def isForeInnerDiameterAutomatic(self):
-        # return self._obj.ForeAutoDiameter
-        return False
+        return self._obj.ForeShoulderAutoDiameter
 
     def getAftRadius(self):
         return self.getAftDiameter() / 2.0
@@ -241,16 +245,16 @@ class FeatureTransition(SymmetricComponent):
         return self._obj.AftDiameter
 
     def getAftShoulderDiameter(self):
-        # if self.isAftDiameterAutomatic():
-        #     # Return the auto radius from the rear
-        #     d = -1
-        #     c = self.getNextSymmetricComponent()
-        #     if c is not None:
-        #         d = c.getRearAutoDiameter()
+        if self.isAftInnerDiameterAutomatic():
+            # Return the auto radius from the rear
+            d = -1
+            c = self.getNextSymmetricComponent()
+            if c is not None:
+                d = c.getRearAutoInnerDiameter()
 
-        #     if d < 0:
-        #         d = SymmetricComponent.DEFAULT_RADIUS * 2.0
-        #     self._obj.AftDiameter = d
+            if d < 0:
+                d = SymmetricComponent.DEFAULT_RADIUS * 2.0
+            self._obj.AftShoulderDiameter = d
 
         return self._obj.AftShoulderDiameter
 
@@ -291,8 +295,7 @@ class FeatureTransition(SymmetricComponent):
         self.setAftDiameterAutomatic(auto)
 
     def isAftInnerDiameterAutomatic(self):
-        # return self._obj.AftAutoDiameter
-        return False
+        return self._obj.AftShoulderAutoDiameter
 
     def setAftDiameterAutomatic(self, auto):
         for listener in self._configListeners:

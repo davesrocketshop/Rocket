@@ -261,6 +261,9 @@ class _TransitionDialog(QDialog):
         self.foreShoulderDiameterInput.unit = 'mm'
         self.foreShoulderDiameterInput.setMinimumWidth(100)
 
+        self.foreShoulderAutoDiameterCheckbox = QtGui.QCheckBox(translate('Rocket', "auto"), self)
+        self.foreShoulderAutoDiameterCheckbox.setCheckState(QtCore.Qt.Unchecked)
+
         self.foreShoulderLengthLabel = QtGui.QLabel(translate('Rocket', "Length"), self)
 
         self.foreShoulderLengthInput = ui.createWidget("Gui::InputField")
@@ -281,6 +284,9 @@ class _TransitionDialog(QDialog):
         self.aftShoulderDiameterInput = ui.createWidget("Gui::InputField")
         self.aftShoulderDiameterInput.unit = 'mm'
         self.aftShoulderDiameterInput.setMinimumWidth(100)
+
+        self.aftShoulderAutoDiameterCheckbox = QtGui.QCheckBox(translate('Rocket', "auto"), self)
+        self.aftShoulderAutoDiameterCheckbox.setCheckState(QtCore.Qt.Unchecked)
 
         self.aftShoulderLengthLabel = QtGui.QLabel(translate('Rocket', "Length"), self)
 
@@ -303,6 +309,7 @@ class _TransitionDialog(QDialog):
 
         layout.addWidget(self.foreShoulderDiameterLabel, row, 0)
         layout.addWidget(self.foreShoulderDiameterInput, row, 1)
+        layout.addWidget(self.foreShoulderAutoDiameterCheckbox, row, 2)
         row += 1
 
         layout.addWidget(self.foreShoulderThicknessLabel, row, 0)
@@ -318,6 +325,7 @@ class _TransitionDialog(QDialog):
 
         layout.addWidget(self.aftShoulderDiameterLabel, row, 0)
         layout.addWidget(self.aftShoulderDiameterInput, row, 1)
+        layout.addWidget(self.aftShoulderAutoDiameterCheckbox, row, 2)
         row += 1
 
         layout.addWidget(self.aftShoulderThicknessLabel, row, 0)
@@ -336,6 +344,7 @@ class TaskPanelTransition:
 
     def __init__(self,obj,mode):
         self._obj = obj
+        self._isAssembly = self._obj.Proxy.isRocketAssembly()
         
         self._tranForm = _TransitionDialog()
         self._db = TaskPanelDatabase(obj, COMPONENT_TYPE_TRANSITION)
@@ -361,10 +370,12 @@ class TaskPanelTransition:
         self._tranForm.clippedCheckbox.stateChanged.connect(self.onClipped)
         self._tranForm.foreGroup.toggled.connect(self.onForeShoulder)
         self._tranForm.foreShoulderDiameterInput.textEdited.connect(self.onForeShoulderDiameter)
+        self._tranForm.foreShoulderAutoDiameterCheckbox.stateChanged.connect(self.onForeShoulderAutoDiameter)
         self._tranForm.foreShoulderLengthInput.textEdited.connect(self.onForeShoulderLength)
         self._tranForm.foreShoulderThicknessInput.textEdited.connect(self.onForeShoulderThickness)
         self._tranForm.aftGroup.toggled.connect(self.onAftShoulder)
         self._tranForm.aftShoulderDiameterInput.textEdited.connect(self.onAftShoulderDiameter)
+        self._tranForm.aftShoulderAutoDiameterCheckbox.stateChanged.connect(self.onAftShoulderAutoDiameter)
         self._tranForm.aftShoulderLengthInput.textEdited.connect(self.onAftShoulderLength)
         self._tranForm.aftShoulderThicknessInput.textEdited.connect(self.onAftShoulderThickness)
 
@@ -395,10 +406,12 @@ class TaskPanelTransition:
         self._obj.Clipped = self._tranForm.clippedCheckbox.isChecked()
         self._obj.ForeShoulder = self._tranForm.foreGroup.isChecked()
         self._obj.ForeShoulderDiameter = self._tranForm.foreShoulderDiameterInput.text()
+        self._obj.ForeShoulderAutoDiameter = self._tranForm.foreShoulderAutoDiameterCheckbox.isChecked()
         self._obj.ForeShoulderLength =self._tranForm.foreShoulderLengthInput.text()
         self._obj.ForeShoulderThickness = self._tranForm.foreShoulderThicknessInput.text()
         self._obj.AftShoulder = self._tranForm.aftGroup.isChecked()
         self._obj.AftShoulderDiameter = self._tranForm.aftShoulderDiameterInput.text()
+        self._obj.AftShoulderAutoDiameter = self._tranForm.aftShoulderAutoDiameterCheckbox.isChecked()
         self._obj.AftShoulderLength = self._tranForm.aftShoulderLengthInput.text()
         self._obj.AftShoulderThickness =self._tranForm.aftShoulderThicknessInput.text()
 
@@ -421,15 +434,19 @@ class TaskPanelTransition:
         self._tranForm.clippedCheckbox.setChecked(self._obj.Clipped)
         self._tranForm.foreGroup.setChecked(self._obj.ForeShoulder)
         self._tranForm.foreShoulderDiameterInput.setText(self._obj.ForeShoulderDiameter.UserString)
+        self._tranForm.foreShoulderAutoDiameterCheckbox.setChecked(self._obj.ForeShoulderAutoDiameter)
         self._tranForm.foreShoulderLengthInput.setText(self._obj.ForeShoulderLength.UserString)
         self._tranForm.foreShoulderThicknessInput.setText(self._obj.ForeShoulderThickness.UserString)
         self._tranForm.aftGroup.setChecked(self._obj.AftShoulder)
         self._tranForm.aftShoulderDiameterInput.setText(self._obj.AftShoulderDiameter.UserString)
+        self._tranForm.aftShoulderAutoDiameterCheckbox.setChecked(self._obj.AftShoulderAutoDiameter)
         self._tranForm.aftShoulderLengthInput.setText(self._obj.AftShoulderLength.UserString)
         self._tranForm.aftShoulderThicknessInput.setText(self._obj.AftShoulderThickness.UserString)
 
         self._setForeAutoDiameterState()
         self._setAftAutoDiameterState()
+        self._setForeShoulderAutoDiameterState()
+        self._setAftShoulderAutoDiameterState()
         self._showTransitionType()
         self._showClippable()
         self._showTransitionStyle()
@@ -584,11 +601,17 @@ class TaskPanelTransition:
         self.setEdited()
         
     def _setForeAutoDiameterState(self):
-        self._tranForm.foreDiameterInput.setEnabled(not self._obj.ForeAutoDiameter)
+        if self._isAssembly:
+            self._tranForm.foreDiameterInput.setEnabled(not self._obj.ForeAutoDiameter)
+            self._tranForm.foreAutoDiameterCheckbox.setEnabled(True)
+        else:
+            self._tranForm.foreDiameterInput.setEnabled(True)
+            self._obj.ForeAutoDiameter = False
+            self._tranForm.foreAutoDiameterCheckbox.setEnabled(False)
         self._tranForm.foreAutoDiameterCheckbox.setChecked(self._obj.ForeAutoDiameter)
 
         if self._obj.ForeAutoDiameter:
-            self._obj.ForeDiameter = 2.0 * self._obj.Proxy.getForeRadius()
+            self._obj.ForeDiameter = self._obj.Proxy.getForeDiameter()
             self._tranForm.foreDiameterInput.setText(self._obj.ForeDiameter.UserString)
          
     def onForeAutoDiameter(self, value):
@@ -607,11 +630,17 @@ class TaskPanelTransition:
         self.setEdited()
         
     def _setAftAutoDiameterState(self):
-        self._tranForm.aftDiameterInput.setEnabled(not self._obj.AftAutoDiameter)
+        if self._isAssembly:
+            self._tranForm.aftDiameterInput.setEnabled(not self._obj.AftAutoDiameter)
+            self._tranForm.aftAutoDiameterCheckbox.setEnabled(True)
+        else:
+            self._tranForm.aftDiameterInput.setEnabled(True)
+            self._obj.AftAutoDiameter = False
+            self._tranForm.aftAutoDiameterCheckbox.setEnabled(False)
         self._tranForm.aftAutoDiameterCheckbox.setChecked(self._obj.AftAutoDiameter)
 
         if self._obj.AftAutoDiameter:
-            self._obj.AftDiameter = 2.0 * self._obj.Proxy.getAftRadius()
+            self._obj.AftDiameter = self._obj.Proxy.getAftDiameter()
             self._tranForm.aftDiameterInput.setText(self._obj.AftDiameter.UserString)
          
     def onAftAutoDiameter(self, value):
@@ -674,6 +703,27 @@ class TaskPanelTransition:
             pass
         self.setEdited()
         
+    def _setForeShoulderAutoDiameterState(self):
+        if self._isAssembly:
+            self._tranForm.foreShoulderDiameterInput.setEnabled(not self._obj.ForeShoulderAutoDiameter)
+            self._tranForm.foreShoulderAutoDiameterCheckbox.setEnabled(True)
+        else:
+            self._tranForm.foreShoulderDiameterInput.setEnabled(True)
+            self._obj.ForeShoulderAutoDiameter = False
+            self._tranForm.foreShoulderAutoDiameterCheckbox.setEnabled(False)
+        self._tranForm.foreShoulderAutoDiameterCheckbox.setChecked(self._obj.ForeShoulderAutoDiameter)
+
+        if self._obj.ForeShoulderAutoDiameter:
+            self._obj.ForeShoulderDiameter = self._obj.Proxy.getForeShoulderDiameter()
+            self._tranForm.foreShoulderDiameterInput.setText(self._obj.ForeShoulderDiameter.UserString)
+         
+    def onForeShoulderAutoDiameter(self, value):
+        self._obj.ForeShoulderAutoDiameter = self._tranForm.foreShoulderAutoDiameterCheckbox.isChecked()
+        self._setForeShoulderAutoDiameterState()
+
+        self._obj.Proxy.execute(self._obj)
+        self.setEdited()
+        
     def onForeShoulderLength(self, value):
         try:
             self._obj.ForeShoulderLength = FreeCAD.Units.Quantity(value).Value
@@ -715,6 +765,27 @@ class TaskPanelTransition:
             self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
+        self.setEdited()
+        
+    def _setAftShoulderAutoDiameterState(self):
+        if self._isAssembly:
+            self._tranForm.aftShoulderDiameterInput.setEnabled(not self._obj.AftShoulderAutoDiameter)
+            self._tranForm.aftShoulderAutoDiameterCheckbox.setEnabled(True)
+        else:
+            self._tranForm.aftShoulderDiameterInput.setEnabled(True)
+            self._obj.AftShoulderAutoDiameter = False
+            self._tranForm.aftShoulderAutoDiameterCheckbox.setEnabled(False)
+        self._tranForm.aftShoulderAutoDiameterCheckbox.setChecked(self._obj.AftShoulderAutoDiameter)
+
+        if self._obj.AftShoulderAutoDiameter:
+            self._obj.AftShoulderDiameter = self._obj.Proxy.getAftShoulderDiameter()
+            self._tranForm.aftShoulderDiameterInput.setText(self._obj.AftShoulderDiameter.UserString)
+         
+    def onAftShoulderAutoDiameter(self, value):
+        self._obj.AftShoulderAutoDiameter = self._tranForm.aftShoulderAutoDiameterCheckbox.isChecked()
+        self._setAftShoulderAutoDiameterState()
+
+        self._obj.Proxy.execute(self._obj)
         self.setEdited()
         
     def onAftShoulderLength(self, value):
