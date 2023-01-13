@@ -58,7 +58,9 @@ class TransitionShapeHandler():
 
         self._length = float(obj.Length)
         self._foreRadius = float(obj.ForeDiameter) / 2.0
+        self._foreAuto = bool(obj.ForeAutoDiameter)
         self._aftRadius = float(obj.AftDiameter) / 2.0
+        self._aftAuto = bool(obj.AftAutoDiameter)
         self._coreRadius = float(obj.CoreDiameter) / 2.0
         self._coefficient = float(obj.Coefficient)
         self._resolution = int(obj.Resolution)
@@ -71,11 +73,13 @@ class TransitionShapeHandler():
         self._foreShoulder = bool(obj.ForeShoulder)
         self._foreShoulderLength = float(obj.ForeShoulderLength)
         self._foreShoulderRadius = float(obj.ForeShoulderDiameter) / 2.0
+        self._foreShoulderAuto = bool(obj.ForeShoulderAutoDiameter)
         self._foreShoulderThickness = float(obj.ForeShoulderThickness)
 
         self._aftShoulder = bool(obj.AftShoulder)
         self._aftShoulderLength = float(obj.AftShoulderLength)
         self._aftShoulderRadius = float(obj.AftShoulderDiameter) / 2.0
+        self._aftShoulderAuto = bool(obj.AftShoulderAutoDiameter)
         self._aftShoulderThickness = float(obj.AftShoulderThickness)
 
         self._shoulder = (self._foreShoulder or self._aftShoulder)
@@ -126,8 +130,13 @@ class TransitionShapeHandler():
                 _err(translate('Rocket', "Forward shoulder diameter must be > 0"))
                 return False
             if self._foreShoulderRadius > self._foreRadius:
-                _err(translate('Rocket', "Forward shoulder diameter can not exceed the transition diameter at the shoulder"))
-                return False
+                if self._foreShoulderAuto:
+                    self._foreRadius = self._foreShoulderRadius + 0.001
+                elif self._foreAuto:
+                    self._foreShoulderRadius = self._foreRadius - 0.001
+                else:
+                    _err(translate('Rocket', "Forward shoulder diameter can not exceed the transition diameter at the shoulder"))
+                    return False
             if self._style in [STYLE_HOLLOW, STYLE_CAPPED]:
                 if self._foreShoulderThickness <= 0:
                     _err(translate('Rocket', "For %s transitions with a shoulder, shoulder thickness must be > 0") % self._style)
@@ -144,8 +153,13 @@ class TransitionShapeHandler():
                 _err(translate('Rocket', "Aft shoulder diameter must be > 0"))
                 return False
             if self._aftShoulderRadius > self._aftRadius:
-                _err(translate('Rocket', "Aft shoulder diameter can not exceed the transition diameter at the shoulder"))
-                return False
+                if self._aftShoulderAuto:
+                    self._aftRadius = self._aftShoulderRadius + 0.001
+                elif self._aftAuto:
+                    self._aftShoulderRadius = self._aftRadius - 0.001
+                else:
+                    _err(translate('Rocket', "Aft shoulder diameter can not exceed the transition diameter at the shoulder"))
+                    return False
             if self._style in [STYLE_HOLLOW, STYLE_CAPPED]:
                 if self._aftShoulderThickness <= 0:
                     _err(translate('Rocket', "For %s transitions with a shoulder, shoulder thickness must be > 0") % self._style)
