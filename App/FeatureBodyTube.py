@@ -51,11 +51,13 @@ class FeatureBodyTube(SymmetricComponent, BoxBounded, Coaxial):
 
         # Default set to a BT-50
         if not hasattr(obj,"Diameter"):
-            obj.addProperty('App::PropertyLength', 'Diameter', 'BodyTube', translate('App::Property', 'Diameter of the outside of the body tube')).Diameter = 24.79
+            obj.addProperty('App::PropertyLength', 'Diameter', 'BodyTube', translate('App::Property', 'Diameter of the outside of the body tube')).Diameter = SymmetricComponent.DEFAULT_RADIUS * 2.0
         if not hasattr(obj, 'AutoDiameter'):
             obj.addProperty('App::PropertyBool', 'AutoDiameter', 'BodyTube', translate('App::Property', 'Automatically set the outer diameter when possible')).AutoDiameter = False
         if not hasattr(obj,"Thickness"):
             obj.addProperty('App::PropertyLength', 'Thickness', 'BodyTube', translate('App::Property', 'Diameter of the inside of the body tube')).Thickness = 0.33
+        if not hasattr(obj, 'AutoThickness'):
+            obj.addProperty('App::PropertyBool', 'AutoThickness', 'BodyTube', translate('App::Property', 'Automatically set the thickness when possible')).AutoThickness = False
 
         if not hasattr(obj, 'MotorMount'):
             obj.addProperty('App::PropertyBool', 'MotorMount', 'BodyTube', translate('App::Property', 'This component is a motor mount')).MotorMount = False
@@ -80,6 +82,7 @@ class FeatureBodyTube(SymmetricComponent, BoxBounded, Coaxial):
 
         # Ensure any automatic variables are set
         self.getOuterDiameter()
+        self.getInnerDiameter()
 
     """
         Sets the length of the body component.
@@ -137,10 +140,21 @@ class FeatureBodyTube(SymmetricComponent, BoxBounded, Coaxial):
         return self.getRearAutoDiameter()
 
     def getInnerRadius(self, r=0):
-        return float(self._obj.Diameter) / 2.0 - float(self._obj.Thickness)
+        return self.getInnerDiameter(r) / 2.0
 
     def getInnerDiameter(self, r=0):
-        return float(self._obj.Diameter) - (2.0 * float(self._obj.Thickness))
+        # return float(self._obj.Diameter) - (2.0 * float(self._obj.Thickness))
+        if self._obj.AutoThickness:
+            # Return the auto radius from the rear
+            d = -1
+            c = self.getNextSymmetricComponent()
+            if c is not None:
+                d = c.getRearAutoInnerDiameter()
+            if d <= 0:
+                d = (SymmetricComponent.DEFAULT_RADIUS - 0.33) * 2.0
+            self._obj.Thickness = (float(self._obj.Diameter) - float(d)) / 2.0
+
+        return float(self._obj.Diameter) - 2.0 * float(self._obj.Thickness)
 
     def setInnerRadius(self, radius):
         self.setInnerDiameter(radius * 2.0)
@@ -198,14 +212,14 @@ class FeatureBodyTube(SymmetricComponent, BoxBounded, Coaxial):
             if c is not None and not c.usesNextCompAutomatic():
                 d = c.getFrontAutoDiameter()
                 # d = c.getRearAutoDiameter()
-                refComp = c
+                self._refComp = c
             if d < 0:
                 c = self.getNextSymmetricComponent()
                 # Don't use the radius of a component who already has its auto diameter enabled
                 if c is not None and not c.usesPreviousCompAutomatic():
                     d = c.getRearAutoDiameter()
                     # d = c.getFrontAutoDiameter()
-                    refComp = c
+                    self._refComp = c
 
             if d < 0:
                 d = self.DEFAULT_RADIUS * 2.0
@@ -238,13 +252,13 @@ class FeatureBodyTube(SymmetricComponent, BoxBounded, Coaxial):
         return self.getOuterDiameter()
 
     def getFrontAutoInnerDiameter(self):
-        # if self.isInnerDiameterAutomatic():
-        #     # Search for previous SymmetricComponent
-        #     c = self.getPreviousSymmetricComponent()
-        #     if c is not None:
-        #         return c.getFrontAutoDiameter()
-        #     else:
-        #         return -1
+        if self._obj.AutoThickness:
+            # Search for previous SymmetricComponent
+            c = self.getPreviousSymmetricComponent()
+            if c is not None:
+                return c.getFrontAutoInnerDiameter()
+            else:
+                return -1
 
         return self.getInnerDiameter()
 
@@ -263,24 +277,24 @@ class FeatureBodyTube(SymmetricComponent, BoxBounded, Coaxial):
         return self.getOuterDiameter()
 
     def getRearAutoInnerDiameter(self):
-        # if self.isOuterDiameterAutomatic():
-        #     # Search for next SymmetricComponent
-        #     c = self.getNextSymmetricComponent()
-        #     if c is not None:
-        #         return c.getRearAutoDiameter()
-        #     else:
-        #         return -1
+        if self._obj.AutoThickness:
+            # Search for next SymmetricComponent
+            c = self.getNextSymmetricComponent()
+            if c is not None:
+                return c.getRearAutoInnerDiameter()
+            else:
+                return -1
 
         return self.getInnerDiameter()
 
     def getRearInnerDiameter(self):
-        # if self.isOuterDiameterAutomatic():
-        #     # Search for next SymmetricComponent
-        #     c = self.getNextSymmetricComponent()
-        #     if c is not None:
-        #         return c.getRearAutoDiameter()
-        #     else:
-        #         return -1
+        if self._obj.AutoThickness:
+            # Search for next SymmetricComponent
+            c = self.getNextSymmetricComponent()
+            if c is not None:
+                return c.getRearInnerDiameter()
+            else:
+                return -1
 
         return self.getInnerDiameter()
 

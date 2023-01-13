@@ -25,7 +25,6 @@ __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
 from abc import abstractmethod
-import math
 
 from App.util.MathUtil import MathUtil
 from App.interfaces.BoxBounded import BoxBounded
@@ -42,7 +41,7 @@ from App.util.Coordinate import Coordinate
 
 class SymmetricComponent(RocketComponent, BoxBounded, RadialParent):
 
-    DEFAULT_RADIUS = 25.0
+    DEFAULT_RADIUS = (24.79 / 2.0)
     DEFAULT_THICKNESS = 0.33
 
     def __init__(self, obj):
