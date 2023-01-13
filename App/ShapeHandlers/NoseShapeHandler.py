@@ -53,10 +53,12 @@ class NoseShapeHandler():
         self._shoulder = bool(obj.Shoulder)
         self._shoulderLength = float(obj.ShoulderLength)
         self._shoulderRadius = float(obj.ShoulderDiameter) / 2.0
+        self._shoulderAutoDiameter = bool(obj.ShoulderAutoDiameter)
         self._shoulderThickness = float(obj.ShoulderThickness)
 
         self._length = float(obj.Length)
         self._radius = float(obj.Diameter) / 2.0
+        self._autoDiameter = bool(obj.AutoDiameter)
         self._noseRadius = float(obj.BluntedDiameter) / 2.0
         self._coefficient = float(obj.Coefficient)
         self._ogiveRadius = float(obj.OgiveDiameter) / 2.0
@@ -100,8 +102,13 @@ class NoseShapeHandler():
                 _err(translate('Rocket', "Shoulder diameter must be > 0"))
                 return False
             if self._shoulderRadius > self._radius:
-                _err(translate('Rocket', "Shoulder diameter can not exceed the nose cone diameter"))
-                return False
+                if self._shoulderAutoDiameter:
+                    self._radius = self._shoulderRadius + 0.001
+                elif self._autoDiameter:
+                    self._shoulderRadius = self._radius - 0.001
+                else:
+                    _err(translate('Rocket', "Shoulder diameter can not exceed the nose cone diameter"))
+                    return False
             if self._style in [STYLE_HOLLOW, STYLE_CAPPED]:
                 if self._shoulderThickness <= 0:
                     _err(translate('Rocket', "For %s nose cones with a shoulder, shoulder thickness must be > 0") % self._style)

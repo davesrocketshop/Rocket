@@ -273,6 +273,7 @@ class TaskPanelNoseCone:
 
     def __init__(self,obj,mode):
         self._obj = obj
+        self._isAssembly = self._obj.Proxy.isRocketAssembly()
         
         self._noseForm = _NoseConeDialog()
         self._db = TaskPanelDatabase(obj, COMPONENT_TYPE_NOSECONE)
@@ -482,8 +483,18 @@ class TaskPanelNoseCone:
         self.setEdited()
         
     def _setAutoDiameterState(self):
-        self._noseForm.diameterInput.setEnabled(not self._obj.AutoDiameter)
+        if self._isAssembly:
+            self._noseForm.diameterInput.setEnabled(not self._obj.AutoDiameter)
+            self._noseForm.autoDiameterCheckbox.setEnabled(True)
+        else:
+            self._noseForm.diameterInput.setEnabled(True)
+            self._obj.AutoDiameter = False
+            self._noseForm.autoDiameterCheckbox.setEnabled(False)
         self._noseForm.autoDiameterCheckbox.setChecked(self._obj.AutoDiameter)
+
+        if self._obj.AutoDiameter:
+            self._obj.Diameter = self._obj.Proxy.getAftDiameter()
+            self._noseForm.diameterInput.setText(self._obj.Diameter.UserString)
 
     def onAutoDiameter(self, value):
         self._obj.Proxy.setAftDiameterAutomatic(value)
@@ -555,9 +566,15 @@ class TaskPanelNoseCone:
         self.setEdited()
        
     def _setAutoShoulderDiameterState(self):
-        self._noseForm.shoulderDiameterInput.setEnabled((not self._obj.ShoulderAutoDiameter) and self._obj.Shoulder)
-        self._noseForm.shoulderAutoDiameterCheckbox.setChecked(self._obj.ShoulderAutoDiameter)
-        self._noseForm.shoulderAutoDiameterCheckbox.setEnabled(self._obj.Shoulder)
+        if self._isAssembly:
+            self._noseForm.shoulderDiameterInput.setEnabled((not self._obj.ShoulderAutoDiameter) and self._obj.Shoulder)
+            self._noseForm.shoulderAutoDiameterCheckbox.setChecked(self._obj.ShoulderAutoDiameter)
+            self._noseForm.shoulderAutoDiameterCheckbox.setEnabled(self._obj.Shoulder)
+        else:
+            self._obj.ShoulderAutoDiameter = False
+            self._noseForm.shoulderDiameterInput.setEnabled(self._obj.Shoulder)
+            self._noseForm.shoulderAutoDiameterCheckbox.setChecked(self._obj.ShoulderAutoDiameter)
+            self._noseForm.shoulderAutoDiameterCheckbox.setEnabled(self._obj.ShoulderAutoDiameter)
         
     def onShoulderAutoDiameter(self, value):
         self._obj.Proxy.setAftShoulderDiameterAutomatic(value)
