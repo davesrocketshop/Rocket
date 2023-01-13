@@ -50,7 +50,7 @@ def makeRocket(name='Rocket', makeSustainer=False):
 
     if makeSustainer:
         sustainer = makeStage('Stage')
-        obj.Proxy.addChild(sustainer)
+        obj.Proxy.addChild(sustainer._obj)
         FreeCADGui.Selection.clearSelection()
         FreeCADGui.Selection.addSelection(sustainer._obj)
     else:

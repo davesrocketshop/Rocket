@@ -50,6 +50,7 @@ def addToStage(obj):
                 sel[0].Proxy.addChild(obj._obj)
             else:
                 sel[0].Proxy.addChild(obj)
+        FreeCADGui.runCommand('Std_TreeExpand')
 
 def makeStage(name='Stage'):
     obj = FreeCAD.ActiveDocument.addObject("App::GeometryPython",name)
