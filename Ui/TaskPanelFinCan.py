@@ -972,6 +972,9 @@ class TaskPanelFinCan(QObject):
     def onRootThickness(self, value):
         try:
             self._obj.RootThickness = FreeCAD.Units.Quantity(value).Value
+            if self._obj.TipSameThickness:
+                self._obj.TipThickness = FreeCAD.Units.Quantity(value).Value
+                self._finForm.tipThicknessInput.setText(self._obj.TipThickness.UserString)
             self.redraw()
         except ValueError:
             pass
