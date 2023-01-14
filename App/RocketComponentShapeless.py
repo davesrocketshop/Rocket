@@ -25,7 +25,7 @@ __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
 import FreeCAD
-# import FreeCADGui
+import FreeCADGui
 # import copy
 import math
 
@@ -257,11 +257,23 @@ class RocketComponentShapeless():
     def getRadialPositionOffset(self):
         return 0.0
 
+    def expandTree(self):
+        # doc = FreeCADGui.ActiveDocument
+        FreeCAD.activeDocument().recompute(None,True,True)
+        selected = FreeCADGui.Selection.getSelection()
+        FreeCADGui.Selection.clearSelection()
+        rocket = self.getRocket()
+        FreeCADGui.Selection.addSelection(rocket._obj)
+        # FreeCADGui.Selection.addSelection(doc, rocket._obj)
+        FreeCADGui.runCommand('Std_TreeExpand')
+        FreeCADGui.Selection.clearSelection()
+        FreeCADGui.Selection.addSelection(selected[0])
+
     def moveUp(self):
         # Move the part up in the tree
         if self.getParent() is not None:
             self.getParent()._moveChildUp(self._obj)
-            # self.reposition()
+
             self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
             Ui.Commands.CmdRocket.updateRocket()
 
@@ -323,7 +335,7 @@ class RocketComponentShapeless():
         # Move the part up in the tree
         if self.getParent() is not None:
             self.getParent()._moveChildDown(self._obj)
-            # self.reposition()
+
             self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
             Ui.Commands.CmdRocket.updateRocket()
 

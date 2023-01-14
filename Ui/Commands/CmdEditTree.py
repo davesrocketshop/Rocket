@@ -32,10 +32,12 @@ from DraftTools import translate
 def moveUp():
     for obj in FreeCADGui.Selection.getSelection():
         obj.Proxy.moveUp()
+        obj.Proxy.expandTree()
 
 def moveDown():
     for obj in FreeCADGui.Selection.getSelection():
         obj.Proxy.moveDown()
+        obj.Proxy.expandTree()
 
 def edit():
     for obj in FreeCADGui.Selection.getSelection():
