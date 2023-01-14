@@ -73,9 +73,6 @@ class _BodyTubeDialog(QDialog):
         self.thicknessInput.unit = 'mm'
         self.thicknessInput.setMinimumWidth(80)
 
-        self.autoThicknessCheckbox = QtGui.QCheckBox(translate('Rocket', "auto"), self)
-        self.autoThicknessCheckbox.setCheckState(QtCore.Qt.Unchecked)
-
         self.lengthLabel = QtGui.QLabel(translate('Rocket', "Length"), self)
 
         self.lengthInput = ui.createWidget("Gui::InputField")
@@ -115,7 +112,6 @@ class _BodyTubeDialog(QDialog):
 
         grid.addWidget(self.thicknessLabel, row, 0)
         grid.addWidget(self.thicknessInput, row, 1)
-        grid.addWidget(self.autoThicknessCheckbox, row, 2)
         row += 1
 
         grid.addWidget(self.lengthLabel, row, 0)
@@ -151,7 +147,6 @@ class TaskPanelBodyTube:
         self._btForm.autoDiameterCheckbox.stateChanged.connect(self.onAutoDiameter)
         self._btForm.idInput.textEdited.connect(self.onId)
         self._btForm.thicknessInput.textEdited.connect(self.onThickness)
-        self._btForm.autoThicknessCheckbox.stateChanged.connect(self.onAutoThickness)
         self._btForm.lengthInput.textEdited.connect(self.onLength)
 
         if self._motorMount:
@@ -172,7 +167,6 @@ class TaskPanelBodyTube:
         self._obj.Proxy.setOuterDiameter(FreeCAD.Units.Quantity(self._btForm.odInput.text()).Value)
         self._obj.Proxy.setOuterDiameterAutomatic(self._btForm.autoDiameterCheckbox.isChecked())
         self._obj.Proxy.setThickness(FreeCAD.Units.Quantity(self._btForm.thicknessInput.text()).Value)
-        self._obj.Thickness = self._btForm.autoThicknessCheckbox.isChecked()
         self._obj.Proxy.setLength(FreeCAD.Units.Quantity(self._btForm.lengthInput.text()).Value)
         if self._motorMount:
             self._obj.MotorMount = self._btForm.motorGroup.isChecked()
@@ -184,14 +178,12 @@ class TaskPanelBodyTube:
         self._btForm.autoDiameterCheckbox.setChecked(self._obj.AutoDiameter)
         self._btForm.idInput.setText("0.0")
         self._btForm.thicknessInput.setText(self._obj.Thickness.UserString)
-        self._btForm.autoThicknessCheckbox.setChecked(self._obj.AutoThickness)
         self._btForm.lengthInput.setText(self._obj.Length.UserString)
         if self._motorMount:
             self._btForm.motorGroup.setChecked(self._obj.MotorMount)
             self._btForm.overhangInput.setText(self._obj.Overhang.UserString)
 
         self._setAutoDiameterState()
-        self._setAutoThicknessState()
         self._setIdFromThickness()
         self._setMotorState()
 
@@ -270,31 +262,6 @@ class TaskPanelBodyTube:
             self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
-        self.setEdited()
-        
-    def _setAutoThicknessState(self):
-        if self._isAssembly:
-            self._btForm.idInput.setEnabled(not self._obj.AutoThickness)
-            self._btForm.thicknessInput.setEnabled(not self._obj.AutoThickness)
-            self._btForm.autoThicknessCheckbox.setChecked(self._obj.AutoThickness)
-            self._btForm.autoThicknessCheckbox.setEnabled(True)
-        else:
-            self._btForm.idInput.setEnabled(True)
-            self._btForm.thicknessInput.setEnabled(True)
-            self._obj.AutoThickness = False
-            self._btForm.autoThicknessCheckbox.setChecked(self._obj.AutoThickness)
-            self._btForm.autoThicknessCheckbox.setEnabled(False)
-
-        if self._obj.AutoThickness:
-            self._obj.Proxy.getInnerDiameter()  # Do the autosizing calcs
-            self._btForm.thicknessInput.setText(self._obj.Thickness.UserString)
-            self._setIdFromThickness()
-
-    def onAutoThickness(self, value):
-        self._obj.AutoThickness = value
-        self._setAutoThicknessState()
-
-        self._obj.Proxy.execute(self._obj)
         self.setEdited()
         
     def onLength(self, value):

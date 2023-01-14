@@ -689,6 +689,18 @@ class RocketComponentShapeless():
             self._obj.Placement.Base.x = refRelX + refLength
             # self._obj.Placement.Base.x = refRelX - (refLength + float(self.getLength()))
 
+    """
+        Get the characteristic length of the component, for example the length of a body tube
+        of the length of the root chord of a fin.  This is used in positioning the component
+        relative to its parent.
+        
+        If the length of a component is settable, the class must define the setter method
+        itself.
+    """
+    def getLength(self):
+        # Return the length of this component along the central axis
+        return 0
+
     # This will be implemented in the derived class
     def execute(self, obj):
         _err("No execute method defined for %s" % (self.__class__.__name__))
