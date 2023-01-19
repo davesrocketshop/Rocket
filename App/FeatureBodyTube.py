@@ -73,9 +73,8 @@ class FeatureBodyTube(SymmetricComponent, BoxBounded, Coaxial):
         self._obj.Length = 457.0
 
     def onDocumentRestored(self, obj):
-        self._obj = obj
-
         FeatureBodyTube(obj)
+        self._obj = obj
 
     def update(self):
         super().update()

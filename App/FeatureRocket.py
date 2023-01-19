@@ -71,6 +71,10 @@ class FeatureRocket(ComponentAssembly, ComponentChangeListener):
         super().__init__(obj)
         self.Type = FEATURE_ROCKET
 
+        self.initialize()
+
+    def initialize(self):
+
         self.setAxialMethod(AxialMethod.ABSOLUTE)
 
         modID = UniqueID.next()
@@ -89,8 +93,12 @@ class FeatureRocket(ComponentAssembly, ComponentChangeListener):
 
     def onDocumentRestored(self, obj):
         FeatureRocket(obj)
-
         self._obj = obj
+        obj.Proxy=self # Required because of the local variables
+        self.initialize()
+        self.setChildParent()
+        # self.updateChildren()
+        self._enableEvents(True)
 
     """
         Enable the monitoring, relay and production of events in this rocket instance.
@@ -239,7 +247,9 @@ class FeatureRocket(ComponentAssembly, ComponentChangeListener):
         self._stageMap[stageNumber] = newStage
 
     def forgetStage(self, oldStage):
-        del self._stageMap[oldStage.getStageNumber()]
+        stage = oldStage.getStageNumber()
+        if stage in self._stageMap:
+            del self._stageMap[stage]
 
     def setAxialMethod(self, newAxialMethod):
         self.AxialMethod = AxialMethod.ABSOLUTE

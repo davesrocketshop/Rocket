@@ -32,17 +32,26 @@ from App.FeatureStage import FeatureStage
 from Ui.Commands.Command import Command
 from Ui.ViewStage import ViewProviderStage
 
-from App.Constants import FEATURE_STAGE
+from App.Constants import FEATURE_STAGE, FEATURE_ROCKET
 
 
 from DraftTools import translate
+
+def getRocket():
+    for obj in FreeCAD.ActiveDocument.Objects:
+        if hasattr(obj, "Proxy"):
+            if hasattr(obj.Proxy, "getType"):
+                if obj.Proxy.getType() == FEATURE_ROCKET:
+                    return obj.Proxy
+
+    return None
 
 def addToStage(obj):
     if FreeCADGui.ActiveDocument is None:
         return
 
     # Only add when there's an active rocket assembly
-    rocket = FreeCADGui.ActiveDocument.ActiveView.getActiveObject("rocket")
+    rocket = getRocket()
     if rocket is not None:
         sel = FreeCADGui.Selection.getSelection()
         if sel:

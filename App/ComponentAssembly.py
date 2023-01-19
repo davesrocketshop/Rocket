@@ -131,5 +131,5 @@ class ComponentAssembly(RocketComponentShapeless, AxialPositionable):
 
     def updateChildSequence(self):
         for  curChild in self.getChildren():
-            if curChild.Proxy.getAxialMethod() == AxialMethod.AFTER:
+            if curChild.Proxy.isAfter():
                 curChild.Proxy.setAfter()

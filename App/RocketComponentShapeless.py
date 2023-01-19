@@ -36,6 +36,8 @@ from App.Utilities import _err
 from App.events.ComponentChangeEvent import ComponentChangeEvent
 from App.position import AxialMethod
 
+import Ui.Commands as Commands
+
 from App.Constants import FEATURE_ROCKET, FEATURE_STAGE
 
 from DraftTools import translate
@@ -124,7 +126,7 @@ class RocketComponentShapeless():
         return self.Type
 
     def isAfter(self):
-        return AxialMethod.AFTER == self._obj.AxialMethod
+        return isinstance(self.getAxialMethod(), AxialMethod.AfterAxialMethod)
 
     def isRocketAssembly(self):
         parent = self.getParent()
@@ -144,17 +146,37 @@ class RocketComponentShapeless():
 
     def setParent(self, obj):
         if hasattr(obj, "Proxy"):
-            self._parent = obj.Proxy
+            parent = obj.Proxy
         else:
-            self._parent = obj
+            parent = obj
+
+        if self._parent == parent:
+            return
+
+        self._parent = parent
+        self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
+
+    """
+        recursively set the parents for all children
+    """
+    def setChildParent(self):
+        for child in self.getChildren():
+            child.Proxy.setParent(self)
+            child.Proxy.setChildParent()
 
     def getParent(self):
+        if not hasattr(self, "_parent") or self._parent is None:
+            return None
+
         if hasattr(self._parent, "Proxy"):
             return self._parent.Proxy
         return self._parent
 
     def getChildren(self):
-        return self._obj.Group
+        try:
+            return self._obj.Group
+        except ReferenceError:
+            return []
 
     def setChildren(self, list):
         self._obj.Group = list
@@ -257,17 +279,26 @@ class RocketComponentShapeless():
     def getRadialPositionOffset(self):
         return 0.0
 
+    def _documentRocket(self):
+        for obj in FreeCAD.ActiveDocument.Objects:
+            if hasattr(obj, "Proxy"):
+                if hasattr(obj.Proxy, "getType"):
+                    if obj.Proxy.getType() == FEATURE_ROCKET:
+                        return obj.Proxy
+
+        return None
+
     def expandTree(self):
-        # doc = FreeCADGui.ActiveDocument
-        FreeCAD.activeDocument().recompute(None,True,True)
-        selected = FreeCADGui.Selection.getSelection()
-        FreeCADGui.Selection.clearSelection()
-        rocket = self.getRocket()
-        FreeCADGui.Selection.addSelection(rocket._obj)
-        # FreeCADGui.Selection.addSelection(doc, rocket._obj)
-        FreeCADGui.runCommand('Std_TreeExpand')
-        FreeCADGui.Selection.clearSelection()
-        FreeCADGui.Selection.addSelection(selected[0])
+        rocket = self._documentRocket()
+        if rocket is not None:
+            FreeCAD.activeDocument().recompute(None,True,True)
+            selected = FreeCADGui.Selection.getSelection()
+            FreeCADGui.Selection.clearSelection()
+            FreeCADGui.Selection.addSelection(rocket._obj)
+            # FreeCADGui.Selection.addSelection(doc, rocket._obj)
+            FreeCADGui.runCommand('Std_TreeExpand')
+            FreeCADGui.Selection.clearSelection()
+            FreeCADGui.Selection.addSelection(selected[0])
 
     def moveUp(self):
         # Move the part up in the tree
@@ -276,6 +307,8 @@ class RocketComponentShapeless():
 
             self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
             Ui.Commands.CmdRocket.updateRocket()
+        # else:
+        #     Commands.CmdStage.addToStage(self)
 
     def _moveChildUp(self, obj):
         if hasattr(self._obj, "Group"):
@@ -325,6 +358,7 @@ class RocketComponentShapeless():
                                 parent.addObject(obj)
                                 return
                             parent = parent.Proxy.getParent()
+                        return
                 index += 1
 
         if self.getParent() is not None:
@@ -592,8 +626,10 @@ class RocketComponentShapeless():
         root = self.getRoot()
         if root.getType() == FEATURE_ROCKET:
             return root
+        if root == self:
+            return None
 
-        raise Exception("getRocket() called with root component " + root.getName())
+        raise Exception("getRocket() called with root component " + self.getRoot().getName())
 
     # Return the Stage component that this component belongs to.  Throws an
     # IllegalStateException if a Stage is not in the parentage of this component.
@@ -611,7 +647,7 @@ class RocketComponentShapeless():
         result = []
         for current in self.getChildren():
             proxy = current.Proxy
-            if proxy == FEATURE_STAGE:
+            if proxy.Type == FEATURE_STAGE:
                 result.append(proxy)
 
         return result
