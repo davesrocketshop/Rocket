@@ -77,8 +77,8 @@ class RocketComponentShapeless():
 
         self._configListeners = []
 
-        if not hasattr(obj, 'Description'):
-            obj.addProperty('App::PropertyString', 'Description', 'Rocket', translate('App::Property', 'Component description')).Description = ""
+        if not hasattr(obj, 'Comment'):
+            obj.addProperty('App::PropertyString', 'Comment', 'Rocket', translate('App::Property', 'User comment')).Comment = ""
 
         if not hasattr(obj, 'AxialMethod'):
             obj.addProperty('App::PropertyPythonObject', 'AxialMethod', 'Rocket', translate('App::Property', 'Method for calculating axial offsets')).AxialMethod = AxialMethod.AFTER
@@ -143,6 +143,12 @@ class RocketComponentShapeless():
 
     def setName(self, name):
         self._obj.Label = name
+
+    def getComment(self):
+        return self._obj.Comment
+
+    def setComment(self, comment):
+        self._obj.Comment = comment
 
     def setParent(self, obj):
         if hasattr(obj, "Proxy"):

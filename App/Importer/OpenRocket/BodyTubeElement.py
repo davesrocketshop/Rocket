@@ -40,7 +40,7 @@ class MotorMountElement(BodyComponentElement):
 
         self._validChildren.update({ 'motor' : NullElement,
                               })
-        self._knownTags.extend(["overhang", "ignitionevent", "ignitiondelay"])
+        self._knownTags.extend(["overhang", "ignitionevent", "ignitiondelay", "ignitionconfiguration"])
 
     def makeObject(self):
         if self._parentObj is not None:

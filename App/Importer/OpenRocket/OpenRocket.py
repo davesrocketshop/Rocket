@@ -92,8 +92,8 @@ class RocketElement(ComponentElement):
             super().handleEndTag(tag, content)
 
     def onComment(self, content):
-        # FreeCAD.ActiveDocument.Comment = content
-        self._feature._obj.Description = content
+        if hasattr(self._feature, "setComment"):
+            self._feature.setComment(content)
 
     def end(self):
         self._feature.enableEvents()

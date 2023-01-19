@@ -32,6 +32,7 @@ from App.ThicknessRingComponent import ThicknessRingComponent
 from App.ShapeHandlers.BodyTubeShapeHandler import BodyTubeShapeHandler
 
 from App.Constants import FEATURE_ENGINE_BLOCK
+from App.Constants import LOCATION_PARENT_TOP
 
 from DraftTools import translate
 
@@ -47,6 +48,8 @@ class FeatureEngineBlock(ThicknessRingComponent, AxialPositionable):
         self._obj.AutoDiameter = True
         self._obj.Thickness = 5.0
         self._obj.Length = 5.0
+        self._obj.LocationReference = LOCATION_PARENT_TOP
+        self._obj.AxialOffset = -5.0
 
     def onDocumentRestored(self, obj):
         FeatureEngineBlock(obj)

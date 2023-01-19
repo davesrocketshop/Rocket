@@ -51,12 +51,15 @@ class RocketComponent(RocketComponentShapeless, ChangeSource):
     def __init__(self, obj):
         super().__init__(obj)
 
+        # Attributes from presets
         if not hasattr(obj, 'Manufacturer'):
             obj.addProperty('App::PropertyString', 'Manufacturer', 'Rocket', translate('App::Property', 'Component manufacturer')).Manufacturer = ""
         if not hasattr(obj, 'PartNumber'):
             obj.addProperty('App::PropertyString', 'PartNumber', 'Rocket', translate('App::Property', 'Component manufacturer part number')).PartNumber = ""
         if not hasattr(obj, 'Material'):
             obj.addProperty('App::PropertyString', 'Material', 'Rocket', translate('App::Property', 'Component material')).Material = ""
+        if not hasattr(obj, 'Description'):
+            obj.addProperty('App::PropertyString', 'Description', 'RocketComponent', translate('App::Property', 'Component description')).Description = ""
         
         if not hasattr(obj, 'LocationReference'):
             obj.addProperty('App::PropertyEnumeration', 'LocationReference', 'Rocket', translate('App::Property', 'Reference location for the location'))
