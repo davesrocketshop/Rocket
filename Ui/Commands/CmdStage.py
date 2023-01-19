@@ -29,22 +29,13 @@ import FreeCAD
 import FreeCADGui
 
 from App.FeatureStage import FeatureStage
-from Ui.Commands.Command import Command
+from Ui.Commands.Command import Command, getRocket
 from Ui.ViewStage import ViewProviderStage
 
-from App.Constants import FEATURE_STAGE, FEATURE_ROCKET
+from App.Constants import FEATURE_STAGE
 
 
 from DraftTools import translate
-
-def getRocket():
-    for obj in FreeCAD.ActiveDocument.Objects:
-        if hasattr(obj, "Proxy"):
-            if hasattr(obj.Proxy, "getType"):
-                if obj.Proxy.getType() == FEATURE_ROCKET:
-                    return obj.Proxy
-
-    return None
 
 def addToStage(obj):
     if FreeCADGui.ActiveDocument is None:

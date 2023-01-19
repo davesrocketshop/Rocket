@@ -97,8 +97,8 @@ class FeatureRocket(ComponentAssembly, ComponentChangeListener):
         obj.Proxy=self # Required because of the local variables
         self.initialize()
         self.setChildParent()
-        # self.updateChildren()
-        self._enableEvents(True)
+        self.enableEvents(True)
+        FreeCAD.activeDocument().recompute(None,True,True)
 
     """
         Enable the monitoring, relay and production of events in this rocket instance.

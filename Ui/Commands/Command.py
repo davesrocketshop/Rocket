@@ -24,7 +24,19 @@ __title__ = "FreeCAD Commands"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
     
+import FreeCAD
 import FreeCADGui
+
+from App.Constants import FEATURE_ROCKET
+
+def getRocket():
+    for obj in FreeCAD.ActiveDocument.Objects:
+        if hasattr(obj, "Proxy"):
+            if hasattr(obj.Proxy, "getType"):
+                if obj.Proxy.getType() == FEATURE_ROCKET:
+                    return obj.Proxy
+
+    return None
 
 class Command:
 
@@ -59,7 +71,7 @@ class Command:
 
     def part_eligible_feature(self, feature):
         if FreeCADGui.ActiveDocument is not None:
-            if FreeCADGui.ActiveDocument.ActiveView.getActiveObject("rocket") is None:
+            if getRocket() is None:
                 return True
             sel = FreeCADGui.Selection.getSelection()
             if len(sel) == 1 and (sel[0].isDerivedFrom("Part::FeaturePython") or sel[0].isDerivedFrom("App::GeometryPython")):
@@ -75,5 +87,5 @@ class Command:
         if FreeCADGui.ActiveDocument is None:
             return False
 
-        if FreeCADGui.ActiveDocument.ActiveView.getActiveObject("rocket") is None:
+        if getRocket() is None:
             return True
