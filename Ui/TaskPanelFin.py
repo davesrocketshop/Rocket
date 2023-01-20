@@ -30,7 +30,7 @@ import FreeCADGui
 
 from PySide import QtGui, QtCore
 from PySide.QtCore import QObject, Signal
-from PySide2.QtWidgets import QDialog, QGridLayout, QVBoxLayout, QSizePolicy
+from PySide2.QtWidgets import QDialog, QGridLayout, QVBoxLayout, QSizePolicy, QTextEdit
 import math
 
 from DraftTools import translate
@@ -55,8 +55,10 @@ class _FinDialog(QDialog):
         self.tabWidget = QtGui.QTabWidget()
         self.tabGeneral = QtGui.QWidget()
         self.tabTtw = QtGui.QWidget()
+        self.tabComment = QtGui.QWidget()
         self.tabWidget.addTab(self.tabGeneral, translate('Rocket', "General"))
         self.tabWidget.addTab(self.tabTtw, translate('Rocket', "Fin Tabs"))
+        self.tabWidget.addTab(self.tabComment, translate('Rocket', "Comment"))
 
         layout = QVBoxLayout()
         layout.addWidget(self.tabWidget)
@@ -64,6 +66,7 @@ class _FinDialog(QDialog):
 
         self.setTabGeneral(sketch)
         self.setTabTtw()
+        self.setTabComment()
 
     def setTabGeneral(self, sketch):
 
@@ -414,6 +417,20 @@ class _FinDialog(QDialog):
 
         self.tabTtw.setLayout(layout)
 
+    def setTabComment(self):
+
+        ui = FreeCADGui.UiLoader()
+
+        self.commentLabel = QtGui.QLabel(translate('Rocket', "Comment"), self)
+
+        self.commentInput = QTextEdit()
+
+        layout = QVBoxLayout()
+        layout.addWidget(self.commentLabel)
+        layout.addWidget(self.commentInput)
+
+        self.tabComment.setLayout(layout)
+
 class TaskPanelFin(QObject):
 
     redrawRequired = Signal()   # Allows for async redraws to allow for longer processing times
@@ -521,6 +538,8 @@ class TaskPanelFin(QObject):
         self._obj.TtwAutoHeight = self._finForm.ttwAutoHeightCheckbox.isChecked()
         self._obj.TtwThickness = self._finForm.ttwThicknessInput.text()
 
+        self._obj.Comment = self._finForm.commentInput.toPlainText()
+
     def transferFrom(self):
         "Transfer from the object to the dialog"
         self._finForm.finTypesCombo.setCurrentText(self._obj.FinType)
@@ -559,6 +578,8 @@ class TaskPanelFin(QObject):
         self._finForm.ttwHeightInput.setText(self._obj.TtwHeight.UserString)
         self._finForm.ttwAutoHeightCheckbox.setChecked(self._obj.TtwAutoHeight)
         self._finForm.ttwThicknessInput.setText(self._obj.TtwThickness.UserString)
+
+        self._finForm.commentInput.setPlainText(self._obj.Comment)
 
         self._setFinSetState()
         self._enableRootLengths()

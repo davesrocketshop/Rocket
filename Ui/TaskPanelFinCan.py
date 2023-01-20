@@ -30,7 +30,7 @@ import FreeCADGui
 
 from PySide import QtGui, QtCore
 from PySide.QtCore import QObject, Signal
-from PySide2.QtWidgets import QDialog, QGridLayout, QVBoxLayout, QSizePolicy
+from PySide2.QtWidgets import QDialog, QGridLayout, QVBoxLayout, QSizePolicy, QTextEdit
 import math
 
 from DraftTools import translate
@@ -60,10 +60,12 @@ class _FinCanDialog(QDialog):
         self.tabFinCan = QtGui.QWidget()
         self.tabCoupler = QtGui.QWidget()
         self.tabLaunchLug = QtGui.QWidget()
+        self.tabComment = QtGui.QWidget()
         self.tabWidget.addTab(self.tabGeneral, translate('Rocket', "Fins"))
         self.tabWidget.addTab(self.tabFinCan, translate('Rocket', "Fin Can"))
         self.tabWidget.addTab(self.tabCoupler, translate('Rocket', "Coupler"))
         self.tabWidget.addTab(self.tabLaunchLug, translate('Rocket', "Launch Lug"))
+        self.tabWidget.addTab(self.tabComment, translate('Rocket', "Comment"))
 
         layout = QVBoxLayout()
         layout.addWidget(self.tabWidget)
@@ -73,6 +75,7 @@ class _FinCanDialog(QDialog):
         self.setTabCan()
         self.setTabCoupler()
         self.setTabLaunchLug()
+        self.setTabComment()
 
     def setTabGeneral(self, sketch):
 
@@ -602,6 +605,20 @@ class _FinCanDialog(QDialog):
 
         self.tabLaunchLug.setLayout(layout)
 
+    def setTabComment(self):
+
+        ui = FreeCADGui.UiLoader()
+
+        self.commentLabel = QtGui.QLabel(translate('Rocket', "Comment"), self)
+
+        self.commentInput = QTextEdit()
+
+        layout = QVBoxLayout()
+        layout.addWidget(self.commentLabel)
+        layout.addWidget(self.commentInput)
+
+        self.tabComment.setLayout(layout)
+
 class TaskPanelFinCan(QObject):
 
     redrawRequired = Signal()   # Allows for async redraws to allow for longer processing times
@@ -740,6 +757,8 @@ class TaskPanelFinCan(QObject):
         self._obj.LaunchLugAftSweep = self._finForm.aftSweepGroup.isChecked()
         self._obj.LaunchLugAftSweepAngle = self._finForm.aftSweepInput.text()
 
+        self._obj.Comment = self._finForm.commentInput.toPlainText()
+
     def transferFrom(self):
         "Transfer from the object to the dialog"
         self._finForm.finTypesCombo.setCurrentText(self._obj.FinType)
@@ -795,6 +814,8 @@ class TaskPanelFinCan(QObject):
         self._finForm.forwardSweepInput.setText(self._obj.LaunchLugForwardSweepAngle.UserString)
         self._finForm.aftSweepGroup.setChecked(self._obj.LaunchLugAftSweep)
         self._finForm.aftSweepInput.setText(self._obj.LaunchLugAftSweepAngle.UserString)
+
+        self._finForm.commentInput.setPlainText(self._obj.Comment)
 
         self._enableRootLengths()
         self._enableFinTypes() # This calls _enableTipLengths()

@@ -29,7 +29,7 @@ import FreeCAD
 import FreeCADGui
 
 from PySide import QtGui, QtCore
-from PySide2.QtWidgets import QDialog, QGridLayout, QVBoxLayout, QSizePolicy
+from PySide2.QtWidgets import QDialog, QGridLayout, QVBoxLayout, QSizePolicy, QTextEdit
 
 from DraftTools import translate
 
@@ -53,8 +53,10 @@ class _TransitionDialog(QDialog):
         self.tabWidget = QtGui.QTabWidget()
         self.tabGeneral = QtGui.QWidget()
         self.tabShoulder = QtGui.QWidget()
+        self.tabComment = QtGui.QWidget()
         self.tabWidget.addTab(self.tabGeneral, translate('Rocket', "General"))
         self.tabWidget.addTab(self.tabShoulder, translate('Rocket', "Shoulder"))
+        self.tabWidget.addTab(self.tabComment, translate('Rocket', "Comment"))
 
         layout = QVBoxLayout()
         layout.addWidget(self.tabWidget)
@@ -62,6 +64,7 @@ class _TransitionDialog(QDialog):
 
         self.setTabGeneral()
         self.setTabShoulder()
+        self.setTabComment()
 
     def setTabGeneral(self):
         ui = FreeCADGui.UiLoader()
@@ -339,6 +342,19 @@ class _TransitionDialog(QDialog):
 
         self.tabShoulder.setLayout(layout)
 
+    def setTabComment(self):
+
+        ui = FreeCADGui.UiLoader()
+
+        self.commentLabel = QtGui.QLabel(translate('Rocket', "Comment"), self)
+
+        self.commentInput = QTextEdit()
+
+        layout = QVBoxLayout()
+        layout.addWidget(self.commentLabel)
+        layout.addWidget(self.commentInput)
+
+        self.tabComment.setLayout(layout)
 
 class TaskPanelTransition:
 
@@ -415,6 +431,8 @@ class TaskPanelTransition:
         self._obj.AftShoulderLength = self._tranForm.aftShoulderLengthInput.text()
         self._obj.AftShoulderThickness =self._tranForm.aftShoulderThicknessInput.text()
 
+        self._obj.Comment = self._tranForm.commentInput.toPlainText()
+
     def transferFrom(self):
         "Transfer from the object to the dialog"
         self._tranForm.transitionTypesCombo.setCurrentText(self._obj.TransitionType)
@@ -442,6 +460,8 @@ class TaskPanelTransition:
         self._tranForm.aftShoulderAutoDiameterCheckbox.setChecked(self._obj.AftShoulderAutoDiameter)
         self._tranForm.aftShoulderLengthInput.setText(self._obj.AftShoulderLength.UserString)
         self._tranForm.aftShoulderThicknessInput.setText(self._obj.AftShoulderThickness.UserString)
+
+        self._tranForm.commentInput.setPlainText(self._obj.Comment)
 
         self._setForeAutoDiameterState()
         self._setAftAutoDiameterState()
