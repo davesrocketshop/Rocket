@@ -31,4 +31,9 @@ from App.FeatureCenteringRing import FeatureCenteringRing
 class ShapeCenteringRing:
 
     def onDocumentRestored(self, obj):
-        FeatureCenteringRing(obj)
+        obj.Proxy = FeatureCenteringRing(obj)
+        obj.Proxy._obj = obj
+
+    def __setstate__(self, state):
+        if state:
+            self.version = state

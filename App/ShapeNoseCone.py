@@ -84,10 +84,14 @@ class ShapeNoseCone:
         if hasattr(obj, "Radius"):
             _migrate_from_1_0(obj)
             return
-        if hasattr(obj.Proxy, "version") and obj.Proxy.version:
-            if obj.Proxy.version in ["2.0", "2.1"]:
+        if hasattr(self, "version"):
+            if self.version in ["2.0", "2.1"]:
                 _migrate_from_2_0(obj)
                 return
 
         obj.Proxy = FeatureNoseCone(obj)
         obj.Proxy._obj = obj
+
+    def __setstate__(self, state):
+        if state:
+            self.version = state

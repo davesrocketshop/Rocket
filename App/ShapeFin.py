@@ -31,4 +31,9 @@ from App.FeatureFin import FeatureFin
 class ShapeFin:
 
     def onDocumentRestored(self, obj):
-        FeatureFin(obj)
+        obj.Proxy = FeatureFin(obj)
+        obj.Proxy._obj = obj
+
+    def __setstate__(self, state):
+        if state:
+            self.version = state

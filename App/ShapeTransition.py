@@ -44,7 +44,8 @@ def _migrate_from_1_0(obj):
     obj.removeProperty("ForeShoulderRadius")
     obj.removeProperty("AftShoulderRadius")
 
-    ShapeTransition(obj)
+    obj.Proxy = FeatureTransition(obj)
+    obj.Proxy._obj = obj
 
     obj.ForeDiameter = 2.0 * old["ForeRadius"]
     obj.AftDiameter = 2.0 * old["AftRadius"]
@@ -59,4 +60,9 @@ class ShapeTransition:
             _migrate_from_1_0(obj)
         else:
             # Update properties
-            FeatureTransition(obj)
+            obj.Proxy = FeatureTransition(obj)
+            obj.Proxy._obj = obj
+
+    def __setstate__(self, state):
+        if state:
+            self.version = state

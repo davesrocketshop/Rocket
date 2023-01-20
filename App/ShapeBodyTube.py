@@ -31,4 +31,9 @@ from App.FeatureBodyTube import FeatureBodyTube
 class ShapeBodyTube:
 
     def onDocumentRestored(self, obj):
-        FeatureBodyTube(obj)
+        obj.Proxy = FeatureBodyTube(obj)
+        obj.Proxy._obj = obj
+
+    def __setstate__(self, state):
+        if state:
+            self.version = state

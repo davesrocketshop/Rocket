@@ -31,4 +31,9 @@ from App.FeatureRailGuide import FeatureRailGuide
 class ShapeRailGuide:
 
     def onDocumentRestored(self, obj):
-        FeatureRailGuide(obj)
+        obj.Proxy = FeatureRailGuide(obj)
+        obj.Proxy._obj = obj
+
+    def __setstate__(self, state):
+        if state:
+            self.version = state

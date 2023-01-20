@@ -31,4 +31,9 @@ from App.FeatureFinCan import FeatureFinCan
 class ShapeFinCan:
 
     def onDocumentRestored(self, obj):
-        FeatureFinCan(obj)
+        obj.Proxy = FeatureFinCan(obj)
+        obj.Proxy._obj = obj
+
+    def __setstate__(self, state):
+        if state:
+            self.version = state

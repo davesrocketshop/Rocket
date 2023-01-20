@@ -31,4 +31,9 @@ from App.FeatureRailButton import FeatureRailButton
 class ShapeRailButton:
 
     def onDocumentRestored(self, obj):
-        FeatureRailButton(obj)
+        obj.Proxy = FeatureRailButton(obj)
+        obj.Proxy._obj = obj
+
+    def __setstate__(self, state):
+        if state:
+            self.version = state

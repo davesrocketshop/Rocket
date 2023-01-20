@@ -31,4 +31,9 @@ from App.FeatureBulkhead import FeatureBulkhead
 class ShapeBulkhead:
 
     def onDocumentRestored(self, obj):
-        FeatureBulkhead(obj)
+        obj.Proxy = FeatureBulkhead(obj)
+        obj.Proxy._obj = obj
+
+    def __setstate__(self, state):
+        if state:
+            self.version = state

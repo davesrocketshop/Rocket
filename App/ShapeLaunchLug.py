@@ -31,4 +31,9 @@ from App.FeatureLaunchLug import FeatureLaunchLug
 class ShapeLaunchLug:
 
     def onDocumentRestored(self, obj):
-        FeatureLaunchLug(obj)
+        obj.Proxy = FeatureLaunchLug(obj)
+        obj.Proxy._obj = obj
+
+    def __setstate__(self, state):
+        if state:
+            self.version = state
