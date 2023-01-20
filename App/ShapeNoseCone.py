@@ -44,7 +44,8 @@ def _migrate_from_1_0(obj):
     obj.removeProperty("ShoulderRadius")
     obj.removeProperty("NoseType")
 
-    FeatureNoseCone(obj)
+    obj.Proxy = FeatureNoseCone(obj)
+    obj.Proxy._obj = obj
 
     obj.Diameter = 2.0 * old["Radius"]
     obj.ShoulderDiameter = 2.0 * old["ShoulderRadius"]
@@ -68,7 +69,8 @@ def _migrate_from_2_0(obj):
     obj.removeProperty("OgiveRadius")
     obj.removeProperty("NoseType")
 
-    FeatureNoseCone(obj)
+    obj.Proxy = FeatureNoseCone(obj)
+    obj.Proxy._obj = obj
 
     if blunted:
         obj.BluntedDiameter = 2.0 * old["BluntedRadius"]
@@ -81,8 +83,11 @@ class ShapeNoseCone:
     def onDocumentRestored(self, obj):
         if hasattr(obj, "Radius"):
             _migrate_from_1_0(obj)
+            return
         if hasattr(obj.Proxy, "version") and obj.Proxy.version:
             if obj.Proxy.version in ["2.0", "2.1"]:
                 _migrate_from_2_0(obj)
+                return
 
-        FeatureNoseCone(obj)
+        obj.Proxy = FeatureNoseCone(obj)
+        obj.Proxy._obj = obj
