@@ -27,6 +27,7 @@ __url__ = "https://www.davesrocketshop.com"
 import FreeCAD
 
 from App.Importer.OpenRocket.SaxElement import Element, NullElement
+from App.Importer.OpenRocket.AppearanceElement import AppearanceElement
 from App.Constants import LOCATION_PARENT_TOP, LOCATION_PARENT_MIDDLE, LOCATION_PARENT_BOTTOM, \
     LOCATION_BASE, LOCATION_AFTER
 from App.position.AxialMethod import AXIAL_METHOD_MAP
@@ -162,7 +163,8 @@ class ExternalComponentElement(ComponentElement):
 
         self._validChildren = { 'finish' : NullElement,
                                 'material' : NullElement,
-                                'appearance' : NullElement,
+                                'appearance' : AppearanceElement,
+                                'inside-appearance' : NullElement
                               }
 
 

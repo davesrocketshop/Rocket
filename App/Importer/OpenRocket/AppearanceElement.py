@@ -18,50 +18,47 @@
 # *   USA                                                                   *
 # *                                                                         *
 # ***************************************************************************
-"""Class for drawing body tubes"""
+"""Provides support for importing Open Rocket files."""
 
-__title__ = "FreeCAD Body Tube View Provider"
+__title__ = "FreeCAD Open Rocket Importer Common Component"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
-    
+
 import FreeCAD
-import FreeCADGui
 
-from Ui.TaskPanelBodyTube import TaskPanelBodyTube
-from Ui.ViewProvider import ViewProvider
+from App.Importer.OpenRocket.SaxElement import Element
 
-class ViewProviderBodyTube(ViewProvider):
+class AppearanceElement(Element):
 
-    def __init__(self, vobj):
-        super().__init__(vobj)
-        
-    def getIcon(self):
-        return FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_BodyTube.svg"
+    def __init__(self, parent, tag, attributes, parentObj, filename, line):
+        super().__init__(parent, tag, attributes, parentObj, filename, line)
 
-    def setEdit(self, vobj, mode):
-        if mode == 0:
-            taskd = TaskPanelBodyTube(self.Object, mode)
-            taskd.obj = vobj.Object
-            taskd.update()
-            FreeCADGui.Control.showDialog(taskd)
-            return True
+        self._componentTags = ["paint", "shine", "decal", "center", "offset", "scale"]
 
-    def unsetEdit(self, vobj, mode):
-        if mode == 0:
-            FreeCADGui.Control.closeDialog()
-            return
+    def handleTag(self, tag, attributes):
+        _tag = tag.lower().strip()
+        if _tag == "paint":
+            red = attributes["red"]
+            green = attributes["green"]
+            blue = attributes["blue"]
+            alpha = 255
+            if "alpha" in attributes:
+                alpha = attributes["alpha"]
+            self.onPaint(red, green, blue, alpha)
+        else:
+            super().handleTag(tag, attributes)
 
-class ViewProviderInnerTube(ViewProviderBodyTube):
-        
-    def getIcon(self):
-        return FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_InnerTube.svg"
+    def handleEndTag(self, tag, content):
+        _tag = tag.lower().strip()
+        if _tag == "shine":
+            self.onShine(content)
+        else:
+            super().handleEndTag(tag, content)
 
-class ViewProviderCoupler(ViewProviderBodyTube):
-        
-    def getIcon(self):
-        return FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Coupler.svg"
+    def onPaint(self, red, green, blue, alpha):
+        if hasattr(self._parentObj, "setColor"):
+            self._parentObj.setColor(int(red), int(green), int(blue), int(alpha))
 
-class ViewProviderEngineBlock(ViewProviderBodyTube):
-        
-    def getIcon(self):
-        return FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_EngineBlock.svg"
+    def onShine(self, content):
+        if hasattr(self._parentObj, "setShininess"):
+            self._parentObj.setShininess(float(content))

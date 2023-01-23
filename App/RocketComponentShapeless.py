@@ -301,7 +301,6 @@ class RocketComponentShapeless():
             selected = FreeCADGui.Selection.getSelection()
             FreeCADGui.Selection.clearSelection()
             FreeCADGui.Selection.addSelection(rocket._obj)
-            # FreeCADGui.Selection.addSelection(doc, rocket._obj)
             FreeCADGui.runCommand('Std_TreeExpand')
             FreeCADGui.Selection.clearSelection()
             FreeCADGui.Selection.addSelection(selected[0])
@@ -330,11 +329,7 @@ class RocketComponentShapeless():
                             parent.addObject(obj)
                         else:
                             # Swap with the previous entry
-                            group = self._obj.Group
-                            temp = group[index - 1]
-                            group[index - 1] = obj
-                            group[index] = temp
-                            self._obj.Group = group
+                            self._moveChild(index - 1, obj)
                             return
                     else:
                         # Add to the grandparent ahead of the parent, or add to the next greater parent
@@ -397,11 +392,7 @@ class RocketComponentShapeless():
                             return
                         else:
                             # Swap with the next entrysetParent
-                            group = self._obj.Group
-                            temp = group[index + 1]
-                            group[index + 1] = obj
-                            group[index] = temp
-                            self._obj.Group = group
+                            self._moveChild(index + 1, obj)
                             return
                     else:
                         current = self
@@ -754,6 +745,14 @@ class RocketComponentShapeless():
     def getLength(self):
         # Return the length of this component along the central axis
         return 0
+
+    def setColor(self, red, green, blue, alpha):
+        if hasattr(self._obj.ViewObject.Proxy, "setColor"):
+            self._obj.ViewObject.Proxy.setColor(red, green, blue, alpha)
+
+    def setShininess(self, shininess):
+        if hasattr(self._obj.ViewObject.Proxy, "setShininess"):
+            self._obj.ViewObject.Proxy.setShininess(shininess)
 
     # This will be implemented in the derived class
     def execute(self, obj):
