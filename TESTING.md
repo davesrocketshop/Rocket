@@ -4,7 +4,7 @@ Test branches will be released periodically to allow users to try out new featur
 
 ## Install
 
-Development is done using `git`. If you are comfortable manually installing feel free. No instructions will be given for doing so.
+You will need to have `git` installed. You can download `git` here [Git](https://git-scm.com/downloads)
 
 For non-developers, FreeCAD provides a mechanism for installing development versions using the Addon Manager. This option is not available by
 default so you will need to enable it. From the `Edit` menu select `Preferences...`. In the left hand column select `Addon Manager`.
