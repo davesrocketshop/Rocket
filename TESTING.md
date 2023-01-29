@@ -29,7 +29,7 @@ may not be compatible with the final software version.*
 ## Reporting issues
 
 The best method for reporting problems is to create a new issue in [GitHub](https://github.com/davesrocketshop/Rocket/issues). Please include information
-such as the development branch you're using, instructions on how to reproduce the error, and where relavent a copy of the file in which the issue was encountered.
+such as the development branch you're using, instructions on how to reproduce the error, and where relevant a copy of the file in which the issue was encountered.
 The more information you provide the easier it will be to pinpoint the problem.
 
 ## Feedback

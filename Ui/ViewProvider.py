@@ -85,7 +85,7 @@ class ViewProvider:
         return color0
 
     def setColor(self, red, green, blue, alpha):
-        # RGBA composited withe (1,1,1,1)
+        # RGBA composited with (1,1,1,1)
         red0 = self.composite(red / 255.0, alpha / 255.0)
         green0 = self.composite(green / 255.0, alpha / 255.0)
         blue0 = self.composite(blue / 255.0, alpha / 255.0)
