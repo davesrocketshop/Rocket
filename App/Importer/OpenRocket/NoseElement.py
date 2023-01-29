@@ -69,7 +69,7 @@ class NoseElement(TransitionElement):
             elif content == 'haack':
                 self._feature._obj.NoseType = TYPE_HAACK
             else:
-                raise Exception("Unknow nose type " + content)
+                raise Exception("Unknown nose type " + content)
         elif _tag == "shapeclipped":
             # _err("Clipped element not supported") # This is meant for transitions
             # self._feature._obj.Clipped = _toBoolean(content)

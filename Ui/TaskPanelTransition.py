@@ -145,7 +145,7 @@ class _TransitionDialog(QDialog):
         self.thicknessInput.setMinimumWidth(100)
 
         # Forward cap styles
-        self.foreCapGroup = QtGui.QGroupBox(translate('Rocket', "Foreward Cap"), self)
+        self.foreCapGroup = QtGui.QGroupBox(translate('Rocket', "Forward Cap"), self)
 
         self.foreCapStyleLabel = QtGui.QLabel(translate('Rocket', "Cap style"), self)
 
@@ -178,7 +178,7 @@ class _TransitionDialog(QDialog):
         self.aftCapBarWidthInput.unit = 'mm'
         self.aftCapBarWidthInput.setMinimumWidth(100)
 
-        # Foreward cap group
+        # Forward cap group
         row = 0
         grid = QGridLayout()
 
