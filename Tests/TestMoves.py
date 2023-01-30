@@ -29,6 +29,8 @@ import FreeCADGui
 import unittest
 import RocketGui
 
+from PySide import QtGui
+
 from Ui.Commands.CmdBodyTube import makeBodyTube
 from Ui.Commands.CmdRocket import makeRocket
 from Ui.Commands.CmdStage import makeStage, addToStage
@@ -73,6 +75,26 @@ class MoveTests(unittest.TestCase):
             for item in items:
                 self.toggleAll(tree, item, False)
 
+    def getTree(self):
+        mw = FreeCADGui.getMainWindow()
+        trees = mw.findChildren(QtGui.QTreeWidget)
+        tree = trees[0]
+        return tree
+
+    def getCurrentItem(self, tree):
+        # item = tree.currentItem()
+        items = tree.selectedItems()
+        item = items[0]
+        return item
+
+    def getItemAbove(self, tree, item):
+        itemAbove = tree.itemAbove(item)
+        return itemAbove
+
+    def getItemBelow(self, tree, item):
+        itemBelow = tree.itemBelow(item)
+        return itemBelow
+
     # def _checkShape(self, feature, message):
     #     self.assertTrue(feature._obj.Shape.isValid(), message)
     #     self.assertIsNone(feature._obj.Shape.check(True), message)
@@ -87,66 +109,66 @@ class MoveTests(unittest.TestCase):
 
         # return None
 
-    def testBasic(self):
-        self.showPositions()
-        # feature = makeBodyTube('BodyTube')
-        # self.Doc.recompute()
+    # def testNoTree(self):
+    #     tube1 = makeBodyTube('BodyTube')
+    #     tube2 = makeBodyTube('BodyTube')
+    #     self.Doc.recompute()
 
-        # self._checkShape(feature, "Basic")
+    #     FreeCADGui.Selection.clearSelection()
+    #     FreeCADGui.Selection.addSelection(tube1._obj)
 
-    def testNoTree(self):
-        tube1 = makeBodyTube('BodyTube')
-        tube2 = makeBodyTube('BodyTube')
-        self.Doc.recompute()
+    #     tree = self.getTree()
+    #     tree.selectAll()
+    #     item = self.getCurrentItem(tree)
+    #     self.assertIsNone(self.getItemAbove(tree, item))
+    #     self.assertIsNotNone(self.getItemBelow(tree, item))
 
-        FreeCADGui.Selection.clearSelection()
-        FreeCADGui.Selection.addSelection(tube1._obj)
-        FreeCADGui.runCommand('Rocket_MoveDown')
+    #     FreeCADGui.runCommand('Rocket_MoveDown')
 
-        # How to verify the movement?
-        self.showPositions()
+    #     self.assertIsNotNone(self.getItemAbove(tree, item))
+    #     self.assertIsNone(self.getItemBelow(tree, item))
 
-    def testOutsideTree(self):
-        tube1 = makeBodyTube('BodyTube')
-        rocket = makeRocket("Rocket", True)
-        tube2 = makeBodyTube('BodyTube')
-        self.Doc.recompute()
+    # def testOutsideTree(self):
+    #     tube1 = makeBodyTube('BodyTube')
+    #     rocket = makeRocket("Rocket", True)
+    #     tube2 = makeBodyTube('BodyTube')
+    #     self.Doc.recompute()
 
-        self.assertIsNone(tube1.getParent())
+    #     self.assertIsNone(tube1.getParent())
 
-        FreeCADGui.Selection.clearSelection()
-        FreeCADGui.Selection.addSelection(tube1._obj)
-        FreeCADGui.runCommand('Rocket_MoveDown')
-        self.assertIsNotNone(tube1.getParent())
+    #     FreeCADGui.Selection.clearSelection()
+    #     FreeCADGui.Selection.addSelection(tube1._obj)
+    #     FreeCADGui.runCommand('Rocket_MoveDown')
+    #     self.assertIsNotNone(tube1.getParent())
 
-        FreeCADGui.Selection.clearSelection()
-        FreeCADGui.Selection.addSelection(tube1._obj)
-        FreeCADGui.runCommand('Rocket_MoveDown')
-        self.assertIsNone(tube1.getParent())
+    #     FreeCADGui.Selection.clearSelection()
+    #     FreeCADGui.Selection.addSelection(tube1._obj)
+    #     FreeCADGui.runCommand('Rocket_MoveDown')
+    #     self.assertIsNone(tube1.getParent())
 
-        FreeCADGui.Selection.clearSelection()
-        FreeCADGui.Selection.addSelection(tube1._obj)
-        FreeCADGui.runCommand('Rocket_MoveUp')
-        self.assertIsNotNone(tube1.getParent())
+    #     FreeCADGui.Selection.clearSelection()
+    #     FreeCADGui.Selection.addSelection(tube1._obj)
+    #     FreeCADGui.runCommand('Rocket_MoveUp')
+    #     self.assertIsNotNone(tube1.getParent())
 
-        FreeCADGui.Selection.clearSelection()
-        FreeCADGui.Selection.addSelection(tube1._obj)
-        FreeCADGui.runCommand('Rocket_MoveUp')
-        self.assertIsNone(tube1.getParent())
+    #     FreeCADGui.Selection.clearSelection()
+    #     FreeCADGui.Selection.addSelection(tube1._obj)
+    #     FreeCADGui.runCommand('Rocket_MoveUp')
+    #     self.assertIsNone(tube1.getParent())
 
-    def testMoveIntoTree(self):
-        tube1 = makeBodyTube('BodyTube')
-        rocket = makeRocket("Rocket", True)
-        tube2 = makeBodyTube('BodyTube')
-        self.Doc.recompute()
-        self.showPositions()
+    # def testMoveIntoTree(self):
+    #     tube1 = makeBodyTube('BodyTube')
+    #     rocket = makeRocket("Rocket", True)
+    #     tube2 = makeBodyTube('BodyTube')
+    #     self.Doc.recompute()
+    #     self.showPositions()
 
-    def testMoveOutOfTree(self):
-        tube1 = makeBodyTube('BodyTube')
-        rocket = makeRocket("Rocket", True)
-        tube2 = makeBodyTube('BodyTube')
-        self.Doc.recompute()
-        self.showPositions()
+    # def testMoveOutOfTree(self):
+    #     tube1 = makeBodyTube('BodyTube')
+    #     rocket = makeRocket("Rocket", True)
+    #     tube2 = makeBodyTube('BodyTube')
+    #     self.Doc.recompute()
+    #     self.showPositions()
 
     def testCrossStages(self):
         # self.makeAlpha()

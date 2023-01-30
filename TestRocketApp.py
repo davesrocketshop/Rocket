@@ -24,14 +24,14 @@ __url__ = "https://www.davesrocketshop.com"
 
 import unittest
 
-# from Tests.TestBodyTube import BodyTubeTests
-# from Tests.TestBulkhead import BulkheadTests
-# from Tests.TestCenteringRing import CenteringRingTests
-# from Tests.TestNoses import NoseTests
-# from Tests.TestTransition import TransitionTests
-# from Tests.TestFlutter import FinFlutterTestCases
-# from Tests.Components.RocketTest import RocketTest
-# from Tests.Components.PositionTests import PositionTests
+from Tests.TestBodyTube import BodyTubeTests
+from Tests.TestBulkhead import BulkheadTests
+from Tests.TestCenteringRing import CenteringRingTests
+from Tests.TestNoses import NoseTests
+from Tests.TestTransition import TransitionTests
+from Tests.TestFlutter import FinFlutterTestCases
+from Tests.Components.RocketTest import RocketTest
+from Tests.Components.PositionTests import PositionTests
 from Tests.TestMoves import MoveTests
 
 def runRocketUnitTests():
