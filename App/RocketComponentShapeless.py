@@ -299,7 +299,7 @@ class RocketComponentShapeless():
         if rocket is not None:
             FreeCAD.activeDocument().recompute(None,True,True)
             selected = FreeCADGui.Selection.getSelection()
-            FreeCADGui.Selection.clearSelection()
+            # FreeCADGui.Selection.clearSelection()
             FreeCADGui.Selection.addSelection(rocket._obj)
             FreeCADGui.runCommand('Std_TreeExpand')
             FreeCADGui.Selection.clearSelection()
