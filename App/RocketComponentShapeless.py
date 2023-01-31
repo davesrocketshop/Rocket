@@ -317,8 +317,7 @@ class RocketComponentShapeless():
 
     def _moveChildUp(self, obj):
         if hasattr(self._obj, "Group"):
-            index = 0
-            for child in self._obj.Group:
+            for index, child in enumerate(self._obj.Group):
                 if child.Proxy == obj.Proxy:
                     if index > 0:
                         if self._obj.Group[index - 1].Proxy.eligibleChild(obj.Proxy.Type):
@@ -327,6 +326,7 @@ class RocketComponentShapeless():
                             parent = self._obj.Group[index - 1]
                             obj.Proxy.setParent(parent)
                             parent.addObject(obj)
+                            return
                         else:
                             # Swap with the previous entry
                             self._moveChild(index - 1, obj)
@@ -360,7 +360,6 @@ class RocketComponentShapeless():
                                 return
                             parent = parent.Proxy.getParent()
                         return
-                index += 1
 
         if self.getParent() is not None:
             self.getParent()._moveChildUp(self._obj)
@@ -376,9 +375,8 @@ class RocketComponentShapeless():
 
     def _moveChildDown(self, obj):
         if hasattr(self._obj, "Group"):
-            index = 0
             last = len(self._obj.Group) - 1
-            for child in self._obj.Group:
+            for index, child in enumerate(self._obj.Group):
                 if child.Proxy == obj.Proxy:
                     if index < last:
                         # If the next entry is a group object, add it to that
@@ -391,7 +389,7 @@ class RocketComponentShapeless():
                             parent.Group = group
                             return
                         else:
-                            # Swap with the next entrysetParent
+                            # Swap with the next entry
                             self._moveChild(index + 1, obj)
                             return
                     else:
@@ -402,8 +400,7 @@ class RocketComponentShapeless():
                         while parent is not None:
                             if parent.Proxy.eligibleChild(obj.Proxy.Type):
                                 # parentLen = len(parent.Group)
-                                index1 = 0
-                                for child in parent.Group:
+                                for index1, child in enumerate(parent.Group):
                                     if child.Proxy == current:
                                         self._obj.removeObject(obj)
                                         obj.Proxy.setParent(parent)
@@ -411,12 +408,10 @@ class RocketComponentShapeless():
                                         group.insert(index1 + 1, obj)
                                         parent.Group = group
                                         return
-                                    index1 += 1
                             else:
                                 break
                             current = parent
                             parent = parent._parent
-                index += 1
 
         if self.getParent() is not None:
             self.getParent()._moveChildDown(self._obj)
