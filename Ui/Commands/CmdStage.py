@@ -74,7 +74,7 @@ class CmdStage(Command):
 
     def IsActive(self):
         if FreeCAD.ActiveDocument:
-            return self.part_stage_eligible_feature(FEATURE_STAGE)
+            return self.partStageEligibleFeature(FEATURE_STAGE)
         return False
 
     def GetResources(self):

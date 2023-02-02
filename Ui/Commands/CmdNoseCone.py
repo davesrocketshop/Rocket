@@ -56,7 +56,7 @@ class CmdNoseCone(Command):
 
     def IsActive(self):
         if FreeCAD.ActiveDocument:
-            return self.part_eligible_feature(FEATURE_NOSE_CONE)
+            return self.partEligibleFeature(FEATURE_NOSE_CONE)
         return False
 
     def GetResources(self):

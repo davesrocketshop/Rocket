@@ -27,6 +27,8 @@ __url__ = "https://www.davesrocketshop.com"
 import FreeCAD
 import FreeCADGui
 
+from Ui.Commands.Command import Command
+
 from DraftTools import translate
 
 def moveUp():
@@ -44,12 +46,12 @@ def edit():
 
 def delete():
     for obj in FreeCADGui.Selection.getSelection():
-        stage=FreeCADGui.ActiveDocument.ActiveView.getActiveObject("stage")
-        if stage is not None:
-            stage.Proxy.removeChild(obj.Proxy)
+        parent = obj.Proxy.getParent()
+        if parent is not None:
+            parent.removeChild(obj)
         FreeCAD.ActiveDocument.removeObject(obj.Label)
 
-class CmdMoveUp:
+class CmdMoveUp(Command):
     def Activated(self):
         FreeCAD.ActiveDocument.openTransaction("Move up")
         FreeCADGui.addModule("Ui.Commands.CmdEditTree")
@@ -57,7 +59,7 @@ class CmdMoveUp:
         FreeCADGui.doCommand("App.activeDocument().recompute(None,True,True)")
 
     def IsActive(self):
-        if FreeCAD.ActiveDocument:
+        if self.partMoveableFeatureSelected():
             return True
         return False
             
@@ -66,7 +68,7 @@ class CmdMoveUp:
                 'ToolTip': translate("Rocket", 'Move the object up in the rocket tree'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/button_up.svg"}
 
-class CmdMoveDown:
+class CmdMoveDown(Command):
     def Activated(self):
         FreeCAD.ActiveDocument.openTransaction("Move down")
         FreeCADGui.addModule("Ui.Commands.CmdEditTree")
@@ -74,7 +76,7 @@ class CmdMoveDown:
         FreeCADGui.doCommand("App.activeDocument().recompute(None,True,True)")
 
     def IsActive(self):
-        if FreeCAD.ActiveDocument:
+        if self.partMoveableFeatureSelected():
             return True
         return False
             
@@ -82,37 +84,3 @@ class CmdMoveDown:
         return {'MenuText': translate("Rocket", 'Move Down'),
                 'ToolTip': translate("Rocket", 'Move the object down in the rocket tree'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/button_down.svg"}
-
-class CmdEdit:
-    def Activated(self):
-        FreeCAD.ActiveDocument.openTransaction("Edit")
-        FreeCADGui.addModule("Ui.Commands.CmdEditTree")
-        FreeCADGui.doCommand("Ui.Commands.CmdEditTree.edit()")
-        FreeCADGui.doCommand("App.activeDocument().recompute(None,True,True)")
-
-    def IsActive(self):
-        if FreeCAD.ActiveDocument:
-            return True
-        return False
-            
-    def GetResources(self):
-        return {'MenuText': translate("Rocket", 'Edit'),
-                'ToolTip': translate("Rocket", 'Edit the selected part'),
-                'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/edit-edit.svg"}
-
-class CmdDelete:
-    def Activated(self):
-        FreeCAD.ActiveDocument.openTransaction("Delete")
-        FreeCADGui.addModule("Ui.Commands.CmdEditTree")
-        FreeCADGui.doCommand("Ui.Commands.CmdEditTree.delete()")
-        FreeCADGui.doCommand("App.activeDocument().recompute(None,True,True)")
-
-    def IsActive(self):
-        if FreeCAD.ActiveDocument:
-            return True
-        return False
-            
-    def GetResources(self):
-        return {'MenuText': translate("Rocket", 'Delete'),
-                'ToolTip': translate("Rocket", 'Delete the selected part'),
-                'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/edit-delete.svg"}

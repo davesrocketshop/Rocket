@@ -55,7 +55,7 @@ class CmdCenteringRing(Command):
 
     def IsActive(self):
         if FreeCAD.ActiveDocument:
-            return self.part_eligible_feature(FEATURE_CENTERING_RING)
+            return self.partEligibleFeature(FEATURE_CENTERING_RING)
         return False
         
     def GetResources(self):

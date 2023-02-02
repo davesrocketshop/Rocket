@@ -626,14 +626,16 @@ class RocketComponentShapeless():
     # Removes a child from the rocket component tree.  Does nothing if the component
     # is not present as a child.
     def removeChild(self, component):
+        if hasattr(component, "Proxy"):
+            component = component.Proxy
         component.checkComponentStructure()
 
 
         try:
-            self._removeChild(component)
-            component.Proxy.setParent(None)
+            self._removeChild(component._obj)
+            component.setParent(None)
             
-            if component.Proxy.Type == FEATURE_STAGE:
+            if component.Type == FEATURE_STAGE:
                 self.getRocket().forgetStage(component);
 
             # Remove sub-stages of the removed component
@@ -641,7 +643,7 @@ class RocketComponentShapeless():
                 self.getRocket().forgetStage(stage)
             
             self.checkComponentStructure()
-            component.Proxy.checkComponentStructure()
+            component.checkComponentStructure()
             
             self.fireAddRemoveEvent(component)
             self.updateBounds()
@@ -746,7 +748,11 @@ class RocketComponentShapeless():
     # type of component removed.
     def fireAddRemoveEvent(self, component):
         type = ComponentChangeEvent.TREE_CHANGE
-        for obj in component.Group:
+        if hasattr(component, "_obj"):
+            group = component._obj.Group
+        else:
+            group = component.Group
+        for obj in group:
             if not obj.isDerivedFrom('Sketcher::SketchObject'):
                 proxy = obj.Proxy
                 if proxy.isAerodynamic():
