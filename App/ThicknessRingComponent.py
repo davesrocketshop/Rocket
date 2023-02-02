@@ -54,6 +54,13 @@ class ThicknessRingComponent(RingComponent):
     def setDefaults(self):
         super().setDefaults()
 
+    def update(self):
+        super().update()
+
+        # Ensure any automatic variables are set
+        self.getOuterDiameter()
+        self.getInnerDiameter()
+
     def getOuterRadius(self):
         return self.getOuterDiameter() / 2.0
 
