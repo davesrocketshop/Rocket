@@ -299,7 +299,7 @@ class RocketComponentShapeless():
         if self.getParent() is not None:
             self.getParent()._moveChildUp(self._obj)
 
-            self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
+            self.fireComponentChangeEvent(ComponentChangeEvent.TREE_CHANGE)
             Ui.Commands.CmdRocket.updateRocket()
         # else:
         #     Commands.CmdStage.addToStage(self)
@@ -380,7 +380,7 @@ class RocketComponentShapeless():
         if self.getParent() is not None:
             self.getParent()._moveChildDown(self._obj)
 
-            self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
+            self.fireComponentChangeEvent(ComponentChangeEvent.TREE_CHANGE)
             Ui.Commands.CmdRocket.updateRocket()
 
     def _moveChildDown(self, obj):
