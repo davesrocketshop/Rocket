@@ -27,6 +27,8 @@ __url__ = "https://www.davesrocketshop.com"
 
 import FreeCAD
 import FreeCADGui
+import Part
+import Sketcher
 
 from PySide import QtGui, QtCore
 from PySide.QtCore import QObject, Signal
@@ -45,6 +47,7 @@ from App.Constants import FINCAN_COUPLER_MATCH_ID, FINCAN_COUPLER_STEPPED
 from App.Utilities import _err, _toFloat
 
 from Ui.TaskPanelLocation import TaskPanelLocation
+from Ui.Commands.CmdSketcher import newSketchNoEdit
 
 class _FinCanDialog(QDialog):
 
@@ -71,26 +74,24 @@ class _FinCanDialog(QDialog):
         layout.addWidget(self.tabWidget)
         self.setLayout(layout)
 
-        self.setTabGeneral(sketch)
+        self.setTabGeneral()
         self.setTabCan()
         self.setTabCoupler()
         self.setTabLaunchLug()
         self.setTabComment()
 
-    def setTabGeneral(self, sketch):
+    def setTabGeneral(self):
 
         ui = FreeCADGui.UiLoader()
 
         # Select the type of fin
         self.finTypeLabel = QtGui.QLabel(translate('Rocket', "Fin type"), self)
 
-        if not sketch:
-            self.finTypes = (FIN_TYPE_TRAPEZOID, 
-                FIN_TYPE_ELLIPSE, 
-                #FIN_TYPE_TUBE, 
-                )
-        else:
-            self.finTypes = ( FIN_TYPE_SKETCH, )
+        self.finTypes = (FIN_TYPE_TRAPEZOID, 
+            FIN_TYPE_ELLIPSE, 
+            #FIN_TYPE_TUBE,
+            FIN_TYPE_SKETCH,
+            )
         self.finTypesCombo = QtGui.QComboBox(self)
         self.finTypesCombo.addItems(self.finTypes)
 
@@ -931,6 +932,41 @@ class TaskPanelFinCan(QObject):
         self._finForm.rootChordInput.setHidden(True)
 
         self._finForm.tipGroup.setHidden(True)
+
+        # Create a default sketch if none exists
+        self._defaultFinSketch()
+
+    def _drawLines(self, sketch, points):
+        last = points[-1]
+        for index, point in enumerate(points):
+            sketch.addGeometry(Part.LineSegment(FreeCAD.Vector(float(last[0]), float(last[1]), 0),
+                                                        FreeCAD.Vector(float(point[0]), float(point[1]), 0)))
+            sketch.addConstraint(Sketcher.Constraint("DistanceX", index, 2, point[0]))
+            sketch.addConstraint(Sketcher.Constraint("DistanceY", index, 2, point[1]))
+            last = point
+
+        count = len(points)
+        for index in range(count):
+            if index == 0:
+                sketch.addConstraint(Sketcher.Constraint("Coincident", count-1, 2, index, 1))
+            else:
+                sketch.addConstraint(Sketcher.Constraint("Coincident", index-1, 2, index, 1))
+
+        return sketch
+
+    def _defaultFinSketch(self):
+        if self._obj.Profile is None:
+            sketch = newSketchNoEdit()
+            points = []
+            points.append((0.0, 0.0))
+            points.append((float(self._obj.RootChord), 0.0))
+            points.append((float(self._obj.RootChord) - float(self._obj.SweepLength), float(self._obj.Height)))
+            points.append((float(self._obj.RootChord) - float(self._obj.SweepLength) - float(self._obj.TipChord), float(self._obj.Height)))
+
+            sketch = self._drawLines(sketch, points)
+            FreeCAD.ActiveDocument.recompute([sketch]) # Compute the sketch
+            self._obj.Profile = sketch
+            sketch.Visibility = False
         
     def onFinTypes(self, value):
         self._obj.FinType = value

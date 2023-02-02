@@ -27,6 +27,8 @@ __url__ = "https://www.davesrocketshop.com"
 
 import FreeCAD
 import FreeCADGui
+import Part
+import Sketcher
 
 from PySide import QtGui, QtCore
 from PySide.QtCore import QObject, Signal
@@ -36,6 +38,7 @@ import math
 from DraftTools import translate
 
 from Ui.TaskPanelLocation import TaskPanelLocation
+from Ui.Commands.CmdSketcher import newSketchNoEdit
 
 from App.Constants import FIN_TYPE_TRAPEZOID, FIN_TYPE_ELLIPSE, FIN_TYPE_TUBE, FIN_TYPE_SKETCH
 from App.Constants import FIN_CROSS_SAME, FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE, \
@@ -45,7 +48,7 @@ from App.Utilities import _err, _toFloat
 
 class _FinDialog(QDialog):
 
-    def __init__(self, sketch, parent=None):
+    def __init__(self, parent=None):
         super(_FinDialog, self).__init__(parent)
 
         # define our window
@@ -64,24 +67,22 @@ class _FinDialog(QDialog):
         layout.addWidget(self.tabWidget)
         self.setLayout(layout)
 
-        self.setTabGeneral(sketch)
+        self.setTabGeneral()
         self.setTabTtw()
         self.setTabComment()
 
-    def setTabGeneral(self, sketch):
+    def setTabGeneral(self):
 
         ui = FreeCADGui.UiLoader()
 
         # Select the type of fin
         self.finTypeLabel = QtGui.QLabel(translate('Rocket', "Fin type"), self)
 
-        if not sketch:
-            self.finTypes = (FIN_TYPE_TRAPEZOID, 
-                FIN_TYPE_ELLIPSE, 
-                FIN_TYPE_TUBE, 
-                )
-        else:
-            self.finTypes = ( FIN_TYPE_SKETCH, )
+        self.finTypes = (FIN_TYPE_TRAPEZOID, 
+            FIN_TYPE_ELLIPSE, 
+            FIN_TYPE_TUBE,
+            FIN_TYPE_SKETCH,
+            )
         self.finTypesCombo = QtGui.QComboBox(self)
         self.finTypesCombo.addItems(self.finTypes)
 
@@ -441,7 +442,7 @@ class TaskPanelFin(QObject):
         self._obj = obj
         self._isAssembly = self._obj.Proxy.isRocketAssembly()
         
-        self._finForm = _FinDialog(self._obj.FinType == FIN_TYPE_SKETCH)
+        self._finForm = _FinDialog()
 
         self._location = TaskPanelLocation(obj)
         self._locationForm = self._location.getForm()
@@ -766,6 +767,41 @@ class TaskPanelFin(QObject):
         self._finForm.rootGroup.setHidden(False)
         self._finForm.tipGroup.setHidden(True)
         self._finForm.tubeGroup.setHidden(True)
+
+        # Create a default sketch if none exists
+        self._defaultFinSketch()
+
+    def _drawLines(self, sketch, points):
+        last = points[-1]
+        for index, point in enumerate(points):
+            sketch.addGeometry(Part.LineSegment(FreeCAD.Vector(float(last[0]), float(last[1]), 0),
+                                                        FreeCAD.Vector(float(point[0]), float(point[1]), 0)))
+            sketch.addConstraint(Sketcher.Constraint("DistanceX", index, 2, point[0]))
+            sketch.addConstraint(Sketcher.Constraint("DistanceY", index, 2, point[1]))
+            last = point
+
+        count = len(points)
+        for index in range(count):
+            if index == 0:
+                sketch.addConstraint(Sketcher.Constraint("Coincident", count-1, 2, index, 1))
+            else:
+                sketch.addConstraint(Sketcher.Constraint("Coincident", index-1, 2, index, 1))
+
+        return sketch
+
+    def _defaultFinSketch(self):
+        if self._obj.Profile is None:
+            sketch = newSketchNoEdit()
+            points = []
+            points.append((0.0, 0.0))
+            points.append((float(self._obj.RootChord), 0.0))
+            points.append((float(self._obj.RootChord) - float(self._obj.SweepLength), float(self._obj.Height)))
+            points.append((float(self._obj.RootChord) - float(self._obj.SweepLength) - float(self._obj.TipChord), float(self._obj.Height)))
+
+            sketch = self._drawLines(sketch, points)
+            FreeCAD.ActiveDocument.recompute([sketch]) # Compute the sketch
+            self._obj.Profile = sketch
+            sketch.Visibility = False
 
     def _enableRootLengths(self):
         value = self._obj.RootCrossSection
