@@ -348,27 +348,30 @@ class RocketComponentShapeless():
                             elif parent.Proxy.Type == FEATURE_STAGE:
                                 grandparent = parent.Proxy.getParent()
                                 index = grandparent.getChildIndex(parent.Proxy)
-                                if index == 0:
-                                    return
-                                nextStage = grandparent.getChild(index - 1)
-                                eligible = nextStage.Proxy.lastEligibleChild(obj)
+                                while index > 0:
+                                    nextStage = grandparent.getChild(index - 1)
+                                    eligible = nextStage.Proxy.lastEligibleChild(obj)
 
-                                if eligible is not None:
-                                    self._obj.removeObject(obj)
-                                    obj.Proxy.setParent(None)
-                                    eligible.addChild(obj)
+                                    if eligible is not None:
+                                        self._obj.removeObject(obj)
+                                        obj.Proxy.setParent(None)
+                                        eligible.addChild(obj)
+                                        return
+
+                                    index -= 1
                                 return
                             elif parent.Proxy.Type == FEATURE_ROCKET:
                                 index = parent.Proxy.getChildIndex(self)
-                                if index == 0:
-                                    return
-                                nextStage = parent.Proxy.getChild(index - 1)
-                                eligible = nextStage.Proxy.lastEligibleChild(obj)
+                                while index > 0:
+                                    nextStage = parent.Proxy.getChild(index - 1)
+                                    eligible = nextStage.Proxy.lastEligibleChild(obj)
 
-                                if eligible is not None:
-                                    self._obj.removeObject(obj)
-                                    obj.Proxy.setParent(None)
-                                    eligible.addChild(obj)
+                                    if eligible is not None:
+                                        self._obj.removeObject(obj)
+                                        obj.Proxy.setParent(None)
+                                        eligible.addChild(obj)
+                                        return
+                                    index -= 1
                                 return
                             parent = parent.Proxy.getParent()
 
@@ -424,27 +427,31 @@ class RocketComponentShapeless():
         if parent is not None:
             if parent.Type == FEATURE_STAGE:
                 index = parent.getParent().getChildIndex(parent)
-                if index == (parent.getParent().getChildCount() - 1):
-                    return
-                nextStage = parent.getParent().getChild(index + 1)
-                eligible = nextStage.Proxy.firstEligibleChild(obj)
+                while index < (parent.getParent().getChildCount() - 1):
+                    nextStage = parent.getParent().getChild(index + 1)
+                    eligible = nextStage.Proxy.firstEligibleChild(obj)
 
-                if eligible is not None:
-                    self._obj.removeObject(obj)
-                    obj.Proxy.setParent(None)
-                    eligible.addChildPosition(obj, 0)
+                    if eligible is not None:
+                        self._obj.removeObject(obj)
+                        obj.Proxy.setParent(None)
+                        eligible.addChildPosition(obj, 0)
+                        return
+
+                    # Try the next stage
+                    index += 1
             elif parent.Type == FEATURE_ROCKET:
                 # The child is at the top level of the stage
                 index = parent.getChildIndex(self)
-                if index == (parent.getChildCount() - 1):
-                    return
-                nextStage = parent.getChild(index + 1)
-                eligible = nextStage.Proxy.firstEligibleChild(obj)
+                while index < (parent.getChildCount() - 1):
+                    nextStage = parent.getChild(index + 1)
+                    eligible = nextStage.Proxy.firstEligibleChild(obj)
 
-                if eligible is not None:
-                    self._obj.removeObject(obj)
-                    obj.Proxy.setParent(None)
-                    eligible.addChildPosition(obj, 0)
+                    if eligible is not None:
+                        self._obj.removeObject(obj)
+                        obj.Proxy.setParent(None)
+                        eligible.addChildPosition(obj, 0)
+                        return
+                    index += 1
         return
     
     def firstEligibleChild(self, obj):
