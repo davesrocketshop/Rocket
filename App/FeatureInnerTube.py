@@ -90,7 +90,7 @@ class FeatureInnerTube(ThicknessRingComponent, Clusterable, AxialPositionable, B
             FEATURE_INNER_TUBE,
             FEATURE_TUBE_COUPLER,
             FEATURE_ENGINE_BLOCK,
-            FEATURE_BODY_TUBE, 
+            # FEATURE_BODY_TUBE, 
             FEATURE_CENTERING_RING]
 
     """

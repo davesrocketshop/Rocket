@@ -346,6 +346,14 @@ class RocketComponentShapeless():
                                 parent.addObject(obj)
                                 return
                             elif parent.Proxy.Type == FEATURE_STAGE:
+                                # Get the previous eligible feature
+                                eligible = parent.Proxy.previousEligibleChild(self, obj)
+                                if eligible is not None:
+                                    self._obj.removeObject(obj)
+                                    obj.Proxy.setParent(None)
+                                    eligible.addChildPosition(obj, 0)
+                                    return
+                                # Otherwise move up a stage
                                 grandparent = parent.Proxy.getParent()
                                 index = grandparent.getChildIndex(parent.Proxy)
                                 while index > 0:
@@ -419,6 +427,13 @@ class RocketComponentShapeless():
                                         parent.Group = group
                                         return
                             else:
+                                eligible = parent.Proxy.nextEligibleChild(current, obj)
+                                if eligible is not None:
+                                    self._obj.removeObject(obj)
+                                    obj.Proxy.setParent(None)
+                                    eligible.addChildPosition(obj, 0)
+                                    return
+
                                 break
                             current = parent
                             parent = parent._parent
@@ -469,9 +484,27 @@ class RocketComponentShapeless():
             
         return None
     
+    def nextEligibleChild(self, current, obj):
+        """ Find the first element eligiible to recieve the child object """
+        currentFound = False
+        for child in self._obj.Group:
+            if currentFound:
+                if child.Proxy.eligibleChild(obj.Proxy.Type):
+                    return child.Proxy
+                # Check the children
+                eligible = child.firstEligibleChild(obj)
+                if eligible is not None:
+                    return eligible
+            elif child.Proxy == current:
+                currentFound = True
+            
+        return None
+    
     def lastEligibleChild(self, obj):
         """ Find the last element eligiible to recieve the child object """
         eligible = None
+        if self.eligibleChild(obj.Proxy.Type):
+            eligible = self
         for child in self._obj.Group:
             if child.Proxy.eligibleChild(obj.Proxy.Type):
                 eligible = child.Proxy
@@ -479,8 +512,22 @@ class RocketComponentShapeless():
             lastChild = child.Proxy.lastEligibleChild(obj)
             if lastChild is not None:
                 eligible = lastChild
-        if self.eligibleChild(obj.Proxy.Type):
-            eligible = self
+            
+        return eligible
+    
+    def previousEligibleChild(self, current, obj):
+        """ Find the last element eligiible to recieve the child object """
+        eligible = None
+        for child in self._obj.Group:
+            if child.Proxy == current:
+                return eligible
+
+            if child.Proxy.eligibleChild(obj.Proxy.Type):
+                eligible = child.Proxy
+            # Check the children
+            lastChild = child.Proxy.lastEligibleChild(obj)
+            if lastChild is not None:
+                eligible = lastChild
             
         return eligible
 

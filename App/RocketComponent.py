@@ -108,6 +108,9 @@ class RocketComponent(RocketComponentShapeless, ChangeSource):
         if not hasattr(obj, 'Position'):
             obj.addProperty('App::PropertyPythonObject', 'Position', 'Rocket', translate('App::Property', 'Method for calculating axial offsets')).Position = Coordinate()
 
+        # if not hasattr(obj, 'Texture'):
+        #     obj.addProperty('App::PropertyFileIncluded', 'Texture', 'Rocket', translate('App::Property', 'Texture file')).Texture = ""
+
         if not hasattr(obj,"Shape"):
             obj.addProperty('Part::PropertyPartShape', 'Shape', 'Rocket', translate('App::Property', 'Shape of the component'))
 
