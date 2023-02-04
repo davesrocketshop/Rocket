@@ -82,34 +82,14 @@ class RocketComponent(RocketComponentShapeless, ChangeSource):
         if not hasattr(obj, 'RadialOffset'):
             obj.addProperty('App::PropertyDistance', 'RadialOffset', 'Rocket', translate('App::Property', 'Radial offset from the reference')).RadialOffset = 0.0
 
-        # if not hasattr(obj,"MassOverride"):
-        #     obj.addProperty('App::PropertyBool', 'MassOverride', 'Rocket', translate('App::Property', 'Override the calculated mass of this component')).MassOverride = False
-        # if not hasattr(obj, 'OverrideChildren'):
-        #     obj.addProperty('App::PropertyBool', 'OverrideChildren', 'Rocket', translate('App::Property', 'True when the overridden mass includes the mass of the children')).OverrideChildren = False
-        # if not hasattr(obj,"OverrideMass"):
-        #     obj.addProperty('App::PropertyQuantity', 'OverrideMass', 'Rocket', translate('App::Property', 'Override the calculated mass of this component')).OverrideMass = 0.0
-
-        # Adhesive has non-zero mass and must be accounted for, especially on larger rockets
-        # if not hasattr(obj,"AdhesiveMass"):
-        #     obj.addProperty('App::PropertyQuantity', 'AdhesiveMass', 'Rocket', translate('App::Property', 'Mass of the adhesive used to attach this component to the rocket. This includes fillet mass')).AdhesiveMass = 0.0
-
-        # Mass of the component based either on its material and volume, or override
-        # if not hasattr(obj, 'Mass'):
-        #     obj.addProperty('App::PropertyQuantity', 'Mass', 'Rocket', translate('App::Property', 'Calculated or overridden component mass'), PROP_READONLY|PROP_TRANSIENT).Mass = 0.0
-        
-        # if not hasattr(obj, 'AxialMethod'):
-        #     obj.addProperty('App::PropertyPythonObject', 'AxialMethod', 'Rocket', translate('App::Property', 'Method for calculating axial offsets')).AxialMethod = AxialMethod.AFTER
-
         # From Rocket
         if not hasattr(obj,"Length"):
             obj.addProperty('App::PropertyLength', 'Length', 'Rocket', translate('App::Property', 'Length of the component')).Length = 0.0
-        # if not hasattr(obj,"AxialOffset"):
-        #     obj.addProperty('App::PropertyDistance', 'AxialOffset', 'Rocket', translate('App::Property', 'Offset from the reference point')).AxialOffset = 0.0
         if not hasattr(obj, 'Position'):
             obj.addProperty('App::PropertyPythonObject', 'Position', 'Rocket', translate('App::Property', 'Method for calculating axial offsets')).Position = Coordinate()
 
-        # if not hasattr(obj, 'Texture'):
-        #     obj.addProperty('App::PropertyFileIncluded', 'Texture', 'Rocket', translate('App::Property', 'Texture file')).Texture = ""
+        if not hasattr(obj, 'Texture'):
+            obj.addProperty('App::PropertyFileIncluded', 'Texture', 'Rocket', translate('App::Property', 'Texture file')).Texture = ""
 
         if not hasattr(obj,"Shape"):
             obj.addProperty('Part::PropertyPartShape', 'Shape', 'Rocket', translate('App::Property', 'Shape of the component'))

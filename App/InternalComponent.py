@@ -42,11 +42,10 @@ class InternalComponent(RocketComponent, AxialPositionable):
     def __init__(self, obj):
         super().__init__(obj)
 
-        # super().setAxialMethod(AxialMethod.BOTTOM)
-        self._obj.AxialMethod = AxialMethod.BOTTOM
-
     def setDefaults(self):
         super().setDefaults()
+
+        self._obj.AxialMethod = AxialMethod.BOTTOM
 
     def setAxialMethod(self, newAxialMethod):
         super().setAxialMethod(newAxialMethod)
