@@ -27,15 +27,18 @@ __url__ = "https://www.davesrocketshop.com"
 
 import FreeCAD
 import FreeCADGui
+import Part
+import Sketcher
 
 from PySide import QtGui, QtCore
 from PySide.QtCore import QObject, Signal
-from PySide2.QtWidgets import QDialog, QGridLayout, QVBoxLayout, QSizePolicy
+from PySide2.QtWidgets import QDialog, QGridLayout, QVBoxLayout, QSizePolicy, QTextEdit
 import math
 
 from DraftTools import translate
 
 from Ui.TaskPanelLocation import TaskPanelLocation
+from Ui.Commands.CmdSketcher import newSketchNoEdit
 
 from App.Constants import FIN_TYPE_TRAPEZOID, FIN_TYPE_ELLIPSE, FIN_TYPE_TUBE, FIN_TYPE_SKETCH
 from App.Constants import FIN_CROSS_SAME, FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE, \
@@ -45,7 +48,7 @@ from App.Utilities import _err, _toFloat
 
 class _FinDialog(QDialog):
 
-    def __init__(self, sketch, parent=None):
+    def __init__(self, parent=None):
         super(_FinDialog, self).__init__(parent)
 
         # define our window
@@ -55,30 +58,31 @@ class _FinDialog(QDialog):
         self.tabWidget = QtGui.QTabWidget()
         self.tabGeneral = QtGui.QWidget()
         self.tabTtw = QtGui.QWidget()
+        self.tabComment = QtGui.QWidget()
         self.tabWidget.addTab(self.tabGeneral, translate('Rocket', "General"))
         self.tabWidget.addTab(self.tabTtw, translate('Rocket', "Fin Tabs"))
+        self.tabWidget.addTab(self.tabComment, translate('Rocket', "Comment"))
 
         layout = QVBoxLayout()
         layout.addWidget(self.tabWidget)
         self.setLayout(layout)
 
-        self.setTabGeneral(sketch)
+        self.setTabGeneral()
         self.setTabTtw()
+        self.setTabComment()
 
-    def setTabGeneral(self, sketch):
+    def setTabGeneral(self):
 
         ui = FreeCADGui.UiLoader()
 
         # Select the type of fin
         self.finTypeLabel = QtGui.QLabel(translate('Rocket', "Fin type"), self)
 
-        if not sketch:
-            self.finTypes = (FIN_TYPE_TRAPEZOID, 
-                FIN_TYPE_ELLIPSE, 
-                FIN_TYPE_TUBE, 
-                )
-        else:
-            self.finTypes = ( FIN_TYPE_SKETCH, )
+        self.finTypes = (FIN_TYPE_TRAPEZOID, 
+            FIN_TYPE_ELLIPSE, 
+            FIN_TYPE_TUBE,
+            FIN_TYPE_SKETCH,
+            )
         self.finTypesCombo = QtGui.QComboBox(self)
         self.finTypesCombo.addItems(self.finTypes)
 
@@ -414,6 +418,20 @@ class _FinDialog(QDialog):
 
         self.tabTtw.setLayout(layout)
 
+    def setTabComment(self):
+
+        ui = FreeCADGui.UiLoader()
+
+        self.commentLabel = QtGui.QLabel(translate('Rocket', "Comment"), self)
+
+        self.commentInput = QTextEdit()
+
+        layout = QVBoxLayout()
+        layout.addWidget(self.commentLabel)
+        layout.addWidget(self.commentInput)
+
+        self.tabComment.setLayout(layout)
+
 class TaskPanelFin(QObject):
 
     redrawRequired = Signal()   # Allows for async redraws to allow for longer processing times
@@ -424,7 +442,7 @@ class TaskPanelFin(QObject):
         self._obj = obj
         self._isAssembly = self._obj.Proxy.isRocketAssembly()
         
-        self._finForm = _FinDialog(self._obj.FinType == FIN_TYPE_SKETCH)
+        self._finForm = _FinDialog()
 
         self._location = TaskPanelLocation(obj)
         self._locationForm = self._location.getForm()
@@ -521,6 +539,8 @@ class TaskPanelFin(QObject):
         self._obj.TtwAutoHeight = self._finForm.ttwAutoHeightCheckbox.isChecked()
         self._obj.TtwThickness = self._finForm.ttwThicknessInput.text()
 
+        self._obj.Comment = self._finForm.commentInput.toPlainText()
+
     def transferFrom(self):
         "Transfer from the object to the dialog"
         self._finForm.finTypesCombo.setCurrentText(self._obj.FinType)
@@ -559,6 +579,8 @@ class TaskPanelFin(QObject):
         self._finForm.ttwHeightInput.setText(self._obj.TtwHeight.UserString)
         self._finForm.ttwAutoHeightCheckbox.setChecked(self._obj.TtwAutoHeight)
         self._finForm.ttwThicknessInput.setText(self._obj.TtwThickness.UserString)
+
+        self._finForm.commentInput.setPlainText(self._obj.Comment)
 
         self._setFinSetState()
         self._enableRootLengths()
@@ -745,6 +767,41 @@ class TaskPanelFin(QObject):
         self._finForm.rootGroup.setHidden(False)
         self._finForm.tipGroup.setHidden(True)
         self._finForm.tubeGroup.setHidden(True)
+
+        # Create a default sketch if none exists
+        self._defaultFinSketch()
+
+    def _drawLines(self, sketch, points):
+        last = points[-1]
+        for index, point in enumerate(points):
+            sketch.addGeometry(Part.LineSegment(FreeCAD.Vector(float(last[0]), float(last[1]), 0),
+                                                        FreeCAD.Vector(float(point[0]), float(point[1]), 0)))
+            sketch.addConstraint(Sketcher.Constraint("DistanceX", index, 2, point[0]))
+            sketch.addConstraint(Sketcher.Constraint("DistanceY", index, 2, point[1]))
+            last = point
+
+        count = len(points)
+        for index in range(count):
+            if index == 0:
+                sketch.addConstraint(Sketcher.Constraint("Coincident", count-1, 2, index, 1))
+            else:
+                sketch.addConstraint(Sketcher.Constraint("Coincident", index-1, 2, index, 1))
+
+        return sketch
+
+    def _defaultFinSketch(self):
+        if self._obj.Profile is None:
+            sketch = newSketchNoEdit()
+            points = []
+            points.append((0.0, 0.0))
+            points.append((float(self._obj.RootChord), 0.0))
+            points.append((float(self._obj.RootChord) - float(self._obj.SweepLength), float(self._obj.Height)))
+            points.append((float(self._obj.RootChord) - float(self._obj.SweepLength) - float(self._obj.TipChord), float(self._obj.Height)))
+
+            sketch = self._drawLines(sketch, points)
+            FreeCAD.ActiveDocument.recompute([sketch]) # Compute the sketch
+            self._obj.Profile = sketch
+            sketch.Visibility = False
 
     def _enableRootLengths(self):
         value = self._obj.RootCrossSection

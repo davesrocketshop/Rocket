@@ -64,7 +64,7 @@ class CmdFin(Command):
 
     def IsActive(self):
         if FreeCAD.ActiveDocument:
-            return self.part_eligible_feature(FEATURE_FIN)
+            return self.partEligibleFeature(FEATURE_FIN)
         return False
         
     def GetResources(self):

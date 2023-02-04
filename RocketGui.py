@@ -41,7 +41,7 @@ from Ui.Commands.CmdLaunchGuides import CmdLaunchLug, CmdRailButton, CmdRailGuid
 from Ui.Commands.CmdFin import CmdFin
 from Ui.Commands.CmdFinCan import CmdFinCan
 from Ui.Commands.CmdParachute import CmdParachute
-from Ui.Commands.CmdEditTree import CmdMoveUp, CmdMoveDown, CmdEdit, CmdDelete
+from Ui.Commands.CmdEditTree import CmdMoveUp, CmdMoveDown
 
 # Calculators
 from Ui.Commands.CmdCalcBlackPowder import CmdCalcBlackPowder
@@ -98,8 +98,6 @@ FreeCADGui.addCommand('Rocket_CalcVentHoles', CmdCalcVentHoles())
 
 FreeCADGui.addCommand('Rocket_MoveUp', CmdMoveUp())
 FreeCADGui.addCommand('Rocket_MoveDown', CmdMoveDown())
-FreeCADGui.addCommand('Rocket_Edit', CmdEdit())
-FreeCADGui.addCommand('Rocket_Delete', CmdDelete())
 
 FreeCADGui.addCommand('Rocket_NewSketch', CmdNewSketch())
 
@@ -135,7 +133,7 @@ class _TubeGroupCommand(Command):
         }
     def IsActive(self):
         if FreeCAD.ActiveDocument:
-            return self.part_eligible_feature(FEATURE_BODY_TUBE)
+            return self.partEligibleFeature(FEATURE_BODY_TUBE)
         return False
 
 class _GuidesGroupCommand(Command):
@@ -150,7 +148,7 @@ class _GuidesGroupCommand(Command):
         }
     def IsActive(self):
         if FreeCAD.ActiveDocument:
-            return self.part_eligible_feature([FEATURE_LAUNCH_LUG, FEATURE_RAIL_BUTTON, FEATURE_RAIL_GUIDE, FEATURE_OFFSET])
+            return self.partEligibleFeature([FEATURE_LAUNCH_LUG, FEATURE_RAIL_BUTTON, FEATURE_RAIL_GUIDE, FEATURE_OFFSET])
         return False
 
 FreeCADGui.addCommand('Rocket_Calculators', _CalculatorGroupCommand())

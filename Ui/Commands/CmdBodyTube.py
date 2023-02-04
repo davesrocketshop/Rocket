@@ -90,7 +90,7 @@ class CmdBodyTube(Command):
 
     def IsActive(self):
         if FreeCAD.ActiveDocument:
-            return self.part_eligible_feature(FEATURE_BODY_TUBE)
+            return self.partEligibleFeature(FEATURE_BODY_TUBE)
         return False
             
     def GetResources(self):
@@ -102,12 +102,15 @@ class CmdCoupler(Command):
     def Activated(self):
         FreeCAD.ActiveDocument.openTransaction("Create coupler")
         FreeCADGui.addModule("Ui.Commands.CmdBodyTube")
-        FreeCADGui.doCommand("Ui.Commands.CmdBodyTube.makeCoupler('Coupler')")
+        FreeCADGui.doCommand("obj=Ui.Commands.CmdBodyTube.makeCoupler('Coupler')")
+        FreeCADGui.doCommand("Ui.Commands.CmdStage.addToStage(obj)")
+        FreeCADGui.doCommand("FreeCADGui.Selection.clearSelection()")
+        FreeCADGui.doCommand("FreeCADGui.Selection.addSelection(obj._obj)")
         FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
 
     def IsActive(self):
         if FreeCAD.ActiveDocument:
-            return self.part_eligible_feature(FEATURE_TUBE_COUPLER)
+            return self.partEligibleFeature(FEATURE_TUBE_COUPLER)
         return False
             
     def GetResources(self):
@@ -127,7 +130,7 @@ class CmdInnerTube(Command):
 
     def IsActive(self):
         if FreeCAD.ActiveDocument:
-            return self.part_eligible_feature(FEATURE_INNER_TUBE)
+            return self.partEligibleFeature(FEATURE_INNER_TUBE)
         return False
             
     def GetResources(self):
@@ -147,7 +150,7 @@ class CmdEngineBlock(Command):
 
     def IsActive(self):
         if FreeCAD.ActiveDocument:
-            return self.part_eligible_feature(FEATURE_ENGINE_BLOCK)
+            return self.partEligibleFeature(FEATURE_ENGINE_BLOCK)
         return False
             
     def GetResources(self):

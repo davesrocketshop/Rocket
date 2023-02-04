@@ -56,7 +56,7 @@ class CmdFinFlutter(Command):
 
     def IsActive(self):
         # Available when a part is selected
-        return self.part_fin_selected()
+        return self.partFinSelected()
         
     def GetResources(self):
         return {'MenuText': translate("Rocket", 'Fin Flutter Analysis'),

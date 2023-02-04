@@ -55,7 +55,7 @@ class CmdBulkhead(Command):
 
     def IsActive(self):
         if FreeCAD.ActiveDocument:
-            return self.part_eligible_feature(FEATURE_BULKHEAD)
+            return self.partEligibleFeature(FEATURE_BULKHEAD)
         return False
         
     def GetResources(self):

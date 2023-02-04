@@ -96,7 +96,7 @@ class CmdFemAnalysis(Command):
 
     def IsActive(self):
         # Always available, even without active document
-        return self.part_fin_selected()
+        return self.partFinSelected()
         
     def GetResources(self):
         return {'MenuText': translate("Rocket", 'Fin FEM Analysis'),

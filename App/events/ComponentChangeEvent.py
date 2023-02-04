@@ -70,7 +70,7 @@ class ComponentChangeEvent(): # extends EventObject {
     # A change to the 3D texture assigned to a component
     TEXTURE_CHANGE = TEXTURE.value
     # when a flight configuration fires an event, it is of this type
-    # UI-only change, but does not effect the true
+    # UI-only change
     GRAPHIC_CHANGE = GRAPHIC.value
 	
 			
@@ -82,15 +82,6 @@ class ComponentChangeEvent(): # extends EventObject {
         if eventType is None or eventType == ERROR:
             raise ValueError("no event type provided")
         self.type = eventType.value	
-
-    # public static TYPE getTypeEnum( final int typeNumber ){
-    #     for( TYPE ccet : ComponentChangeEvent.TYPE.values() ){
-    #         if( ccet.value == typeNumber ){
-    #             return ccet;
-    #         }
-    #     }
-    #     throw new IllegalArgumentException(" type number "+typeNumber+" is not a valid Type enum...");
-    # }
 
     # Return the source component of this event as specified in the constructor.
     def getSource(self):

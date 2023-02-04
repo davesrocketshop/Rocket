@@ -31,7 +31,7 @@ import FreeCADGui
 from DraftTools import translate
 
 from PySide import QtGui, QtCore
-from PySide2.QtWidgets import QDialog, QGridLayout, QVBoxLayout
+from PySide2.QtWidgets import QDialog, QGridLayout, QVBoxLayout, QTextEdit
 
 from Ui.TaskPanelDatabase import TaskPanelDatabase
 from Ui.TaskPanelLocation import TaskPanelLocation
@@ -44,6 +44,21 @@ class _BodyTubeDialog(QDialog):
 
     def __init__(self, parent=None):
         super(_BodyTubeDialog, self).__init__(parent)
+
+        self.tabWidget = QtGui.QTabWidget()
+        self.tabGeneral = QtGui.QWidget()
+        self.tabComment = QtGui.QWidget()
+        self.tabWidget.addTab(self.tabGeneral, translate('Rocket', "General"))
+        self.tabWidget.addTab(self.tabComment, translate('Rocket', "Comment"))
+
+        layout = QVBoxLayout()
+        layout.addWidget(self.tabWidget)
+        self.setLayout(layout)
+
+        self.setTabGeneral()
+        self.setTabComment()
+
+    def setTabGeneral(self):
 
         ui = FreeCADGui.UiLoader()
 
@@ -121,7 +136,21 @@ class _BodyTubeDialog(QDialog):
         layout.addItem(grid)
         layout.addWidget(self.motorGroup)
 
-        self.setLayout(layout)
+        self.tabGeneral.setLayout(layout)
+
+    def setTabComment(self):
+
+        ui = FreeCADGui.UiLoader()
+
+        self.commentLabel = QtGui.QLabel(translate('Rocket', "Comment"), self)
+
+        self.commentInput = QTextEdit()
+
+        layout = QVBoxLayout()
+        layout.addWidget(self.commentLabel)
+        layout.addWidget(self.commentInput)
+
+        self.tabComment.setLayout(layout)
 
 class TaskPanelBodyTube:
 
@@ -172,6 +201,8 @@ class TaskPanelBodyTube:
             self._obj.MotorMount = self._btForm.motorGroup.isChecked()
             self._obj.Overhang = self._btForm.overhangInput.text()
 
+        self._obj.Comment = self._btForm.commentInput.toPlainText()
+
     def transferFrom(self):
         "Transfer from the object to the dialog"
         self._btForm.odInput.setText(self._obj.Diameter.UserString)
@@ -182,6 +213,8 @@ class TaskPanelBodyTube:
         if self._motorMount:
             self._btForm.motorGroup.setChecked(self._obj.MotorMount)
             self._btForm.overhangInput.setText(self._obj.Overhang.UserString)
+
+        self._btForm.commentInput.setPlainText(self._obj.Comment)
 
         self._setAutoDiameterState()
         self._setIdFromThickness()

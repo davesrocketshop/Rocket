@@ -41,8 +41,6 @@ class TransitionElement(SymmetricComponentElement):
 
         self._shoulderCapped = False
 
-        self._validChildren.update({ 'appearance' : NullElement,
-                              })
         self._knownTags.extend(["shape", "shapeclipped", "shapeparameter", 
                 "foreradius", "aftradius", "aftouterdiameter", "foreshoulderradius", "foreshoulderdiameter", "foreshoulderlength", "foreshoulderthickness", "foreshouldercapped", 
                 "aftshoulderradius", "aftshoulderdiameter", "aftshoulderlength", "aftshoulderthickness", "aftshouldercapped"])

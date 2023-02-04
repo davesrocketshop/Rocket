@@ -31,7 +31,7 @@ import FreeCADGui
 from DraftTools import translate
 
 from PySide import QtGui, QtCore
-from PySide2.QtWidgets import QDialog, QGridLayout, QVBoxLayout
+from PySide2.QtWidgets import QDialog, QGridLayout, QVBoxLayout, QTextEdit
 
 from Ui.TaskPanelDatabase import TaskPanelDatabase
 from Ui.TaskPanelLocation import TaskPanelLocation
@@ -44,6 +44,21 @@ class _LaunchLugDialog(QDialog):
 
     def __init__(self, parent=None):
         super(_LaunchLugDialog, self).__init__(parent)
+
+        self.tabWidget = QtGui.QTabWidget()
+        self.tabGeneral = QtGui.QWidget()
+        self.tabComment = QtGui.QWidget()
+        self.tabWidget.addTab(self.tabGeneral, translate('Rocket', "General"))
+        self.tabWidget.addTab(self.tabComment, translate('Rocket', "Comment"))
+
+        layout = QVBoxLayout()
+        layout.addWidget(self.tabWidget)
+        self.setLayout(layout)
+
+        self.setTabGeneral()
+        self.setTabComment()
+
+    def setTabGeneral(self):
 
         ui = FreeCADGui.UiLoader()
 
@@ -98,7 +113,21 @@ class _LaunchLugDialog(QDialog):
         layout = QVBoxLayout()
         layout.addItem(grid)
 
-        self.setLayout(layout)
+        self.tabGeneral.setLayout(layout)
+
+    def setTabComment(self):
+
+        ui = FreeCADGui.UiLoader()
+
+        self.commentLabel = QtGui.QLabel(translate('Rocket', "Comment"), self)
+
+        self.commentInput = QTextEdit()
+
+        layout = QVBoxLayout()
+        layout.addWidget(self.commentLabel)
+        layout.addWidget(self.commentInput)
+
+        self.tabComment.setLayout(layout)
 
 class TaskPanelLaunchLug:
 
@@ -135,12 +164,16 @@ class TaskPanelLaunchLug:
         self._obj.Proxy.setThickness(FreeCAD.Units.Quantity(self._lugForm.thicknessInput.text()).Value)
         self._obj.Proxy.setLength(FreeCAD.Units.Quantity(self._lugForm.lengthInput.text()).Value)
 
+        self._obj.Comment = self._lugForm.commentInput.toPlainText()
+
     def transferFrom(self):
         "Transfer from the object to the dialog"
         self._lugForm.odInput.setText(self._obj.Diameter.UserString)
         self._lugForm.idInput.setText("0.0")
         self._lugForm.thicknessInput.setText(self._obj.Thickness.UserString)
         self._lugForm.lengthInput.setText(self._obj.Length.UserString)
+
+        self._lugForm.commentInput.setPlainText(self._obj.Comment)
 
         self._setIdFromThickness()
 

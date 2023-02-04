@@ -282,7 +282,7 @@ class FeatureBodyTube(SymmetricComponent, BoxBounded, Coaxial):
     def eligibleChild(self, childType):
         return childType in [
             FEATURE_BULKHEAD, 
-            FEATURE_BODY_TUBE, 
+            #FEATURE_BODY_TUBE, 
             FEATURE_INNER_TUBE,
             FEATURE_TUBE_COUPLER,
             FEATURE_ENGINE_BLOCK,

@@ -29,20 +29,17 @@ import FreeCADGui
 
 from DraftTools import translate
 
-def newSketch(name='Sketch'):
-    obj = FreeCAD.ActiveDocument.addObject("Sketcher::SketchObject", name)
-    # Select the XZ plane for consistency
-    obj.Placement = FreeCAD.Placement(FreeCAD.Vector(0, 0, 0), FreeCAD.Vector(1, 0, 0), 90)
-    obj.MapMode = "Deactivated"
-    FreeCADGui.activeDocument().setEdit(obj.Name,0)
-
-    return obj
-
 def newSketchNoEdit(name='Sketch'):
     obj = FreeCAD.ActiveDocument.addObject("Sketcher::SketchObject", name)
     # Select the XZ plane for consistency
     obj.Placement = FreeCAD.Placement(FreeCAD.Vector(0, 0, 0), FreeCAD.Vector(1, 0, 0), 90)
     obj.MapMode = "Deactivated"
+
+    return obj
+
+def newSketch(name='Sketch'):
+    obj = newSketchNoEdit(name)
+    FreeCADGui.activeDocument().setEdit(obj.Name,0)
 
     return obj
 
@@ -59,4 +56,4 @@ class CmdNewSketch:
     def GetResources(self):
         return {'MenuText': translate("Rocket", 'Create sketch'),
                 'ToolTip': translate("Rocket", 'Create a new sketch'),
-                'Pixmap': "Sketcher_NewSketch" } #FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Calculator.svg"}
+                'Pixmap': "Sketcher_NewSketch" }

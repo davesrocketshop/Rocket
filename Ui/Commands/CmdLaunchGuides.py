@@ -77,7 +77,7 @@ class CmdLaunchLug(Command):
 
     def IsActive(self):
         if FreeCAD.ActiveDocument:
-            return self.part_eligible_feature(FEATURE_LAUNCH_LUG)
+            return self.partEligibleFeature(FEATURE_LAUNCH_LUG)
         return False
             
     def GetResources(self):
@@ -95,7 +95,7 @@ class CmdRailButton(Command):
 
     def IsActive(self):
         if FreeCAD.ActiveDocument:
-            return self.part_eligible_feature(FEATURE_RAIL_BUTTON)
+            return self.partEligibleFeature(FEATURE_RAIL_BUTTON)
         return False
             
     def GetResources(self):
@@ -113,7 +113,7 @@ class CmdRailGuide(Command):
 
     def IsActive(self):
         if FreeCAD.ActiveDocument:
-            return self.part_eligible_feature(FEATURE_RAIL_GUIDE)
+            return self.partEligibleFeature(FEATURE_RAIL_GUIDE)
         return False
             
     def GetResources(self):
@@ -131,7 +131,7 @@ class CmdStandOff(Command):
 
     def IsActive(self):
         if FreeCAD.ActiveDocument:
-            return self.part_eligible_feature(FEATURE_OFFSET)
+            return self.partEligibleFeature(FEATURE_OFFSET)
         return False
             
     def GetResources(self):
