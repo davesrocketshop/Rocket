@@ -96,6 +96,9 @@ FIN_DEBUG_FULL = "Full"
 FIN_DEBUG_PROFILE_ONLY = "Profile"
 FIN_DEBUG_MASK_ONLY = "Mask"
 
+FINCAN_STYLE_SLEEVE = "Sleeve"
+FINCAN_STYLE_BODYTUBE = "Body Tube"
+
 # Fin can edges
 FINCAN_EDGE_SQUARE = "square"
 FINCAN_EDGE_ROUND = "round"

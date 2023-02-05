@@ -29,6 +29,7 @@ import FreeCAD
 from App.FeatureFin import FeatureFin
 from App.Constants import FEATURE_FINCAN, FEATURE_LAUNCH_LUG, FEATURE_RAIL_BUTTON, FEATURE_RAIL_GUIDE, FEATURE_POD
 from App.Constants import FIN_TYPE_TRAPEZOID, FIN_TYPE_ELLIPSE, FIN_TYPE_SKETCH
+from App.Constants import FINCAN_STYLE_SLEEVE, FINCAN_STYLE_BODYTUBE
 from App.Constants import FINCAN_EDGE_SQUARE, FINCAN_EDGE_ROUND, FINCAN_EDGE_TAPER
 from App.Constants import FINCAN_PRESET_CUSTOM, FINCAN_PRESET_1_8, FINCAN_PRESET_3_16, FINCAN_PRESET_1_4
 from App.Constants import FINCAN_COUPLER_MATCH_ID, FINCAN_COUPLER_STEPPED
@@ -52,6 +53,11 @@ class FeatureFinCan(FeatureFin):
         obj.FinSet = True
 
         # Default set to fit on a BT-50
+        if not hasattr(obj,"FinCanStyle"):
+            obj.addProperty('App::PropertyEnumeration', 'FinCanStyle', 'Fin', translate('App::Property', 'Fin can style'))
+            obj.FinCanStyle = [FINCAN_STYLE_SLEEVE, FINCAN_STYLE_BODYTUBE]
+            obj.FinCanStyle = FINCAN_STYLE_SLEEVE
+
         if not hasattr(obj,"InnerDiameter"):
             obj.addProperty('App::PropertyLength', 'InnerDiameter', 'Fin', translate('App::Property', 'Diameter of the inside of the fin can')).InnerDiameter = 24.8
         if not hasattr(obj,"Thickness"):

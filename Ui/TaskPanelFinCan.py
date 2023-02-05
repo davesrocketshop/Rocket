@@ -40,6 +40,7 @@ from DraftTools import translate
 from App.Constants import FIN_TYPE_TRAPEZOID, FIN_TYPE_ELLIPSE, FIN_TYPE_SKETCH
 from App.Constants import FIN_CROSS_SAME, FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE, \
     FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE
+from App.Constants import FINCAN_STYLE_SLEEVE, FINCAN_STYLE_BODYTUBE
 from App.Constants import FINCAN_EDGE_SQUARE, FINCAN_EDGE_ROUND, FINCAN_EDGE_TAPER
 from App.Constants import FINCAN_PRESET_CUSTOM, FINCAN_PRESET_1_8, FINCAN_PRESET_3_16, FINCAN_PRESET_1_4
 from App.Constants import FINCAN_COUPLER_MATCH_ID, FINCAN_COUPLER_STEPPED
@@ -175,6 +176,9 @@ class _FinCanDialog(QDialog):
         self.tipThicknessInput.unit = 'mm'
         self.tipThicknessInput.setMinimumWidth(100)
 
+        self.tipSameThicknessCheckbox = QtGui.QCheckBox(translate('Rocket', "Tip thickness same as root"), self)
+        self.tipSameThicknessCheckbox.setCheckState(QtCore.Qt.Unchecked)
+
         self.tipPerCentLabel = QtGui.QLabel(translate('Rocket', "Use percentage"), self)
 
         self.tipPerCentCheckbox = QtGui.QCheckBox(self)
@@ -270,6 +274,9 @@ class _FinCanDialog(QDialog):
         grid.addWidget(self.tipThicknessInput, row, 1)
         row += 1
 
+        grid.addWidget(self.tipSameThicknessCheckbox, row, 1)
+        row += 1
+
         grid.addWidget(self.tipPerCentLabel, row, 0)
         grid.addWidget(self.tipPerCentCheckbox, row, 1)
         row += 1
@@ -315,6 +322,12 @@ class _FinCanDialog(QDialog):
     def setTabCan(self):
 
         ui = FreeCADGui.UiLoader()
+
+        self.canStylesLabel = QtGui.QLabel(translate('Rocket', "Fin Can Style"), self)
+
+        self.canStyles = (FINCAN_STYLE_SLEEVE, FINCAN_STYLE_BODYTUBE)
+        self.canStylesCombo = QtGui.QComboBox(self)
+        self.canStylesCombo.addItems(self.canStyles)
 
         self.canInnerDiameterLabel = QtGui.QLabel(translate('Rocket', "Inner Diameter"), self)
 
@@ -399,6 +412,10 @@ class _FinCanDialog(QDialog):
 
         row = 0
         grid = QGridLayout()
+
+        grid.addWidget(self.canStylesLabel, row, 0)
+        grid.addWidget(self.canStylesCombo, row, 1)
+        row += 1
 
         grid.addWidget(self.canInnerDiameterLabel, row, 0)
         grid.addWidget(self.canInnerDiameterInput, row, 1)
@@ -628,6 +645,7 @@ class TaskPanelFinCan(QObject):
         super().__init__()
 
         self._obj = obj
+        self._isAssembly = self._obj.Proxy.isRocketAssembly()
         
         self._finForm = _FinCanDialog(self._obj.FinType == FIN_TYPE_SKETCH)
 
@@ -652,6 +670,7 @@ class TaskPanelFinCan(QObject):
         self._finForm.tipCrossSectionsCombo.currentTextChanged.connect(self.onTipCrossSection)
         self._finForm.tipChordInput.textEdited.connect(self.onTipChord)
         self._finForm.tipThicknessInput.textEdited.connect(self.onTipThickness)
+        self._finForm.tipSameThicknessCheckbox.stateChanged.connect(self.onTipSameThickness)
         self._finForm.tipPerCentCheckbox.clicked.connect(self.onTipPerCent)
         self._finForm.tipLength1Input.textEdited.connect(self.onTipLength1)
         self._finForm.tipLength2Input.textEdited.connect(self.onTipLength2)
@@ -660,6 +679,7 @@ class TaskPanelFinCan(QObject):
         self._finForm.sweepLengthInput.textEdited.connect(self.onSweepLength)
         self._finForm.sweepAngleInput.textEdited.connect(self.onSweepAngle)
 
+        self._finForm.canStylesCombo.currentTextChanged.connect(self.onCanStyle)
         self._finForm.canInnerDiameterInput.textEdited.connect(self.onCanInnerDiameter)
         self._finForm.canAutoDiameterCheckbox.stateChanged.connect(self.onCanAutoDiameter)
         self._finForm.canThicknessInput.textEdited.connect(self.onCanThickness)
@@ -719,6 +739,7 @@ class TaskPanelFinCan(QObject):
         self._obj.TipCrossSection = str(self._finForm.tipCrossSectionsCombo.currentText())
         self._obj.TipChord = self._finForm.tipChordInput.text()
         self._obj.TipThickness = self._finForm.tipThicknessInput.text()
+        self._obj.TipSameThickness = self._finForm.tipSameThicknessCheckbox.isChecked()
         self._obj.TipPerCent = self._finForm.tipPerCentCheckbox.isChecked()
         self._obj.TipLength1 = self._finForm.tipLength1Input.text()
         self._obj.TipLength2 =self._finForm.tipLength2Input.text()
@@ -727,6 +748,7 @@ class TaskPanelFinCan(QObject):
         self._obj.SweepLength = self._finForm.sweepLengthInput.text()
         self._obj.SweepAngle = self._finForm.sweepAngleInput.text()
 
+        self._obj.FinCanStyle = str(self._finForm.canStylesCombo.currentText())
         self._obj.InnerDiameter = self._finForm.canInnerDiameterInput.text()
         self._obj.AutoInnerDiameter = self._finForm.canAutoDiameterCheckbox.isChecked()
         self._obj.Thickness = self._finForm.canThicknessInput.text()
@@ -777,6 +799,7 @@ class TaskPanelFinCan(QObject):
         self._finForm.tipCrossSectionsCombo.setCurrentText(self._obj.TipCrossSection)
         self._finForm.tipChordInput.setText(self._obj.TipChord.UserString)
         self._finForm.tipThicknessInput.setText(self._obj.TipThickness.UserString)
+        self._finForm.tipSameThicknessCheckbox.setChecked(self._obj.TipSameThickness)
         self._finForm.tipPerCentCheckbox.setChecked(self._obj.TipPerCent)
         self._finForm.tipLength1Input.setText(self._obj.TipLength1.UserString)
         self._finForm.tipLength2Input.setText(self._obj.TipLength2.UserString)
@@ -785,6 +808,7 @@ class TaskPanelFinCan(QObject):
         self._finForm.sweepLengthInput.setText(self._obj.SweepLength.UserString)
         self._finForm.sweepAngleInput.setText(self._obj.SweepAngle.UserString)
 
+        self._finForm.canStylesCombo.setCurrentText(self._obj.FinCanStyle)
         self._finForm.canInnerDiameterInput.setText(self._obj.InnerDiameter.UserString)
         self._finForm.canAutoDiameterCheckbox.setChecked(self._obj.AutoInnerDiameter)
         self._finForm.canThicknessInput.setText(self._obj.Thickness.UserString)
@@ -818,6 +842,7 @@ class TaskPanelFinCan(QObject):
 
         self._finForm.commentInput.setPlainText(self._obj.Comment)
 
+        self._setFinSetState()
         self._enableRootLengths()
         self._enableFinTypes() # This calls _enableTipLengths()
         self._enableRootPercent()
@@ -825,6 +850,7 @@ class TaskPanelFinCan(QObject):
         self._sweepAngleFromLength(self._obj.SweepLength)
         self._enableLeadingEdge()
         self._enableTrailingEdge()
+        self._setCanStyle()
         self._setCanAutoDiameterState()
         self._setLugAutoThicknessState()
         self._setLugAutoLengthState()
@@ -973,6 +999,21 @@ class TaskPanelFinCan(QObject):
         self._enableFinTypes()
         self.redraw()
         self.setEdited()
+       
+    def _setFinSetState(self):
+        if self._isAssembly:
+            checked = self._finForm.finSetGroup.isChecked()
+            self._finForm.finSetGroup.setEnabled(True)
+        else:
+            if self._obj.FinSet:
+                self._obj.FinSet = False
+                self._finForm.finSetGroup.setChecked(self._obj.FinSet)
+            checked = False
+            self._finForm.finSetGroup.setEnabled(False)
+
+        self._finForm.finCountSpinBox.setEnabled(checked)
+        self._finForm.finSpacingInput.setEnabled(checked)
+        self._finForm.tipThicknessInput.setEnabled(not self._obj.TipSameThickness)
 
     def _enableRootLengths(self):
         value = self._obj.RootCrossSection
@@ -1121,6 +1162,15 @@ class TaskPanelFinCan(QObject):
         except ValueError:
             pass
         self.setEdited()
+        
+    def onTipSameThickness(self, value):
+        try:
+            self._obj.TipSameThickness = value
+            self.redraw()
+            self._setFinSetState()
+        except ValueError:
+            pass
+        self.setEdited()
 
     def _enableTipPercent(self):
         if self._obj.TipPerCent:
@@ -1210,7 +1260,22 @@ class TaskPanelFinCan(QObject):
         except ValueError:
             pass
         self.setEdited()
-        
+       
+    def _setCanStyle(self):
+        if self._obj.FinCanStyle == FINCAN_STYLE_SLEEVE:
+            self._finForm.canInnerDiameterLabel.setText(translate('Rocket', "Inner Diameter"))
+            self._finForm.canLeadingGroup.setHidden(False)
+        else:
+            self._finForm.canInnerDiameterLabel.setText(translate('Rocket', "Outer Diameter"))
+            self._finForm.canLeadingGroup.setHidden(True)
+
+    def onCanStyle(self, value):
+        self._obj.FinCanStyle = value
+        self._setCanStyle()
+
+        self.redraw()
+        self.setEdited()
+    
     def onCanInnerDiameter(self, value):
         try:
             self._obj.InnerDiameter = FreeCAD.Units.Quantity(value).Value
