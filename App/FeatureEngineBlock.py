@@ -46,7 +46,7 @@ class FeatureEngineBlock(ThicknessRingComponent, AxialPositionable):
         self._obj.Thickness = 5.0
         self._obj.Length = 5.0
         self._obj.LocationReference = LOCATION_PARENT_TOP
-        self._obj.AxialOffset = -5.0
+        self._obj.AxialOffset = 0.0
         self._obj.AxialMethod = TOP
 
     def onDocumentRestored(self, obj):
