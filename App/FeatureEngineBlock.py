@@ -24,17 +24,14 @@ __title__ = "FreeCAD Body Tubes"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
-import FreeCAD
-
 from App.position.AxialPositionable import AxialPositionable
+from App.position.AxialMethod import TOP
 
 from App.ThicknessRingComponent import ThicknessRingComponent
 from App.ShapeHandlers.BodyTubeShapeHandler import BodyTubeShapeHandler
 
 from App.Constants import FEATURE_ENGINE_BLOCK
 from App.Constants import LOCATION_PARENT_TOP
-
-from DraftTools import translate
 
 class FeatureEngineBlock(ThicknessRingComponent, AxialPositionable):
 
@@ -50,6 +47,7 @@ class FeatureEngineBlock(ThicknessRingComponent, AxialPositionable):
         self._obj.Length = 5.0
         self._obj.LocationReference = LOCATION_PARENT_TOP
         self._obj.AxialOffset = -5.0
+        self._obj.AxialMethod = TOP
 
     def onDocumentRestored(self, obj):
         FeatureEngineBlock(obj)

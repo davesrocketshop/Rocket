@@ -69,7 +69,7 @@ class CmdRocket(Command):
         FreeCADGui.doCommand("App.activeDocument().recompute(None,True,True)")
 
     def IsActive(self):
-        return self.no_rocket_builder()
+        return self.noRocketBuilder()
 
     def GetResources(self):
         return {'MenuText': translate("Rocket", 'Rocket'),

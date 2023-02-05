@@ -31,6 +31,7 @@ from PySide import QtCore,QtGui
 from pivy import coin
 
 from Ui.ViewProvider import ViewProvider
+from Ui.TaskPanelStage import TaskPanelStage
 
 from DraftTools import translate
 
@@ -67,9 +68,15 @@ class ViewProviderStage(ViewProvider):
     def toggleStage(self):
         FreeCADGui.runCommand("Rocket_ToggleStage")
 
-    def setEdit(self,vobj,mode):
-        # No editor associated with this object
-        return False
+    def setEdit(self, vobj, mode):
+        if mode == 0:
+            taskd = TaskPanelStage(self.Object, mode)
+            taskd.obj = vobj.Object
+            taskd.update()
+            FreeCADGui.Control.showDialog(taskd)
+            return True
 
-    def unsetEdit(self,vobj,mode):
-        return False
+    def unsetEdit(self, vobj, mode):
+        if mode == 0:
+            FreeCADGui.Control.closeDialog()
+            return

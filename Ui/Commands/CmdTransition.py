@@ -56,7 +56,7 @@ class CmdTransition(Command):
 
     def IsActive(self):
         if FreeCAD.ActiveDocument:
-            return self.part_eligible_feature(FEATURE_TRANSITION)
+            return self.partEligibleFeature(FEATURE_TRANSITION)
         return False
         
     def GetResources(self):

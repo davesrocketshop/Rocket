@@ -32,6 +32,7 @@ from Tests.TestTransition import TransitionTests
 from Tests.TestFlutter import FinFlutterTestCases
 from Tests.Components.RocketTest import RocketTest
 from Tests.Components.PositionTests import PositionTests
+from Tests.TestMoves import MoveTests
 
 def runRocketUnitTests():
     suite = unittest.TestSuite()

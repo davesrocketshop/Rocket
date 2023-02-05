@@ -40,16 +40,38 @@ def getRocket():
 
 class Command:
 
-    def part_feature_selected(self):
+    def partFeatureSelected(self):
+        """
+            True if the selected object is a workbench feature
+        """
         if FreeCADGui.ActiveDocument is None:
             return False
         sel = FreeCADGui.Selection.getSelection()
-        if len(sel) == 1 and (sel[0].isDerivedFrom("Part::Feature") or sel[0].isDerivedFrom("App::GeometryFeature")):
+        if len(sel) == 1 and (sel[0].isDerivedFrom("Part::FeaturePython") or sel[0].isDerivedFrom("App::GeometryPython")):
             return True
         else:
             return False
 
-    def part_fin_selected(self):
+    def partMoveableFeatureSelected(self):
+        """
+            True if the selected object is a workbench feature, and can be moved in the tree
+        """
+        if FreeCADGui.ActiveDocument is None:
+            return False
+        sel = FreeCADGui.Selection.getSelection()
+        if len(sel) == 1:
+            if sel[0].isDerivedFrom("Part::FeaturePython"):
+                if sel[0].Proxy.getParent() is not None:
+                    return True
+            if sel[0].isDerivedFrom("App::GeometryPython"):
+                return sel[0].Proxy.Type != FEATURE_ROCKET
+
+        return False
+
+    def partFinSelected(self):
+        """
+            True if the selected object has fins (Fin, FinCan)
+        """
         if FreeCADGui.ActiveDocument is not None:
             sel = FreeCADGui.Selection.getSelection()
             if len(sel) == 1 and sel[0].isDerivedFrom("Part::FeaturePython"):
@@ -57,7 +79,10 @@ class Command:
                     return True
         return False
 
-    def part_stage_eligible_feature(self, feature):
+    def partStageEligibleFeature(self, feature):
+        """
+            Checks to see if we're at a point where we can add a stage. Stages can't be a standalone feature
+        """
         if FreeCADGui.ActiveDocument is not None:
             sel = FreeCADGui.Selection.getSelection()
             if len(sel) == 1 and (sel[0].isDerivedFrom("Part::FeaturePython") or sel[0].isDerivedFrom("App::GeometryPython")):
@@ -69,7 +94,11 @@ class Command:
                     return True
         return False
 
-    def part_eligible_feature(self, feature):
+    def partEligibleFeature(self, feature):
+        """
+            Checks to see if we can add a part. If a rocket or one of its parts is selected, then we check to see if the
+            part can be added to the current feature. Outside of a rocket, parts can be added as standalone objects.
+        """
         if FreeCADGui.ActiveDocument is not None:
             if getRocket() is None:
                 return True
@@ -81,9 +110,10 @@ class Command:
                             return True
                 elif sel[0].Proxy.eligibleChild(feature):
                     return True
-        return False
+                return False
+        return True
 
-    def no_rocket_builder(self):
+    def noRocketBuilder(self):
         if FreeCADGui.ActiveDocument is None:
             return False
 

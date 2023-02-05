@@ -27,10 +27,12 @@ __url__ = "https://www.davesrocketshop.com"
 
 import FreeCAD
 import FreeCADGui
+import Part
+import Sketcher
 
 from PySide import QtGui, QtCore
 from PySide.QtCore import QObject, Signal
-from PySide2.QtWidgets import QDialog, QGridLayout, QVBoxLayout, QSizePolicy
+from PySide2.QtWidgets import QDialog, QGridLayout, QVBoxLayout, QSizePolicy, QTextEdit
 import math
 
 from DraftTools import translate
@@ -45,6 +47,7 @@ from App.Constants import FINCAN_COUPLER_MATCH_ID, FINCAN_COUPLER_STEPPED
 from App.Utilities import _err, _toFloat
 
 from Ui.TaskPanelLocation import TaskPanelLocation
+from Ui.Commands.CmdSketcher import newSketchNoEdit
 
 class _FinCanDialog(QDialog):
 
@@ -60,34 +63,35 @@ class _FinCanDialog(QDialog):
         self.tabFinCan = QtGui.QWidget()
         self.tabCoupler = QtGui.QWidget()
         self.tabLaunchLug = QtGui.QWidget()
+        self.tabComment = QtGui.QWidget()
         self.tabWidget.addTab(self.tabGeneral, translate('Rocket', "Fins"))
         self.tabWidget.addTab(self.tabFinCan, translate('Rocket', "Fin Can"))
         self.tabWidget.addTab(self.tabCoupler, translate('Rocket', "Coupler"))
         self.tabWidget.addTab(self.tabLaunchLug, translate('Rocket', "Launch Lug"))
+        self.tabWidget.addTab(self.tabComment, translate('Rocket', "Comment"))
 
         layout = QVBoxLayout()
         layout.addWidget(self.tabWidget)
         self.setLayout(layout)
 
-        self.setTabGeneral(sketch)
+        self.setTabGeneral()
         self.setTabCan()
         self.setTabCoupler()
         self.setTabLaunchLug()
+        self.setTabComment()
 
-    def setTabGeneral(self, sketch):
+    def setTabGeneral(self):
 
         ui = FreeCADGui.UiLoader()
 
         # Select the type of fin
         self.finTypeLabel = QtGui.QLabel(translate('Rocket', "Fin type"), self)
 
-        if not sketch:
-            self.finTypes = (FIN_TYPE_TRAPEZOID, 
-                FIN_TYPE_ELLIPSE, 
-                #FIN_TYPE_TUBE, 
-                )
-        else:
-            self.finTypes = ( FIN_TYPE_SKETCH, )
+        self.finTypes = (FIN_TYPE_TRAPEZOID, 
+            FIN_TYPE_ELLIPSE, 
+            #FIN_TYPE_TUBE,
+            FIN_TYPE_SKETCH,
+            )
         self.finTypesCombo = QtGui.QComboBox(self)
         self.finTypesCombo.addItems(self.finTypes)
 
@@ -602,6 +606,20 @@ class _FinCanDialog(QDialog):
 
         self.tabLaunchLug.setLayout(layout)
 
+    def setTabComment(self):
+
+        ui = FreeCADGui.UiLoader()
+
+        self.commentLabel = QtGui.QLabel(translate('Rocket', "Comment"), self)
+
+        self.commentInput = QTextEdit()
+
+        layout = QVBoxLayout()
+        layout.addWidget(self.commentLabel)
+        layout.addWidget(self.commentInput)
+
+        self.tabComment.setLayout(layout)
+
 class TaskPanelFinCan(QObject):
 
     redrawRequired = Signal()   # Allows for async redraws to allow for longer processing times
@@ -740,6 +758,8 @@ class TaskPanelFinCan(QObject):
         self._obj.LaunchLugAftSweep = self._finForm.aftSweepGroup.isChecked()
         self._obj.LaunchLugAftSweepAngle = self._finForm.aftSweepInput.text()
 
+        self._obj.Comment = self._finForm.commentInput.toPlainText()
+
     def transferFrom(self):
         "Transfer from the object to the dialog"
         self._finForm.finTypesCombo.setCurrentText(self._obj.FinType)
@@ -795,6 +815,8 @@ class TaskPanelFinCan(QObject):
         self._finForm.forwardSweepInput.setText(self._obj.LaunchLugForwardSweepAngle.UserString)
         self._finForm.aftSweepGroup.setChecked(self._obj.LaunchLugAftSweep)
         self._finForm.aftSweepInput.setText(self._obj.LaunchLugAftSweepAngle.UserString)
+
+        self._finForm.commentInput.setPlainText(self._obj.Comment)
 
         self._enableRootLengths()
         self._enableFinTypes() # This calls _enableTipLengths()
@@ -910,6 +932,41 @@ class TaskPanelFinCan(QObject):
         self._finForm.rootChordInput.setHidden(True)
 
         self._finForm.tipGroup.setHidden(True)
+
+        # Create a default sketch if none exists
+        self._defaultFinSketch()
+
+    def _drawLines(self, sketch, points):
+        last = points[-1]
+        for index, point in enumerate(points):
+            sketch.addGeometry(Part.LineSegment(FreeCAD.Vector(float(last[0]), float(last[1]), 0),
+                                                        FreeCAD.Vector(float(point[0]), float(point[1]), 0)))
+            sketch.addConstraint(Sketcher.Constraint("DistanceX", index, 2, point[0]))
+            sketch.addConstraint(Sketcher.Constraint("DistanceY", index, 2, point[1]))
+            last = point
+
+        count = len(points)
+        for index in range(count):
+            if index == 0:
+                sketch.addConstraint(Sketcher.Constraint("Coincident", count-1, 2, index, 1))
+            else:
+                sketch.addConstraint(Sketcher.Constraint("Coincident", index-1, 2, index, 1))
+
+        return sketch
+
+    def _defaultFinSketch(self):
+        if self._obj.Profile is None:
+            sketch = newSketchNoEdit()
+            points = []
+            points.append((0.0, 0.0))
+            points.append((float(self._obj.RootChord), 0.0))
+            points.append((float(self._obj.RootChord) - float(self._obj.SweepLength), float(self._obj.Height)))
+            points.append((float(self._obj.RootChord) - float(self._obj.SweepLength) - float(self._obj.TipChord), float(self._obj.Height)))
+
+            sketch = self._drawLines(sketch, points)
+            FreeCAD.ActiveDocument.recompute([sketch]) # Compute the sketch
+            self._obj.Profile = sketch
+            sketch.Visibility = False
         
     def onFinTypes(self, value):
         self._obj.FinType = value

@@ -58,7 +58,7 @@ class RocketWorkbench ( Workbench ):
                         #'Rocket_Parachute',
                         ])
         self.appendToolbar(QT_TRANSLATE_NOOP('Rocket', 'Rocket'),
-                        ['Separator', 'Rocket_MoveUp', 'Rocket_MoveDown', 'Rocket_Edit', 'Rocket_Delete'])
+                        ['Separator', 'Rocket_MoveUp', 'Rocket_MoveDown'])
         self.appendToolbar(QT_TRANSLATE_NOOP('Rocket', 'Rocket'),
                         ['Separator', 'Rocket_NewSketch', 'Sketcher_EditSketch', 'Separator', 'Rocket_Calculators'])
         # self.appendToolbar(QT_TRANSLATE_NOOP('Rocket', 'Rocket'),

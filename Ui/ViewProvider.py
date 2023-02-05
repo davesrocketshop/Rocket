@@ -77,3 +77,21 @@ class ViewProvider:
 
     def __setstate__(self, state):
         return None
+
+    def composite(self, color, alpha):
+        # Simplified assuming base color is 1 and base alpha is 1
+        # https://en.wikipedia.org/wiki/Alpha_compositing
+        color0 = (color * alpha) + 1 - alpha
+        return color0
+
+    def setColor(self, red, green, blue, alpha):
+        # RGBA composited with (1,1,1,1)
+        red0 = self.composite(red / 255.0, alpha / 255.0)
+        green0 = self.composite(green / 255.0, alpha / 255.0)
+        blue0 = self.composite(blue / 255.0, alpha / 255.0)
+        color = (red0, green0, blue0)
+        self.ViewObject.ShapeColor = color
+        self.ViewObject.LineColor = color
+
+    def setShininess(self, shininess):
+        self.ViewObject.ShapeMaterial.Shininess = shininess

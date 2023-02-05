@@ -29,7 +29,7 @@ import FreeCAD
 import FreeCADGui
 
 from PySide import QtGui, QtCore
-from PySide2.QtWidgets import QDialog, QGridLayout, QVBoxLayout
+from PySide2.QtWidgets import QDialog, QGridLayout, QVBoxLayout, QTextEdit
 
 from DraftTools import translate
 
@@ -43,6 +43,21 @@ class _BulkheadDialog(QDialog):
 
     def __init__(self, crPanel, parent=None):
         super(_BulkheadDialog, self).__init__(parent)
+
+        self.tabWidget = QtGui.QTabWidget()
+        self.tabGeneral = QtGui.QWidget()
+        self.tabComment = QtGui.QWidget()
+        self.tabWidget.addTab(self.tabGeneral, translate('Rocket', "General"))
+        self.tabWidget.addTab(self.tabComment, translate('Rocket', "Comment"))
+
+        layout = QVBoxLayout()
+        layout.addWidget(self.tabWidget)
+        self.setLayout(layout)
+
+        self.setTabGeneral(crPanel)
+        self.setTabComment()
+
+    def setTabGeneral(self, crPanel):
 
         ui = FreeCADGui.UiLoader()
 
@@ -213,7 +228,21 @@ class _BulkheadDialog(QDialog):
         layout.addWidget(self.stepGroup)
         layout.addWidget(self.holeGroup)
 
-        self.setLayout(layout)
+        self.tabGeneral.setLayout(layout)
+
+    def setTabComment(self):
+
+        ui = FreeCADGui.UiLoader()
+
+        self.commentLabel = QtGui.QLabel(translate('Rocket', "Comment"), self)
+
+        self.commentInput = QTextEdit()
+
+        layout = QVBoxLayout()
+        layout.addWidget(self.commentLabel)
+        layout.addWidget(self.commentInput)
+
+        self.tabComment.setLayout(layout)
 
 class TaskPanelBulkhead:
 
@@ -293,6 +322,8 @@ class TaskPanelBulkhead:
             self._obj.NotchWidth = self._bulkForm.notchWidthInput.text()
             self._obj.NotchHeight = self._bulkForm.notchHeightInput.text()
 
+        self._obj.Comment = self._bulkForm.commentInput.toPlainText()
+
     def transferFrom(self):
         "Transfer from the object to the dialog"
         self._bulkForm.diameterInput.setText(self._obj.Diameter.UserString)
@@ -318,6 +349,8 @@ class TaskPanelBulkhead:
             self._bulkForm.notchHeightInput.setText(self._obj.NotchHeight.UserString)
             self._setNotchedState()
             self._setAutoCenterDiameterState()
+
+        self._bulkForm.commentInput.setPlainText(self._obj.Comment)
 
         self._setAutoDiameterState()
         self._setStepState()

@@ -330,9 +330,6 @@ class FeatureRocket(ComponentAssembly, ComponentChangeListener):
         self.updateConfigurations()
 
         self.notifyAllListeners(cce)
-            
-        # } finally {
-        #     mutex.unlock("fireComponentChangeEvent");
 
     def update(self):
         self.updateStageNumbers()

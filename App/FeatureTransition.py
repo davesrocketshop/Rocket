@@ -89,7 +89,7 @@ class FeatureTransition(SymmetricComponent):
         if not hasattr(obj, 'Resolution'):
             obj.addProperty('App::PropertyInteger', 'Resolution', 'Transition', translate('App::Property', 'Resolution')).Resolution = 100
         if not hasattr(obj, 'ForeCapBarWidth'):
-            obj.addProperty('App::PropertyLength', 'ForeCapBarWidth', 'Transition', translate('App::Property', 'Width of the foreward cap bar')).ForeCapBarWidth = 3.0
+            obj.addProperty('App::PropertyLength', 'ForeCapBarWidth', 'Transition', translate('App::Property', 'Width of the forward cap bar')).ForeCapBarWidth = 3.0
         if not hasattr(obj, 'AftCapBarWidth'):
             obj.addProperty('App::PropertyLength', 'AftCapBarWidth', 'Transition', translate('App::Property', 'Width of the aft cap bar')).AftCapBarWidth = 3.0
 
@@ -114,7 +114,7 @@ class FeatureTransition(SymmetricComponent):
             obj.TransitionStyle = STYLE_SOLID
 
         if not hasattr(obj, 'ForeCapStyle'):
-            obj.addProperty('App::PropertyEnumeration', 'ForeCapStyle', 'Transition', translate('App::Property', 'Foreward cap style'))
+            obj.addProperty('App::PropertyEnumeration', 'ForeCapStyle', 'Transition', translate('App::Property', 'Forward cap style'))
             obj.ForeCapStyle = [STYLE_CAP_SOLID,
                                 STYLE_CAP_BAR,
                                 STYLE_CAP_CROSS]

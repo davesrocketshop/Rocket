@@ -31,7 +31,7 @@ import FreeCADGui
 from DraftTools import translate
 
 from PySide import QtGui
-from PySide2.QtWidgets import QDialog, QGridLayout, QVBoxLayout
+from PySide2.QtWidgets import QDialog, QGridLayout, QVBoxLayout, QTextEdit
 
 from Ui.TaskPanelLocation import TaskPanelLocation
 
@@ -50,6 +50,21 @@ class _RailButtonDialog(QDialog):
 
     def __init__(self, parent=None):
         super(_RailButtonDialog, self).__init__(parent)
+
+        self.tabWidget = QtGui.QTabWidget()
+        self.tabGeneral = QtGui.QWidget()
+        self.tabComment = QtGui.QWidget()
+        self.tabWidget.addTab(self.tabGeneral, translate('Rocket', "General"))
+        self.tabWidget.addTab(self.tabComment, translate('Rocket', "Comment"))
+
+        layout = QVBoxLayout()
+        layout.addWidget(self.tabWidget)
+        self.setLayout(layout)
+
+        self.setTabGeneral()
+        self.setTabComment()
+
+    def setTabGeneral(self):
 
         ui = FreeCADGui.UiLoader()
 
@@ -213,7 +228,21 @@ class _RailButtonDialog(QDialog):
         layout.addWidget(self.fastenerGroup)
         layout.addWidget(self.filletGroup)
 
-        self.setLayout(layout)
+        self.tabGeneral.setLayout(layout)
+
+    def setTabComment(self):
+
+        ui = FreeCADGui.UiLoader()
+
+        self.commentLabel = QtGui.QLabel(translate('Rocket', "Comment"), self)
+
+        self.commentInput = QTextEdit()
+
+        layout = QVBoxLayout()
+        layout.addWidget(self.commentLabel)
+        layout.addWidget(self.commentInput)
+
+        self.tabComment.setLayout(layout)
 
 class TaskPanelRailButton:
 
@@ -272,6 +301,8 @@ class TaskPanelRailButton:
         self._obj.FilletedTop = self._btForm.filletGroup.isChecked()
         self._obj.FilletRadius = self._btForm.filletRadiusInput.text()
 
+        self._obj.Comment = self._btForm.commentInput.toPlainText()
+
     def transferFrom(self):
         "Transfer from the object to the dialog"
         self._btForm.railButtonTypeCombo.setCurrentText(self._obj.RailButtonType)
@@ -290,6 +321,8 @@ class TaskPanelRailButton:
 
         self._btForm.filletGroup.setChecked(self._obj.FilletedTop)
         self._btForm.filletRadiusInput.setText(self._obj.FilletRadius.UserString)
+
+        self._btForm.commentInput.setPlainText(self._obj.Comment)
 
         self._setTypeState()
 

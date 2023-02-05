@@ -1,5 +1,5 @@
 # ***************************************************************************
-# *   Copyright (c) 2021-2023 David Carter <dcarter@davidcarter.ca>         *
+# *   Copyright (c) 2023 David Carter <dcarter@davidcarter.ca>              *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -18,48 +18,24 @@
 # *   USA                                                                   *
 # *                                                                         *
 # ***************************************************************************
-"""Class for drawing nose cones"""
+"""Class for drawing rockets"""
 
-__title__ = "FreeCAD Nose Cones"
+__title__ = "FreeCAD Rocket"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
     
 
 import FreeCAD
-import FreeCADGui
 
-from App.FeatureNoseCone import FeatureNoseCone
-from Ui.ViewNoseCone import ViewProviderNoseCone
-from Ui.Commands.Command import Command
+from PySide import QtGui
 
-from App.Constants import FEATURE_NOSE_CONE
+from Ui.TaskPanelStage import TaskPanelStage
 
-from DraftTools import translate
+class TaskPanelRocket(TaskPanelStage):
 
-def makeNoseCone(name='NoseCone'):
-    '''makeNoseCone(name): makes a Nose Cone'''
-    obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
-    FeatureNoseCone(obj)
-    obj.Proxy.setDefaults()
-    if FreeCAD.GuiUp:
-        ViewProviderNoseCone(obj.ViewObject)
+    def __init__(self,obj,mode):
+        super().__init__(obj, mode)
 
-    return obj.Proxy
-
-class CmdNoseCone(Command):
-    def Activated(self):
-        FreeCAD.ActiveDocument.openTransaction("Create nose cone")
-        FreeCADGui.addModule("Ui.Commands.CmdNoseCone")
-        FreeCADGui.doCommand("obj=Ui.Commands.CmdNoseCone.makeNoseCone('NoseCone')")
-        FreeCADGui.doCommand("Ui.Commands.CmdStage.addToStage(obj)")
-        FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
-
-    def IsActive(self):
-        if FreeCAD.ActiveDocument:
-            return self.partEligibleFeature(FEATURE_NOSE_CONE)
-        return False
-
-    def GetResources(self):
-        return {'MenuText': translate("Rocket", 'Nose Cone'),
-                'ToolTip': translate("Rocket", 'Nose cone design'),
-                'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_NoseCone.svg"}
+        self._stageForm.setWindowIcon(QtGui.QIcon(FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Rocket.svg"))
+        
+        self.update()

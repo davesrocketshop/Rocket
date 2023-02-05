@@ -18,48 +18,47 @@
 # *   USA                                                                   *
 # *                                                                         *
 # ***************************************************************************
-"""Class for drawing nose cones"""
+"""Provides support for importing Open Rocket files."""
 
-__title__ = "FreeCAD Nose Cones"
+__title__ = "FreeCAD Open Rocket Importer Common Component"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
-    
 
 import FreeCAD
-import FreeCADGui
 
-from App.FeatureNoseCone import FeatureNoseCone
-from Ui.ViewNoseCone import ViewProviderNoseCone
-from Ui.Commands.Command import Command
+from App.Importer.OpenRocket.SaxElement import Element
 
-from App.Constants import FEATURE_NOSE_CONE
+class AppearanceElement(Element):
 
-from DraftTools import translate
+    def __init__(self, parent, tag, attributes, parentObj, filename, line):
+        super().__init__(parent, tag, attributes, parentObj, filename, line)
 
-def makeNoseCone(name='NoseCone'):
-    '''makeNoseCone(name): makes a Nose Cone'''
-    obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
-    FeatureNoseCone(obj)
-    obj.Proxy.setDefaults()
-    if FreeCAD.GuiUp:
-        ViewProviderNoseCone(obj.ViewObject)
+        self._componentTags = ["paint", "shine", "decal", "center", "offset", "scale"]
 
-    return obj.Proxy
+    def handleTag(self, tag, attributes):
+        _tag = tag.lower().strip()
+        if _tag == "paint":
+            red = attributes["red"]
+            green = attributes["green"]
+            blue = attributes["blue"]
+            alpha = 255
+            if "alpha" in attributes:
+                alpha = attributes["alpha"]
+            self.onPaint(red, green, blue, alpha)
+        else:
+            super().handleTag(tag, attributes)
 
-class CmdNoseCone(Command):
-    def Activated(self):
-        FreeCAD.ActiveDocument.openTransaction("Create nose cone")
-        FreeCADGui.addModule("Ui.Commands.CmdNoseCone")
-        FreeCADGui.doCommand("obj=Ui.Commands.CmdNoseCone.makeNoseCone('NoseCone')")
-        FreeCADGui.doCommand("Ui.Commands.CmdStage.addToStage(obj)")
-        FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
+    def handleEndTag(self, tag, content):
+        _tag = tag.lower().strip()
+        if _tag == "shine":
+            self.onShine(content)
+        else:
+            super().handleEndTag(tag, content)
 
-    def IsActive(self):
-        if FreeCAD.ActiveDocument:
-            return self.partEligibleFeature(FEATURE_NOSE_CONE)
-        return False
+    def onPaint(self, red, green, blue, alpha):
+        if hasattr(self._parentObj, "setColor"):
+            self._parentObj.setColor(int(red), int(green), int(blue), int(alpha))
 
-    def GetResources(self):
-        return {'MenuText': translate("Rocket", 'Nose Cone'),
-                'ToolTip': translate("Rocket", 'Nose cone design'),
-                'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_NoseCone.svg"}
+    def onShine(self, content):
+        if hasattr(self._parentObj, "setShininess"):
+            self._parentObj.setShininess(float(content))
