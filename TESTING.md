@@ -4,7 +4,7 @@ Test branches will be released periodically to allow users to try out new featur
 
 ## Install
 
-You will need to have `git` installed. You can download `git` here [Git](https://git-scm.com/downloads)
+**_You will need to have `git` installed._** This installs the GitPython required by the Addon manager. You can download `git` here: [https://git-scm.com/downloads](https://git-scm.com/downloads)
 
 For non-developers, FreeCAD provides a mechanism for installing development versions using the Addon Manager. This option is not available by
 default so you will need to enable it. From the `Edit` menu select `Preferences...`. In the left hand column select `Addon Manager`.
