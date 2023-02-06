@@ -83,7 +83,8 @@ class FinCanShapeHandler(FinShapeHandler):
         return True
 
     def _leadingRound(self):
-        center_x = self._obj.RootChord + self._obj.LeadingEdgeOffset - self._obj.LeadingLength
+        # center_x = self._obj.RootChord + self._obj.LeadingEdgeOffset - self._obj.LeadingLength
+        center_x = self._obj.Length - self._obj.LeadingLength
         center_y = self._obj.Diameter / 2.0
         center = FreeCAD.Vector(center_x, center_y, 0)
         major  = self._obj.LeadingLength
@@ -103,7 +104,8 @@ class FinCanShapeHandler(FinShapeHandler):
         return shape
 
     def _leadingTaper(self):
-        center_x = self._obj.RootChord + self._obj.LeadingEdgeOffset - self._obj.LeadingLength
+        # center_x = self._obj.RootChord + self._obj.LugLeadingEdgeOffset - self._obj.LeadingLength
+        center_x = self._obj.Length - self._obj.LeadingLength
         center_y = self._obj.Diameter / 2.0
 
         # Create the box
@@ -126,7 +128,8 @@ class FinCanShapeHandler(FinShapeHandler):
         return None
 
     def _trailingRound(self):
-        center_x = self._obj.RootChord - self._obj.Length + self._obj.LeadingEdgeOffset + self._obj.TrailingLength
+        # center_x = self._obj.RootChord - self._obj.Length + self._obj.LeadingEdgeOffset + self._obj.TrailingLength
+        center_x = self._obj.TrailingLength
         center_y = self._obj.Diameter / 2.0
         center = FreeCAD.Vector(center_x, center_y, 0)
         major  = self._obj.TrailingLength
@@ -146,7 +149,8 @@ class FinCanShapeHandler(FinShapeHandler):
         return shape
 
     def _trailingTaper(self):
-        center_x = self._obj.RootChord - self._obj.Length + self._obj.LeadingEdgeOffset + self._obj.TrailingLength
+        # center_x = self._obj.RootChord - self._obj.Length + self._obj.LugLeadingEdgeOffset + self._obj.TrailingLength
+        center_x = self._obj.TrailingLength
         center_y = self._obj.Diameter / 2.0
 
         # Create the box
@@ -255,9 +259,13 @@ class FinCanShapeHandler(FinShapeHandler):
                 width = outerRadius + self._obj.LugFilletRadius
                 bodyRadius = self._obj.Diameter / 2.0 + self._obj.Thickness
 
-                base = float(self._obj.RootChord - self._obj.Length + self._obj.LeadingEdgeOffset)
-                if self._obj.TrailingEdge != FINCAN_EDGE_SQUARE:
-                    base += float(self._obj.TrailingLength)
+                # base = float(self._obj.RootChord - self._obj.Length + self._obj.LugLeadingEdgeOffset)
+                base = float(self._obj.Length - self._obj.LugLength - self._obj.LugLeadingEdgeOffset)
+                # if self._obj.TrailingEdge != FINCAN_EDGE_SQUARE: - already factored in by Length - LugLength
+                #     base += float(self._obj.TrailingLength)
+                if not self._obj.LugLeadingEdgeOffset > 0:
+                    if self._obj.LeadingEdge != FINCAN_EDGE_SQUARE:
+                        base -= float(self._obj.LeadingLength)
 
                 if self._obj.LugThickness > self._obj.Thickness:
                     lugCenterZ = radius + self._obj.LugThickness
@@ -312,7 +320,8 @@ class FinCanShapeHandler(FinShapeHandler):
         return None
 
     def _drawCan(self):
-        point = FreeCAD.Vector((self._obj.RootChord - self._obj.Length + self._obj.LeadingEdgeOffset),0,0)
+        # point = FreeCAD.Vector((self._obj.RootChord - self._obj.Length + self._obj.LugLeadingEdgeOffset),0,0)
+        point = FreeCAD.Vector(0,0,0)
         direction = FreeCAD.Vector(1,0,0)
         radius = self._obj.Diameter / 2.0
         outerRadius = radius + self._obj.Thickness
@@ -326,50 +335,50 @@ class FinCanShapeHandler(FinShapeHandler):
         outer = Part.makeCylinder(outerRadius, length, point, direction)
         can = outer.cut(inner)
 
-        if self._obj.Coupler:
-            # Cut the outside of the coupler
-            cutPoint = FreeCAD.Vector((self._obj.RootChord + self._obj.LeadingEdgeOffset),0,0)
-            cutOuter = Part.makeCylinder(float(outerRadius) + 1.0, float(self._obj.CouplerLength) + 1.0, cutPoint, direction)
-            cutInner = Part.makeCylinder((self._obj.CouplerOuterDiameter / 2.0), float(self._obj.CouplerLength) + 1.0, cutPoint, direction)
-            cutDisk = cutOuter.cut(cutInner)
-            can = can.cut(cutDisk)
+        # if self._obj.Coupler:
+        #     # Cut the outside of the coupler
+        #     cutPoint = FreeCAD.Vector((self._obj.RootChord + self._obj.LeadingEdgeOffset),0,0)
+        #     cutOuter = Part.makeCylinder(float(outerRadius) + 1.0, float(self._obj.CouplerLength) + 1.0, cutPoint, direction)
+        #     cutInner = Part.makeCylinder((self._obj.CouplerOuterDiameter / 2.0), float(self._obj.CouplerLength) + 1.0, cutPoint, direction)
+        #     cutDisk = cutOuter.cut(cutInner)
+        #     can = can.cut(cutDisk)
 
-            # Add a chamfer
-            length = float(length) + float(point.x)
-            chamfer = ((float(self._obj.CouplerOuterDiameter) - float(self._obj.CouplerInnerDiameter)) / 4.0)
-            point1 = FreeCAD.Vector(length, (float(self._obj.CouplerInnerDiameter) / 2.0) + chamfer, 0.0)
-            point2 = FreeCAD.Vector(length, (float(self._obj.CouplerOuterDiameter) / 2.0), 0.0)
-            point3 = FreeCAD.Vector(length - chamfer, float(self._obj.CouplerOuterDiameter) / 2.0, 0.0)
+        #     # Add a chamfer
+        #     length = float(length) + float(point.x)
+        #     chamfer = ((float(self._obj.CouplerOuterDiameter) - float(self._obj.CouplerInnerDiameter)) / 4.0)
+        #     point1 = FreeCAD.Vector(length, (float(self._obj.CouplerInnerDiameter) / 2.0) + chamfer, 0.0)
+        #     point2 = FreeCAD.Vector(length, (float(self._obj.CouplerOuterDiameter) / 2.0), 0.0)
+        #     point3 = FreeCAD.Vector(length - chamfer, float(self._obj.CouplerOuterDiameter) / 2.0, 0.0)
 
-            edge1 = Part.makeLine(point1, point2)
-            edge2 = Part.makeLine(point2, point3)
-            edge3 = Part.makeLine(point3, point1)
-            wire = Part.Wire([edge1, edge2, edge3])
-            face = Part.Face(wire)
+        #     edge1 = Part.makeLine(point1, point2)
+        #     edge2 = Part.makeLine(point2, point3)
+        #     edge3 = Part.makeLine(point3, point1)
+        #     wire = Part.Wire([edge1, edge2, edge3])
+        #     face = Part.Face(wire)
 
-            mask = face.revolve(FreeCAD.Vector(0, 0, 0),FreeCAD.Vector(1, 0, 0), 360)
-            can = can.cut(mask)
+        #     mask = face.revolve(FreeCAD.Vector(0, 0, 0),FreeCAD.Vector(1, 0, 0), 360)
+        #     can = can.cut(mask)
 
-            if self._obj.CouplerStyle == FINCAN_COUPLER_STEPPED:
-                # Cut inside up to the step
-                step = Part.makeCylinder(radius, self._obj.Length - self._obj.CouplerLength, point, direction)
-                can = can.cut(step)
+        #     if self._obj.CouplerStyle == FINCAN_COUPLER_STEPPED:
+        #         # Cut inside up to the step
+        #         step = Part.makeCylinder(radius, self._obj.Length - self._obj.CouplerLength, point, direction)
+        #         can = can.cut(step)
 
-                # Add a chamfer
-                length -= + 2.0 * float(self._obj.CouplerLength)
-                chamfer = ((float(self._obj.Diameter) - float(self._obj.CouplerInnerDiameter)) / 2.0)
-                point1 = FreeCAD.Vector(length, (float(self._obj.Diameter) / 2.0), 0.0)
-                point2 = FreeCAD.Vector(length, (float(self._obj.CouplerInnerDiameter) / 2.0), 0.0)
-                point3 = FreeCAD.Vector(length + chamfer, float(self._obj.CouplerInnerDiameter) / 2.0, 0.0)
+        #         # Add a chamfer
+        #         length -= + 2.0 * float(self._obj.CouplerLength)
+        #         chamfer = ((float(self._obj.Diameter) - float(self._obj.CouplerInnerDiameter)) / 2.0)
+        #         point1 = FreeCAD.Vector(length, (float(self._obj.Diameter) / 2.0), 0.0)
+        #         point2 = FreeCAD.Vector(length, (float(self._obj.CouplerInnerDiameter) / 2.0), 0.0)
+        #         point3 = FreeCAD.Vector(length + chamfer, float(self._obj.CouplerInnerDiameter) / 2.0, 0.0)
 
-                edge1 = Part.makeLine(point1, point2)
-                edge2 = Part.makeLine(point2, point3)
-                edge3 = Part.makeLine(point3, point1)
-                wire = Part.Wire([edge1, edge2, edge3])
-                face = Part.Face(wire)
+        #         edge1 = Part.makeLine(point1, point2)
+        #         edge2 = Part.makeLine(point2, point3)
+        #         edge3 = Part.makeLine(point3, point1)
+        #         wire = Part.Wire([edge1, edge2, edge3])
+        #         face = Part.Face(wire)
 
-                mask = face.revolve(FreeCAD.Vector(0, 0, 0),FreeCAD.Vector(1, 0, 0), 360)
-                can = can.cut(mask)
+        #         mask = face.revolve(FreeCAD.Vector(0, 0, 0),FreeCAD.Vector(1, 0, 0), 360)
+        #         can = can.cut(mask)
 
 
         return can

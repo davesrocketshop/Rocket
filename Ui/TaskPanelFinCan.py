@@ -538,6 +538,12 @@ class _FinCanDialog(QDialog):
         self.lugAutoLengthCheckbox = QtGui.QCheckBox(translate('Rocket', "auto"), self)
         self.lugAutoLengthCheckbox.setCheckState(QtCore.Qt.Checked)
 
+        self.lugLeadingOffsetLabel = QtGui.QLabel(translate('Rocket', "Leading Edge Offset"), self)
+
+        self.lugLeadingOffsetInput = ui.createWidget("Gui::InputField")
+        self.lugLeadingOffsetInput.unit = 'mm'
+        self.lugLeadingOffsetInput.setMinimumWidth(100)
+
         self.lugFilletRadiusLabel = QtGui.QLabel(translate('Rocket', "Fillet radius"), self)
 
         self.lugFilletRadiusInput = ui.createWidget("Gui::InputField")
@@ -603,6 +609,10 @@ class _FinCanDialog(QDialog):
         grid.addWidget(self.lugLengthLabel, row, 0)
         grid.addWidget(self.lugLengthInput, row, 1)
         grid.addWidget(self.lugAutoLengthCheckbox, row, 2)
+        row += 1
+
+        grid.addWidget(self.lugLeadingOffsetLabel, row, 0)
+        grid.addWidget(self.lugLeadingOffsetInput, row, 1)
         row += 1
 
         grid.addWidget(self.lugFilletRadiusLabel, row, 0)
@@ -703,6 +713,7 @@ class TaskPanelFinCan(QObject):
         self._finForm.lugThicknessInput.textEdited.connect(self.onLugThickness)
         self._finForm.lugAutoThicknessCheckbox.stateChanged.connect(self.onLugAutoThickness)
         self._finForm.lugLengthInput.textEdited.connect(self.onLugLength)
+        self._finForm.lugLeadingOffsetInput.textEdited.connect(self.onLugLeadingEdgeOffset)
         self._finForm.lugAutoLengthCheckbox.stateChanged.connect(self.onLugAutoLength)
         self._finForm.lugFilletRadiusInput.textEdited.connect(self.onLugFilletRadius)
 
@@ -773,6 +784,7 @@ class TaskPanelFinCan(QObject):
         self._obj.LugAutoThickness = self._finForm.lugAutoThicknessCheckbox.isChecked()
         self._obj.LugLength = self._finForm.lugLengthInput.text()
         self._obj.LugAutoLength = self._finForm.lugAutoLengthCheckbox.isChecked()
+        self._obj.LugLeadingEdgeOffset = self._finForm.lugLeadingOffsetInput.text()
         self._obj.LugFilletRadius = self._finForm.lugFilletRadiusInput.text()
 
         self._obj.LaunchLugForwardSweep = self._finForm.forwardSweepGroup.isChecked()
@@ -833,6 +845,7 @@ class TaskPanelFinCan(QObject):
         self._finForm.lugAutoThicknessCheckbox.setChecked(self._obj.LugAutoThickness)
         self._finForm.lugLengthInput.setText(self._obj.LugLength.UserString)
         self._finForm.lugAutoLengthCheckbox.setChecked(self._obj.LugAutoLength)
+        self._finForm.lugLeadingOffsetInput.setText(self._obj.LugLeadingEdgeOffset.UserString)
         self._finForm.lugFilletRadiusInput.setText(self._obj.LugFilletRadius.UserString)
 
         self._finForm.forwardSweepGroup.setChecked(self._obj.LaunchLugForwardSweep)
@@ -1485,10 +1498,15 @@ class TaskPanelFinCan(QObject):
 
         if self._obj.LugAutoLength:
             length = float(self._obj.Length)
-            if self._obj.LeadingEdge != FINCAN_EDGE_SQUARE:
+
+            if self._obj.LugLeadingEdgeOffset > 0:
+                length -= float(self._obj.LugLeadingEdgeOffset)
+            elif self._obj.LeadingEdge != FINCAN_EDGE_SQUARE:
                 length -= float(self._obj.LeadingLength)
+
             if self._obj.TrailingEdge != FINCAN_EDGE_SQUARE:
                 length -= float(self._obj.TrailingLength)
+                
             self._obj.LugLength = length
             self._finForm.lugLengthInput.setText(self._obj.LugLength.UserString)
 
@@ -1497,6 +1515,15 @@ class TaskPanelFinCan(QObject):
         self._setLugAutoLengthState()
 
         self.redraw()
+        self.setEdited()
+        
+    def onLugLeadingEdgeOffset(self, value):
+        try:
+            self._obj.LugLeadingEdgeOffset = FreeCAD.Units.Quantity(value).Value
+            self._setLugAutoLengthState()
+            self.redraw()
+        except ValueError:
+            pass
         self.setEdited()
         
     def onLugFilletRadius(self, value):

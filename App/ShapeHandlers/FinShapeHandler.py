@@ -332,9 +332,12 @@ class FinShapeHandler:
     def _drawFinSet(self):
         fins = []
         base = self._drawSingleFin()
+        baseX = 0
+        if hasattr(self._obj, "LeadingEdgeOffset"):
+            baseX = -self._obj.LeadingEdgeOffset
         for i in range(self._obj.FinCount):
             fin = Part.Shape(base) # Create a copy
-            fin.translate(FreeCAD.Vector(0,0,float(self._obj.ParentRadius)))
+            fin.translate(FreeCAD.Vector(baseX,0,float(self._obj.ParentRadius)))
             fin.rotate(FreeCAD.Vector(0, 0, 0), FreeCAD.Vector(1,0,0), i * float(self._obj.FinSpacing))
             fins.append(fin)
 

@@ -93,6 +93,8 @@ class FeatureFinCan(FeatureFin):
             obj.addProperty('App::PropertyLength', 'LugLength', 'Fin', translate('App::Property', 'Length of the launch lug')).LugLength = 60.0
         if not hasattr(obj,"LugAutoLength"):
             obj.addProperty('App::PropertyBool', 'LugAutoLength', 'Fin', translate('App::Property', 'Automatically adjust the length of the launch lug')).LugAutoLength = True
+        if not hasattr(obj,"LugLeadingEdgeOffset"):
+            obj.addProperty('App::PropertyDistance', 'LugLeadingEdgeOffset', 'Fin', translate('App::Property', 'Distance between the fin can leading edge and the launch lug leading edge')).LugLeadingEdgeOffset = 0.0
         if not hasattr(obj,"LugFilletRadius"):
             obj.addProperty('App::PropertyLength', 'LugFilletRadius', 'Fin', translate('App::Property', 'Launch lug fillet radius')).LugFilletRadius = 3.0
 

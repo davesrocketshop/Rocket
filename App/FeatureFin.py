@@ -194,7 +194,7 @@ class FeatureFin(ExternalComponent):
     def setParentDiameter(self):
         if self._obj.AutoDiameter:
             parent = self.getParent()
-            if parent is not None:
+            if parent is not None and hasattr(parent, "getOuterDiameter"):
                 self._obj.ParentRadius = parent.getOuterDiameter() / 2.0
             else:
                 self._obj.ParentRadius = SymmetricComponent.DEFAULT_RADIUS
