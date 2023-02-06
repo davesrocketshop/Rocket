@@ -141,9 +141,9 @@ class FeatureFin(ExternalComponent):
         # Hidden properties used for calculation
         if not hasattr(obj,"ParentRadius"):
             obj.addProperty('App::PropertyLength', 'ParentRadius', 'Fin', 'Parent radius', PROP_TRANSIENT | PROP_HIDDEN).ParentRadius = 20.0 # No translation required for a hidden parameter
-        if not hasattr(obj,"AutoInnerDiameter"):
-            obj.addProperty('App::PropertyBool', 'AutoInnerDiameter', 'Fin', translate('App::Property', 'Automatically set inner diameter')).AutoInnerDiameter = True
-        obj.setEditorMode('AutoInnerDiameter', PROP_HIDDEN)  # hide
+        if not hasattr(obj,"AutoDiameter"):
+            obj.addProperty('App::PropertyBool', 'AutoDiameter', 'Fin', translate('App::Property', 'Automatically set diameter')).AutoDiameter = True
+        obj.setEditorMode('AutoDiameter', PROP_HIDDEN)  # hide
 
         if not hasattr(obj, "Profile"):
             obj.addProperty('App::PropertyLink', 'Profile', 'Fin', translate('App::Property', 'Custom fin sketch')).Profile = None
@@ -192,7 +192,7 @@ class FeatureFin(ExternalComponent):
         self.setParentDiameter()
 
     def setParentDiameter(self):
-        if self._obj.AutoInnerDiameter:
+        if self._obj.AutoDiameter:
             parent = self.getParent()
             if parent is not None:
                 self._obj.ParentRadius = parent.getOuterDiameter() / 2.0

@@ -27,7 +27,7 @@ __url__ = "https://www.davesrocketshop.com"
 import FreeCAD
 
 from App.FeatureFin import FeatureFin
-from App.Constants import FEATURE_FINCAN, FEATURE_LAUNCH_LUG, FEATURE_RAIL_BUTTON, FEATURE_RAIL_GUIDE, FEATURE_POD
+from App.Constants import FEATURE_FINCAN, FEATURE_LAUNCH_LUG, FEATURE_RAIL_BUTTON, FEATURE_RAIL_GUIDE, FEATURE_POD, FEATURE_STAGE
 from App.Constants import FIN_TYPE_TRAPEZOID, FIN_TYPE_ELLIPSE, FIN_TYPE_SKETCH
 from App.Constants import FINCAN_STYLE_SLEEVE, FINCAN_STYLE_BODYTUBE
 from App.Constants import FINCAN_EDGE_SQUARE, FINCAN_EDGE_ROUND, FINCAN_EDGE_TAPER
@@ -35,6 +35,8 @@ from App.Constants import FINCAN_PRESET_CUSTOM, FINCAN_PRESET_1_8, FINCAN_PRESET
 from App.Constants import FINCAN_COUPLER_MATCH_ID, FINCAN_COUPLER_STEPPED
 from App.Constants import PROP_NONE
 from App.Constants import EDITOR_NONE, EDITOR_HIDDEN
+
+from App.position.AxialMethod import BOTTOM, AFTER
 
 from App.ShapeHandlers.FinCanShapeHandler import FinCanTrapezoidShapeHandler
 from App.ShapeHandlers.FinCanShapeHandler import FinCanEllipseShapeHandler
@@ -58,8 +60,8 @@ class FeatureFinCan(FeatureFin):
             obj.FinCanStyle = [FINCAN_STYLE_SLEEVE, FINCAN_STYLE_BODYTUBE]
             obj.FinCanStyle = FINCAN_STYLE_SLEEVE
 
-        if not hasattr(obj,"InnerDiameter"):
-            obj.addProperty('App::PropertyLength', 'InnerDiameter', 'Fin', translate('App::Property', 'Diameter of the inside of the fin can')).InnerDiameter = 24.8
+        if not hasattr(obj,"Diameter"):
+            obj.addProperty('App::PropertyLength', 'Diameter', 'Fin', translate('App::Property', 'Diameter of the inside or outside of the fin candepending on the style')).Diameter = 24.8
         if not hasattr(obj,"Thickness"):
             obj.addProperty('App::PropertyLength', 'Thickness', 'Fin', translate('App::Property', 'Thickness of the fin can')).Thickness = 1.5
         if not hasattr(obj,"LeadingEdgeOffset"):
@@ -126,14 +128,44 @@ class FeatureFinCan(FeatureFin):
             obj.addProperty('App::PropertyLength', 'CouplerLength', 'Fin', translate('App::Property', 'Length of the coupler')).CouplerLength = 19.05
 
         # This is hidden for fins, but needs to be visible for fin cans
-        obj.setEditorMode('AutoInnerDiameter', PROP_NONE)  # unhide
+        obj.setEditorMode('AutoDiameter', PROP_NONE)  # unhide
         self._setFinCanEditorVisibility()
 
     def setDefaults(self):
         super().setDefaults()
 
-        self._obj.ParentRadius = (self._obj.InnerDiameter / 2.0)
+        self._obj.ParentRadius = (self._obj.Diameter / 2.0)
         self._obj.Length = 60.0
+
+    def update(self):
+        parent = self.getParent()
+        if parent is not None and parent.Type in [FEATURE_STAGE]:
+            self.setFinCanStyle(FINCAN_STYLE_BODYTUBE)
+        else:
+            self.setFinCanStyle(FINCAN_STYLE_SLEEVE)
+
+        super().update()
+
+    def isAfter(self):
+        return (self._obj.FinCanStyle == FINCAN_STYLE_BODYTUBE)
+
+    def setFinCanStyle(self, style):
+        if self._obj.FinCanStyle == style:
+            return
+
+        self._obj.FinCanStyle = style
+        self.setFinCanPositioningMethod()
+
+    def setFinCanPositioningMethod(self):
+        if self._obj.FinCanStyle == FINCAN_STYLE_SLEEVE:
+            method = BOTTOM
+        elif self._obj.FinCanStyle == FINCAN_STYLE_BODYTUBE:
+            method = AFTER
+        else:
+            raise Exception(translate('Rocket', "Unknown fin can style"))
+
+        if self._obj.AxialMethod != method:
+            self._obj.AxialMethod = method
 
     def _setFinCanEditorVisibility(self):
         self._obj.setEditorMode('Ttw', EDITOR_HIDDEN)  # hide
@@ -154,10 +186,23 @@ class FeatureFinCan(FeatureFin):
 
         self._setFinCanEditorVisibility()
         
-    def setParentRadius(self, parentRadius):
-        if self._obj.AutoInnerDiameter and self._obj.ParentRadius != parentRadius:
-            self._obj.ParentRadius = parentRadius
-            self._obj.InnerDiameter = 2.0 * parentRadius
+    def setParentRadius(self, parentRadius=None):
+        if parentRadius is None:
+            self.setParentDiameter(parentRadius)
+        else:
+            self.setParentDiameter(parentRadius * 2.0)
+        
+    def setParentDiameter(self, parentDiameter=None):
+        if parentDiameter is None:
+            super().setParentDiameter()
+            self._obj.Diameter = self._obj.ParentRadius * 2.0
+        else:
+            if self._obj.AutoDiameter and self._obj.ParentRadius != (parentDiameter / 2.0):
+                self._obj.ParentRadius = (parentDiameter / 2.0)
+                self._obj.Diameter = parentDiameter
+
+        if self._obj.FinCanStyle == FINCAN_STYLE_BODYTUBE:
+            self._obj.Diameter = self._obj.Diameter - (2.0 * self._obj.Thickness)
 
     def execute(self, obj):
         if obj.FinType == FIN_TYPE_TRAPEZOID:

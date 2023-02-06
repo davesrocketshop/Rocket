@@ -30,7 +30,7 @@ from DraftTools import translate
 
 from App.ComponentAssembly import ComponentAssembly
 
-from App.Constants import FEATURE_STAGE, FEATURE_NOSE_CONE, FEATURE_BODY_TUBE, FEATURE_TRANSITION
+from App.Constants import FEATURE_STAGE, FEATURE_NOSE_CONE, FEATURE_BODY_TUBE, FEATURE_TRANSITION, FEATURE_FINCAN
 
 class FeatureStage(ComponentAssembly):
 
@@ -64,7 +64,7 @@ class FeatureStage(ComponentAssembly):
             return
 
     def eligibleChild(self, childType):
-        return childType in [FEATURE_NOSE_CONE, FEATURE_BODY_TUBE, FEATURE_TRANSITION]
+        return childType in [FEATURE_NOSE_CONE, FEATURE_BODY_TUBE, FEATURE_TRANSITION, FEATURE_FINCAN]
 
     def getLength(self):
         # Return the length of this component along the central axis

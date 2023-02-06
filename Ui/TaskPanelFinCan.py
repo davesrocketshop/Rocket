@@ -329,11 +329,11 @@ class _FinCanDialog(QDialog):
         self.canStylesCombo = QtGui.QComboBox(self)
         self.canStylesCombo.addItems(self.canStyles)
 
-        self.canInnerDiameterLabel = QtGui.QLabel(translate('Rocket', "Inner Diameter"), self)
+        self.canDiameterLabel = QtGui.QLabel(translate('Rocket', "Inner Diameter"), self)
 
-        self.canInnerDiameterInput = ui.createWidget("Gui::InputField")
-        self.canInnerDiameterInput.unit = 'mm'
-        self.canInnerDiameterInput.setMinimumWidth(100)
+        self.canDiameterInput = ui.createWidget("Gui::InputField")
+        self.canDiameterInput.unit = 'mm'
+        self.canDiameterInput.setMinimumWidth(100)
 
         self.canAutoDiameterCheckbox = QtGui.QCheckBox(translate('Rocket', "auto"), self)
         self.canAutoDiameterCheckbox.setCheckState(QtCore.Qt.Checked)
@@ -417,8 +417,8 @@ class _FinCanDialog(QDialog):
         grid.addWidget(self.canStylesCombo, row, 1)
         row += 1
 
-        grid.addWidget(self.canInnerDiameterLabel, row, 0)
-        grid.addWidget(self.canInnerDiameterInput, row, 1)
+        grid.addWidget(self.canDiameterLabel, row, 0)
+        grid.addWidget(self.canDiameterInput, row, 1)
         grid.addWidget(self.canAutoDiameterCheckbox, row, 2)
         row += 1
 
@@ -680,7 +680,7 @@ class TaskPanelFinCan(QObject):
         self._finForm.sweepAngleInput.textEdited.connect(self.onSweepAngle)
 
         self._finForm.canStylesCombo.currentTextChanged.connect(self.onCanStyle)
-        self._finForm.canInnerDiameterInput.textEdited.connect(self.onCanInnerDiameter)
+        self._finForm.canDiameterInput.textEdited.connect(self.onCanDiameter)
         self._finForm.canAutoDiameterCheckbox.stateChanged.connect(self.onCanAutoDiameter)
         self._finForm.canThicknessInput.textEdited.connect(self.onCanThickness)
         self._finForm.canLengthInput.textEdited.connect(self.onCanLength)
@@ -749,8 +749,8 @@ class TaskPanelFinCan(QObject):
         self._obj.SweepAngle = self._finForm.sweepAngleInput.text()
 
         self._obj.FinCanStyle = str(self._finForm.canStylesCombo.currentText())
-        self._obj.InnerDiameter = self._finForm.canInnerDiameterInput.text()
-        self._obj.AutoInnerDiameter = self._finForm.canAutoDiameterCheckbox.isChecked()
+        self._obj.Diameter = self._finForm.canDiameterInput.text()
+        self._obj.AutoDiameter = self._finForm.canAutoDiameterCheckbox.isChecked()
         self._obj.Thickness = self._finForm.canThicknessInput.text()
         self._obj.Length = self._finForm.canLengthInput.text()
         self._obj.LeadingEdgeOffset = self._finForm.canLeadingOffsetInput.text()
@@ -809,8 +809,8 @@ class TaskPanelFinCan(QObject):
         self._finForm.sweepAngleInput.setText(self._obj.SweepAngle.UserString)
 
         self._finForm.canStylesCombo.setCurrentText(self._obj.FinCanStyle)
-        self._finForm.canInnerDiameterInput.setText(self._obj.InnerDiameter.UserString)
-        self._finForm.canAutoDiameterCheckbox.setChecked(self._obj.AutoInnerDiameter)
+        self._finForm.canDiameterInput.setText(self._obj.Diameter.UserString)
+        self._finForm.canAutoDiameterCheckbox.setChecked(self._obj.AutoDiameter)
         self._finForm.canThicknessInput.setText(self._obj.Thickness.UserString)
         self._finForm.canLengthInput.setText(self._obj.Length.UserString)
         self._finForm.canLeadingOffsetInput.setText(self._obj.LeadingEdgeOffset.UserString)
@@ -1263,10 +1263,10 @@ class TaskPanelFinCan(QObject):
        
     def _setCanStyle(self):
         if self._obj.FinCanStyle == FINCAN_STYLE_SLEEVE:
-            self._finForm.canInnerDiameterLabel.setText(translate('Rocket', "Inner Diameter"))
+            self._finForm.canDiameterLabel.setText(translate('Rocket', "Inner Diameter"))
             self._finForm.canLeadingGroup.setHidden(False)
         else:
-            self._finForm.canInnerDiameterLabel.setText(translate('Rocket', "Outer Diameter"))
+            self._finForm.canDiameterLabel.setText(translate('Rocket', "Outer Diameter"))
             self._finForm.canLeadingGroup.setHidden(True)
 
     def onCanStyle(self, value):
@@ -1276,25 +1276,31 @@ class TaskPanelFinCan(QObject):
         self.redraw()
         self.setEdited()
     
-    def onCanInnerDiameter(self, value):
+    def onCanDiameter(self, value):
         try:
-            self._obj.InnerDiameter = FreeCAD.Units.Quantity(value).Value
-            self._obj.ParentRadius = (self._obj.InnerDiameter / 2.0) # + self._obj.Thickness
+            self._obj.Diameter = FreeCAD.Units.Quantity(value).Value
+            self._obj.ParentRadius = (self._obj.Diameter / 2.0) # + self._obj.Thickness
             self.redraw()
         except ValueError:
             pass
         self.setEdited()
      
     def _setCanAutoDiameterState(self):
-        self._finForm.canInnerDiameterInput.setEnabled(not self._obj.AutoInnerDiameter)
-        self._finForm.canAutoDiameterCheckbox.setChecked(self._obj.AutoInnerDiameter)
+        if self._isAssembly:
+            self._finForm.canDiameterInput.setEnabled(not self._obj.AutoDiameter)
+            self._finForm.canAutoDiameterCheckbox.setChecked(self._obj.AutoDiameter)
+        else:
+            self._obj.AutoDiameter = False
+            self._finForm.canAutoDiameterCheckbox.setEnabled(False)
+            self._finForm.canDiameterInput.setEnabled(not self._obj.AutoDiameter)
+            self._finForm.canAutoDiameterCheckbox.setChecked(self._obj.AutoDiameter)
 
-        if self._obj.AutoInnerDiameter:
-            self._obj.InnerDiameter = (self._obj.ParentRadius * 2.0)
-            self._finForm.canInnerDiameterInput.setText(self._obj.InnerDiameter.UserString)
+        if self._obj.AutoDiameter:
+            self._obj.Diameter = (self._obj.ParentRadius * 2.0)
+            self._finForm.canDiameterInput.setText(self._obj.Diameter.UserString)
 
     def onCanAutoDiameter(self, value):
-        self._obj.AutoInnerDiameter = value
+        self._obj.AutoDiameter = value
         self._setCanAutoDiameterState()
 
         self.redraw()
@@ -1303,7 +1309,7 @@ class TaskPanelFinCan(QObject):
     def onCanThickness(self, value):
         try:
             self._obj.Thickness = FreeCAD.Units.Quantity(value).Value
-            self._obj.ParentRadius = (self._obj.InnerDiameter / 2.0) # + self._obj.Thickness
+            self._obj.ParentRadius = (self._obj.Diameter / 2.0) # + self._obj.Thickness
             self._setLugAutoThicknessState()
             self.redraw()
         except ValueError:
