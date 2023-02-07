@@ -335,50 +335,51 @@ class FinCanShapeHandler(FinShapeHandler):
         outer = Part.makeCylinder(outerRadius, length, point, direction)
         can = outer.cut(inner)
 
-        # if self._obj.Coupler:
-        #     # Cut the outside of the coupler
-        #     cutPoint = FreeCAD.Vector((self._obj.RootChord + self._obj.LeadingEdgeOffset),0,0)
-        #     cutOuter = Part.makeCylinder(float(outerRadius) + 1.0, float(self._obj.CouplerLength) + 1.0, cutPoint, direction)
-        #     cutInner = Part.makeCylinder((self._obj.CouplerOuterDiameter / 2.0), float(self._obj.CouplerLength) + 1.0, cutPoint, direction)
-        #     cutDisk = cutOuter.cut(cutInner)
-        #     can = can.cut(cutDisk)
+        if self._obj.Coupler:
+            # Cut the outside of the coupler
+            # cutPoint = FreeCAD.Vector((self._obj.RootChord + self._obj.LeadingEdgeOffset),0,0)
+            cutPoint = FreeCAD.Vector(self._obj.Length,0,0)
+            cutOuter = Part.makeCylinder(float(outerRadius) + 1.0, float(self._obj.CouplerLength) + 1.0, cutPoint, direction)
+            cutInner = Part.makeCylinder((self._obj.CouplerOuterDiameter / 2.0), float(self._obj.CouplerLength) + 1.0, cutPoint, direction)
+            cutDisk = cutOuter.cut(cutInner)
+            can = can.cut(cutDisk)
 
-        #     # Add a chamfer
-        #     length = float(length) + float(point.x)
-        #     chamfer = ((float(self._obj.CouplerOuterDiameter) - float(self._obj.CouplerInnerDiameter)) / 4.0)
-        #     point1 = FreeCAD.Vector(length, (float(self._obj.CouplerInnerDiameter) / 2.0) + chamfer, 0.0)
-        #     point2 = FreeCAD.Vector(length, (float(self._obj.CouplerOuterDiameter) / 2.0), 0.0)
-        #     point3 = FreeCAD.Vector(length - chamfer, float(self._obj.CouplerOuterDiameter) / 2.0, 0.0)
+            # Add a chamfer
+            length = float(length) + float(point.x)
+            chamfer = ((float(self._obj.CouplerOuterDiameter) - float(self._obj.CouplerInnerDiameter)) / 4.0)
+            point1 = FreeCAD.Vector(length, (float(self._obj.CouplerInnerDiameter) / 2.0) + chamfer, 0.0)
+            point2 = FreeCAD.Vector(length, (float(self._obj.CouplerOuterDiameter) / 2.0), 0.0)
+            point3 = FreeCAD.Vector(length - chamfer, float(self._obj.CouplerOuterDiameter) / 2.0, 0.0)
 
-        #     edge1 = Part.makeLine(point1, point2)
-        #     edge2 = Part.makeLine(point2, point3)
-        #     edge3 = Part.makeLine(point3, point1)
-        #     wire = Part.Wire([edge1, edge2, edge3])
-        #     face = Part.Face(wire)
+            edge1 = Part.makeLine(point1, point2)
+            edge2 = Part.makeLine(point2, point3)
+            edge3 = Part.makeLine(point3, point1)
+            wire = Part.Wire([edge1, edge2, edge3])
+            face = Part.Face(wire)
 
-        #     mask = face.revolve(FreeCAD.Vector(0, 0, 0),FreeCAD.Vector(1, 0, 0), 360)
-        #     can = can.cut(mask)
+            mask = face.revolve(FreeCAD.Vector(0, 0, 0),FreeCAD.Vector(1, 0, 0), 360)
+            can = can.cut(mask)
 
-        #     if self._obj.CouplerStyle == FINCAN_COUPLER_STEPPED:
-        #         # Cut inside up to the step
-        #         step = Part.makeCylinder(radius, self._obj.Length - self._obj.CouplerLength, point, direction)
-        #         can = can.cut(step)
+            if self._obj.CouplerStyle == FINCAN_COUPLER_STEPPED:
+                # Cut inside up to the step
+                step = Part.makeCylinder(radius, self._obj.Length - self._obj.CouplerLength, point, direction)
+                can = can.cut(step)
 
-        #         # Add a chamfer
-        #         length -= + 2.0 * float(self._obj.CouplerLength)
-        #         chamfer = ((float(self._obj.Diameter) - float(self._obj.CouplerInnerDiameter)) / 2.0)
-        #         point1 = FreeCAD.Vector(length, (float(self._obj.Diameter) / 2.0), 0.0)
-        #         point2 = FreeCAD.Vector(length, (float(self._obj.CouplerInnerDiameter) / 2.0), 0.0)
-        #         point3 = FreeCAD.Vector(length + chamfer, float(self._obj.CouplerInnerDiameter) / 2.0, 0.0)
+                # Add a chamfer
+                length -= + 2.0 * float(self._obj.CouplerLength)
+                chamfer = ((float(self._obj.Diameter) - float(self._obj.CouplerInnerDiameter)) / 2.0)
+                point1 = FreeCAD.Vector(length, (float(self._obj.Diameter) / 2.0), 0.0)
+                point2 = FreeCAD.Vector(length, (float(self._obj.CouplerInnerDiameter) / 2.0), 0.0)
+                point3 = FreeCAD.Vector(length + chamfer, float(self._obj.CouplerInnerDiameter) / 2.0, 0.0)
 
-        #         edge1 = Part.makeLine(point1, point2)
-        #         edge2 = Part.makeLine(point2, point3)
-        #         edge3 = Part.makeLine(point3, point1)
-        #         wire = Part.Wire([edge1, edge2, edge3])
-        #         face = Part.Face(wire)
+                edge1 = Part.makeLine(point1, point2)
+                edge2 = Part.makeLine(point2, point3)
+                edge3 = Part.makeLine(point3, point1)
+                wire = Part.Wire([edge1, edge2, edge3])
+                face = Part.Face(wire)
 
-        #         mask = face.revolve(FreeCAD.Vector(0, 0, 0),FreeCAD.Vector(1, 0, 0), 360)
-        #         can = can.cut(mask)
+                mask = face.revolve(FreeCAD.Vector(0, 0, 0),FreeCAD.Vector(1, 0, 0), 360)
+                can = can.cut(mask)
 
 
         return can
