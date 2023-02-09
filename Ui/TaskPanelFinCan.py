@@ -455,17 +455,20 @@ class _FinCanDialog(QDialog):
         self.couplerStylesCombo.addItem(translate('Rocket', "Flush with fin can"), FINCAN_COUPLER_MATCH_ID)
         self.couplerStylesCombo.addItem(translate('Rocket', "Stepped"), FINCAN_COUPLER_STEPPED)
 
-        self.couplerInnerDiameterLabel = QtGui.QLabel(translate('Rocket', "Inner Diameter"), self)
+        self.couplerDiameterLabel = QtGui.QLabel(translate('Rocket', "Outer Diameter"), self)
 
-        self.couplerInnerDiameterInput = ui.createWidget("Gui::InputField")
-        self.couplerInnerDiameterInput.unit = 'mm'
-        self.couplerInnerDiameterInput.setMinimumWidth(100)
+        self.couplerDiameterInput = ui.createWidget("Gui::InputField")
+        self.couplerDiameterInput.unit = 'mm'
+        self.couplerDiameterInput.setMinimumWidth(100)
 
-        self.couplerOuterDiameterLabel = QtGui.QLabel(translate('Rocket', "Outer Diameter"), self)
+        self.couplerAutoDiameterCheckbox = QtGui.QCheckBox(translate('Rocket', "auto"), self)
+        self.couplerAutoDiameterCheckbox.setCheckState(QtCore.Qt.Checked)
 
-        self.couplerOuterDiameterInput = ui.createWidget("Gui::InputField")
-        self.couplerOuterDiameterInput.unit = 'mm'
-        self.couplerOuterDiameterInput.setMinimumWidth(100)
+        self.couplerThicknessLabel = QtGui.QLabel(translate('Rocket', "Thickness"), self)
+
+        self.couplerThicknessInput = ui.createWidget("Gui::InputField")
+        self.couplerThicknessInput.unit = 'mm'
+        self.couplerThicknessInput.setMinimumWidth(100)
 
         self.couplerLengthLabel = QtGui.QLabel(translate('Rocket', "Length"), self)
 
@@ -481,12 +484,13 @@ class _FinCanDialog(QDialog):
         grid.addWidget(self.couplerStylesCombo, row, 1)
         row += 1
 
-        grid.addWidget(self.couplerInnerDiameterLabel, row, 0)
-        grid.addWidget(self.couplerInnerDiameterInput, row, 1)
+        grid.addWidget(self.couplerDiameterLabel, row, 0)
+        grid.addWidget(self.couplerDiameterInput, row, 1)
+        grid.addWidget(self.couplerAutoDiameterCheckbox, row, 2)
         row += 1
 
-        grid.addWidget(self.couplerOuterDiameterLabel, row, 0)
-        grid.addWidget(self.couplerOuterDiameterInput, row, 1)
+        grid.addWidget(self.couplerThicknessLabel, row, 0)
+        grid.addWidget(self.couplerThicknessInput, row, 1)
         row += 1
 
         grid.addWidget(self.couplerLengthLabel, row, 0)
@@ -703,8 +707,9 @@ class TaskPanelFinCan(QObject):
 
         self._finForm.couplerGroup.toggled.connect(self.onCoupler)
         self._finForm.couplerStylesCombo.currentIndexChanged.connect(self.onCouplerStyle)
-        self._finForm.couplerInnerDiameterInput.textEdited.connect(self.onCouplerInnerDiameter)
-        self._finForm.couplerOuterDiameterInput.textEdited.connect(self.onCouplerOuterDiameter)
+        self._finForm.couplerThicknessInput.textEdited.connect(self.onCouplerThickness)
+        self._finForm.couplerDiameterInput.textEdited.connect(self.onCouplerDiameter)
+        self._finForm.couplerAutoDiameterCheckbox.stateChanged.connect(self.onCouplerAutoDiameter)
         self._finForm.couplerLengthInput.textEdited.connect(self.onCouplerLength)
 
         self._finForm.lugGroup.toggled.connect(self.onLug)
@@ -773,8 +778,9 @@ class TaskPanelFinCan(QObject):
 
         self._obj.Coupler = self._finForm.couplerGroup.isChecked()
         self._obj.CouplerStyle = str(self._finForm.couplerStylesCombo.currentData())
-        self._obj.CouplerInnerDiameter = self._finForm.couplerInnerDiameterInput.text()
-        self._obj.CouplerOuterDiameter = self._finForm.couplerOuterDiameterInput.text()
+        self._obj.CouplerThickness = self._finForm.couplerThicknessInput.text()
+        self._obj.CouplerDiameter = self._finForm.couplerDiameterInput.text()
+        self._obj.CouplerAutoDiameter = self._finForm.couplerAutoDiameterCheckbox.isChecked()
         self._obj.CouplerLength = self._finForm.couplerLengthInput.text()
 
         self._obj.LaunchLug = self._finForm.lugGroup.isChecked()
@@ -834,8 +840,9 @@ class TaskPanelFinCan(QObject):
 
         self._finForm.couplerGroup.setChecked(self._obj.Coupler)
         self._finForm.couplerStylesCombo.setCurrentIndex(self._finForm.couplerStylesCombo.findData(self._obj.CouplerStyle))
-        self._finForm.couplerInnerDiameterInput.setText(self._obj.CouplerInnerDiameter.UserString)
-        self._finForm.couplerOuterDiameterInput.setText(self._obj.CouplerOuterDiameter.UserString)
+        self._finForm.couplerThicknessInput.setText(self._obj.CouplerThickness.UserString)
+        self._finForm.couplerDiameterInput.setText(self._obj.CouplerDiameter.UserString)
+        self._finForm.couplerAutoDiameterCheckbox.setChecked(self._obj.CouplerAutoDiameter)
         self._finForm.couplerLengthInput.setText(self._obj.CouplerLength.UserString)
 
         self._finForm.lugGroup.setChecked(self._obj.LaunchLug)
@@ -865,6 +872,7 @@ class TaskPanelFinCan(QObject):
         self._enableTrailingEdge()
         self._setCanStyle()
         self._setCanAutoDiameterState()
+        self._setCouplerAutoDiameterState()
         self._setLugAutoThicknessState()
         self._setLugAutoLengthState()
 
@@ -1278,9 +1286,18 @@ class TaskPanelFinCan(QObject):
         if self._obj.FinCanStyle == FINCAN_STYLE_SLEEVE:
             self._finForm.canDiameterLabel.setText(translate('Rocket', "Inner Diameter"))
             self._finForm.canLeadingGroup.setHidden(False)
+            self._finForm.couplerGroup.setEnabled(False)
+            self._obj.Coupler = False
         else:
             self._finForm.canDiameterLabel.setText(translate('Rocket', "Outer Diameter"))
             self._finForm.canLeadingGroup.setHidden(True)
+            self._finForm.couplerGroup.setEnabled(True)
+        self._finForm.couplerGroup.setChecked(self._obj.Coupler)
+
+        if self._isAssembly:
+            self._finForm.canStylesCombo.setEnabled(False)
+        else:
+            self._finForm.canStylesCombo.setEnabled(True)
 
     def onCanStyle(self, value):
         self._obj.FinCanStyle = value
@@ -1408,16 +1425,38 @@ class TaskPanelFinCan(QObject):
 
         self.redraw()
         
-    def onCouplerInnerDiameter(self, value):
+    def onCouplerThickness(self, value):
         try:
-            self._obj.CouplerInnerDiameter = FreeCAD.Units.Quantity(value).Value
+            self._obj.CouplerThickness = FreeCAD.Units.Quantity(value).Value
             self.redraw()
         except ValueError:
             pass
+     
+    def _setCouplerAutoDiameterState(self):
+        if self._isAssembly:
+            self._finForm.couplerDiameterInput.setEnabled(not self._obj.CouplerAutoDiameter)
+            self._finForm.couplerAutoDiameterCheckbox.setChecked(self._obj.CouplerAutoDiameter)
+        else:
+            self._obj.CouplerAutoDiameter = False
+            self._finForm.couplerAutoDiameterCheckbox.setEnabled(False)
+            self._finForm.couplerDiameterInput.setEnabled(not self._obj.CouplerAutoDiameter)
+            self._finForm.couplerAutoDiameterCheckbox.setChecked(self._obj.CouplerAutoDiameter)
+
+        if self._obj.CouplerAutoDiameter:
+            pass
+            # self._obj.Diameter = (self._obj.ParentRadius * 2.0)
+            # self._finForm.canDiameterInput.setText(self._obj.Diameter.UserString)
+
+    def onCouplerAutoDiameter(self, value):
+        self._obj.CouplerAutoDiameter = value
+        self._setCouplerAutoDiameterState()
+
+        self.redraw()
+        self.setEdited()
         
-    def onCouplerOuterDiameter(self, value):
+    def onCouplerDiameter(self, value):
         try:
-            self._obj.CouplerOuterDiameter = FreeCAD.Units.Quantity(value).Value
+            self._obj.CouplerDiameter = FreeCAD.Units.Quantity(value).Value
             self.redraw()
         except ValueError:
             pass

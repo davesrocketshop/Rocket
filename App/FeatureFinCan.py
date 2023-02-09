@@ -122,10 +122,12 @@ class FeatureFinCan(FeatureFin):
             obj.CouplerStyle = [FINCAN_COUPLER_MATCH_ID,
                                 FINCAN_COUPLER_STEPPED]
             obj.CouplerStyle = FINCAN_COUPLER_MATCH_ID
-        if not hasattr(obj,"CouplerInnerDiameter"):
-            obj.addProperty('App::PropertyLength', 'CouplerInnerDiameter', 'Fin', translate('App::Property', 'Diameter of the inside of the coupler')).CouplerInnerDiameter = 23.1
-        if not hasattr(obj,"CouplerOuterDiameter"):
-            obj.addProperty('App::PropertyLength', 'CouplerOuterDiameter', 'Fin', translate('App::Property', 'Diameter of the outside of the coupler')).CouplerOuterDiameter = 23.8
+        if not hasattr(obj,"CouplerThickness"):
+            obj.addProperty('App::PropertyLength', 'CouplerThickness', 'Fin', translate('App::Property', 'Thickness of the coupler')).CouplerThickness = 0.35
+        if not hasattr(obj,"CouplerDiameter"):
+            obj.addProperty('App::PropertyLength', 'CouplerDiameter', 'Fin', translate('App::Property', 'Diameter of the outside of the coupler')).CouplerDiameter = 23.8
+        if not hasattr(obj,"CouplerAutoDiameter"):
+            obj.addProperty('App::PropertyBool', 'CouplerAutoDiameter', 'Fin', translate('App::Property', 'Set coupler diamter automatically')).CouplerAutoDiameter = True
         if not hasattr(obj,"CouplerLength"):
             obj.addProperty('App::PropertyLength', 'CouplerLength', 'Fin', translate('App::Property', 'Length of the coupler')).CouplerLength = 19.05
 
