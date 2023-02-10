@@ -35,8 +35,9 @@ from PySide2.QtWidgets import QDialog, QGridLayout, QVBoxLayout, QTextEdit
 
 from Ui.TaskPanelDatabase import TaskPanelDatabase
 from Ui.TaskPanelLocation import TaskPanelLocation
-from App.Constants import COMPONENT_TYPE_BODYTUBE, COMPONENT_TYPE_LAUNCHLUG
-from App.Constants import FEATURE_LAUNCH_LUG
+from App.Constants import COMPONENT_TYPE_BODYTUBE, COMPONENT_TYPE_LAUNCHLUG, COMPONENT_TYPE_COUPLER, COMPONENT_TYPE_ENGINEBLOCK
+
+from App.Constants import FEATURE_LAUNCH_LUG, FEATURE_TUBE_COUPLER, FEATURE_ENGINE_BLOCK
 
 from App.Utilities import _valueWithUnits, _valueOnly
 
@@ -158,10 +159,14 @@ class TaskPanelBodyTube:
         self._obj = obj
         self._isAssembly = self._obj.Proxy.isRocketAssembly()
         self._motorMount = hasattr(self._obj, "MotorMount")
-        
+
         self._btForm = _BodyTubeDialog()
         if self._obj.Proxy.Type == FEATURE_LAUNCH_LUG:
             self._db = TaskPanelDatabase(obj, COMPONENT_TYPE_LAUNCHLUG)
+        elif self._obj.Proxy.Type == FEATURE_TUBE_COUPLER:
+            self._db = TaskPanelDatabase(obj, COMPONENT_TYPE_COUPLER)
+        elif self._obj.Proxy.Type == FEATURE_ENGINE_BLOCK:
+            self._db = TaskPanelDatabase(obj, COMPONENT_TYPE_ENGINEBLOCK)
         else:
             self._db = TaskPanelDatabase(obj, COMPONENT_TYPE_BODYTUBE)
         self._dbForm = self._db.getForm()
