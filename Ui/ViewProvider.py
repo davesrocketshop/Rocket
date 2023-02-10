@@ -84,14 +84,30 @@ class ViewProvider:
         color0 = (color * alpha) + 1 - alpha
         return color0
 
-    def setColor(self, red, green, blue, alpha):
+    def compositeColor(self, red, green, blue, alpha):
         # RGBA composited with (1,1,1,1)
         red0 = self.composite(red / 255.0, alpha / 255.0)
         green0 = self.composite(green / 255.0, alpha / 255.0)
         blue0 = self.composite(blue / 255.0, alpha / 255.0)
-        color = (red0, green0, blue0)
+        return (red0, green0, blue0)
+
+    def setColor(self, red, green, blue, alpha):
+        color = self.compositeColor(red, green, blue, alpha)
         self.ViewObject.ShapeColor = color
         self.ViewObject.LineColor = color
+
+    def setAmbient(self, red, green, blue, alpha):
+        color = self.compositeColor(red, green, blue, alpha)
+        self.ViewObject.ShapeMaterial.AmbientColor = color
+
+    def setDiffuse(self, red, green, blue, alpha):
+        color = self.compositeColor(red, green, blue, alpha)
+        self.ViewObject.ShapeMaterial.DiffuseColor = color
+        self.ViewObject.LineColor = color
+
+    def setSpecular(self, red, green, blue, alpha):
+        color = self.compositeColor(red, green, blue, alpha)
+        self.ViewObject.ShapeMaterial.SpecularColor = color
 
     def setShininess(self, shininess):
         self.ViewObject.ShapeMaterial.Shininess = shininess

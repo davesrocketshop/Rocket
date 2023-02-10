@@ -33,18 +33,22 @@ class AppearanceElement(Element):
     def __init__(self, parent, tag, attributes, parentObj, filename, line):
         super().__init__(parent, tag, attributes, parentObj, filename, line)
 
-        self._componentTags = ["paint", "shine", "decal", "center", "offset", "scale"]
+        self._componentTags = ["paint", "ambient", "diffuse", "specular", "shine", "decal", "center", "offset", "scale"]
 
     def handleTag(self, tag, attributes):
         _tag = tag.lower().strip()
         if _tag == "paint":
-            red = attributes["red"]
-            green = attributes["green"]
-            blue = attributes["blue"]
-            alpha = 255
-            if "alpha" in attributes:
-                alpha = attributes["alpha"]
+            red, green, blue, alpha = self.getColor(attributes)
             self.onPaint(red, green, blue, alpha)
+        if _tag == "ambient":
+            red, green, blue, alpha = self.getColor(attributes)
+            self.onAmbient(red, green, blue, alpha)
+        if _tag == "diffuse":
+            red, green, blue, alpha = self.getColor(attributes)
+            self.onDiffuse(red, green, blue, alpha)
+        if _tag == "specular":
+            red, green, blue, alpha = self.getColor(attributes)
+            self.onSpecular(red, green, blue, alpha)
         else:
             super().handleTag(tag, attributes)
 
@@ -55,9 +59,31 @@ class AppearanceElement(Element):
         else:
             super().handleEndTag(tag, content)
 
+    def getColor(self, attributes):
+        red = attributes["red"]
+        green = attributes["green"]
+        blue = attributes["blue"]
+        alpha = 255
+        if "alpha" in attributes:
+            alpha = attributes["alpha"]
+
+        return red, green, blue, alpha
+
     def onPaint(self, red, green, blue, alpha):
         if hasattr(self._parentObj, "setColor"):
             self._parentObj.setColor(int(red), int(green), int(blue), int(alpha))
+
+    def onAmbient(self, red, green, blue, alpha):
+        if hasattr(self._parentObj, "setAmbient"):
+            self._parentObj.setAmbient(int(red), int(green), int(blue), int(alpha))
+
+    def onDiffuse(self, red, green, blue, alpha):
+        if hasattr(self._parentObj, "setDiffuse"):
+            self._parentObj.setDiffuse(int(red), int(green), int(blue), int(alpha))
+
+    def onSpecular(self, red, green, blue, alpha):
+        if hasattr(self._parentObj, "setSpecular"):
+            self._parentObj.setSpecular(int(red), int(green), int(blue), int(alpha))
 
     def onShine(self, content):
         if hasattr(self._parentObj, "setShininess"):
