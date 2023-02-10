@@ -29,7 +29,7 @@ import Part
 import math
 
 from App.Constants import FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE, \
-    FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LETE
+    FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LETE, FIN_CROSS_BICONVEX, FIN_CROSS_ELLIPSE
 
 from App.ShapeHandlers.FinShapeHandler import FinShapeHandler
 
@@ -99,7 +99,7 @@ class FinEllipseShapeHandler(FinShapeHandler):
 
         ellipses = []
         midChord = float(self._obj.RootChord) / 2.0
-        tapered = self._obj.RootCrossSection in [FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE, FIN_CROSS_DIAMOND]
+        tapered = self._obj.RootCrossSection in [FIN_CROSS_ROUND, FIN_CROSS_BICONVEX, FIN_CROSS_ELLIPSE, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE, FIN_CROSS_DIAMOND]
         if self._obj.RootPerCent:
             rootLength2 = float(self._obj.RootLength2)
         else:

@@ -326,7 +326,7 @@ class FinShapeHandler:
         if profiles is not None and len(profiles) > 0:
             if isinstance(profiles[0], list):
                 # Using a compound instead of a fuse makes drawing much faster, but also leads to
-                # a number of 'BOPAlgo SelfIntersect' errors. Se we stick with the fuse
+                # a number of 'BOPAlgo SelfIntersect' errors. So we stick with the fuse
 
                 for profile in profiles:
                     if loft is None:
