@@ -123,7 +123,7 @@ class FinEllipseShapeHandler(FinShapeHandler):
             ))
 
         # The tip is a special case
-        radius = 1e-6 # Really small radius
+        radius = 1e-4 # Really small radius
         if tapered:
             thickness = radius
         else:
