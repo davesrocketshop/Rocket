@@ -31,7 +31,7 @@ import math
 from DraftTools import translate
 
 from App.Constants import FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE, \
-    FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE
+    FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE, FIN_CROSS_BICONVEX, FIN_CROSS_ELLIPSE
 from App.Constants import FIN_DEBUG_FULL, FIN_DEBUG_PROFILE_ONLY, FIN_DEBUG_MASK_ONLY
 
 from App.Utilities import _err
@@ -62,9 +62,41 @@ class FinShapeHandler:
         return wire
 
     def _makeChordProfileRound(self, foreX, chord, thickness, height):
-        # For now, rounded is an ellipse shape
+        chordFore = foreX
+        chordAft = foreX - chord
+        halfThickness = thickness / 2
+        v1 = FreeCAD.Vector(chordFore - halfThickness, halfThickness, height)
+        v2 = FreeCAD.Vector(chordFore - halfThickness, -halfThickness, height)
+        v3 = FreeCAD.Vector(chordAft + halfThickness, -halfThickness, height)
+        v4 = FreeCAD.Vector(chordAft + halfThickness, halfThickness, height)
+        centerAft = FreeCAD.Vector(chordAft, 0.0, height)
+        centerFore = FreeCAD.Vector(chordFore, 0.0, height)
+        line1 = Part.LineSegment(v2, v3)
+        line2 = Part.LineSegment(v4, v1)
+        arcAft = Part.Arc(v3, centerAft, v4)
+        arcFore = Part.Arc(v1, centerFore, v2)
+
+        wire = Part.Wire([arcAft.toShape(), line1.toShape(), arcFore.toShape(), line2.toShape()])
+        return wire
+
+    def _makeChordProfileEllipse(self, foreX, chord, thickness, height):
         ellipse = Part.Ellipse(FreeCAD.Vector(foreX - (chord / 2.0), 0, height), chord / 2.0, thickness / 2.0)
         wire = Part.Wire([ellipse.toShape()])
+        return wire
+
+    def _makeChordProfileBiconvex(self, foreX, chord, thickness, height):
+        chordFore = foreX
+        chordAft = foreX - chord
+        chordMid = foreX - (chord / 2)
+        halfThickness = thickness / 2
+        v1 = FreeCAD.Vector(chordFore, 0.0, height)
+        v2 = FreeCAD.Vector(chordAft, 0.0, height)
+        v3 = FreeCAD.Vector(chordMid, -halfThickness, height)
+        v4 = FreeCAD.Vector(chordMid, halfThickness, height)
+        arc1 = Part.Arc(v1, v3, v2)
+        arc2 = Part.Arc(v1, v4, v2)
+
+        wire = Part.Wire([arc1.toShape(), arc2.toShape()])
         return wire
             
     def _airfoilY(self, x, maxThickness):
@@ -231,6 +263,10 @@ class FinShapeHandler:
             return self._makeChordProfileSquare(foreX, chord, thickness, height)
         elif crossSection == FIN_CROSS_ROUND:
             return self._makeChordProfileRound(foreX, chord, thickness, height)
+        elif crossSection == FIN_CROSS_BICONVEX:
+            return self._makeChordProfileBiconvex(foreX, chord, thickness, height)
+        elif crossSection == FIN_CROSS_ELLIPSE:
+            return self._makeChordProfileEllipse(foreX, chord, thickness, height)
         elif crossSection == FIN_CROSS_AIRFOIL:
             return self._makeChordProfileAirfoil(foreX, chord, thickness, height)
         elif crossSection == FIN_CROSS_WEDGE:

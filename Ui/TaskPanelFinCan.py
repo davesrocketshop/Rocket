@@ -39,7 +39,7 @@ from DraftTools import translate
 
 from App.Constants import FIN_TYPE_TRAPEZOID, FIN_TYPE_ELLIPSE, FIN_TYPE_SKETCH
 from App.Constants import FIN_CROSS_SAME, FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE, \
-    FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE
+    FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE, FIN_CROSS_BICONVEX, FIN_CROSS_ELLIPSE
 from App.Constants import FINCAN_STYLE_SLEEVE, FINCAN_STYLE_BODYTUBE
 from App.Constants import FINCAN_EDGE_SQUARE, FINCAN_EDGE_ROUND, FINCAN_EDGE_TAPER
 from App.Constants import FINCAN_PRESET_CUSTOM, FINCAN_PRESET_1_8, FINCAN_PRESET_3_16, FINCAN_PRESET_1_4
@@ -117,9 +117,9 @@ class _FinCanDialog(QDialog):
         # Select the type of cross section
         self.rootCrossSectionLabel = QtGui.QLabel(translate('Rocket', "Cross Section"), self)
 
-        self.rootCrossSections = (FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE,
+        self.rootCrossSections = (FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_ELLIPSE, FIN_CROSS_BICONVEX, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE,
             FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE)
-        self.rootEllipseCrossSections = (FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE,
+        self.rootEllipseCrossSections = (FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_ELLIPSE, FIN_CROSS_BICONVEX, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE,
             FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LETE)
         self.rootCrossSectionsCombo = QtGui.QComboBox(self)
         self.rootCrossSectionsCombo.addItems(self.rootCrossSections)
@@ -159,7 +159,7 @@ class _FinCanDialog(QDialog):
         # Select the type of cross section
         self.tipCrossSectionLabel = QtGui.QLabel(translate('Rocket', "Cross Section"), self)
 
-        self.tipCrossSections = (FIN_CROSS_SAME, FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE,
+        self.tipCrossSections = (FIN_CROSS_SAME, FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_ELLIPSE, FIN_CROSS_BICONVEX, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE,
             FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE)
         self.tipCrossSectionsCombo = QtGui.QComboBox(self)
         self.tipCrossSectionsCombo.addItems(self.tipCrossSections)

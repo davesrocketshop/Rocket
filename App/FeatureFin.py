@@ -38,7 +38,7 @@ from App.util.Coordinate import Coordinate, NUL
 from App.Constants import FEATURE_FIN, FEATURE_LAUNCH_LUG, FEATURE_RAIL_BUTTON, FEATURE_POD
 from App.Constants import FIN_TYPE_TRAPEZOID, FIN_TYPE_ELLIPSE, FIN_TYPE_TUBE, FIN_TYPE_SKETCH
 from App.Constants import FIN_CROSS_SAME, FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE, \
-    FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE
+    FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE, FIN_CROSS_ELLIPSE, FIN_CROSS_BICONVEX
 from App.Constants import FIN_DEBUG_FULL, FIN_DEBUG_PROFILE_ONLY, FIN_DEBUG_MASK_ONLY
 from App.Constants import PROP_TRANSIENT, PROP_HIDDEN, EDITOR_HIDDEN
 
@@ -71,7 +71,7 @@ class FeatureFin(ExternalComponent):
         if not hasattr(obj,"RootCrossSection"):
             obj.addProperty('App::PropertyEnumeration', 'RootCrossSection', 'Fin', translate('App::Property', 'Fin root cross section'))
             obj.RootCrossSection = [FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE, 
-                FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE]
+                FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE, FIN_CROSS_ELLIPSE, FIN_CROSS_BICONVEX]
             obj.RootCrossSection = FIN_CROSS_SQUARE
 
         if not hasattr(obj,"RootChord"):
@@ -88,7 +88,7 @@ class FeatureFin(ExternalComponent):
         if not hasattr(obj,"TipCrossSection"):
             obj.addProperty('App::PropertyEnumeration', 'TipCrossSection', 'Fin', translate('App::Property', 'Fin tip cross section'))
             obj.TipCrossSection = [FIN_CROSS_SAME, FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE, 
-                FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE]
+                FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE, FIN_CROSS_ELLIPSE, FIN_CROSS_BICONVEX]
             obj.TipCrossSection = FIN_CROSS_SAME
 
         if not hasattr(obj,"TipChord"):
