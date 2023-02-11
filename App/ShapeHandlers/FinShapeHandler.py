@@ -139,7 +139,7 @@ class FinShapeHandler:
         return value
 
     def _midAftChordLimit(self, chord, value, midChordLimit):
-        if midChordLimit and value > (chord / 2.0):
+        if midChordLimit and value < (chord / 2.0):
             return chord / 2.0
         return value
 
@@ -224,7 +224,8 @@ class FinShapeHandler:
     def _makeChordProfileTaperLETE(self, foreX, chord, thickness, height, foreChord, aftChord, midChordLimit):
         chordFore = foreX
         chordFore1 = foreX - self._midForeChordLimit(chord, foreChord, midChordLimit)
-        chordAft1 = foreX - chord + self._midAftChordLimit(chord, aftChord, midChordLimit)
+        # chordAft1 = foreX - chord + self._midAftChordLimit(chord, aftChord, midChordLimit)
+        chordAft1 = foreX - self._midAftChordLimit(chord, aftChord, midChordLimit)
         chordAft = foreX - chord
         halfThickness = thickness / 2
 

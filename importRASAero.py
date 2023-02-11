@@ -18,16 +18,67 @@
 # *   USA                                                                   *
 # *                                                                         *
 # ***************************************************************************
+"""Provides support for importing RASAero files."""
 
+__title__ = "FreeCAD RASAero Importer"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
+import os
 
 import FreeCAD
 
-# add Import/Export types
-FreeCAD.addImportType("Open Rocket (*.ork)", "importORK")
-FreeCAD.addImportType("RASAero (*.cdx1)", "importRASAero")
-# App.addImportType("Rocksim (*.rkt)", "importRKT")
+from App.Importer.OpenRocket.OpenRocket import OpenRocketImporter
+from App.Importer.RASAero.RASAero import RASAeroImporter
 
-App.__unit_test__ += ["TestRocketApp"]
+def open(filename):
+    """Open filename and parse using the RASAeroHandler().
+
+    Parameters
+    ----------
+    filename : str
+        The path to the filename to be opened.
+
+    Returns
+    -------
+    App::Document
+        The new FreeCAD document object created, with the parsed information.
+    """
+    docname = os.path.split(filename)[1]
+    doc = FreeCAD.newDocument(docname)
+    doc.Label = docname[:-4]
+
+    RASAeroImporter.importFile(doc, filename)
+
+    doc.recompute()
+    return doc
+
+
+def insert(filename, docname):
+    """Get an active document and parse using the RASAeroHandler().
+
+    If no document exist, it is created.
+
+    Parameters
+    ----------
+    filename : str
+        The path to the filename to be opened.
+    docname : str
+        The name of the active App::Document if one exists, or
+        of the new one created.
+
+    Returns
+    -------
+    App::Document
+        The active FreeCAD document, or the document created if none exists,
+        with the parsed information.
+    """
+    try:
+        doc = FreeCAD.getDocument(docname)
+    except NameError:
+        doc = FreeCAD.newDocument(docname)
+    FreeCAD.ActiveDocument = doc
+
+    RASAeroImporter.importFile(doc, filename)
+
+    doc.recompute()
