@@ -39,6 +39,8 @@ class ViewProvider:
         self.Object = vobj.Object
 
     def canDropObject(self, obj):
+        if not self.Object.Proxy.isRocketAssembly():
+            return False
         return self.Object.Proxy.eligibleChild(obj.Proxy.Type)
 
     def setupContextMenu(self, viewObject, menu):

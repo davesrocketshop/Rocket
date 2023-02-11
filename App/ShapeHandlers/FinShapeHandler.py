@@ -362,6 +362,8 @@ class FinShapeHandler:
 
     def _drawFin(self):
         fin = self._drawSingleFin()
+        if self._obj.Cant != 0:
+            fin.rotate(FreeCAD.Vector(self._obj.RootChord / 2, 0, 0), FreeCAD.Vector(0,0,1), self._obj.Cant)
         fin.translate(FreeCAD.Vector(0,0,float(self._obj.ParentRadius)))
         return Part.makeCompound([fin])
 
@@ -373,6 +375,8 @@ class FinShapeHandler:
             baseX = -self._obj.LeadingEdgeOffset
         for i in range(self._obj.FinCount):
             fin = Part.Shape(base) # Create a copy
+            if self._obj.Cant != 0:
+                fin.rotate(FreeCAD.Vector(self._obj.RootChord / 2, 0, 0), FreeCAD.Vector(0,0,1), self._obj.Cant)
             fin.translate(FreeCAD.Vector(baseX,0,float(self._obj.ParentRadius)))
             fin.rotate(FreeCAD.Vector(0, 0, 0), FreeCAD.Vector(1,0,0), i * float(self._obj.FinSpacing))
             fins.append(fin)

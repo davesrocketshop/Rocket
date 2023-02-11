@@ -110,6 +110,8 @@ class FeatureFin(ExternalComponent):
             obj.addProperty('App::PropertyDistance', 'SweepLength', 'Fin', translate('App::Property', 'Sweep length')).SweepLength = 69.86 # Must be distance since it can be negative
         if not hasattr(obj,"SweepAngle"):
             obj.addProperty('App::PropertyAngle', 'SweepAngle', 'Fin', translate('App::Property', 'Sweep angle')).SweepAngle = 0.0
+        if not hasattr(obj,"Cant"):
+            obj.addProperty('App::PropertyAngle', 'Cant', 'Fin', translate('App::Property', 'Fin cant')).Cant = 0.0
 
         if not hasattr(obj,"Ttw"):
             obj.addProperty('App::PropertyBool', 'Ttw', 'Fin', translate('App::Property', 'Through the wall (TTW) tab')).Ttw = False

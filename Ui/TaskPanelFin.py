@@ -102,6 +102,12 @@ class _FinDialog(QDialog):
         self.finSpacingInput.unit = 'deg'
         self.finSpacingInput.setMinimumWidth(80)
 
+        self.finCantLabel = QtGui.QLabel(translate('Rocket', "Fin Cant"), self)
+
+        self.finCantInput = ui.createWidget("Gui::InputField")
+        self.finCantInput.unit = 'deg'
+        self.finCantInput.setMinimumWidth(100)
+
         # Get the fin parameters: length, width, etc...
         self.rootGroup = QtGui.QGroupBox(translate('Rocket', "Fin Root"), self)
 
@@ -345,7 +351,10 @@ class _FinDialog(QDialog):
 
         grid.addWidget(self.sweepAngleLabel, row, 0)
         grid.addWidget(self.sweepAngleInput, row, 1)
+        row += 1
 
+        grid.addWidget(self.finCantLabel, row, 0)
+        grid.addWidget(self.finCantInput, row, 1)
 
         layout = QVBoxLayout()
         layout.addItem(grid)
@@ -455,6 +464,7 @@ class TaskPanelFin(QObject):
         self._finForm.finSetGroup.toggled.connect(self.onFinSet)
         self._finForm.finCountSpinBox.valueChanged.connect(self.onCount)
         self._finForm.finSpacingInput.textEdited.connect(self.onSpacing)
+        self._finForm.finCantInput.textEdited.connect(self.onCant)
 
         self._finForm.rootCrossSectionsCombo.currentTextChanged.connect(self.onRootCrossSection)
         self._finForm.rootChordInput.textEdited.connect(self.onRootChord)
@@ -505,6 +515,7 @@ class TaskPanelFin(QObject):
         self._obj.FinSet = self._finForm.finSetGroup.isChecked()
         self._obj.FinCount = self._finForm.finCountSpinBox.value()
         self._obj.FinSpacing = self._finForm.finSpacingInput.text()
+        self._obj.Cant = self._finForm.finCantInput.text()
 
         self._obj.RootCrossSection = str(self._finForm.rootCrossSectionsCombo.currentText())
         if self._obj.FinType != FIN_TYPE_TUBE:
@@ -548,6 +559,7 @@ class TaskPanelFin(QObject):
         self._finForm.finSetGroup.setChecked(self._obj.FinSet)
         self._finForm.finCountSpinBox.setValue(self._obj.FinCount)
         self._finForm.finSpacingInput.setText(self._obj.FinSpacing.UserString)
+        self._finForm.finCantInput.setText(self._obj.Cant.UserString)
 
         self._finForm.rootCrossSectionsCombo.setCurrentText(self._obj.RootCrossSection)
         self._finForm.rootChordInput.setText(self._obj.RootChord.UserString)
@@ -621,6 +633,7 @@ class TaskPanelFin(QObject):
 
         self._finForm.finCountSpinBox.setEnabled(checked)
         self._finForm.finSpacingInput.setEnabled(checked)
+        self._finForm.finCantInput.setEnabled(self._isAssembly)
         self._finForm.tipThicknessInput.setEnabled(not self._obj.TipSameThickness)
 
     def onFinSet(self, value):
@@ -640,6 +653,11 @@ class TaskPanelFin(QObject):
         
     def onSpacing(self, value):
         self._obj.FinSpacing = value
+        self.redraw()
+        self.setEdited()
+        
+    def onCant(self, value):
+        self._obj.Cant = value
         self.redraw()
         self.setEdited()
 
