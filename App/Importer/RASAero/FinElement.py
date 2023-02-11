@@ -32,6 +32,8 @@ from App.Utilities import _err
 from App.Constants import FIN_CROSS_SAME, FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_DIAMOND, \
             FIN_CROSS_BICONVEX, FIN_CROSS_WEDGE, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_LETE
 from App.Constants import FIN_TYPE_TRAPEZOID
+from App.Constants import LOCATION_PARENT_BOTTOM
+from App.position.AxialMethod import AXIAL_METHOD_MAP
 
 from Ui.Commands.CmdFin import makeFin
 
@@ -42,6 +44,9 @@ class FinElement(Element):
 
         self._knownTags.extend(["count", "chord", "span", "sweepdistance", "tipchord", "thickness", "leradius", "location",
                                 "airfoilsection", "fx1", "fx3"])
+        
+        self._location = 0
+
     #   <Fin>
     #     <Count>3</Count>
     #     <Chord>7</Chord>
@@ -115,8 +120,22 @@ class FinElement(Element):
         elif _tag == "fx3":
             self._feature._obj.RootLength2 = FreeCAD.Units.Quantity(content + " in").Value
             self._feature._obj.TipLength2 = self._feature._obj.RootLength2
+        elif _tag == "location":
+            self._location = FreeCAD.Units.Quantity(content + " in").Value
         else:
             super().handleEndTag(tag, content)
+
+    def onPositionType(self, value):
+        if hasattr(self._feature._obj, "LocationReference"):
+            self._feature._obj.LocationReference = value
+        if hasattr(self._feature._obj, "AxialMethod"):
+            self._feature._obj.AxialMethod = AXIAL_METHOD_MAP[value]
+
+    def onAxialOffset(self, content):
+        if hasattr(self._feature._obj, "Location"):
+            self._feature._obj.Location = content
+        if hasattr(self._feature._obj, "AxialOffset"):
+            self._feature._obj.AxialOffset = content
 
     def end(self):
         self._feature._obj.TipSameThickness = True
@@ -125,5 +144,10 @@ class FinElement(Element):
 
         # Set the sweep angle
         self._feature.sweepAngleFromLength()
+
+        if self._location != 0:
+            self._location -= float(self._feature._obj.RootChord)
+            self.onPositionType(LOCATION_PARENT_BOTTOM)
+            self.onAxialOffset(self._location)
 
         return super().end()
