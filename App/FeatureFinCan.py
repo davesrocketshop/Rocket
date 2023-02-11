@@ -26,6 +26,7 @@ __url__ = "https://www.davesrocketshop.com"
 
 import FreeCAD
 
+from App.SymmetricComponent import SymmetricComponent
 from App.FeatureFin import FeatureFin
 from App.Constants import FEATURE_FINCAN, FEATURE_LAUNCH_LUG, FEATURE_RAIL_BUTTON, FEATURE_RAIL_GUIDE, FEATURE_POD, FEATURE_STAGE
 from App.Constants import FIN_TYPE_TRAPEZOID, FIN_TYPE_ELLIPSE, FIN_TYPE_SKETCH
@@ -44,7 +45,7 @@ from App.ShapeHandlers.FinCanShapeHandler import FinCanSketchShapeHandler
 
 from DraftTools import translate
 
-class FeatureFinCan(FeatureFin):
+class FeatureFinCan(SymmetricComponent, FeatureFin):
 
     def __init__(self, obj):
         super().__init__(obj)
@@ -148,7 +149,9 @@ class FeatureFinCan(FeatureFin):
         else:
             self.setFinCanStyle(FINCAN_STYLE_SLEEVE)
 
-        super().update()
+        # Ensure any automatic variables are set
+        self.setParentDiameter()
+        # self.getTubeOuterDiameter()
 
     def isAfter(self):
         return (self._obj.FinCanStyle == FINCAN_STYLE_BODYTUBE)
@@ -225,3 +228,65 @@ class FeatureFinCan(FeatureFin):
             FEATURE_LAUNCH_LUG, 
             FEATURE_RAIL_BUTTON, 
             FEATURE_RAIL_GUIDE]
+
+    def  getAftRadius(self):
+        return self.getForeRadius()
+    
+    def getForeRadius(self):
+        # For placing objects on the outer part of the parent
+        return self.getOuterRadius()
+    
+    def getFrontAutoDiameter(self):
+        if self.isOuterDiameterAutomatic():
+            # Search for previous SymmetricComponent
+            c = self.getPreviousSymmetricComponent()
+            if c is not None:
+                return c.getFrontAutoDiameter()
+            else:
+                return -1
+
+        return self.getOuterDiameter()
+    
+    def getFrontAutoInnerDiameter(self):
+        return self.getInnerDiameter()
+    
+    def getFrontAutoRadius(self):
+        return self.getFrontAutoDiameter() / 2.0
+    
+    def getRadius(self):
+        return self.getForeRadius()
+    
+    def getRearAutoDiameter(self):
+        if self.isOuterDiameterAutomatic():
+            # Search for next SymmetricComponent
+            c = self.getNextSymmetricComponent()
+            if c is not None:
+                return c.getRearAutoDiameter()
+            else:
+                return -1
+
+        return self.getOuterDiameter()
+    
+    def getRearAutoInnerDiameter(self):
+        return self.getInnerDiameter()
+    
+    def getRearAutoRadius(self):
+        return self.getRearAutoDiameter() / 2.0
+
+    def getInnerDiameter(self, r=0):
+        return float(self._obj.Diameter) - (2.0 * float(self._obj.Thickness))
+
+    def isOuterDiameterAutomatic(self):
+        return self._obj.AutoDiameter
+    
+    def isAftRadiusAutomatic(self):
+        return self.getRearAutoDiameter()
+    
+    def isForeRadiusAutomatic(self):
+        return self.getFrontAutoRadius()
+    
+    def usesNextCompAutomatic(self):
+        return self.isOuterDiameterAutomatic() and (self._refComp == self.getNextSymmetricComponent())
+    
+    def usesPreviousCompAutomatic(self):
+        return self.isOuterDiameterAutomatic() and (self._refComp == self.getPreviousSymmetricComponent())
