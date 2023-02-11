@@ -48,6 +48,7 @@ class FinsetElement(ExternalComponentElement):
             if int(content) > 1:
                 self._feature._obj.FinSet = True
                 self._feature._obj.FinCount = int(content)
+                self._feature._obj.FinSpacing = 360.0 / int(content)
             else:
                 self._feature._obj.FinSet = False
         elif _tag == "thickness":
@@ -57,6 +58,9 @@ class FinsetElement(ExternalComponentElement):
         elif _tag == "rotation":
             rotation = FreeCAD.Units.Quantity(content + " deg").Value
             self._feature._obj.AngleOffset = rotation
+        elif _tag == "cant":
+            cant = FreeCAD.Units.Quantity(content + " deg").Value
+            self._feature._obj.Cant = cant
         elif _tag == "crosssection":
             if content == 'square':
                 self._feature._obj.RootCrossSection = FIN_CROSS_SQUARE

@@ -28,7 +28,9 @@ import FreeCAD
 
 from App.Importer.OpenRocket.SaxElement import NullElement
 from App.Importer.OpenRocket.SymmetricComponentElement import SymmetricComponentElement
-from App.Utilities import _toBoolean, _err
+import App.Importer.OpenRocket as OpenRocket
+
+from App.Utilities import _toBoolean
 from App.Constants import STYLE_CAPPED, STYLE_HOLLOW, STYLE_SOLID
 from App.Constants import TYPE_CONE, TYPE_ELLIPTICAL, TYPE_HAACK, TYPE_OGIVE, TYPE_PARABOLA, TYPE_POWER
 
@@ -41,6 +43,8 @@ class TransitionElement(SymmetricComponentElement):
 
         self._shoulderCapped = False
 
+        self._validChildren.update({ 'subcomponents' : OpenRocket.SubElement.SubElement,
+                              })
         self._knownTags.extend(["shape", "shapeclipped", "shapeparameter", 
                 "foreradius", "aftradius", "aftouterdiameter", "foreshoulderradius", "foreshoulderdiameter", "foreshoulderlength", "foreshoulderthickness", "foreshouldercapped", 
                 "aftshoulderradius", "aftshoulderdiameter", "aftshoulderlength", "aftshoulderthickness", "aftshouldercapped"])
