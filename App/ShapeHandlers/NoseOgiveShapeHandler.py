@@ -50,9 +50,10 @@ class NoseOgiveShapeHandler(NoseShapeHandler):
             
             x = float(i) * ((length - min) / float(resolution))
             y = self.ogive_y(x, length, radius, rho)
-            points.append(FreeCAD.Vector(length - x, y))
+            # points.append(FreeCAD.Vector(length - x, y))
+            points.append(FreeCAD.Vector(min + x, y))
 
-        points.append(FreeCAD.Vector(min, radius))
+        points.append(FreeCAD.Vector(min + length, radius))
         return points
             
     def findOgiveY(self, thickness, length, radius):
@@ -93,7 +94,7 @@ class NoseOgiveShapeHandler(NoseShapeHandler):
         x = self.findOgiveY(self._thickness, self._length, self._radius)
 
         outer_curve = self.ogive_curve(self._length, self._radius, self._resolution)
-        inner_curve = self.ogive_curve(x, self._radius - self._thickness, self._resolution)
+        inner_curve = self.ogive_curve(x, self._radius - self._thickness, self._resolution, self._length - x)
 
         # Create the splines.
         ogive = self.makeSpline(outer_curve)
@@ -108,7 +109,7 @@ class NoseOgiveShapeHandler(NoseShapeHandler):
         minor_y = self.innerMinor(x)
 
         outer_curve = self.ogive_curve(self._length, self._radius, self._resolution)
-        inner_curve = self.ogive_curve(x, minor_y, self._resolution, self._thickness)
+        inner_curve = self.ogive_curve(x, minor_y, self._resolution, self._length - self._thickness - x)
 
         # Create the splines.
         ogive = self.makeSpline(outer_curve)
@@ -123,7 +124,7 @@ class NoseOgiveShapeHandler(NoseShapeHandler):
         minor_y = self.innerMinor(x)
 
         outer_curve = self.ogive_curve(self._length, self._radius, self._resolution)
-        inner_curve = self.ogive_curve(x, minor_y, self._resolution, self._thickness)
+        inner_curve = self.ogive_curve(x, minor_y, self._resolution, self._length - self._thickness - x)
 
         # Create the splines.
         ogive = self.makeSpline(outer_curve)
@@ -138,7 +139,7 @@ class NoseOgiveShapeHandler(NoseShapeHandler):
         minor_y = self.innerMinor(x)
 
         outer_curve = self.ogive_curve(self._length, self._radius, self._resolution)
-        inner_curve = self.ogive_curve(x, minor_y, self._resolution, self._thickness)
+        inner_curve = self.ogive_curve(x, minor_y, self._resolution, self._length - self._thickness - x)
 
         # Create the splines.
         ogive = self.makeSpline(outer_curve)

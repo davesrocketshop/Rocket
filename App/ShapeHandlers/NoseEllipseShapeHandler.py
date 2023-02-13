@@ -42,13 +42,13 @@ class NoseEllipseShapeHandler(NoseShapeHandler):
         return inner_minor
 
     def drawSolid(self):
-        outer_curve = Part.ArcOfEllipse(Part.Ellipse(FreeCAD.Vector(0, 0), self._length, self._radius), 0.0, math.pi/2)
+        outer_curve = Part.ArcOfEllipse(Part.Ellipse(FreeCAD.Vector(self._length, 0), self._length, self._radius), math.pi/2, math.pi)
 
         edges = self.solidLines(outer_curve)
         return edges
 
     def drawSolidShoulder(self):
-        outer_curve = Part.ArcOfEllipse(Part.Ellipse(FreeCAD.Vector(0, 0), self._length, self._radius), 0.0, math.pi/2)
+        outer_curve = Part.ArcOfEllipse(Part.Ellipse(FreeCAD.Vector(self._length, 0), self._length, self._radius), math.pi/2, math.pi)
 
         edges = self.solidShoulderLines(outer_curve)
         return edges
@@ -56,8 +56,8 @@ class NoseEllipseShapeHandler(NoseShapeHandler):
     def drawHollow(self):
         last = self._length - self._thickness
 
-        outer_curve = Part.ArcOfEllipse(Part.Ellipse(FreeCAD.Vector(0, 0), self._length, self._radius), 0.0, math.pi/2)
-        inner_curve = Part.ArcOfEllipse(Part.Ellipse(FreeCAD.Vector(0, 0), last, self._radius - self._thickness), 0.0, math.pi/2)
+        outer_curve = Part.ArcOfEllipse(Part.Ellipse(FreeCAD.Vector(self._length, 0), self._length, self._radius), math.pi/2, math.pi)
+        inner_curve = Part.ArcOfEllipse(Part.Ellipse(FreeCAD.Vector(self._length, 0), last, self._radius - self._thickness), math.pi/2, math.pi)
 
         edges = self.hollowLines(last, outer_curve, inner_curve)
         return edges
@@ -66,8 +66,8 @@ class NoseEllipseShapeHandler(NoseShapeHandler):
         last = self._length - self._thickness
         minor_y = self.innerMinor(last)
 
-        outer_curve = Part.ArcOfEllipse(Part.Ellipse(FreeCAD.Vector(0, 0), self._length, self._radius), 0.0, math.pi/2)
-        inner_curve = Part.ArcOfEllipse(Part.Ellipse(FreeCAD.Vector(self._thickness, 0), last - self._thickness, minor_y), 0.0, math.pi/2)
+        outer_curve = Part.ArcOfEllipse(Part.Ellipse(FreeCAD.Vector(self._length, 0), self._length, self._radius), math.pi/2, math.pi)
+        inner_curve = Part.ArcOfEllipse(Part.Ellipse(FreeCAD.Vector(self._length - self._thickness, 0), last - self._thickness, minor_y), math.pi/2, math.pi)
 
         edges = self.hollowShoulderLines(last, minor_y, outer_curve, inner_curve)
         return edges
@@ -76,8 +76,8 @@ class NoseEllipseShapeHandler(NoseShapeHandler):
         last = self._length - self._thickness
         minor_y = self.innerMinor(last)
 
-        outer_curve = Part.ArcOfEllipse(Part.Ellipse(FreeCAD.Vector(0, 0), self._length, self._radius), 0.0, math.pi/2)
-        inner_curve = Part.ArcOfEllipse(Part.Ellipse(FreeCAD.Vector(self._thickness, 0), last - self._thickness, minor_y), 0.0, math.pi/2)
+        outer_curve = Part.ArcOfEllipse(Part.Ellipse(FreeCAD.Vector(self._length, 0), self._length, self._radius), math.pi/2, math.pi)
+        inner_curve = Part.ArcOfEllipse(Part.Ellipse(FreeCAD.Vector(self._length - self._thickness, 0), last - self._thickness, minor_y), math.pi/2, math.pi)
 
         edges = self.cappedLines(last, minor_y, outer_curve, inner_curve)
         return edges
@@ -86,8 +86,8 @@ class NoseEllipseShapeHandler(NoseShapeHandler):
         last = self._length - self._thickness
         minor_y = self.innerMinor(last)
 
-        outer_curve = Part.ArcOfEllipse(Part.Ellipse(FreeCAD.Vector(0, 0), self._length, self._radius), 0.0, math.pi/2)
-        inner_curve = Part.ArcOfEllipse(Part.Ellipse(FreeCAD.Vector(self._thickness, 0), last - self._thickness, minor_y), 0.0, math.pi/2)
+        outer_curve = Part.ArcOfEllipse(Part.Ellipse(FreeCAD.Vector(self._length, 0), self._length, self._radius), math.pi/2, math.pi)
+        inner_curve = Part.ArcOfEllipse(Part.Ellipse(FreeCAD.Vector(self._length - self._thickness, 0), last - self._thickness, minor_y), math.pi/2, math.pi)
 
         edges = self.cappedShoulderLines(last, minor_y, outer_curve, inner_curve)
         return edges
