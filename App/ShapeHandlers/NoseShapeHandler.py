@@ -124,22 +124,22 @@ class NoseShapeHandler():
 
     def _crossCap(self, barOnly = False):
         BASE_WIDTH = 5
-        base = 0.0 - BASE_WIDTH
+        base = self._length + BASE_WIDTH
         length = self._thickness + BASE_WIDTH
         if self._shoulder:
             length += self._shoulderLength
-            base -= self._shoulderLength
+            base += self._shoulderLength
 
         point = FreeCAD.Vector(base, 0, 0)
-        direction = FreeCAD.Vector(1,0,0)
+        direction = FreeCAD.Vector(-1,0,0)
 
         mask = Part.makeCylinder(self._shoulderRadius - self._shoulderThickness, length, point, direction)
 
-        point = FreeCAD.Vector(base + BASE_WIDTH, self._radius, -(self._capBarWidth / 2.0))
+        point = FreeCAD.Vector(base - BASE_WIDTH, self._radius, (self._capBarWidth / 2.0))
         box = Part.makeBox(self._capBarWidth, 2.0 * self._radius, length - BASE_WIDTH, point, direction)
         mask = mask.cut(box)
         if not barOnly:
-            point = FreeCAD.Vector(base + BASE_WIDTH, (self._capBarWidth / 2.0), -self._radius)
+            point = FreeCAD.Vector(base - BASE_WIDTH, (self._capBarWidth / 2.0), self._radius)
             box = Part.makeBox(2.0 * self._radius, self._capBarWidth, length - BASE_WIDTH, point, direction)
             mask = mask.cut(box)
         return mask
@@ -175,6 +175,7 @@ class NoseShapeHandler():
             try:
                 wire = Part.Wire(edges)
                 face = Part.Face(wire)
+                # Part.show(wire)
                 shape = face.revolve(FreeCAD.Vector(0, 0, 0),FreeCAD.Vector(1, 0, 0), 360)
             except Part.OCCError:
                 _err(translate('Rocket', "Nose cone parameters produce an invalid shape"))
@@ -192,6 +193,7 @@ class NoseShapeHandler():
                     mask = self._crossCap()
 
                 if mask is not None:
+                    # Part.show(mask)
                     shape = shape.cut(mask)
         except Part.OCCError:
             _err(translate('Rocket', "Nose cone cap style produces an invalid shape"))
@@ -266,7 +268,7 @@ class NoseShapeHandler():
         line2 = Part.LineSegment(minor, center)
         line3 = Part.LineSegment(center, FreeCAD.Vector(self._length - self._thickness, 0))
         line4 = Part.LineSegment(FreeCAD.Vector(self._length - self._thickness, 0), innerMinor)
-        return [self.toShape(outerShape), line1.toShape(), line2.toShape(), line3.toShape(), line4.toShape(), self.toShape(innerShape)]
+        return [line1.toShape(), self.toShape(outerShape), line2.toShape(), line3.toShape(), line4.toShape(), self.toShape(innerShape)]
 
     def cappedShoulderLines(self, offset, minor_y, outerShape, innerShape):
         major = FreeCAD.Vector(0,0)

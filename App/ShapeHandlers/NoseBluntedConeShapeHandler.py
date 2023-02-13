@@ -89,15 +89,16 @@ class NoseBluntedConeShapeHandler(NoseShapeHandler):
 
         midX, midY = self.getMidArc(vLength - Xo, vLength - Xt, noseRadius)
         blunt = Part.Arc(
-            FreeCAD.Vector(vLength - Xt, Yt),
-            FreeCAD.Vector(midX, midY),
-            FreeCAD.Vector(length, 0.0)
+            FreeCAD.Vector(length - vLength + Xt + offset, Yt),
+            FreeCAD.Vector(length - midX + offset, midY),
+            FreeCAD.Vector(offset, 0.0)
         )
         self._offsetRadius = radius
         if offset > 0:
             self._offsetRadius = self.innerMinor(vLength, radius, offset)
-        line = Part.LineSegment(FreeCAD.Vector(offset, self._offsetRadius), FreeCAD.Vector(vLength - Xt, Yt))
-        curve = Part.Wire([blunt.toShape(), line.toShape()])
+        line = Part.LineSegment(FreeCAD.Vector(length - offset, self._offsetRadius), FreeCAD.Vector(length - vLength + Xt + offset, Yt))
+        # curve = Part.Wire([blunt.toShape(), line.toShape()])
+        curve = Part.Wire([blunt.toShape()])
 
         return curve
 
@@ -120,7 +121,9 @@ class NoseBluntedConeShapeHandler(NoseShapeHandler):
         last = self._length - self._thickness
 
         outer_curve = self.getOuterCurve()
-        inner_curve = self.getCurve(last, self._radius - self._thickness, self._noseRadius - self._thickness)
+        inner_curve = self.getCurve(self._length - self._thickness, self._radius - self._thickness, self._noseRadius - self._thickness, self._thickness)
+
+        Part.show(inner_curve)
 
         edges = self.hollowLines(last, outer_curve, inner_curve)
         return edges

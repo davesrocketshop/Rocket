@@ -59,12 +59,12 @@ class NoseHaackShapeHandler(NoseShapeHandler):
         points = []
         for i in range(0, resolution):
             
-            x = float(i) * (length / float(resolution))
+            x = float(i) * ((length - min) / float(resolution))
             y = self.haack_y(x, length, radius, coefficient)
-            if length - x > min:
-                points.append(FreeCAD.Vector(length - x, y))
+            # if x > min:
+            points.append(FreeCAD.Vector(min + x, y))
 
-        points.append(FreeCAD.Vector(min, radius))
+        points.append(FreeCAD.Vector(length, radius))
         return points
             
     def findHaackY(self, thickness, length, radius, coefficient):
@@ -74,13 +74,13 @@ class NoseHaackShapeHandler(NoseShapeHandler):
 
         # Do a binary search to see where f(x) = thickness, to 1 mm
         while (max - min) > 0.1:
-            y = self.haack_y(length - x, length, radius, coefficient)
+            y = self.haack_y(x, length, radius, coefficient)
             if (y == thickness):
                 return x
             if (y > thickness):
-                min = x
-            else:
                 max = x
+            else:
+                min = x
             x = (max - min) / 2 + min
         return x
 
@@ -103,7 +103,7 @@ class NoseHaackShapeHandler(NoseShapeHandler):
         x = self.findHaackY(self._thickness, self._length, self._radius, self._coefficient)
 
         outer_curve = self.haack_curve(self._length, self._radius, self._resolution, self._coefficient)
-        inner_curve = self.haack_curve(x, self._radius - self._thickness, self._resolution, self._coefficient)
+        inner_curve = self.haack_curve(self._length, self._radius - self._thickness, self._resolution, self._coefficient, x)
 
         # Create the splines.
         outerSpline = self.makeSpline(outer_curve)
@@ -115,10 +115,10 @@ class NoseHaackShapeHandler(NoseShapeHandler):
     def drawHollowShoulder(self):
         # Find the point where the thickness matches the desired thickness, so we don't get too narrow at the tip
         x = self.findHaackY(self._thickness, self._length, self._radius, self._coefficient)
-        minor_y = self.innerMinor(x)
+        minor_y = self.innerMinor(self._length)
 
         outer_curve = self.haack_curve(self._length, self._radius, self._resolution, self._coefficient)
-        inner_curve = self.haack_curve(x - self._thickness, minor_y, self._resolution, self._coefficient, self._thickness)
+        inner_curve = self.haack_curve(self._length - self._thickness, minor_y, self._resolution, self._coefficient, x)
 
         # Create the splines.
         outerSpline = self.makeSpline(outer_curve)
@@ -130,10 +130,10 @@ class NoseHaackShapeHandler(NoseShapeHandler):
     def drawCapped(self):
         # Find the point where the thickness matches the desired thickness, so we don't get too narrow at the tip
         x = self.findHaackY(self._thickness, self._length, self._radius, self._coefficient)
-        minor_y = self.innerMinor(x)
+        minor_y = self.innerMinor(self._length)
 
         outer_curve = self.haack_curve(self._length, self._radius, self._resolution, self._coefficient)
-        inner_curve = self.haack_curve(x - self._thickness, minor_y, self._resolution, self._coefficient, self._thickness)
+        inner_curve = self.haack_curve(self._length - self._thickness, minor_y, self._resolution, self._coefficient, x)
 
         # Create the splines.
         outerSpline = self.makeSpline(outer_curve)
@@ -145,10 +145,10 @@ class NoseHaackShapeHandler(NoseShapeHandler):
     def drawCappedShoulder(self):
         # Find the point where the thickness matches the desired thickness, so we don't get too narrow at the tip
         x = self.findHaackY(self._thickness, self._length, self._radius, self._coefficient)
-        minor_y = self.innerMinor(x)
+        minor_y = self.innerMinor(self._length)
 
         outer_curve = self.haack_curve(self._length, self._radius, self._resolution, self._coefficient)
-        inner_curve = self.haack_curve(x - self._thickness, minor_y, self._resolution, self._coefficient, self._thickness)
+        inner_curve = self.haack_curve(self._length - self._thickness, minor_y, self._resolution, self._coefficient, x)
 
         # Create the splines.
         outerSpline = self.makeSpline(outer_curve)
