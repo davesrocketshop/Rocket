@@ -309,6 +309,9 @@ class FinShapeHandler:
         profiles = []
         return profiles
 
+    def _makeTip(self):
+        return None
+
     def _makeCommon(self):
         # Override this if we have a "masking" shape
         return None

@@ -36,6 +36,7 @@ from App.Utilities import _err
 
 from App.ShapeHandlers.FinShapeHandler import FinShapeHandler
 from App.ShapeHandlers.FinTrapezoidShapeHandler import FinTrapezoidShapeHandler
+from App.ShapeHandlers.FinTriangleShapeHandler import FinTriangleShapeHandler
 from App.ShapeHandlers.FinEllipseShapeHandler import FinEllipseShapeHandler
 from App.ShapeHandlers.FinSketchShapeHandler import FinSketchShapeHandler
 
@@ -422,6 +423,11 @@ class FinCanShapeHandler(FinShapeHandler):
             return
 
 class FinCanTrapezoidShapeHandler(FinCanShapeHandler, FinTrapezoidShapeHandler): # lgtm [py/missing-call-to-init]
+
+    def __init__(self, obj):
+        super().__init__(obj)
+
+class FinCanTriangleShapeHandler(FinCanShapeHandler, FinTriangleShapeHandler): # lgtm [py/missing-call-to-init]
 
     def __init__(self, obj):
         super().__init__(obj)

@@ -40,6 +40,7 @@ from App.Constants import EDITOR_NONE, EDITOR_HIDDEN
 from App.position.AxialMethod import BOTTOM, AFTER
 
 from App.ShapeHandlers.FinCanShapeHandler import FinCanTrapezoidShapeHandler
+from App.ShapeHandlers.FinCanShapeHandler import FinCanTriangleShapeHandler
 from App.ShapeHandlers.FinCanShapeHandler import FinCanEllipseShapeHandler
 from App.ShapeHandlers.FinCanShapeHandler import FinCanSketchShapeHandler
 
@@ -213,7 +214,10 @@ class FeatureFinCan(SymmetricComponent, FeatureFin):
 
     def execute(self, obj):
         if obj.FinType == FIN_TYPE_TRAPEZOID:
-            shape = FinCanTrapezoidShapeHandler(obj)
+            if obj.getTipChord() > 0:
+                shape = FinCanTrapezoidShapeHandler(obj)
+            else:
+                shape = FinCanTriangleShapeHandler(obj)            
         elif obj.FinType == FIN_TYPE_ELLIPSE:
             shape = FinCanEllipseShapeHandler(obj)
         elif obj.FinType == FIN_TYPE_SKETCH:
