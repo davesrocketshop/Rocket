@@ -52,9 +52,7 @@ class FinTriangleShapeHandler(FinShapeHandler):
 
     def _makeTipProfile(self):
         # Create the tip profile, casting everything to float to avoid typing issues
-        crossSection = self._obj.TipCrossSection
-        if crossSection == FIN_CROSS_SAME:
-            crossSection = self._obj.RootCrossSection
+        crossSection = self._obj.RootCrossSection
         if self._obj.RootPerCent:
             tipLength2 = float(self._obj.RootLength2)
         else:
@@ -108,10 +106,30 @@ class FinTriangleShapeHandler(FinShapeHandler):
         profiles = []
         profiles.append(self._makeRootProfile())
         profiles.append(self._makeTipProfile())
-        profiles.append(self._makeTip())
+        top = self._makeTopProfile()
+        if top is not None:
+            profiles.append(top)
         return profiles
 
+    def _makeTopProfile(self):
+        crossSection = self._obj.RootCrossSection
+        if crossSection in [FIN_CROSS_SQUARE, FIN_CROSS_BICONVEX, FIN_CROSS_AIRFOIL]:
+            # Line across the tickness
+            tip = Part.LineSegment(FreeCAD.Vector(self._obj.SweepLength, float(self._obj.RootThickness) / 2.0, self._obj.Height), 
+                                    FreeCAD.Vector(self._obj.SweepLength, -float(self._obj.RootThickness) / 2.0, self._obj.Height))
+        elif crossSection in [FIN_CROSS_ROUND, FIN_CROSS_ELLIPSE]:
+            # Half sphere of radius thickness, handled by _makeTip()
+            return None
+        else:
+            # Just a point at the tip of the fin, used for lofts
+            tip=Part.Point(FreeCAD.Vector(self._obj.SweepLength, 0.0, self._obj.Height))
+        return tip
+
     def _makeTip(self):
-        # Just a point at the tip of the fin, used for lofts
-        point=Part.Point(FreeCAD.Vector(self._obj.SweepLength, self._obj.Height))
-        return point
+        crossSection = self._obj.RootCrossSection
+        if crossSection in [FIN_CROSS_ROUND, FIN_CROSS_ELLIPSE]:
+            # Half sphere of radius thickness
+            tip = Part.makeSphere(float(self._obj.RootThickness), FreeCAD.Vector(self._obj.SweepLength, 0.0, self._obj.Height), FreeCAD.Vector(0, 0, 1), 0, 90, 180)
+        else:
+            tip = None
+        return tip
