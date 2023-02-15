@@ -74,7 +74,7 @@ class FinTrapezoidShapeHandler(FinShapeHandler):
             if self._obj.TtwThickness <= 0:
                 _err(translate('Rocket', "Ttw thickness must be greater than 0"))
                 return False
-        return True
+        return super().isValidShape()
 
     def _makeProfiles(self):
         profiles = []

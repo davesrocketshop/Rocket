@@ -29,7 +29,7 @@ import FreeCAD
 from App.SymmetricComponent import SymmetricComponent
 from App.FeatureFin import FeatureFin
 from App.Constants import FEATURE_FINCAN, FEATURE_LAUNCH_LUG, FEATURE_RAIL_BUTTON, FEATURE_RAIL_GUIDE, FEATURE_POD, FEATURE_STAGE
-from App.Constants import FIN_TYPE_TRAPEZOID, FIN_TYPE_ELLIPSE, FIN_TYPE_SKETCH
+from App.Constants import FIN_TYPE_TRAPEZOID, FIN_TYPE_TRIANGLE, FIN_TYPE_ELLIPSE, FIN_TYPE_SKETCH
 from App.Constants import FINCAN_STYLE_SLEEVE, FINCAN_STYLE_BODYTUBE
 from App.Constants import FINCAN_EDGE_SQUARE, FINCAN_EDGE_ROUND, FINCAN_EDGE_TAPER
 from App.Constants import FINCAN_PRESET_CUSTOM, FINCAN_PRESET_1_8, FINCAN_PRESET_3_16, FINCAN_PRESET_1_4
@@ -217,7 +217,9 @@ class FeatureFinCan(SymmetricComponent, FeatureFin):
             if obj.getTipChord() > 0:
                 shape = FinCanTrapezoidShapeHandler(obj)
             else:
-                shape = FinCanTriangleShapeHandler(obj)            
+                shape = FinCanTriangleShapeHandler(obj)
+        elif obj.FinType == FIN_TYPE_TRIANGLE:
+                shape = FinCanTriangleShapeHandler(obj)
         elif obj.FinType == FIN_TYPE_ELLIPSE:
             shape = FinCanEllipseShapeHandler(obj)
         elif obj.FinType == FIN_TYPE_SKETCH:

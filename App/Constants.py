@@ -77,6 +77,7 @@ TYPE_HAACK = "Haack series"
 
 # Fin types
 FIN_TYPE_TRAPEZOID = "trapezoid"
+FIN_TYPE_TRIANGLE = "triangular"
 FIN_TYPE_ELLIPSE = "elliptical"
 FIN_TYPE_TUBE = "tube"
 FIN_TYPE_SKETCH = "custom"

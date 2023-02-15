@@ -46,7 +46,7 @@ class FinTubeShapeHandler(FinShapeHandler):
         if self._obj.Ttw:
             _err(translate('Rocket', "Ttw tabs are not supported for tube fins"))
             return False
-        return True
+        return super().isValidShape()
 
     def _finOnlyShape(self, debug):
         #
