@@ -71,7 +71,7 @@ class NoseSecantOgiveShapeHandler(NoseShapeHandler):
     def findOgiveY(self, thickness, length, radius):
         rho = self.getRho()
 
-        min = 0
+        min = thickness
         max = length
         alpha = self.getAlpha(length, radius)
         x = (max - min) / 2 + min
@@ -119,7 +119,7 @@ class NoseSecantOgiveShapeHandler(NoseShapeHandler):
     def drawHollowShoulder(self):
         # Find the point where the thickness matches the desired thickness, so we don't get too narrow at the tip
         x = self.findOgiveY(self._thickness, self._length, self._radius)
-        minor_y = self.innerMinor(x)
+        minor_y = self.innerMinor(self._length - self._thickness - x)
 
         outer_curve = self.ogive_curve(self._length, self._radius, self._resolution)
         inner_curve = self.ogive_curve(self._length - self._thickness - x, minor_y, self._resolution, x)
@@ -134,7 +134,7 @@ class NoseSecantOgiveShapeHandler(NoseShapeHandler):
     def drawCapped(self):
         # Find the point where the thickness matches the desired thickness, so we don't get too narrow at the tip
         x = self.findOgiveY(self._thickness, self._length, self._radius)
-        minor_y = self.innerMinor(x)
+        minor_y = self.innerMinor(self._length - self._thickness - x)
 
         outer_curve = self.ogive_curve(self._length, self._radius, self._resolution)
         inner_curve = self.ogive_curve(self._length - self._thickness - x, minor_y, self._resolution, x)
@@ -149,7 +149,7 @@ class NoseSecantOgiveShapeHandler(NoseShapeHandler):
     def drawCappedShoulder(self):
         # Find the point where the thickness matches the desired thickness, so we don't get too narrow at the tip
         x = self.findOgiveY(self._thickness, self._length, self._radius)
-        minor_y = self.innerMinor(x)
+        minor_y = self.innerMinor(self._length - self._thickness - x)
 
         outer_curve = self.ogive_curve(self._length, self._radius, self._resolution)
         inner_curve = self.ogive_curve(self._length - self._thickness - x, minor_y, self._resolution, x)

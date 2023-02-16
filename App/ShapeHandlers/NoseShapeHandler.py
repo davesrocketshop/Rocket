@@ -254,7 +254,7 @@ class NoseShapeHandler():
         line4 = Part.LineSegment(end3,  end4)
         line5 = Part.LineSegment(end4,  end5)
         line6 = Part.LineSegment(end5,  innerMinor)
-        return [self.toShape(outerShape), line2.toShape(), line3.toShape(), line4.toShape(), line5.toShape(), line6.toShape(), self.toShape(innerShape), line1.toShape()]
+        return [line1.toShape(), self.toShape(outerShape), line2.toShape(), line3.toShape(), line4.toShape(), line5.toShape(), line6.toShape(), self.toShape(innerShape)]
 
     def cappedLines(self, offset, minor_y, outerShape, innerShape):
         center = FreeCAD.Vector(self._length,0)

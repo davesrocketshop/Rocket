@@ -38,7 +38,6 @@ class NoseBluntedConeShapeHandler(NoseShapeHandler):
 
         self._offsetRadius = self._radius   # Scratch value, only valid immediately after a call to getCurve()
 
-
     def getXt(self, length, radius, noseRadius):
         return math.pow(length, 2) / radius * math.sqrt(math.pow(noseRadius, 2) / (math.pow(radius, 2) + math.pow(length, 2)))
 
@@ -94,11 +93,11 @@ class NoseBluntedConeShapeHandler(NoseShapeHandler):
             FreeCAD.Vector(offset, 0.0)
         )
         self._offsetRadius = radius
-        if offset > 0:
-            self._offsetRadius = self.innerMinor(vLength, radius, offset)
-        line = Part.LineSegment(FreeCAD.Vector(length - offset, self._offsetRadius), FreeCAD.Vector(length - vLength + Xt + offset, Yt))
-        # curve = Part.Wire([blunt.toShape(), line.toShape()])
-        curve = Part.Wire([blunt.toShape()])
+        # if offset > 0:
+        #     self._offsetRadius = self.innerMinor(vLength, radius, offset)
+        line = Part.LineSegment(FreeCAD.Vector(length, self._offsetRadius), FreeCAD.Vector(length - vLength + Xt + offset, Yt))
+        curve = Part.Wire([blunt.toShape(), line.toShape()])
+        # curve = Part.Wire([blunt.toShape()])
 
         return curve
 
@@ -118,42 +117,32 @@ class NoseBluntedConeShapeHandler(NoseShapeHandler):
         return edges
 
     def drawHollow(self):
-        last = self._length - self._thickness
-
         outer_curve = self.getOuterCurve()
-        inner_curve = self.getCurve(self._length - self._thickness, self._radius - self._thickness, self._noseRadius - self._thickness, self._thickness)
+        inner_curve = self.getCurve(self._length, self._radius - self._thickness, self._noseRadius - self._thickness, self._thickness)
 
-        Part.show(inner_curve)
-
-        edges = self.hollowLines(last, outer_curve, inner_curve)
+        edges = self.hollowLines(self._thickness, outer_curve, inner_curve)
         return edges
 
     def drawHollowShoulder(self):
-        last = self._length - self._thickness
-
         outer_curve = self.getOuterCurve()
-        inner_curve = self.getCurve(last, self._radius - self._thickness, self._noseRadius - self._thickness, self._thickness)
-        minor_y = self._offsetRadius # Only valid immediately after call to getCurve()
+        inner_curve = self.getCurve(self._length - self._thickness, self._radius - self._thickness, self._noseRadius - self._thickness, self._thickness)
+        minor_y = self._radius - self._thickness
 
-        edges = self.hollowShoulderLines(last, minor_y, outer_curve, inner_curve)
+        edges = self.hollowShoulderLines(self._thickness, minor_y, outer_curve, inner_curve)
         return edges
 
     def drawCapped(self):
-        last = self._length - self._thickness
-
         outer_curve = self.getOuterCurve()
-        inner_curve = self.getCurve(last, self._radius - self._thickness, self._noseRadius - self._thickness, self._thickness)
-        minor_y = self._offsetRadius # Only valid immediately after call to getCurve()
+        inner_curve = self.getCurve(self._length - self._thickness, self._radius - self._thickness, self._noseRadius - self._thickness, self._thickness)
+        minor_y = self._radius - self._thickness
 
-        edges = self.cappedLines(last, minor_y, outer_curve, inner_curve)
+        edges = self.cappedLines(self._thickness, minor_y, outer_curve, inner_curve)
         return edges
 
     def drawCappedShoulder(self):
-        last = self._length - self._thickness
-
         outer_curve = self.getOuterCurve()
-        inner_curve = self.getCurve(last, self._radius - self._thickness, self._noseRadius - self._thickness, self._thickness)
-        minor_y = self._offsetRadius # Only valid immediately after call to getCurve()
+        inner_curve = self.getCurve(self._length - self._thickness, self._radius - self._thickness, self._noseRadius - self._thickness, self._thickness)
+        minor_y = self._radius - self._thickness
 
-        edges = self.cappedShoulderLines(last, minor_y, outer_curve, inner_curve)
+        edges = self.cappedShoulderLines(self._thickness, minor_y, outer_curve, inner_curve)
         return edges

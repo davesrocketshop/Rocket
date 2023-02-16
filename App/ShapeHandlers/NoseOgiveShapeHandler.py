@@ -58,7 +58,7 @@ class NoseOgiveShapeHandler(NoseShapeHandler):
     def findOgiveY(self, thickness, length, radius):
         rho = (radius * radius + length * length) / (2.0 * radius)
 
-        min = 0
+        min = thickness
         max = length
         x = 0
 
@@ -105,7 +105,7 @@ class NoseOgiveShapeHandler(NoseShapeHandler):
     def drawHollowShoulder(self):
         # Find the point where the thickness matches the desired thickness, so we don't get too narrow at the tip
         x = self.findOgiveY(self._thickness, self._length, self._radius)
-        minor_y = self.innerMinor(x)
+        minor_y = self.innerMinor(self._length - self._thickness - x)
 
         outer_curve = self.ogive_curve(self._length, self._radius, self._resolution)
         inner_curve = self.ogive_curve(self._length - self._thickness - x, minor_y, self._resolution, x)
@@ -120,7 +120,7 @@ class NoseOgiveShapeHandler(NoseShapeHandler):
     def drawCapped(self):
         # Find the point where the thickness matches the desired thickness, so we don't get too narrow at the tip
         x = self.findOgiveY(self._thickness, self._length, self._radius)
-        minor_y = self.innerMinor(x)
+        minor_y = self.innerMinor(self._length - self._thickness - x)
 
         outer_curve = self.ogive_curve(self._length, self._radius, self._resolution)
         inner_curve = self.ogive_curve(self._length - self._thickness - x, minor_y, self._resolution, x)
@@ -135,7 +135,7 @@ class NoseOgiveShapeHandler(NoseShapeHandler):
     def drawCappedShoulder(self):
         # Find the point where the thickness matches the desired thickness, so we don't get too narrow at the tip
         x = self.findOgiveY(self._thickness, self._length, self._radius)
-        minor_y = self.innerMinor(x)
+        minor_y = self.innerMinor(self._length - self._thickness - x)
 
         outer_curve = self.ogive_curve(self._length, self._radius, self._resolution)
         inner_curve = self.ogive_curve(self._length - self._thickness - x, minor_y, self._resolution, x)

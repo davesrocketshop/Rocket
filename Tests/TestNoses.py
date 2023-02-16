@@ -82,10 +82,8 @@ class NoseTests(unittest.TestCase):
         self._checkShape(feature, message)
 
     def _getTypes(self):
-        # return [TYPE_CONE, TYPE_BLUNTED_CONE, TYPE_SPHERICAL, TYPE_ELLIPTICAL, TYPE_HAACK, TYPE_OGIVE, TYPE_BLUNTED_OGIVE, 
-        #                 TYPE_SECANT_OGIVE, TYPE_VON_KARMAN, TYPE_PARABOLA, TYPE_PARABOLIC, TYPE_POWER]
-        return [TYPE_CONE, TYPE_SPHERICAL, TYPE_ELLIPTICAL, TYPE_HAACK, TYPE_OGIVE,
-                        TYPE_SECANT_OGIVE]
+        return [TYPE_CONE, TYPE_BLUNTED_CONE, TYPE_SPHERICAL, TYPE_ELLIPTICAL, TYPE_HAACK, TYPE_OGIVE, TYPE_BLUNTED_OGIVE,
+                        TYPE_SECANT_OGIVE, TYPE_VON_KARMAN, TYPE_PARABOLIC, TYPE_PARABOLA, TYPE_POWER]
 
     def testTypesSolid(self):
         for type in self._getTypes():
@@ -102,7 +100,7 @@ class NoseTests(unittest.TestCase):
     def testTypesCapped(self):
         for type in self._getTypes():
             with self.subTest(type=type):
-                for capStyle in [STYLE_CAP_SOLID]: # [STYLE_CAP_SOLID, STYLE_CAP_BAR, STYLE_CAP_CROSS]:
+                for capStyle in [STYLE_CAP_SOLID, STYLE_CAP_BAR, STYLE_CAP_CROSS]:
                     with self.subTest(capStyle=capStyle):
                         self._testPlain(type, STYLE_CAPPED, capStyle)
                         self._testShoulder(type, STYLE_CAPPED, capStyle)
