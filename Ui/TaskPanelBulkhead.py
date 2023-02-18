@@ -124,6 +124,9 @@ class _BulkheadDialog(QDialog):
         self.stepThicknessInput.unit = 'mm'
         self.stepThicknessInput.setMinimumWidth(80)
 
+        self.stepReverseCheckbox = QtGui.QCheckBox(translate('Rocket', "reverse"), self)
+        self.stepReverseCheckbox.setCheckState(QtCore.Qt.Unchecked)
+
         self.holeGroup = QtGui.QGroupBox(translate('Rocket', "Holes"), self)
         self.holeGroup.setCheckable(True)
 
@@ -177,6 +180,9 @@ class _BulkheadDialog(QDialog):
 
         layout.addWidget(self.stepThicknessLabel, row, 0)
         layout.addWidget(self.stepThicknessInput, row, 1)
+        row += 1
+
+        layout.addWidget(self.stepReverseCheckbox, row, 1)
 
         self.stepGroup.setLayout(layout)
 
@@ -274,6 +280,7 @@ class TaskPanelBulkhead:
         self._bulkForm.stepGroup.toggled.connect(self.onStep)
         self._bulkForm.stepDiameterInput.textEdited.connect(self.onStepDiameter)
         self._bulkForm.stepThicknessInput.textEdited.connect(self.onStepThickness)
+        self._bulkForm.stepReverseCheckbox.toggled.connect(self.onStepReverse)
 
         self._bulkForm.holeGroup.toggled.connect(self.onHole)
         self._bulkForm.holeDiameterInput.textEdited.connect(self.onHoleDiameter)
@@ -307,6 +314,7 @@ class TaskPanelBulkhead:
         self._obj.Step = self._bulkForm.stepGroup.isChecked()
         self._obj.StepDiameter = self._bulkForm.stepDiameterInput.text()
         self._obj.StepThickness = self._bulkForm.stepThicknessInput.text()
+        self._obj.StepReverse = self._bulkForm.stepReverseCheckbox.isChecked()
 
         self._obj.Holes = self._bulkForm.holeGroup.isChecked()
         self._obj.HoleDiameter = self._bulkForm.holeDiameterInput.text()
@@ -333,6 +341,7 @@ class TaskPanelBulkhead:
         self._bulkForm.stepGroup.setChecked(self._obj.Step)
         self._bulkForm.stepDiameterInput.setText(self._obj.StepDiameter.UserString)
         self._bulkForm.stepThicknessInput.setText(self._obj.StepThickness.UserString)
+        self._bulkForm.stepReverseCheckbox.setChecked(self._obj.StepReverse)
 
         self._bulkForm.holeGroup.setChecked(self._obj.Holes)
         self._bulkForm.holeDiameterInput.setText(self._obj.HoleDiameter.UserString)
@@ -434,6 +443,7 @@ class TaskPanelBulkhead:
     def _setStepState(self):
         self._bulkForm.stepDiameterInput.setEnabled(self._obj.Step)
         self._bulkForm.stepThicknessInput.setEnabled(self._obj.Step)
+        self._bulkForm.stepReverseCheckbox.setEnabled(self._obj.Step)
         
     def onStep(self, value):
         self._obj.Step = self._bulkForm.stepGroup.isChecked()
@@ -457,6 +467,11 @@ class TaskPanelBulkhead:
         except ValueError:
             pass
         self.setEdited()
+        
+    def onStepReverse(self, value):
+        self._obj.StepReverse = self._bulkForm.stepReverseCheckbox.isChecked()
+
+        self._obj.Proxy.execute(self._obj)
         
     def _setHoleState(self):
         self._bulkForm.holeDiameterInput.setEnabled(self._obj.Holes)

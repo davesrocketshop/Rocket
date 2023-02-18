@@ -44,6 +44,8 @@ class FeatureBulkhead(RadiusRingComponent):
 
         if not hasattr(obj, 'Step'):
             obj.addProperty('App::PropertyBool', 'Step', 'Bulkhead', translate('App::Property', 'Bulkheads may have a step that fits a smaller diameter')).Step = False
+        if not hasattr(obj, 'StepReverse'):
+            obj.addProperty('App::PropertyBool', 'StepReverse', 'Bulkhead', translate('App::Property', 'Bulkheads may have a step that fits a smaller diameter')).StepReverse = False
         if not hasattr(obj, 'StepDiameter'):
             obj.addProperty('App::PropertyLength', 'StepDiameter', 'Bulkhead', translate('App::Property', 'Outer diameter of the step')).StepDiameter = 21.0
         if not hasattr(obj, 'StepThickness'):

@@ -40,6 +40,7 @@ class BulkheadShapeHandler():
         self._diameter = float(obj.Diameter)
         self._thickness = float(obj.Thickness)
         self._step = bool(obj.Step)
+        self._stepReverse = bool(obj.StepReverse)
         self._stepDiameter = float(obj.StepDiameter)
         self._stepThickness = float(obj.StepThickness)
         self._holes = bool(obj.Holes)
@@ -81,7 +82,10 @@ class BulkheadShapeHandler():
     def _drawBulkhead(self):
         bulkhead = Part.makeCylinder(self._diameter / 2.0, self._thickness, FreeCAD.Vector(0,0,0), FreeCAD.Vector(1,0,0))
         if self._step:
-            step = Part.makeCylinder(self._stepDiameter / 2.0, self._stepThickness, FreeCAD.Vector(self._thickness,0,0), FreeCAD.Vector(1,0,0))
+            if self._stepReverse:
+                step = Part.makeCylinder(self._stepDiameter / 2.0, self._stepThickness, FreeCAD.Vector(self._thickness,0,0), FreeCAD.Vector(1,0,0))
+            else:
+                step = Part.makeCylinder(self._stepDiameter / 2.0, self._stepThickness, FreeCAD.Vector(-self._thickness,0,0), FreeCAD.Vector(1,0,0))
             bulkhead = bulkhead.fuse(step)
 
         # Add any holes
