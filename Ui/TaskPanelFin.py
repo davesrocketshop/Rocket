@@ -40,7 +40,7 @@ from DraftTools import translate
 from Ui.TaskPanelLocation import TaskPanelLocation
 from Ui.Commands.CmdSketcher import newSketchNoEdit
 
-from App.Constants import FIN_TYPE_TRAPEZOID, FIN_TYPE_ELLIPSE, FIN_TYPE_TUBE, FIN_TYPE_SKETCH
+from App.Constants import FIN_TYPE_TRAPEZOID, FIN_TYPE_TRIANGLE, FIN_TYPE_ELLIPSE, FIN_TYPE_TUBE, FIN_TYPE_SKETCH
 from App.Constants import FIN_CROSS_SAME, FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE, \
     FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE, FIN_CROSS_BICONVEX, FIN_CROSS_ELLIPSE
 
@@ -78,7 +78,8 @@ class _FinDialog(QDialog):
         # Select the type of fin
         self.finTypeLabel = QtGui.QLabel(translate('Rocket', "Fin type"), self)
 
-        self.finTypes = (FIN_TYPE_TRAPEZOID, 
+        self.finTypes = (FIN_TYPE_TRAPEZOID,
+            FIN_TYPE_TRIANGLE,
             FIN_TYPE_ELLIPSE, 
             FIN_TYPE_TUBE,
             FIN_TYPE_SKETCH,
@@ -664,6 +665,8 @@ class TaskPanelFin(QObject):
     def _enableFinTypes(self):
         if self._obj.FinType == FIN_TYPE_TRAPEZOID:
             self._enableFinTypeTrapezoid()
+        elif self._obj.FinType == FIN_TYPE_TRIANGLE:
+            self._enableFinTypeTriangle()
         elif self._obj.FinType == FIN_TYPE_ELLIPSE:
             self._enableFinTypeEllipse()
         elif self._obj.FinType == FIN_TYPE_TUBE:
@@ -702,6 +705,35 @@ class TaskPanelFin(QObject):
         self._finForm.tubeGroup.setHidden(True)
 
         self._enableTipLengths()
+
+    def _enableFinTypeTriangle(self):
+        self._finForm.tabWidget.setTabEnabled(1, True) # Fin tabs is index 1
+
+        self._finForm.rootChordInput.setText(self._obj.RootChord.UserString)
+
+        old = self._obj.RootCrossSection # This must be saved and restored
+        self._finForm.rootCrossSectionsCombo.clear()
+        self._finForm.rootCrossSectionsCombo.addItems(self._finForm.rootCrossSections)
+        self._obj.RootCrossSection = old
+
+        self._finForm.rootCrossSectionsCombo.setCurrentText(self._obj.RootCrossSection)
+
+        self._finForm.heightLabel.setHidden(False)
+        self._finForm.heightInput.setHidden(False)
+
+        self._finForm.sweepLengthLabel.setHidden(False)
+        self._finForm.sweepLengthInput.setHidden(False)
+        self._finForm.sweepAngleLabel.setHidden(False)
+        self._finForm.sweepAngleInput.setHidden(False)
+
+        self._finForm.rootChordLabel.setHidden(False)
+        self._finForm.rootChordInput.setHidden(False)
+        self._finForm.rootLength2Label.setHidden(False)
+        self._finForm.rootLength2Input.setHidden(False)
+
+        self._finForm.rootGroup.setHidden(False)
+        self._finForm.tipGroup.setHidden(True)
+        self._finForm.tubeGroup.setHidden(True)
 
     def _enableFinTypeEllipse(self):
         self._finForm.tabWidget.setTabEnabled(1, True) # Fin tabs is index 1

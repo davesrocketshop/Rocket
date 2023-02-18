@@ -24,6 +24,9 @@ __title__ = "FreeCAD Fins"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
+import FreeCAD
+import Part
+
 from DraftTools import translate
     
 from App.Constants import FIN_CROSS_SAME
@@ -49,18 +52,14 @@ class FinTriangleShapeHandler(FinShapeHandler):
 
     def _makeTipProfile(self):
         # Create the tip profile, casting everything to float to avoid typing issues
-        crossSection = self._obj.TipCrossSection
-        if crossSection == FIN_CROSS_SAME:
-            crossSection = self._obj.RootCrossSection
-        if self._obj.TipPerCent:
-            tipLength2 = float(self._obj.TipLength2)
+        crossSection = self._obj.RootCrossSection
+        if self._obj.RootPerCent:
+            tipLength2 = float(self._obj.RootLength2)
         else:
-            tipLength2 = float(self._obj.TipChord) - float(self._obj.TipLength2)
-        tipThickness = float(self._obj.TipThickness)
-        if self._obj.TipSameThickness:
-            tipThickness = float(self._obj.RootThickness)
+            tipLength2 = -float(self._obj.RootLength2)
+        tipThickness = float(self._obj.RootThickness)
         chord, height = self._topChord()
-        return self._makeChordProfile(crossSection, float(self._obj.RootChord - self._obj.SweepLength), chord, tipThickness, height, self._obj.TipPerCent, float(self._obj.TipLength1), tipLength2)
+        return self._makeChordProfile(crossSection, float(self._obj.RootChord - self._obj.SweepLength), chord, tipThickness, height, self._obj.RootPerCent, float(self._obj.RootLength1), tipLength2)
 
     def _heightAtChord(self, chord):
         return float(self._obj.Height) - chord
@@ -71,13 +70,13 @@ class FinTriangleShapeHandler(FinShapeHandler):
         crossSection = self._obj.TipCrossSection
         if crossSection == FIN_CROSS_SAME:
             crossSection = self._obj.RootCrossSection
-        tip1 = float(self._obj.TipLength1)
-        tip2 = float(self._obj.TipLength2)
+        tip1 = float(self._obj.RootLength1)
+        tip2 = float(self._obj.RootLength2)
 
-        if crossSection in [FIN_CROSS_ROUND]:
-            chord = float(self._obj.TipThickness)
-            height = float(self._obj.Height - self._obj.TipThickness)
-        elif crossSection in [FIN_CROSS_WEDGE, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE]:
+        if crossSection in [FIN_CROSS_WEDGE, FIN_CROSS_ROUND]:
+            chord = float(self._obj.RootThickness)
+            height = float(self._obj.Height - self._obj.RootThickness)
+        elif crossSection in [FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE]:
             chord = tip1
             height = self._heightAtChord(chord)
         elif crossSection in [FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LETE]:
@@ -101,13 +100,36 @@ class FinTriangleShapeHandler(FinShapeHandler):
             if self._obj.TtwThickness <= 0:
                 _err(translate('Rocket', "Ttw thickness must be greater than 0"))
                 return False
-        return True
+        return super().isValidShape()
 
     def _makeProfiles(self):
         profiles = []
         profiles.append(self._makeRootProfile())
         profiles.append(self._makeTipProfile())
+        top = self._makeTopProfile()
+        if top is not None:
+            profiles.append(top)
         return profiles
 
+    def _makeTopProfile(self):
+        crossSection = self._obj.RootCrossSection
+        if crossSection in [FIN_CROSS_SQUARE, FIN_CROSS_BICONVEX, FIN_CROSS_AIRFOIL]:
+            # Line across the tickness
+            tip = Part.LineSegment(FreeCAD.Vector(self._obj.SweepLength, float(self._obj.RootThickness) / 2.0, self._obj.Height), 
+                                    FreeCAD.Vector(self._obj.SweepLength, -float(self._obj.RootThickness) / 2.0, self._obj.Height))
+        elif crossSection in [FIN_CROSS_ROUND, FIN_CROSS_ELLIPSE]:
+            # Half sphere of radius thickness, handled by _makeTip()
+            return None
+        else:
+            # Just a point at the tip of the fin, used for lofts
+            tip=Part.Point(FreeCAD.Vector(self._obj.SweepLength, 0.0, self._obj.Height))
+        return tip
+
     def _makeTip(self):
-        return None
+        crossSection = self._obj.RootCrossSection
+        if crossSection in [FIN_CROSS_ROUND, FIN_CROSS_ELLIPSE]:
+            # Half sphere of radius thickness
+            tip = Part.makeSphere(float(self._obj.RootThickness), FreeCAD.Vector(self._obj.SweepLength, 0.0, self._obj.Height), FreeCAD.Vector(0, 0, 1), 0, 90, 180)
+        else:
+            tip = None
+        return tip

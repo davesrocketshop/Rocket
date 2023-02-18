@@ -36,7 +36,7 @@ from App.FeatureInnerTube import FeatureInnerTube
 from App.util.Coordinate import Coordinate, NUL
 
 from App.Constants import FEATURE_FIN, FEATURE_LAUNCH_LUG, FEATURE_RAIL_BUTTON, FEATURE_POD
-from App.Constants import FIN_TYPE_TRAPEZOID, FIN_TYPE_ELLIPSE, FIN_TYPE_TUBE, FIN_TYPE_SKETCH
+from App.Constants import FIN_TYPE_TRAPEZOID, FIN_TYPE_TRIANGLE, FIN_TYPE_ELLIPSE, FIN_TYPE_TUBE, FIN_TYPE_SKETCH
 from App.Constants import FIN_CROSS_SAME, FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE, \
     FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE, FIN_CROSS_ELLIPSE, FIN_CROSS_BICONVEX
 from App.Constants import FIN_DEBUG_FULL, FIN_DEBUG_PROFILE_ONLY, FIN_DEBUG_MASK_ONLY
@@ -62,7 +62,8 @@ class FeatureFin(ExternalComponent):
 
         if not hasattr(obj,"FinType"):
             obj.addProperty('App::PropertyEnumeration', 'FinType', 'Fin', translate('App::Property', 'Fin type'))
-            obj.FinType = [FIN_TYPE_TRAPEZOID, 
+            obj.FinType = [FIN_TYPE_TRAPEZOID,
+                    FIN_TYPE_TRIANGLE, 
                     FIN_TYPE_ELLIPSE, 
                     FIN_TYPE_TUBE, 
                     FIN_TYPE_SKETCH
@@ -323,6 +324,8 @@ class FeatureFin(ExternalComponent):
             if self.getTipChord() > 0.0:
                 shape = FinTrapezoidShapeHandler(obj)
             else:
+                shape = FinTriangleShapeHandler(obj)
+        elif obj.FinType == FIN_TYPE_TRIANGLE:
                 shape = FinTriangleShapeHandler(obj)
         elif obj.FinType == FIN_TYPE_ELLIPSE:
             shape = FinEllipseShapeHandler(obj)

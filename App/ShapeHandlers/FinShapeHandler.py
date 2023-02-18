@@ -340,6 +340,11 @@ class FinShapeHandler:
             else:
                 loft = Part.makeLoft(profiles, True)
 
+            if hasattr(self, "_makeTip"):
+                tip = self._makeTip()
+                if tip is not None:
+                    loft = loft.fuse(tip)
+
             if loft is not None:
                 mask = self._makeCommon()
                 if debug == FIN_DEBUG_MASK_ONLY:

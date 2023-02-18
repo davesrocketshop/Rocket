@@ -81,7 +81,7 @@ class FinCanShapeHandler(FinShapeHandler):
                 _err(translate('Rocket', "Coupler outer diameter must be less than fin can outer diameter"))
                 return False
 
-        return True
+        return super().isValidShape()
 
     def _leadingRound(self):
         # center_x = self._obj.RootChord + self._obj.LeadingEdgeOffset - self._obj.LeadingLength
