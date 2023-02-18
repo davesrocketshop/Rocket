@@ -59,10 +59,10 @@ class AbsoluteAxialMethod(AxialMethod):
         super().__init__(translate('App::Property', 'Tip of the nose cone'))
 
     def getAsOffset(self, position, innerLength, outerLength):
-        return position
+        return float(position)
 
     def getAsPosition(self, offset, innerLength, outerLength):
-        return offset
+        return float(offset)
 
     def getMethodName(self):
         return LOCATION_BASE
@@ -73,10 +73,10 @@ class AfterAxialMethod(AxialMethod):
         super().__init__(translate('App::Property', 'After the sibling component'))
 
     def getAsOffset(self, position, innerLength, outerLength):
-        return position - outerLength
+        return float(position) - float(outerLength)
 
     def getAsPosition(self, offset, innerLength, outerLength):
-        return outerLength + offset
+        return float(outerLength) + float(offset)
 
     def getMethodName(self):
         return LOCATION_AFTER
@@ -88,10 +88,10 @@ class BottomAxialMethod(AxialMethod):
         super().__init__(translate('App::Property', 'Bottom of the parent component'))
 
     def getAsOffset(self, position, innerLength, outerLength):
-        return position
+        return float(position) + (float(outerLength) - float(innerLength))
 
     def getAsPosition(self, offset, innerLength, outerLength):
-        return offset
+        return float(offset) + (float(outerLength) - float(innerLength))
 
     def getMethodName(self):
         return LOCATION_PARENT_BOTTOM
@@ -116,10 +116,10 @@ class TopAxialMethod(AxialMethod):
         super().__init__(translate('App::Property', 'Top of the parent component'))
 
     def getAsOffset(self, position, innerLength, outerLength):
-        return float(position) + (float(innerLength) - float(outerLength))
+        return float(position)
 
     def getAsPosition(self, offset, innerLength, outerLength):
-        return (float(outerLength) - float(innerLength)) + float(offset)
+        return float(offset)
 
     def getMethodName(self):
         return LOCATION_PARENT_TOP

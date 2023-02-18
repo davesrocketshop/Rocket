@@ -828,17 +828,17 @@ class RocketComponentShapeless():
         
         # if first component in the stage. => position from the top of the parent
         thisIndex = self.getParent().getChildIndex(self)
-        if thisIndex == (count - 1):
+        if thisIndex == 0:
             self._obj.Placement.Base.x = self.getParent()._obj.Placement.Base.x
             # self._obj.Placement.Base.x = 0.0
-        elif 0 <= thisIndex:
-            index = thisIndex + 1
+        elif 0 < thisIndex:
+            index = thisIndex - 1
             referenceComponent = self.getParent()._getChild( index )
-            while referenceComponent is not None:
-                if referenceComponent.Proxy.isAfter():
-                    break
-                index = index + 1
-                referenceComponent = self.getParent()._getChild( index )
+            # while referenceComponent is not None:
+            #     if referenceComponent.Proxy.isAfter():
+            #         break
+            #     index = index + 1
+            #     referenceComponent = self.getParent()._getChild( index )
 
             if referenceComponent is None:
                 self._obj.Placement.Base.x = self.getParent()._obj.Placement.Base.x
