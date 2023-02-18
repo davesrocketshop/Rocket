@@ -46,8 +46,8 @@ class FinShapeHandler:
 
     def _makeChordProfileSquare(self, foreX, chord, thickness, height):
         # Create the root rectangle
-        chordFore = foreX
-        chordAft = foreX - chord
+        chordFore = foreX + chord
+        chordAft = foreX
         halfThickness = thickness / 2
         v1 = FreeCAD.Vector(chordFore, halfThickness, height)
         v2 = FreeCAD.Vector(chordFore, -halfThickness, height)
@@ -62,8 +62,8 @@ class FinShapeHandler:
         return wire
 
     def _makeChordProfileRound(self, foreX, chord, thickness, height):
-        chordFore = foreX
-        chordAft = foreX - chord
+        chordFore = foreX + chord
+        chordAft = foreX
         halfThickness = thickness / 2
         v1 = FreeCAD.Vector(chordFore - halfThickness, halfThickness, height)
         v2 = FreeCAD.Vector(chordFore - halfThickness, -halfThickness, height)
@@ -80,14 +80,14 @@ class FinShapeHandler:
         return wire
 
     def _makeChordProfileEllipse(self, foreX, chord, thickness, height):
-        ellipse = Part.Ellipse(FreeCAD.Vector(foreX - (chord / 2.0), 0, height), chord / 2.0, thickness / 2.0)
+        ellipse = Part.Ellipse(FreeCAD.Vector(foreX + (chord / 2.0), 0, height), chord / 2.0, thickness / 2.0)
         wire = Part.Wire([ellipse.toShape()])
         return wire
 
     def _makeChordProfileBiconvex(self, foreX, chord, thickness, height):
-        chordFore = foreX
-        chordAft = foreX - chord
-        chordMid = foreX - (chord / 2)
+        chordFore = foreX + chord
+        chordAft = foreX
+        chordMid = foreX + (chord / 2)
         halfThickness = thickness / 2
         v1 = FreeCAD.Vector(chordFore, 0.0, height)
         v2 = FreeCAD.Vector(chordAft, 0.0, height)
@@ -114,11 +114,11 @@ class FinShapeHandler:
             
             x = float(i) / float(resolution)
             y = self._airfoilY(x, thickness)
-            points.append(FreeCAD.Vector(foreX - (x * chord), y, height))
-            points1.append(FreeCAD.Vector(foreX - (x * chord), -y, height))
+            points.append(FreeCAD.Vector(foreX + (x * chord), y, height))
+            points1.append(FreeCAD.Vector(foreX + (x * chord), -y, height))
 
-        points.append(FreeCAD.Vector(foreX - chord, 0.0, height))
-        points1.append(FreeCAD.Vector(foreX - chord, 0.0, height))
+        points.append(FreeCAD.Vector(foreX + chord, 0.0, height))
+        points1.append(FreeCAD.Vector(foreX + chord, 0.0, height))
 
         # Creating separate splines for each side of the airfoil adds extra reference
         # points for lofting, reducing geometry errors
@@ -154,7 +154,7 @@ class FinShapeHandler:
     def _makeChordProfileWedge(self, foreX, chord, thickness, height):
         # Create the root rectangle
         chordFore = foreX
-        chordAft = foreX - chord
+        chordAft = foreX + chord
         halfThickness = thickness / 2
         v1 = FreeCAD.Vector(chordFore, 0.0, height)
         v2 = FreeCAD.Vector(chordAft, -halfThickness, height)
@@ -168,8 +168,8 @@ class FinShapeHandler:
 
     def _makeChordProfileDiamond(self, foreX, chord, thickness, height, maxChord):
         chordFore = foreX
-        chordMid = foreX - maxChord
-        chordAft = foreX - chord
+        chordMid = foreX + maxChord
+        chordAft = foreX + chord
         halfThickness = thickness / 2
         v1 = FreeCAD.Vector(chordFore, 0.0, height)
         v2 = FreeCAD.Vector(chordMid, halfThickness, height)
@@ -185,8 +185,8 @@ class FinShapeHandler:
 
     def _makeChordProfileTaperLE(self, foreX, chord, thickness, height, maxChord):
         chordFore = foreX
-        chordMid = foreX - maxChord
-        chordAft = foreX - chord
+        chordMid = foreX + maxChord
+        chordAft = foreX + chord
         halfThickness = thickness / 2
         v1 = FreeCAD.Vector(chordFore, 0.0, height)
         v2 = FreeCAD.Vector(chordMid, halfThickness, height)
@@ -204,8 +204,8 @@ class FinShapeHandler:
 
     def _makeChordProfileTaperTE(self, foreX, chord, thickness, height, maxChord):
         chordFore = foreX
-        chordMid = foreX - chord + maxChord
-        chordAft = foreX - chord
+        chordMid = foreX + chord - maxChord
+        chordAft = foreX + chord
         halfThickness = thickness / 2
         v1 = FreeCAD.Vector(chordAft, 0.0, height)
         v2 = FreeCAD.Vector(chordMid, halfThickness, height)
@@ -223,10 +223,10 @@ class FinShapeHandler:
 
     def _makeChordProfileTaperLETE(self, foreX, chord, thickness, height, foreChord, aftChord, midChordLimit):
         chordFore = foreX
-        chordFore1 = foreX - self._midForeChordLimit(chord, foreChord, midChordLimit)
+        chordFore1 = foreX + self._midForeChordLimit(chord, foreChord, midChordLimit)
         # chordAft1 = foreX - chord + self._midAftChordLimit(chord, aftChord, midChordLimit)
-        chordAft1 = foreX - self._midAftChordLimit(chord, aftChord, midChordLimit)
-        chordAft = foreX - chord
+        chordAft1 = foreX + self._midAftChordLimit(chord, aftChord, midChordLimit)
+        chordAft = foreX + chord
         halfThickness = thickness / 2
 
         v1 = FreeCAD.Vector(chordFore, 0.0, height)

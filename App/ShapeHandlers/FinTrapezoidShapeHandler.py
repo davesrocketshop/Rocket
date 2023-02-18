@@ -43,7 +43,11 @@ class FinTrapezoidShapeHandler(FinShapeHandler):
             rootLength2 = float(self._obj.RootLength2)
         else:
             rootLength2 = float(self._obj.RootChord) - float(self._obj.RootLength2)
-        return self._makeChordProfile(self._obj.RootCrossSection, float(self._obj.RootChord), float(self._obj.RootChord), float(self._obj.RootThickness), 0.0, self._obj.RootPerCent, float(self._obj.RootLength1), rootLength2)
+        # return self._makeChordProfile(self._obj.RootCrossSection, float(self._obj.RootChord), float(self._obj.RootChord), float(self._obj.RootThickness), 0.0, self._obj.RootPerCent, float(self._obj.RootLength1), rootLength2)
+        return self._makeChordProfile(self._obj.RootCrossSection, 0.0, float(self._obj.RootChord), 
+            float(self._obj.RootThickness), 0.0, self._obj.RootPerCent, float(self._obj.RootLength1), rootLength2)
+    # def _makeChordProfile(self, crossSection, foreX, chord, thickness, height, lengthPerCent, 
+    #     length1, length2, midChordLimit = True):
 
     def _makeTipProfile(self):
         # Create the tip profile, casting everything to float to avoid typing issues
@@ -57,7 +61,8 @@ class FinTrapezoidShapeHandler(FinShapeHandler):
         tipThickness = float(self._obj.TipThickness)
         if self._obj.TipSameThickness:
             tipThickness = float(self._obj.RootThickness)
-        return self._makeChordProfile(crossSection, float(self._obj.RootChord - self._obj.SweepLength), float(self._obj.TipChord), tipThickness, float(self._obj.Height), self._obj.TipPerCent, float(self._obj.TipLength1), tipLength2)
+        return self._makeChordProfile(crossSection, float(self._obj.SweepLength), float(self._obj.TipChord), 
+            tipThickness, float(self._obj.Height), self._obj.TipPerCent, float(self._obj.TipLength1), tipLength2)
 
     def isValidShape(self):
         # Add error checking here
