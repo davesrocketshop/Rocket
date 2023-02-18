@@ -594,7 +594,7 @@ class RocketComponentShapeless():
         for listener in self._configListeners:
             listener.setAxialMethod(newAxialMethod)
 
-        if newAxialMethod == self._obj.AxialMethod:
+        if type(newAxialMethod) == type(self._obj.AxialMethod):
             # no change.
             return
 
