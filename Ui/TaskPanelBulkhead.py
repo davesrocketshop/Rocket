@@ -362,7 +362,6 @@ class TaskPanelBulkhead:
         self._bulkForm.commentInput.setPlainText(self._obj.Comment)
 
         self._setAutoDiameterState()
-        self._setStepState()
         self._setHoleState()
 
     def setEdited(self):
@@ -440,14 +439,8 @@ class TaskPanelBulkhead:
         self._obj.Proxy.execute(self._obj)
         self.setEdited()
         
-    def _setStepState(self):
-        self._bulkForm.stepDiameterInput.setEnabled(self._obj.Step)
-        self._bulkForm.stepThicknessInput.setEnabled(self._obj.Step)
-        self._bulkForm.stepReverseCheckbox.setEnabled(self._obj.Step)
-        
     def onStep(self, value):
         self._obj.Step = self._bulkForm.stepGroup.isChecked()
-        self._setStepState()
 
         self._obj.Proxy.execute(self._obj)
         self.setEdited()
