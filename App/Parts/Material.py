@@ -145,3 +145,11 @@ def getMaterialAnyType(connection, manufacturer, name):
             i += 1
 
     return rows[0]['material_index']
+
+def listMaterials(connection):
+    cursor = connection.cursor()
+
+    cursor.execute("SELECT material_index, manufacturer, material_name, type, density, units FROM material")
+
+    rows = cursor.fetchall()
+    return rows
