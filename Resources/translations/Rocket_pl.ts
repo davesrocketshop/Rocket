@@ -596,12 +596,12 @@
     <message>
       <location filename="ShapeFinCan.py" line="62"/>
       <source>Leading Edge</source>
-      <translation type="unfinished">Leading Edge</translation>
+      <translation>Krawędź natarcia</translation>
     </message>
     <message>
       <location filename="ShapeFinCan.py" line="66"/>
       <source>Leading Edge Length</source>
-      <translation type="unfinished">Leading Edge Length</translation>
+      <translation>Długość krawędzi natarcia</translation>
     </message>
     <message>
       <location filename="ShapeFinCan.py" line="69"/>
@@ -1999,7 +1999,7 @@
     <message>
       <location filename="CmdFlutterAnalysis.py" line="62"/>
       <source>Calculate fin flutter</source>
-      <translation type="unfinished">Calculate fin flutter</translation>
+      <translation>Obliczanie trzepotania płetw</translation>
     </message>
     <message>
       <location filename="CmdMaterialEditor.py" line="40"/>
@@ -2039,7 +2039,7 @@
     <message>
       <location filename="DialogFinFlutter.py" line="181"/>
       <source>Shear Modulus</source>
-      <translation type="unfinished">Shear Modulus</translation>
+      <translation>Moduł sprężystości ścinania</translation>
     </message>
     <message>
       <location filename="DialogFinFlutter.py" line="188"/>
@@ -2049,7 +2049,7 @@
     <message>
       <location filename="DialogFinFlutter.py" line="191"/>
       <source>Young&apos;s Modulus</source>
-      <translation type="unfinished">Young&apos;s Modulus</translation>
+      <translation>Moduł Younga</translation>
     </message>
     <message>
       <location filename="DialogFinFlutter.py" line="199"/>
@@ -2104,17 +2104,17 @@
     <message>
       <location filename="FinCanShapeHandler.py" line="68"/>
       <source>Coupler length must be greater than zero</source>
-      <translation type="unfinished">Coupler length must be greater than zero</translation>
+      <translation>Długość łącznika musi być większa od zera</translation>
     </message>
     <message>
       <location filename="FinCanShapeHandler.py" line="71"/>
       <source>Coupler inner diameter must be greater than zero</source>
-      <translation type="unfinished">Coupler inner diameter must be greater than zero</translation>
+      <translation>Średnica wewnętrzna łącznika musi być większa od zera</translation>
     </message>
     <message>
       <location filename="FinCanShapeHandler.py" line="74"/>
       <source>Coupler outer diameter must be greater than the inner diameter</source>
-      <translation type="unfinished">Coupler outer diameter must be greater than the inner diameter</translation>
+      <translation>Średnica zewnętrzna łącznika musi być większa niż średnica wewnętrzna</translation>
     </message>
     <message>
       <location filename="FinCanShapeHandler.py" line="77"/>
@@ -2134,7 +2134,7 @@
     <message>
       <location filename="TaskPanelFinCan.py" line="421"/>
       <source>Coupler</source>
-      <translation type="unfinished">Coupler</translation>
+      <translation>Łącznik</translation>
     </message>
     <message>
       <location filename="TaskPanelFinCan.py" line="424"/>
