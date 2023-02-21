@@ -106,6 +106,31 @@ class TransitionTests(unittest.TestCase):
         message += ", reversed"
         self._checkStyle(feature, message)
 
+    def _testForeShoulderNoStep(self, type, style, clipped, capStyle = STYLE_CAP_SOLID):
+        feature = makeTransition('Transition')
+        feature.TransitionType = type
+        if type == TYPE_POWER:
+            feature.Coefficient = 0.5
+        feature.Clipped = clipped
+        feature.TransitionStyle = style
+        feature.ForeShoulder = True
+        feature.AftShoulder = False
+        feature.ForeCapStyle = capStyle
+        feature.AftCapStyle = capStyle
+        feature.ForeShoulderDiameter = feature.ForeDiameter
+        self.Doc.recompute()
+
+        message = type + ": " + style + " Fore Shoulder No Step"
+        message += ", " + capStyle
+        if clipped:
+            message += ", clipped"
+
+        self._checkStyle(feature, message)
+
+        self._reverse(feature)
+        message += ", reversed"
+        self._checkStyle(feature, message)
+
     def _testAftShoulder(self, type, style, clipped, capStyle = STYLE_CAP_SOLID):
         feature = makeTransition('Transition')
         feature.TransitionType = type
@@ -120,6 +145,31 @@ class TransitionTests(unittest.TestCase):
         self.Doc.recompute()
 
         message = type + ": " + style + " Aft Shoulder"
+        message += ", " + capStyle
+        if clipped:
+            message += ", clipped"
+
+        self._checkStyle(feature, message)
+
+        self._reverse(feature)
+        message += ", reversed"
+        self._checkStyle(feature, message)
+
+    def _testAftShoulderNoStep(self, type, style, clipped, capStyle = STYLE_CAP_SOLID):
+        feature = makeTransition('Transition')
+        feature.TransitionType = type
+        if type == TYPE_POWER:
+            feature.Coefficient = 0.5
+        feature.Clipped = clipped
+        feature.TransitionStyle = style
+        feature.ForeShoulder = False
+        feature.AftShoulder = True
+        feature.ForeCapStyle = capStyle
+        feature.AftCapStyle = capStyle
+        feature.AftShoulderDiameter = feature.AftDiameter
+        self.Doc.recompute()
+
+        message = type + ": " + style + " Aft Shoulder No Step"
         message += ", " + capStyle
         if clipped:
             message += ", clipped"
@@ -154,6 +204,32 @@ class TransitionTests(unittest.TestCase):
         message += ", reversed"
         self._checkStyle(feature, message)
 
+    def _testBothShoulderNoStep(self, type, style, clipped, capStyle = STYLE_CAP_SOLID):
+        feature = makeTransition('Transition')
+        feature.TransitionType = type
+        if type == TYPE_POWER:
+            feature.Coefficient = 0.5
+        feature.Clipped = clipped
+        feature.TransitionStyle = style
+        feature.ForeShoulder = True
+        feature.AftShoulder = True
+        feature.ForeCapStyle = capStyle
+        feature.AftCapStyle = capStyle
+        feature.ForeShoulderDiameter = feature.ForeDiameter
+        feature.AftShoulderDiameter = feature.AftDiameter
+        self.Doc.recompute()
+
+        message = type + ": " + style + " Both Shoulder No Step"
+        message += ", " + capStyle
+        if clipped:
+            message += ", clipped"
+
+        self._checkStyle(feature, message)
+
+        self._reverse(feature)
+        message += ", reversed"
+        self._checkStyle(feature, message)
+
     def testTypesSolid(self):
         for type in [TYPE_CONE, TYPE_ELLIPTICAL, TYPE_HAACK, TYPE_OGIVE, TYPE_VON_KARMAN, TYPE_PARABOLA, TYPE_PARABOLIC, TYPE_POWER]:
             with self.subTest(t=type):
@@ -161,10 +237,16 @@ class TransitionTests(unittest.TestCase):
                 self._testForeShoulder(type, STYLE_SOLID, False)
                 self._testAftShoulder(type, STYLE_SOLID, False)
                 self._testBothShoulder(type, STYLE_SOLID, False)
+                self._testForeShoulderNoStep(type, STYLE_SOLID, False)
+                self._testAftShoulderNoStep(type, STYLE_SOLID, False)
+                self._testBothShoulderNoStep(type, STYLE_SOLID, False)
                 self._testPlain(type, STYLE_SOLID, True)
                 self._testForeShoulder(type, STYLE_SOLID, True)
                 self._testAftShoulder(type, STYLE_SOLID, True)
                 self._testBothShoulder(type, STYLE_SOLID, True)
+                self._testForeShoulderNoStep(type, STYLE_SOLID, True)
+                self._testAftShoulderNoStep(type, STYLE_SOLID, True)
+                self._testBothShoulderNoStep(type, STYLE_SOLID, True)
 
     def testTypesSolidCore(self):
         for type in [TYPE_CONE, TYPE_ELLIPTICAL, TYPE_HAACK, TYPE_OGIVE, TYPE_VON_KARMAN, TYPE_PARABOLA, TYPE_PARABOLIC, TYPE_POWER]:
@@ -173,10 +255,16 @@ class TransitionTests(unittest.TestCase):
                 self._testForeShoulder(type, STYLE_SOLID_CORE, False)
                 self._testAftShoulder(type, STYLE_SOLID_CORE, False)
                 self._testBothShoulder(type, STYLE_SOLID_CORE, False)
+                self._testForeShoulderNoStep(type, STYLE_SOLID_CORE, False)
+                self._testAftShoulderNoStep(type, STYLE_SOLID_CORE, False)
+                self._testBothShoulderNoStep(type, STYLE_SOLID_CORE, False)
                 self._testPlain(type, STYLE_SOLID_CORE, True)
                 self._testForeShoulder(type, STYLE_SOLID_CORE, True)
                 self._testAftShoulder(type, STYLE_SOLID_CORE, True)
                 self._testBothShoulder(type, STYLE_SOLID_CORE, True)
+                self._testForeShoulderNoStep(type, STYLE_SOLID_CORE, True)
+                self._testAftShoulderNoStep(type, STYLE_SOLID_CORE, True)
+                self._testBothShoulderNoStep(type, STYLE_SOLID_CORE, True)
 
     def testTypesHollow(self):
         for type in [TYPE_CONE, TYPE_ELLIPTICAL, TYPE_HAACK, TYPE_OGIVE, TYPE_VON_KARMAN, TYPE_PARABOLA, TYPE_PARABOLIC, TYPE_POWER]:
@@ -185,10 +273,16 @@ class TransitionTests(unittest.TestCase):
                 self._testForeShoulder(type, STYLE_HOLLOW, False)
                 self._testAftShoulder(type, STYLE_HOLLOW, False)
                 self._testBothShoulder(type, STYLE_HOLLOW, False)
+                self._testForeShoulderNoStep(type, STYLE_HOLLOW, False)
+                self._testAftShoulderNoStep(type, STYLE_HOLLOW, False)
+                self._testBothShoulderNoStep(type, STYLE_HOLLOW, False)
                 self._testPlain(type, STYLE_HOLLOW, True)
                 self._testForeShoulder(type, STYLE_HOLLOW, True)
                 self._testAftShoulder(type, STYLE_HOLLOW, True)
                 self._testBothShoulder(type, STYLE_HOLLOW, True)
+                self._testForeShoulderNoStep(type, STYLE_HOLLOW, True)
+                self._testAftShoulderNoStep(type, STYLE_HOLLOW, True)
+                self._testBothShoulderNoStep(type, STYLE_HOLLOW, True)
 
     def testTypesCapped(self):
         for type in [TYPE_CONE, TYPE_ELLIPTICAL, TYPE_HAACK, TYPE_OGIVE, TYPE_VON_KARMAN, TYPE_PARABOLA, TYPE_PARABOLIC, TYPE_POWER]:
@@ -199,7 +293,13 @@ class TransitionTests(unittest.TestCase):
                         self._testForeShoulder(type, STYLE_CAPPED, False, capStyle)
                         self._testAftShoulder(type, STYLE_CAPPED, False, capStyle)
                         self._testBothShoulder(type, STYLE_CAPPED, False, capStyle)
+                        self._testForeShoulderNoStep(type, STYLE_CAPPED, False, capStyle)
+                        self._testAftShoulderNoStep(type, STYLE_CAPPED, False, capStyle)
+                        self._testBothShoulderNoStep(type, STYLE_CAPPED, False, capStyle)
                         self._testPlain(type, STYLE_CAPPED, True, capStyle)
                         self._testForeShoulder(type, STYLE_CAPPED, True, capStyle)
                         self._testAftShoulder(type, STYLE_CAPPED, True, capStyle)
                         self._testBothShoulder(type, STYLE_CAPPED, True, capStyle)
+                        self._testForeShoulderNoStep(type, STYLE_CAPPED, True, capStyle)
+                        self._testAftShoulderNoStep(type, STYLE_CAPPED, True, capStyle)
+                        self._testBothShoulderNoStep(type, STYLE_CAPPED, True, capStyle)
