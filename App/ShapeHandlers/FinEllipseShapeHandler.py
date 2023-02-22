@@ -112,7 +112,7 @@ class FinEllipseShapeHandler(FinShapeHandler):
             else:
                 thickness = float(self._obj.RootThickness)
             ellipses.append(self._makeChordProfile(self._obj.RootCrossSection,
-                midChord + radius,
+                midChord - radius,
                 radius * 2.0,
                 thickness, #float(self._obj.RootThickness), # need to fix this
                 height,

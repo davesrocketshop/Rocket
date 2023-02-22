@@ -204,7 +204,7 @@ class RailGuideShapeHandler():
         z = x * slope + intercept # In the (x,z) plane
         return z
 
-    def _drawForwardSweep(self):
+    def _drawAftSweep(self):
         # We need to calculate our vertices outside of the part to avoid OpenCASCADE's "too exact" problem
         slope = -1.0 / math.tan(self._forwardSweepAngle)
         intercept = self._zMin - (slope * self._length)
@@ -233,7 +233,7 @@ class RailGuideShapeHandler():
 
         return rake
 
-    def _drawAftSweep(self):
+    def _drawForwardSweep(self):
         # We need to calculate our vertices outside of the part to avoid OpenCASCADE's "too exact" problem
         slope = 1.0 / math.tan(self._aftSweepAngle)
 

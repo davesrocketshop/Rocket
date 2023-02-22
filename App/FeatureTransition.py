@@ -107,6 +107,15 @@ class FeatureTransition(SymmetricComponent):
                         TYPE_POWER,
                         TYPE_HAACK]
             obj.TransitionType = TYPE_CONE
+        else:
+            obj.TransitionType = [TYPE_CONE,
+                        TYPE_ELLIPTICAL,
+                        TYPE_OGIVE,
+                        TYPE_VON_KARMAN,
+                        TYPE_PARABOLA,
+                        TYPE_PARABOLIC,
+                        TYPE_POWER,
+                        TYPE_HAACK]
 
         if not hasattr(obj, 'TransitionStyle'):
             obj.addProperty('App::PropertyEnumeration', 'TransitionStyle', 'Transition', translate('App::Property', 'Transition style'))
@@ -115,6 +124,11 @@ class FeatureTransition(SymmetricComponent):
                                 STYLE_HOLLOW,
                                 STYLE_CAPPED]
             obj.TransitionStyle = STYLE_SOLID
+        else:
+            obj.TransitionStyle = [STYLE_SOLID,
+                                STYLE_SOLID_CORE,
+                                STYLE_HOLLOW,
+                                STYLE_CAPPED]
 
         if not hasattr(obj, 'ForeCapStyle'):
             obj.addProperty('App::PropertyEnumeration', 'ForeCapStyle', 'Transition', translate('App::Property', 'Forward cap style'))
@@ -122,6 +136,10 @@ class FeatureTransition(SymmetricComponent):
                                 STYLE_CAP_BAR,
                                 STYLE_CAP_CROSS]
             obj.ForeCapStyle = STYLE_CAP_SOLID
+        else:
+            obj.ForeCapStyle = [STYLE_CAP_SOLID,
+                                STYLE_CAP_BAR,
+                                STYLE_CAP_CROSS]
 
         if not hasattr(obj, 'AftCapStyle'):
             obj.addProperty('App::PropertyEnumeration', 'AftCapStyle', 'Transition', translate('App::Property', 'Aft cap style'))
@@ -129,6 +147,10 @@ class FeatureTransition(SymmetricComponent):
                                 STYLE_CAP_BAR,
                                 STYLE_CAP_CROSS]
             obj.AftCapStyle = STYLE_CAP_SOLID
+        else:
+            obj.AftCapStyle = [STYLE_CAP_SOLID,
+                                STYLE_CAP_BAR,
+                                STYLE_CAP_CROSS]
 
     def setDefaults(self):
         super().setDefaults()
