@@ -11,7 +11,7 @@
     <message>
       <location filename="ShapeBodyTube.py" line="42"/>
       <source>Diameter of the outside of the body tube</source>
-      <translation>Diámetro del exterior del cuerpo tubular</translation>
+      <translation>Diámetro exterior del cuerpo tubular</translation>
     </message>
     <message>
       <location filename="ShapeBodyTube.py" line="47"/>
@@ -381,7 +381,7 @@
     <message>
       <location filename="ShapeRailGuide.py" line="42"/>
       <source>Rail guide base type</source>
-      <translation type="unfinished">Rail guide base type</translation>
+      <translation>Tipo de base de guía de riel</translation>
     </message>
     <message>
       <location filename="ShapeRailGuide.py" line="50"/>
@@ -421,7 +421,7 @@
     <message>
       <location filename="ShapeRailGuide.py" line="64"/>
       <source>Diameter of the outside of the body tube for conformal base type</source>
-      <translation type="unfinished">Diameter of the outside of the body tube for conformal base type</translation>
+      <translation>Diámetro exterior del cuerpo tubular para tipo de base conformada</translation>
     </message>
     <message>
       <location filename="ShapeRailGuide.py" line="66"/>
@@ -491,7 +491,7 @@
     <message>
       <location filename="ShapeRailButton.py" line="62"/>
       <source>Thickness of the outboard part of the rail button</source>
-      <translation type="unfinished">Thickness of the outboard part of the rail button</translation>
+      <translation>Espesor de la parte exterior del botón de riel</translation>
     </message>
     <message>
       <location filename="ShapeRailButton.py" line="64"/>
@@ -546,7 +546,7 @@
     <message>
       <location filename="ShapeNoseCone.py" line="101"/>
       <source>Nose Radius for a blunted nose cone</source>
-      <translation type="unfinished">Nose Radius for a blunted nose cone</translation>
+      <translation>Radio de nariz para un cono de nariz embotada</translation>
     </message>
     <message>
       <location filename="ShapeNoseCone.py" line="117"/>
@@ -646,12 +646,12 @@
     <message>
       <location filename="ShapeFinCan.py" line="110"/>
       <source>Launch lug size preset</source>
-      <translation type="unfinished">Launch lug size preset</translation>
+      <translation>Tamaño de orejeta de lanzamiento preestablecido</translation>
     </message>
     <message>
       <location filename="ShapeFinCan.py" line="99"/>
       <source>Forward side of the launch lug is swept</source>
-      <translation type="unfinished">Forward side of the launch lug is swept</translation>
+      <translation>La parte delantera de la orejeta de lanzamiento es barrida</translation>
     </message>
     <message>
       <location filename="ShapeFinCan.py" line="101"/>
@@ -661,12 +661,12 @@
     <message>
       <location filename="ShapeFinCan.py" line="103"/>
       <source>Aft side of the launch lug is swept</source>
-      <translation type="unfinished">Aft side of the launch lug is swept</translation>
+      <translation>La parte trasera de la orejeta de lanzamiento es barrida</translation>
     </message>
     <message>
       <location filename="ShapeFinCan.py" line="105"/>
       <source>Aft sweep angle</source>
-      <translation type="unfinished">Aft sweep angle</translation>
+      <translation>Ángulo de barrido trasero</translation>
     </message>
     <message>
       <location filename="ShapeNoseCone.py" line="97"/>
@@ -686,22 +686,22 @@
     <message>
       <location filename="ShapeFinCan.py" line="108"/>
       <source>Fin can includes coupler</source>
-      <translation type="unfinished">Fin can includes coupler</translation>
+      <translation>La lata de aletas incluye un acoplador</translation>
     </message>
     <message>
       <location filename="ShapeFinCan.py" line="115"/>
       <source>Diameter of the inside of the coupler</source>
-      <translation type="unfinished">Diameter of the inside of the coupler</translation>
+      <translation>Diámetro del interior del acoplador</translation>
     </message>
     <message>
       <location filename="ShapeFinCan.py" line="117"/>
       <source>Diameter of the outside of the coupler</source>
-      <translation type="unfinished">Diameter of the outside of the coupler</translation>
+      <translation>Diámetro del exterior del acoplador</translation>
     </message>
     <message>
       <location filename="ShapeFinCan.py" line="119"/>
       <source>Length of the coupler</source>
-      <translation type="unfinished">Length of the coupler</translation>
+      <translation>Longitud del acoplador</translation>
     </message>
     <message>
       <location filename="ShapeTransition.py" line="106"/>
@@ -711,7 +711,7 @@
     <message>
       <location filename="ShapeTransition.py" line="108"/>
       <source>Width of the aft cap bar</source>
-      <translation type="unfinished">Width of the aft cap bar</translation>
+      <translation>Ancho de la barra de la tapa trasera</translation>
     </message>
     <message>
       <location filename="ShapeTransition.py" line="131"/>
@@ -994,7 +994,7 @@
     <message>
       <location filename="BodyTubeShapeHandler.py" line="51"/>
       <source>Body tube outer diameter must be greater than the inner</source>
-      <translation>El diámetro exterior del cuerpo tubular debe ser mayor que el interior</translation>
+      <translation>El diámetro exterior del cuerpo tubular debe ser mayor que el diámetro interior</translation>
     </message>
     <message>
       <location filename="BodyTubeShapeHandler.py" line="54"/>
@@ -1394,22 +1394,22 @@
     <message>
       <location filename="DialogLookup.py" line="341"/>
       <source>Fore Shoulder Diameter</source>
-      <translation type="unfinished">Fore Shoulder Diameter</translation>
+      <translation>Diámetro de hombro delantero</translation>
     </message>
     <message>
       <location filename="DialogLookup.py" line="342"/>
       <source>Fore Shoulder Length</source>
-      <translation type="unfinished">Fore Shoulder Length</translation>
+      <translation>Longitud de hombro delantero</translation>
     </message>
     <message>
       <location filename="DialogLookup.py" line="343"/>
       <source>Aft Shoulder Diameter</source>
-      <translation type="unfinished">Aft Shoulder Diameter</translation>
+      <translation>Diámetro de hombro trasero</translation>
     </message>
     <message>
       <location filename="DialogLookup.py" line="344"/>
       <source>Aft Shoulder Length</source>
-      <translation type="unfinished">Aft Shoulder Length</translation>
+      <translation>Longitud de hombro trasero</translation>
     </message>
     <message>
       <location filename="DialogParachute.py" line="39"/>
@@ -1554,12 +1554,12 @@
     <message>
       <location filename="RailButtonShapeHandler.py" line="69"/>
       <source>Inner diameter must be greater than zero</source>
-      <translation type="unfinished">Inner diameter must be greater than zero</translation>
+      <translation>El diámetro interior debe ser mayor que cero</translation>
     </message>
     <message>
       <location filename="RailButtonShapeHandler.py" line="72"/>
       <source>Outer diameter must be greater than the inner diameter</source>
-      <translation type="unfinished">Outer diameter must be greater than the inner diameter</translation>
+      <translation>El diámetro exterior debe ser mayor que el diámetro interior</translation>
     </message>
     <message>
       <location filename="RailGuideShapeHandler.py" line="86"/>
@@ -1574,7 +1574,7 @@
     <message>
       <location filename="RailButtonShapeHandler.py" line="81"/>
       <source>Thickness must be greater than zero</source>
-      <translation type="unfinished">Thickness must be greater than zero</translation>
+      <translation>El espesor debe ser mayor que cero</translation>
     </message>
     <message>
       <location filename="RailButtonShapeHandler.py" line="84"/>
@@ -1584,17 +1584,17 @@
     <message>
       <location filename="RailButtonShapeHandler.py" line="89"/>
       <source>Length must be greater than zero for airfoil rail buttons</source>
-      <translation type="unfinished">Length must be greater than zero for airfoil rail buttons</translation>
+      <translation>La longitud debe de ser mayor que cero para botones de riel aerodinámicos</translation>
     </message>
     <message>
       <location filename="RailButtonShapeHandler.py" line="93"/>
       <source>Length must be greater than the outer diameter for airfoil rail buttons</source>
-      <translation type="unfinished">Length must be greater than the outer diameter for airfoil rail buttons</translation>
+      <translation>La longitud debe de ser mayor el diámetro externo para botones de riel aerodinámicos</translation>
     </message>
     <message>
       <location filename="RailButtonShapeHandler.py" line="198"/>
       <source>Rail button parameters produce an invalid shape</source>
-      <translation type="unfinished">Rail button parameters produce an invalid shape</translation>
+      <translation>Los parámetros de botón de riel producen una forma inválida</translation>
     </message>
     <message>
       <location filename="RailGuideShapeHandler.py" line="74"/>
@@ -1619,7 +1619,7 @@
     <message>
       <location filename="RailGuideShapeHandler.py" line="98"/>
       <source>Length must be greater than zero</source>
-      <translation type="unfinished">Length must be greater than zero</translation>
+      <translation>La longitud debe ser mayor que 0</translation>
     </message>
     <message>
       <location filename="RailGuideShapeHandler.py" line="103"/>
@@ -1654,37 +1654,37 @@
     <message>
       <location filename="RailGuideShapeHandler.py" line="297"/>
       <source>Rail Guide parameters produce an invalid shape</source>
-      <translation type="unfinished">Rail Guide parameters produce an invalid shape</translation>
+      <translation>Los parámetros de la guía de riel producen una forma inválida</translation>
     </message>
     <message>
       <location filename="TaskPanelFinCan.py" line="481"/>
       <source>Launch Lug</source>
-      <translation type="unfinished">Launch Lug</translation>
+      <translation>Orejeta de lanzamiento</translation>
     </message>
     <message>
       <location filename="CmdLaunchGuides.py" line="96"/>
       <source>Launch lug design</source>
-      <translation type="unfinished">Launch lug design</translation>
+      <translation>Diseño de orejeta de lanzamiento</translation>
     </message>
     <message>
       <location filename="CmdLaunchGuides.py" line="112"/>
       <source>Rail Button</source>
-      <translation type="unfinished">Rail Button</translation>
+      <translation>Botón de riel</translation>
     </message>
     <message>
       <location filename="CmdLaunchGuides.py" line="113"/>
       <source>Rail button design</source>
-      <translation type="unfinished">Rail button design</translation>
+      <translation>Diseño de botón de riel</translation>
     </message>
     <message>
       <location filename="CmdLaunchGuides.py" line="129"/>
       <source>Rail Guide</source>
-      <translation type="unfinished">Rail Guide</translation>
+      <translation>Guía de riel</translation>
     </message>
     <message>
       <location filename="CmdLaunchGuides.py" line="130"/>
       <source>Rail guide design</source>
-      <translation type="unfinished">Rail guide design</translation>
+      <translation>Diseño de guía de riel</translation>
     </message>
     <message>
       <location filename="CmdLaunchGuides.py" line="146"/>
@@ -1734,7 +1734,7 @@
     <message>
       <location filename="TaskPanelRailGuide.py" line="88"/>
       <source>Total Thickness</source>
-      <translation type="unfinished">Total Thickness</translation>
+      <translation>Espesor total</translation>
     </message>
     <message>
       <location filename="TaskPanelRailGuide.py" line="107"/>
@@ -1754,7 +1754,7 @@
     <message>
       <location filename="TaskPanelRailGuide.py" line="127"/>
       <source>Aft Sweep</source>
-      <translation type="unfinished">Aft Sweep</translation>
+      <translation>Barrido trasero</translation>
     </message>
     <message>
       <location filename="TaskPanelRailGuide.py" line="137"/>
@@ -1789,12 +1789,12 @@
     <message>
       <location filename="TaskPanelRailButton.py" line="56"/>
       <source>Rail Button Parameter</source>
-      <translation type="unfinished">Rail Button Parameter</translation>
+      <translation>Parámetro de botón de riel</translation>
     </message>
     <message>
       <location filename="TaskPanelRailButton.py" line="58"/>
       <source>Rail Button Shape</source>
-      <translation type="unfinished">Rail Button Shape</translation>
+      <translation>Forma de botón de riel</translation>
     </message>
     <message>
       <location filename="TaskPanelRailButton.py" line="102"/>
@@ -1819,7 +1819,7 @@
     <message>
       <location filename="TaskPanelRailButton.py" line="138"/>
       <source>Top Fillet</source>
-      <translation type="unfinished">Top Fillet</translation>
+      <translation>Redondeo superior</translation>
     </message>
     <message>
       <location filename="TaskPanelRailButton.py" line="141"/>
@@ -1834,22 +1834,22 @@
     <message>
       <location filename="TaskPanelFin.py" line="57"/>
       <source>Fin Tabs</source>
-      <translation type="unfinished">Fin Tabs</translation>
+      <translation>Pestañas de aleta</translation>
     </message>
     <message>
       <location filename="NoseShapeHandler.py" line="82"/>
       <source>Nose diameter must be less than the base diameter</source>
-      <translation type="unfinished">Nose diameter must be less than the base diameter</translation>
+      <translation>El diámetro de la nariz debe ser menor que el diámetro de la base</translation>
     </message>
     <message>
       <location filename="NoseShapeHandler.py" line="85"/>
       <source>Nose diameter must be greater than zero</source>
-      <translation type="unfinished">Nose diameter must be greater than zero</translation>
+      <translation>El diámetro de la nariz debe ser mayor que cero</translation>
     </message>
     <message>
       <location filename="TaskPanelNoseCone.py" line="127"/>
       <source>Blunted Diameter</source>
-      <translation type="unfinished">Blunted Diameter</translation>
+      <translation>Diámetro embotado</translation>
     </message>
     <message>
       <location filename="TaskPanelNoseCone.py" line="133"/>
@@ -1864,12 +1864,12 @@
     <message>
       <location filename="FinCanShapeHandler.py" line="51"/>
       <source>Fin can thickness must be greater than zero</source>
-      <translation type="unfinished">Fin can thickness must be greater than zero</translation>
+      <translation>El espesor de la lata de aletas debe ser mayor que 0</translation>
     </message>
     <message>
       <location filename="FinCanShapeHandler.py" line="54"/>
       <source>Fin can length must be greater than zero</source>
-      <translation type="unfinished">Fin can length must be greater than zero</translation>
+      <translation>La longitud de la lata de aletas debe ser mayor que 0</translation>
     </message>
     <message>
       <location filename="FinCanShapeHandler.py" line="63"/>
@@ -1879,12 +1879,12 @@
     <message>
       <location filename="FinCanShapeHandler.py" line="310"/>
       <source>Launch lug parameters produce an invalid shape</source>
-      <translation type="unfinished">Launch lug parameters produce an invalid shape</translation>
+      <translation>Los parámetros de la orejeta de lanzamiento producen una forma inválida</translation>
     </message>
     <message>
       <location filename="FinCanShapeHandler.py" line="411"/>
       <source>Fin can parameters produce an invalid shape</source>
-      <translation type="unfinished">Fin can parameters produce an invalid shape</translation>
+      <translation>Los parámetros de la lata de aletas producen una forma inválida</translation>
     </message>
     <message>
       <location filename="TaskPanelFinCan.py" line="61"/>
@@ -1969,7 +1969,7 @@
     <message>
       <location filename="FinFlutter.py" line="62"/>
       <source>Tapered thickness fins are not supported at this time</source>
-      <translation type="unfinished">Tapered thickness fins are not supported at this time</translation>
+      <translation>Las aletas de espesor cónico no son compatibles en este momento</translation>
     </message>
     <message>
       <location filename="FinFlutter.py" line="78"/>
@@ -1994,12 +1994,12 @@
     <message>
       <location filename="DialogFinFlutter.py" line="170"/>
       <source>Fin Flutter Analysis</source>
-      <translation type="unfinished">Fin Flutter Analysis</translation>
+      <translation>Análisis de aleteo de aletas</translation>
     </message>
     <message>
       <location filename="CmdFlutterAnalysis.py" line="62"/>
       <source>Calculate fin flutter</source>
-      <translation type="unfinished">Calculate fin flutter</translation>
+      <translation>Calcular aleteo de aletas</translation>
     </message>
     <message>
       <location filename="CmdMaterialEditor.py" line="40"/>
@@ -2034,7 +2034,7 @@
     <message>
       <location filename="DialogFinFlutter.py" line="176"/>
       <source>Preset</source>
-      <translation type="unfinished">Preset</translation>
+      <translation>Preajuste</translation>
     </message>
     <message>
       <location filename="DialogFinFlutter.py" line="181"/>
@@ -2059,7 +2059,7 @@
     <message>
       <location filename="DialogFinFlutter.py" line="206"/>
       <source>Fin Flutter</source>
-      <translation type="unfinished">Fin Flutter</translation>
+      <translation>Aleteo de aletas</translation>
     </message>
     <message>
       <location filename="DialogFinFlutter.py" line="208"/>
@@ -2074,7 +2074,7 @@
     <message>
       <location filename="DialogFinFlutter.py" line="230"/>
       <source>Flutter Speed</source>
-      <translation type="unfinished">Flutter Speed</translation>
+      <translation>Velocidad de aleteo</translation>
     </message>
     <message>
       <location filename="DialogFinFlutter.py" line="238"/>
@@ -2104,17 +2104,17 @@
     <message>
       <location filename="FinCanShapeHandler.py" line="68"/>
       <source>Coupler length must be greater than zero</source>
-      <translation type="unfinished">Coupler length must be greater than zero</translation>
+      <translation>La longitud del acoplador debe ser mayor que cero</translation>
     </message>
     <message>
       <location filename="FinCanShapeHandler.py" line="71"/>
       <source>Coupler inner diameter must be greater than zero</source>
-      <translation type="unfinished">Coupler inner diameter must be greater than zero</translation>
+      <translation>El diámetro interior del acoplador debe ser mayor que cero</translation>
     </message>
     <message>
       <location filename="FinCanShapeHandler.py" line="74"/>
       <source>Coupler outer diameter must be greater than the inner diameter</source>
-      <translation type="unfinished">Coupler outer diameter must be greater than the inner diameter</translation>
+      <translation>El diámetro exterior del acoplador debe ser mayor que el diámetro interior</translation>
     </message>
     <message>
       <location filename="FinCanShapeHandler.py" line="77"/>
@@ -2134,12 +2134,12 @@
     <message>
       <location filename="TaskPanelFinCan.py" line="421"/>
       <source>Coupler</source>
-      <translation type="unfinished">Coupler</translation>
+      <translation>Acoplador</translation>
     </message>
     <message>
       <location filename="TaskPanelFinCan.py" line="424"/>
       <source>Coupler Style</source>
-      <translation type="unfinished">Coupler Style</translation>
+      <translation>Estilo de acoplador</translation>
     </message>
     <message>
       <location filename="TaskPanelFinCan.py" line="428"/>
@@ -2159,7 +2159,7 @@
     <message>
       <location filename="TaskPanelTransition.py" line="156"/>
       <source>Aft Cap</source>
-      <translation type="unfinished">Aft Cap</translation>
+      <translation>Tapa trasera</translation>
     </message>
   </context>
 </TS>

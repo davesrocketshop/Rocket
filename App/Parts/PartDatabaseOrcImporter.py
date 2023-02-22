@@ -161,6 +161,7 @@ class MaterialElement(Element):
             "mpc.orc" : "MPC",
             "publicmissiles.orc" : "Public Missiles",
             "quest.orc" : "Quest",
+            "rocketarium.orc" : "Rocketarium",
             "semroc.orc" : "SEMROC",
             "top_flight.orc" : "Top Flight Recovery"
         }
@@ -262,6 +263,7 @@ class ComponentElement(Element):
             "mpc.orc" : "MPC",
             "publicmissiles.orc" : "Public Missiles",
             "quest.orc" : "Quest",
+            "rocketarium.orc" : "Rocketarium",
             "semroc.orc" : "SEMROC",
             "top_flight.orc" : "Top Flight Recovery"
         }
