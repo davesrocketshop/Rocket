@@ -164,7 +164,6 @@ class DialogMaterialMapping(QtGui.QDialog):
         return {}
 
     def _itemWithDimension(self, value, dim):
-        print("value {0}, dim {1}".format(value, dim))
         return self._newItem(_valueWithUnits(value, dim))
 
     def _newItem(self, text):
@@ -191,8 +190,8 @@ class DialogMaterialMapping(QtGui.QDialog):
             self._model.setItem(rowCount, 1, self._newItem(str(row["manufacturer"])))
             self._model.setItem(rowCount, 2, self._newItem(str(row["material_name"])))
             self._model.setItem(rowCount, 3, self._newItem(str(row["type"])))
-            # self._model.setItem(rowCount, 4, self._newItem(self._itemWithDimension(row["density"], row["units"])))
-            self._model.setItem(rowCount, 4, self._newItem(str(row["density"]) + " " + str(row["units"])))
+            self._model.setItem(rowCount, 4, self._newItem(self._itemWithDimension(row["density"], row["units"])))
+            # self._model.setItem(rowCount, 4, self._newItem(str(row["density"]) + " " + str(row["units"])))
 
     def _updateModel(self):
         self._queryMaterial()

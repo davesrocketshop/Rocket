@@ -44,7 +44,7 @@ from App.Parts.Transition import Transition
 from App.Parts.Exceptions import InvalidError, MultipleEntryError, UnknownManufacturerError
 
 from App.Constants import TYPE_CONE, TYPE_ELLIPTICAL, TYPE_HAACK, TYPE_OGIVE, TYPE_PARABOLA, TYPE_POWER
-from App.Constants import MATERIAL_TYPE_BULK, MATERIAL_TYPE_LINE
+from App.Constants import MATERIAL_TYPE_BULK, MATERIAL_TYPE_LINE, MATERIAL_TYPE_SURFACE
 
 class Element:
 
@@ -105,7 +105,7 @@ class OpenRocketComponentElement(Element):
                                 'components' : ComponentsElement
                               }
         self._knownTags = ["version", "creator"]
-        self._supportedVersions = ["0.1"]
+        self._supportedVersions = ["0.1", "1.0"]
 
     def handleEndTag(self, tag, content):
         _tag = tag.lower().strip()
@@ -142,7 +142,7 @@ class MaterialElement(Element):
         self._name = ""
         self._type = None
         self._density = 0.0
-        self._units = "kg/m3" # attributes["UnitsOfMeasure"] OpenRocket ignores the units, and they're often wrong
+        self._units = "kg/m^3" # attributes["UnitsOfMeasure"] OpenRocket ignores the units, and they're often wrong
 
     def _defaultManufacturer(self):
         # The default manufacturer is based on the filename
@@ -185,6 +185,12 @@ class MaterialElement(Element):
             self._name = self._sanitizeName(content)
         elif _tag == "type":
             self._type = content
+            if self._type == MATERIAL_TYPE_BULK:
+                self._units = "kg/m^3"
+            elif self._type == MATERIAL_TYPE_SURFACE:
+                self._units = "kg/m^2"
+            elif self._type == MATERIAL_TYPE_LINE:
+                self._units = "kg/m"
         elif _tag == "density":
             self._density = _toFloat(content.strip())
         else:
