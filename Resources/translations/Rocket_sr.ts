@@ -809,17 +809,17 @@
     <message>
       <location filename="TaskPanelRailGuide.py" line="140"/>
       <source>Width</source>
-      <translation type="unfinished">Width</translation>
+      <translation>Ширина</translation>
     </message>
     <message>
       <location filename="TaskPanelFinCan.py" line="189"/>
       <source>Height</source>
-      <translation type="unfinished">Height</translation>
+      <translation>Висина</translation>
     </message>
     <message>
       <location filename="TaskPanelBulkhead.py" line="91"/>
       <source>Step</source>
-      <translation type="unfinished">Step</translation>
+      <translation>Корак</translation>
     </message>
     <message>
       <location filename="TaskPanelBulkhead.py" line="108"/>
@@ -829,7 +829,7 @@
     <message>
       <location filename="TaskPanelBulkhead.py" line="119"/>
       <source>Center</source>
-      <translation type="unfinished">Center</translation>
+      <translation>Центар</translation>
     </message>
     <message>
       <location filename="TaskPanelBulkhead.py" line="125"/>
@@ -864,7 +864,7 @@
     <message>
       <location filename="TaskPanelDatabase.py" line="65"/>
       <source>Material</source>
-      <translation type="unfinished">Material</translation>
+      <translation>Материјал</translation>
     </message>
     <message>
       <location filename="TaskPanelDatabase.py" line="70"/>
@@ -979,7 +979,7 @@
     <message>
       <location filename="InitGui.py" line="59"/>
       <source>Rocket</source>
-      <translation type="unfinished">Rocket</translation>
+      <translation>Ракета</translation>
     </message>
     <message>
       <location filename="RocketGui.py" line="91"/>

@@ -29,4 +29,5 @@ import FreeCAD
 FreeCAD.addImportType("Open Rocket (*.ork)", "importORK")
 # App.addImportType("Rocksim (*.rkt)", "importRKT")
 
-App.__unit_test__ += ["TestRocketApp"]
+#App.__unit_test__ += ["TestRocketImport"]
+FreeCAD.__unit_test__ += ["TestRocketApp"]
