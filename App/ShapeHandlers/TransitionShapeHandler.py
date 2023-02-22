@@ -278,7 +278,7 @@ class TransitionShapeHandler():
         if not self.isValidShape():
             return
 
-        self._debugShape = False
+        self._debugShape = True
         edges = None
         try:
             if self._style == STYLE_SOLID:
@@ -362,35 +362,35 @@ class TransitionShapeHandler():
 
         if self._clipped:
             if r2 > r1:
-                points = [FreeCAD.Vector(max, r1)] # 0
+                points = [FreeCAD.Vector(min, r1)] # 0
             else:
-                points = [FreeCAD.Vector(min, r2)] # 1
+                points = [FreeCAD.Vector(max, r2)] # 1
         else:
-            points = [FreeCAD.Vector(max, r1)] # 2,3
+            points = [FreeCAD.Vector(min, r1)] # 2,3
 
         for i in range(1, self._resolution):
             
             if self._clipped:
                 if r2 > r1: # 0
-                    x = max - (float(i) * ((max - min) / float(self._resolution)))
+                    x = min + (float(i) * ((max - min) / float(self._resolution)))
                     y = self._radiusAt(0.0, r2, length, x)
                 else: # 1
-                    x = max - (float(i) * ((max - min) / float(self._resolution)))
+                    x = min + (float(i) * ((max - min) / float(self._resolution)))
                     y = self._radiusAt(0.0, r1, length, x)
                     x = max + min - x
             else:
                 # 2,3
-                x = max - (float(i) * ((max - min) / float(self._resolution)))
+                x = float(i) * ((max - min) / float(self._resolution))
                 y = self._radiusAt(r1, r2, length, x)
             points.append(FreeCAD.Vector(x, y))
 
         if self._clipped:
             if r2 > r1:
-                points.append(FreeCAD.Vector(min, r2)) # 0
+                points.append(FreeCAD.Vector(max, r2)) # 0
             else:
-                points.append(FreeCAD.Vector(max, r1)) # 1
+                points.append(FreeCAD.Vector(min, r1)) # 1
         else:
-            points.append(FreeCAD.Vector(min, r2)) # 2, 3
+            points.append(FreeCAD.Vector(max, r2)) # 2, 3
 
         if self._debugShape:
             for point in points:
@@ -421,7 +421,7 @@ class TransitionShapeHandler():
         if self._clipped:
             self._calculateClip(foreY, aftY)
 
-        curve = self._generateCurve(foreY, aftY, self._getLength(), aftX, foreX)
+        curve = self._generateCurve(foreY, aftY, self._getLength(), foreX, aftX)
         return curve
 
     def _clippedInnerRadius(self, r1, r2, pos):
@@ -430,7 +430,7 @@ class TransitionShapeHandler():
 
         if self._clipped:
             self._calculateClip(r1, r2)
-            if r2 > r1:
+            if r2 < r1:
                 return self._radiusAt(0.0, r2, self._clipLength, pos)
             else:
                 return self._radiusAt(0.0, r1, self._clipLength, self._length - pos)
@@ -468,13 +468,13 @@ class TransitionShapeHandler():
         return edges
 
     def _drawHollowShoulder(self):
-        innerForeX = self._length
+        innerForeX = 0.0
         if self._foreShoulder:
-            innerForeX = self._length - self._thickness
+            innerForeX = self._thickness
 
-        innerAftX = 0.0
+        innerAftX = self._length
         if self._aftShoulder:
-            innerAftX = self._thickness
+            innerAftX = self._length - self._thickness
 
         innerForeY = self._clippedInnerRadius(self._foreRadius, self._aftRadius, innerForeX)
         innerAftY = self._clippedInnerRadius(self._foreRadius, self._aftRadius, innerAftX)
@@ -486,8 +486,8 @@ class TransitionShapeHandler():
         return edges
 
     def _drawCapped(self):
-        innerForeX = self._length - self._thickness
-        innerAftX = self._thickness
+        innerForeX = self._thickness
+        innerAftX = self._length - self._thickness
 
         innerForeY = self._clippedInnerRadius(self._foreRadius, self._aftRadius, innerForeX)
         innerAftY = self._clippedInnerRadius(self._foreRadius, self._aftRadius, innerAftX)
@@ -499,8 +499,8 @@ class TransitionShapeHandler():
         return edges
 
     def _drawCappedShoulder(self):
-        innerForeX = self._length - self._thickness
-        innerAftX = self._thickness
+        innerForeX = self._thickness
+        innerAftX = self._length - self._thickness
 
         innerForeY = self._clippedInnerRadius(self._foreRadius, self._aftRadius, innerForeX)
         innerAftY = self._clippedInnerRadius(self._foreRadius, self._aftRadius, innerAftX)
@@ -513,11 +513,11 @@ class TransitionShapeHandler():
 
     def _solidLines(self, outerShape):
         
-        foreCenter = FreeCAD.Vector(self._length, 0.0)
-        aftCenter = FreeCAD.Vector(0.0, 0.0)
+        foreCenter = FreeCAD.Vector(0.0, 0.0)
+        aftCenter = FreeCAD.Vector(self._length, 0.0)
 
-        foreRadius = FreeCAD.Vector(self._length, self._foreRadius)
-        aftRadius = FreeCAD.Vector(0.0, self._aftRadius)
+        foreRadius = FreeCAD.Vector(0.0, self._foreRadius)
+        aftRadius = FreeCAD.Vector(self._length, self._aftRadius)
 
         line1 = Part.LineSegment(foreRadius, foreCenter)
         line2 = Part.LineSegment(foreCenter, aftCenter)
@@ -529,44 +529,44 @@ class TransitionShapeHandler():
         front = []
         back = []
         if self._foreShoulder:
-            line1 = Part.LineSegment(FreeCAD.Vector(self._length, self._foreRadius),                                FreeCAD.Vector(self._length, self._foreShoulderRadius))
-            line2 = Part.LineSegment(FreeCAD.Vector(self._length, self._foreShoulderRadius),                        FreeCAD.Vector(self._length + self._foreShoulderLength,self._foreShoulderRadius))
-            line3 = Part.LineSegment(FreeCAD.Vector(self._length + self._foreShoulderLength,self._foreShoulderRadius), FreeCAD.Vector(self._length + self._foreShoulderLength,0))
+            line1 = Part.LineSegment(FreeCAD.Vector(0.0, self._foreRadius),                                FreeCAD.Vector(0.0, self._foreShoulderRadius))
+            line2 = Part.LineSegment(FreeCAD.Vector(0.0, self._foreShoulderRadius),                        FreeCAD.Vector(-self._foreShoulderLength,self._foreShoulderRadius))
+            line3 = Part.LineSegment(FreeCAD.Vector(-self._foreShoulderLength,self._foreShoulderRadius), FreeCAD.Vector(-self._foreShoulderLength,0))
 
             # Have to factor in an aft shoulder
             if self._aftShoulder:
-                line4 = Part.LineSegment(FreeCAD.Vector(self._length + self._foreShoulderLength,0), FreeCAD.Vector(-self._aftShoulderLength, 0))
+                line4 = Part.LineSegment(FreeCAD.Vector(-self._foreShoulderLength,0), FreeCAD.Vector(self._aftShoulderLength, 0))
             else:
-                line4 = Part.LineSegment(FreeCAD.Vector(self._length + self._foreShoulderLength,0), FreeCAD.Vector(0, 0))
+                line4 = Part.LineSegment(FreeCAD.Vector(-self._foreShoulderLength,0), FreeCAD.Vector(0, 0))
             front = [line1.toShape(), line2.toShape(), line3.toShape(), line4.toShape()]
         else:
-            line1 = Part.LineSegment(FreeCAD.Vector(self._length, self._foreRadius), FreeCAD.Vector(self._length, 0))
+            line1 = Part.LineSegment(FreeCAD.Vector(0.0, self._foreRadius), FreeCAD.Vector(0.0, 0))
 
             # Have to factor in an aft shoulder
             if self._aftShoulder:
-                line2 = Part.LineSegment(FreeCAD.Vector(self._length,0), FreeCAD.Vector(-self._aftShoulderLength, 0))
+                line2 = Part.LineSegment(FreeCAD.Vector(0.0,0), FreeCAD.Vector(self._aftShoulderLength, 0))
             else:
-                line2 = Part.LineSegment(FreeCAD.Vector(self._length,0), FreeCAD.Vector(0, 0))
+                line2 = Part.LineSegment(FreeCAD.Vector(0.0,0), FreeCAD.Vector(0, 0))
             front = [line1.toShape(), line2.toShape()]
 
         if self._aftShoulder:
-            line1 = Part.LineSegment(FreeCAD.Vector(0, self._aftRadius),                                  FreeCAD.Vector(0, self._aftShoulderRadius))
-            line2 = Part.LineSegment(FreeCAD.Vector(0, self._aftShoulderRadius),                          FreeCAD.Vector(- self._aftShoulderLength,self._aftShoulderRadius))
-            line3 = Part.LineSegment(FreeCAD.Vector(-self._aftShoulderLength,self._aftShoulderRadius), FreeCAD.Vector(-self._aftShoulderLength,0))
+            line1 = Part.LineSegment(FreeCAD.Vector(self._length, self._aftRadius),                                  FreeCAD.Vector(self._length, self._aftShoulderRadius))
+            line2 = Part.LineSegment(FreeCAD.Vector(self._length, self._aftShoulderRadius),                          FreeCAD.Vector(self._length + self._aftShoulderLength,self._aftShoulderRadius))
+            line3 = Part.LineSegment(FreeCAD.Vector(self._length + self._aftShoulderLength,self._aftShoulderRadius), FreeCAD.Vector(self._length + self._aftShoulderLength,0))
             back = [line1.toShape(), line2.toShape(), line3.toShape()]
         else:
-            line1 = Part.LineSegment(FreeCAD.Vector(0, self._aftRadius), FreeCAD.Vector(0, 0))
+            line1 = Part.LineSegment(FreeCAD.Vector(self._length, self._aftRadius), FreeCAD.Vector(self._length, 0))
             back = [line1.toShape()]
 
         return [outerShape.toShape()] + front + back
 
     def _solidCoreLines(self, outerShape):
         
-        foreCenter = FreeCAD.Vector(self._length, self._coreRadius)
-        aftCenter = FreeCAD.Vector(0.0, self._coreRadius)
+        foreCenter = FreeCAD.Vector(0.0, self._coreRadius)
+        aftCenter = FreeCAD.Vector(self._length, self._coreRadius)
 
-        foreRadius = FreeCAD.Vector(self._length, self._foreRadius)
-        aftRadius = FreeCAD.Vector(0.0, self._aftRadius)
+        foreRadius = FreeCAD.Vector(0.0, self._foreRadius)
+        aftRadius = FreeCAD.Vector(self._length, self._aftRadius)
 
         line1 = Part.LineSegment(foreRadius, foreCenter)
         line2 = Part.LineSegment(foreCenter, aftCenter)
@@ -578,44 +578,44 @@ class TransitionShapeHandler():
         front = []
         back = []
         if self._foreShoulder:
-            line1 = Part.LineSegment(FreeCAD.Vector(self._length, self._foreRadius),                                FreeCAD.Vector(self._length, self._foreShoulderRadius))
-            line2 = Part.LineSegment(FreeCAD.Vector(self._length, self._foreShoulderRadius),                        FreeCAD.Vector(self._length + self._foreShoulderLength,self._foreShoulderRadius))
-            line3 = Part.LineSegment(FreeCAD.Vector(self._length + self._foreShoulderLength,self._foreShoulderRadius), FreeCAD.Vector(self._length + self._foreShoulderLength,self._coreRadius))
+            line1 = Part.LineSegment(FreeCAD.Vector(0.0, self._foreRadius),                                FreeCAD.Vector(0.0, self._foreShoulderRadius))
+            line2 = Part.LineSegment(FreeCAD.Vector(0.0, self._foreShoulderRadius),                        FreeCAD.Vector(-self._foreShoulderLength,self._foreShoulderRadius))
+            line3 = Part.LineSegment(FreeCAD.Vector(-self._foreShoulderLength,self._foreShoulderRadius), FreeCAD.Vector(-self._foreShoulderLength,self._coreRadius))
 
             # Have to factor in an aft shoulder
             if self._aftShoulder:
-                line4 = Part.LineSegment(FreeCAD.Vector(self._length + self._foreShoulderLength,self._coreRadius), FreeCAD.Vector(-self._aftShoulderLength, self._coreRadius))
+                line4 = Part.LineSegment(FreeCAD.Vector(-self._foreShoulderLength,self._coreRadius), FreeCAD.Vector(self._length + self._aftShoulderLength, self._coreRadius))
             else:
-                line4 = Part.LineSegment(FreeCAD.Vector(self._length + self._foreShoulderLength,self._coreRadius), FreeCAD.Vector(0, self._coreRadius))
+                line4 = Part.LineSegment(FreeCAD.Vector(-self._foreShoulderLength,self._coreRadius), FreeCAD.Vector(self._length, self._coreRadius))
             front = [line1.toShape(), line2.toShape(), line3.toShape(), line4.toShape()]
         else:
-            line1 = Part.LineSegment(FreeCAD.Vector(self._length, self._foreRadius), FreeCAD.Vector(self._length, self._coreRadius))
+            line1 = Part.LineSegment(FreeCAD.Vector(0.0, self._foreRadius), FreeCAD.Vector(0.0, self._coreRadius))
 
             # Have to factor in an aft shoulder
             if self._aftShoulder:
-                line2 = Part.LineSegment(FreeCAD.Vector(self._length,self._coreRadius), FreeCAD.Vector(-self._aftShoulderLength, self._coreRadius))
+                line2 = Part.LineSegment(FreeCAD.Vector(0.0,self._coreRadius), FreeCAD.Vector(self._length + self._aftShoulderLength, self._coreRadius))
             else:
                 line2 = Part.LineSegment(FreeCAD.Vector(self._length,self._coreRadius), FreeCAD.Vector(0, self._coreRadius))
             front = [line1.toShape(), line2.toShape()]
 
         if self._aftShoulder:
-            line1 = Part.LineSegment(FreeCAD.Vector(0, self._aftRadius),                                  FreeCAD.Vector(0, self._aftShoulderRadius))
-            line2 = Part.LineSegment(FreeCAD.Vector(0, self._aftShoulderRadius),                          FreeCAD.Vector(-self._aftShoulderLength,self._aftShoulderRadius))
-            line3 = Part.LineSegment(FreeCAD.Vector(-self._aftShoulderLength,self._aftShoulderRadius), FreeCAD.Vector(-self._aftShoulderLength,self._coreRadius))
+            line1 = Part.LineSegment(FreeCAD.Vector(self._length, self._aftRadius),                                  FreeCAD.Vector(self._length, self._aftShoulderRadius))
+            line2 = Part.LineSegment(FreeCAD.Vector(self._length, self._aftShoulderRadius),                          FreeCAD.Vector(self._length + self._aftShoulderLength,self._aftShoulderRadius))
+            line3 = Part.LineSegment(FreeCAD.Vector(self._length + self._aftShoulderLength,self._aftShoulderRadius), FreeCAD.Vector(self._length + self._aftShoulderLength,self._coreRadius))
             back = [line1.toShape(), line2.toShape(), line3.toShape()]
         else:
-            line1 = Part.LineSegment(FreeCAD.Vector(0, self._aftRadius), FreeCAD.Vector(0, self._coreRadius))
+            line1 = Part.LineSegment(FreeCAD.Vector(self._length, self._aftRadius), FreeCAD.Vector(self._length, self._coreRadius))
             back = [line1.toShape()]
 
         return [outerShape.toShape()] + front + back
 
     def _hollowLines(self, outerShape, innerShape):
         
-        major = FreeCAD.Vector(0.0, self._aftRadius)
-        minor = FreeCAD.Vector(self._length, self._foreRadius)
+        major = FreeCAD.Vector(self._length, self._aftRadius)
+        minor = FreeCAD.Vector(0.0, self._foreRadius)
 
-        innerMajor = FreeCAD.Vector(0.0, self._aftRadius - self._thickness)
-        innerMinor = FreeCAD.Vector(self._length, self._foreRadius - self._thickness)
+        innerMajor = FreeCAD.Vector(self._length, self._aftRadius - self._thickness)
+        innerMinor = FreeCAD.Vector(0.0, self._foreRadius - self._thickness)
 
         line1 = Part.LineSegment(major, innerMajor)
         line2 = Part.LineSegment(minor, innerMinor)
@@ -626,28 +626,28 @@ class TransitionShapeHandler():
         front = []
         back = []
         if self._foreShoulder:
-            line1 = Part.LineSegment(FreeCAD.Vector(self._length, self._foreRadius),                                                              FreeCAD.Vector(self._length, self._foreShoulderRadius))
-            line2 = Part.LineSegment(FreeCAD.Vector(self._length, self._foreShoulderRadius),                                                      FreeCAD.Vector(self._length + self._foreShoulderLength,self._foreShoulderRadius))
-            line3 = Part.LineSegment(FreeCAD.Vector(self._length + self._foreShoulderLength,self._foreShoulderRadius),                               FreeCAD.Vector(self._length + self._foreShoulderLength,self._foreShoulderRadius - self._foreShoulderThickness))
-            line4 = Part.LineSegment(FreeCAD.Vector(self._length + self._foreShoulderLength,self._foreShoulderRadius - self._foreShoulderThickness), FreeCAD.Vector(self._length - self._thickness,self._foreShoulderRadius - self._foreShoulderThickness))
-            line5 = Part.LineSegment(FreeCAD.Vector(self._length - self._thickness,self._foreShoulderRadius - self._foreShoulderThickness),           FreeCAD.Vector(self._length - self._thickness,foreY))
+            line1 = Part.LineSegment(FreeCAD.Vector(0.0, self._foreRadius),                                                              FreeCAD.Vector(0.0, self._foreShoulderRadius))
+            line2 = Part.LineSegment(FreeCAD.Vector(0.0, self._foreShoulderRadius),                                                      FreeCAD.Vector(-self._foreShoulderLength,self._foreShoulderRadius))
+            line3 = Part.LineSegment(FreeCAD.Vector(-self._foreShoulderLength,self._foreShoulderRadius),                               FreeCAD.Vector(-self._foreShoulderLength,self._foreShoulderRadius - self._foreShoulderThickness))
+            line4 = Part.LineSegment(FreeCAD.Vector(-self._foreShoulderLength,self._foreShoulderRadius - self._foreShoulderThickness), FreeCAD.Vector(self._thickness,self._foreShoulderRadius - self._foreShoulderThickness))
+            line5 = Part.LineSegment(FreeCAD.Vector(self._thickness,self._foreShoulderRadius - self._foreShoulderThickness),           FreeCAD.Vector(self._thickness,foreY))
 
             front = [line1.toShape(), line2.toShape(), line3.toShape(), line4.toShape(), line5.toShape()]
         else:
-            line1 = Part.LineSegment(FreeCAD.Vector(self._length, self._foreRadius), FreeCAD.Vector(self._length, self._foreRadius - self._thickness))
+            line1 = Part.LineSegment(FreeCAD.Vector(0.0, self._foreRadius), FreeCAD.Vector(0.0, self._foreRadius - self._thickness))
 
             front = [line1.toShape()]
 
         if self._aftShoulder:
-            line1 = Part.LineSegment(FreeCAD.Vector(0.0, self._aftRadius),                                                               FreeCAD.Vector(0.0, self._aftShoulderRadius))
-            line2 = Part.LineSegment(FreeCAD.Vector(0.0, self._aftShoulderRadius),                                                       FreeCAD.Vector(-self._aftShoulderLength,self._aftShoulderRadius))
-            line3 = Part.LineSegment(FreeCAD.Vector(-self._aftShoulderLength,self._aftShoulderRadius),                              FreeCAD.Vector(-self._aftShoulderLength,self._aftShoulderRadius - self._aftShoulderThickness))
-            line4 = Part.LineSegment(FreeCAD.Vector(-self._aftShoulderLength,self._aftShoulderRadius - self._aftShoulderThickness), FreeCAD.Vector(self._thickness,self._aftShoulderRadius - self._aftShoulderThickness))
-            line5 = Part.LineSegment(FreeCAD.Vector(self._thickness,self._aftShoulderRadius - self._aftShoulderThickness),         FreeCAD.Vector(self._thickness,aftY))
+            line1 = Part.LineSegment(FreeCAD.Vector(self._length, self._aftRadius),                                                               FreeCAD.Vector(self._length, self._aftShoulderRadius))
+            line2 = Part.LineSegment(FreeCAD.Vector(self._length, self._aftShoulderRadius),                                                       FreeCAD.Vector(self._length + self._aftShoulderLength,self._aftShoulderRadius))
+            line3 = Part.LineSegment(FreeCAD.Vector(self._length + self._aftShoulderLength,self._aftShoulderRadius),                              FreeCAD.Vector(self._length + self._aftShoulderLength,self._aftShoulderRadius - self._aftShoulderThickness))
+            line4 = Part.LineSegment(FreeCAD.Vector(self._length + self._aftShoulderLength,self._aftShoulderRadius - self._aftShoulderThickness), FreeCAD.Vector(self._length - self._thickness,self._aftShoulderRadius - self._aftShoulderThickness))
+            line5 = Part.LineSegment(FreeCAD.Vector(self._length - self._thickness,self._aftShoulderRadius - self._aftShoulderThickness),         FreeCAD.Vector(self._length - self._thickness,aftY))
 
             back = [line1.toShape(), line2.toShape(), line3.toShape(), line4.toShape(), line5.toShape()]
         else:
-            line1 = Part.LineSegment(FreeCAD.Vector(0.0, self._aftRadius), FreeCAD.Vector(0.0, self._aftRadius - self._thickness))
+            line1 = Part.LineSegment(FreeCAD.Vector(self._length, self._aftRadius), FreeCAD.Vector(self._length, self._aftRadius - self._thickness))
 
             back = [line1.toShape()]
 
@@ -655,17 +655,17 @@ class TransitionShapeHandler():
 
     def _cappedLines(self, foreY, aftY, outerShape, innerShape):
             
-        fore = FreeCAD.Vector(self._length, self._foreRadius)
-        aft = FreeCAD.Vector(0.0, self._aftRadius)
+        fore = FreeCAD.Vector(0.0, self._foreRadius)
+        aft = FreeCAD.Vector(self._length, self._aftRadius)
 
-        foreInner = FreeCAD.Vector(self._length - self._thickness, foreY)
-        aftIinner = FreeCAD.Vector(self._thickness, aftY)
+        foreInner = FreeCAD.Vector(self._thickness, foreY)
+        aftIinner = FreeCAD.Vector(self._length - self._thickness, aftY)
         
-        foreCenter = FreeCAD.Vector(self._length,0)
-        aftCenter = FreeCAD.Vector(0,0)
+        foreCenter = FreeCAD.Vector(0,0)
+        aftCenter = FreeCAD.Vector(self._length,0)
 
-        foreInnerCenter = FreeCAD.Vector(self._length - self._thickness,0)
-        aftInnerCenter = FreeCAD.Vector(self._thickness,0)
+        foreInnerCenter = FreeCAD.Vector(self._thickness,0)
+        aftInnerCenter = FreeCAD.Vector(self._length - self._thickness,0)
 
         line1 = Part.LineSegment(fore, foreCenter)
         line2 = Part.LineSegment(foreCenter, foreInnerCenter)
@@ -680,39 +680,39 @@ class TransitionShapeHandler():
         front = []
         back = []
         if self._foreShoulder:
-            line1 = Part.LineSegment(FreeCAD.Vector(self._length, self._foreRadius),                                                                FreeCAD.Vector(self._length, self._foreShoulderRadius))
-            line2 = Part.LineSegment(FreeCAD.Vector(self._length, self._foreShoulderRadius),                                                        FreeCAD.Vector(self._length + self._foreShoulderLength,self._foreShoulderRadius))
-            line3 = Part.LineSegment(FreeCAD.Vector(self._length + self._foreShoulderLength,self._foreShoulderRadius),                                 FreeCAD.Vector(self._length + self._foreShoulderLength,0))
-            line4 = Part.LineSegment(FreeCAD.Vector(self._length + self._foreShoulderLength,0),                                                        FreeCAD.Vector(self._length + self._foreShoulderLength - self._foreShoulderThickness,0))
-            line5 = Part.LineSegment(FreeCAD.Vector(self._length + self._foreShoulderLength - self._foreShoulderThickness,0),                          FreeCAD.Vector(self._length + self._foreShoulderLength - self._foreShoulderThickness,self._foreShoulderRadius - self._foreShoulderThickness))
-            line6 = Part.LineSegment(FreeCAD.Vector(self._length + self._foreShoulderLength - self._foreShoulderThickness,self._foreShoulderRadius - self._foreShoulderThickness),
-                                                                                                                                            FreeCAD.Vector(self._length - self._thickness,self._foreShoulderRadius - self._foreShoulderThickness))
-            line7 = Part.LineSegment(FreeCAD.Vector(self._length - self._thickness,self._foreShoulderRadius - self._foreShoulderThickness),
-                                                                                                                                            FreeCAD.Vector(self._length - self._thickness,foreY))
+            line1 = Part.LineSegment(FreeCAD.Vector(0.0, self._foreRadius),                                                                FreeCAD.Vector(0.0, self._foreShoulderRadius))
+            line2 = Part.LineSegment(FreeCAD.Vector(0.0, self._foreShoulderRadius),                                                        FreeCAD.Vector(-self._foreShoulderLength,self._foreShoulderRadius))
+            line3 = Part.LineSegment(FreeCAD.Vector(-self._foreShoulderLength,self._foreShoulderRadius),                                 FreeCAD.Vector(-self._foreShoulderLength,0))
+            line4 = Part.LineSegment(FreeCAD.Vector(-self._foreShoulderLength,0),                                                        FreeCAD.Vector(-self._foreShoulderLength + self._foreShoulderThickness,0))
+            line5 = Part.LineSegment(FreeCAD.Vector(-self._foreShoulderLength + self._foreShoulderThickness,0),                          FreeCAD.Vector(-self._foreShoulderLength + self._foreShoulderThickness,self._foreShoulderRadius - self._foreShoulderThickness))
+            line6 = Part.LineSegment(FreeCAD.Vector(-self._foreShoulderLength + self._foreShoulderThickness,self._foreShoulderRadius - self._foreShoulderThickness),
+                                                                                                                                            FreeCAD.Vector(self._thickness,self._foreShoulderRadius - self._foreShoulderThickness))
+            line7 = Part.LineSegment(FreeCAD.Vector(self._thickness,self._foreShoulderRadius - self._foreShoulderThickness),
+                                                                                                                                            FreeCAD.Vector(self._thickness,foreY))
 
             front = [line1.toShape(), line2.toShape(), line3.toShape(), line4.toShape(), line5.toShape(), line6.toShape(), line7.toShape()]
         else:
-            line1 = Part.LineSegment(FreeCAD.Vector(self._length, self._foreRadius), FreeCAD.Vector(self._length, 0))
-            line2 = Part.LineSegment(FreeCAD.Vector(self._length, 0),                FreeCAD.Vector(self._length - self._thickness, 0))
-            line3 = Part.LineSegment(FreeCAD.Vector(self._length - self._thickness, 0),    FreeCAD.Vector(self._length - self._thickness, foreY))
+            line1 = Part.LineSegment(FreeCAD.Vector(0, self._foreRadius), FreeCAD.Vector(0, 0))
+            line2 = Part.LineSegment(FreeCAD.Vector(0, 0),                FreeCAD.Vector(self._thickness, 0))
+            line3 = Part.LineSegment(FreeCAD.Vector(self._thickness, 0),    FreeCAD.Vector(self._thickness, foreY))
 
             front = [line1.toShape(), line2.toShape(), line3.toShape()]
 
         if self._aftShoulder:
-            line1 = Part.LineSegment(FreeCAD.Vector(0, self._aftRadius),                                                       FreeCAD.Vector(0, self._aftShoulderRadius))
-            line2 = Part.LineSegment(FreeCAD.Vector(0, self._aftShoulderRadius),                                               FreeCAD.Vector(-self._aftShoulderLength,self._aftShoulderRadius))
-            line3 = Part.LineSegment(FreeCAD.Vector(-self._aftShoulderLength,self._aftShoulderRadius),                      FreeCAD.Vector(-self._aftShoulderLength,0))
-            line4 = Part.LineSegment(FreeCAD.Vector(-self._aftShoulderLength,0),                                            FreeCAD.Vector(-self._aftShoulderLength + self._aftShoulderThickness,0))
-            line5 = Part.LineSegment(FreeCAD.Vector(-self._aftShoulderLength + self._aftShoulderThickness,0),               FreeCAD.Vector(-self._aftShoulderLength + self._aftShoulderThickness,self._aftShoulderRadius - self._aftShoulderThickness))
-            line6 = Part.LineSegment(FreeCAD.Vector(-self._aftShoulderLength + self._aftShoulderThickness,self._aftShoulderRadius - self._aftShoulderThickness), 
-                                                                                                                                            FreeCAD.Vector(self._thickness,self._aftShoulderRadius - self._aftShoulderThickness))
-            line7 = Part.LineSegment(FreeCAD.Vector(self._thickness,self._aftShoulderRadius - self._aftShoulderThickness), FreeCAD.Vector(self._thickness,aftY))
+            line1 = Part.LineSegment(FreeCAD.Vector(self._length, self._aftRadius),                                                       FreeCAD.Vector(self._length, self._aftShoulderRadius))
+            line2 = Part.LineSegment(FreeCAD.Vector(self._length, self._aftShoulderRadius),                                               FreeCAD.Vector(self._length + self._aftShoulderLength,self._aftShoulderRadius))
+            line3 = Part.LineSegment(FreeCAD.Vector(self._length + self._aftShoulderLength,self._aftShoulderRadius),                      FreeCAD.Vector(self._length + self._aftShoulderLength,0))
+            line4 = Part.LineSegment(FreeCAD.Vector(self._length + self._aftShoulderLength,0),                                            FreeCAD.Vector(self._length + self._aftShoulderLength - self._aftShoulderThickness,0))
+            line5 = Part.LineSegment(FreeCAD.Vector(self._length + self._aftShoulderLength - self._aftShoulderThickness,0),               FreeCAD.Vector(self._length + self._aftShoulderLength - self._aftShoulderThickness,self._aftShoulderRadius - self._aftShoulderThickness))
+            line6 = Part.LineSegment(FreeCAD.Vector(self._length + self._aftShoulderLength - self._aftShoulderThickness,self._aftShoulderRadius - self._aftShoulderThickness), 
+                                                                                                                                            FreeCAD.Vector(self._length - self._thickness,self._aftShoulderRadius - self._aftShoulderThickness))
+            line7 = Part.LineSegment(FreeCAD.Vector(self._length - self._thickness,self._aftShoulderRadius - self._aftShoulderThickness), FreeCAD.Vector(self._length - self._thickness,aftY))
 
             back = [line1.toShape(), line2.toShape(), line3.toShape(), line4.toShape(), line5.toShape(), line6.toShape(), line7.toShape()]
         else:
-            line1 = Part.LineSegment(FreeCAD.Vector(0, self._aftRadius),     FreeCAD.Vector(0, 0))
-            line2 = Part.LineSegment(FreeCAD.Vector(0, 0),                   FreeCAD.Vector(self._thickness, 0))
-            line3 = Part.LineSegment(FreeCAD.Vector(self._thickness, 0), FreeCAD.Vector(self._thickness, aftY))
+            line1 = Part.LineSegment(FreeCAD.Vector(self._length, self._aftRadius),     FreeCAD.Vector(self._length, 0))
+            line2 = Part.LineSegment(FreeCAD.Vector(self._length, 0),                   FreeCAD.Vector(self._length - self._thickness, 0))
+            line3 = Part.LineSegment(FreeCAD.Vector(self._length - self._thickness, 0), FreeCAD.Vector(self._length - self._thickness, aftY))
 
             back = [line1.toShape(), line2.toShape(), line3.toShape()]
 

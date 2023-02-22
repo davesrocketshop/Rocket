@@ -37,11 +37,11 @@ class TransitionEllipseShapeHandler(TransitionShapeHandler):
         if r1 > r2:
             minor = r1 - r2
             center = r2
-            x = length - pos
+            x = pos
         else:
             minor = r2 - r1
             center = r1
-            x = pos
+            x = length - pos
 
         try:
             y = (minor / major) * math.sqrt(major * major - x * x)
@@ -97,9 +97,9 @@ class TransitionEllipseShapeHandler(TransitionShapeHandler):
             max = length - min
         if r1 > r2:
             radius = r1 - r2
-            curve = Part.ArcOfEllipse(Part.Ellipse(FreeCAD.Vector(max, r2), max - min, radius), math.pi/2, math.pi)
+            curve = Part.ArcOfEllipse(Part.Ellipse(FreeCAD.Vector(min, r2), max - min, radius), 0.0, math.pi/2)
             return curve
 
         radius = r2 - r1
-        curve = Part.ArcOfEllipse(Part.Ellipse(FreeCAD.Vector(min, r1), max - min, radius), 0.0, math.pi/2)
+        curve = Part.ArcOfEllipse(Part.Ellipse(FreeCAD.Vector(max, r1), max - min, radius), math.pi/2, math.pi)
         return curve
