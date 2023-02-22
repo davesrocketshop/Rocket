@@ -142,7 +142,7 @@ class MaterialElement(Element):
         self._name = ""
         self._type = None
         self._density = 0.0
-        self._units = attributes["UnitsOfMeasure"]
+        self._units = "kg/m3" # attributes["UnitsOfMeasure"] OpenRocket ignores the units, and they're often wrong
 
     def _defaultManufacturer(self):
         # The default manufacturer is based on the filename

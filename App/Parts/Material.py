@@ -35,7 +35,8 @@ class Material:
         self._name = ""
         self._type = MATERIAL_TYPE_BULK
         self._density = 0.0
-        self._units = "g/cm3" # This should be changed?
+        # self._units = "g/cm3" # This should be changed?
+        self._units = "kg/m3" # OpenRocket default
 
     def validateString(self, value, message):
         if value is None:
