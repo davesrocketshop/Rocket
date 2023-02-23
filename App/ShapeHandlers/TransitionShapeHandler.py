@@ -199,19 +199,19 @@ class TransitionShapeHandler():
         # This sets the min and max range to search
         #
         n = 0
-        rmax = self._radiusAt(0.0, r2, max, self._length)
+        rmax = self._radiusAt(r2, 0.0, max, self._length)
         while (rmax - r1) < 0:
             min = max
             max *= 2.0
             n += 1
             if n > 10:
                 break
-            rmax = self._radiusAt(0.0, r2, max, self._length)
+            rmax = self._radiusAt(r2, 0.0, max, self._length)
 
         # Do a binary search to see where we fit within tolerance
         while True:
             self._clipLength = (min + max) / 2.0
-            val =self. _radiusAt(0.0, r2, self._clipLength, self._length)
+            val =self. _radiusAt(r2, 0.0, self._clipLength, self._length)
             err = (val - r1)
             if math.fabs(err) < CLIP_PRECISION:
                 if self._debugShape:
@@ -358,26 +358,32 @@ class TransitionShapeHandler():
         if self._debugShape:
             print("r1 = %f, r2 = %f, length = %f, min = %f, max = %f" % (r1, r2, length, min, max))
         if max <= 0:
-            max = self._length
+            max = length #self._length
 
         if self._clipped:
-            if r2 > r1:
+            if r1 < r2:
                 points = [FreeCAD.Vector(min, r1)] # 0
             else:
-                points = [FreeCAD.Vector(max, r2)] # 1
+                points = [FreeCAD.Vector(self._length, r2)] # 1
         else:
             points = [FreeCAD.Vector(min, r1)] # 2,3
+        # points = []
 
+        offset = length - self._length
+        # if min < offset:
+        #     min = offset
         for i in range(1, self._resolution):
             
             if self._clipped:
-                if r2 > r1: # 0
-                    x = min + (float(i) * ((max - min) / float(self._resolution)))
-                    y = self._radiusAt(0.0, r2, length, x)
+                if r1 > r2: # 0
+                    x = max - (float(i) * ((self._length - min) / float(self._resolution))) #- offset
+                    y = self._radiusAt(r2, 0.0, length, x) + r2
+                    x -= offset
                 else: # 1
-                    x = min + (float(i) * ((max - min) / float(self._resolution)))
-                    y = self._radiusAt(0.0, r1, length, x)
-                    x = max + min - x
+                    x = max - (float(i) * ((self._length - min) / float(self._resolution))) #- offset
+                    y = self._radiusAt(r1, 0.0, length, x) + r1
+                    x = length - x
+                # x -= offset
             else:
                 # 2,3
                 x = float(i) * ((max - min) / float(self._resolution))
@@ -385,8 +391,8 @@ class TransitionShapeHandler():
             points.append(FreeCAD.Vector(x, y))
 
         if self._clipped:
-            if r2 > r1:
-                points.append(FreeCAD.Vector(max, r2)) # 0
+            if r1 < r2:
+                points.append(FreeCAD.Vector(self._length, r2)) # 0
             else:
                 points.append(FreeCAD.Vector(min, r1)) # 1
         else:
@@ -431,9 +437,9 @@ class TransitionShapeHandler():
         if self._clipped:
             self._calculateClip(r1, r2)
             if r2 < r1:
-                return self._radiusAt(0.0, r2, self._clipLength, pos)
+                return self._radiusAt(r2, 0.0, self._clipLength, pos)
             else:
-                return self._radiusAt(0.0, r1, self._clipLength, self._length - pos)
+                return self._radiusAt(r1, 0.0, self._clipLength, self._length - pos)
         return self._radiusAt(r1, r2, self._length, pos)
 
     def _drawSolid(self):
