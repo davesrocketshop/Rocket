@@ -436,10 +436,12 @@ class TransitionShapeHandler():
 
         if self._clipped:
             self._calculateClip(r1, r2)
-            if r2 < r1:
-                return self._radiusAt(r2, 0.0, self._clipLength, pos)
+            if r2 > r1:
+                radius = self._radiusAt(r2, 0.0, self._clipLength, pos) + r1
+                return radius
             else:
-                return self._radiusAt(r1, 0.0, self._clipLength, self._length - pos)
+                radius = self._radiusAt(r1, 0.0, self._clipLength, self._length - pos) + r2
+                return radius
         return self._radiusAt(r1, r2, self._length, pos)
 
     def _drawSolid(self):
