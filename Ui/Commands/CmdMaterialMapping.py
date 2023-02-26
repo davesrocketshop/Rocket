@@ -47,4 +47,4 @@ class CmdMaterialMapping(Command):
     def GetResources(self):
         return {'MenuText': translate("Rocket", 'Material Mapping'),
                 'ToolTip': translate("Rocket", 'Map part database materials to FreeCAD materials'),
-                'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_FinFlutter.svg"}
+                'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_MaterialMapping.svg"}

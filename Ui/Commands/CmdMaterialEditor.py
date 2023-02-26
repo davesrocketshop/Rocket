@@ -39,4 +39,4 @@ class CmdMaterialEditor:
     def GetResources(self):
         return {'MenuText': translate("Rocket", 'Material editor'),
                 'ToolTip': translate("Rocket", 'Opens the FreeCAD material editor'),
-                'Pixmap': "Arch_Material_Group" }
+                'Pixmap': "Arch_Material" }
