@@ -48,12 +48,12 @@ def _trace(className, functionName, message = None):
 def _toFloat(input, defaultValue = 0.0):
     if input == '':
         return defaultValue
-    return float(input)
+    return float(input.rstrip(','))
 
 def _toInt(input, defaultValue = 0):
     if input == '':
         return defaultValue
-    return int(input)
+    return int(input.rstrip(','))
 
 def _toBoolean(value):
     if str(value).strip().lower() == "true":
