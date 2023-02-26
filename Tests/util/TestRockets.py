@@ -95,7 +95,7 @@ class TestRockets:
         lug = makeLaunchLug()
         lug.setName("Launch Lugs")
         lug.setAxialMethod(AxialMethod.TOP)
-        lug.setAxialOffset(-111.0)
+        lug.setAxialOffset(111.0)
         lug.setLength(50.0)
         lug.setOuterRadius(2.2)
         lug.setInnerRadius(2.0)
@@ -103,7 +103,7 @@ class TestRockets:
             
         inner = makeInnerTube() # InnerTube?
         inner.setAxialMethod(AxialMethod.TOP)
-        inner.setAxialOffset(-133.0)
+        inner.setAxialOffset(133.0)
         inner.setLength(70.0)
         inner.setOuterRadius(9.0)
         inner.setThickness(0.3)
@@ -172,7 +172,7 @@ class TestRockets:
         centerings = makeCenteringRing()
         centerings.setName("Centering Rings")
         centerings.setAxialMethod(AxialMethod.TOP)
-        centerings.setAxialOffset(-140.0)
+        centerings.setAxialOffset(140.0)
         centerings.setLength(6.0)
         centerings.setInstanceCount(2)
         centerings.setInstanceSeparation(35.0)

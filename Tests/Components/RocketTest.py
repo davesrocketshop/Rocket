@@ -68,18 +68,18 @@ class RocketTest(unittest.TestCase):
         lugs = body.getChild(1).Proxy
         self.assertEqual(lugs.getInstanceCount(), 1, lugs.getName()+" have incorrect count")
         # actLocs = lugs.getComponentLocations()
-        expected = Coordinate(-41.0, 0.0, 14.2)
+        expected = Coordinate(181.0, 0.0, 14.2)
         actual = lugs.getPositionAsCoordinate()
         self.assertCoordinateEqual(actual, expected, lugs.getName()+" not positioned correctly")
 
         mmt = body.getChild(2).Proxy
         # expLoc = Coordinate(203.0,0,0)
-        expected = Coordinate(-63.0,0,0)
+        expected = Coordinate(203.0,0,0)
         actual = mmt.getPositionAsCoordinate()
         self.assertCoordinateEqual(actual, expected, mmt.getName()+" not positioned correctly") 
 
         block = mmt.getChild(0).Proxy
-        expected = Coordinate(-63.0,0,0)
+        expected = Coordinate(203.0,0,0)
         actual = block.getPositionAsCoordinate()
         self.assertCoordinateEqual(actual, expected, block.getName()+" not positioned correctly")
 		
@@ -90,7 +90,7 @@ class RocketTest(unittest.TestCase):
         ring.setInstanceCount(1)
         self.assertEqual(ring.getInstanceCount(), 1, ring.getName()+" have incorrect count")
         # expLoc = Coordinate(210.0,0,0)
-        expected = Coordinate(-70.0,0,0)
+        expected = Coordinate(210.0,0,0)
         actual = ring.getPositionAsCoordinate()
         self.assertCoordinateEqual(actual, expected, ring.getName()+" not positioned correctly")
 
@@ -104,7 +104,7 @@ class RocketTest(unittest.TestCase):
         # second instance
         self.assertEqual(ring.getInstanceCount(), 2, ring.getName()+" have incorrect count")
         # expLoc = Coordinate(245.0, 0, 0)
-        expected = Coordinate(35.0, 0, 0) # - this is not right should b 0.19?
+        expected = Coordinate(35.0, 0, 0)
         actual = actLocs[1]
         self.assertCoordinateEqual(actual, expected, ring.getName()+" not positioned correctly")
 
