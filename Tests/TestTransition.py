@@ -108,16 +108,16 @@ class TransitionTests(unittest.TestCase):
 
     def _testForeShoulderNoStep(self, type, style, clipped, capStyle = STYLE_CAP_SOLID):
         feature = makeTransition('Transition')
-        feature.TransitionType = type
+        feature._obj.TransitionType = type
         if type == TYPE_POWER:
-            feature.Coefficient = 0.5
-        feature.Clipped = clipped
-        feature.TransitionStyle = style
-        feature.ForeShoulder = True
-        feature.AftShoulder = False
-        feature.ForeCapStyle = capStyle
-        feature.AftCapStyle = capStyle
-        feature.ForeShoulderDiameter = feature.ForeDiameter
+            feature._obj.Coefficient = 0.5
+        feature._obj.Clipped = clipped
+        feature._obj.TransitionStyle = style
+        feature._obj.ForeShoulder = True
+        feature._obj.AftShoulder = False
+        feature._obj.ForeCapStyle = capStyle
+        feature._obj.AftCapStyle = capStyle
+        feature._obj.ForeShoulderDiameter = feature._obj.ForeDiameter
         self.Doc.recompute()
 
         message = type + ": " + style + " Fore Shoulder No Step"
@@ -157,16 +157,16 @@ class TransitionTests(unittest.TestCase):
 
     def _testAftShoulderNoStep(self, type, style, clipped, capStyle = STYLE_CAP_SOLID):
         feature = makeTransition('Transition')
-        feature.TransitionType = type
+        feature._obj.TransitionType = type
         if type == TYPE_POWER:
-            feature.Coefficient = 0.5
-        feature.Clipped = clipped
-        feature.TransitionStyle = style
-        feature.ForeShoulder = False
-        feature.AftShoulder = True
-        feature.ForeCapStyle = capStyle
-        feature.AftCapStyle = capStyle
-        feature.AftShoulderDiameter = feature.AftDiameter
+            feature._obj.Coefficient = 0.5
+        feature._obj.Clipped = clipped
+        feature._obj.TransitionStyle = style
+        feature._obj.ForeShoulder = False
+        feature._obj.AftShoulder = True
+        feature._obj.ForeCapStyle = capStyle
+        feature._obj.AftCapStyle = capStyle
+        feature._obj.AftShoulderDiameter = feature._obj.AftDiameter
         self.Doc.recompute()
 
         message = type + ": " + style + " Aft Shoulder No Step"
@@ -206,17 +206,17 @@ class TransitionTests(unittest.TestCase):
 
     def _testBothShoulderNoStep(self, type, style, clipped, capStyle = STYLE_CAP_SOLID):
         feature = makeTransition('Transition')
-        feature.TransitionType = type
+        feature._obj.TransitionType = type
         if type == TYPE_POWER:
-            feature.Coefficient = 0.5
-        feature.Clipped = clipped
-        feature.TransitionStyle = style
-        feature.ForeShoulder = True
-        feature.AftShoulder = True
-        feature.ForeCapStyle = capStyle
-        feature.AftCapStyle = capStyle
-        feature.ForeShoulderDiameter = feature.ForeDiameter
-        feature.AftShoulderDiameter = feature.AftDiameter
+            feature._obj.Coefficient = 0.5
+        feature._obj.Clipped = clipped
+        feature._obj.TransitionStyle = style
+        feature._obj.ForeShoulder = True
+        feature._obj.AftShoulder = True
+        feature._obj.ForeCapStyle = capStyle
+        feature._obj.AftCapStyle = capStyle
+        feature._obj.ForeShoulderDiameter = feature._obj.ForeDiameter
+        feature._obj.AftShoulderDiameter = feature._obj.AftDiameter
         self.Doc.recompute()
 
         message = type + ": " + style + " Both Shoulder No Step"

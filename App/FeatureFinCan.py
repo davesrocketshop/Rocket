@@ -61,6 +61,8 @@ class FeatureFinCan(SymmetricComponent, FeatureFin):
             obj.addProperty('App::PropertyEnumeration', 'FinCanStyle', 'Fin', translate('App::Property', 'Fin can style'))
             obj.FinCanStyle = [FINCAN_STYLE_SLEEVE, FINCAN_STYLE_BODYTUBE]
             obj.FinCanStyle = FINCAN_STYLE_SLEEVE
+        else:
+            obj.FinCanStyle = [FINCAN_STYLE_SLEEVE, FINCAN_STYLE_BODYTUBE]
 
         if not hasattr(obj,"Diameter"):
             obj.addProperty('App::PropertyLength', 'Diameter', 'Fin', translate('App::Property', 'Diameter of the inside or outside of the fin candepending on the style')).Diameter = 24.8
@@ -73,6 +75,9 @@ class FeatureFinCan(SymmetricComponent, FeatureFin):
             obj.addProperty('App::PropertyEnumeration', 'LeadingEdge', 'Fin', translate('App::Property', 'Leading Edge'))
             obj.LeadingEdge = [FINCAN_EDGE_SQUARE, FINCAN_EDGE_ROUND, FINCAN_EDGE_TAPER]
             obj.LeadingEdge = FINCAN_EDGE_SQUARE
+        else:
+            obj.LeadingEdge = [FINCAN_EDGE_SQUARE, FINCAN_EDGE_ROUND, FINCAN_EDGE_TAPER]
+
         if not hasattr(obj,"LeadingLength"):
             obj.addProperty('App::PropertyLength', 'LeadingLength', 'Fin', translate('App::Property', 'Leading Edge Length')).LeadingLength = 5.0
 
@@ -80,6 +85,8 @@ class FeatureFinCan(SymmetricComponent, FeatureFin):
             obj.addProperty('App::PropertyEnumeration', 'TrailingEdge', 'Fin', translate('App::Property', 'Trailing Edge'))
             obj.TrailingEdge = [FINCAN_EDGE_SQUARE, FINCAN_EDGE_ROUND, FINCAN_EDGE_TAPER]
             obj.TrailingEdge = FINCAN_EDGE_SQUARE
+        else:
+            obj.TrailingEdge = [FINCAN_EDGE_SQUARE, FINCAN_EDGE_ROUND, FINCAN_EDGE_TAPER]
         if not hasattr(obj,"TrailingLength"):
             obj.addProperty('App::PropertyLength', 'TrailingLength', 'Fin', translate('App::Property', 'Trailing Edge Length')).TrailingLength = 5.0
 
@@ -107,6 +114,11 @@ class FeatureFinCan(SymmetricComponent, FeatureFin):
                                 FINCAN_PRESET_3_16,
                                 FINCAN_PRESET_1_4]
             obj.LaunchLugPreset = FINCAN_PRESET_1_8
+        else:
+            obj.LaunchLugPreset = [FINCAN_PRESET_CUSTOM,
+                                FINCAN_PRESET_1_8, 
+                                FINCAN_PRESET_3_16,
+                                FINCAN_PRESET_1_4]
 
         if not hasattr(obj,"LaunchLugForwardSweep"):
             obj.addProperty('App::PropertyBool', 'LaunchLugForwardSweep', 'Fin', translate('App::Property', 'Forward side of the launch lug is swept')).LaunchLugForwardSweep = True
@@ -124,6 +136,9 @@ class FeatureFinCan(SymmetricComponent, FeatureFin):
             obj.CouplerStyle = [FINCAN_COUPLER_MATCH_ID,
                                 FINCAN_COUPLER_STEPPED]
             obj.CouplerStyle = FINCAN_COUPLER_MATCH_ID
+        else:
+            obj.CouplerStyle = [FINCAN_COUPLER_MATCH_ID,
+                                FINCAN_COUPLER_STEPPED]
         if not hasattr(obj,"CouplerThickness"):
             obj.addProperty('App::PropertyLength', 'CouplerThickness', 'Fin', translate('App::Property', 'Thickness of the coupler')).CouplerThickness = 0.35
         if not hasattr(obj,"CouplerDiameter"):
@@ -214,7 +229,7 @@ class FeatureFinCan(SymmetricComponent, FeatureFin):
 
     def execute(self, obj):
         if obj.FinType == FIN_TYPE_TRAPEZOID:
-            if obj.getTipChord() > 0:
+            if self.getTipChord() > 0:
                 shape = FinCanTrapezoidShapeHandler(obj)
             else:
                 shape = FinCanTriangleShapeHandler(obj)

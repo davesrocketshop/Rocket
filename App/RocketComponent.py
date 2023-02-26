@@ -264,7 +264,7 @@ class RocketComponent(RocketComponentShapeless, ChangeSource):
         DAC: This may not be correct as the Workbench already supplies absolute coordinates
     """
     def getComponentLocations(self):
-        if self.getParent() is None:
+        if self.getParent() is None or not hasattr(self.getParent, "getComponentLocations"):
             # == improperly initialized components OR the root Rocket instance 
             return self.getInstanceOffsets()
         else:

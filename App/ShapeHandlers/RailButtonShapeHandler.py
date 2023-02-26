@@ -150,10 +150,10 @@ class RailButtonShapeHandler():
         x = -(radius * math.cos(theta))
         y = radius * math.sin(theta)
 
-        v1 = FreeCAD.Vector(-x,y,base)
-        v2 = FreeCAD.Vector(-x,-y,base)
-        v3 = FreeCAD.Vector(radius,0,base)
-        v4 = FreeCAD.Vector(radius - length,0,base)
+        v1 = FreeCAD.Vector(x,y,base)
+        v2 = FreeCAD.Vector(x,-y,base)
+        v3 = FreeCAD.Vector(-radius,0,base)
+        v4 = FreeCAD.Vector(length - radius,0,base)
 
         arc = Part.Arc(v1,v3,v2)
         line1 = Part.LineSegment(v1, v4)
@@ -167,7 +167,7 @@ class RailButtonShapeHandler():
 
     def _drawAirfoil(self):
         spool = self._airfoil(0.0, self._thickness, self._innerDiameter, self._length)
-        spool.translate(FreeCAD.Vector((self._outerDiameter - self._innerDiameter) / 2.0, 0, 0))
+        spool.translate(FreeCAD.Vector(-(self._outerDiameter - self._innerDiameter) / 2.0, 0, 0))
         if self._hasFillet:
             spool = spool.makeFillet(self._filletRadius, [spool.Edges[3], spool.Edges[6], spool.Edges[8]])
 

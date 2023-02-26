@@ -124,22 +124,22 @@ class NoseShapeHandler():
 
     def _crossCap(self, barOnly = False):
         BASE_WIDTH = 5
-        base = 0.0 - BASE_WIDTH
+        base = self._length + BASE_WIDTH
         length = self._thickness + BASE_WIDTH
         if self._shoulder:
             length += self._shoulderLength
-            base -= self._shoulderLength
+            base += self._shoulderLength
 
         point = FreeCAD.Vector(base, 0, 0)
-        direction = FreeCAD.Vector(1,0,0)
+        direction = FreeCAD.Vector(-1,0,0)
 
         mask = Part.makeCylinder(self._shoulderRadius - self._shoulderThickness, length, point, direction)
 
-        point = FreeCAD.Vector(base + BASE_WIDTH, self._radius, -(self._capBarWidth / 2.0))
+        point = FreeCAD.Vector(base - BASE_WIDTH, self._radius, (self._capBarWidth / 2.0))
         box = Part.makeBox(self._capBarWidth, 2.0 * self._radius, length - BASE_WIDTH, point, direction)
         mask = mask.cut(box)
         if not barOnly:
-            point = FreeCAD.Vector(base + BASE_WIDTH, (self._capBarWidth / 2.0), -self._radius)
+            point = FreeCAD.Vector(base - BASE_WIDTH, (self._capBarWidth / 2.0), self._radius)
             box = Part.makeBox(2.0 * self._radius, self._capBarWidth, length - BASE_WIDTH, point, direction)
             mask = mask.cut(box)
         return mask
@@ -175,6 +175,7 @@ class NoseShapeHandler():
             try:
                 wire = Part.Wire(edges)
                 face = Part.Face(wire)
+                # Part.show(wire)
                 shape = face.revolve(FreeCAD.Vector(0, 0, 0),FreeCAD.Vector(1, 0, 0), 360)
             except Part.OCCError:
                 _err(translate('Rocket', "Nose cone parameters produce an invalid shape"))
@@ -192,6 +193,7 @@ class NoseShapeHandler():
                     mask = self._crossCap()
 
                 if mask is not None:
+                    # Part.show(mask)
                     shape = shape.cut(mask)
         except Part.OCCError:
             _err(translate('Rocket', "Nose cone cap style produces an invalid shape"))
@@ -206,81 +208,81 @@ class NoseShapeHandler():
         return shapeObject
 
     def solidLines(self, outerShape):
-        center = FreeCAD.Vector(0.0, 0.0)
-        major = FreeCAD.Vector(self._length, 0.0)
-        minor = FreeCAD.Vector(0.0, self._radius)
+        center = FreeCAD.Vector(self._length, 0.0)
+        major = FreeCAD.Vector(0.0, 0.0)
+        minor = FreeCAD.Vector(self._length, self._radius)
 
         line1 = Part.LineSegment(center, major)
         line2 = Part.LineSegment(center, minor)
         return [self.toShape(outerShape), line1.toShape(), line2.toShape()]
 
     def solidShoulderLines(self, outerShape):
-        major = FreeCAD.Vector(self._length,0)
-        minor = FreeCAD.Vector(0,self._radius)
+        major = FreeCAD.Vector(0,0)
+        minor = FreeCAD.Vector(self._length,self._radius)
 
-        line1 = Part.LineSegment(major,                                                     FreeCAD.Vector(-self._shoulderLength,0))
-        line2 = Part.LineSegment(FreeCAD.Vector(-self._shoulderLength,0),                   FreeCAD.Vector(-self._shoulderLength,self._shoulderRadius))
-        line3 = Part.LineSegment(FreeCAD.Vector(-self._shoulderLength,self._shoulderRadius),FreeCAD.Vector(0,self._shoulderRadius))
-        line4 = Part.LineSegment(FreeCAD.Vector(0,self._shoulderRadius),                     minor)
+        line1 = Part.LineSegment(major,                                                     FreeCAD.Vector(self._length + self._shoulderLength,0))
+        line2 = Part.LineSegment(FreeCAD.Vector(self._length + self._shoulderLength,0),                   FreeCAD.Vector(self._length + self._shoulderLength,self._shoulderRadius))
+        line3 = Part.LineSegment(FreeCAD.Vector(self._length + self._shoulderLength,self._shoulderRadius),FreeCAD.Vector(self._length,self._shoulderRadius))
+        line4 = Part.LineSegment(FreeCAD.Vector(self._length,self._shoulderRadius),                     minor)
         return [self.toShape(outerShape), line1.toShape(), line2.toShape(), line3.toShape(), line4.toShape()]
 
-    def hollowLines(self, max_x, outerShape, innerShape):
-        major = FreeCAD.Vector(self._length,0)
-        minor = FreeCAD.Vector(0,self._radius)
+    def hollowLines(self, offset, outerShape, innerShape):
+        major = FreeCAD.Vector(0,0)
+        minor = FreeCAD.Vector(self._length,self._radius)
 
-        innerMajor = FreeCAD.Vector(max_x,0)
-        innerMinor = FreeCAD.Vector(0,self._radius - self._thickness)
+        innerMajor = FreeCAD.Vector(offset,0)
+        innerMinor = FreeCAD.Vector(self._length,self._radius - self._thickness)
 
         line1 = Part.LineSegment(major, innerMajor)
         line2 = Part.LineSegment(minor, innerMinor)
         return [self.toShape(outerShape), line1.toShape(), line2.toShape(), self.toShape(innerShape)]
 
-    def hollowShoulderLines(self, max_x, minor_y, outerShape, innerShape):
-        major = FreeCAD.Vector(self._length,0)
-        minor = FreeCAD.Vector(0,self._radius)
+    def hollowShoulderLines(self, offset, minor_y, outerShape, innerShape):
+        major = FreeCAD.Vector(0,0)
+        minor = FreeCAD.Vector(self._length,self._radius)
 
-        innerMajor = FreeCAD.Vector(max_x,0)
-        innerMinor = FreeCAD.Vector(self._thickness, minor_y)
+        innerMajor = FreeCAD.Vector(offset,0)
+        innerMinor = FreeCAD.Vector(self._length - self._thickness, minor_y)
 
-        end2 = FreeCAD.Vector(0,                       self._shoulderRadius)
-        end3 = FreeCAD.Vector(-self._shoulderLength,   self._shoulderRadius)
-        end4 = FreeCAD.Vector(-self._shoulderLength,   self._shoulderRadius - self._shoulderThickness)
-        end5 = FreeCAD.Vector(self._thickness, self._shoulderRadius - self._shoulderThickness)
+        end2 = FreeCAD.Vector(self._length,                       self._shoulderRadius)
+        end3 = FreeCAD.Vector(self._length + self._shoulderLength,   self._shoulderRadius)
+        end4 = FreeCAD.Vector(self._length + self._shoulderLength,   self._shoulderRadius - self._shoulderThickness)
+        end5 = FreeCAD.Vector(self._length - self._thickness, self._shoulderRadius - self._shoulderThickness)
         line1 = Part.LineSegment(major, innerMajor)
         line2 = Part.LineSegment(minor, end2)
         line3 = Part.LineSegment(end2,  end3)
         line4 = Part.LineSegment(end3,  end4)
         line5 = Part.LineSegment(end4,  end5)
         line6 = Part.LineSegment(end5,  innerMinor)
-        return [self.toShape(outerShape), line1.toShape(), line2.toShape(), line3.toShape(), line4.toShape(), line5.toShape(), line6.toShape(), self.toShape(innerShape)]
+        return [line1.toShape(), self.toShape(outerShape), line2.toShape(), line3.toShape(), line4.toShape(), line5.toShape(), line6.toShape(), self.toShape(innerShape)]
 
-    def cappedLines(self, max_x, minor_y, outerShape, innerShape):
-        center = FreeCAD.Vector(0,0)
-        major = FreeCAD.Vector(self._length,0)
-        minor = FreeCAD.Vector(0,self._radius)
+    def cappedLines(self, offset, minor_y, outerShape, innerShape):
+        center = FreeCAD.Vector(self._length,0)
+        major = FreeCAD.Vector(0,0)
+        minor = FreeCAD.Vector(self._length,self._radius)
 
-        innerMajor = FreeCAD.Vector(max_x,0)
-        innerMinor = FreeCAD.Vector(self._thickness, minor_y)
+        innerMajor = FreeCAD.Vector(offset,0)
+        innerMinor = FreeCAD.Vector(self._length - self._thickness, minor_y)
 
         line1 = Part.LineSegment(major, innerMajor)
         line2 = Part.LineSegment(minor, center)
-        line3 = Part.LineSegment(center, FreeCAD.Vector(self._thickness, 0))
-        line4 = Part.LineSegment(FreeCAD.Vector(self._thickness, 0), innerMinor)
-        return [self.toShape(outerShape), line1.toShape(), line2.toShape(), line3.toShape(), line4.toShape(), self.toShape(innerShape)]
+        line3 = Part.LineSegment(center, FreeCAD.Vector(self._length - self._thickness, 0))
+        line4 = Part.LineSegment(FreeCAD.Vector(self._length - self._thickness, 0), innerMinor)
+        return [line1.toShape(), self.toShape(outerShape), line2.toShape(), line3.toShape(), line4.toShape(), self.toShape(innerShape)]
 
-    def cappedShoulderLines(self, max_x, minor_y, outerShape, innerShape):
-        major = FreeCAD.Vector(self._length,0)
-        minor = FreeCAD.Vector(0,self._radius)
+    def cappedShoulderLines(self, offset, minor_y, outerShape, innerShape):
+        major = FreeCAD.Vector(0,0)
+        minor = FreeCAD.Vector(self._length,self._radius)
 
-        innerMajor = FreeCAD.Vector(max_x,0)
-        innerMinor = FreeCAD.Vector(self._thickness, minor_y)
+        innerMajor = FreeCAD.Vector(offset,0)
+        innerMinor = FreeCAD.Vector(self._length - self._thickness, minor_y)
 
-        end2 = FreeCAD.Vector(0,                                            self._shoulderRadius)
-        end3 = FreeCAD.Vector(-self._shoulderLength,                        self._shoulderRadius)
-        end4 = FreeCAD.Vector(-self._shoulderLength,                        0)
-        end5 = FreeCAD.Vector(self._shoulderThickness-self._shoulderLength, 0)
-        end6 = FreeCAD.Vector(self._shoulderThickness-self._shoulderLength, self._shoulderRadius-self._shoulderThickness)
-        end7 = FreeCAD.Vector(self._thickness,                              self._shoulderRadius-self._shoulderThickness)
+        end2 = FreeCAD.Vector(self._length,                                            self._shoulderRadius)
+        end3 = FreeCAD.Vector(self._length + self._shoulderLength,                        self._shoulderRadius)
+        end4 = FreeCAD.Vector(self._length + self._shoulderLength,                        0)
+        end5 = FreeCAD.Vector(self._length + self._shoulderLength - self._shoulderThickness, 0)
+        end6 = FreeCAD.Vector(self._length + self._shoulderLength - self._shoulderThickness, self._shoulderRadius-self._shoulderThickness)
+        end7 = FreeCAD.Vector(self._length - self._thickness,                              self._shoulderRadius-self._shoulderThickness)
         line1 = Part.LineSegment(major, innerMajor)
         line2 = Part.LineSegment(minor, end2)
         line3 = Part.LineSegment(end2,  end3)

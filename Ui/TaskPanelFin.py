@@ -845,8 +845,8 @@ class TaskPanelFin(QObject):
             points = []
             points.append((0.0, 0.0))
             points.append((float(self._obj.RootChord), 0.0))
-            points.append((float(self._obj.RootChord) - float(self._obj.SweepLength), float(self._obj.Height)))
-            points.append((float(self._obj.RootChord) - float(self._obj.SweepLength) - float(self._obj.TipChord), float(self._obj.Height)))
+            points.append((float(self._obj.SweepLength) + float(self._obj.TipChord), float(self._obj.Height)))
+            points.append((float(self._obj.SweepLength), float(self._obj.Height)))
 
             sketch = self._drawLines(sketch, points)
             FreeCAD.ActiveDocument.recompute([sketch]) # Compute the sketch

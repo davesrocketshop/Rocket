@@ -127,9 +127,9 @@ class ComponentElement(Element):
 
     def onAxialOffset(self, content):
         if hasattr(self._feature._obj, "Location"):
-            self._feature._obj.Location = -content
+            self._feature._obj.Location = content
         if hasattr(self._feature._obj, "AxialOffset"):
-            self._feature._obj.AxialOffset = -content
+            self._feature._obj.AxialOffset = content
 
     def onOverrideMass(self, content):
         # if hasattr(self._feature, "setOverrideMass"):

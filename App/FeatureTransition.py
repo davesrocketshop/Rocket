@@ -64,8 +64,9 @@ class FeatureTransition(SymmetricComponent):
             obj.addProperty('App::PropertyLength', 'Thickness', 'Transition', translate('App::Property', 'Transition thickness')).Thickness = 2.0
         if not hasattr(obj, 'Clipped'):
             obj.addProperty('App::PropertyBool', 'Clipped', 'Transition', translate('App::Property', 'If the transition is not clipped, then the profile is extended at the center by the corresponding radius')).Clipped = True
+
         if not hasattr(obj, 'ForeShoulder'):
-            obj.addProperty('App::PropertyBool', 'ForeShoulder', 'Transition', translate('App::Property', 'Set to true if the part includes a forward shoulder')).ForeShoulder = True
+            obj.addProperty('App::PropertyBool', 'ForeShoulder', 'Transition', translate('App::Property', 'Set to true if the part includes a forward shoulder')).ForeShoulder = False #True
         if not hasattr(obj, 'ForeShoulderLength'):
             obj.addProperty('App::PropertyLength', 'ForeShoulderLength', 'Transition', translate('App::Property', 'Forward Shoulder Length')).ForeShoulderLength = 25.0
         if not hasattr(obj, 'ForeShoulderDiameter'):
@@ -74,8 +75,9 @@ class FeatureTransition(SymmetricComponent):
             obj.addProperty('App::PropertyBool', 'ForeShoulderAutoDiameter', 'NoseCone', translate('App::Property', 'Automatically set the forward transition shoulder diameter when possible')).ForeShoulderAutoDiameter = False
         if not hasattr(obj, 'ForeShoulderThickness'):
             obj.addProperty('App::PropertyLength', 'ForeShoulderThickness', 'Transition', translate('App::Property', 'Forward Shoulder thickness')).ForeShoulderThickness = 2.0
+
         if not hasattr(obj, 'AftShoulder'):
-            obj.addProperty('App::PropertyBool', 'AftShoulder', 'Transition', translate('App::Property', 'Set to true if the part includes an aft shoulder')).AftShoulder = True
+            obj.addProperty('App::PropertyBool', 'AftShoulder', 'Transition', translate('App::Property', 'Set to true if the part includes an aft shoulder')).AftShoulder = False #True
         if not hasattr(obj, 'AftShoulderLength'):
             obj.addProperty('App::PropertyLength', 'AftShoulderLength', 'Transition', translate('App::Property', 'Aft Shoulder Length')).AftShoulderLength = 25.0
         if not hasattr(obj, 'AftShoulderDiameter'):
@@ -84,6 +86,7 @@ class FeatureTransition(SymmetricComponent):
             obj.addProperty('App::PropertyBool', 'AftShoulderAutoDiameter', 'NoseCone', translate('App::Property', 'Automatically set the aft transition shoulder diameter when possible')).AftShoulderAutoDiameter = False
         if not hasattr(obj, 'AftShoulderThickness'):
             obj.addProperty('App::PropertyLength', 'AftShoulderThickness', 'Transition', translate('App::Property', 'Aft Shoulder thickness')).AftShoulderThickness = 2.0
+
         if not hasattr(obj, 'Coefficient'):
             obj.addProperty('App::PropertyFloat', 'Coefficient', 'Transition', translate('App::Property', 'Coefficient')).Coefficient = 0.0
         if not hasattr(obj, 'Resolution'):
@@ -104,6 +107,15 @@ class FeatureTransition(SymmetricComponent):
                         TYPE_POWER,
                         TYPE_HAACK]
             obj.TransitionType = TYPE_CONE
+        else:
+            obj.TransitionType = [TYPE_CONE,
+                        TYPE_ELLIPTICAL,
+                        TYPE_OGIVE,
+                        TYPE_VON_KARMAN,
+                        TYPE_PARABOLA,
+                        TYPE_PARABOLIC,
+                        TYPE_POWER,
+                        TYPE_HAACK]
 
         if not hasattr(obj, 'TransitionStyle'):
             obj.addProperty('App::PropertyEnumeration', 'TransitionStyle', 'Transition', translate('App::Property', 'Transition style'))
@@ -112,6 +124,11 @@ class FeatureTransition(SymmetricComponent):
                                 STYLE_HOLLOW,
                                 STYLE_CAPPED]
             obj.TransitionStyle = STYLE_SOLID
+        else:
+            obj.TransitionStyle = [STYLE_SOLID,
+                                STYLE_SOLID_CORE,
+                                STYLE_HOLLOW,
+                                STYLE_CAPPED]
 
         if not hasattr(obj, 'ForeCapStyle'):
             obj.addProperty('App::PropertyEnumeration', 'ForeCapStyle', 'Transition', translate('App::Property', 'Forward cap style'))
@@ -119,6 +136,10 @@ class FeatureTransition(SymmetricComponent):
                                 STYLE_CAP_BAR,
                                 STYLE_CAP_CROSS]
             obj.ForeCapStyle = STYLE_CAP_SOLID
+        else:
+            obj.ForeCapStyle = [STYLE_CAP_SOLID,
+                                STYLE_CAP_BAR,
+                                STYLE_CAP_CROSS]
 
         if not hasattr(obj, 'AftCapStyle'):
             obj.addProperty('App::PropertyEnumeration', 'AftCapStyle', 'Transition', translate('App::Property', 'Aft cap style'))
@@ -126,6 +147,10 @@ class FeatureTransition(SymmetricComponent):
                                 STYLE_CAP_BAR,
                                 STYLE_CAP_CROSS]
             obj.AftCapStyle = STYLE_CAP_SOLID
+        else:
+            obj.AftCapStyle = [STYLE_CAP_SOLID,
+                                STYLE_CAP_BAR,
+                                STYLE_CAP_CROSS]
 
     def setDefaults(self):
         super().setDefaults()

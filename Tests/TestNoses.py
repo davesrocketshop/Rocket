@@ -48,11 +48,16 @@ class NoseTests(unittest.TestCase):
 
         self._checkShape(feature, "Basic")
 
-    def _testPlain(self, type, style, capStyle = STYLE_CAP_SOLID):
-        feature = makeNoseCone('NoseCone')
+    def _setType(self, feature, type):
         feature._obj.NoseType = type
         if type == TYPE_POWER:
             feature._obj.Coefficient = 0.5
+        elif type == TYPE_SPHERICAL:
+            feature._obj.Length = (feature._obj.Diameter / 2.0)
+
+    def _testPlain(self, type, style, capStyle = STYLE_CAP_SOLID):
+        feature = makeNoseCone('NoseCone')
+        self._setType(feature, type)
         feature._obj.NoseStyle = style
         feature._obj.Shoulder = False
         feature._obj.CapStyle = capStyle
@@ -65,9 +70,7 @@ class NoseTests(unittest.TestCase):
 
     def _testShoulder(self, type, style, capStyle = STYLE_CAP_SOLID):
         feature = makeNoseCone('NoseCone')
-        feature._obj.NoseType = type
-        if type == TYPE_POWER:
-            feature._obj.Coefficient = 0.5
+        self._setType(feature, type)
         feature._obj.NoseStyle = style
         feature._obj.Shoulder = True
         feature._obj.CapStyle = capStyle
@@ -78,32 +81,27 @@ class NoseTests(unittest.TestCase):
 
         self._checkShape(feature, message)
 
+    def _getTypes(self):
+        return [TYPE_CONE, TYPE_BLUNTED_CONE, TYPE_SPHERICAL, TYPE_ELLIPTICAL, TYPE_HAACK, TYPE_OGIVE, TYPE_BLUNTED_OGIVE,
+                        TYPE_SECANT_OGIVE, TYPE_VON_KARMAN, TYPE_PARABOLIC, TYPE_PARABOLA, TYPE_POWER]
+
     def testTypesSolid(self):
-        for type in [TYPE_CONE, TYPE_BLUNTED_CONE, TYPE_SPHERICAL, TYPE_ELLIPTICAL, TYPE_HAACK, TYPE_OGIVE, TYPE_BLUNTED_OGIVE, 
-                        TYPE_SECANT_OGIVE, TYPE_VON_KARMAN, TYPE_PARABOLA, TYPE_PARABOLIC, TYPE_POWER]:
+        for type in self._getTypes():
             with self.subTest(type=type):
-                self._testPlain(type, STYLE_SOLID)
-                self._testShoulder(type, STYLE_SOLID)
                 self._testPlain(type, STYLE_SOLID)
                 self._testShoulder(type, STYLE_SOLID)
                 
     def testTypesHollow(self):
-        for type in [TYPE_CONE, TYPE_BLUNTED_CONE, TYPE_SPHERICAL, TYPE_ELLIPTICAL, TYPE_HAACK, TYPE_OGIVE, TYPE_BLUNTED_OGIVE, 
-                        TYPE_SECANT_OGIVE, TYPE_VON_KARMAN, TYPE_PARABOLA, TYPE_PARABOLIC, TYPE_POWER]:
+        for type in self._getTypes():
             with self.subTest(type=type):
-                self._testPlain(type, STYLE_HOLLOW)
-                self._testShoulder(type, STYLE_HOLLOW)
                 self._testPlain(type, STYLE_HOLLOW)
                 self._testShoulder(type, STYLE_HOLLOW)
                 
     def testTypesCapped(self):
-        for type in [TYPE_CONE, TYPE_BLUNTED_CONE, TYPE_SPHERICAL, TYPE_ELLIPTICAL, TYPE_HAACK, TYPE_OGIVE, TYPE_BLUNTED_OGIVE, 
-                        TYPE_SECANT_OGIVE, TYPE_VON_KARMAN, TYPE_PARABOLA, TYPE_PARABOLIC, TYPE_POWER]:
+        for type in self._getTypes():
             with self.subTest(type=type):
                 for capStyle in [STYLE_CAP_SOLID, STYLE_CAP_BAR, STYLE_CAP_CROSS]:
                     with self.subTest(capStyle=capStyle):
-                        self._testPlain(type, STYLE_CAPPED, capStyle)
-                        self._testShoulder(type, STYLE_CAPPED, capStyle)
                         self._testPlain(type, STYLE_CAPPED, capStyle)
                         self._testShoulder(type, STYLE_CAPPED, capStyle)
     

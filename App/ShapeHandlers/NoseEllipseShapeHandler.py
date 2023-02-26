@@ -40,54 +40,62 @@ class NoseEllipseShapeHandler(NoseShapeHandler):
 
         inner_minor = (b / a) * math.sqrt(a * a - x * x)
         return inner_minor
+    
+    def _arc(self, x, major, minor):
+        if major > minor:
+            arc = Part.ArcOfEllipse(Part.Ellipse(FreeCAD.Vector(x, 0), major, minor), math.pi/2, -math.pi)
+        else:
+            # Flip major and minor axis
+            ellipse = Part.ArcOfEllipse(Part.Ellipse(FreeCAD.Vector(x, 0), minor, major), 0, math.pi/2)
+            arc = ellipse.toShape().rotate(FreeCAD.Vector(x,0,0), FreeCAD.Vector(0,0,1), 90)
+
+        return arc
 
     def drawSolid(self):
-        outer_curve = Part.ArcOfEllipse(Part.Ellipse(FreeCAD.Vector(0, 0), self._length, self._radius), 0.0, math.pi/2)
+        outer_curve = self._arc(self._length, self._length, self._radius)
 
         edges = self.solidLines(outer_curve)
         return edges
 
     def drawSolidShoulder(self):
-        outer_curve = Part.ArcOfEllipse(Part.Ellipse(FreeCAD.Vector(0, 0), self._length, self._radius), 0.0, math.pi/2)
+        outer_curve = self._arc(self._length, self._length, self._radius)
 
         edges = self.solidShoulderLines(outer_curve)
         return edges
 
     def drawHollow(self):
-        last = self._length - self._thickness
+        outer_curve = self._arc(self._length, self._length, self._radius)
+        inner_curve = self._arc(self._length, self._length - self._thickness, self._radius - self._thickness)
 
-        outer_curve = Part.ArcOfEllipse(Part.Ellipse(FreeCAD.Vector(0, 0), self._length, self._radius), 0.0, math.pi/2)
-        inner_curve = Part.ArcOfEllipse(Part.Ellipse(FreeCAD.Vector(0, 0), last, self._radius - self._thickness), 0.0, math.pi/2)
-
-        edges = self.hollowLines(last, outer_curve, inner_curve)
+        edges = self.hollowLines(self._thickness, outer_curve, inner_curve)
         return edges
 
     def drawHollowShoulder(self):
         last = self._length - self._thickness
         minor_y = self.innerMinor(last)
 
-        outer_curve = Part.ArcOfEllipse(Part.Ellipse(FreeCAD.Vector(0, 0), self._length, self._radius), 0.0, math.pi/2)
-        inner_curve = Part.ArcOfEllipse(Part.Ellipse(FreeCAD.Vector(self._thickness, 0), last - self._thickness, minor_y), 0.0, math.pi/2)
+        outer_curve = self._arc(self._length, self._length, self._radius)
+        inner_curve = self._arc(self._length - self._thickness, self._length - 2 * self._thickness, minor_y)
 
-        edges = self.hollowShoulderLines(last, minor_y, outer_curve, inner_curve)
+        edges = self.hollowShoulderLines(self._thickness, minor_y, outer_curve, inner_curve)
         return edges
 
     def drawCapped(self):
         last = self._length - self._thickness
         minor_y = self.innerMinor(last)
 
-        outer_curve = Part.ArcOfEllipse(Part.Ellipse(FreeCAD.Vector(0, 0), self._length, self._radius), 0.0, math.pi/2)
-        inner_curve = Part.ArcOfEllipse(Part.Ellipse(FreeCAD.Vector(self._thickness, 0), last - self._thickness, minor_y), 0.0, math.pi/2)
+        outer_curve = self._arc(self._length, self._length, self._radius)
+        inner_curve = self._arc(self._length - self._thickness, self._length - 2 * self._thickness, minor_y)
 
-        edges = self.cappedLines(last, minor_y, outer_curve, inner_curve)
+        edges = self.cappedLines(self._thickness, minor_y, outer_curve, inner_curve)
         return edges
 
     def drawCappedShoulder(self):
         last = self._length - self._thickness
         minor_y = self.innerMinor(last)
 
-        outer_curve = Part.ArcOfEllipse(Part.Ellipse(FreeCAD.Vector(0, 0), self._length, self._radius), 0.0, math.pi/2)
-        inner_curve = Part.ArcOfEllipse(Part.Ellipse(FreeCAD.Vector(self._thickness, 0), last - self._thickness, minor_y), 0.0, math.pi/2)
+        outer_curve = self._arc(self._length, self._length, self._radius)
+        inner_curve = self._arc(self._length - self._thickness, self._length - 2 * self._thickness, minor_y)
 
-        edges = self.cappedShoulderLines(last, minor_y, outer_curve, inner_curve)
+        edges = self.cappedShoulderLines(self._thickness, minor_y, outer_curve, inner_curve)
         return edges

@@ -42,11 +42,11 @@ class TransitionParabolicShapeHandler(TransitionShapeHandler):
         if r1 > r2:
             radius = r1 - r2
             center = r2
-            x = pos
+            x = length - pos
         else:
             radius = r2 - r1
             center = r1
-            x = length - pos
+            x = pos
 
         ratio = x / length
         y = radius * ((2 * ratio) - (self._coefficient * ratio * ratio)) / (2 - self._coefficient)

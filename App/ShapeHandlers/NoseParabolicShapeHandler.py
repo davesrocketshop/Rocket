@@ -57,22 +57,22 @@ class NoseParabolicShapeHandler(NoseShapeHandler):
             
             x = float(i) * ((length - min) / float(resolution))
             y = self.para_y(x, length, radius, k)
-            points.append(FreeCAD.Vector(length - x, y))
+            points.append(FreeCAD.Vector(min + x, y))
 
-        points.append(FreeCAD.Vector(min, radius))
+        points.append(FreeCAD.Vector(min + length, radius))
         return points
             
     def findParaY(self, thickness, length, radius, k):
-        min = 0
+        min = thickness
         max = length
         x = 0
 
         # Do a binary search to see where f(x) = thickness, to 1 mm
         while (max - min) > 0.1:
-            y = self.para_y(length - x, length, radius, k)
+            y = self.para_y(x, length, radius, k)
             if (y == thickness):
                 return x
-            if (y > thickness):
+            if (y < thickness):
                 min = x
             else:
                 max = x
@@ -98,7 +98,7 @@ class NoseParabolicShapeHandler(NoseShapeHandler):
         x = self.findParaY(self._thickness, self._length, self._radius, self._coefficient)
 
         outer_curve = self.para_curve(self._length, self._radius, self._resolution, self._coefficient)
-        inner_curve = self.para_curve(x, self._radius - self._thickness, self._resolution, self._coefficient)
+        inner_curve = self.para_curve(self._length - x, self._radius - self._thickness, self._resolution, self._coefficient, x)
 
         # Create the splines.
         outerSpline = self.makeSpline(outer_curve)
@@ -110,10 +110,10 @@ class NoseParabolicShapeHandler(NoseShapeHandler):
     def drawHollowShoulder(self):
         # Find the point where the thickness matches the desired thickness, so we don't get too narrow at the tip
         x = self.findParaY(self._thickness, self._length, self._radius, self._coefficient)
-        minor_y = self.innerMinor(x, self._coefficient)
+        minor_y = self.innerMinor(self._length - self._thickness - x, self._coefficient)
 
         outer_curve = self.para_curve(self._length, self._radius, self._resolution, self._coefficient)
-        inner_curve = self.para_curve(x - self._thickness, minor_y, self._resolution, self._coefficient, self._thickness)
+        inner_curve = self.para_curve(self._length - self._thickness - x, minor_y, self._resolution, self._coefficient, x)
 
         # Create the splines.
         outerSpline = self.makeSpline(outer_curve)
@@ -125,10 +125,10 @@ class NoseParabolicShapeHandler(NoseShapeHandler):
     def drawCapped(self):
         # Find the point where the thickness matches the desired thickness, so we don't get too narrow at the tip
         x = self.findParaY(self._thickness, self._length, self._radius, self._coefficient)
-        minor_y = self.innerMinor(x, self._coefficient)
+        minor_y = self.innerMinor(self._length - self._thickness - x, self._coefficient)
 
         outer_curve = self.para_curve(self._length, self._radius, self._resolution, self._coefficient)
-        inner_curve = self.para_curve(x - self._thickness, minor_y, self._resolution, self._coefficient, self._thickness)
+        inner_curve = self.para_curve(self._length - self._thickness - x, minor_y, self._resolution, self._coefficient, x)
 
         # Create the splines.
         outerSpline = self.makeSpline(outer_curve)
@@ -140,10 +140,10 @@ class NoseParabolicShapeHandler(NoseShapeHandler):
     def drawCappedShoulder(self):
         # Find the point where the thickness matches the desired thickness, so we don't get too narrow at the tip
         x = self.findParaY(self._thickness, self._length, self._radius, self._coefficient)
-        minor_y = self.innerMinor(x, self._coefficient)
+        minor_y = self.innerMinor(self._length - self._thickness - x, self._coefficient)
 
         outer_curve = self.para_curve(self._length, self._radius, self._resolution, self._coefficient)
-        inner_curve = self.para_curve(x - self._thickness, minor_y, self._resolution, self._coefficient, self._thickness)
+        inner_curve = self.para_curve(self._length - self._thickness - x, minor_y, self._resolution, self._coefficient, x)
 
         # Create the splines.
         outerSpline = self.makeSpline(outer_curve)
