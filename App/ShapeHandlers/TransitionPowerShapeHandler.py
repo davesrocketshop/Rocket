@@ -44,11 +44,11 @@ class TransitionPowerShapeHandler(TransitionShapeHandler):
         if r1 > r2:
             radius = r1 - r2
             center = r2
-            x = pos
+            x = length - pos
         else:
             radius = r2 - r1
             center = r1
-            x = length - pos
+            x = pos
 
         y = radius * math.pow((x / length), self._coefficient)
         return y + center

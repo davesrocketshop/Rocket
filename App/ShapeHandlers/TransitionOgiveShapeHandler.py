@@ -38,11 +38,11 @@ class TransitionOgiveShapeHandler(TransitionShapeHandler):
         if r1 > r2:
             radius = r1 - r2
             center = r2
-            x = length - pos
+            x = pos
         else:
             radius = r2 - r1
             center = r1
-            x = pos
+            x = length - pos
         rho = (radius * radius + length * length) / (2.0 * radius)
 
         y = math.sqrt(rho * rho - math.pow(x, 2)) + radius - rho

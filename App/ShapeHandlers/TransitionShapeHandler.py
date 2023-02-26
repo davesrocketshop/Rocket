@@ -278,7 +278,7 @@ class TransitionShapeHandler():
         if not self.isValidShape():
             return
 
-        self._debugShape = True
+        self._debugShape = False
         edges = None
         try:
             if self._style == STYLE_SOLID:
@@ -354,45 +354,42 @@ class TransitionShapeHandler():
         self._obj.Shape = shape
         self._obj.Placement = self._placement
 
-    def _generateCurve(self, r1, r2, length, min = 0, max = 0.0):
+    def _generateCurve(self, r1, r2, length, min = 0.0, max = 0.0):
+        """
+            For clipped functions, length will be the clip length and self._length is
+            the actual length
+        """
         if self._debugShape:
             print("r1 = %f, r2 = %f, length = %f, min = %f, max = %f" % (r1, r2, length, min, max))
         if max <= 0:
-            max = length #self._length
+            max = self._length
 
         if self._clipped:
             if r1 < r2:
                 points = [FreeCAD.Vector(min, r1)] # 0
             else:
-                points = [FreeCAD.Vector(self._length, r2)] # 1
+                points = [FreeCAD.Vector(max, r2)] # 1
         else:
             points = [FreeCAD.Vector(min, r1)] # 2,3
-        # points = []
 
-        offset = length - self._length
-        # if min < offset:
-        #     min = offset
         for i in range(1, self._resolution):
             
             if self._clipped:
-                if r1 > r2: # 0
-                    x = max - (float(i) * ((self._length - min) / float(self._resolution))) #- offset
-                    y = self._radiusAt(r2, 0.0, length, x) + r2
-                    x -= offset
+                if r1 < r2: # 0
+                    x = min + (float(i) * ((max - min) / float(self._resolution)))
+                    y = self._radiusAt(r2, 0.0, length, self._length - x)
                 else: # 1
-                    x = max - (float(i) * ((self._length - min) / float(self._resolution))) #- offset
-                    y = self._radiusAt(r1, 0.0, length, x) + r1
-                    x = length - x
-                # x -= offset
+                    x = max - (float(i) * ((max - min) / float(self._resolution)))
+                    y = self._radiusAt(r1, 0.0, length, x)
             else:
                 # 2,3
-                x = float(i) * ((max - min) / float(self._resolution))
+                x = float(i) * ((max - min) / float(self._resolution)) + min
                 y = self._radiusAt(r1, r2, length, x)
             points.append(FreeCAD.Vector(x, y))
 
         if self._clipped:
             if r1 < r2:
-                points.append(FreeCAD.Vector(self._length, r2)) # 0
+                points.append(FreeCAD.Vector(max, r2)) # 0
             else:
                 points.append(FreeCAD.Vector(min, r1)) # 1
         else:
@@ -431,18 +428,18 @@ class TransitionShapeHandler():
         return curve
 
     def _clippedInnerRadius(self, r1, r2, pos):
-        r1 -= self._thickness
-        r2 -= self._thickness
+        radius1 = r1 - self._thickness
+        radius2 = r2 - self._thickness
 
         if self._clipped:
-            self._calculateClip(r1, r2)
+            self._calculateClip(radius1, radius2)
             if r2 > r1:
-                radius = self._radiusAt(r2, 0.0, self._clipLength, pos) + r1
+                radius = self._radiusAt(radius2, 0.0, self._clipLength, self._length - pos)
                 return radius
             else:
-                radius = self._radiusAt(r1, 0.0, self._clipLength, self._length - pos) + r2
+                radius = self._radiusAt(radius1, 0.0, self._clipLength, pos)
                 return radius
-        return self._radiusAt(r1, r2, self._length, pos)
+        return self._radiusAt(radius1, radius2, self._length, pos)
 
     def _drawSolid(self):
         outer_curve = self._curve()
@@ -642,7 +639,7 @@ class TransitionShapeHandler():
 
             front = [line1.toShape(), line2.toShape(), line3.toShape(), line4.toShape(), line5.toShape()]
         else:
-            line1 = Part.LineSegment(FreeCAD.Vector(0.0, self._foreRadius), FreeCAD.Vector(0.0, self._foreRadius - self._thickness))
+            line1 = Part.LineSegment(FreeCAD.Vector(0.0, self._foreRadius), FreeCAD.Vector(0.0, foreY))
 
             front = [line1.toShape()]
 
@@ -655,7 +652,7 @@ class TransitionShapeHandler():
 
             back = [line1.toShape(), line2.toShape(), line3.toShape(), line4.toShape(), line5.toShape()]
         else:
-            line1 = Part.LineSegment(FreeCAD.Vector(self._length, self._aftRadius), FreeCAD.Vector(self._length, self._aftRadius - self._thickness))
+            line1 = Part.LineSegment(FreeCAD.Vector(self._length, self._aftRadius), FreeCAD.Vector(self._length, aftY))
 
             back = [line1.toShape()]
 

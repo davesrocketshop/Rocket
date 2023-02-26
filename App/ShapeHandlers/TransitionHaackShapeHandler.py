@@ -47,11 +47,11 @@ class TransitionHaackShapeHandler(TransitionShapeHandler):
         if r1 > r2:
             radius = r1 - r2
             center = r2
-            x = pos
+            x = length - pos
         else:
             radius = r2 - r1
             center = r1
-            x = length - pos
+            x = pos
 
         theta = self._theta(x, length)
         y = radius * math.sqrt(theta - math.sin(2 * theta)/2
