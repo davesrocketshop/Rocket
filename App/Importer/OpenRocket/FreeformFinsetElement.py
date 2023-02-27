@@ -45,7 +45,6 @@ class FreeformFinpoints(Element):
 
         self.sketch = parent.sketch
         self.points = []
-        self.max_x = 0
 
 
     def handleTag(self, tag, attributes):
@@ -54,8 +53,6 @@ class FreeformFinpoints(Element):
             x = FreeCAD.Units.Quantity(attributes["x"] + " m").Value 
             y = FreeCAD.Units.Quantity(attributes["y"] + " m").Value
             self.points.append((x,y))
-            if x > self.max_x:
-                self.max_x = x
         else:
             super().handleTag(tag, attributes)
 
@@ -63,7 +60,7 @@ class FreeformFinpoints(Element):
         # First reverse the X direction of the points
         newPoints = []
         for point in self.points:
-            newPoints.append((self.max_x - point[0], point[1]))
+            newPoints.append((point[0], point[1]))
         self.points = newPoints
 
         last = self.points[-1]
