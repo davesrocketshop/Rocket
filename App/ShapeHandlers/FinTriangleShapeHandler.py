@@ -148,12 +148,16 @@ class FinTriangleShapeHandler(FinShapeHandler):
             radius = float(self._obj.RootThickness) / 2.0
             height = float(self._obj.Height - self._obj.RootThickness)
             sweep = self._sweepAtHeight(height) + radius
-            theta = math.radians(float(self._obj.SweepAngle))
-            x = math.sin(theta)
-            z = math.cos(theta)
-            tip = Part.makeSphere(radius, 
+            # theta = math.radians(float(self._obj.SweepAngle))
+            # x = math.sin(theta)
+            # z = math.cos(theta)
+            circle = Part.makeCircle(radius, 
                                   FreeCAD.Vector(sweep, 0.0, height), 
-                                  FreeCAD.Vector(x, 0, z), -90, 90, 360)
+                                  FreeCAD.Vector(0, 0, 1))
+            point = Part.Point(FreeCAD.Vector(self._obj.SweepLength, 0, self._obj.Height))
+            tip = Part.makeLoft([circle, point.toShape()])
+            Part.show(tip)
+            tip = None
         else:
             tip = None
         return tip
