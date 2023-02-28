@@ -111,14 +111,15 @@ class FinEllipseShapeHandler(FinShapeHandler):
                 thickness = 2.0 * self._radiusAt(float(self._obj.RootThickness) / 2.0, float(self._obj.Height), height)
             else:
                 thickness = float(self._obj.RootThickness)
+            l1, l2 = self._lengthsFromPercent(float(self._obj.RootChord), self._obj.RootPerCent,
+                                            float(self._obj.RootLength1), float(self._obj.RootLength2))
             ellipses.append(self._makeChordProfile(self._obj.RootCrossSection,
                 midChord - radius,
                 radius * 2.0,
                 thickness, #float(self._obj.RootThickness), # need to fix this
                 height,
-                self._obj.RootPerCent,
-                float(self._obj.RootLength1),
-                rootLength2,
+                l1,
+                l2,
                 midChordLimit = True
             ))
 
@@ -128,14 +129,15 @@ class FinEllipseShapeHandler(FinShapeHandler):
             thickness = radius
         else:
             thickness = float(self._obj.RootThickness)
+        l1, l2 = self._lengthsFromPercent(float(self._obj.RootChord), self._obj.RootPerCent,
+                                          float(self._obj.RootLength1), float(self._obj.RootLength2))
         ellipses.append(self._makeChordProfile(self._obj.RootCrossSection,
             midChord + radius,
             radius * 2.0,
             thickness, # need to fix this
             float(self._obj.Height),
-            self._obj.RootPerCent,
-            float(self._obj.RootLength1),
-            rootLength2,
+            l1,
+            l2,
             midChordLimit = True
         ))
         return ellipses

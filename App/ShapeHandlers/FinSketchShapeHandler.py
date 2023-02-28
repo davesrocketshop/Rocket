@@ -201,12 +201,16 @@ class FinSketchShapeHandler(FinShapeHandler):
         if len(chord) > 1:
             chordLength = float(chord[1].x - chord[0].x)
             offset = float(chord[0].x)
-            profile = self._makeChordProfile(self._obj.RootCrossSection, offset, chordLength, float(self._obj.RootThickness), height, self._obj.RootPerCent, float(self._obj.RootLength1), rootLength2)
+            l1, l2 = self._lengthsFromPercent(chordLength, self._obj.RootPerCent,
+                                            float(self._obj.RootLength1), float(self._obj.RootLength2))
+            profile = self._makeChordProfile(self._obj.RootCrossSection, offset, chordLength, float(self._obj.RootThickness), height, l1, l2)
         elif self._obj.RootCrossSection in [FIN_CROSS_SQUARE, FIN_CROSS_WEDGE, FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE]:
             chordLength = 1e-3  # Very small chord length
             # chordLength = 2.0 * tolerance # Very small chord length
             offset = float(chord[0].x)
-            profile = self._makeChordProfile(self._obj.RootCrossSection, offset, chordLength, float(self._obj.RootThickness), height, self._obj.RootPerCent, float(self._obj.RootLength1), rootLength2)
+            l1, l2 = self._lengthsFromPercent(chordLength, self._obj.RootPerCent,
+                                            float(self._obj.RootLength1), float(self._obj.RootLength2))
+            profile = self._makeChordProfile(self._obj.RootCrossSection, offset, chordLength, float(self._obj.RootThickness), height, l1, l2)
         else:
             profile = Part.Vertex(FreeCAD.Vector(float(chord[0].x), 0.0, float(chord[0].z)))
 

@@ -39,30 +39,25 @@ class FinTrapezoidShapeHandler(FinShapeHandler):
 
     def _makeRootProfile(self):
         # Create the root profile, casting everything to float to avoid typing issues
-        if self._obj.RootPerCent:
-            rootLength2 = float(self._obj.RootLength2)
-        else:
-            rootLength2 = float(self._obj.RootChord) - float(self._obj.RootLength2)
-        # return self._makeChordProfile(self._obj.RootCrossSection, float(self._obj.RootChord), float(self._obj.RootChord), float(self._obj.RootThickness), 0.0, self._obj.RootPerCent, float(self._obj.RootLength1), rootLength2)
+        l1, l2 = self._lengthsFromPercent(float(self._obj.RootChord), self._obj.RootPerCent,
+                                          float(self._obj.RootLength1), float(self._obj.RootLength2))
         return self._makeChordProfile(self._obj.RootCrossSection, 0.0, float(self._obj.RootChord), 
-            float(self._obj.RootThickness), 0.0, self._obj.RootPerCent, float(self._obj.RootLength1), rootLength2)
-    # def _makeChordProfile(self, crossSection, foreX, chord, thickness, height, lengthPerCent, 
-    #     length1, length2, midChordLimit = True):
+            float(self._obj.RootThickness), 0.0, l1, l2)
 
     def _makeTipProfile(self):
         # Create the tip profile, casting everything to float to avoid typing issues
         crossSection = self._obj.TipCrossSection
         if crossSection == FIN_CROSS_SAME:
             crossSection = self._obj.RootCrossSection
-        if self._obj.TipPerCent:
-            tipLength2 = float(self._obj.TipLength2)
-        else:
-            tipLength2 = float(self._obj.TipChord) - float(self._obj.TipLength2)
+
         tipThickness = float(self._obj.TipThickness)
         if self._obj.TipSameThickness:
             tipThickness = float(self._obj.RootThickness)
+
+        l1, l2 = self._lengthsFromPercent(float(self._obj.TipChord), self._obj.TipPerCent, 
+                                          float(self._obj.TipLength1), float(self._obj.TipLength2))
         return self._makeChordProfile(crossSection, float(self._obj.SweepLength), float(self._obj.TipChord), 
-            tipThickness, float(self._obj.Height), self._obj.TipPerCent, float(self._obj.TipLength1), tipLength2)
+            tipThickness, float(self._obj.Height), l1, l2)
 
     def isValidShape(self):
         # Add error checking here

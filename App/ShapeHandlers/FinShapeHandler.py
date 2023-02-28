@@ -46,8 +46,8 @@ class FinShapeHandler:
 
     def _makeChordProfileSquare(self, foreX, chord, thickness, height):
         # Create the root rectangle
-        chordFore = foreX + chord
-        chordAft = foreX
+        chordFore = foreX
+        chordAft = foreX + chord
         halfThickness = thickness / 2
         v1 = FreeCAD.Vector(chordFore, halfThickness, height)
         v2 = FreeCAD.Vector(chordFore, -halfThickness, height)
@@ -62,13 +62,19 @@ class FinShapeHandler:
         return wire
 
     def _makeChordProfileRound(self, foreX, chord, thickness, height):
-        chordFore = foreX + chord
-        chordAft = foreX
+        chordFore = foreX
+        chordAft = foreX + chord
         halfThickness = thickness / 2
-        v1 = FreeCAD.Vector(chordFore - halfThickness, halfThickness, height)
-        v2 = FreeCAD.Vector(chordFore - halfThickness, -halfThickness, height)
-        v3 = FreeCAD.Vector(chordAft + halfThickness, -halfThickness, height)
-        v4 = FreeCAD.Vector(chordAft + halfThickness, halfThickness, height)
+        if chord <= thickness:
+            circle = Part.makeCircle(halfThickness, FreeCAD.Vector(chordFore + halfThickness, 0, height),
+                                     FreeCAD.Vector(0,0,1))
+            wire = Part.Wire([circle])
+            return wire
+        
+        v1 = FreeCAD.Vector(chordFore + halfThickness, halfThickness, height)
+        v2 = FreeCAD.Vector(chordFore + halfThickness, -halfThickness, height)
+        v3 = FreeCAD.Vector(chordAft - halfThickness, -halfThickness, height)
+        v4 = FreeCAD.Vector(chordAft - halfThickness, halfThickness, height)
         centerAft = FreeCAD.Vector(chordAft, 0.0, height)
         centerFore = FreeCAD.Vector(chordFore, 0.0, height)
         line1 = Part.LineSegment(v2, v3)
@@ -85,8 +91,8 @@ class FinShapeHandler:
         return wire
 
     def _makeChordProfileBiconvex(self, foreX, chord, thickness, height):
-        chordFore = foreX + chord
-        chordAft = foreX
+        chordFore = foreX
+        chordAft = foreX + chord
         chordMid = foreX + (chord / 2)
         halfThickness = thickness / 2
         v1 = FreeCAD.Vector(chordFore, 0.0, height)
@@ -133,13 +139,8 @@ class FinShapeHandler:
         spline.buildFromPoles(points)
         return spline
 
-    def _midForeChordLimit(self, chord, value, midChordLimit):
+    def _midChordLimit(self, chord, value, midChordLimit):
         if midChordLimit and value > (chord / 2.0):
-            return chord / 2.0
-        return value
-
-    def _midAftChordLimit(self, chord, value, midChordLimit):
-        if midChordLimit and value < (chord / 2.0):
             return chord / 2.0
         return value
 
@@ -185,7 +186,10 @@ class FinShapeHandler:
 
     def _makeChordProfileTaperLE(self, foreX, chord, thickness, height, maxChord):
         chordFore = foreX
-        chordMid = foreX + maxChord
+        if maxChord == chord:
+            chordMid = foreX + maxChord - 0.00001
+        else:
+            chordMid = foreX + maxChord
         chordAft = foreX + chord
         halfThickness = thickness / 2
         v1 = FreeCAD.Vector(chordFore, 0.0, height)
@@ -198,13 +202,16 @@ class FinShapeHandler:
         line3 = Part.LineSegment(v4, v5)
         line4 = Part.LineSegment(v5, v3)
         line5 = Part.LineSegment(v3, v1)
-        
+    
         wire = Part.Wire([line1.toShape(), line2.toShape(), line3.toShape(), line4.toShape(), line5.toShape()])
         return wire
 
     def _makeChordProfileTaperTE(self, foreX, chord, thickness, height, maxChord):
         chordFore = foreX
-        chordMid = foreX + chord - maxChord
+        if maxChord == chord:
+            chordMid = foreX + 0.00001
+        else:
+            chordMid = foreX + chord - maxChord
         chordAft = foreX + chord
         halfThickness = thickness / 2
         v1 = FreeCAD.Vector(chordAft, 0.0, height)
@@ -223,9 +230,10 @@ class FinShapeHandler:
 
     def _makeChordProfileTaperLETE(self, foreX, chord, thickness, height, foreChord, aftChord, midChordLimit):
         chordFore = foreX
-        chordFore1 = foreX + self._midForeChordLimit(chord, foreChord, midChordLimit)
-        # chordAft1 = foreX - chord + self._midAftChordLimit(chord, aftChord, midChordLimit)
-        chordAft1 = foreX + self._midAftChordLimit(chord, aftChord, midChordLimit)
+        chordFore1 = foreX + self._midChordLimit(chord, foreChord, midChordLimit)
+        chordAft1 = foreX + chord - self._midChordLimit(chord, aftChord, midChordLimit)
+        if chordFore1 == chordAft1:
+            chordAft1 += 0.0001
         chordAft = foreX + chord
         halfThickness = thickness / 2
 
@@ -235,30 +243,27 @@ class FinShapeHandler:
         v4 = FreeCAD.Vector(chordAft1, halfThickness, height)
         v5 = FreeCAD.Vector(chordAft1, -halfThickness, height)
         v6 = FreeCAD.Vector(chordAft, 0, height)
-        if chordFore1 == chordAft1:
-            line1 = Part.LineSegment(v1, v2)
-            line2 = Part.LineSegment(v2, v6)
-            line3 = Part.LineSegment(v6, v3)
-            line4 = Part.LineSegment(v3, v1)
+        line1 = Part.LineSegment(v1, v2)
+        line2 = Part.LineSegment(v2, v4)
+        line3 = Part.LineSegment(v4, v6)
+        line4 = Part.LineSegment(v6, v5)
+        line5 = Part.LineSegment(v5, v3)
+        line6 = Part.LineSegment(v3, v1)
 
-            wire = Part.Wire([line1.toShape(), line2.toShape(), line3.toShape(), line4.toShape()])
-        else:
-            line1 = Part.LineSegment(v1, v2)
-            line2 = Part.LineSegment(v2, v4)
-            line3 = Part.LineSegment(v4, v6)
-            line4 = Part.LineSegment(v6, v5)
-            line5 = Part.LineSegment(v5, v3)
-            line6 = Part.LineSegment(v3, v1)
-
-            wire = Part.Wire([line1.toShape(), line2.toShape(), line3.toShape(), line4.toShape(), line5.toShape(), line6.toShape()])
+        wire = Part.Wire([line1.toShape(), line2.toShape(), line3.toShape(), line4.toShape(), line5.toShape(), line6.toShape()])
         return wire
-
-    def _makeChordProfile(self, crossSection, foreX, chord, thickness, height, lengthPerCent, length1, length2, midChordLimit = True):
-        l1 = length1
-        l2 = length2
+    
+    def _lengthsFromPercent(self, chord, lengthPerCent, length1, length2):
         if lengthPerCent:
             l1 = chord * (length1 / 100.0)
             l2 = chord * ((100.0 - length2) / 100.0)
+        else:
+            l1 = length1
+            l2 = chord - length2
+
+        return l1, l2
+
+    def _makeChordProfile(self, crossSection, foreX, chord, thickness, height, length1, length2, midChordLimit = True):
 
         if crossSection == FIN_CROSS_SQUARE:
             return self._makeChordProfileSquare(foreX, chord, thickness, height)
@@ -273,13 +278,13 @@ class FinShapeHandler:
         elif crossSection == FIN_CROSS_WEDGE:
             return self._makeChordProfileWedge(foreX, chord, thickness, height)
         elif crossSection == FIN_CROSS_DIAMOND:
-            return self._makeChordProfileDiamond(foreX, chord, thickness, height, l1)
+            return self._makeChordProfileDiamond(foreX, chord, thickness, height, length1)
         elif crossSection == FIN_CROSS_TAPER_LE:
-            return self._makeChordProfileTaperLE(foreX, chord, thickness, height, l1)
+            return self._makeChordProfileTaperLE(foreX, chord, thickness, height, length1)
         elif crossSection == FIN_CROSS_TAPER_TE:
-            return self._makeChordProfileTaperTE(foreX, chord, thickness, height, l1)
+            return self._makeChordProfileTaperTE(foreX, chord, thickness, height, length1)
         elif crossSection == FIN_CROSS_TAPER_LETE:
-            return self._makeChordProfileTaperLETE(foreX, chord, thickness, height, l1, l2, midChordLimit)
+            return self._makeChordProfileTaperLETE(foreX, chord, thickness, height, length1, length2, midChordLimit)
 
         return None
 
@@ -404,6 +409,6 @@ class FinShapeHandler:
                 self._obj.Shape = self._drawFin()
             self._obj.Placement = self._placement
 
-        except (ZeroDivisionError, Part.OCCError):
+        except (ZeroDivisionError, Part.OCCError) as ex:
             _err(translate('Rocket', "Fin parameters produce an invalid shape"))
             return

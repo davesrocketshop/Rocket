@@ -155,6 +155,7 @@ class FeatureFinCan(SymmetricComponent, FeatureFin):
     def setDefaults(self):
         super().setDefaults()
 
+        self.setFinCanPositioningMethod()
         self._obj.ParentRadius = (self._obj.Diameter / 2.0)
         self._obj.Length = 60.0
 
