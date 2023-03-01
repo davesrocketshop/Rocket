@@ -187,9 +187,8 @@ class FeatureFinCan(SymmetricComponent, FeatureFin):
             method = AFTER
         else:
             raise Exception(translate('Rocket', "Unknown fin can style"))
-
-        if self._obj.AxialMethod != method:
-            self._obj.AxialMethod = method
+        
+        self.setAxialMethod(method)
 
     def _setFinCanEditorVisibility(self):
         self._obj.setEditorMode('Ttw', EDITOR_HIDDEN)  # hide
