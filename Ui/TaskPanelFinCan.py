@@ -1337,13 +1337,15 @@ class TaskPanelFinCan(QObject):
             self._finForm.couplerGroup.setEnabled(True)
         self._finForm.couplerGroup.setChecked(self._obj.Coupler)
 
-        if self._isAssembly:
-            self._finForm.canStylesCombo.setEnabled(True)
-        else:
-            self._finForm.canStylesCombo.setEnabled(False)
+        self._finForm.canStylesCombo.setEnabled(True)
+        # if self._isAssembly:
+        #     self._finForm.canStylesCombo.setEnabled(True)
+        # else:
+        #     self._finForm.canStylesCombo.setEnabled(False)
 
     def onCanStyle(self, value):
-        self._obj.FinCanStyle = value
+        self._obj.Proxy.setFinCanStyle(value)
+        # self._obj.FinCanStyle = value
         self._setCanStyle()
 
         self.redraw()

@@ -43,6 +43,35 @@ class FinShapeHandler:
 
         # This gets changed when redrawn so it's very important to save a copy
         self._placement = FreeCAD.Placement(obj.Placement)
+    
+    def _foreAngle(self):
+        """
+            Angle of the fins leading edge
+        """
+        return math.radians(float(self._obj.SweepAngle))
+    
+    def _aftAngle(self):
+        """
+            Angle of the fins trailing edge
+        """
+        length = float(self._obj.SweepLength) - float(self._obj.RootChord)
+        theta2 = (math.pi / 2.0) - math.atan2(float(self._obj.Height), length) # In radians
+        return theta2
+    
+    def _midAngle(self, foreAngle, aftAngle):
+        """
+            Angle of the fins mid line
+        """
+        return (foreAngle + aftAngle) / 2.0
+    
+    def _angles(self):
+        """
+            Calculate fore, mid, and aft angles
+        """
+        foreAngle = self._foreAngle()
+        aftAngle = self._aftAngle()
+        midAngle = self._midAngle(foreAngle, aftAngle)
+        return (foreAngle, midAngle, aftAngle)
 
     def _makeChordProfileSquare(self, foreX, chord, thickness, height):
         # Create the root rectangle
@@ -66,8 +95,11 @@ class FinShapeHandler:
         chordAft = foreX + chord
         halfThickness = thickness / 2
         if chord <= thickness:
+            _, theta, _ = self._angles()
+            x = math.sin(theta)
+            z = math.cos(theta)
             circle = Part.makeCircle(halfThickness, FreeCAD.Vector(chordFore + halfThickness, 0, height),
-                                     FreeCAD.Vector(0,0,1))
+                                     FreeCAD.Vector(x,0,z))
             wire = Part.Wire([circle])
             return wire
         
@@ -86,7 +118,16 @@ class FinShapeHandler:
         return wire
 
     def _makeChordProfileEllipse(self, foreX, chord, thickness, height):
-        ellipse = Part.Ellipse(FreeCAD.Vector(foreX + (chord / 2.0), 0, height), chord / 2.0, thickness / 2.0)
+        halfThickness = thickness / 2
+        if chord <= thickness:
+            _, theta, _ = self._angles()
+            x = math.sin(theta)
+            z = math.cos(theta)
+            circle = Part.makeCircle(halfThickness, FreeCAD.Vector(foreX + halfThickness, 0, height),
+                                     FreeCAD.Vector(x,0,z))
+            wire = Part.Wire([circle])
+            return wire
+        ellipse = Part.Ellipse(FreeCAD.Vector(foreX + (chord / 2.0), 0, height), chord / 2.0, halfThickness)
         wire = Part.Wire([ellipse.toShape()])
         return wire
 
@@ -95,8 +136,19 @@ class FinShapeHandler:
         chordAft = foreX + chord
         chordMid = foreX + (chord / 2)
         halfThickness = thickness / 2
-        v1 = FreeCAD.Vector(chordFore, 0.0, height)
-        v2 = FreeCAD.Vector(chordAft, 0.0, height)
+        if chord <= thickness:
+            # Easiest way to calculate the endpoint is to use the endpoints of the arc of a normal circle
+            _, theta, _ = self._angles()
+            x = math.sin(theta)
+            z = math.cos(theta)
+            circle = Part.Circle(FreeCAD.Vector(foreX + halfThickness, 0, height),
+                                     FreeCAD.Vector(x,0,z), halfThickness)
+            arc = Part.Arc(circle, 0, math.pi)
+            v1 = arc.StartPoint
+            v2 = arc.EndPoint
+        else:
+            v1 = FreeCAD.Vector(chordFore, 0.0, height)
+            v2 = FreeCAD.Vector(chordAft, 0.0, height)
         v3 = FreeCAD.Vector(chordMid, -halfThickness, height)
         v4 = FreeCAD.Vector(chordMid, halfThickness, height)
         arc1 = Part.Arc(v1, v3, v2)
