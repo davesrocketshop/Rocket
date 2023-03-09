@@ -71,6 +71,7 @@ class FeatureFin(ExternalComponent):
             obj.FinType = FIN_TYPE_TRAPEZOID
         else:
             obj.FinType = [FIN_TYPE_TRAPEZOID, 
+                    FIN_TYPE_TRIANGLE, 
                     FIN_TYPE_ELLIPSE, 
                     FIN_TYPE_TUBE, 
                     FIN_TYPE_SKETCH

@@ -148,9 +148,8 @@ class FinTriangleShapeHandler(FinShapeHandler):
             # Line across the tickness
             tip = Part.LineSegment(FreeCAD.Vector(self._obj.SweepLength, float(self._obj.RootThickness) / 2.0, self._obj.Height), 
                                     FreeCAD.Vector(self._obj.SweepLength, -float(self._obj.RootThickness) / 2.0, self._obj.Height))
-        elif crossSection in [FIN_CROSS_TAPER_LE]:
-            tip = self._makeChordProfileWedge(float(self._obj.SweepLength), 0.001, 0.001, float(self._obj.Height))
-        elif self._obj.RootCrossSection in [FIN_CROSS_BICONVEX, FIN_CROSS_ROUND, FIN_CROSS_ELLIPSE, FIN_CROSS_WEDGE, FIN_CROSS_SQUARE, FIN_CROSS_DIAMOND]:
+        elif self._obj.RootCrossSection in [FIN_CROSS_BICONVEX, FIN_CROSS_ROUND, FIN_CROSS_ELLIPSE, FIN_CROSS_WEDGE, 
+                                            FIN_CROSS_SQUARE, FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE]:
             # Already handled
             return None
         else:
@@ -167,7 +166,7 @@ class FinTriangleShapeHandler(FinShapeHandler):
         _, theta, _ = self._angles()
         x = math.sin(theta)
         z = math.cos(theta)
-        base = Part.Circle(FreeCAD.Vector(sweep, 0, height),
+        base = Part.Circle(FreeCAD.Vector(sweep, 0, height - 0.01),
                             FreeCAD.Vector(x, 0, z), radius)
         arc = Part.Arc(base, 0, math.pi)
         arc2 = Part.Arc(base, math.pi, 2.0 * math.pi)
@@ -191,6 +190,42 @@ class FinTriangleShapeHandler(FinShapeHandler):
         loft2 = Part.makeLoft([wire1, wire3], True)
         tip = loft1.fuse(loft2)
         return tip
+   
+    def _makeLETaperTip(self):
+        # Wedge at the base, point at the tip
+        l1, l2 = self._lengthsFromPercent(float(self._obj.RootChord), self._obj.RootPerCent, 
+                                          float(self._obj.RootLength1), float(self._obj.RootLength2))
+        chord, height, sweep = self._topChord(l1, l2)
+        base = self._makeChordProfile(FIN_CROSS_WEDGE, sweep, chord,
+            float(self._obj.RootThickness), height, l1, l2)
+        
+        top=Part.Point(FreeCAD.Vector(self._obj.SweepLength, 0.0, self._obj.Height)).toShape()
+        tip = Part.makeLoft([base, top], True)
+        return tip
+   
+    def _makeTETaperTip(self):
+        # Wedge at the base, point at the tip
+        l1, l2 = self._lengthsFromPercent(float(self._obj.RootChord), self._obj.RootPerCent, 
+                                          float(self._obj.RootLength1), float(self._obj.RootLength2))
+        chord, height, sweep = self._topChord(l1, l2)
+        base = self._makeChordProfile(FIN_CROSS_WEDGE, sweep + chord, -chord,
+            float(self._obj.RootThickness), height, l1, l2)
+        
+        top=Part.Point(FreeCAD.Vector(self._obj.SweepLength, 0.0, self._obj.Height)).toShape()
+        tip = Part.makeLoft([base, top], True)
+        return tip
+   
+    def _makeLETETaperTip(self):
+        # Wedge at the base, point at the tip
+        l1, l2 = self._lengthsFromPercent(float(self._obj.RootChord), self._obj.RootPerCent, 
+                                          float(self._obj.RootLength1), float(self._obj.RootLength2))
+        chord, height, sweep = self._topChord(l1, l2)
+        base = self._makeChordProfile(FIN_CROSS_DIAMOND, sweep, chord,
+            float(self._obj.RootThickness), height, l1, l2)
+        
+        top=Part.Point(FreeCAD.Vector(self._obj.SweepLength, 0.0, self._obj.Height)).toShape()
+        tip = Part.makeLoft([base, top], True)
+        return tip
 
     def _makeTip(self):
         """
@@ -199,6 +234,12 @@ class FinTriangleShapeHandler(FinShapeHandler):
         crossSection = self._obj.RootCrossSection
         if crossSection in [FIN_CROSS_ROUND, FIN_CROSS_ELLIPSE, FIN_CROSS_BICONVEX]:
             tip = self._makeRoundTip()
+        elif crossSection in [FIN_CROSS_TAPER_LE]:
+            tip = self._makeLETaperTip()
+        elif crossSection in [FIN_CROSS_TAPER_TE]:
+            tip = self._makeTETaperTip()
+        elif crossSection in [FIN_CROSS_TAPER_LETE]:
+            tip = self._makeLETETaperTip()
         else:
             tip = None
         return tip
