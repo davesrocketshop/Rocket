@@ -179,7 +179,7 @@ class FinTests(unittest.TestCase):
                 self._testForeSweepTrapezoid(cross)
 
     def testEllipse(self):
-        for cross in [FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE, FIN_CROSS_DIAMOND, 
+        for cross in [FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE, 
                     FIN_CROSS_TAPER_LETE, FIN_CROSS_ELLIPSE, FIN_CROSS_BICONVEX]:
             with self.subTest(crosssection=cross):
                 self._testCenterEllipse(cross)

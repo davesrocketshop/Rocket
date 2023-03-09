@@ -219,11 +219,24 @@ class FinShapeHandler:
         wire = Part.Wire([line1.toShape(), line2.toShape(), line3.toShape()])
         return wire
 
-    def _makeChordProfileDiamond(self, foreX, chord, thickness, height, maxChord):
+    def _makeChordProfileDiamond(self, foreX, chord, thickness, height, maxChord, midChordLimit):
         chordFore = foreX
         chordMid = foreX + maxChord
         chordAft = foreX + chord
         halfThickness = thickness / 2
+        if chordMid >= chordAft:
+            chordMid = (chordFore + chordAft) / 2.0
+            # # Create a wedge
+            # v1 = FreeCAD.Vector(chordFore, 0.0, height)
+            # v2 = FreeCAD.Vector(chordAft, -halfThickness, height)
+            # v3 = FreeCAD.Vector(chordAft, halfThickness, height)
+            # line1 = Part.LineSegment(v1, v2)
+            # line2 = Part.LineSegment(v1, v3)
+            # line3 = Part.LineSegment(v2, v3)
+            
+            # wire = Part.Wire([line1.toShape(), line2.toShape(), line3.toShape()])
+            # return wire
+
         v1 = FreeCAD.Vector(chordFore, 0.0, height)
         v2 = FreeCAD.Vector(chordMid, halfThickness, height)
         v3 = FreeCAD.Vector(chordMid, -halfThickness, height)
@@ -330,7 +343,7 @@ class FinShapeHandler:
         elif crossSection == FIN_CROSS_WEDGE:
             return self._makeChordProfileWedge(foreX, chord, thickness, height)
         elif crossSection == FIN_CROSS_DIAMOND:
-            return self._makeChordProfileDiamond(foreX, chord, thickness, height, length1)
+            return self._makeChordProfileDiamond(foreX, chord, thickness, height, length1, midChordLimit)
         elif crossSection == FIN_CROSS_TAPER_LE:
             return self._makeChordProfileTaperLE(foreX, chord, thickness, height, length1)
         elif crossSection == FIN_CROSS_TAPER_TE:

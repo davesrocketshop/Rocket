@@ -100,19 +100,17 @@ class FinEllipseShapeHandler(FinShapeHandler):
         ellipses = []
         midChord = float(self._obj.RootChord) / 2.0
         tapered = self._obj.RootCrossSection in [FIN_CROSS_ROUND, FIN_CROSS_BICONVEX, FIN_CROSS_ELLIPSE, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE, FIN_CROSS_DIAMOND]
-        if self._obj.RootPerCent:
-            rootLength2 = float(self._obj.RootLength2)
-        else:
-            rootLength2 = float(self._obj.RootChord) - float(self._obj.RootLength2)
+            
+        l1, l2 = self._lengthsFromPercent(float(self._obj.RootChord), self._obj.RootPerCent,
+                                        float(self._obj.RootLength1), float(self._obj.RootLength2))
         for i in range(CROSS_SECTIONS):
             height = i * float(self._obj.Height) / float(CROSS_SECTIONS)
             radius = self._radiusAt(float(self._obj.RootChord), float(self._obj.Height), height)
+            print("height %f, radius %f" % (height, radius))
             if tapered:
                 thickness = 2.0 * self._radiusAt(float(self._obj.RootThickness) / 2.0, float(self._obj.Height), height)
             else:
                 thickness = float(self._obj.RootThickness)
-            l1, l2 = self._lengthsFromPercent(float(self._obj.RootChord), self._obj.RootPerCent,
-                                            float(self._obj.RootLength1), float(self._obj.RootLength2))
             ellipses.append(self._makeChordProfile(self._obj.RootCrossSection,
                 midChord - radius,
                 radius * 2.0,
@@ -129,10 +127,8 @@ class FinEllipseShapeHandler(FinShapeHandler):
             thickness = radius
         else:
             thickness = float(self._obj.RootThickness)
-        l1, l2 = self._lengthsFromPercent(float(self._obj.RootChord), self._obj.RootPerCent,
-                                          float(self._obj.RootLength1), float(self._obj.RootLength2))
         ellipses.append(self._makeChordProfile(self._obj.RootCrossSection,
-            midChord + radius,
+            midChord - radius,
             radius * 2.0,
             thickness, # need to fix this
             float(self._obj.Height),
