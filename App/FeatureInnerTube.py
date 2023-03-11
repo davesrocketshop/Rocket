@@ -24,7 +24,6 @@ __title__ = "FreeCAD Body Tubes"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
-import FreeCAD
 import math
 
 from App.interfaces.BoxBounded import BoxBounded
@@ -39,7 +38,7 @@ from App.util.BoundingBox import BoundingBox
 from App.util.Coordinate import Coordinate, ZERO
 from App.ShapeHandlers.InnerTubeShapeHandler import InnerTubeShapeHandler
 
-from App.Constants import FEATURE_BODY_TUBE, FEATURE_INNER_TUBE, FEATURE_TUBE_COUPLER, FEATURE_ENGINE_BLOCK, FEATURE_BULKHEAD, FEATURE_CENTERING_RING
+from App.Constants import FEATURE_INNER_TUBE, FEATURE_TUBE_COUPLER, FEATURE_ENGINE_BLOCK, FEATURE_BULKHEAD, FEATURE_CENTERING_RING
 
 from DraftTools import translate
 

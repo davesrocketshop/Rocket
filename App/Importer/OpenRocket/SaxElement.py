@@ -24,7 +24,7 @@ __title__ = "FreeCAD XML SAX Element"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
-from abc import ABC, abstractmethod
+from abc import abstractmethod
 
 from App.Utilities import _msg, _err
 

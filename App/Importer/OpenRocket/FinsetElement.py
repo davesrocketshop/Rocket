@@ -30,9 +30,6 @@ from App.Importer.OpenRocket.ComponentElement import ExternalComponentElement
 from App.Utilities import _err
 from App.Constants import FIN_CROSS_SAME, FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL
 
-from Ui.Commands.CmdFin import makeFin
-from Ui.Commands.CmdSketcher import newSketchNoEdit
-
 class FinsetElement(ExternalComponentElement):
 
     def __init__(self, parent, tag, attributes, parentObj, filename, line):

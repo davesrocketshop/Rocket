@@ -24,8 +24,6 @@ __title__ = "FreeCAD Rocket Components"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
-# from abc import ABC, abstractmethod
-
 from App.interfaces.ChangeSource import ChangeSource
 from App.interfaces.Instanceable import Instanceable
 

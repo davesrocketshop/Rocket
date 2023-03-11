@@ -24,9 +24,6 @@ __title__ = "FreeCAD Rocket Components"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
-# import FreeCAD
-# import math
-
 from tokenize import Double
 
 from App.position import AxialMethod
@@ -37,8 +34,6 @@ from App.RocketComponentShapeless import RocketComponentShapeless
 from App.events.ComponentChangeEvent import ComponentChangeEvent
 
 from App.Constants import FEATURE_ROCKET, FEATURE_STAGE, FEATURE_PARALLEL_STAGE, FEATURE_POD, FEATURE_BODY_TUBE, FEATURE_NOSE_CONE, FEATURE_TRANSITION
-
-# from DraftTools import translate
 
 class ComponentAssembly(RocketComponentShapeless, AxialPositionable):
 

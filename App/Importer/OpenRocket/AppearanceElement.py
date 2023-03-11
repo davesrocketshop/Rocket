@@ -24,8 +24,6 @@ __title__ = "FreeCAD Open Rocket Importer Common Component"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
-import FreeCAD
-
 from App.Importer.OpenRocket.SaxElement import Element
 
 class AppearanceElement(Element):

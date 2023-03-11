@@ -24,7 +24,7 @@ __title__ = "FreeCAD Rocket Components"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
-from abc import ABC, abstractmethod
+from abc import abstractmethod
 
 from App.position.AxialPositionable import AxialPositionable
 from App.interfaces.Instanceable import Instanceable

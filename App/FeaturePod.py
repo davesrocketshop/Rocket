@@ -24,7 +24,6 @@ __title__ = "FreeCAD Rocket Pod"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
-import FreeCAD
 import math
 
 from DraftTools import translate

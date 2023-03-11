@@ -24,8 +24,6 @@ __title__ = "FreeCAD Body Tubes"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
-import FreeCAD
-    
 from App.interfaces.BoxBounded import BoxBounded
 from App.interfaces.Coaxial import Coaxial
 

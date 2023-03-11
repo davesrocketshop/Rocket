@@ -29,22 +29,15 @@ import re
 import zipfile
 from zipfile import ZipFile
 import gzip
-import xml.etree.ElementTree as ET
 
 import xml.sax
 import FreeCAD
-import FreeCADGui
 
 from App.Exceptions import UnsupportedVersion
 
-from App.Importer.OpenRocket.SaxElement import Element, NullElement
+from App.Importer.OpenRocket.SaxElement import NullElement
 from App.Importer.OpenRocket.ComponentElement import ComponentElement
 from App.Importer.OpenRocket.SubElement import SubElement
-from App.Importer.OpenRocket.NoseElement import NoseElement
-
-from App.events.ComponentChangeEvent import ComponentChangeEvent
-
-from App.Utilities import _err
 
 from Ui.Commands.CmdRocket import makeRocket
 

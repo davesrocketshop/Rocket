@@ -24,8 +24,6 @@ __title__ = "FreeCAD Bulkheads"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
-import FreeCAD
-    
 from App.RadiusRingComponent import RadiusRingComponent
 from App.Constants import FEATURE_BULKHEAD
 

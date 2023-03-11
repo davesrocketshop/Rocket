@@ -24,7 +24,6 @@ __title__ = "FreeCAD Body Tubes"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
-import FreeCAD
 import math
     
 from App.Constants import FEATURE_LAUNCH_LUG, FEATURE_FIN, FEATURE_FINCAN

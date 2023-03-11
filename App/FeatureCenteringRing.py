@@ -24,8 +24,6 @@ __title__ = "FreeCAD Centering Rings"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
-import FreeCAD
-    
 from App.FeatureBulkhead import FeatureBulkhead
 from App.FeatureInnerTube import FeatureInnerTube
 from App.util.Coordinate import Coordinate, NUL

@@ -24,8 +24,6 @@ __title__ = "FreeCAD Nose Cones"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
-import FreeCAD
-    
 from App.SymmetricComponent import SymmetricComponent
 from App.Constants import FEATURE_NOSE_CONE
 

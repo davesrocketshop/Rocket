@@ -24,9 +24,6 @@ __title__ = "FreeCAD Rocket Components"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
-import math
-import sys
-
 from App.util.Coordinate import Coordinate
 
 class Transformation():

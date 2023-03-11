@@ -24,8 +24,6 @@ __title__ = "FreeCAD Fins"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
-import FreeCAD
-
 from App.SymmetricComponent import SymmetricComponent
 from App.FeatureFin import FeatureFin
 from App.Constants import FEATURE_FINCAN, FEATURE_LAUNCH_LUG, FEATURE_RAIL_BUTTON, FEATURE_RAIL_GUIDE, FEATURE_POD, FEATURE_STAGE

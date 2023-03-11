@@ -26,12 +26,9 @@ __url__ = "https://www.davesrocketshop.com"
 
 import FreeCAD
 import Part
-import math
 
 from DraftTools import translate
     
-from App.Constants import FIN_CROSS_SAME
-
 from App.Utilities import _err
 
 from App.ShapeHandlers.FinShapeHandler import FinShapeHandler

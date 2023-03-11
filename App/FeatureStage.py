@@ -24,8 +24,6 @@ __title__ = "FreeCAD Rocket Assembly"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
-import FreeCAD
-
 from DraftTools import translate
 
 from App.ComponentAssembly import ComponentAssembly

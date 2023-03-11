@@ -24,7 +24,6 @@ __title__ = "FreeCAD Fins"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
-import FreeCAD
 import math
 
 from App.events.ComponentChangeEvent import ComponentChangeEvent

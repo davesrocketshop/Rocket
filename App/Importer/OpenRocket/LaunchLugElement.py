@@ -27,7 +27,6 @@ __url__ = "https://www.davesrocketshop.com"
 import FreeCAD
 
 from App.Importer.OpenRocket.ComponentElement import ExternalComponentElement
-import App.Importer as Importer
 
 from Ui.Commands.CmdLaunchGuides import makeLaunchLug
 
@@ -36,9 +35,6 @@ class LaunchLugElement(ExternalComponentElement):
     def __init__(self, parent, tag, attributes, parentObj, filename, line):
         super().__init__(parent, tag, attributes, parentObj, filename, line)
 
-        # self._validChildren.update({ 'subcomponents' : Importer.SubElement.SubElement,
-        #                         'motormount' : MotorMountElement,
-        #                       })
         self._knownTags.extend(["instancecount", "instanceseparation", "radialdirection", "angleoffset", "radius", "outerradius", "length", "thickness"])
 
     def makeObject(self):

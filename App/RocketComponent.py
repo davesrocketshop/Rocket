@@ -24,21 +24,12 @@ __title__ = "FreeCAD Rocket Components"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
-import FreeCAD
-import math
-
-from abc import ABC, abstractmethod
-
 from App.util.Coordinate import Coordinate
 from App.RocketComponentShapeless import RocketComponentShapeless
 
-from App.Constants import FEATURE_ROCKET, FEATURE_STAGE
-
-from App.Constants import PROP_HIDDEN, PROP_TRANSIENT, PROP_READONLY
-from App.Constants import LOCATION_PARENT_TOP, LOCATION_PARENT_MIDDLE, LOCATION_PARENT_BOTTOM, LOCATION_AFTER, LOCATION_BASE
+from App.Constants import LOCATION_PARENT_TOP, LOCATION_PARENT_MIDDLE, LOCATION_PARENT_BOTTOM, LOCATION_BASE
 from App.Constants import LOCATION_SURFACE, LOCATION_CENTER
 
-from App.position import AxialMethod
 from App.position.AxialMethod import AXIAL_METHOD_MAP
 from App.interfaces.ChangeSource import ChangeSource
 from App.util.Coordinate import Coordinate, ZERO
