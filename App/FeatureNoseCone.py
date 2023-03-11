@@ -57,34 +57,34 @@ class FeatureNoseCone(SymmetricComponent):
         self._shapeHandler = None
         
         if not hasattr(obj, 'CapBarWidth'):
-            obj.addProperty('App::PropertyLength', 'CapBarWidth', 'NoseCone', translate('App::Property', 'Width of the nose cap bar')).CapBarWidth = 3.0
+            obj.addProperty('App::PropertyLength', 'CapBarWidth', 'RocketComponent', translate('App::Property', 'Width of the nose cap bar')).CapBarWidth = 3.0
         if not hasattr(obj, 'BluntedDiameter'):
-            obj.addProperty('App::PropertyLength', 'BluntedDiameter', 'NoseCone', translate('App::Property', 'Nose Radius for a blunted nose cone')).BluntedDiameter = 5.0
+            obj.addProperty('App::PropertyLength', 'BluntedDiameter', 'RocketComponent', translate('App::Property', 'Nose Radius for a blunted nose cone')).BluntedDiameter = 5.0
         if not hasattr(obj, 'Diameter'):
-            obj.addProperty('App::PropertyLength', 'Diameter', 'NoseCone', translate('App::Property', 'Diameter at the base of the nose')).Diameter = 24.79
+            obj.addProperty('App::PropertyLength', 'Diameter', 'RocketComponent', translate('App::Property', 'Diameter at the base of the nose')).Diameter = 24.79
         if not hasattr(obj, 'AutoDiameter'):
-            obj.addProperty('App::PropertyBool', 'AutoDiameter', 'NoseCone', translate('App::Property', 'Automatically set the nose diameter when possible')).AutoDiameter = False
+            obj.addProperty('App::PropertyBool', 'AutoDiameter', 'RocketComponent', translate('App::Property', 'Automatically set the nose diameter when possible')).AutoDiameter = False
         if not hasattr(obj, 'Thickness'):
-            obj.addProperty('App::PropertyLength', 'Thickness', 'NoseCone', translate('App::Property', 'Nose cone thickness')).Thickness = 1.57
+            obj.addProperty('App::PropertyLength', 'Thickness', 'RocketComponent', translate('App::Property', 'Nose cone thickness')).Thickness = 1.57
         if not hasattr(obj, 'Shoulder'):
-            obj.addProperty('App::PropertyBool', 'Shoulder', 'NoseCone', translate('App::Property', 'Set to true if the part includes a shoulder')).Shoulder = True
+            obj.addProperty('App::PropertyBool', 'Shoulder', 'RocketComponent', translate('App::Property', 'Set to true if the part includes a shoulder')).Shoulder = True
         if not hasattr(obj, 'ShoulderLength'):
-            obj.addProperty('App::PropertyLength', 'ShoulderLength', 'NoseCone', translate('App::Property', 'Shoulder Length')).ShoulderLength = 24.79
+            obj.addProperty('App::PropertyLength', 'ShoulderLength', 'RocketComponent', translate('App::Property', 'Shoulder Length')).ShoulderLength = 24.79
         if not hasattr(obj, 'ShoulderDiameter'):
-            obj.addProperty('App::PropertyLength', 'ShoulderDiameter', 'NoseCone', translate('App::Property', 'Shoulder diameter')).ShoulderDiameter = 23.62
+            obj.addProperty('App::PropertyLength', 'ShoulderDiameter', 'RocketComponent', translate('App::Property', 'Shoulder diameter')).ShoulderDiameter = 23.62
         if not hasattr(obj, 'ShoulderAutoDiameter'):
-            obj.addProperty('App::PropertyBool', 'ShoulderAutoDiameter', 'NoseCone', translate('App::Property', 'Automatically set the nose shoulder diameter when possible')).ShoulderAutoDiameter = False
+            obj.addProperty('App::PropertyBool', 'ShoulderAutoDiameter', 'RocketComponent', translate('App::Property', 'Automatically set the nose shoulder diameter when possible')).ShoulderAutoDiameter = False
         if not hasattr(obj, 'ShoulderThickness'):
-            obj.addProperty('App::PropertyLength', 'ShoulderThickness', 'NoseCone', translate('App::Property', 'Shoulder thickness')).ShoulderThickness = 1.57
+            obj.addProperty('App::PropertyLength', 'ShoulderThickness', 'RocketComponent', translate('App::Property', 'Shoulder thickness')).ShoulderThickness = 1.57
         if not hasattr(obj, 'Coefficient'):
-            obj.addProperty('App::PropertyFloat', 'Coefficient', 'NoseCone', translate('App::Property', 'Coefficient')).Coefficient = 0.47
+            obj.addProperty('App::PropertyFloat', 'Coefficient', 'RocketComponent', translate('App::Property', 'Coefficient')).Coefficient = 0.47
         if not hasattr(obj, 'OgiveDiameter'):
-            obj.addProperty('App::PropertyLength', 'OgiveDiameter', 'NoseCone', translate('App::Property', 'The radius of the circle used to define a secant ogive')).OgiveDiameter = 120.0
+            obj.addProperty('App::PropertyLength', 'OgiveDiameter', 'RocketComponent', translate('App::Property', 'The radius of the circle used to define a secant ogive')).OgiveDiameter = 120.0
         if not hasattr(obj, 'Resolution'):
-            obj.addProperty('App::PropertyInteger', 'Resolution', 'NoseCone', translate('App::Property', 'Resolution')).Resolution = 100
+            obj.addProperty('App::PropertyInteger', 'Resolution', 'RocketComponent', translate('App::Property', 'Resolution')).Resolution = 100
 
         if not hasattr(obj, 'NoseType'):
-            obj.addProperty('App::PropertyEnumeration', 'NoseType', 'NoseCone', translate('App::Property', 'Nose cone type'))
+            obj.addProperty('App::PropertyEnumeration', 'NoseType', 'RocketComponent', translate('App::Property', 'Nose cone type'))
             obj.NoseType = [TYPE_CONE,
                         TYPE_BLUNTED_CONE,
                         TYPE_SPHERICAL,
@@ -113,7 +113,7 @@ class FeatureNoseCone(SymmetricComponent):
                         TYPE_HAACK]
 
         if not hasattr(obj, 'NoseStyle'):
-            obj.addProperty('App::PropertyEnumeration', 'NoseStyle', 'NoseCone', translate('App::Property', 'Nose cone style'))
+            obj.addProperty('App::PropertyEnumeration', 'NoseStyle', 'RocketComponent', translate('App::Property', 'Nose cone style'))
             obj.NoseStyle = [STYLE_SOLID,
                                 STYLE_HOLLOW,
                                 STYLE_CAPPED]
@@ -124,7 +124,7 @@ class FeatureNoseCone(SymmetricComponent):
                                 STYLE_CAPPED]
 
         if not hasattr(obj, 'CapStyle'):
-            obj.addProperty('App::PropertyEnumeration', 'CapStyle', 'NoseCone', translate('App::Property', 'Nose cone cap style'))
+            obj.addProperty('App::PropertyEnumeration', 'CapStyle', 'RocketComponent', translate('App::Property', 'Nose cone cap style'))
             obj.CapStyle = [STYLE_CAP_SOLID,
                                 STYLE_CAP_BAR,
                                 STYLE_CAP_CROSS]

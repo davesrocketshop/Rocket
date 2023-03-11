@@ -47,21 +47,19 @@ class FeaturePod(ComponentAssembly, RingInstanceable):
         self.Type = FEATURE_POD
 
         if not hasattr(obj,"PodCount"):
-            obj.addProperty('App::PropertyInteger', 'PodCount', 'Pod', translate('App::Property', 'Number of pods in a radial pattern')).PodCount = 1
+            obj.addProperty('App::PropertyInteger', 'PodCount', 'RocketComponent', translate('App::Property', 'Number of pods in a radial pattern')).PodCount = 1
         if not hasattr(obj,"PodSpacing"):
-            obj.addProperty('App::PropertyAngle', 'PodSpacing', 'Pod', translate('App::Property', 'Angle between consecutive pods')).PodSpacing = 360
+            obj.addProperty('App::PropertyAngle', 'PodSpacing', 'RocketComponent', translate('App::Property', 'Angle between consecutive pods')).PodSpacing = 360
         
         if not hasattr(obj, 'AngleMethod'):
-            obj.addProperty('App::PropertyPythonObject', 'AngleMethod', 'Rocket', translate('App::Property', 'Method for calculating angle offsets')).AngleMethod = AngleMethod.RELATIVE
+            obj.addProperty('App::PropertyPythonObject', 'AngleMethod', 'RocketComponent', translate('App::Property', 'Method for calculating angle offsets')).AngleMethod = AngleMethod.RELATIVE
         if not hasattr(obj, 'AngleSeparation'):
-            obj.addProperty('App::PropertyAngle', 'AngleSeparation', 'Rocket', translate('App::Property', 'Angle separation')).AngleSeparation = 180.0
-        # if not hasattr(obj, 'AngleOffset'):
-        #     obj.addProperty('App::PropertyAngle', 'AngleOffset', 'Rocket', translate('App::Property', 'Angle offset')).AngleOffset = 0
+            obj.addProperty('App::PropertyAngle', 'AngleSeparation', 'RocketComponent', translate('App::Property', 'Angle separation')).AngleSeparation = 180.0
         
         if not hasattr(obj, 'RadiusMethod'):
-            obj.addProperty('App::PropertyPythonObject', 'RadiusMethod', 'Rocket', translate('App::Property', 'Method for calculating radius offsets')).RadiusMethod = RadiusMethod.RELATIVE
+            obj.addProperty('App::PropertyPythonObject', 'RadiusMethod', 'RocketComponent', translate('App::Property', 'Method for calculating radius offsets')).RadiusMethod = RadiusMethod.RELATIVE
         if not hasattr(obj, 'RadiusOffset'):
-            obj.addProperty('App::PropertyAngle', 'RadiusOffset', 'Rocket', translate('App::Property', 'Radius offset')).RadiusOffset = 0
+            obj.addProperty('App::PropertyAngle', 'RadiusOffset', 'RocketComponent', translate('App::Property', 'Radius offset')).RadiusOffset = 0
 
 
         if not hasattr(obj,"Group"):

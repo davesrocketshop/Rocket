@@ -40,27 +40,27 @@ class FeatureBulkhead(RadiusRingComponent):
         self.Type = FEATURE_BULKHEAD
 
         if not hasattr(obj, 'Thickness'):
-            obj.addProperty('App::PropertyLength', 'Thickness', 'Bulkhead', translate('App::Property', 'Thickness of the bulkhead without any inner step')).Thickness = 2.0
+            obj.addProperty('App::PropertyLength', 'Thickness', 'RocketComponent', translate('App::Property', 'Thickness of the bulkhead without any inner step')).Thickness = 2.0
 
         if not hasattr(obj, 'Step'):
-            obj.addProperty('App::PropertyBool', 'Step', 'Bulkhead', translate('App::Property', 'Bulkheads may have a step that fits a smaller diameter')).Step = False
+            obj.addProperty('App::PropertyBool', 'Step', 'RocketComponent', translate('App::Property', 'Bulkheads may have a step that fits a smaller diameter')).Step = False
         if not hasattr(obj, 'StepReverse'):
-            obj.addProperty('App::PropertyBool', 'StepReverse', 'Bulkhead', translate('App::Property', 'Bulkheads may have a step that fits a smaller diameter')).StepReverse = False
+            obj.addProperty('App::PropertyBool', 'StepReverse', 'RocketComponent', translate('App::Property', 'Bulkheads may have a step that fits a smaller diameter')).StepReverse = False
         if not hasattr(obj, 'StepDiameter'):
-            obj.addProperty('App::PropertyLength', 'StepDiameter', 'Bulkhead', translate('App::Property', 'Outer diameter of the step')).StepDiameter = 21.0
+            obj.addProperty('App::PropertyLength', 'StepDiameter', 'RocketComponent', translate('App::Property', 'Outer diameter of the step')).StepDiameter = 21.0
         if not hasattr(obj, 'StepThickness'):
-            obj.addProperty('App::PropertyLength', 'StepThickness', 'Bulkhead', translate('App::Property', 'Thickness of the step')).StepThickness = 2.0
+            obj.addProperty('App::PropertyLength', 'StepThickness', 'RocketComponent', translate('App::Property', 'Thickness of the step')).StepThickness = 2.0
 
         if not hasattr(obj, 'Holes'):
-            obj.addProperty('App::PropertyBool', 'Holes', 'Bulkhead', translate('App::Property', 'Bulkheads may have holes for attaching eyebolts or retainers')).Holes = False
+            obj.addProperty('App::PropertyBool', 'Holes', 'RocketComponent', translate('App::Property', 'Bulkheads may have holes for attaching eyebolts or retainers')).Holes = False
         if not hasattr(obj, 'HoleDiameter'):
-            obj.addProperty('App::PropertyLength', 'HoleDiameter', 'Bulkhead', translate('App::Property', 'Hole diameter')).HoleDiameter = 5.0
+            obj.addProperty('App::PropertyLength', 'HoleDiameter', 'RocketComponent', translate('App::Property', 'Hole diameter')).HoleDiameter = 5.0
         if not hasattr(obj, 'HoleCenter'):
-            obj.addProperty('App::PropertyLength', 'HoleCenter', 'Bulkhead', translate('App::Property', 'Distance from the center of the bulkhead to the center of the hole')).HoleCenter = 6.25
+            obj.addProperty('App::PropertyLength', 'HoleCenter', 'RocketComponent', translate('App::Property', 'Distance from the center of the bulkhead to the center of the hole')).HoleCenter = 6.25
         if not hasattr(obj, 'HoleCount'):
-            obj.addProperty('App::PropertyInteger', 'HoleCount', 'Bulkhead', translate('App::Property', 'Number of holes in a radial pattern')).HoleCount = 1
+            obj.addProperty('App::PropertyInteger', 'HoleCount', 'RocketComponent', translate('App::Property', 'Number of holes in a radial pattern')).HoleCount = 1
         if not hasattr(obj, 'HoleOffset'):
-            obj.addProperty('App::PropertyAngle', 'HoleOffset', 'Bulkhead', translate('App::Property', 'Outer diameter of the bulkhead')).HoleOffset = 0
+            obj.addProperty('App::PropertyAngle', 'HoleOffset', 'RocketComponent', translate('App::Property', 'Outer diameter of the bulkhead')).HoleOffset = 0
 
     def setDefaults(self):
         super().setDefaults()

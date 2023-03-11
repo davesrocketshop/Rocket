@@ -45,11 +45,11 @@ class FeatureCenteringRing(FeatureBulkhead):
         self.Type = FEATURE_CENTERING_RING
 
         if not hasattr(obj, 'Notched'):
-            obj.addProperty('App::PropertyBool', 'Notched', 'CenteringRing', translate('App::Property', 'Include a notch for an engine hook')).Notched = False
+            obj.addProperty('App::PropertyBool', 'Notched', 'RocketComponent', translate('App::Property', 'Include a notch for an engine hook')).Notched = False
         if not hasattr(obj, 'NotchWidth'):
-            obj.addProperty('App::PropertyLength', 'NotchWidth', 'CenteringRing', translate('App::Property', 'Width of the engine hook notch')).NotchWidth = 3.0
+            obj.addProperty('App::PropertyLength', 'NotchWidth', 'RocketComponent', translate('App::Property', 'Width of the engine hook notch')).NotchWidth = 3.0
         if not hasattr(obj, 'NotchHeight'):
-            obj.addProperty('App::PropertyLength', 'NotchHeight', 'CenteringRing', translate('App::Property', 'Height of the engine hook notch')).NotchHeight = 3.0
+            obj.addProperty('App::PropertyLength', 'NotchHeight', 'RocketComponent', translate('App::Property', 'Height of the engine hook notch')).NotchHeight = 3.0
 
     def setDefaults(self):
         super().setDefaults()

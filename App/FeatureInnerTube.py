@@ -50,16 +50,16 @@ class FeatureInnerTube(ThicknessRingComponent, Clusterable, AxialPositionable, B
         self.Type = FEATURE_INNER_TUBE
 
         if not hasattr(obj,"ClusterConfiguration"):
-            obj.addProperty('App::PropertyPythonObject', 'ClusterConfiguration', 'Rocket', translate('App::Property', 'Layout of a clustered motor mount')).ClusterConfiguration = SINGLE
+            obj.addProperty('App::PropertyPythonObject', 'ClusterConfiguration', 'RocketComponent', translate('App::Property', 'Layout of a clustered motor mount')).ClusterConfiguration = SINGLE
         if not hasattr(obj, 'ClusterScale'):
-            obj.addProperty('App::PropertyFloat', 'ClusterScale', 'Rocket', translate('App::Property', 'Size scaling for the motor mount cluster')).ClusterScale = 1.0
+            obj.addProperty('App::PropertyFloat', 'ClusterScale', 'RocketComponent', translate('App::Property', 'Size scaling for the motor mount cluster')).ClusterScale = 1.0
         if not hasattr(obj,"ClusterRotation"):
-            obj.addProperty('App::PropertyAngle', 'ClusterRotation', 'Rocket', translate('App::Property', 'Rotation applied to the motor mount cluster')).ClusterRotation = 0.0
+            obj.addProperty('App::PropertyAngle', 'ClusterRotation', 'RocketComponent', translate('App::Property', 'Rotation applied to the motor mount cluster')).ClusterRotation = 0.0
 
         if not hasattr(obj,"Overhang"):
-            obj.addProperty('App::PropertyDistance', 'Overhang', 'Rocket', translate('App::Property', 'Motor overhang')).Overhang = 3.0
+            obj.addProperty('App::PropertyDistance', 'Overhang', 'RocketComponent', translate('App::Property', 'Motor overhang')).Overhang = 3.0
         if not hasattr(obj, 'MotorMount'):
-            obj.addProperty('App::PropertyBool', 'MotorMount', 'Rocket', translate('App::Property', 'This component is a motor mount')).MotorMount = False
+            obj.addProperty('App::PropertyBool', 'MotorMount', 'RocketComponent', translate('App::Property', 'This component is a motor mount')).MotorMount = False
 
     def setDefaults(self):
         super().setDefaults()

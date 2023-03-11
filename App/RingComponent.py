@@ -51,19 +51,19 @@ class RingComponent(InternalComponent, BoxBounded, Coaxial):
         super().__init__(obj)
 
         if not hasattr(obj, 'Diameter'):
-            obj.addProperty('App::PropertyLength', 'Diameter', 'Bulkhead', translate('App::Property', 'Outer diameter of the object')).Diameter = 25.0
+            obj.addProperty('App::PropertyLength', 'Diameter', 'RocketComponent', translate('App::Property', 'Outer diameter of the object')).Diameter = 25.0
         if not hasattr(obj, 'AutoDiameter'):
-            obj.addProperty('App::PropertyBool', 'AutoDiameter', 'Bulkhead', translate('App::Property', 'Automatically set the outer diameter when possible')).AutoDiameter = False
+            obj.addProperty('App::PropertyBool', 'AutoDiameter', 'RocketComponent', translate('App::Property', 'Automatically set the outer diameter when possible')).AutoDiameter = False
         if not hasattr(obj, 'CenterAutoDiameter'):
-            obj.addProperty('App::PropertyBool', 'CenterAutoDiameter', 'Bulkhead', translate('App::Property', 'Automatically set the center diameter when possible')).CenterAutoDiameter = False
+            obj.addProperty('App::PropertyBool', 'CenterAutoDiameter', 'RocketComponent', translate('App::Property', 'Automatically set the center diameter when possible')).CenterAutoDiameter = False
         if not hasattr(obj, 'RadialDirection'):
-            obj.addProperty('App::PropertyLength', 'RadialDirection', 'Bulkhead', translate('App::Property', 'Inner diameter of the bulkhead')).RadialDirection = 0.0
+            obj.addProperty('App::PropertyLength', 'RadialDirection', 'RocketComponent', translate('App::Property', 'Inner diameter of the bulkhead')).RadialDirection = 0.0
         if not hasattr(obj, 'RadialPosition'):
-            obj.addProperty('App::PropertyLength', 'RadialPosition', 'Bulkhead', translate('App::Property', 'Outer diameter of the bulkhead')).RadialPosition = 0.0
+            obj.addProperty('App::PropertyLength', 'RadialPosition', 'RocketComponent', translate('App::Property', 'Outer diameter of the bulkhead')).RadialPosition = 0.0
         if not hasattr(obj, 'ShiftY'):
-            obj.addProperty('App::PropertyLength', 'ShiftY', 'Bulkhead', translate('App::Property', 'Outer diameter of the bulkhead')).ShiftY = 0.0
+            obj.addProperty('App::PropertyLength', 'ShiftY', 'RocketComponent', translate('App::Property', 'Outer diameter of the bulkhead')).ShiftY = 0.0
         if not hasattr(obj, 'ShiftZ'):
-            obj.addProperty('App::PropertyLength', 'ShiftZ', 'Bulkhead', translate('App::Property', 'Outer diameter of the bulkhead')).ShiftZ = 0.0
+            obj.addProperty('App::PropertyLength', 'ShiftZ', 'RocketComponent', translate('App::Property', 'Outer diameter of the bulkhead')).ShiftZ = 0.0
 
     def setDefaults(self):
         super().setDefaults()

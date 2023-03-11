@@ -24,15 +24,15 @@ __title__ = "FreeCAD Fins"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
-import FreeCAD
-    
 from App.FeatureFin import FeatureFin
+from App.Utilities import setGroup
 
 class ShapeFin:
 
     def onDocumentRestored(self, obj):
         obj.Proxy = FeatureFin(obj)
         obj.Proxy._obj = obj
+        setGroup(obj)
 
     def __setstate__(self, state):
         if state:

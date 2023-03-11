@@ -22,11 +22,9 @@
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
-import FreeCAD
-    
 from App.FeatureTransition import FeatureTransition
 
-from App.Utilities import _wrn
+from App.Utilities import _wrn, setGroup
 
 def _migrate_from_1_0(obj):
     _wrn("Transition migrating object from 1.0")
@@ -62,6 +60,7 @@ class ShapeTransition:
             # Update properties
             obj.Proxy = FeatureTransition(obj)
             obj.Proxy._obj = obj
+        setGroup(obj)
 
     def __setstate__(self, state):
         if state:

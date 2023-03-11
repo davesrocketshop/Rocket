@@ -24,15 +24,15 @@ __title__ = "FreeCAD Launch Guide"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
-import FreeCAD
-
 from App.FeatureRailGuide import FeatureRailGuide
+from App.Utilities import setGroup
 
 class ShapeRailGuide:
 
     def onDocumentRestored(self, obj):
         obj.Proxy = FeatureRailGuide(obj)
         obj.Proxy._obj = obj
+        setGroup(obj)
 
     def __setstate__(self, state):
         if state:

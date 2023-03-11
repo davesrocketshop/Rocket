@@ -53,16 +53,16 @@ class RocketComponent(RocketComponentShapeless, ChangeSource):
 
         # Attributes from presets
         if not hasattr(obj, 'Manufacturer'):
-            obj.addProperty('App::PropertyString', 'Manufacturer', 'Rocket', translate('App::Property', 'Component manufacturer')).Manufacturer = ""
+            obj.addProperty('App::PropertyString', 'Manufacturer', 'RocketComponent', translate('App::Property', 'Component manufacturer')).Manufacturer = ""
         if not hasattr(obj, 'PartNumber'):
-            obj.addProperty('App::PropertyString', 'PartNumber', 'Rocket', translate('App::Property', 'Component manufacturer part number')).PartNumber = ""
+            obj.addProperty('App::PropertyString', 'PartNumber', 'RocketComponent', translate('App::Property', 'Component manufacturer part number')).PartNumber = ""
         if not hasattr(obj, 'Material'):
-            obj.addProperty('App::PropertyString', 'Material', 'Rocket', translate('App::Property', 'Component material')).Material = ""
+            obj.addProperty('App::PropertyString', 'Material', 'RocketComponent', translate('App::Property', 'Component material')).Material = ""
         if not hasattr(obj, 'Description'):
             obj.addProperty('App::PropertyString', 'Description', 'RocketComponent', translate('App::Property', 'Component description')).Description = ""
         
         if not hasattr(obj, 'LocationReference'):
-            obj.addProperty('App::PropertyEnumeration', 'LocationReference', 'Rocket', translate('App::Property', 'Reference location for the location'))
+            obj.addProperty('App::PropertyEnumeration', 'LocationReference', 'RocketComponent', translate('App::Property', 'Reference location for the location'))
             obj.LocationReference = [
                         LOCATION_PARENT_TOP,
                         LOCATION_PARENT_MIDDLE,
@@ -72,7 +72,7 @@ class RocketComponent(RocketComponentShapeless, ChangeSource):
             obj.LocationReference = LOCATION_PARENT_BOTTOM
        
         if not hasattr(obj, 'RadialReference'):
-            obj.addProperty('App::PropertyEnumeration', 'RadialReference', 'Rocket', translate('App::Property', 'Reference location for the radial offset'))
+            obj.addProperty('App::PropertyEnumeration', 'RadialReference', 'RocketComponent', translate('App::Property', 'Reference location for the radial offset'))
             obj.RadialReference = [
                         LOCATION_SURFACE,
                         LOCATION_CENTER
@@ -80,19 +80,19 @@ class RocketComponent(RocketComponentShapeless, ChangeSource):
             obj.RadialReference = LOCATION_SURFACE
 
         if not hasattr(obj, 'RadialOffset'):
-            obj.addProperty('App::PropertyDistance', 'RadialOffset', 'Rocket', translate('App::Property', 'Radial offset from the reference')).RadialOffset = 0.0
+            obj.addProperty('App::PropertyDistance', 'RadialOffset', 'RocketComponent', translate('App::Property', 'Radial offset from the reference')).RadialOffset = 0.0
 
         # From Rocket
         if not hasattr(obj,"Length"):
-            obj.addProperty('App::PropertyLength', 'Length', 'Rocket', translate('App::Property', 'Length of the component')).Length = 0.0
+            obj.addProperty('App::PropertyLength', 'Length', 'RocketComponent', translate('App::Property', 'Length of the component')).Length = 0.0
         if not hasattr(obj, 'Position'):
-            obj.addProperty('App::PropertyPythonObject', 'Position', 'Rocket', translate('App::Property', 'Method for calculating axial offsets')).Position = Coordinate()
+            obj.addProperty('App::PropertyPythonObject', 'Position', 'RocketComponent', translate('App::Property', 'Method for calculating axial offsets')).Position = Coordinate()
 
         if not hasattr(obj, 'Texture'):
-            obj.addProperty('App::PropertyFileIncluded', 'Texture', 'Rocket', translate('App::Property', 'Texture file')).Texture = ""
+            obj.addProperty('App::PropertyFileIncluded', 'Texture', 'RocketComponent', translate('App::Property', 'Texture file')).Texture = ""
 
         if not hasattr(obj,"Shape"):
-            obj.addProperty('Part::PropertyPartShape', 'Shape', 'Rocket', translate('App::Property', 'Shape of the component'))
+            obj.addProperty('Part::PropertyPartShape', 'Shape', 'RocketComponent', translate('App::Property', 'Shape of the component'))
 
     """
         Get the characteristic length of the component, for example the length of a body tube

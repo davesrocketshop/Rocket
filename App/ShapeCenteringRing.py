@@ -24,15 +24,15 @@ __title__ = "FreeCAD Centering Rings"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
     
-import FreeCAD
-
 from App.FeatureCenteringRing import FeatureCenteringRing
+from App.Utilities import setGroup
 
 class ShapeCenteringRing:
 
     def onDocumentRestored(self, obj):
         obj.Proxy = FeatureCenteringRing(obj)
         obj.Proxy._obj = obj
+        setGroup(obj)
 
     def __setstate__(self, state):
         if state:

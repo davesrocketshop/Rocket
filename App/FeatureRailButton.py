@@ -63,28 +63,28 @@ class FeatureRailButton(ExternalComponent, AnglePositionable, BoxBounded, LineIn
 
         # Default set to a BT-50
         if not hasattr(obj,"RailButtonType"):
-            obj.addProperty('App::PropertyEnumeration', 'RailButtonType', 'RailButton', translate('App::Property', 'Rail button type'))
+            obj.addProperty('App::PropertyEnumeration', 'RailButtonType', 'RocketComponent', translate('App::Property', 'Rail button type'))
             obj.RailButtonType = [RAIL_BUTTON_ROUND, 
                     RAIL_BUTTON_AIRFOIL
                     ]
             obj.RailButtonType = RAIL_BUTTON_ROUND
 
         if not hasattr(obj,"Diameter"):
-            obj.addProperty('App::PropertyLength', 'Diameter', 'RailButton', translate('App::Property', 'Diameter of the outside of the rail button')).Diameter = 9.462
+            obj.addProperty('App::PropertyLength', 'Diameter', 'RocketComponent', translate('App::Property', 'Diameter of the outside of the rail button')).Diameter = 9.462
         if not hasattr(obj, 'InnerDiameter'):
-            obj.addProperty('App::PropertyLength', 'InnerDiameter', 'RailButton', translate('App::Property', 'Diameter of the inside of the rail button')).InnerDiameter = 6.2375
+            obj.addProperty('App::PropertyLength', 'InnerDiameter', 'RocketComponent', translate('App::Property', 'Diameter of the inside of the rail button')).InnerDiameter = 6.2375
         if not hasattr(obj,"TopThickness"):
-            obj.addProperty('App::PropertyLength', 'TopThickness', 'RailButton', translate('App::Property', 'Thickness of the outboard part of the rail button')).TopThickness = 2.096
+            obj.addProperty('App::PropertyLength', 'TopThickness', 'RocketComponent', translate('App::Property', 'Thickness of the outboard part of the rail button')).TopThickness = 2.096
         if not hasattr(obj,"BaseThickness"):
-            obj.addProperty('App::PropertyLength', 'BaseThickness', 'RailButton', translate('App::Property', 'Thickness of the inside part of the rail button')).BaseThickness = 3.429
+            obj.addProperty('App::PropertyLength', 'BaseThickness', 'RocketComponent', translate('App::Property', 'Thickness of the inside part of the rail button')).BaseThickness = 3.429
         if not hasattr(obj,"Thickness"):
-            obj.addProperty('App::PropertyLength', 'Thickness', 'RailButton', translate('App::Property', 'Total thickness of the rail button')).Thickness = 7.62
+            obj.addProperty('App::PropertyLength', 'Thickness', 'RocketComponent', translate('App::Property', 'Total thickness of the rail button')).Thickness = 7.62
 
         # Default fastener is a #6 screw
         if not hasattr(obj, 'Fastener'):
-            obj.addProperty('App::PropertyBool', 'Fastener', 'RailButton', translate('App::Property', 'Create a countersunk hole for the fastener')).Fastener = True
+            obj.addProperty('App::PropertyBool', 'Fastener', 'RocketComponent', translate('App::Property', 'Create a countersunk hole for the fastener')).Fastener = True
         if not hasattr(obj,"CountersinkAngle"):
-            obj.addProperty('App::PropertyEnumeration', 'CountersinkAngle', 'RailButton', translate('App::Property', 'Fastener countersink angle'))
+            obj.addProperty('App::PropertyEnumeration', 'CountersinkAngle', 'RocketComponent', translate('App::Property', 'Fastener countersink angle'))
             obj.CountersinkAngle = [CONTERSINK_ANGLE_60,
                     CONTERSINK_ANGLE_82,
                     CONTERSINK_ANGLE_90,
@@ -94,19 +94,19 @@ class FeatureRailButton(ExternalComponent, AnglePositionable, BoxBounded, LineIn
                     ]
             obj.CountersinkAngle = CONTERSINK_ANGLE_82
         if not hasattr(obj,"ShankDiameter"):
-            obj.addProperty('App::PropertyLength', 'ShankDiameter', 'RailButton', translate('App::Property', 'Fastener shank diameter')).ShankDiameter = 3.51
+            obj.addProperty('App::PropertyLength', 'ShankDiameter', 'RocketComponent', translate('App::Property', 'Fastener shank diameter')).ShankDiameter = 3.51
         if not hasattr(obj,"HeadDiameter"):
-            obj.addProperty('App::PropertyLength', 'HeadDiameter', 'RailButton', translate('App::Property', 'Fastener head diameter')).HeadDiameter = 7.80
+            obj.addProperty('App::PropertyLength', 'HeadDiameter', 'RocketComponent', translate('App::Property', 'Fastener head diameter')).HeadDiameter = 7.80
 
         if not hasattr(obj, 'FilletedTop'):
-            obj.addProperty('App::PropertyBool', 'FilletedTop', 'RailButton', translate('App::Property', 'Apply a fillet to the top of the rail button')).FilletedTop = False
+            obj.addProperty('App::PropertyBool', 'FilletedTop', 'RocketComponent', translate('App::Property', 'Apply a fillet to the top of the rail button')).FilletedTop = False
         if not hasattr(obj,"FilletRadius"):
-            obj.addProperty('App::PropertyLength', 'FilletRadius', 'RailButton', translate('App::Property', 'Fillet radius')).FilletRadius = 0.5
+            obj.addProperty('App::PropertyLength', 'FilletRadius', 'RocketComponent', translate('App::Property', 'Fillet radius')).FilletRadius = 0.5
 
         if not hasattr(obj,"InstanceCount"):
-            obj.addProperty('App::PropertyLength', 'InstanceCount', 'RailGuide', translate('App::Property', 'Instance count')).InstanceCount = 1
+            obj.addProperty('App::PropertyLength', 'InstanceCount', 'RocketComponent', translate('App::Property', 'Instance count')).InstanceCount = 1
         if not hasattr(obj,"InstanceSeparation"):
-            obj.addProperty('App::PropertyLength', 'InstanceSeparation', 'RailGuide', translate('App::Property', 'Instance separation')).InstanceSeparation = 0
+            obj.addProperty('App::PropertyLength', 'InstanceSeparation', 'RocketComponent', translate('App::Property', 'Instance separation')).InstanceSeparation = 0
 
     def setDefaults(self):
         super().setDefaults()
@@ -227,13 +227,6 @@ class FeatureRailButton(ExternalComponent, AnglePositionable, BoxBounded, LineIn
 
     def getInstanceBoundingBox(self):
         instanceBounds = BoundingBox()
-        
-        # instanceBounds.update(Coordinate(self.getLength(), 0,0))
-        
-        # r = self.getOuterRadius()
-        # instanceBounds.update(Coordinate(0,r,r))
-        # instanceBounds.update(Coordinate(0,-r,-r))
-        
         return instanceBounds
 
     def getInstanceOffsets(self):

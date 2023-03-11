@@ -53,14 +53,14 @@ class FeatureLaunchLug(Tube, AnglePositionable, BoxBounded, LineInstanceable):
 
         # Default set to 1/8" launch lug
         if not hasattr(obj,"Diameter"):
-            obj.addProperty('App::PropertyLength', 'Diameter', 'LaunchLug', translate('App::Property', 'Diameter of the outside of the body tube')).Diameter = 4.06
+            obj.addProperty('App::PropertyLength', 'Diameter', 'RocketComponent', translate('App::Property', 'Diameter of the outside of the body tube')).Diameter = 4.06
         if not hasattr(obj,"Thickness"):
-            obj.addProperty('App::PropertyLength', 'Thickness', 'LaunchLug', translate('App::Property', 'Diameter of the inside of the body tube')).Thickness = 0.25
+            obj.addProperty('App::PropertyLength', 'Thickness', 'RocketComponent', translate('App::Property', 'Diameter of the inside of the body tube')).Thickness = 0.25
 
         if not hasattr(obj,"InstanceCount"):
-            obj.addProperty('App::PropertyLength', 'InstanceCount', 'LaunchLug', translate('App::Property', 'Instance count')).InstanceCount = 1
+            obj.addProperty('App::PropertyLength', 'InstanceCount', 'RocketComponent', translate('App::Property', 'Instance count')).InstanceCount = 1
         if not hasattr(obj,"InstanceSeparation"):
-            obj.addProperty('App::PropertyLength', 'InstanceSeparation', 'LaunchLug', translate('App::Property', 'Instance separation')).InstanceSeparation = 0
+            obj.addProperty('App::PropertyLength', 'InstanceSeparation', 'RocketComponent', translate('App::Property', 'Instance separation')).InstanceSeparation = 0
 
     def setDefaults(self):
         super().setDefaults()

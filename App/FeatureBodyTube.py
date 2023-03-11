@@ -51,21 +51,19 @@ class FeatureBodyTube(SymmetricComponent, BoxBounded, Coaxial):
 
         # Default set to a BT-50
         if not hasattr(obj,"Diameter"):
-            obj.addProperty('App::PropertyLength', 'Diameter', 'BodyTube', translate('App::Property', 'Diameter of the outside of the body tube')).Diameter = SymmetricComponent.DEFAULT_RADIUS * 2.0
+            obj.addProperty('App::PropertyLength', 'Diameter', 'RocketComponent', translate('App::Property', 'Diameter of the outside of the body tube')).Diameter = SymmetricComponent.DEFAULT_RADIUS * 2.0
         if not hasattr(obj, 'AutoDiameter'):
-            obj.addProperty('App::PropertyBool', 'AutoDiameter', 'BodyTube', translate('App::Property', 'Automatically set the outer diameter when possible')).AutoDiameter = False
+            obj.addProperty('App::PropertyBool', 'AutoDiameter', 'RocketComponent', translate('App::Property', 'Automatically set the outer diameter when possible')).AutoDiameter = False
         if not hasattr(obj,"Thickness"):
-            obj.addProperty('App::PropertyLength', 'Thickness', 'BodyTube', translate('App::Property', 'Diameter of the inside of the body tube')).Thickness = 0.33
-        # if not hasattr(obj, 'AutoThickness'):
-        #     obj.addProperty('App::PropertyBool', 'AutoThickness', 'BodyTube', translate('App::Property', 'Automatically set the thickness when possible')).AutoThickness = False
+            obj.addProperty('App::PropertyLength', 'Thickness', 'RocketComponent', translate('App::Property', 'Diameter of the inside of the body tube')).Thickness = 0.33
 
         if not hasattr(obj, 'MotorMount'):
-            obj.addProperty('App::PropertyBool', 'MotorMount', 'BodyTube', translate('App::Property', 'This component is a motor mount')).MotorMount = False
+            obj.addProperty('App::PropertyBool', 'MotorMount', 'RocketComponent', translate('App::Property', 'This component is a motor mount')).MotorMount = False
         if not hasattr(obj,"Overhang"):
-            obj.addProperty('App::PropertyDistance', 'Overhang', 'BodyTube', translate('App::Property', 'Motor overhang')).Overhang = 3.0
+            obj.addProperty('App::PropertyDistance', 'Overhang', 'RocketComponent', translate('App::Property', 'Motor overhang')).Overhang = 3.0
 
         if not hasattr(obj,"Filled"):
-            obj.addProperty('App::PropertyBool', 'Filled', 'BodyTube', translate('App::Property', 'This component is solid')).Filled = False
+            obj.addProperty('App::PropertyBool', 'Filled', 'RocketComponent', translate('App::Property', 'This component is solid')).Filled = False
 
     def setDefaults(self):
         super().setDefaults()

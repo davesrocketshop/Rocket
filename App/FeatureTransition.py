@@ -51,53 +51,53 @@ class FeatureTransition(SymmetricComponent):
         self.Type = FEATURE_TRANSITION
 
         if not hasattr(obj, 'ForeDiameter'):
-            obj.addProperty('App::PropertyLength', 'ForeDiameter', 'Transition', translate('App::Property', 'Diameter at the front of the transition')).ForeDiameter = 20.0
+            obj.addProperty('App::PropertyLength', 'ForeDiameter', 'RocketComponent', translate('App::Property', 'Diameter at the front of the transition')).ForeDiameter = 20.0
         if not hasattr(obj, 'ForeAutoDiameter'):
-            obj.addProperty('App::PropertyBool', 'ForeAutoDiameter', 'NoseCone', translate('App::Property', 'Automatically set the forward diameter when possible')).ForeAutoDiameter = False
+            obj.addProperty('App::PropertyBool', 'ForeAutoDiameter', 'RocketComponent', translate('App::Property', 'Automatically set the forward diameter when possible')).ForeAutoDiameter = False
         if not hasattr(obj, 'AftDiameter'):
-            obj.addProperty('App::PropertyLength', 'AftDiameter', 'Transition', translate('App::Property', 'Diameter at the base of the transition')).AftDiameter = 40.0
+            obj.addProperty('App::PropertyLength', 'AftDiameter', 'RocketComponent', translate('App::Property', 'Diameter at the base of the transition')).AftDiameter = 40.0
         if not hasattr(obj, 'AftAutoDiameter'):
-            obj.addProperty('App::PropertyBool', 'AftAutoDiameter', 'NoseCone', translate('App::Property', 'Automatically set the aft diameter when possible')).AftAutoDiameter = False
+            obj.addProperty('App::PropertyBool', 'AftAutoDiameter', 'RocketComponent', translate('App::Property', 'Automatically set the aft diameter when possible')).AftAutoDiameter = False
         if not hasattr(obj, 'CoreDiameter'):
-            obj.addProperty('App::PropertyLength', 'CoreDiameter', 'Transition', translate('App::Property', 'Diameter of the transition core')).CoreDiameter = 10.0
+            obj.addProperty('App::PropertyLength', 'CoreDiameter', 'RocketComponent', translate('App::Property', 'Diameter of the transition core')).CoreDiameter = 10.0
         if not hasattr(obj, 'Thickness'):
-            obj.addProperty('App::PropertyLength', 'Thickness', 'Transition', translate('App::Property', 'Transition thickness')).Thickness = 2.0
+            obj.addProperty('App::PropertyLength', 'Thickness', 'RocketComponent', translate('App::Property', 'Transition thickness')).Thickness = 2.0
         if not hasattr(obj, 'Clipped'):
-            obj.addProperty('App::PropertyBool', 'Clipped', 'Transition', translate('App::Property', 'If the transition is not clipped, then the profile is extended at the center by the corresponding radius')).Clipped = True
+            obj.addProperty('App::PropertyBool', 'Clipped', 'RocketComponent', translate('App::Property', 'If the transition is not clipped, then the profile is extended at the center by the corresponding radius')).Clipped = True
 
         if not hasattr(obj, 'ForeShoulder'):
-            obj.addProperty('App::PropertyBool', 'ForeShoulder', 'Transition', translate('App::Property', 'Set to true if the part includes a forward shoulder')).ForeShoulder = False #True
+            obj.addProperty('App::PropertyBool', 'ForeShoulder', 'RocketComponent', translate('App::Property', 'Set to true if the part includes a forward shoulder')).ForeShoulder = False #True
         if not hasattr(obj, 'ForeShoulderLength'):
-            obj.addProperty('App::PropertyLength', 'ForeShoulderLength', 'Transition', translate('App::Property', 'Forward Shoulder Length')).ForeShoulderLength = 25.0
+            obj.addProperty('App::PropertyLength', 'ForeShoulderLength', 'RocketComponent', translate('App::Property', 'Forward Shoulder Length')).ForeShoulderLength = 25.0
         if not hasattr(obj, 'ForeShoulderDiameter'):
-            obj.addProperty('App::PropertyLength', 'ForeShoulderDiameter', 'Transition', translate('App::Property', 'Forward Shoulder diameter')).ForeShoulderDiameter = 16.0
+            obj.addProperty('App::PropertyLength', 'ForeShoulderDiameter', 'RocketComponent', translate('App::Property', 'Forward Shoulder diameter')).ForeShoulderDiameter = 16.0
         if not hasattr(obj, 'ForeShoulderAutoDiameter'):
-            obj.addProperty('App::PropertyBool', 'ForeShoulderAutoDiameter', 'NoseCone', translate('App::Property', 'Automatically set the forward transition shoulder diameter when possible')).ForeShoulderAutoDiameter = False
+            obj.addProperty('App::PropertyBool', 'ForeShoulderAutoDiameter', 'RocketComponent', translate('App::Property', 'Automatically set the forward transition shoulder diameter when possible')).ForeShoulderAutoDiameter = False
         if not hasattr(obj, 'ForeShoulderThickness'):
-            obj.addProperty('App::PropertyLength', 'ForeShoulderThickness', 'Transition', translate('App::Property', 'Forward Shoulder thickness')).ForeShoulderThickness = 2.0
+            obj.addProperty('App::PropertyLength', 'ForeShoulderThickness', 'RocketComponent', translate('App::Property', 'Forward Shoulder thickness')).ForeShoulderThickness = 2.0
 
         if not hasattr(obj, 'AftShoulder'):
-            obj.addProperty('App::PropertyBool', 'AftShoulder', 'Transition', translate('App::Property', 'Set to true if the part includes an aft shoulder')).AftShoulder = False #True
+            obj.addProperty('App::PropertyBool', 'AftShoulder', 'RocketComponent', translate('App::Property', 'Set to true if the part includes an aft shoulder')).AftShoulder = False #True
         if not hasattr(obj, 'AftShoulderLength'):
-            obj.addProperty('App::PropertyLength', 'AftShoulderLength', 'Transition', translate('App::Property', 'Aft Shoulder Length')).AftShoulderLength = 25.0
+            obj.addProperty('App::PropertyLength', 'AftShoulderLength', 'RocketComponent', translate('App::Property', 'Aft Shoulder Length')).AftShoulderLength = 25.0
         if not hasattr(obj, 'AftShoulderDiameter'):
-            obj.addProperty('App::PropertyLength', 'AftShoulderDiameter', 'Transition', translate('App::Property', 'Aft Shoulder diameter')).AftShoulderDiameter = 36.0
+            obj.addProperty('App::PropertyLength', 'AftShoulderDiameter', 'RocketComponent', translate('App::Property', 'Aft Shoulder diameter')).AftShoulderDiameter = 36.0
         if not hasattr(obj, 'AftShoulderAutoDiameter'):
-            obj.addProperty('App::PropertyBool', 'AftShoulderAutoDiameter', 'NoseCone', translate('App::Property', 'Automatically set the aft transition shoulder diameter when possible')).AftShoulderAutoDiameter = False
+            obj.addProperty('App::PropertyBool', 'AftShoulderAutoDiameter', 'RocketComponent', translate('App::Property', 'Automatically set the aft transition shoulder diameter when possible')).AftShoulderAutoDiameter = False
         if not hasattr(obj, 'AftShoulderThickness'):
-            obj.addProperty('App::PropertyLength', 'AftShoulderThickness', 'Transition', translate('App::Property', 'Aft Shoulder thickness')).AftShoulderThickness = 2.0
+            obj.addProperty('App::PropertyLength', 'AftShoulderThickness', 'RocketComponent', translate('App::Property', 'Aft Shoulder thickness')).AftShoulderThickness = 2.0
 
         if not hasattr(obj, 'Coefficient'):
-            obj.addProperty('App::PropertyFloat', 'Coefficient', 'Transition', translate('App::Property', 'Coefficient')).Coefficient = 0.0
+            obj.addProperty('App::PropertyFloat', 'Coefficient', 'RocketComponent', translate('App::Property', 'Coefficient')).Coefficient = 0.0
         if not hasattr(obj, 'Resolution'):
-            obj.addProperty('App::PropertyInteger', 'Resolution', 'Transition', translate('App::Property', 'Resolution')).Resolution = 100
+            obj.addProperty('App::PropertyInteger', 'Resolution', 'RocketComponent', translate('App::Property', 'Resolution')).Resolution = 100
         if not hasattr(obj, 'ForeCapBarWidth'):
-            obj.addProperty('App::PropertyLength', 'ForeCapBarWidth', 'Transition', translate('App::Property', 'Width of the forward cap bar')).ForeCapBarWidth = 3.0
+            obj.addProperty('App::PropertyLength', 'ForeCapBarWidth', 'RocketComponent', translate('App::Property', 'Width of the forward cap bar')).ForeCapBarWidth = 3.0
         if not hasattr(obj, 'AftCapBarWidth'):
-            obj.addProperty('App::PropertyLength', 'AftCapBarWidth', 'Transition', translate('App::Property', 'Width of the aft cap bar')).AftCapBarWidth = 3.0
+            obj.addProperty('App::PropertyLength', 'AftCapBarWidth', 'RocketComponent', translate('App::Property', 'Width of the aft cap bar')).AftCapBarWidth = 3.0
 
         if not hasattr(obj, 'TransitionType'):
-            obj.addProperty('App::PropertyEnumeration', 'TransitionType', 'Transition', translate('App::Property', 'Transition type'))
+            obj.addProperty('App::PropertyEnumeration', 'TransitionType', 'RocketComponent', translate('App::Property', 'Transition type'))
             obj.TransitionType = [TYPE_CONE,
                         TYPE_ELLIPTICAL,
                         TYPE_OGIVE,
@@ -118,7 +118,7 @@ class FeatureTransition(SymmetricComponent):
                         TYPE_HAACK]
 
         if not hasattr(obj, 'TransitionStyle'):
-            obj.addProperty('App::PropertyEnumeration', 'TransitionStyle', 'Transition', translate('App::Property', 'Transition style'))
+            obj.addProperty('App::PropertyEnumeration', 'TransitionStyle', 'RocketComponent', translate('App::Property', 'Transition style'))
             obj.TransitionStyle = [STYLE_SOLID,
                                 STYLE_SOLID_CORE,
                                 STYLE_HOLLOW,
@@ -131,7 +131,7 @@ class FeatureTransition(SymmetricComponent):
                                 STYLE_CAPPED]
 
         if not hasattr(obj, 'ForeCapStyle'):
-            obj.addProperty('App::PropertyEnumeration', 'ForeCapStyle', 'Transition', translate('App::Property', 'Forward cap style'))
+            obj.addProperty('App::PropertyEnumeration', 'ForeCapStyle', 'RocketComponent', translate('App::Property', 'Forward cap style'))
             obj.ForeCapStyle = [STYLE_CAP_SOLID,
                                 STYLE_CAP_BAR,
                                 STYLE_CAP_CROSS]
@@ -142,7 +142,7 @@ class FeatureTransition(SymmetricComponent):
                                 STYLE_CAP_CROSS]
 
         if not hasattr(obj, 'AftCapStyle'):
-            obj.addProperty('App::PropertyEnumeration', 'AftCapStyle', 'Transition', translate('App::Property', 'Aft cap style'))
+            obj.addProperty('App::PropertyEnumeration', 'AftCapStyle', 'RocketComponent', translate('App::Property', 'Aft cap style'))
             obj.AftCapStyle = [STYLE_CAP_SOLID,
                                 STYLE_CAP_BAR,
                                 STYLE_CAP_CROSS]

@@ -40,9 +40,9 @@ class FeatureParallelStage(FeatureStage):
         self.Type = FEATURE_PARALLEL_STAGE
 
         if not hasattr(obj,"StageCount"):
-            obj.addProperty('App::PropertyInteger', 'StageCount', 'Stage', translate('App::Property', 'Number of stages in a radial pattern')).StageCount = 2
+            obj.addProperty('App::PropertyInteger', 'StageCount', 'RocketComponent', translate('App::Property', 'Number of stages in a radial pattern')).StageCount = 2
         if not hasattr(obj,"StageSpacing"):
-            obj.addProperty('App::PropertyAngle', 'StageSpacing', 'Stage', translate('App::Property', 'Angle between consecutive stages')).StageSpacing = 180
+            obj.addProperty('App::PropertyAngle', 'StageSpacing', 'RocketComponent', translate('App::Property', 'Angle between consecutive stages')).StageSpacing = 180
 
     def setDefaults(self):
         super().setDefaults()

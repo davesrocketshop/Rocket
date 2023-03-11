@@ -78,14 +78,14 @@ class RocketComponentShapeless():
         self._configListeners = []
 
         if not hasattr(obj, 'Comment'):
-            obj.addProperty('App::PropertyString', 'Comment', 'Rocket', translate('App::Property', 'User comment')).Comment = ""
+            obj.addProperty('App::PropertyString', 'Comment', 'RocketComponent', translate('App::Property', 'User comment')).Comment = ""
 
         if not hasattr(obj, 'AxialMethod'):
-            obj.addProperty('App::PropertyPythonObject', 'AxialMethod', 'Rocket', translate('App::Property', 'Method for calculating axial offsets')).AxialMethod = AxialMethod.AFTER
+            obj.addProperty('App::PropertyPythonObject', 'AxialMethod', 'RocketComponent', translate('App::Property', 'Method for calculating axial offsets')).AxialMethod = AxialMethod.AFTER
         if not hasattr(obj,"AxialOffset"):
-            obj.addProperty('App::PropertyDistance', 'AxialOffset', 'Rocket', translate('App::Property', 'Offset from the reference point')).AxialOffset = 0.0
+            obj.addProperty('App::PropertyDistance', 'AxialOffset', 'RocketComponent', translate('App::Property', 'Offset from the reference point')).AxialOffset = 0.0
         if not hasattr(obj, 'AngleOffset'):
-            obj.addProperty('App::PropertyAngle', 'AngleOffset', 'Rocket', translate('App::Property', 'Angle of offset around the center axis')).AngleOffset = 0.0
+            obj.addProperty('App::PropertyAngle', 'AngleOffset', 'RocketComponent', translate('App::Property', 'Angle of offset around the center axis')).AngleOffset = 0.0
 
         if not hasattr(obj,"Group"):
             obj.addExtension("App::GroupExtensionPython")

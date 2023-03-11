@@ -24,15 +24,15 @@ __title__ = "FreeCAD Bulkheads"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
-import FreeCAD
-    
 from App.FeatureBulkhead import FeatureBulkhead
+from App.Utilities import setGroup
 
 class ShapeBulkhead:
 
     def onDocumentRestored(self, obj):
         obj.Proxy = FeatureBulkhead(obj)
         obj.Proxy._obj = obj
+        setGroup(obj)
 
     def __setstate__(self, state):
         if state:

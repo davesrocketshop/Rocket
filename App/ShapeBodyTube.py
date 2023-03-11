@@ -24,15 +24,15 @@ __title__ = "FreeCAD Body Tubes"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
-import FreeCAD
-    
 from App.FeatureBodyTube import FeatureBodyTube
+from App.Utilities import setGroup
 
 class ShapeBodyTube:
 
     def onDocumentRestored(self, obj):
         obj.Proxy = FeatureBodyTube(obj)
         obj.Proxy._obj = obj
+        setGroup(obj)
 
     def __setstate__(self, state):
         if state:

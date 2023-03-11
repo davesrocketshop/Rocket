@@ -40,12 +40,12 @@ class RadiusRingComponent(RingComponent, LineInstanceable):
         super().__init__(obj)
 
         if not hasattr(obj, 'CenterDiameter'):
-            obj.addProperty('App::PropertyLength', 'CenterDiameter', 'Bulkhead', translate('App::Property', 'Diameter of the central hole')).CenterDiameter = 10.0
+            obj.addProperty('App::PropertyLength', 'CenterDiameter', 'RocketComponent', translate('App::Property', 'Diameter of the central hole')).CenterDiameter = 10.0
 
         if not hasattr(obj, 'InstanceCount'):
-            obj.addProperty('App::PropertyInteger', 'InstanceCount', 'Bulkhead', translate('App::Property', 'Instance count')).InstanceCount = 1
+            obj.addProperty('App::PropertyInteger', 'InstanceCount', 'RocketComponent', translate('App::Property', 'Instance count')).InstanceCount = 1
         if not hasattr(obj, 'InstanceSeparation'):
-            obj.addProperty('App::PropertyDistance', 'InstanceSeparation', 'Bulkhead', translate('App::Property', 'Front to front along the positive rocket axis')).InstanceSeparation = 0.0
+            obj.addProperty('App::PropertyDistance', 'InstanceSeparation', 'RocketComponent', translate('App::Property', 'Front to front along the positive rocket axis')).InstanceSeparation = 0.0
 
     def setDefaults(self):
         super().setDefaults()

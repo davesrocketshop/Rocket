@@ -49,7 +49,7 @@ class ThicknessRingComponent(RingComponent):
         super().__init__(obj)
 
         if not hasattr(obj,"Thickness"):
-            obj.addProperty('App::PropertyLength', 'Thickness', 'BodyTube', translate('App::Property', 'Diameter of the inside of the body tube')).Thickness = 0.33
+            obj.addProperty('App::PropertyLength', 'Thickness', 'RocketComponent', translate('App::Property', 'Diameter of the inside of the body tube')).Thickness = 0.33
 
     def setDefaults(self):
         super().setDefaults()

@@ -24,15 +24,15 @@ __title__ = "FreeCAD Body Tubes"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
-import FreeCAD
-
 from App.FeatureLaunchLug import FeatureLaunchLug
+from App.Utilities import setGroup
 
 class ShapeLaunchLug:
 
     def onDocumentRestored(self, obj):
         obj.Proxy = FeatureLaunchLug(obj)
         obj.Proxy._obj = obj
+        setGroup(obj)
 
     def __setstate__(self, state):
         if state:

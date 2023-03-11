@@ -93,3 +93,10 @@ def clamp(x, min, max):
         return max
     return x
 
+
+def setGroup(obj):
+    for property in obj.PropertiesList:
+        group = obj.getGroupOfProperty(property)
+        if group not in ['RocketComponent', '', 'Base']:
+            print("Updating Property {0} Group {1}".format(property, group))
+            obj.setGroupOfProperty(property, 'RocketComponent')
