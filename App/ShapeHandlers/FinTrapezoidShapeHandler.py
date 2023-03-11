@@ -63,16 +63,16 @@ class FinTrapezoidShapeHandler(FinShapeHandler):
         # Add error checking here
         if self._obj.Ttw:
             if self._obj.TtwOffset >= self._obj.RootChord:
-                _err(translate('Rocket', "Ttw offset must be less than the root chord"))
+                # _err(translate('Rocket', "Ttw offset must be less than the root chord"))
                 return False
             if self._obj.TtwLength <= 0:
-                _err(translate('Rocket', "Ttw length must be greater than 0"))
+                # _err(translate('Rocket', "Ttw length must be greater than 0"))
                 return False
             if self._obj.TtwHeight <= 0:
-                _err(translate('Rocket', "Ttw height must be greater than 0"))
+                # _err(translate('Rocket', "Ttw height must be greater than 0"))
                 return False
             if self._obj.TtwThickness <= 0:
-                _err(translate('Rocket', "Ttw thickness must be greater than 0"))
+                # _err(translate('Rocket', "Ttw thickness must be greater than 0"))
                 return False
         return super().isValidShape()
 

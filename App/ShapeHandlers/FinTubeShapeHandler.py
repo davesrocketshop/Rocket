@@ -41,7 +41,7 @@ class FinTubeShapeHandler(FinShapeHandler):
     def isValidShape(self):
         # Add error checking here
         if self._obj.Ttw:
-            _err(translate('Rocket', "Ttw tabs are not supported for tube fins"))
+            # _err(translate('Rocket', "Ttw tabs are not supported for tube fins"))
             return False
         return super().isValidShape()
 

@@ -54,27 +54,27 @@ class BulkheadShapeHandler():
     def isValidShape(self):
         # Perform some general validations
         if self._diameter <= 0:
-            _err(translate('Rocket', "Outer diameter must be greater than zero"))
+            # _err(translate('Rocket', "Outer diameter must be greater than zero"))
             return False
 
         if self._step:
             if self._stepDiameter <= 0:
-                _err(translate('Rocket', "Step diameter must be greater than zero"))
+                # _err(translate('Rocket', "Step diameter must be greater than zero"))
                 return False
             if self._stepDiameter >= self._diameter:
-                _err(translate('Rocket', "Step diameter must less than the outer diameter"))
+                # _err(translate('Rocket', "Step diameter must less than the outer diameter"))
                 return False
 
         if self._holes:
             if self._holeDiameter <= 0:
-                _err(translate('Rocket', "Hole diameter must be greater than zero"))
+                # _err(translate('Rocket', "Hole diameter must be greater than zero"))
                 return False
             if self._holeCenter + (self._holeDiameter / 2.0) >= (self._diameter / 2.0):
-                _err(translate('Rocket', "Hole extends outside the outer diameter"))
+                # _err(translate('Rocket', "Hole extends outside the outer diameter"))
                 return False
             if self._step:
                 if self._holeCenter + (self._holeDiameter / 2.0) >= (self._stepDiameter / 2.0):
-                    _err(translate('Rocket', "Hole extends outside the step diameter"))
+                    # _err(translate('Rocket', "Hole extends outside the step diameter"))
                     return False
 
         return True

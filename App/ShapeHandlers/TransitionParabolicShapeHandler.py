@@ -34,7 +34,7 @@ class TransitionParabolicShapeHandler(TransitionShapeHandler):
 
     def isValidShape(self):
         if self._coefficient < 0 or self._coefficient > 1:
-            _err(translate('Rocket', "For %s transitions the coefficient must be in the range (0 <= coefficient <= 1)") % self._type)
+            # _err(translate('Rocket', "For %s transitions the coefficient must be in the range (0 <= coefficient <= 1)") % self._type)
             return False
         return super().isValidShape()
             

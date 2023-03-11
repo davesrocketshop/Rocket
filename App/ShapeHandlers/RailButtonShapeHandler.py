@@ -63,34 +63,34 @@ class RailButtonShapeHandler():
     def isValidShape(self):
         # Perform some general validations
         if self._outerDiameter <= 0:
-            _err(translate('Rocket', "Outer diameter must be greater than zero"))
+            # _err(translate('Rocket', "Outer diameter must be greater than zero"))
             return False
         if self._innerDiameter <= 0:
-            _err(translate('Rocket', "Inner diameter must be greater than zero"))
+            # _err(translate('Rocket', "Inner diameter must be greater than zero"))
             return False
         if self._outerDiameter <= self._innerDiameter:
-            _err(translate('Rocket', "Outer diameter must be greater than the inner diameter"))
+            # _err(translate('Rocket', "Outer diameter must be greater than the inner diameter"))
             return False
         if self._topThickness <= 0:
-            _err(translate('Rocket', "Top thickness must be greater than zero"))
+            # _err(translate('Rocket', "Top thickness must be greater than zero"))
             return False
         if self._baseThickness <= 0:
-            _err(translate('Rocket', "Base thickness must be greater than zero"))
+            # _err(translate('Rocket', "Base thickness must be greater than zero"))
             return False
         if self._thickness <= 0:
-            _err(translate('Rocket', "Thickness must be greater than zero"))
+            # _err(translate('Rocket', "Thickness must be greater than zero"))
             return False
         if self._thickness <= (self._topThickness + self._baseThickness):
-            _err(translate('Rocket', "Top and base thickness can not excedd the total thickness"))
+            # _err(translate('Rocket', "Top and base thickness can not excedd the total thickness"))
             return False
 
         if self._railButtonType == RAIL_BUTTON_AIRFOIL:
             if self._length <= 0:
-                _err(translate('Rocket', "Length must be greater than zero for airfoil rail buttons"))
+                # _err(translate('Rocket', "Length must be greater than zero for airfoil rail buttons"))
                 return False
 
             if self._length <= self._outerDiameter:
-                _err(translate('Rocket', "Length must be greater than the outer diameter for airfoil rail buttons"))
+                # _err(translate('Rocket', "Length must be greater than the outer diameter for airfoil rail buttons"))
                 return False
 
         return True

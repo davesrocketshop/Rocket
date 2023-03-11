@@ -51,28 +51,28 @@ class CenteringRingShapeHandler(BulkheadShapeHandler):
         #     _wrn(translate('Rocket', "Centering ring has no hole, as the center diameter must be greater than zero"))
 
         if self._centerDiameter >= self._diameter:
-            _err(translate('Rocket', "Centering ring center diameter must be less than the outer diameter"))
+            # _err(translate('Rocket', "Centering ring center diameter must be less than the outer diameter"))
             return False
 
         if self._step:
             if self._centerDiameter >= self._stepDiameter:
-                _err(translate('Rocket', "Centering ring center diameter must be less than the step diameter"))
+                # _err(translate('Rocket', "Centering ring center diameter must be less than the step diameter"))
                 return False
 
         if self._notched:
             if self._notchWidth > self._centerDiameter:
-                _err(translate('Rocket', "The notch width must be less than or equal to the center diameter"))
+                # _err(translate('Rocket', "The notch width must be less than or equal to the center diameter"))
                 return False
             if self._notchWidth <= 0:
-                _err(translate('Rocket', "The notch width must be greater than zero"))
+                # _err(translate('Rocket', "The notch width must be greater than zero"))
                 return False
             if self._notchHeight <= 0:
-                _err(translate('Rocket', "The notch height must be greater than zero"))
+                # _err(translate('Rocket', "The notch height must be greater than zero"))
                 return False
 
         if self._holes:
             if self._holeCenter - (self._holeDiameter / 2.0) <= (self._centerDiameter / 2.0):
-                _err(translate('Rocket', "Hole extends inside the center diameter"))
+                # _err(translate('Rocket', "Hole extends inside the center diameter"))
                 return False
 
         return True
