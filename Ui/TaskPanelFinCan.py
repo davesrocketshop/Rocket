@@ -334,12 +334,6 @@ class _FinCanDialog(QDialog):
 
         ui = FreeCADGui.UiLoader()
 
-        self.canStylesLabel = QtGui.QLabel(translate('Rocket', "Fin Can Style"), self)
-
-        self.canStyles = (FINCAN_STYLE_SLEEVE, FINCAN_STYLE_BODYTUBE)
-        self.canStylesCombo = QtGui.QComboBox(self)
-        self.canStylesCombo.addItems(self.canStyles)
-
         self.canDiameterLabel = QtGui.QLabel(translate('Rocket', "Inner Diameter"), self)
 
         self.canDiameterInput = ui.createWidget("Gui::InputField")
@@ -423,10 +417,6 @@ class _FinCanDialog(QDialog):
 
         row = 0
         grid = QGridLayout()
-
-        grid.addWidget(self.canStylesLabel, row, 0)
-        grid.addWidget(self.canStylesCombo, row, 1)
-        row += 1
 
         grid.addWidget(self.canDiameterLabel, row, 0)
         grid.addWidget(self.canDiameterInput, row, 1)
@@ -705,7 +695,6 @@ class TaskPanelFinCan(QObject):
         self._finForm.sweepLengthInput.textEdited.connect(self.onSweepLength)
         self._finForm.sweepAngleInput.textEdited.connect(self.onSweepAngle)
 
-        self._finForm.canStylesCombo.currentTextChanged.connect(self.onCanStyle)
         self._finForm.canDiameterInput.textEdited.connect(self.onCanDiameter)
         self._finForm.canAutoDiameterCheckbox.stateChanged.connect(self.onCanAutoDiameter)
         self._finForm.canThicknessInput.textEdited.connect(self.onCanThickness)
@@ -777,7 +766,6 @@ class TaskPanelFinCan(QObject):
         self._obj.SweepLength = self._finForm.sweepLengthInput.text()
         self._obj.SweepAngle = self._finForm.sweepAngleInput.text()
 
-        self._obj.FinCanStyle = str(self._finForm.canStylesCombo.currentText())
         self._obj.Diameter = self._finForm.canDiameterInput.text()
         self._obj.AutoDiameter = self._finForm.canAutoDiameterCheckbox.isChecked()
         self._obj.Thickness = self._finForm.canThicknessInput.text()
@@ -840,7 +828,6 @@ class TaskPanelFinCan(QObject):
         self._finForm.sweepLengthInput.setText(self._obj.SweepLength.UserString)
         self._finForm.sweepAngleInput.setText(self._obj.SweepAngle.UserString)
 
-        self._finForm.canStylesCombo.setCurrentText(self._obj.FinCanStyle)
         self._finForm.canDiameterInput.setText(self._obj.Diameter.UserString)
         self._finForm.canAutoDiameterCheckbox.setChecked(self._obj.AutoDiameter)
         self._finForm.canThicknessInput.setText(self._obj.Thickness.UserString)
@@ -1329,27 +1316,19 @@ class TaskPanelFinCan(QObject):
         if self._obj.FinCanStyle == FINCAN_STYLE_SLEEVE:
             self._finForm.canDiameterLabel.setText(translate('Rocket', "Inner Diameter"))
             self._finForm.canLeadingGroup.setHidden(False)
-            self._finForm.couplerGroup.setEnabled(False)
+            if self._isAssembly:
+                self._finForm.couplerGroup.setEnabled(False)
+            else:
+                self._finForm.couplerGroup.setEnabled(True)
             self._obj.Coupler = False
         else:
             self._finForm.canDiameterLabel.setText(translate('Rocket', "Outer Diameter"))
-            self._finForm.canLeadingGroup.setHidden(True)
+            if self._isAssembly:
+                self._finForm.canLeadingGroup.setHidden(True)
+            else:
+                self._finForm.canLeadingGroup.setHidden(False)
             self._finForm.couplerGroup.setEnabled(True)
         self._finForm.couplerGroup.setChecked(self._obj.Coupler)
-
-        self._finForm.canStylesCombo.setEnabled(True)
-        # if self._isAssembly:
-        #     self._finForm.canStylesCombo.setEnabled(True)
-        # else:
-        #     self._finForm.canStylesCombo.setEnabled(False)
-
-    def onCanStyle(self, value):
-        self._obj.Proxy.setFinCanStyle(value)
-        # self._obj.FinCanStyle = value
-        self._setCanStyle()
-
-        self.redraw()
-        self.setEdited()
     
     def onCanDiameter(self, value):
         try:

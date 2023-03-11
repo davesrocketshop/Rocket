@@ -166,6 +166,9 @@ class FeatureFinCan(SymmetricComponent, FeatureFin):
         else:
             self.setFinCanStyle(FINCAN_STYLE_SLEEVE)
 
+        # Do the positioning with and new positioning method
+        super().update()
+
         # Ensure any automatic variables are set
         self.setParentDiameter()
         # self.getTubeOuterDiameter()
@@ -189,6 +192,7 @@ class FeatureFinCan(SymmetricComponent, FeatureFin):
             raise Exception(translate('Rocket', "Unknown fin can style"))
         
         self.setAxialMethod(method)
+        self._setAxialOffset(self._obj.AxialMethod, 0)
 
     def _setFinCanEditorVisibility(self):
         self._obj.setEditorMode('Ttw', EDITOR_HIDDEN)  # hide
