@@ -106,7 +106,6 @@ class FinEllipseShapeHandler(FinShapeHandler):
         for i in range(CROSS_SECTIONS):
             height = i * float(self._obj.Height) / float(CROSS_SECTIONS)
             radius = self._radiusAt(float(self._obj.RootChord), float(self._obj.Height), height)
-            print("height %f, radius %f" % (height, radius))
             if tapered:
                 thickness = 2.0 * self._radiusAt(float(self._obj.RootThickness) / 2.0, float(self._obj.Height), height)
             else:
