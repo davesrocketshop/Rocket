@@ -64,7 +64,7 @@ class RocketWorkbench ( Workbench ):
         # self.appendToolbar(QT_TRANSLATE_NOOP('Rocket', 'Rocket'),
         #                 ['Separator', 'Rocket_ParachuteGore'])
         self.appendToolbar(QT_TRANSLATE_NOOP('Rocket', 'Rocket'),
-                        ['Separator', 'Rocket_FinFlutter', "Rocket_MaterialEditor", 'Rocket_MaterialMapping'])
+                        ['Separator', 'Rocket_FinFlutter', "Rocket_MaterialEditor"])
                         # ['Separator', 'Rocket_FinFlutter', 'Rocket_FemAnalysis', 'FEM_MeshGmshFromShape', "Rocket_MaterialEditor", 'Rocket_MaterialMapping'])
 
         self.appendMenu(QT_TRANSLATE_NOOP('Rocket', 'Rocket'), 
@@ -79,7 +79,7 @@ class RocketWorkbench ( Workbench ):
                         ['Rocket_CalcBlackPowder', 'Rocket_CalcParachute', 'Rocket_CalcThrustToWeight', 'Rocket_CalcVentHoles'])
         self.appendMenu([QT_TRANSLATE_NOOP("Rocket", "Rocket"),
                          QT_TRANSLATE_NOOP("Rocket", "Analysis")],
-                        ['Rocket_FinFlutter', "Rocket_MaterialEditor", 'Rocket_MaterialMapping'])
+                        ['Rocket_FinFlutter', "Rocket_MaterialEditor"])
                         # ['Rocket_FinFlutter', 'Rocket_FemAnalysis', 'FEM_MeshGmshFromShape', "Rocket_MaterialEditor", 'Rocket_MaterialMapping'])
 
     def GetClassName(self):
