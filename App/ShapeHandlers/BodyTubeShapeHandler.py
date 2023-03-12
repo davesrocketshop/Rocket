@@ -27,7 +27,7 @@ __url__ = "https://www.davesrocketshop.com"
 import FreeCAD
 import Part
 
-from App.Utilities import _err
+from App.Utilities import validationError
 from DraftTools import translate
 
 class BodyTubeShapeHandler():
@@ -48,13 +48,13 @@ class BodyTubeShapeHandler():
         
         # Perform some general validations
         if self._ID <= 0:
-            # _err(translate('Rocket', "Body tube inner diameter must be greater than zero"))
+            validationError(translate('Rocket', "Body tube inner diameter must be greater than zero"))
             return False
         if self._OD <= self._ID:
-            # _err(translate('Rocket', "Body tube outer diameter must be greater than the inner"))
+            validationError(translate('Rocket', "Body tube outer diameter must be greater than the inner"))
             return False
         if self._length <= 0:
-            # _err(translate('Rocket', "Body tube length must be greater than zero"))
+            validationError(translate('Rocket', "Body tube length must be greater than zero"))
             return False
 
         return True

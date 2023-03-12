@@ -30,7 +30,7 @@ import Part
 from DraftTools import translate
 
 from App.ShapeHandlers.BulkheadShapeHandler import BulkheadShapeHandler
-from App.Utilities import _err, _wrn
+from App.Utilities import validationError
 
 class CenteringRingShapeHandler(BulkheadShapeHandler):
     def __init__(self, obj):
@@ -48,31 +48,31 @@ class CenteringRingShapeHandler(BulkheadShapeHandler):
 
         # Perform some general validations
         # if self._centerDiameter <= 0:
-        #     _wrn(translate('Rocket', "Centering ring has no hole, as the center diameter must be greater than zero"))
+        #     validationError(translate('Rocket', "Centering ring has no hole, as the center diameter must be greater than zero"))
 
         if self._centerDiameter >= self._diameter:
-            # _err(translate('Rocket', "Centering ring center diameter must be less than the outer diameter"))
+            validationError(translate('Rocket', "Centering ring center diameter must be less than the outer diameter"))
             return False
 
         if self._step:
             if self._centerDiameter >= self._stepDiameter:
-                # _err(translate('Rocket', "Centering ring center diameter must be less than the step diameter"))
+                validationError(translate('Rocket', "Centering ring center diameter must be less than the step diameter"))
                 return False
 
         if self._notched:
             if self._notchWidth > self._centerDiameter:
-                # _err(translate('Rocket', "The notch width must be less than or equal to the center diameter"))
+                validationError(translate('Rocket', "The notch width must be less than or equal to the center diameter"))
                 return False
             if self._notchWidth <= 0:
-                # _err(translate('Rocket', "The notch width must be greater than zero"))
+                validationError(translate('Rocket', "The notch width must be greater than zero"))
                 return False
             if self._notchHeight <= 0:
-                # _err(translate('Rocket', "The notch height must be greater than zero"))
+                validationError(translate('Rocket', "The notch height must be greater than zero"))
                 return False
 
         if self._holes:
             if self._holeCenter - (self._holeDiameter / 2.0) <= (self._centerDiameter / 2.0):
-                # _err(translate('Rocket', "Hole extends inside the center diameter"))
+                validationError(translate('Rocket', "Hole extends inside the center diameter"))
                 return False
 
         return True

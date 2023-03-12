@@ -30,13 +30,13 @@ from DraftTools import translate
 
 from App.ShapeHandlers.TransitionShapeHandler import TransitionShapeHandler
 
-from App.Utilities import _err
+from App.Utilities import validationError
     
 class TransitionPowerShapeHandler(TransitionShapeHandler):
 
     def isValidShape(self):
         if self._coefficient <= 0 or self._coefficient > 1:
-            # _err(translate('Rocket', "For %s transitions the coefficient must be in the range (0 < coefficient <= 1)") % self._type)
+            validationError(translate('Rocket', "For %s transitions the coefficient must be in the range (0 < coefficient <= 1)") % self._type)
             return False
         return super().isValidShape()
             

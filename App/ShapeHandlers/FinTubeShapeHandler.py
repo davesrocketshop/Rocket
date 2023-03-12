@@ -29,7 +29,7 @@ import Part
 
 from DraftTools import translate
     
-from App.Utilities import _err
+from App.Utilities import validationError
 
 from App.ShapeHandlers.FinShapeHandler import FinShapeHandler
 
@@ -41,7 +41,7 @@ class FinTubeShapeHandler(FinShapeHandler):
     def isValidShape(self):
         # Add error checking here
         if self._obj.Ttw:
-            # _err(translate('Rocket', "Ttw tabs are not supported for tube fins"))
+            validationError(translate('Rocket', "Ttw tabs are not supported for tube fins"))
             return False
         return super().isValidShape()
 

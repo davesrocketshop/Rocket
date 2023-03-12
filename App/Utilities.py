@@ -39,6 +39,14 @@ def _err(message):
     """Write errors  to the console including the line ending."""
     FreeCAD.Console.PrintError(message + "\n")
 
+def validationError(message):
+    """
+        Write errors  to the console including the line ending.
+        Placeholder for future error handling
+    """
+    # FreeCAD.Console.PrintError(message + "\n")
+    pass
+
 def _trace(className, functionName, message = None):
     """Write errors  to the console including the line ending."""
     trace = True

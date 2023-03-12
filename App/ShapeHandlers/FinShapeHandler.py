@@ -34,7 +34,7 @@ from App.Constants import FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, 
     FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE, FIN_CROSS_BICONVEX, FIN_CROSS_ELLIPSE
 from App.Constants import FIN_DEBUG_FULL, FIN_DEBUG_PROFILE_ONLY, FIN_DEBUG_MASK_ONLY
 
-from App.Utilities import _err
+from App.Utilities import _err, validationError
 
 class FinShapeHandler:
 
@@ -362,16 +362,16 @@ class FinShapeHandler:
         # Add error checking here
         if self._obj.Ttw:
             if self._obj.TtwOffset >= self._obj.RootChord:
-                # _err(translate('Rocket', "Ttw offset must be less than the root chord"))
+                validationError(translate('Rocket', "Ttw offset must be less than the root chord"))
                 return False
             if self._obj.TtwLength <= 0:
-                # _err(translate('Rocket', "Ttw length must be greater than 0"))
+                validationError(translate('Rocket', "Ttw length must be greater than 0"))
                 return False
             if self._obj.TtwHeight <= 0:
-                # _err(translate('Rocket', "Ttw height must be greater than 0"))
+                validationError(translate('Rocket', "Ttw height must be greater than 0"))
                 return False
             if self._obj.TtwThickness <= 0:
-                # _err(translate('Rocket', "Ttw thickness must be greater than 0"))
+                validationError(translate('Rocket', "Ttw thickness must be greater than 0"))
                 return False
         return True
 

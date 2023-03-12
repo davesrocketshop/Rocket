@@ -30,13 +30,13 @@ import math
 from DraftTools import translate
 
 from App.ShapeHandlers.NoseShapeHandler import NoseShapeHandler
-from App.Utilities import _err
+from App.Utilities import validationError
     
 class NoseHaackShapeHandler(NoseShapeHandler):
 
     def isValidShape(self):
         if self._coefficient < 0:
-            # _err(translate('Rocket', "For %s nose cones the coefficient must be >= 0") % self._type)
+            validationError(translate('Rocket', "For %s nose cones the coefficient must be >= 0") % self._type)
             return False
         return super().isValidShape()
 

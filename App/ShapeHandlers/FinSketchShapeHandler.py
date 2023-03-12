@@ -33,7 +33,7 @@ from App.Constants import FIN_CROSS_SQUARE, FIN_CROSS_WEDGE, \
     FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE
 
 from App.ShapeHandlers.FinShapeHandler import FinShapeHandler
-from App.Utilities import _err
+from App.Utilities import _err, validationError
 
 class FinSketchShapeHandler(FinShapeHandler):
 
@@ -42,17 +42,17 @@ class FinSketchShapeHandler(FinShapeHandler):
 
     def verifyShape(self, shape):
         if shape is None:
-            _err(translate('Rocket', "shape is empty"))
+            validationError(translate('Rocket', "shape is empty"))
             return False
 
         if issubclass(type(shape), Part.Compound):
-            _err(translate('Rocket', "Compound objects not supported"))
+            validationError(translate('Rocket', "Compound objects not supported"))
             return False
 
         # Verify the shape creates a closed face
         face = Part.Face(shape.Wires)
         if not face.isValid():
-            _err(translate('Rocket', "Sketch must create a valid face"))
+            validationError(translate('Rocket', "Sketch must create a valid face"))
             return False
         return True
 

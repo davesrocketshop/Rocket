@@ -32,7 +32,7 @@ from DraftTools import translate
 
 from App.Constants import FINCAN_EDGE_SQUARE, FINCAN_EDGE_ROUND, FINCAN_EDGE_TAPER
 from App.Constants import FINCAN_COUPLER_STEPPED
-from App.Utilities import _err
+from App.Utilities import validationError
 
 from App.ShapeHandlers.FinShapeHandler import FinShapeHandler
 from App.ShapeHandlers.FinTrapezoidShapeHandler import FinTrapezoidShapeHandler
@@ -49,10 +49,10 @@ class FinCanShapeHandler(FinShapeHandler):
 
     def isValidShape(self):
         if self._obj.Thickness <= 0.0:
-            # _err(translate('Rocket', "Fin can thickness must be greater than zero"))
+            validationError(translate('Rocket', "Fin can thickness must be greater than zero"))
             return False
         if self._obj.Length <= 0.0:
-            # _err(translate('Rocket', "Fin can length must be greater than zero"))
+            validationError(translate('Rocket', "Fin can length must be greater than zero"))
             return False
 
         edge = 0.0
@@ -61,24 +61,24 @@ class FinCanShapeHandler(FinShapeHandler):
         if self._obj.TrailingEdge != FINCAN_EDGE_SQUARE:
             edge += float(self._obj.TrailingLength)
         if edge > self._obj.Length:
-            # _err(translate('Rocket', "Fin can leading and trailing edges can not exceed total length"))
+            validationError(translate('Rocket', "Fin can leading and trailing edges can not exceed total length"))
             return False
 
         if self._obj.Coupler:
             if self._obj.CouplerLength <= 0:
-                # _err(translate('Rocket', "Coupler length must be greater than zero"))
+                validationError(translate('Rocket', "Coupler length must be greater than zero"))
                 return False
             if self._obj.CouplerThickness <= 0:
-                # _err(translate('Rocket', "Coupler thickness must be greater than zero"))
+                validationError(translate('Rocket', "Coupler thickness must be greater than zero"))
                 return False
             if self._obj.CouplerDiameter <= (2 * self._obj.CouplerThickness):
-                # _err(translate('Rocket', "Coupler outer diameter must be greater than the inner diameter"))
+                validationError(translate('Rocket', "Coupler outer diameter must be greater than the inner diameter"))
                 return False
             if (self._obj.CouplerDiameter - 2 * self._obj.CouplerThickness) > self._obj.Diameter:
-                # _err(translate('Rocket', "Coupler inner diameter must be less than or equal to the fin can inner diameter"))
+                validationError(translate('Rocket', "Coupler inner diameter must be less than or equal to the fin can inner diameter"))
                 return False
             if self._obj.CouplerDiameter >= (self._obj.Diameter + 2 * self._obj.Thickness):
-                # _err(translate('Rocket', "Coupler outer diameter must be less than fin can outer diameter"))
+                validationError(translate('Rocket', "Coupler outer diameter must be less than fin can outer diameter"))
                 return False
 
         return super().isValidShape()

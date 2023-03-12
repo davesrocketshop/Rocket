@@ -35,7 +35,7 @@ from App.Constants import STYLE_CAPPED, STYLE_HOLLOW, STYLE_SOLID
 from App.Constants import STYLE_CAP_BAR, STYLE_CAP_CROSS
 from App.Constants import TYPE_BLUNTED_CONE, TYPE_BLUNTED_OGIVE, TYPE_SECANT_OGIVE
 
-from App.Utilities import _err
+from App.Utilities import _err, validationError
 
 class NoseShapeHandler():
     def __init__(self, obj):
@@ -77,29 +77,29 @@ class NoseShapeHandler():
         # Perform some general validations
         if self._style in [STYLE_HOLLOW, STYLE_CAPPED]:
             if self._thickness <= 0:
-                # _err(translate('Rocket', "For %s nose cones thickness must be > 0") % self._style)
+                validationError(translate('Rocket', "For %s nose cones thickness must be > 0") % self._style)
                 return False
             if self._thickness >= self._radius:
-                # _err(translate('Rocket', "Nose cones thickness must be less than the nose cone radius"))
+                validationError(translate('Rocket', "Nose cones thickness must be less than the nose cone radius"))
                 return False
         if self._type in [TYPE_BLUNTED_CONE, TYPE_BLUNTED_OGIVE]:
             if self._noseRadius >= self._radius:
-                # _err(translate('Rocket', "Nose diameter must be less than the base diameter"))
+                validationError(translate('Rocket', "Nose diameter must be less than the base diameter"))
                 return False
             if self._noseRadius <= 0:
-                # _err(translate('Rocket', "Nose diameter must be greater than zero"))
+                validationError(translate('Rocket', "Nose diameter must be greater than zero"))
                 return False
         if self._type == TYPE_SECANT_OGIVE:
             minDiameter = math.sqrt(self._length * self._length + self._radius * self._radius)
             if self._ogiveRadius < (minDiameter / 2.0):
-                # _err(translate('Rocket', "Ogive diameter must be greater than %f (sqrt(length^2 + radius^2))" % minDiameter))
+                validationError(translate('Rocket', "Ogive diameter must be greater than %f (sqrt(length^2 + radius^2))" % minDiameter))
                 return False
         if self._shoulder:
             if self._shoulderLength <= 0:
-                # _err(translate('Rocket', "Shoulder length must be > 0"))
+                validationError(translate('Rocket', "Shoulder length must be > 0"))
                 return False
             if self._shoulderRadius <= 0:
-                # _err(translate('Rocket', "Shoulder diameter must be > 0"))
+                validationError(translate('Rocket', "Shoulder diameter must be > 0"))
                 return False
             if self._shoulderRadius > self._radius:
                 if self._shoulderAutoDiameter:
@@ -107,14 +107,14 @@ class NoseShapeHandler():
                 elif self._autoDiameter:
                     self._shoulderRadius = self._radius - 0.001
                 else:
-                    # _err(translate('Rocket', "Shoulder diameter can not exceed the nose cone diameter"))
+                    validationError(translate('Rocket', "Shoulder diameter can not exceed the nose cone diameter"))
                     return False
             if self._style in [STYLE_HOLLOW, STYLE_CAPPED]:
                 if self._shoulderThickness <= 0:
-                    # _err(translate('Rocket', "For %s nose cones with a shoulder, shoulder thickness must be > 0") % self._style)
+                    validationError(translate('Rocket', "For %s nose cones with a shoulder, shoulder thickness must be > 0") % self._style)
                     return False
                 if self._shoulderThickness >= self._shoulderRadius:
-                    # _err(translate('Rocket', "Shoulder thickness must be less than the shoulder radius"))
+                    validationError(translate('Rocket', "Shoulder thickness must be less than the shoulder radius"))
                     return False
 
         return True

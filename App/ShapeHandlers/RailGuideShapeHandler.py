@@ -30,7 +30,7 @@ import math
 
 from App.Constants import RAIL_GUIDE_BASE_CONFORMAL, RAIL_GUIDE_BASE_V
 
-from App.Utilities import _err
+from App.Utilities import _err, validationError
 from DraftTools import translate
 
 TOLERANCE_OFFSET = 0.5     # Distance to offset a vertex
@@ -71,58 +71,58 @@ class RailGuideShapeHandler():
     def isValidShape(self):
         # Perform some general validations
         if self._middleWidth <= 0:
-            # _err(translate('Rocket', "Middle width must be greater than zero"))
+            validationError(translate('Rocket', "Middle width must be greater than zero"))
             return False
 
         if self._topWidth <= self._middleWidth:
-            # _err(translate('Rocket', "Top width must be greater than the middle width"))
+            validationError(translate('Rocket', "Top width must be greater than the middle width"))
             return False
 
         if self._baseWidth <= self._middleWidth:
-            # _err(translate('Rocket', "Base width must be greater than the middle width"))
+            validationError(translate('Rocket', "Base width must be greater than the middle width"))
             return False
 
         if self._topThickness <= 0:
-            # _err(translate('Rocket', "Top thickness must be greater than zero"))
+            validationError(translate('Rocket', "Top thickness must be greater than zero"))
             return False
 
         if self._baseThickness <= 0:
-            # _err(translate('Rocket', "Base thickness must be greater than zero"))
+            validationError(translate('Rocket', "Base thickness must be greater than zero"))
             return False
 
         if self._thickness <= (self._topThickness + self._baseThickness):
-            # _err(translate('Rocket', "Total thickness must be greater than the sum of top and base thickness"))
+            validationError(translate('Rocket', "Total thickness must be greater than the sum of top and base thickness"))
             return False
 
         if self._length <= 0:
-            # _err(translate('Rocket', "Length must be greater than zero"))
+            validationError(translate('Rocket', "Length must be greater than zero"))
             return False
 
         if self._forwardSweep:
             if (self._forwardSweepAngle <= 0.0) or (self._forwardSweepAngle >= 90.0):
-                # _err(translate('Rocket', "Forward sweep angle must be greater than 0 degrees and less than 90 degrees"))
+                validationError(translate('Rocket', "Forward sweep angle must be greater than 0 degrees and less than 90 degrees"))
                 return False
 
         if self._aftSweep:
             if (self._aftSweepAngle <= 0.0) or (self._aftSweepAngle >= 90.0):
-                # _err(translate('Rocket', "Aft sweep angle must be greater than 0 degrees and less than 90 degrees"))
+                validationError(translate('Rocket', "Aft sweep angle must be greater than 0 degrees and less than 90 degrees"))
                 return False
 
         if self._notch:
             if self._notchWidth <= 0:
-                # _err(translate('Rocket', "Notch width must be greater than zero"))
+                validationError(translate('Rocket', "Notch width must be greater than zero"))
                 return False
 
             if self._notchWidth >= self._middleWidth:
-                # _err(translate('Rocket', "Notch width can not exceed the middle width"))
+                validationError(translate('Rocket', "Notch width can not exceed the middle width"))
                 return False
 
             if self._notchDepth <= 0:
-                # _err(translate('Rocket', "Notch depth must be greater than zero"))
+                validationError(translate('Rocket', "Notch depth must be greater than zero"))
                 return False
 
             if self._notchDepth >= self._thickness:
-                # _err(translate('Rocket', "Notch depth can not exceed the total thickness"))
+                validationError(translate('Rocket', "Notch depth can not exceed the total thickness"))
                 return False
 
         return True

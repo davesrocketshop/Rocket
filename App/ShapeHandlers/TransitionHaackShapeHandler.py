@@ -30,13 +30,13 @@ from DraftTools import translate
 
 from App.ShapeHandlers.TransitionShapeHandler import TransitionShapeHandler
 
-from App.Utilities import _err    
+from App.Utilities import validationError    
     
 class TransitionHaackShapeHandler(TransitionShapeHandler):
 
     def isValidShape(self):
         if self._coefficient < 0:
-            # _err(translate('Rocket', "For %s transitions the coefficient must be >= 0") % self._type)
+            validationError(translate('Rocket', "For %s transitions the coefficient must be >= 0") % self._type)
             return False
         return super().isValidShape()
 
