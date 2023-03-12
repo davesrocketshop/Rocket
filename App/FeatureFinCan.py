@@ -217,17 +217,54 @@ class FeatureFinCan(SymmetricComponent, FeatureFin):
         else:
             self.setParentDiameter(parentRadius * 2.0)
         
+    def setParentDiameterAuto(self):
+        if self._obj.FinCanStyle == FINCAN_STYLE_BODYTUBE:
+            # Return auto radius from front or rear
+            d = -1
+            inner = -1
+            c = self.getPreviousSymmetricComponent()
+            # Don't use the radius of a component who already has its auto diameter enabled
+            if c is not None and not c.usesNextCompAutomatic():
+                d = c.getFrontAutoDiameter()
+                inner = c.getFrontAutoInnerDiameter()
+                self._refComp = c
+            if d < 0:
+                c = self.getNextSymmetricComponent()
+                # Don't use the radius of a component who already has its auto diameter enabled
+                if c is not None and not c.usesPreviousCompAutomatic():
+                    d = c.getRearAutoDiameter()
+                    inner = c.getRearAutoInnerDiameter()
+                    self._refComp = c
+
+            if d < 0:
+                d = self.DEFAULT_RADIUS * 2.0
+            if inner < 0:
+                inner = d - (2.0 * float(self._obj.Thickness))
+            self._obj.ParentRadius = (d / 2.0)
+            self._obj.Diameter = d - (2.0 * float(self._obj.Thickness))
+            if self._obj.Coupler and self._obj.CouplerAutoDiameter:
+                self._obj.CouplerDiameter = inner
+                self._obj.CouplerThickness = max(self._obj.CouplerThickness,
+                                                 (self._obj.CouplerDiameter - self._obj.Diameter) / 2.0)
+        else:
+            super().setParentDiameter()
+            self._obj.Diameter = self._obj.ParentRadius * 2.0
+
     def setParentDiameter(self, parentDiameter=None):
+        if self._obj.AutoDiameter:
+            self.setParentDiameterAuto()
+            return
+        
         if parentDiameter is None:
             super().setParentDiameter()
             self._obj.Diameter = self._obj.ParentRadius * 2.0
         else:
-            if self._obj.AutoDiameter and self._obj.ParentRadius != (parentDiameter / 2.0):
+            if self._obj.ParentRadius != (parentDiameter / 2.0):
                 self._obj.ParentRadius = (parentDiameter / 2.0)
                 self._obj.Diameter = parentDiameter
 
         if self._obj.FinCanStyle == FINCAN_STYLE_BODYTUBE:
-            self._obj.Diameter = self._obj.Diameter - (2.0 * self._obj.Thickness)
+            self._obj.Diameter = float(self._obj.Diameter) - (2.0 * float(self._obj.Thickness))
 
     def execute(self, obj):
         if obj.FinType == FIN_TYPE_TRAPEZOID:

@@ -77,7 +77,7 @@ class FinCanShapeHandler(FinShapeHandler):
             if (self._obj.CouplerDiameter - 2 * self._obj.CouplerThickness) > self._obj.Diameter:
                 # _err(translate('Rocket', "Coupler inner diameter must be less than or equal to the fin can inner diameter"))
                 return False
-            if self._obj.CouplerDiameter >= (self._obj.Diameter + self._obj.Thickness):
+            if self._obj.CouplerDiameter >= (self._obj.Diameter + 2 * self._obj.Thickness):
                 # _err(translate('Rocket', "Coupler outer diameter must be less than fin can outer diameter"))
                 return False
 
