@@ -39,6 +39,8 @@ from PySide2.QtCharts import QtCharts
 
 from Analyzers.FinFlutter import FinFlutter
 
+from App.Material import Material
+
 class ChartView(QtCharts.QChartView):
     # Modified code from what is found here https://stackoverflow.com/questions/60058507/draw-cursor-on-a-qchartview-object
     _x = None
@@ -422,28 +424,8 @@ class DialogFinFlutter(QDialog):
     
     def fillExistingCombo(self):
         "fills the combo with the existing FCMat cards"
-        # look for cards in both resources dir and a Materials sub-folder in the user folder.
-        # User cards with same name will override system cards
-        paths = [pathlib.Path(FreeCAD.getResourceDir(), "Mod/Material/StandardMaterial")]
-        ap = pathlib.Path(FreeCAD.getUserAppDataDir(), "Material")
-        if ap.exists():
-            paths.append(ap)
-
-        # Look for Rocket WB defined materials
-        ap = pathlib.Path(FreeCAD.getUserAppDataDir(), "Mod/Rocket/Resources/Material")
-        if ap.exists():
-            paths.append(ap)
-
-        self._cards = {}
-        for p in paths:
-            print("Checking path '{0}'".format(p))
-            for f in os.listdir(p):
-                b,e = os.path.splitext(f)
-                if e.upper() == ".FCMAT":
-                    print("add card for '{0}'".format(f))
-                    self._cards[b] = p / f
-
         self.materialPresetCombo.addItem('')
+        self._cards = Material.materialDictionary()
         if self._cards:
             for k in sorted(self._cards.keys()):
                 self.materialPresetCombo.addItem(k)
@@ -477,7 +459,7 @@ class DialogFinFlutter(QDialog):
     def onMaterialChanged(self, card):
         "sets self._material from a card"
         if card in self._cards:
-            self._material = importFCMat.read(self._cards[card])
+            self._material = Material.lookup(card)
             if "ShearModulus" in self._material:
                 self.shearInput.setText(self._formatPressure(FreeCAD.Units.Quantity(self._material["ShearModulus"])))
             else:
