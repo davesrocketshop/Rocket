@@ -28,6 +28,7 @@ import FreeCAD
 
 from App.Importer.OpenRocket.SaxElement import Element, NullElement
 from App.Importer.OpenRocket.AppearanceElement import AppearanceElement
+from App.Importer.OpenRocket.MaterialElement import MaterialElement
 from App.Constants import LOCATION_PARENT_TOP, LOCATION_PARENT_MIDDLE, LOCATION_PARENT_BOTTOM, \
     LOCATION_BASE, LOCATION_AFTER
 from App.position.AxialMethod import AXIAL_METHOD_MAP
@@ -37,8 +38,15 @@ class ComponentElement(Element):
     def __init__(self, parent, tag, attributes, parentObj, filename, line):
         super().__init__(parent, tag, attributes, parentObj, filename, line)
 
+        # self._validChildren = { 'finish' : NullElement,
+        #                         'material' : MaterialElement,
+        #                       }
+
         self._componentTags = ["name", "color", "linestyle", "position", "axialoffset", "overridemass", "overridecg", "overridecd", 
             "overridesubcomponents", "overridesubcomponentsmass", "overridesubcomponentscg", "overridesubcomponentscd", "comment", "preset", "finish", "material"]
+
+        self._materialType = None
+        self._materialDensity = None
 
     def handleTag(self, tag, attributes):
         _tag = tag.lower().strip()
@@ -66,6 +74,11 @@ class ComponentElement(Element):
                 self.onPositionType(LOCATION_PARENT_BOTTOM)
             else:
                 self.onPositionType(LOCATION_BASE)
+        elif _tag == "material":
+            self._materialType = attributes["type"]
+            self._materialDensity = attributes["density"]
+            # for key,value in attributes.items():
+            #     print("\tMaterial attribute '{0}[{1}]'".format(key, value))
         else:
             super().handleTag(tag, attributes)
 
@@ -99,6 +112,9 @@ class ComponentElement(Element):
             self.onComment(content)
         elif _tag == "preset":
             self.onPreset(content)
+        elif _tag == "material":
+            # print("Material '{0}'".format(content))
+            self._feature._obj.Material = content
         else:
             super().handleEndTag(tag, content)
 
@@ -162,7 +178,7 @@ class ExternalComponentElement(ComponentElement):
         super().__init__(parent, tag, attributes, parentObj, filename, line)
 
         self._validChildren = { 'finish' : NullElement,
-                                'material' : NullElement,
+                                # 'material' : MaterialElement,
                                 'appearance' : AppearanceElement,
                                 'inside-appearance' : NullElement
                               }
