@@ -29,6 +29,7 @@ from App.RocketComponentShapeless import RocketComponentShapeless
 
 from App.Constants import LOCATION_PARENT_TOP, LOCATION_PARENT_MIDDLE, LOCATION_PARENT_BOTTOM, LOCATION_BASE
 from App.Constants import LOCATION_SURFACE, LOCATION_CENTER
+from App.Constants import MATERIAL_SPEC_FREECAD, MATERIAL_SPEC_OPENROCKET
 
 from App.position.AxialMethod import AXIAL_METHOD_MAP
 from App.interfaces.ChangeSource import ChangeSource
@@ -49,6 +50,18 @@ class RocketComponent(RocketComponentShapeless, ChangeSource):
             obj.addProperty('App::PropertyString', 'PartNumber', 'RocketComponent', translate('App::Property', 'Component manufacturer part number')).PartNumber = ""
         if not hasattr(obj, 'Material'):
             obj.addProperty('App::PropertyString', 'Material', 'RocketComponent', translate('App::Property', 'Component material')).Material = ""
+        if not hasattr(obj, 'MaterialStandard'):
+            obj.addProperty('App::PropertyEnumeration', 'MaterialStandard', 'RocketComponent', translate('App::Property', 'Standard used to specify the material'))
+            obj.MaterialStandard = [
+                        MATERIAL_SPEC_FREECAD,
+                        MATERIAL_SPEC_OPENROCKET
+                    ]
+            obj.MaterialStandard = MATERIAL_SPEC_OPENROCKET
+        else:
+            obj.MaterialStandard = [
+                        MATERIAL_SPEC_FREECAD,
+                        MATERIAL_SPEC_OPENROCKET
+                    ]
         if not hasattr(obj, 'Description'):
             obj.addProperty('App::PropertyString', 'Description', 'RocketComponent', translate('App::Property', 'Component description')).Description = ""
         
@@ -61,6 +74,13 @@ class RocketComponent(RocketComponentShapeless, ChangeSource):
                         LOCATION_BASE
                     ]
             obj.LocationReference = LOCATION_PARENT_BOTTOM
+        else:
+            obj.LocationReference = [
+                        LOCATION_PARENT_TOP,
+                        LOCATION_PARENT_MIDDLE,
+                        LOCATION_PARENT_BOTTOM,
+                        LOCATION_BASE
+                    ]
        
         if not hasattr(obj, 'RadialReference'):
             obj.addProperty('App::PropertyEnumeration', 'RadialReference', 'RocketComponent', translate('App::Property', 'Reference location for the radial offset'))
@@ -69,6 +89,11 @@ class RocketComponent(RocketComponentShapeless, ChangeSource):
                         LOCATION_CENTER
                     ]
             obj.RadialReference = LOCATION_SURFACE
+        else:
+            obj.RadialReference = [
+                        LOCATION_SURFACE,
+                        LOCATION_CENTER
+                    ]
 
         if not hasattr(obj, 'RadialOffset'):
             obj.addProperty('App::PropertyDistance', 'RadialOffset', 'RocketComponent', translate('App::Property', 'Radial offset from the reference')).RadialOffset = 0.0

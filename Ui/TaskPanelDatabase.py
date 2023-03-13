@@ -34,6 +34,8 @@ from PySide.QtCore import QObject, Signal
 from PySide2.QtWidgets import QDialog, QGridLayout
 
 from App.Parts.PartDatabase import PartDatabase
+from App.Constants import MATERIAL_SPEC_FREECAD, MATERIAL_SPEC_OPENROCKET
+
 from Ui.DialogLookup import DialogLookup
 
 class _databaseLookupDialog(QDialog):
@@ -67,6 +69,15 @@ class _databaseLookupDialog(QDialog):
         self.materialInput = QtGui.QLineEdit(self)
         self.materialInput.setMinimumWidth(100)
 
+        self.materialStandardLabel = QtGui.QLabel(translate('Rocket', "Material Standard"), self)
+
+        self.materialStandards = (
+            MATERIAL_SPEC_FREECAD, 
+            MATERIAL_SPEC_OPENROCKET
+            )
+        self.materialStandardsCombo = QtGui.QComboBox(self)
+        self.materialStandardsCombo.addItems(self.materialStandards)
+
         self.lookupButton = QtGui.QPushButton(translate('Rocket', "Lookup..."), self)
 
         layout = QGridLayout()
@@ -86,6 +97,10 @@ class _databaseLookupDialog(QDialog):
 
         layout.addWidget(self.materialLabel, n, 0)
         layout.addWidget(self.materialInput, n, 1)
+        n += 1
+
+        layout.addWidget(self.materialStandardLabel, n, 0)
+        layout.addWidget(self.materialStandardsCombo, n, 1)
         n += 1
 
         layout.addWidget(self.lookupButton, n, 1)

@@ -43,6 +43,7 @@ from Ui.Commands.CmdSketcher import newSketchNoEdit
 from App.Constants import FIN_TYPE_TRAPEZOID, FIN_TYPE_TRIANGLE, FIN_TYPE_ELLIPSE, FIN_TYPE_TUBE, FIN_TYPE_SKETCH
 from App.Constants import FIN_CROSS_SAME, FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE, \
     FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE, FIN_CROSS_BICONVEX, FIN_CROSS_ELLIPSE
+from App.Constants import MATERIAL_SPEC_FREECAD, MATERIAL_SPEC_OPENROCKET
 
 from App.Utilities import _err, _toFloat
 
@@ -58,9 +59,11 @@ class _FinDialog(QDialog):
         self.tabWidget = QtGui.QTabWidget()
         self.tabGeneral = QtGui.QWidget()
         self.tabTtw = QtGui.QWidget()
+        self.tabMaterial = QtGui.QWidget()
         self.tabComment = QtGui.QWidget()
         self.tabWidget.addTab(self.tabGeneral, translate('Rocket', "General"))
         self.tabWidget.addTab(self.tabTtw, translate('Rocket', "Fin Tabs"))
+        self.tabWidget.addTab(self.tabMaterial, translate('Rocket', "Material"))
         self.tabWidget.addTab(self.tabComment, translate('Rocket', "Comment"))
 
         layout = QVBoxLayout()
@@ -69,6 +72,7 @@ class _FinDialog(QDialog):
 
         self.setTabGeneral()
         self.setTabTtw()
+        self.setTabMaterial()
         self.setTabComment()
 
     def setTabGeneral(self):
@@ -430,8 +434,6 @@ class _FinDialog(QDialog):
 
     def setTabComment(self):
 
-        ui = FreeCADGui.UiLoader()
-
         self.commentLabel = QtGui.QLabel(translate('Rocket', "Comment"), self)
 
         self.commentInput = QTextEdit()
@@ -441,6 +443,38 @@ class _FinDialog(QDialog):
         layout.addWidget(self.commentInput)
 
         self.tabComment.setLayout(layout)
+
+    def setTabMaterial(self):
+
+        self.materialLabel = QtGui.QLabel(translate('Rocket', "Material"), self)
+
+        self.materialInput = QtGui.QLineEdit(self)
+        self.materialInput.setMinimumWidth(100)
+
+        self.materialStandardLabel = QtGui.QLabel(translate('Rocket', "Material Standard"), self)
+
+        self.materialStandards = (
+            MATERIAL_SPEC_FREECAD, 
+            MATERIAL_SPEC_OPENROCKET
+            )
+        self.materialStandardsCombo = QtGui.QComboBox(self)
+        self.materialStandardsCombo.addItems(self.materialStandards)
+
+        row = 0
+        grid = QGridLayout()
+
+        grid.addWidget(self.materialLabel, row, 0)
+        grid.addWidget(self.materialInput, row, 1)
+        row += 1
+
+        grid.addWidget(self.materialStandardLabel, row, 0)
+        grid.addWidget(self.materialStandardsCombo, row, 1)
+
+        layout = QVBoxLayout()
+        layout.addItem(grid)
+        layout.addItem(QtGui.QSpacerItem(0,0, QSizePolicy.Expanding, QSizePolicy.Expanding))
+
+        self.tabMaterial.setLayout(layout)
 
 class TaskPanelFin(QObject):
 
