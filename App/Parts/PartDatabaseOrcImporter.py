@@ -148,6 +148,7 @@ class MaterialElement(Element):
         # The default manufacturer is based on the filename
         manufacturers = {
             "preseed.orc" : "unspecified",
+            "openrocket_hardcoded.orc" : "unspecified",
             "apogee.orc" : "Apogee",
             "competition_chutes.orc" : "Generic competition",
             "bluetube.orc" : "Always Ready Rocketry",
