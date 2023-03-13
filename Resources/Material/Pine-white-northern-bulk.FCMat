@@ -1,5 +1,5 @@
 ; Pine-white-northern-bulk
-; no author
+; David Carter
 ; information about the content of such cards can be found on the wiki:
 ; https://www.freecadweb.org/wiki/Material
 ; file created by FreeCAD 0.20.29177 (Git)
@@ -7,7 +7,7 @@
 [General]
 Name = Pine-white-northern-bulk
 Description = Northern white pine
-Father = None
+KindOfMaterial = Solid
 ReferenceSource = https://www.matweb.com/search/datasheet.aspx?MatGUID=9412b2f342c7407abfecfa1420560b37
 SourceURL = https://en.wikipedia.org/wiki/Pinus_strobus
 

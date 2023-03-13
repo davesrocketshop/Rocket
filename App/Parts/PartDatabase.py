@@ -185,7 +185,7 @@ class PartDatabase:
 [General]
 Name = {0}
 Description = {0}
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = {1} kg/m^3
