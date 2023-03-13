@@ -154,3 +154,12 @@ def listMaterials(connection):
 
     rows = cursor.fetchall()
     return rows
+
+def listBulkMaterials(connection):
+    cursor = connection.cursor()
+
+    cursor.execute("SELECT material_index, manufacturer, material_name, type, density, units FROM material"
+                   + " WHERE type='BULK'")
+
+    rows = cursor.fetchall()
+    return rows

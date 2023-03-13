@@ -26,12 +26,14 @@ __url__ = "https://www.davesrocketshop.com"
 
 import sqlite3
 from os import walk
+import os
 
 import xml.sax
 
 from App.Parts.PartDatabaseOrcImporter import PartDatabaseOrcImporter
 from App.Parts.Component import Component
 from App.Parts.Exceptions import NotFoundError
+from App.Parts.Material import listBulkMaterials
 from App.Parts.Utilities import _msg
 
 class PartDatabase:
@@ -64,6 +66,7 @@ class PartDatabase:
 
         self._createTables(connection)
         self._importFiles(connection)
+        self._updateMaterials(connection)
 
         with open('dump.sql', 'w') as f:
             for line in connection.iterdump():
@@ -139,3 +142,52 @@ class PartDatabase:
 
     def _importRktPartFile(self, connection, filename):
         pass
+
+    def _updateMaterials(self, connection):
+        materials = listBulkMaterials(connection)
+        for material in materials:
+            # print(material['manufacturer'] + "," + material['material_name'])
+            name = self.materialFilename(material)
+            print("Filename '{0}'".format(name))
+            filename = self._rootFolder + "/Resources/Material/" + name + ".FCMat"
+            self.createMaterialCard(material, name, filename)
+
+    def materialFilename(self, material):
+        if material['manufacturer'] == 'unspecified':
+            name = material['material_name']
+        else:
+            name = material['manufacturer'] + "," + material['material_name']
+
+        name = name.replace('"', '')
+        name = name.replace('0.', '')
+        name = name.replace('.', '')
+        name = name.replace("'", '')
+        name = name.replace("(", '')
+        name = name.replace(")", '')
+        name = name.replace(", ", ',')
+        name = name.replace(",", '-')
+        name = name.replace("/", '-')
+        name = name.replace(" ", '-')
+        name = name.replace("_", '-')
+        
+        return name
+    
+    def createMaterialCard(self, material, name, filename):
+        if not os.path.exists(filename):
+            print("\tCreating {0}".format(filename))
+            with open(filename, 'w') as file:
+                file.write(
+"""
+; {0}
+; information about the content of such cards can be found on the wiki:
+; https://www.freecadweb.org/wiki/Material
+
+[General]
+Name = {0}
+Description = {0}
+Father = None
+
+[Mechanical]
+Density = {1} kg/m^3
+""".format(name, material["density"])
+                )
