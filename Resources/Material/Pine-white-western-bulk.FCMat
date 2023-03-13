@@ -1,0 +1,20 @@
+; Pine-white-western-bulk
+; David Carter
+; information about the content of such cards can be found on the wiki:
+; https://www.freecadweb.org/wiki/Material
+; file created by FreeCAD 0.20.29177 (Git)
+
+[General]
+Name = Pine-white-western-bulk
+Description = Western white pine
+Father = None
+ReferenceSource = https://www.matweb.com/search/DataSheet.aspx?MatGUID=3e4523f2117f4d1f8cc751a1fca882bc
+SourceURL = https://en.wikipedia.org/wiki/Western_white_pine
+
+[Mechanical]
+CompressiveStrength = 3.24 MPa
+Density = 432.0 kg/m^3
+PoissonRatio = 0.329
+ShearModulus = 7.17 MPa
+UltimateTensileStrength = 1.79 MPa
+YoungsModulus = 10.1 GPa
