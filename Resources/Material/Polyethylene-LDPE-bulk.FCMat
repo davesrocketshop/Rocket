@@ -6,7 +6,7 @@
 [General]
 Name = Polyethylene-LDPE-bulk
 Description = Polyethylene-LDPE-bulk
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 925.0 kg/m^3

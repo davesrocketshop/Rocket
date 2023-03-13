@@ -6,7 +6,7 @@
 [General]
 Name = SEMROC-Balsa-bulk-7lb-ft3
 Description = SEMROC-Balsa-bulk-7lb-ft3
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 112.0 kg/m^3

@@ -6,7 +6,7 @@
 [General]
 Name = Rocketarium-Paper-spiral-kraft-Motor-Mount-54mm-bulk
 Description = Rocketarium-Paper-spiral-kraft-Motor-Mount-54mm-bulk
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 850.16 kg/m^3

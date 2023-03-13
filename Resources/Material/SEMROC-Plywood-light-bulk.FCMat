@@ -6,7 +6,7 @@
 [General]
 Name = SEMROC-Plywood-light-bulk
 Description = SEMROC-Plywood-light-bulk
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 352.4 kg/m^3

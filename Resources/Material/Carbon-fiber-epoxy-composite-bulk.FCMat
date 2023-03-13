@@ -6,7 +6,7 @@
 [General]
 Name = Carbon-fiber-epoxy-composite-bulk
 Description = Carbon-fiber-epoxy-composite-bulk
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 1600.0 kg/m^3

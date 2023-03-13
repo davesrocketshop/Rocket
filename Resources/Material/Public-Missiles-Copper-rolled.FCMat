@@ -6,7 +6,7 @@
 [General]
 Name = Public-Missiles-Copper-rolled
 Description = Public-Missiles-Copper-rolled
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 8906.0 kg/m^3

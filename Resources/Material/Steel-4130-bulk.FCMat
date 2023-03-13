@@ -6,7 +6,7 @@
 [General]
 Name = Steel-4130-bulk
 Description = Steel-4130-bulk
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 7850.0 kg/m^3

@@ -6,7 +6,7 @@
 [General]
 Name = Polyethylene-HDPE-bulk
 Description = Polyethylene-HDPE-bulk
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 950.0 kg/m^3

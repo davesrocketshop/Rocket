@@ -6,7 +6,7 @@
 [General]
 Name = Cottonwood-bulk
 Description = Cottonwood-bulk
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 416.0 kg/m^3

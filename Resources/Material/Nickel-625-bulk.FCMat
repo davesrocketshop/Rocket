@@ -6,7 +6,7 @@
 [General]
 Name = Nickel-625-bulk
 Description = Nickel-625-bulk
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 8440.0 kg/m^3

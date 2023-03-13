@@ -6,7 +6,7 @@
 [General]
 Name = Lead-bulk
 Description = Lead-bulk
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 11340.0 kg/m^3

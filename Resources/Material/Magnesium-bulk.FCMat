@@ -6,7 +6,7 @@
 [General]
 Name = Magnesium-bulk
 Description = Magnesium-bulk
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 1738.0 kg/m^3

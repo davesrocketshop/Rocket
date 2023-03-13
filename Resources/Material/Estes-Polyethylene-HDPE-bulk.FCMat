@@ -6,7 +6,7 @@
 [General]
 Name = Estes-Polyethylene-HDPE-bulk
 Description = Estes-Polyethylene-HDPE-bulk
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 950.0 kg/m^3

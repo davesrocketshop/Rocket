@@ -6,7 +6,7 @@
 [General]
 Name = Paper-bond-75-g-cm3-bulk
 Description = Paper-bond-75-g-cm3-bulk
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 750.0 kg/m^3

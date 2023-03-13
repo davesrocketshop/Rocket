@@ -6,7 +6,7 @@
 [General]
 Name = Quantum-tubing-PML-bulk
 Description = Quantum-tubing-PML-bulk
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 1100.0 kg/m^3

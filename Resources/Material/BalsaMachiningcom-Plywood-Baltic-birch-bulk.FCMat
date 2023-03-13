@@ -6,7 +6,7 @@
 [General]
 Name = BalsaMachiningcom-Plywood-Baltic-birch-bulk
 Description = BalsaMachiningcom-Plywood-Baltic-birch-bulk
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 680.0 kg/m^3

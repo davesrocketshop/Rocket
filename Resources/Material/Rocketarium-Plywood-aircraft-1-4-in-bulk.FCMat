@@ -6,7 +6,7 @@
 [General]
 Name = Rocketarium-Plywood-aircraft-1-4-in-bulk
 Description = Rocketarium-Plywood-aircraft-1-4-in-bulk
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 344.3 kg/m^3

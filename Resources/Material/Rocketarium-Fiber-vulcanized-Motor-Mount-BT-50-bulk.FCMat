@@ -6,7 +6,7 @@
 [General]
 Name = Rocketarium-Fiber-vulcanized-Motor-Mount-BT-50-bulk
 Description = Rocketarium-Fiber-vulcanized-Motor-Mount-BT-50-bulk
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 1638.94 kg/m^3

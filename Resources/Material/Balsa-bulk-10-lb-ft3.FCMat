@@ -6,7 +6,7 @@
 [General]
 Name = Balsa-bulk-10-lb-ft3
 Description = Balsa-bulk-10-lb-ft3
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 160.0 kg/m^3

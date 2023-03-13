@@ -6,7 +6,7 @@
 [General]
 Name = Cork-bulk
 Description = Cork-bulk
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 240.0 kg/m^3

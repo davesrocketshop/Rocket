@@ -6,7 +6,7 @@
 [General]
 Name = Quest-Mylar-bulk
 Description = Quest-Mylar-bulk
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 1390.0 kg/m^3

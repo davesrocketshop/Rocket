@@ -6,7 +6,7 @@
 [General]
 Name = LOC-Precision-Paper-kraft-LOC-coupler-avg
 Description = LOC-Precision-Paper-kraft-LOC-coupler-avg
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 789.6 kg/m^3

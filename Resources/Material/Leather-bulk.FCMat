@@ -6,7 +6,7 @@
 [General]
 Name = Leather-bulk
 Description = Leather-bulk
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 945.0 kg/m^3

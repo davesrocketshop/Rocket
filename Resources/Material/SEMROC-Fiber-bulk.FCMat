@@ -6,7 +6,7 @@
 [General]
 Name = SEMROC-Fiber-bulk
 Description = SEMROC-Fiber-bulk
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 657.0 kg/m^3

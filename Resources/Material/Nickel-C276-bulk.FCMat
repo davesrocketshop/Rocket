@@ -6,7 +6,7 @@
 [General]
 Name = Nickel-C276-bulk
 Description = Nickel-C276-bulk
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 8890.0 kg/m^3

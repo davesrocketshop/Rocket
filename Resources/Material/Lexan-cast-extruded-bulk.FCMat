@@ -6,7 +6,7 @@
 [General]
 Name = Lexan-cast-extruded-bulk
 Description = Lexan-cast-extruded-bulk
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 1218.0 kg/m^3

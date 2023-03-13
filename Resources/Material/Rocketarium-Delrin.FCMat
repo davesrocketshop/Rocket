@@ -6,7 +6,7 @@
 [General]
 Name = Rocketarium-Delrin
 Description = Rocketarium-Delrin
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 1420.0 kg/m^3

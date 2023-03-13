@@ -6,7 +6,7 @@
 [General]
 Name = BalsaMachiningcom-Paper-spiral-kraft-BMS-C300-bulk
 Description = BalsaMachiningcom-Paper-spiral-kraft-BMS-C300-bulk
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 1126.0 kg/m^3

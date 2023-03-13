@@ -6,7 +6,7 @@
 [General]
 Name = Rocketarium-Nylon
 Description = Rocketarium-Nylon
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 1150.0 kg/m^3

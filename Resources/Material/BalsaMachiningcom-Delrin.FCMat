@@ -6,7 +6,7 @@
 [General]
 Name = BalsaMachiningcom-Delrin
 Description = BalsaMachiningcom-Delrin
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 1420.0 kg/m^3

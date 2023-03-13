@@ -6,7 +6,7 @@
 [General]
 Name = Madcow-Carbon-fiber-epoxy-composite-Madcow-FWCF-bulk
 Description = Madcow-Carbon-fiber-epoxy-composite-Madcow-FWCF-bulk
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 1250.0 kg/m^3

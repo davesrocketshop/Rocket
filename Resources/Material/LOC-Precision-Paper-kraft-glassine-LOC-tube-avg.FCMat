@@ -6,7 +6,7 @@
 [General]
 Name = LOC-Precision-Paper-kraft-glassine-LOC-tube-avg
 Description = LOC-Precision-Paper-kraft-glassine-LOC-tube-avg
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 855.2 kg/m^3

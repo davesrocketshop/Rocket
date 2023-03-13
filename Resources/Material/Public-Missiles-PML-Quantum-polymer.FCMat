@@ -6,7 +6,7 @@
 [General]
 Name = Public-Missiles-PML-Quantum-polymer
 Description = Public-Missiles-PML-Quantum-polymer
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 1072.8 kg/m^3

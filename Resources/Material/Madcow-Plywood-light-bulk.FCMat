@@ -6,7 +6,7 @@
 [General]
 Name = Madcow-Plywood-light-bulk
 Description = Madcow-Plywood-light-bulk
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 352.4 kg/m^3

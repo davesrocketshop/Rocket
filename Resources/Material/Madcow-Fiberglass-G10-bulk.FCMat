@@ -6,7 +6,7 @@
 [General]
 Name = Madcow-Fiberglass-G10-bulk
 Description = Madcow-Fiberglass-G10-bulk
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 1800.0 kg/m^3

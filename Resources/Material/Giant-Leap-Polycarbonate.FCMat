@@ -6,7 +6,7 @@
 [General]
 Name = Giant-Leap-Polycarbonate
 Description = Giant-Leap-Polycarbonate
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 1200.0 kg/m^3

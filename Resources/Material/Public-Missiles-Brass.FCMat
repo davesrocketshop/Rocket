@@ -6,7 +6,7 @@
 [General]
 Name = Public-Missiles-Brass
 Description = Public-Missiles-Brass
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 8554.0 kg/m^3

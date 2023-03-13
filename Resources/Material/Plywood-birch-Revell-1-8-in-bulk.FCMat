@@ -6,7 +6,7 @@
 [General]
 Name = Plywood-birch-Revell-1-8-in-bulk
 Description = Plywood-birch-Revell-1-8-in-bulk
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 640.74 kg/m^3

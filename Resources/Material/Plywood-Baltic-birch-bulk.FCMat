@@ -6,7 +6,7 @@
 [General]
 Name = Plywood-Baltic-birch-bulk
 Description = Plywood-Baltic-birch-bulk
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 680.0 kg/m^3

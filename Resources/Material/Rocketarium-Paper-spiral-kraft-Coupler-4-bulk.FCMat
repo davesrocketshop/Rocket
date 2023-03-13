@@ -6,7 +6,7 @@
 [General]
 Name = Rocketarium-Paper-spiral-kraft-Coupler-4-bulk
 Description = Rocketarium-Paper-spiral-kraft-Coupler-4-bulk
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 752.55 kg/m^3

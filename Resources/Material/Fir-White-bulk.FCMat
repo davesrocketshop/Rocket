@@ -6,7 +6,7 @@
 [General]
 Name = Fir-White-bulk
 Description = Fir-White-bulk
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 400.5 kg/m^3

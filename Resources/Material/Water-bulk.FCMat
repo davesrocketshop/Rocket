@@ -6,7 +6,7 @@
 [General]
 Name = Water-bulk
 Description = Water-bulk
-Father = None
+KindOfMaterial = Fluid
 
 [Mechanical]
 Density = 1000.0 kg/m^3

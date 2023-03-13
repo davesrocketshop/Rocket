@@ -6,7 +6,7 @@
 [General]
 Name = Plywood-Baltic-birch-Aircraft-Spruce-Finnish-type-bulk
 Description = Plywood-Baltic-birch-Aircraft-Spruce-Finnish-type-bulk
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 707.0 kg/m^3

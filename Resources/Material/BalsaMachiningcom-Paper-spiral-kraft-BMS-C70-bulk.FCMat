@@ -6,7 +6,7 @@
 [General]
 Name = BalsaMachiningcom-Paper-spiral-kraft-BMS-C70-bulk
 Description = BalsaMachiningcom-Paper-spiral-kraft-BMS-C70-bulk
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 1122.0 kg/m^3

@@ -6,7 +6,7 @@
 [General]
 Name = Fiber-vulcanized-bulk
 Description = Fiber-vulcanized-bulk
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 1250.0 kg/m^3

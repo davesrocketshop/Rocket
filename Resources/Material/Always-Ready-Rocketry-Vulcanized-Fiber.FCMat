@@ -6,7 +6,7 @@
 [General]
 Name = Always-Ready-Rocketry-Vulcanized-Fiber
 Description = Always-Ready-Rocketry-Vulcanized-Fiber
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 1153.5 kg/m^3

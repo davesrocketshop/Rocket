@@ -6,7 +6,7 @@
 [General]
 Name = Stainless-steel-17-4PH-bulk
 Description = Stainless-steel-17-4PH-bulk
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 7600.0 kg/m^3

@@ -6,7 +6,7 @@
 [General]
 Name = Nickel-400-bulk
 Description = Nickel-400-bulk
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 8800.0 kg/m^3

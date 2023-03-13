@@ -6,7 +6,7 @@
 [General]
 Name = Sand-dry-bulk
 Description = Sand-dry-bulk
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 1602.0 kg/m^3

@@ -6,7 +6,7 @@
 [General]
 Name = Paper-coated-113-g-cm3-bulk
 Description = Paper-coated-113-g-cm3-bulk
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 1130.0 kg/m^3

@@ -6,7 +6,7 @@
 [General]
 Name = Nickel-718-bulk
 Description = Nickel-718-bulk
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 8230.0 kg/m^3

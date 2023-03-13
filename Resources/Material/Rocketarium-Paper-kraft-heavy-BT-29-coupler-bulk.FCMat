@@ -6,7 +6,7 @@
 [General]
 Name = Rocketarium-Paper-kraft-heavy-BT-29-coupler-bulk
 Description = Rocketarium-Paper-kraft-heavy-BT-29-coupler-bulk
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 620.14 kg/m^3

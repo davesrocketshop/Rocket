@@ -6,7 +6,7 @@
 [General]
 Name = Public-Missiles-PML-glassed-phenolic
 Description = Public-Missiles-PML-glassed-phenolic
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 1077.7 kg/m^3

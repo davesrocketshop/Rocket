@@ -6,7 +6,7 @@
 [General]
 Name = Quest-Paper-spiral-kraft-glassine-Estes-avg-bulk
 Description = Quest-Paper-spiral-kraft-glassine-Estes-avg-bulk
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 894.4 kg/m^3

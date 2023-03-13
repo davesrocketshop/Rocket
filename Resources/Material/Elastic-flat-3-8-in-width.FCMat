@@ -6,7 +6,7 @@
 [General]
 Name = Elastic-flat-3-8-in-width
 Description = Elastic-flat-3-8-in-width
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 0.006087 kg/m^3

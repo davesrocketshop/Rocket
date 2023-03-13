@@ -6,7 +6,7 @@
 [General]
 Name = MPC-Fiber-bulk
 Description = MPC-Fiber-bulk
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 657.0 kg/m^3

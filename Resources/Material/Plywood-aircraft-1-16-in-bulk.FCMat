@@ -6,7 +6,7 @@
 [General]
 Name = Plywood-aircraft-1-16-in-bulk
 Description = Plywood-aircraft-1-16-in-bulk
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 361.3 kg/m^3

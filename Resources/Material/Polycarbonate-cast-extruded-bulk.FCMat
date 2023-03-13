@@ -6,7 +6,7 @@
 [General]
 Name = Polycarbonate-cast-extruded-bulk
 Description = Polycarbonate-cast-extruded-bulk
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 1200.0 kg/m^3

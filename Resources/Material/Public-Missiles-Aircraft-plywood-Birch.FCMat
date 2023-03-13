@@ -6,7 +6,7 @@
 [General]
 Name = Public-Missiles-Aircraft-plywood-Birch
 Description = Public-Missiles-Aircraft-plywood-Birch
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 725.0 kg/m^3

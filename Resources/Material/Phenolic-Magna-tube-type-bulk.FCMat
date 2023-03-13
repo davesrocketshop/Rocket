@@ -6,7 +6,7 @@
 [General]
 Name = Phenolic-Magna-tube-type-bulk
 Description = Phenolic-Magna-tube-type-bulk
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 1100.0 kg/m^3

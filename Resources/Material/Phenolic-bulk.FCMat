@@ -6,7 +6,7 @@
 [General]
 Name = Phenolic-bulk
 Description = Phenolic-bulk
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 1905.0 kg/m^3

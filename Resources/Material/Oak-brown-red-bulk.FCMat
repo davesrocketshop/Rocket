@@ -6,7 +6,7 @@
 [General]
 Name = Oak-brown-red-bulk
 Description = Oak-brown-red-bulk
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 721.0 kg/m^3

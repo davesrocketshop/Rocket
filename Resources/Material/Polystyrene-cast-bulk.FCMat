@@ -6,7 +6,7 @@
 [General]
 Name = Polystyrene-cast-bulk
 Description = Polystyrene-cast-bulk
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 1050.0 kg/m^3

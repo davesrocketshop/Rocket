@@ -6,7 +6,7 @@
 [General]
 Name = Giant-Leap-Cardboard
 Description = Giant-Leap-Cardboard
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 689.0 kg/m^3

@@ -6,7 +6,7 @@
 [General]
 Name = BalsaMachiningcom-Paper-spiral-kraft-glassine-BMS-avg-bulk
 Description = BalsaMachiningcom-Paper-spiral-kraft-glassine-BMS-avg-bulk
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 894.4 kg/m^3

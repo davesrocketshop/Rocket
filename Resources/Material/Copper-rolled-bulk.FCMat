@@ -6,7 +6,7 @@
 [General]
 Name = Copper-rolled-bulk
 Description = Copper-rolled-bulk
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 8906.3 kg/m^3

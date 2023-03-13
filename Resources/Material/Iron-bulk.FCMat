@@ -6,7 +6,7 @@
 [General]
 Name = Iron-bulk
 Description = Iron-bulk
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 7850.0 kg/m^3

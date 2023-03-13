@@ -6,7 +6,7 @@
 [General]
 Name = Phenolic-glassed-bulk
 Description = Phenolic-glassed-bulk
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 1900.0 kg/m^3

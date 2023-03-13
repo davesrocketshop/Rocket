@@ -6,7 +6,7 @@
 [General]
 Name = Urethane-ethyl-carbamate-bulk
 Description = Urethane-ethyl-carbamate-bulk
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 847.06 kg/m^3

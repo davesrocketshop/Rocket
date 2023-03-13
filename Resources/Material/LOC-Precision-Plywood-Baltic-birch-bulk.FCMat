@@ -6,7 +6,7 @@
 [General]
 Name = LOC-Precision-Plywood-Baltic-birch-bulk
 Description = LOC-Precision-Plywood-Baltic-birch-bulk
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 680.0 kg/m^3

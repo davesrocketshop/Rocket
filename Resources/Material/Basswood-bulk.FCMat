@@ -6,7 +6,7 @@
 [General]
 Name = Basswood-bulk
 Description = Basswood-bulk
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 424.5 kg/m^3

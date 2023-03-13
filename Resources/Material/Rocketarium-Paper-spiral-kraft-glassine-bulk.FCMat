@@ -6,7 +6,7 @@
 [General]
 Name = Rocketarium-Paper-spiral-kraft-glassine-bulk
 Description = Rocketarium-Paper-spiral-kraft-glassine-bulk
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 782.88 kg/m^3

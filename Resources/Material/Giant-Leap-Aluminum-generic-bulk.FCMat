@@ -6,7 +6,7 @@
 [General]
 Name = Giant-Leap-Aluminum-generic-bulk
 Description = Giant-Leap-Aluminum-generic-bulk
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 2698.9 kg/m^3

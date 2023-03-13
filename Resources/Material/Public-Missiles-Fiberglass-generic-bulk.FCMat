@@ -6,7 +6,7 @@
 [General]
 Name = Public-Missiles-Fiberglass-generic-bulk
 Description = Public-Missiles-Fiberglass-generic-bulk
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 1900.0 kg/m^3

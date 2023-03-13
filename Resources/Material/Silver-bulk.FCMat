@@ -6,7 +6,7 @@
 [General]
 Name = Silver-bulk
 Description = Silver-bulk
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 10490.0 kg/m^3

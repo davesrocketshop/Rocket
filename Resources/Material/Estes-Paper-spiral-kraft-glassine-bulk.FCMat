@@ -6,7 +6,7 @@
 [General]
 Name = Estes-Paper-spiral-kraft-glassine-bulk
 Description = Estes-Paper-spiral-kraft-glassine-bulk
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 799.0 kg/m^3

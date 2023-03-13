@@ -6,7 +6,7 @@
 [General]
 Name = Giant-Leap-Kraft-phenolic
 Description = Giant-Leap-Kraft-phenolic
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 959.0 kg/m^3

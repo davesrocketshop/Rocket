@@ -6,7 +6,7 @@
 [General]
 Name = Mylar-bulk
 Description = Mylar-bulk
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 1390.0 kg/m^3

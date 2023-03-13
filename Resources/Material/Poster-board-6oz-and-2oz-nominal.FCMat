@@ -6,7 +6,7 @@
 [General]
 Name = Poster-board-6oz-and-2oz-nominal
 Description = Poster-board-6oz-and-2oz-nominal
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 798.85 kg/m^3

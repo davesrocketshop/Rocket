@@ -6,7 +6,7 @@
 [General]
 Name = BalsaMachiningcom-Nylon
 Description = BalsaMachiningcom-Nylon
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 1150.0 kg/m^3

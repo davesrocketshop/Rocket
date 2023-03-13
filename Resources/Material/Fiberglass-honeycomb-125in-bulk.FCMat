@@ -6,7 +6,7 @@
 [General]
 Name = Fiberglass-honeycomb-125in-bulk
 Description = Fiberglass-honeycomb-125in-bulk
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 461.0 kg/m^3

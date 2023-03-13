@@ -6,7 +6,7 @@
 [General]
 Name = Kevlar-epoxy-composite-bulk
 Description = Kevlar-epoxy-composite-bulk
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 1400.0 kg/m^3

@@ -6,7 +6,7 @@
 [General]
 Name = Chalk-powdered-fine
 Description = Chalk-powdered-fine
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 1121.0 kg/m^3

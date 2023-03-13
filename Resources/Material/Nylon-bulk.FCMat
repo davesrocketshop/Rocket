@@ -6,7 +6,7 @@
 [General]
 Name = Nylon-bulk
 Description = Nylon-bulk
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 1140.0 kg/m^3

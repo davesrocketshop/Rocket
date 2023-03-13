@@ -6,7 +6,7 @@
 [General]
 Name = unspecified
 Description = unspecified
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 0.0 kg/m^3

@@ -6,7 +6,7 @@
 [General]
 Name = Fiberglass-G12-filament-wound-tube-bulk
 Description = Fiberglass-G12-filament-wound-tube-bulk
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 1820.0 kg/m^3

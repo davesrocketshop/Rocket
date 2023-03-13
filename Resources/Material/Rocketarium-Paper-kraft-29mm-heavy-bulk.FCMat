@@ -6,7 +6,7 @@
 [General]
 Name = Rocketarium-Paper-kraft-29mm-heavy-bulk
 Description = Rocketarium-Paper-kraft-29mm-heavy-bulk
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 850.3 kg/m^3

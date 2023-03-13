@@ -6,7 +6,7 @@
 [General]
 Name = Beech-bulk
 Description = Beech-bulk
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 720.8 kg/m^3

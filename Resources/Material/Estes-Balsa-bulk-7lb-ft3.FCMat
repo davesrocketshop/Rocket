@@ -6,7 +6,7 @@
 [General]
 Name = Estes-Balsa-bulk-7lb-ft3
 Description = Estes-Balsa-bulk-7lb-ft3
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 112.0 kg/m^3

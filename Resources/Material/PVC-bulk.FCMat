@@ -6,7 +6,7 @@
 [General]
 Name = PVC-bulk
 Description = PVC-bulk
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 1301.0 kg/m^3

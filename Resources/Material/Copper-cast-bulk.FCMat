@@ -6,7 +6,7 @@
 [General]
 Name = Copper-cast-bulk
 Description = Copper-cast-bulk
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 8682.0 kg/m^3

@@ -6,7 +6,7 @@
 [General]
 Name = Epoxy-West-System-105-206-cured-bulk
 Description = Epoxy-West-System-105-206-cured-bulk
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 1180.0 kg/m^3

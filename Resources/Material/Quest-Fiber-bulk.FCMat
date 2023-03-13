@@ -6,7 +6,7 @@
 [General]
 Name = Quest-Fiber-bulk
 Description = Quest-Fiber-bulk
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 657.0 kg/m^3

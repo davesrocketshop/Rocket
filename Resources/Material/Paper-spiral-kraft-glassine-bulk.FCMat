@@ -6,7 +6,7 @@
 [General]
 Name = Paper-spiral-kraft-glassine-bulk
 Description = Paper-spiral-kraft-glassine-bulk
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 798.85 kg/m^3

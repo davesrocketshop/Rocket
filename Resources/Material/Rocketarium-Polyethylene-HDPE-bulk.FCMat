@@ -6,7 +6,7 @@
 [General]
 Name = Rocketarium-Polyethylene-HDPE-bulk
 Description = Rocketarium-Polyethylene-HDPE-bulk
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 950.0 kg/m^3

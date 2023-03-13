@@ -6,7 +6,7 @@
 [General]
 Name = BalsaMachiningcom-Balsa-bulk-BMS-typical
 Description = BalsaMachiningcom-Balsa-bulk-BMS-typical
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 112.0 kg/m^3

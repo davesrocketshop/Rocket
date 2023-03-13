@@ -6,7 +6,7 @@
 [General]
 Name = Titanium-bulk
 Description = Titanium-bulk
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 4500.0 kg/m^3

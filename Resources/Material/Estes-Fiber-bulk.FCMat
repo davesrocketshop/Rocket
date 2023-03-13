@@ -6,7 +6,7 @@
 [General]
 Name = Estes-Fiber-bulk
 Description = Estes-Fiber-bulk
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 657.0 kg/m^3

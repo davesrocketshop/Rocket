@@ -6,7 +6,7 @@
 [General]
 Name = Public-Missiles-Polystyrene-PS
 Description = Public-Missiles-Polystyrene-PS
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 1049.0 kg/m^3

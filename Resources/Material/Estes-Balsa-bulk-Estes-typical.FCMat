@@ -6,7 +6,7 @@
 [General]
 Name = Estes-Balsa-bulk-Estes-typical
 Description = Estes-Balsa-bulk-Estes-typical
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 160.2 kg/m^3

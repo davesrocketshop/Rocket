@@ -6,7 +6,7 @@
 [General]
 Name = Poplar-yellow-bulk
 Description = Poplar-yellow-bulk
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 481.0 kg/m^3

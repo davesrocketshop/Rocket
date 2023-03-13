@@ -6,7 +6,7 @@
 [General]
 Name = Rocketarium-Phenolic-kraft-bulk
 Description = Rocketarium-Phenolic-kraft-bulk
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 941.93 kg/m^3

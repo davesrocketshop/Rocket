@@ -6,7 +6,7 @@
 [General]
 Name = Paper-mailing-tube-8-g-cm3-bulk
 Description = Paper-mailing-tube-8-g-cm3-bulk
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 800.0 kg/m^3

@@ -6,7 +6,7 @@
 [General]
 Name = Rocketarium-Balsa-bulk-typical
 Description = Rocketarium-Balsa-bulk-typical
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 112.0 kg/m^3

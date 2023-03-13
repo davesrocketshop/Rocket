@@ -6,7 +6,7 @@
 [General]
 Name = Giant-Leap-Birch
 Description = Giant-Leap-Birch
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 680.0 kg/m^3

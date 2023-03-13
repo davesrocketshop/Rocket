@@ -6,7 +6,7 @@
 [General]
 Name = Rocketarium-Polyethylene-HIPS-bulk
 Description = Rocketarium-Polyethylene-HIPS-bulk
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 950.0 kg/m^3

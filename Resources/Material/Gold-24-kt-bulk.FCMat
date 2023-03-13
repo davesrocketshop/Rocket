@@ -6,7 +6,7 @@
 [General]
 Name = Gold-24-kt-bulk
 Description = Gold-24-kt-bulk
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 19286.2 kg/m^3

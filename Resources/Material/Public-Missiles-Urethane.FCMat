@@ -6,7 +6,7 @@
 [General]
 Name = Public-Missiles-Urethane
 Description = Public-Missiles-Urethane
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 847.0 kg/m^3

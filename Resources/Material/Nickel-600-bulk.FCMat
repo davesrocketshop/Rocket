@@ -6,7 +6,7 @@
 [General]
 Name = Nickel-600-bulk
 Description = Nickel-600-bulk
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 8410.0 kg/m^3

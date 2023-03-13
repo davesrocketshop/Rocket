@@ -6,7 +6,7 @@
 [General]
 Name = Oak-white-bulk
 Description = Oak-white-bulk
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 753.0 kg/m^3

@@ -6,7 +6,7 @@
 [General]
 Name = Cellulose-acetate-propionate-bulk
 Description = Cellulose-acetate-propionate-bulk
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 1199.8 kg/m^3

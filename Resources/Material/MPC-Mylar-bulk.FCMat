@@ -6,7 +6,7 @@
 [General]
 Name = MPC-Mylar-bulk
 Description = MPC-Mylar-bulk
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 1390.0 kg/m^3

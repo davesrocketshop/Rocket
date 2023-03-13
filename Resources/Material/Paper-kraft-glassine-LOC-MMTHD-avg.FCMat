@@ -6,7 +6,7 @@
 [General]
 Name = Paper-kraft-glassine-LOC-MMTHD-avg
 Description = Paper-kraft-glassine-LOC-MMTHD-avg
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 1220.6 kg/m^3

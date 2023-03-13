@@ -6,7 +6,7 @@
 [General]
 Name = Blue-Tube-bulk
 Description = Blue-Tube-bulk
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 1162.0 kg/m^3

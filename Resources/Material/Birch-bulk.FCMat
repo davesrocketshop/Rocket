@@ -6,7 +6,7 @@
 [General]
 Name = Birch-bulk
 Description = Birch-bulk
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 680.8 kg/m^3

@@ -6,7 +6,7 @@
 [General]
 Name = Always-Ready-Rocketry-Plywood-Baltic-birch-bulk
 Description = Always-Ready-Rocketry-Plywood-Baltic-birch-bulk
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 680.0 kg/m^3

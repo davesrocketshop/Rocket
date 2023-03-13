@@ -6,7 +6,7 @@
 [General]
 Name = Paper-kraft-LOC-coupler-stiffener-avg
 Description = Paper-kraft-LOC-coupler-stiffener-avg
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 603.3 kg/m^3

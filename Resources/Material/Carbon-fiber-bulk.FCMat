@@ -6,7 +6,7 @@
 [General]
 Name = Carbon-fiber-bulk
 Description = Carbon-fiber-bulk
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 1740.0 kg/m^3

@@ -6,7 +6,7 @@
 [General]
 Name = Madcow-Paper-spiral-kraft-glassine-bulk
 Description = Madcow-Paper-spiral-kraft-glassine-bulk
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 798.85 kg/m^3

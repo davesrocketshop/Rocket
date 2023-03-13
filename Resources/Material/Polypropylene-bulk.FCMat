@@ -6,7 +6,7 @@
 [General]
 Name = Polypropylene-bulk
 Description = Polypropylene-bulk
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 946.0 kg/m^3

@@ -6,7 +6,7 @@
 [General]
 Name = Quest-Phenolic-kraft-bulk
 Description = Quest-Phenolic-kraft-bulk
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 943.0 kg/m^3

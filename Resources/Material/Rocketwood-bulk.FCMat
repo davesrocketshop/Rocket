@@ -6,7 +6,7 @@
 [General]
 Name = Rocketwood-bulk
 Description = Rocketwood-bulk
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 529.1 kg/m^3

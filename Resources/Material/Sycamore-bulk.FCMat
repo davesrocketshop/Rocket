@@ -6,7 +6,7 @@
 [General]
 Name = Sycamore-bulk
 Description = Sycamore-bulk
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 560.6 kg/m^3

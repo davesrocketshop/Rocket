@@ -6,7 +6,7 @@
 [General]
 Name = Paper-cover-92-g-cm3-bulk
 Description = Paper-cover-92-g-cm3-bulk
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 920.0 kg/m^3

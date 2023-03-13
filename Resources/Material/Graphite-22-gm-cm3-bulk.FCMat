@@ -6,7 +6,7 @@
 [General]
 Name = Graphite-22-gm-cm3-bulk
 Description = Graphite-22-gm-cm3-bulk
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 2200.0 kg/m^3

@@ -6,7 +6,7 @@
 [General]
 Name = Spruce-bulk
 Description = Spruce-bulk
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 448.5 kg/m^3

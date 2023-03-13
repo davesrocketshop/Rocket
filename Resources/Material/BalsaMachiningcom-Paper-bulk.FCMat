@@ -6,7 +6,7 @@
 [General]
 Name = BalsaMachiningcom-Paper-bulk
 Description = BalsaMachiningcom-Paper-bulk
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 0.0011 kg/m^3

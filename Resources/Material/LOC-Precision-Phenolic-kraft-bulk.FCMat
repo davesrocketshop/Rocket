@@ -6,7 +6,7 @@
 [General]
 Name = LOC-Precision-Phenolic-kraft-bulk
 Description = LOC-Precision-Phenolic-kraft-bulk
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 943.0 kg/m^3

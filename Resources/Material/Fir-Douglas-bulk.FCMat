@@ -6,7 +6,7 @@
 [General]
 Name = Fir-Douglas-bulk
 Description = Fir-Douglas-bulk
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 560.6 kg/m^3

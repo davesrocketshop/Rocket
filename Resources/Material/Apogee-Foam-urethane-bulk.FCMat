@@ -6,7 +6,7 @@
 [General]
 Name = Apogee-Foam-urethane-bulk
 Description = Apogee-Foam-urethane-bulk
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 48.1 kg/m^3

@@ -6,7 +6,7 @@
 [General]
 Name = Plywood-birch-LOC-type-bulk
 Description = Plywood-birch-LOC-type-bulk
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 725.0 kg/m^3

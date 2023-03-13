@@ -6,7 +6,7 @@
 [General]
 Name = Nickel-200-bulk
 Description = Nickel-200-bulk
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 8890.0 kg/m^3

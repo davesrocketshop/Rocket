@@ -6,7 +6,7 @@
 [General]
 Name = Glass-window-bulk
 Description = Glass-window-bulk
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 2579.0 kg/m^3

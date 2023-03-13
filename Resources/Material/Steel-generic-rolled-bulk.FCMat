@@ -6,7 +6,7 @@
 [General]
 Name = Steel-generic-rolled-bulk
 Description = Steel-generic-rolled-bulk
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 7850.0 kg/m^3

@@ -6,7 +6,7 @@
 [General]
 Name = Zinc-bulk
 Description = Zinc-bulk
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 7135.0 kg/m^3

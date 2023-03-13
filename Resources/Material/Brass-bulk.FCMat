@@ -6,7 +6,7 @@
 [General]
 Name = Brass-bulk
 Description = Brass-bulk
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 8553.9 kg/m^3

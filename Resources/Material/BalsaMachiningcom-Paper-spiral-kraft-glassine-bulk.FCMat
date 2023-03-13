@@ -6,7 +6,7 @@
 [General]
 Name = BalsaMachiningcom-Paper-spiral-kraft-glassine-bulk
 Description = BalsaMachiningcom-Paper-spiral-kraft-glassine-bulk
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 799.0 kg/m^3

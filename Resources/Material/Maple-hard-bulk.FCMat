@@ -6,7 +6,7 @@
 [General]
 Name = Maple-hard-bulk
 Description = Maple-hard-bulk
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 632.7 kg/m^3

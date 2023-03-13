@@ -6,7 +6,7 @@
 [General]
 Name = Rocketarium-Fiber-vulcanized-Coupler-BT-70-bulk
 Description = Rocketarium-Fiber-vulcanized-Coupler-BT-70-bulk
-Father = None
+KindOfMaterial = Solid
 
 [Mechanical]
 Density = 793.27 kg/m^3
