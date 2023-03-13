@@ -29,7 +29,6 @@ from App.RocketComponentShapeless import RocketComponentShapeless
 
 from App.Constants import LOCATION_PARENT_TOP, LOCATION_PARENT_MIDDLE, LOCATION_PARENT_BOTTOM, LOCATION_BASE
 from App.Constants import LOCATION_SURFACE, LOCATION_CENTER
-from App.Constants import MATERIAL_SPEC_FREECAD, MATERIAL_SPEC_OPENROCKET
 
 from App.position.AxialMethod import AXIAL_METHOD_MAP
 from App.interfaces.ChangeSource import ChangeSource
@@ -49,19 +48,7 @@ class RocketComponent(RocketComponentShapeless, ChangeSource):
         if not hasattr(obj, 'PartNumber'):
             obj.addProperty('App::PropertyString', 'PartNumber', 'RocketComponent', translate('App::Property', 'Component manufacturer part number')).PartNumber = ""
         if not hasattr(obj, 'Material'):
-            obj.addProperty('App::PropertyString', 'Material', 'RocketComponent', translate('App::Property', 'Component material')).Material = ""
-        if not hasattr(obj, 'MaterialStandard'):
-            obj.addProperty('App::PropertyEnumeration', 'MaterialStandard', 'RocketComponent', translate('App::Property', 'Standard used to specify the material'))
-            obj.MaterialStandard = [
-                        MATERIAL_SPEC_FREECAD,
-                        MATERIAL_SPEC_OPENROCKET
-                    ]
-            obj.MaterialStandard = MATERIAL_SPEC_OPENROCKET
-        else:
-            obj.MaterialStandard = [
-                        MATERIAL_SPEC_FREECAD,
-                        MATERIAL_SPEC_OPENROCKET
-                    ]
+            obj.addProperty('App::PropertyString', 'Material', 'RocketComponent', translate('App::Property', 'Component material')).Material = "Cardboard"
         if not hasattr(obj, 'Description'):
             obj.addProperty('App::PropertyString', 'Description', 'RocketComponent', translate('App::Property', 'Component description')).Description = ""
         

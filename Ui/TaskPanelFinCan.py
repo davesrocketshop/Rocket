@@ -45,6 +45,8 @@ from App.Constants import FINCAN_EDGE_SQUARE, FINCAN_EDGE_ROUND, FINCAN_EDGE_TAP
 from App.Constants import FINCAN_PRESET_CUSTOM, FINCAN_PRESET_1_8, FINCAN_PRESET_3_16, FINCAN_PRESET_1_4
 from App.Constants import FINCAN_COUPLER_MATCH_ID, FINCAN_COUPLER_STEPPED
 
+from App.Material import Material
+
 from App.Utilities import _err, _toFloat
 
 from Ui.TaskPanelLocation import TaskPanelLocation
@@ -64,11 +66,13 @@ class _FinCanDialog(QDialog):
         self.tabFinCan = QtGui.QWidget()
         self.tabCoupler = QtGui.QWidget()
         self.tabLaunchLug = QtGui.QWidget()
+        self.tabMaterial = QtGui.QWidget()
         self.tabComment = QtGui.QWidget()
         self.tabWidget.addTab(self.tabGeneral, translate('Rocket', "Fins"))
         self.tabWidget.addTab(self.tabFinCan, translate('Rocket', "Fin Can"))
         self.tabWidget.addTab(self.tabCoupler, translate('Rocket', "Coupler"))
         self.tabWidget.addTab(self.tabLaunchLug, translate('Rocket', "Launch Lug"))
+        self.tabWidget.addTab(self.tabMaterial, translate('Rocket', "Material"))
         self.tabWidget.addTab(self.tabComment, translate('Rocket', "Comment"))
 
         layout = QVBoxLayout()
@@ -79,6 +83,7 @@ class _FinCanDialog(QDialog):
         self.setTabCan()
         self.setTabCoupler()
         self.setTabLaunchLug()
+        self.setTabMaterial()
         self.setTabComment()
 
     def setTabGeneral(self):
@@ -638,6 +643,24 @@ class _FinCanDialog(QDialog):
 
         self.tabLaunchLug.setLayout(layout)
 
+    def setTabMaterial(self):
+
+        self.materialLabel = QtGui.QLabel(translate('Rocket', "Material"), self)
+
+        self.materialPresetCombo = QtGui.QComboBox(self)
+        row = 0
+        grid = QGridLayout()
+
+        grid.addWidget(self.materialLabel, row, 0)
+        grid.addWidget(self.materialPresetCombo, row, 1)
+        row += 1
+
+        layout = QVBoxLayout()
+        layout.addItem(grid)
+        layout.addItem(QtGui.QSpacerItem(0,0, QSizePolicy.Expanding, QSizePolicy.Expanding))
+
+        self.tabMaterial.setLayout(layout)
+
     def setTabComment(self):
 
         ui = FreeCADGui.UiLoader()
@@ -733,6 +756,7 @@ class TaskPanelFinCan(QObject):
         self._redrawPending = False
         self.redrawRequired.connect(self.onRedraw, QtCore.Qt.QueuedConnection)
         
+        self.updateMaterials()        
         self.update()
         
         if mode == 0: # fresh created
@@ -799,6 +823,8 @@ class TaskPanelFinCan(QObject):
         self._obj.LaunchLugAftSweep = self._finForm.aftSweepGroup.isChecked()
         self._obj.LaunchLugAftSweepAngle = self._finForm.aftSweepInput.text()
 
+        self._obj.Material = str(self._finForm.materialPresetCombo.currentText())
+
         self._obj.Comment = self._finForm.commentInput.toPlainText()
 
     def transferFrom(self):
@@ -861,6 +887,8 @@ class TaskPanelFinCan(QObject):
         self._finForm.aftSweepGroup.setChecked(self._obj.LaunchLugAftSweep)
         self._finForm.aftSweepInput.setText(self._obj.LaunchLugAftSweepAngle.UserString)
 
+        self._finForm.materialPresetCombo.setCurrentText(self._obj.Material)
+
         self._finForm.commentInput.setPlainText(self._obj.Comment)
 
         self._setFinSetState()
@@ -876,6 +904,14 @@ class TaskPanelFinCan(QObject):
         self._setCouplerAutoDiameterState()
         self._setLugAutoThicknessState()
         self._setLugAutoLengthState()
+    
+    def updateMaterials(self):
+        "fills the combo with the existing FCMat cards"
+        self._finForm.materialPresetCombo.addItem('')
+        cards = Material.materialDictionary()
+        if cards:
+            for k in sorted(cards.keys()):
+                self._finForm.materialPresetCombo.addItem(k)
 
     def setEdited(self):
         try:

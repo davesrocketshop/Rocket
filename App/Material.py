@@ -63,11 +63,9 @@ class Material():
 
         cls._cards = {}
         for p in cls.searchPaths():
-            print("Checking path '{0}'".format(p))
             for f in os.listdir(p):
                 b,e = os.path.splitext(f)
                 if e.upper() == ".FCMAT":
-                    print("add card for '{0}'".format(f))
                     cls._cards[b] = p / f
 
         return cls._cards

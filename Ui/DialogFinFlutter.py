@@ -26,12 +26,9 @@ __url__ = "https://www.davesrocketshop.com"
     
 import FreeCAD
 import FreeCADGui
-import os
-import pathlib
 import math
 
 from DraftTools import translate
-import importFCMat
 
 from PySide import QtGui, QtCore
 from PySide2.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QGridLayout
@@ -129,7 +126,6 @@ class DialogFinFlutter(QDialog):
         self._cards = None
         self._material = None
 
-        # self._form = FreeCADGui.PySideUic.loadUi(FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/ui/FlutterAnalysis.ui")
         self.initUI()
         self._setSeries()
         self.onFlutter(None)
@@ -356,9 +352,6 @@ class DialogFinFlutter(QDialog):
     def transferFrom(self):
         "Transfer from the object to the dialog"
         self.materialPresetCombo.setCurrentText(self._fin.Material)
-        # if self._fin.Material is not None:
-        #     card = str(self._fin.Material)
-        #     self.onMaterialChanged(card)
 
     def _clearAxes(self, orientation):
         axes = self.chart.axes(orientation)
