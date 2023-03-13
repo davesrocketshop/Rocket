@@ -27,6 +27,7 @@ __url__ = "https://www.davesrocketshop.com"
 import FreeCAD
 import FreeCADGui
 import os
+import pathlib
 import math
 
 from DraftTools import translate
@@ -344,9 +345,18 @@ class DialogFinFlutter(QDialog):
         okButton.clicked.connect(self.onOk)
 
         self._setSlider()
+        
+        self.update()
 
         # now make the window visible
         self.show()
+
+    def transferFrom(self):
+        "Transfer from the object to the dialog"
+        self.materialPresetCombo.setCurrentText(self._fin.Material)
+        # if self._fin.Material is not None:
+        #     card = str(self._fin.Material)
+        #     self.onMaterialChanged(card)
 
     def _clearAxes(self, orientation):
         axes = self.chart.axes(orientation)
@@ -414,17 +424,24 @@ class DialogFinFlutter(QDialog):
         "fills the combo with the existing FCMat cards"
         # look for cards in both resources dir and a Materials sub-folder in the user folder.
         # User cards with same name will override system cards
-        paths = [FreeCAD.getResourceDir() + os.sep + "Mod" + os.sep + "Material" + os.sep + "StandardMaterial"]
-        ap = FreeCAD.ConfigGet("UserAppData") + os.sep + "Materials"
-        if os.path.exists(ap):
+        paths = [pathlib.Path(FreeCAD.getResourceDir(), "Mod/Material/StandardMaterial")]
+        ap = pathlib.Path(FreeCAD.getUserAppDataDir(), "Material")
+        if ap.exists():
+            paths.append(ap)
+
+        # Look for Rocket WB defined materials
+        ap = pathlib.Path(FreeCAD.getUserAppDataDir(), "Mod/Rocket/Resources/Material")
+        if ap.exists():
             paths.append(ap)
 
         self._cards = {}
         for p in paths:
+            print("Checking path '{0}'".format(p))
             for f in os.listdir(p):
                 b,e = os.path.splitext(f)
                 if e.upper() == ".FCMAT":
-                    self._cards[b] = p + os.sep + f
+                    print("add card for '{0}'".format(f))
+                    self._cards[b] = p / f
 
         self.materialPresetCombo.addItem('')
         if self._cards:
@@ -573,6 +590,10 @@ class DialogFinFlutter(QDialog):
 
         except ValueError:
             pass
+        
+    def update(self):
+        'fills the widgets'
+        self.transferFrom()
 
     def onOk(self):
         self.close()
