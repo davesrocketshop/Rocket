@@ -52,7 +52,7 @@ from Rocket.Utilities import _err, _toFloat
 from Ui.TaskPanelLocation import TaskPanelLocation
 from Ui.Commands.CmdSketcher import newSketchNoEdit
 
-from Ui.MaterialTab import MaterialTab
+from Ui.Widgets.MaterialTab import MaterialTab
 
 class _FinCanDialog(QDialog):
 

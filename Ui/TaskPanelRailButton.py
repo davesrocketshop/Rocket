@@ -34,7 +34,7 @@ from PySide import QtGui
 from PySide2.QtWidgets import QDialog, QGridLayout, QVBoxLayout, QTextEdit
 
 from Ui.TaskPanelLocation import TaskPanelLocation
-from Ui.MaterialTab import MaterialTab
+from Ui.Widgets.MaterialTab import MaterialTab
 
 from Rocket.Constants import RAIL_BUTTON_ROUND, RAIL_BUTTON_AIRFOIL
 from Rocket.Constants import CONTERSINK_ANGLE_60, CONTERSINK_ANGLE_82, CONTERSINK_ANGLE_90, CONTERSINK_ANGLE_100, \

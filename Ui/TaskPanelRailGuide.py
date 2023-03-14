@@ -34,7 +34,7 @@ from PySide import QtGui, QtCore
 from PySide2.QtWidgets import QDialog, QGridLayout, QVBoxLayout, QSizePolicy, QTextEdit
 
 from Ui.TaskPanelLocation import TaskPanelLocation
-from Ui.MaterialTab import MaterialTab
+from Ui.Widgets.MaterialTab import MaterialTab
 
 from Rocket.Constants import RAIL_GUIDE_BASE_FLAT, RAIL_GUIDE_BASE_CONFORMAL, RAIL_GUIDE_BASE_V
 

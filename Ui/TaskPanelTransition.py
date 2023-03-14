@@ -34,7 +34,7 @@ from PySide2.QtWidgets import QDialog, QGridLayout, QVBoxLayout, QSizePolicy, QT
 from DraftTools import translate
 
 from Ui.TaskPanelDatabase import TaskPanelDatabase
-from Ui.MaterialTab import MaterialTab
+from Ui.Widgets.MaterialTab import MaterialTab
 
 from Rocket.Constants import TYPE_CONE, TYPE_ELLIPTICAL, TYPE_HAACK, TYPE_OGIVE, TYPE_VON_KARMAN, TYPE_PARABOLA, TYPE_PARABOLIC, TYPE_POWER
 from Rocket.Constants import STYLE_CAPPED, STYLE_HOLLOW, STYLE_SOLID, STYLE_SOLID_CORE

@@ -39,7 +39,7 @@ from Rocket.Constants import COMPONENT_TYPE_BODYTUBE, COMPONENT_TYPE_LAUNCHLUG, 
 
 from Rocket.Constants import FEATURE_LAUNCH_LUG, FEATURE_TUBE_COUPLER, FEATURE_ENGINE_BLOCK
 
-from Ui.MaterialTab import MaterialTab
+from Ui.Widgets.MaterialTab import MaterialTab
 
 from Rocket.Utilities import _valueOnly
 

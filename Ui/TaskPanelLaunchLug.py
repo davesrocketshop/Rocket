@@ -35,7 +35,7 @@ from PySide2.QtWidgets import QDialog, QGridLayout, QVBoxLayout, QTextEdit
 
 from Ui.TaskPanelDatabase import TaskPanelDatabase
 from Ui.TaskPanelLocation import TaskPanelLocation
-from Ui.MaterialTab import MaterialTab
+from Ui.Widgets.MaterialTab import MaterialTab
 
 from Rocket.Constants import COMPONENT_TYPE_LAUNCHLUG
 from Rocket.Constants import FEATURE_LAUNCH_LUG
