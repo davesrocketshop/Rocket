@@ -24,6 +24,11 @@ __url__ = "https://www.davesrocketshop.com"
 
 
 import FreeCAD
+import sys
+
+# Migrate old components
+from Rocket.migration.migrate_app import RocketMigrateApp
+sys.meta_path.append(RocketMigrateApp())
 
 # add Import/Export types
 FreeCAD.addImportType("Open Rocket (*.ork)", "importORK")
