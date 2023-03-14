@@ -36,7 +36,7 @@ from PySide2.QtCharts import QtCharts
 
 from Analyzers.FinFlutter import FinFlutter
 
-from App.Material import Material
+from Rocket.Material import Material
 
 class ChartView(QtCharts.QChartView):
     # Modified code from what is found here https://stackoverflow.com/questions/60058507/draw-cursor-on-a-qchartview-object
