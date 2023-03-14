@@ -28,8 +28,8 @@ import os
 
 import FreeCAD
 
-from App.Importer.OpenRocket.OpenRocket import OpenRocketImporter
-from App.Importer.RASAero.RASAero import RASAeroImporter
+from Rocket.Importer.OpenRocket.OpenRocket import OpenRocketImporter
+from Rocket.Importer.RASAero.RASAero import RASAeroImporter
 
 def open(filename):
     """Open filename and parse using the RASAeroHandler().

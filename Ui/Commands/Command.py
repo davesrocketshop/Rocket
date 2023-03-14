@@ -27,7 +27,7 @@ __url__ = "https://www.davesrocketshop.com"
 import FreeCAD
 import FreeCADGui
 
-from App.Constants import FEATURE_ROCKET
+from Rocket.Constants import FEATURE_ROCKET
 
 def getRocket():
     for obj in FreeCAD.ActiveDocument.Objects:

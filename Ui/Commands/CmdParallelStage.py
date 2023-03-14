@@ -28,11 +28,11 @@ __url__ = "https://www.davesrocketshop.com"
 import FreeCAD
 import FreeCADGui
 
-from App.FeatureParallelStage import FeatureParallelStage
+from Rocket.FeatureParallelStage import FeatureParallelStage
 from Ui.ViewParallelStage import ViewProviderParallelStage
 from Ui.Commands.Command import Command
 
-from App.Constants import FEATURE_PARALLEL_STAGE
+from Rocket.Constants import FEATURE_PARALLEL_STAGE
 
 from DraftTools import translate
 

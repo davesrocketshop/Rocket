@@ -34,11 +34,11 @@ from PySide import QtGui, QtCore
 from PySide.QtCore import QObject, Signal
 from PySide2.QtWidgets import QDialog, QGridLayout
 
-from App.Utilities import _toFloat, _valueWithUnits
-from App.Constants import LOCATION_PARENT_TOP, LOCATION_PARENT_MIDDLE, LOCATION_PARENT_BOTTOM, LOCATION_BASE
-from App.Constants import LOCATION_SURFACE, LOCATION_CENTER
+from Rocket.Utilities import _toFloat, _valueWithUnits
+from Rocket.Constants import LOCATION_PARENT_TOP, LOCATION_PARENT_MIDDLE, LOCATION_PARENT_BOTTOM, LOCATION_BASE
+from Rocket.Constants import LOCATION_SURFACE, LOCATION_CENTER
 
-from App.Parts.PartDatabase import PartDatabase
+from Rocket.Parts.PartDatabase import PartDatabase
 from Ui.DialogLookup import DialogLookup, userOK, userCancelled
 
 class _locationDialog(QDialog):

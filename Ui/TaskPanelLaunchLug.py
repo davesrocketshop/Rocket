@@ -35,10 +35,10 @@ from PySide2.QtWidgets import QDialog, QGridLayout, QVBoxLayout, QTextEdit
 
 from Ui.TaskPanelDatabase import TaskPanelDatabase
 from Ui.TaskPanelLocation import TaskPanelLocation
-from App.Constants import COMPONENT_TYPE_LAUNCHLUG
-from App.Constants import FEATURE_LAUNCH_LUG
+from Rocket.Constants import COMPONENT_TYPE_LAUNCHLUG
+from Rocket.Constants import FEATURE_LAUNCH_LUG
 
-from App.Utilities import _valueWithUnits, _valueOnly
+from Rocket.Utilities import _valueWithUnits, _valueOnly
 
 class _LaunchLugDialog(QDialog):
 

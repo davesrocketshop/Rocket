@@ -28,11 +28,11 @@ __url__ = "https://www.davesrocketshop.com"
 import FreeCAD
 import FreeCADGui
 
-from App.FeatureStage import FeatureStage
+from Rocket.FeatureStage import FeatureStage
 from Ui.Commands.Command import Command, getRocket
 from Ui.ViewStage import ViewProviderStage
 
-from App.Constants import FEATURE_STAGE
+from Rocket.Constants import FEATURE_STAGE
 
 
 from DraftTools import translate

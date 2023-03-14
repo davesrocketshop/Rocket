@@ -30,7 +30,7 @@ import FreeCADGui
 
 from DraftTools import translate
 
-from App.FeatureRocket import FeatureRocket
+from Rocket.FeatureRocket import FeatureRocket
 from Ui.ViewRocket import ViewProviderRocket
 from Ui.Commands.Command import Command
 from Ui.Commands.CmdStage import makeStage

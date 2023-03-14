@@ -34,14 +34,14 @@ from PySide import QtGui, QtCore
 from PySide.QtGui import QStandardItemModel, QStandardItem
 from PySide2.QtWidgets import QVBoxLayout, QHBoxLayout
 
-from App.Constants import COMPONENT_TYPE_BODYTUBE, COMPONENT_TYPE_BULKHEAD, COMPONENT_TYPE_CENTERINGRING, \
+from Rocket.Constants import COMPONENT_TYPE_BODYTUBE, COMPONENT_TYPE_BULKHEAD, COMPONENT_TYPE_CENTERINGRING, \
     COMPONENT_TYPE_COUPLER, COMPONENT_TYPE_ENGINEBLOCK, COMPONENT_TYPE_LAUNCHLUG, COMPONENT_TYPE_NOSECONE, \
     COMPONENT_TYPE_PARACHUTE, COMPONENT_TYPE_STREAMER, COMPONENT_TYPE_TRANSITION, COMPONENT_TYPE_ANY
-from App.Utilities import _valueWithUnits
+from Rocket.Utilities import _valueWithUnits
 
-from App.Parts.BodyTube import listBodyTubes, getBodyTube
-from App.Parts.NoseCone import listNoseCones, getNoseCone
-from App.Parts.Transition import listTransitions, getTransition
+from Rocket.Parts.BodyTube import listBodyTubes, getBodyTube
+from Rocket.Parts.NoseCone import listNoseCones, getNoseCone
+from Rocket.Parts.Transition import listTransitions, getTransition
 
 
 # Constant definitions

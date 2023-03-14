@@ -27,9 +27,9 @@ __url__ = "https://www.davesrocketshop.com"
 import FreeCAD
 import unittest
 
-from App.util.Coordinate import Coordinate
-from App.util.MathUtil import EPSILON
-from App.position import AxialMethod
+from Rocket.util.Coordinate import Coordinate
+from Rocket.util.MathUtil import EPSILON
+from Rocket.position import AxialMethod
 
 from Ui.Commands.CmdBodyTube import makeBodyTube
 from Ui.Commands.CmdRocket import makeRocket
@@ -41,7 +41,7 @@ from Ui.Commands.CmdCenteringRing import makeCenteringRing
 
 from Tests.util.TestRockets import TestRockets
 
-from App.Constants import TYPE_OGIVE
+from Rocket.Constants import TYPE_OGIVE
 
 class PositionTests(unittest.TestCase):
 

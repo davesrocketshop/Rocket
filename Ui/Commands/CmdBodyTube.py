@@ -27,14 +27,14 @@ __url__ = "https://www.davesrocketshop.com"
 import FreeCAD
 import FreeCADGui
 
-from App.FeatureBodyTube import FeatureBodyTube
-from App.FeatureInnerTube import FeatureInnerTube
-from App.FeatureTubeCoupler import FeatureTubeCoupler
-from App.FeatureEngineBlock import FeatureEngineBlock
+from Rocket.FeatureBodyTube import FeatureBodyTube
+from Rocket.FeatureInnerTube import FeatureInnerTube
+from Rocket.FeatureTubeCoupler import FeatureTubeCoupler
+from Rocket.FeatureEngineBlock import FeatureEngineBlock
 from Ui.ViewBodyTube import ViewProviderBodyTube, ViewProviderInnerTube, ViewProviderCoupler, ViewProviderEngineBlock
 from Ui.Commands.Command import Command
 
-from App.Constants import FEATURE_BODY_TUBE, FEATURE_INNER_TUBE, FEATURE_TUBE_COUPLER, FEATURE_ENGINE_BLOCK
+from Rocket.Constants import FEATURE_BODY_TUBE, FEATURE_INNER_TUBE, FEATURE_TUBE_COUPLER, FEATURE_ENGINE_BLOCK
 
 from DraftTools import translate
 

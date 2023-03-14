@@ -31,11 +31,11 @@ from DraftTools import translate
 from Analyzers.pyatmos import coesa76
 from Analyzers.pyatmos.utils.Const import p0, gamma, R_air
 
-from App.Constants import FIN_TYPE_TRAPEZOID, FIN_TYPE_ELLIPSE, FIN_TYPE_SKETCH
+from Rocket.Constants import FIN_TYPE_TRAPEZOID, FIN_TYPE_ELLIPSE, FIN_TYPE_SKETCH
 
-from App.ShapeHandlers.FinTrapezoidShapeHandler import FinTrapezoidShapeHandler
-from App.ShapeHandlers.FinEllipseShapeHandler import FinEllipseShapeHandler
-from App.ShapeHandlers.FinSketchShapeHandler import FinSketchShapeHandler
+from Rocket.ShapeHandlers.FinTrapezoidShapeHandler import FinTrapezoidShapeHandler
+from Rocket.ShapeHandlers.FinEllipseShapeHandler import FinEllipseShapeHandler
+from Rocket.ShapeHandlers.FinSketchShapeHandler import FinSketchShapeHandler
 
 class FinFlutter:
 

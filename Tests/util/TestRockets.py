@@ -26,7 +26,7 @@ __url__ = "https://www.davesrocketshop.com"
     
 import FreeCAD
 
-from App.Constants import TYPE_CONE, TYPE_BLUNTED_CONE, TYPE_SPHERICAL, TYPE_ELLIPTICAL, TYPE_HAACK, TYPE_OGIVE, TYPE_BLUNTED_OGIVE, TYPE_SECANT_OGIVE, TYPE_VON_KARMAN, TYPE_PARABOLA, TYPE_PARABOLIC, TYPE_POWER
+from Rocket.Constants import TYPE_CONE, TYPE_BLUNTED_CONE, TYPE_SPHERICAL, TYPE_ELLIPTICAL, TYPE_HAACK, TYPE_OGIVE, TYPE_BLUNTED_OGIVE, TYPE_SECANT_OGIVE, TYPE_VON_KARMAN, TYPE_PARABOLA, TYPE_PARABOLIC, TYPE_POWER
 
 from Ui.Commands.CmdBodyTube import makeBodyTube, makeEngineBlock, makeInnerTube
 from Ui.Commands.CmdRocket import makeRocket
@@ -35,7 +35,7 @@ from Ui.Commands.CmdNoseCone import makeNoseCone
 from Ui.Commands.CmdFin import makeFin
 from Ui.Commands.CmdLaunchGuides import makeLaunchLug
 from Ui.Commands.CmdCenteringRing import makeCenteringRing
-from App.position import AxialMethod
+from Rocket.position import AxialMethod
 
 class TestRockets:
 

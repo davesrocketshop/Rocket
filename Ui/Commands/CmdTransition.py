@@ -28,11 +28,11 @@ __url__ = "https://www.davesrocketshop.com"
 import FreeCAD
 import FreeCADGui
 
-from App.FeatureTransition import FeatureTransition
+from Rocket.FeatureTransition import FeatureTransition
 from Ui.ViewTransition import ViewProviderTransition
 from Ui.Commands.Command import Command
 
-from App.Constants import FEATURE_TRANSITION
+from Rocket.Constants import FEATURE_TRANSITION
 
 from DraftTools import translate
 

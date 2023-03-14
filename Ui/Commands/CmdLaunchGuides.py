@@ -27,13 +27,13 @@ __url__ = "https://www.davesrocketshop.com"
 import FreeCAD
 import FreeCADGui
 
-from App.FeatureRailGuide import FeatureRailGuide
-from App.FeatureLaunchLug import FeatureLaunchLug
-from App.FeatureRailButton import FeatureRailButton
+from Rocket.FeatureRailGuide import FeatureRailGuide
+from Rocket.FeatureLaunchLug import FeatureLaunchLug
+from Rocket.FeatureRailButton import FeatureRailButton
 from Ui.ViewLaunchGuide import ViewProviderRailButton, ViewProviderLaunchLug, ViewProviderRailGuide
 from Ui.Commands.Command import Command
 
-from App.Constants import FEATURE_LAUNCH_LUG, FEATURE_RAIL_BUTTON, FEATURE_RAIL_GUIDE, FEATURE_OFFSET
+from Rocket.Constants import FEATURE_LAUNCH_LUG, FEATURE_RAIL_BUTTON, FEATURE_RAIL_GUIDE, FEATURE_OFFSET
 
 from DraftTools import translate
 
