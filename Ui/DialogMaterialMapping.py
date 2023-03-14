@@ -34,9 +34,9 @@ from PySide import QtGui, QtCore
 from PySide.QtGui import QStandardItemModel, QStandardItem
 from PySide2.QtWidgets import QVBoxLayout, QHBoxLayout
 
-from App.Utilities import _valueWithUnits
+from Rocket.Utilities import _valueWithUnits
 
-from App.Parts.Material import listMaterials
+from Rocket.Parts.Material import listMaterials
 
 # Constant definitions
 userCancelled   = "Cancelled"

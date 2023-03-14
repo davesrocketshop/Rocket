@@ -27,11 +27,11 @@ __url__ = "https://www.davesrocketshop.com"
 import FreeCAD
 import FreeCADGui
 
-from App.FeatureCenteringRing import FeatureCenteringRing
+from Rocket.FeatureCenteringRing import FeatureCenteringRing
 from Ui.ViewCenteringRing import ViewProviderCenteringRing
 from Ui.Commands.Command import Command
 
-from App.Constants import FEATURE_CENTERING_RING
+from Rocket.Constants import FEATURE_CENTERING_RING
 
 from DraftTools import translate
 

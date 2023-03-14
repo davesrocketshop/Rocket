@@ -24,7 +24,7 @@ __title__ = "FreeCAD Parts Database Generation"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
     
-from App.Parts.PartDatabase import PartDatabase
+from Rocket.Parts.PartDatabase import PartDatabase
 
 db = PartDatabase(".") # Current directory is the root directory
 db.updateDatabase()

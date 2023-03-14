@@ -33,7 +33,7 @@ from PySide import QtGui
 from PySide.QtCore import QObject, Signal
 from PySide2.QtWidgets import QDialog, QGridLayout
 
-from App.Parts.PartDatabase import PartDatabase
+from Rocket.Parts.PartDatabase import PartDatabase
 from Ui.DialogLookup import DialogLookup
 
 class _databaseLookupDialog(QDialog):

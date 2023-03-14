@@ -35,7 +35,7 @@ from PySide2.QtWidgets import QDialog, QGridLayout, QVBoxLayout
 
 from Ui.TaskPanelLocation import TaskPanelLocation
 
-from App.Utilities import _valueWithUnits, _valueOnly
+from Rocket.Utilities import _valueWithUnits, _valueOnly
 
 class _ParallelStageDialog(QDialog):
 

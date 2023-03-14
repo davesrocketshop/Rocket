@@ -35,7 +35,7 @@ from PySide2.QtWidgets import QDialog, QGridLayout, QVBoxLayout, QSizePolicy, QT
 
 from Ui.TaskPanelLocation import TaskPanelLocation
 
-from App.Constants import RAIL_GUIDE_BASE_FLAT, RAIL_GUIDE_BASE_CONFORMAL, RAIL_GUIDE_BASE_V
+from Rocket.Constants import RAIL_GUIDE_BASE_FLAT, RAIL_GUIDE_BASE_CONFORMAL, RAIL_GUIDE_BASE_V
 
 class _RailGuideDialog(QDialog):
 

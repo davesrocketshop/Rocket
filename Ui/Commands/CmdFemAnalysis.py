@@ -36,7 +36,7 @@ from Ui.Commands.Command import Command
 
 import FemGui
 import ObjectsFem
-from App.fem.Gmsh import RocketGmsh
+from Rocket.fem.Gmsh import RocketGmsh
 
 def createAnalysis():
     doc = FreeCAD.ActiveDocument

@@ -34,12 +34,12 @@ from PySide2.QtWidgets import QDialog, QGridLayout, QVBoxLayout, QSizePolicy, QT
 from DraftTools import translate
 
 from Ui.TaskPanelDatabase import TaskPanelDatabase
-from App.Constants import TYPE_CONE, TYPE_ELLIPTICAL, TYPE_HAACK, TYPE_OGIVE, TYPE_VON_KARMAN, TYPE_PARABOLA, TYPE_PARABOLIC, TYPE_POWER
-from App.Constants import STYLE_CAPPED, STYLE_HOLLOW, STYLE_SOLID, STYLE_SOLID_CORE
-from App.Constants import STYLE_CAP_SOLID, STYLE_CAP_BAR, STYLE_CAP_CROSS
-from App.Constants import COMPONENT_TYPE_TRANSITION
+from Rocket.Constants import TYPE_CONE, TYPE_ELLIPTICAL, TYPE_HAACK, TYPE_OGIVE, TYPE_VON_KARMAN, TYPE_PARABOLA, TYPE_PARABOLIC, TYPE_POWER
+from Rocket.Constants import STYLE_CAPPED, STYLE_HOLLOW, STYLE_SOLID, STYLE_SOLID_CORE
+from Rocket.Constants import STYLE_CAP_SOLID, STYLE_CAP_BAR, STYLE_CAP_CROSS
+from Rocket.Constants import COMPONENT_TYPE_TRANSITION
 
-from App.Utilities import _toFloat, _valueWithUnits
+from Rocket.Utilities import _toFloat, _valueWithUnits
 
 class _TransitionDialog(QDialog):
 

@@ -34,12 +34,12 @@ from PySide2.QtWidgets import QDialog, QGridLayout, QVBoxLayout, QSizePolicy, QT
 from DraftTools import translate
 
 from Ui.TaskPanelDatabase import TaskPanelDatabase
-from App.Constants import TYPE_CONE, TYPE_BLUNTED_CONE, TYPE_SPHERICAL, TYPE_ELLIPTICAL, TYPE_HAACK, TYPE_OGIVE, TYPE_BLUNTED_OGIVE, TYPE_SECANT_OGIVE, TYPE_VON_KARMAN, TYPE_PARABOLA, TYPE_PARABOLIC, TYPE_POWER
-from App.Constants import STYLE_CAPPED, STYLE_HOLLOW, STYLE_SOLID
-from App.Constants import STYLE_CAP_SOLID, STYLE_CAP_BAR, STYLE_CAP_CROSS
-from App.Constants import COMPONENT_TYPE_NOSECONE
+from Rocket.Constants import TYPE_CONE, TYPE_BLUNTED_CONE, TYPE_SPHERICAL, TYPE_ELLIPTICAL, TYPE_HAACK, TYPE_OGIVE, TYPE_BLUNTED_OGIVE, TYPE_SECANT_OGIVE, TYPE_VON_KARMAN, TYPE_PARABOLA, TYPE_PARABOLIC, TYPE_POWER
+from Rocket.Constants import STYLE_CAPPED, STYLE_HOLLOW, STYLE_SOLID
+from Rocket.Constants import STYLE_CAP_SOLID, STYLE_CAP_BAR, STYLE_CAP_CROSS
+from Rocket.Constants import COMPONENT_TYPE_NOSECONE
 
-from App.Utilities import _toFloat, _valueWithUnits, _valueOnly
+from Rocket.Utilities import _toFloat, _valueWithUnits, _valueOnly
 
 class _NoseConeDialog(QDialog):
 

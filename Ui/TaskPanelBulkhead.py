@@ -35,9 +35,9 @@ from DraftTools import translate
 
 from Ui.TaskPanelDatabase import TaskPanelDatabase
 from Ui.TaskPanelLocation import TaskPanelLocation
-from App.Constants import COMPONENT_TYPE_BULKHEAD, COMPONENT_TYPE_CENTERINGRING
+from Rocket.Constants import COMPONENT_TYPE_BULKHEAD, COMPONENT_TYPE_CENTERINGRING
 
-from App.Utilities import _valueWithUnits
+from Rocket.Utilities import _valueWithUnits
 
 class _BulkheadDialog(QDialog):
 

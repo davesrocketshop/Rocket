@@ -61,8 +61,8 @@ from Ui.Commands.CmdFemAnalysis import CmdFemAnalysis
 from Ui.Commands.CmdMaterialEditor import CmdMaterialEditor
 from Ui.Commands.CmdMaterialMapping import CmdMaterialMapping
 
-from App.Constants import FEATURE_BODY_TUBE
-from App.Constants import FEATURE_LAUNCH_LUG, FEATURE_RAIL_BUTTON, FEATURE_RAIL_GUIDE, FEATURE_OFFSET
+from Rocket.Constants import FEATURE_BODY_TUBE
+from Rocket.Constants import FEATURE_LAUNCH_LUG, FEATURE_RAIL_BUTTON, FEATURE_RAIL_GUIDE, FEATURE_OFFSET
 
 FreeCADGui.addCommand('Rocket_Rocket', CmdRocket())
 FreeCADGui.addCommand('Rocket_ToggleRocket', CmdToggleRocket())

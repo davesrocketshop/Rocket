@@ -27,7 +27,7 @@ __url__ = "https://www.davesrocketshop.com"
 import FreeCAD
 import unittest
 
-from App.util.Coordinate import Coordinate
+from Rocket.util.Coordinate import Coordinate
 
 from Tests.util.TestRockets import TestRockets
 

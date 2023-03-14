@@ -35,11 +35,11 @@ from PySide2.QtWidgets import QDialog, QGridLayout, QVBoxLayout, QTextEdit
 
 from Ui.TaskPanelDatabase import TaskPanelDatabase
 from Ui.TaskPanelLocation import TaskPanelLocation
-from App.Constants import COMPONENT_TYPE_BODYTUBE, COMPONENT_TYPE_LAUNCHLUG, COMPONENT_TYPE_COUPLER, COMPONENT_TYPE_ENGINEBLOCK
+from Rocket.Constants import COMPONENT_TYPE_BODYTUBE, COMPONENT_TYPE_LAUNCHLUG, COMPONENT_TYPE_COUPLER, COMPONENT_TYPE_ENGINEBLOCK
 
-from App.Constants import FEATURE_LAUNCH_LUG, FEATURE_TUBE_COUPLER, FEATURE_ENGINE_BLOCK
+from Rocket.Constants import FEATURE_LAUNCH_LUG, FEATURE_TUBE_COUPLER, FEATURE_ENGINE_BLOCK
 
-from App.Utilities import _valueWithUnits, _valueOnly
+from Rocket.Utilities import _valueWithUnits, _valueOnly
 
 class _BodyTubeDialog(QDialog):
 
