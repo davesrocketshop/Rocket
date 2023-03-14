@@ -35,6 +35,8 @@ from PySide2.QtWidgets import QDialog, QGridLayout, QVBoxLayout, QTextEdit
 
 from Ui.TaskPanelDatabase import TaskPanelDatabase
 from Ui.TaskPanelLocation import TaskPanelLocation
+from Ui.MaterialTab import MaterialTab
+
 from Rocket.Constants import COMPONENT_TYPE_LAUNCHLUG
 from Rocket.Constants import FEATURE_LAUNCH_LUG
 
@@ -47,8 +49,10 @@ class _LaunchLugDialog(QDialog):
 
         self.tabWidget = QtGui.QTabWidget()
         self.tabGeneral = QtGui.QWidget()
+        self.tabMaterial = MaterialTab()
         self.tabComment = QtGui.QWidget()
         self.tabWidget.addTab(self.tabGeneral, translate('Rocket', "General"))
+        self.tabWidget.addTab(self.tabMaterial, translate('Rocket', "Material"))
         self.tabWidget.addTab(self.tabComment, translate('Rocket', "Comment"))
 
         layout = QVBoxLayout()
@@ -166,6 +170,8 @@ class TaskPanelLaunchLug:
 
         self._obj.Comment = self._lugForm.commentInput.toPlainText()
 
+        self._lugForm.tabMaterial.transferTo(self._obj)
+
     def transferFrom(self):
         "Transfer from the object to the dialog"
         self._lugForm.odInput.setText(self._obj.Diameter.UserString)
@@ -174,6 +180,8 @@ class TaskPanelLaunchLug:
         self._lugForm.lengthInput.setText(self._obj.Length.UserString)
 
         self._lugForm.commentInput.setPlainText(self._obj.Comment)
+
+        self._lugForm.tabMaterial.transferFrom(self._obj)
 
         self._setIdFromThickness()
 

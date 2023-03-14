@@ -31,7 +31,7 @@ import FreeCADGui
 from DraftTools import translate
 
 from PySide import QtGui, QtCore
-from PySide2.QtWidgets import QDialog, QGridLayout, QVBoxLayout, QTextEdit
+from PySide2.QtWidgets import QDialog, QGridLayout, QVBoxLayout, QSizePolicy, QTextEdit
 
 from Ui.TaskPanelDatabase import TaskPanelDatabase
 from Ui.TaskPanelLocation import TaskPanelLocation
@@ -39,7 +39,9 @@ from Rocket.Constants import COMPONENT_TYPE_BODYTUBE, COMPONENT_TYPE_LAUNCHLUG, 
 
 from Rocket.Constants import FEATURE_LAUNCH_LUG, FEATURE_TUBE_COUPLER, FEATURE_ENGINE_BLOCK
 
-from Rocket.Utilities import _valueWithUnits, _valueOnly
+from Ui.MaterialTab import MaterialTab
+
+from Rocket.Utilities import _valueOnly
 
 class _BodyTubeDialog(QDialog):
 
@@ -48,8 +50,10 @@ class _BodyTubeDialog(QDialog):
 
         self.tabWidget = QtGui.QTabWidget()
         self.tabGeneral = QtGui.QWidget()
+        self.tabMaterial = MaterialTab()
         self.tabComment = QtGui.QWidget()
         self.tabWidget.addTab(self.tabGeneral, translate('Rocket', "General"))
+        self.tabWidget.addTab(self.tabMaterial, translate('Rocket', "Material"))
         self.tabWidget.addTab(self.tabComment, translate('Rocket', "Comment"))
 
         layout = QVBoxLayout()
@@ -136,6 +140,7 @@ class _BodyTubeDialog(QDialog):
         layout = QVBoxLayout()
         layout.addItem(grid)
         layout.addWidget(self.motorGroup)
+        layout.addItem(QtGui.QSpacerItem(0,0, QSizePolicy.Expanding, QSizePolicy.Expanding))
 
         self.tabGeneral.setLayout(layout)
 
@@ -208,6 +213,8 @@ class TaskPanelBodyTube:
 
         self._obj.Comment = self._btForm.commentInput.toPlainText()
 
+        self._btForm.tabMaterial.transferTo(self._obj)
+
     def transferFrom(self):
         "Transfer from the object to the dialog"
         self._btForm.odInput.setText(self._obj.Diameter.UserString)
@@ -220,6 +227,8 @@ class TaskPanelBodyTube:
             self._btForm.overhangInput.setText(self._obj.Overhang.UserString)
 
         self._btForm.commentInput.setPlainText(self._obj.Comment)
+
+        self._btForm.tabMaterial.transferFrom(self._obj)
 
         self._setAutoDiameterState()
         self._setIdFromThickness()

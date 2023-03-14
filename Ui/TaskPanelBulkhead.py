@@ -35,6 +35,8 @@ from DraftTools import translate
 
 from Ui.TaskPanelDatabase import TaskPanelDatabase
 from Ui.TaskPanelLocation import TaskPanelLocation
+from Ui.MaterialTab import MaterialTab
+
 from Rocket.Constants import COMPONENT_TYPE_BULKHEAD, COMPONENT_TYPE_CENTERINGRING
 
 from Rocket.Utilities import _valueWithUnits
@@ -46,8 +48,10 @@ class _BulkheadDialog(QDialog):
 
         self.tabWidget = QtGui.QTabWidget()
         self.tabGeneral = QtGui.QWidget()
+        self.tabMaterial = MaterialTab()
         self.tabComment = QtGui.QWidget()
         self.tabWidget.addTab(self.tabGeneral, translate('Rocket', "General"))
+        self.tabWidget.addTab(self.tabMaterial, translate('Rocket', "Material"))
         self.tabWidget.addTab(self.tabComment, translate('Rocket', "Comment"))
 
         layout = QVBoxLayout()
@@ -332,6 +336,8 @@ class TaskPanelBulkhead:
 
         self._obj.Comment = self._bulkForm.commentInput.toPlainText()
 
+        self._bulkForm.tabMaterial.transferTo(self._obj)
+
     def transferFrom(self):
         "Transfer from the object to the dialog"
         self._bulkForm.diameterInput.setText(self._obj.Diameter.UserString)
@@ -360,6 +366,8 @@ class TaskPanelBulkhead:
             self._setAutoCenterDiameterState()
 
         self._bulkForm.commentInput.setPlainText(self._obj.Comment)
+
+        self._bulkForm.tabMaterial.transferFrom(self._obj)
 
         self._setAutoDiameterState()
         self._setHoleState()

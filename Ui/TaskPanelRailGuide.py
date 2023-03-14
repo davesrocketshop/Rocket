@@ -34,6 +34,7 @@ from PySide import QtGui, QtCore
 from PySide2.QtWidgets import QDialog, QGridLayout, QVBoxLayout, QSizePolicy, QTextEdit
 
 from Ui.TaskPanelLocation import TaskPanelLocation
+from Ui.MaterialTab import MaterialTab
 
 from Rocket.Constants import RAIL_GUIDE_BASE_FLAT, RAIL_GUIDE_BASE_CONFORMAL, RAIL_GUIDE_BASE_V
 
@@ -44,8 +45,10 @@ class _RailGuideDialog(QDialog):
 
         self.tabWidget = QtGui.QTabWidget()
         self.tabGeneral = QtGui.QWidget()
+        self.tabMaterial = MaterialTab()
         self.tabComment = QtGui.QWidget()
         self.tabWidget.addTab(self.tabGeneral, translate('Rocket', "General"))
+        self.tabWidget.addTab(self.tabMaterial, translate('Rocket', "Material"))
         self.tabWidget.addTab(self.tabComment, translate('Rocket', "Comment"))
 
         layout = QVBoxLayout()
@@ -333,6 +336,8 @@ class TaskPanelRailGuide:
 
         self._obj.Comment = self._btForm.commentInput.toPlainText()
 
+        self._btForm.tabMaterial.transferTo(self._obj)
+
     def transferFrom(self):
         "Transfer from the object to the dialog"
         self._btForm.railGuideBaseTypeCombo.setCurrentText(self._obj.RailGuideBaseType)
@@ -355,6 +360,8 @@ class TaskPanelRailGuide:
         self._btForm.notchDepthInput.setText(self._obj.NotchDepth.UserString)
 
         self._btForm.commentInput.setPlainText(self._obj.Comment)
+
+        self._btForm.tabMaterial.transferFrom(self._obj)
 
         self._setTypeState()
         self._setForwardSweepState()

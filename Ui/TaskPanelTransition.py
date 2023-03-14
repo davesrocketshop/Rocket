@@ -34,6 +34,8 @@ from PySide2.QtWidgets import QDialog, QGridLayout, QVBoxLayout, QSizePolicy, QT
 from DraftTools import translate
 
 from Ui.TaskPanelDatabase import TaskPanelDatabase
+from Ui.MaterialTab import MaterialTab
+
 from Rocket.Constants import TYPE_CONE, TYPE_ELLIPTICAL, TYPE_HAACK, TYPE_OGIVE, TYPE_VON_KARMAN, TYPE_PARABOLA, TYPE_PARABOLIC, TYPE_POWER
 from Rocket.Constants import STYLE_CAPPED, STYLE_HOLLOW, STYLE_SOLID, STYLE_SOLID_CORE
 from Rocket.Constants import STYLE_CAP_SOLID, STYLE_CAP_BAR, STYLE_CAP_CROSS
@@ -53,9 +55,11 @@ class _TransitionDialog(QDialog):
         self.tabWidget = QtGui.QTabWidget()
         self.tabGeneral = QtGui.QWidget()
         self.tabShoulder = QtGui.QWidget()
+        self.tabMaterial = MaterialTab()
         self.tabComment = QtGui.QWidget()
         self.tabWidget.addTab(self.tabGeneral, translate('Rocket', "General"))
         self.tabWidget.addTab(self.tabShoulder, translate('Rocket', "Shoulder"))
+        self.tabWidget.addTab(self.tabMaterial, translate('Rocket', "Material"))
         self.tabWidget.addTab(self.tabComment, translate('Rocket', "Comment"))
 
         layout = QVBoxLayout()
@@ -433,6 +437,8 @@ class TaskPanelTransition:
 
         self._obj.Comment = self._tranForm.commentInput.toPlainText()
 
+        self._tranForm.tabMaterial.transferTo(self._obj)
+
     def transferFrom(self):
         "Transfer from the object to the dialog"
         self._tranForm.transitionTypesCombo.setCurrentText(self._obj.TransitionType)
@@ -462,6 +468,8 @@ class TaskPanelTransition:
         self._tranForm.aftShoulderThicknessInput.setText(self._obj.AftShoulderThickness.UserString)
 
         self._tranForm.commentInput.setPlainText(self._obj.Comment)
+
+        self._tranForm.tabMaterial.transferFrom(self._obj)
 
         self._setForeAutoDiameterState()
         self._setAftAutoDiameterState()

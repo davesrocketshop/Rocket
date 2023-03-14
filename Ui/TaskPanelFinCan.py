@@ -52,6 +52,8 @@ from Rocket.Utilities import _err, _toFloat
 from Ui.TaskPanelLocation import TaskPanelLocation
 from Ui.Commands.CmdSketcher import newSketchNoEdit
 
+from Ui.MaterialTab import MaterialTab
+
 class _FinCanDialog(QDialog):
 
     def __init__(self, sketch, parent=None):
@@ -66,7 +68,7 @@ class _FinCanDialog(QDialog):
         self.tabFinCan = QtGui.QWidget()
         self.tabCoupler = QtGui.QWidget()
         self.tabLaunchLug = QtGui.QWidget()
-        self.tabMaterial = QtGui.QWidget()
+        self.tabMaterial = MaterialTab()
         self.tabComment = QtGui.QWidget()
         self.tabWidget.addTab(self.tabGeneral, translate('Rocket', "Fins"))
         self.tabWidget.addTab(self.tabFinCan, translate('Rocket', "Fin Can"))
@@ -83,7 +85,6 @@ class _FinCanDialog(QDialog):
         self.setTabCan()
         self.setTabCoupler()
         self.setTabLaunchLug()
-        self.setTabMaterial()
         self.setTabComment()
 
     def setTabGeneral(self):
@@ -643,24 +644,6 @@ class _FinCanDialog(QDialog):
 
         self.tabLaunchLug.setLayout(layout)
 
-    def setTabMaterial(self):
-
-        self.materialLabel = QtGui.QLabel(translate('Rocket', "Material"), self)
-
-        self.materialPresetCombo = QtGui.QComboBox(self)
-        row = 0
-        grid = QGridLayout()
-
-        grid.addWidget(self.materialLabel, row, 0)
-        grid.addWidget(self.materialPresetCombo, row, 1)
-        row += 1
-
-        layout = QVBoxLayout()
-        layout.addItem(grid)
-        layout.addItem(QtGui.QSpacerItem(0,0, QSizePolicy.Expanding, QSizePolicy.Expanding))
-
-        self.tabMaterial.setLayout(layout)
-
     def setTabComment(self):
 
         ui = FreeCADGui.UiLoader()
@@ -756,7 +739,6 @@ class TaskPanelFinCan(QObject):
         self._redrawPending = False
         self.redrawRequired.connect(self.onRedraw, QtCore.Qt.QueuedConnection)
         
-        self.updateMaterials()        
         self.update()
         
         if mode == 0: # fresh created
@@ -823,9 +805,9 @@ class TaskPanelFinCan(QObject):
         self._obj.LaunchLugAftSweep = self._finForm.aftSweepGroup.isChecked()
         self._obj.LaunchLugAftSweepAngle = self._finForm.aftSweepInput.text()
 
-        self._obj.Material = str(self._finForm.materialPresetCombo.currentText())
-
         self._obj.Comment = self._finForm.commentInput.toPlainText()
+
+        self._finForm.tabMaterial.transferTo(self._obj)
 
     def transferFrom(self):
         "Transfer from the object to the dialog"
@@ -887,7 +869,7 @@ class TaskPanelFinCan(QObject):
         self._finForm.aftSweepGroup.setChecked(self._obj.LaunchLugAftSweep)
         self._finForm.aftSweepInput.setText(self._obj.LaunchLugAftSweepAngle.UserString)
 
-        self._finForm.materialPresetCombo.setCurrentText(self._obj.Material)
+        self._finForm.tabMaterial.transferFrom(self._obj)
 
         self._finForm.commentInput.setPlainText(self._obj.Comment)
 

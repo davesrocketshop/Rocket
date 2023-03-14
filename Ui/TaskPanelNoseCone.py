@@ -34,6 +34,8 @@ from PySide2.QtWidgets import QDialog, QGridLayout, QVBoxLayout, QSizePolicy, QT
 from DraftTools import translate
 
 from Ui.TaskPanelDatabase import TaskPanelDatabase
+from Ui.MaterialTab import MaterialTab
+
 from Rocket.Constants import TYPE_CONE, TYPE_BLUNTED_CONE, TYPE_SPHERICAL, TYPE_ELLIPTICAL, TYPE_HAACK, TYPE_OGIVE, TYPE_BLUNTED_OGIVE, TYPE_SECANT_OGIVE, TYPE_VON_KARMAN, TYPE_PARABOLA, TYPE_PARABOLIC, TYPE_POWER
 from Rocket.Constants import STYLE_CAPPED, STYLE_HOLLOW, STYLE_SOLID
 from Rocket.Constants import STYLE_CAP_SOLID, STYLE_CAP_BAR, STYLE_CAP_CROSS
@@ -53,9 +55,11 @@ class _NoseConeDialog(QDialog):
         self.tabWidget = QtGui.QTabWidget()
         self.tabGeneral = QtGui.QWidget()
         self.tabShoulder = QtGui.QWidget()
+        self.tabMaterial = MaterialTab()
         self.tabComment = QtGui.QWidget()
         self.tabWidget.addTab(self.tabGeneral, translate('Rocket', "General"))
         self.tabWidget.addTab(self.tabShoulder, translate('Rocket', "Shoulder"))
+        self.tabWidget.addTab(self.tabMaterial, translate('Rocket', "Material"))
         self.tabWidget.addTab(self.tabComment, translate('Rocket', "Comment"))
 
         layout = QVBoxLayout()
@@ -347,6 +351,8 @@ class TaskPanelNoseCone:
 
         self._obj.Comment = self._noseForm.commentInput.toPlainText()
 
+        self._noseForm.tabMaterial.transferTo(self._obj)
+
     def transferFrom(self):
         "Transfer from the object to the dialog"
         self._noseForm.noseConeTypesCombo.setCurrentText(self._obj.NoseType)
@@ -367,6 +373,8 @@ class TaskPanelNoseCone:
         self._noseForm.shoulderThicknessInput.setText(self._obj.ShoulderThickness.UserString)
 
         self._noseForm.commentInput.setPlainText(self._obj.Comment)
+
+        self._noseForm.tabMaterial.transferFrom(self._obj)
 
         self._setTypeState()
         self._setStyleState()

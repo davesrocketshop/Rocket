@@ -40,6 +40,8 @@ from DraftTools import translate
 from Ui.TaskPanelLocation import TaskPanelLocation
 from Ui.Commands.CmdSketcher import newSketchNoEdit
 
+from Ui.MaterialTab import MaterialTab
+
 from Rocket.Constants import FIN_TYPE_TRAPEZOID, FIN_TYPE_TRIANGLE, FIN_TYPE_ELLIPSE, FIN_TYPE_TUBE, FIN_TYPE_SKETCH
 from Rocket.Constants import FIN_CROSS_SAME, FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE, \
     FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE, FIN_CROSS_BICONVEX, FIN_CROSS_ELLIPSE
@@ -60,7 +62,7 @@ class _FinDialog(QDialog):
         self.tabWidget = QtGui.QTabWidget()
         self.tabGeneral = QtGui.QWidget()
         self.tabTtw = QtGui.QWidget()
-        self.tabMaterial = QtGui.QWidget()
+        self.tabMaterial = MaterialTab()
         self.tabComment = QtGui.QWidget()
         self.tabWidget.addTab(self.tabGeneral, translate('Rocket', "General"))
         self.tabWidget.addTab(self.tabTtw, translate('Rocket', "Fin Tabs"))
@@ -73,7 +75,6 @@ class _FinDialog(QDialog):
 
         self.setTabGeneral()
         self.setTabTtw()
-        self.setTabMaterial()
         self.setTabComment()
 
     def setTabGeneral(self):
@@ -433,24 +434,6 @@ class _FinDialog(QDialog):
 
         self.tabTtw.setLayout(layout)
 
-    def setTabMaterial(self):
-
-        self.materialLabel = QtGui.QLabel(translate('Rocket', "Material"), self)
-
-        self.materialPresetCombo = QtGui.QComboBox(self)
-        row = 0
-        grid = QGridLayout()
-
-        grid.addWidget(self.materialLabel, row, 0)
-        grid.addWidget(self.materialPresetCombo, row, 1)
-        row += 1
-
-        layout = QVBoxLayout()
-        layout.addItem(grid)
-        layout.addItem(QtGui.QSpacerItem(0,0, QSizePolicy.Expanding, QSizePolicy.Expanding))
-
-        self.tabMaterial.setLayout(layout)
-
     def setTabComment(self):
 
         self.commentLabel = QtGui.QLabel(translate('Rocket', "Comment"), self)
@@ -524,7 +507,6 @@ class TaskPanelFin(QObject):
         self._redrawPending = False
         self.redrawRequired.connect(self.onRedraw, QtCore.Qt.QueuedConnection)
 
-        self.updateMaterials()        
         self.update()
         
         if mode == 0: # fresh created
@@ -573,9 +555,9 @@ class TaskPanelFin(QObject):
         self._obj.TtwAutoHeight = self._finForm.ttwAutoHeightCheckbox.isChecked()
         self._obj.TtwThickness = self._finForm.ttwThicknessInput.text()
 
-        self._obj.Material = str(self._finForm.materialPresetCombo.currentText())
-
         self._obj.Comment = self._finForm.commentInput.toPlainText()
+
+        self._finForm.tabMaterial.transferTo(self._obj)
 
     def transferFrom(self):
         "Transfer from the object to the dialog"
@@ -617,9 +599,9 @@ class TaskPanelFin(QObject):
         self._finForm.ttwAutoHeightCheckbox.setChecked(self._obj.TtwAutoHeight)
         self._finForm.ttwThicknessInput.setText(self._obj.TtwThickness.UserString)
 
-        self._finForm.materialPresetCombo.setCurrentText(self._obj.Material)
-
         self._finForm.commentInput.setPlainText(self._obj.Comment)
+
+        self._finForm.tabMaterial.transferFrom(self._obj)
 
         self._setFinSetState()
         self._enableRootLengths()
@@ -629,14 +611,6 @@ class TaskPanelFin(QObject):
         self._sweepAngleFromLength(self._obj.SweepLength)
         self._setTtwState()
     
-    def updateMaterials(self):
-        "fills the combo with the existing FCMat cards"
-        self._finForm.materialPresetCombo.addItem('')
-        cards = Material.materialDictionary()
-        if cards:
-            for k in sorted(cards.keys()):
-                self._finForm.materialPresetCombo.addItem(k)
-
     def setEdited(self):
         try:
             self._obj.Proxy.setEdited()

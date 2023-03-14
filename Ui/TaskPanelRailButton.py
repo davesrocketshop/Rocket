@@ -34,6 +34,7 @@ from PySide import QtGui
 from PySide2.QtWidgets import QDialog, QGridLayout, QVBoxLayout, QTextEdit
 
 from Ui.TaskPanelLocation import TaskPanelLocation
+from Ui.MaterialTab import MaterialTab
 
 from Rocket.Constants import RAIL_BUTTON_ROUND, RAIL_BUTTON_AIRFOIL
 from Rocket.Constants import CONTERSINK_ANGLE_60, CONTERSINK_ANGLE_82, CONTERSINK_ANGLE_90, CONTERSINK_ANGLE_100, \
@@ -53,8 +54,10 @@ class _RailButtonDialog(QDialog):
 
         self.tabWidget = QtGui.QTabWidget()
         self.tabGeneral = QtGui.QWidget()
+        self.tabMaterial = MaterialTab()
         self.tabComment = QtGui.QWidget()
         self.tabWidget.addTab(self.tabGeneral, translate('Rocket', "General"))
+        self.tabWidget.addTab(self.tabMaterial, translate('Rocket', "Material"))
         self.tabWidget.addTab(self.tabComment, translate('Rocket', "Comment"))
 
         layout = QVBoxLayout()
@@ -303,6 +306,8 @@ class TaskPanelRailButton:
 
         self._obj.Comment = self._btForm.commentInput.toPlainText()
 
+        self._btForm.tabMaterial.transferTo(self._obj)
+
     def transferFrom(self):
         "Transfer from the object to the dialog"
         self._btForm.railButtonTypeCombo.setCurrentText(self._obj.RailButtonType)
@@ -323,6 +328,8 @@ class TaskPanelRailButton:
         self._btForm.filletRadiusInput.setText(self._obj.FilletRadius.UserString)
 
         self._btForm.commentInput.setPlainText(self._obj.Comment)
+
+        self._btForm.tabMaterial.transferFrom(self._obj)
 
         self._setTypeState()
 
