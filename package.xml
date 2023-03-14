@@ -19,6 +19,7 @@
       <depend>numpy</depend>
 
       <depend>Fem</depend>
+      <depend>Material</depend>
     </workbench>
   </content>
 
