@@ -98,9 +98,22 @@ class FinShapeHandler:
             _, theta, _ = self._angles()
             x = math.sin(theta)
             z = math.cos(theta)
-            circle = Part.makeCircle(halfThickness, FreeCAD.Vector(chordFore + halfThickness, 0, height),
-                                     FreeCAD.Vector(x,0,z))
-            wire = Part.Wire([circle])
+            circle = Part.Circle(FreeCAD.Vector(chordFore + halfThickness, 0, height),
+                                     FreeCAD.Vector(x,0,z), halfThickness)
+            
+            # Split the circle into 4 arcs so that the loft has proper reference points
+            degree = math.radians(1)
+            rad1 = (-math.pi/2.0) + degree
+            rad2 = (math.pi/2.0) - degree
+            rad3 = (math.pi/2.0) + degree
+            rad4 = (3.0 * math.pi/2.0) - degree
+            rad5 = (3.0 * math.pi/2.0) + degree # Wrap around value for rad1
+            arc1 = Part.Arc(circle, rad1, rad2)
+            arc2 = Part.Arc(circle, rad2, rad3)
+            arc3 = Part.Arc(circle, rad3, rad4)
+            arc4 = Part.Arc(circle, rad4, rad5)
+            # wire = Part.Wire([circle])
+            wire = Part.Wire([arc1.toShape(), arc2.toShape(), arc3.toShape(), arc4.toShape()])
             return wire
         
         v1 = FreeCAD.Vector(chordFore + halfThickness, halfThickness, height)
