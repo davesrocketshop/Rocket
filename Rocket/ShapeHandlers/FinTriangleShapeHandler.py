@@ -49,17 +49,6 @@ class FinTriangleShapeHandler(FinShapeHandler):
         return self._makeChordProfile(self._obj.RootCrossSection, 0.0, float(self._obj.RootChord),
             float(self._obj.RootThickness), 0.0, l1, l2)
 
-    def _makeMidProfile(self):
-        # Create the profile at the mid point, to assist in accurate lofting
-        if self._obj.RootCrossSection in [FIN_CROSS_DIAMOND, FIN_CROSS_WEDGE, FIN_CROSS_SQUARE]:
-            return None
-        
-        l1, l2 = self._lengthsFromPercent(float(self._obj.RootChord), self._obj.RootPerCent, 
-                                          float(self._obj.RootLength1), float(self._obj.RootLength2))
-        chord, height, sweep = self._midChord(float(self._obj.RootChord))
-        return self._makeChordProfile(self._obj.RootCrossSection, sweep, chord,
-            float(self._obj.RootThickness), height, l1, l2)
-
     def _makeTipProfile(self):
         # Create the tip profile, casting everything to float to avoid typing issues
         if self._obj.RootCrossSection in [FIN_CROSS_DIAMOND]:
