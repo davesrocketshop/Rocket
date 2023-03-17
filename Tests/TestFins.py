@@ -51,12 +51,12 @@ class FinTests(unittest.TestCase):
         feature = makeFin('Fin')
         feature._obj.FinType = FIN_TYPE_TRAPEZOID
         feature._obj.FinSet = False
-        feature._obj.SweepLength = feature._obj.RootChord / 2
+        feature.setSweepLength(feature._obj.RootChord / 2) # Also sets sweep angle
         feature._obj.RootCrossSection = crosssection
         feature._obj.TipCrossSection = crosssection
         feature._obj.RootPerCent = False
         feature._obj.RootLength1 = 10.0
-        feature._obj.RootLength2 = 10.0
+        feature._obj.RootLength2 = float(feature._obj.RootChord) - 10.0
         self.Doc.recompute()
         
         message = "Trapezoid: " + crosssection + " Center"
@@ -67,12 +67,12 @@ class FinTests(unittest.TestCase):
         feature = makeFin('Fin')
         feature._obj.FinType = FIN_TYPE_TRAPEZOID
         feature._obj.FinSet = False
-        feature._obj.SweepLength = feature._obj.RootChord / 2
+        feature.setSweepLength(feature._obj.RootChord / 2) # Also sets sweep angle
         feature._obj.RootCrossSection = crosssection
         feature._obj.TipCrossSection = crosssection
         feature._obj.RootPerCent = False
         feature._obj.RootLength1 = 10.0
-        feature._obj.RootLength2 = 10.0
+        feature._obj.RootLength2 = float(feature._obj.RootChord) - 10.0
         feature._obj.TipChord = 0.0
         self.Doc.recompute()
         
@@ -84,11 +84,11 @@ class FinTests(unittest.TestCase):
         feature = makeFin('Fin')
         feature._obj.FinType = FIN_TYPE_ELLIPSE
         feature._obj.FinSet = False
-        feature._obj.SweepLength = feature._obj.RootChord / 2
+        feature.setSweepLength(feature._obj.RootChord / 2) # Also sets sweep angle
         feature._obj.RootCrossSection = crosssection
         feature._obj.RootPerCent = False
         feature._obj.RootLength1 = 10.0
-        feature._obj.RootLength2 = 10.0
+        feature._obj.RootLength2 = float(feature._obj.RootChord) - 10.0
         self.Doc.recompute()
         
         message = "Ellipse: " + crosssection + " Center"
@@ -99,12 +99,12 @@ class FinTests(unittest.TestCase):
         feature = makeFin('Fin')
         feature._obj.FinType = FIN_TYPE_TRIANGLE
         feature._obj.FinSet = False
-        feature._obj.SweepLength = feature._obj.RootChord / 2
+        feature.setSweepLength(feature._obj.RootChord / 2) # Also sets sweep angle
         feature._obj.RootCrossSection = crosssection
         feature._obj.TipCrossSection = crosssection
         feature._obj.RootPerCent = False
         feature._obj.RootLength1 = 10.0
-        feature._obj.RootLength2 = 10.0
+        feature._obj.RootLength2 = float(feature._obj.RootChord) - 10.0
         self.Doc.recompute()
         
         message = "Triangle: " + crosssection + " Center"
@@ -115,16 +115,12 @@ class FinTests(unittest.TestCase):
         feature = makeFin('Fin')
         feature._obj.FinType = FIN_TYPE_TRAPEZOID
         feature._obj.FinSet = False
-        feature._obj.SweepLength = (3 * feature._obj.RootChord) / 2.0
+        feature.setSweepLength((3 * feature._obj.RootChord) / 2.0)
         feature._obj.RootCrossSection = crosssection
         feature._obj.TipCrossSection = crosssection
         feature._obj.RootPerCent = False
         feature._obj.RootLength1 = 10.0
-        feature._obj.RootLength2 = 10.0
-        # feature._obj.TipPerCent = False
-        # feature._obj.TipLength1 = 10.0
-        # feature._obj.TipLength2 = 10.0
-        # feature._obj.TipChord = 0.0
+        feature._obj.RootLength2 = float(feature._obj.RootChord) - 10.0
         self.Doc.recompute()
         
         message = "Trapezoid: " + crosssection + " Rear Sweep"
@@ -135,12 +131,12 @@ class FinTests(unittest.TestCase):
         feature = makeFin('Fin')
         feature._obj.FinType = FIN_TYPE_TRAPEZOID
         feature._obj.FinSet = False
-        feature._obj.SweepLength = (3 * feature._obj.RootChord) / 2.0
+        feature.setSweepLength((3 * feature._obj.RootChord) / 2.0)
         feature._obj.RootCrossSection = crosssection
         feature._obj.TipCrossSection = crosssection
         feature._obj.RootPerCent = False
         feature._obj.RootLength1 = 10.0
-        feature._obj.RootLength2 = 10.0
+        feature._obj.RootLength2 = float(feature._obj.RootChord) - 10.0
         feature._obj.TipChord = 0.0
         self.Doc.recompute()
         
@@ -152,12 +148,12 @@ class FinTests(unittest.TestCase):
         feature = makeFin('Fin')
         feature._obj.FinType = FIN_TYPE_TRIANGLE
         feature._obj.FinSet = False
-        feature._obj.SweepLength = (3 * feature._obj.RootChord) / 2.0
+        feature.setSweepLength((3 * feature._obj.RootChord) / 2.0)
         feature._obj.RootCrossSection = crosssection
         feature._obj.TipCrossSection = crosssection
         feature._obj.RootPerCent = False
         feature._obj.RootLength1 = 10.0
-        feature._obj.RootLength2 = 10.0
+        feature._obj.RootLength2 = float(feature._obj.RootChord) - 10.0
         self.Doc.recompute()
         
         message = "Triangle: " + crosssection + " Rear Sweep"
@@ -168,12 +164,12 @@ class FinTests(unittest.TestCase):
         feature = makeFin('Fin')
         feature._obj.FinType = FIN_TYPE_TRAPEZOID
         feature._obj.FinSet = False
-        feature._obj.SweepLength = -(3 * feature._obj.RootChord) / 2.0
+        feature.setSweepLength(-(3 * feature._obj.RootChord) / 2.0)
         feature._obj.RootCrossSection = crosssection
         feature._obj.TipCrossSection = crosssection
         feature._obj.RootPerCent = False
         feature._obj.RootLength1 = 10.0
-        feature._obj.RootLength2 = 10.0
+        feature._obj.RootLength2 = float(feature._obj.RootChord) - 10.0
         self.Doc.recompute()
         
         message = "Trapezoid: " + crosssection + " Fore Sweep"
@@ -184,12 +180,12 @@ class FinTests(unittest.TestCase):
         feature = makeFin('Fin')
         feature._obj.FinType = FIN_TYPE_TRAPEZOID
         feature._obj.FinSet = False
-        feature._obj.SweepLength = -(3 * feature._obj.RootChord) / 2.0
+        feature.setSweepLength(-(3 * feature._obj.RootChord) / 2.0)
         feature._obj.RootCrossSection = crosssection
         feature._obj.TipCrossSection = crosssection
         feature._obj.RootPerCent = False
         feature._obj.RootLength1 = 10.0
-        feature._obj.RootLength2 = 10.0
+        feature._obj.RootLength2 = float(feature._obj.RootChord) - 10.0
         feature._obj.TipChord = 0.0
         self.Doc.recompute()
         
@@ -201,12 +197,12 @@ class FinTests(unittest.TestCase):
         feature = makeFin('Fin')
         feature._obj.FinType = FIN_TYPE_TRIANGLE
         feature._obj.FinSet = False
-        feature._obj.SweepLength = -(3 * feature._obj.RootChord) / 2.0
+        feature.setSweepLength(-(3 * feature._obj.RootChord) / 2.0)
         feature._obj.RootCrossSection = crosssection
         feature._obj.TipCrossSection = crosssection
         feature._obj.RootPerCent = False
         feature._obj.RootLength1 = 10.0
-        feature._obj.RootLength2 = 10.0
+        feature._obj.RootLength2 = float(feature._obj.RootChord) - 10.0
         self.Doc.recompute()
         
         message = "Triangle: " + crosssection + " Fore Sweep"

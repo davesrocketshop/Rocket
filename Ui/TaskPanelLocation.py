@@ -131,7 +131,7 @@ class TaskPanelLocation(QObject):
         self._axial = not obj.Proxy.isAfter()
         self._form = _locationDialog(radial, self._axial, parent)
         
-        self._form.setWindowIcon(QtGui.QIcon(FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Location.svg"))
+        # self._form.setWindowIcon(QtGui.QIcon(FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Location.svg"))
         
         if self._axial:
             self._form.referenceCombo.currentTextChanged.connect(self.onReference)
