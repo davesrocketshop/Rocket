@@ -69,7 +69,7 @@ class RocketMigrateApp(object):
         if module.__name__ == "App.ShapeBulkhead":
             import Rocket.migration.ShapeBulkhead
             module.ShapeBulkhead = Rocket.migration.ShapeBulkhead.ShapeBulkhead
-        if module.__name__ == "App.ShapeBodyTube":
+        if module.__name__ == "App.ShapeCenteringRing":
             import Rocket.migration.ShapeCenteringRing
             module.ShapeCenteringRing = Rocket.migration.ShapeCenteringRing.ShapeCenteringRing
         if module.__name__ == "App.ShapeFin":
