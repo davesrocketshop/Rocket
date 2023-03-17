@@ -62,7 +62,7 @@ class FinFlutter:
         if fin.FinType == FIN_TYPE_ELLIPSE:
             raise TypeError(translate('Rocket', "Elliptical fins are not supported at this time"))
         elif fin.FinType == FIN_TYPE_TRIANGLE:
-            raise TypeError(translate('Rocket', "Triangulat fins are not supported at this time"))
+            raise TypeError(translate('Rocket', "Triangular fins are not supported at this time"))
         elif fin.FinType == FIN_TYPE_TUBE:
             raise TypeError(translate('Rocket', "Tube fins are not supported at this time"))
         if fin.FinType == FIN_TYPE_ELLIPSE:
