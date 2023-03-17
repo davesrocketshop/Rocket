@@ -41,11 +41,11 @@ class FinTests(unittest.TestCase):
         self.assertTrue(feature._obj.Shape.isValid(), message)
         self.assertIsNone(feature._obj.Shape.check(True), message)
 
-    # def testBasic(self):
-    #     feature = makeFin('Fin')
-    #     self.Doc.recompute()
+    def testBasic(self):
+        feature = makeFin('Fin')
+        self.Doc.recompute()
 
-    #     self._checkShape(feature, "Basic")
+        self._checkShape(feature, "Basic")
 
     def _testCenterTrapezoid(self, crosssection):
         feature = makeFin('Fin')
@@ -121,10 +121,6 @@ class FinTests(unittest.TestCase):
         feature._obj.RootPerCent = False
         feature._obj.RootLength1 = 10.0
         feature._obj.RootLength2 = float(feature._obj.RootChord) - 10.0
-        # feature._obj.TipPerCent = False
-        # feature._obj.TipLength1 = 10.0
-        # feature._obj.TipLength2 = 10.0
-        # feature._obj.TipChord = 0.0
         self.Doc.recompute()
         
         message = "Trapezoid: " + crosssection + " Rear Sweep"
@@ -213,40 +209,20 @@ class FinTests(unittest.TestCase):
 
         self._checkShape(feature, message)
 
-    def testTrapezoidCenter(self):
+    def testTrapezoid(self):
         for cross in [FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE, FIN_CROSS_DIAMOND, 
                     FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE, FIN_CROSS_ELLIPSE, FIN_CROSS_BICONVEX]:
             with self.subTest(crosssection=cross):
                 self._testCenterTrapezoid(cross)
-
-    def testTrapezoidAft(self):
-        for cross in [FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE, FIN_CROSS_DIAMOND, 
-                    FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE, FIN_CROSS_ELLIPSE, FIN_CROSS_BICONVEX]:
-            with self.subTest(crosssection=cross):
                 self._testAftSweepTrapezoid(cross)
-
-    def testTrapezoidFore(self):
-        for cross in [FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE, FIN_CROSS_DIAMOND, 
-                    FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE, FIN_CROSS_ELLIPSE, FIN_CROSS_BICONVEX]:
-            with self.subTest(crosssection=cross):
                 self._testForeSweepTrapezoid(cross)
 
-    def testTrapezoidZeroTipCenter(self):
+    def testTrapezoidZeroTip(self):
         for cross in [FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE, FIN_CROSS_DIAMOND, 
                     FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE, FIN_CROSS_ELLIPSE, FIN_CROSS_BICONVEX]:
             with self.subTest(crosssection=cross):
                 self._testCenterTrapezoidZeroTip(cross)
-
-    def testTrapezoidZeroTipAft(self):
-        for cross in [FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE, FIN_CROSS_DIAMOND, 
-                    FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE, FIN_CROSS_ELLIPSE, FIN_CROSS_BICONVEX]:
-            with self.subTest(crosssection=cross):
                 self._testAftSweepTrapezoidZeroTip(cross)
-
-    def testTrapezoidZeroTipFore(self):
-        for cross in [FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE, FIN_CROSS_DIAMOND, 
-                    FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE, FIN_CROSS_ELLIPSE, FIN_CROSS_BICONVEX]:
-            with self.subTest(crosssection=cross):
                 self._testForeSweepTrapezoidZeroTip(cross)
 
     def testEllipse(self):
@@ -255,20 +231,10 @@ class FinTests(unittest.TestCase):
             with self.subTest(crosssection=cross):
                 self._testCenterEllipse(cross)
 
-    def testTriangularCenter(self):
+    def testTriangular(self):
         for cross in [FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE, FIN_CROSS_DIAMOND, 
                     FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE, FIN_CROSS_ELLIPSE, FIN_CROSS_BICONVEX]:
             with self.subTest(crosssection=cross):
                 self._testCenterTriangle(cross)
-
-    def testTriangularAft(self):
-        for cross in [FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE, FIN_CROSS_DIAMOND, 
-                    FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE, FIN_CROSS_ELLIPSE, FIN_CROSS_BICONVEX]:
-            with self.subTest(crosssection=cross):
                 self._testAftSweepTriangle(cross)
-
-    def testTriangularFore(self):
-        for cross in [FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE, FIN_CROSS_DIAMOND, 
-                    FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE, FIN_CROSS_ELLIPSE, FIN_CROSS_BICONVEX]:
-            with self.subTest(crosssection=cross):
                 self._testForeSweepTriangle(cross)

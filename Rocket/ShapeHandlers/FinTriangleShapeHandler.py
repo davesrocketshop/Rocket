@@ -98,9 +98,12 @@ class FinTriangleShapeHandler(FinShapeHandler):
         if crossSection in [FIN_CROSS_WEDGE, FIN_CROSS_SQUARE]:
             chord = 0.00001 # Effectively but not exactly zero
             height = float(self._obj.Height)
-        elif crossSection in [FIN_CROSS_ROUND, FIN_CROSS_ELLIPSE, FIN_CROSS_BICONVEX, FIN_CROSS_AIRFOIL]:
+        elif crossSection in [FIN_CROSS_ROUND, FIN_CROSS_ELLIPSE, FIN_CROSS_BICONVEX]:
             chord = float(self._obj.RootThickness)
             height = max(float(self._obj.Height) - (float(self._obj.RootThickness) / 2.0), 0)
+        elif crossSection in [FIN_CROSS_AIRFOIL]:
+            chord = float(self._obj.RootThickness)
+            height = self._heightAtChord(chord)
         elif crossSection in [FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE]:
             chord = tip1
             height = self._heightAtChord(chord)
@@ -184,7 +187,6 @@ class FinTriangleShapeHandler(FinShapeHandler):
         loft1 = Part.makeLoft([wire1, wire2], True)
         loft2 = Part.makeLoft([wire1, wire3], True)
         tip = loft1.fuse(loft2)
-        # Part.show(tip)
         return tip
    
     def _makeLETaperTip(self):
@@ -222,17 +224,17 @@ class FinTriangleShapeHandler(FinShapeHandler):
         top=Part.Point(FreeCAD.Vector(self._obj.SweepLength, 0.0, self._obj.Height)).toShape()
         tip = Part.makeLoft([base, top], True)
         return tip
-        # return None
    
     def _makeAirfoilTip(self):
-        # Wedge at the base, point at the tip
         l1, l2 = self._lengthsFromPercent(float(self._obj.RootChord), self._obj.RootPerCent, 
-                                          float(self._obj.RootLength1), float(self._obj.RootLength2))
+                                    float(self._obj.RootLength1), float(self._obj.RootLength2))
         chord, height, sweep = self._topChord(l1, l2)
-        base = self._makeChordProfile(FIN_CROSS_AIRFOIL, sweep, chord,
+        base = self._makeChordProfile(self._obj.RootCrossSection, sweep, chord,
             float(self._obj.RootThickness), height, l1, l2)
-        
-        top=Part.Point(FreeCAD.Vector(self._obj.SweepLength, 0.0, self._obj.Height)).toShape()
+        thickness = 0.001
+        chord = float(self._obj.RootChord) / float(self._obj.RootThickness) * thickness
+        top = self._makeChordProfile(self._obj.RootCrossSection, float(self._obj.SweepLength), chord,
+            thickness, float(self._obj.Height), l1, l2)
         tip = Part.makeLoft([base, top], True)
         return tip
 
