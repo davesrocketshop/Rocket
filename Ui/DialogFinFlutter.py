@@ -353,19 +353,13 @@ class DialogFinFlutter(QDialog):
         "Transfer from the object to the dialog"
         self.materialPresetCombo.setCurrentText(self._fin.Material)
 
-    def _clearAxes(self, orientation):
-        axes = self.chart.axes(orientation)
-        if axes is not None:
-            for axis in axes:
-                self.chart.removeAxis(axis)
-
-    def _clearAllAxes(self):
-        self._clearAxes(QtCore.Qt.Horizontal)
-        self._clearAxes(QtCore.Qt.Vertical)
-
     def _setSeries(self):
 
-        self.chart.removeAllSeries()
+        oldChart = self.chart
+        self.chart = QtCharts.QChart()
+        self.chart.setAnimationOptions(QtCharts.QChart.NoAnimation)
+        self.chart_view.setChart(self.chart)
+        del oldChart
 
         # Create QLineSeries
         self.flutterSeries = QtCharts.QSplineSeries()
@@ -397,7 +391,6 @@ class DialogFinFlutter(QDialog):
         self.chart.addSeries(self.flutterSeries)
         self.chart.addSeries(self.divergenceSeries)
 
-        self._clearAllAxes()
         self.chart.createDefaultAxes()
 
         # Setting X-axis
