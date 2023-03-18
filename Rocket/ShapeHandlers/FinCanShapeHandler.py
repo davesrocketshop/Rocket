@@ -32,7 +32,7 @@ from DraftTools import translate
 
 from Rocket.Constants import FINCAN_EDGE_SQUARE, FINCAN_EDGE_ROUND, FINCAN_EDGE_TAPER
 from Rocket.Constants import FINCAN_COUPLER_STEPPED
-from Rocket.Utilities import validationError
+from Rocket.Utilities import validationError, _err
 
 from Rocket.ShapeHandlers.FinShapeHandler import FinShapeHandler
 from Rocket.ShapeHandlers.FinTrapezoidShapeHandler import FinTrapezoidShapeHandler
@@ -83,7 +83,7 @@ class FinCanShapeHandler(FinShapeHandler):
 
         return super().isValidShape()
 
-    def _leadingRound(self):
+    def _trailingRound(self):
         # center_x = self._obj.RootChord + self._obj.LeadingEdgeOffset - self._obj.LeadingLength
         center_x = self._obj.Length - self._obj.LeadingLength
         center_y = self._obj.Diameter / 2.0
@@ -104,7 +104,7 @@ class FinCanShapeHandler(FinShapeHandler):
         shape = face.revolve(FreeCAD.Vector(0, 0, 0),FreeCAD.Vector(1, 0, 0), 360)
         return shape
 
-    def _leadingTaper(self):
+    def _trailingTaper(self):
         # center_x = self._obj.RootChord + self._obj.LugLeadingEdgeOffset - self._obj.LeadingLength
         center_x = self._obj.Length - self._obj.LeadingLength
         center_y = self._obj.Diameter / 2.0
@@ -128,7 +128,7 @@ class FinCanShapeHandler(FinShapeHandler):
             return self._leadingTaper()
         return None
 
-    def _trailingRound(self):
+    def _leadingRound(self):
         # center_x = self._obj.RootChord - self._obj.Length + self._obj.LeadingEdgeOffset + self._obj.TrailingLength
         center_x = self._obj.TrailingLength
         center_y = self._obj.Diameter / 2.0
@@ -149,7 +149,7 @@ class FinCanShapeHandler(FinShapeHandler):
         shape = face.revolve(FreeCAD.Vector(0, 0, 0),FreeCAD.Vector(1, 0, 0), 360)
         return shape
 
-    def _trailingTaper(self):
+    def _leadingTaper(self):
         # center_x = self._obj.RootChord - self._obj.Length + self._obj.LugLeadingEdgeOffset + self._obj.TrailingLength
         center_x = self._obj.TrailingLength
         center_y = self._obj.Diameter / 2.0
@@ -261,12 +261,13 @@ class FinCanShapeHandler(FinShapeHandler):
                 bodyRadius = self._obj.Diameter / 2.0 + self._obj.Thickness
 
                 # base = float(self._obj.RootChord - self._obj.Length + self._obj.LugLeadingEdgeOffset)
-                base = float(self._obj.Length - self._obj.LugLength - self._obj.LugLeadingEdgeOffset)
+                base = float(self._obj.Length - self._obj.LugLength + self._obj.LugLeadingEdgeOffset)
+                base = float(self._obj.LugLeadingEdgeOffset)
                 # if self._obj.TrailingEdge != FINCAN_EDGE_SQUARE: - already factored in by Length - LugLength
                 #     base += float(self._obj.TrailingLength)
                 if not self._obj.LugLeadingEdgeOffset > 0:
                     if self._obj.LeadingEdge != FINCAN_EDGE_SQUARE:
-                        base -= float(self._obj.LeadingLength)
+                        base += float(self._obj.LeadingLength)
 
                 if self._obj.LugThickness > self._obj.Thickness:
                     lugCenterZ = radius + self._obj.LugThickness
@@ -371,6 +372,10 @@ class FinCanShapeHandler(FinShapeHandler):
                 can = can.cut(step)
 
         return can
+    
+    def _extendRoot(self):
+        # Override this if the fin root needs an extension to connect it to the body tube
+        return True
 
     def _drawFinCan(self):
         # Make the can
@@ -390,7 +395,7 @@ class FinCanShapeHandler(FinShapeHandler):
             can = can.fuse(shape)
 
         # Add the fins
-        fins = self._drawFinSet()
+        fins = self._drawFinSet(float(self._obj.Thickness))
         finCan = Part.makeCompound([can, fins])
 
         return finCan
