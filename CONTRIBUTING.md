@@ -29,6 +29,18 @@ already contributed. Do a little or a lot. Even small incremental gains are valu
 
 Translations aren't limited to the software. The online wiki pages can also use translators. See https://wiki.freecadweb.org/Localisation#Translate_the_FreeCAD_wiki to get started.
 
+# Designers
+
+Do our icons make you cringe? Think you can do better?
+
+Programmers often make lousy designers, but in the absence of someone with skill we do what we must. Your contributions
+can make all the difference.
+
+# Accessibility / Usability
+
+What can be done to improve your experience? It is easy to overlook an accessibility issue when you're not personally affected
+but it's often easy to accomodate once the issue is known.
+
 # Testers
 
 See a bug? Open an issue on GitHub (https://github.com/davesrocketshop/Rocket/issues)
