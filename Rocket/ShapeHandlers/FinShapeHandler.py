@@ -392,12 +392,20 @@ class FinShapeHandler:
         profiles = []
         return profiles
 
+    def _makeExtensionProfiles(self, height):
+        profiles = []
+        return profiles
+
     def _makeTip(self):
         return None
 
     def _makeCommon(self):
         # Override this if we have a "masking" shape
         return None
+    
+    def _extendRoot(self):
+        # Override this if the fin root needs an extension to connect it to the body tube
+        return False
 
     def finOnlyShape(self):
         fin = self._finOnlyShape(FIN_DEBUG_FULL)
@@ -437,9 +445,33 @@ class FinShapeHandler:
 
         return loft
 
+    def _makeRootExtension(self):
+        loft = None
+        height = float(self._obj.Diameter) / 2.0 + float(self._obj.Thickness)
+        profiles = self._makeExtensionProfiles(height)
+        if profiles is not None and len(profiles) > 0:
+            loft = Part.makeLoft(profiles, True)
+
+            # Make a cutout of the body tube center
+            if loft is not None:
+                center = Part.makeCylinder((self._obj.Diameter + self._obj.Thickness) / 2.0,
+                                           2.0 * self._obj.Length,
+                                           FreeCAD.Vector(-self._obj.Length / 2.0, 0, -height),
+                                           FreeCAD.Vector(1, 0, 0)
+                                           )
+                if self._obj.Cant != 0:
+                    center.rotate(FreeCAD.Vector(self._obj.Length / 2, 0, 0), FreeCAD.Vector(0,0,1), -self._obj.Cant)
+                loft = loft.cut(center)
+
+        return loft
+
     def _drawFinDebug(self, debug):
         fin = self._finOnlyShape(debug)
         if fin is not None:
+            if self._extendRoot():
+                extension = self._makeRootExtension()
+                if extension:
+                    fin = fin.fuse(extension)
             if self._obj.Ttw:
                 ttw = self._makeTtw()
                 if ttw:
@@ -459,17 +491,17 @@ class FinShapeHandler:
         fin.translate(FreeCAD.Vector(0,0,float(self._obj.ParentRadius)))
         return Part.makeCompound([fin])
 
-    def _drawFinSet(self):
+    def _drawFinSet(self, offset=0):
         fins = []
         base = self._drawSingleFin()
         baseX = 0
         if hasattr(self._obj, "LeadingEdgeOffset"):
-            baseX = -self._obj.LeadingEdgeOffset
+            baseX = self._obj.LeadingEdgeOffset
         for i in range(self._obj.FinCount):
             fin = Part.Shape(base) # Create a copy
             if self._obj.Cant != 0:
                 fin.rotate(FreeCAD.Vector(self._obj.RootChord / 2, 0, 0), FreeCAD.Vector(0,0,1), self._obj.Cant)
-            fin.translate(FreeCAD.Vector(baseX,0,float(self._obj.ParentRadius)))
+            fin.translate(FreeCAD.Vector(baseX,0,float(self._obj.ParentRadius) + offset))
             fin.rotate(FreeCAD.Vector(0, 0, 0), FreeCAD.Vector(1,0,0), i * float(self._obj.FinSpacing))
             fins.append(fin)
 
