@@ -2,11 +2,14 @@
 ; David Carter
 ; information about the content of such cards can be found on the wiki:
 ; https://www.freecadweb.org/wiki/Material
+; file created by FreeCAD 0.20.29177 (Git)
 
 [General]
 Name = Blue-tube
 Description = Blue tube
 KindOfMaterial = Solid
+ReferenceSource = https://alwaysreadyrocketry.com/blue-tube-2-0/
+SourceURL = https://alwaysreadyrocketry.com/wp-content/uploads/2020/01/Blue-Tube-Engineering-Data.pdf
 
 [Mechanical]
 Density = 1300.0 kg/m^3
