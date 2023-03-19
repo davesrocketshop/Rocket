@@ -31,10 +31,12 @@ from DraftTools import translate
 from Analyzers.pyatmos import coesa76
 from Analyzers.pyatmos.utils.Const import p0, gamma, R_air
 
-from Rocket.Constants import FIN_TYPE_TRAPEZOID, FIN_TYPE_ELLIPSE, FIN_TYPE_SKETCH
+from Rocket.Constants import FIN_TYPE_TRAPEZOID, FIN_TYPE_ELLIPSE, FIN_TYPE_SKETCH, FIN_TYPE_TRIANGLE, FIN_TYPE_TUBE
 
 from Rocket.ShapeHandlers.FinTrapezoidShapeHandler import FinTrapezoidShapeHandler
+from Rocket.ShapeHandlers.FinTriangleShapeHandler import FinTriangleShapeHandler
 from Rocket.ShapeHandlers.FinEllipseShapeHandler import FinEllipseShapeHandler
+from Rocket.ShapeHandlers.FinTubeShapeHandler import FinTubeShapeHandler
 from Rocket.ShapeHandlers.FinSketchShapeHandler import FinSketchShapeHandler
 
 class FinFlutter:
@@ -47,13 +49,25 @@ class FinFlutter:
         handler = None
         if fin.FinType == FIN_TYPE_TRAPEZOID:
             handler = FinTrapezoidShapeHandler(fin)
+        elif fin.FinType == FIN_TYPE_TRIANGLE:
+            handler = FinTriangleShapeHandler(fin)
         elif fin.FinType == FIN_TYPE_ELLIPSE:
             handler = FinEllipseShapeHandler(fin)
+        elif fin.FinType == FIN_TYPE_TUBE:
+            handler = FinTubeShapeHandler(fin)
         elif fin.FinType == FIN_TYPE_SKETCH:
             handler = FinSketchShapeHandler(fin)
         self._Shape = handler.finOnlyShape()
         
-        if fin.FinType == FIN_TYPE_TRAPEZOID:
+        if fin.FinType == FIN_TYPE_ELLIPSE:
+            raise TypeError(translate('Rocket', "Elliptical fins are not supported at this time"))
+        elif fin.FinType == FIN_TYPE_TRIANGLE:
+            raise TypeError(translate('Rocket', "Triangular fins are not supported at this time"))
+        elif fin.FinType == FIN_TYPE_TUBE:
+            raise TypeError(translate('Rocket', "Tube fins are not supported at this time"))
+        if fin.FinType == FIN_TYPE_ELLIPSE:
+            raise TypeError(translate('Rocket', "Elliptical fins are not supported at this time"))
+        elif fin.FinType == FIN_TYPE_TRAPEZOID:
 
             # Convert from mm to m
             self._tipChord = self._fromMM(fin.TipChord)
@@ -73,17 +87,6 @@ class FinFlutter:
             # print("epsilon %f" % (self._epsilon))
 
             # self._epsilon = self._epsilon / 0.25 # NACA Eqn 18 already has an epsilon value of 0.25, so need to compensate
-
-        elif fin.FinType == FIN_TYPE_ELLIPSE:
-            raise TypeError(translate('Rocket', "Elliptical fins are not supported at this time"))
-
-            # # Convert from mm to m
-            # self._tipChord = 0.0
-            # self._rootChord = float(fin.RootChord) / 1000.0
-            # self._thickness = float(fin.RootThickness) / 1000.0
-            # self._span = float(fin.Height) / 1000.0
-
-            # self._area = math.pi * (self._rootChord / 2.0) * self._span 
         else:
             raise TypeError(translate('Rocket', "Custom fins are not supported at this time"))
 

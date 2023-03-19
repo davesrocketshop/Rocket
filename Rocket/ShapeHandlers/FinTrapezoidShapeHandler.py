@@ -37,12 +37,12 @@ class FinTrapezoidShapeHandler(FinShapeHandler):
     def __init__(self, obj):
         super().__init__(obj)
 
-    def _makeRootProfile(self):
+    def _makeRootProfile(self, height=0.0):
         # Create the root profile, casting everything to float to avoid typing issues
         l1, l2 = self._lengthsFromPercent(float(self._obj.RootChord), self._obj.RootPerCent,
                                           float(self._obj.RootLength1), float(self._obj.RootLength2))
         return self._makeChordProfile(self._obj.RootCrossSection, 0.0, float(self._obj.RootChord), 
-            float(self._obj.RootThickness), 0.0, l1, l2)
+            float(self._obj.RootThickness), height, l1, l2)
 
     def _makeTipProfile(self):
         # Create the tip profile, casting everything to float to avoid typing issues
@@ -80,4 +80,10 @@ class FinTrapezoidShapeHandler(FinShapeHandler):
         profiles = []
         profiles.append(self._makeRootProfile())
         profiles.append(self._makeTipProfile())
+        return profiles
+
+    def _makeExtensionProfiles(self, height):
+        profiles = []
+        profiles.append(self._makeRootProfile(-height))
+        profiles.append(self._makeRootProfile())
         return profiles
