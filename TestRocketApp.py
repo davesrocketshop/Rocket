@@ -31,6 +31,7 @@ from Tests.TestNoses import NoseTests
 from Tests.TestTransition import TransitionTests
 from Tests.TestFlutter import FinFlutterTestCases
 from Tests.TestFins import FinTests
+# from Tests.TestFinCans import FinCanTests
 from Tests.Components.RocketTest import RocketTest
 from Tests.Components.PositionTests import PositionTests
 from Tests.TestMoves import MoveTests
