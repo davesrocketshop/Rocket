@@ -1301,27 +1301,27 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FinTriangleShapeHandler.py" line="122"/>
+        <location filename="FinTriangleShapeHandler.py" line="114"/>
         <source>Ttw offset must be less than the root chord</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FinTriangleShapeHandler.py" line="125"/>
+        <location filename="FinTriangleShapeHandler.py" line="117"/>
         <source>Ttw length must be greater than 0</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FinTriangleShapeHandler.py" line="128"/>
+        <location filename="FinTriangleShapeHandler.py" line="120"/>
         <source>Ttw height must be greater than 0</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FinTriangleShapeHandler.py" line="131"/>
+        <location filename="FinTriangleShapeHandler.py" line="123"/>
         <source>Ttw thickness must be greater than 0</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FinShapeHandler.py" line="478"/>
+        <location filename="FinShapeHandler.py" line="523"/>
         <source>Fin parameters produce an invalid shape</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2101,7 +2101,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FinCanShapeHandler.py" line="409"/>
+        <location filename="FinCanShapeHandler.py" line="414"/>
         <source>Fin can parameters produce an invalid shape</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2186,17 +2186,17 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FinFlutter.py" line="62"/>
+        <location filename="FinFlutter.py" line="76"/>
         <source>Tapered thickness fins are not supported at this time</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FinFlutter.py" line="78"/>
+        <location filename="FinFlutter.py" line="69"/>
         <source>Elliptical fins are not supported at this time</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FinFlutter.py" line="88"/>
+        <location filename="FinFlutter.py" line="91"/>
         <source>Custom fins are not supported at this time</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2638,6 +2638,16 @@
     <message>
         <location filename="TaskPanelTransition.py" line="148"/>
         <source>Forward Cap</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="FinFlutter.py" line="65"/>
+        <source>Triangular fins are not supported at this time</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="FinFlutter.py" line="67"/>
+        <source>Tube fins are not supported at this time</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
