@@ -37,6 +37,7 @@ from Rocket.position import AxialMethod
 import Ui.Commands as Commands
 
 from Rocket.Constants import FEATURE_ROCKET, FEATURE_STAGE
+from Rocket.Constants import LOCATION_SURFACE, LOCATION_CENTER
 
 from DraftTools import translate
 
@@ -84,6 +85,22 @@ class RocketComponentShapeless():
             obj.addProperty('App::PropertyDistance', 'AxialOffset', 'RocketComponent', translate('App::Property', 'Offset from the reference point')).AxialOffset = 0.0
         if not hasattr(obj, 'AngleOffset'):
             obj.addProperty('App::PropertyAngle', 'AngleOffset', 'RocketComponent', translate('App::Property', 'Angle of offset around the center axis')).AngleOffset = 0.0
+       
+        if not hasattr(obj, 'RadialReference'):
+            obj.addProperty('App::PropertyEnumeration', 'RadialReference', 'RocketComponent', translate('App::Property', 'Reference location for the radial offset'))
+            obj.RadialReference = [
+                        LOCATION_SURFACE,
+                        LOCATION_CENTER
+                    ]
+            obj.RadialReference = LOCATION_SURFACE
+        else:
+            obj.RadialReference = [
+                        LOCATION_SURFACE,
+                        LOCATION_CENTER
+                    ]
+
+        if not hasattr(obj, 'RadialOffset'):
+            obj.addProperty('App::PropertyDistance', 'RadialOffset', 'RocketComponent', translate('App::Property', 'Radial offset from the reference')).RadialOffset = 0.0
 
         if not hasattr(obj,"Group"):
             obj.addExtension("App::GroupExtensionPython")

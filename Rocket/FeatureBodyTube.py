@@ -285,7 +285,7 @@ class FeatureBodyTube(SymmetricComponent, BoxBounded, Coaxial):
             FEATURE_FINCAN, 
             FEATURE_LAUNCH_LUG,
             # FEATURE_PARALLEL_STAGE, 
-            # FEATURE_POD,
+            FEATURE_POD,
             FEATURE_RAIL_BUTTON, 
             FEATURE_RAIL_GUIDE]
 

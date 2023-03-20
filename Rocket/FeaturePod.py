@@ -30,8 +30,8 @@ from DraftTools import translate
 
 from Rocket.events.ComponentChangeEvent import ComponentChangeEvent
 from Rocket.interfaces.RingInstanceable import RingInstanceable
-from Rocket.position.AngleMethod import AngleMethod
-from Rocket.position.RadiusMethod import RadiusMethod
+import Rocket.position.AngleMethod as AngleMethod
+import Rocket.position.RadiusMethod as RadiusMethod
 from Rocket.ComponentAssembly import ComponentAssembly
 from Rocket.util.Coordinate import Coordinate
 from Rocket.util.MathUtil import EPSILON
@@ -82,7 +82,7 @@ class FeaturePod(ComponentAssembly, RingInstanceable):
     def onChildEdited(self):
         self._obj.Proxy.setEdited()
 
-    def  getInstanceAngleIncrement(self):
+    def getInstanceAngleIncrement(self):
         return self._obj.AngleSeparation
 
     def getInstanceAngles(self):
@@ -95,6 +95,9 @@ class FeaturePod(ComponentAssembly, RingInstanceable):
             result.append(baseAngle + incrAngle * i)
         
         return result
+
+    def getInstanceLocations(self):
+        pass
 
     def getInstanceOffsets(self):
         radius = self.radiusMethod.getRadius(self.getParent(), self, self._obj.RadiusOffset)

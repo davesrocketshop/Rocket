@@ -28,7 +28,6 @@ from Rocket.util.Coordinate import Coordinate
 from Rocket.RocketComponentShapeless import RocketComponentShapeless
 
 from Rocket.Constants import LOCATION_PARENT_TOP, LOCATION_PARENT_MIDDLE, LOCATION_PARENT_BOTTOM, LOCATION_BASE
-from Rocket.Constants import LOCATION_SURFACE, LOCATION_CENTER
 
 from Rocket.position.AxialMethod import AXIAL_METHOD_MAP
 from Rocket.interfaces.ChangeSource import ChangeSource
@@ -68,22 +67,6 @@ class RocketComponent(RocketComponentShapeless, ChangeSource):
                         LOCATION_PARENT_BOTTOM,
                         LOCATION_BASE
                     ]
-       
-        if not hasattr(obj, 'RadialReference'):
-            obj.addProperty('App::PropertyEnumeration', 'RadialReference', 'RocketComponent', translate('App::Property', 'Reference location for the radial offset'))
-            obj.RadialReference = [
-                        LOCATION_SURFACE,
-                        LOCATION_CENTER
-                    ]
-            obj.RadialReference = LOCATION_SURFACE
-        else:
-            obj.RadialReference = [
-                        LOCATION_SURFACE,
-                        LOCATION_CENTER
-                    ]
-
-        if not hasattr(obj, 'RadialOffset'):
-            obj.addProperty('App::PropertyDistance', 'RadialOffset', 'RocketComponent', translate('App::Property', 'Radial offset from the reference')).RadialOffset = 0.0
 
         # From Rocket
         if not hasattr(obj,"Length"):
