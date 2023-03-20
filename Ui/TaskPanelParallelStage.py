@@ -31,16 +31,29 @@ import FreeCADGui
 from DraftTools import translate
 
 from PySide import QtGui
-from PySide2.QtWidgets import QDialog, QGridLayout, QVBoxLayout
+from PySide2.QtWidgets import QDialog, QGridLayout, QVBoxLayout, QSizePolicy
 
 from Ui.TaskPanelLocation import TaskPanelLocation
-
-from Rocket.Utilities import _valueWithUnits, _valueOnly
+from Ui.Widgets.CommentTab import CommentTab
 
 class _ParallelStageDialog(QDialog):
 
     def __init__(self, parent=None):
         super().__init__(parent)
+
+        self.tabWidget = QtGui.QTabWidget()
+        self.tabGeneral = QtGui.QWidget()
+        self.tabComment = CommentTab()
+        self.tabWidget.addTab(self.tabGeneral, translate('Rocket', "General"))
+        self.tabWidget.addTab(self.tabComment, translate('Rocket', "Comment"))
+
+        layout = QVBoxLayout()
+        layout.addWidget(self.tabWidget)
+        self.setLayout(layout)
+
+        self.setTabGeneral()
+
+    def setTabGeneral(self):
 
         ui = FreeCADGui.UiLoader()
 
@@ -77,8 +90,9 @@ class _ParallelStageDialog(QDialog):
 
         layout = QVBoxLayout()
         layout.addItem(grid)
+        layout.addItem(QtGui.QSpacerItem(0,0, QSizePolicy.Expanding, QSizePolicy.Expanding))
 
-        self.setLayout(layout)
+        self.tabGeneral.setLayout(layout)
 
 class TaskPanelParallelStage:
 
@@ -109,10 +123,14 @@ class TaskPanelParallelStage:
         self._obj.StageCount = self._btForm.stageCountSpinBox.value()
         self._obj.StageSpacing = self._btForm.stageSpacingInput.text()
 
+        self._btForm.tabComment.transferTo(self._obj)
+
     def transferFrom(self):
         "Transfer from the object to the dialog"
         self._btForm.stageCountSpinBox.setValue(self._obj.StageCount)
         self._btForm.stageSpacingInput.setText(self._obj.StageSpacing.UserString)
+
+        self._btForm.tabComment.transferFrom(self._obj)
 
     def setEdited(self):
         try:

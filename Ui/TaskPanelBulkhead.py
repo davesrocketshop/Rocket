@@ -29,13 +29,14 @@ import FreeCAD
 import FreeCADGui
 
 from PySide import QtGui, QtCore
-from PySide2.QtWidgets import QDialog, QGridLayout, QVBoxLayout, QTextEdit
+from PySide2.QtWidgets import QDialog, QGridLayout, QVBoxLayout
 
 from DraftTools import translate
 
 from Ui.TaskPanelDatabase import TaskPanelDatabase
 from Ui.TaskPanelLocation import TaskPanelLocation
 from Ui.Widgets.MaterialTab import MaterialTab
+from Ui.Widgets.CommentTab import CommentTab
 
 from Rocket.Constants import COMPONENT_TYPE_BULKHEAD, COMPONENT_TYPE_CENTERINGRING
 
@@ -49,7 +50,7 @@ class _BulkheadDialog(QDialog):
         self.tabWidget = QtGui.QTabWidget()
         self.tabGeneral = QtGui.QWidget()
         self.tabMaterial = MaterialTab()
-        self.tabComment = QtGui.QWidget()
+        self.tabComment = CommentTab()
         self.tabWidget.addTab(self.tabGeneral, translate('Rocket', "General"))
         self.tabWidget.addTab(self.tabMaterial, translate('Rocket', "Material"))
         self.tabWidget.addTab(self.tabComment, translate('Rocket', "Comment"))
@@ -59,7 +60,6 @@ class _BulkheadDialog(QDialog):
         self.setLayout(layout)
 
         self.setTabGeneral(crPanel)
-        self.setTabComment()
 
     def setTabGeneral(self, crPanel):
 
@@ -240,20 +240,6 @@ class _BulkheadDialog(QDialog):
 
         self.tabGeneral.setLayout(layout)
 
-    def setTabComment(self):
-
-        ui = FreeCADGui.UiLoader()
-
-        self.commentLabel = QtGui.QLabel(translate('Rocket', "Comment"), self)
-
-        self.commentInput = QTextEdit()
-
-        layout = QVBoxLayout()
-        layout.addWidget(self.commentLabel)
-        layout.addWidget(self.commentInput)
-
-        self.tabComment.setLayout(layout)
-
 class TaskPanelBulkhead:
 
     def __init__(self, obj, crPanel, mode):
@@ -334,9 +320,8 @@ class TaskPanelBulkhead:
             self._obj.NotchWidth = self._bulkForm.notchWidthInput.text()
             self._obj.NotchHeight = self._bulkForm.notchHeightInput.text()
 
-        self._obj.Comment = self._bulkForm.commentInput.toPlainText()
-
         self._bulkForm.tabMaterial.transferTo(self._obj)
+        self._bulkForm.tabComment.transferTo(self._obj)
 
     def transferFrom(self):
         "Transfer from the object to the dialog"
@@ -365,9 +350,8 @@ class TaskPanelBulkhead:
             self._setNotchedState()
             self._setAutoCenterDiameterState()
 
-        self._bulkForm.commentInput.setPlainText(self._obj.Comment)
-
         self._bulkForm.tabMaterial.transferFrom(self._obj)
+        self._bulkForm.tabComment.transferFrom(self._obj)
 
         self._setAutoDiameterState()
         self._setHoleState()

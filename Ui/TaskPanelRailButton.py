@@ -31,10 +31,11 @@ import FreeCADGui
 from DraftTools import translate
 
 from PySide import QtGui
-from PySide2.QtWidgets import QDialog, QGridLayout, QVBoxLayout, QTextEdit
+from PySide2.QtWidgets import QDialog, QGridLayout, QVBoxLayout
 
 from Ui.TaskPanelLocation import TaskPanelLocation
 from Ui.Widgets.MaterialTab import MaterialTab
+from Ui.Widgets.CommentTab import CommentTab
 
 from Rocket.Constants import RAIL_BUTTON_ROUND, RAIL_BUTTON_AIRFOIL
 from Rocket.Constants import CONTERSINK_ANGLE_60, CONTERSINK_ANGLE_82, CONTERSINK_ANGLE_90, CONTERSINK_ANGLE_100, \
@@ -45,8 +46,6 @@ from Rocket.Constants import FASTENER_PRESET_8_HEAD, FASTENER_PRESET_8_SHANK
 from Rocket.Constants import FASTENER_PRESET_10_HEAD, FASTENER_PRESET_10_SHANK
 from Rocket.Constants import FASTENER_PRESET_1_4_HEAD, FASTENER_PRESET_1_4_SHANK
 
-
-
 class _RailButtonDialog(QDialog):
 
     def __init__(self, parent=None):
@@ -55,7 +54,7 @@ class _RailButtonDialog(QDialog):
         self.tabWidget = QtGui.QTabWidget()
         self.tabGeneral = QtGui.QWidget()
         self.tabMaterial = MaterialTab()
-        self.tabComment = QtGui.QWidget()
+        self.tabComment = CommentTab()
         self.tabWidget.addTab(self.tabGeneral, translate('Rocket', "General"))
         self.tabWidget.addTab(self.tabMaterial, translate('Rocket', "Material"))
         self.tabWidget.addTab(self.tabComment, translate('Rocket', "Comment"))
@@ -65,7 +64,6 @@ class _RailButtonDialog(QDialog):
         self.setLayout(layout)
 
         self.setTabGeneral()
-        self.setTabComment()
 
     def setTabGeneral(self):
 
@@ -233,20 +231,6 @@ class _RailButtonDialog(QDialog):
 
         self.tabGeneral.setLayout(layout)
 
-    def setTabComment(self):
-
-        ui = FreeCADGui.UiLoader()
-
-        self.commentLabel = QtGui.QLabel(translate('Rocket', "Comment"), self)
-
-        self.commentInput = QTextEdit()
-
-        layout = QVBoxLayout()
-        layout.addWidget(self.commentLabel)
-        layout.addWidget(self.commentInput)
-
-        self.tabComment.setLayout(layout)
-
 class TaskPanelRailButton:
 
     def __init__(self,obj,mode):
@@ -304,9 +288,8 @@ class TaskPanelRailButton:
         self._obj.FilletedTop = self._btForm.filletGroup.isChecked()
         self._obj.FilletRadius = self._btForm.filletRadiusInput.text()
 
-        self._obj.Comment = self._btForm.commentInput.toPlainText()
-
         self._btForm.tabMaterial.transferTo(self._obj)
+        self._btForm.tabComment.transferTo(self._obj)
 
     def transferFrom(self):
         "Transfer from the object to the dialog"
@@ -327,9 +310,8 @@ class TaskPanelRailButton:
         self._btForm.filletGroup.setChecked(self._obj.FilletedTop)
         self._btForm.filletRadiusInput.setText(self._obj.FilletRadius.UserString)
 
-        self._btForm.commentInput.setPlainText(self._obj.Comment)
-
         self._btForm.tabMaterial.transferFrom(self._obj)
+        self._btForm.tabComment.transferFrom(self._obj)
 
         self._setTypeState()
 

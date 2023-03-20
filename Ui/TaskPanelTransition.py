@@ -29,12 +29,13 @@ import FreeCAD
 import FreeCADGui
 
 from PySide import QtGui, QtCore
-from PySide2.QtWidgets import QDialog, QGridLayout, QVBoxLayout, QSizePolicy, QTextEdit
+from PySide2.QtWidgets import QDialog, QGridLayout, QVBoxLayout, QSizePolicy
 
 from DraftTools import translate
 
 from Ui.TaskPanelDatabase import TaskPanelDatabase
 from Ui.Widgets.MaterialTab import MaterialTab
+from Ui.Widgets.CommentTab import CommentTab
 
 from Rocket.Constants import TYPE_CONE, TYPE_ELLIPTICAL, TYPE_HAACK, TYPE_OGIVE, TYPE_VON_KARMAN, TYPE_PARABOLA, TYPE_PARABOLIC, TYPE_POWER
 from Rocket.Constants import STYLE_CAPPED, STYLE_HOLLOW, STYLE_SOLID, STYLE_SOLID_CORE
@@ -56,7 +57,7 @@ class _TransitionDialog(QDialog):
         self.tabGeneral = QtGui.QWidget()
         self.tabShoulder = QtGui.QWidget()
         self.tabMaterial = MaterialTab()
-        self.tabComment = QtGui.QWidget()
+        self.tabComment = CommentTab()
         self.tabWidget.addTab(self.tabGeneral, translate('Rocket', "General"))
         self.tabWidget.addTab(self.tabShoulder, translate('Rocket', "Shoulder"))
         self.tabWidget.addTab(self.tabMaterial, translate('Rocket', "Material"))
@@ -68,7 +69,6 @@ class _TransitionDialog(QDialog):
 
         self.setTabGeneral()
         self.setTabShoulder()
-        self.setTabComment()
 
     def setTabGeneral(self):
         ui = FreeCADGui.UiLoader()
@@ -346,20 +346,6 @@ class _TransitionDialog(QDialog):
 
         self.tabShoulder.setLayout(layout)
 
-    def setTabComment(self):
-
-        ui = FreeCADGui.UiLoader()
-
-        self.commentLabel = QtGui.QLabel(translate('Rocket', "Comment"), self)
-
-        self.commentInput = QTextEdit()
-
-        layout = QVBoxLayout()
-        layout.addWidget(self.commentLabel)
-        layout.addWidget(self.commentInput)
-
-        self.tabComment.setLayout(layout)
-
 class TaskPanelTransition:
 
     def __init__(self,obj,mode):
@@ -433,11 +419,10 @@ class TaskPanelTransition:
         self._obj.AftShoulderDiameter = self._tranForm.aftShoulderDiameterInput.text()
         self._obj.AftShoulderAutoDiameter = self._tranForm.aftShoulderAutoDiameterCheckbox.isChecked()
         self._obj.AftShoulderLength = self._tranForm.aftShoulderLengthInput.text()
-        self._obj.AftShoulderThickness =self._tranForm.aftShoulderThicknessInput.text()
-
-        self._obj.Comment = self._tranForm.commentInput.toPlainText()
+        self._obj.AftShoulderThickness = self._tranForm.aftShoulderThicknessInput.text()
 
         self._tranForm.tabMaterial.transferTo(self._obj)
+        self._tranForm.tabComment.transferTo(self._obj)
 
     def transferFrom(self):
         "Transfer from the object to the dialog"
@@ -467,9 +452,8 @@ class TaskPanelTransition:
         self._tranForm.aftShoulderLengthInput.setText(self._obj.AftShoulderLength.UserString)
         self._tranForm.aftShoulderThicknessInput.setText(self._obj.AftShoulderThickness.UserString)
 
-        self._tranForm.commentInput.setPlainText(self._obj.Comment)
-
         self._tranForm.tabMaterial.transferFrom(self._obj)
+        self._tranForm.tabComment.transferFrom(self._obj)
 
         self._setForeAutoDiameterState()
         self._setAftAutoDiameterState()

@@ -29,12 +29,13 @@ import FreeCAD
 import FreeCADGui
 
 from PySide import QtGui, QtCore
-from PySide2.QtWidgets import QDialog, QGridLayout, QVBoxLayout, QSizePolicy, QTextEdit
+from PySide2.QtWidgets import QDialog, QGridLayout, QVBoxLayout, QSizePolicy
 
 from DraftTools import translate
 
 from Ui.TaskPanelDatabase import TaskPanelDatabase
 from Ui.Widgets.MaterialTab import MaterialTab
+from Ui.Widgets.CommentTab import CommentTab
 
 from Rocket.Constants import TYPE_CONE, TYPE_BLUNTED_CONE, TYPE_SPHERICAL, TYPE_ELLIPTICAL, TYPE_HAACK, TYPE_OGIVE, TYPE_BLUNTED_OGIVE, TYPE_SECANT_OGIVE, TYPE_VON_KARMAN, TYPE_PARABOLA, TYPE_PARABOLIC, TYPE_POWER
 from Rocket.Constants import STYLE_CAPPED, STYLE_HOLLOW, STYLE_SOLID
@@ -56,7 +57,7 @@ class _NoseConeDialog(QDialog):
         self.tabGeneral = QtGui.QWidget()
         self.tabShoulder = QtGui.QWidget()
         self.tabMaterial = MaterialTab()
-        self.tabComment = QtGui.QWidget()
+        self.tabComment = CommentTab()
         self.tabWidget.addTab(self.tabGeneral, translate('Rocket', "General"))
         self.tabWidget.addTab(self.tabShoulder, translate('Rocket', "Shoulder"))
         self.tabWidget.addTab(self.tabMaterial, translate('Rocket', "Material"))
@@ -68,7 +69,6 @@ class _NoseConeDialog(QDialog):
 
         self.setTabGeneral()
         self.setTabShoulder()
-        self.setTabComment()
 
     def setTabGeneral(self):
         ui = FreeCADGui.UiLoader()
@@ -276,20 +276,6 @@ class _NoseConeDialog(QDialog):
 
         self.tabShoulder.setLayout(layout)
 
-    def setTabComment(self):
-
-        ui = FreeCADGui.UiLoader()
-
-        self.commentLabel = QtGui.QLabel(translate('Rocket', "Comment"), self)
-
-        self.commentInput = QTextEdit()
-
-        layout = QVBoxLayout()
-        layout.addWidget(self.commentLabel)
-        layout.addWidget(self.commentInput)
-
-        self.tabComment.setLayout(layout)
-
 class TaskPanelNoseCone:
 
     def __init__(self,obj,mode):
@@ -349,9 +335,8 @@ class TaskPanelNoseCone:
         self._obj.ShoulderLength = self._noseForm.shoulderLengthInput.text()
         self._obj.ShoulderThickness = self._noseForm.shoulderThicknessInput.text()
 
-        self._obj.Comment = self._noseForm.commentInput.toPlainText()
-
         self._noseForm.tabMaterial.transferTo(self._obj)
+        self._noseForm.tabComment.transferTo(self._obj)
 
     def transferFrom(self):
         "Transfer from the object to the dialog"
@@ -372,9 +357,8 @@ class TaskPanelNoseCone:
         self._noseForm.shoulderLengthInput.setText(self._obj.ShoulderLength.UserString)
         self._noseForm.shoulderThicknessInput.setText(self._obj.ShoulderThickness.UserString)
 
-        self._noseForm.commentInput.setPlainText(self._obj.Comment)
-
         self._noseForm.tabMaterial.transferFrom(self._obj)
+        self._noseForm.tabComment.transferFrom(self._obj)
 
         self._setTypeState()
         self._setStyleState()

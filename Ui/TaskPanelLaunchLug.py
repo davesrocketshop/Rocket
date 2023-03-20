@@ -30,17 +30,17 @@ import FreeCADGui
 
 from DraftTools import translate
 
-from PySide import QtGui, QtCore
-from PySide2.QtWidgets import QDialog, QGridLayout, QVBoxLayout, QTextEdit
+from PySide import QtGui
+from PySide2.QtWidgets import QDialog, QGridLayout, QVBoxLayout
 
 from Ui.TaskPanelDatabase import TaskPanelDatabase
 from Ui.TaskPanelLocation import TaskPanelLocation
 from Ui.Widgets.MaterialTab import MaterialTab
+from Ui.Widgets.CommentTab import CommentTab
 
 from Rocket.Constants import COMPONENT_TYPE_LAUNCHLUG
-from Rocket.Constants import FEATURE_LAUNCH_LUG
 
-from Rocket.Utilities import _valueWithUnits, _valueOnly
+from Rocket.Utilities import _valueOnly
 
 class _LaunchLugDialog(QDialog):
 
@@ -50,7 +50,7 @@ class _LaunchLugDialog(QDialog):
         self.tabWidget = QtGui.QTabWidget()
         self.tabGeneral = QtGui.QWidget()
         self.tabMaterial = MaterialTab()
-        self.tabComment = QtGui.QWidget()
+        self.tabComment = CommentTab()
         self.tabWidget.addTab(self.tabGeneral, translate('Rocket', "General"))
         self.tabWidget.addTab(self.tabMaterial, translate('Rocket', "Material"))
         self.tabWidget.addTab(self.tabComment, translate('Rocket', "Comment"))
@@ -60,7 +60,6 @@ class _LaunchLugDialog(QDialog):
         self.setLayout(layout)
 
         self.setTabGeneral()
-        self.setTabComment()
 
     def setTabGeneral(self):
 
@@ -119,20 +118,6 @@ class _LaunchLugDialog(QDialog):
 
         self.tabGeneral.setLayout(layout)
 
-    def setTabComment(self):
-
-        ui = FreeCADGui.UiLoader()
-
-        self.commentLabel = QtGui.QLabel(translate('Rocket', "Comment"), self)
-
-        self.commentInput = QTextEdit()
-
-        layout = QVBoxLayout()
-        layout.addWidget(self.commentLabel)
-        layout.addWidget(self.commentInput)
-
-        self.tabComment.setLayout(layout)
-
 class TaskPanelLaunchLug:
 
     def __init__(self,obj,mode):
@@ -168,9 +153,8 @@ class TaskPanelLaunchLug:
         self._obj.Proxy.setThickness(FreeCAD.Units.Quantity(self._lugForm.thicknessInput.text()).Value)
         self._obj.Proxy.setLength(FreeCAD.Units.Quantity(self._lugForm.lengthInput.text()).Value)
 
-        self._obj.Comment = self._lugForm.commentInput.toPlainText()
-
         self._lugForm.tabMaterial.transferTo(self._obj)
+        self._lugForm.tabComment.transferTo(self._obj)
 
     def transferFrom(self):
         "Transfer from the object to the dialog"
@@ -179,9 +163,8 @@ class TaskPanelLaunchLug:
         self._lugForm.thicknessInput.setText(self._obj.Thickness.UserString)
         self._lugForm.lengthInput.setText(self._obj.Length.UserString)
 
-        self._lugForm.commentInput.setPlainText(self._obj.Comment)
-
         self._lugForm.tabMaterial.transferFrom(self._obj)
+        self._lugForm.tabComment.transferFrom(self._obj)
 
         self._setIdFromThickness()
 

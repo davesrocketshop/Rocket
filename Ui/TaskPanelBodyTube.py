@@ -18,9 +18,9 @@
 # *   USA                                                                   *
 # *                                                                         *
 # ***************************************************************************
-"""Class for drawing nose cones"""
+"""Class for drawing body tubes"""
 
-__title__ = "FreeCAD Nose Cones"
+__title__ = "FreeCAD Body Tubes"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
     
@@ -31,7 +31,7 @@ import FreeCADGui
 from DraftTools import translate
 
 from PySide import QtGui, QtCore
-from PySide2.QtWidgets import QDialog, QGridLayout, QVBoxLayout, QSizePolicy, QTextEdit
+from PySide2.QtWidgets import QDialog, QGridLayout, QVBoxLayout, QSizePolicy
 
 from Ui.TaskPanelDatabase import TaskPanelDatabase
 from Ui.TaskPanelLocation import TaskPanelLocation
@@ -40,6 +40,7 @@ from Rocket.Constants import COMPONENT_TYPE_BODYTUBE, COMPONENT_TYPE_LAUNCHLUG, 
 from Rocket.Constants import FEATURE_LAUNCH_LUG, FEATURE_TUBE_COUPLER, FEATURE_ENGINE_BLOCK
 
 from Ui.Widgets.MaterialTab import MaterialTab
+from Ui.Widgets.CommentTab import CommentTab
 
 from Rocket.Utilities import _valueOnly
 
@@ -51,7 +52,7 @@ class _BodyTubeDialog(QDialog):
         self.tabWidget = QtGui.QTabWidget()
         self.tabGeneral = QtGui.QWidget()
         self.tabMaterial = MaterialTab()
-        self.tabComment = QtGui.QWidget()
+        self.tabComment = CommentTab()
         self.tabWidget.addTab(self.tabGeneral, translate('Rocket', "General"))
         self.tabWidget.addTab(self.tabMaterial, translate('Rocket', "Material"))
         self.tabWidget.addTab(self.tabComment, translate('Rocket', "Comment"))
@@ -61,7 +62,6 @@ class _BodyTubeDialog(QDialog):
         self.setLayout(layout)
 
         self.setTabGeneral()
-        self.setTabComment()
 
     def setTabGeneral(self):
 
@@ -144,20 +144,6 @@ class _BodyTubeDialog(QDialog):
 
         self.tabGeneral.setLayout(layout)
 
-    def setTabComment(self):
-
-        ui = FreeCADGui.UiLoader()
-
-        self.commentLabel = QtGui.QLabel(translate('Rocket', "Comment"), self)
-
-        self.commentInput = QTextEdit()
-
-        layout = QVBoxLayout()
-        layout.addWidget(self.commentLabel)
-        layout.addWidget(self.commentInput)
-
-        self.tabComment.setLayout(layout)
-
 class TaskPanelBodyTube:
 
     def __init__(self,obj,mode):
@@ -211,9 +197,8 @@ class TaskPanelBodyTube:
             self._obj.MotorMount = self._btForm.motorGroup.isChecked()
             self._obj.Overhang = self._btForm.overhangInput.text()
 
-        self._obj.Comment = self._btForm.commentInput.toPlainText()
-
         self._btForm.tabMaterial.transferTo(self._obj)
+        self._btForm.tabComment.transferTo(self._obj)
 
     def transferFrom(self):
         "Transfer from the object to the dialog"
@@ -226,9 +211,8 @@ class TaskPanelBodyTube:
             self._btForm.motorGroup.setChecked(self._obj.MotorMount)
             self._btForm.overhangInput.setText(self._obj.Overhang.UserString)
 
-        self._btForm.commentInput.setPlainText(self._obj.Comment)
-
         self._btForm.tabMaterial.transferFrom(self._obj)
+        self._btForm.tabComment.transferFrom(self._obj)
 
         self._setAutoDiameterState()
         self._setIdFromThickness()

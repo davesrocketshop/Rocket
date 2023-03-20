@@ -31,10 +31,11 @@ import FreeCADGui
 from DraftTools import translate
 
 from PySide import QtGui, QtCore
-from PySide2.QtWidgets import QDialog, QGridLayout, QVBoxLayout, QSizePolicy, QTextEdit
+from PySide2.QtWidgets import QDialog, QGridLayout, QVBoxLayout, QSizePolicy
 
 from Ui.TaskPanelLocation import TaskPanelLocation
 from Ui.Widgets.MaterialTab import MaterialTab
+from Ui.Widgets.CommentTab import CommentTab
 
 from Rocket.Constants import RAIL_GUIDE_BASE_FLAT, RAIL_GUIDE_BASE_CONFORMAL, RAIL_GUIDE_BASE_V
 
@@ -46,7 +47,7 @@ class _RailGuideDialog(QDialog):
         self.tabWidget = QtGui.QTabWidget()
         self.tabGeneral = QtGui.QWidget()
         self.tabMaterial = MaterialTab()
-        self.tabComment = QtGui.QWidget()
+        self.tabComment = CommentTab()
         self.tabWidget.addTab(self.tabGeneral, translate('Rocket', "General"))
         self.tabWidget.addTab(self.tabMaterial, translate('Rocket', "Material"))
         self.tabWidget.addTab(self.tabComment, translate('Rocket', "Comment"))
@@ -56,7 +57,6 @@ class _RailGuideDialog(QDialog):
         self.setLayout(layout)
 
         self.setTabGeneral()
-        self.setTabComment()
 
     def setTabGeneral(self):
 
@@ -258,20 +258,6 @@ class _RailGuideDialog(QDialog):
 
         self.tabGeneral.setLayout(layout)
 
-    def setTabComment(self):
-
-        ui = FreeCADGui.UiLoader()
-
-        self.commentLabel = QtGui.QLabel(translate('Rocket', "Comment"), self)
-
-        self.commentInput = QTextEdit()
-
-        layout = QVBoxLayout()
-        layout.addWidget(self.commentLabel)
-        layout.addWidget(self.commentInput)
-
-        self.tabComment.setLayout(layout)
-
 class TaskPanelRailGuide:
 
     def __init__(self,obj,mode):
@@ -334,9 +320,8 @@ class TaskPanelRailGuide:
         self._obj.NotchWidth = self._btForm.notchWidthInput.text()
         self._obj.NotchDepth = self._btForm.notchDepthInput.text()
 
-        self._obj.Comment = self._btForm.commentInput.toPlainText()
-
         self._btForm.tabMaterial.transferTo(self._obj)
+        self._btForm.tabComment.transferTo(self._obj)
 
     def transferFrom(self):
         "Transfer from the object to the dialog"
@@ -359,9 +344,8 @@ class TaskPanelRailGuide:
         self._btForm.notchWidthInput.setText(self._obj.NotchWidth.UserString)
         self._btForm.notchDepthInput.setText(self._obj.NotchDepth.UserString)
 
-        self._btForm.commentInput.setPlainText(self._obj.Comment)
-
         self._btForm.tabMaterial.transferFrom(self._obj)
+        self._btForm.tabComment.transferFrom(self._obj)
 
         self._setTypeState()
         self._setForwardSweepState()

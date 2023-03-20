@@ -31,7 +31,9 @@ import FreeCADGui
 from DraftTools import translate
 
 from PySide import QtGui
-from PySide2.QtWidgets import QDialog, QVBoxLayout, QTextEdit
+from PySide2.QtWidgets import QDialog, QVBoxLayout
+
+from Ui.Widgets.CommentTab import CommentTab
 
 class _StageDialog(QDialog):
 
@@ -39,28 +41,12 @@ class _StageDialog(QDialog):
         super().__init__(parent)
 
         self.tabWidget = QtGui.QTabWidget()
-        self.tabComment = QtGui.QWidget()
+        self.tabComment = CommentTab()
         self.tabWidget.addTab(self.tabComment, translate('Rocket', "Comment"))
 
         layout = QVBoxLayout()
         layout.addWidget(self.tabWidget)
         self.setLayout(layout)
-
-        self.setTabComment()
-
-    def setTabComment(self):
-
-        ui = FreeCADGui.UiLoader()
-
-        self.commentLabel = QtGui.QLabel(translate('Rocket', "Comment"), self)
-
-        self.commentInput = QTextEdit()
-
-        layout = QVBoxLayout()
-        layout.addWidget(self.commentLabel)
-        layout.addWidget(self.commentInput)
-
-        self.tabComment.setLayout(layout)
 
 class TaskPanelStage:
 
@@ -80,11 +66,11 @@ class TaskPanelStage:
         
     def transferTo(self):
         "Transfer from the dialog to the object" 
-        self._obj.Comment = self._stageForm.commentInput.toPlainText()
+        self._stageForm.tabComment.transferTo(self._obj)
 
     def transferFrom(self):
         "Transfer from the object to the dialog"
-        self._stageForm.commentInput.setPlainText(self._obj.Comment)
+        self._stageForm.tabComment.transferFrom(self._obj)
         
     def getStandardButtons(self):
         return int(QtGui.QDialogButtonBox.Ok) | int(QtGui.QDialogButtonBox.Cancel)| int(QtGui.QDialogButtonBox.Apply)
