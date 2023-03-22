@@ -235,7 +235,8 @@ class ComponentsElement(Element):
                                 'nosecone' : NoseConeElement,
                                 'centeringring' : BodyTubeElement,
                                 'bulkhead' : BulkheadElement,
-                                'launchlug' : BodyTubeElement
+                                'launchlug' : BodyTubeElement,
+                                'railbutton' : RailButtonElement
                               }
 
 class ComponentElement(Element):
@@ -730,6 +731,96 @@ class NoseConeElement(ComponentElement):
         obj._shoulderLength = self._shoulderLength
         obj._length = self._length
         obj._thickness = self._thickness
+
+    def end(self):
+        obj = NoseCone()
+
+        self.setValues(obj)
+        self.validate(obj)
+        self.persist(obj, self._connection)
+
+        return super().end()
+
+class RailButtonElement(ComponentElement):
+
+    def __init__(self, parent, tag, attributes, connection, filename, line):
+        super().__init__(parent, tag, attributes, connection, filename, line)
+
+        self._knownTags = self._knownTags + ["finish", "outerdiameter", "innerDdameter", "height", "baseheight", 
+            "flangeheight", "screwheight", "dragcoefficient", "screwmass", "nutmass"]
+
+        self._finish = ""
+
+        self._outerDiameter = (0.0, "")
+        self._innerDiameter = (0.0, "")
+        self._height = (0.0, "")
+        self._baseHeight = (0.0, "")
+        self._flangeHeight = (0.0, "")
+        self._screwHeight = (0.0, "")
+        self._dragCoefficient = (0.0, "")
+        self._screwMass = (0.0, "")
+        self._nutMass = (0.0, "")
+
+    def handleTag(self, tag, attributes):
+        _tag = tag.lower().strip()
+        if _tag == "outerdiameter":
+            self._outerDiameter = (self._outerDiameter[0], attributes['Unit'])
+        elif _tag == "innerDdameter":
+            self._innerDiameter = (self._innerDiameter[0], attributes['Unit'])
+        elif _tag == "height":
+            self._height = (self._height[0], attributes['Unit'])
+        elif _tag == "baseheight":
+            self._baseHeight = (self._baseHeight[0], attributes['Unit'])
+        elif _tag == "flangeheight":
+            self._flangeHeight = (self._flangeHeight[0], attributes['Unit'])
+        elif _tag == "screwheight":
+            self._screwHeight = (self._screwHeight[0], attributes['Unit'])
+        elif _tag == "screwmass":
+            self._screwMass = (self._screwMass[0], attributes['Unit'])
+        elif _tag == "nutmass":
+            self._nutMass = (self._nutMass[0], attributes['Unit'])
+        else:
+            super().handleTag(tag, attributes)
+
+    def handleEndTag(self, tag, content):
+        _tag = tag.lower().strip()
+        if _tag == "finish":
+            self._finish = content.lower().strip() # Need to map to finish types
+        elif _tag == "outerdiameter":
+            self._outerDiameter = (_toFloat(content), self._outerDiameter[1])
+        elif _tag == "innerDdameter":
+            self._innerDiameter = (_toFloat(content), self._innerDiameter[1])
+        elif _tag == "height":
+            self._height = (_toFloat(content), self._height[1])
+        elif _tag == "baseheight":
+            self._baseHeight = (_toFloat(content), self._baseHeight[1])
+        elif _tag == "flangeheight":
+            self._flangeHeight = (_toFloat(content), self._flangeHeight[1])
+        elif _tag == "screwheight":
+            self._screwHeight = (_toFloat(content), self._screwHeight[1])
+        elif _tag == "dragcoefficient":
+            self._dragCoefficient = (_toFloat(content), self._dragCoefficient[1])
+        elif _tag == "screwmass":
+            self._screwMass = (_toFloat(content), self._screwMass[1])
+        elif _tag == "nutmass":
+            self._nutMass = (_toFloat(content), self._nutMass[1])
+        else:
+            super().handleEndTag(tag, content)
+
+    def setValues(self, obj):
+        super().setValues(obj)
+
+        obj._finish = self._finish
+
+        obj._outerDiameter = self._outerDiameter
+        obj._innerDiameter = self._innerDiameter
+        obj._height = self._height
+        obj._baseHeight = self._baseHeight
+        obj._flangeHeight = self._flangeHeight
+        obj._screwHeight = self._screwHeight
+        obj._dragCoefficient = self._dragCoefficient
+        obj._screwMass = self._screwMass
+        obj._nutMass = self._nutMass
 
     def end(self):
         obj = NoseCone()
