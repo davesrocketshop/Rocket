@@ -40,6 +40,7 @@ from Rocket.Parts.NoseCone import NoseCone
 from Rocket.Parts.Parachute import Parachute
 from Rocket.Parts.Streamer import Streamer
 from Rocket.Parts.Transition import Transition
+from Rocket.Parts.RailButton import RailButton
 
 from Rocket.Parts.Exceptions import InvalidError, MultipleEntryError, UnknownManufacturerError
 
@@ -104,7 +105,7 @@ class OpenRocketComponentElement(Element):
         self._validChildren = { 'materials' : MaterialsElement,
                                 'components' : ComponentsElement
                               }
-        self._knownTags = ["version", "creator"]
+        self._knownTags = ["version", "creator", "legacy"]
         self._supportedVersions = ["0.1", "1.0"]
 
     def handleEndTag(self, tag, content):
@@ -135,7 +136,7 @@ class MaterialElement(Element):
         super().__init__(parent, tag, attributes, connection, filename, line)
 
         self._validChildren = {}
-        self._knownTags = ["name", "type", "density"]
+        self._knownTags = ["name", "type", "density", "thickness"] # TODO: Support thickness
         self._supportedVersions = ["0.1"]
 
         self._manufacturer = self._defaultManufacturer()
@@ -151,19 +152,34 @@ class MaterialElement(Element):
             "apogee.orc" : "Apogee",
             "competition_chutes.orc" : "Generic competition",
             "bluetube.orc" : "Always Ready Rocketry",
+            "bluetube-legacy.orc" : "Always Ready Rocketry",
             "bms.orc" : "BalsaMachining.com",
+            "bms-legacy.orc" : "BalsaMachining.com",
             "estes_classic.orc" : "Estes",
             "estes_ps2.orc" : "Estes",
+            "estes-legacy.orc" : "Estes",
             "generic_materials.orc" : "unspecified",
             "giantleaprocketry.orc" : "Giant Leap",
+            "giantleaprocketry-legacy.orc" : "Giant Leap",
             "loc_precision.orc" : "LOC Precision",
+            "locprecision-legacy.orc" : "LOC Precision",
             "madcow.orc" : "Madcow",
             "mpc.orc" : "MPC",
             "publicmissiles.orc" : "Public Missiles",
+            "publicmissiles-legacy.orc" : "Public Missiles",
             "quest.orc" : "Quest",
+            "quest-legacy.orc" : "Quest",
             "rocketarium.orc" : "Rocketarium",
             "semroc.orc" : "SEMROC",
-            "top_flight.orc" : "Top Flight Recovery"
+            "semroc-legacy.orc" : "SEMROC",
+            "top_flight.orc" : "Top Flight Recovery",
+            "b2_rocketry_parachutes.orc" : "b2 Rocketry Company",
+            "fliskits-legacy.orc" : "FlisKits",
+            "front_range_rocket_recovery.orc" : "Front Range Rocket Recovery",
+            "fruity_chutes_enhanced.orc" : "Fruity Chutes",
+            "railbutton_database.orc" : "unspecified",
+            "rocketman.orc" : "Rocketman",
+            "spherachutes_parachutes.orc" : "Spherachutes",
         }
 
         name = PurePath(self._filename).name.lower()
@@ -260,19 +276,34 @@ class ComponentElement(Element):
             "apogee.orc" : "Apogee",
             "competition_chutes.orc" : "Generic competition",
             "bluetube.orc" : "Always Ready Rocketry",
+            "bluetube-legacy.orc" : "Always Ready Rocketry",
             "bms.orc" : "BalsaMachining.com",
+            "bms-legacy.orc" : "BalsaMachining.com",
             "estes_classic.orc" : "Estes",
             "estes_ps2.orc" : "Estes",
+            "estes-legacy.orc" : "Estes",
             "generic_materials.orc" : "unspecified",
             "giantleaprocketry.orc" : "Giant Leap",
+            "giantleaprocketry-legacy.orc" : "Giant Leap",
             "loc_precision.orc" : "LOC Precision",
+            "locprecision-legacy.orc" : "LOC Precision",
             "madcow.orc" : "Madcow",
             "mpc.orc" : "MPC",
             "publicmissiles.orc" : "Public Missiles",
+            "publicmissiles-legacy.orc" : "Public Missiles",
             "quest.orc" : "Quest",
+            "quest-legacy.orc" : "Quest",
             "rocketarium.orc" : "Rocketarium",
             "semroc.orc" : "SEMROC",
-            "top_flight.orc" : "Top Flight Recovery"
+            "semroc-legacy.orc" : "SEMROC",
+            "top_flight.orc" : "Top Flight Recovery",
+            "b2_rocketry_parachutes.orc" : "b2 Rocketry Company",
+            "fliskits-legacy.orc" : "FlisKits",
+            "front_range_rocket_recovery.orc" : "Front Range Rocket Recovery",
+            "fruity_chutes_enhanced.orc" : "Fruity Chutes",
+            "railbutton_database.orc" : "unspecified",
+            "rocketman.orc" : "Rocketman",
+            "spherachutes_parachutes.orc" : "Spherachutes",
         }
 
         name = PurePath(self._filename).name.lower()
@@ -550,7 +581,8 @@ class ParachuteElement(ComponentElement):
     def __init__(self, parent, tag, attributes, connection, filename, line):
         super().__init__(parent, tag, attributes, connection, filename, line)
 
-        self._knownTags = self._knownTags + ["diameter", "sides", "linecount", "linelength", "linematerial"]
+        self._knownTags = self._knownTags + ["diameter", "sides", "linecount", "linelength", "linematerial",
+                                             "finish", "cg", "dragcoefficient", "packeddiameter", "packedlength", "thickness"]
 
         self._diameter = (0.0, "")
         self._sides = 0
@@ -746,7 +778,7 @@ class RailButtonElement(ComponentElement):
     def __init__(self, parent, tag, attributes, connection, filename, line):
         super().__init__(parent, tag, attributes, connection, filename, line)
 
-        self._knownTags = self._knownTags + ["finish", "outerdiameter", "innerDdameter", "height", "baseheight", 
+        self._knownTags = self._knownTags + ["finish", "outerdiameter", "innerdiameter", "height", "baseheight", 
             "flangeheight", "screwheight", "dragcoefficient", "screwmass", "nutmass"]
 
         self._finish = ""
@@ -765,7 +797,7 @@ class RailButtonElement(ComponentElement):
         _tag = tag.lower().strip()
         if _tag == "outerdiameter":
             self._outerDiameter = (self._outerDiameter[0], attributes['Unit'])
-        elif _tag == "innerDdameter":
+        elif _tag == "innerdiameter":
             self._innerDiameter = (self._innerDiameter[0], attributes['Unit'])
         elif _tag == "height":
             self._height = (self._height[0], attributes['Unit'])
@@ -788,7 +820,7 @@ class RailButtonElement(ComponentElement):
             self._finish = content.lower().strip() # Need to map to finish types
         elif _tag == "outerdiameter":
             self._outerDiameter = (_toFloat(content), self._outerDiameter[1])
-        elif _tag == "innerDdameter":
+        elif _tag == "innerdiameter":
             self._innerDiameter = (_toFloat(content), self._innerDiameter[1])
         elif _tag == "height":
             self._height = (_toFloat(content), self._height[1])
@@ -823,7 +855,7 @@ class RailButtonElement(ComponentElement):
         obj._nutMass = self._nutMass
 
     def end(self):
-        obj = NoseCone()
+        obj = RailButton()
 
         self.setValues(obj)
         self.validate(obj)

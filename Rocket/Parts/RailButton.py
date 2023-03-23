@@ -25,9 +25,7 @@ __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
 from Rocket.Parts.Component import Component
-from Rocket.Constants import TYPE_CONE, TYPE_ELLIPTICAL, TYPE_HAACK, TYPE_OGIVE, TYPE_VON_KARMAN, TYPE_PARABOLA, TYPE_PARABOLIC, TYPE_POWER
 from Rocket.Constants import STYLE_SOLID, STYLE_CAPPED
-from Rocket.Parts.Utilities import _err
 from Rocket.Parts.Exceptions import MultipleEntryError, NotFoundError
 
 class RailButton(Component):
@@ -52,15 +50,24 @@ class RailButton(Component):
 
         # self._finish = ""
 
-        self.validatePositive(self._outerDiameter, "Outer Diameter invalid")
-        self.validatePositive(self._innerDiameter, "Inner Diameter invalid")
-        self.validatePositive(self._height, "Height invalid")
-        self.validatePositive(self._baseHeight, "Base Height invalid")
-        self.validatePositive(self._flangeHeight, "Flange Height invalid")
-        self.validateNonNegative(self._screwHeight, "Screw Height invalid")
+        self.validatePositive(self._outerDiameter[0], "Outer Diameter invalid")
+        self.validatePositive(self._innerDiameter[0], "Inner Diameter invalid")
+        self.validatePositive(self._height[0], "Height invalid")
+        self.validatePositive(self._baseHeight[0], "Base Height invalid")
+        self.validatePositive(self._flangeHeight[0], "Flange Height invalid")
+        self.validateNonNegative(self._screwHeight[0], "Screw Height invalid")
         # self._dragCoefficient = (0.0, "")
-        self.validateNonNegative(self._screwMass, "Srew Mass invalid")
-        self.validateNonNegative(self._nutMass, "Nut Mass invalid")
+        self.validateNonNegative(self._screwMass[0], "Srew Mass invalid")
+        self.validateNonNegative(self._nutMass[0], "Nut Mass invalid")
+
+        self.validateNonEmptyString(self._outerDiameter[1], "Outer Diameter Units invalid '%s" % self._outerDiameter[1])
+        self.validateNonEmptyString(self._innerDiameter[1], "Inner Diameter Units invalid '%s" % self._innerDiameter[1])
+        self.validateNonEmptyString(self._height[1], "Height Units invalid '%s" % self._height[1])
+        self.validateNonEmptyString(self._baseHeight[1], "Base Height Units invalid '%s" % self._baseHeight[1])
+        self.validateNonEmptyString(self._flangeHeight[1], "Flange Height Units invalid '%s" % self._flangeHeight[1])
+        self.validateNonEmptyString(self._screwHeight[1], "Screw Height Units invalid '%s" % self._screwHeight[1])
+        self.validateNonEmptyString(self._screwMass[1], "Srew Mass Units invalid '%s" % self._screwMass[1])
+        self.validateNonEmptyString(self._nutMass[1], "Nut Mass Units invalid '%s" % self._nutMass[1])
 
     def _noseStyle(self):
         # Not enough information to fully determine core or hollow
