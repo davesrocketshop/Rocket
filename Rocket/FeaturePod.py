@@ -76,6 +76,13 @@ class FeaturePod(ComponentAssembly, RingInstanceable):
         if not hasattr(obj,'Shape'):
             return
 
+    # def update(self):
+    #     super().update()
+
+    #     # Ensure any automatic variables are set
+    #     self.getOuterDiameter()
+    #     self.getInnerDiameter()
+
     def eligibleChild(self, childType):
         return childType not in [FEATURE_ROCKET, FEATURE_STAGE, FEATURE_PARALLEL_STAGE]
 

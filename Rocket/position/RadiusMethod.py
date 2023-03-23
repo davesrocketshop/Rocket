@@ -27,6 +27,8 @@ __url__ = "https://www.davesrocketshop.com"
 from DraftTools import translate
 
 from Rocket.position.DistanceMethod import DistanceMethod
+import Rocket.position as position
+from Rocket.FeatureBodyTube import FeatureBodyTube
 
 class RadiusMethod(DistanceMethod):
 
@@ -85,10 +87,10 @@ class RelativeRadiusMethod(RadiusMethod):
 
     def getRadius(self, parentComponent, thisComponent, requestedOffset):
         radius = requestedOffset
-        if isinstance(parentComponent, BodyTube):
+        if isinstance(parentComponent, FeatureBodyTube):
             radius += parentComponent.getOuterRadius()
 
-        if isinstance(thisComponent, RadiusPositionable):
+        if isinstance(thisComponent, position.RadiusPositionable.RadiusPositionable):
             radius += thisComponent.getBoundingRadius()
 
         return radius
@@ -96,10 +98,10 @@ class RelativeRadiusMethod(RadiusMethod):
 
     def getAsOffset(self, parentComponent, thisComponent, radius):
         offset = radius
-        if isinstance(parentComponent, BodyTube):
+        if isinstance(parentComponent, FeatureBodyTube):
             offset -= parentComponent.getOuterRadius()
 
-        if isinstance(thisComponent, RadiusPositionable):
+        if isinstance(thisComponent, position.RadiusPositionable.RadiusPositionable):
             offset -= thisComponent.getBoundingRadius()
 
         return offset
@@ -114,10 +116,10 @@ class SurfaceRadiusMethod(RadiusMethod):
 
     def getRadius(self, parentComponent, thisComponent, requestedOffset):
         radius = 0.0
-        if isinstance(parentComponent, BodyTube):
+        if isinstance(parentComponent, FeatureBodyTube):
             radius += parentComponent.getOuterRadius()
 
-        if isinstance(thisComponent, RadiusPositionable):
+        if isinstance(thisComponent, position.RadiusPositionable.RadiusPositionable):
             radius += thisComponent.getBoundingRadius()
 
         return radius
