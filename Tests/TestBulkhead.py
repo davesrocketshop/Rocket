@@ -34,6 +34,9 @@ class BulkheadTests(unittest.TestCase):
     def setUp(self):
         self.Doc = FreeCAD.newDocument("BulkheadTest")
 
+    def tearDown(self):
+        FreeCAD.closeDocument(self.Doc.Name)
+
     def _checkShape(self, feature, message):
         self.assertTrue(feature._obj.Shape.isValid(), message)
         self.assertIsNone(feature._obj.Shape.check(True), message)
