@@ -40,6 +40,7 @@ from Rocket.Parts.NoseCone import NoseCone
 from Rocket.Parts.Parachute import Parachute
 from Rocket.Parts.Streamer import Streamer
 from Rocket.Parts.Transition import Transition
+from Rocket.Parts.RailButton import RailButton
 
 from Rocket.Parts.Exceptions import InvalidError, MultipleEntryError, UnknownManufacturerError
 
@@ -104,7 +105,7 @@ class OpenRocketComponentElement(Element):
         self._validChildren = { 'materials' : MaterialsElement,
                                 'components' : ComponentsElement
                               }
-        self._knownTags = ["version", "creator"]
+        self._knownTags = ["version", "creator", "legacy"]
         self._supportedVersions = ["0.1", "1.0"]
 
     def handleEndTag(self, tag, content):
@@ -135,7 +136,7 @@ class MaterialElement(Element):
         super().__init__(parent, tag, attributes, connection, filename, line)
 
         self._validChildren = {}
-        self._knownTags = ["name", "type", "density"]
+        self._knownTags = ["name", "type", "density", "thickness"] # TODO: Support thickness
         self._supportedVersions = ["0.1"]
 
         self._manufacturer = self._defaultManufacturer()
@@ -152,19 +153,34 @@ class MaterialElement(Element):
             "apogee.orc" : "Apogee",
             "competition_chutes.orc" : "Generic competition",
             "bluetube.orc" : "Always Ready Rocketry",
+            "bluetube-legacy.orc" : "Always Ready Rocketry",
             "bms.orc" : "BalsaMachining.com",
+            "bms-legacy.orc" : "BalsaMachining.com",
             "estes_classic.orc" : "Estes",
             "estes_ps2.orc" : "Estes",
+            "estes-legacy.orc" : "Estes",
             "generic_materials.orc" : "unspecified",
             "giantleaprocketry.orc" : "Giant Leap",
+            "giantleaprocketry-legacy.orc" : "Giant Leap",
             "loc_precision.orc" : "LOC Precision",
+            "locprecision-legacy.orc" : "LOC Precision",
             "madcow.orc" : "Madcow",
             "mpc.orc" : "MPC",
             "publicmissiles.orc" : "Public Missiles",
+            "publicmissiles-legacy.orc" : "Public Missiles",
             "quest.orc" : "Quest",
+            "quest-legacy.orc" : "Quest",
             "rocketarium.orc" : "Rocketarium",
             "semroc.orc" : "SEMROC",
-            "top_flight.orc" : "Top Flight Recovery"
+            "semroc-legacy.orc" : "SEMROC",
+            "top_flight.orc" : "Top Flight Recovery",
+            "b2_rocketry_parachutes.orc" : "b2 Rocketry Company",
+            "fliskits-legacy.orc" : "FlisKits",
+            "front_range_rocket_recovery.orc" : "Front Range Rocket Recovery",
+            "fruity_chutes_enhanced.orc" : "Fruity Chutes",
+            "railbutton_database.orc" : "unspecified",
+            "rocketman.orc" : "Rocketman",
+            "spherachutes_parachutes.orc" : "Spherachutes",
         }
 
         name = PurePath(self._filename).name.lower()
@@ -236,7 +252,8 @@ class ComponentsElement(Element):
                                 'nosecone' : NoseConeElement,
                                 'centeringring' : BodyTubeElement,
                                 'bulkhead' : BulkheadElement,
-                                'launchlug' : BodyTubeElement
+                                'launchlug' : BodyTubeElement,
+                                'railbutton' : RailButtonElement
                               }
 
 class ComponentElement(Element):
@@ -260,19 +277,34 @@ class ComponentElement(Element):
             "apogee.orc" : "Apogee",
             "competition_chutes.orc" : "Generic competition",
             "bluetube.orc" : "Always Ready Rocketry",
+            "bluetube-legacy.orc" : "Always Ready Rocketry",
             "bms.orc" : "BalsaMachining.com",
+            "bms-legacy.orc" : "BalsaMachining.com",
             "estes_classic.orc" : "Estes",
             "estes_ps2.orc" : "Estes",
+            "estes-legacy.orc" : "Estes",
             "generic_materials.orc" : "unspecified",
             "giantleaprocketry.orc" : "Giant Leap",
+            "giantleaprocketry-legacy.orc" : "Giant Leap",
             "loc_precision.orc" : "LOC Precision",
+            "locprecision-legacy.orc" : "LOC Precision",
             "madcow.orc" : "Madcow",
             "mpc.orc" : "MPC",
             "publicmissiles.orc" : "Public Missiles",
+            "publicmissiles-legacy.orc" : "Public Missiles",
             "quest.orc" : "Quest",
+            "quest-legacy.orc" : "Quest",
             "rocketarium.orc" : "Rocketarium",
             "semroc.orc" : "SEMROC",
-            "top_flight.orc" : "Top Flight Recovery"
+            "semroc-legacy.orc" : "SEMROC",
+            "top_flight.orc" : "Top Flight Recovery",
+            "b2_rocketry_parachutes.orc" : "b2 Rocketry Company",
+            "fliskits-legacy.orc" : "FlisKits",
+            "front_range_rocket_recovery.orc" : "Front Range Rocket Recovery",
+            "fruity_chutes_enhanced.orc" : "Fruity Chutes",
+            "railbutton_database.orc" : "unspecified",
+            "rocketman.orc" : "Rocketman",
+            "spherachutes_parachutes.orc" : "Spherachutes",
         }
 
         name = PurePath(self._filename).name.lower()
@@ -550,7 +582,8 @@ class ParachuteElement(ComponentElement):
     def __init__(self, parent, tag, attributes, connection, filename, line):
         super().__init__(parent, tag, attributes, connection, filename, line)
 
-        self._knownTags = self._knownTags + ["diameter", "sides", "linecount", "linelength", "linematerial"]
+        self._knownTags = self._knownTags + ["diameter", "sides", "linecount", "linelength", "linematerial",
+                                             "finish", "cg", "dragcoefficient", "packeddiameter", "packedlength", "thickness"]
 
         self._diameter = (0.0, "")
         self._sides = 0
@@ -734,6 +767,96 @@ class NoseConeElement(ComponentElement):
 
     def end(self):
         obj = NoseCone()
+
+        self.setValues(obj)
+        self.validate(obj)
+        self.persist(obj, self._connection)
+
+        return super().end()
+
+class RailButtonElement(ComponentElement):
+
+    def __init__(self, parent, tag, attributes, connection, filename, line):
+        super().__init__(parent, tag, attributes, connection, filename, line)
+
+        self._knownTags = self._knownTags + ["finish", "outerdiameter", "innerdiameter", "height", "baseheight", 
+            "flangeheight", "screwheight", "dragcoefficient", "screwmass", "nutmass"]
+
+        self._finish = ""
+
+        self._outerDiameter = (0.0, "")
+        self._innerDiameter = (0.0, "")
+        self._height = (0.0, "")
+        self._baseHeight = (0.0, "")
+        self._flangeHeight = (0.0, "")
+        self._screwHeight = (0.0, "")
+        self._dragCoefficient = (0.0, "")
+        self._screwMass = (0.0, "")
+        self._nutMass = (0.0, "")
+
+    def handleTag(self, tag, attributes):
+        _tag = tag.lower().strip()
+        if _tag == "outerdiameter":
+            self._outerDiameter = (self._outerDiameter[0], attributes['Unit'])
+        elif _tag == "innerdiameter":
+            self._innerDiameter = (self._innerDiameter[0], attributes['Unit'])
+        elif _tag == "height":
+            self._height = (self._height[0], attributes['Unit'])
+        elif _tag == "baseheight":
+            self._baseHeight = (self._baseHeight[0], attributes['Unit'])
+        elif _tag == "flangeheight":
+            self._flangeHeight = (self._flangeHeight[0], attributes['Unit'])
+        elif _tag == "screwheight":
+            self._screwHeight = (self._screwHeight[0], attributes['Unit'])
+        elif _tag == "screwmass":
+            self._screwMass = (self._screwMass[0], attributes['Unit'])
+        elif _tag == "nutmass":
+            self._nutMass = (self._nutMass[0], attributes['Unit'])
+        else:
+            super().handleTag(tag, attributes)
+
+    def handleEndTag(self, tag, content):
+        _tag = tag.lower().strip()
+        if _tag == "finish":
+            self._finish = content.lower().strip() # Need to map to finish types
+        elif _tag == "outerdiameter":
+            self._outerDiameter = (_toFloat(content), self._outerDiameter[1])
+        elif _tag == "innerdiameter":
+            self._innerDiameter = (_toFloat(content), self._innerDiameter[1])
+        elif _tag == "height":
+            self._height = (_toFloat(content), self._height[1])
+        elif _tag == "baseheight":
+            self._baseHeight = (_toFloat(content), self._baseHeight[1])
+        elif _tag == "flangeheight":
+            self._flangeHeight = (_toFloat(content), self._flangeHeight[1])
+        elif _tag == "screwheight":
+            self._screwHeight = (_toFloat(content), self._screwHeight[1])
+        elif _tag == "dragcoefficient":
+            self._dragCoefficient = (_toFloat(content), self._dragCoefficient[1])
+        elif _tag == "screwmass":
+            self._screwMass = (_toFloat(content), self._screwMass[1])
+        elif _tag == "nutmass":
+            self._nutMass = (_toFloat(content), self._nutMass[1])
+        else:
+            super().handleEndTag(tag, content)
+
+    def setValues(self, obj):
+        super().setValues(obj)
+
+        obj._finish = self._finish
+
+        obj._outerDiameter = self._outerDiameter
+        obj._innerDiameter = self._innerDiameter
+        obj._height = self._height
+        obj._baseHeight = self._baseHeight
+        obj._flangeHeight = self._flangeHeight
+        obj._screwHeight = self._screwHeight
+        obj._dragCoefficient = self._dragCoefficient
+        obj._screwMass = self._screwMass
+        obj._nutMass = self._nutMass
+
+    def end(self):
+        obj = RailButton()
 
         self.setValues(obj)
         self.validate(obj)

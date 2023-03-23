@@ -106,6 +106,11 @@ class PartDatabase:
             fore_outside_diameter, fore_outside_diameter_units, fore_shoulder_diameter, fore_shoulder_diameter_units, fore_shoulder_length, fore_shoulder_length_units,
             aft_outside_diameter, aft_outside_diameter_units, aft_shoulder_diameter, aft_shoulder_diameter_units, aft_shoulder_length, aft_shoulder_length_units,
             length, length_units, thickness, thickness_units)""")
+ 
+        cursor.execute("DROP TABLE IF EXISTS rail_button")
+        cursor.execute("""CREATE TABLE rail_button (rail_button_index INTEGER PRIMARY KEY ASC, component_index, finish, outer_diameter, outer_diameter_units,
+                inner_diameter, inner_diameter_units, height, height_units, base_height, base_height_units, flange_height, flange_height_units, screw_height, screw_height_units,
+                drag_coefficient, screw_mass, screw_mass_units, nut_mass, nut_mass_units)""")
 
         cursor.execute("DROP TABLE IF EXISTS parachute")
         cursor.execute("CREATE TABLE parachute (parachute_index INTEGER PRIMARY KEY ASC, component_index, line_material_index, sides, lines, diameter, diameter_units, line_length, line_length_units)")
@@ -121,8 +126,12 @@ class PartDatabase:
             for file in filenames:
                 self._importOrcPartFile(connection, dirpath + file)
 
-        for (dirpath, dirnames, filenames) in walk(self._rootFolder + "/Resources/parts/openrocket-database/orc/"):
+        for (dirpath, dirnames, filenames) in walk(self._rootFolder + "/Resources/parts/openrocket-dbcook/orc/"):
             self._importOrcPartFile(connection, dirpath + 'generic_materials.orc')
+            for file in filenames:
+                self._importOrcPartFile(connection, dirpath + file)
+
+        for (dirpath, dirnames, filenames) in walk(self._rootFolder + "/Resources/parts/openrocket-openrocket/"):
             for file in filenames:
                 self._importOrcPartFile(connection, dirpath + file)
 
