@@ -43,6 +43,9 @@ class MoveTests(unittest.TestCase):
     def setUp(self):
         self.Doc = FreeCAD.newDocument("BodyTest")
 
+    def tearDown(self):
+        FreeCAD.closeDocument(self.Doc.Name)
+
     def makeAlpha(self):
         rocket = makeRocket("Rocket", False)
         stage1 = makeStage('Stage')

@@ -38,6 +38,9 @@ class FinFlutterTestCases(unittest.TestCase):
         self._finCan = makeFinCan('flutterFinCan')._obj
         self.Doc.recompute()
 
+    def tearDown(self):
+        FreeCAD.closeDocument(self.Doc.Name)
+
     def testCoesa76(self):
         for i in range(1,85):
             geo = coesa76([i])

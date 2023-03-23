@@ -38,6 +38,9 @@ class TransitionTests(unittest.TestCase):
     def setUp(self):
         self.Doc = FreeCAD.newDocument("TransitionTest")
 
+    def tearDown(self):
+        FreeCAD.closeDocument(self.Doc.Name)
+
     def testBasic(self):
         feature = makeTransition('Transition')
         self.Doc.recompute()
