@@ -48,6 +48,9 @@ class PositionTests(unittest.TestCase):
     def setUp(self):
         self.Doc = FreeCAD.newDocument("PositionTests")
 
+    def tearDown(self):
+        FreeCAD.closeDocument(self.Doc.Name)
+
     def testAxialMethod(self):
         rocket = TestRockets.makeEstesAlphaIII()
         stage = rocket.getChild(0).Proxy

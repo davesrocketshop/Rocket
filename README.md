@@ -2,7 +2,7 @@
 
 A rocket design workbench for FreeCAD
 
-![Demo Components](Resources/RocketAnim.gif)
+![Demo Components](Resources/rwb_alphaIII.png)
 
 ## Install
 

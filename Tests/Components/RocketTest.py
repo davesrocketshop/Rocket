@@ -36,6 +36,9 @@ class RocketTest(unittest.TestCase):
     def setUp(self):
         self.Doc = FreeCAD.newDocument("RocketTest")
 
+    def tearDown(self):
+        FreeCAD.closeDocument(self.Doc.Name)
+
     def assertCoordinateEqual(self, actual, expected, msg):
         try:
             self.assertEqual(actual, expected)
