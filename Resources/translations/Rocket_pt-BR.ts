@@ -6,607 +6,607 @@
     <message>
       <location filename="ThicknessRingComponent.py" line="49"/>
       <source>Diameter of the inside of the body tube</source>
-      <translation type="unfinished">Diameter of the inside of the body tube</translation>
+      <translation>Diâmetro interno do corpo do tubo</translation>
     </message>
     <message>
       <location filename="FeatureLaunchLug.py" line="55"/>
       <source>Diameter of the outside of the body tube</source>
-      <translation type="unfinished">Diameter of the outside of the body tube</translation>
+      <translation>Diâmetro externo do corpo do tubo</translation>
     </message>
     <message>
       <location filename="RingComponent.py" line="66"/>
       <source>Outer diameter of the bulkhead</source>
-      <translation type="unfinished">Outer diameter of the bulkhead</translation>
+      <translation>Diâmetro externo do anteparo</translation>
     </message>
     <message>
       <location filename="FeatureBulkhead.py" line="41"/>
       <source>Thickness of the bulkhead without any inner step</source>
-      <translation type="unfinished">Thickness of the bulkhead without any inner step</translation>
+      <translation>Espessura do anteparo sem incluir o degrau interno</translation>
     </message>
     <message>
       <location filename="FeatureBulkhead.py" line="46"/>
       <source>Bulkheads may have a step that fits a smaller diameter</source>
-      <translation type="unfinished">Bulkheads may have a step that fits a smaller diameter</translation>
+      <translation>Anteparos podem ter degraus para encaixar em um diâmetro menor</translation>
     </message>
     <message>
       <location filename="FeatureBulkhead.py" line="48"/>
       <source>Outer diameter of the step</source>
-      <translation type="unfinished">Outer diameter of the step</translation>
+      <translation>Diâmetro externo do degrau</translation>
     </message>
     <message>
       <location filename="FeatureBulkhead.py" line="50"/>
       <source>Thickness of the step</source>
-      <translation type="unfinished">Thickness of the step</translation>
+      <translation>Espessura do degrau</translation>
     </message>
     <message>
       <location filename="FeatureBulkhead.py" line="53"/>
       <source>Bulkheads may have holes for attaching eyebolts or retainers</source>
-      <translation type="unfinished">Bulkheads may have holes for attaching eyebolts or retainers</translation>
+      <translation>Anteparos podem ter furos para se conectarem com parafusos olhais ou retentores</translation>
     </message>
     <message>
       <location filename="FeatureBulkhead.py" line="55"/>
       <source>Hole diameter</source>
-      <translation type="unfinished">Hole diameter</translation>
+      <translation>Diâmetro do furo</translation>
     </message>
     <message>
       <location filename="FeatureBulkhead.py" line="57"/>
       <source>Distance from the center of the bulkhead to the center of the hole</source>
-      <translation type="unfinished">Distance from the center of the bulkhead to the center of the hole</translation>
+      <translation>Distância do centro do anteparo ao centro do furo</translation>
     </message>
     <message>
       <location filename="FeatureBulkhead.py" line="59"/>
       <source>Number of holes in a radial pattern</source>
-      <translation type="unfinished">Number of holes in a radial pattern</translation>
+      <translation>Número de furos em um padrão radial</translation>
     </message>
     <message>
       <location filename="RadiusRingComponent.py" line="43"/>
       <source>Diameter of the central hole</source>
-      <translation type="unfinished">Diameter of the central hole</translation>
+      <translation>Diâmetro do furo central</translation>
     </message>
     <message>
       <location filename="FeatureCenteringRing.py" line="46"/>
       <source>Include a notch for an engine hook</source>
-      <translation type="unfinished">Include a notch for an engine hook</translation>
+      <translation>Inclua um entalhe para um gancho do motor</translation>
     </message>
     <message>
       <location filename="FeatureCenteringRing.py" line="48"/>
       <source>Width of the engine hook notch</source>
-      <translation type="unfinished">Width of the engine hook notch</translation>
+      <translation>Largura do entalhe do gancho do motor</translation>
     </message>
     <message>
       <location filename="FeatureCenteringRing.py" line="50"/>
       <source>Height of the engine hook notch</source>
-      <translation type="unfinished">Height of the engine hook notch</translation>
+      <translation>Altura do entalhe do gancho do motor</translation>
     </message>
     <message>
       <location filename="RocketComponent.py" line="47"/>
       <source>Component manufacturer</source>
-      <translation type="unfinished">Component manufacturer</translation>
+      <translation>Fabricante do componente</translation>
     </message>
     <message>
       <location filename="RocketComponent.py" line="49"/>
       <source>Component manufacturer part number</source>
-      <translation type="unfinished">Component manufacturer part number</translation>
+      <translation>Numero de identificação do componente do fabricante</translation>
     </message>
     <message>
       <location filename="RocketComponent.py" line="53"/>
       <source>Component description</source>
-      <translation type="unfinished">Component description</translation>
+      <translation>Descrição do componente</translation>
     </message>
     <message>
       <location filename="RocketComponent.py" line="51"/>
       <source>Component material</source>
-      <translation type="unfinished">Component material</translation>
+      <translation>Material do componente</translation>
     </message>
     <message>
       <location filename="FeatureFin.py" line="63"/>
       <source>Fin type</source>
-      <translation type="unfinished">Fin type</translation>
+      <translation>Formato de aleta</translation>
     </message>
     <message>
       <location filename="FeatureFin.py" line="80"/>
       <source>Fin root cross section</source>
-      <translation type="unfinished">Fin root cross section</translation>
+      <translation>Seção transversal da raiz da aleta</translation>
     </message>
     <message>
       <location filename="FeatureFin.py" line="89"/>
       <source>Length of the base of the fin</source>
-      <translation type="unfinished">Length of the base of the fin</translation>
+      <translation>Comprimento da base da aleta</translation>
     </message>
     <message>
       <location filename="FeatureFin.py" line="91"/>
       <source>Fin root thickness</source>
-      <translation type="unfinished">Fin root thickness</translation>
+      <translation>Espessura da raiz da aleta</translation>
     </message>
     <message>
       <location filename="FeatureFin.py" line="93"/>
       <source>Root chord lengths are percentages</source>
-      <translation type="unfinished">Root chord lengths are percentages</translation>
+      <translation>Altura das aletas junto ao tubo são percentuais</translation>
     </message>
     <message>
       <location filename="FeatureFin.py" line="95"/>
       <source>Root chord length 1</source>
-      <translation type="unfinished">Root chord length 1</translation>
+      <translation>Altura da aleta junto ao tubo 1</translation>
     </message>
     <message>
       <location filename="FeatureFin.py" line="97"/>
       <source>Root chord length 2</source>
-      <translation type="unfinished">Root chord length 2</translation>
+      <translation>Altura da aleta junto ao tubo 2</translation>
     </message>
     <message>
       <location filename="FeatureFin.py" line="100"/>
       <source>Fin tip cross section</source>
-      <translation type="unfinished">Fin tip cross section</translation>
+      <translation>Secção transversal da ponta da aleta</translation>
     </message>
     <message>
       <location filename="FeatureFin.py" line="110"/>
       <source>Length of the tip of the fin</source>
-      <translation type="unfinished">Length of the tip of the fin</translation>
+      <translation>Comprimento da ponta da aleta</translation>
     </message>
     <message>
       <location filename="FeatureFin.py" line="112"/>
       <source>Fin tip thickness</source>
-      <translation type="unfinished">Fin tip thickness</translation>
+      <translation>Espessura da ponta da aleta</translation>
     </message>
     <message>
       <location filename="FeatureFin.py" line="116"/>
       <source>Tip chord lengths are percentages</source>
-      <translation type="unfinished">Tip chord lengths are percentages</translation>
+      <translation>Alturas das pontas das aletas são porcentagens</translation>
     </message>
     <message>
       <location filename="FeatureFin.py" line="118"/>
       <source>Tip chord length 1</source>
-      <translation type="unfinished">Tip chord length 1</translation>
+      <translation>Altura da ponta da aleta 1</translation>
     </message>
     <message>
       <location filename="FeatureFin.py" line="120"/>
       <source>Tip chord length 2</source>
-      <translation type="unfinished">Tip chord length 2</translation>
+      <translation>Altura da ponta da aleta 2</translation>
     </message>
     <message>
       <location filename="FeatureFin.py" line="123"/>
       <source>Fin semi-span</source>
-      <translation type="unfinished">Fin semi-span</translation>
+      <translation>Semi-período da aleta</translation>
     </message>
     <message>
       <location filename="FeatureFin.py" line="125"/>
       <source>Sweep length</source>
-      <translation type="unfinished">Sweep length</translation>
+      <translation>Tamanho da amplitude</translation>
     </message>
     <message>
       <location filename="FeatureFin.py" line="127"/>
       <source>Sweep angle</source>
-      <translation type="unfinished">Sweep angle</translation>
+      <translation>Ângulo da Amplitude</translation>
     </message>
     <message>
       <location filename="FeatureFin.py" line="132"/>
       <source>Through the wall (TTW) tab</source>
-      <translation type="unfinished">Through the wall (TTW) tab</translation>
+      <translation>Através da aba da parede (TTW)</translation>
     </message>
     <message>
       <location filename="FeatureFin.py" line="134"/>
       <source>TTW Offset from fin root</source>
-      <translation type="unfinished">TTW Offset from fin root</translation>
+      <translation>Deslocamento TTW da raiz da aleta</translation>
     </message>
     <message>
       <location filename="FeatureFin.py" line="136"/>
       <source>TTW Length</source>
-      <translation type="unfinished">TTW Length</translation>
+      <translation>Comprimento TTW</translation>
     </message>
     <message>
       <location filename="FeatureFin.py" line="138"/>
       <source>TTW Height</source>
-      <translation type="unfinished">TTW Height</translation>
+      <translation>Altura TTW</translation>
     </message>
     <message>
       <location filename="FeatureFin.py" line="142"/>
       <source>TTW thickness</source>
-      <translation type="unfinished">TTW thickness</translation>
+      <translation>Espessura TTW</translation>
     </message>
     <message>
       <location filename="FeatureNoseCone.py" line="62"/>
       <source>Diameter at the base of the nose</source>
-      <translation type="unfinished">Diameter at the base of the nose</translation>
+      <translation>Diâmetro na base do nariz</translation>
     </message>
     <message>
       <location filename="FeatureNoseCone.py" line="66"/>
       <source>Nose cone thickness</source>
-      <translation type="unfinished">Nose cone thickness</translation>
+      <translation>Espessura do cone do nariz</translation>
     </message>
     <message>
       <location filename="FeatureNoseCone.py" line="68"/>
       <source>Set to true if the part includes a shoulder</source>
-      <translation type="unfinished">Set to true if the part includes a shoulder</translation>
+      <translation>Definido como verdadeiro se a peça incluir um ressalto</translation>
     </message>
     <message>
       <location filename="FeatureNoseCone.py" line="70"/>
       <source>Shoulder Length</source>
-      <translation type="unfinished">Shoulder Length</translation>
+      <translation>Comprimento do ressalto</translation>
     </message>
     <message>
       <location filename="FeatureNoseCone.py" line="72"/>
       <source>Shoulder diameter</source>
-      <translation type="unfinished">Shoulder diameter</translation>
+      <translation>Diâmetro do ressalto</translation>
     </message>
     <message>
       <location filename="FeatureNoseCone.py" line="76"/>
       <source>Shoulder thickness</source>
-      <translation type="unfinished">Shoulder thickness</translation>
+      <translation>Espessura do ressalto</translation>
     </message>
     <message>
       <location filename="FeatureTransition.py" line="89"/>
       <source>Coefficient</source>
-      <translation type="unfinished">Coefficient</translation>
+      <translation>Coeficiente</translation>
     </message>
     <message>
       <location filename="FeatureTransition.py" line="91"/>
       <source>Resolution</source>
-      <translation type="unfinished">Resolution</translation>
+      <translation>Resolução</translation>
     </message>
     <message>
       <location filename="FeatureNoseCone.py" line="85"/>
       <source>Nose cone type</source>
-      <translation type="unfinished">Nose cone type</translation>
+      <translation>Formato do cone do nariz</translation>
     </message>
     <message>
       <location filename="FeatureNoseCone.py" line="114"/>
       <source>Nose cone style</source>
-      <translation type="unfinished">Nose cone style</translation>
+      <translation>Estilo do cone do nariz</translation>
     </message>
     <message>
       <location filename="FeatureTransition.py" line="52"/>
       <source>Diameter at the front of the transition</source>
-      <translation type="unfinished">Diameter at the front of the transition</translation>
+      <translation>Diâmetro na frente da transição</translation>
     </message>
     <message>
       <location filename="FeatureTransition.py" line="56"/>
       <source>Diameter at the base of the transition</source>
-      <translation type="unfinished">Diameter at the base of the transition</translation>
+      <translation>Diâmetro na base da transição</translation>
     </message>
     <message>
       <location filename="FeatureTransition.py" line="60"/>
       <source>Diameter of the transition core</source>
-      <translation type="unfinished">Diameter of the transition core</translation>
+      <translation>Diâmetro do núcleo de transição</translation>
     </message>
     <message>
       <location filename="FeatureTransition.py" line="62"/>
       <source>Transition thickness</source>
-      <translation type="unfinished">Transition thickness</translation>
+      <translation>Espessura de transição</translation>
     </message>
     <message>
       <location filename="FeatureTransition.py" line="64"/>
       <source>If the transition is not clipped, then the profile is extended at the center by the corresponding radius</source>
-      <translation type="unfinished">If the transition is not clipped, then the profile is extended at the center by the corresponding radius</translation>
+      <translation>Se a transição não for recortada, o perfil será estendido no centro pelo raio correspondente</translation>
     </message>
     <message>
       <location filename="FeatureTransition.py" line="67"/>
       <source>Set to true if the part includes a forward shoulder</source>
-      <translation type="unfinished">Set to true if the part includes a forward shoulder</translation>
+      <translation>Definido como verdadeiro se a peça incluir um ressalto para frente</translation>
     </message>
     <message>
       <location filename="FeatureTransition.py" line="69"/>
       <source>Forward Shoulder Length</source>
-      <translation type="unfinished">Forward Shoulder Length</translation>
+      <translation>Comprimento do ressalto dianteiro</translation>
     </message>
     <message>
       <location filename="FeatureTransition.py" line="71"/>
       <source>Forward Shoulder diameter</source>
-      <translation type="unfinished">Forward Shoulder diameter</translation>
+      <translation>Diâmetro do ressalto dianteiro</translation>
     </message>
     <message>
       <location filename="FeatureTransition.py" line="75"/>
       <source>Forward Shoulder thickness</source>
-      <translation type="unfinished">Forward Shoulder thickness</translation>
+      <translation>Espessura do ressalto dianteiro</translation>
     </message>
     <message>
       <location filename="FeatureTransition.py" line="78"/>
       <source>Set to true if the part includes an aft shoulder</source>
-      <translation type="unfinished">Set to true if the part includes an aft shoulder</translation>
+      <translation>Definido como verdadeiro se a peça incluir um ressalto traseiro</translation>
     </message>
     <message>
       <location filename="FeatureTransition.py" line="80"/>
       <source>Aft Shoulder Length</source>
-      <translation type="unfinished">Aft Shoulder Length</translation>
+      <translation>Depois do comprimento do ressalto</translation>
     </message>
     <message>
       <location filename="FeatureTransition.py" line="82"/>
       <source>Aft Shoulder diameter</source>
-      <translation type="unfinished">Aft Shoulder diameter</translation>
+      <translation>Após o diâmetro do ressalto</translation>
     </message>
     <message>
       <location filename="FeatureTransition.py" line="86"/>
       <source>Aft Shoulder thickness</source>
-      <translation type="unfinished">Aft Shoulder thickness</translation>
+      <translation>Depois da espessura do ressalto</translation>
     </message>
     <message>
       <location filename="FeatureTransition.py" line="98"/>
       <source>Transition type</source>
-      <translation type="unfinished">Transition type</translation>
+      <translation>Tipo de Transição</translation>
     </message>
     <message>
       <location filename="FeatureTransition.py" line="119"/>
       <source>Transition style</source>
-      <translation type="unfinished">Transition style</translation>
+      <translation>Estilo de transição</translation>
     </message>
     <message>
       <location filename="FeatureFin.py" line="166"/>
       <source>Custom fin sketch</source>
-      <translation type="unfinished">Custom fin sketch</translation>
+      <translation>Esboço de aleta personalizado</translation>
     </message>
     <message>
       <location filename="FeatureRailGuide.py" line="56"/>
       <source>Rail guide base type</source>
-      <translation type="unfinished">Rail guide base type</translation>
+      <translation>Formato de base de guia de trilho</translation>
     </message>
     <message>
       <location filename="FeatureRailGuide.py" line="64"/>
       <source>Width of the top of the launch guide</source>
-      <translation type="unfinished">Width of the top of the launch guide</translation>
+      <translation>Largura da parte superior da guia de lançamento</translation>
     </message>
     <message>
       <location filename="FeatureRailGuide.py" line="66"/>
       <source>Width of the inside of the launch guide</source>
-      <translation type="unfinished">Width of the inside of the launch guide</translation>
+      <translation>Largura do interior da guia de lançamento</translation>
     </message>
     <message>
       <location filename="FeatureRailGuide.py" line="68"/>
       <source>Width of the base or bottom of the launch guide</source>
-      <translation type="unfinished">Width of the base or bottom of the launch guide</translation>
+      <translation>Largura da base ou fundo da guia de lançamento</translation>
     </message>
     <message>
       <location filename="FeatureRailGuide.py" line="70"/>
       <source>Thickness of the top part of the launch guide</source>
-      <translation type="unfinished">Thickness of the top part of the launch guide</translation>
+      <translation>Espessura da parte superior da guia de lançamento</translation>
     </message>
     <message>
       <location filename="FeatureRailGuide.py" line="72"/>
       <source>Thickness of the inside part of the launch guide</source>
-      <translation type="unfinished">Thickness of the inside part of the launch guide</translation>
+      <translation>Espessura da parte interna da guia de lançamento</translation>
     </message>
     <message>
       <location filename="FeatureRailGuide.py" line="74"/>
       <source>Total thickness of the launch guide</source>
-      <translation type="unfinished">Total thickness of the launch guide</translation>
+      <translation>Espessura total da guia de lançamento</translation>
     </message>
     <message>
       <location filename="FeatureRailGuide.py" line="76"/>
       <source>Diameter of the outside of the body tube for conformal base type</source>
-      <translation type="unfinished">Diameter of the outside of the body tube for conformal base type</translation>
+      <translation>Diâmetro da parte externa do tubo do corpo para tipo de base conforme</translation>
     </message>
     <message>
       <location filename="FeatureRailGuide.py" line="78"/>
       <source>Automatically set the diameter when possible</source>
-      <translation type="unfinished">Automatically set the diameter when possible</translation>
+      <translation>Defina automaticamente o diâmetro quando possível</translation>
     </message>
     <message>
       <location filename="FeatureRailGuide.py" line="80"/>
       <source>Angle for V base type</source>
-      <translation type="unfinished">Angle for V base type</translation>
+      <translation>Ângulo para tipo de base V</translation>
     </message>
     <message>
       <location filename="FeatureRailGuide.py" line="82"/>
       <source>The component has a sweep at the forward end</source>
-      <translation type="unfinished">The component has a sweep at the forward end</translation>
+      <translation>O componente tem uma amplitude na extremidade dianteira</translation>
     </message>
     <message>
       <location filename="FeatureRailGuide.py" line="84"/>
       <source>Angle for the forward end sweep</source>
-      <translation type="unfinished">Angle for the forward end sweep</translation>
+      <translation>Ângulo para o fim da amplitude dianteira</translation>
     </message>
     <message>
       <location filename="FeatureRailGuide.py" line="86"/>
       <source>The component has a sweep at the aft end</source>
-      <translation type="unfinished">The component has a sweep at the aft end</translation>
+      <translation>O componente tem uma amplitude após o fim</translation>
     </message>
     <message>
       <location filename="FeatureRailGuide.py" line="88"/>
       <source>Angle for the aft end sweep</source>
-      <translation type="unfinished">Angle for the aft end sweep</translation>
+      <translation>Ângulo para amplitude após o fim</translation>
     </message>
     <message>
       <location filename="FeatureRailGuide.py" line="90"/>
       <source>The component has a notch down the middle</source>
-      <translation type="unfinished">The component has a notch down the middle</translation>
+      <translation>O componente tem um entalhe no meio</translation>
     </message>
     <message>
       <location filename="FeatureRailGuide.py" line="92"/>
       <source>Width of the notch</source>
-      <translation type="unfinished">Width of the notch</translation>
+      <translation>Largura do entalhe</translation>
     </message>
     <message>
       <location filename="FeatureRailGuide.py" line="94"/>
       <source>Depth of the notch</source>
-      <translation type="unfinished">Depth of the notch</translation>
+      <translation>Profundidade do entalhe</translation>
     </message>
     <message>
       <location filename="FeatureRailButton.py" line="65"/>
       <source>Rail button type</source>
-      <translation type="unfinished">Rail button type</translation>
+      <translation>Formato do botão da guia</translation>
     </message>
     <message>
       <location filename="FeatureRailButton.py" line="72"/>
       <source>Diameter of the outside of the rail button</source>
-      <translation type="unfinished">Diameter of the outside of the rail button</translation>
+      <translation>Diâmetro externo do botão da guia</translation>
     </message>
     <message>
       <location filename="FeatureRailButton.py" line="74"/>
       <source>Diameter of the inside of the rail button</source>
-      <translation type="unfinished">Diameter of the inside of the rail button</translation>
+      <translation>Diâmetro interno do botão da guia</translation>
     </message>
     <message>
       <location filename="FeatureRailButton.py" line="76"/>
       <source>Thickness of the outboard part of the rail button</source>
-      <translation type="unfinished">Thickness of the outboard part of the rail button</translation>
+      <translation>Espessura da parte externa do botão da guia</translation>
     </message>
     <message>
       <location filename="FeatureRailButton.py" line="78"/>
       <source>Thickness of the inside part of the rail button</source>
-      <translation type="unfinished">Thickness of the inside part of the rail button</translation>
+      <translation>Espessura da parte interna do botão da guia</translation>
     </message>
     <message>
       <location filename="FeatureRailButton.py" line="80"/>
       <source>Total thickness of the rail button</source>
-      <translation type="unfinished">Total thickness of the rail button</translation>
+      <translation>Espessura total do botão da guia</translation>
     </message>
     <message>
       <location filename="FeatureRailButton.py" line="84"/>
       <source>Create a countersunk hole for the fastener</source>
-      <translation type="unfinished">Create a countersunk hole for the fastener</translation>
+      <translation>Crie um furo rebaixado para o fixador</translation>
     </message>
     <message>
       <location filename="FeatureRailButton.py" line="86"/>
       <source>Fastener countersink angle</source>
-      <translation type="unfinished">Fastener countersink angle</translation>
+      <translation>Ângulo de rebaixamento do fixador</translation>
     </message>
     <message>
       <location filename="FeatureRailButton.py" line="96"/>
       <source>Fastener shank diameter</source>
-      <translation type="unfinished">Fastener shank diameter</translation>
+      <translation>Diâmetro da haste do fixador</translation>
     </message>
     <message>
       <location filename="FeatureRailButton.py" line="98"/>
       <source>Fastener head diameter</source>
-      <translation type="unfinished">Fastener head diameter</translation>
+      <translation>Diâmetro da cabeça do fixador</translation>
     </message>
     <message>
       <location filename="FeatureRailButton.py" line="101"/>
       <source>Apply a fillet to the top of the rail button</source>
-      <translation type="unfinished">Apply a fillet to the top of the rail button</translation>
+      <translation>Aplique um filete na parte superior do botão da guia</translation>
     </message>
     <message>
       <location filename="FeatureRailButton.py" line="103"/>
       <source>Fillet radius</source>
-      <translation type="unfinished">Fillet radius</translation>
+      <translation>Raio do filete</translation>
     </message>
     <message>
       <location filename="FeatureNoseCone.py" line="60"/>
       <source>Nose Radius for a blunted nose cone</source>
-      <translation type="unfinished">Nose Radius for a blunted nose cone</translation>
+      <translation>Raio do nariz para um cone de nariz embotado</translation>
     </message>
     <message>
       <location filename="FeatureNoseCone.py" line="80"/>
       <source>The radius of the circle used to define a secant ogive</source>
-      <translation type="unfinished">The radius of the circle used to define a secant ogive</translation>
+      <translation>O raio do círculo usado para definir uma ogiva secante</translation>
     </message>
     <message>
       <location filename="FeatureFin.py" line="145"/>
       <source>True when describing a set of fins</source>
-      <translation type="unfinished">True when describing a set of fins</translation>
+      <translation>Verdadeiro ao descrever um conjunto de aletas</translation>
     </message>
     <message>
       <location filename="FeatureFin.py" line="147"/>
       <source>Number of fins in a radial pattern</source>
-      <translation type="unfinished">Number of fins in a radial pattern</translation>
+      <translation>Número de aletas em um padrão radial</translation>
     </message>
     <message>
       <location filename="FeatureFin.py" line="149"/>
       <source>Angle between consecutive fins</source>
-      <translation type="unfinished">Angle between consecutive fins</translation>
+      <translation>Ângulo entre aletas consecutivas</translation>
     </message>
     <message>
       <location filename="FeatureFin.py" line="174"/>
       <source>Sketch based fin debugging options</source>
-      <translation type="unfinished">Sketch based fin debugging options</translation>
+      <translation>Opções de depuração de aletas baseadas em esboço</translation>
     </message>
     <message>
       <location filename="FeatureFinCan.py" line="68"/>
       <source>Thickness of the fin can</source>
-      <translation type="unfinished">Thickness of the fin can</translation>
+      <translation>A espessura do tubo da aleta</translation>
     </message>
     <message>
       <location filename="FeatureFinCan.py" line="70"/>
       <source>Distance between the fin can leading edge and the fin leading edge</source>
-      <translation type="unfinished">Distance between the fin can leading edge and the fin leading edge</translation>
+      <translation>Distância entre a borda de ataque do tubo da aleta e a borda de ataque da aleta</translation>
     </message>
     <message>
       <location filename="FeatureFinCan.py" line="73"/>
       <source>Leading Edge</source>
-      <translation type="unfinished">Leading Edge</translation>
+      <translation>Borda Principal</translation>
     </message>
     <message>
       <location filename="FeatureFinCan.py" line="80"/>
       <source>Leading Edge Length</source>
-      <translation type="unfinished">Leading Edge Length</translation>
+      <translation>Comprimento da Borda Principal</translation>
     </message>
     <message>
       <location filename="FeatureFinCan.py" line="83"/>
       <source>Trailing Edge</source>
-      <translation type="unfinished">Trailing Edge</translation>
+      <translation>Borda de fuga</translation>
     </message>
     <message>
       <location filename="FeatureFinCan.py" line="89"/>
       <source>Trailing Edge Length</source>
-      <translation type="unfinished">Trailing Edge Length</translation>
+      <translation>Comprimento da Borda de Fuga</translation>
     </message>
     <message>
       <location filename="FeatureFinCan.py" line="92"/>
       <source>Fin can includes a launch lug</source>
-      <translation type="unfinished">Fin can includes a launch lug</translation>
+      <translation>Tubo das aletas pode incluir uma guia de lançamento</translation>
     </message>
     <message>
       <location filename="FeatureFinCan.py" line="94"/>
       <source>Diameter of the inside of the launch lug</source>
-      <translation type="unfinished">Diameter of the inside of the launch lug</translation>
+      <translation>Diâmetro interior da guia de lançamento</translation>
     </message>
     <message>
       <location filename="FeatureFinCan.py" line="96"/>
       <source>Thickness of the launch lug</source>
-      <translation type="unfinished">Thickness of the launch lug</translation>
+      <translation>Espessura da guia de lançamento</translation>
     </message>
     <message>
       <location filename="FeatureFinCan.py" line="98"/>
       <source>Launch lug thickness is the same as the fin can</source>
-      <translation type="unfinished">Launch lug thickness is the same as the fin can</translation>
+      <translation>A espessura da guia de lançamento é a mesma do tubo da aleta</translation>
     </message>
     <message>
       <location filename="FeatureFinCan.py" line="102"/>
       <source>Automatically adjust the length of the launch lug</source>
-      <translation type="unfinished">Automatically adjust the length of the launch lug</translation>
+      <translation>Ajuste automaticamente o comprimento da guia de lançamento</translation>
     </message>
     <message>
       <location filename="FeatureFinCan.py" line="106"/>
       <source>Launch lug fillet radius</source>
-      <translation type="unfinished">Launch lug fillet radius</translation>
+      <translation>Raio de filete da guia de lançamento</translation>
     </message>
     <message>
       <location filename="FeatureFinCan.py" line="133"/>
       <source>Launch lug size preset</source>
-      <translation type="unfinished">Launch lug size preset</translation>
+      <translation>Predefinição de tamanho da guia de lançamento</translation>
     </message>
     <message>
       <location filename="FeatureFinCan.py" line="122"/>
       <source>Forward side of the launch lug is swept</source>
-      <translation type="unfinished">Forward side of the launch lug is swept</translation>
+      <translation>O lado dianteiro do terminal de lançamento é inclinado</translation>
     </message>
     <message>
       <location filename="FeatureFinCan.py" line="124"/>
       <source>Forward sweep angle</source>
-      <translation type="unfinished">Forward sweep angle</translation>
+      <translation>Ângulo de inclinação dianteiro</translation>
     </message>
     <message>
       <location filename="FeatureFinCan.py" line="126"/>
       <source>Aft side of the launch lug is swept</source>
-      <translation type="unfinished">Aft side of the launch lug is swept</translation>
+      <translation>O lado traseiro do terminal de lançamento é inclinado</translation>
     </message>
     <message>
       <location filename="FeatureFinCan.py" line="128"/>
       <source>Aft sweep angle</source>
-      <translation type="unfinished">Aft sweep angle</translation>
+      <translation>Ângulo de inclinação traseiro</translation>
     </message>
     <message>
       <location filename="FeatureNoseCone.py" line="58"/>
       <source>Width of the nose cap bar</source>
-      <translation type="unfinished">Width of the nose cap bar</translation>
+      <translation>Largura da barra da tampa do nariz</translation>
     </message>
     <message>
       <location filename="FeatureNoseCone.py" line="125"/>
       <source>Nose cone cap style</source>
-      <translation type="unfinished">Nose cone cap style</translation>
+      <translation>Estilo de tampa de cone de nariz</translation>
     </message>
     <message>
       <location filename="FeatureFinCan.py" line="100"/>
       <source>Length of the launch lug</source>
-      <translation type="unfinished">Length of the launch lug</translation>
+      <translation>Comprimento da guia de lançamento</translation>
     </message>
     <message>
       <location filename="FeatureFinCan.py" line="131"/>
