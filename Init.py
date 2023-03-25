@@ -25,10 +25,18 @@ __url__ = "https://www.davesrocketshop.com"
 
 import FreeCAD
 import sys
+from pathlib import PurePath
 
 # Migrate old components
 from Rocket.migration.migrate_app import RocketMigrateApp
 sys.meta_path.append(RocketMigrateApp())
+
+# Add materials to the user config dir
+materials = FreeCAD.ParamGet("User parameter:BaseApp/Preferences/Mod/Material/Resources")
+matdir = materials.GetString("CustomMaterialsDir")
+if len(matdir) <= 0:
+    matdir = str(PurePath(FreeCAD.getUserAppDataDir(), "Mod/Rocket/Resources/Material"))
+    materials.SetString("CustomMaterialsDir", matdir)
 
 # add Import/Export types
 FreeCAD.addImportType("Open Rocket (*.ork)", "importORK")
