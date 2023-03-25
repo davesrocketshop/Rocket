@@ -6,4 +6,3 @@ dump.sql
 util/freecad-addons.zip
 .vscode/launch.json
 test.csv
-*.ts
