@@ -76,12 +76,8 @@ class FeaturePod(ComponentAssembly, RingInstanceable):
         if not hasattr(obj,'Shape'):
             return
 
-    # def update(self):
-    #     super().update()
-
-    #     # Ensure any automatic variables are set
-    #     self.getOuterDiameter()
-    #     self.getInnerDiameter()
+    def update(self):
+        super().update()
 
     def eligibleChild(self, childType):
         return childType not in [FEATURE_ROCKET, FEATURE_STAGE, FEATURE_PARALLEL_STAGE]
@@ -236,3 +232,12 @@ class FeaturePod(ComponentAssembly, RingInstanceable):
         self._obj.RadiusMethod = requestMethod
         self._obj.RadiusOffset =  self._obj.RadiusMethod.getAsOffset(self.getParent(), self, newRadius)
         self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
+
+    def getLength(self):
+        # Return the length of this component along the central axis
+        length = 0.0
+        if hasattr(self._obj, "Group"):
+            for child in self._obj.Group:
+                length += float(child.Proxy.getLength())
+
+        return length

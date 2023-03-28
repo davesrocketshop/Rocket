@@ -288,21 +288,6 @@ class FeatureRocket(ComponentAssembly, ComponentChangeListener):
 
         return bounding
 
-    # Set whether the rocket has a perfect finish.  This will affect whether the
-    # boundary layer is assumed to be fully turbulent or not.
-    def setPerfectFinish(self, perfectFinish):
-        if self._perfectFinish == perfectFinish:
-            return
-        self._perfectFinish = perfectFinish
-        self.fireComponentChangeEvent(ComponentChangeEvent.AERODYNAMIC_CHANGE)
-
-    # Get whether the rocket has a perfect finish.
-    def isPerfectFinish(self):
-        return self._perfectFinish
-    
-    def getFlightConfigurationCount(self):
-        return len(self._configSet)
-
     def resetListeners(self):
         self._listenerList = []
 
