@@ -119,3 +119,12 @@ class Command:
 
         if getRocket() is None:
             return True
+
+    def isRocketBuilder(self):
+        if FreeCADGui.ActiveDocument is None:
+            return False
+
+        if getRocket() is None:
+            return False
+        
+        return True

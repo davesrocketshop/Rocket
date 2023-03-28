@@ -24,6 +24,8 @@ __title__ = "FreeCAD Nose Cones"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
+import FreeCAD
+
 from Rocket.SymmetricComponent import SymmetricComponent
 from Rocket.Constants import FEATURE_NOSE_CONE
 
@@ -403,3 +405,15 @@ class FeatureNoseCone(SymmetricComponent):
         self._setShapeHandler()
         if self._shapeHandler is not None:
             self._shapeHandler.draw()
+
+    def explodedSize(self):
+        length = float(self._obj.Length)
+        if self._obj.Shoulder:
+            length += float(self._obj.ShoulderLength)
+        height = float(self._obj.Diameter) # This may be too small for bulbous style nose cones
+
+        return length, height
+
+    def childExplode(self, center):
+        # self._obj.AnimationOffset = FreeCAD.Vector(center)
+        self._obj.Placement.Base = self._obj.Placement.Base + center

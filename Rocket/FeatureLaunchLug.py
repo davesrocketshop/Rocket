@@ -265,3 +265,21 @@ class FeatureLaunchLug(Tube, AnglePositionable, BoxBounded, LineInstanceable):
     def setAngleMethod(self, newMethod):
         # no-op
         pass
+    
+    def explodeRadially(self):
+        return True
+
+    def explodedSize(self):
+        length = float(self._obj.Length)
+        height = float(self._obj.Diameter)
+
+        for index, child in enumerate(self.getChildren()):
+            childLength, childHeight = child.Proxy.explodedSize()
+            if index > 0:
+                length += childLength + float(self._obj.AnimationDistance)
+            else:
+                length = childLength
+            height = max(height, childHeight) # TODO: Not true for non-radial components like fins, true for things like CRs
+
+
+        return length, height

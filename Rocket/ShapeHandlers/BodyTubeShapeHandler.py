@@ -27,7 +27,7 @@ __url__ = "https://www.davesrocketshop.com"
 import FreeCAD
 import Part
 
-from Rocket.Utilities import validationError
+from Rocket.Utilities import validationError, _err
 from DraftTools import translate
 
 class BodyTubeShapeHandler():

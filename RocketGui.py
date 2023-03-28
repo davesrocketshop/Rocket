@@ -61,6 +61,9 @@ from Ui.Commands.CmdFemAnalysis import CmdFemAnalysis
 from Ui.Commands.CmdMaterialEditor import CmdMaterialEditor
 from Ui.Commands.CmdMaterialMapping import CmdMaterialMapping
 
+# Visualizations
+from Ui.Commands.CmdExplode import CmdExplode, CmdImplode
+
 from Rocket.Constants import FEATURE_BODY_TUBE
 from Rocket.Constants import FEATURE_LAUNCH_LUG, FEATURE_RAIL_BUTTON, FEATURE_RAIL_GUIDE, FEATURE_OFFSET
 
@@ -108,6 +111,9 @@ FreeCADGui.addCommand('Rocket_FinFlutter', CmdFinFlutter())
 FreeCADGui.addCommand('Rocket_FemAnalysis', CmdFemAnalysis())
 FreeCADGui.addCommand('Rocket_MaterialEditor', CmdMaterialEditor())
 FreeCADGui.addCommand('Rocket_MaterialMapping', CmdMaterialMapping())
+
+FreeCADGui.addCommand('Rocket_Explode', CmdExplode())
+FreeCADGui.addCommand('Rocket_Implode', CmdImplode())
 
 class _CalculatorGroupCommand:
 

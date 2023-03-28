@@ -38,6 +38,7 @@ import Ui.Commands as Commands
 
 from Rocket.Constants import FEATURE_ROCKET, FEATURE_STAGE
 from Rocket.Constants import LOCATION_SURFACE, LOCATION_CENTER
+from Rocket.Constants import PROP_TRANSIENT, PROP_HIDDEN, PROP_OUTPUT, PROP_NORECOMPUTE
 
 from DraftTools import translate
 
@@ -101,6 +102,26 @@ class RocketComponentShapeless():
 
         if not hasattr(obj, 'RadialOffset'):
             obj.addProperty('App::PropertyDistance', 'RadialOffset', 'RocketComponent', translate('App::Property', 'Radial offset from the reference')).RadialOffset = 0.0
+
+        # Animations
+        if not hasattr(obj,"DirectionVectors"):
+            obj.addProperty('App::PropertyVectorList', 'DirectionVectors', 'Animation', translate('App::Property', 'Direction to move the part during animation')).DirectionVectors = []
+        if not hasattr(obj,"RotationVectors"):
+            obj.addProperty('App::PropertyVectorList', 'RotationVectors', 'Animation', translate('App::Property', 'Direction to rotate the part during animation')).RotationVectors = []
+        if not hasattr(obj,"RotationCenters"):
+            obj.addProperty('App::PropertyVectorList', 'RotationCenters', 'Animation', translate('App::Property', 'Center of rotation during animation')).RotationCenters = []
+            
+        if not hasattr(obj,"AnimationDistance"):
+            obj.addProperty('App::PropertyFloat', 'AnimationDistance', 'Animation', translate('App::Property', 'Distance to move the part during animation')).AnimationDistance = 20.0
+        if not hasattr(obj,"AnimationRevolutions"):
+            obj.addProperty('App::PropertyFloat', 'AnimationRevolutions', 'Animation', translate('App::Property', 'Number of revolutions to animate')).AnimationRevolutions = 0.0
+        if not hasattr(obj,"AnimationStepTime"):
+            obj.addProperty('App::PropertyFloat', 'AnimationStepTime', 'Animation', translate('App::Property', 'Time for a single step during animation')).AnimationStepTime = 0.0
+        if not hasattr(obj,"AnimationSteps"):
+            obj.addProperty('App::PropertyInteger', 'AnimationSteps', 'Animation', translate('App::Property', 'Number of steps to complete the animation')).AnimationSteps = 20
+
+        if not hasattr(obj, 'AnimationOffset'):
+            obj.addProperty("App::PropertyVector", "AnimationOffset", 'Animation', 'Offset for this part', (PROP_TRANSIENT|PROP_HIDDEN|PROP_OUTPUT|PROP_NORECOMPUTE))
 
         if not hasattr(obj,"Group"):
             obj.addExtension("App::GroupExtensionPython")
@@ -900,3 +921,39 @@ class RocketComponentShapeless():
     # This will be implemented in the derived class
     def execute(self, obj):
         _err("No execute method defined for %s" % (self.__class__.__name__))
+
+    def explodedSize(self):
+        length = 0.0
+        height = 0.0
+        for child in self.getChildren():
+            childLength, childHeight = child.Proxy.explodedSize()
+            length = max(length, float(childLength))
+            height = height + float(childHeight)
+
+        return length, height
+    
+    def explodeRadially(self):
+        return False
+
+    def explode(self):
+        """
+            Used to create an exploded diagram animation
+        """
+        center = FreeCAD.Vector(0,0,0)
+        for index, child in enumerate(self.getChildren()):
+            _, childHeight = child.Proxy.explodedSize()
+            # Stages are stacked vertically
+            if index > 0:
+                center.z += (childHeight / 2.0)
+
+            child.Proxy.childExplode(center)
+            center.z += childHeight / 2.0
+
+    def childExplode(self, center):
+        pass
+
+    def implode(self):
+        """
+            Undo the exploded diagram animation
+        """
+        pass

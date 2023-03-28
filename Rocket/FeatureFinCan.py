@@ -350,3 +350,25 @@ class FeatureFinCan(SymmetricComponent, FeatureFin):
     
     def usesPreviousCompAutomatic(self):
         return self.isOuterDiameterAutomatic() and (self._refComp == self.getPreviousSymmetricComponent())
+    
+    def explodeRadially(self):
+        return False
+
+    def explodedSize(self):
+        length = float(self._obj.Length)
+        if self._obj.Coupler:
+            length += float(self._obj.CouplerLength)
+
+        height = float(self._obj.ParentRadius) + float(self._obj.Height) + float(self._obj.Thickness)
+        height *= 2
+
+        for index, child in enumerate(self.getChildren()):
+            childLength, childHeight = child.Proxy.explodedSize()
+            # if index > 0:
+            #     length += childLength + float(self._obj.AnimationDistance)
+            # else:
+            #     length = childLength
+            height += 2 * childHeight
+
+
+        return length, height
