@@ -398,3 +398,14 @@ class FeatureTransition(SymmetricComponent):
 
         if shape is not None:
             shape.draw()
+
+    def explodedSize(self):
+        length = float(self._obj.Length)
+        if self._obj.ForeShoulder:
+            length += float(self._obj.ForeShoulderLength)
+        if self._obj.AftShoulder:
+            length += float(self._obj.AftShoulderLength)
+            
+        height = max(float(self._obj.ForeDiameter), float(self._obj.AftDiameter))
+
+        return length, height

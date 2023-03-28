@@ -238,3 +238,6 @@ class FeatureRailButton(ExternalComponent, AnglePositionable, BoxBounded, LineIn
             toReturn.append(Coordinate(index*self._obj.InstanceSeparation, yOffset, zOffset))
         
         return toReturn
+    
+    def explodeRadially(self):
+        return True

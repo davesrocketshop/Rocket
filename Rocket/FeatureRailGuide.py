@@ -235,3 +235,6 @@ class FeatureRailGuide(ExternalComponent, AnglePositionable, BoxBounded, LineIns
             toReturn.append(Coordinate(index*self._obj.InstanceSeparation, yOffset, zOffset))
         
         return toReturn
+    
+    def explodeRadially(self):
+        return True

@@ -24,6 +24,8 @@ __title__ = "FreeCAD Rocket Assembly"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
+import FreeCAD
+
 from DraftTools import translate
 
 from Rocket.ComponentAssembly import ComponentAssembly
@@ -72,4 +74,25 @@ class FeatureStage(ComponentAssembly):
                 length += float(child.Proxy.getLength())
 
         return length
+
+
+    def explodedSize(self):
+        length = 0.0
+        height = 0.0
+        for index, child in enumerate(self.getChildren()):
+            childLength, childHeight = child.Proxy.explodedSize()
+            if index > 0:
+                length += childLength + float(self._obj.AnimationDistance)
+            else:
+                length = childLength
+            height = max(height, childHeight)
+
+        return length, height
+
+    def childExplode(self, center):
+        # childCenter = FreeCAD.Vector(center)
+        for index, child in enumerate(self.getChildren()):
+            # childLength, childHeight = child.Proxy.explodedSize()
+            center.x += index * float(self._obj.AnimationDistance)
+            child.Proxy.childExplode(center)
 

@@ -24,6 +24,8 @@ __title__ = "FreeCAD Body Tubes"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
+import FreeCAD
+
 from Rocket.interfaces.BoxBounded import BoxBounded
 from Rocket.interfaces.Coaxial import Coaxial
 
@@ -295,4 +297,27 @@ class FeatureBodyTube(SymmetricComponent, BoxBounded, Coaxial):
         except ReferenceError:
             # Already deleted object
             pass
+
+    def explodedSize(self):
+        length = float(self._obj.Length)
+        height = float(self._obj.Diameter)
+
+        for index, child in enumerate(self.getChildren()):
+            childLength, childHeight = child.Proxy.explodedSize()
+            if child.Proxy.explodeRadially():
+                # No change to length
+                height += childHeight
+            else:
+                if index > 0:
+                    length += childLength + float(self._obj.AnimationDistance)
+                else:
+                    length += childLength
+                height = max(height, childHeight)
+
+
+        return length, height
+    
+    def childExplode(self, center):
+        # self._obj.AnimationOffset = FreeCAD.Vector(center)
+        self._obj.Placement.Base = self._obj.Placement.Base + center
 

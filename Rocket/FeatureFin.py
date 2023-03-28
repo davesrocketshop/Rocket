@@ -446,3 +446,24 @@ class FeatureFin(ExternalComponent):
         self._obj.TubeAutoOuterDiameter = auto
         self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
         self.clearPreset()
+    
+    def explodeRadially(self):
+        return True
+
+    def explodedSize(self):
+        length = 0 # float(self._obj.RootChord) -- TODO: length is the parent?
+        height = float(self._obj.ParentRadius) + float(self._obj.Height)
+        if self._obj.Ttw:
+            height += self._obj.TtwHeight
+        height *= 2
+
+        for index, child in enumerate(self.getChildren()):
+            childLength, childHeight = child.Proxy.explodedSize()
+            # if index > 0:
+            #     length += childLength + float(self._obj.AnimationDistance)
+            # else:
+            #     length = childLength
+            height += childHeight
+
+
+        return length, height

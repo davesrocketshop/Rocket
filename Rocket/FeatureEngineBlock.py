@@ -64,3 +64,18 @@ class FeatureEngineBlock(ThicknessRingComponent, AxialPositionable):
 
     def eligibleChild(self, childType):
         return False
+
+    def explodedSize(self):
+        length = float(self._obj.Length)
+        height = float(self._obj.Diameter)
+
+        for index, child in enumerate(self.getChildren()):
+            childLength, childHeight = child.Proxy.explodedSize()
+            if index > 0:
+                length += childLength + float(self._obj.AnimationDistance)
+            else:
+                length = childLength
+            height = max(height, childHeight)
+
+
+        return length, height

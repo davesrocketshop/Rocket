@@ -82,3 +82,20 @@ class FeatureBulkhead(RadiusRingComponent):
         shape = BulkheadShapeHandler(obj)
         if shape is not None:
             shape.draw()
+
+    def explodedSize(self):
+        length = float(self._obj.Thickness)
+        if self._obj.Step:
+            length += float(self._obj.StepThickness)
+        height = float(self._obj.Diameter)
+
+        for index, child in enumerate(self.getChildren()):
+            childLength, childHeight = child.Proxy.explodedSize()
+            if index > 0:
+                length += childLength + float(self._obj.AnimationDistance)
+            else:
+                length = childLength
+            height = max(height, childHeight)
+
+
+        return length, height
