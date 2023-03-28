@@ -66,7 +66,7 @@ class RocketWorkbench ( Workbench ):
         self.appendToolbar(QT_TRANSLATE_NOOP('Rocket', 'Rocket'),
                         ['Separator', 'Rocket_FinFlutter', 'Rocket_FemAnalysis', 'FEM_MeshGmshFromShape', "Rocket_MaterialEditor", 'Rocket_MaterialMapping'])
         self.appendToolbar(QT_TRANSLATE_NOOP('Rocket', 'Rocket'),
-                        ['Separator', 'Rocket_Explode'])
+                        ['Separator', 'Rocket_Explode', 'Rocket_Implode'])
         
         #---
 
@@ -85,7 +85,7 @@ class RocketWorkbench ( Workbench ):
                         ['Rocket_FinFlutter', 'Rocket_FemAnalysis', 'FEM_MeshGmshFromShape', "Rocket_MaterialEditor", 'Rocket_MaterialMapping'])
         self.appendMenu([QT_TRANSLATE_NOOP("Rocket", "Rocket"),
                          QT_TRANSLATE_NOOP("Rocket", "Visualization")],
-                        ['Rocket_Explode'])
+                        ['Rocket_Explode', 'Rocket_Implode'])
 
     def GetClassName(self):
         return "Gui::PythonWorkbench"

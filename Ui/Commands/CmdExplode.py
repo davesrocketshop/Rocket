@@ -29,24 +29,7 @@ import FreeCADGui
 
 from DraftTools import translate
 
-from PySide import QtGui
-
-from Ui.DialogFinFlutter import DialogFinFlutter
 from Ui.Commands.Command import Command, getRocket
-
-import FemGui
-import ObjectsFem
-from Rocket.fem.Gmsh import RocketGmsh
-
-def createAnalysis():
-    doc = FreeCAD.ActiveDocument
-
-    analyzer = ObjectsFem.makeAnalysis(doc, 'Analysis')
-    FemGui.setActiveAnalysis(analyzer)
-
-    # create a CalculiX ccx tools solver for any new analysis
-    ObjectsFem.makeSolverCalculixCcxTools(doc)
-    analyzer.addObject(doc.ActiveObject)
 
 def doExplode():
     doc = FreeCAD.ActiveDocument
@@ -57,8 +40,18 @@ def doExplode():
     if rocket is None:
         return
     
-    # First, debug the sizes
     rocket.explode()
+
+def doImplode():
+    doc = FreeCAD.ActiveDocument
+    if doc is None:
+        return
+
+    rocket = getRocket()
+    if rocket is None:
+        return
+    
+    rocket.implode()
 
 class CmdExplode(Command):
     def Activated(self):
@@ -71,4 +64,17 @@ class CmdExplode(Command):
     def GetResources(self):
         return {'MenuText': translate("Rocket", 'Show Exploded Assembly'),
                 'ToolTip': translate("Rocket", 'Show Exploded Assembly'),
+                'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_FinFem.svg"}
+
+class CmdImplode(Command):
+    def Activated(self):
+        FreeCADGui.addModule("Ui.Commands.CmdExplode")
+        FreeCADGui.doCommand("Ui.Commands.CmdExplode.doImplode()")
+
+    def IsActive(self):
+        return self.isRocketBuilder()
+        
+    def GetResources(self):
+        return {'MenuText': translate("Rocket", 'Undo Exploded Assembly'),
+                'ToolTip': translate("Rocket", 'Undo Exploded Assembly'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_FinFem.svg"}

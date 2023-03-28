@@ -951,3 +951,9 @@ class RocketComponentShapeless():
 
     def childExplode(self, center):
         pass
+
+    def implode(self):
+        """
+            Undo the exploded diagram animation
+        """
+        pass
