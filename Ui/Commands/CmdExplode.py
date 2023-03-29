@@ -64,7 +64,7 @@ class CmdExplode(Command):
     def GetResources(self):
         return {'MenuText': translate("Rocket", 'Show Exploded Assembly'),
                 'ToolTip': translate("Rocket", 'Show Exploded Assembly'),
-                'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_FinFem.svg"}
+                'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Explode.svg"}
 
 class CmdImplode(Command):
     def Activated(self):
@@ -77,4 +77,4 @@ class CmdImplode(Command):
     def GetResources(self):
         return {'MenuText': translate("Rocket", 'Undo Exploded Assembly'),
                 'ToolTip': translate("Rocket", 'Undo Exploded Assembly'),
-                'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_FinFem.svg"}
+                'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Implode.svg"}

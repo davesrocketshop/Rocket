@@ -56,6 +56,8 @@ Now using the improved and curated parts database by Dave Cook instead (https://
 
 Portions of the pyatmos module by Chunxiao Li are included with this software (https://github.com/lcx366/ATMOS)
 
+Icon by Adrien Coquet from <a href="https://thenounproject.com/browse/icons/term/center/" target="_blank" title="center Icons">Noun Project</a>
+
 [![Total alerts](https://img.shields.io/lgtm/alerts/g/davesrocketshop/Rocket.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/davesrocketshop/Rocket/alerts/)  [![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/davesrocketshop/Rocket.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/davesrocketshop/Rocket/context:python)
 
 ## License
