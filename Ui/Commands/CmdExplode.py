@@ -31,6 +31,12 @@ from DraftTools import translate
 
 from Ui.Commands.Command import Command, getRocket
 
+__exploded = False
+
+def isExploded():
+    print("__exploded {0}".format(__exploded))
+    return __exploded
+
 def doExplode():
     doc = FreeCAD.ActiveDocument
     if doc is None:
@@ -40,6 +46,8 @@ def doExplode():
     if rocket is None:
         return
     
+    global __exploded
+    __exploded = True
     rocket.explode()
 
 def doImplode():
@@ -51,6 +59,8 @@ def doImplode():
     if rocket is None:
         return
     
+    global __exploded
+    __exploded = False
     rocket.implode()
 
 class CmdExplode(Command):
