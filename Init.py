@@ -33,7 +33,7 @@ sys.meta_path.append(RocketMigrateApp())
 # add Import/Export types
 FreeCAD.addImportType("Open Rocket (*.ork)", "importORK")
 # FreeCAD.addImportType("RASAero (*.cdx1)", "importRASAero")
-# App.addImportType("Rocksim (*.rkt)", "importRKT")
+FreeCAD.addImportType("Rocksim (*.rkt)", "importRKT")
 
 #App.__unit_test__ += ["TestRocketImport"]
 FreeCAD.__unit_test__ += ["TestRocketApp"]

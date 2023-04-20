@@ -18,66 +18,42 @@
 # *   USA                                                                   *
 # *                                                                         *
 # ***************************************************************************
-"""Provides support for importing Rocksim files."""
+"""Provides support for importing Rocsim files."""
 
-__title__ = "FreeCAD Rocksim Importer"
+__title__ = "FreeCAD Rocksim Importer Common Component"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
-import os
+from Rocket.Importer.OpenRocket.SaxElement import Element, NullElement
 
-import FreeCAD
+class BaseElement(Element):
 
-from Rocket.Importer.Rocsim.Rocsim import RocksimImporter
+    def __init__(self, parent, tag, attributes, parentObj, filename, line):
+        super().__init__(parent, tag, attributes, parentObj, filename, line)
 
-def open(filename):
-    """Open filename and parse using the Rocsim handler
+        # self._validChildren = { 'finish' : NullElement,
+        #                         'material' : MaterialElement,
+        #                       }
 
-    Parameters
-    ----------
-    filename : str
-        The path to the filename to be opened.
+        self._componentTags = ["name", "knownmass", "density", "knowncg", "useknowncg", "densitytype"]
 
-    Returns
-    -------
-    App::Document
-        The new FreeCAD document object created, with the parsed information.
-    """
-    docname = os.path.split(filename)[1]
-    doc = FreeCAD.newDocument(docname)
-    doc.Label = docname[:-4]
+        self._materialType = None
+        self._materialDensity = None
 
-    RocksimImporter.importFile(doc, filename)
+    # def handleTag(self, tag, attributes):
+    #     _tag = tag.lower().strip()
+    #     if _tag == "name":
+    #         pass
+    #     else:
+    #         super().handleTag(tag, attributes)
 
-    doc.recompute()
-    return doc
+    def handleEndTag(self, tag, content):
+        _tag = tag.lower().strip()
+        if _tag == "name":
+            self.onName(content)
+        else:
+            super().handleEndTag(tag, content)
 
-
-def insert(filename, docname):
-    """Get an active document and parse using the Rocsim handler
-
-    If no document exist, it is created.
-
-    Parameters
-    ----------
-    filename : str
-        The path to the filename to be opened.
-    docname : str
-        The name of the active App::Document if one exists, or
-        of the new one created.
-
-    Returns
-    -------
-    App::Document
-        The active FreeCAD document, or the document created if none exists,
-        with the parsed information.
-    """
-    try:
-        doc = FreeCAD.getDocument(docname)
-    except NameError:
-        doc = FreeCAD.newDocument(docname)
-    FreeCAD.ActiveDocument = doc
-
-    RocksimImporter.importFile(doc, filename)
-
-    doc.recompute()
+    def onName(self, content):
+        if hasattr(self._feature, "setName"):
+            self._feature.setName(content)
