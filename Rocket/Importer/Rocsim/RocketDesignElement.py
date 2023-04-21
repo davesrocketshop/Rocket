@@ -59,6 +59,10 @@ class RocketDesignElement(Element):
     def getStageCount(self):
         return self.stageCount
 
+    def end(self):
+        self._feature.enableEvents()
+        return self._parent
+
 class DesignInformationElement(Element):
 
     def __init__(self, parent, tag, attributes, parentObj, filename, line):

@@ -31,25 +31,20 @@ from zipfile import ZipFile
 import gzip
 
 import xml.sax
-import FreeCAD
 
-from Rocket.Exceptions import UnsupportedVersion
-
-from Rocket.Importer.OpenRocket.SaxElement import NullElement
-from Rocket.Importer.OpenRocket.ComponentElement import ComponentElement
-from Rocket.Importer.OpenRocket.SubElement import SubElement
+from Rocket.Importer.OpenRocket.SaxElement import NullElement, Element
 from Rocket.Importer.Rocsim.RocketDesignElement import DesignInformationElement
 
 from Ui.Commands.CmdRocket import makeRocket
 
-class RootElement(ComponentElement):
+class RootElement(Element):
 
     def __init__(self, parent, tag, attributes, parentObj, filename, line):
         super().__init__(parent, tag, attributes, parentObj, filename, line)
 
         self._validChildren = {'rocksimdocument' : RocsimElement}
 
-class RocsimElement(ComponentElement):
+class RocsimElement(Element):
 
     def __init__(self, parent, tag, attributes, parentObj, filename, line):
         super().__init__(parent, tag, attributes, parentObj, filename, line)
@@ -58,34 +53,6 @@ class RocsimElement(ComponentElement):
                                 'designinformation' : DesignInformationElement,
                               }
         self._knownTags = ["fileversion", "designinformation"]
-
-class RocketElement(ComponentElement):
-
-    def __init__(self, parent, tag, attributes, parentObj, filename, line):
-        super().__init__(parent, tag, attributes, parentObj, filename, line)
-
-        self._validChildren = { 'subcomponents' : SubElement,
-                              }
-        self._knownTags = ["subcomponents", "designer", "appearance", "motormount", "finpoints", "motorconfiguration", "flightconfiguration", "deploymentconfiguration", "separationconfiguration", "referencetype", "customreference", "revision"]
-
-        self._feature = makeRocket(makeSustainer=False)
-
-    def handleEndTag(self, tag, content):
-        _tag = tag.lower().strip()
-        if _tag == "designer":
-            FreeCAD.ActiveDocument.CreatedBy = content
-        elif _tag == "revision":
-            pass
-        else:
-            super().handleEndTag(tag, content)
-
-    def onComment(self, content):
-        if hasattr(self._feature, "setComment"):
-            self._feature.setComment(content)
-
-    def end(self):
-        self._feature.enableEvents()
-        return self._parent
 
 class RocksimImporter(xml.sax.ContentHandler):
     def __init__(self, filename):

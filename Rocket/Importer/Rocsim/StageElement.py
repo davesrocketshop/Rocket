@@ -25,7 +25,9 @@ __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
 from Rocket.Importer.OpenRocket.SaxElement import Element, NullElement
+from Rocket.Importer.Rocsim.BodyTubeElement import BodyTubeElement
 from Rocket.Importer.Rocsim.NoseElement import NoseElement
+from Rocket.Importer.Rocsim.TransitionElement import TransitionElement
 
 from Ui.Commands.CmdStage import makeStage
 
@@ -36,9 +38,9 @@ class StageElement(Element):
 
         self.stageCount = 1
 
-        self._validChildren.update({ 'nosecone' : NoseElement,
-                                'transition' : NullElement,
-                                'bodytube' : NullElement,
+        self._validChildren.update({'nosecone' : NoseElement,
+                                'transition' : TransitionElement,
+                                'bodytube' : BodyTubeElement,
                                 'subassembly' : NullElement,
                               })
         # self._knownTags.extend(["stage1parts", "stage2parts", "stage3parts", "name", "stagecount", 
