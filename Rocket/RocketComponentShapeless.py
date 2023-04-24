@@ -942,3 +942,13 @@ class RocketComponentShapeless():
         """
         isExploded()
         self.updateChildren()
+
+    def copy(self, component):
+        self._obj.Comment = component._obj.Comment
+
+        self._obj.AxialMethod = component._obj.AxialMethod
+        self._obj.AxialOffset = component._obj.AxialOffset
+        self._obj.AngleOffset = component._obj.AngleOffset
+
+        self._obj.RadialReference = component._obj.RadialReference
+        self._obj.RadialOffset = component._obj.RadialOffset

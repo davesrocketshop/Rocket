@@ -28,6 +28,7 @@ import FreeCAD
 
 from Rocket.Importer.OpenRocket.SaxElement import NullElement
 from Rocket.Importer.Rocsim.BaseElement import BaseElement
+from Rocket.Importer.Rocsim.AttachedPartsElement import AttachedPartsElement
 from Rocket.Utilities import _toBoolean
 from Rocket.Constants import STYLE_CAPPED, STYLE_HOLLOW, STYLE_SOLID
 from Rocket.Constants import TYPE_CONE, TYPE_ELLIPTICAL, TYPE_HAACK, TYPE_OGIVE, TYPE_PARABOLA, TYPE_POWER
@@ -41,7 +42,7 @@ class NoseElement(BaseElement):
 
         self._shoulderCapped = False
 
-        self._validChildren.update({ 'attachedparts' : NullElement,
+        self._validChildren.update({ 'attachedparts' : AttachedPartsElement,
                               })
         self._knownTags.extend(["xb", "calcmass", "calccg", "radialloc", "radialangle", "locationmode", "len", 
                                 "finishcode", "serialno", "shapecode", "constructiontype", "wallthickness", "shapeparameter", 

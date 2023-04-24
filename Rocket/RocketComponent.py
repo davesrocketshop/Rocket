@@ -272,3 +272,17 @@ class RocketComponent(RocketComponentShapeless, ChangeSource):
                     thesePositions[pi + parentCount*ii] = parentPositions[pi].add(instanceLocations[ii])
 
             return thesePositions
+
+    def copy(self, component):
+        self._obj.Manufacturer = component._obj.Manufacturer
+        self._obj.PartNumber = component._obj.PartNumber
+        self._obj.Material = component._obj.Material
+        self._obj.Description = component._obj.Description
+
+        self._obj.LocationReference = component._obj.LocationReference
+
+        self._obj.Length = component._obj.Length
+        self._obj.Position = component._obj.Position
+        self._obj.Texture = component._obj.Texture
+
+        super().copy(component)

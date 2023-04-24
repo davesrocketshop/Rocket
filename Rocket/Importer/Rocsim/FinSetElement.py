@@ -27,36 +27,36 @@ __url__ = "https://www.davesrocketshop.com"
 import FreeCAD
 
 from Rocket.Importer.Rocsim.BaseElement import BaseElement
-from Rocket.Importer.Rocsim.AttachedPartsElement import AttachedPartsElement
 from Rocket.Importer.Rocsim.Utilities import getAxialMethodFromCode
 from Rocket.position import AxialMethod
 
-from Ui.Commands.CmdBodyTube import makeBodyTube, makeInnerTube
+from Ui.Commands.CmdFin import makeFin
 
-class BodyTubeElement(BaseElement):
+class FinSetElement(BaseElement):
 
     def __init__(self, parent, tag, attributes, parentObj, filename, line):
         super().__init__(parent, tag, attributes, parentObj, filename, line)
 
-        self._validChildren.update({ 'attachedparts' : AttachedPartsElement,
-                              })
+        # self._validChildren.update({ 'attachedparts' : AttachedPartsElement,
+        #                       })
         self._knownTags.extend(["xb", "calcmass", "calccg", "radialloc", "radialangle", "locationmode", "len", 
-                                "finishcode", "serialno", "shapecode", "constructiontype", "wallthickness", "shapeparameter", 
-                                "attachedparts", "material", "od", "id", "ismotormount", "motordia", "engineoverhang", "isinsidetube"])
+                                "finishcode", "serialno", "fincount", "rootchord", "tipchord", "semispan", "midchordlen",
+                                "sweepdistance", "thickness", "tipshapecode", "tablength", "tabdepth", "taboffset", 
+                                "shapecode", "pointlist", "calcmass", "calccg", "material", "sweepmode", "cantangle"
+                                ])
         
         self._id = -1
         self._innerTube = False
         self._locationLoaded = False
 
     def makeObject(self):
-        self._feature = makeBodyTube()
-        # Attach after converting to an inner tube, if required
+        self._feature = makeFin()
+        if self._parentObj is not None:
+            self._parentObj.addChild(self._feature)
 
     def handleEndTag(self, tag, content):
         _tag = tag.lower().strip()
-        if _tag == "len":
-            self.onLength(FreeCAD.Units.Quantity(content + " mm").Value)
-        elif _tag == "id":
+        if _tag == "id":
             self._id = FreeCAD.Units.Quantity(content + " mm").Value
         elif _tag == "od":
             self._feature._obj.AutoDiameter = False
@@ -81,28 +81,10 @@ class BodyTubeElement(BaseElement):
         else:
             super().handleEndTag(tag, content)
 
-    def onLength(self, length):
-        self._feature._obj.Length = length
+    # def end(self):
+    #     # Validate the nose shape here
+    #     if not self._feature._obj.AutoDiameter and self._id > 0:
+    #         thickness = (float(self._feature._obj.Diameter) - float(self._id)) / 2.0
+    #         self._feature._obj.Thickness = thickness
 
-    def convertToInnerTube(self, bodyTube):
-        inner = makeInnerTube()
-        inner.copyFromBodyTube(bodyTube)
-
-        return inner
-
-    def end(self):
-        # Validate the nose shape here
-        if not self._feature._obj.AutoDiameter and self._id > 0:
-            thickness = (float(self._feature._obj.Diameter) - float(self._id)) / 2.0
-            self._feature._obj.Thickness = thickness
-
-        if self._innerTube:
-            bodyTube = self._feature
-            self._feature = self.convertToInnerTube(bodyTube)
-            FreeCAD.ActiveDocument.removeObject(bodyTube._obj.Name)
-
-        # Now ready to attach
-        if self._parentObj is not None:
-            self._parentObj.addChild(self._feature)
-
-        return super().end()
+    #     return super().end()

@@ -224,3 +224,9 @@ class RingComponent(InternalComponent, BoxBounded, Coaxial):
         # assert (MathUtil.equals(z, shiftZ));
         
         self.fireComponentChangeEvent(ComponentChangeEvent.MASS_CHANGE);
+
+    def copyFromBodyTube(self, component):
+        self._obj.Diameter = component._obj.Diameter
+        self._obj.AutoDiameter = component._obj.AutoDiameter
+
+        super().copy(component)
