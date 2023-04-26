@@ -25,6 +25,8 @@ __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
 import FreeCAD
+import Part
+import Sketcher
 
 from Rocket.Importer.Rocsim.BaseElement import BaseElement
 from Rocket.Importer.Rocsim.Utilities import getAxialMethodFromCode
@@ -33,6 +35,7 @@ from Rocket.Constants import FIN_TYPE_TRAPEZOID, FIN_TYPE_ELLIPSE, FIN_TYPE_SKET
 from Rocket.Constants import FIN_CROSS_SAME, FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL
 
 from Ui.Commands.CmdFin import makeFin
+from Ui.Commands.CmdSketcher import newSketchNoEdit
 
 class FinSetElement(BaseElement):
 
@@ -50,6 +53,8 @@ class FinSetElement(BaseElement):
         self._id = -1
         self._innerTube = False
         self._locationLoaded = False
+        self._location = 0
+        self.sketch = None
 
     def makeObject(self):
         self._feature = makeFin()
@@ -63,16 +68,20 @@ class FinSetElement(BaseElement):
         elif _tag == "finishcode":
             pass
         elif _tag == "xb":
-            offset = float(FreeCAD.Units.Quantity(content + " mm").Value)
+            self._location = float(FreeCAD.Units.Quantity(content + " mm").Value)
             if isinstance(self._feature.getAxialMethod(), AxialMethod.BottomAxialMethod):
-                self._feature._obj.AxialOffset = -offset
+                self._feature._obj.AxialOffset = -self._location
+            else:
+                self._feature._obj.AxialOffset = self._location
             self._locationLoaded = True
         elif _tag == "locationmode":
             self._feature._obj.AxialMethod = getAxialMethodFromCode(int(content))
             # If the location is loaded before the axialMethod, we still need to correct for the different relative distance direction
             if self._locationLoaded:
                 if isinstance(self._feature.getAxialMethod(), AxialMethod.BottomAxialMethod):
-                    self._feature._obj.AxialOffset = -self._feature._obj.AxialOffset
+                    self._feature._obj.AxialOffset = -self._location
+                else:
+                    self._feature._obj.AxialOffset = self._location
         elif _tag == "fincount":
             self._feature._obj.FinCount = int(content)
             self._feature._obj.FinSpacing = 360.0 / int(content)
@@ -106,7 +115,7 @@ class FinSetElement(BaseElement):
         elif _tag == "taboffset":
             self._feature._obj.TtwOffset = FreeCAD.Units.Quantity(content + " mm").Value
         elif _tag == "radialangle":
-            rotation = FreeCAD.Units.Quantity(content + " deg").Value
+            rotation = FreeCAD.Units.Quantity(content + " rad").Value
             self._feature._obj.AngleOffset = rotation
         elif _tag == "shapecode":
             shapeCode = int(content)
@@ -119,8 +128,7 @@ class FinSetElement(BaseElement):
             else:
                 raise Exception("Unknown fin type " + content)
         elif _tag == "pointlist":
-            # self._feature._obj.MotorMount = (int(content) > 0)
-            pass
+            self.makeSketch(content)
         else:
             super().handleEndTag(tag, content)
 
@@ -131,3 +139,45 @@ class FinSetElement(BaseElement):
             self._feature._obj.Thickness = thickness
 
         return super().end()
+
+    def drawLines(self, points):
+        # First reverse the X direction of the points
+        newPoints = []
+        for point in points:
+            newPoints.append((point[0], point[1]))
+        self.points = newPoints
+
+        last = self.points[-1]
+        for index, point in enumerate(self.points):
+            self.sketch.addGeometry(Part.LineSegment(FreeCAD.Vector(float(last[0]), float(last[1]), 0),
+                                                        FreeCAD.Vector(float(point[0]), float(point[1]), 0)))
+            self.sketch.addConstraint(Sketcher.Constraint("DistanceX", index, 2, point[0]))
+            self.sketch.addConstraint(Sketcher.Constraint("DistanceY", index, 2, point[1]))
+            last = point
+
+        count = len(self.points)
+        for index in range(count):
+            if index == 0:
+                self.sketch.addConstraint(Sketcher.Constraint("Coincident", count-1, 2, index, 1))
+            else:
+                self.sketch.addConstraint(Sketcher.Constraint("Coincident", index-1, 2, index, 1))
+    
+    def makeSketch(self, points):
+        if len(points) <= 0:
+            return
+
+        self.sketch = newSketchNoEdit()
+        self._feature._obj.Profile = self.sketch
+
+        pointList = []
+        pairs = points.split('|')
+        for pair in pairs:
+            if len(pair) > 0:
+                point = pair.split(',')
+                pointList.append((float(point[0]), float(point[1])))
+
+        self.drawLines(pointList)
+        FreeCAD.ActiveDocument.recompute([self.sketch]) # Compute the sketch
+        self.sketch.Visibility = False
+   
+

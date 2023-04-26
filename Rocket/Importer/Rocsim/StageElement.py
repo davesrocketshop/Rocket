@@ -36,8 +36,6 @@ class StageElement(Element):
     def __init__(self, parent, tag, attributes, parentObj, filename, line):
         super().__init__(parent, tag, attributes, parentObj, filename, line)
 
-        self.stageCount = 1
-
         self._validChildren.update({'nosecone' : NoseElement,
                                 'transition' : TransitionElement,
                                 'bodytube' : BodyTubeElement,
@@ -61,3 +59,27 @@ class StageElement(Element):
         self._feature = makeStage()
         if self._parentObj is not None:
             self._parentObj.addChild(self._feature)
+
+class Stage3Element(StageElement):
+
+    def makeObject(self):
+        self._feature = makeStage("Sustainer")
+        if self._parentObj is not None:
+            self._parentObj.addChild(self._feature)
+
+class Stage2Element(StageElement):
+
+    def makeObject(self):
+        if self._parent.getStageCount() > 1:
+            self._feature = makeStage()
+            if self._parentObj is not None:
+                self._parentObj.addChild(self._feature)
+
+class Stage1Element(StageElement):
+
+    def makeObject(self):
+        if self._parent.getStageCount() > 2:
+            self._feature = makeStage()
+            if self._parentObj is not None:
+                self._parentObj.addChild(self._feature)
+

@@ -24,8 +24,8 @@ __title__ = "FreeCAD Rocsim Importer"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
-from Rocket.Importer.OpenRocket.SaxElement import Element, NullElement
-from Rocket.Importer.Rocsim.StageElement import StageElement
+from Rocket.Importer.OpenRocket.SaxElement import Element
+from Rocket.Importer.Rocsim.StageElement import Stage1Element, Stage2Element, Stage3Element
 
 from Ui.Commands.CmdRocket import makeRocket
 
@@ -36,9 +36,9 @@ class RocketDesignElement(Element):
 
         self.stageCount = 1
 
-        self._validChildren.update({ 'stage1parts' : StageElement,
-                                'stage2parts' : StageElement,
-                                'stage3parts' : StageElement,
+        self._validChildren.update({ 'stage1parts' : Stage1Element,
+                                'stage2parts' : Stage2Element,
+                                'stage3parts' : Stage3Element,
                               })
         self._knownTags.extend(["stage1parts", "stage2parts", "stage3parts", "name", "stagecount", 
                                 "stage1mass", "stage2mass", "stage3mass", "stage1cg", "stage2cg", "stage3cg", 
