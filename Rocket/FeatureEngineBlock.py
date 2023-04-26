@@ -79,3 +79,6 @@ class FeatureEngineBlock(ThicknessRingComponent, AxialPositionable):
 
 
         return length, height
+
+    def fromCenteringRing(self, ring):
+        self.copy(ring)

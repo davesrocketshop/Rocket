@@ -246,8 +246,8 @@ class FeatureInnerTube(ThicknessRingComponent, Clusterable, AxialPositionable, B
 
         return length, height
 
-    def copyFromBodyTube(self, component):
+    def fromBodyTube(self, component):
         self._obj.MotorMount = component._obj.MotorMount
         self._obj.Overhang = component._obj.Overhang
 
-        super().copyFromBodyTube(component)
+        super().fromBodyTube(component)

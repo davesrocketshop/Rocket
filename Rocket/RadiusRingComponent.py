@@ -159,3 +159,11 @@ class RadiusRingComponent(RingComponent, LineInstanceable):
 
     def getPatternName(self):
         return str(self.getInstanceCount()) + "-Line"
+    
+    def copy(self, ring):
+        self._obj.CenterDiameter = ring._obj.CenterDiameter
+
+        self._obj.InstanceCount = ring._obj.InstanceCount
+        self._obj.InstanceSeparation = ring._obj.InstanceSeparation
+
+        super().copy(ring)

@@ -86,7 +86,7 @@ class BodyTubeElement(BaseElement):
 
     def convertToInnerTube(self, bodyTube):
         inner = makeInnerTube()
-        inner.copyFromBodyTube(bodyTube)
+        inner.fromBodyTube(bodyTube)
 
         return inner
 

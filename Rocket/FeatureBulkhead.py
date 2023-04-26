@@ -99,3 +99,22 @@ class FeatureBulkhead(RadiusRingComponent):
 
 
         return length, height
+
+    def copy(self, ring):
+        self._obj.Thickness = ring._obj.Thickness
+
+        self._obj.Step = ring._obj.Step
+        self._obj.StepReverse = ring._obj.StepReverse
+        self._obj.StepDiameter = ring._obj.StepDiameter
+        self._obj.StepThickness = ring._obj.StepThickness
+
+        self._obj.Holes = ring._obj.Holes
+        self._obj.HoleDiameter = ring._obj.HoleDiameter
+        self._obj.HoleCenter = ring._obj.HoleCenter
+        self._obj.HoleCount = ring._obj.HoleCount
+        self._obj.HoleOffset = ring._obj.HoleOffset
+
+        super().copy(ring)
+
+    def fromCenteringRing(self, ring):
+        self.copy(ring)

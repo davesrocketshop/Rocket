@@ -31,6 +31,7 @@ from Rocket.Importer.Rocsim.BaseElement import BaseElement
 import Rocket.Importer.Rocsim as Rocsim
 from Rocket.Importer.Rocsim.FinSetElement import FinSetElement
 from Rocket.Importer.Rocsim.LaunchLugElement import LaunchLugElement
+from Rocket.Importer.Rocsim.RingElement import RingElement
 
 class AttachedPartsElement(BaseElement):
 
@@ -43,7 +44,7 @@ class AttachedPartsElement(BaseElement):
                                     'parachute' : NullElement,
                                     'streamer' : NullElement,
                                     'massobject' : NullElement,
-                                    'ring' : NullElement,
+                                    'ring' : RingElement,
                                     'bodytube' : Rocsim.BodyTubeElement.BodyTubeElement,
                                     'transition' : Rocsim.TransitionElement.TransitionElement,
                                     'nosecone' : Rocsim.NoseElement.NoseElement,

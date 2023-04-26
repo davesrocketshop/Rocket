@@ -130,7 +130,12 @@ class ThicknessRingComponent(RingComponent):
         diameter = max(diameter,0)
         self.setThickness((self.getOuterDiameter() - diameter) / 2.0)
 
-    def copyFromBodyTube(self, component):
+    def fromBodyTube(self, component):
         self._obj.Thickness = component._obj.Thickness
 
-        super().copyFromBodyTube(component)
+        super().fromBodyTube(component)
+
+    def fromCenteringRing(self, ring):
+        self._obj.Thickness = ring._obj.Thickness
+
+        self.copy(ring)

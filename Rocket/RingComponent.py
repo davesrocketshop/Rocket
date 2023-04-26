@@ -225,8 +225,19 @@ class RingComponent(InternalComponent, BoxBounded, Coaxial):
         
         self.fireComponentChangeEvent(ComponentChangeEvent.MASS_CHANGE);
 
-    def copyFromBodyTube(self, component):
+    def fromBodyTube(self, component):
         self._obj.Diameter = component._obj.Diameter
         self._obj.AutoDiameter = component._obj.AutoDiameter
 
         super().copy(component)
+    
+    def copy(self, ring):
+        self._obj.Diameter = ring._obj.Diameter
+        self._obj.AutoDiameter = ring._obj.AutoDiameter
+        self._obj.CenterAutoDiameter = ring._obj.CenterAutoDiameter
+        self._obj.RadialDirection = ring._obj.RadialDirection
+        self._obj.RadialPosition = ring._obj.RadialPosition
+        self._obj.ShiftY = ring._obj.ShiftY
+        self._obj.ShiftZ = ring._obj.ShiftZ
+
+        super().copy(ring)
