@@ -146,7 +146,7 @@ class FinElement(Element):
         self._feature.sweepAngleFromLength()
 
         if self._location != 0:
-            self._location -= float(self._feature._obj.RootChord)
+            self._location = float(self._feature._obj.RootChord) - self._location
             self.onPositionType(LOCATION_PARENT_BOTTOM)
             self.onAxialOffset(self._location)
 
