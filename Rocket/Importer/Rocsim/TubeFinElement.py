@@ -26,32 +26,50 @@ __url__ = "https://www.davesrocketshop.com"
 
 import FreeCAD
 
-from Rocket.Importer.OpenRocket.SaxElement import NullElement
-from Rocket.Importer.Rocsim.BaseElement import BaseElement
-import Rocket.Importer.Rocsim as Rocsim
-from Rocket.Importer.Rocsim.FinSetElement import FinSetElement
-from Rocket.Importer.Rocsim.LaunchLugElement import LaunchLugElement
-from Rocket.Importer.Rocsim.RingElement import RingElement
-from Rocket.Importer.Rocsim.TubeFinElement import TubeFinElement
+from Rocket.Importer.Rocsim.PositionDependentElement import PositionDependentElement
+from Rocket.Constants import FIN_TYPE_TUBE
 
-class AttachedPartsElement(BaseElement):
+from Ui.Commands.CmdFin import makeFin
+
+class TubeFinElement(PositionDependentElement):
 
     def __init__(self, parent, tag, attributes, parentObj, filename, line):
         super().__init__(parent, tag, attributes, parentObj, filename, line)
 
-        self._validChildren.update({ 'finset' : FinSetElement,
-                                    'customfinset' : FinSetElement,
-                                    'launchlug' : LaunchLugElement,
-                                    'parachute' : NullElement,
-                                    'streamer' : NullElement,
-                                    'massobject' : NullElement,
-                                    'ring' : RingElement,
-                                    'bodytube' : Rocsim.BodyTubeElement.BodyTubeElement,
-                                    'transition' : Rocsim.TransitionElement.TransitionElement,
-                                    'nosecone' : Rocsim.NoseElement.NoseElement,
-                                    'subassembly' : NullElement,
-                                    'tubefinset' : TubeFinElement,
-                                    'externalpod' : NullElement,
-                                    'ringtail' : NullElement,
-                              })
+        self._knownTags.extend(["radialangle", "len", "finishcode", "material", "od", "id", "tubecount",
+                                "calcmass", "calccg", "radialloc", "serialno"])
         
+        self._id = -1
+        self._innerTube = False
+        self._locationLoaded = False
+
+    def makeObject(self):
+        self._feature = makeFin()
+        self._feature._obj.FinType = FIN_TYPE_TUBE
+        if self._parentObj is not None:
+            self._parentObj.addChild(self._feature)
+
+    def handleEndTag(self, tag, content):
+        _tag = tag.lower().strip()
+        if _tag == "len":
+            self._feature._obj.Length = FreeCAD.Units.Quantity(content + " mm").Value
+        elif _tag == "id":
+            self._id = FreeCAD.Units.Quantity(content + " mm").Value
+        elif _tag == "od":
+            self._feature._obj.TubeOuterDiameter = FreeCAD.Units.Quantity(content + " mm").Value
+            self._feature._obj.TubeAutoOuterDiameter = False
+        elif _tag == "tubecount":
+            self._feature._obj.FinCount = int(content)
+        elif _tag == "radialangle":
+            rotation = FreeCAD.Units.Quantity(content + " rad").Value
+            self._feature._obj.AngleOffset = rotation
+        else:
+            super().handleEndTag(tag, content)
+
+    def end(self):
+        # Validate the nose shape here
+        if self._id > 0:
+            thickness = (float(self._feature._obj.TubeOuterDiameter) - float(self._id)) / 2.0
+            self._feature._obj.TubeThickness = thickness
+
+        return super().end()
