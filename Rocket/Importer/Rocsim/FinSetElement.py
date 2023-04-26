@@ -29,6 +29,8 @@ import FreeCAD
 from Rocket.Importer.Rocsim.BaseElement import BaseElement
 from Rocket.Importer.Rocsim.Utilities import getAxialMethodFromCode
 from Rocket.position import AxialMethod
+from Rocket.Constants import FIN_TYPE_TRAPEZOID, FIN_TYPE_ELLIPSE, FIN_TYPE_SKETCH
+from Rocket.Constants import FIN_CROSS_SAME, FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL
 
 from Ui.Commands.CmdFin import makeFin
 
@@ -56,17 +58,10 @@ class FinSetElement(BaseElement):
 
     def handleEndTag(self, tag, content):
         _tag = tag.lower().strip()
-        if _tag == "id":
-            self._id = FreeCAD.Units.Quantity(content + " mm").Value
-        elif _tag == "od":
-            self._feature._obj.AutoDiameter = False
-            self._feature._obj.Diameter = FreeCAD.Units.Quantity(content + " mm").Value
-        elif _tag == "ismotormount":
-            self._feature._obj.MotorMount = (int(content) > 0)
-        elif _tag == "engineoverhang":
-            self._feature._obj.Overhang = FreeCAD.Units.Quantity(content + " mm").Value
-        elif _tag == "isinsidetube":
-            self._innerTube = (int(content) > 0)
+        if _tag == "material":
+            self._feature._obj.Material = content
+        elif _tag == "finishcode":
+            pass
         elif _tag == "xb":
             offset = float(FreeCAD.Units.Quantity(content + " mm").Value)
             if isinstance(self._feature.getAxialMethod(), AxialMethod.BottomAxialMethod):
@@ -78,13 +73,61 @@ class FinSetElement(BaseElement):
             if self._locationLoaded:
                 if isinstance(self._feature.getAxialMethod(), AxialMethod.BottomAxialMethod):
                     self._feature._obj.AxialOffset = -self._feature._obj.AxialOffset
+        elif _tag == "fincount":
+            self._feature._obj.FinCount = int(content)
+            self._feature._obj.FinSpacing = 360.0 / int(content)
+            self._feature._obj.FinSet = (self._feature._obj.FinCount > 1)
+        elif _tag == "rootchord":
+            self._feature._obj.RootChord = FreeCAD.Units.Quantity(content + " mm").Value
+        elif _tag == "tipchord":
+            self._feature._obj.TipChord = FreeCAD.Units.Quantity(content + " mm").Value
+        elif _tag == "semispan":
+            self._feature._obj.Height = FreeCAD.Units.Quantity(content + " mm").Value
+        elif _tag == "sweepdistance":
+            self._feature._obj.SweepLength = FreeCAD.Units.Quantity(content + " mm").Value
+        elif _tag == "thickness":
+            thickness = FreeCAD.Units.Quantity(content + " mm").Value
+            self._feature._obj.RootThickness = thickness
+            self._feature._obj.TipThickness = thickness
+        elif _tag == "tipshapecode":
+            shapeCode = int(content)
+            if shapeCode == 1:
+                self._feature._obj.RootCrossSection = FIN_CROSS_ROUND
+            elif shapeCode == 2:
+                self._feature._obj.RootCrossSection = FIN_CROSS_AIRFOIL
+            else:
+                self._feature._obj.RootCrossSection = FIN_CROSS_SQUARE
+            self._feature._obj.TipCrossSection = FIN_CROSS_SAME
+        elif _tag == "tablength":
+            self._feature._obj.TtwLength = FreeCAD.Units.Quantity(content + " mm").Value
+        elif _tag == "tabdepth":
+            self._feature._obj.TtwHeight = FreeCAD.Units.Quantity(content + " mm").Value
+            self._feature._obj.Ttw = (self._feature._obj.TtwHeight > 0.0001)
+        elif _tag == "taboffset":
+            self._feature._obj.TtwOffset = FreeCAD.Units.Quantity(content + " mm").Value
+        elif _tag == "radialangle":
+            rotation = FreeCAD.Units.Quantity(content + " deg").Value
+            self._feature._obj.AngleOffset = rotation
+        elif _tag == "shapecode":
+            shapeCode = int(content)
+            if shapeCode == 0:
+                self._feature._obj.FinType = FIN_TYPE_TRAPEZOID
+            elif shapeCode == 1:
+                self._feature._obj.FinType = FIN_TYPE_ELLIPSE
+            elif shapeCode == 2:
+                self._feature._obj.FinType = FIN_TYPE_SKETCH
+            else:
+                raise Exception("Unknown fin type " + content)
+        elif _tag == "pointlist":
+            # self._feature._obj.MotorMount = (int(content) > 0)
+            pass
         else:
             super().handleEndTag(tag, content)
 
-    # def end(self):
-    #     # Validate the nose shape here
-    #     if not self._feature._obj.AutoDiameter and self._id > 0:
-    #         thickness = (float(self._feature._obj.Diameter) - float(self._id)) / 2.0
-    #         self._feature._obj.Thickness = thickness
+    def end(self):
+        # Validate the nose shape here
+        if not self._feature._obj.AutoDiameter and self._id > 0:
+            thickness = (float(self._feature._obj.Diameter) - float(self._id)) / 2.0
+            self._feature._obj.Thickness = thickness
 
-    #     return super().end()
+        return super().end()
