@@ -20,36 +20,42 @@
 # ***************************************************************************
 """Provides support for importing Rocsim files."""
 
-__title__ = "FreeCAD Rocsim Importer"
+__title__ = "FreeCAD Rocksim Importer Common Component"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
 import FreeCAD
 
-from Rocket.Importer.OpenRocket.SaxElement import NullElement
 from Rocket.Importer.Rocsim.BaseElement import BaseElement
-import Rocket.Importer.Rocsim as Rocsim
-from Rocket.Importer.Rocsim.FinSetElement import FinSetElement
-from Rocket.Importer.Rocsim.LaunchLugElement import LaunchLugElement
+from Rocket.Importer.Rocsim.Utilities import getAxialMethodFromCode
+from Rocket.position import AxialMethod
 
-class AttachedPartsElement(BaseElement):
+class PositionDependentElement(BaseElement):
 
     def __init__(self, parent, tag, attributes, parentObj, filename, line):
         super().__init__(parent, tag, attributes, parentObj, filename, line)
 
-        self._validChildren.update({ 'finset' : FinSetElement,
-                                    'customfinset' : FinSetElement,
-                                    'launchlug' : LaunchLugElement,
-                                    'parachute' : NullElement,
-                                    'streamer' : NullElement,
-                                    'massobject' : NullElement,
-                                    'ring' : NullElement,
-                                    'bodytube' : Rocsim.BodyTubeElement.BodyTubeElement,
-                                    'transition' : Rocsim.TransitionElement.TransitionElement,
-                                    'nosecone' : Rocsim.NoseElement.NoseElement,
-                                    'subassembly' : NullElement,
-                                    'tubefinset' : NullElement,
-                                    'externalpod' : NullElement,
-                                    'ringtail' : NullElement,
-                              })
+        self._componentTags.extend(["xb", "locationmode"])
         
+        self._locationLoaded = False
+        self._location = 0
+
+    def handleEndTag(self, tag, content):
+        _tag = tag.lower().strip()
+        if _tag == "xb":
+            self._location = float(FreeCAD.Units.Quantity(content + " mm").Value)
+            if isinstance(self._feature.getAxialMethod(), AxialMethod.BottomAxialMethod):
+                self._feature._obj.AxialOffset = -self._location
+            else:
+                self._feature._obj.AxialOffset = self._location
+            self._locationLoaded = True
+        elif _tag == "locationmode":
+            self._feature._obj.AxialMethod = getAxialMethodFromCode(int(content))
+            # If the location is loaded before the axialMethod, we still need to correct for the different relative distance direction
+            if self._locationLoaded:
+                if isinstance(self._feature.getAxialMethod(), AxialMethod.BottomAxialMethod):
+                    self._feature._obj.AxialOffset = -self._location
+                else:
+                    self._feature._obj.AxialOffset = self._location
+        else:
+            super().handleEndTag(tag, content)
