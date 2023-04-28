@@ -27,6 +27,8 @@ __url__ = "https://www.davesrocketshop.com"
 import FreeCAD
 import FreeCADGui
 
+from pivy import coin
+
 from Ui.TaskPanelPod import TaskPanelPod
 from Ui.ViewProvider import ViewProvider
 
@@ -37,6 +39,21 @@ class ViewProviderPod(ViewProvider):
 
     def getIcon(self):
         return FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Pod.svg"
+
+    def attach(self, vobj):
+        super().attach(vobj)
+
+        self.sep = coin.SoSeparator()
+        vobj.addDisplayMode(self.sep, "Default")
+
+    def getDisplayModes(self,vobj):
+        return ["Default"]
+
+    def getDefaultDisplayMode(self):
+        return "Default"
+
+    def setDisplayMode(self,mode):
+        return mode
 
     def setEdit(self, vobj, mode):
         if mode == 0:

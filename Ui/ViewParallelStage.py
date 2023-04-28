@@ -28,6 +28,7 @@ import FreeCAD
 import FreeCADGui
 
 from PySide import QtCore,QtGui
+from pivy import coin
 
 from DraftTools import translate
 
@@ -42,6 +43,21 @@ class ViewProviderParallelStage(ViewProvider):
         
     def getIcon(self):
         return FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_ParallelStage.svg"
+
+    def attach(self, vobj):
+        super().attach(vobj)
+
+        self.sep = coin.SoSeparator()
+        vobj.addDisplayMode(self.sep, "Default")
+
+    def getDisplayModes(self,vobj):
+        return ["Default"]
+
+    def getDefaultDisplayMode(self):
+        return "Default"
+
+    def setDisplayMode(self,mode):
+        return mode
 
     def setupContextMenu(self, vobj, menu):
         """Add the component specific options to the context menu."""

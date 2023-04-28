@@ -39,7 +39,7 @@ from Rocket.util import ReferenceType
 
 from Rocket.events.ComponentChangeEvent import ComponentChangeEvent
 
-from Rocket.Constants import FEATURE_ROCKET, FEATURE_STAGE
+from Rocket.Constants import FEATURE_ROCKET, FEATURE_STAGE, FEATURE_PARALLEL_STAGE
 
 class FeatureRocket(ComponentAssembly, ComponentChangeListener):
 
@@ -139,7 +139,7 @@ class FeatureRocket(ComponentAssembly, ComponentChangeListener):
         self.fireComponentChangeEvent(ComponentChangeEvent.NONFUNCTIONAL_CHANGE)
 	
     def eligibleChild(self, childType):
-        return childType == FEATURE_STAGE
+        return childType in [FEATURE_STAGE, FEATURE_PARALLEL_STAGE]
 
     """ 
         Return the non-negative modification ID of this rocket.  The ID is changed

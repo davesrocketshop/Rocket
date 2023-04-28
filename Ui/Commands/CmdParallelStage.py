@@ -54,7 +54,7 @@ def addToParallelStage(obj):
         _addChild(stage, stage, obj)
 
 def makeParallelStage(name='Stage'):
-    obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
+    obj = FreeCAD.ActiveDocument.addObject("App::GeometryPython",name)
     FeatureParallelStage(obj)
     obj.Proxy.setDefaults()
     if FreeCAD.GuiUp:

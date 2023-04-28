@@ -37,7 +37,7 @@ from DraftTools import translate
 
 def makePod(name='Pod'):
     '''makePod(name): makes a Pod'''
-    obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
+    obj = FreeCAD.ActiveDocument.addObject("App::GeometryPython",name)
     FeaturePod(obj)
     obj.Proxy.setDefaults()
     if FreeCAD.GuiUp:
