@@ -426,9 +426,7 @@ class DialogFinFlutter(QDialog):
                 for path in sorted(materials.keys()):
                     names.append([icons[path], cards[path]])
             else:
-                nameMap = {}
-                for path, name in cards.items():
-                    nameMap[name] = path
+                nameMap = Material.getNameMap()
                 for name in sorted(nameMap.keys()):
                     path = nameMap[name]
                     names.append([icons[path], name])
