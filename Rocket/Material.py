@@ -25,9 +25,9 @@ __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
 import FreeCAD
-import os
 import pathlib
-import importFCMat
+
+from materialtools.cardutils import import_materials, add_cards_from_a_dir
 
 
 """
@@ -35,38 +35,43 @@ import importFCMat
 """
 class Material():
     _cards = None
+    _materials = None
 
     def __init__(self, obj):
         super().__init__(obj)
 
-
     @classmethod
-    def searchPaths(cls):
-        # look for cards in both resources dir and a Materials sub-folder in the user folder.
-        # User cards with same name will override system cards
-        paths = [pathlib.Path(FreeCAD.getResourceDir(), "Mod/Material/StandardMaterial")]
-        ap = pathlib.Path(FreeCAD.getUserAppDataDir(), "Material")
-        if ap.exists():
-            paths.append(ap)
-
-        # Look for Rocket WB defined materials
-        ap = pathlib.Path(FreeCAD.getUserAppDataDir(), "Mod/Rocket/Resources/Material")
-        if ap.exists():
-            paths.append(ap)
-
-        return paths
+    def getVersion(cls):
+        v = FreeCAD.Version()
+        version = float(v[0] + "." + v[1])
+        return version
 
     @classmethod
     def materialDictionary(cls):
         if cls._cards is not None:
             return cls._cards
 
+        materials, cards, icons = import_materials()
+
+        if cls.getVersion() < 0.21:
+            # Look for Rocket WB defined materials
+            ap = pathlib.Path(FreeCAD.getUserAppDataDir(), "Mod/Rocket/Resources/Material")
+            if ap.exists():
+                materials, cards, icons = add_cards_from_a_dir(
+                    materials,
+                    cards,
+                    icons,
+                    str(ap),
+                    FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/RocketWorkbench.svg"
+                )
+
+        cls._materials = {}
         cls._cards = {}
-        for p in cls.searchPaths():
-            for f in os.listdir(p):
-                b,e = os.path.splitext(f)
-                if e.upper() == ".FCMAT":
-                    cls._cards[b] = p / f
+        for material, value in materials.items():
+            p = pathlib.PurePath(material)
+            b = p.stem
+            cls._cards[b] = material
+            cls._materials[b] = value
 
         return cls._cards
 
@@ -83,7 +88,7 @@ class Material():
         # Ensure we have a dictionary
         dict = cls.materialDictionary()
         if dict is not None and name in dict:
-            material = importFCMat.read(dict[name])
+            material = cls._materials[name]
 
         if material is None:
             material = {}

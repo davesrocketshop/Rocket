@@ -42,6 +42,11 @@ class RocketWorkbench ( Workbench ):
         False if FemGui.__name__ else True
         False if femcommands.commands.__name__ else True
 
+    def _setModulePath(self):
+        p = FreeCAD.ParamGet("User parameter:BaseApp/Preferences/Mod/Material/Resources/Modules/Rocket")
+        p.SetString("ModuleDir", FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/Material")
+        p.SetString("ModuleIcon", FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/RocketWorkbench.svg")
+
     def Initialize(self):
         FreeCADGui.addLanguagePath(FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/translations")
 
@@ -51,6 +56,7 @@ class RocketWorkbench ( Workbench ):
         from PySide.QtCore import QT_TRANSLATE_NOOP
 
         self._loadFemModule()
+        self._setModulePath()
         
         self.appendToolbar(QT_TRANSLATE_NOOP('Rocket', 'Rocket'),
                         ['Rocket_Rocket', 'Rocket_Stage', 'Rocket_ParallelStage', 'Rocket_Pod', 'Rocket_NoseCone', 'Rocket_Transition', 'Rocket_BodyTube', 'Rocket_InnerTube', 'Rocket_Coupler', 'Rocket_EngineBlock', 
