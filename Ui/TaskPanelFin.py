@@ -1258,7 +1258,7 @@ class TaskPanelFin(QObject):
 
     def onMinimumEdgeSize(self, value):
         try:
-            self._obj.TtwThickness = FreeCAD.Units.Quantity(value).Value
+            self._obj.MinimumEdgeSize = FreeCAD.Units.Quantity(value).Value
             self.redraw()
         except ValueError:
             pass
