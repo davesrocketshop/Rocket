@@ -32,13 +32,13 @@ from Rocket.events.ComponentChangeEvent import ComponentChangeEvent
 from Rocket.interfaces.RingInstanceable import RingInstanceable
 import Rocket.position.AngleMethod as AngleMethod
 import Rocket.position.RadiusMethod as RadiusMethod
-from Rocket.ComponentAssembly import ComponentAssembly
+from Rocket.ComponentAssembly import ComponentAssemblyLocation
 from Rocket.util.Coordinate import Coordinate
 from Rocket.util.MathUtil import EPSILON
 
 from Rocket.Constants import FEATURE_ROCKET, FEATURE_STAGE, FEATURE_PARALLEL_STAGE, FEATURE_POD
 
-class FeaturePod(ComponentAssembly, RingInstanceable):
+class FeaturePod(ComponentAssemblyLocation, RingInstanceable):
 
     def __init__(self, obj):
         super().__init__(obj)

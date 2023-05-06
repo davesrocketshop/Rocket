@@ -28,12 +28,15 @@ from tokenize import Double
 
 from Rocket.position import AxialMethod
 from Rocket.position.AxialPositionable import AxialPositionable
-from Rocket.util import Coordinate
 from Rocket.util.BoundingBox import BoundingBox
 from Rocket.RocketComponentShapeless import RocketComponentShapeless
 from Rocket.events.ComponentChangeEvent import ComponentChangeEvent
 
 from Rocket.Constants import FEATURE_ROCKET, FEATURE_STAGE, FEATURE_PARALLEL_STAGE, FEATURE_POD, FEATURE_BODY_TUBE, FEATURE_NOSE_CONE, FEATURE_TRANSITION
+from Rocket.Constants import LOCATION_PARENT_TOP, LOCATION_PARENT_MIDDLE, LOCATION_PARENT_BOTTOM, LOCATION_BASE
+from Rocket.position.AxialMethod import AXIAL_METHOD_MAP
+
+from DraftTools import translate
 
 class ComponentAssembly(RocketComponentShapeless, AxialPositionable):
 
@@ -128,3 +131,40 @@ class ComponentAssembly(RocketComponentShapeless, AxialPositionable):
         for  curChild in self.getChildren():
             if curChild.Proxy.isAfter():
                 curChild.Proxy.setAfter()
+
+class ComponentAssemblyLocation(ComponentAssembly):
+
+    def __init__(self, obj):
+        super().__init__(obj)
+        
+        # This also appears in RocketComponent
+        if not hasattr(obj, 'LocationReference'):
+            obj.addProperty('App::PropertyEnumeration', 'LocationReference', 'RocketComponent', translate('App::Property', 'Reference location for the location'))
+            obj.LocationReference = [
+                        LOCATION_PARENT_TOP,
+                        LOCATION_PARENT_MIDDLE,
+                        LOCATION_PARENT_BOTTOM,
+                        LOCATION_BASE
+                    ]
+            obj.LocationReference = LOCATION_PARENT_BOTTOM
+        else:
+            obj.LocationReference = [
+                        LOCATION_PARENT_TOP,
+                        LOCATION_PARENT_MIDDLE,
+                        LOCATION_PARENT_BOTTOM,
+                        LOCATION_BASE
+                    ]
+
+    def setDefaults(self):
+        super().setDefaults()
+
+        self._obj.LocationReference = LOCATION_PARENT_BOTTOM
+        self._obj.AxialMethod = AxialMethod.BOTTOM
+
+    def copy(self, component):
+        self._obj.LocationReference = component._obj.LocationReference
+
+        super().copy(component)
+
+    def setLocationReference(self, reference):
+        self.setAxialMethod(AXIAL_METHOD_MAP[reference])
