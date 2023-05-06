@@ -410,11 +410,32 @@ class DialogFinFlutter(QDialog):
     
     def fillExistingCombo(self):
         "fills the combo with the existing FCMat cards"
-        self.materialPresetCombo.addItem('')
-        self._cards = Material.materialDictionary()
-        if self._cards:
-            for k in sorted(self._cards.keys()):
-                self.materialPresetCombo.addItem(k)
+        # self.materialPresetCombo.addItem('')
+        # self._cards = Material.materialDictionary()
+        # if self._cards:
+        #     for k in sorted(self._cards.keys()):
+        #         self.materialPresetCombo.addItem(k)
+
+        prefs = FreeCAD.ParamGet("User parameter:BaseApp/Preferences/Mod/Material/Cards")
+        sortByResources = prefs.GetBool("SortByResources", False)
+
+        materials, cards, icons = Material.materialDictionary()
+        if cards:
+            names = []
+            if sortByResources:
+                for path in sorted(materials.keys()):
+                    names.append([icons[path], cards[path]])
+            else:
+                nameMap = {}
+                for path, name in cards.items():
+                    nameMap[name] = path
+                for name in sorted(nameMap.keys()):
+                    path = nameMap[name]
+                    names.append([icons[path], name])
+
+        names.insert(0, [None, ""])
+        for mat in names:
+            self.materialPresetCombo.addItem(QtGui.QIcon(mat[0]), mat[1])
 
     def fillAltitudeCombo(self):
         for i in range(0, 110, 10):
@@ -444,8 +465,8 @@ class DialogFinFlutter(QDialog):
 
     def onMaterialChanged(self, card):
         "sets self._material from a card"
-        if card in self._cards:
-            self._material = Material.lookup(card)
+        self._material = Material.lookup(card)
+        if len(self._material) > 0: # Non-empty dictionary
             if "ShearModulus" in self._material:
                 self.shearInput.setText(self._formatPressure(FreeCAD.Units.Quantity(self._material["ShearModulus"])))
             else:

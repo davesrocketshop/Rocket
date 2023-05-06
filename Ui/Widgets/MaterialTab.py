@@ -24,6 +24,7 @@ __title__ = "FreeCAD Material Tab"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
     
+import FreeCAD
 
 from DraftTools import translate
 
@@ -68,8 +69,24 @@ class MaterialTab(QtGui.QWidget):
     
     def updateMaterials(self):
         "fills the combo with the existing FCMat cards"
-        self.materialPresetCombo.addItem('')
-        cards = Material.materialDictionary()
+
+        prefs = FreeCAD.ParamGet("User parameter:BaseApp/Preferences/Mod/Material/Cards")
+        sortByResources = prefs.GetBool("SortByResources", False)
+
+        materials, cards, icons = Material.materialDictionary()
         if cards:
-            for k in sorted(cards.keys()):
-                self.materialPresetCombo.addItem(k)
+            names = []
+            if sortByResources:
+                for path in sorted(materials.keys()):
+                    names.append([icons[path], cards[path]])
+            else:
+                nameMap = {}
+                for path, name in cards.items():
+                    nameMap[name] = path
+                for name in sorted(nameMap.keys()):
+                    path = nameMap[name]
+                    names.append([icons[path], name])
+
+        names.insert(0, [None, ""])
+        for mat in names:
+            self.materialPresetCombo.addItem(QtGui.QIcon(mat[0]), mat[1])
