@@ -56,7 +56,7 @@ class FeaturePod(ComponentAssemblyLocation, RingInstanceable):
             obj.addProperty('App::PropertyAngle', 'AngleSeparation', 'RocketComponent', translate('App::Property', 'Angle separation')).AngleSeparation = 180.0
         
         if not hasattr(obj, 'RadiusMethod'):
-            obj.addProperty('App::PropertyPythonObject', 'RadiusMethod', 'RocketComponent', translate('App::Property', 'Method for calculating radius offsets')).RadiusMethod = RadiusMethod.RELATIVE
+            obj.addProperty('App::PropertyPythonObject', 'RadiusMethod', 'RocketComponent', translate('App::Property', 'Method for calculating radius offsets')).RadiusMethod = RadiusMethod.SURFACE
         if not hasattr(obj, 'RadiusOffset'):
             obj.addProperty('App::PropertyAngle', 'RadiusOffset', 'RocketComponent', translate('App::Property', 'Radius offset')).RadiusOffset = 0
 
@@ -79,8 +79,26 @@ class FeaturePod(ComponentAssemblyLocation, RingInstanceable):
     def update(self):
         super().update()
 
+        offsets = self.getInstanceOffsets()
+        if len(offsets) > 0:
+            self._obj.Placement.Base.y = offsets[0].Y
+            self._obj.Placement.Base.z = offsets[0].Z
+
+            self.updateCenter(self._obj, offsets[0].Y, offsets[0].Z)
+
+            # for curChild in self.getChildren():
+            #     curChild.Placement.Base.y = offsets[0].Y
+            #     curChild.Placement.Base.z = offsets[0].Z
+
+    def updateCenter(self, parent, y, z):
+        for curChild in parent.Proxy.getChildren():
+            curChild.Placement.Base.y = y
+            curChild.Placement.Base.z = z
+
+            self.updateCenter(curChild, y, z)
+
     def eligibleChild(self, childType):
-        return childType not in [FEATURE_ROCKET, FEATURE_STAGE, FEATURE_PARALLEL_STAGE]
+        return childType not in [FEATURE_ROCKET, FEATURE_STAGE, FEATURE_PARALLEL_STAGE, FEATURE_POD]
 
     def onChildEdited(self):
         self._obj.Proxy.setEdited()
@@ -103,14 +121,14 @@ class FeaturePod(ComponentAssemblyLocation, RingInstanceable):
         pass
 
     def getInstanceOffsets(self):
-        radius = self.radiusMethod.getRadius(self.getParent(), self, self._obj.RadiusOffset)
+        radius = self._obj.RadiusMethod.getRadius(self.getParent(), self, self._obj.RadiusOffset)
         
         toReturn = []
         angles = self.getInstanceAngles()
         for instanceNumber in range(self._obj.PodCount):
             curY = radius * math.cos(angles[instanceNumber])
             curZ = radius * math.sin(angles[instanceNumber])
-            toReturn[instanceNumber] = Coordinate(0, curY, curZ)
+            toReturn.append(Coordinate(0, curY, curZ))
         
         return toReturn
 

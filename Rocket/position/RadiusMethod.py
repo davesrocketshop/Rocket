@@ -86,23 +86,23 @@ class RelativeRadiusMethod(RadiusMethod):
         return False
 
     def getRadius(self, parentComponent, thisComponent, requestedOffset):
-        radius = requestedOffset
+        radius = float(requestedOffset)
         if isinstance(parentComponent, FeatureBodyTube):
-            radius += parentComponent.getOuterRadius()
+            radius += float(parentComponent.getOuterRadius())
 
         if isinstance(thisComponent, position.RadiusPositionable.RadiusPositionable):
-            radius += thisComponent.getBoundingRadius()
+            radius += float(thisComponent.getBoundingRadius())
 
         return radius
 
 
     def getAsOffset(self, parentComponent, thisComponent, radius):
-        offset = radius
+        offset = float(radius)
         if isinstance(parentComponent, FeatureBodyTube):
-            offset -= parentComponent.getOuterRadius()
+            offset -= float(parentComponent.getOuterRadius())
 
         if isinstance(thisComponent, position.RadiusPositionable.RadiusPositionable):
-            offset -= thisComponent.getBoundingRadius()
+            offset -= float(thisComponent.getBoundingRadius())
 
         return offset
 
@@ -117,10 +117,10 @@ class SurfaceRadiusMethod(RadiusMethod):
     def getRadius(self, parentComponent, thisComponent, requestedOffset):
         radius = 0.0
         if isinstance(parentComponent, FeatureBodyTube):
-            radius += parentComponent.getOuterRadius()
+            radius += float(parentComponent.getOuterRadius())
 
         if isinstance(thisComponent, position.RadiusPositionable.RadiusPositionable):
-            radius += thisComponent.getBoundingRadius()
+            radius += float(thisComponent.getBoundingRadius())
 
         return radius
 

@@ -124,13 +124,6 @@ class RocketComponent(RocketComponentShapeless, ChangeSource):
     def setLocationReference(self, reference):
         self.setAxialMethod(AXIAL_METHOD_MAP[reference])
 
-    def getPosition(self):
-        return self._obj.Placement.Base
-
-    def getPositionAsCoordinate(self):
-        pos = self._obj.Placement.Base
-        return Coordinate(pos.x, pos.y, pos.z)
-
     def addConfigListener(self, listener):
         if listener is None or listener in self._configListeners or listener == self:
             return False

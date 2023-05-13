@@ -39,16 +39,16 @@ class Coordinate():
     Z = 2
 
     def __init__(self, x=0, y=0, z=0, weight=0):
-        self._x = x
-        self._y = y
-        self._z = z
+        self.X = x
+        self.Y = y
+        self.Z = z
         self._weight = weight
 
     def __str__(self):
-        return f'({self._x},{self._y},{self._z},{self._weight})'
+        return f'({self.X},{self.Y},{self.Z},{self._weight})'
 
     def __eq__(self, other):
-        return self._x == other._x and self._y == other._y and self._z == other._z and self._weight == other._weight
+        return self.X == other.X and self.Y == other.Y and self.Z == other.Z and self._weight == other._weight
    
     # Create transformation with given rotation matrix and translation.
     def transformation(self, rotation, translation = None):
@@ -63,33 +63,33 @@ class Coordinate():
 
     # # Transform a coordinate according to this transformation.
     def transform(self, orig):
-        x = self._rotation[self.X][self.X]*orig._x + self._rotation[self.X][self.Y]*orig._y + self._rotation[self.X][self.Z]*orig._z + self._translate._x
-        y = self._rotation[self.Y][self.X]*orig._x + self._rotation[self.Y][self.Y]*orig._y + self._rotation[self.Y][self.Z]*orig._z + self._translate._y
-        z = self._rotation[self.Z][self.X]*orig._x + self._rotation[self.Z][self.Y]*orig._y + self._rotation[self.Z][self.Z]*orig._z + self._translate._z
+        x = self._rotation[self.X][self.X]*orig.X + self._rotation[self.X][self.Y]*orig.Y + self._rotation[self.X][self.Z]*orig.Z + self._translate.X
+        y = self._rotation[self.Y][self.X]*orig.X + self._rotation[self.Y][self.Y]*orig.Y + self._rotation[self.Y][self.Z]*orig.Z + self._translate.Y
+        z = self._rotation[self.Z][self.X]*orig.X + self._rotation[self.Z][self.Y]*orig.Y + self._rotation[self.Z][self.Z]*orig.Z + self._translate.Z
         
         return Coordinate(x,y,z,orig.weight)
 
     """ Add the coordinate and weight of two coordinates. """
     def add(self, other):
-        return Coordinate(float(self._x) + float(other._x), float(self._y) + float(other._y), float(self._z) + float(other._z),
+        return Coordinate(float(self.X) + float(other.X), float(self.Y) + float(other.Y), float(self.Z) + float(other.Z),
                 float(self._weight) + float(other._weight))
 
     def addValues(self, x1, y1, z1, w1=0.0):
-        return Coordinate(float(self._x) + float(x1), float(self._y) + float(y1), float(self._z) + float(z1), float(self._weight) + float(w1))
+        return Coordinate(float(self.X) + float(x1), float(self.Y) + float(y1), float(self.Z) + float(z1), float(self._weight) + float(w1))
 
     """
         Subtract a Coordinate from this Coordinate.  The weight of the resulting Coordinate
         is the same as of this Coordinate; i.e. the weight of the argument is ignored.
     """
     def sub(self, other):
-        return Coordinate(float(self._x) - float(other._x), float(self._y) - float(other._y), float(self._z) - float(other._z), float(self._weight))
+        return Coordinate(float(self.X) - float(other.X), float(self.Y) - float(other.Y), float(self.Z) - float(other.Z), float(self._weight))
 
     """
         Subtract the specified values from this Coordinate.  The weight of the result
         is the same as the weight of this Coordinate.
     """
     def subValues(self, x1, y1, z1):
-        return Coordinate(float(self._x) - float(x1), float(self._y) - float(y1), float(self._z) - float(z1), float(self._weight))
+        return Coordinate(float(self.X) - float(x1), float(self.Y) - float(y1), float(self.Z) - float(z1), float(self._weight))
 
 
     """
@@ -97,7 +97,7 @@ class Coordinate():
         weight are multiplied by the given scalar.
     """
     def multiply(self, m):
-        return Coordinate(float(self._x) * float(m), float(self._y) * float(m), float(self._z) * float(m), float(self._weight) * float(m))
+        return Coordinate(float(self.X) * float(m), float(self.Y) * float(m), float(self.Z) * float(m), float(self._weight) * float(m))
 
     """
          Dot product of two Coordinates, taken as vectors.  Equal to
@@ -106,19 +106,19 @@ class Coordinate():
     def dot(self, other, v2=None):
         if v2 is not None:
             return self._dot(other, v2)
-        return float(self._x) * float(other._x) + float(self._y) * float(other._y) + float(self._z) * float(other._z)
+        return float(self.X) * float(other.X) + float(self.Y) * float(other.Y) + float(self.Z) * float(other.Z)
 
     """
         Dot product of two Coordinates.
     """
     def _dot(self, v1, v2):
-        return float(v1._x) * float(v2._x) + float(v1._y) * float(v2._y) + float(v1._z) * float(v2._z)
+        return float(v1.X) * float(v2.X) + float(v1.Y) * float(v2.Y) + float(v1.Z) * float(v2.Z)
 
     """
         Cross product of two Coordinates taken as vectors
     """
     def cross(self, other):
-        return Coordinate(float(self._y) * float(other._z) - float(self._z) * float(other._y), float(self._z) * float(other._x) - float(self._x) * float(other._z), float(self._x) * float(other._y) - float(self._y) * float(other._x))
+        return Coordinate(float(self.Y) * float(other.Z) - float(self.Z) * float(other.Y), float(self.Z) * float(other.X) - float(self.X) * float(other.Z), float(self.X) * float(other.Y) - float(self.Y) * float(other.X))
 
     """
         Distance from the origin to the Coordinate.
@@ -133,7 +133,7 @@ class Coordinate():
         Square of the distance from the origin to the Coordinate.
     """
     def length2(self):
-        return float(self._x) * float(self._x) + float(self._y) * float(self._y) + float(self._z) * float(self._z)
+        return float(self.X) * float(self.X) + float(self.Y) * float(self.Y) + float(self.Z) * float(self.Z)
 
 
     """
@@ -142,7 +142,7 @@ class Coordinate():
         2-norm.
     """
     def max(self):
-        return max(math.abs(self._x), math.abs(self._y), math.abs(self._z))
+        return max(math.abs(self.X), math.abs(self.Y), math.abs(self.Z))
 
 
     """
@@ -157,7 +157,7 @@ class Coordinate():
             #raise IllegalStateException("Cannot normalize zero coordinate")
             raise Exception("Cannot normalize zero coordinate")
 
-        return Coordinate(self._x / l, self._y / l, self._z / l, self._weight)
+        return Coordinate(self.X / l, self.Y / l, self.Z / l, self._weight)
 
     """
         Weighted average of two coordinates.  If either of the weights are positive,
@@ -176,14 +176,14 @@ class Coordinate():
         
         w1 = self._weight + other._weight
         if abs(w1) < math.pow2(math.EPSILON):
-            x1 = (self._x + other._x) / 2
-            y1 = (self._y + other._y) / 2
-            z1 = (self._z + other._z) / 2
+            x1 = (self.X + other.X) / 2
+            y1 = (self.Y + other.Y) / 2
+            z1 = (self.Z + other.Z) / 2
             w1 = 0
         else:
-            x1 = (self._x * self._weight + other._x * other._weight) / w1
-            y1 = (self._y * self._weight + other._y * other._weight) / w1
-            z1 = (self._z * self._weight + other._z * other._weight) / w1
+            x1 = (self.X * self._weight + other.X * other._weight) / w1
+            y1 = (self.Y * self._weight + other.Y * other._weight) / w1
+            z1 = (self.Z * self._weight + other.Z * other._weight) / w1
 
         return Coordinate(x1, y1, z1, w1)
 

@@ -93,10 +93,10 @@ class ComponentAssembly(RocketComponentShapeless, AxialPositionable):
         outerRadius = 0
         for comp in self.getChildren():
             thisRadius = 0
-            if comp.Type in [FEATURE_BODY_TUBE]:
-                thisRadius = comp.getOuterRadius()
-            elif comp.Type in [FEATURE_TRANSITION, FEATURE_NOSE_CONE]:
-                thisRadius = max(comp.getForeRadius(), comp.getAftRadius())
+            if comp.Proxy.Type in [FEATURE_BODY_TUBE]:
+                thisRadius = comp.Proxy.getOuterRadius()
+            elif comp.Proxy.Type in [FEATURE_TRANSITION, FEATURE_NOSE_CONE]:
+                thisRadius = max(comp.Proxy.getForeRadius(), comp.Proxy.getAftRadius())
             
             outerRadius = max(outerRadius, thisRadius)
 

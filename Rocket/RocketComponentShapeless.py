@@ -31,6 +31,7 @@ import Ui
 
 from PySide.QtCore import QObject, Signal
 from Rocket.Utilities import _err
+from Rocket.util.Coordinate import Coordinate
 from Rocket.events.ComponentChangeEvent import ComponentChangeEvent
 from Rocket.position import AxialMethod
 
@@ -944,6 +945,9 @@ class RocketComponentShapeless():
         self.updateChildren()
 
     def copy(self, component):
+        self.Type = component.Type
+        self.version = component.version
+
         self._obj.Comment = component._obj.Comment
 
         self._obj.AxialMethod = component._obj.AxialMethod
@@ -952,3 +956,10 @@ class RocketComponentShapeless():
 
         self._obj.RadialReference = component._obj.RadialReference
         self._obj.RadialOffset = component._obj.RadialOffset
+
+    def getPosition(self):
+        return self._obj.Placement.Base
+
+    def getPositionAsCoordinate(self):
+        pos = self._obj.Placement.Base
+        return Coordinate(pos.x, pos.y, pos.z)
