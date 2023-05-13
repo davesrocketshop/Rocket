@@ -28,10 +28,12 @@ import FreeCAD
 import Part
 import math
 
-from Rocket.Utilities import validationError
+from Rocket.ShapeHandlers.ShapeHandlerBase import ShapeHandlerBase
+
+from Rocket.Utilities import validationError, _err
 from DraftTools import translate
 
-class BulkheadShapeHandler():
+class BulkheadShapeHandler(ShapeHandlerBase):
     def __init__(self, obj):
 
         # This gets changed when redrawn so it's very important to save a copy
@@ -109,7 +111,11 @@ class BulkheadShapeHandler():
             return
 
         try:
-            self._obj.Shape = self._drawBulkhead()
+            shape = self._drawBulkhead()
+            if self._obj.PodInfo is not None:
+                shape = self._drawPods(shape)
+                
+            self._obj.Shape = shape
             self._obj.Placement = self._placement
         except (ZeroDivisionError, Part.OCCError):
             _err(translate('Rocket', "Bulkhead parameters produce an invalid shape"))

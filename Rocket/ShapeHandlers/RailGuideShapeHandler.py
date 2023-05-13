@@ -28,6 +28,8 @@ import FreeCAD
 import Part
 import math
 
+from Rocket.ShapeHandlers.ShapeHandlerBase import ShapeHandlerBase
+
 from Rocket.Constants import RAIL_GUIDE_BASE_CONFORMAL, RAIL_GUIDE_BASE_V
 
 from Rocket.Utilities import _err, validationError
@@ -35,7 +37,7 @@ from DraftTools import translate
 
 TOLERANCE_OFFSET = 0.5     # Distance to offset a vertex
 
-class RailGuideShapeHandler():
+class RailGuideShapeHandler(ShapeHandlerBase):
     def __init__(self, obj):
 
         # This gets changed when redrawn so it's very important to save a copy
@@ -302,6 +304,10 @@ class RailGuideShapeHandler():
             if self._obj.Proxy.isRocketAssembly() and self._railGuideBaseType == RAIL_GUIDE_BASE_V:
                 shape.translate(FreeCAD.Vector(0,0,self.getZ0()))
                 shape = Part.makeCompound(shape)
+                
+            if self._obj.PodInfo is not None:
+                shape = self._drawPods(shape)
+
             self._obj.Shape = shape
             self._obj.Placement = self._placement
         except (ValueError, ZeroDivisionError, Part.OCCError):

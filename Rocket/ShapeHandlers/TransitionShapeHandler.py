@@ -34,6 +34,8 @@ import math
 
 from DraftTools import translate
 
+from Rocket.ShapeHandlers.ShapeHandlerBase import ShapeHandlerBase
+
 from Rocket.Constants import STYLE_CAPPED, STYLE_HOLLOW, STYLE_SOLID, STYLE_SOLID_CORE
 from Rocket.Constants import STYLE_CAP_BAR, STYLE_CAP_CROSS
 
@@ -41,7 +43,7 @@ from Rocket.Utilities import _err, validationError
 
 CLIP_PRECISION = 0.00001
 
-class TransitionShapeHandler():
+class TransitionShapeHandler(ShapeHandlerBase):
     def __init__(self, obj):
 
         # This gets changed when redrawn so it's very important to save a copy
@@ -273,11 +275,7 @@ class TransitionShapeHandler():
         return mask
 
 
-    def draw(self):
-        
-        if not self.isValidShape():
-            return
-
+    def _drawTransition(self):
         self._debugShape = False
         edges = None
         try:
@@ -305,7 +303,7 @@ class TransitionShapeHandler():
             if self._debugShape:
                 raise ex
             _err(translate('Rocket', "Transition parameters produce an invalid shape"))
-            return
+            return None
 
         if edges is not None:
             try:
@@ -319,9 +317,10 @@ class TransitionShapeHandler():
                 if self._debugShape:
                     raise ex
                 _err(translate('Rocket', "Transition parameters produce an invalid shape"))
-                return
+                return None
         else:
             _err(translate('Rocket', "Transition parameters produce an invalid shape"))
+            return None
 
         try:
             if self._style == STYLE_CAPPED:
@@ -335,7 +334,6 @@ class TransitionShapeHandler():
                     shape = shape.cut(mask)
         except Part.OCCError:
             _err(translate('Rocket', "Forward cap style produces an invalid shape"))
-            return
 
         try:
             if self._style == STYLE_CAPPED:
@@ -348,11 +346,25 @@ class TransitionShapeHandler():
                 if mask is not None:
                     shape = shape.cut(mask)
         except Part.OCCError:
-            _err(translate('Rocket', "Forward cap style produces an invalid shape"))
+            _err(translate('Rocket', "Aft cap style produces an invalid shape"))
+
+        return shape
+
+    def draw(self):
+        
+        if not self.isValidShape():
             return
 
-        self._obj.Shape = shape
-        self._obj.Placement = self._placement
+        try:
+            shape = self._drawTransition()
+            if self._obj.PodInfo is not None:
+                shape = self._drawPods(shape)
+
+            self._obj.Shape = shape
+            self._obj.Placement = self._placement
+        except (ValueError, ZeroDivisionError, Part.OCCError):
+            _err(translate('Rocket', "Transition parameters produce an invalid shape"))
+            return
 
     def _generateCurve(self, r1, r2, length, min = 0.0, max = 0.0):
         """

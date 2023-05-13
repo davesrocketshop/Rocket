@@ -28,6 +28,7 @@ from Rocket.util.Coordinate import Coordinate
 from Rocket.RocketComponentShapeless import RocketComponentShapeless
 
 from Rocket.Constants import LOCATION_PARENT_TOP, LOCATION_PARENT_MIDDLE, LOCATION_PARENT_BOTTOM, LOCATION_BASE
+from Rocket.Constants import PROP_TRANSIENT, PROP_HIDDEN
 
 from Rocket.position.AxialMethod import AXIAL_METHOD_MAP
 from Rocket.interfaces.ChangeSource import ChangeSource
@@ -79,6 +80,10 @@ class RocketComponent(RocketComponentShapeless, ChangeSource):
 
         if not hasattr(obj,"Shape"):
             obj.addProperty('Part::PropertyPartShape', 'Shape', 'RocketComponent', translate('App::Property', 'Shape of the component'))
+
+        # information reuired to draw pod instances
+        if not hasattr(obj,"PodInfo"):
+            obj.addProperty('App::PropertyPythonObject', 'PodInfo', 'RocketComponent', translate('App::Property', 'Information required when part of a pod'), PROP_TRANSIENT | PROP_HIDDEN).PodInfo = None
 
     """
         Get the characteristic length of the component, for example the length of a body tube
@@ -279,3 +284,10 @@ class RocketComponent(RocketComponentShapeless, ChangeSource):
         self._obj.Texture = component._obj.Texture
 
         super().copy(component)
+
+    def setPodInfo(self, info):
+        self._obj.PodInfo = info
+
+    def clearPodInfo(self):
+        self.setPodInfo(None)
+        

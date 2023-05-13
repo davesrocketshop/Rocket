@@ -557,7 +557,7 @@ class RocketComponentShapeless():
             parentLength = self.getParent().getLength()
 
         if method == AxialMethod.ABSOLUTE:
-            return self.getComponentLocations()[0]._x
+            return self.getComponentLocations()[0].X
         else:
             return method.getAsOffset(self._obj.Placement.Base.x, self.getLength(), parentLength)
 
@@ -572,7 +572,7 @@ class RocketComponentShapeless():
             newX = newAxialOffset
         elif method == AxialMethod.ABSOLUTE:
             # in this case, this is simply the intended result
-            newX = float(newAxialOffset) - float(self.getParent().getComponentLocations()[0]._x)
+            newX = float(newAxialOffset) - float(self.getParent().getComponentLocations()[0].X)
         elif self.isAfter():
             self.setAfter()
             return

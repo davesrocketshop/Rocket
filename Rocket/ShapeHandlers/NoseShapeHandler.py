@@ -31,13 +31,15 @@ import math
 
 from DraftTools import translate
 
+from Rocket.ShapeHandlers.ShapeHandlerBase import ShapeHandlerBase
+
 from Rocket.Constants import STYLE_CAPPED, STYLE_HOLLOW, STYLE_SOLID
 from Rocket.Constants import STYLE_CAP_BAR, STYLE_CAP_CROSS
 from Rocket.Constants import TYPE_BLUNTED_CONE, TYPE_BLUNTED_OGIVE, TYPE_SECANT_OGIVE
 
 from Rocket.Utilities import _err, validationError
 
-class NoseShapeHandler():
+class NoseShapeHandler(ShapeHandlerBase):
     def __init__(self, obj):
 
         # This gets changed when redrawn so it's very important to save a copy
@@ -144,9 +146,7 @@ class NoseShapeHandler():
             mask = mask.cut(box)
         return mask
         
-    def draw(self):
-        if not self.isValidShape():
-            return
+    def _drawNose(self):
 
         edges = None
 
@@ -168,7 +168,7 @@ class NoseShapeHandler():
                     edges = self.drawCapped()
         except (ZeroDivisionError, Part.OCCError):
             _err(translate('Rocket', "Nose cone parameters produce an invalid shape"))
-            return
+            return None
 
         shape = None
         if edges is not None:
@@ -179,10 +179,10 @@ class NoseShapeHandler():
                 shape = face.revolve(FreeCAD.Vector(0, 0, 0),FreeCAD.Vector(1, 0, 0), 360)
             except Part.OCCError:
                 _err(translate('Rocket', "Nose cone parameters produce an invalid shape"))
-                return
+                return None
         else:
             _err(translate('Rocket', "Nose cone parameters produce an invalid shape"))
-            return
+            return None
 
         try:
             if self._style == STYLE_CAPPED:
@@ -197,10 +197,24 @@ class NoseShapeHandler():
                     shape = shape.cut(mask)
         except Part.OCCError:
             _err(translate('Rocket', "Nose cone cap style produces an invalid shape"))
+            return None
+
+        return shape
+        
+    def draw(self):
+        if not self.isValidShape():
             return
 
-        self._obj.Shape = shape
-        self._obj.Placement = self._placement
+        try:
+            shape = self._drawNose()
+            if self._obj.PodInfo is not None:
+                shape = self._drawPods(shape)
+                
+            self._obj.Shape = shape
+            self._obj.Placement = self._placement
+        except Part.OCCError:
+            _err(translate('Rocket', "Nose parameters produce an invalid shape"))
+            return
 
     def toShape(self, shapeObject):
         if hasattr(shapeObject, 'toShape'):

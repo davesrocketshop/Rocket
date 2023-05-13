@@ -18,61 +18,25 @@
 # *   USA                                                                   *
 # *                                                                         *
 # ***************************************************************************
-"""Class for drawing launch lugs"""
+"""Class for drawing shapes"""
 
-__title__ = "FreeCAD Launch Lug Handler"
+__title__ = "FreeCAD Base Shape Handler"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
     
 import FreeCAD
 import Part
 
-from Rocket.ShapeHandlers.BodyTubeShapeHandler import BodyTubeShapeHandler
+class ShapeHandlerBase():
+    
+    def _drawPods(self, base):
+        podInfo = self._obj.PodInfo
+        shapes = []
+        for i in range(podInfo.podCount):
+            shape = Part.Shape(base) # Create a copy
+            offset = podInfo.offsets[i]
+            shape.rotate(FreeCAD.Vector(0, 0, 0), FreeCAD.Vector(1,0,0), i * float(podInfo.podSpacing))
+            shape.translate(FreeCAD.Vector(0, offset.Y, offset.Z))
+            shapes.append(shape)
 
-from Rocket.Utilities import _err
-from DraftTools import translate
-
-class LaunchLugShapeHandler(BodyTubeShapeHandler):
-
-    def __init__(self, obj):
-        super().__init__(obj)
-
-        self._instanceCount = int(obj.InstanceCount)
-        self._separation = float(obj.InstanceSeparation)
-
-    def _drawSingle(self):
-        edges = None
-        edges = self._drawTubeEdges()
-
-        if edges is not None:
-            wire = Part.Wire(edges)
-            face = Part.Face(wire)
-            shape = face.revolve(FreeCAD.Vector(0, 0, 0),FreeCAD.Vector(1, 0, 0), 360)
-            return shape
-
-        return None
-
-    def _drawInstances(self):
-        lugs = []
-        base = self._drawSingle()
-        for i in range(self._instanceCount):
-            lug = Part.Shape(base) # Create a copy
-            lug.translate(FreeCAD.Vector(i * (self._length + self._separation),0,0))
-            lugs.append(lug)
-
-        return Part.makeCompound(lugs)
-
-    def draw(self):
-        if not self.isValidShape():
-            return
-
-        try:
-            shape = self._drawInstances()
-            if self._obj.PodInfo is not None:
-                shape = self._drawPods(shape)
-
-            self._obj.Shape = shape
-            self._obj.Placement = self._placement
-        except (ZeroDivisionError, Part.OCCError):
-            _err(translate('Rocket', "Launch lug parameters produce an invalid shape"))
-            return
+        return Part.makeCompound(shapes)

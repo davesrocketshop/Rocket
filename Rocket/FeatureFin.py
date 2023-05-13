@@ -227,8 +227,8 @@ class FeatureFin(ExternalComponent):
                     if not isinstance(sibling.Proxy, FeatureInnerTube): # Excludes itself
                         continue
 
-                    pos1 = self.toRelative(NUL, sibling.Proxy)[0]._x
-                    pos2 = self.toRelative(Coordinate(self.getLength()), sibling.Proxy)[0]._x
+                    pos1 = self.toRelative(NUL, sibling.Proxy)[0].X
+                    pos2 = self.toRelative(Coordinate(self.getLength()), sibling.Proxy)[0].X
                     if pos2 < 0 or pos1 > sibling.Proxy.getLength():
                         continue
 

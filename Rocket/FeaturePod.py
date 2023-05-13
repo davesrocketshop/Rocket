@@ -33,10 +33,11 @@ from Rocket.interfaces.RingInstanceable import RingInstanceable
 import Rocket.position.AngleMethod as AngleMethod
 import Rocket.position.RadiusMethod as RadiusMethod
 from Rocket.ComponentAssembly import ComponentAssemblyLocation
+from Rocket.PodInfo import PodInfo
 from Rocket.util.Coordinate import Coordinate
 from Rocket.util.MathUtil import EPSILON
 
-from Rocket.Constants import FEATURE_ROCKET, FEATURE_STAGE, FEATURE_PARALLEL_STAGE, FEATURE_POD
+from Rocket.Constants import FEATURE_NOSE_CONE, FEATURE_BODY_TUBE, FEATURE_TRANSITION, FEATURE_FINCAN, FEATURE_POD
 
 class FeaturePod(ComponentAssemblyLocation, RingInstanceable):
 
@@ -52,8 +53,6 @@ class FeaturePod(ComponentAssemblyLocation, RingInstanceable):
         
         if not hasattr(obj, 'AngleMethod'):
             obj.addProperty('App::PropertyPythonObject', 'AngleMethod', 'RocketComponent', translate('App::Property', 'Method for calculating angle offsets')).AngleMethod = AngleMethod.RELATIVE
-        if not hasattr(obj, 'AngleSeparation'):
-            obj.addProperty('App::PropertyAngle', 'AngleSeparation', 'RocketComponent', translate('App::Property', 'Angle separation')).AngleSeparation = 180.0
         
         if not hasattr(obj, 'RadiusMethod'):
             obj.addProperty('App::PropertyPythonObject', 'RadiusMethod', 'RocketComponent', translate('App::Property', 'Method for calculating radius offsets')).RadiusMethod = RadiusMethod.SURFACE
@@ -81,39 +80,45 @@ class FeaturePod(ComponentAssemblyLocation, RingInstanceable):
 
         offsets = self.getInstanceOffsets()
         if len(offsets) > 0:
-            self._obj.Placement.Base.y = offsets[0].Y
-            self._obj.Placement.Base.z = offsets[0].Z
+            # self._obj.Placement.Base.y = offsets[0].Y
+            # self._obj.Placement.Base.z = offsets[0].Z
 
-            self.updateCenter(self._obj, offsets[0].Y, offsets[0].Z)
+            podInfo = PodInfo()
+            podInfo.podCount = self._obj.PodCount
+            podInfo.podSpacing = self._obj.PodSpacing
+            podInfo.radiusOffset = self._obj.RadiusOffset
+            podInfo.offsets = offsets
+
+            self.updatePodChild(self._obj, podInfo)
 
             # for curChild in self.getChildren():
             #     curChild.Placement.Base.y = offsets[0].Y
             #     curChild.Placement.Base.z = offsets[0].Z
 
-    def updateCenter(self, parent, y, z):
+    def updatePodChild(self, parent, podInfo):
         for curChild in parent.Proxy.getChildren():
-            curChild.Placement.Base.y = y
-            curChild.Placement.Base.z = z
+            curChild.Proxy.setPodInfo(podInfo)
 
-            self.updateCenter(curChild, y, z)
+            self.updatePodChild(curChild, podInfo)
 
     def eligibleChild(self, childType):
-        return childType not in [FEATURE_ROCKET, FEATURE_STAGE, FEATURE_PARALLEL_STAGE, FEATURE_POD]
+        return childType in [FEATURE_NOSE_CONE, FEATURE_BODY_TUBE, FEATURE_TRANSITION, FEATURE_FINCAN]
 
     def onChildEdited(self):
         self._obj.Proxy.setEdited()
 
     def getInstanceAngleIncrement(self):
-        return self._obj.AngleSeparation
+        return self._obj.PodSpacing
 
     def getInstanceAngles(self):
         #		, angleMethod, angleOffset_rad
         baseAngle = self.getAngleOffset()
-        incrAngle = self.getInstanceAngleIncrement()
+        incrAngle =self.getInstanceAngleIncrement()
         
         result = []
         for i in range(self.getInstanceCount()):
-            result.append(baseAngle + incrAngle * i)
+            angle = baseAngle + incrAngle * i
+            result.append(math.radians(angle))
         
         return result
 
@@ -193,7 +198,7 @@ class FeaturePod(ComponentAssemblyLocation, RingInstanceable):
 
         
         self._obj.PodCount = newCount
-        self._obj.AngleSeparation = math.pi * 2 / self._obj.PodCount
+        self._obj.PodSpacing = 360.0 / self._obj.PodCount
         self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
 
     def setAngleOffset(self, angle):

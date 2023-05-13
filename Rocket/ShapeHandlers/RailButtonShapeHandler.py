@@ -28,6 +28,8 @@ import FreeCAD
 import Part
 import math
 
+from Rocket.ShapeHandlers.ShapeHandlerBase import ShapeHandlerBase
+
 from Rocket.Constants import RAIL_BUTTON_AIRFOIL
 from Rocket.Constants import CONTERSINK_ANGLE_60, CONTERSINK_ANGLE_82, CONTERSINK_ANGLE_90, CONTERSINK_ANGLE_100, \
                             CONTERSINK_ANGLE_110, CONTERSINK_ANGLE_120
@@ -35,7 +37,7 @@ from Rocket.Constants import CONTERSINK_ANGLE_60, CONTERSINK_ANGLE_82, CONTERSIN
 from Rocket.Utilities import _err, validationError
 from DraftTools import translate
 
-class RailButtonShapeHandler():
+class RailButtonShapeHandler(ShapeHandlerBase):
     def __init__(self, obj):
 
         # This gets changed when redrawn so it's very important to save a copy
@@ -190,9 +192,13 @@ class RailButtonShapeHandler():
 
         try:
             if self._railButtonType == RAIL_BUTTON_AIRFOIL:
-                self._obj.Shape = self._drawAirfoil()
+                shape = self._drawAirfoil()
             else:
-                self._obj.Shape = self._drawButton()
+                shape = self._drawButton()
+            if self._obj.PodInfo is not None:
+                shape = self._drawPods(shape)
+
+            self._obj.Shape = shape
             self._obj.Placement = self._placement
         except (ZeroDivisionError, Part.OCCError):
             _err(translate('Rocket', "Rail button parameters produce an invalid shape"))

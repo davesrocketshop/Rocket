@@ -406,8 +406,12 @@ class FinCanShapeHandler(FinShapeHandler):
             return
 
         try:
-            self._obj.Shape = self._drawFinCan()
+            shape = self._drawFinCan()
 
+            if self._obj.PodInfo is not None:
+                shape = self._drawPods(shape)
+
+            self._obj.Shape = shape
             self._obj.Placement = self._placement
 
         except (ZeroDivisionError, Part.OCCError):

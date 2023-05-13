@@ -140,6 +140,7 @@ class TaskPanelPod:
             pass
 
     def redraw(self):
+        self._obj.Proxy.updateChildren()
         self._obj.Proxy.execute(self._obj)
         
     def onCount(self, value):

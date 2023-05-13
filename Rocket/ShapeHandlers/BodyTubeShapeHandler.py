@@ -27,10 +27,12 @@ __url__ = "https://www.davesrocketshop.com"
 import FreeCAD
 import Part
 
+from Rocket.ShapeHandlers.ShapeHandlerBase import ShapeHandlerBase
+
 from Rocket.Utilities import validationError, _err
 from DraftTools import translate
 
-class BodyTubeShapeHandler():
+class BodyTubeShapeHandler(ShapeHandlerBase):
     def __init__(self, obj):
 
         # This gets changed when redrawn so it's very important to save a copy
@@ -70,26 +72,40 @@ class BodyTubeShapeHandler():
 
         return [line1.toShape(), line2.toShape(), line3.toShape(), line4.toShape()]
         
-    def draw(self):
-        if not self.isValidShape():
-            return
-
+    def _drawTube(self):
         edges = None
 
         try:
             edges = self._drawTubeEdges()
         except (ZeroDivisionError, Part.OCCError):
             _err(translate('Rocket', "Body tube parameters produce an invalid shape"))
-            return
+            return None
 
         if edges is not None:
             try:
                 wire = Part.Wire(edges)
                 face = Part.Face(wire)
-                self._obj.Shape = face.revolve(FreeCAD.Vector(0, 0, 0),FreeCAD.Vector(1, 0, 0), 360)
-                self._obj.Placement = self._placement
+                shape = face.revolve(FreeCAD.Vector(0, 0, 0),FreeCAD.Vector(1, 0, 0), 360)
             except Part.OCCError:
                 _err(translate('Rocket', "Body tube parameters produce an invalid shape"))
-                return
+                return None
         else:
             _err(translate('Rocket', "Body tube parameters produce an invalid shape"))
+            return None
+        
+        return shape
+        
+    def draw(self):
+        if not self.isValidShape():
+            return
+
+        try:
+            shape = self._drawTube()
+            if self._obj.PodInfo is not None:
+                shape = self._drawPods(shape)
+
+            self._obj.Shape = shape
+            self._obj.Placement = self._placement
+        except Part.OCCError:
+            _err(translate('Rocket', "Body tube parameters produce an invalid shape"))
+            return

@@ -124,8 +124,8 @@ class FeatureRailButton(ExternalComponent, AnglePositionable, BoxBounded, LineIn
         self._setRadialOffset()
         location = self.getInstanceOffsets()
 
-        self._obj.Placement.Base.y = location[0]._y
-        self._obj.Placement.Base.z = location[0]._z
+        self._obj.Placement.Base.y = location[0].Y
+        self._obj.Placement.Base.z = location[0].Z
 
     def execute(self, obj):
         shape = RailButtonShapeHandler(obj)
@@ -169,8 +169,8 @@ class FeatureRailButton(ExternalComponent, AnglePositionable, BoxBounded, LineIn
             body.setParentDiameter() # Set any auto values
             parentRadius = body.getForeRadius()
         else:
-            x1 = self.toRelative(NUL, body)[0]._x
-            x2 = self.toRelative(Coordinate(self._obj.Length, 0, 0), body)[0]._x
+            x1 = self.toRelative(NUL, body)[0].X
+            x2 = self.toRelative(Coordinate(self._obj.Length, 0, 0), body)[0].X
             x1 = Utilities.clamp(x1, 0, body.getLength())
             x2 = Utilities.clamp(x2, 0, body.getLength())
             parentRadius = max(body.getRadius(x1), body.getRadius(x2))

@@ -30,13 +30,15 @@ import math
 
 from DraftTools import translate
 
+from Rocket.ShapeHandlers.ShapeHandlerBase import ShapeHandlerBase
+
 from Rocket.Constants import FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE, \
     FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE, FIN_CROSS_BICONVEX, FIN_CROSS_ELLIPSE
 from Rocket.Constants import FIN_DEBUG_FULL, FIN_DEBUG_PROFILE_ONLY, FIN_DEBUG_MASK_ONLY
 
 from Rocket.Utilities import _err, validationError
 
-class FinShapeHandler:
+class FinShapeHandler(ShapeHandlerBase):
 
     def __init__(self, obj):
         self._obj = obj
@@ -513,10 +515,14 @@ class FinShapeHandler:
             return
 
         try:
+            shape = self._drawFin()
             if self._obj.FinSet:
-                self._obj.Shape = self._drawFinSet()
-            else:
-                self._obj.Shape = self._drawFin()
+                shape = self._drawFinSet()
+
+            if self._obj.PodInfo is not None:
+                shape = self._drawPods(shape)
+
+            self._obj.Shape = shape
             self._obj.Placement = self._placement
 
         except (ZeroDivisionError, Part.OCCError) as ex:

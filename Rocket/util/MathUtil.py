@@ -24,8 +24,6 @@ __title__ = "FreeCAD Rocket Components"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
-from Rocket.util.Coordinate import Coordinate, MAX, MIN
-
 EPSILON = 0.00000001 # 10mm^3 in m^3
 
 class MathUtil:
@@ -40,7 +38,7 @@ class MathUtil:
     """
     def clamp(x, min, max):
         if x < min:
-            return min;
+            return min
         if x > max:
             return max
         return x

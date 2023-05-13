@@ -30,7 +30,7 @@ import Part
 from DraftTools import translate
 
 from Rocket.ShapeHandlers.BulkheadShapeHandler import BulkheadShapeHandler
-from Rocket.Utilities import validationError
+from Rocket.Utilities import validationError, _err
 
 class CenteringRingShapeHandler(BulkheadShapeHandler):
     def __init__(self, obj):
@@ -103,7 +103,11 @@ class CenteringRingShapeHandler(BulkheadShapeHandler):
             return
 
         try:
-            self._obj.Shape = self._drawCenteringRing()
+            shape = self._drawCenteringRing()
+            if self._obj.PodInfo is not None:
+                shape = self._drawPods(shape)
+                
+            self._obj.Shape = shape
             self._obj.Placement = self._placement
         except (ZeroDivisionError, Part.OCCError):
             _err(translate('Rocket', "Centering ring parameters produce an invalid shape"))

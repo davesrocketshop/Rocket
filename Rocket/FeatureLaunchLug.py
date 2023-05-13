@@ -78,8 +78,8 @@ class FeatureLaunchLug(Tube, AnglePositionable, BoxBounded, LineInstanceable):
         self._setRadialOffset()
         location = self.getInstanceOffsets()
 
-        self._obj.Placement.Base.y = location[0]._y
-        self._obj.Placement.Base.z = location[0]._z
+        self._obj.Placement.Base.y = location[0].Y
+        self._obj.Placement.Base.z = location[0].Z
 
     def execute(self, obj):
         shape = LaunchLugShapeHandler(obj)
@@ -156,11 +156,10 @@ class FeatureLaunchLug(Tube, AnglePositionable, BoxBounded, LineInstanceable):
             if isinstance(listener, FeatureLaunchLug):
                 listener.setAngleOffset(degrees)
 
-        rad = math.fmod(degrees, 360)
-        if self._obj.AngleOffset == rad:
+        if self._obj.AngleOffset == degrees:
             return
 
-        self._obj.AngleOffset = rad
+        self._obj.AngleOffset = degrees
         self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
 
     def setLength(self, length):
@@ -215,8 +214,8 @@ class FeatureLaunchLug(Tube, AnglePositionable, BoxBounded, LineInstanceable):
             body.setParentDiameter() # Set any auto values
             parentRadius = body.getForeRadius()
         else:
-            x1 = self.toRelative(NUL, body)[0]._x
-            x2 = self.toRelative(Coordinate(self._obj.Length, 0, 0), body)[0]._x
+            x1 = self.toRelative(NUL, body)[0].X
+            x2 = self.toRelative(Coordinate(self._obj.Length, 0, 0), body)[0].X
             x1 = Utilities.clamp(x1, 0, body.getLength())
             x2 = Utilities.clamp(x2, 0, body.getLength())
             parentRadius = max(body.getRadius(x1), body.getRadius(x2))

@@ -58,7 +58,7 @@ class InnerTubeShapeHandler(BodyTubeShapeHandler):
 
         return x1, y1
 
-    def drawInstances(self):
+    def _drawInstances(self):
         tubes = []
         base = self.drawSingle()
         if self._rotation == 0:
@@ -83,7 +83,9 @@ class InnerTubeShapeHandler(BodyTubeShapeHandler):
             return
 
         try:
-            shape = self.drawInstances()
+            shape = self._drawInstances()
+            if self._obj.PodInfo is not None:
+                shape = self._drawPods(shape)
 
             self._obj.Shape = shape
             self._obj.Placement = self._placement

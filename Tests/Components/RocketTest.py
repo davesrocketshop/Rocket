@@ -112,10 +112,10 @@ class RocketTest(unittest.TestCase):
         self.assertCoordinateEqual(actual, expected, ring.getName()+" not positioned correctly")
 
         bounds = rocket.getBoundingBox()
-        # self.assertEqual(bounds._min._x, 0.0)
-        # self.assertEqual(bounds._max._x, 270.0)
+        # self.assertEqual(bounds._min.X, 0.0)
+        # self.assertEqual(bounds._max.X, 270.0)
 
-        # self.assertEqual(bounds._min._y, -32.385640)
-        # self.assertEqual(bounds._min._z, -54.493575)
-        # self.assertEqual(bounds._max._y,  62.000000)
-        # self.assertEqual(bounds._max._z,  52.893575)
+        # self.assertEqual(bounds._min.Y, -32.385640)
+        # self.assertEqual(bounds._min.T, -54.493575)
+        # self.assertEqual(bounds._max.Z,  62.000000)
+        # self.assertEqual(bounds._max.Z,  52.893575)
