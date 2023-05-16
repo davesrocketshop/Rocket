@@ -163,8 +163,12 @@ class FinShapeHandler:
         v4 = FreeCAD.Vector(chordAft, min, height)
         v5 = FreeCAD.Vector(chordMid, -halfThickness, height)
         v6 = FreeCAD.Vector(chordMid, halfThickness, height)
-        arc1 = Part.Arc(v1, v5, v2)
-        arc2 = Part.Arc(v3, v6, v4)
+        if halfThickness == min:
+            arc1 = Part.LineSegment(v1, v2)
+            arc2 = Part.LineSegment(v3, v4)
+        else:
+            arc1 = Part.Arc(v1, v5, v2)
+            arc2 = Part.Arc(v3, v6, v4)
 
         if min > 0:
             line1 = Part.LineSegment(v3, v1)
@@ -459,6 +463,10 @@ class FinShapeHandler:
         # Override this if we have a "masking" shape
         return None
     
+    def _makeCut(self):
+        # Override this if we need to cut from the shape
+        return None
+    
     def _extendRoot(self):
         # Override this if the fin root needs an extension to connect it to the body tube
         return False
@@ -498,6 +506,11 @@ class FinShapeHandler:
                     loft = mask
                 elif mask is not None and (debug != FIN_DEBUG_PROFILE_ONLY):
                     loft = loft.common(mask)
+
+                cut = self._makeCut()
+                if cut is not None:
+                    print("cut")
+                    Part.show(cut)
 
         return loft
 
@@ -568,13 +581,13 @@ class FinShapeHandler:
         if not self.isValidShape():
             return
 
-        try:
-            if self._obj.FinSet:
-                self._obj.Shape = self._drawFinSet()
-            else:
-                self._obj.Shape = self._drawFin()
-            self._obj.Placement = self._placement
+#        try:
+        if self._obj.FinSet:
+            self._obj.Shape = self._drawFinSet()
+        else:
+            self._obj.Shape = self._drawFin()
+        self._obj.Placement = self._placement
 
-        except (ZeroDivisionError, Part.OCCError) as ex:
-            _err(translate('Rocket', "Fin parameters produce an invalid shape"))
-            return
+        # except (ZeroDivisionError, Part.OCCError) as ex:
+        #     _err(translate('Rocket', "Fin parameters produce an invalid shape"))
+        #     return
