@@ -43,6 +43,12 @@ class FinShapeHandler:
 
         # This gets changed when redrawn so it's very important to save a copy
         self._placement = FreeCAD.Placement(obj.Placement)
+
+    def minimumEdge(self):
+        if self._obj.MinimumEdge:
+            return float(self._obj.MinimumEdgeSize)
+        
+        return 0.0
     
     def _foreAngle(self):
         """
@@ -149,25 +155,27 @@ class FinShapeHandler:
         chordAft = foreX + chord
         chordMid = foreX + (chord / 2)
         halfThickness = thickness / 2
-        if chord <= thickness:
-            # Easiest way to calculate the endpoint is to use the endpoints of the arc of a normal circle
-            _, theta, _ = self._angles()
-            x = math.sin(theta)
-            z = math.cos(theta)
-            circle = Part.Circle(FreeCAD.Vector(foreX + halfThickness, 0, height),
-                                     FreeCAD.Vector(x,0,z), halfThickness)
-            arc = Part.Arc(circle, 0, math.pi)
-            v1 = arc.StartPoint
-            v2 = arc.EndPoint
-        else:
-            v1 = FreeCAD.Vector(chordFore, 0.0, height)
-            v2 = FreeCAD.Vector(chordAft, 0.0, height)
-        v3 = FreeCAD.Vector(chordMid, -halfThickness, height)
-        v4 = FreeCAD.Vector(chordMid, halfThickness, height)
-        arc1 = Part.Arc(v1, v3, v2)
-        arc2 = Part.Arc(v1, v4, v2)
+        min = self.minimumEdge() / 2
 
-        wire = Part.Wire([arc1.toShape(), arc2.toShape()])
+        v1 = FreeCAD.Vector(chordFore, -min, height)
+        v2 = FreeCAD.Vector(chordAft, -min, height)
+        v3 = FreeCAD.Vector(chordFore, min, height)
+        v4 = FreeCAD.Vector(chordAft, min, height)
+        v5 = FreeCAD.Vector(chordMid, -halfThickness, height)
+        v6 = FreeCAD.Vector(chordMid, halfThickness, height)
+        if halfThickness == min:
+            arc1 = Part.LineSegment(v1, v2)
+            arc2 = Part.LineSegment(v3, v4)
+        else:
+            arc1 = Part.Arc(v1, v5, v2)
+            arc2 = Part.Arc(v3, v6, v4)
+
+        if min > 0:
+            line1 = Part.LineSegment(v3, v1)
+            line2 = Part.LineSegment(v2, v4)
+            wire = Part.Wire([line1.toShape(), arc1.toShape(), line2.toShape(), arc2.toShape()])
+        else:
+            wire = Part.Wire([arc1.toShape(), arc2.toShape()])
         return wire
             
     def _airfoilY(self, x, maxThickness):
@@ -179,23 +187,34 @@ class FinShapeHandler:
         return y
 
     def _airfoilCurve(self, foreX, chord, thickness, height, resolution):
+        min = self.minimumEdge() / 2
         points = []
         points1 = []
         for i in range(0, resolution):
             
             x = float(i) / float(resolution)
             y = self._airfoilY(x, thickness)
+            if y < min and x > 0:
+                y = min
             points.append(FreeCAD.Vector(foreX + (x * chord), y, height))
             points1.append(FreeCAD.Vector(foreX + (x * chord), -y, height))
 
-        points.append(FreeCAD.Vector(foreX + chord, 0.0, height))
-        points1.append(FreeCAD.Vector(foreX + chord, 0.0, height))
+        if min > 0:
+            points.append(FreeCAD.Vector(foreX + chord, min, height))
+            points1.append(FreeCAD.Vector(foreX + chord, -min, height))
+        else:
+            points.append(FreeCAD.Vector(foreX + chord, 0.0, height))
+            points1.append(FreeCAD.Vector(foreX + chord, 0.0, height))
 
         # Creating separate splines for each side of the airfoil adds extra reference
         # points for lofting, reducing geometry errors
         splines = []
         splines.append(self._makeSpline(points).toShape())
         splines.append(self._makeSpline(points1).toShape())
+        if min > 0:
+            line = Part.LineSegment(FreeCAD.Vector(foreX + chord, min, height), 
+                                    FreeCAD.Vector(foreX + chord, -min, height))
+            splines.append(line.toShape())
 
         return splines 
 
@@ -222,14 +241,21 @@ class FinShapeHandler:
         chordFore = foreX
         chordAft = foreX + chord
         halfThickness = thickness / 2
-        v1 = FreeCAD.Vector(chordFore, 0.0, height)
-        v2 = FreeCAD.Vector(chordAft, -halfThickness, height)
-        v3 = FreeCAD.Vector(chordAft, halfThickness, height)
+        min = self.minimumEdge() / 2
+        v1 = FreeCAD.Vector(chordFore, min, height)
+        v2 = FreeCAD.Vector(chordAft, halfThickness, height)
+        v3 = FreeCAD.Vector(chordAft, -halfThickness, height)
         line1 = Part.LineSegment(v1, v2)
-        line2 = Part.LineSegment(v1, v3)
-        line3 = Part.LineSegment(v2, v3)
-        
-        wire = Part.Wire([line1.toShape(), line2.toShape(), line3.toShape()])
+        line2 = Part.LineSegment(v2, v3)
+
+        if min > 0:
+            v4 = FreeCAD.Vector(chordFore, -min, height)
+            line3 = Part.LineSegment(v3, v4)
+            line4 = Part.LineSegment(v4, v1)
+            wire = Part.Wire([line1.toShape(), line2.toShape(), line3.toShape(), line4.toShape()])
+        else:
+            line3 = Part.LineSegment(v3, v1)
+            wire = Part.Wire([line1.toShape(), line2.toShape(), line3.toShape()])
         return wire
 
     def _makeChordProfileDiamond(self, foreX, chord, thickness, height, maxChord, midChordLimit):
@@ -237,29 +263,30 @@ class FinShapeHandler:
         chordMid = foreX + maxChord
         chordAft = foreX + chord
         halfThickness = thickness / 2
+        min = self.minimumEdge() / 2
         if chordMid >= chordAft:
             chordMid = (chordFore + chordAft) / 2.0
-            # # Create a wedge
-            # v1 = FreeCAD.Vector(chordFore, 0.0, height)
-            # v2 = FreeCAD.Vector(chordAft, -halfThickness, height)
-            # v3 = FreeCAD.Vector(chordAft, halfThickness, height)
-            # line1 = Part.LineSegment(v1, v2)
-            # line2 = Part.LineSegment(v1, v3)
-            # line3 = Part.LineSegment(v2, v3)
-            
-            # wire = Part.Wire([line1.toShape(), line2.toShape(), line3.toShape()])
-            # return wire
 
-        v1 = FreeCAD.Vector(chordFore, 0.0, height)
+        v1 = FreeCAD.Vector(chordFore, min, height)
         v2 = FreeCAD.Vector(chordMid, halfThickness, height)
-        v3 = FreeCAD.Vector(chordMid, -halfThickness, height)
-        v4 = FreeCAD.Vector(chordAft, 0.0, height)
+        v3 = FreeCAD.Vector(chordAft, min, height)
+        v4 = FreeCAD.Vector(chordAft, -min, height)
+        v5 = FreeCAD.Vector(chordMid, -halfThickness, height)
+        v6 = FreeCAD.Vector(chordFore, -min, height)
         line1 = Part.LineSegment(v1, v2)
-        line2 = Part.LineSegment(v2, v4)
-        line3 = Part.LineSegment(v4, v3)
-        line4 = Part.LineSegment(v3, v1)
-        
-        wire = Part.Wire([line1.toShape(), line2.toShape(), line3.toShape(), line4.toShape()])
+        line2 = Part.LineSegment(v2, v3)
+        if min > 0:
+            line3 = Part.LineSegment(v3, v4)
+            line4 = Part.LineSegment(v4, v5)
+            line5 = Part.LineSegment(v5, v6)
+            line6 = Part.LineSegment(v6, v1)
+            
+            wire = Part.Wire([line1.toShape(), line2.toShape(), line3.toShape(), line4.toShape(), line5.toShape(), line6.toShape()])
+        else:
+            line3 = Part.LineSegment(v3, v5)
+            line4 = Part.LineSegment(v5, v1)
+            
+            wire = Part.Wire([line1.toShape(), line2.toShape(), line3.toShape(), line4.toShape()])
         return wire
 
     def _makeChordProfileTaperLE(self, foreX, chord, thickness, height, maxChord):
@@ -270,18 +297,26 @@ class FinShapeHandler:
             chordMid = foreX + maxChord
         chordAft = foreX + chord
         halfThickness = thickness / 2
-        v1 = FreeCAD.Vector(chordFore, 0.0, height)
+        min = self.minimumEdge() / 2
+        v1 = FreeCAD.Vector(chordFore, min, height)
         v2 = FreeCAD.Vector(chordMid, halfThickness, height)
         v3 = FreeCAD.Vector(chordMid, -halfThickness, height)
         v4 = FreeCAD.Vector(chordAft, halfThickness, height)
         v5 = FreeCAD.Vector(chordAft, -halfThickness, height)
+        v6 = FreeCAD.Vector(chordFore, -min, height)
         line1 = Part.LineSegment(v1, v2)
         line2 = Part.LineSegment(v2, v4)
         line3 = Part.LineSegment(v4, v5)
         line4 = Part.LineSegment(v5, v3)
-        line5 = Part.LineSegment(v3, v1)
-    
-        wire = Part.Wire([line1.toShape(), line2.toShape(), line3.toShape(), line4.toShape(), line5.toShape()])
+        if min > 0:
+            line5 = Part.LineSegment(v3, v6)
+            line6 = Part.LineSegment(v6, v1)
+        
+            wire = Part.Wire([line1.toShape(), line2.toShape(), line3.toShape(), line4.toShape(), line5.toShape(), line6.toShape()])
+        else:
+            line5 = Part.LineSegment(v3, v1)
+        
+            wire = Part.Wire([line1.toShape(), line2.toShape(), line3.toShape(), line4.toShape(), line5.toShape()])
         return wire
 
     def _makeChordProfileTaperTE(self, foreX, chord, thickness, height, maxChord):
@@ -292,18 +327,26 @@ class FinShapeHandler:
             chordMid = foreX + chord - maxChord
         chordAft = foreX + chord
         halfThickness = thickness / 2
-        v1 = FreeCAD.Vector(chordAft, 0.0, height)
+        min = self.minimumEdge() / 2
+        v1 = FreeCAD.Vector(chordAft, min, height)
         v2 = FreeCAD.Vector(chordMid, halfThickness, height)
         v3 = FreeCAD.Vector(chordMid, -halfThickness, height)
         v4 = FreeCAD.Vector(chordFore, halfThickness, height)
         v5 = FreeCAD.Vector(chordFore, -halfThickness, height)
+        v6 = FreeCAD.Vector(chordAft, -min, height)
         line1 = Part.LineSegment(v1, v2)
         line2 = Part.LineSegment(v2, v4)
         line3 = Part.LineSegment(v4, v5)
         line4 = Part.LineSegment(v5, v3)
-        line5 = Part.LineSegment(v3, v1)
-        
-        wire = Part.Wire([line1.toShape(), line2.toShape(), line3.toShape(), line4.toShape(), line5.toShape()])
+        if min > 0:
+            line5 = Part.LineSegment(v3, v6)
+            line6 = Part.LineSegment(v6, v1)
+            
+            wire = Part.Wire([line1.toShape(), line2.toShape(), line3.toShape(), line4.toShape(), line5.toShape(), line6.toShape()])
+        else:
+            line5 = Part.LineSegment(v3, v1)
+            
+            wire = Part.Wire([line1.toShape(), line2.toShape(), line3.toShape(), line4.toShape(), line5.toShape()])
         return wire
 
     def _makeChordProfileTaperLETE(self, foreX, chord, thickness, height, foreChord, aftChord, midChordLimit):
@@ -314,21 +357,38 @@ class FinShapeHandler:
             chordAft1 += 0.0001
         chordAft = foreX + chord
         halfThickness = thickness / 2
+        min = self.minimumEdge() / 2
 
-        v1 = FreeCAD.Vector(chordFore, 0.0, height)
+        v1 = FreeCAD.Vector(chordFore, min, height)
         v2 = FreeCAD.Vector(chordFore1, halfThickness, height)
         v3 = FreeCAD.Vector(chordFore1, -halfThickness, height)
         v4 = FreeCAD.Vector(chordAft1, halfThickness, height)
         v5 = FreeCAD.Vector(chordAft1, -halfThickness, height)
-        v6 = FreeCAD.Vector(chordAft, 0, height)
-        line1 = Part.LineSegment(v1, v2)
-        line2 = Part.LineSegment(v2, v4)
-        line3 = Part.LineSegment(v4, v6)
-        line4 = Part.LineSegment(v6, v5)
-        line5 = Part.LineSegment(v5, v3)
-        line6 = Part.LineSegment(v3, v1)
+        v6 = FreeCAD.Vector(chordAft, min, height)
+        v7 = FreeCAD.Vector(chordFore, -min, height)
+        v8 = FreeCAD.Vector(chordAft, -min, height)
 
-        wire = Part.Wire([line1.toShape(), line2.toShape(), line3.toShape(), line4.toShape(), line5.toShape(), line6.toShape()])
+        if min > 0:
+            line1 = Part.LineSegment(v1, v2)
+            line2 = Part.LineSegment(v2, v4)
+            line3 = Part.LineSegment(v4, v6)
+            line4 = Part.LineSegment(v6, v8)
+            line5 = Part.LineSegment(v8, v5)
+            line6 = Part.LineSegment(v5, v3)
+            line7 = Part.LineSegment(v3, v7)
+            line8 = Part.LineSegment(v7, v1)
+
+            wire = Part.Wire([line1.toShape(), line2.toShape(), line3.toShape(), line4.toShape(), line5.toShape(), line6.toShape(),
+                              line7.toShape(), line8.toShape()])
+        else:
+            line1 = Part.LineSegment(v1, v2)
+            line2 = Part.LineSegment(v2, v4)
+            line3 = Part.LineSegment(v4, v6)
+            line4 = Part.LineSegment(v6, v5)
+            line5 = Part.LineSegment(v5, v3)
+            line6 = Part.LineSegment(v3, v1)
+
+            wire = Part.Wire([line1.toShape(), line2.toShape(), line3.toShape(), line4.toShape(), line5.toShape(), line6.toShape()])
         return wire
     
     def _lengthsFromPercent(self, chord, lengthPerCent, length1, length2):
@@ -340,8 +400,15 @@ class FinShapeHandler:
             l2 = chord - length2
 
         return l1, l2
+    
+    def _lengthsFromRootRatio(self, chord):
+        l1, l2 = self._lengthsFromPercent(float(self._obj.RootChord), self._obj.RootPerCent, 
+                                          float(self._obj.RootLength1), float(self._obj.RootLength2))
+        length1 = chord * (l1 / float(self._obj.RootChord))
+        length2 = chord * (l2 / float(self._obj.RootChord))
+        return length1, length2
 
-    def _makeChordProfile(self, crossSection, foreX, chord, thickness, height, length1, length2, midChordLimit = True):
+    def _makeChordProfile(self, crossSection, foreX, chord, thickness, height, length1, length2, midChordLimit = False):
 
         if crossSection == FIN_CROSS_SQUARE:
             return self._makeChordProfileSquare(foreX, chord, thickness, height)
@@ -403,6 +470,10 @@ class FinShapeHandler:
         # Override this if we have a "masking" shape
         return None
     
+    def _makeCut(self):
+        # Override this if we need to cut from the shape
+        return None
+    
     def _extendRoot(self):
         # Override this if the fin root needs an extension to connect it to the body tube
         return False
@@ -442,6 +513,11 @@ class FinShapeHandler:
                     loft = mask
                 elif mask is not None and (debug != FIN_DEBUG_PROFILE_ONLY):
                     loft = loft.common(mask)
+
+                cut = self._makeCut()
+                if cut is not None:
+                    print("cut")
+                    Part.show(cut)
 
         return loft
 
@@ -512,13 +588,13 @@ class FinShapeHandler:
         if not self.isValidShape():
             return
 
-        try:
-            if self._obj.FinSet:
-                self._obj.Shape = self._drawFinSet()
-            else:
-                self._obj.Shape = self._drawFin()
-            self._obj.Placement = self._placement
+#        try:
+        if self._obj.FinSet:
+            self._obj.Shape = self._drawFinSet()
+        else:
+            self._obj.Shape = self._drawFin()
+        self._obj.Placement = self._placement
 
-        except (ZeroDivisionError, Part.OCCError) as ex:
-            _err(translate('Rocket', "Fin parameters produce an invalid shape"))
-            return
+        # except (ZeroDivisionError, Part.OCCError) as ex:
+        #     _err(translate('Rocket', "Fin parameters produce an invalid shape"))
+        #     return

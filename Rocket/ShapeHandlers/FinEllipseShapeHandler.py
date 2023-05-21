@@ -46,7 +46,7 @@ class FinEllipseShapeHandler(FinShapeHandler):
         y = (minor / major) * math.sqrt(major * major - x * x)
         return y
 
-    def _halfEllipse(self, major, minor, thickness, midChord):
+    def _halfEllipseCurve(self, major, minor, thickness, midChord):
         if major > minor:
             ellipse = Part.Ellipse(FreeCAD.Vector(midChord, thickness, major), 
                     FreeCAD.Vector(midChord - minor, thickness, 0), 
@@ -58,15 +58,22 @@ class FinEllipseShapeHandler(FinShapeHandler):
                     FreeCAD.Vector(midChord, thickness, 0))
             arc =  Part.ArcOfEllipse(ellipse, 0, math.pi)
 
+        return arc
+
+    def _halfEllipse(self, major, minor, thickness, midChord):
+        arc = self._halfEllipseCurve(major, minor, thickness, midChord)
+
         line = Part.makeLine((midChord + minor, thickness, 0), (midChord - minor, thickness, 0))
         wire = Part.Wire([arc.toShape(), line])
         return wire
 
     def _taperedEllipse(self):
-        # The loft is 3 ellipses, center and both sides
+        # The loft is 3 (or 4) ellipses, center and both sides
+        min = self.minimumEdge() / 2
         midChord = float(self._obj.RootChord) / 2.0
         height = float(self._obj.Height)
-        center = self._halfEllipse(height, midChord, 0, midChord)
+        center1 = self._halfEllipse(height, midChord, min, midChord)
+        center2 = self._halfEllipse(height, midChord, -min, midChord)
 
         halfThickness = float(self._obj.RootThickness) / 2.0
         if self._obj.RootPerCent:
@@ -78,10 +85,12 @@ class FinEllipseShapeHandler(FinShapeHandler):
         side1 = self._halfEllipse(height, radius, -halfThickness, midChord)
         side2 = self._halfEllipse(height, radius,  halfThickness, midChord)
 
-        return [[side1, center], [center, side2]]
+        if min > 0:
+            return [[side1, center2], [center2, center1], [center1, side2]]
+        return [[side1, center1], [center1, side2]]
 
     def _squareEllipse(self):
-        # The loft is 3 ellipses, center and both sides
+        # The loft is 2 ellipses - both sides
         midChord = float(self._obj.RootChord) / 2.0
         height = float(self._obj.Height)
         halfThickness = float(self._obj.RootThickness) / 2.0
@@ -91,12 +100,42 @@ class FinEllipseShapeHandler(FinShapeHandler):
 
         return [side1, side2]
 
+    def _makeCut(self):
+        # # The loft is 3 ellipses, center and both sides
+        # if self._obj.RootCrossSection == FIN_CROSS_ROUND:
+        #     midChord = float(self._obj.RootChord) / 2.0
+        #     halfThickness = float(self._obj.RootThickness) / 2.0
+        #     height = float(self._obj.Height) - halfThickness
+
+        #     path = self._halfEllipseCurve(height, midChord - halfThickness,  0.0, midChord)
+
+        #     arc = Part.Arc(FreeCAD.Vector(0, -halfThickness, 0), FreeCAD.Vector(-halfThickness, 0, 0), FreeCAD.Vector(0, halfThickness, 0))
+        #     line = Part.LineSegment(FreeCAD.Vector(0, -halfThickness, 0), FreeCAD.Vector(0, halfThickness, 0))
+        #     # wire = Part.Wire([arc.toShape(), line])
+        #     # face = Part.Face(wire)
+        #     shape = Part.Shape([arc, line])
+        #     Part.show(shape)
+        #     Part.show(path.toShape())
+
+        #     # print(dir(wire))
+
+        #     part = Part.makeSweepSurface(path.toShape(), arc.toShape())
+        #     return part
+
+        #     # Create a semi-circle and sweep it along the path
+
+        #     # return path.toShape()
+        #     # makeSweep(const TopoDS_Shape& profile, double, int) const;
+        
+        return None
+
     def _makeProfiles(self):
         if self._obj.RootCrossSection == FIN_CROSS_TAPER_LETE:
             return self._taperedEllipse()
-        if self._obj.RootCrossSection == FIN_CROSS_SQUARE:
+        if self._obj.RootCrossSection in [FIN_CROSS_SQUARE]: #, FIN_CROSS_ROUND]:
             return self._squareEllipse()
 
+        min = self.minimumEdge() / 2
         ellipses = []
         midChord = float(self._obj.RootChord) / 2.0
         tapered = self._obj.RootCrossSection in [FIN_CROSS_ROUND, FIN_CROSS_BICONVEX, FIN_CROSS_ELLIPSE, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE, FIN_CROSS_DIAMOND]
@@ -106,10 +145,14 @@ class FinEllipseShapeHandler(FinShapeHandler):
         for i in range(CROSS_SECTIONS):
             height = i * float(self._obj.Height) / float(CROSS_SECTIONS)
             radius = self._radiusAt(float(self._obj.RootChord), float(self._obj.Height), height)
+            # if radius < min:
+            #     radius = min
             if tapered:
                 thickness = 2.0 * self._radiusAt(float(self._obj.RootThickness) / 2.0, float(self._obj.Height), height)
             else:
                 thickness = float(self._obj.RootThickness)
+            if thickness < (2.0 * min):
+                thickness = (2.0 * min)
             ellipses.append(self._makeChordProfile(self._obj.RootCrossSection,
                 midChord - radius,
                 radius * 2.0,
@@ -121,11 +164,16 @@ class FinEllipseShapeHandler(FinShapeHandler):
             ))
 
         # The tip is a special case
-        radius = 1e-4 # Really small radius
+        if min > 0:
+            radius = min * 2
+        else:
+            radius = 1e-4 # Really small radius
         if tapered:
             thickness = radius
         else:
             thickness = float(self._obj.RootThickness)
+        if thickness < (2.0 * min):
+            thickness = (2.0 * min)
         ellipses.append(self._makeChordProfile(self._obj.RootCrossSection,
             midChord - radius,
             radius * 2.0,

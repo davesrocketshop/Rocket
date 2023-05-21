@@ -38,6 +38,7 @@ from Rocket.Constants import FEATURE_FIN, FEATURE_LAUNCH_LUG, FEATURE_RAIL_BUTTO
 from Rocket.Constants import FIN_TYPE_TRAPEZOID, FIN_TYPE_TRIANGLE, FIN_TYPE_ELLIPSE, FIN_TYPE_TUBE, FIN_TYPE_SKETCH
 from Rocket.Constants import FIN_CROSS_SAME, FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE, \
     FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE, FIN_CROSS_ELLIPSE, FIN_CROSS_BICONVEX
+from Rocket.Constants import FIN_EDGE_SQUARE, FIN_EDGE_ROUNDED
 from Rocket.Constants import FIN_DEBUG_FULL, FIN_DEBUG_PROFILE_ONLY, FIN_DEBUG_MASK_ONLY
 from Rocket.Constants import PROP_TRANSIENT, PROP_HIDDEN
 
@@ -154,6 +155,11 @@ class FeatureFin(ExternalComponent):
             obj.addProperty('App::PropertyBool', 'TubeAutoOuterDiameter', 'RocketComponent', translate('App::Property', 'Tube fin auto outer diameter')).TubeAutoOuterDiameter = True
         if not hasattr(obj,"TubeThickness"):
             obj.addProperty('App::PropertyLength', 'TubeThickness', 'RocketComponent', translate('App::Property', 'Tube fin thickness')).TubeThickness = 1.0
+
+        if not hasattr(obj,"MinimumEdge"):
+            obj.addProperty('App::PropertyBool', 'MinimumEdge', 'RocketComponent', translate('App::Property', 'Set a minimum edge size for fins that would normally have a sharp edge')).MinimumEdge = False
+        if not hasattr(obj,"MinimumEdgeSize"):
+            obj.addProperty('App::PropertyLength', 'MinimumEdgeSize', 'RocketComponent', translate('App::Property', 'Minimum edge size')).MinimumEdgeSize = 0.2
 
         # Hidden properties used for calculation
         if not hasattr(obj,"ParentRadius"):

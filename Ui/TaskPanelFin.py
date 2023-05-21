@@ -46,6 +46,7 @@ from Ui.Widgets.CommentTab import CommentTab
 from Rocket.Constants import FIN_TYPE_TRAPEZOID, FIN_TYPE_TRIANGLE, FIN_TYPE_ELLIPSE, FIN_TYPE_TUBE, FIN_TYPE_SKETCH
 from Rocket.Constants import FIN_CROSS_SAME, FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE, \
     FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE, FIN_CROSS_BICONVEX, FIN_CROSS_ELLIPSE
+from Rocket.Constants import FIN_EDGE_SQUARE, FIN_EDGE_ROUNDED
 
 from Rocket.Material import Material
 
@@ -244,6 +245,15 @@ class _FinDialog(QDialog):
         self.sweepAngleInput.unit = 'deg'
         self.sweepAngleInput.setMinimumWidth(100)
 
+        self.minimumEdgeGroup = QtGui.QGroupBox(translate('Rocket', "Minimum Edge"), self)
+        self.minimumEdgeGroup.setCheckable(True)
+
+        self.minimumEdgeSizeLabel = QtGui.QLabel(translate('Rocket', "Size"), self)
+
+        self.minimumEdgeSizeInput = ui.createWidget("Gui::InputField")
+        self.minimumEdgeSizeInput.unit = 'mm'
+        self.minimumEdgeSizeInput.setMinimumWidth(100)
+
         # Fin set group
         row = 0
         grid = QGridLayout()
@@ -340,6 +350,16 @@ class _FinDialog(QDialog):
 
         self.tubeGroup.setLayout(grid)
 
+        # Minimum edge group
+        row = 0
+        grid = QGridLayout()
+
+        grid.addWidget(self.minimumEdgeSizeLabel, row, 0)
+        grid.addWidget(self.minimumEdgeSizeInput, row, 1)
+        row += 1
+
+        self.minimumEdgeGroup.setLayout(grid)
+
         # Main items
         row = 0
         grid = QGridLayout()
@@ -369,6 +389,7 @@ class _FinDialog(QDialog):
         layout.addWidget(self.rootGroup)
         layout.addWidget(self.tipGroup)
         layout.addWidget(self.tubeGroup)
+        layout.addWidget(self.minimumEdgeGroup)
         layout.addItem(QtGui.QSpacerItem(0,0, QSizePolicy.Expanding, QSizePolicy.Expanding))
 
         self.tabGeneral.setLayout(layout)
@@ -490,6 +511,9 @@ class TaskPanelFin(QObject):
         self._finForm.ttwAutoHeightCheckbox.stateChanged.connect(self.onTTWAutoHeight)
         self._finForm.ttwThicknessInput.textEdited.connect(self.onTTWThickness)
 
+        self._finForm.minimumEdgeGroup.toggled.connect(self.onMinimumEdge)
+        self._finForm.minimumEdgeSizeInput.textEdited.connect(self.onMinimumEdgeSize)
+
         self._location.locationChange.connect(self.onLocation)
 
         self._redrawPending = False
@@ -543,6 +567,9 @@ class TaskPanelFin(QObject):
         self._obj.TtwAutoHeight = self._finForm.ttwAutoHeightCheckbox.isChecked()
         self._obj.TtwThickness = self._finForm.ttwThicknessInput.text()
 
+        self._obj.MinimumEdge = self._finForm.minimumEdgeGroup.isChecked()
+        self._obj.MinimumEdgeSize = self._finForm.minimumEdgeSizeInput.text()
+
         self._finForm.tabMaterial.transferTo(self._obj)
         self._finForm.tabComment.transferTo(self._obj)
 
@@ -586,6 +613,9 @@ class TaskPanelFin(QObject):
         self._finForm.ttwAutoHeightCheckbox.setChecked(self._obj.TtwAutoHeight)
         self._finForm.ttwThicknessInput.setText(self._obj.TtwThickness.UserString)
 
+        self._finForm.minimumEdgeGroup.setChecked(self._obj.MinimumEdge)
+        self._finForm.minimumEdgeSizeInput.setText(self._obj.MinimumEdgeSize.UserString)
+        
         self._finForm.tabMaterial.transferFrom(self._obj)
         self._finForm.tabComment.transferFrom(self._obj)
 
@@ -697,6 +727,7 @@ class TaskPanelFin(QObject):
         self._finForm.rootGroup.setHidden(False)
         self._finForm.tipGroup.setHidden(False)
         self._finForm.tubeGroup.setHidden(True)
+        self._finForm.minimumEdgeGroup.setHidden(False)
 
         self._enableTipLengths()
 
@@ -728,6 +759,7 @@ class TaskPanelFin(QObject):
         self._finForm.rootGroup.setHidden(False)
         self._finForm.tipGroup.setHidden(True)
         self._finForm.tubeGroup.setHidden(True)
+        self._finForm.minimumEdgeGroup.setHidden(False)
 
     def _enableFinTypeEllipse(self):
         self._finForm.tabWidget.setTabEnabled(1, True) # Fin tabs is index 1
@@ -759,6 +791,7 @@ class TaskPanelFin(QObject):
         self._finForm.rootGroup.setHidden(False)
         self._finForm.tipGroup.setHidden(True)
         self._finForm.tubeGroup.setHidden(True)
+        self._finForm.minimumEdgeGroup.setHidden(False)
 
     def _enableFinTypeTube(self):
         self._finForm.tabWidget.setTabEnabled(1, False) # Fin tabs is index 1
@@ -778,6 +811,7 @@ class TaskPanelFin(QObject):
         self._finForm.rootGroup.setHidden(True)
         self._finForm.tipGroup.setHidden(True)
         self._finForm.tubeGroup.setHidden(False)
+        self._finForm.minimumEdgeGroup.setHidden(True)
 
         if self._isAssembly:
             self._finForm.tubeAutoOuterDiameterCheckbox.setHidden(False)
@@ -811,6 +845,7 @@ class TaskPanelFin(QObject):
         self._finForm.rootGroup.setHidden(False)
         self._finForm.tipGroup.setHidden(True)
         self._finForm.tubeGroup.setHidden(True)
+        self._finForm.minimumEdgeGroup.setHidden(False)
 
         # Create a default sketch if none exists
         self._defaultFinSketch()
@@ -1185,6 +1220,20 @@ class TaskPanelFin(QObject):
     def onTTWThickness(self, value):
         try:
             self._obj.TtwThickness = FreeCAD.Units.Quantity(value).Value
+            self.redraw()
+        except ValueError:
+            pass
+        self.setEdited()
+
+    def onMinimumEdge(self, value):
+        self._obj.MinimumEdge = self._finForm.minimumEdgeGroup.isChecked()
+
+        self.redraw()
+        self.setEdited()
+
+    def onMinimumEdgeSize(self, value):
+        try:
+            self._obj.MinimumEdgeSize = FreeCAD.Units.Quantity(value).Value
             self.redraw()
         except ValueError:
             pass
