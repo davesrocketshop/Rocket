@@ -242,12 +242,6 @@ class _FinDialog(QDialog):
         self.minimumEdgeGroup = QtGui.QGroupBox(translate('Rocket', "Minimum Edge"), self)
         self.minimumEdgeGroup.setCheckable(True)
 
-        self.minimumEdgeStyleLabel = QtGui.QLabel(translate('Rocket', "Style"), self)
-
-        self.minimumEdgeStyles = (FIN_EDGE_SQUARE, FIN_EDGE_ROUNDED)
-        self.minimumEdgeStyleCombo = QtGui.QComboBox(self)
-        self.minimumEdgeStyleCombo.addItems(self.minimumEdgeStyles)
-
         self.minimumEdgeSizeLabel = QtGui.QLabel(translate('Rocket', "Size"), self)
 
         self.minimumEdgeSizeInput = ui.createWidget("Gui::InputField")
@@ -353,10 +347,6 @@ class _FinDialog(QDialog):
         # Minimum edge group
         row = 0
         grid = QGridLayout()
-
-        grid.addWidget(self.minimumEdgeStyleLabel, row, 0)
-        grid.addWidget(self.minimumEdgeStyleCombo, row, 1)
-        row += 1
 
         grid.addWidget(self.minimumEdgeSizeLabel, row, 0)
         grid.addWidget(self.minimumEdgeSizeInput, row, 1)
@@ -530,7 +520,6 @@ class TaskPanelFin(QObject):
         self._finForm.ttwThicknessInput.textEdited.connect(self.onTTWThickness)
 
         self._finForm.minimumEdgeGroup.toggled.connect(self.onMinimumEdge)
-        self._finForm.minimumEdgeStyleCombo.currentTextChanged.connect(self.onMinimumEdgeStyle)
         self._finForm.minimumEdgeSizeInput.textEdited.connect(self.onMinimumEdgeSize)
 
         self._location.locationChange.connect(self.onLocation)
@@ -587,7 +576,6 @@ class TaskPanelFin(QObject):
         self._obj.TtwThickness = self._finForm.ttwThicknessInput.text()
 
         self._obj.MinimumEdge = self._finForm.minimumEdgeGroup.isChecked()
-        self._obj.MinimumEdgeStyle = str(self._finForm.minimumEdgeStyleCombo.currentText())
         self._obj.MinimumEdgeSize = self._finForm.minimumEdgeSizeInput.text()
 
         self._obj.Comment = self._finForm.commentInput.toPlainText()
@@ -633,7 +621,6 @@ class TaskPanelFin(QObject):
         self._finForm.ttwThicknessInput.setText(self._obj.TtwThickness.UserString)
 
         self._finForm.minimumEdgeGroup.setChecked(self._obj.MinimumEdge)
-        self._finForm.minimumEdgeStyleCombo.setCurrentText(self._obj.MinimumEdgeStyle)
         self._finForm.minimumEdgeSizeInput.setText(self._obj.MinimumEdgeSize.UserString)
 
         self._finForm.commentInput.setPlainText(self._obj.Comment)
@@ -1246,12 +1233,6 @@ class TaskPanelFin(QObject):
 
     def onMinimumEdge(self, value):
         self._obj.MinimumEdge = self._finForm.minimumEdgeGroup.isChecked()
-
-        self.redraw()
-        self.setEdited()
-
-    def onMinimumEdgeStyle(self, value):
-        self._obj.MinimumEdgeStyle = value
 
         self.redraw()
         self.setEdited()

@@ -63,20 +63,29 @@ class FinTriangleShapeHandler(FinShapeHandler):
         l1, l2 = self._lengthsFromPercent(float(self._obj.RootChord), self._obj.RootPerCent, 
                                           float(self._obj.RootLength1), float(self._obj.RootLength2))
         chord, height, sweep = self._topChord(l1, l2)
-        # l1, l2 = self._lengthsFromRootRatio(chord)
         return self._makeChordProfile(self._obj.RootCrossSection, sweep, chord,
-            float(self._obj.RootThickness), height, l1, l2, False)
+            float(self._obj.RootThickness), height, l1, l2)
 
     def _heightAtChord(self, chord):
-        theta1 = math.radians(float(self._obj.SweepAngle))
+        theta1 = math.radians(self._sweepAngleFromLength())
         length = float(self._obj.SweepLength) - float(self._obj.RootChord)
         theta2 = (math.pi / 2.0) - math.atan2(float(self._obj.Height), length) # In radians
+        min = self.minimumEdge()
 
-        height = float(self._obj.Height) - (chord/(math.tan(theta1) - math.tan(theta2)))
+        height = float(self._obj.Height) - ((chord - min)/(math.tan(theta1) - math.tan(theta2)))
         return height
+
+    def _sweepAngleFromLength(self):
+        length = float(self._obj.SweepLength)
+        min = self.minimumEdge() / 2.0
+        if min > 0:
+            length -= min
+        theta = 90.0 - math.degrees(math.atan2(float(self._obj.Height), length))
+        return theta
     
     def _sweepAtHeight(self, height):
-        sweep = math.tan(math.radians(float(self._obj.SweepAngle))) * height
+        angle = self._sweepAngleFromLength()
+        sweep = math.tan(math.radians(angle)) * height
         return sweep
     
     def _midChord(self, rootChord):
@@ -94,10 +103,10 @@ class FinTriangleShapeHandler(FinShapeHandler):
         if crossSection in [FIN_CROSS_WEDGE, FIN_CROSS_SQUARE]:
             chord = 0.00001 # Effectively but not exactly zero
             height = float(self._obj.Height)
-        elif crossSection in [FIN_CROSS_ROUND, FIN_CROSS_ELLIPSE, FIN_CROSS_BICONVEX]:
+        elif crossSection in [FIN_CROSS_ROUND, FIN_CROSS_ELLIPSE]:
             chord = float(self._obj.RootThickness)
             height = max(float(self._obj.Height) - (float(self._obj.RootThickness) / 2.0), 0)
-        elif crossSection in [FIN_CROSS_AIRFOIL]:
+        elif crossSection in [FIN_CROSS_AIRFOIL, FIN_CROSS_BICONVEX]:
             chord = float(self._obj.RootThickness)
             height = self._heightAtChord(chord)
         elif crossSection in [FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE]:
@@ -191,8 +200,23 @@ class FinTriangleShapeHandler(FinShapeHandler):
         tip = loft1.fuse(loft2)
         return tip
    
+    def _makeBiconvexTip(self):
+        l1, l2 = self._lengthsFromPercent(float(self._obj.RootChord), self._obj.RootPerCent, 
+                                          float(self._obj.RootLength1), float(self._obj.RootLength2))
+        chord, height, sweep = self._topChord(l1, l2)
+        base = self._makeChordProfile(FIN_CROSS_BICONVEX, sweep, chord,
+            float(self._obj.RootThickness), height, l1, l2)
+        
+        min = self.minimumEdge()
+        if min > 0:
+            top=self._makeChordProfile(FIN_CROSS_BICONVEX, float(self._obj.SweepLength) - (min/2.0), min,
+                min, float(self._obj.Height), l1, l2)
+        else:
+            top=Part.Point(FreeCAD.Vector(self._obj.SweepLength, 0.0, self._obj.Height)).toShape()
+        tip = Part.makeLoft([base, top], True)
+        return tip
+   
     def _makeLETaperTip(self):
-        # Wedge at the base, point at the tip
         l1, l2 = self._lengthsFromPercent(float(self._obj.RootChord), self._obj.RootPerCent, 
                                           float(self._obj.RootLength1), float(self._obj.RootLength2))
         chord, height, sweep = self._topChord(l1, l2)
@@ -248,20 +272,45 @@ class FinTriangleShapeHandler(FinShapeHandler):
         chord, height, sweep = self._topChord(l1, l2)
         base = self._makeChordProfile(self._obj.RootCrossSection, sweep, chord,
             float(self._obj.RootThickness), height, l1, l2)
-        thickness = 0.001
-        chord = float(self._obj.RootChord) / float(self._obj.RootThickness) * thickness
-        top = self._makeChordProfile(self._obj.RootCrossSection, float(self._obj.SweepLength), chord,
-            thickness, float(self._obj.Height), l1, l2)
+        
+        min = self.minimumEdge()
+        if min > 0:
+            top=self._makeChordProfile(self._obj.RootCrossSection, float(self._obj.SweepLength) - (min/2.0), min,
+                min, float(self._obj.Height), l1, l2)
+        else:
+            thickness = 0.001
+            chord = float(self._obj.RootChord) / float(self._obj.RootThickness) * thickness
+            top = self._makeChordProfile(self._obj.RootCrossSection, float(self._obj.SweepLength), chord,
+                thickness, float(self._obj.Height), l1, l2)
+            
         tip = Part.makeLoft([base, top], True)
         return tip
+   
+    # def _makeBiconvexTip(self):
+    #     l1, l2 = self._lengthsFromPercent(float(self._obj.RootChord), self._obj.RootPerCent, 
+    #                                       float(self._obj.RootLength1), float(self._obj.RootLength2))
+    #     chord, height, sweep = self._topChord(l1, l2)
+    #     base = self._makeChordProfile(FIN_CROSS_BICONVEX, sweep, chord,
+    #         float(self._obj.RootThickness), height, l1, l2)
+        
+    #     min = self.minimumEdge()
+    #     if min > 0:
+    #         top=self._makeChordProfile(FIN_CROSS_BICONVEX, float(self._obj.SweepLength) - (min/2.0), min,
+    #             min, float(self._obj.Height), l1, l2)
+    #     else:
+    #         top=Part.Point(FreeCAD.Vector(self._obj.SweepLength, 0.0, self._obj.Height)).toShape()
+    #     tip = Part.makeLoft([base, top], True)
+    #     return tip
 
     def _makeTip(self):
         """
             This function adds shapes, rather than profiles to be lofted
         """
         crossSection = self._obj.RootCrossSection
-        if crossSection in [FIN_CROSS_ROUND, FIN_CROSS_ELLIPSE, FIN_CROSS_BICONVEX]:
+        if crossSection in [FIN_CROSS_ROUND, FIN_CROSS_ELLIPSE]:
             tip = self._makeRoundTip()
+        elif crossSection in [FIN_CROSS_BICONVEX]:
+            tip = self._makeBiconvexTip()
         elif crossSection in [FIN_CROSS_TAPER_LE]:
             tip = self._makeLETaperTip()
         elif crossSection in [FIN_CROSS_TAPER_TE]:

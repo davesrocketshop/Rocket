@@ -408,7 +408,7 @@ class FinShapeHandler:
         length2 = chord * (l2 / float(self._obj.RootChord))
         return length1, length2
 
-    def _makeChordProfile(self, crossSection, foreX, chord, thickness, height, length1, length2, midChordLimit = True):
+    def _makeChordProfile(self, crossSection, foreX, chord, thickness, height, length1, length2, midChordLimit = False):
 
         if crossSection == FIN_CROSS_SQUARE:
             return self._makeChordProfileSquare(foreX, chord, thickness, height)

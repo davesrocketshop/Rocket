@@ -158,13 +158,6 @@ class FeatureFin(ExternalComponent):
 
         if not hasattr(obj,"MinimumEdge"):
             obj.addProperty('App::PropertyBool', 'MinimumEdge', 'RocketComponent', translate('App::Property', 'Set a minimum edge size for fins that would normally have a sharp edge')).MinimumEdge = False
-        if not hasattr(obj,"MinimumEdgeStyle"):
-            obj.addProperty('App::PropertyEnumeration', 'MinimumEdgeStyle', 'RocketComponent', translate('App::Property', 'Minimum edge style'))
-            obj.MinimumEdgeStyle = [FIN_EDGE_SQUARE, FIN_EDGE_ROUNDED]
-            obj.MinimumEdgeStyle = FIN_EDGE_SQUARE
-        else:
-            # Make sure these are up to date
-            obj.MinimumEdgeStyle = [FIN_EDGE_SQUARE, FIN_EDGE_ROUNDED]
         if not hasattr(obj,"MinimumEdgeSize"):
             obj.addProperty('App::PropertyLength', 'MinimumEdgeSize', 'RocketComponent', translate('App::Property', 'Minimum edge size')).MinimumEdgeSize = 0.2
 
