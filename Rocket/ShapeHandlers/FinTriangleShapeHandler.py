@@ -52,13 +52,20 @@ class FinTriangleShapeHandler(FinShapeHandler):
     def _makeTipProfile(self):
         # Create the tip profile, casting everything to float to avoid typing issues
         if self._obj.RootCrossSection in [FIN_CROSS_DIAMOND]:
-            return Part.Point(FreeCAD.Vector(self._obj.SweepLength, 0.0, self._obj.Height)).toShape()
+            min = self.minimumEdge()
+            if min > 0:
+                l1, l2 = self._lengthsFromRootRatio(min)
+                return self._makeChordProfile(FIN_CROSS_DIAMOND, float(self._obj.SweepLength), min,
+                    min + 0.001, float(self._obj.Height), l1, l2)
+            else:
+                return Part.Point(FreeCAD.Vector(self._obj.SweepLength, 0.0, self._obj.Height)).toShape()
         
         l1, l2 = self._lengthsFromPercent(float(self._obj.RootChord), self._obj.RootPerCent, 
                                           float(self._obj.RootLength1), float(self._obj.RootLength2))
         chord, height, sweep = self._topChord(l1, l2)
+        # l1, l2 = self._lengthsFromRootRatio(chord)
         return self._makeChordProfile(self._obj.RootCrossSection, sweep, chord,
-            float(self._obj.RootThickness), height, l1, l2)
+            float(self._obj.RootThickness), height, l1, l2, False)
 
     def _heightAtChord(self, chord):
         theta1 = math.radians(float(self._obj.SweepAngle))
@@ -192,7 +199,12 @@ class FinTriangleShapeHandler(FinShapeHandler):
         base = self._makeChordProfile(FIN_CROSS_WEDGE, sweep, chord,
             float(self._obj.RootThickness), height, l1, l2)
         
-        top=Part.Point(FreeCAD.Vector(self._obj.SweepLength, 0.0, self._obj.Height)).toShape()
+        min = self.minimumEdge()
+        if min > 0:
+            top=self._makeChordProfile(FIN_CROSS_WEDGE, float(self._obj.SweepLength), min,
+                min, float(self._obj.Height), l1, l2)
+        else:
+            top=Part.Point(FreeCAD.Vector(self._obj.SweepLength, 0.0, self._obj.Height)).toShape()
         tip = Part.makeLoft([base, top], True)
         return tip
    
@@ -204,7 +216,12 @@ class FinTriangleShapeHandler(FinShapeHandler):
         base = self._makeChordProfile(FIN_CROSS_WEDGE, sweep + chord, -chord,
             float(self._obj.RootThickness), height, l1, l2)
         
-        top=Part.Point(FreeCAD.Vector(self._obj.SweepLength, 0.0, self._obj.Height)).toShape()
+        min = self.minimumEdge()
+        if min > 0:
+            top=self._makeChordProfile(FIN_CROSS_WEDGE, float(self._obj.SweepLength), -min,
+                min, float(self._obj.Height), l1, l2)
+        else:
+            top=Part.Point(FreeCAD.Vector(self._obj.SweepLength, 0.0, self._obj.Height)).toShape()
         tip = Part.makeLoft([base, top], True)
         return tip
    
@@ -216,7 +233,12 @@ class FinTriangleShapeHandler(FinShapeHandler):
         base = self._makeChordProfile(FIN_CROSS_DIAMOND, sweep, chord,
             float(self._obj.RootThickness), height, l1, l2)
         
-        top=Part.Point(FreeCAD.Vector(self._obj.SweepLength, 0.0, self._obj.Height)).toShape()
+        min = self.minimumEdge()
+        if min > 0:
+            top=self._makeChordProfile(FIN_CROSS_DIAMOND, float(self._obj.SweepLength), min,
+                min + 0.001, float(self._obj.Height), l1, l2)
+        else:
+            top=Part.Point(FreeCAD.Vector(self._obj.SweepLength, 0.0, self._obj.Height)).toShape()
         tip = Part.makeLoft([base, top], True)
         return tip
    

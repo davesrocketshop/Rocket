@@ -400,6 +400,13 @@ class FinShapeHandler:
             l2 = chord - length2
 
         return l1, l2
+    
+    def _lengthsFromRootRatio(self, chord):
+        l1, l2 = self._lengthsFromPercent(float(self._obj.RootChord), self._obj.RootPerCent, 
+                                          float(self._obj.RootLength1), float(self._obj.RootLength2))
+        length1 = chord * (l1 / float(self._obj.RootChord))
+        length2 = chord * (l2 / float(self._obj.RootChord))
+        return length1, length2
 
     def _makeChordProfile(self, crossSection, foreX, chord, thickness, height, length1, length2, midChordLimit = True):
 
