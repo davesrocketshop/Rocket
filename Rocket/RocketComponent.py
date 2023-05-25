@@ -228,7 +228,7 @@ class RocketComponent(RocketComponentShapeless, ChangeSource):
     """
     def toRelative(self, c, dest):
         if dest is None:
-            raise Exception("calling toRelative(c,null) is being refactored. ")
+            raise Exception(translate("Exception", "calling toRelative(c,null) is being refactored. "))
 
         destLocs = dest.getInstanceLocations()
         toReturn = []

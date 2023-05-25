@@ -48,6 +48,8 @@ from Rocket.Utilities import _err
 from Ui.Commands.CmdRocket import makeRocket
 from Ui.Commands.CmdStage import makeStage
 
+from DraftTools import translate
+
 class RootElement(Element):
 
     def __init__(self, parent, tag, attributes, parentObj, filename, line):
@@ -62,9 +64,6 @@ class RASAeroElement(Element):
 
         self.SUPPORTED_VERSIONS = ["2"]
 
-        # if attributes['fileversion'] not in SUPPORTED_VERSIONS:
-        #     raise UnsupportedVersion("Unsupported version %s" % attributes['version'])
-
         self._validChildren = { 'rocketdesign' : RocketElement,
                                 'launchsite' : NullElement,
                                 'recovery' : NullElement,
@@ -77,7 +76,7 @@ class RASAeroElement(Element):
         _tag = tag.lower().strip()
         if _tag == "fileversion":
             if content not in self.SUPPORTED_VERSIONS:
-                raise UnsupportedVersion("Unsupported version %s" % content)           
+                raise UnsupportedVersion(translate("Exception", "Unsupported version %s") % content)           
         else:
             super().handleEndTag(tag, content)
 

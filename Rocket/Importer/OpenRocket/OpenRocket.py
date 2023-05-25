@@ -41,6 +41,8 @@ from Rocket.Importer.OpenRocket.SubElement import SubElement
 
 from Ui.Commands.CmdRocket import makeRocket
 
+from DraftTools import translate
+
 class RootElement(ComponentElement):
 
     def __init__(self, parent, tag, attributes, parentObj, filename, line):
@@ -56,7 +58,7 @@ class OpenRocketElement(ComponentElement):
         SUPPORTED_VERSIONS = ["1.0", "1.1", "1.2", "1.3", "1.4", "1.5", "1.6", "1.7", "1.8"]
 
         if attributes['version'] not in SUPPORTED_VERSIONS:
-            raise UnsupportedVersion("Unsupported version %s" % attributes['version'])
+            raise UnsupportedVersion(translate("Exception", "Unsupported version %s") % attributes['version'])
 
         self._validChildren = { 'rocket' : RocketElement,
                                 'datatypes' : NullElement,

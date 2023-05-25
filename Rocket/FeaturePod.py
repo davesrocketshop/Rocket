@@ -164,7 +164,7 @@ class FeaturePod(ComponentAssemblyLocation, RingInstanceable):
 
         if self.isAfter():
             # remember the implicit (this instanceof Stage)
-            raise Exception("found a pod positioned via: AFTER, but is not on the centerline?!: " + self.getName() + "  is " + self.getAxialMethod().name())
+            raise Exception(translate("Exception", "found a pod positioned via: AFTER, but is not on the centerline?!: {0} is {1}").format(self.getName(), self.getAxialMethod().name()))
         else:
             returnValue = super().getAxialOffset(method)
 

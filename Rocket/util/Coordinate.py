@@ -27,6 +27,8 @@ __url__ = "https://www.davesrocketshop.com"
 import math
 import sys
 
+from DraftTools import translate
+
 class Coordinate():
     """ An mutable class of weighted coordinates.  The weights are non-negative.
 
@@ -155,7 +157,7 @@ class Coordinate():
         l = self.length()
         if l < 0.0000001:
             #raise IllegalStateException("Cannot normalize zero coordinate")
-            raise Exception("Cannot normalize zero coordinate")
+            raise Exception(translate("Exception", "Cannot normalize zero coordinate"))
 
         return Coordinate(self.X / l, self.Y / l, self.Z / l, self._weight)
 

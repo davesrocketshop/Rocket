@@ -24,6 +24,8 @@ __title__ = "FreeCAD Rocket Components"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
+from DraftTools import translate
+
 class Type():
     value = None
     name = None
@@ -80,7 +82,7 @@ class ComponentChangeEvent(): # extends EventObject {
     def __init__(self, component, eventType):
         self.component = component
         if eventType is None or eventType == ERROR:
-            raise ValueError("no event type provided")
+            raise ValueError(translate("Exception", "no event type provided"))
         self.type = eventType.value	
 
     # Return the source component of this event as specified in the constructor.

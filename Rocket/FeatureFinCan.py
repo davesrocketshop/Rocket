@@ -187,7 +187,7 @@ class FeatureFinCan(SymmetricComponent, FeatureFin):
         elif self._obj.FinCanStyle == FINCAN_STYLE_BODYTUBE:
             method = AFTER
         else:
-            raise Exception(translate('Rocket', "Unknown fin can style"))
+            raise Exception(translate('Exception', "Unknown fin can style"))
         
         self.setAxialMethod(method)
         self._setAxialOffset(self._obj.AxialMethod, 0)

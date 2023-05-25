@@ -34,6 +34,8 @@ from Rocket.Constants import TYPE_CONE, TYPE_ELLIPTICAL, TYPE_HAACK, TYPE_OGIVE,
 
 from Ui.Commands.CmdNoseCone import makeNoseCone
 
+from DraftTools import translate
+
 class NoseElement(TransitionElement):
 
     def __init__(self, parent, tag, attributes, parentObj, filename, line):
@@ -69,7 +71,7 @@ class NoseElement(TransitionElement):
             elif content == 'haack':
                 self._feature._obj.NoseType = TYPE_HAACK
             else:
-                raise Exception("Unknown nose type " + content)
+                raise Exception(translate("Exception", "Unknown nose type {0}".format(content)))
         elif _tag == "shapeclipped":
             # _err("Clipped element not supported") # This is meant for transitions
             # self._feature._obj.Clipped = _toBoolean(content)
