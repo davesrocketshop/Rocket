@@ -103,7 +103,7 @@ class _FinCanDialog(QDialog):
 
         self.finCountSpinBox = QtGui.QSpinBox(self)
         self.finCountSpinBox.setMinimumWidth(100)
-        self.finCountSpinBox.setMinimum(1)
+        self.finCountSpinBox.setMinimum(0)
         self.finCountSpinBox.setMaximum(10000)
 
         self.finSpacingLabel = QtGui.QLabel(translate('Rocket', "Fin Spacing"), self)
@@ -670,6 +670,8 @@ class TaskPanelFinCan(QObject):
         self.form = [self._finForm, self._locationForm]
         self._finForm.setWindowIcon(QtGui.QIcon(FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Fin.svg"))
         
+        self.update()
+        
         self._finForm.finTypesCombo.currentTextChanged.connect(self.onFinTypes)
         
         self._finForm.finCountSpinBox.valueChanged.connect(self.onCount)
@@ -732,8 +734,6 @@ class TaskPanelFinCan(QObject):
 
         self._redrawPending = False
         self.redrawRequired.connect(self.onRedraw, QtCore.Qt.QueuedConnection)
-        
-        self.update()
         
         if mode == 0: # fresh created
             self.redraw()  # calculate once 
@@ -891,7 +891,10 @@ class TaskPanelFinCan(QObject):
         
     def onCount(self, value):
         self._obj.FinCount = value
-        self._obj.FinSpacing = 360.0 / float(value)
+        if self._obj.FinCount > 0:
+            self._obj.FinSpacing = 360.0 / float(value)
+        else:
+            self._obj.FinSpacing = 360.0
         self._finForm.finSpacingInput.setText(self._obj.FinSpacing.UserString)
         self.redraw()
         self.setEdited()
@@ -1052,18 +1055,21 @@ class TaskPanelFinCan(QObject):
         self.setEdited()
        
     def _setFinSetState(self):
-        if self._isAssembly:
-            checked = self._finForm.finSetGroup.isChecked()
-            self._finForm.finSetGroup.setEnabled(True)
-        else:
-            if self._obj.FinSet:
-                self._obj.FinSet = False
-                self._finForm.finSetGroup.setChecked(self._obj.FinSet)
-            checked = False
-            self._finForm.finSetGroup.setEnabled(False)
+        # if self._isAssembly:
+        #     checked = self._finForm.finSetGroup.isChecked()
+        #     self._finForm.finSetGroup.setEnabled(True)
+        # else:
+        #     if self._obj.FinSet:
+        #         self._obj.FinSet = False
+        #         self._finForm.finSetGroup.setChecked(self._obj.FinSet)
+        #     checked = False
+        #     self._finForm.finSetGroup.setEnabled(False)
+        self._finForm.finSetGroup.setEnabled(True)
+        self._finForm.finSetGroup.setChecked(self._obj.FinSet)
+        # checked = self._finForm.finSetGroup.isChecked()
 
-        self._finForm.finCountSpinBox.setEnabled(checked)
-        self._finForm.finSpacingInput.setEnabled(checked)
+        # self._finForm.finCountSpinBox.setEnabled(checked)
+        # self._finForm.finSpacingInput.setEnabled(checked)
         self._finForm.tipThicknessInput.setEnabled(not self._obj.TipSameThickness)
 
     def _enableRootLengths(self):
