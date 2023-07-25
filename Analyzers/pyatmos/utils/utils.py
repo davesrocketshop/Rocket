@@ -2,6 +2,9 @@ import numpy as np
 import warnings
 from . import Const
 
+from DraftTools import translate
+
+
 def vectorize(x):
     '''
     Vectorize a number(int, float) or a list to a numpy array.
@@ -122,8 +125,8 @@ def check_altitude(zs,z_range,mode):
     # Assert in range
 
     if (zs < lower_z).any() or (zs > upper_z).any():
-        msg_warning = "Geometric altitudes are outside the range of [{}, {}] km. Output values will be extrapolated for those heights.".format(lower_z,upper_z)
-        msg_error = "Geometric altitudes are outside the range of [{}, {}] km.".format(lower_z,upper_z)
+        msg_warning = translate("Geometric altitudes are outside the range of [{}, {}] km. Output values will be extrapolated for those heights.").format(lower_z,upper_z)
+        msg_error = translate("Geometric altitudes are outside the range of [{}, {}] km.").format(lower_z,upper_z)
         if mode == 'warning':
             warnings.warn(msg_warning)      
         elif mode == 'error':

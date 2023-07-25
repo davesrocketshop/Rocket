@@ -41,6 +41,8 @@ from Rocket.events.ComponentChangeEvent import ComponentChangeEvent
 
 from Rocket.Constants import FEATURE_ROCKET, FEATURE_STAGE, FEATURE_PARALLEL_STAGE
 
+from DraftTools import translate
+
 class FeatureRocket(ComponentAssembly, ComponentChangeListener):
 
     """
@@ -366,7 +368,7 @@ class FeatureRocket(ComponentAssembly, ComponentChangeListener):
         if self._freezeList is None:
             self._freezeList = []
         else:
-            raise Exception("Attempting to freeze Rocket when it is already frozen, freezeList=" + self._freezeList)
+            raise Exception(translate("Exception", "Attempting to freeze Rocket when it is already frozen, freezeList={0}".format(self._freezeList)))
 
     """ 
         Thaws a frozen rocket structure and fires a combination of the events fired during
@@ -375,7 +377,7 @@ class FeatureRocket(ComponentAssembly, ComponentChangeListener):
     """
     def thaw(self):
         if self._freezeList is None:
-            raise Exception("Attempting to thaw Rocket when it is not frozen")
+            raise Exception(translate("Exception", "Attempting to thaw Rocket when it is not frozen"))
             return
 
         if len(self._freezeList) == 0:

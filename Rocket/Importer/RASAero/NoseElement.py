@@ -34,6 +34,8 @@ from Rocket.Constants import TYPE_CONE, TYPE_BLUNTED_CONE, TYPE_ELLIPTICAL, TYPE
 
 from Ui.Commands.CmdNoseCone import makeNoseCone
 
+from DraftTools import translate
+
 class NoseElement(Element):
 
     def __init__(self, parent, tag, attributes, parentObj, filename, line):
@@ -71,7 +73,7 @@ class NoseElement(Element):
             elif _content == 'elliptical':
                 self._feature._obj.NoseType = TYPE_ELLIPTICAL
             else:
-                raise Exception("Unknown nose type " + content)
+                raise Exception(translate("Exception", "Unknown nose type {0}".format(content))
         elif _tag == "power law":
             self._feature._obj.Coefficient = float(content)
         elif _tag == "diameter":

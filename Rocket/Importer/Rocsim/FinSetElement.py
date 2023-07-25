@@ -37,6 +37,8 @@ from Rocket.Constants import FIN_CROSS_SAME, FIN_CROSS_SQUARE, FIN_CROSS_ROUND, 
 from Ui.Commands.CmdFin import makeFin
 from Ui.Commands.CmdSketcher import newSketchNoEdit
 
+from DraftTools import translate
+
 class FinSetElement(BaseElement):
 
     def __init__(self, parent, tag, attributes, parentObj, filename, line):
@@ -126,7 +128,7 @@ class FinSetElement(BaseElement):
             elif shapeCode == 2:
                 self._feature._obj.FinType = FIN_TYPE_SKETCH
             else:
-                raise Exception("Unknown fin type " + content)
+                raise Exception(translate("Exception", "Unknown fin type {0}").format(content))
         elif _tag == "pointlist":
             self.makeSketch(content)
         else:

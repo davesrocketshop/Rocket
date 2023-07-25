@@ -128,7 +128,7 @@ class FeatureInnerTube(ThicknessRingComponent, Clusterable, AxialPositionable, B
         return self._obj.ClusterConfiguration.getClusterCount()
 
     def setInstanceCount(self, newCount):
-        raise ValueError("Setting the cluster instance count directly is not allowed")
+        raise ValueError(translate("Exception", "Setting the cluster instance count directly is not allowed"))
 
     """
         Get the cluster scaling.  A value of 1.0 indicates that the tubes are packed

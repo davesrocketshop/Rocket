@@ -67,7 +67,7 @@ class ComponentAssembly(RocketComponentShapeless, AxialPositionable):
                 listener.setAxialMethod(newMethod)
 
         if self.getParent is None:
-            raise Exception(" a Stage requires a parent before any positioning! ")
+            raise Exception(translate("Exception", " a Stage requires a parent before any positioning! "))
 
         if self.getType() == FEATURE_PARALLEL_STAGE or self.getType() == FEATURE_POD:
             if newMethod == AxialMethod.AFTER:
@@ -82,7 +82,7 @@ class ComponentAssembly(RocketComponentShapeless, AxialPositionable):
             # Main rocket must be set via ABSOLUTE-- regardless of what was requested:
             super().setAxialMethod(AxialMethod.ABSOLUTE)
         else:
-            raise Exception("Unrecognized subclass of Component Assembly.  Please update this method.")
+            raise Exception(translate("Exception", "Unrecognized subclass of Component Assembly.  Please update this method."))
 
         self.fireComponentChangeEvent(ComponentChangeEvent.NONFUNCTIONAL_CHANGE);
 

@@ -36,6 +36,8 @@ from Rocket.Constants import TYPE_CONE, TYPE_ELLIPTICAL, TYPE_HAACK, TYPE_OGIVE,
 
 from Ui.Commands.CmdTransition import makeTransition
 
+from DraftTools import translate
+
 class TransitionElement(SymmetricComponentElement):
 
     def __init__(self, parent, tag, attributes, parentObj, filename, line):
@@ -72,7 +74,7 @@ class TransitionElement(SymmetricComponentElement):
             elif content == 'haack':
                 self._feature._obj.TransitionType = TYPE_HAACK
             else:
-                raise Exception("Unknown type " + content)
+                raise Exception(translate("Exception", "Unknown type {0}").format(content))
         elif _tag == "shapeclipped":
             self._feature._obj.Clipped = _toBoolean(content)
         elif _tag == "shapeparameter":

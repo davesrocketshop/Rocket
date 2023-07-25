@@ -584,7 +584,7 @@ class RocketComponentShapeless():
         if EPSILON > math.fabs(newX):
             newX = 0.0
         elif math.isnan(newX):
-            raise Exception("setAxialOffset is broken -- attempted to update as NaN: ") # + this.toDebugDetail());
+            raise Exception(translate("Exception", "setAxialOffset is broken -- attempted to update as NaN: ")) # + this.toDebugDetail());
 
         # store for later:
         self._obj.AxialMethod = method
@@ -671,16 +671,14 @@ class RocketComponentShapeless():
     # The tests should be performed first and then this method called.
     def addChildPosition(self, component, index):
         if component.Proxy.getParent() is not None:
-            raise Exception("component " + component.Proxy.getName() + " is already in a tree")
+            raise Exception(translate("Exception", "component {0} is already in a tree").format(component.Proxy.getName()))
 
         # Ensure that the no loops are created in component tree [A -> X -> Y -> B, B.addChild(A)]
         if self.getRoot()._obj == component:
-            raise Exception("Component " + component.Proxy.getName() +
-                    " is a parent of " + self.getName() + ", attempting to create cycle in tree.")
+            raise Exception(translate("Exception", "Component {0} is a parent of {1}, attempting to create cycle in tree.").format(component.Proxy.getName(), self.getName()))
 
         if not self.eligibleChild(component.Proxy.Type):
-            raise Exception("Component: " + component.Proxy.getName() +
-                    " not currently compatible with component: " + self.getName())
+            raise Exception(translate("Exception", "Component: {0} not currently compatible with component: {1}").format(+ component.Proxy.getName(), self.getName()))
 
         self._setChild(index, component)
         component.Proxy.setParent(self)
@@ -767,7 +765,7 @@ class RocketComponentShapeless():
         if root == self:
             return None
 
-        raise Exception("getRocket() called with root component " + self.getRoot().getName())
+        raise Exception(translate("Exception", "getRocket() called with root component {0}").format(self.getRoot().getName()))
 
     # Return the Stage component that this component belongs to.  Throws an
     # IllegalStateException if a Stage is not in the parentage of this component.
@@ -778,7 +776,7 @@ class RocketComponentShapeless():
                 return current
             current = current.getParent().Proxy
 
-        raise Exception("getStage() called on hierarchy without an FeatureStage.")
+        raise Exception(translate("Exception", "getStage() called on hierarchy without an FeatureStage."))
 
     # Returns all the stages that are a child or sub-child of this component.
     def getSubStages(self):
@@ -796,18 +794,15 @@ class RocketComponentShapeless():
         if self.getParent() is not None:
             # Test that this component is found in parent's children with == operator
             if not self.containsExact(self.getParent().getChildren(), self):
-                raise Exception("Inconsistent component structure detected, parent does not contain this " +
-                        "component as a child, parent=" + self.getParent().getName() + " this=" + self.getName())
+                raise Exception(translate("Exception", "Inconsistent component structure detected, parent does not contain this component as a child, parent={0} this={1}").format(self.getParent().getName(), self.getName()))
         for child in self.getChildren():
             if child.isDerivedFrom('Sketcher::SketchObject'):
                 continue
 
             if child.Proxy.getParent() != self:
-                message = "Inconsistent component structure detected, child does not have this component " + \
-                        "as the parent, this=" + self.getName() + " child=" + child.Proxy.getName() + \
-                        " child.parent="
+                message = translate("Exception", "Inconsistent component structure detected, child does not have this component as the parent, this={0} child={1} child.parent=").format(self.getName(), child.Proxy.getName())
                 if child.Proxy.getParent() is None:
-                    message += "None"
+                    message += translate("Exception", "None")
                 else:
                     message += child.Proxy.getParent().getName()
                 raise Exception(message)

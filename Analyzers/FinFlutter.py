@@ -60,20 +60,20 @@ class FinFlutter:
         self._Shape = handler.finOnlyShape()
         
         if fin.FinType == FIN_TYPE_ELLIPSE:
-            raise TypeError(translate('Rocket', "Elliptical fins are not supported at this time"))
+            raise TypeError(translate('Exception', "Elliptical fins are not supported at this time"))
         elif fin.FinType == FIN_TYPE_TRIANGLE:
-            raise TypeError(translate('Rocket', "Triangular fins are not supported at this time"))
+            raise TypeError(translate('Exception', "Triangular fins are not supported at this time"))
         elif fin.FinType == FIN_TYPE_TUBE:
-            raise TypeError(translate('Rocket', "Tube fins are not supported at this time"))
+            raise TypeError(translate('Exception', "Tube fins are not supported at this time"))
         if fin.FinType == FIN_TYPE_ELLIPSE:
-            raise TypeError(translate('Rocket', "Elliptical fins are not supported at this time"))
+            raise TypeError(translate('Exception', "Elliptical fins are not supported at this time"))
         elif fin.FinType == FIN_TYPE_TRAPEZOID:
 
             # Convert from mm to m
             self._tipChord = self._fromMM(fin.TipChord)
             self._rootChord = self._fromMM(fin.RootChord)
             if float(fin.RootThickness) != float(fin.TipThickness):
-                raise TypeError(translate('Rocket', "Tapered thickness fins are not supported at this time"))
+                raise TypeError(translate('Exception', "Tapered thickness fins are not supported at this time"))
 
             self._span = self._fromMM(fin.Height)
             self._area = (self._rootChord + self._tipChord) * self._span / 2.0
@@ -88,7 +88,7 @@ class FinFlutter:
 
             # self._epsilon = self._epsilon / 0.25 # NACA Eqn 18 already has an epsilon value of 0.25, so need to compensate
         else:
-            raise TypeError(translate('Rocket', "Custom fins are not supported at this time"))
+            raise TypeError(translate('Exception', "Custom fins are not supported at this time"))
 
         self._aspectRatio = self._span**2 / self._area
         self._lambda = self._tipChord / self._rootChord
