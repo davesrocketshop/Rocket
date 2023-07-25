@@ -61,9 +61,9 @@ class RingComponent(InternalComponent, BoxBounded, Coaxial):
         if not hasattr(obj, 'RadialPosition'):
             obj.addProperty('App::PropertyLength', 'RadialPosition', 'RocketComponent', translate('App::Property', 'Outer diameter of the bulkhead')).RadialPosition = 0.0
         if not hasattr(obj, 'ShiftY'):
-            obj.addProperty('App::PropertyLength', 'ShiftY', 'RocketComponent', translate('App::Property', 'Outer diameter of the bulkhead')).ShiftY = 0.0
+            obj.addProperty('App::PropertyLength', 'ShiftY', 'RocketComponent', translate('App::Property', 'Position relative to the parent')).ShiftY = 0.0
         if not hasattr(obj, 'ShiftZ'):
-            obj.addProperty('App::PropertyLength', 'ShiftZ', 'RocketComponent', translate('App::Property', 'Outer diameter of the bulkhead')).ShiftZ = 0.0
+            obj.addProperty('App::PropertyLength', 'ShiftZ', 'RocketComponent', translate('App::Property', 'Position relative to the parent')).ShiftZ = 0.0
 
     def setDefaults(self):
         super().setDefaults()
@@ -190,7 +190,7 @@ class RingComponent(InternalComponent, BoxBounded, Coaxial):
         of the center of the component from the center of the parent component.
     """
     def setRadialPosition(self, pos):
-        pos = max(pos, 0);
+        pos = max(pos, 0)
 
         for listener in self._configListeners:
             if isinstance(listener, RingComponent):

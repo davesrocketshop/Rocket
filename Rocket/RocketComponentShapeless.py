@@ -643,8 +643,18 @@ class RocketComponentShapeless():
     def componentChanged(self, event):
         self.updateChildren()
 
+    def hasPodInfo(self):
+        if hasattr(self._obj,"PodInfo"):
+            return (self._obj.PodInfo is not None)
+        return False
+
     def _setRotation(self):
-        self._obj.Placement = FreeCAD.Placement(self._obj.Placement.Base, FreeCAD.Vector(1,0,0), self._obj.AngleOffset)
+        angle = 0.0
+        if not self.hasPodInfo():
+            # Pods will handle any rotation
+            angle = self._obj.AngleOffset
+
+        self._obj.Placement = FreeCAD.Placement(self._obj.Placement.Base, FreeCAD.Vector(1,0,0), angle)
 
     # Adds a child to the rocket component tree.  The component is added to the end
     # of the component's child list.  This is a helper method that calls

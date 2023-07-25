@@ -177,6 +177,9 @@ class FeatureLaunchLug(Tube, AnglePositionable, BoxBounded, LineInstanceable):
         return False
 
     def getInstanceOffsets(self):
+        # if self._obj.PodInfo is not None:
+        #     return [Coordinate(0,0,0)]
+        
         toReturn = []
         
         yOffset = math.sin(math.radians(-self._obj.AngleOffset)) * (self._obj.RadialOffset)
@@ -184,6 +187,20 @@ class FeatureLaunchLug(Tube, AnglePositionable, BoxBounded, LineInstanceable):
         
         for index in range(self.getInstanceCount()):
             toReturn.append(Coordinate(index*self._obj.InstanceSeparation, yOffset, zOffset))
+        
+        return toReturn
+    
+    def getInstanceOffsetsPod(self, podInfo):
+        toReturn = []
+        
+        radius = self._obj.RadialOffset
+        parent = self.getParent()
+        
+        for index in range(podInfo.podCount):
+            angle = -self._obj.AngleOffset + index * podInfo.podSpacing
+            yOffset = math.sin(math.radians(angle)) * radius
+            zOffset = math.cos(math.radians(angle)) * radius
+            toReturn.append(Coordinate(0.0, yOffset, zOffset))
         
         return toReturn
 
@@ -282,3 +299,11 @@ class FeatureLaunchLug(Tube, AnglePositionable, BoxBounded, LineInstanceable):
 
 
         return length, height
+
+    def setPodInfo(self, info):
+        if info is not None:
+            pod = info.copy()
+            offsets = self.getInstanceOffsetsPod(pod)
+            pod.offsets = offsets
+
+        super().setPodInfo(pod)

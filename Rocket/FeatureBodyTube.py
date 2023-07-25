@@ -25,11 +25,13 @@ __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
 import FreeCAD
+import math
 
 from Rocket.interfaces.BoxBounded import BoxBounded
 from Rocket.interfaces.Coaxial import Coaxial
 
 from Rocket.events.ComponentChangeEvent import ComponentChangeEvent
+from Rocket.util.Coordinate import Coordinate, NUL
 from Rocket.SymmetricComponent import SymmetricComponent
 from Rocket.Constants import FEATURE_BODY_TUBE, FEATURE_INNER_TUBE, FEATURE_TUBE_COUPLER, FEATURE_ENGINE_BLOCK, FEATURE_BULKHEAD, FEATURE_CENTERING_RING, FEATURE_FIN, \
     FEATURE_FINCAN, FEATURE_LAUNCH_LUG, FEATURE_PARALLEL_STAGE, FEATURE_POD, FEATURE_RAIL_BUTTON, FEATURE_RAIL_GUIDE
@@ -321,3 +323,25 @@ class FeatureBodyTube(SymmetricComponent, BoxBounded, Coaxial):
         # self._obj.AnimationOffset = FreeCAD.Vector(center)
         self._obj.Placement.Base = self._obj.Placement.Base + center
 
+    
+    # def getInstanceOffsetsPod(self, podInfo):
+    #     toReturn = []
+        
+    #     radius = self._obj.RadialOffset
+        
+    #     for index in range(podInfo.podCount):
+    #         # angle = -self._obj.AngleOffset + index * podInfo.podSpacing
+    #         angle = index * podInfo.podSpacing
+    #         yOffset = math.sin(math.radians(angle)) * radius
+    #         zOffset = math.cos(math.radians(angle)) * radius
+    #         toReturn.append(Coordinate(0.0, yOffset, zOffset))
+        
+    #     return toReturn
+
+    # def setPodInfo(self, info):
+    #     if info is not None:
+    #         pod = info.copy()
+    #         offsets = self.getInstanceOffsetsPod(pod)
+    #         pod.offsets = offsets
+
+    #     super().setPodInfo(pod)

@@ -30,13 +30,38 @@ import Part
 class ShapeHandlerBase():
     
     def _drawPods(self, base):
-        podInfo = self._obj.PodInfo
+        podInfo = self.getPodInfo()
+        parentInfo = self.getParentPodInfo()
+
         shapes = []
         for i in range(podInfo.podCount):
             shape = Part.Shape(base) # Create a copy
             offset = podInfo.offsets[i]
-            shape.rotate(FreeCAD.Vector(0, 0, 0), FreeCAD.Vector(1,0,0), i * float(podInfo.podSpacing))
+            if parentInfo is not None: # and self._obj.AngleOffset > 0:
+                offset.Y = float(offset.Y) + float(parentInfo.offsets[i].Y)
+                offset.Z = float(offset.Y) + float(parentInfo.offsets[i].Z)
+
+            #     parentOffset = podInfo.offsets[i]
+            #     angle = float(self._obj.AngleOffset) + i * float(podInfo.podSpacing)
+            #     shape.rotate(FreeCAD.Vector(0, parentOffset.Y, parentOffset.Z), FreeCAD.Vector(1,0,0), angle)
+
+            #     circle = Part.makeCircle(1, FreeCAD.Vector(0, parentOffset.Y, parentOffset.Z), FreeCAD.Vector(1,0,0))
+            #     Part.show(circle)
+            #     circle = Part.makeCircle(1, FreeCAD.Vector(0, offset.Y, offset.Z), FreeCAD.Vector(1,0,0))
+            #     Part.show(circle)
+                
+            # shape.rotate(FreeCAD.Vector(0, 0, 0), FreeCAD.Vector(1,0,0), i * float(podInfo.podSpacing))
             shape.translate(FreeCAD.Vector(0, offset.Y, offset.Z))
             shapes.append(shape)
 
         return Part.makeCompound(shapes)
+    
+    def getPodInfo(self):
+        return self._obj.PodInfo
+    
+    def getParentPodInfo(self):
+        parent = self._obj.Proxy.getParent()
+        if parent is not None:
+            if hasattr(parent._obj, "PodInfo"):
+                return parent._obj.PodInfo
+        return None

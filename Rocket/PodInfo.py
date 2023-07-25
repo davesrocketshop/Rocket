@@ -33,3 +33,12 @@ class PodInfo:
         self.radiusOffset = 0
 
         self.offsets = None
+
+    def copy(self):
+        pod = PodInfo()
+        pod.podCount = self.podCount
+        pod.podSpacing = self.podSpacing
+        pod.radiusOffset = self.radiusOffset
+        pod.offsets = None
+
+        return pod
