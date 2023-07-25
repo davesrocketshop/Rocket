@@ -54,7 +54,7 @@ class RailButton(Component):
         self.validatePositive(self._innerDiameter[0], "Inner Diameter invalid")
         self.validatePositive(self._height[0], "Height invalid")
         self.validatePositive(self._baseHeight[0], "Base Height invalid")
-        self.validatePositive(self._flangeHeight[0], "Flange Height invalid")
+        self.validateNonNegative(self._flangeHeight[0], "Flange Height invalid")
         self.validateNonNegative(self._screwHeight[0], "Screw Height invalid")
         # self._dragCoefficient = (0.0, "")
         self.validateNonNegative(self._screwMass[0], "Srew Mass invalid")

@@ -36,12 +36,14 @@ from PySide2.QtWidgets import QVBoxLayout, QHBoxLayout
 
 from Rocket.Constants import COMPONENT_TYPE_BODYTUBE, COMPONENT_TYPE_BULKHEAD, COMPONENT_TYPE_CENTERINGRING, \
     COMPONENT_TYPE_COUPLER, COMPONENT_TYPE_ENGINEBLOCK, COMPONENT_TYPE_LAUNCHLUG, COMPONENT_TYPE_NOSECONE, \
-    COMPONENT_TYPE_PARACHUTE, COMPONENT_TYPE_STREAMER, COMPONENT_TYPE_TRANSITION, COMPONENT_TYPE_ANY
+    COMPONENT_TYPE_PARACHUTE, COMPONENT_TYPE_STREAMER, COMPONENT_TYPE_TRANSITION, COMPONENT_TYPE_RAILGUIDE, \
+    COMPONENT_TYPE_ANY
 from Rocket.Utilities import _valueWithUnits
 
 from Rocket.Parts.BodyTube import listBodyTubes, getBodyTube
 from Rocket.Parts.NoseCone import listNoseCones, getNoseCone
 from Rocket.Parts.Transition import listTransitions, getTransition
+from Rocket.Parts.RailButton import listRailButton, getRailButton
 
 
 # Constant definitions
@@ -59,7 +61,8 @@ _compatible = {
     COMPONENT_TYPE_NOSECONE : (COMPONENT_TYPE_NOSECONE,),
     COMPONENT_TYPE_PARACHUTE : (COMPONENT_TYPE_PARACHUTE, COMPONENT_TYPE_STREAMER,),
     COMPONENT_TYPE_STREAMER : (COMPONENT_TYPE_PARACHUTE, COMPONENT_TYPE_STREAMER,),
-    COMPONENT_TYPE_TRANSITION : (COMPONENT_TYPE_TRANSITION,)
+    COMPONENT_TYPE_TRANSITION : (COMPONENT_TYPE_TRANSITION,),
+    COMPONENT_TYPE_RAILGUIDE : (COMPONENT_TYPE_RAILGUIDE,)
 }
 
 
@@ -360,6 +363,45 @@ class DialogLookup(QtGui.QDialog):
 
             rowCount += 1
 
+    def _queryRailGuide(self):
+        rows = listRailButton(self._connection)
+
+        self._model.setRowCount(len(rows))
+        self._model.setColumnCount(11)
+        self._dbTable.hideColumn(0) # This holds index for lookups
+        self._dbTable.setVerticalHeader(None)
+
+        # Add the column headers
+        self._model.setHorizontalHeaderItem(1, self._newItem(translate('Rocket', "Manufacturer")))
+        self._model.setHorizontalHeaderItem(2, self._newItem(translate('Rocket', "Part Number")))
+        self._model.setHorizontalHeaderItem(3, self._newItem(translate('Rocket', "Description")))
+        self._model.setHorizontalHeaderItem(4, self._newItem(translate('Rocket', "Finish")))
+        self._model.setHorizontalHeaderItem(5, self._newItem(translate('Rocket', "Outer Diameter")))
+        self._model.setHorizontalHeaderItem(6, self._newItem(translate('Rocket', "Inner Diameter")))
+        self._model.setHorizontalHeaderItem(7, self._newItem(translate('Rocket', "Height")))
+        self._model.setHorizontalHeaderItem(8, self._newItem(translate('Rocket', "Base Height")))
+        self._model.setHorizontalHeaderItem(9, self._newItem(translate('Rocket', "Flange Height")))
+        self._model.setHorizontalHeaderItem(10, self._newItem(translate('Rocket', "Screw Height")))
+        # self._model.setHorizontalHeaderItem(11, self._newItem(translate('Rocket', "Drag Coeeficient")))
+        # self._model.setHorizontalHeaderItem(12, self._newItem(translate('Rocket', "Screw Mass")))
+        # self._model.setHorizontalHeaderItem(13, self._newItem(translate('Rocket', "Nut Mass")))
+
+        rowCount = 0
+        for row in rows:
+            self._model.setItem(rowCount, 0, self._newItem(str(row["rail_button_index"])))
+            self._model.setItem(rowCount, 1, self._newItem(str(row["manufacturer"])))
+            self._model.setItem(rowCount, 2, self._newItem(str(row["part_number"])))
+            self._model.setItem(rowCount, 3, self._newItem(str(row["description"])))
+            self._model.setItem(rowCount, 4, self._newItem(str(row["finish"])))
+            self._model.setItem(rowCount, 5, self._newItem(self._itemWithDimension(row["outer_diameter"], row["outer_diameter_units"])))
+            self._model.setItem(rowCount, 6, self._newItem(self._itemWithDimension(row["inner_diameter"], row["inner_diameter_units"])))
+            self._model.setItem(rowCount, 7, self._newItem(self._itemWithDimension(row["height"], row["height_units"])))
+            self._model.setItem(rowCount, 8, self._newItem(self._itemWithDimension(row["base_height"], row["base_height_units"])))
+            self._model.setItem(rowCount, 9, self._newItem(self._itemWithDimension(row["flange_height"], row["flange_height_units"])))
+            self._model.setItem(rowCount, 10, self._newItem(self._itemWithDimension(row["screw_height"], row["screw_height_units"])))
+
+            rowCount += 1
+
     def _updateModel(self):
         queryType = str(self._lookupTypeCombo.currentText())
         if queryType == COMPONENT_TYPE_ANY:
@@ -374,6 +416,8 @@ class DialogLookup(QtGui.QDialog):
             self._queryNoseCone()
         elif query == COMPONENT_TYPE_TRANSITION:
             self._queryTransition()
+        elif query == COMPONENT_TYPE_RAILGUIDE:
+            self._queryRailGuide()
         # elif query == COMPONENT_TYPE_PARACHUTE:
         #     pass
         # elif query == COMPONENT_TYPE_STREAMER:

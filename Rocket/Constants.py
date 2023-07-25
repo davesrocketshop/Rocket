@@ -148,6 +148,7 @@ COMPONENT_TYPE_NOSECONE = "Nose Cone"
 COMPONENT_TYPE_PARACHUTE = "Parachute"
 COMPONENT_TYPE_STREAMER = "Streamer"
 COMPONENT_TYPE_TRANSITION = "Transition"
+COMPONENT_TYPE_RAILGUIDE = "Rail Guide"
 
 # Location Reference
 LOCATION_PARENT_TOP = QT_TRANSLATE_NOOP('Rocket', "Top of the parent component")
