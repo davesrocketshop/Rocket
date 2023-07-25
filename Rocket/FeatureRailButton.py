@@ -41,8 +41,8 @@ from Rocket.SymmetricComponent import SymmetricComponent
 
 from Rocket.Constants import FEATURE_RAIL_BUTTON, FEATURE_FIN, FEATURE_FINCAN
 from Rocket.Constants import RAIL_BUTTON_ROUND, RAIL_BUTTON_AIRFOIL
-from Rocket.Constants import CONTERSINK_ANGLE_60, CONTERSINK_ANGLE_82, CONTERSINK_ANGLE_90, CONTERSINK_ANGLE_100, \
-                            CONTERSINK_ANGLE_110, CONTERSINK_ANGLE_120
+from Rocket.Constants import COUNTERSINK_ANGLE_60, COUNTERSINK_ANGLE_82, COUNTERSINK_ANGLE_90, COUNTERSINK_ANGLE_100, \
+                            COUNTERSINK_ANGLE_110, COUNTERSINK_ANGLE_120, COUNTERSINK_ANGLE_NONE
 
 
 from Rocket.ShapeHandlers.RailButtonShapeHandler import RailButtonShapeHandler
@@ -84,14 +84,15 @@ class FeatureRailButton(ExternalComponent, AnglePositionable, BoxBounded, LineIn
             obj.addProperty('App::PropertyBool', 'Fastener', 'RocketComponent', translate('App::Property', 'Create a countersunk hole for the fastener')).Fastener = True
         if not hasattr(obj,"CountersinkAngle"):
             obj.addProperty('App::PropertyEnumeration', 'CountersinkAngle', 'RocketComponent', translate('App::Property', 'Fastener countersink angle'))
-            obj.CountersinkAngle = [CONTERSINK_ANGLE_60,
-                    CONTERSINK_ANGLE_82,
-                    CONTERSINK_ANGLE_90,
-                    CONTERSINK_ANGLE_100,
-                    CONTERSINK_ANGLE_110,
-                    CONTERSINK_ANGLE_120
+            obj.CountersinkAngle = [COUNTERSINK_ANGLE_NONE,
+                    COUNTERSINK_ANGLE_60,
+                    COUNTERSINK_ANGLE_82,
+                    COUNTERSINK_ANGLE_90,
+                    COUNTERSINK_ANGLE_100,
+                    COUNTERSINK_ANGLE_110,
+                    COUNTERSINK_ANGLE_120
                     ]
-            obj.CountersinkAngle = CONTERSINK_ANGLE_82
+            obj.CountersinkAngle = COUNTERSINK_ANGLE_82
         if not hasattr(obj,"ShankDiameter"):
             obj.addProperty('App::PropertyLength', 'ShankDiameter', 'RocketComponent', translate('App::Property', 'Fastener shank diameter')).ShankDiameter = 3.51
         if not hasattr(obj,"HeadDiameter"):

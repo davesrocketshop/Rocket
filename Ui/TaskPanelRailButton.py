@@ -33,18 +33,22 @@ from DraftTools import translate
 from PySide import QtGui
 from PySide2.QtWidgets import QDialog, QGridLayout, QVBoxLayout
 
+from Ui.TaskPanelDatabase import TaskPanelDatabase
 from Ui.TaskPanelLocation import TaskPanelLocation
 from Ui.Widgets.MaterialTab import MaterialTab
 from Ui.Widgets.CommentTab import CommentTab
 
 from Rocket.Constants import RAIL_BUTTON_ROUND, RAIL_BUTTON_AIRFOIL
-from Rocket.Constants import CONTERSINK_ANGLE_60, CONTERSINK_ANGLE_82, CONTERSINK_ANGLE_90, CONTERSINK_ANGLE_100, \
-                            CONTERSINK_ANGLE_110, CONTERSINK_ANGLE_120
+from Rocket.Constants import COUNTERSINK_ANGLE_60, COUNTERSINK_ANGLE_82, COUNTERSINK_ANGLE_90, COUNTERSINK_ANGLE_100, \
+                            COUNTERSINK_ANGLE_110, COUNTERSINK_ANGLE_120, COUNTERSINK_ANGLE_NONE
 from Rocket.Constants import FASTENER_PRESET_6, FASTENER_PRESET_8, FASTENER_PRESET_10, FASTENER_PRESET_1_4
 from Rocket.Constants import FASTENER_PRESET_6_HEAD, FASTENER_PRESET_6_SHANK
 from Rocket.Constants import FASTENER_PRESET_8_HEAD, FASTENER_PRESET_8_SHANK
 from Rocket.Constants import FASTENER_PRESET_10_HEAD, FASTENER_PRESET_10_SHANK
 from Rocket.Constants import FASTENER_PRESET_1_4_HEAD, FASTENER_PRESET_1_4_SHANK
+from Rocket.Constants import COMPONENT_TYPE_RAILBUTTON
+
+from Rocket.Utilities import _valueOnly
 
 class _RailButtonDialog(QDialog):
 
@@ -122,12 +126,13 @@ class _RailButtonDialog(QDialog):
 
         self.countersinkLabel = QtGui.QLabel(translate('Rocket', "Countersink Angle"), self)
 
-        self.countersinkTypes = (CONTERSINK_ANGLE_60,
-                                    CONTERSINK_ANGLE_82,
-                                    CONTERSINK_ANGLE_90,
-                                    CONTERSINK_ANGLE_100,
-                                    CONTERSINK_ANGLE_110,
-                                    CONTERSINK_ANGLE_120)
+        self.countersinkTypes = (COUNTERSINK_ANGLE_NONE,
+                                    COUNTERSINK_ANGLE_60,
+                                    COUNTERSINK_ANGLE_82,
+                                    COUNTERSINK_ANGLE_90,
+                                    COUNTERSINK_ANGLE_100,
+                                    COUNTERSINK_ANGLE_110,
+                                    COUNTERSINK_ANGLE_120)
         self.countersinkTypeCombo = QtGui.QComboBox(self)
         self.countersinkTypeCombo.addItems(self.countersinkTypes)
 
@@ -237,11 +242,13 @@ class TaskPanelRailButton:
         self._obj = obj
         
         self._btForm = _RailButtonDialog()
+        self._db = TaskPanelDatabase(obj, COMPONENT_TYPE_RAILBUTTON)
+        self._dbForm = self._db.getForm()
 
         self._location = TaskPanelLocation(obj)
         self._locationForm = self._location.getForm()
 
-        self.form = [self._btForm, self._locationForm]
+        self.form = [self._btForm, self._locationForm, self._dbForm]
         self._btForm.setWindowIcon(QtGui.QIcon(FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_BodyTube.svg"))
         
         self._btForm.railButtonTypeCombo.currentTextChanged.connect(self.onRailButtonType)
@@ -262,6 +269,7 @@ class TaskPanelRailButton:
         self._btForm.filletGroup.toggled.connect(self.onFillet)
         self._btForm.filletRadiusInput.textEdited.connect(self.onFilletRadius)
 
+        self._db.dbLoad.connect(self.onLookup)
         self._location.locationChange.connect(self.onLocation)
         
         self.update()
@@ -314,6 +322,7 @@ class TaskPanelRailButton:
         self._btForm.tabComment.transferFrom(self._obj)
 
         self._setTypeState()
+        self._setFastenerState()
 
     def setEdited(self):
         try:
@@ -393,14 +402,21 @@ class TaskPanelRailButton:
         self._obj.Proxy.execute(self._obj)
         self.setEdited()
 
+    def _setFastenerState(self):
+        value = (self._obj.CountersinkAngle != COUNTERSINK_ANGLE_NONE)
+        self._btForm.headDiameterInput.setEnabled(value)
+
     def _setFasteners(self):
         self._btForm.countersinkTypeCombo.setCurrentText(self._obj.CountersinkAngle)
         self._btForm.headDiameterInput.setText(self._obj.HeadDiameter.UserString)
         self._btForm.shankDiameterInput.setText(self._obj.ShankDiameter.UserString)
+        self._setFastenerState()
 
     def onCountersink(self, value):
         self._obj.CountersinkAngle = value
         self._btForm.fastenerPresetCombo.setCurrentText("")
+        self._setFastenerState()
+
         self._obj.Proxy.execute(self._obj)
         self.setEdited()
     
@@ -424,7 +440,7 @@ class TaskPanelRailButton:
 
     def preset6(self):
         try:
-            self._obj.CountersinkAngle = CONTERSINK_ANGLE_82
+            self._obj.CountersinkAngle = COUNTERSINK_ANGLE_82
             self._obj.HeadDiameter = FreeCAD.Units.Quantity(FASTENER_PRESET_6_HEAD).Value
             self._obj.ShankDiameter = FreeCAD.Units.Quantity(FASTENER_PRESET_6_SHANK).Value
             self._setFasteners()
@@ -435,7 +451,7 @@ class TaskPanelRailButton:
 
     def preset8(self):
         try:
-            self._obj.CountersinkAngle = CONTERSINK_ANGLE_82
+            self._obj.CountersinkAngle = COUNTERSINK_ANGLE_82
             self._obj.HeadDiameter = FreeCAD.Units.Quantity(FASTENER_PRESET_8_HEAD).Value
             self._obj.ShankDiameter = FreeCAD.Units.Quantity(FASTENER_PRESET_8_SHANK).Value
             self._setFasteners()
@@ -446,7 +462,7 @@ class TaskPanelRailButton:
 
     def preset10(self):
         try:
-            self._obj.CountersinkAngle = CONTERSINK_ANGLE_82
+            self._obj.CountersinkAngle = COUNTERSINK_ANGLE_82
             self._obj.HeadDiameter = FreeCAD.Units.Quantity(FASTENER_PRESET_10_HEAD).Value
             self._obj.ShankDiameter = FreeCAD.Units.Quantity(FASTENER_PRESET_10_SHANK).Value
             self._setFasteners()
@@ -457,7 +473,7 @@ class TaskPanelRailButton:
 
     def preset1_4(self):
         try:
-            self._obj.CountersinkAngle = CONTERSINK_ANGLE_82
+            self._obj.CountersinkAngle = COUNTERSINK_ANGLE_82
             self._obj.HeadDiameter = FreeCAD.Units.Quantity(FASTENER_PRESET_1_4_HEAD).Value
             self._obj.ShankDiameter = FreeCAD.Units.Quantity(FASTENER_PRESET_1_4_SHANK).Value
             self._setFasteners()
@@ -487,6 +503,21 @@ class TaskPanelRailButton:
             self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
+        self.setEdited()
+        
+    def onLookup(self):
+        result = self._db.getLookupResult()
+
+        self._obj.RailButtonType = str(RAIL_BUTTON_ROUND)
+        self._obj.Diameter = _valueOnly(result["outer_diameter"], result["outer_diameter_units"])
+        self._obj.InnerDiameter = _valueOnly(result["inner_diameter"], result["inner_diameter_units"])
+        self._obj.TopThickness = _valueOnly(result["flange_height"], result["flange_height_units"])
+        self._obj.BaseThickness = _valueOnly(result["base_height"], result["base_height_units"])
+        self._obj.Thickness = _valueOnly(result["height"], result["height_units"])
+        self._obj.Fastener = False # Not really but this is all the information we have
+
+        self.update()
+        self._obj.Proxy.execute(self._obj) 
         self.setEdited()
     
     def onLocation(self):

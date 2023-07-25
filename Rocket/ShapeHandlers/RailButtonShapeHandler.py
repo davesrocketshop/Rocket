@@ -29,8 +29,8 @@ import Part
 import math
 
 from Rocket.Constants import RAIL_BUTTON_AIRFOIL
-from Rocket.Constants import CONTERSINK_ANGLE_60, CONTERSINK_ANGLE_82, CONTERSINK_ANGLE_90, CONTERSINK_ANGLE_100, \
-                            CONTERSINK_ANGLE_110, CONTERSINK_ANGLE_120
+from Rocket.Constants import COUNTERSINK_ANGLE_60, COUNTERSINK_ANGLE_82, COUNTERSINK_ANGLE_90, COUNTERSINK_ANGLE_100, \
+                            COUNTERSINK_ANGLE_110, COUNTERSINK_ANGLE_120, COUNTERSINK_ANGLE_NONE
 
 from Rocket.Utilities import _err, validationError
 from DraftTools import translate
@@ -71,11 +71,11 @@ class RailButtonShapeHandler():
         if self._outerDiameter <= self._innerDiameter:
             validationError(translate('Rocket', "Outer diameter must be greater than the inner diameter"))
             return False
-        if self._topThickness <= 0:
-            validationError(translate('Rocket', "Top thickness must be greater than zero"))
+        if self._topThickness < 0:
+            validationError(translate('Rocket', "Top thickness must be greater than or equal to zero"))
             return False
-        if self._baseThickness <= 0:
-            validationError(translate('Rocket', "Base thickness must be greater than zero"))
+        if self._baseThickness < 0:
+            validationError(translate('Rocket', "Base thickness must be greater than or equal to zero"))
             return False
         if self._thickness <= 0:
             validationError(translate('Rocket', "Thickness must be greater than zero"))
@@ -96,19 +96,22 @@ class RailButtonShapeHandler():
         return True
 
     def _fastenerCountersinkHeight(self):
+        if self._countersinkAngle == COUNTERSINK_ANGLE_NONE:
+            return 0
+
         angle = 0
         # Use the half angle
-        if self._countersinkAngle == CONTERSINK_ANGLE_60:
+        if self._countersinkAngle == COUNTERSINK_ANGLE_60:
             angle = 30.0
-        elif self._countersinkAngle == CONTERSINK_ANGLE_82:
+        elif self._countersinkAngle == COUNTERSINK_ANGLE_82:
             angle = 41.0
-        elif self._countersinkAngle == CONTERSINK_ANGLE_90:
+        elif self._countersinkAngle == COUNTERSINK_ANGLE_90:
             angle = 45.0
-        elif self._countersinkAngle == CONTERSINK_ANGLE_100:
+        elif self._countersinkAngle == COUNTERSINK_ANGLE_100:
             angle = 50.0
-        elif self._countersinkAngle == CONTERSINK_ANGLE_110:
+        elif self._countersinkAngle == COUNTERSINK_ANGLE_110:
             angle = 55.0
-        elif self._countersinkAngle == CONTERSINK_ANGLE_120:
+        elif self._countersinkAngle == COUNTERSINK_ANGLE_120:
             angle = 60.0
 
         height = (self._headDiameter / 2.0) / math.tan(math.radians(angle))
@@ -116,12 +119,13 @@ class RailButtonShapeHandler():
         return height
 
     def _fastener(self):
-        fastener = Part.makeCone(self._headDiameter / 2.0, 0, self._fastenerCountersinkHeight(),
-                        FreeCAD.Vector(0,0,self._thickness),
-                        FreeCAD.Vector(0,0,-1))
-        shank = Part.makeCylinder(self._shankDiameter / 2.0, self._thickness)
+        fastener = Part.makeCylinder(self._shankDiameter / 2.0, self._thickness)
+        if self._fastenerCountersinkHeight() > 0:
+            countersink = Part.makeCone(self._headDiameter / 2.0, 0, self._fastenerCountersinkHeight(),
+                            FreeCAD.Vector(0,0,self._thickness),
+                            FreeCAD.Vector(0,0,-1))
 
-        fastener = fastener.fuse(shank)
+            fastener = fastener.fuse(countersink)
 
         return fastener
 
@@ -129,14 +133,15 @@ class RailButtonShapeHandler():
         # For now, only round buttons
         spool = Part.makeCylinder(self._innerDiameter / 2.0, self._thickness, FreeCAD.Vector(0,0,0), FreeCAD.Vector(0,0,1))
 
-        spoolTop = Part.makeCylinder(self._outerDiameter / 2.0, self._topThickness, FreeCAD.Vector(0,0,self._thickness - self._topThickness), FreeCAD.Vector(0,0,1))
-        if self._hasFillet:
-            spoolTop = spoolTop.makeFillet(self._filletRadius, [spoolTop.Edges[0]])
-        spool = spool.fuse(spoolTop)
+        if self._topThickness > 0:
+            spoolTop = Part.makeCylinder(self._outerDiameter / 2.0, self._topThickness, FreeCAD.Vector(0,0,self._thickness - self._topThickness), FreeCAD.Vector(0,0,1))
+            if self._hasFillet:
+                spoolTop = spoolTop.makeFillet(self._filletRadius, [spoolTop.Edges[0]])
+            spool = spool.fuse(spoolTop)
 
-        # spoolBottom = Part.makeCylinder(self._outerDiameter / 2.0, self._thickness - self._topThickness, FreeCAD.Vector(0,0,0), FreeCAD.Vector(1,0,0))
-        spoolBottom = Part.makeCylinder(self._outerDiameter / 2.0, self._baseThickness, FreeCAD.Vector(0,0,0), FreeCAD.Vector(0,0,1))
-        spool = spool.fuse(spoolBottom)
+        if self._baseThickness > 0:
+            spoolBottom = Part.makeCylinder(self._outerDiameter / 2.0, self._baseThickness, FreeCAD.Vector(0,0,0), FreeCAD.Vector(0,0,1))
+            spool = spool.fuse(spoolBottom)
 
         if self._hasFastener:
             spool = spool.cut(self._fastener())

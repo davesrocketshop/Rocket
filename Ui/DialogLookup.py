@@ -36,7 +36,7 @@ from PySide2.QtWidgets import QVBoxLayout, QHBoxLayout
 
 from Rocket.Constants import COMPONENT_TYPE_BODYTUBE, COMPONENT_TYPE_BULKHEAD, COMPONENT_TYPE_CENTERINGRING, \
     COMPONENT_TYPE_COUPLER, COMPONENT_TYPE_ENGINEBLOCK, COMPONENT_TYPE_LAUNCHLUG, COMPONENT_TYPE_NOSECONE, \
-    COMPONENT_TYPE_PARACHUTE, COMPONENT_TYPE_STREAMER, COMPONENT_TYPE_TRANSITION, COMPONENT_TYPE_RAILGUIDE, \
+    COMPONENT_TYPE_PARACHUTE, COMPONENT_TYPE_STREAMER, COMPONENT_TYPE_TRANSITION, COMPONENT_TYPE_RAILBUTTON, \
     COMPONENT_TYPE_ANY
 from Rocket.Utilities import _valueWithUnits
 
@@ -62,7 +62,7 @@ _compatible = {
     COMPONENT_TYPE_PARACHUTE : (COMPONENT_TYPE_PARACHUTE, COMPONENT_TYPE_STREAMER,),
     COMPONENT_TYPE_STREAMER : (COMPONENT_TYPE_PARACHUTE, COMPONENT_TYPE_STREAMER,),
     COMPONENT_TYPE_TRANSITION : (COMPONENT_TYPE_TRANSITION,),
-    COMPONENT_TYPE_RAILGUIDE : (COMPONENT_TYPE_RAILGUIDE,)
+    COMPONENT_TYPE_RAILBUTTON : (COMPONENT_TYPE_RAILBUTTON,)
 }
 
 
@@ -226,6 +226,17 @@ class DialogLookup(QtGui.QDialog):
             _err(translate('Rocket', "Multiple identical entries found"))
         return {}
 
+    def _getSelectedRailButton(self, row):
+        try:
+            index = int(self._getItemFromRow(row).text())
+            button = getRailButton(self._connection, index)
+            return button
+        except NotFoundError:
+            _err(translate('Rocket', "Rail button not found"))
+        except MultipleEntryError:
+            _err(translate('Rocket', "Multiple identical entries found"))
+        return {}
+
     def _getSelected(self, row):
         queryType = str(self._lookupTypeCombo.currentText())
         if queryType == COMPONENT_TYPE_ANY:
@@ -240,6 +251,8 @@ class DialogLookup(QtGui.QDialog):
             return self._getSelectedNose(row)
         elif query == COMPONENT_TYPE_TRANSITION:
             return self._getSelectedTransition(row)
+        elif query == COMPONENT_TYPE_RAILBUTTON:
+            return self._getSelectedRailButton(row)
         # elif query == COMPONENT_TYPE_PARACHUTE:
         #     pass
         # elif query == COMPONENT_TYPE_STREAMER:
@@ -363,7 +376,7 @@ class DialogLookup(QtGui.QDialog):
 
             rowCount += 1
 
-    def _queryRailGuide(self):
+    def _queryRailButton(self):
         rows = listRailButton(self._connection)
 
         self._model.setRowCount(len(rows))
@@ -416,8 +429,8 @@ class DialogLookup(QtGui.QDialog):
             self._queryNoseCone()
         elif query == COMPONENT_TYPE_TRANSITION:
             self._queryTransition()
-        elif query == COMPONENT_TYPE_RAILGUIDE:
-            self._queryRailGuide()
+        elif query == COMPONENT_TYPE_RAILBUTTON:
+            self._queryRailButton()
         # elif query == COMPONENT_TYPE_PARACHUTE:
         #     pass
         # elif query == COMPONENT_TYPE_STREAMER:
