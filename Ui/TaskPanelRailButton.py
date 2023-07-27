@@ -514,7 +514,10 @@ class TaskPanelRailButton:
         self._obj.TopThickness = _valueOnly(result["flange_height"], result["flange_height_units"])
         self._obj.BaseThickness = _valueOnly(result["base_height"], result["base_height_units"])
         self._obj.Thickness = _valueOnly(result["height"], result["height_units"])
-        self._obj.Fastener = False # Not really but this is all the information we have
+        self._obj.ShankDiameter =  _valueOnly(result["screw_diameter"], result["screw_diameter_units"])
+        self._obj.HeadDiameter =  _valueOnly(result["countersink_diameter"], result["countersink_diameter_units"])
+        self._obj.CountersinkAngle =  _valueOnly(result["countersink_angle"], "deg")
+        self._obj.Fastener = (self._obj.ShankDiameter > 0)
 
         self.update()
         self._obj.Proxy.execute(self._obj) 

@@ -793,6 +793,9 @@ class RailButtonElement(ComponentElement):
         self._dragCoefficient = (0.0, "")
         self._screwMass = (0.0, "")
         self._nutMass = (0.0, "")
+        self._screwDiameter = (0.0, "")
+        self._countersinkDiameter = (0.0, "")
+        self._countersinkAngle = (0.0, "")
 
     def handleTag(self, tag, attributes):
         _tag = tag.lower().strip()
@@ -812,6 +815,10 @@ class RailButtonElement(ComponentElement):
             self._screwMass = (self._screwMass[0], attributes['Unit'])
         elif _tag == "nutmass":
             self._nutMass = (self._nutMass[0], attributes['Unit'])
+        elif _tag == "screwdiameter":
+            self._screwDiameter = (self._screwDiameter[0], attributes['Unit'])
+        elif _tag == "countersinkdiameter":
+            self._countersinkDiameter = (self._countersinkDiameter[0], attributes['Unit'])
         else:
             super().handleTag(tag, attributes)
 
@@ -837,6 +844,12 @@ class RailButtonElement(ComponentElement):
             self._screwMass = (_toFloat(content), self._screwMass[1])
         elif _tag == "nutmass":
             self._nutMass = (_toFloat(content), self._nutMass[1])
+        elif _tag == "screwdiameter":
+            self._screwDiameter = (_toFloat(content), self._screwDiameter[1])
+        elif _tag == "countersinkdiameter":
+            self._countersinkDiameter = (_toFloat(content), self._countersinkDiameter[1])
+        elif _tag == "countersinkangle":
+            self._countersinkAngle = (_toFloat(content), self._countersinkAngle[1])
         else:
             super().handleEndTag(tag, content)
 
@@ -854,6 +867,9 @@ class RailButtonElement(ComponentElement):
         obj._dragCoefficient = self._dragCoefficient
         obj._screwMass = self._screwMass
         obj._nutMass = self._nutMass
+        obj._screwDiameter = self._screwDiameter
+        obj._countersinkDiameter = self._countersinkDiameter
+        obj._countersinkAngle = self._countersinkAngle
 
     def end(self):
         obj = RailButton()

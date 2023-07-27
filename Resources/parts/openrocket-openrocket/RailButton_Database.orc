@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>					
 					
-<OpenRocketComponent>					
+<OpenRocketComponent>
+
+	<!-- Edited by David Carter to add screw dimensions -->
+	<!-- https://engineersbible.com/countersunk-flat-ansi-inch/ -->
 					
 	<Version>0.1</Version>				
 					
@@ -38,6 +41,10 @@
 			<Mass Unit="g">0.445</Mass>		
 			<ScrewMass Unit="g">1.395</ScrewMass>		
 			<NutMass Unit="g">1.025</NutMass>		
+			<!-- Additional parameters not part of OpenRocket -->
+			<ScrewDiameter Unit="in">0.196</ScrewDiameter>
+			<CountersinkDiameter Unit="in">0.375</CountersinkDiameter>
+			<CountersinkAngle>82</CountersinkAngle>
 		</RailButton>			
 					
 		 <RailButton>			
@@ -56,6 +63,10 @@
 			<Mass Unit="g">1.465</Mass>		
 			<ScrewMass Unit="g">3.365</ScrewMass>		
 			<NutMass Unit="g">2.675</NutMass>		
+			<!-- Additional parameters not part of OpenRocket -->
+			<ScrewDiameter Unit="in">0.221</ScrewDiameter>
+			<CountersinkDiameter Unit="in">0.438</CountersinkDiameter>
+			<CountersinkAngle>82</CountersinkAngle>
 		</RailButton>			
 					
 		 <RailButton>			
@@ -74,6 +85,10 @@
 			<Mass Unit="g">0.01</Mass>		
 			<ScrewMass Unit="g">0.04</ScrewMass>		
 			<NutMass Unit="g"></NutMass>		
+			<!-- Additional parameters not part of OpenRocket -->
+			<ScrewDiameter Unit="in">0.101</ScrewDiameter>
+			<CountersinkDiameter Unit="in">0.219</CountersinkDiameter>
+			<CountersinkAngle>82</CountersinkAngle>
 		</RailButton>			
 					
 		 <RailButton>			
@@ -92,6 +107,10 @@
 			<Mass Unit="g">0.090</Mass>		
 			<ScrewMass Unit="g">0.415</ScrewMass>		
 			<NutMass Unit="g"></NutMass>		
+			<!-- Additional parameters not part of OpenRocket -->
+			<ScrewDiameter Unit="in">0.169</ScrewDiameter>
+			<CountersinkDiameter Unit="in">0.344</CountersinkDiameter>
+			<CountersinkAngle>82</CountersinkAngle>
 		</RailButton>			
 					
 		 <RailButton>			
@@ -110,6 +129,10 @@
 			<Mass Unit="g">0.305</Mass>		
 			<ScrewMass Unit="g">1.715</ScrewMass>		
 			<NutMass Unit="g"></NutMass>		
+			<!-- Additional parameters not part of OpenRocket -->
+			<ScrewDiameter Unit="in">0.196</ScrewDiameter>
+			<CountersinkDiameter Unit="in">0.375</CountersinkDiameter>
+			<CountersinkAngle>82</CountersinkAngle>
 		</RailButton>			
 					
 		 <RailButton>			
@@ -128,6 +151,10 @@
 			<Mass Unit="g">0.320</Mass>
 			<ScrewMass Unit="g">1.235</ScrewMass>
 			<NutMass Unit="g"></NutMass>
+			<!-- Additional parameters not part of OpenRocket -->
+			<ScrewDiameter Unit="in">0.196</ScrewDiameter>
+			<CountersinkDiameter Unit="in">0.375</CountersinkDiameter>
+			<CountersinkAngle>82</CountersinkAngle>
 		</RailButton>
 
 		 <RailButton>
@@ -146,6 +173,10 @@
 			<Mass Unit="g">1.355</Mass>		
 			<ScrewMass Unit="g">2.720</ScrewMass>		
 			<NutMass Unit="g"></NutMass>		
+			<!-- Additional parameters not part of OpenRocket -->
+			<ScrewDiameter Unit="in">0.221</ScrewDiameter>
+			<CountersinkDiameter Unit="in">0.438</CountersinkDiameter>
+			<CountersinkAngle>82</CountersinkAngle>
 		</RailButton>
 
 		 <RailButton>
@@ -164,6 +195,10 @@
 			<Mass Unit="g">3.215</Mass>
 			<ScrewMass Unit="g">3.795</ScrewMass>
 			<NutMass Unit="g">2.195</NutMass>
+			<!-- Additional parameters not part of OpenRocket -->
+			<ScrewDiameter Unit="in">0.221</ScrewDiameter>
+			<CountersinkDiameter Unit="in">0.438</CountersinkDiameter>
+			<CountersinkAngle>82</CountersinkAngle>
 		</RailButton>
 					
 	</Components>				

@@ -44,6 +44,9 @@ class RailButton(Component):
         self._dragCoefficient = (0.0, "")
         self._screwMass = (0.0, "")
         self._nutMass = (0.0, "")
+        self._screwDiameter = (0.0, "")
+        self._countersinkDiameter = (0.0, "")
+        self._countersinkAngle = (0.0, "")
 
     def validate(self):
         super().validate()
@@ -59,6 +62,9 @@ class RailButton(Component):
         # self._dragCoefficient = (0.0, "")
         self.validateNonNegative(self._screwMass[0], "Srew Mass invalid")
         self.validateNonNegative(self._nutMass[0], "Nut Mass invalid")
+        self.validateNonNegative(self._screwDiameter[0], "Screw Diameter invalid")
+        self.validateNonNegative(self._countersinkDiameter[0], "Countersink DIameter invalid")
+        self.validateNonNegative(self._countersinkAngle[0], "Countersink Angle invalid")
 
         self.validateNonEmptyString(self._outerDiameter[1], "Outer Diameter Units invalid '%s" % self._outerDiameter[1])
         self.validateNonEmptyString(self._innerDiameter[1], "Inner Diameter Units invalid '%s" % self._innerDiameter[1])
@@ -68,6 +74,8 @@ class RailButton(Component):
         self.validateNonEmptyString(self._screwHeight[1], "Screw Height Units invalid '%s" % self._screwHeight[1])
         self.validateNonEmptyString(self._screwMass[1], "Srew Mass Units invalid '%s" % self._screwMass[1])
         self.validateNonEmptyString(self._nutMass[1], "Nut Mass Units invalid '%s" % self._nutMass[1])
+        self.validateNonEmptyString(self._screwDiameter[1], "Screw Diameter Units invalid '%s" % self._screwDiameter[1])
+        self.validateNonEmptyString(self._countersinkDiameter[1], "Screw Diameter Units invalid '%s" % self._countersinkDiameter[1])
 
     def _noseStyle(self):
         # Not enough information to fully determine core or hollow
@@ -82,9 +90,9 @@ class RailButton(Component):
 
         cursor.execute("""INSERT INTO rail_button (component_index, finish, outer_diameter, outer_diameter_units, inner_diameter, inner_diameter_units, height, height_units,
                 base_height, base_height_units, flange_height, flange_height_units, screw_height, screw_height_units, drag_coefficient, screw_mass, screw_mass_units,
-                nut_mass, nut_mass_units)
+                nut_mass, nut_mass_units, screw_diameter, screw_diameter_units, countersink_diameter, countersink_diameter_units, countersink_angle)
             VALUES
-                (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)""",
+                (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)""",
                             (component_id, self._finish,
                             self._outerDiameter[0], self._outerDiameter[1],
                             self._innerDiameter[0], self._innerDiameter[1],
@@ -107,7 +115,7 @@ def listRailButton(connection):
     cursor.execute("""SELECT rail_button_index, manufacturer, part_number, description,
                         finish, outer_diameter, outer_diameter_units, inner_diameter, inner_diameter_units, height, height_units,
                         base_height, base_height_units, flange_height, flange_height_units, screw_height, screw_height_units, drag_coefficient, screw_mass, screw_mass_units,
-                        nut_mass, nut_mass_units
+                        nut_mass, nut_mass_units, screw_diameter, screw_diameter_units, countersink_diameter, countersink_diameter_units, countersink_angle
                     FROM component c, rail_button b WHERE b.component_index = c.component_index""")
 
     rows = cursor.fetchall()
@@ -119,7 +127,7 @@ def getRailButton(connection, index):
     cursor.execute("""SELECT rail_button_index, c.manufacturer, part_number, description, material_name, mass, mass_units,
                         finish, outer_diameter, outer_diameter_units, inner_diameter, inner_diameter_units, height, height_units,
                         base_height, base_height_units, flange_height, flange_height_units, screw_height, screw_height_units, drag_coefficient, screw_mass, screw_mass_units,
-                        nut_mass, nut_mass_units
+                        nut_mass, nut_mass_units, screw_diameter, screw_diameter_units, countersink_diameter, countersink_diameter_units, countersink_angle
                     FROM component c, rail_button b, material m WHERE b.component_index = c.component_index AND c.material_index = m.material_index AND b.rail_button_index = :index""", {
                         "index" : index
                     })

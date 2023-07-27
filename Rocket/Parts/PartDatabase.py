@@ -110,7 +110,7 @@ class PartDatabase:
         cursor.execute("DROP TABLE IF EXISTS rail_button")
         cursor.execute("""CREATE TABLE rail_button (rail_button_index INTEGER PRIMARY KEY ASC, component_index, finish, outer_diameter, outer_diameter_units,
                 inner_diameter, inner_diameter_units, height, height_units, base_height, base_height_units, flange_height, flange_height_units, screw_height, screw_height_units,
-                drag_coefficient, screw_mass, screw_mass_units, nut_mass, nut_mass_units)""")
+                drag_coefficient, screw_mass, screw_mass_units, nut_mass, nut_mass_units, screw_diameter, screw_diameter_units, countersink_diameter, countersink_diameter_units, countersink_angle)""")
 
         cursor.execute("DROP TABLE IF EXISTS parachute")
         cursor.execute("CREATE TABLE parachute (parachute_index INTEGER PRIMARY KEY ASC, component_index, line_material_index, sides, lines, diameter, diameter_units, line_length, line_length_units)")
