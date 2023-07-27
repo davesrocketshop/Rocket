@@ -45,9 +45,9 @@ class RailButtonShapeHandler():
 
         self._outerDiameter = float(obj.Diameter)
         self._innerDiameter = float(obj.InnerDiameter)
-        self._topThickness = float(obj.TopThickness)
-        self._baseThickness = float(obj.BaseThickness)
-        self._thickness = float(obj.Thickness)
+        self._flangeHeight = float(obj.FlangeHeight)
+        self._baseHeight = float(obj.BaseHeight)
+        self._height = float(obj.Height)
         self._length = float(obj.Length)
 
         self._hasFastener = obj.Fastener
@@ -71,17 +71,17 @@ class RailButtonShapeHandler():
         if self._outerDiameter <= self._innerDiameter:
             validationError(translate('Rocket', "Outer diameter must be greater than the inner diameter"))
             return False
-        if self._topThickness < 0:
-            validationError(translate('Rocket', "Top thickness must be greater than or equal to zero"))
+        if self._flangeHeight < 0:
+            validationError(translate('Rocket', "Top height must be greater than or equal to zero"))
             return False
-        if self._baseThickness < 0:
-            validationError(translate('Rocket', "Base thickness must be greater than or equal to zero"))
+        if self._baseHeight < 0:
+            validationError(translate('Rocket', "Base height must be greater than or equal to zero"))
             return False
-        if self._thickness <= 0:
-            validationError(translate('Rocket', "Thickness must be greater than zero"))
+        if self._height <= 0:
+            validationError(translate('Rocket', "Height must be greater than zero"))
             return False
-        if self._thickness <= (self._topThickness + self._baseThickness):
-            validationError(translate('Rocket', "Top and base thickness can not excedd the total thickness"))
+        if self._height <= (self._flangeHeight + self._baseHeight):
+            validationError(translate('Rocket', "Top and base height can not excedd the total height"))
             return False
 
         if self._railButtonType == RAIL_BUTTON_AIRFOIL:
@@ -119,10 +119,10 @@ class RailButtonShapeHandler():
         return height
 
     def _fastener(self):
-        fastener = Part.makeCylinder(self._shankDiameter / 2.0, self._thickness)
+        fastener = Part.makeCylinder(self._shankDiameter / 2.0, self._height)
         if self._fastenerCountersinkHeight() > 0:
             countersink = Part.makeCone(self._headDiameter / 2.0, 0, self._fastenerCountersinkHeight(),
-                            FreeCAD.Vector(0,0,self._thickness),
+                            FreeCAD.Vector(0,0,self._height),
                             FreeCAD.Vector(0,0,-1))
 
             fastener = fastener.fuse(countersink)
@@ -131,16 +131,16 @@ class RailButtonShapeHandler():
 
     def _drawButton(self):
         # For now, only round buttons
-        spool = Part.makeCylinder(self._innerDiameter / 2.0, self._thickness, FreeCAD.Vector(0,0,0), FreeCAD.Vector(0,0,1))
+        spool = Part.makeCylinder(self._innerDiameter / 2.0, self._height, FreeCAD.Vector(0,0,0), FreeCAD.Vector(0,0,1))
 
-        if self._topThickness > 0:
-            spoolTop = Part.makeCylinder(self._outerDiameter / 2.0, self._topThickness, FreeCAD.Vector(0,0,self._thickness - self._topThickness), FreeCAD.Vector(0,0,1))
+        if self._flangeHeight > 0:
+            spoolTop = Part.makeCylinder(self._outerDiameter / 2.0, self._flangeHeight, FreeCAD.Vector(0,0,self._height - self._flangeHeight), FreeCAD.Vector(0,0,1))
             if self._hasFillet:
                 spoolTop = spoolTop.makeFillet(self._filletRadius, [spoolTop.Edges[0]])
             spool = spool.fuse(spoolTop)
 
-        if self._baseThickness > 0:
-            spoolBottom = Part.makeCylinder(self._outerDiameter / 2.0, self._baseThickness, FreeCAD.Vector(0,0,0), FreeCAD.Vector(0,0,1))
+        if self._baseHeight > 0:
+            spoolBottom = Part.makeCylinder(self._outerDiameter / 2.0, self._baseHeight, FreeCAD.Vector(0,0,0), FreeCAD.Vector(0,0,1))
             spool = spool.fuse(spoolBottom)
 
         if self._hasFastener:
@@ -148,7 +148,7 @@ class RailButtonShapeHandler():
 
         return spool
 
-    def _airfoil(self, base, thickness, diameter, length):
+    def _airfoil(self, base, height, diameter, length):
         # Calculate the tangent points
         radius = diameter/2.0
         theta = math.pi - math.atan2(length - radius, radius)
@@ -166,22 +166,22 @@ class RailButtonShapeHandler():
         shape = Part.Shape([arc, line1, line2])
         wire = Part.Wire(shape.Edges)
         face = Part.Face(wire)
-        airfoil = face.extrude(FreeCAD.Vector(0, 0, thickness))
+        airfoil = face.extrude(FreeCAD.Vector(0, 0, height))
 
         return airfoil
 
     def _drawAirfoil(self):
-        spool = self._airfoil(0.0, self._thickness, self._innerDiameter, self._length)
+        spool = self._airfoil(0.0, self._height, self._innerDiameter, self._length)
         spool.translate(FreeCAD.Vector(-(self._outerDiameter - self._innerDiameter) / 2.0, 0, 0))
         if self._hasFillet:
             spool = spool.makeFillet(self._filletRadius, [spool.Edges[3], spool.Edges[6], spool.Edges[8]])
 
-        spoolTop = self._airfoil(self._thickness - self._topThickness, self._topThickness, self._outerDiameter, self._length)
+        spoolTop = self._airfoil(self._height - self._flangeHeight, self._flangeHeight, self._outerDiameter, self._length)
         if self._hasFillet:
             spoolTop = spoolTop.makeFillet(self._filletRadius, [spoolTop.Edges[3], spoolTop.Edges[6], spoolTop.Edges[8]])
         spool = spool.fuse(spoolTop)
 
-        spoolBottom = self._airfoil(0.0, self._baseThickness, self._outerDiameter, self._length)
+        spoolBottom = self._airfoil(0.0, self._baseHeight, self._outerDiameter, self._length)
         spool = spool.fuse(spoolBottom)
 
         if self._hasFastener:

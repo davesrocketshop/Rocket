@@ -43,12 +43,12 @@ class RailGuideShapeHandler():
 
         self._railGuideBaseType = obj.RailGuideBaseType
 
-        self._topWidth = float(obj.TopWidth)
+        self._flangeWidth = float(obj.FlangeWidth)
         self._middleWidth = float(obj.MiddleWidth)
         self._baseWidth = float(obj.BaseWidth)
-        self._topThickness = float(obj.TopThickness)
-        self._baseThickness = float(obj.BaseThickness)
-        self._thickness = float(obj.Thickness)
+        self._flangeHeight = float(obj.FlangeHeight)
+        self._baseHeight = float(obj.BaseHeight)
+        self._height = float(obj.Height)
         self._length = float(obj.Length)
 
         self._diameter = float(obj.Diameter)
@@ -74,24 +74,24 @@ class RailGuideShapeHandler():
             validationError(translate('Rocket', "Middle width must be greater than zero"))
             return False
 
-        if self._topWidth <= self._middleWidth:
-            validationError(translate('Rocket', "Top width must be greater than the middle width"))
+        if self._flangeWidth <= self._middleWidth:
+            validationError(translate('Rocket', "Flange width must be greater than the middle width"))
             return False
 
         if self._baseWidth <= self._middleWidth:
             validationError(translate('Rocket', "Base width must be greater than the middle width"))
             return False
 
-        if self._topThickness <= 0:
-            validationError(translate('Rocket', "Top thickness must be greater than zero"))
+        if self._flangeHeight <= 0:
+            validationError(translate('Rocket', "Top height must be greater than zero"))
             return False
 
-        if self._baseThickness <= 0:
-            validationError(translate('Rocket', "Base thickness must be greater than zero"))
+        if self._baseHeight <= 0:
+            validationError(translate('Rocket', "Base height must be greater than zero"))
             return False
 
-        if self._thickness <= (self._topThickness + self._baseThickness):
-            validationError(translate('Rocket', "Total thickness must be greater than the sum of top and base thickness"))
+        if self._height <= (self._flangeHeight + self._baseHeight):
+            validationError(translate('Rocket', "Total height must be greater than the sum of top and base height"))
             return False
 
         if self._length <= 0:
@@ -121,14 +121,14 @@ class RailGuideShapeHandler():
                 validationError(translate('Rocket', "Notch depth must be greater than zero"))
                 return False
 
-            if self._notchDepth >= self._thickness:
-                validationError(translate('Rocket', "Notch depth can not exceed the total thickness"))
+            if self._notchDepth >= self._height:
+                validationError(translate('Rocket', "Notch depth can not exceed the total height"))
                 return False
 
         return True
 
     def _drawBaseFlat(self):
-        base = Part.makeBox(self._length, self._baseWidth, self._baseThickness, FreeCAD.Vector(0,-self._baseWidth / 2.0,0), FreeCAD.Vector(0,0,1))
+        base = Part.makeBox(self._length, self._baseWidth, self._baseHeight, FreeCAD.Vector(0,-self._baseWidth / 2.0,0), FreeCAD.Vector(0,0,1))
         return base
 
     def _drawBaseConformal(self):
@@ -143,11 +143,11 @@ class RailGuideShapeHandler():
 
         # draw end face
         v1 = FreeCAD.Vector(0,-y, z)
-        v2 = FreeCAD.Vector(0,-y, z + self._baseThickness)
+        v2 = FreeCAD.Vector(0,-y, z + self._baseHeight)
         v3 = FreeCAD.Vector(0, y, z)
-        v4 = FreeCAD.Vector(0, y, z + self._baseThickness)
+        v4 = FreeCAD.Vector(0, y, z + self._baseHeight)
         v5 = FreeCAD.Vector(0, 0, 0)
-        v6 = FreeCAD.Vector(0, 0, self._baseThickness)
+        v6 = FreeCAD.Vector(0, 0, self._baseHeight)
 
         arc1 = Part.Arc(v1,v5,v3)
         arc2 = Part.Arc(v2,v6,v4)
@@ -172,11 +172,11 @@ class RailGuideShapeHandler():
 
         # draw end face
         v1 = FreeCAD.Vector(0,-y, z)
-        v2 = FreeCAD.Vector(0,-y, z + self._baseThickness)
+        v2 = FreeCAD.Vector(0,-y, z + self._baseHeight)
         v3 = FreeCAD.Vector(0, y, z)
-        v4 = FreeCAD.Vector(0, y, z + self._baseThickness)
+        v4 = FreeCAD.Vector(0, y, z + self._baseHeight)
         v5 = FreeCAD.Vector(0, 0, 0)
-        v6 = FreeCAD.Vector(0, 0, self._baseThickness)
+        v6 = FreeCAD.Vector(0, 0, self._baseHeight)
 
         line1 = Part.LineSegment(v1, v5)
         line2 = Part.LineSegment(v5, v3)
@@ -209,14 +209,14 @@ class RailGuideShapeHandler():
         slope = -1.0 / math.tan(self._forwardSweepAngle)
         intercept = self._zMin - (slope * self._length)
 
-        y = max(self._topWidth, self._middleWidth, self._baseWidth) / 2.0 + TOLERANCE_OFFSET
+        y = max(self._flangeWidth, self._middleWidth, self._baseWidth) / 2.0 + TOLERANCE_OFFSET
 
         x1 = self._length + TOLERANCE_OFFSET
         z1 = self.rakeZ(x1, slope, intercept)        
         v1 = FreeCAD.Vector(x1, y, z1)
 
         # x2 = self._length - (o + TOLERANCE_OFFSET)
-        x2 = self._length - (((self._thickness + math.fabs(self._zMin)) * math.tan(self._forwardSweepAngle)) + TOLERANCE_OFFSET)
+        x2 = self._length - (((self._height + math.fabs(self._zMin)) * math.tan(self._forwardSweepAngle)) + TOLERANCE_OFFSET)
         z2 = self.rakeZ(x2, slope, intercept)        
         v2 = FreeCAD.Vector(x2, y, z2)
 
@@ -237,14 +237,14 @@ class RailGuideShapeHandler():
         # We need to calculate our vertices outside of the part to avoid OpenCASCADE's "too exact" problem
         slope = 1.0 / math.tan(self._aftSweepAngle)
 
-        y = max(self._topWidth, self._middleWidth, self._baseWidth) / 2.0 + TOLERANCE_OFFSET
+        y = max(self._flangeWidth, self._middleWidth, self._baseWidth) / 2.0 + TOLERANCE_OFFSET
 
         x1 = -TOLERANCE_OFFSET
         z1 = self.rakeZ(x1, slope, self._zMin)        
         v1 = FreeCAD.Vector(x1, y, z1)
 
         # x2 = o + TOLERANCE_OFFSET
-        x2 = ((self._thickness + math.fabs(self._zMin)) * math.tan(self._aftSweepAngle)) + TOLERANCE_OFFSET
+        x2 = ((self._height + math.fabs(self._zMin)) * math.tan(self._aftSweepAngle)) + TOLERANCE_OFFSET
         z2 = self.rakeZ(x2, slope, self._zMin)        
         v2 = FreeCAD.Vector(x2, y, z2)
 
@@ -262,13 +262,13 @@ class RailGuideShapeHandler():
         return rake
 
     def _drawNotch(self):
-        return Part.makeBox(self._length, self._notchWidth, self._notchDepth, FreeCAD.Vector(0,-self._notchWidth / 2.0, self._thickness - self._notchDepth), FreeCAD.Vector(0,0,1))
+        return Part.makeBox(self._length, self._notchWidth, self._notchDepth, FreeCAD.Vector(0,-self._notchWidth / 2.0, self._height - self._notchDepth), FreeCAD.Vector(0,0,1))
 
     def _drawGuide(self):
         # Essentially creating an I beam
-        guide = Part.makeBox(self._length, self._middleWidth, self._thickness, FreeCAD.Vector(0,-self._middleWidth / 2.0,0), FreeCAD.Vector(0,0,1))
+        guide = Part.makeBox(self._length, self._middleWidth, self._height, FreeCAD.Vector(0,-self._middleWidth / 2.0,0), FreeCAD.Vector(0,0,1))
 
-        guideTop = Part.makeBox(self._length, self._topWidth, self._topThickness, FreeCAD.Vector(0,-self._topWidth / 2.0,self._thickness - self._topThickness), FreeCAD.Vector(0,0,1))
+        guideTop = Part.makeBox(self._length, self._flangeWidth, self._flangeHeight, FreeCAD.Vector(0,-self._flangeWidth / 2.0,self._height - self._flangeHeight), FreeCAD.Vector(0,0,1))
         guide = guide.fuse(guideTop)
 
         guideBottom = self._drawBase()

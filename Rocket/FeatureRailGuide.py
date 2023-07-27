@@ -43,6 +43,7 @@ from Rocket.Constants import FEATURE_RAIL_GUIDE
 from Rocket.Constants import RAIL_GUIDE_BASE_FLAT, RAIL_GUIDE_BASE_CONFORMAL, RAIL_GUIDE_BASE_V
 
 from Rocket.ShapeHandlers.RailGuideShapeHandler import RailGuideShapeHandler
+from Rocket.Utilities import _wrn
 
 from DraftTools import translate
 
@@ -60,18 +61,18 @@ class FeatureRailGuide(ExternalComponent, AnglePositionable, BoxBounded, LineIns
                     ]
             obj.RailGuideBaseType = RAIL_GUIDE_BASE_FLAT
 
-        if not hasattr(obj,"TopWidth"):
-            obj.addProperty('App::PropertyLength', 'TopWidth', 'RocketComponent', translate('App::Property', 'Width of the top of the launch guide')).TopWidth = 9.462
+        if not hasattr(obj,"FlangeWidth"):
+            obj.addProperty('App::PropertyLength', 'FlangeWidth', 'RocketComponent', translate('App::Property', 'Width of the top of the launch guide')).FlangeWidth = 9.462
         if not hasattr(obj, 'MiddleWidth'):
             obj.addProperty('App::PropertyLength', 'MiddleWidth', 'RocketComponent', translate('App::Property', 'Width of the inside of the launch guide')).MiddleWidth = 6.2375
         if not hasattr(obj, 'BaseWidth'):
             obj.addProperty('App::PropertyLength', 'BaseWidth', 'RocketComponent', translate('App::Property', 'Width of the base or bottom of the launch guide')).BaseWidth = 15.0
-        if not hasattr(obj,"TopThickness"):
-            obj.addProperty('App::PropertyLength', 'TopThickness', 'RocketComponent', translate('App::Property', 'Thickness of the top part of the launch guide')).TopThickness = 2.096
-        if not hasattr(obj,"BaseThickness"):
-            obj.addProperty('App::PropertyLength', 'BaseThickness', 'RocketComponent', translate('App::Property', 'Thickness of the inside part of the launch guide')).BaseThickness = 3.429
-        if not hasattr(obj,"Thickness"):
-            obj.addProperty('App::PropertyLength', 'Thickness', 'RocketComponent', translate('App::Property', 'Total thickness of the launch guide')).Thickness = 7.62
+        if not hasattr(obj,"FlangeHeight"):
+            obj.addProperty('App::PropertyLength', 'FlangeHeight', 'RocketComponent', translate('App::Property', 'Height of the top part of the launch guide')).FlangeHeight = 2.096
+        if not hasattr(obj,"BaseHeight"):
+            obj.addProperty('App::PropertyLength', 'BaseHeight', 'RocketComponent', translate('App::Property', 'Height of the inside part of the launch guide')).BaseHeight = 3.429
+        if not hasattr(obj,"Height"):
+            obj.addProperty('App::PropertyLength', 'Height', 'RocketComponent', translate('App::Property', 'Total height of the launch guide')).Height = 7.62
         if not hasattr(obj,"Diameter"):
             obj.addProperty('App::PropertyLength', 'Diameter', 'RocketComponent', translate('App::Property', 'Diameter of the outside of the body tube for conformal base type')).Diameter = 24.79
         if not hasattr(obj, 'AutoDiameter'):
@@ -103,7 +104,35 @@ class FeatureRailGuide(ExternalComponent, AnglePositionable, BoxBounded, LineIns
 
         self._obj.Length = 20.0
 
+    def _migrate_from_3_0(self, obj):
+        _wrn("Rail guide migrating object from 3.0")
+
+        width = obj.TopWidth
+        top = obj.TopThickness
+        base = obj.BaseThickness
+        thickness = obj.Thickness
+        angle = obj.CountersinkAngle
+
+        obj.removeProperty("TopWidth")
+        obj.removeProperty("TopThickness")
+        obj.removeProperty("BaseThickness")
+        obj.removeProperty("Thickness")
+        obj.removeProperty("CountersinkAngle") # Enumeration values have changed
+
+        obj.Proxy = FeatureRailGuide(obj)
+        obj.Proxy._obj = obj
+
+        obj.TopWidth = width
+        obj.FlangeHeight = top
+        obj.BaseHeight = base
+        obj.Height = thickness
+        obj.CountersinkAngle = angle
+
     def onDocumentRestored(self, obj):
+        if hasattr(self, "TopWidth"):
+            self._migrate_from_3_0(obj)
+            return
+
         FeatureRailGuide(obj)
 
         self._obj = obj

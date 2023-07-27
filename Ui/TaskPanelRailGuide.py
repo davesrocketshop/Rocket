@@ -75,11 +75,11 @@ class _RailGuideDialog(QDialog):
         self.railGuideBaseTypeCombo = QtGui.QComboBox(self)
         self.railGuideBaseTypeCombo.addItems(self.railGuideBaseTypes)
 
-        self.topWidthLabel = QtGui.QLabel(translate('Rocket', "Top Width"), self)
+        self.flangeWidthLabel = QtGui.QLabel(translate('Rocket', "Flange Width"), self)
 
-        self.topWidthInput = ui.createWidget("Gui::InputField")
-        self.topWidthInput.unit = 'mm'
-        self.topWidthInput.setMinimumWidth(100)
+        self.flangeWidthInput = ui.createWidget("Gui::InputField")
+        self.flangeWidthInput.unit = 'mm'
+        self.flangeWidthInput.setMinimumWidth(100)
 
         self.middleWidthLabel = QtGui.QLabel(translate('Rocket', "Middle Width"), self)
 
@@ -93,23 +93,23 @@ class _RailGuideDialog(QDialog):
         self.baseWidthInput.unit = 'mm'
         self.baseWidthInput.setMinimumWidth(100)
 
-        self.topThicknessLabel = QtGui.QLabel(translate('Rocket', "Top Thickness"), self)
+        self.flangeHeightLabel = QtGui.QLabel(translate('Rocket', "Flange Height"), self)
 
-        self.topThicknessInput = ui.createWidget("Gui::InputField")
-        self.topThicknessInput.unit = 'mm'
-        self.topThicknessInput.setMinimumWidth(100)
+        self.flangeHeightInput = ui.createWidget("Gui::InputField")
+        self.flangeHeightInput.unit = 'mm'
+        self.flangeHeightInput.setMinimumWidth(100)
 
-        self.baseThicknessLabel = QtGui.QLabel(translate('Rocket', "Base Thickness"), self)
+        self.baseHeightLabel = QtGui.QLabel(translate('Rocket', "Base Height"), self)
 
-        self.baseThicknessInput = ui.createWidget("Gui::InputField")
-        self.baseThicknessInput.unit = 'mm'
-        self.baseThicknessInput.setMinimumWidth(100)
+        self.baseHeightInput = ui.createWidget("Gui::InputField")
+        self.baseHeightInput.unit = 'mm'
+        self.baseHeightInput.setMinimumWidth(100)
 
-        self.thicknessLabel = QtGui.QLabel(translate('Rocket', "Total Thickness"), self)
+        self.heightLabel = QtGui.QLabel(translate('Rocket', "Total Height"), self)
 
-        self.thicknessInput = ui.createWidget("Gui::InputField")
-        self.thicknessInput.unit = 'mm'
-        self.thicknessInput.setMinimumWidth(100)
+        self.heightInput = ui.createWidget("Gui::InputField")
+        self.heightInput.unit = 'mm'
+        self.heightInput.setMinimumWidth(100)
 
         self.lengthLabel = QtGui.QLabel(translate('Rocket', "Length"), self)
 
@@ -211,8 +211,8 @@ class _RailGuideDialog(QDialog):
         grid.addWidget(self.railGuideBaseTypeCombo, row, 1)
         row += 1
 
-        grid.addWidget(self.topWidthLabel, row, 0)
-        grid.addWidget(self.topWidthInput, row, 1)
+        grid.addWidget(self.flangeWidthLabel, row, 0)
+        grid.addWidget(self.flangeWidthInput, row, 1)
         row += 1
 
         grid.addWidget(self.middleWidthLabel, row, 0)
@@ -223,16 +223,16 @@ class _RailGuideDialog(QDialog):
         grid.addWidget(self.baseWidthInput, row, 1)
         row += 1
 
-        grid.addWidget(self.topThicknessLabel, row, 0)
-        grid.addWidget(self.topThicknessInput, row, 1)
+        grid.addWidget(self.flangeHeightLabel, row, 0)
+        grid.addWidget(self.flangeHeightInput, row, 1)
         row += 1
 
-        grid.addWidget(self.baseThicknessLabel, row, 0)
-        grid.addWidget(self.baseThicknessInput, row, 1)
+        grid.addWidget(self.baseHeightLabel, row, 0)
+        grid.addWidget(self.baseHeightInput, row, 1)
         row += 1
 
-        grid.addWidget(self.thicknessLabel, row, 0)
-        grid.addWidget(self.thicknessInput, row, 1)
+        grid.addWidget(self.heightLabel, row, 0)
+        grid.addWidget(self.heightInput, row, 1)
         row += 1
 
         grid.addWidget(self.lengthLabel, row, 0)
@@ -273,12 +273,12 @@ class TaskPanelRailGuide:
         
         self._btForm.railGuideBaseTypeCombo.currentTextChanged.connect(self.onRailGuideBaseType)
         
-        self._btForm.topWidthInput.textEdited.connect(self.onTopWidth)
+        self._btForm.flangeWidthInput.textEdited.connect(self.onFlangeWidth)
         self._btForm.middleWidthInput.textEdited.connect(self.onMiddleWidth)
         self._btForm.baseWidthInput.textEdited.connect(self.onBaseWidth)
-        self._btForm.topThicknessInput.textEdited.connect(self.onTopThickness)
-        self._btForm.baseThicknessInput.textEdited.connect(self.onBaseThickness)
-        self._btForm.thicknessInput.textEdited.connect(self.onThickness)
+        self._btForm.flangeHeightInput.textEdited.connect(self.onFlangeHeight)
+        self._btForm.baseHeightInput.textEdited.connect(self.onBaseHeight)
+        self._btForm.heightInput.textEdited.connect(self.onHeight)
         self._btForm.lengthInput.textEdited.connect(self.onLength)
         self._btForm.diameterInput.textEdited.connect(self.onDiameter)
         self._btForm.autoDiameterCheckbox.stateChanged.connect(self.onAutoDiameter)
@@ -302,12 +302,12 @@ class TaskPanelRailGuide:
     def transferTo(self):
         "Transfer from the dialog to the object" 
         self._obj.RailGuideBaseType = str(self._btForm.railGuideBaseTypeCombo.currentText())
-        self._obj.TopWidth = self._btForm.topWidthInput.text()
+        self._obj.FlangeWidth = self._btForm.flangeWidthInput.text()
         self._obj.MiddleWidth = self._btForm.middleWidthInput.text()
         self._obj.BaseWidth = self._btForm.baseWidthInput.text()
-        self._obj.TopThickness = self._btForm.topThicknessInput.text()
-        self._obj.BaseThickness = self._btForm.baseThicknessInput.text()
-        self._obj.Thickness = self._btForm.thicknessInput.text()
+        self._obj.FlangeHeight = self._btForm.flangeHeightInput.text()
+        self._obj.BaseHeight = self._btForm.baseHeightInput.text()
+        self._obj.Height = self._btForm.heightInput.text()
         self._obj.Length = self._btForm.lengthInput.text()
         self._obj.Diameter = self._btForm.diameterInput.text()
         self._obj.AutoDiameter = self._btForm.autoDiameterCheckbox.isChecked()
@@ -326,12 +326,12 @@ class TaskPanelRailGuide:
     def transferFrom(self):
         "Transfer from the object to the dialog"
         self._btForm.railGuideBaseTypeCombo.setCurrentText(self._obj.RailGuideBaseType)
-        self._btForm.topWidthInput.setText(self._obj.TopWidth.UserString)
+        self._btForm.flangeWidthInput.setText(self._obj.FlangeWidth.UserString)
         self._btForm.middleWidthInput.setText(self._obj.MiddleWidth.UserString)
         self._btForm.baseWidthInput.setText(self._obj.BaseWidth.UserString)
-        self._btForm.topThicknessInput.setText(self._obj.TopThickness.UserString)
-        self._btForm.baseThicknessInput.setText(self._obj.BaseThickness.UserString)
-        self._btForm.thicknessInput.setText(self._obj.Thickness.UserString)
+        self._btForm.flangeHeightInput.setText(self._obj.FlangeHeight.UserString)
+        self._btForm.baseHeightInput.setText(self._obj.BaseHeight.UserString)
+        self._btForm.heightInput.setText(self._obj.Height.UserString)
         self._btForm.lengthInput.setText(self._obj.Length.UserString)
         self._btForm.diameterInput.setText(self._obj.Diameter.UserString)
         self._btForm.autoDiameterCheckbox.setChecked(self._obj.AutoDiameter)
@@ -390,9 +390,9 @@ class TaskPanelRailGuide:
         self.redraw()
         self.setEdited()
 
-    def onTopWidth(self, value):
+    def onFlangeWidth(self, value):
         try:
-            self._obj.TopWidth = FreeCAD.Units.Quantity(value).Value
+            self._obj.FlangeWidth = FreeCAD.Units.Quantity(value).Value
             self.redraw()
         except ValueError:
             pass
@@ -414,25 +414,25 @@ class TaskPanelRailGuide:
             pass
         self.setEdited()
         
-    def onTopThickness(self, value):
+    def onFlangeHeight(self, value):
         try:
-            self._obj.TopThickness = FreeCAD.Units.Quantity(value).Value
+            self._obj.FlangeHeight = FreeCAD.Units.Quantity(value).Value
             self.redraw()
         except ValueError:
             pass
         self.setEdited()
         
-    def onBaseThickness(self, value):
+    def onBaseHeight(self, value):
         try:
-            self._obj.BaseThickness = FreeCAD.Units.Quantity(value).Value
+            self._obj.BaseHeight = FreeCAD.Units.Quantity(value).Value
             self.redraw()
         except ValueError:
             pass
         self.setEdited()
         
-    def onThickness(self, value):
+    def onHeight(self, value):
         try:
-            self._obj.Thickness = FreeCAD.Units.Quantity(value).Value
+            self._obj.Height = FreeCAD.Units.Quantity(value).Value
             self.redraw()
         except ValueError:
             pass

@@ -46,6 +46,7 @@ from Rocket.Constants import COUNTERSINK_ANGLE_60, COUNTERSINK_ANGLE_82, COUNTER
 
 
 from Rocket.ShapeHandlers.RailButtonShapeHandler import RailButtonShapeHandler
+from Rocket.Utilities import _wrn
 
 from DraftTools import translate
 
@@ -72,12 +73,12 @@ class FeatureRailButton(ExternalComponent, AnglePositionable, BoxBounded, LineIn
             obj.addProperty('App::PropertyLength', 'Diameter', 'RocketComponent', translate('App::Property', 'Diameter of the outside of the rail button')).Diameter = 9.462
         if not hasattr(obj, 'InnerDiameter'):
             obj.addProperty('App::PropertyLength', 'InnerDiameter', 'RocketComponent', translate('App::Property', 'Diameter of the inside of the rail button')).InnerDiameter = 6.2375
-        if not hasattr(obj,"TopThickness"):
-            obj.addProperty('App::PropertyLength', 'TopThickness', 'RocketComponent', translate('App::Property', 'Thickness of the outboard part of the rail button')).TopThickness = 2.096
-        if not hasattr(obj,"BaseThickness"):
-            obj.addProperty('App::PropertyLength', 'BaseThickness', 'RocketComponent', translate('App::Property', 'Thickness of the inside part of the rail button')).BaseThickness = 3.429
-        if not hasattr(obj,"Thickness"):
-            obj.addProperty('App::PropertyLength', 'Thickness', 'RocketComponent', translate('App::Property', 'Total thickness of the rail button')).Thickness = 7.62
+        if not hasattr(obj,"FlangeHeight"):
+            obj.addProperty('App::PropertyLength', 'FlangeHeight', 'RocketComponent', translate('App::Property', 'Height of the top part of the rail button')).FlangeHeight = 2.096
+        if not hasattr(obj,"BaseHeight"):
+            obj.addProperty('App::PropertyLength', 'BaseHeight', 'RocketComponent', translate('App::Property', 'Height of the bottom part of the rail button')).BaseHeight = 3.429
+        if not hasattr(obj,"Height"):
+            obj.addProperty('App::PropertyLength', 'Height', 'RocketComponent', translate('App::Property', 'Total height of the rail button')).Height = 7.62
 
         # Default fastener is a #6 screw
         if not hasattr(obj, 'Fastener'):
@@ -113,7 +114,32 @@ class FeatureRailButton(ExternalComponent, AnglePositionable, BoxBounded, LineIn
 
         self._obj.Length = 12.0
 
+    def _migrate_from_3_0(self, obj):
+        _wrn("Rail button migrating object from 3.0")
+
+        top = obj.TopThickness
+        base = obj.BaseThickness
+        thickness = obj.Thickness
+        angle = obj.CountersinkAngle
+
+        obj.removeProperty("TopThickness")
+        obj.removeProperty("BaseThickness")
+        obj.removeProperty("Thickness")
+        obj.removeProperty("CountersinkAngle") # Enumeration values have changed
+
+        obj.Proxy = FeatureRailButton(obj)
+        obj.Proxy._obj = obj
+
+        obj.FlangeHeight = top
+        obj.BaseHeight = base
+        obj.Height = thickness
+        obj.CountersinkAngle = angle
+
     def onDocumentRestored(self, obj):
+        if hasattr(self, "TopThickness"):
+            self._migrate_from_3_0(obj)
+            return
+            
         FeatureRailButton(obj)
 
         self._obj = obj

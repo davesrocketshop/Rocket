@@ -97,23 +97,23 @@ class _RailButtonDialog(QDialog):
         self.idInput.unit = 'mm'
         self.idInput.setMinimumWidth(100)
 
-        self.topThicknessLabel = QtGui.QLabel(translate('Rocket', "Top Thickness"), self)
+        self.flangeHeightLabel = QtGui.QLabel(translate('Rocket', "Flange Height"), self)
 
-        self.topThicknessInput = ui.createWidget("Gui::InputField")
-        self.topThicknessInput.unit = 'mm'
-        self.topThicknessInput.setMinimumWidth(100)
+        self.flangeHeightInput = ui.createWidget("Gui::InputField")
+        self.flangeHeightInput.unit = 'mm'
+        self.flangeHeightInput.setMinimumWidth(100)
 
-        self.baseThicknessLabel = QtGui.QLabel(translate('Rocket', "Base Thickness"), self)
+        self.baseHeightLabel = QtGui.QLabel(translate('Rocket', "Base Height"), self)
 
-        self.baseThicknessInput = ui.createWidget("Gui::InputField")
-        self.baseThicknessInput.unit = 'mm'
-        self.baseThicknessInput.setMinimumWidth(100)
+        self.baseHeightInput = ui.createWidget("Gui::InputField")
+        self.baseHeightInput.unit = 'mm'
+        self.baseHeightInput.setMinimumWidth(100)
 
-        self.thicknessLabel = QtGui.QLabel(translate('Rocket', "Total Thickness"), self)
+        self.heightLabel = QtGui.QLabel(translate('Rocket', "Total Height"), self)
 
-        self.thicknessInput = ui.createWidget("Gui::InputField")
-        self.thicknessInput.unit = 'mm'
-        self.thicknessInput.setMinimumWidth(100)
+        self.heightInput = ui.createWidget("Gui::InputField")
+        self.heightInput.unit = 'mm'
+        self.heightInput.setMinimumWidth(100)
 
         self.lengthLabel = QtGui.QLabel(translate('Rocket', "Length"), self)
 
@@ -214,16 +214,16 @@ class _RailButtonDialog(QDialog):
         grid.addWidget(self.idInput, row, 1)
         row += 1
 
-        grid.addWidget(self.topThicknessLabel, row, 0)
-        grid.addWidget(self.topThicknessInput, row, 1)
+        grid.addWidget(self.flangeHeightLabel, row, 0)
+        grid.addWidget(self.flangeHeightInput, row, 1)
         row += 1
 
-        grid.addWidget(self.baseThicknessLabel, row, 0)
-        grid.addWidget(self.baseThicknessInput, row, 1)
+        grid.addWidget(self.baseHeightLabel, row, 0)
+        grid.addWidget(self.baseHeightInput, row, 1)
         row += 1
 
-        grid.addWidget(self.thicknessLabel, row, 0)
-        grid.addWidget(self.thicknessInput, row, 1)
+        grid.addWidget(self.heightLabel, row, 0)
+        grid.addWidget(self.heightInput, row, 1)
         row += 1
 
         grid.addWidget(self.lengthLabel, row, 0)
@@ -255,9 +255,9 @@ class TaskPanelRailButton:
         
         self._btForm.odInput.textEdited.connect(self.onOd)
         self._btForm.idInput.textEdited.connect(self.onId)
-        self._btForm.topThicknessInput.textEdited.connect(self.onTopThickness)
-        self._btForm.baseThicknessInput.textEdited.connect(self.onBaseThickness)
-        self._btForm.thicknessInput.textEdited.connect(self.onThickness)
+        self._btForm.flangeHeightInput.textEdited.connect(self.onFlangeHeight)
+        self._btForm.baseHeightInput.textEdited.connect(self.onBaseHeight)
+        self._btForm.heightInput.textEdited.connect(self.onHeight)
         self._btForm.lengthInput.textEdited.connect(self.onLength)
 
         self._btForm.fastenerGroup.toggled.connect(self.onFastener)
@@ -283,9 +283,9 @@ class TaskPanelRailButton:
         self._obj.RailButtonType = str(self._btForm.railButtonTypeCombo.currentText())
         self._obj.Diameter = self._btForm.odInput.text()
         self._obj.InnerDiameter = self._btForm.idInput.text()
-        self._obj.TopThickness = self._btForm.topThicknessInput.text()
-        self._obj.BaseThickness = self._btForm.baseThicknessInput.text()
-        self._obj.Thickness = self._btForm.thicknessInput.text()
+        self._obj.FlangeHeight = self._btForm.flangeHeightInput.text()
+        self._obj.BaseHeight = self._btForm.baseHeightInput.text()
+        self._obj.Height = self._btForm.heightInput.text()
         self._obj.Length = self._btForm.lengthInput.text()
 
         self._obj.Fastener = self._btForm.fastenerGroup.isChecked()
@@ -304,9 +304,9 @@ class TaskPanelRailButton:
         self._btForm.railButtonTypeCombo.setCurrentText(self._obj.RailButtonType)
         self._btForm.odInput.setText(self._obj.Diameter.UserString)
         self._btForm.idInput.setText(self._obj.InnerDiameter.UserString)
-        self._btForm.topThicknessInput.setText(self._obj.TopThickness.UserString)
-        self._btForm.baseThicknessInput.setText(self._obj.BaseThickness.UserString)
-        self._btForm.thicknessInput.setText(self._obj.Thickness.UserString)
+        self._btForm.flangeHeightInput.setText(self._obj.FlangeHeight.UserString)
+        self._btForm.baseHeightInput.setText(self._obj.BaseHeight.UserString)
+        self._btForm.heightInput.setText(self._obj.Height.UserString)
         self._btForm.lengthInput.setText(self._obj.Length.UserString)
 
         self._btForm.fastenerGroup.setChecked(self._obj.Fastener)
@@ -365,25 +365,25 @@ class TaskPanelRailButton:
             pass
         self.setEdited()
         
-    def onTopThickness(self, value):
+    def onFlangeHeight(self, value):
         try:
-            self._obj.TopThickness = FreeCAD.Units.Quantity(value).Value
+            self._obj.FlangeHeight = FreeCAD.Units.Quantity(value).Value
             self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
         self.setEdited()
         
-    def onBaseThickness(self, value):
+    def onBaseHeight(self, value):
         try:
-            self._obj.BaseThickness = FreeCAD.Units.Quantity(value).Value
+            self._obj.BaseHeight = FreeCAD.Units.Quantity(value).Value
             self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
         self.setEdited()
         
-    def onThickness(self, value):
+    def onHeight(self, value):
         try:
-            self._obj.Thickness = FreeCAD.Units.Quantity(value).Value
+            self._obj.Height = FreeCAD.Units.Quantity(value).Value
             self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
@@ -511,9 +511,9 @@ class TaskPanelRailButton:
         self._obj.RailButtonType = str(RAIL_BUTTON_ROUND)
         self._obj.Diameter = _valueOnly(result["outer_diameter"], result["outer_diameter_units"])
         self._obj.InnerDiameter = _valueOnly(result["inner_diameter"], result["inner_diameter_units"])
-        self._obj.TopThickness = _valueOnly(result["flange_height"], result["flange_height_units"])
-        self._obj.BaseThickness = _valueOnly(result["base_height"], result["base_height_units"])
-        self._obj.Thickness = _valueOnly(result["height"], result["height_units"])
+        self._obj.FlangeHeight = _valueOnly(result["flange_height"], result["flange_height_units"])
+        self._obj.BaseHeight = _valueOnly(result["base_height"], result["base_height_units"])
+        self._obj.Height = _valueOnly(result["height"], result["height_units"])
         self._obj.ShankDiameter =  _valueOnly(result["screw_diameter"], result["screw_diameter_units"])
         self._obj.HeadDiameter =  _valueOnly(result["countersink_diameter"], result["countersink_diameter_units"])
         self._obj.CountersinkAngle =  _valueOnly(result["countersink_angle"], "deg")
