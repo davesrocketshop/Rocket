@@ -102,7 +102,10 @@ class RailButton(Component):
                             self._screwHeight[0], self._screwHeight[1],
                             self._dragCoefficient[0],
                             self._screwMass[0], self._screwMass[1],
-                            self._nutMass[0], self._nutMass[1]))
+                            self._nutMass[0], self._nutMass[1],
+                            self._screwDiameter[0], self._screwDiameter[1],
+                            self._countersinkDiameter[0], self._countersinkDiameter[1],
+                            self._countersinkAngle[0]))
         id = cursor.lastrowid
 
         connection.commit()

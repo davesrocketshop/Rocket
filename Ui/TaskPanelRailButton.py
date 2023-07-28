@@ -504,6 +504,23 @@ class TaskPanelRailButton:
         except ValueError:
             pass
         self.setEdited()
+
+    def getCountersinkAngle(self, angleString):
+        angle = int(angleString)
+        if angle == 60:
+            return COUNTERSINK_ANGLE_60
+        if angle == 82:
+            return COUNTERSINK_ANGLE_82
+        if angle == 90:
+            return COUNTERSINK_ANGLE_90
+        if angle == 100:
+            return COUNTERSINK_ANGLE_100
+        if angle == 110:
+            return COUNTERSINK_ANGLE_110
+        if angle == 120:
+            return COUNTERSINK_ANGLE_120
+        return COUNTERSINK_ANGLE_NONE
+
         
     def onLookup(self):
         result = self._db.getLookupResult()
@@ -516,7 +533,7 @@ class TaskPanelRailButton:
         self._obj.Height = _valueOnly(result["height"], result["height_units"])
         self._obj.ShankDiameter =  _valueOnly(result["screw_diameter"], result["screw_diameter_units"])
         self._obj.HeadDiameter =  _valueOnly(result["countersink_diameter"], result["countersink_diameter_units"])
-        self._obj.CountersinkAngle =  _valueOnly(result["countersink_angle"], "deg")
+        self._obj.CountersinkAngle =  self.getCountersinkAngle(result["countersink_angle"])
         self._obj.Fastener = (self._obj.ShankDiameter > 0)
 
         self.update()

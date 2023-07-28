@@ -82,7 +82,7 @@ class Material:
             if row['density'] == self._density and row['units'] == self._units:
                 return row['material_index']
 
-            raise MultipleEntryError("Material database contains multiple entries for material_name:'%s', type:'%s'" % (self._name, self._type))
+            raise MultipleEntryError("Material database contains multiple entries for manufacturer:'%s' material_name:'%s', type:'%s'" % (self._manufacturer, self._name, self._type))
 
         cursor.execute("INSERT INTO material(manufacturer, material_name, type, density, units) VALUES (:manufacturer,:name,:type,:density,:units)",
                             {"manufacturer" : self._manufacturer,

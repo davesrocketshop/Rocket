@@ -127,8 +127,8 @@ class MaterialsElement(Element):
                                 'components' : ComponentsElement
                               }
 
-    def validChildren(self):
-        return ['material']
+    # def validChildren(self):
+    #     return ['material']
 
 class MaterialElement(Element):
 
@@ -226,9 +226,11 @@ class MaterialElement(Element):
         try:
             obj.validate()
             obj.persist(self._connection)
-        except (InvalidError, MultipleEntryError) as e:
+        except InvalidError as e:
             print("Error in %s at line %s" % (self._filename, str(self._line)))
-            #print ("Invalid %s: name %s %s" % (self.__class__.__name__, e._name, e._message))
+            # print ("Invalid %s: name %s %s" % (self.__class__.__name__, e._name, e._message))
+        except MultipleEntryError:
+            pass
 
     def end(self):
         obj = Material()
@@ -780,7 +782,8 @@ class RailButtonElement(ComponentElement):
         super().__init__(parent, tag, attributes, connection, filename, line)
 
         self._knownTags = self._knownTags + ["finish", "outerdiameter", "innerdiameter", "height", "baseheight", 
-            "flangeheight", "screwheight", "dragcoefficient", "screwmass", "nutmass"]
+            "flangeheight", "screwheight", "dragcoefficient", "screwmass", "nutmass", "screwdiameter", "countersinkdiameter",
+            "countersinkangle"]
 
         self._finish = ""
 
