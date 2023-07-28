@@ -30,6 +30,15 @@ Again, restart FC to use the latest changes.
 
 </details>
 
+## Materials
+
+Materials are supported by all rocket workbench parts, but the core product support isn't currently up to the task. This will be improved in upcoming releases. For versions 0.20 and earlier you must apply a work around to see all the rocket materials.
+
+1. Load the Rocket Workbench. The necessary preferences will not be available until the workbench has been loaded.
+2. From the "Edit" select "Preferences...'. In the left hand column select the FEM Workbench.
+3. Select the "Material" tab at the top.
+4. Check the "Use materials from user defined directory". Set the directory to your user directory. For example, on Windows this would be "C:\Users\username\AppData\Roaming\FreeCAD\Mod\Rocket\Resources\Material"
+
 ## Internationalization
 
 This workbench has been written with multiple language support. If you are willing to provide a translation to your native language please open an issue and we'll work to get that done.

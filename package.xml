@@ -3,7 +3,7 @@
   <name>Rocket</name>
   <description>A workbench for designing model rockets.</description>
   <version>3.2.0</version>
-  <date>2023-07-27</date>
+  <date>2023-07-28</date>
   <maintainer email="dcarter@davidcarter.ca">David Carter</maintainer>
   <license file="LICENSE">LGPLv2.1</license>
   <url type="repository" branch="master">https://github.com/davesrocketshop/Rocket</url>

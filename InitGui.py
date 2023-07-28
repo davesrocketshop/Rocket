@@ -64,7 +64,8 @@ class RocketWorkbench ( Workbench ):
         # self.appendToolbar(QT_TRANSLATE_NOOP('Rocket', 'Rocket'),
         #                 ['Separator', 'Rocket_ParachuteGore'])
         self.appendToolbar(QT_TRANSLATE_NOOP('Rocket', 'Rocket'),
-                        ['Separator', 'Rocket_FinFlutter', 'Rocket_FemAnalysis', 'FEM_MeshGmshFromShape', "Rocket_MaterialEditor", 'Rocket_MaterialMapping'])
+                        # ['Separator', 'Rocket_FinFlutter', 'Rocket_FemAnalysis', 'FEM_MeshGmshFromShape', "Rocket_MaterialEditor", 'Rocket_MaterialMapping'])
+                        ['Separator', 'Rocket_FinFlutter', "Rocket_MaterialEditor"])
 
         self.appendMenu(QT_TRANSLATE_NOOP('Rocket', 'Rocket'), 
                         ['Rocket_Rocket', 'Rocket_Stage', 'Rocket_ParallelStage', 'Rocket_Pod', 'Rocket_NoseCone', 'Rocket_Transition', 'Rocket_BodyTube', 'Rocket_InnerTube', 'Rocket_Coupler', 'Rocket_EngineBlock', 
@@ -78,7 +79,8 @@ class RocketWorkbench ( Workbench ):
                         ['Rocket_CalcBlackPowder', 'Rocket_CalcParachute', 'Rocket_CalcThrustToWeight', 'Rocket_CalcVentHoles'])
         self.appendMenu([QT_TRANSLATE_NOOP("Rocket", "Rocket"),
                          QT_TRANSLATE_NOOP("Rocket", "Analysis")],
-                        ['Rocket_FinFlutter', 'Rocket_FemAnalysis', 'FEM_MeshGmshFromShape', "Rocket_MaterialEditor", 'Rocket_MaterialMapping'])
+                        # ['Rocket_FinFlutter', 'Rocket_FemAnalysis', 'FEM_MeshGmshFromShape', "Rocket_MaterialEditor", 'Rocket_MaterialMapping'])
+                        ['Rocket_FinFlutter', "Rocket_MaterialEditor"])
 
     def GetClassName(self):
         return "Gui::PythonWorkbench"
