@@ -87,8 +87,8 @@
 			<NutMass Unit="g"></NutMass>		
 			<!-- Additional parameters not part of OpenRocket -->
 			<ScrewDiameter Unit="in">0.101</ScrewDiameter>
-			<CountersinkDiameter Unit="in">0.219</CountersinkDiameter>
-			<CountersinkAngle>82</CountersinkAngle>
+			<CountersinkDiameter Unit="in">0</CountersinkDiameter>
+			<CountersinkAngle>0</CountersinkAngle>
 		</RailButton>			
 					
 		 <RailButton>			
