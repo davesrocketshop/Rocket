@@ -78,14 +78,11 @@ class DialogParachute(QDialog):
         self.velocityInput.setMinimumWidth(100)
         self.velocityInput.textEdited.connect(self.onVelocity)
 
-        self.velocityTypes = (
-            VELOCITY_CUSTOM,
-            VELOCITY_DROGUE,
-            VELOCITY_MAIN
-        )
         self.velocityCombo = QtGui.QComboBox(self)
-        self.velocityCombo.addItems(self.velocityTypes)
-        self.velocityCombo.setCurrentText(VELOCITY_MAIN)
+        self.velocityCombo.addItem(translate('Rocket', VELOCITY_CUSTOM), VELOCITY_CUSTOM)
+        self.velocityCombo.addItem(translate('Rocket', VELOCITY_DROGUE), VELOCITY_DROGUE)
+        self.velocityCombo.addItem(translate('Rocket', VELOCITY_MAIN), VELOCITY_MAIN)
+        self.velocityCombo.setCurrentText(translate('Rocket', VELOCITY_MAIN))
         self.velocityCombo.currentTextChanged.connect(self.onVelocityCombo)
 
         self.dragLabel = QtGui.QLabel(translate('Rocket', "Drag Coefficient"), self)
@@ -95,16 +92,13 @@ class DialogParachute(QDialog):
         self.dragInput.setMinimumWidth(100)
         self.dragInput.textEdited.connect(self.onDrag)
 
-        self.dragShapes = (
-            DRAG_CUSTOM,
-            DRAG_DOME,
-            DRAG_ROUND,
-            DRAG_HEX,
-            DRAG_SQUARE
-        )
         self.dragCombo = QtGui.QComboBox(self)
-        self.dragCombo.addItems(self.dragShapes)
-        self.dragCombo.setCurrentText(DRAG_ROUND)
+        self.dragCombo.addItem(translate('Rocket', DRAG_CUSTOM), DRAG_CUSTOM)
+        self.dragCombo.addItem(translate('Rocket', DRAG_DOME), DRAG_DOME)
+        self.dragCombo.addItem(translate('Rocket', DRAG_ROUND), DRAG_ROUND)
+        self.dragCombo.addItem(translate('Rocket', DRAG_HEX), DRAG_HEX)
+        self.dragCombo.addItem(translate('Rocket', DRAG_SQUARE), DRAG_SQUARE)
+        self.dragCombo.setCurrentText(translate('Rocket', DRAG_ROUND))
         self.dragCombo.currentTextChanged.connect(self.onDragCombo)
 
         self.diameterLabel = QtGui.QLabel(translate('Rocket', "Diameter"), self)
@@ -167,7 +161,7 @@ class DialogParachute(QDialog):
         rho = 1.22 # air density, average at sea level in kg/m^3 at 15C
         g = 9.807 # gravity in m/s^2, standard model at sea level on 45 latitude
         A = float(2*M*g)/(rho*V**2*Cd) # Calculate nominal surface area (So)
-        shape = self.dragCombo.currentText()
+        shape = self.dragCombo.currentData()
         if shape == DRAG_HEX:
             D = math.sqrt(2.0 * A / math.sqrt(3.0))
         elif shape == DRAG_SQUARE:
@@ -179,39 +173,41 @@ class DialogParachute(QDialog):
 
     def onWeight(self, value):
         try:
-            self.weightInput.setText(value)
+            # self.weightInput.setText(value)
             self._calcDiameter()
         except ValueError:
             pass
 
     def onVelocity(self, value):
         try:
-            self.velocityInput.setText(value)
-            self.velocityCombo.setCurrentText(VELOCITY_CUSTOM)
+            # self.velocityInput.setText(value)
+            self.velocityCombo.setCurrentIndex(self.velocityCombo.findData(VELOCITY_CUSTOM))
             self._calcDiameter()
         except ValueError:
             pass
 
     def onVelocityCombo(self, value):
-        if value == VELOCITY_DROGUE:
+        data = self.velocityCombo.currentData()
+        if data == VELOCITY_DROGUE:
             self.velocityInput.setText("19.8 m/s")
-        elif value == VELOCITY_MAIN:
+        elif data == VELOCITY_MAIN:
             self.velocityInput.setText("6.1 m/s")
         self._calcDiameter()
 
 
     def onDrag(self, value):
         try:
-            self.dragInput.setText(value)
-            self.dragCombo.setCurrentText(DRAG_CUSTOM)
+            # self.dragInput.setText(value)
+            self.dragCombo.setCurrentIndex(self.dragCombo.findData(DRAG_CUSTOM))
             self._calcDiameter()
         except ValueError:
             pass
 
     def onDragCombo(self, value):
-        if value == DRAG_DOME:
+        data = self.dragCombo.currentData()
+        if data == DRAG_DOME:
             self.dragInput.setText("1.5")
-        elif value in [DRAG_ROUND, DRAG_HEX, DRAG_SQUARE]:
+        elif data in [DRAG_ROUND, DRAG_HEX, DRAG_SQUARE]:
             self.dragInput.setText("0.75")
         self._calcDiameter()
 

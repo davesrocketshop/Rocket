@@ -94,14 +94,11 @@ class _FinCanDialog(QDialog):
         # Select the type of fin
         self.finTypeLabel = QtGui.QLabel(translate('Rocket', "Fin type"), self)
 
-        self.finTypes = (FIN_TYPE_TRAPEZOID,
-            FIN_TYPE_TRIANGLE,
-            FIN_TYPE_ELLIPSE, 
-            #FIN_TYPE_TUBE,
-            FIN_TYPE_SKETCH,
-            )
         self.finTypesCombo = QtGui.QComboBox(self)
-        self.finTypesCombo.addItems(self.finTypes)
+        self.finTypesCombo.addItem(translate('Rocket', FIN_TYPE_TRAPEZOID), FIN_TYPE_TRAPEZOID)
+        self.finTypesCombo.addItem(translate('Rocket', FIN_TYPE_TRIANGLE), FIN_TYPE_TRIANGLE)
+        self.finTypesCombo.addItem(translate('Rocket', FIN_TYPE_ELLIPSE), FIN_TYPE_ELLIPSE)
+        self.finTypesCombo.addItem(translate('Rocket', FIN_TYPE_SKETCH), FIN_TYPE_SKETCH)
 
         self.finSetGroup = QtGui.QGroupBox(translate('Rocket', "Fin Set"), self)
         
@@ -130,12 +127,21 @@ class _FinCanDialog(QDialog):
         # Select the type of cross section
         self.rootCrossSectionLabel = QtGui.QLabel(translate('Rocket', "Cross Section"), self)
 
-        self.rootCrossSections = (FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_ELLIPSE, FIN_CROSS_BICONVEX, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE,
-            FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE)
-        self.rootEllipseCrossSections = (FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_ELLIPSE, FIN_CROSS_BICONVEX, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE,
-            FIN_CROSS_TAPER_LETE)
+        # self.rootCrossSections = (FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_ELLIPSE, FIN_CROSS_BICONVEX, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE,
+        #     FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE)
+        # self.rootEllipseCrossSections = (FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_ELLIPSE, FIN_CROSS_BICONVEX, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE,
+        #     FIN_CROSS_TAPER_LETE)
         self.rootCrossSectionsCombo = QtGui.QComboBox(self)
-        self.rootCrossSectionsCombo.addItems(self.rootCrossSections)
+        self.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_SQUARE), FIN_CROSS_SQUARE)
+        self.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_ROUND), FIN_CROSS_ROUND)
+        self.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_ELLIPSE), FIN_CROSS_ELLIPSE)
+        self.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_BICONVEX), FIN_CROSS_BICONVEX)
+        self.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_AIRFOIL), FIN_CROSS_AIRFOIL)
+        self.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_WEDGE), FIN_CROSS_WEDGE)
+        self.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_DIAMOND), FIN_CROSS_DIAMOND)
+        self.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_TAPER_LE), FIN_CROSS_TAPER_LE)
+        self.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_TAPER_TE), FIN_CROSS_TAPER_TE)
+        self.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_TAPER_LETE), FIN_CROSS_TAPER_LETE)
 
         # Get the fin parameters: length, width, etc...
         self.rootChordLabel = QtGui.QLabel(translate('Rocket', "Chord"), self)
@@ -172,10 +178,20 @@ class _FinCanDialog(QDialog):
         # Select the type of cross section
         self.tipCrossSectionLabel = QtGui.QLabel(translate('Rocket', "Cross Section"), self)
 
-        self.tipCrossSections = (FIN_CROSS_SAME, FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_ELLIPSE, FIN_CROSS_BICONVEX, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE,
-            FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE)
+        # self.tipCrossSections = (FIN_CROSS_SAME, FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_ELLIPSE, FIN_CROSS_BICONVEX, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE,
+        #     FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE)
         self.tipCrossSectionsCombo = QtGui.QComboBox(self)
-        self.tipCrossSectionsCombo.addItems(self.tipCrossSections)
+        self.tipCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_SAME), FIN_CROSS_SAME)
+        self.tipCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_SQUARE), FIN_CROSS_SQUARE)
+        self.tipCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_ROUND), FIN_CROSS_ROUND)
+        self.tipCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_ELLIPSE), FIN_CROSS_ELLIPSE)
+        self.tipCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_BICONVEX), FIN_CROSS_BICONVEX)
+        self.tipCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_AIRFOIL), FIN_CROSS_AIRFOIL)
+        self.tipCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_WEDGE), FIN_CROSS_WEDGE)
+        self.tipCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_DIAMOND), FIN_CROSS_DIAMOND)
+        self.tipCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_TAPER_LE), FIN_CROSS_TAPER_LE)
+        self.tipCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_TAPER_TE), FIN_CROSS_TAPER_TE)
+        self.tipCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_TAPER_LETE), FIN_CROSS_TAPER_LETE)
 
         self.tipChordLabel = QtGui.QLabel(translate('Rocket', "Chord"), self)
 
@@ -372,10 +388,11 @@ class _FinCanDialog(QDialog):
 
         self.canLeadingLabel = QtGui.QLabel(translate('Rocket', "Edge Style"), self)
 
-        self.canEdges = (FINCAN_EDGE_SQUARE, FINCAN_EDGE_ROUND, FINCAN_EDGE_TAPER)
         self.canLeadingCombo = QtGui.QComboBox(self)
-        self.canLeadingCombo.addItems(self.canEdges)
-
+        self.canLeadingCombo.addItem(translate('Rocket', FINCAN_EDGE_SQUARE), FINCAN_EDGE_SQUARE)
+        self.canLeadingCombo.addItem(translate('Rocket', FINCAN_EDGE_ROUND), FINCAN_EDGE_ROUND)
+        self.canLeadingCombo.addItem(translate('Rocket', FINCAN_EDGE_TAPER), FINCAN_EDGE_TAPER)
+ 
         self.canLeadingLengthLabel = QtGui.QLabel(translate('Rocket', "Length"), self)
 
         self.canLeadingLengthInput = ui.createWidget("Gui::InputField")
@@ -387,8 +404,10 @@ class _FinCanDialog(QDialog):
         self.canTrailingLabel = QtGui.QLabel(translate('Rocket', "Edge Style"), self)
 
         self.canTrailingCombo = QtGui.QComboBox(self)
-        self.canTrailingCombo.addItems(self.canEdges)
-
+        self.canTrailingCombo.addItem(translate('Rocket', FINCAN_EDGE_SQUARE), FINCAN_EDGE_SQUARE)
+        self.canTrailingCombo.addItem(translate('Rocket', FINCAN_EDGE_ROUND), FINCAN_EDGE_ROUND)
+        self.canTrailingCombo.addItem(translate('Rocket', FINCAN_EDGE_TAPER), FINCAN_EDGE_TAPER)
+ 
         self.canTrailingLengthLabel = QtGui.QLabel(translate('Rocket', "Length"), self)
 
         self.canTrailingLengthInput = ui.createWidget("Gui::InputField")
@@ -527,9 +546,11 @@ class _FinCanDialog(QDialog):
 
         self.lugInnerDiameterPresetLabel = QtGui.QLabel(translate('Rocket', "Presets"), self)
 
-        self.lugPresets = (FINCAN_PRESET_CUSTOM, FINCAN_PRESET_1_8, FINCAN_PRESET_3_16, FINCAN_PRESET_1_4)
         self.lugPresetsCombo = QtGui.QComboBox(self)
-        self.lugPresetsCombo.addItems(self.lugPresets)
+        self.lugPresetsCombo.addItem(translate('Rocket', FINCAN_PRESET_CUSTOM), FINCAN_PRESET_CUSTOM)
+        self.lugPresetsCombo.addItem(translate('Rocket', FINCAN_PRESET_1_8), FINCAN_PRESET_1_8)
+        self.lugPresetsCombo.addItem(translate('Rocket', FINCAN_PRESET_3_16), FINCAN_PRESET_3_16)
+        self.lugPresetsCombo.addItem(translate('Rocket', FINCAN_PRESET_1_4), FINCAN_PRESET_1_4)
 
         self.lugThicknessLabel = QtGui.QLabel(translate('Rocket', "Thickness"), self)
 
@@ -733,20 +754,20 @@ class TaskPanelFinCan(QObject):
         
     def transferTo(self):
         "Transfer from the dialog to the object" 
-        self._obj.FinType = str(self._finForm.finTypesCombo.currentText())
+        self._obj.FinType = str(self._finForm.finTypesCombo.currentData())
         
         self._obj.FinCount = self._finForm.finCountSpinBox.value()
         self._obj.FinSpacing = self._finForm.finSpacingInput.text()
         self._obj.Cant = self._finForm.finCantInput.text()
 
-        self._obj.RootCrossSection = str(self._finForm.rootCrossSectionsCombo.currentText())
+        self._obj.RootCrossSection = str(self._finForm.rootCrossSectionsCombo.currentData())
         self._obj.RootChord = self._finForm.rootChordInput.text()
         self._obj.RootThickness = self._finForm.rootThicknessInput.text()
         self._obj.RootPerCent = self._finForm.rootPerCentCheckbox.isChecked()
         self._obj.RootLength1 = self._finForm.rootLength1Input.text()
         self._obj.RootLength2 = self._finForm.rootLength2Input.text()
 
-        self._obj.TipCrossSection = str(self._finForm.tipCrossSectionsCombo.currentText())
+        self._obj.TipCrossSection = str(self._finForm.tipCrossSectionsCombo.currentData())
         self._obj.TipChord = self._finForm.tipChordInput.text()
         self._obj.TipThickness = self._finForm.tipThicknessInput.text()
         self._obj.TipSameThickness = self._finForm.tipSameThicknessCheckbox.isChecked()
@@ -764,9 +785,9 @@ class TaskPanelFinCan(QObject):
         self._obj.Length = self._finForm.canLengthInput.text()
         self._obj.LeadingEdgeOffset = self._finForm.canLeadingOffsetInput.text()
 
-        self._obj.LeadingEdge = str(self._finForm.canLeadingCombo.currentText())
+        self._obj.LeadingEdge = str(self._finForm.canLeadingCombo.currentData())
         self._obj.LeadingLength = self._finForm.canLeadingLengthInput.text()
-        self._obj.TrailingEdge = str(self._finForm.canTrailingCombo.currentText())
+        self._obj.TrailingEdge = str(self._finForm.canTrailingCombo.currentData())
         self._obj.TrailingLength = self._finForm.canTrailingLengthInput.text()
 
         self._obj.Coupler = self._finForm.couplerGroup.isChecked()
@@ -778,7 +799,7 @@ class TaskPanelFinCan(QObject):
 
         self._obj.LaunchLug = self._finForm.lugGroup.isChecked()
         self._obj.LugInnerDiameter = self._finForm.lugInnerDiameterInput.text()
-        self._obj.LaunchLugPreset = str(self._finForm.lugPresetsCombo.currentText())
+        self._obj.LaunchLugPreset = str(self._finForm.lugPresetsCombo.currentData())
         self._obj.LugThickness = self._finForm.lugThicknessInput.text()
         self._obj.LugAutoThickness = self._finForm.lugAutoThicknessCheckbox.isChecked()
         self._obj.LugLength = self._finForm.lugLengthInput.text()
@@ -796,20 +817,20 @@ class TaskPanelFinCan(QObject):
 
     def transferFrom(self):
         "Transfer from the object to the dialog"
-        self._finForm.finTypesCombo.setCurrentText(self._obj.FinType)
+        self._finForm.finTypesCombo.setCurrentIndex(self._finForm.finTypesCombo.findData(self._obj.FinType))
 
         self._finForm.finCountSpinBox.setValue(self._obj.FinCount)
         self._finForm.finSpacingInput.setText(self._obj.FinSpacing.UserString)
         self._finForm.finCantInput.setText(self._obj.Cant.UserString)
 
-        self._finForm.rootCrossSectionsCombo.setCurrentText(self._obj.RootCrossSection)
+        self._finForm.rootCrossSectionsCombo.setCurrentIndex(self._finForm.rootCrossSectionsCombo.findData(self._obj.RootCrossSection))
         self._finForm.rootChordInput.setText(self._obj.RootChord.UserString)
         self._finForm.rootThicknessInput.setText(self._obj.RootThickness.UserString)
         self._finForm.rootPerCentCheckbox.setChecked(self._obj.RootPerCent)
         self._finForm.rootLength1Input.setText(self._obj.RootLength1.UserString)
         self._finForm.rootLength2Input.setText(self._obj.RootLength2.UserString)
 
-        self._finForm.tipCrossSectionsCombo.setCurrentText(self._obj.TipCrossSection)
+        self._finForm.tipCrossSectionsCombo.setCurrentIndex(self._finForm.tipCrossSectionsCombo.findData(self._obj.TipCrossSection))
         self._finForm.tipChordInput.setText(self._obj.TipChord.UserString)
         self._finForm.tipThicknessInput.setText(self._obj.TipThickness.UserString)
         self._finForm.tipSameThicknessCheckbox.setChecked(self._obj.TipSameThickness)
@@ -827,9 +848,9 @@ class TaskPanelFinCan(QObject):
         self._finForm.canLengthInput.setText(self._obj.Length.UserString)
         self._finForm.canLeadingOffsetInput.setText(self._obj.LeadingEdgeOffset.UserString)
 
-        self._finForm.canLeadingCombo.setCurrentText(self._obj.LeadingEdge)
+        self._finForm.canLeadingCombo.setCurrentIndex(self._finForm.canLeadingCombo.findData(self._obj.LeadingEdge))
         self._finForm.canLeadingLengthInput.setText(self._obj.LeadingLength.UserString)
-        self._finForm.canTrailingCombo.setCurrentText(self._obj.TrailingEdge)
+        self._finForm.canTrailingCombo.setCurrentIndex(self._finForm.canTrailingCombo.findData(self._obj.TrailingEdge))
         self._finForm.canTrailingLengthInput.setText(self._obj.TrailingLength.UserString)
 
         self._finForm.couplerGroup.setChecked(self._obj.Coupler)
@@ -841,7 +862,7 @@ class TaskPanelFinCan(QObject):
 
         self._finForm.lugGroup.setChecked(self._obj.LaunchLug)
         self._finForm.lugInnerDiameterInput.setText(self._obj.LugInnerDiameter.UserString)
-        self._finForm.lugPresetsCombo.setCurrentText(self._obj.LaunchLugPreset)
+        self._finForm.lugPresetsCombo.setCurrentIndex(self._finForm.lugPresetsCombo.findData(self._obj.LaunchLugPreset))
         self._finForm.lugThicknessInput.setText(self._obj.LugThickness.UserString)
         self._finForm.lugAutoThicknessCheckbox.setChecked(self._obj.LugAutoThickness)
         self._finForm.lugLengthInput.setText(self._obj.LugLength.UserString)
@@ -921,13 +942,35 @@ class TaskPanelFinCan(QObject):
         else:
             self._enableFinTypeSketch()
 
+    def setRootCrossSections(self):
+        self._finForm.rootCrossSectionsCombo.clear()
+        self._finForm.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_SQUARE), FIN_CROSS_SQUARE)
+        self._finForm.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_ROUND), FIN_CROSS_ROUND)
+        self._finForm.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_ELLIPSE), FIN_CROSS_ELLIPSE)
+        self._finForm.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_BICONVEX), FIN_CROSS_BICONVEX)
+        self._finForm.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_AIRFOIL), FIN_CROSS_AIRFOIL)
+        self._finForm.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_WEDGE), FIN_CROSS_WEDGE)
+        self._finForm.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_DIAMOND), FIN_CROSS_DIAMOND)
+        self._finForm.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_TAPER_LE), FIN_CROSS_TAPER_LE)
+        self._finForm.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_TAPER_TE), FIN_CROSS_TAPER_TE)
+        self._finForm.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_TAPER_LETE), FIN_CROSS_TAPER_LETE)
+
+    def setEllipseRootCrossSections(self):
+        self._finForm.rootCrossSectionsCombo.clear()
+        self._finForm.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_SQUARE), FIN_CROSS_SQUARE)
+        self._finForm.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_ROUND), FIN_CROSS_ROUND)
+        self._finForm.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_ELLIPSE), FIN_CROSS_ELLIPSE)
+        self._finForm.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_BICONVEX), FIN_CROSS_BICONVEX)
+        self._finForm.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_AIRFOIL), FIN_CROSS_AIRFOIL)
+        self._finForm.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_WEDGE), FIN_CROSS_WEDGE)
+        self._finForm.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_TAPER_LETE), FIN_CROSS_TAPER_LETE)
+
     def _enableFinTypeTrapezoid(self):
         old = self._obj.RootCrossSection # This must be saved and restored
-        self._finForm.rootCrossSectionsCombo.clear()
-        self._finForm.rootCrossSectionsCombo.addItems(self._finForm.rootCrossSections)
+        self.setRootCrossSections()
         self._obj.RootCrossSection = old
 
-        self._finForm.rootCrossSectionsCombo.setCurrentText(self._obj.RootCrossSection)
+        self._finForm.rootCrossSectionsCombo.setCurrentIndex(self._finForm.rootCrossSectionsCombo.findData(self._obj.RootCrossSection))
 
         self._finForm.heightLabel.setHidden(False)
         self._finForm.heightInput.setHidden(False)
@@ -948,11 +991,10 @@ class TaskPanelFinCan(QObject):
 
     def _enableFinTypeTriangle(self):
         old = self._obj.RootCrossSection # This must be saved and restored
-        self._finForm.rootCrossSectionsCombo.clear()
-        self._finForm.rootCrossSectionsCombo.addItems(self._finForm.rootCrossSections)
+        self.setRootCrossSections()
         self._obj.RootCrossSection = old
 
-        self._finForm.rootCrossSectionsCombo.setCurrentText(self._obj.RootCrossSection)
+        self._finForm.rootCrossSectionsCombo.setCurrentIndex(self._finForm.rootCrossSectionsCombo.findData(self._obj.RootCrossSection))
 
         self._finForm.heightLabel.setHidden(False)
         self._finForm.heightInput.setHidden(False)
@@ -971,13 +1013,12 @@ class TaskPanelFinCan(QObject):
 
     def _enableFinTypeEllipse(self):
         old = self._obj.RootCrossSection # This must be saved and restored
-        self._finForm.rootCrossSectionsCombo.clear()
-        self._finForm.rootCrossSectionsCombo.addItems(self._finForm.rootEllipseCrossSections)
+        self.setEllipseRootCrossSections()
         self._obj.RootCrossSection = old
 
         if self._obj.RootCrossSection in [FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE]:
             self._obj.RootCrossSection = FIN_CROSS_TAPER_LETE
-        self._finForm.rootCrossSectionsCombo.setCurrentText(self._obj.RootCrossSection)
+        self._finForm.rootCrossSectionsCombo.setCurrentIndex(self._finForm.rootCrossSectionsCombo.findData(self._obj.RootCrossSection))
 
         self._finForm.heightLabel.setHidden(False)
         self._finForm.heightInput.setHidden(False)
@@ -996,11 +1037,10 @@ class TaskPanelFinCan(QObject):
 
     def _enableFinTypeSketch(self):
         old = self._obj.RootCrossSection # This must be saved and restored
-        self._finForm.rootCrossSectionsCombo.clear()
-        self._finForm.rootCrossSectionsCombo.addItems(self._finForm.rootCrossSections)
+        self.setRootCrossSections()
         self._obj.RootCrossSection = old
 
-        self._finForm.rootCrossSectionsCombo.setCurrentText(self._obj.RootCrossSection)
+        self._finForm.rootCrossSectionsCombo.setCurrentIndex(self._finForm.rootCrossSectionsCombo.findData(self._obj.RootCrossSection))
 
         self._finForm.heightLabel.setHidden(True)
         self._finForm.heightInput.setHidden(True)
@@ -1453,7 +1493,7 @@ class TaskPanelFinCan(QObject):
         self.redraw()
         
     def onCouplerStyle(self, value):
-        self._obj.CouplerStyle = self._finForm.couplerStylesCombo.itemData(value)
+        self._obj.CouplerStyle = self._finForm.couplerStylesCombo.currentData()
 
         self.redraw()
         
@@ -1509,7 +1549,7 @@ class TaskPanelFinCan(QObject):
     def onLugInnerDiameter(self, value):
         try:
             self._obj.LugInnerDiameter = FreeCAD.Units.Quantity(value).Value
-            self._finForm.lugPresetsCombo.setCurrentText(FINCAN_PRESET_CUSTOM)
+            self._finForm.lugPresetsCombo.setCurrentIndex(self._finForm.lugPresetsCombo.findData(FINCAN_PRESET_CUSTOM))
             self.redraw()
         except ValueError:
             pass

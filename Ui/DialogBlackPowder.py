@@ -99,13 +99,10 @@ class DialogBlackPowder(QDialog):
         self.pressureInput.setMinimumWidth(100)
         self.pressureInput.textEdited.connect(self.onPressure)
 
-        self.forceTypes = (
-            FORCE_CUSTOM,
-            FORCE_LOW,
-            FORCE_HIGH
-        )
         self.forceCombo = QtGui.QComboBox(self)
-        self.forceCombo.addItems(self.forceTypes)
+        self.forceCombo.addItem(translate('Rocket', FORCE_CUSTOM), FORCE_CUSTOM)
+        self.forceCombo.addItem(translate('Rocket', FORCE_LOW), FORCE_LOW)
+        self.forceCombo.addItem(translate('Rocket', FORCE_HIGH), FORCE_HIGH)
         self.forceCombo.setCurrentText(FORCE_LOW)
         self.forceCombo.currentTextChanged.connect(self.onForceCombo)
 
@@ -202,8 +199,7 @@ class DialogBlackPowder(QDialog):
 
     def onForce(self, value):
         try:
-            self.forceCombo.setCurrentText(FORCE_CUSTOM)
-            self.forceInput.setText(value)
+            self.forceCombo.setCurrentIndex(self.forceCombo.findData(FORCE_CUSTOM))
             self._setPressureFromForce()
             self._calc()
         except ValueError:
@@ -219,17 +215,17 @@ class DialogBlackPowder(QDialog):
 
     def onPressure(self, value):
         try:
-            self.forceCombo.setCurrentText(FORCE_CUSTOM)
-            self.pressureInput.setText(value)
+            self.forceCombo.setCurrentIndex(self.forceCombo.findData(FORCE_CUSTOM))
             self._setForceFromPressure()
             self._calc()
         except ValueError:
             pass
 
     def onForceCombo(self, value):
-        if value == FORCE_HIGH:
+        data = self.forceCombo.currentData()
+        if data == FORCE_HIGH:
             self.forceInput.setText("889.644 N")
-        elif value == FORCE_LOW:
+        elif data == FORCE_LOW:
             self.forceInput.setText("667.233 N")
         self._setPressureFromForce()
         self._calc()

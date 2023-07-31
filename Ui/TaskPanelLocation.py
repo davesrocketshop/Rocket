@@ -55,12 +55,9 @@ class _locationDialog(QDialog):
         if radial:
             self.radialReferenceLabel = QtGui.QLabel(translate('Rocket', "Radial Reference"), self)
 
-            self.radialReferenceTypes = (
-                LOCATION_SURFACE,
-                LOCATION_CENTER
-                )
             self.radialReferenceCombo = QtGui.QComboBox(self)
-            self.radialReferenceCombo.addItems(self.radialReferenceTypes)
+            self.radialReferenceCombo.addItem(translate('Rocket', LOCATION_SURFACE), LOCATION_SURFACE)
+            self.radialReferenceCombo.addItem(translate('Rocket', LOCATION_CENTER), LOCATION_CENTER)
 
             self.radialOffsetLabel = QtGui.QLabel(translate('Rocket', "Radial Offset"), self)
 
@@ -72,14 +69,11 @@ class _locationDialog(QDialog):
         if axial:
             self.referenceLabel = QtGui.QLabel(translate('Rocket', "Location Reference"), self)
 
-            self.referenceTypes = (
-                LOCATION_PARENT_TOP,
-                LOCATION_PARENT_MIDDLE,
-                LOCATION_PARENT_BOTTOM,
-                LOCATION_BASE,
-                )
             self.referenceCombo = QtGui.QComboBox(self)
-            self.referenceCombo.addItems(self.referenceTypes)
+            self.referenceCombo.addItem(translate('Rocket', LOCATION_PARENT_TOP), LOCATION_PARENT_TOP)
+            self.referenceCombo.addItem(translate('Rocket', LOCATION_PARENT_MIDDLE), LOCATION_PARENT_MIDDLE)
+            self.referenceCombo.addItem(translate('Rocket', LOCATION_PARENT_BOTTOM), LOCATION_PARENT_BOTTOM)
+            self.referenceCombo.addItem(translate('Rocket', LOCATION_BASE), LOCATION_BASE)
 
             self.locationLabel = QtGui.QLabel(translate('Rocket', "Location"), self)
 
@@ -150,23 +144,23 @@ class TaskPanelLocation(QObject):
     def transferTo(self):
         "Transfer from the dialog to the object"
         if self._axial:
-            self._obj.Proxy.setLocationReference(str(self._form.referenceCombo.currentText()))
+            self._obj.Proxy.setLocationReference(str(self._form.referenceCombo.currentData()))
             self._obj.AxialOffset = self._form.locationInput.text()
         self._obj.AngleOffset = self._form.angleOffsetInput.text()
 
         if self._radial:
-            self._obj.RadialReference = str(self._form.radialReferenceCombo.currentText())
+            self._obj.RadialReference = str(self._form.radialReferenceCombo.currentData())
             self._obj.RadialOffset = self._form.radialOffsetInput.text()
 
     def transferFrom(self):
         "Transfer from the object to the dialog"
         if self._axial:
-            self._form.referenceCombo.setCurrentText(self._obj.AxialMethod.getMethodName())
+            self._form.referenceCombo.setCurrentIndex(self._form.referenceCombo.findData(self._obj.AxialMethod.getMethodName()))
             self._form.locationInput.setText(self._obj.AxialOffset.UserString)
         self._form.angleOffsetInput.setText(self._obj.AngleOffset.UserString)
 
         if self._radial:
-            self._form.radialReferenceCombo.setCurrentText(self._obj.RadialReference)
+            self._form.radialReferenceCombo.setCurrentIndex(self._form.radialReferenceCombo.findData(self._obj.RadialReference))
             self._form.radialOffsetInput.setText(self._obj.RadialOffset.UserString)
  
     def setEdited(self):

@@ -85,14 +85,12 @@ class _FinDialog(QDialog):
         # Select the type of fin
         self.finTypeLabel = QtGui.QLabel(translate('Rocket', "Fin type"), self)
 
-        self.finTypes = (FIN_TYPE_TRAPEZOID,
-            FIN_TYPE_TRIANGLE,
-            FIN_TYPE_ELLIPSE, 
-            FIN_TYPE_TUBE,
-            FIN_TYPE_SKETCH,
-            )
         self.finTypesCombo = QtGui.QComboBox(self)
-        self.finTypesCombo.addItems(self.finTypes)
+        self.finTypesCombo.addItem(translate('Rocket', FIN_TYPE_TRAPEZOID), FIN_TYPE_TRAPEZOID)
+        self.finTypesCombo.addItem(translate('Rocket', FIN_TYPE_TRIANGLE), FIN_TYPE_TRIANGLE)
+        self.finTypesCombo.addItem(translate('Rocket', FIN_TYPE_ELLIPSE), FIN_TYPE_ELLIPSE)
+        self.finTypesCombo.addItem(translate('Rocket', FIN_TYPE_TUBE), FIN_TYPE_TUBE)
+        self.finTypesCombo.addItem(translate('Rocket', FIN_TYPE_SKETCH), FIN_TYPE_SKETCH)
 
         self.finSetGroup = QtGui.QGroupBox(translate('Rocket', "Fin Set"), self)
         self.finSetGroup.setCheckable(True)
@@ -122,12 +120,17 @@ class _FinDialog(QDialog):
         # Select the type of cross section
         self.rootCrossSectionLabel = QtGui.QLabel(translate('Rocket', "Cross Section"), self)
 
-        self.rootCrossSections = (FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_ELLIPSE, FIN_CROSS_BICONVEX, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE,
-            FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE)
-        self.rootEllipseCrossSections = (FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_ELLIPSE, FIN_CROSS_BICONVEX, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE,
-            FIN_CROSS_TAPER_LETE)
         self.rootCrossSectionsCombo = QtGui.QComboBox(self)
-        self.rootCrossSectionsCombo.addItems(self.rootCrossSections)
+        self.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_SQUARE), FIN_CROSS_SQUARE)
+        self.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_ROUND), FIN_CROSS_ROUND)
+        self.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_ELLIPSE), FIN_CROSS_ELLIPSE)
+        self.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_BICONVEX), FIN_CROSS_BICONVEX)
+        self.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_AIRFOIL), FIN_CROSS_AIRFOIL)
+        self.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_WEDGE), FIN_CROSS_WEDGE)
+        self.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_DIAMOND), FIN_CROSS_DIAMOND)
+        self.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_TAPER_LE), FIN_CROSS_TAPER_LE)
+        self.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_TAPER_TE), FIN_CROSS_TAPER_TE)
+        self.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_TAPER_LETE), FIN_CROSS_TAPER_LETE)
 
         # Get the fin parameters: length, width, etc...
         self.rootChordLabel = QtGui.QLabel(translate('Rocket', "Chord"), self)
@@ -164,10 +167,18 @@ class _FinDialog(QDialog):
         # Select the type of cross section
         self.tipCrossSectionLabel = QtGui.QLabel(translate('Rocket', "Cross Section"), self)
 
-        self.tipCrossSections = (FIN_CROSS_SAME, FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_ELLIPSE, FIN_CROSS_BICONVEX, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE,
-            FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE)
         self.tipCrossSectionsCombo = QtGui.QComboBox(self)
-        self.tipCrossSectionsCombo.addItems(self.tipCrossSections)
+        self.tipCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_SAME), FIN_CROSS_SAME)
+        self.tipCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_SQUARE), FIN_CROSS_SQUARE)
+        self.tipCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_ROUND), FIN_CROSS_ROUND)
+        self.tipCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_ELLIPSE), FIN_CROSS_ELLIPSE)
+        self.tipCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_BICONVEX), FIN_CROSS_BICONVEX)
+        self.tipCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_AIRFOIL), FIN_CROSS_AIRFOIL)
+        self.tipCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_WEDGE), FIN_CROSS_WEDGE)
+        self.tipCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_DIAMOND), FIN_CROSS_DIAMOND)
+        self.tipCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_TAPER_LE), FIN_CROSS_TAPER_LE)
+        self.tipCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_TAPER_TE), FIN_CROSS_TAPER_TE)
+        self.tipCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_TAPER_LETE), FIN_CROSS_TAPER_LETE)
 
         self.tipChordLabel = QtGui.QLabel(translate('Rocket', "Chord"), self)
 
@@ -527,14 +538,14 @@ class TaskPanelFin(QObject):
         
     def transferTo(self):
         "Transfer from the dialog to the object" 
-        self._obj.FinType = str(self._finForm.finTypesCombo.currentText())
+        self._obj.FinType = str(self._finForm.finTypesCombo.currentData())
 
         self._obj.FinSet = self._finForm.finSetGroup.isChecked()
         self._obj.FinCount = self._finForm.finCountSpinBox.value()
         self._obj.FinSpacing = self._finForm.finSpacingInput.text()
         self._obj.Cant = self._finForm.finCantInput.text()
 
-        self._obj.RootCrossSection = str(self._finForm.rootCrossSectionsCombo.currentText())
+        self._obj.RootCrossSection = str(self._finForm.rootCrossSectionsCombo.currentData())
         if self._obj.FinType != FIN_TYPE_TUBE:
             self._obj.RootChord = self._finForm.rootChordInput.text()
         self._obj.RootThickness = self._finForm.rootThicknessInput.text()
@@ -542,7 +553,7 @@ class TaskPanelFin(QObject):
         self._obj.RootLength1 = self._finForm.rootLength1Input.text()
         self._obj.RootLength2 = self._finForm.rootLength2Input.text()
 
-        self._obj.TipCrossSection = str(self._finForm.tipCrossSectionsCombo.currentText())
+        self._obj.TipCrossSection = str(self._finForm.tipCrossSectionsCombo.currentData())
         self._obj.TipChord = self._finForm.tipChordInput.text()
         self._obj.TipThickness = self._finForm.tipThicknessInput.text()
         self._obj.TipSameThickness = self._finForm.tipSameThicknessCheckbox.isChecked()
@@ -575,21 +586,21 @@ class TaskPanelFin(QObject):
 
     def transferFrom(self):
         "Transfer from the object to the dialog"
-        self._finForm.finTypesCombo.setCurrentText(self._obj.FinType)
+        self._finForm.finTypesCombo.setCurrentIndex(self._finForm.finTypesCombo.findData(self._obj.FinType))
 
         self._finForm.finSetGroup.setChecked(self._obj.FinSet)
         self._finForm.finCountSpinBox.setValue(self._obj.FinCount)
         self._finForm.finSpacingInput.setText(self._obj.FinSpacing.UserString)
         self._finForm.finCantInput.setText(self._obj.Cant.UserString)
 
-        self._finForm.rootCrossSectionsCombo.setCurrentText(self._obj.RootCrossSection)
+        self._finForm.rootCrossSectionsCombo.setCurrentIndex(self._finForm.rootCrossSectionsCombo.findData(self._obj.RootCrossSection))
         self._finForm.rootChordInput.setText(self._obj.RootChord.UserString)
         self._finForm.rootThicknessInput.setText(self._obj.RootThickness.UserString)
         self._finForm.rootPerCentCheckbox.setChecked(self._obj.RootPerCent)
         self._finForm.rootLength1Input.setText(self._obj.RootLength1.UserString)
         self._finForm.rootLength2Input.setText(self._obj.RootLength2.UserString)
 
-        self._finForm.tipCrossSectionsCombo.setCurrentText(self._obj.TipCrossSection)
+        self._finForm.tipCrossSectionsCombo.setCurrentIndex(self._finForm.tipCrossSectionsCombo.findData(self._obj.TipCrossSection))
         self._finForm.tipChordInput.setText(self._obj.TipChord.UserString)
         self._finForm.tipThicknessInput.setText(self._obj.TipThickness.UserString)
         self._finForm.tipSameThicknessCheckbox.setChecked(self._obj.TipSameThickness)
@@ -698,6 +709,29 @@ class TaskPanelFin(QObject):
         else:
             self._enableFinTypeSketch()
 
+    def setRootCrossSections(self):
+        self._finForm.rootCrossSectionsCombo.clear()
+        self._finForm.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_SQUARE), FIN_CROSS_SQUARE)
+        self._finForm.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_ROUND), FIN_CROSS_ROUND)
+        self._finForm.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_ELLIPSE), FIN_CROSS_ELLIPSE)
+        self._finForm.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_BICONVEX), FIN_CROSS_BICONVEX)
+        self._finForm.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_AIRFOIL), FIN_CROSS_AIRFOIL)
+        self._finForm.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_WEDGE), FIN_CROSS_WEDGE)
+        self._finForm.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_DIAMOND), FIN_CROSS_DIAMOND)
+        self._finForm.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_TAPER_LE), FIN_CROSS_TAPER_LE)
+        self._finForm.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_TAPER_TE), FIN_CROSS_TAPER_TE)
+        self._finForm.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_TAPER_LETE), FIN_CROSS_TAPER_LETE)
+
+    def setEllipseRootCrossSections(self):
+        self._finForm.rootCrossSectionsCombo.clear()
+        self._finForm.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_SQUARE), FIN_CROSS_SQUARE)
+        self._finForm.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_ROUND), FIN_CROSS_ROUND)
+        self._finForm.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_ELLIPSE), FIN_CROSS_ELLIPSE)
+        self._finForm.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_BICONVEX), FIN_CROSS_BICONVEX)
+        self._finForm.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_AIRFOIL), FIN_CROSS_AIRFOIL)
+        self._finForm.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_WEDGE), FIN_CROSS_WEDGE)
+        self._finForm.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_TAPER_LETE), FIN_CROSS_TAPER_LETE)
+
 
     def _enableFinTypeTrapezoid(self):
         self._finForm.tabWidget.setTabEnabled(1, True) # Fin tabs is index 1
@@ -705,11 +739,10 @@ class TaskPanelFin(QObject):
         self._finForm.rootChordInput.setText(self._obj.RootChord.UserString)
 
         old = self._obj.RootCrossSection # This must be saved and restored
-        self._finForm.rootCrossSectionsCombo.clear()
-        self._finForm.rootCrossSectionsCombo.addItems(self._finForm.rootCrossSections)
+        self.setRootCrossSections()
         self._obj.RootCrossSection = old
 
-        self._finForm.rootCrossSectionsCombo.setCurrentText(self._obj.RootCrossSection)
+        self._finForm.rootCrossSectionsCombo.setCurrentIndex(self._finForm.rootCrossSectionsCombo.findData(self._obj.RootCrossSection))
 
         self._finForm.heightLabel.setHidden(False)
         self._finForm.heightInput.setHidden(False)
@@ -737,11 +770,10 @@ class TaskPanelFin(QObject):
         self._finForm.rootChordInput.setText(self._obj.RootChord.UserString)
 
         old = self._obj.RootCrossSection # This must be saved and restored
-        self._finForm.rootCrossSectionsCombo.clear()
-        self._finForm.rootCrossSectionsCombo.addItems(self._finForm.rootCrossSections)
+        self.setRootCrossSections()
         self._obj.RootCrossSection = old
 
-        self._finForm.rootCrossSectionsCombo.setCurrentText(self._obj.RootCrossSection)
+        self._finForm.rootCrossSectionsCombo.setCurrentIndex(self._finForm.rootCrossSectionsCombo.findData(self._obj.RootCrossSection))
 
         self._finForm.heightLabel.setHidden(False)
         self._finForm.heightInput.setHidden(False)
@@ -767,13 +799,12 @@ class TaskPanelFin(QObject):
         self._finForm.rootChordInput.setText(self._obj.RootChord.UserString)
 
         old = self._obj.RootCrossSection # This must be saved and restored
-        self._finForm.rootCrossSectionsCombo.clear()
-        self._finForm.rootCrossSectionsCombo.addItems(self._finForm.rootEllipseCrossSections)
+        self.setEllipseRootCrossSections()
         self._obj.RootCrossSection = old
 
         if self._obj.RootCrossSection in [FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE]:
             self._obj.RootCrossSection = FIN_CROSS_TAPER_LETE
-        self._finForm.rootCrossSectionsCombo.setCurrentText(self._obj.RootCrossSection)
+        self._finForm.rootCrossSectionsCombo.setCurrentIndex(self._finForm.rootCrossSectionsCombo.findData(self._obj.RootCrossSection))
 
         self._finForm.heightLabel.setHidden(False)
         self._finForm.heightInput.setHidden(False)
@@ -825,11 +856,10 @@ class TaskPanelFin(QObject):
         self._finForm.tabWidget.setTabEnabled(1, True) # Fin tabs is index 1
 
         old = self._obj.RootCrossSection # This must be saved and restored
-        self._finForm.rootCrossSectionsCombo.clear()
-        self._finForm.rootCrossSectionsCombo.addItems(self._finForm.rootCrossSections)
+        self.setRootCrossSections()
         self._obj.RootCrossSection = old
 
-        self._finForm.rootCrossSectionsCombo.setCurrentText(self._obj.RootCrossSection)
+        self._finForm.rootCrossSectionsCombo.setCurrentIndex(self._finForm.rootCrossSectionsCombo.findData(self._obj.RootCrossSection))
 
         self._finForm.heightLabel.setHidden(True)
         self._finForm.heightInput.setHidden(True)
