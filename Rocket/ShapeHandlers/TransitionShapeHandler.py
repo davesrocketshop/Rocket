@@ -227,24 +227,25 @@ class TransitionShapeHandler():
 
     def _foreCrossCap(self, barOnly = False):
         BASE_WIDTH = 5
-        base = self._length + BASE_WIDTH
-        length = self._foreShoulderThickness + 2 * BASE_WIDTH
+        base = 0.0 - BASE_WIDTH
+        length = self._foreShoulderThickness + BASE_WIDTH
         if self._foreShoulder:
             length += self._foreShoulderLength
-            base += self._foreShoulderLength
+            base -= self._foreShoulderLength
 
         point = FreeCAD.Vector(base, 0, 0)
-        direction = FreeCAD.Vector(-1,0,0)
+        direction = FreeCAD.Vector(1,0,0)
 
         mask = Part.makeCylinder(self._foreShoulderRadius - self._foreShoulderThickness, length, point, direction)
 
-        point = FreeCAD.Vector(base + BASE_WIDTH, self._foreShoulderRadius, (self._foreCapBarWidth / 2.0))
-        box = Part.makeBox(self._foreCapBarWidth, 2.0 * self._foreShoulderRadius, length, point, direction)
+        point = FreeCAD.Vector(base + BASE_WIDTH, self._foreShoulderRadius, -(self._foreCapBarWidth / 2.0))
+        box = Part.makeBox(self._foreCapBarWidth, 2.0 * self._foreShoulderRadius, length - BASE_WIDTH, point, direction)
         mask = mask.cut(box)
         if not barOnly:
-            point = FreeCAD.Vector(base + BASE_WIDTH, (self._foreCapBarWidth / 2.0), self._foreShoulderRadius)
-            box = Part.makeBox(2.0 * self._foreShoulderRadius, self._foreCapBarWidth, length, point, direction)
+            point = FreeCAD.Vector(base + BASE_WIDTH, (self._foreCapBarWidth / 2.0), -self._foreShoulderRadius)
+            box = Part.makeBox(2.0 * self._foreShoulderRadius, self._foreCapBarWidth, length - BASE_WIDTH, point, direction)
             mask = mask.cut(box)
+
         return mask
 
     def _aftBarCap(self):
@@ -252,24 +253,25 @@ class TransitionShapeHandler():
 
     def _aftCrossCap(self, barOnly = False):
         BASE_WIDTH = 5
-        base = 0.0 - BASE_WIDTH
-        length = self._aftShoulderThickness + BASE_WIDTH
+        base = self._length + BASE_WIDTH
+        length = self._aftShoulderThickness + 2 * BASE_WIDTH
         if self._aftShoulder:
             length += self._aftShoulderLength
-            base -= self._aftShoulderLength
+            base += self._aftShoulderLength
 
         point = FreeCAD.Vector(base, 0, 0)
-        direction = FreeCAD.Vector(1,0,0)
+        direction = FreeCAD.Vector(-1,0,0)
 
         mask = Part.makeCylinder(self._aftShoulderRadius - self._aftShoulderThickness, length, point, direction)
 
-        point = FreeCAD.Vector(base + BASE_WIDTH, self._aftShoulderRadius, -(self._aftCapBarWidth / 2.0))
-        box = Part.makeBox(self._aftCapBarWidth, 2.0 * self._aftShoulderRadius, length - BASE_WIDTH, point, direction)
+        point = FreeCAD.Vector(base + BASE_WIDTH, self._aftShoulderRadius, (self._aftCapBarWidth / 2.0))
+        box = Part.makeBox(self._aftCapBarWidth, 2.0 * self._aftShoulderRadius, length, point, direction)
         mask = mask.cut(box)
         if not barOnly:
-            point = FreeCAD.Vector(base + BASE_WIDTH, (self._aftCapBarWidth / 2.0), -self._aftShoulderRadius)
-            box = Part.makeBox(2.0 * self._aftShoulderRadius, self._aftCapBarWidth, length - BASE_WIDTH, point, direction)
+            point = FreeCAD.Vector(base + BASE_WIDTH, (self._aftCapBarWidth / 2.0), self._aftShoulderRadius)
+            box = Part.makeBox(2.0 * self._aftShoulderRadius, self._aftCapBarWidth, length, point, direction)
             mask = mask.cut(box)
+
         return mask
 
 
