@@ -1457,7 +1457,7 @@
       <translation>El diámetro del hombro trasero no puede exceder el diámetro de transición en el hombro</translation>
     </message>
     <message>
-      <location filename="TransitionShapeHandler.py" line="324"/>
+      <location filename="TransitionShapeHandler.py" line="326"/>
       <source>Transition parameters produce an invalid shape</source>
       <translation>Los parámetros de transición producen una forma no válida</translation>
     </message>
@@ -2152,7 +2152,7 @@
       <translation>Las aletas personalizadas no son compatibles en este momento</translation>
     </message>
     <message>
-      <location filename="InitGui.py" line="81"/>
+      <location filename="InitGui.py" line="82"/>
       <source>Analysis</source>
       <translation>Análisis</translation>
     </message>
@@ -2292,7 +2292,7 @@
       <translation type="unfinished">Coupler outer diameter must be less than fin can outer diameter</translation>
     </message>
     <message>
-      <location filename="TransitionShapeHandler.py" line="351"/>
+      <location filename="TransitionShapeHandler.py" line="353"/>
       <source>Forward cap style produces an invalid shape</source>
       <translation type="unfinished">Forward cap style produces an invalid shape</translation>
     </message>

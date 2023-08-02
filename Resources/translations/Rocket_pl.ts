@@ -46,7 +46,7 @@
     <message>
       <location filename="FeatureBulkhead.py" line="55"/>
       <source>Hole diameter</source>
-      <translation>Średnica otworu</translation>
+      <translation>⌀ otworu</translation>
     </message>
     <message>
       <location filename="FeatureBulkhead.py" line="57"/>
@@ -591,7 +591,7 @@
     <message>
       <location filename="FeatureFinCan.py" line="147"/>
       <source>Length of the coupler</source>
-      <translation type="unfinished">Length of the coupler</translation>
+      <translation>Długość łącznika</translation>
     </message>
     <message>
       <location filename="FeatureTransition.py" line="95"/>
@@ -601,7 +601,7 @@
     <message>
       <location filename="FeatureTransition.py" line="143"/>
       <source>Aft cap style</source>
-      <translation type="unfinished">Aft cap style</translation>
+      <translation>Styl nasadki tylnej</translation>
     </message>
     <message>
       <location filename="RingComponent.py" line="56"/>
@@ -616,12 +616,12 @@
     <message>
       <location filename="FeatureInnerTube.py" line="59"/>
       <source>Motor overhang</source>
-      <translation type="unfinished">Motor overhang</translation>
+      <translation>Wysunięcie silnika</translation>
     </message>
     <message>
       <location filename="FeatureBodyTube.py" line="64"/>
       <source>This component is solid</source>
-      <translation type="unfinished">This component is solid</translation>
+      <translation>Ten komponent jest bryłą</translation>
     </message>
     <message>
       <location filename="FeatureFin.py" line="115"/>
@@ -631,7 +631,7 @@
     <message>
       <location filename="FeatureFin.py" line="130"/>
       <source>Fin cant</source>
-      <translation type="unfinished">Fin cant</translation>
+      <translation>Korpus ogona z płetwami</translation>
     </message>
     <message>
       <location filename="FeatureFin.py" line="141"/>
@@ -641,12 +641,12 @@
     <message>
       <location filename="FeatureFin.py" line="153"/>
       <source>Tube fin outer diameter</source>
-      <translation type="unfinished">Tube fin outer diameter</translation>
+      <translation>Średnica zewnętrzna rury statecznika</translation>
     </message>
     <message>
       <location filename="FeatureFin.py" line="155"/>
       <source>Tube fin auto outer diameter</source>
-      <translation type="unfinished">Tube fin auto outer diameter</translation>
+      <translation>Średnica zewnętrzna rury statecznika — automatycznie</translation>
     </message>
     <message>
       <location filename="FeatureFin.py" line="157"/>
@@ -791,7 +791,7 @@
     <message>
       <location filename="FeatureTransition.py" line="132"/>
       <source>Forward cap style</source>
-      <translation type="unfinished">Forward cap style</translation>
+      <translation>Styl nasadki przedniej</translation>
     </message>
     <message>
       <location filename="AngleMethod.py" line="53"/>
@@ -1004,12 +1004,12 @@
     <message>
       <location filename="TaskPanelRailButton.py" line="93"/>
       <source>Inner Diameter</source>
-      <translation>Średnica wewnętrzna</translation>
+      <translation>⌀ wewnętrzna</translation>
     </message>
     <message>
       <location filename="TaskPanelRailButton.py" line="87"/>
       <source>Outer Diameter</source>
-      <translation>Średnica zewnętrzna</translation>
+      <translation>⌀ zewnętrzna</translation>
     </message>
     <message>
       <location filename="TaskPanelTransition.py" line="293"/>
@@ -1154,12 +1154,12 @@
     <message>
       <location filename="TaskPanelFinCan.py" line="235"/>
       <source>Sweep Length</source>
-      <translation>Długość Skosu</translation>
+      <translation>Długość skosu</translation>
     </message>
     <message>
       <location filename="TaskPanelRailGuide.py" line="149"/>
       <source>Sweep Angle</source>
-      <translation>Kąt Skosu</translation>
+      <translation>Kąt skosu</translation>
     </message>
     <message>
       <location filename="TaskPanelFin.py" line="412"/>
@@ -1194,12 +1194,12 @@
     <message>
       <location filename="TaskPanelTransition.py" line="127"/>
       <source>Aft Diameter</source>
-      <translation>Średnica rufowa</translation>
+      <translation>⌀ rufowa</translation>
     </message>
     <message>
       <location filename="TaskPanelTransition.py" line="136"/>
       <source>Core Diameter</source>
-      <translation>Średnica rdzenia</translation>
+      <translation>⌀ rdzenia</translation>
     </message>
     <message>
       <location filename="TaskPanelTransition.py" line="257"/>
@@ -1457,7 +1457,7 @@
       <translation>Średnica ramienia rufowego nie może przekraczać średnicy przejściowej przy ramieniu</translation>
     </message>
     <message>
-      <location filename="TransitionShapeHandler.py" line="324"/>
+      <location filename="TransitionShapeHandler.py" line="326"/>
       <source>Transition parameters produce an invalid shape</source>
       <translation>Parametry przejścia tworzą nieprawidłowy kształt</translation>
     </message>
@@ -1539,7 +1539,7 @@
     <message>
       <location filename="DialogVentHoles.py" line="63"/>
       <source>Body Tube Length</source>
-      <translation>Długość rury korpusowej</translation>
+      <translation>Długość rury korpusu</translation>
     </message>
     <message>
       <location filename="DialogBlackPowder.py" line="86"/>
@@ -2059,7 +2059,7 @@
     <message>
       <location filename="TaskPanelFinCan.py" line="74"/>
       <source>Fins</source>
-      <translation type="unfinished">Fins</translation>
+      <translation>Stateczniki</translation>
     </message>
     <message>
       <location filename="TaskPanelFinCan.py" line="75"/>
@@ -2069,17 +2069,17 @@
     <message>
       <location filename="TaskPanelFinCan.py" line="103"/>
       <source>Fin Set</source>
-      <translation type="unfinished">Fin Set</translation>
+      <translation>Ustawienia statecznika</translation>
     </message>
     <message>
       <location filename="TaskPanelFinCan.py" line="105"/>
       <source>Fin Count</source>
-      <translation type="unfinished">Fin Count</translation>
+      <translation>Ilość</translation>
     </message>
     <message>
       <location filename="TaskPanelFinCan.py" line="112"/>
       <source>Fin Spacing</source>
-      <translation type="unfinished">Fin Spacing</translation>
+      <translation>Odstęp</translation>
     </message>
     <message>
       <location filename="TaskPanelFinCan.py" line="573"/>
@@ -2129,12 +2129,12 @@
     <message>
       <location filename="TaskPanelTransition.py" line="167"/>
       <source>Cap style</source>
-      <translation type="unfinished">Cap style</translation>
+      <translation>Styl nasadki</translation>
     </message>
     <message>
       <location filename="TaskPanelTransition.py" line="174"/>
       <source>Bar Width</source>
-      <translation type="unfinished">Bar Width</translation>
+      <translation>Szerokość prowadnicy</translation>
     </message>
     <message>
       <location filename="FinFlutter.py" line="76"/>
@@ -2152,7 +2152,7 @@
       <translation type="unfinished">Custom fins are not supported at this time</translation>
     </message>
     <message>
-      <location filename="InitGui.py" line="81"/>
+      <location filename="InitGui.py" line="82"/>
       <source>Analysis</source>
       <translation>Analiza</translation>
     </message>
@@ -2214,7 +2214,7 @@
     <message>
       <location filename="DialogFinFlutter.py" line="185"/>
       <source>Calculated</source>
-      <translation>Obliczone</translation>
+      <translation>Oblicz</translation>
     </message>
     <message>
       <location filename="DialogFinFlutter.py" line="188"/>
@@ -2292,9 +2292,9 @@
       <translation type="unfinished">Coupler outer diameter must be less than fin can outer diameter</translation>
     </message>
     <message>
-      <location filename="TransitionShapeHandler.py" line="351"/>
+      <location filename="TransitionShapeHandler.py" line="353"/>
       <source>Forward cap style produces an invalid shape</source>
-      <translation type="unfinished">Forward cap style produces an invalid shape</translation>
+      <translation>Parametry stylu nasadki tworzą nieprawidłowy kształt</translation>
     </message>
     <message>
       <location filename="TaskPanelFinCan.py" line="474"/>
@@ -2504,7 +2504,7 @@
     <message>
       <location filename="TaskPanelBodyTube.py" line="105"/>
       <source>Overhang</source>
-      <translation type="unfinished">Overhang</translation>
+      <translation>Wysunięcie</translation>
     </message>
     <message>
       <location filename="TaskPanelBulkhead.py" line="131"/>
@@ -2519,12 +2519,12 @@
     <message>
       <location filename="TaskPanelFinCan.py" line="208"/>
       <source>Tip thickness same as root</source>
-      <translation type="unfinished">Tip thickness same as root</translation>
+      <translation>Grubość końcówki taka sama jak u nasady</translation>
     </message>
     <message>
       <location filename="TaskPanelFin.py" line="216"/>
       <source>Tube Fin</source>
-      <translation type="unfinished">Tube Fin</translation>
+      <translation>Rura statecznika</translation>
     </message>
     <message>
       <location filename="TaskPanelLaunchLug.py" line="70"/>
@@ -2534,7 +2534,7 @@
     <message>
       <location filename="TaskPanelLocation.py" line="53"/>
       <source>Location Parameter</source>
-      <translation type="unfinished">Location Parameter</translation>
+      <translation>Parametry położenia</translation>
     </message>
     <message>
       <location filename="TaskPanelLocation.py" line="56"/>
@@ -2549,12 +2549,12 @@
     <message>
       <location filename="TaskPanelLocation.py" line="70"/>
       <source>Location Reference</source>
-      <translation type="unfinished">Location Reference</translation>
+      <translation>Odniesienie położenia</translation>
     </message>
     <message>
       <location filename="TaskPanelLocation.py" line="78"/>
       <source>Location</source>
-      <translation type="unfinished">Location</translation>
+      <translation>Położenie</translation>
     </message>
     <message>
       <location filename="TaskPanelLocation.py" line="84"/>

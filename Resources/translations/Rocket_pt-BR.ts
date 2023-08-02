@@ -1457,7 +1457,7 @@
       <translation>O diâmetro do ressalto traseiro não pode exceder o diâmetro de transição no ressalto</translation>
     </message>
     <message>
-      <location filename="TransitionShapeHandler.py" line="324"/>
+      <location filename="TransitionShapeHandler.py" line="326"/>
       <source>Transition parameters produce an invalid shape</source>
       <translation>Parâmetros de transição produzem uma forma inválida</translation>
     </message>
@@ -2152,7 +2152,7 @@
       <translation>Aletas personalizadas não são suportadas neste momento</translation>
     </message>
     <message>
-      <location filename="InitGui.py" line="81"/>
+      <location filename="InitGui.py" line="82"/>
       <source>Analysis</source>
       <translation>Análise</translation>
     </message>
@@ -2291,7 +2291,7 @@
       <translation>O diâmetro externo do acoplador deve ser menor que o diâmetro externo do tubo de aleta</translation>
     </message>
     <message>
-      <location filename="TransitionShapeHandler.py" line="351"/>
+      <location filename="TransitionShapeHandler.py" line="353"/>
       <source>Forward cap style produces an invalid shape</source>
       <translation>O estilo de tampa frontal produz uma forma inválida</translation>
     </message>

@@ -23,6 +23,7 @@ __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
 import FreeCAD
+import FreeCADGui
 
 # import Fem # Requires the FEM workbench to be loaded
 
@@ -48,41 +49,41 @@ class RocketWorkbench ( Workbench ):
         # load the module
         import RocketGui
         import SketcherGui
-        from PySide.QtCore import QT_TRANSLATE_NOOP
+        from DraftTools import translate
 
         self._loadFemModule()
         
-        self.appendToolbar(QT_TRANSLATE_NOOP('Rocket', 'Rocket'),
+        self.appendToolbar(translate('Rocket', 'Rocket'),
                         ['Rocket_Rocket', 'Rocket_Stage', 'Rocket_ParallelStage', 'Rocket_Pod', 'Rocket_NoseCone', 'Rocket_Transition', 'Rocket_BodyTube', 'Rocket_InnerTube', 'Rocket_Coupler', 'Rocket_EngineBlock', 
                         'Rocket_CenteringRing', 'Rocket_Bulkhead', 'Rocket_Fin', 'Rocket_FinCan', 'Rocket_LaunchLug', 'Rocket_RailButton', 'Rocket_RailGuide', 
                         #'Rocket_Parachute',
                         ])
-        self.appendToolbar(QT_TRANSLATE_NOOP('Rocket', 'Rocket'),
+        self.appendToolbar(translate('Rocket', 'Rocket'),
                         ['Separator', 'Rocket_MoveUp', 'Rocket_MoveDown'])
-        self.appendToolbar(QT_TRANSLATE_NOOP('Rocket', 'Rocket'),
+        self.appendToolbar(translate('Rocket', 'Rocket'),
                         ['Separator', 'Rocket_NewSketch', 'Sketcher_EditSketch', 'Separator', 'Rocket_Calculators'])
-        # self.appendToolbar(QT_TRANSLATE_NOOP('Rocket', 'Rocket'),
+        # self.appendToolbar(translate('Rocket', 'Rocket'),
         #                 ['Separator', 'Rocket_ParachuteGore'])
-        self.appendToolbar(QT_TRANSLATE_NOOP('Rocket', 'Rocket'),
+        self.appendToolbar(translate('Rocket', 'Rocket'),
                         # ['Separator', 'Rocket_FinFlutter', 'Rocket_FemAnalysis', 'FEM_MeshGmshFromShape', "Rocket_MaterialEditor", 'Rocket_MaterialMapping'])
                         ['Separator', 'Rocket_FinFlutter', "Rocket_MaterialEditor"])
 
-        self.appendMenu(QT_TRANSLATE_NOOP('Rocket', 'Rocket'), 
+        self.appendMenu(translate('Rocket', 'Rocket'), 
                         ['Rocket_Rocket', 'Rocket_Stage', 'Rocket_ParallelStage', 'Rocket_Pod', 'Rocket_NoseCone', 'Rocket_Transition', 'Rocket_BodyTube', 'Rocket_InnerTube', 'Rocket_Coupler', 'Rocket_EngineBlock', 
                         'Rocket_CenteringRing', 'Rocket_Bulkhead', 'Rocket_Fin', 'Rocket_FinCan', 'Rocket_LaunchLug', 'Rocket_RailButton', 'Rocket_RailGuide', 
                         #'Rocket_Parachute'
                         ])
-        self.appendMenu(QT_TRANSLATE_NOOP('Rocket', 'Rocket'), 
+        self.appendMenu(translate('Rocket', 'Rocket'), 
                         ['Separator'])
-        self.appendMenu([QT_TRANSLATE_NOOP("Rocket", "Rocket"),
-                         QT_TRANSLATE_NOOP("Rocket", "Calculators")],
+        self.appendMenu([translate("Rocket", "Rocket"),
+                         translate("Rocket", "Calculators")],
                         ['Rocket_CalcBlackPowder', 'Rocket_CalcParachute', 'Rocket_CalcThrustToWeight', 'Rocket_CalcVentHoles'])
-        self.appendMenu([QT_TRANSLATE_NOOP("Rocket", "Rocket"),
-                         QT_TRANSLATE_NOOP("Rocket", "Analysis")],
+        self.appendMenu([translate("Rocket", "Rocket"),
+                         translate("Rocket", "Analysis")],
                         # ['Rocket_FinFlutter', 'Rocket_FemAnalysis', 'FEM_MeshGmshFromShape', "Rocket_MaterialEditor", 'Rocket_MaterialMapping'])
                         ['Rocket_FinFlutter', "Rocket_MaterialEditor"])
 
     def GetClassName(self):
         return "Gui::PythonWorkbench"
 
-Gui.addWorkbench(RocketWorkbench())
+FreeCADGui.addWorkbench(RocketWorkbench())
