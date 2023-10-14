@@ -63,10 +63,13 @@ class Material():
 
         cls._cards = {}
         for p in cls.searchPaths():
-            for f in os.listdir(p):
-                b,e = os.path.splitext(f)
-                if e.upper() == ".FCMAT":
-                    cls._cards[b] = p / f
+            try:
+                for f in os.listdir(p):
+                    b,e = os.path.splitext(f)
+                    if e.upper() == ".FCMAT":
+                        cls._cards[b] = p / f
+            except FileNotFoundError:
+                pass
 
         return cls._cards
 

@@ -31,7 +31,6 @@ from DraftTools import translate
 
 from PySide import QtGui
 
-from Ui.DialogFinFlutter import DialogFinFlutter
 from Ui.Commands.Command import Command
 
 def calcFinFlutter():
@@ -41,10 +40,18 @@ def calcFinFlutter():
         if fin.isDerivedFrom('Part::FeaturePython'):
             if hasattr(fin,"FinType"):
                 try:
+                    from PySide2.QtCharts import QtCharts
+                except ModuleNotFoundError:
+                    QtGui.QMessageBox.information(None, "", translate('Rocket', "QtCharts is not available on your system"))
+                    return
+                
+                from Ui.DialogFinFlutter import DialogFinFlutter
+                try:
                     form = DialogFinFlutter(fin)
                     form.exec_()
                 except TypeError as ex:
                     QtGui.QMessageBox.information(None, "", str(ex))
+
                 return
 
     QtGui.QMessageBox.information(None, "", translate('Rocket', "Please select a fin first"))

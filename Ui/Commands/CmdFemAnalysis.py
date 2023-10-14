@@ -31,7 +31,6 @@ from DraftTools import translate
 
 from PySide import QtGui
 
-from Ui.DialogFinFlutter import DialogFinFlutter
 from Ui.Commands.Command import Command
 
 import FemGui

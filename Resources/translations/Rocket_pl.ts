@@ -9,7 +9,7 @@
       <translation>Średnica wewnętrzna rury korpusowej</translation>
     </message>
     <message>
-      <location filename="FeatureLaunchLug.py" line="55"/>
+      <location filename="FeatureBodyTube.py" line="52"/>
       <source>Diameter of the outside of the body tube</source>
       <translation>Średnica zewnętrzna rury korpusowej</translation>
     </message>
@@ -46,7 +46,7 @@
     <message>
       <location filename="FeatureBulkhead.py" line="55"/>
       <source>Hole diameter</source>
-      <translation>Średnica otworu</translation>
+      <translation>⌀ otworu</translation>
     </message>
     <message>
       <location filename="FeatureBulkhead.py" line="57"/>
@@ -234,12 +234,12 @@
       <translation>Grubość czopu</translation>
     </message>
     <message>
-      <location filename="FeatureTransition.py" line="89"/>
+      <location filename="FeatureNoseCone.py" line="78"/>
       <source>Coefficient</source>
       <translation>Współczynnik</translation>
     </message>
     <message>
-      <location filename="FeatureTransition.py" line="91"/>
+      <location filename="FeatureNoseCone.py" line="82"/>
       <source>Resolution</source>
       <translation>Rozdzielczość</translation>
     </message>
@@ -356,12 +356,12 @@
     <message>
       <location filename="FeatureRailGuide.py" line="77"/>
       <source>Diameter of the outside of the body tube for conformal base type</source>
-      <translation>Średnica zewnętrznej rurki korpusu dla konformalnego typu podstawy</translation>
+      <translation>Średnica zewnętrznej rurki korpusu dla typu podstawy zgodnego z normą</translation>
     </message>
     <message>
       <location filename="FeatureRailGuide.py" line="79"/>
       <source>Automatically set the diameter when possible</source>
-      <translation>Automatycznie ustawiaj średnicę gdy to możliwe</translation>
+      <translation>Automatycznie ustawiaj średnicę, gdy to możliwe</translation>
     </message>
     <message>
       <location filename="FeatureRailGuide.py" line="81"/>
@@ -391,17 +391,17 @@
     <message>
       <location filename="FeatureRailGuide.py" line="91"/>
       <source>The component has a notch down the middle</source>
-      <translation>Komponent ma karb na środku</translation>
+      <translation>Komponent ma wycięcie w środkowej części</translation>
     </message>
     <message>
       <location filename="FeatureRailGuide.py" line="93"/>
       <source>Width of the notch</source>
-      <translation>Szerokość nacięcia</translation>
+      <translation>Szerokość wycięcia</translation>
     </message>
     <message>
       <location filename="FeatureRailGuide.py" line="95"/>
       <source>Depth of the notch</source>
-      <translation>Głębokość nacięcia</translation>
+      <translation>Głębokość wycięcia</translation>
     </message>
     <message>
       <location filename="FeatureRailButton.py" line="66"/>
@@ -516,37 +516,37 @@
     <message>
       <location filename="FeatureFinCan.py" line="94"/>
       <source>Diameter of the inside of the launch lug</source>
-      <translation type="unfinished">Diameter of the inside of the launch lug</translation>
+      <translation>Średnica wewnętrznej strony uchwytu startowego</translation>
     </message>
     <message>
       <location filename="FeatureFinCan.py" line="96"/>
       <source>Thickness of the launch lug</source>
-      <translation type="unfinished">Thickness of the launch lug</translation>
+      <translation>Grubość uchwytu startowego</translation>
     </message>
     <message>
       <location filename="FeatureFinCan.py" line="98"/>
       <source>Launch lug thickness is the same as the fin can</source>
-      <translation type="unfinished">Launch lug thickness is the same as the fin can</translation>
+      <translation>Grubość uchwytu startowego jest taka sama jak rury statecznika</translation>
     </message>
     <message>
       <location filename="FeatureFinCan.py" line="102"/>
       <source>Automatically adjust the length of the launch lug</source>
-      <translation type="unfinished">Automatically adjust the length of the launch lug</translation>
+      <translation>Automatyczna regulacja długości uchwytu startowego</translation>
     </message>
     <message>
       <location filename="FeatureFinCan.py" line="106"/>
       <source>Launch lug fillet radius</source>
-      <translation type="unfinished">Launch lug fillet radius</translation>
+      <translation>Promień zaokrąglenia uchwytu startowego</translation>
     </message>
     <message>
       <location filename="FeatureFinCan.py" line="133"/>
       <source>Launch lug size preset</source>
-      <translation type="unfinished">Launch lug size preset</translation>
+      <translation>Wstępne ustawienie rozmiaru uchwytu startowego</translation>
     </message>
     <message>
       <location filename="FeatureFinCan.py" line="122"/>
       <source>Forward side of the launch lug is swept</source>
-      <translation type="unfinished">Forward side of the launch lug is swept</translation>
+      <translation>Przednia część uchwytu startowego jest pochylona</translation>
     </message>
     <message>
       <location filename="FeatureFinCan.py" line="124"/>
@@ -556,7 +556,7 @@
     <message>
       <location filename="FeatureFinCan.py" line="126"/>
       <source>Aft side of the launch lug is swept</source>
-      <translation type="unfinished">Aft side of the launch lug is swept</translation>
+      <translation>Tylna strona uchwytu startowego jest przeciągnięta</translation>
     </message>
     <message>
       <location filename="FeatureFinCan.py" line="128"/>
@@ -576,7 +576,7 @@
     <message>
       <location filename="FeatureFinCan.py" line="100"/>
       <source>Length of the launch lug</source>
-      <translation type="unfinished">Length of the launch lug</translation>
+      <translation>Długość uchwytu startowego</translation>
     </message>
     <message>
       <location filename="FeatureFinCan.py" line="131"/>
@@ -591,7 +591,7 @@
     <message>
       <location filename="FeatureFinCan.py" line="147"/>
       <source>Length of the coupler</source>
-      <translation type="unfinished">Length of the coupler</translation>
+      <translation>Długość łącznika</translation>
     </message>
     <message>
       <location filename="FeatureTransition.py" line="95"/>
@@ -601,7 +601,7 @@
     <message>
       <location filename="FeatureTransition.py" line="143"/>
       <source>Aft cap style</source>
-      <translation type="unfinished">Aft cap style</translation>
+      <translation>Styl nasadki tylnej</translation>
     </message>
     <message>
       <location filename="RingComponent.py" line="56"/>
@@ -609,19 +609,19 @@
       <translation type="unfinished">Automatically set the outer diameter when possible</translation>
     </message>
     <message>
-      <location filename="FeatureInnerTube.py" line="61"/>
+      <location filename="FeatureBodyTube.py" line="59"/>
       <source>This component is a motor mount</source>
       <translation type="unfinished">This component is a motor mount</translation>
     </message>
     <message>
-      <location filename="FeatureInnerTube.py" line="59"/>
+      <location filename="FeatureBodyTube.py" line="61"/>
       <source>Motor overhang</source>
-      <translation type="unfinished">Motor overhang</translation>
+      <translation>Wysunięcie silnika</translation>
     </message>
     <message>
       <location filename="FeatureBodyTube.py" line="64"/>
       <source>This component is solid</source>
-      <translation type="unfinished">This component is solid</translation>
+      <translation>Ten komponent jest bryłą</translation>
     </message>
     <message>
       <location filename="FeatureFin.py" line="115"/>
@@ -631,7 +631,7 @@
     <message>
       <location filename="FeatureFin.py" line="130"/>
       <source>Fin cant</source>
-      <translation type="unfinished">Fin cant</translation>
+      <translation>Korpus ogona ze statecznikiem</translation>
     </message>
     <message>
       <location filename="FeatureFin.py" line="141"/>
@@ -641,17 +641,17 @@
     <message>
       <location filename="FeatureFin.py" line="153"/>
       <source>Tube fin outer diameter</source>
-      <translation type="unfinished">Tube fin outer diameter</translation>
+      <translation>Średnica zewnętrzna rury statecznika</translation>
     </message>
     <message>
       <location filename="FeatureFin.py" line="155"/>
       <source>Tube fin auto outer diameter</source>
-      <translation type="unfinished">Tube fin auto outer diameter</translation>
+      <translation>Średnica zewnętrzna rury statecznika — automatycznie</translation>
     </message>
     <message>
       <location filename="FeatureFin.py" line="157"/>
       <source>Tube fin thickness</source>
-      <translation type="unfinished">Tube fin thickness</translation>
+      <translation>Grubość rury statecznika</translation>
     </message>
     <message>
       <location filename="FeatureFin.py" line="168"/>
@@ -671,7 +671,7 @@
     <message>
       <location filename="FeatureFinCan.py" line="104"/>
       <source>Distance between the fin can leading edge and the launch lug leading edge</source>
-      <translation type="unfinished">Distance between the fin can leading edge and the launch lug leading edge</translation>
+      <translation>Odległość między krawędzią natarcia rury statecznika a krawędzią natarcia wyrzutni</translation>
     </message>
     <message>
       <location filename="FeatureFinCan.py" line="141"/>
@@ -699,7 +699,7 @@
       <translation type="unfinished">Rotation applied to the motor mount cluster</translation>
     </message>
     <message>
-      <location filename="RadiusRingComponent.py" line="46"/>
+      <location filename="FeatureRailGuide.py" line="98"/>
       <source>Instance count</source>
       <translation type="unfinished">Instance count</translation>
     </message>
@@ -791,7 +791,7 @@
     <message>
       <location filename="FeatureTransition.py" line="132"/>
       <source>Forward cap style</source>
-      <translation type="unfinished">Forward cap style</translation>
+      <translation>Styl nasadki przedniej</translation>
     </message>
     <message>
       <location filename="AngleMethod.py" line="53"/>
@@ -801,7 +801,7 @@
     <message>
       <location filename="AngleMethod.py" line="64"/>
       <source>Angle is fixed</source>
-      <translation type="unfinished">Angle is fixed</translation>
+      <translation>Kąt jest ustawiony na stałe</translation>
     </message>
     <message>
       <location filename="AngleMethod.py" line="75"/>
@@ -876,27 +876,27 @@
     <message>
       <location filename="RocketComponent.py" line="55"/>
       <source>Reference location for the location</source>
-      <translation type="unfinished">Reference location for the location</translation>
+      <translation>Odniesienie dla położenia</translation>
     </message>
     <message>
       <location filename="RocketComponentShapeless.py" line="90"/>
       <source>Reference location for the radial offset</source>
-      <translation type="unfinished">Reference location for the radial offset</translation>
+      <translation>Lokalizacja odniesienia dla przesunięcia promieniowego</translation>
     </message>
     <message>
       <location filename="RocketComponentShapeless.py" line="103"/>
       <source>Radial offset from the reference</source>
-      <translation type="unfinished">Radial offset from the reference</translation>
+      <translation>Odsunięcie promieniowe od położenia odniesienia</translation>
     </message>
     <message>
       <location filename="RocketComponent.py" line="73"/>
       <source>Length of the component</source>
-      <translation type="unfinished">Length of the component</translation>
+      <translation>Długość komponentu</translation>
     </message>
     <message>
       <location filename="RocketComponentShapeless.py" line="83"/>
       <source>Method for calculating axial offsets</source>
-      <translation type="unfinished">Method for calculating axial offsets</translation>
+      <translation>Metoda obliczania przesunięć osiowych</translation>
     </message>
     <message>
       <location filename="RocketComponent.py" line="78"/>
@@ -906,7 +906,7 @@
     <message>
       <location filename="RocketComponent.py" line="81"/>
       <source>Shape of the component</source>
-      <translation type="unfinished">Shape of the component</translation>
+      <translation>Kształt komponentu</translation>
     </message>
     <message>
       <location filename="RocketComponentShapeless.py" line="80"/>
@@ -916,52 +916,52 @@
     <message>
       <location filename="RocketComponentShapeless.py" line="85"/>
       <source>Offset from the reference point</source>
-      <translation type="unfinished">Offset from the reference point</translation>
+      <translation>Przesunięcie względem punktu odniesienia</translation>
     </message>
     <message>
       <location filename="RocketComponentShapeless.py" line="87"/>
       <source>Angle of offset around the center axis</source>
-      <translation type="unfinished">Angle of offset around the center axis</translation>
+      <translation>Kąt przesunięcia wokół osi środkowej</translation>
     </message>
     <message>
       <location filename="FeatureFin.py" line="160"/>
       <source>Set a minimum edge size for fins that would normally have a sharp edge</source>
-      <translation type="unfinished">Set a minimum edge size for fins that would normally have a sharp edge</translation>
+      <translation>Set a minimum edge size for fins that would normally have a sharp edge.</translation>
     </message>
     <message>
       <location filename="FeatureFin.py" line="162"/>
       <source>Minimum edge size</source>
-      <translation type="unfinished">Minimum edge size</translation>
+      <translation>Minimalny rozmiar krawędzi</translation>
     </message>
     <message>
       <location filename="FeatureRailButton.py" line="77"/>
       <source>Height of the top part of the rail button</source>
-      <translation type="unfinished">Height of the top part of the rail button</translation>
+      <translation>Wysokość górnej części przycisku prowadnicy</translation>
     </message>
     <message>
       <location filename="FeatureRailButton.py" line="79"/>
       <source>Height of the bottom part of the rail button</source>
-      <translation type="unfinished">Height of the bottom part of the rail button</translation>
+      <translation>Wysokość dolnej części przycisku prowadnicy</translation>
     </message>
     <message>
       <location filename="FeatureRailButton.py" line="81"/>
       <source>Total height of the rail button</source>
-      <translation type="unfinished">Total height of the rail button</translation>
+      <translation>Całkowita wysokość przycisku prowadnicy</translation>
     </message>
     <message>
       <location filename="FeatureRailGuide.py" line="71"/>
       <source>Height of the top part of the launch guide</source>
-      <translation type="unfinished">Height of the top part of the launch guide</translation>
+      <translation>Wysokość górnej części prowadnicy wyrzutni</translation>
     </message>
     <message>
       <location filename="FeatureRailGuide.py" line="73"/>
       <source>Height of the inside part of the launch guide</source>
-      <translation type="unfinished">Height of the inside part of the launch guide</translation>
+      <translation>Wysokość wewnętrznej części prowadnicy wyrzutni</translation>
     </message>
     <message>
       <location filename="FeatureRailGuide.py" line="75"/>
       <source>Total height of the launch guide</source>
-      <translation type="unfinished">Total height of the launch guide</translation>
+      <translation>Całkowita wysokość prowadnicy wyrzutni</translation>
     </message>
   </context>
   <context>
@@ -979,10 +979,10 @@
     <message>
       <location filename="CmdCalcVentHoles.py" line="49"/>
       <source>Calculate vent hole size</source>
-      <translation>Obliczanie wielkości otworu wentylacyjnego</translation>
+      <translation>Oblicz wielkości otworu wentylacyjnego</translation>
     </message>
     <message>
-      <location filename="DialogParachute.py" line="42"/>
+      <location filename="DialogBlackPowder.py" line="38"/>
       <source>Custom</source>
       <translation>Niestandardowy</translation>
     </message>
@@ -1002,14 +1002,14 @@
       <translation>Parametr Rury Korpusowej</translation>
     </message>
     <message>
-      <location filename="TaskPanelRailButton.py" line="94"/>
+      <location filename="TaskPanelBodyTube.py" line="75"/>
       <source>Inner Diameter</source>
-      <translation>Średnica wewnętrzna</translation>
+      <translation>⌀ wewnętrzna</translation>
     </message>
     <message>
-      <location filename="TaskPanelRailButton.py" line="88"/>
+      <location filename="TaskPanelBodyTube.py" line="81"/>
       <source>Outer Diameter</source>
-      <translation>Średnica zewnętrzna</translation>
+      <translation>⌀ zewnętrzna</translation>
     </message>
     <message>
       <location filename="TaskPanelTransition.py" line="298"/>
@@ -1072,7 +1072,7 @@
       <translation>Liczba</translation>
     </message>
     <message>
-      <location filename="TaskPanelFin.py" line="404"/>
+      <location filename="TaskPanelBulkhead.py" line="156"/>
       <source>Offset</source>
       <translation>Odsunięcie</translation>
     </message>
@@ -1082,7 +1082,7 @@
       <translation>Parametr komponentu rakiety</translation>
     </message>
     <message>
-      <location filename="TaskPanelDatabase.py" line="50"/>
+      <location filename="DialogMaterialMapping.py" line="183"/>
       <source>Manufacturer</source>
       <translation>Producent</translation>
     </message>
@@ -1097,7 +1097,7 @@
       <translation>Opis</translation>
     </message>
     <message>
-      <location filename="MaterialTab.py" line="44"/>
+      <location filename="TaskPanelTransition.py" line="63"/>
       <source>Material</source>
       <translation>Materiał</translation>
     </message>
@@ -1154,12 +1154,12 @@
     <message>
       <location filename="TaskPanelFinCan.py" line="219"/>
       <source>Sweep Length</source>
-      <translation>Długość Skosu</translation>
+      <translation>Długość skosu</translation>
     </message>
     <message>
       <location filename="TaskPanelRailGuide.py" line="150"/>
       <source>Sweep Angle</source>
-      <translation>Kąt Skosu</translation>
+      <translation>Kąt skosu</translation>
     </message>
     <message>
       <location filename="TaskPanelFin.py" line="401"/>
@@ -1194,12 +1194,12 @@
     <message>
       <location filename="TaskPanelTransition.py" line="130"/>
       <source>Aft Diameter</source>
-      <translation>Średnica rufowa</translation>
+      <translation>⌀ rufowa</translation>
     </message>
     <message>
       <location filename="TaskPanelTransition.py" line="139"/>
       <source>Core Diameter</source>
-      <translation>Średnica rdzenia</translation>
+      <translation>⌀ rdzenia</translation>
     </message>
     <message>
       <location filename="TaskPanelTransition.py" line="262"/>
@@ -1289,17 +1289,17 @@
     <message>
       <location filename="CenteringRingShapeHandler.py" line="64"/>
       <source>The notch width must be less than or equal to the center diameter</source>
-      <translation>Szerokość karbu musi być mniejsza lub równa środkowej średnicy</translation>
+      <translation>Szerokość wycięcia musi być mniejsza lub równa średnicy środkowej</translation>
     </message>
     <message>
       <location filename="CenteringRingShapeHandler.py" line="67"/>
       <source>The notch width must be greater than zero</source>
-      <translation>Szerokość karbu musi być większa niż zero</translation>
+      <translation>Szerokość wycięcia musi być większa od zera</translation>
     </message>
     <message>
       <location filename="CenteringRingShapeHandler.py" line="70"/>
       <source>The notch height must be greater than zero</source>
-      <translation>Wysokość karbu musi być większa niż zero</translation>
+      <translation>Wysokość wycięcia musi być większa od zera</translation>
     </message>
     <message>
       <location filename="CenteringRingShapeHandler.py" line="75"/>
@@ -1377,7 +1377,7 @@
       <translation>Dla stożków czubków %s z nasadką, grubość nasadki musi być &gt; 0</translation>
     </message>
     <message>
-      <location filename="TransitionShapeHandler.py" line="168"/>
+      <location filename="NoseShapeHandler.py" line="117"/>
       <source>Shoulder thickness must be less than the shoulder radius</source>
       <translation>Grubość nasadki musi być mniejsza niż promień nasadki</translation>
     </message>
@@ -1492,12 +1492,12 @@
       <translation>Projekt pierścienia centrującego</translation>
     </message>
     <message>
-      <location filename="CmdParachuteDesigner.py" line="73"/>
+      <location filename="CmdFin.py" line="71"/>
       <source>Fin</source>
       <translation>Statecznik</translation>
     </message>
     <message>
-      <location filename="CmdParachuteDesigner.py" line="74"/>
+      <location filename="CmdFin.py" line="72"/>
       <source>Fin design</source>
       <translation>Projekt statecznika</translation>
     </message>
@@ -1539,7 +1539,7 @@
     <message>
       <location filename="DialogVentHoles.py" line="63"/>
       <source>Body Tube Length</source>
-      <translation>Długość rury korpusowej</translation>
+      <translation>Długość rury korpusu</translation>
     </message>
     <message>
       <location filename="DialogBlackPowder.py" line="86"/>
@@ -1829,17 +1829,17 @@
     <message>
       <location filename="RailGuideShapeHandler.py" line="113"/>
       <source>Notch width must be greater than zero</source>
-      <translation>Szerokość karbu musi być większa niż zero</translation>
+      <translation>Szerokość wycięcia musi być większa od zera</translation>
     </message>
     <message>
       <location filename="RailGuideShapeHandler.py" line="117"/>
       <source>Notch width can not exceed the middle width</source>
-      <translation>Szerokość karbu nie może przekraczać środkowej szerokości</translation>
+      <translation>Szerokość wycięcia nie może przekraczać szerokości środkowej</translation>
     </message>
     <message>
       <location filename="RailGuideShapeHandler.py" line="121"/>
       <source>Notch depth must be greater than zero</source>
-      <translation>Grubość karbu musi być większa niż zero</translation>
+      <translation>Głębokość wycięcia musi być większa od zera</translation>
     </message>
     <message>
       <location filename="RailGuideShapeHandler.py" line="308"/>
@@ -1847,7 +1847,7 @@
       <translation>Parametry prowadnicy tworzą nieprawidłowy kształt</translation>
     </message>
     <message>
-      <location filename="TaskPanelFinCan.py" line="519"/>
+      <location filename="CmdLaunchGuides.py" line="84"/>
       <source>Launch Lug</source>
       <translation>Uchwyt startowy</translation>
     </message>
@@ -1929,7 +1929,7 @@
     <message>
       <location filename="TaskPanelRailGuide.py" line="157"/>
       <source>Notch</source>
-      <translation>Karb</translation>
+      <translation>Wcięcie</translation>
     </message>
     <message>
       <location filename="TaskPanelRailGuide.py" line="166"/>
@@ -1982,7 +1982,7 @@
       <translation>Średnica trzonu</translation>
     </message>
     <message>
-      <location filename="TaskPanelRailButton.py" line="151"/>
+      <location filename="TaskPanelFinCan.py" line="528"/>
       <source>Presets</source>
       <translation>Nastawy wstępne</translation>
     </message>
@@ -2047,9 +2047,9 @@
       <translation type="unfinished">Fin can leading and trailing edges can not exceed total length</translation>
     </message>
     <message>
-      <location filename="LaunchLugShapeHandler.py" line="75"/>
+      <location filename="FinCanShapeHandler.py" line="320"/>
       <source>Launch lug parameters produce an invalid shape</source>
-      <translation type="unfinished">Launch lug parameters produce an invalid shape</translation>
+      <translation>Parametry uchwytu startowego generują nieprawidłowy kształt</translation>
     </message>
     <message>
       <location filename="FinCanShapeHandler.py" line="414"/>
@@ -2059,37 +2059,37 @@
     <message>
       <location filename="TaskPanelFinCan.py" line="74"/>
       <source>Fins</source>
-      <translation type="unfinished">Fins</translation>
+      <translation>Stateczniki</translation>
     </message>
     <message>
-      <location filename="TaskPanelFinCan.py" line="75"/>
+      <location filename="CmdFinCan.py" line="73"/>
       <source>Fin Can</source>
-      <translation>Korpus z płetwami</translation>
+      <translation>Korpus ze statecznikiem</translation>
     </message>
     <message>
       <location filename="TaskPanelFinCan.py" line="106"/>
       <source>Fin Set</source>
-      <translation type="unfinished">Fin Set</translation>
+      <translation>Ustawienia statecznika</translation>
     </message>
     <message>
       <location filename="TaskPanelFinCan.py" line="108"/>
       <source>Fin Count</source>
-      <translation type="unfinished">Fin Count</translation>
+      <translation>Ilość</translation>
     </message>
     <message>
       <location filename="TaskPanelFinCan.py" line="115"/>
       <source>Fin Spacing</source>
-      <translation type="unfinished">Fin Spacing</translation>
+      <translation>Odstęp</translation>
     </message>
     <message>
       <location filename="TaskPanelFinCan.py" line="552"/>
       <source>Leading Edge Offset</source>
-      <translation type="unfinished">Leading Edge Offset</translation>
+      <translation>Odsunięcie krawędzi natarcia</translation>
     </message>
     <message>
       <location filename="TaskPanelFinCan.py" line="371"/>
       <source>Leading Edge</source>
-      <translation type="unfinished">Leading Edge</translation>
+      <translation>Krawędź natarcia</translation>
     </message>
     <message>
       <location filename="TaskPanelFinCan.py" line="387"/>
@@ -2109,7 +2109,7 @@
     <message>
       <location filename="CmdFinCan.py" line="74"/>
       <source>Fin can design</source>
-      <translation>Konstrukcja korpusu z płetwą ogonową</translation>
+      <translation>Konstrukcja korpusu ze statecznikiem</translation>
     </message>
     <message>
       <location filename="TaskPanelRailButton.py" line="127"/>
@@ -2129,12 +2129,12 @@
     <message>
       <location filename="TaskPanelTransition.py" line="171"/>
       <source>Cap style</source>
-      <translation type="unfinished">Cap style</translation>
+      <translation>Styl nasadki</translation>
     </message>
     <message>
       <location filename="TaskPanelTransition.py" line="179"/>
       <source>Bar Width</source>
-      <translation type="unfinished">Bar Width</translation>
+      <translation>Szerokość prowadnicy</translation>
     </message>
     <message>
       <location filename="FinFlutter.py" line="76"/>
@@ -2157,9 +2157,9 @@
       <translation>Analiza</translation>
     </message>
     <message>
-      <location filename="CmdFlutterAnalysis.py" line="50"/>
+      <location filename="CmdFemAnalysis.py" line="90"/>
       <source>Please select a fin first</source>
-      <translation type="unfinished">Please select a fin first</translation>
+      <translation>Najpierw proszę wybrać statecznik</translation>
     </message>
     <message>
       <location filename="DialogFinFlutter.py" line="167"/>
@@ -2167,9 +2167,9 @@
       <translation>Analiza drżenia płetw</translation>
     </message>
     <message>
-      <location filename="CmdFlutterAnalysis.py" line="63"/>
+      <location filename="CmdFlutterAnalysis.py" line="70"/>
       <source>Calculate fin flutter</source>
-      <translation>Obliczanie drżenia płetw</translation>
+      <translation>Oblicza drżenie płetw</translation>
     </message>
     <message>
       <location filename="CmdMaterialEditor.py" line="40"/>
@@ -2214,7 +2214,7 @@
     <message>
       <location filename="DialogFinFlutter.py" line="185"/>
       <source>Calculated</source>
-      <translation>Obliczone</translation>
+      <translation>Oblicz</translation>
     </message>
     <message>
       <location filename="DialogFinFlutter.py" line="188"/>
@@ -2257,21 +2257,6 @@
       <translation type="unfinished">Mach</translation>
     </message>
     <message>
-      <location filename="DialogBlackPowder.py" line="66"/>
-      <source><byte value="xd"/>
-        &lt;html&gt;<byte value="xd"/>
-        &lt;h1&gt;WARNING&lt;/h1&gt;<byte value="xd"/>
-        &lt;p&gt;This calculator is an estimate only. Ground test your ejection system before flying. In certain cases this calculation may overestimate the amount of powder required&lt;/p&gt;<byte value="xd"/>
-        &lt;/html&gt;<byte value="xd"/>
-        </source>
-      <translation>
-        &lt;html&gt;
-        &lt;h1&gt;UWAGA&lt;/h1&gt;
-        &lt;p&gt;Ten kalkulator służy tylko do szacowania. Przetestuj swój mechanizm wyrzutowy przed startem. W niektórych wypadkach kalkulator ten może przeszacować ilość wymaganego prochu&lt;/p&gt;
-        &lt;/html&gt;
-        </translation>
-    </message>
-    <message>
       <location filename="FinCanShapeHandler.py" line="69"/>
       <source>Coupler length must be greater than zero</source>
       <translation>Długość łącznika musi być większa od zera</translation>
@@ -2294,17 +2279,17 @@
     <message>
       <location filename="TransitionShapeHandler.py" line="351"/>
       <source>Forward cap style produces an invalid shape</source>
-      <translation type="unfinished">Forward cap style produces an invalid shape</translation>
+      <translation>Parametry stylu nasadki tworzą nieprawidłowy kształt</translation>
     </message>
     <message>
-      <location filename="TaskPanelFinCan.py" line="455"/>
+      <location filename="CmdBodyTube.py" line="117"/>
       <source>Coupler</source>
       <translation>Łącznik</translation>
     </message>
     <message>
       <location filename="TaskPanelFinCan.py" line="458"/>
       <source>Coupler Style</source>
-      <translation type="unfinished">Coupler Style</translation>
+      <translation>Styl łącznika</translation>
     </message>
     <message>
       <location filename="TaskPanelFinCan.py" line="462"/>
@@ -2319,17 +2304,17 @@
     <message>
       <location filename="TaskPanelTransition.py" line="169"/>
       <source>Aft Cap</source>
-      <translation type="unfinished">Aft Cap</translation>
+      <translation>Pokrywa rufowa</translation>
     </message>
     <message>
       <location filename="Constants.py" line="160"/>
       <source>Surface of the parent component</source>
-      <translation type="unfinished">Surface of the parent component</translation>
+      <translation>Powierzchnia komponentu nadrzędnego</translation>
     </message>
     <message>
       <location filename="Constants.py" line="164"/>
       <source>Center of the parent component</source>
-      <translation type="unfinished">Center of the parent component</translation>
+      <translation>Środek komponentu nadrzędnego</translation>
     </message>
     <message>
       <location filename="FeatureFinCan.py" line="190"/>
@@ -2364,7 +2349,7 @@
     <message>
       <location filename="CmdBodyTube.py" line="118"/>
       <source>Coupler design</source>
-      <translation>Konstrukcja złącza</translation>
+      <translation>Konstrukcja łącznika</translation>
     </message>
     <message>
       <location filename="CmdBodyTube.py" line="137"/>
@@ -2419,7 +2404,7 @@
     <message>
       <location filename="CmdMaterialMapping.py" line="49"/>
       <source>Map part database materials to FreeCAD materials</source>
-      <translation type="unfinished">Map part database materials to FreeCAD materials</translation>
+      <translation>Mapowanie materiałów z bazy danych części na materiały FreeCAD</translation>
     </message>
     <message>
       <location filename="CmdParallelStage.py" line="82"/>
@@ -2457,7 +2442,7 @@
       <translation>Złożenie rakiety</translation>
     </message>
     <message>
-      <location filename="ViewRocket.py" line="64"/>
+      <location filename="CmdRocket.py" line="81"/>
       <source>Toggle active rocket</source>
       <translation>Przełącz aktywną rakietę</translation>
     </message>
@@ -2487,12 +2472,12 @@
       <translation>Gęstość</translation>
     </message>
     <message>
-      <location filename="CommentTab.py" line="42"/>
+      <location filename="TaskPanelTransition.py" line="64"/>
       <source>Comment</source>
       <translation>Komentarz</translation>
     </message>
     <message>
-      <location filename="TaskPanelLaunchLug.py" line="85"/>
+      <location filename="TaskPanelBodyTube.py" line="90"/>
       <source>Wall Thickness</source>
       <translation>Grubość ścianki</translation>
     </message>
@@ -2504,7 +2489,7 @@
     <message>
       <location filename="TaskPanelBodyTube.py" line="105"/>
       <source>Overhang</source>
-      <translation type="unfinished">Overhang</translation>
+      <translation>Wysunięcie</translation>
     </message>
     <message>
       <location filename="TaskPanelBulkhead.py" line="131"/>
@@ -2514,32 +2499,32 @@
     <message>
       <location filename="TaskPanelFinCan.py" line="121"/>
       <source>Fin Cant</source>
-      <translation type="unfinished">Fin Cant</translation>
+      <translation>Korpus ogona ze statecznikiem</translation>
     </message>
     <message>
       <location filename="TaskPanelFinCan.py" line="192"/>
       <source>Tip thickness same as root</source>
-      <translation type="unfinished">Tip thickness same as root</translation>
+      <translation>Grubość końcówki taka sama jak u nasady</translation>
     </message>
     <message>
       <location filename="TaskPanelFin.py" line="205"/>
       <source>Tube Fin</source>
-      <translation type="unfinished">Tube Fin</translation>
+      <translation>Rura statecznika</translation>
     </message>
     <message>
       <location filename="TaskPanelLaunchLug.py" line="70"/>
       <source>Launch Lug Parameter</source>
-      <translation type="unfinished">Launch Lug Parameter</translation>
+      <translation>Parametr zaczepu startowego</translation>
     </message>
     <message>
       <location filename="TaskPanelLocation.py" line="53"/>
       <source>Location Parameter</source>
-      <translation type="unfinished">Location Parameter</translation>
+      <translation>Parametry położenia</translation>
     </message>
     <message>
       <location filename="TaskPanelLocation.py" line="56"/>
       <source>Radial Reference</source>
-      <translation type="unfinished">Radial Reference</translation>
+      <translation>Odniesienie promieniowe</translation>
     </message>
     <message>
       <location filename="TaskPanelLocation.py" line="65"/>
@@ -2549,12 +2534,12 @@
     <message>
       <location filename="TaskPanelLocation.py" line="73"/>
       <source>Location Reference</source>
-      <translation type="unfinished">Location Reference</translation>
+      <translation>Odniesienie położenia</translation>
     </message>
     <message>
       <location filename="TaskPanelLocation.py" line="84"/>
       <source>Location</source>
-      <translation type="unfinished">Location</translation>
+      <translation>Położenie</translation>
     </message>
     <message>
       <location filename="TaskPanelLocation.py" line="90"/>
@@ -2609,92 +2594,112 @@
     <message>
       <location filename="RailButtonShapeHandler.py" line="75"/>
       <source>Top height must be greater than or equal to zero</source>
-      <translation type="unfinished">Top height must be greater than or equal to zero</translation>
+      <translation>Górna wysokość musi mieć wartość większą lub równą zero</translation>
     </message>
     <message>
       <location filename="RailButtonShapeHandler.py" line="78"/>
       <source>Base height must be greater than or equal to zero</source>
-      <translation type="unfinished">Base height must be greater than or equal to zero</translation>
+      <translation>Wysokość bazowa musi mieć wartość większą lub równą zero</translation>
     </message>
     <message>
       <location filename="RailButtonShapeHandler.py" line="81"/>
       <source>Height must be greater than zero</source>
-      <translation type="unfinished">Height must be greater than zero</translation>
+      <translation>Wysokość musi mieć wartość większą od zera</translation>
     </message>
     <message>
       <location filename="RailButtonShapeHandler.py" line="84"/>
       <source>Top and base height can not excedd the total height</source>
-      <translation type="unfinished">Top and base height can not excedd the total height</translation>
+      <translation>Wartość wysokości górnej i dolnej nie może przekraczać wysokości całkowitej</translation>
     </message>
     <message>
       <location filename="RailGuideShapeHandler.py" line="78"/>
       <source>Flange width must be greater than the middle width</source>
-      <translation type="unfinished">Flange width must be greater than the middle width</translation>
+      <translation>Szerokość kołnierza musi być większa niż szerokość środka</translation>
     </message>
     <message>
       <location filename="RailGuideShapeHandler.py" line="86"/>
       <source>Top height must be greater than zero</source>
-      <translation type="unfinished">Top height must be greater than zero</translation>
+      <translation>Wartość wysokości górnej musi być większa od zera</translation>
     </message>
     <message>
       <location filename="RailGuideShapeHandler.py" line="90"/>
       <source>Base height must be greater than zero</source>
-      <translation type="unfinished">Base height must be greater than zero</translation>
+      <translation>Wysokość podstawy musi być większa od zera</translation>
     </message>
     <message>
       <location filename="RailGuideShapeHandler.py" line="94"/>
       <source>Total height must be greater than the sum of top and base height</source>
-      <translation type="unfinished">Total height must be greater than the sum of top and base height</translation>
+      <translation>Całkowita wysokość musi być większa niż suma wysokości górnej i dolnej</translation>
     </message>
     <message>
       <location filename="RailGuideShapeHandler.py" line="125"/>
       <source>Notch depth can not exceed the total height</source>
-      <translation type="unfinished">Notch depth can not exceed the total height</translation>
+      <translation>Głębokość wycięcia nie może przekraczać całkowitej wysokości</translation>
     </message>
     <message>
       <location filename="DialogLookup.py" line="235"/>
       <source>Rail button not found</source>
-      <translation type="unfinished">Rail button not found</translation>
+      <translation>Brak przycisku prowadnicy</translation>
     </message>
     <message>
       <location filename="DialogLookup.py" line="391"/>
       <source>Finish</source>
-      <translation type="unfinished">Finish</translation>
+      <translation>Zakończenie</translation>
     </message>
     <message>
       <location filename="TaskPanelRailGuide.py" line="102"/>
       <source>Base Height</source>
-      <translation type="unfinished">Base Height</translation>
+      <translation>Wysokość podstawowa</translation>
     </message>
     <message>
       <location filename="TaskPanelRailGuide.py" line="96"/>
       <source>Flange Height</source>
-      <translation type="unfinished">Flange Height</translation>
+      <translation>Wysokość kołnierza</translation>
     </message>
     <message>
       <location filename="DialogLookup.py" line="397"/>
       <source>Screw Height</source>
-      <translation type="unfinished">Screw Height</translation>
+      <translation>Wysokość śruby</translation>
     </message>
     <message>
       <location filename="TaskPanelFin.py" line="248"/>
       <source>Minimum Edge</source>
-      <translation type="unfinished">Minimum Edge</translation>
+      <translation>Najmniejsza długość krawędzi</translation>
     </message>
     <message>
       <location filename="TaskPanelFin.py" line="251"/>
       <source>Size</source>
-      <translation type="unfinished">Size</translation>
+      <translation>Rozmiar</translation>
     </message>
     <message>
       <location filename="TaskPanelRailGuide.py" line="108"/>
       <source>Total Height</source>
-      <translation type="unfinished">Total Height</translation>
+      <translation>Wysokość całkowita</translation>
     </message>
     <message>
       <location filename="TaskPanelRailGuide.py" line="78"/>
       <source>Flange Width</source>
-      <translation type="unfinished">Flange Width</translation>
+      <translation>Szerokość kołnierza</translation>
+    </message>
+    <message>
+      <location filename="DialogBlackPowder.py" line="66"/>
+      <source>
+        &lt;html&gt;
+        &lt;h1&gt;WARNING&lt;/h1&gt;
+        &lt;p&gt;This calculator is an estimate only. Ground test your ejection system before flying. In certain cases this calculation may overestimate the amount of powder required&lt;/p&gt;
+        &lt;/html&gt;
+        </source>
+      <translation>
+        &lt;html&gt;
+        &lt;h1&gt;UWAGA&lt;/h1&gt;
+        &lt;p&gt;Ten kalkulator służy tylko do szacowania. Przetestuj swój mechanizm wyrzutowy przed startem. W niektórych wypadkach kalkulator ten może przeszacować ilość wymaganego prochu&lt;/p&gt;
+        &lt;/html&gt;
+        </translation>
+    </message>
+    <message>
+      <location filename="CmdFlutterAnalysis.py" line="45"/>
+      <source>QtCharts is not available on your system</source>
+      <translation type="unfinished">QtCharts is not available on your system</translation>
     </message>
   </context>
 </TS>

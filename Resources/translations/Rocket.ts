@@ -8,7 +8,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FeatureLaunchLug.py" line="55"/>
+        <location filename="FeatureBodyTube.py" line="52"/>
         <source>Diameter of the outside of the body tube</source>
         <translation type="unfinished"></translation>
     </message>
@@ -233,12 +233,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FeatureTransition.py" line="89"/>
+        <location filename="FeatureNoseCone.py" line="78"/>
         <source>Coefficient</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FeatureTransition.py" line="91"/>
+        <location filename="FeatureNoseCone.py" line="82"/>
         <source>Resolution</source>
         <translation type="unfinished"></translation>
     </message>
@@ -608,12 +608,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FeatureInnerTube.py" line="61"/>
+        <location filename="FeatureBodyTube.py" line="59"/>
         <source>This component is a motor mount</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FeatureInnerTube.py" line="59"/>
+        <location filename="FeatureBodyTube.py" line="61"/>
         <source>Motor overhang</source>
         <translation type="unfinished"></translation>
     </message>
@@ -698,7 +698,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="RadiusRingComponent.py" line="46"/>
+        <location filename="FeatureRailGuide.py" line="98"/>
         <source>Instance count</source>
         <translation type="unfinished"></translation>
     </message>
@@ -981,7 +981,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="DialogParachute.py" line="42"/>
+        <location filename="DialogBlackPowder.py" line="38"/>
         <source>Custom</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1001,12 +1001,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="TaskPanelRailButton.py" line="94"/>
+        <location filename="TaskPanelBodyTube.py" line="75"/>
         <source>Inner Diameter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="TaskPanelRailButton.py" line="88"/>
+        <location filename="TaskPanelBodyTube.py" line="81"/>
         <source>Outer Diameter</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1071,7 +1071,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="TaskPanelFin.py" line="404"/>
+        <location filename="TaskPanelBulkhead.py" line="156"/>
         <source>Offset</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1081,7 +1081,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="TaskPanelDatabase.py" line="50"/>
+        <location filename="DialogMaterialMapping.py" line="183"/>
         <source>Manufacturer</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1096,7 +1096,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MaterialTab.py" line="44"/>
+        <location filename="TaskPanelTransition.py" line="63"/>
         <source>Material</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1376,7 +1376,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="TransitionShapeHandler.py" line="168"/>
+        <location filename="NoseShapeHandler.py" line="117"/>
         <source>Shoulder thickness must be less than the shoulder radius</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1491,12 +1491,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="CmdParachuteDesigner.py" line="73"/>
+        <location filename="CmdFin.py" line="71"/>
         <source>Fin</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="CmdParachuteDesigner.py" line="74"/>
+        <location filename="CmdFin.py" line="72"/>
         <source>Fin design</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1846,7 +1846,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="TaskPanelFinCan.py" line="519"/>
+        <location filename="CmdLaunchGuides.py" line="84"/>
         <source>Launch Lug</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1981,7 +1981,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="TaskPanelRailButton.py" line="151"/>
+        <location filename="TaskPanelFinCan.py" line="528"/>
         <source>Presets</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2046,7 +2046,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="LaunchLugShapeHandler.py" line="75"/>
+        <location filename="FinCanShapeHandler.py" line="320"/>
         <source>Launch lug parameters produce an invalid shape</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2061,7 +2061,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="TaskPanelFinCan.py" line="75"/>
+        <location filename="CmdFinCan.py" line="73"/>
         <source>Fin Can</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2156,7 +2156,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="CmdFlutterAnalysis.py" line="50"/>
+        <location filename="CmdFemAnalysis.py" line="90"/>
         <source>Please select a fin first</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2166,7 +2166,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="CmdFlutterAnalysis.py" line="63"/>
+        <location filename="CmdFlutterAnalysis.py" line="70"/>
         <source>Calculate fin flutter</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2256,16 +2256,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="DialogBlackPowder.py" line="66"/>
-        <source><byte value="xd"/>
-        &lt;html&gt;<byte value="xd"/>
-        &lt;h1&gt;WARNING&lt;/h1&gt;<byte value="xd"/>
-        &lt;p&gt;This calculator is an estimate only. Ground test your ejection system before flying. In certain cases this calculation may overestimate the amount of powder required&lt;/p&gt;<byte value="xd"/>
-        &lt;/html&gt;<byte value="xd"/>
-        </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="FinCanShapeHandler.py" line="69"/>
         <source>Coupler length must be greater than zero</source>
         <translation type="unfinished"></translation>
@@ -2291,7 +2281,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="TaskPanelFinCan.py" line="455"/>
+        <location filename="CmdBodyTube.py" line="117"/>
         <source>Coupler</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2451,7 +2441,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ViewRocket.py" line="64"/>
+        <location filename="CmdRocket.py" line="81"/>
         <source>Toggle active rocket</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2481,12 +2471,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="CommentTab.py" line="42"/>
+        <location filename="TaskPanelTransition.py" line="64"/>
         <source>Comment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="TaskPanelLaunchLug.py" line="85"/>
+        <location filename="TaskPanelBodyTube.py" line="90"/>
         <source>Wall Thickness</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2688,6 +2678,21 @@
     <message>
         <location filename="TaskPanelRailGuide.py" line="78"/>
         <source>Flange Width</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="DialogBlackPowder.py" line="66"/>
+        <source>
+        &lt;html&gt;
+        &lt;h1&gt;WARNING&lt;/h1&gt;
+        &lt;p&gt;This calculator is an estimate only. Ground test your ejection system before flying. In certain cases this calculation may overestimate the amount of powder required&lt;/p&gt;
+        &lt;/html&gt;
+        </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="CmdFlutterAnalysis.py" line="45"/>
+        <source>QtCharts is not available on your system</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
