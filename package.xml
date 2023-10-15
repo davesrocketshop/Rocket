@@ -20,6 +20,7 @@
 
       <depend>Fem</depend>
       <depend>Material</depend>
+      <depend>matplotlib</depend>
     </workbench>
   </content>
 

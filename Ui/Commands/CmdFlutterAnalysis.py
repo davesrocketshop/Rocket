@@ -32,6 +32,7 @@ from DraftTools import translate
 from PySide import QtGui
 
 from Ui.Commands.Command import Command
+from Ui.DialogFinFlutter import DialogFinFlutter
 
 def calcFinFlutter():
 
@@ -39,13 +40,6 @@ def calcFinFlutter():
     for fin in FreeCADGui.Selection.getSelection():
         if fin.isDerivedFrom('Part::FeaturePython'):
             if hasattr(fin,"FinType"):
-                try:
-                    from PySide2.QtCharts import QtCharts
-                except ModuleNotFoundError:
-                    QtGui.QMessageBox.information(None, "", translate('Rocket', "QtCharts is not available on your system"))
-                    return
-                
-                from Ui.DialogFinFlutter import DialogFinFlutter
                 try:
                     form = DialogFinFlutter(fin)
                     form.exec_()
