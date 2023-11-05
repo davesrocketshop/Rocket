@@ -2156,17 +2156,17 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="CmdFemAnalysis.py" line="90"/>
+        <location filename="CmdFemAnalysis.py" line="89"/>
         <source>Please select a fin first</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="DialogFinFlutter.py" line="167"/>
+        <location filename="DialogFinFlutter.py" line="93"/>
         <source>Fin Flutter Analysis</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="CmdFlutterAnalysis.py" line="70"/>
+        <location filename="CmdFlutterAnalysis.py" line="64"/>
         <source>Calculate fin flutter</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2201,57 +2201,57 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="DialogFinFlutter.py" line="173"/>
+        <location filename="DialogFinFlutter.py" line="99"/>
         <source>Preset</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="DialogFinFlutter.py" line="178"/>
+        <location filename="DialogFinFlutter.py" line="104"/>
         <source>Shear Modulus</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="DialogFinFlutter.py" line="185"/>
+        <location filename="DialogFinFlutter.py" line="111"/>
         <source>Calculated</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="DialogFinFlutter.py" line="188"/>
+        <location filename="DialogFinFlutter.py" line="114"/>
         <source>Young&apos;s Modulus</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="DialogFinFlutter.py" line="196"/>
+        <location filename="DialogFinFlutter.py" line="122"/>
         <source>Poisson Ratio</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="DialogFinFlutter.py" line="203"/>
+        <location filename="DialogFinFlutter.py" line="129"/>
         <source>Fin Flutter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="DialogFinFlutter.py" line="205"/>
+        <location filename="DialogFinFlutter.py" line="131"/>
         <source>Maximum Altitude</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="DialogFinFlutter.py" line="210"/>
+        <location filename="DialogFinFlutter.py" line="136"/>
         <source>Altitude at Max Speed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="DialogFinFlutter.py" line="227"/>
+        <location filename="DialogFinFlutter.py" line="167"/>
         <source>Flutter Speed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="DialogFinFlutter.py" line="235"/>
+        <location filename="DialogFinFlutter.py" line="175"/>
         <source>Divergence Speed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="DialogFinFlutter.py" line="250"/>
+        <location filename="DialogFinFlutter.py" line="190"/>
         <source>Mach</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2391,7 +2391,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="CmdFemAnalysis.py" line="103"/>
+        <location filename="CmdFemAnalysis.py" line="102"/>
         <source>Fin FEM Analysis</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2688,11 +2688,6 @@
         &lt;p&gt;This calculator is an estimate only. Ground test your ejection system before flying. In certain cases this calculation may overestimate the amount of powder required&lt;/p&gt;
         &lt;/html&gt;
         </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="CmdFlutterAnalysis.py" line="45"/>
-        <source>QtCharts is not available on your system</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
