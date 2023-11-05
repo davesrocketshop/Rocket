@@ -2,8 +2,8 @@
 <package format="1" xmlns="https://wiki.freecad.org/Package_Metadata">
   <name>Rocket</name>
   <description>A workbench for designing model rockets.</description>
-  <version>3.2.2</version>
-  <date>2023-10-14</date>
+  <version>3.2.3</version>
+  <date>2023-11-05</date>
   <maintainer email="dcarter@davidcarter.ca">David Carter</maintainer>
   <license file="LICENSE">LGPLv2.1</license>
   <url type="repository" branch="master">https://github.com/davesrocketshop/Rocket</url>
