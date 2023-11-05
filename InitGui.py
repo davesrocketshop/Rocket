@@ -86,3 +86,5 @@ class RocketWorkbench ( Workbench ):
         return "Gui::PythonWorkbench"
 
 Gui.addWorkbench(RocketWorkbench())
+
+FreeCAD.__unit_test__ += ["TestRocketGui"]

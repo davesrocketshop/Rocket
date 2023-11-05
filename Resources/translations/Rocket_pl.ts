@@ -181,27 +181,27 @@
     <message>
       <location filename="FeatureFin.py" line="133"/>
       <source>Through the wall (TTW) tab</source>
-      <translation>Żebro przechodzące przez ścianę</translation>
+      <translation>Żebro wewnętrzne przechodzące przez ścianę</translation>
     </message>
     <message>
       <location filename="FeatureFin.py" line="135"/>
       <source>TTW Offset from fin root</source>
-      <translation>Odsunięcie żebra przechodzącego przez ścianę od podstawy statecznika</translation>
+      <translation>Odsunięcie żebra wewnętrznego przechodzącego przez ścianę od podstawy statecznika</translation>
     </message>
     <message>
       <location filename="FeatureFin.py" line="137"/>
       <source>TTW Length</source>
-      <translation>Długość żebra przechodzącego przez ścianę</translation>
+      <translation>Długość żebra wewnętrznego przechodzącego przez ścianę</translation>
     </message>
     <message>
       <location filename="FeatureFin.py" line="139"/>
       <source>TTW Height</source>
-      <translation>Wysokość żebra przechodzącego przez ścianę</translation>
+      <translation>Wysokość żebra wewnętrznego przechodzącego przez ścianę</translation>
     </message>
     <message>
       <location filename="FeatureFin.py" line="143"/>
       <source>TTW thickness</source>
-      <translation>Grubość żebra przechodzącego przez ścianę</translation>
+      <translation>Grubość żebra wewnętrznego przechodzącego przez ścianę</translation>
     </message>
     <message>
       <location filename="FeatureNoseCone.py" line="62"/>
@@ -486,7 +486,7 @@
     <message>
       <location filename="FeatureFinCan.py" line="70"/>
       <source>Distance between the fin can leading edge and the fin leading edge</source>
-      <translation type="unfinished">Distance between the fin can leading edge and the fin leading edge</translation>
+      <translation>Odległość między krawędzią natarcia korpusu ze statecznikiem a krawędzią natarcia płetwy</translation>
     </message>
     <message>
       <location filename="FeatureFinCan.py" line="73"/>
@@ -551,7 +551,7 @@
     <message>
       <location filename="FeatureFinCan.py" line="124"/>
       <source>Forward sweep angle</source>
-      <translation type="unfinished">Forward sweep angle</translation>
+      <translation>Kąt odchylenia do przodu</translation>
     </message>
     <message>
       <location filename="FeatureFinCan.py" line="126"/>
@@ -561,7 +561,7 @@
     <message>
       <location filename="FeatureFinCan.py" line="128"/>
       <source>Aft sweep angle</source>
-      <translation type="unfinished">Aft sweep angle</translation>
+      <translation>Kąt obrotu rufy</translation>
     </message>
     <message>
       <location filename="FeatureNoseCone.py" line="58"/>
@@ -586,7 +586,7 @@
     <message>
       <location filename="FeatureFinCan.py" line="143"/>
       <source>Diameter of the outside of the coupler</source>
-      <translation type="unfinished">Diameter of the outside of the coupler</translation>
+      <translation>Średnica zewnętrznej części łącznika</translation>
     </message>
     <message>
       <location filename="FeatureFinCan.py" line="147"/>
@@ -596,7 +596,7 @@
     <message>
       <location filename="FeatureTransition.py" line="95"/>
       <source>Width of the aft cap bar</source>
-      <translation type="unfinished">Width of the aft cap bar</translation>
+      <translation>Szerokość rufowej belki zaślepiającej</translation>
     </message>
     <message>
       <location filename="FeatureTransition.py" line="143"/>
@@ -606,12 +606,12 @@
     <message>
       <location filename="RingComponent.py" line="56"/>
       <source>Automatically set the outer diameter when possible</source>
-      <translation type="unfinished">Automatically set the outer diameter when possible</translation>
+      <translation>Jeśli to możliwe, automatycznie ustal średnicę zewnętrzną</translation>
     </message>
     <message>
       <location filename="FeatureBodyTube.py" line="59"/>
       <source>This component is a motor mount</source>
-      <translation type="unfinished">This component is a motor mount</translation>
+      <translation>Ten element to mocowanie silnika</translation>
     </message>
     <message>
       <location filename="FeatureBodyTube.py" line="61"/>
@@ -626,7 +626,7 @@
     <message>
       <location filename="FeatureFin.py" line="115"/>
       <source>Fin tip thickness is the same as the root thickness</source>
-      <translation type="unfinished">Fin tip thickness is the same as the root thickness</translation>
+      <translation>Grubość rury statecznika jest taka sama jak grubość podstawy.</translation>
     </message>
     <message>
       <location filename="FeatureFin.py" line="130"/>
@@ -636,7 +636,7 @@
     <message>
       <location filename="FeatureFin.py" line="141"/>
       <source>Automatically set the TTW Height</source>
-      <translation type="unfinished">Automatically set the TTW Height</translation>
+      <translation>Automatycznie ustaw wysokość żeber wewnętrznych</translation>
     </message>
     <message>
       <location filename="FeatureFin.py" line="153"/>
@@ -656,17 +656,17 @@
     <message>
       <location filename="FeatureFin.py" line="168"/>
       <source>Automatically set diameter</source>
-      <translation type="unfinished">Automatically set diameter</translation>
+      <translation>Średnica ustawiana automatycznie</translation>
     </message>
     <message>
       <location filename="FeatureFinCan.py" line="59"/>
       <source>Fin can style</source>
-      <translation type="unfinished">Fin can style</translation>
+      <translation>Styl korpusu statecznika</translation>
     </message>
     <message>
       <location filename="FeatureFinCan.py" line="66"/>
       <source>Diameter of the inside or outside of the fin candepending on the style</source>
-      <translation type="unfinished">Diameter of the inside or outside of the fin candepending on the style</translation>
+      <translation>Średnica wewnętrzna lub zewnętrzna rury statecznika w zależności od stylu</translation>
     </message>
     <message>
       <location filename="FeatureFinCan.py" line="104"/>
@@ -676,37 +676,37 @@
     <message>
       <location filename="FeatureFinCan.py" line="141"/>
       <source>Thickness of the coupler</source>
-      <translation type="unfinished">Thickness of the coupler</translation>
+      <translation>Grubość łącznika</translation>
     </message>
     <message>
       <location filename="FeatureFinCan.py" line="145"/>
       <source>Set coupler diamter automatically</source>
-      <translation type="unfinished">Set coupler diamter automatically</translation>
+      <translation>Automatyczne ustawianie średnicy łącznika</translation>
     </message>
     <message>
       <location filename="FeatureInnerTube.py" line="52"/>
       <source>Layout of a clustered motor mount</source>
-      <translation type="unfinished">Layout of a clustered motor mount</translation>
+      <translation>Układ mocowania silnika w klastrze</translation>
     </message>
     <message>
       <location filename="FeatureInnerTube.py" line="54"/>
       <source>Size scaling for the motor mount cluster</source>
-      <translation type="unfinished">Size scaling for the motor mount cluster</translation>
+      <translation>Skalowanie rozmiaru dla zespołu mocowania zespołu silnika</translation>
     </message>
     <message>
       <location filename="FeatureInnerTube.py" line="56"/>
       <source>Rotation applied to the motor mount cluster</source>
-      <translation type="unfinished">Rotation applied to the motor mount cluster</translation>
+      <translation>Obrót zastosowany do zespołu mocowania silnika</translation>
     </message>
     <message>
       <location filename="FeatureRailGuide.py" line="98"/>
       <source>Instance count</source>
-      <translation type="unfinished">Instance count</translation>
+      <translation>Liczba wystąpień</translation>
     </message>
     <message>
       <location filename="FeatureRailGuide.py" line="100"/>
       <source>Instance separation</source>
-      <translation type="unfinished">Instance separation</translation>
+      <translation>Rozdzielenie wystąpień</translation>
     </message>
     <message>
       <location filename="FeatureNoseCone.py" line="64"/>
@@ -746,7 +746,7 @@
     <message>
       <location filename="FeaturePod.py" line="56"/>
       <source>Angle separation</source>
-      <translation type="unfinished">Angle separation</translation>
+      <translation>Oddzielenie kąta</translation>
     </message>
     <message>
       <location filename="FeaturePod.py" line="59"/>
@@ -766,27 +766,27 @@
     <message>
       <location filename="FeatureTransition.py" line="54"/>
       <source>Automatically set the forward diameter when possible</source>
-      <translation type="unfinished">Automatically set the forward diameter when possible</translation>
+      <translation>W miarę możliwości automatycznie ustawia średnicę przednią</translation>
     </message>
     <message>
       <location filename="FeatureTransition.py" line="58"/>
       <source>Automatically set the aft diameter when possible</source>
-      <translation type="unfinished">Automatically set the aft diameter when possible</translation>
+      <translation>W miarę możliwości ustawia automatycznie średnicę rufową</translation>
     </message>
     <message>
       <location filename="FeatureTransition.py" line="73"/>
       <source>Automatically set the forward transition shoulder diameter when possible</source>
-      <translation type="unfinished">Automatically set the forward transition shoulder diameter when possible</translation>
+      <translation>Jeśli to możliwe, automatycznie ustal średnicę ramienia przejścia przedniego.</translation>
     </message>
     <message>
       <location filename="FeatureTransition.py" line="84"/>
       <source>Automatically set the aft transition shoulder diameter when possible</source>
-      <translation type="unfinished">Automatically set the aft transition shoulder diameter when possible</translation>
+      <translation>Jeśli to możliwe, automatycznie ustal średnicę rufowego ramienia przejściowego.</translation>
     </message>
     <message>
       <location filename="FeatureTransition.py" line="93"/>
       <source>Width of the forward cap bar</source>
-      <translation type="unfinished">Width of the forward cap bar</translation>
+      <translation>Szerokość przedniej belki kołpaka</translation>
     </message>
     <message>
       <location filename="FeatureTransition.py" line="132"/>
@@ -796,7 +796,7 @@
     <message>
       <location filename="AngleMethod.py" line="53"/>
       <source>Relative to the parent component</source>
-      <translation type="unfinished">Relative to the parent component</translation>
+      <translation>Względem komponentu nadrzędnego</translation>
     </message>
     <message>
       <location filename="AngleMethod.py" line="64"/>
@@ -806,7 +806,7 @@
     <message>
       <location filename="AngleMethod.py" line="75"/>
       <source>Mirror relative to the rocket&apos;s x-y plane</source>
-      <translation type="unfinished">Mirror relative to the rocket&apos;s x-y plane</translation>
+      <translation>Odbicie lustrzane względem płaszczyzny x-y rakiety</translation>
     </message>
     <message>
       <location filename="AxialMethod.py" line="59"/>
@@ -816,52 +816,52 @@
     <message>
       <location filename="AxialMethod.py" line="73"/>
       <source>After the sibling component</source>
-      <translation type="unfinished">After the sibling component</translation>
+      <translation>Po komponencie podrzędnym</translation>
     </message>
     <message>
       <location filename="AxialMethod.py" line="88"/>
       <source>Bottom of the parent component</source>
-      <translation type="unfinished">Bottom of the parent component</translation>
+      <translation>Spód komponentu nadrzędnego</translation>
     </message>
     <message>
       <location filename="AxialMethod.py" line="102"/>
       <source>Middle of the parent component</source>
-      <translation type="unfinished">Middle of the parent component</translation>
+      <translation>Środek komponentu nadrzędnego</translation>
     </message>
     <message>
       <location filename="AxialMethod.py" line="116"/>
       <source>Top of the parent component</source>
-      <translation type="unfinished">Top of the parent component</translation>
+      <translation>Góra komponentu nadrzędnego</translation>
     </message>
     <message>
       <location filename="RadiusMethod.py" line="53"/>
       <source>Same axis as the target component</source>
-      <translation type="unfinished">Same axis as the target component</translation>
+      <translation>Ta sama oś jak dla komponentu docelowego</translation>
     </message>
     <message>
       <location filename="RadiusMethod.py" line="67"/>
       <source>Center of the parent component</source>
-      <translation type="unfinished">Center of the parent component</translation>
+      <translation>Środek komponentu nadrzędnego</translation>
     </message>
     <message>
       <location filename="RadiusMethod.py" line="81"/>
       <source>Surface of the parent component</source>
-      <translation type="unfinished">Surface of the parent component</translation>
+      <translation>Powierzchnia komponentu nadrzędnego</translation>
     </message>
     <message>
       <location filename="RadiusMethod.py" line="110"/>
       <source>Surface of the parent component (without offset)</source>
-      <translation type="unfinished">Surface of the parent component (without offset)</translation>
+      <translation>Powierzchnia komponentu nadrzędnego (bez odsunięcia)</translation>
     </message>
     <message>
       <location filename="RadiusRingComponent.py" line="48"/>
       <source>Front to front along the positive rocket axis</source>
-      <translation type="unfinished">Front to front along the positive rocket axis</translation>
+      <translation>Przód do przodu wzdłuż dodatniej osi rakiety</translation>
     </message>
     <message>
       <location filename="RingComponent.py" line="54"/>
       <source>Outer diameter of the object</source>
-      <translation type="unfinished">Outer diameter of the object</translation>
+      <translation>Średnica zewnętrzna obiektu</translation>
     </message>
     <message>
       <location filename="RingComponent.py" line="58"/>
@@ -1164,7 +1164,7 @@
     <message>
       <location filename="TaskPanelFin.py" line="401"/>
       <source>TTW Tab</source>
-      <translation>Żebro przechodzące przez ścianę</translation>
+      <translation>Żebro wewnętrzne przechodzące przez ścianę</translation>
     </message>
     <message>
       <location filename="TaskPanelNoseCone.py" line="54"/>
@@ -1314,22 +1314,22 @@
     <message>
       <location filename="FinTriangleShapeHandler.py" line="130"/>
       <source>Ttw offset must be less than the root chord</source>
-      <translation>Odsunięcie żebra przechodzącego przez ścianę musi być mniejsze niż cięciwa podstawy</translation>
+      <translation>Odsunięcie żebra wewnętrznego przechodzącego przez ścianę musi być mniejsze niż cięciwa podstawy</translation>
     </message>
     <message>
       <location filename="FinTriangleShapeHandler.py" line="133"/>
       <source>Ttw length must be greater than 0</source>
-      <translation>Długość żebra przechodzącego przez ścianę musi być większa niż 0</translation>
+      <translation>Długość żebra wewnętrznego przechodzącego przez ścianę musi być większa niż 0</translation>
     </message>
     <message>
       <location filename="FinTriangleShapeHandler.py" line="136"/>
       <source>Ttw height must be greater than 0</source>
-      <translation>Wysokość żebra przechodzącego przez ścianę musi być większa niż 0</translation>
+      <translation>Wysokość żebra wewnętrznego przechodzącego przez ścianę musi być większa niż 0</translation>
     </message>
     <message>
       <location filename="FinTriangleShapeHandler.py" line="139"/>
       <source>Ttw thickness must be greater than 0</source>
-      <translation>Grubość żebra przechodzącego przez ścianę musi być większa niż 0</translation>
+      <translation>Grubość żebra wewnętrznego przechodzącego przez ścianę musi być większa niż 0</translation>
     </message>
     <message>
       <location filename="NoseHaackShapeHandler.py" line="39"/>
@@ -2034,17 +2034,17 @@
     <message>
       <location filename="FinCanShapeHandler.py" line="52"/>
       <source>Fin can thickness must be greater than zero</source>
-      <translation type="unfinished">Fin can thickness must be greater than zero</translation>
+      <translation>Grubość korpusu statecznika musi być większa od zera</translation>
     </message>
     <message>
       <location filename="FinCanShapeHandler.py" line="55"/>
       <source>Fin can length must be greater than zero</source>
-      <translation type="unfinished">Fin can length must be greater than zero</translation>
+      <translation>Długość korpusu statecznika musi być większa od zera</translation>
     </message>
     <message>
       <location filename="FinCanShapeHandler.py" line="64"/>
       <source>Fin can leading and trailing edges can not exceed total length</source>
-      <translation type="unfinished">Fin can leading and trailing edges can not exceed total length</translation>
+      <translation>Przednia i tylna krawędź korpusu statecznika nie może przekraczać całkowitej długości.</translation>
     </message>
     <message>
       <location filename="FinCanShapeHandler.py" line="320"/>
@@ -2054,7 +2054,7 @@
     <message>
       <location filename="FinCanShapeHandler.py" line="414"/>
       <source>Fin can parameters produce an invalid shape</source>
-      <translation type="unfinished">Fin can parameters produce an invalid shape</translation>
+      <translation>Parametry korpusu ze statecznikiem tworzą nieprawidłowy kształt</translation>
     </message>
     <message>
       <location filename="TaskPanelFinCan.py" line="74"/>
@@ -2139,17 +2139,17 @@
     <message>
       <location filename="FinFlutter.py" line="76"/>
       <source>Tapered thickness fins are not supported at this time</source>
-      <translation type="unfinished">Tapered thickness fins are not supported at this time</translation>
+      <translation>Stateczniki o stożkowej grubości nie są obecnie obsługiwane.</translation>
     </message>
     <message>
       <location filename="FinFlutter.py" line="69"/>
       <source>Elliptical fins are not supported at this time</source>
-      <translation type="unfinished">Elliptical fins are not supported at this time</translation>
+      <translation>Stateczniki eliptyczne nie są obecnie obsługiwane.</translation>
     </message>
     <message>
       <location filename="FinFlutter.py" line="91"/>
       <source>Custom fins are not supported at this time</source>
-      <translation type="unfinished">Custom fins are not supported at this time</translation>
+      <translation>Stateczniki niestandardowe nie są obecnie obsługiwane</translation>
     </message>
     <message>
       <location filename="InitGui.py" line="81"/>
@@ -2157,17 +2157,17 @@
       <translation>Analiza</translation>
     </message>
     <message>
-      <location filename="CmdFemAnalysis.py" line="90"/>
+      <location filename="CmdFemAnalysis.py" line="89"/>
       <source>Please select a fin first</source>
       <translation>Najpierw proszę wybrać statecznik</translation>
     </message>
     <message>
-      <location filename="DialogFinFlutter.py" line="167"/>
+      <location filename="DialogFinFlutter.py" line="93"/>
       <source>Fin Flutter Analysis</source>
       <translation>Analiza drżenia płetw</translation>
     </message>
     <message>
-      <location filename="CmdFlutterAnalysis.py" line="70"/>
+      <location filename="CmdFlutterAnalysis.py" line="64"/>
       <source>Calculate fin flutter</source>
       <translation>Oblicza drżenie płetw</translation>
     </message>
@@ -2194,7 +2194,7 @@
     <message>
       <location filename="CmdParachuteGore.py" line="65"/>
       <source>Parachute Gore</source>
-      <translation type="unfinished">Parachute Gore</translation>
+      <translation>Segment spadochronu</translation>
     </message>
     <message>
       <location filename="CmdParachuteGore.py" line="66"/>
@@ -2202,59 +2202,59 @@
       <translation>Konstrukcja segmentu spadochronu</translation>
     </message>
     <message>
-      <location filename="DialogFinFlutter.py" line="173"/>
+      <location filename="DialogFinFlutter.py" line="99"/>
       <source>Preset</source>
       <translation>Nastawa wstępna</translation>
     </message>
     <message>
-      <location filename="DialogFinFlutter.py" line="178"/>
+      <location filename="DialogFinFlutter.py" line="104"/>
       <source>Shear Modulus</source>
       <translation>Moduł sprężystości ścinania</translation>
     </message>
     <message>
-      <location filename="DialogFinFlutter.py" line="185"/>
+      <location filename="DialogFinFlutter.py" line="111"/>
       <source>Calculated</source>
       <translation>Oblicz</translation>
     </message>
     <message>
-      <location filename="DialogFinFlutter.py" line="188"/>
+      <location filename="DialogFinFlutter.py" line="114"/>
       <source>Young&apos;s Modulus</source>
       <translation>Moduł Younga</translation>
     </message>
     <message>
-      <location filename="DialogFinFlutter.py" line="196"/>
+      <location filename="DialogFinFlutter.py" line="122"/>
       <source>Poisson Ratio</source>
       <translation>Współczynnik Poisson'a</translation>
     </message>
     <message>
-      <location filename="DialogFinFlutter.py" line="203"/>
+      <location filename="DialogFinFlutter.py" line="129"/>
       <source>Fin Flutter</source>
       <translation>Drżenie płetw</translation>
     </message>
     <message>
-      <location filename="DialogFinFlutter.py" line="205"/>
+      <location filename="DialogFinFlutter.py" line="131"/>
       <source>Maximum Altitude</source>
       <translation>Maksymalna wysokość</translation>
     </message>
     <message>
-      <location filename="DialogFinFlutter.py" line="210"/>
+      <location filename="DialogFinFlutter.py" line="136"/>
       <source>Altitude at Max Speed</source>
       <translation>Wysokość przy maksymalnej prędkości</translation>
     </message>
     <message>
-      <location filename="DialogFinFlutter.py" line="227"/>
+      <location filename="DialogFinFlutter.py" line="167"/>
       <source>Flutter Speed</source>
       <translation>Prędkość drżenia</translation>
     </message>
     <message>
-      <location filename="DialogFinFlutter.py" line="235"/>
+      <location filename="DialogFinFlutter.py" line="175"/>
       <source>Divergence Speed</source>
-      <translation type="unfinished">Divergence Speed</translation>
+      <translation>Szybkość rozbieżności</translation>
     </message>
     <message>
-      <location filename="DialogFinFlutter.py" line="250"/>
+      <location filename="DialogFinFlutter.py" line="190"/>
       <source>Mach</source>
-      <translation type="unfinished">Mach</translation>
+      <translation>Mach</translation>
     </message>
     <message>
       <location filename="FinCanShapeHandler.py" line="69"/>
@@ -2269,12 +2269,12 @@
     <message>
       <location filename="FinCanShapeHandler.py" line="78"/>
       <source>Coupler inner diameter must be less than or equal to the fin can inner diameter</source>
-      <translation type="unfinished">Coupler inner diameter must be less than or equal to the fin can inner diameter</translation>
+      <translation>Wewnętrzna średnica łącznika musi być mniejsza lub równa wewnętrznej średnicy rury korpusowej.</translation>
     </message>
     <message>
       <location filename="FinCanShapeHandler.py" line="81"/>
       <source>Coupler outer diameter must be less than fin can outer diameter</source>
-      <translation type="unfinished">Coupler outer diameter must be less than fin can outer diameter</translation>
+      <translation>Zewnętrzna średnica łącznika musi być mniejsza niż zewnętrzna średnica rury korpusowej.</translation>
     </message>
     <message>
       <location filename="TransitionShapeHandler.py" line="351"/>
@@ -2294,7 +2294,7 @@
     <message>
       <location filename="TaskPanelFinCan.py" line="462"/>
       <source>Flush with fin can</source>
-      <translation type="unfinished">Flush with fin can</translation>
+      <translation>Zlicowany z korpusem statecznika</translation>
     </message>
     <message>
       <location filename="TaskPanelFinCan.py" line="463"/>
@@ -2319,27 +2319,27 @@
     <message>
       <location filename="FeatureFinCan.py" line="190"/>
       <source>Unknown fin can style</source>
-      <translation type="unfinished">Unknown fin can style</translation>
+      <translation>Nieznany styl korpusu statecznika</translation>
     </message>
     <message>
       <location filename="InnerTubeElement.py" line="64"/>
       <source>Unknown cluster configuration</source>
-      <translation type="unfinished">Unknown cluster configuration</translation>
+      <translation>Nieznana konfiguracja klastra</translation>
     </message>
     <message>
       <location filename="FinCanShapeHandler.py" line="72"/>
       <source>Coupler thickness must be greater than zero</source>
-      <translation type="unfinished">Coupler thickness must be greater than zero</translation>
+      <translation>Grubość łącznika musi być większa niż zero</translation>
     </message>
     <message>
       <location filename="FinTubeShapeHandler.py" line="44"/>
       <source>Ttw tabs are not supported for tube fins</source>
-      <translation type="unfinished">Ttw tabs are not supported for tube fins</translation>
+      <translation>Żebra wewnętrzne nie są obsługiwane w przypadku rury statecznika</translation>
     </message>
     <message>
       <location filename="InnerTubeShapeHandler.py" line="91"/>
       <source>Inner tube parameters produce an invalid shape</source>
-      <translation type="unfinished">Inner tube parameters produce an invalid shape</translation>
+      <translation>Parametry rury wewnętrznej tworzą nieprawidłowy kształt.</translation>
     </message>
     <message>
       <location filename="RocketGui.py" line="133"/>
@@ -2392,7 +2392,7 @@
       <translation>Przesuń obiekt w dół na drzewku rakiety</translation>
     </message>
     <message>
-      <location filename="CmdFemAnalysis.py" line="103"/>
+      <location filename="CmdFemAnalysis.py" line="102"/>
       <source>Fin FEM Analysis</source>
       <translation>Analiza MES statecznika</translation>
     </message>
@@ -2695,11 +2695,6 @@
         &lt;p&gt;Ten kalkulator służy tylko do szacowania. Przetestuj swój mechanizm wyrzutowy przed startem. W niektórych wypadkach kalkulator ten może przeszacować ilość wymaganego prochu&lt;/p&gt;
         &lt;/html&gt;
         </translation>
-    </message>
-    <message>
-      <location filename="CmdFlutterAnalysis.py" line="45"/>
-      <source>QtCharts is not available on your system</source>
-      <translation type="unfinished">QtCharts is not available on your system</translation>
     </message>
   </context>
 </TS>

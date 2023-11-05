@@ -2157,17 +2157,17 @@
       <translation>Análisis</translation>
     </message>
     <message>
-      <location filename="CmdFemAnalysis.py" line="90"/>
+      <location filename="CmdFemAnalysis.py" line="89"/>
       <source>Please select a fin first</source>
       <translation>Por favor seleccione una aleta primero</translation>
     </message>
     <message>
-      <location filename="DialogFinFlutter.py" line="167"/>
+      <location filename="DialogFinFlutter.py" line="93"/>
       <source>Fin Flutter Analysis</source>
       <translation>Análisis de aleteo de aletas</translation>
     </message>
     <message>
-      <location filename="CmdFlutterAnalysis.py" line="70"/>
+      <location filename="CmdFlutterAnalysis.py" line="64"/>
       <source>Calculate fin flutter</source>
       <translation>Calcular aleteo de aletas</translation>
     </message>
@@ -2202,57 +2202,57 @@
       <translation>Diseño de gajo de paracaídas</translation>
     </message>
     <message>
-      <location filename="DialogFinFlutter.py" line="173"/>
+      <location filename="DialogFinFlutter.py" line="99"/>
       <source>Preset</source>
       <translation>Preajuste</translation>
     </message>
     <message>
-      <location filename="DialogFinFlutter.py" line="178"/>
+      <location filename="DialogFinFlutter.py" line="104"/>
       <source>Shear Modulus</source>
       <translation>Módulo de cizalladura</translation>
     </message>
     <message>
-      <location filename="DialogFinFlutter.py" line="185"/>
+      <location filename="DialogFinFlutter.py" line="111"/>
       <source>Calculated</source>
       <translation>Calculado</translation>
     </message>
     <message>
-      <location filename="DialogFinFlutter.py" line="188"/>
+      <location filename="DialogFinFlutter.py" line="114"/>
       <source>Young&apos;s Modulus</source>
       <translation>Módulo de Young</translation>
     </message>
     <message>
-      <location filename="DialogFinFlutter.py" line="196"/>
+      <location filename="DialogFinFlutter.py" line="122"/>
       <source>Poisson Ratio</source>
       <translation>Razón de Poisson</translation>
     </message>
     <message>
-      <location filename="DialogFinFlutter.py" line="203"/>
+      <location filename="DialogFinFlutter.py" line="129"/>
       <source>Fin Flutter</source>
       <translation>Aleteo de aletas</translation>
     </message>
     <message>
-      <location filename="DialogFinFlutter.py" line="205"/>
+      <location filename="DialogFinFlutter.py" line="131"/>
       <source>Maximum Altitude</source>
       <translation>Máxima altitud</translation>
     </message>
     <message>
-      <location filename="DialogFinFlutter.py" line="210"/>
+      <location filename="DialogFinFlutter.py" line="136"/>
       <source>Altitude at Max Speed</source>
       <translation>Altitud a velocidad máxima</translation>
     </message>
     <message>
-      <location filename="DialogFinFlutter.py" line="227"/>
+      <location filename="DialogFinFlutter.py" line="167"/>
       <source>Flutter Speed</source>
       <translation>Velocidad de aleteo</translation>
     </message>
     <message>
-      <location filename="DialogFinFlutter.py" line="235"/>
+      <location filename="DialogFinFlutter.py" line="175"/>
       <source>Divergence Speed</source>
       <translation>Velocidad de divergencia</translation>
     </message>
     <message>
-      <location filename="DialogFinFlutter.py" line="250"/>
+      <location filename="DialogFinFlutter.py" line="190"/>
       <source>Mach</source>
       <translation>Mach</translation>
     </message>
@@ -2392,7 +2392,7 @@
       <translation type="unfinished">Move the object down in the rocket tree</translation>
     </message>
     <message>
-      <location filename="CmdFemAnalysis.py" line="103"/>
+      <location filename="CmdFemAnalysis.py" line="102"/>
       <source>Fin FEM Analysis</source>
       <translation type="unfinished">Fin FEM Analysis</translation>
     </message>
@@ -2695,11 +2695,6 @@
         &lt;p&gt;Esta calculadora es solo una estimación. Pruebe en tierra su sistema de expulsión antes de volar. En ciertos casos, este cálculo puede sobrestimar la cantidad de polvo necesaria&lt;/p&gt;
         &lt;/html&gt;
         </translation>
-    </message>
-    <message>
-      <location filename="CmdFlutterAnalysis.py" line="45"/>
-      <source>QtCharts is not available on your system</source>
-      <translation type="unfinished">QtCharts is not available on your system</translation>
     </message>
   </context>
 </TS>
