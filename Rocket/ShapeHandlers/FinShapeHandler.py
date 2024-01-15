@@ -96,6 +96,25 @@ class FinShapeHandler:
         wire = Part.Wire([line1.toShape(), line2.toShape(), line3.toShape(), line4.toShape()])
         return wire
 
+    def _makeChordFemProfileSquare(self, foreX, chord, thickness, height, nPoints):
+        profile = []
+        chordFore = foreX
+        chordAft = foreX + chord
+        halfThickness = thickness / 2
+        step = chord / nPoints
+        count = nPoints
+
+        # profile.append(FreeCAD.Vector(chordFore, 0, height))
+        x = chordFore
+        while (count > 0):
+            profile.append(FreeCAD.Vector(x, halfThickness, height))
+            x = x + step
+            count = count - 1
+        profile.append(FreeCAD.Vector(chordAft, halfThickness, height))
+        # profile.append(FreeCAD.Vector(chordAft, 0, height))
+
+        return profile
+
     def _makeChordProfileRound(self, foreX, chord, thickness, height):
         chordFore = foreX
         chordAft = foreX + chord
@@ -433,6 +452,13 @@ class FinShapeHandler:
 
         return None
 
+    def _makeChordFemProfile(self, crossSection, foreX, chord, thickness, height, length1, length2, nPoints, midChordLimit = False):
+
+        if crossSection == FIN_CROSS_SQUARE:
+            return self._makeChordFemProfileSquare(foreX, chord, thickness, height, nPoints)
+
+        return None
+
     def _makeTtw(self):
         # Create the Ttw tab
         origin = FreeCAD.Vector(self._obj.RootChord - self._obj.TtwOffset - self._obj.TtwLength, -0.5 * self._obj.TtwThickness, -1.0 * self._obj.TtwHeight)
@@ -459,6 +485,10 @@ class FinShapeHandler:
         profiles = []
         return profiles
 
+    def _makeFemProfiles(self, nPoints):
+        profiles = []
+        return profiles
+
     def _makeExtensionProfiles(self, height):
         profiles = []
         return profiles
@@ -477,6 +507,10 @@ class FinShapeHandler:
     def _extendRoot(self):
         # Override this if the fin root needs an extension to connect it to the body tube
         return False
+    
+    def finFemProfiles(self, nPoints):
+        profiles = self._makeFemProfiles(nPoints)
+        return profiles
 
     def finOnlyShape(self):
         fin = self._finOnlyShape(FIN_DEBUG_FULL)

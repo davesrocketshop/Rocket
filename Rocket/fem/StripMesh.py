@@ -25,10 +25,20 @@ __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
 import os
-    
+
+from FreeCAD import Console
+import Fem
 from DraftTools import translate
 
 from femmesh.gmshtools import GmshTools, GmshError
+
+from Rocket.Constants import FIN_TYPE_TRAPEZOID, FIN_TYPE_ELLIPSE, FIN_TYPE_SKETCH, FIN_TYPE_TRIANGLE, FIN_TYPE_TUBE
+
+from Rocket.ShapeHandlers.FinTrapezoidShapeHandler import FinTrapezoidShapeHandler
+from Rocket.ShapeHandlers.FinTriangleShapeHandler import FinTriangleShapeHandler
+from Rocket.ShapeHandlers.FinEllipseShapeHandler import FinEllipseShapeHandler
+from Rocket.ShapeHandlers.FinTubeShapeHandler import FinTubeShapeHandler
+from Rocket.ShapeHandlers.FinSketchShapeHandler import FinSketchShapeHandler
 
 class RocketGmsh(GmshTools):
 
@@ -237,3 +247,120 @@ class RocketGmsh(GmshTools):
         geo.write("// to run Gmsh and keep file in Gmsh GUI (with log), run in bash:\n")
         geo.write("// " + self.gmsh_bin + " " + self.temp_file_geo + "\n")
         geo.close()
+
+def getShapeHandler(fin):
+    handler = None
+    if fin.FinType == FIN_TYPE_TRAPEZOID:
+        handler = FinTrapezoidShapeHandler(fin)
+    elif fin.FinType == FIN_TYPE_TRIANGLE:
+        handler = FinTriangleShapeHandler(fin)
+    elif fin.FinType == FIN_TYPE_ELLIPSE:
+        handler = FinEllipseShapeHandler(fin)
+    elif fin.FinType == FIN_TYPE_TUBE:
+        handler = FinTubeShapeHandler(fin)
+    elif fin.FinType == FIN_TYPE_SKETCH:
+        handler = FinSketchShapeHandler(fin)
+    return handler
+
+class StripMesh(GmshTools):
+
+    def __init__(self, gmsh_mesh_obj, analysis=None):
+        super().__init__(gmsh_mesh_obj, analysis)
+
+    def create_mesh(self):
+        error = ""
+        try:
+            self.update_mesh_data()
+            # self.get_tmp_file_paths()
+            # self.get_gmsh_command()
+            # self.write_gmsh_input_files()
+            # error = self.run_gmsh_with_geo()
+            self.read_and_set_new_mesh()
+        except GmshError as e:
+            error = str(e)
+        return error
+
+    def read_and_set_new_mesh(self):
+        if not self.error:
+            fem_mesh = self.strip_mesh()
+            self.mesh_obj.FemMesh = fem_mesh
+            Console.PrintMessage("  New mesh was added to the mesh object.\n")
+        else:
+            Console.PrintError("No mesh was created.\n")
+
+    def printNode(self, mesh, node):
+        vector = mesh.getNodeById(node)
+        print("\t%d: (%f,%f,%f)\n" % (node, vector.x, vector.y, vector.z))
+
+    def xAtDivision(self, xBegin, xEnd, divisions, n):
+        x = xBegin + (xEnd - xBegin) / divisions * n
+        return x
+
+    def makeNodesN(self, mesh, profiles, radius, divisions, n):
+        nodes = []
+        index = 0
+        while (index < len(profiles[0])):
+            profileNode = profiles[0][index]
+            profileNode1 = profiles[1][index]
+            x = self.xAtDivision(profileNode.x, profileNode1.x, divisions, n)
+            z = self.xAtDivision(profileNode.z, profileNode1.z, divisions, n)
+            node1 = mesh.addNode(x, profileNode.y, z + radius)
+            node2 = mesh.addNode(x, 0, z + radius)
+            node3 = mesh.addNode(x, -profileNode.y, z + radius)
+            nodes.append((node1, node2, node3))
+            # if index == 0:
+            #     self.printNode(mesh, node1)
+            #     self.printNode(mesh, node2)
+            #     self.printNode(mesh, node3)
+            index = index + 1
+        return nodes
+
+    def makeNodes(self, mesh, profiles, divisions):
+        self._nodes = []
+        self.mesh_obj.Part.Proxy.setParentRadius()
+        radius = float(self.mesh_obj.Part.ParentRadius)
+        print("Radius = %f" % radius)
+        index = 0
+        while (index <= divisions):
+            self._nodes.append(self.makeNodesN(mesh, profiles, radius, divisions, index))
+            index = index + 1
+
+    def strip_mesh(self):
+        mesh = Fem.FemMesh()
+        handler = getShapeHandler(self.mesh_obj.Part)
+        profiles = handler.finFemProfiles(10)
+
+        divisions = 10
+        self.makeNodes(mesh, profiles, divisions)
+
+        div = 0
+        while div < (len(self._nodes) - 1):
+            index = 0
+            while (index < len(self._nodes[0]) - 1):
+                # Add as quadrangles
+                mesh.addVolume([
+                    self._nodes[div][index][0],
+                    self._nodes[div + 1][index][0],
+                    self._nodes[div + 1][index + 1][0],
+                    self._nodes[div][index + 1][0],
+                    self._nodes[div][index][1],
+                    self._nodes[div + 1][index][1],
+                    self._nodes[div + 1][index + 1][1],
+                    self._nodes[div][index + 1][1]
+                    ])
+                mesh.addVolume([
+                    self._nodes[div][index][1],
+                    self._nodes[div + 1][index][1],
+                    self._nodes[div + 1][index + 1][1],
+                    self._nodes[div][index + 1][1],
+                    self._nodes[div][index][2],
+                    self._nodes[div + 1][index][2],
+                    self._nodes[div + 1][index + 1][2],
+                    self._nodes[div][index + 1][2]
+                    ])
+                index = index + 1
+            div = div + 1
+
+        mesh.compute()
+
+        return mesh
