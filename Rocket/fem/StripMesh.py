@@ -296,7 +296,7 @@ class StripMesh(GmshTools):
         x = xBegin + (xEnd - xBegin) / divisions * n
         return x
 
-    def makeNodesN(self, mesh, profiles, radius, divisions, n):
+    def makeNodesN(self, mesh, profiles, divisions, n):
         nodes = []
         index = 0
         while (index < len(profiles[0])):
@@ -304,9 +304,9 @@ class StripMesh(GmshTools):
             profileNode1 = profiles[1][index]
             x = self.xAtDivision(profileNode.x, profileNode1.x, divisions, n)
             z = self.xAtDivision(profileNode.z, profileNode1.z, divisions, n)
-            node1 = mesh.addNode(x, profileNode.y, z + radius)
-            node2 = mesh.addNode(x, 0, z + radius)
-            node3 = mesh.addNode(x, -profileNode.y, z + radius)
+            node1 = mesh.addNode(x, profileNode.y, z)
+            node2 = mesh.addNode(x, 0, z)
+            node3 = mesh.addNode(x, -profileNode.y, z)
             nodes.append((node1, node2, node3))
             # if index == 0:
             #     self.printNode(mesh, node1)
@@ -318,11 +318,9 @@ class StripMesh(GmshTools):
     def makeNodes(self, mesh, profiles, divisions):
         self._nodes = []
         self.mesh_obj.Part.Proxy.setParentRadius()
-        radius = float(self.mesh_obj.Part.ParentRadius)
-        print("Radius = %f" % radius)
         index = 0
         while (index <= divisions):
-            self._nodes.append(self.makeNodesN(mesh, profiles, radius, divisions, index))
+            self._nodes.append(self.makeNodesN(mesh, profiles, divisions, index))
             index = index + 1
 
     def strip_mesh(self):

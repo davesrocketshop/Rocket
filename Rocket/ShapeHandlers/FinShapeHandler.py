@@ -237,6 +237,24 @@ class FinShapeHandler:
 
         return splines 
 
+    def _airfoilFemCurve(self, foreX, chord, thickness, height, resolution):
+        min = self.minimumEdge() / 2
+        points = []
+        for i in range(0, resolution):
+            
+            x = float(i) / float(resolution)
+            y = self._airfoilY(x, thickness)
+            if y < min and x > 0:
+                y = min
+            points.append(FreeCAD.Vector(foreX + (x * chord), y, height))
+
+        if min > 0:
+            points.append(FreeCAD.Vector(foreX + chord, min, height))
+        else:
+            points.append(FreeCAD.Vector(foreX + chord, 0.0, height))
+
+        return points 
+
     def _makeSpline(self, points):
         spline = Part.BSplineCurve()
         spline.buildFromPoles(points)
@@ -254,6 +272,13 @@ class FinShapeHandler:
 
         wire = Part.Wire(splines)
         return wire
+
+    def _makeChordFemProfileAirfoil(self, foreX, chord, thickness, height, nPoints):
+        # Standard NACA 4 digit symmetrical airfoil
+
+        profile = self._airfoilFemCurve(foreX, chord, thickness, height, nPoints)
+
+        return profile
 
     def _makeChordProfileWedge(self, foreX, chord, thickness, height):
         # Create the root rectangle
@@ -456,6 +481,8 @@ class FinShapeHandler:
 
         if crossSection == FIN_CROSS_SQUARE:
             return self._makeChordFemProfileSquare(foreX, chord, thickness, height, nPoints)
+        elif crossSection == FIN_CROSS_AIRFOIL:
+            return self._makeChordFemProfileAirfoil(foreX, chord, thickness, height, nPoints)
 
         return None
 

@@ -160,6 +160,10 @@ def doFemStripMesh():
                     strip_mesh = StripMesh(mesh, FemGui.getActiveAnalysis())
                     error = strip_mesh.create_mesh()
                     print(error)
+
+                    radius = float(fin.ParentRadius)
+                    mesh.Placement.Base = FreeCAD.Vector(0.0, 0.0, radius)
+
                     doc.commitTransaction()
                     doc.recompute()
 
