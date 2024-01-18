@@ -32,10 +32,25 @@ from DraftTools import translate
 from PySide import QtGui
 
 from Ui.Commands.Command import Command
+from Ui.ViewSolverCalculix import ViewProviderSolverCalculix
 
+# import Fem
 import FemGui
 import ObjectsFem
 from Rocket.fem.StripMesh import StripMesh
+
+def makeSolverCalculixCcxTools(
+    doc,
+    name="SolverCcxTools"
+):
+    """makeSolverCalculixCcxTools(document, [name]):
+    makes a Calculix solver object for the ccx tools module"""
+    obj = doc.addObject("Fem::FemSolverObjectPython", name)
+    from femobjects import solver_ccxtools
+    solver_ccxtools.SolverCcxTools(obj)
+    ViewProviderSolverCalculix(obj.ViewObject)
+    obj.EigenmodesCount = 15
+    return obj
 
 def createAnalysis():
     doc = FreeCAD.ActiveDocument
@@ -44,7 +59,7 @@ def createAnalysis():
     FemGui.setActiveAnalysis(analyzer)
 
     # create a CalculiX ccx tools solver for any new analysis
-    ObjectsFem.makeSolverCalculixCcxTools(doc)
+    makeSolverCalculixCcxTools(doc)
     analyzer.addObject(doc.ActiveObject)
 
 def doFemAnalysis():
