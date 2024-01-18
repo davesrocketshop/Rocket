@@ -61,6 +61,15 @@ class FeatureLaunchLug(Tube, AnglePositionable, BoxBounded, LineInstanceable):
         if not hasattr(obj,"InstanceSeparation"):
             obj.addProperty('App::PropertyLength', 'InstanceSeparation', 'RocketComponent', translate('App::Property', 'Instance separation')).InstanceSeparation = 0
 
+        if not hasattr(obj, 'ForwardSweep'):
+            obj.addProperty('App::PropertyBool', 'ForwardSweep', 'RocketComponent', translate('App::Property', 'The component has a sweep at the forward end')).ForwardSweep = False
+        if not hasattr(obj,"ForwardSweepAngle"):
+            obj.addProperty('App::PropertyAngle', 'ForwardSweepAngle', 'RocketComponent', translate('App::Property', 'Angle for the forward end sweep')).ForwardSweepAngle = 30.0
+        if not hasattr(obj, 'AftSweep'):
+            obj.addProperty('App::PropertyBool', 'AftSweep', 'RocketComponent', translate('App::Property', 'The component has a sweep at the aft end')).AftSweep = False
+        if not hasattr(obj,"AftSweepAngle"):
+            obj.addProperty('App::PropertyAngle', 'AftSweepAngle', 'RocketComponent', translate('App::Property', 'Angle for the aft end sweep')).AftSweepAngle = 30.0
+
     def setDefaults(self):
         super().setDefaults()
 

@@ -206,7 +206,7 @@ class RailGuideShapeHandler():
 
     def _drawAftSweep(self):
         # We need to calculate our vertices outside of the part to avoid OpenCASCADE's "too exact" problem
-        slope = -1.0 / math.tan(self._forwardSweepAngle)
+        slope = -1.0 / math.tan(self._aftSweepAngle)
         intercept = self._zMin - (slope * self._length)
 
         y = max(self._flangeWidth, self._middleWidth, self._baseWidth) / 2.0 + TOLERANCE_OFFSET
@@ -216,7 +216,7 @@ class RailGuideShapeHandler():
         v1 = FreeCAD.Vector(x1, y, z1)
 
         # x2 = self._length - (o + TOLERANCE_OFFSET)
-        x2 = self._length - (((self._height + math.fabs(self._zMin)) * math.tan(self._forwardSweepAngle)) + TOLERANCE_OFFSET)
+        x2 = self._length - (((self._height + math.fabs(self._zMin)) * math.tan(self._aftSweepAngle)) + TOLERANCE_OFFSET)
         z2 = self.rakeZ(x2, slope, intercept)        
         v2 = FreeCAD.Vector(x2, y, z2)
 
@@ -235,7 +235,7 @@ class RailGuideShapeHandler():
 
     def _drawForwardSweep(self):
         # We need to calculate our vertices outside of the part to avoid OpenCASCADE's "too exact" problem
-        slope = 1.0 / math.tan(self._aftSweepAngle)
+        slope = 1.0 / math.tan(self._forwardSweepAngle)
 
         y = max(self._flangeWidth, self._middleWidth, self._baseWidth) / 2.0 + TOLERANCE_OFFSET
 
@@ -244,7 +244,7 @@ class RailGuideShapeHandler():
         v1 = FreeCAD.Vector(x1, y, z1)
 
         # x2 = o + TOLERANCE_OFFSET
-        x2 = ((self._height + math.fabs(self._zMin)) * math.tan(self._aftSweepAngle)) + TOLERANCE_OFFSET
+        x2 = ((self._height + math.fabs(self._zMin)) * math.tan(self._forwardSweepAngle)) + TOLERANCE_OFFSET
         z2 = self.rakeZ(x2, slope, self._zMin)        
         v2 = FreeCAD.Vector(x2, y, z2)
 

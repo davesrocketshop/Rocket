@@ -94,6 +94,45 @@ class _LaunchLugDialog(QDialog):
         self.lengthInput.unit = 'mm'
         self.lengthInput.setMinimumWidth(100)
 
+        # Sweep parameters
+        self.forwardSweepGroup = QtGui.QGroupBox(translate('Rocket', "Forward Sweep"), self)
+        self.forwardSweepGroup.setCheckable(True)
+
+        self.forwardSweepLabel = QtGui.QLabel(translate('Rocket', "Sweep Angle"), self)
+
+        self.forwardSweepInput = ui.createWidget("Gui::InputField")
+        self.forwardSweepInput.unit = 'deg'
+        self.forwardSweepInput.setMinimumWidth(100)
+
+        self.aftSweepGroup = QtGui.QGroupBox(translate('Rocket', "Aft Sweep"), self)
+        self.aftSweepGroup.setCheckable(True)
+
+        self.aftSweepLabel = QtGui.QLabel(translate('Rocket', "Sweep Angle"), self)
+
+        self.aftSweepInput = ui.createWidget("Gui::InputField")
+        self.aftSweepInput.unit = 'deg'
+        self.aftSweepInput.setMinimumWidth(100)
+
+        # Forward sweep group
+        row = 0
+        grid = QGridLayout()
+
+        grid.addWidget(self.forwardSweepLabel, row, 0)
+        grid.addWidget(self.forwardSweepInput, row, 1)
+        row += 1
+
+        self.forwardSweepGroup.setLayout(grid)
+
+        # Aft sweep group
+        row = 0
+        grid = QGridLayout()
+
+        grid.addWidget(self.aftSweepLabel, row, 0)
+        grid.addWidget(self.aftSweepInput, row, 1)
+        row += 1
+
+        self.aftSweepGroup.setLayout(grid)
+
         # General parameters
         row = 0
         grid = QGridLayout()
@@ -115,6 +154,8 @@ class _LaunchLugDialog(QDialog):
 
         layout = QVBoxLayout()
         layout.addItem(grid)
+        layout.addWidget(self.forwardSweepGroup)
+        layout.addWidget(self.aftSweepGroup)
 
         self.tabGeneral.setLayout(layout)
 
@@ -137,6 +178,10 @@ class TaskPanelLaunchLug:
         self._lugForm.idInput.textEdited.connect(self.onId)
         self._lugForm.thicknessInput.textEdited.connect(self.onThickness)
         self._lugForm.lengthInput.textEdited.connect(self.onLength)
+        self._lugForm.forwardSweepGroup.toggled.connect(self.onForwardSweep)
+        self._lugForm.forwardSweepInput.textEdited.connect(self.onForwardSweepAngle)
+        self._lugForm.aftSweepGroup.toggled.connect(self.onAftSweep)
+        self._lugForm.aftSweepInput.textEdited.connect(self.onAftSweepAngle)
 
         self._db.dbLoad.connect(self.onLookup)
         self._location.locationChange.connect(self.onLocation)
@@ -152,6 +197,10 @@ class TaskPanelLaunchLug:
         self._obj.Proxy.setOuterDiameter(FreeCAD.Units.Quantity(self._lugForm.odInput.text()).Value)
         self._obj.Proxy.setThickness(FreeCAD.Units.Quantity(self._lugForm.thicknessInput.text()).Value)
         self._obj.Proxy.setLength(FreeCAD.Units.Quantity(self._lugForm.lengthInput.text()).Value)
+        self._obj.ForwardSweep = self._lugForm.forwardSweepGroup.isChecked()
+        self._obj.ForwardSweepAngle = self._lugForm.forwardSweepInput.text()
+        self._obj.AftSweep = self._lugForm.aftSweepGroup.isChecked()
+        self._obj.AftSweepAngle = self._lugForm.aftSweepInput.text()
 
         self._lugForm.tabMaterial.transferTo(self._obj)
         self._lugForm.tabComment.transferTo(self._obj)
@@ -162,11 +211,20 @@ class TaskPanelLaunchLug:
         self._lugForm.idInput.setText("0.0")
         self._lugForm.thicknessInput.setText(self._obj.Thickness.UserString)
         self._lugForm.lengthInput.setText(self._obj.Length.UserString)
+        self._lugForm.forwardSweepGroup.setChecked(self._obj.ForwardSweep)
+        self._lugForm.forwardSweepInput.setText(self._obj.ForwardSweepAngle.UserString)
+        self._lugForm.aftSweepGroup.setChecked(self._obj.AftSweep)
+        self._lugForm.aftSweepInput.setText(self._obj.AftSweepAngle.UserString)
 
         self._lugForm.tabMaterial.transferFrom(self._obj)
         self._lugForm.tabComment.transferFrom(self._obj)
 
         self._setIdFromThickness()
+        self._setForwardSweepState()
+        self._setAftSweepState()
+
+    def redraw(self):
+        self._obj.Proxy.execute(self._obj)
 
     def setEdited(self):
         try:
@@ -245,6 +303,44 @@ class TaskPanelLaunchLug:
     def onLocation(self):
         self._obj.Proxy.updateChildren()
         self._obj.Proxy.execute(self._obj) 
+        self.setEdited()
+        
+    def _setForwardSweepState(self):
+        self._lugForm.forwardSweepInput.setEnabled(self._obj.ForwardSweep)
+        self._lugForm.forwardSweepGroup.setChecked(self._obj.ForwardSweep)
+        
+    def onForwardSweep(self, value):
+        self._obj.ForwardSweep = value
+        self._setForwardSweepState()
+
+        self.redraw()
+        self.setEdited()
+        
+    def onForwardSweepAngle(self, value):
+        try:
+            self._obj.ForwardSweepAngle = FreeCAD.Units.Quantity(value).Value
+            self.redraw()
+        except ValueError:
+            pass
+        self.setEdited()
+        
+    def _setAftSweepState(self):
+        self._lugForm.aftSweepInput.setEnabled(self._obj.AftSweep)
+        self._lugForm.aftSweepGroup.setChecked(self._obj.AftSweep)
+        
+    def onAftSweep(self, value):
+        self._obj.AftSweep = value
+        self._setAftSweepState()
+
+        self.redraw()
+        self.setEdited()
+        
+    def onAftSweepAngle(self, value):
+        try:
+            self._obj.AftSweepAngle = FreeCAD.Units.Quantity(value).Value
+            self.redraw()
+        except ValueError:
+            pass
         self.setEdited()
         
     def getStandardButtons(self):

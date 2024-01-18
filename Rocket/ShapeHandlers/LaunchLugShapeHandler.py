@@ -26,11 +26,14 @@ __url__ = "https://www.davesrocketshop.com"
     
 import FreeCAD
 import Part
+import math
 
 from Rocket.ShapeHandlers.BodyTubeShapeHandler import BodyTubeShapeHandler
 
-from Rocket.Utilities import _err
+from Rocket.Utilities import _err, validationError
 from DraftTools import translate
+
+TOLERANCE_OFFSET = 0.5     # Distance to offset a vertex
 
 class LaunchLugShapeHandler(BodyTubeShapeHandler):
 
@@ -40,6 +43,89 @@ class LaunchLugShapeHandler(BodyTubeShapeHandler):
         self._instanceCount = int(obj.InstanceCount)
         self._separation = float(obj.InstanceSeparation)
 
+        self._forwardSweep = obj.ForwardSweep
+        self._forwardSweepAngle = math.radians(float(obj.ForwardSweepAngle))
+        self._aftSweep = obj.AftSweep
+        self._aftSweepAngle = math.radians(float(obj.AftSweepAngle))
+
+        self._radius = self._OD / 2.0
+        self._zMin = -self._radius # Used for rake
+
+    def isValidShape(self):
+        # Perform some general validations
+        if self._forwardSweep:
+            if (self._forwardSweepAngle <= 0.0) or (self._forwardSweepAngle >= 90.0):
+                validationError(translate('Rocket', "Forward sweep angle must be greater than 0 degrees and less than 90 degrees"))
+                return False
+
+        if self._aftSweep:
+            if (self._aftSweepAngle <= 0.0) or (self._aftSweepAngle >= 90.0):
+                validationError(translate('Rocket', "Aft sweep angle must be greater than 0 degrees and less than 90 degrees"))
+                return False
+
+        return super().isValidShape()
+
+    def rakeZ(self, x, slope, intercept):
+        z = x * slope + intercept # In the (x,z) plane
+        return z
+
+    def _drawAftSweep(self):
+        # We need to calculate our vertices outside of the part to avoid OpenCASCADE's "too exact" problem
+        slope = -1.0 / math.tan(self._aftSweepAngle)
+        intercept = self._zMin - (slope * self._length)
+
+        y = self._radius + TOLERANCE_OFFSET
+
+        x1 = self._length + TOLERANCE_OFFSET
+        z1 = self.rakeZ(x1, slope, intercept)        
+        v1 = FreeCAD.Vector(x1, y, z1)
+
+        # x2 = self._length - (o + TOLERANCE_OFFSET)
+        x2 = self._length - (((self._radius + math.fabs(self._zMin)) * math.tan(self._aftSweepAngle)) + TOLERANCE_OFFSET)
+        z2 = self.rakeZ(x2, slope, intercept)        
+        v2 = FreeCAD.Vector(x2, y, z2)
+
+        v3 = FreeCAD.Vector(x1, y, z2)
+
+        line1 = Part.LineSegment(v1, v2)
+        line2 = Part.LineSegment(v2, v3)
+        line3 = Part.LineSegment(v3, v1)
+        shape = Part.Shape([line1, line2, line3])
+        # Part.show(shape)
+        wire = Part.Wire(shape.Edges)
+        face = Part.Face(wire)
+        rake = face.extrude(FreeCAD.Vector(0, -2.0 * y, 0))
+
+        return rake
+
+    def _drawForwardSweep(self):
+        # We need to calculate our vertices outside of the part to avoid OpenCASCADE's "too exact" problem
+        slope = 1.0 / math.tan(self._forwardSweepAngle)
+
+        y = self._radius + TOLERANCE_OFFSET
+
+        x1 = -TOLERANCE_OFFSET
+        z1 = self.rakeZ(x1, slope, self._zMin)        
+        v1 = FreeCAD.Vector(x1, y, z1)
+
+        # x2 = o + TOLERANCE_OFFSET
+        x2 = ((self._radius + math.fabs(self._zMin)) * math.tan(self._forwardSweepAngle)) + TOLERANCE_OFFSET
+        z2 = self.rakeZ(x2, slope, self._zMin)        
+        v2 = FreeCAD.Vector(x2, y, z2)
+
+        v3 = FreeCAD.Vector(x1, y, z2)
+
+        line1 = Part.LineSegment(v1, v2)
+        line2 = Part.LineSegment(v2, v3)
+        line3 = Part.LineSegment(v3, v1)
+        shape = Part.Shape([line1, line2, line3])
+        # Part.show(shape)
+        wire = Part.Wire(shape.Edges)
+        face = Part.Face(wire)
+        rake = face.extrude(FreeCAD.Vector(0, -2.0 * y, 0))
+
+        return rake
+
     def drawSingle(self):
         edges = None
         edges = self._drawTubeEdges()
@@ -48,6 +134,16 @@ class LaunchLugShapeHandler(BodyTubeShapeHandler):
             wire = Part.Wire(edges)
             face = Part.Face(wire)
             shape = face.revolve(FreeCAD.Vector(0, 0, 0),FreeCAD.Vector(1, 0, 0), 360)
+
+            if self._forwardSweep:
+                rake = self._drawForwardSweep()
+                # Part.show(rake)
+                shape = shape.cut(rake)
+            if self._aftSweep:
+                rake = self._drawAftSweep()
+                # Part.show(rake)
+                shape = shape.cut(rake)
+
             return shape
 
         return None
