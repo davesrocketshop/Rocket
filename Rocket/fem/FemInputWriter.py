@@ -55,10 +55,10 @@ from femsolver.calculix import write_femelement_material
 from femsolver.calculix import write_femelement_matgeosets
 from femsolver.calculix import write_footer
 from femsolver.calculix import write_mesh
-from Rocket.fem import WriteStepEquation
 from femsolver.calculix import write_step_output
 from femsolver import writerbase
 from femtools import constants
+from Rocket.fem import WriteStepEquation
 
 
 # Interesting forum topic: https://forum.freecad.org/viewtopic.php?&t=48451

@@ -125,3 +125,8 @@ class Command:
         
     def hasActiveAnalysis(self):
         return (FemGui.getActiveAnalysis() is not None)
+        
+    def hasActiveAnalysisAndFin(self):
+        if FemGui.getActiveAnalysis():
+            return self.partFinSelected()
+        return False

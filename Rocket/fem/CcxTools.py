@@ -116,6 +116,60 @@ class RocketFemToolsCcx(FemToolsCcx):
             )
             raise
 
+    def load_results(self):
+        FreeCAD.Console.PrintMessage("\n")  # because of time print in separate line
+        FreeCAD.Console.PrintMessage("CalculiX read results...\n")
+        self.results_present = False
+        # self.load_results_ccxfrd()
+        self.load_results_ccxdat()
+        self.load_results_cxxsti()
+        self.load_results_cxxmas()
+        self.analysis.Document.recompute()
+
+    def load_results_cxxsti(self):
+        sti_result_file = os.path.splitext(self.inp_file_name)[0] + ".sti"
+        sti_content = None
+
+        if os.path.isfile(sti_result_file):
+            sti_file = open(sti_result_file, "r")
+            sti_content = sti_file.read()
+            sti_file.close()
+        else:
+            FreeCAD.Console.PrintError(
+                "FEM: No sti result file found at {}\n"
+                .format(sti_result_file)
+            )
+
+        if sti_content:
+            sti_text_obj = self.analysis.Document.addObject("App::TextDocument", "ccx_sti_file")
+            sti_text_obj.Text = sti_content
+            sti_text_obj.setPropertyStatus("Text", "ReadOnly")  # set property editor readonly
+            if FreeCAD.GuiUp:
+                sti_text_obj.ViewObject.ReadOnly = True  # set editor view readonly
+            self.analysis.addObject(sti_text_obj)
+
+    def load_results_cxxmas(self):
+        mas_result_file = os.path.splitext(self.inp_file_name)[0] + ".mas"
+        mas_content = None
+
+        if os.path.isfile(mas_result_file):
+            mas_file = open(mas_result_file, "r")
+            mas_content = mas_file.read()
+            mas_file.close()
+        else:
+            FreeCAD.Console.PrintError(
+                "FEM: No mas result file found at {}\n"
+                .format(mas_result_file)
+            )
+
+        if mas_content:
+            mas_text_obj = self.analysis.Document.addObject("App::TextDocument", "ccx_mas_file")
+            mas_text_obj.Text = mas_content
+            mas_text_obj.setPropertyStatus("Text", "ReadOnly")  # set property editor readonly
+            if FreeCAD.GuiUp:
+                mas_text_obj.ViewObject.ReadOnly = True  # set editor view readonly
+            self.analysis.addObject(mas_text_obj)
+
 
 class CcxTools(RocketFemToolsCcx):
 

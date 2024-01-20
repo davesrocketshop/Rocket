@@ -50,6 +50,7 @@ def makeSolverCalculixCcxTools(
     solver_ccxtools.SolverCcxTools(obj)
     ViewProviderSolverCalculix(obj.ViewObject)
     obj.EigenmodesCount = 15
+    obj.AnalysisType = "frequency"
     return obj
 
 def createAnalysis():
@@ -189,6 +190,56 @@ def doFemStripMesh():
 
     QtGui.QMessageBox.information(None, "", translate('Rocket', "Please select a fin first"))
 
+def doFemAeroelastic():
+    doc = FreeCAD.ActiveDocument
+
+    if FemGui.getActiveAnalysis() is None:
+        return
+    
+    # for fin in FreeCADGui.Selection.getSelection():
+    #     if fin.isDerivedFrom('Part::FeaturePython'):
+    #         if hasattr(fin,"FinType"):
+    #             try:
+    #                 doc.openTransaction("Create Rocket FEM strip mesh")
+
+    #                 mesh_obj_name = fin.Name + "_Mesh"
+    #                 # if requested by some people add Preference for this
+    #                 # mesh_obj_name = self.selobj.Name + "_Mesh"
+    #                 # mesh = ObjectsFem.makeMeshGmsh(doc, mesh_obj_name)
+    #                 mesh = makeMesh(doc, mesh_obj_name)
+    #                 # mesh = doc.addObject("Fem::FemMeshObjectPython", mesh_obj_name)
+    #                 # gmsh_mesh = StripMesh(mesh, FemGui.getActiveAnalysis())
+    #                 # doc.ActiveObject.Part = fin
+    #                 mesh.Part = fin
+
+    #                 # Mesh object could be added without an active analysis
+    #                 # but if there is an active analysis move it in there
+    #                 if FemGui.getActiveAnalysis():
+    #                     FemGui.getActiveAnalysis().addObject(mesh)
+
+    #                 FreeCADGui.Selection.clearSelection()
+    #                 doc.recompute()
+
+    #                 fin.ViewObject.Visibility = False
+    #                 doc.recompute()
+
+    #                 strip_mesh = StripMesh(mesh, FemGui.getActiveAnalysis())
+    #                 error = strip_mesh.create_mesh()
+    #                 print(error)
+
+    #                 radius = float(fin.ParentRadius)
+    #                 mesh.Placement.Base = FreeCAD.Vector(0.0, 0.0, radius)
+
+    #                 doc.commitTransaction()
+    #                 doc.recompute()
+
+    #             except TypeError as ex:
+    #                 QtGui.QMessageBox.information(None, "", str(ex))
+    #                 doc.abortTransaction()
+    #             return
+
+    # QtGui.QMessageBox.information(None, "", translate('Rocket', "Please select a fin first"))
+
 class CmdFemAnalysis(Command):
     def Activated(self):
         FreeCADGui.addModule("Ui.Commands.CmdFemAnalysis")
@@ -224,45 +275,23 @@ class CmdFemStripMesh(Command):
 
     def IsActive(self):
         # Always available, even without active document
-        return self.hasActiveAnalysis()
+        return self.hasActiveAnalysisAndFin()
         
     def GetResources(self):
         return {'MenuText': translate("Rocket", 'Fin strip mesh'),
                 'ToolTip': translate("Rocket", 'Creates a strip mesh'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_FinFem.svg"}
 
-# class _MaterialSolid(CommandManager):
-#     "The FEM_MaterialSolid command definition"
+class CmdFemAeroelastic(Command):
+    def Activated(self):
+        FreeCADGui.addModule("Ui.Commands.CmdFemAnalysis")
+        FreeCADGui.doCommand("Ui.Commands.CmdFemAnalysis.doFemAeroelastic()")
 
-#     def __init__(self):
-#         super(_MaterialSolid, self).__init__()
-#         self.menutext = Qt.QT_TRANSLATE_NOOP(
-#             "FEM_MaterialSolid",
-#             "Material for solid"
-#         )
-#         self.accel = "M, S"
-#         self.tooltip = Qt.QT_TRANSLATE_NOOP(
-#             "FEM_MaterialSolid",
-#             "Creates a FEM material for solid"
-#         )
-#         self.is_active = "with_analysis"
-#         self.do_activated = "add_obj_on_gui_set_edit"
-
-# class _SolverControl(CommandManager):
-#     "The FEM_SolverControl command definition"
-
-#     def __init__(self):
-#         super(_SolverControl, self).__init__()
-#         self.menutext = Qt.QT_TRANSLATE_NOOP(
-#             "FEM_SolverControl",
-#             "Solver job control"
-#         )
-#         self.accel = "S, T"
-#         self.tooltip = Qt.QT_TRANSLATE_NOOP(
-#             "FEM_SolverControl",
-#             "Changes solver attributes and runs the calculations for the selected solver"
-#         )
-#         self.is_active = "with_solver"
-
-#     def Activated(self):
-#         FreeCADGui.ActiveDocument.setEdit(self.selobj, 0)
+    def IsActive(self):
+        # Always available, even without active document
+        return self.hasActiveAnalysis()
+        
+    def GetResources(self):
+        return {'MenuText': translate("Rocket", 'Fin Aeroelastic Analysis'),
+                'ToolTip': translate("Rocket", 'Runs an aeroelastic analysis'),
+                'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_FinFlutter.svg"}

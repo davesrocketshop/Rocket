@@ -2,7 +2,7 @@
 <package format="1" xmlns="https://wiki.freecad.org/Package_Metadata">
   <name>Rocket</name>
   <description>A workbench for designing model rockets.</description>
-  <version>3.3.0</version>
+  <version>3.3.1</version>
   <date>2024-01-18</date>
   <maintainer email="dcarter@davidcarter.ca">David Carter</maintainer>
   <license file="LICENSE">LGPLv2.1</license>

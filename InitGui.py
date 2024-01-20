@@ -65,7 +65,7 @@ class RocketWorkbench ( Workbench ):
         #                 ['Separator', 'Rocket_ParachuteGore'])
         self.appendToolbar(QT_TRANSLATE_NOOP('Rocket', 'Rocket'),
                         # ['Separator', 'Rocket_FinFlutter', 'Rocket_FemAnalysis', 'FEM_MeshGmshFromShape', "Rocket_MaterialEditor", 'Rocket_MaterialMapping'])
-                        ['Separator', 'Rocket_FinFlutter', 'Rocket_FemAnalysis', 'Rocket_FemRootConstraint', 'Rocket_FemStripMesh', 'FEM_MeshGmshFromShape', "Rocket_MaterialEditor"])
+                        ['Separator', 'Rocket_FinFlutter', 'Rocket_FemAnalysis', 'Rocket_FemRootConstraint', 'Rocket_FemStripMesh', 'Rocket_FemAeroelastic', 'FEM_MeshGmshFromShape', "Rocket_MaterialEditor"])
 
         self.appendMenu(QT_TRANSLATE_NOOP('Rocket', 'Rocket'), 
                         ['Rocket_Rocket', 'Rocket_Stage', 'Rocket_ParallelStage', 'Rocket_Pod', 'Rocket_NoseCone', 'Rocket_Transition', 'Rocket_BodyTube', 'Rocket_InnerTube', 'Rocket_Coupler', 'Rocket_EngineBlock', 
