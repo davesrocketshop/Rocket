@@ -124,51 +124,39 @@ class RocketFemToolsCcx(FemToolsCcx):
         self.load_results_ccxdat()
         self.load_results_cxxsti()
         self.load_results_cxxmas()
+        self.load_results_cxxdof()
         self.analysis.Document.recompute()
 
-    def load_results_cxxsti(self):
-        sti_result_file = os.path.splitext(self.inp_file_name)[0] + ".sti"
-        sti_content = None
+    def _load_results_cxx(self, suffix):
+        result_file = os.path.splitext(self.inp_file_name)[0] + "." + suffix
+        content = None
 
-        if os.path.isfile(sti_result_file):
-            sti_file = open(sti_result_file, "r")
-            sti_content = sti_file.read()
-            sti_file.close()
+        if os.path.isfile(result_file):
+            file = open(result_file, "r")
+            content = file.read()
+            file.close()
         else:
             FreeCAD.Console.PrintError(
-                "FEM: No sti result file found at {}\n"
-                .format(sti_result_file)
+                "FEM: No {} result file found at {}\n"
+                .format(suffix, result_file)
             )
 
-        if sti_content:
-            sti_text_obj = self.analysis.Document.addObject("App::TextDocument", "ccx_sti_file")
-            sti_text_obj.Text = sti_content
-            sti_text_obj.setPropertyStatus("Text", "ReadOnly")  # set property editor readonly
+        if content:
+            text_obj = self.analysis.Document.addObject("App::TextDocument", "ccx_{}_file".format(suffix))
+            text_obj.Text = content
+            text_obj.setPropertyStatus("Text", "ReadOnly")  # set property editor readonly
             if FreeCAD.GuiUp:
-                sti_text_obj.ViewObject.ReadOnly = True  # set editor view readonly
-            self.analysis.addObject(sti_text_obj)
+                text_obj.ViewObject.ReadOnly = True  # set editor view readonly
+            self.analysis.addObject(text_obj)
+
+    def load_results_cxxsti(self):
+        self._load_results_cxx("sti")
 
     def load_results_cxxmas(self):
-        mas_result_file = os.path.splitext(self.inp_file_name)[0] + ".mas"
-        mas_content = None
+        self._load_results_cxx("mas")
 
-        if os.path.isfile(mas_result_file):
-            mas_file = open(mas_result_file, "r")
-            mas_content = mas_file.read()
-            mas_file.close()
-        else:
-            FreeCAD.Console.PrintError(
-                "FEM: No mas result file found at {}\n"
-                .format(mas_result_file)
-            )
-
-        if mas_content:
-            mas_text_obj = self.analysis.Document.addObject("App::TextDocument", "ccx_mas_file")
-            mas_text_obj.Text = mas_content
-            mas_text_obj.setPropertyStatus("Text", "ReadOnly")  # set property editor readonly
-            if FreeCAD.GuiUp:
-                mas_text_obj.ViewObject.ReadOnly = True  # set editor view readonly
-            self.analysis.addObject(mas_text_obj)
+    def load_results_cxxdof(self):
+        self._load_results_cxx("dof")
 
 
 class CcxTools(RocketFemToolsCcx):

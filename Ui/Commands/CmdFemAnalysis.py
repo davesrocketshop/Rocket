@@ -30,6 +30,7 @@ import FreeCADGui
 from DraftTools import translate
 
 from PySide import QtGui
+import numpy as np
 
 from Ui.Commands.Command import Command
 from Ui.ViewSolverCalculix import ViewProviderSolverCalculix
@@ -38,6 +39,7 @@ from Ui.ViewSolverCalculix import ViewProviderSolverCalculix
 import FemGui
 import ObjectsFem
 from Rocket.fem.StripMesh import StripMesh
+from Rocket.fem.FemEigenvalueAnalysis import modal_aeroelastic
 
 def makeSolverCalculixCcxTools(
     doc,
@@ -195,50 +197,38 @@ def doFemAeroelastic():
 
     if FemGui.getActiveAnalysis() is None:
         return
+
+    aero_inputs = \
+        {
+            "planform": {"A":[0,0,0], "B":[0,2.0,0], "CA":0.2, "CB":0.2},
+            "strips": 10,  # number of aero strips along the span >=1
+            "root_alpha": 0,  # AoA at the wing root in degrees
+            "rho": 1.225,  # air density in Pa
+            "V": {
+                "start": 1.0,
+                "end": 150.0,
+                "inc0": 5.0,
+                "inc_min": 0.01,
+            },  # air velocity range in m/s
+            "mode_tracking_threshold": 0.60,
+            "CL_alpha": 2 * np.pi,  # ideal lift curve slope
+        }
     
-    # for fin in FreeCADGui.Selection.getSelection():
-    #     if fin.isDerivedFrom('Part::FeaturePython'):
-    #         if hasattr(fin,"FinType"):
-    #             try:
-    #                 doc.openTransaction("Create Rocket FEM strip mesh")
-
-    #                 mesh_obj_name = fin.Name + "_Mesh"
-    #                 # if requested by some people add Preference for this
-    #                 # mesh_obj_name = self.selobj.Name + "_Mesh"
-    #                 # mesh = ObjectsFem.makeMeshGmsh(doc, mesh_obj_name)
-    #                 mesh = makeMesh(doc, mesh_obj_name)
-    #                 # mesh = doc.addObject("Fem::FemMeshObjectPython", mesh_obj_name)
-    #                 # gmsh_mesh = StripMesh(mesh, FemGui.getActiveAnalysis())
-    #                 # doc.ActiveObject.Part = fin
-    #                 mesh.Part = fin
-
-    #                 # Mesh object could be added without an active analysis
-    #                 # but if there is an active analysis move it in there
-    #                 if FemGui.getActiveAnalysis():
-    #                     FemGui.getActiveAnalysis().addObject(mesh)
-
-    #                 FreeCADGui.Selection.clearSelection()
-    #                 doc.recompute()
-
-    #                 fin.ViewObject.Visibility = False
-    #                 doc.recompute()
-
-    #                 strip_mesh = StripMesh(mesh, FemGui.getActiveAnalysis())
-    #                 error = strip_mesh.create_mesh()
-    #                 print(error)
-
-    #                 radius = float(fin.ParentRadius)
-    #                 mesh.Placement.Base = FreeCAD.Vector(0.0, 0.0, radius)
-
-    #                 doc.commitTransaction()
-    #                 doc.recompute()
-
-    #             except TypeError as ex:
-    #                 QtGui.QMessageBox.information(None, "", str(ex))
-    #                 doc.abortTransaction()
-    #             return
-
-    # QtGui.QMessageBox.information(None, "", translate('Rocket', "Please select a fin first"))
+    print("Starting modal aeroelastic stability analysis.")
+    # run aeroelastic stability analysis over a range of velocities
+    # freq_scipy, V, V_omega, V_damping, flutter, divergence = modal_aeroelastic(
+    #     "dummy", #file=inputs["analysis_file"],
+    #     "dummyFolder", #folder=run_folder,
+    #     # aero_inputs=inputs["modal_aeroelastic_parameters"]["aero_inputs"],
+    #     # box_inputs=inputs,
+    #     # k_modes=inputs["modal_aeroelastic_parameters"]["k_modes"],
+    # )
+    modal_aeroelastic(
+        FemGui.getActiveAnalysis(),
+        aero_inputs
+        # box_inputs=inputs,
+        # k_modes=inputs["modal_aeroelastic_parameters"]["k_modes"],
+    )
 
 class CmdFemAnalysis(Command):
     def Activated(self):
