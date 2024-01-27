@@ -324,9 +324,10 @@ class StripMesh(GmshTools):
             index = index + 1
 
     def strip_mesh(self):
+        strips = 10
         mesh = Fem.FemMesh()
         handler = getShapeHandler(self.mesh_obj.Part)
-        profiles = handler.finFemProfiles(10)
+        profiles = handler.finFemProfiles(strips)
 
         divisions = 10
         self.makeNodes(mesh, profiles, divisions)
@@ -336,6 +337,16 @@ class StripMesh(GmshTools):
             index = 0
             while (index < len(self._nodes[0]) - 1):
                 # Add as quadrangles
+                # mesh.addVolume([
+                #     self._nodes[div][index][0],
+                #     self._nodes[div + 1][index][0],
+                #     self._nodes[div + 1][index + 1][0],
+                #     self._nodes[div][index + 1][0],
+                #     self._nodes[div][index][2],
+                #     self._nodes[div + 1][index][2],
+                #     self._nodes[div + 1][index + 1][2],
+                #     self._nodes[div][index + 1][2]
+                #     ])
                 mesh.addVolume([
                     self._nodes[div][index][0],
                     self._nodes[div + 1][index][0],

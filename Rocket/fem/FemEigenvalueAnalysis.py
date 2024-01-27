@@ -81,18 +81,20 @@ def modal_aeroelastic(analysis, aero_inputs=None, box_inputs=None, k_modes=10):
     ccx = CcxTools()
     ccx.analysis = analysis
     ccx.find_solver()
+    ccx.setup_working_dir()
 
     if analysis.getObject("ccx_sti_file") is None:
         print("No stiffness matrix found")
+        return
 
-    for o in analysis.getSubObjects():
-        print(o)
-        dir(o)
+    # for o in analysis.getSubObjects():
+    #     print(o)
+    #     dir(o)
 
     # dofs that are constrained
     tools = membertools.AnalysisMember(analysis)
-    for n in tools.cons_fixed:
-        print(n)
+    # for n in tools.cons_fixed:
+    #     print(n)
     solver = ccx.solver
     print("Solver\n")
     print(solver)
@@ -119,9 +121,6 @@ def modal_aeroelastic(analysis, aero_inputs=None, box_inputs=None, k_modes=10):
     fixed_dofs = np.array(data)
     print(fixed_dofs)
 
-    # csv_file = Path(folder, "SPC_123456.bou")
-    # fixed_dofs = _read_matrix_csv(csv_file, delimiter=",", skip_lines_with="**")
-
     # load row_dof lookup matrix, where each row matches K, M matrix rows and corresponds
     # to node.dir combination
     csv_file = analysis.getObject("ccx_dof_file")
@@ -130,15 +129,8 @@ def modal_aeroelastic(analysis, aero_inputs=None, box_inputs=None, k_modes=10):
     lookup = _read_matrix_csv_string(contents, delimiter=".")
     print(lookup)
 
-    # # read shell node locations from input file
-    # csv_file = Path(folder, "all.msh")
-    # nodes_xyz = _read_matrix_csv(
-    #     csv_file, delimiter=",", skip_lines_with="*", read_only="*NODE"
-    # )
-    # # filter nodes for aero shape interpolation (e.g. only upper surface on box)
-    # nodes_xyz = nodes_xyz[nodes_xyz[:, 3] >= 0.0]
+    # read shell node locations from input file
     print("Node locations\n")
-    # print(dir(mesh.FemMesh))
     data = []
     for node, vector in mesh.FemMesh.Nodes.items():
         print(node)
@@ -146,21 +138,22 @@ def modal_aeroelastic(analysis, aero_inputs=None, box_inputs=None, k_modes=10):
         data.append([node, vector.x, vector.y, vector.z])
     nodes_xyz = np.array(data)
     # print(nodes_xyz)
+
     # filter nodes for aero shape interpolation (e.g. only upper surface on box)
     # nodes_xyz = nodes_xyz[nodes_xyz[:, 2] >= 0.0]
-    nodes_xyz = nodes_xyz[nodes_xyz[:, 2] > 0.0]
+    nodes_xyz = nodes_xyz[nodes_xyz[:, 3] >= 0.0]
     # print(nodes_xyz)
 
     problem = {}
     csv_file = analysis.getObject("ccx_mas_file")
     contents = csv_file.Text
     data = _read_matrix_csv_string(contents)
-    problem['mas'] = _get_matrix(data)  # , filter_out_rows=fixed_dofs_rows)
+    problem['mas'] = _get_matrix(data)
 
     csv_file = analysis.getObject("ccx_sti_file")
     contents = csv_file.Text
     data = _read_matrix_csv_string(contents)
-    problem['sti'] = _get_matrix(data)  # , filter_out_rows=fixed_dofs_rows)
+    problem['sti'] = _get_matrix(data)
 
     # check that the stiffness matrix is positive definite
     if not all(eigsh(problem["sti"])[0] > 0):
@@ -171,165 +164,56 @@ def modal_aeroelastic(analysis, aero_inputs=None, box_inputs=None, k_modes=10):
     # normal modes analysis
     omega, _, evecs = get_normal_modes(problem, k=k_modes)
 
-    assert (
-        k_modes % 2 == 0.0
-    ), "Define even number of k_modes for the aeroelastic analysis."
+    if aero_inputs:
+        assert (
+            k_modes % 2 == 0.0
+        ), "Define even number of k_modes for the aeroelastic analysis."
 
-    # get modal mass and stiffness matrices
-    problem["M"] = csc_matrix(evecs.T @ problem["mas"] @ evecs)
-    problem["K"] = csc_matrix(evecs.T @ problem["sti"] @ evecs)
+        # get modal mass and stiffness matrices
+        problem["M"] = csc_matrix(evecs.T @ problem["mas"] @ evecs)
+        problem["K"] = csc_matrix(evecs.T @ problem["sti"] @ evecs)
 
-    # instantiate aero model
-    aeromodel = AeroModel(aero_inputs, box_inputs)
+        # instantiate aero model
+        aeromodel = AeroModel(aero_inputs, box_inputs)
 
-    # define the corner nodes of the aerodynamic planform
-    aeromodel.get_planform()
+        # define the corner nodes of the aerodynamic planform
+        aeromodel.get_planform()
 
-    # calculate the internal aero node positions at the leading and trailing edges
-    aeromodel.get_all_nodes()
-    aeronodes = np.vstack([aeromodel.le_nodes, aeromodel.te_nodes])
+        # calculate the internal aero node positions at the leading and trailing edges
+        aeromodel.get_all_nodes()
+        aeronodes = np.vstack([aeromodel.le_nodes, aeromodel.te_nodes])
 
-    # filter normal mode eigenvector DOFs and reduce from 3D element nodes to shell nodes
-    aero_evecs = _get_aero_evects(
-        evecs,
-        lookup,
-        nodes_xyz,
-        aeronodes,
-        fixed=fixed_dofs,
-        dirs=[3],
-        plot_flag=False,
-    )
+        # filter normal mode eigenvector DOFs and reduce from 3D element nodes to shell nodes
+        aero_evecs = _get_aero_evects(
+            evecs,
+            lookup,
+            nodes_xyz,
+            aeronodes,
+            fixed=fixed_dofs,
+            dirs=[3],
+            # dirs=[2],
+            plot_flag=True,
+        )
 
-    # get aero damping and stiffness matrices B and C
-    problem["B"] = _get_aero_damping(aeromodel, aero_evecs, Mxi_dot=-1.2, e=0.25)
-    problem["C"] = _get_aero_stiffness(aeromodel, aero_evecs, e=0.25)
+        # # get aero damping and stiffness matrices B and C
+        # problem["B"] = _get_aero_damping(aeromodel, aero_evecs, Mxi_dot=-1.2, e=0.25)
+        # problem["C"] = _get_aero_stiffness(aeromodel, aero_evecs, e=0.25)
 
-    # flutter / divergence analysis
-    V, V_omega, V_damping, _, _, flutter, divergence = get_complex_aero_modes(
-        problem,
-        rho=aero_inputs["rho"],
-        Vdict=aero_inputs["V"],
-        k=k_modes,
-        plot_flag=True,
-        folder=None,
-        threshold=aero_inputs[
-            "mode_tracking_threshold"
-        ],  # used of macxp mode sorting
-    )
-    return omega, V, V_omega, V_damping, flutter, divergence
-
-
-def simple_plate_tests():
-    """Fast tests using a simple cantelevered flat plate model.
-    NOTE: Requires mesh and CCX analysis output. Steps to generate these:
-    1) cd "folder"
-    2) cgx_2.19 -bg cgx_infile.fdb
-    3) open all.msh file in editor and change element type from S8 to S8R
-    4) ccx_2.19 ccx_normal_modes*
-    5) ccx_2.19 ccx_normal_modes_matout
-
-    *4) is not stricly required, but provides ccx normal mode eigenvalues for comparison.
-    """
-
-    # SIMPLE PLATE normal modes checks
-    freq_scipy = main(
-        file="ccx_normal_modes_matout",
-        folder="test_data/test_eigenvalue_analysis/composite_plate_0_-45_45",
-        k_modes=15,
-    )
-    freq_ccx = np.array(
-        [
-            0.9844066e01,
-            0.4930842e02,
-            0.6179677e02,
-            0.1572807e03,
-            0.1738530e03,
-            0.2941666e03,
-            0.3399870e03,
-            0.4720929e03,
-            0.5622821e03,
-            0.6990578e03,
-            0.6997033e03,
-            0.8424458e03,
-            0.9799083e03,
-            0.1183415e04,
-            0.1318173e04,
-        ]
-    )
-    assert np.allclose(freq_scipy, freq_ccx, rtol=1e-3)
-
-    # SIMPLE PLATE flutter analysis check
-    freq_scipy, V, V_omega, V_damping, flutter, divergence = modal_analysis(
-        file="ccx_normal_modes_matout",
-        folder="test_data/test_eigenvalue_analysis/composite_plate_0_-45_45",
-        aero_inputs=PLATE_AERO,
-        k_modes=16,
-    )
-    assert flutter == [{"mode": 2, "V": 33.0}]
-    assert divergence == []
-    flutter_index = np.argwhere(np.isclose(V, flutter[0]["V"]))
-    assert (
-        V_damping[flutter_index[0] - 1, flutter[0]["mode"] - 1] > 0.0
-        and V_damping[flutter_index[0], flutter[0]["mode"] - 1] <= 0.0
-    )
-
-    freq_scipy, V, V_omega, V_damping, flutter, divergence = modal_analysis(
-        file="ccx_normal_modes_matout",
-        folder="test_data/test_eigenvalue_analysis/composite_plate_0_0_90",
-        aero_inputs=PLATE_AERO,
-        k_modes=16,
-    )
-    assert flutter == [{"mode": 2, "V": 26.5}]
-    assert divergence == [{"mode": 1, "V": 32.5}]
-    divergence_index = np.argwhere(np.isclose(V, divergence[0]["V"]))
-    assert (
-        V_damping[divergence_index[0] - 1, divergence[0]["mode"] - 1] > 0.0
-        and V_damping[divergence_index[0], divergence[0]["mode"] - 1] <= 0.0
-    )
-
-
-def parametric_box_tests():
-    """Slower tests using a composite parametric box wing model.
-    NOTE: Requires mesh and CCX analysis output. Steps to generate these:
-    1) cd "folder"
-    2) ccx_2.19 ccx_normal_modes*
-    3) ccx_2.19 ccx_normal_modes_matout
-
-    *2) is not stricly required, but provides ccx normal mode eigenvalues for comparison.
-    """
-    from parametric_box import INPUTS
-
-    # box model aerelastic analysis
-    freq_scipy, V, V_omega, V_damping, flutter, divergence = modal_analysis(
-        file="ccx_normal_modes_matout",
-        folder="test_data/test_eigenvalue_analysis/composite_wing",
-        aero_inputs=BOX_AERO,
-        box_inputs=INPUTS[1],
-        k_modes=10,
-    )
-    freq_ccx = np.array(
-        [
-            0.6925236e01,
-            0.3730376e02,
-            0.4572749e02,
-            0.5929500e02,
-            0.8697576e02,
-            0.1345654e03,
-            0.1624646e03,
-            0.1728907e03,
-            0.1969553e03,
-            0.2176435e03,
-        ]
-    )
-    assert np.allclose(freq_scipy, freq_ccx, rtol=1e-3)
-    assert flutter == [
-        {"mode": 3, "V": 71.0},
-        {"mode": 4, "V": 76.0},
-        {"mode": 2, "V": 141.62},
-        {"mode": 4, "V": 141.74},
-    ]
-    assert divergence == []
-
+        # # flutter / divergence analysis
+        # V, V_omega, V_damping, _, _, flutter, divergence = get_complex_aero_modes(
+        #     problem,
+        #     rho=aero_inputs["rho"],
+        #     Vdict=aero_inputs["V"],
+        #     k=k_modes,
+        #     plot_flag=True,
+        #     folder=ccx.working_dir,
+        #     threshold=aero_inputs[
+        #         "mode_tracking_threshold"
+        #     ],  # used of macxp mode sorting
+        # )
+        # return omega, V, V_omega, V_damping, flutter, divergence
+    else:
+        return omega
 
 def get_normal_modes(problem, k=10):
     """Solve an real eigenvalue problem to obtain the k lowest eigenvalues and
@@ -729,15 +613,25 @@ def _get_aero_evects(
         lookup=lookup.astype(int),
         evecs=evecs,
     )
+    # print("filtered evecs")
+    # print(filtered_evecs)
+    # print("filtered dofs")
+    # print(filtered_dofs)
 
     # average duplicate dofs
     reduced_evecs, reduced_dofs = _get_unique_evecs(
         filtered_evecs, filtered_dofs.astype(int)
     )
+    # print("reduced evecs")
+    # print(reduced_evecs)
+    # print("reduced dofs")
+    # print(reduced_dofs)
 
     # set boundary conditions to zero
     if not fixed is None:
         reduced_evecs = _apply_boundary_conditions(reduced_evecs, reduced_dofs, fixed)
+        # print("reduced evecs after boundary conditions")
+        # print(reduced_evecs)
 
     # get xyz for all dof nodes
     X = np.zeros([len(reduced_dofs)])
@@ -745,15 +639,28 @@ def _get_aero_evects(
     for index, dof in enumerate(reduced_dofs):
         node_index = np.where(nodes_xyz[:, 0] == dof[0])[0]
         X[index] = nodes_xyz[node_index, 1]
-        # Y[index] = nodes_xyz[node_index, 2]
-        Y[index] = nodes_xyz[node_index, 3] # We're on the X,Z plane
+        Y[index] = nodes_xyz[node_index, 2]
+        # Y[index] = nodes_xyz[node_index, 3] # We're on the X,Z plane
+    # print("X")
+    # print(X)
+    # print("Y")
+    # print(Y)
 
     # interpolate aero eigenvectors
     aero_evecs = np.zeros([len(aeronodes), reduced_evecs.shape[1]])
     for index, evect in enumerate(reduced_evecs.transpose()):
         f = LinearNDInterpolator((X, Y), evect, fill_value=0.0)
         for nodeid, node in enumerate(aeronodes):
+            # print("Before:\n")
+            # print(aero_evecs[nodeid, index])
+            # print(f(node[0], node[1]))
+            # print(f(node[0], node[2]))
+            # print(node[0])
+            # print(node[1])
+            # print(node[2])
             aero_evecs[nodeid, index] = f(node[0], node[1])
+            # print("After:\n")
+            # print(aero_evecs[nodeid, index])
 
     # plot selected modes for visual check
     if plot_flag:
