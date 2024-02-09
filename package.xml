@@ -5,7 +5,7 @@
   <version>3.3.0</version>
   <date>2024-01-18</date>
   <maintainer email="dcarter@davidcarter.ca">David Carter</maintainer>
-  <license file="LICENSE">LGPLv2.1</license>
+  <license file="LICENSE">LGPL-2.1-or-later</license>
   <url type="repository" branch="master">https://github.com/davesrocketshop/Rocket</url>
   <icon>Resources/icons/RocketWorkbench.svg</icon>
 
