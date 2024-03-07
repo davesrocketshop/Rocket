@@ -35,11 +35,18 @@ from Rocket.Parts.Component import Component
 from Rocket.Parts.Exceptions import NotFoundError
 from Rocket.Parts.Material import listBulkMaterials
 from Rocket.Parts.Utilities import _msg
+from Rocket.Utilities import oldMaterials, newMaterials
+
+if newMaterials():
+    import Materials
 
 class PartDatabase:
 
     def __init__(self, rootFolder):
         self._rootFolder = rootFolder
+        if newMaterials():
+            self._manager = Materials.MaterialManager()
+            self._library = self._manager.createLibrary(self._rootFolder + "/Resources/Material/New/", "Rocket")
 
     def getConnection(self, ro=True):
         # By default get a read only connection
@@ -158,8 +165,11 @@ class PartDatabase:
             # print(material['manufacturer'] + "," + material['material_name'])
             name = self.materialFilename(material)
             print("Filename '{0}'".format(name))
-            filename = self._rootFolder + "/Resources/Material/" + name + ".FCMat"
-            self.createMaterialCard(material, name, filename)
+            if oldMaterials():
+                filename = self._rootFolder + "/Resources/Material/" + name + ".FCMat"
+                self.createMaterialCard(material, name, filename)
+            else:
+                self.createNewMaterialCard(material, name)
 
     def materialFilename(self, material):
         if material['manufacturer'] == 'unspecified':
@@ -200,3 +210,16 @@ KindOfMaterial = Solid
 Density = {1} kg/m^3
 """.format(name, material["density"])
                 )
+    
+    def createNewMaterialCard(self, material, name):
+        filename = "/" + name + ".FCMat"
+        if self._library.exists(name):
+            mat = self._library.getMaterialByName(name)
+        else:
+            mat = Materials.Material()
+        self._manager.addMaterial(self._library, filename, mat)
+
+        if not mat.hasPhysicalModel(Materials.UUIDs.Density):
+            mat.addPhysicalModel(Materials.UUIDs.Density)
+        mat.setPhysicalValue("Density", material["Density"])
+        mat.save(self._library, filename)
