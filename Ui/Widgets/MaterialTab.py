@@ -31,15 +31,22 @@ from PySide import QtGui
 from PySide2.QtWidgets import QGridLayout, QVBoxLayout, QSizePolicy
 
 from Rocket.Material import Material
+from Rocket.Utilities import oldMaterials, newMaterials
+
+if newMaterials():
+    import MatGui
 
 class MaterialTab(QtGui.QWidget):
 
     def __init__(self, parent=None):
         super().__init__(parent)
 
-        self.setTabMaterial()
+        if oldMaterials():
+            self.setTabMaterialV21()
+        else:
+            self.setTabMaterialV22()
 
-    def setTabMaterial(self):
+    def setTabMaterialV21(self):
 
         self.materialLabel = QtGui.QLabel(translate('Rocket', "Material"), self)
 
@@ -56,15 +63,32 @@ class MaterialTab(QtGui.QWidget):
         layout.addItem(QtGui.QSpacerItem(0,0, QSizePolicy.Expanding, QSizePolicy.Expanding))
 
         self.setLayout(layout)
+
+    def setTabMaterialV22(self):
+
+        self.materialTree = MatGui.MaterialTreeWidget(self)
+        row = 0
+        grid = QGridLayout()
+
+        grid.addWidget(self.materialTree, row, 0)
+        row += 1
+
+        layout = QVBoxLayout()
+        layout.addItem(grid)
+        layout.addItem(QtGui.QSpacerItem(0,0, QSizePolicy.Expanding, QSizePolicy.Expanding))
+
+        self.setLayout(layout)
         
     def transferTo(self, obj):
-        "Transfer from the dialog to the object" 
-        obj.Material = str(self.materialPresetCombo.currentText())
+        "Transfer from the dialog to the object"
+        if oldMaterials():
+            obj.Material = str(self.materialPresetCombo.currentText())
 
     def transferFrom(self, obj):
         "Transfer from the object to the dialog"
-        self.updateMaterials()
-        self.materialPresetCombo.setCurrentText(obj.Material)
+        if oldMaterials():
+            self.updateMaterials()
+            self.materialPresetCombo.setCurrentText(obj.Material)
     
     def updateMaterials(self):
         "fills the combo with the existing FCMat cards"

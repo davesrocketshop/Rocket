@@ -24,8 +24,6 @@ __url__ = "https://www.davesrocketshop.com"
 
 import FreeCAD
 
-# import Fem # Requires the FEM workbench to be loaded
-
 class RocketWorkbench ( Workbench ):
     "Rocket workbench object"
     Icon = FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/RocketWorkbench.svg"
@@ -42,15 +40,26 @@ class RocketWorkbench ( Workbench ):
         False if FemGui.__name__ else True
         False if femcommands.commands.__name__ else True
 
+    def _loadMaterialsModule(self):
+        # load the Materials module
+        import Materials
+        import MatGui
+        # dummy usage to get flake8 and lgtm quiet
+        False if Materials.__name__ else True
+        False if MatGui.__name__ else True
+
     def Initialize(self):
         FreeCADGui.addLanguagePath(FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/translations")
 
         # load the module
         import RocketGui
         import SketcherGui
+        from Rocket.Utilities import newMaterials
         from PySide.QtCore import QT_TRANSLATE_NOOP
 
         self._loadFemModule()
+        if newMaterials():
+            self._loadMaterialsModule()
         
         self.appendToolbar(QT_TRANSLATE_NOOP('Rocket', 'Rocket'),
                         ['Rocket_Rocket', 'Rocket_Stage', 'Rocket_ParallelStage', 'Rocket_Pod', 'Rocket_NoseCone', 'Rocket_Transition', 'Rocket_BodyTube', 'Rocket_InnerTube', 'Rocket_Coupler', 'Rocket_EngineBlock', 
