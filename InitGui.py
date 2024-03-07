@@ -24,13 +24,15 @@ __url__ = "https://www.davesrocketshop.com"
 
 import FreeCAD
 
+from DraftTools import translate
+
 # import Fem # Requires the FEM workbench to be loaded
 
 class RocketWorkbench ( Workbench ):
     "Rocket workbench object"
     Icon = FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/RocketWorkbench.svg"
-    MenuText = "Rocket"
-    ToolTip = "Rocket workbench"
+    MenuText = translate('Rocket', "Rocket")
+    ToolTip = translate('Rocket', "Rocket workbench")
 
     def _loadFemModule(self):
         # load the FEM module
