@@ -23,14 +23,17 @@ __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
 import FreeCAD
-
-from DraftTools import translate
+import FreeCADGui
 
 # import Fem # Requires the FEM workbench to be loaded
 
 class RocketWorkbench ( Workbench ):
     "Rocket workbench object"
     Icon = FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/RocketWorkbench.svg"
+
+    from TranslateUtils import translate
+    FreeCADGui.addLanguagePath(FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/translations")
+    FreeCADGui.updateLocale()
     MenuText = translate('Rocket', "Rocket")
     ToolTip = translate('Rocket', "Rocket workbench")
 
@@ -45,8 +48,6 @@ class RocketWorkbench ( Workbench ):
         False if femcommands.commands.__name__ else True
 
     def Initialize(self):
-        FreeCADGui.addLanguagePath(FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/translations")
-
         # load the module
         import RocketGui
         import SketcherGui
