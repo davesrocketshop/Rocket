@@ -38,14 +38,14 @@ from Rocket.Parts.Utilities import _msg
 from Rocket.Utilities import oldMaterials, newMaterials
 
 if newMaterials():
-    import Materials
+    import Material
 
 class PartDatabase:
 
     def __init__(self, rootFolder):
         self._rootFolder = rootFolder
         if newMaterials():
-            self._manager = Materials.MaterialManager()
+            self._manager = Material.MaterialManager()
             self._library = self._manager.createLibrary(self._rootFolder + "/Resources/Material/New/", "Rocket")
 
     def getConnection(self, ro=True):
@@ -165,18 +165,31 @@ class PartDatabase:
             # print(material['manufacturer'] + "," + material['material_name'])
             name = self.materialFilename(material)
             print("Filename '{0}'".format(name))
-            if oldMaterials():
-                filename = self._rootFolder + "/Resources/Material/" + name + ".FCMat"
-                self.createMaterialCard(material, name, filename)
-            else:
-                self.createNewMaterialCard(material, name)
+
+            # Create the old materials for compaibility
+            filename = self._rootFolder + "/Resources/Material/Old/" + name + ".FCMat"
+            self.createMaterialCard(material, name, filename)
+
+            # Create the new material format library
+            if newMaterials():
+                name = self.materialNewFilename(material)
+                path = self._rootFolder + "/Resources/Material/New/" + material['manufacturer'] + "/"
+                self.createNewMaterialCard(material, name, path)
 
     def materialFilename(self, material):
         if material['manufacturer'] == 'unspecified':
             name = material['material_name']
         else:
-            name = material['manufacturer'] + "," + material['material_name']
+            name = material['manufacturer'] + '-' + material['material_name']
+        
+        return self.filterName(name)
 
+    def materialNewFilename(self, material):
+        name = material['material_name']
+        
+        return self.filterName(name)
+
+    def filterName(self, name):
         name = name.replace('"', '')
         name = name.replace('0.', '')
         name = name.replace('.', '')
@@ -211,15 +224,14 @@ Density = {1} kg/m^3
 """.format(name, material["density"])
                 )
     
-    def createNewMaterialCard(self, material, name):
-        filename = "/" + name + ".FCMat"
+    def createNewMaterialCard(self, material, name, path):
         if self._library.exists(name):
             mat = self._library.getMaterialByName(name)
         else:
-            mat = Materials.Material()
-        self._manager.addMaterial(self._library, filename, mat)
+            mat = Material.Material()
+        self._manager.addMaterial(self._library, path, mat)
 
-        if not mat.hasPhysicalModel(Materials.UUIDs.Density):
-            mat.addPhysicalModel(Materials.UUIDs.Density)
+        if not mat.hasPhysicalModel(Material.UUIDs.Density):
+            mat.addPhysicalModel(Material.UUIDs.Density)
         mat.setPhysicalValue("Density", material["Density"])
-        mat.save(self._library, filename)
+        mat.save(self._library, path)
