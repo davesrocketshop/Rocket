@@ -38,15 +38,15 @@ from Rocket.Parts.Utilities import _msg
 from Rocket.Utilities import oldMaterials, newMaterials
 
 if newMaterials():
-    import Material
+    import Materials
 
 class PartDatabase:
 
     def __init__(self, rootFolder):
         self._rootFolder = rootFolder
         if newMaterials():
-            self._manager = Material.MaterialManager()
-            self._library = self._manager.createLibrary(self._rootFolder + "/Resources/Material/New/", "Rocket")
+            self._manager = Materials.MaterialManager()
+            # self._library = self._manager.createLibrary(self._rootFolder + "/Resources/Material/New/", "Rocket")
 
     def getConnection(self, ro=True):
         # By default get a read only connection
@@ -228,10 +228,10 @@ Density = {1} kg/m^3
         if self._library.exists(name):
             mat = self._library.getMaterialByName(name)
         else:
-            mat = Material.Material()
+            mat = Materials.Material()
         self._manager.addMaterial(self._library, path, mat)
 
-        if not mat.hasPhysicalModel(Material.UUIDs.Density):
-            mat.addPhysicalModel(Material.UUIDs.Density)
+        if not mat.hasPhysicalModel(Materials.UUIDs.Density):
+            mat.addPhysicalModel(Materials.UUIDs.Density)
         mat.setPhysicalValue("Density", material["Density"])
         mat.save(self._library, path)

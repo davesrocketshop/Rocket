@@ -42,10 +42,10 @@ class RocketWorkbench ( Workbench ):
 
     def _loadMaterialsModule(self):
         # load the Materials module
-        import Material
+        import Materials
         import MatGui
         # dummy usage to get flake8 and lgtm quiet
-        False if Material.__name__ else True
+        False if Materials.__name__ else True
         False if MatGui.__name__ else True
 
     def Initialize(self):

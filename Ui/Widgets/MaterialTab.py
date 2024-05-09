@@ -25,6 +25,8 @@ __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
     
 
+import FreeCADGui
+
 from DraftTools import translate
 
 from PySide import QtGui
@@ -34,6 +36,7 @@ from Rocket.Material import Material
 from Rocket.Utilities import oldMaterials, newMaterials
 
 if newMaterials():
+    import Materials
     import MatGui
 
 class MaterialTab(QtGui.QWidget):
@@ -65,12 +68,19 @@ class MaterialTab(QtGui.QWidget):
         self.setLayout(layout)
 
     def setTabMaterialV22(self):
+        print("setTabMaterialV22()")
+        self.materialManager = Materials.MaterialManager()
 
-        self.materialTree = MatGui.MaterialTreeWidget(self)
+        ui = FreeCADGui.UiLoader()
+
+        self.materialTreeWidget = ui.createWidget("MatGui::MaterialTreeWidget")
+        self.materialTree = MatGui.MaterialTreeWidget(self.materialTreeWidget)
+        self.materialTreeWidget.onMaterial.connect(self.onMaterial)
+        
         row = 0
         grid = QGridLayout()
 
-        grid.addWidget(self.materialTree, row, 0)
+        grid.addWidget(self.materialTreeWidget, row, 0)
         row += 1
 
         layout = QVBoxLayout()
@@ -83,12 +93,19 @@ class MaterialTab(QtGui.QWidget):
         "Transfer from the dialog to the object"
         if oldMaterials():
             obj.Material = str(self.materialPresetCombo.currentText())
+        else:
+            obj.ShapeMaterial = self.materialManager.getMaterial(self.uuid)
 
     def transferFrom(self, obj):
         "Transfer from the object to the dialog"
         if oldMaterials():
             self.updateMaterials()
             self.materialPresetCombo.setCurrentText(obj.Material)
+        else:
+            self.uuid = obj.ShapeMaterial.UUID
+            print("UUID = {0}".format(self.uuid))
+            print(self.materialTree)
+            self.materialTree.UUID = self.uuid
     
     def updateMaterials(self):
         "fills the combo with the existing FCMat cards"
@@ -97,3 +114,7 @@ class MaterialTab(QtGui.QWidget):
         if cards:
             for k in sorted(cards.keys()):
                 self.materialPresetCombo.addItem(k)
+
+    def onMaterial(self, uuid):
+        print("Selected '{0}'".format(uuid))
+        self.uuid = uuid

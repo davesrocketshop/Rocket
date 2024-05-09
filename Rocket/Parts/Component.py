@@ -73,7 +73,7 @@ class Component:
 
     def persist(self, connection):
         try:
-            # material_index = Material.getMaterial(connection, self._manufacturer, self._material[0], self._material[1])
+            # material_index = Materials.getMaterial(connection, self._manufacturer, self._material[0], self._material[1])
             material_index = getMaterial(connection, self._manufacturer, self._material[0], self._material[1])
         except MaterialNotFoundError:
             try:
