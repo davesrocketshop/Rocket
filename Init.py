@@ -33,14 +33,13 @@ from Rocket.migration.migrate_app import RocketMigrateApp
 sys.meta_path.append(RocketMigrateApp())
 
 # Add materials to the user config dir
-materials = FreeCAD.ParamGet("User parameter:BaseApp/Preferences/Mod/Material/Resources")
-# matdir = materials.GetString("CustomMaterialsDir")
-# if len(matdir) <= 0:
+materials = FreeCAD.ParamGet("User parameter:BaseApp/Preferences/Mod/Material/Resources/Modules/Rocket")
 if oldMaterials():
     matdir = str(PurePath(FreeCAD.getUserAppDataDir(), "Mod/Rocket/Resources/Material/Old"))
 else:
     matdir = str(PurePath(FreeCAD.getUserAppDataDir(), "Mod/Rocket/Resources/Material/New"))
-materials.SetString("CustomMaterialsDir", matdir)
+materials.SetString("ModuleDir", matdir)
+materials.SetString("ModuleIcon", str(PurePath(FreeCAD.getUserAppDataDir(), "Mod/Rocket/Resources/icons/RocketWorkbench.svg")))
 
 # add Import/Export types
 FreeCAD.addImportType("Open Rocket (*.ork)", "importORK")
