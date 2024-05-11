@@ -173,7 +173,7 @@ class PartDatabase:
             # Create the new material format library
             if newMaterials():
                 name = self.materialNewFilename(material)
-                path = self._rootFolder + "/Resources/Material/New/" + material['manufacturer'] + "/"
+                path = self._rootFolder + "/Resources/Material/New/Physical/" + material['manufacturer'] + "/"
                 self.createNewMaterialCard(material, name, path)
 
     def materialFilename(self, material):
@@ -225,13 +225,17 @@ Density = {1} kg/m^3
                 )
     
     def createNewMaterialCard(self, material, name, path):
-        if self._library.exists(name):
-            mat = self._library.getMaterialByName(name)
-        else:
+        try:
+            mat = self._manager.getMaterialByPath(path)
+        except LookupError:
             mat = Materials.Material()
-        self._manager.addMaterial(self._library, path, mat)
+            mat.Name = name
+            mat.Author = "Created by the Rocket Workbench"
+            mat.License = "Apache-2.0"
+            mat.Description = name
 
-        if not mat.hasPhysicalModel(Materials.UUIDs.Density):
-            mat.addPhysicalModel(Materials.UUIDs.Density)
-        mat.setPhysicalValue("Density", material["Density"])
-        mat.save(self._library, path)
+        if not mat.hasPhysicalModel(Materials.UUIDs().Density):
+            mat.addPhysicalModel(Materials.UUIDs().Density)
+        mat.setPhysicalValue("Density", "{0} kg/m^3".format(material["Density"]))
+
+        self._manager.save("Rocket", mat, path + name + ".FCMat")
