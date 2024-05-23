@@ -29,52 +29,29 @@ import FreeCADGui
 
 from DraftTools import translate
 
+import Materials
+import MatGui
+
 from PySide import QtGui
 from PySide2.QtWidgets import QGridLayout, QVBoxLayout, QSizePolicy
 
 from Rocket.Material import Material
-from Rocket.Utilities import oldMaterials, newMaterials
-
-if newMaterials():
-    import Materials
-    import MatGui
 
 class MaterialTab(QtGui.QWidget):
 
     def __init__(self, parent=None):
         super().__init__(parent)
 
-        if oldMaterials():
-            self.setTabMaterialV21()
-        else:
-            self.setTabMaterialV22()
+        self.setTabMaterial()
 
-    def setTabMaterialV21(self):
-
-        self.materialLabel = QtGui.QLabel(translate('Rocket', "Material"), self)
-
-        self.materialPresetCombo = QtGui.QComboBox(self)
-        row = 0
-        grid = QGridLayout()
-
-        grid.addWidget(self.materialLabel, row, 0)
-        grid.addWidget(self.materialPresetCombo, row, 1)
-        row += 1
-
-        layout = QVBoxLayout()
-        layout.addItem(grid)
-        layout.addItem(QtGui.QSpacerItem(0,0, QSizePolicy.Expanding, QSizePolicy.Expanding))
-
-        self.setLayout(layout)
-
-    def setTabMaterialV22(self):
+    def setTabMaterial(self):
         print("setTabMaterialV22()")
         self.materialManager = Materials.MaterialManager()
 
         ui = FreeCADGui.UiLoader()
 
         self.materialTreeWidget = ui.createWidget("MatGui::MaterialTreeWidget")
-        self.materialTree = MatGui.MaterialTreeWidget(self.materialTreeWidget)
+        self.materialTreePy = MatGui.MaterialTreeWidget(self.materialTreeWidget)
         self.materialTreeWidget.onMaterial.connect(self.onMaterial)
         
         row = 0
@@ -91,21 +68,14 @@ class MaterialTab(QtGui.QWidget):
         
     def transferTo(self, obj):
         "Transfer from the dialog to the object"
-        if oldMaterials():
-            obj.Material = str(self.materialPresetCombo.currentText())
-        else:
-            obj.ShapeMaterial = self.materialManager.getMaterial(self.uuid)
+        obj.ShapeMaterial = self.materialManager.getMaterial(self.uuid)
 
     def transferFrom(self, obj):
         "Transfer from the object to the dialog"
-        if oldMaterials():
-            self.updateMaterials()
-            self.materialPresetCombo.setCurrentText(obj.Material)
-        else:
-            self.uuid = obj.ShapeMaterial.UUID
-            print("UUID = {0}".format(self.uuid))
-            print(self.materialTree)
-            self.materialTree.UUID = self.uuid
+        self.uuid = obj.ShapeMaterial.UUID
+        print("UUID = {0}".format(self.uuid))
+        print(self.materialTreePy)
+        self.materialTreePy.UUID = self.uuid
     
     def updateMaterials(self):
         "fills the combo with the existing FCMat cards"
