@@ -73,14 +73,30 @@ class MaterialTab(QtGui.QWidget):
 
         ui = FreeCADGui.UiLoader()
 
-        self.materialTreeWidget = ui.createWidget("MatGui::MaterialTreeWidget")
-        self.materialTree = MatGui.MaterialTreeWidget(self.materialTreeWidget)
-        self.materialTreeWidget.onMaterial.connect(self.onMaterial)
+        self.materialTree = ui.createWidget("MatGui::MaterialTreeWidget")
+        self.materialTreeWidget = MatGui.MaterialTreeWidget(self.materialTreeW)
+        self.materialTree.onMaterial.connect(self.onMaterial)
+
+        filters = []
+        filterPhysical = Materials.MaterialFilter()
+        filterPhysical.Name = "Physical Materials"
+        filterPhysical.RequiredModelsComplete = [Materials.UUIDs.Density]
+
+        filterAppearance = Materials.MaterialFilter()
+        filterAppearance.Name = "Appearance Materials"
+        filterAppearance.RequiredModelsComplete = [Materials.UUIDs.BasicRendering]
+
+        filterAll = Materials.MaterialFilter()
+        filterAll.Name = "All Materials"
+
+        filters = [filterPhysical, filterAppearance, filterAll]
+        self.materialTreeWidget.setFilter(filters)
+        self.materialTreeWidget.selectFilter("Physical Materials")
         
         row = 0
         grid = QGridLayout()
 
-        grid.addWidget(self.materialTreeWidget, row, 0)
+        grid.addWidget(self.materialTree, row, 0)
         row += 1
 
         layout = QVBoxLayout()
@@ -102,10 +118,8 @@ class MaterialTab(QtGui.QWidget):
             self.updateMaterials()
             self.materialPresetCombo.setCurrentText(obj.Material)
         else:
-            self.uuid = obj.ShapeMaterial.UUID
-            print("UUID = {0}".format(self.uuid))
-            print(self.materialTree)
-            self.materialTree.UUID = self.uuid
+            self.uuid = obj.materialTreeWidget.UUID
+            self.materialTreeWidget.UUID = self.uuid
     
     def updateMaterials(self):
         "fills the combo with the existing FCMat cards"
