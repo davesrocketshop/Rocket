@@ -54,12 +54,10 @@ class RocketWorkbench ( Workbench ):
         # load the module
         import RocketGui
         import SketcherGui
-        from Rocket.Utilities import newMaterials
         from PySide.QtCore import QT_TRANSLATE_NOOP
 
         self._loadFemModule()
-        if newMaterials():
-            self._loadMaterialsModule()
+        self._loadMaterialsModule()
         
         self.appendToolbar(QT_TRANSLATE_NOOP('Rocket', 'Rocket'),
                         ['Rocket_Rocket', 'Rocket_Stage', 'Rocket_ParallelStage', 'Rocket_Pod', 'Rocket_NoseCone', 'Rocket_Transition', 'Rocket_BodyTube', 'Rocket_InnerTube', 'Rocket_Coupler', 'Rocket_EngineBlock', 

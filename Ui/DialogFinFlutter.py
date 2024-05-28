@@ -26,6 +26,8 @@ __url__ = "https://www.davesrocketshop.com"
     
 import FreeCAD
 import FreeCADGui
+import Materials
+import MatGui
 import math
 import numpy as np
 
@@ -51,6 +53,8 @@ class DialogFinFlutter(QDialog):
         self._materials = []
         self._cards = None
         self._material = None
+
+        self._materialManager = Materials.MaterialManager()
 
         self.initUI()
         self._setSeries()
@@ -96,10 +100,17 @@ class DialogFinFlutter(QDialog):
 
         self.materialGroup = QtGui.QGroupBox(translate('Rocket', "Material"), self)
 
-        self.materialPresetLabel = QtGui.QLabel(translate('Rocket', "Preset"), self)
+        self.materialLabel = QtGui.QLabel(translate('Rocket', "Material"), self)
+        self.materialTreeWidget = ui.createWidget("MatGui::MaterialTreeWidget")
+        self.materialTreePy = MatGui.MaterialTreeWidget(self.materialTreeWidget)
 
-        self.materialPresetCombo = QtGui.QComboBox(self)
-        self.fillExistingCombo()
+        # Create the filters
+        self.filter = Materials.MaterialFilter()
+        self.filter.Name = "Isotropic Linear Elastic"
+        self.filter.RequiredModels = [Materials.UUIDs().IsotropicLinearElastic]
+        self.allFilter = Materials.MaterialFilter()
+        self.allFilter.Name = "All"
+        self.materialTreePy.setFilter([self.filter, self.allFilter])
 
         self.shearLabel = QtGui.QLabel(translate('Rocket', "Shear Modulus"), self)
 
@@ -203,8 +214,8 @@ class DialogFinFlutter(QDialog):
         row = 0
         grid = QGridLayout()
 
-        grid.addWidget(self.materialPresetLabel, row, 0)
-        grid.addWidget(self.materialPresetCombo, row, 1)
+        grid.addWidget(self.materialLabel, row, 0)
+        grid.addWidget(self.materialTreeWidget, row, 1)
         row += 1
 
         grid.addWidget(self.shearLabel, row, 0)
@@ -273,7 +284,7 @@ class DialogFinFlutter(QDialog):
         layout.addLayout(line)
         self.setLayout(layout)
 
-        self.materialPresetCombo.currentTextChanged.connect(self.onMaterialChanged)
+        self.materialTreeWidget.onMaterial.connect(self.onMaterial)
         self.calculatedCheckbox.clicked.connect(self.onCalculated)
         self.shearInput.textEdited.connect(self.onShear)
         self.youngsInput.textEdited.connect(self.onYoungs)
@@ -292,7 +303,7 @@ class DialogFinFlutter(QDialog):
 
     def transferFrom(self):
         "Transfer from the object to the dialog"
-        self.materialPresetCombo.setCurrentText(self._fin.Material)
+        self.materialTreePy.UUID = self._fin.ShapeMaterial.UUID
 
     def _setSeries(self):
 
@@ -343,14 +354,6 @@ class DialogFinFlutter(QDialog):
         
         self.static_canvas.draw()
     
-    def fillExistingCombo(self):
-        "fills the combo with the existing FCMat cards"
-        self.materialPresetCombo.addItem('')
-        self._cards = Material.materialDictionary()
-        if self._cards:
-            for k in sorted(self._cards.keys()):
-                self.materialPresetCombo.addItem(k)
-
     def fillAltitudeCombo(self):
         for i in range(0, 110, 10):
             self.maxAltitudeCombo.addItem("{0:d}".format(i * 1000) + ' ' + self._heightUnits())
@@ -404,6 +407,43 @@ class DialogFinFlutter(QDialog):
 
             self._setSeries()
             self.onFlutter(None)
+
+    def interpolateProperties(self):
+        """ Infer missing properties from thos available """
+        shearModulus = self._material.getPhysicalValue("ShearModulus")
+        youngsModulus = self._material.getPhysicalValue("YoungsModulus")
+        poissonRatio = self._material.getPhysicalValue("PoissonRatio")
+        hasShear = not (shearModulus is None or math.isnan(shearModulus)) 
+        hasYoungs = not (youngsModulus is None or math.isnan(youngsModulus))
+        hasPoisson = not (poissonRatio is None or math.isnan(poissonRatio))
+        if hasShear:
+            self.shearInput.setText(self._formatPressure(FreeCAD.Units.Quantity(shearModulus)))
+        else:
+            self.shearInput.setText(self._formatPressure(FreeCAD.Units.Quantity("0 kPa")))
+        if hasYoungs:
+            self.youngsInput.setText(self._formatPressure(FreeCAD.Units.Quantity(youngsModulus)))
+        else:
+            self.youngsInput.setText(self._formatPressure(FreeCAD.Units.Quantity("0 kPa")))
+        if hasPoisson:
+            self.poissonInput.setText("{0:.4f}".format(poissonRatio))
+        else:
+            self.poissonInput.setText("0")
+
+        if hasShear:
+            self.setShearSpecified()
+        elif hasYoungs and hasPoisson:
+            self.setShearCalculated()
+            self.calculateShear()
+        else:
+            self.setShearSpecified()
+
+    def onMaterial(self, uuid):
+        print("Selected '{0}'".format(uuid))
+        self._material = self._materialManager.getMaterial(uuid)
+        self.interpolateProperties()
+
+        self._setSeries()
+        self.onFlutter(None)
         
     def onCalculated(self, value):
         if value:

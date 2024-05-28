@@ -26,7 +26,6 @@ __url__ = "https://www.davesrocketshop.com"
 import FreeCAD
 import sys
 from pathlib import PurePath
-from Rocket.Utilities import oldMaterials
 
 # Migrate old components
 from Rocket.migration.migrate_app import RocketMigrateApp
@@ -34,10 +33,7 @@ sys.meta_path.append(RocketMigrateApp())
 
 # Add materials to the user config dir
 materials = FreeCAD.ParamGet("User parameter:BaseApp/Preferences/Mod/Material/Resources/Modules/Rocket")
-if oldMaterials():
-    matdir = str(PurePath(FreeCAD.getUserAppDataDir(), "Mod/Rocket/Resources/Material/Old"))
-else:
-    matdir = str(PurePath(FreeCAD.getUserAppDataDir(), "Mod/Rocket/Resources/Material/New"))
+matdir = str(PurePath(FreeCAD.getUserAppDataDir(), "Mod/Rocket/Resources/Material"))
 materials.SetString("ModuleDir", matdir)
 materials.SetString("ModuleIcon", str(PurePath(FreeCAD.getUserAppDataDir(), "Mod/Rocket/Resources/icons/RocketWorkbench.svg")))
 

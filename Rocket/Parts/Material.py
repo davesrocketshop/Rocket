@@ -33,6 +33,7 @@ class Material:
     def __init__(self):
         self._manufacturer = ""
         self._name = ""
+        self._uuid = ""
         self._type = MATERIAL_TYPE_BULK
         self._density = 0.0
         # self._units = "g/cm3" # This should be changed?
@@ -46,6 +47,11 @@ class Material:
         self.validateString(value, message)
         if len(str(value).strip()) <= 0:
             self.raiseInvalid(message)
+
+    def validateUuid(self, value, message):
+        if (len(value) == 0 or len(value) == 36):
+            return
+        self.raiseInvalid(message)
 
     def validatePositive(self, value, message):
         if value <= 0.0:
@@ -61,6 +67,7 @@ class Material:
     def validate(self):
         self.validateNonEmptyString(self._manufacturer, "Manufacturer invalid")
         self.validateNonEmptyString(self._name, "Name invalid")
+        self.validateUuid(self._uuid, "Invalid UUID")
         self.validateNonEmptyString(self._units, "Units invalid")
         if self._type not in [MATERIAL_TYPE_BULK, MATERIAL_TYPE_SURFACE, MATERIAL_TYPE_LINE]:
             self.raiseInvalid("Invalid material tyle '%s'" % self._type)
@@ -84,9 +91,10 @@ class Material:
 
             raise MultipleEntryError("Material database contains multiple entries for manufacturer:'%s' material_name:'%s', type:'%s'" % (self._manufacturer, self._name, self._type))
 
-        cursor.execute("INSERT INTO material(manufacturer, material_name, type, density, units) VALUES (:manufacturer,:name,:type,:density,:units)",
+        cursor.execute("INSERT INTO material(manufacturer, material_name, uuid, type, density, units) VALUES (:manufacturer,:name,:uuid,:type,:density,:units)",
                             {"manufacturer" : self._manufacturer,
-                             "name" : self._name, 
+                             "name" : self._name,
+                             "uuid" : self._uuid,
                              "type" : self._type,
                              "density" : self._density,
                              "units" : self._units})
@@ -150,7 +158,7 @@ def getMaterialAnyType(connection, manufacturer, name):
 def listMaterials(connection):
     cursor = connection.cursor()
 
-    cursor.execute("SELECT material_index, manufacturer, material_name, type, density, units FROM material")
+    cursor.execute("SELECT material_index, manufacturer, material_name, uuid, type, density, units FROM material")
 
     rows = cursor.fetchall()
     return rows
@@ -158,8 +166,19 @@ def listMaterials(connection):
 def listBulkMaterials(connection):
     cursor = connection.cursor()
 
-    cursor.execute("SELECT material_index, manufacturer, material_name, type, density, units FROM material"
+    cursor.execute("SELECT material_index, manufacturer, material_name, uuid, type, density, units FROM material"
                    + " WHERE type='BULK'")
 
     rows = cursor.fetchall()
     return rows
+
+def updateUuid(connection, material_index, uuid):
+        cursor = connection.cursor()
+
+        # Check to see if an entry exists
+        cursor.execute("UPDATE material SET uuid=:uuid WHERE material_index=:material_index", 
+                            {
+                                "uuid" : uuid,
+                                "material_index" : material_index
+                            })
+        connection.commit()
