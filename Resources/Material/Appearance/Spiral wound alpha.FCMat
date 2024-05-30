@@ -1,0 +1,38 @@
+﻿---
+# File created by FreeCAD 0.22.0 Revision: 37543 (Git)
+General:
+  UUID: "28669f7c-bbae-4e1c-b962-751bd9e7681f"
+  Name: "Spiral wound alpha"
+  License: "GPL 3.0"
+  Description: "Copied from the OpenRocket project"
+  SourceURL: "https://github.com/openrocket/openrocket"
+AppearanceModels:
+  Texture Rendering:
+    UUID: "bbdcc65b-67ca-489c-bd5c-a36e33d1c160"
+    AmbientColor: "(0.333333, 0.333333, 0.333333, 1)"
+    DiffuseColor: "(0.8, 0.8, 0.8, 1)"
+    EmissiveColor: "(0, 0, 0, 1)"
+    Shininess: "0.9"
+    SpecularColor: "(0.533333, 0.533333, 0.533333, 1)"
+    TextureImage: |-2
+      iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAAA4WlDQ1BzUkdCAAAYlWNgYDzNAA
+      RMDgwMuXklRUHuTgoRkVEKDEggMbm4gAE3YGRg+HYNRDIwXNYNLGHlx6MWG+AsAloIpD8AsUg6
+      mM3IAmInQdgSIHZ5SUEJkK0DYicXFIHYQBcz8BSFBDkD2T5AtkI6EjsJiZ2SWpwMZOcA2fEIv+
+      XPZ2Cw+MLAwDwRIZY0jYFhezsDg8QdhJjKQgYG/lYGhm2XEWKf/cH+ZRQ7VJJaUQIS8dN3ZChI
+      LEoESzODAjQtjYHh03IGBt5IBgbhCwwMXNEQd4ABazEwoEkMJ0IAAHLYNoSjH0ezAAAACXBIWX
+      MAAA7DAAAOwwHHb6hkAAAAunpUWHRDb21tZW50AAAImS2PvW7DMAyEdz/FjS0QWOna1VOAoEvy
+      ArRM2ERkUqCUuO7TVwmy3s+Hu0sWp4TN7joh0W4P9m5wpsoTxh0XWrPhR8qNlLXrzhJZY/Nanh
+      3DcMTHUmv+DiE+W/LgaOtqWnrzOeT7mCROtpJo+GO38NUfw2d3NdSFwb+VtSJbKTImfkMTbQec
+      sFGDgVJCtLy7zEsFtZXO6bXOHMpNHc1FZ7wCBfVJltIe+a3/B4PqT6j+oBdEAAAAGnRFWHRTb2
+      Z0d2FyZQBQYWludC5ORVQgdjMuNS4xMDD0cqEAAAImSURBVHic7dOhDcIAAAXRT5ihjiXYfy9c
+      ExyOnGzFexOcuW07tr0H/GUSCCaBYBIIJoFgEggmgWASCCaBYBIIJoFgEggmgWASCCaBYBIIJo
+      FgEggmgWASCCaBYBIIJoFgEggmgWASCCaBYBIIJoFgEggmgWASCCaBYBIIJoFgEggmgWASCCaB
+      YBIIJoFgEggmgWASCCaBYBIIJoFgEggmgWASCCaBYBIIJoFgEggmgWASCCaBYBIIJoFgEggmgW
+      ASCCaBYBIIJoFgEggmgWASCCaBYBIIJoFgEggmgWASCCaBYBIIJoFgEggmgWASCCaBYBIIJoFg
+      EggmgWASCCaBYBIIJoFgEggmgWASCCaBYBIIJoFgEggmgWASCCaBYBIIJoFgEggmgWASCCaBYB
+      IIJoFgEggmgWASCCaBYBIIJoFgEggmgWASCCaBYBIIJoFgEggmgWASCCaBYBIIJoFgEggmgWAS
+      CCaBYBIIJoFgEggmgWASCCaBYBIIJoFgEggmgWASCCaBYBIIJoFgEggmgWASCCaBYBIIJoFgEg
+      gmgWASCCaBYBIIJoFgEggmgWASCCaBYBIIJoFgEggmgWASCCaBYBIIJoFgEggmgWASCCaBYBII
+      JoFgEggmgWASCCaBYBIIJoFgEggmgWASCCaBYBIIJoFgEggmgWASCCaBYBIIJoFgEggmgWASCC
+      aBYBIIJoHwm+RxcQjc1bHt9by6Am7qs+38AnpoOE15r2WsAAAAAElFTkSuQmCC
+    Transparency: "0"
