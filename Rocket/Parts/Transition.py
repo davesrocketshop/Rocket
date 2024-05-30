@@ -119,7 +119,7 @@ def listTransitions(connection):
 def getTransition(connection, index):
     cursor = connection.cursor()
 
-    cursor.execute("""SELECT transition_index, c.manufacturer, part_number, description, material_name, mass, mass_units,
+    cursor.execute("""SELECT transition_index, c.manufacturer, part_number, description, material_name, uuid, mass, mass_units,
                         shape, style, length, length_units, thickness, thickness_units,
                         fore_outside_diameter, fore_outside_diameter_units, fore_shoulder_diameter, fore_shoulder_diameter_units, fore_shoulder_length, fore_shoulder_length_units,
                         aft_outside_diameter, aft_outside_diameter_units, aft_shoulder_diameter, aft_shoulder_diameter_units, aft_shoulder_length, aft_shoulder_length_units

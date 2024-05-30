@@ -27,6 +27,7 @@ __url__ = "https://www.davesrocketshop.com"
 
 import FreeCAD
 import FreeCADGui
+import Materials
 
 from DraftTools import translate
 
@@ -535,6 +536,7 @@ class TaskPanelRailButton:
         self._obj.HeadDiameter =  _valueOnly(result["countersink_diameter"], result["countersink_diameter_units"])
         self._obj.CountersinkAngle =  self.getCountersinkAngle(result["countersink_angle"])
         self._obj.Fastener = (self._obj.ShankDiameter > 0)
+        self._obj.ShapeMaterial = Materials.MaterialManager().getMaterial(result["uuid"])
 
         self.update()
         self._obj.Proxy.execute(self._obj) 

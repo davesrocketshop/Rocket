@@ -27,6 +27,7 @@ __url__ = "https://www.davesrocketshop.com"
 
 import FreeCAD
 import FreeCADGui
+import Materials
 
 from PySide import QtGui, QtCore
 from PySide2.QtWidgets import QDialog, QGridLayout, QVBoxLayout, QSizePolicy
@@ -834,6 +835,7 @@ class TaskPanelTransition:
         self._obj.AftShoulderDiameter = _valueWithUnits(result["aft_shoulder_diameter"], result["aft_shoulder_diameter_units"])
         self._obj.AftShoulderLength = _valueWithUnits(result["aft_shoulder_length"], result["aft_shoulder_length_units"])
         self._obj.AftShoulderThickness = self._obj.Thickness
+        self._obj.ShapeMaterial = Materials.MaterialManager().getMaterial(result["uuid"])
 
         self._obj.ForeShoulder = (self._obj.ForeShoulderDiameter > 0.0) and (self._obj.ForeShoulderLength >= 0)
         self._obj.AftShoulder = (self._obj.AftShoulderDiameter > 0.0) and (self._obj.AftShoulderLength >= 0)

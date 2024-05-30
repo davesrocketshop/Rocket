@@ -113,7 +113,7 @@ def listBodyTubes(connection, tubeType=None):
 def getBodyTube(connection, index):
     cursor = connection.cursor()
 
-    cursor.execute("""SELECT body_tube_index, c.manufacturer, part_number, description, material_name, mass, mass_units,
+    cursor.execute("""SELECT body_tube_index, c.manufacturer, part_number, description, material_name, uuid, mass, mass_units,
                         inner_diameter, inner_diameter_units, outer_diameter, outer_diameter_units, length, length_units
                     FROM component c, body_tube b, material m WHERE b.component_index = c.component_index AND c.material_index = m.material_index AND b.body_tube_index = :index""", {
                         "index" : index

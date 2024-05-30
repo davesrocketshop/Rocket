@@ -380,34 +380,6 @@ class DialogFinFlutter(QDialog):
 
         self.shearInput.setText(FreeCAD.Units.Quantity(str(shear) + " Pa").UserString)
 
-    def onMaterialChanged(self, card):
-        "sets self._material from a card"
-        if card in self._cards:
-            self._material = Material.lookup(card)
-            if "ShearModulus" in self._material:
-                self.shearInput.setText(self._formatPressure(FreeCAD.Units.Quantity(self._material["ShearModulus"])))
-            else:
-                self.shearInput.setText(self._formatPressure(FreeCAD.Units.Quantity("0 kPa")))
-            if "YoungsModulus" in self._material:
-                self.youngsInput.setText(self._formatPressure(FreeCAD.Units.Quantity(self._material["YoungsModulus"])))
-            else:
-                self.youngsInput.setText(self._formatPressure(FreeCAD.Units.Quantity("0 kPa")))
-            if "PoissonRatio" in self._material:
-                self.poissonInput.setText(self._material["PoissonRatio"])
-            else:
-                self.poissonInput.setText("0")
-
-            if "ShearModulus" in self._material:
-                self.setShearSpecified()
-            elif "YoungsModulus" in self._material and "PoissonRatio" in self._material:
-                self.setShearCalculated()
-                self.calculateShear()
-            else:
-                self.setShearSpecified()
-
-            self._setSeries()
-            self.onFlutter(None)
-
     def interpolateProperties(self):
         """ Infer missing properties from thos available """
         shearModulus = self._material.getPhysicalValue("ShearModulus")

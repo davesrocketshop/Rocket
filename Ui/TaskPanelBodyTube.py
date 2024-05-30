@@ -27,6 +27,7 @@ __url__ = "https://www.davesrocketshop.com"
 
 import FreeCAD
 import FreeCADGui
+import Materials
 
 from DraftTools import translate
 
@@ -340,6 +341,7 @@ class TaskPanelBodyTube:
         self._obj.Proxy.setOuterDiameter(_valueOnly(result["outer_diameter"], result["outer_diameter_units"]))
         self._obj.Proxy.setThickness((self._obj.Diameter.Value - diameter) / 2.0)
         self._obj.Proxy.setLength(_valueOnly(result["length"], result["length_units"]))
+        self._obj.ShapeMaterial = Materials.MaterialManager().getMaterial(result["uuid"])
 
         self.update()
         self._obj.Proxy.execute(self._obj) 

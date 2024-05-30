@@ -27,6 +27,7 @@ __url__ = "https://www.davesrocketshop.com"
 
 import FreeCAD
 import FreeCADGui
+import Materials
 
 from PySide import QtGui, QtCore
 from PySide2.QtWidgets import QDialog, QGridLayout, QVBoxLayout
@@ -532,6 +533,7 @@ class TaskPanelBulkhead:
 
         self._obj.Diameter = _valueWithUnits(result["outer_diameter"], result["outer_diameter_units"])
         self._obj.Thickness =_valueWithUnits(result["length"], result["length_units"])
+        self._obj.ShapeMaterial = Materials.MaterialManager().getMaterial(result["uuid"])
 
         self._obj.Step = False
         self._obj.StepDiameter = 0.0

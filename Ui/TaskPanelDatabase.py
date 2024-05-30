@@ -153,6 +153,7 @@ class TaskPanelDatabase(QObject):
         self._obj.PartNumber = result["part_number"]
         self._obj.Description = result["description"]
         self._obj.Material = result["material_name"]
+        # self._obj.MaterialUUID = result["uuid"]
 
         # self._obj.NoseType = str(result["shape"])
         # self._obj.NoseStyle = str(result["style"])

@@ -27,6 +27,7 @@ __url__ = "https://www.davesrocketshop.com"
 
 import FreeCAD
 import FreeCADGui
+import Materials
 
 from PySide import QtGui, QtCore
 from PySide2.QtWidgets import QDialog, QGridLayout, QVBoxLayout, QSizePolicy
@@ -626,6 +627,8 @@ class TaskPanelNoseCone:
         self._obj.ShoulderLength = _valueWithUnits(result["shoulder_length"], result["shoulder_length_units"])
         self._obj.Shoulder = (self._obj.ShoulderDiameter > 0.0) and (self._obj.ShoulderLength >= 0)
         self._obj.ShoulderThickness = self._obj.Thickness
+        self._obj.ShapeMaterial = Materials.MaterialManager().getMaterial(result["uuid"])
+
         self.update()
         self._obj.Proxy.execute(self._obj) 
         self.setEdited()
