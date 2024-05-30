@@ -208,8 +208,8 @@ class PartDatabase:
             mat = self._manager.getMaterialByPath(path)
         except LookupError:
             # Get a material with the default appearance
-            # mat = self._manager.inheritMaterial("5dbb7be6-8b63-479b-ab4c-87be02ead973")
-            mat = Materials.Material()
+            mat = self._manager.inheritMaterial("5dbb7be6-8b63-479b-ab4c-87be02ead973")
+            # mat = Materials.Material()
             mat.Name = name
             mat.Author = "Created by the Rocket Workbench"
             mat.License = "Apache-2.0"

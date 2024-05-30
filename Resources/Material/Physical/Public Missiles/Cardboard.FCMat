@@ -1,0 +1,15 @@
+﻿---
+# File created by FreeCAD 0.22.0 Revision: 37464 +105 (Git)
+General:
+  UUID: "b8dd9b99-07d5-4bba-a69b-3a29faa2b229"
+  Name: "Cardboard"
+  Author: "Created by the Rocket Workbench"
+  License: "Apache-2.0"
+  Description: "Cardboard"
+Inherits:
+  Default:
+    UUID: "5dbb7be6-8b63-479b-ab4c-87be02ead973"
+Models:
+  Density:
+    UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"
+    Density: "688.79 kg/m^3"
