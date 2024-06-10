@@ -81,7 +81,7 @@ class RailButtonShapeHandler():
             validationError(translate('Rocket', "Height must be greater than zero"))
             return False
         if self._height <= (self._flangeHeight + self._baseHeight):
-            validationError(translate('Rocket', "Top and base height can not excedd the total height"))
+            validationError(translate('Rocket', "Top and base height can not exceed the total height"))
             return False
 
         if self._railButtonType == RAIL_BUTTON_AIRFOIL:

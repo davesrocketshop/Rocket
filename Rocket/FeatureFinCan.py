@@ -63,7 +63,7 @@ class FeatureFinCan(SymmetricComponent, FeatureFin):
             obj.FinCanStyle = [FINCAN_STYLE_SLEEVE, FINCAN_STYLE_BODYTUBE]
 
         if not hasattr(obj,"Diameter"):
-            obj.addProperty('App::PropertyLength', 'Diameter', 'RocketComponent', translate('App::Property', 'Diameter of the inside or outside of the fin candepending on the style')).Diameter = 24.8
+            obj.addProperty('App::PropertyLength', 'Diameter', 'RocketComponent', translate('App::Property', 'Diameter of the inside or outside of the fin can depending on the style')).Diameter = 24.8
         if not hasattr(obj,"Thickness"):
             obj.addProperty('App::PropertyLength', 'Thickness', 'RocketComponent', translate('App::Property', 'Thickness of the fin can')).Thickness = 1.5
         if not hasattr(obj,"LeadingEdgeOffset"):
@@ -142,7 +142,7 @@ class FeatureFinCan(SymmetricComponent, FeatureFin):
         if not hasattr(obj,"CouplerDiameter"):
             obj.addProperty('App::PropertyLength', 'CouplerDiameter', 'RocketComponent', translate('App::Property', 'Diameter of the outside of the coupler')).CouplerDiameter = 23.8
         if not hasattr(obj,"CouplerAutoDiameter"):
-            obj.addProperty('App::PropertyBool', 'CouplerAutoDiameter', 'RocketComponent', translate('App::Property', 'Set coupler diamter automatically')).CouplerAutoDiameter = True
+            obj.addProperty('App::PropertyBool', 'CouplerAutoDiameter', 'RocketComponent', translate('App::Property', 'Set coupler diameter automatically')).CouplerAutoDiameter = True
         if not hasattr(obj,"CouplerLength"):
             obj.addProperty('App::PropertyLength', 'CouplerLength', 'RocketComponent', translate('App::Property', 'Length of the coupler')).CouplerLength = 19.05
 
