@@ -664,7 +664,7 @@
     </message>
     <message>
         <location filename="FeatureFinCan.py" line="66"/>
-        <source>Diameter of the inside or outside of the fin candepending on the style</source>
+        <source>Diameter of the inside or outside of the fin can depending on the style</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -679,7 +679,7 @@
     </message>
     <message>
         <location filename="FeatureFinCan.py" line="145"/>
-        <source>Set coupler diamter automatically</source>
+        <source>Set coupler diameter automatically</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2607,7 +2607,7 @@
     </message>
     <message>
         <location filename="RailButtonShapeHandler.py" line="84"/>
-        <source>Top and base height can not excedd the total height</source>
+        <source>Top and base height can not exceed the total height</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
