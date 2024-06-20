@@ -38,7 +38,7 @@ from matplotlib.figure import Figure
 from DraftTools import translate
 
 from PySide import QtGui, QtCore
-from PySide2.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QGridLayout
+from PySide2.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QGridLayout, QSizePolicy
 
 from Analyzers.FinFlutter import FinFlutter
 
@@ -99,8 +99,8 @@ class DialogFinFlutter(QDialog):
         self.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
 
         self.materialGroup = QtGui.QGroupBox(translate('Rocket', "Material"), self)
+        self.materialGroup.setSizePolicy(QSizePolicy.MinimumExpanding, QSizePolicy.Minimum)
 
-        self.materialLabel = QtGui.QLabel(translate('Rocket', "Material"), self)
         self.materialTreeWidget = ui.createWidget("MatGui::MaterialTreeWidget")
         self.materialTreePy = MatGui.MaterialTreeWidget(self.materialTreeWidget)
 
@@ -211,12 +211,10 @@ class DialogFinFlutter(QDialog):
         okButton.setAutoDefault(False)
 
         # Material group
+        vbox = QVBoxLayout()
+
         row = 0
         grid = QGridLayout()
-
-        grid.addWidget(self.materialLabel, row, 0)
-        grid.addWidget(self.materialTreeWidget, row, 1)
-        row += 1
 
         grid.addWidget(self.shearLabel, row, 0)
         grid.addWidget(self.shearInput, row, 1)
@@ -231,7 +229,10 @@ class DialogFinFlutter(QDialog):
         grid.addWidget(self.poissonInput, row, 1)
         row += 1
 
-        self.materialGroup.setLayout(grid)
+        vbox.addWidget(self.materialTreeWidget)
+        vbox.addLayout(grid)
+
+        self.materialGroup.setLayout(vbox)
 
         # Fin Flutter group
         vbox = QVBoxLayout()
@@ -285,6 +286,7 @@ class DialogFinFlutter(QDialog):
         self.setLayout(layout)
 
         self.materialTreeWidget.onMaterial.connect(self.onMaterial)
+        self.materialTreeWidget.onExpanded.connect(self.onExpanded)
         self.calculatedCheckbox.clicked.connect(self.onCalculated)
         self.shearInput.textEdited.connect(self.onShear)
         self.youngsInput.textEdited.connect(self.onYoungs)
@@ -410,12 +412,15 @@ class DialogFinFlutter(QDialog):
             self.setShearSpecified()
 
     def onMaterial(self, uuid):
-        print("Selected '{0}'".format(uuid))
         self._material = self._materialManager.getMaterial(uuid)
         self.interpolateProperties()
 
         self._setSeries()
         self.onFlutter(None)
+
+    def onExpanded(self, expanded):
+        self.materialGroup.adjustSize()
+        self.window().adjustSize()
         
     def onCalculated(self, value):
         if value:
