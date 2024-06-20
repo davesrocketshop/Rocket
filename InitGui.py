@@ -46,8 +46,6 @@ class RocketWorkbench ( Workbench ):
     def _loadCfDModule(self):
         # load the CfDOF module
         import CfdOF
-        from CfdOF import CfdTools
-        icon_path = os.path.join(CfdTools.getModulePath(), "Gui", "Icons", "cfd.svg")
         # dummy usage to get flake8 and lgtm quiet
         False if CfdOF.__name__ else True
 
@@ -75,7 +73,7 @@ class RocketWorkbench ( Workbench ):
         #                 ['Separator', 'Rocket_ParachuteGore'])
         self.appendToolbar(QT_TRANSLATE_NOOP('Rocket', 'Rocket'),
                         # ['Separator', 'Rocket_FinFlutter', 'Rocket_FemAnalysis', 'FEM_MeshGmshFromShape', "Rocket_MaterialEditor", 'Rocket_MaterialMapping'])
-                        ['Separator', 'Rocket_FinFlutter', "Rocket_MaterialEditor"])
+                        ['Separator', 'Rocket_FinFlutter', 'Rocket_CFDAnalysis', "Rocket_MaterialEditor"])
 
         self.appendMenu(QT_TRANSLATE_NOOP('Rocket', 'Rocket'), 
                         ['Rocket_Rocket', 'Rocket_Stage', 'Rocket_ParallelStage', 'Rocket_Pod', 'Rocket_NoseCone', 'Rocket_Transition', 'Rocket_BodyTube', 'Rocket_InnerTube', 'Rocket_Coupler', 'Rocket_EngineBlock', 
@@ -90,7 +88,7 @@ class RocketWorkbench ( Workbench ):
         self.appendMenu([QT_TRANSLATE_NOOP("Rocket", "Rocket"),
                          QT_TRANSLATE_NOOP("Rocket", "Analysis")],
                         # ['Rocket_FinFlutter', 'Rocket_FemAnalysis', 'FEM_MeshGmshFromShape', "Rocket_MaterialEditor", 'Rocket_MaterialMapping'])
-                        ['Rocket_FinFlutter', "Rocket_MaterialEditor"])
+                        ['Rocket_FinFlutter', 'Rocket_CFDAnalysis', "Rocket_MaterialEditor"])
 
     def GetClassName(self):
         return "Gui::PythonWorkbench"
