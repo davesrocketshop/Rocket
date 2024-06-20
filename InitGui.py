@@ -23,6 +23,7 @@ __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
 import FreeCAD
+import os
 
 # import Fem # Requires the FEM workbench to be loaded
 
@@ -42,6 +43,14 @@ class RocketWorkbench ( Workbench ):
         False if FemGui.__name__ else True
         False if femcommands.commands.__name__ else True
 
+    def _loadCfDModule(self):
+        # load the CfDOF module
+        import CfdOF
+        from CfdOF import CfdTools
+        icon_path = os.path.join(CfdTools.getModulePath(), "Gui", "Icons", "cfd.svg")
+        # dummy usage to get flake8 and lgtm quiet
+        False if CfdOF.__name__ else True
+
     def Initialize(self):
         FreeCADGui.addLanguagePath(FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/translations")
 
@@ -51,6 +60,7 @@ class RocketWorkbench ( Workbench ):
         from PySide.QtCore import QT_TRANSLATE_NOOP
 
         self._loadFemModule()
+        self._loadCfDModule()
         
         self.appendToolbar(QT_TRANSLATE_NOOP('Rocket', 'Rocket'),
                         ['Rocket_Rocket', 'Rocket_Stage', 'Rocket_ParallelStage', 'Rocket_Pod', 'Rocket_NoseCone', 'Rocket_Transition', 'Rocket_BodyTube', 'Rocket_InnerTube', 'Rocket_Coupler', 'Rocket_EngineBlock', 
