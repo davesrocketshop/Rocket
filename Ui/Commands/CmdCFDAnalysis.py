@@ -35,36 +35,57 @@ from PySide import QtGui
 from CfdOF import CfdTools
 
 from Ui.Commands.Command import Command
-from Ui.DialogFinFlutter import DialogFinFlutter
+from Ui.DialogCFD import DialogCFD
 
-def calcFinFlutter():
+def doCFD():
 
     # See if we have a fin selected
-    for fin in FreeCADGui.Selection.getSelection():
-        if fin.isDerivedFrom('Part::FeaturePython'):
-            if hasattr(fin,"FinType"):
-                try:
-                    form = DialogFinFlutter(fin)
-                    form.exec_()
-                except TypeError as ex:
-                    QtGui.QMessageBox.information(None, "", str(ex))
+    # for fin in FreeCADGui.Selection.getSelection():
+    #     if fin.isDerivedFrom('Part::FeaturePython'):
+    #         if hasattr(fin,"FinType"):
+    #             try:
+    #                 form = DialogFinFlutter(fin)
+    #                 form.exec_()
+    #             except TypeError as ex:
+    #                 QtGui.QMessageBox.information(None, "", str(ex))
 
-                return
+    #             return
+    taskd = DialogCFD()
+    FreeCADGui.Control.showDialog(taskd)
 
-    QtGui.QMessageBox.information(None, "", translate('Rocket', "Please select a fin first"))
+    # QtGui.QMessageBox.information(None, "", translate('Rocket', "Please select a fin first"))
 
 class CmdCFDAnalysis(Command):
     def Activated(self):
-        FreeCADGui.addModule("Ui.Commands.CmdFlutterAnalysis")
-        FreeCADGui.doCommand("Ui.Commands.CmdFlutterAnalysis.calcFinFlutter()")
+        # FreeCADGui.addModule("Ui.Commands.CmdCFDAnalysis")
+        # FreeCADGui.doCommand("Ui.Commands.CmdCFDAnalysis.doCFD()")
+        doCFD()
 
     def IsActive(self):
         # Available when a part is selected
         # return self.partFinSelected()
-        return True
+        return FreeCADGui.ActiveDocument is not None
         
     def GetResources(self):
         icon_path = os.path.join(CfdTools.getModulePath(), "Gui", "Icons", "cfd.svg")
         return {'MenuText': translate("Rocket", 'CFD Analysis'),
                 'ToolTip': translate("Rocket", 'Perform a CFD Analysis'),
                 'Pixmap': icon_path}
+    
+    def doCFD(self):
+
+        # See if we have a fin selected
+        # for fin in FreeCADGui.Selection.getSelection():
+        #     if fin.isDerivedFrom('Part::FeaturePython'):
+        #         if hasattr(fin,"FinType"):
+        #             try:
+        #                 form = DialogFinFlutter(fin)
+        #                 form.exec_()
+        #             except TypeError as ex:
+        #                 QtGui.QMessageBox.information(None, "", str(ex))
+
+        #             return
+        self.taskd = DialogCFD()
+        FreeCADGui.Control.showDialog(self.taskd)
+
+        # QtGui.QMessageBox.information(None, "", translate('Rocket', "Please select a fin first"))

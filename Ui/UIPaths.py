@@ -18,48 +18,14 @@
 # *   USA                                                                   *
 # *                                                                         *
 # ***************************************************************************
-"""Class for CFD Analyzer"""
 
-__title__ = "FreeCAD CFD Analyzer"
-__author__ = "David Carter"
-__url__ = "https://www.davesrocketshop.com"
-    
-import FreeCAD
-import FreeCADGui
 import os
 
-from DraftTools import translate
-
-from PySide import QtGui, QtCore
-from PySide2.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QGridLayout
-
-from Ui.UIPaths import getUIPath
-
-class DialogCFD:
-    def __init__(self):
-        # super().__init__()
-
-        self._form = FreeCADGui.PySideUic.loadUi(os.path.join(getUIPath(), 'Ui', 'Resources', 'ui', "DialogCFD.ui"))
-        if self._form is None:
-            print("Form is empty")
-        self._studies = (translate("Rocket", "Example"))
-        self._form.comboStudy.addItems(self._studies)
-                
-    def accept(self):
-        # self.transferTo()
-        FreeCAD.ActiveDocument.recompute()
-        FreeCADGui.ActiveDocument.resetEdit()
-        FreeCADGui.Control.closeDialog()
-
-    # def unsetEdit(self, vobj, mode):
-    #     if self.taskd:
-    #         self.taskd.closing()
-    #         self.taskd = None
-    #     FreeCADGui.Control.closeDialog()
-  
-    def reject(self):
-        FreeCAD.ActiveDocument.abortTransaction()
-        FreeCAD.ActiveDocument.recompute()
-        FreeCADGui.ActiveDocument.resetEdit()
-        # self.setEdited()
-        FreeCADGui.Control.closeDialog()
+def getUIPath():
+    """
+    Returns the current Cfd module path.
+    Determines where this file is running from, so works regardless of whether
+    the module is installed in the app's module directory or the user's app data folder.
+    (The second overrides the first.)
+    """
+    return os.path.normpath(os.path.join(os.path.dirname(__file__), os.path.pardir))
