@@ -73,18 +73,7 @@ class MaterialTab(QtGui.QWidget):
     def transferFrom(self, obj):
         "Transfer from the object to the dialog"
         self.uuid = obj.ShapeMaterial.UUID
-        print("UUID = {0}".format(self.uuid))
-        print(self.materialTreePy)
-        self.materialTreePy.UUID = self.uuid
-    
-    def updateMaterials(self):
-        "fills the combo with the existing FCMat cards"
-        self.materialPresetCombo.addItem('')
-        cards = Material.materialDictionary()
-        if cards:
-            for k in sorted(cards.keys()):
-                self.materialPresetCombo.addItem(k)
+        self.materialTreeWidget.UUID = self.uuid
 
     def onMaterial(self, uuid):
-        print("Selected '{0}'".format(uuid))
         self.uuid = uuid
