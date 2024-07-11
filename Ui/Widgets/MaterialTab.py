@@ -45,7 +45,6 @@ class MaterialTab(QtGui.QWidget):
         self.setTabMaterial()
 
     def setTabMaterial(self):
-        print("setTabMaterialV22()")
         self.materialManager = Materials.MaterialManager()
 
         ui = FreeCADGui.UiLoader()
