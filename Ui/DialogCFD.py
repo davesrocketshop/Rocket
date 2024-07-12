@@ -42,8 +42,14 @@ class DialogCFD:
         self._form = FreeCADGui.PySideUic.loadUi(os.path.join(getUIPath(), 'Ui', 'Resources', 'ui', "DialogCFD.ui"))
         if self._form is None:
             print("Form is empty")
-        self._studies = (translate("Rocket", "Example"))
+        self._studies = (translate("Rocket", "Example"),)
         self._form.comboStudy.addItems(self._studies)
+        # self._form.show()
+
+    def update(self):
+        'fills the widgets'
+        # self.transferFrom()
+        pass
                 
     def accept(self):
         # self.transferTo()

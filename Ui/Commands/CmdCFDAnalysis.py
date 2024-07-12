@@ -60,6 +60,7 @@ class CmdCFDAnalysis(Command):
         # FreeCADGui.addModule("Ui.Commands.CmdCFDAnalysis")
         # FreeCADGui.doCommand("Ui.Commands.CmdCFDAnalysis.doCFD()")
         doCFD()
+        return True
 
     def IsActive(self):
         # Available when a part is selected
