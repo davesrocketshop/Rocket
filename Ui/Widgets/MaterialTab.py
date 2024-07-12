@@ -72,7 +72,7 @@ class MaterialTab(QtGui.QWidget):
     def transferFrom(self, obj):
         "Transfer from the object to the dialog"
         self.uuid = obj.ShapeMaterial.UUID
-        self.materialTreeWidget.UUID = self.uuid
+        self.materialTreePy.UUID = self.uuid
 
     def onMaterial(self, uuid):
         self.uuid = uuid
