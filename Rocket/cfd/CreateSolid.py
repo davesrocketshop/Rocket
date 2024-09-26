@@ -18,56 +18,55 @@
 # *   USA                                                                   *
 # *                                                                         *
 # ***************************************************************************
-"""Class for CFD Analyzer"""
+"""Class for creating a solid rocket model"""
 
-__title__ = "FreeCAD CFD Analyzer"
+__title__ = "FreeCAD Create Solid"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
-    
+
 import FreeCAD
-import FreeCADGui
-import os
+import Part
+import math
 
 from DraftTools import translate
 
-from PySide import QtGui, QtCore
-from PySide2.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QGridLayout
+from Rocket.Constants import FINCAN_EDGE_SQUARE, FINCAN_EDGE_ROUND, FINCAN_EDGE_TAPER
+from Rocket.Constants import FINCAN_COUPLER_STEPPED
+from Rocket.Utilities import validationError, _err
 
-from Ui.UIPaths import getUIPath
+from Rocket.ShapeHandlers.FinShapeHandler import FinShapeHandler
+from Rocket.ShapeHandlers.FinTrapezoidShapeHandler import FinTrapezoidShapeHandler
+from Rocket.ShapeHandlers.FinTriangleShapeHandler import FinTriangleShapeHandler
+from Rocket.ShapeHandlers.FinEllipseShapeHandler import FinEllipseShapeHandler
+from Rocket.ShapeHandlers.FinSketchShapeHandler import FinSketchShapeHandler
 
-class DialogCFD:
-    def __init__(self):
-        # super().__init__()
+TOLERANCE_OFFSET = 0.5     # Distance to offset a vertex
 
-        path = os.path.join(getUIPath(), 'Ui', 'Resources', 'ui', "DialogCFD.ui")
-        print(path)
-        self._form = FreeCADGui.PySideUic.loadUi(os.path.join(getUIPath(), 'Ui', 'Resources', 'ui', "DialogCFD.ui"))
-        if self._form is None:
-            print("Form is empty")
-        self._studies = (translate("Rocket", "Example"),)
-        self._form.comboStudy.addItems(self._studies)
-        self._form.show()
+# class CreateSolid():
 
-    def update(self):
-        'fills the widgets'
-        # self.transferFrom()
-        pass
-                
-    def accept(self):
-        # self.transferTo()
-        FreeCAD.ActiveDocument.recompute()
-        FreeCADGui.ActiveDocument.resetEdit()
-        FreeCADGui.Control.closeDialog()
+#     def __init__(self, obj):
+#         # super().__init__(obj)
+#         self._root = obj
 
-    # def unsetEdit(self, vobj, mode):
-    #     if self.taskd:
-    #         self.taskd.closing()
-    #         self.taskd = None
-    #     FreeCADGui.Control.closeDialog()
-  
-    def reject(self):
-        FreeCAD.ActiveDocument.abortTransaction()
-        FreeCAD.ActiveDocument.recompute()
-        FreeCADGui.ActiveDocument.resetEdit()
-        # self.setEdited()
-        FreeCADGui.Control.closeDialog()
+def getProxy(obj):
+    if hasattr(obj, "Proxy"):
+        return obj.Proxy
+    return obj
+
+def createSolid(obj):
+    ''' Currently generates a compound object, not necessarily solid '''
+    shape = None
+    for current in getProxy(obj).getChildren():
+        if hasattr(current, "Shape"):
+            if shape == None:
+                shape = current.Shape
+            else:
+                shape = Part.makeCompound([shape, current.Shape])
+        child = createSolid(current)
+        if child is not None:
+            if shape == None:
+                shape = child
+            else:
+                shape = Part.makeCompound([shape, child])
+
+    return shape

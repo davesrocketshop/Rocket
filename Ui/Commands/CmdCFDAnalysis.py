@@ -26,6 +26,7 @@ __url__ = "https://www.davesrocketshop.com"
     
 import FreeCAD
 import FreeCADGui
+import Part
 import os
 
 from DraftTools import translate
@@ -33,6 +34,8 @@ from DraftTools import translate
 from PySide import QtGui
 
 from CfdOF import CfdTools
+
+from Rocket.cfd.CreateSolid import createSolid
 
 from Ui.Commands.Command import Command
 from Ui.DialogCFD import DialogCFD
@@ -50,16 +53,17 @@ def doCFD():
     #                 QtGui.QMessageBox.information(None, "", str(ex))
 
     #             return
-    taskd = DialogCFD()
-    FreeCADGui.Control.showDialog(taskd)
+    # taskd = DialogCFD()
+    # FreeCADGui.Control.showDialog(taskd)
 
     # QtGui.QMessageBox.information(None, "", translate('Rocket', "Please select a fin first"))
+    pass
 
 class CmdCFDAnalysis(Command):
     def Activated(self):
         # FreeCADGui.addModule("Ui.Commands.CmdCFDAnalysis")
         # FreeCADGui.doCommand("Ui.Commands.CmdCFDAnalysis.doCFD()")
-        doCFD()
+        self.doCFD()
         return True
 
     def IsActive(self):
@@ -75,18 +79,26 @@ class CmdCFDAnalysis(Command):
     
     def doCFD(self):
 
-        # See if we have a fin selected
-        # for fin in FreeCADGui.Selection.getSelection():
-        #     if fin.isDerivedFrom('Part::FeaturePython'):
-        #         if hasattr(fin,"FinType"):
-        #             try:
-        #                 form = DialogFinFlutter(fin)
-        #                 form.exec_()
-        #             except TypeError as ex:
-        #                 QtGui.QMessageBox.information(None, "", str(ex))
+        # See if we have a rocket selected
+        for rocket in FreeCADGui.Selection.getSelection():
+            if rocket.isDerivedFrom('Part::FeaturePython'):
+                # print(dir(rocket))
+                if hasattr(rocket,"Proxy") and hasattr(rocket.Proxy,"getRocket"):
+                    # print(dir(rocket.Proxy))
+                    try:
+                        root = rocket.Proxy.getRocket()
+                        # print(dir(root))
+                        if root is not None:
+                            # form = DialogCFD(rocket)
+                            # form.exec_()
+                            solid = createSolid(root)
+                            Part.show(solid)
+                    except TypeError as ex:
+                        QtGui.QMessageBox.information(None, "", str(ex))
 
-        #             return
-        self.taskd = DialogCFD()
-        FreeCADGui.Control.showDialog(self.taskd)
+                    return
+        # self.taskd = DialogCFD()
+        # # FreeCADGui.Control.showDialog(self.taskd)
+        # self.taskd.exec_()
 
-        # QtGui.QMessageBox.information(None, "", translate('Rocket', "Please select a fin first"))
+        QtGui.QMessageBox.information(None, "", translate('Rocket', "Please select a rocket first"))
