@@ -1,0 +1,12 @@
+﻿---
+# File created by FreeCAD 0.22.0 Revision: 37543 +1 (Git)
+General:
+  UUID: "1d8108f9-1e19-4111-96d4-d1cb6ef52126"
+  Name: "Lite-Plywood"
+  Author: "Created by the Rocket Workbench"
+  License: "Apache-2.0"
+  Description: "Lite-Plywood"
+Models:
+  Density:
+    UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"
+    Density: "352.41 kg/m^3"

@@ -1,0 +1,12 @@
+﻿---
+# File created by FreeCAD 0.22.0 Revision: 37543 +1 (Git)
+General:
+  UUID: "2b8fd541-0637-47b0-a8b5-704d9428a850"
+  Name: "Paper-kraft-heavy-BT-29-coupler-bulk"
+  Author: "Created by the Rocket Workbench"
+  License: "Apache-2.0"
+  Description: "Paper-kraft-heavy-BT-29-coupler-bulk"
+Models:
+  Density:
+    UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"
+    Density: "620.14 kg/m^3"

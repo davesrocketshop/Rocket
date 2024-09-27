@@ -1,0 +1,12 @@
+﻿---
+# File created by FreeCAD 0.22.0 Revision: 37543 +1 (Git)
+General:
+  UUID: "2101bb44-4d05-4aed-870e-4f8de6027786"
+  Name: "Nickel-600"
+  Author: "Created by the Rocket Workbench"
+  License: "Apache-2.0"
+  Description: "Nickel-600"
+Models:
+  Density:
+    UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"
+    Density: "8410.00 kg/m^3"

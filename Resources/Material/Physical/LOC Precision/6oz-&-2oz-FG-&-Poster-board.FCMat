@@ -1,0 +1,12 @@
+﻿---
+# File created by FreeCAD 0.22.0 Revision: 37543 +1 (Git)
+General:
+  UUID: "f1e700ca-39e7-436c-9b48-ac41198355ec"
+  Name: "6oz-&-2oz-FG-&-Poster-board"
+  Author: "Created by the Rocket Workbench"
+  License: "Apache-2.0"
+  Description: "6oz-&-2oz-FG-&-Poster-board"
+Models:
+  Density:
+    UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"
+    Density: "798.85 kg/m^3"

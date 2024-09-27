@@ -1,0 +1,12 @@
+﻿---
+# File created by FreeCAD 0.22.0 Revision: 37543 +1 (Git)
+General:
+  UUID: "fd4afa9c-47eb-43d7-b2fb-b323d907d543"
+  Name: "Ash"
+  Author: "Created by the Rocket Workbench"
+  License: "Apache-2.0"
+  Description: "Ash"
+Models:
+  Density:
+    UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"
+    Density: "680.78 kg/m^3"

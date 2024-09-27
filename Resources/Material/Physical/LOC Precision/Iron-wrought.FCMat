@@ -1,0 +1,12 @@
+﻿---
+# File created by FreeCAD 0.22.0 Revision: 37543 +1 (Git)
+General:
+  UUID: "aac7829b-2fbc-43e3-93d4-edde4daa00da"
+  Name: "Iron-wrought"
+  Author: "Created by the Rocket Workbench"
+  License: "Apache-2.0"
+  Description: "Iron-wrought"
+Models:
+  Density:
+    UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"
+    Density: "7768.95 kg/m^3"

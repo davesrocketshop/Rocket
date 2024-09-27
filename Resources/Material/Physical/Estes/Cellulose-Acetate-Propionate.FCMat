@@ -1,0 +1,12 @@
+﻿---
+# File created by FreeCAD 0.22.0 Revision: 37543 +1 (Git)
+General:
+  UUID: "a7648302-e387-4c59-9790-27826188d9f4"
+  Name: "Cellulose-Acetate-Propionate"
+  Author: "Created by the Rocket Workbench"
+  License: "Apache-2.0"
+  Description: "Cellulose-Acetate-Propionate"
+Models:
+  Density:
+    UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"
+    Density: "1199.78 kg/m^3"

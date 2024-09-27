@@ -1,0 +1,12 @@
+﻿---
+# File created by FreeCAD 0.22.0 Revision: 37543 +1 (Git)
+General:
+  UUID: "6c6221ea-aadb-453d-b4b8-a19c1352095e"
+  Name: "Nickel-400"
+  Author: "Created by the Rocket Workbench"
+  License: "Apache-2.0"
+  Description: "Nickel-400"
+Models:
+  Density:
+    UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"
+    Density: "8800.00 kg/m^3"

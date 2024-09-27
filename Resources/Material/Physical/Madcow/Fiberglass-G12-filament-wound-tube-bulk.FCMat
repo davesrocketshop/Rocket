@@ -1,0 +1,12 @@
+﻿---
+# File created by FreeCAD 0.22.0 Revision: 37543 +1 (Git)
+General:
+  UUID: "3972e66a-b54e-49a6-970e-4e9869ba7c84"
+  Name: "Fiberglass-G12-filament-wound-tube-bulk"
+  Author: "Created by the Rocket Workbench"
+  License: "Apache-2.0"
+  Description: "Fiberglass-G12-filament-wound-tube-bulk"
+Models:
+  Density:
+    UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"
+    Density: "1820.00 kg/m^3"

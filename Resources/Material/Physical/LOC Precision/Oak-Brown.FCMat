@@ -1,0 +1,12 @@
+﻿---
+# File created by FreeCAD 0.22.0 Revision: 37543 +1 (Git)
+General:
+  UUID: "d99dff52-1d2b-4bb6-a677-4f939f28a90f"
+  Name: "Oak-Brown"
+  Author: "Created by the Rocket Workbench"
+  License: "Apache-2.0"
+  Description: "Oak-Brown"
+Models:
+  Density:
+    UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"
+    Density: "720.83 kg/m^3"

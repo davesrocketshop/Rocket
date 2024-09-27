@@ -1,0 +1,12 @@
+﻿---
+# File created by FreeCAD 0.22.0 Revision: 37543 +1 (Git)
+General:
+  UUID: "a62da589-4304-4fed-a6e0-d60d046b4fd5"
+  Name: "Iron-cast"
+  Author: "Created by the Rocket Workbench"
+  License: "Apache-2.0"
+  Description: "Iron-cast"
+Models:
+  Density:
+    UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"
+    Density: "7208.31 kg/m^3"

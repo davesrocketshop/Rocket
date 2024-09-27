@@ -1,0 +1,12 @@
+﻿---
+# File created by FreeCAD 0.22.0 Revision: 37543 +1 (Git)
+General:
+  UUID: "f15c3e51-7b5a-41ea-9628-fd796068ae1d"
+  Name: "Paper-spiral-kraft-glassine-bulk"
+  Author: "Created by the Rocket Workbench"
+  License: "Apache-2.0"
+  Description: "Paper-spiral-kraft-glassine-bulk"
+Models:
+  Density:
+    UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"
+    Density: "782.88 kg/m^3"

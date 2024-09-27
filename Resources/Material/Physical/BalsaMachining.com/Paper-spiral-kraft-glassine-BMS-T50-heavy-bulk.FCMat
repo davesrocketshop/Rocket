@@ -1,0 +1,12 @@
+﻿---
+# File created by FreeCAD 0.22.0 Revision: 37543 +1 (Git)
+General:
+  UUID: "b1cb44e0-3b96-4b84-a4a4-9977a98f6f1e"
+  Name: "Paper-spiral-kraft-glassine-BMS-T50-heavy-bulk"
+  Author: "Created by the Rocket Workbench"
+  License: "Apache-2.0"
+  Description: "Paper-spiral-kraft-glassine-BMS-T50-heavy-bulk"
+Models:
+  Density:
+    UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"
+    Density: "1120.00 kg/m^3"

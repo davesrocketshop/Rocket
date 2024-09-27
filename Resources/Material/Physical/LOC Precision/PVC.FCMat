@@ -1,0 +1,12 @@
+﻿---
+# File created by FreeCAD 0.22.0 Revision: 37543 +1 (Git)
+General:
+  UUID: "45df6449-391c-4ce4-993e-6756e32d5a7e"
+  Name: "PVC"
+  Author: "Created by the Rocket Workbench"
+  License: "Apache-2.0"
+  Description: "PVC"
+Models:
+  Density:
+    UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"
+    Density: "1300.70 kg/m^3"

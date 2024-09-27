@@ -1,0 +1,12 @@
+﻿---
+# File created by FreeCAD 0.22.0 Revision: 37543 +1 (Git)
+General:
+  UUID: "84975a9d-d250-42e2-b737-ab60c7ad2cd6"
+  Name: "Paper-kraft-glassine-LOC-MMTHD-avg"
+  Author: "Created by the Rocket Workbench"
+  License: "Apache-2.0"
+  Description: "Paper-kraft-glassine-LOC-MMTHD-avg"
+Models:
+  Density:
+    UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"
+    Density: "1220.60 kg/m^3"

@@ -1,0 +1,12 @@
+﻿---
+# File created by FreeCAD 0.22.0 Revision: 37543 +1 (Git)
+General:
+  UUID: "f997e66b-bb65-4c9e-bb38-d0547b80f66c"
+  Name: "Blue-Tube-2"
+  Author: "Created by the Rocket Workbench"
+  License: "Apache-2.0"
+  Description: "Blue-Tube-2"
+Models:
+  Density:
+    UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"
+    Density: "1250.00 kg/m^3"

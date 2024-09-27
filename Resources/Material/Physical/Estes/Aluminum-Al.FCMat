@@ -1,0 +1,12 @@
+﻿---
+# File created by FreeCAD 0.22.0 Revision: 37543 +1 (Git)
+General:
+  UUID: "e424ee6d-f00a-477d-9bfd-1e1eb199c678"
+  Name: "Aluminum-Al"
+  Author: "Created by the Rocket Workbench"
+  License: "Apache-2.0"
+  Description: "Aluminum-Al"
+Models:
+  Density:
+    UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"
+    Density: "2698.90 kg/m^3"

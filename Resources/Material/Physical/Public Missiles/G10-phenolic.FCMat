@@ -1,0 +1,12 @@
+﻿---
+# File created by FreeCAD 0.22.0 Revision: 37543 +1 (Git)
+General:
+  UUID: "3c4136d3-6311-46d4-b71b-45d8d597d51f"
+  Name: "G10-phenolic"
+  Author: "Created by the Rocket Workbench"
+  License: "Apache-2.0"
+  Description: "G10-phenolic"
+Models:
+  Density:
+    UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"
+    Density: "1905.24 kg/m^3"

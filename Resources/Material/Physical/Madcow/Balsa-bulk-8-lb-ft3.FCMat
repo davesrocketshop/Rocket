@@ -1,0 +1,12 @@
+﻿---
+# File created by FreeCAD 0.22.0 Revision: 37543 +1 (Git)
+General:
+  UUID: "ad5e9e1d-94ba-44e6-9b36-d1b6ea4e71bb"
+  Name: "Balsa-bulk-8-lb-ft3"
+  Author: "Created by the Rocket Workbench"
+  License: "Apache-2.0"
+  Description: "Balsa-bulk-8-lb-ft3"
+Models:
+  Density:
+    UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"
+    Density: "128.10 kg/m^3"

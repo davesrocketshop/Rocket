@@ -1,0 +1,12 @@
+﻿---
+# File created by FreeCAD 0.22.0 Revision: 37543 +1 (Git)
+General:
+  UUID: "e6df4f28-71d6-402c-ab48-fd399eaf9449"
+  Name: "Stainless-steel-17-4PH"
+  Author: "Created by the Rocket Workbench"
+  License: "Apache-2.0"
+  Description: "Stainless-steel-17-4PH"
+Models:
+  Density:
+    UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"
+    Density: "7600.00 kg/m^3"

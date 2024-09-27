@@ -1,0 +1,12 @@
+﻿---
+# File created by FreeCAD 0.22.0 Revision: 37543 +1 (Git)
+General:
+  UUID: "3354b921-738a-4cc2-86a8-5e9ea0b64501"
+  Name: "Cork-Solid"
+  Author: "Created by the Rocket Workbench"
+  License: "Apache-2.0"
+  Description: "Cork-Solid"
+Models:
+  Density:
+    UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"
+    Density: "240.28 kg/m^3"

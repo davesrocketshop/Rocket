@@ -1,0 +1,12 @@
+﻿---
+# File created by FreeCAD 0.22.0 Revision: 37543 +1 (Git)
+General:
+  UUID: "66abaed8-1a8b-4eb0-bb24-2e4752ca2e1c"
+  Name: "paper2"
+  Author: "Created by the Rocket Workbench"
+  License: "Apache-2.0"
+  Description: "paper2"
+Models:
+  Density:
+    UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"
+    Density: "752.55 kg/m^3"

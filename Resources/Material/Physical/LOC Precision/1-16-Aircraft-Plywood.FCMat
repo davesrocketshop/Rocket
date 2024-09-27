@@ -1,0 +1,12 @@
+﻿---
+# File created by FreeCAD 0.22.0 Revision: 37543 +1 (Git)
+General:
+  UUID: "258f97a1-4780-46cb-b5c4-691f1a0bab1e"
+  Name: "1-16-Aircraft-Plywood"
+  Author: "Created by the Rocket Workbench"
+  License: "Apache-2.0"
+  Description: "1-16-Aircraft-Plywood"
+Models:
+  Density:
+    UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"
+    Density: "361.38 kg/m^3"

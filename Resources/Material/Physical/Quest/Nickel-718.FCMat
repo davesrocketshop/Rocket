@@ -1,0 +1,12 @@
+﻿---
+# File created by FreeCAD 0.22.0 Revision: 37543 +1 (Git)
+General:
+  UUID: "793b64b8-7443-462f-84b3-c8763cb917c1"
+  Name: "Nickel-718"
+  Author: "Created by the Rocket Workbench"
+  License: "Apache-2.0"
+  Description: "Nickel-718"
+Models:
+  Density:
+    UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"
+    Density: "8230.00 kg/m^3"

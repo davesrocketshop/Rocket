@@ -1,0 +1,12 @@
+﻿---
+# File created by FreeCAD 0.22.0 Revision: 37543 +1 (Git)
+General:
+  UUID: "6ee4c6d8-6c18-4dfa-bbdd-8eee2d2572ca"
+  Name: "Kraft-phenolic"
+  Author: "Created by the Rocket Workbench"
+  License: "Apache-2.0"
+  Description: "Kraft-phenolic"
+Models:
+  Density:
+    UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"
+    Density: "943.49 kg/m^3"

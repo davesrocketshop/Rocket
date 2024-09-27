@@ -1,0 +1,12 @@
+﻿---
+# File created by FreeCAD 0.22.0 Revision: 37543 +1 (Git)
+General:
+  UUID: "1d2a6f8e-e72e-40d6-84e7-7bc75204613d"
+  Name: "Quantum-Tubing"
+  Author: "Created by the Rocket Workbench"
+  License: "Apache-2.0"
+  Description: "Quantum-Tubing"
+Models:
+  Density:
+    UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"
+    Density: "1100.00 kg/m^3"

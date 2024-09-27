@@ -1,0 +1,12 @@
+﻿---
+# File created by FreeCAD 0.22.0 Revision: 37543 +1 (Git)
+General:
+  UUID: "f43f8336-b442-414a-bb35-b389b67e3d4d"
+  Name: "Fiber-vulcanized-Coupler-BT-50-bulk"
+  Author: "Created by the Rocket Workbench"
+  License: "Apache-2.0"
+  Description: "Fiber-vulcanized-Coupler-BT-50-bulk"
+Models:
+  Density:
+    UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"
+    Density: "819.47 kg/m^3"

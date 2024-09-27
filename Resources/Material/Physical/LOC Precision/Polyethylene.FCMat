@@ -1,0 +1,12 @@
+﻿---
+# File created by FreeCAD 0.22.0 Revision: 37543 +1 (Git)
+General:
+  UUID: "e63edc08-1e09-48de-92c0-c6721c4b1bf0"
+  Name: "Polyethylene"
+  Author: "Created by the Rocket Workbench"
+  License: "Apache-2.0"
+  Description: "Polyethylene"
+Models:
+  Density:
+    UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"
+    Density: "920.00 kg/m^3"

@@ -1,0 +1,12 @@
+﻿---
+# File created by FreeCAD 0.22.0 Revision: 37543 +1 (Git)
+General:
+  UUID: "8b2cdc46-196f-4475-8979-697a0fbbbca4"
+  Name: "Aircraft-plywood-LOC"
+  Author: "Created by the Rocket Workbench"
+  License: "Apache-2.0"
+  Description: "Aircraft-plywood-LOC"
+Models:
+  Density:
+    UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"
+    Density: "725.00 kg/m^3"

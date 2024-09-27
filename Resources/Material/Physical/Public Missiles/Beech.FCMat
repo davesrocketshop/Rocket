@@ -1,0 +1,12 @@
+﻿---
+# File created by FreeCAD 0.22.0 Revision: 37543 +1 (Git)
+General:
+  UUID: "8e3b784d-3cd0-42bd-ab2e-776a6ef472c2"
+  Name: "Beech"
+  Author: "Created by the Rocket Workbench"
+  License: "Apache-2.0"
+  Description: "Beech"
+Models:
+  Density:
+    UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"
+    Density: "720.83 kg/m^3"

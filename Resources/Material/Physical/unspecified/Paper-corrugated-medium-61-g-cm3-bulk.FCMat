@@ -1,0 +1,12 @@
+﻿---
+# File created by FreeCAD 0.22.0 Revision: 37543 +1 (Git)
+General:
+  UUID: "ba4fcdd7-1f8a-4d13-a57d-1caf91067e61"
+  Name: "Paper-corrugated-medium-61-g-cm3-bulk"
+  Author: "Created by the Rocket Workbench"
+  License: "Apache-2.0"
+  Description: "Paper-corrugated-medium-61-g-cm3-bulk"
+Models:
+  Density:
+    UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"
+    Density: "610.00 kg/m^3"

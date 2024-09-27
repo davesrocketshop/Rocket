@@ -1,0 +1,12 @@
+﻿---
+# File created by FreeCAD 0.22.0 Revision: 37543 +1 (Git)
+General:
+  UUID: "05acfd5b-3150-492a-9f03-be53ae4e8fbb"
+  Name: "Steel"
+  Author: "Created by the Rocket Workbench"
+  License: "Apache-2.0"
+  Description: "Steel"
+Models:
+  Density:
+    UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"
+    Density: "7850.00 kg/m^3"

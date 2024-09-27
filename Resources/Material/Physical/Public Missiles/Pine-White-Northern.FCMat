@@ -1,0 +1,12 @@
+﻿---
+# File created by FreeCAD 0.22.0 Revision: 37543 +1 (Git)
+General:
+  UUID: "eafc6659-59d9-43da-9e06-d6b569278975"
+  Name: "Pine-White-Northern"
+  Author: "Created by the Rocket Workbench"
+  License: "Apache-2.0"
+  Description: "Pine-White-Northern"
+Models:
+  Density:
+    UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"
+    Density: "400.46 kg/m^3"

@@ -1,0 +1,12 @@
+﻿---
+# File created by FreeCAD 0.22.0 Revision: 37543 +1 (Git)
+General:
+  UUID: "c20dbbdf-13f4-4f22-ae86-6157b67e96af"
+  Name: "Aircraft-plywood-Birch"
+  Author: "Created by the Rocket Workbench"
+  License: "Apache-2.0"
+  Description: "Aircraft-plywood-Birch"
+Models:
+  Density:
+    UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"
+    Density: "725.00 kg/m^3"

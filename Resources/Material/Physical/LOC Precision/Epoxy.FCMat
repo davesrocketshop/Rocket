@@ -1,0 +1,12 @@
+﻿---
+# File created by FreeCAD 0.22.0 Revision: 37543 +1 (Git)
+General:
+  UUID: "6a4f3860-d3dc-4a9c-8855-3976fdad9af8"
+  Name: "Epoxy"
+  Author: "Created by the Rocket Workbench"
+  License: "Apache-2.0"
+  Description: "Epoxy"
+Models:
+  Density:
+    UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"
+    Density: "1254.25 kg/m^3"

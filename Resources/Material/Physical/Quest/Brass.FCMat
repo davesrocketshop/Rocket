@@ -1,0 +1,12 @@
+﻿---
+# File created by FreeCAD 0.22.0 Revision: 37543 +1 (Git)
+General:
+  UUID: "72a2989b-3dd2-4958-a7e2-a12eca7974dc"
+  Name: "Brass"
+  Author: "Created by the Rocket Workbench"
+  License: "Apache-2.0"
+  Description: "Brass"
+Models:
+  Density:
+    UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"
+    Density: "8553.86 kg/m^3"

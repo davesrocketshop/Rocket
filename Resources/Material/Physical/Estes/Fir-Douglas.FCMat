@@ -1,0 +1,12 @@
+﻿---
+# File created by FreeCAD 0.22.0 Revision: 37543 +1 (Git)
+General:
+  UUID: "9a458b3b-b7b2-4e9e-a79c-56db326df1e8"
+  Name: "Fir-Douglas"
+  Author: "Created by the Rocket Workbench"
+  License: "Apache-2.0"
+  Description: "Fir-Douglas"
+Models:
+  Density:
+    UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"
+    Density: "560.65 kg/m^3"

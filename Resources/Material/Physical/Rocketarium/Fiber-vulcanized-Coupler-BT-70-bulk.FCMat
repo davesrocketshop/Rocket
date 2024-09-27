@@ -1,0 +1,12 @@
+﻿---
+# File created by FreeCAD 0.22.0 Revision: 37543 +1 (Git)
+General:
+  UUID: "583f4835-c133-4761-ac7f-582dd8992466"
+  Name: "Fiber-vulcanized-Coupler-BT-70-bulk"
+  Author: "Created by the Rocket Workbench"
+  License: "Apache-2.0"
+  Description: "Fiber-vulcanized-Coupler-BT-70-bulk"
+Models:
+  Density:
+    UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"
+    Density: "793.27 kg/m^3"

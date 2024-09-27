@@ -1,0 +1,12 @@
+﻿---
+# File created by FreeCAD 0.22.0 Revision: 37543 +1 (Git)
+General:
+  UUID: "41d058bc-9a7b-4c64-8700-9f7496808f01"
+  Name: "Balsa"
+  Author: "Created by the Rocket Workbench"
+  License: "Apache-2.0"
+  Description: "Balsa"
+Models:
+  Density:
+    UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"
+    Density: "128.15 kg/m^3"

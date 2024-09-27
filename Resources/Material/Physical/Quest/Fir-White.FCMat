@@ -1,0 +1,12 @@
+﻿---
+# File created by FreeCAD 0.22.0 Revision: 37543 +1 (Git)
+General:
+  UUID: "e1916b6c-6b7f-41f2-a0f8-cb81edcc0534"
+  Name: "Fir-White"
+  Author: "Created by the Rocket Workbench"
+  License: "Apache-2.0"
+  Description: "Fir-White"
+Models:
+  Density:
+    UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"
+    Density: "400.46 kg/m^3"

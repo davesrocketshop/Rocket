@@ -1,0 +1,12 @@
+﻿---
+# File created by FreeCAD 0.22.0 Revision: 37543 +1 (Git)
+General:
+  UUID: "77bbdc70-d73c-4f13-ba18-ea302e41153a"
+  Name: "Silver"
+  Author: "Created by the Rocket Workbench"
+  License: "Apache-2.0"
+  Description: "Silver"
+Models:
+  Density:
+    UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"
+    Density: "10460.06 kg/m^3"

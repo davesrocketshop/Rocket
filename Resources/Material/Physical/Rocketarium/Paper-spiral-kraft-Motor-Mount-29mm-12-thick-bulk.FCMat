@@ -1,0 +1,12 @@
+﻿---
+# File created by FreeCAD 0.22.0 Revision: 37543 +1 (Git)
+General:
+  UUID: "9685bdce-c9d9-4595-a086-feadc53dd6e4"
+  Name: "Paper-spiral-kraft-Motor-Mount-29mm-12-thick-bulk"
+  Author: "Created by the Rocket Workbench"
+  License: "Apache-2.0"
+  Description: "Paper-spiral-kraft-Motor-Mount-29mm-12-thick-bulk"
+Models:
+  Density:
+    UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"
+    Density: "110.62 kg/m^3"

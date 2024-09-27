@@ -1,0 +1,12 @@
+﻿---
+# File created by FreeCAD 0.22.0 Revision: 37543 +1 (Git)
+General:
+  UUID: "f6d63f1e-a401-462a-a73a-e44d56c540fd"
+  Name: "G12-Fiberglass-Filament-Wound"
+  Author: "Created by the Rocket Workbench"
+  License: "Apache-2.0"
+  Description: "G12-Fiberglass-Filament-Wound"
+Models:
+  Density:
+    UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"
+    Density: "1820.00 kg/m^3"

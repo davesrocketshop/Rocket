@@ -1,0 +1,12 @@
+﻿---
+# File created by FreeCAD 0.22.0 Revision: 37543 +1 (Git)
+General:
+  UUID: "a31ef99b-2d6c-40a9-9925-9946b7479fb6"
+  Name: "Copper-cast"
+  Author: "Created by the Rocket Workbench"
+  License: "Apache-2.0"
+  Description: "Copper-cast"
+Models:
+  Density:
+    UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"
+    Density: "8682.01 kg/m^3"

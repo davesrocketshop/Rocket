@@ -1,0 +1,12 @@
+﻿---
+# File created by FreeCAD 0.22.0 Revision: 37543 +1 (Git)
+General:
+  UUID: "d1de877d-c3dc-4f04-80e4-c437e25193d5"
+  Name: "G10-Fiberglass-Filament-Wound-Tube"
+  Author: "Created by the Rocket Workbench"
+  License: "Apache-2.0"
+  Description: "G10-Fiberglass-Filament-Wound-Tube"
+Models:
+  Density:
+    UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"
+    Density: "1820.00 kg/m^3"

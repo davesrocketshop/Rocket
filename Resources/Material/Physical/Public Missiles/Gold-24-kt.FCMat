@@ -1,0 +1,12 @@
+﻿---
+# File created by FreeCAD 0.22.0 Revision: 37543 +1 (Git)
+General:
+  UUID: "7dac4d4d-176c-4b26-bc2b-80531952bf58"
+  Name: "Gold-24-kt"
+  Author: "Created by the Rocket Workbench"
+  License: "Apache-2.0"
+  Description: "Gold-24-kt"
+Models:
+  Density:
+    UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"
+    Density: "19286.23 kg/m^3"

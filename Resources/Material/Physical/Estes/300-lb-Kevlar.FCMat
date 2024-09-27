@@ -1,0 +1,12 @@
+﻿---
+# File created by FreeCAD 0.22.0 Revision: 37543 +1 (Git)
+General:
+  UUID: "d08d0dab-aeee-436b-b646-e72238dff2c1"
+  Name: "300-lb-Kevlar"
+  Author: "Created by the Rocket Workbench"
+  License: "Apache-2.0"
+  Description: "300-lb-Kevlar"
+Models:
+  Density:
+    UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"
+    Density: "0.02 kg/m^3"

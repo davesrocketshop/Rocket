@@ -1,0 +1,12 @@
+﻿---
+# File created by FreeCAD 0.22.0 Revision: 37543 +1 (Git)
+General:
+  UUID: "2cf2103d-0aa5-43d9-998c-9e04ef9e30a0"
+  Name: "Acrylic-Cast"
+  Author: "Created by the Rocket Workbench"
+  License: "Apache-2.0"
+  Description: "Acrylic-Cast"
+Models:
+  Density:
+    UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"
+    Density: "1185.37 kg/m^3"

@@ -1,0 +1,12 @@
+﻿---
+# File created by FreeCAD 0.22.0 Revision: 37543 +1 (Git)
+General:
+  UUID: "f14fb643-3478-4b12-ac0c-3ac3948521f2"
+  Name: "Chalk-Fine"
+  Author: "Created by the Rocket Workbench"
+  License: "Apache-2.0"
+  Description: "Chalk-Fine"
+Models:
+  Density:
+    UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"
+    Density: "1121.29 kg/m^3"

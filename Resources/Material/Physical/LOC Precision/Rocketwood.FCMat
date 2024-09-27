@@ -1,0 +1,12 @@
+﻿---
+# File created by FreeCAD 0.22.0 Revision: 37543 +1 (Git)
+General:
+  UUID: "d0c91e3d-6752-4f2e-a1a9-2cf84a1ca49a"
+  Name: "Rocketwood"
+  Author: "Created by the Rocket Workbench"
+  License: "Apache-2.0"
+  Description: "Rocketwood"
+Models:
+  Density:
+    UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"
+    Density: "529.09 kg/m^3"

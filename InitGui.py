@@ -23,6 +23,7 @@ __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
 import FreeCAD
+import FreeCADGui
 
 class RocketWorkbench ( Workbench ):
     "Rocket workbench object"
@@ -92,6 +93,6 @@ class RocketWorkbench ( Workbench ):
     def GetClassName(self):
         return "Gui::PythonWorkbench"
 
-Gui.addWorkbench(RocketWorkbench())
+FreeCADGui.addWorkbench(RocketWorkbench())
 
 FreeCAD.__unit_test__ += ["TestRocketGui"]

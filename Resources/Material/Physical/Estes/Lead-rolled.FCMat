@@ -1,0 +1,12 @@
+﻿---
+# File created by FreeCAD 0.22.0 Revision: 37543 +1 (Git)
+General:
+  UUID: "d65f35e4-616d-473e-b9d1-487b20d8c27d"
+  Name: "Lead-rolled"
+  Author: "Created by the Rocket Workbench"
+  License: "Apache-2.0"
+  Description: "Lead-rolled"
+Models:
+  Density:
+    UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"
+    Density: "11389.13 kg/m^3"

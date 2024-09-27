@@ -1,0 +1,12 @@
+﻿---
+# File created by FreeCAD 0.22.0 Revision: 37543 +1 (Git)
+General:
+  UUID: "32ddc21e-77f9-4060-ab0f-1bbce1f105ef"
+  Name: "260-lb-Elastic"
+  Author: "Created by the Rocket Workbench"
+  License: "Apache-2.0"
+  Description: "260-lb-Elastic"
+Models:
+  Density:
+    UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"
+    Density: "0.00 kg/m^3"
