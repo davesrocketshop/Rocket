@@ -23,14 +23,14 @@
 __title__ = "FreeCAD Nose Cones"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
-    
+
 
 import FreeCAD
 import FreeCADGui
 import Materials
 
 from PySide import QtGui, QtCore
-from PySide2.QtWidgets import QDialog, QGridLayout, QVBoxLayout, QSizePolicy
+from PySide6.QtWidgets import QDialog, QGridLayout, QVBoxLayout, QSizePolicy
 
 from DraftTools import translate
 
@@ -282,14 +282,14 @@ class TaskPanelNoseCone:
     def __init__(self,obj,mode):
         self._obj = obj
         self._isAssembly = self._obj.Proxy.isRocketAssembly()
-        
+
         self._noseForm = _NoseConeDialog()
         self._db = TaskPanelDatabase(obj, COMPONENT_TYPE_NOSECONE)
         self._dbForm = self._db.getForm()
 
         self.form = [self._noseForm, self._dbForm]
         self._noseForm.setWindowIcon(QtGui.QIcon(FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_NoseCone.svg"))
-        
+
         self._noseForm.noseConeTypesCombo.currentTextChanged.connect(self.onNoseType)
         self._noseForm.noseStylesCombo.currentTextChanged.connect(self.onNoseStyle)
         self._noseForm.noseCapStylesCombo.currentTextChanged.connect(self.onNoseCapStyle)
@@ -310,15 +310,15 @@ class TaskPanelNoseCone:
         self._noseForm.shoulderThicknessInput.textEdited.connect(self.onShoulderThickness)
 
         self._db.dbLoad.connect(self.onLookup)
-        
+
         self.update()
-        
+
         if mode == 0: # fresh created
-            self._obj.Proxy.execute(self._obj)  # calculate once 
+            self._obj.Proxy.execute(self._obj)  # calculate once
             FreeCAD.Gui.SendMsgToActiveView("ViewFit")
-        
+
     def transferTo(self):
-        "Transfer from the dialog to the object" 
+        "Transfer from the dialog to the object"
         self._obj.NoseType = str(self._noseForm.noseConeTypesCombo.currentText())
         self._obj.NoseStyle = str(self._noseForm.noseStylesCombo.currentText())
         self._obj.CapStyle = str(self._noseForm.noseCapStylesCombo.currentText())
@@ -372,7 +372,7 @@ class TaskPanelNoseCone:
         except ReferenceError:
             # Object may be deleted
             pass
-        
+
     def _setCoeffientState(self):
         value = self._obj.NoseType
         if value == TYPE_HAACK or value == TYPE_PARABOLIC:
@@ -389,21 +389,21 @@ class TaskPanelNoseCone:
             self._noseForm.coefficientInput.setEnabled(False)
         else:
             self._noseForm.coefficientInput.setEnabled(False)
-        
+
     def _setBluntState(self):
         value = self._obj.NoseType
         if value in [TYPE_BLUNTED_CONE, TYPE_BLUNTED_OGIVE]:
             self._noseForm.bluntedInput.setEnabled(True)
         else:
             self._noseForm.bluntedInput.setEnabled(False)
-        
+
     def _setOgiveDiameterState(self):
         value = self._obj.NoseType
         if value == TYPE_SECANT_OGIVE:
             self._noseForm.ogiveDiameterInput.setEnabled(True)
         else:
             self._noseForm.ogiveDiameterInput.setEnabled(False)
-        
+
     def _setLengthState(self):
         value = self._obj.NoseType
         if value == TYPE_SPHERICAL:
@@ -412,7 +412,7 @@ class TaskPanelNoseCone:
             self._noseForm.lengthInput.setEnabled(False)
         else:
             self._noseForm.lengthInput.setEnabled(True)
-        
+
     def _setTypeState(self):
         self._setCoeffientState()
         self._setBluntState()
@@ -444,7 +444,7 @@ class TaskPanelNoseCone:
             self._setCapStyleState()
         else:
             self._noseForm.noseCapGroup.setEnabled(False)
-        
+
     def onNoseStyle(self, value):
         self._obj.NoseStyle = value
         self._setStyleState()
@@ -457,34 +457,34 @@ class TaskPanelNoseCone:
             self._noseForm.noseCapBarWidthInput.setEnabled(False)
         else:
             self._noseForm.noseCapBarWidthInput.setEnabled(True)
-        
+
     def onNoseCapStyle(self, value):
         self._obj.CapStyle = value
         self._setCapStyleState()
 
         self._obj.Proxy.execute(self._obj)
-        
+
     def onBarWidthChanged(self, value):
         try:
             self._obj.CapBarWidth = FreeCAD.Units.Quantity(value).Value
             self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
-        
+
     def onLength(self, value):
         try:
             self._obj.Proxy.setLength(FreeCAD.Units.Quantity(value).Value)
             self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
-        
+
     def onBlunted(self, value):
         try:
             self._obj.BluntedDiameter = FreeCAD.Units.Quantity(value).Value
             self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
-        
+
     def onDiameter(self, value):
         try:
             self._obj.Proxy.setAftDiameter(FreeCAD.Units.Quantity(value).Value)
@@ -495,7 +495,7 @@ class TaskPanelNoseCone:
         except ValueError:
             pass
         self.setEdited()
-        
+
     def _setAutoDiameterState(self):
         if self._isAssembly:
             self._noseForm.diameterInput.setEnabled(not self._obj.AutoDiameter)
@@ -516,7 +516,7 @@ class TaskPanelNoseCone:
 
         self._obj.Proxy.execute(self._obj)
         self.setEdited()
-         
+
     def onThickness(self, value):
         try:
             self._obj.Proxy.setThickness(FreeCAD.Units.Quantity(value).Value)
@@ -524,7 +524,7 @@ class TaskPanelNoseCone:
         except ValueError:
             pass
         self.setEdited()
-        
+
     def onCoefficient(self, value):
         self._obj.Coefficient = _toFloat(value)
         self._obj.Proxy.execute(self._obj)
@@ -537,7 +537,7 @@ class TaskPanelNoseCone:
         except ValueError:
             pass
         self.setEdited()
-        
+
     def onOgiveDiameter(self, value):
         try:
             self._obj.OgiveDiameter = FreeCAD.Units.Quantity(value).Value
@@ -562,14 +562,14 @@ class TaskPanelNoseCone:
             self._noseForm.shoulderThicknessInput.setEnabled(False)
 
         self._setAutoShoulderDiameterState()
-        
+
     def onShoulder(self, value):
         self._obj.Shoulder = self._noseForm.shoulderCheckbox.isChecked()
         self._setShoulderState()
 
         self._obj.Proxy.execute(self._obj)
         self.setEdited()
-        
+
     def onShoulderDiameter(self, value):
         try:
             self._obj.ShoulderDiameter = FreeCAD.Units.Quantity(value).Value
@@ -578,7 +578,7 @@ class TaskPanelNoseCone:
         except ValueError:
             pass
         self.setEdited()
-       
+
     def _setAutoShoulderDiameterState(self):
         if self._isAssembly:
             self._noseForm.shoulderDiameterInput.setEnabled((not self._obj.ShoulderAutoDiameter) and self._obj.Shoulder)
@@ -589,14 +589,14 @@ class TaskPanelNoseCone:
             self._noseForm.shoulderDiameterInput.setEnabled(self._obj.Shoulder)
             self._noseForm.shoulderAutoDiameterCheckbox.setChecked(self._obj.ShoulderAutoDiameter)
             self._noseForm.shoulderAutoDiameterCheckbox.setEnabled(self._obj.ShoulderAutoDiameter)
-        
+
     def onShoulderAutoDiameter(self, value):
         self._obj.Proxy.setAftShoulderDiameterAutomatic(value)
         self._setAutoShoulderDiameterState()
 
         self._obj.Proxy.execute(self._obj)
         self.setEdited()
-        
+
     def onShoulderLength(self, value):
         try:
             self._obj.ShoulderLength = FreeCAD.Units.Quantity(value).Value
@@ -604,7 +604,7 @@ class TaskPanelNoseCone:
         except ValueError:
             pass
         self.setEdited()
-        
+
     def onShoulderThickness(self, value):
         try:
             self._obj.ShoulderThickness = FreeCAD.Units.Quantity(value).Value
@@ -612,7 +612,7 @@ class TaskPanelNoseCone:
         except ValueError:
             pass
         self.setEdited()
-       
+
     def onLookup(self):
         result = self._db.getLookupResult()
 
@@ -630,27 +630,27 @@ class TaskPanelNoseCone:
         self._obj.ShapeMaterial = Materials.MaterialManager().getMaterial(result["uuid"])
 
         self.update()
-        self._obj.Proxy.execute(self._obj) 
+        self._obj.Proxy.execute(self._obj)
         self.setEdited()
-        
+
     def getStandardButtons(self):
         return int(QtGui.QDialogButtonBox.Ok) | int(QtGui.QDialogButtonBox.Cancel)| int(QtGui.QDialogButtonBox.Apply)
 
     def clicked(self,button):
         if button == QtGui.QDialogButtonBox.Apply:
             self.transferTo()
-            self._obj.Proxy.execute(self._obj) 
-        
+            self._obj.Proxy.execute(self._obj)
+
     def update(self):
         'fills the widgets'
         self.transferFrom()
-                
+
     def accept(self):
         self.transferTo()
         FreeCAD.ActiveDocument.recompute()
         FreeCADGui.ActiveDocument.resetEdit()
-        
-                    
+
+
     def reject(self):
         FreeCAD.ActiveDocument.abortTransaction()
         FreeCAD.ActiveDocument.recompute()

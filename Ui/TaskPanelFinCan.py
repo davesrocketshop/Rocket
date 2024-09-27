@@ -23,7 +23,7 @@
 __title__ = "FreeCAD Fins"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
-    
+
 
 import FreeCAD
 import FreeCADGui
@@ -32,7 +32,7 @@ import Sketcher
 
 from PySide import QtGui, QtCore
 from PySide.QtCore import QObject, Signal
-from PySide2.QtWidgets import QDialog, QGridLayout, QVBoxLayout, QSizePolicy
+from PySide6.QtWidgets import QDialog, QGridLayout, QVBoxLayout, QSizePolicy
 import math
 
 from DraftTools import translate
@@ -96,7 +96,7 @@ class _FinCanDialog(QDialog):
 
         self.finTypes = (FIN_TYPE_TRAPEZOID,
             FIN_TYPE_TRIANGLE,
-            FIN_TYPE_ELLIPSE, 
+            FIN_TYPE_ELLIPSE,
             #FIN_TYPE_TUBE,
             FIN_TYPE_SKETCH,
             )
@@ -104,7 +104,7 @@ class _FinCanDialog(QDialog):
         self.finTypesCombo.addItems(self.finTypes)
 
         self.finSetGroup = QtGui.QGroupBox(translate('Rocket', "Fin Set"), self)
-        
+
         self.finCountLabel = QtGui.QLabel(translate('Rocket', "Fin Count"), self)
 
         self.finCountSpinBox = QtGui.QSpinBox(self)
@@ -653,7 +653,7 @@ class TaskPanelFinCan(QObject):
 
         self._obj = obj
         self._isAssembly = self._obj.Proxy.isRocketAssembly()
-        
+
         self._finForm = _FinCanDialog(self._obj.FinType == FIN_TYPE_SKETCH)
 
         self._location = TaskPanelLocation(obj)
@@ -661,11 +661,11 @@ class TaskPanelFinCan(QObject):
 
         self.form = [self._finForm, self._locationForm]
         self._finForm.setWindowIcon(QtGui.QIcon(FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Fin.svg"))
-        
+
         self.update()
-        
+
         self._finForm.finTypesCombo.currentTextChanged.connect(self.onFinTypes)
-        
+
         self._finForm.finCountSpinBox.valueChanged.connect(self.onCount)
         self._finForm.finSpacingInput.textEdited.connect(self.onSpacing)
         self._finForm.finCantInput.textEdited.connect(self.onCant)
@@ -726,15 +726,15 @@ class TaskPanelFinCan(QObject):
 
         self._redrawPending = False
         self.redrawRequired.connect(self.onRedraw, QtCore.Qt.QueuedConnection)
-        
+
         if mode == 0: # fresh created
-            self.redraw()  # calculate once 
+            self.redraw()  # calculate once
             FreeCAD.Gui.SendMsgToActiveView("ViewFit")
-        
+
     def transferTo(self):
-        "Transfer from the dialog to the object" 
+        "Transfer from the dialog to the object"
         self._obj.FinType = str(self._finForm.finTypesCombo.currentText())
-        
+
         self._obj.FinCount = self._finForm.finCountSpinBox.value()
         self._obj.FinSpacing = self._finForm.finSpacingInput.text()
         self._obj.Cant = self._finForm.finCantInput.text()
@@ -870,7 +870,7 @@ class TaskPanelFinCan(QObject):
         self._setCouplerAutoDiameterState()
         self._setLugAutoThicknessState()
         self._setLugAutoLengthState()
-    
+
     def updateMaterials(self):
         "fills the combo with the existing FCMat cards"
         self._finForm.materialPresetCombo.addItem('')
@@ -890,7 +890,7 @@ class TaskPanelFinCan(QObject):
         if not self._redrawPending:
             self._redrawPending = True
             self.redrawRequired.emit()
-        
+
     def onCount(self, value):
         self._obj.FinCount = value
         if self._obj.FinCount > 0:
@@ -900,12 +900,12 @@ class TaskPanelFinCan(QObject):
         self._finForm.finSpacingInput.setText(self._obj.FinSpacing.UserString)
         self.redraw()
         self.setEdited()
-        
+
     def onSpacing(self, value):
         self._obj.FinSpacing = value
         self.redraw()
         self.setEdited()
-        
+
     def onCant(self, value):
         self._obj.Cant = value
         self.redraw()
@@ -981,7 +981,7 @@ class TaskPanelFinCan(QObject):
 
         self._finForm.heightLabel.setHidden(False)
         self._finForm.heightInput.setHidden(False)
-        
+
         self._finForm.sweepLengthLabel.setHidden(True)
         self._finForm.sweepLengthInput.setHidden(True)
         self._finForm.sweepAngleLabel.setHidden(True)
@@ -1004,7 +1004,7 @@ class TaskPanelFinCan(QObject):
 
         self._finForm.heightLabel.setHidden(True)
         self._finForm.heightInput.setHidden(True)
-        
+
         self._finForm.sweepLengthLabel.setHidden(True)
         self._finForm.sweepLengthInput.setHidden(True)
         self._finForm.sweepAngleLabel.setHidden(True)
@@ -1049,13 +1049,13 @@ class TaskPanelFinCan(QObject):
             FreeCAD.ActiveDocument.recompute([sketch]) # Compute the sketch
             self._obj.Profile = sketch
             sketch.Visibility = False
-        
+
     def onFinTypes(self, value):
         self._obj.FinType = value
         self._enableFinTypes()
         self.redraw()
         self.setEdited()
-       
+
     def _setFinSetState(self):
         # if self._isAssembly:
         #     checked = self._finForm.finSetGroup.isChecked()
@@ -1104,11 +1104,11 @@ class TaskPanelFinCan(QObject):
                 self._finForm.tipPerCentCheckbox.setEnabled(False)
                 self._finForm.tipLength1Input.setEnabled(False)
                 self._finForm.tipLength2Input.setEnabled(False)
-        
+
     def onRootCrossSection(self, value):
         if len(value) <= 0:
             return
-            
+
         self._obj.RootCrossSection = value
         self._enableRootLengths()
 
@@ -1117,7 +1117,7 @@ class TaskPanelFinCan(QObject):
 
         self.redraw()
         self.setEdited()
-        
+
     def onRootChord(self, value):
         try:
             self._obj.RootChord = FreeCAD.Units.Quantity(value).Value
@@ -1125,7 +1125,7 @@ class TaskPanelFinCan(QObject):
         except ValueError:
             pass
         self.setEdited()
-        
+
     def onRootThickness(self, value):
         try:
             self._obj.RootThickness = FreeCAD.Units.Quantity(value).Value
@@ -1175,14 +1175,14 @@ class TaskPanelFinCan(QObject):
             self._obj.RootLength1 = self._toLength(self._obj.RootLength1.Value, self._obj.RootChord.Value)
             self._obj.RootLength2 = self._toLength(self._obj.RootLength2.Value, self._obj.RootChord.Value)
         self._enableRootPercent()
-        
+
     def onRootPerCent(self, value):
         self._obj.RootPerCent = self._finForm.rootPerCentCheckbox.isChecked()
         self._convertRootPercent()
 
         self.redraw()
         self.setEdited()
-        
+
     def onRootLength1(self, value):
         try:
             self._obj.RootLength1 = FreeCAD.Units.Quantity(value).Value
@@ -1190,7 +1190,7 @@ class TaskPanelFinCan(QObject):
         except ValueError:
             pass
         self.setEdited()
-        
+
     def onRootLength2(self, value):
         try:
             self._obj.RootLength2 = FreeCAD.Units.Quantity(value).Value
@@ -1198,14 +1198,14 @@ class TaskPanelFinCan(QObject):
         except ValueError:
             pass
         self.setEdited()
-        
+
     def onTipCrossSection(self, value):
         self._obj.TipCrossSection = value
         self._enableTipLengths()
 
         self.redraw()
         self.setEdited()
-        
+
     def onTipChord(self, value):
         try:
             self._obj.TipChord = FreeCAD.Units.Quantity(value).Value
@@ -1213,7 +1213,7 @@ class TaskPanelFinCan(QObject):
         except ValueError:
             pass
         self.setEdited()
-        
+
     def onTipThickness(self, value):
         try:
             self._obj.TipThickness = FreeCAD.Units.Quantity(value).Value
@@ -1221,7 +1221,7 @@ class TaskPanelFinCan(QObject):
         except ValueError:
             pass
         self.setEdited()
-        
+
     def onTipSameThickness(self, value):
         try:
             self._obj.TipSameThickness = value
@@ -1253,14 +1253,14 @@ class TaskPanelFinCan(QObject):
             self._obj.TipLength1 = self._toLength(self._obj.TipLength1.Value, self._obj.TipChord.Value)
             self._obj.TipLength2 = self._toLength(self._obj.TipLength2.Value, self._obj.TipChord.Value)
         self._enableTipPercent()
-        
+
     def onTipPerCent(self, value):
         self._obj.TipPerCent = self._finForm.tipPerCentCheckbox.isChecked()
         self._convertTipPercent()
 
         self.redraw()
         self.setEdited()
-        
+
     def onTipLength1(self, value):
         try:
             self._obj.TipLength1 = FreeCAD.Units.Quantity(value).Value
@@ -1268,7 +1268,7 @@ class TaskPanelFinCan(QObject):
         except ValueError:
             pass
         self.setEdited()
-        
+
     def onTipLength2(self, value):
         try:
             self._obj.TipLength2 = FreeCAD.Units.Quantity(value).Value
@@ -1301,7 +1301,7 @@ class TaskPanelFinCan(QObject):
         theta = 90.0 - math.degrees(math.atan2(_toFloat(self._obj.Height), length))
         self._obj.SweepAngle = theta
         self._finForm.sweepAngleInput.setText(self._obj.SweepAngle.UserString)
-        
+
     def onSweepLength(self, value):
         try:
             self._obj.SweepLength = FreeCAD.Units.Quantity(value).Value
@@ -1310,7 +1310,7 @@ class TaskPanelFinCan(QObject):
         except ValueError:
             pass
         self.setEdited()
-        
+
     def onSweepAngle(self, value):
         try:
             self._obj.SweepAngle = FreeCAD.Units.Quantity(value).Value
@@ -1319,7 +1319,7 @@ class TaskPanelFinCan(QObject):
         except ValueError:
             pass
         self.setEdited()
-       
+
     def _setCanStyle(self):
         if self._obj.FinCanStyle == FINCAN_STYLE_SLEEVE:
             self._finForm.canDiameterLabel.setText(translate('Rocket', "Inner Diameter"))
@@ -1337,7 +1337,7 @@ class TaskPanelFinCan(QObject):
                 self._finForm.canLeadingGroup.setHidden(False)
             self._finForm.couplerGroup.setEnabled(True)
         self._finForm.couplerGroup.setChecked(self._obj.Coupler)
-    
+
     def onCanDiameter(self, value):
         try:
             self._obj.Diameter = FreeCAD.Units.Quantity(value).Value
@@ -1346,7 +1346,7 @@ class TaskPanelFinCan(QObject):
         except ValueError:
             pass
         self.setEdited()
-     
+
     def _setCanAutoDiameterState(self):
         if self._isAssembly:
             self._finForm.canDiameterInput.setEnabled(not self._obj.AutoDiameter)
@@ -1367,7 +1367,7 @@ class TaskPanelFinCan(QObject):
 
         self.redraw()
         self.setEdited()
-        
+
     def onCanThickness(self, value):
         try:
             self._obj.Thickness = FreeCAD.Units.Quantity(value).Value
@@ -1377,7 +1377,7 @@ class TaskPanelFinCan(QObject):
         except ValueError:
             pass
         self.setEdited()
-        
+
     def onCanLength(self, value):
         try:
             self._obj.Length = FreeCAD.Units.Quantity(value).Value
@@ -1385,7 +1385,7 @@ class TaskPanelFinCan(QObject):
         except ValueError:
             pass
         self.setEdited()
-        
+
     def onCanLeadingEdgeOffset(self, value):
         try:
             self._obj.LeadingEdgeOffset = FreeCAD.Units.Quantity(value).Value
@@ -1400,18 +1400,18 @@ class TaskPanelFinCan(QObject):
             self._finForm.canLeadingLengthInput.setEnabled(False)
         else:
             self._finForm.canLeadingLengthInput.setEnabled(True)
-        
+
     def onCanLeadingEdge(self, value):
         if len(value) <= 0:
             return
-            
+
         self._obj.LeadingEdge = value
         self._enableLeadingEdge()
         self._setLugAutoLengthState()
 
         self.redraw()
         self.setEdited()
-        
+
     def onCanLeadingLength(self, value):
         try:
             self._obj.LeadingLength = FreeCAD.Units.Quantity(value).Value
@@ -1426,18 +1426,18 @@ class TaskPanelFinCan(QObject):
             self._finForm.canTrailingLengthInput.setEnabled(False)
         else:
             self._finForm.canTrailingLengthInput.setEnabled(True)
-        
+
     def onCanTrailingEdge(self, value):
         if len(value) <= 0:
             return
-            
+
         self._obj.TrailingEdge = value
         self._enableTrailingEdge()
         self._setLugAutoLengthState()
 
         self.redraw()
         self.setEdited()
-        
+
     def onCanTrailingLength(self, value):
         try:
             self._obj.TrailingLength = FreeCAD.Units.Quantity(value).Value
@@ -1446,24 +1446,24 @@ class TaskPanelFinCan(QObject):
         except ValueError:
             pass
         self.setEdited()
-       
+
     def onCoupler(self, value):
         self._obj.Coupler = self._finForm.couplerGroup.isChecked()
 
         self.redraw()
-        
+
     def onCouplerStyle(self, value):
         self._obj.CouplerStyle = self._finForm.couplerStylesCombo.itemData(value)
 
         self.redraw()
-        
+
     def onCouplerThickness(self, value):
         try:
             self._obj.CouplerThickness = FreeCAD.Units.Quantity(value).Value
             self.redraw()
         except ValueError:
             pass
-     
+
     def _setCouplerAutoDiameterState(self):
         if self._isAssembly:
             self._finForm.couplerDiameterInput.setEnabled(not self._obj.CouplerAutoDiameter)
@@ -1485,27 +1485,27 @@ class TaskPanelFinCan(QObject):
 
         self.redraw()
         self.setEdited()
-        
+
     def onCouplerDiameter(self, value):
         try:
             self._obj.CouplerDiameter = FreeCAD.Units.Quantity(value).Value
             self.redraw()
         except ValueError:
             pass
-        
+
     def onCouplerLength(self, value):
         try:
             self._obj.CouplerLength = FreeCAD.Units.Quantity(value).Value
             self.redraw()
         except ValueError:
             pass
-       
+
     def onLug(self, value):
         self._obj.LaunchLug = self._finForm.lugGroup.isChecked()
 
         self.redraw()
         self.setEdited()
-        
+
     def onLugInnerDiameter(self, value):
         try:
             self._obj.LugInnerDiameter = FreeCAD.Units.Quantity(value).Value
@@ -1539,7 +1539,7 @@ class TaskPanelFinCan(QObject):
         except ValueError:
             pass
         self.setEdited()
-     
+
     def _setLugAutoThicknessState(self):
         self._finForm.lugThicknessInput.setEnabled(not self._obj.LugAutoThickness)
         self._finForm.lugAutoThicknessCheckbox.setChecked(self._obj.LugAutoThickness)
@@ -1554,7 +1554,7 @@ class TaskPanelFinCan(QObject):
 
         self.redraw()
         self.setEdited()
-        
+
     def onLugLength(self, value):
         try:
             self._obj.LugLength = FreeCAD.Units.Quantity(value).Value
@@ -1562,7 +1562,7 @@ class TaskPanelFinCan(QObject):
         except ValueError:
             pass
         self.setEdited()
-     
+
     def _setLugAutoLengthState(self):
         self._finForm.lugLengthInput.setEnabled(not self._obj.LugAutoLength)
         self._finForm.lugAutoLengthCheckbox.setChecked(self._obj.LugAutoLength)
@@ -1577,7 +1577,7 @@ class TaskPanelFinCan(QObject):
 
             if self._obj.TrailingEdge != FINCAN_EDGE_SQUARE:
                 length -= float(self._obj.TrailingLength)
-                
+
             self._obj.LugLength = length
             self._finForm.lugLengthInput.setText(self._obj.LugLength.UserString)
 
@@ -1587,7 +1587,7 @@ class TaskPanelFinCan(QObject):
 
         self.redraw()
         self.setEdited()
-        
+
     def onLugLeadingEdgeOffset(self, value):
         try:
             self._obj.LugLeadingEdgeOffset = FreeCAD.Units.Quantity(value).Value
@@ -1596,7 +1596,7 @@ class TaskPanelFinCan(QObject):
         except ValueError:
             pass
         self.setEdited()
-        
+
     def onLugFilletRadius(self, value):
         try:
             self._obj.LugFilletRadius = FreeCAD.Units.Quantity(value).Value
@@ -1604,34 +1604,34 @@ class TaskPanelFinCan(QObject):
         except ValueError:
             pass
         self.setEdited()
-        
+
     def _setForwardSweepState(self):
         # self._finForm.forwardSweepInput.setEnabled(self._obj.LaunchLugForwardSweep)
         self._finForm.forwardSweepGroup.setChecked(self._obj.LaunchLugForwardSweep)
-        
+
     def onForwardSweep(self, value):
         self._obj.LaunchLugForwardSweep = value
         self._setForwardSweepState()
 
         self.redraw()
-        
+
     def onForwardSweepAngle(self, value):
         try:
             self._obj.LaunchLugForwardSweepAngle = FreeCAD.Units.Quantity(value).Value
             self.redraw()
         except ValueError:
             pass
-        
+
     def _setAftSweepState(self):
         # self._finForm.aftSweepInput.setEnabled(self._obj.LaunchLugAftSweep)
         self._finForm.aftSweepGroup.setChecked(self._obj.LaunchLugAftSweep)
-        
+
     def onAftSweep(self, value):
         self._obj.LaunchLugAftSweep = value
         self._setAftSweepState()
 
         self.redraw()
-        
+
     def onAftSweepAngle(self, value):
         try:
             self._obj.LaunchLugAftSweepAngle = FreeCAD.Units.Quantity(value).Value
@@ -1647,25 +1647,25 @@ class TaskPanelFinCan(QObject):
     def onRedraw(self):
         self._obj.Proxy.execute(self._obj)
         self._redrawPending = False
-        
+
     def getStandardButtons(self):
-        return int(QtGui.QDialogButtonBox.Ok) | int(QtGui.QDialogButtonBox.Cancel)| int(QtGui.QDialogButtonBox.Apply)
+        return QtGui.QDialogButtonBox.Ok | QtGui.QDialogButtonBox.Cancel | QtGui.QDialogButtonBox.Apply
 
     def clicked(self,button):
         if button == QtGui.QDialogButtonBox.Apply:
             self.transferTo()
-            self.redraw() 
-        
+            self.redraw()
+
     def update(self):
         'fills the widgets'
         self.transferFrom()
-                
+
     def accept(self):
         self.transferTo()
         FreeCAD.ActiveDocument.recompute()
         FreeCADGui.ActiveDocument.resetEdit()
-        
-                    
+
+
     def reject(self):
         FreeCAD.ActiveDocument.abortTransaction()
         FreeCAD.ActiveDocument.recompute()

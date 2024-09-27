@@ -23,7 +23,7 @@
 __title__ = "FreeCAD Vent Hole Calculator"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
-    
+
 import math
 
 import FreeCAD
@@ -32,7 +32,7 @@ import FreeCADGui
 from DraftTools import translate
 
 from PySide import QtGui, QtCore
-from PySide2.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QGridLayout
+from PySide6.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QGridLayout
 
 class DialogVentHole(QDialog):
     def __init__(self):

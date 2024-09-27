@@ -23,7 +23,7 @@
 __title__ = "FreeCAD Location"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
-    
+
 
 import FreeCAD
 import FreeCADGui
@@ -32,7 +32,7 @@ from DraftTools import translate
 
 from PySide import QtGui, QtCore
 from PySide.QtCore import QObject, Signal
-from PySide2.QtWidgets import QDialog, QGridLayout
+from PySide6.QtWidgets import QDialog, QGridLayout
 
 from Rocket.Utilities import _toFloat, _valueWithUnits
 from Rocket.Constants import LOCATION_PARENT_TOP, LOCATION_PARENT_MIDDLE, LOCATION_PARENT_BOTTOM, LOCATION_BASE
@@ -130,9 +130,9 @@ class TaskPanelLocation(QObject):
         self._radial = radial
         self._axial = not obj.Proxy.isAfter()
         self._form = _locationDialog(radial, self._axial, parent)
-        
+
         # self._form.setWindowIcon(QtGui.QIcon(FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Location.svg"))
-        
+
         if self._axial:
             self._form.referenceCombo.currentTextChanged.connect(self.onReference)
             self._form.locationInput.textEdited.connect(self.onLocation)
@@ -141,12 +141,12 @@ class TaskPanelLocation(QObject):
         if self._radial:
             self._form.radialReferenceCombo.currentIndexChanged.connect(self.onRadialReference)
             self._form.radialOffsetInput.textEdited.connect(self.onRadialOffset)
-        
+
         self.update()
 
     def getForm(self):
         return self._form
-        
+
     def transferTo(self):
         "Transfer from the dialog to the object"
         if self._axial:
@@ -168,44 +168,44 @@ class TaskPanelLocation(QObject):
         if self._radial:
             self._form.radialReferenceCombo.setCurrentText(self._obj.RadialReference)
             self._form.radialOffsetInput.setText(self._obj.RadialOffset.UserString)
- 
+
     def setEdited(self):
         self.locationChange.emit()
-       
+
     def onReference(self, value):
         # self._obj.LocationReference = value
         self._obj.Proxy.setLocationReference(value)
         self._form.locationInput.setText(self._obj.AxialOffset.UserString)
         self.setEdited()
-       
+
     def onRadialReference(self, value):
         try:
             self._obj.RadialReference = FreeCAD.Units.Quantity(value).Value
         except ValueError:
             pass
         self.setEdited()
-        
+
     def onLocation(self, value):
         try:
             self._obj.AxialOffset = FreeCAD.Units.Quantity(value).Value
         except ValueError:
             pass
         self.setEdited()
-        
+
     def onAngleOffset(self, value):
         try:
             self._obj.AngleOffset = FreeCAD.Units.Quantity(value).Value
         except ValueError:
             pass
         self.setEdited()
-        
+
     def onRadialOffset(self, value):
         try:
             self._obj.RadialOffset = FreeCAD.Units.Quantity(value).Value
         except ValueError:
             pass
         self.setEdited()
-        
+
     def update(self):
         'fills the widgets'
         self.transferFrom()

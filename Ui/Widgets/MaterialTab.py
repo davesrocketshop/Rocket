@@ -23,7 +23,7 @@
 __title__ = "FreeCAD Material Tab"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
-    
+
 
 import FreeCADGui
 
@@ -33,7 +33,7 @@ import Materials
 import MatGui
 
 from PySide import QtGui
-from PySide2.QtWidgets import QGridLayout, QVBoxLayout, QSizePolicy
+from PySide6.QtWidgets import QGridLayout, QVBoxLayout, QSizePolicy
 
 from Rocket.Material import Material
 
@@ -52,7 +52,7 @@ class MaterialTab(QtGui.QWidget):
         self.materialTreeWidget = ui.createWidget("MatGui::MaterialTreeWidget")
         self.materialTreePy = MatGui.MaterialTreeWidget(self.materialTreeWidget)
         self.materialTreeWidget.onMaterial.connect(self.onMaterial)
-        
+
         row = 0
         grid = QGridLayout()
 
@@ -64,7 +64,7 @@ class MaterialTab(QtGui.QWidget):
         layout.addItem(QtGui.QSpacerItem(0,0, QSizePolicy.Expanding, QSizePolicy.Expanding))
 
         self.setLayout(layout)
-        
+
     def transferTo(self, obj):
         "Transfer from the dialog to the object"
         obj.ShapeMaterial = self.materialManager.getMaterial(self.uuid)

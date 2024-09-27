@@ -23,7 +23,7 @@
 __title__ = "FreeCAD Thrust To Weight Calculator"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
-    
+
 import FreeCAD
 import FreeCADGui
 import Materials
@@ -38,7 +38,7 @@ from matplotlib.figure import Figure
 from DraftTools import translate
 
 from PySide import QtGui, QtCore
-from PySide2.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QGridLayout, QSizePolicy
+from PySide6.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QGridLayout, QSizePolicy
 
 from Analyzers.FinFlutter import FinFlutter
 
@@ -159,7 +159,7 @@ class DialogFinFlutter(QDialog):
         plt.rcParams["figure.edgecolor"] = 'white'
         plt.rcParams["axes.facecolor"] = 'white'
         self.static_canvas = FigureCanvas(Figure(figsize=(5,3)))
- 
+
         self._static_ax = self.static_canvas.figure.subplots()
         t = np.linspace(0, 10, 501)
         self._flutterLine, = self._static_ax.plot(t, t, label="flutter")
@@ -297,7 +297,7 @@ class DialogFinFlutter(QDialog):
         okButton.clicked.connect(self.onOk)
 
         self._setSlider()
-        
+
         self.update()
 
         # now make the window visible
@@ -353,9 +353,9 @@ class DialogFinFlutter(QDialog):
         self._static_ax.relim()
         # update ax.viewLim using the new dataLim
         self._static_ax.autoscale()
-        
+
         self.static_canvas.draw()
-    
+
     def fillAltitudeCombo(self):
         for i in range(0, 110, 10):
             self.maxAltitudeCombo.addItem("{0:d}".format(i * 1000) + ' ' + self._heightUnits())
@@ -387,7 +387,7 @@ class DialogFinFlutter(QDialog):
         shearModulus = self._material.getPhysicalValue("ShearModulus")
         youngsModulus = self._material.getPhysicalValue("YoungsModulus")
         poissonRatio = self._material.getPhysicalValue("PoissonRatio")
-        hasShear = not (shearModulus is None or math.isnan(shearModulus)) 
+        hasShear = not (shearModulus is None or math.isnan(shearModulus))
         hasYoungs = not (youngsModulus is None or math.isnan(youngsModulus))
         hasPoisson = not (poissonRatio is None or math.isnan(poissonRatio))
         if hasShear:
@@ -421,7 +421,7 @@ class DialogFinFlutter(QDialog):
     def onExpanded(self, expanded):
         self.materialGroup.adjustSize()
         self.window().adjustSize()
-        
+
     def onCalculated(self, value):
         if value:
             self.setShearCalculated()
@@ -517,7 +517,7 @@ class DialogFinFlutter(QDialog):
 
         except ValueError:
             pass
-        
+
     def update(self):
         'fills the widgets'
         self.transferFrom()
