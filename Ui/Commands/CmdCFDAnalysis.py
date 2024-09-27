@@ -23,7 +23,7 @@
 __title__ = "FreeCAD CFD Analysis"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
-    
+
 import FreeCAD
 import FreeCADGui
 import Part
@@ -70,24 +70,21 @@ class CmdCFDAnalysis(Command):
         # Available when a part is selected
         # return self.partFinSelected()
         return FreeCADGui.ActiveDocument is not None
-        
+
     def GetResources(self):
         icon_path = os.path.join(CfdTools.getModulePath(), "Gui", "Icons", "cfd.svg")
         return {'MenuText': translate("Rocket", 'CFD Analysis'),
                 'ToolTip': translate("Rocket", 'Perform a CFD Analysis'),
                 'Pixmap': icon_path}
-    
+
     def doCFD(self):
 
         # See if we have a rocket selected
         for rocket in FreeCADGui.Selection.getSelection():
-            if rocket.isDerivedFrom('Part::FeaturePython'):
-                # print(dir(rocket))
+            if rocket.isDerivedFrom('Part::FeaturePython') or rocket.isDerivedFrom('App::GeometryPython'):
                 if hasattr(rocket,"Proxy") and hasattr(rocket.Proxy,"getRocket"):
-                    # print(dir(rocket.Proxy))
                     try:
                         root = rocket.Proxy.getRocket()
-                        # print(dir(root))
                         if root is not None:
                             # form = DialogCFD(rocket)
                             # form.exec_()
@@ -95,7 +92,6 @@ class CmdCFDAnalysis(Command):
                             Part.show(solid)
                     except TypeError as ex:
                         QtGui.QMessageBox.information(None, "", str(ex))
-
                     return
         # self.taskd = DialogCFD()
         # # FreeCADGui.Control.showDialog(self.taskd)

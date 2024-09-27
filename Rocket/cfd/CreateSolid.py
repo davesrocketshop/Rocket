@@ -59,12 +59,13 @@ def createSolid(obj):
     for current in getProxy(obj).getChildren():
         if hasattr(current, "Shape"):
             solid = getProxy(current).getSolidShape(current)
-            if shape == None:
-                shape = solid
-            else:
-                shape = Part.makeCompound([shape, solid])
+            if solid is not None and solid.isValid():
+                if shape == None:
+                    shape = solid
+                else:
+                    shape = Part.makeCompound([shape, solid])
         child = createSolid(current)
-        if child is not None:
+        if child is not None and child.isValid():
             if shape == None:
                 shape = child
             else:

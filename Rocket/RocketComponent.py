@@ -275,4 +275,6 @@ class RocketComponent(RocketComponentShapeless, ChangeSource):
 
     def getSolidShape(self, obj):
         """ Return a filled version of the shape. Useful for CFD """
-        return obj.Shape
+        if hasattr(obj, "Shape") and obj.Shape.isValid():
+            return obj.Shape
+        return None
