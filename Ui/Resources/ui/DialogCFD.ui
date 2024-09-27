@@ -28,6 +28,20 @@
      </item>
     </layout>
    </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_4">
+     <item>
+      <widget class="QPushButton" name="buttonMakeSolid">
+       <property name="toolTip">
+        <string>Create a solid from the selected rocket</string>
+       </property>
+       <property name="text">
+        <string>Create solid</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
   </layout>
  </widget>
  <resources/>
