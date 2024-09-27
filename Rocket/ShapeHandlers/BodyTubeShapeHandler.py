@@ -23,7 +23,7 @@
 __title__ = "FreeCAD Body Tube Handler"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
-    
+
 import FreeCAD
 import Part
 
@@ -45,7 +45,7 @@ class BodyTubeShapeHandler():
         self._obj = obj
 
     def isValidShape(self):
-        
+
         # Perform some general validations
         if self._ID <= 0:
             validationError(translate('Rocket', "Body tube inner diameter must be greater than zero"))
@@ -69,7 +69,18 @@ class BodyTubeShapeHandler():
         line4 = Part.LineSegment(FreeCAD.Vector(0.0, outerRadius),          FreeCAD.Vector(0.0, innerRadius))
 
         return [line1.toShape(), line2.toShape(), line3.toShape(), line4.toShape()]
-        
+
+    def _drawTubeEdgesSolid(self):
+        innerRadius = 0.0
+        outerRadius = self._OD / 2.0
+
+        line1 = Part.LineSegment(FreeCAD.Vector(0.0, innerRadius),          FreeCAD.Vector(self._length, innerRadius))
+        line2 = Part.LineSegment(FreeCAD.Vector(self._length, innerRadius), FreeCAD.Vector(self._length, outerRadius))
+        line3 = Part.LineSegment(FreeCAD.Vector(self._length, outerRadius), FreeCAD.Vector(0.0, outerRadius))
+        line4 = Part.LineSegment(FreeCAD.Vector(0.0, outerRadius),          FreeCAD.Vector(0.0, innerRadius))
+
+        return [line1.toShape(), line2.toShape(), line3.toShape(), line4.toShape()]
+
     def draw(self):
         if not self.isValidShape():
             return
@@ -88,6 +99,32 @@ class BodyTubeShapeHandler():
                 face = Part.Face(wire)
                 self._obj.Shape = face.revolve(FreeCAD.Vector(0, 0, 0),FreeCAD.Vector(1, 0, 0), 360)
                 self._obj.Placement = self._placement
+            except Part.OCCError:
+                _err(translate('Rocket', "Body tube parameters produce an invalid shape"))
+                return
+        else:
+            _err(translate('Rocket', "Body tube parameters produce an invalid shape"))
+
+    def drawSolidShape(self):
+        if not self.isValidShape():
+            return
+
+        edges = None
+
+        try:
+            edges = self._drawTubeEdgesSolid()
+        except (ZeroDivisionError, Part.OCCError):
+            _err(translate('Rocket', "Body tube parameters produce an invalid shape"))
+            return
+
+        if edges is not None:
+            try:
+                wire = Part.Wire(edges)
+                face = Part.Face(wire)
+                shape = face.revolve(FreeCAD.Vector(0, 0, 0),FreeCAD.Vector(1, 0, 0), 360)
+                shape.translate(self._placement.Base)
+                return shape
+                # self._obj.Placement = self._placement
             except Part.OCCError:
                 _err(translate('Rocket', "Body tube parameters produce an invalid shape"))
                 return

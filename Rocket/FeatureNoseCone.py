@@ -53,7 +53,7 @@ class FeatureNoseCone(SymmetricComponent):
         super().__init__(obj)
         self.Type = FEATURE_NOSE_CONE
         self._shapeHandler = None
-        
+
         if not hasattr(obj, 'CapBarWidth'):
             obj.addProperty('App::PropertyLength', 'CapBarWidth', 'RocketComponent', translate('App::Property', 'Width of the nose cap bar')).CapBarWidth = 3.0
         if not hasattr(obj, 'BluntedDiameter'):
@@ -292,17 +292,17 @@ class FeatureNoseCone(SymmetricComponent):
 
     def setShoulderDiameter(self, diameter):
         self._obj.ShoulderDiameter = diameter
-    
+
     def getFrontAutoRadius(self):
         if self.isAftRadiusAutomatic():
             return -1
         return self.getAftRadius()
-    
+
     def getFrontAutoDiameter(self):
         if self.isAftDiameterAutomatic():
             return -1
         return self.getAftDiameter()
-    
+
     def getFrontAutoInnerDiameter(self):
         if self.isAftInnerDiameterAutomatic():
             return -1
@@ -403,3 +403,10 @@ class FeatureNoseCone(SymmetricComponent):
         self._setShapeHandler()
         if self._shapeHandler is not None:
             self._shapeHandler.draw()
+
+    def getSolidShape(self, obj):
+        """ Return a filled version of the shape. Useful for CFD """
+        self._setShapeHandler()
+        if self._shapeHandler is not None:
+            return self._shapeHandler.drawSolidShape()
+        return None

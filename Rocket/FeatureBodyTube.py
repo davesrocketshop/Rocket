@@ -81,7 +81,7 @@ class FeatureBodyTube(SymmetricComponent, BoxBounded, Coaxial):
 
     """
         Sets the length of the body component.
-        
+
         Note: This should be overridden by the subcomponents which need to call
         clearPreset().  (BodyTube allows changing length without resetting the preset.)
     """
@@ -106,7 +106,7 @@ class FeatureBodyTube(SymmetricComponent, BoxBounded, Coaxial):
 
         if self._obj.AutoDiameter == auto:
             return
-        
+
         self._obj.AutoDiameter = auto
         self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
         self.clearPreset()
@@ -171,10 +171,10 @@ class FeatureBodyTube(SymmetricComponent, BoxBounded, Coaxial):
 
         if self._obj.Diameter == diameter and not self._obj.AutoDiameter:
             return
-        
+
         self._obj.AutoDiameter = False
         self._obj.Diameter = max(diameter, 0)
-        
+
         if self._obj.Thickness > (diameter / 2.0):
             self._obj.Thickness = (diameter / 2.0)
 
@@ -273,20 +273,27 @@ class FeatureBodyTube(SymmetricComponent, BoxBounded, Coaxial):
         if shape is not None:
             shape.draw()
 
+    def getSolidShape(self, obj):
+        """ Return a filled version of the shape. Useful for CFD """
+        shape = BodyTubeShapeHandler(obj)
+        if shape is not None:
+            return shape.drawSolidShape()
+        return None
+
     def eligibleChild(self, childType):
         return childType in [
-            FEATURE_BULKHEAD, 
-            #FEATURE_BODY_TUBE, 
+            FEATURE_BULKHEAD,
+            #FEATURE_BODY_TUBE,
             FEATURE_INNER_TUBE,
             FEATURE_TUBE_COUPLER,
             FEATURE_ENGINE_BLOCK,
-            FEATURE_CENTERING_RING, 
-            FEATURE_FIN, 
-            FEATURE_FINCAN, 
+            FEATURE_CENTERING_RING,
+            FEATURE_FIN,
+            FEATURE_FINCAN,
             FEATURE_LAUNCH_LUG,
-            # FEATURE_PARALLEL_STAGE, 
+            # FEATURE_PARALLEL_STAGE,
             FEATURE_POD,
-            FEATURE_RAIL_BUTTON, 
+            FEATURE_RAIL_BUTTON,
             FEATURE_RAIL_GUIDE]
 
     def onChildEdited(self):
