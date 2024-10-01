@@ -1,11 +1,14 @@
 ﻿---
-# File created by FreeCAD 0.22.0 Revision: 37543 +1 (Git)
+# File created by FreeCAD 0.22.0 Revision: 37464 +105 (Git)
 General:
-  UUID: "0a20da85-1aed-4d83-b5a0-312750c4868d"
+  UUID: "d85a37ee-bf7d-4239-837f-c0500b428e95"
   Name: "Poplar-Yellow"
   Author: "Created by the Rocket Workbench"
   License: "Apache-2.0"
   Description: "Poplar-Yellow"
+Inherits:
+  Default:
+    UUID: "5dbb7be6-8b63-479b-ab4c-87be02ead973"
 Models:
   Density:
     UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"

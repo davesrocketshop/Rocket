@@ -1,11 +1,14 @@
 ﻿---
-# File created by FreeCAD 0.22.0 Revision: 37543 +1 (Git)
+# File created by FreeCAD 0.22.0 Revision: 37464 +105 (Git)
 General:
-  UUID: "2b8fd541-0637-47b0-a8b5-704d9428a850"
+  UUID: "a7ac4cc0-df4f-407d-a8f4-36bc819361ad"
   Name: "Paper-kraft-heavy-BT-29-coupler-bulk"
   Author: "Created by the Rocket Workbench"
   License: "Apache-2.0"
   Description: "Paper-kraft-heavy-BT-29-coupler-bulk"
+Inherits:
+  Default:
+    UUID: "5dbb7be6-8b63-479b-ab4c-87be02ead973"
 Models:
   Density:
     UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"

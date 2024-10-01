@@ -1,11 +1,14 @@
 ﻿---
-# File created by FreeCAD 0.22.0 Revision: 37543 +1 (Git)
+# File created by FreeCAD 0.22.0 Revision: 37464 +105 (Git)
 General:
-  UUID: "876615cf-26f1-46c8-8fff-6cd39ade5d65"
+  UUID: "6e2d4903-d7c8-434a-9c56-c43dabc1d34a"
   Name: "Pine-White-Western"
   Author: "Created by the Rocket Workbench"
   License: "Apache-2.0"
   Description: "Pine-White-Western"
+Inherits:
+  Default:
+    UUID: "5dbb7be6-8b63-479b-ab4c-87be02ead973"
 Models:
   Density:
     UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"

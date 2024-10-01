@@ -1,11 +1,14 @@
 ﻿---
-# File created by FreeCAD 0.22.0 Revision: 37543 +1 (Git)
+# File created by FreeCAD 0.22.0 Revision: 37464 +105 (Git)
 General:
-  UUID: "aac7829b-2fbc-43e3-93d4-edde4daa00da"
+  UUID: "8ab92e57-3d10-4f4c-a436-488668d84939"
   Name: "Iron-wrought"
   Author: "Created by the Rocket Workbench"
   License: "Apache-2.0"
   Description: "Iron-wrought"
+Inherits:
+  Default:
+    UUID: "5dbb7be6-8b63-479b-ab4c-87be02ead973"
 Models:
   Density:
     UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"

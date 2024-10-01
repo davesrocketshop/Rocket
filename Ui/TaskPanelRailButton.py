@@ -23,15 +23,16 @@
 __title__ = "FreeCAD Rail Buttons"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
-    
+
 
 import FreeCAD
 import FreeCADGui
+import Materials
 
 from DraftTools import translate
 
 from PySide import QtGui
-from PySide2.QtWidgets import QDialog, QGridLayout, QVBoxLayout
+from PySide6.QtWidgets import QDialog, QGridLayout, QVBoxLayout
 
 from Ui.TaskPanelDatabase import TaskPanelDatabase
 from Ui.TaskPanelLocation import TaskPanelLocation
@@ -240,7 +241,7 @@ class TaskPanelRailButton:
 
     def __init__(self,obj,mode):
         self._obj = obj
-        
+
         self._btForm = _RailButtonDialog()
         self._db = TaskPanelDatabase(obj, COMPONENT_TYPE_RAILBUTTON)
         self._dbForm = self._db.getForm()
@@ -250,9 +251,9 @@ class TaskPanelRailButton:
 
         self.form = [self._btForm, self._locationForm, self._dbForm]
         self._btForm.setWindowIcon(QtGui.QIcon(FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_BodyTube.svg"))
-        
+
         self._btForm.railButtonTypeCombo.currentTextChanged.connect(self.onRailButtonType)
-        
+
         self._btForm.odInput.textEdited.connect(self.onOd)
         self._btForm.idInput.textEdited.connect(self.onId)
         self._btForm.flangeHeightInput.textEdited.connect(self.onFlangeHeight)
@@ -271,15 +272,15 @@ class TaskPanelRailButton:
 
         self._db.dbLoad.connect(self.onLookup)
         self._location.locationChange.connect(self.onLocation)
-        
+
         self.update()
-        
+
         if mode == 0: # fresh created
-            self._obj.Proxy.execute(self._obj)  # calculate once 
+            self._obj.Proxy.execute(self._obj)  # calculate once
             FreeCAD.Gui.SendMsgToActiveView("ViewFit")
-        
+
     def transferTo(self):
-        "Transfer from the dialog to the object" 
+        "Transfer from the dialog to the object"
         self._obj.RailButtonType = str(self._btForm.railButtonTypeCombo.currentText())
         self._obj.Diameter = self._btForm.odInput.text()
         self._obj.InnerDiameter = self._btForm.idInput.text()
@@ -330,7 +331,7 @@ class TaskPanelRailButton:
         except ReferenceError:
             # Object may be deleted
             pass
-        
+
     def _setTypeState(self):
         value = self._obj.RailButtonType
         if value == RAIL_BUTTON_AIRFOIL:
@@ -348,7 +349,7 @@ class TaskPanelRailButton:
 
         self._obj.Proxy.execute(self._obj)
         self.setEdited()
-        
+
     def onOd(self, value):
         try:
             self._obj.Diameter = FreeCAD.Units.Quantity(value).Value
@@ -356,7 +357,7 @@ class TaskPanelRailButton:
         except ValueError:
             pass
         self.setEdited()
-        
+
     def onId(self, value):
         try:
             self._obj.InnerDiameter = FreeCAD.Units.Quantity(value).Value
@@ -364,7 +365,7 @@ class TaskPanelRailButton:
         except ValueError:
             pass
         self.setEdited()
-        
+
     def onFlangeHeight(self, value):
         try:
             self._obj.FlangeHeight = FreeCAD.Units.Quantity(value).Value
@@ -372,7 +373,7 @@ class TaskPanelRailButton:
         except ValueError:
             pass
         self.setEdited()
-        
+
     def onBaseHeight(self, value):
         try:
             self._obj.BaseHeight = FreeCAD.Units.Quantity(value).Value
@@ -380,7 +381,7 @@ class TaskPanelRailButton:
         except ValueError:
             pass
         self.setEdited()
-        
+
     def onHeight(self, value):
         try:
             self._obj.Height = FreeCAD.Units.Quantity(value).Value
@@ -388,7 +389,7 @@ class TaskPanelRailButton:
         except ValueError:
             pass
         self.setEdited()
-        
+
     def onLength(self, value):
         try:
             self._obj.Length = FreeCAD.Units.Quantity(value).Value
@@ -419,7 +420,7 @@ class TaskPanelRailButton:
 
         self._obj.Proxy.execute(self._obj)
         self.setEdited()
-    
+
     def onHeadDiameter(self, value):
         try:
             self._obj.HeadDiameter = FreeCAD.Units.Quantity(value).Value
@@ -428,7 +429,7 @@ class TaskPanelRailButton:
         except ValueError:
             pass
         self.setEdited()
-    
+
     def onShankDiameter(self, value):
         try:
             self._obj.ShankDiameter = FreeCAD.Units.Quantity(value).Value
@@ -481,7 +482,7 @@ class TaskPanelRailButton:
         except ValueError:
             pass
         self.setEdited()
-    
+
     def onFastenerPreset(self, value):
         if value == FASTENER_PRESET_6:
             self.preset6()
@@ -496,7 +497,7 @@ class TaskPanelRailButton:
         self._obj.FilletedTop = value
         self._obj.Proxy.execute(self._obj)
         self.setEdited()
-    
+
     def onFilletRadius(self, value):
         try:
             self._obj.FilletRadius = FreeCAD.Units.Quantity(value).Value
@@ -521,7 +522,7 @@ class TaskPanelRailButton:
             return COUNTERSINK_ANGLE_120
         return COUNTERSINK_ANGLE_NONE
 
-        
+
     def onLookup(self):
         result = self._db.getLookupResult()
 
@@ -535,34 +536,35 @@ class TaskPanelRailButton:
         self._obj.HeadDiameter =  _valueOnly(result["countersink_diameter"], result["countersink_diameter_units"])
         self._obj.CountersinkAngle =  self.getCountersinkAngle(result["countersink_angle"])
         self._obj.Fastener = (self._obj.ShankDiameter > 0)
+        self._obj.ShapeMaterial = Materials.MaterialManager().getMaterial(result["uuid"])
 
         self.update()
-        self._obj.Proxy.execute(self._obj) 
+        self._obj.Proxy.execute(self._obj)
         self.setEdited()
-    
+
     def onLocation(self):
         self._obj.Proxy.updateChildren()
-        self._obj.Proxy.execute(self._obj) 
+        self._obj.Proxy.execute(self._obj)
         self.setEdited()
-        
+
     def getStandardButtons(self):
         return int(QtGui.QDialogButtonBox.Ok) | int(QtGui.QDialogButtonBox.Cancel)| int(QtGui.QDialogButtonBox.Apply)
 
     def clicked(self,button):
         if button == QtGui.QDialogButtonBox.Apply:
             self.transferTo()
-            self._obj.Proxy.execute(self._obj) 
-        
+            self._obj.Proxy.execute(self._obj)
+
     def update(self):
         'fills the widgets'
         self.transferFrom()
-                
+
     def accept(self):
         self.transferTo()
         FreeCAD.ActiveDocument.recompute()
         FreeCADGui.ActiveDocument.resetEdit()
-        
-                    
+
+
     def reject(self):
         FreeCAD.ActiveDocument.abortTransaction()
         FreeCAD.ActiveDocument.recompute()

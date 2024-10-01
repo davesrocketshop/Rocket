@@ -1,11 +1,14 @@
 ﻿---
-# File created by FreeCAD 0.22.0 Revision: 37543 +1 (Git)
+# File created by FreeCAD 0.22.0 Revision: 37464 +105 (Git)
 General:
-  UUID: "592c1e87-5bd3-4f1d-be6a-1d510ae00635"
+  UUID: "54660244-df84-4a5c-8e32-8ce29a2d031b"
   Name: "Nylon"
   Author: "Created by the Rocket Workbench"
   License: "Apache-2.0"
   Description: "Nylon"
+Inherits:
+  Default:
+    UUID: "5dbb7be6-8b63-479b-ab4c-87be02ead973"
 Models:
   Density:
     UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"

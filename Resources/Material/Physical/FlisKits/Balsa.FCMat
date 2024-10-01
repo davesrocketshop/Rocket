@@ -1,11 +1,14 @@
 ﻿---
-# File created by FreeCAD 0.22.0 Revision: 37543 +1 (Git)
+# File created by FreeCAD 0.22.0 Revision: 37464 +105 (Git)
 General:
-  UUID: "8f15f0db-3e01-4cb3-a381-0ca94985dec1"
+  UUID: "5f18ed66-f2bd-4e06-bf63-3ce47ba77c3a"
   Name: "Balsa"
   Author: "Created by the Rocket Workbench"
   License: "Apache-2.0"
   Description: "Balsa"
+Inherits:
+  Default:
+    UUID: "5dbb7be6-8b63-479b-ab4c-87be02ead973"
 Models:
   Density:
     UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"

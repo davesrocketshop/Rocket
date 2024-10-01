@@ -1,11 +1,14 @@
 ﻿---
-# File created by FreeCAD 0.22.0 Revision: 37543 +1 (Git)
+# File created by FreeCAD 0.22.0 Revision: 37464 +105 (Git)
 General:
-  UUID: "7b338c39-6066-4b33-b795-fbe2e38b586c"
+  UUID: "e0c82f59-8f33-4197-853f-7580b4d85f4d"
   Name: "Chalk-Fine"
   Author: "Created by the Rocket Workbench"
   License: "Apache-2.0"
   Description: "Chalk-Fine"
+Inherits:
+  Default:
+    UUID: "5dbb7be6-8b63-479b-ab4c-87be02ead973"
 Models:
   Density:
     UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"

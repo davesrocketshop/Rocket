@@ -1,11 +1,14 @@
 ﻿---
-# File created by FreeCAD 0.22.0 Revision: 37543 +1 (Git)
+# File created by FreeCAD 0.22.0 Revision: 37464 +105 (Git)
 General:
-  UUID: "89def3c7-9258-49da-8681-aa26a19bba55"
+  UUID: "326e2853-742c-489b-93f6-e4b6e9f5c917"
   Name: "Plastic"
   Author: "Created by the Rocket Workbench"
   License: "Apache-2.0"
   Description: "Plastic"
+Inherits:
+  Default:
+    UUID: "5dbb7be6-8b63-479b-ab4c-87be02ead973"
 Models:
   Density:
     UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"

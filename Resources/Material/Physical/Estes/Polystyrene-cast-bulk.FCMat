@@ -1,11 +1,14 @@
 ﻿---
-# File created by FreeCAD 0.22.0 Revision: 37543 +1 (Git)
+# File created by FreeCAD 0.22.0 Revision: 37464 +105 (Git)
 General:
-  UUID: "15960168-0e05-42e4-b946-c324bd23dfa0"
+  UUID: "421ad5ef-0c03-47b2-8b6b-2088cf635094"
   Name: "Polystyrene-cast-bulk"
   Author: "Created by the Rocket Workbench"
   License: "Apache-2.0"
   Description: "Polystyrene-cast-bulk"
+Inherits:
+  Default:
+    UUID: "5dbb7be6-8b63-479b-ab4c-87be02ead973"
 Models:
   Density:
     UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"

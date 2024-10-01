@@ -1,11 +1,14 @@
 ﻿---
-# File created by FreeCAD 0.22.0 Revision: 37543 +1 (Git)
+# File created by FreeCAD 0.22.0 Revision: 37464 +105 (Git)
 General:
-  UUID: "0c5af769-9a5a-4148-ad1d-bfe43fc6c1aa"
+  UUID: "07128346-1bbd-4057-a99f-dc0d82405a0f"
   Name: "Lead-Shot"
   Author: "Created by the Rocket Workbench"
   License: "Apache-2.0"
   Description: "Lead-Shot"
+Inherits:
+  Default:
+    UUID: "5dbb7be6-8b63-479b-ab4c-87be02ead973"
 Models:
   Density:
     UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"

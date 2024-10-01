@@ -1,11 +1,14 @@
 ﻿---
-# File created by FreeCAD 0.22.0 Revision: 37543 +1 (Git)
+# File created by FreeCAD 0.22.0 Revision: 37464 +105 (Git)
 General:
-  UUID: "447cf9e4-a254-49d2-82ec-ac64b05b41e2"
+  UUID: "e304b89e-81b5-46c8-84b6-73132d9699c3"
   Name: "Spruce"
   Author: "Created by the Rocket Workbench"
   License: "Apache-2.0"
   Description: "Spruce"
+Inherits:
+  Default:
+    UUID: "5dbb7be6-8b63-479b-ab4c-87be02ead973"
 Models:
   Density:
     UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"

@@ -1,11 +1,14 @@
 ﻿---
-# File created by FreeCAD 0.22.0 Revision: 37543 +1 (Git)
+# File created by FreeCAD 0.22.0 Revision: 37464 +105 (Git)
 General:
-  UUID: "9a0e5465-2ff9-46d9-a44d-00dbad3b0adc"
+  UUID: "4fdcfb7e-fc32-4483-8ce5-1a3a94a52e75"
   Name: "Mat-Board-4-Ply"
   Author: "Created by the Rocket Workbench"
   License: "Apache-2.0"
   Description: "Mat-Board-4-Ply"
+Inherits:
+  Default:
+    UUID: "5dbb7be6-8b63-479b-ab4c-87be02ead973"
 Models:
   Density:
     UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"

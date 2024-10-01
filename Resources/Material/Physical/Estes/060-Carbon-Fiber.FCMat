@@ -1,11 +1,14 @@
 ﻿---
-# File created by FreeCAD 0.22.0 Revision: 37543 +1 (Git)
+# File created by FreeCAD 0.22.0 Revision: 37464 +105 (Git)
 General:
-  UUID: "f904ddf2-5eab-447c-aee3-7528e17715e8"
+  UUID: "33f58a3a-fb89-4db7-8a6e-a1e3ff850540"
   Name: "060-Carbon-Fiber"
   Author: "Created by the Rocket Workbench"
   License: "Apache-2.0"
   Description: "060-Carbon-Fiber"
+Inherits:
+  Default:
+    UUID: "5dbb7be6-8b63-479b-ab4c-87be02ead973"
 Models:
   Density:
     UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"

@@ -1,11 +1,14 @@
 ﻿---
-# File created by FreeCAD 0.22.0 Revision: 37543 +1 (Git)
+# File created by FreeCAD 0.22.0 Revision: 37464 +105 (Git)
 General:
-  UUID: "7eed8273-82f1-4c47-86ca-9d5b9470f3ba"
+  UUID: "ede400d2-9c3c-4487-9683-bbb16375ea80"
   Name: "G10-Fiberglass-Filament-Wound"
   Author: "Created by the Rocket Workbench"
   License: "Apache-2.0"
   Description: "G10-Fiberglass-Filament-Wound"
+Inherits:
+  Default:
+    UUID: "5dbb7be6-8b63-479b-ab4c-87be02ead973"
 Models:
   Density:
     UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"

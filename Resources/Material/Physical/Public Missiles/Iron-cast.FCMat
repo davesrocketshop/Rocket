@@ -1,11 +1,14 @@
 ﻿---
-# File created by FreeCAD 0.22.0 Revision: 37543 +1 (Git)
+# File created by FreeCAD 0.22.0 Revision: 37464 +105 (Git)
 General:
-  UUID: "a62da589-4304-4fed-a6e0-d60d046b4fd5"
+  UUID: "6b8e3990-f946-42d0-8bd2-28ee9d588fac"
   Name: "Iron-cast"
   Author: "Created by the Rocket Workbench"
   License: "Apache-2.0"
   Description: "Iron-cast"
+Inherits:
+  Default:
+    UUID: "5dbb7be6-8b63-479b-ab4c-87be02ead973"
 Models:
   Density:
     UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"

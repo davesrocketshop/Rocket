@@ -1,11 +1,14 @@
 ﻿---
-# File created by FreeCAD 0.22.0 Revision: 37543 +1 (Git)
+# File created by FreeCAD 0.22.0 Revision: 37464 +105 (Git)
 General:
-  UUID: "a0f4faf6-a491-40c7-8b69-43f11053a94e"
+  UUID: "86c01564-bdf5-4023-97cf-3a02bfec4d78"
   Name: "1-2-in-Tubular-Nylon"
   Author: "Created by the Rocket Workbench"
   License: "Apache-2.0"
   Description: "1-2-in-Tubular-Nylon"
+Inherits:
+  Default:
+    UUID: "5dbb7be6-8b63-479b-ab4c-87be02ead973"
 Models:
   Density:
     UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"

@@ -1,11 +1,14 @@
 ﻿---
-# File created by FreeCAD 0.22.0 Revision: 37543 +1 (Git)
+# File created by FreeCAD 0.22.0 Revision: 37464 +105 (Git)
 General:
-  UUID: "2f4ee7f7-800b-4e05-bff9-792ac3151a80"
+  UUID: "807b719d-c786-4ff4-bac6-1f0cfeb0273f"
   Name: "Sycamore"
   Author: "Created by the Rocket Workbench"
   License: "Apache-2.0"
   Description: "Sycamore"
+Inherits:
+  Default:
+    UUID: "5dbb7be6-8b63-479b-ab4c-87be02ead973"
 Models:
   Density:
     UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"

@@ -1,11 +1,14 @@
 ﻿---
-# File created by FreeCAD 0.22.0 Revision: 37543 +1 (Git)
+# File created by FreeCAD 0.22.0 Revision: 37464 +105 (Git)
 General:
-  UUID: "0bcad447-3b20-40a2-9b96-c4acf03e2091"
+  UUID: "c1596b2a-fe8f-418c-833b-ea03cc334f8f"
   Name: "Spiral-Glassine-Thick"
   Author: "Created by the Rocket Workbench"
   License: "Apache-2.0"
   Description: "Spiral-Glassine-Thick"
+Inherits:
+  Default:
+    UUID: "5dbb7be6-8b63-479b-ab4c-87be02ead973"
 Models:
   Density:
     UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"

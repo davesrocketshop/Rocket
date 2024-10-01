@@ -1,11 +1,14 @@
 ﻿---
-# File created by FreeCAD 0.22.0 Revision: 37543 +1 (Git)
+# File created by FreeCAD 0.22.0 Revision: 37464 +105 (Git)
 General:
-  UUID: "35d8169d-d0c9-4e4b-b804-32c56995e18b"
+  UUID: "f8f44b0d-3645-4f10-9028-ad2e1985e37f"
   Name: "Paper-spiral-kraft-glassine-BMS-avg-bulk"
   Author: "Created by the Rocket Workbench"
   License: "Apache-2.0"
   Description: "Paper-spiral-kraft-glassine-BMS-avg-bulk"
+Inherits:
+  Default:
+    UUID: "5dbb7be6-8b63-479b-ab4c-87be02ead973"
 Models:
   Density:
     UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"

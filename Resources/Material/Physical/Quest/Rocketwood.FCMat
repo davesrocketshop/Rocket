@@ -1,11 +1,14 @@
 ﻿---
-# File created by FreeCAD 0.22.0 Revision: 37543 +1 (Git)
+# File created by FreeCAD 0.22.0 Revision: 37464 +105 (Git)
 General:
-  UUID: "5a125c10-5a0b-40d1-90f1-c81122886bda"
+  UUID: "3c7f17d2-db9a-4751-98bc-3a566d3d7ec8"
   Name: "Rocketwood"
   Author: "Created by the Rocket Workbench"
   License: "Apache-2.0"
   Description: "Rocketwood"
+Inherits:
+  Default:
+    UUID: "5dbb7be6-8b63-479b-ab4c-87be02ead973"
 Models:
   Density:
     UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"

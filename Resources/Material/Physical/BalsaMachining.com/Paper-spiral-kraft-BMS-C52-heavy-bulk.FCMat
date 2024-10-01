@@ -1,11 +1,14 @@
 ﻿---
-# File created by FreeCAD 0.22.0 Revision: 37543 +1 (Git)
+# File created by FreeCAD 0.22.0 Revision: 37464 +105 (Git)
 General:
-  UUID: "ff7838a4-eb6a-4bd5-9eb2-3ccb3d37b79e"
+  UUID: "a61ff868-e8a1-4562-9026-4f0dc5c02247"
   Name: "Paper-spiral-kraft-BMS-C52-heavy-bulk"
   Author: "Created by the Rocket Workbench"
   License: "Apache-2.0"
   Description: "Paper-spiral-kraft-BMS-C52-heavy-bulk"
+Inherits:
+  Default:
+    UUID: "5dbb7be6-8b63-479b-ab4c-87be02ead973"
 Models:
   Density:
     UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"

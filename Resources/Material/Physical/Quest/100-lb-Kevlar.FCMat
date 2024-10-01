@@ -1,11 +1,14 @@
 ﻿---
-# File created by FreeCAD 0.22.0 Revision: 37543 +1 (Git)
+# File created by FreeCAD 0.22.0 Revision: 37464 +105 (Git)
 General:
-  UUID: "5cdb4687-8885-4b3e-9741-d69268404d3f"
+  UUID: "12c02be2-d4f5-450c-ba61-bbf80d4658bf"
   Name: "100-lb-Kevlar"
   Author: "Created by the Rocket Workbench"
   License: "Apache-2.0"
   Description: "100-lb-Kevlar"
+Inherits:
+  Default:
+    UUID: "5dbb7be6-8b63-479b-ab4c-87be02ead973"
 Models:
   Density:
     UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"

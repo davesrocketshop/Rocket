@@ -1,11 +1,14 @@
 ﻿---
-# File created by FreeCAD 0.22.0 Revision: 37543 +1 (Git)
+# File created by FreeCAD 0.22.0 Revision: 37464 +105 (Git)
 General:
-  UUID: "2648e31c-32bb-4420-88d7-82dda87814e8"
+  UUID: "a5612ae2-5154-4666-a4e2-3cc0af34dc2b"
   Name: "G10-fiberglass"
   Author: "Created by the Rocket Workbench"
   License: "Apache-2.0"
   Description: "G10-fiberglass"
+Inherits:
+  Default:
+    UUID: "5dbb7be6-8b63-479b-ab4c-87be02ead973"
 Models:
   Density:
     UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"

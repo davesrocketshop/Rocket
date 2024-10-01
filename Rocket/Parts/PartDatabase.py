@@ -167,8 +167,11 @@ class PartDatabase:
 
             # Create the new material format library
             name = self.materialNewFilename(material)
-            path = self._rootFolder + "/Resources/Material/Physical/" + material['manufacturer'] + "/"
-            libPath = "/Physical/" + material['manufacturer'] + "/"
+            manufacturer = material['manufacturer']
+            if manufacturer == "unspecified":
+                manufacturer = "Generic"
+            path = self._rootFolder + "/Resources/Material/Physical/" + manufacturer + "/"
+            libPath = "/Physical/" + manufacturer + "/"
             uuid = self.createNewMaterialCard(material, name, path, libPath)
             updateUuid(connection, material["material_index"], uuid)
 
@@ -204,7 +207,8 @@ class PartDatabase:
         try:
             mat = self._manager.getMaterialByPath(path)
         except LookupError:
-            mat = Materials.Material()
+            # Get a material with the default appearance
+            mat = self._manager.inheritMaterial("5dbb7be6-8b63-479b-ab4c-87be02ead973")
             mat.Name = name
             mat.Author = "Created by the Rocket Workbench"
             mat.License = "Apache-2.0"
@@ -214,5 +218,5 @@ class PartDatabase:
             mat.addPhysicalModel(Materials.UUIDs().Density)
         mat.setPhysicalValue("Density", "{0} kg/m^3".format(material["Density"]))
 
-        self._manager.save("Rocket", mat, libPath + name + ".FCMat", overwrite=True)
+        self._manager.save("Rocket", mat, libPath + name + ".FCMat", overwrite=True, saveInherited=True)
         return mat.UUID

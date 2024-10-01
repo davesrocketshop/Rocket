@@ -1,11 +1,14 @@
 ﻿---
-# File created by FreeCAD 0.22.0 Revision: 37543 +1 (Git)
+# File created by FreeCAD 0.22.0 Revision: 37464 +105 (Git)
 General:
-  UUID: "b20312bb-73c2-49f5-bfac-312a04b6c836"
+  UUID: "293c089f-b838-437a-803a-03a71706337f"
   Name: "Paper-spiral-kraft-Motor-Mount-bulk"
   Author: "Created by the Rocket Workbench"
   License: "Apache-2.0"
   Description: "Paper-spiral-kraft-Motor-Mount-bulk"
+Inherits:
+  Default:
+    UUID: "5dbb7be6-8b63-479b-ab4c-87be02ead973"
 Models:
   Density:
     UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"

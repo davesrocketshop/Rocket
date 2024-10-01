@@ -1,11 +1,14 @@
 ﻿---
-# File created by FreeCAD 0.22.0 Revision: 37543 +1 (Git)
+# File created by FreeCAD 0.22.0 Revision: 37464 +105 (Git)
 General:
-  UUID: "b3737e79-f00e-41b2-ab82-03b68f3c9ff3"
+  UUID: "173d8aaf-cace-47e7-bf5c-8b6276734086"
   Name: "Copper-rolled"
   Author: "Created by the Rocket Workbench"
   License: "Apache-2.0"
   Description: "Copper-rolled"
+Inherits:
+  Default:
+    UUID: "5dbb7be6-8b63-479b-ab4c-87be02ead973"
 Models:
   Density:
     UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"

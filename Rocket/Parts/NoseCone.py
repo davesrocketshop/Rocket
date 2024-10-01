@@ -104,7 +104,7 @@ def listNoseCones(connection):
 def getNoseCone(connection, index):
     cursor = connection.cursor()
 
-    cursor.execute("""SELECT nose_index, c.manufacturer, part_number, description, material_name, mass, mass_units,
+    cursor.execute("""SELECT nose_index, c.manufacturer, part_number, description, material_name, uuid, mass, mass_units,
                         shape, style, diameter, diameter_units, length, length_units, thickness, thickness_units,
                         shoulder_diameter, shoulder_diameter_units, shoulder_length, shoulder_length_units
                     FROM component c, nose n, material m WHERE n.component_index = c.component_index AND c.material_index = m.material_index AND n.nose_index = :index""", {

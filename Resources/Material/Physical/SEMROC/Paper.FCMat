@@ -1,11 +1,14 @@
 ﻿---
-# File created by FreeCAD 0.22.0 Revision: 37543 +1 (Git)
+# File created by FreeCAD 0.22.0 Revision: 37464 +105 (Git)
 General:
-  UUID: "70225ac0-09a0-4fda-929a-68af8df256c2"
+  UUID: "ccee6976-949e-4541-b2bc-7d998ca943ff"
   Name: "Paper"
   Author: "Created by the Rocket Workbench"
   License: "Apache-2.0"
   Description: "Paper"
+Inherits:
+  Default:
+    UUID: "5dbb7be6-8b63-479b-ab4c-87be02ead973"
 Models:
   Density:
     UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"

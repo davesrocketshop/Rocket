@@ -1,11 +1,14 @@
 ﻿---
-# File created by FreeCAD 0.22.0 Revision: 37543 +1 (Git)
+# File created by FreeCAD 0.22.0 Revision: 37464 +105 (Git)
 General:
-  UUID: "2da6ea47-6550-4ef6-81a4-86279a346d49"
+  UUID: "4df286ef-4609-46a2-8675-cd9fdad4d609"
   Name: "Lexan"
   Author: "Created by the Rocket Workbench"
   License: "Apache-2.0"
   Description: "Lexan"
+Inherits:
+  Default:
+    UUID: "5dbb7be6-8b63-479b-ab4c-87be02ead973"
 Models:
   Density:
     UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"

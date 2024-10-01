@@ -1,11 +1,14 @@
 ﻿---
-# File created by FreeCAD 0.22.0 Revision: 37543 +1 (Git)
+# File created by FreeCAD 0.22.0 Revision: 37464 +105 (Git)
 General:
-  UUID: "ccbae2f2-7adc-4283-9304-4f0f7f9c2061"
+  UUID: "d1b8f153-5114-455b-b41d-4f91b0c22777"
   Name: "Maple-Hard"
   Author: "Created by the Rocket Workbench"
   License: "Apache-2.0"
   Description: "Maple-Hard"
+Inherits:
+  Default:
+    UUID: "5dbb7be6-8b63-479b-ab4c-87be02ead973"
 Models:
   Density:
     UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"

@@ -1,11 +1,14 @@
 ﻿---
-# File created by FreeCAD 0.22.0 Revision: 37543 +1 (Git)
+# File created by FreeCAD 0.22.0 Revision: 37464 +105 (Git)
 General:
-  UUID: "e9b29be3-7aca-4ba6-8c77-ee4cff27c6ff"
+  UUID: "5debcac4-674a-40e3-89ca-2497e829371b"
   Name: "Titanium"
   Author: "Created by the Rocket Workbench"
   License: "Apache-2.0"
   Description: "Titanium"
+Inherits:
+  Default:
+    UUID: "5dbb7be6-8b63-479b-ab4c-87be02ead973"
 Models:
   Density:
     UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"

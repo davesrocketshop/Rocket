@@ -1,11 +1,14 @@
 ﻿---
-# File created by FreeCAD 0.22.0 Revision: 37543 +1 (Git)
+# File created by FreeCAD 0.22.0 Revision: 37464 +105 (Git)
 General:
-  UUID: "dbe974f5-8cd0-4051-ab06-5e54d02e84f0"
+  UUID: "d3dd3b3e-83e5-4628-8967-e59491f324c8"
   Name: "11-Ounce-Rip-Stop-Nylon"
   Author: "Created by the Rocket Workbench"
   License: "Apache-2.0"
   Description: "11-Ounce-Rip-Stop-Nylon"
+Inherits:
+  Default:
+    UUID: "5dbb7be6-8b63-479b-ab4c-87be02ead973"
 Models:
   Density:
     UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"

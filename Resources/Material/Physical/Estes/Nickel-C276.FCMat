@@ -1,11 +1,14 @@
 ﻿---
-# File created by FreeCAD 0.22.0 Revision: 37543 +1 (Git)
+# File created by FreeCAD 0.22.0 Revision: 37464 +105 (Git)
 General:
-  UUID: "441632a9-d630-4d11-b269-e016167ba957"
+  UUID: "e8d34997-1cec-4e8e-93b8-2e9b04d4ca7f"
   Name: "Nickel-C276"
   Author: "Created by the Rocket Workbench"
   License: "Apache-2.0"
   Description: "Nickel-C276"
+Inherits:
+  Default:
+    UUID: "5dbb7be6-8b63-479b-ab4c-87be02ead973"
 Models:
   Density:
     UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"

@@ -1,11 +1,14 @@
 ﻿---
-# File created by FreeCAD 0.22.0 Revision: 37543 +1 (Git)
+# File created by FreeCAD 0.22.0 Revision: 37464 +105 (Git)
 General:
-  UUID: "59270bd9-71ab-4dfa-a3e9-b21552b959d7"
+  UUID: "91e68d85-195f-4499-b5fc-b050c41f30a9"
   Name: "1500-lb-Kevlar-Apogee-29507"
   Author: "Created by the Rocket Workbench"
   License: "Apache-2.0"
   Description: "1500-lb-Kevlar-Apogee-29507"
+Inherits:
+  Default:
+    UUID: "5dbb7be6-8b63-479b-ab4c-87be02ead973"
 Models:
   Density:
     UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"

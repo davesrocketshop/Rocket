@@ -1,11 +1,14 @@
 ﻿---
-# File created by FreeCAD 0.22.0 Revision: 37543 +1 (Git)
+# File created by FreeCAD 0.22.0 Revision: 37464 +105 (Git)
 General:
-  UUID: "76ad1842-ca0a-4149-98d2-299340eb0865"
+  UUID: "4a4364af-c92a-42a7-bcef-ced807b2a8ee"
   Name: "1-8-in-Braided-Nylon"
   Author: "Created by the Rocket Workbench"
   License: "Apache-2.0"
   Description: "1-8-in-Braided-Nylon"
+Inherits:
+  Default:
+    UUID: "5dbb7be6-8b63-479b-ab4c-87be02ead973"
 Models:
   Density:
     UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"

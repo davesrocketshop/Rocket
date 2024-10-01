@@ -23,15 +23,16 @@
 __title__ = "FreeCAD Nose Cones"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
-    
+
 
 import FreeCAD
 import FreeCADGui
+import Materials
 
 from DraftTools import translate
 
 from PySide import QtGui
-from PySide2.QtWidgets import QDialog, QGridLayout, QVBoxLayout
+from PySide6.QtWidgets import QDialog, QGridLayout, QVBoxLayout
 
 from Ui.TaskPanelDatabase import TaskPanelDatabase
 from Ui.TaskPanelLocation import TaskPanelLocation
@@ -163,7 +164,7 @@ class TaskPanelLaunchLug:
 
     def __init__(self,obj,mode):
         self._obj = obj
-        
+
         self._lugForm = _LaunchLugDialog()
         self._db = TaskPanelDatabase(obj, COMPONENT_TYPE_LAUNCHLUG)
         self._dbForm = self._db.getForm()
@@ -173,7 +174,7 @@ class TaskPanelLaunchLug:
 
         self.form = [self._lugForm, self._locationForm, self._dbForm]
         self._lugForm.setWindowIcon(QtGui.QIcon(FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_LaunchLug.svg"))
-        
+
         self._lugForm.odInput.textEdited.connect(self.onOd)
         self._lugForm.idInput.textEdited.connect(self.onId)
         self._lugForm.thicknessInput.textEdited.connect(self.onThickness)
@@ -185,15 +186,15 @@ class TaskPanelLaunchLug:
 
         self._db.dbLoad.connect(self.onLookup)
         self._location.locationChange.connect(self.onLocation)
-        
+
         self.update()
-        
+
         if mode == 0: # fresh created
-            self._obj.Proxy.execute(self._obj)  # calculate once 
+            self._obj.Proxy.execute(self._obj)  # calculate once
             FreeCAD.Gui.SendMsgToActiveView("ViewFit")
-        
+
     def transferTo(self):
-        "Transfer from the dialog to the object" 
+        "Transfer from the dialog to the object"
         self._obj.Proxy.setOuterDiameter(FreeCAD.Units.Quantity(self._lugForm.odInput.text()).Value)
         self._obj.Proxy.setThickness(FreeCAD.Units.Quantity(self._lugForm.thicknessInput.text()).Value)
         self._obj.Proxy.setLength(FreeCAD.Units.Quantity(self._lugForm.lengthInput.text()).Value)
@@ -232,7 +233,7 @@ class TaskPanelLaunchLug:
         except ReferenceError:
             # Object may be deleted
             pass
-        
+
     def onOd(self, value):
         try:
             # self._obj.Diameter = FreeCAD.Units.Quantity(value).Value
@@ -253,7 +254,7 @@ class TaskPanelLaunchLug:
             # self._obj.Thickness = FreeCAD.Units.Quantity(0.0).Value
             self._obj.Proxy.setThickness(FreeCAD.Units.Quantity(0.0).Value)
         self._lugForm.thicknessInput.setText(self._obj.Thickness.UserString)
-        
+
     def onId(self, value):
         try:
             self._setThicknessFromId(value)
@@ -269,7 +270,7 @@ class TaskPanelLaunchLug:
             self._lugForm.idInput.setText(FreeCAD.Units.Quantity(id).UserString)
         else:
             self._lugForm.idInput.setText(FreeCAD.Units.Quantity(0.0).UserString)
-        
+
     def onThickness(self, value):
         try:
             # self._obj.Thickness = FreeCAD.Units.Quantity(value).Value
@@ -279,7 +280,7 @@ class TaskPanelLaunchLug:
         except ValueError:
             pass
         self.setEdited()
-        
+
     def onLength(self, value):
         try:
             self._obj.Length = FreeCAD.Units.Quantity(value).Value
@@ -287,7 +288,7 @@ class TaskPanelLaunchLug:
         except ValueError:
             pass
         self.setEdited()
-        
+
     def onLookup(self):
         result = self._db.getLookupResult()
 
@@ -295,27 +296,28 @@ class TaskPanelLaunchLug:
         self._obj.Proxy.setOuterDiameter(_valueOnly(result["outer_diameter"], result["outer_diameter_units"]))
         self._obj.Proxy.setThickness((self._obj.Diameter.Value - diameter) / 2.0)
         self._obj.Proxy.setLength(_valueOnly(result["length"], result["length_units"]))
+        self._obj.ShapeMaterial = Materials.MaterialManager().getMaterial(result["uuid"])
 
         self.update()
-        self._obj.Proxy.execute(self._obj) 
+        self._obj.Proxy.execute(self._obj)
         self.setEdited()
 
     def onLocation(self):
         self._obj.Proxy.updateChildren()
-        self._obj.Proxy.execute(self._obj) 
+        self._obj.Proxy.execute(self._obj)
         self.setEdited()
-        
+
     def _setForwardSweepState(self):
         self._lugForm.forwardSweepInput.setEnabled(self._obj.ForwardSweep)
         self._lugForm.forwardSweepGroup.setChecked(self._obj.ForwardSweep)
-        
+
     def onForwardSweep(self, value):
         self._obj.ForwardSweep = value
         self._setForwardSweepState()
 
         self.redraw()
         self.setEdited()
-        
+
     def onForwardSweepAngle(self, value):
         try:
             self._obj.ForwardSweepAngle = FreeCAD.Units.Quantity(value).Value
@@ -323,18 +325,18 @@ class TaskPanelLaunchLug:
         except ValueError:
             pass
         self.setEdited()
-        
+
     def _setAftSweepState(self):
         self._lugForm.aftSweepInput.setEnabled(self._obj.AftSweep)
         self._lugForm.aftSweepGroup.setChecked(self._obj.AftSweep)
-        
+
     def onAftSweep(self, value):
         self._obj.AftSweep = value
         self._setAftSweepState()
 
         self.redraw()
         self.setEdited()
-        
+
     def onAftSweepAngle(self, value):
         try:
             self._obj.AftSweepAngle = FreeCAD.Units.Quantity(value).Value
@@ -342,25 +344,25 @@ class TaskPanelLaunchLug:
         except ValueError:
             pass
         self.setEdited()
-        
+
     def getStandardButtons(self):
         return int(QtGui.QDialogButtonBox.Ok) | int(QtGui.QDialogButtonBox.Cancel)| int(QtGui.QDialogButtonBox.Apply)
 
     def clicked(self,button):
         if button == QtGui.QDialogButtonBox.Apply:
             self.transferTo()
-            self._obj.Proxy.execute(self._obj) 
-        
+            self._obj.Proxy.execute(self._obj)
+
     def update(self):
         'fills the widgets'
         self.transferFrom()
-                
+
     def accept(self):
         self.transferTo()
         FreeCAD.ActiveDocument.recompute()
         FreeCADGui.ActiveDocument.resetEdit()
-        
-                    
+
+
     def reject(self):
         FreeCAD.ActiveDocument.abortTransaction()
         FreeCAD.ActiveDocument.recompute()

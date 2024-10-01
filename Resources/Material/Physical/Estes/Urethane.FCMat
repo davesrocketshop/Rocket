@@ -1,11 +1,14 @@
 ﻿---
-# File created by FreeCAD 0.22.0 Revision: 37543 +1 (Git)
+# File created by FreeCAD 0.22.0 Revision: 37464 +105 (Git)
 General:
-  UUID: "11028668-9f03-4b5c-bd4c-5492c48fe7f5"
+  UUID: "66f475d5-5352-4e2e-a648-6c41203d79ea"
   Name: "Urethane"
   Author: "Created by the Rocket Workbench"
   License: "Apache-2.0"
   Description: "Urethane"
+Inherits:
+  Default:
+    UUID: "5dbb7be6-8b63-479b-ab4c-87be02ead973"
 Models:
   Density:
     UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"

@@ -1,11 +1,14 @@
 ﻿---
-# File created by FreeCAD 0.22.0 Revision: 37543 +1 (Git)
+# File created by FreeCAD 0.22.0 Revision: 37464 +105 (Git)
 General:
-  UUID: "e2189e36-425e-4509-b37f-e2272a83a645"
+  UUID: "7a96e4b6-6157-442e-81c0-67b03b904866"
   Name: "Steel-4340"
   Author: "Created by the Rocket Workbench"
   License: "Apache-2.0"
   Description: "Steel-4340"
+Inherits:
+  Default:
+    UUID: "5dbb7be6-8b63-479b-ab4c-87be02ead973"
 Models:
   Density:
     UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"

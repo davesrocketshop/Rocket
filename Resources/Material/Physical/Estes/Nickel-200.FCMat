@@ -1,11 +1,14 @@
 ﻿---
-# File created by FreeCAD 0.22.0 Revision: 37543 +1 (Git)
+# File created by FreeCAD 0.22.0 Revision: 37464 +105 (Git)
 General:
-  UUID: "78c801db-b044-4341-a016-7b689642a714"
+  UUID: "9b465722-3890-433e-9cc4-27c65ce6a3a1"
   Name: "Nickel-200"
   Author: "Created by the Rocket Workbench"
   License: "Apache-2.0"
   Description: "Nickel-200"
+Inherits:
+  Default:
+    UUID: "5dbb7be6-8b63-479b-ab4c-87be02ead973"
 Models:
   Density:
     UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"

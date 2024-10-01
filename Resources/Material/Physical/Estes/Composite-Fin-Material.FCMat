@@ -1,11 +1,14 @@
 ﻿---
-# File created by FreeCAD 0.22.0 Revision: 37543 +1 (Git)
+# File created by FreeCAD 0.22.0 Revision: 37464 +105 (Git)
 General:
-  UUID: "09f5d94b-7e66-4e4d-bf39-5f364cdba674"
+  UUID: "06319eee-ec06-4329-8f0a-ab4d72bbd1b6"
   Name: "Composite-Fin-Material"
   Author: "Created by the Rocket Workbench"
   License: "Apache-2.0"
   Description: "Composite-Fin-Material"
+Inherits:
+  Default:
+    UUID: "5dbb7be6-8b63-479b-ab4c-87be02ead973"
 Models:
   Density:
     UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"

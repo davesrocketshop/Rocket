@@ -1,11 +1,14 @@
 ﻿---
-# File created by FreeCAD 0.22.0 Revision: 37543 +1 (Git)
+# File created by FreeCAD 0.22.0 Revision: 37464 +105 (Git)
 General:
-  UUID: "19d8ccf2-ed8e-48ee-a51c-06b20608b7d9"
+  UUID: "4164949f-9d22-4ac0-a58c-88996147aee9"
   Name: "4000-lb-nylon"
   Author: "Created by the Rocket Workbench"
   License: "Apache-2.0"
   Description: "4000-lb-nylon"
+Inherits:
+  Default:
+    UUID: "5dbb7be6-8b63-479b-ab4c-87be02ead973"
 Models:
   Density:
     UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"

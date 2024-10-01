@@ -1,11 +1,14 @@
 ﻿---
-# File created by FreeCAD 0.22.0 Revision: 37543 +1 (Git)
+# File created by FreeCAD 0.22.0 Revision: 37464 +105 (Git)
 General:
-  UUID: "21dbccb3-a7cc-4161-8f11-846313f44c1f"
+  UUID: "5ae6f0d0-2bcb-401c-8216-8122e810c013"
   Name: "Polyethylene-LDPE-bulk"
   Author: "Created by the Rocket Workbench"
   License: "Apache-2.0"
   Description: "Polyethylene-LDPE-bulk"
+Inherits:
+  Default:
+    UUID: "5dbb7be6-8b63-479b-ab4c-87be02ead973"
 Models:
   Density:
     UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"

@@ -1,11 +1,14 @@
 ﻿---
-# File created by FreeCAD 0.22.0 Revision: 37543 +1 (Git)
+# File created by FreeCAD 0.22.0 Revision: 37464 +105 (Git)
 General:
-  UUID: "2eb60732-b5fe-4dba-8a87-b57fbfeffac8"
+  UUID: "59d62f95-65de-4c27-a4d9-a3a3e90dd4bf"
   Name: "Russian-1-8-in-Plywood"
   Author: "Created by the Rocket Workbench"
   License: "Apache-2.0"
   Description: "Russian-1-8-in-Plywood"
+Inherits:
+  Default:
+    UUID: "5dbb7be6-8b63-479b-ab4c-87be02ead973"
 Models:
   Density:
     UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"

@@ -23,13 +23,14 @@
 __title__ = "FreeCAD Bulkheads"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
-    
+
 
 import FreeCAD
 import FreeCADGui
+import Materials
 
 from PySide import QtGui, QtCore
-from PySide2.QtWidgets import QDialog, QGridLayout, QVBoxLayout
+from PySide6.QtWidgets import QDialog, QGridLayout, QVBoxLayout
 
 from DraftTools import translate
 
@@ -246,7 +247,7 @@ class TaskPanelBulkhead:
         self._obj = obj
         self._crPanel = crPanel
         self._isAssembly = self._obj.Proxy.isRocketAssembly()
-        
+
         self._bulkForm = _BulkheadDialog(self._crPanel)
         if crPanel:
             self._db = TaskPanelDatabase(obj, COMPONENT_TYPE_CENTERINGRING)
@@ -262,7 +263,7 @@ class TaskPanelBulkhead:
             self._bulkForm.setWindowIcon(QtGui.QIcon(FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_CenterinRing.svg"))
         else:
             self._bulkForm.setWindowIcon(QtGui.QIcon(FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Bulkhead.svg"))
-        
+
         self._bulkForm.diameterInput.textEdited.connect(self.onDiameter)
         self._bulkForm.autoDiameterCheckbox.stateChanged.connect(self.onAutoDiameter)
         self._bulkForm.thicknessInput.textEdited.connect(self.onThickness)
@@ -288,15 +289,15 @@ class TaskPanelBulkhead:
 
         self._db.dbLoad.connect(self.onLookup)
         self._location.locationChange.connect(self.onLocation)
-        
+
         self.update()
-        
+
         if mode == 0: # fresh created
-            self._obj.Proxy.execute(self._obj)  # calculate once 
+            self._obj.Proxy.execute(self._obj)  # calculate once
             FreeCAD.Gui.SendMsgToActiveView("ViewFit")
-        
+
     def transferTo(self):
-        "Transfer from the dialog to the object" 
+        "Transfer from the dialog to the object"
         self._obj.Diameter = self._bulkForm.diameterInput.text()
         self._obj.AutoDiameter = self._bulkForm.autoDiameterCheckbox.isChecked()
         self._obj.Thickness = self._bulkForm.thicknessInput.text()
@@ -362,7 +363,7 @@ class TaskPanelBulkhead:
         except ReferenceError:
             # Object may be deleted
             pass
-        
+
     def onDiameter(self, value):
         try:
             self._obj.Diameter = FreeCAD.Units.Quantity(value).Value
@@ -370,7 +371,7 @@ class TaskPanelBulkhead:
         except ValueError:
             pass
         self.setEdited()
-        
+
     def _setAutoDiameterState(self):
         if self._isAssembly:
             self._bulkForm.diameterInput.setEnabled(not self._obj.AutoDiameter)
@@ -393,7 +394,7 @@ class TaskPanelBulkhead:
 
         self._obj.Proxy.execute(self._obj)
         self.setEdited()
-        
+
     def onThickness(self, value):
         try:
             self._obj.Thickness = FreeCAD.Units.Quantity(value).Value
@@ -401,7 +402,7 @@ class TaskPanelBulkhead:
         except ValueError:
             pass
         self.setEdited()
-        
+
     def onCenterDiameter(self, value):
         try:
             self._obj.CenterDiameter = FreeCAD.Units.Quantity(value).Value
@@ -409,7 +410,7 @@ class TaskPanelBulkhead:
         except ValueError:
             pass
         self.setEdited()
-        
+
     def _setAutoCenterDiameterState(self):
         if self._isAssembly:
             self._bulkForm.centerDiameterInput.setEnabled(not self._obj.CenterAutoDiameter)
@@ -430,13 +431,13 @@ class TaskPanelBulkhead:
 
         self._obj.Proxy.execute(self._obj)
         self.setEdited()
-        
+
     def onStep(self, value):
         self._obj.Step = self._bulkForm.stepGroup.isChecked()
 
         self._obj.Proxy.execute(self._obj)
         self.setEdited()
-        
+
     def onStepDiameter(self, value):
         try:
             self._obj.StepDiameter = FreeCAD.Units.Quantity(value).Value
@@ -444,7 +445,7 @@ class TaskPanelBulkhead:
         except ValueError:
             pass
         self.setEdited()
-        
+
     def onStepThickness(self, value):
         try:
             self._obj.StepThickness = FreeCAD.Units.Quantity(value).Value
@@ -452,25 +453,25 @@ class TaskPanelBulkhead:
         except ValueError:
             pass
         self.setEdited()
-        
+
     def onStepReverse(self, value):
         self._obj.StepReverse = self._bulkForm.stepReverseCheckbox.isChecked()
 
         self._obj.Proxy.execute(self._obj)
-        
+
     def _setHoleState(self):
         self._bulkForm.holeDiameterInput.setEnabled(self._obj.Holes)
         self._bulkForm.holeCenterInput.setEnabled(self._obj.Holes)
         self._bulkForm.holeCountSpinBox.setEnabled(self._obj.Holes)
         self._bulkForm.holeOffsetInput.setEnabled(self._obj.Holes)
-        
+
     def onHole(self, value):
         self._obj.Holes = self._bulkForm.holeGroup.isChecked()
         self._setHoleState()
 
         self._obj.Proxy.execute(self._obj)
         self.setEdited()
-        
+
     def onHoleDiameter(self, value):
         try:
             self._obj.HoleDiameter = FreeCAD.Units.Quantity(value).Value
@@ -478,7 +479,7 @@ class TaskPanelBulkhead:
         except ValueError:
             pass
         self.setEdited()
-        
+
     def onHoleCenter(self, value):
         try:
             self._obj.HoleCenter = FreeCAD.Units.Quantity(value).Value
@@ -486,12 +487,12 @@ class TaskPanelBulkhead:
         except ValueError:
             pass
         self.setEdited()
-        
+
     def onHoleCount(self, value):
         self._obj.HoleCount = int(value)
         self._obj.Proxy.execute(self._obj)
         self.setEdited()
-        
+
     def onHoleOffset(self, value):
         try:
             self._obj.HoleOffset = FreeCAD.Units.Quantity(value).Value
@@ -499,18 +500,18 @@ class TaskPanelBulkhead:
         except ValueError:
             pass
         self.setEdited()
-        
+
     def _setNotchedState(self):
         self._bulkForm.notchWidthInput.setEnabled(self._obj.Notched)
         self._bulkForm.notchHeightInput.setEnabled(self._obj.Notched)
-        
+
     def onNotched(self, value):
         self._obj.Notched = self._bulkForm.notchGroup.isChecked()
         self._setNotchedState()
 
         self._obj.Proxy.execute(self._obj)
         self.setEdited()
-        
+
     def onNotchWidth(self, value):
         try:
             self._obj.NotchWidth = FreeCAD.Units.Quantity(value).Value
@@ -518,7 +519,7 @@ class TaskPanelBulkhead:
         except ValueError:
             pass
         self.setEdited()
-        
+
     def onNotchHeight(self, value):
         try:
             self._obj.NotchHeight = FreeCAD.Units.Quantity(value).Value
@@ -526,12 +527,13 @@ class TaskPanelBulkhead:
         except ValueError:
             pass
         self.setEdited()
-        
+
     def onLookup(self):
         result = self._db.getLookupResult()
 
         self._obj.Diameter = _valueWithUnits(result["outer_diameter"], result["outer_diameter_units"])
         self._obj.Thickness =_valueWithUnits(result["length"], result["length_units"])
+        self._obj.ShapeMaterial = Materials.MaterialManager().getMaterial(result["uuid"])
 
         self._obj.Step = False
         self._obj.StepDiameter = 0.0
@@ -549,34 +551,34 @@ class TaskPanelBulkhead:
             self._obj.Notched = False
             self._obj.NotchWidth = 0.0
             self._obj.NotchHeight = 0.0
-        
+
         self.update()
-        self._obj.Proxy.execute(self._obj) 
+        self._obj.Proxy.execute(self._obj)
         self.setEdited()
 
     def onLocation(self):
         self._obj.Proxy.updateChildren()
-        self._obj.Proxy.execute(self._obj) 
+        self._obj.Proxy.execute(self._obj)
         self.setEdited()
-        
+
     def getStandardButtons(self):
         return int(QtGui.QDialogButtonBox.Ok) | int(QtGui.QDialogButtonBox.Cancel)| int(QtGui.QDialogButtonBox.Apply)
 
     def clicked(self,button):
         if button == QtGui.QDialogButtonBox.Apply:
             self.transferTo()
-            self._obj.Proxy.execute(self._obj) 
-        
+            self._obj.Proxy.execute(self._obj)
+
     def update(self):
         'fills the widgets'
         self.transferFrom()
-                
+
     def accept(self):
         self.transferTo()
         FreeCAD.ActiveDocument.recompute()
         FreeCADGui.ActiveDocument.resetEdit()
-        
-                    
+
+
     def reject(self):
         FreeCAD.ActiveDocument.abortTransaction()
         FreeCAD.ActiveDocument.recompute()

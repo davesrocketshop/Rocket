@@ -1,11 +1,14 @@
 ﻿---
-# File created by FreeCAD 0.22.0 Revision: 37543 +1 (Git)
+# File created by FreeCAD 0.22.0 Revision: 37464 +105 (Git)
 General:
-  UUID: "3fb39fcc-a0fd-4ba6-8da0-0518234eaed6"
+  UUID: "7a245eab-c9f4-4592-8374-223ecfd717c1"
   Name: "Paper-kraft-glassine-LOC-tube-avg"
   Author: "Created by the Rocket Workbench"
   License: "Apache-2.0"
   Description: "Paper-kraft-glassine-LOC-tube-avg"
+Inherits:
+  Default:
+    UUID: "5dbb7be6-8b63-479b-ab4c-87be02ead973"
 Models:
   Density:
     UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"

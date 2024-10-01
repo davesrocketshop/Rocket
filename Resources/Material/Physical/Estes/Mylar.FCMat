@@ -1,11 +1,14 @@
 ﻿---
-# File created by FreeCAD 0.22.0 Revision: 37543 +1 (Git)
+# File created by FreeCAD 0.22.0 Revision: 37464 +105 (Git)
 General:
-  UUID: "8456d17c-23ca-4c62-a9ed-8f3184d4dba2"
+  UUID: "d10a0efb-8ac2-44f6-9201-5e89e5923e69"
   Name: "Mylar"
   Author: "Created by the Rocket Workbench"
   License: "Apache-2.0"
   Description: "Mylar"
+Inherits:
+  Default:
+    UUID: "5dbb7be6-8b63-479b-ab4c-87be02ead973"
 Models:
   Density:
     UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"

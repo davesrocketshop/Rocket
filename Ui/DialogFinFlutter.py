@@ -23,7 +23,7 @@
 __title__ = "FreeCAD Thrust To Weight Calculator"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
-    
+
 import FreeCAD
 import FreeCADGui
 import Materials
@@ -38,7 +38,7 @@ from matplotlib.figure import Figure
 from DraftTools import translate
 
 from PySide import QtGui, QtCore
-from PySide2.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QGridLayout
+from PySide6.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QGridLayout, QSizePolicy
 
 from Analyzers.FinFlutter import FinFlutter
 
@@ -99,8 +99,8 @@ class DialogFinFlutter(QDialog):
         self.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
 
         self.materialGroup = QtGui.QGroupBox(translate('Rocket', "Material"), self)
+        self.materialGroup.setSizePolicy(QSizePolicy.MinimumExpanding, QSizePolicy.Minimum)
 
-        self.materialLabel = QtGui.QLabel(translate('Rocket', "Material"), self)
         self.materialTreeWidget = ui.createWidget("MatGui::MaterialTreeWidget")
         self.materialTreePy = MatGui.MaterialTreeWidget(self.materialTreeWidget)
 
@@ -159,7 +159,7 @@ class DialogFinFlutter(QDialog):
         plt.rcParams["figure.edgecolor"] = 'white'
         plt.rcParams["axes.facecolor"] = 'white'
         self.static_canvas = FigureCanvas(Figure(figsize=(5,3)))
- 
+
         self._static_ax = self.static_canvas.figure.subplots()
         t = np.linspace(0, 10, 501)
         self._flutterLine, = self._static_ax.plot(t, t, label="flutter")
@@ -211,12 +211,10 @@ class DialogFinFlutter(QDialog):
         okButton.setAutoDefault(False)
 
         # Material group
+        vbox = QVBoxLayout()
+
         row = 0
         grid = QGridLayout()
-
-        grid.addWidget(self.materialLabel, row, 0)
-        grid.addWidget(self.materialTreeWidget, row, 1)
-        row += 1
 
         grid.addWidget(self.shearLabel, row, 0)
         grid.addWidget(self.shearInput, row, 1)
@@ -231,7 +229,10 @@ class DialogFinFlutter(QDialog):
         grid.addWidget(self.poissonInput, row, 1)
         row += 1
 
-        self.materialGroup.setLayout(grid)
+        vbox.addWidget(self.materialTreeWidget)
+        vbox.addLayout(grid)
+
+        self.materialGroup.setLayout(vbox)
 
         # Fin Flutter group
         vbox = QVBoxLayout()
@@ -285,6 +286,7 @@ class DialogFinFlutter(QDialog):
         self.setLayout(layout)
 
         self.materialTreeWidget.onMaterial.connect(self.onMaterial)
+        self.materialTreeWidget.onExpanded.connect(self.onExpanded)
         self.calculatedCheckbox.clicked.connect(self.onCalculated)
         self.shearInput.textEdited.connect(self.onShear)
         self.youngsInput.textEdited.connect(self.onYoungs)
@@ -295,7 +297,7 @@ class DialogFinFlutter(QDialog):
         okButton.clicked.connect(self.onOk)
 
         self._setSlider()
-        
+
         self.update()
 
         # now make the window visible
@@ -351,9 +353,9 @@ class DialogFinFlutter(QDialog):
         self._static_ax.relim()
         # update ax.viewLim using the new dataLim
         self._static_ax.autoscale()
-        
+
         self.static_canvas.draw()
-    
+
     def fillAltitudeCombo(self):
         for i in range(0, 110, 10):
             self.maxAltitudeCombo.addItem("{0:d}".format(i * 1000) + ' ' + self._heightUnits())
@@ -380,40 +382,12 @@ class DialogFinFlutter(QDialog):
 
         self.shearInput.setText(FreeCAD.Units.Quantity(str(shear) + " Pa").UserString)
 
-    def onMaterialChanged(self, card):
-        "sets self._material from a card"
-        if card in self._cards:
-            self._material = Material.lookup(card)
-            if "ShearModulus" in self._material:
-                self.shearInput.setText(self._formatPressure(FreeCAD.Units.Quantity(self._material["ShearModulus"])))
-            else:
-                self.shearInput.setText(self._formatPressure(FreeCAD.Units.Quantity("0 kPa")))
-            if "YoungsModulus" in self._material:
-                self.youngsInput.setText(self._formatPressure(FreeCAD.Units.Quantity(self._material["YoungsModulus"])))
-            else:
-                self.youngsInput.setText(self._formatPressure(FreeCAD.Units.Quantity("0 kPa")))
-            if "PoissonRatio" in self._material:
-                self.poissonInput.setText(self._material["PoissonRatio"])
-            else:
-                self.poissonInput.setText("0")
-
-            if "ShearModulus" in self._material:
-                self.setShearSpecified()
-            elif "YoungsModulus" in self._material and "PoissonRatio" in self._material:
-                self.setShearCalculated()
-                self.calculateShear()
-            else:
-                self.setShearSpecified()
-
-            self._setSeries()
-            self.onFlutter(None)
-
     def interpolateProperties(self):
         """ Infer missing properties from thos available """
         shearModulus = self._material.getPhysicalValue("ShearModulus")
         youngsModulus = self._material.getPhysicalValue("YoungsModulus")
         poissonRatio = self._material.getPhysicalValue("PoissonRatio")
-        hasShear = not (shearModulus is None or math.isnan(shearModulus)) 
+        hasShear = not (shearModulus is None or math.isnan(shearModulus))
         hasYoungs = not (youngsModulus is None or math.isnan(youngsModulus))
         hasPoisson = not (poissonRatio is None or math.isnan(poissonRatio))
         if hasShear:
@@ -438,13 +412,16 @@ class DialogFinFlutter(QDialog):
             self.setShearSpecified()
 
     def onMaterial(self, uuid):
-        print("Selected '{0}'".format(uuid))
         self._material = self._materialManager.getMaterial(uuid)
         self.interpolateProperties()
 
         self._setSeries()
         self.onFlutter(None)
-        
+
+    def onExpanded(self, expanded):
+        self.materialGroup.adjustSize()
+        self.window().adjustSize()
+
     def onCalculated(self, value):
         if value:
             self.setShearCalculated()
@@ -540,7 +517,7 @@ class DialogFinFlutter(QDialog):
 
         except ValueError:
             pass
-        
+
     def update(self):
         'fills the widgets'
         self.transferFrom()

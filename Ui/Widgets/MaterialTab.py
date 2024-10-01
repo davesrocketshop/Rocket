@@ -23,7 +23,7 @@
 __title__ = "FreeCAD Material Tab"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
-    
+
 
 import FreeCADGui
 
@@ -33,7 +33,7 @@ import Materials
 import MatGui
 
 from PySide import QtGui
-from PySide2.QtWidgets import QGridLayout, QVBoxLayout, QSizePolicy
+from PySide6.QtWidgets import QGridLayout, QVBoxLayout, QSizePolicy
 
 from Rocket.Material import Material
 
@@ -45,7 +45,6 @@ class MaterialTab(QtGui.QWidget):
         self.setTabMaterial()
 
     def setTabMaterial(self):
-        print("setTabMaterialV22()")
         self.materialManager = Materials.MaterialManager()
 
         ui = FreeCADGui.UiLoader()
@@ -54,22 +53,6 @@ class MaterialTab(QtGui.QWidget):
         self.materialTreePy = MatGui.MaterialTreeWidget(self.materialTreeWidget)
         self.materialTreeWidget.onMaterial.connect(self.onMaterial)
 
-        filters = []
-        filterPhysical = Materials.MaterialFilter()
-        filterPhysical.Name = "Physical Materials"
-        filterPhysical.RequiredModelsComplete = [Materials.UUIDs.Density]
-
-        filterAppearance = Materials.MaterialFilter()
-        filterAppearance.Name = "Appearance Materials"
-        filterAppearance.RequiredModelsComplete = [Materials.UUIDs.BasicRendering]
-
-        filterAll = Materials.MaterialFilter()
-        filterAll.Name = "All Materials"
-
-        filters = [filterPhysical, filterAppearance, filterAll]
-        self.materialTreePy.setFilter(filters)
-        self.materialTreePy.selectFilter("Physical Materials")
-        
         row = 0
         grid = QGridLayout()
 
@@ -81,7 +64,7 @@ class MaterialTab(QtGui.QWidget):
         layout.addItem(QtGui.QSpacerItem(0,0, QSizePolicy.Expanding, QSizePolicy.Expanding))
 
         self.setLayout(layout)
-        
+
     def transferTo(self, obj):
         "Transfer from the dialog to the object"
         obj.ShapeMaterial = self.materialManager.getMaterial(self.uuid)
@@ -89,18 +72,7 @@ class MaterialTab(QtGui.QWidget):
     def transferFrom(self, obj):
         "Transfer from the object to the dialog"
         self.uuid = obj.ShapeMaterial.UUID
-        print("UUID = {0}".format(self.uuid))
-        print(self.materialTreePy)
         self.materialTreePy.UUID = self.uuid
-    
-    def updateMaterials(self):
-        "fills the combo with the existing FCMat cards"
-        self.materialPresetCombo.addItem('')
-        cards = Material.materialDictionary()
-        if cards:
-            for k in sorted(cards.keys()):
-                self.materialPresetCombo.addItem(k)
 
     def onMaterial(self, uuid):
-        print("Selected '{0}'".format(uuid))
         self.uuid = uuid

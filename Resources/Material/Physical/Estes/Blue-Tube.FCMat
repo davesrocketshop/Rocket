@@ -1,11 +1,14 @@
 ﻿---
-# File created by FreeCAD 0.22.0 Revision: 37543 +1 (Git)
+# File created by FreeCAD 0.22.0 Revision: 37464 +105 (Git)
 General:
-  UUID: "0e46ff4c-6e49-497e-8513-e7501e5609c5"
+  UUID: "0686b076-87da-48cc-91f8-5e8e1070c140"
   Name: "Blue-Tube"
   Author: "Created by the Rocket Workbench"
   License: "Apache-2.0"
   Description: "Blue-Tube"
+Inherits:
+  Default:
+    UUID: "5dbb7be6-8b63-479b-ab4c-87be02ead973"
 Models:
   Density:
     UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"

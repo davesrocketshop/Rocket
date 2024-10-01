@@ -1,11 +1,14 @@
 ﻿---
-# File created by FreeCAD 0.22.0 Revision: 37543 +1 (Git)
+# File created by FreeCAD 0.22.0 Revision: 37464 +105 (Git)
 General:
-  UUID: "b2981a3b-595e-490b-957b-24df4cee5f31"
+  UUID: "cf9f9c2e-eb8e-4902-97a9-3c0201dbbc48"
   Name: "Lead-cast"
   Author: "Created by the Rocket Workbench"
   License: "Apache-2.0"
   Description: "Lead-cast"
+Inherits:
+  Default:
+    UUID: "5dbb7be6-8b63-479b-ab4c-87be02ead973"
 Models:
   Density:
     UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"

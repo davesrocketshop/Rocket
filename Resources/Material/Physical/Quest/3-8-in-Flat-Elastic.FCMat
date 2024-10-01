@@ -1,11 +1,14 @@
 ﻿---
-# File created by FreeCAD 0.22.0 Revision: 37543 +1 (Git)
+# File created by FreeCAD 0.22.0 Revision: 37464 +105 (Git)
 General:
-  UUID: "ae1670cc-d0a7-431a-b76d-7f81ce94d48b"
+  UUID: "7004c21c-1487-4b69-87ae-bceb68184f79"
   Name: "3-8-in-Flat-Elastic"
   Author: "Created by the Rocket Workbench"
   License: "Apache-2.0"
   Description: "3-8-in-Flat-Elastic"
+Inherits:
+  Default:
+    UUID: "5dbb7be6-8b63-479b-ab4c-87be02ead973"
 Models:
   Density:
     UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"

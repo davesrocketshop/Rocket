@@ -1,11 +1,14 @@
 ﻿---
-# File created by FreeCAD 0.22.0 Revision: 37543 +1 (Git)
+# File created by FreeCAD 0.22.0 Revision: 37464 +105 (Git)
 General:
-  UUID: "4bbef83f-d5a2-44d1-8912-96d0d3d1a0fe"
+  UUID: "a68129a9-ed96-495e-a1c7-25aa5558aefe"
   Name: "1-4-Aircraft-Plywood"
   Author: "Created by the Rocket Workbench"
   License: "Apache-2.0"
   Description: "1-4-Aircraft-Plywood"
+Inherits:
+  Default:
+    UUID: "5dbb7be6-8b63-479b-ab4c-87be02ead973"
 Models:
   Density:
     UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"

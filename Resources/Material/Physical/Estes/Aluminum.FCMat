@@ -1,11 +1,14 @@
 ﻿---
-# File created by FreeCAD 0.22.0 Revision: 37543 +1 (Git)
+# File created by FreeCAD 0.22.0 Revision: 37464 +105 (Git)
 General:
-  UUID: "eb3ebc9d-2a88-4471-ac2f-f8ec63f7c683"
+  UUID: "d6cb9456-f575-47ba-ad45-5555cadf0fc7"
   Name: "Aluminum"
   Author: "Created by the Rocket Workbench"
   License: "Apache-2.0"
   Description: "Aluminum"
+Inherits:
+  Default:
+    UUID: "5dbb7be6-8b63-479b-ab4c-87be02ead973"
 Models:
   Density:
     UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"

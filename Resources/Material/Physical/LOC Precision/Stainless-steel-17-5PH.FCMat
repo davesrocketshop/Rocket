@@ -1,11 +1,14 @@
 ﻿---
-# File created by FreeCAD 0.22.0 Revision: 37543 +1 (Git)
+# File created by FreeCAD 0.22.0 Revision: 37464 +105 (Git)
 General:
-  UUID: "d26e0673-7118-4660-b6e6-32548adb000d"
+  UUID: "a52e1127-176f-4eb3-b8b6-8e1ac2e3f5f9"
   Name: "Stainless-steel-17-5PH"
   Author: "Created by the Rocket Workbench"
   License: "Apache-2.0"
   Description: "Stainless-steel-17-5PH"
+Inherits:
+  Default:
+    UUID: "5dbb7be6-8b63-479b-ab4c-87be02ead973"
 Models:
   Density:
     UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"

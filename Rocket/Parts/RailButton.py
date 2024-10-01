@@ -127,7 +127,7 @@ def listRailButton(connection):
 def getRailButton(connection, index):
     cursor = connection.cursor()
 
-    cursor.execute("""SELECT rail_button_index, c.manufacturer, part_number, description, material_name, mass, mass_units,
+    cursor.execute("""SELECT rail_button_index, c.manufacturer, part_number, description, material_name, uuid, mass, mass_units,
                         finish, outer_diameter, outer_diameter_units, inner_diameter, inner_diameter_units, height, height_units,
                         base_height, base_height_units, flange_height, flange_height_units, screw_height, screw_height_units, drag_coefficient, screw_mass, screw_mass_units,
                         nut_mass, nut_mass_units, screw_diameter, screw_diameter_units, countersink_diameter, countersink_diameter_units, countersink_angle

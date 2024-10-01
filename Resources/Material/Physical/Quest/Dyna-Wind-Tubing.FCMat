@@ -1,11 +1,14 @@
 ﻿---
-# File created by FreeCAD 0.22.0 Revision: 37543 +1 (Git)
+# File created by FreeCAD 0.22.0 Revision: 37464 +105 (Git)
 General:
-  UUID: "ad453731-55bc-412e-ad73-d6a7d7fc5733"
+  UUID: "5f7e2203-5e8c-4688-840d-0dcba276ae61"
   Name: "Dyna-Wind-Tubing"
   Author: "Created by the Rocket Workbench"
   License: "Apache-2.0"
   Description: "Dyna-Wind-Tubing"
+Inherits:
+  Default:
+    UUID: "5dbb7be6-8b63-479b-ab4c-87be02ead973"
 Models:
   Density:
     UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"
