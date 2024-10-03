@@ -28,6 +28,7 @@ import FreeCAD
 import FreeCADGui
 import Part
 import os
+import math
 
 from DraftTools import translate
 
@@ -36,40 +37,119 @@ from PySide import QtGui
 from CfdOF import CfdTools
 
 from Rocket.cfd.CreateSolid import createSolid
+from Rocket.cfd.FeatureCFDRocket import FeatureCFDRocket
+from Rocket.cfd.FeatureWindTunnel import FeatureWindTunnel
+from Rocket.cfd.ViewProviders.ViewProviderCFDRocket import ViewProviderCFDRocket
+from Rocket.cfd.ViewProviders.ViewProviderWindTunnel import ViewProviderWindTunnel
 
 from Ui.Commands.Command import Command
 from Ui.DialogCFD import DialogCFD
 
 def doCFD():
+    # See if we have a rocket selected
+    for rocket in FreeCADGui.Selection.getSelection():
+        if rocket.isDerivedFrom('Part::FeaturePython') or rocket.isDerivedFrom('App::GeometryPython'):
+            if hasattr(rocket,"Proxy") and hasattr(rocket.Proxy,"getRocket"):
+                try:
+                    root = rocket.Proxy.getRocket()
+                    if root is not None:
+                        CFDrocket = makeCFDRocket()
+                        solid = createSolid(root)
+                        CFDrocket._obj.Shape = solid
+                        box = solid.BoundBox
+                        print(dir(solid.Area))
+                        print(solid.Area)
+                        print('XMax = {}'.format(solid.BoundBox.XMax))
+                        print('XMin = {}'.format(solid.BoundBox.XMin))
+                        print('XLength = {}'.format(solid.BoundBox.XLength))
+                        print('YMax = {}'.format(solid.BoundBox.YMax))
+                        print('YMin = {}'.format(solid.BoundBox.YMin))
+                        print('YLength = {}'.format(solid.BoundBox.YLength))
+                        print('ZMax = {}'.format(solid.BoundBox.ZMax))
+                        print('ZMin = {}'.format(solid.BoundBox.ZMin))
+                        print('ZLength = {}'.format(solid.BoundBox.ZLength))
+                        diameter = 2.0 * max(box.YMax, -box.YMin, box.ZMax, -box.ZMin)
+                        length = solid.BoundBox.XLength
 
-    # See if we have a fin selected
-    # for fin in FreeCADGui.Selection.getSelection():
-    #     if fin.isDerivedFrom('Part::FeaturePython'):
-    #         if hasattr(fin,"FinType"):
-    #             try:
-    #                 form = DialogFinFlutter(fin)
-    #                 form.exec_()
-    #             except TypeError as ex:
-    #                 QtGui.QMessageBox.information(None, "", str(ex))
+                        # Approximate the frontal area. This can be improved
+                        area = solid.Volume / length
+                        # Get a blockage ratio of 0.1% ? 0.1
+                        tunnelDiameter = (area / 0.1) / math.pi
+                        FreeCADGui.doCommand("Ui.Commands.CmdCFDAnalysis.makeWindTunnel('WindTunnel',{},{},{})".format(tunnelDiameter, 10.0 * length, 2.0 * length))
+                        FreeCADGui.doCommand("Ui.Commands.CmdCFDAnalysis.makeWindTunnel('Refinement',{},{},{})".format(tunnelDiameter * 0.25, 3.5 * length, 0.5 * length))
+                        FreeCADGui.doCommand("Ui.Commands.CmdCFDAnalysis.makeWindTunnel('Refinement',{},{},{})".format(tunnelDiameter * 0.5, 9.0 * length, 1.0 * length))
+                        FreeCADGui.doCommand("Ui.Commands.CmdCFDAnalysis.makeWindTunnel('Refinement',{},{},{})".format(tunnelDiameter * 0.75, 9.5 * length, 1.5 * length))
+                except TypeError as ex:
+                    QtGui.QMessageBox.information(None, "", str(ex))
+                return
 
-    #             return
-    # taskd = DialogCFD()
-    # FreeCADGui.Control.showDialog(taskd)
+    QtGui.QMessageBox.information(None, "", translate('Rocket', "Please select a rocket first"))
 
-    # QtGui.QMessageBox.information(None, "", translate('Rocket', "Please select a fin first"))
-    pass
+def makeCFDRocket(name='CFDRocket'):
+    '''makeCFDRocket(name): makes a CFD Rocket'''
+    obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
+    FeatureCFDRocket(obj)
+    # obj.Proxy.setDefaults()
+    if FreeCAD.GuiUp:
+        ViewProviderCFDRocket(obj.ViewObject)
+
+    return obj.Proxy
+
+def makeWindTunnel(name='WindTunnel', diameter=10.0, length=20.0, offset=0.0):
+    '''makeWindTunnel(name): makes a Wind Tunnel'''
+    obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
+    FeatureWindTunnel(obj)
+    obj.Diameter = diameter
+    obj.Length = length
+    obj.Placement.Base.x = -offset
+    # obj.Proxy.setDefaults()
+    if FreeCAD.GuiUp:
+        ViewProviderWindTunnel(obj.ViewObject)
+
+    return obj.Proxy
 
 class CmdCFDAnalysis(Command):
     def Activated(self):
-        # FreeCADGui.addModule("Ui.Commands.CmdCFDAnalysis")
-        # FreeCADGui.doCommand("Ui.Commands.CmdCFDAnalysis.doCFD()")
-        self.doCFD()
-        return True
+        # self.doCFD()
+        # FreeCADGui.runCommand("CfdOF_Analysis")
+        FreeCAD.ActiveDocument.openTransaction("Create CFD Analysis")
+        FreeCADGui.addModule("Ui.Commands.CmdCFDAnalysis")
+        FreeCADGui.doCommand("Ui.Commands.CmdCFDAnalysis.doCFD()")
+        # FreeCADGui.doCommand("Ui.Commands.CmdCFDAnalysis.makeWindTunnel('WindTunnel')")
+
+        FreeCADGui.doCommand("from CfdOF import CfdAnalysis")
+        FreeCADGui.doCommand("from CfdOF import CfdTools")
+        FreeCADGui.doCommand("analysis = CfdAnalysis.makeCfdAnalysis('CfdAnalysis')")
+        FreeCADGui.doCommand("CfdTools.setActiveAnalysis(analysis)")
+
+        # Objects ordered according to expected workflow
+        # Add physics object when CfdAnalysis container is created
+        FreeCADGui.doCommand("from CfdOF.Solve import CfdPhysicsSelection")
+        FreeCADGui.doCommand("analysis.addObject(CfdPhysicsSelection.makeCfdPhysicsSelection())")
+
+        # Add fluid properties object when CfdAnalysis container is created
+        FreeCADGui.doCommand("from CfdOF.Solve import CfdFluidMaterial")
+        FreeCADGui.doCommand("analysis.addObject(CfdFluidMaterial.makeCfdFluidMaterial('FluidProperties'))")
+
+        # Add initialisation object when CfdAnalysis container is created
+        FreeCADGui.doCommand("from CfdOF.Solve import CfdInitialiseFlowField")
+        FreeCADGui.doCommand("analysis.addObject(CfdInitialiseFlowField.makeCfdInitialFlowField())")
+
+        # Add solver object when CfdAnalysis container is created
+        FreeCADGui.doCommand("from CfdOF.Solve import CfdSolverFoam")
+        FreeCADGui.doCommand("analysis.addObject(CfdSolverFoam.makeCfdSolverFoam())")
+
+        FreeCADGui.doCommand("App.activeDocument().recompute(None,True,True)")
 
     def IsActive(self):
-        # Available when a part is selected
-        # return self.partFinSelected()
-        return FreeCADGui.ActiveDocument is not None
+        # Available when a part is selected and CfdOF is available
+        try:
+            import CfdOF
+            False if CfdOF.__name__ else True
+        except:
+            return False
+
+        return self.partRocketSelected()
 
     def GetResources(self):
         icon_path = os.path.join(CfdTools.getModulePath(), "Gui", "Icons", "cfd.svg")

@@ -23,7 +23,7 @@
 __title__ = "FreeCAD Commands"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
-    
+
 import FreeCAD
 import FreeCADGui
 
@@ -77,6 +77,18 @@ class Command:
             if len(sel) == 1 and sel[0].isDerivedFrom("Part::FeaturePython"):
                 if hasattr(sel[0],"FinType"):
                     return True
+        return False
+
+    def partRocketSelected(self):
+        """
+            Checks to see if the selected part is part of a rocket
+        """
+        if FreeCADGui.ActiveDocument is None:
+            return False
+        sel = FreeCADGui.Selection.getSelection()
+        if len(sel) == 1 and (sel[0].isDerivedFrom("Part::FeaturePython") or sel[0].isDerivedFrom("App::GeometryPython")):
+            if hasattr(sel[0],"Proxy") and hasattr(sel[0].Proxy,"getRocket"):
+                return True
         return False
 
     def partStageEligibleFeature(self, feature):

@@ -51,6 +51,7 @@ class RocketWorkbench ( Workbench ):
 
     def _loadCfDModule(self):
         # load the CfDOF module
+        print("Importing CfdOF")
         import CfdOF
         # dummy usage to get flake8 and lgtm quiet
         False if CfdOF.__name__ else True
