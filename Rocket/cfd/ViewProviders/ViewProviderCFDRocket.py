@@ -69,3 +69,9 @@ class ViewProviderCFDRocket:
     #         text = translate('Rocket', 'Edit %1').replace('%1', viewObject.Object.Label)
     #         document.openTransaction(text)
     #     viewObject.Document.setEdit(viewObject.Object, 0)
+
+    def __getstate__(self):
+        return None
+
+    def __setstate__(self, state):
+        return None

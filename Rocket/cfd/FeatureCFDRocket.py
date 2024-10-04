@@ -38,11 +38,18 @@ class FeatureCFDRocket:
         self.version = '3.0'
 
         self._obj = obj
-        self._parent = None
         obj.Proxy=self
 
         if not hasattr(obj,"Shape"):
             obj.addProperty('Part::PropertyPartShape', 'Shape', 'RocketComponent', translate('App::Property', 'Shape of the wind tunnel'))
+
+    def __getstate__(self):
+        return self.Type, self.version
+
+    def __setstate__(self, state):
+        if state:
+            self.Type = state[0]
+            self.version = state[1]
 
     def onDocumentRestored(self, obj):
         FeatureCFDRocket(obj)

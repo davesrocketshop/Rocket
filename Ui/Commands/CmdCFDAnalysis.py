@@ -57,19 +57,8 @@ def doCFD():
                         solid = createSolid(root)
                         CFDrocket._obj.Shape = solid
                         box = solid.BoundBox
-                        print(dir(solid.Area))
-                        print(solid.Area)
-                        print('XMax = {}'.format(solid.BoundBox.XMax))
-                        print('XMin = {}'.format(solid.BoundBox.XMin))
-                        print('XLength = {}'.format(solid.BoundBox.XLength))
-                        print('YMax = {}'.format(solid.BoundBox.YMax))
-                        print('YMin = {}'.format(solid.BoundBox.YMin))
-                        print('YLength = {}'.format(solid.BoundBox.YLength))
-                        print('ZMax = {}'.format(solid.BoundBox.ZMax))
-                        print('ZMin = {}'.format(solid.BoundBox.ZMin))
-                        print('ZLength = {}'.format(solid.BoundBox.ZLength))
-                        diameter = 2.0 * max(box.YMax, -box.YMin, box.ZMax, -box.ZMin)
-                        length = solid.BoundBox.XLength
+                        # diameter = 2.0 * max(box.YMax, -box.YMin, box.ZMax, -box.ZMin)
+                        length = box.XLength
 
                         # Approximate the frontal area. This can be improved
                         area = solid.Volume / length
@@ -92,6 +81,7 @@ def makeCFDRocket(name='CFDRocket'):
     # obj.Proxy.setDefaults()
     if FreeCAD.GuiUp:
         ViewProviderCFDRocket(obj.ViewObject)
+    # obj.ViewObject.ShapeAppearance[0].Transparency = 0
 
     return obj.Proxy
 
