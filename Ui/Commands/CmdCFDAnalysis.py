@@ -36,7 +36,7 @@ from PySide import QtGui
 
 from CfdOF import CfdTools
 
-from Rocket.cfd.CreateSolid import createSolid
+from Rocket.cfd.CFDUtil import createSolid, caliber
 from Rocket.cfd.FeatureCFDRocket import FeatureCFDRocket
 from Rocket.cfd.FeatureWindTunnel import FeatureWindTunnel
 from Rocket.cfd.ViewProviders.ViewProviderCFDRocket import ViewProviderCFDRocket
@@ -55,15 +55,14 @@ def doCFD():
                     if root is not None:
                         CFDrocket = makeCFDRocket()
                         solid = createSolid(root)
+                        diameter = caliber(root)
                         CFDrocket._obj.Shape = solid
                         box = solid.BoundBox
-                        # diameter = 2.0 * max(box.YMax, -box.YMin, box.ZMax, -box.ZMin)
                         length = box.XLength
 
-                        # Approximate the frontal area. This can be improved
-                        area = solid.Volume / length
-                        # Get a blockage ratio of 0.1% ? 0.1
-                        tunnelDiameter = (area / 0.1) / math.pi
+                        # Get a blockage ratio of 0.1%
+                        area = (diameter * diameter) / 0.001
+                        tunnelDiameter = math.sqrt(area)
                         FreeCADGui.doCommand("Ui.Commands.CmdCFDAnalysis.makeWindTunnel('WindTunnel',{},{},{})".format(tunnelDiameter, 10.0 * length, 2.0 * length))
                         FreeCADGui.doCommand("Ui.Commands.CmdCFDAnalysis.makeWindTunnel('Refinement',{},{},{})".format(tunnelDiameter * 0.25, 3.5 * length, 0.5 * length))
                         FreeCADGui.doCommand("Ui.Commands.CmdCFDAnalysis.makeWindTunnel('Refinement',{},{},{})".format(tunnelDiameter * 0.5, 9.0 * length, 1.0 * length))

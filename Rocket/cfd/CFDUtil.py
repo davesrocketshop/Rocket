@@ -26,27 +26,6 @@ __url__ = "https://www.davesrocketshop.com"
 
 import FreeCAD
 import Part
-import math
-
-from DraftTools import translate
-
-from Rocket.Constants import FINCAN_EDGE_SQUARE, FINCAN_EDGE_ROUND, FINCAN_EDGE_TAPER
-from Rocket.Constants import FINCAN_COUPLER_STEPPED
-from Rocket.Utilities import validationError, _err
-
-from Rocket.ShapeHandlers.FinShapeHandler import FinShapeHandler
-from Rocket.ShapeHandlers.FinTrapezoidShapeHandler import FinTrapezoidShapeHandler
-from Rocket.ShapeHandlers.FinTriangleShapeHandler import FinTriangleShapeHandler
-from Rocket.ShapeHandlers.FinEllipseShapeHandler import FinEllipseShapeHandler
-from Rocket.ShapeHandlers.FinSketchShapeHandler import FinSketchShapeHandler
-
-TOLERANCE_OFFSET = 0.5     # Distance to offset a vertex
-
-# class CreateSolid():
-
-#     def __init__(self, obj):
-#         # super().__init__(obj)
-#         self._root = obj
 
 def getProxy(obj):
     if hasattr(obj, "Proxy"):
@@ -72,3 +51,17 @@ def createSolid(obj):
                 shape = Part.makeCompound([shape, child])
 
     return shape
+
+def caliber(obj):
+    ''' Get the caliber of the component '''
+    diameter = 0.0
+    for current in getProxy(obj).getChildren():
+        # print(current)
+        proxy = getProxy(current)
+        if hasattr(proxy, "getMaxRadius"):
+            radius = FreeCAD.Units.Quantity(proxy.getMaxRadius()).Value
+            diameter = max(diameter, 2.0 * radius)
+        child = caliber(current)
+        diameter = max(diameter, child)
+
+    return diameter
