@@ -34,47 +34,13 @@ from DraftTools import translate
 from PySide import QtGui, QtCore
 from PySide6.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QGridLayout
 
+from CfdOF.Mesh import CfdMesh, CfdMeshRefinement
+from CfdOF import CfdAnalysis, CfdTools
+from CfdOF.Solve import CfdPhysicsSelection, CfdFluidMaterial, CfdInitialiseFlowField, CfdSolverFoam
+
 from Rocket.cfd.CFDUtil import caliber, createSolid, makeCFDRocket, makeWindTunnel
 
 from Ui.UIPaths import getUIPath
-
-class _DialogCFD(QDialog):
-    def __init__(self, rocket):
-        # super().__init__()
-
-        self._rocket = rocket
-        path = os.path.join(getUIPath(), 'Ui', 'Resources', 'ui', "DialogCFD.ui")
-        print(path)
-        self._form = FreeCADGui.PySideUic.loadUi(os.path.join(getUIPath(), 'Ui', 'Resources', 'ui', "DialogCFD.ui"))
-        if self._form is None:
-            print("Form is empty")
-        self._studies = (translate("Rocket", "Example"),)
-        self._form.comboStudy.addItems(self._studies)
-        self._form.show()
-
-    def update(self):
-        'fills the widgets'
-        # self.transferFrom()
-        pass
-
-    def accept(self):
-        # self.transferTo()
-        FreeCAD.ActiveDocument.recompute()
-        FreeCADGui.ActiveDocument.resetEdit()
-        FreeCADGui.Control.closeDialog()
-
-    # def unsetEdit(self, vobj, mode):
-    #     if self.taskd:
-    #         self.taskd.closing()
-    #         self.taskd = None
-    #     FreeCADGui.Control.closeDialog()
-
-    def reject(self):
-        FreeCAD.ActiveDocument.abortTransaction()
-        FreeCAD.ActiveDocument.recompute()
-        FreeCADGui.ActiveDocument.resetEdit()
-        # self.setEdited()
-        FreeCADGui.Control.closeDialog()
 
 class TaskPanelCFD(QtCore.QObject):
 
@@ -86,15 +52,17 @@ class TaskPanelCFD(QtCore.QObject):
         self.form = FreeCADGui.PySideUic.loadUi(os.path.join(getUIPath(), 'Resources', 'ui', "DialogCFD.ui"))
         # self.form = FreeCADGui.PySideUic.loadUi(':/ui/DialogCFD.ui')
 
-        self._studies = (translate("Rocket", "Coarse"),translate("Rocket", "Fine"),)
+        self._studies = (translate("Rocket", "Coarse"),
+                         translate("Rocket", "Fine"),
+                         )
         self.form.comboStudy.addItems(self._studies)
 
         self.form.buttonCreate.clicked.connect(self.onCreate)
 
         FreeCAD.setActiveTransaction("Create Rocket CFD Study")
-        self.update()
+        self.initialize()
 
-    def update(self):
+    def initialize(self):
         # Set Nproc to the number of available threads
         if hasattr(os, "sched_getaffinity"):
             self.form.spinNproc.setValue(len(os.sched_getaffinity(0)))
@@ -109,56 +77,19 @@ class TaskPanelCFD(QtCore.QObject):
         self.form.inputLength.setText(str(length))
         self.form.inputDiameter.setText(str(diameter))
 
-    def transferTo(self):
-        "Transfer from the dialog to the object"
-        # self._obj.Proxy.setOuterDiameter(FreeCAD.Units.Quantity(self._btForm.odInput.text()).Value)
-        # self._obj.Proxy.setOuterDiameterAutomatic(self._btForm.autoDiameterCheckbox.isChecked())
-        # self._obj.Proxy.setThickness(FreeCAD.Units.Quantity(self._btForm.thicknessInput.text()).Value)
-        # self._obj.Proxy.setLength(FreeCAD.Units.Quantity(self._btForm.lengthInput.text()).Value)
-        # if self._motorMount:
-        #     self._obj.MotorMount = self._btForm.motorGroup.isChecked()
-        #     self._obj.Overhang = self._btForm.overhangInput.text()
+        self._CFDrocket = None
+        self._refinement0 = None
+        self._refinement1 = None
+        self._refinement2 = None
 
-        # self._btForm.tabMaterial.transferTo(self._obj)
-        # self._btForm.tabComment.transferTo(self._obj)
-        pass
-
-    def transferFrom(self):
-        "Transfer from the object to the dialog"
-        # self._btForm.odInput.setText(self._obj.Diameter.UserString)
-        # self._btForm.autoDiameterCheckbox.setChecked(self._obj.AutoDiameter)
-        # self._btForm.idInput.setText("0.0")
-        # self._btForm.thicknessInput.setText(self._obj.Thickness.UserString)
-        # self._btForm.lengthInput.setText(self._obj.Length.UserString)
-        # if self._motorMount:
-        #     self._btForm.motorGroup.setChecked(self._obj.MotorMount)
-        #     self._btForm.overhangInput.setText(self._obj.Overhang.UserString)
-
-        # self._btForm.tabMaterial.transferFrom(self._obj)
-        # self._btForm.tabComment.transferFrom(self._obj)
-
-        # self._setAutoDiameterState()
-        # self._setIdFromThickness()
-        # self._setMotorState()
-        pass
 
     def onCreate(self):
-        CFDrocket = makeCFDRocket()
-        CFDrocket._obj.Shape = self._solid
-        diameter = FreeCAD.Units.Quantity(self.form.inputDiameter.text()).Value
-        length = FreeCAD.Units.Quantity(self.form.inputLength.text()).Value
+        self.makeSolid()
+        self.makeWindTunnel()
+        self.makeAnalysisContainer()
+        self.makeCfdMesh()
 
-        # Get a blockage ratio of 0.1%
-        area = (diameter * diameter) / 0.001
-        tunnelDiameter = math.sqrt(area)
-        FreeCADGui.doCommand("Ui.Commands.CmdCFDAnalysis.makeWindTunnel('WindTunnel',{},{},{})".format(tunnelDiameter, 10.0 * length, 2.0 * length))
-        FreeCADGui.doCommand("Ui.Commands.CmdCFDAnalysis.makeWindTunnel('Refinement',{},{},{})".format(tunnelDiameter * 0.25, 3.5 * length, 0.5 * length))
-        FreeCADGui.doCommand("Ui.Commands.CmdCFDAnalysis.makeWindTunnel('Refinement',{},{},{})".format(tunnelDiameter * 0.5, 9.0 * length, 1.0 * length))
-        FreeCADGui.doCommand("Ui.Commands.CmdCFDAnalysis.makeWindTunnel('Refinement',{},{},{})".format(tunnelDiameter * 0.75, 9.5 * length, 1.5 * length))
-        FreeCAD.ActiveDocument.recompute()
-
-        # self.deactivate()
-        # FreeCAD.closeActiveTransaction()
+        # Don't try to make things twice
         self.form.buttonCreate.setEnabled(False)
 
     def accept(self):
@@ -172,10 +103,87 @@ class TaskPanelCFD(QtCore.QObject):
         return True
 
     def deactivate(self):
-        # pref = Preferences.preferences()
-        # pref.SetBool("BOMOnlyParts", self.form.CheckBox_onlyParts.isChecked())
-        # pref.SetBool("BOMDetailParts", self.form.CheckBox_detailParts.isChecked())
-        # pref.SetBool("BOMDetailSubAssemblies", self.form.CheckBox_detailSubAssemblies.isChecked())
-
         if FreeCADGui.Control.activeDialog():
             FreeCADGui.Control.closeDialog()
+
+    def makeSolid(self):
+        self._CFDrocket = makeCFDRocket()
+        self._CFDrocket._obj.Shape = self._solid
+
+    def makeWindTunnel(self):
+        diameter = FreeCAD.Units.Quantity(self.form.inputDiameter.text()).Value
+        length = FreeCAD.Units.Quantity(self.form.inputLength.text()).Value
+
+        # Get a blockage ratio of 0.1%
+        area = (diameter * diameter) / 0.001
+        tunnelDiameter = math.sqrt(area)
+        self._outer = makeWindTunnel('WindTunnel', tunnelDiameter, 10.0 * length, 2.0 * length)
+        self._refinement0 = makeWindTunnel('Refinement', tunnelDiameter * 0.25, 3.5 * length, 0.5 * length)
+        self._refinement1 = makeWindTunnel('Refinement', tunnelDiameter * 0.5, 9.0 * length, 1.0 * length)
+        self._refinement2 = makeWindTunnel('Refinement', tunnelDiameter * 0.75, 9.5 * length, 1.5 * length)
+        # FreeCADGui.doCommand("Ui.Commands.CmdCFDAnalysis.makeWindTunnel('WindTunnel',{},{},{})".format(tunnelDiameter, 10.0 * length, 2.0 * length))
+        # FreeCADGui.doCommand("Ui.Commands.CmdCFDAnalysis.makeWindTunnel('Refinement',{},{},{})".format(tunnelDiameter * 0.25, 3.5 * length, 0.5 * length))
+        # FreeCADGui.doCommand("Ui.Commands.CmdCFDAnalysis.makeWindTunnel('Refinement',{},{},{})".format(tunnelDiameter * 0.5, 9.0 * length, 1.0 * length))
+        # FreeCADGui.doCommand("Ui.Commands.CmdCFDAnalysis.makeWindTunnel('Refinement',{},{},{})".format(tunnelDiameter * 0.75, 9.5 * length, 1.5 * length))
+        FreeCAD.ActiveDocument.recompute()
+
+        self.makeCompound()
+        FreeCAD.ActiveDocument.recompute()
+
+        self._rocket._obj.ViewObject.Visibility = False
+        FreeCAD.ActiveDocument.recompute()
+
+    def makeCompound(self):
+        self._compound = FreeCAD.activeDocument().addObject("Part::Compound", "WindTunnelCompund")
+        self._compound.Links = [self._CFDrocket._obj, self._outer._obj]
+        self._compound.ViewObject.Transparency = 70
+
+    def makeAnalysisContainer(self):
+        analysis = CfdAnalysis.makeCfdAnalysis('CfdAnalysis')
+        CfdTools.setActiveAnalysis(analysis)
+
+        # Objects ordered according to expected workflow
+        # Add physics object when CfdAnalysis container is created
+        analysis.addObject(CfdPhysicsSelection.makeCfdPhysicsSelection())
+
+        # Add fluid properties object when CfdAnalysis container is created
+        analysis.addObject(CfdFluidMaterial.makeCfdFluidMaterial('FluidProperties'))
+
+        # Add initialisation object when CfdAnalysis container is created
+        analysis.addObject(CfdInitialiseFlowField.makeCfdInitialFlowField())
+
+        # Add solver object when CfdAnalysis container is created
+        analysis.addObject(CfdSolverFoam.makeCfdSolverFoam())
+        FreeCAD.ActiveDocument.recompute()
+
+    def makeCfdMesh(self):
+        self._CFDMesh = CfdMesh.makeCfdMesh('WindTunnelCompund_Mesh')
+        FreeCAD.ActiveDocument.ActiveObject.Part = self._compound
+        CfdTools.getActiveAnalysis().addObject(FreeCAD.ActiveDocument.ActiveObject)
+        FreeCAD.ActiveDocument.recompute()
+
+        # Progressive volume refinements
+        refinement = CfdMeshRefinement.makeCfdMeshRefinement(self._CFDMesh, 'VolumeRefinement')
+        refinement.ShapeRefs = [self._refinement0._obj, ('Solid1', )]
+        refinement.Internal = True
+        refinement.RelativeLength = 0.125
+        FreeCAD.ActiveDocument.recompute()
+
+        refinement = CfdMeshRefinement.makeCfdMeshRefinement(self._CFDMesh, 'VolumeRefinement')
+        refinement.ShapeRefs = [self._refinement1._obj, ('Solid1', )]
+        refinement.Internal = True
+        refinement.RelativeLength = 0.250
+        FreeCAD.ActiveDocument.recompute()
+
+        refinement = CfdMeshRefinement.makeCfdMeshRefinement(self._CFDMesh, 'VolumeRefinement')
+        refinement.ShapeRefs = [self._refinement2._obj, ('Solid1', )]
+        refinement.Internal = True
+        refinement.RelativeLength = 0.500
+        FreeCAD.ActiveDocument.recompute()
+
+        # Surface refinement
+        refinement = CfdMeshRefinement.makeCfdMeshRefinement(self._CFDMesh, 'SurfaceRefinement')
+        refinement.ShapeRefs = [self._CFDrocket._obj, ('', )]
+        refinement.RelativeLength = 0.0625
+        refinement.RefinementThickness = '10.0 mm'
+        FreeCAD.ActiveDocument.recompute()

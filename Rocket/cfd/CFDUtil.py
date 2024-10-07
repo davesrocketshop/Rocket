@@ -78,7 +78,8 @@ def makeCFDRocket(name='CFDRocket'):
     # obj.Proxy.setDefaults()
     if FreeCAD.GuiUp:
         ViewProviderCFDRocket(obj.ViewObject)
-    # obj.ViewObject.ShapeAppearance[0].Transparency = 0
+        # obj.ViewObject.ShapeAppearance[0].Transparency = 0
+        obj.ViewObject.Transparency = 0
 
     return obj.Proxy
 
@@ -92,5 +93,7 @@ def makeWindTunnel(name='WindTunnel', diameter=10.0, length=20.0, offset=0.0):
     # obj.Proxy.setDefaults()
     if FreeCAD.GuiUp:
         ViewProviderWindTunnel(obj.ViewObject)
+        # obj.ViewObject.ShapeAppearance[0].Transparency = 70
+        obj.ViewObject.Transparency = 70
 
     return obj.Proxy
