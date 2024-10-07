@@ -189,9 +189,7 @@ class RocketComponentShapeless():
         if not hasattr(self, "_parent") or self._parent is None:
             return None
 
-        if hasattr(self._parent, "Proxy"):
-            return self._parent.Proxy
-        return self._parent
+        return self.getProxy(self._parent)
 
     def getChildren(self):
         try:
@@ -224,11 +222,16 @@ class RocketComponentShapeless():
         list.remove(value)
         self._obj.Group = list
 
+    def getProxy(self, obj):
+        if hasattr(obj, "Proxy"):
+            return obj.Proxy
+        return obj
+
     def getPrevious(self, obj=None):
         "Previous item along the rocket axis"
         if obj is None:
             if self._parent is not None:
-                return self._parent.Proxy.getPrevious(self)
+                return self.getProxy(self._parent).getPrevious(self)
             else:
                 return None
 
@@ -240,7 +243,7 @@ class RocketComponentShapeless():
             return self._obj
 
         if self._parent is not None:
-            return self._parent.Proxy.getPrevious(obj)
+            return self.getProxy(self._parent).getPrevious(obj)
 
         return None
 
@@ -248,7 +251,7 @@ class RocketComponentShapeless():
         "Next item along the rocket axis"
         if obj is None:
             if self._parent is not None:
-                return self._parent.Proxy.getNext(self)
+                return self.getProxy(self._parent).getNext(self)
             else:
                 return None
 
@@ -260,7 +263,7 @@ class RocketComponentShapeless():
             return self._obj
 
         if self._parent is not None:
-            return self._parent.Proxy.getNext(obj)
+            return self.getProxy(self._parent).getNext(obj)
 
         return None
 
