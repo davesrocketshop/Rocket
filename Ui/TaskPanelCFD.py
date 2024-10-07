@@ -36,7 +36,7 @@ from PySide6.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QGridLayout
 
 from CfdOF.Mesh import CfdMesh, CfdMeshRefinement
 from CfdOF import CfdAnalysis, CfdTools
-from CfdOF.Solve import CfdPhysicsSelection, CfdFluidMaterial, CfdInitialiseFlowField, CfdSolverFoam
+from CfdOF.Solve import CfdPhysicsSelection, CfdFluidBoundary, CfdFluidMaterial, CfdInitialiseFlowField, CfdSolverFoam
 
 from Rocket.cfd.CFDUtil import caliber, createSolid, makeCFDRocket, makeWindTunnel
 
@@ -88,6 +88,7 @@ class TaskPanelCFD(QtCore.QObject):
         self.makeWindTunnel()
         self.makeAnalysisContainer()
         self.makeCfdMesh()
+        self.makeBoundaryConstraints()
 
         # Don't try to make things twice
         self.form.buttonCreate.setEnabled(False)
@@ -186,4 +187,28 @@ class TaskPanelCFD(QtCore.QObject):
         refinement.ShapeRefs = [self._CFDrocket._obj, ('', )]
         refinement.RelativeLength = 0.0625
         refinement.RefinementThickness = '10.0 mm'
+        FreeCAD.ActiveDocument.recompute()
+
+    def makeBoundaryConstraints(self):
+        length = len(self._compound.Shape.Faces)
+        self._inlet = CfdFluidBoundary.makeCfdFluidBoundary("Inlet")
+        CfdTools.getActiveAnalysis().addObject(self._inlet)
+        self._inlet.ShapeRefs = [self._compound, ('Face{}'.format(length), )]
+        self._inlet.BoundaryType = "inlet"
+        self._inlet.BoundarySubType = "uniformVelocityInlet"
+        self._inlet.Ux = 102000 # 102 m/s = 0.3 Mach
+        FreeCAD.ActiveDocument.recompute()
+
+        self._outlet = CfdFluidBoundary.makeCfdFluidBoundary("Outlet")
+        CfdTools.getActiveAnalysis().addObject(self._outlet)
+        self._outlet.ShapeRefs = [self._compound, ('Face{}'.format(length-1), )]
+        self._outlet.BoundaryType = "outlet"
+        self._outlet.BoundarySubType = "staticPressureOutlet"
+        FreeCAD.ActiveDocument.recompute()
+
+        self._wall = CfdFluidBoundary.makeCfdFluidBoundary("Wall")
+        CfdTools.getActiveAnalysis().addObject(self._wall)
+        self._wall.ShapeRefs = [self._compound, ('Face{}'.format(length-2), )]
+        self._wall.BoundaryType = "wall"
+        self._wall.BoundarySubType = "fixedWall"
         FreeCAD.ActiveDocument.recompute()
