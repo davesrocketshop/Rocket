@@ -44,8 +44,10 @@ from Rocket.cfd.ViewProviders.ViewProviderWindTunnel import ViewProviderWindTunn
 
 from Ui.Commands.Command import Command
 from Ui.DialogCFD import DialogCFD
+from Ui.TaskPanelCFD import TaskPanelCFD
 
 def doCFD():
+
     # See if we have a rocket selected
     for rocket in FreeCADGui.Selection.getSelection():
         if rocket.isDerivedFrom('Part::FeaturePython') or rocket.isDerivedFrom('App::GeometryPython'):
@@ -53,25 +55,54 @@ def doCFD():
                 try:
                     root = rocket.Proxy.getRocket()
                     if root is not None:
-                        CFDrocket = makeCFDRocket()
-                        solid = createSolid(root)
-                        diameter = caliber(root)
-                        CFDrocket._obj.Shape = solid
-                        box = solid.BoundBox
-                        length = box.XLength
+                        taskd = TaskPanelCFD(root)
+                        FreeCADGui.Control.showDialog(taskd)
+                        # CFDrocket = makeCFDRocket()
+                        # solid = createSolid(root)
+                        # diameter = caliber(root)
+                        # CFDrocket._obj.Shape = solid
+                        # box = solid.BoundBox
+                        # length = box.XLength
 
-                        # Get a blockage ratio of 0.1%
-                        area = (diameter * diameter) / 0.001
-                        tunnelDiameter = math.sqrt(area)
-                        FreeCADGui.doCommand("Ui.Commands.CmdCFDAnalysis.makeWindTunnel('WindTunnel',{},{},{})".format(tunnelDiameter, 10.0 * length, 2.0 * length))
-                        FreeCADGui.doCommand("Ui.Commands.CmdCFDAnalysis.makeWindTunnel('Refinement',{},{},{})".format(tunnelDiameter * 0.25, 3.5 * length, 0.5 * length))
-                        FreeCADGui.doCommand("Ui.Commands.CmdCFDAnalysis.makeWindTunnel('Refinement',{},{},{})".format(tunnelDiameter * 0.5, 9.0 * length, 1.0 * length))
-                        FreeCADGui.doCommand("Ui.Commands.CmdCFDAnalysis.makeWindTunnel('Refinement',{},{},{})".format(tunnelDiameter * 0.75, 9.5 * length, 1.5 * length))
+                        # # Get a blockage ratio of 0.1%
+                        # area = (diameter * diameter) / 0.001
+                        # tunnelDiameter = math.sqrt(area)
+                        # FreeCADGui.doCommand("Ui.Commands.CmdCFDAnalysis.makeWindTunnel('WindTunnel',{},{},{})".format(tunnelDiameter, 10.0 * length, 2.0 * length))
+                        # FreeCADGui.doCommand("Ui.Commands.CmdCFDAnalysis.makeWindTunnel('Refinement',{},{},{})".format(tunnelDiameter * 0.25, 3.5 * length, 0.5 * length))
+                        # FreeCADGui.doCommand("Ui.Commands.CmdCFDAnalysis.makeWindTunnel('Refinement',{},{},{})".format(tunnelDiameter * 0.5, 9.0 * length, 1.0 * length))
+                        # FreeCADGui.doCommand("Ui.Commands.CmdCFDAnalysis.makeWindTunnel('Refinement',{},{},{})".format(tunnelDiameter * 0.75, 9.5 * length, 1.5 * length))
                 except TypeError as ex:
                     QtGui.QMessageBox.information(None, "", str(ex))
                 return
 
     QtGui.QMessageBox.information(None, "", translate('Rocket', "Please select a rocket first"))
+
+    # # See if we have a rocket selected
+    # for rocket in FreeCADGui.Selection.getSelection():
+    #     if rocket.isDerivedFrom('Part::FeaturePython') or rocket.isDerivedFrom('App::GeometryPython'):
+    #         if hasattr(rocket,"Proxy") and hasattr(rocket.Proxy,"getRocket"):
+    #             try:
+    #                 root = rocket.Proxy.getRocket()
+    #                 if root is not None:
+    #                     CFDrocket = makeCFDRocket()
+    #                     solid = createSolid(root)
+    #                     diameter = caliber(root)
+    #                     CFDrocket._obj.Shape = solid
+    #                     box = solid.BoundBox
+    #                     length = box.XLength
+
+    #                     # Get a blockage ratio of 0.1%
+    #                     area = (diameter * diameter) / 0.001
+    #                     tunnelDiameter = math.sqrt(area)
+    #                     FreeCADGui.doCommand("Ui.Commands.CmdCFDAnalysis.makeWindTunnel('WindTunnel',{},{},{})".format(tunnelDiameter, 10.0 * length, 2.0 * length))
+    #                     FreeCADGui.doCommand("Ui.Commands.CmdCFDAnalysis.makeWindTunnel('Refinement',{},{},{})".format(tunnelDiameter * 0.25, 3.5 * length, 0.5 * length))
+    #                     FreeCADGui.doCommand("Ui.Commands.CmdCFDAnalysis.makeWindTunnel('Refinement',{},{},{})".format(tunnelDiameter * 0.5, 9.0 * length, 1.0 * length))
+    #                     FreeCADGui.doCommand("Ui.Commands.CmdCFDAnalysis.makeWindTunnel('Refinement',{},{},{})".format(tunnelDiameter * 0.75, 9.5 * length, 1.5 * length))
+    #             except TypeError as ex:
+    #                 QtGui.QMessageBox.information(None, "", str(ex))
+    #             return
+
+    # QtGui.QMessageBox.information(None, "", translate('Rocket', "Please select a rocket first"))
 
 def makeCFDRocket(name='CFDRocket'):
     '''makeCFDRocket(name): makes a CFD Rocket'''
@@ -106,27 +137,27 @@ class CmdCFDAnalysis(Command):
         FreeCADGui.doCommand("Ui.Commands.CmdCFDAnalysis.doCFD()")
         # FreeCADGui.doCommand("Ui.Commands.CmdCFDAnalysis.makeWindTunnel('WindTunnel')")
 
-        FreeCADGui.doCommand("from CfdOF import CfdAnalysis")
-        FreeCADGui.doCommand("from CfdOF import CfdTools")
-        FreeCADGui.doCommand("analysis = CfdAnalysis.makeCfdAnalysis('CfdAnalysis')")
-        FreeCADGui.doCommand("CfdTools.setActiveAnalysis(analysis)")
+        # FreeCADGui.doCommand("from CfdOF import CfdAnalysis")
+        # FreeCADGui.doCommand("from CfdOF import CfdTools")
+        # FreeCADGui.doCommand("analysis = CfdAnalysis.makeCfdAnalysis('CfdAnalysis')")
+        # FreeCADGui.doCommand("CfdTools.setActiveAnalysis(analysis)")
 
-        # Objects ordered according to expected workflow
-        # Add physics object when CfdAnalysis container is created
-        FreeCADGui.doCommand("from CfdOF.Solve import CfdPhysicsSelection")
-        FreeCADGui.doCommand("analysis.addObject(CfdPhysicsSelection.makeCfdPhysicsSelection())")
+        # # Objects ordered according to expected workflow
+        # # Add physics object when CfdAnalysis container is created
+        # FreeCADGui.doCommand("from CfdOF.Solve import CfdPhysicsSelection")
+        # FreeCADGui.doCommand("analysis.addObject(CfdPhysicsSelection.makeCfdPhysicsSelection())")
 
-        # Add fluid properties object when CfdAnalysis container is created
-        FreeCADGui.doCommand("from CfdOF.Solve import CfdFluidMaterial")
-        FreeCADGui.doCommand("analysis.addObject(CfdFluidMaterial.makeCfdFluidMaterial('FluidProperties'))")
+        # # Add fluid properties object when CfdAnalysis container is created
+        # FreeCADGui.doCommand("from CfdOF.Solve import CfdFluidMaterial")
+        # FreeCADGui.doCommand("analysis.addObject(CfdFluidMaterial.makeCfdFluidMaterial('FluidProperties'))")
 
-        # Add initialisation object when CfdAnalysis container is created
-        FreeCADGui.doCommand("from CfdOF.Solve import CfdInitialiseFlowField")
-        FreeCADGui.doCommand("analysis.addObject(CfdInitialiseFlowField.makeCfdInitialFlowField())")
+        # # Add initialisation object when CfdAnalysis container is created
+        # FreeCADGui.doCommand("from CfdOF.Solve import CfdInitialiseFlowField")
+        # FreeCADGui.doCommand("analysis.addObject(CfdInitialiseFlowField.makeCfdInitialFlowField())")
 
-        # Add solver object when CfdAnalysis container is created
-        FreeCADGui.doCommand("from CfdOF.Solve import CfdSolverFoam")
-        FreeCADGui.doCommand("analysis.addObject(CfdSolverFoam.makeCfdSolverFoam())")
+        # # Add solver object when CfdAnalysis container is created
+        # FreeCADGui.doCommand("from CfdOF.Solve import CfdSolverFoam")
+        # FreeCADGui.doCommand("analysis.addObject(CfdSolverFoam.makeCfdSolverFoam())")
 
         FreeCADGui.doCommand("App.activeDocument().recompute(None,True,True)")
 

@@ -27,6 +27,11 @@ __url__ = "https://www.davesrocketshop.com"
 import FreeCAD
 import Part
 
+from Rocket.cfd.FeatureCFDRocket import FeatureCFDRocket
+from Rocket.cfd.FeatureWindTunnel import FeatureWindTunnel
+from Rocket.cfd.ViewProviders.ViewProviderCFDRocket import ViewProviderCFDRocket
+from Rocket.cfd.ViewProviders.ViewProviderWindTunnel import ViewProviderWindTunnel
+
 def getProxy(obj):
     if hasattr(obj, "Proxy"):
         return obj.Proxy
@@ -65,3 +70,27 @@ def caliber(obj):
         diameter = max(diameter, child)
 
     return diameter
+
+def makeCFDRocket(name='CFDRocket'):
+    '''makeCFDRocket(name): makes a CFD Rocket'''
+    obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
+    FeatureCFDRocket(obj)
+    # obj.Proxy.setDefaults()
+    if FreeCAD.GuiUp:
+        ViewProviderCFDRocket(obj.ViewObject)
+    # obj.ViewObject.ShapeAppearance[0].Transparency = 0
+
+    return obj.Proxy
+
+def makeWindTunnel(name='WindTunnel', diameter=10.0, length=20.0, offset=0.0):
+    '''makeWindTunnel(name): makes a Wind Tunnel'''
+    obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
+    FeatureWindTunnel(obj)
+    obj.Diameter = diameter
+    obj.Length = length
+    obj.Placement.Base.x = -offset
+    # obj.Proxy.setDefaults()
+    if FreeCAD.GuiUp:
+        ViewProviderWindTunnel(obj.ViewObject)
+
+    return obj.Proxy

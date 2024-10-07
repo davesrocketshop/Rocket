@@ -1,5 +1,5 @@
 <!DOCTYPE RCC><RCC version="1.0">
-    <qresource> 
+    <qresource>
         <file>icons/RocketWorkbench.svg</file>
         <file>icons/Rocket_BodyTube.svg</file>
         <file>icons/Rocket_Bulkhead.svg</file>
@@ -8,5 +8,6 @@
         <file>icons/Rocket_FinCan.svg</file>
         <file>icons/Rocket_NoseCone.svg</file>
         <file>icons/Rocket_Transition.svg</file>
+        <file>ui/DialogCFD.ui</file>
     </qresource>
-</RCC> 
+</RCC>

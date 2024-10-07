@@ -46,7 +46,7 @@ class DialogCFD:
             print("Form is empty")
         self._studies = (translate("Rocket", "Example"),)
         self._form.comboStudy.addItems(self._studies)
-        self._form.show()
+        # self._form.show()
 
     def update(self):
         'fills the widgets'
