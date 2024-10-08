@@ -89,6 +89,10 @@ class TaskPanelCFD(QtCore.QObject):
         self.makeAnalysisContainer()
         self.makeCfdMesh()
         self.makeBoundaryConstraints()
+        self.adjustPhysicsModel()
+        self.adjustFluidProperties()
+        self.adjustInitializeFields()
+        self.adjustCFDSolver()
 
         # Don't try to make things twice
         self.form.buttonCreate.setEnabled(False)
@@ -145,20 +149,25 @@ class TaskPanelCFD(QtCore.QObject):
 
         # Objects ordered according to expected workflow
         # Add physics object when CfdAnalysis container is created
-        analysis.addObject(CfdPhysicsSelection.makeCfdPhysicsSelection())
+        self._physicsModel = CfdPhysicsSelection.makeCfdPhysicsSelection()
+        analysis.addObject(self._physicsModel)
 
         # Add fluid properties object when CfdAnalysis container is created
-        analysis.addObject(CfdFluidMaterial.makeCfdFluidMaterial('FluidProperties'))
+        self._fluidProperties = CfdFluidMaterial.makeCfdFluidMaterial('FluidProperties')
+        analysis.addObject(self._fluidProperties)
 
         # Add initialisation object when CfdAnalysis container is created
-        analysis.addObject(CfdInitialiseFlowField.makeCfdInitialFlowField())
+        self._initializeFields = CfdInitialiseFlowField.makeCfdInitialFlowField()
+        analysis.addObject(self._initializeFields)
 
         # Add solver object when CfdAnalysis container is created
-        analysis.addObject(CfdSolverFoam.makeCfdSolverFoam())
+        self._solver = CfdSolverFoam.makeCfdSolverFoam()
+        analysis.addObject(self._solver)
         FreeCAD.ActiveDocument.recompute()
 
     def makeCfdMesh(self):
         self._CFDMesh = CfdMesh.makeCfdMesh('WindTunnelCompund_Mesh')
+        self._CFDMesh.CharacteristicLengthMax = 100.0 # 100 mm
         FreeCAD.ActiveDocument.ActiveObject.Part = self._compound
         CfdTools.getActiveAnalysis().addObject(FreeCAD.ActiveDocument.ActiveObject)
         FreeCAD.ActiveDocument.recompute()
@@ -211,4 +220,34 @@ class TaskPanelCFD(QtCore.QObject):
         self._wall.ShapeRefs = [self._compound, ('Face{}'.format(length-2), )]
         self._wall.BoundaryType = "wall"
         self._wall.BoundarySubType = "fixedWall"
+        FreeCAD.ActiveDocument.recompute()
+
+    def adjustPhysicsModel(self):
+        self._physicsModel.Flow = "NonIsothermal"
+        self._physicsModel.Turbulence = "RANS"
+        FreeCAD.ActiveDocument.recompute()
+
+    def adjustFluidProperties(self):
+        materials, material_name_path_list = CfdTools.importMaterials()
+        for mat in material_name_path_list:
+            material = materials[mat[1]]
+            # print("Name {} Type {}".format(material['Name'], material['Type']))
+            if material['Name'] == "Air" and material['Type'] == "Compressible":
+                self._fluidProperties.Material = material
+                self._fluidProperties.Label = material['Name']
+                FreeCAD.ActiveDocument.recompute()
+                return
+
+    def adjustInitializeFields(self):
+        self._initializeFields.PotentialFlow = False
+        self._initializeFields.PotentialFlowP = False
+        self._initializeFields.BoundaryU = self._inlet
+        self._initializeFields.BoundaryP = self._outlet
+        self._initializeFields.UseInletUValues = True
+        self._initializeFields.UseOutletPValue = True
+        FreeCAD.ActiveDocument.recompute()
+
+    def adjustCFDSolver(self):
+        cores = self.form.spinNproc.value()
+        self._solver.ParallelCores = cores
         FreeCAD.ActiveDocument.recompute()
