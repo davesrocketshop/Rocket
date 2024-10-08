@@ -32,13 +32,13 @@ import math
 from DraftTools import translate
 
 from PySide import QtGui, QtCore
-from PySide6.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QGridLayout
+from PySide.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QGridLayout
 
 from CfdOF.Mesh import CfdMesh, CfdMeshRefinement
 from CfdOF import CfdAnalysis, CfdTools
 from CfdOF.Solve import CfdPhysicsSelection, CfdFluidBoundary, CfdFluidMaterial, CfdInitialiseFlowField, CfdSolverFoam
 
-from Rocket.cfd.CFDUtil import caliber, createSolid, makeCFDRocket, makeWindTunnel
+from Rocket.cfd.CFDUtil import caliber, finWidth, createSolid, makeCFDRocket, makeWindTunnel
 
 from Ui.UIPaths import getUIPath
 
@@ -71,11 +71,13 @@ class TaskPanelCFD(QtCore.QObject):
 
         self._solid = createSolid(self._rocket)
         diameter = caliber(self._rocket)
+        fin = finWidth(self._rocket)
         box = self._solid.BoundBox
         length = box.XLength
 
         self.form.inputLength.setText(str(length))
         self.form.inputDiameter.setText(str(diameter))
+        self.form.inputFinThickness.setText(str(fin))
 
         self._CFDrocket = None
         self._refinement0 = None

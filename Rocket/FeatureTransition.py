@@ -372,7 +372,7 @@ class FeatureTransition(SymmetricComponent):
     """
         Return the radius at point x of the transition.
     """
-    def getRadius(self, x):
+    def getRadius(self, x=0.0):
         return 0.0
 
     def execute(self, obj):

@@ -152,7 +152,7 @@ class FeatureNoseCone(SymmetricComponent):
     def setNoseType(self, type):
         self._obj.NoseType = type
 
-    def getRadius(self, x):
+    def getRadius(self, x=0.0):
         if self._shapeHandler is None:
             self._setShapeHandler()
 

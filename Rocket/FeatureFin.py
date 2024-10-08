@@ -208,6 +208,12 @@ class FeatureFin(ExternalComponent):
         self.getTubeOuterDiameter()
         self._setTtwAutoHeight()
 
+    def getFinWidth(self):
+        # Based on the assumption that the tip is usually thinner
+        if self._obj.TipThickness > 0:
+            return min(self._obj.TipThickness, self._obj.RootThickness)
+        return self._obj.RootThickness
+
     def isAfter(self):
         return False
 

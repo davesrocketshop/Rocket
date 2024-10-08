@@ -313,7 +313,7 @@ class FeatureFinCan(SymmetricComponent, FeatureFin):
     def getFrontAutoRadius(self):
         return self.getFrontAutoDiameter() / 2.0
     
-    def getRadius(self):
+    def getRadius(self, x=0.0):
         return self.getForeRadius()
     
     def getRearAutoDiameter(self):

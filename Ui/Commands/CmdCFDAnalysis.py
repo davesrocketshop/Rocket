@@ -28,7 +28,6 @@ import FreeCAD
 import FreeCADGui
 import Part
 import os
-import math
 
 from DraftTools import translate
 
@@ -36,14 +35,13 @@ from PySide import QtGui
 
 from CfdOF import CfdTools
 
-from Rocket.cfd.CFDUtil import createSolid, caliber
+from Rocket.cfd.CFDUtil import createSolid
 from Rocket.cfd.FeatureCFDRocket import FeatureCFDRocket
 from Rocket.cfd.FeatureWindTunnel import FeatureWindTunnel
 from Rocket.cfd.ViewProviders.ViewProviderCFDRocket import ViewProviderCFDRocket
 from Rocket.cfd.ViewProviders.ViewProviderWindTunnel import ViewProviderWindTunnel
 
 from Ui.Commands.Command import Command
-from Ui.DialogCFD import DialogCFD
 from Ui.TaskPanelCFD import TaskPanelCFD
 
 def doCFD():
@@ -57,20 +55,6 @@ def doCFD():
                     if root is not None:
                         taskd = TaskPanelCFD(root)
                         FreeCADGui.Control.showDialog(taskd)
-                        # CFDrocket = makeCFDRocket()
-                        # solid = createSolid(root)
-                        # diameter = caliber(root)
-                        # CFDrocket._obj.Shape = solid
-                        # box = solid.BoundBox
-                        # length = box.XLength
-
-                        # # Get a blockage ratio of 0.1%
-                        # area = (diameter * diameter) / 0.001
-                        # tunnelDiameter = math.sqrt(area)
-                        # FreeCADGui.doCommand("Ui.Commands.CmdCFDAnalysis.makeWindTunnel('WindTunnel',{},{},{})".format(tunnelDiameter, 10.0 * length, 2.0 * length))
-                        # FreeCADGui.doCommand("Ui.Commands.CmdCFDAnalysis.makeWindTunnel('Refinement',{},{},{})".format(tunnelDiameter * 0.25, 3.5 * length, 0.5 * length))
-                        # FreeCADGui.doCommand("Ui.Commands.CmdCFDAnalysis.makeWindTunnel('Refinement',{},{},{})".format(tunnelDiameter * 0.5, 9.0 * length, 1.0 * length))
-                        # FreeCADGui.doCommand("Ui.Commands.CmdCFDAnalysis.makeWindTunnel('Refinement',{},{},{})".format(tunnelDiameter * 0.75, 9.5 * length, 1.5 * length))
                 except TypeError as ex:
                     QtGui.QMessageBox.information(None, "", str(ex))
                 return
@@ -103,30 +87,6 @@ def doCFD():
     #             return
 
     # QtGui.QMessageBox.information(None, "", translate('Rocket', "Please select a rocket first"))
-
-def makeCFDRocket(name='CFDRocket'):
-    '''makeCFDRocket(name): makes a CFD Rocket'''
-    obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
-    FeatureCFDRocket(obj)
-    # obj.Proxy.setDefaults()
-    if FreeCAD.GuiUp:
-        ViewProviderCFDRocket(obj.ViewObject)
-    # obj.ViewObject.ShapeAppearance[0].Transparency = 0
-
-    return obj.Proxy
-
-def makeWindTunnel(name='WindTunnel', diameter=10.0, length=20.0, offset=0.0):
-    '''makeWindTunnel(name): makes a Wind Tunnel'''
-    obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
-    FeatureWindTunnel(obj)
-    obj.Diameter = diameter
-    obj.Length = length
-    obj.Placement.Base.x = -offset
-    # obj.Proxy.setDefaults()
-    if FreeCAD.GuiUp:
-        ViewProviderWindTunnel(obj.ViewObject)
-
-    return obj.Proxy
 
 class CmdCFDAnalysis(Command):
     def Activated(self):

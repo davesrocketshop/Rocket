@@ -291,7 +291,7 @@ class RocketComponentShapeless():
         # Calculate any auto radii
         self.getRadius()
 
-    def getOuterRadius(self):
+    def getOuterRadius(self, x=0.0):
         return 0.0
 
     def getInnerRadius(self):

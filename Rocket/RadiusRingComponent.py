@@ -56,7 +56,7 @@ class RadiusRingComponent(RingComponent, LineInstanceable):
         # Ensure any automatic variables are set
         self.getOuterDiameter()
 
-    def getOuterRadius(self):
+    def getOuterRadius(self, x=0.0):
         return self.getOuterDiameter() / 2.0
 
     def getOuterDiameter(self):

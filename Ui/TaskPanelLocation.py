@@ -32,7 +32,7 @@ from DraftTools import translate
 
 from PySide import QtGui, QtCore
 from PySide.QtCore import QObject, Signal
-from PySide6.QtWidgets import QDialog, QGridLayout
+from PySide.QtWidgets import QDialog, QGridLayout
 
 from Rocket.Utilities import _toFloat, _valueWithUnits
 from Rocket.Constants import LOCATION_PARENT_TOP, LOCATION_PARENT_MIDDLE, LOCATION_PARENT_BOTTOM, LOCATION_BASE
