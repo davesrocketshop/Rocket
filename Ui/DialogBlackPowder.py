@@ -32,7 +32,7 @@ import FreeCADGui
 from DraftTools import translate
 
 from PySide import QtGui, QtCore
-from PySide6.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QGridLayout
+from PySide.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QGridLayout
 
 FORCE_CUSTOM = translate('Rocket', 'Custom')
 FORCE_LOW = translate('Rocket', 'Low')

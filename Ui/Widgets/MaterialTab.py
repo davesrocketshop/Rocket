@@ -33,7 +33,7 @@ import Materials
 import MatGui
 
 from PySide import QtGui
-from PySide6.QtWidgets import QGridLayout, QVBoxLayout, QSizePolicy
+from PySide.QtWidgets import QGridLayout, QVBoxLayout, QSizePolicy
 
 from Rocket.Material import Material
 

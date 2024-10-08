@@ -31,7 +31,7 @@ import os
 from DraftTools import translate
 
 from PySide import QtGui, QtCore
-from PySide6.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QGridLayout
+from PySide.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QGridLayout
 
 from Ui.UIPaths import getUIPath
 
