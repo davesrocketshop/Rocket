@@ -32,7 +32,10 @@ import Materials
 from DraftTools import translate
 
 from PySide import QtGui, QtCore
-from PySide6.QtWidgets import QDialog, QGridLayout, QVBoxLayout, QSizePolicy
+try:
+    from PySide6.QtWidgets import QDialog, QGridLayout, QVBoxLayout, QSizePolicy
+except:
+    from PySide2.QtWidgets import QDialog, QGridLayout, QVBoxLayout, QSizePolicy
 
 from Ui.TaskPanelDatabase import TaskPanelDatabase
 from Ui.TaskPanelLocation import TaskPanelLocation

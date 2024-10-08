@@ -31,7 +31,10 @@ import FreeCADGui
 from DraftTools import translate
 
 from PySide import QtGui, QtCore
-from PySide6.QtWidgets import QDialog, QGridLayout, QVBoxLayout, QSizePolicy
+try:
+    from PySide6.QtWidgets import QDialog, QGridLayout, QVBoxLayout, QSizePolicy
+except:
+    from PySide2.QtWidgets import QDialog, QGridLayout, QVBoxLayout, QSizePolicy
 
 from Ui.TaskPanelLocation import TaskPanelLocation
 from Ui.Widgets.MaterialTab import MaterialTab

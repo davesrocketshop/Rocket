@@ -28,7 +28,10 @@ __url__ = "https://www.davesrocketshop.com"
 from DraftTools import translate
 
 from PySide import QtGui
-from PySide6.QtWidgets import QVBoxLayout, QTextEdit
+try:
+    from PySide6.QtWidgets import QVBoxLayout, QTextEdit
+except:
+    from PySide2.QtWidgets import QVBoxLayout, QTextEdit
 
 class CommentTab(QtGui.QWidget):
 

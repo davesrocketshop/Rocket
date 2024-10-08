@@ -33,7 +33,10 @@ import Materials
 import MatGui
 
 from PySide import QtGui
-from PySide6.QtWidgets import QGridLayout, QVBoxLayout, QSizePolicy
+try:
+    from PySide6.QtWidgets import QGridLayout, QVBoxLayout, QSizePolicy
+except:
+    from PySide.QtWidgets import QGridLayout, QVBoxLayout, QSizePolicy
 
 from Rocket.Material import Material
 
@@ -56,7 +59,7 @@ class MaterialTab(QtGui.QWidget):
         row = 0
         grid = QGridLayout()
 
-        grid.addWidget(self.materialTree, row, 0)
+        grid.addWidget(self.materialTreeWidget, row, 0)
         row += 1
 
         layout = QVBoxLayout()

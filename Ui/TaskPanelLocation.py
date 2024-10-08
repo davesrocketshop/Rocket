@@ -30,9 +30,12 @@ import FreeCADGui
 
 from DraftTools import translate
 
-from PySide import QtGui, QtCore
+from PySide import QtGui
 from PySide.QtCore import QObject, Signal
-from PySide6.QtWidgets import QDialog, QGridLayout
+try:
+    from PySide6.QtWidgets import QDialog, QGridLayout
+except:
+    from PySide2.QtWidgets import QDialog, QGridLayout
 
 from Rocket.Utilities import _toFloat, _valueWithUnits
 from Rocket.Constants import LOCATION_PARENT_TOP, LOCATION_PARENT_MIDDLE, LOCATION_PARENT_BOTTOM, LOCATION_BASE

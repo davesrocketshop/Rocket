@@ -32,7 +32,10 @@ from DraftTools import translate
 
 from PySide import QtGui, QtCore
 from PySide.QtGui import QStandardItemModel, QStandardItem
-from PySide6.QtWidgets import QVBoxLayout, QHBoxLayout
+try:
+    from PySide6.QtWidgets import QVBoxLayout, QHBoxLayout
+except:
+    from PySide2.QtWidgets import QVBoxLayout, QHBoxLayout
 
 from Rocket.Constants import COMPONENT_TYPE_BODYTUBE, COMPONENT_TYPE_BULKHEAD, COMPONENT_TYPE_CENTERINGRING, \
     COMPONENT_TYPE_COUPLER, COMPONENT_TYPE_ENGINEBLOCK, COMPONENT_TYPE_LAUNCHLUG, COMPONENT_TYPE_NOSECONE, \
