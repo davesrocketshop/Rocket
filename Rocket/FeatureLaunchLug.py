@@ -104,7 +104,7 @@ class FeatureLaunchLug(Tube, AnglePositionable, BoxBounded, LineInstanceable):
 
         return float(length)
 
-    def getOuterRadius(self, x=0.0):
+    def getOuterRadius(self):
         return self.getOuterDiameter() / 2.0
 
     def getOuterDiameter(self):

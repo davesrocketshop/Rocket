@@ -65,7 +65,7 @@ class NoseShapeHandler():
         self._resolution = int(obj.Resolution)
         self._obj = obj
 
-    def getRadius(self, x=0.0):
+    def getRadius(self, x):
         return 0.0
 
     def makeSpline(self, points):

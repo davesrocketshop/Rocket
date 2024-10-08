@@ -1,5 +1,5 @@
 # ***************************************************************************
-# *   Copyright (c) 2022-2024 David Carter <dcarter@davidcarter.ca>         *
+# *   Copyright (c) 2024 David Carter <dcarter@davidcarter.ca>              *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -18,29 +18,56 @@
 # *   USA                                                                   *
 # *                                                                         *
 # ***************************************************************************
-"""Interface for rocket components"""
+"""Class for CFD Analyzer"""
 
-__title__ = "FreeCAD Rocket Components"
+__title__ = "FreeCAD CFD Analyzer"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
-from abc import ABC, abstractmethod
+import FreeCAD
+import FreeCADGui
+import os
 
-class RadialParent(ABC):
+from DraftTools import translate
 
-    # Return the outer radius of the component at local coordinate <code>x</code>.
-    # Values for <code>x < 0</code> and <code>x > getLengthAerodynamic()</code> are undefined.
-    @abstractmethod
-    def getOuterRadius(self, x):
+from PySide import QtGui, QtCore
+from PySide6.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QGridLayout
+
+from Ui.UIPaths import getUIPath
+
+class DialogCFD:
+    def __init__(self):
+        # super().__init__()
+
+        path = os.path.join(getUIPath(), 'Ui', 'Resources', 'ui', "DialogCFD.ui")
+        print(path)
+        self._form = FreeCADGui.PySideUic.loadUi(os.path.join(getUIPath(), 'Ui', 'Resources', 'ui', "DialogCFD.ui"))
+        if self._form is None:
+            print("Form is empty")
+        self._studies = (translate("Rocket", "Example"),)
+        self._form.comboStudy.addItems(self._studies)
+        # self._form.show()
+
+    def update(self):
+        'fills the widgets'
+        # self.transferFrom()
         pass
 
-    # Return the inner radius of the component at local coordinate <code>x</code>.
-    # Values for <code>x < 0</code> and <code>x > getLengthAerodynamic()</code> are undefined.
-    @abstractmethod
-    def getInnerRadius(self, x):
-        pass
+    def accept(self):
+        # self.transferTo()
+        FreeCAD.ActiveDocument.recompute()
+        FreeCADGui.ActiveDocument.resetEdit()
+        FreeCADGui.Control.closeDialog()
 
-    # Return the length of this component.
-    @abstractmethod
-    def getLength(self):
-        pass
+    # def unsetEdit(self, vobj, mode):
+    #     if self.taskd:
+    #         self.taskd.closing()
+    #         self.taskd = None
+    #     FreeCADGui.Control.closeDialog()
+
+    def reject(self):
+        FreeCAD.ActiveDocument.abortTransaction()
+        FreeCAD.ActiveDocument.recompute()
+        FreeCADGui.ActiveDocument.resetEdit()
+        # self.setEdited()
+        FreeCADGui.Control.closeDialog()

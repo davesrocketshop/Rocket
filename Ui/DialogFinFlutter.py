@@ -38,7 +38,7 @@ from matplotlib.figure import Figure
 from DraftTools import translate
 
 from PySide import QtGui, QtCore
-from PySide.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QGridLayout, QSizePolicy
+from PySide6.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QGridLayout, QSizePolicy
 
 from Analyzers.FinFlutter import FinFlutter
 

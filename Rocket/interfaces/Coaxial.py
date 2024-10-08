@@ -45,7 +45,7 @@ class Coaxial(ABC):
 
     # Get the length of the radius of the outside dimension, in standard units.
     @abstractmethod
-    def getOuterRadius(self, x=0.0):
+    def getOuterRadius(self):
         pass
 
     # Set the length of the radius of the outside dimension, in standard units.

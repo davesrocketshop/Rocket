@@ -32,7 +32,7 @@ import Sketcher
 
 from PySide import QtGui, QtCore
 from PySide.QtCore import QObject, Signal
-from PySide.QtWidgets import QDialog, QGridLayout, QVBoxLayout, QSizePolicy, QTextEdit
+from PySide6.QtWidgets import QDialog, QGridLayout, QVBoxLayout, QSizePolicy, QTextEdit
 import math
 
 from DraftTools import translate

@@ -71,26 +71,6 @@ def caliber(obj):
 
     return diameter
 
-def finWidth(obj):
-    ''' Get the miimum fin width of the component '''
-    width = -1.0
-    for current in getProxy(obj).getChildren():
-        # print(current)
-        proxy = getProxy(current)
-        if hasattr(proxy, "getFinWidth"):
-            w = FreeCAD.Units.Quantity(proxy.getFinWidth()).Value
-            if width <= 0.0:
-                width = w
-            elif w > 0.0:
-                width = min(width, w)
-        child = finWidth(current)
-        if width <= 0.0:
-            width = child
-        elif child > 0.0:
-            width = min(width, child)
-
-    return diameter
-
 def makeCFDRocket(name='CFDRocket'):
     '''makeCFDRocket(name): makes a CFD Rocket'''
     obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)

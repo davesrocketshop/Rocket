@@ -31,7 +31,7 @@ from DraftTools import translate
 
 from PySide import QtGui
 from PySide.QtCore import QObject, Signal
-from PySide.QtWidgets import QDialog, QGridLayout
+from PySide6.QtWidgets import QDialog, QGridLayout
 
 from Rocket.Parts.PartDatabase import PartDatabase
 from Ui.DialogLookup import DialogLookup

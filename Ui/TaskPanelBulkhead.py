@@ -30,7 +30,7 @@ import FreeCADGui
 import Materials
 
 from PySide import QtGui, QtCore
-from PySide.QtWidgets import QDialog, QGridLayout, QVBoxLayout
+from PySide6.QtWidgets import QDialog, QGridLayout, QVBoxLayout
 
 from DraftTools import translate
 

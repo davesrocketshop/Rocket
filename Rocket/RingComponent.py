@@ -69,7 +69,7 @@ class RingComponent(InternalComponent, BoxBounded, Coaxial):
         super().setDefaults()
 
     @abstractmethod
-    def getOuterRadius(self, x=0.0):
+    def getOuterRadius(self):
         pass
 
     @abstractmethod

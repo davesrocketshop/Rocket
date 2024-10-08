@@ -117,7 +117,7 @@ class FeatureBodyTube(SymmetricComponent, BoxBounded, Coaxial):
     def getMaxForwardPosition(self):
         return float(self._obj.Length) + float(self._obj.Placement.Base.x)
 
-    def getRadius(self, x=0.0):
+    def getRadius(self, x):
         # Body tube has constant diameter
         return self.getForeRadius()
 
@@ -184,7 +184,7 @@ class FeatureBodyTube(SymmetricComponent, BoxBounded, Coaxial):
     """
         Return the outer radius of the body tube.
     """
-    def getOuterRadius(self, x=0.0):
+    def getOuterRadius(self):
         return self.getOuterDiameter() / 2.0
 
     def getOuterDiameter(self):

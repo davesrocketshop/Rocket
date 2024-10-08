@@ -65,7 +65,7 @@ class SymmetricComponent(RocketComponent, BoxBounded, RadialParent):
         Return the component radius at position x.
     """
     @abstractmethod
-    def getRadius(self, x=0.0):
+    def getRadius(self, x):
         pass
 
     @abstractmethod
@@ -84,7 +84,7 @@ class SymmetricComponent(RocketComponent, BoxBounded, RadialParent):
     def isAftRadiusAutomatic(self):
         pass
 
-    def getOuterRadius(self, x=0.0):
+    def getOuterRadius(self, x):
         self.getRadius(x)
 
     def getInnerRadius(self, x):

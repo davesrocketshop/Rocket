@@ -32,7 +32,7 @@ import FreeCADGui
 from DraftTools import translate
 
 from PySide import QtGui, QtCore
-from PySide.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QGridLayout
+from PySide6.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QGridLayout
 
 VELOCITY_CUSTOM = translate('Rocket', 'Custom')
 VELOCITY_DROGUE = translate('Rocket', 'Drogue')
