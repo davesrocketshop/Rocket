@@ -114,6 +114,14 @@ class TaskPanelCFD(QtCore.QObject):
     def makeSolid(self):
         self._CFDrocket = makeCFDRocket()
         self._CFDrocket._obj.Shape = self._solid
+        box = self._solid.BoundBox
+        center = box.XLength / 2.0
+
+        solid1 = self._solid
+        self._aoa = self.form.spinAOA.value()
+        if self._aoa != 0.0:
+            solid1.rotate(FreeCAD.Vector(center, 0, 0),FreeCAD.Vector(0, 1, 0), self._aoa)
+        self._CFDrocket._obj.Shape = solid1
 
     def makeWindTunnel(self):
         diameter = FreeCAD.Units.Quantity(self.form.inputDiameter.text()).Value
