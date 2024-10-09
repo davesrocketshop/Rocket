@@ -63,27 +63,27 @@ class FeatureFin(ExternalComponent):
         if not hasattr(obj,"FinType"):
             obj.addProperty('App::PropertyEnumeration', 'FinType', 'RocketComponent', translate('App::Property', 'Fin type'))
             obj.FinType = [FIN_TYPE_TRAPEZOID,
-                    FIN_TYPE_TRIANGLE, 
-                    FIN_TYPE_ELLIPSE, 
-                    FIN_TYPE_TUBE, 
+                    FIN_TYPE_TRIANGLE,
+                    FIN_TYPE_ELLIPSE,
+                    FIN_TYPE_TUBE,
                     FIN_TYPE_SKETCH
                     ]
             obj.FinType = FIN_TYPE_TRAPEZOID
         else:
-            obj.FinType = [FIN_TYPE_TRAPEZOID, 
-                    FIN_TYPE_TRIANGLE, 
-                    FIN_TYPE_ELLIPSE, 
-                    FIN_TYPE_TUBE, 
+            obj.FinType = [FIN_TYPE_TRAPEZOID,
+                    FIN_TYPE_TRIANGLE,
+                    FIN_TYPE_ELLIPSE,
+                    FIN_TYPE_TUBE,
                     FIN_TYPE_SKETCH
                     ]
 
         if not hasattr(obj,"RootCrossSection"):
             obj.addProperty('App::PropertyEnumeration', 'RootCrossSection', 'RocketComponent', translate('App::Property', 'Fin root cross section'))
-            obj.RootCrossSection = [FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE, 
+            obj.RootCrossSection = [FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE,
                 FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE, FIN_CROSS_ELLIPSE, FIN_CROSS_BICONVEX]
             obj.RootCrossSection = FIN_CROSS_SQUARE
         else:
-            obj.RootCrossSection = [FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE, 
+            obj.RootCrossSection = [FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE,
                 FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE, FIN_CROSS_ELLIPSE, FIN_CROSS_BICONVEX]
 
         if not hasattr(obj,"RootChord"):
@@ -99,12 +99,12 @@ class FeatureFin(ExternalComponent):
 
         if not hasattr(obj,"TipCrossSection"):
             obj.addProperty('App::PropertyEnumeration', 'TipCrossSection', 'RocketComponent', translate('App::Property', 'Fin tip cross section'))
-            obj.TipCrossSection = [FIN_CROSS_SAME, FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE, 
+            obj.TipCrossSection = [FIN_CROSS_SAME, FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE,
                 FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE, FIN_CROSS_ELLIPSE, FIN_CROSS_BICONVEX]
             obj.TipCrossSection = FIN_CROSS_SAME
         else:
             # Make sure these are up to date
-            obj.TipCrossSection = [FIN_CROSS_SAME, FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE, 
+            obj.TipCrossSection = [FIN_CROSS_SAME, FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE,
                 FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE, FIN_CROSS_ELLIPSE, FIN_CROSS_BICONVEX]
 
         if not hasattr(obj,"TipChord"):
@@ -197,7 +197,7 @@ class FeatureFin(ExternalComponent):
             FeatureFin(obj) # Update any properties
 
             self._obj = obj
-            
+
         self._setFinEditorVisibility()
 
     def update(self):
@@ -207,6 +207,14 @@ class FeatureFin(ExternalComponent):
         self.setParentDiameter()
         self.getTubeOuterDiameter()
         self._setTtwAutoHeight()
+
+    def getFinThickness(self):
+        thickness = 0.0
+        if self.getTipThickness() > 0.0:
+            thickness = min(self.getTipThickness(), self.getRootThickness())
+        else:
+            thickness = self.getRootThickness()
+        return thickness
 
     def isAfter(self):
         return False
@@ -221,7 +229,7 @@ class FeatureFin(ExternalComponent):
                 self._obj.ParentRadius = parent.getOuterDiameter() / 2.0
             else:
                 self._obj.ParentRadius = SymmetricComponent.DEFAULT_RADIUS
-        
+
     def _setTtwAutoHeight(self, pos=0):
         if self._obj.TtwAutoHeight:
             centerDiameter = 0
@@ -358,8 +366,8 @@ class FeatureFin(ExternalComponent):
 
     def eligibleChild(self, childType):
         return childType in [
-            FEATURE_POD, 
-            FEATURE_LAUNCH_LUG, 
+            FEATURE_POD,
+            FEATURE_LAUNCH_LUG,
             FEATURE_RAIL_BUTTON
             # FEATURE_RAIL_GUIDE - this doesn't make sense on a fin
             ]
@@ -367,13 +375,13 @@ class FeatureFin(ExternalComponent):
     """ Returns the geometry of a trapezoidal fin. """
     def getFinPoints(self):
         list = []
-        
+
         list.append(Coordinate.NUL)
         list.append(Coordinate(self._obj.SweepLength, self._obj.Height))
         if self._obj.TipChord > 0.0001:
             list.append(Coordinate(self._obj.SweepLength + self._obj.TipChord, self._obj.Height));
         list.append(Coordinate(math.max(self._obj.RootChord, 0.0001), 0));
-        
+
         return list
 
     def isTubeOuterRadiusAutomatic(self):
@@ -406,9 +414,9 @@ class FeatureFin(ExternalComponent):
     def getTouchingRadius(self):
         r = self._obj.ParentRadius
         finSep = math.pi / self._obj.FinCount
-        
+
         r *= math.sin(finSep)/(1.0 - math.sin(finSep))
-        
+
         return r
 
     """
@@ -426,10 +434,10 @@ class FeatureFin(ExternalComponent):
 
         if self._obj.TubeOuterDiameter == radius and not self._obj.TubeAutoOuterDiameter:
             return
-        
+
         self._obj.TubeAutoOuterDiameter = False
         self._obj.TubeOuterDiameter = max(radius, 0)
-        
+
         if self._obj.TubeThickness > (self._obj.TubeOuterDiameter / 2.0):
             self._obj.TubeThickness = (self._obj.TubeOuterDiameter / 2.0)
         self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
@@ -448,7 +456,7 @@ class FeatureFin(ExternalComponent):
 
         if self._obj.TubeAutoOuterDiameter == auto:
             return
-        
+
         self._obj.TubeAutoOuterDiameter = auto
         self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
         self.clearPreset()

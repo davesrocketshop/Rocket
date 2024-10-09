@@ -71,6 +71,27 @@ def caliber(obj):
 
     return diameter
 
+def finThickness(obj):
+    ''' Get the caliber of the component '''
+    thickness = 0.0
+    for current in getProxy(obj).getChildren():
+        # print(current)
+        proxy = getProxy(current)
+        if hasattr(proxy, "getFinThickness"):
+            fin = FreeCAD.Units.Quantity(proxy.getFinThickness()).Value
+            print("fin thickness '{}'".format(fin))
+            if thickness <= 0.0:
+                thickness = fin
+            elif fin > 0.0:
+                thickness = min(thickness, fin)
+        child = finThickness(current)
+        if thickness <= 0.0:
+            thickness = child
+        elif child > 0.0:
+            thickness = min(thickness, child)
+
+    return thickness
+
 def makeCFDRocket(name='CFDRocket'):
     '''makeCFDRocket(name): makes a CFD Rocket'''
     obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
