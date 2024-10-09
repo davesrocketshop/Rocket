@@ -1,5 +1,5 @@
 # ***************************************************************************
-# *   Copyright (c) 2023-2024 David Carter <dcarter@davidcarter.ca>         *
+# *   Copyright (c) 2021-2024 David Carter <dcarter@davidcarter.ca>         *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -18,61 +18,49 @@
 # *   USA                                                                   *
 # *                                                                         *
 # ***************************************************************************
-"""Class for drawing material tab"""
+"""Class for drawing wind tunnels"""
 
-__title__ = "FreeCAD Material Tab"
+__title__ = "FreeCAD Wind Tunnel"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
+from Rocket.Constants import FEATURE_WIND_TUNNEL
 
-import FreeCADGui
+from Rocket.cfd.ShapeHandlers.WindTunnelShapeHandler import WindTunnelShapeHandler
 
 from DraftTools import translate
 
-import Materials
-import MatGui
+class FeatureWindTunnel:
 
-from PySide import QtGui
-from PySide.QtWidgets import QGridLayout, QVBoxLayout, QSizePolicy
+    def __init__(self, obj):
+        # super().__init__(obj)
+        self.Type = FEATURE_WIND_TUNNEL
+        self.version = '3.0'
 
-from Rocket.Material import Material
+        self._obj = obj
+        obj.Proxy=self
 
-class MaterialTab(QtGui.QWidget):
+        if not hasattr(obj,"Diameter"):
+            obj.addProperty('App::PropertyLength', 'Diameter', 'RocketComponent', translate('App::Property', 'Diameter of the wind tunnel')).Diameter = 10.0
+        if not hasattr(obj,"Length"):
+            obj.addProperty('App::PropertyLength', 'Length', 'RocketComponent', translate('App::Property', 'Length of the wind tunnel')).Length = 20
 
-    def __init__(self, parent=None):
-        super().__init__(parent)
+        if not hasattr(obj,"Shape"):
+            obj.addProperty('Part::PropertyPartShape', 'Shape', 'RocketComponent', translate('App::Property', 'Shape of the wind tunnel'))
 
-        self.setTabMaterial()
+    def __getstate__(self):
+        return self.Type, self.version
 
-    def setTabMaterial(self):
-        self.materialManager = Materials.MaterialManager()
+    def __setstate__(self, state):
+        if state:
+            self.Type = state[0]
+            self.version = state[1]
 
-        ui = FreeCADGui.UiLoader()
+    def onDocumentRestored(self, obj):
+        FeatureWindTunnel(obj)
+        self._obj = obj
 
-        self.materialTreeWidget = ui.createWidget("MatGui::MaterialTreeWidget")
-        self.materialTreePy = MatGui.MaterialTreeWidget(self.materialTreeWidget)
-        self.materialTreeWidget.onMaterial.connect(self.onMaterial)
-
-        row = 0
-        grid = QGridLayout()
-
-        grid.addWidget(self.materialTreeWidget, row, 0)
-        row += 1
-
-        layout = QVBoxLayout()
-        layout.addItem(grid)
-        layout.addItem(QtGui.QSpacerItem(0,0, QSizePolicy.Expanding, QSizePolicy.Expanding))
-
-        self.setLayout(layout)
-
-    def transferTo(self, obj):
-        "Transfer from the dialog to the object"
-        obj.ShapeMaterial = self.materialManager.getMaterial(self.uuid)
-
-    def transferFrom(self, obj):
-        "Transfer from the object to the dialog"
-        self.uuid = obj.ShapeMaterial.UUID
-        self.materialTreePy.UUID = self.uuid
-
-    def onMaterial(self, uuid):
-        self.uuid = uuid
+    def execute(self, obj):
+        shape = WindTunnelShapeHandler(obj)
+        if shape is not None:
+            shape.draw()

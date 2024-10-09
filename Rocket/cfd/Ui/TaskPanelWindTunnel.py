@@ -18,145 +18,119 @@
 # *   USA                                                                   *
 # *                                                                         *
 # ***************************************************************************
-"""Class for drawing pods"""
+"""Class for drawing wind tunnels"""
 
-__title__ = "FreeCAD Pods"
+__title__ = "FreeCAD Wind Tunnels"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
 
 import FreeCAD
 import FreeCADGui
+import Materials
 
 from DraftTools import translate
 
 from PySide import QtGui, QtCore
 from PySide.QtWidgets import QDialog, QGridLayout, QVBoxLayout, QSizePolicy
 
+from Ui.TaskPanelDatabase import TaskPanelDatabase
 from Ui.TaskPanelLocation import TaskPanelLocation
+from Rocket.Constants import COMPONENT_TYPE_BODYTUBE, COMPONENT_TYPE_LAUNCHLUG, COMPONENT_TYPE_COUPLER, COMPONENT_TYPE_ENGINEBLOCK
+
+from Rocket.Constants import FEATURE_LAUNCH_LUG, FEATURE_TUBE_COUPLER, FEATURE_ENGINE_BLOCK
+
+from Ui.Widgets.MaterialTab import MaterialTab
 from Ui.Widgets.CommentTab import CommentTab
 
-class _PodDialog(QDialog):
+from Rocket.Utilities import _valueOnly
+
+class _WindTunnelDialog(QDialog):
 
     def __init__(self, parent=None):
-        super().__init__(parent)
-
-        self.tabWidget = QtGui.QTabWidget()
-        self.tabGeneral = QtGui.QWidget()
-        self.tabComment = CommentTab()
-        self.tabWidget.addTab(self.tabGeneral, translate('Rocket', "General"))
-        self.tabWidget.addTab(self.tabComment, translate('Rocket', "Comment"))
-
-        layout = QVBoxLayout()
-        layout.addWidget(self.tabWidget)
-        self.setLayout(layout)
-
-        self.setTabGeneral()
-
-    def setTabGeneral(self):
+        super(_WindTunnelDialog, self).__init__(parent)
 
         ui = FreeCADGui.UiLoader()
 
         # define our window
         self.setGeometry(250, 250, 400, 350)
-        self.setWindowTitle(translate('Rocket', "Pod Parameter"))
+        self.setWindowTitle(translate('Rocket', "Wind Tunnel Parameter"))
 
         # Get the body tube parameters: length, ID, etc...
+        self.diameterLabel = QtGui.QLabel(translate('Rocket', "Diameter"), self)
 
-        self.podCountLabel = QtGui.QLabel(translate('Rocket', "Pod Count"), self)
+        self.diameterInput = ui.createWidget("Gui::InputField")
+        self.diameterInput.unit = 'mm'
+        self.diameterInput.setMinimumWidth(100)
 
-        self.podCountSpinBox = QtGui.QSpinBox(self)
-        self.podCountSpinBox.setMinimumWidth(80)
-        self.podCountSpinBox.setMinimum(1)
-        self.podCountSpinBox.setMaximum(10000)
+        self.lengthLabel = QtGui.QLabel(translate('Rocket', "Length"), self)
 
-        self.podSpacingLabel = QtGui.QLabel(translate('Rocket', "Pod Spacing"), self)
-
-        self.podSpacingInput = ui.createWidget("Gui::InputField")
-        self.podSpacingInput.unit = 'deg'
-        self.podSpacingInput.setMinimumWidth(80)
+        self.lengthInput = ui.createWidget("Gui::InputField")
+        self.lengthInput.unit = 'mm'
+        self.lengthInput.setMinimumWidth(100)
 
         # General parameters
         row = 0
         grid = QGridLayout()
 
-        grid.addWidget(self.podCountLabel, row, 0)
-        grid.addWidget(self.podCountSpinBox, row, 1)
+        grid.addWidget(self.diameterLabel, row, 0)
+        grid.addWidget(self.diameterInput, row, 1)
         row += 1
 
-        grid.addWidget(self.podSpacingLabel, row, 0)
-        grid.addWidget(self.podSpacingInput, row, 1)
-        row += 1
+        grid.addWidget(self.lengthLabel, row, 0)
+        grid.addWidget(self.lengthInput, row, 1)
 
         layout = QVBoxLayout()
         layout.addItem(grid)
         layout.addItem(QtGui.QSpacerItem(0,0, QSizePolicy.Expanding, QSizePolicy.Expanding))
 
-        self.tabGeneral.setLayout(layout)
+        self.setLayout(layout)
 
-class TaskPanelPod:
+class TaskPanelWindTunnel:
 
     def __init__(self,obj,mode):
         self._obj = obj
 
-        self._btForm = _PodDialog()
+        self.form = _WindTunnelDialog()
+        self.form.setWindowIcon(QtGui.QIcon(FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_BodyTube.svg"))
 
-        self._location = TaskPanelLocation(obj, radial=True)
-        self._locationForm = self._location.getForm()
-
-        self.form = [self._btForm, self._locationForm]
-        self._btForm.setWindowIcon(QtGui.QIcon(FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Pod.svg"))
-
-        self._btForm.podCountSpinBox.valueChanged.connect(self.onCount)
-        self._btForm.podSpacingInput.textEdited.connect(self.onSpacing)
-
-        self._location.locationChange.connect(self.onLocation)
+        self.form.diameterInput.textEdited.connect(self.onDiameter)
+        self.form.lengthInput.textEdited.connect(self.onLength)
 
         self.update()
 
-        if mode == 0: # fresh created
-            self._obj.Proxy.execute(self._obj)  # calculate once
-            FreeCAD.Gui.SendMsgToActiveView("ViewFit")
-
     def transferTo(self):
         "Transfer from the dialog to the object"
-        self._obj.PodCount = self._btForm.podCountSpinBox.value()
-        self._obj.PodSpacing = self._btForm.podSpacingInput.text()
-
-        self._btForm.tabComment.transferTo(self._obj)
+        self._obj.Diameter = FreeCAD.Units.Quantity(self.form.diameterInput.text()).Value
+        self._obj.Length = FreeCAD.Units.Quantity(self.form.lengthInput.text()).Value
 
     def transferFrom(self):
         "Transfer from the object to the dialog"
-        self._btForm.podCountSpinBox.setValue(self._obj.PodCount)
-        self._btForm.podSpacingInput.setText(self._obj.PodSpacing.UserString)
-
-        self._btForm.tabComment.transferFrom(self._obj)
+        self.form.diameterInput.setText(self._obj.Diameter.UserString)
+        self.form.lengthInput.setText(self._obj.Length.UserString)
 
     def setEdited(self):
+        # try:
+        #     self._obj.Proxy.setEdited()
+        # except ReferenceError:
+        #     # Object may be deleted
+        #     pass
+        pass
+
+    def onDiameter(self, value):
         try:
-            self._obj.Proxy.setEdited()
-        except ReferenceError:
-            # Object may be deleted
+            self._obj.Diameter = FreeCAD.Units.Quantity(value).Value
+            self._obj.Proxy.execute(self._obj)
+        except ValueError:
             pass
-
-    def redraw(self):
-        self._obj.Proxy.execute(self._obj)
-
-    def onCount(self, value):
-        self._obj.PodCount = value
-        self._obj.PodSpacing = 360.0 / float(value)
-        self._btForm.podSpacingInput.setText(self._obj.PodSpacing.UserString)
-        self.redraw()
         self.setEdited()
 
-    def onSpacing(self, value):
-        self._obj.PodSpacing = value
-        self.redraw()
-        self.setEdited()
-
-    def onLocation(self):
-        self._obj.Proxy.updateChildren()
-        self._obj.Proxy.execute(self._obj)
+    def onLength(self, value):
+        try:
+            self._obj.Length = FreeCAD.Units.Quantity(value).Value
+            self._obj.Proxy.execute(self._obj)
+        except ValueError:
+            pass
         self.setEdited()
 
     def getStandardButtons(self):

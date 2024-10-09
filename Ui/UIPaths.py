@@ -1,5 +1,5 @@
 # ***************************************************************************
-# *   Copyright (c) 2023-2024 David Carter <dcarter@davidcarter.ca>         *
+# *   Copyright (c) 2024 David Carter <dcarter@davidcarter.ca>              *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -18,41 +18,14 @@
 # *   USA                                                                   *
 # *                                                                         *
 # ***************************************************************************
-"""Class for drawing comment tab"""
 
-__title__ = "FreeCAD Comment Tab"
-__author__ = "David Carter"
-__url__ = "https://www.davesrocketshop.com"
+import os
 
-
-from DraftTools import translate
-
-from PySide import QtGui
-from PySide.QtWidgets import QVBoxLayout, QTextEdit
-
-class CommentTab(QtGui.QWidget):
-
-    def __init__(self, parent=None):
-        super().__init__(parent)
-
-        self.setTabComment()
-
-    def setTabComment(self):
-
-        self.commentLabel = QtGui.QLabel(translate('Rocket', "Comment"), self)
-
-        self.commentInput = QTextEdit()
-
-        layout = QVBoxLayout()
-        layout.addWidget(self.commentLabel)
-        layout.addWidget(self.commentInput)
-
-        self.setLayout(layout)
-
-    def transferTo(self, obj):
-        "Transfer from the dialog to the object"
-        obj.Comment = self.commentInput.toPlainText()
-
-    def transferFrom(self, obj):
-        "Transfer from the object to the dialog"
-        self.commentInput.setPlainText(obj.Comment)
+def getUIPath():
+    """
+    Returns the current Cfd module path.
+    Determines where this file is running from, so works regardless of whether
+    the module is installed in the app's module directory or the user's app data folder.
+    (The second overrides the first.)
+    """
+    return os.path.normpath(os.path.join(os.path.dirname(__file__), os.path.pardir))

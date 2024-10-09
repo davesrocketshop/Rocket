@@ -1,5 +1,5 @@
 # ***************************************************************************
-# *   Copyright (c) 2023-2024 David Carter <dcarter@davidcarter.ca>         *
+# *   Copyright (c) 2021-2024 David Carter <dcarter@davidcarter.ca>         *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -18,61 +18,45 @@
 # *   USA                                                                   *
 # *                                                                         *
 # ***************************************************************************
-"""Class for drawing material tab"""
+"""Class for drawing CFD Rockets"""
 
-__title__ = "FreeCAD Material Tab"
+__title__ = "FreeCAD CFD Rocket"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
+from Rocket.Constants import FEATURE_CFD_ROCKET
 
-import FreeCADGui
+from Rocket.cfd.ShapeHandlers.WindTunnelShapeHandler import WindTunnelShapeHandler
 
 from DraftTools import translate
 
-import Materials
-import MatGui
+class FeatureCFDRocket:
 
-from PySide import QtGui
-from PySide.QtWidgets import QGridLayout, QVBoxLayout, QSizePolicy
+    def __init__(self, obj):
+        # super().__init__(obj)
+        self.Type = FEATURE_CFD_ROCKET
+        self.version = '3.0'
 
-from Rocket.Material import Material
+        self._obj = obj
+        obj.Proxy=self
 
-class MaterialTab(QtGui.QWidget):
+        if not hasattr(obj,"Shape"):
+            obj.addProperty('Part::PropertyPartShape', 'Shape', 'RocketComponent', translate('App::Property', 'Shape of the wind tunnel'))
 
-    def __init__(self, parent=None):
-        super().__init__(parent)
+    def __getstate__(self):
+        return self.Type, self.version
 
-        self.setTabMaterial()
+    def __setstate__(self, state):
+        if state:
+            self.Type = state[0]
+            self.version = state[1]
 
-    def setTabMaterial(self):
-        self.materialManager = Materials.MaterialManager()
+    def onDocumentRestored(self, obj):
+        FeatureCFDRocket(obj)
+        self._obj = obj
 
-        ui = FreeCADGui.UiLoader()
-
-        self.materialTreeWidget = ui.createWidget("MatGui::MaterialTreeWidget")
-        self.materialTreePy = MatGui.MaterialTreeWidget(self.materialTreeWidget)
-        self.materialTreeWidget.onMaterial.connect(self.onMaterial)
-
-        row = 0
-        grid = QGridLayout()
-
-        grid.addWidget(self.materialTreeWidget, row, 0)
-        row += 1
-
-        layout = QVBoxLayout()
-        layout.addItem(grid)
-        layout.addItem(QtGui.QSpacerItem(0,0, QSizePolicy.Expanding, QSizePolicy.Expanding))
-
-        self.setLayout(layout)
-
-    def transferTo(self, obj):
-        "Transfer from the dialog to the object"
-        obj.ShapeMaterial = self.materialManager.getMaterial(self.uuid)
-
-    def transferFrom(self, obj):
-        "Transfer from the object to the dialog"
-        self.uuid = obj.ShapeMaterial.UUID
-        self.materialTreePy.UUID = self.uuid
-
-    def onMaterial(self, uuid):
-        self.uuid = uuid
+    def execute(self, obj):
+        # shape = WindTunnelShapeHandler(obj)
+        # if shape is not None:
+        #     shape.draw()
+        pass

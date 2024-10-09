@@ -1,5 +1,5 @@
 # ***************************************************************************
-# *   Copyright (c) 2023-2024 David Carter <dcarter@davidcarter.ca>         *
+# *   Copyright (c) 2024 David Carter <dcarter@davidcarter.ca>              *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -18,61 +18,56 @@
 # *   USA                                                                   *
 # *                                                                         *
 # ***************************************************************************
-"""Class for drawing material tab"""
+"""Class for CFD Analyzer"""
 
-__title__ = "FreeCAD Material Tab"
+__title__ = "FreeCAD CFD Analyzer"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
-
+import FreeCAD
 import FreeCADGui
+import os
 
 from DraftTools import translate
 
-import Materials
-import MatGui
+from PySide import QtGui, QtCore
+from PySide.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QGridLayout
 
-from PySide import QtGui
-from PySide.QtWidgets import QGridLayout, QVBoxLayout, QSizePolicy
+from Ui.UIPaths import getUIPath
 
-from Rocket.Material import Material
+class DialogCFD:
+    def __init__(self):
+        # super().__init__()
 
-class MaterialTab(QtGui.QWidget):
+        path = os.path.join(getUIPath(), 'Ui', 'Resources', 'ui', "DialogCFD.ui")
+        print(path)
+        self._form = FreeCADGui.PySideUic.loadUi(os.path.join(getUIPath(), 'Ui', 'Resources', 'ui', "DialogCFD.ui"))
+        if self._form is None:
+            print("Form is empty")
+        self._studies = (translate("Rocket", "Example"),)
+        self._form.comboStudy.addItems(self._studies)
+        # self._form.show()
 
-    def __init__(self, parent=None):
-        super().__init__(parent)
+    def update(self):
+        'fills the widgets'
+        # self.transferFrom()
+        pass
 
-        self.setTabMaterial()
+    def accept(self):
+        # self.transferTo()
+        FreeCAD.ActiveDocument.recompute()
+        FreeCADGui.ActiveDocument.resetEdit()
+        FreeCADGui.Control.closeDialog()
 
-    def setTabMaterial(self):
-        self.materialManager = Materials.MaterialManager()
+    # def unsetEdit(self, vobj, mode):
+    #     if self.taskd:
+    #         self.taskd.closing()
+    #         self.taskd = None
+    #     FreeCADGui.Control.closeDialog()
 
-        ui = FreeCADGui.UiLoader()
-
-        self.materialTreeWidget = ui.createWidget("MatGui::MaterialTreeWidget")
-        self.materialTreePy = MatGui.MaterialTreeWidget(self.materialTreeWidget)
-        self.materialTreeWidget.onMaterial.connect(self.onMaterial)
-
-        row = 0
-        grid = QGridLayout()
-
-        grid.addWidget(self.materialTreeWidget, row, 0)
-        row += 1
-
-        layout = QVBoxLayout()
-        layout.addItem(grid)
-        layout.addItem(QtGui.QSpacerItem(0,0, QSizePolicy.Expanding, QSizePolicy.Expanding))
-
-        self.setLayout(layout)
-
-    def transferTo(self, obj):
-        "Transfer from the dialog to the object"
-        obj.ShapeMaterial = self.materialManager.getMaterial(self.uuid)
-
-    def transferFrom(self, obj):
-        "Transfer from the object to the dialog"
-        self.uuid = obj.ShapeMaterial.UUID
-        self.materialTreePy.UUID = self.uuid
-
-    def onMaterial(self, uuid):
-        self.uuid = uuid
+    def reject(self):
+        FreeCAD.ActiveDocument.abortTransaction()
+        FreeCAD.ActiveDocument.recompute()
+        FreeCADGui.ActiveDocument.resetEdit()
+        # self.setEdited()
+        FreeCADGui.Control.closeDialog()

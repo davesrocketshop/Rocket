@@ -30,10 +30,7 @@ import FreeCADGui
 import Materials
 
 from PySide import QtGui, QtCore
-try:
-    from PySide6.QtWidgets import QDialog, QGridLayout, QVBoxLayout
-except:
-    from PySide2.QtWidgets import QDialog, QGridLayout, QVBoxLayout
+from PySide.QtWidgets import QDialog, QGridLayout, QVBoxLayout
 
 from DraftTools import translate
 
@@ -565,7 +562,7 @@ class TaskPanelBulkhead:
         self.setEdited()
 
     def getStandardButtons(self):
-        return int(QtGui.QDialogButtonBox.Ok) | int(QtGui.QDialogButtonBox.Cancel)| int(QtGui.QDialogButtonBox.Apply)
+        return QtGui.QDialogButtonBox.Ok | QtGui.QDialogButtonBox.Cancel | QtGui.QDialogButtonBox.Apply
 
     def clicked(self,button):
         if button == QtGui.QDialogButtonBox.Apply:

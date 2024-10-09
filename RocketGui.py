@@ -58,6 +58,7 @@ from Ui.Commands.CmdParachuteGore import CmdParachuteGore
 # Analysis
 from Ui.Commands.CmdFlutterAnalysis import CmdFinFlutter
 from Ui.Commands.CmdFemAnalysis import CmdFemAnalysis
+from Ui.Commands.CmdCFDAnalysis import CmdCFDAnalysis
 from Ui.Commands.CmdMaterialEditor import CmdMaterialEditor
 from Ui.Commands.CmdMaterialMapping import CmdMaterialMapping
 
@@ -106,6 +107,7 @@ FreeCADGui.addCommand('Rocket_ParachuteGore', CmdParachuteGore())
 
 FreeCADGui.addCommand('Rocket_FinFlutter', CmdFinFlutter())
 FreeCADGui.addCommand('Rocket_FemAnalysis', CmdFemAnalysis())
+FreeCADGui.addCommand('Rocket_CFDAnalysis', CmdCFDAnalysis())
 FreeCADGui.addCommand('Rocket_MaterialEditor', CmdMaterialEditor())
 FreeCADGui.addCommand('Rocket_MaterialMapping', CmdMaterialMapping())
 

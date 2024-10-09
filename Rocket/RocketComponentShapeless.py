@@ -85,7 +85,7 @@ class RocketComponentShapeless():
             obj.addProperty('App::PropertyDistance', 'AxialOffset', 'RocketComponent', translate('App::Property', 'Offset from the reference point')).AxialOffset = 0.0
         if not hasattr(obj, 'AngleOffset'):
             obj.addProperty('App::PropertyAngle', 'AngleOffset', 'RocketComponent', translate('App::Property', 'Angle of offset around the center axis')).AngleOffset = 0.0
-       
+
         if not hasattr(obj, 'RadialReference'):
             obj.addProperty('App::PropertyEnumeration', 'RadialReference', 'RocketComponent', translate('App::Property', 'Reference location for the radial offset'))
             obj.RadialReference = [
@@ -104,7 +104,7 @@ class RocketComponentShapeless():
 
         if not hasattr(obj,"Group"):
             obj.addExtension("App::GroupExtensionPython")
-    
+
     def __getstate__(self):
         return self.Type, self.version
 
@@ -189,9 +189,7 @@ class RocketComponentShapeless():
         if not hasattr(self, "_parent") or self._parent is None:
             return None
 
-        if hasattr(self._parent, "Proxy"):
-            return self._parent.Proxy
-        return self._parent
+        return self.getProxy(self._parent)
 
     def getChildren(self):
         try:
@@ -224,11 +222,16 @@ class RocketComponentShapeless():
         list.remove(value)
         self._obj.Group = list
 
+    def getProxy(self, obj):
+        if hasattr(obj, "Proxy"):
+            return obj.Proxy
+        return obj
+
     def getPrevious(self, obj=None):
         "Previous item along the rocket axis"
         if obj is None:
             if self._parent is not None:
-                return self._parent.Proxy.getPrevious(self)
+                return self.getProxy(self._parent).getPrevious(self)
             else:
                 return None
 
@@ -240,7 +243,7 @@ class RocketComponentShapeless():
             return self._obj
 
         if self._parent is not None:
-            return self._parent.Proxy.getPrevious(obj)
+            return self.getProxy(self._parent).getPrevious(obj)
 
         return None
 
@@ -248,7 +251,7 @@ class RocketComponentShapeless():
         "Next item along the rocket axis"
         if obj is None:
             if self._parent is not None:
-                return self._parent.Proxy.getNext(self)
+                return self.getProxy(self._parent).getNext(self)
             else:
                 return None
 
@@ -260,7 +263,7 @@ class RocketComponentShapeless():
             return self._obj
 
         if self._parent is not None:
-            return self._parent.Proxy.getNext(obj)
+            return self.getProxy(self._parent).getNext(obj)
 
         return None
 
@@ -483,12 +486,12 @@ class RocketComponentShapeless():
                         return
                     index += 1
         return
-    
+
     def firstEligibleChild(self, obj):
         """ Find the first element eligiible to recieve the child object """
         if self.eligibleChild(obj.Proxy.Type):
             return self
-        
+
         for child in self._obj.Group:
             if child.Proxy.eligibleChild(obj.Proxy.Type):
                 return child.Proxy
@@ -496,9 +499,9 @@ class RocketComponentShapeless():
             eligible = child.firstEligibleChild(obj)
             if eligible is not None:
                 return eligible
-            
+
         return None
-    
+
     def nextEligibleChild(self, current, obj):
         """ Find the first element eligiible to recieve the child object """
         currentFound = False
@@ -512,9 +515,9 @@ class RocketComponentShapeless():
                     return eligible
             elif child.Proxy == current:
                 currentFound = True
-            
+
         return None
-    
+
     def lastEligibleChild(self, obj):
         """ Find the last element eligiible to recieve the child object """
         eligible = None
@@ -527,9 +530,9 @@ class RocketComponentShapeless():
             lastChild = child.Proxy.lastEligibleChild(obj)
             if lastChild is not None:
                 eligible = lastChild
-            
+
         return eligible
-    
+
     def previousEligibleChild(self, current, obj):
         """ Find the last element eligiible to recieve the child object """
         eligible = None
@@ -543,7 +546,7 @@ class RocketComponentShapeless():
             lastChild = child.Proxy.lastEligibleChild(obj)
             if lastChild is not None:
                 eligible = lastChild
-            
+
         return eligible
 
 
@@ -591,7 +594,7 @@ class RocketComponentShapeless():
         self.updateBounds()
         self._setAxialOffset(self._obj.AxialMethod, _pos)
         self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
-	
+
     """  Get the positioning of the component relative to its parent component. """
     def getAxialMethod(self):
         return self._obj.AxialMethod
@@ -599,7 +602,7 @@ class RocketComponentShapeless():
     """
         Set the positioning of the component relative to its parent component.
         The actual position of the component is maintained to the best ability.
-        
+
         The default implementation is of protected visibility, since many components
         do not support setting the relative position.  A component that does support
         it should override this with a public method that simply calls this
@@ -614,7 +617,7 @@ class RocketComponentShapeless():
             return
 
         # this variable changes the internal representation, but not the physical position
-        # the relativePosition (method) is just the lens through which external code may view this component's position. 
+        # the relativePosition (method) is just the lens through which external code may view this component's position.
         self._obj.AxialMethod = newAxialMethod
         self._obj.AxialOffset = self.getAxialOffsetFromMethod(newAxialMethod)
 
@@ -696,20 +699,20 @@ class RocketComponentShapeless():
         try:
             self._removeChild(component._obj)
             component.setParent(None)
-            
+
             if component.Type == FEATURE_STAGE:
                 self.getRocket().forgetStage(component);
 
             # Remove sub-stages of the removed component
             for stage in component.getSubStages():
                 self.getRocket().forgetStage(stage)
-            
+
             self.checkComponentStructure()
             component.checkComponentStructure()
-            
+
             self.fireAddRemoveEvent(component)
             self.updateBounds()
-            
+
             return True
         except ValueError:
             pass
@@ -834,13 +837,13 @@ class RocketComponentShapeless():
         if self.getParent() is None:
             # Probably initialization order issue.  Ignore for now.
             return
-        
+
         self._obj.AxialMethod = AxialMethod.AFTER
         self._obj.AxialOffset = 0.0
 
         # Stages are reversed from OpenRocket
         count = self.getParent().getChildCount()
-        
+
         # if first component in the stage. => position from the top of the parent
         thisIndex = self.getParent().getChildIndex(self)
         if thisIndex == 0:
@@ -858,7 +861,7 @@ class RocketComponentShapeless():
             if referenceComponent is None:
                 self._obj.Placement.Base.x = self.getParent()._obj.Placement.Base.x
                 return
-        
+
             refLength = float(referenceComponent.Proxy.getLength())
             refRelX = float(referenceComponent.Placement.Base.x)
 
@@ -869,7 +872,7 @@ class RocketComponentShapeless():
         Get the characteristic length of the component, for example the length of a body tube
         of the length of the root chord of a fin.  This is used in positioning the component
         relative to its parent.
-        
+
         If the length of a component is settable, the class must define the setter method
         itself.
     """
@@ -900,3 +903,7 @@ class RocketComponentShapeless():
     # This will be implemented in the derived class
     def execute(self, obj):
         _err("No execute method defined for %s" % (self.__class__.__name__))
+
+    def getSolidShape(self, obj):
+        """ Return a filled version of the shape. Useful for CFD """
+        return None

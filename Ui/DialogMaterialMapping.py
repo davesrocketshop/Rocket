@@ -32,10 +32,7 @@ from DraftTools import translate
 
 from PySide import QtGui, QtCore
 from PySide.QtGui import QStandardItemModel, QStandardItem
-try:
-    from PySide6.QtWidgets import QVBoxLayout, QHBoxLayout
-except:
-    from PySide2.QtWidgets import QVBoxLayout, QHBoxLayout
+from PySide.QtWidgets import QVBoxLayout, QHBoxLayout
 
 from Rocket.Utilities import _valueWithUnits
 

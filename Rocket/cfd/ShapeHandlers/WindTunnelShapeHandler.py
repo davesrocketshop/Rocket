@@ -1,5 +1,5 @@
 # ***************************************************************************
-# *   Copyright (c) 2023-2024 David Carter <dcarter@davidcarter.ca>         *
+# *   Copyright (c) 2021-2024 David Carter <dcarter@davidcarter.ca>         *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -18,61 +18,46 @@
 # *   USA                                                                   *
 # *                                                                         *
 # ***************************************************************************
-"""Class for drawing material tab"""
+"""Class for drawing wind tunnels"""
 
-__title__ = "FreeCAD Material Tab"
+__title__ = "FreeCAD Wind Tunnel Handler"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
+import FreeCAD
+import Part
 
-import FreeCADGui
-
+from Rocket.Utilities import validationError, _err
 from DraftTools import translate
 
-import Materials
-import MatGui
+class WindTunnelShapeHandler():
+    def __init__(self, obj):
 
-from PySide import QtGui
-from PySide.QtWidgets import QGridLayout, QVBoxLayout, QSizePolicy
+        # This gets changed when redrawn so it's very important to save a copy
+        self._placement = FreeCAD.Placement(obj.Placement)
 
-from Rocket.Material import Material
+        self._radius = float(obj.Diameter) / 2.0
+        self._length = float(obj.Length)
+        self._obj = obj
 
-class MaterialTab(QtGui.QWidget):
+    def isValidShape(self):
 
-    def __init__(self, parent=None):
-        super().__init__(parent)
+        # Perform some general validations
+        if self._radius <= 0:
+            validationError(translate('Rocket', "Wind tunnel diameter must be greater than zero"))
+            return False
+        if self._length <= 0:
+            validationError(translate('Rocket', "Wind tunnel length must be greater than zero"))
+            return False
 
-        self.setTabMaterial()
+        return True
 
-    def setTabMaterial(self):
-        self.materialManager = Materials.MaterialManager()
+    def draw(self):
+        if not self.isValidShape():
+            return
 
-        ui = FreeCADGui.UiLoader()
-
-        self.materialTreeWidget = ui.createWidget("MatGui::MaterialTreeWidget")
-        self.materialTreePy = MatGui.MaterialTreeWidget(self.materialTreeWidget)
-        self.materialTreeWidget.onMaterial.connect(self.onMaterial)
-
-        row = 0
-        grid = QGridLayout()
-
-        grid.addWidget(self.materialTreeWidget, row, 0)
-        row += 1
-
-        layout = QVBoxLayout()
-        layout.addItem(grid)
-        layout.addItem(QtGui.QSpacerItem(0,0, QSizePolicy.Expanding, QSizePolicy.Expanding))
-
-        self.setLayout(layout)
-
-    def transferTo(self, obj):
-        "Transfer from the dialog to the object"
-        obj.ShapeMaterial = self.materialManager.getMaterial(self.uuid)
-
-    def transferFrom(self, obj):
-        "Transfer from the object to the dialog"
-        self.uuid = obj.ShapeMaterial.UUID
-        self.materialTreePy.UUID = self.uuid
-
-    def onMaterial(self, uuid):
-        self.uuid = uuid
+        try:
+            self._obj.Shape = Part.makeCylinder(self._radius, self._length, FreeCAD.Vector(0, 0, 0), FreeCAD.Vector(1, 0, 0))
+            self._obj.Placement = self._placement
+        except Part.OCCError:
+            _err(translate('Rocket', "Wind tunnel parameters produce an invalid shape"))

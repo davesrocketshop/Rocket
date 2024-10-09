@@ -77,6 +77,13 @@ class FeatureInnerTube(ThicknessRingComponent, Clusterable, AxialPositionable, B
         if shape is not None:
             shape.draw()
 
+    def getSolidShape(self, obj):
+        """ Return a filled version of the shape. Useful for CFD """
+        shape = InnerTubeShapeHandler(obj)
+        if shape is not None:
+            return shape.drawSolidShape()
+        return None
+
     def isAfter(self):
         return False
 
@@ -89,7 +96,7 @@ class FeatureInnerTube(ThicknessRingComponent, Clusterable, AxialPositionable, B
             FEATURE_INNER_TUBE,
             FEATURE_TUBE_COUPLER,
             FEATURE_ENGINE_BLOCK,
-            # FEATURE_BODY_TUBE, 
+            # FEATURE_BODY_TUBE,
             FEATURE_CENTERING_RING]
 
     """
@@ -115,13 +122,13 @@ class FeatureInnerTube(ThicknessRingComponent, Clusterable, AxialPositionable, B
 
     def getInstanceBoundingBox(self):
         instanceBounds = BoundingBox()
-        
+
         instanceBounds.update(Coordinate(self.getLength(), 0,0))
-        
+
         r = self.getOuterRadius()
         instanceBounds.update(Coordinate(0,r,r))
         instanceBounds.update(Coordinate(0,-r,-r))
-        
+
         return instanceBounds
 
     def getInstanceCount(self):
@@ -194,14 +201,14 @@ class FeatureInnerTube(ThicknessRingComponent, Clusterable, AxialPositionable, B
         return list
 
     def getInstanceOffsets(self):
-        
+
         if self.getInstanceCount() == 1:
             yOffset = self.getRadialPosition() * math.cos(self.getRadialDirection())
             zOffset = self.getRadialPosition() * math.sin(self.getRadialDirection())
             return [ZERO.addValues(0.0, yOffset, zOffset)]
-        
+
         points = self.getClusterPoints()
-        
+
         return points
 
     def getMotorOverhang(self):
@@ -230,4 +237,3 @@ class FeatureInnerTube(ThicknessRingComponent, Clusterable, AxialPositionable, B
 
     def isMotorMount(self):
         return self._obj.MotorMount
-        

@@ -23,7 +23,7 @@
 __title__ = "FreeCAD Nose Shape Handler"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
-    
+
 import FreeCAD
 import Part
 
@@ -43,8 +43,8 @@ class NoseShapeHandler():
         # This gets changed when redrawn so it's very important to save a copy
         self._placement = FreeCAD.Placement(obj.Placement)
 
-        # Common parameters    
-        self._type = str(obj.NoseType)    
+        # Common parameters
+        self._type = str(obj.NoseType)
         self._style = str(obj.NoseStyle)
         self._capStyle = str(obj.CapStyle)
         self._capBarWidth = float(obj.CapBarWidth)
@@ -143,7 +143,7 @@ class NoseShapeHandler():
             box = Part.makeBox(2.0 * self._radius, self._capBarWidth, length - BASE_WIDTH, point, direction)
             mask = mask.cut(box)
         return mask
-        
+
     def draw(self):
         if not self.isValidShape():
             return
@@ -201,6 +201,37 @@ class NoseShapeHandler():
 
         self._obj.Shape = shape
         self._obj.Placement = self._placement
+
+    def drawSolidShape(self):
+        if not self.isValidShape():
+            return
+
+        edges = None
+
+        try:
+            if self._shoulder:
+                edges = self.drawSolidShoulder()
+            else:
+                edges = self.drawSolid()
+        except (ZeroDivisionError, Part.OCCError):
+            _err(translate('Rocket', "Nose cone parameters produce an invalid shape"))
+            return
+
+        shape = None
+        if edges is not None:
+            try:
+                wire = Part.Wire(edges)
+                face = Part.Face(wire)
+                # Part.show(wire)
+                shape = face.revolve(FreeCAD.Vector(0, 0, 0),FreeCAD.Vector(1, 0, 0), 360)
+            except Part.OCCError:
+                _err(translate('Rocket', "Nose cone parameters produce an invalid shape"))
+                return
+        else:
+            _err(translate('Rocket', "Nose cone parameters produce an invalid shape"))
+            return
+
+        return shape
 
     def toShape(self, shapeObject):
         if hasattr(shapeObject, 'toShape'):
@@ -291,5 +322,5 @@ class NoseShapeHandler():
         line6 = Part.LineSegment(end5,  end6)
         line7 = Part.LineSegment(end6,  end7)
         line8 = Part.LineSegment(end7,  innerMinor)
-        return [self.toShape(outerShape), line1.toShape(), line2.toShape(), line3.toShape(), line4.toShape(), 
+        return [self.toShape(outerShape), line1.toShape(), line2.toShape(), line3.toShape(), line4.toShape(),
                 line5.toShape(), line6.toShape(), line7.toShape(), line8.toShape(), self.toShape(innerShape)]

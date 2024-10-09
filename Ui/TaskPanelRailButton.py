@@ -32,10 +32,7 @@ import Materials
 from DraftTools import translate
 
 from PySide import QtGui
-try:
-    from PySide6.QtWidgets import QDialog, QGridLayout, QVBoxLayout
-except:
-    from PySide2.QtWidgets import QDialog, QGridLayout, QVBoxLayout
+from PySide.QtWidgets import QDialog, QGridLayout, QVBoxLayout
 
 from Ui.TaskPanelDatabase import TaskPanelDatabase
 from Ui.TaskPanelLocation import TaskPanelLocation
@@ -551,7 +548,7 @@ class TaskPanelRailButton:
         self.setEdited()
 
     def getStandardButtons(self):
-        return int(QtGui.QDialogButtonBox.Ok) | int(QtGui.QDialogButtonBox.Cancel)| int(QtGui.QDialogButtonBox.Apply)
+        return QtGui.QDialogButtonBox.Ok | QtGui.QDialogButtonBox.Cancel | QtGui.QDialogButtonBox.Apply
 
     def clicked(self,button):
         if button == QtGui.QDialogButtonBox.Apply:

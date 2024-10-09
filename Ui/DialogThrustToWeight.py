@@ -30,10 +30,7 @@ import FreeCADGui
 from DraftTools import translate
 
 from PySide import QtGui, QtCore
-try:
-    from PySide6.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QGridLayout
-except:
-    from PySide2.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QGridLayout
+from PySide.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QGridLayout
 
 class DialogThrustToWeight(QDialog):
     def __init__(self):

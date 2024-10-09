@@ -30,10 +30,7 @@ import FreeCADGui
 import Materials
 
 from PySide import QtGui, QtCore
-try:
-    from PySide6.QtWidgets import QDialog, QGridLayout, QVBoxLayout, QSizePolicy
-except:
-    from PySide2.QtWidgets import QDialog, QGridLayout, QVBoxLayout, QSizePolicy
+from PySide.QtWidgets import QDialog, QGridLayout, QVBoxLayout, QSizePolicy
 
 from DraftTools import translate
 
@@ -637,7 +634,7 @@ class TaskPanelNoseCone:
         self.setEdited()
 
     def getStandardButtons(self):
-        return int(QtGui.QDialogButtonBox.Ok) | int(QtGui.QDialogButtonBox.Cancel)| int(QtGui.QDialogButtonBox.Apply)
+        return QtGui.QDialogButtonBox.Ok | QtGui.QDialogButtonBox.Cancel | QtGui.QDialogButtonBox.Apply
 
     def clicked(self,button):
         if button == QtGui.QDialogButtonBox.Apply:

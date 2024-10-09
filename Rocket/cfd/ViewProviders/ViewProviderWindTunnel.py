@@ -18,30 +18,44 @@
 # *   USA                                                                   *
 # *                                                                         *
 # ***************************************************************************
-"""Superclass for view providers"""
+"""Class for drawing body tubes"""
 
-__title__ = "FreeCAD View Provider"
+__title__ = "FreeCAD Body Tube View Provider"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
-from pivy import coin
+import FreeCAD
+import FreeCADGui
+
+from Rocket.cfd.Ui.TaskPanelWindTunnel import TaskPanelWindTunnel
 
 from DraftTools import translate
 
-class ViewProvider:
+class ViewProviderWindTunnel:
 
     def __init__(self, vobj):
+        # super().__init__(vobj)
         vobj.Proxy = self
-        vobj.addExtension("Gui::ViewProviderGroupExtensionPython")
 
     def attach(self, vobj):
         self.ViewObject = vobj
         self.Object = vobj.Object
 
-    def canDropObject(self, obj):
-        if not self.Object.Proxy.isRocketAssembly():
-            return False
-        return self.Object.Proxy.eligibleChild(obj.Proxy.Type)
+    def getIcon(self):
+        return FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_WindTunnel.svg"
+
+    def setEdit(self, vobj, mode):
+        if mode == 0:
+            taskd = TaskPanelWindTunnel(self.Object, mode)
+            taskd.obj = vobj.Object
+            taskd.update()
+            FreeCADGui.Control.showDialog(taskd)
+            return True
+
+    def unsetEdit(self, vobj, mode):
+        if mode == 0:
+            FreeCADGui.Control.closeDialog()
+            return
 
     def setupContextMenu(self, viewObject, menu):
         action = menu.addAction(translate('Rocket', 'Edit %1').replace('%1', viewObject.Object.Label))
@@ -55,61 +69,8 @@ class ViewProvider:
             document.openTransaction(text)
         viewObject.Document.setEdit(viewObject.Object, 0)
 
-    def claimChildren(self):
-        """Define which objects will appear as children in the tree view.
-
-        Returns
-        -------
-        list of <App::DocumentObject>s:
-            The objects claimed as children.
-        """
-        objs = []
-        if hasattr(self,"Object"):
-            objs = self.Object.Group
-            for obj in objs:
-                if hasattr(obj, "Proxy"):
-                    obj.Proxy.setParent(self.Object)
-            if hasattr(self.Object, "Profile"):
-                objs.append(self.Object.Profile)
-
-        return objs
-
     def __getstate__(self):
         return None
 
     def __setstate__(self, state):
         return None
-
-    def composite(self, color, alpha):
-        # Simplified assuming base color is 1 and base alpha is 1
-        # https://en.wikipedia.org/wiki/Alpha_compositing
-        color0 = (color * alpha) + 1 - alpha
-        return color0
-
-    def compositeColor(self, red, green, blue, alpha):
-        # RGBA composited with (1,1,1,1)
-        red0 = self.composite(red / 255.0, alpha / 255.0)
-        green0 = self.composite(green / 255.0, alpha / 255.0)
-        blue0 = self.composite(blue / 255.0, alpha / 255.0)
-        return (red0, green0, blue0)
-
-    def setColor(self, red, green, blue, alpha):
-        color = self.compositeColor(red, green, blue, alpha)
-        self.ViewObject.ShapeColor = color
-        self.ViewObject.LineColor = color
-
-    def setAmbient(self, red, green, blue, alpha):
-        color = self.compositeColor(red, green, blue, alpha)
-        self.ViewObject.ShapeMaterial.AmbientColor = color
-
-    def setDiffuse(self, red, green, blue, alpha):
-        color = self.compositeColor(red, green, blue, alpha)
-        self.ViewObject.ShapeMaterial.DiffuseColor = color
-        self.ViewObject.LineColor = color
-
-    def setSpecular(self, red, green, blue, alpha):
-        color = self.compositeColor(red, green, blue, alpha)
-        self.ViewObject.ShapeMaterial.SpecularColor = color
-
-    def setShininess(self, shininess):
-        self.ViewObject.ShapeMaterial.Shininess = shininess
