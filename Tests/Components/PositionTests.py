@@ -58,62 +58,62 @@ class PositionTests(unittest.TestCase):
         lug = body.getChild(1).Proxy
 
         # verify construction:
-        self.assertEquals(200.0, body.getLength(), body.getName() + " incorrect body length:")
-        self.assertEquals(50.0, lug.getLength(), lug.getName() + " incorrect lug length:")
+        self.assertEqual(200.0, body.getLength(), body.getName() + " incorrect body length:")
+        self.assertEqual(50.0, lug.getLength(), lug.getName() + " incorrect lug length:")
 
         lug._setAxialOffset(AxialMethod.BOTTOM, 0.0)
         # lug.setAxialMethod(AxialMethod.BOTTOM)
-        self.assertEquals(lug.getAxialMethod(), AxialMethod.BOTTOM, lug.getName() + " incorrect axial-position-method: ")
-        self.assertEquals(lug.getAxialOffset(), 0.0, lug.getName() + " incorrect axial-position-offset: ")
-        self.assertEquals(lug.getPosition().x, 220.0, lug.getName() + " incorrect axial-position-value: ")
+        self.assertEqual(lug.getAxialMethod(), AxialMethod.BOTTOM, lug.getName() + " incorrect axial-position-method: ")
+        self.assertEqual(lug.getAxialOffset(), 0.0, lug.getName() + " incorrect axial-position-offset: ")
+        self.assertEqual(lug.getPosition().x, 220.0, lug.getName() + " incorrect axial-position-value: ")
 
         lug._setAxialOffset(AxialMethod.BOTTOM, -5.0)
         # lug.setAxialMethod(AxialMethod.BOTTOM)
-        self.assertEquals(lug.getAxialMethod(), AxialMethod.BOTTOM, lug.getName() + " incorrect axial-position-method: ")
-        self.assertEquals(lug.getAxialOffset(), -5.0, lug.getName() + " incorrect axial-position-offset: ")
-        self.assertEquals(lug.getPosition().x, 215.0, lug.getName() + " incorrect axial-position-value: ")
+        self.assertEqual(lug.getAxialMethod(), AxialMethod.BOTTOM, lug.getName() + " incorrect axial-position-method: ")
+        self.assertEqual(lug.getAxialOffset(), -5.0, lug.getName() + " incorrect axial-position-offset: ")
+        self.assertEqual(lug.getPosition().x, 215.0, lug.getName() + " incorrect axial-position-value: ")
 
         lug._setAxialOffset(AxialMethod.BOTTOM, 5.0)
         # lug.setAxialMethod(AxialMethod.BOTTOM)
-        self.assertEquals(lug.getAxialMethod(), AxialMethod.BOTTOM, lug.getName() + " incorrect axial-position-method: ")
-        self.assertEquals(lug.getAxialOffset(), 5.0, lug.getName() + " incorrect axial-position-offset: ")
-        self.assertEquals(lug.getPosition().x, 225.0, lug.getName() + " incorrect axial-position-value: ")
+        self.assertEqual(lug.getAxialMethod(), AxialMethod.BOTTOM, lug.getName() + " incorrect axial-position-method: ")
+        self.assertEqual(lug.getAxialOffset(), 5.0, lug.getName() + " incorrect axial-position-offset: ")
+        self.assertEqual(lug.getPosition().x, 225.0, lug.getName() + " incorrect axial-position-value: ")
 
         lug._setAxialOffset(AxialMethod.MIDDLE, 0.0)
         # lug.setAxialMethod(AxialMethod.MIDDLE)
-        self.assertEquals(lug.getAxialMethod(), AxialMethod.MIDDLE, lug.getName() + " incorrect axial-position-method: ")
-        self.assertEquals(lug.getAxialOffset(), 0.0, lug.getName() + " incorrect axial-position-offset: ")
-        self.assertEquals(lug.getPosition().x, 145.0, lug.getName() + " incorrect axial-position-value: ")
+        self.assertEqual(lug.getAxialMethod(), AxialMethod.MIDDLE, lug.getName() + " incorrect axial-position-method: ")
+        self.assertEqual(lug.getAxialOffset(), 0.0, lug.getName() + " incorrect axial-position-offset: ")
+        self.assertEqual(lug.getPosition().x, 145.0, lug.getName() + " incorrect axial-position-value: ")
 
         lug._setAxialOffset(AxialMethod.MIDDLE, -5.0)
         # lug.setAxialMethod(AxialMethod.MIDDLE)
-        self.assertEquals(lug.getAxialMethod(), AxialMethod.MIDDLE, lug.getName() + " incorrect axial-position-method: ")
-        self.assertEquals(lug.getAxialOffset(), -5.0, lug.getName() + " incorrect axial-position-offset: ")
-        self.assertEquals(lug.getPosition().x, 140.0, lug.getName() + " incorrect axial-position-value: ")
+        self.assertEqual(lug.getAxialMethod(), AxialMethod.MIDDLE, lug.getName() + " incorrect axial-position-method: ")
+        self.assertEqual(lug.getAxialOffset(), -5.0, lug.getName() + " incorrect axial-position-offset: ")
+        self.assertEqual(lug.getPosition().x, 140.0, lug.getName() + " incorrect axial-position-value: ")
 
         lug._setAxialOffset(AxialMethod.MIDDLE, 5.0)
         # lug.setAxialMethod(AxialMethod.MIDDLE)
-        self.assertEquals(lug.getAxialMethod(), AxialMethod.MIDDLE, lug.getName() + " incorrect axial-position-method: ")
-        self.assertEquals(lug.getAxialOffset(), 5.0, lug.getName() + " incorrect axial-position-offset: ")
-        self.assertEquals(lug.getPosition().x, 150.0, lug.getName() + " incorrect axial-position-value: ")
+        self.assertEqual(lug.getAxialMethod(), AxialMethod.MIDDLE, lug.getName() + " incorrect axial-position-method: ")
+        self.assertEqual(lug.getAxialOffset(), 5.0, lug.getName() + " incorrect axial-position-offset: ")
+        self.assertEqual(lug.getPosition().x, 150.0, lug.getName() + " incorrect axial-position-value: ")
 
         lug._setAxialOffset(AxialMethod.TOP, 0.0)
         # lug.setAxialMethod(AxialMethod.TOP)
-        self.assertEquals(lug.getAxialMethod(), AxialMethod.TOP, lug.getName() + " incorrect axial-position-method: ")
-        self.assertEquals(lug.getAxialOffset(), 0.0, lug.getName() + " incorrect axial-position-offset: ")
-        self.assertEquals(lug.getPosition().x, 70.0, lug.getName() + " incorrect axial-position-value: ")
+        self.assertEqual(lug.getAxialMethod(), AxialMethod.TOP, lug.getName() + " incorrect axial-position-method: ")
+        self.assertEqual(lug.getAxialOffset(), 0.0, lug.getName() + " incorrect axial-position-offset: ")
+        self.assertEqual(lug.getPosition().x, 70.0, lug.getName() + " incorrect axial-position-value: ")
 
         lug._setAxialOffset(AxialMethod.TOP, -5.0)
         # lug.setAxialMethod(AxialMethod.TOP)
-        self.assertEquals(lug.getAxialMethod(), AxialMethod.TOP, lug.getName() + " incorrect axial-position-method: ")
-        self.assertEquals(lug.getAxialOffset(), -5.0, lug.getName() + " incorrect axial-position-offset: ")
-        self.assertEquals(lug.getPosition().x, 65.0, lug.getName() + " incorrect axial-position-value: ")
+        self.assertEqual(lug.getAxialMethod(), AxialMethod.TOP, lug.getName() + " incorrect axial-position-method: ")
+        self.assertEqual(lug.getAxialOffset(), -5.0, lug.getName() + " incorrect axial-position-offset: ")
+        self.assertEqual(lug.getPosition().x, 65.0, lug.getName() + " incorrect axial-position-value: ")
 
         lug._setAxialOffset(AxialMethod.TOP, 5.0)
         # lug.setAxialMethod(AxialMethod.TOP)
-        self.assertEquals(lug.getAxialMethod(), AxialMethod.TOP, lug.getName() + " incorrect axial-position-method: ")
-        self.assertEquals(lug.getAxialOffset(), 5.0, lug.getName() + " incorrect axial-position-offset: ")
-        self.assertEquals(lug.getPosition().x, 75.0, lug.getName() + " incorrect axial-position-value: ")
+        self.assertEqual(lug.getAxialMethod(), AxialMethod.TOP, lug.getName() + " incorrect axial-position-method: ")
+        self.assertEqual(lug.getAxialOffset(), 5.0, lug.getName() + " incorrect axial-position-offset: ")
+        self.assertEqual(lug.getPosition().x, 75.0, lug.getName() + " incorrect axial-position-value: ")
 
     def testChangeAxialMethod(self):
         rocket = TestRockets.makeEstesAlphaIII()
@@ -122,8 +122,8 @@ class PositionTests(unittest.TestCase):
         fins = body.getChild(0).Proxy
 
         # verify construction:
-        self.assertEquals(200.0, body.getLength(), "incorrect body length:")
-        self.assertEquals(50.0, fins.getLength(), "incorrect fin length:")
+        self.assertEqual(200.0, body.getLength(), "incorrect body length:")
+        self.assertEqual(50.0, fins.getLength(), "incorrect fin length:")
         # fin #1
         expLoc = Coordinate(0, 0, 0)
         actLocs = fins.getComponentLocations()
@@ -143,9 +143,9 @@ class PositionTests(unittest.TestCase):
         for caseIndex, case in enumerate(allTestCases):
             # test repositioning
             fins._setAxialOffset(case[0], case[1])
-            self.assertEquals(fins.getAxialMethod(), case[0], fins.getName() + " Test Case # {0} // incorrect start axial-position-method: ".format(caseIndex))
-            self.assertEquals(fins.getAxialOffset(), case[1], fins.getName() + " Test Case # {0} // incorrect start axial-position-value: ".format(caseIndex))
+            self.assertEqual(fins.getAxialMethod(), case[0], fins.getName() + " Test Case # {0} // incorrect start axial-position-method: ".format(caseIndex))
+            self.assertEqual(fins.getAxialOffset(), case[1], fins.getName() + " Test Case # {0} // incorrect start axial-position-value: ".format(caseIndex))
 
             fins.setAxialMethod(case[2])
-            self.assertEquals(case[3], fins.getAxialOffset(), " Test Case # {0} // offset doesn't match!".format(caseIndex))
-            self.assertEquals(case[4], fins.getPosition().x, " Test Case # {0} // position doesn't match!".format(caseIndex))
+            self.assertEqual(case[3], fins.getAxialOffset(), " Test Case # {0} // offset doesn't match!".format(caseIndex))
+            self.assertEqual(case[4], fins.getPosition().x, " Test Case # {0} // position doesn't match!".format(caseIndex))
