@@ -54,139 +54,11 @@ import re
 import pathlib
 
 directories = [
-    {"tsname": "App", "workingdir": "./src/App", "tsdir": "Resources/translations"},
-    {"tsname": "Base", "workingdir": "./src/Base", "tsdir": "Resources/translations"},
-    {"tsname": "FreeCAD", "workingdir": "./src/Gui", "tsdir": "Language"},
-    {
-        "tsname": "AddonManager",
-        "workingdir": "./src/Mod/AddonManager/",
-        "tsdir": "Resources/translations",
-    },
-    {
-        "tsname": "Arch",
-        "workingdir": "./src/Mod/BIM/",
-        "tsdir": "Resources/translations",
-    },
-    {
-        "tsname": "Assembly",
-        "workingdir": "./src/Mod/Assembly/",
-        "tsdir": "Gui/Resources/translations",
-    },
-    {
-        "tsname": "Draft",
-        "workingdir": "./src/Mod/Draft/",
-        "tsdir": "Resources/translations",
-    },
-    {
-        "tsname": "Drawing",
-        "workingdir": "./src/Mod/Drawing/",
-        "tsdir": "Gui/Resources/translations",
-    },
-    {
-        "tsname": "Fem",
-        "workingdir": "./src/Mod/Fem/",
-        "tsdir": "Gui/Resources/translations",
-    },
-    {
-        "tsname": "Inspection",
-        "workingdir": "./src/Mod/Inspection/",
-        "tsdir": "Gui/Resources/translations",
-    },
-    {
-        "tsname": "Material",
-        "workingdir": "./src/Mod/Material/Gui",
-        "tsdir": "Resources/translations",
-    },
-    {
-        "tsname": "Mesh",
-        "workingdir": "./src/Mod/Mesh/",
-        "tsdir": "Gui/Resources/translations",
-    },
-    {
-        "tsname": "MeshPart",
-        "workingdir": "./src/Mod/MeshPart/",
-        "tsdir": "Gui/Resources/translations",
-    },
-    {
-        "tsname": "OpenSCAD",
-        "workingdir": "./src/Mod/OpenSCAD/",
-        "tsdir": "Resources/translations",
-    },
-    {
-        "tsname": "PartDesign",
-        "workingdir": "./src/Mod/PartDesign/",
-        "tsdir": "Gui/Resources/translations",
-    },
-    {
-        "tsname": "Part",
-        "workingdir": "./src/Mod/Part/",
-        "tsdir": "Gui/Resources/translations",
-    },
-    {
-        "tsname": "CAM",
-        "workingdir": "./src/Mod/CAM/",
-        "tsdir": "Gui/Resources/translations",
-    },
-    {
-        "tsname": "Points",
-        "workingdir": "./src/Mod/Points/",
-        "tsdir": "Gui/Resources/translations",
-    },
-    {
-        "tsname": "ReverseEngineering",
-        "workingdir": "./src/Mod/ReverseEngineering/",
-        "tsdir": "Gui/Resources/translations",
-    },
-    {
-        "tsname": "Robot",
-        "workingdir": "./src/Mod/Robot/",
-        "tsdir": "Gui/Resources/translations",
-    },
-    {
-        "tsname": "Sketcher",
-        "workingdir": "./src/Mod/Sketcher/",
-        "tsdir": "Gui/Resources/translations",
-    },
-    {
-        "tsname": "Spreadsheet",
-        "workingdir": "./src/Mod/Spreadsheet/",
-        "tsdir": "Gui/Resources/translations",
-    },
-    {
-        "tsname": "StartPage",
-        "workingdir": "./src/Mod/Start/",
-        "tsdir": "Gui/Resources/translations",
-    },
-    {
-        "tsname": "TechDraw",
-        "workingdir": "./src/Mod/TechDraw/",
-        "tsdir": "Gui/Resources/translations",
-    },
-    {
-        "tsname": "Test",
-        "workingdir": "./src/Mod/Test/",
-        "tsdir": "Gui/Resources/translations",
-    },
-    {
-        "tsname": "Tux",
-        "workingdir": "./src/Mod/Tux/",
-        "tsdir": "Resources/translations",
-    },
-    {
-        "tsname": "Help",
-        "workingdir": "./src/Mod/Help/",
-        "tsdir": "Resources/translations",
-    },
+    {"tsname": "Rocket", "workingdir": "Rocket", "tsdir": "Resources/translations"},
 ]
 
 # Exclude these files from consideration
 excluded_files = [
-    ("CAM", "UtilsArguments.py"),  # Causes lupdate to hang
-    ("CAM", "refactored_centroid_post.py"),  # lupdate bug causes failure on line 245
-    ("CAM", "refactored_grbl_post.py"),  # lupdate bug causes failure on line 212
-    ("CAM", "refactored_linuxcnc_post.py"),  # lupdate bug causes failure on line 178
-    ("CAM", "refactored_mach3_mach4_post.py"),  # lupdate bug causes failure on line 186
-    ("CAM", "refactored_test_post.py"),  # lupdate bug causes failure on lines 42 and 179
 ]
 
 # HTML entities that lextract creates and we want to "un-create" (because CrowdIn just displays them as plain text,
@@ -285,6 +157,7 @@ def update_translation(entry):
 
     global QMAKE, LUPDATE, LCONVERT, QT_VERSION_MAJOR
     cur = os.getcwd()
+    print(cur)
     log_redirect = f" 2>> {cur}/tsupdate_stderr.log 1>> {cur}/tsupdate_stdout.log"
     os.chdir(entry["workingdir"])
     existingjsons = [f for f in os.listdir(".") if f.endswith(".json")]

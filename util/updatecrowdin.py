@@ -297,42 +297,43 @@ def updateTranslatorCpp(lncode):
 
     "updates the Translator.cpp file with the given translation entry"
 
-    cppfile = os.path.join(os.path.dirname(__file__), "..", "Gui", "Language", "Translator.cpp")
-    l = QtCore.QLocale(lncode)
-    lnname = QtCore.QLocale.languageToString(l.language())
+    # cppfile = os.path.join(os.path.dirname(__file__), "..", "Gui", "Language", "Translator.cpp")
+    # l = QtCore.QLocale(lncode)
+    # lnname = QtCore.QLocale.languageToString(l.language())
 
-    # read file contents
-    f = open(cppfile, "r")
-    cppcode = []
-    for l in f.readlines():
-        cppcode.append(l)
-    f.close()
+    # # read file contents
+    # f = open(cppfile, "r")
+    # cppcode = []
+    # for l in f.readlines():
+    #     cppcode.append(l)
+    # f.close()
 
-    # checking for existing entry
-    lastentry = 0
-    for i, l in enumerate(cppcode):
-        if l.startswith("    d->mapLanguageTopLevelDomain[QT_TR_NOOP("):
-            lastentry = i
-            if '"' + lncode + '"' in l:
-                # print(lnname+" ("+lncode+") already exists in Translator.cpp")
-                return
+    # # checking for existing entry
+    # lastentry = 0
+    # for i, l in enumerate(cppcode):
+    #     if l.startswith("    d->mapLanguageTopLevelDomain[QT_TR_NOOP("):
+    #         lastentry = i
+    #         if '"' + lncode + '"' in l:
+    #             # print(lnname+" ("+lncode+") already exists in Translator.cpp")
+    #             return
 
-    # find the position to insert
-    pos = lastentry + 1
-    if pos == 1:
-        print("ERROR: couldn't update Translator.cpp")
-        sys.exit()
+    # # find the position to insert
+    # pos = lastentry + 1
+    # if pos == 1:
+    #     print("ERROR: couldn't update Translator.cpp")
+    #     sys.exit()
 
-    # inserting new entry just before the above line
-    line = '    d->mapLanguageTopLevelDomain[QT_TR_NOOP("' + lnname + '")] = "' + lncode + '";\n'
-    cppcode.insert(pos, line)
-    print(lnname + " (" + lncode + ") added Translator.cpp")
+    # # inserting new entry just before the above line
+    # line = '    d->mapLanguageTopLevelDomain[QT_TR_NOOP("' + lnname + '")] = "' + lncode + '";\n'
+    # cppcode.insert(pos, line)
+    # print(lnname + " (" + lncode + ") added Translator.cpp")
 
-    # writing the file
-    f = open(cppfile, "w")
-    for r in cppcode:
-        f.write(r)
-    f.close()
+    # # writing the file
+    # f = open(cppfile, "w")
+    # for r in cppcode:
+    #     f.write(r)
+    # f.close()
+    pass
 
 
 def doFile(tsfilepath, targetpath, lncode, qrcpath):
@@ -387,6 +388,9 @@ def doLanguage(lncode):
         basefilepath = os.path.join(tempfolder, lncode, target[0] + ".ts")
         targetpath = os.path.abspath(target[1])
         qrcpath = os.path.abspath(target[2])
+        # print("basefilepath {}".format(basefilepath))
+        # print("targetpath {}".format(targetpath))
+        # print("qrcpath {}".format(qrcpath))
         doFile(basefilepath, targetpath, lncode, qrcpath)
     print(" done")
 
@@ -397,15 +401,15 @@ def applyTranslations(languages):
     currentfolder = os.getcwd()
     tempfolder = tempfile.mkdtemp()
     print("creating temp folder " + tempfolder)
-    src = os.path.join(currentfolder, "freecad.zip")
-    dst = os.path.join(tempfolder, "freecad.zip")
+    src = os.path.join(currentfolder, "freecad-addons.zip")
+    dst = os.path.join(tempfolder, "freecad-addons.zip")
     if not os.path.exists(src):
-        print('freecad.zip file not found! Aborting. Run "download" command before this one.')
+        print('freecad-addons.zip file not found! Aborting. Run "download" command before this one.')
         sys.exit()
     shutil.copyfile(src, dst)
     os.chdir(tempfolder)
-    zfile = zipfile.ZipFile("freecad.zip")
-    print("extracting freecad.zip...")
+    zfile = zipfile.ZipFile("freecad-addons.zip")
+    print("extracting freecad-addons.zip...")
     zfile.extractall()
     os.chdir(currentfolder)
     for ln in languages:
