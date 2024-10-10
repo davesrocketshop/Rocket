@@ -228,6 +228,8 @@ class CrowdinUpdater:
 def load_token():
     # load API token stored in ~/.crowdin-freecad-token
     config_file = os.path.expanduser("~") + os.sep + ".crowdin-freecad-token"
+    if not os.path.exists(config_file):
+        config_file = os.path.expanduser("~") + os.sep + ".crowdin-freecadaddons"
     if os.path.exists(config_file):
         with open(config_file) as file:
             return file.read().strip()
