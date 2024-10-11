@@ -203,7 +203,11 @@ class TaskPanelCFD(QtCore.QObject):
         # Surface refinement
         thickness = FreeCAD.Units.Quantity(self.form.inputFinThickness.text()).Value
         relativeLength = (thickness / 2.0) / self._CFDMesh.CharacteristicLengthMax
-        relativeLength = min(relativeLength, 0.0625)
+        defaultLength = FreeCAD.Units.Quantity("0.0625")
+        if relativeLength > 0.0:
+            relativeLength = min(relativeLength, defaultLength)
+        else:
+            relativeLength = defaultLength
         refinement = CfdMeshRefinement.makeCfdMeshRefinement(self._CFDMesh, 'SurfaceRefinement')
         refinement.ShapeRefs = [self._CFDrocket._obj, ('', )]
         refinement.RelativeLength = relativeLength.Value
