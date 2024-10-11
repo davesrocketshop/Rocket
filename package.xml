@@ -22,6 +22,9 @@
       <depend>Fem</depend>
       <depend>Material</depend>
       <depend>matplotlib</depend>
+
+      <!-- Optional install of 3rd-party CfdOF workbench if utilizing CFD studies -->
+      <depend type="addon" optional="true">CfdOF</depend>
     </workbench>
   </content>
 
