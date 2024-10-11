@@ -23,7 +23,7 @@
 __title__ = "FreeCAD Parallel Stage"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
-    
+
 
 import FreeCAD
 import FreeCADGui
@@ -31,7 +31,7 @@ import FreeCADGui
 from DraftTools import translate
 
 from PySide import QtGui
-from PySide2.QtWidgets import QDialog, QGridLayout, QVBoxLayout, QSizePolicy
+from PySide.QtWidgets import QDialog, QGridLayout, QVBoxLayout, QSizePolicy
 
 from Ui.TaskPanelLocation import TaskPanelLocation
 from Ui.Widgets.CommentTab import CommentTab
@@ -62,7 +62,7 @@ class _ParallelStageDialog(QDialog):
         self.setWindowTitle(translate('Rocket', "Parallel Stage Parameter"))
 
         # Get the body tube parameters: length, ID, etc...
-        
+
         self.stageCountLabel = QtGui.QLabel(translate('Rocket', "Stage Count"), self)
 
         self.stageCountSpinBox = QtGui.QSpinBox(self)
@@ -98,7 +98,7 @@ class TaskPanelParallelStage:
 
     def __init__(self,obj,mode):
         self._obj = obj
-        
+
         self._btForm = _ParallelStageDialog()
 
         self._location = TaskPanelLocation(obj, radial=True)
@@ -106,20 +106,20 @@ class TaskPanelParallelStage:
 
         self.form = [self._btForm, self._locationForm]
         self._btForm.setWindowIcon(QtGui.QIcon(FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_ParallelStage.svg"))
-        
+
         self._btForm.stageCountSpinBox.valueChanged.connect(self.onCount)
         self._btForm.stageSpacingInput.textEdited.connect(self.onSpacing)
 
         self._location.locationChange.connect(self.onLocation)
-        
+
         self.update()
-        
+
         if mode == 0: # fresh created
-            self._obj.Proxy.execute(self._obj)  # calculate once 
+            self._obj.Proxy.execute(self._obj)  # calculate once
             FreeCAD.Gui.SendMsgToActiveView("ViewFit")
-        
+
     def transferTo(self):
-        "Transfer from the dialog to the object" 
+        "Transfer from the dialog to the object"
         self._obj.StageCount = self._btForm.stageCountSpinBox.value()
         self._obj.StageSpacing = self._btForm.stageSpacingInput.text()
 
@@ -141,14 +141,14 @@ class TaskPanelParallelStage:
 
     def redraw(self):
         self._obj.Proxy.execute(self._obj)
-        
+
     def onCount(self, value):
         self._obj.StageCount = value
         self._obj.StageSpacing = 360.0 / float(value)
         self._btForm.stageSpacingInput.setText(self._obj.StageSpacing.UserString)
         self.redraw()
         self.setEdited()
-        
+
     def onSpacing(self, value):
         self._obj.StageSpacing = value
         self.redraw()
@@ -156,27 +156,27 @@ class TaskPanelParallelStage:
 
     def onLocation(self):
         self._obj.Proxy.updateChildren()
-        self._obj.Proxy.execute(self._obj) 
+        self._obj.Proxy.execute(self._obj)
         self.setEdited()
-        
+
     def getStandardButtons(self):
-        return int(QtGui.QDialogButtonBox.Ok) | int(QtGui.QDialogButtonBox.Cancel)| int(QtGui.QDialogButtonBox.Apply)
+        return QtGui.QDialogButtonBox.Ok | QtGui.QDialogButtonBox.Cancel | QtGui.QDialogButtonBox.Apply
 
     def clicked(self,button):
         if button == QtGui.QDialogButtonBox.Apply:
             self.transferTo()
-            self._obj.Proxy.execute(self._obj) 
-        
+            self._obj.Proxy.execute(self._obj)
+
     def update(self):
         'fills the widgets'
         self.transferFrom()
-                
+
     def accept(self):
         self.transferTo()
         FreeCAD.ActiveDocument.recompute()
         FreeCADGui.ActiveDocument.resetEdit()
-        
-                    
+
+
     def reject(self):
         FreeCAD.ActiveDocument.abortTransaction()
         FreeCAD.ActiveDocument.recompute()

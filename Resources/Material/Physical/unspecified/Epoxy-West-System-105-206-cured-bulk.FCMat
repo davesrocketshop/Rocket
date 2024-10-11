@@ -1,0 +1,12 @@
+﻿---
+# File created by FreeCAD 0.22.0 Revision: 37543 +1 (Git)
+General:
+  UUID: "bbaf9088-24aa-48ce-b4b9-4aeea0cb3b42"
+  Name: "Epoxy-West-System-105-206-cured-bulk"
+  Author: "Created by the Rocket Workbench"
+  License: "Apache-2.0"
+  Description: "Epoxy-West-System-105-206-cured-bulk"
+Models:
+  Density:
+    UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"
+    Density: "1180.00 kg/m^3"

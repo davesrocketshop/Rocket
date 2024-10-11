@@ -1,0 +1,15 @@
+﻿---
+# File created by FreeCAD 0.22.0 Revision: 37464 +105 (Git)
+General:
+  UUID: "2f70fde2-0b13-4c2c-a8d3-ed9148c76ffb"
+  Name: "1-8-in-Birch-Plywood-Revell"
+  Author: "Created by the Rocket Workbench"
+  License: "Apache-2.0"
+  Description: "1-8-in-Birch-Plywood-Revell"
+Inherits:
+  Default:
+    UUID: "5dbb7be6-8b63-479b-ab4c-87be02ead973"
+Models:
+  Density:
+    UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"
+    Density: "640.74 kg/m^3"

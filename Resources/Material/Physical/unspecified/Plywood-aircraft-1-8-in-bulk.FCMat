@@ -1,0 +1,12 @@
+﻿---
+# File created by FreeCAD 0.22.0 Revision: 37543 +1 (Git)
+General:
+  UUID: "31165bde-e20f-4e43-89d8-e017af6bf90b"
+  Name: "Plywood-aircraft-1-8-in-bulk"
+  Author: "Created by the Rocket Workbench"
+  License: "Apache-2.0"
+  Description: "Plywood-aircraft-1-8-in-bulk"
+Models:
+  Density:
+    UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"
+    Density: "337.50 kg/m^3"

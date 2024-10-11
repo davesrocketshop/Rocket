@@ -1,0 +1,12 @@
+﻿---
+# File created by FreeCAD 0.22.0 Revision: 37543 +1 (Git)
+General:
+  UUID: "db0f5d64-be66-43de-9e20-68a53c6a85a4"
+  Name: "Paper-super-calendared-glassine-130-g-cm3-bulk"
+  Author: "Created by the Rocket Workbench"
+  License: "Apache-2.0"
+  Description: "Paper-super-calendared-glassine-130-g-cm3-bulk"
+Models:
+  Density:
+    UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"
+    Density: "1300.00 kg/m^3"

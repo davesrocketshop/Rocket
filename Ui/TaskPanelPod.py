@@ -23,7 +23,7 @@
 __title__ = "FreeCAD Pods"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
-    
+
 
 import FreeCAD
 import FreeCADGui
@@ -31,7 +31,7 @@ import FreeCADGui
 from DraftTools import translate
 
 from PySide import QtGui, QtCore
-from PySide2.QtWidgets import QDialog, QGridLayout, QVBoxLayout, QSizePolicy
+from PySide.QtWidgets import QDialog, QGridLayout, QVBoxLayout, QSizePolicy
 
 from Ui.TaskPanelLocation import TaskPanelLocation
 from Ui.Widgets.CommentTab import CommentTab
@@ -62,7 +62,7 @@ class _PodDialog(QDialog):
         self.setWindowTitle(translate('Rocket', "Pod Parameter"))
 
         # Get the body tube parameters: length, ID, etc...
-        
+
         self.podCountLabel = QtGui.QLabel(translate('Rocket', "Pod Count"), self)
 
         self.podCountSpinBox = QtGui.QSpinBox(self)
@@ -98,7 +98,7 @@ class TaskPanelPod:
 
     def __init__(self,obj,mode):
         self._obj = obj
-        
+
         self._btForm = _PodDialog()
 
         self._location = TaskPanelLocation(obj, radial=True)
@@ -106,20 +106,20 @@ class TaskPanelPod:
 
         self.form = [self._btForm, self._locationForm]
         self._btForm.setWindowIcon(QtGui.QIcon(FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Pod.svg"))
-        
+
         self._btForm.podCountSpinBox.valueChanged.connect(self.onCount)
         self._btForm.podSpacingInput.textEdited.connect(self.onSpacing)
 
         self._location.locationChange.connect(self.onLocation)
-        
+
         self.update()
-        
+
         if mode == 0: # fresh created
-            self._obj.Proxy.execute(self._obj)  # calculate once 
+            self._obj.Proxy.execute(self._obj)  # calculate once
             FreeCAD.Gui.SendMsgToActiveView("ViewFit")
-        
+
     def transferTo(self):
-        "Transfer from the dialog to the object" 
+        "Transfer from the dialog to the object"
         self._obj.PodCount = self._btForm.podCountSpinBox.value()
         self._obj.PodSpacing = self._btForm.podSpacingInput.text()
 
@@ -141,14 +141,14 @@ class TaskPanelPod:
 
     def redraw(self):
         self._obj.Proxy.execute(self._obj)
-        
+
     def onCount(self, value):
         self._obj.PodCount = value
         self._obj.PodSpacing = 360.0 / float(value)
         self._btForm.podSpacingInput.setText(self._obj.PodSpacing.UserString)
         self.redraw()
         self.setEdited()
-        
+
     def onSpacing(self, value):
         self._obj.PodSpacing = value
         self.redraw()
@@ -156,27 +156,27 @@ class TaskPanelPod:
 
     def onLocation(self):
         self._obj.Proxy.updateChildren()
-        self._obj.Proxy.execute(self._obj) 
+        self._obj.Proxy.execute(self._obj)
         self.setEdited()
-        
+
     def getStandardButtons(self):
-        return int(QtGui.QDialogButtonBox.Ok) | int(QtGui.QDialogButtonBox.Cancel)| int(QtGui.QDialogButtonBox.Apply)
+        return QtGui.QDialogButtonBox.Ok | QtGui.QDialogButtonBox.Cancel | QtGui.QDialogButtonBox.Apply
 
     def clicked(self,button):
         if button == QtGui.QDialogButtonBox.Apply:
             self.transferTo()
-            self._obj.Proxy.execute(self._obj) 
-        
+            self._obj.Proxy.execute(self._obj)
+
     def update(self):
         'fills the widgets'
         self.transferFrom()
-                
+
     def accept(self):
         self.transferTo()
         FreeCAD.ActiveDocument.recompute()
         FreeCADGui.ActiveDocument.resetEdit()
-        
-                    
+
+
     def reject(self):
         FreeCAD.ActiveDocument.abortTransaction()
         FreeCAD.ActiveDocument.recompute()

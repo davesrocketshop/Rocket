@@ -1,0 +1,12 @@
+﻿---
+# File created by FreeCAD 0.22.0 Revision: 37543 +1 (Git)
+General:
+  UUID: "632af8d1-a163-44a6-b598-58e9435d6a81"
+  Name: "Depron-XPS"
+  Author: "Created by the Rocket Workbench"
+  License: "Apache-2.0"
+  Description: "Depron-XPS"
+Models:
+  Density:
+    UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"
+    Density: "40.00 kg/m^3"

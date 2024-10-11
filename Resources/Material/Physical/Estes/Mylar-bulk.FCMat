@@ -1,0 +1,15 @@
+﻿---
+# File created by FreeCAD 0.22.0 Revision: 37464 +105 (Git)
+General:
+  UUID: "69b34515-71f5-4df8-bc1b-58e2e5396f69"
+  Name: "Mylar-bulk"
+  Author: "Created by the Rocket Workbench"
+  License: "Apache-2.0"
+  Description: "Mylar-bulk"
+Inherits:
+  Default:
+    UUID: "5dbb7be6-8b63-479b-ab4c-87be02ead973"
+Models:
+  Density:
+    UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"
+    Density: "1390.00 kg/m^3"

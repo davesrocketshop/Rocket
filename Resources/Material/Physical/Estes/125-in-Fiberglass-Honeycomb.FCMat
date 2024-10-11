@@ -1,0 +1,15 @@
+﻿---
+# File created by FreeCAD 0.22.0 Revision: 37464 +105 (Git)
+General:
+  UUID: "9d620a83-5dcf-4839-b870-b54adcd43de7"
+  Name: "125-in-Fiberglass-Honeycomb"
+  Author: "Created by the Rocket Workbench"
+  License: "Apache-2.0"
+  Description: "125-in-Fiberglass-Honeycomb"
+Inherits:
+  Default:
+    UUID: "5dbb7be6-8b63-479b-ab4c-87be02ead973"
+Models:
+  Density:
+    UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"
+    Density: "461.33 kg/m^3"

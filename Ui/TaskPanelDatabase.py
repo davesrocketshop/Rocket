@@ -23,7 +23,7 @@
 __title__ = "FreeCAD Database Lookup"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
-    
+
 
 import FreeCAD
 
@@ -31,7 +31,7 @@ from DraftTools import translate
 
 from PySide import QtGui
 from PySide.QtCore import QObject, Signal
-from PySide2.QtWidgets import QDialog, QGridLayout
+from PySide.QtWidgets import QDialog, QGridLayout
 
 from Rocket.Parts.PartDatabase import PartDatabase
 from Ui.DialogLookup import DialogLookup
@@ -51,7 +51,7 @@ class _databaseLookupDialog(QDialog):
 
         self.manufacturerInput = QtGui.QLineEdit(self)
         self.manufacturerInput.setMinimumWidth(100)
-        
+
         self.partNumberLabel = QtGui.QLabel(translate('Rocket', "Part Number"), self)
 
         self.partNumberInput = QtGui.QLineEdit(self)
@@ -104,16 +104,16 @@ class TaskPanelDatabase(QObject):
         self._lookup = lookup # Default component type
         self._lookupResult = None
         self._form = _databaseLookupDialog(lookup, parent)
-        
+
         self._form.setWindowIcon(QtGui.QIcon(FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/RocketWorkbench.svg"))
-        
+
         self._form.manufacturerInput.textEdited.connect(self.onManufacturer)
         self._form.partNumberInput.textEdited.connect(self.onPartNumber)
         self._form.descriptionInput.textEdited.connect(self.onDescription)
         self._form.materialInput.textEdited.connect(self.onMaterial)
 
         self._form.lookupButton.clicked.connect(self.onLookup)
-        
+
         self.update()
 
     def getForm(self):
@@ -121,9 +121,9 @@ class TaskPanelDatabase(QObject):
 
     def getLookupResult(self):
         return self._lookupResult
-        
+
     def transferTo(self):
-        "Transfer from the dialog to the object" 
+        "Transfer from the dialog to the object"
         self._obj.Manufacturer = self._form.manufacturerInput.text()
         self._obj.PartNumber = self._form.partNumberInput.text()
         self._obj.Description = self._form.descriptionInput.text()
@@ -135,16 +135,16 @@ class TaskPanelDatabase(QObject):
         self._form.partNumberInput.setText(self._obj.PartNumber)
         self._form.descriptionInput.setText(self._obj.Description)
         self._form.materialInput.setText(self._obj.Material)
-        
+
     def onManufacturer(self, value):
         self._obj.Manufacturer = value
-        
+
     def onPartNumber(self, value):
         self._obj.PartNumber = value
-        
+
     def onDescription(self, value):
         self._obj.Description = value
-        
+
     def onMaterial(self, value):
         self._obj.Material = value
 
@@ -153,6 +153,7 @@ class TaskPanelDatabase(QObject):
         self._obj.PartNumber = result["part_number"]
         self._obj.Description = result["description"]
         self._obj.Material = result["material_name"]
+        # self._obj.MaterialUUID = result["uuid"]
 
         # self._obj.NoseType = str(result["shape"])
         # self._obj.NoseStyle = str(result["style"])
@@ -168,7 +169,7 @@ class TaskPanelDatabase(QObject):
         self.transferFrom()
 
         self.dbLoad.emit()
-        
+
     def onLookup(self):
         form = DialogLookup(self._lookup)
         form.exec_()
@@ -176,7 +177,7 @@ class TaskPanelDatabase(QObject):
         if len(form.result) > 0:
             self._lookupResult = form.result
             self._lookupUpdate(form.result)
-        
+
     def update(self):
         'fills the widgets'
         self.transferFrom()

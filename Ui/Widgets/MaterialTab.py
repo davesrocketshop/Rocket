@@ -23,12 +23,17 @@
 __title__ = "FreeCAD Material Tab"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
-    
+
+
+import FreeCADGui
 
 from DraftTools import translate
 
+import Materials
+import MatGui
+
 from PySide import QtGui
-from PySide2.QtWidgets import QGridLayout, QVBoxLayout, QSizePolicy
+from PySide.QtWidgets import QGridLayout, QVBoxLayout, QSizePolicy
 
 from Rocket.Material import Material
 
@@ -40,15 +45,18 @@ class MaterialTab(QtGui.QWidget):
         self.setTabMaterial()
 
     def setTabMaterial(self):
+        self.materialManager = Materials.MaterialManager()
 
-        self.materialLabel = QtGui.QLabel(translate('Rocket', "Material"), self)
+        ui = FreeCADGui.UiLoader()
 
-        self.materialPresetCombo = QtGui.QComboBox(self)
+        self.materialTreeWidget = ui.createWidget("MatGui::MaterialTreeWidget")
+        self.materialTreePy = MatGui.MaterialTreeWidget(self.materialTreeWidget)
+        self.materialTreeWidget.onMaterial.connect(self.onMaterial)
+
         row = 0
         grid = QGridLayout()
 
-        grid.addWidget(self.materialLabel, row, 0)
-        grid.addWidget(self.materialPresetCombo, row, 1)
+        grid.addWidget(self.materialTreeWidget, row, 0)
         row += 1
 
         layout = QVBoxLayout()
@@ -56,20 +64,15 @@ class MaterialTab(QtGui.QWidget):
         layout.addItem(QtGui.QSpacerItem(0,0, QSizePolicy.Expanding, QSizePolicy.Expanding))
 
         self.setLayout(layout)
-        
+
     def transferTo(self, obj):
-        "Transfer from the dialog to the object" 
-        obj.Material = str(self.materialPresetCombo.currentText())
+        "Transfer from the dialog to the object"
+        obj.ShapeMaterial = self.materialManager.getMaterial(self.uuid)
 
     def transferFrom(self, obj):
         "Transfer from the object to the dialog"
-        self.updateMaterials()
-        self.materialPresetCombo.setCurrentText(obj.Material)
-    
-    def updateMaterials(self):
-        "fills the combo with the existing FCMat cards"
-        self.materialPresetCombo.addItem('')
-        cards = Material.materialDictionary()
-        if cards:
-            for k in sorted(cards.keys()):
-                self.materialPresetCombo.addItem(k)
+        self.uuid = obj.ShapeMaterial.UUID
+        self.materialTreePy.UUID = self.uuid
+
+    def onMaterial(self, uuid):
+        self.uuid = uuid

@@ -23,15 +23,16 @@
 __title__ = "FreeCAD Body Tubes"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
-    
+
 
 import FreeCAD
 import FreeCADGui
+import Materials
 
 from DraftTools import translate
 
 from PySide import QtGui, QtCore
-from PySide2.QtWidgets import QDialog, QGridLayout, QVBoxLayout, QSizePolicy
+from PySide.QtWidgets import QDialog, QGridLayout, QVBoxLayout, QSizePolicy
 
 from Ui.TaskPanelDatabase import TaskPanelDatabase
 from Ui.TaskPanelLocation import TaskPanelLocation
@@ -167,7 +168,7 @@ class TaskPanelBodyTube:
 
         self.form = [self._btForm, self._locationForm, self._dbForm]
         self._btForm.setWindowIcon(QtGui.QIcon(FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_BodyTube.svg"))
-        
+
         self._btForm.odInput.textEdited.connect(self.onOd)
         self._btForm.autoDiameterCheckbox.stateChanged.connect(self.onAutoDiameter)
         self._btForm.idInput.textEdited.connect(self.onId)
@@ -180,15 +181,15 @@ class TaskPanelBodyTube:
 
         self._db.dbLoad.connect(self.onLookup)
         self._location.locationChange.connect(self.onLocation)
-        
+
         self.update()
-        
+
         if mode == 0: # fresh created
-            self._obj.Proxy.execute(self._obj)  # calculate once 
+            self._obj.Proxy.execute(self._obj)  # calculate once
             FreeCAD.Gui.SendMsgToActiveView("ViewFit")
-        
+
     def transferTo(self):
-        "Transfer from the dialog to the object" 
+        "Transfer from the dialog to the object"
         self._obj.Proxy.setOuterDiameter(FreeCAD.Units.Quantity(self._btForm.odInput.text()).Value)
         self._obj.Proxy.setOuterDiameterAutomatic(self._btForm.autoDiameterCheckbox.isChecked())
         self._obj.Proxy.setThickness(FreeCAD.Units.Quantity(self._btForm.thicknessInput.text()).Value)
@@ -224,7 +225,7 @@ class TaskPanelBodyTube:
         except ReferenceError:
             # Object may be deleted
             pass
-        
+
     def onOd(self, value):
         try:
             # self._obj.Diameter = FreeCAD.Units.Quantity(value).Value
@@ -234,7 +235,7 @@ class TaskPanelBodyTube:
         except ValueError:
             pass
         self.setEdited()
-        
+
     def _setAutoDiameterState(self):
         if self._isAssembly:
             self._btForm.odInput.setEnabled(not self._obj.AutoDiameter)
@@ -269,7 +270,7 @@ class TaskPanelBodyTube:
             # self._obj.Thickness = FreeCAD.Units.Quantity(0.0).Value
             self._obj.Proxy.setThickness(FreeCAD.Units.Quantity(0.0).Value)
         self._btForm.thicknessInput.setText(self._obj.Thickness.UserString)
-        
+
     def onId(self, value):
         try:
             self._setThicknessFromId(value)
@@ -285,7 +286,7 @@ class TaskPanelBodyTube:
             self._btForm.idInput.setText(FreeCAD.Units.Quantity(id).UserString)
         else:
             self._btForm.idInput.setText(FreeCAD.Units.Quantity(0.0).UserString)
-        
+
     def onThickness(self, value):
         try:
             self._obj.Proxy.setThickness(FreeCAD.Units.Quantity(value).Value)
@@ -294,7 +295,7 @@ class TaskPanelBodyTube:
         except ValueError:
             pass
         self.setEdited()
-        
+
     def onLength(self, value):
         try:
             self._obj.Proxy.setLength(FreeCAD.Units.Quantity(value).Value)
@@ -302,7 +303,7 @@ class TaskPanelBodyTube:
         except ValueError:
             pass
         self.setEdited()
-        
+
     def _setMotorState(self):
         if not self._motorMount: #self._obj.Proxy.Type == FEATURE_LAUNCH_LUG:
             self._btForm.overhangInput.setHidden(True)
@@ -324,7 +325,7 @@ class TaskPanelBodyTube:
 
         self._obj.Proxy.execute(self._obj)
         self.setEdited()
-        
+
     def onOverhang(self, value):
         try:
             self._obj.Overhang = FreeCAD.Units.Quantity(value).Value
@@ -332,7 +333,7 @@ class TaskPanelBodyTube:
         except ValueError:
             pass
         self.setEdited()
-        
+
     def onLookup(self):
         result = self._db.getLookupResult()
 
@@ -340,34 +341,35 @@ class TaskPanelBodyTube:
         self._obj.Proxy.setOuterDiameter(_valueOnly(result["outer_diameter"], result["outer_diameter_units"]))
         self._obj.Proxy.setThickness((self._obj.Diameter.Value - diameter) / 2.0)
         self._obj.Proxy.setLength(_valueOnly(result["length"], result["length_units"]))
+        self._obj.ShapeMaterial = Materials.MaterialManager().getMaterial(result["uuid"])
 
         self.update()
-        self._obj.Proxy.execute(self._obj) 
+        self._obj.Proxy.execute(self._obj)
         self.setEdited()
 
     def onLocation(self):
         self._obj.Proxy.updateChildren()
-        self._obj.Proxy.execute(self._obj) 
+        self._obj.Proxy.execute(self._obj)
         self.setEdited()
-        
+
     def getStandardButtons(self):
-        return int(QtGui.QDialogButtonBox.Ok) | int(QtGui.QDialogButtonBox.Cancel)| int(QtGui.QDialogButtonBox.Apply)
+        return QtGui.QDialogButtonBox.Ok | QtGui.QDialogButtonBox.Cancel | QtGui.QDialogButtonBox.Apply
 
     def clicked(self,button):
         if button == QtGui.QDialogButtonBox.Apply:
             self.transferTo()
-            self._obj.Proxy.execute(self._obj) 
-        
+            self._obj.Proxy.execute(self._obj)
+
     def update(self):
         'fills the widgets'
         self.transferFrom()
-                
+
     def accept(self):
         self.transferTo()
         FreeCAD.ActiveDocument.recompute()
         FreeCADGui.ActiveDocument.resetEdit()
-        
-                    
+
+
     def reject(self):
         FreeCAD.ActiveDocument.abortTransaction()
         FreeCAD.ActiveDocument.recompute()

@@ -1,0 +1,15 @@
+﻿---
+# File created by FreeCAD 0.22.0 Revision: 37464 +105 (Git)
+General:
+  UUID: "bafe5d8c-4952-4c04-974a-ac728312a270"
+  Name: "Polystyrene-PS"
+  Author: "Created by the Rocket Workbench"
+  License: "Apache-2.0"
+  Description: "Polystyrene-PS"
+Inherits:
+  Default:
+    UUID: "5dbb7be6-8b63-479b-ab4c-87be02ead973"
+Models:
+  Density:
+    UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"
+    Density: "1049.21 kg/m^3"

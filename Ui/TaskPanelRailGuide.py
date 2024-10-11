@@ -23,7 +23,7 @@
 __title__ = "FreeCAD Rail Buttons"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
-    
+
 
 import FreeCAD
 import FreeCADGui
@@ -31,7 +31,7 @@ import FreeCADGui
 from DraftTools import translate
 
 from PySide import QtGui, QtCore
-from PySide2.QtWidgets import QDialog, QGridLayout, QVBoxLayout, QSizePolicy
+from PySide.QtWidgets import QDialog, QGridLayout, QVBoxLayout, QSizePolicy
 
 from Ui.TaskPanelLocation import TaskPanelLocation
 from Ui.Widgets.MaterialTab import MaterialTab
@@ -262,7 +262,7 @@ class TaskPanelRailGuide:
 
     def __init__(self,obj,mode):
         self._obj = obj
-        
+
         self._btForm = _RailGuideDialog()
 
         self._location = TaskPanelLocation(obj)
@@ -270,9 +270,9 @@ class TaskPanelRailGuide:
 
         self.form = [self._btForm, self._locationForm]
         self._btForm.setWindowIcon(QtGui.QIcon(FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_BodyTube.svg"))
-        
+
         self._btForm.railGuideBaseTypeCombo.currentTextChanged.connect(self.onRailGuideBaseType)
-        
+
         self._btForm.flangeWidthInput.textEdited.connect(self.onFlangeWidth)
         self._btForm.middleWidthInput.textEdited.connect(self.onMiddleWidth)
         self._btForm.baseWidthInput.textEdited.connect(self.onBaseWidth)
@@ -292,15 +292,15 @@ class TaskPanelRailGuide:
         self._btForm.notchDepthInput.textEdited.connect(self.onNotchDepth)
 
         self._location.locationChange.connect(self.onLocation)
-        
+
         self.update()
-        
+
         if mode == 0: # fresh created
-            self.redraw()  # calculate once 
+            self.redraw()  # calculate once
             FreeCAD.Gui.SendMsgToActiveView("ViewFit")
-  
+
     def transferTo(self):
-        "Transfer from the dialog to the object" 
+        "Transfer from the dialog to the object"
         self._obj.RailGuideBaseType = str(self._btForm.railGuideBaseTypeCombo.currentText())
         self._obj.FlangeWidth = self._btForm.flangeWidthInput.text()
         self._obj.MiddleWidth = self._btForm.middleWidthInput.text()
@@ -360,7 +360,7 @@ class TaskPanelRailGuide:
         except ReferenceError:
             # Object may be deleted
             pass
-        
+
     def _setTypeState(self):
         value = self._obj.RailGuideBaseType
 
@@ -397,7 +397,7 @@ class TaskPanelRailGuide:
         except ValueError:
             pass
         self.setEdited()
-        
+
     def onMiddleWidth(self, value):
         try:
             self._obj.MiddleWidth = FreeCAD.Units.Quantity(value).Value
@@ -405,7 +405,7 @@ class TaskPanelRailGuide:
         except ValueError:
             pass
         self.setEdited()
-        
+
     def onBaseWidth(self, value):
         try:
             self._obj.BaseWidth = FreeCAD.Units.Quantity(value).Value
@@ -413,7 +413,7 @@ class TaskPanelRailGuide:
         except ValueError:
             pass
         self.setEdited()
-        
+
     def onFlangeHeight(self, value):
         try:
             self._obj.FlangeHeight = FreeCAD.Units.Quantity(value).Value
@@ -421,7 +421,7 @@ class TaskPanelRailGuide:
         except ValueError:
             pass
         self.setEdited()
-        
+
     def onBaseHeight(self, value):
         try:
             self._obj.BaseHeight = FreeCAD.Units.Quantity(value).Value
@@ -429,7 +429,7 @@ class TaskPanelRailGuide:
         except ValueError:
             pass
         self.setEdited()
-        
+
     def onHeight(self, value):
         try:
             self._obj.Height = FreeCAD.Units.Quantity(value).Value
@@ -437,7 +437,7 @@ class TaskPanelRailGuide:
         except ValueError:
             pass
         self.setEdited()
-        
+
     def onLength(self, value):
         try:
             self._obj.Length = FreeCAD.Units.Quantity(value).Value
@@ -445,7 +445,7 @@ class TaskPanelRailGuide:
         except ValueError:
             pass
         self.setEdited()
-        
+
     def onDiameter(self, value):
         try:
             self._obj.Diameter = FreeCAD.Units.Quantity(value).Value
@@ -453,7 +453,7 @@ class TaskPanelRailGuide:
         except ValueError:
             pass
         self.setEdited()
-        
+
     def _setAutoDiameterState(self):
         self._btForm.diameterInput.setEnabled(not self._obj.AutoDiameter)
         self._btForm.autoDiameterCheckbox.setChecked(self._obj.AutoDiameter)
@@ -471,7 +471,7 @@ class TaskPanelRailGuide:
 
         self.redraw()
         self.setEdited()
-        
+
     def onVAngle(self, value):
         try:
             self._obj.VAngle = FreeCAD.Units.Quantity(value).Value
@@ -479,18 +479,18 @@ class TaskPanelRailGuide:
         except ValueError:
             pass
         self.setEdited()
-        
+
     def _setForwardSweepState(self):
         self._btForm.forwardSweepInput.setEnabled(self._obj.ForwardSweep)
         self._btForm.forwardSweepGroup.setChecked(self._obj.ForwardSweep)
-        
+
     def onForwardSweep(self, value):
         self._obj.ForwardSweep = value
         self._setForwardSweepState()
 
         self.redraw()
         self.setEdited()
-        
+
     def onForwardSweepAngle(self, value):
         try:
             self._obj.ForwardSweepAngle = FreeCAD.Units.Quantity(value).Value
@@ -498,18 +498,18 @@ class TaskPanelRailGuide:
         except ValueError:
             pass
         self.setEdited()
-        
+
     def _setAftSweepState(self):
         self._btForm.aftSweepInput.setEnabled(self._obj.AftSweep)
         self._btForm.aftSweepGroup.setChecked(self._obj.AftSweep)
-        
+
     def onAftSweep(self, value):
         self._obj.AftSweep = value
         self._setAftSweepState()
 
         self.redraw()
         self.setEdited()
-        
+
     def onAftSweepAngle(self, value):
         try:
             self._obj.AftSweepAngle = FreeCAD.Units.Quantity(value).Value
@@ -517,14 +517,14 @@ class TaskPanelRailGuide:
         except ValueError:
             pass
         self.setEdited()
-        
+
     def onNotch(self, value):
         self._obj.Notch = value
         # self._setAftSweepState()
 
         self.redraw()
         self.setEdited()
-        
+
     def onNotchWidth(self, value):
         try:
             self._obj.NotchWidth = FreeCAD.Units.Quantity(value).Value
@@ -532,7 +532,7 @@ class TaskPanelRailGuide:
         except ValueError:
             pass
         self.setEdited()
-        
+
     def onNotchDepth(self, value):
         try:
             self._obj.NotchDepth = FreeCAD.Units.Quantity(value).Value
@@ -543,27 +543,27 @@ class TaskPanelRailGuide:
 
     def onLocation(self):
         self._obj.Proxy.updateChildren()
-        self.redraw() 
+        self.redraw()
         self.setEdited()
-        
+
     def getStandardButtons(self):
-        return int(QtGui.QDialogButtonBox.Ok) | int(QtGui.QDialogButtonBox.Cancel)| int(QtGui.QDialogButtonBox.Apply)
+        return QtGui.QDialogButtonBox.Ok | QtGui.QDialogButtonBox.Cancel | QtGui.QDialogButtonBox.Apply
 
     def clicked(self,button):
         if button == QtGui.QDialogButtonBox.Apply:
             self.transferTo()
-            self.redraw() 
-        
+            self.redraw()
+
     def update(self):
         'fills the widgets'
         self.transferFrom()
-                
+
     def accept(self):
         self.transferTo()
         FreeCAD.ActiveDocument.recompute()
         FreeCADGui.ActiveDocument.resetEdit()
-        
-                    
+
+
     def reject(self):
         FreeCAD.ActiveDocument.abortTransaction()
         FreeCAD.ActiveDocument.recompute()

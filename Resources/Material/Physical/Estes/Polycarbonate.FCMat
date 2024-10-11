@@ -1,0 +1,15 @@
+﻿---
+# File created by FreeCAD 0.22.0 Revision: 37464 +105 (Git)
+General:
+  UUID: "261f595e-1cf7-42bc-8f73-29822b5d950b"
+  Name: "Polycarbonate"
+  Author: "Created by the Rocket Workbench"
+  License: "Apache-2.0"
+  Description: "Polycarbonate"
+Inherits:
+  Default:
+    UUID: "5dbb7be6-8b63-479b-ab4c-87be02ead973"
+Models:
+  Density:
+    UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"
+    Density: "1199.78 kg/m^3"

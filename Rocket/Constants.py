@@ -49,7 +49,10 @@ FEATURE_LAUNCH_LUG = "RocketLaunchLug"
 FEATURE_RAIL_BUTTON = "RocketRailButton"
 FEATURE_RAIL_GUIDE = "RocketRailGuide"
 FEATURE_OFFSET = "RocketOffset"
-    
+
+FEATURE_WIND_TUNNEL = "RocketWindTunnel"
+FEATURE_CFD_ROCKET = "RocketCFDRocket"
+
 # Part styles
 STYLE_SOLID = "solid"
 STYLE_SOLID_CORE = "solid core" # Used by transitions, not nose cones

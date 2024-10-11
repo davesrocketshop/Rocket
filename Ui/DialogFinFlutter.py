@@ -23,9 +23,11 @@
 __title__ = "FreeCAD Thrust To Weight Calculator"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
-    
+
 import FreeCAD
 import FreeCADGui
+import Materials
+import MatGui
 import math
 import numpy as np
 
@@ -36,7 +38,7 @@ from matplotlib.figure import Figure
 from DraftTools import translate
 
 from PySide import QtGui, QtCore
-from PySide2.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QGridLayout
+from PySide.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QGridLayout, QSizePolicy
 
 from Analyzers.FinFlutter import FinFlutter
 
@@ -51,6 +53,8 @@ class DialogFinFlutter(QDialog):
         self._materials = []
         self._cards = None
         self._material = None
+
+        self._materialManager = Materials.MaterialManager()
 
         self.initUI()
         self._setSeries()
@@ -95,11 +99,18 @@ class DialogFinFlutter(QDialog):
         self.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
 
         self.materialGroup = QtGui.QGroupBox(translate('Rocket', "Material"), self)
+        self.materialGroup.setSizePolicy(QSizePolicy.MinimumExpanding, QSizePolicy.Minimum)
 
-        self.materialPresetLabel = QtGui.QLabel(translate('Rocket', "Preset"), self)
+        self.materialTreeWidget = ui.createWidget("MatGui::MaterialTreeWidget")
+        self.materialTreePy = MatGui.MaterialTreeWidget(self.materialTreeWidget)
 
-        self.materialPresetCombo = QtGui.QComboBox(self)
-        self.fillExistingCombo()
+        # Create the filters
+        self.filter = Materials.MaterialFilter()
+        self.filter.Name = "Isotropic Linear Elastic"
+        self.filter.RequiredModels = [Materials.UUIDs().IsotropicLinearElastic]
+        self.allFilter = Materials.MaterialFilter()
+        self.allFilter.Name = "All"
+        self.materialTreePy.setFilter([self.filter, self.allFilter])
 
         self.shearLabel = QtGui.QLabel(translate('Rocket', "Shear Modulus"), self)
 
@@ -148,7 +159,7 @@ class DialogFinFlutter(QDialog):
         plt.rcParams["figure.edgecolor"] = 'white'
         plt.rcParams["axes.facecolor"] = 'white'
         self.static_canvas = FigureCanvas(Figure(figsize=(5,3)))
- 
+
         self._static_ax = self.static_canvas.figure.subplots()
         t = np.linspace(0, 10, 501)
         self._flutterLine, = self._static_ax.plot(t, t, label="flutter")
@@ -200,12 +211,10 @@ class DialogFinFlutter(QDialog):
         okButton.setAutoDefault(False)
 
         # Material group
+        vbox = QVBoxLayout()
+
         row = 0
         grid = QGridLayout()
-
-        grid.addWidget(self.materialPresetLabel, row, 0)
-        grid.addWidget(self.materialPresetCombo, row, 1)
-        row += 1
 
         grid.addWidget(self.shearLabel, row, 0)
         grid.addWidget(self.shearInput, row, 1)
@@ -220,7 +229,10 @@ class DialogFinFlutter(QDialog):
         grid.addWidget(self.poissonInput, row, 1)
         row += 1
 
-        self.materialGroup.setLayout(grid)
+        vbox.addWidget(self.materialTreeWidget)
+        vbox.addLayout(grid)
+
+        self.materialGroup.setLayout(vbox)
 
         # Fin Flutter group
         vbox = QVBoxLayout()
@@ -273,7 +285,8 @@ class DialogFinFlutter(QDialog):
         layout.addLayout(line)
         self.setLayout(layout)
 
-        self.materialPresetCombo.currentTextChanged.connect(self.onMaterialChanged)
+        self.materialTreeWidget.onMaterial.connect(self.onMaterial)
+        self.materialTreeWidget.onExpanded.connect(self.onExpanded)
         self.calculatedCheckbox.clicked.connect(self.onCalculated)
         self.shearInput.textEdited.connect(self.onShear)
         self.youngsInput.textEdited.connect(self.onYoungs)
@@ -284,7 +297,7 @@ class DialogFinFlutter(QDialog):
         okButton.clicked.connect(self.onOk)
 
         self._setSlider()
-        
+
         self.update()
 
         # now make the window visible
@@ -292,7 +305,7 @@ class DialogFinFlutter(QDialog):
 
     def transferFrom(self):
         "Transfer from the object to the dialog"
-        self.materialPresetCombo.setCurrentText(self._fin.Material)
+        self.materialTreePy.UUID = self._fin.ShapeMaterial.UUID
 
     def _setSeries(self):
 
@@ -340,16 +353,8 @@ class DialogFinFlutter(QDialog):
         self._static_ax.relim()
         # update ax.viewLim using the new dataLim
         self._static_ax.autoscale()
-        
+
         self.static_canvas.draw()
-    
-    def fillExistingCombo(self):
-        "fills the combo with the existing FCMat cards"
-        self.materialPresetCombo.addItem('')
-        self._cards = Material.materialDictionary()
-        if self._cards:
-            for k in sorted(self._cards.keys()):
-                self.materialPresetCombo.addItem(k)
 
     def fillAltitudeCombo(self):
         for i in range(0, 110, 10):
@@ -377,34 +382,46 @@ class DialogFinFlutter(QDialog):
 
         self.shearInput.setText(FreeCAD.Units.Quantity(str(shear) + " Pa").UserString)
 
-    def onMaterialChanged(self, card):
-        "sets self._material from a card"
-        if card in self._cards:
-            self._material = Material.lookup(card)
-            if "ShearModulus" in self._material:
-                self.shearInput.setText(self._formatPressure(FreeCAD.Units.Quantity(self._material["ShearModulus"])))
-            else:
-                self.shearInput.setText(self._formatPressure(FreeCAD.Units.Quantity("0 kPa")))
-            if "YoungsModulus" in self._material:
-                self.youngsInput.setText(self._formatPressure(FreeCAD.Units.Quantity(self._material["YoungsModulus"])))
-            else:
-                self.youngsInput.setText(self._formatPressure(FreeCAD.Units.Quantity("0 kPa")))
-            if "PoissonRatio" in self._material:
-                self.poissonInput.setText(self._material["PoissonRatio"])
-            else:
-                self.poissonInput.setText("0")
+    def interpolateProperties(self):
+        """ Infer missing properties from thos available """
+        shearModulus = self._material.getPhysicalValue("ShearModulus")
+        youngsModulus = self._material.getPhysicalValue("YoungsModulus")
+        poissonRatio = self._material.getPhysicalValue("PoissonRatio")
+        hasShear = not (shearModulus is None or math.isnan(shearModulus))
+        hasYoungs = not (youngsModulus is None or math.isnan(youngsModulus))
+        hasPoisson = not (poissonRatio is None or math.isnan(poissonRatio))
+        if hasShear:
+            self.shearInput.setText(self._formatPressure(FreeCAD.Units.Quantity(shearModulus)))
+        else:
+            self.shearInput.setText(self._formatPressure(FreeCAD.Units.Quantity("0 kPa")))
+        if hasYoungs:
+            self.youngsInput.setText(self._formatPressure(FreeCAD.Units.Quantity(youngsModulus)))
+        else:
+            self.youngsInput.setText(self._formatPressure(FreeCAD.Units.Quantity("0 kPa")))
+        if hasPoisson:
+            self.poissonInput.setText("{0:.4f}".format(poissonRatio))
+        else:
+            self.poissonInput.setText("0")
 
-            if "ShearModulus" in self._material:
-                self.setShearSpecified()
-            elif "YoungsModulus" in self._material and "PoissonRatio" in self._material:
-                self.setShearCalculated()
-                self.calculateShear()
-            else:
-                self.setShearSpecified()
+        if hasShear:
+            self.setShearSpecified()
+        elif hasYoungs and hasPoisson:
+            self.setShearCalculated()
+            self.calculateShear()
+        else:
+            self.setShearSpecified()
 
-            self._setSeries()
-            self.onFlutter(None)
-        
+    def onMaterial(self, uuid):
+        self._material = self._materialManager.getMaterial(uuid)
+        self.interpolateProperties()
+
+        self._setSeries()
+        self.onFlutter(None)
+
+    def onExpanded(self, expanded):
+        self.materialGroup.adjustSize()
+        self.window().adjustSize()
+
     def onCalculated(self, value):
         if value:
             self.setShearCalculated()
@@ -500,7 +517,7 @@ class DialogFinFlutter(QDialog):
 
         except ValueError:
             pass
-        
+
     def update(self):
         'fills the widgets'
         self.transferFrom()

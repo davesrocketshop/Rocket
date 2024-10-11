@@ -23,13 +23,14 @@
 __title__ = "FreeCAD Transitions"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
-    
+
 
 import FreeCAD
 import FreeCADGui
+import Materials
 
 from PySide import QtGui, QtCore
-from PySide2.QtWidgets import QDialog, QGridLayout, QVBoxLayout, QSizePolicy
+from PySide.QtWidgets import QDialog, QGridLayout, QVBoxLayout, QSizePolicy
 
 from DraftTools import translate
 
@@ -351,14 +352,14 @@ class TaskPanelTransition:
     def __init__(self,obj,mode):
         self._obj = obj
         self._isAssembly = self._obj.Proxy.isRocketAssembly()
-        
+
         self._tranForm = _TransitionDialog()
         self._db = TaskPanelDatabase(obj, COMPONENT_TYPE_TRANSITION)
         self._dbForm = self._db.getForm()
 
         self.form = [self._tranForm, self._dbForm]
         self._tranForm.setWindowIcon(QtGui.QIcon(FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Transition.svg"))
-        
+
         self._tranForm.transitionTypesCombo.currentTextChanged.connect(self.onTransitionType)
         self._tranForm.transitionStylesCombo.currentTextChanged.connect(self.onTransitionStyle)
         self._tranForm.foreCapStylesCombo.currentTextChanged.connect(self.onForeCapStyle)
@@ -386,15 +387,15 @@ class TaskPanelTransition:
         self._tranForm.aftShoulderThicknessInput.textEdited.connect(self.onAftShoulderThickness)
 
         self._db.dbLoad.connect(self.onLookup)
-        
+
         self.update()
-        
+
         if mode == 0: # fresh created
-            self._obj.Proxy.execute(self._obj)  # calculate once 
+            self._obj.Proxy.execute(self._obj)  # calculate once
             FreeCAD.Gui.SendMsgToActiveView("ViewFit")
-        
+
     def transferTo(self):
-        "Transfer from the dialog to the object" 
+        "Transfer from the dialog to the object"
         self._obj.TransitionType = str(self._tranForm.transitionTypesCombo.currentText())
         self._obj.TransitionStyle = str(self._tranForm.transitionStylesCombo.currentText())
         self._obj.ForeCapStyle = str(self._tranForm.foreCapStylesCombo.currentText())
@@ -478,8 +479,8 @@ class TaskPanelTransition:
             self._tranForm.clippedCheckbox.setEnabled(False)
         else:
             self._tranForm.clippedCheckbox.setEnabled(True)
-        
-        
+
+
     def _showTransitionType(self):
         value = self._obj.TransitionType
         if value == TYPE_HAACK or value == TYPE_PARABOLIC:
@@ -498,7 +499,7 @@ class TaskPanelTransition:
             self._tranForm.coefficientInput.setEnabled(False)
         else:
             self._tranForm.coefficientInput.setEnabled(False)
-        
+
     def onTransitionType(self, value):
         self._obj.TransitionType = value
 
@@ -507,7 +508,7 @@ class TaskPanelTransition:
 
         self._obj.Proxy.execute(self._obj)
         self.setEdited()
-        
+
     def _showTransitionStyle(self):
         value = self._obj.TransitionStyle
         if value == STYLE_HOLLOW or value == STYLE_CAPPED:
@@ -548,54 +549,54 @@ class TaskPanelTransition:
             self._tranForm.aftShoulderThicknessInput.setEnabled(False)
             self._tranForm.foreCapGroup.setEnabled(False)
             self._tranForm.aftCapGroup.setEnabled(False)
- 
+
     def _setForeCapStyleState(self):
         value = self._obj.ForeCapStyle
         if value == STYLE_CAP_SOLID:
             self._tranForm.foreCapBarWidthInput.setEnabled(False)
         else:
             self._tranForm.foreCapBarWidthInput.setEnabled(True)
- 
+
     def _setAftCapStyleState(self):
         value = self._obj.AftCapStyle
         if value == STYLE_CAP_SOLID:
             self._tranForm.aftCapBarWidthInput.setEnabled(False)
         else:
             self._tranForm.aftCapBarWidthInput.setEnabled(True)
-       
+
     def onTransitionStyle(self, value):
         self._obj.TransitionStyle = value
 
         self._showTransitionStyle()
         self._obj.Proxy.execute(self._obj)
         self.setEdited()
-        
+
     def onForeCapStyle(self, value):
         self._obj.ForeCapStyle = value
         self._setForeCapStyleState()
 
         self._obj.Proxy.execute(self._obj)
-        
+
     def onForeBarWidth(self, value):
         try:
             self._obj.ForeCapBarWidth = FreeCAD.Units.Quantity(value).Value
             self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
-        
+
     def onAftCapStyle(self, value):
         self._obj.AftCapStyle = value
         self._setAftCapStyleState()
 
         self._obj.Proxy.execute(self._obj)
-        
+
     def onAftBarWidth(self, value):
         try:
             self._obj.AftCapBarWidth = FreeCAD.Units.Quantity(value).Value
             self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
-        
+
     def onLength(self, value):
         try:
             self._obj.Length = FreeCAD.Units.Quantity(value).Value
@@ -603,7 +604,7 @@ class TaskPanelTransition:
         except ValueError:
             pass
         self.setEdited()
-        
+
     def onForeDiameter(self, value):
         try:
             self._obj.ForeDiameter = FreeCAD.Units.Quantity(value).Value
@@ -611,7 +612,7 @@ class TaskPanelTransition:
         except ValueError:
             pass
         self.setEdited()
-        
+
     def _setForeAutoDiameterState(self):
         if self._isAssembly:
             self._tranForm.foreDiameterInput.setEnabled(not self._obj.ForeAutoDiameter)
@@ -625,14 +626,14 @@ class TaskPanelTransition:
         if self._obj.ForeAutoDiameter:
             self._obj.ForeDiameter = self._obj.Proxy.getForeDiameter()
             self._tranForm.foreDiameterInput.setText(self._obj.ForeDiameter.UserString)
-         
+
     def onForeAutoDiameter(self, value):
         self._obj.ForeAutoDiameter = self._tranForm.foreAutoDiameterCheckbox.isChecked()
         self._setForeAutoDiameterState()
 
         self._obj.Proxy.execute(self._obj)
         self.setEdited()
-        
+
     def onAftDiameter(self, value):
         try:
             self._obj.AftDiameter = FreeCAD.Units.Quantity(value).Value
@@ -640,7 +641,7 @@ class TaskPanelTransition:
         except ValueError:
             pass
         self.setEdited()
-        
+
     def _setAftAutoDiameterState(self):
         if self._isAssembly:
             self._tranForm.aftDiameterInput.setEnabled(not self._obj.AftAutoDiameter)
@@ -654,14 +655,14 @@ class TaskPanelTransition:
         if self._obj.AftAutoDiameter:
             self._obj.AftDiameter = self._obj.Proxy.getAftDiameter()
             self._tranForm.aftDiameterInput.setText(self._obj.AftDiameter.UserString)
-         
+
     def onAftAutoDiameter(self, value):
         self._obj.AftAutoDiameter = self._tranForm.aftAutoDiameterCheckbox.isChecked()
         self._setAftAutoDiameterState()
 
         self._obj.Proxy.execute(self._obj)
         self.setEdited()
-        
+
     def onCoreDiameter(self, value):
         try:
             self._obj.CoreDiameter = FreeCAD.Units.Quantity(value).Value
@@ -669,7 +670,7 @@ class TaskPanelTransition:
         except ValueError:
             pass
         self.setEdited()
-        
+
     def onThickness(self, value):
         try:
             self._obj.Thickness = FreeCAD.Units.Quantity(value).Value
@@ -677,17 +678,17 @@ class TaskPanelTransition:
         except ValueError:
             pass
         self.setEdited()
-        
+
     def onCoefficient(self, value):
         self._obj.Coefficient = _toFloat(value)
         self._obj.Proxy.execute(self._obj)
         self.setEdited()
-        
+
     def onClipped(self, value):
         self._obj.Clipped = self._tranForm.clippedCheckbox.isChecked()
         self._obj.Proxy.execute(self._obj)
         self.setEdited()
-        
+
     def onForeShoulder(self, value):
         self._obj.ForeShoulder = self._tranForm.foreGroup.isChecked()
         if self._obj.ForeShoulder:
@@ -706,7 +707,7 @@ class TaskPanelTransition:
 
         self._obj.Proxy.execute(self._obj)
         self.setEdited()
-        
+
     def onForeShoulderDiameter(self, value):
         try:
             self._obj.ForeShoulderDiameter = FreeCAD.Units.Quantity(value).Value
@@ -714,7 +715,7 @@ class TaskPanelTransition:
         except ValueError:
             pass
         self.setEdited()
-        
+
     def _setForeShoulderAutoDiameterState(self):
         if self._isAssembly:
             self._tranForm.foreShoulderDiameterInput.setEnabled(not self._obj.ForeShoulderAutoDiameter)
@@ -728,14 +729,14 @@ class TaskPanelTransition:
         if self._obj.ForeShoulderAutoDiameter:
             self._obj.ForeShoulderDiameter = self._obj.Proxy.getForeShoulderDiameter()
             self._tranForm.foreShoulderDiameterInput.setText(self._obj.ForeShoulderDiameter.UserString)
-         
+
     def onForeShoulderAutoDiameter(self, value):
         self._obj.ForeShoulderAutoDiameter = self._tranForm.foreShoulderAutoDiameterCheckbox.isChecked()
         self._setForeShoulderAutoDiameterState()
 
         self._obj.Proxy.execute(self._obj)
         self.setEdited()
-        
+
     def onForeShoulderLength(self, value):
         try:
             self._obj.ForeShoulderLength = FreeCAD.Units.Quantity(value).Value
@@ -743,7 +744,7 @@ class TaskPanelTransition:
         except ValueError:
             pass
         self.setEdited()
-        
+
     def onForeShoulderThickness(self, value):
         try:
             self._obj.ForeShoulderThickness = FreeCAD.Units.Quantity(value).Value
@@ -751,7 +752,7 @@ class TaskPanelTransition:
         except ValueError:
             pass
         self.setEdited()
-        
+
     def onAftShoulder(self, value):
         self._obj.AftShoulder = self._tranForm.aftGroup.isChecked()
         if self._obj.AftShoulder:
@@ -770,7 +771,7 @@ class TaskPanelTransition:
 
         self._obj.Proxy.execute(self._obj)
         self.setEdited()
-        
+
     def onAftShoulderDiameter(self, value):
         try:
             self._obj.AftShoulderDiameter = FreeCAD.Units.Quantity(value).Value
@@ -778,7 +779,7 @@ class TaskPanelTransition:
         except ValueError:
             pass
         self.setEdited()
-        
+
     def _setAftShoulderAutoDiameterState(self):
         if self._isAssembly:
             self._tranForm.aftShoulderDiameterInput.setEnabled(not self._obj.AftShoulderAutoDiameter)
@@ -792,14 +793,14 @@ class TaskPanelTransition:
         if self._obj.AftShoulderAutoDiameter:
             self._obj.AftShoulderDiameter = self._obj.Proxy.getAftShoulderDiameter()
             self._tranForm.aftShoulderDiameterInput.setText(self._obj.AftShoulderDiameter.UserString)
-         
+
     def onAftShoulderAutoDiameter(self, value):
         self._obj.AftShoulderAutoDiameter = self._tranForm.aftShoulderAutoDiameterCheckbox.isChecked()
         self._setAftShoulderAutoDiameterState()
 
         self._obj.Proxy.execute(self._obj)
         self.setEdited()
-        
+
     def onAftShoulderLength(self, value):
         try:
             self._obj.AftShoulderLength = FreeCAD.Units.Quantity(value).Value
@@ -807,7 +808,7 @@ class TaskPanelTransition:
         except ValueError:
             pass
         self.setEdited()
-        
+
     def onAftShoulderThickness(self, value):
         try:
             self._obj.AftShoulderThickness = FreeCAD.Units.Quantity(value).Value
@@ -815,7 +816,7 @@ class TaskPanelTransition:
         except ValueError:
             pass
         self.setEdited()
-        
+
     def onLookup(self):
         result = self._db.getLookupResult()
 
@@ -834,32 +835,33 @@ class TaskPanelTransition:
         self._obj.AftShoulderDiameter = _valueWithUnits(result["aft_shoulder_diameter"], result["aft_shoulder_diameter_units"])
         self._obj.AftShoulderLength = _valueWithUnits(result["aft_shoulder_length"], result["aft_shoulder_length_units"])
         self._obj.AftShoulderThickness = self._obj.Thickness
+        self._obj.ShapeMaterial = Materials.MaterialManager().getMaterial(result["uuid"])
 
         self._obj.ForeShoulder = (self._obj.ForeShoulderDiameter > 0.0) and (self._obj.ForeShoulderLength >= 0)
         self._obj.AftShoulder = (self._obj.AftShoulderDiameter > 0.0) and (self._obj.AftShoulderLength >= 0)
 
         self.update()
-        self._obj.Proxy.execute(self._obj) 
+        self._obj.Proxy.execute(self._obj)
         self.setEdited()
-        
+
     def getStandardButtons(self):
-        return int(QtGui.QDialogButtonBox.Ok) | int(QtGui.QDialogButtonBox.Cancel)| int(QtGui.QDialogButtonBox.Apply)
+        return QtGui.QDialogButtonBox.Ok | QtGui.QDialogButtonBox.Cancel | QtGui.QDialogButtonBox.Apply
 
     def clicked(self,button):
         if button == QtGui.QDialogButtonBox.Apply:
             self.transferTo()
-            self._obj.Proxy.execute(self._obj) 
-        
+            self._obj.Proxy.execute(self._obj)
+
     def update(self):
         'fills the widgets'
         self.transferFrom()
-                
+
     def accept(self):
         self.transferTo()
         FreeCAD.ActiveDocument.recompute()
         FreeCADGui.ActiveDocument.resetEdit()
-        
-                    
+
+
     def reject(self):
         FreeCAD.ActiveDocument.abortTransaction()
         FreeCAD.ActiveDocument.recompute()

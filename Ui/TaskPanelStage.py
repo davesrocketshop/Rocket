@@ -23,7 +23,7 @@
 __title__ = "FreeCAD Stages"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
-    
+
 
 import FreeCAD
 import FreeCADGui
@@ -31,7 +31,10 @@ import FreeCADGui
 from DraftTools import translate
 
 from PySide import QtGui
-from PySide2.QtWidgets import QDialog, QVBoxLayout
+try:
+    from PySide2.QtWidgets import QDialog, QVBoxLayout
+except:
+    from PySide.QtWidgets import QDialog, QVBoxLayout
 
 from Ui.Widgets.CommentTab import CommentTab
 
@@ -52,44 +55,44 @@ class TaskPanelStage:
 
     def __init__(self,obj,mode):
         self._obj = obj
-        
+
         self._stageForm = _StageDialog()
 
         self.form = [self._stageForm]
         self._stageForm.setWindowIcon(QtGui.QIcon(FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Stage.svg"))
-        
+
         self.update()
-        
+
         if mode == 0: # fresh created
-            self._obj.Proxy.execute(self._obj)  # calculate once 
+            self._obj.Proxy.execute(self._obj)  # calculate once
             FreeCAD.Gui.SendMsgToActiveView("ViewFit")
-        
+
     def transferTo(self):
-        "Transfer from the dialog to the object" 
+        "Transfer from the dialog to the object"
         self._stageForm.tabComment.transferTo(self._obj)
 
     def transferFrom(self):
         "Transfer from the object to the dialog"
         self._stageForm.tabComment.transferFrom(self._obj)
-        
+
     def getStandardButtons(self):
-        return int(QtGui.QDialogButtonBox.Ok) | int(QtGui.QDialogButtonBox.Cancel)| int(QtGui.QDialogButtonBox.Apply)
+        return QtGui.QDialogButtonBox.Ok | QtGui.QDialogButtonBox.Cancel | QtGui.QDialogButtonBox.Apply
 
     def clicked(self,button):
         if button == QtGui.QDialogButtonBox.Apply:
             self.transferTo()
-            self._obj.Proxy.execute(self._obj) 
-        
+            self._obj.Proxy.execute(self._obj)
+
     def update(self):
         'fills the widgets'
         self.transferFrom()
-                
+
     def accept(self):
         self.transferTo()
         FreeCAD.ActiveDocument.recompute()
         FreeCADGui.ActiveDocument.resetEdit()
-        
-                    
+
+
     def reject(self):
         FreeCAD.ActiveDocument.abortTransaction()
         FreeCAD.ActiveDocument.recompute()

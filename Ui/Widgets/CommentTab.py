@@ -23,12 +23,12 @@
 __title__ = "FreeCAD Comment Tab"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
-    
+
 
 from DraftTools import translate
 
 from PySide import QtGui
-from PySide2.QtWidgets import QVBoxLayout, QTextEdit
+from PySide.QtWidgets import QVBoxLayout, QTextEdit
 
 class CommentTab(QtGui.QWidget):
 
@@ -48,9 +48,9 @@ class CommentTab(QtGui.QWidget):
         layout.addWidget(self.commentInput)
 
         self.setLayout(layout)
-        
+
     def transferTo(self, obj):
-        "Transfer from the dialog to the object" 
+        "Transfer from the dialog to the object"
         obj.Comment = self.commentInput.toPlainText()
 
     def transferFrom(self, obj):

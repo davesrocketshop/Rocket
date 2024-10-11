@@ -1,0 +1,15 @@
+﻿---
+# File created by FreeCAD 0.22.0 Revision: 37464 +105 (Git)
+General:
+  UUID: "454c2c35-e81d-48c8-b3cd-7210d408f0ac"
+  Name: "lite-ply"
+  Author: "Created by the Rocket Workbench"
+  License: "Apache-2.0"
+  Description: "lite-ply"
+Inherits:
+  Default:
+    UUID: "5dbb7be6-8b63-479b-ab4c-87be02ead973"
+Models:
+  Density:
+    UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"
+    Density: "352.41 kg/m^3"

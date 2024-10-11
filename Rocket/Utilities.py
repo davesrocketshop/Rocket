@@ -108,3 +108,15 @@ def setGroup(obj):
         if group not in ['RocketComponent', '', 'Base']:
             print("Updating Property {0} Group {1}".format(property, group))
             obj.setGroupOfProperty(property, 'RocketComponent')
+
+def oldMaterials():
+    ver = FreeCAD.Version()
+    print("Ver %s.%s" % (ver[0], ver[1]))
+    if int(ver[0]) == 0 and int(ver[1]) < 22:
+        print("\told")
+        return True
+    print("\tnew")
+    return False
+
+def newMaterials():
+    return not oldMaterials()

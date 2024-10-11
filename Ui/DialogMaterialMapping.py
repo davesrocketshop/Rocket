@@ -23,7 +23,7 @@
 __title__ = "FreeCAD Database Lookup"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
-    
+
 import sqlite3
 
 import FreeCAD
@@ -32,7 +32,7 @@ from DraftTools import translate
 
 from PySide import QtGui, QtCore
 from PySide.QtGui import QStandardItemModel, QStandardItem
-from PySide2.QtWidgets import QVBoxLayout, QHBoxLayout
+from PySide.QtWidgets import QVBoxLayout, QHBoxLayout
 
 from Rocket.Utilities import _valueWithUnits
 

@@ -50,7 +50,7 @@ class RocketComponent(RocketComponentShapeless, ChangeSource):
             obj.addProperty('App::PropertyString', 'Material', 'RocketComponent', translate('App::Property', 'Component material')).Material = "Cardboard"
         if not hasattr(obj, 'Description'):
             obj.addProperty('App::PropertyString', 'Description', 'RocketComponent', translate('App::Property', 'Component description')).Description = ""
-        
+
         if not hasattr(obj, 'LocationReference'):
             obj.addProperty('App::PropertyEnumeration', 'LocationReference', 'RocketComponent', translate('App::Property', 'Reference location for the location'))
             obj.LocationReference = [
@@ -84,7 +84,7 @@ class RocketComponent(RocketComponentShapeless, ChangeSource):
         Get the characteristic length of the component, for example the length of a body tube
         of the length of the root chord of a fin.  This is used in positioning the component
         relative to its parent.
-        
+
         If the length of a component is settable, the class must define the setter method
         itself.
     """
@@ -98,12 +98,12 @@ class RocketComponent(RocketComponentShapeless, ChangeSource):
     # Return true if the component may have an aerodynamic effect on the rocket.
     def isAerodynamic(self):
         return False
-	
+
     # Return true if the component may have an effect on the rocket's mass.
     def isMassive(self):
         return False
 
-    # the default implementation is mostly a placeholder here, however in inheriting classes, 
+    # the default implementation is mostly a placeholder here, however in inheriting classes,
     # this function is useful to indicate adjacent placements and view sizes
     def updateBounds(self):
         return
@@ -112,10 +112,10 @@ class RocketComponent(RocketComponentShapeless, ChangeSource):
     def moveChild(self, component, index):
         try:
             self._moveChild(index, component)
-            
+
             self.checkComponentStructure()
             component.Proxy.checkComponentStructure()
-            
+
             self.updateBounds()
             self.fireAddRemoveEvent(component)
         except ValueError:
@@ -152,13 +152,13 @@ class RocketComponent(RocketComponentShapeless, ChangeSource):
 
     def getConfigListeners(self):
         return self._configListeners
-	
+
     # Adds a ComponentChangeListener to the rocket tree.  The listener is added to the root
     # component, which must be of type Rocket (which overrides this method).  Events of all
     # subcomponents are sent to all listeners.
     def addComponentChangeListener(self, listener):
         self.getRocket().addComponentChangeListener(listener)
-	
+
     # Removes a ComponentChangeListener from the rocket tree.  The listener is removed from
     # the root component, which must be of type Rocket (which overrides this method).
     # Does nothing if the root component is not a Rocket.  (The asymmetry is so
@@ -174,7 +174,7 @@ class RocketComponent(RocketComponentShapeless, ChangeSource):
     # of <code>ChangeEvent</code>.
     def addChangeListener(self, listener):
         self.addComponentChangeListener(listener)
-	
+
     # Removes a ChangeListener from the rocket tree.  This is identical to
     # removeComponentChangeListener() except it uses a ChangeListener.
     # Does nothing if the root component is not a Rocket.  (The asymmetry is so
@@ -184,10 +184,10 @@ class RocketComponent(RocketComponentShapeless, ChangeSource):
 
     """
          Returns coordinates of this component's instances in relation to this.parent.
-        
-        For example, the absolute position of any given instance is the parent's position 
-        plus the instance position returned by this method   
-        
+
+        For example, the absolute position of any given instance is the parent's position
+        plus the instance position returned by this method
+
         NOTE: the length of this array returned always equals this.getInstanceCount()
     """
     def getInstanceLocations(self):
@@ -221,11 +221,11 @@ class RocketComponent(RocketComponentShapeless, ChangeSource):
         Return coordinate <code>c</code> described in the coordinate system of
         <code>dest</code>.  If <code>dest</code> is <code>null</code> returns
         absolute coordinates.
-        
+
         This method returns an array of coordinates, each of which represents a
         position of the coordinate in clustered cases.  The array is guaranteed
         to contain at least one element.
-        
+
         The current implementation does not support rotating components.
     """
     def toRelative(self, c, dest):
@@ -241,8 +241,8 @@ class RocketComponent(RocketComponentShapeless, ChangeSource):
 
     """
         Provides locations of all instances of component *accounting for all parent instancing*
-        
-        
+
+
         NOTE: the length of this array MAY OR MAY NOT EQUAL this.getInstanceCount()
            --> RocketComponent::getInstanceCount() counts how many times this component replicates on its own
            --> vs. the total instance count due to parent assembly instancing
@@ -251,20 +251,20 @@ class RocketComponent(RocketComponentShapeless, ChangeSource):
     """
     def getComponentLocations(self):
         if self.getParent() is None or not hasattr(self.getParent, "getComponentLocations"):
-            # == improperly initialized components OR the root Rocket instance 
+            # == improperly initialized components OR the root Rocket instance
             return self.getInstanceOffsets()
         else:
             parentPositions = self.getParent().getComponentLocations()
             parentCount = len(parentPositions)
-            
+
             # override <instance>.getInstanceLocations() in each subclass
             instanceLocations = self.getInstanceLocations()
             instanceCount = len(instanceLocations)
-            
+
             # usual case optimization
             if parentCount == 1 and instanceCount == 1:
                 return [parentPositions[0].add(instanceLocations[0])]
-            
+
             thisCount = instanceCount*parentCount
             thesePositions = [0] * thisCount
             for pi in range(parentCount):
@@ -272,3 +272,9 @@ class RocketComponent(RocketComponentShapeless, ChangeSource):
                     thesePositions[pi + parentCount*ii] = parentPositions[pi].add(instanceLocations[ii])
 
             return thesePositions
+
+    def getSolidShape(self, obj):
+        """ Return a filled version of the shape. Useful for CFD """
+        if hasattr(obj, "Shape") and obj.Shape.isValid():
+            return obj.Shape
+        return None

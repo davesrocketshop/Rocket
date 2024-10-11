@@ -25,7 +25,7 @@ __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
 from pivy import coin
-    
+
 from DraftTools import translate
 
 class ViewProvider:
