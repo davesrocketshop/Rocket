@@ -31,8 +31,7 @@ import math
 
 from DraftTools import translate
 
-from PySide import QtGui, QtCore
-from PySide.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QGridLayout
+from PySide import  QtCore
 
 from CfdOF.Mesh import CfdMesh, CfdMeshRefinement
 from CfdOF import CfdAnalysis, CfdTools
@@ -52,10 +51,10 @@ class TaskPanelCFD(QtCore.QObject):
         self.form = FreeCADGui.PySideUic.loadUi(os.path.join(getUIPath(), 'Resources', 'ui', "DialogCFD.ui"))
         # self.form = FreeCADGui.PySideUic.loadUi(':/ui/DialogCFD.ui')
 
-        self._studies = (translate("Rocket", "Coarse"),
-                         translate("Rocket", "Fine"),
-                         )
-        self.form.comboStudy.addItems(self._studies)
+        # self._studies = (translate("Rocket", "Coarse"),
+        #                  translate("Rocket", "Fine"),
+        #                  )
+        # self.form.comboStudy.addItems(self._studies)
 
         self.form.buttonCreate.clicked.connect(self.onCreate)
 
