@@ -64,6 +64,20 @@ _compatible = {
     COMPONENT_TYPE_TRANSITION : (COMPONENT_TYPE_TRANSITION,),
     COMPONENT_TYPE_RAILBUTTON : (COMPONENT_TYPE_RAILBUTTON,)
 }
+_translated = {
+    COMPONENT_TYPE_BODYTUBE : translate('Rocket', COMPONENT_TYPE_BODYTUBE),
+    COMPONENT_TYPE_BULKHEAD : translate('Rocket', COMPONENT_TYPE_BULKHEAD),
+    COMPONENT_TYPE_CENTERINGRING : translate('Rocket', COMPONENT_TYPE_CENTERINGRING),
+    COMPONENT_TYPE_COUPLER : translate('Rocket', COMPONENT_TYPE_COUPLER),
+    COMPONENT_TYPE_ENGINEBLOCK : translate('Rocket', COMPONENT_TYPE_ENGINEBLOCK),
+    COMPONENT_TYPE_LAUNCHLUG : translate('Rocket', COMPONENT_TYPE_LAUNCHLUG),
+    COMPONENT_TYPE_NOSECONE : translate('Rocket', COMPONENT_TYPE_NOSECONE),
+    COMPONENT_TYPE_PARACHUTE : translate('Rocket', COMPONENT_TYPE_PARACHUTE),
+    COMPONENT_TYPE_STREAMER : translate('Rocket', COMPONENT_TYPE_STREAMER),
+    COMPONENT_TYPE_TRANSITION : translate('Rocket', COMPONENT_TYPE_TRANSITION),
+    COMPONENT_TYPE_RAILBUTTON : translate('Rocket', COMPONENT_TYPE_RAILBUTTON),
+    COMPONENT_TYPE_ANY : translate('Rocket', COMPONENT_TYPE_ANY)
+}
 
 
 class DialogLookup(QtGui.QDialog):
@@ -100,8 +114,9 @@ class DialogLookup(QtGui.QDialog):
         lookupTypeLabel = QtGui.QLabel(translate('Rocket', "Component"), self)
 
         self._lookupTypeCombo = QtGui.QComboBox(self)
-        self._lookupTypeCombo.addItems(_compatible[self._lookup])
-        self._lookupTypeCombo.setCurrentText(self._lookup)
+        for item in _compatible[self._lookup]:
+            self._lookupTypeCombo.addItem(_translated[item], item)
+        self._lookupTypeCombo.setCurrentText(_translated[self._lookup])
         self._lookupTypeCombo.currentTextChanged.connect(self.onLookupType)
 
         self._dbTable = QtGui.QTableView(self)
@@ -238,7 +253,7 @@ class DialogLookup(QtGui.QDialog):
         return {}
 
     def _getSelected(self, row):
-        queryType = str(self._lookupTypeCombo.currentText())
+        queryType = str(self._lookupTypeCombo.currentData())
         if queryType == COMPONENT_TYPE_ANY:
             query = self._lookup
         else:
@@ -416,7 +431,7 @@ class DialogLookup(QtGui.QDialog):
             rowCount += 1
 
     def _updateModel(self):
-        queryType = str(self._lookupTypeCombo.currentText())
+        queryType = str(self._lookupTypeCombo.currentData())
         if queryType == COMPONENT_TYPE_ANY:
             query = self._lookup
         else:

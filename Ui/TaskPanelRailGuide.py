@@ -69,11 +69,10 @@ class _RailGuideDialog(QDialog):
         # Get the rail guide parameters
         self.railGuideBaseTypeLabel = QtGui.QLabel(translate('Rocket', "Rail Guide Base"), self)
 
-        self.railGuideBaseTypes = (RAIL_GUIDE_BASE_FLAT,
-                                RAIL_GUIDE_BASE_CONFORMAL,
-                                RAIL_GUIDE_BASE_V)
         self.railGuideBaseTypeCombo = QtGui.QComboBox(self)
-        self.railGuideBaseTypeCombo.addItems(self.railGuideBaseTypes)
+        self.railGuideBaseTypeCombo.addItem(translate('Rocket', RAIL_GUIDE_BASE_FLAT), RAIL_GUIDE_BASE_FLAT)
+        self.railGuideBaseTypeCombo.addItem(translate('Rocket', RAIL_GUIDE_BASE_CONFORMAL), RAIL_GUIDE_BASE_CONFORMAL)
+        self.railGuideBaseTypeCombo.addItem(translate('Rocket', RAIL_GUIDE_BASE_V), RAIL_GUIDE_BASE_V)
 
         self.flangeWidthLabel = QtGui.QLabel(translate('Rocket', "Flange Width"), self)
 
@@ -301,7 +300,7 @@ class TaskPanelRailGuide:
 
     def transferTo(self):
         "Transfer from the dialog to the object"
-        self._obj.RailGuideBaseType = str(self._btForm.railGuideBaseTypeCombo.currentText())
+        self._obj.RailGuideBaseType = str(self._btForm.railGuideBaseTypeCombo.currentData())
         self._obj.FlangeWidth = self._btForm.flangeWidthInput.text()
         self._obj.MiddleWidth = self._btForm.middleWidthInput.text()
         self._obj.BaseWidth = self._btForm.baseWidthInput.text()
@@ -325,7 +324,7 @@ class TaskPanelRailGuide:
 
     def transferFrom(self):
         "Transfer from the object to the dialog"
-        self._btForm.railGuideBaseTypeCombo.setCurrentText(self._obj.RailGuideBaseType)
+        self._btForm.railGuideBaseTypeCombo.setCurrentIndex(self._btForm.railGuideBaseTypeCombo.findData(self._obj.RailGuideBaseType))
         self._btForm.flangeWidthInput.setText(self._obj.FlangeWidth.UserString)
         self._btForm.middleWidthInput.setText(self._obj.MiddleWidth.UserString)
         self._btForm.baseWidthInput.setText(self._obj.BaseWidth.UserString)

@@ -631,7 +631,11 @@
     <message>
       <location filename="FeatureFin.py" line="130"/>
       <source>Fin cant</source>
+<<<<<<< HEAD
       <translation>Korpus ogona ze statecznikiem</translation>
+=======
+      <translation>Korpus ogona z płetwami</translation>
+>>>>>>> dev3_3
     </message>
     <message>
       <location filename="FeatureFin.py" line="141"/>
@@ -1002,17 +1006,25 @@
       <translation>Parametr Rury Korpusowej</translation>
     </message>
     <message>
+<<<<<<< HEAD
       <location filename="TaskPanelBodyTube.py" line="75"/>
+=======
+      <location filename="TaskPanelRailButton.py" line="93"/>
+>>>>>>> dev3_3
       <source>Inner Diameter</source>
       <translation>⌀ wewnętrzna</translation>
     </message>
     <message>
+<<<<<<< HEAD
       <location filename="TaskPanelBodyTube.py" line="81"/>
+=======
+      <location filename="TaskPanelRailButton.py" line="87"/>
+>>>>>>> dev3_3
       <source>Outer Diameter</source>
       <translation>⌀ zewnętrzna</translation>
     </message>
     <message>
-      <location filename="TaskPanelTransition.py" line="298"/>
+      <location filename="TaskPanelTransition.py" line="293"/>
       <source>Length</source>
       <translation>Długość</translation>
     </message>
@@ -1027,12 +1039,12 @@
       <translation>Parametr Wręgi</translation>
     </message>
     <message>
-      <location filename="TaskPanelTransition.py" line="289"/>
+      <location filename="TaskPanelTransition.py" line="284"/>
       <source>Diameter</source>
       <translation>Średnica</translation>
     </message>
     <message>
-      <location filename="TaskPanelTransition.py" line="304"/>
+      <location filename="TaskPanelTransition.py" line="299"/>
       <source>Thickness</source>
       <translation>Grubość</translation>
     </message>
@@ -1042,12 +1054,12 @@
       <translation>Wcięcie</translation>
     </message>
     <message>
-      <location filename="TaskPanelRailGuide.py" line="160"/>
+      <location filename="TaskPanelRailGuide.py" line="159"/>
       <source>Width</source>
       <translation>Szerokość</translation>
     </message>
     <message>
-      <location filename="TaskPanelFinCan.py" line="212"/>
+      <location filename="TaskPanelFinCan.py" line="228"/>
       <source>Height</source>
       <translation>Wysokość</translation>
     </message>
@@ -1072,7 +1084,11 @@
       <translation>Liczba</translation>
     </message>
     <message>
+<<<<<<< HEAD
       <location filename="TaskPanelBulkhead.py" line="156"/>
+=======
+      <location filename="TaskPanelFin.py" line="415"/>
+>>>>>>> dev3_3
       <source>Offset</source>
       <translation>Odsunięcie</translation>
     </message>
@@ -1117,52 +1133,52 @@
       <translation>Typ statecznika</translation>
     </message>
     <message>
-      <location filename="TaskPanelFinCan.py" line="128"/>
+      <location filename="TaskPanelFinCan.py" line="125"/>
       <source>Fin Root</source>
       <translation>Nasada statecznika</translation>
     </message>
     <message>
-      <location filename="TaskPanelFinCan.py" line="173"/>
+      <location filename="TaskPanelFinCan.py" line="179"/>
       <source>Cross Section</source>
       <translation>Przekrój poprzeczny</translation>
     </message>
     <message>
-      <location filename="TaskPanelFinCan.py" line="180"/>
+      <location filename="TaskPanelFinCan.py" line="196"/>
       <source>Chord</source>
       <translation>Cięciwa</translation>
     </message>
     <message>
-      <location filename="TaskPanelFinCan.py" line="195"/>
+      <location filename="TaskPanelFinCan.py" line="211"/>
       <source>Use percentage</source>
       <translation>Użyj procentów</translation>
     </message>
     <message>
-      <location filename="TaskPanelFinCan.py" line="200"/>
+      <location filename="TaskPanelFinCan.py" line="216"/>
       <source>Length 1</source>
       <translation>Długość 1</translation>
     </message>
     <message>
-      <location filename="TaskPanelFinCan.py" line="206"/>
+      <location filename="TaskPanelFinCan.py" line="222"/>
       <source>Length 2</source>
       <translation>Długość 2</translation>
     </message>
     <message>
-      <location filename="TaskPanelFinCan.py" line="170"/>
+      <location filename="TaskPanelFinCan.py" line="176"/>
       <source>Fin Tip</source>
       <translation>Końcówka statecznika</translation>
     </message>
     <message>
-      <location filename="TaskPanelFinCan.py" line="219"/>
+      <location filename="TaskPanelFinCan.py" line="235"/>
       <source>Sweep Length</source>
       <translation>Długość skosu</translation>
     </message>
     <message>
-      <location filename="TaskPanelRailGuide.py" line="150"/>
+      <location filename="TaskPanelRailGuide.py" line="149"/>
       <source>Sweep Angle</source>
       <translation>Kąt skosu</translation>
     </message>
     <message>
-      <location filename="TaskPanelFin.py" line="401"/>
+      <location filename="TaskPanelFin.py" line="412"/>
       <source>TTW Tab</source>
       <translation>Żebro wewnętrzne przechodzące przez ścianę</translation>
     </message>
@@ -1182,32 +1198,32 @@
       <translation>Parametr przejścia</translation>
     </message>
     <message>
-      <location filename="TaskPanelTransition.py" line="91"/>
+      <location filename="TaskPanelTransition.py" line="89"/>
       <source>Clipped</source>
       <translation>Przycięte</translation>
     </message>
     <message>
-      <location filename="TaskPanelTransition.py" line="121"/>
+      <location filename="TaskPanelTransition.py" line="118"/>
       <source>Forward Diameter</source>
       <translation>Średnica dziobowa</translation>
     </message>
     <message>
-      <location filename="TaskPanelTransition.py" line="130"/>
+      <location filename="TaskPanelTransition.py" line="127"/>
       <source>Aft Diameter</source>
       <translation>⌀ rufowa</translation>
     </message>
     <message>
-      <location filename="TaskPanelTransition.py" line="139"/>
+      <location filename="TaskPanelTransition.py" line="136"/>
       <source>Core Diameter</source>
       <translation>⌀ rdzenia</translation>
     </message>
     <message>
-      <location filename="TaskPanelTransition.py" line="262"/>
+      <location filename="TaskPanelTransition.py" line="257"/>
       <source>Forward Shoulder</source>
       <translation>Czop przedni</translation>
     </message>
     <message>
-      <location filename="TaskPanelTransition.py" line="286"/>
+      <location filename="TaskPanelTransition.py" line="281"/>
       <source>Aft Shoulder</source>
       <translation>Czop rufowy</translation>
     </message>
@@ -1457,7 +1473,7 @@
       <translation>Średnica ramienia rufowego nie może przekraczać średnicy przejściowej przy ramieniu</translation>
     </message>
     <message>
-      <location filename="TransitionShapeHandler.py" line="324"/>
+      <location filename="TransitionShapeHandler.py" line="326"/>
       <source>Transition parameters produce an invalid shape</source>
       <translation>Parametry przejścia tworzą nieprawidłowy kształt</translation>
     </message>
@@ -1532,7 +1548,7 @@
       <translation>Kalkulator ładunku wyrzutowego</translation>
     </message>
     <message>
-      <location filename="TaskPanelRailGuide.py" line="121"/>
+      <location filename="TaskPanelRailGuide.py" line="120"/>
       <source>Body Tube Diameter</source>
       <translation>Średnica rury korpusu</translation>
     </message>
@@ -1552,7 +1568,7 @@
       <translation>Ciśnienie</translation>
     </message>
     <message>
-      <location filename="DialogBlackPowder.py" line="112"/>
+      <location filename="DialogBlackPowder.py" line="109"/>
       <source>FFFFg Powder</source>
       <translation>Proch FFFFg</translation>
     </message>
@@ -1567,27 +1583,27 @@
       <translation>Znajdź</translation>
     </message>
     <message>
-      <location filename="DialogLookup.py" line="100"/>
+      <location filename="DialogLookup.py" line="114"/>
       <source>Component</source>
       <translation>Komponent</translation>
     </message>
     <message>
-      <location filename="DialogLookup.py" line="202"/>
+      <location filename="DialogLookup.py" line="217"/>
       <source>Body tube not found</source>
       <translation>Nie znaleziono rury korpusowej</translation>
     </message>
     <message>
-      <location filename="DialogLookup.py" line="237"/>
+      <location filename="DialogLookup.py" line="252"/>
       <source>Multiple identical entries found</source>
       <translation>Znaleziono wiele identycznych wpisów</translation>
     </message>
     <message>
-      <location filename="DialogLookup.py" line="213"/>
+      <location filename="DialogLookup.py" line="228"/>
       <source>Nose cone not found</source>
       <translation>Nie znaleziono dziobu</translation>
     </message>
     <message>
-      <location filename="DialogLookup.py" line="224"/>
+      <location filename="DialogLookup.py" line="239"/>
       <source>Transition not found</source>
       <translation>Nie odnaleziono przejścia</translation>
     </message>
@@ -1597,42 +1613,42 @@
       <translation>Typ</translation>
     </message>
     <message>
-      <location filename="DialogLookup.py" line="324"/>
+      <location filename="DialogLookup.py" line="339"/>
       <source>Shoulder Diameter</source>
       <translation>Średnica czopu</translation>
     </message>
     <message>
-      <location filename="DialogLookup.py" line="325"/>
+      <location filename="DialogLookup.py" line="340"/>
       <source>Shoulder Length</source>
       <translation>Długość czopu</translation>
     </message>
     <message>
-      <location filename="DialogLookup.py" line="353"/>
+      <location filename="DialogLookup.py" line="368"/>
       <source>Shape</source>
       <translation>Kształt</translation>
     </message>
     <message>
-      <location filename="DialogLookup.py" line="354"/>
+      <location filename="DialogLookup.py" line="369"/>
       <source>Fore Diameter</source>
       <translation>Średnica przednia</translation>
     </message>
     <message>
-      <location filename="DialogLookup.py" line="357"/>
+      <location filename="DialogLookup.py" line="372"/>
       <source>Fore Shoulder Diameter</source>
       <translation>Średnica przedniej nasadki</translation>
     </message>
     <message>
-      <location filename="DialogLookup.py" line="358"/>
+      <location filename="DialogLookup.py" line="373"/>
       <source>Fore Shoulder Length</source>
       <translation>Długość przedniej nasadki</translation>
     </message>
     <message>
-      <location filename="DialogLookup.py" line="359"/>
+      <location filename="DialogLookup.py" line="374"/>
       <source>Aft Shoulder Diameter</source>
       <translation>Średnica ramienia rufowego</translation>
     </message>
     <message>
-      <location filename="DialogLookup.py" line="360"/>
+      <location filename="DialogLookup.py" line="375"/>
       <source>Aft Shoulder Length</source>
       <translation>Długość czopu rufowego</translation>
     </message>
@@ -1682,7 +1698,7 @@
       <translation>Prędkość graniczna</translation>
     </message>
     <message>
-      <location filename="DialogParachute.py" line="91"/>
+      <location filename="DialogParachute.py" line="88"/>
       <source>Drag Coefficient</source>
       <translation>Współczynnik oporu</translation>
     </message>
@@ -1847,7 +1863,11 @@
       <translation>Parametry prowadnicy tworzą nieprawidłowy kształt</translation>
     </message>
     <message>
+<<<<<<< HEAD
       <location filename="CmdLaunchGuides.py" line="84"/>
+=======
+      <location filename="TaskPanelFinCan.py" line="538"/>
+>>>>>>> dev3_3
       <source>Launch Lug</source>
       <translation>Uchwyt startowy</translation>
     </message>
@@ -1897,42 +1917,42 @@
       <translation>Podstawa prowadnicy</translation>
     </message>
     <message>
-      <location filename="TaskPanelRailGuide.py" line="84"/>
+      <location filename="TaskPanelRailGuide.py" line="83"/>
       <source>Middle Width</source>
       <translation>Szerokość środka</translation>
     </message>
     <message>
-      <location filename="TaskPanelRailGuide.py" line="90"/>
+      <location filename="TaskPanelRailGuide.py" line="89"/>
       <source>Base Width</source>
       <translation>Szerokość podstawy</translation>
     </message>
     <message>
-      <location filename="TaskPanelTransition.py" line="295"/>
+      <location filename="TaskPanelTransition.py" line="290"/>
       <source>auto</source>
       <translation>automatycznie</translation>
     </message>
     <message>
-      <location filename="TaskPanelRailGuide.py" line="131"/>
+      <location filename="TaskPanelRailGuide.py" line="130"/>
       <source>V Angle</source>
       <translation>Kąt V</translation>
     </message>
     <message>
-      <location filename="TaskPanelRailGuide.py" line="138"/>
+      <location filename="TaskPanelRailGuide.py" line="137"/>
       <source>Forward Sweep</source>
       <translation>Przednie wyciągnięcie</translation>
     </message>
     <message>
-      <location filename="TaskPanelRailGuide.py" line="147"/>
+      <location filename="TaskPanelRailGuide.py" line="146"/>
       <source>Aft Sweep</source>
       <translation>Wyciągnięcie rufy</translation>
     </message>
     <message>
-      <location filename="TaskPanelRailGuide.py" line="157"/>
+      <location filename="TaskPanelRailGuide.py" line="156"/>
       <source>Notch</source>
       <translation>Wcięcie</translation>
     </message>
     <message>
-      <location filename="TaskPanelRailGuide.py" line="166"/>
+      <location filename="TaskPanelRailGuide.py" line="165"/>
       <source>Depth</source>
       <translation>Głębokość</translation>
     </message>
@@ -1947,12 +1967,12 @@
       <translation>Kształt przejścia</translation>
     </message>
     <message>
-      <location filename="TaskPanelTransition.py" line="94"/>
+      <location filename="TaskPanelTransition.py" line="92"/>
       <source>Shape Parameter</source>
       <translation>Parametr kształtu</translation>
     </message>
     <message>
-      <location filename="TaskPanelTransition.py" line="105"/>
+      <location filename="TaskPanelTransition.py" line="103"/>
       <source>Style</source>
       <translation>Styl</translation>
     </message>
@@ -1967,32 +1987,36 @@
       <translation>Kształt przycisku prowadnicy</translation>
     </message>
     <message>
-      <location filename="TaskPanelRailButton.py" line="124"/>
+      <location filename="TaskPanelRailButton.py" line="123"/>
       <source>Fastener</source>
       <translation>Element złączny</translation>
     </message>
     <message>
-      <location filename="TaskPanelRailButton.py" line="139"/>
+      <location filename="TaskPanelRailButton.py" line="137"/>
       <source>Head Diameter</source>
       <translation>Średnica głowicy</translation>
     </message>
     <message>
-      <location filename="TaskPanelRailButton.py" line="145"/>
+      <location filename="TaskPanelRailButton.py" line="143"/>
       <source>Shank Diameter</source>
       <translation>Średnica trzonu</translation>
     </message>
     <message>
+<<<<<<< HEAD
       <location filename="TaskPanelFinCan.py" line="528"/>
+=======
+      <location filename="TaskPanelRailButton.py" line="149"/>
+>>>>>>> dev3_3
       <source>Presets</source>
       <translation>Nastawy wstępne</translation>
     </message>
     <message>
-      <location filename="TaskPanelRailButton.py" line="161"/>
+      <location filename="TaskPanelRailButton.py" line="158"/>
       <source>Top Fillet</source>
       <translation>Górne zaokrąglenie</translation>
     </message>
     <message>
-      <location filename="TaskPanelRailButton.py" line="164"/>
+      <location filename="TaskPanelRailButton.py" line="161"/>
       <source>Radius</source>
       <translation>Promień</translation>
     </message>
@@ -2017,12 +2041,12 @@
       <translation>Średnica czubka musi być większa niż zero</translation>
     </message>
     <message>
-      <location filename="TaskPanelNoseCone.py" line="138"/>
+      <location filename="TaskPanelNoseCone.py" line="136"/>
       <source>Blunted Diameter</source>
       <translation>Średnica stępienia</translation>
     </message>
     <message>
-      <location filename="TaskPanelNoseCone.py" line="144"/>
+      <location filename="TaskPanelNoseCone.py" line="142"/>
       <source>Ogive Diameter</source>
       <translation>Średnica ostrołuku</translation>
     </message>
@@ -2067,42 +2091,42 @@
       <translation>Korpus ze statecznikiem</translation>
     </message>
     <message>
-      <location filename="TaskPanelFinCan.py" line="106"/>
+      <location filename="TaskPanelFinCan.py" line="103"/>
       <source>Fin Set</source>
       <translation>Ustawienia statecznika</translation>
     </message>
     <message>
-      <location filename="TaskPanelFinCan.py" line="108"/>
+      <location filename="TaskPanelFinCan.py" line="105"/>
       <source>Fin Count</source>
       <translation>Ilość</translation>
     </message>
     <message>
-      <location filename="TaskPanelFinCan.py" line="115"/>
+      <location filename="TaskPanelFinCan.py" line="112"/>
       <source>Fin Spacing</source>
       <translation>Odstęp</translation>
     </message>
     <message>
-      <location filename="TaskPanelFinCan.py" line="552"/>
+      <location filename="TaskPanelFinCan.py" line="573"/>
       <source>Leading Edge Offset</source>
       <translation>Odsunięcie krawędzi natarcia</translation>
     </message>
     <message>
-      <location filename="TaskPanelFinCan.py" line="371"/>
+      <location filename="TaskPanelFinCan.py" line="387"/>
       <source>Leading Edge</source>
       <translation>Krawędź natarcia</translation>
     </message>
     <message>
-      <location filename="TaskPanelFinCan.py" line="387"/>
+      <location filename="TaskPanelFinCan.py" line="404"/>
       <source>Edge Style</source>
       <translation>Styl krawędzi</translation>
     </message>
     <message>
-      <location filename="TaskPanelFinCan.py" line="385"/>
+      <location filename="TaskPanelFinCan.py" line="402"/>
       <source>Trailing Edge</source>
       <translation>Krawędź natarcia</translation>
     </message>
     <message>
-      <location filename="TaskPanelFinCan.py" line="558"/>
+      <location filename="TaskPanelFinCan.py" line="579"/>
       <source>Fillet radius</source>
       <translation>Promień zaokrąglenia</translation>
     </message>
@@ -2112,7 +2136,7 @@
       <translation>Konstrukcja korpusu ze statecznikiem</translation>
     </message>
     <message>
-      <location filename="TaskPanelRailButton.py" line="127"/>
+      <location filename="TaskPanelRailButton.py" line="126"/>
       <source>Countersink Angle</source>
       <translation>Kąt pogłębienia stożkowego</translation>
     </message>
@@ -2122,17 +2146,17 @@
       <translation>Parametry dziobu tworzą nieprawidłowy kształt</translation>
     </message>
     <message>
-      <location filename="TaskPanelNoseCone.py" line="151"/>
+      <location filename="TaskPanelNoseCone.py" line="149"/>
       <source>Nose Cap</source>
       <translation>Nakładka nosa</translation>
     </message>
     <message>
-      <location filename="TaskPanelTransition.py" line="171"/>
+      <location filename="TaskPanelTransition.py" line="167"/>
       <source>Cap style</source>
       <translation>Styl nasadki</translation>
     </message>
     <message>
-      <location filename="TaskPanelTransition.py" line="179"/>
+      <location filename="TaskPanelTransition.py" line="174"/>
       <source>Bar Width</source>
       <translation>Szerokość prowadnicy</translation>
     </message>
@@ -2152,7 +2176,7 @@
       <translation>Stateczniki niestandardowe nie są obecnie obsługiwane</translation>
     </message>
     <message>
-      <location filename="InitGui.py" line="81"/>
+      <location filename="InitGui.py" line="82"/>
       <source>Analysis</source>
       <translation>Analiza</translation>
     </message>
@@ -2277,32 +2301,36 @@
       <translation>Zewnętrzna średnica łącznika musi być mniejsza niż zewnętrzna średnica rury korpusowej.</translation>
     </message>
     <message>
-      <location filename="TransitionShapeHandler.py" line="351"/>
+      <location filename="TransitionShapeHandler.py" line="353"/>
       <source>Forward cap style produces an invalid shape</source>
       <translation>Parametry stylu nasadki tworzą nieprawidłowy kształt</translation>
     </message>
     <message>
+<<<<<<< HEAD
       <location filename="CmdBodyTube.py" line="117"/>
+=======
+      <location filename="TaskPanelFinCan.py" line="474"/>
+>>>>>>> dev3_3
       <source>Coupler</source>
       <translation>Łącznik</translation>
     </message>
     <message>
-      <location filename="TaskPanelFinCan.py" line="458"/>
+      <location filename="TaskPanelFinCan.py" line="477"/>
       <source>Coupler Style</source>
       <translation>Styl łącznika</translation>
     </message>
     <message>
-      <location filename="TaskPanelFinCan.py" line="462"/>
+      <location filename="TaskPanelFinCan.py" line="481"/>
       <source>Flush with fin can</source>
       <translation>Zlicowany z korpusem statecznika</translation>
     </message>
     <message>
-      <location filename="TaskPanelFinCan.py" line="463"/>
+      <location filename="TaskPanelFinCan.py" line="482"/>
       <source>Stepped</source>
       <translation>Stopniowo</translation>
     </message>
     <message>
-      <location filename="TaskPanelTransition.py" line="169"/>
+      <location filename="TaskPanelTransition.py" line="165"/>
       <source>Aft Cap</source>
       <translation>Pokrywa rufowa</translation>
     </message>
@@ -2497,17 +2525,21 @@
       <translation>odwróć</translation>
     </message>
     <message>
-      <location filename="TaskPanelFinCan.py" line="121"/>
+      <location filename="TaskPanelFinCan.py" line="118"/>
       <source>Fin Cant</source>
+<<<<<<< HEAD
       <translation>Korpus ogona ze statecznikiem</translation>
+=======
+      <translation>Korpus ogona z płetwami</translation>
+>>>>>>> dev3_3
     </message>
     <message>
-      <location filename="TaskPanelFinCan.py" line="192"/>
+      <location filename="TaskPanelFinCan.py" line="208"/>
       <source>Tip thickness same as root</source>
       <translation>Grubość końcówki taka sama jak u nasady</translation>
     </message>
     <message>
-      <location filename="TaskPanelFin.py" line="205"/>
+      <location filename="TaskPanelFin.py" line="216"/>
       <source>Tube Fin</source>
       <translation>Rura statecznika</translation>
     </message>
@@ -2527,14 +2559,15 @@
       <translation>Odniesienie promieniowe</translation>
     </message>
     <message>
-      <location filename="TaskPanelLocation.py" line="65"/>
+      <location filename="TaskPanelLocation.py" line="62"/>
       <source>Radial Offset</source>
       <translation>Przesunięcie promieniowe</translation>
     </message>
     <message>
-      <location filename="TaskPanelLocation.py" line="73"/>
+      <location filename="TaskPanelLocation.py" line="70"/>
       <source>Location Reference</source>
       <translation>Odniesienie położenia</translation>
+<<<<<<< HEAD
     </message>
     <message>
       <location filename="TaskPanelLocation.py" line="84"/>
@@ -2543,6 +2576,16 @@
     </message>
     <message>
       <location filename="TaskPanelLocation.py" line="90"/>
+=======
+    </message>
+    <message>
+      <location filename="TaskPanelLocation.py" line="78"/>
+      <source>Location</source>
+      <translation>Położenie</translation>
+    </message>
+    <message>
+      <location filename="TaskPanelLocation.py" line="84"/>
+>>>>>>> dev3_3
       <source>Angle Offset</source>
       <translation>Przesunięcie kątowe</translation>
     </message>
@@ -2577,7 +2620,7 @@
       <translation>Rozstaw pędników</translation>
     </message>
     <message>
-      <location filename="TaskPanelTransition.py" line="152"/>
+      <location filename="TaskPanelTransition.py" line="149"/>
       <source>Forward Cap</source>
       <translation>Nasadka przednia</translation>
     </message>
@@ -2608,7 +2651,11 @@
     </message>
     <message>
       <location filename="RailButtonShapeHandler.py" line="84"/>
+<<<<<<< HEAD
       <source>Top and base height can not exceed the total height</source>
+=======
+      <source>Top and base height can not excedd the total height</source>
+>>>>>>> dev3_3
       <translation>Wartość wysokości górnej i dolnej nie może przekraczać wysokości całkowitej</translation>
     </message>
     <message>
@@ -2637,49 +2684,50 @@
       <translation>Głębokość wycięcia nie może przekraczać całkowitej wysokości</translation>
     </message>
     <message>
-      <location filename="DialogLookup.py" line="235"/>
+      <location filename="DialogLookup.py" line="250"/>
       <source>Rail button not found</source>
       <translation>Brak przycisku prowadnicy</translation>
     </message>
     <message>
-      <location filename="DialogLookup.py" line="391"/>
+      <location filename="DialogLookup.py" line="406"/>
       <source>Finish</source>
       <translation>Zakończenie</translation>
     </message>
     <message>
-      <location filename="TaskPanelRailGuide.py" line="102"/>
+      <location filename="TaskPanelRailGuide.py" line="101"/>
       <source>Base Height</source>
       <translation>Wysokość podstawowa</translation>
     </message>
     <message>
-      <location filename="TaskPanelRailGuide.py" line="96"/>
+      <location filename="TaskPanelRailGuide.py" line="95"/>
       <source>Flange Height</source>
       <translation>Wysokość kołnierza</translation>
     </message>
     <message>
-      <location filename="DialogLookup.py" line="397"/>
+      <location filename="DialogLookup.py" line="412"/>
       <source>Screw Height</source>
       <translation>Wysokość śruby</translation>
     </message>
     <message>
-      <location filename="TaskPanelFin.py" line="248"/>
+      <location filename="TaskPanelFin.py" line="259"/>
       <source>Minimum Edge</source>
       <translation>Najmniejsza długość krawędzi</translation>
     </message>
     <message>
-      <location filename="TaskPanelFin.py" line="251"/>
+      <location filename="TaskPanelFin.py" line="262"/>
       <source>Size</source>
       <translation>Rozmiar</translation>
     </message>
     <message>
-      <location filename="TaskPanelRailGuide.py" line="108"/>
+      <location filename="TaskPanelRailGuide.py" line="107"/>
       <source>Total Height</source>
       <translation>Wysokość całkowita</translation>
     </message>
     <message>
-      <location filename="TaskPanelRailGuide.py" line="78"/>
+      <location filename="TaskPanelRailGuide.py" line="77"/>
       <source>Flange Width</source>
       <translation>Szerokość kołnierza</translation>
+<<<<<<< HEAD
     </message>
     <message>
       <location filename="DialogBlackPowder.py" line="66"/>
@@ -2695,6 +2743,8 @@
         &lt;p&gt;Ten kalkulator służy tylko do szacowania. Przetestuj swój mechanizm wyrzutowy przed startem. W niektórych wypadkach kalkulator ten może przeszacować ilość wymaganego prochu&lt;/p&gt;
         &lt;/html&gt;
         </translation>
+=======
+>>>>>>> dev3_3
     </message>
   </context>
 </TS>

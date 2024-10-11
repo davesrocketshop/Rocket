@@ -80,10 +80,9 @@ class _RailButtonDialog(QDialog):
 
         self.railButtonTypeLabel = QtGui.QLabel(translate('Rocket', "Rail Button Shape"), self)
 
-        self.railButtonTypes = (RAIL_BUTTON_ROUND,
-                                RAIL_BUTTON_AIRFOIL)
         self.railButtonTypeCombo = QtGui.QComboBox(self)
-        self.railButtonTypeCombo.addItems(self.railButtonTypes)
+        self.railButtonTypeCombo.addItem(translate('Rocket', RAIL_BUTTON_ROUND), RAIL_BUTTON_ROUND)
+        self.railButtonTypeCombo.addItem(translate('Rocket', RAIL_BUTTON_AIRFOIL), RAIL_BUTTON_AIRFOIL)
 
         # Get the rail button parameters
         self.odLabel = QtGui.QLabel(translate('Rocket', "Outer Diameter"), self)
@@ -127,15 +126,14 @@ class _RailButtonDialog(QDialog):
 
         self.countersinkLabel = QtGui.QLabel(translate('Rocket', "Countersink Angle"), self)
 
-        self.countersinkTypes = (COUNTERSINK_ANGLE_NONE,
-                                    COUNTERSINK_ANGLE_60,
-                                    COUNTERSINK_ANGLE_82,
-                                    COUNTERSINK_ANGLE_90,
-                                    COUNTERSINK_ANGLE_100,
-                                    COUNTERSINK_ANGLE_110,
-                                    COUNTERSINK_ANGLE_120)
         self.countersinkTypeCombo = QtGui.QComboBox(self)
-        self.countersinkTypeCombo.addItems(self.countersinkTypes)
+        self.countersinkTypeCombo.addItem(translate('Rocket', COUNTERSINK_ANGLE_NONE), COUNTERSINK_ANGLE_NONE)
+        self.countersinkTypeCombo.addItem(translate('Rocket', COUNTERSINK_ANGLE_60), COUNTERSINK_ANGLE_60)
+        self.countersinkTypeCombo.addItem(translate('Rocket', COUNTERSINK_ANGLE_82), COUNTERSINK_ANGLE_82)
+        self.countersinkTypeCombo.addItem(translate('Rocket', COUNTERSINK_ANGLE_90), COUNTERSINK_ANGLE_90)
+        self.countersinkTypeCombo.addItem(translate('Rocket', COUNTERSINK_ANGLE_100), COUNTERSINK_ANGLE_100)
+        self.countersinkTypeCombo.addItem(translate('Rocket', COUNTERSINK_ANGLE_110), COUNTERSINK_ANGLE_110)
+        self.countersinkTypeCombo.addItem(translate('Rocket', COUNTERSINK_ANGLE_120), COUNTERSINK_ANGLE_120)
 
         self.headDiameterLabel = QtGui.QLabel(translate('Rocket', "Head Diameter"), self)
 
@@ -151,13 +149,12 @@ class _RailButtonDialog(QDialog):
 
         self.fastenerPresetLabel = QtGui.QLabel(translate('Rocket', "Presets"), self)
 
-        self.fastenerPresetTypes = ("",
-                                    FASTENER_PRESET_6,
-                                    FASTENER_PRESET_8,
-                                    FASTENER_PRESET_10,
-                                    FASTENER_PRESET_1_4)
         self.fastenerPresetCombo = QtGui.QComboBox(self)
-        self.fastenerPresetCombo.addItems(self.fastenerPresetTypes)
+        self.fastenerPresetCombo.addItem("", "")
+        self.fastenerPresetCombo.addItem(translate('Rocket', FASTENER_PRESET_6), FASTENER_PRESET_6)
+        self.fastenerPresetCombo.addItem(translate('Rocket', FASTENER_PRESET_8), FASTENER_PRESET_8)
+        self.fastenerPresetCombo.addItem(translate('Rocket', FASTENER_PRESET_10), FASTENER_PRESET_10)
+        self.fastenerPresetCombo.addItem(translate('Rocket', FASTENER_PRESET_1_4), FASTENER_PRESET_1_4)
 
         self.filletGroup = QtGui.QGroupBox(translate('Rocket', "Top Fillet"), self)
         self.filletGroup.setCheckable(True)
@@ -281,7 +278,7 @@ class TaskPanelRailButton:
 
     def transferTo(self):
         "Transfer from the dialog to the object"
-        self._obj.RailButtonType = str(self._btForm.railButtonTypeCombo.currentText())
+        self._obj.RailButtonType = str(self._btForm.railButtonTypeCombo.currentData())
         self._obj.Diameter = self._btForm.odInput.text()
         self._obj.InnerDiameter = self._btForm.idInput.text()
         self._obj.FlangeHeight = self._btForm.flangeHeightInput.text()
@@ -290,7 +287,7 @@ class TaskPanelRailButton:
         self._obj.Length = self._btForm.lengthInput.text()
 
         self._obj.Fastener = self._btForm.fastenerGroup.isChecked()
-        self._obj.CountersinkAngle = str(self._btForm.countersinkTypeCombo.currentText())
+        self._obj.CountersinkAngle = str(self._btForm.countersinkTypeCombo.currentData())
         self._obj.HeadDiameter = self._btForm.headDiameterInput.text()
         self._obj.ShankDiameter = self._btForm.shankDiameterInput.text()
 
@@ -302,7 +299,7 @@ class TaskPanelRailButton:
 
     def transferFrom(self):
         "Transfer from the object to the dialog"
-        self._btForm.railButtonTypeCombo.setCurrentText(self._obj.RailButtonType)
+        self._btForm.railButtonTypeCombo.setCurrentIndex(self._btForm.railButtonTypeCombo.findData(self._obj.RailButtonType))
         self._btForm.odInput.setText(self._obj.Diameter.UserString)
         self._btForm.idInput.setText(self._obj.InnerDiameter.UserString)
         self._btForm.flangeHeightInput.setText(self._obj.FlangeHeight.UserString)
@@ -311,7 +308,7 @@ class TaskPanelRailButton:
         self._btForm.lengthInput.setText(self._obj.Length.UserString)
 
         self._btForm.fastenerGroup.setChecked(self._obj.Fastener)
-        self._btForm.countersinkTypeCombo.setCurrentText(self._obj.CountersinkAngle)
+        self._btForm.countersinkTypeCombo.setCurrentIndex(self._btForm.countersinkTypeCombo.findData(self._obj.CountersinkAngle))
         self._btForm.headDiameterInput.setText(self._obj.HeadDiameter.UserString)
         self._btForm.shankDiameterInput.setText(self._obj.ShankDiameter.UserString)
         self._btForm.fastenerPresetCombo.setCurrentText("")
@@ -408,7 +405,7 @@ class TaskPanelRailButton:
         self._btForm.headDiameterInput.setEnabled(value)
 
     def _setFasteners(self):
-        self._btForm.countersinkTypeCombo.setCurrentText(self._obj.CountersinkAngle)
+        self._btForm.countersinkTypeCombo.setCurrentIndex(self._btForm.countersinkTypeCombo.findData(self._obj.CountersinkAngle))
         self._btForm.headDiameterInput.setText(self._obj.HeadDiameter.UserString)
         self._btForm.shankDiameterInput.setText(self._obj.ShankDiameter.UserString)
         self._setFastenerState()
@@ -484,13 +481,14 @@ class TaskPanelRailButton:
         self.setEdited()
 
     def onFastenerPreset(self, value):
-        if value == FASTENER_PRESET_6:
+        data = self._btForm.fastenerPresetCombo.currentData()
+        if data == FASTENER_PRESET_6:
             self.preset6()
-        elif value == FASTENER_PRESET_8:
+        elif data == FASTENER_PRESET_8:
             self.preset8()
-        elif value == FASTENER_PRESET_10:
+        elif data == FASTENER_PRESET_10:
             self.preset10()
-        elif value == FASTENER_PRESET_1_4:
+        elif data == FASTENER_PRESET_1_4:
             self.preset1_4()
 
     def onFillet(self, value):

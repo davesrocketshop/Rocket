@@ -77,29 +77,27 @@ class _NoseConeDialog(QDialog):
         # Select the type of nose cone
         self.noseConeTypeLabel = QtGui.QLabel(translate('Rocket', "Nose Cone Shape"), self)
 
-        self.noseConeTypes = (TYPE_CONE,
-                                TYPE_BLUNTED_CONE,
-                                TYPE_SPHERICAL,
-                                TYPE_ELLIPTICAL,
-                                TYPE_OGIVE,
-                                TYPE_BLUNTED_OGIVE,
-                                TYPE_SECANT_OGIVE,
-                                TYPE_PARABOLA,
-                                TYPE_PARABOLIC,
-                                TYPE_POWER,
-                                TYPE_VON_KARMAN,
-                                TYPE_HAACK)
         self.noseConeTypesCombo = QtGui.QComboBox(self)
-        self.noseConeTypesCombo.addItems(self.noseConeTypes)
+        self.noseConeTypesCombo.addItem(translate('Rocket', TYPE_CONE), TYPE_CONE)
+        self.noseConeTypesCombo.addItem(translate('Rocket', TYPE_BLUNTED_CONE), TYPE_BLUNTED_CONE)
+        self.noseConeTypesCombo.addItem(translate('Rocket', TYPE_SPHERICAL), TYPE_SPHERICAL)
+        self.noseConeTypesCombo.addItem(translate('Rocket', TYPE_ELLIPTICAL), TYPE_ELLIPTICAL)
+        self.noseConeTypesCombo.addItem(translate('Rocket', TYPE_OGIVE), TYPE_OGIVE)
+        self.noseConeTypesCombo.addItem(translate('Rocket', TYPE_BLUNTED_OGIVE), TYPE_BLUNTED_OGIVE)
+        self.noseConeTypesCombo.addItem(translate('Rocket', TYPE_SECANT_OGIVE), TYPE_SECANT_OGIVE)
+        self.noseConeTypesCombo.addItem(translate('Rocket', TYPE_PARABOLA), TYPE_PARABOLA)
+        self.noseConeTypesCombo.addItem(translate('Rocket', TYPE_PARABOLIC), TYPE_PARABOLIC)
+        self.noseConeTypesCombo.addItem(translate('Rocket', TYPE_POWER), TYPE_POWER)
+        self.noseConeTypesCombo.addItem(translate('Rocket', TYPE_VON_KARMAN), TYPE_VON_KARMAN)
+        self.noseConeTypesCombo.addItem(translate('Rocket', TYPE_HAACK), TYPE_HAACK)
 
         # Select the type of sketch
         self.noseStyleLabel = QtGui.QLabel(translate('Rocket', "Style"), self)
 
-        self.noseStyles = (STYLE_SOLID,
-                                STYLE_HOLLOW,
-                                STYLE_CAPPED)
         self.noseStylesCombo = QtGui.QComboBox(self)
-        self.noseStylesCombo.addItems(self.noseStyles)
+        self.noseStylesCombo.addItem(translate('Rocket', STYLE_SOLID), STYLE_SOLID)
+        self.noseStylesCombo.addItem(translate('Rocket', STYLE_HOLLOW), STYLE_HOLLOW)
+        self.noseStylesCombo.addItem(translate('Rocket', STYLE_CAPPED), STYLE_CAPPED)
 
         # Get the nose cone parameters: length, width, etc...
         self.lengthLabel = QtGui.QLabel(translate('Rocket', "Length"), self)
@@ -153,11 +151,10 @@ class _NoseConeDialog(QDialog):
 
         self.noseCapStyleLabel = QtGui.QLabel(translate('Rocket', "Cap style"), self)
 
-        self.noseCapStyles = (STYLE_CAP_SOLID,
-                                STYLE_CAP_BAR,
-                                STYLE_CAP_CROSS)
         self.noseCapStylesCombo = QtGui.QComboBox(self)
-        self.noseCapStylesCombo.addItems(self.noseCapStyles)
+        self.noseCapStylesCombo.addItem(translate('Rocket', STYLE_CAP_SOLID), STYLE_CAP_SOLID)
+        self.noseCapStylesCombo.addItem(translate('Rocket', STYLE_CAP_BAR), STYLE_CAP_BAR)
+        self.noseCapStylesCombo.addItem(translate('Rocket', STYLE_CAP_CROSS), STYLE_CAP_CROSS)
 
         self.noseCapBarWidthLabel = QtGui.QLabel(translate('Rocket', "Bar Width"), self)
 
@@ -319,9 +316,9 @@ class TaskPanelNoseCone:
 
     def transferTo(self):
         "Transfer from the dialog to the object"
-        self._obj.NoseType = str(self._noseForm.noseConeTypesCombo.currentText())
-        self._obj.NoseStyle = str(self._noseForm.noseStylesCombo.currentText())
-        self._obj.CapStyle = str(self._noseForm.noseCapStylesCombo.currentText())
+        self._obj.NoseType = str(self._noseForm.noseConeTypesCombo.currentData())
+        self._obj.NoseStyle = str(self._noseForm.noseStylesCombo.currentData())
+        self._obj.CapStyle = str(self._noseForm.noseCapStylesCombo.currentData())
         self._obj.CapBarWidth = self._noseForm.noseCapBarWidthInput.text()
         self._obj.Proxy.setLength(FreeCAD.Units.Quantity(self._noseForm.lengthInput.text()).Value)
         self._obj.Proxy.setAftDiameter(FreeCAD.Units.Quantity(self._noseForm.diameterInput.text()).Value)
@@ -341,9 +338,9 @@ class TaskPanelNoseCone:
 
     def transferFrom(self):
         "Transfer from the object to the dialog"
-        self._noseForm.noseConeTypesCombo.setCurrentText(self._obj.NoseType)
-        self._noseForm.noseStylesCombo.setCurrentText(self._obj.NoseStyle)
-        self._noseForm.noseCapStylesCombo.setCurrentText(self._obj.CapStyle)
+        self._noseForm.noseConeTypesCombo.setCurrentIndex(self._noseForm.noseConeTypesCombo.findData(self._obj.NoseType))
+        self._noseForm.noseStylesCombo.setCurrentIndex(self._noseForm.noseStylesCombo.findData(self._obj.NoseStyle))
+        self._noseForm.noseCapStylesCombo.setCurrentIndex(self._noseForm.noseCapStylesCombo.findData(self._obj.CapStyle))
         self._noseForm.noseCapBarWidthInput.setText(self._obj.CapBarWidth.UserString)
         self._noseForm.lengthInput.setText(self._obj.Length.UserString)
         self._noseForm.diameterInput.setText(self._obj.Diameter.UserString)
@@ -551,7 +548,7 @@ class TaskPanelNoseCone:
             self._noseForm.shoulderDiameterInput.setEnabled(True)
             self._noseForm.shoulderLengthInput.setEnabled(True)
 
-            selectedText = self._noseForm.noseStylesCombo.currentText()
+            selectedText = self._noseForm.noseStylesCombo.currentData()
             if selectedText == STYLE_HOLLOW or selectedText == STYLE_CAPPED:
                 self._noseForm.shoulderThicknessInput.setEnabled(True)
             else:

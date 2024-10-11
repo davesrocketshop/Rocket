@@ -77,17 +77,15 @@ class _TransitionDialog(QDialog):
         # Select the type of transition
         self.transitionTypeLabel = QtGui.QLabel(translate('Rocket', "Transition Shape"), self)
 
-        self.transitionTypes = (TYPE_CONE,
-                                TYPE_ELLIPTICAL,
-                                TYPE_OGIVE,
-                                TYPE_PARABOLA,
-                                TYPE_PARABOLIC,
-                                TYPE_POWER,
-                                TYPE_VON_KARMAN,
-                                TYPE_HAACK
-                                )
         self.transitionTypesCombo = QtGui.QComboBox(self)
-        self.transitionTypesCombo.addItems(self.transitionTypes)
+        self.transitionTypesCombo.addItem(translate('Rocket', TYPE_CONE), TYPE_CONE)
+        self.transitionTypesCombo.addItem(translate('Rocket', TYPE_ELLIPTICAL), TYPE_ELLIPTICAL)
+        self.transitionTypesCombo.addItem(translate('Rocket', TYPE_OGIVE), TYPE_OGIVE)
+        self.transitionTypesCombo.addItem(translate('Rocket', TYPE_PARABOLA), TYPE_PARABOLA)
+        self.transitionTypesCombo.addItem(translate('Rocket', TYPE_PARABOLIC), TYPE_PARABOLIC)
+        self.transitionTypesCombo.addItem(translate('Rocket', TYPE_POWER), TYPE_POWER)
+        self.transitionTypesCombo.addItem(translate('Rocket', TYPE_VON_KARMAN), TYPE_VON_KARMAN)
+        self.transitionTypesCombo.addItem(translate('Rocket', TYPE_HAACK), TYPE_HAACK)
 
         self.clippedCheckbox = QtGui.QCheckBox(translate('Rocket', "Clipped"), self)
         self.clippedCheckbox.setCheckState(QtCore.Qt.Checked)
@@ -105,12 +103,11 @@ class _TransitionDialog(QDialog):
         # Select the type of sketch
         self.transitionStyleLabel = QtGui.QLabel(translate('Rocket', "Style"), self)
 
-        self.transitionStyles = (STYLE_SOLID,
-                                STYLE_SOLID_CORE,
-                                STYLE_HOLLOW,
-                                STYLE_CAPPED)
         self.transitionStylesCombo = QtGui.QComboBox(self)
-        self.transitionStylesCombo.addItems(self.transitionStyles)
+        self.transitionStylesCombo.addItem(translate('Rocket', STYLE_SOLID), STYLE_SOLID)
+        self.transitionStylesCombo.addItem(translate('Rocket', STYLE_SOLID_CORE), STYLE_SOLID_CORE)
+        self.transitionStylesCombo.addItem(translate('Rocket', STYLE_HOLLOW), STYLE_HOLLOW)
+        self.transitionStylesCombo.addItem(translate('Rocket', STYLE_CAPPED), STYLE_CAPPED)
 
         # Get the transition parameters: length, width, etc...
         self.lengthLabel = QtGui.QLabel(translate('Rocket', "Length"), self)
@@ -154,11 +151,10 @@ class _TransitionDialog(QDialog):
 
         self.foreCapStyleLabel = QtGui.QLabel(translate('Rocket', "Cap style"), self)
 
-        self.foreCapStyles = (STYLE_CAP_SOLID,
-                                STYLE_CAP_BAR,
-                                STYLE_CAP_CROSS)
         self.foreCapStylesCombo = QtGui.QComboBox(self)
-        self.foreCapStylesCombo.addItems(self.foreCapStyles)
+        self.foreCapStylesCombo.addItem(translate('Rocket', STYLE_CAP_SOLID), STYLE_CAP_SOLID)
+        self.foreCapStylesCombo.addItem(translate('Rocket', STYLE_CAP_BAR), STYLE_CAP_BAR)
+        self.foreCapStylesCombo.addItem(translate('Rocket', STYLE_CAP_CROSS), STYLE_CAP_CROSS)
 
         self.foreCapBarWidthLabel = QtGui.QLabel(translate('Rocket', "Bar Width"), self)
 
@@ -171,11 +167,10 @@ class _TransitionDialog(QDialog):
 
         self.aftCapStyleLabel = QtGui.QLabel(translate('Rocket', "Cap style"), self)
 
-        self.aftCapStyles = (STYLE_CAP_SOLID,
-                                STYLE_CAP_BAR,
-                                STYLE_CAP_CROSS)
         self.aftCapStylesCombo = QtGui.QComboBox(self)
-        self.aftCapStylesCombo.addItems(self.aftCapStyles)
+        self.aftCapStylesCombo.addItem(translate('Rocket', STYLE_CAP_SOLID), STYLE_CAP_SOLID)
+        self.aftCapStylesCombo.addItem(translate('Rocket', STYLE_CAP_BAR), STYLE_CAP_BAR)
+        self.aftCapStylesCombo.addItem(translate('Rocket', STYLE_CAP_CROSS), STYLE_CAP_CROSS)
 
         self.aftCapBarWidthLabel = QtGui.QLabel(translate('Rocket', "Bar Width"), self)
 
@@ -396,11 +391,11 @@ class TaskPanelTransition:
 
     def transferTo(self):
         "Transfer from the dialog to the object"
-        self._obj.TransitionType = str(self._tranForm.transitionTypesCombo.currentText())
-        self._obj.TransitionStyle = str(self._tranForm.transitionStylesCombo.currentText())
-        self._obj.ForeCapStyle = str(self._tranForm.foreCapStylesCombo.currentText())
+        self._obj.TransitionType = str(self._tranForm.transitionTypesCombo.currentData())
+        self._obj.TransitionStyle = str(self._tranForm.transitionStylesCombo.currentData())
+        self._obj.ForeCapStyle = str(self._tranForm.foreCapStylesCombo.currentData())
         self._obj.ForeCapBarWidth = self._tranForm.foreCapBarWidthInput.text()
-        self._obj.AftCapStyle = str(self._tranForm.aftCapStylesCombo.currentText())
+        self._obj.AftCapStyle = str(self._tranForm.aftCapStylesCombo.currentData())
         self._obj.AftCapBarWidth = self._tranForm.aftCapBarWidthInput.text()
         self._obj.Length = self._tranForm.lengthInput.text()
         self._obj.ForeDiameter = self._tranForm.foreDiameterInput.text()
@@ -427,11 +422,11 @@ class TaskPanelTransition:
 
     def transferFrom(self):
         "Transfer from the object to the dialog"
-        self._tranForm.transitionTypesCombo.setCurrentText(self._obj.TransitionType)
-        self._tranForm.transitionStylesCombo.setCurrentText(self._obj.TransitionStyle)
-        self._tranForm.foreCapStylesCombo.setCurrentText(self._obj.ForeCapStyle)
+        self._tranForm.transitionTypesCombo.setCurrentIndex(self._tranForm.transitionTypesCombo.findData(self._obj.TransitionType))
+        self._tranForm.transitionStylesCombo.setCurrentIndex(self._tranForm.transitionStylesCombo.findData(self._obj.TransitionStyle))
+        self._tranForm.foreCapStylesCombo.setCurrentIndex(self._tranForm.foreCapStylesCombo.findData(self._obj.ForeCapStyle))
         self._tranForm.foreCapBarWidthInput.setText(self._obj.ForeCapBarWidth.UserString)
-        self._tranForm.aftCapStylesCombo.setCurrentText(self._obj.AftCapStyle)
+        self._tranForm.aftCapStylesCombo.setCurrentIndex(self._tranForm.aftCapStylesCombo.findData(self._obj.AftCapStyle))
         self._tranForm.aftCapBarWidthInput.setText(self._obj.AftCapBarWidth.UserString)
         self._tranForm.lengthInput.setText(self._obj.Length.UserString)
         self._tranForm.foreDiameterInput.setText(self._obj.ForeDiameter.UserString)
@@ -695,7 +690,7 @@ class TaskPanelTransition:
             self._tranForm.foreShoulderDiameterInput.setEnabled(True)
             self._tranForm.foreShoulderLengthInput.setEnabled(True)
 
-            selectedText = self._tranForm.transitionStylesCombo.currentText()
+            selectedText = self._tranForm.transitionStylesCombo.currentData()
             if selectedText == STYLE_HOLLOW or selectedText == STYLE_CAPPED:
                 self._tranForm.foreShoulderThicknessInput.setEnabled(True)
             else:
@@ -759,7 +754,7 @@ class TaskPanelTransition:
             self._tranForm.aftShoulderDiameterInput.setEnabled(True)
             self._tranForm.aftShoulderLengthInput.setEnabled(True)
 
-            selectedText = self._tranForm.transitionStylesCombo.currentText()
+            selectedText = self._tranForm.transitionStylesCombo.currentData()
             if selectedText == STYLE_HOLLOW or selectedText == STYLE_CAPPED:
                 self._tranForm.aftShoulderThicknessInput.setEnabled(True)
             else:
