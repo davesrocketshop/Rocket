@@ -28,6 +28,7 @@ import FreeCAD
 import FreeCADGui
 
 from Rocket.Constants import FEATURE_ROCKET
+from Rocket.RocketComponent import RocketComponent
 
 def getRocket():
     for obj in FreeCAD.ActiveDocument.Objects:
@@ -79,6 +80,14 @@ class Command:
                     return True
         return False
 
+    def partHasShape(self, part):
+        for child in part.getChildren():
+            if isinstance(child.Proxy,RocketComponent):
+                return True
+            if self.partHasShape(child.Proxy):
+                return True
+        return False
+
     def partRocketSelected(self):
         """
             Checks to see if the selected part is part of a rocket
@@ -88,7 +97,9 @@ class Command:
         sel = FreeCADGui.Selection.getSelection()
         if len(sel) == 1 and (sel[0].isDerivedFrom("Part::FeaturePython") or sel[0].isDerivedFrom("App::GeometryPython")):
             if hasattr(sel[0],"Proxy") and hasattr(sel[0].Proxy,"getRocket"):
-                return True
+                # Ensure the rocket has a rocket part
+                rocket = sel[0].Proxy.getRocket()
+                return self.partHasShape(rocket)
         return False
 
     def partStageEligibleFeature(self, feature):
