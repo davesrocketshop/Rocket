@@ -51,11 +51,6 @@ class TaskPanelCFD(QtCore.QObject):
         self.form = FreeCADGui.PySideUic.loadUi(os.path.join(getUIPath(), 'Resources', 'ui', "DialogCFD.ui"))
         # self.form = FreeCADGui.PySideUic.loadUi(':/ui/DialogCFD.ui')
 
-        # self._studies = (translate("Rocket", "Coarse"),
-        #                  translate("Rocket", "Fine"),
-        #                  )
-        # self.form.comboStudy.addItems(self._studies)
-
         self.form.buttonCreate.clicked.connect(self.onCreate)
 
         FreeCAD.setActiveTransaction("Create Rocket CFD Study")
@@ -201,7 +196,7 @@ class TaskPanelCFD(QtCore.QObject):
         FreeCAD.ActiveDocument.recompute()
 
         # Surface refinement
-        thickness = FreeCAD.Units.Quantity(self.form.inputFinThickness.text()).Value
+        thickness = FreeCAD.Units.Quantity(self.form.inputFinThickness.text() + " mm")
         relativeLength = (thickness / 2.0) / self._CFDMesh.CharacteristicLengthMax
         defaultLength = FreeCAD.Units.Quantity("0.0625")
         if relativeLength > 0.0:
@@ -235,7 +230,8 @@ class TaskPanelCFD(QtCore.QObject):
         CfdTools.getActiveAnalysis().addObject(self._wall)
         self._wall.ShapeRefs = [self._compound, ('Face{}'.format(length-2), )]
         self._wall.BoundaryType = "wall"
-        self._wall.BoundarySubType = "fixedWall"
+        # self._wall.BoundarySubType = "fixedWall"
+        self._wall.BoundarySubType = "slipWall"
         FreeCAD.ActiveDocument.recompute()
 
     def adjustPhysicsModel(self):
