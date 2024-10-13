@@ -294,7 +294,8 @@ class FeatureFinCan(SymmetricComponent, FeatureFin):
     
     def getForeRadius(self):
         # For placing objects on the outer part of the parent
-        return self.getOuterRadius()
+        return float(self._obj.ParentRadius + self._obj.Height)
+        # return self.getOuterRadius(0)
     
     def getFrontAutoDiameter(self):
         if self.isOuterDiameterAutomatic():
@@ -313,7 +314,7 @@ class FeatureFinCan(SymmetricComponent, FeatureFin):
     def getFrontAutoRadius(self):
         return self.getFrontAutoDiameter() / 2.0
     
-    def getRadius(self):
+    def getRadius(self, x=0):
         return self.getForeRadius()
     
     def getRearAutoDiameter(self):
