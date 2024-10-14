@@ -31,7 +31,7 @@ import math
 
 from DraftTools import translate
 
-from PySide import  QtCore
+from PySide import  QtCore, QtGui
 
 from CfdOF.Mesh import CfdMesh, CfdMeshRefinement
 from CfdOF import CfdAnalysis, CfdTools
@@ -91,7 +91,11 @@ class TaskPanelCFD(QtCore.QObject):
         self.adjustCFDSolver()
 
         # Don't try to make things twice
-        self.form.buttonCreate.setEnabled(False)
+        # self.form.buttonCreate.setEnabled(False)
+        self.accept()
+
+    def getStandardButtons(self):
+        return QtGui.QDialogButtonBox.Close
 
     def accept(self):
         self.deactivate()
@@ -118,6 +122,7 @@ class TaskPanelCFD(QtCore.QObject):
         if self._aoa != 0.0:
             solid1.rotate(FreeCAD.Vector(center, 0, 0),FreeCAD.Vector(0, 1, 0), self._aoa)
         self._CFDrocket._obj.Shape = solid1
+        FreeCAD.ActiveDocument.recompute()
 
     def makeWindTunnel(self):
         diameter = FreeCAD.Units.Quantity(self.form.inputDiameter.text()).Value
@@ -130,10 +135,6 @@ class TaskPanelCFD(QtCore.QObject):
         self._refinement0 = makeWindTunnel('Refinement', tunnelDiameter * 0.25, 3.5 * length, 0.5 * length)
         self._refinement1 = makeWindTunnel('Refinement', tunnelDiameter * 0.5, 9.0 * length, 1.0 * length)
         self._refinement2 = makeWindTunnel('Refinement', tunnelDiameter * 0.75, 9.5 * length, 1.5 * length)
-        # FreeCADGui.doCommand("Ui.Commands.CmdCFDAnalysis.makeWindTunnel('WindTunnel',{},{},{})".format(tunnelDiameter, 10.0 * length, 2.0 * length))
-        # FreeCADGui.doCommand("Ui.Commands.CmdCFDAnalysis.makeWindTunnel('Refinement',{},{},{})".format(tunnelDiameter * 0.25, 3.5 * length, 0.5 * length))
-        # FreeCADGui.doCommand("Ui.Commands.CmdCFDAnalysis.makeWindTunnel('Refinement',{},{},{})".format(tunnelDiameter * 0.5, 9.0 * length, 1.0 * length))
-        # FreeCADGui.doCommand("Ui.Commands.CmdCFDAnalysis.makeWindTunnel('Refinement',{},{},{})".format(tunnelDiameter * 0.75, 9.5 * length, 1.5 * length))
         FreeCAD.ActiveDocument.recompute()
 
         self.makeCompound()
@@ -230,8 +231,14 @@ class TaskPanelCFD(QtCore.QObject):
         CfdTools.getActiveAnalysis().addObject(self._wall)
         self._wall.ShapeRefs = [self._compound, ('Face{}'.format(length-2), )]
         self._wall.BoundaryType = "wall"
-        # self._wall.BoundarySubType = "fixedWall"
         self._wall.BoundarySubType = "slipWall"
+        FreeCAD.ActiveDocument.recompute()
+
+        self._wall = CfdFluidBoundary.makeCfdFluidBoundary("RocketSurface")
+        CfdTools.getActiveAnalysis().addObject(self._wall)
+        self._wall.ShapeRefs = [self._CFDrocket._obj]
+        self._wall.BoundaryType = "wall"
+        self._wall.BoundarySubType = "fixedWall"
         FreeCAD.ActiveDocument.recompute()
 
     def adjustPhysicsModel(self):
@@ -244,11 +251,46 @@ class TaskPanelCFD(QtCore.QObject):
         for mat in material_name_path_list:
             material = materials[mat[1]]
             # print("Name {} Type {}".format(material['Name'], material['Type']))
-            if material['Name'] == "Air" and material['Type'] == "Compressible":
+            if material['Name'] == "Air" and material['Type'] == "Incompressible":
                 self._fluidProperties.Material = material
                 self._fluidProperties.Label = material['Name']
                 FreeCAD.ActiveDocument.recompute()
                 return
+        self.createIncompressibleAir()
+
+    def createIncompressibleAir(self):
+        ''' Create a material card for incompressible air '''
+        material = {}
+        material["Name"] = "Air"
+        material["Type"] = "Incompressible"
+        material["Description"] = "Incompressible air properties"
+        material["MolarMass"] = "0.0289643897748887 kg/mol"
+        material["DensityPolynomial"] = "1.225"
+        material["CpPolynomial"] = "1004.703"
+        material["DynamicViscosityPolynomial"] = "1.716e-5"
+        material["ThermalConductivityPolynomial"] = "0.02587"
+
+        self._fluidProperties.Material = material
+        self._fluidProperties.Label = material['Name']
+        FreeCAD.ActiveDocument.recompute()
+        self.saveCustomMaterial(material)
+
+    def saveCustomMaterial(self, material):
+        system_mat_dir = os.path.join(CfdTools.getModulePath(), "Data", "CfdFluidMaterialProperties")
+        file_name = os.path.join(system_mat_dir, "AirIncompressible.FCMat")
+        if file_name:
+            #makes sure saved name matches what was entered in that task panel session
+            with open(file_name, 'w') as f:
+                f.write('; ' + material['Name'] + '\n')
+                f.write('; \n; FreeCAD Material card: see https://www.freecadweb.org/wiki/Material \n')
+                f.write('\n[FCMat]\n')
+                f.write('Name = ' + material['Name'] + '\n')
+                for key in material:
+                    if key != 'Name':
+                        f.write(key + ' = ' + material[key] + '\n')
+                FreeCAD.Console.PrintMessage(
+                    translate("Console", "Incompressible air material saved\n")
+                )
 
     def adjustInitializeFields(self):
         self._initializeFields.PotentialFlow = False
