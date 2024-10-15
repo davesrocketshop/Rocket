@@ -35,7 +35,9 @@ from PySide import  QtCore, QtGui
 
 from CfdOF.Mesh import CfdMesh, CfdMeshRefinement
 from CfdOF import CfdAnalysis, CfdTools
-from CfdOF.Solve import CfdPhysicsSelection, CfdFluidBoundary, CfdFluidMaterial, CfdInitialiseFlowField, CfdSolverFoam
+from CfdOF.Solve import CfdPhysicsSelection, CfdFluidBoundary, CfdFluidMaterial, CfdInitialiseFlowField, \
+    CfdSolverFoam
+from CfdOF.PostProcess import CfdReportingFunction
 
 from Rocket.cfd.CFDUtil import caliber, finThickness, createSolid, makeCFDRocket, makeWindTunnel
 
@@ -89,6 +91,7 @@ class TaskPanelCFD(QtCore.QObject):
         self.adjustFluidProperties()
         self.adjustInitializeFields()
         self.adjustCFDSolver()
+        self.makeReportingFunction()
 
         # Don't try to make things twice
         # self.form.buttonCreate.setEnabled(False)
@@ -225,6 +228,7 @@ class TaskPanelCFD(QtCore.QObject):
         self._outlet.ShapeRefs = [self._compound, ('Face{}'.format(length-1), )]
         self._outlet.BoundaryType = "outlet"
         self._outlet.BoundarySubType = "staticPressureOutlet"
+        self._outlet.Pressure = "25 kPa" #?
         FreeCAD.ActiveDocument.recompute()
 
         self._wall = CfdFluidBoundary.makeCfdFluidBoundary("Wall")
@@ -234,15 +238,15 @@ class TaskPanelCFD(QtCore.QObject):
         self._wall.BoundarySubType = "slipWall"
         FreeCAD.ActiveDocument.recompute()
 
-        self._wall = CfdFluidBoundary.makeCfdFluidBoundary("RocketSurface")
-        CfdTools.getActiveAnalysis().addObject(self._wall)
-        self._wall.ShapeRefs = [self._CFDrocket._obj]
-        self._wall.BoundaryType = "wall"
-        self._wall.BoundarySubType = "fixedWall"
+        self._rocketWall = CfdFluidBoundary.makeCfdFluidBoundary("RocketWall")
+        CfdTools.getActiveAnalysis().addObject(self._rocketWall)
+        self._rocketWall.ShapeRefs = [self._CFDrocket._obj]
+        self._rocketWall.BoundaryType = "wall"
+        self._rocketWall.BoundarySubType = "fixedWall"
         FreeCAD.ActiveDocument.recompute()
 
     def adjustPhysicsModel(self):
-        self._physicsModel.Flow = "NonIsothermal"
+        self._physicsModel.Flow = "Isothermal"
         self._physicsModel.Turbulence = "RANS"
         FreeCAD.ActiveDocument.recompute()
 
@@ -251,57 +255,31 @@ class TaskPanelCFD(QtCore.QObject):
         for mat in material_name_path_list:
             material = materials[mat[1]]
             # print("Name {} Type {}".format(material['Name'], material['Type']))
-            if material['Name'] == "Air" and material['Type'] == "Incompressible":
+            if material['Name'] == "Air" and material['Type'] == "Isothermal":
                 self._fluidProperties.Material = material
                 self._fluidProperties.Label = material['Name']
                 FreeCAD.ActiveDocument.recompute()
                 return
-        self.createIncompressibleAir()
-
-    def createIncompressibleAir(self):
-        ''' Create a material card for incompressible air '''
-        material = {}
-        material["Name"] = "Air"
-        material["Type"] = "Incompressible"
-        material["Description"] = "Incompressible air properties"
-        material["MolarMass"] = "0.0289643897748887 kg/mol"
-        material["DensityPolynomial"] = "1.225"
-        material["CpPolynomial"] = "1004.703"
-        material["DynamicViscosityPolynomial"] = "1.716e-5"
-        material["ThermalConductivityPolynomial"] = "0.02587"
-
-        self._fluidProperties.Material = material
-        self._fluidProperties.Label = material['Name']
-        FreeCAD.ActiveDocument.recompute()
-        self.saveCustomMaterial(material)
-
-    def saveCustomMaterial(self, material):
-        system_mat_dir = os.path.join(CfdTools.getModulePath(), "Data", "CfdFluidMaterialProperties")
-        file_name = os.path.join(system_mat_dir, "AirIncompressible.FCMat")
-        if file_name:
-            #makes sure saved name matches what was entered in that task panel session
-            with open(file_name, 'w') as f:
-                f.write('; ' + material['Name'] + '\n')
-                f.write('; \n; FreeCAD Material card: see https://www.freecadweb.org/wiki/Material \n')
-                f.write('\n[FCMat]\n')
-                f.write('Name = ' + material['Name'] + '\n')
-                for key in material:
-                    if key != 'Name':
-                        f.write(key + ' = ' + material[key] + '\n')
-                FreeCAD.Console.PrintMessage(
-                    translate("Console", "Incompressible air material saved\n")
-                )
 
     def adjustInitializeFields(self):
-        self._initializeFields.PotentialFlow = False
-        self._initializeFields.PotentialFlowP = False
-        self._initializeFields.BoundaryU = self._inlet
-        self._initializeFields.BoundaryP = self._outlet
-        self._initializeFields.UseInletUValues = True
-        self._initializeFields.UseOutletPValue = True
+        self._initializeFields.PotentialFlow = True
+        self._initializeFields.PotentialFlowP = True
+        # self._initializeFields.BoundaryU = self._inlet
+        # self._initializeFields.BoundaryP = self._outlet
+        # self._initializeFields.UseInletUValues = True
+        # self._initializeFields.UseOutletPValue = True
         FreeCAD.ActiveDocument.recompute()
 
     def adjustCFDSolver(self):
         cores = self.form.spinNproc.value()
         self._solver.ParallelCores = cores
+        FreeCAD.ActiveDocument.recompute()
+
+    def makeReportingFunction(self):
+        self._force = CfdReportingFunction.makeCfdReportingFunction("ForceReportingFunction")
+        CfdTools.getActiveAnalysis().addObject(self._force)
+        self._force.ReportingFunctionType = "Force"
+        # q = (p / 2) * v^2
+        self._force.ReferencePressure = "25000 Pa"
+        self._force.Patch = self._rocketWall
         FreeCAD.ActiveDocument.recompute()
