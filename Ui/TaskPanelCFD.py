@@ -266,8 +266,8 @@ class TaskPanelCFD(QtCore.QObject):
         self._initializeFields.PotentialFlowP = True
         # self._initializeFields.BoundaryU = self._inlet
         # self._initializeFields.BoundaryP = self._outlet
-        # self._initializeFields.UseInletUValues = True
-        # self._initializeFields.UseOutletPValue = True
+        self._initializeFields.UseInletUValues = False
+        self._initializeFields.UseOutletPValue = False
         FreeCAD.ActiveDocument.recompute()
 
     def adjustCFDSolver(self):
