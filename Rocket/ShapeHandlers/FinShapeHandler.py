@@ -23,7 +23,7 @@
 __title__ = "FreeCAD Fins"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
-    
+
 import FreeCAD
 import Part
 import math
@@ -47,15 +47,15 @@ class FinShapeHandler:
     def minimumEdge(self):
         if self._obj.MinimumEdge:
             return float(self._obj.MinimumEdgeSize)
-        
+
         return 0.0
-    
+
     def _foreAngle(self):
         """
             Angle of the fins leading edge
         """
         return math.radians(float(self._obj.SweepAngle))
-    
+
     def _aftAngle(self):
         """
             Angle of the fins trailing edge
@@ -63,13 +63,13 @@ class FinShapeHandler:
         length = float(self._obj.SweepLength) - float(self._obj.RootChord)
         theta2 = (math.pi / 2.0) - math.atan2(float(self._obj.Height), length) # In radians
         return theta2
-    
+
     def _midAngle(self, foreAngle, aftAngle):
         """
             Angle of the fins mid line
         """
         return (foreAngle + aftAngle) / 2.0
-    
+
     def _angles(self):
         """
             Calculate fore, mid, and aft angles
@@ -92,7 +92,7 @@ class FinShapeHandler:
         line2 = Part.LineSegment(v2, v3)
         line3 = Part.LineSegment(v3, v4)
         line4 = Part.LineSegment(v4, v1)
-        
+
         wire = Part.Wire([line1.toShape(), line2.toShape(), line3.toShape(), line4.toShape()])
         return wire
 
@@ -106,7 +106,7 @@ class FinShapeHandler:
             z = math.cos(theta)
             circle = Part.Circle(FreeCAD.Vector(chordFore + halfThickness, 0, height),
                                      FreeCAD.Vector(x,0,z), halfThickness)
-            
+
             # Split the circle into 4 arcs so that the loft has proper reference points
             degree = math.radians(1)
             rad1 = (-math.pi/2.0) + degree
@@ -121,7 +121,7 @@ class FinShapeHandler:
             # wire = Part.Wire([circle])
             wire = Part.Wire([arc1.toShape(), arc2.toShape(), arc3.toShape(), arc4.toShape()])
             return wire
-        
+
         v1 = FreeCAD.Vector(chordFore + halfThickness, halfThickness, height)
         v2 = FreeCAD.Vector(chordFore + halfThickness, -halfThickness, height)
         v3 = FreeCAD.Vector(chordAft - halfThickness, -halfThickness, height)
@@ -177,7 +177,7 @@ class FinShapeHandler:
         else:
             wire = Part.Wire([arc1.toShape(), arc2.toShape()])
         return wire
-            
+
     def _airfoilY(self, x, maxThickness):
         # NACA symmetrical airfoil https://en.wikipedia.org/wiki/NACA_airfoil
         # y = 5 * maxThickness * ((0.2969 * math.sqrt(x)) - (0.1260 * x) - (0.3516 * x * x) + (0.2843 * x * x * x) - (0.1015 * x * x * x * x))
@@ -191,7 +191,7 @@ class FinShapeHandler:
         points = []
         points1 = []
         for i in range(0, resolution):
-            
+
             x = float(i) / float(resolution)
             y = self._airfoilY(x, thickness)
             if y < min and x > 0:
@@ -212,11 +212,11 @@ class FinShapeHandler:
         splines.append(self._makeSpline(points).toShape())
         splines.append(self._makeSpline(points1).toShape())
         if min > 0:
-            line = Part.LineSegment(FreeCAD.Vector(foreX + chord, min, height), 
+            line = Part.LineSegment(FreeCAD.Vector(foreX + chord, min, height),
                                     FreeCAD.Vector(foreX + chord, -min, height))
             splines.append(line.toShape())
 
-        return splines 
+        return splines
 
     def _makeSpline(self, points):
         spline = Part.BSplineCurve()
@@ -280,12 +280,12 @@ class FinShapeHandler:
             line4 = Part.LineSegment(v4, v5)
             line5 = Part.LineSegment(v5, v6)
             line6 = Part.LineSegment(v6, v1)
-            
+
             wire = Part.Wire([line1.toShape(), line2.toShape(), line3.toShape(), line4.toShape(), line5.toShape(), line6.toShape()])
         else:
             line3 = Part.LineSegment(v3, v5)
             line4 = Part.LineSegment(v5, v1)
-            
+
             wire = Part.Wire([line1.toShape(), line2.toShape(), line3.toShape(), line4.toShape()])
         return wire
 
@@ -311,11 +311,11 @@ class FinShapeHandler:
         if min > 0:
             line5 = Part.LineSegment(v3, v6)
             line6 = Part.LineSegment(v6, v1)
-        
+
             wire = Part.Wire([line1.toShape(), line2.toShape(), line3.toShape(), line4.toShape(), line5.toShape(), line6.toShape()])
         else:
             line5 = Part.LineSegment(v3, v1)
-        
+
             wire = Part.Wire([line1.toShape(), line2.toShape(), line3.toShape(), line4.toShape(), line5.toShape()])
         return wire
 
@@ -341,11 +341,11 @@ class FinShapeHandler:
         if min > 0:
             line5 = Part.LineSegment(v3, v6)
             line6 = Part.LineSegment(v6, v1)
-            
+
             wire = Part.Wire([line1.toShape(), line2.toShape(), line3.toShape(), line4.toShape(), line5.toShape(), line6.toShape()])
         else:
             line5 = Part.LineSegment(v3, v1)
-            
+
             wire = Part.Wire([line1.toShape(), line2.toShape(), line3.toShape(), line4.toShape(), line5.toShape()])
         return wire
 
@@ -390,7 +390,7 @@ class FinShapeHandler:
 
             wire = Part.Wire([line1.toShape(), line2.toShape(), line3.toShape(), line4.toShape(), line5.toShape(), line6.toShape()])
         return wire
-    
+
     def _lengthsFromPercent(self, chord, lengthPerCent, length1, length2):
         if lengthPerCent:
             l1 = chord * (length1 / 100.0)
@@ -400,9 +400,9 @@ class FinShapeHandler:
             l2 = chord - length2
 
         return l1, l2
-    
+
     def _lengthsFromRootRatio(self, chord):
-        l1, l2 = self._lengthsFromPercent(float(self._obj.RootChord), self._obj.RootPerCent, 
+        l1, l2 = self._lengthsFromPercent(float(self._obj.RootChord), self._obj.RootPerCent,
                                           float(self._obj.RootLength1), float(self._obj.RootLength2))
         length1 = chord * (l1 / float(self._obj.RootChord))
         length2 = chord * (l2 / float(self._obj.RootChord))
@@ -469,11 +469,11 @@ class FinShapeHandler:
     def _makeCommon(self):
         # Override this if we have a "masking" shape
         return None
-    
+
     def _makeCut(self):
         # Override this if we need to cut from the shape
         return None
-    
+
     def _extendRoot(self):
         # Override this if the fin root needs an extension to connect it to the body tube
         return False
@@ -567,8 +567,10 @@ class FinShapeHandler:
         fin.translate(FreeCAD.Vector(0,0,float(self._obj.ParentRadius)))
         return Part.makeCompound([fin])
 
-    def _drawFinSet(self, offset=0):
+    def _drawFinSet(self, offset=0, radius=0.0):
         fins = []
+        if radius == 0.0:
+            radius = float(self._obj.ParentRadius)
         base = self._drawSingleFin()
         baseX = 0
         if hasattr(self._obj, "LeadingEdgeOffset"):
@@ -577,14 +579,14 @@ class FinShapeHandler:
             fin = Part.Shape(base) # Create a copy
             if self._obj.Cant != 0:
                 fin.rotate(FreeCAD.Vector(self._obj.RootChord / 2, 0, 0), FreeCAD.Vector(0,0,1), self._obj.Cant)
-            fin.translate(FreeCAD.Vector(baseX,0,float(self._obj.ParentRadius) + offset))
+            fin.translate(FreeCAD.Vector(baseX,0,radius + offset))
             fin.rotate(FreeCAD.Vector(0, 0, 0), FreeCAD.Vector(1,0,0), i * float(self._obj.FinSpacing))
             fins.append(fin)
 
         return Part.makeCompound(fins)
 
     def draw(self):
-        
+
         if not self.isValidShape():
             return
 

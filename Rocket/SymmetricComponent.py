@@ -126,13 +126,13 @@ class SymmetricComponent(RocketComponent, BoxBounded, RadialParent):
 
         self.fireComponentChangeEvent(ComponentChangeEvent.MASS_CHANGE)
         self.clearPreset()
-	
-    def isAfter(self): 
+
+    def isAfter(self):
         return True
 
     """
         Returns whether the component is set as filled.  If it is set filled, then the
-        wall thickness will have no effect. 
+        wall thickness will have no effect.
     """
     def isFilled(self):
         return self._obj.Filled
@@ -154,7 +154,7 @@ class SymmetricComponent(RocketComponent, BoxBounded, RadialParent):
         self.clearPreset()
 
     """
-        Returns the automatic radius for this component towards the 
+        Returns the automatic radius for this component towards the
         front of the rocket.  The automatics will not search towards the
         rear of the rocket for a suitable radius.  A positive return value
         indicates a preferred radius, a negative value indicates that a
@@ -182,11 +182,11 @@ class SymmetricComponent(RocketComponent, BoxBounded, RadialParent):
     @abstractmethod
     def getRearAutoRadius(self):
         pass
-    
+
     @abstractmethod
     def getRearAutoDiameter(self):
         pass
-    
+
     @abstractmethod
     def getRearAutoInnerDiameter(self):
         pass

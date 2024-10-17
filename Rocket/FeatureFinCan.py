@@ -108,13 +108,13 @@ class FeatureFinCan(SymmetricComponent, FeatureFin):
         if not hasattr(obj, 'LaunchLugPreset'):
             obj.addProperty('App::PropertyEnumeration', 'LaunchLugPreset', 'RocketComponent', translate('App::Property', 'Launch lug size preset'))
             obj.LaunchLugPreset = [FINCAN_PRESET_CUSTOM,
-                                FINCAN_PRESET_1_8, 
+                                FINCAN_PRESET_1_8,
                                 FINCAN_PRESET_3_16,
                                 FINCAN_PRESET_1_4]
             obj.LaunchLugPreset = FINCAN_PRESET_1_8
         else:
             obj.LaunchLugPreset = [FINCAN_PRESET_CUSTOM,
-                                FINCAN_PRESET_1_8, 
+                                FINCAN_PRESET_1_8,
                                 FINCAN_PRESET_3_16,
                                 FINCAN_PRESET_1_4]
 
@@ -188,7 +188,7 @@ class FeatureFinCan(SymmetricComponent, FeatureFin):
             method = AFTER
         else:
             raise Exception(translate('Rocket', "Unknown fin can style"))
-        
+
         self.setAxialMethod(method)
         self._setAxialOffset(self._obj.AxialMethod, 0)
 
@@ -210,13 +210,13 @@ class FeatureFinCan(SymmetricComponent, FeatureFin):
             self._obj = obj
 
         self._setFinCanEditorVisibility()
-        
+
     def setParentRadius(self, parentRadius=None):
         if parentRadius is None:
             self.setParentDiameter(parentRadius)
         else:
             self.setParentDiameter(parentRadius * 2.0)
-        
+
     def setParentDiameterAuto(self):
         if self._obj.FinCanStyle == FINCAN_STYLE_BODYTUBE:
             # Return auto radius from front or rear
@@ -225,15 +225,15 @@ class FeatureFinCan(SymmetricComponent, FeatureFin):
             c = self.getPreviousSymmetricComponent()
             # Don't use the radius of a component who already has its auto diameter enabled
             if c is not None and not c.usesNextCompAutomatic():
-                d = c.getFrontAutoDiameter()
-                inner = c.getFrontAutoInnerDiameter()
+                d = float(c.getFrontAutoDiameter())
+                inner = float(c.getFrontAutoInnerDiameter())
                 self._refComp = c
             if d < 0:
                 c = self.getNextSymmetricComponent()
                 # Don't use the radius of a component who already has its auto diameter enabled
                 if c is not None and not c.usesPreviousCompAutomatic():
-                    d = c.getRearAutoDiameter()
-                    inner = c.getRearAutoInnerDiameter()
+                    d = float(c.getRearAutoDiameter())
+                    inner = float(c.getRearAutoInnerDiameter())
                     self._refComp = c
 
             if d < 0:
@@ -254,7 +254,7 @@ class FeatureFinCan(SymmetricComponent, FeatureFin):
         if self._obj.AutoDiameter:
             self.setParentDiameterAuto()
             return
-        
+
         if parentDiameter is None:
             super().setParentDiameter()
             self._obj.Diameter = self._obj.ParentRadius * 2.0
@@ -284,19 +284,19 @@ class FeatureFinCan(SymmetricComponent, FeatureFin):
 
     def eligibleChild(self, childType):
         return childType in [
-            FEATURE_POD, 
-            FEATURE_LAUNCH_LUG, 
-            FEATURE_RAIL_BUTTON, 
+            FEATURE_POD,
+            FEATURE_LAUNCH_LUG,
+            FEATURE_RAIL_BUTTON,
             FEATURE_RAIL_GUIDE]
 
     def  getAftRadius(self):
         return self.getForeRadius()
-    
+
     def getForeRadius(self):
         # For placing objects on the outer part of the parent
         return float(self._obj.ParentRadius + self._obj.Height)
         # return self.getOuterRadius(0)
-    
+
     def getFrontAutoDiameter(self):
         if self.isOuterDiameterAutomatic():
             # Search for previous SymmetricComponent
@@ -307,16 +307,16 @@ class FeatureFinCan(SymmetricComponent, FeatureFin):
                 return -1
 
         return self.getOuterDiameter()
-    
+
     def getFrontAutoInnerDiameter(self):
         return self.getInnerDiameter()
-    
+
     def getFrontAutoRadius(self):
         return self.getFrontAutoDiameter() / 2.0
-    
+
     def getRadius(self, x=0):
         return self.getForeRadius()
-    
+
     def getRearAutoDiameter(self):
         if self.isOuterDiameterAutomatic():
             # Search for next SymmetricComponent
@@ -327,10 +327,10 @@ class FeatureFinCan(SymmetricComponent, FeatureFin):
                 return -1
 
         return self.getOuterDiameter()
-    
+
     def getRearAutoInnerDiameter(self):
         return self.getInnerDiameter()
-    
+
     def getRearAutoRadius(self):
         return self.getRearAutoDiameter() / 2.0
 
@@ -339,15 +339,15 @@ class FeatureFinCan(SymmetricComponent, FeatureFin):
 
     def isOuterDiameterAutomatic(self):
         return self._obj.AutoDiameter
-    
+
     def isAftRadiusAutomatic(self):
         return self.getRearAutoDiameter()
-    
+
     def isForeRadiusAutomatic(self):
         return self.getFrontAutoRadius()
-    
+
     def usesNextCompAutomatic(self):
         return self.isOuterDiameterAutomatic() and (self._refComp == self.getNextSymmetricComponent())
-    
+
     def usesPreviousCompAutomatic(self):
         return self.isOuterDiameterAutomatic() and (self._refComp == self.getPreviousSymmetricComponent())
