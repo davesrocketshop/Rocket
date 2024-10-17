@@ -567,10 +567,8 @@ class FinShapeHandler:
         fin.translate(FreeCAD.Vector(0,0,float(self._obj.ParentRadius)))
         return Part.makeCompound([fin])
 
-    def _drawFinSet(self, offset=0, radius=0.0):
+    def _drawFinSet(self, offset=0):
         fins = []
-        if radius == 0.0:
-            radius = float(self._obj.ParentRadius)
         base = self._drawSingleFin()
         baseX = 0
         if hasattr(self._obj, "LeadingEdgeOffset"):
@@ -579,7 +577,7 @@ class FinShapeHandler:
             fin = Part.Shape(base) # Create a copy
             if self._obj.Cant != 0:
                 fin.rotate(FreeCAD.Vector(self._obj.RootChord / 2, 0, 0), FreeCAD.Vector(0,0,1), self._obj.Cant)
-            fin.translate(FreeCAD.Vector(baseX,0,radius + offset))
+            fin.translate(FreeCAD.Vector(baseX,0,float(self._obj.ParentRadius) + offset))
             fin.rotate(FreeCAD.Vector(0, 0, 0), FreeCAD.Vector(1,0,0), i * float(self._obj.FinSpacing))
             fins.append(fin)
 

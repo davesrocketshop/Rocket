@@ -208,6 +208,7 @@ class FeatureFinCan(SymmetricComponent, FeatureFin):
             FeatureFinCan(obj) # Update any properties
 
             self._obj = obj
+            self._obj.ParentRadius = (self._obj.Diameter / 2.0)
 
         self._setFinCanEditorVisibility()
 
