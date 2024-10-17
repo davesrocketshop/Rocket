@@ -41,7 +41,7 @@ from Ui.Widgets.CommentTab import CommentTab
 
 from Rocket.Constants import COMPONENT_TYPE_LAUNCHLUG
 
-from Rocket.Utilities import _valueOnly
+from Rocket.Utilities import _valueOnly, _err
 
 class _LaunchLugDialog(QDialog):
 
@@ -299,8 +299,8 @@ class TaskPanelLaunchLug:
         try:
             self._obj.ShapeMaterial = Materials.MaterialManager().getMaterial(result["uuid"])
         except LookupError:
-            print("Unable to find material '{}'".format(result["uuid"]))
-            pass # Use the default
+            # Use the default
+            _err(translate('Rocket', "Unable to find material '{}'").format(result["uuid"]))
 
         self.update()
         self._obj.Proxy.execute(self._obj)

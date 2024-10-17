@@ -43,7 +43,7 @@ from Rocket.Constants import STYLE_CAPPED, STYLE_HOLLOW, STYLE_SOLID, STYLE_SOLI
 from Rocket.Constants import STYLE_CAP_SOLID, STYLE_CAP_BAR, STYLE_CAP_CROSS
 from Rocket.Constants import COMPONENT_TYPE_TRANSITION
 
-from Rocket.Utilities import _toFloat, _valueWithUnits
+from Rocket.Utilities import _toFloat, _valueWithUnits, _err
 
 class _TransitionDialog(QDialog):
 
@@ -833,8 +833,8 @@ class TaskPanelTransition:
         try:
             self._obj.ShapeMaterial = Materials.MaterialManager().getMaterial(result["uuid"])
         except LookupError:
-            print("Unable to find material '{}'".format(result["uuid"]))
-            pass # Use the default
+            # Use the default
+            _err(translate('Rocket', "Unable to find material '{}'").format(result["uuid"]))
 
         self._obj.ForeShoulder = (self._obj.ForeShoulderDiameter > 0.0) and (self._obj.ForeShoulderLength >= 0)
         self._obj.AftShoulder = (self._obj.AftShoulderDiameter > 0.0) and (self._obj.AftShoulderLength >= 0)

@@ -43,7 +43,7 @@ from Rocket.Constants import STYLE_CAPPED, STYLE_HOLLOW, STYLE_SOLID
 from Rocket.Constants import STYLE_CAP_SOLID, STYLE_CAP_BAR, STYLE_CAP_CROSS
 from Rocket.Constants import COMPONENT_TYPE_NOSECONE
 
-from Rocket.Utilities import _toFloat, _valueWithUnits, _valueOnly
+from Rocket.Utilities import _toFloat, _valueWithUnits, _valueOnly, _err
 
 class _NoseConeDialog(QDialog):
 
@@ -627,8 +627,8 @@ class TaskPanelNoseCone:
         try:
             self._obj.ShapeMaterial = Materials.MaterialManager().getMaterial(result["uuid"])
         except LookupError:
-            print("Unable to find material '{}'".format(result["uuid"]))
-            pass # Use the default
+            # Use the default
+            _err(translate('Rocket', "Unable to find material '{}'").format(result["uuid"]))
 
         self.update()
         self._obj.Proxy.execute(self._obj)

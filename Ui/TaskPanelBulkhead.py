@@ -41,7 +41,7 @@ from Ui.Widgets.CommentTab import CommentTab
 
 from Rocket.Constants import COMPONENT_TYPE_BULKHEAD, COMPONENT_TYPE_CENTERINGRING
 
-from Rocket.Utilities import _valueWithUnits
+from Rocket.Utilities import _valueWithUnits, _err
 
 class _BulkheadDialog(QDialog):
 
@@ -536,8 +536,8 @@ class TaskPanelBulkhead:
         try:
             self._obj.ShapeMaterial = Materials.MaterialManager().getMaterial(result["uuid"])
         except LookupError:
-            print("Unable to find material '{}'".format(result["uuid"]))
-            pass # Use the default
+            # Use the default
+            _err(translate('Rocket', "Unable to find material '{}'").format(result["uuid"]))
 
         self._obj.Step = False
         self._obj.StepDiameter = 0.0
