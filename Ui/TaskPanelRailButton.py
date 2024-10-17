@@ -534,7 +534,11 @@ class TaskPanelRailButton:
         self._obj.HeadDiameter =  _valueOnly(result["countersink_diameter"], result["countersink_diameter_units"])
         self._obj.CountersinkAngle =  self.getCountersinkAngle(result["countersink_angle"])
         self._obj.Fastener = (self._obj.ShankDiameter > 0)
-        self._obj.ShapeMaterial = Materials.MaterialManager().getMaterial(result["uuid"])
+        try:
+            self._obj.ShapeMaterial = Materials.MaterialManager().getMaterial(result["uuid"])
+        except LookupError:
+            print("Unable to find material '{}'".format(result["uuid"]))
+            pass # Use the default
 
         self.update()
         self._obj.Proxy.execute(self._obj)

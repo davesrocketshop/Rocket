@@ -533,7 +533,11 @@ class TaskPanelBulkhead:
 
         self._obj.Diameter = _valueWithUnits(result["outer_diameter"], result["outer_diameter_units"])
         self._obj.Thickness =_valueWithUnits(result["length"], result["length_units"])
-        self._obj.ShapeMaterial = Materials.MaterialManager().getMaterial(result["uuid"])
+        try:
+            self._obj.ShapeMaterial = Materials.MaterialManager().getMaterial(result["uuid"])
+        except LookupError:
+            print("Unable to find material '{}'".format(result["uuid"]))
+            pass # Use the default
 
         self._obj.Step = False
         self._obj.StepDiameter = 0.0

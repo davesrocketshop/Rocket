@@ -830,7 +830,11 @@ class TaskPanelTransition:
         self._obj.AftShoulderDiameter = _valueWithUnits(result["aft_shoulder_diameter"], result["aft_shoulder_diameter_units"])
         self._obj.AftShoulderLength = _valueWithUnits(result["aft_shoulder_length"], result["aft_shoulder_length_units"])
         self._obj.AftShoulderThickness = self._obj.Thickness
-        self._obj.ShapeMaterial = Materials.MaterialManager().getMaterial(result["uuid"])
+        try:
+            self._obj.ShapeMaterial = Materials.MaterialManager().getMaterial(result["uuid"])
+        except LookupError:
+            print("Unable to find material '{}'".format(result["uuid"]))
+            pass # Use the default
 
         self._obj.ForeShoulder = (self._obj.ForeShoulderDiameter > 0.0) and (self._obj.ForeShoulderLength >= 0)
         self._obj.AftShoulder = (self._obj.AftShoulderDiameter > 0.0) and (self._obj.AftShoulderLength >= 0)

@@ -624,7 +624,11 @@ class TaskPanelNoseCone:
         self._obj.ShoulderLength = _valueWithUnits(result["shoulder_length"], result["shoulder_length_units"])
         self._obj.Shoulder = (self._obj.ShoulderDiameter > 0.0) and (self._obj.ShoulderLength >= 0)
         self._obj.ShoulderThickness = self._obj.Thickness
-        self._obj.ShapeMaterial = Materials.MaterialManager().getMaterial(result["uuid"])
+        try:
+            self._obj.ShapeMaterial = Materials.MaterialManager().getMaterial(result["uuid"])
+        except LookupError:
+            print("Unable to find material '{}'".format(result["uuid"]))
+            pass # Use the default
 
         self.update()
         self._obj.Proxy.execute(self._obj)
