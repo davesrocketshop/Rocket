@@ -631,11 +631,7 @@
     <message>
       <location filename="FeatureFin.py" line="130"/>
       <source>Fin cant</source>
-<<<<<<< HEAD
-      <translation>Korpus ogona ze statecznikiem</translation>
-=======
       <translation>Korpus ogona z płetwami</translation>
->>>>>>> dev3_3
     </message>
     <message>
       <location filename="FeatureFin.py" line="141"/>
@@ -1006,20 +1002,12 @@
       <translation>Parametr Rury Korpusowej</translation>
     </message>
     <message>
-<<<<<<< HEAD
       <location filename="TaskPanelBodyTube.py" line="75"/>
-=======
-      <location filename="TaskPanelRailButton.py" line="93"/>
->>>>>>> dev3_3
       <source>Inner Diameter</source>
       <translation>⌀ wewnętrzna</translation>
     </message>
     <message>
-<<<<<<< HEAD
       <location filename="TaskPanelBodyTube.py" line="81"/>
-=======
-      <location filename="TaskPanelRailButton.py" line="87"/>
->>>>>>> dev3_3
       <source>Outer Diameter</source>
       <translation>⌀ zewnętrzna</translation>
     </message>
@@ -1084,11 +1072,7 @@
       <translation>Liczba</translation>
     </message>
     <message>
-<<<<<<< HEAD
       <location filename="TaskPanelBulkhead.py" line="156"/>
-=======
-      <location filename="TaskPanelFin.py" line="415"/>
->>>>>>> dev3_3
       <source>Offset</source>
       <translation>Odsunięcie</translation>
     </message>
@@ -1863,11 +1847,7 @@
       <translation>Parametry prowadnicy tworzą nieprawidłowy kształt</translation>
     </message>
     <message>
-<<<<<<< HEAD
       <location filename="CmdLaunchGuides.py" line="84"/>
-=======
-      <location filename="TaskPanelFinCan.py" line="538"/>
->>>>>>> dev3_3
       <source>Launch Lug</source>
       <translation>Uchwyt startowy</translation>
     </message>
@@ -2002,11 +1982,7 @@
       <translation>Średnica trzonu</translation>
     </message>
     <message>
-<<<<<<< HEAD
-      <location filename="TaskPanelFinCan.py" line="528"/>
-=======
       <location filename="TaskPanelRailButton.py" line="149"/>
->>>>>>> dev3_3
       <source>Presets</source>
       <translation>Nastawy wstępne</translation>
     </message>
@@ -2306,11 +2282,7 @@
       <translation>Parametry stylu nasadki tworzą nieprawidłowy kształt</translation>
     </message>
     <message>
-<<<<<<< HEAD
-      <location filename="CmdBodyTube.py" line="117"/>
-=======
       <location filename="TaskPanelFinCan.py" line="474"/>
->>>>>>> dev3_3
       <source>Coupler</source>
       <translation>Łącznik</translation>
     </message>
@@ -2527,11 +2499,7 @@
     <message>
       <location filename="TaskPanelFinCan.py" line="118"/>
       <source>Fin Cant</source>
-<<<<<<< HEAD
-      <translation>Korpus ogona ze statecznikiem</translation>
-=======
       <translation>Korpus ogona z płetwami</translation>
->>>>>>> dev3_3
     </message>
     <message>
       <location filename="TaskPanelFinCan.py" line="208"/>
@@ -2567,16 +2535,6 @@
       <location filename="TaskPanelLocation.py" line="70"/>
       <source>Location Reference</source>
       <translation>Odniesienie położenia</translation>
-<<<<<<< HEAD
-    </message>
-    <message>
-      <location filename="TaskPanelLocation.py" line="84"/>
-      <source>Location</source>
-      <translation>Położenie</translation>
-    </message>
-    <message>
-      <location filename="TaskPanelLocation.py" line="90"/>
-=======
     </message>
     <message>
       <location filename="TaskPanelLocation.py" line="78"/>
@@ -2585,7 +2543,6 @@
     </message>
     <message>
       <location filename="TaskPanelLocation.py" line="84"/>
->>>>>>> dev3_3
       <source>Angle Offset</source>
       <translation>Przesunięcie kątowe</translation>
     </message>
@@ -2651,11 +2608,7 @@
     </message>
     <message>
       <location filename="RailButtonShapeHandler.py" line="84"/>
-<<<<<<< HEAD
-      <source>Top and base height can not exceed the total height</source>
-=======
       <source>Top and base height can not excedd the total height</source>
->>>>>>> dev3_3
       <translation>Wartość wysokości górnej i dolnej nie może przekraczać wysokości całkowitej</translation>
     </message>
     <message>
@@ -2727,24 +2680,6 @@
       <location filename="TaskPanelRailGuide.py" line="77"/>
       <source>Flange Width</source>
       <translation>Szerokość kołnierza</translation>
-<<<<<<< HEAD
-    </message>
-    <message>
-      <location filename="DialogBlackPowder.py" line="66"/>
-      <source>
-        &lt;html&gt;
-        &lt;h1&gt;WARNING&lt;/h1&gt;
-        &lt;p&gt;This calculator is an estimate only. Ground test your ejection system before flying. In certain cases this calculation may overestimate the amount of powder required&lt;/p&gt;
-        &lt;/html&gt;
-        </source>
-      <translation>
-        &lt;html&gt;
-        &lt;h1&gt;UWAGA&lt;/h1&gt;
-        &lt;p&gt;Ten kalkulator służy tylko do szacowania. Przetestuj swój mechanizm wyrzutowy przed startem. W niektórych wypadkach kalkulator ten może przeszacować ilość wymaganego prochu&lt;/p&gt;
-        &lt;/html&gt;
-        </translation>
-=======
->>>>>>> dev3_3
     </message>
   </context>
 </TS>

@@ -1002,20 +1002,12 @@
       <translation>Paramétré de Corps Tubulaire</translation>
     </message>
     <message>
-<<<<<<< HEAD
       <location filename="TaskPanelBodyTube.py" line="75"/>
-=======
-      <location filename="TaskPanelRailButton.py" line="93"/>
->>>>>>> dev3_3
       <source>Inner Diameter</source>
       <translation>Diamètre intérieur</translation>
     </message>
     <message>
-<<<<<<< HEAD
       <location filename="TaskPanelBodyTube.py" line="81"/>
-=======
-      <location filename="TaskPanelRailButton.py" line="87"/>
->>>>>>> dev3_3
       <source>Outer Diameter</source>
       <translation>Diamètre extérieur</translation>
     </message>
@@ -1080,11 +1072,7 @@
       <translation>Nombre</translation>
     </message>
     <message>
-<<<<<<< HEAD
       <location filename="TaskPanelBulkhead.py" line="156"/>
-=======
-      <location filename="TaskPanelFin.py" line="415"/>
->>>>>>> dev3_3
       <source>Offset</source>
       <translation>Décalage</translation>
     </message>
@@ -1859,11 +1847,7 @@
       <translation>Les paramètres du rail guide produisent une forme invalide</translation>
     </message>
     <message>
-<<<<<<< HEAD
       <location filename="CmdLaunchGuides.py" line="84"/>
-=======
-      <location filename="TaskPanelFinCan.py" line="538"/>
->>>>>>> dev3_3
       <source>Launch Lug</source>
       <translation>Sabot de lancement</translation>
     </message>
@@ -1998,11 +1982,7 @@
       <translation>Diamètre de la tige</translation>
     </message>
     <message>
-<<<<<<< HEAD
-      <location filename="TaskPanelFinCan.py" line="528"/>
-=======
       <location filename="TaskPanelRailButton.py" line="149"/>
->>>>>>> dev3_3
       <source>Presets</source>
       <translation>Préréglages</translation>
     </message>
@@ -2302,11 +2282,7 @@
       <translation type="unfinished">Forward cap style produces an invalid shape</translation>
     </message>
     <message>
-<<<<<<< HEAD
-      <location filename="CmdBodyTube.py" line="117"/>
-=======
       <location filename="TaskPanelFinCan.py" line="474"/>
->>>>>>> dev3_3
       <source>Coupler</source>
       <translation type="unfinished">Coupler</translation>
     </message>
