@@ -395,7 +395,7 @@ class FinCanShapeHandler(FinShapeHandler):
             can = can.fuse(shape)
 
         # Add the fins
-        fins = self._drawFinSet(float(self._obj.Thickness), radius=(float(self._obj.Diameter) / 2.0))
+        fins = self._drawFinSet(float(self._obj.Thickness))
         finCan = can.fuse([fins]) # Must be fuse not makeCompund
 
         return finCan
