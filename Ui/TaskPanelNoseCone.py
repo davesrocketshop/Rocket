@@ -43,7 +43,7 @@ from Rocket.Constants import STYLE_CAPPED, STYLE_HOLLOW, STYLE_SOLID
 from Rocket.Constants import STYLE_CAP_SOLID, STYLE_CAP_BAR, STYLE_CAP_CROSS
 from Rocket.Constants import COMPONENT_TYPE_NOSECONE
 
-from Rocket.Utilities import _toFloat, _valueWithUnits, _valueOnly
+from Rocket.Utilities import _toFloat, _valueWithUnits, _valueOnly, _err
 
 class _NoseConeDialog(QDialog):
 
@@ -624,7 +624,11 @@ class TaskPanelNoseCone:
         self._obj.ShoulderLength = _valueWithUnits(result["shoulder_length"], result["shoulder_length_units"])
         self._obj.Shoulder = (self._obj.ShoulderDiameter > 0.0) and (self._obj.ShoulderLength >= 0)
         self._obj.ShoulderThickness = self._obj.Thickness
-        self._obj.ShapeMaterial = Materials.MaterialManager().getMaterial(result["uuid"])
+        try:
+            self._obj.ShapeMaterial = Materials.MaterialManager().getMaterial(result["uuid"])
+        except LookupError:
+            # Use the default
+            _err(translate('Rocket', "Unable to find material '{}'").format(result["uuid"]))
 
         self.update()
         self._obj.Proxy.execute(self._obj)

@@ -31,11 +31,13 @@ import math
 
 from DraftTools import translate
 
-from PySide import  QtCore
+from PySide import  QtCore, QtGui
 
 from CfdOF.Mesh import CfdMesh, CfdMeshRefinement
 from CfdOF import CfdAnalysis, CfdTools
-from CfdOF.Solve import CfdPhysicsSelection, CfdFluidBoundary, CfdFluidMaterial, CfdInitialiseFlowField, CfdSolverFoam
+from CfdOF.Solve import CfdPhysicsSelection, CfdFluidBoundary, CfdFluidMaterial, CfdInitialiseFlowField, \
+    CfdSolverFoam
+from CfdOF.PostProcess import CfdReportingFunction
 
 from Rocket.cfd.CFDUtil import caliber, finThickness, createSolid, makeCFDRocket, makeWindTunnel
 
@@ -50,11 +52,6 @@ class TaskPanelCFD(QtCore.QObject):
 
         self.form = FreeCADGui.PySideUic.loadUi(os.path.join(getUIPath(), 'Resources', 'ui', "DialogCFD.ui"))
         # self.form = FreeCADGui.PySideUic.loadUi(':/ui/DialogCFD.ui')
-
-        # self._studies = (translate("Rocket", "Coarse"),
-        #                  translate("Rocket", "Fine"),
-        #                  )
-        # self.form.comboStudy.addItems(self._studies)
 
         self.form.buttonCreate.clicked.connect(self.onCreate)
 
@@ -94,9 +91,14 @@ class TaskPanelCFD(QtCore.QObject):
         self.adjustFluidProperties()
         self.adjustInitializeFields()
         self.adjustCFDSolver()
+        self.makeReportingFunction()
 
         # Don't try to make things twice
-        self.form.buttonCreate.setEnabled(False)
+        # self.form.buttonCreate.setEnabled(False)
+        self.accept()
+
+    def getStandardButtons(self):
+        return QtGui.QDialogButtonBox.Close
 
     def accept(self):
         self.deactivate()
@@ -123,6 +125,7 @@ class TaskPanelCFD(QtCore.QObject):
         if self._aoa != 0.0:
             solid1.rotate(FreeCAD.Vector(center, 0, 0),FreeCAD.Vector(0, 1, 0), self._aoa)
         self._CFDrocket._obj.Shape = solid1
+        FreeCAD.ActiveDocument.recompute()
 
     def makeWindTunnel(self):
         diameter = FreeCAD.Units.Quantity(self.form.inputDiameter.text()).Value
@@ -135,10 +138,6 @@ class TaskPanelCFD(QtCore.QObject):
         self._refinement0 = makeWindTunnel('Refinement', tunnelDiameter * 0.25, 3.5 * length, 0.5 * length)
         self._refinement1 = makeWindTunnel('Refinement', tunnelDiameter * 0.5, 9.0 * length, 1.0 * length)
         self._refinement2 = makeWindTunnel('Refinement', tunnelDiameter * 0.75, 9.5 * length, 1.5 * length)
-        # FreeCADGui.doCommand("Ui.Commands.CmdCFDAnalysis.makeWindTunnel('WindTunnel',{},{},{})".format(tunnelDiameter, 10.0 * length, 2.0 * length))
-        # FreeCADGui.doCommand("Ui.Commands.CmdCFDAnalysis.makeWindTunnel('Refinement',{},{},{})".format(tunnelDiameter * 0.25, 3.5 * length, 0.5 * length))
-        # FreeCADGui.doCommand("Ui.Commands.CmdCFDAnalysis.makeWindTunnel('Refinement',{},{},{})".format(tunnelDiameter * 0.5, 9.0 * length, 1.0 * length))
-        # FreeCADGui.doCommand("Ui.Commands.CmdCFDAnalysis.makeWindTunnel('Refinement',{},{},{})".format(tunnelDiameter * 0.75, 9.5 * length, 1.5 * length))
         FreeCAD.ActiveDocument.recompute()
 
         self.makeCompound()
@@ -201,9 +200,13 @@ class TaskPanelCFD(QtCore.QObject):
         FreeCAD.ActiveDocument.recompute()
 
         # Surface refinement
-        thickness = FreeCAD.Units.Quantity(self.form.inputFinThickness.text()).Value
+        thickness = FreeCAD.Units.Quantity(self.form.inputFinThickness.text() + " mm")
         relativeLength = (thickness / 2.0) / self._CFDMesh.CharacteristicLengthMax
-        relativeLength = min(relativeLength, 0.0625)
+        defaultLength = FreeCAD.Units.Quantity("0.0625")
+        if relativeLength > 0.0:
+            relativeLength = min(relativeLength, defaultLength)
+        else:
+            relativeLength = defaultLength
         refinement = CfdMeshRefinement.makeCfdMeshRefinement(self._CFDMesh, 'SurfaceRefinement')
         refinement.ShapeRefs = [self._CFDrocket._obj, ('', )]
         refinement.RelativeLength = relativeLength.Value
@@ -225,17 +228,25 @@ class TaskPanelCFD(QtCore.QObject):
         self._outlet.ShapeRefs = [self._compound, ('Face{}'.format(length-1), )]
         self._outlet.BoundaryType = "outlet"
         self._outlet.BoundarySubType = "staticPressureOutlet"
+        self._outlet.Pressure = "25 kPa" #?
         FreeCAD.ActiveDocument.recompute()
 
         self._wall = CfdFluidBoundary.makeCfdFluidBoundary("Wall")
         CfdTools.getActiveAnalysis().addObject(self._wall)
         self._wall.ShapeRefs = [self._compound, ('Face{}'.format(length-2), )]
         self._wall.BoundaryType = "wall"
-        self._wall.BoundarySubType = "fixedWall"
+        self._wall.BoundarySubType = "slipWall"
+        FreeCAD.ActiveDocument.recompute()
+
+        self._rocketWall = CfdFluidBoundary.makeCfdFluidBoundary("RocketWall")
+        CfdTools.getActiveAnalysis().addObject(self._rocketWall)
+        self._rocketWall.ShapeRefs = [self._CFDrocket._obj]
+        self._rocketWall.BoundaryType = "wall"
+        self._rocketWall.BoundarySubType = "fixedWall"
         FreeCAD.ActiveDocument.recompute()
 
     def adjustPhysicsModel(self):
-        self._physicsModel.Flow = "NonIsothermal"
+        self._physicsModel.Flow = "Isothermal"
         self._physicsModel.Turbulence = "RANS"
         FreeCAD.ActiveDocument.recompute()
 
@@ -244,22 +255,31 @@ class TaskPanelCFD(QtCore.QObject):
         for mat in material_name_path_list:
             material = materials[mat[1]]
             # print("Name {} Type {}".format(material['Name'], material['Type']))
-            if material['Name'] == "Air" and material['Type'] == "Compressible":
+            if material['Name'] == "Air" and material['Type'] == "Isothermal":
                 self._fluidProperties.Material = material
                 self._fluidProperties.Label = material['Name']
                 FreeCAD.ActiveDocument.recompute()
                 return
 
     def adjustInitializeFields(self):
-        self._initializeFields.PotentialFlow = False
-        self._initializeFields.PotentialFlowP = False
-        self._initializeFields.BoundaryU = self._inlet
-        self._initializeFields.BoundaryP = self._outlet
-        self._initializeFields.UseInletUValues = True
-        self._initializeFields.UseOutletPValue = True
+        self._initializeFields.PotentialFlow = True
+        self._initializeFields.PotentialFlowP = True
+        # self._initializeFields.BoundaryU = self._inlet
+        # self._initializeFields.BoundaryP = self._outlet
+        self._initializeFields.UseInletUValues = False
+        self._initializeFields.UseOutletPValue = False
         FreeCAD.ActiveDocument.recompute()
 
     def adjustCFDSolver(self):
         cores = self.form.spinNproc.value()
         self._solver.ParallelCores = cores
+        FreeCAD.ActiveDocument.recompute()
+
+    def makeReportingFunction(self):
+        self._force = CfdReportingFunction.makeCfdReportingFunction("ForceReportingFunction")
+        CfdTools.getActiveAnalysis().addObject(self._force)
+        self._force.ReportingFunctionType = "Force"
+        # q = (p / 2) * v^2
+        self._force.ReferencePressure = "25000 Pa"
+        self._force.Patch = self._rocketWall
         FreeCAD.ActiveDocument.recompute()

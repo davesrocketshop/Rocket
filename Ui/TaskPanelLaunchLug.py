@@ -41,7 +41,7 @@ from Ui.Widgets.CommentTab import CommentTab
 
 from Rocket.Constants import COMPONENT_TYPE_LAUNCHLUG
 
-from Rocket.Utilities import _valueOnly
+from Rocket.Utilities import _valueOnly, _err
 
 class _LaunchLugDialog(QDialog):
 
@@ -296,7 +296,11 @@ class TaskPanelLaunchLug:
         self._obj.Proxy.setOuterDiameter(_valueOnly(result["outer_diameter"], result["outer_diameter_units"]))
         self._obj.Proxy.setThickness((self._obj.Diameter.Value - diameter) / 2.0)
         self._obj.Proxy.setLength(_valueOnly(result["length"], result["length_units"]))
-        self._obj.ShapeMaterial = Materials.MaterialManager().getMaterial(result["uuid"])
+        try:
+            self._obj.ShapeMaterial = Materials.MaterialManager().getMaterial(result["uuid"])
+        except LookupError:
+            # Use the default
+            _err(translate('Rocket', "Unable to find material '{}'").format(result["uuid"]))
 
         self.update()
         self._obj.Proxy.execute(self._obj)
