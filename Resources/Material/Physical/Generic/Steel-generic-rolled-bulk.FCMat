@@ -7,8 +7,8 @@ General:
   License: "Apache-2.0"
   Description: "Steel-generic-rolled-bulk"
 Inherits:
-  Default:
-    UUID: "5dbb7be6-8b63-479b-ab4c-87be02ead973"
+  Steel-Generic:
+    UUID: "90bbd8ef-8623-4d78-b3bf-e0bdb9b74dd3"
 Models:
   Density:
     UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"

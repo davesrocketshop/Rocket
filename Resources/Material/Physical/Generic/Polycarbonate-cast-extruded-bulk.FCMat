@@ -7,8 +7,8 @@ General:
   License: "Apache-2.0"
   Description: "Polycarbonate-cast-extruded-bulk"
 Inherits:
-  Default:
-    UUID: "5dbb7be6-8b63-479b-ab4c-87be02ead973"
+  Acrylic:
+    UUID: "48bf4e73-d478-43c0-a651-13ab01aeac0c"
 Models:
   Density:
     UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"

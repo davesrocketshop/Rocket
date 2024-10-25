@@ -7,8 +7,8 @@ General:
   License: "Apache-2.0"
   Description: "Blue-tube"
 Inherits:
-  Default:
-    UUID: "5dbb7be6-8b63-479b-ab4c-87be02ead973"
+  BlueTube:
+    UUID: "588f070c-8a8f-41f9-9338-2212714ecad7"
 Models:
   Density:
     UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"

@@ -1,0 +1,17 @@
+﻿---
+# File created by FreeCAD 1.1.0 Revision: 38782 +244 (Git)
+General:
+  UUID: "48bf4e73-d478-43c0-a651-13ab01aeac0c"
+  Name: "Acrylic"
+  Author: "David Carter"
+  License: "All rights reserved"
+  Description: "Clear plastic"
+AppearanceModels:
+  Basic Rendering:
+    UUID: "f006c7e4-35b7-43d5-bbf9-c5d572309e6e"
+    AmbientColor: "(1,1,1,1)"
+    DiffuseColor: "(1,1,1,1)"
+    EmissiveColor: "(1,1,1,1)"
+    Shininess: "0.2"
+    SpecularColor: "(1,1,1,1)"
+    Transparency: "0.9"

@@ -7,8 +7,8 @@ General:
   License: "Apache-2.0"
   Description: "Titanium-bulk"
 Inherits:
-  Default:
-    UUID: "5dbb7be6-8b63-479b-ab4c-87be02ead973"
+  Ti-6Al-4V:
+    UUID: "f8013463-8008-4063-818c-ab6884cfa015"
 Models:
   Density:
     UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"
