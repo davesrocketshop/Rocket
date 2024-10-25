@@ -63,7 +63,7 @@ class Component:
         self.validateString(self._description, "Description invalid")
 
         if len(str(self._material[0]).strip()) == 0:
-            self._material = ("unspecified", self._material[1])
+            self._material = ("Generic", self._material[1])
         if self._material[1] not in [MATERIAL_TYPE_BULK, MATERIAL_TYPE_SURFACE, MATERIAL_TYPE_LINE]:
             self.raiseInvalid("Material type invalid")
 
@@ -72,16 +72,30 @@ class Component:
             self.validateNonEmptyString(self._mass[1], "_mass units invalid")
 
     def persist(self, connection):
+        material_index = -1
         try:
             # material_index = Materials.getMaterial(connection, self._manufacturer, self._material[0], self._material[1])
             material_index = getMaterial(connection, self._manufacturer, self._material[0], self._material[1])
         except MaterialNotFoundError:
+            pass
+        if material_index < 0:
             try:
                 print("Unable to find material for '%s':'%s' - setting to any type" % (self._manufacturer, self._partNumber))
                 material_index = getMaterialAnyType(connection, self._manufacturer, self._material[0])
             except MaterialNotFoundError:
-                print("Unable to find material for '%s':'%s' - setting to unspecified" % (self._manufacturer, self._partNumber))
-                material_index = getMaterial(connection, 'unspecified', 'unspecified', self._material[1])
+                pass
+        if material_index < 0:
+            try:
+                print("Unable to find material for '%s':'%s' - setting to Generic" % (self._manufacturer, self._partNumber))
+                material_index = getMaterial(connection, 'Generic', self._material[0], self._material[1])
+            except MaterialNotFoundError:
+                pass
+        if material_index < 0:
+            try:
+                print("Unable to find material for '%s':'%s' - setting to Generic any type" % (self._manufacturer, self._partNumber))
+                material_index = getMaterialAnyType(connection, 'Generic', self._material[1])
+            except MaterialNotFoundError:
+                pass
 
         cursor = connection.cursor()
 

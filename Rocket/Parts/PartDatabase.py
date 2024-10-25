@@ -94,7 +94,7 @@ class PartDatabase:
         cursor.execute("CREATE TABLE IF NOT EXISTS component (component_index INTEGER PRIMARY KEY ASC, manufacturer, part_number, description, material_index, mass, mass_units)")
         cursor.execute("CREATE INDEX IF NOT EXISTS idx_component_manufacturer ON component(manufacturer)")
 
-        # cursor.execute("DROP TABLE IF EXISTS tube_type")
+        cursor.execute("DROP TABLE IF EXISTS tube_type")
         cursor.execute("CREATE TABLE IF NOT EXISTS tube_type (tube_type_index INTEGER PRIMARY KEY ASC, type UNIQUE)")
         cursor.execute("CREATE INDEX IF NOT EXISTS idx_tube_type_type ON tube_type(type)")
         cursor.execute("""INSERT INTO tube_type(type)
