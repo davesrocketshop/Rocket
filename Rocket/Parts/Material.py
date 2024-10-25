@@ -70,17 +70,17 @@ class Material:
         self.validateUuid(self._uuid, "Invalid UUID")
         self.validateNonEmptyString(self._units, "Units invalid")
         if self._type not in [MATERIAL_TYPE_BULK, MATERIAL_TYPE_SURFACE, MATERIAL_TYPE_LINE]:
-            self.raiseInvalid("Invalid material tyle '%s'" % self._type)
+            self.raiseInvalid("Invalid material type '%s'" % self._type)
         self.validateNonNegative(self._density, "Material type invalid")
 
     def persist(self, connection):
         cursor = connection.cursor()
 
         # Check to see if an entry exists
-        cursor.execute("SELECT * FROM material WHERE manufacturer=:manufacturer AND material_name=:name AND  type=:type", 
+        cursor.execute("SELECT * FROM material WHERE manufacturer=:manufacturer AND material_name=:name AND  type=:type",
                             {
                                 "manufacturer" : self._manufacturer,
-                                "name" : self._name, 
+                                "name" : self._name,
                                 "type" :self._type
                             })
         row = cursor.fetchone()
@@ -108,14 +108,14 @@ def getMaterial(connection, manufacturer, name, type):
 
     cursor.execute("SELECT material_index FROM material WHERE manufacturer=:manufacturer COLLATE NOCASE AND material_name=:name COLLATE NOCASE AND  type=:type", {
                         "manufacturer" : manufacturer,
-                        "name" : name, 
+                        "name" : name,
                         "type" : type
                     })
 
     rows = cursor.fetchall()
     if len(rows) < 1:
         cursor.execute("SELECT material_index FROM material WHERE material_name=:name COLLATE NOCASE AND  type=:type", {
-                            "name" : name, 
+                            "name" : name,
                             "type" : type
                         })
 
@@ -144,7 +144,7 @@ def getMaterialAnyType(connection, manufacturer, name):
         raise MaterialNotFoundError()
 
     if len(rows) > 1:
-        print("%d rows found!" % len(rows))        
+        print("%d rows found!" % len(rows))
         cursor.execute("SELECT * FROM material WHERE material_name=:name",
                         {"name" : name})
         rows = cursor.fetchall()
@@ -176,7 +176,7 @@ def updateUuid(connection, material_index, uuid):
         cursor = connection.cursor()
 
         # Check to see if an entry exists
-        cursor.execute("UPDATE material SET uuid=:uuid WHERE material_index=:material_index", 
+        cursor.execute("UPDATE material SET uuid=:uuid WHERE material_index=:material_index",
                             {
                                 "uuid" : uuid,
                                 "material_index" : material_index
