@@ -7,8 +7,8 @@ General:
   License: "Apache-2.0"
   Description: "Lexan"
 Inherits:
-  Default:
-    UUID: "5dbb7be6-8b63-479b-ab4c-87be02ead973"
+  Lexan-cast-extruded-bulk:
+    UUID: "ac20a0a7-2d00-4952-81c4-c0b044056a1d"
 Models:
   Density:
     UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"

@@ -7,8 +7,8 @@ General:
   License: "Apache-2.0"
   Description: "Aircraft-plywood-LOC"
 Inherits:
-  Default:
-    UUID: "5dbb7be6-8b63-479b-ab4c-87be02ead973"
+  Plywood-birch:
+    UUID: "262d427e-b405-4dfe-a7b9-d97861c85f2d"
 Models:
   Density:
     UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"
