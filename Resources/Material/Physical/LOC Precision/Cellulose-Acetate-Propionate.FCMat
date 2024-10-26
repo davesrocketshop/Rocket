@@ -7,8 +7,8 @@ General:
   License: "Apache-2.0"
   Description: "Cellulose-Acetate-Propionate"
 Inherits:
-  Default:
-    UUID: "5dbb7be6-8b63-479b-ab4c-87be02ead973"
+  Cellulose-acetate-propionate-bulk:
+    UUID: "3d74357d-ee9a-452e-ab7b-6f3419e848a7"
 Models:
   Density:
     UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"

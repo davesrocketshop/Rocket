@@ -7,8 +7,8 @@ General:
   License: "Apache-2.0"
   Description: "Paper-kraft-LOC-coupler-avg"
 Inherits:
-  Cardboard:
-    UUID: "61d24f26-0283-4400-af9a-a9f11b698664"
+  Paper-kraft-LOC-coupler-avg:
+    UUID: "83e81305-8b4a-402b-864d-b0489667a1ef"
 Models:
   Density:
     UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"
