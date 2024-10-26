@@ -7,8 +7,8 @@ General:
   License: "Apache-2.0"
   Description: "Fir-Douglas"
 Inherits:
-  Default:
-    UUID: "5dbb7be6-8b63-479b-ab4c-87be02ead973"
+  Fir-Douglas-bulk:
+    UUID: "da2a908a-2249-4749-b49a-7cf3ab5cd6ba"
 Models:
   Density:
     UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"

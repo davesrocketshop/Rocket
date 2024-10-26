@@ -7,8 +7,8 @@ General:
   License: "Apache-2.0"
   Description: "PML-Quantum-polymer"
 Inherits:
-  Default:
-    UUID: "5dbb7be6-8b63-479b-ab4c-87be02ead973"
+  Quantum-tubing:
+    UUID: "344dc205-44ce-4078-b572-69a900930973"
 Models:
   Density:
     UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"

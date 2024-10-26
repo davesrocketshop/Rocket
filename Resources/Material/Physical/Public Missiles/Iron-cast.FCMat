@@ -7,8 +7,8 @@ General:
   License: "Apache-2.0"
   Description: "Iron-cast"
 Inherits:
-  Default:
-    UUID: "5dbb7be6-8b63-479b-ab4c-87be02ead973"
+  Iron-bulk:
+    UUID: "633e9cc8-1a45-460a-9ed0-3012abc744fc"
 Models:
   Density:
     UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"
