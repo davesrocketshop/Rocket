@@ -7,8 +7,8 @@ General:
   License: "Apache-2.0"
   Description: "Polyethylene-HDPE-bulk"
 Inherits:
-  Default:
-    UUID: "5dbb7be6-8b63-479b-ab4c-87be02ead973"
+  Polyethylene-HDPE-bulk:
+    UUID: "b6d72896-e1b3-47d2-bf12-9f23fa25e36c"
 Models:
   Density:
     UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"

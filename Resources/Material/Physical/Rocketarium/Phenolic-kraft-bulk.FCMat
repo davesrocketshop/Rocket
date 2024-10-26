@@ -7,8 +7,8 @@ General:
   License: "Apache-2.0"
   Description: "Phenolic-kraft-bulk"
 Inherits:
-  Cardboard:
-    UUID: "61d24f26-0283-4400-af9a-a9f11b698664"
+  Phenolic-bulk:
+    UUID: "f41749bb-b743-472c-8250-c46156eeb526"
 Models:
   Density:
     UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"
