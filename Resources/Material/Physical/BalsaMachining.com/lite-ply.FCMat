@@ -7,8 +7,8 @@ General:
   License: "Apache-2.0"
   Description: "lite-ply"
 Inherits:
-  Wood:
-    UUID: "d4f10fef-67ee-4dfa-a3d4-12270ade670c"
+  Plywood-light-bulk:
+    UUID: "1ec5888a-4b7d-424f-8a41-a36edd92e768"
 Models:
   Density:
     UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"

@@ -8,7 +8,7 @@ General:
   Description: "Balsa-bulk-BMS-typical"
 Inherits:
   Balse:
-    UUID: "3aab0fb3-7787-400e-851b-0447389135b3"
+    UUID: "d3676735-9229-42d7-8508-4c4c3ad1775d"
 Models:
   Density:
     UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"
