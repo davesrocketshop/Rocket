@@ -8,7 +8,7 @@ General:
   Description: "Cardboard"
 Inherits:
   Cardboard:
-    UUID: "61d24f26-0283-4400-af9a-a9f11b698664"
+    UUID: "f0489532-5e07-4136-af05-1cb03f093b94"
 Models:
   Density:
     UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"
