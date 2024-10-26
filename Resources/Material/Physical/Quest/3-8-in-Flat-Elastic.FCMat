@@ -7,8 +7,8 @@ General:
   License: "Apache-2.0"
   Description: "3-8-in-Flat-Elastic"
 Inherits:
-  Default:
-    UUID: "5dbb7be6-8b63-479b-ab4c-87be02ead973"
+  Elastic-flat-3-8-in-width:
+    UUID: "fc648863-db39-4276-9443-f29f3304ffc9"
 Models:
   Density:
     UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"

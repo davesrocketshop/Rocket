@@ -7,8 +7,8 @@ General:
   License: "Apache-2.0"
   Description: "Balsa-bulk-7-lb-ft3"
 Inherits:
-  Balse:
-    UUID: "3aab0fb3-7787-400e-851b-0447389135b3"
+  Balsa-bulk-7-lb-ft3:
+    UUID: "1cfc6514-7738-487c-828c-e7c0b09c5129"
 Models:
   Density:
     UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"

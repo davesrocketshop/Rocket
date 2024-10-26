@@ -7,8 +7,8 @@ General:
   License: "Apache-2.0"
   Description: "Ash"
 Inherits:
-  Default:
-    UUID: "5dbb7be6-8b63-479b-ab4c-87be02ead973"
+  Ash-bulk:
+    UUID: "867c34c7-783f-412c-a902-aa2e547e3f4b"
 Models:
   Density:
     UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"
