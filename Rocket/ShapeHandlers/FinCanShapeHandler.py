@@ -185,11 +185,11 @@ class FinCanShapeHandler(FinShapeHandler):
         y = 2.0 * float(outerRadius) + TOLERANCE_OFFSET
 
         x1 = float(xFore) + TOLERANCE_OFFSET
-        z1 = self.rakeZ(x1, slope, intercept)        
+        z1 = self.rakeZ(x1, slope, intercept)
         v1 = FreeCAD.Vector(x1, y, z1)
 
         x2 = float(xAft) - TOLERANCE_OFFSET
-        z2 = self.rakeZ(x2, slope, intercept)        
+        z2 = self.rakeZ(x2, slope, intercept)
         v2 = FreeCAD.Vector(x2, y, z2)
 
         v3 = FreeCAD.Vector(x1, y, z2)
@@ -212,11 +212,11 @@ class FinCanShapeHandler(FinShapeHandler):
         y = 2.0 * float(outerRadius) + TOLERANCE_OFFSET
 
         x1 = float(xFore) + TOLERANCE_OFFSET
-        z1 = self.rakeZ(x1, slope, intercept)        
+        z1 = self.rakeZ(x1, slope, intercept)
         v1 = FreeCAD.Vector(x1, y, z1)
 
         x2 = float(xAft) - TOLERANCE_OFFSET
-        z2 = self.rakeZ(x2, slope, intercept)        
+        z2 = self.rakeZ(x2, slope, intercept)
         v2 = FreeCAD.Vector(x2, y, z2)
 
         v3 = FreeCAD.Vector(x2, y, z1)
@@ -372,7 +372,7 @@ class FinCanShapeHandler(FinShapeHandler):
                 can = can.cut(step)
 
         return can
-    
+
     def _extendRoot(self):
         # Override this if the fin root needs an extension to connect it to the body tube
         return True
@@ -401,7 +401,7 @@ class FinCanShapeHandler(FinShapeHandler):
         return finCan
 
     def draw(self):
-        
+
         if not self.isValidShape():
             return
 
