@@ -26,10 +26,8 @@ __url__ = "https://www.davesrocketshop.com"
 
 import FreeCAD
 
-from Rocket.Importer.OpenRocket.SaxElement import NullElement, Element
-# from App.Importer.OpenRocket.TransitionElement import TransitionElement
-from Rocket.Utilities import _toBoolean
-from Rocket.Constants import STYLE_CAPPED, STYLE_HOLLOW, STYLE_SOLID
+from Rocket.Importer.OpenRocket.SaxElement import Element
+
 from Rocket.Constants import TYPE_CONE, TYPE_BLUNTED_CONE, TYPE_ELLIPTICAL, TYPE_HAACK, TYPE_OGIVE, TYPE_BLUNTED_OGIVE, TYPE_POWER
 
 from Ui.Commands.CmdNoseCone import makeNoseCone
@@ -39,7 +37,7 @@ class NoseElement(Element):
     def __init__(self, parent, tag, attributes, parentObj, filename, line):
         super().__init__(parent, tag, attributes, parentObj, filename, line)
 
-        self._knownTags.extend(["parttype", "length", "diameter", 
+        self._knownTags.extend(["parttype", "length", "diameter",
                 "shape", "bluntradius", "location", "color", "power law"])
 
         self._bluntRadius = 0.0
@@ -86,10 +84,6 @@ class NoseElement(Element):
         else:
             super().handleEndTag(tag, content)
 
-    def onColor(self, red, green, blue, alpha):
-        if hasattr(self._parentObj, "setColor"):
-            self._parentObj.setColor(int(red), int(green), int(blue), int(alpha))
-
     def end(self):
         if self._bluntRadius > 0:
             self._feature._obj.BluntedDiameter = self._bluntRadius / 2.0
@@ -97,7 +91,7 @@ class NoseElement(Element):
                 self._feature._obj.NoseType = TYPE_BLUNTED_CONE
             elif self._feature._obj.NoseType == TYPE_OGIVE:
                 self._feature._obj.NoseType = TYPE_BLUNTED_OGIVE
-                
+
         self._feature._obj.Shoulder = False
 
         return super().end()

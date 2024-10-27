@@ -129,7 +129,7 @@ def getMaterial(connection, manufacturer, name, type):
                 print("Not found getMaterial('%s', '%s', '%s')" % (manufacturer, name, type))
                 raise MaterialNotFoundError()
 
-    return rows[0]['material_index']
+    return rows[0][0]#['material_index']
 
 def getMaterialAnyType(connection, manufacturer, name):
     cursor = connection.cursor()
@@ -173,12 +173,30 @@ def listBulkMaterials(connection):
     return rows
 
 def updateUuid(connection, material_index, uuid):
-        cursor = connection.cursor()
+    cursor = connection.cursor()
 
-        # Check to see if an entry exists
-        cursor.execute("UPDATE material SET uuid=:uuid WHERE material_index=:material_index",
-                            {
-                                "uuid" : uuid,
-                                "material_index" : material_index
-                            })
-        connection.commit()
+    # Check to see if an entry exists
+    cursor.execute("UPDATE material SET uuid=:uuid WHERE material_index=:material_index",
+                        {
+                            "uuid" : uuid,
+                            "material_index" : material_index
+                        })
+    connection.commit()
+
+def getUuid(connection, name, type):
+    index = getMaterial(connection, "Generic", name, type) # Unknown manufacturer
+    cursor = connection.cursor()
+
+    cursor.execute("""SELECT material_index, uuid
+                    FROM material WHERE material_index = :index""", {
+                        "index" : index
+                    })
+
+    rows = cursor.fetchall()
+    if len(rows) < 1:
+        raise MaterialNotFoundError()
+
+    if len(rows) > 1:
+        raise MultipleEntryError()
+
+    return rows[0][1]#["uuid"]

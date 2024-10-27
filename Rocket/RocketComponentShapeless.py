@@ -880,25 +880,9 @@ class RocketComponentShapeless():
         # Return the length of this component along the central axis
         return 0
 
-    def setColor(self, red, green, blue, alpha):
-        if hasattr(self._obj.ViewObject.Proxy, "setColor"):
-            self._obj.ViewObject.Proxy.setColor(red, green, blue, alpha)
-
-    def setAmbient(self, red, green, blue, alpha):
-        if hasattr(self._obj.ViewObject.Proxy, "setAmbient"):
-            self._obj.ViewObject.Proxy.setAmbient(red, green, blue, alpha)
-
-    def setDiffuse(self, red, green, blue, alpha):
-        if hasattr(self._obj.ViewObject.Proxy, "setDiffuse"):
-            self._obj.ViewObject.Proxy.setDiffuse(red, green, blue, alpha)
-
-    def setSpecular(self, red, green, blue, alpha):
-        if hasattr(self._obj.ViewObject.Proxy, "setSpecular"):
-            self._obj.ViewObject.Proxy.setSpecular(red, green, blue, alpha)
-
-    def setShininess(self, shininess):
-        if hasattr(self._obj.ViewObject.Proxy, "setShininess"):
-            self._obj.ViewObject.Proxy.setShininess(shininess)
+    def setAppearance(self, appearance):
+        if hasattr(self._obj.ViewObject.Proxy, "setAppearance"):
+            self._obj.ViewObject.Proxy.setAppearance(appearance)
 
     # This will be implemented in the derived class
     def execute(self, obj):

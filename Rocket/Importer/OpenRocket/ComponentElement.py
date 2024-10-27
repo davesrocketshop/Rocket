@@ -25,6 +25,11 @@ __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
 import FreeCAD
+import Materials
+
+from Rocket.Parts.PartDatabase import PartDatabase
+from Rocket.Parts.Material import getUuid
+from Rocket.Parts.Exceptions import MaterialNotFoundError
 
 from Rocket.Importer.OpenRocket.SaxElement import Element, NullElement
 from Rocket.Importer.OpenRocket.AppearanceElement import AppearanceElement
@@ -41,7 +46,7 @@ class ComponentElement(Element):
         #                         'material' : MaterialElement,
         #                       }
 
-        self._componentTags = ["name", "color", "linestyle", "position", "axialoffset", "overridemass", "overridecg", "overridecd", 
+        self._componentTags = ["name", "color", "linestyle", "position", "axialoffset", "overridemass", "overridecg", "overridecd",
             "overridesubcomponents", "overridesubcomponentsmass", "overridesubcomponentscg", "overridesubcomponentscd", "comment", "preset", "finish", "material"]
 
         self._materialType = None
@@ -112,8 +117,7 @@ class ComponentElement(Element):
         elif _tag == "preset":
             self.onPreset(content)
         elif _tag == "material":
-            # print("Material '{0}'".format(content))
-            self._feature._obj.Material = content
+            self.onMaterial(content)
         else:
             super().handleEndTag(tag, content)
 
@@ -171,10 +175,26 @@ class ComponentElement(Element):
     def onOverrideSubcomponentsCd(self, content):
         pass
 
+    def onMaterial(self, content):
+        print("Material {0}".format(content))
+
+        database = PartDatabase(FreeCAD.getUserAppDataDir() + "Mod/Rocket/")
+        connection = database.getConnection()
+        try:
+            uuid = getUuid(connection, content, self._materialType)
+            print("Material uuid {}".format(uuid))
+
+            materialManager = Materials.MaterialManager()
+            self._feature._obj.ShapeMaterial = materialManager.getMaterial(uuid)
+        except MaterialNotFoundError:
+            pass
+
 class ExternalComponentElement(ComponentElement):
 
     def __init__(self, parent, tag, attributes, parentObj, filename, line):
         super().__init__(parent, tag, attributes, parentObj, filename, line)
+
+        self._deferredAppearance = None
 
         self._validChildren = { 'finish' : NullElement,
                                 # 'material' : MaterialElement,
@@ -182,6 +202,13 @@ class ExternalComponentElement(ComponentElement):
                                 'inside-appearance' : NullElement
                               }
 
+
+    def end(self):
+        if self._deferredAppearance is not None:
+            print("deferred appearance")
+            if hasattr(self._feature, "setAppearance"):
+                self._feature.setAppearance(self._deferredAppearance)
+        return super().end()
 
 class BodyComponentElement(ExternalComponentElement):
 

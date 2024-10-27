@@ -35,7 +35,7 @@ import MatGui
 from PySide import QtGui
 from PySide.QtWidgets import QGridLayout, QVBoxLayout, QSizePolicy
 
-from Rocket.Material import Material
+# from Rocket.Material import Material
 
 class MaterialTab(QtGui.QWidget):
 

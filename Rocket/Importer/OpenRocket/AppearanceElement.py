@@ -24,6 +24,8 @@ __title__ = "FreeCAD Open Rocket Importer Common Component"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
+import FreeCAD
+
 from Rocket.Importer.OpenRocket.SaxElement import Element
 
 class AppearanceElement(Element):
@@ -36,17 +38,13 @@ class AppearanceElement(Element):
     def handleTag(self, tag, attributes):
         _tag = tag.lower().strip()
         if _tag == "paint":
-            red, green, blue, alpha = self.getColor(attributes)
-            self.onPaint(red, green, blue, alpha)
+            self.onPaint(self.getColor(attributes))
         if _tag == "ambient":
-            red, green, blue, alpha = self.getColor(attributes)
-            self.onAmbient(red, green, blue, alpha)
+            self.onAmbient(self.getColor(attributes))
         if _tag == "diffuse":
-            red, green, blue, alpha = self.getColor(attributes)
-            self.onDiffuse(red, green, blue, alpha)
+            self.onDiffuse(self.getColor(attributes))
         if _tag == "specular":
-            red, green, blue, alpha = self.getColor(attributes)
-            self.onSpecular(red, green, blue, alpha)
+            self.onSpecular(self.getColor(attributes))
         else:
             super().handleTag(tag, attributes)
 
@@ -58,31 +56,35 @@ class AppearanceElement(Element):
             super().handleEndTag(tag, content)
 
     def getColor(self, attributes):
-        red = attributes["red"]
-        green = attributes["green"]
-        blue = attributes["blue"]
+        red = int(attributes["red"])
+        green = int(attributes["green"])
+        blue = int(attributes["blue"])
         alpha = 255
         if "alpha" in attributes:
-            alpha = attributes["alpha"]
+            alpha = int(attributes["alpha"])
 
-        return red, green, blue, alpha
+        color = (red / 255.0, green / 255.0, blue / 255.0, alpha / 255.0)
+        return color
 
-    def onPaint(self, red, green, blue, alpha):
-        if hasattr(self._parentObj, "setColor"):
-            self._parentObj.setColor(int(red), int(green), int(blue), int(alpha))
+    def createAppearance(self):
+        if self._parent._deferredAppearance is None:
+            self._parent._deferredAppearance = FreeCAD.Material()
 
-    def onAmbient(self, red, green, blue, alpha):
-        if hasattr(self._parentObj, "setAmbient"):
-            self._parentObj.setAmbient(int(red), int(green), int(blue), int(alpha))
+    def onPaint(self, color):
+        self.onDiffuse(color)
 
-    def onDiffuse(self, red, green, blue, alpha):
-        if hasattr(self._parentObj, "setDiffuse"):
-            self._parentObj.setDiffuse(int(red), int(green), int(blue), int(alpha))
+    def onAmbient(self, color):
+        self.createAppearance()
+        self._parent._deferredAppearance.AmbientColor = color
 
-    def onSpecular(self, red, green, blue, alpha):
-        if hasattr(self._parentObj, "setSpecular"):
-            self._parentObj.setSpecular(int(red), int(green), int(blue), int(alpha))
+    def onDiffuse(self, color):
+        self.createAppearance()
+        self._parent._deferredAppearance.DiffuseColor = color
+
+    def onSpecular(self, color):
+        self.createAppearance()
+        self._parent._deferredAppearance.SpecularColor = color
 
     def onShine(self, content):
-        if hasattr(self._parentObj, "setShininess"):
-            self._parentObj.setShininess(float(content))
+        self.createAppearance()
+        self._parent._deferredAppearance.Shininess = float(content)
