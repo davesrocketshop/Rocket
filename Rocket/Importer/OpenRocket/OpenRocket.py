@@ -67,7 +67,6 @@ class OpenRocketElement(ComponentElement):
                                 'simulations' : NullElement,
                                 'photostudio' : NullElement,
                               }
-        # self._knownTags = ["rocket", "datatypes", "simulations", "photostudio"]
 
 class RocketElement(ComponentElement):
 
@@ -75,6 +74,7 @@ class RocketElement(ComponentElement):
         super().__init__(parent, tag, attributes, parentObj, filename, line)
 
         self._validChildren = { 'subcomponents' : SubElement,
+                                'motorconfiguration' : NullElement,
                               }
         self._knownTags = ["subcomponents", "designer", "appearance", "motormount", "finpoints", "motorconfiguration",
                            "flightconfiguration", "deploymentconfiguration", "separationconfiguration", "referencetype",

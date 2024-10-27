@@ -48,6 +48,8 @@ class NoseElement(TransitionElement):
         self._knownTags.remove("foreshoulderthickness")
         self._knownTags.remove("foreshouldercapped")
 
+        self._knownTags.extend(["isflipped"])
+
     def makeObject(self):
         self._feature = makeNoseCone()
         if self._parentObj is not None:
