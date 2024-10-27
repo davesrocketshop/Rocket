@@ -126,7 +126,6 @@ def getMaterial(connection, manufacturer, name, type):
                             })
             rows = cursor.fetchall()
             if len(rows) < 1:
-                print("Not found getMaterial('%s', '%s', '%s')" % (manufacturer, name, type))
                 raise MaterialNotFoundError()
 
     return rows[0][0]#['material_index']

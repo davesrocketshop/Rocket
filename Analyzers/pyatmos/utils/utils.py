@@ -2,6 +2,8 @@ import numpy as np
 import warnings
 from . import Const
 
+from DraftTools import translate
+
 def vectorize(x):
     '''
     Vectorize a number(int, float) or a list to a numpy array.
@@ -10,8 +12,8 @@ def vectorize(x):
         x = np.array(x)
     except Exception:
         x = np.array([x])
-    return x    
-          
+    return x
+
 def wraplon(lon):
     '''
     Wrap a longitude in range of [0,360] to [-180,180].
@@ -29,7 +31,7 @@ def wraplon(lon):
         lon_wrap = lon - 360
     else:
         lon_wrap = lon
-    return lon_wrap 
+    return lon_wrap
 
 def wraplons(lons):
     '''
@@ -49,7 +51,7 @@ def wraplons(lons):
     flags = lons > 180
     lons_wrap[flags] = lons[flags] - 360
 
-    return lons_wrap     
+    return lons_wrap
 
 def hms_conver(h,m,s):
     '''
@@ -74,16 +76,16 @@ def ydhms_days(ydhms):
 
 def alt_conver(alts,alt_type='geometric'):
     '''
-    Fulfill conversions between geometric altitudes and geopotential altitudes.  
+    Fulfill conversions between geometric altitudes and geopotential altitudes.
 
     Usage:
-    zs,hs = alt_conver(alts,'geometric') 
+    zs,hs = alt_conver(alts,'geometric')
     or
-    zs,hs = alt_conver(alts,'geopotential') 
+    zs,hs = alt_conver(alts,'geopotential')
 
     Inputs:
     alts -> [float list/array] geometric altitudes or geopotential altitudes, [km]
-    
+
     Parameters:
     alt_type -> [string] 'geometric' or 'geopotential'
 
@@ -96,15 +98,15 @@ def alt_conver(alts,alt_type='geometric'):
 
     R0 = Const.R0
 
-    if alt_type == 'geometric': 
+    if alt_type == 'geometric':
         zs = alts
         # from geometric altitude to geopotential altitude
-        hs = zs*R0/(R0+zs)  
+        hs = zs*R0/(R0+zs)
 
     elif alt_type == 'geopotential':
         hs = alts
         # from geopotential altitude to geometric altitude
-        zs = hs*R0/(R0-hs)  
+        zs = hs*R0/(R0-hs)
     return zs,hs
 
 def check_altitude(zs,z_range,mode):
@@ -122,9 +124,9 @@ def check_altitude(zs,z_range,mode):
     # Assert in range
 
     if (zs < lower_z).any() or (zs > upper_z).any():
-        msg_warning = "Geometric altitudes are outside the range of [{}, {}] km. Output values will be extrapolated for those heights.".format(lower_z,upper_z)
-        msg_error = "Geometric altitudes are outside the range of [{}, {}] km.".format(lower_z,upper_z)
+        msg_warning = translate("Rocket", "Geometric altitudes are outside the range of [{}, {}] km. Output values will be extrapolated for those heights.").format(lower_z,upper_z)
+        msg_error = translate("Rocket", "Geometric altitudes are outside the range of [{}, {}] km.").format(lower_z,upper_z)
         if mode == 'warning':
-            warnings.warn(msg_warning)      
+            warnings.warn(msg_warning)
         elif mode == 'error':
-            raise Exception(msg_error)  
+            raise Exception(msg_error)

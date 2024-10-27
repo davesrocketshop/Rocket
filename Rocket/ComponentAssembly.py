@@ -26,6 +26,8 @@ __url__ = "https://www.davesrocketshop.com"
 
 from tokenize import Double
 
+from DraftTools import translate
+
 from Rocket.position import AxialMethod
 from Rocket.position.AxialPositionable import AxialPositionable
 from Rocket.util import Coordinate
@@ -48,15 +50,15 @@ class ComponentAssembly(RocketComponentShapeless, AxialPositionable):
 
     def getAxialOffset(self) -> Double:
         return self.getAxialOffsetFromMethod(self._obj.AxialMethod)
-	
+
     def setAxialOffset(self, newAxialOffset) -> None:
         self._updateBounds()
         super()._setAxialOffset(self._obj.AxialMethod, newAxialOffset)
         self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
-	
+
     def getAxialMethod(self) -> AxialMethod:
         return self._obj.AxialMethod
-	
+
     def setAxialMethod(self, newMethod) -> None:
         # self._obj.AxialMethod = newMethod
         for listener in self._configListeners:
@@ -64,7 +66,7 @@ class ComponentAssembly(RocketComponentShapeless, AxialPositionable):
                 listener.setAxialMethod(newMethod)
 
         if self.getParent is None:
-            raise Exception(" a Stage requires a parent before any positioning! ")
+            raise Exception(translate("Rocket", "A Stage requires a parent before any positioning!"))
 
         if self.getType() == FEATURE_PARALLEL_STAGE or self.getType() == FEATURE_POD:
             if newMethod == AxialMethod.AFTER:
@@ -94,7 +96,7 @@ class ComponentAssembly(RocketComponentShapeless, AxialPositionable):
                 thisRadius = comp.getOuterRadius()
             elif comp.Type in [FEATURE_TRANSITION, FEATURE_NOSE_CONE]:
                 thisRadius = max(comp.getForeRadius(), comp.getAftRadius())
-            
+
             outerRadius = max(outerRadius, thisRadius)
 
         return outerRadius
@@ -118,7 +120,7 @@ class ComponentAssembly(RocketComponentShapeless, AxialPositionable):
         self.updateChildSequence()
 
     def updateBounds(self):
-        # currently only updates the length 
+        # currently only updates the length
         self._length = 0
         for  curChild in self.getChildren():
             if curChild.Proxy.isAfter():

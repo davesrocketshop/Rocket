@@ -49,12 +49,12 @@ class FeaturePod(ComponentAssembly, RingInstanceable):
             obj.addProperty('App::PropertyInteger', 'PodCount', 'RocketComponent', translate('App::Property', 'Number of pods in a radial pattern')).PodCount = 1
         if not hasattr(obj,"PodSpacing"):
             obj.addProperty('App::PropertyAngle', 'PodSpacing', 'RocketComponent', translate('App::Property', 'Angle between consecutive pods')).PodSpacing = 360
-        
+
         if not hasattr(obj, 'AngleMethod'):
             obj.addProperty('App::PropertyPythonObject', 'AngleMethod', 'RocketComponent', translate('App::Property', 'Method for calculating angle offsets')).AngleMethod = AngleMethod.RELATIVE
         if not hasattr(obj, 'AngleSeparation'):
             obj.addProperty('App::PropertyAngle', 'AngleSeparation', 'RocketComponent', translate('App::Property', 'Angle separation')).AngleSeparation = 180.0
-        
+
         if not hasattr(obj, 'RadiusMethod'):
             obj.addProperty('App::PropertyPythonObject', 'RadiusMethod', 'RocketComponent', translate('App::Property', 'Method for calculating radius offsets')).RadiusMethod = RadiusMethod.RELATIVE
         if not hasattr(obj, 'RadiusOffset'):
@@ -89,11 +89,11 @@ class FeaturePod(ComponentAssembly, RingInstanceable):
         #		, angleMethod, angleOffset_rad
         baseAngle = self.getAngleOffset()
         incrAngle = self.getInstanceAngleIncrement()
-        
+
         result = []
         for i in range(self.getInstanceCount()):
             result.append(baseAngle + incrAngle * i)
-        
+
         return result
 
     def getInstanceLocations(self):
@@ -101,21 +101,21 @@ class FeaturePod(ComponentAssembly, RingInstanceable):
 
     def getInstanceOffsets(self):
         radius = self.radiusMethod.getRadius(self.getParent(), self, self._obj.RadiusOffset)
-        
+
         toReturn = []
         angles = self.getInstanceAngles()
         for instanceNumber in range(self._obj.PodCount):
             curY = radius * math.cos(angles[instanceNumber])
             curZ = radius * math.sin(angles[instanceNumber])
             toReturn[instanceNumber] = Coordinate(0, curY, curZ)
-        
+
         return toReturn
 
     def isAfter(self):
         return False
 
     """
-        Stages may be positioned relative to other stages. In that case, this will set the stage number 
+        Stages may be positioned relative to other stages. In that case, this will set the stage number
         against which this stage is positioned.
     """
     def getRelativeToStage(self):
@@ -123,7 +123,7 @@ class FeaturePod(ComponentAssembly, RingInstanceable):
             return -1
         elif isinstance(self.getParent(), FeaturePod):
             return self.getParent().getParent().getChildPosition(self.getParent())
-        
+
         return -1
 
     def setAxialMethod(self, newMethod):
@@ -138,7 +138,8 @@ class FeaturePod(ComponentAssembly, RingInstanceable):
 
         if self.isAfter():
             # remember the implicit (this instanceof Stage)
-            raise Exception("found a pod positioned via: AFTER, but is not on the centerline?!: " + self.getName() + "  is " + self.getAxialMethod().name())
+            raise Exception(translate("Rocket", "found a pod positioned via: AFTER, but is not on the centerline?!: {}  is {}")
+                            .format(self.getName(), self.getAxialMethod().name()))
         else:
             returnValue = super().getAxialOffset(method)
 
@@ -167,10 +168,10 @@ class FeaturePod(ComponentAssembly, RingInstanceable):
                 listener.setInstanceCount(newCount)
 
         if newCount < 1:
-            # there must be at least one instance....   
+            # there must be at least one instance....
             return
 
-        
+
         self._obj.PodCount = newCount
         self._obj.AngleSeparation = math.pi * 2 / self._obj.PodCount
         self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)

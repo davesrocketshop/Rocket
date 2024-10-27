@@ -33,11 +33,15 @@ import gzip
 import xml.sax
 import FreeCAD
 
+from DraftTools import translate
+
 from Rocket.Exceptions import UnsupportedVersion
 
 from Rocket.Importer.OpenRocket.SaxElement import NullElement
 from Rocket.Importer.OpenRocket.ComponentElement import ComponentElement
 from Rocket.Importer.OpenRocket.SubElement import SubElement
+
+from Rocket.Utilities import _err
 
 from Ui.Commands.CmdRocket import makeRocket
 
@@ -53,16 +57,17 @@ class OpenRocketElement(ComponentElement):
     def __init__(self, parent, tag, attributes, parentObj, filename, line):
         super().__init__(parent, tag, attributes, parentObj, filename, line)
 
-        SUPPORTED_VERSIONS = ["1.0", "1.1", "1.2", "1.3", "1.4", "1.5", "1.6", "1.7", "1.8"]
+        SUPPORTED_VERSIONS = ["1.0", "1.1", "1.2", "1.3", "1.4", "1.5", "1.6", "1.7", "1.8", "1.9"]
 
         if attributes['version'] not in SUPPORTED_VERSIONS:
-            raise UnsupportedVersion("Unsupported version %s" % attributes['version'])
+            raise UnsupportedVersion(translate("Rocket", "Unsupported OpenRocket file version {}").format(attributes['version']))
 
         self._validChildren = { 'rocket' : RocketElement,
                                 'datatypes' : NullElement,
                                 'simulations' : NullElement,
+                                'photostudio' : NullElement,
                               }
-        self._knownTags = ["rocket", "datatypes", "simulations"]
+        # self._knownTags = ["rocket", "datatypes", "simulations", "photostudio"]
 
 class RocketElement(ComponentElement):
 
@@ -71,7 +76,9 @@ class RocketElement(ComponentElement):
 
         self._validChildren = { 'subcomponents' : SubElement,
                               }
-        self._knownTags = ["subcomponents", "designer", "appearance", "motormount", "finpoints", "motorconfiguration", "flightconfiguration", "deploymentconfiguration", "separationconfiguration", "referencetype", "customreference", "revision"]
+        self._knownTags = ["subcomponents", "designer", "appearance", "motormount", "finpoints", "motorconfiguration",
+                           "flightconfiguration", "deploymentconfiguration", "separationconfiguration", "referencetype",
+                           "customreference", "revision", "id"]
 
         self._feature = makeRocket(makeSustainer=False)
 
@@ -162,4 +169,10 @@ class OpenRocketImporter(xml.sax.ContentHandler):
         # override the default ContextHandler
         handler = OpenRocketImporter(filename)
         parser.setContentHandler(handler)
-        parser.parse(orc)
+        try:
+            parser.parse(orc)
+        except UnsupportedVersion as ex:
+            _err(ex._message)
+        except Exception as ex:
+            _err(translate("Rocket", "Unable to complete import"))
+            _err(str(ex))

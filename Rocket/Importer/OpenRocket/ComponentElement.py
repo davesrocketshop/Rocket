@@ -27,6 +27,8 @@ __url__ = "https://www.davesrocketshop.com"
 import FreeCAD
 import Materials
 
+from DraftTools import translate
+
 from Rocket.Parts.PartDatabase import PartDatabase
 from Rocket.Parts.Material import getUuid
 from Rocket.Parts.Exceptions import MaterialNotFoundError
@@ -36,6 +38,8 @@ from Rocket.Importer.OpenRocket.AppearanceElement import AppearanceElement
 from Rocket.Constants import LOCATION_PARENT_TOP, LOCATION_PARENT_MIDDLE, LOCATION_PARENT_BOTTOM, \
     LOCATION_BASE, LOCATION_AFTER
 from Rocket.position.AxialMethod import AXIAL_METHOD_MAP
+
+from Rocket.Utilities import _err
 
 class ComponentElement(Element):
 
@@ -47,7 +51,10 @@ class ComponentElement(Element):
         #                       }
 
         self._componentTags = ["name", "color", "linestyle", "position", "axialoffset", "overridemass", "overridecg", "overridecd",
-            "overridesubcomponents", "overridesubcomponentsmass", "overridesubcomponentscg", "overridesubcomponentscd", "comment", "preset", "finish", "material"]
+            "overridesubcomponents", "overridesubcomponentsmass", "overridesubcomponentscg", "overridesubcomponentscd", "comment",
+            "preset", "finish", "material"]
+
+        self._knownTags = ["id"]
 
         self._materialType = None
         self._materialDensity = None
@@ -81,8 +88,6 @@ class ComponentElement(Element):
         elif _tag == "material":
             self._materialType = attributes["type"]
             self._materialDensity = attributes["density"]
-            # for key,value in attributes.items():
-            #     print("\tMaterial attribute '{0}[{1}]'".format(key, value))
         else:
             super().handleTag(tag, attributes)
 
@@ -176,18 +181,15 @@ class ComponentElement(Element):
         pass
 
     def onMaterial(self, content):
-        print("Material {0}".format(content))
-
         database = PartDatabase(FreeCAD.getUserAppDataDir() + "Mod/Rocket/")
         connection = database.getConnection()
         try:
             uuid = getUuid(connection, content, self._materialType)
-            print("Material uuid {}".format(uuid))
 
             materialManager = Materials.MaterialManager()
             self._feature._obj.ShapeMaterial = materialManager.getMaterial(uuid)
         except MaterialNotFoundError:
-            pass
+            _err(translate("Rocket", "Material '{}' not found - using default material").format(content))
 
 class ExternalComponentElement(ComponentElement):
 
@@ -205,7 +207,6 @@ class ExternalComponentElement(ComponentElement):
 
     def end(self):
         if self._deferredAppearance is not None:
-            print("deferred appearance")
             if hasattr(self._feature, "setAppearance"):
                 self._feature.setAppearance(self._deferredAppearance)
         return super().end()
