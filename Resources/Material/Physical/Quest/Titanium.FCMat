@@ -7,8 +7,8 @@ General:
   License: "Apache-2.0"
   Description: "Titanium"
 Inherits:
-  Default:
-    UUID: "5dbb7be6-8b63-479b-ab4c-87be02ead973"
+  Titanium:
+    UUID: "b6c6c9f9-f57b-4abb-9dc4-c550f89e5be2"
 Models:
   Density:
     UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"

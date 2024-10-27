@@ -1,0 +1,17 @@
+﻿---
+# File created by FreeCAD 1.1.0 Revision: 38782 +244 (Git)
+General:
+  UUID: "e89bf05d-6c89-499f-9d6b-79531fcb9091"
+  Name: "Plastic - White"
+  Author: "David Carter"
+  License: "GPL-2.0-or-later"
+  Description: "Defines the White Plastic appearance properties"
+AppearanceModels:
+  Basic Rendering:
+    UUID: "f006c7e4-35b7-43d5-bbf9-c5d572309e6e"
+    AmbientColor: "(0,0,0,1)"
+    DiffuseColor: "(0.55,0.55,0.55,1)"
+    EmissiveColor: "(0,0,0,1)"
+    Shininess: ".25"
+    SpecularColor: "(0.70, 0.70, 0.70, 0.70)"
+    Transparency: "0"

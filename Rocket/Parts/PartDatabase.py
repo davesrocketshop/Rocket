@@ -83,46 +83,48 @@ class PartDatabase:
     def _createTables(self, connection):
         cursor = connection.cursor()
 
-        cursor.execute("DROP TABLE IF EXISTS alias")
-        cursor.execute("CREATE TABLE alias (alias_index INTEGER PRIMARY KEY ASC, alias_type, name, alias_name)")
+        # cursor.execute("DROP TABLE IF EXISTS alias")
+        cursor.execute("CREATE TABLE IF NOT EXISTS alias (alias_index INTEGER PRIMARY KEY ASC, alias_type, name, alias_name)")
 
-        cursor.execute("DROP TABLE IF EXISTS material")
-        cursor.execute("CREATE TABLE material (material_index INTEGER PRIMARY KEY ASC, manufacturer, material_name, uuid, type, density, units)")
-        cursor.execute("CREATE INDEX idx_material ON material(manufacturer, material_name, type)")
+        # cursor.execute("DROP TABLE IF EXISTS material")
+        cursor.execute("CREATE TABLE IF NOT EXISTS material (material_index INTEGER PRIMARY KEY ASC, manufacturer, material_name, uuid, type, density, units)")
+        cursor.execute("CREATE INDEX IF NOT EXISTS idx_material ON material(manufacturer, material_name, type)")
 
-        cursor.execute("DROP TABLE IF EXISTS component")
-        cursor.execute("CREATE TABLE component (component_index INTEGER PRIMARY KEY ASC, manufacturer, part_number, description, material_index, mass, mass_units)")
-        cursor.execute("CREATE INDEX idx_component_manufacturer ON component(manufacturer)")
+        # cursor.execute("DROP TABLE IF EXISTS component")
+        cursor.execute("CREATE TABLE IF NOT EXISTS component (component_index INTEGER PRIMARY KEY ASC, manufacturer, part_number, description, material_index, mass, mass_units)")
+        cursor.execute("CREATE INDEX IF NOT EXISTS idx_component_manufacturer ON component(manufacturer)")
 
         cursor.execute("DROP TABLE IF EXISTS tube_type")
-        cursor.execute("CREATE TABLE tube_type (tube_type_index INTEGER PRIMARY KEY ASC, type)")
-        cursor.execute("CREATE INDEX idx_tube_type_type ON tube_type(type)")
-        cursor.execute("INSERT INTO tube_type(type) VALUES ('Body Tube'), ('Centering Ring'), ('Tube Coupler'), ('Engine Block'), ('Launch Lug'), ('Bulkhead')")
+        cursor.execute("CREATE TABLE IF NOT EXISTS tube_type (tube_type_index INTEGER PRIMARY KEY ASC, type UNIQUE)")
+        cursor.execute("CREATE INDEX IF NOT EXISTS idx_tube_type_type ON tube_type(type)")
+        cursor.execute("""INSERT INTO tube_type(type)
+                       VALUES ('Body Tube'), ('Centering Ring'), ('Tube Coupler'), ('Engine Block'), ('Launch Lug'), ('Bulkhead')
+                       ON CONFLICT(type) DO NOTHING""")
 
-        cursor.execute("DROP TABLE IF EXISTS body_tube")
-        cursor.execute("CREATE TABLE body_tube (body_tube_index INTEGER PRIMARY KEY ASC, component_index, tube_type_index, inner_diameter, inner_diameter_units, outer_diameter, outer_diameter_units, length, length_units)")
-        cursor.execute("CREATE INDEX idx_body_tube ON body_tube(component_index, tube_type_index)")
+        # cursor.execute("DROP TABLE IF EXISTS body_tube")
+        cursor.execute("CREATE TABLE IF NOT EXISTS body_tube (body_tube_index INTEGER PRIMARY KEY ASC, component_index, tube_type_index, inner_diameter, inner_diameter_units, outer_diameter, outer_diameter_units, length, length_units)")
+        cursor.execute("CREATE INDEX IF NOT EXISTS idx_body_tube ON body_tube(component_index, tube_type_index)")
  
-        cursor.execute("DROP TABLE IF EXISTS nose")
-        cursor.execute("""CREATE TABLE nose (nose_index INTEGER PRIMARY KEY ASC, component_index, shape, style, diameter, diameter_units,
+        # cursor.execute("DROP TABLE IF EXISTS nose")
+        cursor.execute("""CREATE TABLE IF NOT EXISTS nose (nose_index INTEGER PRIMARY KEY ASC, component_index, shape, style, diameter, diameter_units,
             length, length_units, thickness, thickness_units, shoulder_diameter, shoulder_diameter_units, shoulder_length, shoulder_length_units)""")
 
-        cursor.execute("DROP TABLE IF EXISTS transition")
-        cursor.execute("""CREATE TABLE transition (transition_index INTEGER PRIMARY KEY ASC, component_index, shape, style, 
+        # cursor.execute("DROP TABLE IF EXISTS transition")
+        cursor.execute("""CREATE TABLE IF NOT EXISTS transition (transition_index INTEGER PRIMARY KEY ASC, component_index, shape, style, 
             fore_outside_diameter, fore_outside_diameter_units, fore_shoulder_diameter, fore_shoulder_diameter_units, fore_shoulder_length, fore_shoulder_length_units,
             aft_outside_diameter, aft_outside_diameter_units, aft_shoulder_diameter, aft_shoulder_diameter_units, aft_shoulder_length, aft_shoulder_length_units,
             length, length_units, thickness, thickness_units)""")
  
-        cursor.execute("DROP TABLE IF EXISTS rail_button")
-        cursor.execute("""CREATE TABLE rail_button (rail_button_index INTEGER PRIMARY KEY ASC, component_index, finish, outer_diameter, outer_diameter_units,
+        # cursor.execute("DROP TABLE IF EXISTS rail_button")
+        cursor.execute("""CREATE TABLE IF NOT EXISTS rail_button (rail_button_index INTEGER PRIMARY KEY ASC, component_index, finish, outer_diameter, outer_diameter_units,
                 inner_diameter, inner_diameter_units, height, height_units, base_height, base_height_units, flange_height, flange_height_units, screw_height, screw_height_units,
                 drag_coefficient, screw_mass, screw_mass_units, nut_mass, nut_mass_units, screw_diameter, screw_diameter_units, countersink_diameter, countersink_diameter_units, countersink_angle)""")
 
-        cursor.execute("DROP TABLE IF EXISTS parachute")
-        cursor.execute("CREATE TABLE parachute (parachute_index INTEGER PRIMARY KEY ASC, component_index, line_material_index, sides, lines, diameter, diameter_units, line_length, line_length_units)")
+        # cursor.execute("DROP TABLE IF EXISTS parachute")
+        cursor.execute("CREATE TABLE IF NOT EXISTS parachute (parachute_index INTEGER PRIMARY KEY ASC, component_index, line_material_index, sides, lines, diameter, diameter_units, line_length, line_length_units)")
             
-        cursor.execute("DROP TABLE IF EXISTS streamer")
-        cursor.execute("CREATE TABLE streamer (streamer_index INTEGER PRIMARY KEY ASC, component_index, length, length_units, width, width_units, thickness, thickness_units)")
+        # cursor.execute("DROP TABLE IF EXISTS streamer")
+        cursor.execute("CREATE TABLE IF NOT EXISTS streamer (streamer_index INTEGER PRIMARY KEY ASC, component_index, length, length_units, width, width_units, thickness, thickness_units)")
 
         connection.commit()
 
@@ -205,7 +207,10 @@ class PartDatabase:
 
     def createNewMaterialCard(self, material, name, path, libPath):
         try:
-            mat = self._manager.getMaterialByPath(path)
+            # mat = self._manager.getMaterialByPath(path)
+            absPath = os.path.abspath(path + name + ".FCMat")
+            mat = self._manager.getMaterialByPath(absPath)
+            print("Found existing material {0}".format(name))
         except LookupError:
             # Get a material with the default appearance
             mat = self._manager.inheritMaterial("5dbb7be6-8b63-479b-ab4c-87be02ead973")
@@ -213,10 +218,11 @@ class PartDatabase:
             mat.Author = "Created by the Rocket Workbench"
             mat.License = "Apache-2.0"
             mat.Description = name
+            print("Creating new material {0}".format(name))
 
-        if not mat.hasPhysicalModel(Materials.UUIDs().Density):
-            mat.addPhysicalModel(Materials.UUIDs().Density)
-        mat.setPhysicalValue("Density", "{0} kg/m^3".format(material["Density"]))
+            if not mat.hasPhysicalModel(Materials.UUIDs().Density):
+                mat.addPhysicalModel(Materials.UUIDs().Density)
+            mat.setPhysicalValue("Density", "{0} kg/m^3".format(material["Density"]))
 
-        self._manager.save("Rocket", mat, libPath + name + ".FCMat", overwrite=True, saveInherited=True)
+            self._manager.save("Rocket", mat, libPath + name + ".FCMat", overwrite=True, saveInherited=True)
         return mat.UUID

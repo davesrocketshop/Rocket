@@ -7,8 +7,8 @@ General:
   License: "Apache-2.0"
   Description: "Maple-Hard"
 Inherits:
-  Default:
-    UUID: "5dbb7be6-8b63-479b-ab4c-87be02ead973"
+  Maple-hard-bulk:
+    UUID: "a1597a73-e68b-4842-a10b-0fd2a6dbbaf0"
 Models:
   Density:
     UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"

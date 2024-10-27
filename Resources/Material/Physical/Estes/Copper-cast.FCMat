@@ -7,8 +7,8 @@ General:
   License: "Apache-2.0"
   Description: "Copper-cast"
 Inherits:
-  Default:
-    UUID: "5dbb7be6-8b63-479b-ab4c-87be02ead973"
+  Copper-cast-bulk:
+    UUID: "8309a3d6-35f3-4bf3-abd7-0a6da55f0873"
 Models:
   Density:
     UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"

@@ -7,8 +7,8 @@ General:
   License: "Apache-2.0"
   Description: "060-Carbon-Fiber"
 Inherits:
-  Default:
-    UUID: "5dbb7be6-8b63-479b-ab4c-87be02ead973"
+  Carbon-fiber:
+    UUID: "b4c63103-94db-4af3-b406-362edbc5ddfe"
 Models:
   Density:
     UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"

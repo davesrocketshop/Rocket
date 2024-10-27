@@ -7,8 +7,8 @@ General:
   License: "Apache-2.0"
   Description: "Kraft-phenolic"
 Inherits:
-  Default:
-    UUID: "5dbb7be6-8b63-479b-ab4c-87be02ead973"
+  Kraft-phenolic:
+    UUID: "ed010193-5a1c-4f7d-8a7e-ce4504f3e566"
 Models:
   Density:
     UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"

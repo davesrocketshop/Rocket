@@ -7,8 +7,8 @@ General:
   License: "Apache-2.0"
   Description: "Fir-White"
 Inherits:
-  Default:
-    UUID: "5dbb7be6-8b63-479b-ab4c-87be02ead973"
+  Fir-White-bulk:
+    UUID: "1b93d9de-59c5-4c67-bb41-6678d1bdb415"
 Models:
   Density:
     UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"

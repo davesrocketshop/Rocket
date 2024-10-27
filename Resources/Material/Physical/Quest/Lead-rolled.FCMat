@@ -7,8 +7,8 @@ General:
   License: "Apache-2.0"
   Description: "Lead-rolled"
 Inherits:
-  Default:
-    UUID: "5dbb7be6-8b63-479b-ab4c-87be02ead973"
+  Lead-bulk:
+    UUID: "5e74ebba-2a50-49f7-ae76-67fa82083846"
 Models:
   Density:
     UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"

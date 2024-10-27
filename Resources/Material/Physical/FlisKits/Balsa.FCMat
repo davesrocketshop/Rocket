@@ -7,8 +7,8 @@ General:
   License: "Apache-2.0"
   Description: "Balsa"
 Inherits:
-  Default:
-    UUID: "5dbb7be6-8b63-479b-ab4c-87be02ead973"
+  Balse:
+    UUID: "d3676735-9229-42d7-8508-4c4c3ad1775d"
 Models:
   Density:
     UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"

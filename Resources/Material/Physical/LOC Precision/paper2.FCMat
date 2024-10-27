@@ -7,8 +7,8 @@ General:
   License: "Apache-2.0"
   Description: "paper2"
 Inherits:
-  Default:
-    UUID: "5dbb7be6-8b63-479b-ab4c-87be02ead973"
+  Paper-corrugated-medium-61-g-cm3-bulk:
+    UUID: "271094b1-3fc6-4356-9e56-db7b458a6ef2"
 Models:
   Density:
     UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"

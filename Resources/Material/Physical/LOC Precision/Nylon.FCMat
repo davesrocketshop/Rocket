@@ -7,8 +7,8 @@ General:
   License: "Apache-2.0"
   Description: "Nylon"
 Inherits:
-  Default:
-    UUID: "5dbb7be6-8b63-479b-ab4c-87be02ead973"
+  Nylon-bulk:
+    UUID: "85e1d125-44ce-48f3-a843-f9765e918dd7"
 Models:
   Density:
     UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"

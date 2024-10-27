@@ -7,8 +7,8 @@ General:
   License: "Apache-2.0"
   Description: "Polystyrene-cast-bulk"
 Inherits:
-  Default:
-    UUID: "5dbb7be6-8b63-479b-ab4c-87be02ead973"
+  Polystyrene-cast-bulk:
+    UUID: "a95ad40c-97c7-46f3-9249-1ca50f7212aa"
 Models:
   Density:
     UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"

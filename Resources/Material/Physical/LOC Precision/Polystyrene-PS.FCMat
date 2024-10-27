@@ -7,8 +7,8 @@ General:
   License: "Apache-2.0"
   Description: "Polystyrene-PS"
 Inherits:
-  Default:
-    UUID: "5dbb7be6-8b63-479b-ab4c-87be02ead973"
+  Polystyrene:
+    UUID: "a0c58cfc-b53b-42e2-9b2d-8ccee6c445da"
 Models:
   Density:
     UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"

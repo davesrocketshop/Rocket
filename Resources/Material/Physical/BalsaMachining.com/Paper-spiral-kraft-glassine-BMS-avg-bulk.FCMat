@@ -7,8 +7,8 @@ General:
   License: "Apache-2.0"
   Description: "Paper-spiral-kraft-glassine-BMS-avg-bulk"
 Inherits:
-  Default:
-    UUID: "5dbb7be6-8b63-479b-ab4c-87be02ead973"
+  Paper-spiral-kraft-glassine-bulk:
+    UUID: "a5fbb22c-ca8b-4cb6-9571-9fc5cd22261c"
 Models:
   Density:
     UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"

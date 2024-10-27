@@ -7,8 +7,8 @@ General:
   License: "Apache-2.0"
   Description: "Gold-24-kt"
 Inherits:
-  Default:
-    UUID: "5dbb7be6-8b63-479b-ab4c-87be02ead973"
+  Gold-24-kt-bulk:
+    UUID: "3f62de59-edb3-49cd-aad8-58603a968e60"
 Models:
   Density:
     UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"

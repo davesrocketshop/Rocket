@@ -7,8 +7,8 @@ General:
   License: "Apache-2.0"
   Description: "Aluminum-generic-bulk"
 Inherits:
-  Default:
-    UUID: "5dbb7be6-8b63-479b-ab4c-87be02ead973"
+  Aluminum-Generic:
+    UUID: "9bf060e9-1663-44a2-88e2-2ff6ee858efe"
 Models:
   Density:
     UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"

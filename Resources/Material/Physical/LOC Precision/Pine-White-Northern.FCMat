@@ -7,8 +7,8 @@ General:
   License: "Apache-2.0"
   Description: "Pine-White-Northern"
 Inherits:
-  Default:
-    UUID: "5dbb7be6-8b63-479b-ab4c-87be02ead973"
+  Pine-white-northern-bulk:
+    UUID: "854ce856-5014-45ed-bf94-88254f6cff9c"
 Models:
   Density:
     UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"

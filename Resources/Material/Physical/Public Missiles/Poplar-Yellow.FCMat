@@ -7,8 +7,8 @@ General:
   License: "Apache-2.0"
   Description: "Poplar-Yellow"
 Inherits:
-  Default:
-    UUID: "5dbb7be6-8b63-479b-ab4c-87be02ead973"
+  Poplar-yellow-bulk:
+    UUID: "923e2ca1-f8b9-45a9-887c-865d2ed4eb59"
 Models:
   Density:
     UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"

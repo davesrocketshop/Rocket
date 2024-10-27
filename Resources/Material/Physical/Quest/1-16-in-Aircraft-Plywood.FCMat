@@ -7,8 +7,8 @@ General:
   License: "Apache-2.0"
   Description: "1-16-in-Aircraft-Plywood"
 Inherits:
-  Default:
-    UUID: "5dbb7be6-8b63-479b-ab4c-87be02ead973"
+  Plywood-aircraft-1-16-in-bulk:
+    UUID: "c91f4807-3f26-4f21-8eac-b56dacc86ba9"
 Models:
   Density:
     UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"

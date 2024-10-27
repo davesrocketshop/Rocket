@@ -7,8 +7,8 @@ General:
   License: "Apache-2.0"
   Description: "Epoxy"
 Inherits:
-  Default:
-    UUID: "5dbb7be6-8b63-479b-ab4c-87be02ead973"
+  Epoxy-West-System-105-205-cured-bulk:
+    UUID: "9ab4fccf-e9a5-4a38-914b-54d6d51246eb"
 Models:
   Density:
     UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"

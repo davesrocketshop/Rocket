@@ -7,8 +7,8 @@ General:
   License: "Apache-2.0"
   Description: "Stainless-steel-17-4PH"
 Inherits:
-  Default:
-    UUID: "5dbb7be6-8b63-479b-ab4c-87be02ead973"
+  Stainless-steel-17-4PH-bulk:
+    UUID: "a2fd4e72-56d7-4502-89b9-62cee3f91f0f"
 Models:
   Density:
     UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"
