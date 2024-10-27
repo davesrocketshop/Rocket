@@ -24,15 +24,25 @@ __title__ = "FreeCAD Rocket Components"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
+import FreeCAD
+import Materials
+
+from Rocket.Parts.PartDatabase import PartDatabase
+from Rocket.Parts.Material import getUuid
+from Rocket.Parts.Exceptions import MaterialNotFoundError
+
 from Rocket.util.Coordinate import Coordinate
 from Rocket.RocketComponentShapeless import RocketComponentShapeless
 
 from Rocket.Constants import LOCATION_PARENT_TOP, LOCATION_PARENT_MIDDLE, LOCATION_PARENT_BOTTOM, LOCATION_BASE
+from Rocket.Constants import MATERIAL_TYPE_BULK
 
 from Rocket.position.AxialMethod import AXIAL_METHOD_MAP
 from Rocket.interfaces.ChangeSource import ChangeSource
 from Rocket.util.Coordinate import Coordinate, ZERO
 from Rocket.events.ComponentChangeEvent import ComponentChangeEvent
+
+from Rocket.Utilities import _err
 
 from DraftTools import translate
 
@@ -46,8 +56,8 @@ class RocketComponent(RocketComponentShapeless, ChangeSource):
             obj.addProperty('App::PropertyString', 'Manufacturer', 'RocketComponent', translate('App::Property', 'Component manufacturer')).Manufacturer = ""
         if not hasattr(obj, 'PartNumber'):
             obj.addProperty('App::PropertyString', 'PartNumber', 'RocketComponent', translate('App::Property', 'Component manufacturer part number')).PartNumber = ""
-        if not hasattr(obj, 'Material'):
-            obj.addProperty('App::PropertyString', 'Material', 'RocketComponent', translate('App::Property', 'Component material')).Material = "Cardboard"
+        # if not hasattr(obj, 'Material'):
+        #     obj.addProperty('App::PropertyString', 'Material', 'RocketComponent', translate('App::Property', 'Component material')).Material = "Cardboard"
         if not hasattr(obj, 'Description'):
             obj.addProperty('App::PropertyString', 'Description', 'RocketComponent', translate('App::Property', 'Component description')).Description = ""
 
@@ -79,6 +89,36 @@ class RocketComponent(RocketComponentShapeless, ChangeSource):
 
         if not hasattr(obj,"Shape"):
             obj.addProperty('Part::PropertyPartShape', 'Shape', 'RocketComponent', translate('App::Property', 'Shape of the component'))
+
+    def convertMaterialAndAppearance(self, obj):
+        if hasattr(obj, "Material"):
+            print("Object has old material property")
+            self.convertMaterial(obj, obj.Material)
+            obj.removeProperty("Material")
+        if hasattr(obj, "ViewObject"):
+            mat = FreeCAD.Material()
+            if hasattr(obj.ViewObject, "ShapeMaterial"):
+                print("Has ShapeMaterial")
+                mat = obj.ViewObject.ShapeMaterial
+            if hasattr(obj.ViewObject, "ShapeColor"):
+                print("Has ShapeColor")
+                mat.DiffuseColor = obj.ViewObject.ShapeColor
+            # obj.ViewObject.setAppearance(mat)
+            obj.ViewObject.ShapeAppearance = (
+                mat
+            )
+            obj.ViewObject.LineColor = mat.DiffuseColor
+
+    def convertMaterial(self, obj, old):
+        database = PartDatabase(FreeCAD.getUserAppDataDir() + "Mod/Rocket/")
+        connection = database.getConnection()
+        try:
+            uuid = getUuid(connection, old, MATERIAL_TYPE_BULK)
+
+            materialManager = Materials.MaterialManager()
+            obj.ShapeMaterial = materialManager.getMaterial(uuid)
+        except MaterialNotFoundError:
+            _err(translate("Rocket", "Material '{}' not found - using default material").format(old))
 
     """
         Get the characteristic length of the component, for example the length of a body tube

@@ -61,6 +61,9 @@ class FeatureCenteringRing(FeatureBulkhead):
     def onDocumentRestored(self, obj):
         FeatureCenteringRing(obj)
 
+        # Convert from the pre-1.0 material system if required
+        self.convertMaterialAndAppearance(obj)
+
         self._obj = obj
 
     def update(self):
@@ -68,10 +71,10 @@ class FeatureCenteringRing(FeatureBulkhead):
 
         # Ensure any automatic variables are set
         self.getInnerDiameter()
-        
+
     def getInnerRadius(self, pos=0):
         return self.getInnerDiameter() / 2.0
-        
+
     def getInnerDiameter(self, pos=0):
         # Implement sibling inner radius automation
         if self.isInnerDiameterAutomatic():

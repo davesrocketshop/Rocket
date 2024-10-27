@@ -55,7 +55,7 @@ class FeatureRailGuide(ExternalComponent, AnglePositionable, BoxBounded, LineIns
 
         if not hasattr(obj,"RailGuideBaseType"):
             obj.addProperty('App::PropertyEnumeration', 'RailGuideBaseType', 'RocketComponent', translate('App::Property', 'Rail guide base type'))
-            obj.RailGuideBaseType = [RAIL_GUIDE_BASE_FLAT, 
+            obj.RailGuideBaseType = [RAIL_GUIDE_BASE_FLAT,
                     RAIL_GUIDE_BASE_CONFORMAL,
                     RAIL_GUIDE_BASE_V
                     ]
@@ -128,12 +128,18 @@ class FeatureRailGuide(ExternalComponent, AnglePositionable, BoxBounded, LineIns
         obj.Height = thickness
         obj.CountersinkAngle = angle
 
+        # Convert from the pre-1.0 material system if required
+        self.convertMaterialAndAppearance(obj)
+
     def onDocumentRestored(self, obj):
         if hasattr(self, "TopWidth"):
             self._migrate_from_3_0(obj)
             return
 
         FeatureRailGuide(obj)
+
+        # Convert from the pre-1.0 material system if required
+        self.convertMaterialAndAppearance(obj)
 
         self._obj = obj
 
@@ -169,20 +175,20 @@ class FeatureRailGuide(ExternalComponent, AnglePositionable, BoxBounded, LineIns
 
         self._setRadialOffset()
 
-    def _setRadialOffset(self):    
+    def _setRadialOffset(self):
         """
             shiftY and shiftZ must be computed here since calculating them
             in shiftCoordinates() would cause an infinite loop due to .toRelative
         """
         body = None
         parentRadius = 0.0
-        
+
         body = self.getParent()
         while body is not None:
             if isinstance(body, SymmetricComponent):
                 break
             body = body.getParent()
-        
+
         if body is None:
             parentRadius = 0
         else:
@@ -191,7 +197,7 @@ class FeatureRailGuide(ExternalComponent, AnglePositionable, BoxBounded, LineIns
             x1 = Utilities.clamp(x1, 0, body.getLength())
             x2 = Utilities.clamp(x2, 0, body.getLength())
             parentRadius = max(body.getRadius(x1), body.getRadius(x2))
-        
+
         self._obj.RadialOffset = parentRadius #+ self.getOuterRadius()
         if self._obj.AutoDiameter:
             self._obj.Diameter = 2.0 * parentRadius
@@ -245,22 +251,22 @@ class FeatureRailGuide(ExternalComponent, AnglePositionable, BoxBounded, LineIns
 
     def getInstanceBoundingBox(self):
         instanceBounds = BoundingBox()
-        
+
         # instanceBounds.update(Coordinate(self.getLength(), 0,0))
-        
+
         # r = self.getOuterRadius()
         # instanceBounds.update(Coordinate(0,r,r))
         # instanceBounds.update(Coordinate(0,-r,-r))
-        
+
         return instanceBounds
 
     def getInstanceOffsets(self):
         toReturn = []
-        
+
         yOffset = math.sin(math.radians(-self._obj.AngleOffset)) * (self._obj.RadialOffset)
         zOffset = math.cos(math.radians(-self._obj.AngleOffset)) * (self._obj.RadialOffset)
-        
+
         for index in range(self.getInstanceCount()):
             toReturn.append(Coordinate(index*self._obj.InstanceSeparation, yOffset, zOffset))
-        
+
         return toReturn

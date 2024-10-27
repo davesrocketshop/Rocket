@@ -42,7 +42,7 @@ class FeatureStage(ComponentAssembly):
 
     def _initFeatureStage(self, obj):
         self.Type = FEATURE_STAGE
-        
+
         if not hasattr(obj,"StageNumber"):
             obj.addProperty('App::PropertyInteger', 'StageNumber', 'RocketComponent', translate('App::Property', 'Stage number')).StageNumber = 0
 
@@ -50,10 +50,10 @@ class FeatureStage(ComponentAssembly):
         FeatureStage(obj)
 
         self._obj = obj
- 
+
     def setStageNumber(self, newStageNumber):
         self._obj.StageNumber = newStageNumber
-    
+
     def getStageNumber(self):
         return self._obj.StageNumber
 

@@ -25,7 +25,7 @@ __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
 import math
-    
+
 from Rocket.Constants import FEATURE_LAUNCH_LUG, FEATURE_FIN, FEATURE_FINCAN
 
 from Rocket.Tube import Tube
@@ -77,6 +77,9 @@ class FeatureLaunchLug(Tube, AnglePositionable, BoxBounded, LineInstanceable):
 
     def onDocumentRestored(self, obj):
         FeatureLaunchLug(obj)
+
+        # Convert from the pre-1.0 material system if required
+        self.convertMaterialAndAppearance(obj)
 
         self._obj = obj
 
@@ -188,13 +191,13 @@ class FeatureLaunchLug(Tube, AnglePositionable, BoxBounded, LineInstanceable):
 
     def getInstanceOffsets(self):
         toReturn = []
-        
+
         yOffset = math.sin(math.radians(-self._obj.AngleOffset)) * (self._obj.RadialOffset)
         zOffset = math.cos(math.radians(-self._obj.AngleOffset)) * (self._obj.RadialOffset)
-        
+
         for index in range(self.getInstanceCount()):
             toReturn.append(Coordinate(index*self._obj.InstanceSeparation, yOffset, zOffset))
-        
+
         return toReturn
 
     def componentChanged(self, e):
@@ -202,14 +205,14 @@ class FeatureLaunchLug(Tube, AnglePositionable, BoxBounded, LineInstanceable):
 
         self._setRadialOffset()
 
-    def _setRadialOffset(self):    
+    def _setRadialOffset(self):
         """
             shiftY and shiftZ must be computed here since calculating them
             in shiftCoordinates() would cause an infinite loop due to .toRelative
         """
         body = None
         parentRadius = 0.0
-        
+
         body = self.getParent()
         while body is not None:
             if isinstance(body, SymmetricComponent):
@@ -217,7 +220,7 @@ class FeatureLaunchLug(Tube, AnglePositionable, BoxBounded, LineInstanceable):
             if body.Type in [FEATURE_FIN, FEATURE_FINCAN]:
                 break
             body = body.getParent()
-        
+
         if body is None:
             parentRadius = 0
         elif body.Type in [FEATURE_FIN, FEATURE_FINCAN]:
@@ -229,7 +232,7 @@ class FeatureLaunchLug(Tube, AnglePositionable, BoxBounded, LineInstanceable):
             x1 = Utilities.clamp(x1, 0, body.getLength())
             x2 = Utilities.clamp(x2, 0, body.getLength())
             parentRadius = max(body.getRadius(x1), body.getRadius(x2))
-        
+
         self._obj.RadialOffset = parentRadius + self.getOuterRadius()
 
     def getInstanceSeparation(self):
@@ -255,13 +258,13 @@ class FeatureLaunchLug(Tube, AnglePositionable, BoxBounded, LineInstanceable):
 
     def getInstanceBoundingBox(self):
         instanceBounds = BoundingBox()
-        
+
         instanceBounds.update(Coordinate(self.getLength(), 0,0))
-        
+
         r = self.getOuterRadius()
         instanceBounds.update(Coordinate(0,r,r))
         instanceBounds.update(Coordinate(0,-r,-r))
-        
+
         return instanceBounds
 
     def getPatternName(self):

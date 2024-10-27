@@ -207,6 +207,9 @@ class FeatureFinCan(SymmetricComponent, FeatureFin):
         if obj is not None:
             FeatureFinCan(obj) # Update any properties
 
+            # Convert from the pre-1.0 material system if required
+            self.convertMaterialAndAppearance(obj)
+
             self._obj = obj
             self._obj.ParentRadius = (self._obj.Diameter / 2.0)
 

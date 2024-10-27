@@ -69,6 +69,9 @@ class FeatureBulkhead(RadiusRingComponent):
     def onDocumentRestored(self, obj):
         FeatureBulkhead(obj)
 
+        # Convert from the pre-1.0 material system if required
+        self.convertMaterialAndAppearance(obj)
+
         self._obj = obj
 
     def getLength(self):

@@ -70,6 +70,9 @@ class FeatureInnerTube(ThicknessRingComponent, Clusterable, AxialPositionable, B
     def onDocumentRestored(self, obj):
         FeatureInnerTube(obj)
 
+        # Convert from the pre-1.0 material system if required
+        self.convertMaterialAndAppearance(obj)
+
         self._obj = obj
 
     def execute(self, obj):

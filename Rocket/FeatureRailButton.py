@@ -64,7 +64,7 @@ class FeatureRailButton(ExternalComponent, AnglePositionable, BoxBounded, LineIn
         # Default set to a BT-50
         if not hasattr(obj,"RailButtonType"):
             obj.addProperty('App::PropertyEnumeration', 'RailButtonType', 'RocketComponent', translate('App::Property', 'Rail button type'))
-            obj.RailButtonType = [RAIL_BUTTON_ROUND, 
+            obj.RailButtonType = [RAIL_BUTTON_ROUND,
                     RAIL_BUTTON_AIRFOIL
                     ]
             obj.RailButtonType = RAIL_BUTTON_ROUND
@@ -135,12 +135,18 @@ class FeatureRailButton(ExternalComponent, AnglePositionable, BoxBounded, LineIn
         obj.Height = thickness
         obj.CountersinkAngle = angle
 
+        # Convert from the pre-1.0 material system if required
+        self.convertMaterialAndAppearance(obj)
+
     def onDocumentRestored(self, obj):
         if hasattr(self, "TopThickness"):
             self._migrate_from_3_0(obj)
             return
-            
+
         FeatureRailButton(obj)
+
+        # Convert from the pre-1.0 material system if required
+        self.convertMaterialAndAppearance(obj)
 
         self._obj = obj
 
@@ -174,14 +180,14 @@ class FeatureRailButton(ExternalComponent, AnglePositionable, BoxBounded, LineIn
 
         self._setRadialOffset()
 
-    def _setRadialOffset(self):    
+    def _setRadialOffset(self):
         """
             shiftY and shiftZ must be computed here since calculating them
             in shiftCoordinates() would cause an infinite loop due to .toRelative
         """
         body = None
         parentRadius = 0.0
-        
+
         body = self.getParent()
         while body is not None:
             if isinstance(body, SymmetricComponent):
@@ -189,7 +195,7 @@ class FeatureRailButton(ExternalComponent, AnglePositionable, BoxBounded, LineIn
             if body.Type in [FEATURE_FIN, FEATURE_FINCAN]:
                 break
             body = body.getParent()
-        
+
         if body is None:
             parentRadius = 0
         elif body.Type in [FEATURE_FIN, FEATURE_FINCAN]:
@@ -201,7 +207,7 @@ class FeatureRailButton(ExternalComponent, AnglePositionable, BoxBounded, LineIn
             x1 = Utilities.clamp(x1, 0, body.getLength())
             x2 = Utilities.clamp(x2, 0, body.getLength())
             parentRadius = max(body.getRadius(x1), body.getRadius(x2))
-        
+
         self._obj.RadialOffset = parentRadius #+ self.getOuterRadius()
 
     def getPatternName(self):
@@ -257,11 +263,11 @@ class FeatureRailButton(ExternalComponent, AnglePositionable, BoxBounded, LineIn
 
     def getInstanceOffsets(self):
         toReturn = []
-        
+
         yOffset = math.sin(math.radians(-self._obj.AngleOffset)) * (self._obj.RadialOffset)
         zOffset = math.cos(math.radians(-self._obj.AngleOffset)) * (self._obj.RadialOffset)
-        
+
         for index in range(self.getInstanceCount()):
             toReturn.append(Coordinate(index*self._obj.InstanceSeparation, yOffset, zOffset))
-        
+
         return toReturn

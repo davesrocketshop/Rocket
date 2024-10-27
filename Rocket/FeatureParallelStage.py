@@ -50,6 +50,9 @@ class FeatureParallelStage(FeatureStage):
     def onDocumentRestored(self, obj):
         FeatureParallelStage(obj)
 
+        # Convert from the pre-1.0 material system if required
+        self.convertMaterialAndAppearance(obj)
+
         self._obj = obj
 
     def positionChild(self, parent, parentBase, parentLength, parentRadius, rotation):

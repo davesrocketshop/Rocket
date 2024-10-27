@@ -70,6 +70,9 @@ class FeatureBodyTube(SymmetricComponent, BoxBounded, Coaxial):
 
     def onDocumentRestored(self, obj):
         FeatureBodyTube(obj)
+
+        # Convert from the pre-1.0 material system if required
+        self.convertMaterialAndAppearance(obj)
         self._obj = obj
 
     def update(self):

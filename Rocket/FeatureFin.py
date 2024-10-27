@@ -196,6 +196,9 @@ class FeatureFin(ExternalComponent):
         if obj is not None:
             FeatureFin(obj) # Update any properties
 
+            # Convert from the pre-1.0 material system if required
+            self.convertMaterialAndAppearance(obj)
+
             self._obj = obj
 
         self._setFinEditorVisibility()

@@ -39,13 +39,16 @@ class FeatureTubeCoupler(ThicknessRingComponent, RadialParent):
 
     def setDefaults(self):
         super().setDefaults()
-        
+
         self._obj.AutoDiameter = True
         self._obj.Thickness = 2.0
         self._obj.Length = 60.0
 
     def onDocumentRestored(self, obj):
         FeatureTubeCoupler(obj)
+
+        # Convert from the pre-1.0 material system if required
+        self.convertMaterialAndAppearance(obj)
 
         self._obj = obj
 
@@ -63,6 +66,6 @@ class FeatureTubeCoupler(ThicknessRingComponent, RadialParent):
             FEATURE_INNER_TUBE,
             # FEATURE_TUBE_COUPLER,
             FEATURE_ENGINE_BLOCK,
-            # FEATURE_BODY_TUBE, 
+            # FEATURE_BODY_TUBE,
             FEATURE_CENTERING_RING]
 

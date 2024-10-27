@@ -31,13 +31,8 @@ class StructuralComponentElement(ComponentElement):
     def __init__(self, parent, tag, attributes, parentObj, filename, line):
         super().__init__(parent, tag, attributes, parentObj, filename, line)
 
-        self._knownTags.extend(["material"])
-
 
     def handleEndTag(self, tag, content):
         _tag = tag.lower().strip()
-        if _tag == "material":
-            self._feature._obj.Material = content
-        else:
-            super().handleEndTag(tag, content)
+        super().handleEndTag(tag, content)
 

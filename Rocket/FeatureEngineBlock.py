@@ -52,6 +52,9 @@ class FeatureEngineBlock(ThicknessRingComponent, AxialPositionable):
     def onDocumentRestored(self, obj):
         FeatureEngineBlock(obj)
 
+        # Convert from the pre-1.0 material system if required
+        self.convertMaterialAndAppearance(obj)
+
         self._obj = obj
 
     def execute(self, obj):
