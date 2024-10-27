@@ -10,7 +10,7 @@ AppearanceModels:
   Texture Rendering:
     UUID: "bbdcc65b-67ca-489c-bd5c-a36e33d1c160"
     AmbientColor: "(0.333333, 0.333333, 0.333333, 1)"
-    DiffuseColor: "(0.8, 0.8, 0.8, 1)"
+    DiffuseColor: "(0.859, 0.780, 0.584, 1)"
     EmissiveColor: "(0, 0, 0, 1)"
     Shininess: "0.9"
     SpecularColor: "(0.533333, 0.533333, 0.533333, 1)"
