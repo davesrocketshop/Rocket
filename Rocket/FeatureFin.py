@@ -59,6 +59,7 @@ class FeatureFin(ExternalComponent):
     def __init__(self, obj):
         super().__init__(obj, BOTTOM)
         self.Type = FEATURE_FIN
+        self._shapeHandler = None
 
         if not hasattr(obj,"FinType"):
             obj.addProperty('App::PropertyEnumeration', 'FinType', 'RocketComponent', translate('App::Property', 'Fin type'))
@@ -349,23 +350,27 @@ class FeatureFin(ExternalComponent):
         length = _toFloat(self._obj.Height) / math.tan(theta)
         self._obj.SweepLength = length
 
-    def execute(self, obj):
+    def _setShapeHandler(self):
+        obj = self._obj
+        self._shapeHandler = None
         if obj.FinType == FIN_TYPE_TRAPEZOID:
             if self.getTipChord() > 0.0:
-                shape = FinTrapezoidShapeHandler(obj)
+                self._shapeHandler = FinTrapezoidShapeHandler(obj)
             else:
-                shape = FinTriangleShapeHandler(obj)
+                self._shapeHandler = FinTriangleShapeHandler(obj)
         elif obj.FinType == FIN_TYPE_TRIANGLE:
-                shape = FinTriangleShapeHandler(obj)
+                self._shapeHandler = FinTriangleShapeHandler(obj)
         elif obj.FinType == FIN_TYPE_ELLIPSE:
-            shape = FinEllipseShapeHandler(obj)
+            self._shapeHandler = FinEllipseShapeHandler(obj)
         elif obj.FinType == FIN_TYPE_TUBE:
-            shape = FinTubeShapeHandler(obj)
+            self._shapeHandler = FinTubeShapeHandler(obj)
         elif obj.FinType == FIN_TYPE_SKETCH:
-            shape = FinSketchShapeHandler(obj)
+            self._shapeHandler = FinSketchShapeHandler(obj)
 
-        if shape is not None:
-            shape.draw()
+    def execute(self, obj):
+        self._setShapeHandler()
+        if self._shapeHandler is not None:
+            self._shapeHandler.draw()
 
     def eligibleChild(self, childType):
         return childType in [
@@ -463,3 +468,17 @@ class FeatureFin(ExternalComponent):
         self._obj.TubeAutoOuterDiameter = auto
         self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
         self.clearPreset()
+
+    def getSolidShape(self, obj):
+        """ Return a filled version of the shape with no fins. Useful for CFD """
+        # self._setShapeHandler()
+        # if self._shapeHandler is not None:
+        #     return self._shapeHandler.drawSolidShape()
+        return None
+
+    def getSolidFins(self):
+        """ Return the finset. Useful for CFD """
+        self._setShapeHandler()
+        if self._shapeHandler is not None:
+            return self._shapeHandler.drawSolidFins(), self.getFinThickness()
+        return None, None

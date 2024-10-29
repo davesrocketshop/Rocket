@@ -20,32 +20,42 @@
 # ***************************************************************************
 """Class for drawing CFD Rockets"""
 
-__title__ = "FreeCAD CFD Rockets View Provider"
+__title__ = "FreeCAD CFD Rocket"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
-import FreeCAD
+from Rocket.Constants import FEATURE_CFD_FINSET
+from Rocket.Constants import PROP_HIDDEN
 
-class ViewProviderCFDRocket:
+from DraftTools import translate
 
-    def __init__(self, vobj):
-        vobj.Proxy = self
+class FeatureCFDFinSet:
 
-    def attach(self, vobj):
-        self.ViewObject = vobj
-        self.Object = vobj.Object
+    def __init__(self, obj):
+        # super().__init__(obj)
+        self.Type = FEATURE_CFD_FINSET
+        self.version = '3.0'
 
-    def getIcon(self):
-        return FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_CFDRocket.svg"
+        self._obj = obj
+        obj.Proxy=self
 
-    def setEdit(self, vobj, mode):
-        return True
-
-    def unsetEdit(self, vobj, mode):
-        pass
+        if not hasattr(obj,"Shape"):
+            obj.addProperty('Part::PropertyPartShape', 'Shape', 'RocketComponent', translate('App::Property', 'Shape of the wind tunnel'))
+        if not hasattr(obj,"Thickness"):
+            obj.addProperty('App::PropertyLength', 'Thickness', 'RocketComponent', translate('App::Property', 'Minimum thickness of the fin')).Thickness = 0.0
+        obj.setEditorMode('Thickness', PROP_HIDDEN)  # hide
 
     def __getstate__(self):
-        return None
+        return self.Type, self.version
 
     def __setstate__(self, state):
-        return None
+        if state:
+            self.Type = state[0]
+            self.version = state[1]
+
+    def onDocumentRestored(self, obj):
+        FeatureCFDFinSet(obj)
+        self._obj = obj
+
+    def execute(self, obj):
+        pass

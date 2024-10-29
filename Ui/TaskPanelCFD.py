@@ -39,7 +39,7 @@ from CfdOF.Solve import CfdPhysicsSelection, CfdFluidBoundary, CfdFluidMaterial,
     CfdSolverFoam
 from CfdOF.PostProcess import CfdReportingFunction
 
-from Rocket.cfd.CFDUtil import caliber, finThickness, createSolid, makeCFDRocket, makeWindTunnel
+from Rocket.cfd.CFDUtil import caliber, finThickness, createSolid, createFinsets, makeCFDRocket, makeCFDFinSet, makeWindTunnel
 
 from Ui.UIPaths import getUIPath
 
@@ -66,6 +66,7 @@ class TaskPanelCFD(QtCore.QObject):
             self.form.spinNproc.setValue(os.cpu_count())
 
         self._solid = createSolid(self._rocket)
+        self._finsets = createFinsets(self._rocket)
         diameter = caliber(self._rocket)
         thickness = finThickness(self._rocket)
         box = self._solid.BoundBox
@@ -76,6 +77,7 @@ class TaskPanelCFD(QtCore.QObject):
         self.form.inputFinThickness.setText(str(thickness))
 
         self._CFDrocket = None
+        self._CFDFinSets = []
         self._refinement0 = None
         self._refinement1 = None
         self._refinement2 = None
@@ -83,6 +85,7 @@ class TaskPanelCFD(QtCore.QObject):
 
     def onCreate(self):
         self.makeSolid()
+        self.makeFinSets()
         self.makeWindTunnel()
         self.makeAnalysisContainer()
         self.makeCfdMesh()
@@ -127,6 +130,14 @@ class TaskPanelCFD(QtCore.QObject):
         self._CFDrocket._obj.Shape = solid1
         FreeCAD.ActiveDocument.recompute()
 
+    def makeFinSets(self):
+        self._CFDFinSets = []
+        for finset in self._finsets:
+            fins = makeCFDFinSet()
+            fins._obj.Shape = finset[0]
+            fins._obj.Thickness = finset[1]
+            self._CFDFinSets.append(fins)
+
     def makeWindTunnel(self):
         diameter = FreeCAD.Units.Quantity(self.form.inputDiameter.text()).Value
         length = FreeCAD.Units.Quantity(self.form.inputLength.text()).Value
@@ -148,7 +159,10 @@ class TaskPanelCFD(QtCore.QObject):
 
     def makeCompound(self):
         self._compound = FreeCAD.activeDocument().addObject("Part::Compound", "WindTunnelCompund")
-        self._compound.Links = [self._CFDrocket._obj, self._outer._obj]
+        links = [self._outer._obj, self._CFDrocket._obj]
+        for fins in self._CFDFinSets:
+            links.append(fins._obj)
+        self._compound.Links = links
         self._compound.ViewObject.Transparency = 70
 
     def makeAnalysisContainer(self):
@@ -200,18 +214,36 @@ class TaskPanelCFD(QtCore.QObject):
         FreeCAD.ActiveDocument.recompute()
 
         # Surface refinement
-        thickness = FreeCAD.Units.Quantity(self.form.inputFinThickness.text() + " mm")
-        relativeLength = (thickness / 2.0) / self._CFDMesh.CharacteristicLengthMax
-        defaultLength = FreeCAD.Units.Quantity("0.0625")
+        box = self._CFDrocket._obj.Shape.BoundBox
+        diameter = box.YLength
+        relativeLength = (math.pi * diameter / 50.0) / self._CFDMesh.CharacteristicLengthMax
+
+        defaultLength = 0.0625 # Last volume refinement / 2
         if relativeLength > 0.0:
             relativeLength = min(relativeLength, defaultLength)
         else:
             relativeLength = defaultLength
-        refinement = CfdMeshRefinement.makeCfdMeshRefinement(self._CFDMesh, 'SurfaceRefinement')
+        refinement = CfdMeshRefinement.makeCfdMeshRefinement(self._CFDMesh, 'SurfaceRefinementBody')
         refinement.ShapeRefs = [self._CFDrocket._obj, ('', )]
         refinement.RelativeLength = relativeLength.Value
         refinement.RefinementThickness = '10.0 mm'
         FreeCAD.ActiveDocument.recompute()
+
+        # Fin surface refinements
+        defaultLength = FreeCAD.Units.Quantity("0.0625")
+        for fin in self._CFDFinSets:
+            thickness = FreeCAD.Units.Quantity(fin._obj.Thickness)
+            relativeLength = (thickness / 2.0) / self._CFDMesh.CharacteristicLengthMax
+            if relativeLength > 0.0:
+                relativeLength = min(relativeLength, defaultLength)
+            else:
+                relativeLength = defaultLength
+
+            refinement = CfdMeshRefinement.makeCfdMeshRefinement(self._CFDMesh, 'SurfaceRefinementFinSet')
+            refinement.ShapeRefs = [fin._obj, ('', )]
+            refinement.RelativeLength = relativeLength.Value
+            refinement.RefinementThickness = '10.0 mm'
+            FreeCAD.ActiveDocument.recompute()
 
     def makeBoundaryConstraints(self):
         length = len(self._compound.Shape.Faces)
@@ -240,7 +272,11 @@ class TaskPanelCFD(QtCore.QObject):
 
         self._rocketWall = CfdFluidBoundary.makeCfdFluidBoundary("RocketWall")
         CfdTools.getActiveAnalysis().addObject(self._rocketWall)
-        self._rocketWall.ShapeRefs = [self._CFDrocket._obj]
+        refs = [self._CFDrocket._obj]
+        for fin in self._CFDFinSets:
+            refs.append(fin._obj)
+        self._rocketWall.ShapeRefs = refs
+
         self._rocketWall.BoundaryType = "wall"
         self._rocketWall.BoundarySubType = "fixedWall"
         FreeCAD.ActiveDocument.recompute()

@@ -28,8 +28,10 @@ import FreeCAD
 import Part
 
 from Rocket.cfd.FeatureCFDRocket import FeatureCFDRocket
+from Rocket.cfd.FeatureCFDFinSet import FeatureCFDFinSet
 from Rocket.cfd.FeatureWindTunnel import FeatureWindTunnel
 from Rocket.cfd.ViewProviders.ViewProviderCFDRocket import ViewProviderCFDRocket
+from Rocket.cfd.ViewProviders.ViewProviderCFDFinSet import ViewProviderCFDFinSet
 from Rocket.cfd.ViewProviders.ViewProviderWindTunnel import ViewProviderWindTunnel
 
 def getProxy(obj):
@@ -56,6 +58,23 @@ def createSolid(obj):
                 shape = Part.makeCompound([shape, child])
 
     return shape
+
+def createFinsets(obj):
+    ''' Currently generates a compound object, not necessarily solid '''
+    shape = None
+    finsets = []
+    for current in getProxy(obj).getChildren():
+        proxy = getProxy(current)
+        if hasattr(current, "Shape"):
+            if hasattr(proxy, "getSolidFins"):
+                finset, thickness = proxy.getSolidFins()
+                if finset is not None and finset.isValid():
+                    finsets.append((finset, thickness))
+        child = createFinsets(current)
+        if child is not None:
+            finsets.extend(child)
+
+    return finsets
 
 def caliber(obj):
     ''' Get the caliber of the component '''
@@ -100,6 +119,16 @@ def makeCFDRocket(name='CFDRocket'):
     if FreeCAD.GuiUp:
         ViewProviderCFDRocket(obj.ViewObject)
         # obj.ViewObject.ShapeAppearance[0].Transparency = 0
+        obj.ViewObject.Transparency = 0
+
+    return obj.Proxy
+
+def makeCFDFinSet(name='CFDFinSet'):
+    '''makeCFDFinSet(name): makes a CFD Fin Set'''
+    obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
+    FeatureCFDFinSet(obj)
+    if FreeCAD.GuiUp:
+        ViewProviderCFDFinSet(obj.ViewObject)
         obj.ViewObject.Transparency = 0
 
     return obj.Proxy

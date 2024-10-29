@@ -377,7 +377,7 @@ class FinCanShapeHandler(FinShapeHandler):
         # Override this if the fin root needs an extension to connect it to the body tube
         return True
 
-    def _drawFinCan(self):
+    def _drawFinCanNoFins(self):
         # Make the can
         can = self._drawCan()
 
@@ -394,6 +394,12 @@ class FinCanShapeHandler(FinShapeHandler):
         if shape is not None:
             can = can.fuse(shape)
 
+        return can
+
+    def _drawFinCan(self):
+        # Make the can
+        can = self._drawFinCanNoFins()
+
         # Add the fins
         fins = self._drawFinSet(float(self._obj.Thickness))
         finCan = can.fuse([fins]) # Must be fuse not makeCompund
@@ -409,6 +415,34 @@ class FinCanShapeHandler(FinShapeHandler):
             self._obj.Shape = self._drawFinCan()
 
             self._obj.Placement = self._placement
+
+        except (ZeroDivisionError, Part.OCCError):
+            _err(translate('Rocket', "Fin can parameters produce an invalid shape"))
+            return
+        
+    def drawSolidShape(self):
+
+        if not self.isValidShape():
+            return
+
+        try:
+            shape = self._drawFinCanNoFins()
+            shape.translate(self._placement.Base)
+            return shape
+
+        except (ZeroDivisionError, Part.OCCError):
+            _err(translate('Rocket', "Fin can parameters produce an invalid shape"))
+            return
+        
+    def drawSolidFins(self):
+
+        if not self.isValidShape():
+            return
+
+        try:
+            shape = self._drawFinSet(float(self._obj.Thickness))
+            shape.translate(self._placement.Base)
+            return shape
 
         except (ZeroDivisionError, Part.OCCError):
             _err(translate('Rocket', "Fin can parameters produce an invalid shape"))
