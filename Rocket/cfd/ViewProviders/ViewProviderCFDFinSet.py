@@ -36,7 +36,7 @@ class ViewProviderCFDFinSet:
         self.Object = vobj.Object
 
     def getIcon(self):
-        return FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_CFDRocket.svg"
+        return FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_CFDFinSet.svg"
 
     def setEdit(self, vobj, mode):
         return True
