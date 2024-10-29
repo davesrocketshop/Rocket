@@ -66,7 +66,10 @@ class RocketWorkbench ( Workbench ):
 
         self._loadFemModule()
         self._loadMaterialsModule()
-        self._loadCfDModule()
+        try:
+            self._loadCfDModule()
+        except:
+            pass
 
         self.appendToolbar(translate('Rocket', 'Rocket'),
                         ['Rocket_Rocket', 'Rocket_Stage', 'Rocket_ParallelStage', 'Rocket_Pod', 'Rocket_NoseCone', 'Rocket_Transition', 'Rocket_BodyTube', 'Rocket_InnerTube', 'Rocket_Coupler', 'Rocket_EngineBlock',
@@ -78,9 +81,14 @@ class RocketWorkbench ( Workbench ):
                         ['Separator', 'Rocket_NewSketch', 'Sketcher_EditSketch', 'Separator', 'Rocket_Calculators'])
         # self.appendToolbar(translate('Rocket', 'Rocket'),
         #                 ['Separator', 'Rocket_ParachuteGore'])
-        self.appendToolbar(translate('Rocket', 'Rocket'),
+        try:
+            self.appendToolbar(translate('Rocket', 'Rocket'),
                         # ['Separator', 'Rocket_FinFlutter', 'Rocket_FemAnalysis', 'FEM_MeshGmshFromShape', "Rocket_MaterialEditor", 'Rocket_MaterialMapping'])
                         ['Separator', 'Rocket_FinFlutter', 'Rocket_CFDAnalysis', "Rocket_MaterialEditor"])
+        except:
+            self.appendToolbar(translate('Rocket', 'Rocket'),
+                        # ['Separator', 'Rocket_FinFlutter', 'Rocket_FemAnalysis', 'FEM_MeshGmshFromShape', "Rocket_MaterialEditor", 'Rocket_MaterialMapping'])
+                        ['Separator', 'Rocket_FinFlutter', "Rocket_MaterialEditor"])
 
         self.appendMenu(translate('Rocket', 'Rocket'),
                         ['Rocket_Rocket', 'Rocket_Stage', 'Rocket_ParallelStage', 'Rocket_Pod', 'Rocket_NoseCone', 'Rocket_Transition', 'Rocket_BodyTube', 'Rocket_InnerTube', 'Rocket_Coupler', 'Rocket_EngineBlock',
@@ -92,10 +100,16 @@ class RocketWorkbench ( Workbench ):
         self.appendMenu([translate("Rocket", "Rocket"),
                          translate("Rocket", "Calculators")],
                         ['Rocket_CalcBlackPowder', 'Rocket_CalcParachute', 'Rocket_CalcThrustToWeight', 'Rocket_CalcVentHoles'])
-        self.appendMenu([translate("Rocket", "Rocket"),
+        try:
+            self.appendMenu([translate("Rocket", "Rocket"),
+                            translate("Rocket", "Analysis")],
+                            # ['Rocket_FinFlutter', 'Rocket_FemAnalysis', 'FEM_MeshGmshFromShape', "Rocket_MaterialEditor", 'Rocket_MaterialMapping'])
+                            ['Rocket_FinFlutter', 'Rocket_CFDAnalysis', "Rocket_MaterialEditor"])
+        except:
+            self.appendMenu([translate("Rocket", "Rocket"),
                          translate("Rocket", "Analysis")],
                         # ['Rocket_FinFlutter', 'Rocket_FemAnalysis', 'FEM_MeshGmshFromShape', "Rocket_MaterialEditor", 'Rocket_MaterialMapping'])
-                        ['Rocket_FinFlutter', 'Rocket_CFDAnalysis', "Rocket_MaterialEditor"])
+                        ['Rocket_FinFlutter', "Rocket_MaterialEditor"])
 
     def GetClassName(self):
         return "Gui::PythonWorkbench"
