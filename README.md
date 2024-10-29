@@ -32,7 +32,8 @@ Again, restart FC to use the latest changes.
 
 ## Materials
 
-As of version 1.0, FreeCAD has an extensive material system built in. This workbench uses that material system and for that reason requires v1.0 of the core product.
+As of version 1.0, FreeCAD has an extensive material system built in. This workbench uses that material system and for that reason requires v1.0 of the core product. Earlier versions of
+the product will load earlier less capable versions of this workbench.
 
 Materials are set automatically on import when available. The values chosen can be overridden by changing the material in the parts "Material" tab, or by right clicking on the part and
 selection "Material...". The appearance can also be changed by right clicking on the part and selection "Appearance...". Both of these operations can be done from within the part tree
@@ -61,6 +62,8 @@ For any feedback, features, and discussion please refer to the Rocketry workbenc
 
 David Carter AKA [@davesrocketshop](https://github.com/davesrocketshop)
 
+Your name here...
+
 ## Contributions
 
 Component database originally taken from the Open Rocket project. (https://github.com/openrocket/openrocket) Whole sections of the Open Rocket code have been shamelessly plagiarized.
@@ -69,7 +72,7 @@ Now using the improved and curated parts database by Dave Cook instead (https://
 
 Portions of the pyatmos module by Chunxiao Li are included with this software (https://github.com/lcx366/ATMOS)
 
-[![Total alerts](https://img.shields.io/lgtm/alerts/g/davesrocketshop/Rocket.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/davesrocketshop/Rocket/alerts/)  [![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/davesrocketshop/Rocket.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/davesrocketshop/Rocket/context:python)
+Many features have been added based on user suggestions, and in some cases with the help of users with domain specific expertise.
 
 ## License
 LGPLv2.1 (see [LICENSE](LICENSE))
