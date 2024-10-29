@@ -92,18 +92,14 @@ class RocketComponent(RocketComponentShapeless, ChangeSource):
 
     def convertMaterialAndAppearance(self, obj):
         if hasattr(obj, "Material"):
-            print("Object has old material property")
             self.convertMaterial(obj, obj.Material)
             obj.removeProperty("Material")
         if hasattr(obj, "ViewObject"):
             mat = FreeCAD.Material()
             if hasattr(obj.ViewObject, "ShapeMaterial"):
-                print("Has ShapeMaterial")
                 mat = obj.ViewObject.ShapeMaterial
             if hasattr(obj.ViewObject, "ShapeColor"):
-                print("Has ShapeColor")
                 mat.DiffuseColor = obj.ViewObject.ShapeColor
-            # obj.ViewObject.setAppearance(mat)
             obj.ViewObject.ShapeAppearance = (
                 mat
             )

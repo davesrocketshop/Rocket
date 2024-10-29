@@ -24,15 +24,8 @@ __title__ = "FreeCAD Nose Cones"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
-import FreeCAD
-import Materials
-
-from Rocket.Parts.PartDatabase import PartDatabase
-from Rocket.Parts.Material import getUuid
-from Rocket.Parts.Exceptions import MaterialNotFoundError
-
 from Rocket.SymmetricComponent import SymmetricComponent
-from Rocket.Constants import FEATURE_NOSE_CONE, MATERIAL_TYPE_BULK
+from Rocket.Constants import FEATURE_NOSE_CONE
 
 from Rocket.ShapeHandlers.NoseConeShapeHandler import NoseConeShapeHandler
 from Rocket.ShapeHandlers.NoseBluntedConeShapeHandler import NoseBluntedConeShapeHandler
@@ -49,8 +42,6 @@ from Rocket.Constants import STYLE_CAPPED, STYLE_HOLLOW, STYLE_SOLID
 from Rocket.Constants import STYLE_CAP_SOLID, STYLE_CAP_BAR, STYLE_CAP_CROSS
 
 from Rocket.events.ComponentChangeEvent import ComponentChangeEvent
-
-from Rocket.Utilities import _err
 
 from DraftTools import translate
 
@@ -146,22 +137,10 @@ class FeatureNoseCone(SymmetricComponent):
 
     def onDocumentRestored(self, obj):
         FeatureNoseCone(obj)
+        self._obj = obj
 
         # Convert from the pre-1.0 material system if required
         self.convertMaterialAndAppearance(obj)
-
-        self._obj = obj
-
-    # def convertMaterial(self, obj, old):
-    #     database = PartDatabase(FreeCAD.getUserAppDataDir() + "Mod/Rocket/")
-    #     connection = database.getConnection()
-    #     try:
-    #         uuid = getUuid(connection, old, MATERIAL_TYPE_BULK)
-
-    #         materialManager = Materials.MaterialManager()
-    #         obj.ShapeMaterial = materialManager.getMaterial(uuid)
-    #     except MaterialNotFoundError:
-    #         _err(translate("Rocket", "Material '{}' not found - using default material").format(content))
 
     def update(self):
         super().update()
