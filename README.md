@@ -32,16 +32,20 @@ Again, restart FC to use the latest changes.
 
 ## Materials
 
-Materials are supported by all rocket workbench parts, but the core product support isn't currently up to the task. This will be improved in upcoming releases. For versions 0.20 and earlier you must apply a work around to see all the rocket materials.
+As of version 1.0, FreeCAD has an extensive material system built in. This workbench uses that material system and for that reason requires v1.0 of the core product.
 
-1. Load the Rocket Workbench. The necessary preferences will not be available until the workbench has been loaded.
-2. From the "Edit" select "Preferences...'. In the left hand column select the FEM Workbench.
-3. Select the "Material" tab at the top.
-4. Check the "Use materials from user defined directory". Set the directory to your user directory. For example, on Windows this would be "C:\Users\username\AppData\Roaming\FreeCAD\Mod\Rocket\Resources\Material"
+Materials are set automatically on import when available. The values chosen can be overridden by changing the material in the parts "Material" tab, or by right clicking on the part and
+selection "Material...". The appearance can also be changed by right clicking on the part and selection "Appearance...". Both of these operations can be done from within the part tree
+as well.
+
+## Computational Fluid Dynamics
+
+Version 4.0 and later supports a dedicated workflow for setting up Computational Fluid Dynamics (CFD) studies. This capability requires that you have the external workbench **CfdOF**
+installed and properly configured.
 
 ## Internationalization
 
-This workbench has been written with multiple language support. If you are willing to provide a translation to your native language please open an issue and we'll work to get that done.
+This workbench has been written with multiple language support. If you are willing to provide a translation to your native language please refer to [CONTRIBUTING.md](CONTRIBUTING.md) for information on how to get started.
 
 ## Reporting issues
 
