@@ -26,6 +26,7 @@ __url__ = "https://www.davesrocketshop.com"
 
 
 import FreeCAD
+import Materials
 
 from DraftTools import translate
 
@@ -35,6 +36,8 @@ from PySide.QtWidgets import QDialog, QGridLayout
 
 from Rocket.Parts.PartDatabase import PartDatabase
 from Ui.DialogLookup import DialogLookup
+
+from Rocket.Utilities import _err
 
 class _databaseLookupDialog(QDialog):
 
@@ -64,6 +67,9 @@ class _databaseLookupDialog(QDialog):
 
         self.materialLabel = QtGui.QLabel(translate('Rocket', "Material"), self)
 
+        self.materialUuid = QtGui.QLineEdit(self)
+        self.materialUuid.hide()
+
         self.materialInput = QtGui.QLineEdit(self)
         self.materialInput.setMinimumWidth(100)
 
@@ -86,6 +92,9 @@ class _databaseLookupDialog(QDialog):
 
         layout.addWidget(self.materialLabel, n, 0)
         layout.addWidget(self.materialInput, n, 1)
+        n += 1
+
+        layout.addWidget(self.materialUuid, n, 1)
         n += 1
 
         layout.addWidget(self.lookupButton, n, 1)
@@ -114,6 +123,8 @@ class TaskPanelDatabase(QObject):
 
         self._form.lookupButton.clicked.connect(self.onLookup)
 
+        self._materialManager = Materials.MaterialManager()
+
         self.update()
 
     def getForm(self):
@@ -127,14 +138,22 @@ class TaskPanelDatabase(QObject):
         self._obj.Manufacturer = self._form.manufacturerInput.text()
         self._obj.PartNumber = self._form.partNumberInput.text()
         self._obj.Description = self._form.descriptionInput.text()
-        self._obj.Material = self._form.materialInput.text()
+        # self._obj.Material = self._form.materialInput.text()
+
+        try:
+            self._obj.ShapeMaterial = self._materialManager.getMaterial(self._form.materialUuid.text())
+        except Exception:
+            _err(translate("Rocket", "Material '{}' not found - using default material").format(self._form.materialUuid.text()))
 
     def transferFrom(self):
         "Transfer from the object to the dialog"
         self._form.manufacturerInput.setText(self._obj.Manufacturer)
         self._form.partNumberInput.setText(self._obj.PartNumber)
         self._form.descriptionInput.setText(self._obj.Description)
-        self._form.materialInput.setText(self._obj.Material)
+
+        material = self._obj.ShapeMaterial
+        self._form.materialInput.setText(material.Name)
+        self._form.materialUuid.setText(material.UUID)
 
     def onManufacturer(self, value):
         self._obj.Manufacturer = value
@@ -152,7 +171,13 @@ class TaskPanelDatabase(QObject):
         self._obj.Manufacturer = result["manufacturer"]
         self._obj.PartNumber = result["part_number"]
         self._obj.Description = result["description"]
-        self._obj.Material = result["material_name"]
+
+        try:
+            self._obj.ShapeMaterial = self._materialManager.getMaterial(result["uuid"])
+        except Exception:
+            _err(translate("Rocket", "Material '{}' not found - using default material").format(result["uuid"]))
+
+        # self._obj.Material = result["material_name"]
         # self._obj.MaterialUUID = result["uuid"]
 
         # self._obj.NoseType = str(result["shape"])
