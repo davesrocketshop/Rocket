@@ -78,9 +78,9 @@ class TaskPanelCFD(QtCore.QObject):
 
         self._CFDrocket = None
         self._CFDFinSets = []
-        self._refinement0 = None
-        self._refinement1 = None
-        self._refinement2 = None
+        self._refinement_wake = None
+        self._refinement_transition1 = None
+        self._refinement_transition2 = None
 
 
     def onCreate(self):
@@ -124,6 +124,9 @@ class TaskPanelCFD(QtCore.QObject):
         center = box.XLength / 2.0
 
         solid1 = self._solid
+        self._rotation = self.form.spinRotation.value()
+        if self._rotation != 0.0:
+            solid1.rotate(FreeCAD.Vector(0, 0, 0),FreeCAD.Vector(1, 0, 0), self._rotation)
         self._aoa = self.form.spinAOA.value()
         if self._aoa != 0.0:
             solid1.rotate(FreeCAD.Vector(center, 0, 0),FreeCAD.Vector(0, 1, 0), self._aoa)
@@ -132,9 +135,19 @@ class TaskPanelCFD(QtCore.QObject):
 
     def makeFinSets(self):
         self._CFDFinSets = []
+        box = self._solid.BoundBox
+        center = box.XLength / 2.0
+        self._rotation = self.form.spinRotation.value()
+        self._aoa = self.form.spinAOA.value()
+
         for finset in self._finsets:
             fins = makeCFDFinSet()
-            fins._obj.Shape = finset[0]
+            solid1 = finset[0]
+            if self._rotation != 0.0:
+                solid1.rotate(FreeCAD.Vector(0, 0, 0),FreeCAD.Vector(1, 0, 0), self._rotation)
+            if self._aoa != 0.0:
+                solid1.rotate(FreeCAD.Vector(center, 0, 0),FreeCAD.Vector(0, 1, 0), self._aoa)
+            fins._obj.Shape = solid1
             fins._obj.Thickness = finset[1]
             self._CFDFinSets.append(fins)
 
@@ -146,9 +159,9 @@ class TaskPanelCFD(QtCore.QObject):
         area = (diameter * diameter) / 0.001
         tunnelDiameter = math.sqrt(area)
         self._outer = makeWindTunnel('WindTunnel', tunnelDiameter, 10.0 * length, 2.0 * length)
-        self._refinement0 = makeWindTunnel('Refinement', tunnelDiameter * 0.25, 3.5 * length, 0.5 * length)
-        self._refinement1 = makeWindTunnel('Refinement', tunnelDiameter * 0.5, 9.0 * length, 1.0 * length)
-        self._refinement2 = makeWindTunnel('Refinement', tunnelDiameter * 0.75, 9.5 * length, 1.5 * length)
+        self._refinement_wake = makeWindTunnel('WindTunnel-wake', tunnelDiameter * 0.25, 3.5 * length, 0.5 * length)
+        self._refinement_transition1 = makeWindTunnel('WindTunnel-transition1', tunnelDiameter * 0.5, 9.0 * length, 1.0 * length)
+        self._refinement_transition2 = makeWindTunnel('WindTunnel-transition2', tunnelDiameter * 0.75, 9.5 * length, 1.5 * length)
         FreeCAD.ActiveDocument.recompute()
 
         self.makeCompound()
@@ -195,20 +208,20 @@ class TaskPanelCFD(QtCore.QObject):
         FreeCAD.ActiveDocument.recompute()
 
         # Progressive volume refinements
-        refinement = CfdMeshRefinement.makeCfdMeshRefinement(self._CFDMesh, 'VolumeRefinement')
-        refinement.ShapeRefs = [self._refinement0._obj, ('Solid1', )]
+        refinement = CfdMeshRefinement.makeCfdMeshRefinement(self._CFDMesh, 'VolumeRefinement-wake')
+        refinement.ShapeRefs = [self._refinement_wake._obj, ('Solid1', )]
         refinement.Internal = True
         refinement.RelativeLength = 0.125
         FreeCAD.ActiveDocument.recompute()
 
-        refinement = CfdMeshRefinement.makeCfdMeshRefinement(self._CFDMesh, 'VolumeRefinement')
-        refinement.ShapeRefs = [self._refinement1._obj, ('Solid1', )]
+        refinement = CfdMeshRefinement.makeCfdMeshRefinement(self._CFDMesh, 'VolumeRefinement-transition1')
+        refinement.ShapeRefs = [self._refinement_transition1._obj, ('Solid1', )]
         refinement.Internal = True
         refinement.RelativeLength = 0.250
         FreeCAD.ActiveDocument.recompute()
 
-        refinement = CfdMeshRefinement.makeCfdMeshRefinement(self._CFDMesh, 'VolumeRefinement')
-        refinement.ShapeRefs = [self._refinement2._obj, ('Solid1', )]
+        refinement = CfdMeshRefinement.makeCfdMeshRefinement(self._CFDMesh, 'VolumeRefinement-transition2')
+        refinement.ShapeRefs = [self._refinement_transition2._obj, ('Solid1', )]
         refinement.Internal = True
         refinement.RelativeLength = 0.500
         FreeCAD.ActiveDocument.recompute()
@@ -223,7 +236,7 @@ class TaskPanelCFD(QtCore.QObject):
             relativeLength = min(relativeLength, defaultLength)
         else:
             relativeLength = defaultLength
-        refinement = CfdMeshRefinement.makeCfdMeshRefinement(self._CFDMesh, 'SurfaceRefinementBody')
+        refinement = CfdMeshRefinement.makeCfdMeshRefinement(self._CFDMesh, 'SurfaceRefinement-Body')
         refinement.ShapeRefs = [self._CFDrocket._obj, ('', )]
         refinement.RelativeLength = relativeLength.Value
         refinement.RefinementThickness = '10.0 mm'
@@ -239,7 +252,7 @@ class TaskPanelCFD(QtCore.QObject):
             else:
                 relativeLength = defaultLength
 
-            refinement = CfdMeshRefinement.makeCfdMeshRefinement(self._CFDMesh, 'SurfaceRefinementFinSet')
+            refinement = CfdMeshRefinement.makeCfdMeshRefinement(self._CFDMesh, 'SurfaceRefinement-FinSet')
             refinement.ShapeRefs = [fin._obj, ('', )]
             refinement.RelativeLength = relativeLength.Value
             refinement.RefinementThickness = '10.0 mm'
@@ -252,7 +265,7 @@ class TaskPanelCFD(QtCore.QObject):
         self._inlet.ShapeRefs = [self._compound, ('Face{}'.format(length), )]
         self._inlet.BoundaryType = "inlet"
         self._inlet.BoundarySubType = "uniformVelocityInlet"
-        self._inlet.Ux = 102000 # 102 m/s = 0.3 Mach
+        self._inlet.Ux = 100000 # 100 m/s = 0.3 Mach
         FreeCAD.ActiveDocument.recompute()
 
         self._outlet = CfdFluidBoundary.makeCfdFluidBoundary("Outlet")
@@ -260,7 +273,7 @@ class TaskPanelCFD(QtCore.QObject):
         self._outlet.ShapeRefs = [self._compound, ('Face{}'.format(length-1), )]
         self._outlet.BoundaryType = "outlet"
         self._outlet.BoundarySubType = "staticPressureOutlet"
-        self._outlet.Pressure = "25 kPa" #?
+        self._outlet.Pressure = "0 kPa" #?
         FreeCAD.ActiveDocument.recompute()
 
         self._wall = CfdFluidBoundary.makeCfdFluidBoundary("Wall")
