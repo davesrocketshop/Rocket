@@ -31,25 +31,38 @@ __title__ = "Rocket class and methods that migrates old App objects"
 __author__ = "Bernd Hahnebach"
 __url__ = "https://www.freecadweb.org"
 
+import sys
+from importlib.abc import MetaPathFinder, Loader
+from importlib.machinery import ModuleSpec
+from importlib.util import find_spec, module_from_spec
 
-class RocketMigrateApp(object):
+class RocketMigrateApp(MetaPathFinder, Loader):
 
-    def find_module(self, fullname, path):
+    def find_spec(self, fullname, path, target=None):
+        print("find_spec({}, {})".format(fullname, path))
 
-        if fullname in [
-            "App",
-            "App.ShapeBodyTube",
-            "App.ShapeBulkhead",
-            "App.ShapeCenteringRing",
-            "App.ShapeFin",
-            "App.ShapeFinCan",
-            "App.ShapeLaunchLug",
-            "App.ShapeNoseCone",
-            "App.ShapeRailButton",
-            "App.ShapeRailGuide",
-            "App.ShapeTransition",
-        ]:
-            return self
+        #     return self.find_module(fullname, path)
+
+        # def find_module(self, fullname, path):
+
+        specDict = {
+            "App" : "Rocket",
+            "App.ShapeBodyTube" : "Rocket.migration.ShapeBodyTube.ShapeBodyTube",
+            "App.ShapeBulkhead" : "App.ShapeBulkhead",
+            "App.ShapeCenteringRing" : "App.ShapeCenteringRing",
+            "App.ShapeFin" : "App.ShapeFin",
+            "App.ShapeFinCan" : "App.ShapeFinCan",
+            "App.ShapeLaunchLug" : "App.ShapeLaunchLug",
+            "App.ShapeNoseCone" : "App.ShapeNoseCone",
+            "App.ShapeRailButton" : "App.ShapeRailButton",
+            "App.ShapeRailGuide" : "App.ShapeRailGuide",
+            "App.ShapeTransition" : "App.ShapeTransition",
+            "App.util" : "Rocket.util",
+            "App.position" : "Rocket.position",
+        }
+        if fullname in specDict.keys() or fullname.startswith("App"):
+            spec = ModuleSpec(fullname, self)
+            return spec
 
         return None
 
@@ -57,12 +70,21 @@ class RocketMigrateApp(object):
         return None
 
     def exec_module(self, module):
-        return self.load_module(module)
+        print("exec_module({})".format(module.__name__))
+        self._load_module(module)
+        try:
+            _ = sys.modules.pop(module.__name__)
+        except KeyError:
+            # log.error("module %s is not in sys.modules", module.__name__)
+            print("module {} is not in sys.modules".format(module.__name__))
+        sys.modules[module.__name__] = module
+        globals()[module.__name__] = module
 
-    def load_module(self, module):
+    def _load_module(self, module):
+        # print("load_module({}, {})".format(module.__name__, module.__path__))
 
-        if module.__name__ == "App":
-            module.__path__ = "App"
+        # if module.__name__ == "App":
+        #     module.__path__ = "Rocket"
         if module.__name__ == "App.ShapeBodyTube":
             import Rocket.migration.ShapeBodyTube
             module.ShapeBodyTube = Rocket.migration.ShapeBodyTube.ShapeBodyTube
@@ -93,5 +115,14 @@ class RocketMigrateApp(object):
         if module.__name__ == "App.ShapeTransition":
             import Rocket.migration.ShapeTransition
             module.ShapeTransition = Rocket.migration.ShapeTransition.ShapeTransition
+        # if module.__name__ == "App.util":
+        #     import Rocket.util
+        #     module.__path__ = "Rocket.util"
+        # if module.__name__ == "App.position":
+        #     # import Rocket.position
+        #     # return Rocket.position
+        #     module.__path__ = "Rocket.position"
+        if module.__name__.startswith("App"):
+            module.__path__ = module.__name__.replace("App", "Rocket", 1)
 
         return None
