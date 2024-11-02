@@ -163,9 +163,9 @@ class TaskPanelCFD(QtCore.QObject):
     def makeWindTunnel(self):
         diameter, length = self.getTunnelDimensions()
         self._outer = makeWindTunnel('WindTunnel', diameter, 10.0 * length, 2.0 * length)
-        self._refinement0 = makeWindTunnel('WindTunnel-wake', diameter * 0.25, 3.5 * length, 0.5 * length)
-        self._refinement1 = makeWindTunnel('WindTunnel-transition1', diameter * 0.5, 9.0 * length, 1.0 * length)
-        self._refinement2 = makeWindTunnel('WindTunnel-transition2', diameter * 0.75, 9.5 * length, 1.5 * length)
+        self._refinement_wake = makeWindTunnel('WindTunnel-wake', diameter * 0.25, 3.5 * length, 0.5 * length)
+        self._refinement_transition1 = makeWindTunnel('WindTunnel-transition1', diameter * 0.5, 9.0 * length, 1.0 * length)
+        self._refinement_transition2 = makeWindTunnel('WindTunnel-transition2', diameter * 0.75, 9.5 * length, 1.5 * length)
         FreeCAD.ActiveDocument.recompute()
 
         self.makeCompound()
