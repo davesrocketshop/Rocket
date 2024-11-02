@@ -64,7 +64,7 @@ class FeatureTubeCoupler(ThicknessRingComponent, RadialParent):
         return childType in [
             FEATURE_BULKHEAD,
             FEATURE_INNER_TUBE,
-            # FEATURE_TUBE_COUPLER,
+            FEATURE_TUBE_COUPLER,
             FEATURE_ENGINE_BLOCK,
             # FEATURE_BODY_TUBE,
             FEATURE_CENTERING_RING]
