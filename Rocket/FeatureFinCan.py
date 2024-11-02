@@ -270,21 +270,25 @@ class FeatureFinCan(SymmetricComponent, FeatureFin):
         if self._obj.FinCanStyle == FINCAN_STYLE_BODYTUBE:
             self._obj.Diameter = float(self._obj.Diameter) - (2.0 * float(self._obj.Thickness))
 
-    def execute(self, obj):
+    def _setShapeHandler(self):
+        obj = self._obj
+        self._shapeHandler = None
         if obj.FinType == FIN_TYPE_TRAPEZOID:
-            if self.getTipChord() > 0:
-                shape = FinCanTrapezoidShapeHandler(obj)
+            if self.getTipChord() > 0.0:
+                self._shapeHandler = FinCanTrapezoidShapeHandler(obj)
             else:
-                shape = FinCanTriangleShapeHandler(obj)
+                self._shapeHandler = FinCanTriangleShapeHandler(obj)
         elif obj.FinType == FIN_TYPE_TRIANGLE:
-                shape = FinCanTriangleShapeHandler(obj)
+                self._shapeHandler = FinCanTriangleShapeHandler(obj)
         elif obj.FinType == FIN_TYPE_ELLIPSE:
-            shape = FinCanEllipseShapeHandler(obj)
+            self._shapeHandler = FinCanEllipseShapeHandler(obj)
         elif obj.FinType == FIN_TYPE_SKETCH:
-            shape = FinCanSketchShapeHandler(obj)
+            self._shapeHandler = FinCanSketchShapeHandler(obj)
 
-        if shape is not None:
-            shape.draw()
+    def execute(self, obj):
+        self._setShapeHandler()
+        if self._shapeHandler is not None:
+            self._shapeHandler.draw()
 
     def eligibleChild(self, childType):
         return childType in [
@@ -355,3 +359,17 @@ class FeatureFinCan(SymmetricComponent, FeatureFin):
 
     def usesPreviousCompAutomatic(self):
         return self.isOuterDiameterAutomatic() and (self._refComp == self.getPreviousSymmetricComponent())
+
+    def getSolidShape(self, obj):
+        """ Return a filled version of the shape with no fins. Useful for CFD """
+        self._setShapeHandler()
+        if self._shapeHandler is not None:
+            return self._shapeHandler.drawSolidShape()
+        return None
+
+    def getSolidFins(self):
+        """ Return the finset. Useful for CFD """
+        self._setShapeHandler()
+        if self._shapeHandler is not None:
+            return self._shapeHandler.drawSolidFins(), self.getFinThickness()
+        return None, None

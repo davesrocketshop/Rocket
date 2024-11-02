@@ -18,15 +18,15 @@
 # *   USA                                                                   *
 # *                                                                         *
 # ***************************************************************************
-"""Class for drawing CFD Rockets"""
+"""Class for drawing CFD Fin Sets"""
 
-__title__ = "FreeCAD CFD Rockets View Provider"
+__title__ = "FreeCAD CFD Fin Set View Provider"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
 import FreeCAD
 
-class ViewProviderCFDRocket:
+class ViewProviderCFDFinSet:
 
     def __init__(self, vobj):
         vobj.Proxy = self
@@ -36,7 +36,7 @@ class ViewProviderCFDRocket:
         self.Object = vobj.Object
 
     def getIcon(self):
-        return FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_CFDRocket.svg"
+        return FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_CFDFinSet.svg"
 
     def setEdit(self, vobj, mode):
         return True

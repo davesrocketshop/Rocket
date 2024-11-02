@@ -598,3 +598,20 @@ class FinShapeHandler:
         # except (ZeroDivisionError, Part.OCCError) as ex:
         #     _err(translate('Rocket', "Fin parameters produce an invalid shape"))
         #     return
+        
+    def drawSolidFins(self):
+
+        if not self.isValidShape():
+            return
+
+        try:
+            if self._obj.FinSet:
+                shape = self._drawFinSet()
+            else:
+                shape = self._drawFin()
+            shape.translate(self._placement.Base)
+            return shape
+
+        except (ZeroDivisionError, Part.OCCError):
+            _err(translate('Rocket', "Fin parameters produce an invalid shape"))
+            return

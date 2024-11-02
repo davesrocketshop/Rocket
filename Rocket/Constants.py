@@ -52,6 +52,7 @@ FEATURE_OFFSET = "RocketOffset"
 
 FEATURE_WIND_TUNNEL = "RocketWindTunnel"
 FEATURE_CFD_ROCKET = "RocketCFDRocket"
+FEATURE_CFD_FINSET = "RocketCFDFinSet"
 
 # Part styles
 STYLE_SOLID = "solid"
