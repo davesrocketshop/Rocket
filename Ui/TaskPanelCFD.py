@@ -127,17 +127,21 @@ class TaskPanelCFD(QtCore.QObject):
         self._CFDrocket._obj.Shape = solid1
         FreeCAD.ActiveDocument.recompute()
 
-    def makeWindTunnel(self):
+    def getTunnelDimensions(self):
         diameter = FreeCAD.Units.Quantity(self.form.inputDiameter.text()).Value
         length = FreeCAD.Units.Quantity(self.form.inputLength.text()).Value
 
         # Get a blockage ratio of 0.1%
         area = (diameter * diameter) / 0.001
         tunnelDiameter = math.sqrt(area)
-        self._outer = makeWindTunnel('WindTunnel', tunnelDiameter, 10.0 * length, 2.0 * length)
-        self._refinement0 = makeWindTunnel('WindTunnel-wake', tunnelDiameter * 0.25, 3.5 * length, 0.5 * length)
-        self._refinement1 = makeWindTunnel('WindTunnel-transition1', tunnelDiameter * 0.5, 9.0 * length, 1.0 * length)
-        self._refinement2 = makeWindTunnel('WindTunnel-transition2', tunnelDiameter * 0.75, 9.5 * length, 1.5 * length)
+        return tunnelDiameter, length
+
+    def makeWindTunnel(self):
+        diameter, length = self.getTunnelDimensions()
+        self._outer = makeWindTunnel('WindTunnel', diameter, 10.0 * length, 2.0 * length)
+        self._refinement0 = makeWindTunnel('WindTunnel-wake', diameter * 0.25, 3.5 * length, 0.5 * length)
+        self._refinement1 = makeWindTunnel('WindTunnel-transition1', diameter * 0.5, 9.0 * length, 1.0 * length)
+        self._refinement2 = makeWindTunnel('WindTunnel-transition2', diameter * 0.75, 9.5 * length, 1.5 * length)
         FreeCAD.ActiveDocument.recompute()
 
         self.makeCompound()
@@ -174,8 +178,9 @@ class TaskPanelCFD(QtCore.QObject):
         FreeCAD.ActiveDocument.recompute()
 
     def makeCfdMesh(self):
+        diameter, _ = self.getTunnelDimensions()
         self._CFDMesh = CfdMesh.makeCfdMesh('WindTunnelCompund_Mesh')
-        self._CFDMesh.CharacteristicLengthMax = 100.0 # 100 mm
+        self._CFDMesh.CharacteristicLengthMax = diameter / 10.0
         FreeCAD.ActiveDocument.ActiveObject.Part = self._compound
         CfdTools.getActiveAnalysis().addObject(FreeCAD.ActiveDocument.ActiveObject)
         FreeCAD.ActiveDocument.recompute()
