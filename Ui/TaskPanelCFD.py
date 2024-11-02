@@ -121,6 +121,9 @@ class TaskPanelCFD(QtCore.QObject):
         center = box.XLength / 2.0
 
         solid1 = self._solid
+        self._rotation = self.form.spinRotation.value()
+        if self._rotation != 0.0:
+            solid1.rotate(FreeCAD.Vector(0, 0, 0),FreeCAD.Vector(1, 0, 0), self._rotation)
         self._aoa = self.form.spinAOA.value()
         if self._aoa != 0.0:
             solid1.rotate(FreeCAD.Vector(center, 0, 0),FreeCAD.Vector(0, 1, 0), self._aoa)

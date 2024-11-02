@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>251</height>
+    <height>282</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -96,6 +96,23 @@
        </property>
       </widget>
      </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="label_5">
+       <property name="text">
+        <string>Number of Processors</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <widget class="Gui::IntSpinBox" name="spinNproc">
+       <property name="toolTip">
+        <string>Number of processors to use during CFD simulation</string>
+       </property>
+       <property name="maximum">
+        <number>9999</number>
+       </property>
+      </widget>
+     </item>
      <item row="0" column="1">
       <widget class="Gui::DoubleSpinBox" name="spinAOA">
        <property name="toolTip">
@@ -110,19 +127,22 @@
       </widget>
      </item>
      <item row="1" column="0">
-      <widget class="QLabel" name="label_5">
+      <widget class="QLabel" name="label">
        <property name="text">
-        <string>Number of Processors</string>
+        <string>Angle of rotation</string>
        </property>
       </widget>
      </item>
      <item row="1" column="1">
-      <widget class="Gui::IntSpinBox" name="spinNproc">
+      <widget class="Gui::DoubleSpinBox" name="spinRotation">
        <property name="toolTip">
-        <string>Number of processors to use during CFD simulation</string>
+        <string>Rotation around the X axis</string>
+       </property>
+       <property name="minimum">
+        <double>-180.000000000000000</double>
        </property>
        <property name="maximum">
-        <number>9999</number>
+        <double>180.000000000000000</double>
        </property>
       </widget>
      </item>
