@@ -1021,23 +1021,33 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="DialogCFD.ui" line="102"/>
+        <location filename="DialogCFD.ui" line="119"/>
         <source>Angle to the direction of travel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="DialogCFD.ui" line="115"/>
+        <location filename="DialogCFD.ui" line="102"/>
         <source>Number of Processors</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="DialogCFD.ui" line="122"/>
+        <location filename="DialogCFD.ui" line="109"/>
         <source>Number of processors to use during CFD simulation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="DialogCFD.ui" line="136"/>
+        <location filename="DialogCFD.ui" line="156"/>
         <source>Create</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="DialogCFD.ui" line="132"/>
+        <source>Angle of rotation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="DialogCFD.ui" line="139"/>
+        <source>Rotation around the X axis</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
