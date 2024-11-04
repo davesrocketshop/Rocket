@@ -83,9 +83,9 @@ class TaskPanelCFD(QtCore.QObject):
         self.form.inputFinThickness.setText(str(thickness))
 
         self._CFDrocket = None
-        self._refinement0 = None
-        self._refinement1 = None
-        self._refinement2 = None
+        self._refinement_wake = None
+        self._refinement_transition1 = None
+        self._refinement_transition2 = None
 
     def atmosphericConditions(self, altitude):
 
@@ -179,9 +179,9 @@ class TaskPanelCFD(QtCore.QObject):
     def makeWindTunnel(self):
         diameter, length = self.getTunnelDimensions()
         self._outer = makeWindTunnel('WindTunnel', diameter, 10.0 * length, 2.0 * length)
-        self._refinement0 = makeWindTunnel('WindTunnel-wake', diameter * 0.25, 3.5 * length, 0.5 * length)
-        self._refinement1 = makeWindTunnel('WindTunnel-transition1', diameter * 0.5, 9.0 * length, 1.0 * length)
-        self._refinement2 = makeWindTunnel('WindTunnel-transition2', diameter * 0.75, 9.5 * length, 1.5 * length)
+        self._refinement_wake = makeWindTunnel('WindTunnel-wake', diameter * 0.25, 3.5 * length, 0.5 * length)
+        self._refinement_transition1 = makeWindTunnel('WindTunnel-transition1', diameter * 0.5, 9.0 * length, 1.0 * length)
+        self._refinement_transition2 = makeWindTunnel('WindTunnel-transition2', diameter * 0.75, 9.5 * length, 1.5 * length)
         FreeCAD.ActiveDocument.recompute()
 
         self.makeCompound()
@@ -227,19 +227,19 @@ class TaskPanelCFD(QtCore.QObject):
 
         # Progressive volume refinements
         refinement = CfdMeshRefinement.makeCfdMeshRefinement(self._CFDMesh, 'VolumeRefinement-wake')
-        refinement.ShapeRefs = [self._refinement0._obj, ('Solid1', )]
+        refinement.ShapeRefs = [self._refinement_wake._obj, ('Solid1', )]
         refinement.Internal = True
         refinement.RelativeLength = 0.125
         FreeCAD.ActiveDocument.recompute()
 
         refinement = CfdMeshRefinement.makeCfdMeshRefinement(self._CFDMesh, 'VolumeRefinement-transition1')
-        refinement.ShapeRefs = [self._refinement1._obj, ('Solid1', )]
+        refinement.ShapeRefs = [self._refinement_transition1._obj, ('Solid1', )]
         refinement.Internal = True
         refinement.RelativeLength = 0.250
         FreeCAD.ActiveDocument.recompute()
 
         refinement = CfdMeshRefinement.makeCfdMeshRefinement(self._CFDMesh, 'VolumeRefinement-transition2')
-        refinement.ShapeRefs = [self._refinement2._obj, ('Solid1', )]
+        refinement.ShapeRefs = [self._refinement_transition2._obj, ('Solid1', )]
         refinement.Internal = True
         refinement.RelativeLength = 0.500
         FreeCAD.ActiveDocument.recompute()
