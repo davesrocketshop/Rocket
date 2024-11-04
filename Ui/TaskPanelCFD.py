@@ -39,6 +39,9 @@ from CfdOF.Solve import CfdPhysicsSelection, CfdFluidBoundary, CfdFluidMaterial,
     CfdSolverFoam
 from CfdOF.PostProcess import CfdReportingFunction
 
+from Analyzers.pyatmos import coesa76
+from Analyzers.pyatmos.utils.Const import gamma, R_air
+
 from Rocket.cfd.CFDUtil import caliber, finThickness, createSolid, makeCFDRocket, makeWindTunnel
 
 from Ui.UIPaths import getUIPath
@@ -53,7 +56,11 @@ class TaskPanelCFD(QtCore.QObject):
         self.form = FreeCADGui.PySideUic.loadUi(os.path.join(getUIPath(), 'Resources', 'ui', "DialogCFD.ui"))
         # self.form = FreeCADGui.PySideUic.loadUi(':/ui/DialogCFD.ui')
 
+        self.form.inputAltitude.textEdited.connect(self.onAltitude)
         self.form.buttonCreate.clicked.connect(self.onCreate)
+
+        self.form.inputAltitude.setText("1000 m")
+        self.onAltitude("1000 m")
 
         FreeCAD.setActiveTransaction("Create Rocket CFD Study")
         self.initialize()
@@ -80,6 +87,36 @@ class TaskPanelCFD(QtCore.QObject):
         self._refinement1 = None
         self._refinement2 = None
 
+    def atmosphericConditions(self, altitude):
+
+        # Get the atmospheric conditions at the specified altitude (convert mm to km)
+        # Uses the coesa76 model which is an extension of US Standard Atmosphere 1976 model to work above 84K
+        atmo = coesa76([altitude / (1000.0 * 1000.0)])
+
+        temp = float(atmo.T[0])
+        pressure = float(atmo.P[0])
+
+        # speed of sound
+        mach = math.sqrt(gamma * R_air * temp)
+
+        return mach,pressure
+
+    def onAltitude(self, value):
+        altitude = FreeCAD.Units.Quantity(value).Value
+        mach, _ = self.atmosphericConditions(altitude)
+        self.form.inputSpeed.setText(FreeCAD.Units.Quantity("{} m/s".format(mach * 0.3)).UserString)
+
+    def frontalArea(self):
+        return FreeCAD.Units.Quantity("1 m^2")
+
+    def airPressure(self):
+        altitude = FreeCAD.Units.Quantity(self.form.inputAltitude.text()).Value
+        _, pressure = self.atmosphericConditions(altitude)
+        return FreeCAD.Units.Quantity("{} Pa".format(pressure))
+
+    def speed(self):
+        # return FreeCAD.Units.Quantity("100 m/s")
+        return FreeCAD.Units.Quantity(self.form.inputSpeed.text())
 
     def onCreate(self):
         self.makeSolid()
@@ -91,7 +128,7 @@ class TaskPanelCFD(QtCore.QObject):
         self.adjustFluidProperties()
         self.adjustInitializeFields()
         self.adjustCFDSolver()
-        self.makeReportingFunction()
+        self.makeReportingFunctions()
 
         # Don't try to make things twice
         # self.form.buttonCreate.setEnabled(False)
@@ -228,7 +265,8 @@ class TaskPanelCFD(QtCore.QObject):
         self._inlet.ShapeRefs = [self._compound, ('Face{}'.format(length), )]
         self._inlet.BoundaryType = "inlet"
         self._inlet.BoundarySubType = "uniformVelocityInlet"
-        self._inlet.Ux = 100000 # 100 m/s = 0.3 Mach
+        self._inlet.Pressure = 0
+        self._inlet.Ux = self.speed()
         FreeCAD.ActiveDocument.recompute()
 
         self._outlet = CfdFluidBoundary.makeCfdFluidBoundary("Outlet")
@@ -236,7 +274,7 @@ class TaskPanelCFD(QtCore.QObject):
         self._outlet.ShapeRefs = [self._compound, ('Face{}'.format(length-1), )]
         self._outlet.BoundaryType = "outlet"
         self._outlet.BoundarySubType = "staticPressureOutlet"
-        self._outlet.Pressure = "25 kPa" #?
+        self._outlet.Pressure = self.airPressure()
         FreeCAD.ActiveDocument.recompute()
 
         self._wall = CfdFluidBoundary.makeCfdFluidBoundary("Wall")
@@ -283,11 +321,24 @@ class TaskPanelCFD(QtCore.QObject):
         self._solver.ParallelCores = cores
         FreeCAD.ActiveDocument.recompute()
 
-    def makeReportingFunction(self):
+    def makeReportingFunctions(self):
         self._force = CfdReportingFunction.makeCfdReportingFunction("ForceReportingFunction")
         CfdTools.getActiveAnalysis().addObject(self._force)
         self._force.ReportingFunctionType = "Force"
         # q = (p / 2) * v^2
-        self._force.ReferencePressure = "25000 Pa"
+        self._force.ReferencePressure = self.airPressure()
         self._force.Patch = self._rocketWall
+        FreeCAD.ActiveDocument.recompute()
+
+        self._forceCoefficient = CfdReportingFunction.makeCfdReportingFunction("ForceCoefficientReportingFunction")
+        CfdTools.getActiveAnalysis().addObject(self._forceCoefficient)
+        self._forceCoefficient.ReportingFunctionType = "ForceCoefficients"
+        self._forceCoefficient.Patch = self._rocketWall
+        # q = (p / 2) * v^2
+        self._forceCoefficient.ReferencePressure = self.airPressure()
+        self._forceCoefficient.Lift = FreeCAD.Vector(0, 0, 1)
+        self._forceCoefficient.Drag = FreeCAD.Vector(1, 0, 0)
+        self._forceCoefficient.MagnitudeUInf = self.speed()
+        self._forceCoefficient.LengthRef = FreeCAD.Units.Quantity(self.form.inputLength.text())
+        self._forceCoefficient.AreaRef = self.frontalArea()
         FreeCAD.ActiveDocument.recompute()
