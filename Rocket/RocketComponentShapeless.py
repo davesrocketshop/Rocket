@@ -890,3 +890,7 @@ class RocketComponentShapeless():
     def getSolidShape(self, obj):
         """ Return a filled version of the shape. Useful for CFD """
         return None
+
+    def getXProjection(self, obj):
+        """ Returns a shape representing the projection of the object onto the YZ plane """
+        return None

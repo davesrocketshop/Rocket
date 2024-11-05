@@ -38,7 +38,7 @@ def getProxy(obj):
     return obj
 
 def createSolid(obj):
-    ''' Currently generates a compound object, not necessarily solid '''
+    ''' Generates a solid compound object '''
     shape = None
     for current in getProxy(obj).getChildren():
         if hasattr(current, "Shape"):
@@ -57,11 +57,38 @@ def createSolid(obj):
 
     return shape
 
+def getXProjection(obj):
+    ''' Returns a shape representing the projection of the object onto the YZ plane '''
+    face = None
+    for current in getProxy(obj).getChildren():
+        if hasattr(current, "Shape"):
+            solid = getProxy(current).getXProjection(current)
+            if solid is not None and solid.isValid():
+                if face == None:
+                    face = solid
+                else:
+                    face = Part.makeCompound([face, solid])
+        child = getXProjection(current)
+        if child is not None and child.isValid():
+            if face == None:
+                face = child
+            else:
+                face = Part.makeCompound([face, child])
+
+    return face
+
+def frontalArea(obj):
+    ''' Returns the frontal area in mm^2 '''
+    face = getXProjection(obj)
+
+    if face is not None and face.isValid():
+        return face.Area
+    return 0.0
+
 def caliber(obj):
     ''' Get the caliber of the component '''
     diameter = 0.0
     for current in getProxy(obj).getChildren():
-        # print(current)
         proxy = getProxy(current)
         if hasattr(proxy, "getMaxRadius"):
             radius = FreeCAD.Units.Quantity(proxy.getMaxRadius()).Value
@@ -79,7 +106,6 @@ def finThickness(obj):
         proxy = getProxy(current)
         if hasattr(proxy, "getFinThickness"):
             fin = FreeCAD.Units.Quantity(proxy.getFinThickness()).Value
-            print("fin thickness '{}'".format(fin))
             if thickness <= 0.0:
                 thickness = fin
             elif fin > 0.0:

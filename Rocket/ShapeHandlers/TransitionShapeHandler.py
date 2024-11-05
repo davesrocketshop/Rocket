@@ -27,7 +27,7 @@
 __title__ = "FreeCAD Transition Shape Handler"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
-    
+
 import FreeCAD
 import Part
 import math
@@ -90,7 +90,7 @@ class TransitionShapeHandler():
         self._obj = obj
 
     def makeSpline(self, points):
-        
+
         spline = Part.BSplineCurve()
         spline.buildFromPoles(points)
         return spline
@@ -99,7 +99,7 @@ class TransitionShapeHandler():
         return True # Override if the shape is not clippable
 
     def isValidShape(self):
-        
+
         #Perform some general validations
         if self._style in [STYLE_HOLLOW, STYLE_CAPPED]:
             if self._thickness <= 0:
@@ -276,7 +276,7 @@ class TransitionShapeHandler():
 
 
     def draw(self):
-        
+
         if not self.isValidShape():
             return
 
@@ -356,6 +356,14 @@ class TransitionShapeHandler():
         self._obj.Shape = shape
         self._obj.Placement = self._placement
 
+    def getXProjection(self):
+        """ Returns a shape representing the projection of the object onto the YZ plane """
+        radius = max(self._foreRadius, self._aftRadius)
+        edge = Part.makeCircle(radius, FreeCAD.Vector(0, 0, 0), FreeCAD.Vector(1, 0, 0))
+        wire = Part.Wire(edge)
+        face = Part.Face(wire)
+        return face
+
     def _generateCurve(self, r1, r2, length, min = 0.0, max = 0.0):
         """
             For clipped functions, length will be the clip length and self._length is
@@ -375,7 +383,7 @@ class TransitionShapeHandler():
             points = [FreeCAD.Vector(min, r1)] # 2,3
 
         for i in range(1, self._resolution):
-            
+
             if self._clipped:
                 if r1 < r2: # 0
                     x = min + (float(i) * ((max - min) / float(self._resolution)))
@@ -519,7 +527,7 @@ class TransitionShapeHandler():
         return edges
 
     def _solidLines(self, outerShape):
-        
+
         foreCenter = FreeCAD.Vector(0.0, 0.0)
         aftCenter = FreeCAD.Vector(self._length, 0.0)
 
@@ -547,7 +555,7 @@ class TransitionShapeHandler():
                 line4 = Part.LineSegment(FreeCAD.Vector(-self._foreShoulderLength,0), FreeCAD.Vector(self._aftShoulderLength, 0))
             else:
                 line4 = Part.LineSegment(FreeCAD.Vector(-self._foreShoulderLength,0), FreeCAD.Vector(0, 0))
-                
+
             if step:
                 front = [line1.toShape(), line2.toShape(), line3.toShape(), line4.toShape()]
             else:
@@ -579,7 +587,7 @@ class TransitionShapeHandler():
         return [outerShape.toShape()] + front + back
 
     def _solidCoreLines(self, outerShape):
-        
+
         foreCenter = FreeCAD.Vector(0.0, self._coreRadius)
         aftCenter = FreeCAD.Vector(self._length, self._coreRadius)
 
@@ -592,7 +600,7 @@ class TransitionShapeHandler():
         return [outerShape.toShape(), line1.toShape(), line2.toShape(), line3.toShape()]
 
     def _solidShoulderCoreLines(self, outerShape):
-        
+
         front = []
         back = []
         if self._foreShoulder:
@@ -638,7 +646,7 @@ class TransitionShapeHandler():
         return [outerShape.toShape()] + front + back
 
     def _hollowLines(self, outerShape, innerShape):
-        
+
         major = FreeCAD.Vector(self._length, self._aftRadius)
         minor = FreeCAD.Vector(0.0, self._foreRadius)
 
@@ -692,13 +700,13 @@ class TransitionShapeHandler():
         return [outerShape.toShape()] + front + back + [innerShape.toShape()]
 
     def _cappedLines(self, foreY, aftY, outerShape, innerShape):
-            
+
         fore = FreeCAD.Vector(0.0, self._foreRadius)
         aft = FreeCAD.Vector(self._length, self._aftRadius)
 
         foreInner = FreeCAD.Vector(self._thickness, foreY)
         aftIinner = FreeCAD.Vector(self._length - self._thickness, aftY)
-        
+
         foreCenter = FreeCAD.Vector(0,0)
         aftCenter = FreeCAD.Vector(self._length,0)
 
@@ -749,7 +757,7 @@ class TransitionShapeHandler():
             line3 = Part.LineSegment(FreeCAD.Vector(self._length + self._aftShoulderLength,self._aftShoulderRadius),                      FreeCAD.Vector(self._length + self._aftShoulderLength,0))
             line4 = Part.LineSegment(FreeCAD.Vector(self._length + self._aftShoulderLength,0),                                            FreeCAD.Vector(self._length + self._aftShoulderLength - self._aftShoulderThickness,0))
             line5 = Part.LineSegment(FreeCAD.Vector(self._length + self._aftShoulderLength - self._aftShoulderThickness,0),               FreeCAD.Vector(self._length + self._aftShoulderLength - self._aftShoulderThickness,self._aftShoulderRadius - self._aftShoulderThickness))
-            line6 = Part.LineSegment(FreeCAD.Vector(self._length + self._aftShoulderLength - self._aftShoulderThickness,self._aftShoulderRadius - self._aftShoulderThickness), 
+            line6 = Part.LineSegment(FreeCAD.Vector(self._length + self._aftShoulderLength - self._aftShoulderThickness,self._aftShoulderRadius - self._aftShoulderThickness),
                                                                                                                                             FreeCAD.Vector(self._length - self._thickness,self._aftShoulderRadius - self._aftShoulderThickness))
             line7 = Part.LineSegment(FreeCAD.Vector(self._length - self._thickness,self._aftShoulderRadius - self._aftShoulderThickness), FreeCAD.Vector(self._length - self._thickness,aftY))
 

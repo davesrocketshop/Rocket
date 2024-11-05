@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>375</height>
+    <height>406</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -22,23 +22,23 @@
      <layout class="QVBoxLayout" name="verticalLayout_2">
       <item>
        <layout class="QGridLayout" name="gridLayout">
-        <item row="0" column="0">
-         <widget class="QLabel" name="label_2">
-          <property name="text">
-           <string>Length</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="1">
-         <widget class="Gui::InputField" name="inputDiameter">
+        <item row="2" column="1">
+         <widget class="Gui::InputField" name="inputFinThickness">
           <property name="toolTip">
-           <string>Main body diameter</string>
+           <string>Minimum thickness of all fins</string>
           </property>
           <property name="readOnly">
            <bool>true</bool>
           </property>
           <property name="unit" stdset="0">
-           <string notr="true"/>
+           <string notr="true">m</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="0">
+         <widget class="QLabel" name="label_2">
+          <property name="text">
+           <string>Length</string>
           </property>
          </widget>
         </item>
@@ -58,7 +58,20 @@
            <bool>true</bool>
           </property>
           <property name="unit" stdset="0">
-           <string notr="true"/>
+           <string notr="true">m</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="Gui::InputField" name="inputDiameter">
+          <property name="toolTip">
+           <string>Main body diameter</string>
+          </property>
+          <property name="readOnly">
+           <bool>true</bool>
+          </property>
+          <property name="unit" stdset="0">
+           <string notr="true">m</string>
           </property>
          </widget>
         </item>
@@ -69,16 +82,23 @@
           </property>
          </widget>
         </item>
-        <item row="2" column="1">
-         <widget class="Gui::InputField" name="inputFinThickness">
+        <item row="3" column="0">
+         <widget class="QLabel" name="label_10">
+          <property name="text">
+           <string>Frontal Area</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="1">
+         <widget class="Gui::InputField" name="inputArea">
           <property name="toolTip">
-           <string>Minimum thickness of all fins</string>
+           <string>Area facing the direction of travel</string>
           </property>
           <property name="readOnly">
            <bool>true</bool>
           </property>
           <property name="unit" stdset="0">
-           <string notr="true"/>
+           <string notr="true">m^2</string>
           </property>
          </widget>
         </item>
@@ -185,7 +205,7 @@
         <string>Mach number</string>
        </property>
        <property name="text">
-        <string>0.3</string>
+        <string>0 </string>
        </property>
        <property name="readOnly">
         <bool>true</bool>

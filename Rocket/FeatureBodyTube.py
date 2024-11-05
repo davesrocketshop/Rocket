@@ -283,6 +283,10 @@ class FeatureBodyTube(SymmetricComponent, BoxBounded, Coaxial):
             return shape.drawSolidShape()
         return None
 
+    def getXProjection(self, obj):
+        """ Returns a shape representing the projection of the object onto the YZ plane """
+        return None
+
     def eligibleChild(self, childType):
         return childType in [
             FEATURE_BULKHEAD,

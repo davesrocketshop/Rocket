@@ -42,7 +42,7 @@ from CfdOF.PostProcess import CfdReportingFunction
 from Analyzers.pyatmos import coesa76
 from Analyzers.pyatmos.utils.Const import gamma, R_air
 
-from Rocket.cfd.CFDUtil import caliber, finThickness, createSolid, makeCFDRocket, makeWindTunnel
+from Rocket.cfd.CFDUtil import caliber, finThickness, createSolid, getXProjection, frontalArea, makeCFDRocket, makeWindTunnel
 
 from Ui.UIPaths import getUIPath
 
@@ -59,9 +59,6 @@ class TaskPanelCFD(QtCore.QObject):
         self.form.inputAltitude.textEdited.connect(self.onAltitude)
         self.form.buttonCreate.clicked.connect(self.onCreate)
 
-        self.form.inputAltitude.setText("1000 m")
-        self.onAltitude("1000 m")
-
         FreeCAD.setActiveTransaction("Create Rocket CFD Study")
         self.initialize()
 
@@ -73,14 +70,20 @@ class TaskPanelCFD(QtCore.QObject):
             self.form.spinNproc.setValue(os.cpu_count())
 
         self._solid = createSolid(self._rocket)
+        self._frontalArea = frontalArea(self._rocket)
         diameter = caliber(self._rocket)
         thickness = finThickness(self._rocket)
         box = self._solid.BoundBox
         length = box.XLength
 
-        self.form.inputLength.setText(str(length))
-        self.form.inputDiameter.setText(str(diameter))
-        self.form.inputFinThickness.setText(str(thickness))
+        self.form.inputLength.setText(FreeCAD.Units.Quantity("{} mm".format(length)).UserString)
+        self.form.inputDiameter.setText(FreeCAD.Units.Quantity("{} mm".format(diameter)).UserString)
+        self.form.inputFinThickness.setText(FreeCAD.Units.Quantity("{} mm".format(thickness)).UserString)
+        self.form.inputArea.setText(FreeCAD.Units.Quantity("{} mm^2".format(self._frontalArea)).UserString)
+
+        self.form.inputAltitude.setText(FreeCAD.Units.Quantity("1000 m").UserString)
+        self.form.inputMach.setText("0.3")
+        self.onAltitude("1000 m")
 
         self._CFDrocket = None
         self._refinement0 = None
@@ -107,7 +110,11 @@ class TaskPanelCFD(QtCore.QObject):
         self.form.inputSpeed.setText(FreeCAD.Units.Quantity("{} m/s".format(mach * 0.3)).UserString)
 
     def frontalArea(self):
-        return FreeCAD.Units.Quantity("1 m^2")
+        # face = getXProjection(self._rocket)
+        # if face is not None:
+        #     import Part
+        #     Part.show(face)
+        return frontalArea(self._rocket)
 
     def airPressure(self):
         altitude = FreeCAD.Units.Quantity(self.form.inputAltitude.text()).Value
@@ -245,7 +252,7 @@ class TaskPanelCFD(QtCore.QObject):
         FreeCAD.ActiveDocument.recompute()
 
         # Surface refinement
-        thickness = FreeCAD.Units.Quantity(self.form.inputFinThickness.text() + " mm")
+        thickness = FreeCAD.Units.Quantity(self.form.inputFinThickness.text())
         relativeLength = (thickness / 2.0) / self._CFDMesh.CharacteristicLengthMax
         defaultLength = FreeCAD.Units.Quantity("0.0625")
         if relativeLength > 0.0:
