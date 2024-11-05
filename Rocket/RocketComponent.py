@@ -314,3 +314,8 @@ class RocketComponent(RocketComponentShapeless, ChangeSource):
         if hasattr(obj, "Shape") and obj.Shape.isValid():
             return obj.Shape
         return None
+
+    # @abstractmethod
+    def getXProjection(self, obj):
+        """ Returns a shape representing the projection of the object onto the YZ plane """
+        return None

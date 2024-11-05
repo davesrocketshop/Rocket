@@ -378,26 +378,36 @@ class FeatureTransition(SymmetricComponent):
     def getRadius(self, x):
         return 0.0
 
-    def execute(self, obj):
-        shape = None
+    def _setShapeHandler(self):
+        obj = self._obj
+        self._shapeHandler = None
         if obj.TransitionType == TYPE_CONE:
-            shape = TransitionConeShapeHandler(obj)
+            self._shapeHandler = TransitionConeShapeHandler(obj)
         elif obj.TransitionType == TYPE_ELLIPTICAL:
-            shape = TransitionEllipseShapeHandler(obj)
+            self._shapeHandler = TransitionEllipseShapeHandler(obj)
         elif obj.TransitionType == TYPE_OGIVE:
-            shape = TransitionOgiveShapeHandler(obj)
+            self._shapeHandler = TransitionOgiveShapeHandler(obj)
         elif obj.TransitionType == TYPE_VON_KARMAN:
             obj.Coefficient = 0.0
-            shape = TransitionHaackShapeHandler(obj)
+            self._shapeHandler = TransitionHaackShapeHandler(obj)
         elif obj.TransitionType == TYPE_HAACK:
-            shape = TransitionHaackShapeHandler(obj)
+            self._shapeHandler = TransitionHaackShapeHandler(obj)
         elif obj.TransitionType == TYPE_PARABOLIC:
-            shape = TransitionParabolicShapeHandler(obj)
+            self._shapeHandler = TransitionParabolicShapeHandler(obj)
         elif obj.TransitionType == TYPE_PARABOLA:
             obj.Coefficient = 0.5
-            shape = TransitionPowerShapeHandler(obj)
+            self._shapeHandler = TransitionPowerShapeHandler(obj)
         elif obj.TransitionType == TYPE_POWER:
-            shape = TransitionPowerShapeHandler(obj)
+            self._shapeHandler = TransitionPowerShapeHandler(obj)
 
-        if shape is not None:
-            shape.draw()
+    def execute(self, obj):
+        self._setShapeHandler()
+        if self._shapeHandler is not None:
+            self._shapeHandler.draw()
+
+    def getXProjection(self, obj):
+        """ Returns a shape representing the projection of the object onto the YZ plane """
+        self._setShapeHandler()
+        if self._shapeHandler is not None:
+            return self._shapeHandler.getXProjection()
+        return None

@@ -482,3 +482,10 @@ class FeatureFin(ExternalComponent):
         if self._shapeHandler is not None:
             return self._shapeHandler.drawSolidFins(), self.getFinThickness()
         return None, None
+
+    def getXProjection(self, obj):
+        """ Returns a shape representing the projection of the object onto the YZ plane """
+        self._setShapeHandler()
+        if self._shapeHandler is not None:
+            return self._shapeHandler.getXProjection()
+        return None

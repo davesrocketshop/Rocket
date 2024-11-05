@@ -23,7 +23,7 @@
 __title__ = "FreeCAD Fin Flutter Analyzer"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
-    
+
 import math
 
 from DraftTools import translate
@@ -58,7 +58,7 @@ class FinFlutter:
         elif fin.FinType == FIN_TYPE_SKETCH:
             handler = FinSketchShapeHandler(fin)
         self._Shape = handler.finOnlyShape()
-        
+
         if fin.FinType == FIN_TYPE_ELLIPSE:
             raise TypeError(translate('Rocket', "Elliptical fins are not supported at this time"))
         elif fin.FinType == FIN_TYPE_TRIANGLE:
@@ -105,13 +105,13 @@ class FinFlutter:
         # Uses the coesa76 model which is an extension of US Standard Atmosphere 1976 model to work above 84K
         atmo = coesa76([altitude / (1000.0 * 1000.0)])
 
-        temp = atmo.T
-        pressure = atmo.P
+        temp = float(atmo.T[0])
+        pressure = float(atmo.P[0])
 
         # speed of sound
-        a = math.sqrt(gamma * R_air * temp)
+        mach = math.sqrt(gamma * R_air * temp)
 
-        return a,pressure
+        return mach,pressure
 
     def flutter(self, altitude, shear):
         # Calculate fin flutter using the method outlined in NACA Technical Note 4197
@@ -127,7 +127,7 @@ class FinFlutter:
         # Vfe = math.sqrt(shear / ((270964.068 * self._epsilon * (self._aspectRatio**3)) / (pow(self._thickness / self._rootChord, 3) * (self._aspectRatio + 2)) * ((self._lambda + 1) / 2) * (pressure / p0)))
         # print("Vf %f" % (Vf))
         # print("Vfe %f" % (Vfe))
-        
+
         # Flutter velocity in m/s
         Vfa = a * Vf
 
@@ -165,4 +165,4 @@ class FinFlutter:
         Vda = a * Vd
 
         return Vd, Vda
-        
+

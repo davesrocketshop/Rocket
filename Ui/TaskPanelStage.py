@@ -31,10 +31,7 @@ import FreeCADGui
 from DraftTools import translate
 
 from PySide import QtGui
-try:
-    from PySide2.QtWidgets import QDialog, QVBoxLayout
-except:
-    from PySide.QtWidgets import QDialog, QVBoxLayout
+from PySide.QtWidgets import QDialog, QVBoxLayout
 
 from Ui.Widgets.CommentTab import CommentTab
 
