@@ -42,7 +42,8 @@ from CfdOF.PostProcess import CfdReportingFunction
 from Analyzers.pyatmos import coesa76
 from Analyzers.pyatmos.utils.Const import gamma, R_air
 
-from Rocket.cfd.CFDUtil import caliber, finThickness, createSolid, getXProjection, frontalArea, makeCFDRocket, makeWindTunnel
+from Rocket.cfd.CFDUtil import caliber, finThickness, createSolid, createFinsets, frontalArea, \
+    makeCFDRocket, makeCFDFinSet, makeWindTunnel
 
 from Ui.UIPaths import getUIPath
 
@@ -314,7 +315,7 @@ class TaskPanelCFD(QtCore.QObject):
         self._inlet.ShapeRefs = [self._compound, ('Face{}'.format(length), )]
         self._inlet.BoundaryType = "inlet"
         self._inlet.BoundarySubType = "uniformVelocityInlet"
-        self._inlet.Pressure = 0
+        self._inlet.Pressure = self.airPressure() #0
         self._inlet.Ux = self.speed()
         FreeCAD.ActiveDocument.recompute()
 
@@ -353,7 +354,6 @@ class TaskPanelCFD(QtCore.QObject):
         materials, material_name_path_list = CfdTools.importMaterials()
         for mat in material_name_path_list:
             material = materials[mat[1]]
-            # print("Name {} Type {}".format(material['Name'], material['Type']))
             if material['Name'] == "Air" and material['Type'] == "Isothermal":
                 self._fluidProperties.Material = material
                 self._fluidProperties.Label = material['Name']
