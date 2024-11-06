@@ -137,6 +137,8 @@ class TaskPanelCFD(QtCore.QObject):
         self.adjustCFDSolver()
         self.makeReportingFunctions()
 
+        FreeCADGui.SendMsgToActiveView("ViewFit")
+
         # Don't try to make things twice
         # self.form.buttonCreate.setEnabled(False)
         self.accept()
