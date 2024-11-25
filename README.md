@@ -2,8 +2,6 @@
 
 A rocket design workbench for FreeCAD
 
-![Demo Components](Resources/rwb_alphaIII.png)
-
 ## Requirements
 
 The Rocket Workbench **REQUIRES FREECAD V1.0**
@@ -15,6 +13,8 @@ This results in the workbench installing, but not showing up in FreeCAD.
 
 To use it with previous versions you can try this workaround. Follow the instructions on this page: https://github.com/davesrocketshop/Rocket/blob/master/TESTING.md
 Select the branch "Tag v3.3.0".
+
+![Demo Components](Resources/rwb_alphaIII.png)
 
 ## Install
 
