@@ -45,8 +45,8 @@ class TransitionElement(SymmetricComponentElement):
 
         self._validChildren.update({ 'subcomponents' : OpenRocket.SubElement.SubElement,
                               })
-        self._knownTags.extend(["shape", "shapeclipped", "shapeparameter", 
-                "foreradius", "aftradius", "aftouterdiameter", "foreshoulderradius", "foreshoulderdiameter", "foreshoulderlength", "foreshoulderthickness", "foreshouldercapped", 
+        self._knownTags.extend(["shape", "shapeclipped", "shapeparameter",
+                "foreradius", "aftradius", "aftouterdiameter", "foreshoulderradius", "foreshoulderdiameter", "foreshoulderlength", "foreshoulderthickness", "foreshouldercapped",
                 "aftshoulderradius", "aftshoulderdiameter", "aftshoulderlength", "aftshoulderthickness", "aftshouldercapped"])
 
         self._filled = False
@@ -78,14 +78,14 @@ class TransitionElement(SymmetricComponentElement):
         elif _tag == "shapeparameter":
             self._feature._obj.Coefficient = float(content)
         elif _tag == "foreradius":
-            if content == "auto":
+            if self.isAuto(content):
                 self._feature._obj.ForeAutoDiameter = True
             else:
                 self._feature._obj.ForeAutoDiameter = False
                 diameter = float(content) * 2.0
                 self._feature._obj.ForeDiameter = str(diameter) + "m"
         elif _tag == "aftradius":
-            if content == "auto":
+            if self.isAuto(content):
                 self._feature._obj.AftAutoDiameter = True
             else:
                 self._feature._obj.AftAutoDiameter = False

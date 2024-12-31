@@ -50,7 +50,7 @@ class BulkheadElement(RadiusRingComponentElement):
         _tag = tag.lower().strip()
         if _tag == "outerradius":
             self._feature.setScratch("outerradius", content)
-            if str(content).lower() == "auto":
+            if self.isAuto(content):
                 diameter = "0.0"
                 self._feature._obj.AutoDiameter = True
             else:
@@ -59,7 +59,7 @@ class BulkheadElement(RadiusRingComponentElement):
                 self._feature._obj.Diameter = str(diameter) + "m"
         elif _tag == "innerradius":
             self._feature.setScratch("innerradius", content)
-            if str(content).lower() == "auto":
+            if self.isAuto(content):
                 diameter = "0.0"
                 self._feature._obj.CenterAutoDiameter = True
             else:

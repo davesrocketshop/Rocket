@@ -35,7 +35,7 @@ class Element:
         self._parent = parent
         self._filename = filename
         self._line = line
-        
+
         self._validChildren = {}
         self._knownTags = []
         self._componentTags = []
@@ -85,11 +85,14 @@ class Element:
         #         obj = obj._obj
         return self._validChildren[_tag](self, tag, attributes, obj, filename, line)
 
+    def isAuto(self, content):
+        return str(content).lower().startswith("auto")
+
 class NullElement(Element):
 
     def __init__(self, parent, tag, attributes, parentObj, filename, line):
         super().__init__(parent, tag, attributes, parentObj, filename, line)
-        
+
         self._validChildren = { tag : NullElement }
 
     def handleTag(self, tag, attributes):
