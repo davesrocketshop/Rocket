@@ -63,7 +63,7 @@ class TubeFinsetElement(FinsetElement):
         elif _tag == "length":
             self._feature._obj.RootChord = FreeCAD.Units.Quantity(content + " m").Value
         elif _tag == "radius":
-            if content == "auto":
+            if self.isAuto(content):
                 self._feature._obj.TubeAutoOuterDiameter = True
             else:
                 self._feature._obj.TubeAutoOuterDiameter = False
