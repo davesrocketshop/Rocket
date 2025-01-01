@@ -29,6 +29,7 @@ import FreeCADGui
 import os
 import math
 
+from BOPTools import BOPFeatures
 from DraftTools import translate
 
 from PySide import  QtCore, QtGui
@@ -220,12 +221,25 @@ class TaskPanelCFD(QtCore.QObject):
         FreeCAD.ActiveDocument.recompute()
 
     def makeCompound(self):
-        self._compound = FreeCAD.activeDocument().addObject("Part::Compound", "WindTunnelCompund")
-        links = [self._outer._obj, self._CFDrocket._obj]
+        self._rocketFusion = FreeCAD.activeDocument().addObject("Part::MultiFuse", "RocketFusion")
+        links = [self._CFDrocket._obj]
         for fins in self._CFDFinSets:
             links.append(fins._obj)
+        self._rocketFusion.Shapes = links
+
+        bp = BOPFeatures.BOPFeatures(FreeCAD.activeDocument())
+        bp.copy_visual_attributes(self._rocketFusion, self._rocketFusion.Shapes[0])
+        target = bp.move_input_objects(self._rocketFusion.Shapes)
+        if target:
+            target.addObject(self._rocketFusion)
+        self._rocketFusion.ViewObject.Transparency = 0
+        FreeCAD.ActiveDocument.recompute()
+
+        self._compound = FreeCAD.activeDocument().addObject("Part::Compound", "WindTunnelCompund")
+        links = [self._outer._obj, self._rocketFusion]
         self._compound.Links = links
         self._compound.ViewObject.Transparency = 70
+        FreeCAD.ActiveDocument.recompute()
 
     def makeAnalysisContainer(self):
         analysis = CfdAnalysis.makeCfdAnalysis('CfdAnalysis')
@@ -315,7 +329,7 @@ class TaskPanelCFD(QtCore.QObject):
         self._inlet.ShapeRefs = [self._compound, ('Face{}'.format(length), )]
         self._inlet.BoundaryType = "inlet"
         self._inlet.BoundarySubType = "uniformVelocityInlet"
-        self._inlet.Pressure = self.airPressure() #0
+        self._inlet.Pressure = 0 #self.airPressure() #0
         self._inlet.Ux = self.speed()
         FreeCAD.ActiveDocument.recompute()
 
@@ -324,7 +338,7 @@ class TaskPanelCFD(QtCore.QObject):
         self._outlet.ShapeRefs = [self._compound, ('Face{}'.format(length-1), )]
         self._outlet.BoundaryType = "outlet"
         self._outlet.BoundarySubType = "staticPressureOutlet"
-        self._outlet.Pressure = self.airPressure()
+        self._outlet.Pressure = 0 #self.airPressure()
         FreeCAD.ActiveDocument.recompute()
 
         self._wall = CfdFluidBoundary.makeCfdFluidBoundary("Wall")
@@ -336,9 +350,7 @@ class TaskPanelCFD(QtCore.QObject):
 
         self._rocketWall = CfdFluidBoundary.makeCfdFluidBoundary("RocketWall")
         CfdTools.getActiveAnalysis().addObject(self._rocketWall)
-        refs = [self._CFDrocket._obj]
-        for fin in self._CFDFinSets:
-            refs.append(fin._obj)
+        refs = [self._rocketFusion]
         self._rocketWall.ShapeRefs = refs
 
         self._rocketWall.BoundaryType = "wall"

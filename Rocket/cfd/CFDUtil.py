@@ -39,25 +39,29 @@ def getProxy(obj):
         return obj.Proxy
     return obj
 
-def createSolid(obj):
+def createSolidShapes(obj):
     ''' Generates a solid compound object '''
-    shape = None
+    shapes = []
     for current in getProxy(obj).getChildren():
         if hasattr(current, "Shape"):
             solid = getProxy(current).getSolidShape(current)
             if solid is not None and solid.isValid():
-                if shape == None:
-                    shape = solid
-                else:
-                    shape = Part.makeCompound([shape, solid])
+                shapes.append(solid)
         child = createSolid(current)
         if child is not None and child.isValid():
-            if shape == None:
-                shape = child
-            else:
-                shape = Part.makeCompound([shape, child])
+            shapes.append(child)
 
-    return shape
+    return shapes
+
+def createSolid(obj):
+    ''' Generates a solid compound object '''
+    shapes = createSolidShapes(obj)
+    if len(shapes) == 0:
+        return None
+    elif len(shapes) == 1:
+        return shapes[0]
+    else:
+        return Part.makeCompound(shapes)
 
 def createFinsets(obj):
     ''' Currently generates a compound object, not necessarily solid '''
