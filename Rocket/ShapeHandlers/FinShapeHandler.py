@@ -609,6 +609,7 @@ class FinShapeHandler:
                 shape = self._drawFinSet()
             else:
                 shape = self._drawFin()
+            shape.rotate(FreeCAD.Vector(0, 0, 0), FreeCAD.Vector(1,0,0), self._obj.AngleOffset)
             shape.translate(self._placement.Base)
             return shape
 

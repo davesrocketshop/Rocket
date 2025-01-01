@@ -419,7 +419,7 @@ class FinCanShapeHandler(FinShapeHandler):
         except (ZeroDivisionError, Part.OCCError):
             _err(translate('Rocket', "Fin can parameters produce an invalid shape"))
             return
-        
+
     def drawSolidShape(self):
 
         if not self.isValidShape():
@@ -433,7 +433,7 @@ class FinCanShapeHandler(FinShapeHandler):
         except (ZeroDivisionError, Part.OCCError):
             _err(translate('Rocket', "Fin can parameters produce an invalid shape"))
             return
-        
+
     def drawSolidFins(self):
 
         if not self.isValidShape():
@@ -441,6 +441,7 @@ class FinCanShapeHandler(FinShapeHandler):
 
         try:
             shape = self._drawFinSet(float(self._obj.Thickness))
+            shape.rotate(FreeCAD.Vector(0, 0, 0), FreeCAD.Vector(1,0,0), self._obj.AngleOffset)
             shape.translate(self._placement.Base)
             return shape
 
