@@ -283,7 +283,7 @@ class TaskPanelCFD(QtCore.QObject):
         self._outlet.ShapeRefs = [self._compound, ('Face{}'.format(length-1), )]
         self._outlet.BoundaryType = "outlet"
         self._outlet.BoundarySubType = "staticPressureOutlet"
-        self._outlet.Pressure = self.airPressure()
+        self._outlet.Pressure = 0 # self.airPressure()
         FreeCAD.ActiveDocument.recompute()
 
         self._wall = CfdFluidBoundary.makeCfdFluidBoundary("Wall")
@@ -344,7 +344,7 @@ class TaskPanelCFD(QtCore.QObject):
         self._forceCoefficient.ReportingFunctionType = "ForceCoefficients"
         self._forceCoefficient.Patch = self._rocketWall
         # q = (p / 2) * v^2
-        self._forceCoefficient.ReferencePressure = self.airPressure()
+        self._forceCoefficient.ReferencePressure = 0 # self.airPressure()
         self._forceCoefficient.Lift = FreeCAD.Vector(0, 0, 1)
         self._forceCoefficient.Drag = FreeCAD.Vector(1, 0, 0)
         self._forceCoefficient.MagnitudeUInf = self.speed()
