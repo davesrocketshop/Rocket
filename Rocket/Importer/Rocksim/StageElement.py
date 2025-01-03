@@ -1,5 +1,5 @@
 # ***************************************************************************
-# *   Copyright (c) 2021-2024 David Carter <dcarter@davidcarter.ca>         *
+# *   Copyright (c) 2025 David Carter <dcarter@davidcarter.ca>              *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -24,61 +24,25 @@ __title__ = "FreeCAD Rocksim Importer"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
+from Rocket.Importer.OpenRocket.SaxElement import NullElement
+from Rocket.Importer.OpenRocket.ComponentElement import ComponentElement
+from Rocket.Importer.Rocksim.NoseElement import NoseElement
 
-import os
+from Ui.Commands.CmdStage import makeStage
 
-import FreeCAD
+class StageElement(ComponentElement):
 
-from Rocket.Importer.Rocksim.Rocksim import RocksimImporter
+    def __init__(self, parent, tag, attributes, parentObj, filename, line):
+        super().__init__(parent, tag, attributes, parentObj, filename, line)
 
-def open(filename):
-    """Open filename and parse using the orkHandler().
+        self._validChildren = { 'nosecone' : NoseElement,
+                                'bodytube' : NullElement,
+                                'transition' : NullElement,
+                              }
 
-    Parameters
-    ----------
-    filename : str
-        The path to the filename to be opened.
+        # self._knownTags.extend(["separationevent", "separationdelay"])
 
-    Returns
-    -------
-    App::Document
-        The new FreeCAD document object created, with the parsed information.
-    """
-    docname = os.path.split(filename)[1]
-    doc = FreeCAD.newDocument(docname)
-    doc.Label = docname[:-4]
-
-    RocksimImporter.importFile(doc, filename)
-
-    doc.recompute()
-    return doc
-
-
-def insert(filename, docname):
-    """Get an active document and parse using the orkHandler().
-
-    If no document exist, it is created.
-
-    Parameters
-    ----------
-    filename : str
-        The path to the filename to be opened.
-    docname : str
-        The name of the active App::Document if one exists, or
-        of the new one created.
-
-    Returns
-    -------
-    App::Document
-        The active FreeCAD document, or the document created if none exists,
-        with the parsed information.
-    """
-    try:
-        doc = FreeCAD.getDocument(docname)
-    except NameError:
-        doc = FreeCAD.newDocument(docname)
-    FreeCAD.ActiveDocument = doc
-
-    RocksimImporter.importFile(doc, filename)
-
-    doc.recompute()
+    def makeObject(self):
+        self._feature = makeStage()
+        if self._parentObj is not None:
+            self._parentObj.addChild(self._feature)
