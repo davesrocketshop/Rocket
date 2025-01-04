@@ -41,19 +41,15 @@ class NoseElement(ComponentElement):
         super().__init__(parent, tag, attributes, parentObj, filename, line)
 
         self._shoulderCapped = False
-        # self._validChildren = { 'finish' : NullElement,
-        #                         # 'material' : MaterialElement,
-        #                         'appearance' : AppearanceElement,
-        #                         'inside-appearance' : NullElement
-        #                       }
-        self._knownTags = ["knownmass", "density", "knowncg", "useknowncg", "densitytype", "texture", "ambient",
-                           "diffuse", "specular", "abientcolor", "diffusecolor", "specularcolor", "usesinglecolor",
-                           "simplecolormodel", "attachedparts", "shapecode", "len", "basedia", "wallthickness", "shoulderod",
-                           "shoulderlen", "shapeparameter", "constructiontype", "finishcode", "material", "partmfg", "xb",
-                           "calcmass", "calccg", "wettedsurface", "paintedsurface", "gluejointlength", "densitytype", "partno",
-                           "partdesc", "radialloc", "radialangle", "opacity", "specularpower", "serialno", "displayflags",
+        self._validChildren = { 'attachedparts' : NullElement,
+                                # 'material' : MaterialElement,
+                                # 'appearance' : AppearanceElement,
+                                # 'inside-appearance' : NullElement
+                              }
+        self._knownTags.extend(["attachedparts", "shapecode", "len", "basedia", "wallthickness", "shoulderod",
+                           "shoulderlen", "shapeparameter", "constructiontype", "xb", "displayflags",
                            "metricsflags", "locationmode", "barrowmancna", "barrowmanxn", "rocksimcna", "rocksimxn",
-                           "producetemplate", "templateunits", "removed", "station", "baseextensionlen", "coredia", "corelen"]
+                           "baseextensionlen", "coredia", "corelen", "attachedparts"])
 
     def makeObject(self):
         self._feature = makeNoseCone()
@@ -82,19 +78,35 @@ class NoseElement(ComponentElement):
                 self._feature._obj.NoseType = TYPE_HAACK
             else:
                 raise Exception("Unknown nose type " + content)
-        # elif _tag == "shapeclipped":
-        #     # _err("Clipped element not supported") # This is meant for transitions
-        #     # self._feature._obj.Clipped = _toBoolean(content)
-        #     pass
         elif _tag == "shapeparameter":
             self._feature._obj.Coefficient = float(content)
         elif _tag == "basedia":
-            # print("\tbasedia {}".format(float(content)))
+            print("\tbasedia {}".format(float(content)))
             self._feature._obj.AutoDiameter = False
             self._feature._obj.Diameter = float(content)
         elif _tag == "len":
-            # print("\tlen {}".format(float(content)))
+            print("\tlen {}".format(float(content)))
             self.onLength(float(content))
+        elif _tag == "wallthickness":
+            print("\twallthickness {}".format(float(content)))
+            self._feature._obj.Thickness = float(content)
+            self._feature._obj.ShoulderThickness = float(content)
+        elif _tag == "shoulderod":
+            print("\tshoulderod {}".format(float(content)))
+            self._feature._obj.ShoulderDiameter = float(content)
+        elif _tag == "shoulderlen":
+            length = float(content)
+            print("\tshoulderlen {}".format(length))
+            self._feature._obj.ShoulderLength = length
+            if length > 0:
+                self._feature._obj.Shoulder = True
+        elif _tag == "constructiontype":
+            constructionType = int(content)
+            print("\tconstructiontype {}".format(constructionType))
+            if constructionType == 0:
+                self._feature._obj.NoseStyle = STYLE_SOLID
+            else:
+                self._feature._obj.NoseStyle = STYLE_HOLLOW
         # elif _tag == "aftouterdiameter":
         #     self._feature._obj.Diameter = FreeCAD.Units.Quantity(content + " m").Value
         # elif _tag == "aftshoulderradius":
@@ -129,9 +141,8 @@ class NoseElement(ComponentElement):
     def onFilled(self, filled):
         if filled:
             self._feature._obj.NoseStyle = STYLE_SOLID
-            self._filled = True
         else:
-            self._filled = False
+            self._feature._obj.NoseStyle = STYLE_HOLLOW
 
     def end(self):
         # Validate the nose shape here

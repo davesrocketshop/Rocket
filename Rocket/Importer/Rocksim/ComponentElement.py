@@ -63,7 +63,27 @@ class ComponentElement(Element):
                            "partdesc", "radialloc", "radialangle", "opacity", "specularpower", "serialno", "displayflags",
                            "metricsflags", "locationmode", "color", "barrowmancna", "barrowmanxn", "rocksimcna", "rocksimxn",
                            "producetemplate", "templateunits", "removed", "station", "baseextensionlen", "coredia", "corelen"]
-        self._knownTags = ["name", "color"]
+        self._knownTags = ["name", "knownmass", "density", "knowncg", "useknowncg", "densitytype", "texture", "ambient",
+                           "diffuse", "specular", "abientcolor", "diffusecolor", "specularcolor", "usesinglecolor",
+                           "simplecolormodel", "color", "finishcode", "material", "partmfg", "partno", "partdesc",
+                           "calcmass", "calccg", "wettedsurface", "paintedsurface", "radialloc", "radialangle", "opacity",
+                           "specularpower", "serialno", "displayflags", "metricsflags", "locationmode", "producetemplate",
+                           "templateunits", "removed", "station", "gluejointlength"]
+
+        self._knownMass = 0
+        self._knownCG = 0
+        self._density = 0
+        self._densityType = ""
+        self._ambient = 0
+        self._diffuse = 0
+        self._specular = 0
+        self._ambientColor = 0
+        self._diffuseColor = 0
+        self._specularColor = 0
+        self._texture = ""
+
+        self._useKnownMass = False
+        self._useKnownCG = False
 
         self._materialType = None
         self._materialDensity = None
