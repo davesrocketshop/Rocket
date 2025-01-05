@@ -1,5 +1,5 @@
 # ***************************************************************************
-# *   Copyright (c) 2021-2024 David Carter <dcarter@davidcarter.ca>         *
+# *   Copyright (c) 2025 David Carter <dcarter@davidcarter.ca>              *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -18,9 +18,9 @@
 # *   USA                                                                   *
 # *                                                                         *
 # ***************************************************************************
-"""Class for drawing body tubes"""
+"""Class for drawing ring tails"""
 
-__title__ = "FreeCAD Body Tube Handler"
+__title__ = "FreeCAD Ring Tail  Handler"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
@@ -30,7 +30,7 @@ import Part
 from Rocket.Utilities import validationError, _err
 from DraftTools import translate
 
-class BodyTubeShapeHandler():
+class RingtailShapeHandler():
     def __init__(self, obj):
 
         # This gets changed when redrawn so it's very important to save a copy
@@ -48,13 +48,13 @@ class BodyTubeShapeHandler():
 
         # Perform some general validations
         if self._ID <= 0:
-            validationError(translate('Rocket', "Body tube inner diameter must be greater than zero"))
+            validationError(translate('Rocket', "Ring tail inner diameter must be greater than zero"))
             return False
         if self._OD <= self._ID:
-            validationError(translate('Rocket', "Body tube outer diameter must be greater than the inner"))
+            validationError(translate('Rocket', "Ring tail outer diameter must be greater than the inner"))
             return False
         if self._length <= 0:
-            validationError(translate('Rocket', "Body tube length must be greater than zero"))
+            validationError(translate('Rocket', "Ring tail length must be greater than zero"))
             return False
 
         return True
