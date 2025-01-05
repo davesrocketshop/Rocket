@@ -1,5 +1,5 @@
 # ***************************************************************************
-# *   Copyright (c) 2021-2024 David Carter <dcarter@davidcarter.ca>         *
+# *   Copyright (c) 2021-2025 David Carter <dcarter@davidcarter.ca>         *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -82,7 +82,7 @@ class NoseCone(Component):
                 length, length_units, thickness, thickness_units, shoulder_diameter, shoulder_diameter_units, shoulder_length, shoulder_length_units)
             VALUES
                 (?,?,?,?,?,?,?,?,?,?,?,?,?)""",
-                            (component_id, self._noseType, style, self._outsideDiameter[0], self._outsideDiameter[1], 
+                            (component_id, self._noseType, style, self._outsideDiameter[0], self._outsideDiameter[1],
                             self._length[0], self._length[1], self._thickness[0], self._thickness[1],
                             self._shoulderDiameter[0], self._shoulderDiameter[1], self._shoulderLength[0], self._shoulderLength[1]))
         id = cursor.lastrowid
@@ -94,7 +94,7 @@ class NoseCone(Component):
 def listNoseCones(connection):
     cursor = connection.cursor()
 
-    cursor.execute("""SELECT nose_index, manufacturer, part_number, description, shape, diameter, diameter_units, length, length_units, 
+    cursor.execute("""SELECT nose_index, manufacturer, part_number, description, shape, diameter, diameter_units, length, length_units,
                         shoulder_diameter, shoulder_diameter_units, shoulder_length, shoulder_length_units
                     FROM component c, nose n WHERE n.component_index = c.component_index""")
 

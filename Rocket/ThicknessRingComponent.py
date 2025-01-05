@@ -1,5 +1,5 @@
 # ***************************************************************************
-# *   Copyright (c) 2021-2024 David Carter <dcarter@davidcarter.ca>         *
+# *   Copyright (c) 2021-2025 David Carter <dcarter@davidcarter.ca>         *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -37,11 +37,11 @@ from DraftTools import translate
 """
     An inner component that consists of a hollow cylindrical component.  This can be
     an inner tube, tube coupler, centering ring, bulkhead etc.
-    
+
     The properties include the inner and outer radii, length and radial position.
 """
 class ThicknessRingComponent(RingComponent):
-	
+
     def __init__(self, obj):
         super().__init__(obj)
 
@@ -68,7 +68,7 @@ class ThicknessRingComponent(RingComponent):
             pos1 = MathUtil.clamp(pos1, 0, self.getParent().getLength())
             pos2 = MathUtil.clamp(pos2, 0, self.getParent().getLength())
             self._obj.Diameter = min(self.getParent().getInnerDiameter(pos1), self.getParent().getInnerDiameter(pos2))
-                
+
         return self._obj.Diameter
 
     def setOuterRadius(self, radius):
@@ -82,15 +82,15 @@ class ThicknessRingComponent(RingComponent):
         diameter = max(diameter,0)
         if self._obj.Diameter == diameter and not self.isOuterDiameterAutomatic():
             return
-        
+
         self._obj.Diameter = diameter
         self._obj.AutoDiameter = False
 
         if self._obj.Thickness > (self._obj.Diameter / 2.0):
             self._obj.Thickness = self._obj.Diameter / 2.0
-        
+
         self.clearPreset()
-        
+
         self.fireComponentChangeEvent(ComponentChangeEvent.MASS_CHANGE)
 
     def getThickness(self):
@@ -102,13 +102,13 @@ class ThicknessRingComponent(RingComponent):
                 listener.setThickness(thickness)
 
         outer = self.getOuterRadius()
-        
+
         thickness = MathUtil.clamp(thickness, 0, outer)
         if self._obj.Thickness == thickness:
             return
-        
+
         self._obj.Thickness = thickness
-        
+
         self.clearPreset()
 
         self.fireComponentChangeEvent(ComponentChangeEvent.MASS_CHANGE)

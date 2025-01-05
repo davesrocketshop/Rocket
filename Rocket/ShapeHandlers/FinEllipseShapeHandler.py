@@ -1,5 +1,5 @@
 # ***************************************************************************
-# *   Copyright (c) 2021-2024 David Carter <dcarter@davidcarter.ca>         *
+# *   Copyright (c) 2021-2025 David Carter <dcarter@davidcarter.ca>         *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -23,7 +23,7 @@
 __title__ = "FreeCAD Fins"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
-    
+
 import FreeCAD
 import Part
 import math
@@ -48,13 +48,13 @@ class FinEllipseShapeHandler(FinShapeHandler):
 
     def _halfEllipseCurve(self, major, minor, thickness, midChord):
         if major > minor:
-            ellipse = Part.Ellipse(FreeCAD.Vector(midChord, thickness, major), 
-                    FreeCAD.Vector(midChord - minor, thickness, 0), 
+            ellipse = Part.Ellipse(FreeCAD.Vector(midChord, thickness, major),
+                    FreeCAD.Vector(midChord - minor, thickness, 0),
                     FreeCAD.Vector(midChord, thickness, 0))
             arc = Part.ArcOfEllipse(ellipse, -math.pi/2, math.pi/2)
         else:
-            ellipse = Part.Ellipse(FreeCAD.Vector(midChord - minor, thickness, 0), 
-                    FreeCAD.Vector(midChord, thickness, major), 
+            ellipse = Part.Ellipse(FreeCAD.Vector(midChord - minor, thickness, 0),
+                    FreeCAD.Vector(midChord, thickness, major),
                     FreeCAD.Vector(midChord, thickness, 0))
             arc =  Part.ArcOfEllipse(ellipse, 0, math.pi)
 
@@ -126,7 +126,7 @@ class FinEllipseShapeHandler(FinShapeHandler):
 
         #     # return path.toShape()
         #     # makeSweep(const TopoDS_Shape& profile, double, int) const;
-        
+
         return None
 
     def _makeProfiles(self):
@@ -139,7 +139,7 @@ class FinEllipseShapeHandler(FinShapeHandler):
         ellipses = []
         midChord = float(self._obj.RootChord) / 2.0
         tapered = self._obj.RootCrossSection in [FIN_CROSS_ROUND, FIN_CROSS_BICONVEX, FIN_CROSS_ELLIPSE, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE, FIN_CROSS_DIAMOND]
-            
+
         l1, l2 = self._lengthsFromPercent(float(self._obj.RootChord), self._obj.RootPerCent,
                                         float(self._obj.RootLength1), float(self._obj.RootLength2))
         for i in range(CROSS_SECTIONS):

@@ -1,5 +1,5 @@
 # ***************************************************************************
-# *   Copyright (c) 2021-2024 David Carter <dcarter@davidcarter.ca>         *
+# *   Copyright (c) 2021-2025 David Carter <dcarter@davidcarter.ca>         *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -23,7 +23,7 @@
 __title__ = "FreeCAD Parachute Calculator"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
-    
+
 import FreeCAD
 import FreeCADGui
 
@@ -52,7 +52,7 @@ class CmdNewSketch:
         if FreeCAD.ActiveDocument:
             return True
         return False
-        
+
     def GetResources(self):
         return {'MenuText': translate("Rocket", 'Create sketch'),
                 'ToolTip': translate("Rocket", 'Create a new sketch'),

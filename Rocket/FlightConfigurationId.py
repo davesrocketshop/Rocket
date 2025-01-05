@@ -1,5 +1,5 @@
 # ***************************************************************************
-# *   Copyright (c) 2022-2024 David Carter <dcarter@davidcarter.ca>         *
+# *   Copyright (c) 2022-2025 David Carter <dcarter@davidcarter.ca>         *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -30,13 +30,13 @@ class FlightConfigurationId():
 
     _key = None
 
-    # Keys are generated differently in Python, so use the strings for these 
+    # Keys are generated differently in Python, so use the strings for these
     # Java equivalents
     #
     # DEFAULT_MOST_SIG_BITS = 0xF4F2F1F0
     # ERROR_UUID = UUID( DEFAULT_MOST_SIG_BITS, 2489)
     # DEFAULT_VALUE_UUID = UUID( DEFAULT_MOST_SIG_BITS, 5676)
-    
+
     ERROR_UUID = UUID("ffffffff-f4f2-f1f0-0000-0000000009b9")
     ERROR_KEY_NAME = "ErrorKey"
     DEFAULT_VALUE_UUID = UUID("ffffffff-f4f2-f1f0-0000-00000000162c")
@@ -60,4 +60,3 @@ class FlightConfigurationId():
 
 ERROR_FCID = FlightConfigurationId( FlightConfigurationId.ERROR_UUID)
 DEFAULT_VALUE_FCID = FlightConfigurationId( FlightConfigurationId.DEFAULT_VALUE_UUID )
-	

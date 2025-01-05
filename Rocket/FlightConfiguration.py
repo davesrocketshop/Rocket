@@ -1,5 +1,5 @@
 # ***************************************************************************
-# *   Copyright (c) 2022-2024 David Carter <dcarter@davidcarter.ca>         *
+# *   Copyright (c) 2022-2025 David Carter <dcarter@davidcarter.ca>         *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -80,20 +80,20 @@ class FlightConfiguration():
         return traversalOrder
 
     # Returns all the components on core stages (i.e. centerline)
-    # 
+    #
     # NOTE: components, NOT instances
     def getCoreComponents(self):
         toProcess = []
         toProcess.append(self.rocket)
-        
+
         toReturn = []
-        
+
         while len(toProcess) > 0:
             comp = toProcess.pop(0)
-            
+
             if comp.type != FEATURE_ROCKET:
                 toReturn.append(comp)
-            
+
             for child in comp.getChildren():
                 if child.Proxy.Type == FEATURE_STAGE:
                     # recurse through Stage -- these are still centerline.
@@ -105,7 +105,7 @@ class FlightConfiguration():
                     pass
                 else:
                     toProcess.append(child.Proxy)
-        
+
         return toReturn
 
     # Return all the stages in this configuration.
@@ -126,7 +126,7 @@ class FlightConfiguration():
     def getStageCount(self):
         return len(self._stages)
 
-    # Return the reference length associated with the current configuration.  The 
+    # Return the reference length associated with the current configuration.  The
     # reference length type is retrieved from the <code>Rocket</code>.
     def getReferenceLength(self):
         if self._rocket.getModID() != refLengthModID:

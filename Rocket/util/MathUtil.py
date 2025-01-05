@@ -1,5 +1,5 @@
 #***************************************************************************
-# *   Copyright (c) 2022-2024 David Carter <dcarter@davidcarter.ca>         *
+# *   Copyright (c) 2022-2025 David Carter <dcarter@davidcarter.ca>         *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -32,7 +32,7 @@ class MathUtil:
 
 
     """
-        * Clamps the value x to the range min - max.  
+        * Clamps the value x to the range min - max.
         * @param x    Original value.
         * @param min  Minimum value to return.
         * @param max  Maximum value to return.

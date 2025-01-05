@@ -1,5 +1,5 @@
 # ***************************************************************************
-# *   Copyright (c) 2021-2024 David Carter <dcarter@davidcarter.ca>         *
+# *   Copyright (c) 2021-2025 David Carter <dcarter@davidcarter.ca>         *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -110,13 +110,13 @@ class FeatureRocket(ComponentAssembly, ComponentChangeListener):
     def _enableEvents(self, enable):
         if self._eventsEnabled and enable:
             return
-        
+
         if enable:
             self._eventsEnabled = True
             self.fireComponentChangeEvent(ComponentChangeEvent.AEROMASS_CHANGE)
         else:
             self._eventsEnabled = False
-        
+
     def execute(self,obj):
         # self.updateChildren()
         if not hasattr(obj,'Shape'):
@@ -137,11 +137,11 @@ class FeatureRocket(ComponentAssembly, ComponentChangeListener):
             s = ""
         self._designer = s
         self.fireComponentChangeEvent(ComponentChangeEvent.NONFUNCTIONAL_CHANGE)
-	
+
     def eligibleChild(self, childType):
         return childType == FEATURE_STAGE
 
-    """ 
+    """
         Return the non-negative modification ID of this rocket.  The ID is changed
         every time any change occurs in the rocket.  This can be used to check
         whether it is necessary to void cached data in cases where listeners can not
@@ -205,7 +205,7 @@ class FeatureRocket(ComponentAssembly, ComponentChangeListener):
         for child in self.getChildren():
             if child.Type == FEATURE_STAGE and config.isStageActive(child.getStageNumber()):
                 return child
- 
+
         return None
 
     # Get the bottommost stage, only taking into account active stages from the flight configuration.
@@ -216,7 +216,7 @@ class FeatureRocket(ComponentAssembly, ComponentChangeListener):
         for child in reversed(self.getChildren()):
             if child.Type == FEATURE_STAGE and config.isStageActive(child.getStageNumber()):
                 return child
- 
+
         return None
 
     def getStageNumber(self):
@@ -234,7 +234,7 @@ class FeatureRocket(ComponentAssembly, ComponentChangeListener):
         stageNumber = newStage.getStageNumber()
         if stageNumber in self._stageMap:
             value = self._stageMap[stageNumber]
-            
+
             if newStage == value:
                 # stage is already added
                 if newStage is not value:
@@ -274,9 +274,9 @@ class FeatureRocket(ComponentAssembly, ComponentChangeListener):
     def setCustomReferenceLength(self, length):
         if self._customReferenceLength == length:
             return
-        
+
         self._customReferenceLength = max(length, 0.001)
-        
+
         if self._refType == ReferenceType.CUSTOM:
             self.fireComponentChangeEvent(ComponentChangeEvent.NONFUNCTIONAL_CHANGE)
 
@@ -299,7 +299,7 @@ class FeatureRocket(ComponentAssembly, ComponentChangeListener):
     # Get whether the rocket has a perfect finish.
     def isPerfectFinish(self):
         return self._perfectFinish
-    
+
     def getFlightConfigurationCount(self):
         return len(self._configSet)
 
@@ -315,14 +315,14 @@ class FeatureRocket(ComponentAssembly, ComponentChangeListener):
     def fireComponentChangeEvent(self, cce):
         if not self._eventsEnabled:
             return
-        
+
         # Check whether frozen
         if self._freezeList is not None:
             # log.debug("Rocket is in frozen state, adding event " + cce + " info freeze list");
             self._freezeList.append(cce)
             return
 
-    
+
         # Notify all components first
         self.componentChanged(cce)
         for item in self.getChildren():
@@ -366,7 +366,7 @@ class FeatureRocket(ComponentAssembly, ComponentChangeListener):
     """ Freezes the rocket structure from firing any events.  This may be performed to
         combine several actions on the structure into a single large action.
         <code>thaw()</code> must always be called afterwards.
-        
+
         NOTE:  Always use a try/finally to ensure <code>thaw()</code> is called:
         <pre>
             Rocket r = c.getRocket();
@@ -383,7 +383,7 @@ class FeatureRocket(ComponentAssembly, ComponentChangeListener):
         else:
             raise Exception("Attempting to freeze Rocket when it is already frozen, freezeList=" + self._freezeList)
 
-    """ 
+    """
         Thaws a frozen rocket structure and fires a combination of the events fired during
         the freeze.  The event type is a combination of those fired and the source is the
         last component to have been an event source.
@@ -404,5 +404,5 @@ class FeatureRocket(ComponentAssembly, ComponentChangeListener):
             type = type | e.getType()
             c = e.getSource()
         self._freezeList = None
-    
+
         self.fireComponentChangeEvent(ComponentChangeEvent(c, type))

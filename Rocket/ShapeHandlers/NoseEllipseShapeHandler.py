@@ -1,5 +1,5 @@
 # ***************************************************************************
-# *   Copyright (c) 2021-2024 David Carter <dcarter@davidcarter.ca>         *
+# *   Copyright (c) 2021-2025 David Carter <dcarter@davidcarter.ca>         *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -23,14 +23,14 @@
 __title__ = "FreeCAD Elliptical Nose Shape Handler"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
-    
+
 import FreeCAD
 import Part
 import math
 
 from Rocket.ShapeHandlers.NoseShapeHandler import NoseShapeHandler
-    
-    
+
+
 class NoseEllipseShapeHandler(NoseShapeHandler):
 
     def innerMinor(self, last):
@@ -40,7 +40,7 @@ class NoseEllipseShapeHandler(NoseShapeHandler):
 
         inner_minor = (b / a) * math.sqrt(a * a - x * x)
         return inner_minor
-    
+
     def _arc(self, x, major, minor):
         if major > minor:
             arc = Part.ArcOfEllipse(Part.Ellipse(FreeCAD.Vector(x, 0), major, minor), math.pi/2, -math.pi)

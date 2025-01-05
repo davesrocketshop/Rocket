@@ -1,5 +1,5 @@
 # ***************************************************************************
-# *   Copyright (c) 2022-2024 David Carter <dcarter@davidcarter.ca>         *
+# *   Copyright (c) 2022-2025 David Carter <dcarter@davidcarter.ca>         *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -23,7 +23,7 @@
 __title__ = "FreeCAD Move Command Tests"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
-    
+
 import FreeCAD
 import FreeCADGui
 import unittest
@@ -63,7 +63,7 @@ class MoveTests(unittest.TestCase):
         if collapse == False:
             tree.expandItem(item)
             # print("Expand {0}".format(item))
-        elif collapse == True:  
+        elif collapse == True:
             tree.collapseItem(item)
 
         for i in range(item.childCount()):
@@ -182,4 +182,3 @@ class MoveTests(unittest.TestCase):
         self.Doc.recompute()
         # self.showPositions()
 
-    

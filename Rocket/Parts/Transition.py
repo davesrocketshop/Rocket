@@ -1,5 +1,5 @@
 # ***************************************************************************
-# *   Copyright (c) 2021-2024 David Carter <dcarter@davidcarter.ca>         *
+# *   Copyright (c) 2021-2025 David Carter <dcarter@davidcarter.ca>         *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -88,7 +88,7 @@ class Transition(Component):
 
         cursor = connection.cursor()
 
-        cursor.execute("""INSERT INTO transition (component_index, shape, style, 
+        cursor.execute("""INSERT INTO transition (component_index, shape, style,
                 fore_outside_diameter, fore_outside_diameter_units, fore_shoulder_diameter, fore_shoulder_diameter_units, fore_shoulder_length, fore_shoulder_length_units,
                 aft_outside_diameter, aft_outside_diameter_units, aft_shoulder_diameter, aft_shoulder_diameter_units, aft_shoulder_length, aft_shoulder_length_units,
                 length, length_units, thickness, thickness_units)
@@ -108,7 +108,7 @@ def listTransitions(connection):
     cursor = connection.cursor()
 
     cursor.execute("""SELECT transition_index, manufacturer, part_number, description,
-                        shape, length, length_units, 
+                        shape, length, length_units,
                         fore_outside_diameter, fore_outside_diameter_units, fore_shoulder_diameter, fore_shoulder_diameter_units, fore_shoulder_length, fore_shoulder_length_units,
                         aft_outside_diameter, aft_outside_diameter_units, aft_shoulder_diameter, aft_shoulder_diameter_units, aft_shoulder_length, aft_shoulder_length_units
                     FROM component c, transition t WHERE t.component_index = c.component_index""")

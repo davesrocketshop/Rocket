@@ -1,5 +1,5 @@
 # ***************************************************************************
-# *   Copyright (c) 2021-2024 David Carter <dcarter@davidcarter.ca>         *
+# *   Copyright (c) 2021-2025 David Carter <dcarter@davidcarter.ca>         *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -57,7 +57,7 @@ class PartDatabase:
 
     def getManufacturers(self):
         connection = self.getConnection()
-        
+
         try:
             manufacturers = Component.getManufacturers(connection)
         except NotFoundError:
@@ -104,17 +104,17 @@ class PartDatabase:
         # cursor.execute("DROP TABLE IF EXISTS body_tube")
         cursor.execute("CREATE TABLE IF NOT EXISTS body_tube (body_tube_index INTEGER PRIMARY KEY ASC, component_index, tube_type_index, inner_diameter, inner_diameter_units, outer_diameter, outer_diameter_units, length, length_units)")
         cursor.execute("CREATE INDEX IF NOT EXISTS idx_body_tube ON body_tube(component_index, tube_type_index)")
- 
+
         # cursor.execute("DROP TABLE IF EXISTS nose")
         cursor.execute("""CREATE TABLE IF NOT EXISTS nose (nose_index INTEGER PRIMARY KEY ASC, component_index, shape, style, diameter, diameter_units,
             length, length_units, thickness, thickness_units, shoulder_diameter, shoulder_diameter_units, shoulder_length, shoulder_length_units)""")
 
         # cursor.execute("DROP TABLE IF EXISTS transition")
-        cursor.execute("""CREATE TABLE IF NOT EXISTS transition (transition_index INTEGER PRIMARY KEY ASC, component_index, shape, style, 
+        cursor.execute("""CREATE TABLE IF NOT EXISTS transition (transition_index INTEGER PRIMARY KEY ASC, component_index, shape, style,
             fore_outside_diameter, fore_outside_diameter_units, fore_shoulder_diameter, fore_shoulder_diameter_units, fore_shoulder_length, fore_shoulder_length_units,
             aft_outside_diameter, aft_outside_diameter_units, aft_shoulder_diameter, aft_shoulder_diameter_units, aft_shoulder_length, aft_shoulder_length_units,
             length, length_units, thickness, thickness_units)""")
- 
+
         # cursor.execute("DROP TABLE IF EXISTS rail_button")
         cursor.execute("""CREATE TABLE IF NOT EXISTS rail_button (rail_button_index INTEGER PRIMARY KEY ASC, component_index, finish, outer_diameter, outer_diameter_units,
                 inner_diameter, inner_diameter_units, height, height_units, base_height, base_height_units, flange_height, flange_height_units, screw_height, screw_height_units,
@@ -122,7 +122,7 @@ class PartDatabase:
 
         # cursor.execute("DROP TABLE IF EXISTS parachute")
         cursor.execute("CREATE TABLE IF NOT EXISTS parachute (parachute_index INTEGER PRIMARY KEY ASC, component_index, line_material_index, sides, lines, diameter, diameter_units, line_length, line_length_units)")
-            
+
         # cursor.execute("DROP TABLE IF EXISTS streamer")
         cursor.execute("CREATE TABLE IF NOT EXISTS streamer (streamer_index INTEGER PRIMARY KEY ASC, component_index, length, length_units, width, width_units, thickness, thickness_units)")
 
@@ -182,12 +182,12 @@ class PartDatabase:
             name = material['material_name']
         else:
             name = material['manufacturer'] + '-' + material['material_name']
-        
+
         return self.filterName(name)
 
     def materialNewFilename(self, material):
         name = material['material_name']
-        
+
         return self.filterName(name)
 
     def filterName(self, name):
@@ -202,7 +202,7 @@ class PartDatabase:
         name = name.replace("/", '-')
         name = name.replace(" ", '-')
         name = name.replace("_", '-')
-        
+
         return name
 
     def createNewMaterialCard(self, material, name, path, libPath):

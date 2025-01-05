@@ -1,5 +1,5 @@
 # ***************************************************************************
-# *   Copyright (c) 2022-2024 David Carter <dcarter@davidcarter.ca>         *
+# *   Copyright (c) 2022-2025 David Carter <dcarter@davidcarter.ca>         *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -23,7 +23,7 @@
 __title__ = "FreeCAD Body Tube Tests"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
-    
+
 import FreeCAD
 
 from Rocket.Constants import TYPE_CONE, TYPE_BLUNTED_CONE, TYPE_SPHERICAL, TYPE_ELLIPTICAL, TYPE_HAACK, TYPE_OGIVE, TYPE_BLUNTED_OGIVE, TYPE_SECANT_OGIVE, TYPE_VON_KARMAN, TYPE_PARABOLA, TYPE_PARABOLIC, TYPE_POWER
@@ -39,10 +39,10 @@ from Rocket.position import AxialMethod
 
 class TestRockets:
 
-    """ 
-        This is a Estes Alpha III 
+    """
+        This is a Estes Alpha III
         http://www.rocketreviews.com/alpha-iii---estes-221256.html
-        It is picked as a standard, simple, validation rocket. 
+        It is picked as a standard, simple, validation rocket.
         This function is used for unit, integration tests, DO NOT CHANGE (without updating tests).
     """
     def makeEstesAlphaIII():
@@ -53,7 +53,7 @@ class TestRockets:
         stage = makeStage()
         stage.setName("Stage")
         rocket.addChild(stage)
-                
+
         noseconeLength = 70.0
         noseconeRadius = 12.0
         nosecone = makeNoseCone()
@@ -65,7 +65,7 @@ class TestRockets:
         nosecone.setShoulderRadius(11.0)
         nosecone.setName("Nose Cone")
         stage.addChild(nosecone)
-        
+
         bodytubeLength = 200.0
         bodytubeRadius = 12.0
         bodytubeThickness = 0.3
@@ -75,7 +75,7 @@ class TestRockets:
         bodytube.setThickness(bodytubeThickness)
         bodytube.setName("Body Tube")
         stage.addChild(bodytube)
-        
+
         finCount = 3
         finRootChord = 50.0
         finTipChord = 30.0
@@ -91,7 +91,7 @@ class TestRockets:
         finset.setAxialMethod(AxialMethod.BOTTOM)
         finset.setName("3 Fin Set")
         bodytube.addChild(finset)
-            
+
         lug = makeLaunchLug()
         lug.setName("Launch Lugs")
         lug.setAxialMethod(AxialMethod.TOP)
@@ -100,7 +100,7 @@ class TestRockets:
         lug.setOuterRadius(2.2)
         lug.setInnerRadius(2.0)
         bodytube.addChild(lug)
-            
+
         inner = makeInnerTube() # InnerTube?
         inner.setAxialMethod(AxialMethod.TOP)
         inner.setAxialOffset(133.0)
@@ -110,9 +110,9 @@ class TestRockets:
         inner.setMotorMount(True)
         inner.setName("Motor Mount Tube")
         bodytube.addChild(inner)
-            
+
         #     {
-        # MotorBlock 
+        # MotorBlock
         thrustBlock= makeEngineBlock()
         thrustBlock.setAxialMethod(AxialMethod.TOP)
         thrustBlock.setAxialOffset(0.0)
@@ -121,7 +121,7 @@ class TestRockets:
         thrustBlock.setThickness(0.8)
         thrustBlock.setName("Engine Block")
         inner.addChild(thrustBlock)
-            
+
         #         {
         #             MotorConfiguration motorConfig = new MotorConfiguration(inner, TEST_FCID_0);
         #             Motor mtr =	TestRockets.generateMotor_A8_18mm();
@@ -158,7 +158,7 @@ class TestRockets:
         #             inner.setMotorConfig( motorConfig, TEST_FCID_4);
         #         }
         #     }
-        
+
         #     // parachute
         #     Parachute chute = new Parachute();
         #     chute.setAxialMethod(AxialMethod.TOP);
@@ -167,7 +167,7 @@ class TestRockets:
         #     chute.setOverrideMass(0.002);
         #     chute.setMassOverridden(true);
         #     bodytube.addChild(chute);
-            
+
         # bulkhead x2
         centerings = makeCenteringRing()
         centerings.setName("Centering Rings")
@@ -178,14 +178,14 @@ class TestRockets:
         centerings.setInstanceSeparation(35.0)
         bodytube.addChild(centerings)
         # }
-        
+
         # Material material = Application.getPreferences().getDefaultComponentMaterial(null, Material.Type.BULK);
         # nosecone.setMaterial(material);
         # bodytube.setMaterial(material);
         # finset.setMaterial(material);
-        
+
         # // preserve default default configuration of rocket -- to test what the default is set to upon initialization.
-        
+
         rocket.enableEvents()
         FreeCAD.activeDocument().recompute(None,True,True)
         return rocket

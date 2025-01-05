@@ -1,5 +1,5 @@
 # ***************************************************************************
-# *   Copyright (c) 2021-2024 David Carter <dcarter@davidcarter.ca>         *
+# *   Copyright (c) 2021-2025 David Carter <dcarter@davidcarter.ca>         *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -35,7 +35,7 @@ from Rocket.events.ComponentChangeEvent import ComponentChangeEvent
 from DraftTools import translate
 
 class RadiusRingComponent(RingComponent, LineInstanceable):
-	
+
     def __init__(self, obj):
         super().__init__(obj)
 
@@ -151,7 +151,7 @@ class RadiusRingComponent(RingComponent, LineInstanceable):
         toReturn = []
         for index in range(self.getInstanceCount()):
             toReturn.append(Coordinate( index * float(self._obj.InstanceSeparation), 0, 0))
-        
+
         return toReturn
 
     def getInstanceCount(self):

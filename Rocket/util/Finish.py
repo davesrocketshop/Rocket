@@ -1,5 +1,5 @@
 # ***************************************************************************
-# *   Copyright (c) 2022-2024 David Carter <dcarter@davidcarter.ca>         *
+# *   Copyright (c) 2022-2025 David Carter <dcarter@davidcarter.ca>         *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -31,7 +31,7 @@ class Finish():
     def __init__(self, _name, _roughness):
         self.roughnessSize = _roughness
         self.name = _name
-		
+
     def getRoughnessSize(self):
         return self.roughnessSize
 

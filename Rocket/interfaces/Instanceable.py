@@ -1,5 +1,5 @@
 # ***************************************************************************
-# *   Copyright (c) 2022-2024 David Carter <dcarter@davidcarter.ca>         *
+# *   Copyright (c) 2022-2025 David Carter <dcarter@davidcarter.ca>         *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -30,9 +30,9 @@ class Instanceable(ABC):
 
     """
         Returns vector coordinates of each instance of this component relative to this component's parent
-         
-        Note: <code> this.getOffsets().length == this.getInstanceCount() </code> should ALWAYS be true.  
-        If getInstanceCount() returns anything besides 1 this function should be overridden as well.  
+
+        Note: <code> this.getOffsets().length == this.getInstanceCount() </code> should ALWAYS be true.
+        If getInstanceCount() returns anything besides 1 this function should be overridden as well.
     """
     @abstractmethod
     def getInstanceLocations(self):
@@ -40,9 +40,9 @@ class Instanceable(ABC):
 
     """
         Returns vector coordinates of each instance of this component relative to this component's reference point (typically front center)
-         
-        Note: <code> this.getOffsets().length == this.getInstanceCount() </code> should ALWAYS be true.  
-        If getInstanceCount() returns anything besides 1 this function should be overridden as well.  
+
+        Note: <code> this.getOffsets().length == this.getInstanceCount() </code> should ALWAYS be true.
+        If getInstanceCount() returns anything besides 1 this function should be overridden as well.
     """
     @abstractmethod
     def getInstanceOffsets(self):
@@ -64,7 +64,7 @@ class Instanceable(ABC):
 
     """
         Get a human-readable name for this instance arrangement.
-        Note: the same instance count may have different pattern names   
+        Note: the same instance count may have different pattern names
     """
     @abstractmethod
     def getPatternName(self):

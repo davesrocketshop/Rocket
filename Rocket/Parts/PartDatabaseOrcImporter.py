@@ -1,5 +1,5 @@
 # ***************************************************************************
-# *   Copyright (c) 2021-2024 David Carter <dcarter@davidcarter.ca>         *
+# *   Copyright (c) 2021-2025 David Carter <dcarter@davidcarter.ca>         *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -55,7 +55,7 @@ class Element:
         self._connection = connection
         self._filename = filename
         self._line = line
-        
+
         self._validChildren = {}
         self._knownTags = []
         # print("Start %s" % tag)
@@ -486,7 +486,7 @@ class TransitionElement(ComponentElement):
     def __init__(self, parent, tag, attributes, connection, filename, line):
         super().__init__(parent, tag, attributes, connection, filename, line)
 
-        self._knownTags = self._knownTags + ["filled", "shape", "foreoutsidediameter", "foreshoulderdiameter", "foreshoulderlength", 
+        self._knownTags = self._knownTags + ["filled", "shape", "foreoutsidediameter", "foreshoulderdiameter", "foreshoulderlength",
             "aftoutsidediameter", "aftshoulderdiameter", "aftshoulderlength", "length", "thickness"]
 
         # Map import shape names to internal names. There may be multiple entries for the same type
@@ -494,7 +494,7 @@ class TransitionElement(ComponentElement):
                            "ellipsoid" : TYPE_ELLIPTICAL.lower(),
                            "ogive" : TYPE_OGIVE.lower()
                          }
-        
+
         self._noseType = "" # Shape
         self._filled = False
 
@@ -691,7 +691,7 @@ class NoseConeElement(ComponentElement):
     def __init__(self, parent, tag, attributes, connection, filename, line):
         super().__init__(parent, tag, attributes, connection, filename, line)
 
-        self._knownTags = self._knownTags + ["filled", "shape", "foreoutsidediameter", "foreshoulderdiameter", "foreshoulderlength", 
+        self._knownTags = self._knownTags + ["filled", "shape", "foreoutsidediameter", "foreshoulderdiameter", "foreshoulderlength",
             "aftoutsidediameter", "aftshoulderdiameter", "aftshoulderlength", "length", "thickness"]
 
         # Map import shape names to internal names. There may be multiple entries for the same type
@@ -702,7 +702,7 @@ class NoseConeElement(ComponentElement):
                            "haack" : TYPE_HAACK.lower(),
                            "power" : TYPE_POWER.lower()
                          }
-        
+
         self._noseType = "" # Shape
         self._filled = False
 
@@ -781,7 +781,7 @@ class RailButtonElement(ComponentElement):
     def __init__(self, parent, tag, attributes, connection, filename, line):
         super().__init__(parent, tag, attributes, connection, filename, line)
 
-        self._knownTags = self._knownTags + ["finish", "outerdiameter", "innerdiameter", "height", "baseheight", 
+        self._knownTags = self._knownTags + ["finish", "outerdiameter", "innerdiameter", "height", "baseheight",
             "flangeheight", "screwheight", "dragcoefficient", "screwmass", "nutmass", "screwdiameter", "countersinkdiameter",
             "countersinkangle"]
 
@@ -886,7 +886,7 @@ class RailButtonElement(ComponentElement):
 class PartDatabaseOrcImporter(xml.sax.ContentHandler):
     def __init__(self, connection, filename):
         super().__init__()
-        
+
         self._connection = connection
         self._filename = filename
         self._current = RootElement(None, "root", None, self._connection, filename, 0)

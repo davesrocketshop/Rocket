@@ -1,5 +1,5 @@
 # ***************************************************************************
-# *   Copyright (c) 2022-2024 David Carter <dcarter@davidcarter.ca>         *
+# *   Copyright (c) 2022-2025 David Carter <dcarter@davidcarter.ca>         *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -58,7 +58,7 @@ class MaximumReferenceType(ReferenceType):
         r *= 2
         if r < 0.001:
             r = DEFAULT_REFERENCE_LENGTH
-        
+
         return r
 
 class CustomReferenceType(ReferenceType):

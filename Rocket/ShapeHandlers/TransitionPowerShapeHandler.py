@@ -1,5 +1,5 @@
 # ***************************************************************************
-# *   Copyright (c) 2021-2024 David Carter <dcarter@davidcarter.ca>         *
+# *   Copyright (c) 2021-2025 David Carter <dcarter@davidcarter.ca>         *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -23,7 +23,7 @@
 __title__ = "FreeCAD Haack Transition Handler"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
-    
+
 import math
 
 from DraftTools import translate
@@ -31,7 +31,7 @@ from DraftTools import translate
 from Rocket.ShapeHandlers.TransitionShapeHandler import TransitionShapeHandler
 
 from Rocket.Utilities import validationError
-    
+
 class TransitionPowerShapeHandler(TransitionShapeHandler):
 
     def isValidShape(self):
@@ -39,7 +39,7 @@ class TransitionPowerShapeHandler(TransitionShapeHandler):
             validationError(translate('Rocket', "For %s transitions the coefficient must be in the range (0 < coefficient <= 1)") % self._type)
             return False
         return super().isValidShape()
-            
+
     def _radiusAt(self, r1, r2, length, pos):
         if r1 > r2:
             radius = r1 - r2

@@ -1,5 +1,5 @@
 # ***************************************************************************
-# *   Copyright (c) 2021-2024 David Carter <dcarter@davidcarter.ca>         *
+# *   Copyright (c) 2021-2025 David Carter <dcarter@davidcarter.ca>         *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -23,7 +23,7 @@
 __title__ = "FreeCAD Launch Guide Handler"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
-    
+
 import FreeCAD
 import Part
 import math
@@ -212,12 +212,12 @@ class RailGuideShapeHandler():
         y = max(self._flangeWidth, self._middleWidth, self._baseWidth) / 2.0 + TOLERANCE_OFFSET
 
         x1 = self._length + TOLERANCE_OFFSET
-        z1 = self.rakeZ(x1, slope, intercept)        
+        z1 = self.rakeZ(x1, slope, intercept)
         v1 = FreeCAD.Vector(x1, y, z1)
 
         # x2 = self._length - (o + TOLERANCE_OFFSET)
         x2 = self._length - (((self._height + math.fabs(self._zMin)) * math.tan(self._aftSweepAngle)) + TOLERANCE_OFFSET)
-        z2 = self.rakeZ(x2, slope, intercept)        
+        z2 = self.rakeZ(x2, slope, intercept)
         v2 = FreeCAD.Vector(x2, y, z2)
 
         v3 = FreeCAD.Vector(x1, y, z2)
@@ -240,12 +240,12 @@ class RailGuideShapeHandler():
         y = max(self._flangeWidth, self._middleWidth, self._baseWidth) / 2.0 + TOLERANCE_OFFSET
 
         x1 = -TOLERANCE_OFFSET
-        z1 = self.rakeZ(x1, slope, self._zMin)        
+        z1 = self.rakeZ(x1, slope, self._zMin)
         v1 = FreeCAD.Vector(x1, y, z1)
 
         # x2 = o + TOLERANCE_OFFSET
         x2 = ((self._height + math.fabs(self._zMin)) * math.tan(self._forwardSweepAngle)) + TOLERANCE_OFFSET
-        z2 = self.rakeZ(x2, slope, self._zMin)        
+        z2 = self.rakeZ(x2, slope, self._zMin)
         v2 = FreeCAD.Vector(x2, y, z2)
 
         v3 = FreeCAD.Vector(x1, y, z2)
@@ -292,7 +292,7 @@ class RailGuideShapeHandler():
         r = (self._diameter / 2.0)
         z0 = (r / math.sin(theta)) - r
         return z0
-        
+
     def draw(self):
         if not self.isValidShape():
             return

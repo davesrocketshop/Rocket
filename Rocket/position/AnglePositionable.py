@@ -1,5 +1,5 @@
 # ***************************************************************************
-# *   Copyright (c) 2021-2024 David Carter <dcarter@davidcarter.ca>         *
+# *   Copyright (c) 2021-2025 David Carter <dcarter@davidcarter.ca>         *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -34,11 +34,11 @@ class AnglePositionable(ABC):
     @abstractmethod
     def getAngleOffset(self) -> Double:
         pass
-	
+
     @abstractmethod
     def setAngleOffset(self, angle : Double) -> None:
         pass
-	
+
     @abstractmethod
     def getAngleMethod(self) -> AngleMethod:
         pass

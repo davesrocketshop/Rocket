@@ -1,5 +1,5 @@
 # ***************************************************************************
-# *   Copyright (c) 2022-2024 David Carter <dcarter@davidcarter.ca>         *
+# *   Copyright (c) 2022-2025 David Carter <dcarter@davidcarter.ca>         *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -125,13 +125,13 @@ class FinFlutterTestCases(unittest.TestCase):
         for row in finArray:
             self._setFinTab(row)
             flutter = FinFlutter(self._fin)
-            
+
             results = flutter.flutter(altitude, shearModulus)
             self._checkTolerance(results[1], row[6], "Vf")
-            
+
             results = flutter.divergence(altitude, shearModulus)
             self._checkTolerance(results[1], row[7], "Vd")
-            
+
             results = flutter.flutterPOF(altitude, shearModulus)
             self._checkTolerance(results[1], row[6] * math.sqrt(2), "Vf")
 
@@ -144,13 +144,13 @@ class FinFlutterTestCases(unittest.TestCase):
         for row in finArray:
             self._setFin(row)
             flutter = FinFlutter(self._fin)
-            
+
             results = flutter.flutter(altitude, shearModulus)
             self._checkTolerance(results[1], row[6], "Vf")
-            
+
             results = flutter.divergence(altitude, shearModulus)
             self._checkTolerance(results[1], row[7], "Vd")
-            
+
             results = flutter.flutterPOF(altitude, shearModulus)
             self._checkTolerance(results[1], row[6] * math.sqrt(2), "Vf")
 
@@ -163,13 +163,13 @@ class FinFlutterTestCases(unittest.TestCase):
         for row in finArray:
             self._setFin(row)
             flutter = FinFlutter(self._fin)
-            
+
             results = flutter.flutter(altitude, shearModulus)
             self._checkTolerance(results[1], row[6], "Vf")
-            
+
             results = flutter.divergence(altitude, shearModulus)
             self._checkTolerance(results[1], row[7], "Vd")
-            
+
             results = flutter.flutterPOF(altitude, shearModulus)
             self._checkTolerance(results[1], row[6] * math.sqrt(2), "Vf")
 

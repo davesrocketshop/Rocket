@@ -1,5 +1,5 @@
 # ***************************************************************************
-# *   Copyright (c) 2021-2024 David Carter <dcarter@davidcarter.ca>         *
+# *   Copyright (c) 2021-2025 David Carter <dcarter@davidcarter.ca>         *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -29,7 +29,7 @@ import Part
 import math
 
 from DraftTools import translate
-    
+
 from Rocket.Constants import FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE, \
     FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE, FIN_CROSS_BICONVEX, FIN_CROSS_ELLIPSE
 
@@ -44,7 +44,7 @@ class FinTriangleShapeHandler(FinShapeHandler):
 
     def _makeRootProfile(self, height=0.0):
         # Create the root profile, casting everything to float to avoid typing issues
-        l1, l2 = self._lengthsFromPercent(float(self._obj.RootChord), self._obj.RootPerCent, 
+        l1, l2 = self._lengthsFromPercent(float(self._obj.RootChord), self._obj.RootPerCent,
                                           float(self._obj.RootLength1), float(self._obj.RootLength2))
         return self._makeChordProfile(self._obj.RootCrossSection, 0.0, float(self._obj.RootChord),
             float(self._obj.RootThickness), height, l1, l2)
@@ -59,8 +59,8 @@ class FinTriangleShapeHandler(FinShapeHandler):
                     min + 0.001, float(self._obj.Height), l1, l2)
             else:
                 return Part.Point(FreeCAD.Vector(self._obj.SweepLength, 0.0, self._obj.Height)).toShape()
-        
-        l1, l2 = self._lengthsFromPercent(float(self._obj.RootChord), self._obj.RootPerCent, 
+
+        l1, l2 = self._lengthsFromPercent(float(self._obj.RootChord), self._obj.RootPerCent,
                                           float(self._obj.RootLength1), float(self._obj.RootLength2))
         chord, height, sweep = self._topChord(l1, l2)
         return self._makeChordProfile(self._obj.RootCrossSection, sweep, chord,
@@ -82,12 +82,12 @@ class FinTriangleShapeHandler(FinShapeHandler):
             length -= min
         theta = 90.0 - math.degrees(math.atan2(float(self._obj.Height), length))
         return theta
-    
+
     def _sweepAtHeight(self, height):
         angle = self._sweepAngleFromLength()
         sweep = math.tan(math.radians(angle)) * height
         return sweep
-    
+
     def _midChord(self, rootChord):
 
         chord = rootChord / 2.0
@@ -96,7 +96,7 @@ class FinTriangleShapeHandler(FinShapeHandler):
         sweep = self._sweepAtHeight(height)# + (chord / 2)
 
         return chord, height, sweep
-    
+
     def _topChord(self, tip1, tip2):
 
         crossSection = self._obj.RootCrossSection
@@ -156,7 +156,7 @@ class FinTriangleShapeHandler(FinShapeHandler):
         return profiles
 
     def _makeTopProfile(self):
-        if self._obj.RootCrossSection in [FIN_CROSS_BICONVEX, FIN_CROSS_ROUND, FIN_CROSS_ELLIPSE, FIN_CROSS_WEDGE, 
+        if self._obj.RootCrossSection in [FIN_CROSS_BICONVEX, FIN_CROSS_ROUND, FIN_CROSS_ELLIPSE, FIN_CROSS_WEDGE,
                                             FIN_CROSS_SQUARE, FIN_CROSS_DIAMOND, FIN_CROSS_AIRFOIL,
                                             FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE]:
             # Already handled
@@ -165,7 +165,7 @@ class FinTriangleShapeHandler(FinShapeHandler):
             # Just a point at the tip of the fin, used for lofts
             tip=Part.Point(FreeCAD.Vector(self._obj.SweepLength, 0.0, self._obj.Height)).toShape()
         return tip
-   
+
     def _makeRoundTip(self):
         # Half sphere of radius thickness
         radius = float(self._obj.RootThickness) / 2.0 # + 0.1
@@ -199,14 +199,14 @@ class FinTriangleShapeHandler(FinShapeHandler):
         loft2 = Part.makeLoft([wire1, wire3], True)
         tip = loft1.fuse(loft2)
         return tip
-   
+
     def _makeBiconvexTip(self):
-        l1, l2 = self._lengthsFromPercent(float(self._obj.RootChord), self._obj.RootPerCent, 
+        l1, l2 = self._lengthsFromPercent(float(self._obj.RootChord), self._obj.RootPerCent,
                                           float(self._obj.RootLength1), float(self._obj.RootLength2))
         chord, height, sweep = self._topChord(l1, l2)
         base = self._makeChordProfile(FIN_CROSS_BICONVEX, sweep, chord,
             float(self._obj.RootThickness), height, l1, l2)
-        
+
         min = self.minimumEdge()
         if min > 0:
             top=self._makeChordProfile(FIN_CROSS_BICONVEX, float(self._obj.SweepLength) - (min/2.0), min,
@@ -215,14 +215,14 @@ class FinTriangleShapeHandler(FinShapeHandler):
             top=Part.Point(FreeCAD.Vector(self._obj.SweepLength, 0.0, self._obj.Height)).toShape()
         tip = Part.makeLoft([base, top], True)
         return tip
-   
+
     def _makeLETaperTip(self):
-        l1, l2 = self._lengthsFromPercent(float(self._obj.RootChord), self._obj.RootPerCent, 
+        l1, l2 = self._lengthsFromPercent(float(self._obj.RootChord), self._obj.RootPerCent,
                                           float(self._obj.RootLength1), float(self._obj.RootLength2))
         chord, height, sweep = self._topChord(l1, l2)
         base = self._makeChordProfile(FIN_CROSS_WEDGE, sweep, chord,
             float(self._obj.RootThickness), height, l1, l2)
-        
+
         min = self.minimumEdge()
         if min > 0:
             top=self._makeChordProfile(FIN_CROSS_WEDGE, float(self._obj.SweepLength), min,
@@ -231,15 +231,15 @@ class FinTriangleShapeHandler(FinShapeHandler):
             top=Part.Point(FreeCAD.Vector(self._obj.SweepLength, 0.0, self._obj.Height)).toShape()
         tip = Part.makeLoft([base, top], True)
         return tip
-   
+
     def _makeTETaperTip(self):
         # Wedge at the base, point at the tip
-        l1, l2 = self._lengthsFromPercent(float(self._obj.RootChord), self._obj.RootPerCent, 
+        l1, l2 = self._lengthsFromPercent(float(self._obj.RootChord), self._obj.RootPerCent,
                                           float(self._obj.RootLength1), float(self._obj.RootLength2))
         chord, height, sweep = self._topChord(l1, l2)
         base = self._makeChordProfile(FIN_CROSS_WEDGE, sweep + chord, -chord,
             float(self._obj.RootThickness), height, l1, l2)
-        
+
         min = self.minimumEdge()
         if min > 0:
             top=self._makeChordProfile(FIN_CROSS_WEDGE, float(self._obj.SweepLength), -min,
@@ -248,15 +248,15 @@ class FinTriangleShapeHandler(FinShapeHandler):
             top=Part.Point(FreeCAD.Vector(self._obj.SweepLength, 0.0, self._obj.Height)).toShape()
         tip = Part.makeLoft([base, top], True)
         return tip
-   
+
     def _makeLETETaperTip(self):
         # Wedge at the base, point at the tip
-        l1, l2 = self._lengthsFromPercent(float(self._obj.RootChord), self._obj.RootPerCent, 
+        l1, l2 = self._lengthsFromPercent(float(self._obj.RootChord), self._obj.RootPerCent,
                                           float(self._obj.RootLength1), float(self._obj.RootLength2))
         chord, height, sweep = self._topChord(l1, l2)
         base = self._makeChordProfile(FIN_CROSS_DIAMOND, sweep, chord,
             float(self._obj.RootThickness), height, l1, l2)
-        
+
         min = self.minimumEdge()
         if min > 0:
             top=self._makeChordProfile(FIN_CROSS_DIAMOND, float(self._obj.SweepLength), min,
@@ -265,14 +265,14 @@ class FinTriangleShapeHandler(FinShapeHandler):
             top=Part.Point(FreeCAD.Vector(self._obj.SweepLength, 0.0, self._obj.Height)).toShape()
         tip = Part.makeLoft([base, top], True)
         return tip
-   
+
     def _makeAirfoilTip(self):
-        l1, l2 = self._lengthsFromPercent(float(self._obj.RootChord), self._obj.RootPerCent, 
+        l1, l2 = self._lengthsFromPercent(float(self._obj.RootChord), self._obj.RootPerCent,
                                     float(self._obj.RootLength1), float(self._obj.RootLength2))
         chord, height, sweep = self._topChord(l1, l2)
         base = self._makeChordProfile(self._obj.RootCrossSection, sweep, chord,
             float(self._obj.RootThickness), height, l1, l2)
-        
+
         min = self.minimumEdge()
         if min > 0:
             top=self._makeChordProfile(self._obj.RootCrossSection, float(self._obj.SweepLength) - (min/2.0), min,
@@ -282,17 +282,17 @@ class FinTriangleShapeHandler(FinShapeHandler):
             chord = float(self._obj.RootChord) / float(self._obj.RootThickness) * thickness
             top = self._makeChordProfile(self._obj.RootCrossSection, float(self._obj.SweepLength), chord,
                 thickness, float(self._obj.Height), l1, l2)
-            
+
         tip = Part.makeLoft([base, top], True)
         return tip
-   
+
     # def _makeBiconvexTip(self):
-    #     l1, l2 = self._lengthsFromPercent(float(self._obj.RootChord), self._obj.RootPerCent, 
+    #     l1, l2 = self._lengthsFromPercent(float(self._obj.RootChord), self._obj.RootPerCent,
     #                                       float(self._obj.RootLength1), float(self._obj.RootLength2))
     #     chord, height, sweep = self._topChord(l1, l2)
     #     base = self._makeChordProfile(FIN_CROSS_BICONVEX, sweep, chord,
     #         float(self._obj.RootThickness), height, l1, l2)
-        
+
     #     min = self.minimumEdge()
     #     if min > 0:
     #         top=self._makeChordProfile(FIN_CROSS_BICONVEX, float(self._obj.SweepLength) - (min/2.0), min,

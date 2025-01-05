@@ -1,5 +1,5 @@
 # ***************************************************************************
-# *   Copyright (c) 2021-2024 David Carter <dcarter@davidcarter.ca>         *
+# *   Copyright (c) 2021-2025 David Carter <dcarter@davidcarter.ca>         *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -34,7 +34,7 @@ class InvalidError(Exception):
 class MultipleEntryError(Exception):
 
     def __init__(self, message="Multiple entries found"):
-        self._message = message    
+        self._message = message
 
 class UnknownManufacturerError(Exception):
 

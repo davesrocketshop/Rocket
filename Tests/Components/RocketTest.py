@@ -1,5 +1,5 @@
 # ***************************************************************************
-# *   Copyright (c) 2022-2024 David Carter <dcarter@davidcarter.ca>         *
+# *   Copyright (c) 2022-2025 David Carter <dcarter@davidcarter.ca>         *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -23,7 +23,7 @@
 __title__ = "FreeCAD Rocket Tests"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
-    
+
 import FreeCAD
 import unittest
 
@@ -79,13 +79,13 @@ class RocketTest(unittest.TestCase):
         # expLoc = Coordinate(203.0,0,0)
         expected = Coordinate(203.0,0,0)
         actual = mmt.getPositionAsCoordinate()
-        self.assertCoordinateEqual(actual, expected, mmt.getName()+" not positioned correctly") 
+        self.assertCoordinateEqual(actual, expected, mmt.getName()+" not positioned correctly")
 
         block = mmt.getChild(0).Proxy
         expected = Coordinate(203.0,0,0)
         actual = block.getPositionAsCoordinate()
         self.assertCoordinateEqual(actual, expected, block.getName()+" not positioned correctly")
-		
+
         ring = body.getChild(3).Proxy
         self.assertEqual(ring.getInstanceCount(), 2, ring.getName()+" have incorrect count")
 

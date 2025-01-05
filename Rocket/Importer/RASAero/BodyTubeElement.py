@@ -1,5 +1,5 @@
 # ***************************************************************************
-# *   Copyright (c) 2021-2024 David Carter <dcarter@davidcarter.ca>         *
+# *   Copyright (c) 2021-2025 David Carter <dcarter@davidcarter.ca>         *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -73,7 +73,7 @@ class BodyTubeElement(Element):
         _tag = tag.lower().strip()
         if _tag == "diameter":
             self._feature._obj.Diameter = FreeCAD.Units.Quantity(content + " in").Value
-            self._feature._obj.AutoDiameter = False 
+            self._feature._obj.AutoDiameter = False
         elif _tag == "length":
             self._feature._obj.Length = FreeCAD.Units.Quantity(content + " in").Value
         elif _tag == "color":

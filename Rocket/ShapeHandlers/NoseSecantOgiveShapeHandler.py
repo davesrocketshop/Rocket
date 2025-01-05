@@ -1,5 +1,5 @@
 # ***************************************************************************
-# *   Copyright (c) 2021-2024 David Carter <dcarter@davidcarter.ca>         *
+# *   Copyright (c) 2021-2025 David Carter <dcarter@davidcarter.ca>         *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -23,7 +23,7 @@
 __title__ = "FreeCAD Ogive Nose Shape Handler"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
-    
+
 import FreeCAD
 import math
 
@@ -39,7 +39,7 @@ class NoseSecantOgiveShapeHandler(NoseShapeHandler):
         rho = self.getRho()
         alpha = math.acos(math.sqrt(length * length + radius * radius) / (2.0 * rho)) - math.atan(radius / length)
         return alpha
-            
+
     def ogive_y(self, x, length, rho, alpha):
         y = math.sqrt(rho * rho - math.pow(rho * math.cos(alpha) - x, 2)) - (rho * math.sin(alpha))
         return y
@@ -59,7 +59,7 @@ class NoseSecantOgiveShapeHandler(NoseShapeHandler):
 
         points = []
         for i in range(0, resolution):
-            
+
             x = float(i) * ((length - min) / float(resolution))
             y = self.ogive_y(x, length, rho, alpha)
             points.append(FreeCAD.Vector(min + x, y))
@@ -67,7 +67,7 @@ class NoseSecantOgiveShapeHandler(NoseShapeHandler):
         points.append(FreeCAD.Vector(min + length, radius))
         return points
 
-            
+
     def findOgiveY(self, thickness, length, radius):
         rho = self.getRho()
 

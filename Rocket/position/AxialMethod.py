@@ -1,5 +1,5 @@
 # ***************************************************************************
-# *   Copyright (c) 2021-2024 David Carter <dcarter@davidcarter.ca>         *
+# *   Copyright (c) 2021-2025 David Carter <dcarter@davidcarter.ca>         *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -131,9 +131,9 @@ MIDDLE = MiddleAxialMethod()
 BOTTOM = BottomAxialMethod()
 
 AXIAL_METHOD_MAP = {
-    LOCATION_PARENT_TOP : TOP, 
-    LOCATION_PARENT_MIDDLE : MIDDLE, 
+    LOCATION_PARENT_TOP : TOP,
+    LOCATION_PARENT_MIDDLE : MIDDLE,
     LOCATION_PARENT_BOTTOM : BOTTOM,
-    LOCATION_BASE : ABSOLUTE, 
+    LOCATION_BASE : ABSOLUTE,
     LOCATION_AFTER : AFTER
 }

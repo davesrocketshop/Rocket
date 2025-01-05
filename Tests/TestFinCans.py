@@ -1,5 +1,5 @@
 # ***************************************************************************
-# *   Copyright (c) 2022-2024 David Carter <dcarter@davidcarter.ca>         *
+# *   Copyright (c) 2022-2025 David Carter <dcarter@davidcarter.ca>         *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -23,7 +23,7 @@
 __title__ = "FreeCAD Fin Tests"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
-    
+
 import FreeCAD
 import unittest
 
@@ -61,7 +61,7 @@ class FinCanTests(unittest.TestCase):
         feature._obj.RootLength1 = 10.0
         feature._obj.RootLength2 = 10.0
         self.Doc.recompute()
-        
+
         message = "Trapezoid: " + crosssection + " Center"
 
         self._checkShape(feature, message)
@@ -78,7 +78,7 @@ class FinCanTests(unittest.TestCase):
         feature._obj.RootLength2 = 10.0
         feature._obj.TipChord = 0.0
         self.Doc.recompute()
-        
+
         message = "Trapezoid zero tip: " + crosssection + " Center"
 
         self._checkShape(feature, message)
@@ -93,7 +93,7 @@ class FinCanTests(unittest.TestCase):
         feature._obj.RootLength1 = 10.0
         feature._obj.RootLength2 = 10.0
         self.Doc.recompute()
-        
+
         message = "Ellipse: " + crosssection + " Center"
 
         self._checkShape(feature, message)
@@ -109,7 +109,7 @@ class FinCanTests(unittest.TestCase):
         feature._obj.RootLength1 = 10.0
         feature._obj.RootLength2 = 10.0
         self.Doc.recompute()
-        
+
         message = "Triangle: " + crosssection + " Center"
 
         self._checkShape(feature, message)
@@ -129,7 +129,7 @@ class FinCanTests(unittest.TestCase):
         # feature._obj.TipLength2 = 10.0
         # feature._obj.TipChord = 0.0
         self.Doc.recompute()
-        
+
         message = "Trapezoid: " + crosssection + " Rear Sweep"
 
         self._checkShape(feature, message)
@@ -146,7 +146,7 @@ class FinCanTests(unittest.TestCase):
         feature._obj.RootLength2 = 10.0
         feature._obj.TipChord = 0.0
         self.Doc.recompute()
-        
+
         message = "Trapezoid zero tip: " + crosssection + " Rear Sweep"
 
         self._checkShape(feature, message)
@@ -162,7 +162,7 @@ class FinCanTests(unittest.TestCase):
         feature._obj.RootLength1 = 10.0
         feature._obj.RootLength2 = 10.0
         self.Doc.recompute()
-        
+
         message = "Triangle: " + crosssection + " Rear Sweep"
 
         self._checkShape(feature, message)
@@ -178,7 +178,7 @@ class FinCanTests(unittest.TestCase):
         feature._obj.RootLength1 = 10.0
         feature._obj.RootLength2 = 10.0
         self.Doc.recompute()
-        
+
         message = "Trapezoid: " + crosssection + " Fore Sweep"
 
         self._checkShape(feature, message)
@@ -195,7 +195,7 @@ class FinCanTests(unittest.TestCase):
         feature._obj.RootLength2 = 10.0
         feature._obj.TipChord = 0.0
         self.Doc.recompute()
-        
+
         message = "Trapezoid zero tip: " + crosssection + " Fore Sweep"
 
         self._checkShape(feature, message)
@@ -211,13 +211,13 @@ class FinCanTests(unittest.TestCase):
         feature._obj.RootLength1 = 10.0
         feature._obj.RootLength2 = 10.0
         self.Doc.recompute()
-        
+
         message = "Triangle: " + crosssection + " Fore Sweep"
 
         self._checkShape(feature, message)
 
     def testTrapezoid(self):
-        for cross in [FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE, FIN_CROSS_DIAMOND, 
+        for cross in [FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE, FIN_CROSS_DIAMOND,
                     FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE, FIN_CROSS_ELLIPSE, FIN_CROSS_BICONVEX]:
             with self.subTest(crosssection=cross):
                 self._testCenterTrapezoid(cross)
@@ -225,7 +225,7 @@ class FinCanTests(unittest.TestCase):
                 self._testForeSweepTrapezoid(cross)
 
     def testTrapezoidZeroTip(self):
-        for cross in [FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE, FIN_CROSS_DIAMOND, 
+        for cross in [FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE, FIN_CROSS_DIAMOND,
                     FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE, FIN_CROSS_ELLIPSE, FIN_CROSS_BICONVEX]:
             with self.subTest(crosssection=cross):
                 self._testCenterTrapezoidZeroTip(cross)
@@ -233,13 +233,13 @@ class FinCanTests(unittest.TestCase):
                 self._testForeSweepTrapezoidZeroTip(cross)
 
     def testEllipse(self):
-        for cross in [FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE, 
+        for cross in [FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE,
                     FIN_CROSS_TAPER_LETE, FIN_CROSS_ELLIPSE, FIN_CROSS_BICONVEX]:
             with self.subTest(crosssection=cross):
                 self._testCenterEllipse(cross)
 
     def testTriangular(self):
-        for cross in [FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE, FIN_CROSS_DIAMOND, 
+        for cross in [FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE, FIN_CROSS_DIAMOND,
                     FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE, FIN_CROSS_ELLIPSE, FIN_CROSS_BICONVEX]:
             with self.subTest(crosssection=cross):
                 self._testCenterTriangle(cross)
