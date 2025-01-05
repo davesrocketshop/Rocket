@@ -28,17 +28,19 @@ import FreeCAD
 
 from Rocket.Importer.OpenRocket.SaxElement import NullElement
 from Rocket.Importer.Rocksim.ComponentElement import ComponentElement
-from Rocket.Importer.Rocksim.AttachedPartsElement import AttachedPartsElement
 from Rocket.Utilities import _toBoolean
 from Rocket.Constants import STYLE_CAPPED, STYLE_HOLLOW, STYLE_SOLID
 from Rocket.Constants import TYPE_CONE, TYPE_ELLIPTICAL, TYPE_HAACK, TYPE_OGIVE, TYPE_PARABOLA, TYPE_POWER
 
-from Ui.Commands.CmdNoseCone import makeNoseCone
+from Ui.Commands.CmdTransition import makeTransition
 
-class NoseElement(ComponentElement):
+class TransitionElement(ComponentElement):
 
     def __init__(self, parent, tag, attributes, parentObj, filename, line):
         super().__init__(parent, tag, attributes, parentObj, filename, line)
+
+        # avoid circular import
+        from Rocket.Importer.Rocksim.AttachedPartsElement import AttachedPartsElement
 
         self._validChildren = { 'attachedparts' : AttachedPartsElement,
                                 # 'material' : MaterialElement,
@@ -47,61 +49,77 @@ class NoseElement(ComponentElement):
                               }
         self._knownTags.extend(["attachedparts", "shapecode", "len", "basedia", "wallthickness", "shoulderod",
                            "shoulderlen", "shapeparameter", "constructiontype", "displayflags", "metricsflags",
-                           "baseextensionlen", "coredia", "corelen", "attachedparts"])
+                           "baseextensionlen", "coredia", "corelen", "attachedparts", "frontdia", "reardia",
+                           "frontshoulderlen", "rearshoulderlen", "frontshoulderdia", "rearshoulderdia",
+                           "equivnoselen", "equivnoseoffset"])
 
     def makeObject(self):
-        self._feature = makeNoseCone()
+        self._feature = makeTransition()
         if self._parentObj is not None:
             self._parentObj.addChild(self._feature)
 
     def handleEndTag(self, tag, content):
         _tag = tag.lower().strip()
-        print("NoseElement handle tag " + _tag)
+        print("TransitionElement handle tag " + _tag)
         if _tag == "shapecode":
             shapeCode = int(content)
             print("\tshapecode {}".format(shapeCode))
             if shapeCode == 0: # CONICAL
-                self._feature._obj.NoseType = TYPE_CONE
+                self._feature._obj.TransitionType = TYPE_CONE
             elif shapeCode == 1: # OGIVE
-                self._feature._obj.NoseType = TYPE_OGIVE
+                self._feature._obj.TransitionType = TYPE_OGIVE
             elif shapeCode == 2: # PARABOLIC - closeest is elliptical in OR
-                self._feature._obj.NoseType = TYPE_ELLIPTICAL
+                self._feature._obj.TransitionType = TYPE_ELLIPTICAL
             elif shapeCode == 3: # ELLIPTICAL
-                self._feature._obj.NoseType = TYPE_ELLIPTICAL
+                self._feature._obj.TransitionType = TYPE_ELLIPTICAL
             elif shapeCode == 4: # POWER SERIES
-                self._feature._obj.NoseType = TYPE_POWER
+                self._feature._obj.TransitionType = TYPE_POWER
             elif shapeCode == 5: # PARABOLIC SERIES
-                self._feature._obj.NoseType = TYPE_PARABOLA
+                self._feature._obj.TransitionType = TYPE_PARABOLA
             elif shapeCode == 6: # HAACK
-                self._feature._obj.NoseType = TYPE_HAACK
+                self._feature._obj.TransitionType = TYPE_HAACK
             else:
-                raise Exception("Unknown nose type " + content)
+                raise Exception("Unknown transition type " + content)
         elif _tag == "shapeparameter":
             self._feature._obj.Coefficient = float(content)
-        elif _tag == "basedia":
-            print("\tbasedia {}".format(float(content)))
-            self._feature._obj.AutoDiameter = False
-            self._feature._obj.Diameter = float(content)
+        elif _tag == "frontdia":
+            print("\tfrontdia {}".format(float(content)))
+            self._feature._obj.ForeAutoDiameter = False
+            self._feature._obj.ForeDiameter = float(content)
+        elif _tag == "reardia":
+            print("\treardia {}".format(float(content)))
+            self._feature._obj.AftAutoDiameter = False
+            self._feature._obj.AftDiameter = float(content)
         elif _tag == "wallthickness":
             print("\twallthickness {}".format(float(content)))
             self._feature._obj.Thickness = float(content)
-            self._feature._obj.ShoulderThickness = float(content)
-        elif _tag == "shoulderod":
-            print("\tshoulderod {}".format(float(content)))
-            self._feature._obj.ShoulderDiameter = float(content)
-        elif _tag == "shoulderlen":
+            self._feature._obj.ForeShoulderThickness = float(content)
+            self._feature._obj.AftShoulderThickness = float(content)
+        elif _tag == "frontshoulderdia":
+            print("\tfrontshoulderdia {}".format(float(content)))
+            self._feature._obj.ForeShoulderDiameter = float(content)
+        elif _tag == "rearshoulderdia":
+            print("\trearshoulderdia {}".format(float(content)))
+            self._feature._obj.AftShoulderDiameter = float(content)
+        elif _tag == "frontshoulderlen":
             length = float(content)
-            print("\tshoulderlen {}".format(length))
-            self._feature._obj.ShoulderLength = length
+            print("\tfrontshoulderlen {}".format(length))
+            self._feature._obj.ForeShoulderLength = length
             if length > 0:
-                self._feature._obj.Shoulder = True
+                self._feature._obj.ForeShoulder = True
+        elif _tag == "rearshoulderlen":
+            length = float(content)
+            print("\trearshoulderlen {}".format(length))
+            self._feature._obj.AftShoulderLength = length
+            if length > 0:
+                self._feature._obj.AftShoulder = True
         elif _tag == "constructiontype":
             constructionType = int(content)
             print("\tconstructiontype {}".format(constructionType))
             if constructionType == 0:
-                self._feature._obj.NoseStyle = STYLE_SOLID
+                self._feature._obj.TransitionStyle = STYLE_SOLID
             else:
-                self._feature._obj.NoseStyle = STYLE_HOLLOW
+                self._feature._obj.TransitionStyle = STYLE_HOLLOW
         else:
             super().handleEndTag(tag, content)
 

@@ -37,9 +37,12 @@ from Rocket.ShapeHandlers.NoseSecantOgiveShapeHandler import NoseSecantOgiveShap
 from Rocket.ShapeHandlers.NoseParabolicShapeHandler import NoseParabolicShapeHandler
 from Rocket.ShapeHandlers.NosePowerShapeHandler import NosePowerShapeHandler
 
-from Rocket.Constants import TYPE_CONE, TYPE_BLUNTED_CONE, TYPE_SPHERICAL, TYPE_ELLIPTICAL, TYPE_HAACK, TYPE_OGIVE, TYPE_BLUNTED_OGIVE, TYPE_SECANT_OGIVE, TYPE_VON_KARMAN, TYPE_PARABOLA, TYPE_PARABOLIC, TYPE_POWER
+from Rocket.Constants import TYPE_CONE, TYPE_BLUNTED_CONE, TYPE_SPHERICAL, TYPE_ELLIPTICAL, \
+    TYPE_HAACK, TYPE_OGIVE, TYPE_BLUNTED_OGIVE, TYPE_SECANT_OGIVE, TYPE_VON_KARMAN, TYPE_PARABOLA, \
+    TYPE_PARABOLIC, TYPE_POWER
 from Rocket.Constants import STYLE_CAPPED, STYLE_HOLLOW, STYLE_SOLID
 from Rocket.Constants import STYLE_CAP_SOLID, STYLE_CAP_BAR, STYLE_CAP_CROSS
+from Rocket.Constants import FEATURE_INNER_TUBE
 
 from Rocket.events.ComponentChangeEvent import ComponentChangeEvent
 
@@ -417,3 +420,8 @@ class FeatureNoseCone(SymmetricComponent):
         if self._shapeHandler is not None:
             return self._shapeHandler.getXProjection()
         return None
+
+    def eligibleChild(self, childType):
+        return childType in [
+            #FEATURE_BODY_TUBE,
+            FEATURE_INNER_TUBE]

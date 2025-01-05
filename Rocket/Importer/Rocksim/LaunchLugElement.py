@@ -1,5 +1,5 @@
 # ***************************************************************************
-# *   Copyright (c) 2025 David Carter <dcarter@davidcarter.ca>              *
+# *   Copyright (c) 2021-2024 David Carter <dcarter@davidcarter.ca>         *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -24,27 +24,47 @@ __title__ = "FreeCAD Rocksim Importer"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
-from Rocket.Importer.OpenRocket.SaxElement import NullElement
+import FreeCAD
+
 from Rocket.Importer.Rocksim.ComponentElement import ComponentElement
-from Rocket.Importer.Rocksim.NoseElement import NoseElement
-from Rocket.Importer.Rocksim.BodyTubeElement import BodyTubeElement
-from Rocket.Importer.Rocksim.TransitionElement import TransitionElement
 
-from Ui.Commands.CmdStage import makeStage
+from Ui.Commands.CmdLaunchGuides import makeLaunchLug
 
-class StageElement(ComponentElement):
+class LaunchLugElement(ComponentElement):
 
     def __init__(self, parent, tag, attributes, parentObj, filename, line):
         super().__init__(parent, tag, attributes, parentObj, filename, line)
 
-        self._validChildren = { 'nosecone' : NoseElement,
-                                'bodytube' : BodyTubeElement,
-                                'transition' : TransitionElement,
-                              }
+        self._knownTags.extend(["od", "id", "attachedparts"])
 
-        self._knownTags.extend(["nosecone", "bodytube", "transition", "attachedparts"])
+        self._innerDiameter = 0
 
     def makeObject(self):
-        self._feature = makeStage()
+        self._feature = makeLaunchLug()
         if self._parentObj is not None:
             self._parentObj.addChild(self._feature)
+
+    def handleEndTag(self, tag, content):
+        _tag = tag.lower().strip()
+        print("LaunchLugElement handle tag " + _tag)
+        if _tag == "od":
+            self._feature._obj.Diameter = float(content)
+        elif _tag == "id":
+            self._innerDiameter = float(content)
+        else:
+            super().handleEndTag(tag, content)
+
+    def onLength(self, content):
+        if hasattr(self._feature, "setLength"):
+            self._feature.setLength(content)
+
+    def onThickness(self, content):
+        if hasattr(self._feature, "setThickness"):
+            self._feature.setThickness(content)
+
+    def end(self):
+        if self._innerDiameter > 0:
+            thickness = (float(self._feature._obj.Diameter.Value) - self._innerDiameter) / 2.0
+            if thickness > 0:
+                self.onThickness(thickness)
+        return super().end()

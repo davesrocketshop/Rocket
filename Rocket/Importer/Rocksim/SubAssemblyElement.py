@@ -1,5 +1,5 @@
 # ***************************************************************************
-# *   Copyright (c) 2025 David Carter <dcarter@davidcarter.ca>              *
+# *   Copyright (c) 2021-2024 David Carter <dcarter@davidcarter.ca>         *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -24,27 +24,22 @@ __title__ = "FreeCAD Rocksim Importer"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
-from Rocket.Importer.OpenRocket.SaxElement import NullElement
+import FreeCAD
+
 from Rocket.Importer.Rocksim.ComponentElement import ComponentElement
-from Rocket.Importer.Rocksim.NoseElement import NoseElement
 from Rocket.Importer.Rocksim.BodyTubeElement import BodyTubeElement
-from Rocket.Importer.Rocksim.TransitionElement import TransitionElement
 
-from Ui.Commands.CmdStage import makeStage
+from Ui.Commands.CmdLaunchGuides import makeLaunchLug
 
-class StageElement(ComponentElement):
+class SubAssemblyElement(ComponentElement):
 
     def __init__(self, parent, tag, attributes, parentObj, filename, line):
         super().__init__(parent, tag, attributes, parentObj, filename, line)
 
-        self._validChildren = { 'nosecone' : NoseElement,
-                                'bodytube' : BodyTubeElement,
-                                'transition' : TransitionElement,
+        # avoid circular import
+        from Rocket.Importer.Rocksim.AttachedPartsElement import AttachedPartsElement
+
+        self._validChildren = { 'attachedparts' : AttachedPartsElement,
+                                'bodytube' : BodyTubeElement
                               }
-
-        self._knownTags.extend(["nosecone", "bodytube", "transition", "attachedparts"])
-
-    def makeObject(self):
-        self._feature = makeStage()
-        if self._parentObj is not None:
-            self._parentObj.addChild(self._feature)
+        self._knownTags.extend(["attachedparts", "bodytube"])

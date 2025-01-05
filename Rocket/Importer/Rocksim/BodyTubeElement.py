@@ -25,13 +25,12 @@ __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
 from Rocket.Importer.OpenRocket.SaxElement import NullElement
-from Rocket.Importer.OpenRocket.ComponentElement import BodyComponentElement
-from Rocket.Importer.OpenRocket.SymmetricComponentElement import SymmetricComponentElement
+from Rocket.Importer.Rocksim.ComponentElement import ComponentElement
 import Rocket.Importer.OpenRocket as OpenRocket
 
-from Ui.Commands.CmdBodyTube import makeBodyTube, makeCoupler, makeEngineBlock
+from Ui.Commands.CmdBodyTube import makeBodyTube, makeCoupler, makeEngineBlock, makeInnerTube
 
-class MotorMountElement(BodyComponentElement):
+class MotorMountElement(ComponentElement):
 
     def __init__(self, parent, tag, attributes, parentObj, filename, line):
         super().__init__(parent, tag, attributes, parentObj, filename, line)
@@ -52,15 +51,21 @@ class MotorMountElement(BodyComponentElement):
         else:
             super().handleEndTag(tag, content)
 
-class BodyTubeElement(SymmetricComponentElement):
+class BodyTubeElement(ComponentElement):
 
     def __init__(self, parent, tag, attributes, parentObj, filename, line):
         super().__init__(parent, tag, attributes, parentObj, filename, line)
 
-        self._validChildren.update({ 'subcomponents' : OpenRocket.SubElement.SubElement,
-                                'motormount' : MotorMountElement,
+        # avoid circular import
+        from Rocket.Importer.Rocksim.AttachedPartsElement import AttachedPartsElement
+
+        self._validChildren.update({ 'attachedparts' : AttachedPartsElement,
+                                # 'bodytube' : BodyTubeElement,
                               })
-        self._knownTags.extend(["radius", "outerradius"]) #, "motormount"]
+        self._knownTags.extend(["od", "id", "finishcode", "ismotormount", "engineoverhang", "motordia", "frontextension",
+                                "rearextension", "isinsidetube", "isstrapontube", "finset", "attachedparts", "bodytube",
+                                "usagecode", "autosize", "ring"])
+        self._innerDiameter = 0
 
     def makeObject(self):
         self._feature = makeBodyTube()
@@ -69,13 +74,23 @@ class BodyTubeElement(SymmetricComponentElement):
 
     def handleEndTag(self, tag, content):
         _tag = tag.lower().strip()
-        if _tag == "radius" or _tag == "outerradius":
-            if self.isAuto(content):
+        print("BodyTubeElement handle tag " + _tag)
+        if _tag == "od":
+            self._feature._obj.Diameter = float(content)
+        elif _tag == "id":
+            self._innerDiameter = float(content)
+        elif _tag == "autosize":
+            if int(content) != 0:
                 self._feature._obj.AutoDiameter = True
             else:
-                diameter = float(content) * 2.0
-                self._feature._obj.Diameter = str(diameter) + "m"
                 self._feature._obj.AutoDiameter = False
+        elif _tag == "ismotormount":
+            if int(content) != 0:
+                self._feature._obj.MotorMount = True
+            else:
+                self._feature._obj.MotorMount = False
+        elif _tag == "engineoverhang":
+            self._feature._obj.Overhang = float(content)
         else:
             super().handleEndTag(tag, content)
 
@@ -84,6 +99,25 @@ class BodyTubeElement(SymmetricComponentElement):
 
     def onLength(self, length):
         self._feature._obj.Length = length
+
+    def end(self):
+        if self._innerDiameter > 0:
+            thickness = (float(self._feature._obj.Diameter.Value) - self._innerDiameter) / 2.0
+            if thickness > 0:
+                self.onThickness(thickness)
+        return super().end()
+
+class InnerTubeElement(BodyTubeElement):
+
+    def __init__(self, parent, tag, attributes, parentObj, filename, line):
+        super().__init__(parent, tag, attributes, parentObj, filename, line)
+
+        # self._knownTags.extend(["radialposition", "radialdirection"])
+
+    def makeObject(self):
+        self._feature = makeInnerTube()
+        if self._parentObj is not None:
+            self._parentObj.addChild(self._feature)
 
 class TubeCouplerElement(BodyTubeElement):
 

@@ -53,22 +53,15 @@ class ComponentElement(Element):
         # self._componentTags = ["name", "color", "linestyle", "position", "axialoffset", "overridemass", "overridecg", "overridecd",
         #     "overridesubcomponents", "overridesubcomponentsmass", "overridesubcomponentscg", "overridesubcomponentscd", "comment",
         #     "preset", "finish", "material"]
-        self._componentTags = []
+        self._componentTags = {}
 
-        self._knownTags = ["knownmass", "density", "knowncg", "useknowncg", "densitytype", "texture", "ambient",
-                           "diffuse", "specular", "abientcolor", "diffusecolor", "specularcolor", "usesinglecolor",
-                           "simplecolormodel", "attachedparts", "shapecode", "len", "basedia", "wallthickness", "shoulderod",
-                           "shoulderlen", "shapeparameter", "constructiontype", "finishcode", "material", "partmfg", "xb",
-                           "calcmass", "calccg", "wettedsurface", "paintedsurface", "gluejointlength", "partno",
-                           "partdesc", "radialloc", "radialangle", "opacity", "specularpower", "serialno", "displayflags",
-                           "metricsflags", "locationmode", "color", "barrowmancna", "barrowmanxn", "rocksimcna", "rocksimxn",
-                           "producetemplate", "templateunits", "removed", "station", "baseextensionlen", "coredia", "corelen"]
         self._knownTags = ["name", "knownmass", "density", "knowncg", "useknowncg", "densitytype", "texture", "ambient",
                            "diffuse", "specular", "abientcolor", "diffusecolor", "specularcolor", "usesinglecolor",
                            "simplecolormodel", "color", "finishcode", "material", "partmfg", "partno", "partdesc",
                            "calcmass", "calccg", "wettedsurface", "paintedsurface", "radialloc", "radialangle", "opacity",
                            "specularpower", "serialno", "displayflags", "metricsflags", "locationmode", "producetemplate",
-                           "templateunits", "removed", "station", "gluejointlength"]
+                           "templateunits", "removed", "station", "gluejointlength", "xb", "barrowmancna", "barrowmanxn",
+                           "rocksimcna", "rocksimxn", "len"]
 
         self._knownMass = 0
         self._knownCG = 0
@@ -117,7 +110,6 @@ class ComponentElement(Element):
         # elif _tag == "material":
         #     self._materialType = attributes["type"]
         #     self._materialDensity = attributes["density"]
-        # else:
         super().handleTag(tag, attributes)
 
     def handleEndTag(self, tag, content):
@@ -126,34 +118,15 @@ class ComponentElement(Element):
             self.onName(content)
         elif _tag == "color":
             self.onColor(content)
-        # elif _tag == "linestyle":
-        #     self.onLinestyle(content)
-        # elif _tag == "position":
-        #     self.onAxialOffset(FreeCAD.Units.Quantity(content + " m").Value)
-        # elif _tag == "axialoffset":
-        #     self.onAxialOffset(FreeCAD.Units.Quantity(content + " m").Value)
-        # elif _tag == "overridemass":
-        #     self.onOverrideMass(FreeCAD.Units.Quantity(content + " kg").Value)
-        # elif _tag == "overridecg":
-        #     self.onOverrideCG(FreeCAD.Units.Quantity(content + " m").Value)
-        # elif _tag == "overridecd":
-        #     self.onOverrideCd(content)
-        # elif _tag == "overridesubcomponents":
-        #     self.onOverrideSubcomponents(content)
-        # elif _tag == "overridesubcomponentsmass":
-        #     self.onOverrideSubcomponentsMass(content)
-        # elif _tag == "overridesubcomponentscg":
-        #     self.onOverrideSubcomponentsCG(content)
-        # elif _tag == "overridesubcomponentscd":
-        #     self.onOverrideSubcomponentsCd(content)
-        # elif _tag == "comment":
-        #     self.onComment(content)
-        # elif _tag == "preset":
-        #     self.onPreset(content)
-        # elif _tag == "material":
-        #     self.onMaterial(content)
-        # else:
-        super().handleEndTag(tag, content)
+        elif _tag == "len":
+            print("\tlen {}".format(float(content)))
+            self.onLength(float(content))
+        elif _tag == "xb":
+            self.onAxialOffset(float(content))
+        elif _tag == "locationmode":
+            self.onLocationMode(content)
+        else:
+            super().handleEndTag(tag, content)
 
     def onName(self, content):
         if hasattr(self._feature, "setName"):
@@ -184,11 +157,18 @@ class ComponentElement(Element):
         if hasattr(self._feature._obj, "AxialOffset"):
             self._feature._obj.AxialOffset = content
 
+    def onLocationMode(self, content):
+        mode = int(content)
+        if mode == 0:
+            self.onPositionType(LOCATION_PARENT_TOP)
+        elif mode == 1:
+            self.onPositionType(LOCATION_BASE)
+        elif mode == 2:
+            self.onPositionType(LOCATION_PARENT_BOTTOM)
+        else:
+            self.onPositionType(LOCATION_BASE)
+
     def onOverrideMass(self, content):
-        # if hasattr(self._feature, "setOverrideMass"):
-        #     self._feature.setOverrideMass(content)
-        # if hasattr(self._feature, "setMassOverridden"):
-        #     self._feature.setMassOverridden(content > 0)
         pass
 
     def onOverrideCG(self, content):
