@@ -1,5 +1,5 @@
 # ***************************************************************************
-# *   Copyright (c) 2021-2024 David Carter <dcarter@davidcarter.ca>         *
+# *   Copyright (c) 2025 David Carter <dcarter@davidcarter.ca>              *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -24,12 +24,8 @@ __title__ = "FreeCAD Open Rocket Importer"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
-import FreeCAD
-
-from Rocket.Importer.OpenRocket.SaxElement import NullElement
 from Rocket.Importer.Rocksim.ComponentElement import ComponentElement
-from Rocket.Utilities import _toBoolean
-from Rocket.Constants import STYLE_CAPPED, STYLE_HOLLOW, STYLE_SOLID
+from Rocket.Constants import STYLE_HOLLOW, STYLE_SOLID
 from Rocket.Constants import TYPE_CONE, TYPE_ELLIPTICAL, TYPE_HAACK, TYPE_OGIVE, TYPE_PARABOLA, TYPE_POWER
 
 from Ui.Commands.CmdTransition import makeTransition
@@ -42,11 +38,7 @@ class TransitionElement(ComponentElement):
         # avoid circular import
         from Rocket.Importer.Rocksim.AttachedPartsElement import AttachedPartsElement
 
-        self._validChildren = { 'attachedparts' : AttachedPartsElement,
-                                # 'material' : MaterialElement,
-                                # 'appearance' : AppearanceElement,
-                                # 'inside-appearance' : NullElement
-                              }
+        self._validChildren = { 'attachedparts' : AttachedPartsElement }
         self._knownTags.extend(["attachedparts", "shapecode", "len", "basedia", "wallthickness", "shoulderod",
                            "shoulderlen", "shapeparameter", "constructiontype", "displayflags", "metricsflags",
                            "baseextensionlen", "coredia", "corelen", "attachedparts", "frontdia", "reardia",

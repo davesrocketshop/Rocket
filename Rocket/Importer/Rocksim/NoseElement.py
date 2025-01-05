@@ -1,5 +1,5 @@
 # ***************************************************************************
-# *   Copyright (c) 2021-2024 David Carter <dcarter@davidcarter.ca>         *
+# *   Copyright (c) 2025 David Carter <dcarter@davidcarter.ca>              *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -26,7 +26,6 @@ __url__ = "https://www.davesrocketshop.com"
 
 import FreeCAD
 
-from Rocket.Importer.OpenRocket.SaxElement import NullElement
 from Rocket.Importer.Rocksim.ComponentElement import ComponentElement
 from Rocket.Importer.Rocksim.AttachedPartsElement import AttachedPartsElement
 from Rocket.Utilities import _toBoolean
@@ -40,11 +39,7 @@ class NoseElement(ComponentElement):
     def __init__(self, parent, tag, attributes, parentObj, filename, line):
         super().__init__(parent, tag, attributes, parentObj, filename, line)
 
-        self._validChildren = { 'attachedparts' : AttachedPartsElement,
-                                # 'material' : MaterialElement,
-                                # 'appearance' : AppearanceElement,
-                                # 'inside-appearance' : NullElement
-                              }
+        self._validChildren = { 'attachedparts' : AttachedPartsElement }
         self._knownTags.extend(["attachedparts", "shapecode", "len", "basedia", "wallthickness", "shoulderod",
                            "shoulderlen", "shapeparameter", "constructiontype", "displayflags", "metricsflags",
                            "baseextensionlen", "coredia", "corelen", "attachedparts"])

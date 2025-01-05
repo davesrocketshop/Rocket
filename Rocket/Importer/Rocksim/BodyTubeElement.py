@@ -1,5 +1,5 @@
 # ***************************************************************************
-# *   Copyright (c) 2021-2024 David Carter <dcarter@davidcarter.ca>         *
+# *   Copyright (c) 2025 David Carter <dcarter@davidcarter.ca>              *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -26,9 +26,8 @@ __url__ = "https://www.davesrocketshop.com"
 
 from Rocket.Importer.OpenRocket.SaxElement import NullElement
 from Rocket.Importer.Rocksim.ComponentElement import ComponentElement
-import Rocket.Importer.OpenRocket as OpenRocket
 
-from Ui.Commands.CmdBodyTube import makeBodyTube, makeCoupler, makeEngineBlock, makeInnerTube
+from Ui.Commands.CmdBodyTube import makeBodyTube, makeInnerTube
 
 class MotorMountElement(ComponentElement):
 
@@ -59,9 +58,7 @@ class BodyTubeElement(ComponentElement):
         # avoid circular import
         from Rocket.Importer.Rocksim.AttachedPartsElement import AttachedPartsElement
 
-        self._validChildren.update({ 'attachedparts' : AttachedPartsElement,
-                                # 'bodytube' : BodyTubeElement,
-                              })
+        self._validChildren.update({ 'attachedparts' : AttachedPartsElement })
         self._knownTags.extend(["od", "id", "finishcode", "ismotormount", "engineoverhang", "motordia", "frontextension",
                                 "rearextension", "isinsidetube", "isstrapontube", "finset", "attachedparts", "bodytube",
                                 "usagecode", "autosize", "ring"])
@@ -112,33 +109,7 @@ class InnerTubeElement(BodyTubeElement):
     def __init__(self, parent, tag, attributes, parentObj, filename, line):
         super().__init__(parent, tag, attributes, parentObj, filename, line)
 
-        # self._knownTags.extend(["radialposition", "radialdirection"])
-
     def makeObject(self):
         self._feature = makeInnerTube()
-        if self._parentObj is not None:
-            self._parentObj.addChild(self._feature)
-
-class TubeCouplerElement(BodyTubeElement):
-
-    def __init__(self, parent, tag, attributes, parentObj, filename, line):
-        super().__init__(parent, tag, attributes, parentObj, filename, line)
-
-        self._knownTags.extend(["radialposition", "radialdirection"])
-
-    def makeObject(self):
-        self._feature = makeCoupler()
-        if self._parentObj is not None:
-            self._parentObj.addChild(self._feature)
-
-class EngineBlockElement(BodyTubeElement):
-
-    def __init__(self, parent, tag, attributes, parentObj, filename, line):
-        super().__init__(parent, tag, attributes, parentObj, filename, line)
-
-        self._knownTags.extend(["radialposition", "radialdirection"])
-
-    def makeObject(self):
-        self._feature = makeEngineBlock()
         if self._parentObj is not None:
             self._parentObj.addChild(self._feature)

@@ -24,7 +24,6 @@ __title__ = "FreeCAD Rocksim Importer"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
-from Rocket.Importer.OpenRocket.SaxElement import NullElement
 from Rocket.Importer.Rocksim.ComponentElement import ComponentElement
 from Rocket.Importer.Rocksim.NoseElement import NoseElement
 from Rocket.Importer.Rocksim.BodyTubeElement import BodyTubeElement

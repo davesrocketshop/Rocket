@@ -33,42 +33,31 @@ from DraftTools import translate
 
 from Rocket.Exceptions import UnsupportedVersion
 
-from Rocket.Importer.OpenRocket.SaxElement import NullElement
-from Rocket.Importer.OpenRocket.ComponentElement import ComponentElement
+from Rocket.Importer.OpenRocket.SaxElement import NullElement, Element
 from Rocket.Importer.Rocksim.StageElement import StageElement
 
 from Rocket.Utilities import _err
 
 from Ui.Commands.CmdRocket import makeRocket
 
-class RootElement(ComponentElement):
+class RootElement(Element):
 
     def __init__(self, parent, tag, attributes, parentObj, filename, line):
         super().__init__(parent, tag, attributes, parentObj, filename, line)
 
         self._validChildren = {'rocksimdocument' : RocksimElement}
 
-class RocksimElement(ComponentElement):
+class RocksimElement(Element):
 
     def __init__(self, parent, tag, attributes, parentObj, filename, line):
         super().__init__(parent, tag, attributes, parentObj, filename, line)
 
-        # SUPPORTED_VERSIONS = ["1.0", "1.1", "1.2", "1.3", "1.4", "1.5", "1.6", "1.7", "1.8", "1.9"]
-
-        # if attributes['version'] not in SUPPORTED_VERSIONS:
-        #     raise UnsupportedVersion(translate("Rocket", "Unsupported OpenRocket file version {}").format(attributes['version']))
-
-        # self._validChildren = { 'rocket' : RocketElement,
-        #                         'datatypes' : NullElement,
-        #                         'simulations' : NullElement,
-        #                         'photostudio' : NullElement,
-        #                       }
         self._validChildren = { 'fileversion' : NullElement,
                                 'designinformation' : DesignElement,
                                 'simulationresultslist' : NullElement,
                               }
 
-class DesignElement(ComponentElement):
+class DesignElement(Element):
 
     def __init__(self, parent, tag, attributes, parentObj, filename, line):
         super().__init__(parent, tag, attributes, parentObj, filename, line)
@@ -76,21 +65,6 @@ class DesignElement(ComponentElement):
         self._validChildren = { 'rocketdesign' : RocketElement,
                                 'motorconfiguration' : NullElement,
                               }
-        # self._knownTags = ["rocketdesign", "calculatecd", "procalculatecd", "procalculatecn", "fixedcd", "fixedcd2",
-        #                    "fixedcd3", "fixedcd2alone", "fixedcd3alone", "stagecount",
-        #                    "stage3mass", "stage2mass", "stage1mass", "stage321cg", "stage32cg", "stage3cg", "stage2cgalone",
-        #                    "stage1cgalone", "cpcalcflags", "launchguidelength", "useknownmass", "defaultfinish",
-        #                    "finishmedium", "finishcoatcount", "gluetype", "cpsimflags", "lastserialnumber", "displayflags",
-        #                    "metricsflags", "barromanxn", "barrowmancna", "rocksimxn", "rocksimcna", "rocksimcna90",
-        #                    "rocksimxn90", "viewtype", "viewstagecount", "viewtypeedit", "viewstagecountedit", "zoomfactor",
-        #                    "zoomfactoredit", "scrollposx", "scrollposy", "scrollposxedit", "scrollposyedit", "threedflags",
-        #                    "threedflagsedit", "usemodelsprite", "staticmarginref", "userrefdiameter", "sidemarkerheight",
-        #                    "sidedimensionheight", "basemarkerheight", "basedimensionheight", "showglidecp", "showgridtypeside",
-        #                    "showgridtypebase", "gridspacing", "gridopacity", "gridcolor", "maxdiawithfins", "maxdiawithoutfins",
-        #                    "maxlenwithfins", "maxlenwithoutfins", "minxextent", "maxxextent", "calculatedmaxstagedia",
-        #                    "calculatedstagelen", "cd3", "polydata", "x-data", "a-data", "b-data", "c-data", "cd32", "cd321",
-        #                    "cb3", "cb32", "cb321", "cna3", "cna32", "cna321", "cp3", "cp32", "cp321", "simulationeventlist",
-        #                    "stage3parts", "nosecone", "partmfg", "knownmass", "density"]
 
     def handleEndTag(self, tag, content):
         _tag = tag.lower().strip()
@@ -109,7 +83,7 @@ class DesignElement(ComponentElement):
         # self._feature.enableEvents()
         return self._parent
 
-class RocketElement(ComponentElement):
+class RocketElement(Element):
 
     def __init__(self, parent, tag, attributes, parentObj, filename, line):
         super().__init__(parent, tag, attributes, parentObj, filename, line)

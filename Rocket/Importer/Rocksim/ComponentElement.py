@@ -1,5 +1,5 @@
 # ***************************************************************************
-# *   Copyright (c) 2021-2024 David Carter <dcarter@davidcarter.ca>         *
+# *   Copyright (c) 2025 David Carter <dcarter@davidcarter.ca>              *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -33,10 +33,8 @@ from Rocket.Parts.PartDatabase import PartDatabase
 from Rocket.Parts.Material import getUuid
 from Rocket.Parts.Exceptions import MaterialNotFoundError
 
-from Rocket.Importer.OpenRocket.SaxElement import Element, NullElement
-from Rocket.Importer.OpenRocket.AppearanceElement import AppearanceElement
-from Rocket.Constants import LOCATION_PARENT_TOP, LOCATION_PARENT_MIDDLE, LOCATION_PARENT_BOTTOM, \
-    LOCATION_BASE, LOCATION_AFTER
+from Rocket.Importer.OpenRocket.SaxElement import Element
+from Rocket.Constants import LOCATION_PARENT_TOP, LOCATION_PARENT_BOTTOM, LOCATION_BASE
 from Rocket.position.AxialMethod import AXIAL_METHOD_MAP
 
 from Rocket.Utilities import _err
@@ -46,15 +44,7 @@ class ComponentElement(Element):
     def __init__(self, parent, tag, attributes, parentObj, filename, line):
         super().__init__(parent, tag, attributes, parentObj, filename, line)
 
-        # self._validChildren = { 'finish' : NullElement,
-        #                         'material' : MaterialElement,
-        #                       }
-
-        # self._componentTags = ["name", "color", "linestyle", "position", "axialoffset", "overridemass", "overridecg", "overridecd",
-        #     "overridesubcomponents", "overridesubcomponentsmass", "overridesubcomponentscg", "overridesubcomponentscd", "comment",
-        #     "preset", "finish", "material"]
-        self._componentTags = {}
-
+        self._componentTags = []
         self._knownTags = ["name", "knownmass", "density", "knowncg", "useknowncg", "densitytype", "texture", "ambient",
                            "diffuse", "specular", "abientcolor", "diffusecolor", "specularcolor", "usesinglecolor",
                            "simplecolormodel", "color", "finishcode", "material", "partmfg", "partno", "partdesc",
