@@ -54,7 +54,7 @@ class RingElement(ComponentElement):
 
     def handleEndTag(self, tag, content):
         _tag = tag.lower().strip()
-        print("RingElement handle tag " + _tag)
+        # print("RingElement handle tag " + _tag)
         if _tag == "od":
             self._outerDiameter = float(content)
         elif _tag == "id":
@@ -78,7 +78,6 @@ class RingElement(ComponentElement):
     def end(self):
         if self._innerDiameter > 0:
             self._thickness = (self._outerDiameter - self._innerDiameter) / 2.0
-        print("outer {}, inner {}, thickness {}".format(self._outerDiameter, self._innerDiameter, self._thickness))
 
         # 0 == Centering Ring
 		# 1 == Bulkhead

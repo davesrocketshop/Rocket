@@ -79,7 +79,7 @@ class ComponentElement(Element):
         if _tag == "name":
             self.onName(content)
         elif _tag == "len":
-            print("\tlen {}".format(float(content)))
+            # print("\tlen {}".format(float(content)))
             self.onLength(float(content))
         elif _tag == "xb":
             self.onAxialOffset(float(content))
@@ -186,10 +186,8 @@ class ComponentElement(Element):
             return (0, 0, 0)
         elif(value.startswith("rgb(")):
             color = value.removeprefix("rgb(").removesuffix(")")
-            print("Color({})".format(color))
-            t = tuple(int(x) for x in color.split(","))
-            print(t)
-            return t
+            # print("Color({})".format(color))
+            return tuple(int(x) for x in color.split(","))
         return (255, 255, 255)
 
     def end(self):

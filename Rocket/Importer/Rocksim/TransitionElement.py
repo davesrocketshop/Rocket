@@ -52,10 +52,9 @@ class TransitionElement(ComponentElement):
 
     def handleEndTag(self, tag, content):
         _tag = tag.lower().strip()
-        print("TransitionElement handle tag " + _tag)
+        # print("TransitionElement handle tag " + _tag)
         if _tag == "shapecode":
             shapeCode = int(content)
-            print("\tshapecode {}".format(shapeCode))
             if shapeCode == 0: # CONICAL
                 self._feature._obj.TransitionType = TYPE_CONE
             elif shapeCode == 1: # OGIVE
@@ -75,39 +74,31 @@ class TransitionElement(ComponentElement):
         elif _tag == "shapeparameter":
             self._feature._obj.Coefficient = float(content)
         elif _tag == "frontdia":
-            print("\tfrontdia {}".format(float(content)))
             self._feature._obj.ForeAutoDiameter = False
             self._feature._obj.ForeDiameter = float(content)
         elif _tag == "reardia":
-            print("\treardia {}".format(float(content)))
             self._feature._obj.AftAutoDiameter = False
             self._feature._obj.AftDiameter = float(content)
         elif _tag == "wallthickness":
-            print("\twallthickness {}".format(float(content)))
             self._feature._obj.Thickness = float(content)
             self._feature._obj.ForeShoulderThickness = float(content)
             self._feature._obj.AftShoulderThickness = float(content)
         elif _tag == "frontshoulderdia":
-            print("\tfrontshoulderdia {}".format(float(content)))
             self._feature._obj.ForeShoulderDiameter = float(content)
         elif _tag == "rearshoulderdia":
-            print("\trearshoulderdia {}".format(float(content)))
             self._feature._obj.AftShoulderDiameter = float(content)
         elif _tag == "frontshoulderlen":
             length = float(content)
-            print("\tfrontshoulderlen {}".format(length))
             self._feature._obj.ForeShoulderLength = length
             if length > 0:
                 self._feature._obj.ForeShoulder = True
         elif _tag == "rearshoulderlen":
             length = float(content)
-            print("\trearshoulderlen {}".format(length))
             self._feature._obj.AftShoulderLength = length
             if length > 0:
                 self._feature._obj.AftShoulder = True
         elif _tag == "constructiontype":
             constructionType = int(content)
-            print("\tconstructiontype {}".format(constructionType))
             if constructionType == 0:
                 self._feature._obj.TransitionStyle = STYLE_SOLID
             else:

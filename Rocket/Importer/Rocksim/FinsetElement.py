@@ -66,7 +66,7 @@ class FinsetElement(ComponentElement):
 
     def handleEndTag(self, tag, content):
         _tag = tag.lower().strip()
-        print("FinsetElement handle tag " + _tag)
+        # print("FinsetElement handle tag " + _tag)
         if _tag == "fincount":
             if int(content) > 1:
                 self._feature._obj.FinSet = True
@@ -146,7 +146,7 @@ class FinsetElement(ComponentElement):
             dims = point.split(",")
             if len(dims) == 2:
                 newPoints.append((float(dims[0]), float(dims[1])))
-                print("\tpoint ({}, {})".format(dims[0], dims[1]))
+                # print("\tpoint ({}, {})".format(dims[0], dims[1]))
 
         last = newPoints[-1]
         for index, point in enumerate(newPoints):

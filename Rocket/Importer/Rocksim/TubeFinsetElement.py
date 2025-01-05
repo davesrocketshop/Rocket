@@ -50,7 +50,7 @@ class TubeFinsetElement(FinsetElement):
 
     def handleEndTag(self, tag, content):
         _tag = tag.lower().strip()
-        print("TubeFinsetElement handle tag " + _tag)
+        # print("TubeFinsetElement handle tag " + _tag)
         if _tag == "tubecount":
             if int(content) > 1:
                 self._feature._obj.FinSet = True

@@ -71,7 +71,7 @@ class BodyTubeElement(ComponentElement):
 
     def handleEndTag(self, tag, content):
         _tag = tag.lower().strip()
-        print("BodyTubeElement handle tag " + _tag)
+        # print("BodyTubeElement handle tag " + _tag)
         if _tag == "od":
             self._feature._obj.Diameter = float(content)
         elif _tag == "id":

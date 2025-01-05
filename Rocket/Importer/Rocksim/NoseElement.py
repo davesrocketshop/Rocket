@@ -51,10 +51,9 @@ class NoseElement(ComponentElement):
 
     def handleEndTag(self, tag, content):
         _tag = tag.lower().strip()
-        print("NoseElement handle tag " + _tag)
+        # print("NoseElement handle tag " + _tag)
         if _tag == "shapecode":
             shapeCode = int(content)
-            print("\tshapecode {}".format(shapeCode))
             if shapeCode == 0: # CONICAL
                 self._feature._obj.NoseType = TYPE_CONE
             elif shapeCode == 1: # OGIVE
@@ -74,25 +73,20 @@ class NoseElement(ComponentElement):
         elif _tag == "shapeparameter":
             self._feature._obj.Coefficient = float(content)
         elif _tag == "basedia":
-            print("\tbasedia {}".format(float(content)))
             self._feature._obj.AutoDiameter = False
             self._feature._obj.Diameter = float(content)
         elif _tag == "wallthickness":
-            print("\twallthickness {}".format(float(content)))
             self._feature._obj.Thickness = float(content)
             self._feature._obj.ShoulderThickness = float(content)
         elif _tag == "shoulderod":
-            print("\tshoulderod {}".format(float(content)))
             self._feature._obj.ShoulderDiameter = float(content)
         elif _tag == "shoulderlen":
             length = float(content)
-            print("\tshoulderlen {}".format(length))
             self._feature._obj.ShoulderLength = length
             if length > 0:
                 self._feature._obj.Shoulder = True
         elif _tag == "constructiontype":
             constructionType = int(content)
-            print("\tconstructiontype {}".format(constructionType))
             if constructionType == 0:
                 self._feature._obj.NoseStyle = STYLE_SOLID
             else:
