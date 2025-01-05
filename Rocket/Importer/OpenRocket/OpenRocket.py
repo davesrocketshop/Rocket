@@ -110,7 +110,7 @@ class OpenRocketImporter(xml.sax.ContentHandler):
         loc = self._locator
         if loc is not None:
             line = loc.getLineNumber()
-        if self._current.isChildElement(tag):
+        if self._current.isChildElement(tag) and self._current.testCreateChild(tag):
             self._current = self._current.createChild(tag, attributes, self._filename, line)
             self._content = ''
         else:

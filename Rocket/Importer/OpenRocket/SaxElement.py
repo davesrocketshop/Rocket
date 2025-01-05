@@ -55,6 +55,9 @@ class Element:
     def isChildElement(self, tag):
         return str(tag).lower().strip() in self._validChildren
 
+    def testCreateChild(self, tag):
+        return True
+
     def isTag(self, tag):
         return str(tag).lower() == self._tag.lower()
 

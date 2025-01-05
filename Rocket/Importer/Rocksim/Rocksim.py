@@ -117,9 +117,11 @@ class RocketElement(Element):
                            "sidedimensionheight", "basemarkerheight", "basedimensionheight", "showglidecp", "showgridtypeside",
                            "showgridtypebase", "gridspacing", "gridopacity", "gridcolor", "maxdiawithfins", "maxdiawithoutfins",
                            "maxlenwithfins", "maxlenwithoutfins", "minxextent", "maxxextent", "calculatedmaxstagedia",
-                           "calculatedstagelen", "sideviewdims", "baseviewdims", "vertviewdims", "name"]
+                           "calculatedstagelen", "sideviewdims", "baseviewdims", "vertviewdims", "name", "stage3parts",
+                           "stage2parts", "stage1parts"]
 
         self._feature = makeRocket(makeSustainer=False)
+        self._stageCount = 1
 
     def handleEndTag(self, tag, content):
         _tag = tag.lower().strip()
@@ -127,12 +129,22 @@ class RocketElement(Element):
             FreeCAD.ActiveDocument.CreatedBy = content
         elif _tag == "revision":
             pass
+        elif _tag == "stagecount":
+            self._stageCount = int(content)
         else:
             super().handleEndTag(tag, content)
 
     def onComment(self, content):
         if hasattr(self._feature, "setComment"):
             self._feature.setComment(content)
+
+    def testCreateChild(self, tag):
+        _tag = tag.lower().strip()
+        if _tag == "stage2parts":
+            return self._stageCount > 1
+        if _tag == "stage1parts":
+            return self._stageCount > 2
+        return super().testCreateChild(tag)
 
     def end(self):
         self._feature.enableEvents()
@@ -149,7 +161,7 @@ class RocksimImporter(xml.sax.ContentHandler):
         loc = self._locator
         if loc is not None:
             line = loc.getLineNumber()
-        if self._current.isChildElement(tag):
+        if self._current.isChildElement(tag) and self._current.testCreateChild(tag):
             self._current = self._current.createChild(tag, attributes, self._filename, line)
             self._content = ''
         else:
