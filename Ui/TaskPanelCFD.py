@@ -57,10 +57,16 @@ class TaskPanelCFD(QtCore.QObject):
         # self.form = FreeCADGui.PySideUic.loadUi(':/ui/DialogCFD.ui')
 
         self.form.inputAltitude.textEdited.connect(self.onAltitude)
-        self.form.buttonCreate.clicked.connect(self.onCreate)
 
         FreeCAD.setActiveTransaction("Create Rocket CFD Study")
         self.initialize()
+
+    def getStandardButtons(self):
+        return QtGui.QDialogButtonBox.Ok | QtGui.QDialogButtonBox.Close
+
+    def modifyStandardButtons(self, box):
+        createButton = box.button(QtGui.QDialogButtonBox.Ok)
+        createButton.setText(translate("Rocket", "Create"))
 
     def initialize(self):
         # Set Nproc to the number of available threads
@@ -139,14 +145,8 @@ class TaskPanelCFD(QtCore.QObject):
 
         FreeCADGui.SendMsgToActiveView("ViewFit")
 
-        # Don't try to make things twice
-        # self.form.buttonCreate.setEnabled(False)
-        self.accept()
-
-    def getStandardButtons(self):
-        return QtGui.QDialogButtonBox.Close
-
     def accept(self):
+        self.onCreate()
         self.deactivate()
         FreeCAD.closeActiveTransaction()
         return True
