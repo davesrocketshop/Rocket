@@ -129,6 +129,11 @@ class FeatureFin(ExternalComponent):
         if not hasattr(obj,"Cant"):
             obj.addProperty('App::PropertyAngle', 'Cant', 'RocketComponent', translate('App::Property', 'Fin cant')).Cant = 0.0
 
+        if not hasattr(obj,"AutoHeight"):
+            obj.addProperty('App::PropertyBool', 'AutoHeight', 'RocketComponent', translate('App::Property', 'Automatically set the fin height to reach the desired spans')).AutoHeight = False
+        if not hasattr(obj,"Span"):
+            obj.addProperty('App::PropertyLength', 'Span', 'RocketComponent', translate('App::Property', 'Fin total span')).Span = (2.0 * 40.64)
+
         if not hasattr(obj,"Ttw"):
             obj.addProperty('App::PropertyBool', 'Ttw', 'RocketComponent', translate('App::Property', 'Through the wall (TTW) tab')).Ttw = False
         if not hasattr(obj,"TtwOffset"):
