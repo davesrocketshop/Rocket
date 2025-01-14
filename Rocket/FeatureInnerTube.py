@@ -87,10 +87,6 @@ class FeatureInnerTube(ThicknessRingComponent, Clusterable, AxialPositionable, B
             return shape.drawSolidShape()
         return None
 
-    def getXProjection(self, obj):
-        """ Returns a shape representing the projection of the object onto the YZ plane """
-        return None
-
     def isAfter(self):
         return False
 

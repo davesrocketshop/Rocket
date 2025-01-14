@@ -26,6 +26,8 @@ __url__ = "https://www.davesrocketshop.com"
 
 import FreeCAD
 import FreeCADGui
+import MeshPart
+import Part
 import os
 import math
 
@@ -42,7 +44,8 @@ from CfdOF.PostProcess import CfdReportingFunction
 from Analyzers.pyatmos import coesa76
 from Analyzers.pyatmos.utils.Const import gamma, R_air
 
-from Rocket.cfd.CFDUtil import caliber, finThickness, createSolid, getXProjection, frontalArea, makeCFDRocket, makeWindTunnel
+from Rocket.cfd.CFDUtil import caliber, finThickness, createSolid, makeCFDRocket, makeWindTunnel
+from Rocket.cfd.parea import calculateProjectedArea
 
 from Ui.UIPaths import getUIPath
 
@@ -51,7 +54,9 @@ class TaskPanelCFD(QtCore.QObject):
     def __init__(self, rocket):
         super().__init__()
 
+        self._linearDeflection = 0.5 # Linear deflection for a rough mesh with a fast calculation
         self._rocket = rocket
+        self._mesh = None
 
         self.form = FreeCADGui.PySideUic.loadUi(os.path.join(getUIPath(), 'Resources', 'ui', "DialogCFD.ui"))
         # self.form = FreeCADGui.PySideUic.loadUi(':/ui/DialogCFD.ui')
@@ -76,7 +81,7 @@ class TaskPanelCFD(QtCore.QObject):
             self.form.spinNproc.setValue(os.cpu_count())
 
         self._solid = createSolid(self._rocket)
-        self._frontalArea = frontalArea(self._rocket)
+        self._frontalArea = self.calcFrontalArea(self._solid)
         diameter = caliber(self._rocket)
         thickness = finThickness(self._rocket)
         box = self._solid.BoundBox
@@ -95,6 +100,15 @@ class TaskPanelCFD(QtCore.QObject):
         self._refinement_wake = None
         self._refinement_transition1 = None
         self._refinement_transition2 = None
+
+        self.form.spinAOA.valueChanged.connect(self.onAOAChanged)
+        self.form.spinRotation.valueChanged.connect(self.onAOAChanged)
+
+    def onAOAChanged(self, value):
+        """ Calculate the frontal area when the AOA or rotation changes """
+        solid = self.applyTranslations(self._solid)
+        self._frontalArea = self.calcFrontalArea(solid)
+        self.form.inputArea.setText(FreeCAD.Units.Quantity("{} mm^2".format(self._frontalArea)).UserString)
 
     def atmosphericConditions(self, altitude):
 
@@ -115,12 +129,19 @@ class TaskPanelCFD(QtCore.QObject):
         mach, _ = self.atmosphericConditions(altitude)
         self.form.inputSpeed.setText(FreeCAD.Units.Quantity("{} m/s".format(mach * 0.3)).UserString)
 
-    def frontalArea(self):
-        # face = getXProjection(self._rocket)
-        # if face is not None:
-        #     import Part
-        #     Part.show(face)
-        return frontalArea(self._rocket)
+    def calcFrontalArea(self, shape, aoa=0.0):
+        # Create a crude mesh and project it on to the YZ plane to caclulate the frontal area
+        mesh = MeshPart.meshFromShape(shape, LinearDeflection=self._linearDeflection)
+
+        # This is for debugging. Show the mesh
+        # if self._mesh is None:
+        #     self._mesh=FreeCAD.ActiveDocument.addObject("Mesh::Feature","Mesh")
+        # self._mesh.Mesh=mesh
+        # FreeCAD.ActiveDocument.recompute()
+
+        area = calculateProjectedArea(mesh)
+        # print("Area = '{}'".format(area))
+        return area
 
     def airPressure(self):
         altitude = FreeCAD.Units.Quantity(self.form.inputAltitude.text()).Value
@@ -162,19 +183,21 @@ class TaskPanelCFD(QtCore.QObject):
 
     def makeSolid(self):
         self._CFDrocket = makeCFDRocket()
-        self._CFDrocket._obj.Shape = self._solid
-        box = self._solid.BoundBox
+        self._CFDrocket._obj.Shape = self.applyTranslations(self._solid)
+        FreeCAD.ActiveDocument.recompute()
+
+    def applyTranslations(self, solid):
+        box = solid.BoundBox
         center = box.XLength / 2.0
 
-        solid1 = self._solid
+        solid1 = Part.makeCompound([solid]) # Needed to create a copy so translations aren't applied multiple times
         self._rotation = self.form.spinRotation.value()
         if self._rotation != 0.0:
             solid1.rotate(FreeCAD.Vector(0, 0, 0),FreeCAD.Vector(1, 0, 0), self._rotation)
         self._aoa = self.form.spinAOA.value()
         if self._aoa != 0.0:
             solid1.rotate(FreeCAD.Vector(center, 0, 0),FreeCAD.Vector(0, 1, 0), self._aoa)
-        self._CFDrocket._obj.Shape = solid1
-        FreeCAD.ActiveDocument.recompute()
+        return solid1
 
     def getTunnelDimensions(self):
         diameter = FreeCAD.Units.Quantity(self.form.inputDiameter.text()).Value
@@ -349,5 +372,5 @@ class TaskPanelCFD(QtCore.QObject):
         self._forceCoefficient.Drag = FreeCAD.Vector(1, 0, 0)
         self._forceCoefficient.MagnitudeUInf = self.speed()
         self._forceCoefficient.LengthRef = FreeCAD.Units.Quantity(self.form.inputLength.text())
-        self._forceCoefficient.AreaRef = self.frontalArea()
+        self._forceCoefficient.AreaRef = self._frontalArea
         FreeCAD.ActiveDocument.recompute()

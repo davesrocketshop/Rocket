@@ -356,14 +356,6 @@ class TransitionShapeHandler():
         self._obj.Shape = shape
         self._obj.Placement = self._placement
 
-    def getXProjection(self):
-        """ Returns a shape representing the projection of the object onto the YZ plane """
-        radius = max(self._foreRadius, self._aftRadius)
-        edge = Part.makeCircle(radius, FreeCAD.Vector(0, 0, 0), FreeCAD.Vector(1, 0, 0))
-        wire = Part.Wire(edge)
-        face = Part.Face(wire)
-        return face
-
     def _generateCurve(self, r1, r2, length, min = 0.0, max = 0.0):
         """
             For clipped functions, length will be the clip length and self._length is

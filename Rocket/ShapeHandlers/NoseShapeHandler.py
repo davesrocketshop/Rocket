@@ -233,13 +233,6 @@ class NoseShapeHandler():
 
         return shape
 
-    def getXProjection(self):
-        """ Returns a shape representing the projection of the object onto the YZ plane """
-        edge = Part.makeCircle(self._radius, FreeCAD.Vector(0, 0, 0), FreeCAD.Vector(1, 0, 0))
-        wire = Part.Wire(edge)
-        face = Part.Face(wire)
-        return face
-
     def toShape(self, shapeObject):
         if hasattr(shapeObject, 'toShape'):
             return shapeObject.toShape()

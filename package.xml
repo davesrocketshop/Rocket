@@ -18,9 +18,11 @@
 
       <!-- Required by the atmospheric model -->
       <depend>numpy</depend>
+      <depend>shapely</depend>
 
       <depend>Fem</depend>
       <depend>Material</depend>
+      <depend>MeshPart</depend>
       <depend>matplotlib</depend>
 
       <!-- Optional install of 3rd-party CfdOF workbench if utilizing CFD studies -->

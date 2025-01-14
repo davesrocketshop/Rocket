@@ -468,10 +468,3 @@ class FeatureFin(ExternalComponent):
         self._obj.TubeAutoOuterDiameter = auto
         self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
         self.clearPreset()
-
-    def getXProjection(self, obj):
-        """ Returns a shape representing the projection of the object onto the YZ plane """
-        self._setShapeHandler()
-        if self._shapeHandler is not None:
-            return self._shapeHandler.getXProjection()
-        return None

@@ -57,34 +57,6 @@ def createSolid(obj):
 
     return shape
 
-def getXProjection(obj):
-    ''' Returns a shape representing the projection of the object onto the YZ plane '''
-    face = None
-    for current in getProxy(obj).getChildren():
-        if hasattr(current, "Shape"):
-            solid = getProxy(current).getXProjection(current)
-            if solid is not None and solid.isValid():
-                if face == None:
-                    face = solid
-                else:
-                    face = Part.makeCompound([face, solid])
-        child = getXProjection(current)
-        if child is not None and child.isValid():
-            if face == None:
-                face = child
-            else:
-                face = Part.makeCompound([face, child])
-
-    return face
-
-def frontalArea(obj):
-    ''' Returns the frontal area in mm^2 '''
-    face = getXProjection(obj)
-
-    if face is not None and face.isValid():
-        return face.Area
-    return 0.0
-
 def caliber(obj):
     ''' Get the caliber of the component '''
     diameter = 0.0

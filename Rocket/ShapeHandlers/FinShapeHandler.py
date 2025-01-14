@@ -644,15 +644,3 @@ class FinShapeHandler:
             fins.append(fin)
 
         return Part.makeCompound(fins)
-
-    def getXProjection(self):
-        """ Returns a shape representing the projection of the object onto the YZ plane """
-
-        face = None
-        if self._obj.FinSet:
-            face = self._makeFinFrontalFinSet()
-        else:
-            face = self._makeFinFrontal()
-        face.rotate(FreeCAD.Vector(0, 0, 0), FreeCAD.Vector(1,0,0), float(self._obj.AngleOffset))
-
-        return face
