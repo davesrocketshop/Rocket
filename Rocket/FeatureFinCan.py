@@ -26,7 +26,8 @@ __url__ = "https://www.davesrocketshop.com"
 
 from Rocket.SymmetricComponent import SymmetricComponent
 from Rocket.FeatureFin import FeatureFin
-from Rocket.Constants import FEATURE_FINCAN, FEATURE_LAUNCH_LUG, FEATURE_RAIL_BUTTON, FEATURE_RAIL_GUIDE, FEATURE_POD, FEATURE_STAGE
+from Rocket.Constants import FEATURE_FINCAN, FEATURE_LAUNCH_LUG, FEATURE_RAIL_BUTTON, FEATURE_RAIL_GUIDE, \
+    FEATURE_POD, FEATURE_STAGE, FEATURE_RINGTAIL
 from Rocket.Constants import FIN_TYPE_TRAPEZOID, FIN_TYPE_TRIANGLE, FIN_TYPE_ELLIPSE, FIN_TYPE_SKETCH
 from Rocket.Constants import FINCAN_STYLE_SLEEVE, FINCAN_STYLE_BODYTUBE
 from Rocket.Constants import FINCAN_EDGE_SQUARE, FINCAN_EDGE_ROUND, FINCAN_EDGE_TAPER
@@ -291,7 +292,8 @@ class FeatureFinCan(SymmetricComponent, FeatureFin):
             FEATURE_POD,
             FEATURE_LAUNCH_LUG,
             FEATURE_RAIL_BUTTON,
-            FEATURE_RAIL_GUIDE]
+            FEATURE_RAIL_GUIDE,
+            FEATURE_RINGTAIL]
 
     def  getAftRadius(self):
         return self.getForeRadius()

@@ -34,7 +34,7 @@ from Rocket.SymmetricComponent import SymmetricComponent
 from Rocket.FeatureInnerTube import FeatureInnerTube
 from Rocket.util.Coordinate import Coordinate, NUL
 
-from Rocket.Constants import FEATURE_FIN, FEATURE_LAUNCH_LUG, FEATURE_RAIL_BUTTON, FEATURE_POD
+from Rocket.Constants import FEATURE_FIN, FEATURE_LAUNCH_LUG, FEATURE_RAIL_BUTTON, FEATURE_POD, FEATURE_RINGTAIL
 from Rocket.Constants import FIN_TYPE_TRAPEZOID, FIN_TYPE_TRIANGLE, FIN_TYPE_ELLIPSE, FIN_TYPE_TUBE, FIN_TYPE_SKETCH
 from Rocket.Constants import FIN_CROSS_SAME, FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE, \
     FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE, FIN_CROSS_ELLIPSE, FIN_CROSS_BICONVEX
@@ -214,6 +214,7 @@ class FeatureFin(ExternalComponent):
         # Ensure any automatic variables are set
         self.setParentDiameter()
         self.getTubeOuterDiameter()
+        self.setFinAutoHeight()
         self._setTtwAutoHeight()
 
     def getFinThickness(self):
@@ -237,6 +238,14 @@ class FeatureFin(ExternalComponent):
                 self._obj.ParentRadius = parent.getOuterDiameter() / 2.0
             else:
                 self._obj.ParentRadius = SymmetricComponent.DEFAULT_RADIUS
+
+    def setFinAutoHeight(self):
+        if self._obj.AutoHeight and self._obj.ParentRadius > 0 and self._obj.Span > 0:
+            height = ((self._obj.Span - 2.0 * self._obj.ParentRadius) / 2.0)
+            self._obj.Proxy.setHeight(height)
+            print("Height {}".format(height.UserString))
+            print("Span {}".format(self._obj.Span.UserString))
+            print("ParentRadius {}".format(self._obj.ParentRadius.UserString))
 
     def _setTtwAutoHeight(self, pos=0):
         if self._obj.TtwAutoHeight:
@@ -381,7 +390,8 @@ class FeatureFin(ExternalComponent):
         return childType in [
             FEATURE_POD,
             FEATURE_LAUNCH_LUG,
-            FEATURE_RAIL_BUTTON
+            FEATURE_RAIL_BUTTON,
+            FEATURE_RINGTAIL
             # FEATURE_RAIL_GUIDE - this doesn't make sense on a fin
             ]
 

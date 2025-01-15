@@ -27,7 +27,7 @@ __url__ = "https://www.davesrocketshop.com"
 import FreeCAD
 import FreeCADGui
 
-from Ui.TaskPanelBodyTube import TaskPanelBodyTube
+from Ui.TaskPanelRingtail import TaskPanelRingtail
 from Ui.ViewProvider import ViewProvider
 
 class ViewProviderRingtail(ViewProvider):
@@ -40,7 +40,7 @@ class ViewProviderRingtail(ViewProvider):
 
     def setEdit(self, vobj, mode):
         if mode == 0:
-            taskd = TaskPanelBodyTube(self.Object, mode)
+            taskd = TaskPanelRingtail(self.Object, mode)
             taskd.obj = vobj.Object
             taskd.update()
             FreeCADGui.Control.showDialog(taskd)

@@ -1207,6 +1207,9 @@ class TaskPanelFin(QObject):
     def onAutoHeight(self, value):
         try:
             self._obj.AutoHeight = value
+            self._obj.Proxy.setFinAutoHeight()
+            self._finForm.heightInput.setText(self._obj.Height.UserString)
+            # self._sweepAngleFromLength(self._obj.SweepLength)
             self.redraw()
             self._setHeightState()
         except ValueError:
@@ -1218,13 +1221,15 @@ class TaskPanelFin(QObject):
             self._obj.AutoHeight = False
         self._finForm.autoHeightCheckBox.setChecked(self._obj.AutoHeight)
         self._finForm.autoHeightCheckBox.setEnabled(self._isAssembly)
-        self._finForm.heightInput.setEnabled(self._obj.Ttw and not self._obj.AutoHeight)
+        self._finForm.heightInput.setEnabled(not self._obj.AutoHeight)
         self._finForm.spanInput.setEnabled(self._obj.AutoHeight)
 
     def onSpan(self, value):
         try:
             self._obj.Span = FreeCAD.Units.Quantity(value).Value
-            self._sweepAngleFromLength(self._obj.SweepLength)
+            self._obj.Proxy.setFinAutoHeight()
+            self._finForm.heightInput.setText(self._obj.Height.UserString)
+            # self._sweepAngleFromLength(self._obj.SweepLength)
             self.redraw()
         except ValueError:
             pass

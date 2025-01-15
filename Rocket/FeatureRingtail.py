@@ -24,12 +24,14 @@ __title__ = "FreeCAD Ring Tails"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
+from Rocket.position import AxialMethod
+
 from Rocket.interfaces.BoxBounded import BoxBounded
 from Rocket.interfaces.Coaxial import Coaxial
 
 from Rocket.events.ComponentChangeEvent import ComponentChangeEvent
 from Rocket.SymmetricComponent import SymmetricComponent
-from Rocket.Constants import FEATURE_RINGTAIL
+from Rocket.Constants import FEATURE_RINGTAIL, FEATURE_FIN, FEATURE_FINCAN
 
 from Rocket.ShapeHandlers.RingtailShapeHandler import RingtailShapeHandler
 from Rocket.Utilities import _wrn
@@ -49,21 +51,24 @@ class FeatureRingtail(SymmetricComponent, BoxBounded, Coaxial):
         # Default set to a BT-50
         if not hasattr(obj,"Diameter"):
             obj.addProperty('App::PropertyLength', 'Diameter', 'RocketComponent', translate('App::Property', 'Diameter of the outside of the body tube')).Diameter = SymmetricComponent.DEFAULT_RADIUS * 2.0
+        if not hasattr(obj, 'AutoDiameter'):
+            obj.addProperty('App::PropertyBool', 'AutoDiameter', 'RocketComponent', translate('App::Property', 'Automatically set the outer diameter when possible')).AutoDiameter = True
         if not hasattr(obj,"Thickness"):
             obj.addProperty('App::PropertyLength', 'Thickness', 'RocketComponent', translate('App::Property', 'Thickness of the body tube')).Thickness = 0.33
-
-        if not hasattr(obj,"PylonCount"):
-            obj.addProperty('App::PropertyInteger', 'PylonCount', 'RocketComponent', translate('App::Property', 'Number of pylons in a radial pattern')).PylonCount = 3
-        if not hasattr(obj,"PylonThickness"):
-            obj.addProperty('App::PropertyLength', 'PylonThickness', 'RocketComponent', translate('App::Property', 'Thickness of the pylon')).PylonThickness = 0.33
+        super().setAxialMethod(AxialMethod.BOTTOM)
 
     def setDefaults(self):
         super().setDefaults()
 
+        super().setAxialMethod(AxialMethod.BOTTOM)
         self._obj.Length = 30.0
 
     def update(self):
-        super().update()
+        super().setAxialMethod(AxialMethod.BOTTOM)
+        # super().update()
+
+    def isAfter(self):
+        return False
 
     """
         Sets the length of the body component.
@@ -81,6 +86,24 @@ class FeatureRingtail(SymmetricComponent, BoxBounded, Coaxial):
 
         self._obj.Length = max(length, 0)
         self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
+
+    """
+        Sets whether the radius is selected automatically or not.
+    """
+    def setOuterDiameterAutomatic(self, auto):
+        for listener in self._configListeners:
+            if isinstance(listener, FeatureBodyTube): # OR used transition base class
+                listener.setOuterDiameterAutomatic(auto)
+
+        if self._obj.AutoDiameter == auto:
+            return
+
+        self._obj.AutoDiameter = auto
+        self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
+        self.clearPreset()
+
+    def setOuterRadiusAutomatic(self, auto):
+        self.setOuterDiameterAutomatic(auto)
 
     def getMaxForwardPosition(self):
         return float(self._obj.Length) + float(self._obj.Placement.Base.x)
@@ -107,7 +130,7 @@ class FeatureRingtail(SymmetricComponent, BoxBounded, Coaxial):
 
     def setInnerDiameter(self, diameter):
         for listener in self._configListeners:
-            if isinstance(listener, FeatureBodyTube): # OR used transition base class
+            if isinstance(listener, FeatureRingtail):
                 listener.setInnerDiameter(diameter)
 
         self.setThickness((self._obj.Diameter - diameter) / 2.0)
@@ -117,7 +140,7 @@ class FeatureRingtail(SymmetricComponent, BoxBounded, Coaxial):
 
     def setOuterDiameter(self, diameter):
         for listener in self._configListeners:
-            if isinstance(listener, FeatureBodyTube): # OR used transition base class
+            if isinstance(listener, FeatureRingtail):
                 listener.setOuterDiameter(diameter)
 
         if self._obj.Diameter == diameter and not self._obj.AutoDiameter:
@@ -138,10 +161,59 @@ class FeatureRingtail(SymmetricComponent, BoxBounded, Coaxial):
         return self.getOuterDiameter() / 2.0
 
     def getOuterDiameter(self):
+        if self._obj.AutoDiameter:
+            self._setAutoDiameter()
+
         return float(self._obj.Diameter)
 
     def getRearInnerDiameter(self):
         return self.getInnerDiameter()
+
+    def getFrontAutoDiameter(self):
+        return self.getOuterDiameter()
+
+    def getFrontAutoInnerDiameter(self):
+        return self.getOuterDiameter() - (2.0 * self._obj.Thickness)
+
+    def getFrontAutoRadius(self):
+        return self.getOuterDiameter() / 2.0
+
+    def getRearAutoDiameter(self):
+        return self.getFrontAutoDiameter()
+
+    def getRearAutoInnerDiameter(self):
+        return self.getFrontAutoInnerDiameter()
+
+    def getRearAutoRadius(self):
+        return self.getFrontAutoRadius()
+
+    def isAftRadiusAutomatic(self):
+        return self._obj.AutoDiameter
+
+    def isForeRadiusAutomatic(self):
+        return self._obj.AutoDiameter
+
+    def usesNextCompAutomatic(self):
+        return False
+
+    def usesPreviousCompAutomatic(self):
+        return False
+
+    def _setAutoDiameter(self):
+        body = None
+        parentDiameter = 0.0
+
+        body = self.getParent()
+        while body is not None:
+            if body.Type in [FEATURE_FIN, FEATURE_FINCAN]:
+                break
+            body = body.getParent()
+
+        if body is not None:
+            body.setParentDiameter() # Set any auto values
+            parentDiameter = 2.0 * float(body.getForeRadius())
+
+        self._obj.Diameter = parentDiameter + (2.0 * float(self._obj.Thickness))
 
     def execute(self, obj):
         shape = RingtailShapeHandler(obj)
@@ -158,6 +230,13 @@ class FeatureRingtail(SymmetricComponent, BoxBounded, Coaxial):
     def getXProjection(self, obj):
         """ Returns a shape representing the projection of the object onto the YZ plane """
         return None
+
+    """
+        Returns whether the component is set as filled.  If it is set filled, then the
+        wall thickness will have no effect.
+    """
+    def isFilled(self):
+        return False
 
     def eligibleChild(self, childType):
         # return childType in [
