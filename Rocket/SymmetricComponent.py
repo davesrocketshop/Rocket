@@ -149,7 +149,8 @@ class SymmetricComponent(RocketComponent, BoxBounded, RadialParent):
         if self.isFilled():
             return
 
-        self._obj.Filled = filled
+        if hasattr(self._obj, "Filled"):
+            self._obj.Filled = filled
         self.fireComponentChangeEvent(ComponentChangeEvent.MASS_CHANGE)
         self.clearPreset()
 

@@ -30,6 +30,7 @@ from Rocket.Importer.Rocksim.BodyTubeElement import InnerTubeElement
 from Rocket.Importer.Rocksim.FinsetElement import FinsetElement
 from Rocket.Importer.Rocksim.LaunchLugElement import LaunchLugElement
 from Rocket.Importer.Rocksim.RingElement import RingElement
+from Rocket.Importer.Rocksim.RingtailElement import RingtailElement
 from Rocket.Importer.Rocksim.SubAssemblyElement import SubAssemblyElement
 from Rocket.Importer.Rocksim.TransitionElement import TransitionElement
 from Rocket.Importer.Rocksim.TubeFinsetElement import TubeFinsetElement
@@ -50,7 +51,7 @@ class AttachedPartsElement(Element):
                                 'transition' : TransitionElement,
                                 'subassembly' : SubAssemblyElement,
                                 'tubefinset' : TubeFinsetElement,
-                                'ringtail' : NullElement,
+                                'ringtail' : RingtailElement,
                                 'externalpod' : NullElement,
                               }
         self._knownTags = ["finset", "customfinset", "launchlug", "parachute", "streamer", "massobject", "ring", "bodytube",
