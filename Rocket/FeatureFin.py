@@ -248,7 +248,8 @@ class FeatureFin(ExternalComponent):
     def setFinAutoHeight(self):
         if self._obj.AutoHeight and self._obj.ParentRadius > 0 and self._obj.Span > 0:
             height = ((self._obj.Span - 2.0 * self._obj.ParentRadius) / 2.0)
-            self.setHeight(height)
+            if height > 0:
+                self.setHeight(height)
 
     def _setTtwAutoHeight(self, pos=0):
         if self._obj.TtwAutoHeight:
