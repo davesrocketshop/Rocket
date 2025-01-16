@@ -186,9 +186,14 @@ class TaskPanelCFD(QtCore.QObject):
         self._CFDrocket._obj.Shape = self.applyTranslations(self._solid)
         FreeCAD.ActiveDocument.recompute()
 
-    def applyTranslations(self, solid):
+    def getCenter(self, solid):
         box = solid.BoundBox
         center = box.XLength / 2.0
+
+        return center
+
+    def applyTranslations(self, solid):
+        center = self.getCenter(solid)
 
         solid1 = Part.makeCompound([solid]) # Needed to create a copy so translations aren't applied multiple times
         self._rotation = self.form.spinRotation.value()
@@ -197,6 +202,7 @@ class TaskPanelCFD(QtCore.QObject):
         self._aoa = self.form.spinAOA.value()
         if self._aoa != 0.0:
             solid1.rotate(FreeCAD.Vector(center, 0, 0),FreeCAD.Vector(0, 1, 0), self._aoa)
+        solid1.translate(FreeCAD.Vector(-center, 0, 0))
         return solid1
 
     def getTunnelDimensions(self):
@@ -209,11 +215,12 @@ class TaskPanelCFD(QtCore.QObject):
         return tunnelDiameter, length
 
     def makeWindTunnel(self):
+        center = self.getCenter(self._solid)
         diameter, length = self.getTunnelDimensions()
-        self._outer = makeWindTunnel('WindTunnel', diameter, 10.0 * length, 2.0 * length)
-        self._refinement_wake = makeWindTunnel('WindTunnel-wake', diameter * 0.25, 3.5 * length, 0.5 * length)
-        self._refinement_transition1 = makeWindTunnel('WindTunnel-transition1', diameter * 0.5, 9.0 * length, 1.0 * length)
-        self._refinement_transition2 = makeWindTunnel('WindTunnel-transition2', diameter * 0.75, 9.5 * length, 1.5 * length)
+        self._outer = makeWindTunnel('WindTunnel', diameter, 10.0 * length, 2.0 * length + center)
+        self._refinement_wake = makeWindTunnel('WindTunnel-wake', diameter * 0.25, 3.5 * length, 0.5 * length + center)
+        self._refinement_transition1 = makeWindTunnel('WindTunnel-transition1', diameter * 0.5, 9.0 * length, 1.0 * length + center)
+        self._refinement_transition2 = makeWindTunnel('WindTunnel-transition2', diameter * 0.75, 9.5 * length, 1.5 * length + center)
         FreeCAD.ActiveDocument.recompute()
 
         self.makeCompound()
