@@ -100,6 +100,9 @@ class _RingtailDialog(QDialog):
         self.lengthInput.unit = 'mm'
         self.lengthInput.setMinimumWidth(100)
 
+        self.autoLengthCheckbox = QtGui.QCheckBox(translate('Rocket', "auto"), self)
+        self.autoLengthCheckbox.setCheckState(QtCore.Qt.Unchecked)
+
         # General parameters
         row = 0
         grid = QGridLayout()
@@ -119,6 +122,7 @@ class _RingtailDialog(QDialog):
 
         grid.addWidget(self.lengthLabel, row, 0)
         grid.addWidget(self.lengthInput, row, 1)
+        grid.addWidget(self.autoLengthCheckbox, row, 2)
 
         layout = QVBoxLayout()
         layout.addItem(grid)
@@ -148,6 +152,7 @@ class TaskPanelRingtail:
         self._btForm.idInput.textEdited.connect(self.onId)
         self._btForm.thicknessInput.textEdited.connect(self.onThickness)
         self._btForm.lengthInput.textEdited.connect(self.onLength)
+        self._btForm.autoLengthCheckbox.stateChanged.connect(self.onAutoLength)
 
         self._db.dbLoad.connect(self.onLookup)
         self._location.locationChange.connect(self.onLocation)
@@ -164,6 +169,7 @@ class TaskPanelRingtail:
         self._obj.Proxy.setOuterDiameterAutomatic(self._btForm.autoDiameterCheckbox.isChecked())
         self._obj.Proxy.setThickness(FreeCAD.Units.Quantity(self._btForm.thicknessInput.text()).Value)
         self._obj.Proxy.setLength(FreeCAD.Units.Quantity(self._btForm.lengthInput.text()).Value)
+        self._obj.Proxy.setLengthAutomatic(self._btForm.autoLengthCheckbox.isChecked())
 
         self._btForm.tabMaterial.transferTo(self._obj)
         self._btForm.tabComment.transferTo(self._obj)
@@ -175,11 +181,13 @@ class TaskPanelRingtail:
         self._btForm.idInput.setText("0.0")
         self._btForm.thicknessInput.setText(self._obj.Thickness.UserString)
         self._btForm.lengthInput.setText(self._obj.Length.UserString)
+        self._btForm.autoLengthCheckbox.setChecked(self._obj.AutoLength)
 
         self._btForm.tabMaterial.transferFrom(self._obj)
         self._btForm.tabComment.transferFrom(self._obj)
 
         self._setAutoDiameterState()
+        self._setAutoLengthState()
         self._setIdFromThickness()
 
     def setEdited(self):
@@ -215,9 +223,31 @@ class TaskPanelRingtail:
             self._btForm.odInput.setText(self._obj.Diameter.UserString)
             self._setIdFromThickness()
 
+    def _setAutoLengthState(self):
+        if self._isAssembly:
+            self._btForm.lengthInput.setEnabled(not self._obj.AutoLength)
+            self._btForm.autoLengthCheckbox.setChecked(self._obj.AutoLength)
+            self._btForm.autoLengthCheckbox.setEnabled(True)
+        else:
+            self._btForm.lengthInput.setEnabled(True)
+            self._obj.AutoLength = False
+            self._btForm.autoLengthCheckbox.setChecked(self._obj.AutoLength)
+            self._btForm.autoLengthCheckbox.setEnabled(False)
+
+        if self._obj.AutoLength:
+            self._obj.Length = self._obj.Proxy.getLength()
+            self._btForm.lengthInput.setText(self._obj.Length.UserString)
+
     def onAutoDiameter(self, value):
         self._obj.Proxy.setOuterDiameterAutomatic(value)
         self._setAutoDiameterState()
+
+        self._obj.Proxy.execute(self._obj)
+        self.setEdited()
+
+    def onAutoLength(self, value):
+        self._obj.Proxy.setLengthAutomatic(value)
+        self._setAutoLengthState()
 
         self._obj.Proxy.execute(self._obj)
         self.setEdited()

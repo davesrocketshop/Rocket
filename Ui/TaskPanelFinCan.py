@@ -1248,7 +1248,7 @@ class TaskPanelFinCan(QObject):
 
     def onTipChord(self, value):
         try:
-            self._obj.TipChord = FreeCAD.Units.Quantity(value).Value
+            self._obj.Proxy.setTipChord(FreeCAD.Units.Quantity(value).Value)
             self.redraw()
         except ValueError:
             pass
@@ -1256,7 +1256,7 @@ class TaskPanelFinCan(QObject):
 
     def onTipThickness(self, value):
         try:
-            self._obj.TipThickness = FreeCAD.Units.Quantity(value).Value
+            self._obj.Proxy.setTipThickness(FreeCAD.Units.Quantity(value).Value)
             self.redraw()
         except ValueError:
             pass

@@ -53,6 +53,8 @@ class FeatureRingtail(SymmetricComponent, BoxBounded, Coaxial):
             obj.addProperty('App::PropertyBool', 'AutoDiameter', 'RocketComponent', translate('App::Property', 'Automatically set the outer diameter when possible')).AutoDiameter = True
         if not hasattr(obj,"Thickness"):
             obj.addProperty('App::PropertyLength', 'Thickness', 'RocketComponent', translate('App::Property', 'Thickness of the body tube')).Thickness = 0.33
+        if not hasattr(obj, 'AutoLength'):
+            obj.addProperty('App::PropertyBool', 'AutoLength', 'RocketComponent', translate('App::Property', 'Automatically set the length when possible')).AutoLength = True
         # super().setAxialMethod(AxialMethod.BOTTOM)
 
     def setDefaults(self):
@@ -83,14 +85,12 @@ class FeatureRingtail(SymmetricComponent, BoxBounded, Coaxial):
         self._setAxialOffset(self._obj.AxialMethod, sweep)
 
     def update(self):
-        print("Ringtail update")
         if self._obj.AutoDiameter:
             self._setAutoDiameter()
         self.setAxialOffset()
         # super().update()
 
     def componentChanged(self, e):
-        print("Ringtail feature changed")
         super().componentChanged(e)
 
         if self._obj.AutoDiameter:
@@ -245,6 +245,30 @@ class FeatureRingtail(SymmetricComponent, BoxBounded, Coaxial):
             parentDiameter = 2.0 * float(body.getForeRadius())
 
         self._obj.Diameter = parentDiameter + (2.0 * float(self._obj.Thickness))
+
+    def getLength(self):
+        if self._obj.AutoLength:
+            self._setAutoLength()
+        return self._obj.Length
+
+    def _setAutoLength(self):
+        body = None
+        tipLength = 0.0
+
+        body = self.getParent()
+        while body is not None:
+            if body.Type in [FEATURE_FIN, FEATURE_FINCAN]:
+                break
+            body = body.getParent()
+
+        if body is not None:
+            tipLength = body.getTipChord()
+
+        self._obj.Length = tipLength
+
+    def setLengthAutomatic(self, value):
+        self._obj.AutoLength = value
+        self._setAutoLength()
 
     def execute(self, obj):
         shape = RingtailShapeHandler(obj)
