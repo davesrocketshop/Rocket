@@ -340,6 +340,9 @@ class FeatureFinCan(SymmetricComponent, FeatureFin):
     def getRearAutoRadius(self):
         return self.getRearAutoDiameter() / 2.0
 
+    def getOuterDiameter(self, r=0):
+        return float(self._obj.Diameter)
+
     def getInnerDiameter(self, r=0):
         return float(self._obj.Diameter) - (2.0 * float(self._obj.Thickness))
 

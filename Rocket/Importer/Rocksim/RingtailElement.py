@@ -24,9 +24,6 @@ __title__ = "FreeCAD Rocksim Importer"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
-import FreeCAD
-
-from Rocket.Importer.Rocksim.ComponentElement import ComponentElement
 from Rocket.Importer.Rocksim.FinsetElement import FinsetElement
 from Rocket.Constants import FIN_TYPE_TRAPEZOID
 
@@ -58,7 +55,7 @@ class RingtailElement(FinsetElement):
 
     def handleEndTag(self, tag, content):
         _tag = tag.lower().strip()
-        print("RingtailElement handle tag " + _tag)
+        # print("RingtailElement handle tag " + _tag)
         if _tag == "od":
             self._outerDiameter = float(content)
         elif _tag == "id":

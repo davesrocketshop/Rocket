@@ -95,6 +95,7 @@ class FeatureRocket(ComponentAssembly, ComponentChangeListener):
         FeatureRocket(obj)
         self._obj = obj
         obj.Proxy=self # Required because of the local variables
+        self._updating = False
         self.initialize()
         self.setChildParent()
         self.enableEvents(True)

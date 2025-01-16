@@ -72,7 +72,7 @@ class RocketComponentShapeless():
         self._obj = obj
         self._parent = None
         obj.Proxy=self
-        self._scratch = {} # None persistent property storage, for import properties and similar
+        self._scratch = {} # Non-persistent property storage, for import properties and similar
 
         self._configListeners = []
         self._updating = False

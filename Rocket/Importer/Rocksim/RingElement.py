@@ -24,8 +24,6 @@ __title__ = "FreeCAD Rocksim Importer"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
-import FreeCAD
-
 from Rocket.Importer.Rocksim.ComponentElement import ComponentElement
 
 from Ui.Commands.CmdBulkhead import makeBulkhead
