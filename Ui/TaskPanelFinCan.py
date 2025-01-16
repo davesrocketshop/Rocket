@@ -231,6 +231,15 @@ class _FinCanDialog(QDialog):
         self.heightInput.unit = 'mm'
         self.heightInput.setMinimumWidth(100)
 
+        self.autoHeightCheckBox = QtGui.QCheckBox(translate('Rocket', "auto"), self)
+        self.autoHeightCheckBox.setCheckState(QtCore.Qt.Unchecked)
+
+        self.spanLabel = QtGui.QLabel(translate('Rocket', "Span"), self)
+
+        self.spanInput = ui.createWidget("Gui::InputField")
+        self.spanInput.unit = 'mm'
+        self.spanInput.setMinimumWidth(100)
+
         # Sweep can be forward (-sweep) or backward (+sweep)
         self.sweepLengthLabel = QtGui.QLabel(translate('Rocket', "Sweep Length"), self)
 
@@ -329,6 +338,11 @@ class _FinCanDialog(QDialog):
 
         grid.addWidget(self.heightLabel, row, 0)
         grid.addWidget(self.heightInput, row, 1)
+        grid.addWidget(self.autoHeightCheckBox, row, 2)
+        row += 1
+
+        grid.addWidget(self.spanLabel, row, 0)
+        grid.addWidget(self.spanInput, row, 1)
         row += 1
 
         grid.addWidget(self.sweepLengthLabel, row, 0)
@@ -707,6 +721,8 @@ class TaskPanelFinCan(QObject):
         self._finForm.tipLength2Input.textEdited.connect(self.onTipLength2)
 
         self._finForm.heightInput.textEdited.connect(self.onHeight)
+        self._finForm.autoHeightCheckBox.stateChanged.connect(self.onAutoHeight)
+        self._finForm.spanInput.textEdited.connect(self.onSpan)
         self._finForm.sweepLengthInput.textEdited.connect(self.onSweepLength)
         self._finForm.sweepAngleInput.textEdited.connect(self.onSweepAngle)
 
@@ -776,6 +792,8 @@ class TaskPanelFinCan(QObject):
         self._obj.TipLength2 =self._finForm.tipLength2Input.text()
 
         self._obj.Height = self._finForm.heightInput.text()
+        self._obj.AutoHeight = self._finForm.autoHeightCheckBox.isChecked()
+        self._obj.Span = self._finForm.spanInput.text()
         self._obj.SweepLength = self._finForm.sweepLengthInput.text()
         self._obj.SweepAngle = self._finForm.sweepAngleInput.text()
 
@@ -839,6 +857,8 @@ class TaskPanelFinCan(QObject):
         self._finForm.tipLength2Input.setText(self._obj.TipLength2.UserString)
 
         self._finForm.heightInput.setText(self._obj.Height.UserString)
+        self._finForm.autoHeightCheckBox.setChecked(self._obj.AutoHeight)
+        self._finForm.spanInput.setText(self._obj.Span.UserString)
         self._finForm.sweepLengthInput.setText(self._obj.SweepLength.UserString)
         self._finForm.sweepAngleInput.setText(self._obj.SweepAngle.UserString)
 
@@ -879,6 +899,7 @@ class TaskPanelFinCan(QObject):
         self._finForm.tabComment.transferFrom(self._obj)
 
         self._setFinSetState()
+        self._setHeightState()
         self._enableRootLengths()
         self._enableFinTypes() # This calls _enableTipLengths()
         self._enableRootPercent()
@@ -1320,6 +1341,35 @@ class TaskPanelFinCan(QObject):
     def onHeight(self, value):
         try:
             self._obj.Proxy.setHeight(FreeCAD.Units.Quantity(value).Value)
+            self._sweepAngleFromLength()
+            self.redraw()
+        except ValueError:
+            pass
+        self.setEdited()
+
+    def onAutoHeight(self, value):
+        try:
+            self._obj.Proxy.setAutoHeight(value)
+            self._finForm.heightInput.setText(self._obj.Height.UserString)
+            self._sweepAngleFromLength()
+            self._setHeightState()
+            self.redraw()
+        except ValueError:
+            pass
+        self.setEdited()
+
+    def _setHeightState(self):
+        if not self._isAssembly:
+            self._obj.AutoHeight = False
+        self._finForm.autoHeightCheckBox.setChecked(self._obj.AutoHeight)
+        self._finForm.autoHeightCheckBox.setEnabled(self._isAssembly)
+        self._finForm.heightInput.setEnabled(not self._obj.AutoHeight)
+        self._finForm.spanInput.setEnabled(self._obj.AutoHeight)
+
+    def onSpan(self, value):
+        try:
+            self._obj.Proxy.setSpan(FreeCAD.Units.Quantity(value).Value)
+            self._finForm.heightInput.setText(self._obj.Height.UserString)
             self._sweepAngleFromLength()
             self.redraw()
         except ValueError:
