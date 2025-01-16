@@ -24,35 +24,65 @@ __title__ = "FreeCAD Rocksim Importer"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
-from Rocket.Importer.OpenRocket.SaxElement import NullElement, Element
-
-from Rocket.Importer.Rocksim.BodyTubeElement import InnerTubeElement
 from Rocket.Importer.Rocksim.FinsetElement import FinsetElement
-from Rocket.Importer.Rocksim.LaunchLugElement import LaunchLugElement
-from Rocket.Importer.Rocksim.RingElement import RingElement
-from Rocket.Importer.Rocksim.RingtailElement import RingtailElement
-from Rocket.Importer.Rocksim.SubAssemblyElement import SubAssemblyElement
-from Rocket.Importer.Rocksim.TransitionElement import TransitionElement
-from Rocket.Importer.Rocksim.TubeFinsetElement import TubeFinsetElement
+from Rocket.Constants import FIN_TYPE_TRAPEZOID
 
-class AttachedPartsElement(Element):
+from Ui.Commands.CmdFin import makeFin
+from Ui.Commands.CmdRingtail import makeRingtail
+
+class RingtailElement(FinsetElement):
 
     def __init__(self, parent, tag, attributes, parentObj, filename, line):
         super().__init__(parent, tag, attributes, parentObj, filename, line)
 
-        self._validChildren = { 'finset' : FinsetElement,
-                                'customfinset' : FinsetElement,
-                                'launchlug' : LaunchLugElement,
-                                'parachute' : NullElement,
-                                'streamer' : NullElement,
-                                'massobject' : NullElement,
-                                'ring' : RingElement,
-                                'bodytube' : InnerTubeElement,
-                                'transition' : TransitionElement,
-                                'subassembly' : SubAssemblyElement,
-                                'tubefinset' : TubeFinsetElement,
-                                'ringtail' : RingtailElement,
-                                'externalpod' : NullElement,
-                              }
-        self._knownTags = ["finset", "customfinset", "launchlug", "parachute", "streamer", "massobject", "ring", "bodytube",
-                           "transition", "subassembly", "tubefinset", "ringtail", "externalpod"]
+        self._knownTags.extend(["od", "id", "tubedensity", "tubedensitytype", "tubematerial"])
+
+        self._innerDiameter = 0
+        self._outerDiameter = 0
+        self._length = 0
+        self._tubeDensity = 0
+        self._tubeDensityType = ""
+        self._tubeMaterial = ""
+
+
+    def makeObject(self):
+        self._feature = makeFin()
+        self._feature._obj.FinType = FIN_TYPE_TRAPEZOID
+
+        if self._parentObj is not None:
+            self._parentObj.addChild(self._feature)
+
+
+    def handleEndTag(self, tag, content):
+        _tag = tag.lower().strip()
+        # print("RingtailElement handle tag " + _tag)
+        if _tag == "od":
+            self._outerDiameter = float(content)
+        elif _tag == "id":
+            self._innerDiameter = float(content)
+        elif _tag == "tubedensity":
+            self._tubeDensity = float(content)
+        elif _tag == "tubedensitytype":
+            self._tubeDensityType = self.densityType(int(content))
+        elif _tag == "tubematerial":
+            self._tubeMaterial = content
+        else:
+            super().handleEndTag(tag, content)
+
+    def end(self):
+        self._feature2 = makeRingtail()
+
+        if self._feature is not None:
+            self._feature.addChild(self._feature2)
+
+        self._feature2._obj.Diameter = self._outerDiameter
+        self._feature2._obj.AutoDiameter = False
+        self._feature2._obj.Thickness = (self._outerDiameter - self._innerDiameter) / 2.0
+        self._feature2._obj.AutoLength = True
+
+        self.setMaterial(self._feature2, self._tubeMaterial, self._tubeDensityType)
+
+        if hasattr(self._feature2._obj.ViewObject, "ShapeAppearance"):
+            self._feature2._obj.ViewObject.ShapeAppearance = self._appearance
+
+        return super().end()

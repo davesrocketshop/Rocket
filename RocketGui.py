@@ -40,6 +40,7 @@ from Ui.Commands.CmdBulkhead import CmdBulkhead
 from Ui.Commands.CmdLaunchGuides import CmdLaunchLug, CmdRailButton, CmdRailGuide, CmdStandOff
 from Ui.Commands.CmdFin import CmdFin
 from Ui.Commands.CmdFinCan import CmdFinCan
+from Ui.Commands.CmdRingtail import CmdRingtail
 from Ui.Commands.CmdParachute import CmdParachute
 from Ui.Commands.CmdEditTree import CmdMoveUp, CmdMoveDown
 
@@ -81,6 +82,7 @@ FreeCADGui.addCommand('Rocket_CenteringRing', CmdCenteringRing())
 FreeCADGui.addCommand('Rocket_Bulkhead', CmdBulkhead())
 FreeCADGui.addCommand('Rocket_Fin', CmdFin())
 FreeCADGui.addCommand('Rocket_FinCan', CmdFinCan())
+FreeCADGui.addCommand('Rocket_Ringtail', CmdRingtail())
 
 FreeCADGui.addCommand('Rocket_BodyTube', CmdBodyTube())
 FreeCADGui.addCommand('Rocket_Coupler', CmdCoupler())

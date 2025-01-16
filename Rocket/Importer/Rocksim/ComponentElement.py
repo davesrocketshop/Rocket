@@ -35,6 +35,7 @@ from Rocket.Parts.Exceptions import MaterialNotFoundError
 
 from Rocket.Importer.OpenRocket.SaxElement import Element
 from Rocket.Constants import LOCATION_PARENT_TOP, LOCATION_PARENT_BOTTOM, LOCATION_BASE
+from Rocket.Constants import MATERIAL_TYPE_BULK, MATERIAL_TYPE_SURFACE, MATERIAL_TYPE_LINE
 from Rocket.position.AxialMethod import AXIAL_METHOD_MAP
 
 from Rocket.Utilities import _err
@@ -56,7 +57,7 @@ class ComponentElement(Element):
         self._knownMass = 0
         self._knownCG = 0
         self._density = 0
-        self._densityType = ""
+        self._densityType = MATERIAL_TYPE_BULK
         self._ambientColor = 0
         self._diffuseColor = 0
         self._specularColor = 0
@@ -65,8 +66,7 @@ class ComponentElement(Element):
         self._useKnownMass = False
         self._useKnownCG = False
 
-        self._materialType = None
-        self._materialDensity = None
+        self._material = None
 
         self._appearance = FreeCAD.Material()
 
@@ -98,8 +98,23 @@ class ComponentElement(Element):
         elif _tag == "opacity":
             self._appearance.Transparency = 1.0 - float(content)
             pass
+        elif _tag == "density":
+            self._density = float(content)
+        elif _tag == "densitytype":
+            self._densityType = self.densityType(int(content))
+        elif _tag == "material":
+            self._material = content
         else:
             super().handleEndTag(tag, content)
+
+    def densityType(self, content):
+        if content == 0:
+            return MATERIAL_TYPE_BULK
+        elif content == 1:
+            return MATERIAL_TYPE_SURFACE
+        elif content == 2:
+            return MATERIAL_TYPE_LINE
+        return MATERIAL_TYPE_BULK
 
     def onName(self, content):
         if hasattr(self._feature, "setName"):
@@ -162,16 +177,16 @@ class ComponentElement(Element):
     def onOverrideSubcomponentsCd(self, content):
         pass
 
-    def onMaterial(self, content):
+    def setMaterial(self, feature, material, type):
         database = PartDatabase(FreeCAD.getUserAppDataDir() + "Mod/Rocket/")
         connection = database.getConnection()
         try:
-            uuid = getUuid(connection, content, self._materialType)
+            uuid = getUuid(connection, material, type)
 
             materialManager = Materials.MaterialManager()
-            self._feature._obj.ShapeMaterial = materialManager.getMaterial(uuid)
+            feature._obj.ShapeMaterial = materialManager.getMaterial(uuid)
         except MaterialNotFoundError:
-            _err(translate("Rocket", "Material '{}' not found - using default material").format(content))
+            _err(translate("Rocket", "Material '{}' not found - using default material").format(material))
 
     def parseColor(self, value):
         if value == "blue":
@@ -191,6 +206,8 @@ class ComponentElement(Element):
         return (255, 255, 255)
 
     def end(self):
+        self.setMaterial(self._feature, self._material, self._densityType)
+
         if hasattr(self._feature._obj.ViewObject, "ShapeAppearance"):
             self._feature._obj.ViewObject.ShapeAppearance = self._appearance
 

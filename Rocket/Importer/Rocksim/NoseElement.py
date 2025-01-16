@@ -28,8 +28,7 @@ import FreeCAD
 
 from Rocket.Importer.Rocksim.ComponentElement import ComponentElement
 from Rocket.Importer.Rocksim.AttachedPartsElement import AttachedPartsElement
-from Rocket.Utilities import _toBoolean
-from Rocket.Constants import STYLE_CAPPED, STYLE_HOLLOW, STYLE_SOLID
+from Rocket.Constants import STYLE_HOLLOW, STYLE_SOLID
 from Rocket.Constants import TYPE_CONE, TYPE_ELLIPTICAL, TYPE_HAACK, TYPE_OGIVE, TYPE_PARABOLA, TYPE_POWER
 
 from Ui.Commands.CmdNoseCone import makeNoseCone
