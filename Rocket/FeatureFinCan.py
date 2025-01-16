@@ -357,3 +357,6 @@ class FeatureFinCan(SymmetricComponent, FeatureFin):
 
     def usesPreviousCompAutomatic(self):
         return self.isOuterDiameterAutomatic() and (self._refComp == self.getPreviousSymmetricComponent())
+
+    def getLeadingEdgeOffset(self):
+        return self._obj.LeadingEdgeOffset

@@ -46,8 +46,6 @@ class FeatureRingtail(SymmetricComponent, BoxBounded, Coaxial):
         super().__init__(obj)
         self.Type = FEATURE_RINGTAIL
 
-        # self.AxialMethod = AxialMethod.AFTER
-
         # Default set to a BT-50
         if not hasattr(obj,"Diameter"):
             obj.addProperty('App::PropertyLength', 'Diameter', 'RocketComponent', translate('App::Property', 'Diameter of the outside of the body tube')).Diameter = SymmetricComponent.DEFAULT_RADIUS * 2.0
@@ -55,17 +53,49 @@ class FeatureRingtail(SymmetricComponent, BoxBounded, Coaxial):
             obj.addProperty('App::PropertyBool', 'AutoDiameter', 'RocketComponent', translate('App::Property', 'Automatically set the outer diameter when possible')).AutoDiameter = True
         if not hasattr(obj,"Thickness"):
             obj.addProperty('App::PropertyLength', 'Thickness', 'RocketComponent', translate('App::Property', 'Thickness of the body tube')).Thickness = 0.33
-        super().setAxialMethod(AxialMethod.BOTTOM)
+        # super().setAxialMethod(AxialMethod.BOTTOM)
 
     def setDefaults(self):
         super().setDefaults()
 
-        super().setAxialMethod(AxialMethod.BOTTOM)
+        # super().setAxialMethod(AxialMethod.TOP)
+        # self._setAxialOffset(self._obj.AxialMethod, sweep)
+        if self._obj.AutoDiameter:
+            self._setAutoDiameter()
+        self.setAxialOffset()
         self._obj.Length = 30.0
 
+    def setAxialOffset(self):
+        self.setAxialMethod(AxialMethod.TOP)
+        body = self.getParent()
+        while body is not None:
+            if body.Type in [FEATURE_FIN, FEATURE_FINCAN]:
+                break
+            body = body.getParent()
+
+        sweep = 0.0
+        if body is not None:
+            sweep = body.getSweepLength()
+            if hasattr(body, "getLeadingEdgeOffset"):
+                sweep += body.getLeadingEdgeOffset()
+        # else:
+        #     print("\tParent is None")
+        self._setAxialOffset(self._obj.AxialMethod, sweep)
+
     def update(self):
-        super().setAxialMethod(AxialMethod.BOTTOM)
+        print("Ringtail update")
+        if self._obj.AutoDiameter:
+            self._setAutoDiameter()
+        self.setAxialOffset()
         # super().update()
+
+    def componentChanged(self, e):
+        print("Ringtail feature changed")
+        super().componentChanged(e)
+
+        if self._obj.AutoDiameter:
+            self._setAutoDiameter()
+        self.setAxialOffset()
 
     def isAfter(self):
         return False
@@ -92,7 +122,7 @@ class FeatureRingtail(SymmetricComponent, BoxBounded, Coaxial):
     """
     def setOuterDiameterAutomatic(self, auto):
         for listener in self._configListeners:
-            if isinstance(listener, FeatureBodyTube): # OR used transition base class
+            if isinstance(listener, FeatureRingtail): # OR used transition base class
                 listener.setOuterDiameterAutomatic(auto)
 
         if self._obj.AutoDiameter == auto:
@@ -134,6 +164,7 @@ class FeatureRingtail(SymmetricComponent, BoxBounded, Coaxial):
                 listener.setInnerDiameter(diameter)
 
         self.setThickness((self._obj.Diameter - diameter) / 2.0)
+        self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
 
     def setOuterRadius(self, radius):
         self.setOuterDiameter(radius * 2.0)
@@ -225,10 +256,6 @@ class FeatureRingtail(SymmetricComponent, BoxBounded, Coaxial):
         shape = RingtailShapeHandler(obj)
         if shape is not None:
             return shape.drawSolidShape()
-        return None
-
-    def getXProjection(self, obj):
-        """ Returns a shape representing the projection of the object onto the YZ plane """
         return None
 
     """

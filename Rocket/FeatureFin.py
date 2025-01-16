@@ -189,6 +189,7 @@ class FeatureFin(ExternalComponent):
         self._setFinEditorVisibility()
 
     def setDefaults(self):
+        self.sweepAngleFromLength()
         super().setDefaults()
 
     def _setFinEditorVisibility(self):
@@ -239,13 +240,15 @@ class FeatureFin(ExternalComponent):
             else:
                 self._obj.ParentRadius = SymmetricComponent.DEFAULT_RADIUS
 
+    def setAutoHeight(self, auto):
+        if self._obj.AutoHeight != auto:
+            self._obj.AutoHeight = auto
+            self.setFinAutoHeight()
+
     def setFinAutoHeight(self):
         if self._obj.AutoHeight and self._obj.ParentRadius > 0 and self._obj.Span > 0:
             height = ((self._obj.Span - 2.0 * self._obj.ParentRadius) / 2.0)
-            self._obj.Proxy.setHeight(height)
-            print("Height {}".format(height.UserString))
-            print("Span {}".format(self._obj.Span.UserString))
-            print("ParentRadius {}".format(self._obj.ParentRadius.UserString))
+            self.setHeight(height)
 
     def _setTtwAutoHeight(self, pos=0):
         if self._obj.TtwAutoHeight:
@@ -287,6 +290,7 @@ class FeatureFin(ExternalComponent):
 
     def setFinCount(self, count):
         self._obj.FinCount = count
+        self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
 
     def getRootChord(self):
         if self._obj.FinType == FIN_TYPE_SKETCH:
@@ -303,24 +307,28 @@ class FeatureFin(ExternalComponent):
 
     def setRootChord(self, chord):
         self._obj.RootChord = chord
+        self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
 
     def getRootThickness(self):
         return self._obj.RootThickness
 
     def setRootThickness(self, thickness):
         self._obj.RootThickness = thickness
+        self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
 
     def getTipChord(self):
         return self._obj.TipChord
 
     def setTipChord(self, chord):
         self._obj.TipChord = chord
+        self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
 
     def getTipThickness(self):
         return self._obj.TipThickness
 
     def setTipThickness(self, thickness):
         self._obj.TipThickness = thickness
+        self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
 
     def getThickness(self):
         return self._obj.RootThickness
@@ -328,12 +336,24 @@ class FeatureFin(ExternalComponent):
     def setThickness(self, thickness):
         self._obj.RootThickness = thickness
         self._obj.TipThickness = thickness
+        self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
 
     def getHeight(self):
         return self._obj.Height
 
     def setHeight(self, height):
         self._obj.Height = height
+        self.sweepAngleFromLength()
+        self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
+
+    def getSpan(self):
+        return self._obj.Span
+
+    def setSpan(self, span):
+        self._obj.Span = span
+        self.setFinAutoHeight()
+        self.sweepAngleFromLength()
+        self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
 
     def getSweepLength(self):
         return self._obj.SweepLength
@@ -341,6 +361,7 @@ class FeatureFin(ExternalComponent):
     def setSweepLength(self, length):
         self._obj.SweepLength = length
         self.sweepAngleFromLength()
+        self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
 
     def sweepAngleFromLength(self):
         length = float(self._obj.SweepLength)
@@ -353,6 +374,7 @@ class FeatureFin(ExternalComponent):
     def setSweepAngle(self, angle):
         self._obj.SweepAngle = angle
         self.sweepLengthFromAngle()
+        self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
 
     def sweepLengthFromAngle(self):
         theta = _toFloat(self._obj.SweepAngle)
@@ -483,10 +505,3 @@ class FeatureFin(ExternalComponent):
         self._obj.TubeAutoOuterDiameter = auto
         self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
         self.clearPreset()
-
-    def getXProjection(self, obj):
-        """ Returns a shape representing the projection of the object onto the YZ plane """
-        self._setShapeHandler()
-        if self._shapeHandler is not None:
-            return self._shapeHandler.getXProjection()
-        return None

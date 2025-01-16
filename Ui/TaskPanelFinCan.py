@@ -883,7 +883,7 @@ class TaskPanelFinCan(QObject):
         self._enableFinTypes() # This calls _enableTipLengths()
         self._enableRootPercent()
         self._enableTipPercent()
-        self._sweepAngleFromLength(self._obj.SweepLength)
+        self._sweepAngleFromLength()
         self._enableLeadingEdge()
         self._enableTrailingEdge()
         self._setCanStyle()
@@ -1319,33 +1319,23 @@ class TaskPanelFinCan(QObject):
 
     def onHeight(self, value):
         try:
-            self._obj.Height = FreeCAD.Units.Quantity(value).Value
-            self._sweepAngleFromLength(self._obj.SweepLength)
+            self._obj.Proxy.setHeight(FreeCAD.Units.Quantity(value).Value)
+            self._sweepAngleFromLength()
             self.redraw()
         except ValueError:
             pass
         self.setEdited()
 
-    def _sweepLengthFromAngle(self, value):
-        theta = _toFloat(value)
-        if theta <= -90.0 or theta >= 90.0:
-            _err("Sweep angle must be greater than -90 and less than +90")
-            return
-        theta = math.radians(-1.0 * (theta + 90.0))
-        length = _toFloat(self._obj.Height) / math.tan(theta)
-        self._obj.SweepLength = length
+    def _sweepLengthFromAngle(self):
         self._finForm.sweepLengthInput.setText(self._obj.SweepLength.UserString)
 
-    def _sweepAngleFromLength(self, value):
-        length = _toFloat(value)
-        theta = 90.0 - math.degrees(math.atan2(_toFloat(self._obj.Height), length))
-        self._obj.SweepAngle = theta
+    def _sweepAngleFromLength(self):
         self._finForm.sweepAngleInput.setText(self._obj.SweepAngle.UserString)
 
     def onSweepLength(self, value):
         try:
-            self._obj.SweepLength = FreeCAD.Units.Quantity(value).Value
-            self._sweepAngleFromLength(self._obj.SweepLength)
+            self._obj.Proxy.setSweepLength(FreeCAD.Units.Quantity(value).Value)
+            self._sweepAngleFromLength()
             self.redraw()
         except ValueError:
             pass
@@ -1353,8 +1343,8 @@ class TaskPanelFinCan(QObject):
 
     def onSweepAngle(self, value):
         try:
-            self._obj.SweepAngle = FreeCAD.Units.Quantity(value).Value
-            self._sweepLengthFromAngle(self._obj.SweepAngle)
+            self._obj.Proxy.setSweepAngle(FreeCAD.Units.Quantity(value).Value)
+            self._sweepLengthFromAngle()
             self.redraw()
         except ValueError:
             pass
