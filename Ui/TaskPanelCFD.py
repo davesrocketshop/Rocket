@@ -200,12 +200,12 @@ class TaskPanelCFD(QtCore.QObject):
         return solid1
 
     def getTunnelDimensions(self):
-        diameter = FreeCAD.Units.Quantity(self.form.inputDiameter.text()).Value
+        # diameter = FreeCAD.Units.Quantity(self.form.inputDiameter.text()).Value
         length = FreeCAD.Units.Quantity(self.form.inputLength.text()).Value
 
         # Get a blockage ratio of 0.1%
-        area = (diameter * diameter) / 0.001
-        tunnelDiameter = math.sqrt(area)
+        area = (self._frontalArea) / 0.001
+        tunnelDiameter = 2.0 * math.sqrt(area / math.pi)
         return tunnelDiameter, length
 
     def makeWindTunnel(self):
