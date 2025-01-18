@@ -24,7 +24,7 @@ __title__ = "FreeCAD Open Rocket Importer"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
-from Rocket.Importer.OpenRocket.SaxElement import NullElement
+from Rocket.Importer.OpenRocket.SaxElement import NullElement, UnsupportedElement
 from Rocket.Importer.OpenRocket.ComponentElement import ComponentElement
 from Rocket.Importer.OpenRocket.TransitionElement import TransitionElement
 from Rocket.Importer.OpenRocket.NoseElement import NoseElement
@@ -63,9 +63,9 @@ class SubElement(ComponentElement):
                                 'shockcord' : NullElement,
                                 'parachute' : NullElement,
                                 'streamer' : NullElement,
-                                'boosterset' : NullElement,
-                                'parallelstage' : NullElement,
-                                'podset' : NullElement,
+                                'boosterset' : UnsupportedElement,
+                                'parallelstage' : UnsupportedElement,
+                                'podset' : UnsupportedElement,
                               }
         self._knownTags = ["stage", "nosecone", "bodytube", "transition", "trapezoidfinset", "ellipticalfinset", "freeformfinset", "tubefinset", "launchlug", "railbutton",
                 "engineblock", "innertube", "tubecoupler", "bulkhead", "centeringring", "masscomponent", "shockcord", "parachute", "streamer",

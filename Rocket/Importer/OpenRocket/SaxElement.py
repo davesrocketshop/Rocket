@@ -26,7 +26,12 @@ __url__ = "https://www.davesrocketshop.com"
 
 from abc import abstractmethod
 
+from PySide import QtGui
+
 from Rocket.Utilities import _msg, _err
+from Rocket.Exceptions import UnsupportedFeature
+
+from DraftTools import translate
 
 class Element:
 
@@ -97,6 +102,27 @@ class NullElement(Element):
         super().__init__(parent, tag, attributes, parentObj, filename, line)
 
         self._validChildren = { tag : NullElement }
+
+    def handleTag(self, tag, attributes):
+        # Ignore unknown tags
+        return
+
+    def handleEndTag(self, tag, content):
+        # Ignore unknown tags
+        return
+
+class UnsupportedElement(Element):
+
+    def __init__(self, parent, tag, attributes, parentObj, filename, line):
+        super().__init__(parent, tag, attributes, parentObj, filename, line)
+
+        self._validChildren = { tag : NullElement }
+
+        # raise UnsupportedFeature(translate("Rocket", "Unsupported feature {}")
+        #                     .format(tag))
+        QtGui.QMessageBox.information(None,
+                                      translate("Rocket", "Unsupported Feature"),
+                                      translate("Rocket", "Unsupported feature {}").format(tag))
 
     def handleTag(self, tag, attributes):
         # Ignore unknown tags

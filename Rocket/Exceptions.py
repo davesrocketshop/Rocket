@@ -35,3 +35,8 @@ class UnsupportedConfiguration(Exception):
     def __init__(self, message="Unsupported configuration"):
         self._message = message
 
+class UnsupportedFeature(Exception):
+
+    def __init__(self, message="Unsupported feature"):
+        self._message = message
+

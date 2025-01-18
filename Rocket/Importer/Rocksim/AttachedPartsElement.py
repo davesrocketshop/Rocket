@@ -24,7 +24,7 @@ __title__ = "FreeCAD Rocksim Importer"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
-from Rocket.Importer.OpenRocket.SaxElement import NullElement, Element
+from Rocket.Importer.OpenRocket.SaxElement import UnsupportedElement, NullElement, Element
 
 from Rocket.Importer.Rocksim.BodyTubeElement import InnerTubeElement
 from Rocket.Importer.Rocksim.FinsetElement import FinsetElement
@@ -52,7 +52,7 @@ class AttachedPartsElement(Element):
                                 'subassembly' : SubAssemblyElement,
                                 'tubefinset' : TubeFinsetElement,
                                 'ringtail' : RingtailElement,
-                                'externalpod' : NullElement,
+                                'externalpod' : UnsupportedElement,
                               }
         self._knownTags = ["finset", "customfinset", "launchlug", "parachute", "streamer", "massobject", "ring", "bodytube",
                            "transition", "subassembly", "tubefinset", "ringtail", "externalpod"]
