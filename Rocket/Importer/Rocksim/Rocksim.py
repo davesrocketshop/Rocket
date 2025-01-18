@@ -118,7 +118,8 @@ class RocketElement(Element):
                            "showgridtypebase", "gridspacing", "gridopacity", "gridcolor", "maxdiawithfins", "maxdiawithoutfins",
                            "maxlenwithfins", "maxlenwithoutfins", "minxextent", "maxxextent", "calculatedmaxstagedia",
                            "calculatedstagelen", "sideviewdims", "baseviewdims", "vertviewdims", "name", "stage3parts",
-                           "stage2parts", "stage1parts"]
+                           "stage2parts", "stage1parts", "camerastate", "spritepath", "spriteprefix", "comments", "designer",
+                           "revisions"]
 
         self._feature = makeRocket(makeSustainer=False)
         self._stageCount = 1
@@ -127,6 +128,8 @@ class RocketElement(Element):
         _tag = tag.lower().strip()
         if _tag == "designer":
             FreeCAD.ActiveDocument.CreatedBy = content
+        elif _tag == "comment":
+            self.onComment(content)
         elif _tag == "revision":
             pass
         elif _tag == "stagecount":

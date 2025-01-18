@@ -35,6 +35,7 @@ from Rocket.ShapeHandlers.TransitionPowerShapeHandler import TransitionPowerShap
 from Rocket.Constants import TYPE_CONE, TYPE_ELLIPTICAL, TYPE_HAACK, TYPE_OGIVE, TYPE_VON_KARMAN, TYPE_PARABOLA, TYPE_PARABOLIC, TYPE_POWER
 from Rocket.Constants import STYLE_CAPPED, STYLE_HOLLOW, STYLE_SOLID, STYLE_SOLID_CORE
 from Rocket.Constants import STYLE_CAP_SOLID, STYLE_CAP_BAR, STYLE_CAP_CROSS
+from Rocket.Constants import FEATURE_INNER_TUBE
 
 from Rocket.events.ComponentChangeEvent import ComponentChangeEvent
 
@@ -404,3 +405,8 @@ class FeatureTransition(SymmetricComponent):
         self._setShapeHandler()
         if self._shapeHandler is not None:
             self._shapeHandler.draw()
+
+    def eligibleChild(self, childType):
+        return childType in [
+            #FEATURE_BODY_TUBE,
+            FEATURE_INNER_TUBE]
