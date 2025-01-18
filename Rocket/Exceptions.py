@@ -29,3 +29,9 @@ class UnsupportedVersion(Exception):
     def __init__(self, message="Unknown manufacturer"):
         self._message = message
 
+
+class UnsupportedConfiguration(Exception):
+
+    def __init__(self, message="Unsupported configuration"):
+        self._message = message
+

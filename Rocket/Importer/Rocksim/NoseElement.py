@@ -82,8 +82,7 @@ class NoseElement(ComponentElement):
         elif _tag == "shoulderlen":
             length = float(content)
             self._feature._obj.ShoulderLength = length
-            if length > 0:
-                self._feature._obj.Shoulder = True
+            self._feature._obj.Shoulder = (length > 0)
         elif _tag == "constructiontype":
             constructionType = int(content)
             if constructionType == 0:

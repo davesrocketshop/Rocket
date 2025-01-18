@@ -36,7 +36,7 @@ from Rocket.Parts.Exceptions import MaterialNotFoundError
 from Rocket.Importer.OpenRocket.SaxElement import Element
 from Rocket.Constants import LOCATION_PARENT_TOP, LOCATION_PARENT_BOTTOM, LOCATION_BASE
 from Rocket.Constants import MATERIAL_TYPE_BULK, MATERIAL_TYPE_SURFACE, MATERIAL_TYPE_LINE
-from Rocket.position.AxialMethod import AXIAL_METHOD_MAP
+from Rocket.position.AxialMethod import AXIAL_METHOD_MAP, BOTTOM
 
 from Rocket.Utilities import _err
 
@@ -85,6 +85,8 @@ class ComponentElement(Element):
             self.onAxialOffset(float(content))
         elif _tag == "locationmode":
             self.onLocationMode(content)
+        elif _tag == "radialangle":
+            self.onAngleOffset(content)
         elif _tag == "abientcolor":
             self._appearance.AmbientColor = self.parseColor(content)
         elif _tag == "diffusecolor":
@@ -144,6 +146,10 @@ class ComponentElement(Element):
             self._feature._obj.Location = content
         if hasattr(self._feature._obj, "AxialOffset"):
             self._feature._obj.AxialOffset = content
+
+    def onAngleOffset(self, content):
+        if self._feature is not None and hasattr(self._feature._obj, "AngleOffset"):
+            self._feature._obj.AngleOffset = FreeCAD.Units.Quantity(content + " rad").Value
 
     def onLocationMode(self, content):
         mode = int(content)
@@ -207,6 +213,12 @@ class ComponentElement(Element):
 
     def end(self):
         self.setMaterial(self._feature, self._material, self._densityType)
+
+        if self._feature._obj.AxialMethod == BOTTOM:
+            if hasattr(self._feature._obj, "Location"):
+                self._feature._obj.Location = -self._feature._obj.Location
+            if hasattr(self._feature._obj, "AxialOffset"):
+                self._feature._obj.AxialOffset = -self._feature._obj.AxialOffset
 
         if hasattr(self._feature._obj.ViewObject, "ShapeAppearance"):
             self._feature._obj.ViewObject.ShapeAppearance = self._appearance

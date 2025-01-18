@@ -39,6 +39,8 @@ import Ui.Commands as Commands
 from Rocket.Constants import FEATURE_ROCKET, FEATURE_STAGE
 from Rocket.Constants import LOCATION_SURFACE, LOCATION_CENTER
 
+from Rocket.Exceptions import UnsupportedConfiguration
+
 from DraftTools import translate
 
 class EditedShape(QObject):
@@ -672,7 +674,7 @@ class RocketComponentShapeless():
                             .format(component.Proxy.getName(), self.getName()))
 
         if not self.eligibleChild(component.Proxy.Type):
-            raise Exception(translate("Rocket", "Component: {}  not currently compatible with component: {}")
+            raise UnsupportedConfiguration(translate("Rocket", "Unsupported configuration: {}  not currently compatible with component: {}")
                             .format(component.Proxy.getName(), self.getName()))
 
         self._setChild(index, component)
