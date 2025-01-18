@@ -1,5 +1,5 @@
 # ***************************************************************************
-# *   Copyright (c) 2021-2024 David Carter <dcarter@davidcarter.ca>         *
+# *   Copyright (c) 2021-2025 David Carter <dcarter@davidcarter.ca>         *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -49,7 +49,7 @@ class Coordinate():
 
     def __eq__(self, other):
         return self._x == other._x and self._y == other._y and self._z == other._z and self._weight == other._weight
-   
+
     # Create transformation with given rotation matrix and translation.
     def transformation(self, rotation, translation = None):
         for i in range(3):
@@ -66,7 +66,7 @@ class Coordinate():
         x = self._rotation[self.X][self.X]*orig._x + self._rotation[self.X][self.Y]*orig._y + self._rotation[self.X][self.Z]*orig._z + self._translate._x
         y = self._rotation[self.Y][self.X]*orig._x + self._rotation[self.Y][self.Y]*orig._y + self._rotation[self.Y][self.Z]*orig._z + self._translate._y
         z = self._rotation[self.Z][self.X]*orig._x + self._rotation[self.Z][self.Y]*orig._y + self._rotation[self.Z][self.Z]*orig._z + self._translate._z
-        
+
         return Coordinate(x,y,z,orig.weight)
 
     """ Add the coordinate and weight of two coordinates. """
@@ -163,17 +163,17 @@ class Coordinate():
         Weighted average of two coordinates.  If either of the weights are positive,
         the result is the weighted average of the coordinates and the weight is the sum
         of the original weights.  If the sum of the weights is zero (and especially if
-        both of the weights are zero), the result is the unweighted average of the 
+        both of the weights are zero), the result is the unweighted average of the
         coordinates with weight zero.
-        
+
         If <code>other</code> is <code>null</code> then this <code>Coordinate</code> is
         returned.
     """
     def average(self, other):
-        
+
         if other is None:
             return self
-        
+
         w1 = self._weight + other._weight
         if abs(w1) < math.pow2(math.EPSILON):
             x1 = (self._x + other._x) / 2

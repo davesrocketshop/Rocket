@@ -1,5 +1,5 @@
 # ***************************************************************************
-# *   Copyright (c) 2021-2024 David Carter <dcarter@davidcarter.ca>         *
+# *   Copyright (c) 2021-2025 David Carter <dcarter@davidcarter.ca>         *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -23,7 +23,7 @@
 __title__ = "FreeCAD Body Tubes"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
-    
+
 import FreeCAD
 import FreeCADGui
 
@@ -92,7 +92,7 @@ class CmdBodyTube(Command):
         if FreeCAD.ActiveDocument:
             return self.partEligibleFeature(FEATURE_BODY_TUBE)
         return False
-            
+
     def GetResources(self):
         return {'MenuText': translate("Rocket", 'Body Tube'),
                 'ToolTip': translate("Rocket", 'Body tube design'),
@@ -112,7 +112,7 @@ class CmdCoupler(Command):
         if FreeCAD.ActiveDocument:
             return self.partEligibleFeature(FEATURE_TUBE_COUPLER)
         return False
-            
+
     def GetResources(self):
         return {'MenuText': translate("Rocket", 'Coupler'),
                 'ToolTip': translate("Rocket", 'Coupler design'),
@@ -132,7 +132,7 @@ class CmdInnerTube(Command):
         if FreeCAD.ActiveDocument:
             return self.partEligibleFeature(FEATURE_INNER_TUBE)
         return False
-            
+
     def GetResources(self):
         return {'MenuText': translate("Rocket", 'Inner Tube'),
                 'ToolTip': translate("Rocket", 'Inner tube design'),
@@ -152,7 +152,7 @@ class CmdEngineBlock(Command):
         if FreeCAD.ActiveDocument:
             return self.partEligibleFeature(FEATURE_ENGINE_BLOCK)
         return False
-            
+
     def GetResources(self):
         return {'MenuText': translate("Rocket", 'Engine Block'),
                 'ToolTip': translate("Rocket", 'Engine block design'),

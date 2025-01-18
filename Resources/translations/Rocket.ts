@@ -118,132 +118,132 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FeatureFinCan.py" line="59"/>
+        <location filename="FeatureFinCan.py" line="60"/>
         <source>Fin can style</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FeatureFinCan.py" line="66"/>
+        <location filename="FeatureFinCan.py" line="67"/>
         <source>Diameter of the inside or outside of the fin can depending on the style</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FeatureFinCan.py" line="68"/>
+        <location filename="FeatureFinCan.py" line="69"/>
         <source>Thickness of the fin can</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FeatureFinCan.py" line="70"/>
+        <location filename="FeatureFinCan.py" line="71"/>
         <source>Distance between the fin can leading edge and the fin leading edge</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FeatureFinCan.py" line="73"/>
+        <location filename="FeatureFinCan.py" line="74"/>
         <source>Leading Edge</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FeatureFinCan.py" line="80"/>
+        <location filename="FeatureFinCan.py" line="81"/>
         <source>Leading Edge Length</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FeatureFinCan.py" line="83"/>
+        <location filename="FeatureFinCan.py" line="84"/>
         <source>Trailing Edge</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FeatureFinCan.py" line="89"/>
+        <location filename="FeatureFinCan.py" line="90"/>
         <source>Trailing Edge Length</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FeatureFinCan.py" line="92"/>
+        <location filename="FeatureFinCan.py" line="93"/>
         <source>Fin can includes a launch lug</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FeatureFinCan.py" line="94"/>
+        <location filename="FeatureFinCan.py" line="95"/>
         <source>Diameter of the inside of the launch lug</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FeatureFinCan.py" line="96"/>
+        <location filename="FeatureFinCan.py" line="97"/>
         <source>Thickness of the launch lug</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FeatureFinCan.py" line="98"/>
+        <location filename="FeatureFinCan.py" line="99"/>
         <source>Launch lug thickness is the same as the fin can</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FeatureFinCan.py" line="100"/>
+        <location filename="FeatureFinCan.py" line="101"/>
         <source>Length of the launch lug</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FeatureFinCan.py" line="102"/>
+        <location filename="FeatureFinCan.py" line="103"/>
         <source>Automatically adjust the length of the launch lug</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FeatureFinCan.py" line="104"/>
+        <location filename="FeatureFinCan.py" line="105"/>
         <source>Distance between the fin can leading edge and the launch lug leading edge</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FeatureFinCan.py" line="106"/>
+        <location filename="FeatureFinCan.py" line="107"/>
         <source>Launch lug fillet radius</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FeatureFinCan.py" line="133"/>
+        <location filename="FeatureFinCan.py" line="134"/>
         <source>Launch lug size preset</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FeatureFinCan.py" line="122"/>
+        <location filename="FeatureFinCan.py" line="123"/>
         <source>Forward side of the launch lug is swept</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FeatureFinCan.py" line="124"/>
+        <location filename="FeatureFinCan.py" line="125"/>
         <source>Forward sweep angle</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FeatureFinCan.py" line="126"/>
+        <location filename="FeatureFinCan.py" line="127"/>
         <source>Aft side of the launch lug is swept</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FeatureFinCan.py" line="128"/>
+        <location filename="FeatureFinCan.py" line="129"/>
         <source>Aft sweep angle</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FeatureFinCan.py" line="131"/>
+        <location filename="FeatureFinCan.py" line="132"/>
         <source>Fin can includes coupler</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FeatureFinCan.py" line="141"/>
+        <location filename="FeatureFinCan.py" line="142"/>
         <source>Thickness of the coupler</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FeatureFinCan.py" line="143"/>
+        <location filename="FeatureFinCan.py" line="144"/>
         <source>Diameter of the outside of the coupler</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FeatureFinCan.py" line="145"/>
+        <location filename="FeatureFinCan.py" line="146"/>
         <source>Set coupler diameter automatically</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FeatureFinCan.py" line="147"/>
+        <location filename="FeatureFinCan.py" line="148"/>
         <source>Length of the coupler</source>
         <translation type="unfinished"></translation>
     </message>
@@ -263,7 +263,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FeatureBodyTube.py" line="52"/>
+        <location filename="FeatureRingtail.py" line="51"/>
         <source>Diameter of the outside of the body tube</source>
         <translation type="unfinished"></translation>
     </message>
@@ -403,7 +403,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="RocketComponentShapeless.py" line="83"/>
+        <location filename="RocketComponentShapeless.py" line="84"/>
         <source>Method for calculating axial offsets</source>
         <translation type="unfinished"></translation>
     </message>
@@ -503,12 +503,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FeatureNoseCone.py" line="76"/>
+        <location filename="FeatureNoseCone.py" line="79"/>
         <source>Coefficient</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FeatureNoseCone.py" line="80"/>
+        <location filename="FeatureNoseCone.py" line="83"/>
         <source>Resolution</source>
         <translation type="unfinished"></translation>
     </message>
@@ -658,72 +658,72 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FeatureNoseCone.py" line="56"/>
+        <location filename="FeatureNoseCone.py" line="59"/>
         <source>Width of the nose cap bar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FeatureNoseCone.py" line="58"/>
+        <location filename="FeatureNoseCone.py" line="61"/>
         <source>Nose Radius for a blunted nose cone</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FeatureNoseCone.py" line="60"/>
+        <location filename="FeatureNoseCone.py" line="63"/>
         <source>Diameter at the base of the nose</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FeatureNoseCone.py" line="62"/>
+        <location filename="FeatureNoseCone.py" line="65"/>
         <source>Automatically set the nose diameter when possible</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FeatureNoseCone.py" line="64"/>
+        <location filename="FeatureNoseCone.py" line="67"/>
         <source>Nose cone thickness</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FeatureNoseCone.py" line="66"/>
+        <location filename="FeatureNoseCone.py" line="69"/>
         <source>Set to true if the part includes a shoulder</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FeatureNoseCone.py" line="68"/>
+        <location filename="FeatureNoseCone.py" line="71"/>
         <source>Shoulder Length</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FeatureNoseCone.py" line="70"/>
+        <location filename="FeatureNoseCone.py" line="73"/>
         <source>Shoulder diameter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FeatureNoseCone.py" line="72"/>
+        <location filename="FeatureNoseCone.py" line="75"/>
         <source>Automatically set the nose shoulder diameter when possible</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FeatureNoseCone.py" line="74"/>
+        <location filename="FeatureNoseCone.py" line="77"/>
         <source>Shoulder thickness</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FeatureNoseCone.py" line="78"/>
+        <location filename="FeatureNoseCone.py" line="81"/>
         <source>The radius of the circle used to define a secant ogive</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FeatureNoseCone.py" line="83"/>
+        <location filename="FeatureNoseCone.py" line="86"/>
         <source>Nose cone type</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FeatureNoseCone.py" line="112"/>
+        <location filename="FeatureNoseCone.py" line="115"/>
         <source>Nose cone style</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FeatureNoseCone.py" line="123"/>
+        <location filename="FeatureNoseCone.py" line="126"/>
         <source>Nose cone cap style</source>
         <translation type="unfinished"></translation>
     </message>
@@ -818,87 +818,87 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FeatureFin.py" line="133"/>
+        <location filename="FeatureFin.py" line="138"/>
         <source>Through the wall (TTW) tab</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FeatureFin.py" line="135"/>
+        <location filename="FeatureFin.py" line="140"/>
         <source>TTW Offset from fin root</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FeatureFin.py" line="137"/>
+        <location filename="FeatureFin.py" line="142"/>
         <source>TTW Length</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FeatureFin.py" line="139"/>
+        <location filename="FeatureFin.py" line="144"/>
         <source>TTW Height</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FeatureFin.py" line="141"/>
+        <location filename="FeatureFin.py" line="146"/>
         <source>Automatically set the TTW Height</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FeatureFin.py" line="143"/>
+        <location filename="FeatureFin.py" line="148"/>
         <source>TTW thickness</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FeatureFin.py" line="146"/>
+        <location filename="FeatureFin.py" line="151"/>
         <source>True when describing a set of fins</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FeatureFin.py" line="148"/>
+        <location filename="FeatureFin.py" line="153"/>
         <source>Number of fins in a radial pattern</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FeatureFin.py" line="150"/>
+        <location filename="FeatureFin.py" line="155"/>
         <source>Angle between consecutive fins</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FeatureFin.py" line="153"/>
+        <location filename="FeatureFin.py" line="158"/>
         <source>Tube fin outer diameter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FeatureFin.py" line="155"/>
+        <location filename="FeatureFin.py" line="160"/>
         <source>Tube fin auto outer diameter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FeatureFin.py" line="157"/>
+        <location filename="FeatureFin.py" line="162"/>
         <source>Tube fin thickness</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FeatureFin.py" line="160"/>
+        <location filename="FeatureFin.py" line="165"/>
         <source>Set a minimum edge size for fins that would normally have a sharp edge</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FeatureFin.py" line="162"/>
+        <location filename="FeatureFin.py" line="167"/>
         <source>Minimum edge size</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FeatureFin.py" line="168"/>
+        <location filename="FeatureFin.py" line="173"/>
         <source>Automatically set diameter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FeatureFin.py" line="172"/>
+        <location filename="FeatureFin.py" line="177"/>
         <source>Custom fin sketch</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FeatureFin.py" line="180"/>
+        <location filename="FeatureFin.py" line="185"/>
         <source>Sketch based fin debugging options</source>
         <translation type="unfinished"></translation>
     </message>
@@ -933,27 +933,27 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="RocketComponentShapeless.py" line="80"/>
+        <location filename="RocketComponentShapeless.py" line="81"/>
         <source>User comment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="RocketComponentShapeless.py" line="85"/>
+        <location filename="RocketComponentShapeless.py" line="86"/>
         <source>Offset from the reference point</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="RocketComponentShapeless.py" line="87"/>
+        <location filename="RocketComponentShapeless.py" line="88"/>
         <source>Angle of offset around the center axis</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="RocketComponentShapeless.py" line="90"/>
+        <location filename="RocketComponentShapeless.py" line="91"/>
         <source>Reference location for the radial offset</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="RocketComponentShapeless.py" line="103"/>
+        <location filename="RocketComponentShapeless.py" line="104"/>
         <source>Radial offset from the reference</source>
         <translation type="unfinished"></translation>
     </message>
@@ -972,6 +972,26 @@
         <source>Inner diameter of the bulkhead</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="FeatureRingtail.py" line="55"/>
+        <source>Thickness of the body tube</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="FeatureRingtail.py" line="57"/>
+        <source>Automatically set the length when possible</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="FeatureFin.py" line="133"/>
+        <source>Automatically set the fin height to reach the desired spans</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="FeatureFin.py" line="135"/>
+        <source>Fin total span</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>DialogCFD</name>
@@ -986,27 +1006,27 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="DialogCFD.ui" line="28"/>
+        <location filename="DialogCFD.ui" line="68"/>
         <source>Main body diameter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="DialogCFD.ui" line="41"/>
+        <location filename="DialogCFD.ui" line="48"/>
         <source>Minimum Fin Thickness</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="DialogCFD.ui" line="48"/>
+        <location filename="DialogCFD.ui" line="28"/>
         <source>Minimum thickness of all fins</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="DialogCFD.ui" line="61"/>
+        <location filename="DialogCFD.ui" line="41"/>
         <source>Length</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="DialogCFD.ui" line="68"/>
+        <location filename="DialogCFD.ui" line="55"/>
         <source>Rocket length</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1016,38 +1036,73 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="DialogCFD.ui" line="95"/>
+        <location filename="DialogCFD.ui" line="115"/>
         <source>Angle Of Attack</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="DialogCFD.ui" line="119"/>
+        <location filename="DialogCFD.ui" line="122"/>
         <source>Angle to the direction of travel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="DialogCFD.ui" line="102"/>
+        <location filename="DialogCFD.ui" line="142"/>
         <source>Number of Processors</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="DialogCFD.ui" line="109"/>
+        <location filename="DialogCFD.ui" line="149"/>
         <source>Number of processors to use during CFD simulation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="DialogCFD.ui" line="156"/>
-        <source>Create</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="DialogCFD.ui" line="132"/>
+        <location filename="DialogCFD.ui" line="159"/>
         <source>Angle of rotation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="DialogCFD.ui" line="139"/>
+        <location filename="DialogCFD.ui" line="192"/>
         <source>Rotation around the X axis</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="DialogCFD.ui" line="88"/>
+        <source>Frontal Area</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="DialogCFD.ui" line="95"/>
+        <source>Area facing the direction of travel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="DialogCFD.ui" line="135"/>
+        <source>Mach</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="DialogCFD.ui" line="169"/>
+        <source>Altitude</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="DialogCFD.ui" line="176"/>
+        <source>Altitude above sea level</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="DialogCFD.ui" line="205"/>
+        <source>Mach number</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="DialogCFD.ui" line="208"/>
+        <source>0 </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="DialogCFD.ui" line="224"/>
+        <source>Speed</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1059,7 +1114,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="RocketGui.py" line="127"/>
+        <location filename="RocketGui.py" line="129"/>
         <source>Calculators</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1194,7 +1249,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="TaskPanelFinCan.py" line="235"/>
+        <location filename="TaskPanelFinCan.py" line="244"/>
         <source>Sweep Length</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1204,17 +1259,17 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="TaskPanelFin.py" line="259"/>
+        <location filename="TaskPanelFin.py" line="268"/>
         <source>Minimum Edge</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="TaskPanelFin.py" line="262"/>
+        <location filename="TaskPanelFin.py" line="271"/>
         <source>Size</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="TaskPanelFin.py" line="412"/>
+        <location filename="TaskPanelFin.py" line="426"/>
         <source>TTW Tab</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1289,7 +1344,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="TaskPanelFinCan.py" line="547"/>
+        <location filename="TaskPanelFinCan.py" line="561"/>
         <source>Presets</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1624,42 +1679,42 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="TaskPanelFinCan.py" line="573"/>
+        <location filename="TaskPanelFinCan.py" line="587"/>
         <source>Leading Edge Offset</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="TaskPanelFinCan.py" line="387"/>
+        <location filename="TaskPanelFinCan.py" line="401"/>
         <source>Leading Edge</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="TaskPanelFinCan.py" line="404"/>
+        <location filename="TaskPanelFinCan.py" line="418"/>
         <source>Edge Style</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="TaskPanelFinCan.py" line="402"/>
+        <location filename="TaskPanelFinCan.py" line="416"/>
         <source>Trailing Edge</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="TaskPanelFinCan.py" line="477"/>
+        <location filename="TaskPanelFinCan.py" line="491"/>
         <source>Coupler Style</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="TaskPanelFinCan.py" line="481"/>
+        <location filename="TaskPanelFinCan.py" line="495"/>
         <source>Flush with fin can</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="TaskPanelFinCan.py" line="482"/>
+        <location filename="TaskPanelFinCan.py" line="496"/>
         <source>Stepped</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="TaskPanelFinCan.py" line="579"/>
+        <location filename="TaskPanelFinCan.py" line="593"/>
         <source>Fillet radius</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2264,12 +2319,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="RocketGui.py" line="141"/>
+        <location filename="RocketGui.py" line="143"/>
         <source>Body Tubes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="RocketGui.py" line="156"/>
+        <location filename="RocketGui.py" line="158"/>
         <source>Launch Guides</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2309,7 +2364,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="BodyTubeShapeHandler.py" line="132"/>
+        <location filename="RingtailShapeHandler.py" line="132"/>
         <source>Body tube parameters produce an invalid shape</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2424,7 +2479,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FinCanShapeHandler.py" line="414"/>
+        <location filename="FinCanShapeHandler.py" line="415"/>
         <source>Fin can parameters produce an invalid shape</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2754,7 +2809,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FeatureFinCan.py" line="190"/>
+        <location filename="FeatureFinCan.py" line="191"/>
         <source>Unknown fin can style</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2779,77 +2834,77 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="RocketComponentShapeless.py" line="586"/>
+        <location filename="RocketComponentShapeless.py" line="587"/>
         <source>setAxialOffset is broken -- attempted to update as NaN: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="RocketComponentShapeless.py" line="663"/>
+        <location filename="RocketComponentShapeless.py" line="667"/>
         <source>component {} is already in a tree</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="RocketComponentShapeless.py" line="668"/>
+        <location filename="RocketComponentShapeless.py" line="672"/>
         <source>Component {} is a parent of {}, attempting to create cycle in tree.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="RocketComponentShapeless.py" line="672"/>
+        <location filename="RocketComponentShapeless.py" line="676"/>
         <source>Component: {}  not currently compatible with component: {}</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="RocketComponentShapeless.py" line="759"/>
+        <location filename="RocketComponentShapeless.py" line="763"/>
         <source>getRocket() called with root component {}</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="RocketComponentShapeless.py" line="770"/>
+        <location filename="RocketComponentShapeless.py" line="774"/>
         <source>getStage() called on hierarchy without a FeatureStage component.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="RocketComponentShapeless.py" line="789"/>
+        <location filename="RocketComponentShapeless.py" line="793"/>
         <source>Inconsistent component structure detected, parent does not contain this component as a child, parent={} this={}</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="RocketComponentShapeless.py" line="797"/>
+        <location filename="RocketComponentShapeless.py" line="801"/>
         <source>Inconsistent component structure detected, child does not have this component as the parent, this={} child={} child.parent={}</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Constants.py" line="158"/>
+        <location filename="Constants.py" line="159"/>
         <source>Top of the parent component</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Constants.py" line="159"/>
+        <location filename="Constants.py" line="160"/>
         <source>Middle of the parent component</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Constants.py" line="160"/>
+        <location filename="Constants.py" line="161"/>
         <source>Bottom of the parent component</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Constants.py" line="161"/>
+        <location filename="Constants.py" line="162"/>
         <source>Base of the rocket</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Constants.py" line="162"/>
+        <location filename="Constants.py" line="163"/>
         <source>After the target component</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Constants.py" line="163"/>
+        <location filename="Constants.py" line="164"/>
         <source>Surface of the parent component</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Constants.py" line="167"/>
+        <location filename="Constants.py" line="168"/>
         <source>Center of the parent component</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2886,6 +2941,46 @@
     <message>
         <location filename="FinFlutter.py" line="91"/>
         <source>Custom fins are not supported at this time</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="TaskPanelFinCan.py" line="237"/>
+        <source>Span</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="TaskPanelRingtail.py" line="73"/>
+        <source>Ring tail Parameter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="CmdRingtail.py" line="64"/>
+        <source>Ring tail</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="CmdRingtail.py" line="65"/>
+        <source>Ring tail design</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="TaskPanelCFD.py" line="74"/>
+        <source>Create</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="RingtailShapeHandler.py" line="51"/>
+        <source>Ring tail inner diameter must be greater than zero</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="RingtailShapeHandler.py" line="54"/>
+        <source>Ring tail outer diameter must be greater than the inner</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="RingtailShapeHandler.py" line="57"/>
+        <source>Ring tail length must be greater than zero</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

@@ -1,5 +1,5 @@
 # ***************************************************************************
-# *   Copyright (c) 2021-2024 David Carter <dcarter@davidcarter.ca>         *
+# *   Copyright (c) 2021-2025 David Carter <dcarter@davidcarter.ca>         *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -72,9 +72,10 @@ class RocketComponentShapeless():
         self._obj = obj
         self._parent = None
         obj.Proxy=self
-        self._scratch = {} # None persistent property storage, for import properties and similar
+        self._scratch = {} # Non-persistent property storage, for import properties and similar
 
         self._configListeners = []
+        self._updating = False
 
         if not hasattr(obj, 'Comment'):
             obj.addProperty('App::PropertyString', 'Comment', 'RocketComponent', translate('App::Property', 'User comment')).Comment = ""
@@ -629,11 +630,14 @@ class RocketComponentShapeless():
         self._setRotation()
 
     def updateChildren(self):
-        self.update()
-        for child in self._obj.Group:
-            if hasattr(child, "Proxy"):
-                # Sketches for custom fins won't have a proxy
-                child.Proxy.updateChildren()
+        if not self._updating:
+            self.update()
+            self._updating = True
+            for child in self._obj.Group:
+                if hasattr(child, "Proxy"):
+                    # Sketches for custom fins won't have a proxy
+                    child.Proxy.updateChildren()
+            self._updating = False
 
     #  Called when any component in the tree fires a ComponentChangeEvent.  This is by
     #  default a no-op, but subclasses may override this method to e.g. invalidate

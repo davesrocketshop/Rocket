@@ -1,5 +1,5 @@
 # ***************************************************************************
-# *   Copyright (c) 2021-2024 David Carter <dcarter@davidcarter.ca>         *
+# *   Copyright (c) 2021-2025 David Carter <dcarter@davidcarter.ca>         *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -40,7 +40,7 @@ materials.SetString("ModuleIcon", str(PurePath(FreeCAD.getUserAppDataDir(), "Mod
 # add Import/Export types
 FreeCAD.addImportType("Open Rocket (*.ork)", "importORK")
 # FreeCAD.addImportType("RASAero (*.cdx1)", "importRASAero")
-# App.addImportType("Rocksim (*.rkt)", "importRKT")
+FreeCAD.addImportType("Rocksim (*.rkt)", "importRKT")
 
 #App.__unit_test__ += ["TestRocketImport"]
 # FreeCAD.__unit_test__ += ["TestRocketApp"]

@@ -84,7 +84,7 @@ from urllib.request import Request
 from urllib.request import urlopen
 from urllib.request import urlretrieve
 
-from PySide import QtCore
+# from PySide import QtCore
 
 TsFile = namedtuple("TsFile", ["filename", "src_path"])
 
@@ -112,7 +112,7 @@ locations = [
     ],
 ]
 
-THRESHOLD = 25  # how many % must be translated for the translation to be included in FreeCAD
+THRESHOLD = 1 #25  # how many % must be translated for the translation to be included in FreeCAD
 
 
 class CrowdinUpdater:
@@ -343,7 +343,8 @@ def doFile(tsfilepath, targetpath, lncode, qrcpath):
         basename = list(LEGACY_NAMING_MAP)[
             list(LEGACY_NAMING_MAP.values()).index(basename + ".ts")
         ][:-3]
-    newname = basename + "_" + lncode + ".ts"
+    # newname = basename + "_" + lncode + ".ts"
+    newname = basename + ".ts"
     newpath = targetpath + os.sep + newname
     if not os.path.exists(tsfilepath):
         # If this language code does not exist for the given TS file, bail out
@@ -382,7 +383,7 @@ def doLanguage(lncode):
         suffix = "\033[0m"
     print("Updating files for " + prefix + lncode + suffix + "...", end="")
     for target in locations:
-        basefilepath = os.path.join(tempfolder, lncode, target[0] + ".ts")
+        basefilepath = os.path.join(tempfolder, target[0], target[0] + "_" + lncode + ".ts")
         targetpath = os.path.abspath(target[1])
         qrcpath = os.path.abspath(target[2])
         # print("basefilepath {}".format(basefilepath))
@@ -410,10 +411,11 @@ def applyTranslations(languages):
     zfile.extractall()
     os.chdir(currentfolder)
     for ln in languages:
-        if not os.path.exists(os.path.join(tempfolder, ln)):
-            print("ERROR: language path for " + ln + " not found!")
-        else:
-            doLanguage(ln)
+        # print(os.path.join(tempfolder, ln))
+        # if not os.path.exists(os.path.join(tempfolder, ln)):
+        #     print("ERROR: language path for " + ln + " not found!")
+        # else:
+        doLanguage(ln)
 
 
 if __name__ == "__main__":

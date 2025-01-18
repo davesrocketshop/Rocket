@@ -1,5 +1,5 @@
 # ***************************************************************************
-# *   Copyright (c) 2021-2024 David Carter <dcarter@davidcarter.ca>         *
+# *   Copyright (c) 2021-2025 David Carter <dcarter@davidcarter.ca>         *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -23,7 +23,7 @@
 __title__ = "FreeCAD Rail Button Handler"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
-    
+
 import FreeCAD
 import Part
 import math
@@ -115,7 +115,7 @@ class RailButtonShapeHandler():
             angle = 60.0
 
         height = (self._headDiameter / 2.0) / math.tan(math.radians(angle))
-        
+
         return height
 
     def _fastener(self):
@@ -188,7 +188,7 @@ class RailButtonShapeHandler():
             spool = spool.cut(self._fastener())
 
         return spool
-        
+
     def draw(self):
         if not self.isValidShape():
             return

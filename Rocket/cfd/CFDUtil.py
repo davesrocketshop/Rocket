@@ -1,5 +1,5 @@
 # ***************************************************************************
-# *   Copyright (c) 2024 David Carter <dcarter@davidcarter.ca>              *
+# *   Copyright (c) 2024-2025 David Carter <dcarter@davidcarter.ca>         *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -38,7 +38,7 @@ def getProxy(obj):
     return obj
 
 def createSolid(obj):
-    ''' Currently generates a compound object, not necessarily solid '''
+    ''' Generates a solid compound object '''
     shape = None
     for current in getProxy(obj).getChildren():
         if hasattr(current, "Shape"):
@@ -61,7 +61,6 @@ def caliber(obj):
     ''' Get the caliber of the component '''
     diameter = 0.0
     for current in getProxy(obj).getChildren():
-        # print(current)
         proxy = getProxy(current)
         if hasattr(proxy, "getMaxRadius"):
             radius = FreeCAD.Units.Quantity(proxy.getMaxRadius()).Value
@@ -79,7 +78,6 @@ def finThickness(obj):
         proxy = getProxy(current)
         if hasattr(proxy, "getFinThickness"):
             fin = FreeCAD.Units.Quantity(proxy.getFinThickness()).Value
-            print("fin thickness '{}'".format(fin))
             if thickness <= 0.0:
                 thickness = fin
             elif fin > 0.0:

@@ -1,5 +1,5 @@
 # ***************************************************************************
-# *   Copyright (c) 2021-2024 David Carter <dcarter@davidcarter.ca>         *
+# *   Copyright (c) 2021-2025 David Carter <dcarter@davidcarter.ca>         *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -37,9 +37,12 @@ from Rocket.ShapeHandlers.NoseSecantOgiveShapeHandler import NoseSecantOgiveShap
 from Rocket.ShapeHandlers.NoseParabolicShapeHandler import NoseParabolicShapeHandler
 from Rocket.ShapeHandlers.NosePowerShapeHandler import NosePowerShapeHandler
 
-from Rocket.Constants import TYPE_CONE, TYPE_BLUNTED_CONE, TYPE_SPHERICAL, TYPE_ELLIPTICAL, TYPE_HAACK, TYPE_OGIVE, TYPE_BLUNTED_OGIVE, TYPE_SECANT_OGIVE, TYPE_VON_KARMAN, TYPE_PARABOLA, TYPE_PARABOLIC, TYPE_POWER
+from Rocket.Constants import TYPE_CONE, TYPE_BLUNTED_CONE, TYPE_SPHERICAL, TYPE_ELLIPTICAL, \
+    TYPE_HAACK, TYPE_OGIVE, TYPE_BLUNTED_OGIVE, TYPE_SECANT_OGIVE, TYPE_VON_KARMAN, TYPE_PARABOLA, \
+    TYPE_PARABOLIC, TYPE_POWER
 from Rocket.Constants import STYLE_CAPPED, STYLE_HOLLOW, STYLE_SOLID
 from Rocket.Constants import STYLE_CAP_SOLID, STYLE_CAP_BAR, STYLE_CAP_CROSS
+from Rocket.Constants import FEATURE_INNER_TUBE
 
 from Rocket.events.ComponentChangeEvent import ComponentChangeEvent
 
@@ -410,3 +413,8 @@ class FeatureNoseCone(SymmetricComponent):
         if self._shapeHandler is not None:
             return self._shapeHandler.drawSolidShape()
         return None
+
+    def eligibleChild(self, childType):
+        return childType in [
+            #FEATURE_BODY_TUBE,
+            FEATURE_INNER_TUBE]

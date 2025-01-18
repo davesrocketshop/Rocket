@@ -1,5 +1,5 @@
 # ***************************************************************************
-# *   Copyright (c) 2021-2024 David Carter <dcarter@davidcarter.ca>         *
+# *   Copyright (c) 2021-2025 David Carter <dcarter@davidcarter.ca>         *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -70,12 +70,12 @@ class BodyTubeElement(SymmetricComponentElement):
     def handleEndTag(self, tag, content):
         _tag = tag.lower().strip()
         if _tag == "radius" or _tag == "outerradius":
-            if str(content).lower().startswith("auto"):
-                self._feature._obj.AutoDiameter = True 
+            if self.isAuto(content):
+                self._feature._obj.AutoDiameter = True
             else:
                 diameter = float(content) * 2.0
                 self._feature._obj.Diameter = str(diameter) + "m"
-                self._feature._obj.AutoDiameter = False 
+                self._feature._obj.AutoDiameter = False
         else:
             super().handleEndTag(tag, content)
 

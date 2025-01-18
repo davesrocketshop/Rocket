@@ -1,5 +1,5 @@
 # ***************************************************************************
-# *   Copyright (c) 2021-2024 David Carter <dcarter@davidcarter.ca>         *
+# *   Copyright (c) 2021-2025 David Carter <dcarter@davidcarter.ca>         *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -35,7 +35,7 @@ class Element:
         self._parent = parent
         self._filename = filename
         self._line = line
-        
+
         self._validChildren = {}
         self._knownTags = []
         self._componentTags = []
@@ -54,6 +54,9 @@ class Element:
 
     def isChildElement(self, tag):
         return str(tag).lower().strip() in self._validChildren
+
+    def testCreateChild(self, tag):
+        return True
 
     def isTag(self, tag):
         return str(tag).lower() == self._tag.lower()
@@ -85,11 +88,14 @@ class Element:
         #         obj = obj._obj
         return self._validChildren[_tag](self, tag, attributes, obj, filename, line)
 
+    def isAuto(self, content):
+        return str(content).lower().startswith("auto")
+
 class NullElement(Element):
 
     def __init__(self, parent, tag, attributes, parentObj, filename, line):
         super().__init__(parent, tag, attributes, parentObj, filename, line)
-        
+
         self._validChildren = { tag : NullElement }
 
     def handleTag(self, tag, attributes):

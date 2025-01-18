@@ -1,5 +1,5 @@
 # ***************************************************************************
-# *   Copyright (c) 2021-2024 David Carter <dcarter@davidcarter.ca>         *
+# *   Copyright (c) 2021-2025 David Carter <dcarter@davidcarter.ca>         *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -242,6 +242,15 @@ class _FinDialog(QDialog):
         self.heightInput.unit = 'mm'
         self.heightInput.setMinimumWidth(100)
 
+        self.autoHeightCheckBox = QtGui.QCheckBox(translate('Rocket', "auto"), self)
+        self.autoHeightCheckBox.setCheckState(QtCore.Qt.Unchecked)
+
+        self.spanLabel = QtGui.QLabel(translate('Rocket', "Span"), self)
+
+        self.spanInput = ui.createWidget("Gui::InputField")
+        self.spanInput.unit = 'mm'
+        self.spanInput.setMinimumWidth(100)
+
         # Sweep can be forward (-sweep) or backward (+sweep)
         self.sweepLengthLabel = QtGui.QLabel(translate('Rocket', "Sweep Length"), self)
 
@@ -381,6 +390,11 @@ class _FinDialog(QDialog):
 
         grid.addWidget(self.heightLabel, row, 0)
         grid.addWidget(self.heightInput, row, 1)
+        grid.addWidget(self.autoHeightCheckBox, row, 2)
+        row += 1
+
+        grid.addWidget(self.spanLabel, row, 0)
+        grid.addWidget(self.spanInput, row, 1)
         row += 1
 
         grid.addWidget(self.sweepLengthLabel, row, 0)
@@ -512,6 +526,8 @@ class TaskPanelFin(QObject):
         self._finForm.tubeThicknessInput.textEdited.connect(self.onTubeThickness)
 
         self._finForm.heightInput.textEdited.connect(self.onHeight)
+        self._finForm.autoHeightCheckBox.stateChanged.connect(self.onAutoHeight)
+        self._finForm.spanInput.textEdited.connect(self.onSpan)
         self._finForm.sweepLengthInput.textEdited.connect(self.onSweepLength)
         self._finForm.sweepAngleInput.textEdited.connect(self.onSweepAngle)
 
@@ -568,6 +584,8 @@ class TaskPanelFin(QObject):
         self._obj.TubeThickness = self._finForm.tubeThicknessInput.text()
 
         self._obj.Height = self._finForm.heightInput.text()
+        self._obj.AutoHeight = self._finForm.autoHeightCheckBox.isChecked()
+        self._obj.Span = self._finForm.spanInput.text()
         self._obj.SweepLength = self._finForm.sweepLengthInput.text()
         self._obj.SweepAngle = self._finForm.sweepAngleInput.text()
 
@@ -614,6 +632,8 @@ class TaskPanelFin(QObject):
         self._finForm.tubeThicknessInput.setText(self._obj.TubeThickness.UserString)
 
         self._finForm.heightInput.setText(self._obj.Height.UserString)
+        self._finForm.autoHeightCheckBox.setChecked(self._obj.AutoHeight)
+        self._finForm.spanInput.setText(self._obj.Span.UserString)
         self._finForm.sweepLengthInput.setText(self._obj.SweepLength.UserString)
         self._finForm.sweepAngleInput.setText(self._obj.SweepAngle.UserString)
 
@@ -631,11 +651,12 @@ class TaskPanelFin(QObject):
         self._finForm.tabComment.transferFrom(self._obj)
 
         self._setFinSetState()
+        self._setHeightState()
         self._enableRootLengths()
         self._enableFinTypes() # This calls _enableTipLengths()
         self._enableRootPercent()
         self._enableTipPercent()
-        self._sweepAngleFromLength(self._obj.SweepLength)
+        self._sweepAngleFromLength()
         self._setTtwState()
 
     def setEdited(self):
@@ -746,6 +767,10 @@ class TaskPanelFin(QObject):
 
         self._finForm.heightLabel.setHidden(False)
         self._finForm.heightInput.setHidden(False)
+        self._finForm.autoHeightCheckBox.setHidden(False)
+
+        self._finForm.spanLabel.setHidden(False)
+        self._finForm.spanInput.setHidden(False)
 
         self._finForm.sweepLengthLabel.setHidden(False)
         self._finForm.sweepLengthInput.setHidden(False)
@@ -777,6 +802,10 @@ class TaskPanelFin(QObject):
 
         self._finForm.heightLabel.setHidden(False)
         self._finForm.heightInput.setHidden(False)
+        self._finForm.autoHeightCheckBox.setHidden(False)
+
+        self._finForm.spanLabel.setHidden(False)
+        self._finForm.spanInput.setHidden(False)
 
         self._finForm.sweepLengthLabel.setHidden(False)
         self._finForm.sweepLengthInput.setHidden(False)
@@ -808,6 +837,10 @@ class TaskPanelFin(QObject):
 
         self._finForm.heightLabel.setHidden(False)
         self._finForm.heightInput.setHidden(False)
+        self._finForm.autoHeightCheckBox.setHidden(False)
+
+        self._finForm.spanLabel.setHidden(False)
+        self._finForm.spanInput.setHidden(False)
 
         self._finForm.sweepLengthLabel.setHidden(True)
         self._finForm.sweepLengthInput.setHidden(True)
@@ -833,6 +866,10 @@ class TaskPanelFin(QObject):
 
         self._finForm.heightLabel.setHidden(True)
         self._finForm.heightInput.setHidden(True)
+        self._finForm.autoHeightCheckBox.setHidden(True)
+
+        self._finForm.spanLabel.setHidden(True)
+        self._finForm.spanInput.setHidden(True)
 
         self._finForm.sweepLengthLabel.setHidden(True)
         self._finForm.sweepLengthInput.setHidden(True)
@@ -863,6 +900,10 @@ class TaskPanelFin(QObject):
 
         self._finForm.heightLabel.setHidden(True)
         self._finForm.heightInput.setHidden(True)
+        self._finForm.autoHeightCheckBox.setHidden(True)
+
+        self._finForm.spanLabel.setHidden(True)
+        self._finForm.spanInput.setHidden(True)
 
         self._finForm.sweepLengthLabel.setHidden(True)
         self._finForm.sweepLengthInput.setHidden(True)
@@ -1046,7 +1087,7 @@ class TaskPanelFin(QObject):
 
     def onTipChord(self, value):
         try:
-            self._obj.TipChord = FreeCAD.Units.Quantity(value).Value
+            self._obj.Proxy.setTipChord(FreeCAD.Units.Quantity(value).Value)
             self.redraw()
         except ValueError:
             pass
@@ -1054,7 +1095,7 @@ class TaskPanelFin(QObject):
 
     def onTipThickness(self, value):
         try:
-            self._obj.TipThickness = FreeCAD.Units.Quantity(value).Value
+            self._obj.Proxy.setTipThickness(FreeCAD.Units.Quantity(value).Value)
             self.redraw()
         except ValueError:
             pass
@@ -1156,33 +1197,52 @@ class TaskPanelFin(QObject):
 
     def onHeight(self, value):
         try:
-            self._obj.Height = FreeCAD.Units.Quantity(value).Value
-            self._sweepAngleFromLength(self._obj.SweepLength)
+            self._obj.Proxy.setHeight(FreeCAD.Units.Quantity(value).Value)
+            self._sweepAngleFromLength()
             self.redraw()
         except ValueError:
             pass
         self.setEdited()
 
-    def _sweepLengthFromAngle(self, value):
-        theta = _toFloat(value)
-        if theta <= -90.0 or theta >= 90.0:
-            _err("Sweep angle must be greater than -90 and less than +90")
-            return
-        theta = math.radians(-1.0 * (theta + 90.0))
-        length = _toFloat(self._obj.Height) / math.tan(theta)
-        self._obj.SweepLength = length
+    def onAutoHeight(self, value):
+        try:
+            self._obj.Proxy.setAutoHeight(value)
+            self._finForm.heightInput.setText(self._obj.Height.UserString)
+            self._sweepAngleFromLength()
+            self._setHeightState()
+            self.redraw()
+        except ValueError:
+            pass
+        self.setEdited()
+
+    def _setHeightState(self):
+        if not self._isAssembly:
+            self._obj.AutoHeight = False
+        self._finForm.autoHeightCheckBox.setChecked(self._obj.AutoHeight)
+        self._finForm.autoHeightCheckBox.setEnabled(self._isAssembly)
+        self._finForm.heightInput.setEnabled(not self._obj.AutoHeight)
+        self._finForm.spanInput.setEnabled(self._obj.AutoHeight)
+
+    def onSpan(self, value):
+        try:
+            self._obj.Proxy.setSpan(FreeCAD.Units.Quantity(value).Value)
+            self._finForm.heightInput.setText(self._obj.Height.UserString)
+            self._sweepAngleFromLength()
+            self.redraw()
+        except ValueError:
+            pass
+        self.setEdited()
+
+    def _sweepLengthFromAngle(self):
         self._finForm.sweepLengthInput.setText(self._obj.SweepLength.UserString)
 
-    def _sweepAngleFromLength(self, value):
-        length = _toFloat(value)
-        theta = 90.0 - math.degrees(math.atan2(_toFloat(self._obj.Height), length))
-        self._obj.SweepAngle = theta
+    def _sweepAngleFromLength(self):
         self._finForm.sweepAngleInput.setText(self._obj.SweepAngle.UserString)
 
     def onSweepLength(self, value):
         try:
-            self._obj.SweepLength = FreeCAD.Units.Quantity(value).Value
-            self._sweepAngleFromLength(self._obj.SweepLength)
+            self._obj.Proxy.setSweepLength(FreeCAD.Units.Quantity(value).Value)
+            self._sweepAngleFromLength()
             self.redraw()
         except ValueError:
             pass
@@ -1190,8 +1250,8 @@ class TaskPanelFin(QObject):
 
     def onSweepAngle(self, value):
         try:
-            self._obj.SweepAngle = FreeCAD.Units.Quantity(value).Value
-            self._sweepLengthFromAngle(self._obj.SweepAngle)
+            self._obj.Proxy.setSweepAngle(FreeCAD.Units.Quantity(value).Value)
+            self._sweepLengthFromAngle()
             self.redraw()
         except ValueError:
             pass

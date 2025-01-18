@@ -1,5 +1,5 @@
 # ***************************************************************************
-# *   Copyright (c) 2021-2024 David Carter <dcarter@davidcarter.ca>         *
+# *   Copyright (c) 2021-2025 David Carter <dcarter@davidcarter.ca>         *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -42,11 +42,11 @@ from DraftTools import translate
 """
     An inner component that consists of a hollow cylindrical component.  This can be
     an inner tube, tube coupler, centering ring, bulkhead etc.
-    
+
     The properties include the inner and outer radii, length and radial position.
 """
 class RingComponent(InternalComponent, BoxBounded, Coaxial):
-	
+
     def __init__(self, obj):
         super().__init__(obj)
 
@@ -138,7 +138,7 @@ class RingComponent(InternalComponent, BoxBounded, Coaxial):
         l = max(length, 0)
         if self._obj.Length == l:
             return
-        
+
         self._obj.Length = l
         # clearPreset();
         self.fireComponentChangeEvent(ComponentChangeEvent.MASS_CHANGE)
@@ -169,13 +169,13 @@ class RingComponent(InternalComponent, BoxBounded, Coaxial):
 
     def getInstanceBoundingBox(self):
         instanceBounds = BoundingBox()
-        
+
         instanceBounds.update(Coordinate(self.getLength(), 0,0))
-        
+
         r = self.getOuterRadius()
         instanceBounds.update(Coordinate(0,r,r))
         instanceBounds.update(Coordinate(0,-r,-r))
-        
+
         return instanceBounds
 
     """
@@ -216,11 +216,11 @@ class RingComponent(InternalComponent, BoxBounded, Coaxial):
 
         self._obj.RadialPosition = math.hypot(y, z);
         self._obj.RadialDirection = math.atan2(z, y);
-        
+
         # Re-calculate to ensure consistency
         self._obj.ShiftY = self._obj.RadialPosition * math.cos(self._obj.RadialDirection)
         self._obj.ShiftZ = self._obj.RadialPosition * math.sin(self._obj.RadialDirection)
         # assert (MathUtil.equals(y, shiftY));
         # assert (MathUtil.equals(z, shiftZ));
-        
+
         self.fireComponentChangeEvent(ComponentChangeEvent.MASS_CHANGE);

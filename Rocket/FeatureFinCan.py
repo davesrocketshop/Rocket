@@ -1,5 +1,5 @@
 # ***************************************************************************
-# *   Copyright (c) 2021-2024 David Carter <dcarter@davidcarter.ca>         *
+# *   Copyright (c) 2021-2025 David Carter <dcarter@davidcarter.ca>         *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -26,7 +26,8 @@ __url__ = "https://www.davesrocketshop.com"
 
 from Rocket.SymmetricComponent import SymmetricComponent
 from Rocket.FeatureFin import FeatureFin
-from Rocket.Constants import FEATURE_FINCAN, FEATURE_LAUNCH_LUG, FEATURE_RAIL_BUTTON, FEATURE_RAIL_GUIDE, FEATURE_POD, FEATURE_STAGE
+from Rocket.Constants import FEATURE_FINCAN, FEATURE_LAUNCH_LUG, FEATURE_RAIL_BUTTON, FEATURE_RAIL_GUIDE, \
+    FEATURE_POD, FEATURE_STAGE, FEATURE_RINGTAIL
 from Rocket.Constants import FIN_TYPE_TRAPEZOID, FIN_TYPE_TRIANGLE, FIN_TYPE_ELLIPSE, FIN_TYPE_SKETCH
 from Rocket.Constants import FINCAN_STYLE_SLEEVE, FINCAN_STYLE_BODYTUBE
 from Rocket.Constants import FINCAN_EDGE_SQUARE, FINCAN_EDGE_ROUND, FINCAN_EDGE_TAPER
@@ -291,7 +292,8 @@ class FeatureFinCan(SymmetricComponent, FeatureFin):
             FEATURE_POD,
             FEATURE_LAUNCH_LUG,
             FEATURE_RAIL_BUTTON,
-            FEATURE_RAIL_GUIDE]
+            FEATURE_RAIL_GUIDE,
+            FEATURE_RINGTAIL]
 
     def  getAftRadius(self):
         return self.getForeRadius()
@@ -338,6 +340,9 @@ class FeatureFinCan(SymmetricComponent, FeatureFin):
     def getRearAutoRadius(self):
         return self.getRearAutoDiameter() / 2.0
 
+    def getOuterDiameter(self, r=0):
+        return float(self._obj.Diameter)
+
     def getInnerDiameter(self, r=0):
         return float(self._obj.Diameter) - (2.0 * float(self._obj.Thickness))
 
@@ -355,3 +360,6 @@ class FeatureFinCan(SymmetricComponent, FeatureFin):
 
     def usesPreviousCompAutomatic(self):
         return self.isOuterDiameterAutomatic() and (self._refComp == self.getPreviousSymmetricComponent())
+
+    def getLeadingEdgeOffset(self):
+        return self._obj.LeadingEdgeOffset

@@ -1,5 +1,5 @@
 # ***************************************************************************
-# *   Copyright (c) 2021-2024 David Carter <dcarter@davidcarter.ca>         *
+# *   Copyright (c) 2021-2025 David Carter <dcarter@davidcarter.ca>         *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -110,7 +110,7 @@ class OpenRocketImporter(xml.sax.ContentHandler):
         loc = self._locator
         if loc is not None:
             line = loc.getLineNumber()
-        if self._current.isChildElement(tag):
+        if self._current.isChildElement(tag) and self._current.testCreateChild(tag):
             self._current = self._current.createChild(tag, attributes, self._filename, line)
             self._content = ''
         else:

@@ -1,5 +1,5 @@
 # ***************************************************************************
-# *   Copyright (c) 2021-2024 David Carter <dcarter@davidcarter.ca>         *
+# *   Copyright (c) 2021-2025 David Carter <dcarter@davidcarter.ca>         *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -92,7 +92,7 @@ class BoosterElement(BodyTubeElement):
             transition._obj.Length = self._transitionLength
 
             self._parentObj.addChild(transition)
-            
+
         if self._parentObj is not None:
             self._parentObj.addChild(self._feature)
 

@@ -1,5 +1,5 @@
 # ***************************************************************************
-# *   Copyright (c) 2021-2024 David Carter <dcarter@davidcarter.ca>         *
+# *   Copyright (c) 2021-2025 David Carter <dcarter@davidcarter.ca>         *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -25,7 +25,7 @@ __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
 from DraftTools import translate
-    
+
 from Rocket.Constants import FIN_CROSS_SAME
 
 from Rocket.Utilities import validationError
@@ -41,7 +41,7 @@ class FinTrapezoidShapeHandler(FinShapeHandler):
         # Create the root profile, casting everything to float to avoid typing issues
         l1, l2 = self._lengthsFromPercent(float(self._obj.RootChord), self._obj.RootPerCent,
                                           float(self._obj.RootLength1), float(self._obj.RootLength2))
-        return self._makeChordProfile(self._obj.RootCrossSection, 0.0, float(self._obj.RootChord), 
+        return self._makeChordProfile(self._obj.RootCrossSection, 0.0, float(self._obj.RootChord),
             float(self._obj.RootThickness), height, l1, l2)
 
     def _makeTipProfile(self):
@@ -54,9 +54,9 @@ class FinTrapezoidShapeHandler(FinShapeHandler):
         if self._obj.TipSameThickness:
             tipThickness = float(self._obj.RootThickness)
 
-        l1, l2 = self._lengthsFromPercent(float(self._obj.TipChord), self._obj.TipPerCent, 
+        l1, l2 = self._lengthsFromPercent(float(self._obj.TipChord), self._obj.TipPerCent,
                                           float(self._obj.TipLength1), float(self._obj.TipLength2))
-        return self._makeChordProfile(crossSection, float(self._obj.SweepLength), float(self._obj.TipChord), 
+        return self._makeChordProfile(crossSection, float(self._obj.SweepLength), float(self._obj.TipChord),
             tipThickness, float(self._obj.Height), l1, l2)
 
     def isValidShape(self):

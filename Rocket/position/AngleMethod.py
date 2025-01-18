@@ -1,5 +1,5 @@
 # ***************************************************************************
-# *   Copyright (c) 2022-2024 David Carter <dcarter@davidcarter.ca>         *
+# *   Copyright (c) 2022-2025 David Carter <dcarter@davidcarter.ca>         *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -46,7 +46,7 @@ class AngleMethod(DistanceMethod):
 
     def getAngle(self, parentComponent, thisComponent, angleOffset_radians):
         return 0.0
-	
+
 class RelativeAngleMethod(AngleMethod):
 
     def __init__(self):
@@ -57,7 +57,7 @@ class RelativeAngleMethod(AngleMethod):
 
     def getAngle(self, parentComponent, thisComponent, angleOffset_radians):
         return parentComponent.getAngleOffset() + angleOffset_radians
-	
+
 class FixedAngleMethod(AngleMethod):
 
     def __init__(self):
@@ -68,7 +68,7 @@ class FixedAngleMethod(AngleMethod):
 
     def getAngle(self, parentComponent, thisComponent, angleOffset_radians):
         return 0.0
-	
+
 class MirrorXYAngleMethod(AngleMethod):
 
     def __init__(self):
@@ -76,10 +76,10 @@ class MirrorXYAngleMethod(AngleMethod):
 
     def getAngle(self, parentComponent, thisComponent, angleOffset_radians):
         combinedAngle = reduce2Pi( parentComponent.getAngleOffset() + angleOffset_radians );
-        
+
         if math.pi > combinedAngle:
             combinedAngle = -(combinedAngle - math.pi)
-        
+
         return combinedAngle
 
 RELATIVE = RelativeAngleMethod()

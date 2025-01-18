@@ -1,5 +1,5 @@
 # ***************************************************************************
-# *   Copyright (c) 2021-2024 David Carter <dcarter@davidcarter.ca>         *
+# *   Copyright (c) 2021-2025 David Carter <dcarter@davidcarter.ca>         *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -23,7 +23,7 @@
 __title__ = "FreeCAD Launch Guide View Provider"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
-    
+
 import FreeCAD
 import FreeCADGui
 
@@ -36,7 +36,7 @@ class ViewProviderRailGuide(ViewProvider):
 
     def __init__(self, vobj):
         super().__init__(vobj)
-        
+
     def getIcon(self):
         return FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_RailGuide.svg"
 
@@ -54,7 +54,7 @@ class ViewProviderRailGuide(ViewProvider):
             return
 
 class ViewProviderRailButton(ViewProviderRailGuide):
-        
+
     def getIcon(self):
         return FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_RailButton.svg"
 
@@ -67,7 +67,7 @@ class ViewProviderRailButton(ViewProviderRailGuide):
             return True
 
 class ViewProviderLaunchLug(ViewProvider):
-        
+
     def getIcon(self):
         return FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_LaunchLug.svg"
 

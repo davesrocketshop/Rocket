@@ -1,5 +1,5 @@
 # ***************************************************************************
-# *   Copyright (c) 2021-2024 David Carter <dcarter@davidcarter.ca>         *
+# *   Copyright (c) 2021-2025 David Carter <dcarter@davidcarter.ca>         *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -598,3 +598,49 @@ class FinShapeHandler:
         # except (ZeroDivisionError, Part.OCCError) as ex:
         #     _err(translate('Rocket', "Fin parameters produce an invalid shape"))
         #     return
+
+    def _makeFinFrontal(self):
+        # The frontal view is either a trapezoid or a triangle
+        # TODO: Handle canted fins
+        halfRoot = float(self._obj.RootThickness) / 2.0
+        thickness = float(self._obj.TipThickness)
+        height = float(self._obj.Height)
+        if self._obj.TipSameThickness:
+            thickness = float(self._obj.RootThickness)
+        if thickness > 0.0:
+            halfTip = thickness / 2.0
+
+            v1 = FreeCAD.Vector(0.0, -halfRoot, 0.0)
+            v2 = FreeCAD.Vector(0.0, halfRoot, 0.0)
+            v3 = FreeCAD.Vector(0.0, halfTip, height)
+            v4 = FreeCAD.Vector(0.0, -halfTip, height)
+            line1 = Part.LineSegment(v1, v2)
+            line2 = Part.LineSegment(v2, v3)
+            line3 = Part.LineSegment(v3, v4)
+            line4 = Part.LineSegment(v4, v1)
+
+            wire = Part.Wire([line1.toShape(), line2.toShape(), line3.toShape(), line4.toShape()])
+        else:
+            v1 = FreeCAD.Vector(0.0, -halfRoot, 0.0)
+            v2 = FreeCAD.Vector(0.0, halfRoot, 0.0)
+            v3 = FreeCAD.Vector(0.0, 0.0, height)
+            line1 = Part.LineSegment(v1, v2)
+            line2 = Part.LineSegment(v2, v3)
+            line3 = Part.LineSegment(v3, v1)
+
+            wire = Part.Wire([line1.toShape(), line2.toShape(), line3.toShape()])
+
+        face = Part.Face(wire)
+        face.translate(FreeCAD.Vector(0,0,float(self._obj.ParentRadius)))
+        return face
+
+    def _makeFinFrontalFinSet(self):
+        fins = []
+        base = self._makeFinFrontal()
+        for i in range(self._obj.FinCount):
+            fin = Part.Shape(base) # Create a copy
+            # fin.translate(FreeCAD.Vector(0,0,float(self._obj.ParentRadius)))
+            fin.rotate(FreeCAD.Vector(0, 0, 0), FreeCAD.Vector(1,0,0), i * float(self._obj.FinSpacing))
+            fins.append(fin)
+
+        return Part.makeCompound(fins)

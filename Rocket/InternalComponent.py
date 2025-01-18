@@ -1,5 +1,5 @@
 # ***************************************************************************
-# *   Copyright (c) 2021-2024 David Carter <dcarter@davidcarter.ca>         *
+# *   Copyright (c) 2021-2025 David Carter <dcarter@davidcarter.ca>         *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -33,7 +33,7 @@ from Rocket.position import AxialMethod
 """
     A component internal to the rocket.  Internal components have no effect on the
     the aerodynamics of a rocket, only its mass properties (though the location of the
-    components is not enforced to be within external components).  Internal components 
+    components is not enforced to be within external components).  Internal components
     are always attached relative to the parent component, which can be internal or
     external, or absolutely.
 """

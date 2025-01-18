@@ -1,5 +1,5 @@
 # ***************************************************************************
-# *   Copyright (c) 2021-2024 David Carter <dcarter@davidcarter.ca>         *
+# *   Copyright (c) 2021-2025 David Carter <dcarter@davidcarter.ca>         *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -41,7 +41,7 @@ class BoatTailElement(Element):
 
         # self._validChildren.update({ 'subcomponents' : OpenRocket.SubElement.SubElement,
         #                       })
-        self._knownTags.extend(["parttype", "length", "diameter", 
+        self._knownTags.extend(["parttype", "length", "diameter",
                 "reardiameter", "location", "color"])
     # <BoatTail>
     #   <PartType>BoatTail</PartType>

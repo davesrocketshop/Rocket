@@ -1,5 +1,5 @@
 # ***************************************************************************
-# *   Copyright (c) 2021-2024 David Carter <dcarter@davidcarter.ca>         *
+# *   Copyright (c) 2021-2025 David Carter <dcarter@davidcarter.ca>         *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -31,7 +31,7 @@ class Type():
     def __init__(self, _value, _name):
         self.value = _value
         self.name = _name
-		
+
     def matches(self, testValue):
         return (0 != (self.value & testValue ))
 
@@ -72,16 +72,16 @@ class ComponentChangeEvent(): # extends EventObject {
     # when a flight configuration fires an event, it is of this type
     # UI-only change
     GRAPHIC_CHANGE = GRAPHIC.value
-	
-			
+
+
     component = None
     type = None
-	
+
     def __init__(self, component, eventType):
         self.component = component
         if eventType is None or eventType == ERROR:
             raise ValueError("no event type provided")
-        self.type = eventType.value	
+        self.type = eventType.value
 
     # Return the source component of this event as specified in the constructor.
     def getSource(self):
@@ -120,7 +120,7 @@ class ComponentChangeEvent(): # extends EventObject {
 
     def __str__(self):
         s = ""
-        
+
         if self.isNonFunctionalChange():
             s += ",nonfunc"
         if self.isMassChange():
@@ -135,8 +135,8 @@ class ComponentChangeEvent(): # extends EventObject {
             s += ",motor"
         if self.isEventChange():
             s += ",event"
-        
+
         if s.length() > 0:
             s = s[1:]
-        
+
         return "ComponentChangeEvent[" + s + "]"

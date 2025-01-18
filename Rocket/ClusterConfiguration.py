@@ -1,5 +1,5 @@
 # ***************************************************************************
-# *   Copyright (c) 2021=2024 David Carter <dcarter@davidcarter.ca>         *
+# *   Copyright (c) 2021=2025 David Carter <dcarter@davidcarter.ca>         *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -32,7 +32,7 @@ import math
     available cluster configurations are those available in the static fields.
 """
 class ClusterConfiguration:
-    
+
     def __init__(self, name, points):
         self._name = name
         self._points = points # This will be a tuple
@@ -101,17 +101,17 @@ CONFIGURATIONS = {
     "3-star": ClusterConfiguration("3-star", (0,0, 0,1, SQRT3/2,-0.5, -SQRT3/2,-0.5)),
     "4-star": ClusterConfiguration("4-star", (0,0, -1/SQRT2,1/SQRT2, 1/SQRT2,1/SQRT2,
                                 1/SQRT2,-1/SQRT2, -1/SQRT2,-1/SQRT2)),
-    "5-star": ClusterConfiguration("5-star", (0,0, 0,1, 
+    "5-star": ClusterConfiguration("5-star", (0,0, 0,1,
                                 math.sin(2*math.pi/5),math.cos(2*math.pi/5),
                                 math.sin(2*math.pi*2/5),math.cos(2*math.pi*2/5),
                                 math.sin(2*math.pi*3/5),math.cos(2*math.pi*3/5),
                                 math.sin(2*math.pi*4/5),math.cos(2*math.pi*4/5))),
     "6-star": ClusterConfiguration("6-star", (0,0, 0,1, SQRT3/2,0.5, SQRT3/2,-0.5,
                                 0,-1, -SQRT3/2,-0.5, -SQRT3/2,0.5)),
-    "9-grid": ClusterConfiguration("9-grid",  (-1.4,1.4,  0,1.4,  1.4,1.4, 
+    "9-grid": ClusterConfiguration("9-grid",  (-1.4,1.4,  0,1.4,  1.4,1.4,
                                         -1.4,0,    0,0,    1.4,0,
                                         -1.4,-1.4, 0,-1.4, 1.4,-1.4)),
-    "9-star": ClusterConfiguration("9-star",  (0, 0, 
+    "9-star": ClusterConfiguration("9-star",  (0, 0,
                                 1.4,0, 1.4/SQRT2,-1.4/SQRT2, 0,-1.4, -1.4/SQRT2,-1.4/SQRT2,
                                 -1.4,0, -1.4/SQRT2,1.4/SQRT2, 0,1.4, 1.4/SQRT2,1.4/SQRT2))
 

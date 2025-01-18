@@ -1,5 +1,5 @@
 # ***************************************************************************
-# *   Copyright (c) 2021-2024 David Carter <dcarter@davidcarter.ca>         *
+# *   Copyright (c) 2021-2025 David Carter <dcarter@davidcarter.ca>         *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -23,7 +23,7 @@
 __title__ = "FreeCAD Launch Guides"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
-    
+
 import FreeCAD
 import FreeCADGui
 
@@ -79,7 +79,7 @@ class CmdLaunchLug(Command):
         if FreeCAD.ActiveDocument:
             return self.partEligibleFeature(FEATURE_LAUNCH_LUG)
         return False
-            
+
     def GetResources(self):
         return {'MenuText': translate("Rocket", 'Launch Lug'),
                 'ToolTip': translate("Rocket", 'Launch lug design'),
@@ -97,7 +97,7 @@ class CmdRailButton(Command):
         if FreeCAD.ActiveDocument:
             return self.partEligibleFeature(FEATURE_RAIL_BUTTON)
         return False
-            
+
     def GetResources(self):
         return {'MenuText': translate("Rocket", 'Rail Button'),
                 'ToolTip': translate("Rocket", 'Rail button design'),
@@ -115,7 +115,7 @@ class CmdRailGuide(Command):
         if FreeCAD.ActiveDocument:
             return self.partEligibleFeature(FEATURE_RAIL_GUIDE)
         return False
-            
+
     def GetResources(self):
         return {'MenuText': translate("Rocket", 'Rail Guide'),
                 'ToolTip': translate("Rocket", 'Rail guide design'),
@@ -133,7 +133,7 @@ class CmdStandOff(Command):
         if FreeCAD.ActiveDocument:
             return self.partEligibleFeature(FEATURE_OFFSET)
         return False
-            
+
     def GetResources(self):
         return {'MenuText': translate("Rocket", 'Stand Off'),
                 'ToolTip': translate("Rocket", 'Stand off design'),

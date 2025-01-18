@@ -1,5 +1,5 @@
 # ***************************************************************************
-# *   Copyright (c) 2021-2024 David Carter <dcarter@davidcarter.ca>         *
+# *   Copyright (c) 2021-2025 David Carter <dcarter@davidcarter.ca>         *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -63,7 +63,7 @@ class TubeFinsetElement(FinsetElement):
         elif _tag == "length":
             self._feature._obj.RootChord = FreeCAD.Units.Quantity(content + " m").Value
         elif _tag == "radius":
-            if content == "auto":
+            if self.isAuto(content):
                 self._feature._obj.TubeAutoOuterDiameter = True
             else:
                 self._feature._obj.TubeAutoOuterDiameter = False

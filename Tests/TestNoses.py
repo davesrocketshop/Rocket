@@ -1,5 +1,5 @@
 # ***************************************************************************
-# *   Copyright (c) 2022-2024 David Carter <dcarter@davidcarter.ca>         *
+# *   Copyright (c) 2022-2025 David Carter <dcarter@davidcarter.ca>         *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -23,7 +23,7 @@
 __title__ = "FreeCAD Nose Cone Tests"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
-    
+
 import FreeCAD
 import unittest
 
@@ -65,7 +65,7 @@ class NoseTests(unittest.TestCase):
         feature._obj.Shoulder = False
         feature._obj.CapStyle = capStyle
         self.Doc.recompute()
-        
+
         message = type + ": " + style + " Plain"
         message += ", " + capStyle
 
@@ -78,7 +78,7 @@ class NoseTests(unittest.TestCase):
         feature._obj.Shoulder = True
         feature._obj.CapStyle = capStyle
         self.Doc.recompute()
-        
+
         message = type + ": " + style + " Plain"
         message += ", " + capStyle
 
@@ -93,13 +93,13 @@ class NoseTests(unittest.TestCase):
             with self.subTest(type=type):
                 self._testPlain(type, STYLE_SOLID)
                 self._testShoulder(type, STYLE_SOLID)
-                
+
     def testTypesHollow(self):
         for type in self._getTypes():
             with self.subTest(type=type):
                 self._testPlain(type, STYLE_HOLLOW)
                 self._testShoulder(type, STYLE_HOLLOW)
-                
+
     def testTypesCapped(self):
         for type in self._getTypes():
             with self.subTest(type=type):
@@ -107,4 +107,3 @@ class NoseTests(unittest.TestCase):
                     with self.subTest(capStyle=capStyle):
                         self._testPlain(type, STYLE_CAPPED, capStyle)
                         self._testShoulder(type, STYLE_CAPPED, capStyle)
-    

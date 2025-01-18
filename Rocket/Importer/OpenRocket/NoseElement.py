@@ -1,5 +1,5 @@
 # ***************************************************************************
-# *   Copyright (c) 2021-2024 David Carter <dcarter@davidcarter.ca>         *
+# *   Copyright (c) 2021-2025 David Carter <dcarter@davidcarter.ca>         *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -79,7 +79,7 @@ class NoseElement(TransitionElement):
         elif _tag == "shapeparameter":
             self._feature._obj.Coefficient = float(content)
         elif _tag == "aftradius":
-            if content == "auto":
+            if self.isAuto(content):
                 self._feature._obj.AutoDiameter = True
                 # self._feature._obj.ShoulderAutoDiameter = True
             else:
@@ -90,14 +90,14 @@ class NoseElement(TransitionElement):
         elif _tag == "aftouterdiameter":
             self._feature._obj.Diameter = FreeCAD.Units.Quantity(content + " m").Value
         elif _tag == "aftshoulderradius":
-            if content == "auto":
+            if self.isAuto(content):
                 self._feature._obj.ShoulderAutoDiameter = True
             else:
                 self._feature._obj.ShoulderAutoDiameter = False
                 diameter = float(content) * 2.0
                 self._feature._obj.ShoulderDiameter = FreeCAD.Units.Quantity(str(diameter) + " m").Value
         elif _tag == "aftshoulderdiameter":
-            if content == "auto":
+            if self.isAuto(content):
                 self._feature._obj.ShoulderAutoDiameter = True
             else:
                 self._feature._obj.ShoulderAutoDiameter = False

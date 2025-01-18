@@ -1,5 +1,5 @@
 # ***************************************************************************
-# *   Copyright (c) 2021-2024 David Carter <dcarter@davidcarter.ca>         *
+# *   Copyright (c) 2021-2025 David Carter <dcarter@davidcarter.ca>         *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -94,15 +94,15 @@ def listBodyTubes(connection, tubeType=None):
     cursor = connection.cursor()
 
     if tubeType is None or tubeType == COMPONENT_TYPE_ANY:
-        cursor.execute("""SELECT body_tube_index, type, manufacturer, part_number, description, inner_diameter, inner_diameter_units, 
+        cursor.execute("""SELECT body_tube_index, type, manufacturer, part_number, description, inner_diameter, inner_diameter_units,
                             outer_diameter, outer_diameter_units, length, length_units
                         FROM component c, body_tube b, tube_type t
                         WHERE b.component_index = c.component_index AND b.tube_type_index = t.tube_type_index
                             AND NOT t.type = 'Centering Ring' AND NOT t.type = 'Bulkhead'""")
     else:
-        cursor.execute("""SELECT body_tube_index, type, manufacturer, part_number, description, inner_diameter, inner_diameter_units, 
+        cursor.execute("""SELECT body_tube_index, type, manufacturer, part_number, description, inner_diameter, inner_diameter_units,
                             outer_diameter, outer_diameter_units, length, length_units
-                        FROM component c, body_tube b, tube_type t 
+                        FROM component c, body_tube b, tube_type t
                         WHERE b.component_index = c.component_index AND b.tube_type_index = t.tube_type_index AND t.type = :type""", {
                             "type" : tubeType
                         })

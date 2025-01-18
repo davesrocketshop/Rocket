@@ -1,5 +1,5 @@
 # ***************************************************************************
-# *   Copyright (c) 2021-2024 David Carter <dcarter@davidcarter.ca>         *
+# *   Copyright (c) 2021-2025 David Carter <dcarter@davidcarter.ca>         *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -77,7 +77,7 @@ class RASAeroElement(Element):
         _tag = tag.lower().strip()
         if _tag == "fileversion":
             if content not in self.SUPPORTED_VERSIONS:
-                raise UnsupportedVersion("Unsupported version %s" % content)           
+                raise UnsupportedVersion("Unsupported version %s" % content)
         else:
             super().handleEndTag(tag, content)
 
@@ -92,7 +92,7 @@ class RocketElement(Element):
                                 'booster' : BoosterElement,
                                 'fincan' : FinElement,
                               }
-        self._knownTags = ["surface", "cp", "modifiedbarrowman", "turbulence", "sustainernozzle", "booster1nozzle", 
+        self._knownTags = ["surface", "cp", "modifiedbarrowman", "turbulence", "sustainernozzle", "booster1nozzle",
                 "booster2nozzle", "usebooster1", "usebooster2", "comments"]
 
         self._rocket = makeRocket(makeSustainer=False)
@@ -128,7 +128,7 @@ class RASAeroImporter(xml.sax.ContentHandler):
         loc = self._locator
         if loc is not None:
             line = loc.getLineNumber()
-        if self._current.isChildElement(tag):
+        if self._current.isChildElement(tag) and self._current.testCreateChild(tag):
             self._current = self._current.createChild(tag, attributes, self._filename, line)
             self._content = ''
         else:

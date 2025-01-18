@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>282</height>
+    <height>369</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -22,26 +22,6 @@
      <layout class="QVBoxLayout" name="verticalLayout_2">
       <item>
        <layout class="QGridLayout" name="gridLayout">
-        <item row="1" column="1">
-         <widget class="Gui::InputField" name="inputDiameter">
-          <property name="toolTip">
-           <string>Main body diameter</string>
-          </property>
-          <property name="readOnly">
-           <bool>true</bool>
-          </property>
-          <property name="unit" stdset="0">
-           <string notr="true"/>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="0">
-         <widget class="QLabel" name="label_4">
-          <property name="text">
-           <string>Minimum Fin Thickness</string>
-          </property>
-         </widget>
-        </item>
         <item row="2" column="1">
          <widget class="Gui::InputField" name="inputFinThickness">
           <property name="toolTip">
@@ -51,7 +31,7 @@
            <bool>true</bool>
           </property>
           <property name="unit" stdset="0">
-           <string notr="true"/>
+           <string notr="true">m</string>
           </property>
          </widget>
         </item>
@@ -59,6 +39,13 @@
          <widget class="QLabel" name="label_2">
           <property name="text">
            <string>Length</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="QLabel" name="label_4">
+          <property name="text">
+           <string>Minimum Fin Thickness</string>
           </property>
          </widget>
         </item>
@@ -71,7 +58,20 @@
            <bool>true</bool>
           </property>
           <property name="unit" stdset="0">
-           <string notr="true"/>
+           <string notr="true">m</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="Gui::InputField" name="inputDiameter">
+          <property name="toolTip">
+           <string>Main body diameter</string>
+          </property>
+          <property name="readOnly">
+           <bool>true</bool>
+          </property>
+          <property name="unit" stdset="0">
+           <string notr="true">m</string>
           </property>
          </widget>
         </item>
@@ -82,6 +82,26 @@
           </property>
          </widget>
         </item>
+        <item row="3" column="0">
+         <widget class="QLabel" name="label_10">
+          <property name="text">
+           <string>Frontal Area</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="1">
+         <widget class="Gui::InputField" name="inputArea">
+          <property name="toolTip">
+           <string>Area facing the direction of travel</string>
+          </property>
+          <property name="readOnly">
+           <bool>true</bool>
+          </property>
+          <property name="unit" stdset="0">
+           <string notr="true">m^2</string>
+          </property>
+         </widget>
+        </item>
        </layout>
       </item>
      </layout>
@@ -89,31 +109,14 @@
    </item>
    <item>
     <layout class="QGridLayout" name="gridLayout_2">
-     <item row="0" column="0">
+     <item row="1" column="0">
       <widget class="QLabel" name="label_6">
        <property name="text">
         <string>Angle Of Attack</string>
        </property>
       </widget>
      </item>
-     <item row="2" column="0">
-      <widget class="QLabel" name="label_5">
-       <property name="text">
-        <string>Number of Processors</string>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="1">
-      <widget class="Gui::IntSpinBox" name="spinNproc">
-       <property name="toolTip">
-        <string>Number of processors to use during CFD simulation</string>
-       </property>
-       <property name="maximum">
-        <number>9999</number>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="1">
+     <item row="1" column="1">
       <widget class="Gui::DoubleSpinBox" name="spinAOA">
        <property name="toolTip">
         <string>Angle to the direction of travel</string>
@@ -126,14 +129,64 @@
        </property>
       </widget>
      </item>
-     <item row="1" column="0">
+     <item row="5" column="0">
+      <widget class="QLabel" name="label_9">
+       <property name="text">
+        <string>Mach</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="0">
+      <widget class="QLabel" name="label_5">
+       <property name="text">
+        <string>Number of Processors</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="1">
+      <widget class="Gui::IntSpinBox" name="spinNproc">
+       <property name="toolTip">
+        <string>Number of processors to use during CFD simulation</string>
+       </property>
+       <property name="maximum">
+        <number>9999</number>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="0">
       <widget class="QLabel" name="label">
        <property name="text">
         <string>Angle of rotation</string>
        </property>
       </widget>
      </item>
-     <item row="1" column="1">
+     <item row="0" column="0">
+      <widget class="QLabel" name="label_8">
+       <property name="toolTip">
+        <string/>
+       </property>
+       <property name="text">
+        <string>Altitude</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="Gui::InputField" name="inputAltitude">
+       <property name="toolTip">
+        <string>Altitude above sea level</string>
+       </property>
+       <property name="minimum">
+        <double>0.000000000000000</double>
+       </property>
+       <property name="unit" stdset="0">
+        <string notr="true">m</string>
+       </property>
+       <property name="quantity" stdset="0">
+        <double>1000.000000000000000</double>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1">
       <widget class="Gui::DoubleSpinBox" name="spinRotation">
        <property name="toolTip">
         <string>Rotation around the X axis</string>
@@ -146,14 +199,42 @@
        </property>
       </widget>
      </item>
-    </layout>
-   </item>
-   <item>
-    <layout class="QHBoxLayout" name="horizontalLayout">
-     <item>
-      <widget class="QPushButton" name="buttonCreate">
+     <item row="5" column="1">
+      <widget class="Gui::InputField" name="inputMach">
+       <property name="toolTip">
+        <string>Mach number</string>
+       </property>
        <property name="text">
-        <string>Create</string>
+        <string>0 </string>
+       </property>
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+       <property name="unit" stdset="0">
+        <string notr="true"/>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="0">
+      <widget class="QLabel" name="label_7">
+       <property name="toolTip">
+        <string>Speed</string>
+       </property>
+       <property name="text">
+        <string>Speed</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="1">
+      <widget class="Gui::InputField" name="inputSpeed">
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+       <property name="minimum">
+        <double>-2147483647.000000000000000</double>
+       </property>
+       <property name="unit" stdset="0">
+        <string notr="true">m/s</string>
        </property>
       </widget>
      </item>

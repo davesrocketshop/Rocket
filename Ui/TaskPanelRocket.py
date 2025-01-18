@@ -1,5 +1,5 @@
 # ***************************************************************************
-# *   Copyright (c) 2024 David Carter <dcarter@davidcarter.ca>              *
+# *   Copyright (c) 2024-2025 David Carter <dcarter@davidcarter.ca>         *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -23,7 +23,7 @@
 __title__ = "FreeCAD Rocket"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
-    
+
 
 import FreeCAD
 
@@ -37,5 +37,5 @@ class TaskPanelRocket(TaskPanelStage):
         super().__init__(obj, mode)
 
         self._stageForm.setWindowIcon(QtGui.QIcon(FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Rocket.svg"))
-        
+
         self.update()

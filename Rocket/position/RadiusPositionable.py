@@ -1,5 +1,5 @@
 # ***************************************************************************
-# *   Copyright (c) 2021-2024 David Carter <dcarter@davidcarter.ca>         *
+# *   Copyright (c) 2021-2025 David Carter <dcarter@davidcarter.ca>         *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -42,7 +42,7 @@ class RadiusPositionable(ABC):
     @abstractmethod
     def setRadiusOffset(self, radius : Double) -> None:
         pass
-	
+
     @abstractmethod
     def getRadiusMethod(self) -> RadiusMethod:
         pass
@@ -50,7 +50,7 @@ class RadiusPositionable(ABC):
     @abstractmethod
     def setRadiusMethod(self, method : RadiusMethod) -> None:
         pass
-	
+
     @abstractmethod
     def setRadius(self, method : RadiusMethod, radius : Double) -> None:
         pass

@@ -1,5 +1,5 @@
 #***************************************************************************
-# *   Copyright (c) 2022-2024 David Carter <dcarter@davidcarter.ca>         *
+# *   Copyright (c) 2022-2025 David Carter <dcarter@davidcarter.ca>         *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -149,7 +149,8 @@ class SymmetricComponent(RocketComponent, BoxBounded, RadialParent):
         if self.isFilled():
             return
 
-        self._obj.Filled = filled
+        if hasattr(self._obj, "Filled"):
+            self._obj.Filled = filled
         self.fireComponentChangeEvent(ComponentChangeEvent.MASS_CHANGE)
         self.clearPreset()
 
