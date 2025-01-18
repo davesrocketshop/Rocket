@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="1.1" language="zh-TW" sourcelanguage="en">
+<TS version="1.1" language="sr-CS" sourcelanguage="en">
   <context>
     <name>App::Property</name>
     <message>
@@ -1024,7 +1024,7 @@
     <message>
       <location filename="DialogCFD.ui" line="41"/>
       <source>Length</source>
-      <translation>長度</translation>
+      <translation type="unfinished">Length</translation>
     </message>
     <message>
       <location filename="DialogCFD.ui" line="55"/>
@@ -1142,7 +1142,7 @@
     <message>
       <location filename="TaskPanelTransition.py" line="64"/>
       <source>Material</source>
-      <translation>材質</translation>
+      <translation type="unfinished">Material</translation>
     </message>
     <message>
       <location filename="TaskPanelTransition.py" line="65"/>
@@ -1192,7 +1192,7 @@
     <message>
       <location filename="TaskPanelTransition.py" line="300"/>
       <source>Thickness</source>
-      <translation>厚度</translation>
+      <translation>Debljina</translation>
     </message>
     <message>
       <location filename="TaskPanelFinCan.py" line="211"/>
@@ -1227,7 +1227,7 @@
     <message>
       <location filename="TaskPanelWindTunnel.py" line="66"/>
       <source>Length</source>
-      <translation>長度</translation>
+      <translation type="unfinished">Length</translation>
     </message>
     <message>
       <location filename="TaskPanelBodyTube.py" line="82"/>
@@ -1247,7 +1247,7 @@
     <message>
       <location filename="TaskPanelFinCan.py" line="228"/>
       <source>Height</source>
-      <translation>高度</translation>
+      <translation type="unfinished">Height</translation>
     </message>
     <message>
       <location filename="TaskPanelFinCan.py" line="244"/>
@@ -1267,7 +1267,7 @@
     <message>
       <location filename="TaskPanelFin.py" line="271"/>
       <source>Size</source>
-      <translation>尺寸</translation>
+      <translation type="unfinished">Size</translation>
     </message>
     <message>
       <location filename="TaskPanelFin.py" line="426"/>
@@ -1357,7 +1357,7 @@
     <message>
       <location filename="TaskPanelRailButton.py" line="162"/>
       <source>Radius</source>
-      <translation>半徑</translation>
+      <translation type="unfinished">Radius</translation>
     </message>
     <message>
       <location filename="TaskPanelTransition.py" line="837"/>
@@ -1387,7 +1387,7 @@
     <message>
       <location filename="ViewProviderWindTunnel.py" line="68"/>
       <source>Edit %1</source>
-      <translation>編輯 %1</translation>
+      <translation>Uredi %1</translation>
     </message>
     <message>
       <location filename="DialogMaterialMapping.py" line="67"/>
@@ -1447,12 +1447,12 @@
     <message>
       <location filename="TaskPanelDatabase.py" line="63"/>
       <source>Description</source>
-      <translation>說明</translation>
+      <translation type="unfinished">Description</translation>
     </message>
     <message>
       <location filename="DialogLookup.py" line="369"/>
       <source>Shape</source>
-      <translation>造型</translation>
+      <translation>Oblik</translation>
     </message>
     <message>
       <location filename="TaskPanelWindTunnel.py" line="60"/>
@@ -1542,7 +1542,7 @@
     <message>
       <location filename="DialogParachute.py" line="47"/>
       <source>Square</source>
-      <translation>正方形</translation>
+      <translation>Kvadratni</translation>
     </message>
     <message>
       <location filename="DialogParachute.py" line="61"/>
@@ -1632,7 +1632,7 @@
     <message>
       <location filename="TaskPanelRailGuide.py" line="159"/>
       <source>Width</source>
-      <translation>寬度</translation>
+      <translation type="unfinished">Width</translation>
     </message>
     <message>
       <location filename="TaskPanelBulkhead.py" line="117"/>
