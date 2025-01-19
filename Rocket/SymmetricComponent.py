@@ -69,6 +69,10 @@ class SymmetricComponent(RocketComponent, BoxBounded, RadialParent):
         pass
 
     @abstractmethod
+    def getInnerRadius(self, x):
+        pass
+
+    @abstractmethod
     def getForeRadius(self):
         pass
 
@@ -85,11 +89,16 @@ class SymmetricComponent(RocketComponent, BoxBounded, RadialParent):
         pass
 
     def getOuterRadius(self, x):
-        self.getRadius(x)
+        return self.getRadius(x)
+
+    def getOuterDiameter(self, x):
+        return self.getOuterRadius(x) * 2.0
 
     def getInnerRadius(self, x):
-        # self.getRadius(x)
-        pass
+        return self.getInnerRadius(x)
+
+    def getInnerDiameter(self, x):
+        return self.getInnerRadius(x) * 2.0
 
     """
         Returns the largest radius of the component (either the aft radius, or the fore radius).

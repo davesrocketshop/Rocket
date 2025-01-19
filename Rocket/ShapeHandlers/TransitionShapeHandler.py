@@ -32,6 +32,8 @@ import FreeCAD
 import Part
 import math
 
+from abc import abstractmethod
+
 from DraftTools import translate
 
 from Rocket.Constants import STYLE_CAPPED, STYLE_HOLLOW, STYLE_SOLID, STYLE_SOLID_CORE
@@ -169,6 +171,17 @@ class TransitionShapeHandler():
                     return False
 
         return True
+
+    @abstractmethod
+    def _radiusAt(self, r1, r2, length, pos):
+        pass
+
+    def getRadius(self, x):
+        if self._clipped:
+            self._calculateClip(self._foreRadius, self._aftRadius)
+
+        radius = self._radiusAt(self._foreRadius, self._aftRadius, self._getLength(), x)
+        return radius
 
     #
     # Numerically solve clipLength from the equation

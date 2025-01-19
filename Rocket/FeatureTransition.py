@@ -23,7 +23,6 @@ __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
 from Rocket.SymmetricComponent import SymmetricComponent
-from Rocket.Constants import FEATURE_TRANSITION
 
 from Rocket.ShapeHandlers.TransitionConeShapeHandler import TransitionConeShapeHandler
 from Rocket.ShapeHandlers.TransitionEllipseShapeHandler import TransitionEllipseShapeHandler
@@ -35,7 +34,7 @@ from Rocket.ShapeHandlers.TransitionPowerShapeHandler import TransitionPowerShap
 from Rocket.Constants import TYPE_CONE, TYPE_ELLIPTICAL, TYPE_HAACK, TYPE_OGIVE, TYPE_VON_KARMAN, TYPE_PARABOLA, TYPE_PARABOLIC, TYPE_POWER
 from Rocket.Constants import STYLE_CAPPED, STYLE_HOLLOW, STYLE_SOLID, STYLE_SOLID_CORE
 from Rocket.Constants import STYLE_CAP_SOLID, STYLE_CAP_BAR, STYLE_CAP_CROSS
-from Rocket.Constants import FEATURE_INNER_TUBE
+from Rocket.Constants import FEATURE_TRANSITION, FEATURE_CENTERING_RING, FEATURE_INNER_TUBE, FEATURE_FIN
 
 from Rocket.events.ComponentChangeEvent import ComponentChangeEvent
 
@@ -377,7 +376,19 @@ class FeatureTransition(SymmetricComponent):
         Return the radius at point x of the transition.
     """
     def getRadius(self, x):
-        return 0.0
+        if not hasattr(self, "_shapeHandler") or self._shapeHandler is None:
+            self._setShapeHandler()
+        return self._shapeHandler.getRadius(x)
+
+    """
+        Return the inner radius at point x of the transition.
+    """
+    def getInnerRadius(self, x):
+        if self._obj.TransitionStyle == STYLE_SOLID:
+            return 0.0
+        if self._obj.TransitionStyle == STYLE_SOLID_CORE:
+            return self._obj.CoreDiameter
+        return max(self.getRadius() - float(self.Thickness), 0)
 
     def _setShapeHandler(self):
         obj = self._obj
@@ -408,5 +419,6 @@ class FeatureTransition(SymmetricComponent):
 
     def eligibleChild(self, childType):
         return childType in [
-            #FEATURE_BODY_TUBE,
-            FEATURE_INNER_TUBE]
+            FEATURE_CENTERING_RING,
+            FEATURE_INNER_TUBE,
+            FEATURE_FIN]

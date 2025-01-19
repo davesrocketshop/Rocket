@@ -25,7 +25,6 @@ __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
 from Rocket.SymmetricComponent import SymmetricComponent
-from Rocket.Constants import FEATURE_NOSE_CONE
 
 from Rocket.ShapeHandlers.NoseConeShapeHandler import NoseConeShapeHandler
 from Rocket.ShapeHandlers.NoseBluntedConeShapeHandler import NoseBluntedConeShapeHandler
@@ -42,7 +41,7 @@ from Rocket.Constants import TYPE_CONE, TYPE_BLUNTED_CONE, TYPE_SPHERICAL, TYPE_
     TYPE_PARABOLIC, TYPE_POWER
 from Rocket.Constants import STYLE_CAPPED, STYLE_HOLLOW, STYLE_SOLID
 from Rocket.Constants import STYLE_CAP_SOLID, STYLE_CAP_BAR, STYLE_CAP_CROSS
-from Rocket.Constants import FEATURE_INNER_TUBE
+from Rocket.Constants import FEATURE_NOSE_CONE, FEATURE_INNER_TUBE, FEATURE_CENTERING_RING, FEATURE_FIN
 
 from Rocket.events.ComponentChangeEvent import ComponentChangeEvent
 
@@ -156,10 +155,15 @@ class FeatureNoseCone(SymmetricComponent):
         self._obj.NoseType = type
 
     def getRadius(self, x):
-        if self._shapeHandler is None:
+        if not hasattr(self, "_shapeHandler") or self._shapeHandler is None:
             self._setShapeHandler()
 
         return self._shapeHandler.getRadius(x)
+
+    def getInnerRadius(self, x):
+        if self._obj.NoseStyle == STYLE_SOLID:
+            return 0.0
+        return max(self.getRadius() - float(self.Thickness), 0)
 
     def getForeRadius(self):
         return 0
@@ -416,5 +420,6 @@ class FeatureNoseCone(SymmetricComponent):
 
     def eligibleChild(self, childType):
         return childType in [
-            #FEATURE_BODY_TUBE,
-            FEATURE_INNER_TUBE]
+            FEATURE_CENTERING_RING,
+            FEATURE_INNER_TUBE,
+            FEATURE_FIN]
