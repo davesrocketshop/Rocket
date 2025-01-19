@@ -287,17 +287,17 @@ class RocketComponentShapeless():
         # For placing objects on the outer part of the parent
         return self.getForeRadius()
 
-    def getRadius(self, pos=0):
+    def getRadius(self, pos):
         return self.getForeRadius()
 
     def setRadius(self):
         # Calculate any auto radii
         self.getRadius()
 
-    def getOuterRadius(self):
+    def getOuterRadius(self, pos):
         return 0.0
 
-    def getInnerRadius(self):
+    def getInnerRadius(self, pos):
         return 0.0
 
     def setRadialPosition(self, outerRadius, innerRadius):

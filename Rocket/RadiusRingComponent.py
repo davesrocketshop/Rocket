@@ -54,12 +54,12 @@ class RadiusRingComponent(RingComponent, LineInstanceable):
         super().update()
 
         # Ensure any automatic variables are set
-        self.getOuterDiameter()
+        self.getOuterDiameter(0)
 
-    def getOuterRadius(self):
-        return self.getOuterDiameter() / 2.0
+    def getOuterRadius(self, pos):
+        return self.getOuterDiameter(pos) / 2.0
 
-    def getOuterDiameter(self):
+    def getOuterDiameter(self, pos):
         if self._obj.AutoDiameter and isinstance(self.getParent(), RadialParent):
             pos1 = self.toRelative(NUL, self.getParent())[0]._x
             pos2 = self.toRelative(Coordinate(self.getLength()), self.getParent())[0]._x
@@ -84,17 +84,17 @@ class RadiusRingComponent(RingComponent, LineInstanceable):
 
         self._obj.Diameter = d
         self._obj.AutoDiameter = False
-        if self.getInnerRadius() > (d / 2.0):
+        if self.getInnerRadius(0) > (d / 2.0):
             self._obj.CenterDiameter = d
             self._obj.CenterAutoDiameter = False
 
         self.clearPreset()
         self.fireComponentChangeEvent(ComponentChangeEvent.MASS_CHANGE)
 
-    def getInnerRadius(self, pos=0):
+    def getInnerRadius(self, pos):
         return self.getInnerDiameter(pos) / 2.0
 
-    def getInnerDiameter(self, pos=0):
+    def getInnerDiameter(self, pos):
         return self._obj.CenterDiameter
 
     def setInnerRadius(self, r):
@@ -109,7 +109,7 @@ class RadiusRingComponent(RingComponent, LineInstanceable):
 
         self._obj.CenterDiameter = 2.0 * r
         self._obj.CenterAutoDiameter = False
-        if self.getOuterRadius() < r:
+        if self.getOuterRadius(0) < r:
             self._obj.Diameter = 2.0 * r
             self._obj.AutoDiameter = False
 
@@ -117,14 +117,14 @@ class RadiusRingComponent(RingComponent, LineInstanceable):
         self.fireComponentChangeEvent(ComponentChangeEvent.MASS_CHANGE)
 
     def getThickness(self):
-        return max(self.getOuterRadius() - self.getInnerRadius(), 0)
+        return max(self.getOuterRadius(0) - self.getInnerRadius(0), 0)
 
     def setThickness(self, thickness):
         for listener in self._configListeners:
             if isinstance(listener, RadiusRingComponent):
                 listener.setThickness(thickness)
 
-        outer = self.getOuterRadius()
+        outer = self.getOuterRadius(0)
 
         thickness = clamp(thickness, 0, outer)
         self.setInnerRadius(outer - thickness)

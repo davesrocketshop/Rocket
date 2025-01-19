@@ -107,10 +107,10 @@ class FeatureLaunchLug(Tube, AnglePositionable, BoxBounded, LineInstanceable):
 
         return float(length)
 
-    def getOuterRadius(self):
-        return self.getOuterDiameter() / 2.0
+    def getOuterRadius(self, pos):
+        return self.getOuterDiameter(pos) / 2.0
 
-    def getOuterDiameter(self):
+    def getOuterDiameter(self, pos):
         return float(self._obj.Diameter)
 
     def setOuterRadius(self, radius):
@@ -129,10 +129,10 @@ class FeatureLaunchLug(Tube, AnglePositionable, BoxBounded, LineInstanceable):
         self.clearPreset()
         self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
 
-    def getInnerRadius(self):
-        return self.getInnerDiameter() / 2.0
+    def getInnerRadius(self, pos):
+        return self.getInnerDiameter(pos) / 2.0
 
-    def getInnerDiameter(self, pos=0):
+    def getInnerDiameter(self, pos):
         return self._obj.Diameter - (2.0 * self._obj.Thickness)
 
     def setInnerRadius(self, radius):
@@ -233,7 +233,7 @@ class FeatureLaunchLug(Tube, AnglePositionable, BoxBounded, LineInstanceable):
             x2 = Utilities.clamp(x2, 0, body.getLength())
             parentRadius = max(body.getRadius(x1), body.getRadius(x2))
 
-        self._obj.RadialOffset = parentRadius + self.getOuterRadius()
+        self._obj.RadialOffset = parentRadius + self.getOuterRadius(0)
 
     def getInstanceSeparation(self):
         return self._obj.InstanceSeparation
@@ -261,7 +261,7 @@ class FeatureLaunchLug(Tube, AnglePositionable, BoxBounded, LineInstanceable):
 
         instanceBounds.update(Coordinate(self.getLength(), 0,0))
 
-        r = self.getOuterRadius()
+        r = self.getOuterRadius(0)
         instanceBounds.update(Coordinate(0,r,r))
         instanceBounds.update(Coordinate(0,-r,-r))
 

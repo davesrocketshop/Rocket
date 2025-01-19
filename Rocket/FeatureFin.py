@@ -216,7 +216,7 @@ class FeatureFin(ExternalComponent):
         self.setParentDiameter()
         self.getTubeOuterDiameter()
         self.setFinAutoHeight()
-        self._setTtwAutoHeight()
+        self._setTtwAutoHeight(0)
 
     def getFinThickness(self):
         thickness = 0.0
@@ -236,7 +236,7 @@ class FeatureFin(ExternalComponent):
         if self._obj.AutoDiameter:
             parent = self.getParent()
             if parent is not None and hasattr(parent, "getOuterDiameter"):
-                self._obj.ParentRadius = parent.getOuterDiameter() / 2.0
+                self._obj.ParentRadius = parent.getOuterDiameter(0) / 2.0
             else:
                 self._obj.ParentRadius = SymmetricComponent.DEFAULT_RADIUS
 
@@ -251,7 +251,7 @@ class FeatureFin(ExternalComponent):
             if height > 0:
                 self.setHeight(height)
 
-    def _setTtwAutoHeight(self, pos=0):
+    def _setTtwAutoHeight(self, pos):
         if self._obj.TtwAutoHeight:
             centerDiameter = 0
             # Component can be parentless if detached from rocket
@@ -267,7 +267,7 @@ class FeatureFin(ExternalComponent):
                     if pos2 < 0 or pos1 > sibling.Proxy.getLength():
                         continue
 
-                    centerDiameter = max(centerDiameter, float(sibling.Proxy.getOuterDiameter()))
+                    centerDiameter = max(centerDiameter, float(sibling.Proxy.getOuterDiameter(pos)))
 
                 centerDiameter = min(centerDiameter, 2.0 * float(self._obj.ParentRadius))
 

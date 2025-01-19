@@ -144,15 +144,15 @@ class FeatureRingtail(SymmetricComponent, BoxBounded, Coaxial):
 
     def getForeRadius(self):
         # For placing objects on the outer part of the parent
-        return self.getOuterRadius()
+        return self.getOuterRadius(0)
 
     def getAftRadius(self):
-        return self.getForeRadius()
+        return self.getForeRadius(0)
 
-    def getInnerRadius(self, r=0):
-        return self.getInnerDiameter(r) / 2.0
+    def getInnerRadius(self, pos):
+        return self.getInnerDiameter(pos) / 2.0
 
-    def getInnerDiameter(self, r=0):
+    def getInnerDiameter(self, pos):
         return float(self._obj.Diameter) - (2.0 * float(self._obj.Thickness))
 
     def setInnerRadius(self, radius):
@@ -188,26 +188,26 @@ class FeatureRingtail(SymmetricComponent, BoxBounded, Coaxial):
     """
         Return the outer radius of the body tube.
     """
-    def getOuterRadius(self):
-        return self.getOuterDiameter() / 2.0
+    def getOuterRadius(self, pos):
+        return self.getOuterDiameter(pos) / 2.0
 
-    def getOuterDiameter(self):
+    def getOuterDiameter(self, pos):
         if self._obj.AutoDiameter:
             self._setAutoDiameter()
 
         return float(self._obj.Diameter)
 
     def getRearInnerDiameter(self):
-        return self.getInnerDiameter()
+        return self.getInnerDiameter(0)
 
     def getFrontAutoDiameter(self):
-        return self.getOuterDiameter()
+        return self.getOuterDiameter(0)
 
     def getFrontAutoInnerDiameter(self):
-        return self.getOuterDiameter() - (2.0 * self._obj.Thickness)
+        return self.getOuterDiameter(0) - (2.0 * self._obj.Thickness)
 
     def getFrontAutoRadius(self):
-        return self.getOuterDiameter() / 2.0
+        return self.getOuterDiameter(0) / 2.0
 
     def getRearAutoDiameter(self):
         return self.getFrontAutoDiameter()

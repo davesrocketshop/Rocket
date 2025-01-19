@@ -385,7 +385,7 @@ class TaskPanelBulkhead:
         if self._obj.AutoDiameter:
             parent = self._obj.Proxy.getParent()
             if parent is not None:
-                self._obj.Diameter = 2.0 * parent.getInnerRadius()
+                self._obj.Diameter = 2.0 * parent.getInnerRadius(0)
                 self._bulkForm.diameterInput.setText(self._obj.Diameter.UserString)
 
     def onAutoDiameter(self, value):

@@ -70,12 +70,12 @@ class FeatureCenteringRing(FeatureBulkhead):
         super().update()
 
         # Ensure any automatic variables are set
-        self.getInnerDiameter()
+        self.getInnerDiameter(0)
 
-    def getInnerRadius(self, pos=0):
-        return self.getInnerDiameter() / 2.0
+    def getInnerRadius(self, pos):
+        return self.getInnerDiameter(pos) / 2.0
 
-    def getInnerDiameter(self, pos=0):
+    def getInnerDiameter(self, pos):
         # Implement sibling inner radius automation
         if self.isInnerDiameterAutomatic():
             self._obj.CenterDiameter = 0
@@ -92,11 +92,11 @@ class FeatureCenteringRing(FeatureBulkhead):
                     if pos2 < 0 or pos1 > sibling.Proxy.getLength():
                         continue
 
-                    self._obj.CenterDiameter = max(self._obj.CenterDiameter, sibling.Proxy.getOuterDiameter())
+                    self._obj.CenterDiameter = max(self._obj.CenterDiameter, sibling.Proxy.getOuterDiameter(pos))
 
-                self._obj.CenterDiameter = min(self._obj.CenterDiameter, self.getOuterDiameter())
+                self._obj.CenterDiameter = min(self._obj.CenterDiameter, self.getOuterDiameter(pos))
 
-        return super().getInnerDiameter()
+        return super().getInnerDiameter(pos)
 
     def execute(self, obj):
         shape = CenteringRingShapeHandler(obj)

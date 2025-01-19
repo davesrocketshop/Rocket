@@ -219,7 +219,7 @@ class TaskPanelRingtail:
             self._btForm.autoDiameterCheckbox.setEnabled(False)
 
         if self._obj.AutoDiameter:
-            self._obj.Diameter = self._obj.Proxy.getOuterDiameter()
+            self._obj.Diameter = self._obj.Proxy.getOuterDiameter(0)
             self._btForm.odInput.setText(self._obj.Diameter.UserString)
             self._setIdFromThickness()
 

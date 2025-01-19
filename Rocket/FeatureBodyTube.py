@@ -79,8 +79,8 @@ class FeatureBodyTube(SymmetricComponent, BoxBounded, Coaxial):
         super().update()
 
         # Ensure any automatic variables are set
-        self.getOuterDiameter()
-        self.getInnerDiameter()
+        self.getOuterDiameter(0)
+        self.getInnerDiameter(0)
 
     """
         Sets the length of the body component.
@@ -126,7 +126,7 @@ class FeatureBodyTube(SymmetricComponent, BoxBounded, Coaxial):
 
     def getForeRadius(self):
         # For placing objects on the outer part of the parent
-        return self.getOuterRadius()
+        return self.getOuterRadius(0)
 
     def isForeRadiusAutomatic(self):
         return self.getFrontAutoRadius()
@@ -137,10 +137,10 @@ class FeatureBodyTube(SymmetricComponent, BoxBounded, Coaxial):
     def isAftRadiusAutomatic(self):
         return self.getRearAutoDiameter()
 
-    def getInnerRadius(self, r=0):
-        return self.getInnerDiameter(r) / 2.0
+    def getInnerRadius(self, pos):
+        return self.getInnerDiameter(pos) / 2.0
 
-    def getInnerDiameter(self, r=0):
+    def getInnerDiameter(self, pos):
         return float(self._obj.Diameter) - (2.0 * float(self._obj.Thickness))
 
     def setInnerRadius(self, radius):
@@ -187,10 +187,10 @@ class FeatureBodyTube(SymmetricComponent, BoxBounded, Coaxial):
     """
         Return the outer radius of the body tube.
     """
-    def getOuterRadius(self):
-        return self.getOuterDiameter() / 2.0
+    def getOuterRadius(self, x):
+        return self.getOuterDiameter(x) / 2.0
 
-    def getOuterDiameter(self):
+    def getOuterDiameter(self, x):
         if self._obj.AutoDiameter:
             # Return auto radius from front or rear
             d = -1
@@ -234,10 +234,10 @@ class FeatureBodyTube(SymmetricComponent, BoxBounded, Coaxial):
             else:
                 return -1
 
-        return self.getOuterDiameter()
+        return self.getOuterDiameter(0)
 
     def getFrontAutoInnerDiameter(self):
-        return self.getInnerDiameter()
+        return self.getInnerDiameter(0)
 
     def getRearAutoRadius(self):
         return self.getRearAutoDiameter() / 2.0
@@ -251,13 +251,13 @@ class FeatureBodyTube(SymmetricComponent, BoxBounded, Coaxial):
             else:
                 return -1
 
-        return self.getOuterDiameter()
+        return self.getOuterDiameter(0)
 
     def getRearAutoInnerDiameter(self):
-        return self.getInnerDiameter()
+        return self.getInnerDiameter(0)
 
     def getRearInnerDiameter(self):
-        return self.getInnerDiameter()
+        return self.getInnerDiameter(0)
 
     def isMotorMount(self):
         return self._obj.MotorMount

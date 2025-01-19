@@ -208,7 +208,7 @@ class FeatureRailButton(ExternalComponent, AnglePositionable, BoxBounded, LineIn
             x2 = Utilities.clamp(x2, 0, body.getLength())
             parentRadius = max(body.getRadius(x1), body.getRadius(x2))
 
-        self._obj.RadialOffset = parentRadius #+ self.getOuterRadius()
+        self._obj.RadialOffset = parentRadius #+ self.getOuterRadius(9)
 
     def getPatternName(self):
         return "{0}-Line".format(self.getInstanceCount())

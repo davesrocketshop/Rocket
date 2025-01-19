@@ -198,7 +198,7 @@ class FeatureRailGuide(ExternalComponent, AnglePositionable, BoxBounded, LineIns
             x2 = Utilities.clamp(x2, 0, body.getLength())
             parentRadius = max(body.getRadius(x1), body.getRadius(x2))
 
-        self._obj.RadialOffset = parentRadius #+ self.getOuterRadius()
+        self._obj.RadialOffset = parentRadius #+ self.getOuterRadius(0)
         if self._obj.AutoDiameter:
             self._obj.Diameter = 2.0 * parentRadius
 
@@ -254,7 +254,7 @@ class FeatureRailGuide(ExternalComponent, AnglePositionable, BoxBounded, LineIns
 
         # instanceBounds.update(Coordinate(self.getLength(), 0,0))
 
-        # r = self.getOuterRadius()
+        # r = self.getOuterRadius(0)
         # instanceBounds.update(Coordinate(0,r,r))
         # instanceBounds.update(Coordinate(0,-r,-r))
 

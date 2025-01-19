@@ -163,7 +163,7 @@ class FeatureNoseCone(SymmetricComponent):
     def getInnerRadius(self, x):
         if self._obj.NoseStyle == STYLE_SOLID:
             return 0.0
-        return max(self.getRadius() - float(self.Thickness), 0)
+        return max(self.getRadius(x) - float(self.Thickness), 0)
 
     def getForeRadius(self):
         return 0

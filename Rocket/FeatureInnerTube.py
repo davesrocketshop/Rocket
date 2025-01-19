@@ -128,7 +128,7 @@ class FeatureInnerTube(ThicknessRingComponent, Clusterable, AxialPositionable, B
 
         instanceBounds.update(Coordinate(self.getLength(), 0,0))
 
-        r = self.getOuterRadius()
+        r = self.getOuterRadius(0)
         instanceBounds.update(Coordinate(0,r,r))
         instanceBounds.update(Coordinate(0,-r,-r))
 
@@ -192,7 +192,7 @@ class FeatureInnerTube(ThicknessRingComponent, Clusterable, AxialPositionable, B
         This is equivalent to the cluster scale multiplied by the tube diameter.
     """
     def getClusterSeparation(self):
-        return self.getOuterDiameter() * self._obj.ClusterScale
+        return self.getOuterDiameter(0) * self._obj.ClusterScale
 
     def getClusterPoints(self):
         list = []
