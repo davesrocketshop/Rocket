@@ -75,7 +75,7 @@ class MirrorXYAngleMethod(AngleMethod):
         super().__init__(translate('App::Property', "Mirror relative to the rocket's x-y plane"))
 
     def getAngle(self, parentComponent, thisComponent, angleOffset_radians):
-        combinedAngle = reduce2Pi( parentComponent.getAngleOffset() + angleOffset_radians );
+        combinedAngle = reduce2Pi( parentComponent.getAngleOffset() + angleOffset_radians )
 
         if math.pi > combinedAngle:
             combinedAngle = -(combinedAngle - math.pi)
