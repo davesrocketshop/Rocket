@@ -27,9 +27,18 @@ import FreeCADGui
 
 class RocketWorkbench ( Workbench ):
     "Rocket workbench object"
-    Icon = FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/RocketWorkbench.svg"
-    MenuText = "Rocket"
-    ToolTip = "Rocket workbench"
+
+    def __init__(self):
+        from PySide import QtCore
+
+        self.__class__.Icon = (
+            FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/RocketWorkbench.svg"
+        )
+        self.__class__.MenuText = "Rocket"
+        self.__class__.ToolTip = "Rocket workbench"
+
+        icons_path = FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons"
+        QtCore.QDir.addSearchPath("icons", icons_path)
 
     def _loadFemModule(self):
         # load the FEM module
@@ -56,6 +65,11 @@ class RocketWorkbench ( Workbench ):
         # dummy usage to get flake8 and lgtm quiet
         False if CfdOF.__name__ else True
 
+    def _addPreferencePages(self):
+        from Ui.Preferences.DlgSettingsLaserCutter import DlgSettingsLaserCutter
+
+        FreeCADGui.addPreferencePage(DlgSettingsLaserCutter, "Rocket")
+
     def Initialize(self):
         FreeCADGui.addLanguagePath(FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/translations")
 
@@ -70,6 +84,7 @@ class RocketWorkbench ( Workbench ):
             self._loadCfDModule()
         except:
             pass
+        self._addPreferencePages()
 
         self.appendToolbar(translate('Rocket', 'Rocket'),
                         ['Rocket_Rocket', 'Rocket_Stage', 'Rocket_ParallelStage', 'Rocket_Pod', 'Rocket_NoseCone', 'Rocket_Transition', 'Rocket_BodyTube', 'Rocket_InnerTube', 'Rocket_Coupler', 'Rocket_EngineBlock',
