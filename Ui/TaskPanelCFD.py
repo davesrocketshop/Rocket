@@ -36,7 +36,7 @@ from DraftTools import translate
 from PySide import  QtCore, QtGui
 
 from CfdOF.Mesh import CfdMesh, CfdMeshRefinement
-from CfdOF import CfdAnalysis, CfdTools
+from CfdOF import CfdTools
 from CfdOF.Solve import CfdPhysicsSelection, CfdFluidBoundary, CfdFluidMaterial, CfdInitialiseFlowField, \
     CfdSolverFoam
 from CfdOF.PostProcess import CfdReportingFunction
@@ -44,7 +44,8 @@ from CfdOF.PostProcess import CfdReportingFunction
 from Analyzers.pyatmos import coesa76
 from Analyzers.pyatmos.utils.Const import gamma, R_air
 
-from Rocket.cfd.CFDUtil import caliber, finThickness, createSolid, makeCFDRocket, makeWindTunnel
+from Rocket.cfd.CFDUtil import caliber, finThickness, createSolid, makeCFDRocket, makeMultiCFDAnalysis, \
+    makeWindTunnel, makeCfdMesh
 from Rocket.cfd.parea import calculateProjectedArea
 
 from Ui.UIPaths import getUIPath
@@ -235,7 +236,7 @@ class TaskPanelCFD(QtCore.QObject):
         self._compound.ViewObject.Transparency = 70
 
     def makeAnalysisContainer(self):
-        analysis = CfdAnalysis.makeCfdAnalysis('CfdAnalysis')
+        analysis = makeMultiCFDAnalysis('CfdAnalysis')
         CfdTools.setActiveAnalysis(analysis)
 
         # Objects ordered according to expected workflow
@@ -258,7 +259,7 @@ class TaskPanelCFD(QtCore.QObject):
 
     def makeCfdMesh(self):
         diameter, _ = self.getTunnelDimensions()
-        self._CFDMesh = CfdMesh.makeCfdMesh('WindTunnelCompund_Mesh')
+        self._CFDMesh = makeCfdMesh('WindTunnelCompund_Mesh')
         self._CFDMesh.CharacteristicLengthMax = diameter / 10.0
         FreeCAD.ActiveDocument.ActiveObject.Part = self._compound
         CfdTools.getActiveAnalysis().addObject(FreeCAD.ActiveDocument.ActiveObject)

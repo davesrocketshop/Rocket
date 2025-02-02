@@ -53,6 +53,7 @@ FEATURE_RINGTAIL = "RocketRingtail"
 
 FEATURE_WIND_TUNNEL = "RocketWindTunnel"
 FEATURE_CFD_ROCKET = "RocketCFDRocket"
+FEATURE_CFD_ANALYSIS = "RocketMultiCFDAnalysis"
 
 # Part styles
 STYLE_SOLID = "solid"
