@@ -77,17 +77,10 @@ class FeatureCFDRocket:
     def applyTranslations(self):
         center = self.getCenter()
 
-        # solid1 = Part.makeCompound([solid]) # Needed to create a copy so translations aren't applied multiple times
-        # self._rotation = self.form.spinRotation.value()
-        # if self._rotation != 0.0:
-        #     solid1.rotate(FreeCAD.Vector(0, 0, 0),FreeCAD.Vector(1, 0, 0), self._rotation)
-        # angles = self.getAOAList()
-        # if len(angles) > 0:
-        #     self._aoa = angles[0]
-        # else:
-        #     self._aoa = 0.0
-        # if self._aoa != 0.0:
-        #     solid1.rotate(FreeCAD.Vector(center, 0, 0),FreeCAD.Vector(0, 1, 0), self._aoa)
-        self._obj.Placement.Base = FreeCAD.Vector(center, 0, 0)
-        # solid1.translate(FreeCAD.Vector(-center, 0, 0))
-        # return solid1
+        self._obj.Placement = FreeCAD.Placement()
+        if self._obj.AngleOfRotation != 0.0:
+            self._obj.Placement.rotate(FreeCAD.Vector(0, 0, 0),FreeCAD.Vector(1, 0, 0), self._obj.AngleOfRotation)
+        if self._obj.AngleOfAttack != 0.0:
+            self._obj.Placement.rotate(FreeCAD.Vector(center, 0, 0),FreeCAD.Vector(0, 1, 0), self._obj.AngleOfAttack)
+        self._obj.Placement.move(FreeCAD.Vector(center, 0, 0))
+        # self._obj.Placement.Base = FreeCAD.Vector(center, 0, 0)
