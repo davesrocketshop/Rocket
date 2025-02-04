@@ -44,6 +44,9 @@ class FeatureMultiCFDAnalysis(CfdAnalysis.CfdAnalysis):
 
         if not hasattr(obj,"Shape"):
             obj.addProperty('Part::PropertyPartShape', 'Shape', 'RocketComponent', translate('App::Property', 'Shape of the base rocket'))
+        if not hasattr(obj,"AOAList"):
+            obj.addProperty('App::PropertyFloatList', 'AOAList', 'RocketComponent', translate('App::Property', 'List of AOAs to calculate'))
+            obj.AOAList = [2.0] # Default AOA of 2 degrees
 
     def __getstate__(self):
         return self.Type, self.version

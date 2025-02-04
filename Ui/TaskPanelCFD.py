@@ -102,14 +102,31 @@ class TaskPanelCFD(QtCore.QObject):
         self._refinement_transition1 = None
         self._refinement_transition2 = None
 
-        self.form.spinAOA.valueChanged.connect(self.onAOAChanged)
-        self.form.spinRotation.valueChanged.connect(self.onAOAChanged)
+        self.form.editAOA.textChanged.connect(self.onAOAChanged)
+        self.form.spinRotation.valueChanged.connect(self.onSpinChanged)
 
-    def onAOAChanged(self, value):
+    def onAOAChanged(self):
+        """ Calculate the frontal area when the AOA or rotation changes """
+        angles = self.getAOAList()
+        if self._CFDrocket is not None:
+            if len(angles) > 0:
+                self._CFDrocket._obj.AngleOfAttack = angles[0]
+            else:
+                self._CFDrocket._obj.AngleOfAttack = 0.0
+        self.AOAChanged()
+        FreeCAD.ActiveDocument.recompute()
+
+    def AOAChanged(self):
         """ Calculate the frontal area when the AOA or rotation changes """
         solid = self.applyTranslations(self._solid)
         self._frontalArea = self.calcFrontalArea(solid)
         self.form.inputArea.setText(FreeCAD.Units.Quantity("{} mm^2".format(self._frontalArea)).UserString)
+
+    def onSpinChanged(self, value):
+        if self._CFDrocket is not None:
+            self._CFDrocket._obj.AngleOfRotation = value
+        self.AOAChanged()
+        FreeCAD.ActiveDocument.recompute()
 
     def atmosphericConditions(self, altitude):
 
@@ -184,7 +201,14 @@ class TaskPanelCFD(QtCore.QObject):
 
     def makeSolid(self):
         self._CFDrocket = makeCFDRocket()
-        self._CFDrocket._obj.Shape = self.applyTranslations(self._solid)
+        self._CFDrocket._obj.Shape = self._solid # self.applyTranslations(self._solid)
+
+        angles = self.getAOAList()
+        if len(angles) > 0:
+            self._CFDrocket._obj.AngleOfAttack = angles[0]
+        else:
+            self._CFDrocket._obj.AngleOfAttack = 0.0
+        self._CFDrocket._obj.AngleOfRotation = self.form.spinRotation.value()
         FreeCAD.ActiveDocument.recompute()
 
     def getCenter(self, solid):
@@ -193,6 +217,18 @@ class TaskPanelCFD(QtCore.QObject):
 
         return center
 
+    def getAOAList(self):
+        listText = self.form.editAOA.toPlainText()
+        textList = listText.split('\n')
+        angles = []
+        for angle in textList:
+            if len(angle) > 0:
+                try:
+                    angles.append(float(angle))
+                except ValueError:
+                    print("Illegal float value '{}'".format(angle))
+        return angles
+
     def applyTranslations(self, solid):
         center = self.getCenter(solid)
 
@@ -200,7 +236,11 @@ class TaskPanelCFD(QtCore.QObject):
         self._rotation = self.form.spinRotation.value()
         if self._rotation != 0.0:
             solid1.rotate(FreeCAD.Vector(0, 0, 0),FreeCAD.Vector(1, 0, 0), self._rotation)
-        self._aoa = self.form.spinAOA.value()
+        angles = self.getAOAList()
+        if len(angles) > 0:
+            self._aoa = angles[0]
+        else:
+            self._aoa = 0.0
         if self._aoa != 0.0:
             solid1.rotate(FreeCAD.Vector(center, 0, 0),FreeCAD.Vector(0, 1, 0), self._aoa)
         solid1.translate(FreeCAD.Vector(-center, 0, 0))
@@ -237,6 +277,8 @@ class TaskPanelCFD(QtCore.QObject):
 
     def makeAnalysisContainer(self):
         analysis = makeMultiCFDAnalysis('CfdAnalysis')
+        analysis.Shape = self._solid # No AOA applied
+        analysis.AOAList = self.getAOAList()
         CfdTools.setActiveAnalysis(analysis)
 
         # Objects ordered according to expected workflow

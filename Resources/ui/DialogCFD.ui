@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>369</height>
+    <height>432</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -109,68 +109,7 @@
    </item>
    <item>
     <layout class="QGridLayout" name="gridLayout_2">
-     <item row="1" column="0">
-      <widget class="QLabel" name="label_6">
-       <property name="text">
-        <string>Angle Of Attack</string>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="1">
-      <widget class="Gui::DoubleSpinBox" name="spinAOA">
-       <property name="toolTip">
-        <string>Angle to the direction of travel</string>
-       </property>
-       <property name="minimum">
-        <double>0.000000000000000</double>
-       </property>
-       <property name="maximum">
-        <double>25.000000000000000</double>
-       </property>
-      </widget>
-     </item>
-     <item row="5" column="0">
-      <widget class="QLabel" name="label_9">
-       <property name="text">
-        <string>Mach</string>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="0">
-      <widget class="QLabel" name="label_5">
-       <property name="text">
-        <string>Number of Processors</string>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="1">
-      <widget class="Gui::IntSpinBox" name="spinNproc">
-       <property name="toolTip">
-        <string>Number of processors to use during CFD simulation</string>
-       </property>
-       <property name="maximum">
-        <number>9999</number>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="0">
-      <widget class="QLabel" name="label">
-       <property name="text">
-        <string>Angle of rotation</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="0">
-      <widget class="QLabel" name="label_8">
-       <property name="toolTip">
-        <string/>
-       </property>
-       <property name="text">
-        <string>Altitude</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="1">
+     <item row="0" column="2">
       <widget class="Gui::InputField" name="inputAltitude">
        <property name="toolTip">
         <string>Altitude above sea level</string>
@@ -186,7 +125,54 @@
        </property>
       </widget>
      </item>
-     <item row="2" column="1">
+     <item row="4" column="2">
+      <widget class="Gui::InputField" name="inputSpeed">
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+       <property name="minimum">
+        <double>-2147483647.000000000000000</double>
+       </property>
+       <property name="unit" stdset="0">
+        <string notr="true">m/s</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="0">
+      <widget class="QLabel" name="label_8">
+       <property name="toolTip">
+        <string/>
+       </property>
+       <property name="text">
+        <string>Altitude</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="0">
+      <widget class="QLabel" name="label_7">
+       <property name="toolTip">
+        <string>Speed</string>
+       </property>
+       <property name="text">
+        <string>Speed</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="0">
+      <widget class="QLabel" name="label_5">
+       <property name="text">
+        <string>Number of Processors</string>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="0">
+      <widget class="QLabel" name="label_9">
+       <property name="text">
+        <string>Mach</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="2">
       <widget class="Gui::DoubleSpinBox" name="spinRotation">
        <property name="toolTip">
         <string>Rotation around the X axis</string>
@@ -199,7 +185,21 @@
        </property>
       </widget>
      </item>
-     <item row="5" column="1">
+     <item row="1" column="0">
+      <widget class="QLabel" name="label_6">
+       <property name="text">
+        <string>Angle(s) Of Attack</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string>Angle of rotation</string>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="2">
       <widget class="Gui::InputField" name="inputMach">
        <property name="toolTip">
         <string>Mach number</string>
@@ -215,26 +215,29 @@
        </property>
       </widget>
      </item>
-     <item row="4" column="0">
-      <widget class="QLabel" name="label_7">
+     <item row="3" column="2">
+      <widget class="Gui::IntSpinBox" name="spinNproc">
        <property name="toolTip">
-        <string>Speed</string>
+        <string>Number of processors to use during CFD simulation</string>
        </property>
-       <property name="text">
-        <string>Speed</string>
+       <property name="maximum">
+        <number>9999</number>
        </property>
       </widget>
      </item>
-     <item row="4" column="1">
-      <widget class="Gui::InputField" name="inputSpeed">
-       <property name="readOnly">
-        <bool>true</bool>
+     <item row="1" column="2">
+      <widget class="QPlainTextEdit" name="editAOA">
+       <property name="toolTip">
+        <string>Angles of attack in degrees, one per line</string>
        </property>
-       <property name="minimum">
-        <double>-2147483647.000000000000000</double>
+       <property name="lineWrapMode">
+        <enum>QPlainTextEdit::NoWrap</enum>
        </property>
-       <property name="unit" stdset="0">
-        <string notr="true">m/s</string>
+       <property name="plainText">
+        <string>2</string>
+       </property>
+       <property name="placeholderText">
+        <string/>
        </property>
       </widget>
      </item>
@@ -259,6 +262,18 @@
    <header>Gui/SpinBox.h</header>
   </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>inputLength</tabstop>
+  <tabstop>inputDiameter</tabstop>
+  <tabstop>inputFinThickness</tabstop>
+  <tabstop>inputArea</tabstop>
+  <tabstop>inputAltitude</tabstop>
+  <tabstop>editAOA</tabstop>
+  <tabstop>spinRotation</tabstop>
+  <tabstop>spinNproc</tabstop>
+  <tabstop>inputSpeed</tabstop>
+  <tabstop>inputMach</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

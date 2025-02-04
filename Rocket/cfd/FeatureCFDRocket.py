@@ -24,6 +24,9 @@ __title__ = "FreeCAD CFD Rocket"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
+import FreeCAD
+import Part
+
 from Rocket.Constants import FEATURE_CFD_ROCKET
 
 from Rocket.cfd.ShapeHandlers.WindTunnelShapeHandler import WindTunnelShapeHandler
@@ -42,6 +45,10 @@ class FeatureCFDRocket:
 
         if not hasattr(obj,"Shape"):
             obj.addProperty('Part::PropertyPartShape', 'Shape', 'RocketComponent', translate('App::Property', 'Shape of the wind tunnel'))
+        if not hasattr(obj,"AngleOfAttack"):
+            obj.addProperty('App::PropertyAngle', 'AngleOfAttack', 'RocketComponent', translate('App::Property', 'Angle of attack in degrees')).AngleOfAttack = 0.0
+        if not hasattr(obj,"AngleOfRotation"):
+            obj.addProperty('App::PropertyAngle', 'AngleOfRotation', 'RocketComponent', translate('App::Property', 'Angle of rotation in degrees')).AngleOfRotation = 0.0
 
     def __getstate__(self):
         return self.Type, self.version
@@ -59,4 +66,28 @@ class FeatureCFDRocket:
         # shape = WindTunnelShapeHandler(obj)
         # if shape is not None:
         #     shape.draw()
-        pass
+        self.applyTranslations()
+
+    def getCenter(self):
+        box = self._obj.Shape.BoundBox
+        center = box.XLength / 2.0
+
+        return center
+
+    def applyTranslations(self):
+        center = self.getCenter()
+
+        # solid1 = Part.makeCompound([solid]) # Needed to create a copy so translations aren't applied multiple times
+        # self._rotation = self.form.spinRotation.value()
+        # if self._rotation != 0.0:
+        #     solid1.rotate(FreeCAD.Vector(0, 0, 0),FreeCAD.Vector(1, 0, 0), self._rotation)
+        # angles = self.getAOAList()
+        # if len(angles) > 0:
+        #     self._aoa = angles[0]
+        # else:
+        #     self._aoa = 0.0
+        # if self._aoa != 0.0:
+        #     solid1.rotate(FreeCAD.Vector(center, 0, 0),FreeCAD.Vector(0, 1, 0), self._aoa)
+        self._obj.Placement.Base = FreeCAD.Vector(center, 0, 0)
+        # solid1.translate(FreeCAD.Vector(-center, 0, 0))
+        # return solid1
