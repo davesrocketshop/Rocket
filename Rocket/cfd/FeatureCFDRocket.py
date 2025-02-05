@@ -79,8 +79,7 @@ class FeatureCFDRocket:
 
         self._obj.Placement = FreeCAD.Placement()
         if self._obj.AngleOfRotation != 0.0:
-            self._obj.Placement.rotate(FreeCAD.Vector(0, 0, 0),FreeCAD.Vector(1, 0, 0), self._obj.AngleOfRotation)
+            self._obj.Placement.rotate(FreeCAD.Vector(0, 0, 0),FreeCAD.Vector(1, 0, 0), self._obj.AngleOfRotation, comp=True)
         if self._obj.AngleOfAttack != 0.0:
-            self._obj.Placement.rotate(FreeCAD.Vector(center, 0, 0),FreeCAD.Vector(0, 1, 0), self._obj.AngleOfAttack)
-        self._obj.Placement.move(FreeCAD.Vector(center, 0, 0))
-        # self._obj.Placement.Base = FreeCAD.Vector(center, 0, 0)
+            self._obj.Placement.rotate(FreeCAD.Vector(center, 0, 0),FreeCAD.Vector(0, 1, 0), self._obj.AngleOfAttack, comp=True)
+        self._obj.Placement.move(FreeCAD.Vector(-center, 0, 0))
