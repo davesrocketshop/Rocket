@@ -25,13 +25,22 @@ __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
 import FreeCAD
-import Part
+import MeshPart
 
 from Rocket.Constants import FEATURE_CFD_ROCKET
 
-from Rocket.cfd.ShapeHandlers.WindTunnelShapeHandler import WindTunnelShapeHandler
+from Rocket.cfd.parea import calculateProjectedArea
 
 from DraftTools import translate
+
+_linearDeflection = 0.5 # Linear deflection for a rough mesh with a fast calculation
+
+def calcFrontalArea(shape):
+    # Create a crude mesh and project it on to the YZ plane to caclulate the frontal area
+    mesh = MeshPart.meshFromShape(shape, LinearDeflection=_linearDeflection)
+
+    area = calculateProjectedArea(mesh)
+    return area
 
 class FeatureCFDRocket:
 
@@ -61,6 +70,9 @@ class FeatureCFDRocket:
     def onDocumentRestored(self, obj):
         FeatureCFDRocket(obj)
         self._obj = obj
+
+    def calcFrontalArea(self):
+        return calcFrontalArea(self._obj.Shape)
 
     def execute(self, obj):
         # shape = WindTunnelShapeHandler(obj)
