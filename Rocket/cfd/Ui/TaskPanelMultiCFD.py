@@ -48,6 +48,7 @@ from CfdOF.Solve.CfdRunnableFoam import CfdRunnableFoam
 from Ui.UIPaths import getUIPath
 
 from Rocket.cfd.FeatureCFDRocket import FeatureCFDRocket
+from Rocket.cfd.Reports.CFDReport import CFDReport
 
 SUBPROCESS_NONE = 0
 SUBPROCESS_MESH = 1
@@ -220,10 +221,21 @@ class TaskPanelMultiCFD:
     def onStart(self):
         self.startProcessing()
 
-        for angle in self._obj.AOAList:
-            self.doCFD(angle)
+        # for angle in self._obj.AOAList:
+        #     self.doCFD(angle)
+
+        self.createReport()
 
         self.stopProcessing()
+
+    def createReport(self):
+        self.consoleMessage(translate('Rocket', 'Preparing report...'))
+
+        report = CFDReport(self._obj)
+        report.generate()
+        CfdTools.openFileManager(report.getPath())
+        
+        self.consoleMessage(translate('Rocket', 'Report complete'))
 
     def startProcessing(self):
         self._start = time.time()

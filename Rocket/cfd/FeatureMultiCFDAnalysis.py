@@ -49,6 +49,8 @@ class FeatureMultiCFDAnalysis(CfdAnalysis.CfdAnalysis):
             obj.AOAList = [2.0] # Default AOA of 2 degrees
         if not hasattr(obj,"CFDRocket"):
             obj.addProperty('App::PropertyLinkGlobal', 'CFDRocket', 'RocketComponent', translate('App::Property', 'The rocket under study'))
+        if not hasattr(obj,"Rocket"):
+            obj.addProperty('App::PropertyLinkGlobal', 'Rocket', 'RocketComponent', translate('App::Property', 'The rocket under study'))
 
     def __getstate__(self):
         return self.Type, self.version

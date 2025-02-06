@@ -266,6 +266,7 @@ class TaskPanelCFD(QtCore.QObject):
         analysis.Shape = self._solid # No AOA applied
         analysis.AOAList = self.getAOAList()
         analysis.CFDRocket = self._CFDrocket._obj
+        analysis.Rocket = self._rocket._obj
         CfdTools.setActiveAnalysis(analysis)
 
         # Objects ordered according to expected workflow
