@@ -42,7 +42,8 @@ from CfdOF.PostProcess.CfdReportingFunction import CfdReportingFunction
 from CfdOF.Mesh import CfdMeshTools
 from CfdOF.Mesh.CfdMesh import MESHERS
 from CfdOF.CfdTools import setQuantity, getQuantity, storeIfChanged
-from CfdOF.Solve import CfdCaseWriterFoam, CfdRunnableFoam
+from CfdOF.Solve import CfdCaseWriterFoam
+from CfdOF.Solve.CfdRunnableFoam import CfdRunnableFoam
 
 from Ui.UIPaths import getUIPath
 
@@ -51,6 +52,18 @@ from Rocket.cfd.FeatureCFDRocket import FeatureCFDRocket
 SUBPROCESS_NONE = 0
 SUBPROCESS_MESH = 1
 SUBPROCESS_CFD = 2
+
+class FoamRunner(CfdRunnableFoam):
+
+    def __init__(self, analysis=None, solver=None):
+        super().__init__(analysis, solver)
+
+    def constructReportingFunctionPlotters(self):
+        # No graphs for reporting functions
+        pass
+
+    def initMonitors(self):
+        pass
 
 class TaskPanelMultiCFD:
 
@@ -62,6 +75,10 @@ class TaskPanelMultiCFD:
 
         self._consoleMessageCart = ''
         self._meshTools = None
+
+        self._solver = CfdTools.getSolver(self._obj)
+        # self._foamRunnable = CfdRunnableFoam.CfdRunnableFoam(CfdTools.getActiveAnalysis(), self._solver)
+        self._foamRunnable = FoamRunner(CfdTools.getActiveAnalysis(), self._solver)
 
         self._subProcess = SUBPROCESS_NONE # Current active subprocess
         self._processing = False
@@ -184,12 +201,18 @@ class TaskPanelMultiCFD:
         pass
 
     def gotOutputLines(self, lines):
-        for l in lines.split('\n'):
-            if l.endswith("faces in error to set meshQualityFaces"):
-                self.check_mesh_error = True
+        if self._subProcess == SUBPROCESS_CFD:
+            self._foamRunnable.processOutput(lines)
+        else:
+            for l in lines.split('\n'):
+                if l.endswith("faces in error to set meshQualityFaces"):
+                    self.check_mesh_error = True
 
     def gotErrorLines(self, lines):
-        print_err = self._obj.Proxy._cfdProcess.processErrorOutput(lines)
+        if self._subProcess == SUBPROCESS_CFD:
+            print_err = self._foamRunnable.processErrorOutput(lines)
+        else:
+            print_err = self._obj.Proxy._cfdProcess.processErrorOutput(lines)
         if print_err is not None:
             self.consoleMessage(print_err, 'Error')
             self.check_mesh_error = True
@@ -250,10 +273,9 @@ class TaskPanelMultiCFD:
                     child.AreaRef = area
 
     def setupCaseName(self, aoa):
-        solver = CfdTools.getSolver(self._obj)
         caseName = "case_aoa_{}".format(aoa)
         print("Case name '{}'".format(caseName))
-        solver.InputCaseName = caseName
+        self._solver.InputCaseName = caseName
 
     def mesh(self):
         self.writeMesh()
@@ -367,9 +389,8 @@ class TaskPanelMultiCFD:
         # self.form.pb_run_solver.setEnabled(False)
         QApplication.setOverrideCursor(Qt.WaitCursor)
         try:
-            solver = CfdTools.getSolver(self._obj)
-            solver.Proxy.case_writer = CfdCaseWriterFoam.CfdCaseWriterFoam(self._obj)
-            writer = solver.Proxy.case_writer
+            self._solver.Proxy.case_writer = CfdCaseWriterFoam.CfdCaseWriterFoam(self._obj)
+            writer = self._solver.Proxy.case_writer
             # FreeCADGui.doCommand("FreeCAD.ActiveDocument." + self.solver_object.Name + ".Proxy.case_writer = "
             #                         "CfdCaseWriterFoam.CfdCaseWriterFoam(FreeCAD.ActiveDocument." +
             #                         self.solver_runner.analysis.Name + ")")
@@ -396,9 +417,9 @@ class TaskPanelMultiCFD:
         self._subProcess = SUBPROCESS_CFD
         # FreeCADGui.doCommand("from CfdOF import CfdTools")
         # FreeCADGui.doCommand("from CfdOF import CfdConsoleProcess")
-        solver = CfdTools.getSolver(self._obj)
-        foam_runnable = CfdRunnableFoam.CfdRunnableFoam(CfdTools.getActiveAnalysis(), solver)
-        solver.Proxy.solver_runner = foam_runnable #self.solver_runner
+        # solver = CfdTools.getSolver(self._obj)
+        # foam_runnable = CfdRunnableFoam.CfdRunnableFoam(CfdTools.getActiveAnalysis(), self._solver)
+        self._solver.Proxy.solver_runner = self._foamRunnable #self.solver_runner
         # FreeCADGui.doCommand("proxy = FreeCAD.ActiveDocument." + self.solver_object.Name + ".Proxy")
         # # This is a workaround to emit code into macro without actually running it
         # FreeCADGui.doCommand("proxy.running_from_macro = True")
@@ -419,12 +440,12 @@ class TaskPanelMultiCFD:
         #     "    solver_process.start(cmd, env_vars=env_vars, working_dir=solver_directory)\n" +
         #     "    solver_process.waitForFinished()\n")
         working_dir = CfdTools.getOutputPath(self._obj)
-        case_name = solver.InputCaseName
+        case_name = self._solver.InputCaseName
         solver_directory = os.path.abspath(os.path.join(working_dir, case_name))
-        cmd = foam_runnable.getSolverCmd(solver_directory)
+        cmd = self._foamRunnable.getSolverCmd(solver_directory)
         if cmd is None:
             return
-        env_vars = foam_runnable.getRunEnvironment()
+        env_vars = self._foamRunnable.getRunEnvironment()
         # self.solver_object.Proxy.solver_process = CfdConsoleProcess(finished_hook=self.cfdProcessFinished,
         #                                                             stdout_hook=self.gotOutputLines,
         #                                                             stderr_hook=self.gotErrorLines)
