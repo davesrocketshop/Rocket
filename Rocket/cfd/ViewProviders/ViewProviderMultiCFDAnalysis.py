@@ -28,6 +28,8 @@ import FreeCAD
 import FreeCADGui
 from CfdOF import CfdAnalysis, CfdTools
 
+from Rocket.cfd.Ui.TaskPanelMultiCFD import TaskPanelMultiCFD
+
 from DraftTools import translate
 
 class ViewProviderMutliCFDAnalysis(CfdAnalysis.ViewProviderCfdAnalysis):
@@ -43,34 +45,37 @@ class ViewProviderMutliCFDAnalysis(CfdAnalysis.ViewProviderCfdAnalysis):
     # def getIcon(self):
     #     return FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_CFDRocket.svg"
 
-    # def setEdit(self, vobj, mode):
-    #     # if mode == 0:
-    #     #     taskd = TaskPanelWindTunnel(self.Object, mode)
-    #     #     taskd.obj = vobj.Object
-    #     #     taskd.update()
-    #     #     FreeCADGui.Control.showDialog(taskd)
-    #     return True
+    def setEdit(self, vobj, mode):
+        if mode == 0:
+            taskd = TaskPanelMultiCFD(self.Object, mode)
+            taskd.obj = vobj.Object
+            taskd.update()
+            FreeCADGui.Control.showDialog(taskd)
+        return True
 
-    # def unsetEdit(self, vobj, mode):
-    #     # if mode == 0:
-    #     #     FreeCADGui.Control.closeDialog()
-    #     #     return
-    #     pass
+    def unsetEdit(self, vobj, mode):
+        if mode == 0:
+            FreeCADGui.Control.closeDialog()
+            if FreeCADGui.activeWorkbench().name() != 'RocketWorkbench':
+                FreeCADGui.activateWorkbench("RocketWorkbench")
+            return
 
-    # # def setupContextMenu(self, viewObject, menu):
-    # #     action = menu.addAction(translate('Rocket', 'Edit %1').replace('%1', viewObject.Object.Label))
-    # #     action.triggered.connect(lambda: self.startDefaultEditMode(viewObject))
-    # #     return False
+    def setupContextMenu(self, viewObject, menu):
+        action = menu.addAction(translate('Rocket', 'Edit %1').replace('%1', viewObject.Object.Label))
+        action.triggered.connect(lambda: self.startDefaultEditMode(viewObject))
+        return False
 
-    # # def startDefaultEditMode(self, viewObject):
-    # #     document = viewObject.Document.Document
-    # #     if not document.HasPendingTransaction:
-    # #         text = translate('Rocket', 'Edit %1').replace('%1', viewObject.Object.Label)
-    # #         document.openTransaction(text)
-    # #     viewObject.Document.setEdit(viewObject.Object, 0)
+    def startDefaultEditMode(self, viewObject):
+        viewObject.Document.setEdit(viewObject.Object, 0)
 
-    # def __getstate__(self):
-    #     return None
+    def doubleClicked(self, viewObject):
+        if not CfdTools.getActiveAnalysis() == self.Object:
+            CfdTools.setActiveAnalysis(self.Object)
+        viewObject.Document.setEdit(viewObject.Object, 0)
+        return True
 
-    # def __setstate__(self, state):
-    #     return None
+    def __getstate__(self):
+        return None
+
+    def __setstate__(self, state):
+        return None

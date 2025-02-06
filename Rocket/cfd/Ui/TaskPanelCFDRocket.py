@@ -27,23 +27,11 @@ __url__ = "https://www.davesrocketshop.com"
 
 import FreeCAD
 import FreeCADGui
-import Materials
 
 from DraftTools import translate
 
-from PySide import QtGui, QtCore
+from PySide import QtGui
 from PySide.QtWidgets import QDialog, QGridLayout, QVBoxLayout, QSizePolicy
-
-from Ui.TaskPanelDatabase import TaskPanelDatabase
-from Ui.TaskPanelLocation import TaskPanelLocation
-from Rocket.Constants import COMPONENT_TYPE_BODYTUBE, COMPONENT_TYPE_LAUNCHLUG, COMPONENT_TYPE_COUPLER, COMPONENT_TYPE_ENGINEBLOCK
-
-from Rocket.Constants import FEATURE_LAUNCH_LUG, FEATURE_TUBE_COUPLER, FEATURE_ENGINE_BLOCK
-
-from Ui.Widgets.MaterialTab import MaterialTab
-from Ui.Widgets.CommentTab import CommentTab
-
-from Rocket.Utilities import _valueOnly
 
 class _CFDRocketDialog(QDialog):
 

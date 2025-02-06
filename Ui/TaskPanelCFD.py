@@ -57,8 +57,6 @@ class TaskPanelCFD(QtCore.QObject):
         self._rocket = rocket
 
         self.form = FreeCADGui.PySideUic.loadUi(os.path.join(getUIPath(), 'Resources', 'ui', "DialogCFD.ui"))
-        # self.form = FreeCADGui.PySideUic.loadUi(':/ui/DialogCFD.ui')
-
         self.form.inputAltitude.textEdited.connect(self.onAltitude)
 
         FreeCAD.setActiveTransaction("Create Rocket CFD Study")
@@ -267,6 +265,7 @@ class TaskPanelCFD(QtCore.QObject):
         analysis = makeMultiCFDAnalysis('MultiCfdAnalysis')
         analysis.Shape = self._solid # No AOA applied
         analysis.AOAList = self.getAOAList()
+        analysis.CFDRocket = self._CFDrocket._obj
         CfdTools.setActiveAnalysis(analysis)
 
         # Objects ordered according to expected workflow
