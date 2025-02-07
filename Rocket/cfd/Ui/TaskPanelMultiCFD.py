@@ -221,8 +221,8 @@ class TaskPanelMultiCFD:
     def onStart(self):
         self.startProcessing()
 
-        # for angle in self._obj.AOAList:
-        #     self.doCFD(angle)
+        for angle in self._obj.AOAList:
+            self.doCFD(angle)
 
         self.createReport()
 
@@ -234,7 +234,7 @@ class TaskPanelMultiCFD:
         report = CFDReport(self._obj)
         report.generate()
         CfdTools.openFileManager(report.getPath())
-        
+
         self.consoleMessage(translate('Rocket', 'Report complete'))
 
     def startProcessing(self):
@@ -275,7 +275,8 @@ class TaskPanelMultiCFD:
             self.consoleMessage(translate('Rocket', 'No rocket found'), 'Error')
             return 0
         rocket._obj.AngleOfAttack = aoa
-        rocket.execute(rocket)
+        # rocket.execute(rocket)
+        FreeCAD.ActiveDocument.recompute()
         return rocket.calcFrontalArea()
 
     def setupReferenceArea(self, area):
@@ -283,11 +284,13 @@ class TaskPanelMultiCFD:
             if hasattr(child, "Proxy") and isinstance(child.Proxy, CfdReportingFunction):
                 if child.ReportingFunctionType == "ForceCoefficients":
                     child.AreaRef = area
+        FreeCAD.ActiveDocument.recompute()
 
     def setupCaseName(self, aoa):
         caseName = "case_aoa_{}".format(aoa)
         print("Case name '{}'".format(caseName))
         self._solver.InputCaseName = caseName
+        FreeCAD.ActiveDocument.recompute()
 
     def mesh(self):
         self.writeMesh()
