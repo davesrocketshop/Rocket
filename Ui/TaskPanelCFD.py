@@ -62,6 +62,17 @@ class TaskPanelCFD(QtCore.QObject):
         FreeCAD.setActiveTransaction("Create Rocket CFD Study")
         self.initialize()
 
+    def transferTo(self):
+        "Transfer from the dialog to the object"
+        param = FreeCAD.ParamGet("User parameter:BaseApp/Preferences/Mod/Rocket/CFD")
+        param.SetString("AOAList", self.form.editAOA.toPlainText())
+
+    def transferFrom(self):
+        "Transfer from the object to the dialog"
+        param = FreeCAD.ParamGet("User parameter:BaseApp/Preferences/Mod/Rocket/CFD")
+        text = param.GetString("AOAList", "2")
+        self.form.editAOA.setPlainText(text)
+
     def getStandardButtons(self):
         return QtGui.QDialogButtonBox.Ok | QtGui.QDialogButtonBox.Close
 
@@ -99,6 +110,8 @@ class TaskPanelCFD(QtCore.QObject):
 
         self.form.editAOA.textChanged.connect(self.onAOAChanged)
         self.form.spinRotation.valueChanged.connect(self.onSpinChanged)
+
+        self.update()
 
     def onAOAChanged(self):
         """ Calculate the frontal area when the AOA or rotation changes """
@@ -165,7 +178,12 @@ class TaskPanelCFD(QtCore.QObject):
 
         FreeCADGui.SendMsgToActiveView("ViewFit")
 
+    def update(self):
+        'fills the widgets'
+        self.transferFrom()
+
     def accept(self):
+        self.transferTo()
         self.onCreate()
         self.deactivate()
         FreeCAD.closeActiveTransaction()
