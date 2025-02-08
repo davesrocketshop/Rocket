@@ -66,12 +66,21 @@ class TaskPanelCFD(QtCore.QObject):
         "Transfer from the dialog to the object"
         param = FreeCAD.ParamGet("User parameter:BaseApp/Preferences/Mod/Rocket/CFD")
         param.SetString("AOAList", self.form.editAOA.toPlainText())
+        param.SetInt("NProc", self.form.spinNproc.value())
 
     def transferFrom(self):
         "Transfer from the object to the dialog"
         param = FreeCAD.ParamGet("User parameter:BaseApp/Preferences/Mod/Rocket/CFD")
         text = param.GetString("AOAList", "2")
         self.form.editAOA.setPlainText(text)
+
+        # Set Nproc to the number of available threads
+        if hasattr(os, "sched_getaffinity"):
+            nProc = len(os.sched_getaffinity(0))
+        else:
+            nProc = os.cpu_count()
+        nProc = param.GetInt("NProc", nProc)
+        self.form.spinNproc.setValue(nProc)
 
     def getStandardButtons(self):
         return QtGui.QDialogButtonBox.Ok | QtGui.QDialogButtonBox.Close
@@ -81,11 +90,6 @@ class TaskPanelCFD(QtCore.QObject):
         createButton.setText(translate("Rocket", "Create"))
 
     def initialize(self):
-        # Set Nproc to the number of available threads
-        if hasattr(os, "sched_getaffinity"):
-            self.form.spinNproc.setValue(len(os.sched_getaffinity(0)))
-        else:
-            self.form.spinNproc.setValue(os.cpu_count())
 
         self._solid = createSolid(self._rocket)
         self._frontalArea = calcFrontalArea(self._solid)
