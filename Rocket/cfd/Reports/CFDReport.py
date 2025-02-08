@@ -34,6 +34,9 @@ from docx.enum.style import WD_STYLE_TYPE
 from docx.enum.text import WD_PARAGRAPH_ALIGNMENT
 
 from CfdOF import CfdTools
+from CfdOF.Mesh.CfdMesh import MESHER_DESCRIPTIONS, MESHERS
+from CfdOF.Mesh.CfdMeshRefinement import EXTRUSION_NAMES, EXTRUSION_TYPES
+from CfdOF.Solve.CfdFluidBoundary import BOUNDARY_NAMES, BOUNDARY_TYPES, SUBNAMES, SUBTYPES
 from CfdOF.Solve.TaskPanelCfdFluidProperties import ALL_FIELDS
 
 from Rocket.Utilities import _msg
@@ -389,11 +392,341 @@ class CFDReport:
     def solverConfig(self):
         self._document.add_heading('Solver', level=2)
 
+        solver = CfdTools.getSolver(self._analysis)
+        physicsModel = CfdTools.getPhysicsModel(self._analysis)
+
+        table = self._document.add_table(rows=1, cols=2, style='Table Grid')
+        table.autofit = True
+
+        row_cells = table.rows[0].cells
+        row_cells[0].text = "Convergence tolerance"
+        row_cells[1].text = str(solver.ConvergenceTol)
+
+        row_cells = table.add_row().cells
+        row_cells[0].text = "Max iterations"
+        row_cells[1].text = str(solver.MaxIterations)
+
+        row_cells = table.add_row().cells
+        row_cells[0].text = "Iteration write interval"
+        row_cells[1].text = str(solver.SteadyWriteInterval)
+
+        if solver.Parallel:
+            row_cells = table.add_row().cells
+            row_cells[0].text = "Parallel cores"
+            row_cells[1].text = str(solver.ParallelCores)
+
+        row_cells = table.add_row().cells
+        row_cells[0].text = "Starting from"
+        row_cells[1].text = solver.StartFrom
+
+        if physicsModel.Time == 'Transient':
+            row_cells = table.add_row().cells
+            row_cells[0].text = "End time"
+            row_cells[1].text = solver.EndTime.UserString
+
+            row_cells = table.add_row().cells
+            row_cells[0].text = "Time step"
+            row_cells[1].text = solver.EndTime.UserString
+
+            row_cells = table.add_row().cells
+            row_cells[0].text = "Max CFL number"
+            row_cells[1].text = float(solver.MaxCFLNumber)
+
+            row_cells = table.add_row().cells
+            row_cells[0].text = "Max free-surface CFL number"
+            row_cells[1].text = float(solver.MaxInterfaceCFLNumber)
+
+            row_cells = table.add_row().cells
+            row_cells[0].text = "Transient write interval"
+            row_cells[1].text = solver.TransientWriteInterval.UserString
+
     def mesherConfig(self):
         self._document.add_heading('Mesher', level=2)
 
+        mesher = CfdTools.getMeshObject(self._analysis)
+
+        table = self._document.add_table(rows=1, cols=2, style='Table Grid')
+        table.autofit = True
+
+        row_cells = table.rows[0].cells
+        row_cells[0].text = "Mesh utility"
+        row_cells[1].text = MESHER_DESCRIPTIONS[MESHERS.index(mesher.MeshUtility)]
+
+        row_cells = table.add_row().cells
+        row_cells[0].text = "Base element size"
+        row_cells[1].text = mesher.CharacteristicLengthMax.UserString
+
+        if mesher.MeshUtility == 'snappyHexMesh':
+            row_cells = table.add_row().cells
+            row_cells[0].text = "Cells between levels"
+            row_cells[1].text = str(mesher.CellsBetweenLevels)
+
+            row_cells = table.add_row().cells
+            row_cells[0].text = "Relative edge refinement"
+            row_cells[1].text = str(mesher.EdgeRefinement)
+
+            row_cells = table.add_row().cells
+            row_cells[0].text = "Edge detection"
+            if mesher.ImplicitEdgeDetection:
+                row_cells[1].text = "Implicit"
+            else:
+                row_cells[1].text = "Explicit"
+
+        row_cells = table.add_row().cells
+        row_cells[0].text = "STL relative linear deflection"
+        row_cells[1].text = str(mesher.STLRelativeLinearDeflection)
+
+        row_cells = table.add_row().cells
+        row_cells[0].text = "STL angulat mesh density"
+        row_cells[1].text = str(mesher.STLAngularMeshDensity)
+
+        row_cells = table.add_row().cells
+        row_cells[0].text = "Convert to dual mesh"
+        row_cells[1].text = self.configState(mesher.ConvertToDualMesh)
+
+        self._document.add_heading('Refinements', level=3)
+        for refinement in mesher.Group:
+            self.refinementConfig(refinement)
+
+    def refinementConfig(self, refinement):
+
+        table = self._document.add_table(rows=1, cols=2, style='Table Grid')
+        table.autofit = True
+
+        row_cells = table.rows[0].cells
+        row_cells[0].text = "Name"
+        row_cells[1].text = refinement.Label
+
+        row_cells = table.add_row().cells
+        row_cells[0].text = "Refinement type"
+        if refinement.Internal:
+            row_cells[1].text = "Volume"
+
+            row_cells = table.add_row().cells
+            row_cells[0].text = "Relative element size"
+            row_cells[1].text = str(refinement.RelativeLength)
+        elif refinement.Extrusion:
+            row_cells[1].text = "Extrusion"
+
+            row_cells = table.add_row().cells
+            row_cells[0].text = "Extrusion type"
+            row_cells[1].text = EXTRUSION_NAMES[EXTRUSION_TYPES.index(refinement.ExtrusionType)]
+
+            if refinement.ExtrusionType == "2DPlanar":
+                row_cells = table.add_row().cells
+                row_cells[0].text = "Thickness"
+                row_cells[1].text = refinement.ExtrusionThickness.UserString
+
+            elif refinement.ExtrusionType == "2DWedge":
+                row_cells = table.add_row().cells
+                row_cells[0].text = "Axis point"
+                row_cells[1].text = "({} mm, {} mm, {} mm)".format(
+                    refinement.ExtrusionAxisPoint.x,
+                    refinement.ExtrusionAxisPoint.y,
+                    refinement.ExtrusionAxisPoint.z,
+                )
+
+                row_cells = table.add_row().cells
+                row_cells[0].text = "Axis direction"
+                row_cells[1].text = "({}, {}, {})".format(
+                    refinement.ExtrusionAxisDirection.x,
+                    refinement.ExtrusionAxisDirection.y,
+                    refinement.ExtrusionAxisDirection.z,
+                )
+
+            elif refinement.ExtrusionType == "PatchNormal":
+                row_cells = table.add_row().cells
+                row_cells[0].text = "Keep existing mesh"
+                row_cells[1].text = self.configState(refinement.KeepExistingMesh)
+
+                row_cells = table.add_row().cells
+                row_cells[0].text = "Thickness"
+                row_cells[1].text = refinement.ExtrusionThickness.UserString
+
+                row_cells = table.add_row().cells
+                row_cells[0].text = "Number of layers"
+                row_cells[1].text = str(refinement.ExtrusionLayers)
+
+                row_cells = table.add_row().cells
+                row_cells[0].text = "Expansion ratio"
+                row_cells[1].text = str(refinement.ExtrusionRatio)
+
+            elif refinement.ExtrusionType == "Rotational":
+                row_cells = table.add_row().cells
+                row_cells[0].text = "Keep existing mesh"
+                row_cells[1].text = self.configState(refinement.KeepExistingMesh)
+
+                row_cells = table.add_row().cells
+                row_cells[0].text = "Angle"
+                row_cells[1].text = refinement.ExtrusionAngle.UserString
+
+                row_cells = table.add_row().cells
+                row_cells[0].text = "Number of layers"
+                row_cells[1].text = str(refinement.ExtrusionLayers)
+
+                row_cells = table.add_row().cells
+                row_cells[0].text = "Expansion ratio"
+                row_cells[1].text = str(refinement.ExtrusionRatio)
+
+                row_cells = table.add_row().cells
+                row_cells[0].text = "Axis point"
+                row_cells[1].text = "({} mm, {} mm, {} mm)".format(
+                    refinement.ExtrusionAxisPoint.x,
+                    refinement.ExtrusionAxisPoint.y,
+                    refinement.ExtrusionAxisPoint.z,
+                )
+
+                row_cells = table.add_row().cells
+                row_cells[0].text = "Axis direction"
+                row_cells[1].text = "({}, {}, {})".format(
+                    refinement.ExtrusionAxisDirection.x,
+                    refinement.ExtrusionAxisDirection.y,
+                    refinement.ExtrusionAxisDirection.z,
+                )
+
+        else:
+            row_cells[1].text = "Surface"
+
+            row_cells = table.add_row().cells
+            row_cells[0].text = "Relative element size"
+            row_cells[1].text = str(refinement.RelativeLength)
+
+            row_cells = table.add_row().cells
+            row_cells[0].text = "Refinement thickness"
+            row_cells[1].text = refinement.RefinementThickness.UserString
+
+            if refinement.NumberLayers > 0:
+                row_cells = table.add_row().cells
+                row_cells[0].text = "Boundary layers"
+                row_cells[1].text = str(refinement.NumberLayers)
+
+                row_cells = table.add_row().cells
+                row_cells[0].text = "Expansion ratio"
+                row_cells[1].text = str(refinement.ExpansionRatio)
+
+                row_cells = table.add_row().cells
+                row_cells[0].text = "Max first cell height"
+                row_cells[1].text = refinement.FirstLayerHeight.UserString
+
+        # for shape in refinement.ShapeRefs:
+        #     for subShape in shape:
+        #         _msg(str(dir(subShape)))
+
+
+        self._document.add_paragraph() # Acts as a spacer between tables
+
     def boundaryConditionsConfig(self):
         self._document.add_heading('Boundary Conditions', level=2)
+
+        boundaries = CfdTools.getCfdBoundaryGroup(self._analysis)
+        for bc in boundaries:
+            self.bcConfig(bc)
+
+    def bcConfig(self, bc):
+
+        table = self._document.add_table(rows=1, cols=2, style='Table Grid')
+        table.autofit = True
+        # from CfdOF.Solve.CfdFluidBoundary import BOUNDARY_NAMES, BOUNDARY_TYPES, SUBNAMES, SUBTYPES
+
+        row_cells = table.rows[0].cells
+        row_cells[0].text = "Name"
+        row_cells[1].text = bc.Label
+
+        typeIndex = BOUNDARY_TYPES.index(bc.BoundaryType)
+        row_cells = table.add_row().cells
+        row_cells[0].text = "Type"
+        row_cells[1].text = BOUNDARY_NAMES[typeIndex]
+
+        row_cells = table.add_row().cells
+        row_cells[0].text = "Sub type"
+        row_cells[1].text = SUBNAMES[typeIndex][SUBTYPES[typeIndex].index(bc.BoundarySubType)]
+
+        row_cells = table.add_row().cells
+        row_cells[0].text = "Default boundary"
+        row_cells[1].text = self.configState(bc.DefaultBoundary)
+
+        if typeIndex == 0:
+            self.bcWallConfig(table, typeIndex, bc)
+        elif typeIndex == 1:
+            self.bcInletConfig(table, typeIndex, bc)
+        elif typeIndex == 2:
+            self.bcOutletConfig(table, typeIndex, bc)
+        elif typeIndex == 3:
+            self.bcOpenConfig(table, typeIndex, bc)
+        elif typeIndex == 4:
+            self.bcConstraintConfig(table, typeIndex, bc)
+        elif typeIndex == 5:
+            self.bcBaffleConfig(table, typeIndex, bc)
+
+        self._document.add_paragraph() # Acts as a spacer between tables
+
+    def bcWallConfig(self, table, typeIndex, bc):
+        if bc.BoundarySubType == "partialSlipWall":
+            row_cells = table.add_row().cells
+            row_cells[0].text = "Slip ratio"
+            row_cells[1].text = bc.SlipRatio.UserString
+
+        if bc.BoundarySubType == "translatingWall" or bc.BoundarySubType == "roughWall":
+            if bc.VelocityIsCartesian:
+                row_cells = table.add_row().cells
+                row_cells[0].text = "Velocity"
+                row_cells[1].text = "({}, {}, {})".format(
+                    bc.Ux.UserString,
+                    bc.Uy.UserString,
+                    bc.Uz.UserString,
+                )
+            else:
+                row_cells = table.add_row().cells
+                row_cells[0].text = "Velocity"
+                row_cells[1].text = bc.VelocityMag.UserString
+
+                row_cells = table.add_row().cells
+                row_cells[0].text = "Face"
+                row_cells[1].text = bc.DirectionFace
+
+                row_cells = table.add_row().cells
+                row_cells[0].text = "Inward normal"
+                row_cells[1].text = self.configState(bc.ReverseNormal)
+
+        if bc.BoundarySubType == "roughWall":
+            row_cells = table.add_row().cells
+            row_cells[0].text = "Roughness height (Ks)"
+            row_cells[1].text = bc.RoughnessHeight.UserString
+
+            row_cells = table.add_row().cells
+            row_cells[0].text = "Roughness constant (Cs)"
+            row_cells[1].text = bc.RoughnessConstant.UserString
+
+    def bcInletConfig(self, table, typeIndex, bc):
+        if bc.BoundarySubType == "uniformVelocityInlet":
+            pass
+        elif bc.BoundarySubType == "volumetricFlowRateInlet":
+            pass
+        elif bc.BoundarySubType == "massFlowRateInlet":
+            pass
+        elif bc.BoundarySubType == "totalPressureInlet":
+            pass
+        elif bc.BoundarySubType == "staticPressureInlet":
+            pass
+
+    def bcOutletConfig(self, table, typeIndex, bc):
+        if bc.BoundarySubType == "staticPressureOutlet":
+            pass
+        elif bc.BoundarySubType == "uniformVelocityOutlet":
+            pass
+
+    def bcOpenConfig(self, table, typeIndex, bc):
+        if bc.BoundarySubType == "totalPressureOpening":
+            pass
+        elif bc.BoundarySubType == "farField":
+            pass
+
+    def bcConstraintConfig(self, typeIndex, table, bc):
+        if bc.BoundarySubType == "cyclicAMI":
+            pass
+
+    def bcBaffleConfig(self, typeIndex, table, bc):
+        pass
 
     def configState(self, condition):
         if condition:
