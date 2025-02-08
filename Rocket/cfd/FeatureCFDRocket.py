@@ -26,6 +26,7 @@ __url__ = "https://www.davesrocketshop.com"
 
 import FreeCAD
 import MeshPart
+import Part
 
 from Rocket.Constants import FEATURE_CFD_ROCKET
 
@@ -41,6 +42,15 @@ def calcFrontalArea(shape):
 
     area = calculateProjectedArea(mesh)
     return area
+
+def applyTranslations(solid, center=0.0, aoa=0.0, rotation=0.0):
+    solid1 = Part.makeCompound([solid]) # Needed to create a copy so translations aren't applied multiple times
+    if rotation != 0.0:
+        solid1.rotate(FreeCAD.Vector(0, 0, 0),FreeCAD.Vector(1, 0, 0), rotation)
+    if aoa != 0.0:
+        solid1.rotate(FreeCAD.Vector(center, 0, 0),FreeCAD.Vector(0, 1, 0), aoa)
+    solid1.translate(FreeCAD.Vector(-center, 0, 0))
+    return solid1
 
 class FeatureCFDRocket:
 
