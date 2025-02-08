@@ -34,6 +34,7 @@ from docx.enum.style import WD_STYLE_TYPE
 from docx.enum.text import WD_PARAGRAPH_ALIGNMENT
 
 from CfdOF import CfdTools
+from CfdOF.Solve.TaskPanelCfdFluidProperties import ALL_FIELDS
 
 from Rocket.Utilities import _msg
 from Rocket.cfd.FeatureCFDRocket import applyTranslations, calcFrontalArea
@@ -258,8 +259,132 @@ class CFDReport:
     def fluidPropertiesConfig(self):
         self._document.add_heading('Fluid Properties', level=2)
 
+        fluidModel = CfdTools.getMaterials(self._analysis)
+        if len(fluidModel) == 1:
+            fluidModel = fluidModel[0]
+        else:
+            self._document.add_paragraph("Not defined.")
+            return
+
+        material_type =  fluidModel.Material["Type"]
+
+        table = self._document.add_table(rows=1, cols=2, style='Table Grid')
+        table.autofit = True
+
+        row_cells = table.rows[0].cells
+        row_cells[0].text = "Material Name"
+        row_cells[1].text = fluidModel.Label
+
+        row_cells = table.add_row().cells
+        row_cells[0].text = "Type"
+        row_cells[1].text = material_type
+
+        fields = ALL_FIELDS[material_type]
+        for name in fields:
+            row_cells = table.add_row().cells
+            row_cells[0].text = name
+            row_cells[1].text = fluidModel.Material.get(name, '0')
+
     def initializeFlowConfig(self):
         self._document.add_heading('Initialize Flow Field', level=2)
+
+        initModel = CfdTools.getInitialConditions(self._analysis)
+        physicsModel = CfdTools.getPhysicsModel(self._analysis)
+
+        table = self._document.add_table(rows=1, cols=2, style='Table Grid')
+        table.autofit = True
+
+        row_cells = table.rows[0].cells
+        row_cells[0].text = "Velocity"
+        if initModel.PotentialFlow:
+            row_cells[1].text = "Potential flow"
+        elif initModel.UseInletUValues:
+            row_cells[1].text = "Use values from boundary '{}'".format(initModel.BoundaryU.Label)
+        else:
+            row_cells[1].text = "({}, {}, {})".format(
+                initModel.Ux.UserString,
+                initModel.Uy.UserString,
+                initModel.Uz.UserString,
+            )
+
+        row_cells = table.add_row().cells
+        row_cells[0].text = "Pressure"
+        if initModel.PotentialFlowP:
+            row_cells[1].text = "Potential flow"
+        elif initModel.UseOutletPValue:
+            row_cells[1].text = "Use values from boundary '{}'".format(initModel.BoundaryP.Label)
+        else:
+            row_cells[1].text = initModel.Pressure.UserString
+
+        if physicsModel.Phase != 'Single':
+            row_cells = table.add_row().cells
+            row_cells[0].text = "Volume Fractions"
+
+            if len(initModel.VolumeFractions) == 0:
+                _msg("No fractions to report")
+                row_cells[1].text = "None"
+            else:
+                row_cells[0].merge(row_cells[1])
+
+            for name, value in initModel.VolumeFractions.items():
+                _msg("key {}, value {}".format(name, value))
+                row_cells = table.add_row().cells
+                row_cells[0].text = name
+                row_cells[1].text = value
+
+        if physicsModel.Flow != "Isothermal":
+            row_cells = table.add_row().cells
+            if initModel.UseInletTemperatureValue:
+                row_cells[0].text = "Thermal"
+                row_cells[1].text = "Use values from boundary '{}'".format(initModel.BoundaryT.Label)
+            else:
+                row_cells[0].text = "Temperature"
+                row_cells[1].text = initModel.Temperature.UserString
+
+        row_cells = table.add_row().cells
+        row_cells[0].text = "Turbulence"
+        if initModel.UseInletTurbulenceValues:
+            row_cells[1].text = "Use values from boundary '{}'".format(initModel.BoundaryTurb.Label)
+        else:
+            row_cells[0].merge(row_cells[1])
+
+            row_cells = table.add_row().cells
+            row_cells[0].text = "Model" # This is a duplicate of the Physics model value
+            row_cells[1].text = physicsModel.TurbulenceModel
+
+            if physicsModel.TurbulenceModel in ['kOmegaSST', 'kOmegaSSTLM', 'kOmegaSSTDES', 'kEpsilon', 'kEqn']:
+                row_cells = table.add_row().cells
+                row_cells[0].text = "k"
+                row_cells[1].text = initModel.k.UserString
+
+            if physicsModel.TurbulenceModel in ['kEpsilon']:
+                row_cells = table.add_row().cells
+                row_cells[0].text = "ε"
+                row_cells[1].text = initModel.epsilon.UserString
+
+            if physicsModel.TurbulenceModel in ['kOmegaSST', 'kOmegaSSTLM', 'kOmegaSSTDES']:
+                row_cells = table.add_row().cells
+                row_cells[0].text = "ω"
+                row_cells[1].text = initModel.omega.UserString
+
+            if physicsModel.TurbulenceModel in ['SpalartAllmaras']:
+                row_cells = table.add_row().cells
+                row_cells[0].text = "ṽ"
+                row_cells[1].text = initModel.nuTilda.UserString
+
+            if physicsModel.TurbulenceModel in ['kOmegaSSTLM']:
+                row_cells = table.add_row().cells
+                row_cells[0].text = "γ"
+                row_cells[1].text = initModel.gammaInt.UserString
+
+                row_cells = table.add_row().cells
+                row_cells[0].text = "Reθ"
+                row_cells[1].text = initModel.ReThetat.UserString
+
+            if physicsModel.TurbulenceModel in ['Smagorinsky', 'WALE', 'kEqn']:
+                row_cells = table.add_row().cells
+                row_cells[0].text = "v"
+                row_cells[1].text = initModel.nut.UserString
 
     def solverConfig(self):
         self._document.add_heading('Solver', level=2)
