@@ -83,6 +83,8 @@ class TaskPanelMultiCFD:
 
         self._subProcess = SUBPROCESS_NONE # Current active subprocess
         self._processing = False
+        self._failedIteration = False
+        self._failedMessage = ''
         self._obj.Proxy._cfdProcess = CfdConsoleProcess(finished_hook=self.cfdProcessFinished,
                                                              stdout_hook=self.gotOutputLines,
                                                              stderr_hook=self.gotErrorLines)
@@ -168,7 +170,6 @@ class TaskPanelMultiCFD:
     def updateTimerText(self):
         if self._processing:
             self.form.labelTime.setText(translate('Rocket', 'Time: ') + CfdTools.formatTimer(time.time() - self._start))
-        pass
 
     def cfdProcessFinished(self, exit_code):
         if exit_code == 0:
@@ -176,30 +177,14 @@ class TaskPanelMultiCFD:
                 self.consoleMessage('Meshing completed')
             elif self._subProcess == SUBPROCESS_CFD:
                 self.consoleMessage("Simulation finished successfully")
-            # self.analysis_obj.NeedsMeshRerun = False
-            # self.form.pb_run_mesh.setEnabled(True)
-            # self.form.pb_stop_mesh.setEnabled(False)
-            # self.form.pb_paraview.setEnabled(True)
-            # self.form.pb_write_mesh.setEnabled(True)
-            # self.form.pb_check_mesh.setEnabled(True)
-            # self.form.pb_load_mesh.setEnabled(True)
         else:
             if self._subProcess == SUBPROCESS_MESH:
                 self.consoleMessage("Meshing exited with error", 'Error')
+                self.stopIteration("Mesher error")
             elif self._subProcess == SUBPROCESS_CFD:
                 self.consoleMessage("Simulation exited with error", 'Error')
-            self.stopProcessing()
-            # self.form.pb_run_mesh.setEnabled(True)
-            # self.form.pb_stop_mesh.setEnabled(False)
-            # self.form.pb_write_mesh.setEnabled(True)
-            # self.form.pb_check_mesh.setEnabled(False)
-            # self.form.pb_paraview.setEnabled(False)
-
-        self.error_message = ''
-        # Get rid of any existing loaded mesh
-        # self.pbClearMeshClicked()
-        # self.updateUI()
-        pass
+                self.stopIteration("Solver error")
+            self.stopIteration("Unknown error")
 
     def gotOutputLines(self, lines):
         if self._subProcess == SUBPROCESS_CFD:
@@ -218,12 +203,37 @@ class TaskPanelMultiCFD:
     def onStart(self):
         self.startProcessing()
 
+        path = os.path.join(CfdTools.getOutputPath(self._obj), 'RunStatus.dat')
+        runStatus = open(path, "w")
+
         for angle in self._obj.AOAList:
-            self.doCFD(angle)
+            iterStart = time.time()
 
-        self.createReport()
+            self._failedIteration = False
+            self._failedMessage = ''
+            if self._processing:
+                self.doCFD(angle)
 
+            if self._failedIteration:
+                status = "Failed"
+            elif not self._processing:
+                status = "skipped"
+            else:
+                status = "Success"
+            runStatus.write("{}\t{}\t{}\t{}\n".format(
+                str(angle),
+                CfdTools.formatTimer(time.time() - iterStart),
+                status,
+                self._failedMessage)
+            )
+
+        elapsed = CfdTools.formatTimer(time.time() - self._start)
         self.stopProcessing()
+
+        runStatus.write("Total\t{}\n".format(elapsed))
+
+        runStatus.close()
+        self.createReport()
 
     def createReport(self):
         self.consoleMessage(translate('Rocket', 'Preparing report...'))
@@ -243,7 +253,13 @@ class TaskPanelMultiCFD:
         self.form.buttonStop.setEnabled(False)
         self._processing = False
 
+    def stopIteration(self, message):
+        self._failedIteration = True
+        if len(self._failedMessage) == 0:
+            self._failedMessage = message
+
     def onStop(self):
+        self.stopIteration("User abort")
         self.stopProcessing()
         self._obj.Proxy._cfdProcess.terminate()
         self._obj.Proxy._cfdProcess.waitForFinished()
@@ -251,9 +267,9 @@ class TaskPanelMultiCFD:
 
     def doCFD(self, aoa):
         self.setupCFD(aoa)
-        if self._processing:
+        if self._processing and not self._failedIteration:
             self.mesh()
-        if self._processing:
+        if self._processing and not self._failedIteration:
             self.solve()
 
     def setupCFD(self, aoa):
@@ -261,7 +277,7 @@ class TaskPanelMultiCFD:
         self.consoleMessage(translate('Rocket', 'Preparing for AOA={}...').format(aoa))
         area = self.setupRocket(aoa)
         if area == 0:
-            self.stopProcessing()
+            self.stopIteration("Area calculation failure")
             return
         self.setupReferenceArea(area)
         self.setupCaseName(aoa)
@@ -291,7 +307,7 @@ class TaskPanelMultiCFD:
 
     def mesh(self):
         self.writeMesh()
-        if self._processing:
+        if self._processing and not self._failedIteration:
             self.runMesher()
             self._obj.Proxy._cfdProcess.waitForFinished()
 
@@ -386,7 +402,7 @@ class TaskPanelMultiCFD:
 
     def solve(self):
         self.writeOpenFOAM()
-        if self._processing:
+        if self._processing and not self._failedIteration:
             self.runOpenFOAM()
             self._obj.Proxy._cfdProcess.waitForFinished()
 
@@ -498,7 +514,7 @@ class TaskPanelMultiCFD:
     def setupMeshtools(self):
         mesher = CfdTools.getMeshObject(self._obj)
         if mesher is None:
-            self.stopProcessing()
+            self.stopIteration("Mesh setup failure")
             return
         # mesher = mesher[0]
         self._meshTools = CfdMeshTools.CfdMeshTools(mesher)

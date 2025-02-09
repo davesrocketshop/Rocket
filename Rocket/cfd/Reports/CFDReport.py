@@ -65,6 +65,9 @@ class CFDReport:
         self._x0 = self._length / 2.0
         self._rotation = self._analysis.CFDRocket.AngleOfRotation.Value
 
+        self._totalRunTime = ''
+
+        self._runStatus = {}
         self._forces = {}
         self._moments = {}
         self._coefficients = {}
@@ -73,20 +76,37 @@ class CFDReport:
         return self._path
 
     def collectStats(self):
+        path = os.path.join(CfdTools.getOutputPath(self._analysis), "RunStatus.dat")
+        self.collectStatusInformation(path)
+
         for angle in self._analysis.AOAList:
-            dirname = "case_aoa_{}".format(angle)
+            try:
+                if self._runStatus[str(angle)][2] == "Success":
+                    dirname = "case_aoa_{}".format(angle)
 
-            path = os.path.join(CfdTools.getOutputPath(self._analysis), dirname,
-                                "postProcessing", "ForceReportingFunction", "0", "force.dat")
-            self.collectForceInformation(path, angle)
+                    path = os.path.join(CfdTools.getOutputPath(self._analysis), dirname,
+                                        "postProcessing", "ForceReportingFunction", "0", "force.dat")
+                    self.collectForceInformation(path, angle)
 
-            path = os.path.join(CfdTools.getOutputPath(self._analysis), dirname,
-                                "postProcessing", "ForceReportingFunction", "0", "moment.dat")
-            self.collectMomentInformation(path, angle)
+                    path = os.path.join(CfdTools.getOutputPath(self._analysis), dirname,
+                                        "postProcessing", "ForceReportingFunction", "0", "moment.dat")
+                    self.collectMomentInformation(path, angle)
 
-            path = os.path.join(CfdTools.getOutputPath(self._analysis), dirname,
-                                "postProcessing", "ForceCoefficientReportingFunction", "0", "coefficient.dat")
-            self.collectCoefficientInformation(path, angle)
+                    path = os.path.join(CfdTools.getOutputPath(self._analysis), dirname,
+                                        "postProcessing", "ForceCoefficientReportingFunction", "0", "coefficient.dat")
+                    self.collectCoefficientInformation(path, angle)
+            except KeyError:
+                pass
+
+    def collectStatusInformation(self, path):
+        with open(path, "r") as csvfile:
+            csvreader = csv.reader(csvfile, delimiter='\t', skipinitialspace=True)
+            for row in csvreader:
+                if len(row) > 2:
+                    self._runStatus[str(row[0])] = row
+                elif len(row) == 2:
+                    if row[0] == "Total":
+                        self._totalRunTime = row[1]
 
     def collectForceInformation(self, path, angle):
         with open(path, "r") as csvfile:
@@ -118,6 +138,7 @@ class CFDReport:
         self.addStyles()
 
         self.generateIntro()
+        self.generateRuntime()
         if self._CP:
             self.generateCP()
         self.generateCD()
@@ -866,6 +887,33 @@ class CFDReport:
         else:
             return "False"
 
+    def generateRuntime(self):
+        self._document.add_heading('Run status', level=1)
+
+        self._document.add_paragraph("Total run time: " + self._totalRunTime)
+
+        table = self._document.add_table(rows=1, cols=4, style='Table Grid')
+        table.autofit = True
+        hdr_cells = table.rows[0].cells
+        hdr_cells[0].text = 'Angle of Attack'
+        hdr_cells[1].text = 'Run Time'
+        hdr_cells[2].text = 'Status'
+        hdr_cells[3].text = 'Description'
+        for angle in self._analysis.AOAList:
+            row_cells = table.add_row().cells
+            try:
+                row_cells[0].text = self._runStatus[str(angle)][0]
+                row_cells[1].text = self._runStatus[str(angle)][1]
+                row_cells[2].text = self._runStatus[str(angle)][2]
+                row_cells[3].text = self._runStatus[str(angle)][3]
+            except KeyError:
+                row_cells[0].text = str(angle)
+                row_cells[1].text = ""
+                row_cells[2].text = "Unknown"
+                row_cells[3].text = ""
+
+        self._document.add_page_break()
+
     def generateCP(self):
         self._document.add_heading('Center of Pressure', level=1)
         p = self._document.add_paragraph("")
@@ -896,20 +944,26 @@ class CFDReport:
         for i in range(count):
             data_cells = table.columns[i+1].cells
             angle = str(self._analysis.AOAList[i])
-            My = float(self._moments[angle][2])
-            Fx = float(self._forces[angle][1])
-            Fz = float(self._forces[angle][3])
-            aoa = math.radians(float(self._analysis.AOAList[i]))
-            # X = X0 - My / (Fz * cos(AOA) + Fx * sin(AOA))
-            x = (My / (Fz * math.cos(aoa) + Fx * math.sin(aoa)))
-            x = self._x0 - (x * 1000.0) # Meters to mm
+            if self._runStatus[str(angle)][2] == "Success":
+                My = float(self._moments[angle][2])
+                Fx = float(self._forces[angle][1])
+                Fz = float(self._forces[angle][3])
+                aoa = math.radians(float(self._analysis.AOAList[i]))
+                # X = X0 - My / (Fz * cos(AOA) + Fx * sin(AOA))
+                x = (My / (Fz * math.cos(aoa) + Fx * math.sin(aoa)))
+                x = self._x0 - (x * 1000.0) # Meters to mm
 
-            x_values.append(float(self._analysis.AOAList[i]))
-            y_values.append(x)
-            data_cells[1].text = "{:#.3g}".format(My)
-            data_cells[2].text = "{:#.3g}".format(Fx)
-            data_cells[3].text = "{:#.3g}".format(Fz)
-            data_cells[4].text = "{} mm".format(int(x))
+                x_values.append(float(self._analysis.AOAList[i]))
+                y_values.append(x)
+                data_cells[1].text = "{:#.3g}".format(My)
+                data_cells[2].text = "{:#.3g}".format(Fx)
+                data_cells[3].text = "{:#.3g}".format(Fz)
+                data_cells[4].text = "{} mm".format(int(x))
+            else:
+                data_cells[1].text = ""
+                data_cells[2].text = ""
+                data_cells[3].text = ""
+                data_cells[4].text = ""
 
         self._document.add_paragraph()
         self.cpGraph(x_values, y_values)
@@ -964,18 +1018,23 @@ class CFDReport:
         for i in range(count):
             data_cells = table.columns[i+1].cells
             angle = str(self._analysis.AOAList[i])
-            aoa = float(self._analysis.AOAList[i])
-            Cd = float(self._coefficients[angle][1])
-            Cl = float(self._coefficients[angle][4])
-            solid = applyTranslations(self._analysis.Shape, self._x0, aoa, self._rotation)
-            area = calcFrontalArea(solid)
+            if self._runStatus[str(angle)][2] == "Success":
+                aoa = float(self._analysis.AOAList[i])
+                Cd = float(self._coefficients[angle][1])
+                Cl = float(self._coefficients[angle][4])
+                solid = applyTranslations(self._analysis.Shape, self._x0, aoa, self._rotation)
+                area = calcFrontalArea(solid)
 
-            x_values.append(float(self._analysis.AOAList[i]))
-            cd_values.append(Cd)
-            cl_values.append(Cl)
-            data_cells[1].text = FreeCAD.Units.Quantity("{} mm^2".format(area)).UserString
-            data_cells[2].text = "{:#.3g}".format(Cd)
-            data_cells[3].text = "{:#.3g}".format(Cl)
+                x_values.append(float(self._analysis.AOAList[i]))
+                cd_values.append(Cd)
+                cl_values.append(Cl)
+                data_cells[1].text = FreeCAD.Units.Quantity("{} mm^2".format(area)).UserString
+                data_cells[2].text = "{:#.3g}".format(Cd)
+                data_cells[3].text = "{:#.3g}".format(Cl)
+            else:
+                data_cells[1].text = ""
+                data_cells[2].text = ""
+                data_cells[3].text = ""
 
         self._document.add_paragraph()
         self.cdGraph(x_values, cd_values, cl_values)
