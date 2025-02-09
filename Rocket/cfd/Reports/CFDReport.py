@@ -28,6 +28,9 @@ import os
 import csv
 import math
 
+import matplotlib.pyplot as plt
+from matplotlib.backends.backend_qt5agg import FigureCanvas
+
 from docx import Document
 from docx.shared import Inches
 from docx.enum.style import WD_STYLE_TYPE
@@ -36,7 +39,7 @@ from docx.enum.text import WD_PARAGRAPH_ALIGNMENT
 from CfdOF import CfdTools
 from CfdOF.Mesh.CfdMesh import MESHER_DESCRIPTIONS, MESHERS
 from CfdOF.Mesh.CfdMeshRefinement import EXTRUSION_NAMES, EXTRUSION_TYPES
-from CfdOF.Solve.CfdFluidBoundary import BOUNDARY_NAMES, BOUNDARY_TYPES, SUBNAMES, SUBTYPES
+from CfdOF.Solve.CfdFluidBoundary import BOUNDARY_NAMES, BOUNDARY_TYPES, SUBNAMES, SUBTYPES, TURBULENT_INLET_SPEC
 from CfdOF.Solve.TaskPanelCfdFluidProperties import ALL_FIELDS
 
 from Rocket.Utilities import _msg
@@ -667,26 +670,7 @@ class CFDReport:
             row_cells[1].text = bc.SlipRatio.UserString
 
         if bc.BoundarySubType == "translatingWall" or bc.BoundarySubType == "roughWall":
-            if bc.VelocityIsCartesian:
-                row_cells = table.add_row().cells
-                row_cells[0].text = "Velocity"
-                row_cells[1].text = "({}, {}, {})".format(
-                    bc.Ux.UserString,
-                    bc.Uy.UserString,
-                    bc.Uz.UserString,
-                )
-            else:
-                row_cells = table.add_row().cells
-                row_cells[0].text = "Velocity"
-                row_cells[1].text = bc.VelocityMag.UserString
-
-                row_cells = table.add_row().cells
-                row_cells[0].text = "Face"
-                row_cells[1].text = bc.DirectionFace
-
-                row_cells = table.add_row().cells
-                row_cells[0].text = "Inward normal"
-                row_cells[1].text = self.configState(bc.ReverseNormal)
+            self.bcVelocityConfig(table, bc)
 
         if bc.BoundarySubType == "roughWall":
             row_cells = table.add_row().cells
@@ -698,16 +682,35 @@ class CFDReport:
             row_cells[1].text = bc.RoughnessConstant.UserString
 
     def bcInletConfig(self, table, typeIndex, bc):
-        if bc.BoundarySubType == "uniformVelocityInlet":
-            pass
+        if bc.BoundarySubType == "uniformVelocityInlet" or bc.BoundarySubType == "staticPressureInlet":
+            self.bcVelocityConfig(table, bc)
+
+            row_cells = table.add_row().cells
+            row_cells[0].text = "Pressure"
+            row_cells[1].text = bc.Pressure.UserString
+
+            self.bcTurbulenceConfig(table, bc)
+
         elif bc.BoundarySubType == "volumetricFlowRateInlet":
-            pass
+            row_cells = table.add_row().cells
+            row_cells[0].text = "Volume flow rate"
+            row_cells[1].text = bc.VolFlowRate.UserString
+
+            self.bcTurbulenceConfig(table, bc)
+
         elif bc.BoundarySubType == "massFlowRateInlet":
-            pass
+            row_cells = table.add_row().cells
+            row_cells[0].text = "Mass flow rate"
+            row_cells[1].text = bc.MassFlowRate.UserString
+
+            self.bcTurbulenceConfig(table, bc)
+
         elif bc.BoundarySubType == "totalPressureInlet":
-            pass
-        elif bc.BoundarySubType == "staticPressureInlet":
-            pass
+            row_cells = table.add_row().cells
+            row_cells[0].text = "Pressure"
+            row_cells[1].text = bc.Pressure.UserString
+
+            self.bcTurbulenceConfig(table, bc)
 
     def bcOutletConfig(self, table, typeIndex, bc):
         if bc.BoundarySubType == "staticPressureOutlet":
@@ -727,6 +730,135 @@ class CFDReport:
 
     def bcBaffleConfig(self, typeIndex, table, bc):
         pass
+
+    def bcVelocityConfig(self, table, bc):
+        if bc.VelocityIsCartesian:
+            row_cells = table.add_row().cells
+            row_cells[0].text = "Velocity"
+            row_cells[1].text = "({}, {}, {})".format(
+                bc.Ux.UserString,
+                bc.Uy.UserString,
+                bc.Uz.UserString,
+            )
+        else:
+            row_cells = table.add_row().cells
+            row_cells[0].text = "Velocity"
+            row_cells[1].text = bc.VelocityMag.UserString
+
+            row_cells = table.add_row().cells
+            row_cells[0].text = "Face"
+            row_cells[1].text = bc.DirectionFace
+
+            row_cells = table.add_row().cells
+            row_cells[0].text = "Inward normal"
+            row_cells[1].text = self.configState(bc.ReverseNormal)
+
+    def bcTurbulenceConfig(self, table, bc):
+        physicsModel = CfdTools.getPhysicsModel(self._analysis)
+        turbulenceModel = (physicsModel.TurbulenceModel
+                          if physicsModel.Turbulence == 'RANS' or physicsModel.Turbulence == 'DES'
+                             or physicsModel.Turbulence == 'LES' else None)
+
+
+        row_cells = table.add_row().cells
+        row_cells[0].text = "Turbulence"
+        # row_cells[1].text = TURBULENT_INLET_SPEC[turbulenceModel][0]
+
+        if bc.TurbulenceInletSpecification in ['intensityAndLengthScale']:
+            row_cells[1].text = "Intensity & Length scale"
+
+            row_cells = table.add_row().cells
+            row_cells[0].text = "Turbulence intensity (I)"
+            row_cells[1].text = bc.TurbulenceIntensityPercentage.UserString
+
+            row_cells = table.add_row().cells
+            row_cells[0].text = "Length scale (l)"
+            row_cells[1].text = bc.TurbulenceLengthScale.UserString
+
+        if bc.TurbulenceInletSpecification in ['TKEAndSpecDissipationRate']:
+            row_cells[1].text = "Kinetic energy & Specific dissipation rate"
+
+            row_cells = table.add_row().cells
+            row_cells[0].text = "Turbulence kinetic energy (k)"
+            row_cells[1].text = bc.TurbulentKineticEnergy.UserString
+
+            row_cells = table.add_row().cells
+            row_cells[0].text = "Specifc dissipation rate (ω)"
+            row_cells[1].text = bc.SpecificDissipationRate.UserString
+
+        if bc.TurbulenceInletSpecification in ['TurbulentViscosityAndK']:
+            row_cells[1].text = "Kinetic Energy & Turbulent viscosity"
+
+            row_cells = table.add_row().cells
+            row_cells[0].text = "Turbulence kinetic energy (k)"
+            row_cells[1].text = bc.kEqnTurbulentKineticEnergy.UserString
+
+            row_cells = table.add_row().cells
+            row_cells[0].text = "Turbulent viscosity (v)"
+            row_cells[1].text = bc.kEqnTurbulentViscosity.UserString
+
+        # if bc.TurbulenceInletSpecification in ['TKEAndDissipationRate']:
+        #     row_cells = table.add_row().cells
+        #     row_cells[0].text = "ε"
+        #     row_cells[1].text = initModel.epsilon.UserString
+
+        # if bc.TurbulenceInletSpecification in ['TKEAndSpecDissipationRate', 'intensityAndLengthScale', 'TKESpecDissipationRateGammaAndReThetat', 'TKEAndSpecDissipationRate']:
+        #     row_cells = table.add_row().cells
+        #     row_cells[0].text = "ω"
+        #     row_cells[1].text = initModel.omega.UserString
+
+        # if bc.TurbulenceInletSpecification in ['TransportedNuTilda']:
+        #     row_cells = table.add_row().cells
+        #     row_cells[0].text = "ṽ"
+        #     row_cells[1].text = initModel.nuTilda.UserString
+
+        # if bc.TurbulenceInletSpecification in ['TKESpecDissipationRateGammaAndReThetat']:
+        #     row_cells = table.add_row().cells
+        #     row_cells[0].text = "γ"
+        #     row_cells[1].text = initModel.gammaInt.UserString
+
+        #     row_cells = table.add_row().cells
+        #     row_cells[0].text = "Reθ"
+        #     row_cells[1].text = initModel.ReThetat.UserString
+
+        # if bc.TurbulenceInletSpecification in ['TurbulentViscosity', 'TurbulentViscosity', 'TurbulentViscosityAndK']:
+        #     row_cells = table.add_row().cells
+        #     row_cells[0].text = "v"
+        #     row_cells[1].text = initModel.nut.UserString
+
+        # if bc.TurbulenceInletSpecification in ['TKEAndSpecDissipationRate', 'intensityAndLengthScale', 'TKESpecDissipationRateGammaAndReThetat', 'TKEAndSpecDissipationRate', 'TKEAndDissipationRate', 'TurbulentViscosityAndK']:
+        #     row_cells = table.add_row().cells
+        #     row_cells[0].text = "k"
+        #     row_cells[1].text = initModel.k.UserString
+
+        # if bc.TurbulenceInletSpecification in ['TKEAndDissipationRate']:
+        #     row_cells = table.add_row().cells
+        #     row_cells[0].text = "ε"
+        #     row_cells[1].text = initModel.epsilon.UserString
+
+        # if bc.TurbulenceInletSpecification in ['TKEAndSpecDissipationRate', 'intensityAndLengthScale', 'TKESpecDissipationRateGammaAndReThetat', 'TKEAndSpecDissipationRate']:
+        #     row_cells = table.add_row().cells
+        #     row_cells[0].text = "ω"
+        #     row_cells[1].text = initModel.omega.UserString
+
+        # if bc.TurbulenceInletSpecification in ['TransportedNuTilda']:
+        #     row_cells = table.add_row().cells
+        #     row_cells[0].text = "ṽ"
+        #     row_cells[1].text = initModel.nuTilda.UserString
+
+        # if bc.TurbulenceInletSpecification in ['TKESpecDissipationRateGammaAndReThetat']:
+        #     row_cells = table.add_row().cells
+        #     row_cells[0].text = "γ"
+        #     row_cells[1].text = initModel.gammaInt.UserString
+
+        #     row_cells = table.add_row().cells
+        #     row_cells[0].text = "Reθ"
+        #     row_cells[1].text = initModel.ReThetat.UserString
+
+        # if bc.TurbulenceInletSpecification in ['TurbulentViscosity', 'TurbulentViscosity', 'TurbulentViscosityAndK']:
+        #     row_cells = table.add_row().cells
+        #     row_cells[0].text = "v"
+        #     row_cells[1].text = initModel.nut.UserString
 
     def configState(self, condition):
         if condition:
@@ -748,6 +880,8 @@ class CFDReport:
         p = self._document.add_paragraph("X0 = {} mm".format(int(self._x0)), style="Block Quotation")
         p.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
 
+        x_values = []
+        y_values = []
         count = len(self._analysis.AOAList)
         table = self._document.add_table(rows=5, cols=count+1, style='Simple Grid Columns')
         hdr_cells = table.rows[0].cells
@@ -769,12 +903,43 @@ class CFDReport:
             # X = X0 - My / (Fz * cos(AOA) + Fx * sin(AOA))
             x = (My / (Fz * math.cos(aoa) + Fx * math.sin(aoa)))
             x = self._x0 - (x * 1000.0) # Meters to mm
+
+            x_values.append(float(self._analysis.AOAList[i]))
+            y_values.append(x)
             data_cells[1].text = "{:#.3g}".format(My)
             data_cells[2].text = "{:#.3g}".format(Fx)
             data_cells[3].text = "{:#.3g}".format(Fz)
             data_cells[4].text = "{} mm".format(int(x))
 
+        self._document.add_paragraph()
+        self.cpGraph(x_values, y_values)
+
         self._document.add_page_break()
+
+    def cpGraph(self, x_values, y_values):
+        graphPath = os.path.join(CfdTools.getOutputPath(self._analysis), 'cpGraph.png')
+
+        # Turn interactive plotting off
+        plt.ioff()
+        plt.rcParams['figure.constrained_layout.use'] = True
+        plt.rcParams["figure.facecolor"] = 'white'
+        plt.rcParams["figure.edgecolor"] = 'white'
+        plt.rcParams["axes.facecolor"] = 'white'
+
+        # Create a new figure, plot into it, then close it so it never gets displayed
+        fig = plt.figure(figsize=(5,3))
+        canvas = FigureCanvas(fig)
+        sub = canvas.figure.subplots()
+        sub.plot(x_values, y_values, label="$C_P$")
+        sub.set_xlabel("Angle of Attack (degrees)")
+        sub.set_ylabel("Center of Pressure (mm)")
+        sub.grid(visible=True)
+        sub.legend()
+
+        plt.savefig(graphPath)
+        plt.close(fig)
+
+        self._document.add_picture(graphPath, width=Inches(6.0))
 
     def generateCD(self):
         self._document.add_heading('Lift and Drag', level=1)
@@ -792,6 +957,10 @@ class CFDReport:
         data_cells[1].text = "Frontal Area"
         data_cells[2].text = "Cd"
         data_cells[3].text = "Cl"
+
+        x_values = []
+        cd_values = []
+        cl_values = []
         for i in range(count):
             data_cells = table.columns[i+1].cells
             angle = str(self._analysis.AOAList[i])
@@ -800,11 +969,44 @@ class CFDReport:
             Cl = float(self._coefficients[angle][4])
             solid = applyTranslations(self._analysis.Shape, self._x0, aoa, self._rotation)
             area = calcFrontalArea(solid)
+
+            x_values.append(float(self._analysis.AOAList[i]))
+            cd_values.append(Cd)
+            cl_values.append(Cl)
             data_cells[1].text = FreeCAD.Units.Quantity("{} mm^2".format(area)).UserString
             data_cells[2].text = "{:#.3g}".format(Cd)
             data_cells[3].text = "{:#.3g}".format(Cl)
 
+        self._document.add_paragraph()
+        self.cdGraph(x_values, cd_values, cl_values)
+
         # self._document.add_page_break()
+
+    def cdGraph(self, x_values, cd_values, cl_values):
+        graphPath = os.path.join(CfdTools.getOutputPath(self._analysis), 'cdGraph.png')
+
+        # Turn interactive plotting off
+        plt.ioff()
+        plt.rcParams['figure.constrained_layout.use'] = True
+        plt.rcParams["figure.facecolor"] = 'white'
+        plt.rcParams["figure.edgecolor"] = 'white'
+        plt.rcParams["axes.facecolor"] = 'white'
+
+        # Create a new figure, plot into it, then close it so it never gets displayed
+        fig = plt.figure(figsize=(5,3))
+        canvas = FigureCanvas(fig)
+        sub = canvas.figure.subplots()
+        sub.plot(x_values, cd_values, label="$C_D$")
+        sub.plot(x_values, cl_values, label="$C_L$")
+        sub.set_xlabel("Angle of Attack (degrees)")
+        sub.set_ylabel("Coefficient")
+        sub.grid(visible=True)
+        sub.legend()
+
+        plt.savefig(graphPath)
+        plt.close(fig)
+
+        self._document.add_picture(graphPath, width=Inches(6.0))
 
     def generateCL(self):
         # self._document.add_heading('Lift', level=1)
