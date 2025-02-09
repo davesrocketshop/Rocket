@@ -210,10 +210,7 @@ class TaskPanelMultiCFD:
                     self.check_mesh_error = True
 
     def gotErrorLines(self, lines):
-        if self._subProcess == SUBPROCESS_CFD:
-            print_err = self._foamRunnable.processErrorOutput(lines)
-        else:
-            print_err = self._obj.Proxy._cfdProcess.processErrorOutput(lines)
+        print_err = self._obj.Proxy._cfdProcess.processErrorOutput(lines)
         if print_err is not None:
             self.consoleMessage(print_err, 'Error')
             self.check_mesh_error = True
