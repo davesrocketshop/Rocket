@@ -40,14 +40,13 @@ from CfdOF import CfdTools
 from CfdOF.CfdConsoleProcess import CfdConsoleProcess
 from CfdOF.PostProcess.CfdReportingFunction import CfdReportingFunction
 from CfdOF.Mesh import CfdMeshTools
-from CfdOF.Mesh.CfdMesh import MESHERS
-from CfdOF.CfdTools import setQuantity, getQuantity, storeIfChanged
+# from CfdOF.Mesh.CfdMesh import MESHERS
+# from CfdOF.CfdTools import setQuantity, getQuantity, storeIfChanged
 from CfdOF.Solve import CfdCaseWriterFoam
 from CfdOF.Solve.CfdRunnableFoam import CfdRunnableFoam
 
 from Ui.UIPaths import getUIPath
 
-from Rocket.cfd.FeatureCFDRocket import FeatureCFDRocket
 from Rocket.cfd.Reports.CFDReport import CFDReport
 
 SUBPROCESS_NONE = 0
@@ -95,6 +94,7 @@ class TaskPanelMultiCFD:
         self._timer.timeout.connect(self.updateTimerText)
 
         self.form.editAOA.textChanged.connect(self.onAOAChanged)
+        self.form.spinLastN.valueChanged.connect(self.onLastN)
         self.form.buttonStart.clicked.connect(self.onStart)
         self.form.buttonStop.clicked.connect(self.onStop)
         self.form.buttonStop.setEnabled(False)
@@ -107,14 +107,19 @@ class TaskPanelMultiCFD:
     def transferTo(self):
         "Transfer from the dialog to the object"
         self._obj.AOAList = self.getAOAList()
+        self._obj.AverageLastN = self.form.spinLastN.value()
 
     def transferFrom(self):
         "Transfer from the object to the dialog"
+        self.form.spinLastN.setValue(self._obj.AverageLastN)
         self.form.editAOA.setPlainText(self.getAOAText())
 
     def onAOAChanged(self):
         self.transferTo()
         # _ = self.getAOAList()
+
+    def onLastN(self, value):
+        self._obj.AverageLastN = value
 
     def getAOAList(self):
         listText = self.form.editAOA.toPlainText()

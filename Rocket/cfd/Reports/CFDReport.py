@@ -55,8 +55,6 @@ class CFDReport:
         self._analysis = analysis
         self._path = os.path.join(CfdTools.getOutputPath(self._analysis), 'CFD Report.docx')
 
-        self._CP = False
-
         self._frontalArea = calcFrontalArea(self._analysis.Shape)
         self._diameter = caliber(self._analysis.Rocket)
         self._thickness = finThickness(self._analysis.Rocket)
@@ -109,27 +107,30 @@ class CFDReport:
                         self._totalRunTime = row[1]
 
     def collectForceInformation(self, path, angle):
+        self._forces[str(angle)] = []
         with open(path, "r") as csvfile:
             csvreader = csv.reader(csvfile, delimiter=' ', skipinitialspace=True)
             for row in csvreader:
                 if len(row) == 10:
-                    self._forces[str(angle)] = row
+                    self._forces[str(angle)].append(row)
 
     def collectMomentInformation(self, path, angle):
+        self._moments[str(angle)] = []
         with open(path, "r") as csvfile:
             csvreader = csv.reader(csvfile, delimiter=' ', skipinitialspace=True)
             for row in csvreader:
                 # Read all and save the last row
                 if len(row) == 10:
-                    self._moments[str(angle)] = row
+                    self._moments[str(angle)].append(row)
 
     def collectCoefficientInformation(self, path, angle):
+        self._coefficients[str(angle)] = []
         with open(path, "r") as csvfile:
             csvreader = csv.reader(csvfile, delimiter='\t', skipinitialspace=True)
             for row in csvreader:
                 # Read all and save the last row
                 if len(row) == 13:
-                    self._coefficients[str(angle)] = row
+                    self._coefficients[str(angle)].append(row)
 
     def generate(self):
         self.collectStats()
@@ -139,8 +140,7 @@ class CFDReport:
 
         self.generateIntro()
         self.generateRuntime()
-        if self._CP:
-            self.generateCP()
+        self.generateCP()
         self.generateCD()
         self.generateCL()
         self._document.save(self._path)
@@ -188,15 +188,12 @@ class CFDReport:
             if angle != 0:
                 non_zero += 1
         if non_zero < 2:
-            self._CP = False
             p = self._document.add_paragraph()
             p.add_run("NOTE: It is not possible to calculate the center of pressure at an "\
                                         "angle of attack of 0. It must be calculated at multiple points close "\
                                         "to 0 and inferred using l'Hôpital's rule.").bold = True
             p = self._document.add_paragraph()
-            p.add_run('This study is unable to determine Center of Pressure.').italic = True
-        else:
-            self._CP = True
+            p.add_run('This study is unable to determine Center of Pressure at a 0 angle of attack.').italic = True
 
         self._document.add_heading('Configuration', level=1)
 
@@ -945,9 +942,9 @@ class CFDReport:
             data_cells = table.columns[i+1].cells
             angle = str(self._analysis.AOAList[i])
             if self._runStatus[str(angle)][2] == "Success":
-                My = float(self._moments[angle][2])
-                Fx = float(self._forces[angle][1])
-                Fz = float(self._forces[angle][3])
+                My = self.getMomentY(angle) #float(self._moments[angle][-1][2])
+                Fx = self.getForceX(angle) #float(self._forces[angle][-1][1])
+                Fz = self.getForceZ(angle) #float(self._forces[angle][-1][3])
                 aoa = math.radians(float(self._analysis.AOAList[i]))
                 # X = X0 - My / (Fz * cos(AOA) + Fx * sin(AOA))
                 x = (My / (Fz * math.cos(aoa) + Fx * math.sin(aoa)))
@@ -965,10 +962,34 @@ class CFDReport:
                 data_cells[3].text = ""
                 data_cells[4].text = ""
 
-        self._document.add_paragraph()
-        self.cpGraph(x_values, y_values)
+        if count > 1:
+            self._document.add_paragraph()
+            self.cpGraph(x_values, y_values)
 
         self._document.add_page_break()
+
+    def getMomentY(self, angle):
+        return self.getAverage(self._moments[angle], 2)
+
+    def getForceX(self, angle):
+        return self.getAverage(self._forces[angle], 1)
+
+    def getForceZ(self, angle):
+        return self.getAverage(self._forces[angle], 3)
+
+    def getCD(self, angle):
+        return self.getAverage(self._coefficients[angle], 1)
+
+    def getCL(self, angle):
+        return self.getAverage(self._coefficients[angle], 4)
+
+    def getAverage(self, list, index):
+        if len(list) > self._analysis.AverageLastN:
+            list = list[-self._analysis.AverageLastN:]
+        average = 0.0
+        for entry in list:
+            average += float(entry[index])
+        return (average / len(list))
 
     def cpGraph(self, x_values, y_values):
         graphPath = os.path.join(CfdTools.getOutputPath(self._analysis), 'cpGraph.png')
@@ -1020,8 +1041,8 @@ class CFDReport:
             angle = str(self._analysis.AOAList[i])
             if self._runStatus[str(angle)][2] == "Success":
                 aoa = float(self._analysis.AOAList[i])
-                Cd = float(self._coefficients[angle][1])
-                Cl = float(self._coefficients[angle][4])
+                Cd = self.getCD(angle) #float(self._coefficients[angle][1])
+                Cl = self.getCL(angle) #float(self._coefficients[angle][4])
                 solid = applyTranslations(self._analysis.Shape, self._x0, aoa, self._rotation)
                 area = calcFrontalArea(solid)
 
@@ -1036,8 +1057,9 @@ class CFDReport:
                 data_cells[2].text = ""
                 data_cells[3].text = ""
 
-        self._document.add_paragraph()
-        self.cdGraph(x_values, cd_values, cl_values)
+        if count > 1:
+            self._document.add_paragraph()
+            self.cdGraph(x_values, cd_values, cl_values)
 
         # self._document.add_page_break()
 

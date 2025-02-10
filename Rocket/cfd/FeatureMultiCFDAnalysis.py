@@ -51,6 +51,8 @@ class FeatureMultiCFDAnalysis(CfdAnalysis.CfdAnalysis):
             obj.addProperty('App::PropertyLinkGlobal', 'CFDRocket', 'RocketComponent', translate('App::Property', 'The rocket under study'))
         if not hasattr(obj,"Rocket"):
             obj.addProperty('App::PropertyLinkGlobal', 'Rocket', 'RocketComponent', translate('App::Property', 'The rocket under study'))
+        if not hasattr(obj,"AverageLastN"):
+            obj.addProperty('App::PropertyInteger', 'AverageLastN', 'RocketComponent', translate('App::Property', 'Use average of last N values')).AverageLastN = 5
 
     def __getstate__(self):
         return self.Type, self.version
