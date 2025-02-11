@@ -280,11 +280,12 @@ class TaskPanelMultiCFD:
     def setupCFD(self, aoa):
         """ Ensures the objects are set for the required AOA """
         self.consoleMessage(translate('Rocket', 'Preparing for AOA={}...').format(aoa))
-        area = self.setupRocket(aoa)
-        if area == 0:
-            self.stopIteration("Area calculation failure")
-            return
-        self.setupReferenceArea(area)
+        # area = self.setupRocket(aoa)
+        self.setupRocket(aoa)
+        # if area == 0:
+        #     self.stopIteration("Area calculation failure")
+        #     return
+        # self.setupReferenceArea(area)
         self.setupCaseName(aoa)
 
     def setupRocket(self, aoa):
@@ -295,7 +296,7 @@ class TaskPanelMultiCFD:
         rocket._obj.AngleOfAttack = aoa
         # rocket.execute(rocket)
         FreeCAD.ActiveDocument.recompute()
-        return rocket.calcFrontalArea()
+        # return rocket.calcFrontalArea()
 
     def setupReferenceArea(self, area):
         for child in self._obj.Group:

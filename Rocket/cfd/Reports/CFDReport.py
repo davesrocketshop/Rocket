@@ -1023,15 +1023,16 @@ class CFDReport:
         p.add_run(" The frontal reference area is adjusted for each angle of attack.")
 
         count = len(self._analysis.AOAList)
-        table = self._document.add_table(rows=4, cols=count+1, style='Simple Grid Columns')
+        table = self._document.add_table(rows=3, cols=count+1, style='Simple Grid Columns')
         hdr_cells = table.rows[0].cells
         hdr_cells[0].text = 'Angle of Attack'
         for i in range(count):
             hdr_cells[i + 1].text = str(self._analysis.AOAList[i])
         data_cells = table.columns[0].cells
-        data_cells[1].text = "Frontal Area"
-        data_cells[2].text = "Cd"
-        data_cells[3].text = "Cl"
+        # data_cells[1].text = "Projected flow stream area"
+        # data_cells[2].text = "Lift area"
+        data_cells[1].text = "Cd"
+        data_cells[2].text = "Cl"
 
         x_values = []
         cd_values = []
@@ -1049,13 +1050,15 @@ class CFDReport:
                 x_values.append(float(self._analysis.AOAList[i]))
                 cd_values.append(Cd)
                 cl_values.append(Cl)
-                data_cells[1].text = FreeCAD.Units.Quantity("{} mm^2".format(area)).UserString
-                data_cells[2].text = "{:#.3g}".format(Cd)
-                data_cells[3].text = "{:#.3g}".format(Cl)
+                # data_cells[1].text = FreeCAD.Units.Quantity("{} mm^2".format(area)).UserString
+                # data_cells[2].text = ""
+                data_cells[1].text = "{:#.3g}".format(Cd)
+                data_cells[2].text = "{:#.3g}".format(Cl)
             else:
                 data_cells[1].text = ""
                 data_cells[2].text = ""
-                data_cells[3].text = ""
+                # data_cells[3].text = ""
+                # data_cells[4].text = ""
 
         if count > 1:
             self._document.add_paragraph()
