@@ -77,6 +77,7 @@ class TaskPanelMultiCFD:
         self._meshTools = None
 
         self._solver = CfdTools.getSolver(self._obj)
+        self._mesher = CfdTools.getMeshObject(self._obj)
         # self._foamRunnable = CfdRunnableFoam.CfdRunnableFoam(CfdTools.getActiveAnalysis(), self._solver)
         self._foamRunnable = FoamRunner(CfdTools.getActiveAnalysis(), self._solver)
 
@@ -306,8 +307,10 @@ class TaskPanelMultiCFD:
         FreeCAD.ActiveDocument.recompute()
 
     def setupCaseName(self, aoa):
+        meshCaseName = "meshCase_aoa_{}".format(aoa)
+        self._mesher.CaseName = meshCaseName
+
         caseName = "case_aoa_{}".format(aoa)
-        print("Case name '{}'".format(caseName))
         self._solver.InputCaseName = caseName
         FreeCAD.ActiveDocument.recompute()
 
@@ -361,9 +364,9 @@ class TaskPanelMultiCFD:
         try:
             QApplication.setOverrideCursor(Qt.WaitCursor)
             self._subProcess = SUBPROCESS_MESH
-            mesher = CfdTools.getMeshObject(self._obj)
-            self.consoleMessage("Initializing {} ...".format(mesher.MeshUtility))
-            mesher.Proxy.cart_mesh = cart_mesh
+            # mesher = CfdTools.getMeshObject(self._obj)
+            self.consoleMessage("Initializing {} ...".format(self._mesher.MeshUtility))
+            self._mesher.Proxy.cart_mesh = cart_mesh
             # FreeCADGui.doCommand("from CfdOF.Mesh import CfdMeshTools")
             # FreeCADGui.doCommand("from CfdOF import CfdTools")
             # FreeCADGui.doCommand("from CfdOF import CfdConsoleProcess")
@@ -470,7 +473,7 @@ class TaskPanelMultiCFD:
         #     "  cmd = solver_runner.getSolverCmd(solver_directory)\n" +
         #     "  if cmd is not None:\n" +
         #     "    env_vars = solver_runner.getRunEnvironment()\n" +
-        #     "    solver_process = CfdConsoleProcess.CfdConsoleProcess(stdout_hook=solver_runner.processOutput)\n" +
+        #     "    solver_process = CfdConsoleProcess.CfdConsoleProcess(stdout_hook=solver_runner.)\n" +
         #     "    solver_process.start(cmd, env_vars=env_vars, working_dir=solver_directory)\n" +
         #     "    solver_process.waitForFinished()\n")
         working_dir = CfdTools.getOutputPath(self._obj)

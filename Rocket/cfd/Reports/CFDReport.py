@@ -142,7 +142,7 @@ class CFDReport:
         self.generateRuntime()
         self.generateCP()
         self.generateCD()
-        self.generateCL()
+        self.generateRunData()
         self._document.save(self._path)
 
     def addStyles(self):
@@ -1020,7 +1020,6 @@ class CFDReport:
         self._document.add_heading('Lift and Drag', level=1)
         p = self._document.add_paragraph("Lift and Drag coefficients at multiple angles of attack with the rocket rotated "\
                                      "around the center point.")
-        p.add_run(" The frontal reference area is adjusted for each angle of attack.")
 
         count = len(self._analysis.AOAList)
         table = self._document.add_table(rows=3, cols=count+1, style='Simple Grid Columns')
@@ -1064,7 +1063,7 @@ class CFDReport:
             self._document.add_paragraph()
             self.cdGraph(x_values, cd_values, cl_values)
 
-        # self._document.add_page_break()
+        self._document.add_page_break()
 
     def cdGraph(self, x_values, cd_values, cl_values):
         graphPath = os.path.join(CfdTools.getOutputPath(self._analysis), 'cdGraph.png')
@@ -1092,7 +1091,78 @@ class CFDReport:
 
         self._document.add_picture(graphPath, width=Inches(6.0))
 
-    def generateCL(self):
-        # self._document.add_heading('Lift', level=1)
-        # self._document.add_paragraph("Lift coefficient at multiple angles of attach")
-        pass
+    def generateRunData(self):
+        self._document.add_heading('Run Data', level=1)
+        for angle in self._analysis.AOAList:
+            if self._runStatus[str(angle)][2] == "Success" or self._runStatus[str(angle)][3] == "Solver error":
+                self._document.add_heading('Angle of Attack={}'.format(str(angle)), level=1)
+                self.generateForceDataAt(angle)
+
+                # Page break for all but the last entry
+                if angle != self._analysis.AOAList[-1]:
+                    self._document.add_page_break()
+
+    def generateForceDataAt(self, angle):
+        graphPath = os.path.join(CfdTools.getOutputPath(self._analysis), 'forceGraph.png')
+
+        # Turn interactive plotting off
+        plt.ioff()
+        plt.rcParams['figure.constrained_layout.use'] = True
+        plt.rcParams["figure.facecolor"] = 'white'
+        plt.rcParams["figure.edgecolor"] = 'white'
+        plt.rcParams["axes.facecolor"] = 'white'
+
+        # Get the force entries
+        x_values = self.getColumn(self._forces[str(angle)], 0)
+        fx_values = self.getColumn(self._forces[str(angle)], 1)
+        fy_values = self.getColumn(self._forces[str(angle)], 2)
+        fz_values = self.getColumn(self._forces[str(angle)], 3)
+        px_values = self.getColumn(self._forces[str(angle)], 4)
+        py_values = self.getColumn(self._forces[str(angle)], 5)
+        pz_values = self.getColumn(self._forces[str(angle)], 6)
+        vx_values = self.getColumn(self._forces[str(angle)], 7)
+        vy_values = self.getColumn(self._forces[str(angle)], 8)
+        vz_values = self.getColumn(self._forces[str(angle)], 9)
+
+        # Create a new figure, plot into it, then close it so it never gets displayed
+        fig = plt.figure(figsize=(5,3))
+        canvas = FigureCanvas(fig)
+        sub = canvas.figure.subplots()
+        sub.plot(x_values, px_values, label="$F_X$ (pressure)")
+        sub.plot(x_values, py_values, label="$F_Y$ (pressure)")
+        sub.plot(x_values, pz_values, label="$F_Z$ (pressure)")
+        sub.plot(x_values, vx_values, label="$F_X$ (viscous)")
+        sub.plot(x_values, vy_values, label="$F_Y$ (viscous)")
+        sub.plot(x_values, vz_values, label="$F_Z$ (viscous)")
+        # sub.set_xlabel("Angle of Attack (degrees)")
+        sub.set_ylabel("Force [N]")
+        sub.grid(visible=True)
+        sub.legend()
+
+        plt.savefig(graphPath)
+        plt.close(fig)
+
+        self._document.add_picture(graphPath, width=Inches(6.0))
+
+        # Create a new figure, plot into it, then close it so it never gets displayed
+        fig = plt.figure(figsize=(5,3))
+        canvas = FigureCanvas(fig)
+        sub = canvas.figure.subplots()
+        sub.plot(x_values, fx_values, label="$F_X$")
+        sub.plot(x_values, fy_values, label="$F_Y$")
+        sub.plot(x_values, fz_values, label="$F_Z$")
+        # sub.set_xlabel("Angle of Attack (degrees)")
+        sub.set_ylabel("Force [N]")
+        sub.grid(visible=True)
+        sub.legend()
+
+        plt.savefig(graphPath)
+        plt.close(fig)
+
+        self._document.add_picture(graphPath, width=Inches(6.0))
+
+    def getColumn(self, table, index):
+        column = []
+        for entry in table:
+            column.append(entry[index])
+        return column
