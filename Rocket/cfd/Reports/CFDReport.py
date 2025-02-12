@@ -111,7 +111,7 @@ class CFDReport:
         with open(path, "r") as csvfile:
             csvreader = csv.reader(csvfile, delimiter=' ', skipinitialspace=True)
             for row in csvreader:
-                if len(row) == 10:
+                if len(row) == 10 and not row[0].startswith("#"):
                     self._forces[str(angle)].append(row)
 
     def collectMomentInformation(self, path, angle):
@@ -120,7 +120,7 @@ class CFDReport:
             csvreader = csv.reader(csvfile, delimiter=' ', skipinitialspace=True)
             for row in csvreader:
                 # Read all and save the last row
-                if len(row) == 10:
+                if len(row) == 10 and not row[0].startswith("#"):
                     self._moments[str(angle)].append(row)
 
     def collectCoefficientInformation(self, path, angle):
@@ -129,7 +129,7 @@ class CFDReport:
             csvreader = csv.reader(csvfile, delimiter='\t', skipinitialspace=True)
             for row in csvreader:
                 # Read all and save the last row
-                if len(row) == 13:
+                if len(row) == 13 and not row[0].startswith("#"):
                     self._coefficients[str(angle)].append(row)
 
     def generate(self):
@@ -1097,6 +1097,8 @@ class CFDReport:
             if self._runStatus[str(angle)][2] == "Success" or self._runStatus[str(angle)][3] == "Solver error":
                 self._document.add_heading('Angle of Attack={}'.format(str(angle)), level=1)
                 self.generateForceDataAt(angle)
+                self.generateMomentDataAt(angle)
+                self.generateCoefficientDataAt(angle)
 
                 # Page break for all but the last entry
                 if angle != self._analysis.AOAList[-1]:
@@ -1113,7 +1115,7 @@ class CFDReport:
         plt.rcParams["axes.facecolor"] = 'white'
 
         # Get the force entries
-        x_values = self.getColumn(self._forces[str(angle)], 0)
+        x_values = self.getIntColumn(self._forces[str(angle)], 0)
         fx_values = self.getColumn(self._forces[str(angle)], 1)
         fy_values = self.getColumn(self._forces[str(angle)], 2)
         fz_values = self.getColumn(self._forces[str(angle)], 3)
@@ -1128,13 +1130,31 @@ class CFDReport:
         fig = plt.figure(figsize=(5,3))
         canvas = FigureCanvas(fig)
         sub = canvas.figure.subplots()
+        sub.plot(x_values, fx_values, label="$F_X$")
+        sub.plot(x_values, fy_values, label="$F_Y$")
+        sub.plot(x_values, fz_values, label="$F_Z$")
+        sub.set_xlabel("Iteration")
+        sub.set_ylabel("Force [N]")
+        sub.grid(visible=True)
+        sub.legend()
+
+        plt.savefig(graphPath)
+        plt.close(fig)
+
+        self._document.add_picture(graphPath, width=Inches(6.0))
+        self._document.add_paragraph() # Spacer
+
+        # Create a new figure, plot into it, then close it so it never gets displayed
+        fig = plt.figure(figsize=(5,3))
+        canvas = FigureCanvas(fig)
+        sub = canvas.figure.subplots()
         sub.plot(x_values, px_values, label="$F_X$ (pressure)")
         sub.plot(x_values, py_values, label="$F_Y$ (pressure)")
         sub.plot(x_values, pz_values, label="$F_Z$ (pressure)")
         sub.plot(x_values, vx_values, label="$F_X$ (viscous)")
         sub.plot(x_values, vy_values, label="$F_Y$ (viscous)")
         sub.plot(x_values, vz_values, label="$F_Z$ (viscous)")
-        # sub.set_xlabel("Angle of Attack (degrees)")
+        sub.set_xlabel("Iteration")
         sub.set_ylabel("Force [N]")
         sub.grid(visible=True)
         sub.legend()
@@ -1143,16 +1163,39 @@ class CFDReport:
         plt.close(fig)
 
         self._document.add_picture(graphPath, width=Inches(6.0))
+        self._document.add_paragraph() # Spacer
+
+    def generateMomentDataAt(self, angle):
+        graphPath = os.path.join(CfdTools.getOutputPath(self._analysis), 'forceGraph.png')
+
+        # Turn interactive plotting off
+        plt.ioff()
+        plt.rcParams['figure.constrained_layout.use'] = True
+        plt.rcParams["figure.facecolor"] = 'white'
+        plt.rcParams["figure.edgecolor"] = 'white'
+        plt.rcParams["axes.facecolor"] = 'white'
+
+        # Get the force entries
+        x_values = self.getIntColumn(self._moments[str(angle)], 0)
+        fx_values = self.getColumn(self._moments[str(angle)], 1)
+        fy_values = self.getColumn(self._moments[str(angle)], 2)
+        fz_values = self.getColumn(self._moments[str(angle)], 3)
+        px_values = self.getColumn(self._moments[str(angle)], 4)
+        py_values = self.getColumn(self._moments[str(angle)], 5)
+        pz_values = self.getColumn(self._moments[str(angle)], 6)
+        vx_values = self.getColumn(self._moments[str(angle)], 7)
+        vy_values = self.getColumn(self._moments[str(angle)], 8)
+        vz_values = self.getColumn(self._moments[str(angle)], 9)
 
         # Create a new figure, plot into it, then close it so it never gets displayed
         fig = plt.figure(figsize=(5,3))
         canvas = FigureCanvas(fig)
         sub = canvas.figure.subplots()
-        sub.plot(x_values, fx_values, label="$F_X$")
-        sub.plot(x_values, fy_values, label="$F_Y$")
-        sub.plot(x_values, fz_values, label="$F_Z$")
-        # sub.set_xlabel("Angle of Attack (degrees)")
-        sub.set_ylabel("Force [N]")
+        sub.plot(x_values, fx_values, label="$M_X$")
+        sub.plot(x_values, fy_values, label="$M_Y$")
+        sub.plot(x_values, fz_values, label="$M_Z$")
+        sub.set_xlabel("Iteration")
+        sub.set_ylabel("Moment")
         sub.grid(visible=True)
         sub.legend()
 
@@ -1160,9 +1203,69 @@ class CFDReport:
         plt.close(fig)
 
         self._document.add_picture(graphPath, width=Inches(6.0))
+        self._document.add_paragraph() # Spacer
+
+        # Create a new figure, plot into it, then close it so it never gets displayed
+        fig = plt.figure(figsize=(5,3))
+        canvas = FigureCanvas(fig)
+        sub = canvas.figure.subplots()
+        sub.plot(x_values, px_values, label="$M_X$ (pressure)")
+        sub.plot(x_values, py_values, label="$M_Y$ (pressure)")
+        sub.plot(x_values, pz_values, label="$M_Z$ (pressure)")
+        sub.plot(x_values, vx_values, label="$M_X$ (viscous)")
+        sub.plot(x_values, vy_values, label="$M_Y$ (viscous)")
+        sub.plot(x_values, vz_values, label="$M_Z$ (viscous)")
+        sub.set_xlabel("Iteration")
+        sub.set_ylabel("Moment")
+        sub.grid(visible=True)
+        sub.legend()
+
+        plt.savefig(graphPath)
+        plt.close(fig)
+
+        self._document.add_picture(graphPath, width=Inches(6.0))
+        self._document.add_paragraph() # Spacer
+
+    def generateCoefficientDataAt(self, angle):
+        graphPath = os.path.join(CfdTools.getOutputPath(self._analysis), 'forceGraph.png')
+
+        # Turn interactive plotting off
+        plt.ioff()
+        plt.rcParams['figure.constrained_layout.use'] = True
+        plt.rcParams["figure.facecolor"] = 'white'
+        plt.rcParams["figure.edgecolor"] = 'white'
+        plt.rcParams["axes.facecolor"] = 'white'
+
+        # Get the force entries
+        x_values = self.getIntColumn(self._coefficients[str(angle)], 0)
+        cd_values = self.getColumn(self._coefficients[str(angle)], 1)
+        cl_values = self.getColumn(self._coefficients[str(angle)], 4)
+
+        # Create a new figure, plot into it, then close it so it never gets displayed
+        fig = plt.figure(figsize=(5,3))
+        canvas = FigureCanvas(fig)
+        sub = canvas.figure.subplots()
+        sub.plot(x_values, cd_values, label="$C_D$")
+        sub.plot(x_values, cl_values, label="$C_L$")
+        sub.set_xlabel("Iteration")
+        sub.set_ylabel("Coefficient")
+        sub.grid(visible=True)
+        sub.legend()
+
+        plt.savefig(graphPath)
+        plt.close(fig)
+
+        self._document.add_picture(graphPath, width=Inches(6.0))
+        # self._document.add_paragraph() # Spacer
+
+    def getIntColumn(self, table, index):
+        column = []
+        for entry in table:
+            column.append(int(entry[index]))
+        return column
 
     def getColumn(self, table, index):
         column = []
         for entry in table:
-            column.append(entry[index])
+            column.append(float(entry[index]))
         return column
