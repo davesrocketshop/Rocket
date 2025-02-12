@@ -212,6 +212,7 @@ class TaskPanelMultiCFD:
         path = os.path.join(CfdTools.getOutputPath(self._obj), 'RunStatus.dat')
         runStatus = open(path, "w")
 
+        residuals = {}
         for angle in self._obj.AOAList:
             iterStart = time.time()
 
@@ -219,6 +220,15 @@ class TaskPanelMultiCFD:
             self._failedMessage = ''
             if self._processing:
                 self.doCFD(angle)
+
+                residuals[str(angle)] = {}
+                residuals[str(angle)]["time"] = self._foamRunnable.time
+                residuals[str(angle)]["UxResiduals"] = self._foamRunnable.UxResiduals
+                residuals[str(angle)]["UyResiduals"] = self._foamRunnable.UyResiduals
+                residuals[str(angle)]["UzResiduals"] = self._foamRunnable.UzResiduals
+                residuals[str(angle)]["pResiduals"] = self._foamRunnable.pResiduals
+                residuals[str(angle)]["kResiduals"] = self._foamRunnable.kResiduals
+                residuals[str(angle)]["omegaResiduals"] = self._foamRunnable.omegaResiduals
 
             if self._failedIteration:
                 status = "Failed"
@@ -239,12 +249,12 @@ class TaskPanelMultiCFD:
         runStatus.write("Total\t{}\n".format(elapsed))
 
         runStatus.close()
-        self.createReport()
+        self.createReport(residuals)
 
-    def createReport(self):
+    def createReport(self, residuals):
         self.consoleMessage(translate('Rocket', 'Preparing report...'))
 
-        report = CFDReport(self._obj)
+        report = CFDReport(self._obj, residuals)
         report.generate()
         CfdTools.openFileManager(report.getPath())
 
@@ -281,12 +291,7 @@ class TaskPanelMultiCFD:
     def setupCFD(self, aoa):
         """ Ensures the objects are set for the required AOA """
         self.consoleMessage(translate('Rocket', 'Preparing for AOA={}...').format(aoa))
-        # area = self.setupRocket(aoa)
         self.setupRocket(aoa)
-        # if area == 0:
-        #     self.stopIteration("Area calculation failure")
-        #     return
-        # self.setupReferenceArea(area)
         self.setupCaseName(aoa)
 
     def setupRocket(self, aoa):
@@ -295,15 +300,7 @@ class TaskPanelMultiCFD:
             self.consoleMessage(translate('Rocket', 'No rocket found'), 'Error')
             return 0
         rocket._obj.AngleOfAttack = aoa
-        # rocket.execute(rocket)
-        FreeCAD.ActiveDocument.recompute()
-        # return rocket.calcFrontalArea()
 
-    def setupReferenceArea(self, area):
-        for child in self._obj.Group:
-            if hasattr(child, "Proxy") and isinstance(child.Proxy, CfdReportingFunction):
-                if child.ReportingFunctionType == "ForceCoefficients":
-                    child.AreaRef = area
         FreeCAD.ActiveDocument.recompute()
 
     def setupCaseName(self, aoa):

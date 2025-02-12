@@ -47,12 +47,13 @@ from Rocket.cfd.FeatureCFDRocket import applyTranslations, calcFrontalArea
 
 class CFDReport:
 
-    def __init__(self, analysis):
+    def __init__(self, analysis, residuals):
         # Import here to prevent circular imports
         from Rocket.cfd.CFDUtil import caliber, finThickness
         from Rocket.cfd.FeatureCFDRocket import calcFrontalArea
 
         self._analysis = analysis
+        self._residuals = residuals
         self._path = os.path.join(CfdTools.getOutputPath(self._analysis), 'CFD Report.docx')
 
         self._frontalArea = calcFrontalArea(self._analysis.Shape)
@@ -1096,6 +1097,7 @@ class CFDReport:
         for angle in self._analysis.AOAList:
             if self._runStatus[str(angle)][2] == "Success" or self._runStatus[str(angle)][3] == "Solver error":
                 self._document.add_heading('Angle of Attack={}'.format(str(angle)), level=1)
+                self.generateResidualDataAt(angle)
                 self.generateForceDataAt(angle)
                 self.generateMomentDataAt(angle)
                 self.generateCoefficientDataAt(angle)
@@ -1103,6 +1105,49 @@ class CFDReport:
                 # Page break for all but the last entry
                 if angle != self._analysis.AOAList[-1]:
                     self._document.add_page_break()
+
+    def generateResidualDataAt(self, angle):
+        graphPath = os.path.join(CfdTools.getOutputPath(self._analysis), 'residualGraph.png')
+
+        # Turn interactive plotting off
+        plt.ioff()
+        plt.rcParams['figure.constrained_layout.use'] = True
+        plt.rcParams["figure.facecolor"] = 'white'
+        plt.rcParams["figure.edgecolor"] = 'white'
+        plt.rcParams["axes.facecolor"] = 'white'
+
+        try:
+            x_values = self._residuals[str(angle)]["time"]
+            ux_values = self._residuals[str(angle)]["UxResiduals"]
+            uy_values = self._residuals[str(angle)]["UyResiduals"]
+            uz_values = self._residuals[str(angle)]["UzResiduals"]
+            p_values = self._residuals[str(angle)]["pResiduals"]
+            k_values = self._residuals[str(angle)]["kResiduals"]
+            omega_values = self._residuals[str(angle)]["omegaResiduals"]
+        except IndexError:
+            # If the entry doesn't exist we're unable to draw the graph
+            return
+
+        # Create a new figure, plot into it, then close it so it never gets displayed
+        fig = plt.figure(figsize=(5,3))
+        canvas = FigureCanvas(fig)
+        sub = canvas.figure.subplots()
+        sub.plot(x_values, ux_values, label="$U_x$")
+        sub.plot(x_values, uy_values, label="$U_y$")
+        sub.plot(x_values, uz_values, label="$U_z$")
+        sub.plot(x_values, p_values, label="$p$")
+        sub.plot(x_values, k_values, label="$k$")
+        sub.plot(x_values, omega_values, label="$\\omega$")
+        sub.set_xlabel("Iteration")
+        sub.set_ylabel("Residual")
+        sub.grid(visible=True)
+        sub.legend()
+
+        plt.savefig(graphPath)
+        plt.close(fig)
+
+        self._document.add_picture(graphPath, width=Inches(6.0))
+        # self._document.add_paragraph() # Spacer
 
     def generateForceDataAt(self, angle):
         graphPath = os.path.join(CfdTools.getOutputPath(self._analysis), 'forceGraph.png')
@@ -1166,7 +1211,7 @@ class CFDReport:
         self._document.add_paragraph() # Spacer
 
     def generateMomentDataAt(self, angle):
-        graphPath = os.path.join(CfdTools.getOutputPath(self._analysis), 'forceGraph.png')
+        graphPath = os.path.join(CfdTools.getOutputPath(self._analysis), 'momentGraph.png')
 
         # Turn interactive plotting off
         plt.ioff()
@@ -1227,7 +1272,7 @@ class CFDReport:
         self._document.add_paragraph() # Spacer
 
     def generateCoefficientDataAt(self, angle):
-        graphPath = os.path.join(CfdTools.getOutputPath(self._analysis), 'forceGraph.png')
+        graphPath = os.path.join(CfdTools.getOutputPath(self._analysis), 'coefficientGraph.png')
 
         # Turn interactive plotting off
         plt.ioff()
