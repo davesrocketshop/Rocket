@@ -47,13 +47,12 @@ from Rocket.cfd.FeatureCFDRocket import applyTranslations, calcFrontalArea
 
 class CFDReport:
 
-    def __init__(self, analysis, residuals):
+    def __init__(self, analysis):
         # Import here to prevent circular imports
         from Rocket.cfd.CFDUtil import caliber, finThickness
         from Rocket.cfd.FeatureCFDRocket import calcFrontalArea
 
         self._analysis = analysis
-        self._residuals = residuals
         self._path = os.path.join(CfdTools.getOutputPath(self._analysis), 'CFD Report.docx')
 
         self._frontalArea = calcFrontalArea(self._analysis.Shape)
@@ -1116,14 +1115,16 @@ class CFDReport:
         plt.rcParams["figure.edgecolor"] = 'white'
         plt.rcParams["axes.facecolor"] = 'white'
 
+        residuals = self.readResidual(angle)
+
         try:
-            x_values = self._residuals[str(angle)]["time"]
-            ux_values = self._residuals[str(angle)]["UxResiduals"]
-            uy_values = self._residuals[str(angle)]["UyResiduals"]
-            uz_values = self._residuals[str(angle)]["UzResiduals"]
-            p_values = self._residuals[str(angle)]["pResiduals"]
-            k_values = self._residuals[str(angle)]["kResiduals"]
-            omega_values = self._residuals[str(angle)]["omegaResiduals"]
+            x_values = residuals["time"]
+            ux_values = residuals["UxResiduals"]
+            uy_values = residuals["UyResiduals"]
+            uz_values = residuals["UzResiduals"]
+            p_values = residuals["pResiduals"]
+            k_values = residuals["kResiduals"]
+            omega_values = residuals["omegaResiduals"]
         except IndexError:
             # If the entry doesn't exist we're unable to draw the graph
             return
@@ -1140,6 +1141,7 @@ class CFDReport:
         sub.plot(x_values, omega_values, label="$\\omega$")
         sub.set_xlabel("Iteration")
         sub.set_ylabel("Residual")
+        sub.set_yscale('log')
         sub.grid(visible=True)
         sub.legend()
 
@@ -1147,7 +1149,31 @@ class CFDReport:
         plt.close(fig)
 
         self._document.add_picture(graphPath, width=Inches(6.0))
-        # self._document.add_paragraph() # Spacer
+        self._document.add_paragraph() # Spacer
+
+    def readResidual(self, angle):
+        # Avoid circular import
+        from Rocket.cfd.Ui.TaskPanelMultiCFD import FoamRunner
+
+        dirname = "case_aoa_{}".format(angle)
+        path = os.path.join(CfdTools.getOutputPath(self._analysis), dirname,
+                            "log.simpleFoam")
+
+        runner = FoamRunner(self._analysis)
+        with open(path, "r") as file:
+            for line in file:
+                runner.processOutput(line)
+
+        residuals = {}
+        residuals["time"] = runner.time
+        residuals["UxResiduals"] = runner.UxResiduals
+        residuals["UyResiduals"] = runner.UyResiduals
+        residuals["UzResiduals"] = runner.UzResiduals
+        residuals["pResiduals"] = runner.pResiduals
+        residuals["kResiduals"] = runner.kResiduals
+        residuals["omegaResiduals"] = runner.omegaResiduals
+
+        return residuals
 
     def generateForceDataAt(self, angle):
         graphPath = os.path.join(CfdTools.getOutputPath(self._analysis), 'forceGraph.png')

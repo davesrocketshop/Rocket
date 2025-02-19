@@ -53,6 +53,9 @@ SUBPROCESS_NONE = 0
 SUBPROCESS_MESH = 1
 SUBPROCESS_CFD = 2
 
+# Used for debugging reports
+TEST_REPORTS = False
+
 class FoamRunner(CfdRunnableFoam):
 
     def __init__(self, analysis=None, solver=None):
@@ -209,52 +212,47 @@ class TaskPanelMultiCFD:
     def onStart(self):
         self.startProcessing()
 
-        path = os.path.join(CfdTools.getOutputPath(self._obj), 'RunStatus.dat')
-        runStatus = open(path, "w")
+        if not TEST_REPORTS:
+            path = os.path.join(CfdTools.getOutputPath(self._obj), 'RunStatus.dat')
+            runStatus = open(path, "w")
 
-        residuals = {}
+        # residuals = {}
         for angle in self._obj.AOAList:
             iterStart = time.time()
 
             self._failedIteration = False
             self._failedMessage = ''
-            if self._processing:
-                self.doCFD(angle)
+            if not TEST_REPORTS:
+                if self._processing:
+                    self.doCFD(angle)
 
-                residuals[str(angle)] = {}
-                residuals[str(angle)]["time"] = self._foamRunnable.time
-                residuals[str(angle)]["UxResiduals"] = self._foamRunnable.UxResiduals
-                residuals[str(angle)]["UyResiduals"] = self._foamRunnable.UyResiduals
-                residuals[str(angle)]["UzResiduals"] = self._foamRunnable.UzResiduals
-                residuals[str(angle)]["pResiduals"] = self._foamRunnable.pResiduals
-                residuals[str(angle)]["kResiduals"] = self._foamRunnable.kResiduals
-                residuals[str(angle)]["omegaResiduals"] = self._foamRunnable.omegaResiduals
-
-            if self._failedIteration:
-                status = "Failed"
-            elif not self._processing:
-                status = "skipped"
-            else:
-                status = "Success"
-            runStatus.write("{}\t{}\t{}\t{}\n".format(
-                str(angle),
-                CfdTools.formatTimer(time.time() - iterStart),
-                status,
-                self._failedMessage)
-            )
+            if not TEST_REPORTS:
+                if self._failedIteration:
+                    status = "Failed"
+                elif not self._processing:
+                    status = "skipped"
+                else:
+                    status = "Success"
+                runStatus.write("{}\t{}\t{}\t{}\n".format(
+                    str(angle),
+                    CfdTools.formatTimer(time.time() - iterStart),
+                    status,
+                    self._failedMessage)
+                )
 
         elapsed = CfdTools.formatTimer(time.time() - self._start)
         self.stopProcessing()
 
-        runStatus.write("Total\t{}\n".format(elapsed))
+        if not TEST_REPORTS:
+            runStatus.write("Total\t{}\n".format(elapsed))
+            runStatus.close()
 
-        runStatus.close()
-        self.createReport(residuals)
+        self.createReport()
 
-    def createReport(self, residuals):
+    def createReport(self):
         self.consoleMessage(translate('Rocket', 'Preparing report...'))
 
-        report = CFDReport(self._obj, residuals)
+        report = CFDReport(self._obj)
         report.generate()
         CfdTools.openFileManager(report.getPath())
 
@@ -304,7 +302,10 @@ class TaskPanelMultiCFD:
         FreeCAD.ActiveDocument.recompute()
 
     def setupCaseName(self, aoa):
-        meshCaseName = "meshCase_aoa_{}".format(aoa)
+        if self.form.checkReuseMeshFolder.isChecked():
+            meshCaseName = "meshCase"
+        else:
+            meshCaseName = "meshCase_aoa_{}".format(aoa)
         self._mesher.CaseName = meshCaseName
 
         caseName = "case_aoa_{}".format(aoa)

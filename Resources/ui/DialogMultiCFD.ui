@@ -38,6 +38,23 @@
          </property>
         </widget>
        </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="label_4">
+         <property name="text">
+          <string>Average Last N</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="Gui::IntSpinBox" name="spinLastN">
+         <property name="toolTip">
+          <string>Use average of last N values</string>
+         </property>
+         <property name="minimum">
+          <number>1</number>
+         </property>
+        </widget>
+       </item>
        <item row="0" column="1">
         <widget class="QPlainTextEdit" name="editAOA">
          <property name="sizePolicy">
@@ -54,20 +71,22 @@
          </property>
         </widget>
        </item>
-       <item row="1" column="0">
-        <widget class="QLabel" name="label_4">
-         <property name="text">
-          <string>Average Last N</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="1">
-        <widget class="Gui::IntSpinBox" name="spinLastN">
+       <item row="2" column="1">
+        <widget class="Gui::PrefCheckBox" name="checkReuseMeshFolder">
          <property name="toolTip">
-          <string>Use average of last N values</string>
+          <string>Use the same folder for each mesh. This can result in a substantial reduction of required disk space</string>
          </property>
-         <property name="minimum">
-          <number>1</number>
+         <property name="text">
+          <string>Reuse mesh folder</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+         <property name="prefEntry" stdset="0">
+          <cstring>User parameter:BaseApp/Preferences/Mod/Rocket/CFD</cstring>
+         </property>
+         <property name="prefPath" stdset="0">
+          <cstring>ReuseMeshFolder</cstring>
          </property>
         </widget>
        </item>
@@ -131,10 +150,16 @@
    <extends>QSpinBox</extends>
    <header>Gui/SpinBox.h</header>
   </customwidget>
+  <customwidget>
+   <class>Gui::PrefCheckBox</class>
+   <extends>QCheckBox</extends>
+   <header>Gui/PrefWidgets.h</header>
+  </customwidget>
  </customwidgets>
  <tabstops>
   <tabstop>editAOA</tabstop>
   <tabstop>spinLastN</tabstop>
+  <tabstop>checkReuseMeshFolder</tabstop>
   <tabstop>buttonStart</tabstop>
   <tabstop>buttonStop</tabstop>
   <tabstop>editStatus</tabstop>

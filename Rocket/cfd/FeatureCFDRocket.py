@@ -85,23 +85,20 @@ class FeatureCFDRocket:
         return calcFrontalArea(self._obj.Shape)
 
     def execute(self, obj):
-        # shape = WindTunnelShapeHandler(obj)
-        # if shape is not None:
-        #     shape.draw()
-        self.applyTranslations()
+        self.applyTranslations(obj)
 
-    def getCenter(self):
-        box = self._obj.Shape.BoundBox
+    def getCenter(self, obj):
+        box = obj.Shape.BoundBox
         center = box.XLength / 2.0
 
         return center
 
-    def applyTranslations(self):
-        center = self.getCenter()
+    def applyTranslations(self, obj):
+        center = self.getCenter(obj)
 
-        self._obj.Placement = FreeCAD.Placement()
-        if self._obj.AngleOfRotation != 0.0:
-            self._obj.Placement.rotate(FreeCAD.Vector(0, 0, 0),FreeCAD.Vector(1, 0, 0), self._obj.AngleOfRotation, comp=True)
-        if self._obj.AngleOfAttack != 0.0:
-            self._obj.Placement.rotate(FreeCAD.Vector(center, 0, 0),FreeCAD.Vector(0, 1, 0), self._obj.AngleOfAttack, comp=True)
-        self._obj.Placement.move(FreeCAD.Vector(-center, 0, 0))
+        obj.Placement = FreeCAD.Placement()
+        if obj.AngleOfRotation != 0.0:
+            obj.Placement.rotate(FreeCAD.Vector(0, 0, 0),FreeCAD.Vector(1, 0, 0), obj.AngleOfRotation, comp=True)
+        if obj.AngleOfAttack != 0.0:
+            obj.Placement.rotate(FreeCAD.Vector(center, 0, 0),FreeCAD.Vector(0, 1, 0), obj.AngleOfAttack, comp=True)
+        obj.Placement.move(FreeCAD.Vector(-center, 0, 0))
