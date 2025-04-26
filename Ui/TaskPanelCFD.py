@@ -43,7 +43,7 @@ from CfdOF.PostProcess import CfdReportingFunction
 from Analyzers.pyatmos import coesa76
 from Analyzers.pyatmos.utils.Const import gamma, R_air
 
-from Rocket.cfd.CFDUtil import caliber, finThickness, createSolid, makeCFDRocket, makeMultiCFDAnalysis, \
+from Rocket.cfd.CFDUtil import caliber, finThickness, createSolid, createSolids, makeCFDRocket, makeMultiCFDAnalysis, \
     makeWindTunnel, makeCfdMesh
 from Rocket.cfd.FeatureCFDRocket import calcFrontalArea
 
@@ -92,6 +92,9 @@ class TaskPanelCFD(QtCore.QObject):
     def initialize(self):
 
         self._solid = createSolid(self._rocket)
+        print("Creating solids")
+        self._solids = createSolids(self._rocket)
+        print("Done")
         self._frontalArea = calcFrontalArea(self._solid)
         diameter = caliber(self._rocket)
         thickness = finThickness(self._rocket)
@@ -203,6 +206,10 @@ class TaskPanelCFD(QtCore.QObject):
             FreeCADGui.Control.closeDialog()
 
     def makeSolid(self):
+        self._CFDcompound = FreeCAD.activeDocument().addObject("Part::Compound", "CFDCompund")
+        self._CFDcompound.Links = self._solids
+        self._CFDcompound.ViewObject.Transparency = 0
+
         self._CFDrocket = makeCFDRocket()
         self._CFDrocket._obj.Shape = self._solid # self.applyTranslations(self._solid)
 
@@ -280,7 +287,11 @@ class TaskPanelCFD(QtCore.QObject):
 
     def makeCompound(self):
         self._compound = FreeCAD.activeDocument().addObject("Part::Compound", "WindTunnelCompund")
-        self._compound.Links = [self._CFDrocket._obj, self._outer._obj]
+        self._compound.Links = [self._CFDcompound, self._outer._obj]
+        # self._compound.Links = [self._CFDrocket._obj, self._outer._obj]
+        # links = self._solids
+        # links.append(self._outer._obj)
+        # self._compound.Links = links
         self._compound.ViewObject.Transparency = 70
 
     def makeAnalysisContainer(self):

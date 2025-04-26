@@ -30,10 +30,12 @@ import Part
 from CfdOF.Mesh.CfdMesh import CfdMesh, ViewProviderCfdMesh
 
 from Rocket.cfd.FeatureCFDRocket import FeatureCFDRocket
+from Rocket.cfd.FeatureCFDRocketComponent import FeatureCFDRocketComponent
 from Rocket.cfd.FeatureMultiCFDAnalysis import FeatureMultiCFDAnalysis
 from Rocket.cfd.FeatureWindTunnel import FeatureWindTunnel
 # from Rocket.cfd.ViewProviders.ViewProviderCFDMesh import ViewProviderCFDMesh
 from Rocket.cfd.ViewProviders.ViewProviderCFDRocket import ViewProviderCFDRocket
+from Rocket.cfd.ViewProviders.ViewProviderCFDRocketComponent import ViewProviderCFDRocketComponent
 from Rocket.cfd.ViewProviders.ViewProviderMultiCFDAnalysis import ViewProviderMutliCFDAnalysis
 from Rocket.cfd.ViewProviders.ViewProviderWindTunnel import ViewProviderWindTunnel
 
@@ -61,6 +63,22 @@ def createSolid(obj):
                 shape = Part.makeCompound([shape, child])
 
     return shape
+
+def createSolids(obj):
+    ''' Generates a solid compound object '''
+    links = []
+    for current in getProxy(obj).getChildren():
+        if hasattr(current, "Shape"):
+            solid = getProxy(current).getSolidShape(current)
+            if solid is not None and solid.isValid():
+                component = makeCFDRocketComponent("CFD_" + current.Label)
+                component._obj.Shape = solid
+                links.append(component._obj)
+
+        child = createSolids(current)
+        links.extend(child)
+
+    return links
 
 def caliber(obj):
     ''' Get the caliber of the component '''
@@ -102,6 +120,18 @@ def makeCFDRocket(name='CFDRocket'):
     # obj.Proxy.setDefaults()
     if FreeCAD.GuiUp:
         ViewProviderCFDRocket(obj.ViewObject)
+        # obj.ViewObject.ShapeAppearance[0].Transparency = 0
+        obj.ViewObject.Transparency = 0
+
+    return obj.Proxy
+
+def makeCFDRocketComponent(name='CFDRocketComponent'):
+    '''makeCFDRocketComponent(name): makes a CFD Rocket component'''
+    obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
+    FeatureCFDRocketComponent(obj)
+    # obj.Proxy.setDefaults()
+    if FreeCAD.GuiUp:
+        ViewProviderCFDRocketComponent(obj.ViewObject)
         # obj.ViewObject.ShapeAppearance[0].Transparency = 0
         obj.ViewObject.Transparency = 0
 

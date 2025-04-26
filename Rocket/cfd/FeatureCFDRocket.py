@@ -63,7 +63,7 @@ class FeatureCFDRocket:
         obj.Proxy=self
 
         if not hasattr(obj,"Shape"):
-            obj.addProperty('Part::PropertyPartShape', 'Shape', 'RocketComponent', translate('App::Property', 'Shape of the wind tunnel'))
+            obj.addProperty('Part::PropertyPartShape', 'Shape', 'RocketComponent', translate('App::Property', 'Shape of the solid rocket'))
         if not hasattr(obj,"AngleOfAttack"):
             obj.addProperty('App::PropertyAngle', 'AngleOfAttack', 'RocketComponent', translate('App::Property', 'Angle of attack in degrees')).AngleOfAttack = 0.0
         if not hasattr(obj,"AngleOfRotation"):
