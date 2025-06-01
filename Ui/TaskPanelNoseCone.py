@@ -38,7 +38,8 @@ from Ui.TaskPanelDatabase import TaskPanelDatabase
 from Ui.Widgets.MaterialTab import MaterialTab
 from Ui.Widgets.CommentTab import CommentTab
 
-from Rocket.Constants import TYPE_CONE, TYPE_BLUNTED_CONE, TYPE_SPHERICAL, TYPE_ELLIPTICAL, TYPE_HAACK, TYPE_OGIVE, TYPE_BLUNTED_OGIVE, TYPE_SECANT_OGIVE, TYPE_VON_KARMAN, TYPE_PARABOLA, TYPE_PARABOLIC, TYPE_POWER
+from Rocket.Constants import TYPE_CONE, TYPE_BLUNTED_CONE, TYPE_SPHERICAL, TYPE_ELLIPTICAL, TYPE_HAACK, TYPE_OGIVE, \
+    TYPE_BLUNTED_OGIVE, TYPE_SECANT_OGIVE, TYPE_VON_KARMAN, TYPE_PARABOLA, TYPE_PARABOLIC, TYPE_POWER, TYPE_PROXY
 from Rocket.Constants import STYLE_CAPPED, STYLE_HOLLOW, STYLE_SOLID
 from Rocket.Constants import STYLE_CAP_SOLID, STYLE_CAP_BAR, STYLE_CAP_CROSS
 from Rocket.Constants import COMPONENT_TYPE_NOSECONE
@@ -90,6 +91,7 @@ class _NoseConeDialog(QDialog):
         self.noseConeTypesCombo.addItem(translate('Rocket', TYPE_POWER), TYPE_POWER)
         self.noseConeTypesCombo.addItem(translate('Rocket', TYPE_VON_KARMAN), TYPE_VON_KARMAN)
         self.noseConeTypesCombo.addItem(translate('Rocket', TYPE_HAACK), TYPE_HAACK)
+        self.noseConeTypesCombo.addItem(translate('Rocket', TYPE_PROXY), TYPE_PROXY)
 
         # Select the type of sketch
         self.noseStyleLabel = QtGui.QLabel(translate('Rocket', "Style"), self)
@@ -370,6 +372,31 @@ class TaskPanelNoseCone:
             # Object may be deleted
             pass
 
+    def _setProxyStateVisibility(self, visible):
+        self._noseForm.noseStyleLabel.setVisible(visible)
+        self._noseForm.noseStylesCombo.setVisible(visible)
+        self._noseForm.lengthLabel.setVisible(visible)
+        self._noseForm.lengthInput.setVisible(visible)
+        self._noseForm.diameterLabel.setVisible(visible)
+        self._noseForm.diameterInput.setVisible(visible)
+        self._noseForm.autoDiameterCheckbox.setVisible(visible)
+        self._noseForm.thicknessLabel.setVisible(visible)
+        self._noseForm.thicknessInput.setVisible(visible)
+        self._noseForm.coefficientLabel.setVisible(visible)
+        self._noseForm.coefficientInput.setVisible(visible)
+        self._noseForm.bluntedLabel.setVisible(visible)
+        self._noseForm.bluntedInput.setVisible(visible)
+        self._noseForm.ogiveDiameterLabel.setVisible(visible)
+        self._noseForm.ogiveDiameterInput.setVisible(visible)
+        self._noseForm.noseCapGroup.setVisible(visible)
+        self._noseForm.noseCapStyleLabel.setVisible(visible)
+        self._noseForm.noseCapStylesCombo.setVisible(visible)
+        self._noseForm.noseCapBarWidthLabel.setVisible(visible)
+        self._noseForm.noseCapBarWidthInput.setVisible(visible)
+
+    def _setProxyState(self):
+        self._setProxyStateVisibility(self._obj.NoseType != TYPE_PROXY)
+
     def _setCoeffientState(self):
         value = self._obj.NoseType
         if value == TYPE_HAACK or value == TYPE_PARABOLIC:
@@ -411,6 +438,7 @@ class TaskPanelNoseCone:
             self._noseForm.lengthInput.setEnabled(True)
 
     def _setTypeState(self):
+        self._setProxyState()
         self._setCoeffientState()
         self._setBluntState()
         self._setOgiveDiameterState()
