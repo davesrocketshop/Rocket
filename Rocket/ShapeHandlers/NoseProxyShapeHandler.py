@@ -48,10 +48,14 @@ class NoseProxyShapeHandler:
     def draw(self):
         # shape = None
 
-        if self._base is not None:
-            self._obj.Shape = self._base.Shape
-        else:
-            self._obj.Shape = None
+        try:
+            if self._base is not None:
+                self._obj.Shape = self._base.Shape
+            else:
+                self._obj.Shape = None
+        except TypeError as ex:
+            # This happens when the shape is set to None. Ignore
+            pass
         self._obj.Placement = self._placement
 
     def drawSolidShape(self):
