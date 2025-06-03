@@ -30,7 +30,7 @@ import FreeCADGui
 import Materials
 
 from PySide import QtGui, QtCore
-from PySide.QtWidgets import QDialog, QGridLayout, QVBoxLayout, QSizePolicy
+from PySide.QtWidgets import QDialog, QWidget, QGridLayout, QVBoxLayout, QStackedLayout, QSizePolicy
 
 from DraftTools import translate
 
@@ -74,6 +74,22 @@ class _NoseConeDialog(QDialog):
 
     def setTabGeneral(self):
         ui = FreeCADGui.UiLoader()
+
+        self._proxyLayout = QStackedLayout()
+        self._proxyLayout.addWidget(self.setStackNonProxy())
+        self._proxyLayout.addWidget(self.setStackProxy())
+
+        layout = QGridLayout()
+        row = 0
+
+        layout.addLayout(self._proxyLayout, row, 0)
+
+        self.tabGeneral.setLayout(layout)
+
+    def setStackNonProxy(self):
+        ui = FreeCADGui.UiLoader()
+
+        widget = QWidget()
 
         # Select the type of nose cone
         self.noseConeTypeLabel = QtGui.QLabel(translate('Rocket', "Nose Cone Shape"), self)
@@ -217,8 +233,19 @@ class _NoseConeDialog(QDialog):
         row += 1
 
         layout.addItem(QtGui.QSpacerItem(0,0, QSizePolicy.Expanding, QSizePolicy.Expanding), row, 0)
+        widget.setLayout(layout)
+        return widget
 
-        self.tabGeneral.setLayout(layout)
+    def setStackProxy(self):
+        ui = FreeCADGui.UiLoader()
+        widget = QWidget()
+
+        layout = QGridLayout()
+        row = 0
+
+        layout.addItem(QtGui.QSpacerItem(0,0, QSizePolicy.Expanding, QSizePolicy.Expanding), row, 0)
+        widget.setLayout(layout)
+        return widget
 
     def setTabShoulder(self):
         ui = FreeCADGui.UiLoader()
@@ -373,26 +400,31 @@ class TaskPanelNoseCone:
             pass
 
     def _setProxyStateVisibility(self, visible):
-        self._noseForm.noseStyleLabel.setVisible(visible)
-        self._noseForm.noseStylesCombo.setVisible(visible)
-        self._noseForm.lengthLabel.setVisible(visible)
-        self._noseForm.lengthInput.setVisible(visible)
-        self._noseForm.diameterLabel.setVisible(visible)
-        self._noseForm.diameterInput.setVisible(visible)
-        self._noseForm.autoDiameterCheckbox.setVisible(visible)
-        self._noseForm.thicknessLabel.setVisible(visible)
-        self._noseForm.thicknessInput.setVisible(visible)
-        self._noseForm.coefficientLabel.setVisible(visible)
-        self._noseForm.coefficientInput.setVisible(visible)
-        self._noseForm.bluntedLabel.setVisible(visible)
-        self._noseForm.bluntedInput.setVisible(visible)
-        self._noseForm.ogiveDiameterLabel.setVisible(visible)
-        self._noseForm.ogiveDiameterInput.setVisible(visible)
-        self._noseForm.noseCapGroup.setVisible(visible)
-        self._noseForm.noseCapStyleLabel.setVisible(visible)
-        self._noseForm.noseCapStylesCombo.setVisible(visible)
-        self._noseForm.noseCapBarWidthLabel.setVisible(visible)
-        self._noseForm.noseCapBarWidthInput.setVisible(visible)
+        if visible:
+            index = 0
+        else:
+            index = 1
+        self._noseForm._proxyLayout.setCurrentIndex(index)
+        # self._noseForm.noseStyleLabel.setVisible(visible)
+        # self._noseForm.noseStylesCombo.setVisible(visible)
+        # self._noseForm.lengthLabel.setVisible(visible)
+        # self._noseForm.lengthInput.setVisible(visible)
+        # self._noseForm.diameterLabel.setVisible(visible)
+        # self._noseForm.diameterInput.setVisible(visible)
+        # self._noseForm.autoDiameterCheckbox.setVisible(visible)
+        # self._noseForm.thicknessLabel.setVisible(visible)
+        # self._noseForm.thicknessInput.setVisible(visible)
+        # self._noseForm.coefficientLabel.setVisible(visible)
+        # self._noseForm.coefficientInput.setVisible(visible)
+        # self._noseForm.bluntedLabel.setVisible(visible)
+        # self._noseForm.bluntedInput.setVisible(visible)
+        # self._noseForm.ogiveDiameterLabel.setVisible(visible)
+        # self._noseForm.ogiveDiameterInput.setVisible(visible)
+        # self._noseForm.noseCapGroup.setVisible(visible)
+        # self._noseForm.noseCapStyleLabel.setVisible(visible)
+        # self._noseForm.noseCapStylesCombo.setVisible(visible)
+        # self._noseForm.noseCapBarWidthLabel.setVisible(visible)
+        # self._noseForm.noseCapBarWidthInput.setVisible(visible)
 
     def _setProxyState(self):
         self._setProxyStateVisibility(self._obj.NoseType != TYPE_PROXY)
