@@ -39,7 +39,8 @@ from Ui.Widgets.MaterialTab import MaterialTab
 from Ui.Widgets.CommentTab import CommentTab
 
 from Rocket.Constants import TYPE_CONE, TYPE_BLUNTED_CONE, TYPE_SPHERICAL, TYPE_ELLIPTICAL, TYPE_HAACK, TYPE_OGIVE, \
-    TYPE_BLUNTED_OGIVE, TYPE_SECANT_OGIVE, TYPE_VON_KARMAN, TYPE_PARABOLA, TYPE_PARABOLIC, TYPE_POWER, TYPE_PROXY
+    TYPE_BLUNTED_OGIVE, TYPE_SECANT_OGIVE, TYPE_VON_KARMAN, TYPE_PARABOLA, TYPE_PARABOLIC, TYPE_POWER, TYPE_NIKE_SMOKE, \
+    TYPE_PROXY
 from Rocket.Constants import STYLE_CAPPED, STYLE_HOLLOW, STYLE_SOLID
 from Rocket.Constants import STYLE_CAP_SOLID, STYLE_CAP_BAR, STYLE_CAP_CROSS
 from Rocket.Constants import COMPONENT_TYPE_NOSECONE
@@ -91,6 +92,7 @@ class _NoseConeDialog(QDialog):
         self.noseConeTypesCombo.addItem(translate('Rocket', TYPE_POWER), TYPE_POWER)
         self.noseConeTypesCombo.addItem(translate('Rocket', TYPE_VON_KARMAN), TYPE_VON_KARMAN)
         self.noseConeTypesCombo.addItem(translate('Rocket', TYPE_HAACK), TYPE_HAACK)
+        self.noseConeTypesCombo.addItem(translate('Rocket', TYPE_NIKE_SMOKE), TYPE_NIKE_SMOKE)
         self.noseConeTypesCombo.addItem(translate('Rocket', TYPE_PROXY), TYPE_PROXY)
 
         # Select the type of sketch
@@ -372,6 +374,10 @@ class TaskPanelNoseCone:
             # Object may be deleted
             pass
 
+    def _NikeScale(self):
+        # Set the scale based on the body diameter being 16.5 inches on the original
+        return (16.5 * 25.4) / float(self._obj.Diameter)
+
     def _setProxyStateVisibility(self, visible):
         self._noseForm.noseStyleLabel.setVisible(visible)
         self._noseForm.noseStylesCombo.setVisible(visible)
@@ -432,6 +438,11 @@ class TaskPanelNoseCone:
         value = self._obj.NoseType
         if value == TYPE_SPHERICAL:
             self._obj.Proxy.setLength(float(self._obj.Diameter) / 2.0)
+            self._noseForm.lengthInput.setText("%f" % self._obj.Length)
+            self._noseForm.lengthInput.setEnabled(False)
+        elif value == TYPE_NIKE_SMOKE:
+            length = (101.83 + 0.75 + 4.05) / self._NikeScale() * 25.4
+            self._obj.Proxy.setLength(length)
             self._noseForm.lengthInput.setText("%f" % self._obj.Length)
             self._noseForm.lengthInput.setEnabled(False)
         else:

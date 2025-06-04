@@ -36,11 +36,12 @@ from Rocket.ShapeHandlers.NoseBluntedOgiveShapeHandler import NoseBluntedOgiveSh
 from Rocket.ShapeHandlers.NoseSecantOgiveShapeHandler import NoseSecantOgiveShapeHandler
 from Rocket.ShapeHandlers.NoseParabolicShapeHandler import NoseParabolicShapeHandler
 from Rocket.ShapeHandlers.NosePowerShapeHandler import NosePowerShapeHandler
+from Rocket.ShapeHandlers.NoseNikeSmokeShapeHandler import NoseNikeSmokeShapeHandler
 from Rocket.ShapeHandlers.NoseProxyShapeHandler import NoseProxyShapeHandler
 
 from Rocket.Constants import TYPE_CONE, TYPE_BLUNTED_CONE, TYPE_SPHERICAL, TYPE_ELLIPTICAL, \
     TYPE_HAACK, TYPE_OGIVE, TYPE_BLUNTED_OGIVE, TYPE_SECANT_OGIVE, TYPE_VON_KARMAN, TYPE_PARABOLA, \
-    TYPE_PARABOLIC, TYPE_POWER, TYPE_PROXY
+    TYPE_PARABOLIC, TYPE_POWER, TYPE_NIKE_SMOKE, TYPE_PROXY
 from Rocket.Constants import STYLE_CAPPED, STYLE_HOLLOW, STYLE_SOLID
 from Rocket.Constants import STYLE_CAP_SOLID, STYLE_CAP_BAR, STYLE_CAP_CROSS
 from Rocket.Constants import FEATURE_INNER_TUBE
@@ -97,6 +98,7 @@ class FeatureNoseCone(SymmetricComponent):
                         TYPE_PARABOLIC,
                         TYPE_POWER,
                         TYPE_HAACK,
+                        TYPE_NIKE_SMOKE,
                         TYPE_PROXY]
             obj.NoseType = TYPE_OGIVE
         else:
@@ -112,6 +114,7 @@ class FeatureNoseCone(SymmetricComponent):
                         TYPE_PARABOLIC,
                         TYPE_POWER,
                         TYPE_HAACK,
+                        TYPE_NIKE_SMOKE,
                         TYPE_PROXY]
 
         if not hasattr(obj, 'NoseStyle'):
@@ -407,6 +410,8 @@ class FeatureNoseCone(SymmetricComponent):
             self._shapeHandler = NosePowerShapeHandler(obj)
         elif obj.NoseType == TYPE_POWER:
             self._shapeHandler = NosePowerShapeHandler(obj)
+        elif obj.NoseType == TYPE_NIKE_SMOKE:
+            self._shapeHandler = NoseNikeSmokeShapeHandler(obj)
         elif obj.NoseType == TYPE_PROXY:
             self._shapeHandler = NoseProxyShapeHandler(obj)
 

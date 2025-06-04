@@ -78,6 +78,7 @@ TYPE_VON_KARMAN = "Von Karman"
 TYPE_PARABOLIC = "parabolic series"
 TYPE_POWER = "power series"
 TYPE_HAACK = "Haack series"
+TYPE_NIKE_SMOKE = "Nike Smoke"
 TYPE_PROXY = "proxy"
 
 # Fin types
