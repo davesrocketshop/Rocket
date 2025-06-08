@@ -140,7 +140,7 @@ class FeatureNoseCone(SymmetricComponent):
                                 STYLE_CAP_CROSS]
 
         if not hasattr(obj, 'Base'):
-            obj.addProperty('App::PropertyXLink', 'Base', 'RocketComponent', translate('App::Property', 'The base object used to define the nose cone shape'))
+            obj.addProperty('App::PropertyLink', 'Base', 'RocketComponent', translate('App::Property', 'The base object used to define the nose cone shape'))
 
     def setDefaults(self):
         super().setDefaults()

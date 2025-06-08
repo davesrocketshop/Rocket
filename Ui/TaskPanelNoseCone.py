@@ -30,7 +30,7 @@ import FreeCADGui
 import Materials
 
 from PySide import QtGui, QtCore
-from PySide.QtWidgets import QDialog, QWidget, QGridLayout, QVBoxLayout, QStackedLayout, QSizePolicy
+from PySide.QtWidgets import QDialog, QWidget, QGridLayout, QHBoxLayout, QVBoxLayout, QStackedLayout, QSizePolicy
 
 from DraftTools import translate
 
@@ -74,11 +74,10 @@ class _NoseConeDialog(QDialog):
         self.setTabShoulder()
 
     def setTabGeneral(self):
-        ui = FreeCADGui.UiLoader()
-
         self._proxyLayout = QStackedLayout()
         self._proxyLayout.addWidget(self.setStackNonProxy())
         self._proxyLayout.addWidget(self.setStackProxy())
+        self._proxyLayout.setCurrentIndex(0)
 
         layout = QGridLayout()
         row = 0
@@ -262,10 +261,13 @@ class _NoseConeDialog(QDialog):
 
         self.proxyBaseObjectLabel = QtGui.QLabel(translate('Rocket', "Base Object"), self)
 
-        self.proxyBaseObjectInput = ui.createWidget("Gui::InputField")
+        self.proxyBaseObjectInput = QtGui.QLabel(self)
         self.proxyBaseObjectInput.setMinimumWidth(80)
+        self.proxyBaseObjectInput.setAutoFillBackground(True)
 
-        self.proxyBaseObjectButton = QtGui.QPushButton("...", self)
+        self.proxyBaseObjectLabelSelect = QtGui.QLabel("", self)
+
+        self.proxyBaseObjectButton = QtGui.QPushButton(translate('Rocket', 'Select'), self)
         self.proxyBaseObjectButton.setSizePolicy(QSizePolicy.Minimum, QSizePolicy.Preferred)
 
         self.proxyEffectiveDiamaterLabel = QtGui.QLabel(translate('Rocket', "Effective diameter"), self)
@@ -311,7 +313,7 @@ class _NoseConeDialog(QDialog):
         self.proxyScalePercentInput = ui.createWidget("Gui::InputField")
         self.proxyScalePercentInput.unit = 'deg'
         self.proxyScalePercentInput.setMinimumWidth(20)
-        
+
         self.proxyScaleDiameterRadio = QtGui.QRadioButton (translate('Rocket', "By body diamter"), self.proxyScalingGroup)
         self.proxyScaleDiameterRadio.setChecked(False)
 
@@ -366,22 +368,28 @@ class _NoseConeDialog(QDialog):
         layout.addWidget(self.noseConeProxyTypesCombo, row, 1)
         row += 1
 
+        hbox = QHBoxLayout()
+        hbox.addWidget(self.proxyBaseObjectInput)
+        hbox.addWidget(self.proxyBaseObjectButton)
+
         layout.addWidget(self.proxyBaseObjectLabel, row, 0)
-        layout.addWidget(self.proxyBaseObjectInput, row, 1)
-        layout.addWidget(self.proxyBaseObjectButton, row, 2)
+        layout.addLayout(hbox, row, 1)
+        row += 1
+
+        layout.addWidget(self.proxyBaseObjectLabelSelect, row, 1)
         row += 1
 
         layout.addWidget(self.proxyEffectiveDiamaterLabel, row, 0)
         layout.addWidget(self.proxyEffectiveDiameterInput, row, 1)
         row += 1
 
-        layout.addWidget(self.proxyPlacementGroup, row, 0, 1, 3)
+        layout.addWidget(self.proxyPlacementGroup, row, 0, 1, 2)
         row += 1
 
-        layout.addWidget(self.proxyScalingGroup, row, 0, 1, 3)
+        layout.addWidget(self.proxyScalingGroup, row, 0, 1, 2)
         row += 1
 
-        layout.addWidget(self.proxyShowBasePlaneCheckbox, row, 0, 1, 3)
+        layout.addWidget(self.proxyShowBasePlaneCheckbox, row, 0, 1, 2)
         row += 1
 
         layout.addItem(QtGui.QSpacerItem(0,0, QSizePolicy.Expanding, QSizePolicy.Expanding), row, 0)
@@ -480,6 +488,8 @@ class TaskPanelNoseCone:
         self._noseForm.shoulderLengthInput.textEdited.connect(self.onShoulderLength)
         self._noseForm.shoulderThicknessInput.textEdited.connect(self.onShoulderThickness)
 
+        self._noseForm.proxyBaseObjectButton.clicked.connect(self.onSelect)
+
         self._db.dbLoad.connect(self.onLookup)
 
         self.update()
@@ -497,6 +507,7 @@ class TaskPanelNoseCone:
         self._obj.NoseStyle = str(self._noseForm.noseStylesCombo.currentData())
         self._obj.CapStyle = str(self._noseForm.noseCapStylesCombo.currentData())
         self._obj.CapBarWidth = self._noseForm.noseCapBarWidthInput.text()
+        # self._noseForm.proxyBaseObjectInput.setText(object)
         self._obj.Proxy.setLength(FreeCAD.Units.Quantity(self._noseForm.lengthInput.text()).Value)
         self._obj.Proxy.setAftDiameter(FreeCAD.Units.Quantity(self._noseForm.diameterInput.text()).Value)
         self._obj.Proxy.setAftDiameterAutomatic(self._noseForm.autoDiameterCheckbox.isChecked())
@@ -520,6 +531,10 @@ class TaskPanelNoseCone:
         self._noseForm.noseStylesCombo.setCurrentIndex(self._noseForm.noseStylesCombo.findData(self._obj.NoseStyle))
         self._noseForm.noseCapStylesCombo.setCurrentIndex(self._noseForm.noseCapStylesCombo.findData(self._obj.CapStyle))
         self._noseForm.noseCapBarWidthInput.setText(self._obj.CapBarWidth.UserString)
+        if self._obj.Base is not None:
+            self._noseForm.proxyBaseObjectInput.setText(self._obj.Base.Label)
+        else:
+            self._noseForm.proxyBaseObjectInput.setText("")
         self._noseForm.lengthInput.setText(self._obj.Length.UserString)
         self._noseForm.diameterInput.setText(self._obj.Diameter.UserString)
         self._noseForm.autoDiameterCheckbox.setChecked(self._obj.AutoDiameter)
@@ -668,6 +683,7 @@ class TaskPanelNoseCone:
         self._setCapStyleState()
 
         self._obj.Proxy.execute(self._obj)
+        self.setEdited()
 
     def onBarWidthChanged(self, value):
         try:
@@ -675,6 +691,7 @@ class TaskPanelNoseCone:
             self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
+        self.setEdited()
 
     def onLength(self, value):
         try:
@@ -682,13 +699,7 @@ class TaskPanelNoseCone:
             self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
-
-    def onBlunted(self, value):
-        try:
-            self._obj.BluntedDiameter = FreeCAD.Units.Quantity(value).Value
-            self._obj.Proxy.execute(self._obj)
-        except ValueError:
-            pass
+        self.setEdited()
 
     def onDiameter(self, value):
         try:
@@ -841,6 +852,43 @@ class TaskPanelNoseCone:
         self.update()
         self._obj.Proxy.execute(self._obj)
         self.setEdited()
+
+    def onSelect(self):
+        # FreeCADGui.Control.closeDialog()
+        # FreeCADGui.Control.showDialog(TaskPanelSelection())
+        FreeCAD.RocketObserver = self
+        FreeCADGui.Selection.addObserver(FreeCAD.RocketObserver)
+
+        self._noseForm.proxyBaseObjectLabelSelect.setText(translate('Rocket', 'Select an object'))
+
+    def addSelection(self,document, object, element, position):
+        """Method called when a selection is made on the Gui.
+
+        Parameters
+        ----------
+        document: str
+            The document's Name.
+        object: str
+            The selected object's Name.
+        element: str
+            The element on the object that was selected, such as an edge or
+            face.
+        position:
+            The location in XYZ space the selection was made.
+        """
+
+        FreeCADGui.Selection.removeObserver(FreeCAD.RocketObserver)
+
+        try:
+            obj = FreeCAD.getDocument(document).getObject(object)
+            self._obj.Base = obj
+            self._noseForm.proxyBaseObjectInput.setText(obj.Label)
+            self._obj.Proxy.execute(self._obj)
+        except ValueError:
+            pass
+
+        self._noseForm.proxyBaseObjectLabelSelect.setText("")
+        del FreeCAD.RocketObserver
 
     def getStandardButtons(self):
         return QtGui.QDialogButtonBox.Ok | QtGui.QDialogButtonBox.Cancel | QtGui.QDialogButtonBox.Apply
