@@ -29,9 +29,13 @@ import FreeCADGui
 
 from DraftTools import translate
 
-from Ui.DialogScaling import DialogScaling
+from Ui.DialogScaling import DialogScaling, DialogScalingPairs
 
 def scalingPairs():
+    form = DialogScalingPairs()
+    form.exec_()
+
+def scalingTubes():
     form = DialogScaling()
     form.exec_()
 
@@ -52,7 +56,7 @@ class CmdScalingPairs:
 class CmdScalingTubes:
     def Activated(self):
         FreeCADGui.addModule("Ui.Commands.CmdScaling")
-        FreeCADGui.doCommand("Ui.Commands.CmdScaling.scalingPairs()")
+        FreeCADGui.doCommand("Ui.Commands.CmdScaling.scalingTubes()")
 
     def IsActive(self):
         # Always available, even without active document

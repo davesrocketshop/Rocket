@@ -51,6 +51,133 @@ class DialogScaling(QtCore.QObject):
     def worker(self):
         connection = self.initDB()
         ref1 = FreeCAD.Units.Quantity(self.form.inputReference1.text()).Value
+        scale = FreeCAD.Units.Quantity(self.form.spinScale.text()).Value
+        tolerance = self.form.spinTolerance.value()
+
+        if ref1 > 0 and scale > 0 and tolerance > 0:
+            target = ref1 / scale
+            min_diameter = target - (target * (tolerance / 100.0))
+            max_diameter = target + (target * (tolerance / 100.0))
+            scaled = searchBodyTube(connection, min_diameter, max_diameter, COMPONENT_TYPE_BODYTUBE)
+
+            steps = len(scaled)
+            step = 1
+            if len(scaled) > 0:
+                for tube in scaled:
+                    error = (float(tube['outer_diameter']) - target) * 100.0 / target
+                    newScale = ref1 / _valueOnly(tube['outer_diameter'], tube["outer_diameter_units"])
+                    self.progressUpdate.emit(([
+                            self._newItem(str(tube["manufacturer"])),
+                            self._newItem(str(tube["part_number"])),
+                            self._newItem(str(tube["description"])),
+                            self._itemWithDimension(tube["outer_diameter"], tube["outer_diameter_units"]),
+                            self._newItem(f"1:{newScale:.2f}"),
+                            self._newItem(f"{error:.2f}")
+                        ], int(step * 100.0 /steps)))
+                    step = step + 1
+            else:
+                self.progressUpdate.emit((None, 100))
+
+        self.threadComplete.emit(None)
+
+    def __init__(self):
+        super().__init__()
+
+        self._model = QStandardItemModel()
+
+        self.initUI()
+        # self.initDB()
+
+    def initDB(self):
+        connection = sqlite3.connect("file:" + FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/parts/Parts.db?mode=ro", uri=True)
+        connection.row_factory = sqlite3.Row
+
+        return connection
+
+    def initUI(self):
+
+        self.form = FreeCADGui.PySideUic.loadUi(os.path.join(getUIPath(), 'Resources', 'ui', "DialogBodyScale.ui"))
+
+        self.form.tableResults.setModel(self._model)
+        self.form.progressBar.setHidden(True)
+
+        self.customizeUI()
+
+        self.progressUpdate.connect(self.onProgress)
+        self.threadComplete.connect(self.onThreadComplete)
+
+        self.form.buttonSearch.clicked.connect(self.onSearch)
+        self.form.buttonCSV.clicked.connect(self.onExportCSV)
+
+        # Not enabled until we have some search results
+        self.form.buttonCSV.setEnabled(False)
+
+    def customizeUI(self):
+        self.form.setWindowTitle(translate('Rocket', "Body Scaler"))
+        self.form.labelReference1.setText(translate('Rocket', "Reference Diameter"))
+        self.form.labelReference2.setHidden(True)
+        self.form.inputReference2.setHidden(True)
+
+    def _newItem(self, text):
+        item = QStandardItem(text)
+        item.setEditable(False)
+        return item
+
+    def _itemWithDimension(self, value, dim):
+        return self._newItem(_valueWithUnits(value, dim))
+
+    def enableButtons(self, enabled):
+        self.form.buttonSearch.setEnabled(enabled)
+        self.form.buttonCSV.setEnabled(enabled)
+
+    def onSearch(self, checked):
+        self.enableButtons(False)
+
+        # Do search
+        self._model.clear()
+        self.setColumnHeaders()
+
+        self.form.progressBar.setHidden(False)
+        self.form.progressBar.setValue(0)
+
+        thread = threading.Thread(target=self.worker)
+        thread.start()
+
+    def setColumnHeaders(self):
+        # Add the column headers
+        headers = [
+            translate('Rocket', "Manufacturer"),
+            translate('Rocket', "Part Number"),
+            translate('Rocket', "Description"),
+            translate('Rocket', "Outer Diameter"),
+            translate('Rocket', "Scale"),
+            translate('Rocket', "Error (%)")
+        ]
+        self._model.setHorizontalHeaderLabels(headers)
+
+    def onThreadComplete(self, value):
+        self.form.progressBar.setHidden(True)
+        self.enableButtons(True)
+
+    def onExportCSV(self, checked):
+        pass
+
+    def onProgress(self, progress):
+        items = progress[0]
+        value = progress[1]
+        if items is not None:
+            self._model.appendRow(items)
+        self.form.progressBar.setValue(value)
+        # print(f'setValue({value})')
+
+    def exec_(self):
+        self.form.exec_()
+
+class DialogScalingPairs(DialogScaling):
+
+    def worker(self):
+        connection = self.initDB()
+        ref1 = FreeCAD.Units.Quantity(self.form.inputReference1.text()).Value
         ref2 = FreeCAD.Units.Quantity(self.form.inputReference2.text()).Value
         tolerance = self.form.spinTolerance.value()
 
@@ -98,132 +225,22 @@ class DialogScaling(QtCore.QObject):
     def __init__(self):
         super().__init__()
 
-        self._model = QStandardItemModel()
+    def customizeUI(self):
+        self.form.labelScale.setHidden(True)
+        self.form.spinScale.setHidden(True)
 
-        self.initUI()
-        # self.initDB()
-
-    def initDB(self):
-        connection = sqlite3.connect("file:" + FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/parts/Parts.db?mode=ro", uri=True)
-        connection.row_factory = sqlite3.Row
-
-        return connection
-
-    def initUI(self):
-
-        self.form = FreeCADGui.PySideUic.loadUi(os.path.join(getUIPath(), 'Resources', 'ui', "DialogBodyScale.ui"))
-
-        self.form.tableResults.setModel(self._model)
-        self.form.progressBar.setHidden(True)
-
-        self.progressUpdate.connect(self.onProgress)
-        self.threadComplete.connect(self.onThreadComplete)
-
-        self.form.buttonSearch.clicked.connect(self.onSearch)
-        self.form.buttonCSV.clicked.connect(self.onExportCSV)
-
-        # Not enabled until we have some search results
-        self.form.buttonCSV.setEnabled(False)
-
-    def _newItem(self, text):
-        item = QStandardItem(text)
-        item.setEditable(False)
-        return item
-
-    def _itemWithDimension(self, value, dim):
-        return self._newItem(_valueWithUnits(value, dim))
-
-    def enableButtons(self, enabled):
-        self.form.buttonSearch.setEnabled(enabled)
-        self.form.buttonCSV.setEnabled(enabled)
-
-    def _searchRelative(self):
-        connection = self.initDB()
-        ref1 = FreeCAD.Units.Quantity(self.form.inputReference1.text()).Value
-        ref2 = FreeCAD.Units.Quantity(self.form.inputReference2.text()).Value
-        tolerance = self.form.spinTolerance.value()
-
-        if ref1 > 0 and ref2 > 0 and tolerance > 0:
-            if ref1 > ref2:
-                temp = ref1
-                ref1 = ref2
-                ref2 = temp
-
-            scale = ref2 / ref1
-            tubes = listBodyTubes(connection, COMPONENT_TYPE_BODYTUBE, orderByOD=True)
-            self.form.progressBar.setHidden(False)
-            self.form.progressBar.setMaximum(len(tubes))
-
-            step = 0
-            for tube in tubes:
-                od = float(tube["outer_diameter"])
-                target = od * scale
-                min_diameter = target - (target * (tolerance / 100.0))
-                max_diameter = target + (target * (tolerance / 100.0))
-                # print(f"Tube {tube['part_number']} min {min_diameter} max {max_diameter}")
-                scaled = searchBodyTube(connection, min_diameter, max_diameter, COMPONENT_TYPE_BODYTUBE)
-                if len(scaled) > 0:
-                    for tube2 in scaled:
-                        error = (float(tube2['outer_diameter']) - target) * 100.0 / target
-                        newScale = ref1 / _valueOnly(tube['outer_diameter'], tube["outer_diameter_units"])
-                        # print(f"\tTube {tube2['part_number']} error {error:.2f}")
-                        self._model.appendRow([
-                            self._newItem(str(tube["manufacturer"])),
-                            self._newItem(str(tube["part_number"])),
-                            self._newItem(str(tube["description"])),
-                            self._itemWithDimension(tube["outer_diameter"], tube["outer_diameter_units"]),
-                            self._newItem(str(tube2["manufacturer"])),
-                            self._newItem(str(tube2["part_number"])),
-                            self._newItem(str(tube2["description"])),
-                            self._itemWithDimension(tube2["outer_diameter"], tube2["outer_diameter_units"]),
-                            self._newItem(f"1:{newScale:.2f}"),
-                            self._newItem(f"{error:.2f}")
-                        ])
-                step = step + 1
-                self.form.progressBar.setValue(step)
-            self.form.progressBar.setHidden(True)
-
-    def onSearch(self, checked):
-        self.enableButtons(False)
-
-        # Do search
-        self._model.clear()
-
+    def setColumnHeaders(self):
         # Add the column headers
-        self._model.setHorizontalHeaderItem(0, self._newItem(translate('Rocket', "Manufacturer")))
-        self._model.setHorizontalHeaderItem(1, self._newItem(translate('Rocket', "Part Number")))
-        self._model.setHorizontalHeaderItem(2, self._newItem(translate('Rocket', "Description")))
-        self._model.setHorizontalHeaderItem(3, self._newItem(translate('Rocket', "Outer Diameter")))
-        self._model.setHorizontalHeaderItem(4, self._newItem(translate('Rocket', "Manufacturer")))
-        self._model.setHorizontalHeaderItem(5, self._newItem(translate('Rocket', "Part Number")))
-        self._model.setHorizontalHeaderItem(6, self._newItem(translate('Rocket', "Description")))
-        self._model.setHorizontalHeaderItem(7, self._newItem(translate('Rocket', "Outer Diameter")))
-        self._model.setHorizontalHeaderItem(8, self._newItem(translate('Rocket', "Scale")))
-        self._model.setHorizontalHeaderItem(9, self._newItem(translate('Rocket', "Error (%)")))
-
-        self.form.progressBar.setHidden(False)
-        self.form.progressBar.setValue(0)
-
-        thread = threading.Thread(target=self.worker)
-        thread.start()
-        # self._searchRelative()
-
-        # thread.join()
-
-    def onThreadComplete(self, value):
-        self.form.progressBar.setHidden(True)
-        self.enableButtons(True)
-
-    def onExportCSV(self, checked):
-        pass
-
-    def onProgress(self, progress):
-        items = progress[0]
-        value = progress[1]
-        if items is not None:
-            self._model.appendRow(items)
-        self.form.progressBar.setValue(value)
-        # print(f'setValue({value})')
-
-    def exec_(self):
-        self.form.exec_()
+        headers = [
+            translate('Rocket', "Manufacturer"),
+            translate('Rocket', "Part Number"),
+            translate('Rocket', "Description"),
+            translate('Rocket', "Outer Diameter"),
+            translate('Rocket', "Manufacturer"),
+            translate('Rocket', "Part Number"),
+            translate('Rocket', "Description"),
+            translate('Rocket', "Outer Diameter"),
+            translate('Rocket', "Scale"),
+            translate('Rocket', "Error (%)")
+        ]
+        self._model.setHorizontalHeaderLabels(headers)
