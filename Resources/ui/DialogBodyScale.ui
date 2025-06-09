@@ -14,10 +14,16 @@
    <string>Body Scale Pair Matching</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="1" column="0">
-    <widget class="QLabel" name="label_2">
+   <item row="4" column="0" colspan="3">
+    <widget class="QTableView" name="tableResults"/>
+   </item>
+   <item row="0" column="2">
+    <widget class="QPushButton" name="buttonSearch">
+     <property name="toolTip">
+      <string>Search for body tube pairs</string>
+     </property>
      <property name="text">
-      <string>Reference Diameter 2</string>
+      <string>Search</string>
      </property>
     </widget>
    </item>
@@ -25,19 +31,6 @@
     <widget class="QLabel" name="label">
      <property name="text">
       <string>Reference Diameter 1</string>
-     </property>
-    </widget>
-   </item>
-   <item row="4" column="0" colspan="3">
-    <widget class="QTableView" name="tableResults"/>
-   </item>
-   <item row="1" column="1">
-    <widget class="Gui::InputField" name="inputReference2">
-     <property name="toolTip">
-      <string>Scale reference diameter</string>
-     </property>
-     <property name="unit" stdset="0">
-      <string notr="true"/>
      </property>
     </widget>
    </item>
@@ -54,13 +47,20 @@
      </property>
     </widget>
    </item>
-   <item row="5" column="2">
-    <widget class="QPushButton" name="buttonCSV">
-     <property name="toolTip">
-      <string>Export results to CSV</string>
+   <item row="3" column="0" colspan="3">
+    <widget class="QProgressBar" name="progressBar">
+     <property name="value">
+      <number>0</number>
      </property>
-     <property name="text">
-      <string>Export CSV</string>
+    </widget>
+   </item>
+   <item row="1" column="1">
+    <widget class="Gui::InputField" name="inputReference2">
+     <property name="toolTip">
+      <string>Scale reference diameter</string>
+     </property>
+     <property name="unit" stdset="0">
+      <string notr="true">mm</string>
      </property>
     </widget>
    </item>
@@ -71,30 +71,6 @@
      </property>
     </widget>
    </item>
-   <item row="0" column="1">
-    <widget class="Gui::InputField" name="inputReference1">
-     <property name="toolTip">
-      <string>Scale reference diameter</string>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="2">
-    <widget class="QPushButton" name="buttonSearch">
-     <property name="toolTip">
-      <string>Search for body tube pairs</string>
-     </property>
-     <property name="text">
-      <string>Search</string>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="0" colspan="3">
-    <widget class="QProgressBar" name="progressBar">
-     <property name="value">
-      <number>0</number>
-     </property>
-    </widget>
-   </item>
    <item row="2" column="1">
     <widget class="Gui::DoubleSpinBox" name="spinTolerance">
      <property name="toolTip">
@@ -102,6 +78,33 @@
      </property>
      <property name="value">
       <double>5.000000000000000</double>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="2">
+    <widget class="QPushButton" name="buttonCSV">
+     <property name="toolTip">
+      <string>Export results to CSV</string>
+     </property>
+     <property name="text">
+      <string>Export CSV</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="1">
+    <widget class="Gui::InputField" name="inputReference1">
+     <property name="toolTip">
+      <string>Scale reference diameter</string>
+     </property>
+     <property name="unit" stdset="0">
+      <string notr="true">mm</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="0">
+    <widget class="QLabel" name="label_2">
+     <property name="text">
+      <string>Reference Diameter 2</string>
      </property>
     </widget>
    </item>
