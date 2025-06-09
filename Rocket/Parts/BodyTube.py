@@ -90,20 +90,24 @@ def getTubeType(connection, tubeType):
 
     return rows[0]['tube_type_index']
 
-def listBodyTubes(connection, tubeType=None):
+def listBodyTubes(connection, tubeType=None, orderByOD=False):
     cursor = connection.cursor()
+
+    orderBy = ""
+    if orderByOD:
+        orderBy = " ORDER BY b.outer_diameter"
 
     if tubeType is None or tubeType == COMPONENT_TYPE_ANY:
         cursor.execute("""SELECT body_tube_index, type, manufacturer, part_number, description, inner_diameter, inner_diameter_units,
                             outer_diameter, outer_diameter_units, length, length_units
                         FROM component c, body_tube b, tube_type t
                         WHERE b.component_index = c.component_index AND b.tube_type_index = t.tube_type_index
-                            AND NOT t.type = 'Centering Ring' AND NOT t.type = 'Bulkhead'""")
+                            AND NOT t.type = 'Centering Ring' AND NOT t.type = 'Bulkhead'""" + orderBy)
     else:
         cursor.execute("""SELECT body_tube_index, type, manufacturer, part_number, description, inner_diameter, inner_diameter_units,
                             outer_diameter, outer_diameter_units, length, length_units
                         FROM component c, body_tube b, tube_type t
-                        WHERE b.component_index = c.component_index AND b.tube_type_index = t.tube_type_index AND t.type = :type""", {
+                        WHERE b.component_index = c.component_index AND b.tube_type_index = t.tube_type_index AND t.type = :type""" + orderBy, {
                             "type" : tubeType
                         })
 
@@ -127,3 +131,32 @@ def getBodyTube(connection, index):
         raise MultipleEntryError()
 
     return rows[0]
+
+def searchBodyTube(connection, minDiameter, maxDiameter, tubeType=None):
+    cursor = connection.cursor()
+
+    if tubeType is None or tubeType == COMPONENT_TYPE_ANY:
+        cursor.execute("""SELECT body_tube_index, type, manufacturer, part_number, description, inner_diameter, inner_diameter_units,
+                            outer_diameter, outer_diameter_units, length, length_units
+                        FROM component c, body_tube b, tube_type t
+                        WHERE b.component_index = c.component_index AND b.tube_type_index = t.tube_type_index
+                            AND NOT t.type = 'Centering Ring' AND NOT t.type = 'Bulkhead'
+                            AND b.outer_diameter > :min_diameter AND b.outer_diameter < :max_diameter
+                            ORDER BY b.outer_diameter""", {
+                                "min_diameter" : minDiameter,
+                                "max_diameter" : maxDiameter
+                            })
+    else:
+        cursor.execute("""SELECT body_tube_index, type, manufacturer, part_number, description, inner_diameter, inner_diameter_units,
+                            outer_diameter, outer_diameter_units, length, length_units
+                        FROM component c, body_tube b, tube_type t
+                        WHERE b.component_index = c.component_index AND b.tube_type_index = t.tube_type_index AND t.type = :type
+                            AND b.outer_diameter > :min_diameter AND b.outer_diameter < :max_diameter
+                            ORDER BY b.outer_diameter""", {
+                                "type" : tubeType,
+                                "min_diameter" : minDiameter,
+                                "max_diameter" : maxDiameter
+                            })
+
+    rows = cursor.fetchall()
+    return rows

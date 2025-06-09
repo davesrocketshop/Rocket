@@ -1,13 +1,40 @@
 <!DOCTYPE RCC><RCC version="1.0">
     <qresource>
-        <file>icons/RocketWorkbench.svg</file>
+        <file>icons/button_down.svg</file>
+        <file>icons/button_up.svg</file>
+        <file>icons/edit-delete.svg</file>
+        <file>icons/edit-edit.svg</file>
         <file>icons/Rocket_BodyTube.svg</file>
         <file>icons/Rocket_Bulkhead.svg</file>
+        <file>icons/Rocket_Calculator.svg</file>
         <file>icons/Rocket_CenteringRing.svg</file>
+        <file>icons/Rocket_CenteringRing.svg</file>
+        <file>icons/Rocket_CFDRocket.svg</file>
+        <file>icons/Rocket_Coupler.svg</file>
         <file>icons/Rocket_Fin.svg</file>
         <file>icons/Rocket_FinCan.svg</file>
+        <file>icons/Rocket_FinFem.svg</file>
+        <file>icons/Rocket_FinFlutter.svg</file>
+        <file>icons/Rocket_InnerTube.svg</file>
+        <file>icons/Rocket_LaunchLug.svg</file>
+        <file>icons/Rocket_MaterialMapping.svg</file>
         <file>icons/Rocket_NoseCone.svg</file>
+        <file>icons/Rocket_Parachute.svg</file>
+        <file>icons/Rocket_ParachuteDesigner.svg</file>
+        <file>icons/Rocket_ParachuteGore.svg</file>
+        <file>icons/Rocket_ParallelStage.svg</file>
+        <file>icons/Rocket_Pod.svg</file>
+        <file>icons/Rocket_RailButton.svg</file>
+        <file>icons/Rocket_RailGuide.svg</file>
+        <file>icons/Rocket_RingTail.svg</file>
+        <file>icons/Rocket_Rocket.svg</file>
+        <file>icons/Rocket_Scaling.svg</file>
+        <file>icons/Rocket_Stage.svg</file>
+        <file>icons/Rocket_Standoff.svg</file>
         <file>icons/Rocket_Transition.svg</file>
+        <file>icons/Rocket_WindTunnel.svg</file>
+        <file>icons/RocketWorkbench.svg</file>
+        <file>ui/DialogBodyScale.ui</file>
         <file>ui/DialogCFD.ui</file>
     </qresource>
 </RCC>

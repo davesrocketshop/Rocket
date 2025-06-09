@@ -47,6 +47,7 @@ from Ui.Commands.CmdEditTree import CmdMoveUp, CmdMoveDown
 # Calculators
 from Ui.Commands.CmdCalcBlackPowder import CmdCalcBlackPowder
 from Ui.Commands.CmdCalcParachute import CmdCalcParachute
+from Ui.Commands.CmdScaling import CmdScalingPairs, CmdScalingTubes
 from Ui.Commands.CmdCalcThrustToWeight import CmdCalcThrustToWeight
 from Ui.Commands.CmdCalcVentHoles import CmdCalcVentHoles
 
@@ -103,6 +104,9 @@ FreeCADGui.addCommand('Rocket_CalcParachute', CmdCalcParachute())
 FreeCADGui.addCommand('Rocket_CalcThrustToWeight', CmdCalcThrustToWeight())
 FreeCADGui.addCommand('Rocket_CalcVentHoles', CmdCalcVentHoles())
 
+FreeCADGui.addCommand('Rocket_ScalingPairs', CmdScalingPairs())
+FreeCADGui.addCommand('Rocket_ScalingTubes', CmdScalingTubes())
+
 FreeCADGui.addCommand('Rocket_MoveUp', CmdMoveUp())
 FreeCADGui.addCommand('Rocket_MoveDown', CmdMoveDown())
 
@@ -128,6 +132,20 @@ class _CalculatorGroupCommand:
             'MenuText': translate('Rocket', 'Calculators'),
             'ToolTip': translate('Rocket', 'Calculators'),
             'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Calculator.svg"
+        }
+    def IsActive(self):
+        # Always available, even without active document
+        return True
+
+class _ScalingGroupCommand:
+
+    def GetCommands(self):
+        return tuple(['Rocket_ScalingTubes', 'Rocket_ScalingPairs'])
+    def GetResources(self):
+        return {
+            'MenuText': translate('Rocket', 'Scaling Tools'),
+            'ToolTip': translate('Rocket', 'Scaling Tools'),
+            'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Scaling.svg"
         }
     def IsActive(self):
         # Always available, even without active document
@@ -164,5 +182,6 @@ class _GuidesGroupCommand(Command):
         return False
 
 FreeCADGui.addCommand('Rocket_Calculators', _CalculatorGroupCommand())
+FreeCADGui.addCommand('Rocket_Scaling', _ScalingGroupCommand())
 FreeCADGui.addCommand('Rocket_BodyTubes', _TubeGroupCommand())
 FreeCADGui.addCommand('Rocket_LaunchGuides', _GuidesGroupCommand())
