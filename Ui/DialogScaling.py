@@ -27,6 +27,7 @@ __url__ = "https://www.davesrocketshop.com"
 import os
 import sqlite3
 import threading
+import csv
 
 import FreeCAD
 import FreeCADGui
@@ -71,7 +72,7 @@ class DialogScaling(QtCore.QObject):
                             self._newItem(str(tube["part_number"])),
                             self._newItem(str(tube["description"])),
                             self._itemWithDimension(tube["outer_diameter"], tube["outer_diameter_units"]),
-                            self._newItem(f"1:{newScale:.2f}"),
+                            self._newItem(f"{newScale:.2f}"),
                             self._newItem(f"{error:.2f}")
                         ], int(step * 100.0 /steps)))
                     step = step + 1
@@ -160,7 +161,26 @@ class DialogScaling(QtCore.QObject):
         self.enableButtons(True)
 
     def onExportCSV(self, checked):
-        pass
+        columns = self._model.columnCount()
+        rows = self._model.rowCount()
+        if rows > 0:
+            filename = QtGui.QFileDialog.getSaveFileName(QtGui.QApplication.activeWindow(), translate("Rocket","Export CSV File"), None, "CSV file (*.csv)")
+            if filename:
+                with open(filename[0].encode("utf8"), "w") as csvfile:
+                    csvfile = csv.writer(csvfile,delimiter="\t")
+                    header = []
+                    for column in range(columns):
+                        item = self._model.horizontalHeaderItem(column)
+                        header.append(item.text())
+                    csvfile.writerow(header)
+                    for i in range(rows):
+                        row = []
+                        # row.append(f"{i}")
+                        for column in range(columns):
+                            item = self._model.item(i, column)
+                            row.append(item.text())
+                        csvfile.writerow(row)
+                print("successfully exported ",filename[0])
 
     def onProgress(self, progress):
         items = progress[0]
@@ -213,7 +233,7 @@ class DialogScalingPairs(DialogScaling):
                                 self._newItem(str(tube2["part_number"])),
                                 self._newItem(str(tube2["description"])),
                                 self._itemWithDimension(tube2["outer_diameter"], tube2["outer_diameter_units"]),
-                                self._newItem(f"1:{newScale:.2f}"),
+                                self._newItem(f"{newScale:.2f}"),
                                 self._newItem(f"{error:.2f}")
                             ], int(step * 100.0 /steps)))
                 else:
