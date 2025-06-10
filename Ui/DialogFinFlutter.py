@@ -61,12 +61,12 @@ class DialogFinFlutter(QDialog):
         self.onFlutter(None)
 
     def _isMetricUnitPref(self):
-            param = FreeCAD.ParamGet("User parameter:BaseApp/Preferences/Units")
-            schema = param.GetInt('UserSchema')
-            if schema in [2,3,5,7]:
-                return False
+        param = FreeCAD.ParamGet("User parameter:BaseApp/Preferences/Units")
+        schema = param.GetInt('UserSchema')
+        if schema in [2,3,5,7]:
+            return False
 
-            return True
+        return True
 
     def _shearUnits(self):
         if self._isMetricUnitPref():

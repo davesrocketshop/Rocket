@@ -45,6 +45,25 @@ from Rocket.Utilities import _valueWithUnits, _valueOnly
 
 from Ui.UIPaths import getUIPath
 
+def saveDialog(dialog, dialogName):
+    param = FreeCAD.ParamGet(f"User parameter:BaseApp/Preferences/Mod/Material/Resources/Modules/Rocket/{dialogName}")
+
+    geom = dialog.geometry()
+    param.SetInt("Width", geom.width())
+    param.SetInt("Height", geom.height())
+    param.SetInt("x", geom.x())
+    param.SetInt("y", geom.y())
+
+def restoreDialog(dialog, dialogName, defaultWidth, defaultHeight):
+    param = FreeCAD.ParamGet(f"User parameter:BaseApp/Preferences/Mod/Material/Resources/Modules/Rocket/{dialogName}")
+    width = param.GetInt("Width", defaultWidth)
+    height = param.GetInt("Height", defaultHeight)
+    x = param.GetInt("x", 100)
+    y = param.GetInt("y", 100)
+
+    dialog.move(x, y)
+    dialog.resize(width, height)
+
 class DialogScaling(QtCore.QObject):
     progressUpdate = QtCore.Signal(object)
     threadComplete = QtCore.Signal(object)
@@ -103,12 +122,22 @@ class DialogScaling(QtCore.QObject):
         self.form.progressBar.setHidden(True)
 
         self.customizeUI()
+        param = self.getParam()
+        width = param.GetInt("Width", 400)
+        height = param.GetInt("Height", 307)
+        x = param.GetInt("x", 100)
+        y = param.GetInt("y", 100)
+
+        self.form.move(x, y)
+        self.form.resize(width, height)
 
         self.progressUpdate.connect(self.onProgress)
         self.threadComplete.connect(self.onThreadComplete)
 
         self.form.buttonSearch.clicked.connect(self.onSearch)
         self.form.buttonCSV.clicked.connect(self.onExportCSV)
+        self.form.accepted.connect(self.saveWindow)
+        self.form.rejected.connect(self.saveWindow)
 
         # Not enabled until we have some search results
         self.form.buttonCSV.setEnabled(False)
@@ -175,7 +204,6 @@ class DialogScaling(QtCore.QObject):
                     csvfile.writerow(header)
                     for i in range(rows):
                         row = []
-                        # row.append(f"{i}")
                         for column in range(columns):
                             item = self._model.item(i, column)
                             row.append(item.text())
@@ -188,10 +216,20 @@ class DialogScaling(QtCore.QObject):
         if items is not None:
             self._model.appendRow(items)
         self.form.progressBar.setValue(value)
-        # print(f'setValue({value})')
 
     def exec_(self):
         self.form.exec_()
+
+    def getParam(self):
+        return FreeCAD.ParamGet("User parameter:BaseApp/Preferences/Mod/Material/Resources/Modules/Rocket/DialogScaling")
+
+    def saveWindow(self):
+        param = self.getParam()
+        geom = self.form.geometry()
+        param.SetInt("Width", geom.width())
+        param.SetInt("Height", geom.height())
+        param.SetInt("x", geom.x())
+        param.SetInt("y", geom.y())
 
 class DialogScalingPairs(DialogScaling):
 
@@ -264,3 +302,6 @@ class DialogScalingPairs(DialogScaling):
             translate('Rocket', "Error (%)")
         ]
         self._model.setHorizontalHeaderLabels(headers)
+
+    def getParam(self):
+        return FreeCAD.ParamGet("User parameter:BaseApp/Preferences/Mod/Material/Resources/Modules/Rocket/DialogScalingPairs")
