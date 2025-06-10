@@ -14,46 +14,6 @@
    <string>Body Scale Pair Matching</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="5" column="0" colspan="3">
-    <widget class="QTableView" name="tableResults"/>
-   </item>
-   <item row="4" column="0" colspan="3">
-    <widget class="QProgressBar" name="progressBar">
-     <property name="value">
-      <number>0</number>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="1">
-    <widget class="Gui::InputField" name="inputReference2">
-     <property name="toolTip">
-      <string>Scale reference diameter</string>
-     </property>
-     <property name="unit" stdset="0">
-      <string notr="true">mm</string>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="0">
-    <widget class="QLabel" name="labelReference2">
-     <property name="text">
-      <string>Reference Diameter 2</string>
-     </property>
-    </widget>
-   </item>
-   <item row="7" column="0" colspan="3">
-    <widget class="QDialogButtonBox" name="buttonBox">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="standardButtons">
-      <set>QDialogButtonBox::Close</set>
-     </property>
-     <property name="centerButtons">
-      <bool>true</bool>
-     </property>
-    </widget>
-   </item>
    <item row="3" column="1">
     <widget class="Gui::DoubleSpinBox" name="spinTolerance">
      <property name="toolTip">
@@ -64,13 +24,23 @@
      </property>
     </widget>
    </item>
-   <item row="6" column="2">
-    <widget class="QPushButton" name="buttonCSV">
-     <property name="toolTip">
-      <string>Export results to CSV</string>
+   <item row="6" column="0" colspan="3">
+    <widget class="QProgressBar" name="progressBar">
+     <property name="value">
+      <number>0</number>
      </property>
-     <property name="text">
-      <string>Export CSV</string>
+    </widget>
+   </item>
+   <item row="9" column="0" colspan="3">
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Close</set>
+     </property>
+     <property name="centerButtons">
+      <bool>true</bool>
      </property>
     </widget>
    </item>
@@ -84,13 +54,57 @@
      </property>
     </widget>
    </item>
-   <item row="0" column="2">
-    <widget class="QPushButton" name="buttonSearch">
+   <item row="7" column="0" colspan="3">
+    <widget class="QTableView" name="tableResults"/>
+   </item>
+   <item row="1" column="1">
+    <widget class="Gui::InputField" name="inputReference2">
      <property name="toolTip">
-      <string>Search for body tube pairs</string>
+      <string>Scale reference diameter</string>
      </property>
+     <property name="unit" stdset="0">
+      <string notr="true">mm</string>
+     </property>
+    </widget>
+   </item>
+   <item row="8" column="0" colspan="3">
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="buttonAddToDocument">
+       <property name="text">
+        <string>Add to Document</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="buttonCSV">
+       <property name="toolTip">
+        <string>Export results to CSV</string>
+       </property>
+       <property name="text">
+        <string>Export CSV</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item row="4" column="0">
+    <widget class="QCheckBox" name="checkMinimum">
      <property name="text">
-      <string>Search</string>
+      <string>Minimum Diameter</string>
      </property>
     </widget>
    </item>
@@ -118,10 +132,47 @@
    <item row="2" column="1">
     <widget class="Gui::DoubleSpinBox" name="spinScale"/>
    </item>
-   <item row="6" column="1">
-    <widget class="QPushButton" name="buttonAddToDocument">
+   <item row="1" column="0">
+    <widget class="QLabel" name="labelReference2">
      <property name="text">
-      <string>Add to Document</string>
+      <string>Reference Diameter 2</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="2">
+    <widget class="QPushButton" name="buttonSearch">
+     <property name="toolTip">
+      <string>Search for body tube pairs</string>
+     </property>
+     <property name="text">
+      <string>Search</string>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="0">
+    <widget class="QCheckBox" name="checkMaximum">
+     <property name="text">
+      <string>Maximum Diameter</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="1">
+    <widget class="Gui::InputField" name="inputMinimum">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <property name="unit" stdset="0">
+      <string notr="true">mm</string>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="1">
+    <widget class="Gui::InputField" name="inputMaximum">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <property name="unit" stdset="0">
+      <string notr="true">mm</string>
      </property>
     </widget>
    </item>
@@ -144,6 +195,10 @@
   <tabstop>inputReference2</tabstop>
   <tabstop>spinScale</tabstop>
   <tabstop>spinTolerance</tabstop>
+  <tabstop>checkMinimum</tabstop>
+  <tabstop>inputMinimum</tabstop>
+  <tabstop>checkMaximum</tabstop>
+  <tabstop>inputMaximum</tabstop>
   <tabstop>buttonSearch</tabstop>
   <tabstop>buttonAddToDocument</tabstop>
   <tabstop>buttonCSV</tabstop>
