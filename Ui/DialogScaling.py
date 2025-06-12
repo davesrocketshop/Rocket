@@ -31,6 +31,7 @@ import csv
 
 import FreeCAD
 import FreeCADGui
+import Materials
 
 from DraftTools import translate
 
@@ -40,10 +41,14 @@ from PySide.QtGui import QStandardItemModel, QStandardItem
 
 from Rocket.Constants import COMPONENT_TYPE_BODYTUBE
 
-from Rocket.Parts.BodyTube import searchBodyTube, listBodyTubesBySize
-from Rocket.Utilities import _valueWithUnits, _valueOnly
+from Rocket.Parts.BodyTube import searchBodyTube, listBodyTubesBySize, getBodyTube
+from Rocket.Utilities import _valueWithUnits, _valueOnly, _err
+
+from Rocket.Parts.Exceptions import MultipleEntryError, NotFoundError
 
 from Ui.UIPaths import getUIPath
+from Ui.Commands.CmdBodyTube import makeBodyTube
+from Ui.Commands.CmdStage import addToStage
 
 def saveDialog(dialog, dialogName):
     param = FreeCAD.ParamGet(f"User parameter:BaseApp/Preferences/Mod/Material/Resources/Modules/Rocket/Dialog/{dialogName}")
@@ -109,6 +114,8 @@ class DialogScaling(QtCore.QObject):
         self.initUI()
         # self.initDB()
 
+        self._materialManager = Materials.MaterialManager()
+
     def initDB(self):
         connection = sqlite3.connect("file:" + FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/parts/Parts.db?mode=ro", uri=True)
         connection.row_factory = sqlite3.Row
@@ -136,6 +143,7 @@ class DialogScaling(QtCore.QObject):
         self.form.checkMinimum.stateChanged.connect(self.onMinimum)
         self.form.checkMaximum.stateChanged.connect(self.onMaximum)
         self.form.buttonSearch.clicked.connect(self.onSearch)
+        self.form.buttonAddToDocument.clicked.connect(self.onAddToDocument)
         self.form.buttonCSV.clicked.connect(self.onExportCSV)
         self.form.accepted.connect(self.saveWindow)
         self.form.rejected.connect(self.saveWindow)
@@ -166,13 +174,10 @@ class DialogScaling(QtCore.QObject):
     def enableButtons(self, enabled):
         self.form.buttonSearch.setEnabled(enabled)
         self.form.buttonCSV.setEnabled(enabled)
-        if FreeCAD.ActiveDocument:
-            self.form.buttonAddToDocument.setEnabled(enabled)
-        else:
-            self.form.buttonAddToDocument.setEnabled(False)
 
     def onSearch(self, checked):
         self.enableButtons(False)
+        self.form.buttonAddToDocument.setEnabled(False)
 
         # Do search
         self._model.clear()
@@ -238,6 +243,52 @@ class DialogScaling(QtCore.QObject):
 
     def onSelection(self, selected, deselected):
         print("onSelection()")
+        if FreeCAD.ActiveDocument:
+            self.form.buttonAddToDocument.setEnabled(True)
+        else:
+            self.form.buttonAddToDocument.setEnabled(False)
+        # row = selected.first().top()
+        # self.addBodyTubes(row)
+
+    def onAddToDocument(self):
+        selectionModel = self.form.tableResults.selectionModel()
+        for row in selectionModel.selectedRows():
+            self.addBodyTubes(row.row())
+
+    def addBodyTubes(self, row):
+        print(f"addBodyTubes({row})")
+        connection = self.initDB()
+        try:
+            item = self._model.item(row, 0)
+            index = int(item.text())
+            tube = getBodyTube(connection, index)
+            self.addTubeToDocument(tube)
+        except NotFoundError:
+            _err(translate('Rocket', "Body tube not found"))
+        except MultipleEntryError:
+            _err(translate('Rocket', "Multiple identical entries found"))
+
+    def addTubeToDocument(self, tube):
+        bodyTube = makeBodyTube()
+        bodyTube._obj.Manufacturer = tube["manufacturer"]
+        bodyTube._obj.PartNumber = tube["part_number"]
+        bodyTube._obj.Description = tube["description"]
+
+        try:
+            bodyTube._obj.ShapeMaterial = self._materialManager.getMaterial(tube["uuid"])
+        except Exception:
+            _err(translate("Rocket", "Material '{}' not found - using default material").format(tube["uuid"]))
+
+        diameter = _valueOnly(tube["inner_diameter"], tube["inner_diameter_units"])
+        bodyTube.setOuterDiameter(_valueOnly(tube["outer_diameter"], tube["outer_diameter_units"]))
+        bodyTube.setThickness((bodyTube._obj.Diameter.Value - diameter) / 2.0)
+        bodyTube.setLength(_valueOnly(tube["length"], tube["length_units"]))
+
+        bodyTube.execute(bodyTube._obj)
+        bodyTube.setEdited()
+
+        addToStage(bodyTube)
+        FreeCAD.ActiveDocument.recompute()
 
     def exec_(self):
         self.form.exec_()
@@ -245,7 +296,7 @@ class DialogScaling(QtCore.QObject):
     def getParam(self):
         name = self.getDialogName()
         return FreeCAD.ParamGet(f"User parameter:BaseApp/Preferences/Mod/Material/Resources/Modules/Rocket/Dialog/{name}")
-    
+
     def getDialogName(self) -> str:
         return "DialogScaling"
 
@@ -341,3 +392,22 @@ class DialogScalingPairs(DialogScaling):
 
     def getDialogName(self) -> str:
         return "DialogScalingPairs"
+
+    def addBodyTubes(self, row):
+        print(f"addBodyTubes({row})")
+        connection = self.initDB()
+        try:
+            # There are two tubes to add
+            item = self._model.item(row, 0)
+            index = int(item.text())
+            tube = getBodyTube(connection, index)
+            self.addTubeToDocument(tube)
+
+            item = self._model.item(row, 5)
+            index = int(item.text())
+            tube = getBodyTube(connection, index)
+            self.addTubeToDocument(tube)
+        except NotFoundError:
+            _err(translate('Rocket', "Body tube not found"))
+        except MultipleEntryError:
+            _err(translate('Rocket', "Multiple identical entries found"))
