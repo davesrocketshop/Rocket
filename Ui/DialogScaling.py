@@ -76,13 +76,15 @@ class DialogScaling(QtCore.QObject):
     def worker(self):
         connection = self.initDB()
         ref1 = FreeCAD.Units.Quantity(self.form.inputReference1.text()).Value
-        scale = FreeCAD.Units.Quantity(self.form.spinScale.text()).Value
+        scale = self.form.spinScale.value()
         tolerance = self.form.spinTolerance.value()
 
         if ref1 > 0 and scale > 0 and tolerance > 0:
             target = ref1 / scale
+            # print(f"Reference: {ref1} target: {target} scale: {scale}")
             min_diameter = target - (target * (tolerance / 100.0))
             max_diameter = target + (target * (tolerance / 100.0))
+            # print(f"Min: {min_diameter} Max: {max_diameter}")
             scaled = searchBodyTube(connection, min_diameter, max_diameter, COMPONENT_TYPE_BODYTUBE)
 
             steps = len(scaled)
@@ -151,6 +153,8 @@ class DialogScaling(QtCore.QObject):
         # Not enabled until we have some search results
         self.form.buttonCSV.setEnabled(False)
         self.form.buttonAddToDocument.setEnabled(False)
+    
+        self.restoreParameters()
 
     def customizeUI(self):
         self.form.setWindowTitle(translate('Rocket', "Body Scaler"))
@@ -302,6 +306,43 @@ class DialogScaling(QtCore.QObject):
 
     def saveWindow(self):
         saveDialog(self.form, self.getDialogName())
+        self.saveParameters()
+
+    def saveParameters(self):
+        param = self.getParam()
+        param.SetString("ReferenceDiameter1", self.form.inputReference1.text())
+        param.SetString("ReferenceDiameter2", self.form.inputReference2.text())
+        param.SetFloat("Scale", self.form.spinScale.value())
+        param.SetFloat("Tolerance", self.form.spinTolerance.value())
+        param.SetBool("HasMinimumDiameter", self.form.checkMinimum.checkState() == QtCore.Qt.Checked)
+        param.SetBool("HasMaximumDiameter", self.form.checkMaximum.checkState() == QtCore.Qt.Checked)
+        param.SetString("MinimumDiameter", self.form.inputMinimum.text())
+        param.SetString("RaximumDiameter", self.form.inputMaximum.text())
+
+    def restoreParameters(self):
+        param = self.getParam()
+        value = param.GetString("ReferenceDiameter1", "0.0 mm")
+        self.form.inputReference1.setText(value)
+        value = param.GetString("ReferenceDiameter2", "0.0 mm")
+        self.form.inputReference2.setText(value)
+        value = param.GetFloat("Scale", 1.0)
+        self.form.spinScale.setValue(value)
+        value = param.GetFloat("Tolerance", 5.0)
+        self.form.spinTolerance.setValue(value)
+        value = param.GetBool("HasMinimumDiameter", False)
+        if value:
+            self.form.checkMinimum.setCheckState(QtCore.Qt.Checked)
+        else:
+            self.form.checkMinimum.setCheckState(QtCore.Qt.Unchecked)
+        value = param.GetBool("HasMaximumDiameter", False)
+        if value:
+            self.form.checkMaximum.setCheckState(QtCore.Qt.Checked)
+        else:
+            self.form.checkMaximum.setCheckState(QtCore.Qt.Unchecked)
+        value = param.GetString("MinimumDiameter", "0.0 mm")
+        self.form.inputMinimum.setText(value)
+        value = param.GetString("RaximumDiameter", "0.0 mm")
+        self.form.inputMaximum.setText(value)
 
 class DialogScalingPairs(DialogScaling):
 
