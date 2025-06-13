@@ -102,8 +102,9 @@ class PartDatabase:
                        ON CONFLICT(type) DO NOTHING""")
 
         # cursor.execute("DROP TABLE IF EXISTS body_tube")
-        cursor.execute("CREATE TABLE IF NOT EXISTS body_tube (body_tube_index INTEGER PRIMARY KEY ASC, component_index, tube_type_index, inner_diameter, inner_diameter_units, outer_diameter, outer_diameter_units, length, length_units)")
+        cursor.execute("CREATE TABLE IF NOT EXISTS body_tube (body_tube_index INTEGER PRIMARY KEY ASC, component_index, tube_type_index, inner_diameter, inner_diameter_units, outer_diameter, outer_diameter_units, normalized_diameter, length, length_units)")
         cursor.execute("CREATE INDEX IF NOT EXISTS idx_body_tube ON body_tube(component_index, tube_type_index)")
+        cursor.execute("CREATE INDEX IF NOT EXISTS idx_body_tube_diameter ON body_tube(normalized_diameter)")
 
         # cursor.execute("DROP TABLE IF EXISTS nose")
         cursor.execute("""CREATE TABLE IF NOT EXISTS nose (nose_index INTEGER PRIMARY KEY ASC, component_index, shape, style, diameter, diameter_units,

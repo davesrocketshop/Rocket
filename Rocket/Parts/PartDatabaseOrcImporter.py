@@ -24,6 +24,8 @@ __title__ = "FreeCAD Open Rocket Importer"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
+import FreeCAD
+
 from pathlib import PurePath
 
 import xml.sax

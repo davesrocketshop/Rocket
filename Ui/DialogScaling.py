@@ -50,24 +50,7 @@ from Ui.UIPaths import getUIPath
 from Ui.Commands.CmdBodyTube import makeBodyTube
 from Ui.Commands.CmdStage import addToStage
 
-def saveDialog(dialog, dialogName):
-    param = FreeCAD.ParamGet(f"User parameter:BaseApp/Preferences/Mod/Material/Resources/Modules/Rocket/Dialog/{dialogName}")
-
-    geom = dialog.geometry()
-    param.SetInt("Width", geom.width())
-    param.SetInt("Height", geom.height())
-    param.SetInt("x", geom.x())
-    param.SetInt("y", geom.y())
-
-def restoreDialog(dialog, dialogName, defaultWidth, defaultHeight):
-    param = FreeCAD.ParamGet(f"User parameter:BaseApp/Preferences/Mod/Material/Resources/Modules/Rocket/Dialog/{dialogName}")
-    width = param.GetInt("Width", defaultWidth)
-    height = param.GetInt("Height", defaultHeight)
-    x = param.GetInt("x", 100)
-    y = param.GetInt("y", 100)
-
-    dialog.move(x, y)
-    dialog.resize(width, height)
+from Ui.DialogUtilities import saveDialog, restoreDialog
 
 class DialogScaling(QtCore.QObject):
     progressUpdate = QtCore.Signal(object)
@@ -81,17 +64,15 @@ class DialogScaling(QtCore.QObject):
 
         if ref1 > 0 and scale > 0 and tolerance > 0:
             target = ref1 / scale
-            # print(f"Reference: {ref1} target: {target} scale: {scale}")
             min_diameter = target - (target * (tolerance / 100.0))
             max_diameter = target + (target * (tolerance / 100.0))
-            # print(f"Min: {min_diameter} Max: {max_diameter}")
             scaled = searchBodyTube(connection, min_diameter, max_diameter, COMPONENT_TYPE_BODYTUBE)
 
             steps = len(scaled)
             step = 1
             if len(scaled) > 0:
                 for tube in scaled:
-                    error = (float(tube['outer_diameter']) - target) * 100.0 / target
+                    error = (float(tube['normalized_diameter']) - target) * 100.0 / target
                     newScale = ref1 / _valueOnly(tube['outer_diameter'], tube["outer_diameter_units"])
                     self.progressUpdate.emit(([
                             self._newItem(str(tube["body_tube_index"])),
@@ -246,13 +227,10 @@ class DialogScaling(QtCore.QObject):
         self.form.inputMaximum.setEnabled(self.form.checkMaximum.checkState() == QtCore.Qt.Checked)
 
     def onSelection(self, selected, deselected):
-        print("onSelection()")
         if FreeCAD.ActiveDocument:
             self.form.buttonAddToDocument.setEnabled(True)
         else:
             self.form.buttonAddToDocument.setEnabled(False)
-        # row = selected.first().top()
-        # self.addBodyTubes(row)
 
     def onAddToDocument(self):
         selectionModel = self.form.tableResults.selectionModel()
@@ -260,7 +238,6 @@ class DialogScaling(QtCore.QObject):
             self.addBodyTubes(row.row())
 
     def addBodyTubes(self, row):
-        print(f"addBodyTubes({row})")
         connection = self.initDB()
         try:
             item = self._model.item(row, 0)
@@ -317,7 +294,7 @@ class DialogScaling(QtCore.QObject):
         param.SetBool("HasMinimumDiameter", self.form.checkMinimum.checkState() == QtCore.Qt.Checked)
         param.SetBool("HasMaximumDiameter", self.form.checkMaximum.checkState() == QtCore.Qt.Checked)
         param.SetString("MinimumDiameter", self.form.inputMinimum.text())
-        param.SetString("RaximumDiameter", self.form.inputMaximum.text())
+        param.SetString("MaximumDiameter", self.form.inputMaximum.text())
 
     def restoreParameters(self):
         param = self.getParam()
@@ -341,7 +318,7 @@ class DialogScaling(QtCore.QObject):
             self.form.checkMaximum.setCheckState(QtCore.Qt.Unchecked)
         value = param.GetString("MinimumDiameter", "0.0 mm")
         self.form.inputMinimum.setText(value)
-        value = param.GetString("RaximumDiameter", "0.0 mm")
+        value = param.GetString("MaximumDiameter", "0.0 mm")
         self.form.inputMaximum.setText(value)
 
 class DialogScalingPairs(DialogScaling):
@@ -370,7 +347,7 @@ class DialogScalingPairs(DialogScaling):
             steps = len(tubes)
             step = 1
             for tube in tubes:
-                od = float(tube["outer_diameter"])
+                od = float(tube["normalized_diameter"])
                 target = od * scale
                 if maximumOD is None or target < maximumOD:
                     min_diameter = target - (target * (tolerance / 100.0))
@@ -380,9 +357,7 @@ class DialogScalingPairs(DialogScaling):
                     scaled = searchBodyTube(connection, min_diameter, max_diameter, COMPONENT_TYPE_BODYTUBE)
                     if len(scaled) > 0:
                         for tube2 in scaled:
-                            error = (float(tube2['outer_diameter']) - target) * 100.0 / target
-                            # dia = _valueOnly(tube['outer_diameter'], tube["outer_diameter_units"])
-                            # print(f"scale: {ref1} - {dia}")
+                            error = (float(tube2['normalized_diameter']) - target) * 100.0 / target
                             newScale = ref1 / _valueOnly(tube['outer_diameter'], tube["outer_diameter_units"])
                             self.progressUpdate.emit(([
                                     self._newItem(str(tube["body_tube_index"])),
@@ -435,7 +410,6 @@ class DialogScalingPairs(DialogScaling):
         return "DialogScalingPairs"
 
     def addBodyTubes(self, row):
-        print(f"addBodyTubes({row})")
         connection = self.initDB()
         try:
             # There are two tubes to add

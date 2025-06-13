@@ -24,6 +24,8 @@ __title__ = "FreeCAD Open Rocket Part Body Tube"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
+import FreeCAD
+
 from Rocket.Parts.Component import Component
 from Rocket.Parts.Exceptions import MultipleEntryError, NotFoundError
 from Rocket.Constants import COMPONENT_TYPE_ANY, COMPONENT_TYPE_BODYTUBE, COMPONENT_TYPE_COUPLER, \
@@ -37,6 +39,7 @@ class BodyTube(Component):
         self._ID = (0.0, "")
         self._OD = (0.0, "")
         self._length = (0.0, "")
+        self._normalizedDiameter = 0
         self._tubeType = "body tube" # Used to support multiple components
 
     def validate(self):
@@ -47,6 +50,8 @@ class BodyTube(Component):
 
         self.validatePositive(self._OD[0], "OD invalid")
         self.validatePositive(self._length[0], "Length invalid")
+        self._normalizedDiameter = FreeCAD.Units.Quantity(str(self._OD[0]) + str(self._OD[1])).Value
+        self.validatePositive(self._normalizedDiameter, "Normalized diameter invalid")
 
         self.validateNonEmptyString(self._ID[1], "ID Units invalid '%s" % self._ID[1])
         self.validateNonEmptyString(self._OD[1], "OD Units invalid '%s" % self._OD[1])
@@ -60,8 +65,8 @@ class BodyTube(Component):
 
         cursor = connection.cursor()
 
-        cursor.execute("INSERT INTO body_tube (component_index, tube_type_index, inner_diameter, inner_diameter_units, outer_diameter, outer_diameter_units, length, length_units) VALUES (?,?,?,?,?,?,?,?)",
-                            (component_id, tube_id, self._ID[0], self._ID[1], self._OD[0], self._OD[1], self._length[0], self._length[1]))
+        cursor.execute("INSERT INTO body_tube (component_index, tube_type_index, inner_diameter, inner_diameter_units, outer_diameter, outer_diameter_units, normalized_diameter, length, length_units) VALUES (?,?,?,?,?,?,?,?,?)",
+                            (component_id, tube_id, self._ID[0], self._ID[1], self._OD[0], self._OD[1], self._normalizedDiameter, self._length[0], self._length[1]))
         id = cursor.lastrowid
 
         connection.commit()
@@ -95,17 +100,17 @@ def listBodyTubes(connection, tubeType=None, orderByOD=False):
 
     orderBy = ""
     if orderByOD:
-        orderBy = " ORDER BY b.outer_diameter"
+        orderBy = " ORDER BY b.normalized_diameter"
 
     if tubeType is None or tubeType == COMPONENT_TYPE_ANY:
         cursor.execute("""SELECT body_tube_index, type, manufacturer, part_number, description, inner_diameter, inner_diameter_units,
-                            outer_diameter, outer_diameter_units, length, length_units
+                            outer_diameter, outer_diameter_units, normalized_diameter, length, length_units
                         FROM component c, body_tube b, tube_type t
                         WHERE b.component_index = c.component_index AND b.tube_type_index = t.tube_type_index
                             AND NOT t.type = 'Centering Ring' AND NOT t.type = 'Bulkhead'""" + orderBy)
     else:
         cursor.execute("""SELECT body_tube_index, type, manufacturer, part_number, description, inner_diameter, inner_diameter_units,
-                            outer_diameter, outer_diameter_units, length, length_units
+                            outer_diameter, outer_diameter_units, normalized_diameter, length, length_units
                         FROM component c, body_tube b, tube_type t
                         WHERE b.component_index = c.component_index AND b.tube_type_index = t.tube_type_index AND t.type = :type""" + orderBy, {
                             "type" : tubeType
@@ -119,18 +124,18 @@ def listBodyTubesBySize(connection, minimumOD, maximumOD, orderByOD=False):
 
     orderBy = ""
     if orderByOD:
-        orderBy = " ORDER BY b.outer_diameter"
+        orderBy = " ORDER BY b.normalized_diameter"
 
     minimumSize = ""
     if minimumOD is not None:
-        minimumSize = f" AND b.outer_diameter > {minimumOD}"
+        minimumSize = f" AND b.normalized_diameter > {minimumOD}"
 
     maximumSize = ""
     if maximumOD is not None:
-        maximumSize = f" AND b.outer_diameter < {maximumOD}"
+        maximumSize = f" AND b.normalized_diameter < {maximumOD}"
 
     cursor.execute("""SELECT body_tube_index, type, manufacturer, part_number, description, inner_diameter, inner_diameter_units,
-                        outer_diameter, outer_diameter_units, length, length_units
+                        outer_diameter, outer_diameter_units, normalized_diameter, length, length_units
                     FROM component c, body_tube b, tube_type t
                     WHERE b.component_index = c.component_index AND b.tube_type_index = t.tube_type_index
                         AND t.type = 'Body Tube' """ + minimumSize + maximumSize + orderBy)
@@ -161,22 +166,22 @@ def searchBodyTube(connection, minDiameter, maxDiameter, tubeType=None):
 
     if tubeType is None or tubeType == COMPONENT_TYPE_ANY:
         cursor.execute("""SELECT body_tube_index, type, manufacturer, part_number, description, inner_diameter, inner_diameter_units,
-                            outer_diameter, outer_diameter_units, length, length_units
+                            outer_diameter, outer_diameter_units, normalized_diameter, length, length_units
                         FROM component c, body_tube b, tube_type t
                         WHERE b.component_index = c.component_index AND b.tube_type_index = t.tube_type_index
                             AND NOT t.type = 'Centering Ring' AND NOT t.type = 'Bulkhead'
-                            AND b.outer_diameter > :min_diameter AND b.outer_diameter < :max_diameter
-                            ORDER BY b.outer_diameter""", {
+                            AND b.normalized_diameter > :min_diameter AND b.normalized_diameter < :max_diameter
+                            ORDER BY b.normalized_diameter""", {
                                 "min_diameter" : minDiameter,
                                 "max_diameter" : maxDiameter
                             })
     else:
         cursor.execute("""SELECT body_tube_index, type, manufacturer, part_number, description, inner_diameter, inner_diameter_units,
-                            outer_diameter, outer_diameter_units, length, length_units
+                            outer_diameter, outer_diameter_units, normalized_diameter, length, length_units
                         FROM component c, body_tube b, tube_type t
                         WHERE b.component_index = c.component_index AND b.tube_type_index = t.tube_type_index AND t.type = :type
-                            AND b.outer_diameter > :min_diameter AND b.outer_diameter < :max_diameter
-                            ORDER BY b.outer_diameter""", {
+                            AND b.normalized_diameter > :min_diameter AND b.normalized_diameter < :max_diameter
+                            ORDER BY b.normalized_diameter""", {
                                 "type" : tubeType,
                                 "min_diameter" : minDiameter,
                                 "max_diameter" : maxDiameter
