@@ -30,7 +30,7 @@ import FreeCADGui
 import Materials
 
 from PySide import QtGui, QtCore
-from PySide.QtWidgets import QDialog, QGridLayout, QVBoxLayout, QSizePolicy
+from PySide.QtWidgets import QDialog, QWidget, QGridLayout, QHBoxLayout, QVBoxLayout, QStackedLayout, QSizePolicy
 
 from DraftTools import translate
 
@@ -38,7 +38,9 @@ from Ui.TaskPanelDatabase import TaskPanelDatabase
 from Ui.Widgets.MaterialTab import MaterialTab
 from Ui.Widgets.CommentTab import CommentTab
 
-from Rocket.Constants import TYPE_CONE, TYPE_BLUNTED_CONE, TYPE_SPHERICAL, TYPE_ELLIPTICAL, TYPE_HAACK, TYPE_OGIVE, TYPE_BLUNTED_OGIVE, TYPE_SECANT_OGIVE, TYPE_VON_KARMAN, TYPE_PARABOLA, TYPE_PARABOLIC, TYPE_POWER
+from Rocket.Constants import TYPE_CONE, TYPE_BLUNTED_CONE, TYPE_SPHERICAL, TYPE_ELLIPTICAL, TYPE_HAACK, TYPE_OGIVE, \
+    TYPE_BLUNTED_OGIVE, TYPE_SECANT_OGIVE, TYPE_VON_KARMAN, TYPE_PARABOLA, TYPE_PARABOLIC, TYPE_POWER, TYPE_NIKE_SMOKE, \
+    TYPE_PROXY
 from Rocket.Constants import STYLE_CAPPED, STYLE_HOLLOW, STYLE_SOLID
 from Rocket.Constants import STYLE_CAP_SOLID, STYLE_CAP_BAR, STYLE_CAP_CROSS
 from Rocket.Constants import COMPONENT_TYPE_NOSECONE
@@ -72,7 +74,22 @@ class _NoseConeDialog(QDialog):
         self.setTabShoulder()
 
     def setTabGeneral(self):
+        self._proxyLayout = QStackedLayout()
+        self._proxyLayout.addWidget(self.setStackNonProxy())
+        self._proxyLayout.addWidget(self.setStackProxy())
+        self._proxyLayout.setCurrentIndex(0)
+
+        layout = QGridLayout()
+        row = 0
+
+        layout.addLayout(self._proxyLayout, row, 0)
+
+        self.tabGeneral.setLayout(layout)
+
+    def setStackNonProxy(self):
         ui = FreeCADGui.UiLoader()
+
+        widget = QWidget()
 
         # Select the type of nose cone
         self.noseConeTypeLabel = QtGui.QLabel(translate('Rocket', "Nose Cone Shape"), self)
@@ -90,6 +107,8 @@ class _NoseConeDialog(QDialog):
         self.noseConeTypesCombo.addItem(translate('Rocket', TYPE_POWER), TYPE_POWER)
         self.noseConeTypesCombo.addItem(translate('Rocket', TYPE_VON_KARMAN), TYPE_VON_KARMAN)
         self.noseConeTypesCombo.addItem(translate('Rocket', TYPE_HAACK), TYPE_HAACK)
+        self.noseConeTypesCombo.addItem(translate('Rocket', TYPE_NIKE_SMOKE), TYPE_NIKE_SMOKE)
+        self.noseConeTypesCombo.addItem(translate('Rocket', TYPE_PROXY), TYPE_PROXY)
 
         # Select the type of sketch
         self.noseStyleLabel = QtGui.QLabel(translate('Rocket', "Style"), self)
@@ -215,8 +234,167 @@ class _NoseConeDialog(QDialog):
         row += 1
 
         layout.addItem(QtGui.QSpacerItem(0,0, QSizePolicy.Expanding, QSizePolicy.Expanding), row, 0)
+        widget.setLayout(layout)
+        return widget
 
-        self.tabGeneral.setLayout(layout)
+    def setStackProxy(self):
+        ui = FreeCADGui.UiLoader()
+        widget = QWidget()
+
+        # Select the type of nose cone
+        self.noseConeProxyTypeLabel = QtGui.QLabel(translate('Rocket', "Nose Cone Shape"), self)
+
+        self.noseConeProxyTypesCombo = QtGui.QComboBox(self)
+        self.noseConeProxyTypesCombo.addItem(translate('Rocket', TYPE_CONE), TYPE_CONE)
+        self.noseConeProxyTypesCombo.addItem(translate('Rocket', TYPE_BLUNTED_CONE), TYPE_BLUNTED_CONE)
+        self.noseConeProxyTypesCombo.addItem(translate('Rocket', TYPE_SPHERICAL), TYPE_SPHERICAL)
+        self.noseConeProxyTypesCombo.addItem(translate('Rocket', TYPE_ELLIPTICAL), TYPE_ELLIPTICAL)
+        self.noseConeProxyTypesCombo.addItem(translate('Rocket', TYPE_OGIVE), TYPE_OGIVE)
+        self.noseConeProxyTypesCombo.addItem(translate('Rocket', TYPE_BLUNTED_OGIVE), TYPE_BLUNTED_OGIVE)
+        self.noseConeProxyTypesCombo.addItem(translate('Rocket', TYPE_SECANT_OGIVE), TYPE_SECANT_OGIVE)
+        self.noseConeProxyTypesCombo.addItem(translate('Rocket', TYPE_PARABOLA), TYPE_PARABOLA)
+        self.noseConeProxyTypesCombo.addItem(translate('Rocket', TYPE_PARABOLIC), TYPE_PARABOLIC)
+        self.noseConeProxyTypesCombo.addItem(translate('Rocket', TYPE_POWER), TYPE_POWER)
+        self.noseConeProxyTypesCombo.addItem(translate('Rocket', TYPE_VON_KARMAN), TYPE_VON_KARMAN)
+        self.noseConeProxyTypesCombo.addItem(translate('Rocket', TYPE_HAACK), TYPE_HAACK)
+        self.noseConeProxyTypesCombo.addItem(translate('Rocket', TYPE_PROXY), TYPE_PROXY)
+
+        self.proxyBaseObjectLabel = QtGui.QLabel(translate('Rocket', "Base Object"), self)
+
+        self.proxyBaseObjectInput = QtGui.QLabel(self)
+        self.proxyBaseObjectInput.setMinimumWidth(80)
+        self.proxyBaseObjectInput.setAutoFillBackground(True)
+
+        self.proxyBaseObjectLabelSelect = QtGui.QLabel("", self)
+
+        self.proxyBaseObjectButton = QtGui.QPushButton(translate('Rocket', 'Select'), self)
+        self.proxyBaseObjectButton.setSizePolicy(QSizePolicy.Minimum, QSizePolicy.Preferred)
+
+        self.proxyEffectiveDiamaterLabel = QtGui.QLabel(translate('Rocket', "Effective diameter"), self)
+
+        self.proxyEffectiveDiameterInput = ui.createWidget("Gui::InputField")
+        self.proxyEffectiveDiameterInput.unit = 'mm'
+        self.proxyEffectiveDiameterInput.setMinimumWidth(80)
+
+        # Placement
+        self.proxyPlacementGroup = QtGui.QGroupBox(translate('Rocket', "Placement"), self)
+
+        self.rotationLabel = QtGui.QLabel(translate('Rocket', "Rotation"), self)
+        self.xRotationLabel = QtGui.QLabel(translate('Rocket', "x"), self)
+        self.yRotationLabel = QtGui.QLabel(translate('Rocket', "y"), self)
+        self.zRotationLabel = QtGui.QLabel(translate('Rocket', "z"), self)
+
+        self.xRotationInput = ui.createWidget("Gui::InputField")
+        self.xRotationInput.unit = 'deg'
+        self.xRotationInput.setMinimumWidth(20)
+
+        self.yRotationInput = ui.createWidget("Gui::InputField")
+        self.yRotationInput.unit = 'deg'
+        self.yRotationInput.setMinimumWidth(20)
+
+        self.zRotationInput = ui.createWidget("Gui::InputField")
+        self.zRotationInput.unit = 'deg'
+        self.zRotationInput.setMinimumWidth(20)
+
+        self.offsetLabel = QtGui.QLabel(translate('Rocket', "Offset"), self)
+
+        self.offsetInput = ui.createWidget("Gui::InputField")
+        self.offsetInput.unit = 'mm'
+        self.offsetInput.setMinimumWidth(80)
+
+        # Scaling
+        self.proxyScalingGroup = QtGui.QGroupBox(translate('Rocket', "Scaling"), self)
+        self.proxyScalingGroup.setCheckable(True)
+        self.proxyScalingGroup.setChecked(False)
+
+        self.proxyScalePercentRadio = QtGui.QRadioButton (translate('Rocket', "By percent"), self.proxyScalingGroup)
+        self.proxyScalePercentRadio.setChecked(True)
+
+        self.proxyScalePercentInput = ui.createWidget("Gui::InputField")
+        self.proxyScalePercentInput.unit = 'deg'
+        self.proxyScalePercentInput.setMinimumWidth(20)
+
+        self.proxyScaleDiameterRadio = QtGui.QRadioButton (translate('Rocket', "By body diamter"), self.proxyScalingGroup)
+        self.proxyScaleDiameterRadio.setChecked(False)
+
+        self.proxyScaleDiameterInput = ui.createWidget("Gui::InputField")
+        self.proxyScaleDiameterInput.unit = 'deg'
+        self.proxyScaleDiameterInput.setMinimumWidth(20)
+
+        self.proxyAutoScaleDiameterCheckbox = QtGui.QCheckBox(translate('Rocket', "auto"), self)
+        self.proxyAutoScaleDiameterCheckbox.setCheckState(QtCore.Qt.Unchecked)
+
+        self.proxyShowBasePlaneCheckbox = QtGui.QCheckBox(translate('Rocket', "Show base plane"), self)
+        self.proxyShowBasePlaneCheckbox.setCheckState(QtCore.Qt.Unchecked)
+
+        # Placement group
+        grid = QGridLayout()
+        row = 0
+
+        grid.addWidget(self.rotationLabel, row, 0)
+        grid.addWidget(self.xRotationInput, row, 1)
+        grid.addWidget(self.xRotationLabel, row, 2)
+        grid.addWidget(self.yRotationInput, row, 3)
+        grid.addWidget(self.yRotationLabel, row, 4)
+        grid.addWidget(self.zRotationInput, row, 5)
+        grid.addWidget(self.zRotationLabel, row, 6)
+        row += 1
+
+        grid.addWidget(self.offsetLabel, row, 0)
+        grid.addWidget(self.offsetInput, row, 1, 1, 6)
+        row += 1
+
+        self.proxyPlacementGroup.setLayout(grid)
+
+        # Scaling group
+        grid = QGridLayout()
+        row = 0
+
+        grid.addWidget(self.proxyScalePercentRadio, row, 0)
+        grid.addWidget(self.proxyScalePercentInput, row, 1)
+        row += 1
+
+        grid.addWidget(self.proxyScaleDiameterRadio, row, 0)
+        grid.addWidget(self.proxyScaleDiameterInput, row, 1)
+        grid.addWidget(self.proxyAutoScaleDiameterCheckbox, row, 2)
+        row += 1
+
+        self.proxyScalingGroup.setLayout(grid)
+
+        layout = QGridLayout()
+        row = 0
+
+        layout.addWidget(self.noseConeProxyTypeLabel, row, 0)
+        layout.addWidget(self.noseConeProxyTypesCombo, row, 1)
+        row += 1
+
+        hbox = QHBoxLayout()
+        hbox.addWidget(self.proxyBaseObjectInput)
+        hbox.addWidget(self.proxyBaseObjectButton)
+
+        layout.addWidget(self.proxyBaseObjectLabel, row, 0)
+        layout.addLayout(hbox, row, 1)
+        row += 1
+
+        layout.addWidget(self.proxyBaseObjectLabelSelect, row, 1)
+        row += 1
+
+        layout.addWidget(self.proxyEffectiveDiamaterLabel, row, 0)
+        layout.addWidget(self.proxyEffectiveDiameterInput, row, 1)
+        row += 1
+
+        layout.addWidget(self.proxyPlacementGroup, row, 0, 1, 2)
+        row += 1
+
+        layout.addWidget(self.proxyScalingGroup, row, 0, 1, 2)
+        row += 1
+
+        layout.addWidget(self.proxyShowBasePlaneCheckbox, row, 0, 1, 2)
+        row += 1
+
+        layout.addItem(QtGui.QSpacerItem(0,0, QSizePolicy.Expanding, QSizePolicy.Expanding), row, 0)
+        widget.setLayout(layout)
+        return widget
 
     def setTabShoulder(self):
         ui = FreeCADGui.UiLoader()
@@ -280,6 +458,9 @@ class TaskPanelNoseCone:
         self._obj = obj
         self._isAssembly = self._obj.Proxy.isRocketAssembly()
 
+        # Used to prevent recursion
+        self._updateNoseType = True
+
         self._noseForm = _NoseConeDialog()
         self._db = TaskPanelDatabase(obj, COMPONENT_TYPE_NOSECONE)
         self._dbForm = self._db.getForm()
@@ -288,6 +469,7 @@ class TaskPanelNoseCone:
         self._noseForm.setWindowIcon(QtGui.QIcon(FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_NoseCone.svg"))
 
         self._noseForm.noseConeTypesCombo.currentTextChanged.connect(self.onNoseType)
+        self._noseForm.noseConeProxyTypesCombo.currentTextChanged.connect(self.onNoseType)
         self._noseForm.noseStylesCombo.currentTextChanged.connect(self.onNoseStyle)
         self._noseForm.noseCapStylesCombo.currentTextChanged.connect(self.onNoseCapStyle)
         self._noseForm.noseCapBarWidthInput.textEdited.connect(self.onBarWidthChanged)
@@ -306,6 +488,8 @@ class TaskPanelNoseCone:
         self._noseForm.shoulderLengthInput.textEdited.connect(self.onShoulderLength)
         self._noseForm.shoulderThicknessInput.textEdited.connect(self.onShoulderThickness)
 
+        self._noseForm.proxyBaseObjectButton.clicked.connect(self.onSelect)
+
         self._db.dbLoad.connect(self.onLookup)
 
         self.update()
@@ -316,10 +500,14 @@ class TaskPanelNoseCone:
 
     def transferTo(self):
         "Transfer from the dialog to the object"
-        self._obj.NoseType = str(self._noseForm.noseConeTypesCombo.currentData())
+        if self._obj.NoseType == TYPE_PROXY:
+            self._obj.NoseType = str(self._noseForm.noseConeProxyTypesCombo.currentData())
+        else:
+            self._obj.NoseType = str(self._noseForm.noseConeTypesCombo.currentData())
         self._obj.NoseStyle = str(self._noseForm.noseStylesCombo.currentData())
         self._obj.CapStyle = str(self._noseForm.noseCapStylesCombo.currentData())
         self._obj.CapBarWidth = self._noseForm.noseCapBarWidthInput.text()
+        # self._noseForm.proxyBaseObjectInput.setText(object)
         self._obj.Proxy.setLength(FreeCAD.Units.Quantity(self._noseForm.lengthInput.text()).Value)
         self._obj.Proxy.setAftDiameter(FreeCAD.Units.Quantity(self._noseForm.diameterInput.text()).Value)
         self._obj.Proxy.setAftDiameterAutomatic(self._noseForm.autoDiameterCheckbox.isChecked())
@@ -339,9 +527,14 @@ class TaskPanelNoseCone:
     def transferFrom(self):
         "Transfer from the object to the dialog"
         self._noseForm.noseConeTypesCombo.setCurrentIndex(self._noseForm.noseConeTypesCombo.findData(self._obj.NoseType))
+        self._noseForm.noseConeProxyTypesCombo.setCurrentIndex(self._noseForm.noseConeProxyTypesCombo.findData(self._obj.NoseType))
         self._noseForm.noseStylesCombo.setCurrentIndex(self._noseForm.noseStylesCombo.findData(self._obj.NoseStyle))
         self._noseForm.noseCapStylesCombo.setCurrentIndex(self._noseForm.noseCapStylesCombo.findData(self._obj.CapStyle))
         self._noseForm.noseCapBarWidthInput.setText(self._obj.CapBarWidth.UserString)
+        if self._obj.Base is not None:
+            self._noseForm.proxyBaseObjectInput.setText(self._obj.Base.Label)
+        else:
+            self._noseForm.proxyBaseObjectInput.setText("")
         self._noseForm.lengthInput.setText(self._obj.Length.UserString)
         self._noseForm.diameterInput.setText(self._obj.Diameter.UserString)
         self._noseForm.autoDiameterCheckbox.setChecked(self._obj.AutoDiameter)
@@ -369,6 +562,28 @@ class TaskPanelNoseCone:
         except ReferenceError:
             # Object may be deleted
             pass
+
+    def _NikeScale(self):
+        # Set the scale based on the body diameter being 16.5 inches on the original
+        return (16.5 * 25.4) / float(self._obj.Diameter)
+
+    def _setProxyStateVisibility(self, visible):
+        if visible:
+            index = 0
+        else:
+            index = 1
+        self._noseForm._proxyLayout.setCurrentIndex(index)
+
+    def _setProxyState(self):
+        self._setProxyStateVisibility(self._obj.NoseType != TYPE_PROXY)
+        # Hide the shoulder tab
+        self._noseForm.tabWidget.setTabVisible(1, self._obj.NoseType != TYPE_PROXY)
+
+        self._updateNoseType = False
+        self._noseForm.noseConeTypesCombo.setCurrentIndex(self._noseForm.noseConeTypesCombo.findData(self._obj.NoseType))
+        self._noseForm.noseConeProxyTypesCombo.setCurrentIndex(self._noseForm.noseConeProxyTypesCombo.findData(self._obj.NoseType))
+        self._updateNoseType = True
+
 
     def _setCoeffientState(self):
         value = self._obj.NoseType
@@ -407,21 +622,29 @@ class TaskPanelNoseCone:
             self._obj.Proxy.setLength(float(self._obj.Diameter) / 2.0)
             self._noseForm.lengthInput.setText("%f" % self._obj.Length)
             self._noseForm.lengthInput.setEnabled(False)
+        elif value == TYPE_NIKE_SMOKE:
+            length = (101.83 + 0.75 + 4.05) / self._NikeScale() * 25.4
+            self._obj.Proxy.setLength(length)
+            self._noseForm.lengthInput.setText("%f" % self._obj.Length)
+            self._noseForm.lengthInput.setEnabled(False)
         else:
             self._noseForm.lengthInput.setEnabled(True)
 
     def _setTypeState(self):
+        self._setProxyState()
         self._setCoeffientState()
         self._setBluntState()
         self._setOgiveDiameterState()
         self._setLengthState()
 
     def onNoseType(self, value):
-        self._obj.NoseType = value
-        self._setTypeState()
+        if self._updateNoseType:
+            self._obj.NoseType = value
+            # print("Nose type set to {}".format(value))
+            self._setTypeState()
 
-        self._obj.Proxy.execute(self._obj)
-        self.setEdited()
+            self._obj.Proxy.execute(self._obj)
+            self.setEdited()
 
     def _setStyleState(self):
         value = self._obj.NoseStyle
@@ -460,6 +683,7 @@ class TaskPanelNoseCone:
         self._setCapStyleState()
 
         self._obj.Proxy.execute(self._obj)
+        self.setEdited()
 
     def onBarWidthChanged(self, value):
         try:
@@ -467,6 +691,7 @@ class TaskPanelNoseCone:
             self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
+        self.setEdited()
 
     def onLength(self, value):
         try:
@@ -474,13 +699,7 @@ class TaskPanelNoseCone:
             self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
-
-    def onBlunted(self, value):
-        try:
-            self._obj.BluntedDiameter = FreeCAD.Units.Quantity(value).Value
-            self._obj.Proxy.execute(self._obj)
-        except ValueError:
-            pass
+        self.setEdited()
 
     def onDiameter(self, value):
         try:
@@ -633,6 +852,43 @@ class TaskPanelNoseCone:
         self.update()
         self._obj.Proxy.execute(self._obj)
         self.setEdited()
+
+    def onSelect(self):
+        # FreeCADGui.Control.closeDialog()
+        # FreeCADGui.Control.showDialog(TaskPanelSelection())
+        FreeCAD.RocketObserver = self
+        FreeCADGui.Selection.addObserver(FreeCAD.RocketObserver)
+
+        self._noseForm.proxyBaseObjectLabelSelect.setText(translate('Rocket', 'Select an object'))
+
+    def addSelection(self,document, object, element, position):
+        """Method called when a selection is made on the Gui.
+
+        Parameters
+        ----------
+        document: str
+            The document's Name.
+        object: str
+            The selected object's Name.
+        element: str
+            The element on the object that was selected, such as an edge or
+            face.
+        position:
+            The location in XYZ space the selection was made.
+        """
+
+        FreeCADGui.Selection.removeObserver(FreeCAD.RocketObserver)
+
+        try:
+            obj = FreeCAD.getDocument(document).getObject(object)
+            self._obj.Base = obj
+            self._noseForm.proxyBaseObjectInput.setText(obj.Label)
+            self._obj.Proxy.execute(self._obj)
+        except ValueError:
+            pass
+
+        self._noseForm.proxyBaseObjectLabelSelect.setText("")
+        del FreeCAD.RocketObserver
 
     def getStandardButtons(self):
         return QtGui.QDialogButtonBox.Ok | QtGui.QDialogButtonBox.Cancel | QtGui.QDialogButtonBox.Apply

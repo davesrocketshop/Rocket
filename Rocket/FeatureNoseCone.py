@@ -35,10 +35,12 @@ from Rocket.ShapeHandlers.NoseBluntedOgiveShapeHandler import NoseBluntedOgiveSh
 from Rocket.ShapeHandlers.NoseSecantOgiveShapeHandler import NoseSecantOgiveShapeHandler
 from Rocket.ShapeHandlers.NoseParabolicShapeHandler import NoseParabolicShapeHandler
 from Rocket.ShapeHandlers.NosePowerShapeHandler import NosePowerShapeHandler
+from Rocket.ShapeHandlers.NoseNikeSmokeShapeHandler import NoseNikeSmokeShapeHandler
+from Rocket.ShapeHandlers.NoseProxyShapeHandler import NoseProxyShapeHandler
 
 from Rocket.Constants import TYPE_CONE, TYPE_BLUNTED_CONE, TYPE_SPHERICAL, TYPE_ELLIPTICAL, \
     TYPE_HAACK, TYPE_OGIVE, TYPE_BLUNTED_OGIVE, TYPE_SECANT_OGIVE, TYPE_VON_KARMAN, TYPE_PARABOLA, \
-    TYPE_PARABOLIC, TYPE_POWER
+    TYPE_PARABOLIC, TYPE_POWER, TYPE_NIKE_SMOKE, TYPE_PROXY
 from Rocket.Constants import STYLE_CAPPED, STYLE_HOLLOW, STYLE_SOLID
 from Rocket.Constants import STYLE_CAP_SOLID, STYLE_CAP_BAR, STYLE_CAP_CROSS
 from Rocket.Constants import FEATURE_NOSE_CONE, FEATURE_INNER_TUBE, FEATURE_CENTERING_RING, FEATURE_FIN
@@ -94,7 +96,9 @@ class FeatureNoseCone(SymmetricComponent):
                         TYPE_PARABOLA,
                         TYPE_PARABOLIC,
                         TYPE_POWER,
-                        TYPE_HAACK]
+                        TYPE_HAACK,
+                        TYPE_NIKE_SMOKE,
+                        TYPE_PROXY]
             obj.NoseType = TYPE_OGIVE
         else:
             obj.NoseType = [TYPE_CONE,
@@ -108,7 +112,9 @@ class FeatureNoseCone(SymmetricComponent):
                         TYPE_PARABOLA,
                         TYPE_PARABOLIC,
                         TYPE_POWER,
-                        TYPE_HAACK]
+                        TYPE_HAACK,
+                        TYPE_NIKE_SMOKE,
+                        TYPE_PROXY]
 
         if not hasattr(obj, 'NoseStyle'):
             obj.addProperty('App::PropertyEnumeration', 'NoseStyle', 'RocketComponent', translate('App::Property', 'Nose cone style'))
@@ -131,6 +137,9 @@ class FeatureNoseCone(SymmetricComponent):
             obj.CapStyle = [STYLE_CAP_SOLID,
                                 STYLE_CAP_BAR,
                                 STYLE_CAP_CROSS]
+
+        if not hasattr(obj, 'Base'):
+            obj.addProperty('App::PropertyLink', 'Base', 'RocketComponent', translate('App::Property', 'The base object used to define the nose cone shape'))
 
     def setDefaults(self):
         super().setDefaults()
@@ -405,6 +414,10 @@ class FeatureNoseCone(SymmetricComponent):
             self._shapeHandler = NosePowerShapeHandler(obj)
         elif obj.NoseType == TYPE_POWER:
             self._shapeHandler = NosePowerShapeHandler(obj)
+        elif obj.NoseType == TYPE_NIKE_SMOKE:
+            self._shapeHandler = NoseNikeSmokeShapeHandler(obj)
+        elif obj.NoseType == TYPE_PROXY:
+            self._shapeHandler = NoseProxyShapeHandler(obj)
 
     def execute(self, obj):
         self._setShapeHandler()
