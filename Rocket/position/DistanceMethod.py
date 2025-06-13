@@ -30,4 +30,4 @@ class DistanceMethod(ABC):
 
     @abstractmethod
     def clampToZero(self) -> bool:
-        pass
+        ...

@@ -25,18 +25,17 @@ __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
 from abc import ABC, abstractmethod
-from tokenize import Double
 
 from Rocket.position.AngleMethod import AngleMethod
 
 class AnglePositionable(ABC):
 
     @abstractmethod
-    def getAngleOffset(self) -> Double:
+    def getAngleOffset(self) -> float:
         pass
 
     @abstractmethod
-    def setAngleOffset(self, angle : Double) -> None:
+    def setAngleOffset(self, angle : float) -> None:
         pass
 
     @abstractmethod

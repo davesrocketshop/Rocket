@@ -24,6 +24,8 @@ __title__ = "FreeCAD Rocket Components"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
+from abc import abstractmethod
+
 from DraftTools import translate
 
 from Rocket.Constants import LOCATION_PARENT_TOP, LOCATION_PARENT_MIDDLE, LOCATION_PARENT_BOTTOM, \
@@ -33,12 +35,12 @@ from Rocket.position.DistanceMethod import DistanceMethod
 
 class AxialMethod(DistanceMethod):
 
-    _description = None
+    _description : str = ""
 
     def __init__(self, newDescription):
-        self._description = newDescription
+        self._description : str = newDescription
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self._description
 
     def clampToZero(self):
@@ -50,8 +52,9 @@ class AxialMethod(DistanceMethod):
     def getAsPosition(self, offset, innerLength, outerLength):
         return 0.0
 
-    def getMethodName(self):
-        return None
+    @abstractmethod
+    def getMethodName(self) -> str:
+        ...
 
 class AbsoluteAxialMethod(AxialMethod):
 
@@ -64,7 +67,7 @@ class AbsoluteAxialMethod(AxialMethod):
     def getAsPosition(self, offset, innerLength, outerLength):
         return float(offset)
 
-    def getMethodName(self):
+    def getMethodName(self) -> str:
         return LOCATION_BASE
 
 class AfterAxialMethod(AxialMethod):
@@ -78,7 +81,7 @@ class AfterAxialMethod(AxialMethod):
     def getAsPosition(self, offset, innerLength, outerLength):
         return float(outerLength) + float(offset)
 
-    def getMethodName(self):
+    def getMethodName(self) -> str:
         return LOCATION_AFTER
 
 
@@ -93,7 +96,7 @@ class BottomAxialMethod(AxialMethod):
     def getAsPosition(self, offset, innerLength, outerLength):
         return float(offset) + (float(outerLength) - float(innerLength))
 
-    def getMethodName(self):
+    def getMethodName(self) -> str:
         return LOCATION_PARENT_BOTTOM
 
 class MiddleAxialMethod(AxialMethod):
@@ -107,7 +110,7 @@ class MiddleAxialMethod(AxialMethod):
     def getAsPosition(self, offset, innerLength, outerLength):
         return float(offset) + (float(outerLength) - float(innerLength)) / 2
 
-    def getMethodName(self):
+    def getMethodName(self) -> str:
         return LOCATION_PARENT_MIDDLE
 
 class TopAxialMethod(AxialMethod):
@@ -121,7 +124,7 @@ class TopAxialMethod(AxialMethod):
     def getAsPosition(self, offset, innerLength, outerLength):
         return float(offset)
 
-    def getMethodName(self):
+    def getMethodName(self) -> str:
         return LOCATION_PARENT_TOP
 
 ABSOLUTE = AbsoluteAxialMethod()

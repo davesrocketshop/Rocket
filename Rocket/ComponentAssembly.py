@@ -48,32 +48,32 @@ class ComponentAssembly(RocketComponentShapeless, AxialPositionable):
     def setDefaults(self):
         super().setDefaults()
 
-    def getAxialOffset(self) -> Double:
+    def getAxialOffset(self) -> float:
         return self.getAxialOffsetFromMethod(self._obj.AxialMethod)
 
-    def setAxialOffset(self, newAxialOffset) -> None:
-        self._updateBounds()
+    def setAxialOffset(self, newAxialOffset : float) -> None:
+        # self._updateBounds()
         super()._setAxialOffset(self._obj.AxialMethod, newAxialOffset)
         self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
 
-    def getAxialMethod(self) -> AxialMethod:
+    def getAxialMethod(self) -> type[AxialMethod.AxialMethod]:
         return self._obj.AxialMethod
 
-    def setAxialMethod(self, newMethod) -> None:
+    def setAxialMethod(self, newAxialMethod : type[AxialMethod.AxialMethod]) -> None:
         # self._obj.AxialMethod = newMethod
         for listener in self._configListeners:
             if isinstance(listener, ComponentAssembly):
-                listener.setAxialMethod(newMethod)
+                listener.setAxialMethod(newAxialMethod)
 
         if self.getParent is None:
             raise Exception(translate("Rocket", "A Stage requires a parent before any positioning!"))
 
         if self.getType() == FEATURE_PARALLEL_STAGE or self.getType() == FEATURE_POD:
-            if newMethod == AxialMethod.AFTER:
+            if newAxialMethod == AxialMethod.AFTER:
                 # log.warn("Stages (or Pods) cannot be relative to other stages via AFTER! Ignoring.");
                 super().setAxialMethod(AxialMethod.TOP)
             else:
-                super().setAxialMethod(newMethod)
+                super().setAxialMethod(newAxialMethod)
         elif self.getType() == FEATURE_STAGE:
             # Centerline stages must be set via AFTER-- regardless of what was requested:
             super().setAxialMethod(AxialMethod.AFTER)
@@ -85,7 +85,7 @@ class ComponentAssembly(RocketComponentShapeless, AxialPositionable):
 
         self.fireComponentChangeEvent(ComponentChangeEvent.NONFUNCTIONAL_CHANGE);
 
-    def getInstanceBoundingBox (self):
+    def getInstanceBoundingBox (self) -> BoundingBox:
         return BoundingBox()
 
     def getBoundingRadius(self):

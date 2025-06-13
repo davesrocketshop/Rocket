@@ -25,24 +25,23 @@ __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
 from abc import ABC, abstractmethod
-from tokenize import Double
 
 from Rocket.position.AxialMethod import AxialMethod
 
 class AxialPositionable(ABC):
 
     @abstractmethod
-    def getAxialOffset(self) -> Double:
-        pass
+    def getAxialOffset(self) -> float:
+        ...
 
     @abstractmethod
-    def setAxialOffset(self, newAxialOffset : Double) -> None:
-        pass
+    def setAxialOffset(self, newAxialOffset : float) -> None:
+        ...
 
     @abstractmethod
     def getAxialMethod(self) -> AxialMethod:
-        pass
+        ...
 
     @abstractmethod
-    def setAxialMethod(self, newMethod : AxialMethod) -> None:
-        pass
+    def setAxialMethod(self, newAxialMethod : AxialMethod) -> None:
+        ...

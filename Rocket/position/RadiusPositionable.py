@@ -25,32 +25,31 @@ __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
 from abc import ABC, abstractmethod
-from tokenize import Double
 
 from Rocket.position.RadiusMethod import RadiusMethod
 
 class RadiusPositionable(ABC):
 
     @abstractmethod
-    def getBoundingRadius(self) -> Double:
-        pass
+    def getBoundingRadius(self) -> float:
+        ...
 
     @abstractmethod
-    def getRadiusOffset(self) -> Double:
-        pass
+    def getRadiusOffset(self) -> float:
+        ...
 
     @abstractmethod
-    def setRadiusOffset(self, radius : Double) -> None:
-        pass
+    def setRadiusOffset(self, radius : float) -> None:
+        ...
 
     @abstractmethod
     def getRadiusMethod(self) -> RadiusMethod:
-        pass
+        ...
 
     @abstractmethod
     def setRadiusMethod(self, method : RadiusMethod) -> None:
-        pass
+        ...
 
     @abstractmethod
-    def setRadius(self, method : RadiusMethod, radius : Double) -> None:
-        pass
+    def setRadius(self, method : RadiusMethod, radius : float) -> None:
+        ...

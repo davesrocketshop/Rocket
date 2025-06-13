@@ -25,6 +25,7 @@ __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
 import math
+from typing import Any
 
 from DraftTools import translate
 
@@ -33,18 +34,18 @@ from Rocket.position.DistanceMethod import DistanceMethod
 
 class AngleMethod(DistanceMethod):
 
-    _description = None
+    _description : str = ""
 
-    def __init__(self, newDescription):
+    def __init__(self, newDescription : str):
         self._description = newDescription
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self._description
 
-    def clampToZero(self):
+    def clampToZero(self) -> bool:
         return False
 
-    def getAngle(self, parentComponent, thisComponent, angleOffset_radians):
+    def getAngle(self, parentComponent : Any, thisComponent : Any, angleOffset_radians : float) -> float:
         return 0.0
 
 class RelativeAngleMethod(AngleMethod):
@@ -52,10 +53,10 @@ class RelativeAngleMethod(AngleMethod):
     def __init__(self):
         super().__init__(translate('App::Property', 'Relative to the parent component'))
 
-    def clampToZero(self):
+    def clampToZero(self) -> bool:
         return True
 
-    def getAngle(self, parentComponent, thisComponent, angleOffset_radians):
+    def getAngle(self, parentComponent : Any, thisComponent : Any, angleOffset_radians : float) -> float:
         return parentComponent.getAngleOffset() + angleOffset_radians
 
 class FixedAngleMethod(AngleMethod):
@@ -63,10 +64,10 @@ class FixedAngleMethod(AngleMethod):
     def __init__(self):
         super().__init__(translate('App::Property', 'Angle is fixed'))
 
-    def clampToZero(self):
+    def clampToZero(self) -> bool:
         return True
 
-    def getAngle(self, parentComponent, thisComponent, angleOffset_radians):
+    def getAngle(self, parentComponent : Any, thisComponent : Any, angleOffset_radians : float) -> float:
         return 0.0
 
 class MirrorXYAngleMethod(AngleMethod):
@@ -74,7 +75,7 @@ class MirrorXYAngleMethod(AngleMethod):
     def __init__(self):
         super().__init__(translate('App::Property', "Mirror relative to the rocket's x-y plane"))
 
-    def getAngle(self, parentComponent, thisComponent, angleOffset_radians):
+    def getAngle(self, parentComponent : Any, thisComponent : Any, angleOffset_radians : float) -> float:
         combinedAngle = reduce2Pi( parentComponent.getAngleOffset() + angleOffset_radians )
 
         if math.pi > combinedAngle:

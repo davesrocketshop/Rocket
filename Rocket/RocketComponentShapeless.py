@@ -24,6 +24,9 @@ __title__ = "FreeCAD Rocket Components"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
+from abc import ABC, abstractmethod
+from typing import Self, Any
+
 import FreeCAD
 import math
 
@@ -62,7 +65,7 @@ class EditedShape(QObject):
     def doDisconnect(self):
         self.edited.connect(None)
 
-class RocketComponentShapeless():
+class RocketComponentShapeless(ABC):
 
     edited = EditedShape()
 
@@ -116,37 +119,37 @@ class RocketComponentShapeless():
             self.Type = state[0]
             self.version = state[1]
 
-    def setScratch(self, name, value):
+    def setScratch(self, name, value) -> None:
         self._scratch[name] = value
 
-    def getScratch(self, name):
+    def getScratch(self, name) -> None:
         return self._scratch[name]
 
-    def isScratch(self, name):
+    def isScratch(self, name) -> bool:
         return name in self._scratch
 
-    def setDefaults(self):
+    def setDefaults(self) -> None:
         pass
 
-    def setEdited(self, event=None):
+    def setEdited(self, event=None) -> None:
         self.edited.setEdited(event)
 
-    def connect(self, fn, type):
+    def connect(self, fn, type) -> None:
         self.edited.doConnect(fn, type)
 
-    def disconnect(self):
+    def disconnect(self) -> None:
         self.edited.doDisconnect()
 
-    def eligibleChild(self, childType):
+    def eligibleChild(self, childType) -> bool:
         return False
 
-    def getType(self):
+    def getType(self) -> str:
         return self.Type
 
-    def isAfter(self):
+    def isAfter(self) -> bool:
         return isinstance(self.getAxialMethod(), AxialMethod.AfterAxialMethod)
 
-    def isRocketAssembly(self):
+    def isRocketAssembly(self) -> bool:
         parent = self.getParent()
         while parent is not None:
             if parent.Type == FEATURE_ROCKET:
@@ -156,19 +159,19 @@ class RocketComponentShapeless():
 
         return False
 
-    def getName(self):
+    def getName(self) -> str:
         return self._obj.Label
 
-    def setName(self, name):
+    def setName(self, name) -> None:
         self._obj.Label = name
 
-    def getComment(self):
+    def getComment(self) -> str:
         return self._obj.Comment
 
-    def setComment(self, comment):
+    def setComment(self, comment) -> None:
         self._obj.Comment = comment
 
-    def setParent(self, obj):
+    def setParent(self, obj) -> None:
         if hasattr(obj, "Proxy"):
             parent = obj.Proxy
         else:
@@ -183,54 +186,54 @@ class RocketComponentShapeless():
     """
         recursively set the parents for all children
     """
-    def setChildParent(self):
+    def setChildParent(self) -> None:
         for child in self.getChildren():
             child.Proxy.setParent(self)
             child.Proxy.setChildParent()
 
-    def getParent(self):
+    def getParent(self) -> Self | None:
         if not hasattr(self, "_parent") or self._parent is None:
             return None
 
         return self.getProxy(self._parent)
 
-    def getChildren(self):
+    def getChildren(self) -> list:
         try:
             return self._obj.Group
         except ReferenceError:
             return []
 
-    def setChildren(self, list):
+    def setChildren(self, list) -> None:
         self._obj.Group = list
 
-    def _getChild(self, index):
+    def _getChild(self, index) -> Self | None:
         try:
             return self._obj.Group[index]
         except IndexError:
             return None
 
-    def _setChild(self, index, value):
+    def _setChild(self, index, value) -> None:
         list = self._obj.Group
         list.insert(index, value)
         self._obj.Group = list
 
-    def _moveChild(self, index, value):
+    def _moveChild(self, index, value) -> None:
         list = self._obj.Group
         list.remove(value)
         list.insert(index, value)
         self._obj.Group = list
 
-    def _removeChild(self, value):
+    def _removeChild(self, value) -> None:
         list = self._obj.Group
         list.remove(value)
         self._obj.Group = list
 
-    def getProxy(self, obj):
+    def getProxy(self, obj) -> Self:
         if hasattr(obj, "Proxy"):
             return obj.Proxy
         return obj
 
-    def getPrevious(self, obj=None):
+    def getPrevious(self, obj=None) -> Self | None:
         "Previous item along the rocket axis"
         if obj is None:
             if self._parent is not None:
@@ -250,7 +253,7 @@ class RocketComponentShapeless():
 
         return None
 
-    def getNext(self, obj=None):
+    def getNext(self, obj=None) -> Self | None:
         "Next item along the rocket axis"
         if obj is None:
             if self._parent is not None:
@@ -270,7 +273,7 @@ class RocketComponentShapeless():
 
         return None
 
-    def getMaxForwardPosition(self):
+    def getMaxForwardPosition(self) -> float:
         # Return the length of this component along the central axis
         length = 0.0
         if hasattr(self._obj, "Group"):
@@ -279,34 +282,34 @@ class RocketComponentShapeless():
 
         return length
 
-    def getForeRadius(self):
+    def getForeRadius(self) -> float:
         # For placing objects on the outer part of the parent
         return 0.0
 
-    def getAftRadius(self):
+    def getAftRadius(self) -> float:
         # For placing objects on the outer part of the parent
         return self.getForeRadius()
 
-    def getRadius(self, pos):
+    def getRadius(self, pos = None) -> float:
         return self.getForeRadius()
 
-    def setRadius(self):
+    def setRadius(self) -> None:
         # Calculate any auto radii
         self.getRadius()
 
-    def getOuterRadius(self, pos):
+    def getOuterRadius(self, pos = None) -> float:
         return 0.0
 
-    def getInnerRadius(self, pos):
+    def getInnerRadius(self, pos = None) -> float:
         return 0.0
 
-    def setRadialPosition(self, outerRadius, innerRadius):
+    def setRadialPosition(self, outerRadius, innerRadius) -> None:
         pass
 
-    def getRadialPositionOffset(self):
+    def getRadialPositionOffset(self) -> float:
         return 0.0
 
-    def _documentRocket(self):
+    def _documentRocket(self) -> Self | None:
         for obj in FreeCAD.ActiveDocument.Objects:
             if hasattr(obj, "Proxy"):
                 if hasattr(obj.Proxy, "getType"):
@@ -315,7 +318,7 @@ class RocketComponentShapeless():
 
         return None
 
-    def moveUp(self):
+    def moveUp(self) -> None:
         # Move the part up in the tree
         if self.getParent() is not None:
             self.getParent()._moveChildUp(self._obj)
@@ -325,7 +328,7 @@ class RocketComponentShapeless():
         # else:
         #     Commands.CmdStage.addToStage(self)
 
-    def _moveChildUp(self, obj):
+    def _moveChildUp(self, obj) -> None:
         if hasattr(self._obj, "Group"):
             for index, child in enumerate(self._obj.Group):
                 if child.Proxy == obj.Proxy:
@@ -404,7 +407,7 @@ class RocketComponentShapeless():
                                 return
                             parent = parent.Proxy.getParent()
 
-    def moveDown(self):
+    def moveDown(self) -> None:
         # Move the part up in the tree
         if self.getParent() is not None:
             self.getParent()._moveChildDown(self._obj)
@@ -412,7 +415,7 @@ class RocketComponentShapeless():
             self.fireComponentChangeEvent(ComponentChangeEvent.TREE_CHANGE)
             Ui.Commands.CmdRocket.updateRocket()
 
-    def _moveChildDown(self, obj):
+    def _moveChildDown(self, obj) -> None:
         if hasattr(self._obj, "Group"):
             last = len(self._obj.Group) - 1
             for index, child in enumerate(self._obj.Group):
@@ -490,7 +493,7 @@ class RocketComponentShapeless():
                     index += 1
         return
 
-    def firstEligibleChild(self, obj):
+    def firstEligibleChild(self, obj) -> Self | None:
         """ Find the first element eligiible to recieve the child object """
         if self.eligibleChild(obj.Proxy.Type):
             return self
@@ -505,7 +508,7 @@ class RocketComponentShapeless():
 
         return None
 
-    def nextEligibleChild(self, current, obj):
+    def nextEligibleChild(self, current, obj) -> Self | None:
         """ Find the first element eligiible to recieve the child object """
         currentFound = False
         for child in self._obj.Group:
@@ -521,7 +524,7 @@ class RocketComponentShapeless():
 
         return None
 
-    def lastEligibleChild(self, obj):
+    def lastEligibleChild(self, obj) -> Self | None:
         """ Find the last element eligiible to recieve the child object """
         eligible = None
         if self.eligibleChild(obj.Proxy.Type):
@@ -536,7 +539,7 @@ class RocketComponentShapeless():
 
         return eligible
 
-    def previousEligibleChild(self, current, obj):
+    def previousEligibleChild(self, current, obj) -> Self | None:
         """ Find the last element eligiible to recieve the child object """
         eligible = None
         for child in self._obj.Group:
@@ -553,7 +556,7 @@ class RocketComponentShapeless():
         return eligible
 
 
-    def getAxialOffsetFromMethod(self, method):
+    def getAxialOffsetFromMethod(self, method) -> float:
         parentLength = 0
         if self.getParent() is not None:
             parentLength = self.getParent().getLength()
@@ -563,10 +566,10 @@ class RocketComponentShapeless():
         else:
             return method.getAsOffset(self._obj.Placement.Base.x, self.getLength(), parentLength)
 
-    def getAxialOffset(self):
+    def getAxialOffset(self) -> float:
         return self._obj.AxialOffset
 
-    def _setAxialOffset(self, method, newAxialOffset):
+    def _setAxialOffset(self, method : AxialMethod.AxialMethod, newAxialOffset : float) -> None:
         newX = math.nan
 
         if self.getParent() is None:
@@ -593,13 +596,13 @@ class RocketComponentShapeless():
         self._obj.AxialOffset = newAxialOffset
         self._obj.Placement.Base.x = newX
 
-    def setAxialOffset(self, _pos):
+    def setAxialOffset(self, _pos : float) -> None:
         self.updateBounds()
         self._setAxialOffset(self._obj.AxialMethod, _pos)
         self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
 
     """  Get the positioning of the component relative to its parent component. """
-    def getAxialMethod(self):
+    def getAxialMethod(self) -> object:
         return self._obj.AxialMethod
 
     """
@@ -611,7 +614,7 @@ class RocketComponentShapeless():
         it should override this with a public method that simply calls this
         supermethod AND fire a suitable ComponentChangeEvent.
     """
-    def setAxialMethod(self, newAxialMethod) :
+    def setAxialMethod(self, newAxialMethod : type [AxialMethod.AxialMethod]) -> None:
         for listener in self._configListeners:
             listener.setAxialMethod(newAxialMethod)
 
@@ -627,11 +630,11 @@ class RocketComponentShapeless():
         # this doesn't cause any physical change-- just how it's described.
         # self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
 
-    def update(self):
+    def update(self) -> None:
         self._setAxialOffset(self._obj.AxialMethod, self._obj.AxialOffset)
         self._setRotation()
 
-    def updateChildren(self):
+    def updateChildren(self) -> None:
         if not self._updating:
             self.update()
             self._updating = True
@@ -645,15 +648,15 @@ class RocketComponentShapeless():
     #  default a no-op, but subclasses may override this method to e.g. invalidate
     #  cached data.  The overriding method *must* call
     #  <code>super.componentChanged(e)</code> at some point.
-    def componentChanged(self, event):
+    def componentChanged(self, event) -> None:
         self.updateChildren()
 
-    def _setRotation(self):
+    def _setRotation(self) -> None:
         self._obj.Placement = FreeCAD.Placement(self._obj.Placement.Base, FreeCAD.Vector(1,0,0), self._obj.AngleOffset)
 
     # Adds a child to the rocket component tree.  The component is added to the end
     # of the component's child list.  This is a helper method that calls
-    def addChild(self, component):
+    def addChild(self, component : Self) -> None:
         if hasattr(component, "_obj"):
             self.addChildPosition(component._obj, len(self._obj.Group))
         else:
@@ -664,7 +667,7 @@ class RocketComponentShapeless():
     # <p>
     # This method may be overridden to enforce more strict component addition rules.
     # The tests should be performed first and then this method called.
-    def addChildPosition(self, component, index):
+    def addChildPosition(self, component : Any, index : int) -> None:
         if component.Proxy.getParent() is not None:
             raise Exception(translate("Rocket", "component {} is already in a tree").format(component.Proxy.getName()))
 
@@ -681,7 +684,9 @@ class RocketComponentShapeless():
         component.Proxy.setParent(self)
 
         if component.Proxy.getType() == FEATURE_STAGE:
-            self.getRocket().trackStage(component.Proxy)
+            rocket = self.getRocket()
+            if rocket is not None:
+                rocket.trackStage(component.Proxy)
 
         self.checkComponentStructure()
         component.Proxy.checkComponentStructure()
@@ -690,13 +695,13 @@ class RocketComponentShapeless():
 
     # Removes a child from the rocket component tree.
     # (redirect to the removed-by-component
-    def removeChildPosition(self, n):
+    def removeChildPosition(self, n : int) -> None:
         component = self.getChildren()[n].Proxy
         self.removeChild(component)
 
     # Removes a child from the rocket component tree.  Does nothing if the component
     # is not present as a child.
-    def removeChild(self, component):
+    def removeChild(self, component : Any) -> bool:
         if hasattr(component, "Proxy"):
             component = component.Proxy
         component.checkComponentStructure()
@@ -726,7 +731,7 @@ class RocketComponentShapeless():
 
     # Returns the position of the child in this components child list, or -1 if the
     # component is not a child of this component.
-    def getChildIndex(self, child):
+    def getChildIndex(self, child : Self) -> int:
         try:
             self.checkComponentStructure()
             return self.getChildren().index(child._obj)
@@ -734,39 +739,40 @@ class RocketComponentShapeless():
             pass
         return -1
 
-    def getChildPosition(self, child):
+    def getChildPosition(self, child : Self) -> int:
         return self.getChildIndex(child)
 
-    def getChildCount(self):
+    def getChildCount(self) -> int:
         self.checkComponentStructure()
         return len(self.getChildren())
 
-    def getChild(self, n):
+    def getChild(self, n) -> object:
         self.checkComponentStructure()
         return self._obj.Group[n]
 
     # Get the root component of the component tree.
-    def getRoot(self):
+    def getRoot(self) -> Self | None:
         gp = self
-        while gp.getParent() is not None:
-            gp = gp.getParent()
+        if gp is not None:
+            while gp.getParent() is not None:
+                gp = gp.getParent()
 
         return gp
 
     # Returns the root Rocket component of this component tree.  Throws an
     # IllegalStateException if the root component is not a Rocket.
-    def getRocket(self):
+    def getRocket(self) -> Self | None:
         root = self.getRoot()
+        if root is None or root == self:
+            return None
         if root.getType() == FEATURE_ROCKET:
             return root
-        if root == self:
-            return None
 
         raise Exception(translate("Rocket", "getRocket() called with root component {}").format(self.getRoot().getName()))
 
     # Return the Stage component that this component belongs to.  Throws an
     # IllegalStateException if a Stage is not in the parentage of this component.
-    def getStage(self):
+    def getStage(self) -> Self | None:
         current = self
         while current is not None:
             if current.Type == FEATURE_STAGE:
@@ -776,7 +782,7 @@ class RocketComponentShapeless():
         raise Exception(translate("Rocket", "getStage() called on hierarchy without a FeatureStage component."))
 
     # Returns all the stages that are a child or sub-child of this component.
-    def getSubStages(self):
+    def getSubStages(self) -> list[Self]:
         result = []
         for current in self.getChildren():
             proxy = current.Proxy
@@ -787,7 +793,7 @@ class RocketComponentShapeless():
 
     # Check that the local component structure is correct.  This can be called after changing
     # the component structure in order to verify the integrity.
-    def checkComponentStructure(self):
+    def checkComponentStructure(self) -> None:
         if self.getParent() is not None:
             # Test that this component is found in parent's children with == operator
             if not self.containsExact(self.getParent().getChildren(), self):
@@ -807,7 +813,7 @@ class RocketComponentShapeless():
                 raise Exception(message)
 
     # Check whether the list contains exactly the searched-for component (with == operator)
-    def containsExact(self, haystack, needle):
+    def containsExact(self, haystack : Any, needle : Any) -> bool:
         for c in haystack:
             if needle == c.Proxy:
                 return True
@@ -816,7 +822,7 @@ class RocketComponentShapeless():
 
     # Fires an AERODYNAMIC_CHANGE, MASS_CHANGE or OTHER_CHANGE event depending on the
     # type of component removed.
-    def fireAddRemoveEvent(self, component):
+    def fireAddRemoveEvent(self, component : Any) -> None:
         type = ComponentChangeEvent.TREE_CHANGE
         if hasattr(component, "_obj"):
             group = component._obj.Group
@@ -830,15 +836,17 @@ class RocketComponentShapeless():
                 if proxy.isMassive():
                     type |= ComponentChangeEvent.MASS_CHANGE
 
-        self.fireComponentChangeEvent(type);
+        self.fireComponentChangeEvent(type)
 
-    def fireComponentChangeEvent(self, event):
+    def fireComponentChangeEvent(self, event : Any) -> None:
         if self.getParent() is None: # or self._bypassComponentChangeEvent:
             return
 
-        self.getRoot().fireComponentChangeEvent(event)
+        root = self.getRoot()
+        if root is not None:
+            root.fireComponentChangeEvent(event)
 
-    def setAfter(self):
+    def setAfter(self) -> None:
         if self.getParent() is None:
             # Probably initialization order issue.  Ignore for now.
             return
@@ -881,18 +889,19 @@ class RocketComponentShapeless():
         If the length of a component is settable, the class must define the setter method
         itself.
     """
-    def getLength(self):
+    def getLength(self) -> float:
         # Return the length of this component along the central axis
         return 0
 
-    def setAppearance(self, appearance):
+    def setAppearance(self, appearance) -> None:
         if hasattr(self._obj.ViewObject.Proxy, "setAppearance"):
             self._obj.ViewObject.Proxy.setAppearance(appearance)
 
     # This will be implemented in the derived class
-    def execute(self, obj):
-        _err("No execute method defined for %s" % (self.__class__.__name__))
+    @abstractmethod
+    def execute(self, obj) -> None:
+        ...
 
-    def getSolidShape(self, obj):
+    def getSolidShape(self, obj) -> object:
         """ Return a filled version of the shape. Useful for CFD """
         return None
