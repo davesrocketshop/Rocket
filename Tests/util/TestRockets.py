@@ -45,7 +45,8 @@ class TestRockets:
         It is picked as a standard, simple, validation rocket.
         This function is used for unit, integration tests, DO NOT CHANGE (without updating tests).
     """
-    def makeEstesAlphaIII():
+    @classmethod
+    def makeEstesAlphaIII(cls):
         rocket = makeRocket('Alpha III', False)
         # rocket.enableEvents(False)
         rocket.setName("Estes Alpha III / Code Verification Rocket")

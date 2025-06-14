@@ -28,7 +28,6 @@ import FreeCAD
 import unittest
 
 from Rocket.util.Coordinate import Coordinate
-from Rocket.util.MathUtil import EPSILON
 from Rocket.position import AxialMethod
 
 from Ui.Commands.CmdBodyTube import makeBodyTube

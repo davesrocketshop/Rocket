@@ -24,11 +24,11 @@ __title__ = "FreeCAD Rocket Components"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
-from uuid import uuid4
+from uuid import uuid4, UUID
 
 class UniqueID:
 
-    _nextId = 1
+    _nextId : int = 1
 
     """
     Return a positive integer ID unique during this program execution.
@@ -43,12 +43,12 @@ class UniqueID:
     This method is thread-safe and fast.
     """
     @classmethod
-    def next(cls):
+    def next(cls) -> int:
         cls._nextId += 1
         return cls._nextId
 
 
     """ Return a new universally unique ID string. """
     @classmethod
-    def uuid(cls):
+    def uuid(cls) -> UUID:
         return uuid4()

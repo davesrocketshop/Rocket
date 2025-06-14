@@ -24,6 +24,8 @@ __title__ = "FreeCAD Rocket Components"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
+from typing import Any
+
 from Rocket.util.Coordinate import Coordinate
 
 class Transformation():
@@ -40,7 +42,7 @@ class Transformation():
     Z = 2
 
     # Create transformation with given rotation matrix and translation.
-    def __init__(self, rotation = None, translation = None):
+    def __init__(self, rotation : Any | None = None, translation : Coordinate | None = None) -> None:
         if rotation is None:
             self._rotation[self.X][self.X] = 1
             self._rotation[self.Y][self.Y] = 1
@@ -56,9 +58,9 @@ class Transformation():
             self._translate = translation
 
     # Transform a coordinate according to this transformation.
-    def transform(self, orig):
-        x = self._rotation[self.X][self.X]*orig.x + self._rotation[self.X][self.Y]*orig.y + self._rotation[self.X][self.Z]*orig.z + self._translate.x;
-        y = self._rotation[self.Y][self.X]*orig.x + self._rotation[self.Y][self.Y]*orig.y + self._rotation[self.Y][self.Z]*orig.z + self._translate.y;
-        z = self._rotation[self.Z][self.X]*orig.x + self._rotation[self.Z][self.Y]*orig.y + self._rotation[self.Z][self.Z]*orig.z + self._translate.z;
+    def transform(self, orig : Coordinate) -> Coordinate:
+        x = self._rotation[self.X][self.X]*orig._x + self._rotation[self.X][self.Y]*orig._y + self._rotation[self.X][self.Z]*orig._z + self._translate._x
+        y = self._rotation[self.Y][self.X]*orig._x + self._rotation[self.Y][self.Y]*orig._y + self._rotation[self.Y][self.Z]*orig._z + self._translate._y
+        z = self._rotation[self.Z][self.X]*orig._x + self._rotation[self.Z][self.Y]*orig._y + self._rotation[self.Z][self.Z]*orig._z + self._translate._z
 
-        return Coordinate(x,y,z,orig.weight);
+        return Coordinate(x,y,z,orig._weight)

@@ -27,7 +27,7 @@ __url__ = "https://www.davesrocketshop.com"
 from abc import abstractmethod
 from typing import Self, Any
 
-from Rocket.util.MathUtil import MathUtil
+from Rocket.Utilities import clamp
 from Rocket.interfaces.BoxBounded import BoxBounded
 from Rocket.interfaces.RadialParent import RadialParent
 from Rocket.events.ComponentChangeEvent import ComponentChangeEvent
@@ -125,7 +125,7 @@ class SymmetricComponent(RocketComponent, BoxBounded, RadialParent):
         if (self._obj.Thickness == thickness) and not self.isFilled():
             return
         if doClamping:
-            self._obj.Thickness = MathUtil.clamp(thickness, 0, self.getMaxRadius())
+            self._obj.Thickness = clamp(thickness, 0, self.getMaxRadius())
         else:
             self._obj.Thickness = thickness
         self.setFilled(False)

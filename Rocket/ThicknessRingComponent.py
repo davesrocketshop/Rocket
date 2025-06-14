@@ -32,7 +32,7 @@ from Rocket.interfaces.RadialParent import RadialParent
 from Rocket.events.ComponentChangeEvent import ComponentChangeEvent
 
 from Rocket.util.Coordinate import Coordinate, NUL
-from Rocket.util.MathUtil import MathUtil
+from Rocket.Utilities import clamp
 
 from DraftTools import translate
 
@@ -69,8 +69,8 @@ class ThicknessRingComponent(RingComponent):
             if self.isOuterDiameterAutomatic() and isinstance(parent, RadialParent):
                 pos1 = self.toRelative(NUL, parent)[0]._x
                 pos2 = self.toRelative(Coordinate(self.getLength()), parent)[0]._x
-                pos1 = MathUtil.clamp(pos1, 0, parent.getLength())
-                pos2 = MathUtil.clamp(pos2, 0, parent.getLength())
+                pos1 = clamp(pos1, 0, parent.getLength())
+                pos2 = clamp(pos2, 0, parent.getLength())
                 self._obj.Diameter = min(parent.getInnerDiameter(pos1), parent.getInnerDiameter(pos2))
 
         return self._obj.Diameter
@@ -107,7 +107,7 @@ class ThicknessRingComponent(RingComponent):
 
         outer = self.getOuterRadius(0)
 
-        thickness = MathUtil.clamp(thickness, 0, outer)
+        thickness = clamp(thickness, 0, outer)
         if self._obj.Thickness == thickness:
             return
 

@@ -20,6 +20,8 @@
 # ***************************************************************************
 """Class for rocket component coordinates"""
 
+from __future__ import annotations # Required prior to 3.14
+
 __title__ = "FreeCAD Rocket Components"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
@@ -27,7 +29,8 @@ __url__ = "https://www.davesrocketshop.com"
 import math
 import sys
 
-from Rocket.util.MathUtil import EPSILON
+from Rocket.Utilities import EPSILON
+
 class Coordinate():
     """ An mutable class of weighted coordinates.  The weights are non-negative.
 
@@ -52,7 +55,7 @@ class Coordinate():
         return self._x == other._x and self._y == other._y and self._z == other._z and self._weight == other._weight
 
     # Create transformation with given rotation matrix and translation.
-    def transformation(self, rotation, translation = None) -> None:
+    def transformation(self, rotation, translation : Coordinate | None = None) -> None:
         for i in range(3):
             for j in range(3):
                 self._rotation[i][j] = rotation[i][j]
@@ -63,7 +66,7 @@ class Coordinate():
             self._translate = translation
 
     # # Transform a coordinate according to this transformation.
-    def transform(self, orig):
+    def transform(self, orig : Coordinate) -> Coordinate:
         if self._translate is None:
             self._translate = Coordinate(0,0,0,0)
 
@@ -71,28 +74,28 @@ class Coordinate():
         y = self._rotation[self.Y][self.X]*orig._x + self._rotation[self.Y][self.Y]*orig._y + self._rotation[self.Y][self.Z]*orig._z + self._translate._y
         z = self._rotation[self.Z][self.X]*orig._x + self._rotation[self.Z][self.Y]*orig._y + self._rotation[self.Z][self.Z]*orig._z + self._translate._z
 
-        return Coordinate(x,y,z,orig.weight)
+        return Coordinate(x,y,z,orig._weight)
 
     """ Add the coordinate and weight of two coordinates. """
-    def add(self, other):
+    def add(self, other : Coordinate) -> Coordinate:
         return Coordinate(float(self._x) + float(other._x), float(self._y) + float(other._y), float(self._z) + float(other._z),
                 float(self._weight) + float(other._weight))
 
-    def addValues(self, x1, y1, z1, w1=0.0):
+    def addValues(self, x1 : float, y1 : float, z1 : float, w1 : float = 0.0) -> Coordinate:
         return Coordinate(float(self._x) + float(x1), float(self._y) + float(y1), float(self._z) + float(z1), float(self._weight) + float(w1))
 
     """
         Subtract a Coordinate from this Coordinate.  The weight of the resulting Coordinate
         is the same as of this Coordinate; i.e. the weight of the argument is ignored.
     """
-    def sub(self, other):
+    def sub(self, other : Coordinate) -> Coordinate:
         return Coordinate(float(self._x) - float(other._x), float(self._y) - float(other._y), float(self._z) - float(other._z), float(self._weight))
 
     """
         Subtract the specified values from this Coordinate.  The weight of the result
         is the same as the weight of this Coordinate.
     """
-    def subValues(self, x1, y1, z1):
+    def subValues(self, x1 : float, y1 : float, z1 : float) -> Coordinate:
         return Coordinate(float(self._x) - float(x1), float(self._y) - float(y1), float(self._z) - float(z1), float(self._weight))
 
 
@@ -100,14 +103,14 @@ class Coordinate():
         Multiply the <code>Coordinate</code> with a scalar.  All coordinates and the
         weight are multiplied by the given scalar.
     """
-    def multiply(self, m):
+    def multiply(self, m : float) -> Coordinate:
         return Coordinate(float(self._x) * float(m), float(self._y) * float(m), float(self._z) * float(m), float(self._weight) * float(m))
 
     """
          Dot product of two Coordinates, taken as vectors.  Equal to
          x1*x2+y1*y2+z1*z2
     """
-    def dot(self, other, v2=None):
+    def dot(self, other : Coordinate, v2 : Coordinate | None = None) -> float:
         if v2 is not None:
             return self._dot(other, v2)
         return float(self._x) * float(other._x) + float(self._y) * float(other._y) + float(self._z) * float(other._z)
@@ -115,25 +118,25 @@ class Coordinate():
     """
         Dot product of two Coordinates.
     """
-    def _dot(self, v1, v2):
+    def _dot(self, v1 : Coordinate, v2 : Coordinate) -> float:
         return float(v1._x) * float(v2._x) + float(v1._y) * float(v2._y) + float(v1._z) * float(v2._z)
 
     """
         Cross product of two Coordinates taken as vectors
     """
-    def cross(self, other):
+    def cross(self, other : Coordinate) -> Coordinate:
         return Coordinate(float(self._y) * float(other._z) - float(self._z) * float(other._y), float(self._z) * float(other._x) - float(self._x) * float(other._z), float(self._x) * float(other._y) - float(self._y) * float(other._x))
 
     """
         Distance from the origin to the Coordinate.
     """
-    def length(self):
+    def length(self) -> float:
         return math.sqrt(self.length2())
 
     """
         Square of the distance from the origin to the Coordinate.
     """
-    def length2(self):
+    def length2(self) -> float:
         return float(self._x) * float(self._x) + float(self._y) * float(self._y) + float(self._z) * float(self._z)
 
 
@@ -142,7 +145,7 @@ class Coordinate():
         used as a norm of the vector that is faster to calculate than the
         2-norm.
     """
-    def max(self):
+    def max(self) -> float:
         return max(math.fabs(self._x), math.fabs(self._y), math.fabs(self._z))
 
 
@@ -152,7 +155,7 @@ class Coordinate():
         this method throws an <code>IllegalStateException</code>.  The weight of the
         coordinate is unchanged.
     """
-    def normalize(self):
+    def normalize(self) -> Coordinate:
         l = self.length()
         if l < 0.0000001:
             #raise IllegalStateException("Cannot normalize zero coordinate")
@@ -170,7 +173,7 @@ class Coordinate():
         If <code>other</code> is <code>null</code> then this <code>Coordinate</code> is
         returned.
     """
-    def average(self, other):
+    def average(self, other : Coordinate) -> Coordinate:
 
         if other is None:
             return self
@@ -188,7 +191,7 @@ class Coordinate():
 
         return Coordinate(x1, y1, z1, w1)
     
-    def pow2(self, x):
+    def pow2(self, x : float) -> float:
         return x * x
 
 ZERO = Coordinate(0, 0, 0, 0)
