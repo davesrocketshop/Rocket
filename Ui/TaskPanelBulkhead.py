@@ -422,7 +422,7 @@ class TaskPanelBulkhead:
             self._bulkForm.autoCenterDiameterCheckbox.setEnabled(self._obj.CenterAutoDiameter)
 
         if self._obj.CenterAutoDiameter:
-            self._obj.CenterDiameter = 2.0 * self._obj.Proxy.getRadius()
+            self._obj.CenterDiameter = 2.0 * self._obj.Proxy.getRadius(0)
             self._bulkForm.centerDiameterInput.setText(self._obj.CenterDiameter.UserString)
 
     def onAutoCenterDiameter(self, value):
