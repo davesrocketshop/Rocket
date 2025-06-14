@@ -112,7 +112,6 @@ class TestRockets:
         inner.setName("Motor Mount Tube")
         bodytube.addChild(inner)
 
-        #     {
         # MotorBlock
         thrustBlock= makeEngineBlock()
         thrustBlock.setAxialMethod(AxialMethod.TOP)
@@ -123,52 +122,6 @@ class TestRockets:
         thrustBlock.setName("Engine Block")
         inner.addChild(thrustBlock)
 
-        #         {
-        #             MotorConfiguration motorConfig = new MotorConfiguration(inner, TEST_FCID_0);
-        #             Motor mtr =	TestRockets.generateMotor_A8_18mm();
-        #             motorConfig.setMotor( mtr);
-        #             motorConfig.setEjectionDelay(0.0);
-        #             inner.setMotorConfig( motorConfig, TEST_FCID_0);
-        #         }
-        #         {
-        #             MotorConfiguration motorConfig = new MotorConfiguration(inner,TEST_FCID_1);
-        #             Motor mtr =	TestRockets.generateMotor_B4_18mm();
-        #             motorConfig.setMotor( mtr);
-        #             motorConfig.setEjectionDelay(3.0);
-        #             inner.setMotorConfig( motorConfig, TEST_FCID_1);
-        #         }
-        #         {
-        #             MotorConfiguration motorConfig = new MotorConfiguration(inner, TEST_FCID_2);
-        #             Motor mtr =	TestRockets.generateMotor_C6_18mm();
-        #             motorConfig.setEjectionDelay(3.0);
-        #             motorConfig.setMotor( mtr);
-        #             inner.setMotorConfig( motorConfig, TEST_FCID_2);
-        #         }
-        #         {
-        #             MotorConfiguration motorConfig = new MotorConfiguration(inner,TEST_FCID_3);
-        #             Motor mtr =	TestRockets.generateMotor_C6_18mm();
-        #             motorConfig.setEjectionDelay(5.0);
-        #             motorConfig.setMotor( mtr);
-        #             inner.setMotorConfig( motorConfig, TEST_FCID_3);
-        #         }
-        #         {
-        #             MotorConfiguration motorConfig = new MotorConfiguration(inner,TEST_FCID_4);
-        #             Motor mtr =	TestRockets.generateMotor_C6_18mm();
-        #             motorConfig.setEjectionDelay(7.0);
-        #             motorConfig.setMotor( mtr);
-        #             inner.setMotorConfig( motorConfig, TEST_FCID_4);
-        #         }
-        #     }
-
-        #     // parachute
-        #     Parachute chute = new Parachute();
-        #     chute.setAxialMethod(AxialMethod.TOP);
-        #     chute.setName("Parachute");
-        #     chute.setAxialOffset(0.028);
-        #     chute.setOverrideMass(0.002);
-        #     chute.setMassOverridden(true);
-        #     bodytube.addChild(chute);
-
         # bulkhead x2
         centerings = makeCenteringRing()
         centerings.setName("Centering Rings")
@@ -178,14 +131,11 @@ class TestRockets:
         centerings.setInstanceCount(2)
         centerings.setInstanceSeparation(35.0)
         bodytube.addChild(centerings)
-        # }
 
         # Material material = Application.getPreferences().getDefaultComponentMaterial(null, Material.Type.BULK);
         # nosecone.setMaterial(material);
         # bodytube.setMaterial(material);
         # finset.setMaterial(material);
-
-        # // preserve default default configuration of rocket -- to test what the default is set to upon initialization.
 
         rocket.enableEvents()
         FreeCAD.activeDocument().recompute(None,True,True)

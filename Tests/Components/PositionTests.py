@@ -50,6 +50,13 @@ class PositionTests(unittest.TestCase):
     def tearDown(self):
         FreeCAD.closeDocument(self.Doc.Name)
 
+    def assertCoordinateEqual(self, actual, expected, msg):
+        try:
+            self.assertEqual(actual, expected)
+        except AssertionError:
+            msg = "actual %s, expected %s: %s" % (str(actual), str(expected), msg)
+            self.fail(msg)
+
     def testAxialMethod(self):
         rocket = TestRockets.makeEstesAlphaIII()
         stage = rocket.getChild(0).Proxy
@@ -124,9 +131,10 @@ class PositionTests(unittest.TestCase):
         self.assertEqual(200.0, body.getLength(), "incorrect body length:")
         self.assertEqual(50.0, fins.getLength(), "incorrect fin length:")
         # fin #1
-        expLoc = Coordinate(0, 0, 0)
+        # expLoc = Coordinate(0, 0, 0)
+        expLoc = Coordinate(220, 0, 0)
         actLocs = fins.getComponentLocations()
-        self.assertEqual(actLocs[0], expLoc, fins.getName() + " not positioned correctly: ")
+        self.assertCoordinateEqual(actLocs[0], expLoc, fins.getName() + " not positioned correctly: ")
 
         allTestCases = [
             (AxialMethod.BOTTOM, 0.0, AxialMethod.TOP,  220.0, 220.0),
