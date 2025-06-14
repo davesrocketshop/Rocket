@@ -27,6 +27,8 @@ __url__ = "https://www.davesrocketshop.com"
 import math
 from typing import Any
 
+import Part
+
 from Rocket.interfaces.BoxBounded import BoxBounded
 from Rocket.position.AxialPositionable import AxialPositionable
 from Rocket.interfaces.Clusterable import Clusterable
@@ -82,7 +84,7 @@ class FeatureInnerTube(ThicknessRingComponent, Clusterable, AxialPositionable, B
         if shape is not None:
             shape.draw()
 
-    def getSolidShape(self, obj : Any) -> Any:
+    def getSolidShape(self, obj : Any) -> Part.Solid:
         """ Return a filled version of the shape. Useful for CFD """
         shape = InnerTubeShapeHandler(obj)
         if shape is not None:

@@ -28,6 +28,7 @@ from typing import Any
 
 import FreeCAD
 import Materials
+import Part
 
 from Rocket.Parts.PartDatabase import PartDatabase
 from Rocket.Parts.Material import getUuid
@@ -312,7 +313,7 @@ class RocketComponent(RocketComponentShapeless, ChangeSource):
 
             return thesePositions
 
-    def getSolidShape(self, obj : Any) -> Any:
+    def getSolidShape(self, obj : Any) -> Part.Solid:
         """ Return a filled version of the shape. Useful for CFD """
         if hasattr(obj, "Shape") and obj.Shape.isValid():
             return obj.Shape

@@ -26,6 +26,8 @@ __url__ = "https://www.davesrocketshop.com"
 
 from typing import Any
 
+import Part
+
 from Rocket.SymmetricComponent import SymmetricComponent
 
 from Rocket.ShapeHandlers.NoseConeShapeHandler import NoseConeShapeHandler
@@ -423,7 +425,7 @@ class FeatureNoseCone(SymmetricComponent):
         if self._shapeHandler is not None:
             self._shapeHandler.draw()
 
-    def getSolidShape(self, obj : Any) -> Any:
+    def getSolidShape(self, obj : Any) -> Part.Solid:
         """ Return a filled version of the shape. Useful for CFD """
         self._setShapeHandler()
         if self._shapeHandler is not None:

@@ -28,6 +28,7 @@ from abc import ABC, abstractmethod
 from typing import Self, Any
 
 import FreeCAD
+import Part
 import math
 
 import Ui
@@ -918,6 +919,6 @@ class RocketComponentShapeless(ABC):
     def execute(self, obj : Any) -> None:
         ...
 
-    def getSolidShape(self, obj : Any) -> Any:
+    def getSolidShape(self, obj : Any) -> Part.Solid:
         """ Return a filled version of the shape. Useful for CFD """
         return None
