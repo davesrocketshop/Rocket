@@ -30,6 +30,7 @@ from Rocket.interfaces.BoxBounded import BoxBounded
 from Rocket.interfaces.Coaxial import Coaxial
 
 from Rocket.events.ComponentChangeEvent import ComponentChangeEvent
+from Rocket.RocketComponent import RocketComponent
 from Rocket.SymmetricComponent import SymmetricComponent
 from Rocket.Constants import FEATURE_RINGTAIL, FEATURE_FIN, FEATURE_FINCAN
 
@@ -67,21 +68,30 @@ class FeatureRingtail(SymmetricComponent, BoxBounded, Coaxial):
         self.setAxialOffset()
         self._obj.Length = 30.0
 
-    def setAxialOffset(self):
-        self.setAxialMethod(AxialMethod.TOP)
-        body = self.getParent()
+    def getParentBody(self) -> RocketComponent | None:
+        body = None
+
+        if self.hasParent():
+            body = self.getParent()
         while body is not None:
             if body.Type in [FEATURE_FIN, FEATURE_FINCAN]:
                 break
-            body = body.getParent()
+            if body.hasParent():
+                body = body.getParent()
+            else:
+                body = None
+        return body
+
+    def setAxialOffset(self):
+        self.setAxialMethod(AxialMethod.TOP)
+        body = self.getParentBody()
 
         sweep = 0.0
         if body is not None:
             sweep = body.getSweepLength()
             if hasattr(body, "getLeadingEdgeOffset"):
                 sweep += body.getLeadingEdgeOffset()
-        # else:
-        #     print("\tParent is None")
+
         self._setAxialOffset(self._obj.AxialMethod, sweep)
 
     def update(self):
@@ -231,15 +241,9 @@ class FeatureRingtail(SymmetricComponent, BoxBounded, Coaxial):
         return False
 
     def _setAutoDiameter(self):
-        body = None
         parentDiameter = 0.0
 
-        body = self.getParent()
-        while body is not None:
-            if body.Type in [FEATURE_FIN, FEATURE_FINCAN]:
-                break
-            body = body.getParent()
-
+        body = self.getParentBody()
         if body is not None:
             body.setParentDiameter() # Set any auto values
             parentDiameter = 2.0 * float(body.getForeRadius())
@@ -255,12 +259,7 @@ class FeatureRingtail(SymmetricComponent, BoxBounded, Coaxial):
         body = None
         tipLength = 0.0
 
-        body = self.getParent()
-        while body is not None:
-            if body.Type in [FEATURE_FIN, FEATURE_FINCAN]:
-                break
-            body = body.getParent()
-
+        body = self.getParentBody()
         if body is not None:
             tipLength = body.getTipChord()
 

@@ -62,12 +62,14 @@ class ThicknessRingComponent(RingComponent):
         return self.getOuterDiameter(pos) / 2.0
 
     def getOuterDiameter(self, pos):
-        if self.isOuterDiameterAutomatic() and isinstance(self.getParent(), RadialParent):
-            pos1 = self.toRelative(NUL, self.getParent())[0]._x
-            pos2 = self.toRelative(Coordinate(self.getLength()), self.getParent())[0]._x
-            pos1 = MathUtil.clamp(pos1, 0, self.getParent().getLength())
-            pos2 = MathUtil.clamp(pos2, 0, self.getParent().getLength())
-            self._obj.Diameter = min(self.getParent().getInnerDiameter(pos1), self.getParent().getInnerDiameter(pos2))
+        if self.hasParent():
+            parent = self.getParent()
+            if self.isOuterDiameterAutomatic() and isinstance(parent, RadialParent):
+                pos1 = self.toRelative(NUL, parent)[0]._x
+                pos2 = self.toRelative(Coordinate(self.getLength()), parent)[0]._x
+                pos1 = MathUtil.clamp(pos1, 0, parent.getLength())
+                pos2 = MathUtil.clamp(pos2, 0, parent.getLength())
+                self._obj.Diameter = min(parent.getInnerDiameter(pos1), parent.getInnerDiameter(pos2))
 
         return self._obj.Diameter
 

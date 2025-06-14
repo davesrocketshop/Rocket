@@ -62,7 +62,7 @@ class Command:
         sel = FreeCADGui.Selection.getSelection()
         if len(sel) == 1:
             if sel[0].isDerivedFrom("Part::FeaturePython"):
-                if sel[0].Proxy.getParent() is not None:
+                if sel[0].Proxy.hasParent():
                     return True
             if sel[0].isDerivedFrom("App::GeometryPython"):
                 return sel[0].Proxy.Type != FEATURE_ROCKET

@@ -159,11 +159,11 @@ class FeatureFinCan(SymmetricComponent, FeatureFin):
         self._obj.Length = 60.0
 
     def update(self):
-        parent = self.getParent()
-        if parent is not None and parent.Type in [FEATURE_STAGE]:
-            self.setFinCanStyle(FINCAN_STYLE_BODYTUBE)
-        else:
-            self.setFinCanStyle(FINCAN_STYLE_SLEEVE)
+        self.setFinCanStyle(FINCAN_STYLE_SLEEVE)
+        if self.hasParent() :
+            parent = self.getParent()
+            if parent.Type in [FEATURE_STAGE]:
+                self.setFinCanStyle(FINCAN_STYLE_BODYTUBE)
 
         # Do the positioning with and new positioning method
         super().update()

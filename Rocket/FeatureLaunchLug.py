@@ -206,20 +206,20 @@ class FeatureLaunchLug(Tube, AnglePositionable, BoxBounded, LineInstanceable):
         self._setRadialOffset()
 
     def _setRadialOffset(self):
-        """
-            shiftY and shiftZ must be computed here since calculating them
-            in shiftCoordinates() would cause an infinite loop due to .toRelative
-        """
         body = None
         parentRadius = 0.0
 
-        body = self.getParent()
+        if self.hasParent():
+            body = self.getParent()
         while body is not None:
             if isinstance(body, SymmetricComponent):
                 break
             if body.Type in [FEATURE_FIN, FEATURE_FINCAN]:
                 break
-            body = body.getParent()
+            if body.hasParent():
+                body = body.getParent()
+            else:
+                body = None
 
         if body is None:
             parentRadius = 0

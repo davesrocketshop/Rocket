@@ -383,8 +383,8 @@ class TaskPanelBulkhead:
             self._bulkForm.autoDiameterCheckbox.setEnabled(self._obj.AutoDiameter)
 
         if self._obj.AutoDiameter:
-            parent = self._obj.Proxy.getParent()
-            if parent is not None:
+            if self._obj.Proxy.hasParent():
+                parent = self._obj.Proxy.getParent()
                 self._obj.Diameter = 2.0 * parent.getInnerRadius(0)
                 self._bulkForm.diameterInput.setText(self._obj.Diameter.UserString)
 

@@ -200,7 +200,7 @@ class RocketComponent(RocketComponentShapeless, ChangeSource):
     # Does nothing if the root component is not a Rocket.  (The asymmetry is so
     # that listeners can always be removed just in case.)
     def removeComponentChangeListener(self, listener):
-        if not self.getParent() is None:
+        if self.hasParent():
             self.getRoot().removeComponentChangeListener(listener)
 
     # Adds a <code>ChangeListener</code> to the rocket tree.  This is identical to
@@ -286,7 +286,7 @@ class RocketComponent(RocketComponentShapeless, ChangeSource):
         DAC: This may not be correct as the Workbench already supplies absolute coordinates
     """
     def getComponentLocations(self):
-        if self.getParent() is None or not hasattr(self.getParent, "getComponentLocations"):
+        if not self.hasParent() or not hasattr(self.getParent(), "getComponentLocations"):
             # == improperly initialized components OR the root Rocket instance
             return self.getInstanceOffsets()
         else:

@@ -46,8 +46,8 @@ def edit():
 
 def delete():
     for obj in FreeCADGui.Selection.getSelection():
-        parent = obj.Proxy.getParent()
-        if parent is not None:
+        if obj.Proxy.hasParent():
+            parent = obj.Proxy.getParent()
             parent.removeChild(obj)
         FreeCAD.ActiveDocument.removeObject(obj.Label)
 

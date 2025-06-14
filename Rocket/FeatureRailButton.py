@@ -188,13 +188,17 @@ class FeatureRailButton(ExternalComponent, AnglePositionable, BoxBounded, LineIn
         body = None
         parentRadius = 0.0
 
-        body = self.getParent()
+        if self.hasParent():
+            body = self.getParent()
         while body is not None:
             if isinstance(body, SymmetricComponent):
                 break
             if body.Type in [FEATURE_FIN, FEATURE_FINCAN]:
                 break
-            body = body.getParent()
+            if body.hasParent():
+                body = body.getParent()
+            else:
+                body = None
 
         if body is None:
             parentRadius = 0

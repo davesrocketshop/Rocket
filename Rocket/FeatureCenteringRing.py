@@ -80,7 +80,7 @@ class FeatureCenteringRing(FeatureBulkhead):
         if self.isInnerDiameterAutomatic():
             self._obj.CenterDiameter = 0
             # Component can be parentless if detached from rocket
-            if self.getParent() is not None:
+            if self.hasParent():
                 for sibling in self.getParent().getChildren():
                     # Only InnerTubes are considered when determining the automatic
                     # inner radius (for now).

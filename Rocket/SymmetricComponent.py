@@ -205,7 +205,7 @@ class SymmetricComponent(RocketComponent, BoxBounded, RadialParent):
         Return the previous symmetric component, or null if none exists.
     """
     def getPreviousSymmetricComponent(self):
-        if self.getParent() is None or self.getParent().getParent() is None:
+        if not self.hasParent() or not self.getParent().hasParent():
             return None
 
         # might be: (a) Rocket -- for Centerline/Axial stages
@@ -236,7 +236,7 @@ class SymmetricComponent(RocketComponent, BoxBounded, RadialParent):
          Return the next symmetric component, or null if none exists.
     """
     def getNextSymmetricComponent(self):
-        if self.getParent() is None or self.getParent().getParent() is None:
+        if not self.hasParent() or not self.getParent().hasParent():
             return None
 
         # might be: (a) Rocket -- for centerline stages

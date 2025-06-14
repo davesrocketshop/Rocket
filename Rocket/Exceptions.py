@@ -40,3 +40,8 @@ class UnsupportedFeature(Exception):
     def __init__(self, message="Unsupported feature"):
         self._message = message
 
+class ObjectNotFound(Exception):
+
+    def __init__(self, message="Object not found"):
+        self._message = message
+

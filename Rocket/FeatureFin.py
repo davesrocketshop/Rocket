@@ -42,6 +42,8 @@ from Rocket.Constants import FIN_EDGE_SQUARE, FIN_EDGE_ROUNDED
 from Rocket.Constants import FIN_DEBUG_FULL, FIN_DEBUG_PROFILE_ONLY, FIN_DEBUG_MASK_ONLY
 from Rocket.Constants import PROP_TRANSIENT, PROP_HIDDEN
 
+from Rocket.Exceptions import ObjectNotFound
+
 from Rocket.ShapeHandlers.FinTrapezoidShapeHandler import FinTrapezoidShapeHandler
 from Rocket.ShapeHandlers.FinTriangleShapeHandler import FinTriangleShapeHandler
 from Rocket.ShapeHandlers.FinEllipseShapeHandler import FinEllipseShapeHandler
@@ -234,11 +236,11 @@ class FeatureFin(ExternalComponent):
 
     def setParentDiameter(self):
         if self._obj.AutoDiameter:
-            parent = self.getParent()
-            if parent is not None and hasattr(parent, "getOuterDiameter"):
-                self._obj.ParentRadius = parent.getOuterDiameter(0) / 2.0
-            else:
-                self._obj.ParentRadius = SymmetricComponent.DEFAULT_RADIUS
+            self._obj.ParentRadius = SymmetricComponent.DEFAULT_RADIUS
+            if self.hasParent():
+                parent = self.getParent()
+                if hasattr(parent, "getOuterDiameter"):
+                    self._obj.ParentRadius = parent.getOuterDiameter(0) / 2.0
 
     def setAutoHeight(self, auto):
         if self._obj.AutoHeight != auto:
@@ -255,7 +257,7 @@ class FeatureFin(ExternalComponent):
         if self._obj.TtwAutoHeight:
             centerDiameter = 0
             # Component can be parentless if detached from rocket
-            if self.getParent() is not None:
+            if self.hasParent():
                 for sibling in self.getParent().getChildren():
                     # Only InnerTubes are considered when determining the automatic
                     # inner radius (for now).

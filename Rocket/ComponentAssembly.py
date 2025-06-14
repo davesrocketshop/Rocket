@@ -65,7 +65,7 @@ class ComponentAssembly(RocketComponentShapeless, AxialPositionable):
             if isinstance(listener, ComponentAssembly):
                 listener.setAxialMethod(newAxialMethod)
 
-        if self.getParent is None:
+        if not self.hasParent():
             raise Exception(translate("Rocket", "A Stage requires a parent before any positioning!"))
 
         if self.getType() == FEATURE_PARALLEL_STAGE or self.getType() == FEATURE_POD:

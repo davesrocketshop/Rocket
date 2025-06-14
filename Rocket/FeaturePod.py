@@ -122,7 +122,7 @@ class FeaturePod(ComponentAssembly, RingInstanceable):
         against which this stage is positioned.
     """
     def getRelativeToStage(self):
-        if self.getParent() is None:
+        if not self.hasParent():
             return -1
         elif isinstance(self.getParent(), FeaturePod):
             return self.getParent().getParent().getChildPosition(self.getParent())
