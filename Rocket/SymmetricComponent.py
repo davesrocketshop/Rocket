@@ -25,6 +25,7 @@ __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
 from abc import abstractmethod
+from typing import Self, Any
 
 from Rocket.util.MathUtil import MathUtil
 from Rocket.interfaces.BoxBounded import BoxBounded
@@ -44,13 +45,13 @@ class SymmetricComponent(RocketComponent, BoxBounded, RadialParent):
     DEFAULT_RADIUS = (24.79 / 2.0)
     DEFAULT_THICKNESS = 0.33
 
-    def __init__(self, obj):
+    def __init__(self, obj : Any) -> None:
         super().__init__(obj)
 
-    def setDefaults(self):
+    def setDefaults(self) -> None:
         super().setDefaults()
 
-    def getInstanceBoundingBox(self):
+    def getInstanceBoundingBox(self) -> BoundingBox:
         instanceBounds = BoundingBox()
 
         instanceBounds.update(Coordinate(self.getLength(), 0,0))
@@ -65,52 +66,48 @@ class SymmetricComponent(RocketComponent, BoxBounded, RadialParent):
         Return the component radius at position x.
     """
     @abstractmethod
-    def getRadius(self, x):
+    def getRadius(self, pos : float) -> float:
         pass
 
     @abstractmethod
-    def getInnerRadius(self, x):
+    def getForeRadius(self) -> float:
         pass
 
     @abstractmethod
-    def getForeRadius(self):
+    def isForeRadiusAutomatic(self) -> bool:
         pass
 
     @abstractmethod
-    def isForeRadiusAutomatic(self):
+    def getAftRadius(self) -> float:
         pass
 
     @abstractmethod
-    def getAftRadius(self):
+    def isAftRadiusAutomatic(self) -> bool:
         pass
 
-    @abstractmethod
-    def isAftRadiusAutomatic(self):
-        pass
+    def getOuterRadius(self, pos : float) -> float:
+        return self.getRadius(pos)
 
-    def getOuterRadius(self, x):
-        return self.getRadius(x)
+    def getOuterDiameter(self, pos : float) -> float:
+        return self.getOuterRadius(pos) * 2.0
 
-    def getOuterDiameter(self, x):
-        return self.getOuterRadius(x) * 2.0
+    def getInnerRadius(self, pos : float) -> float:
+        return self.getInnerRadius(pos)
 
-    def getInnerRadius(self, x):
-        return self.getInnerRadius(x)
-
-    def getInnerDiameter(self, x):
-        return self.getInnerRadius(x) * 2.0
+    def getInnerDiameter(self, pos : float) -> float:
+        return self.getInnerRadius(pos) * 2.0
 
     """
         Returns the largest radius of the component (either the aft radius, or the fore radius).
     """
-    def getMaxRadius(self):
+    def getMaxRadius(self) -> float:
         return max(self.getForeRadius(), self.getAftRadius())
 
 
     """
         Return the component wall thickness.
     """
-    def getThickness(self):
+    def getThickness(self) -> float:
         if self.isFilled():
             return max(self.getForeRadius(), self.getAftRadius())
         return self._obj.Thickness
@@ -120,7 +117,7 @@ class SymmetricComponent(RocketComponent, BoxBounded, RadialParent):
         the maximum radius will be clamped the thickness to the maximum radius.
         @param doClamping If true, the thickness will be clamped to the maximum radius.
     """
-    def setThickness(self, thickness, doClamping = True):
+    def setThickness(self, thickness : float, doClamping : bool = True) -> None:
         for listener in self._configListeners:
             if isinstance(listener, SymmetricComponent):
                 listener.setThickness(thickness)
@@ -136,21 +133,21 @@ class SymmetricComponent(RocketComponent, BoxBounded, RadialParent):
         self.fireComponentChangeEvent(ComponentChangeEvent.MASS_CHANGE)
         self.clearPreset()
 
-    def isAfter(self):
+    def isAfter(self) -> bool:
         return True
 
     """
         Returns whether the component is set as filled.  If it is set filled, then the
         wall thickness will have no effect.
     """
-    def isFilled(self):
+    def isFilled(self) -> bool:
         return self._obj.Filled
 
     """
         Sets whether the component is set as filled.  If the component is filled, then
         the wall thickness will have no effect.
     """
-    def setFilled(self, filled):
+    def setFilled(self, filled : bool) -> None:
         for listener in self._configListeners:
             if isinstance(listener, SymmetricComponent):
                 listener.setFilled(filled)
@@ -171,15 +168,15 @@ class SymmetricComponent(RocketComponent, BoxBounded, RadialParent):
         match was not found.
     """
     @abstractmethod
-    def getFrontAutoRadius(self):
+    def getFrontAutoRadius(self) -> float:
         pass
 
     @abstractmethod
-    def getFrontAutoDiameter(self):
+    def getFrontAutoDiameter(self) -> float:
         pass
 
     @abstractmethod
-    def getFrontAutoInnerDiameter(self):
+    def getFrontAutoInnerDiameter(self) -> float:
         pass
 
     """
@@ -190,21 +187,21 @@ class SymmetricComponent(RocketComponent, BoxBounded, RadialParent):
         match was not found.
     """
     @abstractmethod
-    def getRearAutoRadius(self):
+    def getRearAutoRadius(self) -> float:
         pass
 
     @abstractmethod
-    def getRearAutoDiameter(self):
+    def getRearAutoDiameter(self) -> float:
         pass
 
     @abstractmethod
-    def getRearAutoInnerDiameter(self):
+    def getRearAutoInnerDiameter(self) -> float:
         pass
 
     """
         Return the previous symmetric component, or null if none exists.
     """
-    def getPreviousSymmetricComponent(self):
+    def getPreviousSymmetricComponent(self) -> Any:
         if not self.hasParent() or not self.getParent().hasParent():
             return None
 
@@ -235,7 +232,7 @@ class SymmetricComponent(RocketComponent, BoxBounded, RadialParent):
     """
          Return the next symmetric component, or null if none exists.
     """
-    def getNextSymmetricComponent(self):
+    def getNextSymmetricComponent(self) -> Any:
         if not self.hasParent() or not self.getParent().hasParent():
             return None
 
@@ -268,12 +265,12 @@ class SymmetricComponent(RocketComponent, BoxBounded, RadialParent):
         Checks whether the component uses the previous symmetric component for its auto diameter.
     """
     @abstractmethod
-    def usesPreviousCompAutomatic(self):
+    def usesPreviousCompAutomatic(self) -> bool:
         pass
 
     """
         Checks whether the component uses the next symmetric component for its auto diameter.
     """
     @abstractmethod
-    def usesNextCompAutomatic(self):
+    def usesNextCompAutomatic(self) -> bool:
         pass

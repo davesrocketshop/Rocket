@@ -24,6 +24,8 @@ __title__ = "FreeCAD Fins"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
+from typing import Any
+
 from Rocket.SymmetricComponent import SymmetricComponent
 from Rocket.FeatureFin import FeatureFin
 from Rocket.Constants import FEATURE_FINCAN, FEATURE_LAUNCH_LUG, FEATURE_RAIL_BUTTON, FEATURE_RAIL_GUIDE, \
@@ -47,7 +49,7 @@ from DraftTools import translate
 
 class FeatureFinCan(SymmetricComponent, FeatureFin):
 
-    def __init__(self, obj):
+    def __init__(self, obj : Any) -> None:
         super().__init__(obj)
         self.Type = FEATURE_FINCAN
 
@@ -151,14 +153,14 @@ class FeatureFinCan(SymmetricComponent, FeatureFin):
         obj.setEditorMode('AutoDiameter', PROP_NONE)  # unhide
         self._setFinCanEditorVisibility()
 
-    def setDefaults(self):
+    def setDefaults(self) -> None:
         super().setDefaults()
 
         self.setFinCanPositioningMethod()
         self._obj.ParentRadius = (self._obj.Diameter / 2.0)
         self._obj.Length = 60.0
 
-    def update(self):
+    def update(self) -> None:
         self.setFinCanStyle(FINCAN_STYLE_SLEEVE)
         if self.hasParent() :
             parent = self.getParent()
@@ -172,17 +174,17 @@ class FeatureFinCan(SymmetricComponent, FeatureFin):
         self.setParentDiameter()
         # self.getTubeOuterDiameter()
 
-    def isAfter(self):
+    def isAfter(self) -> bool:
         return (self._obj.FinCanStyle == FINCAN_STYLE_BODYTUBE)
 
-    def setFinCanStyle(self, style):
+    def setFinCanStyle(self, style : str) -> None:
         if self._obj.FinCanStyle == style:
             return
 
         self._obj.FinCanStyle = style
         self.setFinCanPositioningMethod()
 
-    def setFinCanPositioningMethod(self):
+    def setFinCanPositioningMethod(self) -> None:
         if self._obj.FinCanStyle == FINCAN_STYLE_SLEEVE:
             method = BOTTOM
         elif self._obj.FinCanStyle == FINCAN_STYLE_BODYTUBE:
@@ -193,7 +195,7 @@ class FeatureFinCan(SymmetricComponent, FeatureFin):
         self.setAxialMethod(method)
         self._setAxialOffset(self._obj.AxialMethod, 0)
 
-    def _setFinCanEditorVisibility(self):
+    def _setFinCanEditorVisibility(self) -> None:
         self._obj.setEditorMode('Ttw', EDITOR_HIDDEN)  # hide
         self._obj.setEditorMode('TtwOffset', EDITOR_HIDDEN)  # hide
         self._obj.setEditorMode('TtwLength', EDITOR_HIDDEN)  # hide
@@ -204,7 +206,7 @@ class FeatureFinCan(SymmetricComponent, FeatureFin):
         self._obj.setEditorMode('FinCount', EDITOR_NONE)  # show
         self._obj.setEditorMode('FinSpacing', EDITOR_NONE)  # show
 
-    def onDocumentRestored(self, obj):
+    def onDocumentRestored(self, obj : Any) -> None:
         if obj is not None:
             FeatureFinCan(obj) # Update any properties
 
@@ -216,13 +218,13 @@ class FeatureFinCan(SymmetricComponent, FeatureFin):
 
         self._setFinCanEditorVisibility()
 
-    def setParentRadius(self, parentRadius=None):
+    def setParentRadius(self, parentRadius : float | None = None) -> None:
         if parentRadius is None:
             self.setParentDiameter(parentRadius)
         else:
             self.setParentDiameter(parentRadius * 2.0)
 
-    def setParentDiameterAuto(self):
+    def setParentDiameterAuto(self) -> None:
         if self._obj.FinCanStyle == FINCAN_STYLE_BODYTUBE:
             # Return auto radius from front or rear
             d = -1
@@ -255,7 +257,7 @@ class FeatureFinCan(SymmetricComponent, FeatureFin):
             super().setParentDiameter()
             self._obj.Diameter = self._obj.ParentRadius * 2.0
 
-    def setParentDiameter(self, parentDiameter=None):
+    def setParentDiameter(self, parentDiameter : float | None = None) -> None:
         if self._obj.AutoDiameter:
             self.setParentDiameterAuto()
             return
@@ -271,7 +273,8 @@ class FeatureFinCan(SymmetricComponent, FeatureFin):
         if self._obj.FinCanStyle == FINCAN_STYLE_BODYTUBE:
             self._obj.Diameter = float(self._obj.Diameter) - (2.0 * float(self._obj.Thickness))
 
-    def execute(self, obj):
+    def execute(self, obj : Any) -> None:
+        shape = None
         if obj.FinType == FIN_TYPE_TRAPEZOID:
             if self.getTipChord() > 0:
                 shape = FinCanTrapezoidShapeHandler(obj)
@@ -287,7 +290,7 @@ class FeatureFinCan(SymmetricComponent, FeatureFin):
         if shape is not None:
             shape.draw()
 
-    def eligibleChild(self, childType):
+    def eligibleChild(self, childType : str) -> bool:
         return childType in [
             FEATURE_POD,
             FEATURE_LAUNCH_LUG,
@@ -295,15 +298,15 @@ class FeatureFinCan(SymmetricComponent, FeatureFin):
             FEATURE_RAIL_GUIDE,
             FEATURE_RINGTAIL]
 
-    def  getAftRadius(self):
+    def  getAftRadius(self) -> float:
         return self.getForeRadius()
 
-    def getForeRadius(self):
+    def getForeRadius(self) -> float:
         # For placing objects on the outer part of the parent
         return float(self._obj.ParentRadius + self._obj.Height)
         # return self.getOuterRadius(0)
 
-    def getFrontAutoDiameter(self):
+    def getFrontAutoDiameter(self) -> float:
         if self.isOuterDiameterAutomatic():
             # Search for previous SymmetricComponent
             c = self.getPreviousSymmetricComponent()
@@ -314,16 +317,16 @@ class FeatureFinCan(SymmetricComponent, FeatureFin):
 
         return self.getOuterDiameter(0)
 
-    def getFrontAutoInnerDiameter(self):
+    def getFrontAutoInnerDiameter(self) -> float:
         return self.getInnerDiameter(0)
 
-    def getFrontAutoRadius(self):
+    def getFrontAutoRadius(self) -> float:
         return self.getFrontAutoDiameter() / 2.0
 
-    def getRadius(self, x=0):
+    def getRadius(self, pos : float) -> float:
         return self.getForeRadius()
 
-    def getRearAutoDiameter(self):
+    def getRearAutoDiameter(self) -> float:
         if self.isOuterDiameterAutomatic():
             # Search for next SymmetricComponent
             c = self.getNextSymmetricComponent()
@@ -334,32 +337,32 @@ class FeatureFinCan(SymmetricComponent, FeatureFin):
 
         return self.getOuterDiameter(0)
 
-    def getRearAutoInnerDiameter(self):
+    def getRearAutoInnerDiameter(self) -> float:
         return self.getInnerDiameter(0)
 
-    def getRearAutoRadius(self):
+    def getRearAutoRadius(self) -> float:
         return self.getRearAutoDiameter() / 2.0
 
-    def getOuterDiameter(self, pos):
+    def getOuterDiameter(self, pos : float = 0) -> float:
         return float(self._obj.Diameter)
 
-    def getInnerDiameter(self, pos):
+    def getInnerDiameter(self, pos : float = 0) -> float:
         return float(self._obj.Diameter) - (2.0 * float(self._obj.Thickness))
 
-    def isOuterDiameterAutomatic(self):
+    def isOuterDiameterAutomatic(self) -> bool:
         return self._obj.AutoDiameter
 
-    def isAftRadiusAutomatic(self):
-        return self.getRearAutoDiameter()
+    def isAftRadiusAutomatic(self) -> bool:
+        return self._obj.AutoDiameter
 
-    def isForeRadiusAutomatic(self):
-        return self.getFrontAutoRadius()
+    def isForeRadiusAutomatic(self) -> bool:
+        return self._obj.AutoDiameter
 
-    def usesNextCompAutomatic(self):
+    def usesNextCompAutomatic(self) -> bool:
         return self.isOuterDiameterAutomatic() and (self._refComp == self.getNextSymmetricComponent())
 
-    def usesPreviousCompAutomatic(self):
+    def usesPreviousCompAutomatic(self) -> bool:
         return self.isOuterDiameterAutomatic() and (self._refComp == self.getPreviousSymmetricComponent())
 
-    def getLeadingEdgeOffset(self):
+    def getLeadingEdgeOffset(self) -> float:
         return self._obj.LeadingEdgeOffset

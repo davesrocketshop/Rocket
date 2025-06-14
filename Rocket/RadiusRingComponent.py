@@ -24,6 +24,8 @@ __title__ = "FreeCAD Rocket Components"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
+from typing import Any
+
 from Rocket.util.Coordinate import Coordinate, NUL
 from Rocket.RingComponent import RingComponent
 from Rocket.Utilities import clamp
@@ -36,7 +38,7 @@ from DraftTools import translate
 
 class RadiusRingComponent(RingComponent, LineInstanceable):
 
-    def __init__(self, obj):
+    def __init__(self, obj : Any) -> None:
         super().__init__(obj)
 
         if not hasattr(obj, 'CenterDiameter'):
@@ -47,19 +49,19 @@ class RadiusRingComponent(RingComponent, LineInstanceable):
         if not hasattr(obj, 'InstanceSeparation'):
             obj.addProperty('App::PropertyDistance', 'InstanceSeparation', 'RocketComponent', translate('App::Property', 'Front to front along the positive rocket axis')).InstanceSeparation = 0.0
 
-    def setDefaults(self):
+    def setDefaults(self) -> None:
         super().setDefaults()
 
-    def update(self):
+    def update(self) -> None:
         super().update()
 
         # Ensure any automatic variables are set
         self.getOuterDiameter(0)
 
-    def getOuterRadius(self, pos):
+    def getOuterRadius(self, pos : float) -> float:
         return self.getOuterDiameter(pos) / 2.0
 
-    def getOuterDiameter(self, pos):
+    def getOuterDiameter(self, pos : float) -> float:
         if self.hasParent():
             parent = self.getParent()
             if self._obj.AutoDiameter and isinstance(parent, RadialParent):
@@ -71,10 +73,10 @@ class RadiusRingComponent(RingComponent, LineInstanceable):
 
         return float(self._obj.Diameter)
 
-    def setOuterRadius(self, r):
-        self.setOuterDiameter(r * 2.0)
+    def setOuterRadius(self, radius : float) -> None:
+        self.setOuterDiameter(radius * 2.0)
 
-    def setOuterDiameter(self, d):
+    def setOuterDiameter(self, d : float) -> None:
         d = max(d,0)
 
         for listener in self._configListeners:
@@ -93,35 +95,35 @@ class RadiusRingComponent(RingComponent, LineInstanceable):
         self.clearPreset()
         self.fireComponentChangeEvent(ComponentChangeEvent.MASS_CHANGE)
 
-    def getInnerRadius(self, pos):
+    def getInnerRadius(self, pos : float) -> float:
         return self.getInnerDiameter(pos) / 2.0
 
-    def getInnerDiameter(self, pos):
+    def getInnerDiameter(self, pos : float) -> float:
         return self._obj.CenterDiameter
 
-    def setInnerRadius(self, r):
-        r = max(r,0)
+    def setInnerRadius(self, radius : float) -> None:
+        radius = max(radius,0)
 
         for listener in self._configListeners:
             if isinstance(listener, RadiusRingComponent):
-                listener.setInnerRadius(r)
+                listener.setInnerRadius(radius)
 
-        if self._obj.CenterDiameter == (2.0 * r):
+        if self._obj.CenterDiameter == (2.0 * radius):
             return
 
-        self._obj.CenterDiameter = 2.0 * r
+        self._obj.CenterDiameter = 2.0 * radius
         self._obj.CenterAutoDiameter = False
-        if self.getOuterRadius(0) < r:
-            self._obj.Diameter = 2.0 * r
+        if self.getOuterRadius(0) < radius:
+            self._obj.Diameter = 2.0 * radius
             self._obj.AutoDiameter = False
 
         # clearPreset();
         self.fireComponentChangeEvent(ComponentChangeEvent.MASS_CHANGE)
 
-    def getThickness(self):
+    def getThickness(self) -> float:
         return max(self.getOuterRadius(0) - self.getInnerRadius(0), 0)
 
-    def setThickness(self, thickness):
+    def setThickness(self, thickness : float) -> None:
         for listener in self._configListeners:
             if isinstance(listener, RadiusRingComponent):
                 listener.setThickness(thickness)
@@ -131,17 +133,17 @@ class RadiusRingComponent(RingComponent, LineInstanceable):
         thickness = clamp(thickness, 0, outer)
         self.setInnerRadius(outer - thickness)
 
-    def getInstanceSeparation(self):
+    def getInstanceSeparation(self) -> float:
         return self._obj.InstanceSeparation
 
-    def setInstanceSeparation(self, separation):
+    def setInstanceSeparation(self, separation : float) -> None:
         self._obj.InstanceSeparation = separation
 
         for listener in self._configListeners:
             if isinstance(listener, RadiusRingComponent):
                 listener.setInstanceSeparation(separation)
 
-    def setInstanceCount(self, newCount):
+    def setInstanceCount(self, newCount : int) -> None:
         for listener in self._configListeners:
             if isinstance(listener, RadiusRingComponent):
                 listener.setInstanceCount(newCount)
@@ -149,15 +151,15 @@ class RadiusRingComponent(RingComponent, LineInstanceable):
         if 0 < newCount:
             self._obj.InstanceCount = newCount
 
-    def getInstanceOffsets(self):
+    def getInstanceOffsets(self) -> list:
         toReturn = []
         for index in range(self.getInstanceCount()):
             toReturn.append(Coordinate( index * float(self._obj.InstanceSeparation), 0, 0))
 
         return toReturn
 
-    def getInstanceCount(self):
+    def getInstanceCount(self) -> int:
         return self._obj.InstanceCount
 
-    def getPatternName(self):
+    def getPatternName(self) -> str:
         return str(self.getInstanceCount()) + "-Line"

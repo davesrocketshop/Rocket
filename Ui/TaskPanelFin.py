@@ -48,8 +48,6 @@ from Rocket.Constants import FIN_CROSS_SAME, FIN_CROSS_SQUARE, FIN_CROSS_ROUND, 
     FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE, FIN_CROSS_BICONVEX, FIN_CROSS_ELLIPSE
 from Rocket.Constants import FIN_EDGE_SQUARE, FIN_EDGE_ROUNDED
 
-from Rocket.Material import Material
-
 from Rocket.Utilities import _err, _toFloat
 
 class _FinDialog(QDialog):

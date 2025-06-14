@@ -24,12 +24,15 @@ __title__ = "FreeCAD Rocket Assembly"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
+from typing import Any
+
 import FreeCAD
 
 from Rocket.interfaces.ComponentChangeListener import ComponentChangeListener
 from Rocket.interfaces.StateChangeListener import StateChangeListener
 
 from Rocket.ComponentAssembly import ComponentAssembly
+from Rocket.FeatureStage import FeatureStage
 from Rocket.position import AxialMethod
 
 from Rocket.util.BoundingBox import BoundingBox
@@ -48,12 +51,6 @@ class FeatureRocket(ComponentAssembly, ComponentChangeListener):
     """
     _listenerList = []
 
-    """
-    When freezeList != null, events are not dispatched but stored in the list.
-    When the structure is thawed, a single combined event will be fired.
-    """
-    _freezeList = None
-
     _refType = ReferenceType.MAXIMUM
 
     _modID = -1
@@ -67,13 +64,13 @@ class FeatureRocket(ComponentAssembly, ComponentChangeListener):
     _designer = ""
     _stageMap = {}
 
-    def __init__(self, obj):
+    def __init__(self, obj : Any) -> None:
         super().__init__(obj)
         self.Type = FEATURE_ROCKET
 
         self.initialize()
 
-    def initialize(self):
+    def initialize(self) -> None:
 
         self.setAxialMethod(AxialMethod.ABSOLUTE)
 
@@ -88,10 +85,10 @@ class FeatureRocket(ComponentAssembly, ComponentChangeListener):
         self.addComponentChangeListener(self)
         # self._eventsEnabled = True
 
-    def setDefaults(self):
+    def setDefaults(self) -> None:
         super().setDefaults()
 
-    def onDocumentRestored(self, obj):
+    def onDocumentRestored(self, obj : Any) -> None:
         FeatureRocket(obj)
         self._obj = obj
         obj.Proxy=self # Required because of the local variables
@@ -104,11 +101,11 @@ class FeatureRocket(ComponentAssembly, ComponentChangeListener):
     """
         Enable the monitoring, relay and production of events in this rocket instance.
     """
-    def enableEvents(self, enable=True):
+    def enableEvents(self, enable : bool = True) -> None:
         self._enableEvents(enable)
         self.updateChildren()
 
-    def _enableEvents(self, enable):
+    def _enableEvents(self, enable : bool) -> None:
         if self._eventsEnabled and enable:
             return
 
@@ -118,7 +115,7 @@ class FeatureRocket(ComponentAssembly, ComponentChangeListener):
         else:
             self._eventsEnabled = False
 
-    def execute(self,obj):
+    def execute(self, obj : Any) -> None:
         # self.updateChildren()
         if not hasattr(obj,'Shape'):
             return
@@ -126,20 +123,20 @@ class FeatureRocket(ComponentAssembly, ComponentChangeListener):
     # Return a bounding box enveloping the rocket.  By definition, the bounding box is a convex hull.
     #
     # Note: this function gets the bounding box for the entire rocket.
-    def getBoundingBox (self):
+    def getBoundingBox(self) -> BoundingBox:
         # return selectedConfiguration.getBoundingBoxAerodynamic();
         return BoundingBox(ZERO, X_UNIT) # default from default flight config
 
-    def getDesigner(self):
+    def getDesigner(self) -> str:
         return self._designer
 
-    def setDesigner(self, s):
+    def setDesigner(self, s : str | None) -> None:
         if s is None:
             s = ""
         self._designer = s
         self.fireComponentChangeEvent(ComponentChangeEvent.NONFUNCTIONAL_CHANGE)
 
-    def eligibleChild(self, childType):
+    def eligibleChild(self, childType : str) -> bool:
         return childType == FEATURE_STAGE
 
     """
@@ -158,45 +155,45 @@ class FeatureRocket(ComponentAssembly, ComponentChangeListener):
         corresponding undo level.  Subsequent modifications, however, produce modIDs
         distinct from those already used.
     """
-    def getModID(self):
+    def getModID(self) -> int:
         return self._modID
 
     """
         Return the non-negative mass modification ID of this rocket.  See
         {@link #getModID()} for details.
     """
-    def getMassModID(self):
+    def getMassModID(self) -> int:
         return self._massModID
 
     """
         Return the non-negative aerodynamic modification ID of this rocket.  See
         {@link #getModID()} for details.
     """
-    def getAerodynamicModID(self):
+    def getAerodynamicModID(self) -> int:
         return self._aeroModID
 
     """
         Return the non-negative tree modification ID of this rocket.  See
         {@link #getModID()} for details.
     """
-    def getTreeModID(self):
-        return self.treeModID
+    def getTreeModID(self) -> int:
+        return self._treeModID
 
     """
         Return the non-negative functional modificationID of this rocket.
         This changes every time a functional change occurs.
     """
-    def getFunctionalModID(self):
+    def getFunctionalModID(self) -> int:
         return self._functionalModID
 
-    def getStageCount(self):
+    def getStageCount(self) -> int:
         return len(self._stageMap)
 
-    def getStageList(self):
-        return self._stageMap.values()
+    def getStageList(self) -> list:
+        return list(self._stageMap.values())
 
-    def getStage(self, index):
-        return self._stageMap.values()[index]
+    def getStageIndex(self, index : int) -> FeatureStage:
+        return list(self._stageMap.values())[index]
 
     # Get the topmost stage, only taking into account active stages from the flight configuration.
     def getTopmostStage(self, config):
@@ -220,18 +217,18 @@ class FeatureRocket(ComponentAssembly, ComponentChangeListener):
 
         return None
 
-    def getStageNumber(self):
+    def getStageNumber(self) -> int:
         # Invalid, error value
         return -1
 
-    def getNewStageNumber(self):
+    def getNewStageNumber(self) -> int:
         guess = 0
         while guess in self._stageMap:
             guess += 1
 
         return guess
 
-    def trackStage(self, newStage):
+    def trackStage(self, newStage : FeatureStage) -> None:
         stageNumber = newStage.getStageNumber()
         if stageNumber in self._stageMap:
             value = self._stageMap[stageNumber]
@@ -247,32 +244,32 @@ class FeatureRocket(ComponentAssembly, ComponentChangeListener):
         newStage.setStageNumber(stageNumber)
         self._stageMap[stageNumber] = newStage
 
-    def forgetStage(self, oldStage):
+    def forgetStage(self, oldStage : FeatureStage) -> None:
         stage = oldStage.getStageNumber()
         if stage in self._stageMap:
             del self._stageMap[stage]
 
-    def setAxialMethod(self, newAxialMethod):
+    def setAxialMethod(self, newAxialMethod : AxialMethod.AxialMethod) -> None:
         self.AxialMethod = AxialMethod.ABSOLUTE
 
-    def setAxialOffset(self, requestOffset):
+    def setAxialOffset(self, newAxialOffset : float) -> None:
         self.AxialOffset = 0.0
         self.Position = ZERO
 
-    def getReferenceType(self):
+    def getReferenceType(self) -> ReferenceType.ReferenceType:
         return self._refType
 
-    def setReferenceType(self, type):
+    def setReferenceType(self, type : ReferenceType.ReferenceType):
         if self._refType == type:
             return
         self._refType = type
 
         self.fireComponentChangeEvent(ComponentChangeEvent.NONFUNCTIONAL_CHANGE)
 
-    def getCustomReferenceLength(self):
+    def getCustomReferenceLength(self) -> float:
         return self._customReferenceLength
 
-    def setCustomReferenceLength(self, length):
+    def setCustomReferenceLength(self, length : float) -> None:
         if self._customReferenceLength == length:
             return
 
@@ -281,7 +278,7 @@ class FeatureRocket(ComponentAssembly, ComponentChangeListener):
         if self._refType == ReferenceType.CUSTOM:
             self.fireComponentChangeEvent(ComponentChangeEvent.NONFUNCTIONAL_CHANGE)
 
-    def getBoundingRadius(self):
+    def getBoundingRadius(self) -> float:
         bounding = 0
         for comp in self.getChildren():
             if isinstance(comp, ComponentAssembly):
@@ -289,73 +286,51 @@ class FeatureRocket(ComponentAssembly, ComponentChangeListener):
 
         return bounding
 
-    # Set whether the rocket has a perfect finish.  This will affect whether the
-    # boundary layer is assumed to be fully turbulent or not.
-    def setPerfectFinish(self, perfectFinish):
-        if self._perfectFinish == perfectFinish:
-            return
-        self._perfectFinish = perfectFinish
-        self.fireComponentChangeEvent(ComponentChangeEvent.AERODYNAMIC_CHANGE)
-
-    # Get whether the rocket has a perfect finish.
-    def isPerfectFinish(self):
-        return self._perfectFinish
-
-    def getFlightConfigurationCount(self):
-        return len(self._configSet)
-
-    def resetListeners(self):
+    def resetListeners(self) -> None:
         self._listenerList = []
 
-    def addComponentChangeListener(self, l):
+    def addComponentChangeListener(self, l : ComponentChangeListener) -> None:
         self._listenerList.append(l)
 
-    def removeComponentChangeListener(self, l):
+    def removeComponentChangeListener(self, l : ComponentChangeListener) -> None:
         self._listenerList.remove(l)
 
-    def fireComponentChangeEvent(self, cce):
+    def fireComponentChangeEvent(self, event : int) -> None:
         if not self._eventsEnabled:
             return
 
-        # Check whether frozen
-        if self._freezeList is not None:
-            # log.debug("Rocket is in frozen state, adding event " + cce + " info freeze list");
-            self._freezeList.append(cce)
-            return
-
-
         # Notify all components first
-        self.componentChanged(cce)
+        self.componentChanged(event)
         for item in self.getChildren():
-            item.Proxy.componentChanged(cce)
+            item.Proxy.componentChanged(event)
         self.updateConfigurations()
 
-        self.notifyAllListeners(cce)
+        self.notifyAllListeners(event)
 
-    def update(self):
+    def update(self) -> None:
         self.updateStageNumbers()
         self.updateStageMap()
         self.updateConfigurations()
         # self.updateChildren()
 
     """ Update all the stage numbers based on their position in the component tree """
-    def updateStageNumbers(self):
+    def updateStageNumbers(self) -> None:
         stageNr = 0
         for stage in self.getSubStages():
             self.forgetStage(stage)
             stage.setStageNumber(stageNr)
             stageNr += 1
 
-    def updateStageMap(self):
+    def updateStageMap(self) -> None:
         for stage in self.getSubStages():
             self.trackStage(stage)
 
-    def updateConfigurations(self):
+    def updateConfigurations(self) -> None:
         # for config in self._configSet:
         #     config.update()
         pass
 
-    def notifyAllListeners(self, cce):
+    def notifyAllListeners(self, cce : int) -> None:
         # Copy the list before iterating to prevent concurrent modification exceptions.
         # EventListener[] list = listenerList.toArray(new EventListener[0]);
         for l in self._listenerList:
@@ -363,47 +338,3 @@ class FeatureRocket(ComponentAssembly, ComponentChangeListener):
                 l.componentChanged(cce)
             elif isinstance(l, StateChangeListener):
                 l.stateChanged(cce)
-
-    """ Freezes the rocket structure from firing any events.  This may be performed to
-        combine several actions on the structure into a single large action.
-        <code>thaw()</code> must always be called afterwards.
-
-        NOTE:  Always use a try/finally to ensure <code>thaw()</code> is called:
-        <pre>
-            Rocket r = c.getRocket();
-            try {
-                r.freeze();
-                // do stuff
-            } finally {
-                r.thaw();
-            }
-        </pre>"""
-    def freeze(self):
-        if self._freezeList is None:
-            self._freezeList = []
-        else:
-            raise Exception("Attempting to freeze Rocket when it is already frozen, freezeList=" + self._freezeList)
-
-    """
-        Thaws a frozen rocket structure and fires a combination of the events fired during
-        the freeze.  The event type is a combination of those fired and the source is the
-        last component to have been an event source.
-    """
-    def thaw(self):
-        if self._freezeList is None:
-            raise Exception("Attempting to thaw Rocket when it is not frozen")
-            return
-
-        if len(self._freezeList) == 0:
-            # log.warn("Thawing rocket with no changes made");
-            self._freezeList = None
-            return
-
-        type = 0
-        c = None
-        for e in self._freezeList:
-            type = type | e.getType()
-            c = e.getSource()
-        self._freezeList = None
-
-        self.fireComponentChangeEvent(ComponentChangeEvent(c, type))

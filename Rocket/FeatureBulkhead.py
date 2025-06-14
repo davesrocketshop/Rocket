@@ -24,6 +24,8 @@ __title__ = "FreeCAD Bulkheads"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
+from typing import Any
+
 from Rocket.RadiusRingComponent import RadiusRingComponent
 from Rocket.Constants import FEATURE_BULKHEAD
 
@@ -60,13 +62,13 @@ class FeatureBulkhead(RadiusRingComponent):
         if not hasattr(obj, 'HoleOffset'):
             obj.addProperty('App::PropertyAngle', 'HoleOffset', 'RocketComponent', translate('App::Property', 'Outer diameter of the bulkhead')).HoleOffset = 0
 
-    def setDefaults(self):
+    def setDefaults(self) -> None:
         super().setDefaults()
 
         self.setOuterDiameterAutomatic(True)
         self._obj.Diameter = 25.0
 
-    def onDocumentRestored(self, obj):
+    def onDocumentRestored(self, obj : Any) -> None:
         FeatureBulkhead(obj)
 
         # Convert from the pre-1.0 material system if required
@@ -74,14 +76,14 @@ class FeatureBulkhead(RadiusRingComponent):
 
         self._obj = obj
 
-    def getLength(self):
+    def getLength(self) -> float:
         # Return the length of this component along the central axis
         return float(self._obj.Thickness)
 
-    def setLength(self, length):
+    def setLength(self, length : float) -> None:
         self._obj.Thickness = length
 
-    def execute(self, obj):
+    def execute(self, obj : Any) -> None:
         shape = BulkheadShapeHandler(obj)
         if shape is not None:
             shape.draw()

@@ -38,10 +38,10 @@ class Finish():
 # Rough
 ROUGH = Finish("ExternalComponent.Rough", 500e-6)
 # Unfinished
-UNFINISHED = Finish("ExternalComponent.Unfinished", 150e-6),
+UNFINISHED = Finish("ExternalComponent.Unfinished", 150e-6)
 # Regular paint
-NORMAL = Finish("ExternalComponent.Regularpaint", 60e-6),
+NORMAL = Finish("ExternalComponent.Regularpaint", 60e-6)
 # Smooth paint
-SMOOTH = Finish("ExternalComponent.Smoothpaint", 20e-6),
+SMOOTH = Finish("ExternalComponent.Smoothpaint", 20e-6)
 # Polished
-POLISHED = Finish("ExternalComponent.Polished", 2e-6);
+POLISHED = Finish("ExternalComponent.Polished", 2e-6)

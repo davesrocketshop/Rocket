@@ -25,12 +25,14 @@ __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
 import math
+from typing import Any
 
 from DraftTools import translate
 
 from Rocket.events.ComponentChangeEvent import ComponentChangeEvent
 from Rocket.interfaces.RingInstanceable import RingInstanceable
 import Rocket.position.AngleMethod as AngleMethod
+from Rocket.position.AxialMethod import AxialMethod
 import Rocket.position.RadiusMethod as RadiusMethod
 from Rocket.ComponentAssembly import ComponentAssembly
 from Rocket.util.Coordinate import Coordinate
@@ -40,7 +42,7 @@ from Rocket.Constants import FEATURE_ROCKET, FEATURE_STAGE, FEATURE_PARALLEL_STA
 
 class FeaturePod(ComponentAssembly, RingInstanceable):
 
-    def __init__(self, obj):
+    def __init__(self, obj : Any) -> None:
         super().__init__(obj)
 
         self.Type = FEATURE_POD
@@ -64,10 +66,10 @@ class FeaturePod(ComponentAssembly, RingInstanceable):
         if not hasattr(obj,"Group"):
             obj.addExtension("App::GroupExtensionPython")
 
-    def setDefaults(self):
+    def setDefaults(self) -> None:
         super().setDefaults()
 
-    def onDocumentRestored(self, obj):
+    def onDocumentRestored(self, obj : Any) -> None:
         FeaturePod(obj)
 
         # Convert from the pre-1.0 material system if required
@@ -75,20 +77,20 @@ class FeaturePod(ComponentAssembly, RingInstanceable):
 
         self._obj = obj
 
-    def execute(self,obj):
+    def execute(self, obj : Any) -> None:
         if not hasattr(obj,'Shape'):
             return
 
-    def eligibleChild(self, childType):
+    def eligibleChild(self, childType : str) -> bool:
         return childType not in [FEATURE_ROCKET, FEATURE_STAGE, FEATURE_PARALLEL_STAGE]
 
-    def onChildEdited(self):
+    def onChildEdited(self) -> None:
         self._obj.Proxy.setEdited()
 
-    def getInstanceAngleIncrement(self):
+    def getInstanceAngleIncrement(self) -> float:
         return self._obj.AngleSeparation
 
-    def getInstanceAngles(self):
+    def getInstanceAngles(self) -> list:
         #		, angleMethod, angleOffset_rad
         baseAngle = self.getAngleOffset()
         incrAngle = self.getInstanceAngleIncrement()
@@ -99,10 +101,10 @@ class FeaturePod(ComponentAssembly, RingInstanceable):
 
         return result
 
-    def getInstanceLocations(self):
-        pass
+    def getInstanceLocations(self) -> list:
+        return []
 
-    def getInstanceOffsets(self):
+    def getInstanceOffsets(self) -> list:
         radius = self.radiusMethod.getRadius(self.getParent(), self, self._obj.RadiusOffset)
 
         toReturn = []
@@ -114,14 +116,14 @@ class FeaturePod(ComponentAssembly, RingInstanceable):
 
         return toReturn
 
-    def isAfter(self):
+    def isAfter(self) -> bool:
         return False
 
     """
         Stages may be positioned relative to other stages. In that case, this will set the stage number
         against which this stage is positioned.
     """
-    def getRelativeToStage(self):
+    def getRelativeToStage(self) -> int:
         if not self.hasParent():
             return -1
         elif isinstance(self.getParent(), FeaturePod):
@@ -129,14 +131,14 @@ class FeaturePod(ComponentAssembly, RingInstanceable):
 
         return -1
 
-    def setAxialMethod(self, newMethod):
+    def setAxialMethod(self, newMethod : AxialMethod) -> None:
         super().setAxialMethod(newMethod)
         self.fireComponentChangeEvent(ComponentChangeEvent.NONFUNCTIONAL_CHANGE)
 
-    def getAxialOffset(self):
+    def getAxialOffset(self) -> float:
         return self._getAxialOffset(self._obj.AxialMethod)
 
-    def _getAxialOffset(self, method):
+    def _getAxialOffset(self, method : AxialMethod) -> float:
         returnValue = 0.0
 
         if self.isAfter():
@@ -152,20 +154,20 @@ class FeaturePod(ComponentAssembly, RingInstanceable):
 
         return returnValue
 
-    def getAngleOffset(self):
+    def getAngleOffset(self) -> float:
         return self._obj.AngleOffset
 
-    def getPatternName(self):
+    def getPatternName(self) -> str:
         return (self.getInstanceCount() + "-ring")
 
 
-    def getRadiusOffset(self):
+    def getRadiusOffset(self) -> float:
         return self._obj.RadiusOffset
 
-    def getInstanceCount(self):
+    def getInstanceCount(self) -> int:
         return self._obj.PodCount
 
-    def setInstanceCount(self, newCount):
+    def setInstanceCount(self, newCount : int) -> None:
         for listener in self._configListeners:
             if isinstance(listener, FeaturePod):
                 listener.setInstanceCount(newCount)
@@ -179,7 +181,7 @@ class FeaturePod(ComponentAssembly, RingInstanceable):
         self._obj.AngleSeparation = math.pi * 2 / self._obj.PodCount
         self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
 
-    def setAngleOffset(self, angle):
+    def setAngleOffset(self, angle : float) -> None:
         for listener in self._configListeners:
             if isinstance(listener, FeaturePod):
                 listener.setAngleOffset(angle)
@@ -187,13 +189,13 @@ class FeaturePod(ComponentAssembly, RingInstanceable):
         self._obj.AngleOffset = angle
         self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
 
-    def getAngleMethod(self):
+    def getAngleMethod(self) -> AngleMethod.AngleMethod:
         return self._obj.AngleMethod
 
-    def setAngleMethod(self, newMethod):
+    def setAngleMethod(self, newMethod : AngleMethod.AngleMethod) -> None:
         pass
 
-    def setRadiusOffset(self, radius):
+    def setRadiusOffset(self, radius : float) -> None:
         for listener in self._configListeners:
             if isinstance(listener, FeaturePod):
                 listener.setRadiusOffset(radius)
@@ -207,10 +209,10 @@ class FeaturePod(ComponentAssembly, RingInstanceable):
             self._obj.RadiusOffset = radius
         self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
 
-    def getRadiusMethod(self):
+    def getRadiusMethod(self) -> RadiusMethod.RadiusMethod:
         return self._obj.RadiusMethod
 
-    def setRadiusMethod(self, newMethod):
+    def setRadiusMethod(self, newMethod : RadiusMethod.RadiusMethod) -> None:
         for listener in self._configListeners:
             if isinstance(listener, FeaturePod):
                 listener.setRadiusMethod(newMethod)
@@ -221,7 +223,7 @@ class FeaturePod(ComponentAssembly, RingInstanceable):
         radius = self._obj.RadiusMethod.getRadius(self.getParent(), self, self._obj.RadiusOffset)	# Radius from the parent's center
         self.setRadius(newMethod, radius)
 
-    def setRadius(self, requestMethod, requestRadius):
+    def setRadius(self, requestMethod : RadiusMethod.RadiusMethod, requestRadius : float) -> None:
         for listener in self._configListeners:
             if isinstance(listener, FeaturePod):
                 listener.setRadius(requestMethod, requestRadius)

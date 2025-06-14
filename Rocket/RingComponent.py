@@ -26,6 +26,7 @@ __url__ = "https://www.davesrocketshop.com"
 
 from abc import abstractmethod
 import math
+from typing import Any
 
 from Rocket.InternalComponent import InternalComponent
 from Rocket.interfaces.BoxBounded import BoxBounded
@@ -47,7 +48,7 @@ from DraftTools import translate
 """
 class RingComponent(InternalComponent, BoxBounded, Coaxial):
 
-    def __init__(self, obj):
+    def __init__(self, obj : Any) -> None:
         super().__init__(obj)
 
         if not hasattr(obj, 'Diameter'):
@@ -65,43 +66,43 @@ class RingComponent(InternalComponent, BoxBounded, Coaxial):
         if not hasattr(obj, 'ShiftZ'):
             obj.addProperty('App::PropertyLength', 'ShiftZ', 'RocketComponent', translate('App::Property', 'Outer diameter of the bulkhead')).ShiftZ = 0.0
 
-    def setDefaults(self):
+    def setDefaults(self) -> None:
         super().setDefaults()
 
     @abstractmethod
-    def getOuterRadius(self, r):
+    def getOuterRadius(self, pos : float) -> float:
         pass
 
     @abstractmethod
-    def setOuterRadius(self, r):
+    def setOuterRadius(self, radius : float) -> None:
         pass
 
     @abstractmethod
-    def getInnerRadius(self, r):
+    def getInnerRadius(self, pos : float) -> float:
         pass
 
     @abstractmethod
-    def setInnerRadius(self, r):
+    def setInnerRadius(self, radius : float) -> None:
         pass
 
     @abstractmethod
-    def getThickness(self):
+    def getThickness(self) -> float:
         pass
 
     @abstractmethod
-    def setThickness(self, thickness):
+    def setThickness(self, thickness : float) -> None:
         pass
 
-    def isOuterRadiusAutomatic(self):
+    def isOuterRadiusAutomatic(self) -> bool:
         return self._obj.AutoDiameter
 
-    def isOuterDiameterAutomatic(self):
+    def isOuterDiameterAutomatic(self) -> bool:
         return self._obj.AutoDiameter
 
-    def setOuterRadiusAutomatic(self, auto):
+    def setOuterRadiusAutomatic(self, auto : bool) -> None:
         self.setOuterDiameterAutomatic(auto)
 
-    def setOuterDiameterAutomatic(self, auto):
+    def setOuterDiameterAutomatic(self, auto : bool) -> None:
         for listener in self._configListeners:
             if isinstance(listener, RingComponent):
                 listener.setOuterDiameterAutomatic(auto)
@@ -111,16 +112,16 @@ class RingComponent(InternalComponent, BoxBounded, Coaxial):
         self._obj.AutoDiameter = auto
         self.fireComponentChangeEvent(ComponentChangeEvent.MASS_CHANGE);
 
-    def isInnerRadiusAutomatic(self):
+    def isInnerRadiusAutomatic(self) -> bool:
         return self._obj.CenterAutoDiameter
 
-    def isInnerDiameterAutomatic(self):
+    def isInnerDiameterAutomatic(self) -> bool:
         return self._obj.CenterAutoDiameter
 
-    def setInnerRadiusAutomatic(self, auto):
+    def setInnerRadiusAutomatic(self, auto : bool) -> None:
         self.setInnerDiameterAutomatic(auto)
 
-    def setInnerDiameterAutomatic(self, auto):
+    def setInnerDiameterAutomatic(self, auto : bool) -> None:
         for listener in self._configListeners:
             if isinstance(listener, RingComponent):
                 listener.setInnerDiameterAutomatic(auto)
@@ -130,7 +131,7 @@ class RingComponent(InternalComponent, BoxBounded, Coaxial):
         self._obj.CenterAutoDiameter = auto
         self.fireComponentChangeEvent(ComponentChangeEvent.MASS_CHANGE);
 
-    def setLength(self, length):
+    def setLength(self, length : float) -> None:
         for listener in self._configListeners:
             if isinstance(listener, RingComponent):
                 listener.setLength(length)
@@ -147,14 +148,14 @@ class RingComponent(InternalComponent, BoxBounded, Coaxial):
         Return the radial direction of displacement of the component.  Direction 0
         is equivalent to the Y-direction.
     """
-    def getRadialDirection(self):
+    def getRadialDirection(self) -> float:
         return float(self._obj.RadialDirection)
 
     """
         Set the radial direction of displacement of the component.  Direction 0
         is equivalent to the Y-direction.
     """
-    def setRadialDirection(self, dir):
+    def setRadialDirection(self, dir : float) -> None:
         for listener in self._configListeners:
             if isinstance(listener, RingComponent):
                 listener.setRadialDirection(dir)
@@ -167,7 +168,7 @@ class RingComponent(InternalComponent, BoxBounded, Coaxial):
         self._obj.ShiftZ = self._obj.RadialPosition * math.sin(self._obj.RadialDirection)
         self.fireComponentChangeEvent(ComponentChangeEvent.MASS_CHANGE)
 
-    def getInstanceBoundingBox(self):
+    def getInstanceBoundingBox(self) -> BoundingBox:
         instanceBounds = BoundingBox()
 
         instanceBounds.update(Coordinate(self.getLength(), 0,0))
@@ -182,14 +183,14 @@ class RingComponent(InternalComponent, BoxBounded, Coaxial):
         Return the radial position of the component.  The position is the distance
         of the center of the component from the center of the parent component.
     """
-    def getRadialPosition(self):
+    def getRadialPosition(self) -> float:
         return self._obj.RadialPosition
 
     """
         Set the radial position of the component.  The position is the distance
         of the center of the component from the center of the parent component.
     """
-    def setRadialPosition(self, pos):
+    def setRadialPosition(self, pos : float) -> None:
         pos = max(pos, 0);
 
         for listener in self._configListeners:
@@ -203,13 +204,13 @@ class RingComponent(InternalComponent, BoxBounded, Coaxial):
         self._obj.ShiftZ = self._obj.RadialPosition * math.sin(self._obj.RadialDirection)
         self.fireComponentChangeEvent(ComponentChangeEvent.MASS_CHANGE)
 
-    def getRadialShiftY(self):
+    def getRadialShiftY(self) -> float:
         return self._obj.ShiftY
 
-    def getRadialShiftZ(self):
+    def getRadialShiftZ(self) -> float:
         return self._obj.ShiftZ
 
-    def setRadialShift(self, y, z):
+    def setRadialShift(self, y : float, z : float) -> None:
         for listener in self._configListeners:
             if isinstance(listener, RingComponent):
                 listener.setRadialShift(y, z)

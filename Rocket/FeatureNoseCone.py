@@ -24,6 +24,8 @@ __title__ = "FreeCAD Nose Cones"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
+from typing import Any
+
 from Rocket.SymmetricComponent import SymmetricComponent
 
 from Rocket.ShapeHandlers.NoseConeShapeHandler import NoseConeShapeHandler
@@ -51,7 +53,7 @@ from DraftTools import translate
 
 class FeatureNoseCone(SymmetricComponent):
 
-    def __init__(self, obj):
+    def __init__(self, obj : Any) -> None:
         super().__init__(obj)
         self.Type = FEATURE_NOSE_CONE
         self._shapeHandler = None
@@ -141,67 +143,64 @@ class FeatureNoseCone(SymmetricComponent):
         if not hasattr(obj, 'Base'):
             obj.addProperty('App::PropertyLink', 'Base', 'RocketComponent', translate('App::Property', 'The base object used to define the nose cone shape'))
 
-    def setDefaults(self):
+    def setDefaults(self) -> None:
         super().setDefaults()
 
         self._obj.Length = 67.31
 
-    def onDocumentRestored(self, obj):
+    def onDocumentRestored(self, obj : Any) -> None:
         FeatureNoseCone(obj)
         self._obj = obj
 
         # Convert from the pre-1.0 material system if required
         self.convertMaterialAndAppearance(obj)
 
-    def update(self):
+    def update(self) -> None:
         super().update()
 
         # Ensure any automatic variables are set
         self.getAftDiameter()
         self.getAftShoulderDiameter()
 
-    def setNoseType(self, type):
+    def setNoseType(self, type : str) -> None:
         self._obj.NoseType = type
 
-    def getRadius(self, x):
+    def getRadius(self, pos : float) -> float:
         if not hasattr(self, "_shapeHandler") or self._shapeHandler is None:
             self._setShapeHandler()
 
-        return self._shapeHandler.getRadius(x)
+        return self._shapeHandler.getRadius(pos)
 
-    def getInnerRadius(self, x):
+    def getInnerRadius(self, pos : float) -> float:
         if self._obj.NoseStyle == STYLE_SOLID:
             return 0.0
-        return max(self.getRadius(x) - float(self.Thickness), 0)
+        return max(self.getRadius(pos) - float(self._obj.Thickness), 0)
 
-    def getForeRadius(self):
+    def getForeDiameter(self) -> float:
         return 0
 
-    def getForeDiameter(self):
+    def getForeInnerDiameter(self) -> float:
         return 0
 
-    def getForeInnerDiameter(self):
-        return 0
-
-    def setForeRadius(self):
+    def setForeRadius(self) -> None:
         pass
 
-    def setForeDiameter(self):
+    def setForeDiameter(self) -> None:
         pass
 
-    def isForeRadiusAutomatic(self):
+    def isForeRadiusAutomatic(self) -> bool:
         return False
 
-    def isForeDiameterAutomatic(self):
+    def isForeDiameterAutomatic(self) -> bool:
         return False
 
-    def isForeInnerDiameterAutomatic(self):
+    def isForeInnerDiameterAutomatic(self) -> bool:
         return self.isForeInnerDiameterAutomatic()
 
-    def getAftRadius(self):
+    def getAftRadius(self) -> float:
         return self.getAftDiameter() / 2.0
 
-    def getAftDiameter(self):
+    def getAftDiameter(self) -> float:
         if self.isAftDiameterAutomatic():
             # Return the auto radius from the rear
             d = -1
@@ -214,7 +213,7 @@ class FeatureNoseCone(SymmetricComponent):
 
         return self._obj.Diameter
 
-    def getAftShoulderDiameter(self):
+    def getAftShoulderDiameter(self) -> float:
         if self.isAftShoulderDiameterAutomatic():
             # Return the auto radius from the rear
             d = -1
@@ -231,16 +230,16 @@ class FeatureNoseCone(SymmetricComponent):
         Return the aft radius that was manually entered, so not the value that the component received from automatic
         aft radius.
     """
-    def getAftRadiusNoAutomatic(self):
+    def getAftRadiusNoAutomatic(self) -> float:
         return self.getAftDiameterNoAutomatic() / 2.0
 
-    def getAftDiameterNoAutomatic(self):
+    def getAftDiameterNoAutomatic(self) -> float:
         return self._obj.Diameter
 
-    def setAftRadius(self, radius):
+    def setAftRadius(self, radius : float) -> None:
         self.setAftDiameter(radius * 2.0)
 
-    def setAftDiameter(self, diameter):
+    def setAftDiameter(self, diameter : float) -> None:
         for listener in self._configListeners:
             if isinstance(listener, FeatureNoseCone): # OR used transition base class
                 listener.setAftDiameter(diameter)
@@ -259,19 +258,19 @@ class FeatureNoseCone(SymmetricComponent):
         self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
 
 
-    def isAftRadiusAutomatic(self):
+    def isAftRadiusAutomatic(self) -> bool:
         return self.isAftDiameterAutomatic()
 
-    def isAftDiameterAutomatic(self):
+    def isAftDiameterAutomatic(self) -> bool:
         return self._obj.AutoDiameter
 
-    def isAftInnerDiameterAutomatic(self):
+    def isAftInnerDiameterAutomatic(self) -> bool:
         return self._obj.ShoulderAutoDiameter
 
-    def setAftRadiusAutomatic(self, auto):
+    def setAftRadiusAutomatic(self, auto : bool) -> None:
         self.setAftDiameterAutomatic(auto)
 
-    def setAftDiameterAutomatic(self, auto):
+    def setAftDiameterAutomatic(self, auto : bool) -> None:
         for listener in self._configListeners:
             if isinstance(listener, FeatureNoseCone):
                 listener.setAftDiameterAutomatic(auto)
@@ -284,10 +283,10 @@ class FeatureNoseCone(SymmetricComponent):
         self.clearPreset()
         self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
 
-    def isAftShoulderDiameterAutomatic(self):
+    def isAftShoulderDiameterAutomatic(self) -> bool:
         return self._obj.ShoulderAutoDiameter
 
-    def setAftShoulderDiameterAutomatic(self, auto):
+    def setAftShoulderDiameterAutomatic(self, auto : bool) -> None:
         for listener in self._configListeners:
             if isinstance(listener, FeatureNoseCone):
                 listener.setAftShoulderDiameterAutomatic(auto)
@@ -300,58 +299,58 @@ class FeatureNoseCone(SymmetricComponent):
         self.clearPreset()
         self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
 
-    def setShoulderLength(self, length):
+    def setShoulderLength(self, length : float) -> None:
         self._obj.ShoulderLength = length
 
-    def setShoulderRadius(self, radius):
+    def setShoulderRadius(self, radius : float) -> None:
         self.setShoulderDiameter(radius * 2.0)
 
-    def setShoulderDiameter(self, diameter):
+    def setShoulderDiameter(self, diameter : float) -> None:
         self._obj.ShoulderDiameter = diameter
 
-    def getFrontAutoRadius(self):
+    def getFrontAutoRadius(self) -> float:
         if self.isAftRadiusAutomatic():
             return -1
         return self.getAftRadius()
 
-    def getFrontAutoDiameter(self):
+    def getFrontAutoDiameter(self) -> float:
         if self.isAftDiameterAutomatic():
             return -1
         return self.getAftDiameter()
 
-    def getFrontAutoInnerDiameter(self):
+    def getFrontAutoInnerDiameter(self) -> float:
         if self.isAftInnerDiameterAutomatic():
             return -1
         return self.getAftShoulderDiameter()
 
-    def getRearAutoRadius(self):
+    def getRearAutoRadius(self) -> float:
         if self.isForeRadiusAutomatic():
             return -1
         return self.getForeRadius()
 
-    def getRearAutoDiameter(self):
+    def getRearAutoDiameter(self) -> float:
         if self.isForeDiameterAutomatic():
             return -1
         return self.getForeDiameter()
 
-    def getRearAutoInnerDiameter(self):
+    def getRearAutoInnerDiameter(self) -> float:
         if self.isForeInnerDiameterAutomatic():
             return -1
         return self.getAftShoulderDiameter()
 
-    def usesPreviousCompAutomatic(self):
+    def usesPreviousCompAutomatic(self) -> bool:
         return self.isForeRadiusAutomatic()
 
-    def usesNextCompAutomatic(self):
+    def usesNextCompAutomatic(self) -> bool:
         return self.isAftRadiusAutomatic()
 
-    def setLength(self, length):
+    def setLength(self, length : float) -> None:
         self._obj.Length = length
 
-    def isFilled(self):
+    def isFilled(self) -> bool:
         return False
 
-    def setFilled(self, filled):
+    def setFilled(self, filled : bool) -> None:
         for listener in self._configListeners:
             if isinstance(listener, SymmetricComponent):
                 listener.setFilled(filled)
@@ -363,10 +362,10 @@ class FeatureNoseCone(SymmetricComponent):
         # self.fireComponentChangeEvent(ComponentChangeEvent.MASS_CHANGE)
         # self.clearPreset()
 
-    def getMaxForwardPosition(self):
+    def getMaxForwardPosition(self) -> float:
         return float(self._obj.Length) + float(self._obj.Placement.Base.x)
 
-    def getForeRadius(self):
+    def getForeRadius(self) -> float:
         # For placing objects on the outer part of the parent
         if self._obj.AutoDiameter:
             radius = 0.0
@@ -385,7 +384,7 @@ class FeatureNoseCone(SymmetricComponent):
                 self.setEdited()
         return self._obj.Diameter / 2.0
 
-    def _setShapeHandler(self):
+    def _setShapeHandler(self) -> None:
         obj = self._obj
         self._shapeHandler = None
         if obj.NoseType == TYPE_CONE:
@@ -419,19 +418,19 @@ class FeatureNoseCone(SymmetricComponent):
         elif obj.NoseType == TYPE_PROXY:
             self._shapeHandler = NoseProxyShapeHandler(obj)
 
-    def execute(self, obj):
+    def execute(self, obj : Any) -> None:
         self._setShapeHandler()
         if self._shapeHandler is not None:
             self._shapeHandler.draw()
 
-    def getSolidShape(self, obj):
+    def getSolidShape(self, obj : Any) -> Any:
         """ Return a filled version of the shape. Useful for CFD """
         self._setShapeHandler()
         if self._shapeHandler is not None:
             return self._shapeHandler.drawSolidShape()
         return None
 
-    def eligibleChild(self, childType):
+    def eligibleChild(self, childType : str) -> bool:
         return childType in [
             FEATURE_CENTERING_RING,
             FEATURE_INNER_TUBE,

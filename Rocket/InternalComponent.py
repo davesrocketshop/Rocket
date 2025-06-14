@@ -24,6 +24,8 @@ __title__ = "FreeCAD Rocket Components"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
+from typing import Any
+
 from Rocket.RocketComponent import RocketComponent
 from Rocket.events.ComponentChangeEvent import ComponentChangeEvent
 from Rocket.position.AxialPositionable import AxialPositionable
@@ -39,23 +41,23 @@ from Rocket.position import AxialMethod
 """
 class InternalComponent(RocketComponent, AxialPositionable):
 
-    def __init__(self, obj):
+    def __init__(self, obj : Any) -> None:
         super().__init__(obj)
 
-    def setDefaults(self):
+    def setDefaults(self) -> None:
         super().setDefaults()
 
         self._obj.AxialMethod = AxialMethod.BOTTOM
 
-    def setAxialMethod(self, newAxialMethod):
+    def setAxialMethod(self, newAxialMethod : AxialMethod.AxialMethod) -> None:
         super().setAxialMethod(newAxialMethod)
         self.fireComponentChangeEvent(ComponentChangeEvent.NONFUNCTIONAL_CHANGE)
 
     """
         Non-aerodynamic components.
     """
-    def isAerodynamic(self):
+    def isAerodynamic(self) -> bool:
         return False
 
-    def isMassive(self):
+    def isMassive(self) -> bool:
         return True

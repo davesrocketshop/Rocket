@@ -25,6 +25,7 @@ __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
 import math
+from typing import Any
 
 from Rocket.events.ComponentChangeEvent import ComponentChangeEvent
 
@@ -42,8 +43,6 @@ from Rocket.Constants import FIN_EDGE_SQUARE, FIN_EDGE_ROUNDED
 from Rocket.Constants import FIN_DEBUG_FULL, FIN_DEBUG_PROFILE_ONLY, FIN_DEBUG_MASK_ONLY
 from Rocket.Constants import PROP_TRANSIENT, PROP_HIDDEN
 
-from Rocket.Exceptions import ObjectNotFound
-
 from Rocket.ShapeHandlers.FinTrapezoidShapeHandler import FinTrapezoidShapeHandler
 from Rocket.ShapeHandlers.FinTriangleShapeHandler import FinTriangleShapeHandler
 from Rocket.ShapeHandlers.FinEllipseShapeHandler import FinEllipseShapeHandler
@@ -58,7 +57,7 @@ DEBUG_SKETCH_FINS = 0 # Set > 0 when debugging sketch based fins
 
 class FeatureFin(ExternalComponent):
 
-    def __init__(self, obj):
+    def __init__(self, obj : Any):
         super().__init__(obj, BOTTOM)
         self.Type = FEATURE_FIN
 
@@ -190,17 +189,17 @@ class FeatureFin(ExternalComponent):
 
         self._setFinEditorVisibility()
 
-    def setDefaults(self):
+    def setDefaults(self) -> None:
         self.sweepAngleFromLength()
         super().setDefaults()
 
-    def _setFinEditorVisibility(self):
+    def _setFinEditorVisibility(self) -> None:
         # self._obj.setEditorMode('FinSet', EDITOR_HIDDEN)  # hide
         # self._obj.setEditorMode('FinCount', EDITOR_HIDDEN)  # show
         # self._obj.setEditorMode('FinSpacing', EDITOR_HIDDEN)  # show
         pass
 
-    def onDocumentRestored(self, obj):
+    def onDocumentRestored(self, obj : Any) -> None:
         if obj is not None:
             FeatureFin(obj) # Update any properties
 
@@ -211,7 +210,7 @@ class FeatureFin(ExternalComponent):
 
         self._setFinEditorVisibility()
 
-    def update(self):
+    def update(self) -> None:
         super().update()
 
         # Ensure any automatic variables are set
@@ -220,7 +219,7 @@ class FeatureFin(ExternalComponent):
         self.setFinAutoHeight()
         self._setTtwAutoHeight(0)
 
-    def getFinThickness(self):
+    def getFinThickness(self) -> float:
         thickness = 0.0
         if self.getTipThickness() > 0.0:
             thickness = min(self.getTipThickness(), self.getRootThickness())
@@ -228,13 +227,13 @@ class FeatureFin(ExternalComponent):
             thickness = self.getRootThickness()
         return thickness
 
-    def isAfter(self):
+    def isAfter(self) -> bool:
         return False
 
-    def setParentRadius(self):
+    def setParentRadius(self) -> None:
         self.setParentDiameter()
 
-    def setParentDiameter(self):
+    def setParentDiameter(self) -> None:
         if self._obj.AutoDiameter:
             self._obj.ParentRadius = SymmetricComponent.DEFAULT_RADIUS
             if self.hasParent():
@@ -242,18 +241,18 @@ class FeatureFin(ExternalComponent):
                 if hasattr(parent, "getOuterDiameter"):
                     self._obj.ParentRadius = parent.getOuterDiameter(0) / 2.0
 
-    def setAutoHeight(self, auto):
+    def setAutoHeight(self, auto : bool) -> None:
         if self._obj.AutoHeight != auto:
             self._obj.AutoHeight = auto
             self.setFinAutoHeight()
 
-    def setFinAutoHeight(self):
+    def setFinAutoHeight(self) -> None:
         if self._obj.AutoHeight and self._obj.ParentRadius > 0 and self._obj.Span > 0:
             height = ((self._obj.Span - 2.0 * self._obj.ParentRadius) / 2.0)
             if height > 0:
                 self.setHeight(height)
 
-    def _setTtwAutoHeight(self, pos):
+    def _setTtwAutoHeight(self, pos : float) -> None:
         if self._obj.TtwAutoHeight:
             centerDiameter = 0
             # Component can be parentless if detached from rocket
@@ -275,27 +274,27 @@ class FeatureFin(ExternalComponent):
 
                 self._obj.TtwHeight = float(self._obj.ParentRadius) - (centerDiameter / 2.0)
 
-    def getForeRadius(self):
+    def getForeRadius(self) -> float:
         # For placing objects on the outer part of the parent
         return float(self._obj.ParentRadius + self._obj.Height)
 
-    def getLength(self):
+    def getLength(self) -> float:
         # Return the length of this component along the central axis
         if self._obj.Length <= 0:
             self._obj.Length = self.getRootChord()
         return self._obj.Length
 
-    def isFinSet(self):
+    def isFinSet(self) -> bool:
         return self._obj.FinSet
 
-    def getFinCount(self):
+    def getFinCount(self) -> int:
         return int(self._obj.FinCount)
 
-    def setFinCount(self, count):
+    def setFinCount(self, count : int) -> None:
         self._obj.FinCount = count
         self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
 
-    def getRootChord(self):
+    def getRootChord(self) -> float:
         if self._obj.FinType == FIN_TYPE_SKETCH:
             if self._obj.RootChord <= 0 or self._obj.Length <= 0:
                 handler = FinSketchShapeHandler(self._obj)
@@ -308,78 +307,78 @@ class FeatureFin(ExternalComponent):
 
         return self._obj.RootChord
 
-    def setRootChord(self, chord):
+    def setRootChord(self, chord : float) -> None:
         self._obj.RootChord = chord
         self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
 
-    def getRootThickness(self):
+    def getRootThickness(self) -> float:
         return self._obj.RootThickness
 
-    def setRootThickness(self, thickness):
+    def setRootThickness(self, thickness : float) -> None:
         self._obj.RootThickness = thickness
         self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
 
-    def getTipChord(self):
+    def getTipChord(self) -> float:
         return self._obj.TipChord
 
-    def setTipChord(self, chord):
+    def setTipChord(self, chord : float) -> None:
         self._obj.TipChord = chord
         self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
 
-    def getTipThickness(self):
+    def getTipThickness(self) -> float:
         return self._obj.TipThickness
 
-    def setTipThickness(self, thickness):
+    def setTipThickness(self, thickness : float) -> None:
         self._obj.TipThickness = thickness
         self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
 
-    def getThickness(self):
+    def getThickness(self) -> float:
         return self._obj.RootThickness
 
-    def setThickness(self, thickness):
+    def setThickness(self, thickness : float) -> None:
         self._obj.RootThickness = thickness
         self._obj.TipThickness = thickness
         self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
 
-    def getHeight(self):
+    def getHeight(self) -> float:
         return self._obj.Height
 
-    def setHeight(self, height):
+    def setHeight(self, height : float) -> None:
         self._obj.Height = height
         self.sweepAngleFromLength()
         self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
 
-    def getSpan(self):
+    def getSpan(self) -> float:
         return self._obj.Span
 
-    def setSpan(self, span):
+    def setSpan(self, span : float) -> None:
         self._obj.Span = span
         self.setFinAutoHeight()
         self.sweepAngleFromLength()
         self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
 
-    def getSweepLength(self):
+    def getSweepLength(self) -> float:
         return self._obj.SweepLength
 
-    def setSweepLength(self, length):
+    def setSweepLength(self, length : float) -> None:
         self._obj.SweepLength = length
         self.sweepAngleFromLength()
         self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
 
-    def sweepAngleFromLength(self):
+    def sweepAngleFromLength(self) -> None:
         length = float(self._obj.SweepLength)
         theta = 90.0 - math.degrees(math.atan2(float(self._obj.Height), length))
         self._obj.SweepAngle = theta
 
-    def getSweepAngle(self):
+    def getSweepAngle(self) -> float:
         return self._obj.SweepAngle
 
-    def setSweepAngle(self, angle):
+    def setSweepAngle(self, angle : float) -> None:
         self._obj.SweepAngle = angle
         self.sweepLengthFromAngle()
         self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
 
-    def sweepLengthFromAngle(self):
+    def sweepLengthFromAngle(self) -> None:
         theta = _toFloat(self._obj.SweepAngle)
         if theta <= -90.0 or theta >= 90.0:
             _err("Sweep angle must be greater than -90 and less than +90")
@@ -388,7 +387,7 @@ class FeatureFin(ExternalComponent):
         length = _toFloat(self._obj.Height) / math.tan(theta)
         self._obj.SweepLength = length
 
-    def _setShapeHandler(self):
+    def _setShapeHandler(self) -> None:
         obj = self._obj
         self._shapeHandler = None
         if obj.FinType == FIN_TYPE_TRAPEZOID:
@@ -405,13 +404,13 @@ class FeatureFin(ExternalComponent):
         elif obj.FinType == FIN_TYPE_SKETCH:
             self._shapeHandler = FinSketchShapeHandler(obj)
 
-    def execute(self, obj):
+    def execute(self, obj : Any) -> None:
         self._setShapeHandler()
 
         if self._shapeHandler is not None:
             self._shapeHandler.draw()
 
-    def eligibleChild(self, childType):
+    def eligibleChild(self, childType : str) -> bool:
         return childType in [
             FEATURE_POD,
             FEATURE_LAUNCH_LUG,
@@ -421,27 +420,27 @@ class FeatureFin(ExternalComponent):
             ]
 
     """ Returns the geometry of a trapezoidal fin. """
-    def getFinPoints(self):
+    def getFinPoints(self) -> list[Coordinate]:
         list = []
 
-        list.append(Coordinate.NUL)
+        list.append(NUL)
         list.append(Coordinate(self._obj.SweepLength, self._obj.Height))
         if self._obj.TipChord > 0.0001:
             list.append(Coordinate(self._obj.SweepLength + self._obj.TipChord, self._obj.Height));
-        list.append(Coordinate(math.max(self._obj.RootChord, 0.0001), 0));
+        list.append(Coordinate(max(self._obj.RootChord, 0.0001), 0));
 
         return list
 
-    def isTubeOuterRadiusAutomatic(self):
+    def isTubeOuterRadiusAutomatic(self) -> bool:
         return self._obj.TubeAutoOuterDiameter
 
     """
         Return the outer radius of the tube-fin
     """
-    def getTubeOuterRadius(self):
+    def getTubeOuterRadius(self) -> float:
         return (float(self.getTubeOuterDiameter()) / 2.0)
 
-    def getTubeOuterDiameter(self):
+    def getTubeOuterDiameter(self) -> float:
         if self._obj.TubeAutoOuterDiameter:
             if self._obj.FinCount < 3:
                 self._obj.TubeOuterDiameter = 2.0 * float(self._obj.ParentRadius)
@@ -453,13 +452,13 @@ class FeatureFin(ExternalComponent):
     """
          Return distance between tubes.
     """
-    def getTubeSeparation(self):
+    def getTubeSeparation(self) -> float:
         return 2.0 * (self.getTouchingRadius() - self.getTubeOuterRadius())
 
     """
         Return the required radius for the fins to be touching
     """
-    def getTouchingRadius(self):
+    def getTouchingRadius(self) -> float:
         r = self._obj.ParentRadius
         finSep = math.pi / self._obj.FinCount
 
@@ -472,10 +471,10 @@ class FeatureFin(ExternalComponent):
         the wall thickness is decreased accordingly of the value of the radius.
         This method sets the automatic radius off.
     """
-    def setTubeOuterRadius(self, radius):
+    def setTubeOuterRadius(self, radius : float) -> None:
         self.setTubeOuterDiameter(2.0 * radius)
 
-    def setTubeOuterDiameter(self, radius):
+    def setTubeOuterDiameter(self, radius : float) -> None:
         for listener in self._configListeners:
             if isinstance(listener, FeatureFin):
                 listener.setTubeOuterDiameter(radius)
@@ -494,10 +493,10 @@ class FeatureFin(ExternalComponent):
     """
         Sets whether the radius is selected automatically or not.
     """
-    def setTubeOuterRadiusAutomatic(self, auto):
+    def setTubeOuterRadiusAutomatic(self, auto : bool) -> None:
         self.setTubeOuterDiameterAutomatic(auto)
 
-    def setTubeOuterDiameterAutomatic(self, auto):
+    def setTubeOuterDiameterAutomatic(self, auto : bool) -> None:
         for listener in self._configListeners:
             if isinstance(listener, FeatureFin):
                 listener.setTubeOuterDiameterAutomatic(auto)

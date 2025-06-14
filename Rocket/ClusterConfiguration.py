@@ -33,14 +33,14 @@ import math
 """
 class ClusterConfiguration:
 
-    def __init__(self, name, points):
+    def __init__(self, name : str, points : tuple) -> None:
         self._name = name
         self._points = points # This will be a tuple
 
-    def getXMLName(self):
+    def getXMLName(self) -> str:
         return self._name
 
-    def getClusterCount(self):
+    def getClusterCount(self) -> int:
         return int(len(self._points) / 2)
 
     """
@@ -48,14 +48,14 @@ class ClusterConfiguration:
         <code>2*getClusterCount()</code> with (x,y) value pairs.  The origin is at (0,0)
         and the values are positioned so that the closest clusters have distance of 1.
     """
-    def getPoints(self):
+    def getPoints(self) -> tuple:
         return self._points
 
     """
         Return the points rotated by <code>rotation</code> radians.
         @param rotation  Rotation amount.
     """
-    def getPointsRotated(self, rotation):
+    def getPointsRotated(self, rotation) -> tuple:
         cos = math.cos(rotation)
         sin = math.sin(rotation)
         ret = []

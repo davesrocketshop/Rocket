@@ -25,6 +25,7 @@ __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
 import math
+from typing import Any
 
 from Rocket.interfaces.BoxBounded import BoxBounded
 from Rocket.position.AxialPositionable import AxialPositionable
@@ -33,9 +34,10 @@ from Rocket.interfaces.RadialParent import RadialParent
 
 from Rocket.events.ComponentChangeEvent import ComponentChangeEvent
 from Rocket.ThicknessRingComponent import ThicknessRingComponent
-from Rocket.ClusterConfiguration import SINGLE
+from Rocket.ClusterConfiguration import ClusterConfiguration, SINGLE
 from Rocket.util.BoundingBox import BoundingBox
 from Rocket.util.Coordinate import Coordinate, ZERO
+from Rocket.util.MathUtil import MathUtil
 from Rocket.ShapeHandlers.InnerTubeShapeHandler import InnerTubeShapeHandler
 
 from Rocket.Constants import FEATURE_INNER_TUBE, FEATURE_TUBE_COUPLER, FEATURE_ENGINE_BLOCK, FEATURE_BULKHEAD, FEATURE_CENTERING_RING
@@ -44,7 +46,7 @@ from DraftTools import translate
 
 class FeatureInnerTube(ThicknessRingComponent, Clusterable, AxialPositionable, BoxBounded, RadialParent):
 
-    def __init__(self, obj):
+    def __init__(self, obj : Any) -> None:
         super().__init__(obj)
         self.Type = FEATURE_INNER_TUBE
 
@@ -60,14 +62,14 @@ class FeatureInnerTube(ThicknessRingComponent, Clusterable, AxialPositionable, B
         if not hasattr(obj, 'MotorMount'):
             obj.addProperty('App::PropertyBool', 'MotorMount', 'RocketComponent', translate('App::Property', 'This component is a motor mount')).MotorMount = False
 
-    def setDefaults(self):
+    def setDefaults(self) -> None:
         super().setDefaults()
 
         self._obj.Diameter = 19.0
         self._obj.Thickness = 0.5
         self._obj.Length = 70.0
 
-    def onDocumentRestored(self, obj):
+    def onDocumentRestored(self, obj : Any) -> None:
         FeatureInnerTube(obj)
 
         # Convert from the pre-1.0 material system if required
@@ -75,25 +77,25 @@ class FeatureInnerTube(ThicknessRingComponent, Clusterable, AxialPositionable, B
 
         self._obj = obj
 
-    def execute(self, obj):
+    def execute(self, obj : Any) -> None:
         shape = InnerTubeShapeHandler(obj)
         if shape is not None:
             shape.draw()
 
-    def getSolidShape(self, obj):
+    def getSolidShape(self, obj : Any) -> Any:
         """ Return a filled version of the shape. Useful for CFD """
         shape = InnerTubeShapeHandler(obj)
         if shape is not None:
             return shape.drawSolidShape()
         return None
 
-    def isAfter(self):
+    def isAfter(self) -> bool:
         return False
 
-    def getPatternName(self):
+    def getPatternName(self) -> str:
         return self._obj.ClusterConfiguration.getXMLName()
 
-    def eligibleChild(self, childType):
+    def eligibleChild(self, childType : str) -> bool:
         return childType in [
             FEATURE_BULKHEAD,
             FEATURE_INNER_TUBE,
@@ -105,13 +107,13 @@ class FeatureInnerTube(ThicknessRingComponent, Clusterable, AxialPositionable, B
     """
         Get the current cluster configuration.
     """
-    def getClusterConfiguration(self):
+    def getClusterConfiguration(self) -> ClusterConfiguration:
         return self._obj.ClusterConfiguration
 
     """
         Set the current cluster configuration.
     """
-    def setClusterConfiguration(self, cluster):
+    def setClusterConfiguration(self, cluster : ClusterConfiguration) -> None:
         for listener in self._configListeners:
             if isinstance(listener, FeatureInnerTube):
                 listener.setClusterConfiguration(cluster)
@@ -123,7 +125,7 @@ class FeatureInnerTube(ThicknessRingComponent, Clusterable, AxialPositionable, B
         self._obj.ClusterConfiguration = cluster
         self.fireComponentChangeEvent(ComponentChangeEvent.MASS_CHANGE)
 
-    def getInstanceBoundingBox(self):
+    def getInstanceBoundingBox(self) -> BoundingBox:
         instanceBounds = BoundingBox()
 
         instanceBounds.update(Coordinate(self.getLength(), 0,0))
@@ -134,10 +136,10 @@ class FeatureInnerTube(ThicknessRingComponent, Clusterable, AxialPositionable, B
 
         return instanceBounds
 
-    def getInstanceCount(self):
+    def getInstanceCount(self) -> int:
         return self._obj.ClusterConfiguration.getClusterCount()
 
-    def setInstanceCount(self, newCount):
+    def setInstanceCount(self, newCount : int) -> None:
         raise ValueError("Setting the cluster instance count directly is not allowed")
 
     """
@@ -145,14 +147,14 @@ class FeatureInnerTube(ThicknessRingComponent, Clusterable, AxialPositionable, B
         touching each other, larger values separate the tubes and smaller values
         pack inside each other.
     """
-    def getClusterScale(self):
+    def getClusterScale(self) -> float:
         return self._obj.ClusterScale
 
     """
         Set the cluster scaling.
         @see #getClusterScale()
     """
-    def setClusterScale(self, scale):
+    def setClusterScale(self, scale : float) -> None:
         scale = max(scale, 0)
 
         for listener in self._configListeners:
@@ -168,13 +170,13 @@ class FeatureInnerTube(ThicknessRingComponent, Clusterable, AxialPositionable, B
     """
         return the clusterRotation
     """
-    def getClusterRotation(self):
+    def getClusterRotation(self) -> float:
         return self._obj.ClusterRotation
 
     """
         the clusterRotation to set
     """
-    def setClusterRotation(self, rotation):
+    def setClusterRotation(self, rotation : float) -> None:
         for listener in self._configListeners:
             if isinstance(listener, FeatureInnerTube):
                 listener.setClusterRotation(rotation)
@@ -191,10 +193,10 @@ class FeatureInnerTube(ThicknessRingComponent, Clusterable, AxialPositionable, B
         Return the distance between the closest two cluster inner tube center points.
         This is equivalent to the cluster scale multiplied by the tube diameter.
     """
-    def getClusterSeparation(self):
+    def getClusterSeparation(self) -> float:
         return self.getOuterDiameter(0) * self._obj.ClusterScale
 
-    def getClusterPoints(self):
+    def getClusterPoints(self) -> list:
         list = []
         points = self._obj.ClusterConfiguration.getPointsRotated(float(self._obj.ClusterRotation) - self.getRadialDirection())
         separation = self.getClusterSeparation()
@@ -203,7 +205,7 @@ class FeatureInnerTube(ThicknessRingComponent, Clusterable, AxialPositionable, B
 
         return list
 
-    def getInstanceOffsets(self):
+    def getInstanceOffsets(self) -> list:
 
         if self.getInstanceCount() == 1:
             yOffset = self.getRadialPosition() * math.cos(self.getRadialDirection())
@@ -214,10 +216,10 @@ class FeatureInnerTube(ThicknessRingComponent, Clusterable, AxialPositionable, B
 
         return points
 
-    def getMotorOverhang(self):
+    def getMotorOverhang(self) -> float:
         return self._obj.Overhang
 
-    def setMotorOverhang(self, overhang):
+    def setMotorOverhang(self, overhang : float) -> None:
         for listener in self._configListeners:
             if isinstance(listener, FeatureInnerTube):
                 listener.setMotorOverhang(overhang)
@@ -228,7 +230,7 @@ class FeatureInnerTube(ThicknessRingComponent, Clusterable, AxialPositionable, B
         self._obj.Overhang = overhang
         self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
 
-    def setMotorMount(self, active):
+    def setMotorMount(self, active : bool) -> None:
         for listener in self._configListeners:
             if isinstance(listener, FeatureInnerTube):
                 listener.setMotorMount(active)
@@ -238,5 +240,5 @@ class FeatureInnerTube(ThicknessRingComponent, Clusterable, AxialPositionable, B
         self._obj.MotorMount = active
         self.fireComponentChangeEvent(ComponentChangeEvent.MOTOR_CHANGE)
 
-    def isMotorMount(self):
+    def isMotorMount(self) -> bool:
         return self._obj.MotorMount

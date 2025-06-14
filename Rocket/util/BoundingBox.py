@@ -24,15 +24,17 @@ __title__ = "FreeCAD Rocket Components"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
+from typing import Any
+
 import copy
 from Rocket.util.Coordinate import Coordinate, MAX, MIN
 
 class BoundingBox(object):
 
-    _min = Coordinate()
-    _max = Coordinate()
+    _min : Coordinate = Coordinate()
+    _max : Coordinate = Coordinate()
 
-    def __init__(self, min=None, max=None):
+    def __init__(self, min : Coordinate | None = None, max : Coordinate | None = None) -> None:
         self.clear()
 
         if min is not None:
@@ -40,20 +42,20 @@ class BoundingBox(object):
         if max is not None:
             self._max = copy.deepcopy(max)
 
-    def clear(self):
+    def clear(self) -> None:
         self._min = MAX
         self._min._weight = 0.0
         self._max = MIN
         self._max._weight = 0.0
 
-    def setMinMax(self, min, max):
+    def setMinMax(self, min : Coordinate, max : Coordinate) -> None:
         self._min = min
         self._max = max
 
-    def isEmpty(self):
-        return (self._min.x > self._max.x) or (self._min.y > self._max.y) or (self._min.z > self._max.z)
+    def isEmpty(self) -> bool:
+        return (self._min._x > self._max._x) or (self._min._y > self._max._y) or (self._min._z > self._max._z)
 
-    def transform(self, transformation):
+    def transform(self, transformation) -> Any:
         p1 = transformation.transform(self._min)
         p2 = transformation.transform(self._max)
 
@@ -63,40 +65,40 @@ class BoundingBox(object):
 
         return newBox
 
-    def update_x_min(self, xVal):
-        if self._min.x > xVal:
-           self._min.x = xVal
+    def update_x_min(self, xVal : float) -> None:
+        if self._min._x > xVal:
+           self._min._x = xVal
 
-    def update_y_min(self, yVal):
-        if self._min.y > yVal:
-            self._min.y = yVal
+    def update_y_min(self, yVal : float) -> None:
+        if self._min._y > yVal:
+            self._min._y = yVal
 
-    def update_z_min(self, zVal):
-        if self._min.z > zVal:
-            self._min.z = zVal
+    def update_z_min(self, zVal : float) -> None:
+        if self._min._z > zVal:
+            self._min._z = zVal
 
-    def update_x_max(self, xVal):
-        if self._max.x < xVal:
-            self._max.x = xVal
+    def update_x_max(self, xVal : float) -> None:
+        if self._max._x < xVal:
+            self._max._x = xVal
 
-    def update_y_max(self, yVal):
-        if self._max.y < yVal:
-            self._max.y = yVal
+    def update_y_max(self, yVal : float) -> None:
+        if self._max._y < yVal:
+            self._max._y = yVal
 
-    def update_z_max(self, zVal):
-        if self._max.z < zVal:
-            self._max.z = zVal
+    def update_z_max(self, zVal : float) -> None:
+        if self._max._z < zVal:
+            self._max._z = zVal
 
-    def update(self, c):
-        self.update_x_min(c.x);
-        self.update_y_min(c.y);
-        self.update_z_min(c.z);
+    def update(self, c : Coordinate) -> Any:
+        self.update_x_min(c._x)
+        self.update_y_min(c._y)
+        self.update_z_min(c._z)
 
-        self.update_x_max(c.x);
-        self.update_y_max(c.y);
-        self.update_z_max(c.z);
+        self.update_x_max(c._x)
+        self.update_y_max(c._y)
+        self.update_z_max(c._z)
 
         return self
 
-    def span(self):
+    def span(self) -> Any:
         return self._max.sub(self._min)

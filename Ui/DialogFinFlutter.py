@@ -42,8 +42,6 @@ from PySide.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QGridLayout, QSi
 
 from Analyzers.FinFlutter import FinFlutter
 
-from Rocket.Material import Material
-
 class DialogFinFlutter(QDialog):
     def __init__(self, fin):
         super().__init__()

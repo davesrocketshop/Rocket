@@ -24,6 +24,8 @@ __title__ = "FreeCAD Body Tubes"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
+from typing import Any
+
 from Rocket.position.AxialPositionable import AxialPositionable
 from Rocket.position.AxialMethod import TOP
 
@@ -35,11 +37,11 @@ from Rocket.Constants import LOCATION_PARENT_TOP
 
 class FeatureEngineBlock(ThicknessRingComponent, AxialPositionable):
 
-    def __init__(self, obj):
+    def __init__(self, obj : Any):
         super().__init__(obj)
         self.Type = FEATURE_ENGINE_BLOCK
 
-    def setDefaults(self):
+    def setDefaults(self) -> None:
         super().setDefaults()
 
         self._obj.AutoDiameter = True
@@ -49,7 +51,7 @@ class FeatureEngineBlock(ThicknessRingComponent, AxialPositionable):
         self._obj.AxialOffset = 0.0
         self._obj.AxialMethod = TOP
 
-    def onDocumentRestored(self, obj):
+    def onDocumentRestored(self, obj : Any) -> None:
         FeatureEngineBlock(obj)
 
         # Convert from the pre-1.0 material system if required
@@ -57,13 +59,13 @@ class FeatureEngineBlock(ThicknessRingComponent, AxialPositionable):
 
         self._obj = obj
 
-    def execute(self, obj):
+    def execute(self, obj : Any) -> None:
         shape = BodyTubeShapeHandler(obj)
         if shape is not None:
             shape.draw()
 
-    def isAfter(self):
+    def isAfter(self) -> bool:
         return False
 
-    def eligibleChild(self, childType):
+    def eligibleChild(self, childType : str) -> bool:
         return False

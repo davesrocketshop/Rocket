@@ -24,13 +24,16 @@ __title__ = "FreeCAD Rocket Components"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
+from typing import Any
+
 from Rocket.ExternalComponent import ExternalComponent
 from Rocket.interfaces.Coaxial import Coaxial
+from Rocket.position.AxialMethod import AxialMethod
 
 class Tube(ExternalComponent, Coaxial):
 
-    def __init__(self, obj, relativePosition):
+    def __init__(self, obj : Any, relativePosition : AxialMethod) -> None:
         super().__init__(obj, relativePosition)
 
-    def setDefaults(self):
+    def setDefaults(self) -> None:
         super().setDefaults()

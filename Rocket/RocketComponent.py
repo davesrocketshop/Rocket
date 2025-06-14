@@ -24,6 +24,8 @@ __title__ = "FreeCAD Rocket Components"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
+from typing import Any
+
 import FreeCAD
 import Materials
 
@@ -39,6 +41,7 @@ from Rocket.Constants import MATERIAL_TYPE_BULK
 
 from Rocket.position.AxialMethod import AXIAL_METHOD_MAP
 from Rocket.interfaces.ChangeSource import ChangeSource
+from Rocket.interfaces.ComponentChangeListener import ComponentChangeListener
 from Rocket.util.Coordinate import Coordinate, ZERO
 from Rocket.events.ComponentChangeEvent import ComponentChangeEvent
 
@@ -48,7 +51,7 @@ from DraftTools import translate
 
 class RocketComponent(RocketComponentShapeless, ChangeSource):
 
-    def __init__(self, obj):
+    def __init__(self, obj : Any) -> None:
         super().__init__(obj)
 
         # Attributes from presets
@@ -90,7 +93,7 @@ class RocketComponent(RocketComponentShapeless, ChangeSource):
         if not hasattr(obj,"Shape"):
             obj.addProperty('Part::PropertyPartShape', 'Shape', 'RocketComponent', translate('App::Property', 'Shape of the component'))
 
-    def convertMaterialAndAppearance(self, obj):
+    def convertMaterialAndAppearance(self, obj : Any) -> None:
         if hasattr(obj, "Material"):
             self.convertMaterial(obj, obj.Material)
             obj.removeProperty("Material")
@@ -105,7 +108,7 @@ class RocketComponent(RocketComponentShapeless, ChangeSource):
             )
             obj.ViewObject.LineColor = mat.DiffuseColor
 
-    def convertMaterial(self, obj, old):
+    def convertMaterial(self, obj : Any, old : Any) -> None:
         database = PartDatabase(FreeCAD.getUserAppDataDir() + "Mod/Rocket/")
         connection = database.getConnection()
         try:
@@ -124,28 +127,28 @@ class RocketComponent(RocketComponentShapeless, ChangeSource):
         If the length of a component is settable, the class must define the setter method
         itself.
     """
-    def getLength(self):
+    def getLength(self) -> float:
         # Return the length of this component along the central axis
         return self._obj.Length
 
-    def isMotorMount(self):
+    def isMotorMount(self) -> bool:
         return False
 
     # Return true if the component may have an aerodynamic effect on the rocket.
-    def isAerodynamic(self):
+    def isAerodynamic(self) -> bool:
         return False
 
     # Return true if the component may have an effect on the rocket's mass.
-    def isMassive(self):
+    def isMassive(self) -> bool:
         return False
 
     # the default implementation is mostly a placeholder here, however in inheriting classes,
     # this function is useful to indicate adjacent placements and view sizes
-    def updateBounds(self):
+    def updateBounds(self) -> None:
         return
 
     # Move a child to another position.
-    def moveChild(self, component, index):
+    def moveChild(self, component : Any, index : int) -> None:
         try:
             self._moveChild(index, component)
 
@@ -157,17 +160,17 @@ class RocketComponent(RocketComponentShapeless, ChangeSource):
         except ValueError:
             pass
 
-    def setLocationReference(self, reference):
+    def setLocationReference(self, reference : str) -> None:
         self.setAxialMethod(AXIAL_METHOD_MAP[reference])
 
-    def getPosition(self):
+    def getPosition(self) -> Any:
         return self._obj.Placement.Base
 
-    def getPositionAsCoordinate(self):
+    def getPositionAsCoordinate(self) -> Coordinate:
         pos = self._obj.Placement.Base
         return Coordinate(pos.x, pos.y, pos.z)
 
-    def addConfigListener(self, listener):
+    def addConfigListener(self, listener : Any) -> bool:
         if listener is None or listener in self._configListeners or listener == self:
             return False
 
@@ -176,30 +179,30 @@ class RocketComponent(RocketComponentShapeless, ChangeSource):
 
         return True
 
-    def removeConfigListener(self, listener):
+    def removeConfigListener(self, listener : Any) -> None:
         self._configListeners.remove(listener)
         listener.setBypassChangeEvent(False)
 
-    def clearConfigListeners(self):
+    def clearConfigListeners(self) -> None:
         for listener in self._configListeners:
             listener.setBypassChangeEvent(False)
 
         self._configListeners.clear()
 
-    def getConfigListeners(self):
+    def getConfigListeners(self) -> list:
         return self._configListeners
 
     # Adds a ComponentChangeListener to the rocket tree.  The listener is added to the root
     # component, which must be of type Rocket (which overrides this method).  Events of all
     # subcomponents are sent to all listeners.
-    def addComponentChangeListener(self, listener):
+    def addComponentChangeListener(self, listener : ComponentChangeListener) -> None:
         self.getRocket().addComponentChangeListener(listener)
 
     # Removes a ComponentChangeListener from the rocket tree.  The listener is removed from
     # the root component, which must be of type Rocket (which overrides this method).
     # Does nothing if the root component is not a Rocket.  (The asymmetry is so
     # that listeners can always be removed just in case.)
-    def removeComponentChangeListener(self, listener):
+    def removeComponentChangeListener(self, listener : ComponentChangeListener) -> None:
         if self.hasParent():
             self.getRoot().removeComponentChangeListener(listener)
 
@@ -208,14 +211,14 @@ class RocketComponent(RocketComponentShapeless, ChangeSource):
     # <code>ChangeListener</code>.  The same events are dispatched to the
     # <code>ChangeListener</code>, as <code>ComponentChangeEvent</code> is a subclass
     # of <code>ChangeEvent</code>.
-    def addChangeListener(self, listener):
+    def addChangeListener(self, listener : ComponentChangeListener) -> None:
         self.addComponentChangeListener(listener)
 
     # Removes a ChangeListener from the rocket tree.  This is identical to
     # removeComponentChangeListener() except it uses a ChangeListener.
     # Does nothing if the root component is not a Rocket.  (The asymmetry is so
     # that listeners can always be removed just in case.)
-    def removeChangeListener(self, listener):
+    def removeChangeListener(self, listener : ComponentChangeListener) -> None:
         self.removeComponentChangeListener(listener)
 
     """
@@ -226,7 +229,7 @@ class RocketComponent(RocketComponentShapeless, ChangeSource):
 
         NOTE: the length of this array returned always equals this.getInstanceCount()
     """
-    def getInstanceLocations(self):
+    def getInstanceLocations(self) -> list:
         base = self._obj.Placement.Base
         center = Coordinate(base.x, base.y, base.z)
         offsets = self.getInstanceOffsets()
@@ -241,7 +244,7 @@ class RocketComponent(RocketComponentShapeless, ChangeSource):
         Clear the current component preset.  This does not affect the component properties
         otherwise.
     """
-    def clearPreset(self):
+    def clearPreset(self) -> None:
         for listener in self._configListeners:
             listener.clearPreset()
 
@@ -250,7 +253,7 @@ class RocketComponent(RocketComponentShapeless, ChangeSource):
     """
         Provides locations of all instances of component relative to this component's reference point
     """
-    def getInstanceOffsets(self):
+    def getInstanceOffsets(self) -> list:
         return [ZERO]
 
     """
@@ -264,7 +267,7 @@ class RocketComponent(RocketComponentShapeless, ChangeSource):
 
         The current implementation does not support rotating components.
     """
-    def toRelative(self, c, dest):
+    def toRelative(self, c : Coordinate, dest : Any) -> list:
         if dest is None:
             raise Exception("calling toRelative(c,null) is being refactored. ")
 
@@ -285,7 +288,7 @@ class RocketComponent(RocketComponentShapeless, ChangeSource):
 
         DAC: This may not be correct as the Workbench already supplies absolute coordinates
     """
-    def getComponentLocations(self):
+    def getComponentLocations(self) -> list:
         if not self.hasParent() or not hasattr(self.getParent(), "getComponentLocations"):
             # == improperly initialized components OR the root Rocket instance
             return self.getInstanceOffsets()
@@ -309,7 +312,7 @@ class RocketComponent(RocketComponentShapeless, ChangeSource):
 
             return thesePositions
 
-    def getSolidShape(self, obj):
+    def getSolidShape(self, obj : Any) -> Any:
         """ Return a filled version of the shape. Useful for CFD """
         if hasattr(obj, "Shape") and obj.Shape.isValid():
             return obj.Shape

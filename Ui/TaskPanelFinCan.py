@@ -45,10 +45,6 @@ from Rocket.Constants import FINCAN_EDGE_SQUARE, FINCAN_EDGE_ROUND, FINCAN_EDGE_
 from Rocket.Constants import FINCAN_PRESET_CUSTOM, FINCAN_PRESET_1_8, FINCAN_PRESET_3_16, FINCAN_PRESET_1_4
 from Rocket.Constants import FINCAN_COUPLER_MATCH_ID, FINCAN_COUPLER_STEPPED
 
-from Rocket.Material import Material
-
-from Rocket.Utilities import _err, _toFloat
-
 from Ui.TaskPanelLocation import TaskPanelLocation
 from Ui.Commands.CmdSketcher import newSketchNoEdit
 
@@ -912,14 +908,6 @@ class TaskPanelFinCan(QObject):
         self._setCouplerAutoDiameterState()
         self._setLugAutoThicknessState()
         self._setLugAutoLengthState()
-
-    def updateMaterials(self):
-        "fills the combo with the existing FCMat cards"
-        self._finForm.materialPresetCombo.addItem('')
-        cards = Material.materialDictionary()
-        if cards:
-            for k in sorted(cards.keys()):
-                self._finForm.materialPresetCombo.addItem(k)
 
     def setEdited(self):
         try:

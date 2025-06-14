@@ -26,10 +26,12 @@ __url__ = "https://www.davesrocketshop.com"
 
 from abc import ABC, abstractmethod
 
+from Rocket.util.BoundingBox import BoundingBox
+
 class BoxBounded(ABC):
 
     # Get a bounding box for a single instance of this component, from its own reference point.
     # This is expected to be combined with a InstanceContext for bounds in the global / rocket frame
     @abstractmethod
-    def getInstanceBoundingBox(self):
+    def getInstanceBoundingBox(self) -> BoundingBox:
         pass

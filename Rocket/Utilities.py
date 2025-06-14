@@ -24,22 +24,24 @@ __title__ = "General utilities for the Rocket Workbench"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
+from typing import Any
+
 import FreeCAD
 import math
 
-def _msg(message):
+def _msg(message : str) -> None:
     """Write messages to the console including the line ending."""
     FreeCAD.Console.PrintMessage(message + "\n")
 
-def _wrn(message):
+def _wrn(message : str) -> None:
     """Write warnings to the console including the line ending."""
     FreeCAD.Console.PrintWarning(message + "\n")
 
-def _err(message):
+def _err(message : str) -> None:
     """Write errors  to the console including the line ending."""
     FreeCAD.Console.PrintError(message + "\n")
 
-def validationError(message):
+def validationError(message : str) -> None:
     """
         Write errors  to the console including the line ending.
         Placeholder for future error handling
@@ -47,7 +49,7 @@ def validationError(message):
     # FreeCAD.Console.PrintError(message + "\n")
     pass
 
-def _trace(className, functionName, message = None):
+def _trace(className : str, functionName : str, message : str | None = None) -> None:
     """Write errors  to the console including the line ending."""
     trace = True
     if trace:
@@ -56,44 +58,44 @@ def _trace(className, functionName, message = None):
         else:
             FreeCAD.Console.PrintMessage("%s:%s(%s)\n" % (className, functionName, message))
 
-def _toFloat(input, defaultValue = 0.0):
+def _toFloat(input : str, defaultValue : float = 0.0) -> float:
     if input == '':
         return defaultValue
     return float(input)
 
-def _toInt(input, defaultValue = 0):
+def _toInt(input : str, defaultValue : int = 0) -> int:
     if input == '':
         return defaultValue
     return int(input)
 
-def _toBoolean(value):
+def _toBoolean(value : str) -> bool:
     if str(value).strip().lower() == "true":
         return True
     return False
 
-def _valueWithUnits(value, units):
+def _valueWithUnits(value : str, units : str) -> str:
     ''' Converts units to user preferred '''
     qty = FreeCAD.Units.Quantity(str(value) + str(units))
     return qty.UserString
 
-def _valueOnly(value, units):
+def _valueOnly(value : str, units : str) -> float:
     ''' Converts units to user preferred '''
     qty = FreeCAD.Units.Quantity(str(value) + str(units))
     return qty.Value
 
-def reducePi(value):
+def reducePi(value : float) -> float:
     """ Reduce the angle x to the range -PI - PI """
 
     d = math.floor((value / (2 * math.pi)) + 0.5) # Round to the nearest integer
     return value - d * 2 * math.pi
 
-def reduce2Pi(value):
+def reduce2Pi(value : float) -> float:
     """ Reduce the angle x to the range 0 - 2*PI """
 
     d = math.floor(value / (2 * math.pi))
     return value - d * 2 * math.pi
 
-def clamp(x, min, max):
+def clamp(x : float, min : float, max : float):
     """ Clamps the value x to the range min - max. """
     if x < min:
         return min
@@ -102,14 +104,14 @@ def clamp(x, min, max):
     return x
 
 
-def setGroup(obj):
+def setGroup(obj : Any) -> None:
     for property in obj.PropertiesList:
         group = obj.getGroupOfProperty(property)
         if group not in ['RocketComponent', '', 'Base']:
             print("Updating Property {0} Group {1}".format(property, group))
             obj.setGroupOfProperty(property, 'RocketComponent')
 
-def oldMaterials():
+def oldMaterials() -> bool:
     ver = FreeCAD.Version()
     print("Ver %s.%s" % (ver[0], ver[1]))
     if int(ver[0]) == 0 and int(ver[1]) < 22:
@@ -118,5 +120,5 @@ def oldMaterials():
     print("\tnew")
     return False
 
-def newMaterials():
+def newMaterials() -> bool:
     return not oldMaterials()

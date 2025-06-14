@@ -25,13 +25,14 @@ __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
 import math
+from typing import Any
 
 from Rocket.events.ComponentChangeEvent import ComponentChangeEvent
 
 from Rocket.ExternalComponent import ExternalComponent
 from Rocket.util.BoundingBox import BoundingBox
 from Rocket.position.AxialMethod import MIDDLE
-from Rocket.position.AngleMethod import AngleMethod
+from Rocket.position.AngleMethod import AngleMethod, RELATIVE
 from Rocket.position.AnglePositionable import AnglePositionable
 from Rocket.interfaces.BoxBounded import BoxBounded
 from Rocket.interfaces.LineInstanceable import LineInstanceable
@@ -57,7 +58,7 @@ from DraftTools import translate
 
 class FeatureRailButton(ExternalComponent, AnglePositionable, BoxBounded, LineInstanceable):
 
-    def __init__(self, obj):
+    def __init__(self, obj : Any) -> None:
         super().__init__(obj, MIDDLE)
         self.Type = FEATURE_RAIL_BUTTON
 
@@ -109,12 +110,12 @@ class FeatureRailButton(ExternalComponent, AnglePositionable, BoxBounded, LineIn
         if not hasattr(obj,"InstanceSeparation"):
             obj.addProperty('App::PropertyLength', 'InstanceSeparation', 'RocketComponent', translate('App::Property', 'Instance separation')).InstanceSeparation = 0
 
-    def setDefaults(self):
+    def setDefaults(self) -> None:
         super().setDefaults()
 
         self._obj.Length = 12.0
 
-    def _migrate_from_3_0(self, obj):
+    def _migrate_from_3_0(self, obj : Any) -> None:
         _wrn("Rail button migrating object from 3.0")
 
         top = obj.TopThickness
@@ -138,7 +139,7 @@ class FeatureRailButton(ExternalComponent, AnglePositionable, BoxBounded, LineIn
         # Convert from the pre-1.0 material system if required
         self.convertMaterialAndAppearance(obj)
 
-    def onDocumentRestored(self, obj):
+    def onDocumentRestored(self, obj : Any) -> None:
         if hasattr(self, "TopThickness"):
             self._migrate_from_3_0(obj)
             return
@@ -150,7 +151,7 @@ class FeatureRailButton(ExternalComponent, AnglePositionable, BoxBounded, LineIn
 
         self._obj = obj
 
-    def update(self):
+    def update(self) -> None:
         super().update()
 
         # Ensure any automatic variables are set
@@ -160,27 +161,27 @@ class FeatureRailButton(ExternalComponent, AnglePositionable, BoxBounded, LineIn
         self._obj.Placement.Base.y = location[0]._y
         self._obj.Placement.Base.z = location[0]._z
 
-    def execute(self, obj):
+    def execute(self, obj : Any) -> None:
         shape = RailButtonShapeHandler(obj)
         if shape is not None:
             shape.draw()
 
-    def getLength(self):
+    def getLength(self) -> float:
         # Return the length of this component along the central axis
         return float(self._obj.Length)
 
-    def isAfter(self):
+    def isAfter(self) -> bool:
         return False
 
-    def onChildEdited(self):
+    def onChildEdited(self) -> None:
         self._obj.Proxy.setEdited()
 
-    def componentChanged(self, e):
-        super().componentChanged(e)
+    def componentChanged(self, event : Any) -> None:
+        super().componentChanged(event)
 
         self._setRadialOffset()
 
-    def _setRadialOffset(self):
+    def _setRadialOffset(self) -> None:
         """
             shiftY and shiftZ must be computed here since calculating them
             in shiftCoordinates() would cause an infinite loop due to .toRelative
@@ -214,58 +215,57 @@ class FeatureRailButton(ExternalComponent, AnglePositionable, BoxBounded, LineIn
 
         self._obj.RadialOffset = parentRadius #+ self.getOuterRadius(9)
 
-    def getPatternName(self):
+    def getPatternName(self) -> str:
         return "{0}-Line".format(self.getInstanceCount())
 
-    def getAngleMethod(self):
-        return AngleMethod.RELATIVE
+    def getAngleMethod(self) -> AngleMethod:
+        return RELATIVE
 
-
-    def setAngleMethod(self, newMethod):
+    def setAngleMethod(self, newMethod : AngleMethod) -> None:
         # no-op
         pass
 
-    def getAngleOffset(self):
+    def getAngleOffset(self) -> float:
         return self._obj.AngleOffset
 
-    def setAngleOffset(self, newAngleRadians):
+    def setAngleOffset(self, angle : float) -> None:
         for listener in self._configListeners:
-            if isinstance(listener, FeatureRailGuide):
-                listener.setAngleOffset(newAngleRadians)
+            if isinstance(listener, FeatureRailButton):
+                listener.setAngleOffset(angle)
 
-        rad = Utilities.clamp( newAngleRadians, -math.pi, math.pi)
+        rad = Utilities.clamp(angle, -math.pi, math.pi)
         if self._obj.AngleOffset == rad:
             return
 
         self._obj.AngleOffset = rad
         self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
 
-    def getInstanceSeparation(self):
+    def getInstanceSeparation(self) -> float:
         return self._obj.InstanceSeparation
 
-    def setInstanceSeparation(self, separation):
+    def setInstanceSeparation(self, separation : float) -> None:
         for listener in self._configListeners:
-            if isinstance(listener, FeatureRailGuide):
+            if isinstance(listener, FeatureRailButton):
                 listener.setInstanceSeparation(separation)
 
         self._obj.InstanceSeparation = separation
 
-    def setInstanceCount(self, newCount):
+    def setInstanceCount(self, newCount : int) -> None:
         for listener in self._configListeners:
-            if isinstance(listener, FeatureRailGuide):
+            if isinstance(listener, FeatureRailButton):
                 listener.setInstanceCount(newCount)
 
         if newCount > 0:
             self._obj.InstanceCount = newCount
 
-    def getInstanceCount(self):
+    def getInstanceCount(self) -> int:
         return int(self._obj.InstanceCount)
 
-    def getInstanceBoundingBox(self):
+    def getInstanceBoundingBox(self) -> BoundingBox:
         instanceBounds = BoundingBox()
         return instanceBounds
 
-    def getInstanceOffsets(self):
+    def getInstanceOffsets(self) -> list:
         toReturn = []
 
         yOffset = math.sin(math.radians(-self._obj.AngleOffset)) * (self._obj.RadialOffset)

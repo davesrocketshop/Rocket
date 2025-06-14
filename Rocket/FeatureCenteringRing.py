@@ -24,6 +24,8 @@ __title__ = "FreeCAD Centering Rings"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
+from typing import Any
+
 from Rocket.FeatureBulkhead import FeatureBulkhead
 from Rocket.FeatureInnerTube import FeatureInnerTube
 from Rocket.util.Coordinate import Coordinate, NUL
@@ -38,7 +40,7 @@ from DraftTools import translate
 #
 class FeatureCenteringRing(FeatureBulkhead):
 
-    def __init__(self, obj):
+    def __init__(self, obj : Any):
         super().__init__(obj)
         self.Type = FEATURE_CENTERING_RING
 
@@ -49,7 +51,7 @@ class FeatureCenteringRing(FeatureBulkhead):
         if not hasattr(obj, 'NotchHeight'):
             obj.addProperty('App::PropertyLength', 'NotchHeight', 'RocketComponent', translate('App::Property', 'Height of the engine hook notch')).NotchHeight = 3.0
 
-    def setDefaults(self):
+    def setDefaults(self) -> None:
         super().setDefaults()
 
         self.setOuterDiameterAutomatic(True)
@@ -58,7 +60,7 @@ class FeatureCenteringRing(FeatureBulkhead):
         self._obj.HoleDiameter = 2.0
         self._obj.HoleCenter = 7.0
 
-    def onDocumentRestored(self, obj):
+    def onDocumentRestored(self, obj : Any) -> None:
         FeatureCenteringRing(obj)
 
         # Convert from the pre-1.0 material system if required
@@ -66,16 +68,16 @@ class FeatureCenteringRing(FeatureBulkhead):
 
         self._obj = obj
 
-    def update(self):
+    def update(self) -> None:
         super().update()
 
         # Ensure any automatic variables are set
         self.getInnerDiameter(0)
 
-    def getInnerRadius(self, pos):
+    def getInnerRadius(self, pos : float) -> float:
         return self.getInnerDiameter(pos) / 2.0
 
-    def getInnerDiameter(self, pos):
+    def getInnerDiameter(self, pos : float) -> float:
         # Implement sibling inner radius automation
         if self.isInnerDiameterAutomatic():
             self._obj.CenterDiameter = 0
@@ -98,7 +100,7 @@ class FeatureCenteringRing(FeatureBulkhead):
 
         return super().getInnerDiameter(pos)
 
-    def execute(self, obj):
+    def execute(self, obj : Any) -> None:
         shape = CenteringRingShapeHandler(obj)
         if shape is not None:
             shape.draw()

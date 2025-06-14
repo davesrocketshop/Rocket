@@ -24,7 +24,10 @@ __title__ = "FreeCAD Rocket Components"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
+from typing import Any
+
 from Rocket.RocketComponent import RocketComponent
+from Rocket.position.AxialMethod import AxialMethod
 from Rocket.util import Finish
 from Rocket.events.ComponentChangeEvent import ComponentChangeEvent
 
@@ -34,29 +37,29 @@ from Rocket.events.ComponentChangeEvent import ComponentChangeEvent
 
 class ExternalComponent(RocketComponent):
 
-    finish = Finish.NORMAL
+    finish : Finish.Finish = Finish.NORMAL
 
-    def __init__(self, obj, relativePosition):
+    def __init__(self, obj : Any, relativePosition : AxialMethod):
         super().__init__(obj)
 
         # Set the method without calculating the position... yet.
         self._obj.AxialMethod = relativePosition
 
-    def setDefaults(self):
+    def setDefaults(self) -> None:
         super().setDefaults()
 
     # ExternalComponent has aerodynamic effect, so return true.
-    def isAerodynamic(self):
+    def isAerodynamic(self) -> bool:
         return True
 
     # ExternalComponent has effect on the mass, so return true.
-    def isMassive(self):
+    def isMassive(self) -> bool:
         return True
 
-    def getFinish(self):
+    def getFinish(self) -> Finish.Finish:
         return self.finish
 
-    def setFinish(self, finish):
+    def setFinish(self, finish : Finish.Finish) -> None:
         for listener in self._configListeners:
             if isinstance(listener, ExternalComponent):
                 listener.setFinish(finish)

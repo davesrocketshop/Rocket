@@ -22,6 +22,8 @@
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
+from typing import Any
+
 from Rocket.SymmetricComponent import SymmetricComponent
 
 from Rocket.ShapeHandlers.TransitionConeShapeHandler import TransitionConeShapeHandler
@@ -44,7 +46,7 @@ from DraftTools import translate
 
 class FeatureTransition(SymmetricComponent):
 
-    def __init__(self, obj):
+    def __init__(self, obj : Any) -> None:
         super().__init__(obj)
         self.Type = FEATURE_TRANSITION
 
@@ -150,12 +152,12 @@ class FeatureTransition(SymmetricComponent):
                                 STYLE_CAP_BAR,
                                 STYLE_CAP_CROSS]
 
-    def setDefaults(self):
+    def setDefaults(self) -> None:
         super().setDefaults()
 
         self._obj.Length = 60.0
 
-    def onDocumentRestored(self, obj):
+    def onDocumentRestored(self, obj : Any) -> None:
         FeatureTransition(obj)
 
         # Convert from the pre-1.0 material system if required
@@ -163,7 +165,7 @@ class FeatureTransition(SymmetricComponent):
 
         self._obj = obj
 
-    def update(self):
+    def update(self) -> None:
         super().update()
 
         # Ensure any automatic variables are set
@@ -172,10 +174,10 @@ class FeatureTransition(SymmetricComponent):
         self.getForeShoulderDiameter()
         self.getAftShoulderDiameter()
 
-    def getForeRadius(self):
+    def getForeRadius(self) -> float:
         return self.getForeDiameter() / 2.0
 
-    def getForeDiameter(self):
+    def getForeDiameter(self) -> float:
         if self.isForeDiameterAutomatic():
             # Get the automatic radius from the front
             d = -1
@@ -188,7 +190,7 @@ class FeatureTransition(SymmetricComponent):
 
         return self._obj.ForeDiameter
 
-    def getForeShoulderDiameter(self):
+    def getForeShoulderDiameter(self) -> float:
         if self.isForeInnerDiameterAutomatic():
             # Get the automatic radius from the front
             d = -1
@@ -205,10 +207,10 @@ class FeatureTransition(SymmetricComponent):
         Return the fore radius that was manually entered, so not the value that the component received from automatic
         fore radius.
     """
-    def getForeRadiusNoAutomatic(self):
+    def getForeRadiusNoAutomatic(self) -> float:
         return self._obj.ForeDiameter / 2.0
 
-    def setForeRadius(self, radius):
+    def setForeRadius(self, radius : float) -> None:
         for listener in self._configListeners:
             if isinstance(listener, FeatureTransition):
                 listener.setForeRadius(radius)
@@ -228,16 +230,16 @@ class FeatureTransition(SymmetricComponent):
         self.clearPreset()
         self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE);
 
-    def isForeRadiusAutomatic(self):
+    def isForeRadiusAutomatic(self) -> bool:
         return self._obj.ForeAutoDiameter
 
-    def isForeDiameterAutomatic(self):
+    def isForeDiameterAutomatic(self) -> bool:
         return self._obj.ForeAutoDiameter
 
-    def setForeRadiusAutomatic(self, auto):
+    def setForeRadiusAutomatic(self, auto : bool) -> None:
         self.setForeDiameterAutomatic(auto)
 
-    def setForeDiameterAutomatic(self, auto):
+    def setForeDiameterAutomatic(self, auto : bool) -> None:
         for listener in self._configListeners:
             if isinstance(listener, FeatureTransition):
                 listener.setForeDiameterAutomatic(auto)
@@ -250,13 +252,13 @@ class FeatureTransition(SymmetricComponent):
         # clearPreset();
         self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
 
-    def isForeInnerDiameterAutomatic(self):
+    def isForeInnerDiameterAutomatic(self) -> bool:
         return self._obj.ForeShoulderAutoDiameter
 
-    def getAftRadius(self):
+    def getAftRadius(self) -> float:
         return self.getAftDiameter() / 2.0
 
-    def getAftDiameter(self):
+    def getAftDiameter(self) -> float:
         if self.isAftDiameterAutomatic():
             # Return the auto radius from the rear
             d = -1
@@ -270,7 +272,7 @@ class FeatureTransition(SymmetricComponent):
 
         return self._obj.AftDiameter
 
-    def getAftShoulderDiameter(self):
+    def getAftShoulderDiameter(self) -> float:
         if self.isAftInnerDiameterAutomatic():
             # Return the auto radius from the rear
             d = -1
@@ -288,10 +290,10 @@ class FeatureTransition(SymmetricComponent):
         Return the aft radius that was manually entered, so not the value that the component received from automatic
         aft radius.
     """
-    def getAftRadiusNoAutomatic(self):
+    def getAftRadiusNoAutomatic(self) -> float:
         return self._obj.AftDiameter / 2.0
 
-    def setAftRadius(self, radius):
+    def setAftRadius(self, radius : float) -> None:
         for listener in self._configListeners:
             if isinstance(listener, FeatureTransition):
                 listener.setAftRadius(radius)
@@ -311,19 +313,19 @@ class FeatureTransition(SymmetricComponent):
         self.clearPreset();
         self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
 
-    def isAftRadiusAutomatic(self):
+    def isAftRadiusAutomatic(self) -> bool:
         return self._obj.AftAutoDiameter
 
-    def isAftDiameterAutomatic(self):
+    def isAftDiameterAutomatic(self) -> bool:
         return self._obj.AftAutoDiameter
 
-    def setAftRadiusAutomatic(self, auto):
+    def setAftRadiusAutomatic(self, auto : bool) -> None:
         self.setAftDiameterAutomatic(auto)
 
-    def isAftInnerDiameterAutomatic(self):
+    def isAftInnerDiameterAutomatic(self) -> bool:
         return self._obj.AftShoulderAutoDiameter
 
-    def setAftDiameterAutomatic(self, auto):
+    def setAftDiameterAutomatic(self, auto : bool) -> None:
         for listener in self._configListeners:
             if isinstance(listener, FeatureTransition):
                 listener.setAftDiameterAutomatic(auto)
@@ -336,61 +338,61 @@ class FeatureTransition(SymmetricComponent):
         self.clearPreset()
         self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
 
-    def getFrontAutoRadius(self):
+    def getFrontAutoRadius(self) -> float:
         if self.isAftRadiusAutomatic():
             return -1
         return self.getAftRadius()
 
-    def getFrontAutoDiameter(self):
+    def getFrontAutoDiameter(self) -> float:
         if self.isAftDiameterAutomatic():
             return -1
         return self.getAftDiameter()
 
-    def getFrontAutoInnerDiameter(self):
+    def getFrontAutoInnerDiameter(self) -> float:
         if self.isAftInnerDiameterAutomatic():
             return -1
         return self.getAftShoulderDiameter()
 
-    def getRearAutoRadius(self):
+    def getRearAutoRadius(self) -> float:
         if self.isForeRadiusAutomatic():
             return -1
         return self.getForeRadius()
 
-    def getRearAutoDiameter(self):
+    def getRearAutoDiameter(self) -> float:
         if self.isForeDiameterAutomatic():
             return -1
         return self.getForeDiameter()
 
-    def getRearAutoInnerDiameter(self):
+    def getRearAutoInnerDiameter(self) -> float:
         if self.isForeDiameterAutomatic():
             return -1
         return self.getForeShoulderDiameter()
 
-    def usesPreviousCompAutomatic(self):
+    def usesPreviousCompAutomatic(self) -> bool:
         return self.isForeRadiusAutomatic()
 
-    def usesNextCompAutomatic(self):
+    def usesNextCompAutomatic(self) -> bool:
         return self.isAftRadiusAutomatic()
 
     """
         Return the radius at point x of the transition.
     """
-    def getRadius(self, x):
+    def getRadius(self, pos : float) -> float:
         if not hasattr(self, "_shapeHandler") or self._shapeHandler is None:
             self._setShapeHandler()
-        return self._shapeHandler.getRadius(x)
+        return self._shapeHandler.getRadius(pos)
 
     """
         Return the inner radius at point x of the transition.
     """
-    def getInnerRadius(self, x):
+    def getInnerRadius(self, pos : float) -> float:
         if self._obj.TransitionStyle == STYLE_SOLID:
             return 0.0
         if self._obj.TransitionStyle == STYLE_SOLID_CORE:
             return self._obj.CoreDiameter
-        return max(self.getRadius() - float(self.Thickness), 0)
+        return max(self.getRadius(0) - float(self._obj.Thickness), 0)
 
-    def _setShapeHandler(self):
+    def _setShapeHandler(self) -> None:
         obj = self._obj
         self._shapeHandler = None
         if obj.TransitionType == TYPE_CONE:
@@ -412,12 +414,12 @@ class FeatureTransition(SymmetricComponent):
         elif obj.TransitionType == TYPE_POWER:
             self._shapeHandler = TransitionPowerShapeHandler(obj)
 
-    def execute(self, obj):
+    def execute(self, obj : Any) -> None:
         self._setShapeHandler()
         if self._shapeHandler is not None:
             self._shapeHandler.draw()
 
-    def eligibleChild(self, childType):
+    def eligibleChild(self, childType : str) -> bool:
         return childType in [
             FEATURE_CENTERING_RING,
             FEATURE_INNER_TUBE,

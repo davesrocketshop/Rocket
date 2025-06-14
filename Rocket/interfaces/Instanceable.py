@@ -35,8 +35,8 @@ class Instanceable(ABC):
         If getInstanceCount() returns anything besides 1 this function should be overridden as well.
     """
     @abstractmethod
-    def getInstanceLocations(self):
-        pass
+    def getInstanceLocations(self) -> list:
+        ...
 
     """
         Returns vector coordinates of each instance of this component relative to this component's reference point (typically front center)
@@ -45,27 +45,27 @@ class Instanceable(ABC):
         If getInstanceCount() returns anything besides 1 this function should be overridden as well.
     """
     @abstractmethod
-    def getInstanceOffsets(self):
-        pass
+    def getInstanceOffsets(self) -> list:
+        ...
 
     """
         How many instances of this component are represented.  This should generally be editable.
     """
     @abstractmethod
-    def setInstanceCount(self, newCount):
-        pass
+    def setInstanceCount(self, newCount : int) -> None:
+        ...
 
     """
          How many instances of this component are represented.  This should generally be editable.
     """
     @abstractmethod
-    def getInstanceCount(self):
-        pass
+    def getInstanceCount(self) -> int:
+        ...
 
     """
         Get a human-readable name for this instance arrangement.
         Note: the same instance count may have different pattern names
     """
     @abstractmethod
-    def getPatternName(self):
-        pass
+    def getPatternName(self) -> str:
+        ...

@@ -24,6 +24,8 @@ __title__ = "FreeCAD Ring Tails"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
+from typing import Any
+
 from Rocket.position import AxialMethod
 
 from Rocket.interfaces.BoxBounded import BoxBounded
@@ -43,7 +45,7 @@ class FeatureRingtail(SymmetricComponent, BoxBounded, Coaxial):
 
     _refComp = None	# Reference component that is used for the autoRadius
 
-    def __init__(self, obj):
+    def __init__(self, obj : Any) -> None:
         super().__init__(obj)
         self.Type = FEATURE_RINGTAIL
 
@@ -58,17 +60,17 @@ class FeatureRingtail(SymmetricComponent, BoxBounded, Coaxial):
             obj.addProperty('App::PropertyBool', 'AutoLength', 'RocketComponent', translate('App::Property', 'Automatically set the length when possible')).AutoLength = True
         # super().setAxialMethod(AxialMethod.BOTTOM)
 
-    def setDefaults(self):
+    def setDefaults(self) -> None:
         super().setDefaults()
 
         # super().setAxialMethod(AxialMethod.TOP)
         # self._setAxialOffset(self._obj.AxialMethod, sweep)
         if self._obj.AutoDiameter:
             self._setAutoDiameter()
-        self.setAxialOffset()
+        self.setAxialOffset(0)
         self._obj.Length = 30.0
 
-    def getParentBody(self) -> RocketComponent | None:
+    def getParentBody(self) -> Any:
         body = None
 
         if self.hasParent():
@@ -82,7 +84,7 @@ class FeatureRingtail(SymmetricComponent, BoxBounded, Coaxial):
                 body = None
         return body
 
-    def setAxialOffset(self):
+    def setAxialOffset(self, newAxialOffset : float) -> None:
         self.setAxialMethod(AxialMethod.TOP)
         body = self.getParentBody()
 
@@ -94,20 +96,20 @@ class FeatureRingtail(SymmetricComponent, BoxBounded, Coaxial):
 
         self._setAxialOffset(self._obj.AxialMethod, sweep)
 
-    def update(self):
+    def update(self) -> None:
         if self._obj.AutoDiameter:
             self._setAutoDiameter()
-        self.setAxialOffset()
+        self.setAxialOffset(0)
         # super().update()
 
-    def componentChanged(self, e):
-        super().componentChanged(e)
+    def componentChanged(self, event) -> None:
+        super().componentChanged(event)
 
         if self._obj.AutoDiameter:
             self._setAutoDiameter()
-        self.setAxialOffset()
+        self.setAxialOffset(0)
 
-    def isAfter(self):
+    def isAfter(self) -> bool:
         return False
 
     """
@@ -116,9 +118,9 @@ class FeatureRingtail(SymmetricComponent, BoxBounded, Coaxial):
         Note: This should be overridden by the subcomponents which need to call
         clearPreset().  (BodyTube allows changing length without resetting the preset.)
     """
-    def setLength(self, length):
+    def setLength(self, length : float) -> None:
         for listener in self._configListeners:
-            if isinstance(listener, FEATURE_RINGTAIL):
+            if isinstance(listener, FeatureRingtail):
                 listener.setLength(length)
 
         if self._obj.Length == length:
@@ -130,7 +132,7 @@ class FeatureRingtail(SymmetricComponent, BoxBounded, Coaxial):
     """
         Sets whether the radius is selected automatically or not.
     """
-    def setOuterDiameterAutomatic(self, auto):
+    def setOuterDiameterAutomatic(self, auto : bool) -> None:
         for listener in self._configListeners:
             if isinstance(listener, FeatureRingtail): # OR used transition base class
                 listener.setOuterDiameterAutomatic(auto)
@@ -142,33 +144,33 @@ class FeatureRingtail(SymmetricComponent, BoxBounded, Coaxial):
         self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
         self.clearPreset()
 
-    def setOuterRadiusAutomatic(self, auto):
+    def setOuterRadiusAutomatic(self, auto : bool) -> None:
         self.setOuterDiameterAutomatic(auto)
 
-    def getMaxForwardPosition(self):
+    def getMaxForwardPosition(self) -> float:
         return float(self._obj.Length) + float(self._obj.Placement.Base.x)
 
-    def getRadius(self, x):
+    def getRadius(self, pos : float) -> float:
         # Body tube has constant diameter
         return self.getForeRadius()
 
-    def getForeRadius(self):
+    def getForeRadius(self) -> float:
         # For placing objects on the outer part of the parent
         return self.getOuterRadius(0)
 
-    def getAftRadius(self):
-        return self.getForeRadius(0)
+    def getAftRadius(self) -> float:
+        return self.getForeRadius()
 
-    def getInnerRadius(self, pos):
+    def getInnerRadius(self, pos : float) -> float:
         return self.getInnerDiameter(pos) / 2.0
 
-    def getInnerDiameter(self, pos):
+    def getInnerDiameter(self, pos : float) -> float:
         return float(self._obj.Diameter) - (2.0 * float(self._obj.Thickness))
 
-    def setInnerRadius(self, radius):
+    def setInnerRadius(self, radius : float) -> None:
         self.setInnerDiameter(radius * 2.0)
 
-    def setInnerDiameter(self, diameter):
+    def setInnerDiameter(self, diameter : float) -> None:
         for listener in self._configListeners:
             if isinstance(listener, FeatureRingtail):
                 listener.setInnerDiameter(diameter)
@@ -176,10 +178,10 @@ class FeatureRingtail(SymmetricComponent, BoxBounded, Coaxial):
         self.setThickness((self._obj.Diameter - diameter) / 2.0)
         self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
 
-    def setOuterRadius(self, radius):
+    def setOuterRadius(self, radius : float) -> None:
         self.setOuterDiameter(radius * 2.0)
 
-    def setOuterDiameter(self, diameter):
+    def setOuterDiameter(self, diameter : float) -> None:
         for listener in self._configListeners:
             if isinstance(listener, FeatureRingtail):
                 listener.setOuterDiameter(diameter)
@@ -198,49 +200,49 @@ class FeatureRingtail(SymmetricComponent, BoxBounded, Coaxial):
     """
         Return the outer radius of the body tube.
     """
-    def getOuterRadius(self, pos):
+    def getOuterRadius(self, pos : float) -> float:
         return self.getOuterDiameter(pos) / 2.0
 
-    def getOuterDiameter(self, pos):
+    def getOuterDiameter(self, pos : float) -> float:
         if self._obj.AutoDiameter:
             self._setAutoDiameter()
 
         return float(self._obj.Diameter)
 
-    def getRearInnerDiameter(self):
+    def getRearInnerDiameter(self) -> float:
         return self.getInnerDiameter(0)
 
-    def getFrontAutoDiameter(self):
+    def getFrontAutoDiameter(self) -> float:
         return self.getOuterDiameter(0)
 
-    def getFrontAutoInnerDiameter(self):
+    def getFrontAutoInnerDiameter(self) -> float:
         return self.getOuterDiameter(0) - (2.0 * self._obj.Thickness)
 
-    def getFrontAutoRadius(self):
+    def getFrontAutoRadius(self) -> float:
         return self.getOuterDiameter(0) / 2.0
 
-    def getRearAutoDiameter(self):
+    def getRearAutoDiameter(self) -> float:
         return self.getFrontAutoDiameter()
 
-    def getRearAutoInnerDiameter(self):
+    def getRearAutoInnerDiameter(self) -> float:
         return self.getFrontAutoInnerDiameter()
 
-    def getRearAutoRadius(self):
+    def getRearAutoRadius(self) -> float:
         return self.getFrontAutoRadius()
 
-    def isAftRadiusAutomatic(self):
+    def isAftRadiusAutomatic(self) -> bool:
         return self._obj.AutoDiameter
 
-    def isForeRadiusAutomatic(self):
+    def isForeRadiusAutomatic(self) -> bool:
         return self._obj.AutoDiameter
 
-    def usesNextCompAutomatic(self):
+    def usesNextCompAutomatic(self) -> bool:
         return False
 
-    def usesPreviousCompAutomatic(self):
+    def usesPreviousCompAutomatic(self) -> bool:
         return False
 
-    def _setAutoDiameter(self):
+    def _setAutoDiameter(self) -> None:
         parentDiameter = 0.0
 
         body = self.getParentBody()
@@ -250,12 +252,12 @@ class FeatureRingtail(SymmetricComponent, BoxBounded, Coaxial):
 
         self._obj.Diameter = parentDiameter + (2.0 * float(self._obj.Thickness))
 
-    def getLength(self):
+    def getLength(self) -> float:
         if self._obj.AutoLength:
             self._setAutoLength()
         return self._obj.Length
 
-    def _setAutoLength(self):
+    def _setAutoLength(self) -> None:
         body = None
         tipLength = 0.0
 
@@ -265,16 +267,16 @@ class FeatureRingtail(SymmetricComponent, BoxBounded, Coaxial):
 
         self._obj.Length = tipLength
 
-    def setLengthAutomatic(self, value):
+    def setLengthAutomatic(self, value : bool) -> None:
         self._obj.AutoLength = value
         self._setAutoLength()
 
-    def execute(self, obj):
+    def execute(self, obj : Any) -> None:
         shape = RingtailShapeHandler(obj)
         if shape is not None:
             shape.draw()
 
-    def getSolidShape(self, obj):
+    def getSolidShape(self, obj : Any) -> Any:
         """ Return a filled version of the shape. Useful for CFD """
         shape = RingtailShapeHandler(obj)
         if shape is not None:
@@ -285,10 +287,10 @@ class FeatureRingtail(SymmetricComponent, BoxBounded, Coaxial):
         Returns whether the component is set as filled.  If it is set filled, then the
         wall thickness will have no effect.
     """
-    def isFilled(self):
+    def isFilled(self) -> bool:
         return False
 
-    def eligibleChild(self, childType):
+    def eligibleChild(self, childType : str) -> bool:
         # return childType in [
         #     FEATURE_BULKHEAD,
         #     #FEATURE_BODY_TUBE,
@@ -305,7 +307,7 @@ class FeatureRingtail(SymmetricComponent, BoxBounded, Coaxial):
         #     FEATURE_RAIL_GUIDE]
         return False
 
-    def onChildEdited(self):
+    def onChildEdited(self) -> None:
         try:
             self._obj.Proxy.setEdited()
         except ReferenceError:

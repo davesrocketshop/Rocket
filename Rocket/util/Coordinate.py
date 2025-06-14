@@ -27,6 +27,7 @@ __url__ = "https://www.davesrocketshop.com"
 import math
 import sys
 
+from Rocket.util.MathUtil import EPSILON
 class Coordinate():
     """ An mutable class of weighted coordinates.  The weights are non-negative.
 
@@ -38,20 +39,20 @@ class Coordinate():
     Y = 1
     Z = 2
 
-    def __init__(self, x=0, y=0, z=0, weight=0):
+    def __init__(self, x : float = 0, y : float = 0, z : float = 0, weight : float = 0) -> None:
         self._x = x
         self._y = y
         self._z = z
         self._weight = weight
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f'({self._x},{self._y},{self._z},{self._weight})'
 
-    def __eq__(self, other):
+    def __eq__(self, other) -> bool:
         return self._x == other._x and self._y == other._y and self._z == other._z and self._weight == other._weight
 
     # Create transformation with given rotation matrix and translation.
-    def transformation(self, rotation, translation = None):
+    def transformation(self, rotation, translation = None) -> None:
         for i in range(3):
             for j in range(3):
                 self._rotation[i][j] = rotation[i][j]
@@ -63,6 +64,9 @@ class Coordinate():
 
     # # Transform a coordinate according to this transformation.
     def transform(self, orig):
+        if self._translate is None:
+            self._translate = Coordinate(0,0,0,0)
+
         x = self._rotation[self.X][self.X]*orig._x + self._rotation[self.X][self.Y]*orig._y + self._rotation[self.X][self.Z]*orig._z + self._translate._x
         y = self._rotation[self.Y][self.X]*orig._x + self._rotation[self.Y][self.Y]*orig._y + self._rotation[self.Y][self.Z]*orig._z + self._translate._y
         z = self._rotation[self.Z][self.X]*orig._x + self._rotation[self.Z][self.Y]*orig._y + self._rotation[self.Z][self.Z]*orig._z + self._translate._z
@@ -124,10 +128,7 @@ class Coordinate():
         Distance from the origin to the Coordinate.
     """
     def length(self):
-        if self.length < 0:
-            length = math.sqrt(self.length2())
-
-        return float(length)
+        return math.sqrt(self.length2())
 
     """
         Square of the distance from the origin to the Coordinate.
@@ -142,7 +143,7 @@ class Coordinate():
         2-norm.
     """
     def max(self):
-        return max(math.abs(self._x), math.abs(self._y), math.abs(self._z))
+        return max(math.fabs(self._x), math.fabs(self._y), math.fabs(self._z))
 
 
     """
@@ -175,7 +176,7 @@ class Coordinate():
             return self
 
         w1 = self._weight + other._weight
-        if abs(w1) < math.pow2(math.EPSILON):
+        if abs(w1) < self.pow2(EPSILON):
             x1 = (self._x + other._x) / 2
             y1 = (self._y + other._y) / 2
             z1 = (self._z + other._z) / 2
@@ -186,6 +187,9 @@ class Coordinate():
             z1 = (self._z * self._weight + other._z * other._weight) / w1
 
         return Coordinate(x1, y1, z1, w1)
+    
+    def pow2(self, x):
+        return x * x
 
 ZERO = Coordinate(0, 0, 0, 0)
 NUL = Coordinate(0, 0, 0, 0)

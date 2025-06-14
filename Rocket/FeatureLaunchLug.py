@@ -25,12 +25,13 @@ __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
 import math
+from typing import Any
 
 from Rocket.Constants import FEATURE_LAUNCH_LUG, FEATURE_FIN, FEATURE_FINCAN
 
 from Rocket.Tube import Tube
 from Rocket.position import AxialMethod
-from Rocket.position.AngleMethod import AngleMethod
+from Rocket.position.AngleMethod import AngleMethod, RELATIVE
 from Rocket.position.AnglePositionable import AnglePositionable
 from Rocket.interfaces.BoxBounded import BoxBounded
 from Rocket.interfaces.LineInstanceable import LineInstanceable
@@ -45,7 +46,7 @@ from DraftTools import translate
 
 class FeatureLaunchLug(Tube, AnglePositionable, BoxBounded, LineInstanceable):
 
-    def __init__(self, obj):
+    def __init__(self, obj : Any) -> None:
         super().__init__(obj, AxialMethod.MIDDLE)
 
         self.Type = FEATURE_LAUNCH_LUG
@@ -70,12 +71,12 @@ class FeatureLaunchLug(Tube, AnglePositionable, BoxBounded, LineInstanceable):
         if not hasattr(obj,"AftSweepAngle"):
             obj.addProperty('App::PropertyAngle', 'AftSweepAngle', 'RocketComponent', translate('App::Property', 'Angle for the aft end sweep')).AftSweepAngle = 30.0
 
-    def setDefaults(self):
+    def setDefaults(self) -> None:
         super().setDefaults()
 
         self._obj.Length = 25.4
 
-    def onDocumentRestored(self, obj):
+    def onDocumentRestored(self, obj : Any) -> None:
         FeatureLaunchLug(obj)
 
         # Convert from the pre-1.0 material system if required
@@ -83,7 +84,7 @@ class FeatureLaunchLug(Tube, AnglePositionable, BoxBounded, LineInstanceable):
 
         self._obj = obj
 
-    def update(self):
+    def update(self) -> None:
         super().update()
 
         # Ensure any automatic variables are set
@@ -93,30 +94,30 @@ class FeatureLaunchLug(Tube, AnglePositionable, BoxBounded, LineInstanceable):
         self._obj.Placement.Base.y = location[0]._y
         self._obj.Placement.Base.z = location[0]._z
 
-    def execute(self, obj):
+    def execute(self, obj : Any) -> None:
         shape = LaunchLugShapeHandler(obj)
         if shape is not None:
             shape.draw()
 
-    def eligibleChild(self, childType):
+    def eligibleChild(self, childType : str) -> bool:
         return False
 
-    def getLength(self):
+    def getLength(self) -> float:
         # Return the length of this component along the central axis
         length = self._obj.Length
 
         return float(length)
 
-    def getOuterRadius(self, pos):
+    def getOuterRadius(self, pos : float) -> float:
         return self.getOuterDiameter(pos) / 2.0
 
-    def getOuterDiameter(self, pos):
+    def getOuterDiameter(self, pos : float) -> float:
         return float(self._obj.Diameter)
 
-    def setOuterRadius(self, radius):
+    def setOuterRadius(self, radius : float) -> None:
         self.setOuterDiameter(radius * 2.0)
 
-    def setOuterDiameter(self, diameter):
+    def setOuterDiameter(self, diameter : float) -> None:
         for listener in self._configListeners:
             if isinstance(listener, FeatureLaunchLug):
                 listener.setOuterDiameter(diameter)
@@ -129,26 +130,26 @@ class FeatureLaunchLug(Tube, AnglePositionable, BoxBounded, LineInstanceable):
         self.clearPreset()
         self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
 
-    def getInnerRadius(self, pos):
+    def getInnerRadius(self, pos : float) -> float:
         return self.getInnerDiameter(pos) / 2.0
 
-    def getInnerDiameter(self, pos):
+    def getInnerDiameter(self, pos : float) -> float:
         return self._obj.Diameter - (2.0 * self._obj.Thickness)
 
-    def setInnerRadius(self, radius):
+    def setInnerRadius(self, radius : float) -> None:
         self.setInnerDiameter(radius * 2.0)
 
-    def setInnerDiameter(self, diameter):
+    def setInnerDiameter(self, diameter : float) -> None:
         for listener in self._configListeners:
             if isinstance(listener, FeatureLaunchLug):
                 listener.setInnerDiameter(diameter)
 
         self.setThickness((float(self._obj.Diameter) - float(diameter)) / 2.0)
 
-    def getThickness(self):
+    def getThickness(self) -> float:
         return self._obj.Thickness
 
-    def setThickness(self, thickness):
+    def setThickness(self, thickness : float) -> None:
         for listener in self._configListeners:
             if isinstance(listener, FeatureLaunchLug):
                 listener.setThickness(thickness)
@@ -160,22 +161,22 @@ class FeatureLaunchLug(Tube, AnglePositionable, BoxBounded, LineInstanceable):
         self.clearPreset()
         self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
 
-    def getAngleOffset(self):
+    def getAngleOffset(self) -> float:
         return self._obj.AngleOffset
 
-    def setAngleOffset(self, degrees):
+    def setAngleOffset(self, angle : float) -> None:
         for listener in self._configListeners:
             if isinstance(listener, FeatureLaunchLug):
-                listener.setAngleOffset(degrees)
+                listener.setAngleOffset(angle)
 
-        rad = math.fmod(degrees, 360)
+        rad = math.fmod(angle, 360)
         if self._obj.AngleOffset == rad:
             return
 
         self._obj.AngleOffset = rad
         self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
 
-    def setLength(self, length):
+    def setLength(self, length : float) -> None:
         for listener in self._configListeners:
             if isinstance(listener, FeatureLaunchLug):
                 listener.setLength(length)
@@ -186,10 +187,10 @@ class FeatureLaunchLug(Tube, AnglePositionable, BoxBounded, LineInstanceable):
         self._obj.Length = length
         self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
 
-    def isAfter(self):
+    def isAfter(self) -> bool:
         return False
 
-    def getInstanceOffsets(self):
+    def getInstanceOffsets(self) -> list:
         toReturn = []
 
         yOffset = math.sin(math.radians(-self._obj.AngleOffset)) * (self._obj.RadialOffset)
@@ -200,12 +201,12 @@ class FeatureLaunchLug(Tube, AnglePositionable, BoxBounded, LineInstanceable):
 
         return toReturn
 
-    def componentChanged(self, e):
-        super().componentChanged(e)
+    def componentChanged(self, event : Any) -> None:
+        super().componentChanged(event)
 
         self._setRadialOffset()
 
-    def _setRadialOffset(self):
+    def _setRadialOffset(self) -> None:
         body = None
         parentRadius = 0.0
 
@@ -235,17 +236,17 @@ class FeatureLaunchLug(Tube, AnglePositionable, BoxBounded, LineInstanceable):
 
         self._obj.RadialOffset = parentRadius + self.getOuterRadius(0)
 
-    def getInstanceSeparation(self):
+    def getInstanceSeparation(self) -> float:
         return self._obj.InstanceSeparation
 
-    def setInstanceSeparation(self, separation):
+    def setInstanceSeparation(self, separation : float) -> None:
         for listener in self._configListeners:
             if isinstance(listener, FeatureLaunchLug):
                 listener.setInstanceSeparation(separation)
 
         self._obj.InstanceSeparation = separation
 
-    def setInstanceCount(self, newCount):
+    def setInstanceCount(self, newCount : int) -> None:
         for listener in self._configListeners:
             if isinstance(listener, FeatureLaunchLug):
                 listener.setInstanceCount(newCount)
@@ -253,10 +254,10 @@ class FeatureLaunchLug(Tube, AnglePositionable, BoxBounded, LineInstanceable):
         if newCount > 0:
             self._obj.InstanceCount = newCount
 
-    def getInstanceCount(self):
+    def getInstanceCount(self) -> int:
         return int(self._obj.InstanceCount)
 
-    def getInstanceBoundingBox(self):
+    def getInstanceBoundingBox(self) -> BoundingBox:
         instanceBounds = BoundingBox()
 
         instanceBounds.update(Coordinate(self.getLength(), 0,0))
@@ -267,13 +268,12 @@ class FeatureLaunchLug(Tube, AnglePositionable, BoxBounded, LineInstanceable):
 
         return instanceBounds
 
-    def getPatternName(self):
+    def getPatternName(self) -> str:
         return "{0}-Line".format(self.getInstanceCount())
 
-    def getAngleMethod(self):
-        return AngleMethod.RELATIVE
+    def getAngleMethod(self) -> AngleMethod:
+        return RELATIVE
 
-
-    def setAngleMethod(self, newMethod):
+    def setAngleMethod(self, newMethod : AngleMethod) -> None:
         # no-op
         pass

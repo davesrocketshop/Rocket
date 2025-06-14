@@ -32,9 +32,9 @@ from Rocket.interfaces.Instanceable import Instanceable
 class LineInstanceable(Instanceable, AxialPositionable):
 
     @abstractmethod
-    def getInstanceSeparation(self):
+    def getInstanceSeparation(self) -> float:
         pass
 
     @abstractmethod
-    def setInstanceSeparation(self, radius):
+    def setInstanceSeparation(self, separation : float) -> None:
         pass

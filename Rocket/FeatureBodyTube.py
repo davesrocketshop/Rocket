@@ -24,6 +24,8 @@ __title__ = "FreeCAD Body Tubes"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
+from typing import Any
+
 from Rocket.interfaces.BoxBounded import BoxBounded
 from Rocket.interfaces.Coaxial import Coaxial
 
@@ -63,19 +65,19 @@ class FeatureBodyTube(SymmetricComponent, BoxBounded, Coaxial):
         if not hasattr(obj,"Filled"):
             obj.addProperty('App::PropertyBool', 'Filled', 'RocketComponent', translate('App::Property', 'This component is solid')).Filled = False
 
-    def setDefaults(self):
+    def setDefaults(self) -> None:
         super().setDefaults()
 
         self._obj.Length = 457.0
 
-    def onDocumentRestored(self, obj):
+    def onDocumentRestored(self, obj : Any) -> None:
         FeatureBodyTube(obj)
 
         # Convert from the pre-1.0 material system if required
         self.convertMaterialAndAppearance(obj)
         self._obj = obj
 
-    def update(self):
+    def update(self) -> None:
         super().update()
 
         # Ensure any automatic variables are set
@@ -88,7 +90,7 @@ class FeatureBodyTube(SymmetricComponent, BoxBounded, Coaxial):
         Note: This should be overridden by the subcomponents which need to call
         clearPreset().  (BodyTube allows changing length without resetting the preset.)
     """
-    def setLength(self, length):
+    def setLength(self, length : float) -> None:
         for listener in self._configListeners:
             if isinstance(listener, FeatureBodyTube):
                 listener.setLength(length)
@@ -102,7 +104,7 @@ class FeatureBodyTube(SymmetricComponent, BoxBounded, Coaxial):
     """
         Sets whether the radius is selected automatically or not.
     """
-    def setOuterDiameterAutomatic(self, auto):
+    def setOuterDiameterAutomatic(self, auto : bool) -> None:
         for listener in self._configListeners:
             if isinstance(listener, FeatureBodyTube): # OR used transition base class
                 listener.setOuterDiameterAutomatic(auto)
@@ -114,39 +116,39 @@ class FeatureBodyTube(SymmetricComponent, BoxBounded, Coaxial):
         self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
         self.clearPreset()
 
-    def setOuterRadiusAutomatic(self, auto):
+    def setOuterRadiusAutomatic(self, auto : bool) -> None:
         self.setOuterDiameterAutomatic(auto)
 
-    def getMaxForwardPosition(self):
+    def getMaxForwardPosition(self) -> float:
         return float(self._obj.Length) + float(self._obj.Placement.Base.x)
 
-    def getRadius(self, x):
+    def getRadius(self, pos : float) -> float:
         # Body tube has constant diameter
         return self.getForeRadius()
 
-    def getForeRadius(self):
+    def getForeRadius(self) -> float:
         # For placing objects on the outer part of the parent
         return self.getOuterRadius(0)
 
-    def isForeRadiusAutomatic(self):
-        return self.getFrontAutoRadius()
+    def isForeRadiusAutomatic(self) -> bool:
+        return self._obj.AutoDiameter
 
-    def getAftRadius(self):
+    def getAftRadius(self) -> float:
         return self.getForeRadius()
 
-    def isAftRadiusAutomatic(self):
-        return self.getRearAutoDiameter()
+    def isAftRadiusAutomatic(self) -> bool:
+        return self._obj.AutoDiameter
 
-    def getInnerRadius(self, pos):
+    def getInnerRadius(self, pos : float) -> float:
         return self.getInnerDiameter(pos) / 2.0
 
-    def getInnerDiameter(self, pos):
+    def getInnerDiameter(self, pos : float) -> float:
         return float(self._obj.Diameter) - (2.0 * float(self._obj.Thickness))
 
-    def setInnerRadius(self, radius):
+    def setInnerRadius(self, radius : float) -> None:
         self.setInnerDiameter(radius * 2.0)
 
-    def setInnerDiameter(self, diameter):
+    def setInnerDiameter(self, diameter : float) -> None:
         for listener in self._configListeners:
             if isinstance(listener, FeatureBodyTube): # OR used transition base class
                 listener.setInnerDiameter(diameter)
@@ -164,10 +166,10 @@ class FeatureBodyTube(SymmetricComponent, BoxBounded, Coaxial):
     def isOuterDiameterAutomatic(self):
         return self._obj.AutoDiameter
 
-    def setOuterRadius(self, radius):
+    def setOuterRadius(self, radius : float) -> None:
         self.setOuterDiameter(radius * 2.0)
 
-    def setOuterDiameter(self, diameter):
+    def setOuterDiameter(self, diameter : float) -> None:
         for listener in self._configListeners:
             if isinstance(listener, FeatureBodyTube): # OR used transition base class
                 listener.setOuterDiameter(diameter)
@@ -187,10 +189,10 @@ class FeatureBodyTube(SymmetricComponent, BoxBounded, Coaxial):
     """
         Return the outer radius of the body tube.
     """
-    def getOuterRadius(self, x):
-        return self.getOuterDiameter(x) / 2.0
+    def getOuterRadius(self, pos : float) -> float:
+        return self.getOuterDiameter(pos) / 2.0
 
-    def getOuterDiameter(self, x):
+    def getOuterDiameter(self, pos : float) -> float:
         if self._obj.AutoDiameter:
             # Return auto radius from front or rear
             d = -1
@@ -216,16 +218,16 @@ class FeatureBodyTube(SymmetricComponent, BoxBounded, Coaxial):
         Return the outer radius that was manually entered, so not the value that the component received from automatic
         outer radius.
     """
-    def getOuterRadiusNoAutomatic(self):
+    def getOuterRadiusNoAutomatic(self) -> float:
         return self.getOuterDiameterNoAutomatic() / 2.0
 
-    def getOuterDiameterNoAutomatic(self):
+    def getOuterDiameterNoAutomatic(self) -> float:
         return float(self._obj.Diameter)
 
-    def getFrontAutoRadius(self):
+    def getFrontAutoRadius(self) -> float:
         return self.getFrontAutoDiameter() / 2.0
 
-    def getFrontAutoDiameter(self):
+    def getFrontAutoDiameter(self) -> float:
         if self.isOuterDiameterAutomatic():
             # Search for previous SymmetricComponent
             c = self.getPreviousSymmetricComponent()
@@ -236,13 +238,13 @@ class FeatureBodyTube(SymmetricComponent, BoxBounded, Coaxial):
 
         return self.getOuterDiameter(0)
 
-    def getFrontAutoInnerDiameter(self):
+    def getFrontAutoInnerDiameter(self) -> float:
         return self.getInnerDiameter(0)
 
-    def getRearAutoRadius(self):
+    def getRearAutoRadius(self) -> float:
         return self.getRearAutoDiameter() / 2.0
 
-    def getRearAutoDiameter(self):
+    def getRearAutoDiameter(self) -> float:
         if self.isOuterDiameterAutomatic():
             # Search for next SymmetricComponent
             c = self.getNextSymmetricComponent()
@@ -253,37 +255,37 @@ class FeatureBodyTube(SymmetricComponent, BoxBounded, Coaxial):
 
         return self.getOuterDiameter(0)
 
-    def getRearAutoInnerDiameter(self):
+    def getRearAutoInnerDiameter(self) -> float:
         return self.getInnerDiameter(0)
 
-    def getRearInnerDiameter(self):
+    def getRearInnerDiameter(self) -> float:
         return self.getInnerDiameter(0)
 
-    def isMotorMount(self):
+    def isMotorMount(self) -> bool:
         return self._obj.MotorMount
 
-    def setMotorMount(self, mount):
+    def setMotorMount(self, mount) -> None:
         self._obj.MotorMount = mount
 
-    def usesPreviousCompAutomatic(self):
+    def usesPreviousCompAutomatic(self) -> bool:
         return self.isOuterRadiusAutomatic() and (self._refComp == self.getPreviousSymmetricComponent())
 
-    def usesNextCompAutomatic(self):
+    def usesNextCompAutomatic(self) -> bool:
         return self.isOuterRadiusAutomatic() and (self._refComp == self.getNextSymmetricComponent())
 
-    def execute(self, obj):
+    def execute(self, obj : Any) -> None:
         shape = BodyTubeShapeHandler(obj)
         if shape is not None:
             shape.draw()
 
-    def getSolidShape(self, obj):
+    def getSolidShape(self, obj : Any) -> Any:
         """ Return a filled version of the shape. Useful for CFD """
         shape = BodyTubeShapeHandler(obj)
         if shape is not None:
             return shape.drawSolidShape()
         return None
 
-    def eligibleChild(self, childType):
+    def eligibleChild(self, childType : str) -> bool:
         return childType in [
             FEATURE_BULKHEAD,
             #FEATURE_BODY_TUBE,
@@ -299,7 +301,7 @@ class FeatureBodyTube(SymmetricComponent, BoxBounded, Coaxial):
             FEATURE_RAIL_BUTTON,
             FEATURE_RAIL_GUIDE]
 
-    def onChildEdited(self):
+    def onChildEdited(self) -> None:
         try:
             self._obj.Proxy.setEdited()
         except ReferenceError:

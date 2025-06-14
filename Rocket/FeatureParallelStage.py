@@ -24,6 +24,8 @@ __title__ = "FreeCAD Rocket Assembly"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
+from typing import Any
+
 import FreeCAD
 
 from DraftTools import translate
@@ -33,7 +35,7 @@ from Rocket.Constants import FEATURE_ROCKET, FEATURE_STAGE, FEATURE_PARALLEL_STA
 
 class FeatureParallelStage(FeatureStage):
 
-    def __init__(self, obj):
+    def __init__(self, obj : Any) -> None:
         super().__init__(obj)
         self._initFeatureStage(obj)
 
@@ -44,10 +46,10 @@ class FeatureParallelStage(FeatureStage):
         if not hasattr(obj,"StageSpacing"):
             obj.addProperty('App::PropertyAngle', 'StageSpacing', 'RocketComponent', translate('App::Property', 'Angle between consecutive stages')).StageSpacing = 180
 
-    def setDefaults(self):
+    def setDefaults(self) -> None:
         super().setDefaults()
 
-    def onDocumentRestored(self, obj):
+    def onDocumentRestored(self, obj : Any) -> None:
         FeatureParallelStage(obj)
 
         # Convert from the pre-1.0 material system if required
@@ -55,7 +57,7 @@ class FeatureParallelStage(FeatureStage):
 
         self._obj = obj
 
-    def positionChild(self, parent, parentBase, parentLength, parentRadius, rotation):
+    def positionChild(self, parent : Any, parentBase : Any, parentLength : float, parentRadius : float, rotation : float) -> None:
         base = FreeCAD.Vector(parentBase)
         base.z = parentRadius
 
@@ -67,5 +69,5 @@ class FeatureParallelStage(FeatureStage):
 
         self.positionChildren(base)
 
-    def eligibleChild(self, childType):
+    def eligibleChild(self, childType : str) -> bool:
         return childType not in [FEATURE_ROCKET, FEATURE_STAGE, FEATURE_PARALLEL_STAGE]

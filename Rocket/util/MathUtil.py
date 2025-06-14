@@ -24,23 +24,37 @@ __title__ = "FreeCAD Rocket Components"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
-from Rocket.util.Coordinate import Coordinate, MAX, MIN
+import math
 
 EPSILON = 0.00000001 # 10mm^3 in m^3
 
 class MathUtil:
 
 
-    """
-        * Clamps the value x to the range min - max.
-        * @param x    Original value.
-        * @param min  Minimum value to return.
-        * @param max  Maximum value to return.
-        * @return     The clamped value.
-    """
-    def clamp(x, min, max):
+    @classmethod
+    def clamp(cls, x : float, min : float, max : float) -> float:
+        """
+            * Clamps the value x to the range min - max.
+            * @param x    Original value.
+            * @param min  Minimum value to return.
+            * @param max  Maximum value to return.
+            * @return     The clamped value.
+        """
         if x < min:
-            return min;
+            return min
         if x > max:
             return max
         return x
+
+    @classmethod
+    def reducePi(cls, x : float) -> float:
+        """
+            * Reduce the angle x to the range -PI - PI.
+            * 
+            * Either -PI and PI might be returned, depending on the rounding function.
+            * 
+            * @param x Original angle.
+            * @return The equivalent angle in the range -PI ... PI.
+        """
+        d = math.floor(x / (2 * math.pi) + 0.5)
+        return x - d * 2 * math.pi

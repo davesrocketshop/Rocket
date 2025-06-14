@@ -31,28 +31,28 @@ class RadialParent(ABC):
     # Return the outer radius of the component at local coordinate <code>x</code>.
     # Values for <code>x < 0</code> and <code>x > getLengthAerodynamic()</code> are undefined.
     @abstractmethod
-    def getOuterRadius(self, x):
+    def getOuterRadius(self, pos : float) -> float:
         pass
 
     # Return the outer diameter of the component at local coordinate <code>x</code>.
     # Values for <code>x < 0</code> and <code>x > getLengthAerodynamic()</code> are undefined.
     @abstractmethod
-    def getOuterDiameter(self, x):
+    def getOuterDiameter(self, pos : float) -> float:
         pass
 
     # Return the inner radius of the component at local coordinate <code>x</code>.
     # Values for <code>x < 0</code> and <code>x > getLengthAerodynamic()</code> are undefined.
     @abstractmethod
-    def getInnerRadius(self, x):
+    def getInnerRadius(self, pos : float) -> float:
         pass
 
     # Return the inner radius of the component at local coordinate <code>x</code>.
     # Values for <code>x < 0</code> and <code>x > getLengthAerodynamic()</code> are undefined.
     @abstractmethod
-    def getInnerDiameter(self, x):
+    def getInnerDiameter(self, pos : float) -> float:
         pass
 
     # Return the length of this component.
     @abstractmethod
-    def getLength(self):
+    def getLength(self) -> float:
         pass

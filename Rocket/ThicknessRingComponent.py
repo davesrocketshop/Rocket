@@ -24,6 +24,8 @@ __title__ = "FreeCAD Rocket Components"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
+from typing import Any
+
 from Rocket.RingComponent import RingComponent
 from Rocket.interfaces.RadialParent import RadialParent
 
@@ -42,26 +44,26 @@ from DraftTools import translate
 """
 class ThicknessRingComponent(RingComponent):
 
-    def __init__(self, obj):
+    def __init__(self, obj : Any) -> None:
         super().__init__(obj)
 
         if not hasattr(obj,"Thickness"):
             obj.addProperty('App::PropertyLength', 'Thickness', 'RocketComponent', translate('App::Property', 'Diameter of the inside of the body tube')).Thickness = 0.33
 
-    def setDefaults(self):
+    def setDefaults(self) -> None:
         super().setDefaults()
 
-    def update(self):
+    def update(self) -> None:
         super().update()
 
         # Ensure any automatic variables are set
         self.getOuterDiameter(0)
         self.getInnerDiameter(0)
 
-    def getOuterRadius(self, pos):
+    def getOuterRadius(self, pos : float) -> float:
         return self.getOuterDiameter(pos) / 2.0
 
-    def getOuterDiameter(self, pos):
+    def getOuterDiameter(self, pos : float) -> float:
         if self.hasParent():
             parent = self.getParent()
             if self.isOuterDiameterAutomatic() and isinstance(parent, RadialParent):
@@ -73,10 +75,10 @@ class ThicknessRingComponent(RingComponent):
 
         return self._obj.Diameter
 
-    def setOuterRadius(self, radius):
+    def setOuterRadius(self, radius : float) -> None:
         self.setOuterDiameter(radius * 2.0)
 
-    def setOuterDiameter(self, diameter):
+    def setOuterDiameter(self, diameter : float) -> None:
         for listener in self._configListeners:
             if isinstance(listener, ThicknessRingComponent):
                 listener.setOuterDiameter(diameter)
@@ -95,10 +97,10 @@ class ThicknessRingComponent(RingComponent):
 
         self.fireComponentChangeEvent(ComponentChangeEvent.MASS_CHANGE)
 
-    def getThickness(self):
+    def getThickness(self) -> float:
         return min(self._obj.Thickness, self.getOuterRadius(0))
 
-    def setThickness(self, thickness):
+    def setThickness(self, thickness : float) -> None:
         for listener in self._configListeners:
             if isinstance(listener, ThicknessRingComponent):
                 listener.setThickness(thickness)
@@ -115,16 +117,16 @@ class ThicknessRingComponent(RingComponent):
 
         self.fireComponentChangeEvent(ComponentChangeEvent.MASS_CHANGE)
 
-    def getInnerRadius(self, pos):
+    def getInnerRadius(self, pos : float) -> float:
         return self.getInnerDiameter(pos) / 2.0
 
-    def getInnerDiameter(self, pos):
+    def getInnerDiameter(self, pos : float) -> float:
         return max(self.getOuterDiameter(pos) - (2.0 * self._obj.Thickness), 0)
 
-    def setInnerRadius(self, radius):
+    def setInnerRadius(self, radius : float) -> None:
         self.setInnerDiameter(radius * 2.0)
 
-    def setInnerRadius(self, diameter):
+    def setInnerDiameter(self, diameter : float) -> None:
         for listener in self._configListeners:
             if isinstance(listener, ThicknessRingComponent):
                 listener.setInnerRadius(diameter)

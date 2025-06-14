@@ -25,8 +25,8 @@ __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
 class Type():
-    value = None
-    name = None
+    value : int = -1
+    name : str = "Error"
 
     def __init__(self, _value, _name):
         self.value = _value

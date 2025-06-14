@@ -24,7 +24,7 @@ __title__ = "FreeCAD Rocket Components"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
-from tokenize import Double
+from typing import Any
 
 from DraftTools import translate
 
@@ -39,13 +39,13 @@ from Rocket.Constants import FEATURE_ROCKET, FEATURE_STAGE, FEATURE_PARALLEL_STA
 
 class ComponentAssembly(RocketComponentShapeless, AxialPositionable):
 
-    def __init__(self, obj):
+    def __init__(self, obj : Any) -> None:
         super().__init__(obj)
 
         super().setAxialMethod(AxialMethod.AFTER)
         self._length = 0
 
-    def setDefaults(self):
+    def setDefaults(self) -> None:
         super().setDefaults()
 
     def getAxialOffset(self) -> float:
@@ -56,10 +56,10 @@ class ComponentAssembly(RocketComponentShapeless, AxialPositionable):
         super()._setAxialOffset(self._obj.AxialMethod, newAxialOffset)
         self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
 
-    def getAxialMethod(self) -> type[AxialMethod.AxialMethod]:
+    def getAxialMethod(self) -> AxialMethod.AxialMethod:
         return self._obj.AxialMethod
 
-    def setAxialMethod(self, newAxialMethod : type[AxialMethod.AxialMethod]) -> None:
+    def setAxialMethod(self, newAxialMethod : AxialMethod.AxialMethod) -> None:
         # self._obj.AxialMethod = newMethod
         for listener in self._configListeners:
             if isinstance(listener, ComponentAssembly):
@@ -88,7 +88,7 @@ class ComponentAssembly(RocketComponentShapeless, AxialPositionable):
     def getInstanceBoundingBox (self) -> BoundingBox:
         return BoundingBox()
 
-    def getBoundingRadius(self):
+    def getBoundingRadius(self) -> float:
         outerRadius = 0
         for comp in self.getChildren():
             thisRadius = 0
@@ -102,15 +102,15 @@ class ComponentAssembly(RocketComponentShapeless, AxialPositionable):
         return outerRadius
 
     # Components have no aerodynamic effect, so return false.
-    def isAerodynamic(self):
+    def isAerodynamic(self) -> bool:
         return False
 
     # Component have no effect on mass, so return false (even though the override values
     # may have an effect).
-    def isMassive(self):
+    def isMassive(self) -> bool:
         return False
 
-    def update(self):
+    def update(self) -> None:
         self.updateBounds()
         if self.isAfter():
             self.setAfter()
@@ -119,14 +119,14 @@ class ComponentAssembly(RocketComponentShapeless, AxialPositionable):
 
         self.updateChildSequence()
 
-    def updateBounds(self):
+    def updateBounds(self) -> None:
         # currently only updates the length
         self._length = 0
         for  curChild in self.getChildren():
             if curChild.Proxy.isAfter():
                 self._length += float(curChild.Proxy.getLength())
 
-    def updateChildSequence(self):
+    def updateChildSequence(self) -> None:
         for  curChild in self.getChildren():
             if curChild.Proxy.isAfter():
                 curChild.Proxy.setAfter()
