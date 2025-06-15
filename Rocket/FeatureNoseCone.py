@@ -87,6 +87,21 @@ class FeatureNoseCone(SymmetricComponent):
         if not hasattr(obj, 'Resolution'):
             obj.addProperty('App::PropertyInteger', 'Resolution', 'RocketComponent', translate('App::Property', 'Resolution')).Resolution = 100
 
+        if not hasattr(obj, 'ProxyEffectiveDiameter'):
+            obj.addProperty('App::PropertyLength', 'ProxyEffectiveDiameter', 'RocketComponent', translate('App::Property', 'Diameter at the base of the nose proxy object')).ProxyEffectiveDiameter = 0.0
+        if not hasattr(obj, 'ProxyPlacement'):
+            obj.addProperty('App::PropertyPlacement', 'ProxyPlacement', 'RocketComponent', translate('App::Property', 'This is the local coordinate system within the rocket object that will be used for the proxy feature')).ProxyPlacement
+        if not hasattr(obj, 'ProxyScale'):
+            obj.addProperty('App::PropertyBool', 'ProxyScale', 'RocketComponent', translate('App::Property', 'Scale the proxy object')).ProxyScale = False
+        if not hasattr(obj, 'ProxyScaleByValue'):
+            obj.addProperty('App::PropertyBool', 'ProxyScaleByValue', 'RocketComponent', translate('App::Property', 'Scale the proxy object by value')).ProxyScaleByValue = True
+        if not hasattr(obj, 'ProxyScaleByDiameter'):
+            obj.addProperty('App::PropertyBool', 'ProxyScaleByDiameter', 'RocketComponent', translate('App::Property', 'Scale the proxy object by body diameter')).ProxyScaleByDiameter = False
+        if not hasattr(obj, 'ProxyAutoScaleDiameter'):
+            obj.addProperty('App::PropertyBool', 'ProxyAutoScaleDiameter', 'RocketComponent', translate('App::Property', 'Automatically scale the proxy object by body diameter')).ProxyAutoScaleDiameter = False
+        if not hasattr(obj, 'ProxyScaleValue'):
+            obj.addProperty('App::PropertyLength', 'ProxyScaleValue', 'RocketComponent', translate('App::Property', 'Proxy scaling value')).ProxyScaleValue = 0.0
+
         if not hasattr(obj, 'NoseType'):
             obj.addProperty('App::PropertyEnumeration', 'NoseType', 'RocketComponent', translate('App::Property', 'Nose cone type'))
             obj.NoseType = [TYPE_CONE,

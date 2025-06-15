@@ -122,13 +122,13 @@ class _NoseConeDialog(QDialog):
         self.lengthLabel = QtGui.QLabel(translate('Rocket', "Length"), self)
 
         self.lengthInput = ui.createWidget("Gui::InputField")
-        self.lengthInput.unit = 'mm'
+        self.lengthInput.unit = FreeCAD.Units.Length
         self.lengthInput.setMinimumWidth(100)
 
         self.diameterLabel = QtGui.QLabel(translate('Rocket', "Diameter"), self)
 
         self.diameterInput = ui.createWidget("Gui::InputField")
-        self.diameterInput.unit = 'mm'
+        self.diameterInput.unit = FreeCAD.Units.Length
         self.diameterInput.setMinimumWidth(80)
 
         self.autoDiameterCheckbox = QtGui.QCheckBox(translate('Rocket', "auto"), self)
@@ -137,7 +137,7 @@ class _NoseConeDialog(QDialog):
         self.thicknessLabel = QtGui.QLabel(translate('Rocket', "Thickness"), self)
 
         self.thicknessInput = ui.createWidget("Gui::InputField")
-        self.thicknessInput.unit = 'mm'
+        self.thicknessInput.unit = FreeCAD.Units.Length
         self.thicknessInput.setMinimumWidth(100)
         self.thicknessInput.setEnabled(False)
 
@@ -156,13 +156,13 @@ class _NoseConeDialog(QDialog):
         self.bluntedLabel = QtGui.QLabel(translate('Rocket', "Blunted Diameter"), self)
 
         self.bluntedInput = ui.createWidget("Gui::InputField")
-        self.bluntedInput.unit = 'mm'
+        self.bluntedInput.unit = FreeCAD.Units.Length
         self.bluntedInput.setMinimumWidth(100)
 
         self.ogiveDiameterLabel = QtGui.QLabel(translate('Rocket', "Ogive Diameter"), self)
 
         self.ogiveDiameterInput = ui.createWidget("Gui::InputField")
-        self.ogiveDiameterInput.unit = 'mm'
+        self.ogiveDiameterInput.unit = FreeCAD.Units.Length
         self.ogiveDiameterInput.setMinimumWidth(100)
 
         # Nose cap styles
@@ -178,7 +178,7 @@ class _NoseConeDialog(QDialog):
         self.noseCapBarWidthLabel = QtGui.QLabel(translate('Rocket', "Bar Width"), self)
 
         self.noseCapBarWidthInput = ui.createWidget("Gui::InputField")
-        self.noseCapBarWidthInput.unit = 'mm'
+        self.noseCapBarWidthInput.unit = FreeCAD.Units.Length
         self.noseCapBarWidthInput.setMinimumWidth(100)
 
         # Nose cap group
@@ -273,7 +273,7 @@ class _NoseConeDialog(QDialog):
         self.proxyEffectiveDiamaterLabel = QtGui.QLabel(translate('Rocket', "Effective diameter"), self)
 
         self.proxyEffectiveDiameterInput = ui.createWidget("Gui::InputField")
-        self.proxyEffectiveDiameterInput.unit = 'mm'
+        self.proxyEffectiveDiameterInput.unit = FreeCAD.Units.Length
         self.proxyEffectiveDiameterInput.setMinimumWidth(80)
 
         # Placement
@@ -285,21 +285,28 @@ class _NoseConeDialog(QDialog):
         self.zRotationLabel = QtGui.QLabel(translate('Rocket', "z"), self)
 
         self.xRotationInput = ui.createWidget("Gui::InputField")
-        self.xRotationInput.unit = 'deg'
+        self.xRotationInput.unit = FreeCAD.Units.Angle
+        self.xRotationInput.maximum = 180.0
+        self.xRotationInput.minimum = -180.0
+        # ui->yawAngle->checkRangeInExpression(true);
         self.xRotationInput.setMinimumWidth(20)
 
         self.yRotationInput = ui.createWidget("Gui::InputField")
-        self.yRotationInput.unit = 'deg'
+        self.yRotationInput.unit = FreeCAD.Units.Angle
+        self.yRotationInput.maximum = 180.0
+        self.yRotationInput.minimum = -180.0
         self.yRotationInput.setMinimumWidth(20)
 
         self.zRotationInput = ui.createWidget("Gui::InputField")
-        self.zRotationInput.unit = 'deg'
+        self.zRotationInput.unit = FreeCAD.Units.Angle
+        self.zRotationInput.maximum = 180.0
+        self.zRotationInput.minimum = -180.0
         self.zRotationInput.setMinimumWidth(20)
 
         self.offsetLabel = QtGui.QLabel(translate('Rocket', "Offset"), self)
 
         self.offsetInput = ui.createWidget("Gui::InputField")
-        self.offsetInput.unit = 'mm'
+        self.offsetInput.unit = FreeCAD.Units.Length
         self.offsetInput.setMinimumWidth(80)
 
         # Scaling
@@ -307,18 +314,17 @@ class _NoseConeDialog(QDialog):
         self.proxyScalingGroup.setCheckable(True)
         self.proxyScalingGroup.setChecked(False)
 
-        self.proxyScalePercentRadio = QtGui.QRadioButton (translate('Rocket', "By percent"), self.proxyScalingGroup)
-        self.proxyScalePercentRadio.setChecked(True)
+        self.proxyScaleRadio = QtGui.QRadioButton (translate('Rocket', "By value"), self.proxyScalingGroup)
+        self.proxyScaleRadio.setChecked(True)
 
-        self.proxyScalePercentInput = ui.createWidget("Gui::InputField")
-        self.proxyScalePercentInput.unit = 'deg'
-        self.proxyScalePercentInput.setMinimumWidth(20)
+        self.proxyScaleInput = ui.createWidget("Gui::InputField")
+        self.proxyScaleInput.setMinimumWidth(20)
 
-        self.proxyScaleDiameterRadio = QtGui.QRadioButton (translate('Rocket', "By body diamter"), self.proxyScalingGroup)
+        self.proxyScaleDiameterRadio = QtGui.QRadioButton (translate('Rocket', "By body diameter"), self.proxyScalingGroup)
         self.proxyScaleDiameterRadio.setChecked(False)
 
         self.proxyScaleDiameterInput = ui.createWidget("Gui::InputField")
-        self.proxyScaleDiameterInput.unit = 'deg'
+        self.proxyScaleDiameterInput.unit = FreeCAD.Units.Length
         self.proxyScaleDiameterInput.setMinimumWidth(20)
 
         self.proxyAutoScaleDiameterCheckbox = QtGui.QCheckBox(translate('Rocket', "auto"), self)
@@ -350,8 +356,8 @@ class _NoseConeDialog(QDialog):
         grid = QGridLayout()
         row = 0
 
-        grid.addWidget(self.proxyScalePercentRadio, row, 0)
-        grid.addWidget(self.proxyScalePercentInput, row, 1)
+        grid.addWidget(self.proxyScaleRadio, row, 0)
+        grid.addWidget(self.proxyScaleInput, row, 1)
         row += 1
 
         grid.addWidget(self.proxyScaleDiameterRadio, row, 0)
@@ -407,7 +413,7 @@ class _NoseConeDialog(QDialog):
         self.shoulderDiameterLabel = QtGui.QLabel(translate('Rocket', "Diameter"), self)
 
         self.shoulderDiameterInput = ui.createWidget("Gui::InputField")
-        self.shoulderDiameterInput.unit = 'mm'
+        self.shoulderDiameterInput.unit = FreeCAD.Units.Length
         self.shoulderDiameterInput.setMinimumWidth(100)
         self.shoulderDiameterInput.setEnabled(False)
 
@@ -417,14 +423,14 @@ class _NoseConeDialog(QDialog):
         self.shoulderLengthLabel = QtGui.QLabel(translate('Rocket', "Length"), self)
 
         self.shoulderLengthInput = ui.createWidget("Gui::InputField")
-        self.shoulderLengthInput.unit = 'mm'
+        self.shoulderLengthInput.unit = FreeCAD.Units.Length
         self.shoulderLengthInput.setMinimumWidth(100)
         self.shoulderLengthInput.setEnabled(False)
 
         self.shoulderThicknessLabel = QtGui.QLabel(translate('Rocket', "Thickness"), self)
 
         self.shoulderThicknessInput = ui.createWidget("Gui::InputField")
-        self.shoulderThicknessInput.unit = 'mm'
+        self.shoulderThicknessInput.unit = FreeCAD.Units.Length
         self.shoulderThicknessInput.setMinimumWidth(100)
         self.shoulderThicknessInput.setEnabled(False)
 
@@ -521,6 +527,29 @@ class TaskPanelNoseCone:
         self._obj.ShoulderLength = self._noseForm.shoulderLengthInput.text()
         self._obj.ShoulderThickness = self._noseForm.shoulderThicknessInput.text()
 
+        # if self._obj.Base is not None:
+        #     self._noseForm.proxyBaseObjectInput.setText(self._obj.Base.Label)
+        # else:
+        #     self._noseForm.proxyBaseObjectInput.setText("")
+        self._obj.ProxyEffectiveDiameter = self._noseForm.proxyEffectiveDiameterInput.text()
+
+        placement = FreeCAD.Placement()
+        yaw = FreeCAD.Units.Quantity(self._noseForm.zRotationInput.text()).Value
+        pitch = FreeCAD.Units.Quantity(self._noseForm.yRotationInput.text()).Value
+        roll = FreeCAD.Units.Quantity(self._noseForm.xRotationInput.text()).Value
+        placement.Rotation.setYawPitchRoll(yaw, pitch, roll)
+        placement.Base.x = FreeCAD.Units.Quantity(self._noseForm.offsetInput.text()).Value
+        self._obj.ProxyPlacement = placement
+
+        self._obj.ProxyScale = self._noseForm.proxyScalingGroup.isChecked()
+        self._obj.ProxyScaleByValue = self._noseForm.proxyScaleRadio.isChecked()
+        self._obj.ProxyScaleByDiameter = self._noseForm.proxyScaleDiameterRadio.isChecked()
+        self._obj.ProxyAutoScaleDiameter = self._noseForm.proxyAutoScaleDiameterCheckbox.isChecked()
+        if self._obj.ProxyScaleByValue:
+            self._obj.ProxyScaleValue = FreeCAD.Units.Quantity(self._noseForm.proxyScaleInput.text()).Value
+        else:
+            self._obj.ProxyScaleValue = FreeCAD.Units.Quantity(self._noseForm.proxyScaleDiameterInput.text())
+
         self._noseForm.tabMaterial.transferTo(self._obj)
         self._noseForm.tabComment.transferTo(self._obj)
 
@@ -531,10 +560,6 @@ class TaskPanelNoseCone:
         self._noseForm.noseStylesCombo.setCurrentIndex(self._noseForm.noseStylesCombo.findData(self._obj.NoseStyle))
         self._noseForm.noseCapStylesCombo.setCurrentIndex(self._noseForm.noseCapStylesCombo.findData(self._obj.CapStyle))
         self._noseForm.noseCapBarWidthInput.setText(self._obj.CapBarWidth.UserString)
-        if self._obj.Base is not None:
-            self._noseForm.proxyBaseObjectInput.setText(self._obj.Base.Label)
-        else:
-            self._noseForm.proxyBaseObjectInput.setText("")
         self._noseForm.lengthInput.setText(self._obj.Length.UserString)
         self._noseForm.diameterInput.setText(self._obj.Diameter.UserString)
         self._noseForm.autoDiameterCheckbox.setChecked(self._obj.AutoDiameter)
@@ -547,6 +572,32 @@ class TaskPanelNoseCone:
         self._noseForm.shoulderAutoDiameterCheckbox.setChecked(self._obj.ShoulderAutoDiameter)
         self._noseForm.shoulderLengthInput.setText(self._obj.ShoulderLength.UserString)
         self._noseForm.shoulderThicknessInput.setText(self._obj.ShoulderThickness.UserString)
+
+        if self._obj.Base is not None:
+            self._noseForm.proxyBaseObjectInput.setText(self._obj.Base.Label)
+        else:
+            self._noseForm.proxyBaseObjectInput.setText("")
+        self._noseForm.proxyEffectiveDiameterInput.setText(self._obj.ProxyEffectiveDiameter.UserString)
+
+        placement = self._obj.ProxyPlacement
+        yaw, pitch, roll = placement.Rotation.getYawPitchRoll()
+        self._noseForm.xRotationInput.setText(f"{roll} deg")
+        self._noseForm.yRotationInput.setText(f"{pitch} deg")
+        self._noseForm.zRotationInput.setText(f"{yaw} deg")
+        self._noseForm.offsetInput.setText(FreeCAD.Units.Quantity(placement.Base.x, FreeCAD.Units.Length).UserString)
+
+        self._noseForm.proxyScalingGroup.setChecked(self._obj.ProxyScale)
+        self._noseForm.proxyScaleRadio.setChecked(self._obj.ProxyScaleByValue)
+        self._noseForm.proxyScaleDiameterRadio.setChecked(self._obj.ProxyScaleByDiameter)
+        self._noseForm.proxyAutoScaleDiameterCheckbox.setChecked(self._obj.ProxyAutoScaleDiameter)
+        if self._obj.ProxyScaleByValue:
+            self._noseForm.proxyScaleInput.setText(f"{self._obj.ProxyScaleValue.Value}")
+        else:
+            self._noseForm.proxyScaleInput.setText("0")
+        if self._obj.ProxyScaleByDiameter:
+            self._noseForm.proxyScaleDiameterInput.setText(self._obj.ProxyScaleValue.UserString)
+        else:
+            self._noseForm.proxyScaleDiameterInput.setText(FreeCAD.Units.Quantity(0, FreeCAD.Units.Length).UserString)
 
         self._noseForm.tabMaterial.transferFrom(self._obj)
         self._noseForm.tabComment.transferFrom(self._obj)
