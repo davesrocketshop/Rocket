@@ -24,6 +24,8 @@ __title__ = "FreeCAD Fins"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
+from typing import Any
+
 import FreeCAD
 import Part
 import math
@@ -37,16 +39,16 @@ CROSS_SECTIONS = 100  # Number of cross sections for the ellipse
 
 class FinEllipseShapeHandler(FinShapeHandler):
 
-    def __init__(self, obj):
+    def __init__(self, obj : Any) -> None:
         super().__init__(obj)
 
-    def _radiusAt(self, chord, height, x):
+    def _radiusAt(self, chord : float, height : float, x : float) -> float:
         major = height
         minor = chord / 2.0
         y = (minor / major) * math.sqrt(major * major - x * x)
         return y
 
-    def _halfEllipseCurve(self, major, minor, thickness, midChord):
+    def _halfEllipseCurve(self, major : float, minor : float, thickness : float, midChord : float) -> Any:
         if major > minor:
             ellipse = Part.Ellipse(FreeCAD.Vector(midChord, thickness, major),
                     FreeCAD.Vector(midChord - minor, thickness, 0),
@@ -60,14 +62,14 @@ class FinEllipseShapeHandler(FinShapeHandler):
 
         return arc
 
-    def _halfEllipse(self, major, minor, thickness, midChord):
+    def _halfEllipse(self, major : float, minor : float, thickness : float, midChord : float) -> Any:
         arc = self._halfEllipseCurve(major, minor, thickness, midChord)
 
         line = Part.makeLine((midChord + minor, thickness, 0), (midChord - minor, thickness, 0))
         wire = Part.Wire([arc.toShape(), line])
         return wire
 
-    def _taperedEllipse(self):
+    def _taperedEllipse(self) -> list:
         # The loft is 3 (or 4) ellipses, center and both sides
         min = self.minimumEdge() / 2
         midChord = float(self._obj.RootChord) / 2.0
@@ -89,7 +91,7 @@ class FinEllipseShapeHandler(FinShapeHandler):
             return [[side1, center2], [center2, center1], [center1, side2]]
         return [[side1, center1], [center1, side2]]
 
-    def _squareEllipse(self):
+    def _squareEllipse(self) -> list:
         # The loft is 2 ellipses - both sides
         midChord = float(self._obj.RootChord) / 2.0
         height = float(self._obj.Height)
@@ -100,7 +102,7 @@ class FinEllipseShapeHandler(FinShapeHandler):
 
         return [side1, side2]
 
-    def _makeCut(self):
+    def _makeCut(self) -> None:
         # # The loft is 3 ellipses, center and both sides
         # if self._obj.RootCrossSection == FIN_CROSS_ROUND:
         #     midChord = float(self._obj.RootChord) / 2.0
@@ -129,7 +131,7 @@ class FinEllipseShapeHandler(FinShapeHandler):
 
         return None
 
-    def _makeProfiles(self):
+    def _makeProfiles(self) -> list:
         if self._obj.RootCrossSection == FIN_CROSS_TAPER_LETE:
             return self._taperedEllipse()
         if self._obj.RootCrossSection in [FIN_CROSS_SQUARE]: #, FIN_CROSS_ROUND]:

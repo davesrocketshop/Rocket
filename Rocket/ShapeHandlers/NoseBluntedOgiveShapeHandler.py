@@ -24,6 +24,8 @@ __title__ = "FreeCAD Ogive Nose Shape Handler"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
+from typing import Any
+
 import FreeCAD
 import Part
 import math
@@ -32,33 +34,33 @@ from Rocket.ShapeHandlers.NoseShapeHandler import NoseShapeHandler
 
 class NoseBluntedOgiveShapeHandler(NoseShapeHandler):
 
-    def getRho(self, radius, length):
+    def getRho(self, radius : float, length : float) -> float:
         rho = (radius * radius + length * length) / (2.0 * radius)
         return rho
 
-    def ogive_y(self, x, length, radius, rho):
+    def ogive_y(self, x : float, length : float, radius : float, rho : float) -> float:
         y = math.sqrt(rho * rho - math.pow(length - x, 2)) + radius - rho
         return y
 
-    def innerMinor(self, length, radius, offset):
+    def innerMinor(self, length : float, radius : float, offset : float) -> float:
         rho = self.getRho(radius - offset, length - offset)
 
         inner_minor = self.ogive_y(length - offset, length, radius - offset, rho)
         return inner_minor
 
-    def getXt(self, Xo, Yt, noseRadius):
+    def getXt(self, Xo : float, Yt : float, noseRadius : float) -> float:
         return Xo - math.sqrt((noseRadius * noseRadius) - (Yt * Yt))
 
-    def getYt(self, rho, radius, noseRadius):
+    def getYt(self, rho : float, radius : float, noseRadius : float) -> float:
         return (noseRadius * (rho - radius)) / (rho - noseRadius)
 
-    def getXo(self, rho, length, radius, noseRadius):
+    def getXo(self, rho : float, length : float, radius : float, noseRadius : float) -> float:
         return length - math.sqrt(math.pow(rho - noseRadius, 2) - math.pow(rho - radius, 2))
 
-    def getXa(self, Xo, noseRadius):
+    def getXa(self, Xo : float, noseRadius : float) -> float:
         return Xo - noseRadius
 
-    def getOgiveCurve(self, rho, length, vLength, radius, resolution, min = 0):
+    def getOgiveCurve(self, rho : float, length : float, vLength : float, radius : float, resolution : int, min : float = 0) -> list:
         points = []
         for i in range(0, resolution):
 
@@ -69,10 +71,17 @@ class NoseBluntedOgiveShapeHandler(NoseShapeHandler):
         points.append(FreeCAD.Vector(min + length, radius))
         return points
 
-    def getBluntedLength(self, length, radius, noseRadius):
+    def getBluntedLength(self, length : float, radius : float, noseRadius : float) -> tuple[float, float, float, float, float, float]:
 
         min = length - noseRadius
         max = (-radius * length) / (noseRadius - radius)
+
+        mid = 0.0
+        rho = 0.0
+        Xo = 0.0
+        Yt = 0.0
+        Xt = 0.0
+        Xa = 0.0
 
         # Do a binary search to 0.0001 mm
         precision = 0.0001
@@ -91,12 +100,12 @@ class NoseBluntedOgiveShapeHandler(NoseShapeHandler):
 
         return (rho, mid, Xt, Yt, Xo, Xa)
 
-    def getMidArc(self, Yt, radius):
+    def getMidArc(self, Yt : float, radius : float) -> tuple[float, float]:
         y = Yt / 2.0
         x = radius - math.sqrt(radius * radius - y * y)
         return (x, y)
 
-    def getCurve(self, length, radius, noseRadius, offset=0.0):
+    def getCurve(self, length : float, radius : float, noseRadius : float, offset : float = 0.0) -> Any:
         (rho, vLength, Xt, Yt, Xo, Xa) = self.getBluntedLength(length, radius, noseRadius)
 
         midX, midY = self.getMidArc(Yt, noseRadius)
@@ -118,26 +127,26 @@ class NoseBluntedOgiveShapeHandler(NoseShapeHandler):
 
         return curve
 
-    def drawSolid(self):
+    def drawSolid(self) -> list[Part.Edge]:
         outer_curve = self.getCurve(self._length, self._radius, self._noseRadius)
 
         edges = self.solidLines(outer_curve)
         return edges
 
-    def drawSolidShoulder(self):
+    def drawSolidShoulder(self) -> list[Part.Edge]:
         outer_curve = self.getCurve(self._length, self._radius, self._noseRadius)
 
         edges = self.solidShoulderLines(outer_curve)
         return edges
 
-    def drawHollow(self):
+    def drawHollow(self) -> list[Part.Edge]:
         outer_curve = self.getCurve(self._length, self._radius, self._noseRadius)
         inner_curve = self.getCurve(self._length - self._thickness, self._radius - self._thickness, self._noseRadius - self._thickness, self._thickness)
 
         edges = self.hollowLines(self._thickness, outer_curve, inner_curve)
         return edges
 
-    def drawHollowShoulder(self):
+    def drawHollowShoulder(self) -> list[Part.Edge]:
         outer_curve = self.getCurve(self._length, self._radius, self._noseRadius)
         inner_curve = self.getCurve(self._length - 2.0 * self._thickness, self._radius - self._thickness, self._noseRadius - self._thickness, self._thickness)
         minor_y = inner_curve.Vertexes[-1].Point.y
@@ -145,7 +154,7 @@ class NoseBluntedOgiveShapeHandler(NoseShapeHandler):
         edges = self.hollowShoulderLines(self._thickness, minor_y, outer_curve, inner_curve)
         return edges
 
-    def drawCapped(self):
+    def drawCapped(self) -> list[Part.Edge]:
         outer_curve = self.getCurve(self._length, self._radius, self._noseRadius)
         inner_curve = self.getCurve(self._length - 2.0 * self._thickness, self._radius - self._thickness, self._noseRadius - self._thickness, self._thickness)
         minor_y = inner_curve.Vertexes[-1].Point.y
@@ -153,7 +162,7 @@ class NoseBluntedOgiveShapeHandler(NoseShapeHandler):
         edges = self.cappedLines(self._thickness, minor_y, outer_curve, inner_curve)
         return edges
 
-    def drawCappedShoulder(self):
+    def drawCappedShoulder(self) -> list[Part.Edge]:
         outer_curve = self.getCurve(self._length, self._radius, self._noseRadius)
         inner_curve = self.getCurve(self._length - 2.0 * self._thickness, self._radius - self._thickness, self._noseRadius - self._thickness, self._thickness)
         minor_y = inner_curve.Vertexes[-1].Point.y

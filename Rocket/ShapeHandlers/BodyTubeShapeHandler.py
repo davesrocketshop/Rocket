@@ -24,6 +24,8 @@ __title__ = "FreeCAD Body Tube Handler"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
+from typing import Any
+
 import FreeCAD
 import Part
 
@@ -31,7 +33,7 @@ from Rocket.Utilities import validationError, _err
 from DraftTools import translate
 
 class BodyTubeShapeHandler():
-    def __init__(self, obj):
+    def __init__(self, obj : Any) -> None:
 
         # This gets changed when redrawn so it's very important to save a copy
         self._placement = FreeCAD.Placement(obj.Placement)
@@ -44,7 +46,7 @@ class BodyTubeShapeHandler():
         self._length = float(obj.Length)
         self._obj = obj
 
-    def isValidShape(self):
+    def isValidShape(self) -> bool:
 
         # Perform some general validations
         if self._ID <= 0:
@@ -59,7 +61,7 @@ class BodyTubeShapeHandler():
 
         return True
 
-    def _drawTubeEdges(self):
+    def _drawTubeEdges(self) -> list:
         innerRadius = self._ID / 2.0
         outerRadius = self._OD / 2.0
 
@@ -70,7 +72,7 @@ class BodyTubeShapeHandler():
 
         return [line1.toShape(), line2.toShape(), line3.toShape(), line4.toShape()]
 
-    def _drawTubeEdgesSolid(self):
+    def _drawTubeEdgesSolid(self) -> list:
         innerRadius = 0.0
         outerRadius = self._OD / 2.0
 
@@ -81,7 +83,7 @@ class BodyTubeShapeHandler():
 
         return [line1.toShape(), line2.toShape(), line3.toShape(), line4.toShape()]
 
-    def draw(self):
+    def draw(self) -> None:
         if not self.isValidShape():
             return
 
@@ -105,9 +107,9 @@ class BodyTubeShapeHandler():
         else:
             _err(translate('Rocket', "Body tube parameters produce an invalid shape"))
 
-    def drawSolidShape(self):
+    def drawSolidShape(self) -> Any:
         if not self.isValidShape():
-            return
+            return None
 
         edges = None
 
@@ -115,7 +117,7 @@ class BodyTubeShapeHandler():
             edges = self._drawTubeEdgesSolid()
         except (ZeroDivisionError, Part.OCCError):
             _err(translate('Rocket', "Body tube parameters produce an invalid shape"))
-            return
+            return None
 
         if edges is not None:
             try:
@@ -127,6 +129,6 @@ class BodyTubeShapeHandler():
                 # self._obj.Placement = self._placement
             except Part.OCCError:
                 _err(translate('Rocket', "Body tube parameters produce an invalid shape"))
-                return
+                return None
         else:
             _err(translate('Rocket', "Body tube parameters produce an invalid shape"))

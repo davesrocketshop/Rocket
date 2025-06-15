@@ -24,6 +24,8 @@ __title__ = "FreeCAD proxy Nose Shape Handler"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
+from typing import Any
+
 import FreeCAD
 import Part
 
@@ -31,7 +33,7 @@ from Rocket.ShapeHandlers.NoseShapeHandler import NoseShapeHandler
 
 
 class NoseProxyShapeHandler:
-    def __init__(self, obj):
+    def __init__(self, obj : Any) -> None:
 
         # This gets changed when redrawn so it's very important to save a copy
         self._placement = FreeCAD.Placement(obj.Placement)
@@ -45,7 +47,7 @@ class NoseProxyShapeHandler:
 
         self._obj = obj
 
-    def draw(self):
+    def draw(self) -> None:
         # shape = None
 
         if self._base is not None:
@@ -54,7 +56,7 @@ class NoseProxyShapeHandler:
             self._obj.Shape = Part.Shape() # Empty shape
         self._obj.Placement = self._placement
 
-    def drawSolidShape(self):
+    def drawSolidShape(self) -> Part.Solid:
         if self._base is not None:
             return self._base.Shape
         return None

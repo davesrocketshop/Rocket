@@ -25,26 +25,27 @@ __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
 import FreeCAD
+import Part
 import math
 
 from Rocket.ShapeHandlers.NoseShapeHandler import NoseShapeHandler
 
 class NoseSecantOgiveShapeHandler(NoseShapeHandler):
 
-    def getRho(self):
+    def getRho(self) -> float:
         # For a secant ogive, rho is user defined.
         return self._ogiveRadius
 
-    def getAlpha(self, length, radius):
+    def getAlpha(self, length : float, radius : float) -> float:
         rho = self.getRho()
         alpha = math.acos(math.sqrt(length * length + radius * radius) / (2.0 * rho)) - math.atan(radius / length)
         return alpha
 
-    def ogive_y(self, x, length, rho, alpha):
+    def ogive_y(self, x : float, length : float, rho : float, alpha : float) -> float:
         y = math.sqrt(rho * rho - math.pow(rho * math.cos(alpha) - x, 2)) - (rho * math.sin(alpha))
         return y
 
-    def innerMinor(self, last):
+    def innerMinor(self, last : float) -> float:
         radius = self._radius - self._thickness
         length = last
         rho = self.getRho()
@@ -53,7 +54,7 @@ class NoseSecantOgiveShapeHandler(NoseShapeHandler):
         inner_minor = self.ogive_y(length - self._thickness, length, rho, alpha)
         return inner_minor
 
-    def ogive_curve(self, length, radius, resolution, min = 0):
+    def ogive_curve(self, length : float, radius : float, resolution : int, min : float = 0) -> list[FreeCAD.Vector]:
         rho = self.getRho()
         alpha = self.getAlpha(length, radius)
 
@@ -68,7 +69,7 @@ class NoseSecantOgiveShapeHandler(NoseShapeHandler):
         return points
 
 
-    def findOgiveY(self, thickness, length, radius):
+    def findOgiveY(self, thickness : float, length : float, radius : float) -> float:
         rho = self.getRho()
 
         min = thickness
@@ -88,21 +89,21 @@ class NoseSecantOgiveShapeHandler(NoseShapeHandler):
                 max = x
         return x
 
-    def drawSolid(self):
+    def drawSolid(self) -> list[Part.Edge]:
         outer_curve = self.ogive_curve(self._length, self._radius, self._resolution)
         ogive = self.makeSpline(outer_curve)
 
         edges = self.solidLines(ogive)
         return edges
 
-    def drawSolidShoulder(self):
+    def drawSolidShoulder(self) -> list[Part.Edge]:
         outer_curve = self.ogive_curve(self._length, self._radius, self._resolution)
         ogive = self.makeSpline(outer_curve)
 
         edges = self.solidShoulderLines(ogive)
         return edges
 
-    def drawHollow(self):
+    def drawHollow(self) -> list[Part.Edge]:
         # Find the point where the thickness matches the desired thickness, so we don't get too narrow at the tip
         x = self.findOgiveY(self._thickness, self._length, self._radius)
 
@@ -116,7 +117,7 @@ class NoseSecantOgiveShapeHandler(NoseShapeHandler):
         edges = self.hollowLines(x, ogive, innerOgive)
         return edges
 
-    def drawHollowShoulder(self):
+    def drawHollowShoulder(self) -> list[Part.Edge]:
         # Find the point where the thickness matches the desired thickness, so we don't get too narrow at the tip
         x = self.findOgiveY(self._thickness, self._length, self._radius)
         minor_y = self.innerMinor(self._length - self._thickness - x)
@@ -131,7 +132,7 @@ class NoseSecantOgiveShapeHandler(NoseShapeHandler):
         edges = self.hollowShoulderLines(x, minor_y, ogive, innerOgive)
         return edges
 
-    def drawCapped(self):
+    def drawCapped(self) -> list[Part.Edge]:
         # Find the point where the thickness matches the desired thickness, so we don't get too narrow at the tip
         x = self.findOgiveY(self._thickness, self._length, self._radius)
         minor_y = self.innerMinor(self._length - self._thickness - x)
@@ -146,7 +147,7 @@ class NoseSecantOgiveShapeHandler(NoseShapeHandler):
         edges = self.cappedLines(x, minor_y, ogive, innerOgive)
         return edges
 
-    def drawCappedShoulder(self):
+    def drawCappedShoulder(self) -> list[Part.Edge]:
         # Find the point where the thickness matches the desired thickness, so we don't get too narrow at the tip
         x = self.findOgiveY(self._thickness, self._length, self._radius)
         minor_y = self.innerMinor(self._length - self._thickness - x)

@@ -25,6 +25,7 @@ __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
 import FreeCAD
+import Part
 import math
 
 from DraftTools import translate
@@ -34,28 +35,28 @@ from Rocket.Utilities import validationError
 
 class NoseHaackShapeHandler(NoseShapeHandler):
 
-    def isValidShape(self):
+    def isValidShape(self) -> bool:
         if self._coefficient < 0:
             validationError(translate('Rocket', "For %s nose cones the coefficient must be >= 0") % self._type)
             return False
         return super().isValidShape()
 
-    def innerMinor(self, last):
+    def innerMinor(self, last : float) -> float:
         radius = self._radius - self._thickness
         length = last
 
         inner_minor = self.haack_y(length - self._thickness, length, radius, self._coefficient)
         return inner_minor
 
-    def theta(self, x, length):
+    def theta(self, x : float, length : float) -> float:
         return  math.acos(1 - 2*x/length);
 
-    def haack_y(self, x, length, radius, coefficient):
+    def haack_y(self, x : float, length : float, radius : float, coefficient : float) -> float:
         theta = self.theta(x, length)
         return  radius * math.sqrt(theta - math.sin(2 * theta)/2
             + coefficient * math.pow(math.sin(theta), 3)) / math.sqrt(math.pi);
 
-    def haack_curve(self, length, radius, resolution, coefficient, min = 0):
+    def haack_curve(self, length : float, radius : float, resolution : int, coefficient : float, min : float = 0) -> list[FreeCAD.Vector]:
         points = []
         for i in range(0, resolution):
 
@@ -67,7 +68,7 @@ class NoseHaackShapeHandler(NoseShapeHandler):
         points.append(FreeCAD.Vector(length, radius))
         return points
 
-    def findHaackY(self, thickness, length, radius, coefficient):
+    def findHaackY(self, thickness : float, length : float, radius : float, coefficient : float) -> float:
         min = 0
         max = length
         x = 0
@@ -84,21 +85,21 @@ class NoseHaackShapeHandler(NoseShapeHandler):
             x = (max - min) / 2 + min
         return x
 
-    def drawSolid(self):
+    def drawSolid(self) -> list[Part.Edge]:
         outer_curve = self.haack_curve(self._length, self._radius, self._resolution, self._coefficient)
         spline = self.makeSpline(outer_curve)
 
         edges = self.solidLines(spline)
         return edges
 
-    def drawSolidShoulder(self):
+    def drawSolidShoulder(self) -> list[Part.Edge]:
         outer_curve = self.haack_curve(self._length, self._radius, self._resolution, self._coefficient)
         spline = self.makeSpline(outer_curve)
 
         edges = self.solidShoulderLines(spline)
         return edges
 
-    def drawHollow(self):
+    def drawHollow(self) -> list[Part.Edge]:
         # Find the point where the thickness matches the desired thickness, so we don't get too narrow at the tip
         x = self.findHaackY(self._thickness, self._length, self._radius, self._coefficient)
 
@@ -112,7 +113,7 @@ class NoseHaackShapeHandler(NoseShapeHandler):
         edges = self.hollowLines(x, outerSpline, innerSpline)
         return edges
 
-    def drawHollowShoulder(self):
+    def drawHollowShoulder(self) -> list[Part.Edge]:
         # Find the point where the thickness matches the desired thickness, so we don't get too narrow at the tip
         x = self.findHaackY(self._thickness, self._length, self._radius, self._coefficient)
         minor_y = self.innerMinor(self._length)
@@ -127,7 +128,7 @@ class NoseHaackShapeHandler(NoseShapeHandler):
         edges = self.hollowShoulderLines(x, minor_y, outerSpline, innerSpline)
         return edges
 
-    def drawCapped(self):
+    def drawCapped(self) -> list[Part.Edge]:
         # Find the point where the thickness matches the desired thickness, so we don't get too narrow at the tip
         x = self.findHaackY(self._thickness, self._length, self._radius, self._coefficient)
         minor_y = self.innerMinor(self._length)
@@ -142,7 +143,7 @@ class NoseHaackShapeHandler(NoseShapeHandler):
         edges = self.cappedLines(x, minor_y, outerSpline, innerSpline)
         return edges
 
-    def drawCappedShoulder(self):
+    def drawCappedShoulder(self) -> list[Part.Edge]:
         # Find the point where the thickness matches the desired thickness, so we don't get too narrow at the tip
         x = self.findHaackY(self._thickness, self._length, self._radius, self._coefficient)
         minor_y = self.innerMinor(self._length)

@@ -24,16 +24,18 @@ __title__ = "FreeCAD Centering Ring Handler"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
+from typing import Any
+
 import FreeCAD
 import Part
 
 from DraftTools import translate
 
 from Rocket.ShapeHandlers.BulkheadShapeHandler import BulkheadShapeHandler
-from Rocket.Utilities import validationError
+from Rocket.Utilities import validationError, _err
 
 class CenteringRingShapeHandler(BulkheadShapeHandler):
-    def __init__(self, obj):
+    def __init__(self, obj : Any) -> None:
         super().__init__(obj)
 
         self._centerDiameter = float(obj.CenterDiameter)
@@ -42,9 +44,9 @@ class CenteringRingShapeHandler(BulkheadShapeHandler):
         self._notchWidth = float(obj.NotchWidth)
         self._notchHeight = float(obj.NotchHeight)
 
-    def isValidShape(self):
+    def isValidShape(self) -> bool:
         if not super().isValidShape():
-            return
+            return False
 
         # Perform some general validations
         # if self._centerDiameter <= 0:
@@ -77,7 +79,7 @@ class CenteringRingShapeHandler(BulkheadShapeHandler):
 
         return True
 
-    def _drawCenteringRing(self):
+    def _drawCenteringRing(self) -> Any:
         bulkhead = self._drawBulkhead()
 
         # Add CR hole
@@ -98,7 +100,7 @@ class CenteringRingShapeHandler(BulkheadShapeHandler):
 
         return cr
 
-    def draw(self):
+    def draw(self) -> None:
         if not self.isValidShape():
             return
 

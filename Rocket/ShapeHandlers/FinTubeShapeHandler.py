@@ -24,6 +24,8 @@ __title__ = "FreeCAD Fins"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
+from typing import Any
+
 import FreeCAD
 import Part
 
@@ -35,17 +37,17 @@ from Rocket.ShapeHandlers.FinShapeHandler import FinShapeHandler
 
 class FinTubeShapeHandler(FinShapeHandler):
 
-    def __init__(self, obj):
+    def __init__(self, obj : Any) -> None:
         super().__init__(obj)
 
-    def isValidShape(self):
+    def isValidShape(self) -> bool:
         # Add error checking here
         if self._obj.Ttw:
             validationError(translate('Rocket', "Ttw tabs are not supported for tube fins"))
             return False
         return super().isValidShape()
 
-    def _finOnlyShape(self, debug):
+    def _finOnlyShape(self, debug : str) -> Any:
         #
         # Return the shape of a single fin with no additions, such as fin tabs, fin cans, etc
         #
@@ -55,7 +57,7 @@ class FinTubeShapeHandler(FinShapeHandler):
         inner = Part.makeCylinder(radius - self._obj.TubeThickness, self._obj.RootChord, FreeCAD.Vector(0,0,0), FreeCAD.Vector(1,0,0))
         return outer.cut(inner)
 
-    def _drawFinSet(self):
+    def _drawFinSet(self, offset : float = 0) -> Any:
         fins = []
         base = self._drawSingleFin()
         for i in range(self._obj.FinCount):

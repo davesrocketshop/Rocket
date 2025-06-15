@@ -24,10 +24,14 @@ __title__ = "FreeCAD Nose Shape Handler"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
+from typing import Any
+
 import FreeCAD
 import Part
 
 import math
+from abc import ABC, abstractmethod
+from typing import Any
 
 from DraftTools import translate
 
@@ -37,8 +41,8 @@ from Rocket.Constants import TYPE_BLUNTED_CONE, TYPE_BLUNTED_OGIVE, TYPE_SECANT_
 
 from Rocket.Utilities import _err, validationError
 
-class NoseShapeHandler():
-    def __init__(self, obj):
+class NoseShapeHandler(ABC):
+    def __init__(self, obj : Any) -> None:
 
         # This gets changed when redrawn so it's very important to save a copy
         self._placement = FreeCAD.Placement(obj.Placement)
@@ -65,15 +69,39 @@ class NoseShapeHandler():
         self._resolution = int(obj.Resolution)
         self._obj = obj
 
-    def getRadius(self, x):
+    @abstractmethod
+    def drawSolid(self) -> list[Part.Edge]:
+        ...
+
+    @abstractmethod
+    def drawSolidShoulder(self) -> list[Part.Edge]:
+        ...
+
+    @abstractmethod
+    def drawHollow(self) -> list[Part.Edge]:
+        ...
+
+    @abstractmethod
+    def drawHollowShoulder(self) -> list[Part.Edge]:
+        ...
+
+    @abstractmethod
+    def drawCapped(self) -> list[Part.Edge]:
+        ...
+
+    @abstractmethod
+    def drawCappedShoulder(self) -> list[Part.Edge]:
+        ...
+
+    def getRadius(self, x : float) -> float:
         return 0.0
 
-    def makeSpline(self, points):
+    def makeSpline(self, points : list) -> Any:
         spline = Part.BSplineCurve()
         spline.buildFromPoles(points)
         return spline
 
-    def isValidShape(self):
+    def isValidShape(self) -> bool:
         # Perform some general validations
         if self._style in [STYLE_HOLLOW, STYLE_CAPPED]:
             if self._thickness <= 0:
@@ -119,10 +147,10 @@ class NoseShapeHandler():
 
         return True
 
-    def _barCap(self):
+    def _barCap(self) -> Any:
         return self._crossCap(barOnly = True)
 
-    def _crossCap(self, barOnly = False):
+    def _crossCap(self, barOnly : bool = False) -> Any:
         BASE_WIDTH = 5
         base = self._length + BASE_WIDTH
         length = self._thickness + BASE_WIDTH
@@ -144,7 +172,7 @@ class NoseShapeHandler():
             mask = mask.cut(box)
         return mask
 
-    def draw(self):
+    def draw(self) -> None:
         if not self.isValidShape():
             return
 
@@ -202,9 +230,9 @@ class NoseShapeHandler():
         self._obj.Shape = shape
         self._obj.Placement = self._placement
 
-    def drawSolidShape(self):
+    def drawSolidShape(self) -> Part.Solid:
         if not self.isValidShape():
-            return
+            return None
 
         edges = None
 
@@ -215,7 +243,7 @@ class NoseShapeHandler():
                 edges = self.drawSolid()
         except (ZeroDivisionError, Part.OCCError):
             _err(translate('Rocket', "Nose cone parameters produce an invalid shape"))
-            return
+            return None
 
         shape = None
         if edges is not None:
@@ -233,12 +261,12 @@ class NoseShapeHandler():
 
         return shape
 
-    def toShape(self, shapeObject):
+    def toShape(self, shapeObject : Any) -> Part.Solid:
         if hasattr(shapeObject, 'toShape'):
             return shapeObject.toShape()
         return shapeObject
 
-    def solidLines(self, outerShape):
+    def solidLines(self, outerShape : Any) -> list:
         center = FreeCAD.Vector(self._length, 0.0)
         major = FreeCAD.Vector(0.0, 0.0)
         minor = FreeCAD.Vector(self._length, self._radius)
@@ -247,7 +275,7 @@ class NoseShapeHandler():
         line2 = Part.LineSegment(center, minor)
         return [self.toShape(outerShape), line1.toShape(), line2.toShape()]
 
-    def solidShoulderLines(self, outerShape):
+    def solidShoulderLines(self, outerShape : Any) -> list:
         major = FreeCAD.Vector(0,0)
         minor = FreeCAD.Vector(self._length,self._radius)
 
@@ -257,7 +285,7 @@ class NoseShapeHandler():
         line4 = Part.LineSegment(FreeCAD.Vector(self._length,self._shoulderRadius),                     minor)
         return [self.toShape(outerShape), line1.toShape(), line2.toShape(), line3.toShape(), line4.toShape()]
 
-    def hollowLines(self, offset, outerShape, innerShape):
+    def hollowLines(self, offset : float, outerShape : Any, innerShape : Any) -> list:
         major = FreeCAD.Vector(0,0)
         minor = FreeCAD.Vector(self._length,self._radius)
 
@@ -268,7 +296,7 @@ class NoseShapeHandler():
         line2 = Part.LineSegment(minor, innerMinor)
         return [self.toShape(outerShape), line1.toShape(), line2.toShape(), self.toShape(innerShape)]
 
-    def hollowShoulderLines(self, offset, minor_y, outerShape, innerShape):
+    def hollowShoulderLines(self, offset : float, minor_y : float, outerShape : Any, innerShape : Any) -> list:
         major = FreeCAD.Vector(0,0)
         minor = FreeCAD.Vector(self._length,self._radius)
 
@@ -287,7 +315,7 @@ class NoseShapeHandler():
         line6 = Part.LineSegment(end5,  innerMinor)
         return [line1.toShape(), self.toShape(outerShape), line2.toShape(), line3.toShape(), line4.toShape(), line5.toShape(), line6.toShape(), self.toShape(innerShape)]
 
-    def cappedLines(self, offset, minor_y, outerShape, innerShape):
+    def cappedLines(self, offset : float, minor_y : float, outerShape : Any, innerShape : Any) -> list:
         center = FreeCAD.Vector(self._length,0)
         major = FreeCAD.Vector(0,0)
         minor = FreeCAD.Vector(self._length,self._radius)
@@ -301,7 +329,7 @@ class NoseShapeHandler():
         line4 = Part.LineSegment(FreeCAD.Vector(self._length - self._thickness, 0), innerMinor)
         return [line1.toShape(), self.toShape(outerShape), line2.toShape(), line3.toShape(), line4.toShape(), self.toShape(innerShape)]
 
-    def cappedShoulderLines(self, offset, minor_y, outerShape, innerShape):
+    def cappedShoulderLines(self, offset : float, minor_y : float, outerShape : Any, innerShape : Any) -> list:
         major = FreeCAD.Vector(0,0)
         minor = FreeCAD.Vector(self._length,self._radius)
 

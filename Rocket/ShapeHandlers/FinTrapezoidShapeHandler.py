@@ -24,6 +24,8 @@ __title__ = "FreeCAD Fins"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
+from typing import Any
+
 from DraftTools import translate
 
 from Rocket.Constants import FIN_CROSS_SAME
@@ -34,17 +36,17 @@ from Rocket.ShapeHandlers.FinShapeHandler import FinShapeHandler
 
 class FinTrapezoidShapeHandler(FinShapeHandler):
 
-    def __init__(self, obj):
+    def __init__(self, obj : Any) -> None:
         super().__init__(obj)
 
-    def _makeRootProfile(self, height=0.0):
+    def _makeRootProfile(self, height : float = 0.0) -> Any:
         # Create the root profile, casting everything to float to avoid typing issues
         l1, l2 = self._lengthsFromPercent(float(self._obj.RootChord), self._obj.RootPerCent,
                                           float(self._obj.RootLength1), float(self._obj.RootLength2))
         return self._makeChordProfile(self._obj.RootCrossSection, 0.0, float(self._obj.RootChord),
             float(self._obj.RootThickness), height, l1, l2)
 
-    def _makeTipProfile(self):
+    def _makeTipProfile(self) -> Any:
         # Create the tip profile, casting everything to float to avoid typing issues
         crossSection = self._obj.TipCrossSection
         if crossSection == FIN_CROSS_SAME:
@@ -59,7 +61,7 @@ class FinTrapezoidShapeHandler(FinShapeHandler):
         return self._makeChordProfile(crossSection, float(self._obj.SweepLength), float(self._obj.TipChord),
             tipThickness, float(self._obj.Height), l1, l2)
 
-    def isValidShape(self):
+    def isValidShape(self) -> bool:
         # Add error checking here
         if self._obj.Ttw:
             if self._obj.TtwOffset >= self._obj.RootChord:
@@ -76,13 +78,13 @@ class FinTrapezoidShapeHandler(FinShapeHandler):
                 return False
         return super().isValidShape()
 
-    def _makeProfiles(self):
+    def _makeProfiles(self) -> list:
         profiles = []
         profiles.append(self._makeRootProfile())
         profiles.append(self._makeTipProfile())
         return profiles
 
-    def _makeExtensionProfiles(self, height):
+    def _makeExtensionProfiles(self, height : float) -> list:
         profiles = []
         profiles.append(self._makeRootProfile(-height))
         profiles.append(self._makeRootProfile())

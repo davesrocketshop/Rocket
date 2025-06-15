@@ -24,6 +24,8 @@ __title__ = "FreeCAD Elliptical Nose Shape Handler"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
+from typing import Any
+
 import FreeCAD
 import Part
 import math
@@ -33,7 +35,7 @@ from Rocket.ShapeHandlers.NoseShapeHandler import NoseShapeHandler
 
 class NoseEllipseShapeHandler(NoseShapeHandler):
 
-    def innerMinor(self, last):
+    def innerMinor(self, last : float) -> float:
         a = last
         b = self._radius - self._thickness
         x = self._thickness
@@ -41,7 +43,7 @@ class NoseEllipseShapeHandler(NoseShapeHandler):
         inner_minor = (b / a) * math.sqrt(a * a - x * x)
         return inner_minor
 
-    def _arc(self, x, major, minor):
+    def _arc(self, x, major, minor) -> Part.ArcOfEllipse | Part.Edge:
         if major > minor:
             arc = Part.ArcOfEllipse(Part.Ellipse(FreeCAD.Vector(x, 0), major, minor), math.pi/2, -math.pi)
         else:
@@ -51,26 +53,26 @@ class NoseEllipseShapeHandler(NoseShapeHandler):
 
         return arc
 
-    def drawSolid(self):
+    def drawSolid(self) -> list[Part.Edge]:
         outer_curve = self._arc(self._length, self._length, self._radius)
 
         edges = self.solidLines(outer_curve)
         return edges
 
-    def drawSolidShoulder(self):
+    def drawSolidShoulder(self) -> list[Part.Edge]:
         outer_curve = self._arc(self._length, self._length, self._radius)
 
         edges = self.solidShoulderLines(outer_curve)
         return edges
 
-    def drawHollow(self):
+    def drawHollow(self) -> list[Part.Edge]:
         outer_curve = self._arc(self._length, self._length, self._radius)
         inner_curve = self._arc(self._length, self._length - self._thickness, self._radius - self._thickness)
 
         edges = self.hollowLines(self._thickness, outer_curve, inner_curve)
         return edges
 
-    def drawHollowShoulder(self):
+    def drawHollowShoulder(self) -> list[Part.Edge]:
         last = self._length - self._thickness
         minor_y = self.innerMinor(last)
 
@@ -80,7 +82,7 @@ class NoseEllipseShapeHandler(NoseShapeHandler):
         edges = self.hollowShoulderLines(self._thickness, minor_y, outer_curve, inner_curve)
         return edges
 
-    def drawCapped(self):
+    def drawCapped(self) -> list[Part.Edge]:
         last = self._length - self._thickness
         minor_y = self.innerMinor(last)
 
@@ -90,7 +92,7 @@ class NoseEllipseShapeHandler(NoseShapeHandler):
         edges = self.cappedLines(self._thickness, minor_y, outer_curve, inner_curve)
         return edges
 
-    def drawCappedShoulder(self):
+    def drawCappedShoulder(self) -> list[Part.Edge]:
         last = self._length - self._thickness
         minor_y = self.innerMinor(last)
 

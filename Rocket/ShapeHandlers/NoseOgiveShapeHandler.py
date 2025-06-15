@@ -25,17 +25,18 @@ __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
 import FreeCAD
+import Part
 import math
 
 from Rocket.ShapeHandlers.NoseShapeHandler import NoseShapeHandler
 
 class NoseOgiveShapeHandler(NoseShapeHandler):
 
-    def ogive_y(self, x, length, radius, rho):
+    def ogive_y(self, x : float, length : float, radius : float, rho : float) -> float:
         y = math.sqrt(rho * rho - math.pow(length - x, 2)) + radius - rho
         return y
 
-    def innerMinor(self, last):
+    def innerMinor(self, last : float) -> float:
         radius = self._radius - self._thickness
         length = last
         rho = (radius * radius + length * length) / (2.0 * radius)
@@ -43,7 +44,7 @@ class NoseOgiveShapeHandler(NoseShapeHandler):
         inner_minor = self.ogive_y(length - self._thickness, length, radius, rho)
         return inner_minor
 
-    def ogive_curve(self, length, radius, resolution, min = 0):
+    def ogive_curve(self, length : float, radius : float, resolution : int, min : float = 0) -> list[FreeCAD.Vector]:
         rho = (radius * radius + length * length) / (2.0 * radius)
         points = []
         for i in range(0, resolution):
@@ -55,7 +56,7 @@ class NoseOgiveShapeHandler(NoseShapeHandler):
         points.append(FreeCAD.Vector(min + length, radius))
         return points
 
-    def findOgiveY(self, thickness, length, radius):
+    def findOgiveY(self, thickness : float, length : float, radius : float) -> float:
         rho = (radius * radius + length * length) / (2.0 * radius)
 
         min = thickness
@@ -74,21 +75,21 @@ class NoseOgiveShapeHandler(NoseShapeHandler):
             x = (max - min) / 2 + min
         return x
 
-    def drawSolid(self):
+    def drawSolid(self) -> list[Part.Edge]:
         outer_curve = self.ogive_curve(self._length, self._radius, self._resolution)
         ogive = self.makeSpline(outer_curve)
 
         edges = self.solidLines(ogive)
         return edges
 
-    def drawSolidShoulder(self):
+    def drawSolidShoulder(self) -> list[Part.Edge]:
         outer_curve = self.ogive_curve(self._length, self._radius, self._resolution)
         ogive = self.makeSpline(outer_curve)
 
         edges = self.solidShoulderLines(ogive)
         return edges
 
-    def drawHollow(self):
+    def drawHollow(self) -> list[Part.Edge]:
         # Find the point where the thickness matches the desired thickness, so we don't get too narrow at the tip
         x = self.findOgiveY(self._thickness, self._length, self._radius)
 
@@ -102,7 +103,7 @@ class NoseOgiveShapeHandler(NoseShapeHandler):
         edges = self.hollowLines(x, ogive, innerOgive)
         return edges
 
-    def drawHollowShoulder(self):
+    def drawHollowShoulder(self) -> list[Part.Edge]:
         # Find the point where the thickness matches the desired thickness, so we don't get too narrow at the tip
         x = self.findOgiveY(self._thickness, self._length, self._radius)
         minor_y = self.innerMinor(self._length - self._thickness - x)
@@ -117,7 +118,7 @@ class NoseOgiveShapeHandler(NoseShapeHandler):
         edges = self.hollowShoulderLines(x, minor_y, ogive, innerOgive)
         return edges
 
-    def drawCapped(self):
+    def drawCapped(self) -> list[Part.Edge]:
         # Find the point where the thickness matches the desired thickness, so we don't get too narrow at the tip
         x = self.findOgiveY(self._thickness, self._length, self._radius)
         minor_y = self.innerMinor(self._length - self._thickness - x)
@@ -132,7 +133,7 @@ class NoseOgiveShapeHandler(NoseShapeHandler):
         edges = self.cappedLines(x, minor_y, ogive, innerOgive)
         return edges
 
-    def drawCappedShoulder(self):
+    def drawCappedShoulder(self) -> list[Part.Edge]:
         # Find the point where the thickness matches the desired thickness, so we don't get too narrow at the tip
         x = self.findOgiveY(self._thickness, self._length, self._radius)
         minor_y = self.innerMinor(self._length - self._thickness - x)

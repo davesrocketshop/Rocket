@@ -24,6 +24,8 @@ __title__ = "FreeCAD Launch Guide Handler"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
+from typing import Any
+
 import FreeCAD
 import Part
 import math
@@ -36,7 +38,7 @@ from DraftTools import translate
 TOLERANCE_OFFSET = 0.5     # Distance to offset a vertex
 
 class RailGuideShapeHandler():
-    def __init__(self, obj):
+    def __init__(self, obj : Any) -> None:
 
         # This gets changed when redrawn so it's very important to save a copy
         self._placement = FreeCAD.Placement(obj.Placement)
@@ -68,7 +70,7 @@ class RailGuideShapeHandler():
 
         self._obj = obj
 
-    def isValidShape(self):
+    def isValidShape(self) -> bool:
         # Perform some general validations
         if self._middleWidth <= 0:
             validationError(translate('Rocket', "Middle width must be greater than zero"))
@@ -127,11 +129,11 @@ class RailGuideShapeHandler():
 
         return True
 
-    def _drawBaseFlat(self):
+    def _drawBaseFlat(self) -> Part.Solid:
         base = Part.makeBox(self._length, self._baseWidth, self._baseHeight, FreeCAD.Vector(0,-self._baseWidth / 2.0,0), FreeCAD.Vector(0,0,1))
         return base
 
-    def _drawBaseConformal(self):
+    def _drawBaseConformal(self) -> Part.Solid:
         # Calculate end points
         radius = self._diameter / 2.0
         theta = math.asin(self._baseWidth / (self._diameter))
@@ -161,7 +163,7 @@ class RailGuideShapeHandler():
 
         return base
 
-    def _drawBaseV(self):
+    def _drawBaseV(self) -> Part.Solid:
         # Calculate end points
         theta = self._vAngle / 2.0
         a = (self._baseWidth / 2.0) / math.fabs(math.tan(theta))
@@ -192,7 +194,7 @@ class RailGuideShapeHandler():
 
         return base
 
-    def _drawBase(self):
+    def _drawBase(self) -> Part.Solid:
         if self._railGuideBaseType == RAIL_GUIDE_BASE_CONFORMAL:
             return self._drawBaseConformal()
         elif self._railGuideBaseType == RAIL_GUIDE_BASE_V:
@@ -200,11 +202,11 @@ class RailGuideShapeHandler():
         else:
             return self._drawBaseFlat()
 
-    def rakeZ(self, x, slope, intercept):
+    def rakeZ(self, x : float, slope : float, intercept : float) -> float:
         z = x * slope + intercept # In the (x,z) plane
         return z
 
-    def _drawAftSweep(self):
+    def _drawAftSweep(self) -> Part.Solid:
         # We need to calculate our vertices outside of the part to avoid OpenCASCADE's "too exact" problem
         slope = -1.0 / math.tan(self._aftSweepAngle)
         intercept = self._zMin - (slope * self._length)
@@ -233,7 +235,7 @@ class RailGuideShapeHandler():
 
         return rake
 
-    def _drawForwardSweep(self):
+    def _drawForwardSweep(self) -> Part.Solid:
         # We need to calculate our vertices outside of the part to avoid OpenCASCADE's "too exact" problem
         slope = 1.0 / math.tan(self._forwardSweepAngle)
 
@@ -261,10 +263,10 @@ class RailGuideShapeHandler():
 
         return rake
 
-    def _drawNotch(self):
+    def _drawNotch(self) -> Part.Solid:
         return Part.makeBox(self._length, self._notchWidth, self._notchDepth, FreeCAD.Vector(0,-self._notchWidth / 2.0, self._height - self._notchDepth), FreeCAD.Vector(0,0,1))
 
-    def _drawGuide(self):
+    def _drawGuide(self) -> Part.Solid:
         # Essentially creating an I beam
         guide = Part.makeBox(self._length, self._middleWidth, self._height, FreeCAD.Vector(0,-self._middleWidth / 2.0,0), FreeCAD.Vector(0,0,1))
 
@@ -286,14 +288,14 @@ class RailGuideShapeHandler():
 
         return guide
 
-    def getZ0(self):
+    def getZ0(self) -> float:
         # Calculate end points
         theta = self._vAngle / 2.0
         r = (self._diameter / 2.0)
         z0 = (r / math.sin(theta)) - r
         return z0
 
-    def draw(self):
+    def draw(self) -> None:
         if not self.isValidShape():
             return
 

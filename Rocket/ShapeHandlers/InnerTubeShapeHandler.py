@@ -24,6 +24,8 @@ __title__ = "FreeCAD Body Tube Handler"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
+from typing import Any
+
 import FreeCAD
 import Part
 
@@ -33,14 +35,14 @@ from Rocket.Utilities import _err
 from DraftTools import translate
 
 class InnerTubeShapeHandler(BodyTubeShapeHandler):
-    def __init__(self, obj):
+    def __init__(self, obj : Any) -> None:
         super().__init__(obj)
 
         self._configuration = obj.ClusterConfiguration
         self._scale = float(obj.ClusterScale)
         self._rotation = float(obj.ClusterRotation)
 
-    def drawSingle(self):
+    def drawSingle(self) -> Any:
         edges = None
         edges = self._drawTubeEdges()
 
@@ -52,13 +54,13 @@ class InnerTubeShapeHandler(BodyTubeShapeHandler):
 
         return None
 
-    def _translateCenter(self, x, y):
+    def _translateCenter(self, x : float, y : float) -> tuple[float, float]:
         x1 = x * self._OD * self._scale
         y1 = y * self._OD * self._scale
 
         return x1, y1
 
-    def drawInstances(self):
+    def drawInstances(self) -> Any:
         tubes = []
         base = self.drawSingle()
         if self._rotation == 0:
@@ -78,7 +80,7 @@ class InnerTubeShapeHandler(BodyTubeShapeHandler):
 
         return Part.makeCompound(tubes)
 
-    def draw(self):
+    def draw(self) -> None:
         if not self.isValidShape():
             return
 

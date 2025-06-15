@@ -34,16 +34,16 @@ from Rocket.Utilities import validationError
 
 class TransitionHaackShapeHandler(TransitionShapeHandler):
 
-    def isValidShape(self):
+    def isValidShape(self) -> bool:
         if self._coefficient < 0:
             validationError(translate('Rocket', "For %s transitions the coefficient must be >= 0") % self._type)
             return False
         return super().isValidShape()
 
-    def _theta(self, x, length):
+    def _theta(self, x : float, length : float) -> float:
         return  math.acos(1 - 2*x/length)
 
-    def _radiusAt(self, r1, r2, length, pos):
+    def _radiusAt(self, r1 : float, r2 : float, length : float, pos : float) -> float:
         if r1 > r2:
             radius = r1 - r2
             center = r2

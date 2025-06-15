@@ -24,6 +24,8 @@ __title__ = "FreeCAD Rail Button Handler"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
+from typing import Any
+
 import FreeCAD
 import Part
 import math
@@ -36,7 +38,7 @@ from Rocket.Utilities import _err, validationError
 from DraftTools import translate
 
 class RailButtonShapeHandler():
-    def __init__(self, obj):
+    def __init__(self, obj : Any) -> None:
 
         # This gets changed when redrawn so it's very important to save a copy
         self._placement = FreeCAD.Placement(obj.Placement)
@@ -60,7 +62,7 @@ class RailButtonShapeHandler():
 
         self._obj = obj
 
-    def isValidShape(self):
+    def isValidShape(self) -> bool:
         # Perform some general validations
         if self._outerDiameter <= 0:
             validationError(translate('Rocket', "Outer diameter must be greater than zero"))
@@ -95,7 +97,7 @@ class RailButtonShapeHandler():
 
         return True
 
-    def _fastenerCountersinkHeight(self):
+    def _fastenerCountersinkHeight(self) -> float:
         if self._countersinkAngle == COUNTERSINK_ANGLE_NONE:
             return 0
 
@@ -118,7 +120,7 @@ class RailButtonShapeHandler():
 
         return height
 
-    def _fastener(self):
+    def _fastener(self) -> Any:
         fastener = Part.makeCylinder(self._shankDiameter / 2.0, self._height)
         if self._fastenerCountersinkHeight() > 0:
             countersink = Part.makeCone(self._headDiameter / 2.0, 0, self._fastenerCountersinkHeight(),
@@ -129,7 +131,7 @@ class RailButtonShapeHandler():
 
         return fastener
 
-    def _drawButton(self):
+    def _drawButton(self) -> Any:
         # For now, only round buttons
         spool = Part.makeCylinder(self._innerDiameter / 2.0, self._height, FreeCAD.Vector(0,0,0), FreeCAD.Vector(0,0,1))
 
@@ -148,7 +150,7 @@ class RailButtonShapeHandler():
 
         return spool
 
-    def _airfoil(self, base, height, diameter, length):
+    def _airfoil(self, base : float, height : float, diameter : float, length : float) -> Any:
         # Calculate the tangent points
         radius = diameter/2.0
         theta = math.pi - math.atan2(length - radius, radius)
@@ -170,7 +172,7 @@ class RailButtonShapeHandler():
 
         return airfoil
 
-    def _drawAirfoil(self):
+    def _drawAirfoil(self) -> Any:
         spool = self._airfoil(0.0, self._height, self._innerDiameter, self._length)
         spool.translate(FreeCAD.Vector(-(self._outerDiameter - self._innerDiameter) / 2.0, 0, 0))
         if self._hasFillet:
@@ -189,7 +191,7 @@ class RailButtonShapeHandler():
 
         return spool
 
-    def draw(self):
+    def draw(self) -> None:
         if not self.isValidShape():
             return
 

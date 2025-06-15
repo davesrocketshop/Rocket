@@ -24,6 +24,8 @@ __title__ = "FreeCAD Launch Lug Handler"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
+from typing import Any
+
 import FreeCAD
 import Part
 import math
@@ -37,7 +39,7 @@ TOLERANCE_OFFSET = 0.5     # Distance to offset a vertex
 
 class LaunchLugShapeHandler(BodyTubeShapeHandler):
 
-    def __init__(self, obj):
+    def __init__(self, obj : Any) -> None:
         super().__init__(obj)
 
         self._instanceCount = int(obj.InstanceCount)
@@ -51,7 +53,7 @@ class LaunchLugShapeHandler(BodyTubeShapeHandler):
         self._radius = self._OD / 2.0
         self._zMin = -self._radius # Used for rake
 
-    def isValidShape(self):
+    def isValidShape(self) -> bool:
         # Perform some general validations
         if self._forwardSweep:
             if (self._forwardSweepAngle <= 0.0) or (self._forwardSweepAngle >= 90.0):
@@ -65,11 +67,11 @@ class LaunchLugShapeHandler(BodyTubeShapeHandler):
 
         return super().isValidShape()
 
-    def rakeZ(self, x, slope, intercept):
+    def rakeZ(self, x : float, slope: float, intercept: float) -> float:
         z = x * slope + intercept # In the (x,z) plane
         return z
 
-    def _drawAftSweep(self):
+    def _drawAftSweep(self) -> Any:
         # We need to calculate our vertices outside of the part to avoid OpenCASCADE's "too exact" problem
         slope = -1.0 / math.tan(self._aftSweepAngle)
         intercept = self._zMin - (slope * self._length)
@@ -98,7 +100,7 @@ class LaunchLugShapeHandler(BodyTubeShapeHandler):
 
         return rake
 
-    def _drawForwardSweep(self):
+    def _drawForwardSweep(self) -> Any:
         # We need to calculate our vertices outside of the part to avoid OpenCASCADE's "too exact" problem
         slope = 1.0 / math.tan(self._forwardSweepAngle)
 
@@ -126,7 +128,7 @@ class LaunchLugShapeHandler(BodyTubeShapeHandler):
 
         return rake
 
-    def drawSingle(self):
+    def drawSingle(self) -> Any:
         edges = None
         edges = self._drawTubeEdges()
 
@@ -148,7 +150,7 @@ class LaunchLugShapeHandler(BodyTubeShapeHandler):
 
         return None
 
-    def drawInstances(self):
+    def drawInstances(self) -> Any:
         lugs = []
         base = self.drawSingle()
         for i in range(self._instanceCount):
@@ -158,7 +160,7 @@ class LaunchLugShapeHandler(BodyTubeShapeHandler):
 
         return Part.makeCompound(lugs)
 
-    def draw(self):
+    def draw(self) -> None:
         if not self.isValidShape():
             return
 

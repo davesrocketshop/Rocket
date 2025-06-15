@@ -25,6 +25,7 @@ __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
 import FreeCAD
+import Part
 import math
 
 from DraftTools import translate
@@ -34,24 +35,24 @@ from Rocket.Utilities import validationError
 
 class NosePowerShapeHandler(NoseShapeHandler):
 
-    def isValidShape(self):
+    def isValidShape(self) -> bool:
         if self._coefficient <= 0 or self._coefficient > 1:
             validationError(translate('Rocket', "For %s nose cones the coefficient must be in the range (0 < coefficient <= 1)") % self._type)
             return False
         return super().isValidShape()
 
-    def power_y(self, x, length, radius, k):
+    def power_y(self, x : float, length : float, radius : float, k : float) -> float:
         y = radius * math.pow((x / length), k)
         return y
 
-    def innerMinor(self, last, k):
+    def innerMinor(self, last, k) -> float:
         radius = self._radius - self._thickness
         length = last
 
         inner_minor = self.power_y(length - self._thickness, length, radius, k)
         return inner_minor
 
-    def power_curve(self, length, radius, resolution, k, min = 0):
+    def power_curve(self, length : float, radius : float, resolution : int, k : float, min : float = 0) -> list[FreeCAD.Vector]:
         points = []
         for i in range(0, resolution):
 
@@ -62,7 +63,7 @@ class NosePowerShapeHandler(NoseShapeHandler):
         points.append(FreeCAD.Vector(min + length, radius))
         return points
 
-    def findPowerY(self, thickness, length, radius, k):
+    def findPowerY(self, thickness : float, length : float, radius : float, k : float) -> float:
         min = thickness
         max = length
         x = 0
@@ -80,21 +81,21 @@ class NosePowerShapeHandler(NoseShapeHandler):
         return x
 
 
-    def drawSolid(self):
+    def drawSolid(self) -> list[Part.Edge]:
         outer_curve = self.power_curve(self._length, self._radius, self._resolution, self._coefficient)
         spline = self.makeSpline(outer_curve)
 
         edges = self.solidLines(spline)
         return edges
 
-    def drawSolidShoulder(self):
+    def drawSolidShoulder(self) -> list[Part.Edge]:
         outer_curve = self.power_curve(self._length, self._radius, self._resolution, self._coefficient)
         spline = self.makeSpline(outer_curve)
 
         edges = self.solidShoulderLines(spline)
         return edges
 
-    def drawHollow(self):
+    def drawHollow(self) -> list[Part.Edge]:
         # Find the point where the thickness matches the desired thickness, so we don't get too narrow at the tip
         x = self.findPowerY(self._thickness, self._length, self._radius, self._coefficient)
 
@@ -108,7 +109,7 @@ class NosePowerShapeHandler(NoseShapeHandler):
         edges = self.hollowLines(x, outerSpline, innerSpline)
         return edges
 
-    def drawHollowShoulder(self):
+    def drawHollowShoulder(self) -> list[Part.Edge]:
         # Find the point where the thickness matches the desired thickness, so we don't get too narrow at the tip
         x = self.findPowerY(self._thickness, self._length, self._radius, self._coefficient)
         minor_y = self.innerMinor(self._length - self._thickness - x, self._coefficient)
@@ -123,7 +124,7 @@ class NosePowerShapeHandler(NoseShapeHandler):
         edges = self.hollowShoulderLines(x, minor_y, outerSpline, innerSpline)
         return edges
 
-    def drawCapped(self):
+    def drawCapped(self) -> list[Part.Edge]:
         # Find the point where the thickness matches the desired thickness, so we don't get too narrow at the tip
         x = self.findPowerY(self._thickness, self._length, self._radius, self._coefficient)
         minor_y = self.innerMinor(self._length - self._thickness - x, self._coefficient)
@@ -138,7 +139,7 @@ class NosePowerShapeHandler(NoseShapeHandler):
         edges = self.cappedLines(x, minor_y, outerSpline, innerSpline)
         return edges
 
-    def drawCappedShoulder(self):
+    def drawCappedShoulder(self) -> list[Part.Edge]:
         # Find the point where the thickness matches the desired thickness, so we don't get too narrow at the tip
         x = self.findPowerY(self._thickness, self._length, self._radius, self._coefficient)
         minor_y = self.innerMinor(self._length - self._thickness - x, self._coefficient)

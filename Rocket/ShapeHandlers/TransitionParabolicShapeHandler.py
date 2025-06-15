@@ -32,13 +32,13 @@ from Rocket.Utilities import validationError
 
 class TransitionParabolicShapeHandler(TransitionShapeHandler):
 
-    def isValidShape(self):
+    def isValidShape(self) -> bool:
         if self._coefficient < 0 or self._coefficient > 1:
             validationError(translate('Rocket', "For %s transitions the coefficient must be in the range (0 <= coefficient <= 1)") % self._type)
             return False
         return super().isValidShape()
 
-    def _radiusAt(self, r1, r2, length, pos):
+    def _radiusAt(self, r1 : float, r2 : float, length : float, pos : float) -> float:
         if r1 > r2:
             radius = r1 - r2
             center = r2

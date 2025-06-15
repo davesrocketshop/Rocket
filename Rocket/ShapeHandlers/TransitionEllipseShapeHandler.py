@@ -24,6 +24,8 @@ __title__ = "FreeCAD Elliptical Transition Handler"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
+from typing import Any
+
 import FreeCAD
 import Part
 import math
@@ -32,7 +34,7 @@ from Rocket.ShapeHandlers.TransitionShapeHandler import TransitionShapeHandler
 
 class TransitionEllipseShapeHandler(TransitionShapeHandler):
 
-    def _radiusAt(self, r1, r2, length, pos):
+    def _radiusAt(self, r1 : float, r2 : float, length : float, pos : float) -> float:
         major = length
         if r1 > r2:
             minor = r1 - r2
@@ -49,7 +51,7 @@ class TransitionEllipseShapeHandler(TransitionShapeHandler):
             raise ex
         return y + center
 
-    def _eTheta(self, major, minor, tanTheta):
+    def _eTheta(self, major : float, minor : float, tanTheta : float) -> float:
         #
         # Adgusts the angle to account for the eccentric anomalies. Refer to
         #  https://forum.freecadweb.org/viewtopic.php?f=22&t=55655
@@ -61,7 +63,7 @@ class TransitionEllipseShapeHandler(TransitionShapeHandler):
     # Doesn't work at the moment due to the extreme precision required in calculating the angles. The math is right
     # but the points are off by thousandths of a mm resulting in discontinuities. Kept here for further
     # development if desired
-    def _generateClippedCurve(self, r1, r2, length, min = 0, max = 0):
+    def _generateClippedCurve(self, r1 : float, r2 : float, length : float, min : float = 0, max : float = 0) -> Any:
         if max == 0.0:
             max = self._length
 
@@ -89,7 +91,7 @@ class TransitionEllipseShapeHandler(TransitionShapeHandler):
         return curve
 
     # Override the default to use native shapes
-    def _generateCurve(self, r1, r2, length, min = 0, max = 0):
+    def _generateCurve(self, r1 : float, r2 : float, length : float, min : float = 0, max : float = 0) -> Any:
         if self._clipped:
             return super()._generateCurve(r1, r2, length, min, max)
 

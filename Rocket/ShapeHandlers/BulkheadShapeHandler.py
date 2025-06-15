@@ -24,15 +24,17 @@ __title__ = "FreeCAD Bulkhead Handler"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
+from typing import Any
+
 import FreeCAD
 import Part
 import math
 
-from Rocket.Utilities import validationError
+from Rocket.Utilities import validationError, _err
 from DraftTools import translate
 
 class BulkheadShapeHandler():
-    def __init__(self, obj):
+    def __init__(self, obj : Any) -> None:
 
         # This gets changed when redrawn so it's very important to save a copy
         self._placement = FreeCAD.Placement(obj.Placement)
@@ -51,7 +53,7 @@ class BulkheadShapeHandler():
 
         self._obj = obj
 
-    def isValidShape(self):
+    def isValidShape(self) -> bool:
         # Perform some general validations
         if self._diameter <= 0:
             validationError(translate('Rocket', "Outer diameter must be greater than zero"))
@@ -79,7 +81,7 @@ class BulkheadShapeHandler():
 
         return True
 
-    def _drawBulkhead(self):
+    def _drawBulkhead(self) -> Any:
         bulkhead = Part.makeCylinder(self._diameter / 2.0, self._thickness, FreeCAD.Vector(0,0,0), FreeCAD.Vector(1,0,0))
         if self._step:
             if self._stepReverse:
@@ -104,7 +106,7 @@ class BulkheadShapeHandler():
 
         return bulkhead
 
-    def draw(self):
+    def draw(self) -> None:
         if not self.isValidShape():
             return
 

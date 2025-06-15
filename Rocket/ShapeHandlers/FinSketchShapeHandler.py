@@ -24,6 +24,8 @@ __title__ = "FreeCAD Fins"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
+from typing import Any
+
 import FreeCAD
 import Part
 
@@ -37,10 +39,10 @@ from Rocket.Utilities import _err, validationError
 
 class FinSketchShapeHandler(FinShapeHandler):
 
-    def __init__(self, obj):
+    def __init__(self, obj : Any) -> None:
         super().__init__(obj)
 
-    def verifyShape(self, shape):
+    def verifyShape(self, shape : Any) -> bool:
         if shape is None:
             validationError(translate('Rocket', "shape is empty"))
             return False
@@ -56,16 +58,16 @@ class FinSketchShapeHandler(FinShapeHandler):
             return False
         return True
 
-    def isCurved(self, shape):
+    def isCurved(self, shape : Any) -> bool:
         for edge in shape.Edges:
             if not issubclass(type(edge.Curve), Part.Line):
                 return True
         return False
 
-    def _pointOnLine(self, z, zmin, zmax):
+    def _pointOnLine(self, z : float, zmin : float, zmax : float) -> bool:
         return (zmin <= z) and (zmax >= z)
 
-    def _xOnLine(self, z, vertex1, vertex2):
+    def _xOnLine(self, z : float, vertex1 : Any, vertex2 : Any) -> float:
         try:
             zRange = (z - vertex1.Point.z) / (vertex2.Point.z - vertex1.Point.z)
 
@@ -74,7 +76,7 @@ class FinSketchShapeHandler(FinShapeHandler):
             x = vertex1.Point.x
         return x
 
-    def _zInVertex(self, z, vertexes, tolerance):
+    def _zInVertex(self, z : float, vertexes : Any, tolerance : float) -> bool:
         if len(vertexes) != 2:
             _err(translate('Rocket', "Unable to handle shapes other than lines"))
             return False
@@ -82,7 +84,7 @@ class FinSketchShapeHandler(FinShapeHandler):
         return self._pointOnLine(z, vertexes[0].Point.z - tolerance, vertexes[1].Point.z + tolerance) or \
                 self._pointOnLine(z, vertexes[1].Point.z - tolerance, vertexes[0].Point.z + tolerance)
 
-    def findChords(self, shape):
+    def findChords(self, shape : Any) -> list:
         zArray = []
 
         tolerance = shape.getTolerance(1, Part.Shape) # Maximum tolerance
@@ -135,7 +137,7 @@ class FinSketchShapeHandler(FinShapeHandler):
 
         return chords
 
-    def findRootChord(self, shape):
+    def findRootChord(self, shape : Any) -> tuple[float, float]:
         tolerance = shape.getTolerance(1, Part.Shape) # Maximum tolerance
 
         # Find all x's associated with all z's
@@ -157,7 +159,7 @@ class FinSketchShapeHandler(FinShapeHandler):
                 xmax = x
         return (xmin, xmax)
 
-    def getFace(self):
+    def getFace(self) -> Any:
         profile = self._obj.Profile
         shape = profile.Shape
 
@@ -166,7 +168,7 @@ class FinSketchShapeHandler(FinShapeHandler):
         else:
             return Part.Wire(shape)
 
-    def getOffsetFace(self):
+    def getOffsetFace(self) -> Any:
         profile = self._obj.Profile
         shape = profile.Shape
 
@@ -180,7 +182,7 @@ class FinSketchShapeHandler(FinShapeHandler):
             return Part.Wire(shape)
 
 
-    def curvedProfiles(self, shape):
+    def curvedProfiles(self, shape : Any) -> list:
         halfThickness = float(self._obj.RootThickness) / 2.0
 
         face1 = shape.copy()
@@ -195,7 +197,7 @@ class FinSketchShapeHandler(FinShapeHandler):
             profiles = []
         return profiles
 
-    def _makeChord(self, chord, rootLength2, tolerance):
+    def _makeChord(self, chord : Any, rootLength2 : float, tolerance : float) -> Any:
         height = float(chord[0].z)
 
         if len(chord) > 1:
@@ -216,7 +218,7 @@ class FinSketchShapeHandler(FinShapeHandler):
 
         return profile
 
-    def straightProfiles(self, shape, tolerance):
+    def straightProfiles(self, shape : Any, tolerance : float) -> list:
         chords = self.findChords(shape)
         profiles = []
         rootLength2 = float(self._obj.RootLength2)
@@ -228,7 +230,7 @@ class FinSketchShapeHandler(FinShapeHandler):
 
         return profiles
 
-    def _makeProfiles(self):
+    def _makeProfiles(self) -> list:
         shape = self.getFace()
         if shape is None:
             return []
@@ -237,7 +239,7 @@ class FinSketchShapeHandler(FinShapeHandler):
             return self.curvedProfiles(shape)
         return self.straightProfiles(shape, shape.globalTolerance(1))
 
-    def _makeCommon(self):
+    def _makeCommon(self) -> Any:
         # The mask will be the fin outline, scaled very slightly
         shape = self.getOffsetFace()
 
@@ -247,7 +249,7 @@ class FinSketchShapeHandler(FinShapeHandler):
         mask = Part.Face(face).extrude(FreeCAD.Vector(0, 2.0 * float(self._obj.RootThickness), 0))
         return mask
 
-    def _makeTtw(self):
+    def _makeTtw(self) -> Any:
         # Create the Ttw tab - No clear root chord like regular fins
         shape = self.getFace()
         if shape is None:

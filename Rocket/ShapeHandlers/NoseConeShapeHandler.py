@@ -29,29 +29,28 @@ import Part
 
 from Rocket.ShapeHandlers.NoseShapeHandler import NoseShapeHandler
 
-
 class NoseConeShapeHandler(NoseShapeHandler):
 
-    def innerMinor(self, x):
+    def innerMinor(self, x : float) -> float:
         intercept = self._radius - self._thickness
         # slope = intercept * -1 / (offset - self._thickness)
         slope = intercept * -1 / (self._length)
         inner_minor = x * slope + intercept
         return inner_minor
 
-    def drawSolid(self):
+    def drawSolid(self) -> list[Part.Edge]:
         outer_curve = Part.LineSegment(FreeCAD.Vector(0.0, 0.0), FreeCAD.Vector(self._length, self._radius))
 
         edges = self.solidLines(outer_curve)
         return edges
 
-    def drawSolidShoulder(self):
+    def drawSolidShoulder(self) -> list[Part.Edge]:
         outer_curve = Part.LineSegment(FreeCAD.Vector(0.0, 0.0), FreeCAD.Vector(self._length, self._radius))
 
         edges = self.solidShoulderLines(outer_curve)
         return edges
 
-    def drawHollow(self):
+    def drawHollow(self) -> list[Part.Edge]:
         # Calculate the offset from the end to maintain the thickness
         offset = self._length * self._thickness / self._radius
 
@@ -61,7 +60,7 @@ class NoseConeShapeHandler(NoseShapeHandler):
         edges = self.hollowLines(offset, outer_curve, inner_curve)
         return edges
 
-    def drawHollowShoulder(self):
+    def drawHollowShoulder(self) -> list[Part.Edge]:
         # Calculate the offset from the end to maintain the thickness
         offset = self._length * self._thickness / self._radius
         minor_y = self.innerMinor(self._thickness)
@@ -74,7 +73,7 @@ class NoseConeShapeHandler(NoseShapeHandler):
         #     Part.show(edge)
         return edges
 
-    def drawCapped(self):
+    def drawCapped(self) -> list[Part.Edge]:
         # Calculate the offset from the end to maintain the thickness
         offset = self._length * self._thickness / self._radius
         minor_y = self.innerMinor(self._thickness)
@@ -85,7 +84,7 @@ class NoseConeShapeHandler(NoseShapeHandler):
         edges = self.cappedLines(offset, minor_y, outer_curve, inner_curve)
         return edges
 
-    def drawCappedShoulder(self):
+    def drawCappedShoulder(self) -> list[Part.Edge]:
         # Calculate the offset from the end to maintain the thickness
         offset = self._length * self._thickness / self._radius
         minor_y = self.innerMinor(self._thickness)

@@ -30,11 +30,11 @@ from Rocket.ShapeHandlers.TransitionShapeHandler import TransitionShapeHandler
 
 class TransitionOgiveShapeHandler(TransitionShapeHandler):
 
-    def isClippable(self):
+    def isClippable(self) -> bool:
         # Clipped shape is the same as the unclipped
         return False
 
-    def _radiusAt(self, r1, r2, length, pos):
+    def _radiusAt(self, r1 : float, r2 : float, length : float, pos : float) -> float:
         if r1 > r2:
             radius = r1 - r2
             center = r2

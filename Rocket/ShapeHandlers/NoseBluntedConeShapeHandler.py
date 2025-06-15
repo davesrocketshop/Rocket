@@ -24,6 +24,8 @@ __title__ = "FreeCAD Conical Nose Shape Handler"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
+from typing import Any
+
 import FreeCAD
 import Part
 import math
@@ -33,28 +35,34 @@ from Rocket.ShapeHandlers.NoseShapeHandler import NoseShapeHandler
 
 class NoseBluntedConeShapeHandler(NoseShapeHandler):
 
-    def __init__(self, obj):
+    def __init__(self, obj : Any) -> None:
         super().__init__(obj)
 
         self._offsetRadius = self._radius   # Scratch value, only valid immediately after a call to getCurve()
 
-    def getXt(self, length, radius, noseRadius):
+    def getXt(self, length : float, radius : float, noseRadius : float) -> float:
         return math.pow(length, 2) / radius * math.sqrt(math.pow(noseRadius, 2) / (math.pow(radius, 2) + math.pow(length, 2)))
 
-    def getYt(self, Xt, length, radius):
+    def getYt(self, Xt : float, length : float, radius : float) -> float:
         return (Xt * radius) / length
 
-    def getXo(self, Xt, Yt, noseRadius):
+    def getXo(self, Xt : float, Yt : float, noseRadius : float) -> float:
         return Xt + math.sqrt(math.pow(noseRadius, 2) - math.pow(Yt, 2))
 
-    def getXa(self, Xo, noseRadius):
+    def getXa(self, Xo : float, noseRadius : float) -> float:
         return Xo - noseRadius
 
-    def getBluntedLength(self, length, radius, noseRadius):
+    def getBluntedLength(self, length : float, radius : float, noseRadius : float) -> tuple[float, float, float, float, float]:
 
         min = length - noseRadius
         max = (-radius * length) / (noseRadius - radius)
         counter = 0
+
+        mid = 0.0
+        Xt = 0.0
+        Yt = 0.0
+        Xo = 0.0
+        Xa = 0.0
 
         # Do a binary search to 0.0001 mm
         precision = 0.0001
@@ -72,18 +80,18 @@ class NoseBluntedConeShapeHandler(NoseShapeHandler):
 
         return (mid, Xt, Yt, Xo, Xa)
 
-    def getMidArc(self, Xo, Xt, radius):
+    def getMidArc(self, Xo : float, Xt : float, radius : float) -> tuple[float, float]:
         x = math.fabs(Xt + radius - Xo) / 2.0
         y = math.sqrt(radius * radius - x * x)
         return (x + Xo, y)
 
-    def innerMinor(self, length, radius, offset):
+    def innerMinor(self, length : float, radius : float, offset : float) -> float:
         intercept = radius
         slope = intercept * -1 / (length)
         inner_minor = offset * slope + intercept
         return inner_minor
 
-    def getCurve(self, length, radius, noseRadius, offset=0.0):
+    def getCurve(self, length : float, radius : float, noseRadius : float, offset : float = 0.0) -> Any:
         (vLength, Xt, Yt, Xo, Xa) = self.getBluntedLength(length, radius, noseRadius)
 
         midX, midY = self.getMidArc(vLength - Xo, vLength - Xt, noseRadius)
@@ -101,29 +109,29 @@ class NoseBluntedConeShapeHandler(NoseShapeHandler):
 
         return curve
 
-    def getOuterCurve(self):
+    def getOuterCurve(self) -> Any:
         return self.getCurve(self._length, self._radius, self._noseRadius)
 
-    def drawSolid(self):
+    def drawSolid(self) -> list[Part.Edge]:
         outer_curve = self.getOuterCurve()
 
         edges = self.solidLines(outer_curve)
         return edges
 
-    def drawSolidShoulder(self):
+    def drawSolidShoulder(self) -> list[Part.Edge]:
         outer_curve = self.getOuterCurve()
 
         edges = self.solidShoulderLines(outer_curve)
         return edges
 
-    def drawHollow(self):
+    def drawHollow(self) -> list[Part.Edge]:
         outer_curve = self.getOuterCurve()
         inner_curve = self.getCurve(self._length, self._radius - self._thickness, self._noseRadius - self._thickness, self._thickness)
 
         edges = self.hollowLines(self._thickness, outer_curve, inner_curve)
         return edges
 
-    def drawHollowShoulder(self):
+    def drawHollowShoulder(self) -> list[Part.Edge]:
         outer_curve = self.getOuterCurve()
         inner_curve = self.getCurve(self._length - self._thickness, self._radius - self._thickness, self._noseRadius - self._thickness, self._thickness)
         minor_y = self._radius - self._thickness
@@ -131,7 +139,7 @@ class NoseBluntedConeShapeHandler(NoseShapeHandler):
         edges = self.hollowShoulderLines(self._thickness, minor_y, outer_curve, inner_curve)
         return edges
 
-    def drawCapped(self):
+    def drawCapped(self) -> list[Part.Edge]:
         outer_curve = self.getOuterCurve()
         inner_curve = self.getCurve(self._length - self._thickness, self._radius - self._thickness, self._noseRadius - self._thickness, self._thickness)
         minor_y = self._radius - self._thickness
@@ -139,7 +147,7 @@ class NoseBluntedConeShapeHandler(NoseShapeHandler):
         edges = self.cappedLines(self._thickness, minor_y, outer_curve, inner_curve)
         return edges
 
-    def drawCappedShoulder(self):
+    def drawCappedShoulder(self) -> list[Part.Edge]:
         outer_curve = self.getOuterCurve()
         inner_curve = self.getCurve(self._length - self._thickness, self._radius - self._thickness, self._noseRadius - self._thickness, self._thickness)
         minor_y = self._radius - self._thickness

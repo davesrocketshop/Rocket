@@ -24,6 +24,8 @@ __title__ = "FreeCAD Fins"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
+from typing import Any
+
 import FreeCAD
 import Part
 import math
@@ -39,17 +41,17 @@ from Rocket.ShapeHandlers.FinShapeHandler import FinShapeHandler
 
 class FinTriangleShapeHandler(FinShapeHandler):
 
-    def __init__(self, obj):
+    def __init__(self, obj : Any) -> None:
         super().__init__(obj)
 
-    def _makeRootProfile(self, height=0.0):
+    def _makeRootProfile(self, height : float = 0.0):
         # Create the root profile, casting everything to float to avoid typing issues
         l1, l2 = self._lengthsFromPercent(float(self._obj.RootChord), self._obj.RootPerCent,
                                           float(self._obj.RootLength1), float(self._obj.RootLength2))
         return self._makeChordProfile(self._obj.RootCrossSection, 0.0, float(self._obj.RootChord),
             float(self._obj.RootThickness), height, l1, l2)
 
-    def _makeTipProfile(self):
+    def _makeTipProfile(self) -> Any:
         # Create the tip profile, casting everything to float to avoid typing issues
         if self._obj.RootCrossSection in [FIN_CROSS_DIAMOND]:
             min = self.minimumEdge()
@@ -66,7 +68,7 @@ class FinTriangleShapeHandler(FinShapeHandler):
         return self._makeChordProfile(self._obj.RootCrossSection, sweep, chord,
             float(self._obj.RootThickness), height, l1, l2)
 
-    def _heightAtChord(self, chord):
+    def _heightAtChord(self, chord : float) -> float:
         theta1 = math.radians(self._sweepAngleFromLength())
         length = float(self._obj.SweepLength) - float(self._obj.RootChord)
         theta2 = (math.pi / 2.0) - math.atan2(float(self._obj.Height), length) # In radians
@@ -75,7 +77,7 @@ class FinTriangleShapeHandler(FinShapeHandler):
         height = float(self._obj.Height) - ((chord - min)/(math.tan(theta1) - math.tan(theta2)))
         return height
 
-    def _sweepAngleFromLength(self):
+    def _sweepAngleFromLength(self) -> float:
         length = float(self._obj.SweepLength)
         min = self.minimumEdge() / 2.0
         if min > 0:
@@ -83,12 +85,12 @@ class FinTriangleShapeHandler(FinShapeHandler):
         theta = 90.0 - math.degrees(math.atan2(float(self._obj.Height), length))
         return theta
 
-    def _sweepAtHeight(self, height):
+    def _sweepAtHeight(self, height : float) -> float:
         angle = self._sweepAngleFromLength()
         sweep = math.tan(math.radians(angle)) * height
         return sweep
 
-    def _midChord(self, rootChord):
+    def _midChord(self, rootChord : float) -> tuple[float, float, float]:
 
         chord = rootChord / 2.0
         height = self._heightAtChord(chord)
@@ -97,7 +99,7 @@ class FinTriangleShapeHandler(FinShapeHandler):
 
         return chord, height, sweep
 
-    def _topChord(self, tip1, tip2):
+    def _topChord(self, tip1 : float, tip2 : float) -> tuple[float, float, float]:
 
         crossSection = self._obj.RootCrossSection
         if crossSection in [FIN_CROSS_WEDGE, FIN_CROSS_SQUARE]:
@@ -123,7 +125,7 @@ class FinTriangleShapeHandler(FinShapeHandler):
 
         return chord, height, sweep
 
-    def isValidShape(self):
+    def isValidShape(self) -> bool:
         # Add error checking here
         if self._obj.Ttw:
             if self._obj.TtwOffset >= self._obj.RootChord:
@@ -140,7 +142,7 @@ class FinTriangleShapeHandler(FinShapeHandler):
                 return False
         return super().isValidShape()
 
-    def _makeProfiles(self):
+    def _makeProfiles(self) -> list:
         profiles = []
         profiles.append(self._makeRootProfile())
         profiles.append(self._makeTipProfile())
@@ -149,13 +151,13 @@ class FinTriangleShapeHandler(FinShapeHandler):
             profiles.append(top)
         return profiles
 
-    def _makeExtensionProfiles(self, height):
+    def _makeExtensionProfiles(self, height : float) -> list:
         profiles = []
         profiles.append(self._makeRootProfile(-height))
         profiles.append(self._makeRootProfile())
         return profiles
 
-    def _makeTopProfile(self):
+    def _makeTopProfile(self) -> Any:
         if self._obj.RootCrossSection in [FIN_CROSS_BICONVEX, FIN_CROSS_ROUND, FIN_CROSS_ELLIPSE, FIN_CROSS_WEDGE,
                                             FIN_CROSS_SQUARE, FIN_CROSS_DIAMOND, FIN_CROSS_AIRFOIL,
                                             FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE]:
@@ -166,7 +168,7 @@ class FinTriangleShapeHandler(FinShapeHandler):
             tip=Part.Point(FreeCAD.Vector(self._obj.SweepLength, 0.0, self._obj.Height)).toShape()
         return tip
 
-    def _makeRoundTip(self):
+    def _makeRoundTip(self) -> Any:
         # Half sphere of radius thickness
         radius = float(self._obj.RootThickness) / 2.0 # + 0.1
         height = float(self._obj.Height) - radius # self._heightAtChord(2.0 * radius)
@@ -200,7 +202,7 @@ class FinTriangleShapeHandler(FinShapeHandler):
         tip = loft1.fuse(loft2)
         return tip
 
-    def _makeBiconvexTip(self):
+    def _makeBiconvexTip(self) -> Any:
         l1, l2 = self._lengthsFromPercent(float(self._obj.RootChord), self._obj.RootPerCent,
                                           float(self._obj.RootLength1), float(self._obj.RootLength2))
         chord, height, sweep = self._topChord(l1, l2)
@@ -216,7 +218,7 @@ class FinTriangleShapeHandler(FinShapeHandler):
         tip = Part.makeLoft([base, top], True)
         return tip
 
-    def _makeLETaperTip(self):
+    def _makeLETaperTip(self) -> Any:
         l1, l2 = self._lengthsFromPercent(float(self._obj.RootChord), self._obj.RootPerCent,
                                           float(self._obj.RootLength1), float(self._obj.RootLength2))
         chord, height, sweep = self._topChord(l1, l2)
@@ -232,7 +234,7 @@ class FinTriangleShapeHandler(FinShapeHandler):
         tip = Part.makeLoft([base, top], True)
         return tip
 
-    def _makeTETaperTip(self):
+    def _makeTETaperTip(self) -> Any:
         # Wedge at the base, point at the tip
         l1, l2 = self._lengthsFromPercent(float(self._obj.RootChord), self._obj.RootPerCent,
                                           float(self._obj.RootLength1), float(self._obj.RootLength2))
@@ -249,7 +251,7 @@ class FinTriangleShapeHandler(FinShapeHandler):
         tip = Part.makeLoft([base, top], True)
         return tip
 
-    def _makeLETETaperTip(self):
+    def _makeLETETaperTip(self) -> Any:
         # Wedge at the base, point at the tip
         l1, l2 = self._lengthsFromPercent(float(self._obj.RootChord), self._obj.RootPerCent,
                                           float(self._obj.RootLength1), float(self._obj.RootLength2))
@@ -266,7 +268,7 @@ class FinTriangleShapeHandler(FinShapeHandler):
         tip = Part.makeLoft([base, top], True)
         return tip
 
-    def _makeAirfoilTip(self):
+    def _makeAirfoilTip(self) -> Any:
         l1, l2 = self._lengthsFromPercent(float(self._obj.RootChord), self._obj.RootPerCent,
                                     float(self._obj.RootLength1), float(self._obj.RootLength2))
         chord, height, sweep = self._topChord(l1, l2)
@@ -286,23 +288,7 @@ class FinTriangleShapeHandler(FinShapeHandler):
         tip = Part.makeLoft([base, top], True)
         return tip
 
-    # def _makeBiconvexTip(self):
-    #     l1, l2 = self._lengthsFromPercent(float(self._obj.RootChord), self._obj.RootPerCent,
-    #                                       float(self._obj.RootLength1), float(self._obj.RootLength2))
-    #     chord, height, sweep = self._topChord(l1, l2)
-    #     base = self._makeChordProfile(FIN_CROSS_BICONVEX, sweep, chord,
-    #         float(self._obj.RootThickness), height, l1, l2)
-
-    #     min = self.minimumEdge()
-    #     if min > 0:
-    #         top=self._makeChordProfile(FIN_CROSS_BICONVEX, float(self._obj.SweepLength) - (min/2.0), min,
-    #             min, float(self._obj.Height), l1, l2)
-    #     else:
-    #         top=Part.Point(FreeCAD.Vector(self._obj.SweepLength, 0.0, self._obj.Height)).toShape()
-    #     tip = Part.makeLoft([base, top], True)
-    #     return tip
-
-    def _makeTip(self):
+    def _makeTip(self) -> Any:
         """
             This function adds shapes, rather than profiles to be lofted
         """
