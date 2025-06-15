@@ -25,14 +25,14 @@ __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
 class Finish():
-    roughnessSize = None
-    name = None
+    roughnessSize : float = 0.0
+    name : str = ""
 
-    def __init__(self, _name, _roughness):
+    def __init__(self, _name : str, _roughness : float) -> None:
         self.roughnessSize = _roughness
         self.name = _name
 
-    def getRoughnessSize(self):
+    def getRoughnessSize(self) -> float:
         return self.roughnessSize
 
 # Rough

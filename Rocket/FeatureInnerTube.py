@@ -27,6 +27,8 @@ __url__ = "https://www.davesrocketshop.com"
 import math
 from typing import Any
 
+import Part
+
 from Rocket.interfaces.BoxBounded import BoxBounded
 from Rocket.position.AxialPositionable import AxialPositionable
 from Rocket.interfaces.Clusterable import Clusterable
@@ -37,7 +39,7 @@ from Rocket.ThicknessRingComponent import ThicknessRingComponent
 from Rocket.ClusterConfiguration import ClusterConfiguration, SINGLE
 from Rocket.util.BoundingBox import BoundingBox
 from Rocket.util.Coordinate import Coordinate, ZERO
-from Rocket.util.MathUtil import MathUtil
+from Rocket.Utilities import reducePi
 from Rocket.ShapeHandlers.InnerTubeShapeHandler import InnerTubeShapeHandler
 
 from Rocket.Constants import FEATURE_INNER_TUBE, FEATURE_TUBE_COUPLER, FEATURE_ENGINE_BLOCK, FEATURE_BULKHEAD, FEATURE_CENTERING_RING
@@ -82,7 +84,7 @@ class FeatureInnerTube(ThicknessRingComponent, Clusterable, AxialPositionable, B
         if shape is not None:
             shape.draw()
 
-    def getSolidShape(self, obj : Any) -> Any:
+    def getSolidShape(self, obj : Any) -> Part.Solid:
         """ Return a filled version of the shape. Useful for CFD """
         shape = InnerTubeShapeHandler(obj)
         if shape is not None:
@@ -181,7 +183,7 @@ class FeatureInnerTube(ThicknessRingComponent, Clusterable, AxialPositionable, B
             if isinstance(listener, FeatureInnerTube):
                 listener.setClusterRotation(rotation)
 
-        rotation = MathUtil.reducePi(rotation)
+        rotation = reducePi(rotation)
         if self._obj.ClusterRotation == rotation:
             return
 

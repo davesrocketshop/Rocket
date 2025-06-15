@@ -26,6 +26,8 @@ __url__ = "https://www.davesrocketshop.com"
 
 from typing import Any
 
+import Part
+
 from Rocket.interfaces.BoxBounded import BoxBounded
 from Rocket.interfaces.Coaxial import Coaxial
 
@@ -278,10 +280,12 @@ class FeatureBodyTube(SymmetricComponent, BoxBounded, Coaxial):
         if shape is not None:
             shape.draw()
 
-    def getSolidShape(self, obj : Any) -> Any:
+    def getSolidShape(self, obj : Any) -> Part.Solid:
         """ Return a filled version of the shape. Useful for CFD """
         shape = BodyTubeShapeHandler(obj)
         if shape is not None:
+            x = shape.drawSolidShape()
+            print(f"getSolidShape('{type(obj)}','{type(x)}')")
             return shape.drawSolidShape()
         return None
 

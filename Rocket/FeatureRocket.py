@@ -38,7 +38,6 @@ from Rocket.position import AxialMethod
 from Rocket.util.BoundingBox import BoundingBox
 from Rocket.util.Coordinate import ZERO, X_UNIT
 from Rocket.util.UniqueID import UniqueID
-from Rocket.util import ReferenceType
 
 from Rocket.events.ComponentChangeEvent import ComponentChangeEvent
 
@@ -50,8 +49,6 @@ class FeatureRocket(ComponentAssembly, ComponentChangeListener):
     List of component change listeners.
     """
     _listenerList = []
-
-    _refType = ReferenceType.MAXIMUM
 
     _modID = -1
     _massModID = -1
@@ -255,28 +252,6 @@ class FeatureRocket(ComponentAssembly, ComponentChangeListener):
     def setAxialOffset(self, newAxialOffset : float) -> None:
         self.AxialOffset = 0.0
         self.Position = ZERO
-
-    def getReferenceType(self) -> ReferenceType.ReferenceType:
-        return self._refType
-
-    def setReferenceType(self, type : ReferenceType.ReferenceType):
-        if self._refType == type:
-            return
-        self._refType = type
-
-        self.fireComponentChangeEvent(ComponentChangeEvent.NONFUNCTIONAL_CHANGE)
-
-    def getCustomReferenceLength(self) -> float:
-        return self._customReferenceLength
-
-    def setCustomReferenceLength(self, length : float) -> None:
-        if self._customReferenceLength == length:
-            return
-
-        self._customReferenceLength = max(length, 0.001)
-
-        if self._refType == ReferenceType.CUSTOM:
-            self.fireComponentChangeEvent(ComponentChangeEvent.NONFUNCTIONAL_CHANGE)
 
     def getBoundingRadius(self) -> float:
         bounding = 0

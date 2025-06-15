@@ -36,7 +36,7 @@ from Rocket.position.AxialMethod import AxialMethod
 import Rocket.position.RadiusMethod as RadiusMethod
 from Rocket.ComponentAssembly import ComponentAssembly
 from Rocket.util.Coordinate import Coordinate
-from Rocket.util.MathUtil import EPSILON
+from Rocket.Utilities import EPSILON
 
 from Rocket.Constants import FEATURE_ROCKET, FEATURE_STAGE, FEATURE_PARALLEL_STAGE, FEATURE_POD
 

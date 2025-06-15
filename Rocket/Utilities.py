@@ -29,6 +29,10 @@ from typing import Any
 import FreeCAD
 import math
 
+# Tolerance value for effective zero
+# EPSILON = 0.00000001 # 10mm^3 in m^3
+EPSILON = 0.000001
+
 def _msg(message : str) -> None:
     """Write messages to the console including the line ending."""
     FreeCAD.Console.PrintMessage(message + "\n")

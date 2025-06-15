@@ -20,14 +20,17 @@
 # ***************************************************************************
 """Class for rocket components"""
 
+from __future__ import annotations # Required prior to 3.14
+
 __title__ = "FreeCAD Rocket Components"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
-from typing import Any
+from typing import Self
 
 import copy
 from Rocket.util.Coordinate import Coordinate, MAX, MIN
+from Rocket.util.Transformation import Transformation
 
 class BoundingBox(object):
 
@@ -55,7 +58,7 @@ class BoundingBox(object):
     def isEmpty(self) -> bool:
         return (self._min._x > self._max._x) or (self._min._y > self._max._y) or (self._min._z > self._max._z)
 
-    def transform(self, transformation) -> Any:
+    def transform(self, transformation : Transformation) -> BoundingBox:
         p1 = transformation.transform(self._min)
         p2 = transformation.transform(self._max)
 
@@ -89,7 +92,7 @@ class BoundingBox(object):
         if self._max._z < zVal:
             self._max._z = zVal
 
-    def update(self, c : Coordinate) -> Any:
+    def update(self, c : Coordinate) -> Self:
         self.update_x_min(c._x)
         self.update_y_min(c._y)
         self.update_z_min(c._z)
@@ -100,5 +103,5 @@ class BoundingBox(object):
 
         return self
 
-    def span(self) -> Any:
+    def span(self) -> Coordinate:
         return self._max.sub(self._min)

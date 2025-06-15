@@ -26,6 +26,8 @@ __url__ = "https://www.davesrocketshop.com"
 
 from typing import Any
 
+import Part
+
 from Rocket.position import AxialMethod
 
 from Rocket.interfaces.BoxBounded import BoxBounded
@@ -276,7 +278,7 @@ class FeatureRingtail(SymmetricComponent, BoxBounded, Coaxial):
         if shape is not None:
             shape.draw()
 
-    def getSolidShape(self, obj : Any) -> Any:
+    def getSolidShape(self, obj : Any) -> Part.Solid:
         """ Return a filled version of the shape. Useful for CFD """
         shape = RingtailShapeHandler(obj)
         if shape is not None:

@@ -28,12 +28,13 @@ from abc import ABC, abstractmethod
 from typing import Self, Any
 
 import FreeCAD
+import Part
 import math
 
 import Ui
 
 from PySide.QtCore import QObject, Signal
-from Rocket.Utilities import _err
+from Rocket.Utilities import _err, EPSILON
 from Rocket.events.ComponentChangeEvent import ComponentChangeEvent
 from Rocket.position import AxialMethod
 
@@ -596,7 +597,6 @@ class RocketComponentShapeless(ABC):
             newX = method.getAsPosition(float(newAxialOffset), float(self.getLength()), float(self.getParent().getLength())) + float(self.getParent().getPosition().x)
 
         # snap to zero if less than the threshold 'EPSILON'
-        EPSILON = 0.000001
         if EPSILON > math.fabs(newX):
             newX = 0.0
         elif math.isnan(newX):
@@ -919,6 +919,6 @@ class RocketComponentShapeless(ABC):
     def execute(self, obj : Any) -> None:
         ...
 
-    def getSolidShape(self, obj : Any) -> Any:
+    def getSolidShape(self, obj : Any) -> Part.Solid:
         """ Return a filled version of the shape. Useful for CFD """
         return None

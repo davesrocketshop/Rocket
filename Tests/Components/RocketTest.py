@@ -100,14 +100,14 @@ class RocketTest(unittest.TestCase):
         ring.setInstanceCount(2)
         actLocs = ring.getComponentLocations()
         # first instance
-        # expLoc = Coordinate(210.0, 0, 0)
-        expected = Coordinate(0.0, 0, 0)
+        expected = Coordinate(210.0, 0, 0)
+        # expected = Coordinate(0.0, 0, 0)
         actual = actLocs[0]
         self.assertCoordinateEqual(actual, expected, ring.getName()+" not positioned correctly")
         # second instance
         self.assertEqual(ring.getInstanceCount(), 2, ring.getName()+" have incorrect count")
-        # expLoc = Coordinate(245.0, 0, 0)
-        expected = Coordinate(35.0, 0, 0)
+        expected = Coordinate(245.0, 0, 0)
+        # expected = Coordinate(35.0, 0, 0)
         actual = actLocs[1]
         self.assertCoordinateEqual(actual, expected, ring.getName()+" not positioned correctly")
 
