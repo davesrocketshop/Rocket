@@ -25,6 +25,7 @@ __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
 from typing import Any
+import math
 
 import FreeCAD
 import Part
@@ -37,6 +38,7 @@ class NoseProxyShapeHandler:
 
         # This gets changed when redrawn so it's very important to save a copy
         self._placement = FreeCAD.Placement(obj.Placement)
+        self._obj = obj
 
         # Common parameters
         self._type = str(obj.NoseType)
@@ -45,18 +47,61 @@ class NoseProxyShapeHandler:
         else:
             self._base = None
 
+        self._effectiveDiameter = self._obj.ProxyEffectiveDiameter
+        self._proxyPlacement = self._obj.ProxyPlacement
+        self._scale = self._obj.ProxyScale
+        self._scaleByValue = self._obj.ProxyScaleByValue
+        self._scaleByDiameter = self._obj.ProxyScaleByDiameter
+        self._autoScaleDiameter = self._obj.ProxyAutoScaleDiameter
+        self._scaleValue = self._obj.ProxyScaleValue
+
         self._obj = obj
+
+    def _shapeUnion(self, shape : Part.Shape) -> Part.Shape:
+        # This is a hack.
+        # Rotate and translate operations apply to placement, meaning later placement
+        # operations undo them. By applying a union with a surrounding box this is
+        # eliminated
+        offset = 1 # offset in mm
+        xLength = shape.BoundBox.XLength + 2 * offset
+        yLength = shape.BoundBox.YLength + 2 * offset
+        zLength = shape.BoundBox.ZLength + 2 * offset
+        x = shape.BoundBox.XMin - offset
+        y = -(shape.BoundBox.YMax - shape.BoundBox.YMin) / 2.0 - offset
+        z = -(shape.BoundBox.ZMax - shape.BoundBox.ZMin) / 2.0 - offset
+        point = FreeCAD.Vector(x,y,z)
+        direction = FreeCAD.Vector(0, 0, 1)
+        box = Part.makeBox(xLength, yLength, zLength, point, direction)
+        return shape.common(box)
+
+    def _getShape(self) -> Part.Solid:
+        if self._base is None:
+            return Part.Shape() # Empty shape
+        
+        shape = Part.Shape(self._base.Shape)
+
+        # Apply the rotations
+        shape.rotate(FreeCAD.Vector(0,0,0), FreeCAD.Vector(self._proxyPlacement.Rotation.Axis.x, self._proxyPlacement.Rotation.Axis.y, self._proxyPlacement.Rotation.Axis.z), math.degrees(self._proxyPlacement.Rotation.Angle))
+
+        # Apply the scaling
+        if self._scale:
+            if self._scaleByValue and self._scaleValue.Value > 0.0:
+                shape.scale(1.0 / self._scaleValue.Value)
+            elif self._scaleByDiameter:
+                if self._effectiveDiameter > 0 and self._scaleValue > 0:
+                    shape.scale(self._scaleValue / self._effectiveDiameter)
+
+        # Translate so the nose is at (0, 0, 0)
+        min = shape.BoundBox.XMin
+        shape.translate(FreeCAD.Vector(-min, 0, 0))
+
+        return self._shapeUnion(shape)
 
     def draw(self) -> None:
         # shape = None
 
-        if self._base is not None:
-            self._obj.Shape = self._base.Shape
-        else:
-            self._obj.Shape = Part.Shape() # Empty shape
+        self._obj.Shape = self._getShape()
         self._obj.Placement = self._placement
 
     def drawSolidShape(self) -> Part.Solid:
-        if self._base is not None:
-            return self._base.Shape
-        return None
+        return self._getShape()
