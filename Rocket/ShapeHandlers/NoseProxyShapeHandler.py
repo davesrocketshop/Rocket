@@ -49,11 +49,11 @@ class NoseProxyShapeHandler:
 
         self._effectiveDiameter = self._obj.ProxyEffectiveDiameter
         self._proxyPlacement = self._obj.ProxyPlacement
-        self._scale = self._obj.ProxyScale
-        self._scaleByValue = self._obj.ProxyScaleByValue
-        self._scaleByDiameter = self._obj.ProxyScaleByDiameter
-        self._autoScaleDiameter = self._obj.ProxyAutoScaleDiameter
-        self._scaleValue = self._obj.ProxyScaleValue
+        self._scale = self._obj.Scale
+        self._scaleByValue = self._obj.ScaleByValue
+        self._scaleByDiameter = self._obj.ScaleByDiameter
+        self._autoScaleDiameter = self._obj.AutoScaleDiameter
+        self._scaleValue = self._obj.ScaleValue
 
         self._obj = obj
 
