@@ -87,8 +87,6 @@ class FeatureNoseCone(SymmetricComponent):
         if not hasattr(obj, 'Resolution'):
             obj.addProperty('App::PropertyInteger', 'Resolution', 'RocketComponent', translate('App::Property', 'Resolution')).Resolution = 100
 
-        if not hasattr(obj, 'ProxyEffectiveDiameter'):
-            obj.addProperty('App::PropertyLength', 'ProxyEffectiveDiameter', 'RocketComponent', translate('App::Property', 'Diameter at the base of the nose proxy object')).ProxyEffectiveDiameter = 0.0
         if not hasattr(obj, 'ProxyPlacement'):
             obj.addProperty('App::PropertyPlacement', 'ProxyPlacement', 'RocketComponent', translate('App::Property', 'This is the local coordinate system within the rocket object that will be used for the proxy feature')).ProxyPlacement
 

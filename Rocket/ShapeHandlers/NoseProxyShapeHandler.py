@@ -47,7 +47,7 @@ class NoseProxyShapeHandler:
         else:
             self._base = None
 
-        self._effectiveDiameter = self._obj.ProxyEffectiveDiameter
+        self._diameter = self._obj.Diameter
         self._proxyPlacement = self._obj.ProxyPlacement
         self._scale = self._obj.Scale
         self._scaleByValue = self._obj.ScaleByValue
@@ -88,8 +88,8 @@ class NoseProxyShapeHandler:
             if self._scaleByValue and self._scaleValue.Value > 0.0:
                 shape.scale(1.0 / self._scaleValue.Value)
             elif self._scaleByDiameter:
-                if self._effectiveDiameter > 0 and self._scaleValue > 0:
-                    shape.scale(self._scaleValue / self._effectiveDiameter)
+                if self._diameter > 0 and self._scaleValue > 0:
+                    shape.scale(self._scaleValue / self._diameter)
 
         # Translate so the nose is at (0, 0, 0)
         min = shape.BoundBox.XMin

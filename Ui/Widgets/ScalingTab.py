@@ -67,6 +67,74 @@ class ScalingTab(QtGui.QWidget):
         self.autoScaleDiameterCheckbox = QtGui.QCheckBox(translate('Rocket', "auto"), self)
         self.autoScaleDiameterCheckbox.setCheckState(QtCore.Qt.Unchecked)
 
+        # Show the results
+        self.scaledGroup = QtGui.QGroupBox(translate('Rocket', "Scaled Values"), self)
+
+        self.scaledLabel = QtGui.QLabel(translate('Rocket', "Scale"), self)
+
+        self.scaledInput = ui.createWidget("Gui::InputField")
+        self.scaledInput.setMinimumWidth(20)
+        self.scaledInput.setEnabled(False)
+
+        self.scaledLengthLabel = QtGui.QLabel(translate('Rocket', "Length"), self)
+
+        self.scaledLengthInput = ui.createWidget("Gui::InputField")
+        self.scaledLengthInput.unit = FreeCAD.Units.Length
+        self.scaledLengthInput.setMinimumWidth(20)
+        self.scaledLengthInput.setEnabled(False)
+
+        self.scaledDiameterLabel = QtGui.QLabel(translate('Rocket', "Diameter"), self)
+
+        self.scaledDiameterInput = ui.createWidget("Gui::InputField")
+        self.scaledDiameterInput.unit = FreeCAD.Units.Length
+        self.scaledDiameterInput.setMinimumWidth(20)
+        self.scaledDiameterInput.setEnabled(False)
+
+        self.scaledOgiveDiameterLabel = QtGui.QLabel(translate('Rocket', "Ogive Diameter"), self)
+
+        self.scaledOgiveDiameterInput = ui.createWidget("Gui::InputField")
+        self.scaledOgiveDiameterInput.unit = FreeCAD.Units.Length
+        self.scaledOgiveDiameterInput.setMinimumWidth(20)
+        self.scaledOgiveDiameterInput.setEnabled(False)
+
+        self.scaledBluntedDiameterLabel = QtGui.QLabel(translate('Rocket', "Blunted Diameter"), self)
+
+        self.scaledBluntedDiameterInput = ui.createWidget("Gui::InputField")
+        self.scaledBluntedDiameterInput.unit = FreeCAD.Units.Length
+        self.scaledBluntedDiameterInput.setMinimumWidth(20)
+        self.scaledBluntedDiameterInput.setEnabled(False)
+
+        self.scaledSetValuesButton = QtGui.QPushButton(translate('Rocket', 'Set as values'), self)
+        self.scaledSetValuesButton.setSizePolicy(QSizePolicy.Minimum, QSizePolicy.Preferred)
+
+        grid = QGridLayout()
+        row = 0
+
+        grid.addWidget(self.scaledLabel, row, 0)
+        grid.addWidget(self.scaledInput, row, 1, 1, 2)
+        row += 1
+
+        grid.addWidget(self.scaledLengthLabel, row, 0)
+        grid.addWidget(self.scaledLengthInput, row, 1, 1, 2)
+        row += 1
+
+        grid.addWidget(self.scaledDiameterLabel, row, 0)
+        grid.addWidget(self.scaledDiameterInput, row, 1, 1, 2)
+        row += 1
+
+        grid.addWidget(self.scaledOgiveDiameterLabel, row, 0)
+        grid.addWidget(self.scaledOgiveDiameterInput, row, 1, 1, 2)
+        row += 1
+
+        grid.addWidget(self.scaledBluntedDiameterLabel, row, 0)
+        grid.addWidget(self.scaledBluntedDiameterInput, row, 1, 1, 2)
+        row += 1
+
+        grid.addWidget(self.scaledSetValuesButton, row, 2)
+        row += 1
+
+        self.scaledGroup.setLayout(grid)
+
         grid = QGridLayout()
         row = 0
 
@@ -83,6 +151,7 @@ class ScalingTab(QtGui.QWidget):
 
         layout = QVBoxLayout()
         layout.addWidget(self.scalingGroup)
+        layout.addWidget(self.scaledGroup)
         layout.addItem(QtGui.QSpacerItem(0,0, QSizePolicy.Expanding, QSizePolicy.Expanding))
 
         self.setLayout(layout)

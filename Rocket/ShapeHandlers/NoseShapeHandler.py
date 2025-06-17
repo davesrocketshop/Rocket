@@ -67,6 +67,27 @@ class NoseShapeHandler(ABC):
         self._coefficient = float(obj.Coefficient)
         self._ogiveRadius = float(obj.OgiveDiameter) / 2.0
         self._resolution = int(obj.Resolution)
+
+        self._scale = 1.0
+        self._scaleByValue = obj.ScaleByValue
+        self._scaleByDiameter = obj.ScaleByDiameter
+        self._autoScaleDiameter = obj.AutoScaleDiameter
+        self._scaleValue = obj.ScaleValue
+
+        # Apply scaling
+        if obj.Scale:
+            if self._scaleByValue and self._scaleValue.Value > 0.0:
+                self._scale = 1.0 / self._scaleValue.Value
+            elif self._scaleByDiameter:
+                if self._radius > 0 and self._scaleValue > 0:
+                    self._scale = self._scaleValue / (2.0 * self._radius)
+            self._length = self._length * self._scale
+            self._radius = self._radius * self._scale
+            self._noseRadius = self._noseRadius * self._scale
+            self._ogiveRadius = self._ogiveRadius * self._scale
+            if self._shoulderRadius > self._radius:
+                self._shoulderRadius = self._radius - 0.001
+
         self._obj = obj
 
     @abstractmethod

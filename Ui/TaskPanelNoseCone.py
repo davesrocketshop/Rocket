@@ -477,14 +477,15 @@ class TaskPanelNoseCone:
         "Transfer from the dialog to the object"
         if self._obj.NoseType == TYPE_PROXY:
             self._obj.NoseType = str(self._noseForm.noseConeProxyTypesCombo.currentData())
+            self._obj.Proxy.setAftDiameter(FreeCAD.Units.Quantity(self._noseForm.proxyEffectiveDiameterInput.text()).Value)
         else:
             self._obj.NoseType = str(self._noseForm.noseConeTypesCombo.currentData())
+            self._obj.Proxy.setAftDiameter(FreeCAD.Units.Quantity(self._noseForm.diameterInput.text()).Value)
         self._obj.NoseStyle = str(self._noseForm.noseStylesCombo.currentData())
         self._obj.CapStyle = str(self._noseForm.noseCapStylesCombo.currentData())
         self._obj.CapBarWidth = self._noseForm.noseCapBarWidthInput.text()
         # self._noseForm.proxyBaseObjectInput.setText(object)
         self._obj.Proxy.setLength(FreeCAD.Units.Quantity(self._noseForm.lengthInput.text()).Value)
-        self._obj.Proxy.setAftDiameter(FreeCAD.Units.Quantity(self._noseForm.diameterInput.text()).Value)
         self._obj.Proxy.setAftDiameterAutomatic(self._noseForm.autoDiameterCheckbox.isChecked())
         self._obj.Proxy.setThickness(FreeCAD.Units.Quantity(self._noseForm.thicknessInput.text()).Value)
         self._obj.Coefficient = _toFloat(self._noseForm.coefficientInput.text())
@@ -500,7 +501,7 @@ class TaskPanelNoseCone:
         #     self._noseForm.proxyBaseObjectInput.setText(self._obj.Base.Label)
         # else:
         #     self._noseForm.proxyBaseObjectInput.setText("")
-        self._obj.ProxyEffectiveDiameter = self._noseForm.proxyEffectiveDiameterInput.text()
+        # self._obj.Diameter = self._noseForm.proxyEffectiveDiameterInput.text()
 
         placement = FreeCAD.Placement()
         yaw = FreeCAD.Units.Quantity(self._noseForm.zRotationInput.text()).Value
@@ -538,7 +539,7 @@ class TaskPanelNoseCone:
             self._noseForm.proxyBaseObjectInput.setText(self._obj.Base.Label)
         else:
             self._noseForm.proxyBaseObjectInput.setText("")
-        self._noseForm.proxyEffectiveDiameterInput.setText(self._obj.ProxyEffectiveDiameter.UserString)
+        self._noseForm.proxyEffectiveDiameterInput.setText(self._obj.Diameter.UserString)
 
         placement = self._obj.ProxyPlacement
         yaw, pitch, roll = placement.Rotation.getYawPitchRoll()
@@ -664,6 +665,20 @@ class TaskPanelNoseCone:
             self._setCapStyleState()
         else:
             self._noseForm.noseCapGroup.setEnabled(False)
+
+    def _getScale(self) -> float:
+        scale = 1.0
+        if self._obj.Scale:
+            if self._obj.ScaleByValue and self._obj.ScaleValue.Value > 0.0:
+                scale = 1.0 / self._obj.ScaleValue.Value
+            elif self._obj.ScaleByDiameter:
+                if self._obj.Diameter > 0 and self._obj.ScaleValue.Value > 0:
+                    scale = self._obj.ScaleValue / self._obj.Diameter
+        return scale
+
+    def _showScale(self) -> None:
+        # Update the scale values
+        pass
 
     def onNoseStyle(self, value):
         self._obj.NoseStyle = value
@@ -892,7 +907,7 @@ class TaskPanelNoseCone:
 
     def onEffectiveDiameter(self, value):
         try:
-            self._obj.ProxyEffectiveDiameter = FreeCAD.Units.Quantity(value).Value
+            self._obj.Diameter = FreeCAD.Units.Quantity(value).Value
             self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
