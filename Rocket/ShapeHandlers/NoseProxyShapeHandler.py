@@ -77,7 +77,7 @@ class NoseProxyShapeHandler:
     def _getShape(self) -> Part.Solid:
         if self._base is None:
             return Part.Shape() # Empty shape
-        
+
         shape = Part.Shape(self._base.Shape)
 
         # Apply the rotations
@@ -96,6 +96,12 @@ class NoseProxyShapeHandler:
         shape.translate(FreeCAD.Vector(-min, 0, 0))
 
         return self._shapeUnion(shape)
+
+    def getLength(self) -> float:
+        shape = self._getShape()
+        if shape is None:
+            return 0
+        return shape.BoundBox.XLength - self._proxyPlacement.Base.x
 
     def draw(self) -> None:
         # shape = None
