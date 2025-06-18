@@ -51,33 +51,33 @@ class NoseShapeHandler(ABC):
         self._type = str(obj.NoseType)
         self._style = str(obj.NoseStyle)
         self._capStyle = str(obj.CapStyle)
-        self._capBarWidth = float(obj.CapBarWidth)
-        self._thickness = float(obj.Thickness)
+        self._capBarWidth = obj.CapBarWidth.Value
+        self._thickness = obj.Thickness.Value
 
         self._shoulder = bool(obj.Shoulder)
-        self._shoulderLength = float(obj.ShoulderLength)
-        self._shoulderRadius = float(obj.ShoulderDiameter) / 2.0
+        self._shoulderLength = obj.ShoulderLength.Value
+        self._shoulderRadius = obj.ShoulderDiameter.Value / 2.0
         self._shoulderAutoDiameter = bool(obj.ShoulderAutoDiameter)
-        self._shoulderThickness = float(obj.ShoulderThickness)
+        self._shoulderThickness = obj.ShoulderThickness.Value
 
-        self._length = float(obj.Length)
-        self._radius = float(obj.Diameter) / 2.0
+        self._length = obj.Length.Value
+        self._radius = obj.Diameter.Value / 2.0
         self._autoDiameter = bool(obj.AutoDiameter)
-        self._noseRadius = float(obj.BluntedDiameter) / 2.0
+        self._noseRadius = obj.BluntedDiameter.Value / 2.0
         self._coefficient = float(obj.Coefficient)
-        self._ogiveRadius = float(obj.OgiveDiameter) / 2.0
+        self._ogiveRadius = obj.OgiveDiameter.Value / 2.0
         self._resolution = int(obj.Resolution)
 
         self._scale = 1.0
-        self._scaleByValue = obj.ScaleByValue
-        self._scaleByDiameter = obj.ScaleByDiameter
-        self._autoScaleDiameter = obj.AutoScaleDiameter
-        self._scaleValue = obj.ScaleValue
+        self._scaleByValue = bool(obj.ScaleByValue)
+        self._scaleByDiameter = bool(obj.ScaleByDiameter)
+        self._autoScaleDiameter = bool(obj.AutoScaleDiameter)
+        self._scaleValue = obj.ScaleValue.Value
 
         # Apply scaling
         if obj.Scale:
-            if self._scaleByValue and self._scaleValue.Value > 0.0:
-                self._scale = 1.0 / self._scaleValue.Value
+            if self._scaleByValue and self._scaleValue > 0.0:
+                self._scale = 1.0 / self._scaleValue
             elif self._scaleByDiameter:
                 if self._radius > 0 and self._scaleValue > 0:
                     self._scale = self._scaleValue / (2.0 * self._radius)

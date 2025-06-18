@@ -31,13 +31,16 @@ import FreeCADGui
 from DraftTools import translate
 
 from PySide import QtGui, QtCore
+from PySide.QtCore import QObject, Signal
 from PySide.QtWidgets import QGridLayout, QVBoxLayout, QSizePolicy
 
 class ScalingTab(QtGui.QWidget):
+    scaled = Signal()   # emitted when a database lookup has completed
 
     def __init__(self, obj, parent=None) -> None:
         super().__init__(parent)
         self._obj = obj
+        self._loading = False # Prevent updates when loading
 
         self.setTabScaling()
         self._setConnections()
@@ -56,6 +59,9 @@ class ScalingTab(QtGui.QWidget):
 
         self.scaleInput = ui.createWidget("Gui::InputField")
         self.scaleInput.setMinimumWidth(20)
+
+        self.upscaleCheckbox = QtGui.QCheckBox(translate('Rocket', "Upscale"), self)
+        self.upscaleCheckbox.setCheckState(QtCore.Qt.Unchecked)
 
         self.scaleDiameterRadio = QtGui.QRadioButton (translate('Rocket', "By body diameter"), self.scalingGroup)
         self.scaleDiameterRadio.setChecked(False)
@@ -140,6 +146,7 @@ class ScalingTab(QtGui.QWidget):
 
         grid.addWidget(self.scaleRadio, row, 0)
         grid.addWidget(self.scaleInput, row, 1)
+        grid.addWidget(self.upscaleCheckbox, row, 2)
         row += 1
 
         grid.addWidget(self.scaleDiameterRadio, row, 0)
@@ -161,12 +168,14 @@ class ScalingTab(QtGui.QWidget):
         self.scaleRadio.toggled.connect(self.onScale)
         self.scaleDiameterRadio.toggled.connect(self.onScaleDiameter)
         self.autoScaleDiameterCheckbox.stateChanged.connect(self.onScaleAutoDiameter)
+        self.upscaleCheckbox.stateChanged.connect(self.onUpscale)
         self.scaleInput.textEdited.connect(self.onScaleValue)
         self.scaleDiameterInput.textEdited.connect(self.onScaleDiameterValue)
 
     def _setScaleState(self) -> None:
         if self.scalingGroup.isChecked():
             self.scaleInput.setEnabled(self.scaleRadio.isChecked())
+            self.upscaleCheckbox.setEnabled(self.scaleRadio.isChecked())
             self.scaleDiameterInput.setEnabled(self.scaleDiameterRadio.isChecked())
             self.autoScaleDiameterCheckbox.setEnabled(self.scaleDiameterRadio.isChecked())
 
@@ -177,18 +186,32 @@ class ScalingTab(QtGui.QWidget):
         obj.ScaleByDiameter = self.scaleDiameterRadio.isChecked()
         obj.AutoScaleDiameter = self.autoScaleDiameterCheckbox.isChecked()
         if obj.ScaleByValue:
-            obj.ScaleValue = FreeCAD.Units.Quantity(self.scaleInput.text()).Value
+            value = FreeCAD.Units.Quantity(self.scaleInput.text()).Value
+            if self.upscaleCheckbox.isChecked():
+                if value > 0:
+                    obj.ScaleValue = 1.0 / value
+                else:
+                    obj.ScaleValue = 1.0
+            else:
+                obj.ScaleValue = value
         else:
             obj.ScaleValue = FreeCAD.Units.Quantity(self.scaleDiameterInput.text())
 
     def transferFrom(self, obj) -> None:
         "Transfer from the object to the dialog"
+        self._loading = True
+
         self.scalingGroup.setChecked(obj.Scale)
         self.scaleRadio.setChecked(obj.ScaleByValue)
         self.scaleDiameterRadio.setChecked(obj.ScaleByDiameter)
         self.autoScaleDiameterCheckbox.setChecked(obj.AutoScaleDiameter)
         if obj.ScaleByValue:
-            self.scaleInput.setText(f"{obj.ScaleValue.Value}")
+            if obj.ScaleValue.Value > 0.0 and obj.ScaleValue.Value < 1.0:
+                self.scaleInput.setText(f"{1.0 / obj.ScaleValue.Value}")
+                self.upscaleCheckbox.setChecked(True)
+            else:
+                self.scaleInput.setText(f"{obj.ScaleValue.Value}")
+                self.upscaleCheckbox.setChecked(False)
         else:
             self.scaleInput.setText("0")
         if obj.ScaleByDiameter:
@@ -196,16 +219,31 @@ class ScalingTab(QtGui.QWidget):
         else:
             self.scaleDiameterInput.setText(FreeCAD.Units.Quantity(0, FreeCAD.Units.Length).UserString)
 
+        self._loading = False
+
         self._setScaleState()
+
+    def getScale(self) -> float:
+        scale = 1.0
+        if self._obj.Scale:
+            if self._obj.ScaleByValue and self._obj.ScaleValue.Value > 0.0:
+                scale = self._obj.ScaleValue.Value
+            elif self._obj.ScaleByDiameter:
+                if self._obj.Diameter > 0 and self._obj.ScaleValue > 0:
+                    scale =  float(self._obj.Diameter / self._obj.ScaleValue)
+        return scale
 
     def setEdited(self):
         try:
             self._obj.Proxy.setEdited()
+            self.scaled.emit()
         except ReferenceError:
             # Object may be deleted
             pass
 
     def onScalingGroup(self, on : bool) -> None:
+        if self._loading:
+            return
         try:
             self._obj.Scale = on
             self._obj.Proxy.execute(self._obj)
@@ -215,6 +253,8 @@ class ScalingTab(QtGui.QWidget):
         self.setEdited()
 
     def onScale(self, checked : bool) -> None:
+        if self._loading:
+            return
         try:
             self._obj.ScaleByValue = checked
             self._obj.Proxy.execute(self._obj)
@@ -224,6 +264,8 @@ class ScalingTab(QtGui.QWidget):
         self.setEdited()
 
     def onScaleDiameter(self, checked: bool) -> None:
+        if self._loading:
+            return
         try:
             self._obj.ScaleByDiameter = checked
             self._obj.Proxy.execute(self._obj)
@@ -233,6 +275,8 @@ class ScalingTab(QtGui.QWidget):
         self.setEdited()
 
     def onScaleAutoDiameter(self, checked : bool) -> None:
+        if self._loading:
+            return
         try:
             self._obj.AutoScaleDiameter = checked
             self._obj.Proxy.execute(self._obj)
@@ -241,15 +285,44 @@ class ScalingTab(QtGui.QWidget):
         self._setScaleState()
         self.setEdited()
 
-    def onScaleValue(self, value):
+    def onUpscale(self, checked : bool) -> None:
+        if self._loading:
+            return
         try:
-            self._obj.ScaleValue = FreeCAD.Units.Quantity(value).Value
+            scale = FreeCAD.Units.Quantity(self.scaleInput.text()).Value
+            if checked:
+                if scale > 0:
+                    self._obj.ScaleValue = 1 / scale
+                else:
+                    self._obj.ScaleValue = 1.0
+            else:
+                self._obj.ScaleValue = scale
+            self._obj.Proxy.execute(self._obj)
+        except ValueError:
+            pass
+        self._setScaleState()
+        self.setEdited()
+
+    def onScaleValue(self, value):
+        if self._loading:
+            return
+        try:
+            scale = FreeCAD.Units.Quantity(value).Value
+            if self.upscaleCheckbox.isChecked():
+                if scale > 0:
+                    self._obj.ScaleValue = 1 / scale
+                else:
+                    self._obj.ScaleValue = 1.0
+            else:
+                self._obj.ScaleValue = scale
             self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
         self.setEdited()
 
     def onScaleDiameterValue(self, value):
+        if self._loading:
+            return
         try:
             self._obj.ScaleValue = FreeCAD.Units.Quantity(value)
             self._obj.Proxy.execute(self._obj)

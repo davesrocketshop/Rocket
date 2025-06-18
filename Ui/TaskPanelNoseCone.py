@@ -466,6 +466,7 @@ class TaskPanelNoseCone:
         self._noseForm.offsetInput.textEdited.connect(self.onOffset)
 
         self._db.dbLoad.connect(self.onLookup)
+        self._noseForm.tabScaling.scaled.connect(self.onScale)
 
         self.update()
 
@@ -638,6 +639,9 @@ class TaskPanelNoseCone:
         self._setOgiveDiameterState()
         self._setLengthState()
 
+        # Scaling information is nose cone type dependent
+        self.onScale()
+
     def onNoseType(self, value):
         if self._updateNoseType:
             self._obj.NoseType = value
@@ -666,19 +670,35 @@ class TaskPanelNoseCone:
         else:
             self._noseForm.noseCapGroup.setEnabled(False)
 
-    def _getScale(self) -> float:
-        scale = 1.0
-        if self._obj.Scale:
-            if self._obj.ScaleByValue and self._obj.ScaleValue.Value > 0.0:
-                scale = 1.0 / self._obj.ScaleValue.Value
-            elif self._obj.ScaleByDiameter:
-                if self._obj.Diameter > 0 and self._obj.ScaleValue.Value > 0:
-                    scale = self._obj.ScaleValue / self._obj.Diameter
-        return scale
-
-    def _showScale(self) -> None:
+    def onScale(self) -> None:
         # Update the scale values
-        pass
+        scale = self._noseForm.tabScaling.getScale()
+        length = self._obj.Length / scale
+        diameter = self._obj.Diameter / scale
+        noseDiameter = self._obj.BluntedDiameter / scale
+        ogiveDiameter = self._obj.OgiveDiameter / scale
+        if scale < 1.0:
+            self._noseForm.tabScaling.scaledLabel.setText(translate('Rocket', "Upscale"))
+            self._noseForm.tabScaling.scaledInput.setText(f"{1.0/scale}")
+        else:
+            self._noseForm.tabScaling.scaledLabel.setText(translate('Rocket', "Scale"))
+            self._noseForm.tabScaling.scaledInput.setText(f"{scale}")
+        self._noseForm.tabScaling.scaledLengthInput.setText(length.UserString)
+        self._noseForm.tabScaling.scaledDiameterInput.setText(diameter.UserString)
+        if self._obj.NoseType in [TYPE_OGIVE, TYPE_BLUNTED_OGIVE, TYPE_SECANT_OGIVE]:
+            self._noseForm.tabScaling.scaledOgiveDiameterInput.setText(ogiveDiameter.UserString)
+            self._noseForm.tabScaling.scaledOgiveDiameterInput.setVisible(True)
+            self._noseForm.tabScaling.scaledOgiveDiameterLabel.setVisible(True)
+        else:
+            self._noseForm.tabScaling.scaledOgiveDiameterInput.setVisible(False)
+            self._noseForm.tabScaling.scaledOgiveDiameterLabel.setVisible(False)
+        if self._obj.NoseType in [TYPE_BLUNTED_CONE, TYPE_BLUNTED_OGIVE]:
+            self._noseForm.tabScaling.scaledBluntedDiameterInput.setText(noseDiameter.UserString)
+            self._noseForm.tabScaling.scaledBluntedDiameterInput.setVisible(True)
+            self._noseForm.tabScaling.scaledBluntedDiameterLabel.setVisible(True)
+        else:
+            self._noseForm.tabScaling.scaledBluntedDiameterInput.setVisible(False)
+            self._noseForm.tabScaling.scaledBluntedDiameterLabel.setVisible(False)
 
     def onNoseStyle(self, value):
         self._obj.NoseStyle = value
