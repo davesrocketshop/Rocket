@@ -35,7 +35,7 @@ from PySide.QtCore import QObject, Signal
 from PySide.QtWidgets import QGridLayout, QVBoxLayout, QSizePolicy
 
 class ScalingTab(QtGui.QWidget):
-    scaled = Signal()   # emitted when a database lookup has completed
+    scaled = Signal()   # emitted when scale parameters have changed
 
     def __init__(self, obj, parent=None) -> None:
         super().__init__(parent)
@@ -232,6 +232,18 @@ class ScalingTab(QtGui.QWidget):
                 if self._obj.Diameter > 0 and self._obj.ScaleValue > 0:
                     scale =  float(self._obj.Diameter / self._obj.ScaleValue)
         return scale
+    
+    def resetScale(self) -> None:
+        self._loading = True
+
+        self._obj.Scale = False
+        self._obj.ScaleByValue = True
+        self._obj.ScaleByDiameter = False
+        self._obj.AutoScaleDiameter = False
+        self._obj.ScaleValue = FreeCAD.Units.Quantity("1.0")
+
+        self._loading = False
+        self._setScaleState()
 
     def setEdited(self):
         try:

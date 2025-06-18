@@ -467,6 +467,7 @@ class TaskPanelNoseCone:
 
         self._db.dbLoad.connect(self.onLookup)
         self._noseForm.tabScaling.scaled.connect(self.onScale)
+        self._noseForm.tabScaling.scaledSetValuesButton.clicked.connect(self.onSetToScale)
 
         self.update()
 
@@ -951,6 +952,20 @@ class TaskPanelNoseCone:
         except ValueError:
             pass
         self.setEdited()
+
+    def onSetToScale(self) -> None:
+        # Update the scale values
+        print("onSetToScale()")
+        scale = self._noseForm.tabScaling.getScale()
+        self._obj.Length = self._obj.Length / scale
+        self._obj.Diameter = self._obj.Diameter / scale
+        if self._obj.NoseType in [TYPE_OGIVE, TYPE_BLUNTED_OGIVE, TYPE_SECANT_OGIVE]:
+            self._obj.OgiveDiameter = self._obj.OgiveDiameter / scale
+        if self._obj.NoseType in [TYPE_BLUNTED_CONE, TYPE_BLUNTED_OGIVE]:
+            self._obj.BluntedDiameter  = self._obj.BluntedDiameter / scale
+        scale = self._noseForm.tabScaling.resetScale()
+
+        self.update()
 
     def getStandardButtons(self):
         return QtGui.QDialogButtonBox.Ok | QtGui.QDialogButtonBox.Cancel | QtGui.QDialogButtonBox.Apply

@@ -97,7 +97,7 @@ class RocketComponent(RocketComponentShapeless, ChangeSource):
         if not hasattr(obj, 'AutoScaleDiameter'):
             obj.addProperty('App::PropertyBool', 'AutoScaleDiameter', 'RocketComponent', translate('App::Property', 'Automatically scale the object by body diameter')).AutoScaleDiameter = False
         if not hasattr(obj, 'ScaleValue'):
-            obj.addProperty('App::PropertyLength', 'ScaleValue', 'RocketComponent', translate('App::Property', 'Scaling value or dimension')).ScaleValue = 0.0
+            obj.addProperty('App::PropertyLength', 'ScaleValue', 'RocketComponent', translate('App::Property', 'Scaling value or dimension')).ScaleValue = 1.0
 
         if not hasattr(obj, 'Texture'):
             obj.addProperty('App::PropertyFileIncluded', 'Texture', 'RocketComponent', translate('App::Property', 'Texture file')).Texture = ""
