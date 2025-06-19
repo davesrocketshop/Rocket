@@ -225,10 +225,13 @@ class FeatureTransition(SymmetricComponent):
         foreRadius = float(self._obj.ForeDiameter) / 2.0
         aftRadius = float(self._obj.AftDiameter) / 2.0
         if self._obj.Thickness > foreRadius and self._obj.Thickness > aftRadius:
-            self._obj.Thickness = max(foreRadius, aftRadius);
+            self._obj.Thickness = max(foreRadius, aftRadius)
 
         self.clearPreset()
-        self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE);
+        self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
+
+    def setForeDiameter(self, diameter : float) -> None:
+        self.setForeRadius(diameter / 2.0)
 
     def isForeRadiusAutomatic(self) -> bool:
         return self._obj.ForeAutoDiameter
@@ -312,6 +315,9 @@ class FeatureTransition(SymmetricComponent):
 
         self.clearPreset();
         self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
+
+    def setAftDiameter(self, diameter : float) -> None:
+        self.setAftRadius(diameter / 2.0)
 
     def isAftRadiusAutomatic(self) -> bool:
         return self._obj.AftAutoDiameter

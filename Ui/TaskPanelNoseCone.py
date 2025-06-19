@@ -700,6 +700,10 @@ class TaskPanelNoseCone:
         else:
             self._noseForm.tabScaling.scaledBluntedDiameterInput.setVisible(False)
             self._noseForm.tabScaling.scaledBluntedDiameterLabel.setVisible(False)
+        self._noseForm.tabScaling.scaleForeRadio.setVisible(False)
+        self._noseForm.tabScaling.scaleAftRadio.setVisible(False)
+        self._noseForm.tabScaling.scaledAftDiameterLabel.setVisible(False)
+        self._noseForm.tabScaling.scaledAftDiameterInput.setVisible(False)
 
     def onNoseStyle(self, value):
         self._obj.NoseStyle = value
@@ -955,10 +959,10 @@ class TaskPanelNoseCone:
 
     def onSetToScale(self) -> None:
         # Update the scale values
-        print("onSetToScale()")
         scale = self._noseForm.tabScaling.getScale()
         self._obj.Length = self._obj.Length / scale
-        self._obj.Diameter = self._obj.Diameter / scale
+        if not self._obj.AutoDiameter:
+            self._obj.Diameter = self._obj.Diameter / scale
         if self._obj.NoseType in [TYPE_OGIVE, TYPE_BLUNTED_OGIVE, TYPE_SECANT_OGIVE]:
             self._obj.OgiveDiameter = self._obj.OgiveDiameter / scale
         if self._obj.NoseType in [TYPE_BLUNTED_CONE, TYPE_BLUNTED_OGIVE]:

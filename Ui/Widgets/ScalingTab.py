@@ -63,7 +63,7 @@ class ScalingTab(QtGui.QWidget):
         self.upscaleCheckbox = QtGui.QCheckBox(translate('Rocket', "Upscale"), self)
         self.upscaleCheckbox.setCheckState(QtCore.Qt.Unchecked)
 
-        self.scaleDiameterRadio = QtGui.QRadioButton (translate('Rocket', "By body diameter"), self.scalingGroup)
+        self.scaleDiameterRadio = QtGui.QRadioButton(translate('Rocket', "By body diameter"), self.scalingGroup)
         self.scaleDiameterRadio.setChecked(False)
 
         self.scaleDiameterInput = ui.createWidget("Gui::InputField")
@@ -72,6 +72,15 @@ class ScalingTab(QtGui.QWidget):
 
         self.autoScaleDiameterCheckbox = QtGui.QCheckBox(translate('Rocket', "auto"), self)
         self.autoScaleDiameterCheckbox.setCheckState(QtCore.Qt.Unchecked)
+
+        self.foreAftGroup = QtGui.QButtonGroup()
+        self.scaleForeRadio = QtGui.QRadioButton(translate('Rocket', "Fore"))
+        self.foreAftGroup.addButton(self.scaleForeRadio)
+        self.scaleForeRadio.setChecked(False)
+
+        self.scaleAftRadio = QtGui.QRadioButton(translate('Rocket', "Aft"))
+        self.foreAftGroup.addButton(self.scaleAftRadio)
+        self.scaleAftRadio.setChecked(True)
 
         # Show the results
         self.scaledGroup = QtGui.QGroupBox(translate('Rocket', "Scaled Values"), self)
@@ -95,6 +104,13 @@ class ScalingTab(QtGui.QWidget):
         self.scaledDiameterInput.unit = FreeCAD.Units.Length
         self.scaledDiameterInput.setMinimumWidth(20)
         self.scaledDiameterInput.setEnabled(False)
+
+        self.scaledAftDiameterLabel = QtGui.QLabel(translate('Rocket', "Aft Diameter"), self)
+
+        self.scaledAftDiameterInput = ui.createWidget("Gui::InputField")
+        self.scaledAftDiameterInput.unit = FreeCAD.Units.Length
+        self.scaledAftDiameterInput.setMinimumWidth(20)
+        self.scaledAftDiameterInput.setEnabled(False)
 
         self.scaledOgiveDiameterLabel = QtGui.QLabel(translate('Rocket', "Ogive Diameter"), self)
 
@@ -128,6 +144,10 @@ class ScalingTab(QtGui.QWidget):
         grid.addWidget(self.scaledDiameterInput, row, 1, 1, 2)
         row += 1
 
+        grid.addWidget(self.scaledAftDiameterLabel, row, 0)
+        grid.addWidget(self.scaledAftDiameterInput, row, 1, 1, 2)
+        row += 1
+
         grid.addWidget(self.scaledOgiveDiameterLabel, row, 0)
         grid.addWidget(self.scaledOgiveDiameterInput, row, 1, 1, 2)
         row += 1
@@ -145,13 +165,17 @@ class ScalingTab(QtGui.QWidget):
         row = 0
 
         grid.addWidget(self.scaleRadio, row, 0)
-        grid.addWidget(self.scaleInput, row, 1)
-        grid.addWidget(self.upscaleCheckbox, row, 2)
+        grid.addWidget(self.scaleInput, row, 1, 1, 2)
+        grid.addWidget(self.upscaleCheckbox, row, 3)
         row += 1
 
         grid.addWidget(self.scaleDiameterRadio, row, 0)
-        grid.addWidget(self.scaleDiameterInput, row, 1)
-        grid.addWidget(self.autoScaleDiameterCheckbox, row, 2)
+        grid.addWidget(self.scaleDiameterInput, row, 1, 1, 2)
+        grid.addWidget(self.autoScaleDiameterCheckbox, row, 3)
+        row += 1
+
+        grid.addWidget(self.scaleForeRadio, row, 1)
+        grid.addWidget(self.scaleAftRadio, row, 2)
         row += 1
 
         self.scalingGroup.setLayout(grid)
@@ -185,6 +209,7 @@ class ScalingTab(QtGui.QWidget):
         obj.ScaleByValue = self.scaleRadio.isChecked()
         obj.ScaleByDiameter = self.scaleDiameterRadio.isChecked()
         obj.AutoScaleDiameter = self.autoScaleDiameterCheckbox.isChecked()
+        obj.ScaleForeDiameter = self.scaleForeRadio.isChecked()
         if obj.ScaleByValue:
             value = FreeCAD.Units.Quantity(self.scaleInput.text()).Value
             if self.upscaleCheckbox.isChecked():
@@ -218,6 +243,8 @@ class ScalingTab(QtGui.QWidget):
             self.scaleDiameterInput.setText(obj.ScaleValue.UserString)
         else:
             self.scaleDiameterInput.setText(FreeCAD.Units.Quantity(0, FreeCAD.Units.Length).UserString)
+        self.scaleForeRadio.setChecked(obj.ScaleForeDiameter)
+        self.scaleAftRadio.setChecked(not obj.ScaleForeDiameter)
 
         self._loading = False
 
@@ -229,10 +256,14 @@ class ScalingTab(QtGui.QWidget):
             if self._obj.ScaleByValue and self._obj.ScaleValue.Value > 0.0:
                 scale = self._obj.ScaleValue.Value
             elif self._obj.ScaleByDiameter:
-                if self._obj.Diameter > 0 and self._obj.ScaleValue > 0:
-                    scale =  float(self._obj.Diameter / self._obj.ScaleValue)
+                if self._obj.ScaleForeDiameter:
+                    diameter = self._obj.Proxy.getForeDiameter()
+                else:
+                    diameter = self._obj.Proxy.getAftDiameter()
+                if diameter > 0 and self._obj.ScaleValue > 0:
+                    scale =  float(diameter / self._obj.ScaleValue)
         return scale
-    
+
     def resetScale(self) -> None:
         self._loading = True
 
@@ -240,6 +271,7 @@ class ScalingTab(QtGui.QWidget):
         self._obj.ScaleByValue = True
         self._obj.ScaleByDiameter = False
         self._obj.AutoScaleDiameter = False
+        self._obj.ScaleForeDiameter = False
         self._obj.ScaleValue = FreeCAD.Units.Quantity("1.0")
 
         self._loading = False

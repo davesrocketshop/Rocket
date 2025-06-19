@@ -37,6 +37,7 @@ from DraftTools import translate
 from Ui.TaskPanelDatabase import TaskPanelDatabase
 from Ui.Widgets.MaterialTab import MaterialTab
 from Ui.Widgets.CommentTab import CommentTab
+from Ui.Widgets.ScalingTab import ScalingTab
 
 from Rocket.Constants import TYPE_CONE, TYPE_ELLIPTICAL, TYPE_HAACK, TYPE_OGIVE, TYPE_VON_KARMAN, TYPE_PARABOLA, TYPE_PARABOLIC, TYPE_POWER
 from Rocket.Constants import STYLE_CAPPED, STYLE_HOLLOW, STYLE_SOLID, STYLE_SOLID_CORE
@@ -47,7 +48,7 @@ from Rocket.Utilities import _toFloat, _valueWithUnits, _err
 
 class _TransitionDialog(QDialog):
 
-    def __init__(self, parent=None):
+    def __init__(self, obj, parent=None):
         super(_TransitionDialog, self).__init__(parent)
 
         # define our window
@@ -57,10 +58,12 @@ class _TransitionDialog(QDialog):
         self.tabWidget = QtGui.QTabWidget()
         self.tabGeneral = QtGui.QWidget()
         self.tabShoulder = QtGui.QWidget()
+        self.tabScaling = ScalingTab(obj)
         self.tabMaterial = MaterialTab()
         self.tabComment = CommentTab()
         self.tabWidget.addTab(self.tabGeneral, translate('Rocket', "General"))
         self.tabWidget.addTab(self.tabShoulder, translate('Rocket', "Shoulder"))
+        self.tabWidget.addTab(self.tabScaling, translate('Rocket', "Scaling"))
         self.tabWidget.addTab(self.tabMaterial, translate('Rocket', "Material"))
         self.tabWidget.addTab(self.tabComment, translate('Rocket', "Comment"))
 
@@ -348,7 +351,7 @@ class TaskPanelTransition:
         self._obj = obj
         self._isAssembly = self._obj.Proxy.isRocketAssembly()
 
-        self._tranForm = _TransitionDialog()
+        self._tranForm = _TransitionDialog(obj)
         self._db = TaskPanelDatabase(obj, COMPONENT_TYPE_TRANSITION)
         self._dbForm = self._db.getForm()
 
@@ -380,6 +383,9 @@ class TaskPanelTransition:
         self._tranForm.aftShoulderAutoDiameterCheckbox.stateChanged.connect(self.onAftShoulderAutoDiameter)
         self._tranForm.aftShoulderLengthInput.textEdited.connect(self.onAftShoulderLength)
         self._tranForm.aftShoulderThicknessInput.textEdited.connect(self.onAftShoulderThickness)
+
+        self._tranForm.tabScaling.scaled.connect(self.onScale)
+        self._tranForm.tabScaling.scaledSetValuesButton.clicked.connect(self.onSetToScale)
 
         self._db.dbLoad.connect(self.onLookup)
 
@@ -417,6 +423,7 @@ class TaskPanelTransition:
         self._obj.AftShoulderLength = self._tranForm.aftShoulderLengthInput.text()
         self._obj.AftShoulderThickness = self._tranForm.aftShoulderThicknessInput.text()
 
+        self._tranForm.tabScaling.transferTo(self._obj)
         self._tranForm.tabMaterial.transferTo(self._obj)
         self._tranForm.tabComment.transferTo(self._obj)
 
@@ -448,6 +455,7 @@ class TaskPanelTransition:
         self._tranForm.aftShoulderLengthInput.setText(self._obj.AftShoulderLength.UserString)
         self._tranForm.aftShoulderThicknessInput.setText(self._obj.AftShoulderThickness.UserString)
 
+        self._tranForm.tabScaling.transferFrom(self._obj)
         self._tranForm.tabMaterial.transferFrom(self._obj)
         self._tranForm.tabComment.transferFrom(self._obj)
 
@@ -494,6 +502,38 @@ class TaskPanelTransition:
             self._tranForm.coefficientInput.setEnabled(False)
         else:
             self._tranForm.coefficientInput.setEnabled(False)
+
+        # Scaling information is transition cone type dependent
+        self.onScale()
+
+    def onScale(self) -> None:
+        # Update the scale values
+        scale = self._tranForm.tabScaling.getScale()
+        length = self._obj.Length / scale
+        if scale < 1.0:
+            self._tranForm.tabScaling.scaledLabel.setText(translate('Rocket', "Upscale"))
+            self._tranForm.tabScaling.scaledInput.setText(f"{1.0/scale}")
+        else:
+            self._tranForm.tabScaling.scaledLabel.setText(translate('Rocket', "Scale"))
+            self._tranForm.tabScaling.scaledInput.setText(f"{scale}")
+        self._tranForm.tabScaling.scaledLengthInput.setText(length.UserString)
+
+        diameter = self._obj.Proxy.getForeDiameter() / scale
+        self._tranForm.tabScaling.scaledDiameterLabel.setText(translate('Rocket', "Forward Diameter"))
+        self._tranForm.tabScaling.scaledDiameterInput.setText(diameter.UserString)
+        diameter = self._obj.Proxy.getAftDiameter() / scale
+        self._tranForm.tabScaling.scaledAftDiameterLabel.setText(translate('Rocket', "Aft Diameter"))
+        self._tranForm.tabScaling.scaledAftDiameterInput.setText(diameter.UserString)
+        self._tranForm.tabScaling.scaledAftDiameterLabel.setVisible(True)
+        self._tranForm.tabScaling.scaledAftDiameterInput.setVisible(True)
+
+        self._tranForm.tabScaling.scaleForeRadio.setVisible(True)
+        self._tranForm.tabScaling.scaleAftRadio.setVisible(True)
+
+        self._tranForm.tabScaling.scaledOgiveDiameterInput.setVisible(False)
+        self._tranForm.tabScaling.scaledOgiveDiameterLabel.setVisible(False)
+        self._tranForm.tabScaling.scaledBluntedDiameterInput.setVisible(False)
+        self._tranForm.tabScaling.scaledBluntedDiameterLabel.setVisible(False)
 
     def onTransitionType(self, value):
         self._obj.TransitionType = value
@@ -842,6 +882,18 @@ class TaskPanelTransition:
         self.update()
         self._obj.Proxy.execute(self._obj)
         self.setEdited()
+
+    def onSetToScale(self) -> None:
+        # Update the scale values
+        scale = self._tranForm.tabScaling.getScale()
+        self._obj.Length = self._obj.Length / scale
+        if not self._obj.ForeAutoDiameter:
+            self._obj.Proxy.setForeDiameter(self._obj.Proxy.getForeDiameter() / scale)
+        if not self._obj.AftAutoDiameter:
+            self._obj.Proxy.setAftDiameter(self._obj.Proxy.getAftDiameter() / scale)
+        scale = self._tranForm.tabScaling.resetScale()
+
+        self.update()
 
     def getStandardButtons(self):
         return QtGui.QDialogButtonBox.Ok | QtGui.QDialogButtonBox.Cancel | QtGui.QDialogButtonBox.Apply

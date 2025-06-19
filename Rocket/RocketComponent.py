@@ -96,6 +96,8 @@ class RocketComponent(RocketComponentShapeless, ChangeSource):
             obj.addProperty('App::PropertyBool', 'ScaleByDiameter', 'RocketComponent', translate('App::Property', 'Scale the object by body diameter')).ScaleByDiameter = False
         if not hasattr(obj, 'AutoScaleDiameter'):
             obj.addProperty('App::PropertyBool', 'AutoScaleDiameter', 'RocketComponent', translate('App::Property', 'Automatically scale the object by body diameter')).AutoScaleDiameter = False
+        if not hasattr(obj, 'ScaleForeDiameter'):
+            obj.addProperty('App::PropertyBool', 'ScaleForeDiameter', 'RocketComponent', translate('App::Property', 'Use the fore value for objects with different fore and aft diameters')).ScaleForeDiameter = False
         if not hasattr(obj, 'ScaleValue'):
             obj.addProperty('App::PropertyLength', 'ScaleValue', 'RocketComponent', translate('App::Property', 'Scaling value or dimension')).ScaleValue = 1.0
 
