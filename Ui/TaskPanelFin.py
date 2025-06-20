@@ -24,6 +24,7 @@ __title__ = "FreeCAD Fins"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
+from typing import Any
 
 import FreeCAD
 import FreeCADGui
@@ -42,6 +43,7 @@ from Ui.Commands.CmdSketcher import newSketchNoEdit
 
 from Ui.Widgets.MaterialTab import MaterialTab
 from Ui.Widgets.CommentTab import CommentTab
+from Ui.Widgets.ScalingTab import ScalingTabFins
 
 from Rocket.Constants import FIN_TYPE_TRAPEZOID, FIN_TYPE_TRIANGLE, FIN_TYPE_ELLIPSE, FIN_TYPE_TUBE, FIN_TYPE_SKETCH
 from Rocket.Constants import FIN_CROSS_SAME, FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE, \
@@ -52,8 +54,8 @@ from Rocket.Utilities import _err, _toFloat
 
 class _FinDialog(QDialog):
 
-    def __init__(self, parent=None):
-        super(_FinDialog, self).__init__(parent)
+    def __init__(self, obj : Any, parent : QtGui.QWidget = None) -> None:
+        super().__init__(parent)
 
         # define our window
         self.setGeometry(250, 250, 400, 350)
@@ -62,10 +64,12 @@ class _FinDialog(QDialog):
         self.tabWidget = QtGui.QTabWidget()
         self.tabGeneral = QtGui.QWidget()
         self.tabTtw = QtGui.QWidget()
+        self.tabScaling = ScalingTabFins(obj)
         self.tabMaterial = MaterialTab()
         self.tabComment = CommentTab()
         self.tabWidget.addTab(self.tabGeneral, translate('Rocket', "General"))
         self.tabWidget.addTab(self.tabTtw, translate('Rocket', "Fin Tabs"))
+        self.tabWidget.addTab(self.tabScaling, translate('Rocket', "Scaling"))
         self.tabWidget.addTab(self.tabMaterial, translate('Rocket', "Material"))
         self.tabWidget.addTab(self.tabComment, translate('Rocket', "Comment"))
 
@@ -76,7 +80,7 @@ class _FinDialog(QDialog):
         self.setTabGeneral()
         self.setTabTtw()
 
-    def setTabGeneral(self):
+    def setTabGeneral(self) -> None:
 
         ui = FreeCADGui.UiLoader()
 
@@ -417,7 +421,7 @@ class _FinDialog(QDialog):
 
         self.tabGeneral.setLayout(layout)
 
-    def setTabTtw(self):
+    def setTabTtw(self) -> None:
 
         ui = FreeCADGui.UiLoader()
 
@@ -482,13 +486,13 @@ class TaskPanelFin(QObject):
 
     redrawRequired = Signal()   # Allows for async redraws to allow for longer processing times
 
-    def __init__(self, obj, mode):
+    def __init__(self, obj : Any, mode : int) -> None:
         super().__init__()
 
         self._obj = obj
         self._isAssembly = self._obj.Proxy.isRocketAssembly()
 
-        self._finForm = _FinDialog()
+        self._finForm = _FinDialog(obj)
 
         self._location = TaskPanelLocation(obj)
         self._locationForm = self._location.getForm()
@@ -539,6 +543,9 @@ class TaskPanelFin(QObject):
         self._finForm.minimumEdgeGroup.toggled.connect(self.onMinimumEdge)
         self._finForm.minimumEdgeSizeInput.textEdited.connect(self.onMinimumEdgeSize)
 
+        self._finForm.tabScaling.scaled.connect(self.onScale)
+        self._finForm.tabScaling.scaledSetValuesButton.clicked.connect(self.onSetToScale)
+
         self._location.locationChange.connect(self.onLocation)
 
         self._redrawPending = False
@@ -550,7 +557,7 @@ class TaskPanelFin(QObject):
             self.redraw()  # calculate once
             FreeCAD.Gui.SendMsgToActiveView("ViewFit")
 
-    def transferTo(self):
+    def transferTo(self) -> None:
         "Transfer from the dialog to the object"
         self._obj.FinType = str(self._finForm.finTypesCombo.currentData())
 
@@ -597,10 +604,11 @@ class TaskPanelFin(QObject):
         self._obj.MinimumEdge = self._finForm.minimumEdgeGroup.isChecked()
         self._obj.MinimumEdgeSize = self._finForm.minimumEdgeSizeInput.text()
 
+        self._finForm.tabScaling.transferTo(self._obj)
         self._finForm.tabMaterial.transferTo(self._obj)
         self._finForm.tabComment.transferTo(self._obj)
 
-    def transferFrom(self):
+    def transferFrom(self) -> None:
         "Transfer from the object to the dialog"
         self._finForm.finTypesCombo.setCurrentIndex(self._finForm.finTypesCombo.findData(self._obj.FinType))
 
@@ -645,6 +653,7 @@ class TaskPanelFin(QObject):
         self._finForm.minimumEdgeGroup.setChecked(self._obj.MinimumEdge)
         self._finForm.minimumEdgeSizeInput.setText(self._obj.MinimumEdgeSize.UserString)
 
+        self._finForm.tabScaling.transferFrom(self._obj)
         self._finForm.tabMaterial.transferFrom(self._obj)
         self._finForm.tabComment.transferFrom(self._obj)
 
@@ -657,25 +666,42 @@ class TaskPanelFin(QObject):
         self._sweepAngleFromLength()
         self._setTtwState()
 
-    def setEdited(self):
+    def setEdited(self) -> None:
         try:
             self._obj.Proxy.setEdited()
         except ReferenceError:
             # Object may be deleted
             pass
 
-    def redraw(self):
+    def redraw(self) -> None:
         if not self._redrawPending:
             self._redrawPending = True
             self.redrawRequired.emit()
 
-    def onFinTypes(self, value):
+    def onScale(self) -> None:
+        # Update the scale values
+        scale = self._finForm.tabScaling.getScale()
+        # length = self._obj.Length / scale
+        # diameter = self._obj.Diameter / scale
+        # if scale < 1.0:
+        #     self._finForm.tabScaling.scaledLabel.setText(translate('Rocket', "Upscale"))
+        #     self._finForm.tabScaling.scaledInput.setText(f"{1.0/scale}")
+        # else:
+        #     self._finForm.tabScaling.scaledLabel.setText(translate('Rocket', "Scale"))
+        #     self._finForm.tabScaling.scaledInput.setText(f"{scale}")
+        # self._finForm.tabScaling.scaledLengthInput.setText(length.UserString)
+        # self._finForm.tabScaling.scaledDiameterInput.setText(diameter.UserString)
+
+    def onFinTypes(self, value : str) -> None:
         self._obj.FinType = value
         self._enableFinTypes()
         self.redraw()
         self.setEdited()
 
-    def _setFinSetState(self):
+        # Scaling information is fin type dependent
+        self.onScale()
+
+    def _setFinSetState(self) -> None:
         if self._isAssembly:
             checked = self._finForm.finSetGroup.isChecked()
             self._finForm.finSetGroup.setEnabled(True)
@@ -691,13 +717,13 @@ class TaskPanelFin(QObject):
         self._finForm.finCantInput.setEnabled(self._isAssembly)
         self._finForm.tipThicknessInput.setEnabled(not self._obj.TipSameThickness)
 
-    def onFinSet(self, value):
+    def onFinSet(self, value : bool) -> None:
         self._obj.FinSet = self._finForm.finSetGroup.isChecked()
         self._setFinSetState()
         self.redraw()
         self.setEdited()
 
-    def onCount(self, value):
+    def onCount(self, value : int) -> None:
         self._obj.FinCount = value
         self._obj.FinSpacing = 360.0 / float(value)
         self._finForm.finSpacingInput.setText(self._obj.FinSpacing.UserString)
@@ -706,17 +732,17 @@ class TaskPanelFin(QObject):
         self.redraw()
         self.setEdited()
 
-    def onSpacing(self, value):
+    def onSpacing(self, value : str) -> None:
         self._obj.FinSpacing = value
         self.redraw()
         self.setEdited()
 
-    def onCant(self, value):
+    def onCant(self, value : str) -> None:
         self._obj.Cant = value
         self.redraw()
         self.setEdited()
 
-    def _enableFinTypes(self):
+    def _enableFinTypes(self) -> None:
         if self._obj.FinType == FIN_TYPE_TRAPEZOID:
             self._enableFinTypeTrapezoid()
         elif self._obj.FinType == FIN_TYPE_TRIANGLE:
@@ -728,7 +754,7 @@ class TaskPanelFin(QObject):
         else:
             self._enableFinTypeSketch()
 
-    def setRootCrossSections(self):
+    def setRootCrossSections(self) -> None:
         self._finForm.rootCrossSectionsCombo.clear()
         self._finForm.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_SQUARE), FIN_CROSS_SQUARE)
         self._finForm.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_ROUND), FIN_CROSS_ROUND)
@@ -741,7 +767,7 @@ class TaskPanelFin(QObject):
         self._finForm.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_TAPER_TE), FIN_CROSS_TAPER_TE)
         self._finForm.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_TAPER_LETE), FIN_CROSS_TAPER_LETE)
 
-    def setEllipseRootCrossSections(self):
+    def setEllipseRootCrossSections(self) -> None:
         self._finForm.rootCrossSectionsCombo.clear()
         self._finForm.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_SQUARE), FIN_CROSS_SQUARE)
         self._finForm.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_ROUND), FIN_CROSS_ROUND)
@@ -752,7 +778,7 @@ class TaskPanelFin(QObject):
         self._finForm.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_TAPER_LETE), FIN_CROSS_TAPER_LETE)
 
 
-    def _enableFinTypeTrapezoid(self):
+    def _enableFinTypeTrapezoid(self) -> None:
         self._finForm.tabWidget.setTabEnabled(1, True) # Fin tabs is index 1
 
         self._finForm.rootChordInput.setText(self._obj.RootChord.UserString)
@@ -787,7 +813,7 @@ class TaskPanelFin(QObject):
 
         self._enableTipLengths()
 
-    def _enableFinTypeTriangle(self):
+    def _enableFinTypeTriangle(self) -> None:
         self._finForm.tabWidget.setTabEnabled(1, True) # Fin tabs is index 1
 
         self._finForm.rootChordInput.setText(self._obj.RootChord.UserString)
@@ -820,7 +846,7 @@ class TaskPanelFin(QObject):
         self._finForm.tubeGroup.setHidden(True)
         self._finForm.minimumEdgeGroup.setHidden(False)
 
-    def _enableFinTypeEllipse(self):
+    def _enableFinTypeEllipse(self) -> None:
         self._finForm.tabWidget.setTabEnabled(1, True) # Fin tabs is index 1
 
         self._finForm.rootChordInput.setText(self._obj.RootChord.UserString)
@@ -855,7 +881,7 @@ class TaskPanelFin(QObject):
         self._finForm.tubeGroup.setHidden(True)
         self._finForm.minimumEdgeGroup.setHidden(False)
 
-    def _enableFinTypeTube(self):
+    def _enableFinTypeTube(self) -> None:
         self._finForm.tabWidget.setTabEnabled(1, False) # Fin tabs is index 1
         self._obj.Ttw = False
         self._finForm.ttwGroup.setChecked(self._obj.Ttw)
@@ -887,7 +913,7 @@ class TaskPanelFin(QObject):
         self._finForm.tubeAutoOuterDiameterCheckbox.setChecked(self._obj.TubeAutoOuterDiameter)
         self._finForm.tubeOuterDiameterInput.setEnabled(not self._obj.TubeAutoOuterDiameter)
 
-    def _enableFinTypeSketch(self):
+    def _enableFinTypeSketch(self) -> None:
         self._finForm.tabWidget.setTabEnabled(1, True) # Fin tabs is index 1
 
         old = self._obj.RootCrossSection # This must be saved and restored
@@ -919,7 +945,7 @@ class TaskPanelFin(QObject):
         # Create a default sketch if none exists
         self._defaultFinSketch()
 
-    def _drawLines(self, sketch, points):
+    def _drawLines(self, sketch : Any, points : list) -> None:
         last = points[-1]
         for index, point in enumerate(points):
             sketch.addGeometry(Part.LineSegment(FreeCAD.Vector(float(last[0]), float(last[1]), 0),
@@ -937,7 +963,7 @@ class TaskPanelFin(QObject):
 
         return sketch
 
-    def _defaultFinSketch(self):
+    def _defaultFinSketch(self) -> None:
         if self._obj.Profile is None:
             sketch = newSketchNoEdit()
             points = []
@@ -951,7 +977,7 @@ class TaskPanelFin(QObject):
             self._obj.Profile = sketch
             sketch.Visibility = False
 
-    def _enableRootLengths(self):
+    def _enableRootLengths(self) -> None:
         value = self._obj.RootCrossSection
         if value in [FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE]:
             self._finForm.rootPerCentCheckbox.setEnabled(True)
@@ -965,7 +991,7 @@ class TaskPanelFin(QObject):
             self._finForm.rootLength1Input.setEnabled(False)
             self._finForm.rootLength2Input.setEnabled(False)
 
-    def _enableTipLengths(self):
+    def _enableTipLengths(self) -> None:
         if self._obj.FinType == FIN_TYPE_TRAPEZOID:
             value = self._obj.TipCrossSection
             if value == FIN_CROSS_SAME:
@@ -982,7 +1008,7 @@ class TaskPanelFin(QObject):
                 self._finForm.tipLength1Input.setEnabled(False)
                 self._finForm.tipLength2Input.setEnabled(False)
 
-    def onRootCrossSection(self, value):
+    def onRootCrossSection(self, value : str) -> None:
         if len(value) <= 0:
             return
 
@@ -995,7 +1021,7 @@ class TaskPanelFin(QObject):
         self.redraw()
         self.setEdited()
 
-    def onRootChord(self, value):
+    def onRootChord(self, value : str) -> None:
         try:
             self._obj.RootChord = FreeCAD.Units.Quantity(value).Value
             self.redraw()
@@ -1003,7 +1029,7 @@ class TaskPanelFin(QObject):
             pass
         self.setEdited()
 
-    def onRootThickness(self, value):
+    def onRootThickness(self, value : str) -> None:
         try:
             self._obj.RootThickness = FreeCAD.Units.Quantity(value).Value
             if self._obj.TipSameThickness:
@@ -1014,7 +1040,7 @@ class TaskPanelFin(QObject):
             pass
         self.setEdited()
 
-    def _toPercent(self, length, chord):
+    def _toPercent(self, length : float, chord : float) -> float:
         percent = 100.0 * length / chord
         if percent > 100.0:
             percent = 100.0
@@ -1022,7 +1048,7 @@ class TaskPanelFin(QObject):
             percent = 0.0
         return percent
 
-    def _toLength(self, percent, chord):
+    def _toLength(self, percent : float, chord : float) -> float:
         length = percent * chord / 100.0
         if length > chord:
             length = chord
@@ -1030,7 +1056,7 @@ class TaskPanelFin(QObject):
             length = 0.0
         return length
 
-    def _enableRootPercent(self):
+    def _enableRootPercent(self) -> None:
         if self._obj.RootPerCent:
             self._finForm.rootLength1Input.unit = ''
             self._finForm.rootLength2Input.unit = ''
@@ -1042,7 +1068,7 @@ class TaskPanelFin(QObject):
             self._finForm.rootLength1Input.setText(self._obj.RootLength1.UserString)
             self._finForm.rootLength2Input.setText(self._obj.RootLength2.UserString)
 
-    def _convertRootPercent(self):
+    def _convertRootPercent(self) -> None:
         if self._obj.RootPerCent:
             # Convert to percentages
             self._obj.RootLength1 = self._toPercent(self._obj.RootLength1.Value, self._obj.RootChord.Value)
@@ -1053,14 +1079,14 @@ class TaskPanelFin(QObject):
             self._obj.RootLength2 = self._toLength(self._obj.RootLength2.Value, self._obj.RootChord.Value)
         self._enableRootPercent()
 
-    def onRootPerCent(self, value):
+    def onRootPerCent(self, value : str) -> None:
         self._obj.RootPerCent = self._finForm.rootPerCentCheckbox.isChecked()
         self._convertRootPercent()
 
         self.redraw()
         self.setEdited()
 
-    def onRootLength1(self, value):
+    def onRootLength1(self, value : str) -> None:
         try:
             self._obj.RootLength1 = FreeCAD.Units.Quantity(value).Value
             self.redraw()
@@ -1068,7 +1094,7 @@ class TaskPanelFin(QObject):
             pass
         self.setEdited()
 
-    def onRootLength2(self, value):
+    def onRootLength2(self, value : str) -> None:
         try:
             self._obj.RootLength2 = FreeCAD.Units.Quantity(value).Value
             self.redraw()
@@ -1076,14 +1102,14 @@ class TaskPanelFin(QObject):
             pass
         self.setEdited()
 
-    def onTipCrossSection(self, value):
+    def onTipCrossSection(self, value : str) -> None:
         self._obj.TipCrossSection = value
         self._enableTipLengths()
 
         self.redraw()
         self.setEdited()
 
-    def onTipChord(self, value):
+    def onTipChord(self, value : str) -> None:
         try:
             self._obj.Proxy.setTipChord(FreeCAD.Units.Quantity(value).Value)
             self.redraw()
@@ -1091,7 +1117,7 @@ class TaskPanelFin(QObject):
             pass
         self.setEdited()
 
-    def onTipThickness(self, value):
+    def onTipThickness(self, value : str) -> None:
         try:
             self._obj.Proxy.setTipThickness(FreeCAD.Units.Quantity(value).Value)
             self.redraw()
@@ -1099,7 +1125,7 @@ class TaskPanelFin(QObject):
             pass
         self.setEdited()
 
-    def onTipSameThickness(self, value):
+    def onTipSameThickness(self, value : bool) -> None:
         try:
             self._obj.TipSameThickness = value
             self.redraw()
@@ -1108,7 +1134,7 @@ class TaskPanelFin(QObject):
             pass
         self.setEdited()
 
-    def _enableTipPercent(self):
+    def _enableTipPercent(self) -> None:
         if self._obj.TipPerCent:
             self._finForm.tipLength1Input.unit = ''
             self._finForm.tipLength2Input.unit = ''
@@ -1120,7 +1146,7 @@ class TaskPanelFin(QObject):
             self._finForm.tipLength1Input.setText(self._obj.TipLength1.UserString)
             self._finForm.tipLength2Input.setText(self._obj.TipLength2.UserString)
 
-    def _convertTipPercent(self):
+    def _convertTipPercent(self) -> None:
         if self._obj.TipPerCent:
             # Convert to percentages
             self._obj.TipLength1 = self._toPercent(self._obj.TipLength1.Value, self._obj.TipChord.Value)
@@ -1131,14 +1157,14 @@ class TaskPanelFin(QObject):
             self._obj.TipLength2 = self._toLength(self._obj.TipLength2.Value, self._obj.TipChord.Value)
         self._enableTipPercent()
 
-    def onTipPerCent(self, value):
+    def onTipPerCent(self, value : bool) -> None:
         self._obj.TipPerCent = self._finForm.tipPerCentCheckbox.isChecked()
         self._convertTipPercent()
 
         self.redraw()
         self.setEdited()
 
-    def onTipLength1(self, value):
+    def onTipLength1(self, value : str) -> None:
         try:
             self._obj.TipLength1 = FreeCAD.Units.Quantity(value).Value
             self.redraw()
@@ -1146,7 +1172,7 @@ class TaskPanelFin(QObject):
             pass
         self.setEdited()
 
-    def onTipLength2(self, value):
+    def onTipLength2(self, value : str) -> None:
         try:
             self._obj.TipLength2 = FreeCAD.Units.Quantity(value).Value
             self.redraw()
@@ -1157,7 +1183,7 @@ class TaskPanelFin(QObject):
     def onTubeLength(self, value):
         self.onRootChord(value)
 
-    def onTubeOuterDiameter(self, value):
+    def onTubeOuterDiameter(self, value : str) -> None:
         try:
             self._obj.TubeOuterDiameter = FreeCAD.Units.Quantity(value).Value
             self.redraw()
@@ -1165,7 +1191,7 @@ class TaskPanelFin(QObject):
             pass
         self.setEdited()
 
-    def onTubeAutoOuterDiameter(self, value):
+    def onTubeAutoOuterDiameter(self, value : bool) -> None:
         self._obj.TubeAutoOuterDiameter = value
         self._finForm.tubeOuterDiameterInput.setEnabled(not self._obj.TubeAutoOuterDiameter)
 
@@ -1177,15 +1203,7 @@ class TaskPanelFin(QObject):
         self.redraw()
         self.setEdited()
 
-    def onTubeInnerDiameter(self, value):
-        try:
-            self._obj.TipLength2 = FreeCAD.Units.Quantity(value).Value
-            self.redraw()
-        except ValueError:
-            pass
-        self.setEdited()
-
-    def onTubeThickness(self, value):
+    def onTubeThickness(self, value : str) -> None:
         try:
             self._obj.TubeThickness = FreeCAD.Units.Quantity(value).Value
             self.redraw()
@@ -1193,7 +1211,7 @@ class TaskPanelFin(QObject):
             pass
         self.setEdited()
 
-    def onHeight(self, value):
+    def onHeight(self, value : str) -> None:
         try:
             self._obj.Proxy.setHeight(FreeCAD.Units.Quantity(value).Value)
             self._sweepAngleFromLength()
@@ -1202,7 +1220,7 @@ class TaskPanelFin(QObject):
             pass
         self.setEdited()
 
-    def onAutoHeight(self, value):
+    def onAutoHeight(self, value : bool) -> None:
         try:
             self._obj.Proxy.setAutoHeight(value)
             self._finForm.heightInput.setText(self._obj.Height.UserString)
@@ -1213,7 +1231,7 @@ class TaskPanelFin(QObject):
             pass
         self.setEdited()
 
-    def _setHeightState(self):
+    def _setHeightState(self) -> None:
         if not self._isAssembly:
             self._obj.AutoHeight = False
         self._finForm.autoHeightCheckBox.setChecked(self._obj.AutoHeight)
@@ -1221,7 +1239,7 @@ class TaskPanelFin(QObject):
         self._finForm.heightInput.setEnabled(not self._obj.AutoHeight)
         self._finForm.spanInput.setEnabled(self._obj.AutoHeight)
 
-    def onSpan(self, value):
+    def onSpan(self, value : str) -> None:
         try:
             self._obj.Proxy.setSpan(FreeCAD.Units.Quantity(value).Value)
             self._finForm.heightInput.setText(self._obj.Height.UserString)
@@ -1231,13 +1249,13 @@ class TaskPanelFin(QObject):
             pass
         self.setEdited()
 
-    def _sweepLengthFromAngle(self):
+    def _sweepLengthFromAngle(self) -> None:
         self._finForm.sweepLengthInput.setText(self._obj.SweepLength.UserString)
 
-    def _sweepAngleFromLength(self):
+    def _sweepAngleFromLength(self) -> None:
         self._finForm.sweepAngleInput.setText(self._obj.SweepAngle.UserString)
 
-    def onSweepLength(self, value):
+    def onSweepLength(self, value : str) -> None:
         try:
             self._obj.Proxy.setSweepLength(FreeCAD.Units.Quantity(value).Value)
             self._sweepAngleFromLength()
@@ -1246,7 +1264,7 @@ class TaskPanelFin(QObject):
             pass
         self.setEdited()
 
-    def onSweepAngle(self, value):
+    def onSweepAngle(self, value : str) -> None:
         try:
             self._obj.Proxy.setSweepAngle(FreeCAD.Units.Quantity(value).Value)
             self._sweepLengthFromAngle()
@@ -1255,7 +1273,7 @@ class TaskPanelFin(QObject):
             pass
         self.setEdited()
 
-    def _setTtwState(self):
+    def _setTtwState(self) -> None:
         self._finForm.ttwOffsetInput.setEnabled(self._obj.Ttw)
         self._finForm.ttwLengthInput.setEnabled(self._obj.Ttw)
         if not self._isAssembly:
@@ -1265,14 +1283,14 @@ class TaskPanelFin(QObject):
         self._finForm.ttwHeightInput.setEnabled(self._obj.Ttw and not self._obj.TtwAutoHeight)
         self._finForm.ttwThicknessInput.setEnabled(self._obj.Ttw)
 
-    def onTtw(self, value):
+    def onTtw(self, value : bool) -> None:
         self._obj.Ttw = self._finForm.ttwGroup.isChecked()
         self._setTtwState()
 
         self.redraw()
         self.setEdited()
 
-    def onTTWOffset(self, value):
+    def onTTWOffset(self, value : str) -> None:
         try:
             self._obj.TtwOffset = FreeCAD.Units.Quantity(value).Value
             self.redraw()
@@ -1280,7 +1298,7 @@ class TaskPanelFin(QObject):
             pass
         self.setEdited()
 
-    def onTTWLength(self, value):
+    def onTTWLength(self, value : str) -> None:
         try:
             self._obj.TtwLength = FreeCAD.Units.Quantity(value).Value
             self.redraw()
@@ -1288,7 +1306,7 @@ class TaskPanelFin(QObject):
             pass
         self.setEdited()
 
-    def onTTWHeight(self, value):
+    def onTTWHeight(self, value : str) -> None:
         try:
             self._obj.TtwHeight = FreeCAD.Units.Quantity(value).Value
             self.redraw()
@@ -1296,7 +1314,7 @@ class TaskPanelFin(QObject):
             pass
         self.setEdited()
 
-    def onTTWAutoHeight(self, value):
+    def onTTWAutoHeight(self, value : bool) -> None:
         try:
             self._obj.TtwAutoHeight = value
             self.redraw()
@@ -1305,7 +1323,7 @@ class TaskPanelFin(QObject):
             pass
         self.setEdited()
 
-    def onTTWThickness(self, value):
+    def onTTWThickness(self, value : str) -> None:
         try:
             self._obj.TtwThickness = FreeCAD.Units.Quantity(value).Value
             self.redraw()
@@ -1313,13 +1331,13 @@ class TaskPanelFin(QObject):
             pass
         self.setEdited()
 
-    def onMinimumEdge(self, value):
+    def onMinimumEdge(self, value : bool) -> None:
         self._obj.MinimumEdge = self._finForm.minimumEdgeGroup.isChecked()
 
         self.redraw()
         self.setEdited()
 
-    def onMinimumEdgeSize(self, value):
+    def onMinimumEdgeSize(self, value : str) -> None:
         try:
             self._obj.MinimumEdgeSize = FreeCAD.Units.Quantity(value).Value
             self.redraw()
@@ -1327,34 +1345,43 @@ class TaskPanelFin(QObject):
             pass
         self.setEdited()
 
-    def onLocation(self):
+    def onLocation(self) -> None:
         self._obj.Proxy.updateChildren()
         self.redraw()
         self.setEdited()
 
-    def onRedraw(self):
+    def onRedraw(self) -> None:
         self._obj.Proxy.execute(self._obj)
         self._redrawPending = False
 
-    def getStandardButtons(self):
+    def onSetToScale(self) -> None:
+        # Update the scale values
+        scale = self._finForm.tabScaling.getScale()
+        # self._obj.Length = self._obj.Length / scale
+
+        scale = self._finForm.tabScaling.resetScale()
+
+        self.update()
+
+    def getStandardButtons(self) -> Any:
         return QtGui.QDialogButtonBox.Ok | QtGui.QDialogButtonBox.Cancel | QtGui.QDialogButtonBox.Apply
 
-    def clicked(self,button):
+    def clicked(self, button : Any) -> None:
         if button == QtGui.QDialogButtonBox.Apply:
             self.transferTo()
             self.redraw()
 
-    def update(self):
+    def update(self) -> None:
         'fills the widgets'
         self.transferFrom()
 
-    def accept(self):
+    def accept(self) -> None:
         self.transferTo()
         FreeCAD.ActiveDocument.recompute()
         FreeCADGui.ActiveDocument.resetEdit()
 
 
-    def reject(self):
+    def reject(self) -> None:
         FreeCAD.ActiveDocument.abortTransaction()
         FreeCAD.ActiveDocument.recompute()
         FreeCADGui.ActiveDocument.resetEdit()

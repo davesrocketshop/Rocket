@@ -42,6 +42,7 @@ class ScalingTab(QtGui.QWidget):
         super().__init__(parent)
         self._obj = obj
         self._loading = False # Prevent updates when loading
+        self._isAssembly = self._obj.Proxy.isRocketAssembly()
 
         self.setTabScaling()
         self._setConnections()
@@ -595,3 +596,19 @@ class ScalingTabBodyTube(ScalingTab):
 
     def __init__(self, obj : Any, parent : QtGui.QWidget = None) -> None:
         super().__init__(obj, parent)
+
+class ScalingTabFins(ScalingTab):
+
+    def __init__(self, obj : Any, parent : QtGui.QWidget = None) -> None:
+        super().__init__(obj, parent)
+
+    def _scalingGroup(self, ui : FreeCADGui.UiLoader) -> QtGui.QGroupBox:
+        group = super()._scalingGroup(ui)
+
+        if not self._isAssembly:
+            self.scaleDiameterRadio.setEnabled(False)
+            self.scaleDiameterInput.setEnabled(False)
+            self.autoScaleDiameterCheckbox.setEnabled(False)
+
+        return group
+ 

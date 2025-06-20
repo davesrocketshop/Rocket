@@ -24,6 +24,7 @@ __title__ = "FreeCAD Nose Cones"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
+from typing import Any
 
 import FreeCAD
 import FreeCADGui
@@ -50,7 +51,7 @@ from Rocket.Utilities import _toFloat, _valueWithUnits, _valueOnly, _err
 
 class _NoseConeDialog(QDialog):
 
-    def __init__(self, obj, parent=None):
+    def __init__(self, obj : Any, parent : QtGui.QWidget = None) -> None:
         super().__init__(parent)
 
         # define our window
