@@ -37,7 +37,7 @@ from DraftTools import translate
 from Ui.TaskPanelDatabase import TaskPanelDatabase
 from Ui.Widgets.MaterialTab import MaterialTab
 from Ui.Widgets.CommentTab import CommentTab
-from Ui.Widgets.ScalingTab import ScalingTab
+from Ui.Widgets.ScalingTab import ScalingTabNose
 
 from Rocket.Constants import TYPE_CONE, TYPE_BLUNTED_CONE, TYPE_SPHERICAL, TYPE_ELLIPTICAL, TYPE_HAACK, TYPE_OGIVE, \
     TYPE_BLUNTED_OGIVE, TYPE_SECANT_OGIVE, TYPE_VON_KARMAN, TYPE_PARABOLA, TYPE_PARABOLIC, TYPE_POWER, TYPE_NIKE_SMOKE, \
@@ -60,7 +60,7 @@ class _NoseConeDialog(QDialog):
         self.tabWidget = QtGui.QTabWidget()
         self.tabGeneral = QtGui.QWidget()
         self.tabShoulder = QtGui.QWidget()
-        self.tabScaling = ScalingTab(obj)
+        self.tabScaling = ScalingTabNose(obj)
         self.tabMaterial = MaterialTab()
         self.tabComment = CommentTab()
         self.tabWidget.addTab(self.tabGeneral, translate('Rocket', "General"))

@@ -50,11 +50,26 @@ class ScalingTab(QtGui.QWidget):
         ui = FreeCADGui.UiLoader()
 
         # Scaling
-        self.scalingGroup = QtGui.QGroupBox(translate('Rocket', "Scaling"), self)
-        self.scalingGroup.setCheckable(True)
-        self.scalingGroup.setChecked(False)
+        self.scalingGroup = self._scalingGroup(ui)
 
-        self.scaleRadio = QtGui.QRadioButton (translate('Rocket', "By value"), self.scalingGroup)
+        # Show the results
+        self.scaledGroup = self._scaledGroup(ui)
+
+        layout = QVBoxLayout()
+        layout.addWidget(self.scalingGroup)
+        layout.addWidget(self.scaledGroup)
+        layout.addItem(QtGui.QSpacerItem(0,0, QSizePolicy.Expanding, QSizePolicy.Expanding))
+
+        self.setLayout(layout)
+
+    def _scalingGroup(self, ui : FreeCADGui.UiLoader) -> QtGui.QGroupBox:
+
+        # Scaling
+        group = QtGui.QGroupBox(translate('Rocket', "Scaling"), self)
+        group.setCheckable(True)
+        group.setChecked(False)
+
+        self.scaleRadio = QtGui.QRadioButton (translate('Rocket', "By value"), group)
         self.scaleRadio.setChecked(True)
 
         self.scaleInput = ui.createWidget("Gui::InputField")
@@ -63,7 +78,7 @@ class ScalingTab(QtGui.QWidget):
         self.upscaleCheckbox = QtGui.QCheckBox(translate('Rocket', "Upscale"), self)
         self.upscaleCheckbox.setCheckState(QtCore.Qt.Unchecked)
 
-        self.scaleDiameterRadio = QtGui.QRadioButton(translate('Rocket', "By body diameter"), self.scalingGroup)
+        self.scaleDiameterRadio = QtGui.QRadioButton(translate('Rocket', "By body diameter"), group)
         self.scaleDiameterRadio.setChecked(False)
 
         self.scaleDiameterInput = ui.createWidget("Gui::InputField")
@@ -82,8 +97,30 @@ class ScalingTab(QtGui.QWidget):
         self.foreAftGroup.addButton(self.scaleAftRadio)
         self.scaleAftRadio.setChecked(True)
 
+        grid = QGridLayout()
+        row = 0
+
+        grid.addWidget(self.scaleRadio, row, 0)
+        grid.addWidget(self.scaleInput, row, 1, 1, 2)
+        grid.addWidget(self.upscaleCheckbox, row, 3)
+        row += 1
+
+        grid.addWidget(self.scaleDiameterRadio, row, 0)
+        grid.addWidget(self.scaleDiameterInput, row, 1, 1, 2)
+        grid.addWidget(self.autoScaleDiameterCheckbox, row, 3)
+        row += 1
+
+        grid.addWidget(self.scaleForeRadio, row, 1)
+        grid.addWidget(self.scaleAftRadio, row, 2)
+        row += 1
+
+        group.setLayout(grid)
+        return group
+
+    def _scaledGroup(self, ui : FreeCADGui.UiLoader) -> QtGui.QGroupBox:
+
         # Show the results
-        self.scaledGroup = QtGui.QGroupBox(translate('Rocket', "Scaled Values"), self)
+        group = QtGui.QGroupBox(translate('Rocket', "Scaled Values"), self)
 
         self.scaledLabel = QtGui.QLabel(translate('Rocket', "Scale"), self)
 
@@ -159,33 +196,8 @@ class ScalingTab(QtGui.QWidget):
         grid.addWidget(self.scaledSetValuesButton, row, 2)
         row += 1
 
-        self.scaledGroup.setLayout(grid)
-
-        grid = QGridLayout()
-        row = 0
-
-        grid.addWidget(self.scaleRadio, row, 0)
-        grid.addWidget(self.scaleInput, row, 1, 1, 2)
-        grid.addWidget(self.upscaleCheckbox, row, 3)
-        row += 1
-
-        grid.addWidget(self.scaleDiameterRadio, row, 0)
-        grid.addWidget(self.scaleDiameterInput, row, 1, 1, 2)
-        grid.addWidget(self.autoScaleDiameterCheckbox, row, 3)
-        row += 1
-
-        grid.addWidget(self.scaleForeRadio, row, 1)
-        grid.addWidget(self.scaleAftRadio, row, 2)
-        row += 1
-
-        self.scalingGroup.setLayout(grid)
-
-        layout = QVBoxLayout()
-        layout.addWidget(self.scalingGroup)
-        layout.addWidget(self.scaledGroup)
-        layout.addItem(QtGui.QSpacerItem(0,0, QSizePolicy.Expanding, QSizePolicy.Expanding))
-
-        self.setLayout(layout)
+        group.setLayout(grid)
+        return group
 
     def _setConnections(self) -> None:
         self.scalingGroup.toggled.connect(self.onScalingGroup)
@@ -198,10 +210,15 @@ class ScalingTab(QtGui.QWidget):
 
     def _setScaleState(self) -> None:
         if self.scalingGroup.isChecked():
-            self.scaleInput.setEnabled(self.scaleRadio.isChecked())
-            self.upscaleCheckbox.setEnabled(self.scaleRadio.isChecked())
-            self.scaleDiameterInput.setEnabled(self.scaleDiameterRadio.isChecked())
-            self.autoScaleDiameterCheckbox.setEnabled(self.scaleDiameterRadio.isChecked())
+            byValue = self.scaleRadio.isChecked()
+            self.scaleInput.setEnabled(byValue)
+            self.upscaleCheckbox.setEnabled(byValue)
+
+            byDiameter = self.scaleDiameterRadio.isChecked()
+            self.scaleDiameterInput.setEnabled(byDiameter)
+            self.autoScaleDiameterCheckbox.setEnabled(byDiameter)
+            self.scaleForeRadio.setEnabled(byDiameter)
+            self.scaleAftRadio.setEnabled(byDiameter)
 
     def transferTo(self, obj) -> None:
         "Transfer from the dialog to the object"
@@ -373,3 +390,13 @@ class ScalingTab(QtGui.QWidget):
         except ValueError:
             pass
         self.setEdited()
+
+class ScalingTabNose(ScalingTab):
+
+    def __init__(self, obj, parent=None) -> None:
+        super().__init__(obj, parent)
+
+class ScalingTabTransition(ScalingTab):
+
+    def __init__(self, obj, parent=None) -> None:
+        super().__init__(obj, parent)

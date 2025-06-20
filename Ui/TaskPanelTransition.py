@@ -37,7 +37,7 @@ from DraftTools import translate
 from Ui.TaskPanelDatabase import TaskPanelDatabase
 from Ui.Widgets.MaterialTab import MaterialTab
 from Ui.Widgets.CommentTab import CommentTab
-from Ui.Widgets.ScalingTab import ScalingTab
+from Ui.Widgets.ScalingTab import ScalingTabTransition
 
 from Rocket.Constants import TYPE_CONE, TYPE_ELLIPTICAL, TYPE_HAACK, TYPE_OGIVE, TYPE_VON_KARMAN, TYPE_PARABOLA, TYPE_PARABOLIC, TYPE_POWER
 from Rocket.Constants import STYLE_CAPPED, STYLE_HOLLOW, STYLE_SOLID, STYLE_SOLID_CORE
@@ -58,7 +58,7 @@ class _TransitionDialog(QDialog):
         self.tabWidget = QtGui.QTabWidget()
         self.tabGeneral = QtGui.QWidget()
         self.tabShoulder = QtGui.QWidget()
-        self.tabScaling = ScalingTab(obj)
+        self.tabScaling = ScalingTabTransition(obj)
         self.tabMaterial = MaterialTab()
         self.tabComment = CommentTab()
         self.tabWidget.addTab(self.tabGeneral, translate('Rocket', "General"))
