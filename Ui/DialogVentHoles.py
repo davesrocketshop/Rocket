@@ -55,7 +55,7 @@ class DialogVentHole(QDialog):
         self.diameterLabel = QtGui.QLabel(translate('Rocket', "Body Tube Diameter"), self)
 
         self.diameterInput = ui.createWidget("Gui::InputField")
-        self.diameterInput.unit = 'mm'
+        self.diameterInput.unit = FreeCAD.Units.Length
         self.diameterInput.setMinimumWidth(100)
         self.diameterInput.setText("54.0")
         self.diameterInput.textEdited.connect(self.onDiameter)
@@ -63,7 +63,7 @@ class DialogVentHole(QDialog):
         self.lengthLabel = QtGui.QLabel(translate('Rocket', "Body Tube Length"), self)
 
         self.lengthInput = ui.createWidget("Gui::InputField")
-        self.lengthInput.unit = 'mm'
+        self.lengthInput.unit = FreeCAD.Units.Length
         self.lengthInput.setMinimumWidth(100)
         self.lengthInput.setText("1000.0")
         self.lengthInput.textEdited.connect(self.onLength)
@@ -80,7 +80,7 @@ class DialogVentHole(QDialog):
         self.sizeLabel = QtGui.QLabel(translate('Rocket', "Vent Hole Size"), self)
 
         self.sizeInput = ui.createWidget("Gui::InputField")
-        self.sizeInput.unit = 'mm'
+        self.sizeInput.unit = FreeCAD.Units.Length
         self.sizeInput.setText("49.0")
         self.sizeInput.setMinimumWidth(100)
         self.sizeInput.setReadOnly(True)

@@ -73,7 +73,7 @@ class _PodDialog(QDialog):
         self.podSpacingLabel = QtGui.QLabel(translate('Rocket', "Pod Spacing"), self)
 
         self.podSpacingInput = ui.createWidget("Gui::InputField")
-        self.podSpacingInput.unit = 'deg'
+        self.podSpacingInput.unit = FreeCAD.Units.Angle
         self.podSpacingInput.setMinimumWidth(80)
 
         # General parameters

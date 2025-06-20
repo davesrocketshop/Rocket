@@ -108,13 +108,13 @@ class _FinCanDialog(QDialog):
         self.finSpacingLabel = QtGui.QLabel(translate('Rocket', "Fin Spacing"), self)
 
         self.finSpacingInput = ui.createWidget("Gui::InputField")
-        self.finSpacingInput.unit = 'deg'
+        self.finSpacingInput.unit = FreeCAD.Units.Angle
         self.finSpacingInput.setMinimumWidth(100)
 
         self.finCantLabel = QtGui.QLabel(translate('Rocket', "Fin Cant"), self)
 
         self.finCantInput = ui.createWidget("Gui::InputField")
-        self.finCantInput.unit = 'deg'
+        self.finCantInput.unit = FreeCAD.Units.Angle
         self.finCantInput.setMinimumWidth(100)
 
         # Get the fin parameters: length, width, etc...
@@ -143,13 +143,13 @@ class _FinCanDialog(QDialog):
         self.rootChordLabel = QtGui.QLabel(translate('Rocket', "Chord"), self)
 
         self.rootChordInput = ui.createWidget("Gui::InputField")
-        self.rootChordInput.unit = 'mm'
+        self.rootChordInput.unit = FreeCAD.Units.Length
         self.rootChordInput.setMinimumWidth(100)
 
         self.rootThicknessLabel = QtGui.QLabel(translate('Rocket', "Thickness"), self)
 
         self.rootThicknessInput = ui.createWidget("Gui::InputField")
-        self.rootThicknessInput.unit = 'mm'
+        self.rootThicknessInput.unit = FreeCAD.Units.Length
         self.rootThicknessInput.setMinimumWidth(100)
 
         self.rootPerCentLabel = QtGui.QLabel(translate('Rocket', "Use percentage"), self)
@@ -160,13 +160,13 @@ class _FinCanDialog(QDialog):
         self.rootLength1Label = QtGui.QLabel(translate('Rocket', "Length 1"), self)
 
         self.rootLength1Input = ui.createWidget("Gui::InputField")
-        self.rootLength1Input.unit = 'mm'
+        self.rootLength1Input.unit = FreeCAD.Units.Length
         self.rootLength1Input.setMinimumWidth(100)
 
         self.rootLength2Label = QtGui.QLabel(translate('Rocket', "Length 2"), self)
 
         self.rootLength2Input = ui.createWidget("Gui::InputField")
-        self.rootLength2Input.unit = 'mm'
+        self.rootLength2Input.unit = FreeCAD.Units.Length
         self.rootLength2Input.setMinimumWidth(100)
 
         self.tipGroup = QtGui.QGroupBox(translate('Rocket', "Fin Tip"), self)
@@ -192,13 +192,13 @@ class _FinCanDialog(QDialog):
         self.tipChordLabel = QtGui.QLabel(translate('Rocket', "Chord"), self)
 
         self.tipChordInput = ui.createWidget("Gui::InputField")
-        self.tipChordInput.unit = 'mm'
+        self.tipChordInput.unit = FreeCAD.Units.Length
         self.tipChordInput.setMinimumWidth(100)
 
         self.tipThicknessLabel = QtGui.QLabel(translate('Rocket', "Thickness"), self)
 
         self.tipThicknessInput = ui.createWidget("Gui::InputField")
-        self.tipThicknessInput.unit = 'mm'
+        self.tipThicknessInput.unit = FreeCAD.Units.Length
         self.tipThicknessInput.setMinimumWidth(100)
 
         self.tipSameThicknessCheckbox = QtGui.QCheckBox(translate('Rocket', "Tip thickness same as root"), self)
@@ -212,19 +212,19 @@ class _FinCanDialog(QDialog):
         self.tipLength1Label = QtGui.QLabel(translate('Rocket', "Length 1"), self)
 
         self.tipLength1Input = ui.createWidget("Gui::InputField")
-        self.tipLength1Input.unit = 'mm'
+        self.tipLength1Input.unit = FreeCAD.Units.Length
         self.tipLength1Input.setMinimumWidth(100)
 
         self.tipLength2Label = QtGui.QLabel(translate('Rocket', "Length 2"), self)
 
         self.tipLength2Input = ui.createWidget("Gui::InputField")
-        self.tipLength2Input.unit = 'mm'
+        self.tipLength2Input.unit = FreeCAD.Units.Length
         self.tipLength2Input.setMinimumWidth(100)
 
         self.heightLabel = QtGui.QLabel(translate('Rocket', "Height"), self)
 
         self.heightInput = ui.createWidget("Gui::InputField")
-        self.heightInput.unit = 'mm'
+        self.heightInput.unit = FreeCAD.Units.Length
         self.heightInput.setMinimumWidth(100)
 
         self.autoHeightCheckBox = QtGui.QCheckBox(translate('Rocket', "auto"), self)
@@ -233,21 +233,21 @@ class _FinCanDialog(QDialog):
         self.spanLabel = QtGui.QLabel(translate('Rocket', "Span"), self)
 
         self.spanInput = ui.createWidget("Gui::InputField")
-        self.spanInput.unit = 'mm'
+        self.spanInput.unit = FreeCAD.Units.Length
         self.spanInput.setMinimumWidth(100)
 
         # Sweep can be forward (-sweep) or backward (+sweep)
         self.sweepLengthLabel = QtGui.QLabel(translate('Rocket', "Sweep Length"), self)
 
         self.sweepLengthInput = ui.createWidget("Gui::InputField")
-        self.sweepLengthInput.unit = 'mm'
+        self.sweepLengthInput.unit = FreeCAD.Units.Length
         self.sweepLengthInput.setMinimumWidth(100)
 
         # Sweep angle is tied to sweep length. It can be forward (> -90) or backward (< 90)
         self.sweepAngleLabel = QtGui.QLabel(translate('Rocket', "Sweep Angle"), self)
 
         self.sweepAngleInput = ui.createWidget("Gui::InputField")
-        self.sweepAngleInput.unit = 'deg'
+        self.sweepAngleInput.unit = FreeCAD.Units.Angle
         self.sweepAngleInput.setMinimumWidth(100)
 
         # Fin set group
@@ -369,7 +369,7 @@ class _FinCanDialog(QDialog):
         self.canDiameterLabel = QtGui.QLabel(translate('Rocket', "Inner Diameter"), self)
 
         self.canDiameterInput = ui.createWidget("Gui::InputField")
-        self.canDiameterInput.unit = 'mm'
+        self.canDiameterInput.unit = FreeCAD.Units.Length
         self.canDiameterInput.setMinimumWidth(100)
 
         self.canAutoDiameterCheckbox = QtGui.QCheckBox(translate('Rocket', "auto"), self)
@@ -378,19 +378,19 @@ class _FinCanDialog(QDialog):
         self.canThicknessLabel = QtGui.QLabel(translate('Rocket', "Thickness"), self)
 
         self.canThicknessInput = ui.createWidget("Gui::InputField")
-        self.canThicknessInput.unit = 'mm'
+        self.canThicknessInput.unit = FreeCAD.Units.Length
         self.canThicknessInput.setMinimumWidth(100)
 
         self.canLengthLabel = QtGui.QLabel(translate('Rocket', "Length"), self)
 
         self.canLengthInput = ui.createWidget("Gui::InputField")
-        self.canLengthInput.unit = 'mm'
+        self.canLengthInput.unit = FreeCAD.Units.Length
         self.canLengthInput.setMinimumWidth(100)
 
         self.canLeadingOffsetLabel = QtGui.QLabel(translate('Rocket', "Leading Edge Offset"), self)
 
         self.canLeadingOffsetInput = ui.createWidget("Gui::InputField")
-        self.canLeadingOffsetInput.unit = 'mm'
+        self.canLeadingOffsetInput.unit = FreeCAD.Units.Length
         self.canLeadingOffsetInput.setMinimumWidth(100)
 
         # Fin can leading and trailing edges
@@ -406,7 +406,7 @@ class _FinCanDialog(QDialog):
         self.canLeadingLengthLabel = QtGui.QLabel(translate('Rocket', "Length"), self)
 
         self.canLeadingLengthInput = ui.createWidget("Gui::InputField")
-        self.canLeadingLengthInput.unit = 'mm'
+        self.canLeadingLengthInput.unit = FreeCAD.Units.Length
         self.canLeadingLengthInput.setMinimumWidth(100)
 
         self.canTrailingGroup = QtGui.QGroupBox(translate('Rocket', "Trailing Edge"), self)
@@ -421,7 +421,7 @@ class _FinCanDialog(QDialog):
         self.canTrailingLengthLabel = QtGui.QLabel(translate('Rocket', "Length"), self)
 
         self.canTrailingLengthInput = ui.createWidget("Gui::InputField")
-        self.canTrailingLengthInput.unit = 'mm'
+        self.canTrailingLengthInput.unit = FreeCAD.Units.Length
         self.canTrailingLengthInput.setMinimumWidth(100)
 
         # Leading Edge group
@@ -494,7 +494,7 @@ class _FinCanDialog(QDialog):
         self.couplerDiameterLabel = QtGui.QLabel(translate('Rocket', "Outer Diameter"), self)
 
         self.couplerDiameterInput = ui.createWidget("Gui::InputField")
-        self.couplerDiameterInput.unit = 'mm'
+        self.couplerDiameterInput.unit = FreeCAD.Units.Length
         self.couplerDiameterInput.setMinimumWidth(100)
 
         self.couplerAutoDiameterCheckbox = QtGui.QCheckBox(translate('Rocket', "auto"), self)
@@ -503,13 +503,13 @@ class _FinCanDialog(QDialog):
         self.couplerThicknessLabel = QtGui.QLabel(translate('Rocket', "Thickness"), self)
 
         self.couplerThicknessInput = ui.createWidget("Gui::InputField")
-        self.couplerThicknessInput.unit = 'mm'
+        self.couplerThicknessInput.unit = FreeCAD.Units.Length
         self.couplerThicknessInput.setMinimumWidth(100)
 
         self.couplerLengthLabel = QtGui.QLabel(translate('Rocket', "Length"), self)
 
         self.couplerLengthInput = ui.createWidget("Gui::InputField")
-        self.couplerLengthInput.unit = 'mm'
+        self.couplerLengthInput.unit = FreeCAD.Units.Length
         self.couplerLengthInput.setMinimumWidth(100)
 
         # Group
@@ -551,7 +551,7 @@ class _FinCanDialog(QDialog):
         self.lugInnerDiameterLabel = QtGui.QLabel(translate('Rocket', "Inner Diameter"), self)
 
         self.lugInnerDiameterInput = ui.createWidget("Gui::InputField")
-        self.lugInnerDiameterInput.unit = 'mm'
+        self.lugInnerDiameterInput.unit = FreeCAD.Units.Length
         self.lugInnerDiameterInput.setMinimumWidth(100)
 
         self.lugInnerDiameterPresetLabel = QtGui.QLabel(translate('Rocket', "Presets"), self)
@@ -565,7 +565,7 @@ class _FinCanDialog(QDialog):
         self.lugThicknessLabel = QtGui.QLabel(translate('Rocket', "Thickness"), self)
 
         self.lugThicknessInput = ui.createWidget("Gui::InputField")
-        self.lugThicknessInput.unit = 'mm'
+        self.lugThicknessInput.unit = FreeCAD.Units.Length
         self.lugThicknessInput.setMinimumWidth(100)
 
         self.lugAutoThicknessCheckbox = QtGui.QCheckBox(translate('Rocket', "auto"), self)
@@ -574,7 +574,7 @@ class _FinCanDialog(QDialog):
         self.lugLengthLabel = QtGui.QLabel(translate('Rocket', "Length"), self)
 
         self.lugLengthInput = ui.createWidget("Gui::InputField")
-        self.lugLengthInput.unit = 'mm'
+        self.lugLengthInput.unit = FreeCAD.Units.Length
         self.lugLengthInput.setMinimumWidth(100)
 
         self.lugAutoLengthCheckbox = QtGui.QCheckBox(translate('Rocket', "auto"), self)
@@ -583,13 +583,13 @@ class _FinCanDialog(QDialog):
         self.lugLeadingOffsetLabel = QtGui.QLabel(translate('Rocket', "Leading Edge Offset"), self)
 
         self.lugLeadingOffsetInput = ui.createWidget("Gui::InputField")
-        self.lugLeadingOffsetInput.unit = 'mm'
+        self.lugLeadingOffsetInput.unit = FreeCAD.Units.Length
         self.lugLeadingOffsetInput.setMinimumWidth(100)
 
         self.lugFilletRadiusLabel = QtGui.QLabel(translate('Rocket', "Fillet radius"), self)
 
         self.lugFilletRadiusInput = ui.createWidget("Gui::InputField")
-        self.lugFilletRadiusInput.unit = 'mm'
+        self.lugFilletRadiusInput.unit = FreeCAD.Units.Length
         self.lugFilletRadiusInput.setMinimumWidth(100)
 
         # Sweep parameters
@@ -599,7 +599,7 @@ class _FinCanDialog(QDialog):
         self.forwardSweepLabel = QtGui.QLabel(translate('Rocket', "Sweep Angle"), self)
 
         self.forwardSweepInput = ui.createWidget("Gui::InputField")
-        self.forwardSweepInput.unit = 'deg'
+        self.forwardSweepInput.unit = FreeCAD.Units.Angle
         self.forwardSweepInput.setMinimumWidth(100)
 
         self.aftSweepGroup = QtGui.QGroupBox(translate('Rocket', "Aft Sweep"), self)
@@ -608,7 +608,7 @@ class _FinCanDialog(QDialog):
         self.aftSweepLabel = QtGui.QLabel(translate('Rocket', "Sweep Angle"), self)
 
         self.aftSweepInput = ui.createWidget("Gui::InputField")
-        self.aftSweepInput.unit = 'deg'
+        self.aftSweepInput.unit = FreeCAD.Units.Angle
         self.aftSweepInput.setMinimumWidth(100)
 
         # Forward sweep group
@@ -1209,8 +1209,8 @@ class TaskPanelFinCan(QObject):
             self._finForm.rootLength1Input.setText(str(self._obj.RootLength1.Value))
             self._finForm.rootLength2Input.setText(str(self._obj.RootLength2.Value))
         else:
-            self._finForm.rootLength1Input.unit = 'mm'
-            self._finForm.rootLength2Input.unit = 'mm'
+            self._finForm.rootLength1Input.unit = FreeCAD.Units.Length
+            self._finForm.rootLength2Input.unit = FreeCAD.Units.Length
             self._finForm.rootLength1Input.setText(self._obj.RootLength1.UserString)
             self._finForm.rootLength2Input.setText(self._obj.RootLength2.UserString)
 
@@ -1287,8 +1287,8 @@ class TaskPanelFinCan(QObject):
             self._finForm.tipLength1Input.setText(str(self._obj.TipLength1.Value))
             self._finForm.tipLength2Input.setText(str(self._obj.TipLength2.Value))
         else:
-            self._finForm.tipLength1Input.unit = 'mm'
-            self._finForm.tipLength2Input.unit = 'mm'
+            self._finForm.tipLength1Input.unit = FreeCAD.Units.Length
+            self._finForm.tipLength2Input.unit = FreeCAD.Units.Length
             self._finForm.tipLength1Input.setText(self._obj.TipLength1.UserString)
             self._finForm.tipLength2Input.setText(self._obj.TipLength2.UserString)
 

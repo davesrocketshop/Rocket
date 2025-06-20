@@ -58,7 +58,7 @@ class _locationDialog(QDialog):
             self.radialOffsetLabel = QtGui.QLabel(translate('Rocket', "Radial Offset"), self)
 
             self.radialOffsetInput = ui.createWidget("Gui::InputField")
-            self.radialOffsetInput.unit = 'mm'
+            self.radialOffsetInput.unit = FreeCAD.Units.Length
             self.radialOffsetInput.setMinimumWidth(80)
 
         # Select the location reference
@@ -74,13 +74,13 @@ class _locationDialog(QDialog):
             self.locationLabel = QtGui.QLabel(translate('Rocket', "Location"), self)
 
             self.locationInput = ui.createWidget("Gui::InputField")
-            self.locationInput.unit = 'mm'
+            self.locationInput.unit = FreeCAD.Units.Length
             self.locationInput.setMinimumWidth(80)
 
         self.angleOffsetLabel = QtGui.QLabel(translate('Rocket', "Angle Offset"), self)
 
         self.angleOffsetInput = ui.createWidget("Gui::InputField")
-        self.angleOffsetInput.unit = 'deg'
+        self.angleOffsetInput.unit = FreeCAD.Units.Angle
         self.angleOffsetInput.setMinimumWidth(80)
 
         layout = QGridLayout()

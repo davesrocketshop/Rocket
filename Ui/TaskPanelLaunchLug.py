@@ -74,25 +74,25 @@ class _LaunchLugDialog(QDialog):
         self.idLabel = QtGui.QLabel(translate('Rocket', "Inner Diameter"), self)
 
         self.idInput = ui.createWidget("Gui::InputField")
-        self.idInput.unit = 'mm'
+        self.idInput.unit = FreeCAD.Units.Length
         self.idInput.setMinimumWidth(100)
 
         self.odLabel = QtGui.QLabel(translate('Rocket', "Outer Diameter"), self)
 
         self.odInput = ui.createWidget("Gui::InputField")
-        self.odInput.unit = 'mm'
+        self.odInput.unit = FreeCAD.Units.Length
         self.odInput.setMinimumWidth(100)
 
         self.thicknessLabel = QtGui.QLabel(translate('Rocket', "Wall Thickness"), self)
 
         self.thicknessInput = ui.createWidget("Gui::InputField")
-        self.thicknessInput.unit = 'mm'
+        self.thicknessInput.unit = FreeCAD.Units.Length
         self.thicknessInput.setMinimumWidth(80)
 
         self.lengthLabel = QtGui.QLabel(translate('Rocket', "Length"), self)
 
         self.lengthInput = ui.createWidget("Gui::InputField")
-        self.lengthInput.unit = 'mm'
+        self.lengthInput.unit = FreeCAD.Units.Length
         self.lengthInput.setMinimumWidth(100)
 
         # Sweep parameters
@@ -102,7 +102,7 @@ class _LaunchLugDialog(QDialog):
         self.forwardSweepLabel = QtGui.QLabel(translate('Rocket', "Sweep Angle"), self)
 
         self.forwardSweepInput = ui.createWidget("Gui::InputField")
-        self.forwardSweepInput.unit = 'deg'
+        self.forwardSweepInput.unit = FreeCAD.Units.Angle
         self.forwardSweepInput.setMinimumWidth(100)
 
         self.aftSweepGroup = QtGui.QGroupBox(translate('Rocket', "Aft Sweep"), self)
@@ -111,7 +111,7 @@ class _LaunchLugDialog(QDialog):
         self.aftSweepLabel = QtGui.QLabel(translate('Rocket', "Sweep Angle"), self)
 
         self.aftSweepInput = ui.createWidget("Gui::InputField")
-        self.aftSweepInput.unit = 'deg'
+        self.aftSweepInput.unit = FreeCAD.Units.Angle
         self.aftSweepInput.setMinimumWidth(100)
 
         # Forward sweep group

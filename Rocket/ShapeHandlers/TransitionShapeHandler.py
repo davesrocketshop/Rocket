@@ -88,6 +88,34 @@ class TransitionShapeHandler():
 
         self._shoulder = (self._foreShoulder or self._aftShoulder)
 
+        self._scale = 1.0
+        self._scaleByValue = bool(obj.ScaleByValue)
+        self._scaleByDiameter = bool(obj.ScaleByDiameter)
+        self._autoScaleDiameter = bool(obj.AutoScaleDiameter)
+        self._scaleForeDiameter = bool(obj.ScaleForeDiameter)
+        self._scaleValue = obj.ScaleValue.Value
+
+        # Apply scaling
+        if obj.Scale:
+            if self._scaleByValue and self._scaleValue > 0.0:
+                self._scale = 1.0 / self._scaleValue
+            elif self._scaleByDiameter:
+                if self._scaleForeDiameter:
+                    if self._foreRadius > 0 and self._scaleValue > 0:
+                        self._scale = self._scaleValue / (2.0 * self._foreRadius)
+                else:
+                    if self._aftRadius > 0 and self._scaleValue > 0:
+                        self._scale = self._scaleValue / (2.0 * self._aftRadius)
+            self._length = self._length * self._scale
+            if not self._foreAuto:
+                self._foreRadius = self._foreRadius * self._scale
+            if not self._aftAuto:
+                self._aftRadius = self._aftRadius * self._scale
+            if self._foreShoulderRadius > self._foreRadius:
+                self._foreShoulderRadius = self._foreRadius - 0.001
+            if self._aftShoulderRadius > self._aftRadius:
+                self._aftShoulderRadius = self._aftRadius - 0.001
+
         # Used to show the shape outline for debugging
         self._debugShape = False
 

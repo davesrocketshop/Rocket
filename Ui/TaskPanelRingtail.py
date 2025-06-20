@@ -76,13 +76,13 @@ class _RingtailDialog(QDialog):
         self.idLabel = QtGui.QLabel(translate('Rocket', "Inner Diameter"), self)
 
         self.idInput = ui.createWidget("Gui::InputField")
-        self.idInput.unit = 'mm'
+        self.idInput.unit = FreeCAD.Units.Length
         self.idInput.setMinimumWidth(100)
 
         self.odLabel = QtGui.QLabel(translate('Rocket', "Outer Diameter"), self)
 
         self.odInput = ui.createWidget("Gui::InputField")
-        self.odInput.unit = 'mm'
+        self.odInput.unit = FreeCAD.Units.Length
         self.odInput.setMinimumWidth(100)
 
         self.autoDiameterCheckbox = QtGui.QCheckBox(translate('Rocket', "auto"), self)
@@ -91,13 +91,13 @@ class _RingtailDialog(QDialog):
         self.thicknessLabel = QtGui.QLabel(translate('Rocket', "Wall Thickness"), self)
 
         self.thicknessInput = ui.createWidget("Gui::InputField")
-        self.thicknessInput.unit = 'mm'
+        self.thicknessInput.unit = FreeCAD.Units.Length
         self.thicknessInput.setMinimumWidth(80)
 
         self.lengthLabel = QtGui.QLabel(translate('Rocket', "Length"), self)
 
         self.lengthInput = ui.createWidget("Gui::InputField")
-        self.lengthInput.unit = 'mm'
+        self.lengthInput.unit = FreeCAD.Units.Length
         self.lengthInput.setMinimumWidth(100)
 
         self.autoLengthCheckbox = QtGui.QCheckBox(translate('Rocket', "auto"), self)

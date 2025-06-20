@@ -82,7 +82,8 @@ class NoseShapeHandler(ABC):
                 if self._radius > 0 and self._scaleValue > 0:
                     self._scale = self._scaleValue / (2.0 * self._radius)
             self._length = self._length * self._scale
-            self._radius = self._radius * self._scale
+            if not self._autoDiameter:
+                self._radius = self._radius * self._scale
             self._noseRadius = self._noseRadius * self._scale
             self._ogiveRadius = self._ogiveRadius * self._scale
             if self._shoulderRadius > self._radius:

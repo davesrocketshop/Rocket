@@ -73,7 +73,7 @@ class _ParallelStageDialog(QDialog):
         self.stageSpacingLabel = QtGui.QLabel(translate('Rocket', "Stage Spacing"), self)
 
         self.stageSpacingInput = ui.createWidget("Gui::InputField")
-        self.stageSpacingInput.unit = 'deg'
+        self.stageSpacingInput.unit = FreeCAD.Units.Angle
         self.stageSpacingInput.setMinimumWidth(80)
 
         # General parameters

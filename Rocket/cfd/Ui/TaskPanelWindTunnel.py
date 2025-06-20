@@ -60,13 +60,13 @@ class _WindTunnelDialog(QDialog):
         self.diameterLabel = QtGui.QLabel(translate('Rocket', "Diameter"), self)
 
         self.diameterInput = ui.createWidget("Gui::InputField")
-        self.diameterInput.unit = 'mm'
+        self.diameterInput.unit = FreeCAD.Units.Length
         self.diameterInput.setMinimumWidth(100)
 
         self.lengthLabel = QtGui.QLabel(translate('Rocket', "Length"), self)
 
         self.lengthInput = ui.createWidget("Gui::InputField")
-        self.lengthInput.unit = 'mm'
+        self.lengthInput.unit = FreeCAD.Units.Length
         self.lengthInput.setMinimumWidth(100)
 
         # General parameters

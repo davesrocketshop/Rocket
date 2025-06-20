@@ -700,10 +700,6 @@ class TaskPanelNoseCone:
         else:
             self._noseForm.tabScaling.scaledBluntedDiameterInput.setVisible(False)
             self._noseForm.tabScaling.scaledBluntedDiameterLabel.setVisible(False)
-        self._noseForm.tabScaling.scaleForeRadio.setVisible(False)
-        self._noseForm.tabScaling.scaleAftRadio.setVisible(False)
-        self._noseForm.tabScaling.scaledAftDiameterLabel.setVisible(False)
-        self._noseForm.tabScaling.scaledAftDiameterInput.setVisible(False)
 
     def onNoseStyle(self, value):
         self._obj.NoseStyle = value

@@ -77,7 +77,7 @@ class _BulkheadDialog(QDialog):
         self.diameterLabel = QtGui.QLabel(translate('Rocket', "Outer Diameter"), self)
 
         self.diameterInput = ui.createWidget("Gui::InputField")
-        self.diameterInput.unit = 'mm'
+        self.diameterInput.unit = FreeCAD.Units.Length
         self.diameterInput.setMinimumWidth(80)
 
         self.autoDiameterCheckbox = QtGui.QCheckBox(translate('Rocket', "auto"), self)
@@ -86,14 +86,14 @@ class _BulkheadDialog(QDialog):
         self.thicknessLabel = QtGui.QLabel(translate('Rocket', "Thickness"), self)
 
         self.thicknessInput = ui.createWidget("Gui::InputField")
-        self.thicknessInput.unit = 'mm'
+        self.thicknessInput.unit = FreeCAD.Units.Length
         self.thicknessInput.setMinimumWidth(80)
 
         if crPanel:
             self.centerDiameterLabel = QtGui.QLabel(translate('Rocket', "Inner Diameter"), self)
 
             self.centerDiameterInput = ui.createWidget("Gui::InputField")
-            self.centerDiameterInput.unit = 'mm'
+            self.centerDiameterInput.unit = FreeCAD.Units.Length
             self.centerDiameterInput.setMinimumWidth(80)
 
             self.autoCenterDiameterCheckbox = QtGui.QCheckBox(translate('Rocket', "auto"), self)
@@ -105,13 +105,13 @@ class _BulkheadDialog(QDialog):
             self.notchWidthLabel = QtGui.QLabel(translate('Rocket', "Width"), self)
 
             self.notchWidthInput = ui.createWidget("Gui::InputField")
-            self.notchWidthInput.unit = 'mm'
+            self.notchWidthInput.unit = FreeCAD.Units.Length
             self.notchWidthInput.setMinimumWidth(80)
 
             self.notchHeightLabel = QtGui.QLabel(translate('Rocket', "Height"), self)
 
             self.notchHeightInput = ui.createWidget("Gui::InputField")
-            self.notchHeightInput.unit = 'mm'
+            self.notchHeightInput.unit = FreeCAD.Units.Length
             self.notchHeightInput.setMinimumWidth(80)
 
         self.stepGroup = QtGui.QGroupBox(translate('Rocket', "Step"), self)
@@ -120,13 +120,13 @@ class _BulkheadDialog(QDialog):
         self.stepDiameterLabel = QtGui.QLabel(translate('Rocket', "Diameter"), self)
 
         self.stepDiameterInput = ui.createWidget("Gui::InputField")
-        self.stepDiameterInput.unit = 'mm'
+        self.stepDiameterInput.unit = FreeCAD.Units.Length
         self.stepDiameterInput.setMinimumWidth(80)
 
         self.stepThicknessLabel = QtGui.QLabel(translate('Rocket', "Thickness"), self)
 
         self.stepThicknessInput = ui.createWidget("Gui::InputField")
-        self.stepThicknessInput.unit = 'mm'
+        self.stepThicknessInput.unit = FreeCAD.Units.Length
         self.stepThicknessInput.setMinimumWidth(80)
 
         self.stepReverseCheckbox = QtGui.QCheckBox(translate('Rocket', "reverse"), self)
@@ -138,13 +138,13 @@ class _BulkheadDialog(QDialog):
         self.holeDiameterLabel = QtGui.QLabel(translate('Rocket', "Diameter"), self)
 
         self.holeDiameterInput = ui.createWidget("Gui::InputField")
-        self.holeDiameterInput.unit = 'mm'
+        self.holeDiameterInput.unit = FreeCAD.Units.Length
         self.holeDiameterInput.setMinimumWidth(80)
 
         self.holeCenterLabel = QtGui.QLabel(translate('Rocket', "Center"), self)
 
         self.holeCenterInput = ui.createWidget("Gui::InputField")
-        self.holeCenterInput.unit = 'mm'
+        self.holeCenterInput.unit = FreeCAD.Units.Length
         self.holeCenterInput.setMinimumWidth(80)
 
         self.holeCountLabel = QtGui.QLabel(translate('Rocket', "Count"), self)
@@ -158,7 +158,7 @@ class _BulkheadDialog(QDialog):
 
         # Offsets can be positive or negative so no validator required
         self.holeOffsetInput = ui.createWidget("Gui::InputField")
-        self.holeOffsetInput.unit = 'deg'
+        self.holeOffsetInput.unit = FreeCAD.Units.Angle
         self.holeOffsetInput.setMinimumWidth(80)
 
         # Notch group

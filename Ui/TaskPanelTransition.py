@@ -116,13 +116,13 @@ class _TransitionDialog(QDialog):
         self.lengthLabel = QtGui.QLabel(translate('Rocket', "Length"), self)
 
         self.lengthInput = ui.createWidget("Gui::InputField")
-        self.lengthInput.unit = 'mm'
+        self.lengthInput.unit = FreeCAD.Units.Length
         self.lengthInput.setMinimumWidth(100)
 
         self.foreDiameterLabel = QtGui.QLabel(translate('Rocket', "Forward Diameter"), self)
 
         self.foreDiameterInput = ui.createWidget("Gui::InputField")
-        self.foreDiameterInput.unit = 'mm'
+        self.foreDiameterInput.unit = FreeCAD.Units.Length
         self.foreDiameterInput.setMinimumWidth(100)
 
         self.foreAutoDiameterCheckbox = QtGui.QCheckBox(translate('Rocket', "auto"), self)
@@ -131,7 +131,7 @@ class _TransitionDialog(QDialog):
         self.aftDiameterLabel = QtGui.QLabel(translate('Rocket', "Aft Diameter"), self)
 
         self.aftDiameterInput = ui.createWidget("Gui::InputField")
-        self.aftDiameterInput.unit = 'mm'
+        self.aftDiameterInput.unit = FreeCAD.Units.Length
         self.aftDiameterInput.setMinimumWidth(100)
 
         self.aftAutoDiameterCheckbox = QtGui.QCheckBox(translate('Rocket', "auto"), self)
@@ -140,13 +140,13 @@ class _TransitionDialog(QDialog):
         self.coreDiameterLabel = QtGui.QLabel(translate('Rocket', "Core Diameter"), self)
 
         self.coreDiameterInput = ui.createWidget("Gui::InputField")
-        self.coreDiameterInput.unit = 'mm'
+        self.coreDiameterInput.unit = FreeCAD.Units.Length
         self.coreDiameterInput.setMinimumWidth(100)
 
         self.thicknessLabel = QtGui.QLabel(translate('Rocket', "Thickness"), self)
 
         self.thicknessInput = ui.createWidget("Gui::InputField")
-        self.thicknessInput.unit = 'mm'
+        self.thicknessInput.unit = FreeCAD.Units.Length
         self.thicknessInput.setMinimumWidth(100)
 
         # Forward cap styles
@@ -162,7 +162,7 @@ class _TransitionDialog(QDialog):
         self.foreCapBarWidthLabel = QtGui.QLabel(translate('Rocket', "Bar Width"), self)
 
         self.foreCapBarWidthInput = ui.createWidget("Gui::InputField")
-        self.foreCapBarWidthInput.unit = 'mm'
+        self.foreCapBarWidthInput.unit = FreeCAD.Units.Length
         self.foreCapBarWidthInput.setMinimumWidth(100)
 
         # Aft cap styles
@@ -178,7 +178,7 @@ class _TransitionDialog(QDialog):
         self.aftCapBarWidthLabel = QtGui.QLabel(translate('Rocket', "Bar Width"), self)
 
         self.aftCapBarWidthInput = ui.createWidget("Gui::InputField")
-        self.aftCapBarWidthInput.unit = 'mm'
+        self.aftCapBarWidthInput.unit = FreeCAD.Units.Length
         self.aftCapBarWidthInput.setMinimumWidth(100)
 
         # Forward cap group
@@ -264,7 +264,7 @@ class _TransitionDialog(QDialog):
         self.foreShoulderDiameterLabel = QtGui.QLabel(translate('Rocket', "Diameter"), self)
 
         self.foreShoulderDiameterInput = ui.createWidget("Gui::InputField")
-        self.foreShoulderDiameterInput.unit = 'mm'
+        self.foreShoulderDiameterInput.unit = FreeCAD.Units.Length
         self.foreShoulderDiameterInput.setMinimumWidth(100)
 
         self.foreShoulderAutoDiameterCheckbox = QtGui.QCheckBox(translate('Rocket', "auto"), self)
@@ -273,13 +273,13 @@ class _TransitionDialog(QDialog):
         self.foreShoulderLengthLabel = QtGui.QLabel(translate('Rocket', "Length"), self)
 
         self.foreShoulderLengthInput = ui.createWidget("Gui::InputField")
-        self.foreShoulderLengthInput.unit = 'mm'
+        self.foreShoulderLengthInput.unit = FreeCAD.Units.Length
         self.foreShoulderLengthInput.setMinimumWidth(100)
 
         self.foreShoulderThicknessLabel = QtGui.QLabel(translate('Rocket', "Thickness"), self)
 
         self.foreShoulderThicknessInput = ui.createWidget("Gui::InputField")
-        self.foreShoulderThicknessInput.unit = 'mm'
+        self.foreShoulderThicknessInput.unit = FreeCAD.Units.Length
         self.foreShoulderThicknessInput.setMinimumWidth(100)
 
         self.aftGroup = QtGui.QGroupBox(translate('Rocket', "Aft Shoulder"), self)
@@ -288,7 +288,7 @@ class _TransitionDialog(QDialog):
         self.aftShoulderDiameterLabel = QtGui.QLabel(translate('Rocket', "Diameter"), self)
 
         self.aftShoulderDiameterInput = ui.createWidget("Gui::InputField")
-        self.aftShoulderDiameterInput.unit = 'mm'
+        self.aftShoulderDiameterInput.unit = FreeCAD.Units.Length
         self.aftShoulderDiameterInput.setMinimumWidth(100)
 
         self.aftShoulderAutoDiameterCheckbox = QtGui.QCheckBox(translate('Rocket', "auto"), self)
@@ -297,13 +297,13 @@ class _TransitionDialog(QDialog):
         self.aftShoulderLengthLabel = QtGui.QLabel(translate('Rocket', "Length"), self)
 
         self.aftShoulderLengthInput = ui.createWidget("Gui::InputField")
-        self.aftShoulderLengthInput.unit = 'mm'
+        self.aftShoulderLengthInput.unit = FreeCAD.Units.Length
         self.aftShoulderLengthInput.setMinimumWidth(100)
 
         self.aftShoulderThicknessLabel = QtGui.QLabel(translate('Rocket', "Thickness"), self)
 
         self.aftShoulderThicknessInput = ui.createWidget("Gui::InputField")
-        self.aftShoulderThicknessInput.unit = 'mm'
+        self.aftShoulderThicknessInput.unit = FreeCAD.Units.Length
         self.aftShoulderThicknessInput.setMinimumWidth(100)
 
         row = 0
@@ -519,21 +519,15 @@ class TaskPanelTransition:
         self._tranForm.tabScaling.scaledLengthInput.setText(length.UserString)
 
         diameter = self._obj.Proxy.getForeDiameter() / scale
-        self._tranForm.tabScaling.scaledDiameterLabel.setText(translate('Rocket', "Forward Diameter"))
         self._tranForm.tabScaling.scaledDiameterInput.setText(diameter.UserString)
+        
         diameter = self._obj.Proxy.getAftDiameter() / scale
-        self._tranForm.tabScaling.scaledAftDiameterLabel.setText(translate('Rocket', "Aft Diameter"))
         self._tranForm.tabScaling.scaledAftDiameterInput.setText(diameter.UserString)
         self._tranForm.tabScaling.scaledAftDiameterLabel.setVisible(True)
         self._tranForm.tabScaling.scaledAftDiameterInput.setVisible(True)
 
         self._tranForm.tabScaling.scaleForeRadio.setVisible(True)
         self._tranForm.tabScaling.scaleAftRadio.setVisible(True)
-
-        self._tranForm.tabScaling.scaledOgiveDiameterInput.setVisible(False)
-        self._tranForm.tabScaling.scaledOgiveDiameterLabel.setVisible(False)
-        self._tranForm.tabScaling.scaledBluntedDiameterInput.setVisible(False)
-        self._tranForm.tabScaling.scaledBluntedDiameterLabel.setVisible(False)
 
     def onTransitionType(self, value):
         self._obj.TransitionType = value

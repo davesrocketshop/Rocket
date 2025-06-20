@@ -245,7 +245,7 @@ class FeatureRingtail(SymmetricComponent, BoxBounded, Coaxial):
         return False
 
     def _setAutoDiameter(self) -> None:
-        parentDiameter = 0.0
+        parentDiameter = SymmetricComponent.DEFAULT_RADIUS * 2.0
 
         body = self.getParentBody()
         if body is not None:
@@ -261,7 +261,7 @@ class FeatureRingtail(SymmetricComponent, BoxBounded, Coaxial):
 
     def _setAutoLength(self) -> None:
         body = None
-        tipLength = 0.0
+        tipLength = 30.48 # Default tip length
 
         body = self.getParentBody()
         if body is not None:

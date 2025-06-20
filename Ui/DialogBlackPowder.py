@@ -70,7 +70,7 @@ class DialogBlackPowder(QDialog):
         self.diameterLabel = QtGui.QLabel(translate('Rocket', "Body Tube Diameter"), self)
 
         self.diameterInput = ui.createWidget("Gui::InputField")
-        self.diameterInput.unit = 'mm'
+        self.diameterInput.unit = FreeCAD.Units.Length
         self.diameterInput.setMinimumWidth(100)
         self.diameterInput.setText("98.0 mm")
         self.diameterInput.textEdited.connect(self.onDiameter)
@@ -78,7 +78,7 @@ class DialogBlackPowder(QDialog):
         self.lengthLabel = QtGui.QLabel(translate('Rocket', "Body Tube Length"), self)
 
         self.lengthInput = ui.createWidget("Gui::InputField")
-        self.lengthInput.unit = 'mm'
+        self.lengthInput.unit = FreeCAD.Units.Length
         self.lengthInput.setText("300.0 mm")
         self.lengthInput.setMinimumWidth(100)
         self.lengthInput.textEdited.connect(self.onLength)

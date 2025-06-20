@@ -24,6 +24,7 @@ __title__ = "FreeCAD Body Tubes"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
+from typing import Any
 
 import FreeCAD
 import FreeCADGui
@@ -38,23 +39,30 @@ from Ui.TaskPanelDatabase import TaskPanelDatabase
 from Ui.TaskPanelLocation import TaskPanelLocation
 from Rocket.Constants import COMPONENT_TYPE_BODYTUBE, COMPONENT_TYPE_LAUNCHLUG, COMPONENT_TYPE_COUPLER, COMPONENT_TYPE_ENGINEBLOCK
 
-from Rocket.Constants import FEATURE_LAUNCH_LUG, FEATURE_TUBE_COUPLER, FEATURE_ENGINE_BLOCK
+from Rocket.Constants import FEATURE_INNER_TUBE, FEATURE_LAUNCH_LUG, FEATURE_TUBE_COUPLER, FEATURE_ENGINE_BLOCK
 
 from Ui.Widgets.MaterialTab import MaterialTab
 from Ui.Widgets.CommentTab import CommentTab
+from Ui.Widgets.ScalingTab import ScalingTabBodyTube
 
 from Rocket.Utilities import _valueOnly, _err
 
 class _BodyTubeDialog(QDialog):
 
-    def __init__(self, parent=None):
-        super(_BodyTubeDialog, self).__init__(parent)
+    def __init__(self, obj: Any, parent : Any = None) -> None:
+        super().__init__(parent)
 
         self.tabWidget = QtGui.QTabWidget()
         self.tabGeneral = QtGui.QWidget()
         self.tabMaterial = MaterialTab()
         self.tabComment = CommentTab()
+        self.tabScaling = None
+        if not obj.Proxy.Type in [FEATURE_INNER_TUBE, FEATURE_LAUNCH_LUG, FEATURE_TUBE_COUPLER, FEATURE_ENGINE_BLOCK]:
+            self.tabScaling = ScalingTabBodyTube(obj)
+
         self.tabWidget.addTab(self.tabGeneral, translate('Rocket', "General"))
+        if self.tabScaling is not None:
+            self.tabWidget.addTab(self.tabScaling, translate('Rocket', "Scaling"))
         self.tabWidget.addTab(self.tabMaterial, translate('Rocket', "Material"))
         self.tabWidget.addTab(self.tabComment, translate('Rocket', "Comment"))
 
@@ -76,13 +84,13 @@ class _BodyTubeDialog(QDialog):
         self.idLabel = QtGui.QLabel(translate('Rocket', "Inner Diameter"), self)
 
         self.idInput = ui.createWidget("Gui::InputField")
-        self.idInput.unit = 'mm'
+        self.idInput.unit = FreeCAD.Units.Length
         self.idInput.setMinimumWidth(100)
 
         self.odLabel = QtGui.QLabel(translate('Rocket', "Outer Diameter"), self)
 
         self.odInput = ui.createWidget("Gui::InputField")
-        self.odInput.unit = 'mm'
+        self.odInput.unit = FreeCAD.Units.Length
         self.odInput.setMinimumWidth(100)
 
         self.autoDiameterCheckbox = QtGui.QCheckBox(translate('Rocket', "auto"), self)
@@ -91,13 +99,13 @@ class _BodyTubeDialog(QDialog):
         self.thicknessLabel = QtGui.QLabel(translate('Rocket', "Wall Thickness"), self)
 
         self.thicknessInput = ui.createWidget("Gui::InputField")
-        self.thicknessInput.unit = 'mm'
+        self.thicknessInput.unit = FreeCAD.Units.Length
         self.thicknessInput.setMinimumWidth(80)
 
         self.lengthLabel = QtGui.QLabel(translate('Rocket', "Length"), self)
 
         self.lengthInput = ui.createWidget("Gui::InputField")
-        self.lengthInput.unit = 'mm'
+        self.lengthInput.unit = FreeCAD.Units.Length
         self.lengthInput.setMinimumWidth(100)
 
         self.motorGroup = QtGui.QGroupBox(translate('Rocket', "Motor Mount"), self)
@@ -106,7 +114,7 @@ class _BodyTubeDialog(QDialog):
         self.overhangLabel = QtGui.QLabel(translate('Rocket', "Overhang"), self)
 
         self.overhangInput = ui.createWidget("Gui::InputField")
-        self.overhangInput.unit = 'mm'
+        self.overhangInput.unit = FreeCAD.Units.Length
         self.overhangInput.setMinimumWidth(80)
 
         # Motor group
@@ -147,12 +155,12 @@ class _BodyTubeDialog(QDialog):
 
 class TaskPanelBodyTube:
 
-    def __init__(self,obj,mode):
+    def __init__(self, obj : Any, mode : int) -> None:
         self._obj = obj
         self._isAssembly = self._obj.Proxy.isRocketAssembly()
         self._motorMount = hasattr(self._obj, "MotorMount")
 
-        self._btForm = _BodyTubeDialog()
+        self._btForm = _BodyTubeDialog(obj)
         if self._obj.Proxy.Type == FEATURE_LAUNCH_LUG:
             self._db = TaskPanelDatabase(obj, COMPONENT_TYPE_LAUNCHLUG)
         elif self._obj.Proxy.Type == FEATURE_TUBE_COUPLER:
@@ -179,6 +187,10 @@ class TaskPanelBodyTube:
             self._btForm.motorGroup.toggled.connect(self.onMotor)
             self._btForm.overhangInput.textEdited.connect(self.onOverhang)
 
+        if self._btForm.tabScaling is not None:
+            self._btForm.tabScaling.scaled.connect(self.onScale)
+            self._btForm.tabScaling.scaledSetValuesButton.clicked.connect(self.onSetToScale)
+
         self._db.dbLoad.connect(self.onLookup)
         self._location.locationChange.connect(self.onLocation)
 
@@ -198,6 +210,8 @@ class TaskPanelBodyTube:
             self._obj.MotorMount = self._btForm.motorGroup.isChecked()
             self._obj.Overhang = self._btForm.overhangInput.text()
 
+        if self._btForm.tabScaling is not None:
+            self._btForm.tabScaling.transferTo(self._obj)
         self._btForm.tabMaterial.transferTo(self._obj)
         self._btForm.tabComment.transferTo(self._obj)
 
@@ -212,6 +226,8 @@ class TaskPanelBodyTube:
             self._btForm.motorGroup.setChecked(self._obj.MotorMount)
             self._btForm.overhangInput.setText(self._obj.Overhang.UserString)
 
+        if self._btForm.tabScaling is not None:
+            self._btForm.tabScaling.transferFrom(self._obj)
         self._btForm.tabMaterial.transferFrom(self._obj)
         self._btForm.tabComment.transferFrom(self._obj)
 
@@ -225,6 +241,21 @@ class TaskPanelBodyTube:
         except ReferenceError:
             # Object may be deleted
             pass
+
+    def onScale(self) -> None:
+        # Update the scale values
+        if self._btForm.tabScaling is not None:
+            scale = self._btForm.tabScaling.getScale()
+            length = self._obj.Length / scale
+            diameter = self._obj.Diameter / scale
+            if scale < 1.0:
+                self._btForm.tabScaling.scaledLabel.setText(translate('Rocket', "Upscale"))
+                self._btForm.tabScaling.scaledInput.setText(f"{1.0/scale}")
+            else:
+                self._btForm.tabScaling.scaledLabel.setText(translate('Rocket', "Scale"))
+                self._btForm.tabScaling.scaledInput.setText(f"{scale}")
+            self._btForm.tabScaling.scaledLengthInput.setText(length.UserString)
+            self._btForm.tabScaling.scaledDiameterInput.setText(diameter.UserString)
 
     def onOd(self, value):
         try:
@@ -251,6 +282,9 @@ class TaskPanelBodyTube:
             self._obj.Diameter = self._obj.Proxy.getOuterDiameter(0)
             self._btForm.odInput.setText(self._obj.Diameter.UserString)
             self._setIdFromThickness()
+
+        # Set the scale state
+        self.onScale()
 
     def onAutoDiameter(self, value):
         self._obj.Proxy.setOuterDiameterAutomatic(value)
@@ -283,9 +317,9 @@ class TaskPanelBodyTube:
         od = float(self._obj.Diameter.Value)
         if od > 0.0:
             id = od - 2.0 * float(self._obj.Thickness)
-            self._btForm.idInput.setText(FreeCAD.Units.Quantity(id).UserString)
+            self._btForm.idInput.setText(FreeCAD.Units.Quantity(id, FreeCAD.Units.Length).UserString)
         else:
-            self._btForm.idInput.setText(FreeCAD.Units.Quantity(0.0).UserString)
+            self._btForm.idInput.setText(FreeCAD.Units.Quantity(0.0, FreeCAD.Units.Length).UserString)
 
     def onThickness(self, value):
         try:
@@ -355,6 +389,17 @@ class TaskPanelBodyTube:
         self._obj.Proxy.updateChildren()
         self._obj.Proxy.execute(self._obj)
         self.setEdited()
+
+    def onSetToScale(self) -> None:
+        # Update the scale values
+        if self._btForm.tabScaling is not None:
+            scale = self._btForm.tabScaling.getScale()
+            self._obj.Length = self._obj.Length / scale
+            if not self._obj.AutoDiameter:
+                self._obj.Diameter = self._obj.Diameter / scale
+            scale = self._btForm.tabScaling.resetScale()
+
+            self.update()
 
     def getStandardButtons(self):
         return QtGui.QDialogButtonBox.Ok | QtGui.QDialogButtonBox.Cancel | QtGui.QDialogButtonBox.Apply

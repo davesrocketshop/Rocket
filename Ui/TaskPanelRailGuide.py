@@ -77,50 +77,50 @@ class _RailGuideDialog(QDialog):
         self.flangeWidthLabel = QtGui.QLabel(translate('Rocket', "Flange Width"), self)
 
         self.flangeWidthInput = ui.createWidget("Gui::InputField")
-        self.flangeWidthInput.unit = 'mm'
+        self.flangeWidthInput.unit = FreeCAD.Units.Length
         self.flangeWidthInput.setMinimumWidth(100)
 
         self.middleWidthLabel = QtGui.QLabel(translate('Rocket', "Middle Width"), self)
 
         self.middleWidthInput = ui.createWidget("Gui::InputField")
-        self.middleWidthInput.unit = 'mm'
+        self.middleWidthInput.unit = FreeCAD.Units.Length
         self.middleWidthInput.setMinimumWidth(100)
 
         self.baseWidthLabel = QtGui.QLabel(translate('Rocket', "Base Width"), self)
 
         self.baseWidthInput = ui.createWidget("Gui::InputField")
-        self.baseWidthInput.unit = 'mm'
+        self.baseWidthInput.unit = FreeCAD.Units.Length
         self.baseWidthInput.setMinimumWidth(100)
 
         self.flangeHeightLabel = QtGui.QLabel(translate('Rocket', "Flange Height"), self)
 
         self.flangeHeightInput = ui.createWidget("Gui::InputField")
-        self.flangeHeightInput.unit = 'mm'
+        self.flangeHeightInput.unit = FreeCAD.Units.Length
         self.flangeHeightInput.setMinimumWidth(100)
 
         self.baseHeightLabel = QtGui.QLabel(translate('Rocket', "Base Height"), self)
 
         self.baseHeightInput = ui.createWidget("Gui::InputField")
-        self.baseHeightInput.unit = 'mm'
+        self.baseHeightInput.unit = FreeCAD.Units.Length
         self.baseHeightInput.setMinimumWidth(100)
 
         self.heightLabel = QtGui.QLabel(translate('Rocket', "Total Height"), self)
 
         self.heightInput = ui.createWidget("Gui::InputField")
-        self.heightInput.unit = 'mm'
+        self.heightInput.unit = FreeCAD.Units.Length
         self.heightInput.setMinimumWidth(100)
 
         self.lengthLabel = QtGui.QLabel(translate('Rocket', "Length"), self)
 
         self.lengthInput = ui.createWidget("Gui::InputField")
-        self.lengthInput.unit = 'mm'
+        self.lengthInput.unit = FreeCAD.Units.Length
         self.lengthInput.setMinimumWidth(100)
 
         # Conformal base parameters
         self.diameterLabel = QtGui.QLabel(translate('Rocket', "Body Tube Diameter"), self)
 
         self.diameterInput = ui.createWidget("Gui::InputField")
-        self.diameterInput.unit = 'mm'
+        self.diameterInput.unit = FreeCAD.Units.Length
         self.diameterInput.setMinimumWidth(100)
 
         self.autoDiameterCheckbox = QtGui.QCheckBox(translate('Rocket', "auto"), self)
@@ -130,7 +130,7 @@ class _RailGuideDialog(QDialog):
         self.vAngleLabel = QtGui.QLabel(translate('Rocket', "V Angle"), self)
 
         self.vAngleInput = ui.createWidget("Gui::InputField")
-        self.vAngleInput.unit = 'deg'
+        self.vAngleInput.unit = FreeCAD.Units.Angle
         self.vAngleInput.setMinimumWidth(100)
 
         # Sweep parameters
@@ -140,7 +140,7 @@ class _RailGuideDialog(QDialog):
         self.forwardSweepLabel = QtGui.QLabel(translate('Rocket', "Sweep Angle"), self)
 
         self.forwardSweepInput = ui.createWidget("Gui::InputField")
-        self.forwardSweepInput.unit = 'deg'
+        self.forwardSweepInput.unit = FreeCAD.Units.Angle
         self.forwardSweepInput.setMinimumWidth(100)
 
         self.aftSweepGroup = QtGui.QGroupBox(translate('Rocket', "Aft Sweep"), self)
@@ -149,7 +149,7 @@ class _RailGuideDialog(QDialog):
         self.aftSweepLabel = QtGui.QLabel(translate('Rocket', "Sweep Angle"), self)
 
         self.aftSweepInput = ui.createWidget("Gui::InputField")
-        self.aftSweepInput.unit = 'deg'
+        self.aftSweepInput.unit = FreeCAD.Units.Angle
         self.aftSweepInput.setMinimumWidth(100)
 
         # Notch parameters
@@ -159,13 +159,13 @@ class _RailGuideDialog(QDialog):
         self.notchWidthLabel = QtGui.QLabel(translate('Rocket', "Width"), self)
 
         self.notchWidthInput = ui.createWidget("Gui::InputField")
-        self.notchWidthInput.unit = 'mm'
+        self.notchWidthInput.unit = FreeCAD.Units.Length
         self.notchWidthInput.setMinimumWidth(100)
 
         self.notchDepthLabel = QtGui.QLabel(translate('Rocket', "Depth"), self)
 
         self.notchDepthInput = ui.createWidget("Gui::InputField")
-        self.notchDepthInput.unit = 'mm'
+        self.notchDepthInput.unit = FreeCAD.Units.Length
         self.notchDepthInput.setMinimumWidth(100)
 
         # Forward sweep group

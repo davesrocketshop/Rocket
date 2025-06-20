@@ -104,7 +104,7 @@ class DialogParachute(QDialog):
         self.diameterLabel = QtGui.QLabel(translate('Rocket', "Diameter"), self)
 
         self.diameterInput = QtGui.QLineEdit() # ui.createWidget("Gui::InputField")
-        # self.diameterInput.unit = 'mm'
+        # self.diameterInput.unit = FreeCAD.Units.Length
         self.diameterInput.setText("0.0 N")
         self.diameterInput.setMinimumWidth(100)
         # self.diameterInput.textEdited.connect(self.onDiameter)
