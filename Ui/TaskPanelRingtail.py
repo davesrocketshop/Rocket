@@ -24,6 +24,7 @@ __title__ = "FreeCAD Ring Tails"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
+from typing import Any
 
 import FreeCAD
 import FreeCADGui
@@ -42,19 +43,22 @@ from Rocket.Constants import FEATURE_LAUNCH_LUG, FEATURE_TUBE_COUPLER, FEATURE_E
 
 from Ui.Widgets.MaterialTab import MaterialTab
 from Ui.Widgets.CommentTab import CommentTab
+from Ui.Widgets.ScalingTab import ScalingTabBodyTube
 
 from Rocket.Utilities import _valueOnly, _err
 
 class _RingtailDialog(QDialog):
 
-    def __init__(self, parent=None):
+    def __init__(self, obj: Any, parent : Any = None) -> None:
         super().__init__(parent)
 
         self.tabWidget = QtGui.QTabWidget()
         self.tabGeneral = QtGui.QWidget()
+        self.tabScaling = ScalingTabBodyTube(obj)
         self.tabMaterial = MaterialTab()
         self.tabComment = CommentTab()
         self.tabWidget.addTab(self.tabGeneral, translate('Rocket', "General"))
+        self.tabWidget.addTab(self.tabScaling, translate('Rocket', "Scaling"))
         self.tabWidget.addTab(self.tabMaterial, translate('Rocket', "Material"))
         self.tabWidget.addTab(self.tabComment, translate('Rocket', "Comment"))
 
@@ -64,7 +68,7 @@ class _RingtailDialog(QDialog):
 
         self.setTabGeneral()
 
-    def setTabGeneral(self):
+    def setTabGeneral(self) -> None:
 
         ui = FreeCADGui.UiLoader()
 
@@ -132,12 +136,12 @@ class _RingtailDialog(QDialog):
 
 class TaskPanelRingtail:
 
-    def __init__(self,obj,mode):
+    def __init__(self, obj : Any, mode : int) -> None:
         self._obj = obj
         self._isAssembly = self._obj.Proxy.isRocketAssembly()
         self._motorMount = hasattr(self._obj, "MotorMount")
 
-        self._btForm = _RingtailDialog()
+        self._btForm = _RingtailDialog(obj)
         self._db = TaskPanelDatabase(obj, COMPONENT_TYPE_BODYTUBE)
         self._dbForm = self._db.getForm()
 
@@ -154,6 +158,9 @@ class TaskPanelRingtail:
         self._btForm.lengthInput.textEdited.connect(self.onLength)
         self._btForm.autoLengthCheckbox.stateChanged.connect(self.onAutoLength)
 
+        self._btForm.tabScaling.scaled.connect(self.onScale)
+        self._btForm.tabScaling.scaledSetValuesButton.clicked.connect(self.onSetToScale)
+
         self._db.dbLoad.connect(self.onLookup)
         self._location.locationChange.connect(self.onLocation)
 
@@ -163,7 +170,7 @@ class TaskPanelRingtail:
             self._obj.Proxy.execute(self._obj)  # calculate once
             FreeCAD.Gui.SendMsgToActiveView("ViewFit")
 
-    def transferTo(self):
+    def transferTo(self) -> None:
         "Transfer from the dialog to the object"
         self._obj.Proxy.setOuterDiameter(FreeCAD.Units.Quantity(self._btForm.odInput.text()).Value)
         self._obj.Proxy.setOuterDiameterAutomatic(self._btForm.autoDiameterCheckbox.isChecked())
@@ -171,10 +178,11 @@ class TaskPanelRingtail:
         self._obj.Proxy.setLength(FreeCAD.Units.Quantity(self._btForm.lengthInput.text()).Value)
         self._obj.Proxy.setLengthAutomatic(self._btForm.autoLengthCheckbox.isChecked())
 
+        self._btForm.tabScaling.transferTo(self._obj)
         self._btForm.tabMaterial.transferTo(self._obj)
         self._btForm.tabComment.transferTo(self._obj)
 
-    def transferFrom(self):
+    def transferFrom(self) -> None:
         "Transfer from the object to the dialog"
         self._btForm.odInput.setText(self._obj.Diameter.UserString)
         self._btForm.autoDiameterCheckbox.setChecked(self._obj.AutoDiameter)
@@ -183,6 +191,7 @@ class TaskPanelRingtail:
         self._btForm.lengthInput.setText(self._obj.Length.UserString)
         self._btForm.autoLengthCheckbox.setChecked(self._obj.AutoLength)
 
+        self._btForm.tabScaling.transferFrom(self._obj)
         self._btForm.tabMaterial.transferFrom(self._obj)
         self._btForm.tabComment.transferFrom(self._obj)
 
@@ -190,14 +199,28 @@ class TaskPanelRingtail:
         self._setAutoLengthState()
         self._setIdFromThickness()
 
-    def setEdited(self):
+    def setEdited(self) -> None:
         try:
             self._obj.Proxy.setEdited()
         except ReferenceError:
             # Object may be deleted
             pass
 
-    def onOd(self, value):
+    def onScale(self) -> None:
+        # Update the scale values
+        scale = self._btForm.tabScaling.getScale()
+        length = self._obj.Length / scale
+        diameter = self._obj.Diameter / scale
+        if scale < 1.0:
+            self._btForm.tabScaling.scaledLabel.setText(translate('Rocket', "Upscale"))
+            self._btForm.tabScaling.scaledInput.setText(f"{1.0/scale}")
+        else:
+            self._btForm.tabScaling.scaledLabel.setText(translate('Rocket', "Scale"))
+            self._btForm.tabScaling.scaledInput.setText(f"{scale}")
+        self._btForm.tabScaling.scaledLengthInput.setText(length.UserString)
+        self._btForm.tabScaling.scaledDiameterInput.setText(diameter.UserString)
+
+    def onOd(self, value : str) -> None:
         try:
             # self._obj.Diameter = FreeCAD.Units.Quantity(value).Value
             self._obj.Proxy.setOuterDiameter(FreeCAD.Units.Quantity(value).Value)
@@ -207,7 +230,7 @@ class TaskPanelRingtail:
             pass
         self.setEdited()
 
-    def _setAutoDiameterState(self):
+    def _setAutoDiameterState(self) -> None:
         if self._isAssembly:
             self._btForm.odInput.setEnabled(not self._obj.AutoDiameter)
             self._btForm.autoDiameterCheckbox.setChecked(self._obj.AutoDiameter)
@@ -223,7 +246,7 @@ class TaskPanelRingtail:
             self._btForm.odInput.setText(self._obj.Diameter.UserString)
             self._setIdFromThickness()
 
-    def _setAutoLengthState(self):
+    def _setAutoLengthState(self) -> None:
         if self._isAssembly:
             self._btForm.lengthInput.setEnabled(not self._obj.AutoLength)
             self._btForm.autoLengthCheckbox.setChecked(self._obj.AutoLength)
@@ -238,21 +261,21 @@ class TaskPanelRingtail:
             self._obj.Length = self._obj.Proxy.getLength()
             self._btForm.lengthInput.setText(self._obj.Length.UserString)
 
-    def onAutoDiameter(self, value):
+    def onAutoDiameter(self, value : bool) -> None:
         self._obj.Proxy.setOuterDiameterAutomatic(value)
         self._setAutoDiameterState()
 
         self._obj.Proxy.execute(self._obj)
         self.setEdited()
 
-    def onAutoLength(self, value):
+    def onAutoLength(self, value : str) -> None:
         self._obj.Proxy.setLengthAutomatic(value)
         self._setAutoLengthState()
 
         self._obj.Proxy.execute(self._obj)
         self.setEdited()
 
-    def _setThicknessFromId(self, value):
+    def _setThicknessFromId(self, value : str) -> None:
         od = float(self._obj.Diameter.Value)
         if od > 0.0:
             id = FreeCAD.Units.Quantity(value).Value
@@ -264,7 +287,7 @@ class TaskPanelRingtail:
             self._obj.Proxy.setThickness(FreeCAD.Units.Quantity(0.0).Value)
         self._btForm.thicknessInput.setText(self._obj.Thickness.UserString)
 
-    def onId(self, value):
+    def onId(self, value : str) -> None:
         try:
             self._setThicknessFromId(value)
             self._obj.Proxy.execute(self._obj)
@@ -272,7 +295,7 @@ class TaskPanelRingtail:
             pass
         self.setEdited()
 
-    def _setIdFromThickness(self):
+    def _setIdFromThickness(self) -> None:
         od = float(self._obj.Diameter.Value)
         if od > 0.0:
             id = od - 2.0 * float(self._obj.Thickness)
@@ -280,7 +303,7 @@ class TaskPanelRingtail:
         else:
             self._btForm.idInput.setText(FreeCAD.Units.Quantity(0.0).UserString)
 
-    def onThickness(self, value):
+    def onThickness(self, value : str) -> None:
         try:
             self._obj.Proxy.setThickness(FreeCAD.Units.Quantity(value).Value)
             self._setIdFromThickness()
@@ -289,7 +312,7 @@ class TaskPanelRingtail:
             pass
         self.setEdited()
 
-    def onLength(self, value):
+    def onLength(self, value : str) -> None:
         try:
             self._obj.Proxy.setLength(FreeCAD.Units.Quantity(value).Value)
             self._obj.Proxy.execute(self._obj)
@@ -297,7 +320,7 @@ class TaskPanelRingtail:
             pass
         self.setEdited()
 
-    def onLookup(self):
+    def onLookup(self) -> None:
         result = self._db.getLookupResult()
 
         diameter = _valueOnly(result["inner_diameter"], result["inner_diameter_units"])
@@ -314,30 +337,40 @@ class TaskPanelRingtail:
         self._obj.Proxy.execute(self._obj)
         self.setEdited()
 
-    def onLocation(self):
+    def onLocation(self) -> None:
         self._obj.Proxy.updateChildren()
         self._obj.Proxy.execute(self._obj)
         self.setEdited()
 
-    def getStandardButtons(self):
+    def onSetToScale(self) -> None:
+        # Update the scale values
+        scale = self._btForm.tabScaling.getScale()
+        self._obj.Length = self._obj.Length / scale
+        if not self._obj.AutoDiameter:
+            self._obj.Diameter = self._obj.Diameter / scale
+        scale = self._btForm.tabScaling.resetScale()
+
+        self.update()
+
+    def getStandardButtons(self) -> Any:
         return QtGui.QDialogButtonBox.Ok | QtGui.QDialogButtonBox.Cancel | QtGui.QDialogButtonBox.Apply
 
-    def clicked(self,button):
+    def clicked(self,button) -> None:
         if button == QtGui.QDialogButtonBox.Apply:
             self.transferTo()
             self._obj.Proxy.execute(self._obj)
 
-    def update(self):
+    def update(self) -> None:
         'fills the widgets'
         self.transferFrom()
 
-    def accept(self):
+    def accept(self) -> None:
         self.transferTo()
         FreeCAD.ActiveDocument.recompute()
         FreeCADGui.ActiveDocument.resetEdit()
 
 
-    def reject(self):
+    def reject(self) -> None:
         FreeCAD.ActiveDocument.abortTransaction()
         FreeCAD.ActiveDocument.recompute()
         FreeCADGui.ActiveDocument.resetEdit()

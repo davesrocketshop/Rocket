@@ -38,12 +38,33 @@ class RingtailShapeHandler():
         # This gets changed when redrawn so it's very important to save a copy
         self._placement = FreeCAD.Placement(obj.Placement)
 
+        self._length = float(obj.Length)
         self._OD = float(obj.Diameter)
+        self._autoDiameter = False
+        if hasattr(obj, "AutoDiameter"):
+            self._autoDiameter = float(obj.AutoDiameter)
+
+        self._scale = 1.0
+        self._scaleByValue = bool(obj.ScaleByValue)
+        self._scaleByDiameter = bool(obj.ScaleByDiameter)
+        self._autoScaleDiameter = bool(obj.AutoScaleDiameter)
+        self._scaleValue = obj.ScaleValue.Value
+
+        # Apply scaling
+        if obj.Scale:
+            if self._scaleByValue and self._scaleValue > 0.0:
+                self._scale = 1.0 / self._scaleValue
+            elif self._scaleByDiameter:
+                if self._OD > 0 and self._scaleValue > 0:
+                    self._scale = self._scaleValue / self._OD
+            self._length = self._length * self._scale
+            if not self._autoDiameter:
+                self._OD = self._OD * self._scale
+
         if self._OD > 0.0:
             self._ID = self._OD - 2.0 * float(obj.Thickness)
         else:
             self._ID = float(obj.Thickness)
-        self._length = float(obj.Length)
         self._obj = obj
 
     def isValidShape(self) -> bool:
