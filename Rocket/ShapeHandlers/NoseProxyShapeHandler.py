@@ -73,6 +73,17 @@ class NoseProxyShapeHandler:
         direction = FreeCAD.Vector(0, 0, 1)
         box = Part.makeBox(xLength, yLength, zLength, point, direction)
         return shape.common(box)
+    
+    def _getScale(self) -> float:
+        scale = 1.0
+        if self._scale:
+            if self._scaleByValue and self._scaleValue.Value > 0.0:
+                scale = 1.0 / self._scaleValue.Value
+            elif self._scaleByDiameter:
+                if self._diameter > 0 and self._scaleValue > 0:
+                    scale = self._scaleValue / self._diameter
+
+        return scale
 
     def _getShape(self) -> Part.Solid:
         if self._base is None:
@@ -84,18 +95,20 @@ class NoseProxyShapeHandler:
         shape.rotate(FreeCAD.Vector(0,0,0), FreeCAD.Vector(self._proxyPlacement.Rotation.Axis.x, self._proxyPlacement.Rotation.Axis.y, self._proxyPlacement.Rotation.Axis.z), math.degrees(self._proxyPlacement.Rotation.Angle))
 
         # Apply the scaling
+        scale = self._getScale()
         if self._scale:
-            if self._scaleByValue and self._scaleValue.Value > 0.0:
-                shape.scale(1.0 / self._scaleValue.Value)
-            elif self._scaleByDiameter:
-                if self._diameter > 0 and self._scaleValue > 0:
-                    shape.scale(self._scaleValue / self._diameter)
+            shape.scale(scale)
 
         # Translate so the nose is at (0, 0, 0)
         min = shape.BoundBox.XMin
         shape.translate(FreeCAD.Vector(-min, 0, 0))
 
         return self._shapeUnion(shape)
+
+    def getRadius(self, x : float) -> float:
+        # Apply the scaling
+        scale = self._getScale()
+        return scale * (self._diameter / 2.0)
 
     def getLength(self) -> float:
         shape = self._getShape()
