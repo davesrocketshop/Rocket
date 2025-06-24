@@ -174,6 +174,11 @@ class FeatureFin(ExternalComponent):
             obj.addProperty('App::PropertyBool', 'AutoDiameter', 'RocketComponent', translate('App::Property', 'Automatically set diameter')).AutoDiameter = True
         obj.setEditorMode('AutoDiameter', PROP_HIDDEN)  # hide
 
+        if not hasattr(obj, 'ScaleByRootChord'):
+            obj.addProperty('App::PropertyBool', 'ScaleByRootChord', 'RocketComponent', translate('App::Property', 'Scale the object by root chord')).ScaleByRootChord = False
+        if not hasattr(obj, 'ScaleByHeight'):
+            obj.addProperty('App::PropertyBool', 'ScaleByHeight', 'RocketComponent', translate('App::Property', 'Scale the object by fin height')).ScaleByHeight = False
+
         if not hasattr(obj, "Profile"):
             obj.addProperty('App::PropertyLink', 'Profile', 'RocketComponent', translate('App::Property', 'Custom fin sketch')).Profile = None
 

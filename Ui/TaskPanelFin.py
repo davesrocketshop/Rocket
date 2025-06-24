@@ -681,16 +681,35 @@ class TaskPanelFin(QObject):
     def onScale(self) -> None:
         # Update the scale values
         scale = self._finForm.tabScaling.getScale()
-        # length = self._obj.Length / scale
-        # diameter = self._obj.Diameter / scale
-        # if scale < 1.0:
-        #     self._finForm.tabScaling.scaledLabel.setText(translate('Rocket', "Upscale"))
-        #     self._finForm.tabScaling.scaledInput.setText(f"{1.0/scale}")
-        # else:
-        #     self._finForm.tabScaling.scaledLabel.setText(translate('Rocket', "Scale"))
-        #     self._finForm.tabScaling.scaledInput.setText(f"{scale}")
-        # self._finForm.tabScaling.scaledLengthInput.setText(length.UserString)
-        # self._finForm.tabScaling.scaledDiameterInput.setText(diameter.UserString)
+
+        if scale < 1.0:
+            self._finForm.tabScaling.scaledLabel.setText(translate('Rocket', "Upscale"))
+            self._finForm.tabScaling.scaledInput.setText(f"{1.0/scale}")
+        else:
+            self._finForm.tabScaling.scaledLabel.setText(translate('Rocket', "Scale"))
+            self._finForm.tabScaling.scaledInput.setText(f"{scale}")
+
+        rootChord = self._obj.RootChord / scale
+        rootThickness = self._obj.RootThickness / scale
+        height = self._obj.Height / scale
+        self._finForm.tabScaling.scaledRootInput.setText(rootChord.UserString)
+        self._finForm.tabScaling.scaledRootThicknessInput.setText(rootThickness.UserString)
+        self._finForm.tabScaling.scaledHeightInput.setText(height.UserString)
+
+        if self._obj.FinType == FIN_TYPE_TRAPEZOID:
+            tipChord = self._obj.TipChord / scale
+            tipThickness = self._obj.TipThickness / scale
+            self._finForm.tabScaling.scaledTipInput.setText(tipChord.UserString)
+            self._finForm.tabScaling.scaledTipThicknessInput.setText(tipThickness.UserString)
+            self._finForm.tabScaling.scaledTipLabel.setVisible(True)
+            self._finForm.tabScaling.scaledTipInput.setVisible(True)
+            self._finForm.tabScaling.scaledTipThicknessLabel.setVisible(True)
+            self._finForm.tabScaling.scaledTipThicknessInput.setVisible(True)
+        else:
+            self._finForm.tabScaling.scaledTipLabel.setVisible(False)
+            self._finForm.tabScaling.scaledTipInput.setVisible(False)
+            self._finForm.tabScaling.scaledTipThicknessLabel.setVisible(False)
+            self._finForm.tabScaling.scaledTipThicknessInput.setVisible(False)
 
     def onFinTypes(self, value : str) -> None:
         self._obj.FinType = value
@@ -753,6 +772,7 @@ class TaskPanelFin(QObject):
             self._enableFinTypeTube()
         else:
             self._enableFinTypeSketch()
+        self.onScale()
 
     def setRootCrossSections(self) -> None:
         self._finForm.rootCrossSectionsCombo.clear()
