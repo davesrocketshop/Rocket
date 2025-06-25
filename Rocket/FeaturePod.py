@@ -29,7 +29,6 @@ from typing import Any
 
 from DraftTools import translate
 
-from Rocket.events.ComponentChangeEvent import ComponentChangeEvent
 from Rocket.interfaces.RingInstanceable import RingInstanceable
 import Rocket.position.AngleMethod as AngleMethod
 from Rocket.position.AxialMethod import AxialMethod
@@ -131,9 +130,9 @@ class FeaturePod(ComponentAssembly, RingInstanceable):
 
         return -1
 
-    def setAxialMethod(self, newMethod : AxialMethod) -> None:
-        super().setAxialMethod(newMethod)
-        self.fireComponentChangeEvent(ComponentChangeEvent.NONFUNCTIONAL_CHANGE)
+    def setAxialMethod(self, newAxialMethod : AxialMethod) -> None:
+        super().setAxialMethod(newAxialMethod)
+        self.notifyComponentChanged()
 
     def getAxialOffset(self) -> float:
         return self._getAxialOffset(self._obj.AxialMethod)
@@ -160,7 +159,6 @@ class FeaturePod(ComponentAssembly, RingInstanceable):
     def getPatternName(self) -> str:
         return (self.getInstanceCount() + "-ring")
 
-
     def getRadiusOffset(self) -> float:
         return self._obj.RadiusOffset
 
@@ -168,38 +166,25 @@ class FeaturePod(ComponentAssembly, RingInstanceable):
         return self._obj.PodCount
 
     def setInstanceCount(self, newCount : int) -> None:
-        for listener in self._configListeners:
-            if isinstance(listener, FeaturePod):
-                listener.setInstanceCount(newCount)
-
         if newCount < 1:
             # there must be at least one instance....
             return
 
-
         self._obj.PodCount = newCount
         self._obj.AngleSeparation = math.pi * 2 / self._obj.PodCount
-        self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
+        self.notifyComponentChanged()
 
     def setAngleOffset(self, angle : float) -> None:
-        for listener in self._configListeners:
-            if isinstance(listener, FeaturePod):
-                listener.setAngleOffset(angle)
-
         self._obj.AngleOffset = angle
-        self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
+        self.notifyComponentChanged()
 
     def getAngleMethod(self) -> AngleMethod.AngleMethod:
         return self._obj.AngleMethod
 
-    def setAngleMethod(self, newMethod : AngleMethod.AngleMethod) -> None:
+    def setAngleMethod(self, method : AngleMethod.AngleMethod) -> None:
         pass
 
     def setRadiusOffset(self, radius : float) -> None:
-        for listener in self._configListeners:
-            if isinstance(listener, FeaturePod):
-                listener.setRadiusOffset(radius)
-
         if radius == self._obj.RadiusOffset:
             return
 
@@ -207,31 +192,23 @@ class FeaturePod(ComponentAssembly, RingInstanceable):
             self._obj.RadiusOffset = 0.0
         else:
             self._obj.RadiusOffset = radius
-        self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
+        self.notifyComponentChanged()
 
     def getRadiusMethod(self) -> RadiusMethod.RadiusMethod:
         return self._obj.RadiusMethod
 
-    def setRadiusMethod(self, newMethod : RadiusMethod.RadiusMethod) -> None:
-        for listener in self._configListeners:
-            if isinstance(listener, FeaturePod):
-                listener.setRadiusMethod(newMethod)
-
-        if newMethod == self._obj.RadiusMethod:
+    def setRadiusMethod(self, method : RadiusMethod.RadiusMethod) -> None:
+        if method == self._obj.RadiusMethod:
             return
 
         radius = self._obj.RadiusMethod.getRadius(self.getParent(), self, self._obj.RadiusOffset)	# Radius from the parent's center
-        self.setRadius(newMethod, radius)
+        self.setRadius(method, radius)
 
     def setRadius(self, requestMethod : RadiusMethod.RadiusMethod, requestRadius : float) -> None:
-        for listener in self._configListeners:
-            if isinstance(listener, FeaturePod):
-                listener.setRadius(requestMethod, requestRadius)
-
         newRadius = requestRadius
         if self._obj.RadiusMethod.clampToZero():
             newRadius = 0.0
 
         self._obj.RadiusMethod = requestMethod
         self._obj.RadiusOffset =  self._obj.RadiusMethod.getAsOffset(self.getParent(), self, newRadius)
-        self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
+        self.notifyComponentChanged()

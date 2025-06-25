@@ -27,8 +27,6 @@ __url__ = "https://www.davesrocketshop.com"
 import math
 from typing import Any
 
-from Rocket.events.ComponentChangeEvent import ComponentChangeEvent
-
 from Rocket.ExternalComponent import ExternalComponent
 from Rocket.util.BoundingBox import BoundingBox
 from Rocket.position.AxialMethod import MIDDLE
@@ -171,8 +169,8 @@ class FeatureRailGuide(ExternalComponent, AnglePositionable, BoxBounded, LineIns
     def onChildEdited(self) -> None:
         self._obj.Proxy.setEdited()
 
-    def componentChanged(self, event : Any) -> None:
-        super().componentChanged(event)
+    def componentChanged(self) -> None:
+        super().componentChanged()
 
         self._setRadialOffset()
 
@@ -218,32 +216,20 @@ class FeatureRailGuide(ExternalComponent, AnglePositionable, BoxBounded, LineIns
         return self._obj.AngleOffset
 
     def setAngleOffset(self, angle : float) -> None:
-        for listener in self._configListeners:
-            if isinstance(listener, FeatureRailGuide):
-                listener.setAngleOffset(angle)
-
         rad = Utilities.clamp(angle, -math.pi, math.pi)
         if self._obj.AngleOffset == rad:
             return
 
         self._obj.AngleOffset = rad
-        self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
+        self.notifyComponentChanged()
 
     def getInstanceSeparation(self) -> float:
         return self._obj.InstanceSeparation
 
     def setInstanceSeparation(self, separation : float) -> None:
-        for listener in self._configListeners:
-            if isinstance(listener, FeatureRailGuide):
-                listener.setInstanceSeparation(separation)
-
         self._obj.InstanceSeparation = separation
 
     def setInstanceCount(self, newCount : int) -> None:
-        for listener in self._configListeners:
-            if isinstance(listener, FeatureRailGuide):
-                listener.setInstanceCount(newCount)
-
         if newCount > 0:
             self._obj.InstanceCount = newCount
 

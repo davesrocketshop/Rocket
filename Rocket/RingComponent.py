@@ -32,8 +32,6 @@ from Rocket.InternalComponent import InternalComponent
 from Rocket.interfaces.BoxBounded import BoxBounded
 from Rocket.interfaces.Coaxial import Coaxial
 
-from Rocket.events.ComponentChangeEvent import ComponentChangeEvent
-
 from Rocket.Utilities import reducePi
 from Rocket.util.BoundingBox import BoundingBox
 from Rocket.util.Coordinate import Coordinate
@@ -103,14 +101,10 @@ class RingComponent(InternalComponent, BoxBounded, Coaxial):
         self.setOuterDiameterAutomatic(auto)
 
     def setOuterDiameterAutomatic(self, auto : bool) -> None:
-        for listener in self._configListeners:
-            if isinstance(listener, RingComponent):
-                listener.setOuterDiameterAutomatic(auto)
-
         if self._obj.AutoDiameter == auto:
             return
         self._obj.AutoDiameter = auto
-        self.fireComponentChangeEvent(ComponentChangeEvent.MASS_CHANGE);
+        self.notifyComponentChanged()
 
     def isInnerRadiusAutomatic(self) -> bool:
         return self._obj.CenterAutoDiameter
@@ -122,27 +116,19 @@ class RingComponent(InternalComponent, BoxBounded, Coaxial):
         self.setInnerDiameterAutomatic(auto)
 
     def setInnerDiameterAutomatic(self, auto : bool) -> None:
-        for listener in self._configListeners:
-            if isinstance(listener, RingComponent):
-                listener.setInnerDiameterAutomatic(auto)
-
         if self._obj.CenterAutoDiameter == auto:
             return
         self._obj.CenterAutoDiameter = auto
-        self.fireComponentChangeEvent(ComponentChangeEvent.MASS_CHANGE);
+        self.notifyComponentChanged()
 
     def setLength(self, length : float) -> None:
-        for listener in self._configListeners:
-            if isinstance(listener, RingComponent):
-                listener.setLength(length)
-
         l = max(length, 0)
         if self._obj.Length == l:
             return
 
         self._obj.Length = l
         # clearPreset();
-        self.fireComponentChangeEvent(ComponentChangeEvent.MASS_CHANGE)
+        self.notifyComponentChanged()
 
     """
         Return the radial direction of displacement of the component.  Direction 0
@@ -156,17 +142,13 @@ class RingComponent(InternalComponent, BoxBounded, Coaxial):
         is equivalent to the Y-direction.
     """
     def setRadialDirection(self, dir : float) -> None:
-        for listener in self._configListeners:
-            if isinstance(listener, RingComponent):
-                listener.setRadialDirection(dir)
-
         dir = reducePi(dir)
         if self._obj.RadialDirection == dir:
             return
         self._obj.RadialDirection = dir
         self._obj.ShiftY = self._obj.RadialPosition * math.cos(self._obj.RadialDirection)
         self._obj.ShiftZ = self._obj.RadialPosition * math.sin(self._obj.RadialDirection)
-        self.fireComponentChangeEvent(ComponentChangeEvent.MASS_CHANGE)
+        self.notifyComponentChanged()
 
     def getInstanceBoundingBox(self) -> BoundingBox:
         instanceBounds = BoundingBox()
@@ -193,16 +175,12 @@ class RingComponent(InternalComponent, BoxBounded, Coaxial):
     def setRadialPosition(self, pos : float) -> None:
         pos = max(pos, 0);
 
-        for listener in self._configListeners:
-            if isinstance(listener, RingComponent):
-                listener.setRadialPosition(pos)
-
         if self._obj.RadialPosition == pos:
             return
         self._obj.RadialPosition = pos
         self._obj.ShiftY = self._obj.RadialPosition * math.cos(self._obj.RadialDirection)
         self._obj.ShiftZ = self._obj.RadialPosition * math.sin(self._obj.RadialDirection)
-        self.fireComponentChangeEvent(ComponentChangeEvent.MASS_CHANGE)
+        self.notifyComponentChanged()
 
     def getRadialShiftY(self) -> float:
         return self._obj.ShiftY
@@ -211,10 +189,6 @@ class RingComponent(InternalComponent, BoxBounded, Coaxial):
         return self._obj.ShiftZ
 
     def setRadialShift(self, y : float, z : float) -> None:
-        for listener in self._configListeners:
-            if isinstance(listener, RingComponent):
-                listener.setRadialShift(y, z)
-
         self._obj.RadialPosition = math.hypot(y, z);
         self._obj.RadialDirection = math.atan2(z, y);
 
@@ -224,4 +198,4 @@ class RingComponent(InternalComponent, BoxBounded, Coaxial):
         # assert (MathUtil.equals(y, shiftY));
         # assert (MathUtil.equals(z, shiftZ));
 
-        self.fireComponentChangeEvent(ComponentChangeEvent.MASS_CHANGE);
+        self.notifyComponentChanged()

@@ -30,10 +30,8 @@ from DraftTools import translate
 
 from Rocket.position import AxialMethod
 from Rocket.position.AxialPositionable import AxialPositionable
-from Rocket.util import Coordinate
 from Rocket.util.BoundingBox import BoundingBox
 from Rocket.RocketComponentShapeless import RocketComponentShapeless
-from Rocket.events.ComponentChangeEvent import ComponentChangeEvent
 
 from Rocket.Constants import FEATURE_ROCKET, FEATURE_STAGE, FEATURE_PARALLEL_STAGE, FEATURE_POD, FEATURE_BODY_TUBE, FEATURE_NOSE_CONE, FEATURE_TRANSITION
 
@@ -54,16 +52,13 @@ class ComponentAssembly(RocketComponentShapeless, AxialPositionable):
     def setAxialOffset(self, newAxialOffset : float) -> None:
         # self._updateBounds()
         super()._setAxialOffset(self._obj.AxialMethod, newAxialOffset)
-        self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
+        self.notifyComponentChanged()
 
     def getAxialMethod(self) -> AxialMethod.AxialMethod:
         return self._obj.AxialMethod
 
     def setAxialMethod(self, newAxialMethod : AxialMethod.AxialMethod) -> None:
         # self._obj.AxialMethod = newMethod
-        for listener in self._configListeners:
-            if isinstance(listener, ComponentAssembly):
-                listener.setAxialMethod(newAxialMethod)
 
         if not self.hasParent():
             raise Exception(translate("Rocket", "A Stage requires a parent before any positioning!"))
@@ -83,7 +78,7 @@ class ComponentAssembly(RocketComponentShapeless, AxialPositionable):
         else:
             raise Exception("Unrecognized subclass of Component Assembly.  Please update this method.")
 
-        self.fireComponentChangeEvent(ComponentChangeEvent.NONFUNCTIONAL_CHANGE);
+        self.notifyComponentChanged()
 
     def getInstanceBoundingBox (self) -> BoundingBox:
         return BoundingBox()

@@ -31,7 +31,6 @@ import Part
 from Rocket.interfaces.BoxBounded import BoxBounded
 from Rocket.interfaces.Coaxial import Coaxial
 
-from Rocket.events.ComponentChangeEvent import ComponentChangeEvent
 from Rocket.SymmetricComponent import SymmetricComponent
 from Rocket.Constants import FEATURE_BODY_TUBE, FEATURE_INNER_TUBE, FEATURE_TUBE_COUPLER, FEATURE_ENGINE_BLOCK, FEATURE_BULKHEAD, FEATURE_CENTERING_RING, FEATURE_FIN, \
     FEATURE_FINCAN, FEATURE_LAUNCH_LUG, FEATURE_PARALLEL_STAGE, FEATURE_POD, FEATURE_RAIL_BUTTON, FEATURE_RAIL_GUIDE
@@ -93,29 +92,21 @@ class FeatureBodyTube(SymmetricComponent, BoxBounded, Coaxial):
         clearPreset().  (BodyTube allows changing length without resetting the preset.)
     """
     def setLength(self, length : float) -> None:
-        for listener in self._configListeners:
-            if isinstance(listener, FeatureBodyTube):
-                listener.setLength(length)
-
         if self._obj.Length == length:
             return
 
         self._obj.Length = max(length, 0)
-        self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
+        self.notifyComponentChanged()
 
     """
         Sets whether the radius is selected automatically or not.
     """
     def setOuterDiameterAutomatic(self, auto : bool) -> None:
-        for listener in self._configListeners:
-            if isinstance(listener, FeatureBodyTube): # OR used transition base class
-                listener.setOuterDiameterAutomatic(auto)
-
         if self._obj.AutoDiameter == auto:
             return
 
         self._obj.AutoDiameter = auto
-        self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
+        self.notifyComponentChanged()
         self.clearPreset()
 
     def setOuterRadiusAutomatic(self, auto : bool) -> None:
@@ -151,10 +142,6 @@ class FeatureBodyTube(SymmetricComponent, BoxBounded, Coaxial):
         self.setInnerDiameter(radius * 2.0)
 
     def setInnerDiameter(self, diameter : float) -> None:
-        for listener in self._configListeners:
-            if isinstance(listener, FeatureBodyTube): # OR used transition base class
-                listener.setInnerDiameter(diameter)
-
         self.setThickness((self._obj.Diameter - diameter) / 2.0)
 
 
@@ -172,10 +159,6 @@ class FeatureBodyTube(SymmetricComponent, BoxBounded, Coaxial):
         self.setOuterDiameter(radius * 2.0)
 
     def setOuterDiameter(self, diameter : float) -> None:
-        for listener in self._configListeners:
-            if isinstance(listener, FeatureBodyTube): # OR used transition base class
-                listener.setOuterDiameter(diameter)
-
         if self._obj.Diameter == diameter and not self._obj.AutoDiameter:
             return
 
@@ -185,7 +168,7 @@ class FeatureBodyTube(SymmetricComponent, BoxBounded, Coaxial):
         if self._obj.Thickness > (diameter / 2.0):
             self._obj.Thickness = (diameter / 2.0)
 
-        self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
+        self.notifyComponentChanged()
         self.clearPreset()
 
     """

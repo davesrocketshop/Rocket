@@ -624,12 +624,12 @@ class TaskPanelNoseCone:
         value = self._obj.NoseType
         if value == TYPE_SPHERICAL:
             self._obj.Proxy.setLength(float(self._obj.Diameter) / 2.0)
-            self._noseForm.lengthInput.setText("%f" % self._obj.Length)
+            self._noseForm.lengthInput.setText(self._obj.Length.UserString)
             self._noseForm.lengthInput.setEnabled(False)
         elif value == TYPE_NIKE_SMOKE:
             length = (101.83 + 0.75 + 4.05) / self._NikeScale() * 25.4
             self._obj.Proxy.setLength(length)
-            self._noseForm.lengthInput.setText("%f" % self._obj.Length)
+            self._noseForm.lengthInput.setText(self._obj.Length.UserString)
             self._noseForm.lengthInput.setEnabled(False)
         else:
             self._noseForm.lengthInput.setEnabled(True)

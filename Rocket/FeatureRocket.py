@@ -28,9 +28,6 @@ from typing import Any
 
 import FreeCAD
 
-from Rocket.interfaces.ComponentChangeListener import ComponentChangeListener
-from Rocket.interfaces.StateChangeListener import StateChangeListener
-
 from Rocket.ComponentAssembly import ComponentAssembly
 from Rocket.FeatureStage import FeatureStage
 from Rocket.position import AxialMethod
@@ -39,26 +36,11 @@ from Rocket.util.BoundingBox import BoundingBox
 from Rocket.util.Coordinate import ZERO, X_UNIT
 from Rocket.util.UniqueID import UniqueID
 
-from Rocket.events.ComponentChangeEvent import ComponentChangeEvent
-
 from Rocket.Constants import FEATURE_ROCKET, FEATURE_STAGE
 
-class FeatureRocket(ComponentAssembly, ComponentChangeListener):
-
-    """
-    List of component change listeners.
-    """
-    _listenerList = []
-
-    _modID = -1
-    _massModID = -1
-    _aeroModID = -1
-    _treeModID = -1
-    _functionalModID = -1
+class FeatureRocket(ComponentAssembly):
 
     _eventsEnabled = False
-
-    _designer = ""
     _stageMap = {}
 
     def __init__(self, obj : Any) -> None:
@@ -71,15 +53,8 @@ class FeatureRocket(ComponentAssembly, ComponentChangeListener):
 
         self.setAxialMethod(AxialMethod.ABSOLUTE)
 
-        modID = UniqueID.next()
-        self._massModID = modID
-        self._aeroModID = modID
-        self._treeModID = modID
-        self._functionalModID = modID
-
-        self._listenerList = []
         self._stageMap = {}
-        self.addComponentChangeListener(self)
+        self.attach(self)
         # self._eventsEnabled = True
 
     def setDefaults(self) -> None:
@@ -100,7 +75,7 @@ class FeatureRocket(ComponentAssembly, ComponentChangeListener):
     """
     def enableEvents(self, enable : bool = True) -> None:
         self._enableEvents(enable)
-        self.updateChildren()
+        # self.updateChildren()
 
     def _enableEvents(self, enable : bool) -> None:
         if self._eventsEnabled and enable:
@@ -108,7 +83,7 @@ class FeatureRocket(ComponentAssembly, ComponentChangeListener):
 
         if enable:
             self._eventsEnabled = True
-            self.fireComponentChangeEvent(ComponentChangeEvent.AEROMASS_CHANGE)
+            self.notifyComponentChanged()
         else:
             self._eventsEnabled = False
 
@@ -124,64 +99,8 @@ class FeatureRocket(ComponentAssembly, ComponentChangeListener):
         # return selectedConfiguration.getBoundingBoxAerodynamic();
         return BoundingBox(ZERO, X_UNIT) # default from default flight config
 
-    def getDesigner(self) -> str:
-        return self._designer
-
-    def setDesigner(self, s : str | None) -> None:
-        if s is None:
-            s = ""
-        self._designer = s
-        self.fireComponentChangeEvent(ComponentChangeEvent.NONFUNCTIONAL_CHANGE)
-
     def eligibleChild(self, childType : str) -> bool:
         return childType == FEATURE_STAGE
-
-    """
-        Return the non-negative modification ID of this rocket.  The ID is changed
-        every time any change occurs in the rocket.  This can be used to check
-        whether it is necessary to void cached data in cases where listeners can not
-        or should not be used.
-        <p>
-        Three other modification IDs are also available, {@link #getMassModID()},
-        {@link #getAerodynamicModID()} {@link #getTreeModID()}, which change every time
-        a mass change, aerodynamic change, or tree change occur.  Even though the values
-        of the different modification ID's may be equal, they should be treated totally
-        separate.
-        <p>
-        Note that undo events restore the modification IDs that were in use at the
-        corresponding undo level.  Subsequent modifications, however, produce modIDs
-        distinct from those already used.
-    """
-    def getModID(self) -> int:
-        return self._modID
-
-    """
-        Return the non-negative mass modification ID of this rocket.  See
-        {@link #getModID()} for details.
-    """
-    def getMassModID(self) -> int:
-        return self._massModID
-
-    """
-        Return the non-negative aerodynamic modification ID of this rocket.  See
-        {@link #getModID()} for details.
-    """
-    def getAerodynamicModID(self) -> int:
-        return self._aeroModID
-
-    """
-        Return the non-negative tree modification ID of this rocket.  See
-        {@link #getModID()} for details.
-    """
-    def getTreeModID(self) -> int:
-        return self._treeModID
-
-    """
-        Return the non-negative functional modificationID of this rocket.
-        This changes every time a functional change occurs.
-    """
-    def getFunctionalModID(self) -> int:
-        return self._functionalModID
 
     def getStageCount(self) -> int:
         return len(self._stageMap)
@@ -261,31 +180,18 @@ class FeatureRocket(ComponentAssembly, ComponentChangeListener):
 
         return bounding
 
-    def resetListeners(self) -> None:
-        self._listenerList = []
-
-    def addComponentChangeListener(self, l : ComponentChangeListener) -> None:
-        self._listenerList.append(l)
-
-    def removeComponentChangeListener(self, l : ComponentChangeListener) -> None:
-        self._listenerList.remove(l)
-
-    def fireComponentChangeEvent(self, event : int) -> None:
+    def notifyComponentChanged(self) -> None:
         if not self._eventsEnabled:
             return
 
         # Notify all components first
-        self.componentChanged(event)
+        self.componentChanged()
         for item in self.getChildren():
-            item.Proxy.componentChanged(event)
-        self.updateConfigurations()
-
-        self.notifyAllListeners(event)
+            item.Proxy.componentChanged()
 
     def update(self) -> None:
         self.updateStageNumbers()
         self.updateStageMap()
-        self.updateConfigurations()
         # self.updateChildren()
 
     """ Update all the stage numbers based on their position in the component tree """
@@ -299,17 +205,3 @@ class FeatureRocket(ComponentAssembly, ComponentChangeListener):
     def updateStageMap(self) -> None:
         for stage in self.getSubStages():
             self.trackStage(stage)
-
-    def updateConfigurations(self) -> None:
-        # for config in self._configSet:
-        #     config.update()
-        pass
-
-    def notifyAllListeners(self, cce : int) -> None:
-        # Copy the list before iterating to prevent concurrent modification exceptions.
-        # EventListener[] list = listenerList.toArray(new EventListener[0]);
-        for l in self._listenerList:
-            if isinstance(l, ComponentChangeListener):
-                l.componentChanged(cce)
-            elif isinstance(l, StateChangeListener):
-                l.stateChanged(cce)

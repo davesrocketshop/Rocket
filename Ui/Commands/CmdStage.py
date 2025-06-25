@@ -45,7 +45,7 @@ def addToStage(obj):
     rocket = getRocket()
     if rocket is not None:
         sel = FreeCADGui.Selection.getSelection()
-        if sel:
+        if sel and hasattr(sel[0], "Proxy"):
             if hasattr(obj, '_obj'):
                 sel[0].Proxy.addChild(obj._obj)
             else:

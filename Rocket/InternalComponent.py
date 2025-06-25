@@ -27,7 +27,6 @@ __url__ = "https://www.davesrocketshop.com"
 from typing import Any
 
 from Rocket.RocketComponent import RocketComponent
-from Rocket.events.ComponentChangeEvent import ComponentChangeEvent
 from Rocket.position.AxialPositionable import AxialPositionable
 from Rocket.position import AxialMethod
 
@@ -51,7 +50,7 @@ class InternalComponent(RocketComponent, AxialPositionable):
 
     def setAxialMethod(self, newAxialMethod : AxialMethod.AxialMethod) -> None:
         super().setAxialMethod(newAxialMethod)
-        self.fireComponentChangeEvent(ComponentChangeEvent.NONFUNCTIONAL_CHANGE)
+        self.notifyComponentChanged()
 
     """
         Non-aerodynamic components.

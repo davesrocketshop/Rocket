@@ -25,12 +25,11 @@ __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
 from abc import abstractmethod
-from typing import Self, Any
+from typing import Any
 
 from Rocket.Utilities import clamp
 from Rocket.interfaces.BoxBounded import BoxBounded
 from Rocket.interfaces.RadialParent import RadialParent
-from Rocket.events.ComponentChangeEvent import ComponentChangeEvent
 
 from Rocket.RocketComponent import RocketComponent
 from Rocket.ComponentAssembly import ComponentAssembly
@@ -118,10 +117,6 @@ class SymmetricComponent(RocketComponent, BoxBounded, RadialParent):
         @param doClamping If true, the thickness will be clamped to the maximum radius.
     """
     def setThickness(self, thickness : float, doClamping : bool = True) -> None:
-        for listener in self._configListeners:
-            if isinstance(listener, SymmetricComponent):
-                listener.setThickness(thickness)
-
         if (self._obj.Thickness == thickness) and not self.isFilled():
             return
         if doClamping:
@@ -130,7 +125,7 @@ class SymmetricComponent(RocketComponent, BoxBounded, RadialParent):
             self._obj.Thickness = thickness
         self.setFilled(False)
 
-        self.fireComponentChangeEvent(ComponentChangeEvent.MASS_CHANGE)
+        self.notifyComponentChanged()
         self.clearPreset()
 
     def isAfter(self) -> bool:
@@ -148,16 +143,12 @@ class SymmetricComponent(RocketComponent, BoxBounded, RadialParent):
         the wall thickness will have no effect.
     """
     def setFilled(self, filled : bool) -> None:
-        for listener in self._configListeners:
-            if isinstance(listener, SymmetricComponent):
-                listener.setFilled(filled)
-
         if self.isFilled():
             return
 
         if hasattr(self._obj, "Filled"):
             self._obj.Filled = filled
-        self.fireComponentChangeEvent(ComponentChangeEvent.MASS_CHANGE)
+        self.notifyComponentChanged()
         self.clearPreset()
 
     """

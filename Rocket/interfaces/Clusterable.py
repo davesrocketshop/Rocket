@@ -24,10 +24,9 @@ __title__ = "FreeCAD Rocket Components"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
-from Rocket.interfaces.ChangeSource import ChangeSource
 from Rocket.interfaces.Instanceable import Instanceable
 
-class Clusterable(ChangeSource, Instanceable):
+class Clusterable(Instanceable):
 
     # @abstractmethod
     def getClusterConfiguration(self):

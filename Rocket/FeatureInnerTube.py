@@ -34,7 +34,6 @@ from Rocket.position.AxialPositionable import AxialPositionable
 from Rocket.interfaces.Clusterable import Clusterable
 from Rocket.interfaces.RadialParent import RadialParent
 
-from Rocket.events.ComponentChangeEvent import ComponentChangeEvent
 from Rocket.ThicknessRingComponent import ThicknessRingComponent
 from Rocket.ClusterConfiguration import ClusterConfiguration, SINGLE
 from Rocket.util.BoundingBox import BoundingBox
@@ -116,16 +115,12 @@ class FeatureInnerTube(ThicknessRingComponent, Clusterable, AxialPositionable, B
         Set the current cluster configuration.
     """
     def setClusterConfiguration(self, cluster : ClusterConfiguration) -> None:
-        for listener in self._configListeners:
-            if isinstance(listener, FeatureInnerTube):
-                listener.setClusterConfiguration(cluster)
-
         if cluster == self._obj.ClusterConfiguration:
             # no change
             return
 
         self._obj.ClusterConfiguration = cluster
-        self.fireComponentChangeEvent(ComponentChangeEvent.MASS_CHANGE)
+        self.notifyComponentChanged()
 
     def getInstanceBoundingBox(self) -> BoundingBox:
         instanceBounds = BoundingBox()
@@ -159,15 +154,11 @@ class FeatureInnerTube(ThicknessRingComponent, Clusterable, AxialPositionable, B
     def setClusterScale(self, scale : float) -> None:
         scale = max(scale, 0)
 
-        for listener in self._configListeners:
-            if isinstance(listener, FeatureInnerTube):
-                listener.setClusterScale(scale)
-
         if self._obj.ClusterScale == scale:
             return
 
         self._obj.ClusterScale = scale
-        self.fireComponentChangeEvent(ComponentChangeEvent.MASS_CHANGE)
+        self.notifyComponentChanged()
 
     """
         return the clusterRotation
@@ -179,16 +170,12 @@ class FeatureInnerTube(ThicknessRingComponent, Clusterable, AxialPositionable, B
         the clusterRotation to set
     """
     def setClusterRotation(self, rotation : float) -> None:
-        for listener in self._configListeners:
-            if isinstance(listener, FeatureInnerTube):
-                listener.setClusterRotation(rotation)
-
         rotation = reducePi(rotation)
         if self._obj.ClusterRotation == rotation:
             return
 
         self._obj.ClusterRotation = rotation
-        self.fireComponentChangeEvent(ComponentChangeEvent.MASS_CHANGE)
+        self.notifyComponentChanged()
 
 
     """
@@ -222,25 +209,17 @@ class FeatureInnerTube(ThicknessRingComponent, Clusterable, AxialPositionable, B
         return self._obj.Overhang
 
     def setMotorOverhang(self, overhang : float) -> None:
-        for listener in self._configListeners:
-            if isinstance(listener, FeatureInnerTube):
-                listener.setMotorOverhang(overhang)
-
         if self._obj.Overhang == overhang:
             return
 
         self._obj.Overhang = overhang
-        self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
+        self.notifyComponentChanged()
 
     def setMotorMount(self, active : bool) -> None:
-        for listener in self._configListeners:
-            if isinstance(listener, FeatureInnerTube):
-                listener.setMotorMount(active)
-
         if self._obj.MotorMount == active:
             return
         self._obj.MotorMount = active
-        self.fireComponentChangeEvent(ComponentChangeEvent.MOTOR_CHANGE)
+        self.notifyComponentChanged()
 
     def isMotorMount(self) -> bool:
         return self._obj.MotorMount

@@ -41,16 +41,14 @@ from Rocket.Constants import LOCATION_PARENT_TOP, LOCATION_PARENT_MIDDLE, LOCATI
 from Rocket.Constants import MATERIAL_TYPE_BULK
 
 from Rocket.position.AxialMethod import AXIAL_METHOD_MAP
-from Rocket.interfaces.ChangeSource import ChangeSource
-from Rocket.interfaces.ComponentChangeListener import ComponentChangeListener
+from Rocket.interfaces.Observer import Observer
 from Rocket.util.Coordinate import Coordinate, ZERO
-from Rocket.events.ComponentChangeEvent import ComponentChangeEvent
 
 from Rocket.Utilities import _err
 
 from DraftTools import translate
 
-class RocketComponent(RocketComponentShapeless, ChangeSource):
+class RocketComponent(RocketComponentShapeless):
 
     def __init__(self, obj : Any) -> None:
         super().__init__(obj)
@@ -170,7 +168,7 @@ class RocketComponent(RocketComponentShapeless, ChangeSource):
             component.Proxy.checkComponentStructure()
 
             self.updateBounds()
-            self.fireAddRemoveEvent(component)
+            self.notifyComponentChanged()
         except ValueError:
             pass
 
@@ -184,56 +182,19 @@ class RocketComponent(RocketComponentShapeless, ChangeSource):
         pos = self._obj.Placement.Base
         return Coordinate(pos.x, pos.y, pos.z)
 
-    def addConfigListener(self, listener : Any) -> bool:
-        if listener is None or listener in self._configListeners or listener == self:
-            return False
-
-        self._configListeners.append(listener)
-        listener.setBypassChangeEvent(True)
-
-        return True
-
-    def removeConfigListener(self, listener : Any) -> None:
-        self._configListeners.remove(listener)
-        listener.setBypassChangeEvent(False)
-
-    def clearConfigListeners(self) -> None:
-        for listener in self._configListeners:
-            listener.setBypassChangeEvent(False)
-
-        self._configListeners.clear()
-
-    def getConfigListeners(self) -> list:
-        return self._configListeners
-
-    # Adds a ComponentChangeListener to the rocket tree.  The listener is added to the root
+    # Adds an observer to the rocket tree.  The observer is added to the root
     # component, which must be of type Rocket (which overrides this method).  Events of all
     # subcomponents are sent to all listeners.
-    def addComponentChangeListener(self, listener : ComponentChangeListener) -> None:
-        self.getRocket().addComponentChangeListener(listener)
+    def attach(self, observer : Observer) -> None:
+        self.getRocket().attach(observer)
 
-    # Removes a ComponentChangeListener from the rocket tree.  The listener is removed from
+    # Removes an observer from the rocket tree.  The observer is removed from
     # the root component, which must be of type Rocket (which overrides this method).
     # Does nothing if the root component is not a Rocket.  (The asymmetry is so
     # that listeners can always be removed just in case.)
-    def removeComponentChangeListener(self, listener : ComponentChangeListener) -> None:
+    def detach(self, observer : Observer) -> None:
         if self.hasParent():
-            self.getRoot().removeComponentChangeListener(listener)
-
-    # Adds a <code>ChangeListener</code> to the rocket tree.  This is identical to
-    # <code>addComponentChangeListener()</code> except that it uses a
-    # <code>ChangeListener</code>.  The same events are dispatched to the
-    # <code>ChangeListener</code>, as <code>ComponentChangeEvent</code> is a subclass
-    # of <code>ChangeEvent</code>.
-    def addChangeListener(self, listener : ComponentChangeListener) -> None:
-        self.addComponentChangeListener(listener)
-
-    # Removes a ChangeListener from the rocket tree.  This is identical to
-    # removeComponentChangeListener() except it uses a ChangeListener.
-    # Does nothing if the root component is not a Rocket.  (The asymmetry is so
-    # that listeners can always be removed just in case.)
-    def removeChangeListener(self, listener : ComponentChangeListener) -> None:
-        self.removeComponentChangeListener(listener)
+            self.getRoot().detach(observer)
 
     """
          Returns coordinates of this component's instances in relation to this.parent.
@@ -259,10 +220,7 @@ class RocketComponent(RocketComponentShapeless, ChangeSource):
         otherwise.
     """
     def clearPreset(self) -> None:
-        for listener in self._configListeners:
-            listener.clearPreset()
-
-        self.fireComponentChangeEvent(ComponentChangeEvent.NONFUNCTIONAL_CHANGE)
+        self.notifyComponentChanged()
 
     """
         Provides locations of all instances of component relative to this component's reference point

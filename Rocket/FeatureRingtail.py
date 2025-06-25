@@ -33,13 +33,10 @@ from Rocket.position import AxialMethod
 from Rocket.interfaces.BoxBounded import BoxBounded
 from Rocket.interfaces.Coaxial import Coaxial
 
-from Rocket.events.ComponentChangeEvent import ComponentChangeEvent
-from Rocket.RocketComponent import RocketComponent
 from Rocket.SymmetricComponent import SymmetricComponent
 from Rocket.Constants import FEATURE_RINGTAIL, FEATURE_FIN, FEATURE_FINCAN
 
 from Rocket.ShapeHandlers.RingtailShapeHandler import RingtailShapeHandler
-from Rocket.Utilities import _wrn
 
 from DraftTools import translate
 
@@ -104,8 +101,8 @@ class FeatureRingtail(SymmetricComponent, BoxBounded, Coaxial):
         self.setAxialOffset(0)
         # super().update()
 
-    def componentChanged(self, event) -> None:
-        super().componentChanged(event)
+    def componentChanged(self) -> None:
+        super().componentChanged()
 
         if self._obj.AutoDiameter:
             self._setAutoDiameter()
@@ -121,29 +118,21 @@ class FeatureRingtail(SymmetricComponent, BoxBounded, Coaxial):
         clearPreset().  (BodyTube allows changing length without resetting the preset.)
     """
     def setLength(self, length : float) -> None:
-        for listener in self._configListeners:
-            if isinstance(listener, FeatureRingtail):
-                listener.setLength(length)
-
         if self._obj.Length == length:
             return
 
         self._obj.Length = max(length, 0)
-        self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
+        self.notifyComponentChanged()
 
     """
         Sets whether the radius is selected automatically or not.
     """
     def setOuterDiameterAutomatic(self, auto : bool) -> None:
-        for listener in self._configListeners:
-            if isinstance(listener, FeatureRingtail): # OR used transition base class
-                listener.setOuterDiameterAutomatic(auto)
-
         if self._obj.AutoDiameter == auto:
             return
 
         self._obj.AutoDiameter = auto
-        self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
+        self.notifyComponentChanged()
         self.clearPreset()
 
     def setOuterRadiusAutomatic(self, auto : bool) -> None:
@@ -173,21 +162,13 @@ class FeatureRingtail(SymmetricComponent, BoxBounded, Coaxial):
         self.setInnerDiameter(radius * 2.0)
 
     def setInnerDiameter(self, diameter : float) -> None:
-        for listener in self._configListeners:
-            if isinstance(listener, FeatureRingtail):
-                listener.setInnerDiameter(diameter)
-
         self.setThickness((self._obj.Diameter - diameter) / 2.0)
-        self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
+        self.notifyComponentChanged()
 
     def setOuterRadius(self, radius : float) -> None:
         self.setOuterDiameter(radius * 2.0)
 
     def setOuterDiameter(self, diameter : float) -> None:
-        for listener in self._configListeners:
-            if isinstance(listener, FeatureRingtail):
-                listener.setOuterDiameter(diameter)
-
         if self._obj.Diameter == diameter and not self._obj.AutoDiameter:
             return
 
@@ -196,7 +177,7 @@ class FeatureRingtail(SymmetricComponent, BoxBounded, Coaxial):
         if self._obj.Thickness > (diameter / 2.0):
             self._obj.Thickness = (diameter / 2.0)
 
-        self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
+        self.notifyComponentChanged()
         self.clearPreset()
 
     """

@@ -27,8 +27,6 @@ __url__ = "https://www.davesrocketshop.com"
 import math
 from typing import Any
 
-from Rocket.events.ComponentChangeEvent import ComponentChangeEvent
-
 from Rocket.position.AxialMethod import BOTTOM
 from Rocket.ExternalComponent import ExternalComponent
 from Rocket.SymmetricComponent import SymmetricComponent
@@ -39,7 +37,6 @@ from Rocket.Constants import FEATURE_FIN, FEATURE_LAUNCH_LUG, FEATURE_RAIL_BUTTO
 from Rocket.Constants import FIN_TYPE_TRAPEZOID, FIN_TYPE_TRIANGLE, FIN_TYPE_ELLIPSE, FIN_TYPE_TUBE, FIN_TYPE_SKETCH
 from Rocket.Constants import FIN_CROSS_SAME, FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE, \
     FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE, FIN_CROSS_ELLIPSE, FIN_CROSS_BICONVEX
-from Rocket.Constants import FIN_EDGE_SQUARE, FIN_EDGE_ROUNDED
 from Rocket.Constants import FIN_DEBUG_FULL, FIN_DEBUG_PROFILE_ONLY, FIN_DEBUG_MASK_ONLY
 from Rocket.Constants import PROP_TRANSIENT, PROP_HIDDEN
 
@@ -297,7 +294,7 @@ class FeatureFin(ExternalComponent):
 
     def setFinCount(self, count : int) -> None:
         self._obj.FinCount = count
-        self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
+        self.notifyComponentChanged()
 
     def getRootChord(self) -> float:
         if self._obj.FinType == FIN_TYPE_SKETCH:
@@ -314,28 +311,28 @@ class FeatureFin(ExternalComponent):
 
     def setRootChord(self, chord : float) -> None:
         self._obj.RootChord = chord
-        self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
+        self.notifyComponentChanged()
 
     def getRootThickness(self) -> float:
         return self._obj.RootThickness
 
     def setRootThickness(self, thickness : float) -> None:
         self._obj.RootThickness = thickness
-        self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
+        self.notifyComponentChanged()
 
     def getTipChord(self) -> float:
         return self._obj.TipChord
 
     def setTipChord(self, chord : float) -> None:
         self._obj.TipChord = chord
-        self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
+        self.notifyComponentChanged()
 
     def getTipThickness(self) -> float:
         return self._obj.TipThickness
 
     def setTipThickness(self, thickness : float) -> None:
         self._obj.TipThickness = thickness
-        self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
+        self.notifyComponentChanged()
 
     def getThickness(self) -> float:
         return self._obj.RootThickness
@@ -343,7 +340,7 @@ class FeatureFin(ExternalComponent):
     def setThickness(self, thickness : float) -> None:
         self._obj.RootThickness = thickness
         self._obj.TipThickness = thickness
-        self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
+        self.notifyComponentChanged()
 
     def getHeight(self) -> float:
         return self._obj.Height
@@ -351,7 +348,7 @@ class FeatureFin(ExternalComponent):
     def setHeight(self, height : float) -> None:
         self._obj.Height = height
         self.sweepAngleFromLength()
-        self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
+        self.notifyComponentChanged()
 
     def getSpan(self) -> float:
         return self._obj.Span
@@ -360,7 +357,7 @@ class FeatureFin(ExternalComponent):
         self._obj.Span = span
         self.setFinAutoHeight()
         self.sweepAngleFromLength()
-        self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
+        self.notifyComponentChanged()
 
     def getSweepLength(self) -> float:
         return self._obj.SweepLength
@@ -368,7 +365,7 @@ class FeatureFin(ExternalComponent):
     def setSweepLength(self, length : float) -> None:
         self._obj.SweepLength = length
         self.sweepAngleFromLength()
-        self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
+        self.notifyComponentChanged()
 
     def sweepAngleFromLength(self) -> None:
         length = float(self._obj.SweepLength)
@@ -381,7 +378,7 @@ class FeatureFin(ExternalComponent):
     def setSweepAngle(self, angle : float) -> None:
         self._obj.SweepAngle = angle
         self.sweepLengthFromAngle()
-        self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
+        self.notifyComponentChanged()
 
     def sweepLengthFromAngle(self) -> None:
         theta = _toFloat(self._obj.SweepAngle)
@@ -480,10 +477,6 @@ class FeatureFin(ExternalComponent):
         self.setTubeOuterDiameter(2.0 * radius)
 
     def setTubeOuterDiameter(self, radius : float) -> None:
-        for listener in self._configListeners:
-            if isinstance(listener, FeatureFin):
-                listener.setTubeOuterDiameter(radius)
-
         if self._obj.TubeOuterDiameter == radius and not self._obj.TubeAutoOuterDiameter:
             return
 
@@ -492,7 +485,7 @@ class FeatureFin(ExternalComponent):
 
         if self._obj.TubeThickness > (self._obj.TubeOuterDiameter / 2.0):
             self._obj.TubeThickness = (self._obj.TubeOuterDiameter / 2.0)
-        self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
+        self.notifyComponentChanged()
         self.clearPreset()
 
     """
@@ -502,13 +495,9 @@ class FeatureFin(ExternalComponent):
         self.setTubeOuterDiameterAutomatic(auto)
 
     def setTubeOuterDiameterAutomatic(self, auto : bool) -> None:
-        for listener in self._configListeners:
-            if isinstance(listener, FeatureFin):
-                listener.setTubeOuterDiameterAutomatic(auto)
-
         if self._obj.TubeAutoOuterDiameter == auto:
             return
 
         self._obj.TubeAutoOuterDiameter = auto
-        self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
+        self.notifyComponentChanged()
         self.clearPreset()

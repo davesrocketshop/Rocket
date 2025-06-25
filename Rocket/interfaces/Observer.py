@@ -1,5 +1,5 @@
 # ***************************************************************************
-# *   Copyright (c) 2022-2025 David Carter <dcarter@davidcarter.ca>         *
+# *   Copyright (c) 2025 David Carter <dcarter@davidcarter.ca>              *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -26,8 +26,30 @@ __url__ = "https://www.davesrocketshop.com"
 
 from abc import ABC, abstractmethod
 
-class StateChangeListener(ABC):
+class Observer(ABC):
 
     @abstractmethod
-    def stateChanged(self, event):
-        pass
+    def componentChanged(self) -> None:
+        raise NotImplementedError("Subclass must implement abstract method")
+
+class Subject(ABC):
+
+    def __init__(self) -> None:
+        self._observers = []  # List to hold observers
+
+    def attach(self, observer : Observer) -> None:
+        if not hasattr(self, "_observers"):
+            self._observers = []
+
+        if observer not in self._observers:
+            self._observers.append(observer)
+
+    def detach(self, observer : Observer) -> None:
+        if not hasattr(self, "_observers"):
+            return
+
+        self._observers.remove(observer)
+
+    def notifyComponentChanged(self) -> None:
+        for observer in self._observers:
+            observer.componentChanged(self)

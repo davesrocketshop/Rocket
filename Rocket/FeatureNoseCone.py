@@ -49,8 +49,6 @@ from Rocket.Constants import STYLE_CAPPED, STYLE_HOLLOW, STYLE_SOLID
 from Rocket.Constants import STYLE_CAP_SOLID, STYLE_CAP_BAR, STYLE_CAP_CROSS
 from Rocket.Constants import FEATURE_NOSE_CONE, FEATURE_INNER_TUBE, FEATURE_CENTERING_RING, FEATURE_FIN
 
-from Rocket.events.ComponentChangeEvent import ComponentChangeEvent
-
 from DraftTools import translate
 
 class FeatureNoseCone(SymmetricComponent):
@@ -245,10 +243,6 @@ class FeatureNoseCone(SymmetricComponent):
         self.setAftDiameter(radius * 2.0)
 
     def setAftDiameter(self, diameter : float) -> None:
-        for listener in self._configListeners:
-            if isinstance(listener, FeatureNoseCone): # OR used transition base class
-                listener.setAftDiameter(diameter)
-
         if self._obj.Diameter == diameter and self._obj.AutoDiameter == False:
             return
 
@@ -260,7 +254,7 @@ class FeatureNoseCone(SymmetricComponent):
             self._obj.Thickness = self._obj.Diameter / 2.0
 
         self.clearPreset()
-        self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
+        self.notifyComponentChanged()
 
 
     def isAftRadiusAutomatic(self) -> bool:
@@ -276,33 +270,25 @@ class FeatureNoseCone(SymmetricComponent):
         self.setAftDiameterAutomatic(auto)
 
     def setAftDiameterAutomatic(self, auto : bool) -> None:
-        for listener in self._configListeners:
-            if isinstance(listener, FeatureNoseCone):
-                listener.setAftDiameterAutomatic(auto)
-
         if self._obj.AutoDiameter == auto:
             return
 
         self._obj.AutoDiameter = auto
 
         self.clearPreset()
-        self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
+        self.notifyComponentChanged()
 
     def isAftShoulderDiameterAutomatic(self) -> bool:
         return self._obj.ShoulderAutoDiameter
 
     def setAftShoulderDiameterAutomatic(self, auto : bool) -> None:
-        for listener in self._configListeners:
-            if isinstance(listener, FeatureNoseCone):
-                listener.setAftShoulderDiameterAutomatic(auto)
-
         if self._obj.ShoulderAutoDiameter == auto:
             return
 
         self._obj.ShoulderAutoDiameter = auto
 
         self.clearPreset()
-        self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
+        self.notifyComponentChanged()
 
     def setShoulderLength(self, length : float) -> None:
         self._obj.ShoulderLength = length
@@ -364,16 +350,13 @@ class FeatureNoseCone(SymmetricComponent):
         return False
 
     def setFilled(self, filled : bool) -> None:
-        for listener in self._configListeners:
-            if isinstance(listener, SymmetricComponent):
-                listener.setFilled(filled)
-
         # if self.isFilled():
         #     return
 
         # self._obj.Filled = filled
-        # self.fireComponentChangeEvent(ComponentChangeEvent.MASS_CHANGE)
+        # self.notifyComponentChanged()
         # self.clearPreset()
+        pass
 
     def getMaxForwardPosition(self) -> float:
         return float(self._obj.Length) + float(self._obj.Placement.Base.x)

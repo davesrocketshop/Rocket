@@ -29,8 +29,6 @@ from typing import Any
 from Rocket.RingComponent import RingComponent
 from Rocket.interfaces.RadialParent import RadialParent
 
-from Rocket.events.ComponentChangeEvent import ComponentChangeEvent
-
 from Rocket.util.Coordinate import Coordinate, NUL
 from Rocket.Utilities import clamp
 
@@ -79,10 +77,6 @@ class ThicknessRingComponent(RingComponent):
         self.setOuterDiameter(radius * 2.0)
 
     def setOuterDiameter(self, diameter : float) -> None:
-        for listener in self._configListeners:
-            if isinstance(listener, ThicknessRingComponent):
-                listener.setOuterDiameter(diameter)
-
         diameter = max(diameter,0)
         if self._obj.Diameter == diameter and not self.isOuterDiameterAutomatic():
             return
@@ -95,16 +89,12 @@ class ThicknessRingComponent(RingComponent):
 
         self.clearPreset()
 
-        self.fireComponentChangeEvent(ComponentChangeEvent.MASS_CHANGE)
+        self.notifyComponentChanged()
 
     def getThickness(self) -> float:
         return min(self._obj.Thickness, self.getOuterRadius(0))
 
     def setThickness(self, thickness : float) -> None:
-        for listener in self._configListeners:
-            if isinstance(listener, ThicknessRingComponent):
-                listener.setThickness(thickness)
-
         outer = self.getOuterRadius(0)
 
         thickness = clamp(thickness, 0, outer)
@@ -115,7 +105,7 @@ class ThicknessRingComponent(RingComponent):
 
         self.clearPreset()
 
-        self.fireComponentChangeEvent(ComponentChangeEvent.MASS_CHANGE)
+        self.notifyComponentChanged()
 
     def getInnerRadius(self, pos : float) -> float:
         return self.getInnerDiameter(pos) / 2.0
@@ -127,9 +117,5 @@ class ThicknessRingComponent(RingComponent):
         self.setInnerDiameter(radius * 2.0)
 
     def setInnerDiameter(self, diameter : float) -> None:
-        for listener in self._configListeners:
-            if isinstance(listener, ThicknessRingComponent):
-                listener.setInnerRadius(diameter)
-
         diameter = max(diameter,0)
         self.setThickness((self.getOuterDiameter(0) - diameter) / 2.0)

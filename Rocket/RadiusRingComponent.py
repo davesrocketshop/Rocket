@@ -32,8 +32,6 @@ from Rocket.Utilities import clamp
 from Rocket.interfaces.LineInstanceable import LineInstanceable
 from Rocket.interfaces.RadialParent import RadialParent
 
-from Rocket.events.ComponentChangeEvent import ComponentChangeEvent
-
 from DraftTools import translate
 
 class RadiusRingComponent(RingComponent, LineInstanceable):
@@ -79,10 +77,6 @@ class RadiusRingComponent(RingComponent, LineInstanceable):
     def setOuterDiameter(self, d : float) -> None:
         d = max(d,0)
 
-        for listener in self._configListeners:
-            if isinstance(listener, RadiusRingComponent):
-                listener.setOuterDiameter(d)
-
         if self._obj.Diameter == d and not self._obj.AutoDiameter:
             return
 
@@ -93,7 +87,7 @@ class RadiusRingComponent(RingComponent, LineInstanceable):
             self._obj.CenterAutoDiameter = False
 
         self.clearPreset()
-        self.fireComponentChangeEvent(ComponentChangeEvent.MASS_CHANGE)
+        self.notifyComponentChanged()
 
     def getInnerRadius(self, pos : float) -> float:
         return self.getInnerDiameter(pos) / 2.0
@@ -103,10 +97,6 @@ class RadiusRingComponent(RingComponent, LineInstanceable):
 
     def setInnerRadius(self, radius : float) -> None:
         radius = max(radius,0)
-
-        for listener in self._configListeners:
-            if isinstance(listener, RadiusRingComponent):
-                listener.setInnerRadius(radius)
 
         if self._obj.CenterDiameter == (2.0 * radius):
             return
@@ -118,16 +108,12 @@ class RadiusRingComponent(RingComponent, LineInstanceable):
             self._obj.AutoDiameter = False
 
         # clearPreset();
-        self.fireComponentChangeEvent(ComponentChangeEvent.MASS_CHANGE)
+        self.notifyComponentChanged()
 
     def getThickness(self) -> float:
         return max(self.getOuterRadius(0) - self.getInnerRadius(0), 0)
 
     def setThickness(self, thickness : float) -> None:
-        for listener in self._configListeners:
-            if isinstance(listener, RadiusRingComponent):
-                listener.setThickness(thickness)
-
         outer = self.getOuterRadius(0)
 
         thickness = clamp(thickness, 0, outer)
@@ -139,15 +125,7 @@ class RadiusRingComponent(RingComponent, LineInstanceable):
     def setInstanceSeparation(self, separation : float) -> None:
         self._obj.InstanceSeparation = separation
 
-        for listener in self._configListeners:
-            if isinstance(listener, RadiusRingComponent):
-                listener.setInstanceSeparation(separation)
-
     def setInstanceCount(self, newCount : int) -> None:
-        for listener in self._configListeners:
-            if isinstance(listener, RadiusRingComponent):
-                listener.setInstanceCount(newCount)
-
         if 0 < newCount:
             self._obj.InstanceCount = newCount
 

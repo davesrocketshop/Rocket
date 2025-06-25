@@ -29,7 +29,6 @@ from typing import Any
 from Rocket.RocketComponent import RocketComponent
 from Rocket.position.AxialMethod import AxialMethod
 from Rocket.util import Finish
-from Rocket.events.ComponentChangeEvent import ComponentChangeEvent
 
 # Class of components with well-defined physical appearance and which have an effect on
 # aerodynamic simulation.  They have material defined for them, and the mass of the component
@@ -60,12 +59,8 @@ class ExternalComponent(RocketComponent):
         return self.finish
 
     def setFinish(self, finish : Finish.Finish) -> None:
-        for listener in self._configListeners:
-            if isinstance(listener, ExternalComponent):
-                listener.setFinish(finish)
-
         if self.finish == finish:
             return
         self.finish = finish
 
-        self.fireComponentChangeEvent(ComponentChangeEvent.AERODYNAMIC_CHANGE)
+        self.notifyComponentChanged()

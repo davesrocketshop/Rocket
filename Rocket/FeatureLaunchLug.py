@@ -35,7 +35,6 @@ from Rocket.position.AngleMethod import AngleMethod, RELATIVE
 from Rocket.position.AnglePositionable import AnglePositionable
 from Rocket.interfaces.BoxBounded import BoxBounded
 from Rocket.interfaces.LineInstanceable import LineInstanceable
-from Rocket.events.ComponentChangeEvent import ComponentChangeEvent
 from Rocket.util.BoundingBox import BoundingBox
 from Rocket.util.Coordinate import Coordinate, NUL
 from Rocket import Utilities
@@ -118,17 +117,13 @@ class FeatureLaunchLug(Tube, AnglePositionable, BoxBounded, LineInstanceable):
         self.setOuterDiameter(radius * 2.0)
 
     def setOuterDiameter(self, diameter : float) -> None:
-        for listener in self._configListeners:
-            if isinstance(listener, FeatureLaunchLug):
-                listener.setOuterDiameter(diameter)
-
         if self._obj.Diameter == diameter:
             return
 
         self._obj.Diameter = diameter
         self._obj.Thickness = min(self._obj.Thickness, self._obj.Diameter / 2.0)
         self.clearPreset()
-        self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
+        self.notifyComponentChanged()
 
     def getInnerRadius(self, pos : float) -> float:
         return self.getInnerDiameter(pos) / 2.0
@@ -140,52 +135,36 @@ class FeatureLaunchLug(Tube, AnglePositionable, BoxBounded, LineInstanceable):
         self.setInnerDiameter(radius * 2.0)
 
     def setInnerDiameter(self, diameter : float) -> None:
-        for listener in self._configListeners:
-            if isinstance(listener, FeatureLaunchLug):
-                listener.setInnerDiameter(diameter)
-
         self.setThickness((float(self._obj.Diameter) - float(diameter)) / 2.0)
 
     def getThickness(self) -> float:
         return self._obj.Thickness
 
     def setThickness(self, thickness : float) -> None:
-        for listener in self._configListeners:
-            if isinstance(listener, FeatureLaunchLug):
-                listener.setThickness(thickness)
-
         if self._obj.Thickness == thickness:
             return
 
         self._obj.Thickness = Utilities.clamp(thickness, 0, self._obj.Diameter / 2.0)
         self.clearPreset()
-        self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
+        self.notifyComponentChanged()
 
     def getAngleOffset(self) -> float:
         return self._obj.AngleOffset
 
     def setAngleOffset(self, angle : float) -> None:
-        for listener in self._configListeners:
-            if isinstance(listener, FeatureLaunchLug):
-                listener.setAngleOffset(angle)
-
         rad = math.fmod(angle, 360)
         if self._obj.AngleOffset == rad:
             return
 
         self._obj.AngleOffset = rad
-        self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
+        self.notifyComponentChanged()
 
     def setLength(self, length : float) -> None:
-        for listener in self._configListeners:
-            if isinstance(listener, FeatureLaunchLug):
-                listener.setLength(length)
-
         if self._obj.Length == length:
             return
 
         self._obj.Length = length
-        self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
+        self.notifyComponentChanged()
 
     def isAfter(self) -> bool:
         return False
@@ -201,8 +180,8 @@ class FeatureLaunchLug(Tube, AnglePositionable, BoxBounded, LineInstanceable):
 
         return toReturn
 
-    def componentChanged(self, event : Any) -> None:
-        super().componentChanged(event)
+    def componentChanged(self) -> None:
+        super().componentChanged()
 
         self._setRadialOffset()
 
@@ -240,17 +219,9 @@ class FeatureLaunchLug(Tube, AnglePositionable, BoxBounded, LineInstanceable):
         return self._obj.InstanceSeparation
 
     def setInstanceSeparation(self, separation : float) -> None:
-        for listener in self._configListeners:
-            if isinstance(listener, FeatureLaunchLug):
-                listener.setInstanceSeparation(separation)
-
         self._obj.InstanceSeparation = separation
 
     def setInstanceCount(self, newCount : int) -> None:
-        for listener in self._configListeners:
-            if isinstance(listener, FeatureLaunchLug):
-                listener.setInstanceCount(newCount)
-
         if newCount > 0:
             self._obj.InstanceCount = newCount
 

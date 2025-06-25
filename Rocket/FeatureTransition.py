@@ -38,8 +38,6 @@ from Rocket.Constants import STYLE_CAPPED, STYLE_HOLLOW, STYLE_SOLID, STYLE_SOLI
 from Rocket.Constants import STYLE_CAP_SOLID, STYLE_CAP_BAR, STYLE_CAP_CROSS
 from Rocket.Constants import FEATURE_TRANSITION, FEATURE_CENTERING_RING, FEATURE_INNER_TUBE, FEATURE_FIN
 
-from Rocket.events.ComponentChangeEvent import ComponentChangeEvent
-
 from Rocket.Utilities import _wrn
 
 from DraftTools import translate
@@ -211,10 +209,6 @@ class FeatureTransition(SymmetricComponent):
         return self._obj.ForeDiameter / 2.0
 
     def setForeRadius(self, radius : float) -> None:
-        for listener in self._configListeners:
-            if isinstance(listener, FeatureTransition):
-                listener.setForeRadius(radius)
-
         r = self._obj.ForeDiameter / 2.0
         if r == radius and not self._obj.ForeAutoDiameter:
             return
@@ -228,7 +222,7 @@ class FeatureTransition(SymmetricComponent):
             self._obj.Thickness = max(foreRadius, aftRadius)
 
         self.clearPreset()
-        self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
+        self.notifyComponentChanged()
 
     def setForeDiameter(self, diameter : float) -> None:
         self.setForeRadius(diameter / 2.0)
@@ -243,17 +237,13 @@ class FeatureTransition(SymmetricComponent):
         self.setForeDiameterAutomatic(auto)
 
     def setForeDiameterAutomatic(self, auto : bool) -> None:
-        for listener in self._configListeners:
-            if isinstance(listener, FeatureTransition):
-                listener.setForeDiameterAutomatic(auto)
-
         if self._obj.ForeAutoDiameter == auto:
             return
 
         self._obj.ForeAutoDiameter = auto
 
         # clearPreset();
-        self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
+        self.notifyComponentChanged()
 
     def isForeInnerDiameterAutomatic(self) -> bool:
         return self._obj.ForeShoulderAutoDiameter
@@ -297,10 +287,6 @@ class FeatureTransition(SymmetricComponent):
         return self._obj.AftDiameter / 2.0
 
     def setAftRadius(self, radius : float) -> None:
-        for listener in self._configListeners:
-            if isinstance(listener, FeatureTransition):
-                listener.setAftRadius(radius)
-
         r = self._obj.AftDiameter / 2.0
         if r == radius and not self.isAftRadiusAutomatic():
             return
@@ -313,8 +299,8 @@ class FeatureTransition(SymmetricComponent):
         if self._obj.Thickness > foreRadius and self._obj.Thickness > aftRadius:
             self._obj.Thickness = max(foreRadius, aftRadius);
 
-        self.clearPreset();
-        self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
+        self.clearPreset()
+        self.notifyComponentChanged()
 
     def setAftDiameter(self, diameter : float) -> None:
         self.setAftRadius(diameter / 2.0)
@@ -332,17 +318,13 @@ class FeatureTransition(SymmetricComponent):
         return self._obj.AftShoulderAutoDiameter
 
     def setAftDiameterAutomatic(self, auto : bool) -> None:
-        for listener in self._configListeners:
-            if isinstance(listener, FeatureTransition):
-                listener.setAftDiameterAutomatic(auto)
-
         if self._obj.AftAutoDiameter == auto:
             return
 
         self._obj.AftAutoDiameter = auto
 
         self.clearPreset()
-        self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
+        self.notifyComponentChanged()
 
     def getFrontAutoRadius(self) -> float:
         if self.isAftRadiusAutomatic():

@@ -33,10 +33,10 @@ import math
 
 import Ui
 
-from PySide.QtCore import QObject, Signal
-from Rocket.Utilities import _err, EPSILON
-from Rocket.events.ComponentChangeEvent import ComponentChangeEvent
+from Rocket.Utilities import EPSILON
 from Rocket.position import AxialMethod
+
+from Rocket.interfaces.Observer import Subject, Observer
 
 import Ui.Commands as Commands
 
@@ -47,28 +47,7 @@ from Rocket.Exceptions import UnsupportedConfiguration, ObjectNotFound
 
 from DraftTools import translate
 
-class EditedShape(QObject):
-
-    edited = Signal(object)
-
-    def __init__(self) -> None:
-        super().__init__()
-
-    def setEdited(self, event=None) -> None:
-        # if event is None:
-        #     self.edited.emit()
-        # else:
-        self.edited.emit(event) #- need to figure this out
-
-    def doConnect(self, fn, type) -> None:
-        self.edited.connect(fn, type)
-
-    def doDisconnect(self) -> None:
-        self.edited.connect(None)
-
-class RocketComponentShapeless(ABC):
-
-    edited = EditedShape()
+class RocketComponentShapeless(Subject, Observer):
 
     def __init__(self, obj : Any) -> None:
         super().__init__()
@@ -80,7 +59,6 @@ class RocketComponentShapeless(ABC):
         obj.Proxy=self
         self._scratch = {} # Non-persistent property storage, for import properties and similar
 
-        self._configListeners = []
         self._updating = False
 
         if not hasattr(obj, 'Comment'):
@@ -133,13 +111,7 @@ class RocketComponentShapeless(ABC):
         pass
 
     def setEdited(self, event=None) -> None:
-        self.edited.setEdited(event)
-
-    def connect(self, fn, type) -> None:
-        self.edited.doConnect(fn, type)
-
-    def disconnect(self) -> None:
-        self.edited.doDisconnect()
+        self.notifyComponentChanged()
 
     def eligibleChild(self, childType : str) -> bool:
         return False
@@ -187,7 +159,7 @@ class RocketComponentShapeless(ABC):
             return
 
         self._parent = parent
-        self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
+        self.notifyComponentChanged()
 
     """
         recursively set the parents for all children
@@ -332,7 +304,7 @@ class RocketComponentShapeless(ABC):
         if self.hasParent():
             self.getParent()._moveChildUp(self._obj)
 
-            self.fireComponentChangeEvent(ComponentChangeEvent.TREE_CHANGE)
+            self.notifyComponentChanged()
             Commands.CmdRocket.updateRocket()
         # else:
         #     Commands.CmdStage.addToStage(self)
@@ -424,7 +396,7 @@ class RocketComponentShapeless(ABC):
         if self.hasParent():
             self.getParent()._moveChildDown(self._obj)
 
-            self.fireComponentChangeEvent(ComponentChangeEvent.TREE_CHANGE)
+            self.notifyComponentChanged()
             Ui.Commands.CmdRocket.updateRocket()
 
     def _moveChildDown(self, obj : Any) -> None:
@@ -615,7 +587,7 @@ class RocketComponentShapeless(ABC):
     def setAxialOffset(self, newAxialOffset : float) -> None:
         self.updateBounds()
         self._setAxialOffset(self._obj.AxialMethod, newAxialOffset)
-        self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
+        self.notifyComponentChanged()
 
     """  Get the positioning of the component relative to its parent component. """
     def getAxialMethod(self) -> AxialMethod.AxialMethod:
@@ -628,12 +600,9 @@ class RocketComponentShapeless(ABC):
         The default implementation is of protected visibility, since many components
         do not support setting the relative position.  A component that does support
         it should override this with a public method that simply calls this
-        supermethod AND fire a suitable ComponentChangeEvent.
+        supermethod AND fire a suitable event.
     """
     def setAxialMethod(self, newAxialMethod : AxialMethod.AxialMethod) -> None:
-        for listener in self._configListeners:
-            listener.setAxialMethod(newAxialMethod)
-
         if type(newAxialMethod) == type(self._obj.AxialMethod):
             # no change.
             return
@@ -644,7 +613,7 @@ class RocketComponentShapeless(ABC):
         self._obj.AxialOffset = self.getAxialOffsetFromMethod(newAxialMethod)
 
         # this doesn't cause any physical change-- just how it's described.
-        # self.fireComponentChangeEvent(ComponentChangeEvent.BOTH_CHANGE)
+        # self.notifyComponentChanged()
 
     def update(self) -> None:
         self._setAxialOffset(self._obj.AxialMethod, self._obj.AxialOffset)
@@ -660,11 +629,11 @@ class RocketComponentShapeless(ABC):
                     child.Proxy.updateChildren()
             self._updating = False
 
-    #  Called when any component in the tree fires a ComponentChangeEvent.  This is by
+    #  Called when any component in the tree fires a component change notification.  This is by
     #  default a no-op, but subclasses may override this method to e.g. invalidate
     #  cached data.  The overriding method *must* call
     #  <code>super.componentChanged(e)</code> at some point.
-    def componentChanged(self, event : int) -> None:
+    def componentChanged(self) -> None:
         self.updateChildren()
 
     def _setRotation(self) -> None:
@@ -707,7 +676,7 @@ class RocketComponentShapeless(ABC):
         self.checkComponentStructure()
         component.Proxy.checkComponentStructure()
 
-        self.fireAddRemoveEvent(component)
+        self.notifyComponentChanged()
 
     # Removes a child from the rocket component tree.
     # (redirect to the removed-by-component
@@ -737,7 +706,7 @@ class RocketComponentShapeless(ABC):
             self.checkComponentStructure()
             component.checkComponentStructure()
 
-            self.fireAddRemoveEvent(component)
+            self.notifyComponentChanged()
             self.updateBounds()
 
             return True
@@ -837,31 +806,13 @@ class RocketComponentShapeless(ABC):
 
         return False
 
-    # Fires an AERODYNAMIC_CHANGE, MASS_CHANGE or OTHER_CHANGE event depending on the
-    # type of component removed.
-    def fireAddRemoveEvent(self, component : Any) -> None:
-        type = ComponentChangeEvent.TREE_CHANGE
-        if hasattr(component, "_obj"):
-            group = component._obj.Group
-        else:
-            group = component.Group
-        for obj in group:
-            if not obj.isDerivedFrom('Sketcher::SketchObject'):
-                proxy = obj.Proxy
-                if proxy.isAerodynamic():
-                    type |= ComponentChangeEvent.AERODYNAMIC_CHANGE
-                if proxy.isMassive():
-                    type |= ComponentChangeEvent.MASS_CHANGE
-
-        self.fireComponentChangeEvent(type)
-
-    def fireComponentChangeEvent(self, event : int) -> None:
+    def notifyComponentChanged(self) -> None:
         if not self.hasParent():
             return
 
         root = self.getRoot()
         if root is not None:
-            root.fireComponentChangeEvent(event)
+            root.notifyComponentChanged()
 
     def setAfter(self) -> None:
         if not self.hasParent():
