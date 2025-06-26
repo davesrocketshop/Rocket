@@ -36,7 +36,7 @@ from Rocket.Constants import FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOI
     FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE, FIN_CROSS_BICONVEX, FIN_CROSS_ELLIPSE
 from Rocket.Constants import FIN_DEBUG_FULL, FIN_DEBUG_PROFILE_ONLY, FIN_DEBUG_MASK_ONLY
 
-from Rocket.Utilities import _err, validationError
+from Rocket.Utilities import validationError
 
 class FinShapeHandler:
 
@@ -45,6 +45,8 @@ class FinShapeHandler:
 
         # This gets changed when redrawn so it's very important to save a copy
         self._placement = FreeCAD.Placement(obj.Placement)
+
+        self._scale = obj.Proxy.getScale()
 
     def minimumEdge(self) -> float:
         if self._obj.MinimumEdge:
