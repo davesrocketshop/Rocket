@@ -224,6 +224,21 @@ class FeatureFin(ExternalComponent):
         self.setFinAutoHeight()
         self._setTtwAutoHeight(0)
 
+    def getScale(self) -> float:
+        scale = 1.0
+        if self._obj.Scale:
+            if self._obj.ScaleByValue and self._obj.ScaleValue.Value > 0.0:
+                scale = self._obj.ScaleValue.Value
+            elif self._obj.ScaleByRootChord:
+                chord = self._obj.RootChord.Value
+                if chord > 0 and self._obj.ScaleValue > 0:
+                    scale =  chord / self._obj.ScaleValue.Value
+            elif self._obj.ScaleByHeight:
+                height = self._obj.Height.Value
+                if height > 0 and self._obj.ScaleValue > 0:
+                    scale =  height / self._obj.ScaleValue.Value
+        return scale
+
     def getFinThickness(self) -> float:
         thickness = 0.0
         if self.getTipThickness() > 0.0:

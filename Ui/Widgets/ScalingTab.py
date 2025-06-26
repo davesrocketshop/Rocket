@@ -774,19 +774,7 @@ class ScalingTabFins(ScalingTab):
         self._setScaleState()
 
     def getScale(self) -> float:
-        scale = 1.0
-        if self._obj.Scale:
-            if self._obj.ScaleByValue and self._obj.ScaleValue.Value > 0.0:
-                scale = self._obj.ScaleValue.Value
-            elif self._obj.ScaleByRootChord:
-                chord = self._obj.RootChord
-                if chord > 0 and self._obj.ScaleValue > 0:
-                    scale =  float(chord / self._obj.ScaleValue)
-            elif self._obj.ScaleByHeight:
-                height = self._obj.Height
-                if height > 0 and self._obj.ScaleValue > 0:
-                    scale =  float(height / self._obj.ScaleValue)
-        return scale
+        return self._obj.Proxy.getScale()
 
     def onScaleRoot(self, checked: bool) -> None:
         if self._loading:
