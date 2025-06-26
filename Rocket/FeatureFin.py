@@ -213,6 +213,9 @@ class FeatureFin(ExternalComponent):
         self._setFinEditorVisibility()
 
     def update(self) -> None:
+        # Invalidate and recalculate
+        self._obj.Length = -1
+
         super().update()
 
         # Ensure any automatic variables are set
@@ -284,7 +287,7 @@ class FeatureFin(ExternalComponent):
         # Return the length of this component along the central axis
         if self._obj.Length <= 0:
             self._obj.Length = self.getRootChord()
-        return self._obj.Length
+        return self._obj.Length # * scale?
 
     def isFinSet(self) -> bool:
         return self._obj.FinSet
