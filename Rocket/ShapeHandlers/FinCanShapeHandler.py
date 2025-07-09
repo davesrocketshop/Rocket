@@ -260,7 +260,7 @@ class FinCanShapeHandler(FinShapeHandler):
                 radius = self._obj.LugInnerDiameter / 2.0
                 outerRadius = radius + self._obj.LugThickness
                 width = outerRadius + self._obj.LugFilletRadius
-                bodyRadius = self._obj.Diameter / 2.0 + self._obj.Thickness
+                bodyRadius = self._scale * self._obj.Diameter / 2.0 + self._obj.Thickness
 
                 # base = float(self._obj.RootChord - self._obj.Length + self._obj.LugLeadingEdgeOffset)
                 base = float(self._obj.Length - self._obj.LugLength + self._obj.LugLeadingEdgeOffset)
@@ -276,7 +276,7 @@ class FinCanShapeHandler(FinShapeHandler):
                 else:
                     lugCenterZ = radius + self._obj.Thickness
 
-                point = FreeCAD.Vector(base, 0, lugCenterZ + self._obj.Diameter / 2.0)
+                point = FreeCAD.Vector(base, 0, lugCenterZ + self._scale * self._obj.Diameter / 2.0)
                 direction = FreeCAD.Vector(1,0,0)
 
                 outer = Part.makeCylinder(outerRadius, self._obj.LugLength, point, direction)
@@ -286,7 +286,7 @@ class FinCanShapeHandler(FinShapeHandler):
                 minor  = width - outerRadius
 
                 # Make the fillet
-                point = FreeCAD.Vector(base, width, self._obj.Diameter / 2.0 - self._filletDepth(bodyRadius, width))
+                point = FreeCAD.Vector(base, width, self._scale * self._obj.Diameter / 2.0 - self._filletDepth(bodyRadius, width))
                 filletBase = Part.makeBox(major + self._obj.Thickness, 2 * width, self._obj.LugLength, point, direction)
                 lug = outer.fuse(filletBase)
                 baseCutout = Part.makeCylinder(bodyRadius, self._obj.LugLength, FreeCAD.Vector(base, 0, 0), direction)
@@ -294,7 +294,7 @@ class FinCanShapeHandler(FinShapeHandler):
 
                 center_x = base
                 center_y = width
-                center_z = lugCenterZ + self._obj.Diameter / 2.0
+                center_z = lugCenterZ + self._scale * self._obj.Diameter / 2.0
                 lug = self._cutFillet(lug, major, minor, center_x, center_y, center_z)
 
                 center_y = -width
@@ -327,14 +327,14 @@ class FinCanShapeHandler(FinShapeHandler):
         # point = FreeCAD.Vector((self._obj.RootChord - self._obj.Length + self._obj.LugLeadingEdgeOffset),0,0)
         point = FreeCAD.Vector(0,0,0)
         direction = FreeCAD.Vector(1,0,0)
-        radius = self._obj.Diameter / 2.0
+        radius = self._scale * self._obj.Diameter / 2.0
         outerRadius = radius + self._obj.Thickness
         if self._obj.Coupler:
-            length = self._obj.Length + self._obj.CouplerLength
+            length = self._scale * self._obj.Length + self._obj.CouplerLength
             point = FreeCAD.Vector(-self._obj.CouplerLength,0,0)
-            inner = Part.makeCylinder((self._obj.CouplerDiameter / 2.0 - self._obj.CouplerThickness), length, point, direction)
+            inner = Part.makeCylinder(self._scale * self._obj.CouplerDiameter / 2.0 - self._obj.CouplerThickness, length, point, direction)
         else:
-            length = self._obj.Length
+            length = self._scale * self._obj.Length
             inner = Part.makeCylinder(radius, length, point, direction)
         # outer = Part.makeCylinder(outerRadius, self._obj.Length, point, direction)
         outer = Part.makeCylinder(outerRadius, length, point, direction)
@@ -397,8 +397,7 @@ class FinCanShapeHandler(FinShapeHandler):
             can = can.fuse(shape)
 
         # Add the fins
-        # fins = self._drawFinSet(float(self._obj.Thickness))
-        fins = self._drawFinSet()
+        fins = self._drawFinSet(offset = self._obj.Thickness)
         finCan = can.fuse([fins]) # Must be fuse not makeCompund
 
         return finCan

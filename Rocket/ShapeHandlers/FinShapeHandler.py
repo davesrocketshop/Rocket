@@ -556,6 +556,7 @@ class FinShapeHandler:
                 if extension:
                     fin = fin.fuse(extension)
             if self._obj.Ttw:
+                print("TTW = True")
                 ttw = self._makeTtw()
                 if ttw:
                     fin = fin.fuse(ttw)
@@ -584,7 +585,12 @@ class FinShapeHandler:
             fin = Part.Shape(base) # Create a copy
             if self._obj.Cant != 0:
                 fin.rotate(FreeCAD.Vector(self._obj.RootChord / 2, 0, 0), FreeCAD.Vector(0,0,1), self._obj.Cant)
-            fin.translate(FreeCAD.Vector(baseX,0,float(self._obj.ParentRadius) + offset))
+            if hasattr(self._obj, "Diameter"):
+                # This is for fin cans
+                radius = self._scale * float(self._obj.Diameter) / 2.0 + float(offset)
+            else:
+                radius = self._scale * float(self._obj.ParentRadius) + float(offset)
+            fin.translate(FreeCAD.Vector(baseX, 0, radius))
             fin.rotate(FreeCAD.Vector(0, 0, 0), FreeCAD.Vector(1,0,0), i * float(self._obj.FinSpacing))
             fins.append(fin)
 

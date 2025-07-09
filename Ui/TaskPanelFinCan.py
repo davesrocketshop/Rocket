@@ -24,6 +24,7 @@ __title__ = "FreeCAD Fins"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
+from typing import Any
 
 import FreeCAD
 import FreeCADGui
@@ -50,11 +51,12 @@ from Ui.Commands.CmdSketcher import newSketchNoEdit
 
 from Ui.Widgets.MaterialTab import MaterialTab
 from Ui.Widgets.CommentTab import CommentTab
+from Ui.Widgets.ScalingTab import ScalingTabFins
 
 class _FinCanDialog(QDialog):
 
-    def __init__(self, sketch, parent=None):
-        super(_FinCanDialog, self).__init__(parent)
+    def __init__(self, obj : Any, parent : QtGui.QWidget = None) -> None:
+        super().__init__(parent)
 
         # define our window
         self.setGeometry(250, 250, 400, 350)
@@ -65,12 +67,14 @@ class _FinCanDialog(QDialog):
         self.tabFinCan = QtGui.QWidget()
         self.tabCoupler = QtGui.QWidget()
         self.tabLaunchLug = QtGui.QWidget()
+        self.tabScaling = ScalingTabFins(obj)
         self.tabMaterial = MaterialTab()
         self.tabComment = CommentTab()
         self.tabWidget.addTab(self.tabGeneral, translate('Rocket', "Fins"))
         self.tabWidget.addTab(self.tabFinCan, translate('Rocket', "Fin Can"))
         self.tabWidget.addTab(self.tabCoupler, translate('Rocket', "Coupler"))
         self.tabWidget.addTab(self.tabLaunchLug, translate('Rocket', "Launch Lug"))
+        self.tabWidget.addTab(self.tabScaling, translate('Rocket', "Scaling"))
         self.tabWidget.addTab(self.tabMaterial, translate('Rocket', "Material"))
         self.tabWidget.addTab(self.tabComment, translate('Rocket', "Comment"))
 
@@ -685,7 +689,7 @@ class TaskPanelFinCan(QObject):
         self._obj = obj
         self._isAssembly = self._obj.Proxy.isRocketAssembly()
 
-        self._finForm = _FinCanDialog(self._obj.FinType == FIN_TYPE_SKETCH)
+        self._finForm = _FinCanDialog(obj)
 
         self._location = TaskPanelLocation(obj)
         self._locationForm = self._location.getForm()
@@ -721,6 +725,9 @@ class TaskPanelFinCan(QObject):
         self._finForm.spanInput.textEdited.connect(self.onSpan)
         self._finForm.sweepLengthInput.textEdited.connect(self.onSweepLength)
         self._finForm.sweepAngleInput.textEdited.connect(self.onSweepAngle)
+
+        self._finForm.tabScaling.scaled.connect(self.onScale)
+        self._finForm.tabScaling.scaledSetValuesButton.clicked.connect(self.onSetToScale)
 
         self._finForm.canDiameterInput.textEdited.connect(self.onCanDiameter)
         self._finForm.canAutoDiameterCheckbox.stateChanged.connect(self.onCanAutoDiameter)
@@ -826,6 +833,7 @@ class TaskPanelFinCan(QObject):
         self._obj.LaunchLugAftSweep = self._finForm.aftSweepGroup.isChecked()
         self._obj.LaunchLugAftSweepAngle = self._finForm.aftSweepInput.text()
 
+        self._finForm.tabScaling.transferTo(self._obj)
         self._finForm.tabMaterial.transferTo(self._obj)
         self._finForm.tabComment.transferTo(self._obj)
 
@@ -891,6 +899,7 @@ class TaskPanelFinCan(QObject):
         self._finForm.aftSweepGroup.setChecked(self._obj.LaunchLugAftSweep)
         self._finForm.aftSweepInput.setText(self._obj.LaunchLugAftSweepAngle.UserString)
 
+        self._finForm.tabScaling.transferFrom(self._obj)
         self._finForm.tabMaterial.transferFrom(self._obj)
         self._finForm.tabComment.transferFrom(self._obj)
 
@@ -920,6 +929,39 @@ class TaskPanelFinCan(QObject):
         if not self._redrawPending:
             self._redrawPending = True
             self.redrawRequired.emit()
+
+    def onScale(self) -> None:
+        # Update the scale values
+        scale = self._finForm.tabScaling.getScale()
+
+        if scale < 1.0:
+            self._finForm.tabScaling.scaledLabel.setText(translate('Rocket', "Upscale"))
+            self._finForm.tabScaling.scaledInput.setText(f"{1.0/scale}")
+        else:
+            self._finForm.tabScaling.scaledLabel.setText(translate('Rocket', "Scale"))
+            self._finForm.tabScaling.scaledInput.setText(f"{scale}")
+
+        rootChord = self._obj.RootChord / scale
+        rootThickness = self._obj.RootThickness / scale
+        height = self._obj.Height / scale
+        self._finForm.tabScaling.scaledRootInput.setText(rootChord.UserString)
+        self._finForm.tabScaling.scaledRootThicknessInput.setText(rootThickness.UserString)
+        self._finForm.tabScaling.scaledHeightInput.setText(height.UserString)
+
+        if self._obj.FinType == FIN_TYPE_TRAPEZOID:
+            tipChord = self._obj.TipChord / scale
+            tipThickness = self._obj.TipThickness / scale
+            self._finForm.tabScaling.scaledTipInput.setText(tipChord.UserString)
+            self._finForm.tabScaling.scaledTipThicknessInput.setText(tipThickness.UserString)
+            self._finForm.tabScaling.scaledTipLabel.setVisible(True)
+            self._finForm.tabScaling.scaledTipInput.setVisible(True)
+            self._finForm.tabScaling.scaledTipThicknessLabel.setVisible(True)
+            self._finForm.tabScaling.scaledTipThicknessInput.setVisible(True)
+        else:
+            self._finForm.tabScaling.scaledTipLabel.setVisible(False)
+            self._finForm.tabScaling.scaledTipInput.setVisible(False)
+            self._finForm.tabScaling.scaledTipThicknessLabel.setVisible(False)
+            self._finForm.tabScaling.scaledTipThicknessInput.setVisible(False)
 
     def onCount(self, value):
         self._obj.FinCount = value
@@ -1715,6 +1757,15 @@ class TaskPanelFinCan(QObject):
     def onRedraw(self):
         self._obj.Proxy.execute(self._obj)
         self._redrawPending = False
+
+    def onSetToScale(self) -> None:
+        # Update the scale values
+        scale = self._finForm.tabScaling.getScale()
+        # self._obj.Length = self._obj.Length / scale
+
+        scale = self._finForm.tabScaling.resetScale()
+
+        self.update()
 
     def getStandardButtons(self):
         return QtGui.QDialogButtonBox.Ok | QtGui.QDialogButtonBox.Cancel | QtGui.QDialogButtonBox.Apply
