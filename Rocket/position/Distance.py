@@ -31,6 +31,6 @@ class Distance(object):
     _distanceMethod = None
     _distance = None
 
-    def __init__(self, initialMethod, initialMagnitude):
+    def __init__(self, initialMethod : DistanceMethod, initialMagnitude : float) -> None:
         self._distanceMethod = initialMethod
         self._distance = initialMagnitude

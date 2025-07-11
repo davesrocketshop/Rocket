@@ -36,7 +36,7 @@ class AngleMethod(DistanceMethod):
 
     _description : str = ""
 
-    def __init__(self, newDescription : str):
+    def __init__(self, newDescription : str) -> None:
         self._description = newDescription
 
     def __str__(self) -> str:
@@ -50,7 +50,7 @@ class AngleMethod(DistanceMethod):
 
 class RelativeAngleMethod(AngleMethod):
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__(translate('App::Property', 'Relative to the parent component'))
 
     def clampToZero(self) -> bool:
@@ -61,7 +61,7 @@ class RelativeAngleMethod(AngleMethod):
 
 class FixedAngleMethod(AngleMethod):
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__(translate('App::Property', 'Angle is fixed'))
 
     def clampToZero(self) -> bool:
@@ -72,7 +72,7 @@ class FixedAngleMethod(AngleMethod):
 
 class MirrorXYAngleMethod(AngleMethod):
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__(translate('App::Property', "Mirror relative to the rocket's x-y plane"))
 
     def getAngle(self, parentComponent : Any, thisComponent : Any, angleOffset_radians : float) -> float:

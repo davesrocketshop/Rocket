@@ -47,9 +47,9 @@ class RadiusPositionable(ABC):
         ...
 
     @abstractmethod
-    def setRadiusMethod(self, method : RadiusMethod) -> None:
+    def setRadiusMethod(self, newMethod : RadiusMethod) -> None:
         ...
 
     @abstractmethod
-    def setRadius(self, method : RadiusMethod, radius : float) -> None:
+    def setRadiusByMethod(self, method : RadiusMethod, radius : float) -> None:
         ...

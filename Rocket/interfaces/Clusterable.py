@@ -24,18 +24,24 @@ __title__ = "FreeCAD Rocket Components"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
+from abc import abstractmethod
+
 from Rocket.interfaces.Instanceable import Instanceable
+from Rocket.ClusterConfiguration import ClusterConfiguration
 
 class Clusterable(Instanceable):
 
-    # @abstractmethod
-    def getClusterConfiguration(self):
-        raise NotImplementedError
+    @abstractmethod
+    def getClusterConfiguration(self) -> ClusterConfiguration:
+        # raise NotImplementedError
+        ...
 
-    # @abstractmethod
-    def setClusterConfiguration(self, cluster):
-        raise NotImplementedError
+    @abstractmethod
+    def setClusterConfiguration(self, cluster : ClusterConfiguration) -> None:
+        # raise NotImplementedError
+        ...
 
-    # @abstractmethod
-    def getClusterSeparation(self):
-        raise NotImplementedError
+    @abstractmethod
+    def getClusterSeparation(self) -> float:
+        # raise NotImplementedError
+        ...

@@ -32,16 +32,16 @@ class AnglePositionable(ABC):
 
     @abstractmethod
     def getAngleOffset(self) -> float:
-        pass
+        ...
 
     @abstractmethod
     def setAngleOffset(self, angle : float) -> None:
-        pass
+        ...
 
     @abstractmethod
     def getAngleMethod(self) -> AngleMethod:
-        pass
+        ...
 
     @abstractmethod
     def setAngleMethod(self, newMethod : AngleMethod) -> None:
-        pass
+        ...

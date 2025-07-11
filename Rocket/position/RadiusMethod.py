@@ -35,10 +35,10 @@ class RadiusMethod(DistanceMethod):
 
     _description : str = ""
 
-    def __init__(self, newDescription : str):
+    def __init__(self, newDescription : str) -> None:
         self._description = newDescription
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self._description
 
     def clampToZero(self) -> bool:
@@ -52,7 +52,7 @@ class RadiusMethod(DistanceMethod):
 
 class CoaxialRadiusMethod(RadiusMethod):
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__(translate('App::Property', 'Same axis as the target component'))
 
     def clampToZero(self) -> bool:
@@ -66,7 +66,7 @@ class CoaxialRadiusMethod(RadiusMethod):
 
 class FreeRadiusMethod(RadiusMethod):
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__(translate('App::Property', 'Center of the parent component'))
 
     def clampToZero(self) -> bool:
@@ -80,7 +80,7 @@ class FreeRadiusMethod(RadiusMethod):
 
 class RelativeRadiusMethod(RadiusMethod):
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__(translate('App::Property', 'Surface of the parent component'))
 
     def clampToZero(self) -> bool:
@@ -110,7 +110,7 @@ class RelativeRadiusMethod(RadiusMethod):
 
 class SurfaceRadiusMethod(RadiusMethod):
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__(translate('App::Property', 'Surface of the parent component (without offset)'))
 
     def clampToZero(self) -> bool:

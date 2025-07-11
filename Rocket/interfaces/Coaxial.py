@@ -36,25 +36,25 @@ class Coaxial(ABC):
     # Get the length of the radius of the inside dimension, in standard units.
     @abstractmethod
     def getInnerRadius(self, pos : float) -> float:
-        pass
+        ...
 
     # Set the length of the radius of the inside dimension, in standard units.
     @abstractmethod
-    def setInnerRadius(self, radius : float):
-        pass
+    def setInnerRadius(self, radius : float) -> None:
+        ...
 
     # Get the length of the radius of the outside dimension, in standard units.
     @abstractmethod
-    def getOuterRadius(self, pos) -> float:
-        pass
+    def getOuterRadius(self, pos : float) -> float:
+        ...
 
     # Set the length of the radius of the outside dimension, in standard units.
     @abstractmethod
-    def setOuterRadius(self, radius : float):
-        pass
+    def setOuterRadius(self, radius : float) -> None:
+        ...
 
     # Get the wall thickness of the component.  Typically this is just
     # the outer radius - inner radius.
     @abstractmethod
     def getThickness(self) -> float:
-        pass
+        ...

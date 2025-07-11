@@ -37,19 +37,19 @@ class AxialMethod(DistanceMethod):
 
     _description : str = ""
 
-    def __init__(self, newDescription):
-        self._description : str = newDescription
+    def __init__(self, newDescription : str) -> None:
+        self._description = newDescription
 
     def __str__(self) -> str:
         return self._description
 
-    def clampToZero(self):
+    def clampToZero(self) -> bool:
         return False
 
-    def getAsOffset(self, position, innerLength, outerLength):
+    def getAsOffset(self, position : float, innerLength : float, outerLength : float) -> float:
         return 0.0
 
-    def getAsPosition(self, offset, innerLength, outerLength):
+    def getAsPosition(self, offset : float, innerLength : float, outerLength : float) -> float:
         return 0.0
 
     @abstractmethod
@@ -58,13 +58,13 @@ class AxialMethod(DistanceMethod):
 
 class AbsoluteAxialMethod(AxialMethod):
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__(translate('App::Property', 'Tip of the nose cone'))
 
-    def getAsOffset(self, position, innerLength, outerLength):
+    def getAsOffset(self, position : float, innerLength : float, outerLength : float) -> float:
         return float(position)
 
-    def getAsPosition(self, offset, innerLength, outerLength):
+    def getAsPosition(self, offset : float, innerLength : float, outerLength : float) -> float:
         return float(offset)
 
     def getMethodName(self) -> str:
@@ -72,13 +72,13 @@ class AbsoluteAxialMethod(AxialMethod):
 
 class AfterAxialMethod(AxialMethod):
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__(translate('App::Property', 'After the sibling component'))
 
-    def getAsOffset(self, position, innerLength, outerLength):
+    def getAsOffset(self, position : float, innerLength : float, outerLength : float) -> float:
         return float(position) - float(outerLength)
 
-    def getAsPosition(self, offset, innerLength, outerLength):
+    def getAsPosition(self, offset : float, innerLength : float, outerLength : float) -> float:
         return float(outerLength) + float(offset)
 
     def getMethodName(self) -> str:
@@ -87,13 +87,13 @@ class AfterAxialMethod(AxialMethod):
 
 class BottomAxialMethod(AxialMethod):
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__(translate('App::Property', 'Bottom of the parent component'))
 
-    def getAsOffset(self, position, innerLength, outerLength):
+    def getAsOffset(self, position : float, innerLength : float, outerLength : float) -> float:
         return float(position) + (float(outerLength) - float(innerLength))
 
-    def getAsPosition(self, offset, innerLength, outerLength):
+    def getAsPosition(self, offset : float, innerLength : float, outerLength : float) -> float:
         return float(offset) + (float(outerLength) - float(innerLength))
 
     def getMethodName(self) -> str:
@@ -101,13 +101,13 @@ class BottomAxialMethod(AxialMethod):
 
 class MiddleAxialMethod(AxialMethod):
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__(translate('App::Property', 'Middle of the parent component'))
 
-    def getAsOffset(self, position, innerLength, outerLength):
+    def getAsOffset(self, position : float, innerLength : float, outerLength : float) -> float:
         return float(position) + (float(innerLength) - float(outerLength)) / 2
 
-    def getAsPosition(self, offset, innerLength, outerLength):
+    def getAsPosition(self, offset : float, innerLength : float, outerLength : float) -> float:
         return float(offset) + (float(outerLength) - float(innerLength)) / 2
 
     def getMethodName(self) -> str:
@@ -115,13 +115,13 @@ class MiddleAxialMethod(AxialMethod):
 
 class TopAxialMethod(AxialMethod):
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__(translate('App::Property', 'Top of the parent component'))
 
-    def getAsOffset(self, position, innerLength, outerLength):
+    def getAsOffset(self, position : float, innerLength : float, outerLength : float) -> float:
         return float(position)
 
-    def getAsPosition(self, offset, innerLength, outerLength):
+    def getAsPosition(self, offset : float, innerLength : float, outerLength : float) -> float:
         return float(offset)
 
     def getMethodName(self) -> str:
