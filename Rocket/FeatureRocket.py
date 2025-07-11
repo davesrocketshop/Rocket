@@ -169,7 +169,7 @@ class FeatureRocket(ComponentAssembly):
         self.AxialMethod = AxialMethod.ABSOLUTE
 
     def setAxialOffset(self, newAxialOffset : float) -> None:
-        self.AxialOffset = 0.0
+        self._obj.AxialOffset = 0.0
         self.Position = ZERO
 
     def getBoundingRadius(self) -> float:

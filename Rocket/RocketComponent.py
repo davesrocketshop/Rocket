@@ -27,24 +27,15 @@ __url__ = "https://www.davesrocketshop.com"
 from typing import Any
 
 import FreeCAD
-import Materials
 import Part
-
-from Rocket.Parts.PartDatabase import PartDatabase
-from Rocket.Parts.Material import getUuid
-from Rocket.Parts.Exceptions import MaterialNotFoundError
 
 from Rocket.util.Coordinate import Coordinate
 from Rocket.RocketComponentShapeless import RocketComponentShapeless
 
 from Rocket.Constants import LOCATION_PARENT_TOP, LOCATION_PARENT_MIDDLE, LOCATION_PARENT_BOTTOM, LOCATION_BASE
-from Rocket.Constants import MATERIAL_TYPE_BULK
 
-from Rocket.position.AxialMethod import AXIAL_METHOD_MAP
 from Rocket.interfaces.Observer import Observer
 from Rocket.util.Coordinate import Coordinate, ZERO
-
-from Rocket.Utilities import _err
 
 from DraftTools import translate
 
@@ -105,32 +96,6 @@ class RocketComponent(RocketComponentShapeless):
         if not hasattr(obj,"Shape"):
             obj.addProperty('Part::PropertyPartShape', 'Shape', 'RocketComponent', translate('App::Property', 'Shape of the component'))
 
-    def convertMaterialAndAppearance(self, obj : Any) -> None:
-        if hasattr(obj, "Material"):
-            self.convertMaterial(obj, obj.Material)
-            obj.removeProperty("Material")
-        if hasattr(obj, "ViewObject"):
-            mat = FreeCAD.Material()
-            if hasattr(obj.ViewObject, "ShapeMaterial"):
-                mat = obj.ViewObject.ShapeMaterial
-            if hasattr(obj.ViewObject, "ShapeColor"):
-                mat.DiffuseColor = obj.ViewObject.ShapeColor
-            obj.ViewObject.ShapeAppearance = (
-                mat
-            )
-            obj.ViewObject.LineColor = mat.DiffuseColor
-
-    def convertMaterial(self, obj : Any, old : Any) -> None:
-        database = PartDatabase(FreeCAD.getUserAppDataDir() + "Mod/Rocket/")
-        connection = database.getConnection()
-        try:
-            uuid = getUuid(connection, old, MATERIAL_TYPE_BULK)
-
-            materialManager = Materials.MaterialManager()
-            obj.ShapeMaterial = materialManager.getMaterial(uuid)
-        except MaterialNotFoundError:
-            _err(translate("Rocket", "Material '{}' not found - using default material").format(old))
-
     """
         Get the characteristic length of the component, for example the length of a body tube
         of the length of the root chord of a fin.  This is used in positioning the component
@@ -172,9 +137,6 @@ class RocketComponent(RocketComponentShapeless):
         except ValueError:
             pass
 
-    def setLocationReference(self, reference : str) -> None:
-        self.setAxialMethod(AXIAL_METHOD_MAP[reference])
-
     def getPosition(self) -> Any:
         return self._obj.Placement.Base
 
@@ -195,25 +157,6 @@ class RocketComponent(RocketComponentShapeless):
     def detach(self, observer : Observer) -> None:
         if self.hasParent():
             self.getRoot().detach(observer)
-
-    """
-         Returns coordinates of this component's instances in relation to this.parent.
-
-        For example, the absolute position of any given instance is the parent's position
-        plus the instance position returned by this method
-
-        NOTE: the length of this array returned always equals this.getInstanceCount()
-    """
-    def getInstanceLocations(self) -> list:
-        base = self._obj.Placement.Base
-        center = Coordinate(base.x, base.y, base.z)
-        offsets = self.getInstanceOffsets()
-
-        locations = []
-        for instanceNumber in range(len(offsets)):
-            locations.append(center.add(offsets[instanceNumber]))
-
-        return locations
 
     """
         Clear the current component preset.  This does not affect the component properties

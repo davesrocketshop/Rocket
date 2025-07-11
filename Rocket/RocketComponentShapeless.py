@@ -28,22 +28,32 @@ from abc import ABC, abstractmethod
 from typing import Self, Any
 
 import FreeCAD
+import Materials
 import Part
 import math
 
 import Ui
 
+from Rocket.Parts.PartDatabase import PartDatabase
+from Rocket.Parts.Material import getUuid
+from Rocket.Parts.Exceptions import MaterialNotFoundError
+
 from Rocket.Utilities import EPSILON
+from Rocket.util.Coordinate import Coordinate
 from Rocket.position import AxialMethod
+from Rocket.position.AxialMethod import AXIAL_METHOD_MAP
 
 from Rocket.interfaces.Observer import Subject, Observer
 
 import Ui.Commands as Commands
 
-from Rocket.Constants import FEATURE_ROCKET, FEATURE_STAGE
+from Rocket.Constants import FEATURE_ROCKET, FEATURE_STAGE, FEATURE_POD
 from Rocket.Constants import LOCATION_SURFACE, LOCATION_CENTER
+from Rocket.Constants import MATERIAL_TYPE_BULK
 
 from Rocket.Exceptions import UnsupportedConfiguration, ObjectNotFound
+
+from Rocket.Utilities import _err
 
 from DraftTools import translate
 
@@ -106,6 +116,32 @@ class RocketComponentShapeless(Subject, Observer):
 
     def isScratch(self, name : str) -> bool:
         return name in self._scratch
+
+    def convertMaterialAndAppearance(self, obj : Any) -> None:
+        if hasattr(obj, "Material"):
+            self.convertMaterial(obj, obj.Material)
+            obj.removeProperty("Material")
+        if hasattr(obj, "ViewObject"):
+            mat = FreeCAD.Material()
+            if hasattr(obj.ViewObject, "ShapeMaterial"):
+                mat = obj.ViewObject.ShapeMaterial
+            if hasattr(obj.ViewObject, "ShapeColor"):
+                mat.DiffuseColor = obj.ViewObject.ShapeColor
+            obj.ViewObject.ShapeAppearance = (
+                mat
+            )
+            obj.ViewObject.LineColor = mat.DiffuseColor
+
+    def convertMaterial(self, obj : Any, old : Any) -> None:
+        database = PartDatabase(FreeCAD.getUserAppDataDir() + "Mod/Rocket/")
+        connection = database.getConnection()
+        try:
+            uuid = getUuid(connection, old, MATERIAL_TYPE_BULK)
+
+            materialManager = Materials.MaterialManager()
+            obj.ShapeMaterial = materialManager.getMaterial(uuid)
+        except MaterialNotFoundError:
+            _err(translate("Rocket", "Material '{}' not found - using default material").format(old))
 
     def setDefaults(self) -> None:
         pass
@@ -584,6 +620,9 @@ class RocketComponentShapeless(Subject, Observer):
     def updateBounds(self) -> None:
         return
 
+    def setLocationReference(self, reference : str) -> None:
+        self.setAxialMethod(AXIAL_METHOD_MAP[reference])
+
     def setAxialOffset(self, newAxialOffset : float) -> None:
         self.updateBounds()
         self._setAxialOffset(self._obj.AxialMethod, newAxialOffset)
@@ -873,3 +912,22 @@ class RocketComponentShapeless(Subject, Observer):
     def getSolidShape(self, obj : Any) -> Part.Solid:
         """ Return a filled version of the shape. Useful for CFD """
         return None
+
+    """
+         Returns coordinates of this component's instances in relation to this.parent.
+
+        For example, the absolute position of any given instance is the parent's position
+        plus the instance position returned by this method
+
+        NOTE: the length of this array returned always equals this.getInstanceCount()
+    """
+    def getInstanceLocations(self) -> list:
+        base = self._obj.Placement.Base
+        center = Coordinate(base.x, base.y, base.z)
+        offsets = self.getInstanceOffsets()
+
+        locations = []
+        for instanceNumber in range(len(offsets)):
+            locations.append(center.add(offsets[instanceNumber]))
+
+        return locations

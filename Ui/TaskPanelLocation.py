@@ -62,20 +62,20 @@ class _locationDialog(QDialog):
             self.radialOffsetInput.setMinimumWidth(80)
 
         # Select the location reference
-        if axial:
-            self.referenceLabel = QtGui.QLabel(translate('Rocket', "Location Reference"), self)
+        # if axial:
+        self.referenceLabel = QtGui.QLabel(translate('Rocket', "Location Reference"), self)
 
-            self.referenceCombo = QtGui.QComboBox(self)
-            self.referenceCombo.addItem(translate('Rocket', LOCATION_PARENT_TOP), LOCATION_PARENT_TOP)
-            self.referenceCombo.addItem(translate('Rocket', LOCATION_PARENT_MIDDLE), LOCATION_PARENT_MIDDLE)
-            self.referenceCombo.addItem(translate('Rocket', LOCATION_PARENT_BOTTOM), LOCATION_PARENT_BOTTOM)
-            self.referenceCombo.addItem(translate('Rocket', LOCATION_BASE), LOCATION_BASE)
+        self.referenceCombo = QtGui.QComboBox(self)
+        self.referenceCombo.addItem(translate('Rocket', LOCATION_PARENT_TOP), LOCATION_PARENT_TOP)
+        self.referenceCombo.addItem(translate('Rocket', LOCATION_PARENT_MIDDLE), LOCATION_PARENT_MIDDLE)
+        self.referenceCombo.addItem(translate('Rocket', LOCATION_PARENT_BOTTOM), LOCATION_PARENT_BOTTOM)
+        self.referenceCombo.addItem(translate('Rocket', LOCATION_BASE), LOCATION_BASE)
 
-            self.locationLabel = QtGui.QLabel(translate('Rocket', "Location"), self)
+        self.locationLabel = QtGui.QLabel(translate('Rocket', "Location"), self)
 
-            self.locationInput = ui.createWidget("Gui::InputField")
-            self.locationInput.unit = FreeCAD.Units.Length
-            self.locationInput.setMinimumWidth(80)
+        self.locationInput = ui.createWidget("Gui::InputField")
+        self.locationInput.unit = FreeCAD.Units.Length
+        self.locationInput.setMinimumWidth(80)
 
         self.angleOffsetLabel = QtGui.QLabel(translate('Rocket', "Angle Offset"), self)
 
@@ -95,14 +95,14 @@ class _locationDialog(QDialog):
             layout.addWidget(self.radialOffsetInput, n, 1)
             n += 1
 
-        if axial:
-            layout.addWidget(self.referenceLabel, n, 0, 1, 2)
-            layout.addWidget(self.referenceCombo, n, 1)
-            n += 1
+        # if axial:
+        layout.addWidget(self.referenceLabel, n, 0, 1, 2)
+        layout.addWidget(self.referenceCombo, n, 1)
+        n += 1
 
-            layout.addWidget(self.locationLabel, n, 0)
-            layout.addWidget(self.locationInput, n, 1)
-            n += 1
+        layout.addWidget(self.locationLabel, n, 0)
+        layout.addWidget(self.locationInput, n, 1)
+        n += 1
 
         layout.addWidget(self.angleOffsetLabel, n, 0)
         layout.addWidget(self.angleOffsetInput, n, 1)
@@ -123,9 +123,9 @@ class TaskPanelLocation(QObject):
 
         # self._form.setWindowIcon(QtGui.QIcon(FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Location.svg"))
 
-        if self._axial:
-            self._form.referenceCombo.currentTextChanged.connect(self.onReference)
-            self._form.locationInput.textEdited.connect(self.onLocation)
+        # if self._axial:
+        self._form.referenceCombo.currentTextChanged.connect(self.onReference)
+        self._form.locationInput.textEdited.connect(self.onLocation)
         self._form.angleOffsetInput.textEdited.connect(self.onAngleOffset)
 
         if self._radial:
@@ -139,9 +139,9 @@ class TaskPanelLocation(QObject):
 
     def transferTo(self):
         "Transfer from the dialog to the object"
-        if self._axial:
-            self._obj.Proxy.setLocationReference(str(self._form.referenceCombo.currentData()))
-            self._obj.AxialOffset = self._form.locationInput.text()
+        # if self._axial:
+        self._obj.Proxy.setLocationReference(str(self._form.referenceCombo.currentData()))
+        self._obj.AxialOffset = self._form.locationInput.text()
         self._obj.AngleOffset = self._form.angleOffsetInput.text()
 
         if self._radial:
@@ -150,9 +150,9 @@ class TaskPanelLocation(QObject):
 
     def transferFrom(self):
         "Transfer from the object to the dialog"
-        if self._axial:
-            self._form.referenceCombo.setCurrentIndex(self._form.referenceCombo.findData(self._obj.AxialMethod.getMethodName()))
-            self._form.locationInput.setText(self._obj.AxialOffset.UserString)
+        # if self._axial:
+        self._form.referenceCombo.setCurrentIndex(self._form.referenceCombo.findData(self._obj.AxialMethod.getMethodName()))
+        self._form.locationInput.setText(self._obj.AxialOffset.UserString)
         self._form.angleOffsetInput.setText(self._obj.AngleOffset.UserString)
 
         if self._radial:

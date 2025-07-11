@@ -31,7 +31,8 @@ from DraftTools import translate
 
 from Rocket.interfaces.RingInstanceable import RingInstanceable
 import Rocket.position.AngleMethod as AngleMethod
-from Rocket.position.AxialMethod import AxialMethod
+from Rocket.position import AxialMethod
+# from Rocket.position.AxialMethod import AxialMethod
 import Rocket.position.RadiusMethod as RadiusMethod
 from Rocket.ComponentAssembly import ComponentAssembly
 from Rocket.util.Coordinate import Coordinate
@@ -45,6 +46,7 @@ class FeaturePod(ComponentAssembly, RingInstanceable):
         super().__init__(obj)
 
         self.Type = FEATURE_POD
+        self._obj.AxialMethod = AxialMethod.BOTTOM
 
         if not hasattr(obj,"PodCount"):
             obj.addProperty('App::PropertyInteger', 'PodCount', 'RocketComponent', translate('App::Property', 'Number of pods in a radial pattern')).PodCount = 1
@@ -100,11 +102,8 @@ class FeaturePod(ComponentAssembly, RingInstanceable):
 
         return result
 
-    def getInstanceLocations(self) -> list:
-        return []
-
     def getInstanceOffsets(self) -> list:
-        radius = self.radiusMethod.getRadius(self.getParent(), self, self._obj.RadiusOffset)
+        radius = self._obj.RadiusMethod.getRadius(self.getParent(), self, self._obj.RadiusOffset)
 
         toReturn = []
         angles = self.getInstanceAngles()
@@ -130,25 +129,25 @@ class FeaturePod(ComponentAssembly, RingInstanceable):
 
         return -1
 
-    def setAxialMethod(self, newAxialMethod : AxialMethod) -> None:
+    def setAxialMethod(self, newAxialMethod : AxialMethod.AxialMethod) -> None:
         super().setAxialMethod(newAxialMethod)
         self.notifyComponentChanged()
 
     def getAxialOffset(self) -> float:
-        return self._getAxialOffset(self._obj.AxialMethod)
+        return self.getAxialOffsetFromMethod(self._obj.AxialMethod)
 
-    def _getAxialOffset(self, method : AxialMethod) -> float:
+    def getAxialOffsetFromMethod(self, method : AxialMethod.AxialMethod) -> float:
         returnValue = 0.0
 
         if self.isAfter():
             # remember the implicit (this instanceof Stage)
             raise Exception(translate("Rocket", "found a pod positioned via: AFTER, but is not on the centerline?!: {}  is {}")
-                            .format(self.getName(), self.getAxialMethod().name()))
+                            .format(self.getName(), self.getAxialMethod().getMethodName()))
         else:
-            returnValue = super().getAxialOffset(method)
+            returnValue = super().getAxialOffsetFromMethod(method)
 
 
-        if EPSILON > math.abs(returnValue):
+        if EPSILON > abs(returnValue):
             returnValue = 0.0
 
         return returnValue
@@ -157,7 +156,7 @@ class FeaturePod(ComponentAssembly, RingInstanceable):
         return self._obj.AngleOffset
 
     def getPatternName(self) -> str:
-        return (self.getInstanceCount() + "-ring")
+        return f"{self.getInstanceCount()}-ring"
 
     def getRadiusOffset(self) -> float:
         return self._obj.RadiusOffset
@@ -181,7 +180,7 @@ class FeaturePod(ComponentAssembly, RingInstanceable):
     def getAngleMethod(self) -> AngleMethod.AngleMethod:
         return self._obj.AngleMethod
 
-    def setAngleMethod(self, method : AngleMethod.AngleMethod) -> None:
+    def setAngleMethod(self, newMethod : AngleMethod.AngleMethod) -> None:
         pass
 
     def setRadiusOffset(self, radius : float) -> None:
@@ -197,18 +196,18 @@ class FeaturePod(ComponentAssembly, RingInstanceable):
     def getRadiusMethod(self) -> RadiusMethod.RadiusMethod:
         return self._obj.RadiusMethod
 
-    def setRadiusMethod(self, method : RadiusMethod.RadiusMethod) -> None:
-        if method == self._obj.RadiusMethod:
+    def setRadiusMethod(self, newMethod : RadiusMethod.RadiusMethod) -> None:
+        if newMethod == self._obj.RadiusMethod:
             return
 
         radius = self._obj.RadiusMethod.getRadius(self.getParent(), self, self._obj.RadiusOffset)	# Radius from the parent's center
-        self.setRadius(method, radius)
+        self.setRadiusByMethod(newMethod, radius)
 
-    def setRadius(self, requestMethod : RadiusMethod.RadiusMethod, requestRadius : float) -> None:
-        newRadius = requestRadius
+    def setRadiusByMethod(self, method : RadiusMethod.RadiusMethod, radius : float) -> None:
+        newRadius = radius
         if self._obj.RadiusMethod.clampToZero():
             newRadius = 0.0
 
-        self._obj.RadiusMethod = requestMethod
+        self._obj.RadiusMethod = method
         self._obj.RadiusOffset =  self._obj.RadiusMethod.getAsOffset(self.getParent(), self, newRadius)
         self.notifyComponentChanged()
