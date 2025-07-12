@@ -543,7 +543,7 @@ class FinShapeHandler:
             if loft is not None:
                 center = Part.makeCylinder((self._scale * self._obj.Diameter + self._obj.Thickness) / 2.0,
                                            2.0 * self._scale * self._obj.Length,
-                                           FreeCAD.Vector(-self._obj.Length / 2.0, 0, -height),
+                                           FreeCAD.Vector(self._scale * -self._obj.Length / 2.0, 0, -height),
                                            FreeCAD.Vector(1, 0, 0)
                                            )
                 if self._obj.Cant != 0:
