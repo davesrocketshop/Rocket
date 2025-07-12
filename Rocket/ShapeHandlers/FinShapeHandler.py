@@ -25,10 +25,11 @@ __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
 from typing import Any
+import math
 
 import FreeCAD
 import Part
-import math
+from Part import Shape, Wire, BSplineCurve
 
 from DraftTools import translate
 
@@ -83,7 +84,7 @@ class FinShapeHandler:
         midAngle = self._midAngle(foreAngle, aftAngle)
         return (foreAngle, midAngle, aftAngle)
 
-    def _makeChordProfileSquare(self, foreX : float, chord : float, thickness : float, height : float) -> Any:
+    def _makeChordProfileSquare(self, foreX : float, chord : float, thickness : float, height : float) -> Wire:
         # Create the root rectangle
         chordFore = foreX
         chordAft = foreX + chord
@@ -100,7 +101,7 @@ class FinShapeHandler:
         wire = Part.Wire([line1.toShape(), line2.toShape(), line3.toShape(), line4.toShape()])
         return wire
 
-    def _makeChordProfileRound(self, foreX : float, chord : float, thickness : float, height : float) -> Any:
+    def _makeChordProfileRound(self, foreX : float, chord : float, thickness : float, height : float) -> Wire:
         chordFore = foreX
         chordAft = foreX + chord
         halfThickness = thickness / 2
@@ -140,7 +141,7 @@ class FinShapeHandler:
         wire = Part.Wire([arcAft.toShape(), line1.toShape(), arcFore.toShape(), line2.toShape()])
         return wire
 
-    def _makeChordProfileEllipse(self, foreX : float, chord : float, thickness : float, height : float) -> Any:
+    def _makeChordProfileEllipse(self, foreX : float, chord : float, thickness : float, height : float) -> Wire:
         halfThickness = thickness / 2
         if chord <= thickness:
             _, theta, _ = self._angles()
@@ -154,7 +155,7 @@ class FinShapeHandler:
         wire = Part.Wire([ellipse.toShape()])
         return wire
 
-    def _makeChordProfileBiconvex(self, foreX : float, chord : float, thickness : float, height : float) -> Any:
+    def _makeChordProfileBiconvex(self, foreX : float, chord : float, thickness : float, height : float) -> Wire:
         chordFore = foreX
         chordAft = foreX + chord
         chordMid = foreX + (chord / 2)
@@ -190,7 +191,7 @@ class FinShapeHandler:
         y = 5 * maxThickness * (0.2969 * math.sqrt(x) + x * (-0.1260 +  x * (-0.3516 + x * (0.2843 - x * 0.1015))))
         return y
 
-    def _airfoilCurve(self, foreX : float, chord : float, thickness : float, height : float, resolution : int) -> Any:
+    def _airfoilCurve(self, foreX : float, chord : float, thickness : float, height : float, resolution : int) -> BSplineCurve:
         min = self.minimumEdge() / 2
         points = []
         points1 = []
@@ -222,7 +223,7 @@ class FinShapeHandler:
 
         return splines
 
-    def _makeSpline(self, points : list) -> Any:
+    def _makeSpline(self, points : list) -> BSplineCurve:
         spline = Part.BSplineCurve()
         spline.buildFromPoles(points)
         return spline
@@ -232,7 +233,7 @@ class FinShapeHandler:
             return chord / 2.0
         return value
 
-    def _makeChordProfileAirfoil(self, foreX : float, chord : float, thickness : float, height : float) -> Any:
+    def _makeChordProfileAirfoil(self, foreX : float, chord : float, thickness : float, height : float) -> Wire:
         # Standard NACA 4 digit symmetrical airfoil
 
         splines = self._airfoilCurve(foreX, chord, thickness, height, 100)
@@ -240,7 +241,7 @@ class FinShapeHandler:
         wire = Part.Wire(splines)
         return wire
 
-    def _makeChordProfileWedge(self, foreX : float, chord : float, thickness : float, height : float) -> Any:
+    def _makeChordProfileWedge(self, foreX : float, chord : float, thickness : float, height : float) -> Wire:
         # Create the root rectangle
         chordFore = foreX
         chordAft = foreX + chord
@@ -263,7 +264,7 @@ class FinShapeHandler:
         return wire
 
     def _makeChordProfileDiamond(self, foreX : float, chord : float, thickness : float, height : float,
-                                 maxChord : float, midChordLimit : bool) -> Any:
+                                 maxChord : float, midChordLimit : bool) -> Wire:
         chordFore = foreX
         chordMid = foreX + maxChord
         chordAft = foreX + chord
@@ -294,7 +295,7 @@ class FinShapeHandler:
             wire = Part.Wire([line1.toShape(), line2.toShape(), line3.toShape(), line4.toShape()])
         return wire
 
-    def _makeChordProfileTaperLE(self, foreX : float, chord : float, thickness : float, height : float, maxChord : float) -> Any:
+    def _makeChordProfileTaperLE(self, foreX : float, chord : float, thickness : float, height : float, maxChord : float) -> Wire:
         chordFore = foreX
         if maxChord == chord:
             chordMid = foreX + maxChord - 0.00001
@@ -324,7 +325,7 @@ class FinShapeHandler:
             wire = Part.Wire([line1.toShape(), line2.toShape(), line3.toShape(), line4.toShape(), line5.toShape()])
         return wire
 
-    def _makeChordProfileTaperTE(self, foreX : float, chord : float, thickness : float, height : float, maxChord : float) -> Any:
+    def _makeChordProfileTaperTE(self, foreX : float, chord : float, thickness : float, height : float, maxChord : float) -> Wire:
         chordFore = foreX
         if maxChord == chord:
             chordMid = foreX + 0.00001
@@ -355,7 +356,7 @@ class FinShapeHandler:
         return wire
 
     def _makeChordProfileTaperLETE(self, foreX : float, chord : float, thickness : float, height : float,
-                                   foreChord : float, aftChord : float, midChordLimit : bool) -> Any:
+                                   foreChord : float, aftChord : float, midChordLimit : bool) -> Wire:
         chordFore = foreX
         chordFore1 = foreX + self._midChordLimit(chord, foreChord, midChordLimit)
         chordAft1 = foreX + chord - self._midChordLimit(chord, aftChord, midChordLimit)
@@ -415,7 +416,7 @@ class FinShapeHandler:
         return length1, length2
 
     def _makeChordProfile(self, crossSection : str, foreX : float, chord : float, thickness : float, height : float,
-                          length1 : float, length2 : float, midChordLimit : bool = False) -> Any:
+                          length1 : float, length2 : float, midChordLimit : bool = False) -> Wire:
 
         if crossSection == FIN_CROSS_SQUARE:
             return self._makeChordProfileSquare(foreX, chord, thickness, height)
@@ -440,7 +441,7 @@ class FinShapeHandler:
 
         return None
 
-    def _makeTtw(self) -> Any:
+    def _makeTtw(self) -> Shape:
         # Create the Ttw tab
         origin = FreeCAD.Vector(self._obj.RootChord - self._obj.TtwOffset - self._obj.TtwLength, -0.5 * self._obj.TtwThickness, -1.0 * self._obj.TtwHeight)
         return Part.makeBox(self._obj.TtwLength, self._obj.TtwThickness, self._obj.TtwHeight, origin)
@@ -470,14 +471,14 @@ class FinShapeHandler:
         profiles = []
         return profiles
 
-    def _makeTip(self) -> Any:
+    def _makeTip(self) -> Shape:
         return None
 
-    def _makeCommon(self) -> Any:
+    def _makeCommon(self) -> Shape:
         # Override this if we have a "masking" shape
         return None
 
-    def _makeCut(self) -> Any:
+    def _makeCut(self) -> Shape:
         # Override this if we need to cut from the shape
         return None
 
@@ -485,11 +486,11 @@ class FinShapeHandler:
         # Override this if the fin root needs an extension to connect it to the body tube
         return False
 
-    def finOnlyShape(self) -> Any:
+    def finOnlyShape(self) -> Shape:
         fin = self._finOnlyShape(FIN_DEBUG_FULL)
         return Part.makeCompound([fin])
 
-    def _finOnlyShape(self, debug : str) -> Any:
+    def _finOnlyShape(self, debug : str) -> Shape:
         #
         # Return the shape of a single fin with no additions, such as fin tabs, fin cans, etc
         #
@@ -511,7 +512,7 @@ class FinShapeHandler:
 
             if hasattr(self, "_makeTip"):
                 tip = self._makeTip()
-                if tip is not None:
+                if tip is not None and loft is not None:
                     loft = loft.fuse(tip)
 
             if loft is not None:
@@ -528,17 +529,20 @@ class FinShapeHandler:
 
         return loft
 
-    def _makeRootExtension(self) -> Any:
+    def _makeRootExtension(self) -> Shape:
         loft = None
-        height = float(self._obj.Diameter) / 2.0 + float(self._obj.Thickness)
-        profiles = self._makeExtensionProfiles(height)
+
+        height = self._scale * float(self._obj.Diameter) / 2.0 + float(self._obj.Thickness)
+        # Height is scaled when making the extension profiles
+        profiles = self._makeExtensionProfiles(float(self._obj.Thickness))
+
         if profiles is not None and len(profiles) > 0:
             loft = Part.makeLoft(profiles, True)
 
             # Make a cutout of the body tube center
             if loft is not None:
-                center = Part.makeCylinder((self._obj.Diameter + self._obj.Thickness) / 2.0,
-                                           2.0 * self._obj.Length,
+                center = Part.makeCylinder((self._scale * self._obj.Diameter + self._obj.Thickness) / 2.0,
+                                           2.0 * self._scale * self._obj.Length,
                                            FreeCAD.Vector(-self._obj.Length / 2.0, 0, -height),
                                            FreeCAD.Vector(1, 0, 0)
                                            )
@@ -548,7 +552,7 @@ class FinShapeHandler:
 
         return loft
 
-    def _drawFinDebug(self, debug : str) -> Any:
+    def _drawFinDebug(self, debug : str) -> Shape:
         fin = self._finOnlyShape(debug)
         if fin is not None:
             if self._extendRoot():
@@ -556,26 +560,25 @@ class FinShapeHandler:
                 if extension:
                     fin = fin.fuse(extension)
             if self._obj.Ttw:
-                print("TTW = True")
                 ttw = self._makeTtw()
                 if ttw:
                     fin = fin.fuse(ttw)
 
         return fin
 
-    def _drawSingleFin(self) -> Any:
+    def _drawSingleFin(self) -> Shape:
         if hasattr(self._obj,"DebugSketch"):
             return self._drawFinDebug(self._obj.DebugSketch)
         return self._drawFinDebug(FIN_DEBUG_FULL)
 
-    def _drawFin(self) -> Any:
+    def _drawFin(self) -> Shape:
         fin = self._drawSingleFin()
         if self._obj.Cant != 0:
             fin.rotate(FreeCAD.Vector(self._obj.RootChord / 2, 0, 0), FreeCAD.Vector(0,0,1), self._obj.Cant)
         fin.translate(FreeCAD.Vector(0,0,float(self._obj.ParentRadius)))
         return Part.makeCompound([fin])
 
-    def _drawFinSet(self, offset : float = 0) -> Any:
+    def _drawFinSet(self, offset : float = 0) -> Shape:
         fins = []
         base = self._drawSingleFin()
         baseX = 0
@@ -612,7 +615,7 @@ class FinShapeHandler:
         #     _err(translate('Rocket', "Fin parameters produce an invalid shape"))
         #     return
 
-    def _makeFinFrontal(self) -> Any:
+    def _makeFinFrontal(self) -> Shape:
         # The frontal view is either a trapezoid or a triangle
         # TODO: Handle canted fins
         halfRoot = float(self._obj.RootThickness) / 2.0
@@ -647,7 +650,7 @@ class FinShapeHandler:
         face.translate(FreeCAD.Vector(0,0,float(self._obj.ParentRadius)))
         return face
 
-    def _makeFinFrontalFinSet(self) -> Any:
+    def _makeFinFrontalFinSet(self) -> Shape:
         fins = []
         base = self._makeFinFrontal()
         for i in range(self._obj.FinCount):

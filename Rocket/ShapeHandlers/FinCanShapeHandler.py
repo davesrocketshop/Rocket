@@ -25,10 +25,11 @@ __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
 from typing import Any
+import math
 
 import FreeCAD
 import Part
-import math
+from Part import Shape
 
 from DraftTools import translate
 
@@ -85,7 +86,7 @@ class FinCanShapeHandler(FinShapeHandler):
 
         return super().isValidShape()
 
-    def _trailingRound(self) -> Any:
+    def _trailingRound(self) -> Shape:
         # center_x = self._obj.RootChord + self._obj.LeadingEdgeOffset - self._obj.LeadingLength
         center_x = self._obj.Length - self._obj.LeadingLength
         center_y = self._obj.Diameter / 2.0
@@ -106,7 +107,7 @@ class FinCanShapeHandler(FinShapeHandler):
         shape = face.revolve(FreeCAD.Vector(0, 0, 0),FreeCAD.Vector(1, 0, 0), 360)
         return shape
 
-    def _trailingTaper(self) -> Any:
+    def _trailingTaper(self) -> Shape:
         # center_x = self._obj.RootChord + self._obj.LugLeadingEdgeOffset - self._obj.LeadingLength
         center_x = self._obj.Length - self._obj.LeadingLength
         center_y = self._obj.Diameter / 2.0
@@ -123,14 +124,14 @@ class FinCanShapeHandler(FinShapeHandler):
         shape = face.revolve(FreeCAD.Vector(0, 0, 0),FreeCAD.Vector(1, 0, 0), 360)
         return shape
 
-    def _leadingEdge(self) -> Any:
+    def _leadingEdge(self) -> Shape:
         if self._obj.LeadingEdge == FINCAN_EDGE_ROUND:
             return self._leadingRound()
         elif self._obj.LeadingEdge == FINCAN_EDGE_TAPER:
             return self._leadingTaper()
         return None
 
-    def _leadingRound(self) -> Any:
+    def _leadingRound(self) -> Shape:
         # center_x = self._obj.RootChord - self._obj.Length + self._obj.LeadingEdgeOffset + self._obj.TrailingLength
         center_x = self._obj.TrailingLength
         center_y = self._obj.Diameter / 2.0
@@ -151,7 +152,7 @@ class FinCanShapeHandler(FinShapeHandler):
         shape = face.revolve(FreeCAD.Vector(0, 0, 0),FreeCAD.Vector(1, 0, 0), 360)
         return shape
 
-    def _leadingTaper(self) -> Any:
+    def _leadingTaper(self) -> Shape:
         # center_x = self._obj.RootChord - self._obj.Length + self._obj.LugLeadingEdgeOffset + self._obj.TrailingLength
         center_x = self._obj.TrailingLength
         center_y = self._obj.Diameter / 2.0
@@ -168,7 +169,7 @@ class FinCanShapeHandler(FinShapeHandler):
         shape = face.revolve(FreeCAD.Vector(0, 0, 0),FreeCAD.Vector(1, 0, 0), 360)
         return shape
 
-    def _trailingEdge(self) -> Any:
+    def _trailingEdge(self) -> Shape:
         if self._obj.TrailingEdge == FINCAN_EDGE_ROUND:
             return self._trailingRound()
         elif self._obj.TrailingEdge == FINCAN_EDGE_TAPER:
@@ -179,7 +180,7 @@ class FinCanShapeHandler(FinShapeHandler):
         z = x * slope + intercept # In the (x,z) plane
         return z
 
-    def _drawForwardSweep(self, outerRadius : float, OR : float, xFore : float, xAft : float) -> Any:
+    def _drawForwardSweep(self, outerRadius : float, OR : float, xFore : float, xAft : float) -> Shape:
         # We need to calculate our vertices outside of the part to avoid OpenCASCADE's "too exact" problem
         slope = -1.0 / math.tan(math.radians(self._obj.LaunchLugForwardSweepAngle))
         intercept = float(float(OR) - (slope * xFore))
@@ -206,7 +207,7 @@ class FinCanShapeHandler(FinShapeHandler):
 
         return rake
 
-    def _drawAftSweep(self, outerRadius : float, OR : float, xFore : float, xAft : float) -> Any:
+    def _drawAftSweep(self, outerRadius : float, OR : float, xFore : float, xAft : float) -> Shape:
         # We need to calculate our vertices outside of the part to avoid OpenCASCADE's "too exact" problem
         slope = 1.0 / math.tan(math.radians(self._obj.LaunchLugAftSweepAngle))
         intercept = float(float(OR) - (slope * xAft))
@@ -238,7 +239,7 @@ class FinCanShapeHandler(FinShapeHandler):
         depth = radius - radius * math.cos(theta)
         return depth
 
-    def _safeEllipse(self, major : float, minor : float, center_x : float, center_y : float, center_z : float) -> Any:
+    def _safeEllipse(self, major : float, minor : float, center_x : float, center_y : float, center_z : float) -> Shape:
         majorVector = FreeCAD.Vector(center_x, center_y, center_z + major)
         minorVector = FreeCAD.Vector(center_x, center_y + minor, center_z)
         centerVector = FreeCAD.Vector(center_x, center_y, center_z)
@@ -246,15 +247,15 @@ class FinCanShapeHandler(FinShapeHandler):
             return Part.Ellipse(minorVector, majorVector, centerVector)
         return Part.Ellipse(majorVector, minorVector, centerVector)
 
-    def _cutFillet(self, lug : Any, major : float, minor : float, center_x : float, center_y : float, center_z : float) -> Any:
+    def _cutFillet(self, lug : Any, major : float, minor : float, center_x : float, center_y : float, center_z : float) -> Shape:
         ellipse = self._safeEllipse(major, minor, center_x, center_y, center_z)
         wire = Part.Wire(ellipse.toShape())
         face = Part.Face(wire)
-        fillet1 = face.extrude(FreeCAD.Vector(self._obj.LugLength, 0, 0))
+        fillet1 = face.extrude(self._scale * FreeCAD.Vector(self._obj.LugLength, 0, 0))
         return lug.cut(fillet1)
 
 
-    def _launchLug(self) -> Any:
+    def _launchLug(self) -> Shape:
         if self._obj.LaunchLug:
             try:
                 radius = self._obj.LugInnerDiameter / 2.0
@@ -263,7 +264,7 @@ class FinCanShapeHandler(FinShapeHandler):
                 bodyRadius = self._scale * self._obj.Diameter / 2.0 + self._obj.Thickness
 
                 # base = float(self._obj.RootChord - self._obj.Length + self._obj.LugLeadingEdgeOffset)
-                base = float(self._obj.Length - self._obj.LugLength + self._obj.LugLeadingEdgeOffset)
+                base = float(self._scale * (self._obj.Length - self._obj.LugLength) + self._obj.LugLeadingEdgeOffset)
                 base = float(self._obj.LugLeadingEdgeOffset)
                 # if self._obj.TrailingEdge != FINCAN_EDGE_SQUARE: - already factored in by Length - LugLength
                 #     base += float(self._obj.TrailingLength)
@@ -279,17 +280,17 @@ class FinCanShapeHandler(FinShapeHandler):
                 point = FreeCAD.Vector(base, 0, lugCenterZ + self._scale * self._obj.Diameter / 2.0)
                 direction = FreeCAD.Vector(1,0,0)
 
-                outer = Part.makeCylinder(outerRadius, self._obj.LugLength, point, direction)
-                inner = Part.makeCylinder(radius, self._obj.LugLength, point, direction)
+                outer = Part.makeCylinder(outerRadius, self._scale * self._obj.LugLength, point, direction)
+                inner = Part.makeCylinder(radius, self._scale * self._obj.LugLength, point, direction)
 
                 major  = lugCenterZ + self._filletDepth(bodyRadius, width) - self._obj.Thickness
                 minor  = width - outerRadius
 
                 # Make the fillet
                 point = FreeCAD.Vector(base, width, self._scale * self._obj.Diameter / 2.0 - self._filletDepth(bodyRadius, width))
-                filletBase = Part.makeBox(major + self._obj.Thickness, 2 * width, self._obj.LugLength, point, direction)
+                filletBase = Part.makeBox(major + self._obj.Thickness, 2 * width, self._scale * self._obj.LugLength, point, direction)
                 lug = outer.fuse(filletBase)
-                baseCutout = Part.makeCylinder(bodyRadius, self._obj.LugLength, FreeCAD.Vector(base, 0, 0), direction)
+                baseCutout = Part.makeCylinder(bodyRadius, self._scale * self._obj.LugLength, FreeCAD.Vector(base, 0, 0), direction)
                 lug = lug.cut(baseCutout)
 
                 center_x = base
@@ -302,7 +303,7 @@ class FinCanShapeHandler(FinShapeHandler):
 
                 # Add the sweeps
                 if self._obj.LaunchLugForwardSweep or self._obj.LaunchLugAftSweep:
-                    xFore = base + float(self._obj.LugLength)
+                    xFore = base + self._scale * float(self._obj.LugLength)
                     xAft = base
                     if self._obj.LaunchLugForwardSweep:
                         rake = self._drawForwardSweep(outerRadius, bodyRadius, xFore, xAft)
@@ -323,7 +324,7 @@ class FinCanShapeHandler(FinShapeHandler):
 
         return None
 
-    def _drawCan(self) -> Any:
+    def _drawCan(self) -> Shape:
         # point = FreeCAD.Vector((self._obj.RootChord - self._obj.Length + self._obj.LugLeadingEdgeOffset),0,0)
         point = FreeCAD.Vector(0,0,0)
         direction = FreeCAD.Vector(1,0,0)
@@ -379,7 +380,7 @@ class FinCanShapeHandler(FinShapeHandler):
         # Override this if the fin root needs an extension to connect it to the body tube
         return True
 
-    def _drawFinCan(self) -> Any:
+    def _drawFinCan(self) -> Shape:
         # Make the can
         can = self._drawCan()
 
