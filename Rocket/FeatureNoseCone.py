@@ -102,7 +102,7 @@ class FeatureNoseCone(SymmetricComponent):
                         TYPE_PARABOLIC,
                         TYPE_POWER,
                         TYPE_HAACK,
-                        TYPE_NIKE_SMOKE,
+                        # TYPE_NIKE_SMOKE,
                         TYPE_PROXY]
             obj.NoseType = TYPE_OGIVE
         else:
@@ -118,7 +118,7 @@ class FeatureNoseCone(SymmetricComponent):
                         TYPE_PARABOLIC,
                         TYPE_POWER,
                         TYPE_HAACK,
-                        TYPE_NIKE_SMOKE,
+                        # TYPE_NIKE_SMOKE,
                         TYPE_PROXY]
 
         if not hasattr(obj, 'NoseStyle'):

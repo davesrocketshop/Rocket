@@ -111,7 +111,7 @@ class _NoseConeDialog(QDialog):
         self.noseConeTypesCombo.addItem(translate('Rocket', TYPE_POWER), TYPE_POWER)
         self.noseConeTypesCombo.addItem(translate('Rocket', TYPE_VON_KARMAN), TYPE_VON_KARMAN)
         self.noseConeTypesCombo.addItem(translate('Rocket', TYPE_HAACK), TYPE_HAACK)
-        self.noseConeTypesCombo.addItem(translate('Rocket', TYPE_NIKE_SMOKE), TYPE_NIKE_SMOKE)
+        # self.noseConeTypesCombo.addItem(translate('Rocket', TYPE_NIKE_SMOKE), TYPE_NIKE_SMOKE)
         self.noseConeTypesCombo.addItem(translate('Rocket', TYPE_PROXY), TYPE_PROXY)
 
         # Select the type of sketch
