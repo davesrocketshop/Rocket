@@ -88,19 +88,20 @@ class FinCanShapeHandler(FinShapeHandler):
 
     def _trailingRound(self) -> Shape:
         # center_x = self._obj.RootChord + self._obj.LeadingEdgeOffset - self._obj.LeadingLength
-        center_x = self._obj.Length - self._obj.LeadingLength
-        center_y = self._obj.Diameter / 2.0
+        lead = self._scale * self._obj.LeadingLength
+        center_x = self._scale * (self._obj.Length - self._obj.LeadingLength)
+        center_y = self._scale * self._obj.Diameter / 2.0
         center = FreeCAD.Vector(center_x, center_y, 0)
-        major  = self._obj.LeadingLength
+        major  = lead
         minor  = self._obj.Thickness
         ellipse = Part.Ellipse(center, major, minor)
         arc = Part.Arc(ellipse, 0, math.pi / 2.0)
 
         # Create the box
-        box1 = Part.LineSegment(FreeCAD.Vector(center_x,                                 center_y + self._obj.Thickness),     FreeCAD.Vector(center_x,                                 center_y + 2 * self._obj.Thickness))
-        box2 = Part.LineSegment(FreeCAD.Vector(center_x,                                 center_y + 2 * self._obj.Thickness), FreeCAD.Vector(center_x + 2.0 * self._obj.LeadingLength, center_y + 2 * self._obj.Thickness))
-        box3 = Part.LineSegment(FreeCAD.Vector(center_x + 2.0 * self._obj.LeadingLength, center_y + 2 * self._obj.Thickness), FreeCAD.Vector(center_x + 2.0 * self._obj.LeadingLength, center_y))
-        box4 = Part.LineSegment(FreeCAD.Vector(center_x + 2.0 * self._obj.LeadingLength, center_y),                           FreeCAD.Vector(center_x + self._obj.LeadingLength,       center_y))
+        box1 = Part.LineSegment(FreeCAD.Vector(center_x,              center_y + self._obj.Thickness),     FreeCAD.Vector(center_x,              center_y + 2 * self._obj.Thickness))
+        box2 = Part.LineSegment(FreeCAD.Vector(center_x,              center_y + 2 * self._obj.Thickness), FreeCAD.Vector(center_x + 2.0 * lead, center_y + 2 * self._obj.Thickness))
+        box3 = Part.LineSegment(FreeCAD.Vector(center_x + 2.0 * lead, center_y + 2 * self._obj.Thickness), FreeCAD.Vector(center_x + 2.0 * lead, center_y))
+        box4 = Part.LineSegment(FreeCAD.Vector(center_x + 2.0 * lead, center_y),                           FreeCAD.Vector(center_x + lead,       center_y))
 
         wire = Part.Wire([arc.toShape(), box1.toShape(), box2.toShape(), box3.toShape(), box4.toShape()])
         face = Part.Face(wire)
@@ -109,15 +110,16 @@ class FinCanShapeHandler(FinShapeHandler):
 
     def _trailingTaper(self) -> Shape:
         # center_x = self._obj.RootChord + self._obj.LugLeadingEdgeOffset - self._obj.LeadingLength
-        center_x = self._obj.Length - self._obj.LeadingLength
-        center_y = self._obj.Diameter / 2.0
+        lead = self._scale * self._obj.LeadingLength
+        center_x = self._scale * (self._obj.Length - self._obj.LeadingLength)
+        center_y = self._scale * self._obj.Diameter / 2.0
 
         # Create the box
-        box0 = Part.LineSegment(FreeCAD.Vector(center_x + self._obj.LeadingLength,       center_y),                           FreeCAD.Vector(center_x,                                 center_y + self._obj.Thickness))
-        box1 = Part.LineSegment(FreeCAD.Vector(center_x,                                 center_y + self._obj.Thickness),     FreeCAD.Vector(center_x,                                 center_y + 2 * self._obj.Thickness))
-        box2 = Part.LineSegment(FreeCAD.Vector(center_x,                                 center_y + 2 * self._obj.Thickness), FreeCAD.Vector(center_x + 2.0 * self._obj.LeadingLength, center_y + 2 * self._obj.Thickness))
-        box3 = Part.LineSegment(FreeCAD.Vector(center_x + 2.0 * self._obj.LeadingLength, center_y + 2 * self._obj.Thickness), FreeCAD.Vector(center_x + 2.0 * self._obj.LeadingLength, center_y))
-        box4 = Part.LineSegment(FreeCAD.Vector(center_x + 2.0 * self._obj.LeadingLength, center_y),                           FreeCAD.Vector(center_x + self._obj.LeadingLength,       center_y))
+        box0 = Part.LineSegment(FreeCAD.Vector(center_x + lead,       center_y),                           FreeCAD.Vector(center_x,              center_y + self._obj.Thickness))
+        box1 = Part.LineSegment(FreeCAD.Vector(center_x,              center_y + self._obj.Thickness),     FreeCAD.Vector(center_x,              center_y + 2 * self._obj.Thickness))
+        box2 = Part.LineSegment(FreeCAD.Vector(center_x,              center_y + 2 * self._obj.Thickness), FreeCAD.Vector(center_x + 2.0 * lead, center_y + 2 * self._obj.Thickness))
+        box3 = Part.LineSegment(FreeCAD.Vector(center_x + 2.0 * lead, center_y + 2 * self._obj.Thickness), FreeCAD.Vector(center_x + 2.0 * lead, center_y))
+        box4 = Part.LineSegment(FreeCAD.Vector(center_x + 2.0 * lead, center_y),                           FreeCAD.Vector(center_x + lead,       center_y))
 
         wire = Part.Wire([box0.toShape(), box1.toShape(), box2.toShape(), box3.toShape(), box4.toShape()])
         face = Part.Face(wire)
@@ -133,19 +135,20 @@ class FinCanShapeHandler(FinShapeHandler):
 
     def _leadingRound(self) -> Shape:
         # center_x = self._obj.RootChord - self._obj.Length + self._obj.LeadingEdgeOffset + self._obj.TrailingLength
-        center_x = self._obj.TrailingLength
-        center_y = self._obj.Diameter / 2.0
+        trail  = self._scale * self._obj.TrailingLength
+        center_x = trail
+        center_y = self._scale * self._obj.Diameter / 2.0
         center = FreeCAD.Vector(center_x, center_y, 0)
-        major  = self._obj.TrailingLength
+        major  = trail
         minor  = self._obj.Thickness
         ellipse = Part.Ellipse(center, major, minor)
         arc = Part.Arc(ellipse, math.pi / 2.0, math.pi)
 
         # Create the box
-        box1 = Part.LineSegment(FreeCAD.Vector(center_x,                                  center_y + self._obj.Thickness),     FreeCAD.Vector(center_x,                                  center_y + 2 * self._obj.Thickness))
-        box2 = Part.LineSegment(FreeCAD.Vector(center_x,                                  center_y + 2 * self._obj.Thickness), FreeCAD.Vector(center_x - 2.0 * self._obj.TrailingLength, center_y + 2 * self._obj.Thickness))
-        box3 = Part.LineSegment(FreeCAD.Vector(center_x - 2.0 * self._obj.TrailingLength, center_y + 2 * self._obj.Thickness), FreeCAD.Vector(center_x - 2.0 * self._obj.TrailingLength, center_y))
-        box4 = Part.LineSegment(FreeCAD.Vector(center_x - 2.0 * self._obj.TrailingLength, center_y),                           FreeCAD.Vector(center_x - self._obj.TrailingLength,       center_y))
+        box1 = Part.LineSegment(FreeCAD.Vector(center_x,               center_y + self._obj.Thickness),     FreeCAD.Vector(center_x,               center_y + 2 * self._obj.Thickness))
+        box2 = Part.LineSegment(FreeCAD.Vector(center_x,               center_y + 2 * self._obj.Thickness), FreeCAD.Vector(center_x - 2.0 * trail, center_y + 2 * self._obj.Thickness))
+        box3 = Part.LineSegment(FreeCAD.Vector(center_x - 2.0 * trail, center_y + 2 * self._obj.Thickness), FreeCAD.Vector(center_x - 2.0 * trail, center_y))
+        box4 = Part.LineSegment(FreeCAD.Vector(center_x - 2.0 * trail, center_y),                           FreeCAD.Vector(center_x - trail,       center_y))
 
         wire = Part.Wire([arc.toShape(), box1.toShape(), box2.toShape(), box3.toShape(), box4.toShape()])
         face = Part.Face(wire)
@@ -154,15 +157,16 @@ class FinCanShapeHandler(FinShapeHandler):
 
     def _leadingTaper(self) -> Shape:
         # center_x = self._obj.RootChord - self._obj.Length + self._obj.LugLeadingEdgeOffset + self._obj.TrailingLength
-        center_x = self._obj.TrailingLength
-        center_y = self._obj.Diameter / 2.0
+        trail  = self._scale * self._obj.TrailingLength
+        center_x = trail
+        center_y = self._scale * self._obj.Diameter / 2.0
 
         # Create the box
-        box0 = Part.LineSegment(FreeCAD.Vector(center_x - self._obj.TrailingLength,       center_y),                           FreeCAD.Vector(center_x,                                  center_y + self._obj.Thickness))
-        box1 = Part.LineSegment(FreeCAD.Vector(center_x,                                  center_y + self._obj.Thickness),     FreeCAD.Vector(center_x,                                  center_y + 2 * self._obj.Thickness))
-        box2 = Part.LineSegment(FreeCAD.Vector(center_x,                                  center_y + 2 * self._obj.Thickness), FreeCAD.Vector(center_x - 2.0 * self._obj.TrailingLength, center_y + 2 * self._obj.Thickness))
-        box3 = Part.LineSegment(FreeCAD.Vector(center_x - 2.0 * self._obj.TrailingLength, center_y + 2 * self._obj.Thickness), FreeCAD.Vector(center_x - 2.0 * self._obj.TrailingLength, center_y))
-        box4 = Part.LineSegment(FreeCAD.Vector(center_x - 2.0 * self._obj.TrailingLength, center_y),                           FreeCAD.Vector(center_x - self._obj.TrailingLength,       center_y))
+        box0 = Part.LineSegment(FreeCAD.Vector(center_x - trail,       center_y),                           FreeCAD.Vector(center_x,               center_y + self._obj.Thickness))
+        box1 = Part.LineSegment(FreeCAD.Vector(center_x,               center_y + self._obj.Thickness),     FreeCAD.Vector(center_x,               center_y + 2 * self._obj.Thickness))
+        box2 = Part.LineSegment(FreeCAD.Vector(center_x,               center_y + 2 * self._obj.Thickness), FreeCAD.Vector(center_x - 2.0 * trail, center_y + 2 * self._obj.Thickness))
+        box3 = Part.LineSegment(FreeCAD.Vector(center_x - 2.0 * trail, center_y + 2 * self._obj.Thickness), FreeCAD.Vector(center_x - 2.0 * trail, center_y))
+        box4 = Part.LineSegment(FreeCAD.Vector(center_x - 2.0 * trail, center_y),                           FreeCAD.Vector(center_x - trail,       center_y))
 
         wire = Part.Wire([box0.toShape(), box1.toShape(), box2.toShape(), box3.toShape(), box4.toShape()])
         face = Part.Face(wire)
@@ -264,13 +268,13 @@ class FinCanShapeHandler(FinShapeHandler):
                 bodyRadius = self._scale * self._obj.Diameter / 2.0 + self._obj.Thickness
 
                 # base = float(self._obj.RootChord - self._obj.Length + self._obj.LugLeadingEdgeOffset)
-                base = float(self._scale * (self._obj.Length - self._obj.LugLength) + self._obj.LugLeadingEdgeOffset)
-                base = float(self._obj.LugLeadingEdgeOffset)
+                # base = float(self._scale * (self._obj.Length - self._obj.LugLength) + self._scale * self._obj.LugLeadingEdgeOffset)
+                base = float(self._scale * self._obj.LugLeadingEdgeOffset)
                 # if self._obj.TrailingEdge != FINCAN_EDGE_SQUARE: - already factored in by Length - LugLength
                 #     base += float(self._obj.TrailingLength)
                 if not self._obj.LugLeadingEdgeOffset > 0:
                     if self._obj.LeadingEdge != FINCAN_EDGE_SQUARE:
-                        base += float(self._obj.LeadingLength)
+                        base += float(self._scale * self._obj.LeadingLength)
 
                 if self._obj.LugThickness > self._obj.Thickness:
                     lugCenterZ = radius + self._obj.LugThickness

@@ -533,21 +533,22 @@ class FinShapeHandler:
         loft = None
 
         height = self._scale * float(self._obj.Diameter) / 2.0 + float(self._obj.Thickness)
+        # height = (self._scale * float(self._obj.Diameter) + float(self._obj.Thickness)) / 2.0
         # Height is scaled when making the extension profiles
-        profiles = self._makeExtensionProfiles(float(self._obj.Thickness))
+        profiles = self._makeExtensionProfiles(float(self._obj.Thickness) - 0.0001)
 
         if profiles is not None and len(profiles) > 0:
             loft = Part.makeLoft(profiles, True)
 
             # Make a cutout of the body tube center
             if loft is not None:
-                center = Part.makeCylinder((self._scale * self._obj.Diameter + self._obj.Thickness) / 2.0,
-                                           2.0 * self._scale * self._obj.Length,
-                                           FreeCAD.Vector(self._scale * -self._obj.Length / 2.0, 0, -height),
+                center = Part.makeCylinder((self._scale * self._obj.Diameter) / 2.0,
+                                           2.0 * self._scale * self._obj.RootChord,
+                                           FreeCAD.Vector(self._scale * -self._obj.RootChord / 2.0, 0, -height),
                                            FreeCAD.Vector(1, 0, 0)
                                            )
                 if self._obj.Cant != 0:
-                    center.rotate(FreeCAD.Vector(self._obj.Length / 2, 0, 0), FreeCAD.Vector(0,0,1), -self._obj.Cant)
+                    center.rotate(FreeCAD.Vector(self._scale * self._obj.RootChord / 2, 0, 0), FreeCAD.Vector(0,0,1), -self._obj.Cant)
                 loft = loft.cut(center)
 
         return loft
@@ -574,7 +575,7 @@ class FinShapeHandler:
     def _drawFin(self) -> Shape:
         fin = self._drawSingleFin()
         if self._obj.Cant != 0:
-            fin.rotate(FreeCAD.Vector(self._obj.RootChord / 2, 0, 0), FreeCAD.Vector(0,0,1), self._obj.Cant)
+            fin.rotate(FreeCAD.Vector(self._scale * self._obj.RootChord / 2, 0, 0), FreeCAD.Vector(0,0,1), self._obj.Cant)
         fin.translate(FreeCAD.Vector(0,0,float(self._obj.ParentRadius)))
         return Part.makeCompound([fin])
 
@@ -587,7 +588,7 @@ class FinShapeHandler:
         for i in range(self._obj.FinCount):
             fin = Part.Shape(base) # Create a copy
             if self._obj.Cant != 0:
-                fin.rotate(FreeCAD.Vector(self._obj.RootChord / 2, 0, 0), FreeCAD.Vector(0,0,1), self._obj.Cant)
+                fin.rotate(FreeCAD.Vector(self._scale * self._obj.RootChord / 2, 0, 0), FreeCAD.Vector(0,0,1), self._obj.Cant)
             if hasattr(self._obj, "Diameter"):
                 # This is for fin cans
                 radius = self._scale * float(self._obj.Diameter) / 2.0 + float(offset)
