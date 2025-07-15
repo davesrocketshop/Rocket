@@ -87,6 +87,14 @@ class RocketComponentShapeless(Subject, Observer):
         if not hasattr(obj, 'RadialOffset'):
             obj.addProperty('App::PropertyDistance', 'RadialOffset', 'RocketComponent', translate('App::Property', 'Radial offset from the reference')).RadialOffset = 0.0
 
+        # Basic scaling options
+        if not hasattr(obj, 'Scale'):
+            obj.addProperty('App::PropertyBool', 'Scale', 'RocketComponent', translate('App::Property', 'Scale the object')).Scale = False
+        if not hasattr(obj, 'ScaleByValue'):
+            obj.addProperty('App::PropertyBool', 'ScaleByValue', 'RocketComponent', translate('App::Property', 'Scale the object by value')).ScaleByValue = True
+        if not hasattr(obj, 'ScaleValue'):
+            obj.addProperty('App::PropertyLength', 'ScaleValue', 'RocketComponent', translate('App::Property', 'Scaling value or dimension')).ScaleValue = 1.0
+
         if not hasattr(obj,"Group"):
             obj.addExtension("App::GroupExtensionPython")
 

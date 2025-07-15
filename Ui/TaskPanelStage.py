@@ -24,6 +24,7 @@ __title__ = "FreeCAD Stages"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
+from typing import Any
 
 import FreeCAD
 import FreeCADGui
@@ -34,14 +35,17 @@ from PySide import QtGui
 from PySide.QtWidgets import QDialog, QVBoxLayout
 
 from Ui.Widgets.CommentTab import CommentTab
+from Ui.Widgets.ScalingTab import ScalingTabRocketStage
 
 class _StageDialog(QDialog):
 
-    def __init__(self, parent=None):
+    def __init__(self, obj : Any, parent=None):
         super().__init__(parent)
 
         self.tabWidget = QtGui.QTabWidget()
+        self.tabScaling = ScalingTabRocketStage(obj)
         self.tabComment = CommentTab()
+        self.tabWidget.addTab(self.tabScaling, translate('Rocket', "Scaling"))
         self.tabWidget.addTab(self.tabComment, translate('Rocket', "Comment"))
 
         layout = QVBoxLayout()
@@ -53,10 +57,13 @@ class TaskPanelStage:
     def __init__(self,obj,mode):
         self._obj = obj
 
-        self._stageForm = _StageDialog()
+        self._stageForm = _StageDialog(obj)
 
         self.form = [self._stageForm]
         self._stageForm.setWindowIcon(QtGui.QIcon(FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Stage.svg"))
+
+        self._stageForm.tabScaling.scaled.connect(self.onScale)
+        self._stageForm.tabScaling.scaledSetValuesButton.clicked.connect(self.onSetToScale)
 
         self.update()
 
@@ -66,11 +73,33 @@ class TaskPanelStage:
 
     def transferTo(self):
         "Transfer from the dialog to the object"
+        self._stageForm.tabScaling.transferTo(self._obj)
         self._stageForm.tabComment.transferTo(self._obj)
 
     def transferFrom(self):
         "Transfer from the object to the dialog"
+        self._stageForm.tabScaling.transferFrom(self._obj)
         self._stageForm.tabComment.transferFrom(self._obj)
+
+    def onScale(self) -> None:
+        # Update the scale values
+        scale = self._stageForm.tabScaling.getScale()
+
+        if scale < 1.0:
+            self._stageForm.tabScaling.scaledLabel.setText(translate('Rocket', "Upscale"))
+            self._stageForm.tabScaling.scaledInput.setText(f"{1.0/scale}")
+        else:
+            self._stageForm.tabScaling.scaledLabel.setText(translate('Rocket', "Scale"))
+            self._stageForm.tabScaling.scaledInput.setText(f"{scale}")
+
+    def onSetToScale(self) -> None:
+        # Update the scale values
+        scale = self._stageForm.tabScaling.getScale()
+        # self._obj.Length = self._obj.Length / scale
+
+        scale = self._stageForm.tabScaling.resetScale()
+
+        self.update()
 
     def getStandardButtons(self):
         return QtGui.QDialogButtonBox.Ok | QtGui.QDialogButtonBox.Cancel | QtGui.QDialogButtonBox.Apply

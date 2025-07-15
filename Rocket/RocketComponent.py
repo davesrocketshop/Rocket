@@ -86,18 +86,13 @@ class RocketComponent(RocketComponentShapeless):
         if not hasattr(obj, 'Position'):
             obj.addProperty('App::PropertyPythonObject', 'Position', 'RocketComponent', translate('App::Property', 'Method for calculating axial offsets')).Position = Coordinate()
 
-        if not hasattr(obj, 'Scale'):
-            obj.addProperty('App::PropertyBool', 'Scale', 'RocketComponent', translate('App::Property', 'Scale the object')).Scale = False
-        if not hasattr(obj, 'ScaleByValue'):
-            obj.addProperty('App::PropertyBool', 'ScaleByValue', 'RocketComponent', translate('App::Property', 'Scale the object by value')).ScaleByValue = True
+        # More scaling options
         if not hasattr(obj, 'ScaleByDiameter'):
             obj.addProperty('App::PropertyBool', 'ScaleByDiameter', 'RocketComponent', translate('App::Property', 'Scale the object by body diameter')).ScaleByDiameter = False
         if not hasattr(obj, 'AutoScaleDiameter'):
             obj.addProperty('App::PropertyBool', 'AutoScaleDiameter', 'RocketComponent', translate('App::Property', 'Automatically scale the object by body diameter')).AutoScaleDiameter = False
         if not hasattr(obj, 'ScaleForeDiameter'):
             obj.addProperty('App::PropertyBool', 'ScaleForeDiameter', 'RocketComponent', translate('App::Property', 'Use the fore value for objects with different fore and aft diameters')).ScaleForeDiameter = False
-        if not hasattr(obj, 'ScaleValue'):
-            obj.addProperty('App::PropertyLength', 'ScaleValue', 'RocketComponent', translate('App::Property', 'Scaling value or dimension')).ScaleValue = 1.0
 
         if not hasattr(obj, 'Texture'):
             obj.addProperty('App::PropertyFileIncluded', 'Texture', 'RocketComponent', translate('App::Property', 'Texture file')).Texture = ""

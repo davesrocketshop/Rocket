@@ -817,3 +817,128 @@ class ScalingTabFins(ScalingTab):
         except ValueError:
             pass
         self.setEdited()
+
+class ScalingTabRocketStage(ScalingTab):
+
+    def __init__(self, obj : Any, parent : QtGui.QWidget = None) -> None:
+        super().__init__(obj, parent)
+
+    def _scalingGroup(self, ui : FreeCADGui.UiLoader) -> QtGui.QGroupBox:
+
+        # Scaling
+        group = QtGui.QGroupBox(translate('Rocket', "Scaling"), self)
+        group.setCheckable(True)
+        group.setChecked(False)
+
+        self.scaleLabel = QtGui.QLabel(translate('Rocket', "By value"), group)
+
+        self.scaleInput = ui.createWidget("Gui::InputField")
+        self.scaleInput.setMinimumWidth(20)
+
+        self.upscaleCheckbox = QtGui.QCheckBox(translate('Rocket', "Upscale"), self)
+        self.upscaleCheckbox.setCheckState(QtCore.Qt.Unchecked)
+
+        grid = QGridLayout()
+        row = 0
+
+        grid.addWidget(self.scaleLabel, row, 0)
+        grid.addWidget(self.scaleInput, row, 1, 1, 2)
+        grid.addWidget(self.upscaleCheckbox, row, 3)
+        row += 1
+
+        group.setLayout(grid)
+        return group
+
+    def _reportingGroup(self, ui : FreeCADGui.UiLoader) -> QtGui.QGroupBox:
+
+        # Show the results
+        group = QtGui.QGroupBox(translate('Rocket', "Scaled Values"), self)
+
+        self.scaledLabel = QtGui.QLabel(translate('Rocket', "Scale"), self)
+
+        self.scaledInput = ui.createWidget("Gui::InputField")
+        self.scaledInput.setMinimumWidth(20)
+        self.scaledInput.setEnabled(False)
+
+        # self.scaledLengthLabel = QtGui.QLabel(translate('Rocket', "Length"), self)
+
+        # self.scaledLengthInput = ui.createWidget("Gui::InputField")
+        # self.scaledLengthInput.unit = FreeCAD.Units.Length
+        # self.scaledLengthInput.setMinimumWidth(20)
+        # self.scaledLengthInput.setEnabled(False)
+
+        self.scaledSetValuesButton = QtGui.QPushButton(translate('Rocket', 'Set as values'), self)
+        self.scaledSetValuesButton.setSizePolicy(QSizePolicy.Minimum, QSizePolicy.Preferred)
+
+        grid = QGridLayout()
+        row = 0
+
+        grid.addWidget(self.scaledLabel, row, 0)
+        grid.addWidget(self.scaledInput, row, 1, 1, 2)
+        row += 1
+
+        # grid.addWidget(self.scaledLengthLabel, row, 0)
+        # grid.addWidget(self.scaledLengthInput, row, 1, 1, 2)
+        # row += 1
+
+        grid.addWidget(self.scaledSetValuesButton, row, 2)
+        row += 1
+
+        group.setLayout(grid)
+        return group
+
+    def _setConnections(self) -> None:
+        self.scalingGroup.toggled.connect(self.onScalingGroup)
+        self.upscaleCheckbox.stateChanged.connect(self.onUpscale)
+        self.scaleInput.textEdited.connect(self.onScaleValue)
+
+    def _setScaleState(self) -> None:
+        if self.scalingGroup.isChecked():
+            self.scaleInput.setEnabled(True)
+            self.upscaleCheckbox.setEnabled(True)
+
+    def transferTo(self, obj : Any) -> None:
+        "Transfer from the dialog to the object"
+        obj.Scale = self.scalingGroup.isChecked()
+        obj.ScaleByValue = True
+        value = FreeCAD.Units.Quantity(self.scaleInput.text()).Value
+        if self.upscaleCheckbox.isChecked():
+            if value > 0:
+                obj.ScaleValue = 1.0 / value
+            else:
+                obj.ScaleValue = 1.0
+        else:
+            obj.ScaleValue = value
+
+    def transferFrom(self, obj : Any) -> None:
+        "Transfer from the object to the dialog"
+        self._loading = True
+
+        self.scalingGroup.setChecked(obj.Scale)
+        if obj.ScaleValue.Value < 1.0:
+            self.scaleInput.setText(f"{1.0 / obj.ScaleValue.Value}")
+            self.upscaleCheckbox.setChecked(True)
+        else:
+            self.scaleInput.setText(f"{obj.ScaleValue.Value}")
+            self.upscaleCheckbox.setChecked(False)
+
+        self._loading = False
+
+        self._setScaleState()
+
+    def getScale(self) -> float:
+        scale = 1.0
+        if self._obj.Scale:
+            if self._obj.ScaleValue.Value > 0.0:
+                scale = self._obj.ScaleValue.Value
+        return scale
+
+    def resetScale(self) -> None:
+        self._loading = True
+
+        self._obj.Scale = False
+        self._obj.ScaleByValue = True
+        self._obj.ScaleValue = FreeCAD.Units.Quantity("1.0")
+
+        self._loading = False
+        self._setScaleState()
