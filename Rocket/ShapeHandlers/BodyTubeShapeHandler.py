@@ -42,15 +42,18 @@ class BodyTubeShapeHandler():
         self._OD = float(obj.Diameter)
         self._autoDiameter = False
         if hasattr(obj, "AutoDiameter"):
-            self._autoDiameter = float(obj.AutoDiameter)
+            self._autoDiameter = bool(obj.AutoDiameter)
 
         # Apply scaling
         self._scale = 1.0
         if obj.Proxy.isScaled():
             self._scale = 1.0 / obj.Proxy.getScale()
-            self._length = self._length * self._scale
+            print(f"Body tube scale {self._scale}")
+            self._length *= self._scale
             if not self._autoDiameter:
-                self._OD = self._OD * self._scale
+                self._OD *= self._scale
+        else:
+            print("Body tube not scaled")
 
         if self._OD > 0.0:
             self._ID = self._OD - 2.0 * float(obj.Thickness)

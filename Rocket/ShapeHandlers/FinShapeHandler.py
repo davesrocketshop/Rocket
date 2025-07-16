@@ -73,12 +73,18 @@ class FinShapeHandler:
         self._rootLength1 = float(self._obj.RootLength1)
         self._rootLength2 = float(self._obj.RootLength2)
         self._rootThickness = float(self._obj.RootThickness)
+        self._rootCrossSection = str(self._obj.RootCrossSection)
 
+        self._tipChord = float(self._obj.TipChord)
+        self._tipPerCent = bool(self._obj.TipPerCent)
+        self._tipLength1 = float(self._obj.TipLength1)
+        self._tipLength2 = float(self._obj.TipLength2)
         self._tipSameThickness = bool(self._obj.TipSameThickness)
         self._tipThickness = float(self._obj.TipThickness)
+        self._tipCrossSection = str(self._obj.TipCrossSection)
 
         self._sweepAngle = float(self._obj.SweepAngle)
-        self._sweepLength = float(self._obj.SweepLength)
+        self._sweepLength = float(self._obj.SweepLength) # TODO: Needs to be recalculated based on scaled values
         self._height = float(self._obj.Height)
         self._cant = float(self._obj.Cant)
 
@@ -96,9 +102,23 @@ class FinShapeHandler:
         if obj.Proxy.isScaled():
             self._scale = 1.0 / obj.Proxy.getScale()
             if not self._autoDiameter:
-                self._radius = self._scale * self._radius
-                self._parentRadius = self._scale * self._parentRadius
-            self._rootChord = self._scale * self._rootChord
+                self._radius *= self._scale
+                self._parentRadius *= self._scale
+
+            if not self._rootPerCent:
+                self._rootLength1 *= self._scale
+                self._rootLength2 *= self._scale
+            self._rootChord *= self._scale
+            self._rootThickness *= self._scale
+
+            if not self._tipPerCent:
+                self._tipLength1 *= self._scale
+                self._tipLength2 *= self._scale
+            self._tipChord *= self._scale
+            self._tipThickness *= self._scale
+
+            self._height *= self._scale
+            self._sweepLength *= self._scale # Is it this simple?
 
     def minimumEdge(self) -> float:
         if self._minimumEdge:

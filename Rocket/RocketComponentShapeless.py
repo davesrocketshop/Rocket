@@ -26,6 +26,7 @@ __url__ = "https://www.davesrocketshop.com"
 
 from abc import ABC, abstractmethod
 from typing import Self, Any
+import traceback
 
 import FreeCAD
 import Part
@@ -629,6 +630,7 @@ class RocketComponentShapeless(Subject, Observer):
 
     def updateChildren(self) -> None:
         if not self._updating:
+            # print(f"updating {self.getName()}")
             self.update()
             self._updating = True
             for child in self._obj.Group:
@@ -919,3 +921,19 @@ class RocketComponentShapeless(Subject, Observer):
         self._obj.Scale = False
         self._obj.ScaleByValue = True
         self._obj.ScaleValue = FreeCAD.Units.Quantity("1.0")
+
+    # def onChanged(self, fp, prop):
+    #     '''Here we can do something when a single property got changed'''
+    #     if prop == "Length":
+    #         try:
+    #             print(f"Change Length: {self._obj.Length}")
+    #             raise Exception()
+    #         except Exception as e:
+    #             traceback.print_stack()
+
+    def printTrace(self):
+        '''Print the current stack trace for debugging'''
+        try:
+            raise Exception()
+        except Exception as e:
+            traceback.print_stack()

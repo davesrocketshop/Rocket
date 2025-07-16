@@ -305,8 +305,7 @@ class FeatureFin(ExternalComponent):
     def getLength(self) -> float:
         # Return the length of this component along the central axis
         if self._obj.Length <= 0:
-            scale = self.getScale()
-            self._obj.Length = self.getRootChord() / scale
+            self._obj.Length = self.getRootChord()
         return self._obj.Length
 
     def isFinSet(self) -> bool:

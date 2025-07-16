@@ -183,7 +183,7 @@ class FinSketchShapeHandler(FinShapeHandler):
 
 
     def curvedProfiles(self, shape : Any) -> list:
-        halfThickness = float(self._obj.RootThickness) / 2.0
+        halfThickness = self._rootThickness / 2.0
 
         face1 = shape.copy()
         if face1 is not None:
@@ -203,16 +203,16 @@ class FinSketchShapeHandler(FinShapeHandler):
         if len(chord) > 1:
             chordLength = float(chord[1].x - chord[0].x)
             offset = float(chord[0].x)
-            l1, l2 = self._lengthsFromPercent(chordLength, self._obj.RootPerCent,
-                                            float(self._obj.RootLength1), float(self._obj.RootLength2))
-            profile = self._makeChordProfile(self._obj.RootCrossSection, offset, chordLength, float(self._obj.RootThickness), height, l1, l2)
-        elif self._obj.RootCrossSection in [FIN_CROSS_SQUARE, FIN_CROSS_WEDGE, FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE]:
+            l1, l2 = self._lengthsFromPercent(chordLength, self._rootPerCent,
+                                            self._rootLength1, self._rootLength2)
+            profile = self._makeChordProfile(self._rootCrossSection, offset, chordLength, self._rootThickness, height, l1, l2)
+        elif self._rootCrossSection in [FIN_CROSS_SQUARE, FIN_CROSS_WEDGE, FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE]:
             chordLength = 1e-3  # Very small chord length
             # chordLength = 2.0 * tolerance # Very small chord length
             offset = float(chord[0].x)
-            l1, l2 = self._lengthsFromPercent(chordLength, self._obj.RootPerCent,
-                                            float(self._obj.RootLength1), float(self._obj.RootLength2))
-            profile = self._makeChordProfile(self._obj.RootCrossSection, offset, chordLength, float(self._obj.RootThickness), height, l1, l2)
+            l1, l2 = self._lengthsFromPercent(chordLength, self._rootPerCent,
+                                            self._rootLength1, self._rootLength2)
+            profile = self._makeChordProfile(self._rootCrossSection, offset, chordLength, self._rootThickness, height, l1, l2)
         else:
             profile = Part.Vertex(FreeCAD.Vector(float(chord[0].x), 0.0, float(chord[0].z)))
 
@@ -221,7 +221,7 @@ class FinSketchShapeHandler(FinShapeHandler):
     def straightProfiles(self, shape : Any, tolerance : float) -> list:
         chords = self.findChords(shape)
         profiles = []
-        rootLength2 = float(self._obj.RootLength2)
+        rootLength2 = self._rootLength2
 
         for index in range(len(chords) - 1):
             profile1 = self._makeChord(chords[index], rootLength2, tolerance)
@@ -244,9 +244,9 @@ class FinSketchShapeHandler(FinShapeHandler):
         shape = self.getOffsetFace()
 
         face = Part.Shape(shape) # Make copies
-        face.translate(FreeCAD.Vector(0, -float(self._obj.RootThickness), 0))
+        face.translate(FreeCAD.Vector(0, -self._rootThickness, 0))
 
-        mask = Part.Face(face).extrude(FreeCAD.Vector(0, 2.0 * float(self._obj.RootThickness), 0))
+        mask = Part.Face(face).extrude(FreeCAD.Vector(0, 2.0 * self._rootThickness, 0))
         return mask
 
     def _makeTtw(self) -> Any:
@@ -257,5 +257,5 @@ class FinSketchShapeHandler(FinShapeHandler):
 
         xmin, xmax = self.findRootChord(shape)
 
-        origin = FreeCAD.Vector(float(xmax) - float(self._obj.TtwOffset) - float(self._obj.TtwLength), -0.5 * self._obj.TtwThickness, -1.0 * self._obj.TtwHeight)
-        return Part.makeBox(self._obj.TtwLength, self._obj.TtwThickness, self._obj.TtwHeight, origin)
+        origin = FreeCAD.Vector(float(xmax) - self._ttwOffset - self._ttwLength, -0.5 * self._ttwThickness, -1.0 * self._ttwHeight)
+        return Part.makeBox(self._ttwLength, self._ttwThickness, self._ttwHeight, origin)

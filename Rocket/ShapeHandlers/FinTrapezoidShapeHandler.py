@@ -41,50 +41,40 @@ class FinTrapezoidShapeHandler(FinShapeHandler):
 
     def _makeRootProfile(self, height : float = 0.0) -> Any:
         # Create the root profile, casting everything to float to avoid typing issues
-        root = self._scale * self._obj.RootChord.Value
-        length1 = self._scale * self._obj.RootLength1.Value
-        length2 = self._scale * self._obj.RootLength2.Value
         scaleHeight = self._scale * height
-        thickness = self._scale * self._obj.RootThickness.Value
-        l1, l2 = self._lengthsFromPercent(root, self._obj.RootPerCent,
-                                          length1, length2)
-        return self._makeChordProfile(self._obj.RootCrossSection, 0.0, root,
-            thickness, scaleHeight, l1, l2)
+        l1, l2 = self._lengthsFromPercent(self._rootChord, self._rootPerCent,
+                                          self._rootLength1, self._rootLength2)
+        return self._makeChordProfile(self._rootCrossSection, 0.0, self._rootChord,
+            self._rootThickness, scaleHeight, l1, l2)
 
     def _makeTipProfile(self) -> Any:
         # Create the tip profile, casting everything to float to avoid typing issues
-        crossSection = self._obj.TipCrossSection
+        crossSection = self._tipCrossSection
         if crossSection == FIN_CROSS_SAME:
-            crossSection = self._obj.RootCrossSection
+            crossSection = self._rootCrossSection
 
-        tipThickness = self._scale * self._obj.TipThickness.Value
-        if self._obj.TipSameThickness:
-            tipThickness = self._scale * self._obj.RootThickness.Value
+        tipThickness = self._tipThickness
+        if self._tipSameThickness:
+            tipThickness = self._rootThickness
 
-        tip = self._scale * self._obj.TipChord.Value
-        length1 = self._scale * self._obj.TipLength1.Value
-        length2 = self._scale * self._obj.TipLength2.Value
-        scaleHeight = self._scale * self._obj.Height.Value
-        sweep = self._scale * self._obj.SweepLength.Value
-
-        l1, l2 = self._lengthsFromPercent(tip, self._obj.TipPerCent,
-                                          length1, length2)
-        return self._makeChordProfile(crossSection, sweep, tip,
-            tipThickness, scaleHeight, l1, l2)
+        l1, l2 = self._lengthsFromPercent(self._tipChord, self._tipPerCent,
+                                          self._tipLength1, self._tipLength2)
+        return self._makeChordProfile(crossSection, self._sweepLength, self._tipChord,
+            tipThickness, self._height, l1, l2)
 
     def isValidShape(self) -> bool:
         # Add error checking here
-        if self._obj.Ttw:
-            if self._obj.TtwOffset >= self._obj.RootChord:
+        if self._ttw:
+            if self._ttwOffset >= self._rootChord:
                 validationError(translate('Rocket', "Ttw offset must be less than the root chord"))
                 return False
-            if self._obj.TtwLength <= 0:
+            if self._ttwLength <= 0:
                 validationError(translate('Rocket', "Ttw length must be greater than 0"))
                 return False
-            if self._obj.TtwHeight <= 0:
+            if self._ttwHeight <= 0:
                 validationError(translate('Rocket', "Ttw height must be greater than 0"))
                 return False
-            if self._obj.TtwThickness <= 0:
+            if self._ttwThickness <= 0:
                 validationError(translate('Rocket', "Ttw thickness must be greater than 0"))
                 return False
         return super().isValidShape()

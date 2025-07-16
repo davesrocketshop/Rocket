@@ -91,6 +91,7 @@ class TaskPanelStage:
         else:
             self._stageForm.tabScaling.scaledLabel.setText(translate('Rocket', "Scale"))
             self._stageForm.tabScaling.scaledInput.setText(f"{scale}")
+        self._obj.Proxy.componentChanged()
 
     def onSetToScale(self) -> None:
         # Update the scale values
