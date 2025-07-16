@@ -268,7 +268,6 @@ class FeatureBodyTube(SymmetricComponent, BoxBounded, Coaxial):
         shape = BodyTubeShapeHandler(obj)
         if shape is not None:
             x = shape.drawSolidShape()
-            print(f"getSolidShape('{type(obj)}','{type(x)}')")
             return shape.drawSolidShape()
         return None
 
@@ -294,4 +293,18 @@ class FeatureBodyTube(SymmetricComponent, BoxBounded, Coaxial):
         except ReferenceError:
             # Already deleted object
             pass
-
+    
+    def getScale(self) -> float:
+        if self.hasParent():
+            if self.getParent().isScaled():
+                return self.getParent().getScale()
+            
+        scale = 1.0
+        if self._obj.Scale:
+            if self._obj.ScaleByValue and self._obj.ScaleValue.Value > 0.0:
+                scale = self._obj.ScaleValue.Value
+            elif self._obj.ScaleByDiameter:
+                diameter = self.getForeRadius() * 2.0
+                if diameter > 0 and self._obj.ScaleValue > 0:
+                    scale =  float(diameter / self._obj.ScaleValue)
+        return scale

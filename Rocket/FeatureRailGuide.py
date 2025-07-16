@@ -257,3 +257,18 @@ class FeatureRailGuide(ExternalComponent, AnglePositionable, BoxBounded, LineIns
             toReturn.append(Coordinate(index*self._obj.InstanceSeparation, yOffset, zOffset))
 
         return toReturn
+
+    def getScale(self) -> float:
+        """
+        Return the scale value
+        
+        Rail guides are never scaled.
+        """
+        return 1.0
+    
+    def isScaled(self) -> bool:
+        """ Return True if the object or any of its parental lineage is scaled """
+        return False
+    
+    def resetScale(self) -> None:
+        pass

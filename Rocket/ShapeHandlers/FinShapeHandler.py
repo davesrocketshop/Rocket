@@ -33,6 +33,7 @@ from Part import Shape, Wire, BSplineCurve
 
 from DraftTools import translate
 
+from Rocket.Constants import FEATURE_FINCAN
 from Rocket.Constants import FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE, \
     FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE, FIN_CROSS_BICONVEX, FIN_CROSS_ELLIPSE
 from Rocket.Constants import FIN_DEBUG_FULL, FIN_DEBUG_PROFILE_ONLY, FIN_DEBUG_MASK_ONLY
@@ -45,13 +46,63 @@ class FinShapeHandler:
         self._obj = obj
 
         # This gets changed when redrawn so it's very important to save a copy
-        self._placement = FreeCAD.Placement(obj.Placement)
+        self._placement = FreeCAD.Placement(self._obj.Placement)
+        
+        self._debugSketch = FIN_DEBUG_FULL
+        if hasattr(self._obj,"DebugSketch"):
+            self._debugSketch = str(self._obj.DebugSketch)
 
-        self._scale = 1.0 / obj.Proxy.getScale()
+        if self._obj.Proxy.Type == FEATURE_FINCAN:
+            self._radius = float(self._obj.Diameter.Value) / 2.0
+            self._thickness = float(self._obj.Thickness)
+            self._leadingEdgeOffset = float(self._obj.LeadingEdgeOffset)
+        else:
+            self._radius = 0.0
+            self._thickness = 0.0
+            self._leadingEdgeOffset = 0.0
+    
+        self._autoDiameter = bool(self._obj.AutoDiameter)
+        self._parentRadius = float(self._obj.ParentRadius)
+
+        self._finSet = bool(self._obj.FinSet)
+        self._fincount = int(self._obj.FinCount)
+        self._finSpacing = float(self._obj.FinSpacing)
+
+        self._rootChord = float(self._obj.RootChord)
+        self._rootPerCent = bool(self._obj.RootPerCent)
+        self._rootLength1 = float(self._obj.RootLength1)
+        self._rootLength2 = float(self._obj.RootLength2)
+        self._rootThickness = float(self._obj.RootThickness)
+
+        self._tipSameThickness = bool(self._obj.TipSameThickness)
+        self._tipThickness = float(self._obj.TipThickness)
+
+        self._sweepAngle = float(self._obj.SweepAngle)
+        self._sweepLength = float(self._obj.SweepLength)
+        self._height = float(self._obj.Height)
+        self._cant = float(self._obj.Cant)
+
+        self._ttw = bool(self._obj.Ttw)
+        self._ttwOffset = float(self._obj.TtwOffset)
+        self._ttwLength = float(self._obj.TtwLength)
+        self._ttwThickness = float(self._obj.TtwThickness)
+        self._ttwHeight = float(self._obj.TtwHeight)
+
+        self._minimumEdge = bool(self._obj.MinimumEdge)
+        self._minimumEdgeSize = float(self._obj.MinimumEdgeSize)
+
+        # Apply scaling
+        self._scale = 1.0
+        if obj.Proxy.isScaled():
+            self._scale = 1.0 / obj.Proxy.getScale()
+            if not self._autoDiameter:
+                self._radius = self._scale * self._radius
+                self._parentRadius = self._scale * self._parentRadius
+            self._rootChord = self._scale * self._rootChord
 
     def minimumEdge(self) -> float:
-        if self._obj.MinimumEdge:
-            return float(self._obj.MinimumEdgeSize)
+        if self._minimumEdge:
+            return self._minimumEdgeSize
 
         return 0.0
 
@@ -59,14 +110,14 @@ class FinShapeHandler:
         """
             Angle of the fins leading edge
         """
-        return math.radians(float(self._obj.SweepAngle))
+        return math.radians(self._sweepAngle)
 
     def _aftAngle(self) -> float:
         """
             Angle of the fins trailing edge
         """
-        length = float(self._obj.SweepLength) - float(self._obj.RootChord)
-        theta2 = (math.pi / 2.0) - math.atan2(float(self._obj.Height), length) # In radians
+        length = self._sweepLength - self._rootChord
+        theta2 = (math.pi / 2.0) - math.atan2(self._height, length) # In radians
         return theta2
 
     def _midAngle(self, foreAngle : float, aftAngle : float) -> float:
@@ -409,10 +460,10 @@ class FinShapeHandler:
         return l1, l2
 
     def _lengthsFromRootRatio(self, chord : float) -> tuple[float, float]:
-        l1, l2 = self._lengthsFromPercent(float(self._obj.RootChord), self._obj.RootPerCent,
-                                          float(self._obj.RootLength1), float(self._obj.RootLength2))
-        length1 = chord * (l1 / float(self._obj.RootChord))
-        length2 = chord * (l2 / float(self._obj.RootChord))
+        l1, l2 = self._lengthsFromPercent(self._rootChord, self._rootPerCent,
+                                          self._rootLength1, self._rootLength2)
+        length1 = chord * (l1 / self._rootChord)
+        length2 = chord * (l2 / self._rootChord)
         return length1, length2
 
     def _makeChordProfile(self, crossSection : str, foreX : float, chord : float, thickness : float, height : float,
@@ -443,22 +494,22 @@ class FinShapeHandler:
 
     def _makeTtw(self) -> Shape:
         # Create the Ttw tab
-        origin = FreeCAD.Vector(self._obj.RootChord - self._obj.TtwOffset - self._obj.TtwLength, -0.5 * self._obj.TtwThickness, -1.0 * self._obj.TtwHeight)
-        return Part.makeBox(self._obj.TtwLength, self._obj.TtwThickness, self._obj.TtwHeight, origin)
+        origin = FreeCAD.Vector(self._rootChord - self._ttwOffset - self._ttwLength, -0.5 * self._ttwThickness, -1.0 * self._ttwHeight)
+        return Part.makeBox(self._ttwLength, self._ttwThickness, self._ttwHeight, origin)
 
     def isValidShape(self) -> bool:
         # Add error checking here
-        if self._obj.Ttw:
-            if self._obj.TtwOffset >= self._obj.RootChord:
+        if self._ttw:
+            if self._ttwOffset >= self._rootChord:
                 validationError(translate('Rocket', "Ttw offset must be less than the root chord"))
                 return False
-            if self._obj.TtwLength <= 0:
+            if self._ttwLength <= 0:
                 validationError(translate('Rocket', "Ttw length must be greater than 0"))
                 return False
-            if self._obj.TtwHeight <= 0:
+            if self._ttwHeight <= 0:
                 validationError(translate('Rocket', "Ttw height must be greater than 0"))
                 return False
-            if self._obj.TtwThickness <= 0:
+            if self._ttwThickness <= 0:
                 validationError(translate('Rocket', "Ttw thickness must be greater than 0"))
                 return False
         return True
@@ -532,23 +583,22 @@ class FinShapeHandler:
     def _makeRootExtension(self) -> Shape:
         loft = None
 
-        height = self._scale * float(self._obj.Diameter) / 2.0 + float(self._obj.Thickness)
-        # height = (self._scale * float(self._obj.Diameter) + float(self._obj.Thickness)) / 2.0
+        height = self._radius + self._thickness
         # Height is scaled when making the extension profiles
-        profiles = self._makeExtensionProfiles(float(self._obj.Thickness) - 0.0001)
+        profiles = self._makeExtensionProfiles(self._thickness - 0.0001)
 
         if profiles is not None and len(profiles) > 0:
             loft = Part.makeLoft(profiles, True)
 
             # Make a cutout of the body tube center
             if loft is not None:
-                center = Part.makeCylinder((self._scale * self._obj.Diameter) / 2.0,
-                                           2.0 * self._scale * self._obj.RootChord,
-                                           FreeCAD.Vector(self._scale * -self._obj.RootChord / 2.0, 0, -height),
+                center = Part.makeCylinder(self._radius,
+                                           2.0 * self._rootChord,
+                                           FreeCAD.Vector(self._rootChord / 2.0, 0, -height),
                                            FreeCAD.Vector(1, 0, 0)
                                            )
-                if self._obj.Cant != 0:
-                    center.rotate(FreeCAD.Vector(self._scale * self._obj.RootChord / 2, 0, 0), FreeCAD.Vector(0,0,1), -self._obj.Cant)
+                if self._cant != 0:
+                    center.rotate(FreeCAD.Vector(self._rootChord / 2, 0, 0), FreeCAD.Vector(0,0,1), -self._cant)
                 loft = loft.cut(center)
 
         return loft
@@ -560,7 +610,7 @@ class FinShapeHandler:
                 extension = self._makeRootExtension()
                 if extension:
                     fin = fin.fuse(extension)
-            if self._obj.Ttw:
+            if self._ttw:
                 ttw = self._makeTtw()
                 if ttw:
                     fin = fin.fuse(ttw)
@@ -568,15 +618,13 @@ class FinShapeHandler:
         return fin
 
     def _drawSingleFin(self) -> Shape:
-        if hasattr(self._obj,"DebugSketch"):
-            return self._drawFinDebug(self._obj.DebugSketch)
-        return self._drawFinDebug(FIN_DEBUG_FULL)
+        return self._drawFinDebug(self._debugSketch)
 
     def _drawFin(self) -> Shape:
         fin = self._drawSingleFin()
-        if self._obj.Cant != 0:
-            fin.rotate(FreeCAD.Vector(self._scale * self._obj.RootChord / 2, 0, 0), FreeCAD.Vector(0,0,1), self._obj.Cant)
-        fin.translate(FreeCAD.Vector(0,0,float(self._obj.ParentRadius)))
+        if self._cant != 0:
+            fin.rotate(FreeCAD.Vector(self._rootChord / 2, 0, 0), FreeCAD.Vector(0,0,1), self._cant)
+        fin.translate(FreeCAD.Vector(0,0,self._parentRadius))
         return Part.makeCompound([fin])
 
     def _drawFinSet(self, offset : float = 0) -> Shape:
@@ -584,18 +632,18 @@ class FinShapeHandler:
         base = self._drawSingleFin()
         baseX = 0
         if hasattr(self._obj, "LeadingEdgeOffset"):
-            baseX = self._obj.LeadingEdgeOffset
-        for i in range(self._obj.FinCount):
+            baseX = self._leadingEdgeOffset
+        for i in range(self._fincount):
             fin = Part.Shape(base) # Create a copy
-            if self._obj.Cant != 0:
-                fin.rotate(FreeCAD.Vector(self._scale * self._obj.RootChord / 2, 0, 0), FreeCAD.Vector(0,0,1), self._obj.Cant)
+            if self._cant != 0:
+                fin.rotate(FreeCAD.Vector(self._rootChord / 2, 0, 0), FreeCAD.Vector(0,0,1), self._cant)
             if hasattr(self._obj, "Diameter"):
                 # This is for fin cans
-                radius = self._scale * float(self._obj.Diameter) / 2.0 + float(offset)
+                radius = self._radius + float(offset)
             else:
-                radius = self._scale * float(self._obj.ParentRadius) + float(offset)
+                radius = self._parentRadius + float(offset)
             fin.translate(FreeCAD.Vector(baseX, 0, radius))
-            fin.rotate(FreeCAD.Vector(0, 0, 0), FreeCAD.Vector(1,0,0), i * float(self._obj.FinSpacing))
+            fin.rotate(FreeCAD.Vector(0, 0, 0), FreeCAD.Vector(1,0,0), i * self._finSpacing)
             fins.append(fin)
 
         return Part.makeCompound(fins)
@@ -606,7 +654,7 @@ class FinShapeHandler:
             return
 
 #        try:
-        if self._obj.FinSet:
+        if self._finSet:
             self._obj.Shape = self._drawFinSet()
         else:
             self._obj.Shape = self._drawFin()
@@ -619,11 +667,11 @@ class FinShapeHandler:
     def _makeFinFrontal(self) -> Shape:
         # The frontal view is either a trapezoid or a triangle
         # TODO: Handle canted fins
-        halfRoot = float(self._obj.RootThickness) / 2.0
-        thickness = float(self._obj.TipThickness)
-        height = float(self._obj.Height)
-        if self._obj.TipSameThickness:
-            thickness = float(self._obj.RootThickness)
+        halfRoot = self._rootThickness / 2.0
+        thickness = self._tipThickness
+        height = self._height
+        if self._tipThickness:
+            thickness = self._rootThickness
         if thickness > 0.0:
             halfTip = thickness / 2.0
 
@@ -648,16 +696,16 @@ class FinShapeHandler:
             wire = Part.Wire([line1.toShape(), line2.toShape(), line3.toShape()])
 
         face = Part.Face(wire)
-        face.translate(FreeCAD.Vector(0,0,float(self._obj.ParentRadius)))
+        face.translate(FreeCAD.Vector(0,0,self._parentRadius))
         return face
 
     def _makeFinFrontalFinSet(self) -> Shape:
         fins = []
         base = self._makeFinFrontal()
-        for i in range(self._obj.FinCount):
+        for i in range(self._fincount):
             fin = Part.Shape(base) # Create a copy
-            # fin.translate(FreeCAD.Vector(0,0,float(self._obj.ParentRadius)))
-            fin.rotate(FreeCAD.Vector(0, 0, 0), FreeCAD.Vector(1,0,0), i * float(self._obj.FinSpacing))
+            # fin.translate(FreeCAD.Vector(0,0,self._parentRadius))
+            fin.rotate(FreeCAD.Vector(0, 0, 0), FreeCAD.Vector(1,0,0), i * self._finSpacing)
             fins.append(fin)
 
         return Part.makeCompound(fins)

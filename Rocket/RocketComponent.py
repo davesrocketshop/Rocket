@@ -98,7 +98,7 @@ class RocketComponent(RocketComponentShapeless):
             obj.addProperty('App::PropertyFileIncluded', 'Texture', 'RocketComponent', translate('App::Property', 'Texture file')).Texture = ""
 
         if not hasattr(obj,"Shape"):
-            obj.addProperty('Part::PropertyPartShape', 'Shape', 'RocketComponent', translate('App::Property', 'Shape of the component'))
+            obj.addProperty('Part::PropertyPartShape', 'Shape', 'RocketComponent', translate('App::Property', 'Shape of the component')).Shape
 
     def convertMaterialAndAppearance(self, obj : Any) -> None:
         if hasattr(obj, "Material"):
@@ -284,3 +284,10 @@ class RocketComponent(RocketComponentShapeless):
         if hasattr(obj, "Shape") and obj.Shape.isValid():
             return obj.Shape
         return None
+
+    def resetScale(self) -> None:
+        super().resetScale()
+
+        self._obj.ScaleByDiameter = False
+        self._obj.AutoScaleDiameter = False
+        self._obj.ScaleForeDiameter = False

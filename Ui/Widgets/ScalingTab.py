@@ -219,29 +219,16 @@ class ScalingTab(QtGui.QWidget):
 
         self._setScaleState()
 
+    def isScaled(self):
+        return self._obj.Proxy.isScaled()
+
     def getScale(self) -> float:
-        scale = 1.0
-        if self._obj.Scale:
-            if self._obj.ScaleByValue and self._obj.ScaleValue.Value > 0.0:
-                scale = self._obj.ScaleValue.Value
-            elif self._obj.ScaleByDiameter:
-                if self._obj.ScaleForeDiameter:
-                    diameter = self._obj.Proxy.getForeDiameter()
-                else:
-                    diameter = self._obj.Proxy.getAftDiameter()
-                if diameter > 0 and self._obj.ScaleValue > 0:
-                    scale =  float(diameter / self._obj.ScaleValue)
-        return scale
+        return self._obj.Proxy.getScale()
 
     def resetScale(self) -> None:
         self._loading = True
 
-        self._obj.Scale = False
-        self._obj.ScaleByValue = True
-        self._obj.ScaleByDiameter = False
-        self._obj.AutoScaleDiameter = False
-        self._obj.ScaleForeDiameter = False
-        self._obj.ScaleValue = FreeCAD.Units.Quantity("1.0")
+        self._obj.Proxy.resetScale()
 
         self._loading = False
         self._setScaleState()
@@ -773,9 +760,6 @@ class ScalingTabFins(ScalingTab):
 
         self._setScaleState()
 
-    def getScale(self) -> float:
-        return self._obj.Proxy.getScale()
-
     def onScaleRoot(self, checked: bool) -> None:
         if self._loading:
             return
@@ -924,21 +908,4 @@ class ScalingTabRocketStage(ScalingTab):
 
         self._loading = False
 
-        self._setScaleState()
-
-    def getScale(self) -> float:
-        scale = 1.0
-        if self._obj.Scale:
-            if self._obj.ScaleValue.Value > 0.0:
-                scale = self._obj.ScaleValue.Value
-        return scale
-
-    def resetScale(self) -> None:
-        self._loading = True
-
-        self._obj.Scale = False
-        self._obj.ScaleByValue = True
-        self._obj.ScaleValue = FreeCAD.Units.Quantity("1.0")
-
-        self._loading = False
         self._setScaleState()

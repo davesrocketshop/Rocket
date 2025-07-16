@@ -551,12 +551,12 @@ class RocketComponentShapeless(Subject, Observer):
     def getAxialOffsetFromMethod(self, method : AxialMethod.AxialMethod) -> float:
         parentLength = 0
         if self.hasParent():
-            parentLength = self.getParent().getLength()
+            parentLength = self.getParent().getScaledLength()
 
         if method == AxialMethod.ABSOLUTE:
             return self.getComponentLocations()[0]._x
         else:
-            return method.getAsOffset(self._obj.Placement.Base.x, self.getLength(), parentLength)
+            return method.getAsOffset(self._obj.Placement.Base.x, self.getScaledLength(), parentLength)
 
     def getAxialOffset(self) -> float:
         return self._obj.AxialOffset
@@ -574,7 +574,7 @@ class RocketComponentShapeless(Subject, Observer):
             self.setAfter()
             return
         else:
-            newX = method.getAsPosition(float(newAxialOffset), float(self.getLength()), float(self.getParent().getLength())) + float(self.getParent().getPosition().x)
+            newX = method.getAsPosition(float(newAxialOffset), float(self.getScaledLength()), float(self.getParent().getScaledLength())) + float(self.getParent().getPosition().x)
 
         # snap to zero if less than the threshold 'EPSILON'
         if EPSILON > math.fabs(newX):
@@ -851,11 +851,11 @@ class RocketComponentShapeless(Subject, Observer):
                 self._obj.Placement.Base.x = self.getParent()._obj.Placement.Base.x
                 return
 
-            refLength = float(referenceComponent.Proxy.getLength())
+            refLength = float(referenceComponent.Proxy.getScaledLength())
             refRelX = float(referenceComponent.Placement.Base.x)
 
             self._obj.Placement.Base.x = refRelX + refLength
-            # self._obj.Placement.Base.x = refRelX - (refLength + float(self.getLength()))
+            # self._obj.Placement.Base.x = refRelX - (refLength + float(self.getScaledLength()))
 
     """
         Get the characteristic length of the component, for example the length of a body tube
@@ -868,6 +868,14 @@ class RocketComponentShapeless(Subject, Observer):
     def getLength(self) -> float:
         # Return the length of this component along the central axis
         return 0
+    
+    """
+        In cases where scaling is applied, we need the scaled length for positioning
+    """
+    def getScaledLength(self) -> float:
+        if self.getScale() <= 0:
+            return self.getLength()
+        return self.getLength() / self.getScale()
 
     def setAppearance(self, appearance) -> None:
         if hasattr(self._obj.ViewObject.Proxy, "setAppearance"):
@@ -881,3 +889,33 @@ class RocketComponentShapeless(Subject, Observer):
     def getSolidShape(self, obj : Any) -> Part.Solid:
         """ Return a filled version of the shape. Useful for CFD """
         return None
+
+    def getScale(self) -> float:
+        """
+        Return the scale value
+        
+        In cases where the parent is scaled, that is the value returned. Otherwise
+        the components are expected to calculate the scale based on their parameters.
+        """
+        if self.hasParent():
+            if self.getParent().isScaled():
+                return self.getParent().getScale()
+            
+        scale = 1.0
+        if self._obj.Scale:
+            if self._obj.ScaleValue.Value > 0.0:
+                scale = self._obj.ScaleValue.Value
+        return scale
+    
+    def isScaled(self) -> bool:
+        """ Return True if the object or any of its parental lineage is scaled """
+        if self._obj.Scale:
+            return True
+        if self.hasParent():
+            return self.getParent().isScaled()
+        return False
+    
+    def resetScale(self) -> None:
+        self._obj.Scale = False
+        self._obj.ScaleByValue = True
+        self._obj.ScaleValue = FreeCAD.Units.Quantity("1.0")

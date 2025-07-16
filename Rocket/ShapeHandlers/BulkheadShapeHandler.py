@@ -52,6 +52,11 @@ class BulkheadShapeHandler():
         self._holeOffset = float(obj.HoleOffset)
 
         self._obj = obj
+        
+        # Apply scaling
+        self._scale = 1.0
+        if obj.Proxy.isScaled():
+            self._scale = 1.0 / obj.Proxy.getScale()
 
     def isValidShape(self) -> bool:
         # Perform some general validations

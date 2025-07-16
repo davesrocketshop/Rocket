@@ -248,3 +248,18 @@ class FeatureLaunchLug(Tube, AnglePositionable, BoxBounded, LineInstanceable):
     def setAngleMethod(self, newMethod : AngleMethod) -> None:
         # no-op
         pass
+
+    def getScale(self) -> float:
+        """
+        Return the scale value
+        
+        Launch lugs are never scaled.
+        """
+        return 1.0
+    
+    def isScaled(self) -> bool:
+        """ Return True if the object or any of its parental lineage is scaled """
+        return False
+    
+    def resetScale(self) -> None:
+        pass

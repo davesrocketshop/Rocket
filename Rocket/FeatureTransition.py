@@ -412,3 +412,17 @@ class FeatureTransition(SymmetricComponent):
             FEATURE_CENTERING_RING,
             FEATURE_INNER_TUBE,
             FEATURE_FIN]
+    
+    def getScale(self) -> float:
+        scale = 1.0
+        if self._obj.Scale:
+            if self._obj.ScaleByValue and self._obj.ScaleValue.Value > 0.0:
+                scale = self._obj.ScaleValue.Value
+            elif self._obj.ScaleByDiameter:
+                if self._obj.ScaleForeDiameter:
+                    diameter = self.getForeDiameter()
+                else:
+                    diameter = self.getAftDiameter()
+                if diameter > 0 and self._obj.ScaleValue > 0:
+                    scale =  float(diameter / self._obj.ScaleValue)
+        return scale

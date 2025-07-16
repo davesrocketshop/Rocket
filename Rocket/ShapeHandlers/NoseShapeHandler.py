@@ -68,19 +68,10 @@ class NoseShapeHandler(ABC):
         self._ogiveRadius = obj.OgiveDiameter.Value / 2.0
         self._resolution = int(obj.Resolution)
 
-        self._scale = 1.0
-        self._scaleByValue = bool(obj.ScaleByValue)
-        self._scaleByDiameter = bool(obj.ScaleByDiameter)
-        self._autoScaleDiameter = bool(obj.AutoScaleDiameter)
-        self._scaleValue = obj.ScaleValue.Value
-
         # Apply scaling
-        if obj.Scale:
-            if self._scaleByValue and self._scaleValue > 0.0:
-                self._scale = 1.0 / self._scaleValue
-            elif self._scaleByDiameter:
-                if self._radius > 0 and self._scaleValue > 0:
-                    self._scale = self._scaleValue / (2.0 * self._radius)
+        self._scale = 1.0
+        if obj.Proxy.isScaled():
+            self._scale = 1.0 / obj.Proxy.getScale()
             self._length = self._length * self._scale
             if not self._autoDiameter:
                 self._radius = self._radius * self._scale
