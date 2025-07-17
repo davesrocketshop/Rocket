@@ -46,6 +46,8 @@ from Rocket.Constants import FINCAN_EDGE_SQUARE, FINCAN_EDGE_ROUND, FINCAN_EDGE_
 from Rocket.Constants import FINCAN_PRESET_CUSTOM, FINCAN_PRESET_1_8, FINCAN_PRESET_3_16, FINCAN_PRESET_1_4
 from Rocket.Constants import FINCAN_COUPLER_MATCH_ID, FINCAN_COUPLER_STEPPED
 
+from Ui.TaskPanelFin import _FinDialog, TAB_FIN_ROOT, TAB_FIN_TIP, TAB_FIN_TUBE
+
 from Ui.TaskPanelLocation import TaskPanelLocation
 from Ui.Commands.CmdSketcher import newSketchNoEdit
 
@@ -53,14 +55,15 @@ from Ui.Widgets.MaterialTab import MaterialTab
 from Ui.Widgets.CommentTab import CommentTab
 from Ui.Widgets.ScalingTab import ScalingTabFins
 
-class _FinCanDialog(QDialog):
+class _FinCanDialog(_FinDialog):
 
     def __init__(self, obj : Any, parent : QtGui.QWidget = None) -> None:
-        super().__init__(parent)
+        super().__init__(obj, parent)
 
+    def initUI(self, obj : Any) -> None:
         # define our window
         self.setGeometry(250, 250, 400, 350)
-        self.setWindowTitle(translate('Rocket', "Fin Parameter"))
+        self.setWindowTitle(translate('Rocket', "Fin Can Parameter"))
 
         self.tabWidget = QtGui.QTabWidget()
         self.tabGeneral = QtGui.QWidget()
@@ -87,284 +90,278 @@ class _FinCanDialog(QDialog):
         self.setTabCoupler()
         self.setTabLaunchLug()
 
-    def setTabGeneral(self):
+    # def setTabGeneral(self):
 
-        ui = FreeCADGui.UiLoader()
+    #     ui = FreeCADGui.UiLoader()
 
-        # Select the type of fin
-        self.finTypeLabel = QtGui.QLabel(translate('Rocket', "Fin type"), self)
+    #     # Select the type of fin
+    #     self.finTypeLabel = QtGui.QLabel(translate('Rocket', "Fin type"), self)
 
-        self.finTypesCombo = QtGui.QComboBox(self)
-        self.finTypesCombo.addItem(translate('Rocket', FIN_TYPE_TRAPEZOID), FIN_TYPE_TRAPEZOID)
-        self.finTypesCombo.addItem(translate('Rocket', FIN_TYPE_TRIANGLE), FIN_TYPE_TRIANGLE)
-        self.finTypesCombo.addItem(translate('Rocket', FIN_TYPE_ELLIPSE), FIN_TYPE_ELLIPSE)
-        self.finTypesCombo.addItem(translate('Rocket', FIN_TYPE_SKETCH), FIN_TYPE_SKETCH)
+    #     self.finTypesCombo = QtGui.QComboBox(self)
+    #     self.finTypesCombo.addItem(translate('Rocket', FIN_TYPE_TRAPEZOID), FIN_TYPE_TRAPEZOID)
+    #     self.finTypesCombo.addItem(translate('Rocket', FIN_TYPE_TRIANGLE), FIN_TYPE_TRIANGLE)
+    #     self.finTypesCombo.addItem(translate('Rocket', FIN_TYPE_ELLIPSE), FIN_TYPE_ELLIPSE)
+    #     self.finTypesCombo.addItem(translate('Rocket', FIN_TYPE_SKETCH), FIN_TYPE_SKETCH)
 
-        self.finSetGroup = QtGui.QGroupBox(translate('Rocket', "Fin Set"), self)
+    #     self.finSetGroup = QtGui.QGroupBox(translate('Rocket', "Fin Set"), self)
 
-        self.finCountLabel = QtGui.QLabel(translate('Rocket', "Fin Count"), self)
+    #     self.finCountLabel = QtGui.QLabel(translate('Rocket', "Fin Count"), self)
 
-        self.finCountSpinBox = QtGui.QSpinBox(self)
-        self.finCountSpinBox.setMinimumWidth(100)
-        self.finCountSpinBox.setMinimum(0)
-        self.finCountSpinBox.setMaximum(10000)
+    #     self.finCountSpinBox = QtGui.QSpinBox(self)
+    #     self.finCountSpinBox.setMinimumWidth(100)
+    #     self.finCountSpinBox.setMinimum(0)
+    #     self.finCountSpinBox.setMaximum(10000)
 
-        self.finSpacingLabel = QtGui.QLabel(translate('Rocket', "Fin Spacing"), self)
+    #     self.finSpacingLabel = QtGui.QLabel(translate('Rocket', "Fin Spacing"), self)
 
-        self.finSpacingInput = ui.createWidget("Gui::InputField")
-        self.finSpacingInput.unit = FreeCAD.Units.Angle
-        self.finSpacingInput.setMinimumWidth(100)
+    #     self.finSpacingInput = ui.createWidget("Gui::InputField")
+    #     self.finSpacingInput.unit = FreeCAD.Units.Angle
+    #     self.finSpacingInput.setMinimumWidth(100)
 
-        self.finCantLabel = QtGui.QLabel(translate('Rocket', "Fin Cant"), self)
+    #     self.finCantLabel = QtGui.QLabel(translate('Rocket', "Fin Cant"), self)
 
-        self.finCantInput = ui.createWidget("Gui::InputField")
-        self.finCantInput.unit = FreeCAD.Units.Angle
-        self.finCantInput.setMinimumWidth(100)
+    #     self.finCantInput = ui.createWidget("Gui::InputField")
+    #     self.finCantInput.unit = FreeCAD.Units.Angle
+    #     self.finCantInput.setMinimumWidth(100)
 
-        # Get the fin parameters: length, width, etc...
-        self.rootGroup = QtGui.QGroupBox(translate('Rocket', "Fin Root"), self)
+    #     # Get the fin parameters: length, width, etc...
+    #     self.rootGroup = QtGui.QGroupBox(translate('Rocket', "Fin Root"), self)
 
-        # Select the type of cross section
-        self.rootCrossSectionLabel = QtGui.QLabel(translate('Rocket', "Cross Section"), self)
+    #     # Select the type of cross section
+    #     self.rootCrossSectionLabel = QtGui.QLabel(translate('Rocket', "Cross Section"), self)
 
-        # self.rootCrossSections = (FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_ELLIPSE, FIN_CROSS_BICONVEX, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE,
-        #     FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE)
-        # self.rootEllipseCrossSections = (FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_ELLIPSE, FIN_CROSS_BICONVEX, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE,
-        #     FIN_CROSS_TAPER_LETE)
-        self.rootCrossSectionsCombo = QtGui.QComboBox(self)
-        self.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_SQUARE), FIN_CROSS_SQUARE)
-        self.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_ROUND), FIN_CROSS_ROUND)
-        self.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_ELLIPSE), FIN_CROSS_ELLIPSE)
-        self.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_BICONVEX), FIN_CROSS_BICONVEX)
-        self.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_AIRFOIL), FIN_CROSS_AIRFOIL)
-        self.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_WEDGE), FIN_CROSS_WEDGE)
-        self.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_DIAMOND), FIN_CROSS_DIAMOND)
-        self.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_TAPER_LE), FIN_CROSS_TAPER_LE)
-        self.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_TAPER_TE), FIN_CROSS_TAPER_TE)
-        self.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_TAPER_LETE), FIN_CROSS_TAPER_LETE)
+    #     self.rootCrossSectionsCombo = QtGui.QComboBox(self)
+    #     self.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_SQUARE), FIN_CROSS_SQUARE)
+    #     self.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_ROUND), FIN_CROSS_ROUND)
+    #     self.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_ELLIPSE), FIN_CROSS_ELLIPSE)
+    #     self.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_BICONVEX), FIN_CROSS_BICONVEX)
+    #     self.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_AIRFOIL), FIN_CROSS_AIRFOIL)
+    #     self.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_WEDGE), FIN_CROSS_WEDGE)
+    #     self.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_DIAMOND), FIN_CROSS_DIAMOND)
+    #     self.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_TAPER_LE), FIN_CROSS_TAPER_LE)
+    #     self.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_TAPER_TE), FIN_CROSS_TAPER_TE)
+    #     self.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_TAPER_LETE), FIN_CROSS_TAPER_LETE)
 
-        # Get the fin parameters: length, width, etc...
-        self.rootChordLabel = QtGui.QLabel(translate('Rocket', "Chord"), self)
+    #     # Get the fin parameters: length, width, etc...
+    #     self.rootChordLabel = QtGui.QLabel(translate('Rocket', "Chord"), self)
 
-        self.rootChordInput = ui.createWidget("Gui::InputField")
-        self.rootChordInput.unit = FreeCAD.Units.Length
-        self.rootChordInput.setMinimumWidth(100)
+    #     self.rootChordInput = ui.createWidget("Gui::InputField")
+    #     self.rootChordInput.unit = FreeCAD.Units.Length
+    #     self.rootChordInput.setMinimumWidth(100)
 
-        self.rootThicknessLabel = QtGui.QLabel(translate('Rocket', "Thickness"), self)
+    #     self.rootThicknessLabel = QtGui.QLabel(translate('Rocket', "Thickness"), self)
 
-        self.rootThicknessInput = ui.createWidget("Gui::InputField")
-        self.rootThicknessInput.unit = FreeCAD.Units.Length
-        self.rootThicknessInput.setMinimumWidth(100)
+    #     self.rootThicknessInput = ui.createWidget("Gui::InputField")
+    #     self.rootThicknessInput.unit = FreeCAD.Units.Length
+    #     self.rootThicknessInput.setMinimumWidth(100)
 
-        self.rootPerCentLabel = QtGui.QLabel(translate('Rocket', "Use percentage"), self)
+    #     self.rootPerCentLabel = QtGui.QLabel(translate('Rocket', "Use percentage"), self)
 
-        self.rootPerCentCheckbox = QtGui.QCheckBox(self)
-        self.rootPerCentCheckbox.setCheckState(QtCore.Qt.Unchecked)
+    #     self.rootPerCentCheckbox = QtGui.QCheckBox(self)
+    #     self.rootPerCentCheckbox.setCheckState(QtCore.Qt.Unchecked)
 
-        self.rootLength1Label = QtGui.QLabel(translate('Rocket', "Length 1"), self)
+    #     self.rootLength1Label = QtGui.QLabel(translate('Rocket', "Length 1"), self)
 
-        self.rootLength1Input = ui.createWidget("Gui::InputField")
-        self.rootLength1Input.unit = FreeCAD.Units.Length
-        self.rootLength1Input.setMinimumWidth(100)
+    #     self.rootLength1Input = ui.createWidget("Gui::InputField")
+    #     self.rootLength1Input.unit = FreeCAD.Units.Length
+    #     self.rootLength1Input.setMinimumWidth(100)
 
-        self.rootLength2Label = QtGui.QLabel(translate('Rocket', "Length 2"), self)
+    #     self.rootLength2Label = QtGui.QLabel(translate('Rocket', "Length 2"), self)
 
-        self.rootLength2Input = ui.createWidget("Gui::InputField")
-        self.rootLength2Input.unit = FreeCAD.Units.Length
-        self.rootLength2Input.setMinimumWidth(100)
+    #     self.rootLength2Input = ui.createWidget("Gui::InputField")
+    #     self.rootLength2Input.unit = FreeCAD.Units.Length
+    #     self.rootLength2Input.setMinimumWidth(100)
 
-        self.tipGroup = QtGui.QGroupBox(translate('Rocket', "Fin Tip"), self)
+    #     self.tipGroup = QtGui.QGroupBox(translate('Rocket', "Fin Tip"), self)
 
-        # Select the type of cross section
-        self.tipCrossSectionLabel = QtGui.QLabel(translate('Rocket', "Cross Section"), self)
+    #     # Select the type of cross section
+    #     self.tipCrossSectionLabel = QtGui.QLabel(translate('Rocket', "Cross Section"), self)
 
-        # self.tipCrossSections = (FIN_CROSS_SAME, FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_ELLIPSE, FIN_CROSS_BICONVEX, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE,
-        #     FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE)
-        self.tipCrossSectionsCombo = QtGui.QComboBox(self)
-        self.tipCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_SAME), FIN_CROSS_SAME)
-        self.tipCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_SQUARE), FIN_CROSS_SQUARE)
-        self.tipCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_ROUND), FIN_CROSS_ROUND)
-        self.tipCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_ELLIPSE), FIN_CROSS_ELLIPSE)
-        self.tipCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_BICONVEX), FIN_CROSS_BICONVEX)
-        self.tipCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_AIRFOIL), FIN_CROSS_AIRFOIL)
-        self.tipCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_WEDGE), FIN_CROSS_WEDGE)
-        self.tipCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_DIAMOND), FIN_CROSS_DIAMOND)
-        self.tipCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_TAPER_LE), FIN_CROSS_TAPER_LE)
-        self.tipCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_TAPER_TE), FIN_CROSS_TAPER_TE)
-        self.tipCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_TAPER_LETE), FIN_CROSS_TAPER_LETE)
+    #     self.tipCrossSectionsCombo = QtGui.QComboBox(self)
+    #     self.tipCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_SAME), FIN_CROSS_SAME)
+    #     self.tipCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_SQUARE), FIN_CROSS_SQUARE)
+    #     self.tipCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_ROUND), FIN_CROSS_ROUND)
+    #     self.tipCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_ELLIPSE), FIN_CROSS_ELLIPSE)
+    #     self.tipCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_BICONVEX), FIN_CROSS_BICONVEX)
+    #     self.tipCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_AIRFOIL), FIN_CROSS_AIRFOIL)
+    #     self.tipCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_WEDGE), FIN_CROSS_WEDGE)
+    #     self.tipCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_DIAMOND), FIN_CROSS_DIAMOND)
+    #     self.tipCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_TAPER_LE), FIN_CROSS_TAPER_LE)
+    #     self.tipCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_TAPER_TE), FIN_CROSS_TAPER_TE)
+    #     self.tipCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_TAPER_LETE), FIN_CROSS_TAPER_LETE)
 
-        self.tipChordLabel = QtGui.QLabel(translate('Rocket', "Chord"), self)
+    #     self.tipChordLabel = QtGui.QLabel(translate('Rocket', "Chord"), self)
 
-        self.tipChordInput = ui.createWidget("Gui::InputField")
-        self.tipChordInput.unit = FreeCAD.Units.Length
-        self.tipChordInput.setMinimumWidth(100)
+    #     self.tipChordInput = ui.createWidget("Gui::InputField")
+    #     self.tipChordInput.unit = FreeCAD.Units.Length
+    #     self.tipChordInput.setMinimumWidth(100)
 
-        self.tipThicknessLabel = QtGui.QLabel(translate('Rocket', "Thickness"), self)
+    #     self.tipThicknessLabel = QtGui.QLabel(translate('Rocket', "Thickness"), self)
 
-        self.tipThicknessInput = ui.createWidget("Gui::InputField")
-        self.tipThicknessInput.unit = FreeCAD.Units.Length
-        self.tipThicknessInput.setMinimumWidth(100)
+    #     self.tipThicknessInput = ui.createWidget("Gui::InputField")
+    #     self.tipThicknessInput.unit = FreeCAD.Units.Length
+    #     self.tipThicknessInput.setMinimumWidth(100)
 
-        self.tipSameThicknessCheckbox = QtGui.QCheckBox(translate('Rocket', "Tip thickness same as root"), self)
-        self.tipSameThicknessCheckbox.setCheckState(QtCore.Qt.Unchecked)
+    #     self.tipSameThicknessCheckbox = QtGui.QCheckBox(translate('Rocket', "Tip thickness same as root"), self)
+    #     self.tipSameThicknessCheckbox.setCheckState(QtCore.Qt.Unchecked)
 
-        self.tipPerCentLabel = QtGui.QLabel(translate('Rocket', "Use percentage"), self)
+    #     self.tipPerCentLabel = QtGui.QLabel(translate('Rocket', "Use percentage"), self)
 
-        self.tipPerCentCheckbox = QtGui.QCheckBox(self)
-        self.tipPerCentCheckbox.setCheckState(QtCore.Qt.Unchecked)
+    #     self.tipPerCentCheckbox = QtGui.QCheckBox(self)
+    #     self.tipPerCentCheckbox.setCheckState(QtCore.Qt.Unchecked)
 
-        self.tipLength1Label = QtGui.QLabel(translate('Rocket', "Length 1"), self)
+    #     self.tipLength1Label = QtGui.QLabel(translate('Rocket', "Length 1"), self)
 
-        self.tipLength1Input = ui.createWidget("Gui::InputField")
-        self.tipLength1Input.unit = FreeCAD.Units.Length
-        self.tipLength1Input.setMinimumWidth(100)
+    #     self.tipLength1Input = ui.createWidget("Gui::InputField")
+    #     self.tipLength1Input.unit = FreeCAD.Units.Length
+    #     self.tipLength1Input.setMinimumWidth(100)
 
-        self.tipLength2Label = QtGui.QLabel(translate('Rocket', "Length 2"), self)
+    #     self.tipLength2Label = QtGui.QLabel(translate('Rocket', "Length 2"), self)
 
-        self.tipLength2Input = ui.createWidget("Gui::InputField")
-        self.tipLength2Input.unit = FreeCAD.Units.Length
-        self.tipLength2Input.setMinimumWidth(100)
+    #     self.tipLength2Input = ui.createWidget("Gui::InputField")
+    #     self.tipLength2Input.unit = FreeCAD.Units.Length
+    #     self.tipLength2Input.setMinimumWidth(100)
 
-        self.heightLabel = QtGui.QLabel(translate('Rocket', "Height"), self)
+    #     self.heightLabel = QtGui.QLabel(translate('Rocket', "Height"), self)
 
-        self.heightInput = ui.createWidget("Gui::InputField")
-        self.heightInput.unit = FreeCAD.Units.Length
-        self.heightInput.setMinimumWidth(100)
+    #     self.heightInput = ui.createWidget("Gui::InputField")
+    #     self.heightInput.unit = FreeCAD.Units.Length
+    #     self.heightInput.setMinimumWidth(100)
 
-        self.autoHeightCheckBox = QtGui.QCheckBox(translate('Rocket', "auto"), self)
-        self.autoHeightCheckBox.setCheckState(QtCore.Qt.Unchecked)
+    #     self.autoHeightCheckBox = QtGui.QCheckBox(translate('Rocket', "auto"), self)
+    #     self.autoHeightCheckBox.setCheckState(QtCore.Qt.Unchecked)
 
-        self.spanLabel = QtGui.QLabel(translate('Rocket', "Span"), self)
+    #     self.spanLabel = QtGui.QLabel(translate('Rocket', "Span"), self)
 
-        self.spanInput = ui.createWidget("Gui::InputField")
-        self.spanInput.unit = FreeCAD.Units.Length
-        self.spanInput.setMinimumWidth(100)
+    #     self.spanInput = ui.createWidget("Gui::InputField")
+    #     self.spanInput.unit = FreeCAD.Units.Length
+    #     self.spanInput.setMinimumWidth(100)
 
-        # Sweep can be forward (-sweep) or backward (+sweep)
-        self.sweepLengthLabel = QtGui.QLabel(translate('Rocket', "Sweep Length"), self)
+    #     # Sweep can be forward (-sweep) or backward (+sweep)
+    #     self.sweepLengthLabel = QtGui.QLabel(translate('Rocket', "Sweep Length"), self)
 
-        self.sweepLengthInput = ui.createWidget("Gui::InputField")
-        self.sweepLengthInput.unit = FreeCAD.Units.Length
-        self.sweepLengthInput.setMinimumWidth(100)
+    #     self.sweepLengthInput = ui.createWidget("Gui::InputField")
+    #     self.sweepLengthInput.unit = FreeCAD.Units.Length
+    #     self.sweepLengthInput.setMinimumWidth(100)
 
-        # Sweep angle is tied to sweep length. It can be forward (> -90) or backward (< 90)
-        self.sweepAngleLabel = QtGui.QLabel(translate('Rocket', "Sweep Angle"), self)
+    #     # Sweep angle is tied to sweep length. It can be forward (> -90) or backward (< 90)
+    #     self.sweepAngleLabel = QtGui.QLabel(translate('Rocket', "Sweep Angle"), self)
 
-        self.sweepAngleInput = ui.createWidget("Gui::InputField")
-        self.sweepAngleInput.unit = FreeCAD.Units.Angle
-        self.sweepAngleInput.setMinimumWidth(100)
+    #     self.sweepAngleInput = ui.createWidget("Gui::InputField")
+    #     self.sweepAngleInput.unit = FreeCAD.Units.Angle
+    #     self.sweepAngleInput.setMinimumWidth(100)
 
-        # Fin set group
-        row = 0
-        grid = QGridLayout()
+    #     # Fin set group
+    #     row = 0
+    #     grid = QGridLayout()
 
-        grid.addWidget(self.finCountLabel, row, 0)
-        grid.addWidget(self.finCountSpinBox, row, 1)
-        row += 1
+    #     grid.addWidget(self.finCountLabel, row, 0)
+    #     grid.addWidget(self.finCountSpinBox, row, 1)
+    #     row += 1
 
-        grid.addWidget(self.finSpacingLabel, row, 0)
-        grid.addWidget(self.finSpacingInput, row, 1)
+    #     grid.addWidget(self.finSpacingLabel, row, 0)
+    #     grid.addWidget(self.finSpacingInput, row, 1)
 
-        self.finSetGroup.setLayout(grid)
+    #     self.finSetGroup.setLayout(grid)
 
-        # Root group
-        row = 0
-        grid = QGridLayout()
+    #     # Root group
+    #     row = 0
+    #     grid = QGridLayout()
 
-        grid.addWidget(self.rootCrossSectionLabel, row, 0)
-        grid.addWidget(self.rootCrossSectionsCombo, row, 1)
-        row += 1
+    #     grid.addWidget(self.rootCrossSectionLabel, row, 0)
+    #     grid.addWidget(self.rootCrossSectionsCombo, row, 1)
+    #     row += 1
 
-        grid.addWidget(self.rootChordLabel, row, 0)
-        grid.addWidget(self.rootChordInput, row, 1)
-        row += 1
+    #     grid.addWidget(self.rootChordLabel, row, 0)
+    #     grid.addWidget(self.rootChordInput, row, 1)
+    #     row += 1
 
-        grid.addWidget(self.rootThicknessLabel, row, 0)
-        grid.addWidget(self.rootThicknessInput, row, 1)
-        row += 1
+    #     grid.addWidget(self.rootThicknessLabel, row, 0)
+    #     grid.addWidget(self.rootThicknessInput, row, 1)
+    #     row += 1
 
-        grid.addWidget(self.rootPerCentLabel, row, 0)
-        grid.addWidget(self.rootPerCentCheckbox, row, 1)
-        row += 1
+    #     grid.addWidget(self.rootPerCentLabel, row, 0)
+    #     grid.addWidget(self.rootPerCentCheckbox, row, 1)
+    #     row += 1
 
-        grid.addWidget(self.rootLength1Label, row, 0)
-        grid.addWidget(self.rootLength1Input, row, 1)
-        row += 1
+    #     grid.addWidget(self.rootLength1Label, row, 0)
+    #     grid.addWidget(self.rootLength1Input, row, 1)
+    #     row += 1
 
-        grid.addWidget(self.rootLength2Label, row, 0)
-        grid.addWidget(self.rootLength2Input, row, 1)
+    #     grid.addWidget(self.rootLength2Label, row, 0)
+    #     grid.addWidget(self.rootLength2Input, row, 1)
 
-        self.rootGroup.setLayout(grid)
+    #     self.rootGroup.setLayout(grid)
 
-        # Tip group
-        row = 0
-        grid = QGridLayout()
+    #     # Tip group
+    #     row = 0
+    #     grid = QGridLayout()
 
-        grid.addWidget(self.tipCrossSectionLabel, row, 0)
-        grid.addWidget(self.tipCrossSectionsCombo, row, 1)
-        row += 1
+    #     grid.addWidget(self.tipCrossSectionLabel, row, 0)
+    #     grid.addWidget(self.tipCrossSectionsCombo, row, 1)
+    #     row += 1
 
-        grid.addWidget(self.tipChordLabel, row, 0)
-        grid.addWidget(self.tipChordInput, row, 1)
-        row += 1
+    #     grid.addWidget(self.tipChordLabel, row, 0)
+    #     grid.addWidget(self.tipChordInput, row, 1)
+    #     row += 1
 
-        grid.addWidget(self.tipThicknessLabel, row, 0)
-        grid.addWidget(self.tipThicknessInput, row, 1)
-        row += 1
+    #     grid.addWidget(self.tipThicknessLabel, row, 0)
+    #     grid.addWidget(self.tipThicknessInput, row, 1)
+    #     row += 1
 
-        grid.addWidget(self.tipSameThicknessCheckbox, row, 1)
-        row += 1
+    #     grid.addWidget(self.tipSameThicknessCheckbox, row, 1)
+    #     row += 1
 
-        grid.addWidget(self.tipPerCentLabel, row, 0)
-        grid.addWidget(self.tipPerCentCheckbox, row, 1)
-        row += 1
+    #     grid.addWidget(self.tipPerCentLabel, row, 0)
+    #     grid.addWidget(self.tipPerCentCheckbox, row, 1)
+    #     row += 1
 
-        grid.addWidget(self.tipLength1Label, row, 0)
-        grid.addWidget(self.tipLength1Input, row, 1)
-        row += 1
+    #     grid.addWidget(self.tipLength1Label, row, 0)
+    #     grid.addWidget(self.tipLength1Input, row, 1)
+    #     row += 1
 
-        grid.addWidget(self.tipLength2Label, row, 0)
-        grid.addWidget(self.tipLength2Input, row, 1)
+    #     grid.addWidget(self.tipLength2Label, row, 0)
+    #     grid.addWidget(self.tipLength2Input, row, 1)
 
-        self.tipGroup.setLayout(grid)
+    #     self.tipGroup.setLayout(grid)
 
-        # Main items
-        row = 0
-        grid = QGridLayout()
+    #     # Main items
+    #     row = 0
+    #     grid = QGridLayout()
 
-        grid.addWidget(self.finTypeLabel, row, 0)
-        grid.addWidget(self.finTypesCombo, row, 1)
-        row += 1
+    #     grid.addWidget(self.finTypeLabel, row, 0)
+    #     grid.addWidget(self.finTypesCombo, row, 1)
+    #     row += 1
 
-        grid.addWidget(self.heightLabel, row, 0)
-        grid.addWidget(self.heightInput, row, 1)
-        grid.addWidget(self.autoHeightCheckBox, row, 2)
-        row += 1
+    #     grid.addWidget(self.heightLabel, row, 0)
+    #     grid.addWidget(self.heightInput, row, 1)
+    #     grid.addWidget(self.autoHeightCheckBox, row, 2)
+    #     row += 1
 
-        grid.addWidget(self.spanLabel, row, 0)
-        grid.addWidget(self.spanInput, row, 1)
-        row += 1
+    #     grid.addWidget(self.spanLabel, row, 0)
+    #     grid.addWidget(self.spanInput, row, 1)
+    #     row += 1
 
-        grid.addWidget(self.sweepLengthLabel, row, 0)
-        grid.addWidget(self.sweepLengthInput, row, 1)
-        row += 1
+    #     grid.addWidget(self.sweepLengthLabel, row, 0)
+    #     grid.addWidget(self.sweepLengthInput, row, 1)
+    #     row += 1
 
-        grid.addWidget(self.sweepAngleLabel, row, 0)
-        grid.addWidget(self.sweepAngleInput, row, 1)
-        row += 1
+    #     grid.addWidget(self.sweepAngleLabel, row, 0)
+    #     grid.addWidget(self.sweepAngleInput, row, 1)
+    #     row += 1
 
-        grid.addWidget(self.finCantLabel, row, 0)
-        grid.addWidget(self.finCantInput, row, 1)
+    #     grid.addWidget(self.finCantLabel, row, 0)
+    #     grid.addWidget(self.finCantInput, row, 1)
 
 
-        layout = QVBoxLayout()
-        layout.addItem(grid)
-        layout.addWidget(self.finSetGroup)
-        layout.addWidget(self.rootGroup)
-        layout.addWidget(self.tipGroup)
-        layout.addItem(QtGui.QSpacerItem(0,0, QSizePolicy.Expanding, QSizePolicy.Expanding))
+    #     layout = QVBoxLayout()
+    #     layout.addItem(grid)
+    #     layout.addWidget(self.finSetGroup)
+    #     layout.addWidget(self.rootGroup)
+    #     layout.addWidget(self.tipGroup)
+    #     layout.addItem(QtGui.QSpacerItem(0,0, QSizePolicy.Expanding, QSizePolicy.Expanding))
 
-        self.tabGeneral.setLayout(layout)
+    #     self.tabGeneral.setLayout(layout)
 
     def setTabCan(self):
 
@@ -1036,7 +1033,10 @@ class TaskPanelFinCan(QObject):
         self._finForm.rootLength2Label.setHidden(False)
         self._finForm.rootLength2Input.setHidden(False)
 
-        self._finForm.tipGroup.setHidden(False)
+        # self._finForm.tipGroup.setHidden(False)
+        self._finForm.tabCrossSections.setTabVisible(TAB_FIN_ROOT, True)
+        self._finForm.tabCrossSections.setTabVisible(TAB_FIN_TIP, True)
+        self._finForm.tabCrossSections.setTabVisible(TAB_FIN_TUBE, False)
 
         self._enableTipLengths()
 
@@ -1060,7 +1060,10 @@ class TaskPanelFinCan(QObject):
         self._finForm.rootLength2Label.setHidden(False)
         self._finForm.rootLength2Input.setHidden(False)
 
-        self._finForm.tipGroup.setHidden(True)
+        # self._finForm.tipGroup.setHidden(True)
+        self._finForm.tabCrossSections.setTabVisible(TAB_FIN_ROOT, True)
+        self._finForm.tabCrossSections.setTabVisible(TAB_FIN_TIP, False)
+        self._finForm.tabCrossSections.setTabVisible(TAB_FIN_TUBE, False)
 
     def _enableFinTypeEllipse(self):
         old = self._obj.RootCrossSection # This must be saved and restored
@@ -1084,7 +1087,10 @@ class TaskPanelFinCan(QObject):
         self._finForm.rootLength2Label.setHidden(True)
         self._finForm.rootLength2Input.setHidden(True)
 
-        self._finForm.tipGroup.setHidden(True)
+        # self._finForm.tipGroup.setHidden(True)
+        self._finForm.tabCrossSections.setTabVisible(TAB_FIN_ROOT, True)
+        self._finForm.tabCrossSections.setTabVisible(TAB_FIN_TIP, False)
+        self._finForm.tabCrossSections.setTabVisible(TAB_FIN_TUBE, False)
 
     def _enableFinTypeSketch(self):
         old = self._obj.RootCrossSection # This must be saved and restored
@@ -1104,7 +1110,10 @@ class TaskPanelFinCan(QObject):
         self._finForm.rootChordLabel.setHidden(True)
         self._finForm.rootChordInput.setHidden(True)
 
-        self._finForm.tipGroup.setHidden(True)
+        # self._finForm.tipGroup.setHidden(True)
+        self._finForm.tabCrossSections.setTabVisible(TAB_FIN_ROOT, True)
+        self._finForm.tabCrossSections.setTabVisible(TAB_FIN_TIP, False)
+        self._finForm.tabCrossSections.setTabVisible(TAB_FIN_TUBE, False)
 
         # Create a default sketch if none exists
         self._defaultFinSketch()

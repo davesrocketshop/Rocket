@@ -1,0 +1,1067 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>TaskPanelFin</class>
+ <widget class="QDialog" name="TaskPanelFin">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>400</width>
+    <height>694</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Fin Parameter</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QTabWidget" name="tabWidget">
+     <property name="currentIndex">
+      <number>0</number>
+     </property>
+     <widget class="QWidget" name="tabGeneral">
+      <attribute name="title">
+       <string>General</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <item>
+        <layout class="QGridLayout" name="gridLayout">
+         <item row="2" column="0">
+          <widget class="QLabel" name="spanLabel">
+           <property name="text">
+            <string>Span</string>
+           </property>
+          </widget>
+         </item>
+         <item row="5" column="1">
+          <widget class="Gui::InputField" name="finCantInput">
+           <property name="unit" stdset="0">
+            <string notr="true"/>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="0">
+          <widget class="QLabel" name="sweepAngleLabel">
+           <property name="text">
+            <string>Sweep Angle</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="Gui::InputField" name="heightInput">
+           <property name="unit" stdset="0">
+            <string notr="true"/>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="0">
+          <widget class="QLabel" name="finTypeLabel">
+           <property name="text">
+            <string>Fin Type</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="heightLabel">
+           <property name="text">
+            <string>Height</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="0">
+          <widget class="QLabel" name="sweepLengthLabel">
+           <property name="text">
+            <string>Sweep Length</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QComboBox" name="finTypesCombo"/>
+         </item>
+         <item row="5" column="0">
+          <widget class="QLabel" name="finCantLabel">
+           <property name="text">
+            <string>Fin Cant</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="2">
+          <widget class="QCheckBox" name="autoHeightCheckBox">
+           <property name="text">
+            <string>auto</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <widget class="Gui::InputField" name="spanInput">
+           <property name="unit" stdset="0">
+            <string notr="true"/>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="1">
+          <widget class="Gui::InputField" name="sweepLengthInput">
+           <property name="unit" stdset="0">
+            <string notr="true"/>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="1">
+          <widget class="Gui::InputField" name="sweepAngleInput">
+           <property name="unit" stdset="0">
+            <string notr="true"/>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="finSetGroup">
+         <property name="title">
+          <string>Fin Set</string>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
+         </property>
+         <layout class="QGridLayout" name="gridLayout_2">
+          <item row="1" column="0">
+           <widget class="QLabel" name="finSpacingLabel">
+            <property name="text">
+             <string>Fin Spacing</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="Gui::InputField" name="finSpacingInput">
+            <property name="unit" stdset="0">
+             <string notr="true"/>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0">
+           <widget class="QLabel" name="finCountLabel">
+            <property name="text">
+             <string>Fin Count</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QSpinBox" name="finCountSpinBox">
+            <property name="minimumSize">
+             <size>
+              <width>80</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="minimum">
+             <number>1</number>
+            </property>
+            <property name="maximum">
+             <number>10000</number>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QTabWidget" name="tabCrossSections">
+         <property name="currentIndex">
+          <number>0</number>
+         </property>
+         <widget class="QWidget" name="tabFinRoot">
+          <attribute name="title">
+           <string>Fin Root</string>
+          </attribute>
+          <layout class="QVBoxLayout" name="verticalLayout_3">
+           <item>
+            <layout class="QGridLayout" name="gridLayout_3">
+             <item row="2" column="1">
+              <widget class="Gui::InputField" name="rootThicknessInput">
+               <property name="unit" stdset="0">
+                <string notr="true"/>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="1">
+              <widget class="Gui::InputField" name="rootChordInput">
+               <property name="unit" stdset="0">
+                <string notr="true"/>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="0">
+              <widget class="QLabel" name="rootCrossSectionLabel">
+               <property name="text">
+                <string>Cross Section</string>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="1">
+              <widget class="QCheckBox" name="rootPerCentCheckbox">
+               <property name="toolTip">
+                <string>When checked lengths are a percentage of the root chord</string>
+               </property>
+               <property name="text">
+                <string>Use Percentage</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="1">
+              <widget class="QComboBox" name="rootCrossSectionsCombo"/>
+             </item>
+             <item row="4" column="1">
+              <widget class="Gui::InputField" name="rootLength1Input">
+               <property name="unit" stdset="0">
+                <string notr="true"/>
+               </property>
+              </widget>
+             </item>
+             <item row="4" column="0">
+              <widget class="QLabel" name="rootLength1Label">
+               <property name="text">
+                <string>Length 1</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="0">
+              <widget class="QLabel" name="rootChordLabel">
+               <property name="text">
+                <string>Chord</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="0">
+              <widget class="QLabel" name="rootThicknessLabel">
+               <property name="text">
+                <string>Thickness</string>
+               </property>
+              </widget>
+             </item>
+             <item row="5" column="0">
+              <widget class="QLabel" name="rootLength2Label">
+               <property name="text">
+                <string>Length 2</string>
+               </property>
+              </widget>
+             </item>
+             <item row="5" column="1">
+              <widget class="Gui::InputField" name="rootLength2Input">
+               <property name="unit" stdset="0">
+                <string notr="true"/>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <spacer name="verticalSpacer">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>0</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+          </layout>
+         </widget>
+         <widget class="QWidget" name="tabFinTip">
+          <attribute name="title">
+           <string>Fin Tip</string>
+          </attribute>
+          <layout class="QVBoxLayout" name="verticalLayout_4">
+           <item>
+            <layout class="QGridLayout" name="gridLayout_4">
+             <item row="0" column="0">
+              <widget class="QLabel" name="tipCrossSectionLabel">
+               <property name="text">
+                <string>Cross Section</string>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="2">
+              <widget class="QCheckBox" name="tipSameThicknessCheckbox">
+               <property name="text">
+                <string>Tip thickness same as root</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="0">
+              <widget class="QLabel" name="tipChordLabel">
+               <property name="text">
+                <string>Chord</string>
+               </property>
+              </widget>
+             </item>
+             <item row="5" column="0">
+              <widget class="QLabel" name="tipLength1Label">
+               <property name="text">
+                <string>Length1</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="0">
+              <widget class="QLabel" name="tipThicknessLabel">
+               <property name="text">
+                <string>Thickness</string>
+               </property>
+              </widget>
+             </item>
+             <item row="4" column="2">
+              <widget class="QCheckBox" name="tipPerCentCheckbox">
+               <property name="toolTip">
+                <string>When checked lengths are a percentage of the tip chord</string>
+               </property>
+               <property name="text">
+                <string>Use percentage</string>
+               </property>
+              </widget>
+             </item>
+             <item row="6" column="0">
+              <widget class="QLabel" name="tipLength2Label">
+               <property name="text">
+                <string>Length 2</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="2">
+              <widget class="Gui::InputField" name="tipChordInput">
+               <property name="unit" stdset="0">
+                <string notr="true"/>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="2">
+              <widget class="Gui::InputField" name="tipThicknessInput">
+               <property name="unit" stdset="0">
+                <string notr="true"/>
+               </property>
+              </widget>
+             </item>
+             <item row="5" column="2">
+              <widget class="Gui::InputField" name="tipLength1Input">
+               <property name="unit" stdset="0">
+                <string notr="true"/>
+               </property>
+              </widget>
+             </item>
+             <item row="6" column="2">
+              <widget class="Gui::InputField" name="tipLength2Input">
+               <property name="unit" stdset="0">
+                <string notr="true"/>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="2">
+              <widget class="QComboBox" name="tipCrossSectionsCombo"/>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <spacer name="verticalSpacer_2">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>0</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+          </layout>
+         </widget>
+         <widget class="QWidget" name="tabTubeFin">
+          <attribute name="title">
+           <string>Tube Fin</string>
+          </attribute>
+          <layout class="QVBoxLayout" name="verticalLayout_5">
+           <item>
+            <layout class="QGridLayout" name="gridLayout_5">
+             <item row="2" column="1">
+              <widget class="Gui::InputField" name="tubeThicknessInput">
+               <property name="unit" stdset="0">
+                <string notr="true"/>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="1">
+              <widget class="Gui::InputField" name="tubeLengthInput">
+               <property name="unit" stdset="0">
+                <string notr="true"/>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="1">
+              <widget class="Gui::InputField" name="tubeOuterDiameterInput">
+               <property name="unit" stdset="0">
+                <string notr="true"/>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="0">
+              <widget class="QLabel" name="tubeLengthLabel">
+               <property name="text">
+                <string>Length</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="0">
+              <widget class="QLabel" name="tubeOuterDiameterLabel">
+               <property name="text">
+                <string>Outer Diameter</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="0">
+              <widget class="QLabel" name="tubeThicknessLabel">
+               <property name="text">
+                <string>Wall Thickness</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="2">
+              <widget class="QCheckBox" name="tubeAutoOuterDiameterCheckbox">
+               <property name="text">
+                <string>auto</string>
+               </property>
+               <property name="checked">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <spacer name="verticalSpacer_3">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>0</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+          </layout>
+         </widget>
+         <widget class="QWidget" name="tabFillets">
+          <attribute name="title">
+           <string>Fillets</string>
+          </attribute>
+          <layout class="QVBoxLayout" name="verticalLayout_7">
+           <item>
+            <layout class="QGridLayout" name="gridLayout_8">
+             <item row="1" column="0">
+              <widget class="QLabel" name="filletRadiusLabel">
+               <property name="text">
+                <string>Fillet Radius</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="1">
+              <widget class="Gui::InputField" name="filletRadiusInput">
+               <property name="unit" stdset="0">
+                <string notr="true"/>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="1">
+              <widget class="QCheckBox" name="filletsCheckbox">
+               <property name="text">
+                <string>Apply Fillets</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <spacer name="verticalSpacer_5">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>40</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+          </layout>
+         </widget>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="minimumEdgeGroup">
+         <property name="title">
+          <string>Minimum Edge</string>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
+         </property>
+         <layout class="QGridLayout" name="gridLayout_6">
+          <item row="0" column="0">
+           <widget class="QLabel" name="minimumEdgeSizeLabel">
+            <property name="text">
+             <string>Size</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="Gui::InputField" name="minimumEdgeSizeInput">
+            <property name="unit" stdset="0">
+             <string notr="true"/>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tabTtw">
+      <attribute name="title">
+       <string>Fin Tabs</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_6">
+       <item>
+        <widget class="QGroupBox" name="ttwGroup">
+         <property name="title">
+          <string>TTW Tab</string>
+         </property>
+         <layout class="QGridLayout" name="gridLayout_7">
+          <item row="2" column="1">
+           <widget class="Gui::InputField" name="ttwHeightInput">
+            <property name="unit" stdset="0">
+             <string notr="true"/>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="1">
+           <widget class="Gui::InputField" name="ttwThicknessInput">
+            <property name="unit" stdset="0">
+             <string notr="true"/>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="Gui::InputField" name="ttwLengthInput">
+            <property name="unit" stdset="0">
+             <string notr="true"/>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="0">
+           <widget class="QLabel" name="ttwThicknessLabel">
+            <property name="text">
+             <string>Thickness</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0">
+           <widget class="QLabel" name="ttwHeightLabel">
+            <property name="text">
+             <string>Height</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0">
+           <widget class="QLabel" name="ttwOffsetLabel">
+            <property name="text">
+             <string>Offset</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="ttwLengthLabel">
+            <property name="text">
+             <string>Length</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="Gui::InputField" name="ttwOffsetInput">
+            <property name="unit" stdset="0">
+             <string notr="true"/>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="2">
+           <widget class="QCheckBox" name="ttwAutoHeightCheckbox">
+            <property name="text">
+             <string>auto</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer_4">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>0</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tabFinCan">
+      <attribute name="title">
+       <string>Fin Can</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_10">
+       <item>
+        <layout class="QGridLayout" name="gridLayout_9">
+         <item row="3" column="1">
+          <widget class="Gui::InputField" name="canLeadingOffsetInput">
+           <property name="unit" stdset="0">
+            <string notr="true"/>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="0">
+          <widget class="QLabel" name="canLengthLabel">
+           <property name="text">
+            <string>Length</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="0">
+          <widget class="QLabel" name="canLeadingOffsetLabel">
+           <property name="text">
+            <string>Leading Edge Offset</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="Gui::InputField" name="canDiameterInput">
+           <property name="unit" stdset="0">
+            <string notr="true"/>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="canThicknessLabel">
+           <property name="text">
+            <string>Thickness</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <widget class="Gui::InputField" name="canLengthInput">
+           <property name="unit" stdset="0">
+            <string notr="true"/>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="0">
+          <widget class="QLabel" name="canDiameterLabel">
+           <property name="text">
+            <string>Inner Diameter</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="Gui::InputField" name="canThicknessInput">
+           <property name="unit" stdset="0">
+            <string notr="true"/>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="2">
+          <widget class="QCheckBox" name="canAutoDiameterCheckbox">
+           <property name="text">
+            <string>auto</string>
+           </property>
+           <property name="checked">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="canLeadingGroup">
+         <property name="title">
+          <string>Leading Edge</string>
+         </property>
+         <layout class="QGridLayout" name="gridLayout_10">
+          <item row="1" column="0">
+           <widget class="QLabel" name="canLeadingLengthLabel">
+            <property name="text">
+             <string>Length</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0">
+           <widget class="QLabel" name="canLeadingLabel">
+            <property name="text">
+             <string>Edge Style</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QComboBox" name="canLeadingCombo"/>
+          </item>
+          <item row="1" column="1">
+           <widget class="Gui::InputField" name="canLeadingLengthInput">
+            <property name="unit" stdset="0">
+             <string notr="true"/>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="canTrailingGroup">
+         <property name="title">
+          <string>Trailing Edge</string>
+         </property>
+         <layout class="QGridLayout" name="gridLayout_11">
+          <item row="0" column="0">
+           <widget class="QLabel" name="canTrailingLabel">
+            <property name="text">
+             <string>Edge Style</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="canTrailingLengthLabel">
+            <property name="text">
+             <string>Length</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QComboBox" name="canTrailingCombo"/>
+          </item>
+          <item row="1" column="1">
+           <widget class="Gui::InputField" name="canTrailingLengthInput">
+            <property name="unit" stdset="0">
+             <string notr="true"/>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer_6">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>0</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tabCoupler">
+      <attribute name="title">
+       <string>Coupler</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_9">
+       <item>
+        <widget class="QGroupBox" name="couplerGroup">
+         <property name="title">
+          <string>Coupler</string>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+         <layout class="QGridLayout" name="gridLayout_13">
+          <item row="2" column="1">
+           <widget class="Gui::InputField" name="couplerThicknessInput">
+            <property name="unit" stdset="0">
+             <string notr="true"/>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0">
+           <widget class="QLabel" name="couplerStyleLabel">
+            <property name="text">
+             <string>Coupler Style</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0">
+           <widget class="QLabel" name="couplerThicknessLabel">
+            <property name="text">
+             <string>Thickness</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QComboBox" name="couplerStylesCombo"/>
+          </item>
+          <item row="1" column="1">
+           <widget class="Gui::InputField" name="couplerDiameterInput">
+            <property name="unit" stdset="0">
+             <string notr="true"/>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="couplerDiameterLabel">
+            <property name="text">
+             <string>Outer Diameter</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="0">
+           <widget class="QLabel" name="couplerLengthLabel">
+            <property name="text">
+             <string>Length</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="1">
+           <widget class="Gui::InputField" name="couplerLengthInput">
+            <property name="unit" stdset="0">
+             <string notr="true"/>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="2">
+           <widget class="QCheckBox" name="couplerAutoDiameterCheckbox">
+            <property name="text">
+             <string>auto</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer_7">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>0</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tabLaunchLug">
+      <attribute name="title">
+       <string>Launch Lug</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_8">
+       <item>
+        <widget class="QGroupBox" name="lugGroup">
+         <property name="title">
+          <string>Launch Lug</string>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_11">
+          <item>
+           <layout class="QGridLayout" name="gridLayout_12">
+            <item row="0" column="2">
+             <widget class="QLabel" name="lugInnerDiameterPresetLabel">
+              <property name="text">
+               <string>Presets</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="1">
+             <widget class="Gui::InputField" name="lugInnerDiameterInput">
+              <property name="unit" stdset="0">
+               <string notr="true"/>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="0">
+             <widget class="QLabel" name="lugThicknessLabel">
+              <property name="text">
+               <string>Thickness</string>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="0">
+             <widget class="QLabel" name="lugLengthLabel">
+              <property name="text">
+               <string>Length</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="0">
+             <widget class="QLabel" name="lugInnerDiameterLabel">
+              <property name="text">
+               <string>Inner Diameter</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <widget class="QComboBox" name="lugPresetsCombo"/>
+            </item>
+            <item row="4" column="0">
+             <widget class="QLabel" name="lugLeadingOffsetLabel">
+              <property name="text">
+               <string>Leading Edge Offset</string>
+              </property>
+             </widget>
+            </item>
+            <item row="5" column="0">
+             <widget class="QLabel" name="lugFilletRadiusLabel">
+              <property name="text">
+               <string>Fillet Radius</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="1">
+             <widget class="Gui::InputField" name="lugThicknessInput">
+              <property name="unit" stdset="0">
+               <string notr="true"/>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="1">
+             <widget class="Gui::InputField" name="lugLengthInput">
+              <property name="unit" stdset="0">
+               <string notr="true"/>
+              </property>
+             </widget>
+            </item>
+            <item row="4" column="1">
+             <widget class="Gui::InputField" name="lugLeadingOffsetInput">
+              <property name="unit" stdset="0">
+               <string notr="true"/>
+              </property>
+             </widget>
+            </item>
+            <item row="5" column="1">
+             <widget class="Gui::InputField" name="lugFilletRadiusInput">
+              <property name="unit" stdset="0">
+               <string notr="true"/>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="2">
+             <widget class="QCheckBox" name="lugAutoThicknessCheckbox">
+              <property name="text">
+               <string>auto</string>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="2">
+             <widget class="QCheckBox" name="lugAutoLengthCheckbox">
+              <property name="text">
+               <string>auto</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <widget class="QGroupBox" name="forwardSweepGroup">
+            <property name="title">
+             <string>Forward Sweep</string>
+            </property>
+            <property name="checkable">
+             <bool>true</bool>
+            </property>
+            <layout class="QGridLayout" name="gridLayout_14">
+             <item row="0" column="0">
+              <widget class="QLabel" name="forwardSweepLabel">
+               <property name="text">
+                <string>Sweep Angle</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="1">
+              <widget class="Gui::InputField" name="forwardSweepInput">
+               <property name="unit" stdset="0">
+                <string notr="true"/>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item>
+           <widget class="QGroupBox" name="aftSweepGroup">
+            <property name="title">
+             <string>Aft Sweep</string>
+            </property>
+            <property name="checkable">
+             <bool>true</bool>
+            </property>
+            <layout class="QGridLayout" name="gridLayout_15">
+             <item row="0" column="0">
+              <widget class="QLabel" name="aftSweepLabel">
+               <property name="text">
+                <string>Sweep Angle</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="1">
+              <widget class="Gui::InputField" name="aftSweepInput">
+               <property name="unit" stdset="0">
+                <string notr="true"/>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer_8">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>0</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>Gui::InputField</class>
+   <extends>QLineEdit</extends>
+   <header>Gui/InputField.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>
