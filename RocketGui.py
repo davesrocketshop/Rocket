@@ -42,6 +42,7 @@ from Ui.Commands.CmdFin import CmdFin
 from Ui.Commands.CmdFinCan import CmdFinCan
 from Ui.Commands.CmdRingtail import CmdRingtail
 from Ui.Commands.CmdParachute import CmdParachute
+from Ui.Commands.CmdGreebly import CmdGreebly
 from Ui.Commands.CmdEditTree import CmdMoveUp, CmdMoveDown
 
 # Calculators
@@ -84,6 +85,7 @@ FreeCADGui.addCommand('Rocket_Bulkhead', CmdBulkhead())
 FreeCADGui.addCommand('Rocket_Fin', CmdFin())
 FreeCADGui.addCommand('Rocket_FinCan', CmdFinCan())
 FreeCADGui.addCommand('Rocket_Ringtail', CmdRingtail())
+FreeCADGui.addCommand('Rocket_Greebly', CmdGreebly())
 
 FreeCADGui.addCommand('Rocket_BodyTube', CmdBodyTube())
 FreeCADGui.addCommand('Rocket_Coupler', CmdCoupler())
