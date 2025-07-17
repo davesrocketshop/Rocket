@@ -46,7 +46,8 @@ from Rocket.Constants import FINCAN_EDGE_SQUARE, FINCAN_EDGE_ROUND, FINCAN_EDGE_
 from Rocket.Constants import FINCAN_PRESET_CUSTOM, FINCAN_PRESET_1_8, FINCAN_PRESET_3_16, FINCAN_PRESET_1_4
 from Rocket.Constants import FINCAN_COUPLER_MATCH_ID, FINCAN_COUPLER_STEPPED
 
-from Ui.TaskPanelFin import _FinDialog, TAB_FIN_ROOT, TAB_FIN_TIP, TAB_FIN_TUBE
+from Ui.TaskPanelFin import _FinDialog, TAB_FIN_ROOT, TAB_FIN_TIP, TAB_FIN_TUBE, TAB_FIN_FILLETS
+from Ui.TaskPanelFin import TAB_GENERAL, TAB_FINTABS, TAB_FINCAN, TAB_COUPLER, TAB_LAUNCHLUG
 
 from Ui.TaskPanelLocation import TaskPanelLocation
 from Ui.Commands.CmdSketcher import newSketchNoEdit
@@ -65,616 +66,89 @@ class _FinCanDialog(_FinDialog):
         self.setGeometry(250, 250, 400, 350)
         self.setWindowTitle(translate('Rocket', "Fin Can Parameter"))
 
-        self.tabWidget = QtGui.QTabWidget()
-        self.tabGeneral = QtGui.QWidget()
-        self.tabFinCan = QtGui.QWidget()
-        self.tabCoupler = QtGui.QWidget()
-        self.tabLaunchLug = QtGui.QWidget()
+        # self.tabWidget = QtGui.QTabWidget()
+        # self.tabGeneral = QtGui.QWidget()
+        # self.tabFinCan = QtGui.QWidget()
+        # self.tabCoupler = QtGui.QWidget()
+        # self.tabLaunchLug = QtGui.QWidget()
         self.tabScaling = ScalingTabFins(obj)
         self.tabMaterial = MaterialTab()
         self.tabComment = CommentTab()
-        self.tabWidget.addTab(self.tabGeneral, translate('Rocket', "Fins"))
-        self.tabWidget.addTab(self.tabFinCan, translate('Rocket', "Fin Can"))
-        self.tabWidget.addTab(self.tabCoupler, translate('Rocket', "Coupler"))
-        self.tabWidget.addTab(self.tabLaunchLug, translate('Rocket', "Launch Lug"))
-        self.tabWidget.addTab(self.tabScaling, translate('Rocket', "Scaling"))
-        self.tabWidget.addTab(self.tabMaterial, translate('Rocket', "Material"))
-        self.tabWidget.addTab(self.tabComment, translate('Rocket', "Comment"))
+        # self.tabWidget.addTab(self.tabGeneral, translate('Rocket', "Fins"))
+        # self.tabWidget.addTab(self.tabFinCan, translate('Rocket', "Fin Can"))
+        # self.tabWidget.addTab(self.tabCoupler, translate('Rocket', "Coupler"))
+        # self.tabWidget.addTab(self.tabLaunchLug, translate('Rocket', "Launch Lug"))
+        self.form.tabWidget.addTab(self.tabScaling, translate('Rocket', "Scaling"))
+        self.form.tabWidget.addTab(self.tabMaterial, translate('Rocket', "Material"))
+        self.form.tabWidget.addTab(self.tabComment, translate('Rocket', "Comment"))
 
-        layout = QVBoxLayout()
-        layout.addWidget(self.tabWidget)
-        self.setLayout(layout)
+        # Hide unused tabs
+        self.form.tabWidget.setTabVisible(TAB_FINTABS, False)
 
         self.setTabGeneral()
         self.setTabCan()
         self.setTabCoupler()
         self.setTabLaunchLug()
 
-    # def setTabGeneral(self):
-
-    #     ui = FreeCADGui.UiLoader()
-
-    #     # Select the type of fin
-    #     self.finTypeLabel = QtGui.QLabel(translate('Rocket', "Fin type"), self)
-
-    #     self.finTypesCombo = QtGui.QComboBox(self)
-    #     self.finTypesCombo.addItem(translate('Rocket', FIN_TYPE_TRAPEZOID), FIN_TYPE_TRAPEZOID)
-    #     self.finTypesCombo.addItem(translate('Rocket', FIN_TYPE_TRIANGLE), FIN_TYPE_TRIANGLE)
-    #     self.finTypesCombo.addItem(translate('Rocket', FIN_TYPE_ELLIPSE), FIN_TYPE_ELLIPSE)
-    #     self.finTypesCombo.addItem(translate('Rocket', FIN_TYPE_SKETCH), FIN_TYPE_SKETCH)
-
-    #     self.finSetGroup = QtGui.QGroupBox(translate('Rocket', "Fin Set"), self)
-
-    #     self.finCountLabel = QtGui.QLabel(translate('Rocket', "Fin Count"), self)
-
-    #     self.finCountSpinBox = QtGui.QSpinBox(self)
-    #     self.finCountSpinBox.setMinimumWidth(100)
-    #     self.finCountSpinBox.setMinimum(0)
-    #     self.finCountSpinBox.setMaximum(10000)
-
-    #     self.finSpacingLabel = QtGui.QLabel(translate('Rocket', "Fin Spacing"), self)
-
-    #     self.finSpacingInput = ui.createWidget("Gui::InputField")
-    #     self.finSpacingInput.unit = FreeCAD.Units.Angle
-    #     self.finSpacingInput.setMinimumWidth(100)
-
-    #     self.finCantLabel = QtGui.QLabel(translate('Rocket', "Fin Cant"), self)
-
-    #     self.finCantInput = ui.createWidget("Gui::InputField")
-    #     self.finCantInput.unit = FreeCAD.Units.Angle
-    #     self.finCantInput.setMinimumWidth(100)
-
-    #     # Get the fin parameters: length, width, etc...
-    #     self.rootGroup = QtGui.QGroupBox(translate('Rocket', "Fin Root"), self)
-
-    #     # Select the type of cross section
-    #     self.rootCrossSectionLabel = QtGui.QLabel(translate('Rocket', "Cross Section"), self)
-
-    #     self.rootCrossSectionsCombo = QtGui.QComboBox(self)
-    #     self.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_SQUARE), FIN_CROSS_SQUARE)
-    #     self.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_ROUND), FIN_CROSS_ROUND)
-    #     self.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_ELLIPSE), FIN_CROSS_ELLIPSE)
-    #     self.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_BICONVEX), FIN_CROSS_BICONVEX)
-    #     self.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_AIRFOIL), FIN_CROSS_AIRFOIL)
-    #     self.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_WEDGE), FIN_CROSS_WEDGE)
-    #     self.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_DIAMOND), FIN_CROSS_DIAMOND)
-    #     self.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_TAPER_LE), FIN_CROSS_TAPER_LE)
-    #     self.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_TAPER_TE), FIN_CROSS_TAPER_TE)
-    #     self.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_TAPER_LETE), FIN_CROSS_TAPER_LETE)
-
-    #     # Get the fin parameters: length, width, etc...
-    #     self.rootChordLabel = QtGui.QLabel(translate('Rocket', "Chord"), self)
-
-    #     self.rootChordInput = ui.createWidget("Gui::InputField")
-    #     self.rootChordInput.unit = FreeCAD.Units.Length
-    #     self.rootChordInput.setMinimumWidth(100)
-
-    #     self.rootThicknessLabel = QtGui.QLabel(translate('Rocket', "Thickness"), self)
-
-    #     self.rootThicknessInput = ui.createWidget("Gui::InputField")
-    #     self.rootThicknessInput.unit = FreeCAD.Units.Length
-    #     self.rootThicknessInput.setMinimumWidth(100)
-
-    #     self.rootPerCentLabel = QtGui.QLabel(translate('Rocket', "Use percentage"), self)
-
-    #     self.rootPerCentCheckbox = QtGui.QCheckBox(self)
-    #     self.rootPerCentCheckbox.setCheckState(QtCore.Qt.Unchecked)
-
-    #     self.rootLength1Label = QtGui.QLabel(translate('Rocket', "Length 1"), self)
-
-    #     self.rootLength1Input = ui.createWidget("Gui::InputField")
-    #     self.rootLength1Input.unit = FreeCAD.Units.Length
-    #     self.rootLength1Input.setMinimumWidth(100)
-
-    #     self.rootLength2Label = QtGui.QLabel(translate('Rocket', "Length 2"), self)
-
-    #     self.rootLength2Input = ui.createWidget("Gui::InputField")
-    #     self.rootLength2Input.unit = FreeCAD.Units.Length
-    #     self.rootLength2Input.setMinimumWidth(100)
-
-    #     self.tipGroup = QtGui.QGroupBox(translate('Rocket', "Fin Tip"), self)
-
-    #     # Select the type of cross section
-    #     self.tipCrossSectionLabel = QtGui.QLabel(translate('Rocket', "Cross Section"), self)
-
-    #     self.tipCrossSectionsCombo = QtGui.QComboBox(self)
-    #     self.tipCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_SAME), FIN_CROSS_SAME)
-    #     self.tipCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_SQUARE), FIN_CROSS_SQUARE)
-    #     self.tipCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_ROUND), FIN_CROSS_ROUND)
-    #     self.tipCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_ELLIPSE), FIN_CROSS_ELLIPSE)
-    #     self.tipCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_BICONVEX), FIN_CROSS_BICONVEX)
-    #     self.tipCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_AIRFOIL), FIN_CROSS_AIRFOIL)
-    #     self.tipCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_WEDGE), FIN_CROSS_WEDGE)
-    #     self.tipCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_DIAMOND), FIN_CROSS_DIAMOND)
-    #     self.tipCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_TAPER_LE), FIN_CROSS_TAPER_LE)
-    #     self.tipCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_TAPER_TE), FIN_CROSS_TAPER_TE)
-    #     self.tipCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_TAPER_LETE), FIN_CROSS_TAPER_LETE)
-
-    #     self.tipChordLabel = QtGui.QLabel(translate('Rocket', "Chord"), self)
-
-    #     self.tipChordInput = ui.createWidget("Gui::InputField")
-    #     self.tipChordInput.unit = FreeCAD.Units.Length
-    #     self.tipChordInput.setMinimumWidth(100)
-
-    #     self.tipThicknessLabel = QtGui.QLabel(translate('Rocket', "Thickness"), self)
-
-    #     self.tipThicknessInput = ui.createWidget("Gui::InputField")
-    #     self.tipThicknessInput.unit = FreeCAD.Units.Length
-    #     self.tipThicknessInput.setMinimumWidth(100)
-
-    #     self.tipSameThicknessCheckbox = QtGui.QCheckBox(translate('Rocket', "Tip thickness same as root"), self)
-    #     self.tipSameThicknessCheckbox.setCheckState(QtCore.Qt.Unchecked)
-
-    #     self.tipPerCentLabel = QtGui.QLabel(translate('Rocket', "Use percentage"), self)
-
-    #     self.tipPerCentCheckbox = QtGui.QCheckBox(self)
-    #     self.tipPerCentCheckbox.setCheckState(QtCore.Qt.Unchecked)
-
-    #     self.tipLength1Label = QtGui.QLabel(translate('Rocket', "Length 1"), self)
-
-    #     self.tipLength1Input = ui.createWidget("Gui::InputField")
-    #     self.tipLength1Input.unit = FreeCAD.Units.Length
-    #     self.tipLength1Input.setMinimumWidth(100)
-
-    #     self.tipLength2Label = QtGui.QLabel(translate('Rocket', "Length 2"), self)
-
-    #     self.tipLength2Input = ui.createWidget("Gui::InputField")
-    #     self.tipLength2Input.unit = FreeCAD.Units.Length
-    #     self.tipLength2Input.setMinimumWidth(100)
-
-    #     self.heightLabel = QtGui.QLabel(translate('Rocket', "Height"), self)
-
-    #     self.heightInput = ui.createWidget("Gui::InputField")
-    #     self.heightInput.unit = FreeCAD.Units.Length
-    #     self.heightInput.setMinimumWidth(100)
-
-    #     self.autoHeightCheckBox = QtGui.QCheckBox(translate('Rocket', "auto"), self)
-    #     self.autoHeightCheckBox.setCheckState(QtCore.Qt.Unchecked)
-
-    #     self.spanLabel = QtGui.QLabel(translate('Rocket', "Span"), self)
-
-    #     self.spanInput = ui.createWidget("Gui::InputField")
-    #     self.spanInput.unit = FreeCAD.Units.Length
-    #     self.spanInput.setMinimumWidth(100)
-
-    #     # Sweep can be forward (-sweep) or backward (+sweep)
-    #     self.sweepLengthLabel = QtGui.QLabel(translate('Rocket', "Sweep Length"), self)
-
-    #     self.sweepLengthInput = ui.createWidget("Gui::InputField")
-    #     self.sweepLengthInput.unit = FreeCAD.Units.Length
-    #     self.sweepLengthInput.setMinimumWidth(100)
-
-    #     # Sweep angle is tied to sweep length. It can be forward (> -90) or backward (< 90)
-    #     self.sweepAngleLabel = QtGui.QLabel(translate('Rocket', "Sweep Angle"), self)
-
-    #     self.sweepAngleInput = ui.createWidget("Gui::InputField")
-    #     self.sweepAngleInput.unit = FreeCAD.Units.Angle
-    #     self.sweepAngleInput.setMinimumWidth(100)
-
-    #     # Fin set group
-    #     row = 0
-    #     grid = QGridLayout()
-
-    #     grid.addWidget(self.finCountLabel, row, 0)
-    #     grid.addWidget(self.finCountSpinBox, row, 1)
-    #     row += 1
-
-    #     grid.addWidget(self.finSpacingLabel, row, 0)
-    #     grid.addWidget(self.finSpacingInput, row, 1)
-
-    #     self.finSetGroup.setLayout(grid)
-
-    #     # Root group
-    #     row = 0
-    #     grid = QGridLayout()
-
-    #     grid.addWidget(self.rootCrossSectionLabel, row, 0)
-    #     grid.addWidget(self.rootCrossSectionsCombo, row, 1)
-    #     row += 1
-
-    #     grid.addWidget(self.rootChordLabel, row, 0)
-    #     grid.addWidget(self.rootChordInput, row, 1)
-    #     row += 1
-
-    #     grid.addWidget(self.rootThicknessLabel, row, 0)
-    #     grid.addWidget(self.rootThicknessInput, row, 1)
-    #     row += 1
-
-    #     grid.addWidget(self.rootPerCentLabel, row, 0)
-    #     grid.addWidget(self.rootPerCentCheckbox, row, 1)
-    #     row += 1
-
-    #     grid.addWidget(self.rootLength1Label, row, 0)
-    #     grid.addWidget(self.rootLength1Input, row, 1)
-    #     row += 1
-
-    #     grid.addWidget(self.rootLength2Label, row, 0)
-    #     grid.addWidget(self.rootLength2Input, row, 1)
-
-    #     self.rootGroup.setLayout(grid)
-
-    #     # Tip group
-    #     row = 0
-    #     grid = QGridLayout()
-
-    #     grid.addWidget(self.tipCrossSectionLabel, row, 0)
-    #     grid.addWidget(self.tipCrossSectionsCombo, row, 1)
-    #     row += 1
-
-    #     grid.addWidget(self.tipChordLabel, row, 0)
-    #     grid.addWidget(self.tipChordInput, row, 1)
-    #     row += 1
-
-    #     grid.addWidget(self.tipThicknessLabel, row, 0)
-    #     grid.addWidget(self.tipThicknessInput, row, 1)
-    #     row += 1
-
-    #     grid.addWidget(self.tipSameThicknessCheckbox, row, 1)
-    #     row += 1
-
-    #     grid.addWidget(self.tipPerCentLabel, row, 0)
-    #     grid.addWidget(self.tipPerCentCheckbox, row, 1)
-    #     row += 1
-
-    #     grid.addWidget(self.tipLength1Label, row, 0)
-    #     grid.addWidget(self.tipLength1Input, row, 1)
-    #     row += 1
-
-    #     grid.addWidget(self.tipLength2Label, row, 0)
-    #     grid.addWidget(self.tipLength2Input, row, 1)
-
-    #     self.tipGroup.setLayout(grid)
-
-    #     # Main items
-    #     row = 0
-    #     grid = QGridLayout()
-
-    #     grid.addWidget(self.finTypeLabel, row, 0)
-    #     grid.addWidget(self.finTypesCombo, row, 1)
-    #     row += 1
-
-    #     grid.addWidget(self.heightLabel, row, 0)
-    #     grid.addWidget(self.heightInput, row, 1)
-    #     grid.addWidget(self.autoHeightCheckBox, row, 2)
-    #     row += 1
-
-    #     grid.addWidget(self.spanLabel, row, 0)
-    #     grid.addWidget(self.spanInput, row, 1)
-    #     row += 1
-
-    #     grid.addWidget(self.sweepLengthLabel, row, 0)
-    #     grid.addWidget(self.sweepLengthInput, row, 1)
-    #     row += 1
-
-    #     grid.addWidget(self.sweepAngleLabel, row, 0)
-    #     grid.addWidget(self.sweepAngleInput, row, 1)
-    #     row += 1
-
-    #     grid.addWidget(self.finCantLabel, row, 0)
-    #     grid.addWidget(self.finCantInput, row, 1)
-
-
-    #     layout = QVBoxLayout()
-    #     layout.addItem(grid)
-    #     layout.addWidget(self.finSetGroup)
-    #     layout.addWidget(self.rootGroup)
-    #     layout.addWidget(self.tipGroup)
-    #     layout.addItem(QtGui.QSpacerItem(0,0, QSizePolicy.Expanding, QSizePolicy.Expanding))
-
-    #     self.tabGeneral.setLayout(layout)
+    def setTabGeneral(self):
+        # Select the type of fin
+        self.form.finTypesCombo.addItem(translate('Rocket', FIN_TYPE_TRAPEZOID), FIN_TYPE_TRAPEZOID)
+        self.form.finTypesCombo.addItem(translate('Rocket', FIN_TYPE_TRIANGLE), FIN_TYPE_TRIANGLE)
+        self.form.finTypesCombo.addItem(translate('Rocket', FIN_TYPE_ELLIPSE), FIN_TYPE_ELLIPSE)
+        self.form.finTypesCombo.addItem(translate('Rocket', FIN_TYPE_SKETCH), FIN_TYPE_SKETCH)
+
+        # Set the units
+        self.form.finSpacingInput.unit = FreeCAD.Units.Angle
+        self.form.finCantInput.unit = FreeCAD.Units.Angle
+        self.form.heightInput.unit = FreeCAD.Units.Length
+        self.form.spanInput.unit = FreeCAD.Units.Length
+        self.form.sweepLengthInput.unit = FreeCAD.Units.Length
+        self.form.sweepAngleInput.unit = FreeCAD.Units.Angle
+
+        self.setTabFinRoot()
+        self.setTabFinTip()
+        # self.setTabFinTube() - not supported
 
     def setTabCan(self):
-
-        ui = FreeCADGui.UiLoader()
-
-        self.canDiameterLabel = QtGui.QLabel(translate('Rocket', "Inner Diameter"), self)
-
-        self.canDiameterInput = ui.createWidget("Gui::InputField")
-        self.canDiameterInput.unit = FreeCAD.Units.Length
-        self.canDiameterInput.setMinimumWidth(100)
-
-        self.canAutoDiameterCheckbox = QtGui.QCheckBox(translate('Rocket', "auto"), self)
-        self.canAutoDiameterCheckbox.setCheckState(QtCore.Qt.Checked)
-
-        self.canThicknessLabel = QtGui.QLabel(translate('Rocket', "Thickness"), self)
-
-        self.canThicknessInput = ui.createWidget("Gui::InputField")
-        self.canThicknessInput.unit = FreeCAD.Units.Length
-        self.canThicknessInput.setMinimumWidth(100)
-
-        self.canLengthLabel = QtGui.QLabel(translate('Rocket', "Length"), self)
-
-        self.canLengthInput = ui.createWidget("Gui::InputField")
-        self.canLengthInput.unit = FreeCAD.Units.Length
-        self.canLengthInput.setMinimumWidth(100)
-
-        self.canLeadingOffsetLabel = QtGui.QLabel(translate('Rocket', "Leading Edge Offset"), self)
-
-        self.canLeadingOffsetInput = ui.createWidget("Gui::InputField")
-        self.canLeadingOffsetInput.unit = FreeCAD.Units.Length
-        self.canLeadingOffsetInput.setMinimumWidth(100)
-
         # Fin can leading and trailing edges
-        self.canLeadingGroup = QtGui.QGroupBox(translate('Rocket', "Leading Edge"), self)
+        self.form.canLeadingCombo.addItem(translate('Rocket', FINCAN_EDGE_SQUARE), FINCAN_EDGE_SQUARE)
+        self.form.canLeadingCombo.addItem(translate('Rocket', FINCAN_EDGE_ROUND), FINCAN_EDGE_ROUND)
+        self.form.canLeadingCombo.addItem(translate('Rocket', FINCAN_EDGE_TAPER), FINCAN_EDGE_TAPER)
 
-        self.canLeadingLabel = QtGui.QLabel(translate('Rocket', "Edge Style"), self)
+        self.form.canTrailingCombo.addItem(translate('Rocket', FINCAN_EDGE_SQUARE), FINCAN_EDGE_SQUARE)
+        self.form.canTrailingCombo.addItem(translate('Rocket', FINCAN_EDGE_ROUND), FINCAN_EDGE_ROUND)
+        self.form.canTrailingCombo.addItem(translate('Rocket', FINCAN_EDGE_TAPER), FINCAN_EDGE_TAPER)
 
-        self.canLeadingCombo = QtGui.QComboBox(self)
-        self.canLeadingCombo.addItem(translate('Rocket', FINCAN_EDGE_SQUARE), FINCAN_EDGE_SQUARE)
-        self.canLeadingCombo.addItem(translate('Rocket', FINCAN_EDGE_ROUND), FINCAN_EDGE_ROUND)
-        self.canLeadingCombo.addItem(translate('Rocket', FINCAN_EDGE_TAPER), FINCAN_EDGE_TAPER)
+        # Set the units
+        self.form.canDiameterInput.unit = FreeCAD.Units.Length
+        self.form.canThicknessInput.unit = FreeCAD.Units.Length
+        self.form.canLengthInput.unit = FreeCAD.Units.Length
+        self.form.canLeadingOffsetInput.unit = FreeCAD.Units.Length
+        self.form.canLeadingLengthInput.unit = FreeCAD.Units.Length
+        self.form.canTrailingLengthInput.unit = FreeCAD.Units.Length
 
-        self.canLeadingLengthLabel = QtGui.QLabel(translate('Rocket', "Length"), self)
-
-        self.canLeadingLengthInput = ui.createWidget("Gui::InputField")
-        self.canLeadingLengthInput.unit = FreeCAD.Units.Length
-        self.canLeadingLengthInput.setMinimumWidth(100)
-
-        self.canTrailingGroup = QtGui.QGroupBox(translate('Rocket', "Trailing Edge"), self)
-
-        self.canTrailingLabel = QtGui.QLabel(translate('Rocket', "Edge Style"), self)
-
-        self.canTrailingCombo = QtGui.QComboBox(self)
-        self.canTrailingCombo.addItem(translate('Rocket', FINCAN_EDGE_SQUARE), FINCAN_EDGE_SQUARE)
-        self.canTrailingCombo.addItem(translate('Rocket', FINCAN_EDGE_ROUND), FINCAN_EDGE_ROUND)
-        self.canTrailingCombo.addItem(translate('Rocket', FINCAN_EDGE_TAPER), FINCAN_EDGE_TAPER)
-
-        self.canTrailingLengthLabel = QtGui.QLabel(translate('Rocket', "Length"), self)
-
-        self.canTrailingLengthInput = ui.createWidget("Gui::InputField")
-        self.canTrailingLengthInput.unit = FreeCAD.Units.Length
-        self.canTrailingLengthInput.setMinimumWidth(100)
-
-        # Leading Edge group
-        row = 0
-        grid = QGridLayout()
-
-        grid.addWidget(self.canLeadingLabel, row, 0)
-        grid.addWidget(self.canLeadingCombo, row, 1)
-        row += 1
-
-        grid.addWidget(self.canLeadingLengthLabel, row, 0)
-        grid.addWidget(self.canLeadingLengthInput, row, 1)
-
-        self.canLeadingGroup.setLayout(grid)
-
-        # Trailing Edge group
-        row = 0
-        grid = QGridLayout()
-
-        grid.addWidget(self.canTrailingLabel, row, 0)
-        grid.addWidget(self.canTrailingCombo, row, 1)
-        row += 1
-
-        grid.addWidget(self.canTrailingLengthLabel, row, 0)
-        grid.addWidget(self.canTrailingLengthInput, row, 1)
-
-        self.canTrailingGroup.setLayout(grid)
-
-        row = 0
-        grid = QGridLayout()
-
-        grid.addWidget(self.canDiameterLabel, row, 0)
-        grid.addWidget(self.canDiameterInput, row, 1)
-        grid.addWidget(self.canAutoDiameterCheckbox, row, 2)
-        row += 1
-
-        grid.addWidget(self.canThicknessLabel, row, 0)
-        grid.addWidget(self.canThicknessInput, row, 1)
-        row += 1
-
-        grid.addWidget(self.canLengthLabel, row, 0)
-        grid.addWidget(self.canLengthInput, row, 1)
-        row += 1
-
-        grid.addWidget(self.canLeadingOffsetLabel, row, 0)
-        grid.addWidget(self.canLeadingOffsetInput, row, 1)
-
-        layout = QVBoxLayout()
-        layout.addItem(grid)
-        layout.addWidget(self.canLeadingGroup)
-        layout.addWidget(self.canTrailingGroup)
-        layout.addItem(QtGui.QSpacerItem(0,0, QSizePolicy.Expanding, QSizePolicy.Expanding))
-
-        self.tabFinCan.setLayout(layout)
 
     def setTabCoupler(self):
+        self.form.couplerStylesCombo.addItem(translate('Rocket', "Flush with fin can"), FINCAN_COUPLER_MATCH_ID)
+        self.form.couplerStylesCombo.addItem(translate('Rocket', "Stepped"), FINCAN_COUPLER_STEPPED)
 
-        ui = FreeCADGui.UiLoader()
-
-        self.couplerGroup = QtGui.QGroupBox(translate('Rocket', "Coupler"), self)
-        self.couplerGroup.setCheckable(True)
-
-        self.couplerStyleLabel = QtGui.QLabel(translate('Rocket', "Coupler Style"), self)
-
-        # self.couplerStyles = (FINCAN_COUPLER_MATCH_ID, FINCAN_COUPLER_STEPPED)
-        self.couplerStylesCombo = QtGui.QComboBox(self)
-        self.couplerStylesCombo.addItem(translate('Rocket', "Flush with fin can"), FINCAN_COUPLER_MATCH_ID)
-        self.couplerStylesCombo.addItem(translate('Rocket', "Stepped"), FINCAN_COUPLER_STEPPED)
-
-        self.couplerDiameterLabel = QtGui.QLabel(translate('Rocket', "Outer Diameter"), self)
-
-        self.couplerDiameterInput = ui.createWidget("Gui::InputField")
-        self.couplerDiameterInput.unit = FreeCAD.Units.Length
-        self.couplerDiameterInput.setMinimumWidth(100)
-
-        self.couplerAutoDiameterCheckbox = QtGui.QCheckBox(translate('Rocket', "auto"), self)
-        self.couplerAutoDiameterCheckbox.setCheckState(QtCore.Qt.Checked)
-
-        self.couplerThicknessLabel = QtGui.QLabel(translate('Rocket', "Thickness"), self)
-
-        self.couplerThicknessInput = ui.createWidget("Gui::InputField")
-        self.couplerThicknessInput.unit = FreeCAD.Units.Length
-        self.couplerThicknessInput.setMinimumWidth(100)
-
-        self.couplerLengthLabel = QtGui.QLabel(translate('Rocket', "Length"), self)
-
-        self.couplerLengthInput = ui.createWidget("Gui::InputField")
-        self.couplerLengthInput.unit = FreeCAD.Units.Length
-        self.couplerLengthInput.setMinimumWidth(100)
-
-        # Group
-        row = 0
-        grid = QGridLayout()
-
-        grid.addWidget(self.couplerStyleLabel, row, 0)
-        grid.addWidget(self.couplerStylesCombo, row, 1)
-        row += 1
-
-        grid.addWidget(self.couplerDiameterLabel, row, 0)
-        grid.addWidget(self.couplerDiameterInput, row, 1)
-        grid.addWidget(self.couplerAutoDiameterCheckbox, row, 2)
-        row += 1
-
-        grid.addWidget(self.couplerThicknessLabel, row, 0)
-        grid.addWidget(self.couplerThicknessInput, row, 1)
-        row += 1
-
-        grid.addWidget(self.couplerLengthLabel, row, 0)
-        grid.addWidget(self.couplerLengthInput, row, 1)
-        row += 1
-
-        self.couplerGroup.setLayout(grid)
-
-        layout = QVBoxLayout()
-        layout.addWidget(self.couplerGroup)
-        layout.addItem(QtGui.QSpacerItem(0,0, QSizePolicy.Expanding, QSizePolicy.Expanding))
-
-        self.tabCoupler.setLayout(layout)
+        self.form.couplerDiameterInput.unit = FreeCAD.Units.Length
+        self.form.couplerThicknessInput.unit = FreeCAD.Units.Length
+        self.form.couplerLengthInput.unit = FreeCAD.Units.Length
 
     def setTabLaunchLug(self):
+        self.form.lugPresetsCombo.addItem(translate('Rocket', FINCAN_PRESET_CUSTOM), FINCAN_PRESET_CUSTOM)
+        self.form.lugPresetsCombo.addItem(translate('Rocket', FINCAN_PRESET_1_8), FINCAN_PRESET_1_8)
+        self.form.lugPresetsCombo.addItem(translate('Rocket', FINCAN_PRESET_3_16), FINCAN_PRESET_3_16)
+        self.form.lugPresetsCombo.addItem(translate('Rocket', FINCAN_PRESET_1_4), FINCAN_PRESET_1_4)
 
-        ui = FreeCADGui.UiLoader()
-
-        self.lugGroup = QtGui.QGroupBox(translate('Rocket', "Launch Lug"), self)
-        self.lugGroup.setCheckable(True)
-
-        self.lugInnerDiameterLabel = QtGui.QLabel(translate('Rocket', "Inner Diameter"), self)
-
-        self.lugInnerDiameterInput = ui.createWidget("Gui::InputField")
-        self.lugInnerDiameterInput.unit = FreeCAD.Units.Length
-        self.lugInnerDiameterInput.setMinimumWidth(100)
-
-        self.lugInnerDiameterPresetLabel = QtGui.QLabel(translate('Rocket', "Presets"), self)
-
-        self.lugPresetsCombo = QtGui.QComboBox(self)
-        self.lugPresetsCombo.addItem(translate('Rocket', FINCAN_PRESET_CUSTOM), FINCAN_PRESET_CUSTOM)
-        self.lugPresetsCombo.addItem(translate('Rocket', FINCAN_PRESET_1_8), FINCAN_PRESET_1_8)
-        self.lugPresetsCombo.addItem(translate('Rocket', FINCAN_PRESET_3_16), FINCAN_PRESET_3_16)
-        self.lugPresetsCombo.addItem(translate('Rocket', FINCAN_PRESET_1_4), FINCAN_PRESET_1_4)
-
-        self.lugThicknessLabel = QtGui.QLabel(translate('Rocket', "Thickness"), self)
-
-        self.lugThicknessInput = ui.createWidget("Gui::InputField")
-        self.lugThicknessInput.unit = FreeCAD.Units.Length
-        self.lugThicknessInput.setMinimumWidth(100)
-
-        self.lugAutoThicknessCheckbox = QtGui.QCheckBox(translate('Rocket', "auto"), self)
-        self.lugAutoThicknessCheckbox.setCheckState(QtCore.Qt.Checked)
-
-        self.lugLengthLabel = QtGui.QLabel(translate('Rocket', "Length"), self)
-
-        self.lugLengthInput = ui.createWidget("Gui::InputField")
-        self.lugLengthInput.unit = FreeCAD.Units.Length
-        self.lugLengthInput.setMinimumWidth(100)
-
-        self.lugAutoLengthCheckbox = QtGui.QCheckBox(translate('Rocket', "auto"), self)
-        self.lugAutoLengthCheckbox.setCheckState(QtCore.Qt.Checked)
-
-        self.lugLeadingOffsetLabel = QtGui.QLabel(translate('Rocket', "Leading Edge Offset"), self)
-
-        self.lugLeadingOffsetInput = ui.createWidget("Gui::InputField")
-        self.lugLeadingOffsetInput.unit = FreeCAD.Units.Length
-        self.lugLeadingOffsetInput.setMinimumWidth(100)
-
-        self.lugFilletRadiusLabel = QtGui.QLabel(translate('Rocket', "Fillet radius"), self)
-
-        self.lugFilletRadiusInput = ui.createWidget("Gui::InputField")
-        self.lugFilletRadiusInput.unit = FreeCAD.Units.Length
-        self.lugFilletRadiusInput.setMinimumWidth(100)
-
-        # Sweep parameters
-        self.forwardSweepGroup = QtGui.QGroupBox(translate('Rocket', "Forward Sweep"), self)
-        self.forwardSweepGroup.setCheckable(True)
-
-        self.forwardSweepLabel = QtGui.QLabel(translate('Rocket', "Sweep Angle"), self)
-
-        self.forwardSweepInput = ui.createWidget("Gui::InputField")
-        self.forwardSweepInput.unit = FreeCAD.Units.Angle
-        self.forwardSweepInput.setMinimumWidth(100)
-
-        self.aftSweepGroup = QtGui.QGroupBox(translate('Rocket', "Aft Sweep"), self)
-        self.aftSweepGroup.setCheckable(True)
-
-        self.aftSweepLabel = QtGui.QLabel(translate('Rocket', "Sweep Angle"), self)
-
-        self.aftSweepInput = ui.createWidget("Gui::InputField")
-        self.aftSweepInput.unit = FreeCAD.Units.Angle
-        self.aftSweepInput.setMinimumWidth(100)
-
-        # Forward sweep group
-        row = 0
-        grid = QGridLayout()
-
-        grid.addWidget(self.forwardSweepLabel, row, 0)
-        grid.addWidget(self.forwardSweepInput, row, 1)
-        row += 1
-
-        self.forwardSweepGroup.setLayout(grid)
-
-        # Aft sweep group
-        row = 0
-        grid = QGridLayout()
-
-        grid.addWidget(self.aftSweepLabel, row, 0)
-        grid.addWidget(self.aftSweepInput, row, 1)
-        row += 1
-
-        self.aftSweepGroup.setLayout(grid)
-
-        # Launch Lug group
-        row = 0
-        grid = QGridLayout()
-
-        grid.addWidget(self.lugInnerDiameterLabel, row, 0)
-        grid.addWidget(self.lugPresetsCombo, row, 1)
-        grid.addWidget(self.lugInnerDiameterPresetLabel, row, 2)
-        row += 1
-
-        grid.addWidget(self.lugInnerDiameterInput, row, 1)
-        row += 1
-
-        grid.addWidget(self.lugThicknessLabel, row, 0)
-        grid.addWidget(self.lugThicknessInput, row, 1)
-        grid.addWidget(self.lugAutoThicknessCheckbox, row, 2)
-        row += 1
-
-        grid.addWidget(self.lugLengthLabel, row, 0)
-        grid.addWidget(self.lugLengthInput, row, 1)
-        grid.addWidget(self.lugAutoLengthCheckbox, row, 2)
-        row += 1
-
-        grid.addWidget(self.lugLeadingOffsetLabel, row, 0)
-        grid.addWidget(self.lugLeadingOffsetInput, row, 1)
-        row += 1
-
-        grid.addWidget(self.lugFilletRadiusLabel, row, 0)
-        grid.addWidget(self.lugFilletRadiusInput, row, 1)
-        row += 1
-
-        grid.addWidget(self.forwardSweepGroup, row, 0, 1, 3) # 1 row, 3 columns
-        row += 1
-
-        grid.addWidget(self.aftSweepGroup, row, 0, 1, 3)
-        row += 1
-
-        self.lugGroup.setLayout(grid)
-
-        layout = QVBoxLayout()
-        layout.addWidget(self.lugGroup)
-        layout.addItem(QtGui.QSpacerItem(0,0, QSizePolicy.Expanding, QSizePolicy.Expanding))
-
-        self.tabLaunchLug.setLayout(layout)
+        self.form.lugInnerDiameterInput.unit = FreeCAD.Units.Length
+        self.form.lugThicknessInput.unit = FreeCAD.Units.Length
+        self.form.lugLengthInput.unit = FreeCAD.Units.Length
+        self.form.lugLeadingOffsetInput.unit = FreeCAD.Units.Length
+        self.form.lugFilletRadiusInput.unit = FreeCAD.Units.Length
+        self.form.forwardSweepInput.unit = FreeCAD.Units.Angle
+        self.form.aftSweepInput.unit = FreeCAD.Units.Angle
 
 class TaskPanelFinCan(QObject):
 
@@ -691,73 +165,73 @@ class TaskPanelFinCan(QObject):
         self._location = TaskPanelLocation(obj)
         self._locationForm = self._location.getForm()
 
-        self.form = [self._finForm, self._locationForm]
+        self.form = [self._finForm.form, self._locationForm]
         self._finForm.setWindowIcon(QtGui.QIcon(FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Fin.svg"))
 
         self.update()
 
-        self._finForm.finTypesCombo.currentTextChanged.connect(self.onFinTypes)
+        self._finForm.form.finTypesCombo.currentTextChanged.connect(self.onFinTypes)
 
-        self._finForm.finCountSpinBox.valueChanged.connect(self.onCount)
-        self._finForm.finSpacingInput.textEdited.connect(self.onSpacing)
-        self._finForm.finCantInput.textEdited.connect(self.onCant)
+        self._finForm.form.finCountSpinBox.valueChanged.connect(self.onCount)
+        self._finForm.form.finSpacingInput.textEdited.connect(self.onSpacing)
+        self._finForm.form.finCantInput.textEdited.connect(self.onCant)
 
-        self._finForm.rootCrossSectionsCombo.currentTextChanged.connect(self.onRootCrossSection)
-        self._finForm.rootChordInput.textEdited.connect(self.onRootChord)
-        self._finForm.rootThicknessInput.textEdited.connect(self.onRootThickness)
-        self._finForm.rootPerCentCheckbox.clicked.connect(self.onRootPerCent)
-        self._finForm.rootLength1Input.textEdited.connect(self.onRootLength1)
-        self._finForm.rootLength2Input.textEdited.connect(self.onRootLength2)
+        self._finForm.form.rootCrossSectionsCombo.currentTextChanged.connect(self.onRootCrossSection)
+        self._finForm.form.rootChordInput.textEdited.connect(self.onRootChord)
+        self._finForm.form.rootThicknessInput.textEdited.connect(self.onRootThickness)
+        self._finForm.form.rootPerCentCheckbox.clicked.connect(self.onRootPerCent)
+        self._finForm.form.rootLength1Input.textEdited.connect(self.onRootLength1)
+        self._finForm.form.rootLength2Input.textEdited.connect(self.onRootLength2)
 
-        self._finForm.tipCrossSectionsCombo.currentTextChanged.connect(self.onTipCrossSection)
-        self._finForm.tipChordInput.textEdited.connect(self.onTipChord)
-        self._finForm.tipThicknessInput.textEdited.connect(self.onTipThickness)
-        self._finForm.tipSameThicknessCheckbox.stateChanged.connect(self.onTipSameThickness)
-        self._finForm.tipPerCentCheckbox.clicked.connect(self.onTipPerCent)
-        self._finForm.tipLength1Input.textEdited.connect(self.onTipLength1)
-        self._finForm.tipLength2Input.textEdited.connect(self.onTipLength2)
+        self._finForm.form.tipCrossSectionsCombo.currentTextChanged.connect(self.onTipCrossSection)
+        self._finForm.form.tipChordInput.textEdited.connect(self.onTipChord)
+        self._finForm.form.tipThicknessInput.textEdited.connect(self.onTipThickness)
+        self._finForm.form.tipSameThicknessCheckbox.stateChanged.connect(self.onTipSameThickness)
+        self._finForm.form.tipPerCentCheckbox.clicked.connect(self.onTipPerCent)
+        self._finForm.form.tipLength1Input.textEdited.connect(self.onTipLength1)
+        self._finForm.form.tipLength2Input.textEdited.connect(self.onTipLength2)
 
-        self._finForm.heightInput.textEdited.connect(self.onHeight)
-        self._finForm.autoHeightCheckBox.stateChanged.connect(self.onAutoHeight)
-        self._finForm.spanInput.textEdited.connect(self.onSpan)
-        self._finForm.sweepLengthInput.textEdited.connect(self.onSweepLength)
-        self._finForm.sweepAngleInput.textEdited.connect(self.onSweepAngle)
+        self._finForm.form.heightInput.textEdited.connect(self.onHeight)
+        self._finForm.form.autoHeightCheckBox.stateChanged.connect(self.onAutoHeight)
+        self._finForm.form.spanInput.textEdited.connect(self.onSpan)
+        self._finForm.form.sweepLengthInput.textEdited.connect(self.onSweepLength)
+        self._finForm.form.sweepAngleInput.textEdited.connect(self.onSweepAngle)
 
         self._finForm.tabScaling.scaled.connect(self.onScale)
         self._finForm.tabScaling.scaledSetValuesButton.clicked.connect(self.onSetToScale)
 
-        self._finForm.canDiameterInput.textEdited.connect(self.onCanDiameter)
-        self._finForm.canAutoDiameterCheckbox.stateChanged.connect(self.onCanAutoDiameter)
-        self._finForm.canThicknessInput.textEdited.connect(self.onCanThickness)
-        self._finForm.canLengthInput.textEdited.connect(self.onCanLength)
-        self._finForm.canLeadingOffsetInput.textEdited.connect(self.onCanLeadingEdgeOffset)
+        self._finForm.form.canDiameterInput.textEdited.connect(self.onCanDiameter)
+        self._finForm.form.canAutoDiameterCheckbox.stateChanged.connect(self.onCanAutoDiameter)
+        self._finForm.form.canThicknessInput.textEdited.connect(self.onCanThickness)
+        self._finForm.form.canLengthInput.textEdited.connect(self.onCanLength)
+        self._finForm.form.canLeadingOffsetInput.textEdited.connect(self.onCanLeadingEdgeOffset)
 
-        self._finForm.canLeadingCombo.currentTextChanged.connect(self.onCanLeadingEdge)
-        self._finForm.canLeadingLengthInput.textEdited.connect(self.onCanLeadingLength)
-        self._finForm.canTrailingCombo.currentTextChanged.connect(self.onCanTrailingEdge)
-        self._finForm.canTrailingLengthInput.textEdited.connect(self.onCanTrailingLength)
+        self._finForm.form.canLeadingCombo.currentTextChanged.connect(self.onCanLeadingEdge)
+        self._finForm.form.canLeadingLengthInput.textEdited.connect(self.onCanLeadingLength)
+        self._finForm.form.canTrailingCombo.currentTextChanged.connect(self.onCanTrailingEdge)
+        self._finForm.form.canTrailingLengthInput.textEdited.connect(self.onCanTrailingLength)
 
-        self._finForm.couplerGroup.toggled.connect(self.onCoupler)
-        self._finForm.couplerStylesCombo.currentIndexChanged.connect(self.onCouplerStyle)
-        self._finForm.couplerThicknessInput.textEdited.connect(self.onCouplerThickness)
-        self._finForm.couplerDiameterInput.textEdited.connect(self.onCouplerDiameter)
-        self._finForm.couplerAutoDiameterCheckbox.stateChanged.connect(self.onCouplerAutoDiameter)
-        self._finForm.couplerLengthInput.textEdited.connect(self.onCouplerLength)
+        self._finForm.form.couplerGroup.toggled.connect(self.onCoupler)
+        self._finForm.form.couplerStylesCombo.currentIndexChanged.connect(self.onCouplerStyle)
+        self._finForm.form.couplerThicknessInput.textEdited.connect(self.onCouplerThickness)
+        self._finForm.form.couplerDiameterInput.textEdited.connect(self.onCouplerDiameter)
+        self._finForm.form.couplerAutoDiameterCheckbox.stateChanged.connect(self.onCouplerAutoDiameter)
+        self._finForm.form.couplerLengthInput.textEdited.connect(self.onCouplerLength)
 
-        self._finForm.lugGroup.toggled.connect(self.onLug)
-        self._finForm.lugInnerDiameterInput.textEdited.connect(self.onLugInnerDiameter)
-        self._finForm.lugPresetsCombo.currentTextChanged.connect(self.onLugPreset)
-        self._finForm.lugThicknessInput.textEdited.connect(self.onLugThickness)
-        self._finForm.lugAutoThicknessCheckbox.stateChanged.connect(self.onLugAutoThickness)
-        self._finForm.lugLengthInput.textEdited.connect(self.onLugLength)
-        self._finForm.lugLeadingOffsetInput.textEdited.connect(self.onLugLeadingEdgeOffset)
-        self._finForm.lugAutoLengthCheckbox.stateChanged.connect(self.onLugAutoLength)
-        self._finForm.lugFilletRadiusInput.textEdited.connect(self.onLugFilletRadius)
+        self._finForm.form.lugGroup.toggled.connect(self.onLug)
+        self._finForm.form.lugInnerDiameterInput.textEdited.connect(self.onLugInnerDiameter)
+        self._finForm.form.lugPresetsCombo.currentTextChanged.connect(self.onLugPreset)
+        self._finForm.form.lugThicknessInput.textEdited.connect(self.onLugThickness)
+        self._finForm.form.lugAutoThicknessCheckbox.stateChanged.connect(self.onLugAutoThickness)
+        self._finForm.form.lugLengthInput.textEdited.connect(self.onLugLength)
+        self._finForm.form.lugLeadingOffsetInput.textEdited.connect(self.onLugLeadingEdgeOffset)
+        self._finForm.form.lugAutoLengthCheckbox.stateChanged.connect(self.onLugAutoLength)
+        self._finForm.form.lugFilletRadiusInput.textEdited.connect(self.onLugFilletRadius)
 
-        self._finForm.forwardSweepGroup.toggled.connect(self.onForwardSweep)
-        self._finForm.forwardSweepInput.textEdited.connect(self.onForwardSweepAngle)
-        self._finForm.aftSweepGroup.toggled.connect(self.onAftSweep)
-        self._finForm.aftSweepInput.textEdited.connect(self.onAftSweepAngle)
+        self._finForm.form.forwardSweepGroup.toggled.connect(self.onForwardSweep)
+        self._finForm.form.forwardSweepInput.textEdited.connect(self.onForwardSweepAngle)
+        self._finForm.form.aftSweepGroup.toggled.connect(self.onAftSweep)
+        self._finForm.form.aftSweepInput.textEdited.connect(self.onAftSweepAngle)
 
         self._location.locationChange.connect(self.onLocation)
 
@@ -770,65 +244,65 @@ class TaskPanelFinCan(QObject):
 
     def transferTo(self):
         "Transfer from the dialog to the object"
-        self._obj.FinType = str(self._finForm.finTypesCombo.currentData())
+        self._obj.FinType = str(self._finForm.form.finTypesCombo.currentData())
 
-        self._obj.FinCount = self._finForm.finCountSpinBox.value()
-        self._obj.FinSpacing = self._finForm.finSpacingInput.text()
-        self._obj.Cant = self._finForm.finCantInput.text()
+        self._obj.FinCount = self._finForm.form.finCountSpinBox.value()
+        self._obj.FinSpacing = self._finForm.form.finSpacingInput.text()
+        self._obj.Cant = self._finForm.form.finCantInput.text()
 
-        self._obj.RootCrossSection = str(self._finForm.rootCrossSectionsCombo.currentData())
-        self._obj.RootChord = self._finForm.rootChordInput.text()
-        self._obj.RootThickness = self._finForm.rootThicknessInput.text()
-        self._obj.RootPerCent = self._finForm.rootPerCentCheckbox.isChecked()
-        self._obj.RootLength1 = self._finForm.rootLength1Input.text()
-        self._obj.RootLength2 = self._finForm.rootLength2Input.text()
+        self._obj.RootCrossSection = str(self._finForm.form.rootCrossSectionsCombo.currentData())
+        self._obj.RootChord = self._finForm.form.rootChordInput.text()
+        self._obj.RootThickness = self._finForm.form.rootThicknessInput.text()
+        self._obj.RootPerCent = self._finForm.form.rootPerCentCheckbox.isChecked()
+        self._obj.RootLength1 = self._finForm.form.rootLength1Input.text()
+        self._obj.RootLength2 = self._finForm.form.rootLength2Input.text()
 
-        self._obj.TipCrossSection = str(self._finForm.tipCrossSectionsCombo.currentData())
-        self._obj.TipChord = self._finForm.tipChordInput.text()
-        self._obj.TipThickness = self._finForm.tipThicknessInput.text()
-        self._obj.TipSameThickness = self._finForm.tipSameThicknessCheckbox.isChecked()
-        self._obj.TipPerCent = self._finForm.tipPerCentCheckbox.isChecked()
-        self._obj.TipLength1 = self._finForm.tipLength1Input.text()
-        self._obj.TipLength2 =self._finForm.tipLength2Input.text()
+        self._obj.TipCrossSection = str(self._finForm.form.tipCrossSectionsCombo.currentData())
+        self._obj.TipChord = self._finForm.form.tipChordInput.text()
+        self._obj.TipThickness = self._finForm.form.tipThicknessInput.text()
+        self._obj.TipSameThickness = self._finForm.form.tipSameThicknessCheckbox.isChecked()
+        self._obj.TipPerCent = self._finForm.form.tipPerCentCheckbox.isChecked()
+        self._obj.TipLength1 = self._finForm.form.tipLength1Input.text()
+        self._obj.TipLength2 =self._finForm.form.tipLength2Input.text()
 
-        self._obj.Height = self._finForm.heightInput.text()
-        self._obj.AutoHeight = self._finForm.autoHeightCheckBox.isChecked()
-        self._obj.Span = self._finForm.spanInput.text()
-        self._obj.SweepLength = self._finForm.sweepLengthInput.text()
-        self._obj.SweepAngle = self._finForm.sweepAngleInput.text()
+        self._obj.Height = self._finForm.form.heightInput.text()
+        self._obj.AutoHeight = self._finForm.form.autoHeightCheckBox.isChecked()
+        self._obj.Span = self._finForm.form.spanInput.text()
+        self._obj.SweepLength = self._finForm.form.sweepLengthInput.text()
+        self._obj.SweepAngle = self._finForm.form.sweepAngleInput.text()
 
-        self._obj.Diameter = self._finForm.canDiameterInput.text()
-        self._obj.AutoDiameter = self._finForm.canAutoDiameterCheckbox.isChecked()
-        self._obj.Thickness = self._finForm.canThicknessInput.text()
-        self._obj.Length = self._finForm.canLengthInput.text()
-        self._obj.LeadingEdgeOffset = self._finForm.canLeadingOffsetInput.text()
+        self._obj.Diameter = self._finForm.form.canDiameterInput.text()
+        self._obj.AutoDiameter = self._finForm.form.canAutoDiameterCheckbox.isChecked()
+        self._obj.Thickness = self._finForm.form.canThicknessInput.text()
+        self._obj.Length = self._finForm.form.canLengthInput.text()
+        self._obj.LeadingEdgeOffset = self._finForm.form.canLeadingOffsetInput.text()
 
-        self._obj.LeadingEdge = str(self._finForm.canLeadingCombo.currentData())
-        self._obj.LeadingLength = self._finForm.canLeadingLengthInput.text()
-        self._obj.TrailingEdge = str(self._finForm.canTrailingCombo.currentData())
-        self._obj.TrailingLength = self._finForm.canTrailingLengthInput.text()
+        self._obj.LeadingEdge = str(self._finForm.form.canLeadingCombo.currentData())
+        self._obj.LeadingLength = self._finForm.form.canLeadingLengthInput.text()
+        self._obj.TrailingEdge = str(self._finForm.form.canTrailingCombo.currentData())
+        self._obj.TrailingLength = self._finForm.form.canTrailingLengthInput.text()
 
-        self._obj.Coupler = self._finForm.couplerGroup.isChecked()
-        self._obj.CouplerStyle = str(self._finForm.couplerStylesCombo.currentData())
-        self._obj.CouplerThickness = self._finForm.couplerThicknessInput.text()
-        self._obj.CouplerDiameter = self._finForm.couplerDiameterInput.text()
-        self._obj.CouplerAutoDiameter = self._finForm.couplerAutoDiameterCheckbox.isChecked()
-        self._obj.CouplerLength = self._finForm.couplerLengthInput.text()
+        self._obj.Coupler = self._finForm.form.couplerGroup.isChecked()
+        self._obj.CouplerStyle = str(self._finForm.form.couplerStylesCombo.currentData())
+        self._obj.CouplerThickness = self._finForm.form.couplerThicknessInput.text()
+        self._obj.CouplerDiameter = self._finForm.form.couplerDiameterInput.text()
+        self._obj.CouplerAutoDiameter = self._finForm.form.couplerAutoDiameterCheckbox.isChecked()
+        self._obj.CouplerLength = self._finForm.form.couplerLengthInput.text()
 
-        self._obj.LaunchLug = self._finForm.lugGroup.isChecked()
-        self._obj.LugInnerDiameter = self._finForm.lugInnerDiameterInput.text()
-        self._obj.LaunchLugPreset = str(self._finForm.lugPresetsCombo.currentData())
-        self._obj.LugThickness = self._finForm.lugThicknessInput.text()
-        self._obj.LugAutoThickness = self._finForm.lugAutoThicknessCheckbox.isChecked()
-        self._obj.LugLength = self._finForm.lugLengthInput.text()
-        self._obj.LugAutoLength = self._finForm.lugAutoLengthCheckbox.isChecked()
-        self._obj.LugLeadingEdgeOffset = self._finForm.lugLeadingOffsetInput.text()
-        self._obj.LugFilletRadius = self._finForm.lugFilletRadiusInput.text()
+        self._obj.LaunchLug = self._finForm.form.lugGroup.isChecked()
+        self._obj.LugInnerDiameter = self._finForm.form.lugInnerDiameterInput.text()
+        self._obj.LaunchLugPreset = str(self._finForm.form.lugPresetsCombo.currentData())
+        self._obj.LugThickness = self._finForm.form.lugThicknessInput.text()
+        self._obj.LugAutoThickness = self._finForm.form.lugAutoThicknessCheckbox.isChecked()
+        self._obj.LugLength = self._finForm.form.lugLengthInput.text()
+        self._obj.LugAutoLength = self._finForm.form.lugAutoLengthCheckbox.isChecked()
+        self._obj.LugLeadingEdgeOffset = self._finForm.form.lugLeadingOffsetInput.text()
+        self._obj.LugFilletRadius = self._finForm.form.lugFilletRadiusInput.text()
 
-        self._obj.LaunchLugForwardSweep = self._finForm.forwardSweepGroup.isChecked()
-        self._obj.LaunchLugForwardSweepAngle = self._finForm.forwardSweepInput.text()
-        self._obj.LaunchLugAftSweep = self._finForm.aftSweepGroup.isChecked()
-        self._obj.LaunchLugAftSweepAngle = self._finForm.aftSweepInput.text()
+        self._obj.LaunchLugForwardSweep = self._finForm.form.forwardSweepGroup.isChecked()
+        self._obj.LaunchLugForwardSweepAngle = self._finForm.form.forwardSweepInput.text()
+        self._obj.LaunchLugAftSweep = self._finForm.form.aftSweepGroup.isChecked()
+        self._obj.LaunchLugAftSweepAngle = self._finForm.form.aftSweepInput.text()
 
         self._finForm.tabScaling.transferTo(self._obj)
         self._finForm.tabMaterial.transferTo(self._obj)
@@ -836,65 +310,65 @@ class TaskPanelFinCan(QObject):
 
     def transferFrom(self):
         "Transfer from the object to the dialog"
-        self._finForm.finTypesCombo.setCurrentIndex(self._finForm.finTypesCombo.findData(self._obj.FinType))
+        self._finForm.form.finTypesCombo.setCurrentIndex(self._finForm.form.finTypesCombo.findData(self._obj.FinType))
 
-        self._finForm.finCountSpinBox.setValue(self._obj.FinCount)
-        self._finForm.finSpacingInput.setText(self._obj.FinSpacing.UserString)
-        self._finForm.finCantInput.setText(self._obj.Cant.UserString)
+        self._finForm.form.finCountSpinBox.setValue(self._obj.FinCount)
+        self._finForm.form.finSpacingInput.setText(self._obj.FinSpacing.UserString)
+        self._finForm.form.finCantInput.setText(self._obj.Cant.UserString)
 
-        self._finForm.rootCrossSectionsCombo.setCurrentIndex(self._finForm.rootCrossSectionsCombo.findData(self._obj.RootCrossSection))
-        self._finForm.rootChordInput.setText(self._obj.RootChord.UserString)
-        self._finForm.rootThicknessInput.setText(self._obj.RootThickness.UserString)
-        self._finForm.rootPerCentCheckbox.setChecked(self._obj.RootPerCent)
-        self._finForm.rootLength1Input.setText(self._obj.RootLength1.UserString)
-        self._finForm.rootLength2Input.setText(self._obj.RootLength2.UserString)
+        self._finForm.form.rootCrossSectionsCombo.setCurrentIndex(self._finForm.form.rootCrossSectionsCombo.findData(self._obj.RootCrossSection))
+        self._finForm.form.rootChordInput.setText(self._obj.RootChord.UserString)
+        self._finForm.form.rootThicknessInput.setText(self._obj.RootThickness.UserString)
+        self._finForm.form.rootPerCentCheckbox.setChecked(self._obj.RootPerCent)
+        self._finForm.form.rootLength1Input.setText(self._obj.RootLength1.UserString)
+        self._finForm.form.rootLength2Input.setText(self._obj.RootLength2.UserString)
 
-        self._finForm.tipCrossSectionsCombo.setCurrentIndex(self._finForm.tipCrossSectionsCombo.findData(self._obj.TipCrossSection))
-        self._finForm.tipChordInput.setText(self._obj.TipChord.UserString)
-        self._finForm.tipThicknessInput.setText(self._obj.TipThickness.UserString)
-        self._finForm.tipSameThicknessCheckbox.setChecked(self._obj.TipSameThickness)
-        self._finForm.tipPerCentCheckbox.setChecked(self._obj.TipPerCent)
-        self._finForm.tipLength1Input.setText(self._obj.TipLength1.UserString)
-        self._finForm.tipLength2Input.setText(self._obj.TipLength2.UserString)
+        self._finForm.form.tipCrossSectionsCombo.setCurrentIndex(self._finForm.form.tipCrossSectionsCombo.findData(self._obj.TipCrossSection))
+        self._finForm.form.tipChordInput.setText(self._obj.TipChord.UserString)
+        self._finForm.form.tipThicknessInput.setText(self._obj.TipThickness.UserString)
+        self._finForm.form.tipSameThicknessCheckbox.setChecked(self._obj.TipSameThickness)
+        self._finForm.form.tipPerCentCheckbox.setChecked(self._obj.TipPerCent)
+        self._finForm.form.tipLength1Input.setText(self._obj.TipLength1.UserString)
+        self._finForm.form.tipLength2Input.setText(self._obj.TipLength2.UserString)
 
-        self._finForm.heightInput.setText(self._obj.Height.UserString)
-        self._finForm.autoHeightCheckBox.setChecked(self._obj.AutoHeight)
-        self._finForm.spanInput.setText(self._obj.Span.UserString)
-        self._finForm.sweepLengthInput.setText(self._obj.SweepLength.UserString)
-        self._finForm.sweepAngleInput.setText(self._obj.SweepAngle.UserString)
+        self._finForm.form.heightInput.setText(self._obj.Height.UserString)
+        self._finForm.form.autoHeightCheckBox.setChecked(self._obj.AutoHeight)
+        self._finForm.form.spanInput.setText(self._obj.Span.UserString)
+        self._finForm.form.sweepLengthInput.setText(self._obj.SweepLength.UserString)
+        self._finForm.form.sweepAngleInput.setText(self._obj.SweepAngle.UserString)
 
-        self._finForm.canDiameterInput.setText(self._obj.Diameter.UserString)
-        self._finForm.canAutoDiameterCheckbox.setChecked(self._obj.AutoDiameter)
-        self._finForm.canThicknessInput.setText(self._obj.Thickness.UserString)
-        self._finForm.canLengthInput.setText(self._obj.Length.UserString)
-        self._finForm.canLeadingOffsetInput.setText(self._obj.LeadingEdgeOffset.UserString)
+        self._finForm.form.canDiameterInput.setText(self._obj.Diameter.UserString)
+        self._finForm.form.canAutoDiameterCheckbox.setChecked(self._obj.AutoDiameter)
+        self._finForm.form.canThicknessInput.setText(self._obj.Thickness.UserString)
+        self._finForm.form.canLengthInput.setText(self._obj.Length.UserString)
+        self._finForm.form.canLeadingOffsetInput.setText(self._obj.LeadingEdgeOffset.UserString)
 
-        self._finForm.canLeadingCombo.setCurrentIndex(self._finForm.canLeadingCombo.findData(self._obj.LeadingEdge))
-        self._finForm.canLeadingLengthInput.setText(self._obj.LeadingLength.UserString)
-        self._finForm.canTrailingCombo.setCurrentIndex(self._finForm.canTrailingCombo.findData(self._obj.TrailingEdge))
-        self._finForm.canTrailingLengthInput.setText(self._obj.TrailingLength.UserString)
+        self._finForm.form.canLeadingCombo.setCurrentIndex(self._finForm.form.canLeadingCombo.findData(self._obj.LeadingEdge))
+        self._finForm.form.canLeadingLengthInput.setText(self._obj.LeadingLength.UserString)
+        self._finForm.form.canTrailingCombo.setCurrentIndex(self._finForm.form.canTrailingCombo.findData(self._obj.TrailingEdge))
+        self._finForm.form.canTrailingLengthInput.setText(self._obj.TrailingLength.UserString)
 
-        self._finForm.couplerGroup.setChecked(self._obj.Coupler)
-        self._finForm.couplerStylesCombo.setCurrentIndex(self._finForm.couplerStylesCombo.findData(self._obj.CouplerStyle))
-        self._finForm.couplerThicknessInput.setText(self._obj.CouplerThickness.UserString)
-        self._finForm.couplerDiameterInput.setText(self._obj.CouplerDiameter.UserString)
-        self._finForm.couplerAutoDiameterCheckbox.setChecked(self._obj.CouplerAutoDiameter)
-        self._finForm.couplerLengthInput.setText(self._obj.CouplerLength.UserString)
+        self._finForm.form.couplerGroup.setChecked(self._obj.Coupler)
+        self._finForm.form.couplerStylesCombo.setCurrentIndex(self._finForm.form.couplerStylesCombo.findData(self._obj.CouplerStyle))
+        self._finForm.form.couplerThicknessInput.setText(self._obj.CouplerThickness.UserString)
+        self._finForm.form.couplerDiameterInput.setText(self._obj.CouplerDiameter.UserString)
+        self._finForm.form.couplerAutoDiameterCheckbox.setChecked(self._obj.CouplerAutoDiameter)
+        self._finForm.form.couplerLengthInput.setText(self._obj.CouplerLength.UserString)
 
-        self._finForm.lugGroup.setChecked(self._obj.LaunchLug)
-        self._finForm.lugInnerDiameterInput.setText(self._obj.LugInnerDiameter.UserString)
-        self._finForm.lugPresetsCombo.setCurrentIndex(self._finForm.lugPresetsCombo.findData(self._obj.LaunchLugPreset))
-        self._finForm.lugThicknessInput.setText(self._obj.LugThickness.UserString)
-        self._finForm.lugAutoThicknessCheckbox.setChecked(self._obj.LugAutoThickness)
-        self._finForm.lugLengthInput.setText(self._obj.LugLength.UserString)
-        self._finForm.lugAutoLengthCheckbox.setChecked(self._obj.LugAutoLength)
-        self._finForm.lugLeadingOffsetInput.setText(self._obj.LugLeadingEdgeOffset.UserString)
-        self._finForm.lugFilletRadiusInput.setText(self._obj.LugFilletRadius.UserString)
+        self._finForm.form.lugGroup.setChecked(self._obj.LaunchLug)
+        self._finForm.form.lugInnerDiameterInput.setText(self._obj.LugInnerDiameter.UserString)
+        self._finForm.form.lugPresetsCombo.setCurrentIndex(self._finForm.form.lugPresetsCombo.findData(self._obj.LaunchLugPreset))
+        self._finForm.form.lugThicknessInput.setText(self._obj.LugThickness.UserString)
+        self._finForm.form.lugAutoThicknessCheckbox.setChecked(self._obj.LugAutoThickness)
+        self._finForm.form.lugLengthInput.setText(self._obj.LugLength.UserString)
+        self._finForm.form.lugAutoLengthCheckbox.setChecked(self._obj.LugAutoLength)
+        self._finForm.form.lugLeadingOffsetInput.setText(self._obj.LugLeadingEdgeOffset.UserString)
+        self._finForm.form.lugFilletRadiusInput.setText(self._obj.LugFilletRadius.UserString)
 
-        self._finForm.forwardSweepGroup.setChecked(self._obj.LaunchLugForwardSweep)
-        self._finForm.forwardSweepInput.setText(self._obj.LaunchLugForwardSweepAngle.UserString)
-        self._finForm.aftSweepGroup.setChecked(self._obj.LaunchLugAftSweep)
-        self._finForm.aftSweepInput.setText(self._obj.LaunchLugAftSweepAngle.UserString)
+        self._finForm.form.forwardSweepGroup.setChecked(self._obj.LaunchLugForwardSweep)
+        self._finForm.form.forwardSweepInput.setText(self._obj.LaunchLugForwardSweepAngle.UserString)
+        self._finForm.form.aftSweepGroup.setChecked(self._obj.LaunchLugAftSweep)
+        self._finForm.form.aftSweepInput.setText(self._obj.LaunchLugAftSweepAngle.UserString)
 
         self._finForm.tabScaling.transferFrom(self._obj)
         self._finForm.tabMaterial.transferFrom(self._obj)
@@ -966,7 +440,7 @@ class TaskPanelFinCan(QObject):
             self._obj.FinSpacing = 360.0 / float(value)
         else:
             self._obj.FinSpacing = 360.0
-        self._finForm.finSpacingInput.setText(self._obj.FinSpacing.UserString)
+        self._finForm.form.finSpacingInput.setText(self._obj.FinSpacing.UserString)
         self.redraw()
         self.setEdited()
 
@@ -991,52 +465,52 @@ class TaskPanelFinCan(QObject):
             self._enableFinTypeSketch()
 
     def setRootCrossSections(self):
-        self._finForm.rootCrossSectionsCombo.clear()
-        self._finForm.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_SQUARE), FIN_CROSS_SQUARE)
-        self._finForm.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_ROUND), FIN_CROSS_ROUND)
-        self._finForm.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_ELLIPSE), FIN_CROSS_ELLIPSE)
-        self._finForm.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_BICONVEX), FIN_CROSS_BICONVEX)
-        self._finForm.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_AIRFOIL), FIN_CROSS_AIRFOIL)
-        self._finForm.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_WEDGE), FIN_CROSS_WEDGE)
-        self._finForm.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_DIAMOND), FIN_CROSS_DIAMOND)
-        self._finForm.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_TAPER_LE), FIN_CROSS_TAPER_LE)
-        self._finForm.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_TAPER_TE), FIN_CROSS_TAPER_TE)
-        self._finForm.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_TAPER_LETE), FIN_CROSS_TAPER_LETE)
+        self._finForm.form.rootCrossSectionsCombo.clear()
+        self._finForm.form.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_SQUARE), FIN_CROSS_SQUARE)
+        self._finForm.form.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_ROUND), FIN_CROSS_ROUND)
+        self._finForm.form.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_ELLIPSE), FIN_CROSS_ELLIPSE)
+        self._finForm.form.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_BICONVEX), FIN_CROSS_BICONVEX)
+        self._finForm.form.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_AIRFOIL), FIN_CROSS_AIRFOIL)
+        self._finForm.form.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_WEDGE), FIN_CROSS_WEDGE)
+        self._finForm.form.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_DIAMOND), FIN_CROSS_DIAMOND)
+        self._finForm.form.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_TAPER_LE), FIN_CROSS_TAPER_LE)
+        self._finForm.form.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_TAPER_TE), FIN_CROSS_TAPER_TE)
+        self._finForm.form.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_TAPER_LETE), FIN_CROSS_TAPER_LETE)
 
     def setEllipseRootCrossSections(self):
-        self._finForm.rootCrossSectionsCombo.clear()
-        self._finForm.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_SQUARE), FIN_CROSS_SQUARE)
-        self._finForm.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_ROUND), FIN_CROSS_ROUND)
-        self._finForm.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_ELLIPSE), FIN_CROSS_ELLIPSE)
-        self._finForm.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_BICONVEX), FIN_CROSS_BICONVEX)
-        self._finForm.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_AIRFOIL), FIN_CROSS_AIRFOIL)
-        self._finForm.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_WEDGE), FIN_CROSS_WEDGE)
-        self._finForm.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_TAPER_LETE), FIN_CROSS_TAPER_LETE)
+        self._finForm.form.rootCrossSectionsCombo.clear()
+        self._finForm.form.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_SQUARE), FIN_CROSS_SQUARE)
+        self._finForm.form.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_ROUND), FIN_CROSS_ROUND)
+        self._finForm.form.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_ELLIPSE), FIN_CROSS_ELLIPSE)
+        self._finForm.form.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_BICONVEX), FIN_CROSS_BICONVEX)
+        self._finForm.form.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_AIRFOIL), FIN_CROSS_AIRFOIL)
+        self._finForm.form.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_WEDGE), FIN_CROSS_WEDGE)
+        self._finForm.form.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_TAPER_LETE), FIN_CROSS_TAPER_LETE)
 
     def _enableFinTypeTrapezoid(self):
         old = self._obj.RootCrossSection # This must be saved and restored
         self.setRootCrossSections()
         self._obj.RootCrossSection = old
 
-        self._finForm.rootCrossSectionsCombo.setCurrentIndex(self._finForm.rootCrossSectionsCombo.findData(self._obj.RootCrossSection))
+        self._finForm.form.rootCrossSectionsCombo.setCurrentIndex(self._finForm.form.rootCrossSectionsCombo.findData(self._obj.RootCrossSection))
 
-        self._finForm.heightLabel.setHidden(False)
-        self._finForm.heightInput.setHidden(False)
+        self._finForm.form.heightLabel.setHidden(False)
+        self._finForm.form.heightInput.setHidden(False)
 
-        self._finForm.sweepLengthLabel.setHidden(False)
-        self._finForm.sweepLengthInput.setHidden(False)
-        self._finForm.sweepAngleLabel.setHidden(False)
-        self._finForm.sweepAngleInput.setHidden(False)
+        self._finForm.form.sweepLengthLabel.setHidden(False)
+        self._finForm.form.sweepLengthInput.setHidden(False)
+        self._finForm.form.sweepAngleLabel.setHidden(False)
+        self._finForm.form.sweepAngleInput.setHidden(False)
 
-        self._finForm.rootChordLabel.setHidden(False)
-        self._finForm.rootChordInput.setHidden(False)
-        self._finForm.rootLength2Label.setHidden(False)
-        self._finForm.rootLength2Input.setHidden(False)
+        self._finForm.form.rootChordLabel.setHidden(False)
+        self._finForm.form.rootChordInput.setHidden(False)
+        self._finForm.form.rootLength2Label.setHidden(False)
+        self._finForm.form.rootLength2Input.setHidden(False)
 
-        # self._finForm.tipGroup.setHidden(False)
-        self._finForm.tabCrossSections.setTabVisible(TAB_FIN_ROOT, True)
-        self._finForm.tabCrossSections.setTabVisible(TAB_FIN_TIP, True)
-        self._finForm.tabCrossSections.setTabVisible(TAB_FIN_TUBE, False)
+        # self._finForm.form.tipGroup.setHidden(False)
+        self._finForm.form.tabCrossSections.setTabVisible(TAB_FIN_ROOT, True)
+        self._finForm.form.tabCrossSections.setTabVisible(TAB_FIN_TIP, True)
+        self._finForm.form.tabCrossSections.setTabVisible(TAB_FIN_TUBE, False)
 
         self._enableTipLengths()
 
@@ -1045,25 +519,25 @@ class TaskPanelFinCan(QObject):
         self.setRootCrossSections()
         self._obj.RootCrossSection = old
 
-        self._finForm.rootCrossSectionsCombo.setCurrentIndex(self._finForm.rootCrossSectionsCombo.findData(self._obj.RootCrossSection))
+        self._finForm.form.rootCrossSectionsCombo.setCurrentIndex(self._finForm.form.rootCrossSectionsCombo.findData(self._obj.RootCrossSection))
 
-        self._finForm.heightLabel.setHidden(False)
-        self._finForm.heightInput.setHidden(False)
+        self._finForm.form.heightLabel.setHidden(False)
+        self._finForm.form.heightInput.setHidden(False)
 
-        self._finForm.sweepLengthLabel.setHidden(False)
-        self._finForm.sweepLengthInput.setHidden(False)
-        self._finForm.sweepAngleLabel.setHidden(False)
-        self._finForm.sweepAngleInput.setHidden(False)
+        self._finForm.form.sweepLengthLabel.setHidden(False)
+        self._finForm.form.sweepLengthInput.setHidden(False)
+        self._finForm.form.sweepAngleLabel.setHidden(False)
+        self._finForm.form.sweepAngleInput.setHidden(False)
 
-        self._finForm.rootChordLabel.setHidden(False)
-        self._finForm.rootChordInput.setHidden(False)
-        self._finForm.rootLength2Label.setHidden(False)
-        self._finForm.rootLength2Input.setHidden(False)
+        self._finForm.form.rootChordLabel.setHidden(False)
+        self._finForm.form.rootChordInput.setHidden(False)
+        self._finForm.form.rootLength2Label.setHidden(False)
+        self._finForm.form.rootLength2Input.setHidden(False)
 
-        # self._finForm.tipGroup.setHidden(True)
-        self._finForm.tabCrossSections.setTabVisible(TAB_FIN_ROOT, True)
-        self._finForm.tabCrossSections.setTabVisible(TAB_FIN_TIP, False)
-        self._finForm.tabCrossSections.setTabVisible(TAB_FIN_TUBE, False)
+        # self._finForm.form.tipGroup.setHidden(True)
+        self._finForm.form.tabCrossSections.setTabVisible(TAB_FIN_ROOT, True)
+        self._finForm.form.tabCrossSections.setTabVisible(TAB_FIN_TIP, False)
+        self._finForm.form.tabCrossSections.setTabVisible(TAB_FIN_TUBE, False)
 
     def _enableFinTypeEllipse(self):
         old = self._obj.RootCrossSection # This must be saved and restored
@@ -1072,48 +546,48 @@ class TaskPanelFinCan(QObject):
 
         if self._obj.RootCrossSection in [FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE]:
             self._obj.RootCrossSection = FIN_CROSS_TAPER_LETE
-        self._finForm.rootCrossSectionsCombo.setCurrentIndex(self._finForm.rootCrossSectionsCombo.findData(self._obj.RootCrossSection))
+        self._finForm.form.rootCrossSectionsCombo.setCurrentIndex(self._finForm.form.rootCrossSectionsCombo.findData(self._obj.RootCrossSection))
 
-        self._finForm.heightLabel.setHidden(False)
-        self._finForm.heightInput.setHidden(False)
+        self._finForm.form.heightLabel.setHidden(False)
+        self._finForm.form.heightInput.setHidden(False)
 
-        self._finForm.sweepLengthLabel.setHidden(True)
-        self._finForm.sweepLengthInput.setHidden(True)
-        self._finForm.sweepAngleLabel.setHidden(True)
-        self._finForm.sweepAngleInput.setHidden(True)
+        self._finForm.form.sweepLengthLabel.setHidden(True)
+        self._finForm.form.sweepLengthInput.setHidden(True)
+        self._finForm.form.sweepAngleLabel.setHidden(True)
+        self._finForm.form.sweepAngleInput.setHidden(True)
 
-        self._finForm.rootChordLabel.setHidden(False)
-        self._finForm.rootChordInput.setHidden(False)
-        self._finForm.rootLength2Label.setHidden(True)
-        self._finForm.rootLength2Input.setHidden(True)
+        self._finForm.form.rootChordLabel.setHidden(False)
+        self._finForm.form.rootChordInput.setHidden(False)
+        self._finForm.form.rootLength2Label.setHidden(True)
+        self._finForm.form.rootLength2Input.setHidden(True)
 
-        # self._finForm.tipGroup.setHidden(True)
-        self._finForm.tabCrossSections.setTabVisible(TAB_FIN_ROOT, True)
-        self._finForm.tabCrossSections.setTabVisible(TAB_FIN_TIP, False)
-        self._finForm.tabCrossSections.setTabVisible(TAB_FIN_TUBE, False)
+        # self._finForm.form.tipGroup.setHidden(True)
+        self._finForm.form.tabCrossSections.setTabVisible(TAB_FIN_ROOT, True)
+        self._finForm.form.tabCrossSections.setTabVisible(TAB_FIN_TIP, False)
+        self._finForm.form.tabCrossSections.setTabVisible(TAB_FIN_TUBE, False)
 
     def _enableFinTypeSketch(self):
         old = self._obj.RootCrossSection # This must be saved and restored
         self.setRootCrossSections()
         self._obj.RootCrossSection = old
 
-        self._finForm.rootCrossSectionsCombo.setCurrentIndex(self._finForm.rootCrossSectionsCombo.findData(self._obj.RootCrossSection))
+        self._finForm.form.rootCrossSectionsCombo.setCurrentIndex(self._finForm.form.rootCrossSectionsCombo.findData(self._obj.RootCrossSection))
 
-        self._finForm.heightLabel.setHidden(True)
-        self._finForm.heightInput.setHidden(True)
+        self._finForm.form.heightLabel.setHidden(True)
+        self._finForm.form.heightInput.setHidden(True)
 
-        self._finForm.sweepLengthLabel.setHidden(True)
-        self._finForm.sweepLengthInput.setHidden(True)
-        self._finForm.sweepAngleLabel.setHidden(True)
-        self._finForm.sweepAngleInput.setHidden(True)
+        self._finForm.form.sweepLengthLabel.setHidden(True)
+        self._finForm.form.sweepLengthInput.setHidden(True)
+        self._finForm.form.sweepAngleLabel.setHidden(True)
+        self._finForm.form.sweepAngleInput.setHidden(True)
 
-        self._finForm.rootChordLabel.setHidden(True)
-        self._finForm.rootChordInput.setHidden(True)
+        self._finForm.form.rootChordLabel.setHidden(True)
+        self._finForm.form.rootChordInput.setHidden(True)
 
-        # self._finForm.tipGroup.setHidden(True)
-        self._finForm.tabCrossSections.setTabVisible(TAB_FIN_ROOT, True)
-        self._finForm.tabCrossSections.setTabVisible(TAB_FIN_TIP, False)
-        self._finForm.tabCrossSections.setTabVisible(TAB_FIN_TUBE, False)
+        # self._finForm.form.tipGroup.setHidden(True)
+        self._finForm.form.tabCrossSections.setTabVisible(TAB_FIN_ROOT, True)
+        self._finForm.form.tabCrossSections.setTabVisible(TAB_FIN_TIP, False)
+        self._finForm.form.tabCrossSections.setTabVisible(TAB_FIN_TUBE, False)
 
         # Create a default sketch if none exists
         self._defaultFinSketch()
@@ -1158,35 +632,35 @@ class TaskPanelFinCan(QObject):
 
     def _setFinSetState(self):
         # if self._isAssembly:
-        #     checked = self._finForm.finSetGroup.isChecked()
-        #     self._finForm.finSetGroup.setEnabled(True)
+        #     checked = self._finForm.form.finSetGroup.isChecked()
+        #     self._finForm.form.finSetGroup.setEnabled(True)
         # else:
         #     if self._obj.FinSet:
         #         self._obj.FinSet = False
-        #         self._finForm.finSetGroup.setChecked(self._obj.FinSet)
+        #         self._finForm.form.finSetGroup.setChecked(self._obj.FinSet)
         #     checked = False
-        #     self._finForm.finSetGroup.setEnabled(False)
-        self._finForm.finSetGroup.setEnabled(True)
-        self._finForm.finSetGroup.setChecked(self._obj.FinSet)
-        # checked = self._finForm.finSetGroup.isChecked()
+        #     self._finForm.form.finSetGroup.setEnabled(False)
+        self._finForm.form.finSetGroup.setEnabled(True)
+        self._finForm.form.finSetGroup.setChecked(self._obj.FinSet)
+        # checked = self._finForm.form.finSetGroup.isChecked()
 
-        # self._finForm.finCountSpinBox.setEnabled(checked)
-        # self._finForm.finSpacingInput.setEnabled(checked)
-        self._finForm.tipThicknessInput.setEnabled(not self._obj.TipSameThickness)
+        # self._finForm.form.finCountSpinBox.setEnabled(checked)
+        # self._finForm.form.finSpacingInput.setEnabled(checked)
+        self._finForm.form.tipThicknessInput.setEnabled(not self._obj.TipSameThickness)
 
     def _enableRootLengths(self):
         value = self._obj.RootCrossSection
         if value in [FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE]:
-            self._finForm.rootPerCentCheckbox.setEnabled(True)
-            self._finForm.rootLength1Input.setEnabled(True)
+            self._finForm.form.rootPerCentCheckbox.setEnabled(True)
+            self._finForm.form.rootLength1Input.setEnabled(True)
             if value == FIN_CROSS_TAPER_LETE:
-                self._finForm.rootLength2Input.setEnabled(True)
+                self._finForm.form.rootLength2Input.setEnabled(True)
             else:
-                self._finForm.rootLength2Input.setEnabled(False)
+                self._finForm.form.rootLength2Input.setEnabled(False)
         else:
-            self._finForm.rootPerCentCheckbox.setEnabled(False)
-            self._finForm.rootLength1Input.setEnabled(False)
-            self._finForm.rootLength2Input.setEnabled(False)
+            self._finForm.form.rootPerCentCheckbox.setEnabled(False)
+            self._finForm.form.rootLength1Input.setEnabled(False)
+            self._finForm.form.rootLength2Input.setEnabled(False)
 
     def _enableTipLengths(self):
         if self._obj.FinType == FIN_TYPE_TRAPEZOID:
@@ -1194,16 +668,16 @@ class TaskPanelFinCan(QObject):
             if value == FIN_CROSS_SAME:
                 value = self._obj.RootCrossSection
             if value in [FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE]:
-                self._finForm.tipPerCentCheckbox.setEnabled(True)
-                self._finForm.tipLength1Input.setEnabled(True)
+                self._finForm.form.tipPerCentCheckbox.setEnabled(True)
+                self._finForm.form.tipLength1Input.setEnabled(True)
                 if value == FIN_CROSS_TAPER_LETE:
-                    self._finForm.tipLength2Input.setEnabled(True)
+                    self._finForm.form.tipLength2Input.setEnabled(True)
                 else:
-                    self._finForm.tipLength2Input.setEnabled(False)
+                    self._finForm.form.tipLength2Input.setEnabled(False)
             else:
-                self._finForm.tipPerCentCheckbox.setEnabled(False)
-                self._finForm.tipLength1Input.setEnabled(False)
-                self._finForm.tipLength2Input.setEnabled(False)
+                self._finForm.form.tipPerCentCheckbox.setEnabled(False)
+                self._finForm.form.tipLength1Input.setEnabled(False)
+                self._finForm.form.tipLength2Input.setEnabled(False)
 
     def onRootCrossSection(self, value):
         if len(value) <= 0:
@@ -1231,7 +705,7 @@ class TaskPanelFinCan(QObject):
             self._obj.RootThickness = FreeCAD.Units.Quantity(value).Value
             if self._obj.TipSameThickness:
                 self._obj.TipThickness = FreeCAD.Units.Quantity(value).Value
-                self._finForm.tipThicknessInput.setText(self._obj.TipThickness.UserString)
+                self._finForm.form.tipThicknessInput.setText(self._obj.TipThickness.UserString)
             self.redraw()
         except ValueError:
             pass
@@ -1255,15 +729,15 @@ class TaskPanelFinCan(QObject):
 
     def _enableRootPercent(self):
         if self._obj.RootPerCent:
-            self._finForm.rootLength1Input.unit = ''
-            self._finForm.rootLength2Input.unit = ''
-            self._finForm.rootLength1Input.setText(str(self._obj.RootLength1.Value))
-            self._finForm.rootLength2Input.setText(str(self._obj.RootLength2.Value))
+            self._finForm.form.rootLength1Input.unit = ''
+            self._finForm.form.rootLength2Input.unit = ''
+            self._finForm.form.rootLength1Input.setText(str(self._obj.RootLength1.Value))
+            self._finForm.form.rootLength2Input.setText(str(self._obj.RootLength2.Value))
         else:
-            self._finForm.rootLength1Input.unit = FreeCAD.Units.Length
-            self._finForm.rootLength2Input.unit = FreeCAD.Units.Length
-            self._finForm.rootLength1Input.setText(self._obj.RootLength1.UserString)
-            self._finForm.rootLength2Input.setText(self._obj.RootLength2.UserString)
+            self._finForm.form.rootLength1Input.unit = FreeCAD.Units.Length
+            self._finForm.form.rootLength2Input.unit = FreeCAD.Units.Length
+            self._finForm.form.rootLength1Input.setText(self._obj.RootLength1.UserString)
+            self._finForm.form.rootLength2Input.setText(self._obj.RootLength2.UserString)
 
     def _convertRootPercent(self):
         if self._obj.RootPerCent:
@@ -1277,7 +751,7 @@ class TaskPanelFinCan(QObject):
         self._enableRootPercent()
 
     def onRootPerCent(self, value):
-        self._obj.RootPerCent = self._finForm.rootPerCentCheckbox.isChecked()
+        self._obj.RootPerCent = self._finForm.form.rootPerCentCheckbox.isChecked()
         self._convertRootPercent()
 
         self.redraw()
@@ -1333,15 +807,15 @@ class TaskPanelFinCan(QObject):
 
     def _enableTipPercent(self):
         if self._obj.TipPerCent:
-            self._finForm.tipLength1Input.unit = ''
-            self._finForm.tipLength2Input.unit = ''
-            self._finForm.tipLength1Input.setText(str(self._obj.TipLength1.Value))
-            self._finForm.tipLength2Input.setText(str(self._obj.TipLength2.Value))
+            self._finForm.form.tipLength1Input.unit = ''
+            self._finForm.form.tipLength2Input.unit = ''
+            self._finForm.form.tipLength1Input.setText(str(self._obj.TipLength1.Value))
+            self._finForm.form.tipLength2Input.setText(str(self._obj.TipLength2.Value))
         else:
-            self._finForm.tipLength1Input.unit = FreeCAD.Units.Length
-            self._finForm.tipLength2Input.unit = FreeCAD.Units.Length
-            self._finForm.tipLength1Input.setText(self._obj.TipLength1.UserString)
-            self._finForm.tipLength2Input.setText(self._obj.TipLength2.UserString)
+            self._finForm.form.tipLength1Input.unit = FreeCAD.Units.Length
+            self._finForm.form.tipLength2Input.unit = FreeCAD.Units.Length
+            self._finForm.form.tipLength1Input.setText(self._obj.TipLength1.UserString)
+            self._finForm.form.tipLength2Input.setText(self._obj.TipLength2.UserString)
 
     def _convertTipPercent(self):
         if self._obj.TipPerCent:
@@ -1355,7 +829,7 @@ class TaskPanelFinCan(QObject):
         self._enableTipPercent()
 
     def onTipPerCent(self, value):
-        self._obj.TipPerCent = self._finForm.tipPerCentCheckbox.isChecked()
+        self._obj.TipPerCent = self._finForm.form.tipPerCentCheckbox.isChecked()
         self._convertTipPercent()
 
         self.redraw()
@@ -1389,7 +863,7 @@ class TaskPanelFinCan(QObject):
     def onAutoHeight(self, value):
         try:
             self._obj.Proxy.setAutoHeight(value)
-            self._finForm.heightInput.setText(self._obj.Height.UserString)
+            self._finForm.form.heightInput.setText(self._obj.Height.UserString)
             self._sweepAngleFromLength()
             self._setHeightState()
             self.redraw()
@@ -1400,15 +874,15 @@ class TaskPanelFinCan(QObject):
     def _setHeightState(self):
         if not self._isAssembly:
             self._obj.AutoHeight = False
-        self._finForm.autoHeightCheckBox.setChecked(self._obj.AutoHeight)
-        self._finForm.autoHeightCheckBox.setEnabled(self._isAssembly)
-        self._finForm.heightInput.setEnabled(not self._obj.AutoHeight)
-        self._finForm.spanInput.setEnabled(self._obj.AutoHeight)
+        self._finForm.form.autoHeightCheckBox.setChecked(self._obj.AutoHeight)
+        self._finForm.form.autoHeightCheckBox.setEnabled(self._isAssembly)
+        self._finForm.form.heightInput.setEnabled(not self._obj.AutoHeight)
+        self._finForm.form.spanInput.setEnabled(self._obj.AutoHeight)
 
     def onSpan(self, value):
         try:
             self._obj.Proxy.setSpan(FreeCAD.Units.Quantity(value).Value)
-            self._finForm.heightInput.setText(self._obj.Height.UserString)
+            self._finForm.form.heightInput.setText(self._obj.Height.UserString)
             self._sweepAngleFromLength()
             self.redraw()
         except ValueError:
@@ -1416,10 +890,10 @@ class TaskPanelFinCan(QObject):
         self.setEdited()
 
     def _sweepLengthFromAngle(self):
-        self._finForm.sweepLengthInput.setText(self._obj.SweepLength.UserString)
+        self._finForm.form.sweepLengthInput.setText(self._obj.SweepLength.UserString)
 
     def _sweepAngleFromLength(self):
-        self._finForm.sweepAngleInput.setText(self._obj.SweepAngle.UserString)
+        self._finForm.form.sweepAngleInput.setText(self._obj.SweepAngle.UserString)
 
     def onSweepLength(self, value):
         try:
@@ -1441,21 +915,21 @@ class TaskPanelFinCan(QObject):
 
     def _setCanStyle(self):
         if self._obj.FinCanStyle == FINCAN_STYLE_SLEEVE:
-            self._finForm.canDiameterLabel.setText(translate('Rocket', "Inner Diameter"))
-            self._finForm.canLeadingGroup.setHidden(False)
+            self._finForm.form.canDiameterLabel.setText(translate('Rocket', "Inner Diameter"))
+            self._finForm.form.canLeadingGroup.setHidden(False)
             if self._isAssembly:
-                self._finForm.couplerGroup.setEnabled(False)
+                self._finForm.form.couplerGroup.setEnabled(False)
             else:
-                self._finForm.couplerGroup.setEnabled(True)
+                self._finForm.form.couplerGroup.setEnabled(True)
             self._obj.Coupler = False
         else:
-            self._finForm.canDiameterLabel.setText(translate('Rocket', "Outer Diameter"))
+            self._finForm.form.canDiameterLabel.setText(translate('Rocket', "Outer Diameter"))
             if self._isAssembly:
-                self._finForm.canLeadingGroup.setHidden(True)
+                self._finForm.form.canLeadingGroup.setHidden(True)
             else:
-                self._finForm.canLeadingGroup.setHidden(False)
-            self._finForm.couplerGroup.setEnabled(True)
-        self._finForm.couplerGroup.setChecked(self._obj.Coupler)
+                self._finForm.form.canLeadingGroup.setHidden(False)
+            self._finForm.form.couplerGroup.setEnabled(True)
+        self._finForm.form.couplerGroup.setChecked(self._obj.Coupler)
 
     def onCanDiameter(self, value):
         try:
@@ -1468,17 +942,17 @@ class TaskPanelFinCan(QObject):
 
     def _setCanAutoDiameterState(self):
         if self._isAssembly:
-            self._finForm.canDiameterInput.setEnabled(not self._obj.AutoDiameter)
-            self._finForm.canAutoDiameterCheckbox.setChecked(self._obj.AutoDiameter)
+            self._finForm.form.canDiameterInput.setEnabled(not self._obj.AutoDiameter)
+            self._finForm.form.canAutoDiameterCheckbox.setChecked(self._obj.AutoDiameter)
         else:
             self._obj.AutoDiameter = False
-            self._finForm.canAutoDiameterCheckbox.setEnabled(False)
-            self._finForm.canDiameterInput.setEnabled(not self._obj.AutoDiameter)
-            self._finForm.canAutoDiameterCheckbox.setChecked(self._obj.AutoDiameter)
+            self._finForm.form.canAutoDiameterCheckbox.setEnabled(False)
+            self._finForm.form.canDiameterInput.setEnabled(not self._obj.AutoDiameter)
+            self._finForm.form.canAutoDiameterCheckbox.setChecked(self._obj.AutoDiameter)
 
         if self._obj.AutoDiameter:
             self._obj.Diameter = (self._obj.ParentRadius * 2.0)
-            self._finForm.canDiameterInput.setText(self._obj.Diameter.UserString)
+            self._finForm.form.canDiameterInput.setText(self._obj.Diameter.UserString)
 
     def onCanAutoDiameter(self, value):
         self._obj.AutoDiameter = value
@@ -1516,9 +990,9 @@ class TaskPanelFinCan(QObject):
 
     def _enableLeadingEdge(self):
         if self._obj.LeadingEdge == FINCAN_EDGE_SQUARE:
-            self._finForm.canLeadingLengthInput.setEnabled(False)
+            self._finForm.form.canLeadingLengthInput.setEnabled(False)
         else:
-            self._finForm.canLeadingLengthInput.setEnabled(True)
+            self._finForm.form.canLeadingLengthInput.setEnabled(True)
 
     def onCanLeadingEdge(self, value):
         if len(value) <= 0:
@@ -1542,9 +1016,9 @@ class TaskPanelFinCan(QObject):
 
     def _enableTrailingEdge(self):
         if self._obj.TrailingEdge == FINCAN_EDGE_SQUARE:
-            self._finForm.canTrailingLengthInput.setEnabled(False)
+            self._finForm.form.canTrailingLengthInput.setEnabled(False)
         else:
-            self._finForm.canTrailingLengthInput.setEnabled(True)
+            self._finForm.form.canTrailingLengthInput.setEnabled(True)
 
     def onCanTrailingEdge(self, value):
         if len(value) <= 0:
@@ -1567,12 +1041,12 @@ class TaskPanelFinCan(QObject):
         self.setEdited()
 
     def onCoupler(self, value):
-        self._obj.Coupler = self._finForm.couplerGroup.isChecked()
+        self._obj.Coupler = self._finForm.form.couplerGroup.isChecked()
 
         self.redraw()
 
     def onCouplerStyle(self, value):
-        self._obj.CouplerStyle = self._finForm.couplerStylesCombo.currentData()
+        self._obj.CouplerStyle = self._finForm.form.couplerStylesCombo.currentData()
 
         self.redraw()
 
@@ -1585,18 +1059,18 @@ class TaskPanelFinCan(QObject):
 
     def _setCouplerAutoDiameterState(self):
         if self._isAssembly:
-            self._finForm.couplerDiameterInput.setEnabled(not self._obj.CouplerAutoDiameter)
-            self._finForm.couplerAutoDiameterCheckbox.setChecked(self._obj.CouplerAutoDiameter)
+            self._finForm.form.couplerDiameterInput.setEnabled(not self._obj.CouplerAutoDiameter)
+            self._finForm.form.couplerAutoDiameterCheckbox.setChecked(self._obj.CouplerAutoDiameter)
         else:
             self._obj.CouplerAutoDiameter = False
-            self._finForm.couplerAutoDiameterCheckbox.setEnabled(False)
-            self._finForm.couplerDiameterInput.setEnabled(not self._obj.CouplerAutoDiameter)
-            self._finForm.couplerAutoDiameterCheckbox.setChecked(self._obj.CouplerAutoDiameter)
+            self._finForm.form.couplerAutoDiameterCheckbox.setEnabled(False)
+            self._finForm.form.couplerDiameterInput.setEnabled(not self._obj.CouplerAutoDiameter)
+            self._finForm.form.couplerAutoDiameterCheckbox.setChecked(self._obj.CouplerAutoDiameter)
 
         if self._obj.CouplerAutoDiameter:
             pass
             # self._obj.Diameter = (self._obj.ParentRadius * 2.0)
-            # self._finForm.canDiameterInput.setText(self._obj.Diameter.UserString)
+            # self._finForm.form.canDiameterInput.setText(self._obj.Diameter.UserString)
 
     def onCouplerAutoDiameter(self, value):
         self._obj.CouplerAutoDiameter = value
@@ -1620,7 +1094,7 @@ class TaskPanelFinCan(QObject):
             pass
 
     def onLug(self, value):
-        self._obj.LaunchLug = self._finForm.lugGroup.isChecked()
+        self._obj.LaunchLug = self._finForm.form.lugGroup.isChecked()
 
         self.redraw()
         self.setEdited()
@@ -1628,7 +1102,7 @@ class TaskPanelFinCan(QObject):
     def onLugInnerDiameter(self, value):
         try:
             self._obj.LugInnerDiameter = FreeCAD.Units.Quantity(value).Value
-            self._finForm.lugPresetsCombo.setCurrentIndex(self._finForm.lugPresetsCombo.findData(FINCAN_PRESET_CUSTOM))
+            self._finForm.form.lugPresetsCombo.setCurrentIndex(self._finForm.form.lugPresetsCombo.findData(FINCAN_PRESET_CUSTOM))
             self.redraw()
         except ValueError:
             pass
@@ -1637,7 +1111,7 @@ class TaskPanelFinCan(QObject):
     def _setLugDiameter(self, value):
         try:
             self._obj.LugInnerDiameter = value
-            self._finForm.lugInnerDiameterInput.setText(self._obj.LugInnerDiameter.UserString)
+            self._finForm.form.lugInnerDiameterInput.setText(self._obj.LugInnerDiameter.UserString)
             self.redraw()
         except ValueError:
             pass
@@ -1660,12 +1134,12 @@ class TaskPanelFinCan(QObject):
         self.setEdited()
 
     def _setLugAutoThicknessState(self):
-        self._finForm.lugThicknessInput.setEnabled(not self._obj.LugAutoThickness)
-        self._finForm.lugAutoThicknessCheckbox.setChecked(self._obj.LugAutoThickness)
+        self._finForm.form.lugThicknessInput.setEnabled(not self._obj.LugAutoThickness)
+        self._finForm.form.lugAutoThicknessCheckbox.setChecked(self._obj.LugAutoThickness)
 
         if self._obj.LugAutoThickness:
             self._obj.LugThickness = self._obj.Thickness
-            self._finForm.lugThicknessInput.setText(self._obj.Thickness.UserString)
+            self._finForm.form.lugThicknessInput.setText(self._obj.Thickness.UserString)
 
     def onLugAutoThickness(self, value):
         self._obj.LugAutoThickness = value
@@ -1683,8 +1157,8 @@ class TaskPanelFinCan(QObject):
         self.setEdited()
 
     def _setLugAutoLengthState(self):
-        self._finForm.lugLengthInput.setEnabled(not self._obj.LugAutoLength)
-        self._finForm.lugAutoLengthCheckbox.setChecked(self._obj.LugAutoLength)
+        self._finForm.form.lugLengthInput.setEnabled(not self._obj.LugAutoLength)
+        self._finForm.form.lugAutoLengthCheckbox.setChecked(self._obj.LugAutoLength)
 
         if self._obj.LugAutoLength:
             length = float(self._obj.Length)
@@ -1698,7 +1172,7 @@ class TaskPanelFinCan(QObject):
                 length -= float(self._obj.TrailingLength)
 
             self._obj.LugLength = length
-            self._finForm.lugLengthInput.setText(self._obj.LugLength.UserString)
+            self._finForm.form.lugLengthInput.setText(self._obj.LugLength.UserString)
 
     def onLugAutoLength(self, value):
         self._obj.LugAutoLength = value
@@ -1725,8 +1199,8 @@ class TaskPanelFinCan(QObject):
         self.setEdited()
 
     def _setForwardSweepState(self):
-        # self._finForm.forwardSweepInput.setEnabled(self._obj.LaunchLugForwardSweep)
-        self._finForm.forwardSweepGroup.setChecked(self._obj.LaunchLugForwardSweep)
+        # self._finForm.form.forwardSweepInput.setEnabled(self._obj.LaunchLugForwardSweep)
+        self._finForm.form.forwardSweepGroup.setChecked(self._obj.LaunchLugForwardSweep)
 
     def onForwardSweep(self, value):
         self._obj.LaunchLugForwardSweep = value
@@ -1742,8 +1216,8 @@ class TaskPanelFinCan(QObject):
             pass
 
     def _setAftSweepState(self):
-        # self._finForm.aftSweepInput.setEnabled(self._obj.LaunchLugAftSweep)
-        self._finForm.aftSweepGroup.setChecked(self._obj.LaunchLugAftSweep)
+        # self._finForm.form.aftSweepInput.setEnabled(self._obj.LaunchLugAftSweep)
+        self._finForm.form.aftSweepGroup.setChecked(self._obj.LaunchLugAftSweep)
 
     def onAftSweep(self, value):
         self._obj.LaunchLugAftSweep = value
