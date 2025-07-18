@@ -97,7 +97,7 @@ class FinCanShapeHandler(FinShapeHandler):
         edge = 0.0
         if self._leadingEdge != FINCAN_EDGE_SQUARE:
             edge += self._leadingLength
-        if self._leadingEdge != FINCAN_EDGE_SQUARE:
+        if self._trailingEdge != FINCAN_EDGE_SQUARE:
             edge += self._trailingLength
         if edge > self._length:
             validationError(translate('Rocket', "Fin can leading and trailing edges can not exceed total length"))
@@ -206,9 +206,9 @@ class FinCanShapeHandler(FinShapeHandler):
         return shape
 
     def _getTrailingEdge(self) -> Shape:
-        if self._leadingEdge == FINCAN_EDGE_ROUND:
+        if self._trailingEdge == FINCAN_EDGE_ROUND:
             return self._trailingRound()
-        elif self._leadingEdge == FINCAN_EDGE_TAPER:
+        elif self._trailingEdge == FINCAN_EDGE_TAPER:
             return self._trailingTaper()
         return None
 
@@ -334,13 +334,13 @@ class FinCanShapeHandler(FinShapeHandler):
                 lug = self._cutFillet(lug, major, minor, center_x, center_y, center_z)
 
                 # Add the sweeps
-                if self._lugForwardSweep or self._lugForwardSweep:
+                if self._lugForwardSweep or self._lugAftSweep:
                     xFore = base + self._lugLength
                     xAft = base
                     if self._lugForwardSweep:
                         rake = self._drawForwardSweep(outerRadius, bodyRadius, xFore, xAft)
                         lug = lug.cut(rake)
-                    if self._lugForwardSweep:
+                    if self._lugAftSweep:
                         rake = self._drawAftSweep(outerRadius, bodyRadius, xFore, xAft)
                         lug = lug.cut(rake)
 

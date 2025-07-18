@@ -66,24 +66,16 @@ class _FinCanDialog(_FinDialog):
         self.setGeometry(250, 250, 400, 350)
         self.setWindowTitle(translate('Rocket', "Fin Can Parameter"))
 
-        # self.tabWidget = QtGui.QTabWidget()
-        # self.tabGeneral = QtGui.QWidget()
-        # self.tabFinCan = QtGui.QWidget()
-        # self.tabCoupler = QtGui.QWidget()
-        # self.tabLaunchLug = QtGui.QWidget()
         self.tabScaling = ScalingTabFins(obj)
         self.tabMaterial = MaterialTab()
         self.tabComment = CommentTab()
-        # self.tabWidget.addTab(self.tabGeneral, translate('Rocket', "Fins"))
-        # self.tabWidget.addTab(self.tabFinCan, translate('Rocket', "Fin Can"))
-        # self.tabWidget.addTab(self.tabCoupler, translate('Rocket', "Coupler"))
-        # self.tabWidget.addTab(self.tabLaunchLug, translate('Rocket', "Launch Lug"))
         self.form.tabWidget.addTab(self.tabScaling, translate('Rocket', "Scaling"))
         self.form.tabWidget.addTab(self.tabMaterial, translate('Rocket', "Material"))
         self.form.tabWidget.addTab(self.tabComment, translate('Rocket', "Comment"))
 
         # Hide unused tabs
         self.form.tabWidget.setTabVisible(TAB_FINTABS, False)
+        self.form.tabCrossSections.setTabVisible(TAB_FIN_FILLETS, False)
 
         self.setTabGeneral()
         self.setTabCan()

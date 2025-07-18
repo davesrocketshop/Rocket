@@ -124,11 +124,11 @@ class FeatureFinCan(SymmetricComponent, FeatureFin):
         if not hasattr(obj,"LaunchLugForwardSweep"):
             obj.addProperty('App::PropertyBool', 'LaunchLugForwardSweep', 'RocketComponent', translate('App::Property', 'Forward side of the launch lug is swept')).LaunchLugForwardSweep = True
         if not hasattr(obj,"LaunchLugForwardSweepAngle"):
-            obj.addProperty('App::PropertyLength', 'LaunchLugForwardSweepAngle', 'RocketComponent', translate('App::Property', 'Forward sweep angle')).LaunchLugForwardSweepAngle = 30.0
+            obj.addProperty('App::PropertyAngle', 'LaunchLugForwardSweepAngle', 'RocketComponent', translate('App::Property', 'Forward sweep angle')).LaunchLugForwardSweepAngle = 30.0
         if not hasattr(obj,"LaunchLugAftSweep"):
             obj.addProperty('App::PropertyBool', 'LaunchLugAftSweep', 'RocketComponent', translate('App::Property', 'Aft side of the launch lug is swept')).LaunchLugAftSweep = True
         if not hasattr(obj,"LaunchLugAftSweepAngle"):
-            obj.addProperty('App::PropertyLength', 'LaunchLugAftSweepAngle', 'RocketComponent', translate('App::Property', 'Aft sweep angle')).LaunchLugAftSweepAngle = 30.0
+            obj.addProperty('App::PropertyAngle', 'LaunchLugAftSweepAngle', 'RocketComponent', translate('App::Property', 'Aft sweep angle')).LaunchLugAftSweepAngle = 30.0
 
         if not hasattr(obj,"Coupler"):
             obj.addProperty('App::PropertyBool', 'Coupler', 'RocketComponent', translate('App::Property', 'Fin can includes coupler')).Coupler = False
@@ -208,7 +208,17 @@ class FeatureFinCan(SymmetricComponent, FeatureFin):
 
     def onDocumentRestored(self, obj : Any) -> None:
         if obj is not None:
+
+            # Migrate from length to angle
+            forward = obj.LaunchLugForwardSweepAngle.Value
+            aft = obj.LaunchLugAftSweepAngle.Value
+            obj.removeProperty("LaunchLugForwardSweepAngle")
+            obj.removeProperty("LaunchLugAftSweepAngle")
+
             FeatureFinCan(obj) # Update any properties
+
+            obj.LaunchLugForwardSweepAngle = forward
+            obj.LaunchLugAftSweepAngle = aft
 
             # Convert from the pre-1.0 material system if required
             self.convertMaterialAndAppearance(obj)
