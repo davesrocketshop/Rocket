@@ -34,7 +34,7 @@ from Part import Shape, Wire, BSplineCurve
 from DraftTools import translate
 
 from Rocket.Constants import FEATURE_FINCAN
-from Rocket.Constants import FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE, \
+from Rocket.Constants import FIN_CROSS_SAME, FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE, \
     FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE, FIN_CROSS_BICONVEX, FIN_CROSS_ELLIPSE
 from Rocket.Constants import FIN_DEBUG_FULL, FIN_DEBUG_PROFILE_ONLY, FIN_DEBUG_MASK_ONLY
 
@@ -47,7 +47,7 @@ class FinShapeHandler:
 
         # This gets changed when redrawn so it's very important to save a copy
         self._placement = FreeCAD.Placement(self._obj.Placement)
-        
+
         self._debugSketch = FIN_DEBUG_FULL
         if hasattr(self._obj,"DebugSketch"):
             self._debugSketch = str(self._obj.DebugSketch)
@@ -60,7 +60,7 @@ class FinShapeHandler:
             self._radius = 0.0
             self._thickness = 0.0
             self._leadingEdgeOffset = 0.0
-    
+
         self._autoDiameter = bool(self._obj.AutoDiameter)
         self._parentRadius = float(self._obj.ParentRadius)
 
@@ -80,8 +80,19 @@ class FinShapeHandler:
         self._tipLength1 = float(self._obj.TipLength1)
         self._tipLength2 = float(self._obj.TipLength2)
         self._tipSameThickness = bool(self._obj.TipSameThickness)
-        self._tipThickness = float(self._obj.TipThickness)
+        if self._tipSameThickness:
+            self._tipThickness = self._rootThickness
+        else:
+            self._tipThickness = float(self._obj.TipThickness)
         self._tipCrossSection = str(self._obj.TipCrossSection)
+        if self._tipCrossSection == FIN_CROSS_SAME:
+            self._tipCrossSection = self._rootCrossSection
+
+        self._fillets = bool(self._obj.Fillets)
+        self._filletRadius = float(self._obj.FilletRadius)
+        self._filletCrossSection = str(self._obj.FilletCrossSection)
+        if self._filletCrossSection == FIN_CROSS_SAME:
+            self._filletCrossSection = self._rootCrossSection
 
         self._sweepAngle = float(self._obj.SweepAngle)
         self._sweepLength = float(self._obj.SweepLength) # TODO: Needs to be recalculated based on scaled values
@@ -116,6 +127,8 @@ class FinShapeHandler:
                 self._tipLength2 *= self._scale
             self._tipChord *= self._scale
             self._tipThickness *= self._scale
+
+            self._filletRadius *= self._scale
 
             self._height *= self._scale
             self._sweepLength *= self._scale # Is it this simple?
@@ -542,6 +555,10 @@ class FinShapeHandler:
         profiles = []
         return profiles
 
+    def _makeFilletProfiles(self, radius : float) -> list:
+        profiles = []
+        return profiles
+
     def _makeTip(self) -> Shape:
         return None
 
@@ -623,6 +640,29 @@ class FinShapeHandler:
 
         return loft
 
+    def _makeFillet(self) -> Shape:
+        loft = None
+
+        height = self._radius + self._thickness
+        # Height is scaled when making the extension profiles
+        profiles = self._makeFilletProfiles(self._filletRadius)
+
+        if profiles is not None and len(profiles) > 0:
+            loft = Part.makeLoft(profiles, True)
+
+            # # Make a cutout of the body tube center
+            # if loft is not None:
+            #     center = Part.makeCylinder(self._radius,
+            #                                2.0 * self._rootChord,
+            #                                FreeCAD.Vector(self._rootChord / 2.0, 0, -height),
+            #                                FreeCAD.Vector(1, 0, 0)
+            #                                )
+            #     if self._cant != 0:
+            #         center.rotate(FreeCAD.Vector(self._rootChord / 2, 0, 0), FreeCAD.Vector(0,0,1), -self._cant)
+            #     loft = loft.cut(center)
+
+        return loft
+
     def _drawFinDebug(self, debug : str) -> Shape:
         fin = self._finOnlyShape(debug)
         if fin is not None:
@@ -630,6 +670,10 @@ class FinShapeHandler:
                 extension = self._makeRootExtension()
                 if extension:
                     fin = fin.fuse(extension)
+            if self._fillets:
+                fillet = self._makeFillet()
+                if fillet:
+                    fin = fin.fuse(fillet)
             if self._ttw:
                 ttw = self._makeTtw()
                 if ttw:

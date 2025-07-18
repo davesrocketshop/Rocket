@@ -171,6 +171,20 @@ class FeatureFin(ExternalComponent):
             obj.addProperty('App::PropertyBool', 'AutoDiameter', 'RocketComponent', translate('App::Property', 'Automatically set diameter')).AutoDiameter = True
         obj.setEditorMode('AutoDiameter', PROP_HIDDEN)  # hide
 
+        if not hasattr(obj,"FilletCrossSection"):
+            obj.addProperty('App::PropertyEnumeration', 'FilletCrossSection', 'RocketComponent', translate('App::Property', 'Fin fillet cross section'))
+            obj.FilletCrossSection = [FIN_CROSS_SAME, FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE,
+                FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE, FIN_CROSS_ELLIPSE, FIN_CROSS_BICONVEX]
+            obj.FilletCrossSection = FIN_CROSS_ROUND
+        else:
+            # Make sure these are up to date
+            obj.FilletCrossSection = [FIN_CROSS_SAME, FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE,
+                FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE, FIN_CROSS_ELLIPSE, FIN_CROSS_BICONVEX]
+        if not hasattr(obj, 'Fillets'):
+            obj.addProperty('App::PropertyBool', 'Fillets', 'RocketComponent', translate('App::Property', 'Apply fin fillets')).Fillets = False
+        if not hasattr(obj,"FilletRadius"):
+            obj.addProperty('App::PropertyLength', 'FilletRadius', 'RocketComponent', translate('App::Property', 'Fillet radius')).FilletRadius = 5
+
         if not hasattr(obj, 'ScaleByRootChord'):
             obj.addProperty('App::PropertyBool', 'ScaleByRootChord', 'RocketComponent', translate('App::Property', 'Scale the object by root chord')).ScaleByRootChord = False
         if not hasattr(obj, 'ScaleByHeight'):
@@ -228,7 +242,7 @@ class FeatureFin(ExternalComponent):
         if self.hasParent():
             if self.getParent().isScaled():
                 return self.getParent().getScale()
-            
+
         scale = 1.0
         if self._obj.Scale:
             if self._obj.ScaleByValue and self._obj.ScaleValue.Value > 0.0:

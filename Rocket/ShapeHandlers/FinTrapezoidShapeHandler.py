@@ -25,10 +25,9 @@ __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
 from typing import Any
+import math
 
 from DraftTools import translate
-
-from Rocket.Constants import FIN_CROSS_SAME
 
 from Rocket.Utilities import validationError
 
@@ -49,18 +48,26 @@ class FinTrapezoidShapeHandler(FinShapeHandler):
 
     def _makeTipProfile(self) -> Any:
         # Create the tip profile, casting everything to float to avoid typing issues
-        crossSection = self._tipCrossSection
-        if crossSection == FIN_CROSS_SAME:
-            crossSection = self._rootCrossSection
-
-        tipThickness = self._tipThickness
-        if self._tipSameThickness:
-            tipThickness = self._rootThickness
-
         l1, l2 = self._lengthsFromPercent(self._tipChord, self._tipPerCent,
                                           self._tipLength1, self._tipLength2)
-        return self._makeChordProfile(crossSection, self._sweepLength, self._tipChord,
-            tipThickness, self._height, l1, l2)
+        return self._makeChordProfile(self._tipCrossSection, self._sweepLength, self._tipChord,
+            self._tipThickness, self._height, l1, l2)
+
+    def _sweepAtHeight(self, height : float) -> float:
+        sweep = math.tan(math.radians(self._sweepAngle)) * height
+        return sweep
+
+    def _chordAtHeight(self, height : float) -> float:
+        # sweep = math.tan(math.radians(self._sweepAngle)) * height
+        return self._rootChord
+
+    def _makeAtHeightProfile(self, crossSection : str, height : float = 0.0, offset : float = 0.0) -> Any:
+        chord = self._chordAtHeight(height) + 2.0 * offset
+        thickness = self._rootThickness + 2.0 * offset
+        l1, l2 = self._lengthsFromPercent(chord, self._rootPerCent,
+                                          self._rootLength1, self._rootLength2)
+        return self._makeChordProfile(crossSection, -offset + self._sweepAtHeight(height), chord,
+            thickness, height, l1, l2)
 
     def isValidShape(self) -> bool:
         # Add error checking here
@@ -89,4 +96,11 @@ class FinTrapezoidShapeHandler(FinShapeHandler):
         profiles = []
         profiles.append(self._makeRootProfile(-height))
         profiles.append(self._makeRootProfile())
+        return profiles
+
+    def _makeFilletProfiles(self, radius : float) -> list:
+        profiles = []
+        profiles.append(self._makeAtHeightProfile(self._rootCrossSection, radius, 0.0))
+        profiles.append(self._makeAtHeightProfile(self._filletCrossSection, radius / 2.0, radius * 0.293))
+        profiles.append(self._makeAtHeightProfile(self._filletCrossSection, 0.0, radius))
         return profiles

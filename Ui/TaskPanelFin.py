@@ -119,6 +119,7 @@ class _FinDialog(QDialog):
         self.setTabFinRoot()
         self.setTabFinTip()
         self.setTabFinTube()
+        self.setTabFinFillets()
 
     def setTabFinRoot(self) -> None:
 
@@ -167,6 +168,22 @@ class _FinDialog(QDialog):
         self.form.tubeLengthInput.unit = FreeCAD.Units.Length
         self.form.tubeOuterDiameterInput.unit = FreeCAD.Units.Length
         self.form.tubeThicknessInput.unit = FreeCAD.Units.Length
+
+    def setTabFinFillets(self) -> None:
+        # Select the type of cross section
+        self.form.filletCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_SAME), FIN_CROSS_SAME)
+        self.form.filletCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_SQUARE), FIN_CROSS_SQUARE)
+        self.form.filletCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_ROUND), FIN_CROSS_ROUND)
+        self.form.filletCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_ELLIPSE), FIN_CROSS_ELLIPSE)
+        self.form.filletCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_BICONVEX), FIN_CROSS_BICONVEX)
+        self.form.filletCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_AIRFOIL), FIN_CROSS_AIRFOIL)
+        self.form.filletCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_WEDGE), FIN_CROSS_WEDGE)
+        self.form.filletCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_DIAMOND), FIN_CROSS_DIAMOND)
+        self.form.filletCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_TAPER_LE), FIN_CROSS_TAPER_LE)
+        self.form.filletCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_TAPER_TE), FIN_CROSS_TAPER_TE)
+        self.form.filletCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_TAPER_LETE), FIN_CROSS_TAPER_LETE)
+
+        self.form.filletRadiusInput.unit = FreeCAD.Units.Length
 
     def setTabTtw(self) -> None:
 
@@ -226,6 +243,10 @@ class TaskPanelFin(QObject):
         self._finForm.form.tubeOuterDiameterInput.textEdited.connect(self.onTubeOuterDiameter)
         self._finForm.form.tubeAutoOuterDiameterCheckbox.stateChanged.connect(self.onTubeAutoOuterDiameter)
         self._finForm.form.tubeThicknessInput.textEdited.connect(self.onTubeThickness)
+
+        self._finForm.form.filletCrossSectionsCombo.currentTextChanged.connect(self.onFilletCrossSection)
+        self._finForm.form.filletsCheckbox.stateChanged.connect(self.onFillet)
+        self._finForm.form.filletRadiusInput.textEdited.connect(self.onFilletRadius)
 
         self._finForm.form.heightInput.textEdited.connect(self.onHeight)
         self._finForm.form.autoHeightCheckBox.stateChanged.connect(self.onAutoHeight)
@@ -304,6 +325,10 @@ class TaskPanelFin(QObject):
         self._obj.MinimumEdge = self._finForm.form.minimumEdgeGroup.isChecked()
         self._obj.MinimumEdgeSize = self._finForm.form.minimumEdgeSizeInput.text()
 
+        self._obj.FilletCrossSection = str(self._finForm.form.filletCrossSectionsCombo.currentData())
+        self._obj.Fillets = self._finForm.form.filletsCheckbox.isChecked()
+        self._obj.FilletRadius = self._finForm.form.filletRadiusInput.text()
+
         self._finForm.tabScaling.transferTo(self._obj)
         self._finForm.tabMaterial.transferTo(self._obj)
         self._finForm.tabComment.transferTo(self._obj)
@@ -349,6 +374,10 @@ class TaskPanelFin(QObject):
         self._finForm.form.ttwHeightInput.setText(self._obj.TtwHeight.UserString)
         self._finForm.form.ttwAutoHeightCheckbox.setChecked(self._obj.TtwAutoHeight)
         self._finForm.form.ttwThicknessInput.setText(self._obj.TtwThickness.UserString)
+
+        self._finForm.form.filletCrossSectionsCombo.setCurrentIndex(self._finForm.form.filletCrossSectionsCombo.findData(self._obj.FilletCrossSection))
+        self._finForm.form.filletsCheckbox.setChecked(self._obj.Fillets)
+        self._finForm.form.filletRadiusInput.setText(self._obj.FilletRadius.UserString)
 
         self._finForm.form.minimumEdgeGroup.setChecked(self._obj.MinimumEdge)
         self._finForm.form.minimumEdgeSizeInput.setText(self._obj.MinimumEdgeSize.UserString)
@@ -529,7 +558,7 @@ class TaskPanelFin(QObject):
         self._finForm.form.tabCrossSections.setTabVisible(TAB_FIN_ROOT, True)
         self._finForm.form.tabCrossSections.setTabVisible(TAB_FIN_TIP, True)
         self._finForm.form.tabCrossSections.setTabVisible(TAB_FIN_TUBE, False)
-        self._finForm.form.tabCrossSections.setTabVisible(TAB_FIN_FILLETS, False)
+        self._finForm.form.tabCrossSections.setTabVisible(TAB_FIN_FILLETS, True)
         self._finForm.form.minimumEdgeGroup.setHidden(False)
 
         self._enableTipLengths()
@@ -565,7 +594,7 @@ class TaskPanelFin(QObject):
         self._finForm.form.tabCrossSections.setTabVisible(TAB_FIN_ROOT, True)
         self._finForm.form.tabCrossSections.setTabVisible(TAB_FIN_TIP, False)
         self._finForm.form.tabCrossSections.setTabVisible(TAB_FIN_TUBE, False)
-        self._finForm.form.tabCrossSections.setTabVisible(TAB_FIN_FILLETS, False)
+        self._finForm.form.tabCrossSections.setTabVisible(TAB_FIN_FILLETS, True)
         self._finForm.form.minimumEdgeGroup.setHidden(False)
 
     def _enableFinTypeEllipse(self) -> None:
@@ -601,7 +630,7 @@ class TaskPanelFin(QObject):
         self._finForm.form.tabCrossSections.setTabVisible(TAB_FIN_ROOT, True)
         self._finForm.form.tabCrossSections.setTabVisible(TAB_FIN_TIP, False)
         self._finForm.form.tabCrossSections.setTabVisible(TAB_FIN_TUBE, False)
-        self._finForm.form.tabCrossSections.setTabVisible(TAB_FIN_FILLETS, False)
+        self._finForm.form.tabCrossSections.setTabVisible(TAB_FIN_FILLETS, True)
         self._finForm.form.minimumEdgeGroup.setHidden(False)
 
     def _enableFinTypeTube(self) -> None:
@@ -931,6 +960,26 @@ class TaskPanelFin(QObject):
     def onTubeThickness(self, value : str) -> None:
         try:
             self._obj.TubeThickness = FreeCAD.Units.Quantity(value).Value
+            self.redraw()
+        except ValueError:
+            pass
+        self.setEdited()
+
+    def onFilletCrossSection(self, value : str) -> None:
+        self._obj.FilletCrossSection = value
+
+        self.redraw()
+        self.setEdited()
+
+    def onFillet(self, value : bool) -> None:
+        self._obj.Fillets = value
+
+        self.redraw()
+        self.setEdited()
+
+    def onFilletRadius(self, value : str) -> None:
+        try:
+            self._obj.FilletRadius = FreeCAD.Units.Quantity(value).Value
             self.redraw()
         except ValueError:
             pass
