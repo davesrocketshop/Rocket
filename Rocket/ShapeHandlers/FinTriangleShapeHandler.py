@@ -90,6 +90,19 @@ class FinTriangleShapeHandler(FinShapeHandler):
         sweep = math.tan(math.radians(angle)) * height
         return sweep
 
+    def _chordAtHeight(self, height : float) -> float:
+        x1 = self._sweepAtHeight(height)
+        x2 = self._rootChord + (height / self._height) * (self._sweepLength - self._rootChord)
+        return abs(x1 - x2)
+
+    def _makeAtHeightProfile(self, crossSection : str, height : float = 0.0, offset : float = 0.0) -> Any:
+        chord = self._chordAtHeight(height) + 2.0 * offset
+        thickness = self._rootThickness + 2.0 * offset
+        l1, l2 = self._lengthsFromPercent(chord, self._rootPerCent,
+                                          self._rootLength1, self._rootLength2)
+        return self._makeChordProfile(crossSection, -offset + self._sweepAtHeight(height), chord,
+            thickness, height, l1, l2)
+
     def _midChord(self, rootChord : float) -> tuple[float, float, float]:
 
         chord = rootChord / 2.0
@@ -155,6 +168,13 @@ class FinTriangleShapeHandler(FinShapeHandler):
         profiles = []
         profiles.append(self._makeRootProfile(-height))
         profiles.append(self._makeRootProfile())
+        return profiles
+
+    def _makeFilletProfiles(self, radius : float) -> list:
+        profiles = []
+        profiles.append(self._makeAtHeightProfile(self._rootCrossSection, radius, 0.0))
+        profiles.append(self._makeAtHeightProfile(self._filletCrossSection, radius / 2.0, radius * 0.293))
+        profiles.append(self._makeAtHeightProfile(self._filletCrossSection, 0.0, radius))
         return profiles
 
     def _makeTopProfile(self) -> Any:

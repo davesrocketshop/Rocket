@@ -75,7 +75,7 @@ class _FinCanDialog(_FinDialog):
 
         # Hide unused tabs
         self.form.tabWidget.setTabVisible(TAB_FINTABS, False)
-        self.form.tabCrossSections.setTabVisible(TAB_FIN_FILLETS, False)
+        # self.form.tabCrossSections.setTabVisible(TAB_FIN_FILLETS, False)
 
         self.setTabGeneral()
         self.setTabCan()
@@ -100,6 +100,7 @@ class _FinCanDialog(_FinDialog):
         self.setTabFinRoot()
         self.setTabFinTip()
         # self.setTabFinTube() - not supported
+        self.setTabFinFillets()
 
     def setTabCan(self):
         # Fin can leading and trailing edges
@@ -183,6 +184,10 @@ class TaskPanelFinCan(QObject):
         self._finForm.form.tipLength1Input.textEdited.connect(self.onTipLength1)
         self._finForm.form.tipLength2Input.textEdited.connect(self.onTipLength2)
 
+        self._finForm.form.filletCrossSectionsCombo.currentTextChanged.connect(self.onFilletCrossSection)
+        self._finForm.form.filletsCheckbox.stateChanged.connect(self.onFillet)
+        self._finForm.form.filletRadiusInput.textEdited.connect(self.onFilletRadius)
+
         self._finForm.form.heightInput.textEdited.connect(self.onHeight)
         self._finForm.form.autoHeightCheckBox.stateChanged.connect(self.onAutoHeight)
         self._finForm.form.spanInput.textEdited.connect(self.onSpan)
@@ -257,6 +262,10 @@ class TaskPanelFinCan(QObject):
         self._obj.TipLength1 = self._finForm.form.tipLength1Input.text()
         self._obj.TipLength2 =self._finForm.form.tipLength2Input.text()
 
+        self._obj.FilletCrossSection = str(self._finForm.form.filletCrossSectionsCombo.currentData())
+        self._obj.Fillets = self._finForm.form.filletsCheckbox.isChecked()
+        self._obj.FilletRadius = self._finForm.form.filletRadiusInput.text()
+
         self._obj.Height = self._finForm.form.heightInput.text()
         self._obj.AutoHeight = self._finForm.form.autoHeightCheckBox.isChecked()
         self._obj.Span = self._finForm.form.spanInput.text()
@@ -322,6 +331,10 @@ class TaskPanelFinCan(QObject):
         self._finForm.form.tipPerCentCheckbox.setChecked(self._obj.TipPerCent)
         self._finForm.form.tipLength1Input.setText(self._obj.TipLength1.UserString)
         self._finForm.form.tipLength2Input.setText(self._obj.TipLength2.UserString)
+
+        self._finForm.form.filletCrossSectionsCombo.setCurrentIndex(self._finForm.form.filletCrossSectionsCombo.findData(self._obj.FilletCrossSection))
+        self._finForm.form.filletsCheckbox.setChecked(self._obj.Fillets)
+        self._finForm.form.filletRadiusInput.setText(self._obj.FilletRadius.UserString)
 
         self._finForm.form.heightInput.setText(self._obj.Height.UserString)
         self._finForm.form.autoHeightCheckBox.setChecked(self._obj.AutoHeight)
@@ -838,6 +851,26 @@ class TaskPanelFinCan(QObject):
     def onTipLength2(self, value):
         try:
             self._obj.TipLength2 = FreeCAD.Units.Quantity(value).Value
+            self.redraw()
+        except ValueError:
+            pass
+        self.setEdited()
+
+    def onFilletCrossSection(self, value : str) -> None:
+        self._obj.FilletCrossSection = value
+
+        self.redraw()
+        self.setEdited()
+
+    def onFillet(self, value : bool) -> None:
+        self._obj.Fillets = value
+
+        self.redraw()
+        self.setEdited()
+
+    def onFilletRadius(self, value : str) -> None:
+        try:
+            self._obj.FilletRadius = FreeCAD.Units.Quantity(value).Value
             self.redraw()
         except ValueError:
             pass

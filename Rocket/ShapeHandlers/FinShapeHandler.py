@@ -613,7 +613,7 @@ class FinShapeHandler:
                 cut = self._makeCut()
                 if cut is not None:
                     print("cut")
-                    Part.show(cut)
+                    # Part.show(cut)
 
         return loft
 
@@ -643,37 +643,44 @@ class FinShapeHandler:
     def _makeFillet(self) -> Shape:
         loft = None
 
-        height = self._radius + self._thickness
-        # Height is scaled when making the extension profiles
+        if hasattr(self._obj, "Diameter"):
+            # This is for fin cans
+            radius = self._radius
+        else:
+            radius = self._parentRadius
+
         profiles = self._makeFilletProfiles(self._filletRadius)
 
         if profiles is not None and len(profiles) > 0:
             loft = Part.makeLoft(profiles, True)
 
-            # # Make a cutout of the body tube center
-            # if loft is not None:
-            #     center = Part.makeCylinder(self._radius,
-            #                                2.0 * self._rootChord,
-            #                                FreeCAD.Vector(self._rootChord / 2.0, 0, -height),
-            #                                FreeCAD.Vector(1, 0, 0)
-            #                                )
-            #     if self._cant != 0:
-            #         center.rotate(FreeCAD.Vector(self._rootChord / 2, 0, 0), FreeCAD.Vector(0,0,1), -self._cant)
-            #     loft = loft.cut(center)
+            # Part.show(loft)
+
+            # Make a cutout of the body tube center
+            if loft is not None:
+                center = Part.makeCylinder(radius + 0.001,
+                                           2.0 * self._rootChord,
+                                           FreeCAD.Vector(-self._rootChord, 0, -radius),
+                                           FreeCAD.Vector(1, 0, 0)
+                                           )
+                if self._cant != 0:
+                    center.rotate(FreeCAD.Vector(self._rootChord / 2, 0, 0), FreeCAD.Vector(0,0,1), -self._cant)
+                loft = loft.cut(center)
 
         return loft
 
     def _drawFinDebug(self, debug : str) -> Shape:
         fin = self._finOnlyShape(debug)
         if fin is not None:
-            if self._extendRoot():
-                extension = self._makeRootExtension()
-                if extension:
-                    fin = fin.fuse(extension)
+            # if self._extendRoot():
+            #     extension = self._makeRootExtension()
+            #     if extension:
+            #         fin = fin.fuse(extension)
             if self._fillets:
                 fillet = self._makeFillet()
                 if fillet:
                     fin = fin.fuse(fillet)
+                    # fin = fillet
             if self._ttw:
                 ttw = self._makeTtw()
                 if ttw:

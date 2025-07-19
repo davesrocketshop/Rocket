@@ -27,6 +27,8 @@ __url__ = "https://www.davesrocketshop.com"
 from typing import Any
 import math
 
+import Part
+
 from DraftTools import translate
 
 from Rocket.Utilities import validationError
@@ -58,8 +60,9 @@ class FinTrapezoidShapeHandler(FinShapeHandler):
         return sweep
 
     def _chordAtHeight(self, height : float) -> float:
-        # sweep = math.tan(math.radians(self._sweepAngle)) * height
-        return self._rootChord
+        x1 = self._sweepAtHeight(height)
+        x2 = self._rootChord + (height / self._height) * (self._sweepLength + self._tipChord - self._rootChord)
+        return abs(x1 - x2)
 
     def _makeAtHeightProfile(self, crossSection : str, height : float = 0.0, offset : float = 0.0) -> Any:
         chord = self._chordAtHeight(height) + 2.0 * offset
@@ -100,7 +103,19 @@ class FinTrapezoidShapeHandler(FinShapeHandler):
 
     def _makeFilletProfiles(self, radius : float) -> list:
         profiles = []
-        profiles.append(self._makeAtHeightProfile(self._rootCrossSection, radius, 0.0))
-        profiles.append(self._makeAtHeightProfile(self._filletCrossSection, radius / 2.0, radius * 0.293))
-        profiles.append(self._makeAtHeightProfile(self._filletCrossSection, 0.0, radius))
+        if hasattr(self._obj, "Diameter"):
+            # This is for fin cans
+            bodyRadius = self._radius
+        else:
+            bodyRadius = self._parentRadius
+        # Calculate negative height when on a body tube
+        theta = math.asin((radius + self._rootThickness / 2.0) / bodyRadius)
+        height = bodyRadius * (1.0 - math.cos(theta))
+        hSpan = radius + height
+        profiles.append(self._makeAtHeightProfile(self._rootCrossSection, radius, 0.001))
+        # profiles.append(self._makeAtHeightProfile(self._filletCrossSection, radius / 2.0, radius * 0.293))
+        profiles.append(self._makeAtHeightProfile(self._filletCrossSection, hSpan * 0.25 - height, radius * 0.032))
+        profiles.append(self._makeAtHeightProfile(self._filletCrossSection, hSpan * 0.50 - height, radius * 0.134))
+        profiles.append(self._makeAtHeightProfile(self._filletCrossSection, hSpan * 0.75 - height, radius * 0.339))
+        profiles.append(self._makeAtHeightProfile(self._filletCrossSection, -height, radius))
         return profiles
