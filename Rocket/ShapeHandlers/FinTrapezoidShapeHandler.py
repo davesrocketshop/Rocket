@@ -43,6 +43,7 @@ class FinTrapezoidShapeHandler(FinShapeHandler):
     def _makeRootProfile(self, height : float = 0.0) -> Any:
         # Create the root profile, casting everything to float to avoid typing issues
         scaleHeight = self._scale * height
+        # scaleHeight = height #self._scale * height
         l1, l2 = self._lengthsFromPercent(self._rootChord, self._rootPerCent,
                                           self._rootLength1, self._rootLength2)
         return self._makeChordProfile(self._rootCrossSection, 0.0, self._rootChord,
@@ -93,28 +94,4 @@ class FinTrapezoidShapeHandler(FinShapeHandler):
         profiles = []
         profiles.append(self._makeRootProfile())
         profiles.append(self._makeTipProfile())
-        return profiles
-
-    def _makeExtensionProfiles(self, height : float) -> list:
-        profiles = []
-        profiles.append(self._makeRootProfile(-height))
-        profiles.append(self._makeRootProfile())
-        return profiles
-
-    def _makeFilletProfiles(self, radius : float) -> list:
-        profiles = []
-        if hasattr(self._obj, "Diameter"):
-            # This is for fin cans
-            bodyRadius = self._radius
-        else:
-            bodyRadius = self._parentRadius
-        # Calculate negative height when on a body tube
-        theta = math.asin((radius + self._rootThickness / 2.0) / bodyRadius)
-        height = bodyRadius * (1.0 - math.cos(theta))
-        hSpan = radius + height
-        profiles.append(self._makeAtHeightProfile(self._rootCrossSection, radius, 0.001))
-        profiles.append(self._makeAtHeightProfile(self._filletCrossSection, hSpan * 0.75 - height, radius * 0.032))
-        profiles.append(self._makeAtHeightProfile(self._filletCrossSection, hSpan * 0.50 - height, radius * 0.134))
-        profiles.append(self._makeAtHeightProfile(self._filletCrossSection, hSpan * 0.25 - height, radius * 0.339))
-        profiles.append(self._makeAtHeightProfile(self._filletCrossSection, -height, radius))
         return profiles

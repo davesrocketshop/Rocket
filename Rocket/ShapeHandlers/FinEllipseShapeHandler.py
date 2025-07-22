@@ -131,6 +131,62 @@ class FinEllipseShapeHandler(FinShapeHandler):
 
         return None
 
+    def _makeAtHeightProfile(self, crossSection : str, height : float = 0.0, offset : float = 0.0) -> Any:
+        midChord = self._rootChord / 2.0
+        l1, l2 = self._lengthsFromPercent(self._rootChord, self._rootPerCent,
+                                        self._rootLength1, self._rootLength2)
+        if height < 0:
+            radius = self._radiusAt(self._rootChord, self._height, 0.0)
+        else:
+            radius = self._radiusAt(self._rootChord, self._height, height)
+        radius += 2.0 * offset
+        tapered = self._rootCrossSection in [FIN_CROSS_ROUND, FIN_CROSS_BICONVEX, FIN_CROSS_ELLIPSE, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE, FIN_CROSS_DIAMOND]
+        if tapered:
+            if height < 0:
+                thickness = 2.0 * self._radiusAt(self._rootThickness / 2.0, self._height, 0.0)
+            else:
+                thickness = 2.0 * self._radiusAt(self._rootThickness / 2.0, self._height, height)
+        else:
+            thickness = self._rootThickness
+        thickness += 2.0 * offset
+        profile = self._makeChordProfile(crossSection,
+            midChord - radius,
+            radius * 2.0,
+            thickness,
+            height,
+            l1,
+            l2,
+            midChordLimit = True
+        )
+        return profile
+
+    def _makeRootProfile(self, height : float = 0.0) -> Any:
+        midChord = self._rootChord / 2.0
+        l1, l2 = self._lengthsFromPercent(self._rootChord, self._rootPerCent,
+                                        self._rootLength1, self._rootLength2)
+        if height < 0:
+            radius = self._radiusAt(self._rootChord, self._height, 0.0)
+        else:
+            radius = self._radiusAt(self._rootChord, self._height, height)
+        tapered = self._rootCrossSection in [FIN_CROSS_ROUND, FIN_CROSS_BICONVEX, FIN_CROSS_ELLIPSE, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE, FIN_CROSS_DIAMOND]
+        if tapered:
+            if height < 0:
+                thickness = 2.0 * self._radiusAt(self._rootThickness / 2.0, self._height, 0.0)
+            else:
+                thickness = 2.0 * self._radiusAt(self._rootThickness / 2.0, self._height, height)
+        else:
+            thickness = self._rootThickness
+        profile = self._makeChordProfile(self._rootCrossSection,
+            midChord - radius,
+            radius * 2.0,
+            thickness,
+            height,
+            l1,
+            l2,
+            midChordLimit = True
+        )
+        return profile
+
     def _makeProfiles(self) -> list:
         if self._rootCrossSection == FIN_CROSS_TAPER_LETE:
             return self._taperedEllipse()

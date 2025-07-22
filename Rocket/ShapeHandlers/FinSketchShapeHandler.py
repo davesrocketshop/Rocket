@@ -230,6 +230,12 @@ class FinSketchShapeHandler(FinShapeHandler):
 
         return profiles
 
+    def _makeAtHeightProfile(self, crossSection : str, height : float = 0.0, offset : float = 0.0) -> Any:
+        ...
+
+    def _makeRootProfile(self, height : float = 0.0) -> Any:
+        ...
+
     def _makeProfiles(self) -> list:
         shape = self.getFace()
         if shape is None:

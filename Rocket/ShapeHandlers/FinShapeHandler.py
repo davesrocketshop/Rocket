@@ -24,6 +24,7 @@ __title__ = "FreeCAD Fins"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
+from abc import ABC, abstractmethod
 from typing import Any
 import math
 
@@ -40,7 +41,7 @@ from Rocket.Constants import FIN_DEBUG_FULL, FIN_DEBUG_PROFILE_ONLY, FIN_DEBUG_M
 
 from Rocket.Utilities import validationError, _err
 
-class FinShapeHandler:
+class FinShapeHandler(ABC):
 
     def __init__(self, obj : Any) -> None:
         self._obj = obj
@@ -553,11 +554,49 @@ class FinShapeHandler:
 
     def _makeExtensionProfiles(self, height : float) -> list:
         profiles = []
+        profiles.append(self._makeRootProfile(-height))
+        profiles.append(self._makeRootProfile(0))
         return profiles
 
     def _makeFilletProfiles(self, radius : float) -> list:
         profiles = []
+        height, hSpan = self._getTubeOffsets(radius)
+        profiles.append(self._makeAtHeightProfile(self._rootCrossSection, radius, 0.001))
+        profiles.append(self._makeAtHeightProfile(self._filletCrossSection, hSpan * 0.75 - height, radius * 0.032))
+        profiles.append(self._makeAtHeightProfile(self._filletCrossSection, hSpan * 0.50 - height, radius * 0.134))
+        profiles.append(self._makeAtHeightProfile(self._filletCrossSection, hSpan * 0.25 - height, radius * 0.339))
+        profiles.append(self._makeAtHeightProfile(self._filletCrossSection, -height, radius))
         return profiles
+
+    @abstractmethod
+    def _makeAtHeightProfile(self, crossSection : str, height : float = 0.0, offset : float = 0.0) -> Any:
+        ...
+
+    @abstractmethod
+    def _makeRootProfile(self, height : float = 0.0) -> Any:
+        ...
+   
+    def _getTubeRadius(self) -> float:
+        if hasattr(self._obj, "Diameter"):
+            # This is for fin cans
+            return self._radius
+
+        return self._parentRadius
+    
+    def _getTubeOffsets(self, filletRadius : float) -> tuple[float, float]:
+        """ Get the information about how much a fillet extends down over a tube
+        
+        returns:
+            height: the distance into the tube wrapped by the filler
+            hSpan: the width of the fillet at the height
+        """
+        bodyRadius = self._getTubeRadius()
+
+        # Calculate negative height when on a body tube
+        theta = math.asin((filletRadius + self._rootThickness / 2.0) / bodyRadius)
+        height = bodyRadius * (1.0 - math.cos(theta))
+        hSpan = filletRadius + height
+        return height, hSpan
 
     def _makeTip(self) -> Shape:
         return None
@@ -610,20 +649,18 @@ class FinShapeHandler:
                 elif mask is not None and (debug != FIN_DEBUG_PROFILE_ONLY):
                     loft = loft.common(mask)
 
-                cut = self._makeCut()
-                if cut is not None:
-                    print("cut")
-                    # Part.show(cut)
+                # cut = self._makeCut()
+                # if cut is not None:
+                #     print("cut")
+                #     # Part.show(cut)
 
         return loft
 
     def _makeRootExtension(self) -> Shape:
         loft = None
-
         height = self._radius + self._thickness
-        # Height is scaled when making the extension profiles
-        profiles = self._makeExtensionProfiles(self._thickness - 0.0001)
 
+        profiles = self._makeExtensionProfiles(self._thickness - 0.0001)
         if profiles is not None and len(profiles) > 0:
             loft = Part.makeLoft(profiles, True)
 
@@ -631,7 +668,7 @@ class FinShapeHandler:
             if loft is not None:
                 center = Part.makeCylinder(self._radius,
                                            2.0 * self._rootChord,
-                                           FreeCAD.Vector(self._rootChord / 2.0, 0, -height),
+                                           FreeCAD.Vector(-self._rootChord / 2.0, 0, -height),
                                            FreeCAD.Vector(1, 0, 0)
                                            )
                 if self._cant != 0:
@@ -642,18 +679,12 @@ class FinShapeHandler:
 
     def _makeFillet(self) -> Shape:
         loft = None
-
-        if hasattr(self._obj, "Diameter"):
-            # This is for fin cans
-            radius = self._radius
-        else:
-            radius = self._parentRadius
+        radius = self._getTubeRadius()
 
         profiles = self._makeFilletProfiles(self._filletRadius)
 
         if profiles is not None and len(profiles) > 0:
             loft = Part.makeLoft(profiles, True)
-
             # Make a cutout of the body tube center
             if loft is not None:
                 center = Part.makeCylinder(radius + 0.001,
@@ -670,14 +701,15 @@ class FinShapeHandler:
     def _drawFinDebug(self, debug : str) -> Shape:
         fin = self._finOnlyShape(debug)
         if fin is not None:
-            # if self._extendRoot():
-            #     extension = self._makeRootExtension()
-            #     if extension:
-            #         fin = fin.fuse(extension)
             if self._fillets:
                 fillet = self._makeFillet()
                 if fillet:
                     fin = fin.fuse(fillet)
+            elif self._extendRoot():
+                # Only needed when there are no fillets
+                extension = self._makeRootExtension()
+                if extension:
+                    fin = fin.fuse(extension)
             if self._ttw:
                 ttw = self._makeTtw()
                 if ttw:
@@ -706,12 +738,8 @@ class FinShapeHandler:
             fin = Part.Shape(base) # Create a copy
             if self._cant != 0:
                 fin.rotate(FreeCAD.Vector(self._rootChord / 2, 0, 0), FreeCAD.Vector(0,0,1), self._cant)
-            if hasattr(self._obj, "Diameter"):
-                # This is for fin cans
-                radius = self._radius + float(offset)
-            else:
-                radius = self._parentRadius + float(offset)
-            fin.translate(FreeCAD.Vector(baseX, 0, radius))
+            radius = self._getTubeRadius()
+            fin.translate(FreeCAD.Vector(baseX, 0, radius + self._thickness))
             fin.rotate(FreeCAD.Vector(0, 0, 0), FreeCAD.Vector(1,0,0), i * self._finSpacing)
             fins.append(fin)
 

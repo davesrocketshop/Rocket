@@ -164,19 +164,6 @@ class FinTriangleShapeHandler(FinShapeHandler):
             profiles.append(top)
         return profiles
 
-    def _makeExtensionProfiles(self, height : float) -> list:
-        profiles = []
-        profiles.append(self._makeRootProfile(-height))
-        profiles.append(self._makeRootProfile())
-        return profiles
-
-    def _makeFilletProfiles(self, radius : float) -> list:
-        profiles = []
-        profiles.append(self._makeAtHeightProfile(self._rootCrossSection, radius, 0.0))
-        profiles.append(self._makeAtHeightProfile(self._filletCrossSection, radius / 2.0, radius * 0.293))
-        profiles.append(self._makeAtHeightProfile(self._filletCrossSection, 0.0, radius))
-        return profiles
-
     def _makeTopProfile(self) -> Any:
         if self._obj.RootCrossSection in [FIN_CROSS_BICONVEX, FIN_CROSS_ROUND, FIN_CROSS_ELLIPSE, FIN_CROSS_WEDGE,
                                             FIN_CROSS_SQUARE, FIN_CROSS_DIAMOND, FIN_CROSS_AIRFOIL,
