@@ -113,9 +113,8 @@ class FinTrapezoidShapeHandler(FinShapeHandler):
         height = bodyRadius * (1.0 - math.cos(theta))
         hSpan = radius + height
         profiles.append(self._makeAtHeightProfile(self._rootCrossSection, radius, 0.001))
-        # profiles.append(self._makeAtHeightProfile(self._filletCrossSection, radius / 2.0, radius * 0.293))
-        profiles.append(self._makeAtHeightProfile(self._filletCrossSection, hSpan * 0.25 - height, radius * 0.032))
+        profiles.append(self._makeAtHeightProfile(self._filletCrossSection, hSpan * 0.75 - height, radius * 0.032))
         profiles.append(self._makeAtHeightProfile(self._filletCrossSection, hSpan * 0.50 - height, radius * 0.134))
-        profiles.append(self._makeAtHeightProfile(self._filletCrossSection, hSpan * 0.75 - height, radius * 0.339))
+        profiles.append(self._makeAtHeightProfile(self._filletCrossSection, hSpan * 0.25 - height, radius * 0.339))
         profiles.append(self._makeAtHeightProfile(self._filletCrossSection, -height, radius))
         return profiles

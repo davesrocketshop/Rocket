@@ -38,7 +38,7 @@ from Rocket.Constants import FIN_CROSS_SAME, FIN_CROSS_SQUARE, FIN_CROSS_ROUND, 
     FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE, FIN_CROSS_BICONVEX, FIN_CROSS_ELLIPSE
 from Rocket.Constants import FIN_DEBUG_FULL, FIN_DEBUG_PROFILE_ONLY, FIN_DEBUG_MASK_ONLY
 
-from Rocket.Utilities import validationError
+from Rocket.Utilities import validationError, _err
 
 class FinShapeHandler:
 
@@ -654,13 +654,11 @@ class FinShapeHandler:
         if profiles is not None and len(profiles) > 0:
             loft = Part.makeLoft(profiles, True)
 
-            # Part.show(loft)
-
             # Make a cutout of the body tube center
             if loft is not None:
                 center = Part.makeCylinder(radius + 0.001,
                                            2.0 * self._rootChord,
-                                           FreeCAD.Vector(-self._rootChord, 0, -radius),
+                                           FreeCAD.Vector(-self._rootChord / 2.0, 0, -radius),
                                            FreeCAD.Vector(1, 0, 0)
                                            )
                 if self._cant != 0:
@@ -680,7 +678,6 @@ class FinShapeHandler:
                 fillet = self._makeFillet()
                 if fillet:
                     fin = fin.fuse(fillet)
-                    # fin = fillet
             if self._ttw:
                 ttw = self._makeTtw()
                 if ttw:
@@ -696,7 +693,8 @@ class FinShapeHandler:
         if self._cant != 0:
             fin.rotate(FreeCAD.Vector(self._rootChord / 2, 0, 0), FreeCAD.Vector(0,0,1), self._cant)
         fin.translate(FreeCAD.Vector(0,0,self._parentRadius))
-        return Part.makeCompound([fin])
+        # return Part.makeCompound([fin])
+        return fin
 
     def _drawFinSet(self, offset : float = 0) -> Shape:
         fins = []
@@ -724,16 +722,16 @@ class FinShapeHandler:
         if not self.isValidShape():
             return
 
-#        try:
-        if self._finSet:
-            self._obj.Shape = self._drawFinSet()
-        else:
-            self._obj.Shape = self._drawFin()
-        self._obj.Placement = self._placement
+        try:
+            if self._finSet:
+                self._obj.Shape = self._drawFinSet()
+            else:
+                self._obj.Shape = self._drawFin()
+            self._obj.Placement = self._placement
 
-        # except (ZeroDivisionError, Part.OCCError) as ex:
-        #     _err(translate('Rocket', "Fin parameters produce an invalid shape"))
-        #     return
+        except (ZeroDivisionError, Part.OCCError) as ex:
+            _err(translate('Rocket', "Fin parameters produce an invalid shape"))
+            return
 
     def _makeFinFrontal(self) -> Shape:
         # The frontal view is either a trapezoid or a triangle
