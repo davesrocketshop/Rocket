@@ -28,6 +28,7 @@ from typing import Any
 import math
 
 import Part
+from Part import Shape, Wire, BSplineCurve, Vertex
 
 from DraftTools import translate
 
@@ -40,17 +41,16 @@ class FinTrapezoidShapeHandler(FinShapeHandler):
     def __init__(self, obj : Any) -> None:
         super().__init__(obj)
 
-    def _makeRootProfile(self, height : float = 0.0) -> Any:
-        # Create the root profile, casting everything to float to avoid typing issues
-        scaleHeight = self._scale * height
-        # scaleHeight = height #self._scale * height
+    def _makeRootProfile(self, height : float = 0.0) -> Wire:
+        # Create the root profile
+        scaleHeight = height #self._scale * height
         l1, l2 = self._lengthsFromPercent(self._rootChord, self._rootPerCent,
                                           self._rootLength1, self._rootLength2)
         return self._makeChordProfile(self._rootCrossSection, 0.0, self._rootChord,
             self._rootThickness, scaleHeight, l1, l2)
 
-    def _makeTipProfile(self) -> Any:
-        # Create the tip profile, casting everything to float to avoid typing issues
+    def _makeTipProfile(self) -> Wire:
+        # Create the tip profile
         l1, l2 = self._lengthsFromPercent(self._tipChord, self._tipPerCent,
                                           self._tipLength1, self._tipLength2)
         return self._makeChordProfile(self._tipCrossSection, self._sweepLength, self._tipChord,
@@ -65,7 +65,7 @@ class FinTrapezoidShapeHandler(FinShapeHandler):
         x2 = self._rootChord + (height / self._height) * (self._sweepLength + self._tipChord - self._rootChord)
         return abs(x1 - x2)
 
-    def _makeAtHeightProfile(self, crossSection : str, height : float = 0.0, offset : float = 0.0) -> Any:
+    def _makeAtHeightProfile(self, crossSection : str, height : float = 0.0, offset : float = 0.0) -> Wire:
         chord = self._chordAtHeight(height) + 2.0 * offset
         thickness = self._rootThickness + 2.0 * offset
         l1, l2 = self._lengthsFromPercent(chord, self._rootPerCent,

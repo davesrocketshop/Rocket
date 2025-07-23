@@ -48,12 +48,12 @@ class BodyTubeShapeHandler():
         self._scale = 1.0
         if obj.Proxy.isScaled():
             self._scale = 1.0 / obj.Proxy.getScale()
-            print(f"Body tube scale {self._scale}")
+            # print(f"Body tube scale {self._scale}")
             self._length *= self._scale
             if not self._autoDiameter:
                 self._OD *= self._scale
-        else:
-            print("Body tube not scaled")
+        # else:
+        #     print("Body tube not scaled")
 
         if self._OD > 0.0:
             self._ID = self._OD - 2.0 * float(obj.Thickness)

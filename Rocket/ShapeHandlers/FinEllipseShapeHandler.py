@@ -25,10 +25,11 @@ __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
 from typing import Any
+import math
 
 import FreeCAD
 import Part
-import math
+from Part import Shape, Wire, BSplineCurve, Vertex
 
 from Rocket.Constants import FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE, \
     FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LETE, FIN_CROSS_BICONVEX, FIN_CROSS_ELLIPSE
@@ -48,7 +49,7 @@ class FinEllipseShapeHandler(FinShapeHandler):
         y = (minor / major) * math.sqrt(major * major - x * x)
         return y
 
-    def _halfEllipseCurve(self, major : float, minor : float, thickness : float, midChord : float) -> Any:
+    def _halfEllipseCurve(self, major : float, minor : float, thickness : float, midChord : float) -> Wire:
         if major > minor:
             ellipse = Part.Ellipse(FreeCAD.Vector(midChord, thickness, major),
                     FreeCAD.Vector(midChord - minor, thickness, 0),
@@ -62,7 +63,7 @@ class FinEllipseShapeHandler(FinShapeHandler):
 
         return arc
 
-    def _halfEllipse(self, major : float, minor : float, thickness : float, midChord : float) -> Any:
+    def _halfEllipse(self, major : float, minor : float, thickness : float, midChord : float) -> Wire:
         arc = self._halfEllipseCurve(major, minor, thickness, midChord)
 
         line = Part.makeLine((midChord + minor, thickness, 0), (midChord - minor, thickness, 0))
@@ -131,7 +132,7 @@ class FinEllipseShapeHandler(FinShapeHandler):
 
         return None
 
-    def _makeAtHeightProfile(self, crossSection : str, height : float = 0.0, offset : float = 0.0) -> Any:
+    def _makeAtHeightProfile(self, crossSection : str, height : float = 0.0, offset : float = 0.0) -> Wire:
         midChord = self._rootChord / 2.0
         l1, l2 = self._lengthsFromPercent(self._rootChord, self._rootPerCent,
                                         self._rootLength1, self._rootLength2)
@@ -160,7 +161,7 @@ class FinEllipseShapeHandler(FinShapeHandler):
         )
         return profile
 
-    def _makeRootProfile(self, height : float = 0.0) -> Any:
+    def _makeRootProfile(self, height : float = 0.0) -> Wire:
         midChord = self._rootChord / 2.0
         l1, l2 = self._lengthsFromPercent(self._rootChord, self._rootPerCent,
                                         self._rootLength1, self._rootLength2)

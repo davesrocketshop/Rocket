@@ -28,6 +28,7 @@ from typing import Any
 
 import FreeCAD
 import Part
+from Part import Shape, Wire, BSplineCurve, Vertex
 
 from DraftTools import translate
 
@@ -42,7 +43,7 @@ class FinSketchShapeHandler(FinShapeHandler):
     def __init__(self, obj : Any) -> None:
         super().__init__(obj)
 
-    def verifyShape(self, shape : Any) -> bool:
+    def verifyShape(self, shape : Shape) -> bool:
         if shape is None:
             validationError(translate('Rocket', "shape is empty"))
             return False
@@ -58,7 +59,7 @@ class FinSketchShapeHandler(FinShapeHandler):
             return False
         return True
 
-    def isCurved(self, shape : Any) -> bool:
+    def isCurved(self, shape : Shape) -> bool:
         for edge in shape.Edges:
             if not issubclass(type(edge.Curve), Part.Line):
                 return True
@@ -67,7 +68,7 @@ class FinSketchShapeHandler(FinShapeHandler):
     def _pointOnLine(self, z : float, zmin : float, zmax : float) -> bool:
         return (zmin <= z) and (zmax >= z)
 
-    def _xOnLine(self, z : float, vertex1 : Any, vertex2 : Any) -> float:
+    def _xOnLine(self, z : float, vertex1 : Vertex, vertex2 : Vertex) -> float:
         try:
             zRange = (z - vertex1.Point.z) / (vertex2.Point.z - vertex1.Point.z)
 
@@ -76,7 +77,7 @@ class FinSketchShapeHandler(FinShapeHandler):
             x = vertex1.Point.x
         return x
 
-    def _zInVertex(self, z : float, vertexes : Any, tolerance : float) -> bool:
+    def _zInVertex(self, z : float, vertexes : list[Vertex] , tolerance : float) -> bool:
         if len(vertexes) != 2:
             _err(translate('Rocket', "Unable to handle shapes other than lines"))
             return False
@@ -84,7 +85,7 @@ class FinSketchShapeHandler(FinShapeHandler):
         return self._pointOnLine(z, vertexes[0].Point.z - tolerance, vertexes[1].Point.z + tolerance) or \
                 self._pointOnLine(z, vertexes[1].Point.z - tolerance, vertexes[0].Point.z + tolerance)
 
-    def findChords(self, shape : Any) -> list:
+    def findChords(self, shape : Shape) -> list:
         zArray = []
 
         tolerance = shape.getTolerance(1, Part.Shape) # Maximum tolerance
@@ -137,7 +138,28 @@ class FinSketchShapeHandler(FinShapeHandler):
 
         return chords
 
-    def findRootChord(self, shape : Any) -> tuple[float, float]:
+    def findChord(self, height: float, shape : Shape) -> tuple[float, float]:
+        tolerance = shape.getTolerance(1, Part.Shape) # Maximum tolerance
+
+        # Find all x's associated with all z's
+        ends = []
+        for edge in shape.Edges:
+            if self._zInVertex(height, edge.Vertexes, tolerance):
+                # Get the x,y for z
+                x = self._xOnLine(height, edge.Vertexes[0], edge.Vertexes[1])
+                ends.append(x)
+
+        # Use the x's to find the chord
+        xmin = ends[0]
+        xmax = ends[0]
+        for x in ends:
+            if xmin > x:
+                xmin = x
+            elif xmax < x:
+                xmax = x
+        return (xmin, xmax)
+
+    def findRootChord(self, shape : Shape) -> tuple[float, float]:
         tolerance = shape.getTolerance(1, Part.Shape) # Maximum tolerance
 
         # Find all x's associated with all z's
@@ -165,24 +187,24 @@ class FinSketchShapeHandler(FinShapeHandler):
 
         if not self.verifyShape(shape):
             return None
-        else:
-            return Part.Wire(shape)
 
-    def getOffsetFace(self) -> Any:
+        return Part.Wire(shape)
+
+    def getOffsetFace(self) -> Wire:
         profile = self._obj.Profile
         shape = profile.Shape
 
         if not self.verifyShape(shape):
             return None
-        else:
-            # tolerance = 10 * shape.getTolerance(1, Part.Shape)
-            tolerance = 1e-3 # Small, but many orders of magnitude larger than the tolerance
-            shape = shape.makeOffset2D(tolerance)
 
-            return Part.Wire(shape)
+        # tolerance = 10 * shape.getTolerance(1, Part.Shape)
+        tolerance = 1e-3 # Small, but many orders of magnitude larger than the tolerance
+        shape = shape.makeOffset2D(tolerance)
+
+        return Part.Wire(shape)
 
 
-    def curvedProfiles(self, shape : Any) -> list:
+    def curvedProfiles(self, shape : Shape) -> list:
         halfThickness = self._rootThickness / 2.0
 
         face1 = shape.copy()
@@ -197,7 +219,7 @@ class FinSketchShapeHandler(FinShapeHandler):
             profiles = []
         return profiles
 
-    def _makeChord(self, chord : Any, rootLength2 : float, tolerance : float) -> Any:
+    def _makeChord(self, chord : list, rootLength2 : float, tolerance : float) -> Shape:
         height = float(chord[0].z)
 
         if len(chord) > 1:
@@ -218,7 +240,7 @@ class FinSketchShapeHandler(FinShapeHandler):
 
         return profile
 
-    def straightProfiles(self, shape : Any, tolerance : float) -> list:
+    def straightProfiles(self, shape : Shape, tolerance : float) -> list:
         chords = self.findChords(shape)
         profiles = []
         rootLength2 = self._rootLength2
@@ -230,11 +252,34 @@ class FinSketchShapeHandler(FinShapeHandler):
 
         return profiles
 
-    def _makeAtHeightProfile(self, crossSection : str, height : float = 0.0, offset : float = 0.0) -> Any:
-        ...
+    def _makeAtHeightProfile(self, crossSection : str, height : float = 0.0, offset : float = 0.0) -> Wire:
+        shape = self.getFace()
+        if shape is None:
+            return None
 
-    def _makeRootProfile(self, height : float = 0.0) -> Any:
-        ...
+        if height < 0:
+            xmin, xmax = self.findRootChord(shape)
+        else:
+            xmin, xmax = self.findChord(height, shape)
+        chord = abs(xmax - xmin) + 2 * offset
+        # scaleHeight = height #self._scale * height
+        l1, l2 = self._lengthsFromPercent(chord, self._rootPerCent,
+                                          self._rootLength1, self._rootLength2)
+        return self._makeChordProfile(crossSection, xmin - offset, chord,
+            self._rootThickness + 2.0 * offset, height, l1, l2)
+
+
+    def _makeRootProfile(self, height : float = 0.0) -> Wire:
+        shape = self.getFace()
+        if shape is None:
+            return None
+
+        xmin, xmax = self.findRootChord(shape)
+        chord = abs(xmax - xmin)
+        l1, l2 = self._lengthsFromPercent(chord, self._rootPerCent,
+                                          self._rootLength1, self._rootLength2)
+        return self._makeChordProfile(self._rootCrossSection, xmin, chord,
+            self._rootThickness, height, l1, l2)
 
     def _makeProfiles(self) -> list:
         shape = self.getFace()
@@ -245,7 +290,7 @@ class FinSketchShapeHandler(FinShapeHandler):
             return self.curvedProfiles(shape)
         return self.straightProfiles(shape, shape.globalTolerance(1))
 
-    def _makeCommon(self) -> Any:
+    def _makeCommon(self) -> Shape:
         # The mask will be the fin outline, scaled very slightly
         shape = self.getOffsetFace()
 
@@ -255,11 +300,11 @@ class FinSketchShapeHandler(FinShapeHandler):
         mask = Part.Face(face).extrude(FreeCAD.Vector(0, 2.0 * self._rootThickness, 0))
         return mask
 
-    def _makeTtw(self) -> Any:
+    def _makeTtw(self) -> Shape:
         # Create the Ttw tab - No clear root chord like regular fins
         shape = self.getFace()
         if shape is None:
-            return []
+            return None
 
         xmin, xmax = self.findRootChord(shape)
 

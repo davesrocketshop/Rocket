@@ -569,23 +569,23 @@ class FinShapeHandler(ABC):
         return profiles
 
     @abstractmethod
-    def _makeAtHeightProfile(self, crossSection : str, height : float = 0.0, offset : float = 0.0) -> Any:
+    def _makeAtHeightProfile(self, crossSection : str, height : float = 0.0, offset : float = 0.0) -> Wire:
         ...
 
     @abstractmethod
-    def _makeRootProfile(self, height : float = 0.0) -> Any:
+    def _makeRootProfile(self, height : float = 0.0) -> Wire:
         ...
-   
+
     def _getTubeRadius(self) -> float:
         if hasattr(self._obj, "Diameter"):
             # This is for fin cans
             return self._radius
 
         return self._parentRadius
-    
+
     def _getTubeOffsets(self, filletRadius : float) -> tuple[float, float]:
         """ Get the information about how much a fillet extends down over a tube
-        
+
         returns:
             height: the distance into the tube wrapped by the filler
             hSpan: the width of the fillet at the height
