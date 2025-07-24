@@ -76,6 +76,8 @@ class FinShapeHandler(ABC):
         self._rootThickness = float(self._obj.RootThickness)
         self._rootCrossSection = str(self._obj.RootCrossSection)
 
+        self._midChord = self._rootChord / 2.0
+
         self._tipChord = float(self._obj.TipChord)
         self._tipPerCent = bool(self._obj.TipPerCent)
         self._tipLength1 = float(self._obj.TipLength1)

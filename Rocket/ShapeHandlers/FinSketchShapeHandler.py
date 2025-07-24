@@ -219,7 +219,7 @@ class FinSketchShapeHandler(FinShapeHandler):
             profiles = []
         return profiles
 
-    def _makeChord(self, chord : list, rootLength2 : float, tolerance : float) -> Shape:
+    def _makeChord(self, chord : list) -> Shape:
         height = float(chord[0].z)
 
         if len(chord) > 1:
@@ -230,7 +230,6 @@ class FinSketchShapeHandler(FinShapeHandler):
             profile = self._makeChordProfile(self._rootCrossSection, offset, chordLength, self._rootThickness, height, l1, l2)
         elif self._rootCrossSection in [FIN_CROSS_SQUARE, FIN_CROSS_WEDGE, FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE]:
             chordLength = 1e-3  # Very small chord length
-            # chordLength = 2.0 * tolerance # Very small chord length
             offset = float(chord[0].x)
             l1, l2 = self._lengthsFromPercent(chordLength, self._rootPerCent,
                                             self._rootLength1, self._rootLength2)
@@ -240,14 +239,13 @@ class FinSketchShapeHandler(FinShapeHandler):
 
         return profile
 
-    def straightProfiles(self, shape : Shape, tolerance : float) -> list:
+    def straightProfiles(self, shape : Shape) -> list:
         chords = self.findChords(shape)
         profiles = []
-        rootLength2 = self._rootLength2
 
         for index in range(len(chords) - 1):
-            profile1 = self._makeChord(chords[index], rootLength2, tolerance)
-            profile2 = self._makeChord(chords[index + 1], rootLength2, tolerance)
+            profile1 = self._makeChord(chords[index])
+            profile2 = self._makeChord(chords[index + 1])
             profiles.append([profile1, profile2])
 
         return profiles
@@ -270,16 +268,7 @@ class FinSketchShapeHandler(FinShapeHandler):
 
 
     def _makeRootProfile(self, height : float = 0.0) -> Wire:
-        shape = self.getFace()
-        if shape is None:
-            return None
-
-        xmin, xmax = self.findRootChord(shape)
-        chord = abs(xmax - xmin)
-        l1, l2 = self._lengthsFromPercent(chord, self._rootPerCent,
-                                          self._rootLength1, self._rootLength2)
-        return self._makeChordProfile(self._rootCrossSection, xmin, chord,
-            self._rootThickness, height, l1, l2)
+        return self._makeAtHeightProfile(self._rootCrossSection, height)
 
     def _makeProfiles(self) -> list:
         shape = self.getFace()
@@ -288,7 +277,7 @@ class FinSketchShapeHandler(FinShapeHandler):
 
         if self.isCurved(shape):
             return self.curvedProfiles(shape)
-        return self.straightProfiles(shape, shape.globalTolerance(1))
+        return self.straightProfiles(shape)
 
     def _makeCommon(self) -> Shape:
         # The mask will be the fin outline, scaled very slightly
