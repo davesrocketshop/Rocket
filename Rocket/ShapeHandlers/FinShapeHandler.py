@@ -115,7 +115,11 @@ class FinShapeHandler(ABC):
         self._scale = 1.0
         if obj.Proxy.isScaled():
             self._scale = 1.0 / obj.Proxy.getScale()
-            if not self._autoDiameter:
+            if obj.Proxy.getParent() is not None:
+                scaleDiameter = obj.Proxy.getParent().isScaled()
+            else:
+                scaleDiameter = not self._autoDiameter
+            if scaleDiameter:
                 self._radius *= self._scale
                 self._parentRadius *= self._scale
 
