@@ -293,12 +293,12 @@ class FeatureBodyTube(SymmetricComponent, BoxBounded, Coaxial):
         except ReferenceError:
             # Already deleted object
             pass
-    
+
     def getScale(self) -> float:
         if self.hasParent():
             if self.getParent().isScaled():
                 return self.getParent().getScale()
-            
+
         scale = 1.0
         if self._obj.Scale:
             if self._obj.ScaleByValue and self._obj.ScaleValue.Value > 0.0:

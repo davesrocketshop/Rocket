@@ -633,6 +633,7 @@ class RocketComponentShapeless(Subject, Observer):
             # print(f"updating {self.getName()}")
             self.update()
             self._updating = True
+            self.execute(self._obj)
             for child in self._obj.Group:
                 if hasattr(child, "Proxy"):
                     # Sketches for custom fins won't have a proxy
@@ -870,7 +871,7 @@ class RocketComponentShapeless(Subject, Observer):
     def getLength(self) -> float:
         # Return the length of this component along the central axis
         return 0
-    
+
     """
         In cases where scaling is applied, we need the scaled length for positioning
     """
@@ -895,20 +896,20 @@ class RocketComponentShapeless(Subject, Observer):
     def getScale(self) -> float:
         """
         Return the scale value
-        
+
         In cases where the parent is scaled, that is the value returned. Otherwise
         the components are expected to calculate the scale based on their parameters.
         """
         if self.hasParent():
             if self.getParent().isScaled():
                 return self.getParent().getScale()
-            
+
         scale = 1.0
         if self._obj.Scale:
             if self._obj.ScaleValue.Value > 0.0:
                 scale = self._obj.ScaleValue.Value
         return scale
-    
+
     def isScaled(self) -> bool:
         """ Return True if the object or any of its parental lineage is scaled """
         if self._obj.Scale:
@@ -916,7 +917,7 @@ class RocketComponentShapeless(Subject, Observer):
         if self.hasParent():
             return self.getParent().isScaled()
         return False
-    
+
     def resetScale(self) -> None:
         self._obj.Scale = False
         self._obj.ScaleByValue = True

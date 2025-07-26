@@ -40,7 +40,7 @@ TOLERANCE_OFFSET = 0.5     # Distance to offset a vertex
 class LaunchLugShapeHandler(BodyTubeShapeHandler):
 
     def __init__(self, obj : Any) -> None:
-        super().__init__(obj)
+        super().__init__(obj, scale=False)
 
         self._instanceCount = int(obj.InstanceCount)
         self._separation = float(obj.InstanceSeparation)

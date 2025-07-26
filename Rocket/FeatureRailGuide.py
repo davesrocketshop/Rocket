@@ -197,9 +197,12 @@ class FeatureRailGuide(ExternalComponent, AnglePositionable, BoxBounded, LineIns
             x2 = Utilities.clamp(x2, 0, body.getLength())
             parentRadius = max(body.getRadius(x1), body.getRadius(x2))
 
-        self._obj.RadialOffset = parentRadius #+ self.getOuterRadius(0)
         if self._obj.AutoDiameter:
             self._obj.Diameter = 2.0 * parentRadius
+
+        if self.hasParent() and self.getParent().isScaled():
+            parentRadius /= self.getParent().getScale()
+        self._obj.RadialOffset = parentRadius
 
     def getPatternName(self) -> str:
         return "{0}-Line".format(self.getInstanceCount())
@@ -261,14 +264,14 @@ class FeatureRailGuide(ExternalComponent, AnglePositionable, BoxBounded, LineIns
     def getScale(self) -> float:
         """
         Return the scale value
-        
+
         Rail guides are never scaled.
         """
         return 1.0
-    
+
     def isScaled(self) -> bool:
         """ Return True if the object or any of its parental lineage is scaled """
         return False
-    
+
     def resetScale(self) -> None:
         pass

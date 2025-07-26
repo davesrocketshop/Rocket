@@ -33,33 +33,35 @@ from Rocket.Utilities import validationError, _err
 from DraftTools import translate
 
 class BodyTubeShapeHandler():
-    def __init__(self, obj : Any) -> None:
+
+    def __init__(self, obj : Any, scale : bool = True) -> None:
+        self._obj = obj
 
         # This gets changed when redrawn so it's very important to save a copy
         self._placement = FreeCAD.Placement(obj.Placement)
 
-        self._length = float(obj.Length)
-        self._OD = float(obj.Diameter)
+        self._getScaledValues(scale)
+
+    def _getScaledValues(self, scale : bool):
+
+        self._length = float(self._obj.Length)
+        self._OD = float(self._obj.Diameter)
         self._autoDiameter = False
-        if hasattr(obj, "AutoDiameter"):
-            self._autoDiameter = bool(obj.AutoDiameter)
+        if hasattr(self._obj, "AutoDiameter"):
+            self._autoDiameter = bool(self._obj.AutoDiameter)
 
         # Apply scaling
         self._scale = 1.0
-        if obj.Proxy.isScaled():
-            self._scale = 1.0 / obj.Proxy.getScale()
-            # print(f"Body tube scale {self._scale}")
+        if scale and self._obj.Proxy.isScaled():
+            self._scale = 1.0 / self._obj.Proxy.getScale()
             self._length *= self._scale
             if not self._autoDiameter:
                 self._OD *= self._scale
-        # else:
-        #     print("Body tube not scaled")
 
         if self._OD > 0.0:
-            self._ID = self._OD - 2.0 * float(obj.Thickness)
+            self._ID = self._OD - 2.0 * float(self._obj.Thickness)
         else:
-            self._ID = float(obj.Thickness)
-        self._obj = obj
+            self._ID = float(self._obj.Thickness)
 
     def isValidShape(self) -> bool:
 
