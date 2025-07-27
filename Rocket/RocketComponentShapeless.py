@@ -900,9 +900,8 @@ class RocketComponentShapeless(Subject, Observer):
         In cases where the parent is scaled, that is the value returned. Otherwise
         the components are expected to calculate the scale based on their parameters.
         """
-        if self.hasParent():
-            if self.getParent().isScaled():
-                return self.getParent().getScale()
+        if self.isParentScaled():
+            return self.getParent().getScale()
 
         scale = 1.0
         if self._obj.Scale:
@@ -910,10 +909,22 @@ class RocketComponentShapeless(Subject, Observer):
                 scale = self._obj.ScaleValue.Value
         return scale
 
+    def getParentScale(self) -> float:
+        """
+        Return the parents scale value
+        """
+        if self.isParentScaled():
+            return self.getParent().getScale()
+        return 1.0
+
     def isScaled(self) -> bool:
         """ Return True if the object or any of its parental lineage is scaled """
         if self._obj.Scale:
             return True
+        return self.isParentScaled()
+
+    def isParentScaled(self) -> bool:
+        """ Return True if the parent is scaled """
         if self.hasParent():
             return self.getParent().isScaled()
         return False
@@ -922,19 +933,3 @@ class RocketComponentShapeless(Subject, Observer):
         self._obj.Scale = False
         self._obj.ScaleByValue = True
         self._obj.ScaleValue = FreeCAD.Units.Quantity("1.0")
-
-    # def onChanged(self, fp, prop):
-    #     '''Here we can do something when a single property got changed'''
-    #     if prop == "Length":
-    #         try:
-    #             print(f"Change Length: {self._obj.Length}")
-    #             raise Exception()
-    #         except Exception as e:
-    #             traceback.print_stack()
-
-    def printTrace(self):
-        '''Print the current stack trace for debugging'''
-        try:
-            raise Exception()
-        except Exception as e:
-            traceback.print_stack()

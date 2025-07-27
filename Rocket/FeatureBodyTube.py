@@ -184,14 +184,18 @@ class FeatureBodyTube(SymmetricComponent, BoxBounded, Coaxial):
             c = self.getPreviousSymmetricComponent()
             # Don't use the radius of a component who already has its auto diameter enabled
             if c is not None and not c.usesNextCompAutomatic():
-                d = c.getFrontAutoDiameter()
                 self._refComp = c
+                d = c.getFrontAutoDiameter()
+                if not self.isScaled():
+                    d /= c.getScale() # Apply reference component scale
             if d < 0:
                 c = self.getNextSymmetricComponent()
                 # Don't use the radius of a component who already has its auto diameter enabled
                 if c is not None and not c.usesPreviousCompAutomatic():
-                    d = c.getRearAutoDiameter()
                     self._refComp = c
+                    d = c.getRearAutoDiameter()
+                    if not self.isScaled():
+                        d /= c.getScale() # Apply reference component scale
 
             if d < 0:
                 d = self.DEFAULT_RADIUS * 2.0

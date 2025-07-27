@@ -28,6 +28,7 @@ from typing import Any
 
 import FreeCAD
 import Part
+from Part import Wire
 
 from DraftTools import translate
 
@@ -67,3 +68,9 @@ class FinTubeShapeHandler(FinShapeHandler):
             fins.append(fin)
 
         return Part.makeCompound(fins)
+
+    def _makeAtHeightProfile(self, crossSection : str, height : float = 0.0, offset : float = 0.0) -> Wire:
+        return None
+
+    def _makeRootProfile(self, height : float = 0.0) -> Wire:
+        return None

@@ -210,6 +210,8 @@ class FeatureNoseCone(SymmetricComponent):
             c = self.getNextSymmetricComponent()
             if c is not None:
                 d = c.getRearAutoDiameter()
+                if not self.isScaled():
+                    d /= c.getScale() # Apply reference component scale
             if d < 0:
                 d = SymmetricComponent.DEFAULT_RADIUS * 2.0
             self._obj.Diameter = d
@@ -431,12 +433,12 @@ class FeatureNoseCone(SymmetricComponent):
             FEATURE_CENTERING_RING,
             FEATURE_INNER_TUBE,
             FEATURE_FIN]
-    
+
     def getScale(self) -> float:
         if self.hasParent():
             if self.getParent().isScaled():
                 return self.getParent().getScale()
-            
+
         scale = 1.0
         if self._obj.Scale:
             if self._obj.ScaleByValue and self._obj.ScaleValue.Value > 0.0:
