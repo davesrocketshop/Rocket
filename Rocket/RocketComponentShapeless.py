@@ -189,12 +189,16 @@ class RocketComponentShapeless(Subject, Observer):
             raise ObjectNotFound()
 
         return self.getProxy(self._parent)
+    
+    def hasChildren(self) -> bool:
+        if hasattr(self._obj, "Group") and len(self._obj.Group) > 0:
+            return True
+        return False
 
     def getChildren(self) -> list:
-        try:
+        if hasattr(self._obj, "Group"):
             return self._obj.Group
-        except ReferenceError:
-            return []
+        return []
 
     def setChildren(self, list : list) -> None:
         self._obj.Group = list

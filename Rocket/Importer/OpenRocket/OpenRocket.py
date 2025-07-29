@@ -57,7 +57,7 @@ class OpenRocketElement(ComponentElement):
     def __init__(self, parent, tag, attributes, parentObj, filename, line):
         super().__init__(parent, tag, attributes, parentObj, filename, line)
 
-        SUPPORTED_VERSIONS = ["1.0", "1.1", "1.2", "1.3", "1.4", "1.5", "1.6", "1.7", "1.8", "1.9"]
+        SUPPORTED_VERSIONS = ["1.0", "1.1", "1.2", "1.3", "1.4", "1.5", "1.6", "1.7", "1.8", "1.9", "1.10"]
 
         if attributes['version'] not in SUPPORTED_VERSIONS:
             raise UnsupportedVersion(translate("Rocket", "Unsupported OpenRocket file version {}").format(attributes['version']))

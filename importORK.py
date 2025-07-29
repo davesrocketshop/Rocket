@@ -29,8 +29,9 @@ import os
 import FreeCAD
 
 from Rocket.Importer.OpenRocket.OpenRocket import OpenRocketImporter
+from Rocket.Exporter.OpenRocket.OpenRocket import OpenRocketExporter
 
-def open(filename):
+def open(filename : str) -> None:
     """Open filename and parse using the orkHandler().
 
     Parameters
@@ -53,7 +54,7 @@ def open(filename):
     return doc
 
 
-def insert(filename, docname):
+def insert(filename : str, docname : str) -> None:
     """Get an active document and parse using the orkHandler().
 
     If no document exist, it is created.
@@ -81,3 +82,7 @@ def insert(filename, docname):
     OpenRocketImporter.importFile(doc, filename)
 
     doc.recompute()
+
+def export(exportList: list[FreeCAD.DocumentObject], filename: str) -> None:
+    exporter = OpenRocketExporter(exportList, filename)
+    exporter.export()

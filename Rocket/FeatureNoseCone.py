@@ -217,6 +217,9 @@ class FeatureNoseCone(SymmetricComponent):
             self._obj.Diameter = d
 
         return self._obj.Diameter
+    
+    def getAftShoulderRadius(self) -> float:
+        return self.getAftShoulderDiameter() / 2.0
 
     def getAftShoulderDiameter(self) -> float:
         if self.isAftShoulderDiameterAutomatic():
