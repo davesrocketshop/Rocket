@@ -75,7 +75,7 @@ class FinSketchShapeHandler(FinShapeHandler):
             x = (vertex2.Point.x - vertex1.Point.x) * zRange + vertex1.Point.x
         except ZeroDivisionError as ex:
             x = vertex1.Point.x
-        return x
+        return float(x)
 
     def _zInVertex(self, z : float, vertexes : list[Vertex] , tolerance : float) -> bool:
         if len(vertexes) != 2:

@@ -109,7 +109,7 @@ class SymmetricComponent(RocketComponent, BoxBounded, RadialParent):
     def getThickness(self) -> float:
         if self.isFilled():
             return max(self.getForeRadius(), self.getAftRadius())
-        return self._obj.Thickness
+        return float(self._obj.Thickness)
 
     """
         Set the component wall thickness.  If <code>doClamping</code> is true, values greater than

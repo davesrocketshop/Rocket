@@ -199,7 +199,7 @@ class FeatureRingtail(SymmetricComponent, BoxBounded, Coaxial):
         return self.getOuterDiameter(0)
 
     def getFrontAutoInnerDiameter(self) -> float:
-        return self.getOuterDiameter(0) - (2.0 * self._obj.Thickness)
+        return self.getOuterDiameter(0) - float(2.0 * self._obj.Thickness)
 
     def getFrontAutoRadius(self) -> float:
         return self.getOuterDiameter(0) / 2.0
@@ -238,7 +238,7 @@ class FeatureRingtail(SymmetricComponent, BoxBounded, Coaxial):
     def getLength(self) -> float:
         if self._obj.AutoLength:
             self._setAutoLength()
-        return self._obj.Length
+        return float(self._obj.Length)
 
     def _setAutoLength(self) -> None:
         body = None

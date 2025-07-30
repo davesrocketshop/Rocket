@@ -226,7 +226,7 @@ class FeatureRailButton(ExternalComponent, AnglePositionable, BoxBounded, LineIn
         pass
 
     def getAngleOffset(self) -> float:
-        return self._obj.AngleOffset
+        return float(self._obj.AngleOffset)
 
     def setAngleOffset(self, angle : float) -> None:
         rad = Utilities.clamp(angle, -math.pi, math.pi)
@@ -237,7 +237,7 @@ class FeatureRailButton(ExternalComponent, AnglePositionable, BoxBounded, LineIn
         self.notifyComponentChanged()
 
     def getInstanceSeparation(self) -> float:
-        return self._obj.InstanceSeparation
+        return float(self._obj.InstanceSeparation)
 
     def setInstanceSeparation(self, separation : float) -> None:
         self._obj.InstanceSeparation = separation

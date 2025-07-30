@@ -83,7 +83,7 @@ class NoseProxyShapeHandler:
                 if self._diameter > 0 and self._scaleValue > 0:
                     scale = self._scaleValue / self._diameter
 
-        return scale
+        return float(scale)
 
     def _getShape(self) -> Part.Solid:
         if self._base is None:
@@ -114,7 +114,7 @@ class NoseProxyShapeHandler:
         shape = self._getShape()
         if shape is None:
             return 0
-        return shape.BoundBox.XLength - self._proxyPlacement.Base.x
+        return float(shape.BoundBox.XLength - self._proxyPlacement.Base.x)
 
     def draw(self) -> None:
         # shape = None

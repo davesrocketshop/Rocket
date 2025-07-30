@@ -93,7 +93,7 @@ class RadiusRingComponent(RingComponent, LineInstanceable):
         return self.getInnerDiameter(pos) / 2.0
 
     def getInnerDiameter(self, pos : float) -> float:
-        return self._obj.CenterDiameter
+        return float(self._obj.CenterDiameter)
 
     def setInnerRadius(self, radius : float) -> None:
         radius = max(radius,0)
@@ -120,7 +120,7 @@ class RadiusRingComponent(RingComponent, LineInstanceable):
         self.setInnerRadius(outer - thickness)
 
     def getInstanceSeparation(self) -> float:
-        return self._obj.InstanceSeparation
+        return float(self._obj.InstanceSeparation)
 
     def setInstanceSeparation(self, separation : float) -> None:
         self._obj.InstanceSeparation = separation

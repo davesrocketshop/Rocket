@@ -255,7 +255,7 @@ class FeatureFin(ExternalComponent):
                 height = self._obj.Height.Value
                 if height > 0 and self._obj.ScaleValue > 0:
                     scale =  height / self._obj.ScaleValue.Value
-        return scale
+        return float(scale)
 
     def getFinThickness(self) -> float:
         thickness = 0.0
@@ -320,7 +320,7 @@ class FeatureFin(ExternalComponent):
         # Return the length of this component along the central axis
         if self._obj.Length <= 0:
             self._obj.Length = self.getRootChord()
-        return self._obj.Length
+        return float(self._obj.Length)
 
     def isFinSet(self) -> bool:
         return self._obj.FinSet
@@ -364,14 +364,14 @@ class FeatureFin(ExternalComponent):
         self.notifyComponentChanged()
 
     def getTipThickness(self) -> float:
-        return self._obj.TipThickness
+        return float(self._obj.TipThickness)
 
     def setTipThickness(self, thickness : float) -> None:
         self._obj.TipThickness = thickness
         self.notifyComponentChanged()
 
     def getThickness(self) -> float:
-        return self._obj.RootThickness
+        return float(self._obj.RootThickness)
 
     def setThickness(self, thickness : float) -> None:
         self._obj.RootThickness = thickness
@@ -387,7 +387,7 @@ class FeatureFin(ExternalComponent):
         self.notifyComponentChanged()
 
     def getSpan(self) -> float:
-        return self._obj.Span
+        return float(self._obj.Span)
 
     def setSpan(self, span : float) -> None:
         self._obj.Span = span
@@ -409,7 +409,7 @@ class FeatureFin(ExternalComponent):
         self._obj.SweepAngle = theta
 
     def getSweepAngle(self) -> float:
-        return self._obj.SweepAngle
+        return float(self._obj.SweepAngle)
 
     def setSweepAngle(self, angle : float) -> None:
         self._obj.SweepAngle = angle
@@ -502,7 +502,7 @@ class FeatureFin(ExternalComponent):
 
         r *= math.sin(finSep)/(1.0 - math.sin(finSep))
 
-        return r
+        return float(r)
 
     """
         Set the outer radius of the tube-fin.  If the radius is less than the wall thickness,

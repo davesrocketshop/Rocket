@@ -186,7 +186,7 @@ class FeatureTransition(SymmetricComponent):
                 d = SymmetricComponent.DEFAULT_RADIUS * 2.0
             self._obj.ForeDiameter = d
 
-        return self._obj.ForeDiameter
+        return float(self._obj.ForeDiameter)
     
     def getForeShoulderRadius(self) -> float:
         return self.getForeShoulderDiameter() / 2.0
@@ -209,7 +209,7 @@ class FeatureTransition(SymmetricComponent):
         fore radius.
     """
     def getForeRadiusNoAutomatic(self) -> float:
-        return self._obj.ForeDiameter / 2.0
+        return float(self._obj.ForeDiameter / 2.0)
 
     def setForeRadius(self, radius : float) -> None:
         r = self._obj.ForeDiameter / 2.0
@@ -266,7 +266,7 @@ class FeatureTransition(SymmetricComponent):
                 d = SymmetricComponent.DEFAULT_RADIUS * 2.0
             self._obj.AftDiameter = d
 
-        return self._obj.AftDiameter
+        return float(self._obj.AftDiameter)
 
     def getAftShoulderDiameter(self) -> float:
         if self.isAftInnerDiameterAutomatic():
@@ -280,14 +280,14 @@ class FeatureTransition(SymmetricComponent):
                 d = SymmetricComponent.DEFAULT_RADIUS * 2.0
             self._obj.AftShoulderDiameter = d
 
-        return self._obj.AftShoulderDiameter
+        return float(self._obj.AftShoulderDiameter)
 
     """
         Return the aft radius that was manually entered, so not the value that the component received from automatic
         aft radius.
     """
     def getAftRadiusNoAutomatic(self) -> float:
-        return self._obj.AftDiameter / 2.0
+        return float(self._obj.AftDiameter / 2.0)
 
     def setAftRadius(self, radius : float) -> None:
         r = self._obj.AftDiameter / 2.0
@@ -427,5 +427,5 @@ class FeatureTransition(SymmetricComponent):
                 else:
                     diameter = self.getAftDiameter()
                 if diameter > 0 and self._obj.ScaleValue > 0:
-                    scale =  float(diameter / self._obj.ScaleValue)
-        return scale
+                    scale =  diameter / self._obj.ScaleValue
+        return float(scale)

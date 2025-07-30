@@ -558,12 +558,12 @@ class RocketComponentShapeless(Subject, Observer):
             parentLength = self.getParent().getScaledLength()
 
         if method == AxialMethod.ABSOLUTE:
-            return self.getComponentLocations()[0]._x
+            return float(self.getComponentLocations()[0]._x)
         else:
             return method.getAsOffset(self._obj.Placement.Base.x, self.getScaledLength(), parentLength)
 
     def getAxialOffset(self) -> float:
-        return self._obj.AxialOffset
+        return float(self._obj.AxialOffset)
 
     def _setAxialOffset(self, method : AxialMethod.AxialMethod, newAxialOffset : float) -> None:
         newX = math.nan
@@ -910,7 +910,7 @@ class RocketComponentShapeless(Subject, Observer):
         if self._obj.Scale:
             if self._obj.ScaleValue.Value > 0.0:
                 scale = self._obj.ScaleValue.Value
-        return scale
+        return float(scale)
 
     def getParentScale(self) -> float:
         """

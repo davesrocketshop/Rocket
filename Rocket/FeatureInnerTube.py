@@ -145,7 +145,7 @@ class FeatureInnerTube(ThicknessRingComponent, Clusterable, AxialPositionable, B
         pack inside each other.
     """
     def getClusterScale(self) -> float:
-        return self._obj.ClusterScale
+        return float(self._obj.ClusterScale)
 
     """
         Set the cluster scaling.
@@ -164,7 +164,7 @@ class FeatureInnerTube(ThicknessRingComponent, Clusterable, AxialPositionable, B
         return the clusterRotation
     """
     def getClusterRotation(self) -> float:
-        return self._obj.ClusterRotation
+        return float(self._obj.ClusterRotation)
 
     """
         the clusterRotation to set
@@ -183,7 +183,7 @@ class FeatureInnerTube(ThicknessRingComponent, Clusterable, AxialPositionable, B
         This is equivalent to the cluster scale multiplied by the tube diameter.
     """
     def getClusterSeparation(self) -> float:
-        return self.getOuterDiameter(0) * self._obj.ClusterScale
+        return self.getOuterDiameter(0) * float(self._obj.ClusterScale)
 
     def getClusterPoints(self) -> list:
         list = []
@@ -206,7 +206,7 @@ class FeatureInnerTube(ThicknessRingComponent, Clusterable, AxialPositionable, B
         return points
 
     def getMotorOverhang(self) -> float:
-        return self._obj.Overhang
+        return float(self._obj.Overhang)
 
     def setMotorOverhang(self, overhang : float) -> None:
         if self._obj.Overhang == overhang:

@@ -159,9 +159,7 @@ class FeatureRailGuide(ExternalComponent, AnglePositionable, BoxBounded, LineIns
 
     def getLength(self) -> float:
         # Return the length of this component along the central axis
-        length = self._obj.Length
-
-        return float(length)
+        return float(self._obj.Length)
 
     def isAfter(self) -> bool:
         return False
@@ -216,7 +214,7 @@ class FeatureRailGuide(ExternalComponent, AnglePositionable, BoxBounded, LineIns
         pass
 
     def getAngleOffset(self) -> float:
-        return self._obj.AngleOffset
+        return float(self._obj.AngleOffset)
 
     def setAngleOffset(self, angle : float) -> None:
         rad = Utilities.clamp(angle, -math.pi, math.pi)
@@ -227,7 +225,7 @@ class FeatureRailGuide(ExternalComponent, AnglePositionable, BoxBounded, LineIns
         self.notifyComponentChanged()
 
     def getInstanceSeparation(self) -> float:
-        return self._obj.InstanceSeparation
+        return float(self._obj.InstanceSeparation)
 
     def setInstanceSeparation(self, separation : float) -> None:
         self._obj.InstanceSeparation = separation

@@ -71,7 +71,7 @@ class ThicknessRingComponent(RingComponent):
                 pos2 = clamp(pos2, 0, parent.getLength())
                 self._obj.Diameter = min(parent.getInnerDiameter(pos1), parent.getInnerDiameter(pos2))
 
-        return self._obj.Diameter
+        return float(self._obj.Diameter)
 
     def setOuterRadius(self, radius : float) -> None:
         self.setOuterDiameter(radius * 2.0)
@@ -92,7 +92,7 @@ class ThicknessRingComponent(RingComponent):
         self.notifyComponentChanged()
 
     def getThickness(self) -> float:
-        return min(self._obj.Thickness, self.getOuterRadius(0))
+        return min(float(self._obj.Thickness), self.getOuterRadius(0))
 
     def setThickness(self, thickness : float) -> None:
         outer = self.getOuterRadius(0)
@@ -111,7 +111,7 @@ class ThicknessRingComponent(RingComponent):
         return self.getInnerDiameter(pos) / 2.0
 
     def getInnerDiameter(self, pos : float) -> float:
-        return max(self.getOuterDiameter(pos) - (2.0 * self._obj.Thickness), 0)
+        return max(self.getOuterDiameter(pos) - float(2.0 * self._obj.Thickness), 0)
 
     def setInnerRadius(self, radius : float) -> None:
         self.setInnerDiameter(radius * 2.0)

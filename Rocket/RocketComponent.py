@@ -136,7 +136,7 @@ class RocketComponent(RocketComponentShapeless):
     """
     def getLength(self) -> float:
         # Return the length of this component along the central axis
-        return self._obj.Length
+        return float(self._obj.Length)
 
     def isMotorMount(self) -> bool:
         return False

@@ -166,7 +166,7 @@ class RingComponent(InternalComponent, BoxBounded, Coaxial):
         of the center of the component from the center of the parent component.
     """
     def getRadialPosition(self) -> float:
-        return self._obj.RadialPosition
+        return float(self._obj.RadialPosition)
 
     """
         Set the radial position of the component.  The position is the distance
@@ -183,10 +183,10 @@ class RingComponent(InternalComponent, BoxBounded, Coaxial):
         self.notifyComponentChanged()
 
     def getRadialShiftY(self) -> float:
-        return self._obj.ShiftY
+        return float(self._obj.ShiftY)
 
     def getRadialShiftZ(self) -> float:
-        return self._obj.ShiftZ
+        return float(self._obj.ShiftZ)
 
     def setRadialShift(self, y : float, z : float) -> None:
         self._obj.RadialPosition = math.hypot(y, z);

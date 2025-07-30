@@ -129,7 +129,7 @@ class FeatureLaunchLug(Tube, AnglePositionable, BoxBounded, LineInstanceable):
         return self.getInnerDiameter(pos) / 2.0
 
     def getInnerDiameter(self, pos : float) -> float:
-        return self._obj.Diameter - (2.0 * self._obj.Thickness)
+        return float(self._obj.Diameter - (2.0 * self._obj.Thickness))
 
     def setInnerRadius(self, radius : float) -> None:
         self.setInnerDiameter(radius * 2.0)
@@ -138,7 +138,7 @@ class FeatureLaunchLug(Tube, AnglePositionable, BoxBounded, LineInstanceable):
         self.setThickness((float(self._obj.Diameter) - float(diameter)) / 2.0)
 
     def getThickness(self) -> float:
-        return self._obj.Thickness
+        return float(self._obj.Thickness)
 
     def setThickness(self, thickness : float) -> None:
         if self._obj.Thickness == thickness:
@@ -149,7 +149,7 @@ class FeatureLaunchLug(Tube, AnglePositionable, BoxBounded, LineInstanceable):
         self.notifyComponentChanged()
 
     def getAngleOffset(self) -> float:
-        return self._obj.AngleOffset
+        return float(self._obj.AngleOffset)
 
     def setAngleOffset(self, angle : float) -> None:
         rad = math.fmod(angle, 360)
