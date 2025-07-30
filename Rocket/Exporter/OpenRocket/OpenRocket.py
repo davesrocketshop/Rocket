@@ -464,11 +464,13 @@ class OpenRocketExporter:
         elif feature._obj.FinType == FIN_TYPE_TRIANGLE:
             self.writeFinTrapezoid(file, feature, indent)
         elif feature._obj.FinType == FIN_TYPE_ELLIPSE:
-            pass
+            self.writeFinEllipse(file, feature, indent)
         elif feature._obj.FinType == FIN_TYPE_TUBE:
-            pass
+            self.writeFinTube(file, feature, indent)
         elif feature._obj.FinType == FIN_TYPE_SKETCH:
-            pass
+            self.writeFinSketch(file, feature, indent)
+        else:
+            print("Unknown fin type")
 
     def writeFinTrapezoid(self, file : io.TextIOBase, feature : RocketComponentShapeless, indent : int) -> None:
         file.write(f"{' ' * indent}<trapezoidfinset>\n")
@@ -489,7 +491,11 @@ class OpenRocketExporter:
         file.write(f"{' ' * (indent + 2)}<thickness>{self.toMeters(feature.getRootThickness())}</thickness>\n")
         file.write(f"{' ' * (indent + 2)}<crosssection>{self.getCrossSection(feature)}</crosssection>\n")
         file.write(f"{' ' * (indent + 2)}<cant>{feature._obj.Cant.Value}</cant>\n")
-        file.write(f"{' ' * (indent + 2)}<filletradius>{self.toMeters(feature._obj.FilletRadius.Value)}</filletradius>\n")
+        self.writeFinTab(file, feature, indent + 2)
+        if feature._obj.Fillets:
+            file.write(f"{' ' * (indent + 2)}<filletradius>{self.toMeters(feature._obj.FilletRadius.Value)}</filletradius>\n")
+        else:
+            file.write(f"{' ' * (indent + 2)}<filletradius>0.0</filletradius>\n")
         file.write(f"{' ' * (indent + 2)}<rootchord>{self.toMeters(feature.getRootChord())}</rootchord>\n")
         if feature._obj.FinType == FIN_TYPE_TRIANGLE:
             file.write(f"{' ' * (indent + 2)}<tipchord>0.0</tipchord>\n")
@@ -499,6 +505,113 @@ class OpenRocketExporter:
         file.write(f"{' ' * (indent + 2)}<height>{self.toMeters(feature.getHeight())}</height>\n")
         self.writeSubcomponents(file, feature, indent + 2)
         file.write(f"{' ' * indent}</trapezoidfinset>\n\n")
+
+    def writeFinEllipse(self, file : io.TextIOBase, feature : RocketComponentShapeless, indent : int) -> None:
+        file.write(f"{' ' * indent}<ellipticalfinset>\n")
+        file.write(f"{' ' * (indent + 2)}<name>{feature.getName()}</name>\n")
+        file.write(f"{' ' * (indent + 2)}<id>{uuid.uuid4()}</id>\n")
+        if feature.isFinSet():
+            fins = feature.getFinCount()
+        else:
+            fins = 1
+        file.write(f"{' ' * (indent + 2)}<instancecount>{fins}</instancecount>\n")
+        file.write(f"{' ' * (indent + 2)}<fincount>{fins}</fincount>\n")
+        file.write(f"{' ' * (indent + 2)}<radiusoffset method=\"{self.getRadialMethod(feature)}\">{self.toMeters(feature._obj.RadialOffset.Value)}</radiusoffset>\n")
+        file.write(f"{' ' * (indent + 2)}<angleoffset method=\"relative\">{feature._obj.AngleOffset.Value}</angleoffset>\n")
+        file.write(f"{' ' * (indent + 2)}<rotation>{feature._obj.AngleOffset.Value}</rotation>\n")
+        file.write(f"{' ' * (indent + 2)}<axialoffset method=\"{self.getAxialMethod(feature)}\">{self.toMeters(feature._obj.AxialOffset.Value)}</axialoffset>\n")
+        file.write(f"{' ' * (indent + 2)}<position type=\"{self.getPositionType(feature)}\">{self.toMeters(feature._obj.AxialOffset.Value)}</position>\n")
+        # file.write(f"{' ' * (indent + 2)}<length>{self.toMeters(float(feature.getLength()))}</length>\n")
+        file.write(f"{' ' * (indent + 2)}<thickness>{self.toMeters(feature.getRootThickness())}</thickness>\n")
+        file.write(f"{' ' * (indent + 2)}<crosssection>{self.getCrossSection(feature)}</crosssection>\n")
+        file.write(f"{' ' * (indent + 2)}<cant>{feature._obj.Cant.Value}</cant>\n")
+        self.writeFinTab(file, feature, indent + 2)
+        if feature._obj.Fillets:
+            file.write(f"{' ' * (indent + 2)}<filletradius>{self.toMeters(feature._obj.FilletRadius.Value)}</filletradius>\n")
+        else:
+            file.write(f"{' ' * (indent + 2)}<filletradius>0.0</filletradius>\n")
+        file.write(f"{' ' * (indent + 2)}<rootchord>{self.toMeters(feature.getRootChord())}</rootchord>\n")
+        file.write(f"{' ' * (indent + 2)}<height>{self.toMeters(feature.getHeight())}</height>\n")
+        self.writeSubcomponents(file, feature, indent + 2)
+        file.write(f"{' ' * indent}</ellipticalfinset>\n\n")
+
+    def writeFinTube(self, file : io.TextIOBase, feature : RocketComponentShapeless, indent : int) -> None:
+        file.write(f"{' ' * indent}<tubefinset>\n")
+        file.write(f"{' ' * (indent + 2)}<name>{feature.getName()}</name>\n")
+        file.write(f"{' ' * (indent + 2)}<id>{uuid.uuid4()}</id>\n")
+        if feature.isFinSet():
+            fins = feature.getFinCount()
+        else:
+            fins = 1
+        file.write(f"{' ' * (indent + 2)}<instancecount>{fins}</instancecount>\n")
+        file.write(f"{' ' * (indent + 2)}<fincount>{fins}</fincount>\n")
+        file.write(f"{' ' * (indent + 2)}<radiusoffset method=\"{self.getRadialMethod(feature)}\">{self.toMeters(feature._obj.RadialOffset.Value)}</radiusoffset>\n")
+        file.write(f"{' ' * (indent + 2)}<angleoffset method=\"relative\">{feature._obj.AngleOffset.Value}</angleoffset>\n")
+        file.write(f"{' ' * (indent + 2)}<rotation>{feature._obj.AngleOffset.Value}</rotation>\n")
+        file.write(f"{' ' * (indent + 2)}<axialoffset method=\"{self.getAxialMethod(feature)}\">{self.toMeters(feature._obj.AxialOffset.Value)}</axialoffset>\n")
+        file.write(f"{' ' * (indent + 2)}<position type=\"{self.getPositionType(feature)}\">{self.toMeters(feature._obj.AxialOffset.Value)}</position>\n")
+        if feature.isTubeOuterRadiusAutomatic():
+            file.write(f"{' ' * (indent + 2)}<radius>auto</radius>\n")
+        else:
+            file.write(f"{' ' * (indent + 2)}<radius>{feature.getTubeOuterRadius()}</radius>\n")
+        file.write(f"{' ' * (indent + 2)}<length>{self.toMeters(float(feature.getLength()))}</length>\n")
+        file.write(f"{' ' * (indent + 2)}<thickness>{self.toMeters(feature._obj.TubeThickness.Value)}</thickness>\n")
+        self.writeSubcomponents(file, feature, indent + 2)
+        file.write(f"{' ' * indent}</tubefinset>\n\n")
+
+    def writeFinSketch(self, file : io.TextIOBase, feature : RocketComponentShapeless, indent : int) -> None:
+        file.write(f"{' ' * indent}<freeformfinset>\n")
+        file.write(f"{' ' * (indent + 2)}<name>{feature.getName()}</name>\n")
+        file.write(f"{' ' * (indent + 2)}<id>{uuid.uuid4()}</id>\n")
+        if feature.isFinSet():
+            fins = feature.getFinCount()
+        else:
+            fins = 1
+        file.write(f"{' ' * (indent + 2)}<instancecount>{fins}</instancecount>\n")
+        file.write(f"{' ' * (indent + 2)}<fincount>{fins}</fincount>\n")
+        file.write(f"{' ' * (indent + 2)}<radiusoffset method=\"{self.getRadialMethod(feature)}\">{self.toMeters(feature._obj.RadialOffset.Value)}</radiusoffset>\n")
+        file.write(f"{' ' * (indent + 2)}<angleoffset method=\"relative\">{feature._obj.AngleOffset.Value}</angleoffset>\n")
+        file.write(f"{' ' * (indent + 2)}<rotation>{feature._obj.AngleOffset.Value}</rotation>\n")
+        file.write(f"{' ' * (indent + 2)}<axialoffset method=\"{self.getAxialMethod(feature)}\">{self.toMeters(feature._obj.AxialOffset.Value)}</axialoffset>\n")
+        file.write(f"{' ' * (indent + 2)}<position type=\"{self.getPositionType(feature)}\">{self.toMeters(feature._obj.AxialOffset.Value)}</position>\n")
+        file.write(f"{' ' * (indent + 2)}<thickness>{self.toMeters(feature.getRootThickness())}</thickness>\n")
+        file.write(f"{' ' * (indent + 2)}<crosssection>{self.getCrossSection(feature)}</crosssection>\n")
+        file.write(f"{' ' * (indent + 2)}<cant>{feature._obj.Cant.Value}</cant>\n")
+        self.writeFinTab(file, feature, indent + 2)
+        if feature._obj.Fillets:
+            file.write(f"{' ' * (indent + 2)}<filletradius>{self.toMeters(feature._obj.FilletRadius.Value)}</filletradius>\n")
+        else:
+            file.write(f"{' ' * (indent + 2)}<filletradius>0.0</filletradius>\n")
+        file.write(f"{' ' * (indent + 2)}<finpoints>\n")
+        for point in self.getVertexes(feature):
+            file.write(f"{' ' * (indent + 4)}<point x=\"{self.toMeters(point.Point.x)}\" y=\"{self.toMeters(point.Point.z)}\"/>\n")
+        file.write(f"{' ' * (indent + 2)}</finpoints>\n")
+        self.writeSubcomponents(file, feature, indent + 2)
+        file.write(f"{' ' * indent}</freeformfinset>\n\n")
+
+    def writeFinTab(self, file : io.TextIOBase, feature : RocketComponentShapeless, indent : int) -> None:
+        if feature._obj.Ttw:
+            file.write(f"{' ' * indent}<tabheight>{self.toMeters(feature._obj.TtwHeight.Value)}</tabheight>\n")
+            file.write(f"{' ' * indent}<tablength>{self.toMeters(feature._obj.TtwLength.Value)}</tablength>\n")
+            file.write(f"{' ' * indent}<tabposition relativeto=\"top\">{self.toMeters(feature._obj.TtwOffset.Value)}</tabposition>\n")
+
+    def getVertexes(self, feature : RocketComponentShapeless) -> list:
+        """Get the vertexes starting at the origin.
+        
+        Getting the vertexes from a shape can start at any point along the edge. This function ensures the
+        first point is at the origin"""
+
+        profile = feature._obj.Profile
+        vertexes = profile.Shape.Vertexes
+        origin = -1
+        for index, point in enumerate(vertexes):
+            if point.Point.x == 0 and point.Point.z == 0:
+                origin = index
+                break
+        if origin > 0:
+            vertexes = vertexes[origin:] + vertexes[:origin]
+        return vertexes
+
 
     def getRadialMethod(self, feature : RocketComponentShapeless) -> str:
         method = feature._obj.RadialReference

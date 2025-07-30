@@ -476,7 +476,7 @@ class FeatureFin(ExternalComponent):
         Return the outer radius of the tube-fin
     """
     def getTubeOuterRadius(self) -> float:
-        return (float(self.getTubeOuterDiameter()) / 2.0)
+        return self.getTubeOuterDiameter() / 2.0
 
     def getTubeOuterDiameter(self) -> float:
         if self._obj.TubeAutoOuterDiameter:
