@@ -187,6 +187,9 @@ class FeatureTransition(SymmetricComponent):
             self._obj.ForeDiameter = d
 
         return self._obj.ForeDiameter
+    
+    def getForeShoulderRadius(self) -> float:
+        return self.getForeShoulderDiameter() / 2.0
 
     def getForeShoulderDiameter(self) -> float:
         if self.isForeInnerDiameterAutomatic():
@@ -199,7 +202,7 @@ class FeatureTransition(SymmetricComponent):
                 d = SymmetricComponent.DEFAULT_RADIUS * 2.0
             self._obj.ForeShoulderDiameter = d
 
-        return self._obj.ForeShoulderDiameter
+        return float(self._obj.ForeShoulderDiameter)
 
     """
         Return the fore radius that was manually entered, so not the value that the component received from automatic
