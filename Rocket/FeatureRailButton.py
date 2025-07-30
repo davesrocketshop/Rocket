@@ -29,7 +29,7 @@ from typing import Any
 
 from Rocket.ExternalComponent import ExternalComponent
 from Rocket.util.BoundingBox import BoundingBox
-from Rocket.position.AxialMethod import MIDDLE
+from Rocket.position.AxialMethod import AxialMethod, MIDDLE
 from Rocket.position.AngleMethod import AngleMethod, RELATIVE
 from Rocket.position.AnglePositionable import AnglePositionable
 from Rocket.interfaces.BoxBounded import BoxBounded
@@ -56,8 +56,8 @@ from DraftTools import translate
 
 class FeatureRailButton(ExternalComponent, AnglePositionable, BoxBounded, LineInstanceable):
 
-    def __init__(self, obj : Any) -> None:
-        super().__init__(obj, MIDDLE)
+    def __init__(self, obj : Any, relativePosition : AxialMethod = MIDDLE) -> None:
+        super().__init__(obj, relativePosition)
         self.Type = FEATURE_RAIL_BUTTON
 
         # Default set to a BT-50
@@ -126,7 +126,7 @@ class FeatureRailButton(ExternalComponent, AnglePositionable, BoxBounded, LineIn
         obj.removeProperty("Thickness")
         obj.removeProperty("CountersinkAngle") # Enumeration values have changed
 
-        obj.Proxy = FeatureRailButton(obj)
+        obj.Proxy = FeatureRailButton(obj, obj.AxialMethod)
         obj.Proxy._obj = obj
 
         obj.FlangeHeight = top
@@ -142,7 +142,7 @@ class FeatureRailButton(ExternalComponent, AnglePositionable, BoxBounded, LineIn
             self._migrate_from_3_0(obj)
             return
 
-        FeatureRailButton(obj)
+        FeatureRailButton(obj, obj.AxialMethod)
 
         # Convert from the pre-1.0 material system if required
         self.convertMaterialAndAppearance(obj)

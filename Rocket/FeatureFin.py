@@ -27,7 +27,7 @@ __url__ = "https://www.davesrocketshop.com"
 import math
 from typing import Any
 
-from Rocket.position.AxialMethod import BOTTOM
+from Rocket.position.AxialMethod import AxialMethod, BOTTOM
 from Rocket.ExternalComponent import ExternalComponent
 from Rocket.SymmetricComponent import SymmetricComponent
 from Rocket.FeatureInnerTube import FeatureInnerTube
@@ -54,8 +54,8 @@ DEBUG_SKETCH_FINS = 0 # Set > 0 when debugging sketch based fins
 
 class FeatureFin(ExternalComponent):
 
-    def __init__(self, obj : Any):
-        super().__init__(obj, BOTTOM)
+    def __init__(self, obj : Any, relativePosition : AxialMethod = BOTTOM) -> None:
+        super().__init__(obj, relativePosition)
         self.Type = FEATURE_FIN
 
         if not hasattr(obj,"FinType"):
@@ -217,7 +217,7 @@ class FeatureFin(ExternalComponent):
 
     def onDocumentRestored(self, obj : Any) -> None:
         if obj is not None:
-            FeatureFin(obj) # Update any properties
+            FeatureFin(obj, obj.AxialMethod) # Update any properties
 
             # Convert from the pre-1.0 material system if required
             self.convertMaterialAndAppearance(obj)
