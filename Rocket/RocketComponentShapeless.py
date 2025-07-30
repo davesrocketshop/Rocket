@@ -24,9 +24,8 @@ __title__ = "FreeCAD Rocket Components"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
-from abc import ABC, abstractmethod
+from abc import abstractmethod
 from typing import Self, Any
-import traceback
 
 import FreeCAD
 import Part
@@ -189,7 +188,7 @@ class RocketComponentShapeless(Subject, Observer):
             raise ObjectNotFound()
 
         return self.getProxy(self._parent)
-    
+
     def hasChildren(self) -> bool:
         if hasattr(self._obj, "Group") and len(self._obj.Group) > 0:
             return True

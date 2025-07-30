@@ -30,7 +30,7 @@ from Rocket.Importer.OpenRocket.SaxElement import NullElement
 from Rocket.Importer.OpenRocket.TransitionElement import TransitionElement
 from Rocket.Utilities import _toBoolean
 from Rocket.Constants import STYLE_CAPPED, STYLE_HOLLOW, STYLE_SOLID
-from Rocket.Constants import TYPE_CONE, TYPE_ELLIPTICAL, TYPE_HAACK, TYPE_OGIVE, TYPE_PARABOLA, TYPE_POWER
+from Rocket.Constants import TYPE_CONE, TYPE_ELLIPTICAL, TYPE_HAACK, TYPE_OGIVE, TYPE_PARABOLIC, TYPE_POWER
 
 from Ui.Commands.CmdNoseCone import makeNoseCone
 
@@ -67,7 +67,7 @@ class NoseElement(TransitionElement):
             elif content == 'power':
                 self._feature._obj.NoseType = TYPE_POWER
             elif content == 'parabolic':
-                self._feature._obj.NoseType = TYPE_PARABOLA
+                self._feature._obj.NoseType = TYPE_PARABOLIC
             elif content == 'haack':
                 self._feature._obj.NoseType = TYPE_HAACK
             else:

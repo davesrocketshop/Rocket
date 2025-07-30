@@ -41,6 +41,11 @@ from Rocket.Constants import TYPE_CONE, TYPE_BLUNTED_CONE, TYPE_SPHERICAL, TYPE_
     TYPE_BLUNTED_OGIVE, TYPE_SECANT_OGIVE, TYPE_PARABOLA, TYPE_VON_KARMAN, TYPE_PARABOLIC, TYPE_POWER, TYPE_HAACK, \
     TYPE_NIKE_SMOKE, TYPE_PROXY
 from Rocket.Constants import STYLE_SOLID, STYLE_HOLLOW
+from Rocket.Constants import LOCATION_PARENT_TOP, LOCATION_PARENT_MIDDLE, LOCATION_PARENT_BOTTOM, LOCATION_BASE, \
+    LOCATION_AFTER, LOCATION_SURFACE, LOCATION_CENTER
+from Rocket.Constants import FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_ELLIPSE, FIN_CROSS_BICONVEX, \
+    FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE, FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE
+from Rocket.Constants import FIN_TYPE_TRAPEZOID, FIN_TYPE_TRIANGLE, FIN_TYPE_ELLIPSE, FIN_TYPE_TUBE, FIN_TYPE_SKETCH
 
 
 class OpenRocketExporter:
@@ -60,7 +65,7 @@ class OpenRocketExporter:
             FEATURE_TUBE_COUPLER : self.writeNull,
             FEATURE_ENGINE_BLOCK : self.writeNull,
             FEATURE_CENTERING_RING : self.writeNull,
-            FEATURE_FIN : self.writeNull,
+            FEATURE_FIN : self.writeFin,
             FEATURE_FINCAN : self.writeNull,
             FEATURE_NOSE_CONE : self.writeNosecone,
             FEATURE_TRANSITION : self.writeNull,
@@ -74,18 +79,41 @@ class OpenRocketExporter:
         self._noseTypes = {
             TYPE_CONE : self.writeNoseTypeCone,
             TYPE_BLUNTED_CONE : self.writeNoseTypeCone,
-            TYPE_SPHERICAL : self.writeNoseTypeCone,
-            TYPE_ELLIPTICAL : self.writeNoseTypeCone,
+            TYPE_SPHERICAL : self.writeNoseTypeEllipsoid,
+            TYPE_ELLIPTICAL : self.writeNoseTypeEllipsoid,
             TYPE_OGIVE : self.writeNoseTypeOgive,
             TYPE_BLUNTED_OGIVE : self.writeNoseTypeOgive,
             TYPE_SECANT_OGIVE : self.writeNoseTypeOgive,
-            TYPE_PARABOLA : self.writeNoseTypeCone,
-            TYPE_VON_KARMAN : self.writeNoseTypeCone,
-            TYPE_PARABOLIC : self.writeNoseTypeCone,
-            TYPE_POWER : self.writeNoseTypeCone,
-            TYPE_HAACK : self.writeNoseTypeCone,
+            TYPE_PARABOLA : self.writeNoseTypePower, # Actually a power series
+            TYPE_VON_KARMAN : self.writeNoseTypeHaack,
+            TYPE_PARABOLIC : self.writeNoseTypeParabolic,
+            TYPE_POWER : self.writeNoseTypePower,
+            TYPE_HAACK : self.writeNoseTypeHaack,
             TYPE_NIKE_SMOKE : self.writeNoseTypeCone,
-            TYPE_PROXY : self.writeNoseTypeCone,
+            TYPE_PROXY : self.writeNoseTypeOgive,
+        }
+
+        self._locations = {
+            LOCATION_PARENT_TOP : "top",
+            LOCATION_PARENT_MIDDLE : "middle",
+            LOCATION_PARENT_BOTTOM : "bottom",
+            LOCATION_BASE : "base",
+            LOCATION_AFTER : "after",
+            LOCATION_SURFACE : "surface",
+            LOCATION_CENTER : "center"
+        }
+
+        self._finCrossSection = {
+            FIN_CROSS_SQUARE : "square",
+            FIN_CROSS_ROUND : "rounded",
+            FIN_CROSS_ELLIPSE : "rounded",
+            FIN_CROSS_BICONVEX : "square",
+            FIN_CROSS_AIRFOIL : "airfoil",
+            FIN_CROSS_WEDGE : "square",
+            FIN_CROSS_DIAMOND : "square",
+            FIN_CROSS_TAPER_LE : "square",
+            FIN_CROSS_TAPER_TE : "square",
+            FIN_CROSS_TAPER_LETE : "square",
         }
 
     def export(self):
@@ -117,14 +145,14 @@ class OpenRocketExporter:
   </docprefs>
 </openrocket>
 """)
-        
+
     def writeStages(self, file : io.TextIOBase, obj : FreeCAD.DocumentObject) -> None:
         proxy = self.getProxy(obj)
         for child in proxy.getChildren():
             childProxy = self.getProxy(child)
             if isinstance(childProxy, FeatureStage):
                 self.writeStage(file, childProxy)
-        
+
     def writeStage(self, file : io.TextIOBase, feature : RocketComponentShapeless):
         stageName = feature.getName()
         file.write(f"""      <stage>
@@ -138,10 +166,10 @@ class OpenRocketExporter:
         if hasattr(obj, "Proxy"):
             return obj.Proxy
         return obj
-    
+
     def toMeters(self, mm : float) -> float:
         return mm / 1000.0
-    
+
     def writeSubcomponents(self, file : io.TextIOBase, feature : RocketComponentShapeless, indent : int) -> None:
         if feature.hasChildren():
             file.write(f"{' ' * indent}<subcomponents>\n")
@@ -171,19 +199,35 @@ class OpenRocketExporter:
         file.write(f"{' ' * indent}</nosecone>\n\n")
 
     def writeNoseTypeCone(self, file : io.TextIOBase, feature : RocketComponentShapeless, indent : int) -> None:
-        file.write(f"{' ' * (indent + 2)}<shape>{feature._obj.NoseType}</shape>\n")
+        self.writeNoseParameters(file, feature, indent, "conical")
 
     def writeNoseTypeOgive(self, file : io.TextIOBase, feature : RocketComponentShapeless, indent : int) -> None:
+        self.writeNoseParameters(file, feature, indent, "ogive")
+
+    def writeNoseTypeEllipsoid(self, file : io.TextIOBase, feature : RocketComponentShapeless, indent : int) -> None:
+        self.writeNoseParameters(file, feature, indent, "ellipsoid")
+
+    def writeNoseTypePower(self, file : io.TextIOBase, feature : RocketComponentShapeless, indent : int) -> None:
+        self.writeNoseParameters(file, feature, indent, "power")
+
+    def writeNoseTypeParabolic(self, file : io.TextIOBase, feature : RocketComponentShapeless, indent : int) -> None:
+        self.writeNoseParameters(file, feature, indent, "parabolic")
+
+    def writeNoseTypeHaack(self, file : io.TextIOBase, feature : RocketComponentShapeless, indent : int) -> None:
+        self.writeNoseParameters(file, feature, indent, "haack")
+
+    def writeNoseParameters(self, file : io.TextIOBase, feature : RocketComponentShapeless, indent : int, shape : str) -> None:
         file.write(f"{' ' * (indent)}<length>{self.toMeters(float(feature.getLength()))}</length>\n")
         if feature._obj.NoseStyle == STYLE_SOLID:
             file.write(f"{' ' * (indent)}<thickness>filled</thickness>\n")
         else:
             file.write(f"{' ' * (indent)}<thickness>{self.toMeters(feature._obj.Thickness.Value)}</thickness>\n")
-        if feature._obj.NoseType == TYPE_SECANT_OGIVE:
+        if feature._obj.NoseType in [TYPE_SECANT_OGIVE, TYPE_POWER, TYPE_PARABOLA, TYPE_PARABOLIC, TYPE_HAACK, TYPE_VON_KARMAN]:
             file.write(f"{' ' * (indent)}<shapeparameter>{feature._obj.Coefficient}</shapeparameter>\n")
         else:
             file.write(f"{' ' * (indent)}<shapeparameter>1.0</shapeparameter>\n")
-        file.write(f"{' ' * (indent)}<shape>{feature._obj.NoseType}</shape>\n")
+        file.write(f"{' ' * (indent)}<shape>{shape}</shape>\n")
+        # <shapeclipped>false</shapeclipped>
         file.write(f"{' ' * (indent)}<aftradius>{self.toMeters(float(feature.getAftRadius()))}</aftradius>\n")
         self.writeNoseShoulder(file, feature, indent)
         file.write(f"{' ' * (indent)}<isflipped>false</isflipped>\n")
@@ -208,4 +252,93 @@ class OpenRocketExporter:
             file.write(f"{' ' * (indent + 2)}<radius>auto {self.toMeters(float(feature.getForeRadius()))}</radius>\n")
         else:
             file.write(f"{' ' * (indent + 2)}<radius>{self.toMeters(float(feature.getForeRadius()))}</radius>\n")
+        self.writeSubcomponents(file, feature, indent + 2)
         file.write(f"{' ' * indent}</bodytube>\n\n")
+
+    def writeFin(self, file : io.TextIOBase, feature : RocketComponentShapeless, indent : int) -> None:
+        if feature._obj.FinType == FIN_TYPE_TRAPEZOID:
+            self.writeFinTrapezoid(file, feature, indent)
+        elif feature._obj.FinType == FIN_TYPE_TRIANGLE:
+            self.writeFinTrapezoid(file, feature, indent)
+        elif feature._obj.FinType == FIN_TYPE_ELLIPSE:
+            pass
+        elif feature._obj.FinType == FIN_TYPE_TUBE:
+            pass
+        elif feature._obj.FinType == FIN_TYPE_SKETCH:
+            pass
+
+    def writeFinTrapezoid(self, file : io.TextIOBase, feature : RocketComponentShapeless, indent : int) -> None:
+        file.write(f"{' ' * indent}<trapezoidfinset>\n")
+        file.write(f"{' ' * (indent + 2)}<name>{feature.getName()}</name>\n")
+        file.write(f"{' ' * (indent + 2)}<id>{uuid.uuid4()}</id>\n")
+        if feature.isFinSet():
+            fins = feature.getFinCount()
+        else:
+            fins = 1
+        file.write(f"{' ' * (indent + 2)}<instancecount>{fins}</instancecount>\n")
+        file.write(f"{' ' * (indent + 2)}<fincount>{fins}</fincount>\n")
+        file.write(f"{' ' * (indent + 2)}<radiusoffset method=\"{self.getRadialMethod(feature)}\">{self.toMeters(feature._obj.RadialOffset.Value)}</radiusoffset>\n")
+        file.write(f"{' ' * (indent + 2)}<angleoffset method=\"relative\">{feature._obj.AngleOffset.Value}</angleoffset>\n")
+        file.write(f"{' ' * (indent + 2)}<rotation>{feature._obj.AngleOffset.Value}</rotation>\n")
+        file.write(f"{' ' * (indent + 2)}<axialoffset method=\"{self.getAxialMethod(feature)}\">{self.toMeters(feature._obj.AxialOffset.Value)}</axialoffset>\n")
+        file.write(f"{' ' * (indent + 2)}<position type=\"{self.getPositionType(feature)}\">{self.toMeters(feature._obj.Position._x)}</position>\n")
+        # file.write(f"{' ' * (indent + 2)}<length>{self.toMeters(float(feature.getLength()))}</length>\n")
+        file.write(f"{' ' * (indent + 2)}<thickness>{self.toMeters(feature.getRootThickness())}</thickness>\n")
+        file.write(f"{' ' * (indent + 2)}<crosssection>{self.getCrossSection(feature)}</crosssection>\n")
+        file.write(f"{' ' * (indent + 2)}<cant>{feature._obj.Cant.Value}</cant>\n")
+        file.write(f"{' ' * (indent + 2)}<filletradius>{self.toMeters(feature._obj.FilletRadius.Value)}</filletradius>\n")
+        file.write(f"{' ' * (indent + 2)}<rootchord>{self.toMeters(feature.getRootChord())}</rootchord>\n")
+        file.write(f"{' ' * (indent + 2)}<tipchord>{self.toMeters(feature.getTipChord())}</tipchord>\n")
+        file.write(f"{' ' * (indent + 2)}<sweeplength>{self.toMeters(feature.getSweepLength())}</sweeplength>\n")
+        file.write(f"{' ' * (indent + 2)}<height>{self.toMeters(feature.getHeight())}</height>\n")
+        self.writeSubcomponents(file, feature, indent + 2)
+        file.write(f"{' ' * indent}</trapezoidfinset>\n\n")
+
+    def getRadialMethod(self, feature : RocketComponentShapeless) -> str:
+        method = feature._obj.RadialReference
+        if method in self._locations:
+            return self._locations[method]
+        return "surface"
+
+    def getAxialMethod(self, feature : RocketComponentShapeless) -> str:
+        method = feature._obj.AxialMethod.getMethodName()
+        if method in self._locations:
+            return self._locations[method]
+        return "bottom"
+
+    def getPositionType(self, feature : RocketComponentShapeless) -> str:
+        method = feature._obj.LocationReference
+        if method in self._locations:
+            return self._locations[method]
+        return "bottom"
+
+    def getCrossSection(self, feature : RocketComponentShapeless) -> str:
+        cross = feature._obj.RootCrossSection
+        if cross in self._finCrossSection:
+            return self._finCrossSection[cross]
+        return "rounded"
+
+"""
+              <trapezoidfinset>
+                <name>Trapezoidal fin set</name>
+                <id>9acd3480-76fb-4d48-b203-ce394d8c3d8e</id>
+                <instancecount>3</instancecount>
+                <fincount>3</fincount>
+                <radiusoffset method="surface">0.0</radiusoffset>
+                <angleoffset method="relative">0.0</angleoffset>
+                <rotation>0.0</rotation>
+                <axialoffset method="bottom">0.0</axialoffset>
+                <position type="bottom">0.0</position>
+                <finish>normal</finish>
+                <material type="bulk" density="680.0" group="PaperProducts">Cardboard</material>
+                <thickness>0.002</thickness>
+                <crosssection>rounded</crosssection>
+                <cant>0.0</cant>
+                <filletradius>0.0</filletradius>
+                <filletmaterial type="bulk" density="680.0" group="PaperProducts">Cardboard</filletmaterial>
+                <rootchord>0.0508</rootchord>
+                <tipchord>0.0508</tipchord>
+                <sweeplength>0.0254</sweeplength>
+                <height>0.03</height>
+              </trapezoidfinset>
+"""

@@ -343,21 +343,21 @@ class FeatureFin(ExternalComponent):
                 self._obj.RootChord = float(xmax - xmin)
                 self._obj.Length = self._obj.RootChord
 
-        return self._obj.RootChord
+        return float(self._obj.RootChord)
 
     def setRootChord(self, chord : float) -> None:
         self._obj.RootChord = chord
         self.notifyComponentChanged()
 
     def getRootThickness(self) -> float:
-        return self._obj.RootThickness
+        return float(self._obj.RootThickness)
 
     def setRootThickness(self, thickness : float) -> None:
         self._obj.RootThickness = thickness
         self.notifyComponentChanged()
 
     def getTipChord(self) -> float:
-        return self._obj.TipChord
+        return float(self._obj.TipChord)
 
     def setTipChord(self, chord : float) -> None:
         self._obj.TipChord = chord
@@ -379,7 +379,7 @@ class FeatureFin(ExternalComponent):
         self.notifyComponentChanged()
 
     def getHeight(self) -> float:
-        return self._obj.Height
+        return float(self._obj.Height)
 
     def setHeight(self, height : float) -> None:
         self._obj.Height = height
@@ -396,7 +396,7 @@ class FeatureFin(ExternalComponent):
         self.notifyComponentChanged()
 
     def getSweepLength(self) -> float:
-        return self._obj.SweepLength
+        return float(self._obj.SweepLength)
 
     def setSweepLength(self, length : float) -> None:
         self._obj.SweepLength = length
