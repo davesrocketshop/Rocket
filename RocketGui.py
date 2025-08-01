@@ -60,10 +60,10 @@ from Ui.Commands.CmdParachuteGore import CmdParachuteGore
 # Analysis
 from Ui.Commands.CmdFlutterAnalysis import CmdFinFlutter
 from Ui.Commands.CmdFemAnalysis import CmdFemAnalysis
-try:
-    from Ui.Commands.CmdCFDAnalysis import CmdCFDAnalysis
-except:
-    pass
+# try:
+from Ui.Commands.CmdCFDAnalysis import CmdCFDAnalysis
+# except:
+#     pass
 from Ui.Commands.CmdMaterialEditor import CmdMaterialEditor
 from Ui.Commands.CmdMaterialMapping import CmdMaterialMapping
 

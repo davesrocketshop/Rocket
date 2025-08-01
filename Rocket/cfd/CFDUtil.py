@@ -27,9 +27,14 @@ __url__ = "https://www.davesrocketshop.com"
 import FreeCAD
 import Part
 
+from CfdOF.Mesh.CfdMesh import CfdMesh, ViewProviderCfdMesh
+
 from Rocket.cfd.FeatureCFDRocket import FeatureCFDRocket
+from Rocket.cfd.FeatureMultiCFDAnalysis import FeatureMultiCFDAnalysis
 from Rocket.cfd.FeatureWindTunnel import FeatureWindTunnel
+# from Rocket.cfd.ViewProviders.ViewProviderCFDMesh import ViewProviderCFDMesh
 from Rocket.cfd.ViewProviders.ViewProviderCFDRocket import ViewProviderCFDRocket
+from Rocket.cfd.ViewProviders.ViewProviderMultiCFDAnalysis import ViewProviderMutliCFDAnalysis
 from Rocket.cfd.ViewProviders.ViewProviderWindTunnel import ViewProviderWindTunnel
 
 def getProxy(obj):
@@ -116,3 +121,19 @@ def makeWindTunnel(name='WindTunnel', diameter=10.0, length=20.0, offset=0.0):
         obj.ViewObject.Transparency = 70
 
     return obj.Proxy
+
+def makeMultiCFDAnalysis(name):
+    """ Create a Cfd Analysis group object """
+    obj = FreeCAD.ActiveDocument.addObject("App::DocumentObjectGroupPython", name)
+    FeatureMultiCFDAnalysis(obj)
+
+    if FreeCAD.GuiUp:
+        ViewProviderMutliCFDAnalysis(obj.ViewObject)
+    return obj
+
+def makeCfdMesh(name="CFDMesh"):
+    obj = FreeCAD.ActiveDocument.addObject("App::DocumentObjectGroupPython", name)
+    CfdMesh(obj)
+    if FreeCAD.GuiUp:
+        ViewProviderCfdMesh(obj.ViewObject)
+    return obj

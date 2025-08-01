@@ -24,11 +24,33 @@ __title__ = "FreeCAD CFD Rocket"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
+import FreeCAD
+import MeshPart
+import Part
+
 from Rocket.Constants import FEATURE_CFD_ROCKET
 
-from Rocket.cfd.ShapeHandlers.WindTunnelShapeHandler import WindTunnelShapeHandler
+from Rocket.cfd.parea import calculateProjectedArea
 
 from DraftTools import translate
+
+_linearDeflection = 0.5 # Linear deflection for a rough mesh with a fast calculation
+
+def calcFrontalArea(shape):
+    # Create a crude mesh and project it on to the YZ plane to caclulate the frontal area
+    mesh = MeshPart.meshFromShape(shape, LinearDeflection=_linearDeflection)
+
+    area = calculateProjectedArea(mesh)
+    return area
+
+def applyTranslations(solid, center=0.0, aoa=0.0, rotation=0.0):
+    solid1 = Part.makeCompound([solid]) # Needed to create a copy so translations aren't applied multiple times
+    if rotation != 0.0:
+        solid1.rotate(FreeCAD.Vector(0, 0, 0),FreeCAD.Vector(1, 0, 0), rotation)
+    if aoa != 0.0:
+        solid1.rotate(FreeCAD.Vector(center, 0, 0),FreeCAD.Vector(0, 1, 0), aoa)
+    solid1.translate(FreeCAD.Vector(-center, 0, 0))
+    return solid1
 
 class FeatureCFDRocket:
 
@@ -42,6 +64,10 @@ class FeatureCFDRocket:
 
         if not hasattr(obj,"Shape"):
             obj.addProperty('Part::PropertyPartShape', 'Shape', 'RocketComponent', translate('App::Property', 'Shape of the wind tunnel'))
+        if not hasattr(obj,"AngleOfAttack"):
+            obj.addProperty('App::PropertyAngle', 'AngleOfAttack', 'RocketComponent', translate('App::Property', 'Angle of attack in degrees')).AngleOfAttack = 0.0
+        if not hasattr(obj,"AngleOfRotation"):
+            obj.addProperty('App::PropertyAngle', 'AngleOfRotation', 'RocketComponent', translate('App::Property', 'Angle of rotation in degrees')).AngleOfRotation = 0.0
 
     def __getstate__(self):
         return self.Type, self.version
@@ -55,8 +81,24 @@ class FeatureCFDRocket:
         FeatureCFDRocket(obj)
         self._obj = obj
 
+    def calcFrontalArea(self):
+        return calcFrontalArea(self._obj.Shape)
+
     def execute(self, obj):
-        # shape = WindTunnelShapeHandler(obj)
-        # if shape is not None:
-        #     shape.draw()
-        pass
+        self.applyTranslations(obj)
+
+    def getCenter(self, obj):
+        box = obj.Shape.BoundBox
+        center = box.XLength / 2.0
+
+        return center
+
+    def applyTranslations(self, obj):
+        center = self.getCenter(obj)
+
+        obj.Placement = FreeCAD.Placement()
+        if obj.AngleOfRotation != 0.0:
+            obj.Placement.rotate(FreeCAD.Vector(0, 0, 0),FreeCAD.Vector(1, 0, 0), obj.AngleOfRotation, comp=True)
+        if obj.AngleOfAttack != 0.0:
+            obj.Placement.rotate(FreeCAD.Vector(center, 0, 0),FreeCAD.Vector(0, 1, 0), obj.AngleOfAttack, comp=True)
+        obj.Placement.move(FreeCAD.Vector(-center, 0, 0))
