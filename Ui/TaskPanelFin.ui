@@ -547,6 +547,9 @@
          <property name="title">
           <string>TTW Tab</string>
          </property>
+         <property name="checkable">
+          <bool>true</bool>
+         </property>
          <layout class="QGridLayout" name="gridLayout_7">
           <item row="2" column="1">
            <widget class="Gui::InputField" name="ttwHeightInput">
