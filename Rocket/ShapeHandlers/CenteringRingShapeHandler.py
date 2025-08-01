@@ -38,6 +38,9 @@ class CenteringRingShapeHandler(BulkheadShapeHandler):
     def __init__(self, obj : Any) -> None:
         super().__init__(obj)
 
+        self._instanceCount = int(obj.InstanceCount)
+        self._separation = float(obj.InstanceSeparation)
+
         self._centerDiameter = float(obj.CenterDiameter)
 
         self._notched = bool(obj.Notched)
@@ -100,12 +103,22 @@ class CenteringRingShapeHandler(BulkheadShapeHandler):
 
         return cr
 
+    def drawInstances(self) -> Any:
+        crs = []
+        base = self._drawCenteringRing()
+        for i in range(self._instanceCount):
+            cr = Part.Shape(base) # Create a copy
+            cr.translate(FreeCAD.Vector(i * (self._thickness + self._separation),0,0))
+            crs.append(cr)
+
+        return Part.makeCompound(crs)
+
     def draw(self) -> None:
         if not self.isValidShape():
             return
 
         try:
-            self._obj.Shape = self._drawCenteringRing()
+            self._obj.Shape = self.drawInstances()
             self._obj.Placement = self._placement
         except (ZeroDivisionError, Part.OCCError):
             _err(translate('Rocket', "Centering ring parameters produce an invalid shape"))

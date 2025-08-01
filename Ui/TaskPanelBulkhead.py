@@ -175,6 +175,24 @@ class _BulkheadDialog(QDialog):
 
             self.notchGroup.setLayout(layout)
 
+        # Multiple instances
+        self.instanceGroup = QtGui.QGroupBox(translate('Rocket', "Instances"), self)
+        self.instanceGroup.setCheckable(False)
+
+        self.instanceCountLabel = QtGui.QLabel(translate('Rocket', "Instance Count"), self)
+
+        self.instanceCountSpinBox = QtGui.QSpinBox(self)
+        self.instanceCountSpinBox.setMinimumWidth(100)
+        self.instanceCountSpinBox.setMinimum(1)
+        self.instanceCountSpinBox.setMaximum(10000)
+        self.instanceCountSpinBox.setValue(1)
+
+        self.instanceSeparationLabel = QtGui.QLabel(translate('Rocket', "Instance Separation"), self)
+
+        self.instanceSeparationInput = ui.createWidget("Gui::InputField")
+        self.instanceSeparationInput.unit = FreeCAD.Units.Length
+        self.instanceSeparationInput.setMinimumWidth(100)
+
         # Step group
         row = 0
         layout = QGridLayout()
@@ -212,6 +230,20 @@ class _BulkheadDialog(QDialog):
 
         self.holeGroup.setLayout(layout)
 
+        # Instance group
+        row = 0
+        grid = QGridLayout()
+
+        grid.addWidget(self.instanceCountLabel, row, 0)
+        grid.addWidget(self.instanceCountSpinBox, row, 1)
+        row += 1
+
+        grid.addWidget(self.instanceSeparationLabel, row, 0)
+        grid.addWidget(self.instanceSeparationInput, row, 1)
+        row += 1
+
+        self.instanceGroup.setLayout(grid)
+
         # Main items
         row = 0
         grid = QGridLayout()
@@ -238,6 +270,7 @@ class _BulkheadDialog(QDialog):
 
         layout.addWidget(self.stepGroup)
         layout.addWidget(self.holeGroup)
+        layout.addWidget(self.instanceGroup)
 
         self.tabGeneral.setLayout(layout)
 
@@ -287,6 +320,9 @@ class TaskPanelBulkhead:
             self._bulkForm.notchWidthInput.textEdited.connect(self.onNotchWidth)
             self._bulkForm.notchHeightInput.textEdited.connect(self.onNotchHeight)
 
+        self._bulkForm.instanceCountSpinBox.valueChanged.connect(self.onInstanceCount)
+        self._bulkForm.instanceSeparationInput.textEdited.connect(self.onInstanceSeparation)
+
         self._db.dbLoad.connect(self.onLookup)
         self._location.locationChange.connect(self.onLocation)
 
@@ -321,6 +357,9 @@ class TaskPanelBulkhead:
             self._obj.NotchWidth = self._bulkForm.notchWidthInput.text()
             self._obj.NotchHeight = self._bulkForm.notchHeightInput.text()
 
+        self._obj.InstanceCount = self._bulkForm.instanceCountSpinBox.value()
+        self._obj.InstanceSeparation = self._bulkForm.instanceSeparationInput.text()
+
         self._bulkForm.tabMaterial.transferTo(self._obj)
         self._bulkForm.tabComment.transferTo(self._obj)
 
@@ -350,6 +389,9 @@ class TaskPanelBulkhead:
             self._bulkForm.notchHeightInput.setText(self._obj.NotchHeight.UserString)
             self._setNotchedState()
             self._setAutoCenterDiameterState()
+
+        self._bulkForm.instanceCountSpinBox.setValue(self._obj.InstanceCount)
+        self._bulkForm.instanceSeparationInput.setText(self._obj.InstanceSeparation.UserString)
 
         self._bulkForm.tabMaterial.transferFrom(self._obj)
         self._bulkForm.tabComment.transferFrom(self._obj)
@@ -563,6 +605,22 @@ class TaskPanelBulkhead:
     def onLocation(self):
         self._obj.Proxy.updateChildren()
         self._obj.Proxy.execute(self._obj)
+        self.setEdited()
+
+    def onInstanceCount(self, value):
+        try:
+            self._obj.InstanceCount = value
+            self._obj.Proxy.execute(self._obj)
+        except ValueError:
+            pass
+        self.setEdited()
+
+    def onInstanceSeparation(self, value):
+        try:
+            self._obj.InstanceSeparation = FreeCAD.Units.Quantity(value).Value
+            self._obj.Proxy.execute(self._obj)
+        except ValueError:
+            pass
         self.setEdited()
 
     def getStandardButtons(self):

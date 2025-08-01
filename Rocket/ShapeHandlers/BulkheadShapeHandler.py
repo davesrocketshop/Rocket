@@ -39,6 +39,9 @@ class BulkheadShapeHandler():
         # This gets changed when redrawn so it's very important to save a copy
         self._placement = FreeCAD.Placement(obj.Placement)
 
+        self._instanceCount = int(obj.InstanceCount)
+        self._separation = float(obj.InstanceSeparation)
+
         self._diameter = float(obj.Diameter)
         self._thickness = float(obj.Thickness)
         self._step = bool(obj.Step)
@@ -111,12 +114,22 @@ class BulkheadShapeHandler():
 
         return bulkhead
 
+    def drawInstances(self) -> Any:
+        bulkheads = []
+        base = self._drawBulkhead()
+        for i in range(self._instanceCount):
+            bulkhead = Part.Shape(base) # Create a copy
+            bulkhead.translate(FreeCAD.Vector(i * (self._thickness + self._separation),0,0))
+            bulkheads.append(bulkhead)
+
+        return Part.makeCompound(bulkheads)
+
     def draw(self) -> None:
         if not self.isValidShape():
             return
 
         try:
-            self._obj.Shape = self._drawBulkhead()
+            self._obj.Shape = self.drawInstances()
             self._obj.Placement = self._placement
         except (ZeroDivisionError, Part.OCCError):
             _err(translate('Rocket', "Bulkhead parameters produce an invalid shape"))

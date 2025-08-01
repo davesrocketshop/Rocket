@@ -165,6 +165,24 @@ class _RailButtonDialog(QDialog):
         self.filletRadiusInput.unit = FreeCAD.Units.Length
         self.filletRadiusInput.setMinimumWidth(100)
 
+        # Multiple instances
+        self.instanceGroup = QtGui.QGroupBox(translate('Rocket', "Instances"), self)
+        self.instanceGroup.setCheckable(False)
+
+        self.instanceCountLabel = QtGui.QLabel(translate('Rocket', "Instance Count"), self)
+
+        self.instanceCountSpinBox = QtGui.QSpinBox(self)
+        self.instanceCountSpinBox.setMinimumWidth(100)
+        self.instanceCountSpinBox.setMinimum(1)
+        self.instanceCountSpinBox.setMaximum(10000)
+        self.instanceCountSpinBox.setValue(1)
+
+        self.instanceSeparationLabel = QtGui.QLabel(translate('Rocket', "Instance Separation"), self)
+
+        self.instanceSeparationInput = ui.createWidget("Gui::InputField")
+        self.instanceSeparationInput.unit = FreeCAD.Units.Length
+        self.instanceSeparationInput.setMinimumWidth(100)
+
         # Fastener group
         row = 0
         grid = QGridLayout()
@@ -195,6 +213,20 @@ class _RailButtonDialog(QDialog):
         row += 1
 
         self.filletGroup.setLayout(grid)
+
+        # Instance group
+        row = 0
+        grid = QGridLayout()
+
+        grid.addWidget(self.instanceCountLabel, row, 0)
+        grid.addWidget(self.instanceCountSpinBox, row, 1)
+        row += 1
+
+        grid.addWidget(self.instanceSeparationLabel, row, 0)
+        grid.addWidget(self.instanceSeparationInput, row, 1)
+        row += 1
+
+        self.instanceGroup.setLayout(grid)
 
         # General parameters
         row = 0
@@ -231,6 +263,7 @@ class _RailButtonDialog(QDialog):
         layout.addItem(grid)
         layout.addWidget(self.fastenerGroup)
         layout.addWidget(self.filletGroup)
+        layout.addWidget(self.instanceGroup)
 
         self.tabGeneral.setLayout(layout)
 
@@ -267,6 +300,9 @@ class TaskPanelRailButton:
         self._btForm.filletGroup.toggled.connect(self.onFillet)
         self._btForm.filletRadiusInput.textEdited.connect(self.onFilletRadius)
 
+        self._btForm.instanceCountSpinBox.valueChanged.connect(self.onInstanceCount)
+        self._btForm.instanceSeparationInput.textEdited.connect(self.onInstanceSeparation)
+
         self._db.dbLoad.connect(self.onLookup)
         self._location.locationChange.connect(self.onLocation)
 
@@ -294,6 +330,9 @@ class TaskPanelRailButton:
         self._obj.FilletedTop = self._btForm.filletGroup.isChecked()
         self._obj.FilletRadius = self._btForm.filletRadiusInput.text()
 
+        self._obj.InstanceCount = self._btForm.instanceCountSpinBox.value()
+        self._obj.InstanceSeparation = self._btForm.instanceSeparationInput.text()
+
         self._btForm.tabMaterial.transferTo(self._obj)
         self._btForm.tabComment.transferTo(self._obj)
 
@@ -315,6 +354,9 @@ class TaskPanelRailButton:
 
         self._btForm.filletGroup.setChecked(self._obj.FilletedTop)
         self._btForm.filletRadiusInput.setText(self._obj.FilletRadius.UserString)
+
+        self._btForm.instanceCountSpinBox.setValue(self._obj.InstanceCount)
+        self._btForm.instanceSeparationInput.setText(self._obj.InstanceSeparation.UserString)
 
         self._btForm.tabMaterial.transferFrom(self._obj)
         self._btForm.tabComment.transferFrom(self._obj)
@@ -547,6 +589,22 @@ class TaskPanelRailButton:
     def onLocation(self):
         self._obj.Proxy.updateChildren()
         self._obj.Proxy.execute(self._obj)
+        self.setEdited()
+
+    def onInstanceCount(self, value):
+        try:
+            self._obj.InstanceCount = value
+            self._obj.Proxy.execute(self._obj)
+        except ValueError:
+            pass
+        self.setEdited()
+
+    def onInstanceSeparation(self, value):
+        try:
+            self._obj.InstanceSeparation = FreeCAD.Units.Quantity(value).Value
+            self._obj.Proxy.execute(self._obj)
+        except ValueError:
+            pass
         self.setEdited()
 
     def getStandardButtons(self):

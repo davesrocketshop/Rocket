@@ -57,7 +57,7 @@ class FeatureLaunchLug(Tube, AnglePositionable, BoxBounded, LineInstanceable):
             obj.addProperty('App::PropertyLength', 'Thickness', 'RocketComponent', translate('App::Property', 'Diameter of the inside of the body tube')).Thickness = 0.25
 
         if not hasattr(obj,"InstanceCount"):
-            obj.addProperty('App::PropertyLength', 'InstanceCount', 'RocketComponent', translate('App::Property', 'Instance count')).InstanceCount = 1
+            obj.addProperty('App::PropertyInteger', 'InstanceCount', 'RocketComponent', translate('App::Property', 'Instance count')).InstanceCount = 1
         if not hasattr(obj,"InstanceSeparation"):
             obj.addProperty('App::PropertyLength', 'InstanceSeparation', 'RocketComponent', translate('App::Property', 'Instance separation')).InstanceSeparation = 0
 
@@ -77,7 +77,15 @@ class FeatureLaunchLug(Tube, AnglePositionable, BoxBounded, LineInstanceable):
         self._obj.AxialMethod = AxialMethod.MIDDLE
 
     def onDocumentRestored(self, obj : Any) -> None:
+        count = -1
+        if hasattr(obj, "InstanceCount"):
+            count = int(obj.InstanceCount)
+            obj.removeProperty("InstanceCount")
+
         FeatureLaunchLug(obj)
+
+        if count > 0:
+            obj.InstanceCount = count
 
         # Convert from the pre-1.0 material system if required
         self.convertMaterialAndAppearance(obj)

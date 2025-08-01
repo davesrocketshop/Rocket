@@ -104,7 +104,7 @@ class FeatureRailButton(ExternalComponent, AnglePositionable, BoxBounded, LineIn
             obj.addProperty('App::PropertyLength', 'FilletRadius', 'RocketComponent', translate('App::Property', 'Fillet radius')).FilletRadius = 0.5
 
         if not hasattr(obj,"InstanceCount"):
-            obj.addProperty('App::PropertyLength', 'InstanceCount', 'RocketComponent', translate('App::Property', 'Instance count')).InstanceCount = 1
+            obj.addProperty('App::PropertyInteger', 'InstanceCount', 'RocketComponent', translate('App::Property', 'Instance count')).InstanceCount = 1
         if not hasattr(obj,"InstanceSeparation"):
             obj.addProperty('App::PropertyLength', 'InstanceSeparation', 'RocketComponent', translate('App::Property', 'Instance separation')).InstanceSeparation = 0
 
@@ -142,8 +142,16 @@ class FeatureRailButton(ExternalComponent, AnglePositionable, BoxBounded, LineIn
         if hasattr(self, "TopThickness"):
             self._migrate_from_3_0(obj)
             return
+        
+        count = -1
+        if hasattr(obj, "InstanceCount"):
+            count = int(obj.InstanceCount)
+            obj.removeProperty("InstanceCount")
 
         FeatureRailButton(obj)
+
+        if count > 0:
+            obj.InstanceCount = count
 
         # Convert from the pre-1.0 material system if required
         self.convertMaterialAndAppearance(obj)

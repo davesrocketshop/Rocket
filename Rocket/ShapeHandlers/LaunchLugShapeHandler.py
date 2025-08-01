@@ -165,9 +165,7 @@ class LaunchLugShapeHandler(BodyTubeShapeHandler):
             return
 
         try:
-            shape = self.drawInstances()
-
-            self._obj.Shape = shape
+            self._obj.Shape = self.drawInstances()
             self._obj.Placement = self._placement
         except (ZeroDivisionError, Part.OCCError):
             _err(translate('Rocket', "Launch lug parameters produce an invalid shape"))

@@ -168,6 +168,24 @@ class _RailGuideDialog(QDialog):
         self.notchDepthInput.unit = FreeCAD.Units.Length
         self.notchDepthInput.setMinimumWidth(100)
 
+        # Multiple instances
+        self.instanceGroup = QtGui.QGroupBox(translate('Rocket', "Instances"), self)
+        self.instanceGroup.setCheckable(False)
+
+        self.instanceCountLabel = QtGui.QLabel(translate('Rocket', "Instance Count"), self)
+
+        self.instanceCountSpinBox = QtGui.QSpinBox(self)
+        self.instanceCountSpinBox.setMinimumWidth(100)
+        self.instanceCountSpinBox.setMinimum(1)
+        self.instanceCountSpinBox.setMaximum(10000)
+        self.instanceCountSpinBox.setValue(1)
+
+        self.instanceSeparationLabel = QtGui.QLabel(translate('Rocket', "Instance Separation"), self)
+
+        self.instanceSeparationInput = ui.createWidget("Gui::InputField")
+        self.instanceSeparationInput.unit = FreeCAD.Units.Length
+        self.instanceSeparationInput.setMinimumWidth(100)
+
         # Forward sweep group
         row = 0
         grid = QGridLayout()
@@ -201,6 +219,20 @@ class _RailGuideDialog(QDialog):
         row += 1
 
         self.notchGroup.setLayout(grid)
+
+        # Instance group
+        row = 0
+        grid = QGridLayout()
+
+        grid.addWidget(self.instanceCountLabel, row, 0)
+        grid.addWidget(self.instanceCountSpinBox, row, 1)
+        row += 1
+
+        grid.addWidget(self.instanceSeparationLabel, row, 0)
+        grid.addWidget(self.instanceSeparationInput, row, 1)
+        row += 1
+
+        self.instanceGroup.setLayout(grid)
 
         # General parameters
         row = 0
@@ -253,6 +285,7 @@ class _RailGuideDialog(QDialog):
         layout.addWidget(self.forwardSweepGroup)
         layout.addWidget(self.aftSweepGroup)
         layout.addWidget(self.notchGroup)
+        layout.addWidget(self.instanceGroup)
         layout.addItem(QtGui.QSpacerItem(0,0, QSizePolicy.Expanding, QSizePolicy.Expanding))
 
         self.tabGeneral.setLayout(layout)
@@ -289,6 +322,8 @@ class TaskPanelRailGuide:
         self._btForm.notchGroup.toggled.connect(self.onNotch)
         self._btForm.notchWidthInput.textEdited.connect(self.onNotchWidth)
         self._btForm.notchDepthInput.textEdited.connect(self.onNotchDepth)
+        self._btForm.instanceCountSpinBox.valueChanged.connect(self.onInstanceCount)
+        self._btForm.instanceSeparationInput.textEdited.connect(self.onInstanceSeparation)
 
         self._location.locationChange.connect(self.onLocation)
 
@@ -318,6 +353,8 @@ class TaskPanelRailGuide:
         self._obj.Notch = self._btForm.notchGroup.isChecked()
         self._obj.NotchWidth = self._btForm.notchWidthInput.text()
         self._obj.NotchDepth = self._btForm.notchDepthInput.text()
+        self._obj.InstanceCount = self._btForm.instanceCountSpinBox.value()
+        self._obj.InstanceSeparation = self._btForm.instanceSeparationInput.text()
 
         self._btForm.tabMaterial.transferTo(self._obj)
         self._btForm.tabComment.transferTo(self._obj)
@@ -342,6 +379,8 @@ class TaskPanelRailGuide:
         self._btForm.notchGroup.setChecked(self._obj.Notch)
         self._btForm.notchWidthInput.setText(self._obj.NotchWidth.UserString)
         self._btForm.notchDepthInput.setText(self._obj.NotchDepth.UserString)
+        self._btForm.instanceCountSpinBox.setValue(self._obj.InstanceCount)
+        self._btForm.instanceSeparationInput.setText(self._obj.InstanceSeparation.UserString)
 
         self._btForm.tabMaterial.transferFrom(self._obj)
         self._btForm.tabComment.transferFrom(self._obj)
@@ -543,6 +582,22 @@ class TaskPanelRailGuide:
     def onLocation(self):
         self._obj.Proxy.updateChildren()
         self.redraw()
+        self.setEdited()
+
+    def onInstanceCount(self, value):
+        try:
+            self._obj.InstanceCount = value
+            self.redraw()
+        except ValueError:
+            pass
+        self.setEdited()
+
+    def onInstanceSeparation(self, value):
+        try:
+            self._obj.InstanceSeparation = FreeCAD.Units.Quantity(value).Value
+            self.redraw()
+        except ValueError:
+            pass
         self.setEdited()
 
     def getStandardButtons(self):

@@ -60,6 +60,9 @@ class RailButtonShapeHandler():
         self._hasFillet = obj.FilletedTop
         self._filletRadius = float(obj.FilletRadius)
 
+        self._instanceCount = int(obj.InstanceCount)
+        self._separation = float(obj.InstanceSeparation)
+
         self._obj = obj
 
     def isValidShape(self) -> bool:
@@ -191,15 +194,30 @@ class RailButtonShapeHandler():
 
         return spool
 
+    def drawSingle(self) -> Any:
+        if self._railButtonType == RAIL_BUTTON_AIRFOIL:
+            shape = self._drawAirfoil()
+        else:
+            shape = self._drawButton()
+
+        return shape
+
+    def drawInstances(self) -> Any:
+        buttons = []
+        base = self.drawSingle()
+        for i in range(self._instanceCount):
+            button = Part.Shape(base) # Create a copy
+            button.translate(FreeCAD.Vector(i * (self._length + self._separation),0,0))
+            buttons.append(button)
+
+        return Part.makeCompound(buttons)
+
     def draw(self) -> None:
         if not self.isValidShape():
             return
 
         try:
-            if self._railButtonType == RAIL_BUTTON_AIRFOIL:
-                self._obj.Shape = self._drawAirfoil()
-            else:
-                self._obj.Shape = self._drawButton()
+            self._obj.Shape = self.drawInstances()
             self._obj.Placement = self._placement
         except (ZeroDivisionError, Part.OCCError):
             _err(translate('Rocket', "Rail button parameters produce an invalid shape"))

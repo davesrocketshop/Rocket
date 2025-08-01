@@ -43,6 +43,9 @@ class RailGuideShapeHandler():
         # This gets changed when redrawn so it's very important to save a copy
         self._placement = FreeCAD.Placement(obj.Placement)
 
+        self._instanceCount = int(obj.InstanceCount)
+        self._separation = float(obj.InstanceSeparation)
+
         self._railGuideBaseType = obj.RailGuideBaseType
 
         self._flangeWidth = float(obj.FlangeWidth)
@@ -295,16 +298,30 @@ class RailGuideShapeHandler():
         z0 = (r / math.sin(theta)) - r
         return z0
 
+    def drawSingle(self) -> Any:
+        shape = self._drawGuide()
+        if self._obj.Proxy.isRocketAssembly() and self._railGuideBaseType == RAIL_GUIDE_BASE_V:
+            shape.translate(FreeCAD.Vector(0,0,self.getZ0()))
+            shape = Part.makeCompound(shape)
+
+        return shape
+
+    def drawInstances(self) -> Any:
+        guides = []
+        base = self.drawSingle()
+        for i in range(self._instanceCount):
+            guide = Part.Shape(base) # Create a copy
+            guide.translate(FreeCAD.Vector(i * (self._length + self._separation),0,0))
+            guides.append(guide)
+
+        return Part.makeCompound(guides)
+
     def draw(self) -> None:
         if not self.isValidShape():
             return
 
         try:
-            shape = self._drawGuide()
-            if self._obj.Proxy.isRocketAssembly() and self._railGuideBaseType == RAIL_GUIDE_BASE_V:
-                shape.translate(FreeCAD.Vector(0,0,self.getZ0()))
-                shape = Part.makeCompound(shape)
-            self._obj.Shape = shape
+            self._obj.Shape = self.drawInstances()
             self._obj.Placement = self._placement
         except (ValueError, ZeroDivisionError, Part.OCCError):
             _err(translate('Rocket', "Rail Guide parameters produce an invalid shape"))

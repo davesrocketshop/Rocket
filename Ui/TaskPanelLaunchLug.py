@@ -114,6 +114,24 @@ class _LaunchLugDialog(QDialog):
         self.aftSweepInput.unit = FreeCAD.Units.Angle
         self.aftSweepInput.setMinimumWidth(100)
 
+        # Multiple instances
+        self.instanceGroup = QtGui.QGroupBox(translate('Rocket', "Instances"), self)
+        self.instanceGroup.setCheckable(False)
+
+        self.instanceCountLabel = QtGui.QLabel(translate('Rocket', "Instance Count"), self)
+
+        self.instanceCountSpinBox = QtGui.QSpinBox(self)
+        self.instanceCountSpinBox.setMinimumWidth(100)
+        self.instanceCountSpinBox.setMinimum(1)
+        self.instanceCountSpinBox.setMaximum(10000)
+        self.instanceCountSpinBox.setValue(1)
+
+        self.instanceSeparationLabel = QtGui.QLabel(translate('Rocket', "Instance Separation"), self)
+
+        self.instanceSeparationInput = ui.createWidget("Gui::InputField")
+        self.instanceSeparationInput.unit = FreeCAD.Units.Length
+        self.instanceSeparationInput.setMinimumWidth(100)
+
         # Forward sweep group
         row = 0
         grid = QGridLayout()
@@ -133,6 +151,20 @@ class _LaunchLugDialog(QDialog):
         row += 1
 
         self.aftSweepGroup.setLayout(grid)
+
+        # Instance group
+        row = 0
+        grid = QGridLayout()
+
+        grid.addWidget(self.instanceCountLabel, row, 0)
+        grid.addWidget(self.instanceCountSpinBox, row, 1)
+        row += 1
+
+        grid.addWidget(self.instanceSeparationLabel, row, 0)
+        grid.addWidget(self.instanceSeparationInput, row, 1)
+        row += 1
+
+        self.instanceGroup.setLayout(grid)
 
         # General parameters
         row = 0
@@ -157,6 +189,7 @@ class _LaunchLugDialog(QDialog):
         layout.addItem(grid)
         layout.addWidget(self.forwardSweepGroup)
         layout.addWidget(self.aftSweepGroup)
+        layout.addWidget(self.instanceGroup)
 
         self.tabGeneral.setLayout(layout)
 
@@ -183,6 +216,8 @@ class TaskPanelLaunchLug:
         self._lugForm.forwardSweepInput.textEdited.connect(self.onForwardSweepAngle)
         self._lugForm.aftSweepGroup.toggled.connect(self.onAftSweep)
         self._lugForm.aftSweepInput.textEdited.connect(self.onAftSweepAngle)
+        self._lugForm.instanceCountSpinBox.valueChanged.connect(self.onInstanceCount)
+        self._lugForm.instanceSeparationInput.textEdited.connect(self.onInstanceSeparation)
 
         self._db.dbLoad.connect(self.onLookup)
         self._location.locationChange.connect(self.onLocation)
@@ -202,6 +237,8 @@ class TaskPanelLaunchLug:
         self._obj.ForwardSweepAngle = self._lugForm.forwardSweepInput.text()
         self._obj.AftSweep = self._lugForm.aftSweepGroup.isChecked()
         self._obj.AftSweepAngle = self._lugForm.aftSweepInput.text()
+        self._obj.InstanceCount = self._lugForm.instanceCountSpinBox.value()
+        self._obj.InstanceSeparation = self._lugForm.instanceSeparationInput.text()
 
         self._lugForm.tabMaterial.transferTo(self._obj)
         self._lugForm.tabComment.transferTo(self._obj)
@@ -216,6 +253,8 @@ class TaskPanelLaunchLug:
         self._lugForm.forwardSweepInput.setText(self._obj.ForwardSweepAngle.UserString)
         self._lugForm.aftSweepGroup.setChecked(self._obj.AftSweep)
         self._lugForm.aftSweepInput.setText(self._obj.AftSweepAngle.UserString)
+        self._lugForm.instanceCountSpinBox.setValue(self._obj.InstanceCount)
+        self._lugForm.instanceSeparationInput.setText(self._obj.InstanceSeparation.UserString)
 
         self._lugForm.tabMaterial.transferFrom(self._obj)
         self._lugForm.tabComment.transferFrom(self._obj)
@@ -344,6 +383,22 @@ class TaskPanelLaunchLug:
     def onAftSweepAngle(self, value):
         try:
             self._obj.AftSweepAngle = FreeCAD.Units.Quantity(value).Value
+            self.redraw()
+        except ValueError:
+            pass
+        self.setEdited()
+
+    def onInstanceCount(self, value):
+        try:
+            self._obj.InstanceCount = value
+            self.redraw()
+        except ValueError:
+            pass
+        self.setEdited()
+
+    def onInstanceSeparation(self, value):
+        try:
+            self._obj.InstanceSeparation = FreeCAD.Units.Quantity(value).Value
             self.redraw()
         except ValueError:
             pass
