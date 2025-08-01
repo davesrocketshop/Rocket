@@ -63,14 +63,14 @@ class OpenRocketExporter:
             FEATURE_BODY_TUBE : self.writeBodytube,
             FEATURE_INNER_TUBE : self.writeInnerTube,
             FEATURE_TUBE_COUPLER : self.writeTubeCoupler,
-            FEATURE_ENGINE_BLOCK : self.writeNull,
+            FEATURE_ENGINE_BLOCK : self.writeEngineBlock,
             FEATURE_CENTERING_RING : self.writeCenteringRing,
             FEATURE_FIN : self.writeFin,
             FEATURE_FINCAN : self.writeNull,
             FEATURE_NOSE_CONE : self.writeNosecone,
             FEATURE_TRANSITION : self.writeTransition,
             FEATURE_LAUNCH_LUG : self.writeLaunchLug,
-            FEATURE_RAIL_BUTTON : self.writeNull,
+            FEATURE_RAIL_BUTTON : self.writeRailButton,
             FEATURE_RAIL_GUIDE : self.writeNull,
             FEATURE_OFFSET : self.writeNull,
             FEATURE_RINGTAIL : self.writeNull,
@@ -441,6 +441,20 @@ class OpenRocketExporter:
             file.write(f"{' ' * (indent + 2)}<innerradius>{self.toMeters(float(feature.getInnerRadius(0)))}</innerradius>\n")
         file.write(f"{' ' * indent}</centeringring>\n\n")
 
+    def writeEngineBlock(self, file : io.TextIOBase, feature : RocketComponentShapeless, indent : int) -> None:
+        file.write(f"{' ' * indent}<engineblock>\n")
+        file.write(f"{' ' * (indent + 2)}<name>{feature.getName()}</name>\n")
+        file.write(f"{' ' * (indent + 2)}<id>{uuid.uuid4()}</id>\n")
+        file.write(f"{' ' * (indent + 2)}<axialoffset method=\"{self.getAxialMethod(feature)}\">{self.toMeters(feature._obj.AxialOffset.Value)}</axialoffset>\n")
+        file.write(f"{' ' * (indent + 2)}<position type=\"{self.getPositionType(feature)}\">{self.toMeters(feature._obj.AxialOffset.Value)}</position>\n")
+        file.write(f"{' ' * (indent + 2)}<length>{self.toMeters(float(feature.getLength()))}</length>\n")
+        if feature.isOuterRadiusAutomatic():
+            file.write(f"{' ' * (indent + 2)}<outerradius>auto {self.toMeters(float(feature.getOuterRadius(0)))}</outerradius>\n")
+        else:
+            file.write(f"{' ' * (indent + 2)}<outerradius>{self.toMeters(float(feature.getOuterRadius(0)))}</outerradius>\n")
+        file.write(f"{' ' * (indent + 2)}<thickness>{self.toMeters(float(feature.getThickness()))}</thickness>\n")
+        file.write(f"{' ' * indent}</engineblock>\n\n")
+
     def writeLaunchLug(self, file : io.TextIOBase, feature : RocketComponentShapeless, indent : int) -> None:
         file.write(f"{' ' * indent}<launchlug>\n")
         file.write(f"{' ' * (indent + 2)}<name>{feature.getName()}</name>\n")
@@ -457,6 +471,23 @@ class OpenRocketExporter:
         file.write(f"{' ' * (indent + 2)}<length>{self.toMeters(float(feature.getLength()))}</length>\n")
         file.write(f"{' ' * (indent + 2)}<thickness>{self.toMeters(feature._obj.Thickness.Value)}</thickness>\n")
         file.write(f"{' ' * indent}</launchlug>\n\n")
+
+    def writeRailButton(self, file : io.TextIOBase, feature : RocketComponentShapeless, indent : int) -> None:
+        file.write(f"{' ' * indent}<railbutton>\n")
+        file.write(f"{' ' * (indent + 2)}<name>{feature.getName()}</name>\n")
+        file.write(f"{' ' * (indent + 2)}<id>{uuid.uuid4()}</id>\n")
+        file.write(f"{' ' * (indent + 2)}<instancecount>{feature.getInstanceCount()}</instancecount>\n")
+        file.write(f"{' ' * (indent + 2)}<instanceseparation>{feature.getInstanceSeparation()}</instanceseparation>\n")
+        file.write(f"{' ' * (indent + 2)}<angleoffset method=\"relative\">{feature._obj.AngleOffset.Value}</angleoffset>\n")
+        file.write(f"{' ' * (indent + 2)}<axialoffset method=\"{self.getAxialMethod(feature)}\">{self.toMeters(feature._obj.AxialOffset.Value)}</axialoffset>\n")
+        file.write(f"{' ' * (indent + 2)}<position type=\"{self.getPositionType(feature)}\">{self.toMeters(feature._obj.AxialOffset.Value)}</position>\n")
+        file.write(f"{' ' * (indent + 2)}<outerdiameter>{self.toMeters(feature._obj.Diameter.Value)}</outerdiameter>\n")
+        file.write(f"{' ' * (indent + 2)}<innerdiameter>{self.toMeters(feature._obj.InnerDiameter.Value)}</innerdiameter>\n")
+        file.write(f"{' ' * (indent + 2)}<height>{self.toMeters(feature._obj.Height.Value)}</height>\n")
+        file.write(f"{' ' * (indent + 2)}<baseheight>{self.toMeters(feature._obj.BaseHeight.Value)}</baseheight>\n")
+        file.write(f"{' ' * (indent + 2)}<flangeheight>{self.toMeters(feature._obj.FlangeHeight.Value)}</flangeheight>\n")
+        file.write(f"{' ' * (indent + 2)}<screwheight>0.0</screwheight>\n")
+        file.write(f"{' ' * indent}</railbutton>\n\n")
 
     def writeFin(self, file : io.TextIOBase, feature : RocketComponentShapeless, indent : int) -> None:
         if feature._obj.FinType == FIN_TYPE_TRAPEZOID:
@@ -597,7 +628,7 @@ class OpenRocketExporter:
 
     def getVertexes(self, feature : RocketComponentShapeless) -> list:
         """Get the vertexes starting at the origin.
-        
+
         Getting the vertexes from a shape can start at any point along the edge. This function ensures the
         first point is at the origin"""
 
