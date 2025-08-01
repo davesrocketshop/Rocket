@@ -38,11 +38,8 @@ class ExternalComponent(RocketComponent):
 
     finish : Finish.Finish = Finish.NORMAL
 
-    def __init__(self, obj : Any, relativePosition : AxialMethod):
+    def __init__(self, obj : Any):
         super().__init__(obj)
-
-        # Set the method without calculating the position... yet.
-        self._obj.AxialMethod = relativePosition
 
     def setDefaults(self) -> None:
         super().setDefaults()

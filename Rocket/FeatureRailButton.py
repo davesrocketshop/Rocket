@@ -56,8 +56,8 @@ from DraftTools import translate
 
 class FeatureRailButton(ExternalComponent, AnglePositionable, BoxBounded, LineInstanceable):
 
-    def __init__(self, obj : Any, relativePosition : AxialMethod = MIDDLE) -> None:
-        super().__init__(obj, relativePosition)
+    def __init__(self, obj : Any) -> None:
+        super().__init__(obj)
         self.Type = FEATURE_RAIL_BUTTON
 
         # Default set to a BT-50
@@ -112,6 +112,7 @@ class FeatureRailButton(ExternalComponent, AnglePositionable, BoxBounded, LineIn
         super().setDefaults()
 
         self._obj.Length = 12.0
+        self._obj.AxialMethod = MIDDLE
 
     def _migrate_from_3_0(self, obj : Any) -> None:
         _wrn("Rail button migrating object from 3.0")
@@ -126,7 +127,7 @@ class FeatureRailButton(ExternalComponent, AnglePositionable, BoxBounded, LineIn
         obj.removeProperty("Thickness")
         obj.removeProperty("CountersinkAngle") # Enumeration values have changed
 
-        obj.Proxy = FeatureRailButton(obj, obj.AxialMethod)
+        obj.Proxy = FeatureRailButton(obj)
         obj.Proxy._obj = obj
 
         obj.FlangeHeight = top
@@ -142,7 +143,7 @@ class FeatureRailButton(ExternalComponent, AnglePositionable, BoxBounded, LineIn
             self._migrate_from_3_0(obj)
             return
 
-        FeatureRailButton(obj, obj.AxialMethod)
+        FeatureRailButton(obj)
 
         # Convert from the pre-1.0 material system if required
         self.convertMaterialAndAppearance(obj)

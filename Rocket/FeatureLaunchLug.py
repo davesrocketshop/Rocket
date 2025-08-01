@@ -45,8 +45,8 @@ from DraftTools import translate
 
 class FeatureLaunchLug(Tube, AnglePositionable, BoxBounded, LineInstanceable):
 
-    def __init__(self, obj : Any, relativePosition : AxialMethod.AxialMethod = AxialMethod.MIDDLE) -> None:
-        super().__init__(obj, relativePosition)
+    def __init__(self, obj : Any) -> None:
+        super().__init__(obj)
 
         self.Type = FEATURE_LAUNCH_LUG
 
@@ -74,9 +74,10 @@ class FeatureLaunchLug(Tube, AnglePositionable, BoxBounded, LineInstanceable):
         super().setDefaults()
 
         self._obj.Length = 25.4
+        self._obj.AxialMethod = AxialMethod.MIDDLE
 
     def onDocumentRestored(self, obj : Any) -> None:
-        FeatureLaunchLug(obj, obj.AxialMethod)
+        FeatureLaunchLug(obj)
 
         # Convert from the pre-1.0 material system if required
         self.convertMaterialAndAppearance(obj)
