@@ -69,7 +69,7 @@ class RadiusRingComponent(RingComponent, LineInstanceable):
                 pos2 = clamp(pos2, 0, parent.getLength())
                 self._obj.Diameter = min(parent.getInnerDiameter(pos1), parent.getInnerDiameter(pos2))
 
-        return float(self._obj.Diameter)
+        return float(self._obj.Diameter) / self.getDiameterScale()
 
     def setOuterRadius(self, radius : float) -> None:
         self.setOuterDiameter(radius * 2.0)

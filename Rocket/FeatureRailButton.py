@@ -142,7 +142,7 @@ class FeatureRailButton(ExternalComponent, AnglePositionable, BoxBounded, LineIn
         if hasattr(self, "TopThickness"):
             self._migrate_from_3_0(obj)
             return
-        
+
         count = -1
         if hasattr(obj, "InstanceCount"):
             count = int(obj.InstanceCount)
@@ -175,7 +175,7 @@ class FeatureRailButton(ExternalComponent, AnglePositionable, BoxBounded, LineIn
 
     def getLength(self) -> float:
         # Return the length of this component along the central axis
-        return float(self._obj.Length)
+        return float(self._obj.Length) / self.getScale()
 
     def isAfter(self) -> bool:
         return False

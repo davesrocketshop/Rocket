@@ -240,6 +240,16 @@ class FeatureFin(ExternalComponent):
         self.setFinAutoHeight()
         self._setTtwAutoHeight(0)
 
+    def _isDiameterScaled(self) -> bool:
+        if self._obj.Proxy.getParent() is not None:
+            return self._obj.Proxy.getParent().isScaled()
+        return not self._obj.AutoDiameter
+
+    def getDiameterScale(self) -> float:
+        if self._isDiameterScaled():
+            return self.getScale()
+        return 1.0
+
     def getScale(self) -> float:
         if self.hasParent():
             if self.getParent().isScaled():
@@ -316,13 +326,13 @@ class FeatureFin(ExternalComponent):
 
     def getForeRadius(self) -> float:
         # For placing objects on the outer part of the parent
-        return float(self._obj.ParentRadius + self._obj.Height)
+        return float(self._obj.ParentRadius + self._obj.Height) / self.getDiameterScale()
 
     def getLength(self) -> float:
         # Return the length of this component along the central axis
         if self._obj.Length <= 0:
             self._obj.Length = self.getRootChord()
-        return float(self._obj.Length)
+        return float(self._obj.Length) / self.getScale()
 
     def isFinSet(self) -> bool:
         return self._obj.FinSet
@@ -345,35 +355,35 @@ class FeatureFin(ExternalComponent):
                 self._obj.RootChord = float(xmax - xmin)
                 self._obj.Length = self._obj.RootChord
 
-        return float(self._obj.RootChord)
+        return float(self._obj.RootChord) / self.getScale()
 
     def setRootChord(self, chord : float) -> None:
         self._obj.RootChord = chord
         self.notifyComponentChanged()
 
     def getRootThickness(self) -> float:
-        return float(self._obj.RootThickness)
+        return float(self._obj.RootThickness) / self.getScale()
 
     def setRootThickness(self, thickness : float) -> None:
         self._obj.RootThickness = thickness
         self.notifyComponentChanged()
 
     def getTipChord(self) -> float:
-        return float(self._obj.TipChord)
+        return float(self._obj.TipChord) / self.getScale()
 
     def setTipChord(self, chord : float) -> None:
         self._obj.TipChord = chord
         self.notifyComponentChanged()
 
     def getTipThickness(self) -> float:
-        return float(self._obj.TipThickness)
+        return float(self._obj.TipThickness) / self.getScale()
 
     def setTipThickness(self, thickness : float) -> None:
         self._obj.TipThickness = thickness
         self.notifyComponentChanged()
 
     def getThickness(self) -> float:
-        return float(self._obj.RootThickness)
+        return float(self._obj.RootThickness) / self.getScale()
 
     def setThickness(self, thickness : float) -> None:
         self._obj.RootThickness = thickness
@@ -381,7 +391,7 @@ class FeatureFin(ExternalComponent):
         self.notifyComponentChanged()
 
     def getHeight(self) -> float:
-        return float(self._obj.Height)
+        return float(self._obj.Height) / self.getScale()
 
     def setHeight(self, height : float) -> None:
         self._obj.Height = height
@@ -389,7 +399,7 @@ class FeatureFin(ExternalComponent):
         self.notifyComponentChanged()
 
     def getSpan(self) -> float:
-        return float(self._obj.Span)
+        return float(self._obj.Span) / self.getScale()
 
     def setSpan(self, span : float) -> None:
         self._obj.Span = span
@@ -398,7 +408,7 @@ class FeatureFin(ExternalComponent):
         self.notifyComponentChanged()
 
     def getSweepLength(self) -> float:
-        return float(self._obj.SweepLength)
+        return float(self._obj.SweepLength) / self.getScale()
 
     def setSweepLength(self, length : float) -> None:
         self._obj.SweepLength = length

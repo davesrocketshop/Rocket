@@ -67,6 +67,26 @@ class RingComponent(InternalComponent, BoxBounded, Coaxial):
     def setDefaults(self) -> None:
         super().setDefaults()
 
+    def _isDiameterScaled(self) -> bool:
+        if self._obj.Proxy.getParent() is not None:
+            return self._obj.Proxy.getParent().isScaled()
+        return not self._obj.AutoDiameter
+
+    def getDiameterScale(self) -> float:
+        if self._isDiameterScaled():
+            return self.getScale()
+        return 1.0
+
+    def _isCenterDiameterScaled(self) -> bool:
+        if self._obj.Proxy.getParent() is not None:
+            return self._obj.Proxy.getParent().isScaled()
+        return not self._obj.CenterAutoDiameter
+
+    def getCenterDiameterScale(self) -> float:
+        if self._isCenterDiameterScaled():
+            return self.getScale()
+        return 1.0
+
     @abstractmethod
     def getOuterRadius(self, pos : float) -> float:
         pass

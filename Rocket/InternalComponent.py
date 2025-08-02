@@ -51,12 +51,3 @@ class InternalComponent(RocketComponent, AxialPositionable):
     def setAxialMethod(self, newAxialMethod : AxialMethod.AxialMethod) -> None:
         super().setAxialMethod(newAxialMethod)
         self.notifyComponentChanged()
-
-    """
-        Non-aerodynamic components.
-    """
-    def isAerodynamic(self) -> bool:
-        return False
-
-    def isMassive(self) -> bool:
-        return True

@@ -113,7 +113,17 @@ class FeatureBodyTube(SymmetricComponent, BoxBounded, Coaxial):
         self.setOuterDiameterAutomatic(auto)
 
     def getMaxForwardPosition(self) -> float:
-        return float(self._obj.Length) + float(self._obj.Placement.Base.x)
+        return (float(self._obj.Length) + float(self._obj.Placement.Base.x)) / self.getScale()
+
+    def _isDiameterScaled(self) -> bool:
+        if self._obj.Proxy.getParent() is not None:
+            return self._obj.Proxy.getParent().isScaled()
+        return not self._obj.AutoDiameter
+
+    def getDiameterScale(self) -> float:
+        if self._isDiameterScaled():
+            return self.getScale()
+        return 1.0
 
     def getRadius(self, pos : float) -> float:
         # Body tube has constant diameter
@@ -136,7 +146,7 @@ class FeatureBodyTube(SymmetricComponent, BoxBounded, Coaxial):
         return self.getInnerDiameter(pos) / 2.0
 
     def getInnerDiameter(self, pos : float) -> float:
-        return float(self._obj.Diameter) - (2.0 * float(self._obj.Thickness))
+        return (float(self._obj.Diameter) / self.getDiameterScale()) - (2.0 * float(self._obj.Thickness))
 
     def setInnerRadius(self, radius : float) -> None:
         self.setInnerDiameter(radius * 2.0)
@@ -186,22 +196,22 @@ class FeatureBodyTube(SymmetricComponent, BoxBounded, Coaxial):
             if c is not None and not c.usesNextCompAutomatic():
                 self._refComp = c
                 d = c.getFrontAutoDiameter()
-                if not self.isScaled():
-                    d /= c.getScale() # Apply reference component scale
+                # if not self.isScaled():
+                #     d /= c.getScale() # Apply reference component scale
             if d < 0:
                 c = self.getNextSymmetricComponent()
                 # Don't use the radius of a component who already has its auto diameter enabled
                 if c is not None and not c.usesPreviousCompAutomatic():
                     self._refComp = c
                     d = c.getRearAutoDiameter()
-                    if not self.isScaled():
-                        d /= c.getScale() # Apply reference component scale
+                    # if not self.isScaled():
+                    #     d /= c.getScale() # Apply reference component scale
 
             if d < 0:
                 d = self.DEFAULT_RADIUS * 2.0
             self._obj.Diameter = d
 
-        return float(self._obj.Diameter)
+        return float(self._obj.Diameter) / self.getDiameterScale()
 
     """
         Return the outer radius that was manually entered, so not the value that the component received from automatic

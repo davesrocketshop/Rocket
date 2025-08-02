@@ -313,7 +313,7 @@ class FeatureFinCan(SymmetricComponent, FeatureFin):
 
     def getForeRadius(self) -> float:
         # For placing objects on the outer part of the parent
-        return float(self._obj.ParentRadius + self._obj.Height)
+        return float(self._obj.ParentRadius + self._obj.Height) / self.getDiameterScale()
         # return self.getOuterRadius(0)
 
     def getFrontAutoDiameter(self) -> float:
@@ -354,10 +354,10 @@ class FeatureFinCan(SymmetricComponent, FeatureFin):
         return self.getRearAutoDiameter() / 2.0
 
     def getOuterDiameter(self, pos : float = 0) -> float:
-        return float(self._obj.Diameter)
+        return float(self._obj.Diameter) / self.getDiameterScale()
 
     def getInnerDiameter(self, pos : float = 0) -> float:
-        return float(self._obj.Diameter) - (2.0 * float(self._obj.Thickness))
+        return self.getOuterDiameter() - (2.0 * float(self._obj.Thickness))
 
     def isOuterDiameterAutomatic(self) -> bool:
         return self._obj.AutoDiameter
@@ -375,4 +375,4 @@ class FeatureFinCan(SymmetricComponent, FeatureFin):
         return self.isOuterDiameterAutomatic() and (self._refComp == self.getPreviousSymmetricComponent())
 
     def getLeadingEdgeOffset(self) -> float:
-        return float(self._obj.LeadingEdgeOffset)
+        return float(self._obj.LeadingEdgeOffset) / self.getScale()

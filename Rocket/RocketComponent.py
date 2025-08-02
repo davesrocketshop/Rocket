@@ -136,17 +136,9 @@ class RocketComponent(RocketComponentShapeless):
     """
     def getLength(self) -> float:
         # Return the length of this component along the central axis
-        return float(self._obj.Length)
+        return float(self._obj.Length) / self.getScale()
 
     def isMotorMount(self) -> bool:
-        return False
-
-    # Return true if the component may have an aerodynamic effect on the rocket.
-    def isAerodynamic(self) -> bool:
-        return False
-
-    # Return true if the component may have an effect on the rocket's mass.
-    def isMassive(self) -> bool:
         return False
 
     # the default implementation is mostly a placeholder here, however in inheriting classes,

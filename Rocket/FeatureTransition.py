@@ -172,6 +172,26 @@ class FeatureTransition(SymmetricComponent):
         self.getForeShoulderDiameter()
         self.getAftShoulderDiameter()
 
+    def _isForeDiameterScaled(self) -> bool:
+        if self._obj.Proxy.getParent() is not None:
+            return self._obj.Proxy.getParent().isScaled()
+        return not self._obj.ForeAutoDiameter
+
+    def getForeDiameterScale(self) -> float:
+        if self._isForeDiameterScaled():
+            return self.getScale()
+        return 1.0
+
+    def _isAftDiameterScaled(self) -> bool:
+        if self._obj.Proxy.getParent() is not None:
+            return self._obj.Proxy.getParent().isScaled()
+        return not self._obj.AftAutoDiameter
+
+    def getAftDiameterScale(self) -> float:
+        if self._isAftDiameterScaled():
+            return self.getScale()
+        return 1.0
+
     def getForeRadius(self) -> float:
         return self.getForeDiameter() / 2.0
 
@@ -186,8 +206,8 @@ class FeatureTransition(SymmetricComponent):
                 d = SymmetricComponent.DEFAULT_RADIUS * 2.0
             self._obj.ForeDiameter = d
 
-        return float(self._obj.ForeDiameter)
-    
+        return float(self._obj.ForeDiameter) / self.getForeDiameterScale()
+
     def getForeShoulderRadius(self) -> float:
         return self.getForeShoulderDiameter() / 2.0
 
@@ -209,7 +229,7 @@ class FeatureTransition(SymmetricComponent):
         fore radius.
     """
     def getForeRadiusNoAutomatic(self) -> float:
-        return float(self._obj.ForeDiameter / 2.0)
+        return float(self._obj.ForeDiameter / 2.0) / self.getForeDiameterScale()
 
     def setForeRadius(self, radius : float) -> None:
         r = self._obj.ForeDiameter / 2.0
@@ -266,7 +286,7 @@ class FeatureTransition(SymmetricComponent):
                 d = SymmetricComponent.DEFAULT_RADIUS * 2.0
             self._obj.AftDiameter = d
 
-        return float(self._obj.AftDiameter)
+        return float(self._obj.AftDiameter) / self.getAftDiameterScale()
 
     def getAftShoulderDiameter(self) -> float:
         if self.isAftInnerDiameterAutomatic():
@@ -415,7 +435,7 @@ class FeatureTransition(SymmetricComponent):
             FEATURE_CENTERING_RING,
             FEATURE_INNER_TUBE,
             FEATURE_FIN]
-    
+
     def getScale(self) -> float:
         scale = 1.0
         if self._obj.Scale:

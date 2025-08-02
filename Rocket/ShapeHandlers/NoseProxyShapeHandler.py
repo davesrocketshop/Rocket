@@ -73,7 +73,7 @@ class NoseProxyShapeHandler:
         direction = FreeCAD.Vector(0, 0, 1)
         box = Part.makeBox(xLength, yLength, zLength, point, direction)
         return shape.common(box)
-    
+
     def _getScale(self) -> float:
         scale = 1.0
         if self._scale:
@@ -114,7 +114,7 @@ class NoseProxyShapeHandler:
         shape = self._getShape()
         if shape is None:
             return 0
-        return float(shape.BoundBox.XLength - self._proxyPlacement.Base.x)
+        return float(shape.BoundBox.XLength - self._proxyPlacement.Base.x) / self._getScale()
 
     def draw(self) -> None:
         # shape = None
