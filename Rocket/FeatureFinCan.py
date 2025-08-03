@@ -208,6 +208,7 @@ class FeatureFinCan(SymmetricComponent, FeatureFin):
 
     def onDocumentRestored(self, obj : Any) -> None:
         if obj is not None:
+            self._obj = obj
 
             # Migrate from length to angle
             forward = obj.LaunchLugForwardSweepAngle.Value
@@ -223,7 +224,6 @@ class FeatureFinCan(SymmetricComponent, FeatureFin):
             # Convert from the pre-1.0 material system if required
             self.convertMaterialAndAppearance(obj)
 
-            self._obj = obj
             self._obj.ParentRadius = (self._obj.Diameter / 2.0)
 
         self._setFinCanEditorVisibility()
