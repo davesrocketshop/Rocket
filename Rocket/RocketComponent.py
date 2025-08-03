@@ -170,13 +170,6 @@ class RocketComponent(RocketComponentShapeless):
     def setLocationReference(self, reference : str) -> None:
         self.setAxialMethod(AXIAL_METHOD_MAP[reference])
 
-    def getPosition(self) -> Any:
-        return self._obj.Placement.Base
-
-    def getPositionAsCoordinate(self) -> Coordinate:
-        pos = self._obj.Placement.Base
-        return Coordinate(pos.x, pos.y, pos.z)
-
     # Adds an observer to the rocket tree.  The observer is added to the root
     # component, which must be of type Rocket (which overrides this method).  Events of all
     # subcomponents are sent to all listeners.

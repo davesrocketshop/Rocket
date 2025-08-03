@@ -37,6 +37,7 @@ from Rocket.Utilities import EPSILON
 from Rocket.position import AxialMethod
 
 from Rocket.interfaces.Observer import Subject, Observer
+from Rocket.util.Coordinate import Coordinate
 
 import Ui.Commands as Commands
 
@@ -936,3 +937,10 @@ class RocketComponentShapeless(Subject, Observer):
         self._obj.Scale = False
         self._obj.ScaleByValue = True
         self._obj.ScaleValue = FreeCAD.Units.Quantity("1.0")
+
+    def getPosition(self) -> Any:
+        return self._obj.Placement.Base
+
+    def getPositionAsCoordinate(self) -> Coordinate:
+        pos = self._obj.Placement.Base
+        return Coordinate(pos.x, pos.y, pos.z)
