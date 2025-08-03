@@ -260,7 +260,6 @@ class FinSketchShapeHandler(FinShapeHandler):
         else:
             xmin, xmax = self.findChord(height, shape)
         chord = abs(xmax - xmin) + 2 * offset
-        # scaleHeight = height #self._scale * height
         l1, l2 = self._lengthsFromPercent(chord, self._rootPerCent,
                                           self._rootLength1, self._rootLength2)
         return self._makeChordProfile(crossSection, xmin - offset, chord,
