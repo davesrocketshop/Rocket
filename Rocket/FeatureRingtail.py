@@ -274,21 +274,9 @@ class FeatureRingtail(SymmetricComponent, BoxBounded, Coaxial):
         return False
 
     def eligibleChild(self, childType : str) -> bool:
-        # return childType in [
-        #     FEATURE_BULKHEAD,
-        #     #FEATURE_BODY_TUBE,
-        #     FEATURE_INNER_TUBE,
-        #     FEATURE_TUBE_COUPLER,
-        #     FEATURE_ENGINE_BLOCK,
-        #     FEATURE_CENTERING_RING,
-        #     FEATURE_FIN,
-        #     FEATURE_FINCAN,
-        #     FEATURE_LAUNCH_LUG,
-        #     # FEATURE_PARALLEL_STAGE,
-        #     FEATURE_POD,
-        #     FEATURE_RAIL_BUTTON,
-        #     FEATURE_RAIL_GUIDE]
-        return False
+        return childType in [
+            FEATURE_FIN
+        ]
 
     def onChildEdited(self) -> None:
         try:
