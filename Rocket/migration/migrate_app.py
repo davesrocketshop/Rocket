@@ -31,38 +31,15 @@ __title__ = "Rocket class and methods that migrates old App objects"
 __author__ = "Bernd Hahnebach"
 __url__ = "https://www.freecadweb.org"
 
+from importlib.abc import MetaPathFinder, Loader
+from importlib.util import spec_from_loader
 
-class RocketMigrateApp(object):
-
-    def find_module(self, fullname, path):
-
-        if fullname in [
-            "App",
-            "App.ShapeBodyTube",
-            "App.ShapeBulkhead",
-            "App.ShapeCenteringRing",
-            "App.ShapeFin",
-            "App.ShapeFinCan",
-            "App.ShapeLaunchLug",
-            "App.ShapeNoseCone",
-            "App.ShapeRailButton",
-            "App.ShapeRailGuide",
-            "App.ShapeTransition",
-        ]:
-            return self
-
-        return None
+class RocketLoader(Loader):
 
     def create_module(self, spec):
         return None
 
     def exec_module(self, module):
-        return self.load_module(module)
-
-    def load_module(self, module):
-
-        if module.__name__ == "App":
-            module.__path__ = "App"
         if module.__name__ == "App.ShapeBodyTube":
             import Rocket.migration.ShapeBodyTube
             module.ShapeBodyTube = Rocket.migration.ShapeBodyTube.ShapeBodyTube
@@ -93,5 +70,26 @@ class RocketMigrateApp(object):
         if module.__name__ == "App.ShapeTransition":
             import Rocket.migration.ShapeTransition
             module.ShapeTransition = Rocket.migration.ShapeTransition.ShapeTransition
+
+        return None
+
+class RocketMigrateApp(MetaPathFinder):
+
+    def find_spec(self, fullname, path, target=None):
+
+        if fullname in [
+            "App",
+            "App.ShapeBodyTube",
+            "App.ShapeBulkhead",
+            "App.ShapeCenteringRing",
+            "App.ShapeFin",
+            "App.ShapeFinCan",
+            "App.ShapeLaunchLug",
+            "App.ShapeNoseCone",
+            "App.ShapeRailButton",
+            "App.ShapeRailGuide",
+            "App.ShapeTransition",
+        ]:
+            return spec_from_loader(fullname, RocketLoader())
 
         return None
