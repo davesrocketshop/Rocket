@@ -591,7 +591,7 @@ class TaskPanelFinCan(QObject):
 
         # self._finForm.form.tipGroup.setHidden(True)
         self._finForm.form.tabCrossSections.setTabVisible(TAB_FIN_ROOT, True)
-        self._finForm.form.tabCrossSections.setTabVisible(TAB_FIN_TIP, False)
+        self._finForm.form.tabCrossSections.setTabVisible(TAB_FIN_TIP, True)
         self._finForm.form.tabCrossSections.setTabVisible(TAB_FIN_TUBE, False)
 
         # Create a default sketch if none exists
