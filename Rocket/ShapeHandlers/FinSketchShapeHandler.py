@@ -107,6 +107,7 @@ class FinSketchShapeHandler(FinShapeHandler):
         # Find all x's associated with all z's
         index = 0
         endArray = []
+        self._height = -1 # Determine the height from the sketch
         for z in zArray:
             # Find the endpoints for z
             ends = []
@@ -115,6 +116,7 @@ class FinSketchShapeHandler(FinShapeHandler):
                     # Get the x,y for z
                     x = self._xOnLine(z, edge.Vertexes[0], edge.Vertexes[1])
                     ends.append(FreeCAD.Vector(x, 0, z))
+                    self._height = max(self._height, z)
 
             endArray.append(ends)
 
@@ -218,22 +220,29 @@ class FinSketchShapeHandler(FinShapeHandler):
         else:
             profiles = []
         return profiles
+    
+    def _thicknessAtHeight(self, height : float) -> float:
+        if self._height > 0 and height > 0:
+            thickness = self._rootThickness - ((self._rootThickness - self._tipThickness) / 2.0 * (height/ self._height))
+            return thickness
+        return self._rootThickness
 
     def _makeChord(self, chord : list) -> Shape:
         height = float(chord[0].z)
+        thickness = self._thicknessAtHeight(height)
 
         if len(chord) > 1:
             chordLength = float(chord[1].x - chord[0].x)
             offset = float(chord[0].x)
             l1, l2 = self._lengthsFromPercent(chordLength, self._rootPerCent,
                                             self._rootLength1, self._rootLength2)
-            profile = self._makeChordProfile(self._rootCrossSection, offset, chordLength, self._rootThickness, height, l1, l2)
+            profile = self._makeChordProfile(self._rootCrossSection, offset, chordLength, thickness, height, l1, l2)
         elif self._rootCrossSection in [FIN_CROSS_SQUARE, FIN_CROSS_WEDGE, FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE]:
             chordLength = 1e-3  # Very small chord length
             offset = float(chord[0].x)
             l1, l2 = self._lengthsFromPercent(chordLength, self._rootPerCent,
                                             self._rootLength1, self._rootLength2)
-            profile = self._makeChordProfile(self._rootCrossSection, offset, chordLength, self._rootThickness, height, l1, l2)
+            profile = self._makeChordProfile(self._rootCrossSection, offset, chordLength, thickness, height, l1, l2)
         else:
             profile = Part.Vertex(FreeCAD.Vector(float(chord[0].x), 0.0, float(chord[0].z)))
 

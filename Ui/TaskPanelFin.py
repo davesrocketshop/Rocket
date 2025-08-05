@@ -691,7 +691,7 @@ class TaskPanelFin(QObject):
         self._finForm.form.rootChordInput.setHidden(True)
 
         self._finForm.form.tabCrossSections.setTabVisible(TAB_FIN_ROOT, True)
-        self._finForm.form.tabCrossSections.setTabVisible(TAB_FIN_TIP, False)
+        self._finForm.form.tabCrossSections.setTabVisible(TAB_FIN_TIP, True)
         self._finForm.form.tabCrossSections.setTabVisible(TAB_FIN_TUBE, False)
         self._finForm.form.tabCrossSections.setTabVisible(TAB_FIN_FILLETS, False)
         self._finForm.form.minimumEdgeGroup.setHidden(False)
