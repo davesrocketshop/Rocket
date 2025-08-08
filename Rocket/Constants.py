@@ -88,6 +88,7 @@ FIN_TYPE_TRIANGLE = "triangular"
 FIN_TYPE_ELLIPSE = "elliptical"
 FIN_TYPE_TUBE = "tube"
 FIN_TYPE_SKETCH = "custom"
+FIN_TYPE_PROXY = "proxy"
 
 # Fin cross sections
 FIN_CROSS_SAME = "Same as root"

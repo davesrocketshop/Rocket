@@ -34,7 +34,7 @@ from Rocket.FeatureInnerTube import FeatureInnerTube
 from Rocket.util.Coordinate import Coordinate, NUL
 
 from Rocket.Constants import FEATURE_FIN, FEATURE_LAUNCH_LUG, FEATURE_RAIL_BUTTON, FEATURE_POD, FEATURE_RINGTAIL
-from Rocket.Constants import FIN_TYPE_TRAPEZOID, FIN_TYPE_TRIANGLE, FIN_TYPE_ELLIPSE, FIN_TYPE_TUBE, FIN_TYPE_SKETCH
+from Rocket.Constants import FIN_TYPE_TRAPEZOID, FIN_TYPE_TRIANGLE, FIN_TYPE_ELLIPSE, FIN_TYPE_TUBE, FIN_TYPE_SKETCH, FIN_TYPE_PROXY
 from Rocket.Constants import FIN_CROSS_SAME, FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE, \
     FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE, FIN_CROSS_ELLIPSE, FIN_CROSS_BICONVEX
 from Rocket.Constants import FIN_DEBUG_FULL, FIN_DEBUG_PROFILE_ONLY, FIN_DEBUG_MASK_ONLY
@@ -45,6 +45,7 @@ from Rocket.ShapeHandlers.FinTriangleShapeHandler import FinTriangleShapeHandler
 from Rocket.ShapeHandlers.FinEllipseShapeHandler import FinEllipseShapeHandler
 from Rocket.ShapeHandlers.FinSketchShapeHandler import FinSketchShapeHandler
 from Rocket.ShapeHandlers.FinTubeShapeHandler import FinTubeShapeHandler
+from Rocket.ShapeHandlers.FinProxyShapeHandler import FinProxyShapeHandler
 
 from Rocket.Utilities import _err, _toFloat
 
@@ -64,7 +65,8 @@ class FeatureFin(ExternalComponent):
                     FIN_TYPE_TRIANGLE,
                     FIN_TYPE_ELLIPSE,
                     FIN_TYPE_TUBE,
-                    FIN_TYPE_SKETCH
+                    FIN_TYPE_SKETCH,
+                    FIN_TYPE_PROXY
                     ]
             obj.FinType = FIN_TYPE_TRAPEZOID
         else:
@@ -72,7 +74,8 @@ class FeatureFin(ExternalComponent):
                     FIN_TYPE_TRIANGLE,
                     FIN_TYPE_ELLIPSE,
                     FIN_TYPE_TUBE,
-                    FIN_TYPE_SKETCH
+                    FIN_TYPE_SKETCH,
+                    FIN_TYPE_PROXY
                     ]
 
         if not hasattr(obj,"RootCrossSection"):
@@ -192,6 +195,11 @@ class FeatureFin(ExternalComponent):
 
         if not hasattr(obj, "Profile"):
             obj.addProperty('App::PropertyLink', 'Profile', 'RocketComponent', translate('App::Property', 'Custom fin sketch')).Profile = None
+
+        if not hasattr(obj, 'ProxyPlacement'):
+            obj.addProperty('App::PropertyPlacement', 'ProxyPlacement', 'RocketComponent', translate('App::Property', 'This is the local coordinate system within the rocket object that will be used for the proxy feature')).ProxyPlacement
+        if not hasattr(obj, 'Base'):
+            obj.addProperty('App::PropertyLink', 'Base', 'RocketComponent', translate('App::Property', 'The base object used to define the nose cone shape'))
 
         if not hasattr(obj,"Group"):
             obj.addExtension("App::GroupExtensionPython")
@@ -443,6 +451,8 @@ class FeatureFin(ExternalComponent):
             self._shapeHandler = FinTubeShapeHandler(obj)
         elif obj.FinType == FIN_TYPE_SKETCH:
             self._shapeHandler = FinSketchShapeHandler(obj)
+        elif obj.FinType == FIN_TYPE_PROXY:
+            self._shapeHandler = FinProxyShapeHandler(obj)
 
     def execute(self, obj : Any) -> None:
         self._setShapeHandler()

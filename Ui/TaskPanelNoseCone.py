@@ -572,7 +572,7 @@ class TaskPanelNoseCone:
         # Set the scale based on the body diameter being 16.5 inches on the original
         return (16.5 * 25.4) / float(self._obj.Diameter)
 
-    def _setProxyStateVisibility(self, visible):
+    def _setProxyStateVisible(self, visible):
         if visible:
             index = 0
         else:
@@ -580,7 +580,7 @@ class TaskPanelNoseCone:
         self._noseForm._proxyLayout.setCurrentIndex(index)
 
     def _setProxyState(self):
-        self._setProxyStateVisibility(self._obj.NoseType != TYPE_PROXY)
+        self._setProxyStateVisible(self._obj.NoseType != TYPE_PROXY)
         # Hide the shoulder tab
         self._noseForm.tabWidget.setTabVisible(1, self._obj.NoseType != TYPE_PROXY)
 

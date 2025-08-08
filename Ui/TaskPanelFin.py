@@ -47,7 +47,7 @@ from Ui.Widgets.MaterialTab import MaterialTab
 from Ui.Widgets.CommentTab import CommentTab
 from Ui.Widgets.ScalingTab import ScalingTabFins
 
-from Rocket.Constants import FIN_TYPE_TRAPEZOID, FIN_TYPE_TRIANGLE, FIN_TYPE_ELLIPSE, FIN_TYPE_TUBE, FIN_TYPE_SKETCH
+from Rocket.Constants import FIN_TYPE_TRAPEZOID, FIN_TYPE_TRIANGLE, FIN_TYPE_ELLIPSE, FIN_TYPE_TUBE, FIN_TYPE_SKETCH, FIN_TYPE_PROXY
 from Rocket.Constants import FIN_CROSS_SAME, FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE, \
     FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE, FIN_CROSS_BICONVEX, FIN_CROSS_ELLIPSE
 from Rocket.Constants import FIN_EDGE_SQUARE, FIN_EDGE_ROUNDED
@@ -106,6 +106,7 @@ class _FinDialog(QDialog):
         self.form.finTypesCombo.addItem(translate('Rocket', FIN_TYPE_ELLIPSE), FIN_TYPE_ELLIPSE)
         self.form.finTypesCombo.addItem(translate('Rocket', FIN_TYPE_TUBE), FIN_TYPE_TUBE)
         self.form.finTypesCombo.addItem(translate('Rocket', FIN_TYPE_SKETCH), FIN_TYPE_SKETCH)
+        self.form.finTypesCombo.addItem(translate('Rocket', FIN_TYPE_PROXY), FIN_TYPE_PROXY)
 
         # Set the units
         self.form.finSpacingInput.unit = FreeCAD.Units.Angle
@@ -120,6 +121,20 @@ class _FinDialog(QDialog):
         self.setTabFinTip()
         self.setTabFinTube()
         self.setTabFinFillets()
+
+        # Set the proxy page
+        self.form.finProxyTypesCombo.addItem(translate('Rocket', FIN_TYPE_TRAPEZOID), FIN_TYPE_TRAPEZOID)
+        self.form.finProxyTypesCombo.addItem(translate('Rocket', FIN_TYPE_TRIANGLE), FIN_TYPE_TRIANGLE)
+        self.form.finProxyTypesCombo.addItem(translate('Rocket', FIN_TYPE_ELLIPSE), FIN_TYPE_ELLIPSE)
+        self.form.finProxyTypesCombo.addItem(translate('Rocket', FIN_TYPE_TUBE), FIN_TYPE_TUBE)
+        self.form.finProxyTypesCombo.addItem(translate('Rocket', FIN_TYPE_SKETCH), FIN_TYPE_SKETCH)
+        self.form.finProxyTypesCombo.addItem(translate('Rocket', FIN_TYPE_PROXY), FIN_TYPE_PROXY)
+
+        self.form.proxyEffectiveDiameterInput.unit = FreeCAD.Units.Length
+        self.form.xRotationInput.unit = FreeCAD.Units.Angle
+        self.form.yRotationInput.unit = FreeCAD.Units.Angle
+        self.form.zRotationInput.unit = FreeCAD.Units.Angle
+        self.form.offsetInput.unit = FreeCAD.Units.Length
 
     def setTabFinRoot(self) -> None:
 
@@ -209,6 +224,9 @@ class TaskPanelFin(QObject):
         self._obj = obj
         self._isAssembly = self._obj.Proxy.isRocketAssembly()
 
+        # Used to prevent recursion
+        self._updateFinType = True
+
         self._finForm = _FinDialog(obj)
 
         self._location = TaskPanelLocation(obj)
@@ -218,6 +236,7 @@ class TaskPanelFin(QObject):
         self._finForm.setWindowIcon(QtGui.QIcon(FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Fin.svg"))
 
         self._finForm.form.finTypesCombo.currentTextChanged.connect(self.onFinTypes)
+        self._finForm.form.finProxyTypesCombo.currentTextChanged.connect(self.onFinTypes)
 
         self._finForm.form.finSetGroup.toggled.connect(self.onFinSet)
         self._finForm.form.finCountSpinBox.valueChanged.connect(self.onCount)
@@ -263,6 +282,13 @@ class TaskPanelFin(QObject):
 
         self._finForm.form.minimumEdgeGroup.toggled.connect(self.onMinimumEdge)
         self._finForm.form.minimumEdgeSizeInput.textEdited.connect(self.onMinimumEdgeSize)
+
+        self._finForm.form.proxyBaseObjectButton.clicked.connect(self.onSelect)
+        # self._finForm.form.proxyEffectiveDiameterInput.textEdited.connect(self.onEffectiveDiameter)
+        self._finForm.form.xRotationInput.textEdited.connect(self.onRotation)
+        self._finForm.form.yRotationInput.textEdited.connect(self.onRotation)
+        self._finForm.form.zRotationInput.textEdited.connect(self.onRotation)
+        self._finForm.form.offsetInput.textEdited.connect(self.onOffset)
 
         self._finForm.tabScaling.scaled.connect(self.onScale)
         self._finForm.tabScaling.scaledSetValuesButton.clicked.connect(self.onSetToScale)
@@ -329,6 +355,14 @@ class TaskPanelFin(QObject):
         self._obj.Fillets = self._finForm.form.filletsCheckbox.isChecked()
         self._obj.FilletRadius = self._finForm.form.filletRadiusInput.text()
 
+        placement = FreeCAD.Placement()
+        yaw = FreeCAD.Units.Quantity(self._finForm.form.zRotationInput.text()).Value
+        pitch = FreeCAD.Units.Quantity(self._finForm.form.yRotationInput.text()).Value
+        roll = FreeCAD.Units.Quantity(self._finForm.form.xRotationInput.text()).Value
+        placement.Rotation.setYawPitchRoll(yaw, pitch, roll)
+        placement.Base.x = FreeCAD.Units.Quantity(self._finForm.form.offsetInput.text()).Value
+        self._obj.ProxyPlacement = placement
+
         self._finForm.tabScaling.transferTo(self._obj)
         self._finForm.tabMaterial.transferTo(self._obj)
         self._finForm.tabComment.transferTo(self._obj)
@@ -382,6 +416,19 @@ class TaskPanelFin(QObject):
         self._finForm.form.minimumEdgeGroup.setChecked(self._obj.MinimumEdge)
         self._finForm.form.minimumEdgeSizeInput.setText(self._obj.MinimumEdgeSize.UserString)
 
+        if self._obj.Base is not None:
+            self._finForm.form.proxyBaseObjectInput.setText(self._obj.Base.Label)
+        else:
+            self._finForm.form.proxyBaseObjectInput.setText("")
+        # self._finForm.form.proxyEffectiveDiameterInput.setText(self._obj.Diameter.UserString)
+
+        placement = self._obj.ProxyPlacement
+        yaw, pitch, roll = placement.Rotation.getYawPitchRoll()
+        self._finForm.form.xRotationInput.setText(f"{roll} deg")
+        self._finForm.form.yRotationInput.setText(f"{pitch} deg")
+        self._finForm.form.zRotationInput.setText(f"{yaw} deg")
+        self._finForm.form.offsetInput.setText(FreeCAD.Units.Quantity(placement.Base.x, FreeCAD.Units.Length).UserString)
+
         self._finForm.tabScaling.transferFrom(self._obj)
         self._finForm.tabMaterial.transferFrom(self._obj)
         self._finForm.tabComment.transferFrom(self._obj)
@@ -394,6 +441,7 @@ class TaskPanelFin(QObject):
         self._enableTipPercent()
         self._sweepAngleFromLength()
         self._setTtwState()
+        self._setProxyState()
 
     def setEdited(self) -> None:
         try:
@@ -441,13 +489,14 @@ class TaskPanelFin(QObject):
             self._finForm.tabScaling.scaledTipThicknessInput.setVisible(False)
 
     def onFinTypes(self, value : str) -> None:
-        self._obj.FinType = value
-        self._enableFinTypes()
-        self.redraw()
-        self.setEdited()
+        if self._updateFinType:
+            self._obj.FinType = value
+            self._enableFinTypes()
+            self.redraw()
+            self.setEdited()
 
-        # Scaling information is fin type dependent
-        self.onScale()
+            # Scaling information is fin type dependent
+            self.onScale()
 
     def _setFinSetState(self) -> None:
         if self._isAssembly:
@@ -499,8 +548,10 @@ class TaskPanelFin(QObject):
             self._enableFinTypeEllipse()
         elif self._obj.FinType == FIN_TYPE_TUBE:
             self._enableFinTypeTube()
-        else:
+        elif self._obj.FinType == FIN_TYPE_SKETCH:
             self._enableFinTypeSketch()
+        else:
+            self._enableFinTypeProxy()
         self.onScale()
 
     def setRootCrossSections(self) -> None:
@@ -526,9 +577,27 @@ class TaskPanelFin(QObject):
         self._finForm.form.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_WEDGE), FIN_CROSS_WEDGE)
         self._finForm.form.rootCrossSectionsCombo.addItem(translate('Rocket', FIN_CROSS_TAPER_LETE), FIN_CROSS_TAPER_LETE)
 
+    def _setProxyStateVisible(self, visible : bool) -> None:
+        if visible:
+            index = 0
+        else:
+            index = 1
+        self._finForm.form.stackedWidget.setCurrentIndex(index)
+
+    def _setFinTabsVisible(self, visible : bool) -> None:
+        self._finForm.form.tabWidget.setTabEnabled(1, visible) # Fin tabs is index 1
+
+    def _setProxyState(self):
+        self._setProxyStateVisible(self._obj.FinType != FIN_TYPE_PROXY)
+
+        self._updateFinType = False
+        self._finForm.form.finTypesCombo.setCurrentIndex(self._finForm.form.finTypesCombo.findData(self._obj.FinType))
+        self._finForm.form.finProxyTypesCombo.setCurrentIndex(self._finForm.form.finProxyTypesCombo.findData(self._obj.FinType))
+        self._updateFinType = True
 
     def _enableFinTypeTrapezoid(self) -> None:
-        self._finForm.form.tabWidget.setTabEnabled(1, True) # Fin tabs is index 1
+        self._setProxyState()
+        self._setFinTabsVisible(True)
 
         self._finForm.form.rootChordInput.setText(self._obj.RootChord.UserString)
 
@@ -564,7 +633,8 @@ class TaskPanelFin(QObject):
         self._enableTipLengths()
 
     def _enableFinTypeTriangle(self) -> None:
-        self._finForm.form.tabWidget.setTabEnabled(1, True) # Fin tabs is index 1
+        self._setProxyState()
+        self._setFinTabsVisible(True)
 
         self._finForm.form.rootChordInput.setText(self._obj.RootChord.UserString)
 
@@ -598,7 +668,8 @@ class TaskPanelFin(QObject):
         self._finForm.form.minimumEdgeGroup.setHidden(False)
 
     def _enableFinTypeEllipse(self) -> None:
-        self._finForm.form.tabWidget.setTabEnabled(1, True) # Fin tabs is index 1
+        self._setProxyState()
+        self._setFinTabsVisible(True)
 
         self._finForm.form.rootChordInput.setText(self._obj.RootChord.UserString)
 
@@ -634,7 +705,8 @@ class TaskPanelFin(QObject):
         self._finForm.form.minimumEdgeGroup.setHidden(False)
 
     def _enableFinTypeTube(self) -> None:
-        self._finForm.form.tabWidget.setTabEnabled(1, False) # Fin tabs is index 1
+        self._setProxyState()
+        self._setFinTabsVisible(False)
         self._obj.Ttw = False
         self._finForm.form.ttwGroup.setChecked(self._obj.Ttw)
 
@@ -667,7 +739,8 @@ class TaskPanelFin(QObject):
         self._finForm.form.tubeOuterDiameterInput.setEnabled(not self._obj.TubeAutoOuterDiameter)
 
     def _enableFinTypeSketch(self) -> None:
-        self._finForm.form.tabWidget.setTabEnabled(1, True) # Fin tabs is index 1
+        self._setProxyState()
+        self._setFinTabsVisible(True)
 
         old = self._obj.RootCrossSection # This must be saved and restored
         self.setRootCrossSections()
@@ -693,11 +766,45 @@ class TaskPanelFin(QObject):
         self._finForm.form.tabCrossSections.setTabVisible(TAB_FIN_ROOT, True)
         self._finForm.form.tabCrossSections.setTabVisible(TAB_FIN_TIP, True)
         self._finForm.form.tabCrossSections.setTabVisible(TAB_FIN_TUBE, False)
-        self._finForm.form.tabCrossSections.setTabVisible(TAB_FIN_FILLETS, False)
+        self._finForm.form.tabCrossSections.setTabVisible(TAB_FIN_FILLETS, True)
         self._finForm.form.minimumEdgeGroup.setHidden(False)
 
         # Create a default sketch if none exists
         self._defaultFinSketch()
+
+    def _enableFinTypeProxy(self) -> None:
+        self._setProxyState()
+        self._setFinTabsVisible(False)
+
+        # old = self._obj.RootCrossSection # This must be saved and restored
+        # self.setRootCrossSections()
+        # self._obj.RootCrossSection = old
+
+        # self._finForm.form.rootCrossSectionsCombo.setCurrentIndex(self._finForm.form.rootCrossSectionsCombo.findData(self._obj.RootCrossSection))
+
+        # self._finForm.form.heightLabel.setHidden(True)
+        # self._finForm.form.heightInput.setHidden(True)
+        # self._finForm.form.autoHeightCheckBox.setHidden(True)
+
+        # self._finForm.form.spanLabel.setHidden(True)
+        # self._finForm.form.spanInput.setHidden(True)
+
+        # self._finForm.form.sweepLengthLabel.setHidden(True)
+        # self._finForm.form.sweepLengthInput.setHidden(True)
+        # self._finForm.form.sweepAngleLabel.setHidden(True)
+        # self._finForm.form.sweepAngleInput.setHidden(True)
+
+        # self._finForm.form.rootChordLabel.setHidden(True)
+        # self._finForm.form.rootChordInput.setHidden(True)
+
+        # self._finForm.form.tabCrossSections.setTabVisible(TAB_FIN_ROOT, True)
+        # self._finForm.form.tabCrossSections.setTabVisible(TAB_FIN_TIP, True)
+        # self._finForm.form.tabCrossSections.setTabVisible(TAB_FIN_TUBE, False)
+        # self._finForm.form.tabCrossSections.setTabVisible(TAB_FIN_FILLETS, True)
+        # self._finForm.form.minimumEdgeGroup.setHidden(False)
+
+        # # Create a default sketch if none exists
+        # self._defaultFinSketch()
 
     def _drawLines(self, sketch : Any, points : list) -> None:
         last = points[-1]
@@ -1115,6 +1222,70 @@ class TaskPanelFin(QObject):
         try:
             self._obj.MinimumEdgeSize = FreeCAD.Units.Quantity(value).Value
             self.redraw()
+        except ValueError:
+            pass
+        self.setEdited()
+
+    def onSelect(self):
+        # FreeCADGui.Control.closeDialog()
+        # FreeCADGui.Control.showDialog(TaskPanelSelection())
+        FreeCAD.RocketObserver = self
+        FreeCADGui.Selection.addObserver(FreeCAD.RocketObserver)
+
+        self._finForm.form.proxyBaseObjectLabelSelect.setText(translate('Rocket', 'Select an object'))
+
+    def addSelection(self,document, object, element, position):
+        """Method called when a selection is made on the Gui.
+
+        Parameters
+        ----------
+        document: str
+            The document's Name.
+        object: str
+            The selected object's Name.
+        element: str
+            The element on the object that was selected, such as an edge or
+            face.
+        position:
+            The location in XYZ space the selection was made.
+        """
+
+        FreeCADGui.Selection.removeObserver(FreeCAD.RocketObserver)
+
+        try:
+            obj = FreeCAD.getDocument(document).getObject(object)
+            self._obj.Base = obj
+            self._finForm.form.proxyBaseObjectInput.setText(obj.Label)
+            self._obj.Proxy.execute(self._obj)
+        except ValueError:
+            pass
+
+        self._finForm.form.proxyBaseObjectLabelSelect.setText("")
+        del FreeCAD.RocketObserver
+
+    def onEffectiveDiameter(self, value):
+        try:
+            self._obj.Diameter = FreeCAD.Units.Quantity(value).Value
+            self._obj.Proxy.execute(self._obj)
+        except ValueError:
+            pass
+        self.setEdited()
+
+    def onRotation(self, value):
+        try:
+            yaw = FreeCAD.Units.Quantity(self._finForm.form.zRotationInput.text()).Value
+            pitch = FreeCAD.Units.Quantity(self._finForm.form.yRotationInput.text()).Value
+            roll = FreeCAD.Units.Quantity(self._finForm.form.xRotationInput.text()).Value
+            self._obj.ProxyPlacement.Rotation.setYawPitchRoll(yaw, pitch, roll)
+            self._obj.Proxy.execute(self._obj)
+        except ValueError:
+            pass
+        self.setEdited()
+
+    def onOffset(self, value):
+        try:
+            self._obj.ProxyPlacement.Base.x = FreeCAD.Units.Quantity(self._finForm.form.offsetInput.text()).Value
+            self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
         self.setEdited()
