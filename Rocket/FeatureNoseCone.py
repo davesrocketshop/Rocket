@@ -348,8 +348,8 @@ class FeatureNoseCone(SymmetricComponent):
         if self._obj.NoseType == TYPE_PROXY:
             if self._shapeHandler == None:
                 self._setShapeHandler()
-            return self._shapeHandler.getLength()
-        return float(self._obj.Length)
+            return self._shapeHandler.getLength() / self.getScale()
+        return float(self._obj.Length) / self.getScale()
 
     def isFilled(self) -> bool:
         return False

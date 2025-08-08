@@ -58,6 +58,7 @@ class FeatureFin(ExternalComponent):
     def __init__(self, obj : Any) -> None:
         super().__init__(obj)
         self.Type = FEATURE_FIN
+        self._shapeHandler = None
 
         if not hasattr(obj,"FinType"):
             obj.addProperty('App::PropertyEnumeration', 'FinType', 'RocketComponent', translate('App::Property', 'Fin type'))
@@ -328,9 +329,14 @@ class FeatureFin(ExternalComponent):
 
     def getLength(self) -> float:
         # Return the length of this component along the central axis
+        if self._obj.FinType == FIN_TYPE_PROXY:
+            if self._shapeHandler == None:
+                self._setShapeHandler()
+            return self._shapeHandler.getLength() / self.getScale()
+        
         if self._obj.Length <= 0:
             self._obj.Length = self.getRootChord()
-        return float(self._obj.Length)
+        return float(self._obj.Length) / self.getScale()
 
     def isFinSet(self) -> bool:
         return self._obj.FinSet

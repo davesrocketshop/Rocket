@@ -239,8 +239,11 @@ class TaskPanelFin(QObject):
         self._finForm.form.finProxyTypesCombo.currentTextChanged.connect(self.onFinTypes)
 
         self._finForm.form.finSetGroup.toggled.connect(self.onFinSet)
+        self._finForm.form.finSetProxyGroup.toggled.connect(self.onFinSet)
         self._finForm.form.finCountSpinBox.valueChanged.connect(self.onCount)
+        self._finForm.form.finCountProxySpinBox.valueChanged.connect(self.onCount)
         self._finForm.form.finSpacingInput.textEdited.connect(self.onSpacing)
+        self._finForm.form.finSpacingProxyInput.textEdited.connect(self.onSpacing)
         self._finForm.form.finCantInput.textEdited.connect(self.onCant)
 
         self._finForm.form.rootCrossSectionsCombo.currentTextChanged.connect(self.onRootCrossSection)
@@ -372,8 +375,11 @@ class TaskPanelFin(QObject):
         self._finForm.form.finTypesCombo.setCurrentIndex(self._finForm.form.finTypesCombo.findData(self._obj.FinType))
 
         self._finForm.form.finSetGroup.setChecked(self._obj.FinSet)
+        self._finForm.form.finSetProxyGroup.setChecked(self._obj.FinSet)
         self._finForm.form.finCountSpinBox.setValue(self._obj.FinCount)
+        self._finForm.form.finCountProxySpinBox.setValue(self._obj.FinCount)
         self._finForm.form.finSpacingInput.setText(self._obj.FinSpacing.UserString)
+        self._finForm.form.finSpacingProxyInput.setText(self._obj.FinSpacing.UserString)
         self._finForm.form.finCantInput.setText(self._obj.Cant.UserString)
 
         self._finForm.form.rootCrossSectionsCombo.setCurrentIndex(self._finForm.form.rootCrossSectionsCombo.findData(self._obj.RootCrossSection))
@@ -515,7 +521,9 @@ class TaskPanelFin(QObject):
         self._finForm.form.tipThicknessInput.setEnabled(not self._obj.TipSameThickness)
 
     def onFinSet(self, value : bool) -> None:
-        self._obj.FinSet = self._finForm.form.finSetGroup.isChecked()
+        self._obj.FinSet = value
+        self._finForm.form.finSetGroup.setChecked(self._obj.FinSet)
+        self._finForm.form.finSetProxyGroup.setChecked(self._obj.FinSet)
         self._setFinSetState()
         self.redraw()
         self.setEdited()
@@ -523,14 +531,19 @@ class TaskPanelFin(QObject):
     def onCount(self, value : int) -> None:
         self._obj.FinCount = value
         self._obj.FinSpacing = 360.0 / float(value)
+        self._finForm.form.finCountSpinBox.setValue(self._obj.FinCount)
+        self._finForm.form.finCountProxySpinBox.setValue(self._obj.FinCount)
         self._finForm.form.finSpacingInput.setText(self._obj.FinSpacing.UserString)
+        self._finForm.form.finSpacingProxyInput.setText(self._obj.FinSpacing.UserString)
         self._obj.Proxy.getTubeOuterDiameter() # Set automatic sizing
         self._finForm.form.tubeOuterDiameterInput.setText(self._obj.TubeOuterDiameter.UserString)
         self.redraw()
         self.setEdited()
 
     def onSpacing(self, value : str) -> None:
-        self._obj.FinSpacing = value
+        self._obj.FinSpacing = FreeCAD.Units.Quantity(value).Value
+        self._finForm.form.finSpacingInput.setText(self._obj.FinSpacing.UserString)
+        self._finForm.form.finSpacingProxyInput.setText(self._obj.FinSpacing.UserString)
         self.redraw()
         self.setEdited()
 

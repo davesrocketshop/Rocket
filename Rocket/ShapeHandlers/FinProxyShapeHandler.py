@@ -29,9 +29,9 @@ import math
 
 import FreeCAD
 import Part
+from Part import Shape
 
-from Rocket.ShapeHandlers.FinShapeHandler import FinShapeHandler
-
+from Rocket.Constants import FEATURE_FINCAN
 
 class FinProxyShapeHandler:
     def __init__(self, obj : Any) -> None:
@@ -57,6 +57,15 @@ class FinProxyShapeHandler:
         self._autoScaleDiameter = self._obj.AutoScaleDiameter
         self._scaleValue = self._obj.ScaleValue
         self._cant = float(self._obj.Cant)
+
+        self._finSet = bool(self._obj.FinSet)
+        self._fincount = int(self._obj.FinCount)
+        self._finSpacing = float(self._obj.FinSpacing)
+
+        if self._obj.Proxy.Type == FEATURE_FINCAN:
+            self._radius = float(self._obj.Diameter.Value) / 2.0
+        else:
+            self._radius = 0.0
 
         self._obj = obj
 
@@ -104,7 +113,7 @@ class FinProxyShapeHandler:
 
         # Translate so the fin is at (0, 0, 0)
         min = shape.BoundBox.XMin
-        shape.translate(FreeCAD.Vector(-min, self._parentRadius, 0))
+        shape.translate(FreeCAD.Vector(-min, 0, self._parentRadius))
 
         return self._shapeUnion(shape)
 
@@ -119,10 +128,38 @@ class FinProxyShapeHandler:
             return 0
         return float(shape.BoundBox.XLength - self._proxyPlacement.Base.x)
 
+    def _getTubeRadius(self) -> float:
+        if hasattr(self._obj, "Diameter"):
+            # This is for fin cans
+            return self._radius
+
+        return self._parentRadius
+
+    def _drawFinSet(self, offset : float = 0) -> Shape:
+        fins = []
+        base = self._getShape()
+        baseX = 0
+        # if hasattr(self._obj, "LeadingEdgeOffset"):
+        #     baseX = self._leadingEdgeOffset
+        for i in range(self._fincount):
+            fin = Part.Shape(base) # Create a copy
+            # if self._cant != 0:
+            #     fin.rotate(FreeCAD.Vector(self._rootChord / 2, 0, 0), FreeCAD.Vector(0,0,1), self._cant)
+            radius = self._getTubeRadius()
+            # fin.translate(FreeCAD.Vector(baseX, 0, radius + self._thickness))
+            fin.translate(FreeCAD.Vector(baseX, 0, radius))
+            fin.rotate(FreeCAD.Vector(0, 0, 0), FreeCAD.Vector(1,0,0), i * self._finSpacing)
+            fins.append(fin)
+
+        return Part.makeCompound(fins)
+
     def draw(self) -> None:
         # shape = None
 
-        self._obj.Shape = self._getShape()
+        if self._finSet:
+            self._obj.Shape = self._drawFinSet()
+        else:
+            self._obj.Shape = self._getShape()
         self._obj.Placement = self._placement
 
     def drawSolidShape(self) -> Part.Solid:
