@@ -206,7 +206,7 @@ class FeatureInnerTube(ThicknessRingComponent, Clusterable, AxialPositionable, B
         return points
 
     def getMotorOverhang(self) -> float:
-        return float(self._obj.Overhang)
+        return float(self._obj.Overhang) / self.getScale()
 
     def setMotorOverhang(self, overhang : float) -> None:
         if self._obj.Overhang == overhang:

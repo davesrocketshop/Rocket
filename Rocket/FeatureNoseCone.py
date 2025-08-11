@@ -165,6 +165,16 @@ class FeatureNoseCone(SymmetricComponent):
         self.getAftDiameter()
         self.getAftShoulderDiameter()
 
+    def _isDiameterScaled(self) -> bool:
+        if self._obj.Proxy.getParent() is not None:
+            return self._obj.Proxy.getParent().isScaled()
+        return not self._obj.AutoDiameter
+
+    def getDiameterScale(self) -> float:
+        if self._isDiameterScaled():
+            return self.getScale()
+        return 1.0
+
     def setNoseType(self, type : str) -> None:
         self._obj.NoseType = type
 
@@ -216,8 +226,8 @@ class FeatureNoseCone(SymmetricComponent):
                 d = SymmetricComponent.DEFAULT_RADIUS * 2.0
             self._obj.Diameter = d
 
-        return float(self._obj.Diameter)
-    
+        return float(self._obj.Diameter) / self.getDiameterScale()
+
     def getAftShoulderRadius(self) -> float:
         return self.getAftShoulderDiameter() / 2.0
 
@@ -242,7 +252,7 @@ class FeatureNoseCone(SymmetricComponent):
         return self.getAftDiameterNoAutomatic() / 2.0
 
     def getAftDiameterNoAutomatic(self) -> float:
-        return float(self._obj.Diameter)
+        return float(self._obj.Diameter) / self.getDiameterScale()
 
     def setAftRadius(self, radius : float) -> None:
         self.setAftDiameter(radius * 2.0)
@@ -383,7 +393,7 @@ class FeatureNoseCone(SymmetricComponent):
             if self._obj.Diameter != diameter:
                 self._obj.Diameter = diameter
                 self.setEdited()
-        return float(self._obj.Diameter / 2.0)
+        return float(self._obj.Diameter / 2.0) / self.getDiameterScale()
 
     def _setShapeHandler(self) -> None:
         obj = self._obj

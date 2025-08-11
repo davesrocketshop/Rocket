@@ -44,14 +44,6 @@ class ExternalComponent(RocketComponent):
     def setDefaults(self) -> None:
         super().setDefaults()
 
-    # ExternalComponent has aerodynamic effect, so return true.
-    def isAerodynamic(self) -> bool:
-        return True
-
-    # ExternalComponent has effect on the mass, so return true.
-    def isMassive(self) -> bool:
-        return True
-
     def getFinish(self) -> Finish.Finish:
         return self.finish
 
