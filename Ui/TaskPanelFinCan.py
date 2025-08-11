@@ -103,6 +103,10 @@ class _FinCanDialog(_FinDialog):
         self.setTabFinFillets()
 
     def setTabCan(self):
+        # Style options
+        self.form.canStyleCombo.addItem(translate('Rocket', FINCAN_STYLE_SLEEVE), FINCAN_STYLE_SLEEVE)
+        self.form.canStyleCombo.addItem(translate('Rocket', FINCAN_STYLE_BODYTUBE), FINCAN_STYLE_BODYTUBE)
+
         # Fin can leading and trailing edges
         self.form.canLeadingCombo.addItem(translate('Rocket', FINCAN_EDGE_SQUARE), FINCAN_EDGE_SQUARE)
         self.form.canLeadingCombo.addItem(translate('Rocket', FINCAN_EDGE_ROUND), FINCAN_EDGE_ROUND)
@@ -203,6 +207,7 @@ class TaskPanelFinCan(QObject):
         self._finForm.form.canLengthInput.textEdited.connect(self.onCanLength)
         self._finForm.form.canLeadingOffsetInput.textEdited.connect(self.onCanLeadingEdgeOffset)
 
+        self._finForm.form.canStyleCombo.currentTextChanged.connect(self.onCanStyle)
         self._finForm.form.canLeadingCombo.currentTextChanged.connect(self.onCanLeadingEdge)
         self._finForm.form.canLeadingLengthInput.textEdited.connect(self.onCanLeadingLength)
         self._finForm.form.canTrailingCombo.currentTextChanged.connect(self.onCanTrailingEdge)
@@ -278,6 +283,7 @@ class TaskPanelFinCan(QObject):
         self._obj.Length = self._finForm.form.canLengthInput.text()
         self._obj.LeadingEdgeOffset = self._finForm.form.canLeadingOffsetInput.text()
 
+        self._obj.FinCanStyle = str(self._finForm.form.canStyleCombo.currentData())
         self._obj.LeadingEdge = str(self._finForm.form.canLeadingCombo.currentData())
         self._obj.LeadingLength = self._finForm.form.canLeadingLengthInput.text()
         self._obj.TrailingEdge = str(self._finForm.form.canTrailingCombo.currentData())
@@ -348,6 +354,7 @@ class TaskPanelFinCan(QObject):
         self._finForm.form.canLengthInput.setText(self._obj.Length.UserString)
         self._finForm.form.canLeadingOffsetInput.setText(self._obj.LeadingEdgeOffset.UserString)
 
+        self._finForm.form.canStyleCombo.setCurrentIndex(self._finForm.form.canStyleCombo.findData(self._obj.FinCanStyle))
         self._finForm.form.canLeadingCombo.setCurrentIndex(self._finForm.form.canLeadingCombo.findData(self._obj.LeadingEdge))
         self._finForm.form.canLeadingLengthInput.setText(self._obj.LeadingLength.UserString)
         self._finForm.form.canTrailingCombo.setCurrentIndex(self._finForm.form.canTrailingCombo.findData(self._obj.TrailingEdge))
@@ -1004,7 +1011,7 @@ class TaskPanelFinCan(QObject):
             pass
         self.setEdited()
 
-    def onCanLeadingEdgeOffset(self, value):
+    def onCanLeadingEdgeOffset(self, value : str) -> None:
         try:
             self._obj.LeadingEdgeOffset = FreeCAD.Units.Quantity(value).Value
             self.redraw()
@@ -1012,14 +1019,22 @@ class TaskPanelFinCan(QObject):
             pass
         self.setEdited()
 
-
     def _enableLeadingEdge(self):
         if self._obj.LeadingEdge == FINCAN_EDGE_SQUARE:
             self._finForm.form.canLeadingLengthInput.setEnabled(False)
         else:
             self._finForm.form.canLeadingLengthInput.setEnabled(True)
 
-    def onCanLeadingEdge(self, value):
+    def onCanStyle(self, value : str) -> None:
+        try:
+            self._obj.Proxy.setFinCanStyle(value)
+            # self._obj.FinCanStyle = value
+            self.redraw()
+        except ValueError:
+            pass
+        self.setEdited()
+
+    def onCanLeadingEdge(self, value : str) -> None:
         if len(value) <= 0:
             return
 
@@ -1030,7 +1045,7 @@ class TaskPanelFinCan(QObject):
         self.redraw()
         self.setEdited()
 
-    def onCanLeadingLength(self, value):
+    def onCanLeadingLength(self, value : str) -> None:
         try:
             self._obj.LeadingLength = FreeCAD.Units.Quantity(value).Value
             self._setLugAutoLengthState()
@@ -1045,7 +1060,7 @@ class TaskPanelFinCan(QObject):
         else:
             self._finForm.form.canTrailingLengthInput.setEnabled(True)
 
-    def onCanTrailingEdge(self, value):
+    def onCanTrailingEdge(self, value : str) -> None:
         if len(value) <= 0:
             return
 
@@ -1056,7 +1071,7 @@ class TaskPanelFinCan(QObject):
         self.redraw()
         self.setEdited()
 
-    def onCanTrailingLength(self, value):
+    def onCanTrailingLength(self, value : str) -> None:
         try:
             self._obj.TrailingLength = FreeCAD.Units.Quantity(value).Value
             self._setLugAutoLengthState()
@@ -1065,24 +1080,24 @@ class TaskPanelFinCan(QObject):
             pass
         self.setEdited()
 
-    def onCoupler(self, value):
-        self._obj.Coupler = self._finForm.form.couplerGroup.isChecked()
+    def onCoupler(self, value : bool) -> None:
+        self._obj.Coupler = value
 
         self.redraw()
 
-    def onCouplerStyle(self, value):
-        self._obj.CouplerStyle = self._finForm.form.couplerStylesCombo.currentData()
+    def onCouplerStyle(self, value : str) -> None:
+        self._obj.CouplerStyle = value
 
         self.redraw()
 
-    def onCouplerThickness(self, value):
+    def onCouplerThickness(self, value : str) -> None:
         try:
             self._obj.CouplerThickness = FreeCAD.Units.Quantity(value).Value
             self.redraw()
         except ValueError:
             pass
 
-    def _setCouplerAutoDiameterState(self):
+    def _setCouplerAutoDiameterState(self) -> None:
         if self._isAssembly:
             self._finForm.form.couplerDiameterInput.setEnabled(not self._obj.CouplerAutoDiameter)
             self._finForm.form.couplerAutoDiameterCheckbox.setChecked(self._obj.CouplerAutoDiameter)
@@ -1097,19 +1112,21 @@ class TaskPanelFinCan(QObject):
             # self._obj.Diameter = (self._obj.ParentRadius * 2.0)
             # self._finForm.form.canDiameterInput.setText(self._obj.Diameter.UserString)
 
-    def onCouplerAutoDiameter(self, value):
+    def onCouplerAutoDiameter(self, value : bool) -> None:
         self._obj.CouplerAutoDiameter = value
         self._setCouplerAutoDiameterState()
 
         self.redraw()
         self.setEdited()
 
-    def onCouplerDiameter(self, value):
+    def onCouplerDiameter(self, value : str) -> None:
         try:
             self._obj.CouplerDiameter = FreeCAD.Units.Quantity(value).Value
             self.redraw()
         except ValueError:
             pass
+
+        self.setEdited()
 
     def onCouplerLength(self, value):
         try:
@@ -1117,6 +1134,8 @@ class TaskPanelFinCan(QObject):
             self.redraw()
         except ValueError:
             pass
+
+        self.setEdited()
 
     def onLug(self, value):
         self._obj.LaunchLug = self._finForm.form.lugGroup.isChecked()

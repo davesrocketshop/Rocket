@@ -161,11 +161,11 @@ class FeatureFinCan(SymmetricComponent, FeatureFin):
         self._obj.Length = 60.0
 
     def update(self) -> None:
-        self.setFinCanStyle(FINCAN_STYLE_SLEEVE)
-        if self.hasParent() :
-            parent = self.getParent()
-            if parent.Type in [FEATURE_STAGE]:
-                self.setFinCanStyle(FINCAN_STYLE_BODYTUBE)
+        # self.setFinCanStyle(FINCAN_STYLE_SLEEVE)
+        # if self.hasParent() :
+        #     parent = self.getParent()
+        #     if parent.Type in [FEATURE_STAGE]:
+        #         self.setFinCanStyle(FINCAN_STYLE_BODYTUBE)
 
         # Do the positioning with and new positioning method
         super().update()
@@ -217,6 +217,12 @@ class FeatureFinCan(SymmetricComponent, FeatureFin):
             obj.removeProperty("LaunchLugAftSweepAngle")
 
             FeatureFinCan(obj) # Update any properties
+
+            # Set to a body tube style if the parent is not a body tube
+            if self.hasParent() :
+                parent = self.getParent()
+                if parent.Type in [FEATURE_STAGE]:
+                    self.setFinCanStyle(FINCAN_STYLE_BODYTUBE)
 
             obj.LaunchLugForwardSweepAngle = forward
             obj.LaunchLugAftSweepAngle = aft
