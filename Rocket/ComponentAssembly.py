@@ -96,15 +96,6 @@ class ComponentAssembly(RocketComponentShapeless, AxialPositionable):
 
         return outerRadius
 
-    # Components have no aerodynamic effect, so return false.
-    def isAerodynamic(self) -> bool:
-        return False
-
-    # Component have no effect on mass, so return false (even though the override values
-    # may have an effect).
-    def isMassive(self) -> bool:
-        return False
-
     def update(self) -> None:
         self.updateBounds()
         if self.isAfter():

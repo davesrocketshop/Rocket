@@ -69,6 +69,16 @@ class FeatureRingtail(SymmetricComponent, BoxBounded, Coaxial):
         self.setAxialOffset(0)
         self._obj.Length = 30.0
 
+    def _isDiameterScaled(self) -> bool:
+        if self._obj.Proxy.getParent() is not None:
+            return self._obj.Proxy.getParent().isScaled()
+        return not self._obj.AutoDiameter
+
+    def getDiameterScale(self) -> float:
+        if self._isDiameterScaled():
+            return self.getScale()
+        return 1.0
+
     def getParentBody(self) -> Any:
         body = None
 
@@ -156,7 +166,7 @@ class FeatureRingtail(SymmetricComponent, BoxBounded, Coaxial):
         return self.getInnerDiameter(pos) / 2.0
 
     def getInnerDiameter(self, pos : float) -> float:
-        return float(self._obj.Diameter) - (2.0 * float(self._obj.Thickness))
+        return self.getOuterDiameter(0) - (2.0 * float(self._obj.Thickness))
 
     def setInnerRadius(self, radius : float) -> None:
         self.setInnerDiameter(radius * 2.0)
@@ -190,7 +200,7 @@ class FeatureRingtail(SymmetricComponent, BoxBounded, Coaxial):
         if self._obj.AutoDiameter:
             self._setAutoDiameter()
 
-        return float(self._obj.Diameter)
+        return float(self._obj.Diameter) / self.getDiameterScale()
 
     def getRearInnerDiameter(self) -> float:
         return self.getInnerDiameter(0)
@@ -238,7 +248,8 @@ class FeatureRingtail(SymmetricComponent, BoxBounded, Coaxial):
     def getLength(self) -> float:
         if self._obj.AutoLength:
             self._setAutoLength()
-        return float(self._obj.Length)
+            return float(self._obj.Length)
+        return float(self._obj.Length) / self.getScale()
 
     def _setAutoLength(self) -> None:
         body = None

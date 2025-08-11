@@ -43,11 +43,10 @@ class FinTrapezoidShapeHandler(FinShapeHandler):
 
     def _makeRootProfile(self, height : float = 0.0) -> Wire:
         # Create the root profile
-        scaleHeight = height #self._scale * height
         l1, l2 = self._lengthsFromPercent(self._rootChord, self._rootPerCent,
                                           self._rootLength1, self._rootLength2)
         return self._makeChordProfile(self._rootCrossSection, 0.0, self._rootChord,
-            self._rootThickness, scaleHeight, l1, l2)
+            self._rootThickness, height, l1, l2)
 
     def _makeTipProfile(self) -> Wire:
         # Create the tip profile

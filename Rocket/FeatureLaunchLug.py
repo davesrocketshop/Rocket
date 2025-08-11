@@ -112,9 +112,7 @@ class FeatureLaunchLug(Tube, AnglePositionable, BoxBounded, LineInstanceable):
 
     def getLength(self) -> float:
         # Return the length of this component along the central axis
-        length = self._obj.Length
-
-        return float(length)
+        return float(self._obj.Length) / self.getScale()
 
     def getOuterRadius(self, pos : float) -> float:
         return self.getOuterDiameter(pos) / 2.0

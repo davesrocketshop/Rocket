@@ -78,7 +78,7 @@ class FeatureBulkhead(RadiusRingComponent):
 
     def getLength(self) -> float:
         # Return the length of this component along the central axis
-        return float(self._obj.Thickness)
+        return float(self._obj.Thickness) / self.getScale()
 
     def setLength(self, length : float) -> None:
         self._obj.Thickness = length
