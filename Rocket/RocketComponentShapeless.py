@@ -50,7 +50,7 @@ from DraftTools import translate
 
 class RocketComponentShapeless(Subject, Observer):
 
-    def __init__(self, obj : Any) -> None:
+    def __init__(self, obj : Any, origin : Any = None) -> None:
         super().__init__()
         self.Type = "RocketComponent"
         self.version = '3.0'
@@ -97,7 +97,11 @@ class RocketComponentShapeless(Subject, Observer):
             obj.addProperty('App::PropertyLength', 'ScaleValue', 'RocketComponent', translate('App::Property', 'Scaling value or dimension')).ScaleValue = 1.0
 
         if not hasattr(obj,"Group"):
-            obj.addExtension("App::GroupExtensionPython")
+            if origin is not None:
+                obj.addExtension("App::OriginGroupExtensionPython")
+                obj.Origin = origin
+            else:
+                obj.addExtension("App::GroupExtensionPython")
 
     def __getstate__(self) -> tuple:
         return self.Type, self.version

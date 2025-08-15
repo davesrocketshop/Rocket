@@ -37,14 +37,14 @@ from Rocket.Constants import FEATURE_ROCKET, FEATURE_STAGE, FEATURE_PARALLEL_STA
 
 class ComponentAssembly(RocketComponentShapeless, AxialPositionable):
 
-    def __init__(self, obj : Any) -> None:
-        super().__init__(obj)
-
-        super().setAxialMethod(AxialMethod.AFTER)
-        self._length = 0
+    def __init__(self, obj : Any, origin : Any = None) -> None:
+        super().__init__(obj, origin)
 
     def setDefaults(self) -> None:
         super().setDefaults()
+
+        super().setAxialMethod(AxialMethod.AFTER)
+        self._length = 0
 
     def getAxialOffset(self) -> float:
         return self.getAxialOffsetFromMethod(self._obj.AxialMethod)
@@ -109,10 +109,12 @@ class ComponentAssembly(RocketComponentShapeless, AxialPositionable):
         # currently only updates the length
         self._length = 0
         for  curChild in self.getChildren():
-            if curChild.Proxy.isAfter():
-                self._length += float(curChild.Proxy.getLength())
+            if hasattr(curChild, "Proxy"):
+                if curChild.Proxy.isAfter():
+                    self._length += float(curChild.Proxy.getLength())
 
     def updateChildSequence(self) -> None:
         for  curChild in self.getChildren():
-            if curChild.Proxy.isAfter():
-                curChild.Proxy.setAfter()
+            if hasattr(curChild, "Proxy"):
+                if curChild.Proxy.isAfter():
+                    curChild.Proxy.setAfter()

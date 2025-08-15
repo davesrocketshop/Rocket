@@ -59,11 +59,12 @@ class ViewProviderStage(ViewProvider):
     def setDisplayMode(self,mode):
         return mode
 
-    def setupContextMenu(self, vobj, menu):
+    def setupContextMenu(self, viewObject, menu):
         """Add the component specific options to the context menu."""
         action1 = QtGui.QAction(translate("Rocket","Toggle active stage"),menu)
         QtCore.QObject.connect(action1,QtCore.SIGNAL("triggered()"),self.toggleStage)
         menu.addAction(action1)
+        return False
 
     def toggleStage(self):
         FreeCADGui.runCommand("Rocket_ToggleStage")
@@ -71,7 +72,7 @@ class ViewProviderStage(ViewProvider):
     def setEdit(self, vobj, mode):
         if mode == 0:
             taskd = TaskPanelStage(self.Object, mode)
-            taskd.obj = vobj.Object
+            # taskd.obj = vobj.Object
             taskd.update()
             FreeCADGui.Control.showDialog(taskd)
             return True

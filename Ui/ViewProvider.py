@@ -32,11 +32,16 @@ class ViewProvider:
 
     def __init__(self, vobj):
         vobj.Proxy = self
-        vobj.addExtension("Gui::ViewProviderGroupExtensionPython")
 
     def attach(self, vobj):
         self.ViewObject = vobj
         self.Object = vobj.Object
+
+        if vobj:
+            if hasattr(self.Object, "Origin"):
+                vobj.addExtension("Gui::ViewProviderOriginGroupExtensionPython")
+            else:
+                vobj.addExtension("Gui::ViewProviderGroupExtensionPython")
 
     def canDropObject(self, obj):
         if not self.Object.Proxy.isRocketAssembly():
@@ -71,6 +76,9 @@ class ViewProvider:
                     obj.Proxy.setParent(self.Object)
             if hasattr(self.Object, "Profile"):
                 objs.append(self.Object.Profile)
+            if hasattr(self.Object, "Origin"):
+                # Origin is at the start of the list
+                objs.insert(0, self.Object.Origin)
 
         return objs
 

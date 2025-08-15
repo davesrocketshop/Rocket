@@ -54,7 +54,8 @@ def addToStage(obj):
 
 def makeStage(name='Stage'):
     obj = FreeCAD.ActiveDocument.addObject("App::GeometryPython",name)
-    FeatureStage(obj)
+    origin = FreeCAD.ActiveDocument.addObject('App::Origin', name + 'Origin')
+    FeatureStage(obj, origin)
     obj.Proxy.setDefaults()
     if FreeCAD.GuiUp:
         ViewProviderStage(obj.ViewObject)

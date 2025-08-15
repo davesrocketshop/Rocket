@@ -26,6 +26,8 @@ __url__ = "https://www.davesrocketshop.com"
 
 from typing import Any
 
+import FreeCAD
+
 from DraftTools import translate
 
 from Rocket.ComponentAssembly import ComponentAssembly
@@ -34,8 +36,8 @@ from Rocket.Constants import FEATURE_STAGE, FEATURE_NOSE_CONE, FEATURE_BODY_TUBE
 
 class FeatureStage(ComponentAssembly):
 
-    def __init__(self, obj : Any) -> None:
-        super().__init__(obj)
+    def __init__(self, obj : Any, origin : Any) -> None:
+        super().__init__(obj, origin)
 
         self._initFeatureStage(obj)
 
@@ -49,7 +51,22 @@ class FeatureStage(ComponentAssembly):
             obj.addProperty('App::PropertyInteger', 'StageNumber', 'RocketComponent', translate('App::Property', 'Stage number')).StageNumber = 0
 
     def onDocumentRestored(self, obj : Any) -> None:
-        FeatureStage(obj)
+        objs = None
+        origin = None
+        if hasattr(obj, "Group") and not hasattr(obj, "Origin"):
+            objs = obj.Group
+            print(f"has group extension before {obj.hasExtension('App::GroupExtensionPython')}")
+            # obj.removeExtension("App::GroupExtensionPython")
+            obj.removeProperty("Group")
+            origin = FreeCAD.ActiveDocument.addObject('App::Origin', obj.Label + 'Origin')
+
+        FeatureStage(obj, origin)
+        print(f"has group extension after {obj.hasExtension('App::GroupExtensionPython')}")
+        print(f"has origin extension after {obj.hasExtension('App::OriginGroupExtensionPython')}")
+
+        if objs is not None:
+            # obj.Group.addObjects(objs)
+            obj.Group = objs
 
         self._obj = obj
 
