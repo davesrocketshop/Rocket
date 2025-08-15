@@ -40,6 +40,8 @@ class FinProxyShapeHandler:
         self._placement = FreeCAD.Placement(obj.Placement)
         self._obj = obj
 
+        self._shape = None
+
         # Common parameters
         self._type = str(obj.FinType)
         if hasattr(obj, "Base"):
@@ -51,23 +53,34 @@ class FinProxyShapeHandler:
         self._diameter = float(self._obj.ParentRadius) * 2.0
         self._parentRadius = float(self._obj.ParentRadius)
         self._proxyPlacement = self._obj.ProxyPlacement
-        self._scale = self._obj.Scale
-        self._scaleByValue = self._obj.ScaleByValue
-        self._scaleByDiameter = self._obj.ScaleByDiameter
-        self._autoScaleDiameter = self._obj.AutoScaleDiameter
-        self._scaleValue = self._obj.ScaleValue
         self._cant = float(self._obj.Cant)
 
         self._finSet = bool(self._obj.FinSet)
         self._fincount = int(self._obj.FinCount)
         self._finSpacing = float(self._obj.FinSpacing)
 
+        # self._scale = bool(self._obj.Scale)
+        # self._scaleByValue = bool(self._obj.ScaleByValue)
+        # self._scaleByDiameter = bool(self._obj.ScaleByDiameter)
+        # self._autoScaleDiameter = bool(self._obj.AutoScaleDiameter)
+        # self._scaleValue = float(self._obj.ScaleValue.Value)
+
         if self._obj.Proxy.Type == FEATURE_FINCAN:
             self._radius = float(self._obj.Diameter.Value) / 2.0
         else:
             self._radius = 0.0
 
-        self._obj = obj
+        # Apply scaling
+        self._scale = 1.0
+        if obj.Proxy.isScaled():
+            self._scale = 1.0 / obj.Proxy.getScale()
+            if not self._isParentDiameterScaled(): # May already be scaled
+                self._parentRadius *= self._scale
+
+    def _isParentDiameterScaled(self) -> bool:
+        if self._obj.Proxy.getParent() is not None:
+            return self._obj.Proxy.getParent().isScaled()
+        return False
 
     def _shapeUnion(self, shape : Part.Shape) -> Part.Shape:
         # This is a hack.
@@ -85,19 +98,22 @@ class FinProxyShapeHandler:
         direction = FreeCAD.Vector(0, 0, 1)
         box = Part.makeBox(xLength, yLength, zLength, point, direction)
         return shape.common(box)
-    
-    def _getScale(self) -> float:
-        scale = 1.0
-        if self._scale:
-            if self._scaleByValue and self._scaleValue.Value > 0.0:
-                scale = 1.0 / self._scaleValue.Value
-            elif self._scaleByDiameter:
-                if self._diameter > 0 and self._scaleValue > 0:
-                    scale = self._scaleValue / self._diameter
 
-        return float(scale)
+    # def _getScale(self) -> float:
+    #     scale = 1.0
+    #     if self._scale:
+    #         if self._scaleByValue and self._scaleValue.Value > 0.0:
+    #             scale = 1.0 / self._scaleValue.Value
+    #         elif self._scaleByDiameter:
+    #             if self._diameter > 0 and self._scaleValue > 0:
+    #                 scale = self._scaleValue / self._diameter
+
+    #     return float(scale)
 
     def _getShape(self) -> Part.Solid:
+        if self._shape is not None:
+            return self._shape
+
         if self._base is None:
             return Part.Shape() # Empty shape
 
@@ -107,20 +123,23 @@ class FinProxyShapeHandler:
         shape.rotate(FreeCAD.Vector(0,0,0), FreeCAD.Vector(self._proxyPlacement.Rotation.Axis.x, self._proxyPlacement.Rotation.Axis.y, self._proxyPlacement.Rotation.Axis.z), math.degrees(self._proxyPlacement.Rotation.Angle))
 
         # Apply the scaling
-        scale = self._getScale()
-        if self._scale:
-            shape.scale(scale)
+        # scale = self._getScale()
+        if self._scale > 0:
+            shape.scale(self._scale)
 
         # Translate so the fin is at (0, 0, 0)
         min = shape.BoundBox.XMin
-        shape.translate(FreeCAD.Vector(-min, 0, self._parentRadius))
+        shape.translate(FreeCAD.Vector(-min, 0, 0))
+        # shape.translate(FreeCAD.Vector(-min, 0, self._parentRadius))
 
-        return self._shapeUnion(shape)
+        self._shape = self._shapeUnion(shape)
+        return self._shape
 
-    def getRadius(self, x : float) -> float:
-        # Apply the scaling
-        scale = self._getScale()
-        return scale * (self._diameter / 2.0)
+    # def getRadius(self, x : float) -> float:
+    #     # Apply the scaling
+    #     # scale = self._getScale()
+    #     # return scale * (self._diameter / 2.0)
+    #     return self._radius
 
     def getLength(self) -> float:
         shape = self._getShape()

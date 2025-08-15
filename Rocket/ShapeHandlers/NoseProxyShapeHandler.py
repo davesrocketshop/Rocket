@@ -40,6 +40,8 @@ class NoseProxyShapeHandler:
         self._placement = FreeCAD.Placement(obj.Placement)
         self._obj = obj
 
+        self._shape = None
+
         # Common parameters
         self._type = str(obj.NoseType)
         if hasattr(obj, "Base"):
@@ -86,6 +88,9 @@ class NoseProxyShapeHandler:
         return float(scale)
 
     def _getShape(self) -> Part.Solid:
+        if self._shape is not None:
+            return self._shape
+
         if self._base is None:
             return Part.Shape() # Empty shape
 
@@ -103,7 +108,8 @@ class NoseProxyShapeHandler:
         min = shape.BoundBox.XMin
         shape.translate(FreeCAD.Vector(-min, 0, 0))
 
-        return self._shapeUnion(shape)
+        self._shape = self._shapeUnion(shape)
+        return self._shape
 
     def getRadius(self, x : float) -> float:
         # Apply the scaling
