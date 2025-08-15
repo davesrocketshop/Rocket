@@ -117,7 +117,8 @@ class FinShapeHandler(ABC):
             self._scale = 1.0 / obj.Proxy.getScale()
             if self._isDiameterScaled():
                 self._radius *= self._scale
-                self._parentRadius *= self._scale
+                if not self._isParentDiameterScaled(): # May already be scaled
+                    self._parentRadius *= self._scale
 
             if not self._rootPerCent:
                 self._rootLength1 *= self._scale
@@ -140,6 +141,11 @@ class FinShapeHandler(ABC):
         if self._obj.Proxy.getParent() is not None:
             return self._obj.Proxy.getParent().isScaled()
         return not self._autoDiameter
+
+    def _isParentDiameterScaled(self) -> bool:
+        if self._obj.Proxy.getParent() is not None:
+            return self._obj.Proxy.getParent().isScaled()
+        return False
 
     def minimumEdge(self) -> float:
         if self._minimumEdge:
