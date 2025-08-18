@@ -34,8 +34,7 @@ import Sketcher
 
 from PySide import QtGui, QtCore
 from PySide.QtCore import QObject, Signal
-from PySide.QtWidgets import QDialog, QGridLayout, QVBoxLayout, QSizePolicy, QTextEdit
-import math
+from PySide.QtWidgets import QDialog, QGridLayout
 
 from DraftTools import translate
 
@@ -50,9 +49,6 @@ from Ui.Widgets.ScalingTab import ScalingTabFins
 from Rocket.Constants import FIN_TYPE_TRAPEZOID, FIN_TYPE_TRIANGLE, FIN_TYPE_ELLIPSE, FIN_TYPE_TUBE, FIN_TYPE_SKETCH, FIN_TYPE_PROXY
 from Rocket.Constants import FIN_CROSS_SAME, FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE, \
     FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE, FIN_CROSS_BICONVEX, FIN_CROSS_ELLIPSE
-from Rocket.Constants import FIN_EDGE_SQUARE, FIN_EDGE_ROUNDED
-
-from Rocket.Utilities import _err, _toFloat
 
 # Main tab indices
 TAB_GENERAL = 0

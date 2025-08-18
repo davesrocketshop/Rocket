@@ -11,160 +11,429 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Nose Cone Parameter</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
    <item>
     <widget class="QTabWidget" name="tabWidget">
+     <property name="currentIndex">
+      <number>0</number>
+     </property>
      <widget class="QWidget" name="tabGeneral">
       <attribute name="title">
-       <string>Tab 1</string>
+       <string>General</string>
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout">
        <item>
         <widget class="QStackedWidget" name="stackedWidget">
          <property name="currentIndex">
-          <number>1</number>
+          <number>0</number>
          </property>
          <widget class="QWidget" name="pageGeneral">
           <layout class="QGridLayout" name="gridLayout">
-           <item row="4" column="0">
-            <widget class="QLabel" name="label_6">
-             <property name="text">
-              <string>Diameter</string>
-             </property>
-            </widget>
-           </item>
-           <item row="8" column="0">
-            <widget class="QLabel" name="label_10">
-             <property name="text">
-              <string>Blunted Diameter</string>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="1">
-            <widget class="QComboBox" name="comboBox_2"/>
-           </item>
-           <item row="1" column="0">
-            <widget class="QLabel" name="label_2">
-             <property name="text">
-              <string>Style</string>
-             </property>
-            </widget>
-           </item>
-           <item row="5" column="1">
-            <widget class="QLineEdit" name="lineEdit_4"/>
-           </item>
-           <item row="3" column="1">
-            <widget class="QLineEdit" name="lineEdit_2"/>
-           </item>
-           <item row="0" column="0">
-            <widget class="QLabel" name="label">
-             <property name="text">
-              <string>Nose Cone Shape</string>
-             </property>
-            </widget>
-           </item>
-           <item row="3" column="0">
-            <widget class="QLabel" name="label_5">
-             <property name="text">
-              <string>Length</string>
-             </property>
-            </widget>
-           </item>
-           <item row="6" column="1">
-            <widget class="QLineEdit" name="lineEdit_5"/>
-           </item>
-           <item row="8" column="1">
-            <widget class="QLineEdit" name="lineEdit_7"/>
-           </item>
-           <item row="7" column="0">
-            <widget class="QLabel" name="label_9">
-             <property name="text">
-              <string>Ogive Diameter</string>
-             </property>
-            </widget>
-           </item>
-           <item row="5" column="0">
-            <widget class="QLabel" name="label_7">
-             <property name="text">
-              <string>Thickness</string>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="1">
-            <widget class="QComboBox" name="comboBox"/>
-           </item>
-           <item row="7" column="1">
-            <widget class="QLineEdit" name="lineEdit_6"/>
-           </item>
            <item row="6" column="0">
-            <widget class="QLabel" name="label_8">
+            <widget class="QLabel" name="coefficientLabel">
              <property name="text">
               <string>Shape Parameter</string>
              </property>
             </widget>
            </item>
-           <item row="4" column="1">
-            <widget class="QLineEdit" name="lineEdit_3"/>
+           <item row="3" column="0">
+            <widget class="QLabel" name="lengthLabel">
+             <property name="text">
+              <string>Length</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <widget class="QComboBox" name="noseStylesCombo"/>
+           </item>
+           <item row="4" column="0">
+            <widget class="QLabel" name="diameterLabel">
+             <property name="text">
+              <string>Diameter</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="0">
+            <widget class="QLabel" name="noseConeTypeLabel">
+             <property name="text">
+              <string>Nose Cone Shape</string>
+             </property>
+            </widget>
+           </item>
+           <item row="8" column="0">
+            <widget class="QLabel" name="bluntedLabel">
+             <property name="text">
+              <string>Blunted Diameter</string>
+             </property>
+            </widget>
+           </item>
+           <item row="7" column="0">
+            <widget class="QLabel" name="ogiveDiameterLabel">
+             <property name="text">
+              <string>Ogive Diameter</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QComboBox" name="noseConeTypesCombo"/>
            </item>
            <item row="2" column="0" colspan="2">
-            <widget class="QGroupBox" name="groupBox">
+            <widget class="QGroupBox" name="noseCapGroup">
              <property name="title">
               <string>Nose Cap</string>
              </property>
              <layout class="QGridLayout" name="gridLayout_2">
               <item row="0" column="0">
-               <widget class="QLabel" name="label_3">
+               <widget class="QLabel" name="noseCapStyleLabel">
                 <property name="text">
                  <string>Cap Style</string>
                 </property>
                </widget>
               </item>
               <item row="0" column="1">
-               <widget class="QComboBox" name="comboBox_3"/>
+               <widget class="QComboBox" name="noseCapStylesCombo"/>
               </item>
               <item row="1" column="0">
-               <widget class="QLabel" name="label_4">
+               <widget class="QLabel" name="noseCapBarWidthLabel">
                 <property name="text">
                  <string>Bar Width</string>
                 </property>
                </widget>
               </item>
               <item row="1" column="1">
-               <widget class="QLineEdit" name="lineEdit"/>
+               <widget class="Gui::InputField" name="noseCapBarWidthInput">
+                <property name="unit" stdset="0">
+                 <string notr="true"/>
+                </property>
+               </widget>
               </item>
              </layout>
             </widget>
            </item>
+           <item row="1" column="0">
+            <widget class="QLabel" name="noseStyleLabel">
+             <property name="text">
+              <string>Style</string>
+             </property>
+            </widget>
+           </item>
+           <item row="5" column="0">
+            <widget class="QLabel" name="thicknessLabel">
+             <property name="text">
+              <string>Thickness</string>
+             </property>
+            </widget>
+           </item>
            <item row="4" column="2">
-            <widget class="QCheckBox" name="checkBox">
+            <widget class="QCheckBox" name="autoDiameterCheckbox">
              <property name="text">
               <string>Auto</string>
+             </property>
+            </widget>
+           </item>
+           <item row="9" column="1">
+            <spacer name="verticalSpacer">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>0</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item row="3" column="1">
+            <widget class="Gui::InputField" name="lengthInput">
+             <property name="unit" stdset="0">
+              <string notr="true"/>
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="1">
+            <widget class="Gui::InputField" name="diameterInput">
+             <property name="unit" stdset="0">
+              <string notr="true"/>
+             </property>
+            </widget>
+           </item>
+           <item row="5" column="1">
+            <widget class="Gui::InputField" name="thicknessInput">
+             <property name="unit" stdset="0">
+              <string notr="true"/>
+             </property>
+            </widget>
+           </item>
+           <item row="6" column="1">
+            <widget class="Gui::InputField" name="coefficientInput">
+             <property name="unit" stdset="0">
+              <string notr="true"/>
+             </property>
+            </widget>
+           </item>
+           <item row="7" column="1">
+            <widget class="Gui::InputField" name="ogiveDiameterInput">
+             <property name="unit" stdset="0">
+              <string notr="true"/>
+             </property>
+            </widget>
+           </item>
+           <item row="8" column="1">
+            <widget class="Gui::InputField" name="bluntedInput">
+             <property name="unit" stdset="0">
+              <string notr="true"/>
              </property>
             </widget>
            </item>
           </layout>
          </widget>
          <widget class="QWidget" name="pageProxy">
-          <widget class="QWidget" name="gridLayoutWidget">
-           <property name="geometry">
-            <rect>
-             <x>120</x>
-             <y>130</y>
-             <width>160</width>
-             <height>80</height>
-            </rect>
-           </property>
-           <layout class="QGridLayout" name="gridLayout_3"/>
-          </widget>
+          <layout class="QVBoxLayout" name="verticalLayout_3">
+           <item>
+            <layout class="QGridLayout" name="gridLayout_3">
+             <item row="0" column="0">
+              <widget class="QLabel" name="noseConeProxyTypeLabel">
+               <property name="text">
+                <string>Nose Cone Shape</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="1">
+              <widget class="QLabel" name="proxyBaseObjectLabelSelect">
+               <property name="text">
+                <string/>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="2">
+              <widget class="QPushButton" name="proxyBaseObjectButton">
+               <property name="text">
+                <string>Select</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="0">
+              <widget class="QLabel" name="proxyBaseObjectLabel">
+               <property name="text">
+                <string>Base Object</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="1">
+              <widget class="QLabel" name="proxyBaseObjectInput">
+               <property name="text">
+                <string/>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="0">
+              <widget class="QLabel" name="proxyEffectiveDiamaterLabel">
+               <property name="text">
+                <string>Effective Diameter</string>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="1" colspan="2">
+              <widget class="Gui::InputField" name="proxyEffectiveDiameterInput">
+               <property name="unit" stdset="0">
+                <string notr="true"/>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="1" colspan="2">
+              <widget class="QComboBox" name="noseConeProxyTypesCombo"/>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <widget class="QGroupBox" name="proxyPlacementGroup">
+             <property name="title">
+              <string>Placement</string>
+             </property>
+             <layout class="QGridLayout" name="gridLayout_4">
+              <item row="0" column="3">
+               <widget class="Gui::InputField" name="yRotationInput">
+                <property name="maximum">
+                 <double>180.000000000000000</double>
+                </property>
+                <property name="minimum">
+                 <double>-180.000000000000000</double>
+                </property>
+                <property name="unit" stdset="0">
+                 <string notr="true"/>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="4">
+               <widget class="QLabel" name="yRotationLabel">
+                <property name="text">
+                 <string>y</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="6">
+               <widget class="QLabel" name="zRotationLabel">
+                <property name="text">
+                 <string>z</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="0">
+               <widget class="QLabel" name="rotationLabel">
+                <property name="text">
+                 <string>Rotation</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="2">
+               <widget class="QLabel" name="xRotationLabel">
+                <property name="text">
+                 <string>x</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="1">
+               <widget class="Gui::InputField" name="xRotationInput">
+                <property name="maximum">
+                 <double>180.000000000000000</double>
+                </property>
+                <property name="minimum">
+                 <double>-180.000000000000000</double>
+                </property>
+                <property name="unit" stdset="0">
+                 <string notr="true"/>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="5">
+               <widget class="Gui::InputField" name="zRotationInput">
+                <property name="maximum">
+                 <double>180.000000000000000</double>
+                </property>
+                <property name="minimum">
+                 <double>180.000000000000000</double>
+                </property>
+                <property name="unit" stdset="0">
+                 <string notr="true"/>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="0">
+               <widget class="QLabel" name="offsetLabel">
+                <property name="text">
+                 <string>Offset</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="1" colspan="6">
+               <widget class="Gui::InputField" name="offsetInput">
+                <property name="unit" stdset="0">
+                 <string notr="true"/>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item>
+            <widget class="QCheckBox" name="proxyShowBasePlaneCheckbox">
+             <property name="text">
+              <string>Show Base Plane</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <spacer name="verticalSpacer_2">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>0</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+          </layout>
          </widget>
         </widget>
        </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tabShoulder">
+      <attribute name="title">
+       <string>Shoulder</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_4">
        <item>
-        <spacer name="verticalSpacer">
+        <widget class="QGroupBox" name="shoulderGroup">
+         <property name="title">
+          <string>Shoulder</string>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
+         </property>
+         <layout class="QGridLayout" name="gridLayout_5">
+          <item row="0" column="1">
+           <widget class="Gui::InputField" name="shoulderLengthInput">
+            <property name="unit" stdset="0">
+             <string notr="true"/>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0">
+           <widget class="QLabel" name="shoulderThicknessLabel">
+            <property name="text">
+             <string>Thickness</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0">
+           <widget class="QLabel" name="shoulderLengthLabel">
+            <property name="text">
+             <string>Length</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="shoulderDiameterLabel">
+            <property name="text">
+             <string>Diameter</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="2">
+           <widget class="QCheckBox" name="shoulderAutoDiameterCheckbox">
+            <property name="text">
+             <string>Auto</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="Gui::InputField" name="shoulderDiameterInput">
+            <property name="unit" stdset="0">
+             <string notr="true"/>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1">
+           <widget class="Gui::InputField" name="shoulderThicknessInput">
+            <property name="unit" stdset="0">
+             <string notr="true"/>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer_3">
          <property name="orientation">
-          <enum>Qt::Orientation::Vertical</enum>
+          <enum>Qt::Vertical</enum>
          </property>
          <property name="sizeHint" stdset="0">
           <size>
@@ -176,15 +445,17 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="tabShoulder">
-      <attribute name="title">
-       <string>Tab 2</string>
-      </attribute>
-     </widget>
     </widget>
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>Gui::InputField</class>
+   <extends>QLineEdit</extends>
+   <header>Gui/InputField.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

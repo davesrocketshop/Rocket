@@ -81,6 +81,13 @@ class TaskPanelStage:
         self._stageForm.tabScaling.transferFrom(self._obj)
         self._stageForm.tabComment.transferFrom(self._obj)
 
+    def setEdited(self):
+        try:
+            self._obj.Proxy.setEdited()
+        except ReferenceError:
+            # Object may be deleted
+            pass
+
     def onScale(self) -> None:
         # Update the scale values
         scale = self._stageForm.tabScaling.getScale()
@@ -91,7 +98,7 @@ class TaskPanelStage:
         else:
             self._stageForm.tabScaling.scaledLabel.setText(translate('Rocket', "Scale"))
             self._stageForm.tabScaling.scaledInput.setText(f"{scale}")
-        self._obj.Proxy.componentChanged()
+        self.setEdited()
 
     def onSetToScale(self) -> None:
         # Update the scale values
@@ -122,5 +129,6 @@ class TaskPanelStage:
 
     def reject(self):
         FreeCAD.ActiveDocument.abortTransaction()
+        self.setEdited()
         FreeCAD.ActiveDocument.recompute()
         FreeCADGui.ActiveDocument.resetEdit()
