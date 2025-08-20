@@ -30,7 +30,7 @@ import FreeCAD
 import Part
 from Part import Wire
 
-from DraftTools import translate
+from Rocket.Utilities import translate
 
 from Rocket.Utilities import validationError
 

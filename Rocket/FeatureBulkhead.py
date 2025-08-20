@@ -31,7 +31,7 @@ from Rocket.Constants import FEATURE_BULKHEAD
 
 from Rocket.ShapeHandlers.BulkheadShapeHandler import BulkheadShapeHandler
 
-from DraftTools import translate
+from Rocket.Utilities import translate
 
 class FeatureBulkhead(RadiusRingComponent):
 

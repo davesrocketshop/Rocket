@@ -26,7 +26,7 @@ __url__ = "https://www.davesrocketshop.com"
 
 import os
 
-from DraftTools import translate
+from Rocket.Utilities import translate
 
 from femmesh.gmshtools import GmshTools, GmshError
 

@@ -28,10 +28,11 @@ import FreeCAD
 import FreeCADGui
 
 from Rocket.FeatureFin import FeatureFin
-from Ui.ViewParachuteGore import ViewProviderParachuteGore
+if FreeCAD.GuiUp:
+    from Ui.ViewParachuteGore import ViewProviderParachuteGore
 # import Sketcher
 
-from DraftTools import translate
+from Rocket.Utilities import translate
 
 def makeParachuteGore(name):
     '''makeParachuteGore(name): makes a Fin'''

@@ -36,7 +36,7 @@ from PySide import QtGui, QtCore
 from PySide.QtCore import QObject, Signal
 from PySide.QtWidgets import QDialog, QGridLayout
 
-from DraftTools import translate
+from Rocket.Utilities import translate
 
 from Ui.TaskPanelLocation import TaskPanelLocation
 from Ui.Commands.CmdSketcher import newSketchNoEdit

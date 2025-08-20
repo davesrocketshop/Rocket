@@ -33,7 +33,7 @@ import math
 from Rocket.ShapeHandlers.BodyTubeShapeHandler import BodyTubeShapeHandler
 
 from Rocket.Utilities import _err, validationError
-from DraftTools import translate
+from Rocket.Utilities import translate
 
 TOLERANCE_OFFSET = 0.5     # Distance to offset a vertex
 

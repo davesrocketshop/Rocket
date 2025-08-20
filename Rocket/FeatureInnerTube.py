@@ -43,7 +43,7 @@ from Rocket.ShapeHandlers.InnerTubeShapeHandler import InnerTubeShapeHandler
 
 from Rocket.Constants import FEATURE_INNER_TUBE, FEATURE_TUBE_COUPLER, FEATURE_ENGINE_BLOCK, FEATURE_BULKHEAD, FEATURE_CENTERING_RING
 
-from DraftTools import translate
+from Rocket.Utilities import translate
 
 class FeatureInnerTube(ThicknessRingComponent, Clusterable, AxialPositionable, BoxBounded, RadialParent):
 

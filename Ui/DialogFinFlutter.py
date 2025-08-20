@@ -35,7 +35,7 @@ import matplotlib.pyplot as plt
 from matplotlib.backends.backend_qt5agg import FigureCanvas
 from matplotlib.figure import Figure
 
-from DraftTools import translate
+from Rocket.Utilities import translate
 
 from PySide import QtGui, QtCore
 from PySide.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QGridLayout, QSizePolicy

@@ -35,7 +35,7 @@ from Rocket.Constants import COUNTERSINK_ANGLE_60, COUNTERSINK_ANGLE_82, COUNTER
                             COUNTERSINK_ANGLE_110, COUNTERSINK_ANGLE_120, COUNTERSINK_ANGLE_NONE
 
 from Rocket.Utilities import _err, validationError
-from DraftTools import translate
+from Rocket.Utilities import translate
 
 class RailButtonShapeHandler():
     def __init__(self, obj : Any) -> None:

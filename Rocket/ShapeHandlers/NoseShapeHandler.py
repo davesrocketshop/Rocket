@@ -33,7 +33,7 @@ import math
 from abc import ABC, abstractmethod
 from typing import Any
 
-from DraftTools import translate
+from Rocket.Utilities import translate
 
 from Rocket.Constants import STYLE_CAPPED, STYLE_HOLLOW, STYLE_SOLID
 from Rocket.Constants import STYLE_CAP_BAR, STYLE_CAP_CROSS

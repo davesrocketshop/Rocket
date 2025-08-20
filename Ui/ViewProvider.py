@@ -26,7 +26,7 @@ __url__ = "https://www.davesrocketshop.com"
 
 from pivy import coin
 
-from DraftTools import translate
+from Rocket.Utilities import translate
 
 class ViewProvider:
 

@@ -29,7 +29,7 @@ import FreeCADGui
 
 from Rocket.cfd.Ui.TaskPanelWindTunnel import TaskPanelWindTunnel
 
-from DraftTools import translate
+from Rocket.Utilities import translate
 
 class ViewProviderWindTunnel:
 

@@ -29,7 +29,7 @@ import FreeCADGui
 
 from Rocket.cfd.Ui.TaskPanelCFDRocket import TaskPanelCFDRocket
 
-from DraftTools import translate
+from Rocket.Utilities import translate
 
 class ViewProviderCFDRocket:
 

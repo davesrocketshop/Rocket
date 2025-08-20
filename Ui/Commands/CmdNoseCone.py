@@ -29,12 +29,13 @@ import FreeCAD
 import FreeCADGui
 
 from Rocket.FeatureNoseCone import FeatureNoseCone
-from Ui.ViewNoseCone import ViewProviderNoseCone
+if FreeCAD.GuiUp:
+    from Ui.ViewNoseCone import ViewProviderNoseCone
 from Ui.Commands.Command import Command
 
 from Rocket.Constants import FEATURE_NOSE_CONE
 
-from DraftTools import translate
+from Rocket.Utilities import translate
 
 def makeNoseCone(name='NoseCone'):
     '''makeNoseCone(name): makes a Nose Cone'''

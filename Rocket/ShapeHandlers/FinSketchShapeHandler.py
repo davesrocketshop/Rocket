@@ -30,7 +30,7 @@ import FreeCAD
 import Part
 from Part import Shape, Wire, BSplineCurve, Vertex
 
-from DraftTools import translate
+from Rocket.Utilities import translate
 
 from Rocket.Constants import FIN_CROSS_SQUARE, FIN_CROSS_WEDGE, \
     FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE

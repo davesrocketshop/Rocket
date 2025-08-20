@@ -31,7 +31,7 @@ import FreeCAD
 import Part
 from Part import Shape
 
-from DraftTools import translate
+from Rocket.Utilities import translate
 
 from Rocket.Constants import FINCAN_EDGE_SQUARE, FINCAN_EDGE_ROUND, FINCAN_EDGE_TAPER
 from Rocket.Constants import FINCAN_COUPLER_STEPPED

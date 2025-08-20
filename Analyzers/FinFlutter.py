@@ -26,7 +26,7 @@ __url__ = "https://www.davesrocketshop.com"
 
 import math
 
-from DraftTools import translate
+from Rocket.Utilities import translate
 
 from Analyzers.pyatmos import coesa76
 from Analyzers.pyatmos.utils.Const import p0, gamma, R_air

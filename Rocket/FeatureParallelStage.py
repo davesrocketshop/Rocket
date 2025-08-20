@@ -28,7 +28,7 @@ from typing import Any
 
 import FreeCAD
 
-from DraftTools import translate
+from Rocket.Utilities import translate
 
 from Rocket.FeatureStage import FeatureStage
 from Rocket.Constants import FEATURE_ROCKET, FEATURE_STAGE, FEATURE_PARALLEL_STAGE

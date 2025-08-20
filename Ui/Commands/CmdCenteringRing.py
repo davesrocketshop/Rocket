@@ -28,12 +28,13 @@ import FreeCAD
 import FreeCADGui
 
 from Rocket.FeatureCenteringRing import FeatureCenteringRing
-from Ui.ViewCenteringRing import ViewProviderCenteringRing
+if FreeCAD.GuiUp:
+    from Ui.ViewCenteringRing import ViewProviderCenteringRing
 from Ui.Commands.Command import Command
 
 from Rocket.Constants import FEATURE_CENTERING_RING
 
-from DraftTools import translate
+from Rocket.Utilities import translate
 
 def makeCenteringRing(name='CenteringRing'):
     '''makeCenteringRing(name): makes a centering ring'''

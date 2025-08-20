@@ -26,7 +26,7 @@ __url__ = "https://www.davesrocketshop.com"
 
 import FreeCADGui
 
-from DraftTools import translate
+from Rocket.Utilities import translate
 
 class CmdMaterialEditor:
     def Activated(self):

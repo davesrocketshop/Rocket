@@ -32,7 +32,7 @@ from Rocket.Constants import FEATURE_CFD_ROCKET
 
 from Rocket.cfd.parea import calculateProjectedArea
 
-from DraftTools import translate
+from Rocket.Utilities import translate
 
 _linearDeflection = 0.5 # Linear deflection for a rough mesh with a fast calculation
 

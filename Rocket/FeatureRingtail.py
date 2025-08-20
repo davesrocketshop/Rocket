@@ -38,7 +38,7 @@ from Rocket.Constants import FEATURE_RINGTAIL, FEATURE_FIN, FEATURE_FINCAN
 
 from Rocket.ShapeHandlers.RingtailShapeHandler import RingtailShapeHandler
 
-from DraftTools import translate
+from Rocket.Utilities import translate
 
 class FeatureRingtail(SymmetricComponent, BoxBounded, Coaxial):
 
@@ -70,7 +70,7 @@ class FeatureRingtail(SymmetricComponent, BoxBounded, Coaxial):
         self._obj.Length = 30.0
 
     def _isDiameterScaled(self) -> bool:
-        if self._obj.Proxy.getParent() is not None:
+        if self._obj.Proxy.hasParent():
             return self._obj.Proxy.getParent().isScaled()
         return not self._obj.AutoDiameter
 

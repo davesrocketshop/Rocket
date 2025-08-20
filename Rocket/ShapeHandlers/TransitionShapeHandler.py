@@ -36,7 +36,7 @@ import math
 
 from abc import abstractmethod
 
-from DraftTools import translate
+from Rocket.Utilities import translate
 
 from Rocket.Constants import STYLE_CAPPED, STYLE_HOLLOW, STYLE_SOLID, STYLE_SOLID_CORE
 from Rocket.Constants import STYLE_CAP_BAR, STYLE_CAP_CROSS

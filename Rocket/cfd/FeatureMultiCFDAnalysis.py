@@ -30,7 +30,7 @@ from CfdOF import CfdAnalysis, CfdTools
 
 from Rocket.Constants import FEATURE_CFD_ANALYSIS
 
-from DraftTools import translate
+from Rocket.Utilities import translate
 
 class FeatureMultiCFDAnalysis(CfdAnalysis.CfdAnalysis):
 

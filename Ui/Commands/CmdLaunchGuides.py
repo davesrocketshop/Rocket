@@ -30,12 +30,13 @@ import FreeCADGui
 from Rocket.FeatureRailGuide import FeatureRailGuide
 from Rocket.FeatureLaunchLug import FeatureLaunchLug
 from Rocket.FeatureRailButton import FeatureRailButton
-from Ui.ViewLaunchGuide import ViewProviderRailButton, ViewProviderLaunchLug, ViewProviderRailGuide
+if FreeCAD.GuiUp:
+    from Ui.ViewLaunchGuide import ViewProviderRailButton, ViewProviderLaunchLug, ViewProviderRailGuide
 from Ui.Commands.Command import Command
 
 from Rocket.Constants import FEATURE_LAUNCH_LUG, FEATURE_RAIL_BUTTON, FEATURE_RAIL_GUIDE, FEATURE_OFFSET
 
-from DraftTools import translate
+from Rocket.Utilities import translate
 
 def makeLaunchLug(name='LaunchLug'):
     '''makeLaunchLug(name): makes a Launch Lug'''

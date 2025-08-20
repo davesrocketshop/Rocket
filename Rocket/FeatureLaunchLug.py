@@ -41,7 +41,7 @@ from Rocket import Utilities
 from Rocket.SymmetricComponent import SymmetricComponent
 from Rocket.ShapeHandlers.LaunchLugShapeHandler import LaunchLugShapeHandler
 
-from DraftTools import translate
+from Rocket.Utilities import translate
 
 class FeatureLaunchLug(Tube, AnglePositionable, BoxBounded, LineInstanceable):
 

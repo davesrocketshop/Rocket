@@ -28,12 +28,13 @@ import FreeCAD
 import FreeCADGui
 
 from Rocket.FeatureRingtail import FeatureRingtail
-from Ui.ViewRingtail import ViewProviderRingtail
+if FreeCAD.GuiUp:
+    from Ui.ViewRingtail import ViewProviderRingtail
 from Ui.Commands.Command import Command
 
 from Rocket.Constants import FEATURE_RINGTAIL
 
-from DraftTools import translate
+from Rocket.Utilities import translate
 
 def makeRingtail(name='Ringtail'):
     '''makeRingtail(name): makes a ring tail'''

@@ -26,7 +26,7 @@ __url__ = "https://www.davesrocketshop.com"
 
 import math
 
-from DraftTools import translate
+from Rocket.Utilities import translate
 
 from Rocket.ShapeHandlers.TransitionShapeHandler import TransitionShapeHandler
 

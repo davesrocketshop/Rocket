@@ -32,7 +32,7 @@ from Rocket.interfaces.RadialParent import RadialParent
 from Rocket.util.Coordinate import Coordinate, NUL
 from Rocket.Utilities import clamp
 
-from DraftTools import translate
+from Rocket.Utilities import translate
 
 """
     An inner component that consists of a hollow cylindrical component.  This can be

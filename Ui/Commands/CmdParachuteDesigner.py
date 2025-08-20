@@ -32,7 +32,7 @@ from Rocket.FeatureFin import FeatureFin
 from Ui.ViewFin import ViewProviderFin
 # import Sketcher
 
-from DraftTools import translate
+from Rocket.Utilities import translate
 
 def makeFin(name):
     '''makeFin(name): makes a Fin'''

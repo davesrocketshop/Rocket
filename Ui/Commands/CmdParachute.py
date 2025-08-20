@@ -28,9 +28,10 @@ import FreeCAD
 import FreeCADGui
 
 from Rocket.FeatureFin import FeatureFin
-from Ui.ViewParachute import ViewProviderParachute
+if FreeCAD.GuiUp:
+    from Ui.ViewParachute import ViewProviderParachute
 
-from DraftTools import translate
+from Rocket.Utilities import translate
 
 def makeParachute(name):
     '''makeParachute(name): makes a Parachute'''

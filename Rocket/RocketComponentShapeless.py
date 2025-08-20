@@ -46,7 +46,7 @@ from Rocket.Constants import LOCATION_SURFACE, LOCATION_CENTER
 
 from Rocket.Exceptions import UnsupportedConfiguration, ObjectNotFound
 
-from DraftTools import translate
+from Rocket.Utilities import translate
 
 class RocketComponentShapeless(Subject, Observer):
 

@@ -40,7 +40,7 @@ from Rocket.Constants import FEATURE_TRANSITION, FEATURE_CENTERING_RING, FEATURE
 
 from Rocket.Utilities import _wrn
 
-from DraftTools import translate
+from Rocket.Utilities import translate
 
 class FeatureTransition(SymmetricComponent):
 
@@ -173,7 +173,7 @@ class FeatureTransition(SymmetricComponent):
         self.getAftShoulderDiameter()
 
     def _isForeDiameterScaled(self) -> bool:
-        if self._obj.Proxy.getParent() is not None:
+        if self._obj.Proxy.hasParent():
             return self._obj.Proxy.getParent().isScaled()
         return not self._obj.ForeAutoDiameter
 
@@ -183,7 +183,7 @@ class FeatureTransition(SymmetricComponent):
         return 1.0
 
     def _isAftDiameterScaled(self) -> bool:
-        if self._obj.Proxy.getParent() is not None:
+        if self._obj.Proxy.hasParent():
             return self._obj.Proxy.getParent().isScaled()
         return not self._obj.AftAutoDiameter
 

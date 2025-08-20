@@ -28,12 +28,13 @@ import FreeCAD
 import FreeCADGui
 
 from Rocket.FeatureBulkhead import FeatureBulkhead
-from Ui.ViewBulkhead import ViewProviderBulkhead
+if FreeCAD.GuiUp:
+    from Ui.ViewBulkhead import ViewProviderBulkhead
 from Ui.Commands.Command import Command
 
 from Rocket.Constants import FEATURE_BULKHEAD
 
-from DraftTools import translate
+from Rocket.Utilities import translate
 
 def makeBulkhead(name='Bulkhead'):
     '''makeBulkhead(name): makes a bulkhead'''

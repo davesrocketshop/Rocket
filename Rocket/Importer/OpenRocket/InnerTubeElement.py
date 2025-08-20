@@ -31,7 +31,7 @@ from Rocket.ClusterConfiguration import CONFIGURATIONS
 from Ui.Commands.CmdBodyTube import makeInnerTube
 
 from Rocket.Utilities import _err
-from DraftTools import translate
+from Rocket.Utilities import translate
 
 class InnerTubeElement(BodyTubeElement):
 
