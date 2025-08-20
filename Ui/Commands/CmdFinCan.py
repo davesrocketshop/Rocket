@@ -36,7 +36,7 @@ from Rocket.Constants import FEATURE_FINCAN
 
 from Rocket.Utilities import translate
 
-def makeFinCan(name):
+def makeFinCan(name='FinCan'):
     '''makeFinCan(name): makes a Fin Can'''
     obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
     FeatureFinCan(obj)
