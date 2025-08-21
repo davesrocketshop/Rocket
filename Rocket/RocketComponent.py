@@ -46,7 +46,7 @@ from Rocket.util.Coordinate import Coordinate, ZERO
 
 from Rocket.Utilities import _err
 
-from DraftTools import translate
+from Rocket.Utilities import translate
 
 class RocketComponent(RocketComponentShapeless):
 

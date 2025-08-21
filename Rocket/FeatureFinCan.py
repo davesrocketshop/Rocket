@@ -45,7 +45,7 @@ from Rocket.ShapeHandlers.FinCanShapeHandler import FinCanTriangleShapeHandler
 from Rocket.ShapeHandlers.FinCanShapeHandler import FinCanEllipseShapeHandler
 from Rocket.ShapeHandlers.FinCanShapeHandler import FinCanSketchShapeHandler
 
-from DraftTools import translate
+from Rocket.Utilities import translate
 
 class FeatureFinCan(SymmetricComponent, FeatureFin):
 

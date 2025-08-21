@@ -27,7 +27,7 @@ __url__ = "https://www.davesrocketshop.com"
 import math
 from typing import Any
 
-from DraftTools import translate
+from Rocket.Utilities import translate
 
 from Rocket.Utilities import reduce2Pi
 from Rocket.position.DistanceMethod import DistanceMethod

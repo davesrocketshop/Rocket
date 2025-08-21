@@ -2,7 +2,7 @@ import numpy as np
 import warnings
 from . import Const
 
-from DraftTools import translate
+from Rocket.Utilities import translate
 
 def vectorize(x):
     '''

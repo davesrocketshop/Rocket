@@ -34,7 +34,7 @@ from Ui.Commands.Command import Command
 
 from Rocket.Constants import FEATURE_PARALLEL_STAGE
 
-from DraftTools import translate
+from Rocket.Utilities import translate
 
 def _addChild(stage, parent, child):
     child.Proxy.setParent(parent)

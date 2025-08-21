@@ -62,7 +62,7 @@ class RocketWorkbench ( Workbench ):
         # load the module
         import RocketGui
         import SketcherGui
-        from DraftTools import translate
+        from Rocket.Utilities import translate
 
         self._loadFemModule()
         self._loadMaterialsModule()

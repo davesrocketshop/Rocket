@@ -30,7 +30,7 @@ import Part
 import os
 import math
 
-from DraftTools import translate
+from Rocket.Utilities import translate
 
 from PySide import  QtCore, QtGui
 

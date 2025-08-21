@@ -27,7 +27,7 @@ __url__ = "https://www.davesrocketshop.com"
 import FreeCAD
 import Materials
 
-from DraftTools import translate
+from Rocket.Utilities import translate
 
 from Rocket.Parts.PartDatabase import PartDatabase
 from Rocket.Parts.Material import getUuid

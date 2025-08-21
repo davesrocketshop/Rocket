@@ -27,7 +27,7 @@ __url__ = "https://www.davesrocketshop.com"
 import FreeCAD
 import Part
 
-from DraftTools import translate
+from Rocket.Utilities import translate
 
 from Rocket.ShapeHandlers.NoseShapeHandler import NoseShapeHandler
 from Rocket.Utilities import validationError

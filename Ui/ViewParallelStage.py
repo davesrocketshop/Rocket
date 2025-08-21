@@ -29,7 +29,7 @@ import FreeCADGui
 
 from PySide import QtCore,QtGui
 
-from DraftTools import translate
+from Rocket.Utilities import translate
 
 from Ui.ViewProvider import ViewProvider
 

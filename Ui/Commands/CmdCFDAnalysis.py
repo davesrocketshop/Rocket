@@ -28,7 +28,7 @@ import FreeCAD
 import FreeCADGui
 import os
 
-from DraftTools import translate
+from Rocket.Utilities import translate
 
 from PySide import QtGui
 

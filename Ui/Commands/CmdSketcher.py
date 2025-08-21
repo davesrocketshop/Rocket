@@ -27,7 +27,7 @@ __url__ = "https://www.davesrocketshop.com"
 import FreeCAD
 import FreeCADGui
 
-from DraftTools import translate
+from Rocket.Utilities import translate
 
 def newSketchNoEdit(name='Sketch'):
     obj = FreeCAD.ActiveDocument.addObject("Sketcher::SketchObject", name)

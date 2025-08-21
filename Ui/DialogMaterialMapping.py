@@ -28,7 +28,7 @@ import sqlite3
 
 import FreeCAD
 
-from DraftTools import translate
+from Rocket.Utilities import translate
 
 from PySide import QtGui, QtCore
 from PySide.QtGui import QStandardItemModel, QStandardItem

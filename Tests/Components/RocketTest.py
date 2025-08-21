@@ -37,7 +37,8 @@ class RocketTest(unittest.TestCase):
         self.Doc = FreeCAD.newDocument("RocketTest")
 
     def tearDown(self):
-        FreeCAD.closeDocument(self.Doc.Name)
+        # FreeCAD.closeDocument(self.Doc.Name)
+        ...
 
     def assertCoordinateEqual(self, actual, expected, msg):
         try:
@@ -119,3 +120,103 @@ class RocketTest(unittest.TestCase):
         # self.assertEqual(bounds._min._z, -54.493575)
         # self.assertEqual(bounds._max._y,  62.000000)
         # self.assertEqual(bounds._max._z,  52.893575)
+
+    def verify3StagePositioning(self, rocket, coordinates):
+        self.assertEqual(rocket.getChildCount(), 3)
+
+        stage1 = rocket.getChild(0).Proxy
+        stage2 = rocket.getChild(1).Proxy
+        stage3 = rocket.getChild(2).Proxy
+
+        expected = coordinates[0]
+        actual = stage1.getPositionAsCoordinate()
+        self.assertCoordinateEqual(actual, expected, stage1.getName() + " not positioned correctly")
+
+        nose = stage1.getChild(0).Proxy
+        expected = coordinates[1]
+        actual = nose.getPositionAsCoordinate()
+        self.assertCoordinateEqual(actual, expected, nose.getName() + " not positioned correctly")
+
+        body = stage1.getChild(1).Proxy
+        expected = coordinates[2]
+        actual = body.getPositionAsCoordinate()
+        self.assertCoordinateEqual(actual, expected, body.getName() + " not positioned correctly")
+
+        fins = body.getChild(0).Proxy
+        self.assertTrue(fins.isFinSet(), fins.getName()+" is not a fin set")
+        self.assertEqual(fins.getFinCount(), 3, fins.getName()+" have incorrect count")
+        expected = coordinates[3]
+        actual = fins.getPositionAsCoordinate()
+        self.assertCoordinateEqual(actual, expected, fins.getName()+" not positioned correctly")
+
+        lugs = body.getChild(1).Proxy
+        self.assertEqual(lugs.getInstanceCount(), 1, lugs.getName()+" have incorrect count")
+        # actLocs = lugs.getComponentLocations()
+        expected = coordinates[4]
+        actual = lugs.getPositionAsCoordinate()
+        self.assertCoordinateEqual(actual, expected, lugs.getName()+" not positioned correctly")
+
+        innerTube = body.getChild(2).Proxy
+        expected = coordinates[5]
+        actual = innerTube.getPositionAsCoordinate()
+        self.assertCoordinateEqual(actual, expected, innerTube.getName()+" not positioned correctly")
+
+        block = innerTube.getChild(0).Proxy
+        expected = coordinates[6]
+        actual = block.getPositionAsCoordinate()
+        self.assertCoordinateEqual(actual, expected, block.getName()+" not positioned correctly")
+
+        rings = body.getChild(3).Proxy
+        self.assertEqual(rings.getInstanceCount(), 2, rings.getName()+" have incorrect count")
+        expected = coordinates[7]
+        actual = rings.getPositionAsCoordinate()
+        self.assertCoordinateEqual(actual, expected, rings.getName()+" not positioned correctly")
+
+        expected = coordinates[8]
+        actual = stage2.getPositionAsCoordinate()
+        self.assertCoordinateEqual(actual, expected, stage2.getName() + " not positioned correctly")
+
+        body = stage2.getChild(0).Proxy
+        expected = coordinates[9]
+        actual = body.getPositionAsCoordinate()
+        self.assertCoordinateEqual(actual, expected, body.getName() + " not positioned correctly")
+
+        fins = body.getChild(0).Proxy
+        self.assertTrue(fins.isFinSet(), fins.getName()+" is not a fin set")
+        self.assertEqual(fins.getFinCount(), 3, fins.getName()+" have incorrect count")
+        expected = coordinates[10]
+        actual = fins.getPositionAsCoordinate()
+        self.assertCoordinateEqual(actual, expected, fins.getName()+" not positioned correctly")
+
+        expected = coordinates[11]
+        actual = stage3.getPositionAsCoordinate()
+        self.assertCoordinateEqual(actual, expected, stage3.getName() + " not positioned correctly")
+
+        fincan = stage3.getChild(0).Proxy
+        self.assertTrue(fincan.isFinSet(), fincan.getName()+" is not a fin set")
+        self.assertEqual(fincan.getFinCount(), 3, fincan.getName()+" has incorrect fin count")
+        expected = coordinates[12]
+        actual = fincan.getPositionAsCoordinate()
+        self.assertCoordinateEqual(actual, expected, fincan.getName()+" not positioned correctly")
+
+    def test3Stage(self):
+        rocket = TestRockets.make3stage()
+        coordinates = []
+
+        coordinates.append(Coordinate(0,0,0)) # Stage 1
+        coordinates.append(Coordinate(0.0,0,0)) # Node
+        coordinates.append(Coordinate(100.0,0,0)) # Body
+        coordinates.append(Coordinate(499.85,0,0)) # Fins
+        coordinates.append(Coordinate(303.5,-12.63964076823388,7.297500000000001)) # Lug
+        coordinates.append(Coordinate(492.0,0,0)) # Engine mount
+        coordinates.append(Coordinate(492.0,0,0)) # Engine block
+        coordinates.append(Coordinate(501.0,0,0)) # Centering rings
+        coordinates.append(Coordinate(557.0,0,0)) # Stage 2
+        coordinates.append(Coordinate(557.0,0,0)) # Body
+        coordinates.append(Coordinate(569.85,0,0)) # Fins
+        coordinates.append(Coordinate(627.0,0,0)) # Stage 3
+        coordinates.append(Coordinate(627.0,0,0)) # Fin can
+
+        self.verify3StagePositioning(rocket, coordinates)
+
+

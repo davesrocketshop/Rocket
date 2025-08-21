@@ -49,7 +49,7 @@ from Rocket.Constants import STYLE_CAPPED, STYLE_HOLLOW, STYLE_SOLID
 from Rocket.Constants import STYLE_CAP_SOLID, STYLE_CAP_BAR, STYLE_CAP_CROSS
 from Rocket.Constants import FEATURE_NOSE_CONE, FEATURE_INNER_TUBE, FEATURE_CENTERING_RING, FEATURE_FIN
 
-from DraftTools import translate
+from Rocket.Utilities import translate
 
 class FeatureNoseCone(SymmetricComponent):
 
@@ -166,7 +166,7 @@ class FeatureNoseCone(SymmetricComponent):
         self.getAftShoulderDiameter()
 
     def _isDiameterScaled(self) -> bool:
-        if self._obj.Proxy.getParent() is not None:
+        if self._obj.Proxy.hasParent():
             return self._obj.Proxy.getParent().isScaled()
         return not self._obj.AutoDiameter
 

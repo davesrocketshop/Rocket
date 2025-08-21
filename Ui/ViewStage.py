@@ -33,7 +33,7 @@ from pivy import coin
 from Ui.ViewProvider import ViewProvider
 from Ui.TaskPanelStage import TaskPanelStage
 
-from DraftTools import translate
+from Rocket.Utilities import translate
 
 class ViewProviderStage(ViewProvider):
 

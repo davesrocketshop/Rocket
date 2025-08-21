@@ -32,7 +32,7 @@ import FreeCAD
 import Part
 from Part import Shape, Wire, BSplineCurve
 
-from DraftTools import translate
+from Rocket.Utilities import translate
 
 from Rocket.Constants import FEATURE_FINCAN
 from Rocket.Constants import FIN_CROSS_SAME, FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE, \
@@ -138,12 +138,12 @@ class FinShapeHandler(ABC):
             self._sweepLength *= self._scale # Is it this simple?
 
     def _isDiameterScaled(self) -> bool:
-        if self._obj.Proxy.getParent() is not None:
+        if self._obj.Proxy.hasParent():
             return self._obj.Proxy.getParent().isScaled()
         return not self._autoDiameter
 
     def _isParentDiameterScaled(self) -> bool:
-        if self._obj.Proxy.getParent() is not None:
+        if self._obj.Proxy.hasParent():
             return self._obj.Proxy.getParent().isScaled()
         return False
 

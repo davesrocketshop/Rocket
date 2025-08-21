@@ -29,12 +29,13 @@ import FreeCAD
 import FreeCADGui
 
 from Rocket.FeatureTransition import FeatureTransition
-from Ui.ViewTransition import ViewProviderTransition
+if FreeCAD.GuiUp:
+    from Ui.ViewTransition import ViewProviderTransition
 from Ui.Commands.Command import Command
 
 from Rocket.Constants import FEATURE_TRANSITION
 
-from DraftTools import translate
+from Rocket.Utilities import translate
 
 def makeTransition(name='Transition'):
     '''makeTransition(name): makes a Transition'''

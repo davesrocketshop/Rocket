@@ -30,12 +30,13 @@ import FreeCADGui
 
 from Rocket.FeatureStage import FeatureStage
 from Ui.Commands.Command import Command, getRocket
-from Ui.ViewStage import ViewProviderStage
+if FreeCAD.GuiUp:
+    from Ui.ViewStage import ViewProviderStage
 
 from Rocket.Constants import FEATURE_STAGE
 
 
-from DraftTools import translate
+from Rocket.Utilities import translate
 
 def addToStage(obj):
     if FreeCADGui.ActiveDocument is None:

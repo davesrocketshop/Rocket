@@ -29,7 +29,7 @@ import FreeCADGui
 
 from Ui.Commands.Command import Command
 
-from DraftTools import translate
+from Rocket.Utilities import translate
 
 def moveUp():
     for obj in FreeCADGui.Selection.getSelection():

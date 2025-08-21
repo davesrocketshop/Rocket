@@ -38,7 +38,7 @@ from Rocket.Constants import FEATURE_BODY_TUBE, FEATURE_INNER_TUBE, FEATURE_TUBE
 from Rocket.ShapeHandlers.BodyTubeShapeHandler import BodyTubeShapeHandler
 from Rocket.Utilities import _wrn
 
-from DraftTools import translate
+from Rocket.Utilities import translate
 
 class FeatureBodyTube(SymmetricComponent, BoxBounded, Coaxial):
 
@@ -116,7 +116,7 @@ class FeatureBodyTube(SymmetricComponent, BoxBounded, Coaxial):
         return (float(self._obj.Length) + float(self._obj.Placement.Base.x)) / self.getScale()
 
     def _isDiameterScaled(self) -> bool:
-        if self._obj.Proxy.getParent() is not None:
+        if self._obj.Proxy.hasParent():
             return self._obj.Proxy.getParent().isScaled()
         return not self._obj.AutoDiameter
 

@@ -31,7 +31,7 @@ import Part
 import math
 
 from Rocket.Utilities import validationError, _err
-from DraftTools import translate
+from Rocket.Utilities import translate
 
 class BulkheadShapeHandler():
     def __init__(self, obj : Any) -> None:

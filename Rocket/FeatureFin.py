@@ -49,7 +49,7 @@ from Rocket.ShapeHandlers.FinProxyShapeHandler import FinProxyShapeHandler
 
 from Rocket.Utilities import _err, _toFloat
 
-from DraftTools import translate
+from Rocket.Utilities import translate
 
 DEBUG_SKETCH_FINS = 0 # Set > 0 when debugging sketch based fins
 
@@ -250,7 +250,7 @@ class FeatureFin(ExternalComponent):
         self._setTtwAutoHeight(0)
 
     def _isDiameterScaled(self) -> bool:
-        if self._obj.Proxy.getParent() is not None:
+        if self._obj.Proxy.hasParent():
             return self._obj.Proxy.getParent().isScaled()
         return not self._obj.AutoDiameter
 

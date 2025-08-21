@@ -24,7 +24,7 @@ __title__ = "FreeCAD Parabolic Series Transition Handler"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
-from DraftTools import translate
+from Rocket.Utilities import translate
 
 from Rocket.ShapeHandlers.TransitionShapeHandler import TransitionShapeHandler
 

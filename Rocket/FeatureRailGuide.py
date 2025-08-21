@@ -44,7 +44,7 @@ from Rocket.Constants import RAIL_GUIDE_BASE_FLAT, RAIL_GUIDE_BASE_CONFORMAL, RA
 from Rocket.ShapeHandlers.RailGuideShapeHandler import RailGuideShapeHandler
 from Rocket.Utilities import _wrn
 
-from DraftTools import translate
+from Rocket.Utilities import translate
 
 class FeatureRailGuide(ExternalComponent, AnglePositionable, BoxBounded, LineInstanceable):
 

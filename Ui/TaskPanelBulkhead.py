@@ -32,7 +32,7 @@ import Materials
 from PySide import QtGui, QtCore
 from PySide.QtWidgets import QDialog, QGridLayout, QVBoxLayout
 
-from DraftTools import translate
+from Rocket.Utilities import translate
 
 from Ui.TaskPanelDatabase import TaskPanelDatabase
 from Ui.TaskPanelLocation import TaskPanelLocation

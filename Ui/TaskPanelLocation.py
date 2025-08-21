@@ -28,7 +28,7 @@ __url__ = "https://www.davesrocketshop.com"
 import FreeCAD
 import FreeCADGui
 
-from DraftTools import translate
+from Rocket.Utilities import translate
 
 from PySide import QtGui
 from PySide.QtCore import QObject, Signal

@@ -30,7 +30,7 @@ from PySide import QtGui
 
 from Rocket.Utilities import _msg, _err
 
-from DraftTools import translate
+from Rocket.Utilities import translate
 
 class Element:
 

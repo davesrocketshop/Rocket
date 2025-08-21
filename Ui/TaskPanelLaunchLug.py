@@ -29,7 +29,7 @@ import FreeCAD
 import FreeCADGui
 import Materials
 
-from DraftTools import translate
+from Rocket.Utilities import translate
 
 from PySide import QtGui
 from PySide.QtWidgets import QDialog, QGridLayout, QVBoxLayout

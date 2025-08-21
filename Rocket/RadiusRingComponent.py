@@ -32,7 +32,7 @@ from Rocket.Utilities import clamp
 from Rocket.interfaces.LineInstanceable import LineInstanceable
 from Rocket.interfaces.RadialParent import RadialParent
 
-from DraftTools import translate
+from Rocket.Utilities import translate
 
 class RadiusRingComponent(RingComponent, LineInstanceable):
 

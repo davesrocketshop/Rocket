@@ -26,7 +26,7 @@ __url__ = "https://www.davesrocketshop.com"
 
 from typing import Any
 
-from DraftTools import translate
+from Rocket.Utilities import translate
 
 from Rocket.ComponentAssembly import ComponentAssembly
 

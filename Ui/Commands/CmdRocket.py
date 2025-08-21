@@ -28,10 +28,10 @@ __url__ = "https://www.davesrocketshop.com"
 import FreeCAD
 import FreeCADGui
 
-from DraftTools import translate
+from Rocket.Utilities import translate
 
 from Rocket.FeatureRocket import FeatureRocket
-from Ui.ViewRocket import ViewProviderRocket
+
 from Ui.Commands.Command import Command
 from Ui.Commands.CmdStage import makeStage
 
@@ -45,8 +45,9 @@ def makeRocket(name='Rocket', makeSustainer=False):
     FeatureRocket(obj)
     obj.Proxy.setDefaults()
     if FreeCAD.GuiUp:
+        from Ui.ViewRocket import ViewProviderRocket
         ViewProviderRocket(obj.ViewObject)
-    FreeCADGui.ActiveDocument.ActiveView.setActiveObject('rocket', obj)
+        FreeCADGui.ActiveDocument.ActiveView.setActiveObject('rocket', obj)
 
     if makeSustainer:
         sustainer = makeStage('Stage')

@@ -29,10 +29,9 @@ import FreeCADGui
 
 from Rocket.Constants import FEATURE_FIN, FIN_TYPE_SKETCH
 from Rocket.FeatureFin import FeatureFin
-from Ui.ViewFin import ViewProviderFin
 from Ui.Commands.Command import Command
 
-from DraftTools import translate
+from Rocket.Utilities import translate
 
 def makeFin(name='Fin'):
     '''makeFin(name): makes a Fin'''
@@ -41,13 +40,14 @@ def makeFin(name='Fin'):
     obj.Proxy.setDefaults()
 
     # See if we have a sketch selected. If so, this is a custom fin
-    for sketch in FreeCADGui.Selection.getSelection():
-        if sketch.isDerivedFrom('Sketcher::SketchObject'):
-            obj.FinType = FIN_TYPE_SKETCH
-            obj.Profile = sketch
-            sketch.Visibility = False
-
     if FreeCAD.GuiUp:
+        for sketch in FreeCADGui.Selection.getSelection():
+            if sketch.isDerivedFrom('Sketcher::SketchObject'):
+                obj.FinType = FIN_TYPE_SKETCH
+                obj.Profile = sketch
+                sketch.Visibility = False
+
+        from Ui.ViewFin import ViewProviderFin
         ViewProviderFin(obj.ViewObject)
 
     return obj.Proxy

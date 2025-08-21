@@ -33,7 +33,7 @@ from Rocket.Constants import FEATURE_CENTERING_RING
 
 from Rocket.ShapeHandlers.CenteringRingShapeHandler import CenteringRingShapeHandler
 
-from DraftTools import translate
+from Rocket.Utilities import translate
 
 #
 # Centering rings are an extension of bulkheads

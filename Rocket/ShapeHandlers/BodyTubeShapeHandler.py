@@ -30,7 +30,7 @@ import FreeCAD
 import Part
 
 from Rocket.Utilities import validationError, _err
-from DraftTools import translate
+from Rocket.Utilities import translate
 
 class BodyTubeShapeHandler():
 

@@ -32,7 +32,7 @@ import Part
 from Rocket.ShapeHandlers.BodyTubeShapeHandler import BodyTubeShapeHandler
 
 from Rocket.Utilities import _err
-from DraftTools import translate
+from Rocket.Utilities import translate
 
 class InnerTubeShapeHandler(BodyTubeShapeHandler):
     def __init__(self, obj : Any) -> None:

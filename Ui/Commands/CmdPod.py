@@ -33,7 +33,7 @@ from Ui.Commands.Command import Command
 
 from Rocket.Constants import FEATURE_POD
 
-from DraftTools import translate
+from Rocket.Utilities import translate
 
 def makePod(name='Pod'):
     '''makePod(name): makes a Pod'''

@@ -29,27 +29,28 @@ import FreeCADGui
 
 from Rocket.Constants import FIN_TYPE_SKETCH
 from Rocket.FeatureFinCan import FeatureFinCan
-from Ui.ViewFinCan import ViewProviderFinCan
+
 from Ui.Commands.Command import Command
 
 from Rocket.Constants import FEATURE_FINCAN
 
-from DraftTools import translate
+from Rocket.Utilities import translate
 
-def makeFinCan(name):
+def makeFinCan(name='FinCan'):
     '''makeFinCan(name): makes a Fin Can'''
     obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
     FeatureFinCan(obj)
     obj.Proxy.setDefaults()
 
     # See if we have a sketch selected. If so, this is a custom fin
-    for sketch in FreeCADGui.Selection.getSelection():
-        if sketch.isDerivedFrom('Sketcher::SketchObject'):
-            obj.FinType = FIN_TYPE_SKETCH
-            obj.Profile = sketch
-            sketch.Visibility = False
-
     if FreeCAD.GuiUp:
+        for sketch in FreeCADGui.Selection.getSelection():
+            if sketch.isDerivedFrom('Sketcher::SketchObject'):
+                obj.FinType = FIN_TYPE_SKETCH
+                obj.Profile = sketch
+                sketch.Visibility = False
+
+        from Ui.ViewFinCan import ViewProviderFinCan
         ViewProviderFinCan(obj.ViewObject)
 
     return obj.Proxy

@@ -1,5 +1,5 @@
 # ***************************************************************************
-# *   Copyright (c) 2023-2025 David Carter <dcarter@davidcarter.ca>         *
+# *   Copyright (c) 2022-2025 David Carter <dcarter@davidcarter.ca>         *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -18,61 +18,23 @@
 # *   USA                                                                   *
 # *                                                                         *
 # ***************************************************************************
-"""Class for drawing material tab"""
 
-__title__ = "FreeCAD Material Tab"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
+import unittest
 
-import FreeCADGui
+from Tests.TestBodyTube import BodyTubeTests
+from Tests.TestBulkhead import BulkheadTests
+from Tests.TestCenteringRing import CenteringRingTests
+from Tests.TestNoses import NoseTests
+from Tests.TestTransition import TransitionTests
+from Tests.TestFlutter import FinFlutterTestCases
+from Tests.TestFins import FinTests
+# from Tests.TestFinCans import FinCanTests
 
-from Rocket.Utilities import translate
-
-import Materials
-import MatGui
-
-from PySide import QtGui
-from PySide.QtWidgets import QGridLayout, QVBoxLayout, QSizePolicy
-
-# from Rocket.Material import Material
-
-class MaterialTab(QtGui.QWidget):
-
-    def __init__(self, parent=None):
-        super().__init__(parent)
-
-        self.setTabMaterial()
-
-    def setTabMaterial(self):
-        self.materialManager = Materials.MaterialManager()
-
-        ui = FreeCADGui.UiLoader()
-
-        self.materialTreeWidget = ui.createWidget("MatGui::MaterialTreeWidget")
-        self.materialTreePy = MatGui.MaterialTreeWidget(self.materialTreeWidget)
-        self.materialTreeWidget.onMaterial.connect(self.onMaterial)
-
-        row = 0
-        grid = QGridLayout()
-
-        grid.addWidget(self.materialTreeWidget, row, 0)
-        row += 1
-
-        layout = QVBoxLayout()
-        layout.addItem(grid)
-        layout.addItem(QtGui.QSpacerItem(0,0, QSizePolicy.Expanding, QSizePolicy.Expanding))
-
-        self.setLayout(layout)
-
-    def transferTo(self, obj):
-        "Transfer from the dialog to the object"
-        obj.ShapeMaterial = self.materialManager.getMaterial(self.uuid)
-
-    def transferFrom(self, obj):
-        "Transfer from the object to the dialog"
-        self.uuid = obj.ShapeMaterial.UUID
-        self.materialTreePy.UUID = self.uuid
-
-    def onMaterial(self, uuid):
-        self.uuid = uuid
+def runRocketUnitTests():
+    suite = unittest.TestSuite()
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromName("TestRocketApp"))
+    r = unittest.TextTestRunner()
+    r.run(suite)

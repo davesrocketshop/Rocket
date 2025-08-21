@@ -78,7 +78,7 @@ class FinProxyShapeHandler:
                 self._parentRadius *= self._scale
 
     def _isParentDiameterScaled(self) -> bool:
-        if self._obj.Proxy.getParent() is not None:
+        if self._obj.Proxy.hasParent():
             return self._obj.Proxy.getParent().isScaled()
         return False
 

@@ -30,7 +30,7 @@ import math
 import Part
 from Part import Shape, Wire, BSplineCurve, Vertex
 
-from DraftTools import translate
+from Rocket.Utilities import translate
 
 from Rocket.Utilities import validationError
 

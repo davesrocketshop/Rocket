@@ -36,7 +36,7 @@ from Rocket.Utilities import reducePi
 from Rocket.util.BoundingBox import BoundingBox
 from Rocket.util.Coordinate import Coordinate
 
-from DraftTools import translate
+from Rocket.Utilities import translate
 
 """
     An inner component that consists of a hollow cylindrical component.  This can be
@@ -68,7 +68,7 @@ class RingComponent(InternalComponent, BoxBounded, Coaxial):
         super().setDefaults()
 
     def _isDiameterScaled(self) -> bool:
-        if self._obj.Proxy.getParent() is not None:
+        if self._obj.Proxy.hasParent():
             return self._obj.Proxy.getParent().isScaled()
         return not self._obj.AutoDiameter
 
@@ -78,7 +78,7 @@ class RingComponent(InternalComponent, BoxBounded, Coaxial):
         return 1.0
 
     def _isCenterDiameterScaled(self) -> bool:
-        if self._obj.Proxy.getParent() is not None:
+        if self._obj.Proxy.hasParent():
             return self._obj.Proxy.getParent().isScaled()
         return not self._obj.CenterAutoDiameter
 

@@ -47,7 +47,7 @@ from Rocket.Constants import COUNTERSINK_ANGLE_60, COUNTERSINK_ANGLE_82, COUNTER
 from Rocket.ShapeHandlers.RailButtonShapeHandler import RailButtonShapeHandler
 from Rocket.Utilities import _wrn
 
-from DraftTools import translate
+from Rocket.Utilities import translate
 
 #
 # Button dimensions were obtained here: https://www.rocketryforum.com/threads/rail-button-dimensions.30354/

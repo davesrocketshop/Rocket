@@ -28,7 +28,7 @@ from Rocket.Constants import FEATURE_WIND_TUNNEL
 
 from Rocket.cfd.ShapeHandlers.WindTunnelShapeHandler import WindTunnelShapeHandler
 
-from DraftTools import translate
+from Rocket.Utilities import translate
 
 class FeatureWindTunnel:
 

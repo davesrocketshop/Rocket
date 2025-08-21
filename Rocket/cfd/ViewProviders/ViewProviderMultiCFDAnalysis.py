@@ -30,7 +30,7 @@ from CfdOF import CfdAnalysis, CfdTools
 
 from Rocket.cfd.Ui.TaskPanelMultiCFD import TaskPanelMultiCFD
 
-from DraftTools import translate
+from Rocket.Utilities import translate
 
 class ViewProviderMutliCFDAnalysis(CfdAnalysis.ViewProviderCfdAnalysis):
 

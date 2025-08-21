@@ -29,7 +29,7 @@ from typing import Any
 import FreeCAD
 import Part
 
-from DraftTools import translate
+from Rocket.Utilities import translate
 
 from Rocket.ShapeHandlers.BulkheadShapeHandler import BulkheadShapeHandler
 from Rocket.Utilities import validationError, _err
