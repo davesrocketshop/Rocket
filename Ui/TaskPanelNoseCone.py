@@ -58,19 +58,12 @@ class _NoseConeDialog(QDialog):
 
         self.form = FreeCADGui.PySideUic.loadUi(os.path.join(getUIPath(), 'Ui', "TaskPanelNoseCone.ui"))
 
-        self.tabWidget = QtGui.QTabWidget()
-        self.tabGeneral = QtGui.QWidget()
-        self.tabShoulder = QtGui.QWidget()
         self.tabScaling = ScalingTabNose(obj)
         self.tabMaterial = MaterialTab()
         self.tabComment = CommentTab()
         self.form.tabWidget.addTab(self.tabScaling, translate('Rocket', "Scaling"))
         self.form.tabWidget.addTab(self.tabMaterial, translate('Rocket', "Material"))
         self.form.tabWidget.addTab(self.tabComment, translate('Rocket', "Comment"))
-
-        layout = QVBoxLayout()
-        layout.addWidget(self.tabWidget)
-        self.setLayout(layout)
 
         self.setTabGeneral()
         self.setTabShoulder()
