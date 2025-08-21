@@ -1,5 +1,5 @@
 # ***************************************************************************
-# *   Copyright (c) 2022-2025 David Carter <dcarter@davidcarter.ca>         *
+# *   Copyright (c) 2025 David Carter <dcarter@davidcarter.ca>              *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -18,19 +18,27 @@
 # *   USA                                                                   *
 # *                                                                         *
 # ***************************************************************************
+"""General testing utilities for the Rocket Workbench"""
 
+__title__ = "FreeCAD Test Utilities"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
+# import FreeCAD
 import unittest
 
-from Tests.Integration.RocketTest import RocketTest
-from Tests.Integration.PositionTests import PositionTests
-from Tests.TestMoves import MoveTests
-from Tests.TestFinCans import FinCanTests
+from Rocket.util.Coordinate import Coordinate
 
-def runRocketUnitTests():
-    suite = unittest.TestSuite()
-    suite.addTest(unittest.defaultTestLoader.loadTestsFromName("TestRocketGui"))
-    r = unittest.TextTestRunner()
-    r.run(suite)
+def assertCoordinateEqual(testCase : unittest.TestCase,
+                          actual : Coordinate,
+                          expected : Coordinate,
+                          msg : str,
+                          precision : int = 7) -> None:
+    try:
+        testCase.assertAlmostEqual(actual._x, expected._x, places=precision)
+        testCase.assertAlmostEqual(actual._y, expected._y, places=precision)
+        testCase.assertAlmostEqual(actual._z, expected._z, places=precision)
+        testCase.assertAlmostEqual(actual._weight, expected._weight, places=precision)
+    except AssertionError:
+        msg = "actual %s, expected %s: %s" % (str(actual), str(expected), msg)
+        testCase.fail(msg)

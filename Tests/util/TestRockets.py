@@ -27,6 +27,7 @@ __url__ = "https://www.davesrocketshop.com"
 import FreeCAD
 
 from Rocket.Constants import TYPE_CONE, TYPE_BLUNTED_CONE, TYPE_SPHERICAL, TYPE_ELLIPTICAL, TYPE_HAACK, TYPE_OGIVE, TYPE_BLUNTED_OGIVE, TYPE_SECANT_OGIVE, TYPE_VON_KARMAN, TYPE_PARABOLA, TYPE_PARABOLIC, TYPE_POWER
+from Rocket.Constants import FINCAN_STYLE_SLEEVE, FINCAN_STYLE_BODYTUBE
 
 from Ui.Commands.CmdBodyTube import makeBodyTube, makeEngineBlock, makeInnerTube
 from Ui.Commands.CmdRocket import makeRocket
@@ -141,7 +142,7 @@ class TestRockets:
         rocket.enableEvents()
         FreeCAD.activeDocument().recompute(None,True,True)
         return rocket
-    
+
     @classmethod
     def make3stage(cls):
         rocket = makeRocket('3Stage', False)
@@ -267,6 +268,9 @@ class TestRockets:
         rocket.addChild(stage)
 
         fincan = makeFinCan()
+        fincan._obj.LaunchLug = False
+        fincan._obj.Coupler = True
+        fincan.setFinCanStyle(FINCAN_STYLE_BODYTUBE)
         stage.addChild(fincan)
 
         rocket.enableEvents()
