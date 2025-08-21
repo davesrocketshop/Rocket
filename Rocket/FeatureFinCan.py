@@ -29,7 +29,7 @@ from typing import Any
 from Rocket.SymmetricComponent import SymmetricComponent
 from Rocket.FeatureFin import FeatureFin
 from Rocket.Constants import FEATURE_FINCAN, FEATURE_LAUNCH_LUG, FEATURE_RAIL_BUTTON, FEATURE_RAIL_GUIDE, \
-    FEATURE_POD, FEATURE_STAGE, FEATURE_RINGTAIL
+    FEATURE_POD, FEATURE_STAGE, FEATURE_RINGTAIL, FEATURE_BODY_TUBE
 from Rocket.Constants import FIN_TYPE_TRAPEZOID, FIN_TYPE_TRIANGLE, FIN_TYPE_ELLIPSE, FIN_TYPE_SKETCH
 from Rocket.Constants import FINCAN_STYLE_SLEEVE, FINCAN_STYLE_BODYTUBE
 from Rocket.Constants import FINCAN_EDGE_SQUARE, FINCAN_EDGE_ROUND, FINCAN_EDGE_TAPER
@@ -61,7 +61,7 @@ class FeatureFinCan(SymmetricComponent, FeatureFin):
         if not hasattr(obj,"FinCanStyle"):
             obj.addProperty('App::PropertyEnumeration', 'FinCanStyle', 'RocketComponent', translate('App::Property', 'Fin can style'))
             obj.FinCanStyle = [FINCAN_STYLE_SLEEVE, FINCAN_STYLE_BODYTUBE]
-            obj.FinCanStyle = FINCAN_STYLE_SLEEVE
+            obj.FinCanStyle = FINCAN_STYLE_BODYTUBE
         else:
             obj.FinCanStyle = [FINCAN_STYLE_SLEEVE, FINCAN_STYLE_BODYTUBE]
 
@@ -161,13 +161,13 @@ class FeatureFinCan(SymmetricComponent, FeatureFin):
         self._obj.Length = 60.0
 
     def update(self) -> None:
-        # self.setFinCanStyle(FINCAN_STYLE_SLEEVE)
-        # if self.hasParent() :
-        #     parent = self.getParent()
-        #     if parent.Type in [FEATURE_STAGE]:
-        #         self.setFinCanStyle(FINCAN_STYLE_BODYTUBE)
+        self.setFinCanStyle(FINCAN_STYLE_BODYTUBE)
+        if self.hasParent() :
+            parent = self.getParent()
+            if parent.Type in [FEATURE_BODY_TUBE]:
+                self.setFinCanStyle(FINCAN_STYLE_SLEEVE)
 
-        # Do the positioning with and new positioning method
+        # Do the positioning with any new positioning method
         super().update()
 
         # Ensure any automatic variables are set
@@ -218,11 +218,12 @@ class FeatureFinCan(SymmetricComponent, FeatureFin):
 
             FeatureFinCan(obj) # Update any properties
 
-            # Set to a body tube style if the parent is not a body tube
+            # Set the fin can style
+            self.setFinCanStyle(FINCAN_STYLE_BODYTUBE)
             if self.hasParent() :
                 parent = self.getParent()
-                if parent.Type in [FEATURE_STAGE]:
-                    self.setFinCanStyle(FINCAN_STYLE_BODYTUBE)
+                if parent.Type in [FEATURE_BODY_TUBE]:
+                    self.setFinCanStyle(FINCAN_STYLE_SLEEVE)
 
             obj.LaunchLugForwardSweepAngle = forward
             obj.LaunchLugAftSweepAngle = aft
