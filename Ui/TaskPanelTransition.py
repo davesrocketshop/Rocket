@@ -519,9 +519,11 @@ class TaskPanelTransition:
         self._tranForm.tabScaling.scaledLengthInput.setText(length.UserString)
 
         diameter = self._obj.Proxy.getForeDiameter() / scale
+        diameter = FreeCAD.Units.Quantity(f"{diameter} mm")
         self._tranForm.tabScaling.scaledDiameterInput.setText(diameter.UserString)
         
         diameter = self._obj.Proxy.getAftDiameter() / scale
+        diameter = FreeCAD.Units.Quantity(f"{diameter} mm")
         self._tranForm.tabScaling.scaledAftDiameterInput.setText(diameter.UserString)
         self._tranForm.tabScaling.scaledAftDiameterLabel.setVisible(True)
         self._tranForm.tabScaling.scaledAftDiameterInput.setVisible(True)
