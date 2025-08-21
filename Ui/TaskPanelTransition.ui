@@ -1,0 +1,603 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Dialog</class>
+ <widget class="QDialog" name="Dialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>400</width>
+    <height>688</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Transition Parameter</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout_2">
+   <item>
+    <widget class="QTabWidget" name="tabWidget">
+     <property name="currentIndex">
+      <number>0</number>
+     </property>
+     <widget class="QWidget" name="tabGeneral">
+      <attribute name="title">
+       <string>General</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout">
+       <item>
+        <widget class="QStackedWidget" name="stackedWidget">
+         <property name="currentIndex">
+          <number>0</number>
+         </property>
+         <widget class="QWidget" name="pageGeneral">
+          <layout class="QGridLayout" name="gridLayout">
+           <item row="5" column="1">
+            <widget class="Gui::InputField" name="lengthInput">
+             <property name="unit" stdset="0">
+              <string notr="true"/>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="1">
+            <widget class="QComboBox" name="transitionStylesCombo"/>
+           </item>
+           <item row="1" column="0">
+            <widget class="QLabel" name="coefficientLabel">
+             <property name="text">
+              <string>Shape Parameter</string>
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="0" colspan="2">
+            <widget class="QGroupBox" name="aftCapGroup">
+             <property name="title">
+              <string>Aft Cap</string>
+             </property>
+             <layout class="QGridLayout" name="gridLayout_6">
+              <item row="0" column="0">
+               <widget class="QLabel" name="aftCapStyleLabel">
+                <property name="text">
+                 <string>Cap Style</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="1">
+               <widget class="QComboBox" name="aftCapStylesCombo"/>
+              </item>
+              <item row="1" column="0">
+               <widget class="QLabel" name="aftCapBarWidthLabel">
+                <property name="text">
+                 <string>Bar Width</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="1">
+               <widget class="Gui::InputField" name="aftCapBarWidthInput">
+                <property name="unit" stdset="0">
+                 <string notr="true"/>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item row="0" column="0">
+            <widget class="QLabel" name="transitionTypeLabel">
+             <property name="text">
+              <string>Transition Shape</string>
+             </property>
+            </widget>
+           </item>
+           <item row="9" column="0">
+            <widget class="QLabel" name="thicknessLabel">
+             <property name="text">
+              <string>Thickness</string>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="0" colspan="2">
+            <widget class="QGroupBox" name="foreCapGroup">
+             <property name="title">
+              <string>Forward Cap</string>
+             </property>
+             <layout class="QGridLayout" name="gridLayout_2">
+              <item row="0" column="0">
+               <widget class="QLabel" name="foreCapStyleLabel">
+                <property name="text">
+                 <string>Cap Style</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="1">
+               <widget class="QComboBox" name="foreCapStylesCombo"/>
+              </item>
+              <item row="1" column="0">
+               <widget class="QLabel" name="foreCapBarWidthLabel">
+                <property name="text">
+                 <string>Bar Width</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="1">
+               <widget class="Gui::InputField" name="foreCapBarWidthInput">
+                <property name="unit" stdset="0">
+                 <string notr="true"/>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item row="6" column="2">
+            <widget class="QCheckBox" name="foreAutoDiameterCheckbox">
+             <property name="text">
+              <string>Auto</string>
+             </property>
+            </widget>
+           </item>
+           <item row="5" column="0">
+            <widget class="QLabel" name="lengthLabel">
+             <property name="text">
+              <string>Length</string>
+             </property>
+            </widget>
+           </item>
+           <item row="6" column="0">
+            <widget class="QLabel" name="foreDiameterLabel">
+             <property name="text">
+              <string>Forward Diameter</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <widget class="QLineEdit" name="coefficientInput"/>
+           </item>
+           <item row="2" column="0">
+            <widget class="QLabel" name="transitionStyleLabel">
+             <property name="text">
+              <string>Style</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QComboBox" name="transitionTypesCombo"/>
+           </item>
+           <item row="6" column="1">
+            <widget class="Gui::InputField" name="foreDiameterInput">
+             <property name="unit" stdset="0">
+              <string notr="true"/>
+             </property>
+            </widget>
+           </item>
+           <item row="10" column="1">
+            <spacer name="verticalSpacer">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>0</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item row="9" column="1">
+            <widget class="Gui::InputField" name="thicknessInput">
+             <property name="unit" stdset="0">
+              <string notr="true"/>
+             </property>
+            </widget>
+           </item>
+           <item row="7" column="0">
+            <widget class="QLabel" name="aftDiameterLabel">
+             <property name="text">
+              <string>Aft Diameter</string>
+             </property>
+            </widget>
+           </item>
+           <item row="8" column="0">
+            <widget class="QLabel" name="coreDiameterLabel">
+             <property name="text">
+              <string>Core Diameter</string>
+             </property>
+            </widget>
+           </item>
+           <item row="7" column="1">
+            <widget class="Gui::InputField" name="aftDiameterInput">
+             <property name="unit" stdset="0">
+              <string notr="true"/>
+             </property>
+            </widget>
+           </item>
+           <item row="8" column="1">
+            <widget class="Gui::InputField" name="coreDiameterInput">
+             <property name="unit" stdset="0">
+              <string notr="true"/>
+             </property>
+            </widget>
+           </item>
+           <item row="7" column="2">
+            <widget class="QCheckBox" name="aftAutoDiameterCheckbox">
+             <property name="text">
+              <string>Auto</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="2">
+            <widget class="QCheckBox" name="clippedCheckbox">
+             <property name="text">
+              <string>Clipped</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+         <widget class="QWidget" name="pageProxy">
+          <layout class="QVBoxLayout" name="verticalLayout_3">
+           <item>
+            <layout class="QGridLayout" name="gridLayout_3">
+             <item row="2" column="1">
+              <widget class="QLabel" name="proxyBaseObjectLabelSelect">
+               <property name="text">
+                <string/>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="0">
+              <widget class="QLabel" name="proxyBaseObjectLabel">
+               <property name="text">
+                <string>Base Object</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="2">
+              <widget class="QPushButton" name="proxyBaseObjectButton">
+               <property name="text">
+                <string>Select</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="1">
+              <widget class="QLabel" name="proxyBaseObjectInput">
+               <property name="autoFillBackground">
+                <bool>true</bool>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="0">
+              <widget class="QLabel" name="transitionProxyTypeLabel">
+               <property name="text">
+                <string>Transition Shape</string>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="0">
+              <widget class="QLabel" name="proxyForeEffectiveDiamaterLabel">
+               <property name="text">
+                <string>Effective Foreward Diameter</string>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="1" colspan="2">
+              <widget class="Gui::InputField" name="proxyForeEffectiveDiameterInput">
+               <property name="unit" stdset="0">
+                <string notr="true"/>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="1" colspan="2">
+              <widget class="QComboBox" name="transitionProxyTypesCombo"/>
+             </item>
+             <item row="4" column="0">
+              <widget class="QLabel" name="proxyAftEffectiveDiameterLabel">
+               <property name="text">
+                <string>Effective Aft Diameter</string>
+               </property>
+              </widget>
+             </item>
+             <item row="4" column="1" colspan="2">
+              <widget class="Gui::InputField" name="proxyAftEffectiveDiameterInput">
+               <property name="unit" stdset="0">
+                <string notr="true"/>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <widget class="QGroupBox" name="proxyPlacementGroup">
+             <property name="title">
+              <string>Placement</string>
+             </property>
+             <layout class="QGridLayout" name="gridLayout_4">
+              <item row="0" column="6">
+               <widget class="QLabel" name="zRotationLabel">
+                <property name="text">
+                 <string>z</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="1" colspan="6">
+               <widget class="Gui::InputField" name="foreOffsetInput">
+                <property name="unit" stdset="0">
+                 <string notr="true"/>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="4">
+               <widget class="QLabel" name="yRotationLabel">
+                <property name="text">
+                 <string>y</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="0">
+               <widget class="QLabel" name="foreOffsetLabel">
+                <property name="text">
+                 <string>Foreward Offset</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="0">
+               <widget class="QLabel" name="rotationLabel">
+                <property name="text">
+                 <string>Rotation</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="3">
+               <widget class="Gui::InputField" name="yRotationInput">
+                <property name="maximum">
+                 <double>180.000000000000000</double>
+                </property>
+                <property name="minimum">
+                 <double>-180.000000000000000</double>
+                </property>
+                <property name="unit" stdset="0">
+                 <string notr="true"/>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="5">
+               <widget class="Gui::InputField" name="zRotationInput">
+                <property name="maximum">
+                 <double>180.000000000000000</double>
+                </property>
+                <property name="minimum">
+                 <double>180.000000000000000</double>
+                </property>
+                <property name="unit" stdset="0">
+                 <string notr="true"/>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="2">
+               <widget class="QLabel" name="xRotationLabel">
+                <property name="text">
+                 <string>x</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="1">
+               <widget class="Gui::InputField" name="xRotationInput">
+                <property name="maximum">
+                 <double>180.000000000000000</double>
+                </property>
+                <property name="minimum">
+                 <double>-180.000000000000000</double>
+                </property>
+                <property name="unit" stdset="0">
+                 <string notr="true"/>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="0">
+               <widget class="QLabel" name="aftOffsetLabel">
+                <property name="text">
+                 <string>Aft Offset</string>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="1" colspan="6">
+               <widget class="Gui::InputField" name="aftOffsetInput">
+                <property name="unit" stdset="0">
+                 <string notr="true"/>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item>
+            <widget class="QCheckBox" name="proxyShowForeBasePlaneCheckbox">
+             <property name="text">
+              <string>Show Forward Base Plane</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QCheckBox" name="proxyShowAftBasePlaneCheckbox">
+             <property name="text">
+              <string>Show Aft Base Plane</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <spacer name="verticalSpacer_2">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>0</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+          </layout>
+         </widget>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tabShoulder">
+      <attribute name="title">
+       <string>Shoulder</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_4">
+       <item>
+        <widget class="QGroupBox" name="foreGroup">
+         <property name="title">
+          <string>Foreward Shoulder</string>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
+         </property>
+         <layout class="QGridLayout" name="gridLayout_5">
+          <item row="0" column="1">
+           <widget class="Gui::InputField" name="foreShoulderLengthInput">
+            <property name="unit" stdset="0">
+             <string notr="true"/>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0">
+           <widget class="QLabel" name="foreShoulderThicknessLabel">
+            <property name="text">
+             <string>Thickness</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0">
+           <widget class="QLabel" name="foreShoulderLengthLabel">
+            <property name="text">
+             <string>Length</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="foreShoulderDiameterLabel">
+            <property name="text">
+             <string>Diameter</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="2">
+           <widget class="QCheckBox" name="foreShoulderAutoDiameterCheckbox">
+            <property name="text">
+             <string>Auto</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="Gui::InputField" name="foreShoulderDiameterInput">
+            <property name="unit" stdset="0">
+             <string notr="true"/>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1">
+           <widget class="Gui::InputField" name="foreShoulderThicknessInput">
+            <property name="unit" stdset="0">
+             <string notr="true"/>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="aftGroup">
+         <property name="title">
+          <string>Aft Shoulder</string>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
+         </property>
+         <layout class="QGridLayout" name="gridLayout_7">
+          <item row="0" column="1">
+           <widget class="Gui::InputField" name="aftShoulderLengthInput">
+            <property name="unit" stdset="0">
+             <string notr="true"/>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="Gui::InputField" name="aftShoulderDiameterInput">
+            <property name="unit" stdset="0">
+             <string notr="true"/>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1">
+           <widget class="Gui::InputField" name="aftShoulderThicknessInput">
+            <property name="unit" stdset="0">
+             <string notr="true"/>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="aftShoulderDiameterLabel">
+            <property name="text">
+             <string>Diameter</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0">
+           <widget class="QLabel" name="aftShoulderLengthLabel">
+            <property name="text">
+             <string>Length</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0">
+           <widget class="QLabel" name="aftShoulderThicknessLabel">
+            <property name="text">
+             <string>Thickness</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="2">
+           <widget class="QCheckBox" name="aftShoulderAutoDiameterCheckbox">
+            <property name="text">
+             <string>Auto</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer_3">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>0</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>Gui::InputField</class>
+   <extends>QLineEdit</extends>
+   <header>Gui/InputField.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>
