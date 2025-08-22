@@ -116,9 +116,12 @@ class FeatureBodyTube(SymmetricComponent, BoxBounded, Coaxial):
         return (float(self._obj.Length) + float(self._obj.Placement.Base.x)) / self.getScale()
 
     def _isDiameterScaled(self) -> bool:
-        if self._obj.Proxy.hasParent():
-            return self._obj.Proxy.getParent().isScaled()
-        return not self._obj.AutoDiameter
+        if self._obj.AutoDiameter:
+            return False
+        # if self._obj.Proxy.hasParent():
+        #     if self._obj.Proxy.getParent().isScaled():
+        #         return True
+        return self.isScaled()
 
     def getDiameterScale(self) -> float:
         if self._isDiameterScaled():

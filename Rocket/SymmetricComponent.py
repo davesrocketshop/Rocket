@@ -90,8 +90,9 @@ class SymmetricComponent(RocketComponent, BoxBounded, RadialParent):
     def getOuterDiameter(self, pos : float) -> float:
         return self.getOuterRadius(pos) * 2.0
 
+    @abstractmethod
     def getInnerRadius(self, pos : float) -> float:
-        return self.getInnerRadius(pos)
+        ...
 
     def getInnerDiameter(self, pos : float) -> float:
         return self.getInnerRadius(pos) * 2.0

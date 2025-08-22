@@ -929,11 +929,16 @@ class RocketComponentShapeless(Subject, Observer):
         self._obj.Scale = False
         self._obj.ScaleByValue = True
         self._obj.ScaleValue = FreeCAD.Units.Quantity("1.0")
+        self.setEdited()
 
     def setScale(self, scale : float) -> None:
         self._obj.Scale = True
         self._obj.ScaleByValue = True
         self._obj.ScaleValue = FreeCAD.Units.Quantity(f"{scale}")
+        self.setEdited()
+
+    def setScaled(self, scaled : bool) -> None:
+        self._obj.Scale = scaled
         self.setEdited()
 
     def getPosition(self) -> Any:

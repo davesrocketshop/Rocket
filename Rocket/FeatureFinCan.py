@@ -362,9 +362,15 @@ class FeatureFinCan(SymmetricComponent, FeatureFin):
 
     def getOuterDiameter(self, pos : float = 0) -> float:
         return float(self._obj.Diameter) / self.getDiameterScale()
+    
+    def getOuterRadius(self, pos : float = 0) -> float:
+        return self.getOuterDiameter() / 2.0
 
     def getInnerDiameter(self, pos : float = 0) -> float:
         return self.getOuterDiameter() - (2.0 * float(self._obj.Thickness))
+
+    def getInnerRadius(self, pos : float = 0) -> float:
+        return self.getOuterRadius() - float(self._obj.Thickness)
 
     def isOuterDiameterAutomatic(self) -> bool:
         return self._obj.AutoDiameter

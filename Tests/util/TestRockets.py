@@ -144,10 +144,13 @@ class TestRockets:
         return rocket
 
     @classmethod
-    def make3stage(cls):
+    def make3stage(cls, name=None):
         rocket = makeRocket('3Stage', False)
         # rocket.enableEvents(False)
-        rocket.setName("3Stage / Code Verification Rocket")
+        if name is None:
+            rocket.setName("3Stage / Code Verification Rocket")
+        else:
+            rocket.setName(name)
 
         stage = makeStage()
         stage.setName("Stage")
