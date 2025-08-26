@@ -337,8 +337,8 @@ class RocketTest(unittest.TestCase):
         self.verify3StagePositioning(rocket, coordinates)
         self.verifyRocket(rocket, 1.0)
 
-    def testNullScalefinCan(self):
-        rocket = TestRockets.make3stage('testNullScalefinCan')
+    def testFinCanNullScale(self):
+        rocket = TestRockets.make3stage('testFinCanNullScale')
         coordinates = self.referenceCoordinates()
 
         self.verify3StagePositioning(rocket, coordinates)
@@ -350,8 +350,8 @@ class RocketTest(unittest.TestCase):
         FreeCAD.activeDocument().recompute(None,True,True)
         self.verify3StagePositioning(rocket, coordinates)
 
-    def testHalfScalefinCan(self):
-        rocket = TestRockets.make3stage('testHalfScalefinCan')
+    def testFinCanHalfScale(self):
+        rocket = TestRockets.make3stage('testFinCanHalfScale')
         coordinates = self.referenceCoordinates()
 
         self.verify3StagePositioning(rocket, coordinates)
@@ -363,8 +363,8 @@ class RocketTest(unittest.TestCase):
         FreeCAD.activeDocument().recompute(None,True,True)
         self.verify3StagePositioning(rocket, coordinates)
 
-    def testTwoScalefinCan(self):
-        rocket = TestRockets.make3stage('testTwoScalefinCan')
+    def testFinCanTwoScale(self):
+        rocket = TestRockets.make3stage('testFinCanTwoScale')
         coordinates = self.referenceCoordinates()
 
         self.verify3StagePositioning(rocket, coordinates)
@@ -376,8 +376,8 @@ class RocketTest(unittest.TestCase):
         FreeCAD.activeDocument().recompute(None,True,True)
         self.verify3StagePositioning(rocket, coordinates)
 
-    def testNullScaleStage3(self):
-        rocket = TestRockets.make3stage('testNullScaleStage3')
+    def testStage3NullScale(self):
+        rocket = TestRockets.make3stage('testStage3NullScale')
         coordinates = self.referenceCoordinates()
 
         self.verify3StagePositioning(rocket, coordinates)
@@ -389,8 +389,8 @@ class RocketTest(unittest.TestCase):
         FreeCAD.activeDocument().recompute(None,True,True)
         self.verify3StagePositioning(rocket, coordinates)
 
-    def testHalfScaleStage3(self):
-        rocket = TestRockets.make3stage('testHalfScaleStage3')
+    def testStage3HalfScale(self):
+        rocket = TestRockets.make3stage('testStage3HalfScale')
         coordinates = self.referenceCoordinates()
 
         self.verify3StagePositioning(rocket, coordinates)
@@ -419,8 +419,8 @@ class RocketTest(unittest.TestCase):
         self.verifyStage2(rocket, self.getStage(rocket, 1), 1.0)
         self.verifyStage3(rocket, self.getStage(rocket, 2), 0.5)
 
-    def testTwoScaleStage3(self):
-        rocket = TestRockets.make3stage('testTwoScaleStage3')
+    def testStage3TwoScale(self):
+        rocket = TestRockets.make3stage('testStage3TwoScale')
         coordinates = self.referenceCoordinates()
 
         self.verify3StagePositioning(rocket, coordinates)
@@ -449,8 +449,8 @@ class RocketTest(unittest.TestCase):
         self.verifyStage2(rocket, self.getStage(rocket, 1), 1.0)
         self.verifyStage3(rocket, self.getStage(rocket, 2), 2.0)
 
-    def testNullScaleStage2(self):
-        rocket = TestRockets.make3stage('testNullScaleStage2')
+    def testStage2NullScale(self):
+        rocket = TestRockets.make3stage('testStage2NullScale')
         coordinates = self.referenceCoordinates()
 
         self.verify3StagePositioning(rocket, coordinates)
@@ -475,8 +475,8 @@ class RocketTest(unittest.TestCase):
         self.verify3StagePositioning(rocket, coordinates)
         self.verifyRocket(rocket, 1.0)
 
-    def testHalfScaleStage2(self):
-        rocket = TestRockets.make3stage('testHalfScaleStage2')
+    def testStage2HalfScale(self):
+        rocket = TestRockets.make3stage('testStage2HalfScale')
         coordinates = self.referenceCoordinates()
         coordinates_scaled = self.referenceCoordinates()
         coordinates_scaled[STAGE2_FINS] = Coordinate(582.7,0,0)
@@ -510,8 +510,8 @@ class RocketTest(unittest.TestCase):
         self.verifyStage2(rocket, self.getStage(rocket, 1), 0.5)
         self.verifyStage3(rocket, self.getStage(rocket, 2), 1.0)
 
-    def testTwoScaleStage2(self):
-        rocket = TestRockets.make3stage('testTwoScaleStage2')
+    def testStage2TwoScale(self):
+        rocket = TestRockets.make3stage('testStage2TwoScale')
         coordinates = self.referenceCoordinates()
         coordinates_scaled = self.referenceCoordinates()
         coordinates_scaled[STAGE2_FINS] = Coordinate(563.425,0,0)
@@ -553,3 +553,209 @@ class RocketTest(unittest.TestCase):
         self.verifyStage1(rocket, self.getStage(rocket, 0), 1.0)
         self.verifyStage2(rocket, self.getStage(rocket, 1), 2.0)
         self.verifyStage3(rocket, self.getStage(rocket, 2), 1.0)
+
+    def testStage1NullScale(self):
+        rocket = TestRockets.make3stage('testStage1NullScale')
+        coordinates = self.referenceCoordinates()
+
+        self.verify3StagePositioning(rocket, coordinates)
+        self.verifyRocket(rocket, 1.0)
+
+        stage1 = self.getStage(rocket, 0)
+
+        stage1.setScale(1.0)
+        FreeCAD.activeDocument().recompute(None,True,True)
+        self.verify3StagePositioning(rocket, coordinates)
+        self.verifyRocket(rocket, 1.0)
+
+        # Turn the scaling off
+        stage1.setScaled(False)
+        FreeCAD.activeDocument().recompute(None,True,True)
+        self.verify3StagePositioning(rocket, coordinates)
+        self.verifyRocket(rocket, 1.0)
+
+        # And back on
+        stage1.setScaled(True)
+        FreeCAD.activeDocument().recompute(None,True,True)
+        self.verify3StagePositioning(rocket, coordinates)
+        self.verifyRocket(rocket, 1.0)
+
+    def testStage1HalfScale(self):
+        rocket = TestRockets.make3stage('testStage1HalfScale')
+        coordinates = self.referenceCoordinates()
+        coordinates_scaled = self.referenceCoordinates()
+        coordinates_scaled[STAGE1_BODY] = Coordinate(200.0,0,0)
+        coordinates_scaled[STAGE1_FINS] = Coordinate(999.7,0,0)
+        coordinates_scaled[STAGE1_LUG] = Coordinate(632.0,-23.374025648141995,13.495)
+        coordinates_scaled[STAGE1_ENGINE_MOUNT] = Coordinate(979.0,0,0)
+        coordinates_scaled[STAGE1_ENGINE_BLOCK] = Coordinate(979.0,0,0)
+        coordinates_scaled[STAGE1_CR] = Coordinate(1052.0,0,0)
+        coordinates_scaled[STAGE2] = Coordinate(1114.0,0,0)
+        coordinates_scaled[STAGE2_BODY] = Coordinate(1114.0,0,0)
+        coordinates_scaled[STAGE2_FINS] = Coordinate(1126.85,0,0)
+        coordinates_scaled[STAGE3] = Coordinate(1184.0,0,0)
+        coordinates_scaled[STAGE3_FINCAN] = Coordinate(1184.0,0,0)
+
+        self.verify3StagePositioning(rocket, coordinates)
+        self.verifyRocket(rocket, 1.0)
+
+        stage1 = self.getStage(rocket, 0)
+
+        stage1.setScale(0.5)
+        FreeCAD.activeDocument().recompute(None,True,True)
+        self.verify3StagePositioning(rocket, coordinates_scaled)
+        self.verifyStage1(rocket, self.getStage(rocket, 0), 0.5)
+        self.verifyStage2(rocket, self.getStage(rocket, 1), 1.0)
+        self.verifyStage3(rocket, self.getStage(rocket, 2), 1.0)
+
+        # Turn the scaling off
+        stage1.setScaled(False)
+        FreeCAD.activeDocument().recompute(None,True,True)
+        self.verify3StagePositioning(rocket, coordinates)
+        self.verifyRocket(rocket, 1.0)
+
+        # And back on
+        stage1.setScaled(True)
+        FreeCAD.activeDocument().recompute(None,True,True)
+        self.verify3StagePositioning(rocket, coordinates_scaled)
+        self.verifyStage1(rocket, self.getStage(rocket, 0), 0.5)
+        self.verifyStage2(rocket, self.getStage(rocket, 1), 1.0)
+        self.verifyStage3(rocket, self.getStage(rocket, 2), 1.0)
+
+    def testStage1TwoScale(self):
+        rocket = TestRockets.make3stage('testStage1TwoScale')
+        coordinates = self.referenceCoordinates()
+        coordinates_scaled = self.referenceCoordinates()
+        coordinates_scaled[STAGE1_BODY] = Coordinate(50.0,0,0)
+        coordinates_scaled[STAGE1_FINS] = Coordinate(249.925,0,0)
+        coordinates_scaled[STAGE1_LUG] = Coordinate(139.25,-7.272448328279824,4.19875)
+        coordinates_scaled[STAGE1_ENGINE_MOUNT] = Coordinate(248.5,0,0)
+        coordinates_scaled[STAGE1_ENGINE_BLOCK] = Coordinate(248.5,0,0)
+        coordinates_scaled[STAGE1_CR] = Coordinate(225.5,0,0)
+        coordinates_scaled[STAGE2] = Coordinate(278.5,0,0)
+        coordinates_scaled[STAGE2_BODY] = Coordinate(278.5,0,0)
+        coordinates_scaled[STAGE2_FINS] = Coordinate(291.35,0,0)
+        coordinates_scaled[STAGE3] = Coordinate(348.5,0,0)
+        coordinates_scaled[STAGE3_FINCAN] = Coordinate(348.5,0,0)
+
+        self.verify3StagePositioning(rocket, coordinates)
+        self.verifyRocket(rocket, 1.0)
+
+        stage1 = self.getStage(rocket, 0)
+
+        stage1.setScale(2.0)
+        FreeCAD.activeDocument().recompute(None,True,True)
+        self.verify3StagePositioning(rocket, coordinates_scaled)
+        self.verifyStage1(rocket, self.getStage(rocket, 0), 2.0)
+        self.verifyStage2(rocket, self.getStage(rocket, 1), 1.0)
+        self.verifyStage3(rocket, self.getStage(rocket, 2), 1.0)
+
+        # Turn the scaling off
+        stage1.setScaled(False)
+        FreeCAD.activeDocument().recompute(None,True,True)
+        self.verify3StagePositioning(rocket, coordinates)
+        self.verifyRocket(rocket, 1.0)
+
+        # And back on
+        stage1.setScaled(True)
+        FreeCAD.activeDocument().recompute(None,True,True)
+        self.verify3StagePositioning(rocket, coordinates_scaled)
+        self.verifyStage1(rocket, self.getStage(rocket, 0), 2.0)
+        self.verifyStage2(rocket, self.getStage(rocket, 1), 1.0)
+        self.verifyStage3(rocket, self.getStage(rocket, 2), 1.0)
+
+    def testRocketNullScale(self):
+        rocket = TestRockets.make3stage('testRocketNullScale')
+        coordinates = self.referenceCoordinates()
+
+        self.verify3StagePositioning(rocket, coordinates)
+        self.verifyRocket(rocket, 1.0)
+
+        rocket.setScale(1.0)
+        FreeCAD.activeDocument().recompute(None,True,True)
+        self.verify3StagePositioning(rocket, coordinates)
+        self.verifyRocket(rocket, 1.0)
+
+        # Turn the scaling off
+        rocket.setScaled(False)
+        FreeCAD.activeDocument().recompute(None,True,True)
+        self.verify3StagePositioning(rocket, coordinates)
+        self.verifyRocket(rocket, 1.0)
+
+        # And back on
+        rocket.setScaled(True)
+        FreeCAD.activeDocument().recompute(None,True,True)
+        self.verify3StagePositioning(rocket, coordinates)
+        self.verifyRocket(rocket, 1.0)
+
+    def testRocketHalfScale(self):
+        rocket = TestRockets.make3stage('testRocketHalfScale')
+        coordinates = self.referenceCoordinates()
+        coordinates_scaled = self.referenceCoordinates()
+        coordinates_scaled[STAGE1_BODY] = Coordinate(200.0,0,0)
+        coordinates_scaled[STAGE1_FINS] = Coordinate(999.7,0,0)
+        coordinates_scaled[STAGE1_LUG] = Coordinate(632.0,-23.374025648141995,13.495)
+        coordinates_scaled[STAGE1_ENGINE_MOUNT] = Coordinate(979.0,0,0)
+        coordinates_scaled[STAGE1_ENGINE_BLOCK] = Coordinate(979.0,0,0)
+        coordinates_scaled[STAGE1_CR] = Coordinate(1052.0,0,0)
+        coordinates_scaled[STAGE2] = Coordinate(1114.0,0,0)
+        coordinates_scaled[STAGE2_BODY] = Coordinate(1114.0,0,0)
+        coordinates_scaled[STAGE2_FINS] = Coordinate(1139.7,0,0)
+        coordinates_scaled[STAGE3] = Coordinate(1254.0,0,0)
+        coordinates_scaled[STAGE3_FINCAN] = Coordinate(1254.0,0,0)
+
+        self.verify3StagePositioning(rocket, coordinates)
+        self.verifyRocket(rocket, 1.0)
+
+        rocket.setScale(0.5)
+        FreeCAD.activeDocument().recompute(None,True,True)
+        self.verify3StagePositioning(rocket, coordinates_scaled)
+        self.verifyRocket(rocket, 0.5)
+
+        # Turn the scaling off
+        rocket.setScaled(False)
+        FreeCAD.activeDocument().recompute(None,True,True)
+        self.verify3StagePositioning(rocket, coordinates)
+        self.verifyRocket(rocket, 1.0)
+
+        # And back on
+        rocket.setScaled(True)
+        FreeCAD.activeDocument().recompute(None,True,True)
+        self.verify3StagePositioning(rocket, coordinates_scaled)
+        self.verifyRocket(rocket, 0.5)
+
+    def testRocketTwoScale(self):
+        rocket = TestRockets.make3stage('testRocketTwoScale')
+        coordinates = self.referenceCoordinates()
+        coordinates_scaled = self.referenceCoordinates()
+        coordinates_scaled[STAGE1_BODY] = Coordinate(50.0,0,0)
+        coordinates_scaled[STAGE1_FINS] = Coordinate(249.925,0,0)
+        coordinates_scaled[STAGE1_LUG] = Coordinate(139.25,-7.272448328279824,4.19875)
+        coordinates_scaled[STAGE1_ENGINE_MOUNT] = Coordinate(248.5,0,0)
+        coordinates_scaled[STAGE1_ENGINE_BLOCK] = Coordinate(248.5,0,0)
+        coordinates_scaled[STAGE1_CR] = Coordinate(225.5,0,0)
+        coordinates_scaled[STAGE2] = Coordinate(278.5,0,0)
+        coordinates_scaled[STAGE2_BODY] = Coordinate(278.5,0,0)
+        coordinates_scaled[STAGE2_FINS] = Coordinate(284.925,0,0)
+        coordinates_scaled[STAGE3] = Coordinate(313.5,0,0)
+        coordinates_scaled[STAGE3_FINCAN] = Coordinate(313.5,0,0)
+
+        self.verify3StagePositioning(rocket, coordinates)
+        self.verifyRocket(rocket, 1.0)
+
+        rocket.setScale(2.0)
+        FreeCAD.activeDocument().recompute(None,True,True)
+        self.verify3StagePositioning(rocket, coordinates_scaled)
+        self.verifyRocket(rocket, 2.0)
+
+        # Turn the scaling off
+        rocket.setScaled(False)
+        FreeCAD.activeDocument().recompute(None,True,True)
+        self.verify3StagePositioning(rocket, coordinates)
+        self.verifyRocket(rocket, 1.0)
+
+        # And back on
+        rocket.setScaled(True)
+        FreeCAD.activeDocument().recompute(None,True,True)
+        self.verify3StagePositioning(rocket, coordinates_scaled)
+        self.verifyRocket(rocket, 2.0)
