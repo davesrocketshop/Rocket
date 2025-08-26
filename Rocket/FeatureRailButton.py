@@ -220,8 +220,6 @@ class FeatureRailButton(ExternalComponent, AnglePositionable, BoxBounded, LineIn
             x2 = Utilities.clamp(x2, 0, body.getLength())
             parentRadius = max(body.getRadius(x1), body.getRadius(x2))
 
-        if self.hasParent() and self.getParent().isScaled():
-            parentRadius /= self.getParent().getScale()
         self._obj.RadialOffset = parentRadius
 
     def getPatternName(self) -> str:

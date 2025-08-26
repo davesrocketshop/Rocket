@@ -207,8 +207,6 @@ class FeatureRailGuide(ExternalComponent, AnglePositionable, BoxBounded, LineIns
         if self._obj.AutoDiameter:
             self._obj.Diameter = 2.0 * parentRadius
 
-        if self.hasParent() and self.getParent().isScaled():
-            parentRadius /= self.getParent().getScale()
         self._obj.RadialOffset = parentRadius
 
     def getPatternName(self) -> str:
