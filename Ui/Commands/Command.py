@@ -81,6 +81,8 @@ class Command:
         return False
 
     def partHasShape(self, part):
+        if part is None:
+            return
         for child in part.getChildren():
             if isinstance(child.Proxy,RocketComponent):
                 return True

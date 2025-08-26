@@ -359,14 +359,15 @@ class FinCanShapeHandler(FinShapeHandler):
     def _drawCan(self) -> Shape:
         point = FreeCAD.Vector(0,0,0)
         direction = FreeCAD.Vector(1,0,0)
-        outerRadius = self._radius + self._thickness
+        outerRadius = self._radius
+        innerRadius = self._radius - self._thickness
         if self._coupler:
             length = self._length + self._couplerLength
             point = FreeCAD.Vector(-self._couplerLength,0,0)
             inner = Part.makeCylinder(self._couplerDiameter / 2.0 - self._couplerThickness, length, point, direction)
         else:
             length = self._length
-            inner = Part.makeCylinder(self._radius, length, point, direction)
+            inner = Part.makeCylinder(innerRadius, length, point, direction)
         outer = Part.makeCylinder(outerRadius, length, point, direction)
         can = outer.cut(inner)
 

@@ -138,9 +138,9 @@ class FinShapeHandler(ABC):
             self._sweepLength *= self._scale # Is it this simple?
 
     def _isDiameterScaled(self) -> bool:
-        if self._obj.Proxy.hasParent():
-            return self._obj.Proxy.getParent().isScaled()
-        return not self._autoDiameter
+        if self._autoDiameter:
+            return False
+        return self._obj.isScaled()
 
     def _isParentDiameterScaled(self) -> bool:
         if self._obj.Proxy.hasParent():

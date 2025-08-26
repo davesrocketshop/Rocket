@@ -297,7 +297,7 @@ class RocketTest(unittest.TestCase):
 
         length = 60.0
         radius = 24.79 / 2.0
-        thickness = 0.33
+        thickness = 1.5
         body = self.getStage(rocket, 1).getChild(0).Proxy # Reference is Stage 2 body
         self.verifyBody(fincan, scale, length, radius, thickness, body.getAftRadius())
 

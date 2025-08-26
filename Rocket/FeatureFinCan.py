@@ -265,14 +265,14 @@ class FeatureFinCan(SymmetricComponent, FeatureFin):
             if inner < 0:
                 inner = d - (2.0 * float(self._obj.Thickness))
             self._obj.ParentRadius = (d / 2.0)
-            self._obj.Diameter = d - (2.0 * float(self._obj.Thickness))
+            self._obj.Diameter = d #- (2.0 * float(self._obj.Thickness))
             if self._obj.Coupler and self._obj.CouplerAutoDiameter:
                 self._obj.CouplerDiameter = inner
                 self._obj.CouplerThickness = max(self._obj.CouplerThickness,
                                                  (self._obj.CouplerDiameter - self._obj.Diameter) / 2.0)
         else:
             super().setParentDiameter()
-            self._obj.Diameter = self._obj.ParentRadius * 2.0
+            self._obj.Diameter = float(self._obj.ParentRadius) * 2.0 + (2.0 * float(self._obj.Thickness))
 
     def setParentDiameter(self, parentDiameter : float | None = None) -> None:
         if self._obj.AutoDiameter:
@@ -287,8 +287,10 @@ class FeatureFinCan(SymmetricComponent, FeatureFin):
                 self._obj.ParentRadius = (parentDiameter / 2.0)
                 self._obj.Diameter = parentDiameter
 
-        if self._obj.FinCanStyle == FINCAN_STYLE_BODYTUBE:
-            self._obj.Diameter = float(self._obj.Diameter) - (2.0 * float(self._obj.Thickness))
+        # if self._obj.FinCanStyle == FINCAN_STYLE_BODYTUBE:
+        #     self._obj.Diameter = float(self._obj.Diameter) - (2.0 * float(self._obj.Thickness))
+        if self._obj.FinCanStyle == FINCAN_STYLE_SLEEVE:
+            self._obj.Diameter = float(self._obj.Diameter) + (2.0 * float(self._obj.Thickness))
 
     def execute(self, obj : Any) -> None:
         shape = None

@@ -247,9 +247,9 @@ class FeatureFin(ExternalComponent):
         self._setTtwAutoHeight(0)
 
     def _isDiameterScaled(self) -> bool:
-        if self._obj.Proxy.hasParent():
-            return self._obj.Proxy.getParent().isScaled()
-        return not self._obj.AutoDiameter
+        if self._obj.AutoDiameter:
+            return False
+        return self.isScaled()
 
     def getDiameterScale(self) -> float:
         if self._isDiameterScaled():

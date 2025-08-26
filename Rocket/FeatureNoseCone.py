@@ -166,9 +166,9 @@ class FeatureNoseCone(SymmetricComponent):
         self.getAftShoulderDiameter()
 
     def _isDiameterScaled(self) -> bool:
-        if self._obj.Proxy.hasParent():
-            return self._obj.Proxy.getParent().isScaled()
-        return not self._obj.AutoDiameter
+        if self._obj.AutoDiameter:
+            return False
+        return self.isScaled()
 
     def getDiameterScale(self) -> float:
         if self._isDiameterScaled():
