@@ -785,36 +785,6 @@ class TaskPanelFin(QObject):
         self._setProxyState()
         self._setFinTabsVisible(False)
 
-        # old = self._obj.RootCrossSection # This must be saved and restored
-        # self.setRootCrossSections()
-        # self._obj.RootCrossSection = old
-
-        # self._finForm.form.rootCrossSectionsCombo.setCurrentIndex(self._finForm.form.rootCrossSectionsCombo.findData(self._obj.RootCrossSection))
-
-        # self._finForm.form.heightLabel.setHidden(True)
-        # self._finForm.form.heightInput.setHidden(True)
-        # self._finForm.form.autoHeightCheckBox.setHidden(True)
-
-        # self._finForm.form.spanLabel.setHidden(True)
-        # self._finForm.form.spanInput.setHidden(True)
-
-        # self._finForm.form.sweepLengthLabel.setHidden(True)
-        # self._finForm.form.sweepLengthInput.setHidden(True)
-        # self._finForm.form.sweepAngleLabel.setHidden(True)
-        # self._finForm.form.sweepAngleInput.setHidden(True)
-
-        # self._finForm.form.rootChordLabel.setHidden(True)
-        # self._finForm.form.rootChordInput.setHidden(True)
-
-        # self._finForm.form.tabCrossSections.setTabVisible(TAB_FIN_ROOT, True)
-        # self._finForm.form.tabCrossSections.setTabVisible(TAB_FIN_TIP, True)
-        # self._finForm.form.tabCrossSections.setTabVisible(TAB_FIN_TUBE, False)
-        # self._finForm.form.tabCrossSections.setTabVisible(TAB_FIN_FILLETS, True)
-        # self._finForm.form.minimumEdgeGroup.setHidden(False)
-
-        # # Create a default sketch if none exists
-        # self._defaultFinSketch()
-
     def _drawLines(self, sketch : Any, points : list) -> None:
         last = points[-1]
         for index, point in enumerate(points):
@@ -1311,7 +1281,43 @@ class TaskPanelFin(QObject):
     def onSetToScale(self) -> None:
         # Update the scale values
         scale = self._finForm.tabScaling.getScale()
+
         # self._obj.Length = self._obj.Length / scale
+        self._obj.RootChord /= scale
+        self._obj.RootThickness /= scale
+        self._obj.RootLength1 /= scale
+        self._obj.RootLength2 /= scale
+
+        self._obj.TipChord /= scale
+        self._obj.TipThickness /= scale
+        self._obj.TipLength1 /= scale
+        self._obj.TipLength2 /= scale
+
+        self._obj.TubeOuterDiameter /= scale
+        self._obj.TubeThickness /= scale
+
+        self._obj.Height /= scale
+        self._obj.Span /= scale
+        self._obj.SweepLength /= scale
+
+        self._obj.TtwOffset /= scale
+        self._obj.TtwLength /= scale
+        self._obj.TtwHeight /= scale
+        self._obj.TtwThickness /= scale
+
+        self._obj.FilletRadius = self._finForm.form.filletRadiusInput.text()
+
+        # placement = FreeCAD.Placement()
+        # yaw = FreeCAD.Units.Quantity(self._finForm.form.zRotationInput.text()).Value
+        # pitch = FreeCAD.Units.Quantity(self._finForm.form.yRotationInput.text()).Value
+        # roll = FreeCAD.Units.Quantity(self._finForm.form.xRotationInput.text()).Value
+        # placement.Rotation.setYawPitchRoll(yaw, pitch, roll)
+        # placement.Base.x = FreeCAD.Units.Quantity(self._finForm.form.offsetInput.text()).Value
+        # self._obj.ProxyPlacement = placement
+
+        # self._finForm.tabScaling.transferTo(self._obj)
+        # self._finForm.tabMaterial.transferTo(self._obj)
+        # self._finForm.tabComment.transferTo(self._obj)
 
         scale = self._finForm.tabScaling.resetScale()
 

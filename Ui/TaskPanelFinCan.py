@@ -1272,7 +1272,31 @@ class TaskPanelFinCan(QObject):
     def onSetToScale(self) -> None:
         # Update the scale values
         scale = self._finForm.tabScaling.getScale()
+
         # self._obj.Length = self._obj.Length / scale
+        self._obj.RootChord /= scale
+        self._obj.RootThickness /= scale
+        self._obj.RootLength1 /= scale
+        self._obj.RootLength2 /= scale
+
+        self._obj.TipChord /= scale
+        self._obj.TipThickness /= scale
+        self._obj.TipLength1 /= scale
+        self._obj.TipLength2 /= scale
+
+        self._obj.FilletRadius /= scale
+
+        self._obj.Height /= scale
+        self._obj.Span /= scale
+        self._obj.SweepLength /= scale
+
+        self._obj.Diameter /= scale
+        self._obj.Thickness /= scale
+        self._obj.Length /= scale
+        self._obj.LeadingEdgeOffset /= scale
+
+        self._obj.LeadingLength /= scale
+        self._obj.TrailingLength /= scale
 
         scale = self._finForm.tabScaling.resetScale()
 
