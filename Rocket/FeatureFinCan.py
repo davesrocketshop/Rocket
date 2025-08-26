@@ -377,6 +377,9 @@ class FeatureFinCan(SymmetricComponent, FeatureFin):
     def isOuterDiameterAutomatic(self) -> bool:
         return self._obj.AutoDiameter
 
+    def isOuterRadiusAutomatic(self) -> bool:
+        return self._obj.AutoDiameter
+
     def isAftRadiusAutomatic(self) -> bool:
         return self._obj.AutoDiameter
 
