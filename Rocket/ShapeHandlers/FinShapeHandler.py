@@ -741,7 +741,7 @@ class FinShapeHandler(ABC):
         # return Part.makeCompound([fin])
         return fin
 
-    def _drawFinSet(self, offset : float = 0) -> Shape:
+    def _drawFinSet(self) -> Shape:
         fins = []
         base = self._drawSingleFin()
         baseX = 0
@@ -752,7 +752,7 @@ class FinShapeHandler(ABC):
             if self._cant != 0:
                 fin.rotate(FreeCAD.Vector(self._rootChord / 2, 0, 0), FreeCAD.Vector(0,0,1), self._cant)
             radius = self._getTubeRadius()
-            fin.translate(FreeCAD.Vector(baseX, 0, radius + self._thickness))
+            fin.translate(FreeCAD.Vector(baseX, 0, radius))
             fin.rotate(FreeCAD.Vector(0, 0, 0), FreeCAD.Vector(1,0,0), i * self._finSpacing)
             fins.append(fin)
 

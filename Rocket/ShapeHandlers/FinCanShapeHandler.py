@@ -34,6 +34,7 @@ from Part import Shape
 from Rocket.Utilities import translate
 
 from Rocket.Constants import FINCAN_EDGE_SQUARE, FINCAN_EDGE_ROUND, FINCAN_EDGE_TAPER
+from Rocket.Constants import FINCAN_STYLE_SLEEVE
 from Rocket.Constants import FINCAN_COUPLER_STEPPED
 from Rocket.Utilities import validationError, _err
 
@@ -49,6 +50,8 @@ class FinCanShapeHandler(FinShapeHandler):
 
     def __init__(self, obj : Any) -> None:
         super().__init__(obj)
+
+        self._sleeve = (self._obj.FinCanStyle == FINCAN_STYLE_SLEEVE)
 
         self._length = float(self._obj.Length)
         self._leadingLength = float(self._obj.LeadingLength)
@@ -71,7 +74,7 @@ class FinCanShapeHandler(FinShapeHandler):
         self._coupler = bool(self._obj.Coupler)
         self._couplerStyle = str(self._obj.CouplerStyle)
         self._couplerLength = float(self._obj.CouplerLength)
-        self._couplerDiameter = float(self._obj.CouplerDiameter)
+        self._couplerRadius = float(self._obj.CouplerDiameter) / 2.0
         self._couplerThickness = float(self._obj.CouplerThickness)
 
         # apply scaling
@@ -83,7 +86,7 @@ class FinCanShapeHandler(FinShapeHandler):
             self._lugLength *= self._scale
             self._lugLeadingEdgeOffset *= self._scale
             if not self._autoDiameter:
-                self._couplerDiameter *= self._scale
+                self._couplerRadius *= self._scale
 
 
     def isValidShape(self) -> bool:
@@ -110,13 +113,13 @@ class FinCanShapeHandler(FinShapeHandler):
             if self._couplerThickness <= 0:
                 validationError(translate('Rocket', "Coupler thickness must be greater than zero"))
                 return False
-            if self._couplerDiameter <= (2 * self._couplerThickness):
+            if self._couplerRadius <= self._couplerThickness:
                 validationError(translate('Rocket', "Coupler outer diameter must be greater than the inner diameter"))
                 return False
-            if (self._couplerDiameter - 2 * self._couplerThickness) > (2.0 * self._radius):
+            if (self._couplerRadius - self._couplerThickness) > self._radius:
                 validationError(translate('Rocket', "Coupler inner diameter must be less than or equal to the fin can inner diameter"))
                 return False
-            if self._couplerDiameter >= 2 * (self._radius + self._thickness):
+            if self._couplerRadius >= (self._radius + self._thickness):
                 validationError(translate('Rocket', "Coupler outer diameter must be less than fin can outer diameter"))
                 return False
 
@@ -125,7 +128,7 @@ class FinCanShapeHandler(FinShapeHandler):
     def _trailingRound(self) -> Shape:
         lead = self._leadingLength
         center_x = self._length - self._leadingLength
-        center_y = self._radius
+        center_y = self._radius - self._thickness
         center = FreeCAD.Vector(center_x, center_y, 0)
         major  = lead
         minor  = self._thickness
@@ -146,7 +149,7 @@ class FinCanShapeHandler(FinShapeHandler):
     def _trailingTaper(self) -> Shape:
         lead = self._leadingLength
         center_x = self._length - self._leadingLength
-        center_y = self._radius
+        center_y = self._radius - self._thickness
 
         # Create the box
         box0 = Part.LineSegment(FreeCAD.Vector(center_x + lead,       center_y),                           FreeCAD.Vector(center_x,              center_y + self._thickness))
@@ -170,7 +173,7 @@ class FinCanShapeHandler(FinShapeHandler):
     def _leadingRound(self) -> Shape:
         trail  = self._trailingLength
         center_x = trail
-        center_y = self._radius
+        center_y = self._radius - self._thickness
         center = FreeCAD.Vector(center_x, center_y, 0)
         major  = trail
         minor  = self._thickness
@@ -191,7 +194,7 @@ class FinCanShapeHandler(FinShapeHandler):
     def _leadingTaper(self) -> Shape:
         trail  = self._trailingLength
         center_x = trail
-        center_y = self._radius
+        center_y = self._radius - self._thickness
 
         # Create the box
         box0 = Part.LineSegment(FreeCAD.Vector(center_x - trail,       center_y),                           FreeCAD.Vector(center_x,               center_y + self._thickness))
@@ -297,7 +300,7 @@ class FinCanShapeHandler(FinShapeHandler):
                 radius = self._lugRadius
                 outerRadius = radius + self._lugThickness
                 width = outerRadius + self._lugFilletRadius
-                bodyRadius = self._radius + self._thickness
+                bodyRadius = self._radius
 
                 base = self._lugLeadingEdgeOffset
                 if not self._lugLeadingEdgeOffset > 0:
@@ -309,25 +312,25 @@ class FinCanShapeHandler(FinShapeHandler):
                 else:
                     lugCenterZ = radius + self._thickness
 
-                point = FreeCAD.Vector(base, 0, lugCenterZ + self._radius)
+                point = FreeCAD.Vector(base, 0, lugCenterZ + bodyRadius)
                 direction = FreeCAD.Vector(1,0,0)
 
                 outer = Part.makeCylinder(outerRadius, self._lugLength, point, direction)
                 inner = Part.makeCylinder(radius, self._lugLength, point, direction)
 
-                major  = lugCenterZ + self._filletDepth(bodyRadius, width) - self._thickness
+                major  = lugCenterZ + self._filletDepth(bodyRadius, width)
                 minor  = width - outerRadius
 
                 # Make the fillet
-                point = FreeCAD.Vector(base, width, self._radius - self._filletDepth(bodyRadius, width))
-                filletBase = Part.makeBox(major + self._thickness, 2 * width, self._lugLength, point, direction)
+                point = FreeCAD.Vector(base, width, bodyRadius - self._filletDepth(bodyRadius, width))
+                filletBase = Part.makeBox(major, 2 * width, self._lugLength, point, direction)
                 lug = outer.fuse(filletBase)
                 baseCutout = Part.makeCylinder(bodyRadius, self._lugLength, FreeCAD.Vector(base, 0, 0), direction)
                 lug = lug.cut(baseCutout)
 
                 center_x = base
                 center_y = width
-                center_z = lugCenterZ + self._radius
+                center_z = lugCenterZ + bodyRadius
                 lug = self._cutFillet(lug, major, minor, center_x, center_y, center_z)
 
                 center_y = -width
@@ -364,7 +367,7 @@ class FinCanShapeHandler(FinShapeHandler):
         if self._coupler:
             length = self._length + self._couplerLength
             point = FreeCAD.Vector(-self._couplerLength,0,0)
-            inner = Part.makeCylinder(self._couplerDiameter / 2.0 - self._couplerThickness, length, point, direction)
+            inner = Part.makeCylinder(self._couplerRadius - self._couplerThickness, length, point, direction)
         else:
             length = self._length
             inner = Part.makeCylinder(innerRadius, length, point, direction)
@@ -376,16 +379,16 @@ class FinCanShapeHandler(FinShapeHandler):
             cutPoint = FreeCAD.Vector(0,0,0)
             direction = FreeCAD.Vector(-1,0,0)
             cutOuter = Part.makeCylinder(outerRadius + 1.0, self._couplerLength + 1.0, cutPoint, direction)
-            cutInner = Part.makeCylinder((self._couplerDiameter / 2.0), self._couplerLength + 1.0, cutPoint, direction)
+            cutInner = Part.makeCylinder(self._couplerRadius, self._couplerLength + 1.0, cutPoint, direction)
             cutDisk = cutOuter.cut(cutInner)
             can = can.cut(cutDisk)
 
             # Add a chamfer
             length = float(point.x)
             chamfer = self._couplerThickness / 2.0
-            point1 = FreeCAD.Vector(length, (self._couplerDiameter / 2.0) - chamfer, 0.0)
-            point2 = FreeCAD.Vector(length, (self._couplerDiameter / 2.0), 0.0)
-            point3 = FreeCAD.Vector(length + chamfer, self._couplerDiameter / 2.0, 0.0)
+            point1 = FreeCAD.Vector(length, self._couplerRadius - chamfer, 0.0)
+            point2 = FreeCAD.Vector(length, self._couplerRadius, 0.0)
+            point3 = FreeCAD.Vector(length + chamfer, self._couplerRadius, 0.0)
 
             edge1 = Part.makeLine(point1, point2)
             edge2 = Part.makeLine(point2, point3)
@@ -401,7 +404,10 @@ class FinCanShapeHandler(FinShapeHandler):
                 # Cut inside up to the step
                 point = FreeCAD.Vector(self._couplerLength,0,0)
                 direction = FreeCAD.Vector(1,0,0)
-                step = Part.makeCylinder(self._radius, self._length, point, direction)
+                radius = innerRadius
+                if self._couplerRadius < innerRadius:
+                    radius = self._couplerRadius
+                step = Part.makeCylinder(radius, self._length, point, direction)
                 can = can.cut(step)
 
         return can
@@ -428,7 +434,7 @@ class FinCanShapeHandler(FinShapeHandler):
             can = can.fuse(shape)
 
         # Add the fins
-        fins = self._drawFinSet(offset = self._thickness)
+        fins = self._drawFinSet()
         finCan = can.fuse([fins]) # Must be fuse not makeCompund
 
         return finCan
