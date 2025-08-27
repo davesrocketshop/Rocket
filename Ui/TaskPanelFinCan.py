@@ -1272,8 +1272,8 @@ class TaskPanelFinCan(QObject):
     def onSetToScale(self) -> None:
         # Update the scale values
         scale = self._finForm.tabScaling.getScale()
+        self._obj.Scale = False
 
-        # self._obj.Length = self._obj.Length / scale
         self._obj.RootChord /= scale
         self._obj.RootThickness /= scale
         self._obj.RootLength1 /= scale
@@ -1299,7 +1299,6 @@ class TaskPanelFinCan(QObject):
         self._obj.TrailingLength /= scale
 
         scale = self._finForm.tabScaling.resetScale()
-
         self.update()
 
     def getStandardButtons(self):

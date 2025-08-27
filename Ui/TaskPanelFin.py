@@ -1281,8 +1281,8 @@ class TaskPanelFin(QObject):
     def onSetToScale(self) -> None:
         # Update the scale values
         scale = self._finForm.tabScaling.getScale()
+        self._obj.Scale = False
 
-        # self._obj.Length = self._obj.Length / scale
         self._obj.RootChord /= scale
         self._obj.RootThickness /= scale
         self._obj.RootLength1 /= scale
@@ -1307,20 +1307,7 @@ class TaskPanelFin(QObject):
 
         self._obj.FilletRadius = self._finForm.form.filletRadiusInput.text()
 
-        # placement = FreeCAD.Placement()
-        # yaw = FreeCAD.Units.Quantity(self._finForm.form.zRotationInput.text()).Value
-        # pitch = FreeCAD.Units.Quantity(self._finForm.form.yRotationInput.text()).Value
-        # roll = FreeCAD.Units.Quantity(self._finForm.form.xRotationInput.text()).Value
-        # placement.Rotation.setYawPitchRoll(yaw, pitch, roll)
-        # placement.Base.x = FreeCAD.Units.Quantity(self._finForm.form.offsetInput.text()).Value
-        # self._obj.ProxyPlacement = placement
-
-        # self._finForm.tabScaling.transferTo(self._obj)
-        # self._finForm.tabMaterial.transferTo(self._obj)
-        # self._finForm.tabComment.transferTo(self._obj)
-
         scale = self._finForm.tabScaling.resetScale()
-
         self.update()
 
     def getStandardButtons(self) -> Any:

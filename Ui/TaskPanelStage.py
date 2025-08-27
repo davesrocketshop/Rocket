@@ -103,10 +103,8 @@ class TaskPanelStage:
     def onSetToScale(self) -> None:
         # Update the scale values
         scale = self._stageForm.tabScaling.getScale()
-        # self._obj.Length = self._obj.Length / scale
 
         scale = self._stageForm.tabScaling.resetScale()
-
         self.update()
 
     def getStandardButtons(self):

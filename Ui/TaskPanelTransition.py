@@ -288,7 +288,7 @@ class TaskPanelTransition:
         diameter = self._obj.Proxy.getForeDiameter() / scale
         diameter = FreeCAD.Units.Quantity(f"{diameter} mm")
         self._tranForm.tabScaling.scaledDiameterInput.setText(diameter.UserString)
-        
+
         diameter = self._obj.Proxy.getAftDiameter() / scale
         diameter = FreeCAD.Units.Quantity(f"{diameter} mm")
         self._tranForm.tabScaling.scaledAftDiameterInput.setText(diameter.UserString)
@@ -649,13 +649,13 @@ class TaskPanelTransition:
     def onSetToScale(self) -> None:
         # Update the scale values
         scale = self._tranForm.tabScaling.getScale()
-        self._obj.Length = self._obj.Length / scale
-        if not self._obj.ForeAutoDiameter:
-            self._obj.Proxy.setForeDiameter(self._obj.Proxy.getForeDiameter() / scale)
-        if not self._obj.AftAutoDiameter:
-            self._obj.Proxy.setAftDiameter(self._obj.Proxy.getAftDiameter() / scale)
-        scale = self._tranForm.tabScaling.resetScale()
+        self._obj.Scale = False
 
+        self._obj.Length /= scale
+        self._obj.ForeDiameter /= scale
+        self._obj.AftDiameter /= scale
+
+        scale = self._tranForm.tabScaling.resetScale()
         self.update()
 
     def getStandardButtons(self):
