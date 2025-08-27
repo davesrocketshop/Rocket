@@ -223,3 +223,18 @@ class FeatureInnerTube(ThicknessRingComponent, Clusterable, AxialPositionable, B
 
     def isMotorMount(self) -> bool:
         return self._obj.MotorMount
+
+    def getScale(self) -> float:
+        """
+        Return the scale value
+
+        Inner tubes are never scaled.
+        """
+        return 1.0
+
+    def isScaled(self) -> bool:
+        """ Return True if the object or any of its parental lineage is scaled """
+        return False
+
+    def resetScale(self) -> None:
+        pass
