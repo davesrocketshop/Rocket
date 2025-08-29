@@ -514,7 +514,7 @@ class ScalingTabTransition(ScalingTab):
         if obj.ScaleByDiameter:
             self.scaleDiameterInput.setText(obj.ScaleValue.UserString)
         else:
-            if obj.ScaleForeDiamater:
+            if obj.ScaleForeDiameter:
                 self.scaleDiameterInput.setText(obj.ForeDiameter.UserString)
             else:
                 self.scaleDiameterInput.setText(obj.AftDiameter.UserString)
