@@ -67,6 +67,7 @@ class CmdRocket(Command):
         FreeCADGui.addModule("Ui.Commands.CmdRocket")
         FreeCADGui.doCommand("rocket=Ui.Commands.CmdRocket.makeRocket('Rocket', True)")
         FreeCADGui.doCommand("rocket.enableEvents()")
+        FreeCADGui.doCommand("App.ActiveDocument.commitTransaction()")
         FreeCADGui.doCommand("App.activeDocument().recompute(None,True,True)")
 
     def IsActive(self):

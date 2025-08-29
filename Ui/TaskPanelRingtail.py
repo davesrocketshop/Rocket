@@ -367,6 +367,7 @@ class TaskPanelRingtail:
 
     def accept(self) -> None:
         self.transferTo()
+        FreeCAD.ActiveDocument.commitTransaction()
         FreeCAD.ActiveDocument.recompute()
         FreeCADGui.ActiveDocument.resetEdit()
 

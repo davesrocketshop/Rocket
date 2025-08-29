@@ -47,7 +47,8 @@ from Rocket.Constants import TYPE_CONE, TYPE_BLUNTED_CONE, TYPE_SPHERICAL, TYPE_
     TYPE_PARABOLIC, TYPE_POWER, TYPE_NIKE_SMOKE, TYPE_PROXY
 from Rocket.Constants import STYLE_CAPPED, STYLE_HOLLOW, STYLE_SOLID
 from Rocket.Constants import STYLE_CAP_SOLID, STYLE_CAP_BAR, STYLE_CAP_CROSS
-from Rocket.Constants import FEATURE_NOSE_CONE, FEATURE_INNER_TUBE, FEATURE_CENTERING_RING, FEATURE_FIN
+from Rocket.Constants import FEATURE_NOSE_CONE, FEATURE_TRANSITION, FEATURE_INNER_TUBE, \
+    FEATURE_CENTERING_RING, FEATURE_FIN
 
 from Rocket.Utilities import translate
 
@@ -457,10 +458,17 @@ class FeatureNoseCone(SymmetricComponent):
             if self._obj.ScaleByValue and self._obj.ScaleValue.Value > 0.0:
                 scale = self._obj.ScaleValue.Value
             elif self._obj.ScaleByDiameter:
-                if self._obj.ScaleForeDiameter:
-                    diameter = self.getForeDiameter()
+                # Calling getForeDiameter() introduces infinite recursion. We need to assume
+                # the diameter value has been set
+                # diameter = self.getForeDiameter()
+                # diameter = self.getAftDiameter()
+                if self.Type == FEATURE_TRANSITION:
+                    if self._obj.ScaleForeDiameter:
+                        diameter = float(self._obj.ForeDiameter)
+                    else:
+                        diameter = float(self._obj.AftDiameter)
                 else:
-                    diameter = self.getAftDiameter()
+                    diameter = float(self._obj.Diameter)
                 if diameter > 0 and self._obj.ScaleValue > 0:
                     scale =  diameter / self._obj.ScaleValue
         return float(scale)

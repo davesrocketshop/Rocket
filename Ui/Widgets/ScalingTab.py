@@ -173,7 +173,8 @@ class ScalingTab(QtGui.QWidget):
 
             byDiameter = self.scaleDiameterRadio.isChecked()
             self.scaleDiameterInput.setEnabled(byDiameter)
-            self.autoScaleDiameterCheckbox.setEnabled(byDiameter)
+            # self.autoScaleDiameterCheckbox.setEnabled(byDiameter)
+        self.autoScaleDiameterCheckbox.setVisible(False)
 
     def transferTo(self, obj : Any) -> None:
         "Transfer from the dialog to the object"
@@ -182,14 +183,7 @@ class ScalingTab(QtGui.QWidget):
         obj.ScaleByDiameter = self.scaleDiameterRadio.isChecked()
         obj.AutoScaleDiameter = self.autoScaleDiameterCheckbox.isChecked()
         if obj.ScaleByValue:
-            value = FreeCAD.Units.Quantity(self.scaleInput.text()).Value
-            if self.upscaleCheckbox.isChecked():
-                if value > 0:
-                    obj.ScaleValue = 1.0 / value
-                else:
-                    obj.ScaleValue = 1.0
-            else:
-                obj.ScaleValue = value
+            obj.ScaleValue = self.getScaleValue()
         else:
             obj.ScaleValue = FreeCAD.Units.Quantity(self.scaleDiameterInput.text())
 
@@ -213,11 +207,20 @@ class ScalingTab(QtGui.QWidget):
         if obj.ScaleByDiameter:
             self.scaleDiameterInput.setText(obj.ScaleValue.UserString)
         else:
-            self.scaleDiameterInput.setText(FreeCAD.Units.Quantity(0, FreeCAD.Units.Length).UserString)
+            self.scaleDiameterInput.setText(obj.Diameter.UserString)
 
         self._loading = False
 
         self._setScaleState()
+
+    def getScaleValue(self) -> float:
+        value = FreeCAD.Units.Quantity(self.scaleInput.text()).Value
+        if self.upscaleCheckbox.isChecked():
+            if value > 0:
+                value = 1.0 / value
+            else:
+                value = 1.0
+        return value
 
     def isScaled(self):
         return self._obj.Proxy.isScaled()
@@ -257,6 +260,7 @@ class ScalingTab(QtGui.QWidget):
             return
         try:
             self._obj.ScaleByValue = checked
+            self._obj.ScaleValue = self.getScaleValue()
             self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
@@ -268,6 +272,7 @@ class ScalingTab(QtGui.QWidget):
             return
         try:
             self._obj.ScaleByDiameter = checked
+            self._obj.ScaleValue = FreeCAD.Units.Quantity(self.scaleDiameterInput.text())
             self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
@@ -509,7 +514,10 @@ class ScalingTabTransition(ScalingTab):
         if obj.ScaleByDiameter:
             self.scaleDiameterInput.setText(obj.ScaleValue.UserString)
         else:
-            self.scaleDiameterInput.setText(FreeCAD.Units.Quantity(0, FreeCAD.Units.Length).UserString)
+            if obj.ScaleForeDiamater:
+                self.scaleDiameterInput.setText(obj.ForeDiameter.UserString)
+            else:
+                self.scaleDiameterInput.setText(obj.AftDiameter.UserString)
         self.scaleForeRadio.setChecked(obj.ScaleForeDiameter)
         self.scaleAftRadio.setChecked(not obj.ScaleForeDiameter)
 
@@ -750,11 +758,13 @@ class ScalingTabFins(ScalingTab):
         if obj.ScaleByRootChord:
             self.scaleRootInput.setText(obj.ScaleValue.UserString)
         else:
-            self.scaleRootInput.setText(FreeCAD.Units.Quantity(0, FreeCAD.Units.Length).UserString)
+            # self.scaleRootInput.setText(FreeCAD.Units.Quantity(0, FreeCAD.Units.Length).UserString)
+            self.scaleRootInput.setText(obj.RootChord.UserString)
         if obj.ScaleByHeight:
             self.scaleHeightInput.setText(obj.ScaleValue.UserString)
         else:
-            self.scaleHeightInput.setText(FreeCAD.Units.Quantity(0, FreeCAD.Units.Length).UserString)
+            # self.scaleHeightInput.setText(FreeCAD.Units.Quantity(0, FreeCAD.Units.Length).UserString)
+            self.scaleHeightInput.setText(obj.Height.UserString)
 
         self._loading = False
 
@@ -765,6 +775,7 @@ class ScalingTabFins(ScalingTab):
             return
         try:
             self._obj.ScaleByRootChord = checked
+            self._obj.ScaleValue = FreeCAD.Units.Quantity(self.scaleRootInput.text())
             self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
@@ -776,6 +787,7 @@ class ScalingTabFins(ScalingTab):
             return
         try:
             self._obj.ScaleByHeight = checked
+            self._obj.ScaleValue = FreeCAD.Units.Quantity(self.scaleHeightInput.text())
             self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass

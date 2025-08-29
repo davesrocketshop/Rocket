@@ -86,6 +86,7 @@ class CmdCFDAnalysis(Command):
         FreeCAD.ActiveDocument.openTransaction("Create CFD Analysis")
         FreeCADGui.addModule("Ui.Commands.CmdCFDAnalysis")
         FreeCADGui.doCommand("Ui.Commands.CmdCFDAnalysis.doCFD()")
+        FreeCADGui.doCommand("App.ActiveDocument.commitTransaction()")
 
         FreeCADGui.doCommand("App.activeDocument().recompute(None,True,True)")
 

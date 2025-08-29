@@ -110,23 +110,19 @@ class TaskPanelStage:
     def getStandardButtons(self):
         return QtGui.QDialogButtonBox.Ok | QtGui.QDialogButtonBox.Cancel | QtGui.QDialogButtonBox.Apply
 
-    def clicked(self,button):
-        if button == QtGui.QDialogButtonBox.Apply:
-            self.transferTo()
-            self._obj.Proxy.execute(self._obj)
-
     def update(self):
         'fills the widgets'
         self.transferFrom()
 
     def accept(self):
         self.transferTo()
+        FreeCAD.ActiveDocument.commitTransaction()
         FreeCAD.ActiveDocument.recompute()
         FreeCADGui.ActiveDocument.resetEdit()
-
+        self.setEdited()
 
     def reject(self):
         FreeCAD.ActiveDocument.abortTransaction()
-        self.setEdited()
         FreeCAD.ActiveDocument.recompute()
         FreeCADGui.ActiveDocument.resetEdit()
+        self.setEdited()

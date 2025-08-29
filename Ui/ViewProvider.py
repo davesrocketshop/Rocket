@@ -50,9 +50,11 @@ class ViewProvider:
 
     def startDefaultEditMode(self, viewObject):
         document = viewObject.Document.Document
+        print("startDefaultEditMode")
         if not document.HasPendingTransaction:
             text = translate('Rocket', 'Edit %1').replace('%1', viewObject.Object.Label)
             document.openTransaction(text)
+            print(f"\tNew transaction '{text}'")
         viewObject.Document.setEdit(viewObject.Object, 0)
 
     def claimChildren(self):

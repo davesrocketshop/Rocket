@@ -318,7 +318,10 @@ class FeatureBodyTube(SymmetricComponent, BoxBounded, Coaxial):
             if self._obj.ScaleByValue and self._obj.ScaleValue.Value > 0.0:
                 scale = self._obj.ScaleValue.Value
             elif self._obj.ScaleByDiameter:
-                diameter = self.getForeRadius() * 2.0
+                # Calling getForRadius() introduces infinite recursion. We need to assume
+                # the diameter value has been set
+                # diameter = self.getForeRadius() * 2.0
+                diameter = float(self._obj.Diameter)
                 if diameter > 0 and self._obj.ScaleValue > 0:
                     scale =  float(diameter / self._obj.ScaleValue)
         return scale

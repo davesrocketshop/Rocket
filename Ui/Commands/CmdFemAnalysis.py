@@ -80,9 +80,11 @@ def doFemAnalysis():
 
                     gmsh_mesh = RocketGmsh(mesh)
                     error = gmsh_mesh.create_mesh()
+                    FreeCAD.ActiveDocument.commitTransaction()
                     doc.recompute()
 
                 except TypeError as ex:
+                    FreeCAD.ActiveDocument.abortTransaction()
                     QtGui.QMessageBox.information(None, "", str(ex))
                 return
 

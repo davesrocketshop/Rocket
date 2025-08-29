@@ -56,6 +56,7 @@ class CmdMoveUp(Command):
         FreeCAD.ActiveDocument.openTransaction("Move up")
         FreeCADGui.addModule("Ui.Commands.CmdEditTree")
         FreeCADGui.doCommand("Ui.Commands.CmdEditTree.moveUp()")
+        FreeCADGui.doCommand("App.ActiveDocument.commitTransaction()")
         FreeCADGui.doCommand("App.activeDocument().recompute(None,True,True)")
 
     def IsActive(self):
@@ -73,6 +74,7 @@ class CmdMoveDown(Command):
         FreeCAD.ActiveDocument.openTransaction("Move down")
         FreeCADGui.addModule("Ui.Commands.CmdEditTree")
         FreeCADGui.doCommand("Ui.Commands.CmdEditTree.moveDown()")
+        FreeCADGui.doCommand("App.ActiveDocument.commitTransaction()")
         FreeCADGui.doCommand("App.activeDocument().recompute(None,True,True)")
 
     def IsActive(self):

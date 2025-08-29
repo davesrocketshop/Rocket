@@ -71,6 +71,7 @@ class CmdStage(Command):
         FreeCADGui.doCommand("Ui.Commands.CmdStage.addToStage(obj)")
         FreeCADGui.doCommand("FreeCADGui.Selection.clearSelection()")
         FreeCADGui.doCommand("FreeCADGui.Selection.addSelection(obj._obj)")
+        FreeCADGui.doCommand("App.ActiveDocument.commitTransaction()")
         FreeCADGui.doCommand("App.activeDocument().recompute(None,True,True)")
 
     def IsActive(self):

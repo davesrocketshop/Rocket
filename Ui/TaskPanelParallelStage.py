@@ -173,6 +173,7 @@ class TaskPanelParallelStage:
 
     def accept(self):
         self.transferTo()
+        FreeCAD.ActiveDocument.commitTransaction()
         FreeCAD.ActiveDocument.recompute()
         FreeCADGui.ActiveDocument.resetEdit()
 
