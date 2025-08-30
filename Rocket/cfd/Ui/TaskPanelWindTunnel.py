@@ -157,3 +157,4 @@ class TaskPanelWindTunnel:
         FreeCAD.ActiveDocument.recompute()
         FreeCADGui.ActiveDocument.resetEdit()
         self.setEdited()
+        FreeCAD.ActiveDocument.recompute()

@@ -120,9 +120,11 @@ class TaskPanelStage:
         FreeCAD.ActiveDocument.recompute()
         FreeCADGui.ActiveDocument.resetEdit()
         self.setEdited()
+        FreeCAD.ActiveDocument.recompute()
 
     def reject(self):
         FreeCAD.ActiveDocument.abortTransaction()
         FreeCAD.ActiveDocument.recompute()
         FreeCADGui.ActiveDocument.resetEdit()
         self.setEdited()
+        FreeCAD.ActiveDocument.recompute()
