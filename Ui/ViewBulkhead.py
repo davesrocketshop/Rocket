@@ -40,6 +40,7 @@ class ViewProviderBulkhead(ViewProvider):
 
     def setEdit(self, vobj, mode):
         if mode == 0:
+            self.startTransaction(vobj)
             taskd = TaskPanelBulkhead(self.Object, False, mode)
             taskd.obj = vobj.Object
             taskd.update()

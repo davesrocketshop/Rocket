@@ -53,19 +53,12 @@ class ViewProviderParallelStage(ViewProvider):
         action.triggered.connect(lambda: self.startDefaultEditMode(vobj))
         return False
 
-    def startDefaultEditMode(self, vobj):
-        document = vobj.Document.Document
-        if not document.HasPendingTransaction:
-            text = translate('Rocket', 'Edit %1').replace('%1', vobj.Object.Label)
-            document.openTransaction(text)
-        vobj.Document.setEdit(vobj.Object, 0)
-
-
     def toggleParallelStage(self):
         FreeCADGui.runCommand("Rocket_ToggleParallelStage")
 
     def setEdit(self, vobj, mode):
         if True: #mode == 0:
+            self.startTransaction(vobj)
             taskd = TaskPanelParallelStage(self.Object, mode)
             taskd.obj = vobj.Object
             taskd.update()

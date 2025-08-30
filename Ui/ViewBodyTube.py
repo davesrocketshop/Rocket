@@ -40,6 +40,7 @@ class ViewProviderBodyTube(ViewProvider):
 
     def setEdit(self, vobj, mode):
         if mode == 0:
+            self.startTransaction(vobj)
             taskd = TaskPanelBodyTube(self.Object, mode)
             taskd.obj = vobj.Object
             taskd.update()

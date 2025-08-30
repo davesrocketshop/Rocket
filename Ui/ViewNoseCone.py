@@ -30,6 +30,8 @@ import FreeCADGui
 from Ui.TaskPanelNoseCone import TaskPanelNoseCone
 from Ui.ViewProvider import ViewProvider
 
+from Rocket.Utilities import translate
+
 class ViewProviderNoseCone(ViewProvider):
 
     def __init__(self, vobj):
@@ -40,6 +42,7 @@ class ViewProviderNoseCone(ViewProvider):
 
     def setEdit(self, vobj, mode):
         if mode == 0:
+            self.startTransaction(vobj)
             taskd = TaskPanelNoseCone(self.Object,mode)
             taskd.obj = vobj.Object
             taskd.update()

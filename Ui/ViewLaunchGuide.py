@@ -42,6 +42,7 @@ class ViewProviderRailGuide(ViewProvider):
 
     def setEdit(self, vobj, mode):
         if mode == 0:
+            self.startTransaction(vobj)
             taskd = TaskPanelRailGuide(self.Object, mode)
             taskd.obj = vobj.Object
             taskd.update()
@@ -60,6 +61,7 @@ class ViewProviderRailButton(ViewProviderRailGuide):
 
     def setEdit(self, vobj, mode):
         if mode == 0:
+            self.startTransaction(vobj)
             taskd = TaskPanelRailButton(self.Object, mode)
             taskd.obj = vobj.Object
             taskd.update()
@@ -73,6 +75,7 @@ class ViewProviderLaunchLug(ViewProvider):
 
     def setEdit(self, vobj, mode):
         if mode == 0:
+            self.startTransaction(vobj)
             taskd = TaskPanelLaunchLug(self.Object, mode)
             taskd.obj = vobj.Object
             taskd.update()

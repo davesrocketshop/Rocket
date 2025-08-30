@@ -40,6 +40,7 @@ class ViewProviderCenteringRing(ViewProvider):
 
     def setEdit(self, vobj, mode):
         if mode == 0:
+            self.startTransaction(vobj)
             taskd = TaskPanelBulkhead(self.Object, True, mode)
             taskd.obj = vobj.Object
             taskd.update()

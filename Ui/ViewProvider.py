@@ -49,12 +49,7 @@ class ViewProvider:
         return False
 
     def startDefaultEditMode(self, viewObject):
-        document = viewObject.Document.Document
-        print("startDefaultEditMode")
-        if not document.HasPendingTransaction:
-            text = translate('Rocket', 'Edit %1').replace('%1', viewObject.Object.Label)
-            document.openTransaction(text)
-            print(f"\tNew transaction '{text}'")
+        self.startTransaction(viewObject)
         viewObject.Document.setEdit(viewObject.Object, 0)
 
     def claimChildren(self):
@@ -87,3 +82,9 @@ class ViewProvider:
             appearance
         )
         self.ViewObject.LineColor = appearance.DiffuseColor
+
+    def startTransaction(self, vobj):
+        document = vobj.Document.Document
+        if not document.HasPendingTransaction:
+            text = translate('Rocket', 'Edit %1').replace('%1', vobj.Object.Label)
+            document.openTransaction(text)

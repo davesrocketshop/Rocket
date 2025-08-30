@@ -40,6 +40,7 @@ class ViewProviderPod(ViewProvider):
 
     def setEdit(self, vobj, mode):
         if mode == 0:
+            self.startTransaction(vobj)
             taskd = TaskPanelPod(self.Object, mode)
             taskd.obj = vobj.Object
             taskd.update()
