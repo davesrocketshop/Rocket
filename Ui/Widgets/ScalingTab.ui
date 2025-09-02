@@ -15,99 +15,112 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <widget class="QGroupBox" name="groupBox">
+    <widget class="QGroupBox" name="scalingGroup">
      <property name="title">
       <string>Scaling</string>
      </property>
      <property name="checkable">
       <bool>true</bool>
      </property>
+     <property name="checked">
+      <bool>false</bool>
+     </property>
      <layout class="QGridLayout" name="gridLayout">
-      <item row="0" column="2">
-       <widget class="QCheckBox" name="checkBox">
-        <property name="text">
-         <string>Upscale</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="0">
-       <widget class="QRadioButton" name="radioButton">
-        <property name="text">
-         <string>By Value</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="2">
-       <widget class="QCheckBox" name="checkBox_2">
-        <property name="text">
-         <string>Auto</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="0">
-       <widget class="QRadioButton" name="radioButton_2">
-        <property name="text">
-         <string>By body diameter</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="1">
+      <item row="3" column="1">
        <layout class="QHBoxLayout" name="horizontalLayout">
         <item>
-         <widget class="QRadioButton" name="radioButton_3">
+         <widget class="QRadioButton" name="scaleForeRadio">
           <property name="text">
            <string>Fore</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QRadioButton" name="radioButton_4">
+         <widget class="QRadioButton" name="scaleAftRadio">
           <property name="text">
            <string>Aft</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
           </property>
          </widget>
         </item>
        </layout>
       </item>
-      <item row="4" column="0">
-       <widget class="QRadioButton" name="radioButton_6">
-        <property name="text">
-         <string>By height</string>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="0">
-       <widget class="QRadioButton" name="radioButton_5">
-        <property name="text">
-         <string>By root chord</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="1">
-       <widget class="Gui::InputField" name="inputField">
-        <property name="unit" stdset="0">
-         <string notr="true"/>
-        </property>
-       </widget>
-      </item>
       <item row="1" column="1">
-       <widget class="Gui::InputField" name="inputField_2">
-        <property name="unit" stdset="0">
-         <string notr="true"/>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="1">
-       <widget class="Gui::InputField" name="inputField_3">
+       <widget class="Gui::InputField" name="scaleInput">
         <property name="unit" stdset="0">
          <string notr="true"/>
         </property>
        </widget>
       </item>
       <item row="4" column="1">
-       <widget class="Gui::InputField" name="inputField_4">
+       <widget class="Gui::InputField" name="scaleRootInput">
         <property name="unit" stdset="0">
          <string notr="true"/>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QRadioButton" name="scaleDiameterRadio">
+        <property name="text">
+         <string>By body diameter</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="2">
+       <widget class="QCheckBox" name="upscaleCheckbox">
+        <property name="text">
+         <string>Upscale</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="1">
+       <widget class="Gui::InputField" name="scaleHeightInput">
+        <property name="unit" stdset="0">
+         <string notr="true"/>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="0">
+       <widget class="QRadioButton" name="scaleHeightRadio">
+        <property name="text">
+         <string>By height</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="2">
+       <widget class="QCheckBox" name="scaleDiameterCheckbox">
+        <property name="text">
+         <string>Auto</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="0">
+       <widget class="QRadioButton" name="scaleRootRadio">
+        <property name="text">
+         <string>By root chord</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QRadioButton" name="scaleRadio">
+        <property name="text">
+         <string>By Value</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="Gui::InputField" name="scaleDiameterInput">
+        <property name="unit" stdset="0">
+         <string notr="true"/>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0">
+       <widget class="QCheckBox" name="scaleOverrideCheckbox">
+        <property name="text">
+         <string>Override</string>
         </property>
        </widget>
       </item>
@@ -120,15 +133,15 @@
       <string>Scaled Values</string>
      </property>
      <layout class="QGridLayout" name="gridLayout_2">
-      <item row="7" column="0">
-       <widget class="QLabel" name="label_8">
+      <item row="4" column="0">
+       <widget class="QLabel" name="scaledOgiveDiameterLabel">
         <property name="text">
-         <string>Tip Chord</string>
+         <string>Ogive Diameter</string>
         </property>
        </widget>
       </item>
-      <item row="8" column="1">
-       <widget class="Gui::InputField" name="inputField_13">
+      <item row="7" column="1">
+       <widget class="Gui::InputField" name="scaledRootThicknessInput">
         <property name="enabled">
          <bool>false</bool>
         </property>
@@ -137,15 +150,18 @@
         </property>
        </widget>
       </item>
-      <item row="9" column="0">
-       <widget class="QLabel" name="label_10">
-        <property name="text">
-         <string>Height</string>
+      <item row="2" column="1">
+       <widget class="Gui::InputField" name="scaledDiameterInput">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="unit" stdset="0">
+         <string notr="true"/>
         </property>
        </widget>
       </item>
       <item row="9" column="1">
-       <widget class="Gui::InputField" name="inputField_14">
+       <widget class="Gui::InputField" name="scaledTipThicknessInput">
         <property name="enabled">
          <bool>false</bool>
         </property>
@@ -154,45 +170,44 @@
         </property>
        </widget>
       </item>
-      <item row="6" column="0">
-       <widget class="QLabel" name="label_7">
-        <property name="text">
-         <string>Root Thickness</string>
+      <item row="4" column="1">
+       <widget class="Gui::InputField" name="scaledOgiveDiameterLabel_2">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="unit" stdset="0">
+         <string notr="true"/>
         </property>
        </widget>
       </item>
-      <item row="2" column="0">
-       <widget class="QLabel" name="label_3">
-        <property name="text">
-         <string>Diameter</string>
+      <item row="6" column="1">
+       <widget class="Gui::InputField" name="scaledRootInput">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="unit" stdset="0">
+         <string notr="true"/>
         </property>
        </widget>
       </item>
-      <item row="8" column="0">
-       <widget class="QLabel" name="label_9">
-        <property name="text">
-         <string>Tip Thickness</string>
-        </property>
-       </widget>
-      </item>
-      <item row="10" column="0" colspan="2">
+      <item row="11" column="0" colspan="2">
        <layout class="QGridLayout" name="gridLayout_3">
         <item row="1" column="3">
-         <widget class="QPushButton" name="pushButton">
+         <widget class="QPushButton" name="scaleSetRocketButton">
           <property name="text">
            <string>Set Rocket</string>
           </property>
          </widget>
         </item>
         <item row="1" column="1">
-         <widget class="QPushButton" name="pushButton_2">
+         <widget class="QPushButton" name="scaledSetPartButton">
           <property name="text">
            <string>Set Part</string>
           </property>
          </widget>
         </item>
         <item row="1" column="2">
-         <widget class="QPushButton" name="pushButton_3">
+         <widget class="QPushButton" name="scaledSetStageButton">
           <property name="text">
            <string>Set Stage</string>
           </property>
@@ -201,7 +216,7 @@
         <item row="1" column="0">
          <spacer name="horizontalSpacer">
           <property name="orientation">
-           <enum>Qt::Horizontal</enum>
+           <enum>Qt::Orientation::Horizontal</enum>
           </property>
           <property name="sizeHint" stdset="0">
            <size>
@@ -213,89 +228,36 @@
         </item>
        </layout>
       </item>
-      <item row="7" column="1">
-       <widget class="Gui::InputField" name="inputField_12">
-        <property name="enabled">
-         <bool>false</bool>
-        </property>
-        <property name="unit" stdset="0">
-         <string notr="true"/>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="1">
-       <widget class="Gui::InputField" name="inputField_9">
-        <property name="enabled">
-         <bool>false</bool>
-        </property>
-        <property name="unit" stdset="0">
-         <string notr="true"/>
-        </property>
-       </widget>
-      </item>
       <item row="0" column="0">
-       <widget class="QLabel" name="label">
+       <widget class="QLabel" name="scaledLabel">
         <property name="text">
          <string>Scale</string>
         </property>
        </widget>
       </item>
-      <item row="3" column="0">
-       <widget class="QLabel" name="label_4">
-        <property name="text">
-         <string>Ogive Diameter</string>
-        </property>
-       </widget>
-      </item>
       <item row="1" column="0">
-       <widget class="QLabel" name="label_2">
+       <widget class="QLabel" name="scaledLengthLabel">
         <property name="text">
          <string>Length</string>
         </property>
        </widget>
       </item>
-      <item row="0" column="1">
-       <widget class="Gui::InputField" name="inputField_5">
-        <property name="enabled">
-         <bool>false</bool>
-        </property>
-        <property name="unit" stdset="0">
-         <string notr="true"/>
+      <item row="10" column="0">
+       <widget class="QLabel" name="scaledHeightLabel">
+        <property name="text">
+         <string>Height</string>
         </property>
        </widget>
       </item>
-      <item row="6" column="1">
-       <widget class="Gui::InputField" name="inputField_11">
-        <property name="enabled">
-         <bool>false</bool>
-        </property>
-        <property name="unit" stdset="0">
-         <string notr="true"/>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="1">
-       <widget class="Gui::InputField" name="inputField_8">
-        <property name="enabled">
-         <bool>false</bool>
-        </property>
-        <property name="unit" stdset="0">
-         <string notr="true"/>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="1">
-       <widget class="Gui::InputField" name="inputField_7">
-        <property name="enabled">
-         <bool>false</bool>
-        </property>
-        <property name="unit" stdset="0">
-         <string notr="true"/>
+      <item row="9" column="0">
+       <widget class="QLabel" name="scaledTipThicknessLabel">
+        <property name="text">
+         <string>Tip Thickness</string>
         </property>
        </widget>
       </item>
       <item row="5" column="1">
-       <widget class="Gui::InputField" name="inputField_10">
+       <widget class="Gui::InputField" name="scaledBluntedDiameterInput">
         <property name="enabled">
          <bool>false</bool>
         </property>
@@ -304,15 +266,32 @@
         </property>
        </widget>
       </item>
-      <item row="4" column="0">
-       <widget class="QLabel" name="label_5">
+      <item row="2" column="0">
+       <widget class="QLabel" name="scaledDiameterLabel">
         <property name="text">
-         <string>Blunted Diameter</string>
+         <string>Diameter</string>
+        </property>
+       </widget>
+      </item>
+      <item row="10" column="1">
+       <widget class="Gui::InputField" name="scaledHeightInput">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="unit" stdset="0">
+         <string notr="true"/>
+        </property>
+       </widget>
+      </item>
+      <item row="7" column="0">
+       <widget class="QLabel" name="scaledRootThicknessLabel">
+        <property name="text">
+         <string>Root Thickness</string>
         </property>
        </widget>
       </item>
       <item row="1" column="1">
-       <widget class="Gui::InputField" name="inputField_6">
+       <widget class="Gui::InputField" name="scaledLengthInput">
         <property name="enabled">
          <bool>false</bool>
         </property>
@@ -322,9 +301,60 @@
        </widget>
       </item>
       <item row="5" column="0">
-       <widget class="QLabel" name="label_6">
+       <widget class="QLabel" name="scaledBluntedDiameterLabel">
+        <property name="text">
+         <string>Blunted Diameter</string>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="0">
+       <widget class="QLabel" name="scaledRootLabel">
         <property name="text">
          <string>Root Chord</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="Gui::InputField" name="scaledInput">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="unit" stdset="0">
+         <string notr="true"/>
+        </property>
+       </widget>
+      </item>
+      <item row="8" column="1">
+       <widget class="Gui::InputField" name="scaledTipInput">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="unit" stdset="0">
+         <string notr="true"/>
+        </property>
+       </widget>
+      </item>
+      <item row="8" column="0">
+       <widget class="QLabel" name="scaledTipLabel">
+        <property name="text">
+         <string>Tip Chord</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0">
+       <widget class="QLabel" name="scaleAftDiameterLabel">
+        <property name="text">
+         <string>Aft Diameter</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <widget class="Gui::InputField" name="scaledAftDiameterInput">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="unit" stdset="0">
+         <string notr="true"/>
         </property>
        </widget>
       </item>
@@ -334,7 +364,7 @@
    <item>
     <spacer name="verticalSpacer">
      <property name="orientation">
-      <enum>Qt::Vertical</enum>
+      <enum>Qt::Orientation::Vertical</enum>
      </property>
      <property name="sizeHint" stdset="0">
       <size>
@@ -354,32 +384,34 @@
   </customwidget>
  </customwidgets>
  <tabstops>
-  <tabstop>groupBox</tabstop>
-  <tabstop>radioButton</tabstop>
-  <tabstop>inputField</tabstop>
-  <tabstop>checkBox</tabstop>
-  <tabstop>radioButton_2</tabstop>
-  <tabstop>inputField_2</tabstop>
-  <tabstop>checkBox_2</tabstop>
-  <tabstop>radioButton_3</tabstop>
-  <tabstop>radioButton_4</tabstop>
-  <tabstop>radioButton_5</tabstop>
-  <tabstop>inputField_3</tabstop>
-  <tabstop>radioButton_6</tabstop>
-  <tabstop>inputField_4</tabstop>
-  <tabstop>inputField_5</tabstop>
-  <tabstop>inputField_6</tabstop>
-  <tabstop>inputField_7</tabstop>
-  <tabstop>inputField_8</tabstop>
-  <tabstop>inputField_9</tabstop>
-  <tabstop>inputField_10</tabstop>
-  <tabstop>inputField_11</tabstop>
-  <tabstop>inputField_12</tabstop>
-  <tabstop>inputField_13</tabstop>
-  <tabstop>inputField_14</tabstop>
-  <tabstop>pushButton_2</tabstop>
-  <tabstop>pushButton_3</tabstop>
-  <tabstop>pushButton</tabstop>
+  <tabstop>scalingGroup</tabstop>
+  <tabstop>scaleOverrideCheckbox</tabstop>
+  <tabstop>scaleRadio</tabstop>
+  <tabstop>scaleInput</tabstop>
+  <tabstop>upscaleCheckbox</tabstop>
+  <tabstop>scaleDiameterRadio</tabstop>
+  <tabstop>scaleDiameterInput</tabstop>
+  <tabstop>scaleDiameterCheckbox</tabstop>
+  <tabstop>scaleForeRadio</tabstop>
+  <tabstop>scaleAftRadio</tabstop>
+  <tabstop>scaleRootRadio</tabstop>
+  <tabstop>scaleRootInput</tabstop>
+  <tabstop>scaleHeightRadio</tabstop>
+  <tabstop>scaleHeightInput</tabstop>
+  <tabstop>scaledInput</tabstop>
+  <tabstop>scaledLengthInput</tabstop>
+  <tabstop>scaledDiameterInput</tabstop>
+  <tabstop>scaledAftDiameterInput</tabstop>
+  <tabstop>scaledOgiveDiameterLabel_2</tabstop>
+  <tabstop>scaledBluntedDiameterInput</tabstop>
+  <tabstop>scaledRootInput</tabstop>
+  <tabstop>scaledRootThicknessInput</tabstop>
+  <tabstop>scaledTipInput</tabstop>
+  <tabstop>scaledTipThicknessInput</tabstop>
+  <tabstop>scaledHeightInput</tabstop>
+  <tabstop>scaledSetPartButton</tabstop>
+  <tabstop>scaledSetStageButton</tabstop>
+  <tabstop>scaleSetRocketButton</tabstop>
  </tabstops>
  <resources/>
  <connections/>

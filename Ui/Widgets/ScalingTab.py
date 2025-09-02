@@ -25,6 +25,7 @@ __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
 from typing import Any
+import os
 
 import FreeCAD
 import FreeCADGui
@@ -36,186 +37,155 @@ from PySide.QtCore import QObject, Signal
 from PySide.QtWidgets import QGridLayout, QVBoxLayout, QSizePolicy
 
 from Rocket.Constants import FIN_TYPE_TRAPEZOID
-class ScalingTab(QtGui.QWidget):
+
+from Ui.UIPaths import getUIPath
+
+class ScalingTab(QObject):
     scaled = Signal()   # emitted when scale parameters have changed
 
-    def __init__(self, obj : Any, parent : QtGui.QWidget = None) -> None:
-        super().__init__(parent)
+    def __init__(self, obj : Any) -> None:
+        super().__init__()
         self._obj = obj
         self._loading = False # Prevent updates when loading
         self._isAssembly = self._obj.Proxy.isRocketAssembly()
+        self._form = FreeCADGui.PySideUic.loadUi(os.path.join(getUIPath(), 'Ui', "Widgets", "ScalingTab.ui"))
 
         self.setTabScaling()
         self._setConnections()
         self._setScaleState()
 
+    def widget(self) -> QtGui.QWidget:
+        return self._form
+
     def setTabScaling(self) -> None:
-        ui = FreeCADGui.UiLoader()
-
         # Scaling
-        self.scalingGroup = self._scalingGroup(ui)
+        self._scalingGroup()
 
         # Show the results
-        self.reportingGroup = self._reportingGroup(ui)
+        self._reportingGroup()
 
-        layout = QVBoxLayout()
-        layout.addWidget(self.scalingGroup)
-        layout.addWidget(self.reportingGroup)
-        layout.addItem(QtGui.QSpacerItem(0,0, QSizePolicy.Expanding, QSizePolicy.Expanding))
+    def _scalingGroup(self) -> None:
 
-        self.setLayout(layout)
+        self._form.scaleDiameterCheckbox.setVisible(False)
 
-    def _scalingGroup(self, ui : FreeCADGui.UiLoader) -> QtGui.QGroupBox:
+        self._form.scaleForeRadio.setVisible(False)
+        self._form.scaleAftRadio.setVisible(False)
 
-        # Scaling
-        group = QtGui.QGroupBox(translate('Rocket', "Scaling"), self)
-        group.setCheckable(True)
-        group.setChecked(False)
+        self._form.scaleRootRadio.setVisible(False)
+        self._form.scaleRootInput.setVisible(False)
 
-        self.scaleRadio = QtGui.QRadioButton (translate('Rocket', "By value"), group)
-        self.scaleRadio.setChecked(True)
+        self._form.scaleHeightRadio.setVisible(False)
+        self._form.scaleHeightInput.setVisible(False)
 
-        self.scaleInput = ui.createWidget("Gui::InputField")
-        self.scaleInput.setMinimumWidth(20)
-
-        self.upscaleCheckbox = QtGui.QCheckBox(translate('Rocket', "Upscale"), self)
-        self.upscaleCheckbox.setCheckState(QtCore.Qt.Unchecked)
-
-        self.scaleDiameterRadio = QtGui.QRadioButton(translate('Rocket', "By body diameter"), group)
-        self.scaleDiameterRadio.setChecked(False)
-
-        self.scaleDiameterInput = ui.createWidget("Gui::InputField")
-        self.scaleDiameterInput.unit = FreeCAD.Units.Length
-        self.scaleDiameterInput.setMinimumWidth(20)
-
-        self.autoScaleDiameterCheckbox = QtGui.QCheckBox(translate('Rocket', "auto"), self)
-        self.autoScaleDiameterCheckbox.setCheckState(QtCore.Qt.Unchecked)
-
-        grid = QGridLayout()
-        row = 0
-
-        grid.addWidget(self.scaleRadio, row, 0)
-        grid.addWidget(self.scaleInput, row, 1, 1, 2)
-        grid.addWidget(self.upscaleCheckbox, row, 3)
-        row += 1
-
-        grid.addWidget(self.scaleDiameterRadio, row, 0)
-        grid.addWidget(self.scaleDiameterInput, row, 1, 1, 2)
-        grid.addWidget(self.autoScaleDiameterCheckbox, row, 3)
-        row += 1
-
-        group.setLayout(grid)
-        return group
-
-    def _reportingGroup(self, ui : FreeCADGui.UiLoader) -> QtGui.QGroupBox:
-
+    def _reportingGroup(self) -> None:
+        ...
         # Show the results
-        group = QtGui.QGroupBox(translate('Rocket', "Scaled Values"), self)
+        # group = QtGui.QGroupBox(translate('Rocket', "Scaled Values"), self)
 
-        self.scaledLabel = QtGui.QLabel(translate('Rocket', "Scale"), self)
+        # self.scaledLabel = QtGui.QLabel(translate('Rocket', "Scale"), self)
 
-        self.scaledInput = ui.createWidget("Gui::InputField")
-        self.scaledInput.setMinimumWidth(20)
-        self.scaledInput.setEnabled(False)
+        # self.scaledInput = ui.createWidget("Gui::InputField")
+        # self.scaledInput.setMinimumWidth(20)
+        # self.scaledInput.setEnabled(False)
 
-        self.scaledLengthLabel = QtGui.QLabel(translate('Rocket', "Length"), self)
+        # self.scaledLengthLabel = QtGui.QLabel(translate('Rocket', "Length"), self)
 
-        self.scaledLengthInput = ui.createWidget("Gui::InputField")
-        self.scaledLengthInput.unit = FreeCAD.Units.Length
-        self.scaledLengthInput.setMinimumWidth(20)
-        self.scaledLengthInput.setEnabled(False)
+        # self.scaledLengthInput = ui.createWidget("Gui::InputField")
+        # self.scaledLengthInput.unit = FreeCAD.Units.Length
+        # self.scaledLengthInput.setMinimumWidth(20)
+        # self.scaledLengthInput.setEnabled(False)
 
-        self.scaledDiameterLabel = QtGui.QLabel(translate('Rocket', "Diameter"), self)
+        # self.scaledDiameterLabel = QtGui.QLabel(translate('Rocket', "Diameter"), self)
 
-        self.scaledDiameterInput = ui.createWidget("Gui::InputField")
-        self.scaledDiameterInput.unit = FreeCAD.Units.Length
-        self.scaledDiameterInput.setMinimumWidth(20)
-        self.scaledDiameterInput.setEnabled(False)
+        # self.scaledDiameterInput = ui.createWidget("Gui::InputField")
+        # self.scaledDiameterInput.unit = FreeCAD.Units.Length
+        # self.scaledDiameterInput.setMinimumWidth(20)
+        # self.scaledDiameterInput.setEnabled(False)
 
-        self.scaledSetValuesButton = QtGui.QPushButton(translate('Rocket', 'Set as values'), self)
-        self.scaledSetValuesButton.setSizePolicy(QSizePolicy.Minimum, QSizePolicy.Preferred)
+        # self.scaledSetValuesButton = QtGui.QPushButton(translate('Rocket', 'Set as values'), self)
+        # self.scaledSetValuesButton.setSizePolicy(QSizePolicy.Minimum, QSizePolicy.Preferred)
 
-        grid = QGridLayout()
-        row = 0
+        # grid = QGridLayout()
+        # row = 0
 
-        grid.addWidget(self.scaledLabel, row, 0)
-        grid.addWidget(self.scaledInput, row, 1, 1, 2)
-        row += 1
+        # grid.addWidget(self.scaledLabel, row, 0)
+        # grid.addWidget(self.scaledInput, row, 1, 1, 2)
+        # row += 1
 
-        grid.addWidget(self.scaledLengthLabel, row, 0)
-        grid.addWidget(self.scaledLengthInput, row, 1, 1, 2)
-        row += 1
+        # grid.addWidget(self.scaledLengthLabel, row, 0)
+        # grid.addWidget(self.scaledLengthInput, row, 1, 1, 2)
+        # row += 1
 
-        grid.addWidget(self.scaledDiameterLabel, row, 0)
-        grid.addWidget(self.scaledDiameterInput, row, 1, 1, 2)
-        row += 1
+        # grid.addWidget(self.scaledDiameterLabel, row, 0)
+        # grid.addWidget(self.scaledDiameterInput, row, 1, 1, 2)
+        # row += 1
 
-        grid.addWidget(self.scaledSetValuesButton, row, 2)
-        row += 1
+        # grid.addWidget(self.scaledSetValuesButton, row, 2)
+        # row += 1
 
-        group.setLayout(grid)
-        return group
+        # group.setLayout(grid)
+        # return group
 
     def _setConnections(self) -> None:
-        self.scalingGroup.toggled.connect(self.onScalingGroup)
-        self.scaleRadio.toggled.connect(self.onScale)
-        self.scaleDiameterRadio.toggled.connect(self.onScaleDiameter)
-        self.autoScaleDiameterCheckbox.stateChanged.connect(self.onScaleAutoDiameter)
-        self.upscaleCheckbox.stateChanged.connect(self.onUpscale)
-        self.scaleInput.textEdited.connect(self.onScaleValue)
-        self.scaleDiameterInput.textEdited.connect(self.onScaleDiameterValue)
+        self._form.scalingGroup.toggled.connect(self.onScalingGroup)
+        self._form.scaleRadio.toggled.connect(self.onScale)
+        self._form.scaleDiameterRadio.toggled.connect(self.onScaleDiameter)
+        self._form.scaleDiameterCheckbox.stateChanged.connect(self.onScaleAutoDiameter)
+        self._form.upscaleCheckbox.stateChanged.connect(self.onUpscale)
+        self._form.scaleInput.textEdited.connect(self.onScaleValue)
+        self._form.scaleDiameterInput.textEdited.connect(self.onScaleDiameterValue)
 
     def _setScaleState(self) -> None:
-        if self.scalingGroup.isChecked():
-            byValue = self.scaleRadio.isChecked()
-            self.scaleInput.setEnabled(byValue)
-            self.upscaleCheckbox.setEnabled(byValue)
+        if self._form.scalingGroup.isChecked():
+            byValue = self._form.scaleRadio.isChecked()
+            self._form.scaleInput.setEnabled(byValue)
+            self._form.upscaleCheckbox.setEnabled(byValue)
 
-            byDiameter = self.scaleDiameterRadio.isChecked()
-            self.scaleDiameterInput.setEnabled(byDiameter)
-            # self.autoScaleDiameterCheckbox.setEnabled(byDiameter)
-        self.autoScaleDiameterCheckbox.setVisible(False)
+            byDiameter = self._form.scaleDiameterRadio.isChecked()
+            self._form.scaleDiameterInput.setEnabled(byDiameter)
+            # self._form.scaleDiameterCheckbox.setEnabled(byDiameter)
+        self._form.scaleDiameterCheckbox.setVisible(False)
 
     def transferTo(self, obj : Any) -> None:
         "Transfer from the dialog to the object"
-        obj.Scale = self.scalingGroup.isChecked()
-        obj.ScaleByValue = self.scaleRadio.isChecked()
-        obj.ScaleByDiameter = self.scaleDiameterRadio.isChecked()
-        obj.AutoScaleDiameter = self.autoScaleDiameterCheckbox.isChecked()
+        obj.Scale = self._form.scalingGroup.isChecked()
+        obj.ScaleByValue = self._form.scaleRadio.isChecked()
+        obj.ScaleByDiameter = self._form.scaleDiameterRadio.isChecked()
+        obj.AutoScaleDiameter = self._form.scaleDiameterCheckbox.isChecked()
         if obj.ScaleByValue:
             obj.ScaleValue = self.getScaleValue()
         else:
-            obj.ScaleValue = FreeCAD.Units.Quantity(self.scaleDiameterInput.text())
+            obj.ScaleValue = FreeCAD.Units.Quantity(self._form.scaleDiameterInput.text())
 
     def transferFrom(self, obj : Any) -> None:
         "Transfer from the object to the dialog"
         self._loading = True
 
-        self.scalingGroup.setChecked(obj.Scale)
-        self.scaleRadio.setChecked(obj.ScaleByValue)
-        self.scaleDiameterRadio.setChecked(obj.ScaleByDiameter)
-        self.autoScaleDiameterCheckbox.setChecked(obj.AutoScaleDiameter)
+        self._form.scalingGroup.setChecked(obj.Scale)
+        self._form.scaleRadio.setChecked(obj.ScaleByValue)
+        self._form.scaleDiameterRadio.setChecked(obj.ScaleByDiameter)
+        self._form.scaleDiameterCheckbox.setChecked(obj.AutoScaleDiameter)
         if obj.ScaleByValue:
             if obj.ScaleValue.Value > 0.0 and obj.ScaleValue.Value < 1.0:
-                self.scaleInput.setText(f"{1.0 / obj.ScaleValue.Value}")
-                self.upscaleCheckbox.setChecked(True)
+                self._form.scaleInput.setText(f"{1.0 / obj.ScaleValue.Value}")
+                self._form.upscaleCheckbox.setChecked(True)
             else:
-                self.scaleInput.setText(f"{obj.ScaleValue.Value}")
-                self.upscaleCheckbox.setChecked(False)
+                self._form.scaleInput.setText(f"{obj.ScaleValue.Value}")
+                self._form.upscaleCheckbox.setChecked(False)
         else:
-            self.scaleInput.setText("0")
+            self._form.scaleInput.setText("0")
         if obj.ScaleByDiameter:
-            self.scaleDiameterInput.setText(obj.ScaleValue.UserString)
+            self._form.scaleDiameterInput.setText(obj.ScaleValue.UserString)
         else:
-            self.scaleDiameterInput.setText(obj.Diameter.UserString)
+            self._form.scaleDiameterInput.setText(obj.Diameter.UserString)
 
         self._loading = False
 
         self._setScaleState()
 
     def getScaleValue(self) -> float:
-        value = FreeCAD.Units.Quantity(self.scaleInput.text()).Value
-        if self.upscaleCheckbox.isChecked():
+        value = FreeCAD.Units.Quantity(self._form.scaleInput.text()).Value
+        if self._form.upscaleCheckbox.isChecked():
             if value > 0:
                 value = 1.0 / value
             else:
@@ -272,7 +242,7 @@ class ScalingTab(QtGui.QWidget):
             return
         try:
             self._obj.ScaleByDiameter = checked
-            self._obj.ScaleValue = FreeCAD.Units.Quantity(self.scaleDiameterInput.text())
+            self._obj.ScaleValue = FreeCAD.Units.Quantity(self._form.scaleDiameterInput.text())
             self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
@@ -294,7 +264,7 @@ class ScalingTab(QtGui.QWidget):
         if self._loading:
             return
         try:
-            scale = FreeCAD.Units.Quantity(self.scaleInput.text()).Value
+            scale = FreeCAD.Units.Quantity(self._form.scaleInput.text()).Value
             if checked:
                 if scale > 0:
                     self._obj.ScaleValue = 1 / scale
@@ -313,7 +283,7 @@ class ScalingTab(QtGui.QWidget):
             return
         try:
             scale = FreeCAD.Units.Quantity(value).Value
-            if self.upscaleCheckbox.isChecked():
+            if self._form.upscaleCheckbox.isChecked():
                 if scale > 0:
                     self._obj.ScaleValue = 1 / scale
                 else:
@@ -337,154 +307,155 @@ class ScalingTab(QtGui.QWidget):
 
 class ScalingTabNose(ScalingTab):
 
-    def __init__(self, obj : Any, parent : QtGui.QWidget = None) -> None:
-        super().__init__(obj, parent)
+    def __init__(self, obj : Any) -> None:
+        super().__init__(obj)
 
-    def _reportingGroup(self, ui : FreeCADGui.UiLoader) -> QtGui.QGroupBox:
-
+    def _reportingGroup(self) -> None:
+        ...
         # Show the results
-        group = QtGui.QGroupBox(translate('Rocket', "Scaled Values"), self)
+        # group = QtGui.QGroupBox(translate('Rocket', "Scaled Values"), self)
 
-        self.scaledLabel = QtGui.QLabel(translate('Rocket', "Scale"), self)
+        # self.scaledLabel = QtGui.QLabel(translate('Rocket', "Scale"), self)
 
-        self.scaledInput = ui.createWidget("Gui::InputField")
-        self.scaledInput.setMinimumWidth(20)
-        self.scaledInput.setEnabled(False)
+        # self.scaledInput = ui.createWidget("Gui::InputField")
+        # self.scaledInput.setMinimumWidth(20)
+        # self.scaledInput.setEnabled(False)
 
-        self.scaledLengthLabel = QtGui.QLabel(translate('Rocket', "Length"), self)
+        # self.scaledLengthLabel = QtGui.QLabel(translate('Rocket', "Length"), self)
 
-        self.scaledLengthInput = ui.createWidget("Gui::InputField")
-        self.scaledLengthInput.unit = FreeCAD.Units.Length
-        self.scaledLengthInput.setMinimumWidth(20)
-        self.scaledLengthInput.setEnabled(False)
+        # self.scaledLengthInput = ui.createWidget("Gui::InputField")
+        # self.scaledLengthInput.unit = FreeCAD.Units.Length
+        # self.scaledLengthInput.setMinimumWidth(20)
+        # self.scaledLengthInput.setEnabled(False)
 
-        self.scaledDiameterLabel = QtGui.QLabel(translate('Rocket', "Diameter"), self)
+        # self.scaledDiameterLabel = QtGui.QLabel(translate('Rocket', "Diameter"), self)
 
-        self.scaledDiameterInput = ui.createWidget("Gui::InputField")
-        self.scaledDiameterInput.unit = FreeCAD.Units.Length
-        self.scaledDiameterInput.setMinimumWidth(20)
-        self.scaledDiameterInput.setEnabled(False)
+        # self.scaledDiameterInput = ui.createWidget("Gui::InputField")
+        # self.scaledDiameterInput.unit = FreeCAD.Units.Length
+        # self.scaledDiameterInput.setMinimumWidth(20)
+        # self.scaledDiameterInput.setEnabled(False)
 
-        self.scaledOgiveDiameterLabel = QtGui.QLabel(translate('Rocket', "Ogive Diameter"), self)
+        # self.scaledOgiveDiameterLabel = QtGui.QLabel(translate('Rocket', "Ogive Diameter"), self)
 
-        self.scaledOgiveDiameterInput = ui.createWidget("Gui::InputField")
-        self.scaledOgiveDiameterInput.unit = FreeCAD.Units.Length
-        self.scaledOgiveDiameterInput.setMinimumWidth(20)
-        self.scaledOgiveDiameterInput.setEnabled(False)
+        # self.scaledOgiveDiameterInput = ui.createWidget("Gui::InputField")
+        # self.scaledOgiveDiameterInput.unit = FreeCAD.Units.Length
+        # self.scaledOgiveDiameterInput.setMinimumWidth(20)
+        # self.scaledOgiveDiameterInput.setEnabled(False)
 
-        self.scaledBluntedDiameterLabel = QtGui.QLabel(translate('Rocket', "Blunted Diameter"), self)
+        # self.scaledBluntedDiameterLabel = QtGui.QLabel(translate('Rocket', "Blunted Diameter"), self)
 
-        self.scaledBluntedDiameterInput = ui.createWidget("Gui::InputField")
-        self.scaledBluntedDiameterInput.unit = FreeCAD.Units.Length
-        self.scaledBluntedDiameterInput.setMinimumWidth(20)
-        self.scaledBluntedDiameterInput.setEnabled(False)
+        # self.scaledBluntedDiameterInput = ui.createWidget("Gui::InputField")
+        # self.scaledBluntedDiameterInput.unit = FreeCAD.Units.Length
+        # self.scaledBluntedDiameterInput.setMinimumWidth(20)
+        # self.scaledBluntedDiameterInput.setEnabled(False)
 
-        self.scaledSetValuesButton = QtGui.QPushButton(translate('Rocket', 'Set as values'), self)
-        self.scaledSetValuesButton.setSizePolicy(QSizePolicy.Minimum, QSizePolicy.Preferred)
+        # self.scaledSetValuesButton = QtGui.QPushButton(translate('Rocket', 'Set as values'), self)
+        # self.scaledSetValuesButton.setSizePolicy(QSizePolicy.Minimum, QSizePolicy.Preferred)
 
-        grid = QGridLayout()
-        row = 0
+        # grid = QGridLayout()
+        # row = 0
 
-        grid.addWidget(self.scaledLabel, row, 0)
-        grid.addWidget(self.scaledInput, row, 1, 1, 2)
-        row += 1
+        # grid.addWidget(self.scaledLabel, row, 0)
+        # grid.addWidget(self.scaledInput, row, 1, 1, 2)
+        # row += 1
 
-        grid.addWidget(self.scaledLengthLabel, row, 0)
-        grid.addWidget(self.scaledLengthInput, row, 1, 1, 2)
-        row += 1
+        # grid.addWidget(self.scaledLengthLabel, row, 0)
+        # grid.addWidget(self.scaledLengthInput, row, 1, 1, 2)
+        # row += 1
 
-        grid.addWidget(self.scaledDiameterLabel, row, 0)
-        grid.addWidget(self.scaledDiameterInput, row, 1, 1, 2)
-        row += 1
+        # grid.addWidget(self.scaledDiameterLabel, row, 0)
+        # grid.addWidget(self.scaledDiameterInput, row, 1, 1, 2)
+        # row += 1
 
-        grid.addWidget(self.scaledOgiveDiameterLabel, row, 0)
-        grid.addWidget(self.scaledOgiveDiameterInput, row, 1, 1, 2)
-        row += 1
+        # grid.addWidget(self.scaledOgiveDiameterLabel, row, 0)
+        # grid.addWidget(self.scaledOgiveDiameterInput, row, 1, 1, 2)
+        # row += 1
 
-        grid.addWidget(self.scaledBluntedDiameterLabel, row, 0)
-        grid.addWidget(self.scaledBluntedDiameterInput, row, 1, 1, 2)
-        row += 1
+        # grid.addWidget(self.scaledBluntedDiameterLabel, row, 0)
+        # grid.addWidget(self.scaledBluntedDiameterInput, row, 1, 1, 2)
+        # row += 1
 
-        grid.addWidget(self.scaledSetValuesButton, row, 2)
-        row += 1
+        # grid.addWidget(self.scaledSetValuesButton, row, 2)
+        # row += 1
 
-        group.setLayout(grid)
-        return group
+        # group.setLayout(grid)
+        # return group
 
 class ScalingTabTransition(ScalingTab):
 
-    def __init__(self, obj : Any, parent : QtGui.QWidget = None) -> None:
-        super().__init__(obj, parent)
+    def __init__(self, obj : Any) -> None:
+        super().__init__(obj)
 
     def _setConnections(self) -> None:
         super()._setConnections()
 
-        self.scaleForeRadio.toggled.connect(self.onScaleFore)
-        self.scaleAftRadio.toggled.connect(self.onScaleAft)
+        self._form.scaleForeRadio.toggled.connect(self.onScaleFore)
+        self._form.scaleAftRadio.toggled.connect(self.onScaleAft)
 
-    def _scalingGroup(self, ui : FreeCADGui.UiLoader) -> QtGui.QGroupBox:
+    def _scalingGroup(self) -> None:
+        ...
 
-        group = super()._scalingGroup(ui)
+        # group = super()._scalingGroup(ui)
 
-        self.foreAftGroup = QtGui.QButtonGroup()
-        self.scaleForeRadio = QtGui.QRadioButton(translate('Rocket', "Fore"))
-        self.foreAftGroup.addButton(self.scaleForeRadio)
-        self.scaleForeRadio.setChecked(False)
+        # self.foreAftGroup = QtGui.QButtonGroup()
+        # self._form.scaleForeRadio = QtGui.QRadioButton(translate('Rocket', "Fore"))
+        # self.foreAftGroup.addButton(self._form.scaleForeRadio)
+        # self._form.scaleForeRadio.setChecked(False)
 
-        self.scaleAftRadio = QtGui.QRadioButton(translate('Rocket', "Aft"))
-        self.foreAftGroup.addButton(self.scaleAftRadio)
-        self.scaleAftRadio.setChecked(True)
+        # self._form.scaleAftRadio = QtGui.QRadioButton(translate('Rocket', "Aft"))
+        # self.foreAftGroup.addButton(self._form.scaleAftRadio)
+        # self._form.scaleAftRadio.setChecked(True)
 
-        grid = group.layout()
-        row = grid.rowCount()
+        # grid = group.layout()
+        # row = grid.rowCount()
 
-        grid.addWidget(self.scaleForeRadio, row, 1)
-        grid.addWidget(self.scaleAftRadio, row, 2)
-        row += 1
+        # grid.addWidget(self._form.scaleForeRadio, row, 1)
+        # grid.addWidget(self._form.scaleAftRadio, row, 2)
+        # row += 1
 
-        return group
+        # return group
 
-    def _reportingGroup(self, ui : FreeCADGui.UiLoader) -> QtGui.QGroupBox:
-
+    def _reportingGroup(self) -> None:
+        ...
         # Show the results
-        group = super()._reportingGroup(ui)
+        # group = super()._reportingGroup(ui)
 
-        self.scaledDiameterLabel.setText(translate('Rocket', "Fore Diameter"))
+        # self.scaledDiameterLabel.setText(translate('Rocket', "Fore Diameter"))
 
-        self.scaledAftDiameterLabel = QtGui.QLabel(translate('Rocket', "Aft Diameter"), self)
+        # self.scaledAftDiameterLabel = QtGui.QLabel(translate('Rocket', "Aft Diameter"), self)
 
-        self.scaledAftDiameterInput = ui.createWidget("Gui::InputField")
-        self.scaledAftDiameterInput.unit = FreeCAD.Units.Length
-        self.scaledAftDiameterInput.setMinimumWidth(20)
-        self.scaledAftDiameterInput.setEnabled(False)
+        # self.scaledAftDiameterInput = ui.createWidget("Gui::InputField")
+        # self.scaledAftDiameterInput.unit = FreeCAD.Units.Length
+        # self.scaledAftDiameterInput.setMinimumWidth(20)
+        # self.scaledAftDiameterInput.setEnabled(False)
 
-        grid = group.layout()
-        row = grid.rowCount()
+        # grid = group.layout()
+        # row = grid.rowCount()
 
-        # Insert before the set values button
-        grid.addWidget(self.scaledAftDiameterLabel, row - 1, 0)
-        grid.addWidget(self.scaledAftDiameterInput, row - 1, 1, 1, 2)
-        row += 1
+        # # Insert before the set values button
+        # grid.addWidget(self.scaledAftDiameterLabel, row - 1, 0)
+        # grid.addWidget(self.scaledAftDiameterInput, row - 1, 1, 1, 2)
+        # row += 1
 
-        return group
+        # return group
 
     def _setScaleState(self) -> None:
         super()._setScaleState()
-        if self.scalingGroup.isChecked():
-            byDiameter = self.scaleDiameterRadio.isChecked()
-            self.scaleForeRadio.setEnabled(byDiameter)
-            self.scaleAftRadio.setEnabled(byDiameter)
+        if self._form.scalingGroup.isChecked():
+            byDiameter = self._form.scaleDiameterRadio.isChecked()
+            self._form.scaleForeRadio.setEnabled(byDiameter)
+            self._form.scaleAftRadio.setEnabled(byDiameter)
 
     def transferTo(self, obj : Any) -> None:
         "Transfer from the dialog to the object"
-        obj.Scale = self.scalingGroup.isChecked()
-        obj.ScaleByValue = self.scaleRadio.isChecked()
-        obj.ScaleByDiameter = self.scaleDiameterRadio.isChecked()
-        obj.AutoScaleDiameter = self.autoScaleDiameterCheckbox.isChecked()
-        obj.ScaleForeDiameter = self.scaleForeRadio.isChecked()
+        obj.Scale = self._form.scalingGroup.isChecked()
+        obj.ScaleByValue = self._form.scaleRadio.isChecked()
+        obj.ScaleByDiameter = self._form.scaleDiameterRadio.isChecked()
+        obj.AutoScaleDiameter = self._form.scaleDiameterCheckbox.isChecked()
+        obj.ScaleForeDiameter = self._form.scaleForeRadio.isChecked()
         if obj.ScaleByValue:
-            value = FreeCAD.Units.Quantity(self.scaleInput.text()).Value
-            if self.upscaleCheckbox.isChecked():
+            value = FreeCAD.Units.Quantity(self._form.scaleInput.text()).Value
+            if self._form.upscaleCheckbox.isChecked():
                 if value > 0:
                     obj.ScaleValue = 1.0 / value
                 else:
@@ -492,34 +463,34 @@ class ScalingTabTransition(ScalingTab):
             else:
                 obj.ScaleValue = value
         else:
-            obj.ScaleValue = FreeCAD.Units.Quantity(self.scaleDiameterInput.text())
+            obj.ScaleValue = FreeCAD.Units.Quantity(self._form.scaleDiameterInput.text())
 
     def transferFrom(self, obj : Any) -> None:
         "Transfer from the object to the dialog"
         self._loading = True
 
-        self.scalingGroup.setChecked(obj.Scale)
-        self.scaleRadio.setChecked(obj.ScaleByValue)
-        self.scaleDiameterRadio.setChecked(obj.ScaleByDiameter)
-        self.autoScaleDiameterCheckbox.setChecked(obj.AutoScaleDiameter)
+        self._form.scalingGroup.setChecked(obj.Scale)
+        self._form.scaleRadio.setChecked(obj.ScaleByValue)
+        self._form.scaleDiameterRadio.setChecked(obj.ScaleByDiameter)
+        self._form.scaleDiameterCheckbox.setChecked(obj.AutoScaleDiameter)
         if obj.ScaleByValue:
             if obj.ScaleValue.Value > 0.0 and obj.ScaleValue.Value < 1.0:
-                self.scaleInput.setText(f"{1.0 / obj.ScaleValue.Value}")
-                self.upscaleCheckbox.setChecked(True)
+                self._form.scaleInput.setText(f"{1.0 / obj.ScaleValue.Value}")
+                self._form.upscaleCheckbox.setChecked(True)
             else:
-                self.scaleInput.setText(f"{obj.ScaleValue.Value}")
-                self.upscaleCheckbox.setChecked(False)
+                self._form.scaleInput.setText(f"{obj.ScaleValue.Value}")
+                self._form.upscaleCheckbox.setChecked(False)
         else:
-            self.scaleInput.setText("0")
+            self._form.scaleInput.setText("0")
         if obj.ScaleByDiameter:
-            self.scaleDiameterInput.setText(obj.ScaleValue.UserString)
+            self._form.scaleDiameterInput.setText(obj.ScaleValue.UserString)
         else:
             if obj.ScaleForeDiameter:
-                self.scaleDiameterInput.setText(obj.ForeDiameter.UserString)
+                self._form.scaleDiameterInput.setText(obj.ForeDiameter.UserString)
             else:
-                self.scaleDiameterInput.setText(obj.AftDiameter.UserString)
-        self.scaleForeRadio.setChecked(obj.ScaleForeDiameter)
-        self.scaleAftRadio.setChecked(not obj.ScaleForeDiameter)
+                self._form.scaleDiameterInput.setText(obj.AftDiameter.UserString)
+        self._form.scaleForeRadio.setChecked(obj.ScaleForeDiameter)
+        self._form.scaleAftRadio.setChecked(not obj.ScaleForeDiameter)
 
         self._loading = False
 
@@ -549,184 +520,186 @@ class ScalingTabTransition(ScalingTab):
 
 class ScalingTabBodyTube(ScalingTab):
 
-    def __init__(self, obj : Any, parent : QtGui.QWidget = None) -> None:
-        super().__init__(obj, parent)
+    def __init__(self, obj : Any) -> None:
+        super().__init__(obj)
 
 class ScalingTabFins(ScalingTab):
 
-    def __init__(self, obj : Any, parent : QtGui.QWidget = None) -> None:
-        super().__init__(obj, parent)
+    def __init__(self, obj : Any) -> None:
+        super().__init__(obj)
 
-    def _scalingGroup(self, ui : FreeCADGui.UiLoader) -> QtGui.QGroupBox:
+    def _scalingGroup(self) -> None:
+        ...
 
         # Scaling
-        group = QtGui.QGroupBox(translate('Rocket', "Scaling"), self)
-        group.setCheckable(True)
-        group.setChecked(False)
+        # group = QtGui.QGroupBox(translate('Rocket', "Scaling"), self)
+        # group.setCheckable(True)
+        # group.setChecked(False)
 
-        self.scaleRadio = QtGui.QRadioButton (translate('Rocket', "By value"), group)
-        self.scaleRadio.setChecked(True)
+        # self._form.scaleRadio = QtGui.QRadioButton (translate('Rocket', "By value"), group)
+        # self._form.scaleRadio.setChecked(True)
 
-        self.scaleInput = ui.createWidget("Gui::InputField")
-        self.scaleInput.setMinimumWidth(20)
+        # self._form.scaleInput = ui.createWidget("Gui::InputField")
+        # self._form.scaleInput.setMinimumWidth(20)
 
-        self.upscaleCheckbox = QtGui.QCheckBox(translate('Rocket', "Upscale"), self)
-        self.upscaleCheckbox.setCheckState(QtCore.Qt.Unchecked)
+        # self._form.upscaleCheckbox = QtGui.QCheckBox(translate('Rocket', "Upscale"), self)
+        # self._form.upscaleCheckbox.setCheckState(QtCore.Qt.Unchecked)
 
-        self.scaleRootRadio = QtGui.QRadioButton(translate('Rocket', "By root chord"), group)
-        self.scaleRootRadio.setChecked(False)
+        # self._form.scaleRootRadio = QtGui.QRadioButton(translate('Rocket', "By root chord"), group)
+        # self._form.scaleRootRadio.setChecked(False)
 
-        self.scaleRootInput = ui.createWidget("Gui::InputField")
-        self.scaleRootInput.unit = FreeCAD.Units.Length
-        self.scaleRootInput.setMinimumWidth(20)
+        # self._form.scaleRootInput = ui.createWidget("Gui::InputField")
+        # self._form.scaleRootInput.unit = FreeCAD.Units.Length
+        # self._form.scaleRootInput.setMinimumWidth(20)
 
-        self.scaleHeightRadio = QtGui.QRadioButton(translate('Rocket', "By height"), group)
-        self.scaleHeightRadio.setChecked(False)
+        # self._form.scaleHeightRadio = QtGui.QRadioButton(translate('Rocket', "By height"), group)
+        # self._form.scaleHeightRadio.setChecked(False)
 
-        self.scaleHeightInput = ui.createWidget("Gui::InputField")
-        self.scaleHeightInput.unit = FreeCAD.Units.Length
-        self.scaleHeightInput.setMinimumWidth(20)
+        # self._form.scaleHeightInput = ui.createWidget("Gui::InputField")
+        # self._form.scaleHeightInput.unit = FreeCAD.Units.Length
+        # self._form.scaleHeightInput.setMinimumWidth(20)
 
-        grid = QGridLayout()
-        row = 0
+        # grid = QGridLayout()
+        # row = 0
 
-        grid.addWidget(self.scaleRadio, row, 0)
-        grid.addWidget(self.scaleInput, row, 1, 1, 2)
-        grid.addWidget(self.upscaleCheckbox, row, 3)
-        row += 1
+        # grid.addWidget(self._form.scaleRadio, row, 0)
+        # grid.addWidget(self._form.scaleInput, row, 1, 1, 2)
+        # grid.addWidget(self._form.upscaleCheckbox, row, 3)
+        # row += 1
 
-        grid.addWidget(self.scaleRootRadio, row, 0)
-        grid.addWidget(self.scaleRootInput, row, 1, 1, 2)
-        row += 1
+        # grid.addWidget(self._form.scaleRootRadio, row, 0)
+        # grid.addWidget(self._form.scaleRootInput, row, 1, 1, 2)
+        # row += 1
 
-        grid.addWidget(self.scaleHeightRadio, row, 0)
-        grid.addWidget(self.scaleHeightInput, row, 1, 1, 2)
-        row += 1
+        # grid.addWidget(self._form.scaleHeightRadio, row, 0)
+        # grid.addWidget(self._form.scaleHeightInput, row, 1, 1, 2)
+        # row += 1
 
-        group.setLayout(grid)
-        return group
+        # group.setLayout(grid)
+        # return group
 
-    def _reportingGroup(self, ui : FreeCADGui.UiLoader) -> QtGui.QGroupBox:
+    def _reportingGroup(self) -> None:
+        ...
 
         # Show the results
-        group = QtGui.QGroupBox(translate('Rocket', "Scaled Values"), self)
+        # group = QtGui.QGroupBox(translate('Rocket', "Scaled Values"), self)
 
-        self.scaledLabel = QtGui.QLabel(translate('Rocket', "Scale"), self)
+        # self.scaledLabel = QtGui.QLabel(translate('Rocket', "Scale"), self)
 
-        self.scaledInput = ui.createWidget("Gui::InputField")
-        self.scaledInput.setMinimumWidth(20)
-        self.scaledInput.setEnabled(False)
+        # self.scaledInput = ui.createWidget("Gui::InputField")
+        # self.scaledInput.setMinimumWidth(20)
+        # self.scaledInput.setEnabled(False)
 
-        self.scaledRootLabel = QtGui.QLabel(translate('Rocket', "Root chord"), self)
+        # self.scaledRootLabel = QtGui.QLabel(translate('Rocket', "Root chord"), self)
 
-        self.scaledRootInput = ui.createWidget("Gui::InputField")
-        self.scaledRootInput.unit = FreeCAD.Units.Length
-        self.scaledRootInput.setMinimumWidth(20)
-        self.scaledRootInput.setEnabled(False)
+        # self.scaledRootInput = ui.createWidget("Gui::InputField")
+        # self.scaledRootInput.unit = FreeCAD.Units.Length
+        # self.scaledRootInput.setMinimumWidth(20)
+        # self.scaledRootInput.setEnabled(False)
 
-        self.scaledRootThicknessLabel = QtGui.QLabel(translate('Rocket', "Root thickness"), self)
+        # self.scaledRootThicknessLabel = QtGui.QLabel(translate('Rocket', "Root thickness"), self)
 
-        self.scaledRootThicknessInput = ui.createWidget("Gui::InputField")
-        self.scaledRootThicknessInput.unit = FreeCAD.Units.Length
-        self.scaledRootThicknessInput.setMinimumWidth(20)
-        self.scaledRootThicknessInput.setEnabled(False)
+        # self.scaledRootThicknessInput = ui.createWidget("Gui::InputField")
+        # self.scaledRootThicknessInput.unit = FreeCAD.Units.Length
+        # self.scaledRootThicknessInput.setMinimumWidth(20)
+        # self.scaledRootThicknessInput.setEnabled(False)
 
-        self.scaledTipLabel = QtGui.QLabel(translate('Rocket', "Tip chord"), self)
+        # self._form.scaledTipLabel = QtGui.QLabel(translate('Rocket', "Tip chord"), self)
 
-        self.scaledTipInput = ui.createWidget("Gui::InputField")
-        self.scaledTipInput.unit = FreeCAD.Units.Length
-        self.scaledTipInput.setMinimumWidth(20)
-        self.scaledTipInput.setEnabled(False)
+        # self._form.scaledTipInput = ui.createWidget("Gui::InputField")
+        # self._form.scaledTipInput.unit = FreeCAD.Units.Length
+        # self._form.scaledTipInput.setMinimumWidth(20)
+        # self._form.scaledTipInput.setEnabled(False)
 
-        self.scaledTipThicknessLabel = QtGui.QLabel(translate('Rocket', "Tip thickness"), self)
+        # self._form.scaledTipThicknessLabel = QtGui.QLabel(translate('Rocket', "Tip thickness"), self)
 
-        self.scaledTipThicknessInput = ui.createWidget("Gui::InputField")
-        self.scaledTipThicknessInput.unit = FreeCAD.Units.Length
-        self.scaledTipThicknessInput.setMinimumWidth(20)
-        self.scaledTipThicknessInput.setEnabled(False)
+        # self._form.scaledTipThicknessInput = ui.createWidget("Gui::InputField")
+        # self._form.scaledTipThicknessInput.unit = FreeCAD.Units.Length
+        # self._form.scaledTipThicknessInput.setMinimumWidth(20)
+        # self._form.scaledTipThicknessInput.setEnabled(False)
 
-        self.scaledHeightLabel = QtGui.QLabel(translate('Rocket', "Height"), self)
+        # self.scaledHeightLabel = QtGui.QLabel(translate('Rocket', "Height"), self)
 
-        self.scaledHeightInput = ui.createWidget("Gui::InputField")
-        self.scaledHeightInput.unit = FreeCAD.Units.Length
-        self.scaledHeightInput.setMinimumWidth(20)
-        self.scaledHeightInput.setEnabled(False)
+        # self.scaledHeightInput = ui.createWidget("Gui::InputField")
+        # self.scaledHeightInput.unit = FreeCAD.Units.Length
+        # self.scaledHeightInput.setMinimumWidth(20)
+        # self.scaledHeightInput.setEnabled(False)
 
-        self.scaledSetValuesButton = QtGui.QPushButton(translate('Rocket', 'Set as values'), self)
-        self.scaledSetValuesButton.setSizePolicy(QSizePolicy.Minimum, QSizePolicy.Preferred)
+        # self.scaledSetValuesButton = QtGui.QPushButton(translate('Rocket', 'Set as values'), self)
+        # self.scaledSetValuesButton.setSizePolicy(QSizePolicy.Minimum, QSizePolicy.Preferred)
 
-        grid = QGridLayout()
-        row = 0
+        # grid = QGridLayout()
+        # row = 0
 
-        grid.addWidget(self.scaledLabel, row, 0)
-        grid.addWidget(self.scaledInput, row, 1, 1, 2)
-        row += 1
+        # grid.addWidget(self.scaledLabel, row, 0)
+        # grid.addWidget(self.scaledInput, row, 1, 1, 2)
+        # row += 1
 
-        grid.addWidget(self.scaledRootLabel, row, 0)
-        grid.addWidget(self.scaledRootInput, row, 1, 1, 2)
-        row += 1
+        # grid.addWidget(self.scaledRootLabel, row, 0)
+        # grid.addWidget(self.scaledRootInput, row, 1, 1, 2)
+        # row += 1
 
-        grid.addWidget(self.scaledRootThicknessLabel, row, 0)
-        grid.addWidget(self.scaledRootThicknessInput, row, 1, 1, 2)
-        row += 1
+        # grid.addWidget(self.scaledRootThicknessLabel, row, 0)
+        # grid.addWidget(self.scaledRootThicknessInput, row, 1, 1, 2)
+        # row += 1
 
-        grid.addWidget(self.scaledTipLabel, row, 0)
-        grid.addWidget(self.scaledTipInput, row, 1, 1, 2)
-        row += 1
+        # grid.addWidget(self._form.scaledTipLabel, row, 0)
+        # grid.addWidget(self._form.scaledTipInput, row, 1, 1, 2)
+        # row += 1
 
-        grid.addWidget(self.scaledTipThicknessLabel, row, 0)
-        grid.addWidget(self.scaledTipThicknessInput, row, 1, 1, 2)
-        row += 1
+        # grid.addWidget(self._form.scaledTipThicknessLabel, row, 0)
+        # grid.addWidget(self._form.scaledTipThicknessInput, row, 1, 1, 2)
+        # row += 1
 
-        grid.addWidget(self.scaledHeightLabel, row, 0)
-        grid.addWidget(self.scaledHeightInput, row, 1, 1, 2)
-        row += 1
+        # grid.addWidget(self.scaledHeightLabel, row, 0)
+        # grid.addWidget(self.scaledHeightInput, row, 1, 1, 2)
+        # row += 1
 
-        grid.addWidget(self.scaledSetValuesButton, row, 2)
-        row += 1
+        # grid.addWidget(self.scaledSetValuesButton, row, 2)
+        # row += 1
 
-        group.setLayout(grid)
-        return group
+        # group.setLayout(grid)
+        # return group
 
     def _setConnections(self) -> None:
-        self.scalingGroup.toggled.connect(self.onScalingGroup)
-        self.scaleRadio.toggled.connect(self.onScale)
-        self.scaleRootRadio.toggled.connect(self.onScaleRoot)
-        self.scaleHeightRadio.toggled.connect(self.onScaleHeight)
-        self.upscaleCheckbox.stateChanged.connect(self.onUpscale)
-        self.scaleInput.textEdited.connect(self.onScaleValue)
-        self.scaleRootInput.textEdited.connect(self.onScaleRootValue)
-        self.scaleHeightInput.textEdited.connect(self.onScaleHeightValue)
+        self._form.scalingGroup.toggled.connect(self.onScalingGroup)
+        self._form.scaleRadio.toggled.connect(self.onScale)
+        self._form.scaleRootRadio.toggled.connect(self.onScaleRoot)
+        self._form.scaleHeightRadio.toggled.connect(self.onScaleHeight)
+        self._form.upscaleCheckbox.stateChanged.connect(self.onUpscale)
+        self._form.scaleInput.textEdited.connect(self.onScaleValue)
+        self._form.scaleRootInput.textEdited.connect(self.onScaleRootValue)
+        self._form.scaleHeightInput.textEdited.connect(self.onScaleHeightValue)
 
     def _setScaleState(self) -> None:
-        if self.scalingGroup.isChecked():
-            byValue = self.scaleRadio.isChecked()
-            self.scaleInput.setEnabled(byValue)
-            self.upscaleCheckbox.setEnabled(byValue)
+        if self._form.scalingGroup.isChecked():
+            byValue = self._form.scaleRadio.isChecked()
+            self._form.scaleInput.setEnabled(byValue)
+            self._form.upscaleCheckbox.setEnabled(byValue)
 
-            byRoot = self.scaleRootRadio.isChecked()
-            self.scaleRootInput.setEnabled(byRoot)
+            byRoot = self._form.scaleRootRadio.isChecked()
+            self._form.scaleRootInput.setEnabled(byRoot)
 
-            byHeight = self.scaleHeightRadio.isChecked()
-            self.scaleHeightInput.setEnabled(byHeight)
+            byHeight = self._form.scaleHeightRadio.isChecked()
+            self._form.scaleHeightInput.setEnabled(byHeight)
 
         isTrapezoid = (self._obj.FinType == FIN_TYPE_TRAPEZOID)
-        self.scaledTipLabel.setVisible(isTrapezoid)
-        self.scaledTipInput.setVisible(isTrapezoid)
-        self.scaledTipThicknessLabel.setVisible(isTrapezoid)
-        self.scaledTipThicknessInput.setVisible(isTrapezoid)
+        self._form.scaledTipLabel.setVisible(isTrapezoid)
+        self._form.scaledTipInput.setVisible(isTrapezoid)
+        self._form.scaledTipThicknessLabel.setVisible(isTrapezoid)
+        self._form.scaledTipThicknessInput.setVisible(isTrapezoid)
 
     def transferTo(self, obj : Any) -> None:
         "Transfer from the dialog to the object"
-        obj.Scale = self.scalingGroup.isChecked()
-        obj.ScaleByValue = self.scaleRadio.isChecked()
-        obj.ScaleByRootChord = self.scaleRootRadio.isChecked()
-        obj.ScaleByHeight = self.scaleHeightRadio.isChecked()
+        obj.Scale = self._form.scalingGroup.isChecked()
+        obj.ScaleByValue = self._form.scaleRadio.isChecked()
+        obj.ScaleByRootChord = self._form.scaleRootRadio.isChecked()
+        obj.ScaleByHeight = self._form.scaleHeightRadio.isChecked()
         obj.ScaleByDiameter = False
         obj.AutoScaleDiameter = False
         if obj.ScaleByValue:
-            value = FreeCAD.Units.Quantity(self.scaleInput.text()).Value
-            if self.upscaleCheckbox.isChecked():
+            value = FreeCAD.Units.Quantity(self._form.scaleInput.text()).Value
+            if self._form.upscaleCheckbox.isChecked():
                 if value > 0:
                     obj.ScaleValue = 1.0 / value
                 else:
@@ -734,37 +707,37 @@ class ScalingTabFins(ScalingTab):
             else:
                 obj.ScaleValue = value
         elif obj.ScaleByRootChord:
-            obj.ScaleValue = FreeCAD.Units.Quantity(self.scaleRootInput.text())
+            obj.ScaleValue = FreeCAD.Units.Quantity(self._form.scaleRootInput.text())
         elif obj.ScaleByHeight:
-            obj.ScaleValue = FreeCAD.Units.Quantity(self.scaleHeightInput.text())
+            obj.ScaleValue = FreeCAD.Units.Quantity(self._form.scaleHeightInput.text())
 
     def transferFrom(self, obj : Any) -> None:
         "Transfer from the object to the dialog"
         self._loading = True
 
-        self.scalingGroup.setChecked(obj.Scale)
-        self.scaleRadio.setChecked(obj.ScaleByValue)
-        self.scaleRootRadio.setChecked(obj.ScaleByRootChord)
-        self.scaleHeightRadio.setChecked(obj.ScaleByHeight)
+        self._form.scalingGroup.setChecked(obj.Scale)
+        self._form.scaleRadio.setChecked(obj.ScaleByValue)
+        self._form.scaleRootRadio.setChecked(obj.ScaleByRootChord)
+        self._form.scaleHeightRadio.setChecked(obj.ScaleByHeight)
         if obj.ScaleByValue:
             if obj.ScaleValue.Value > 0.0 and obj.ScaleValue.Value < 1.0:
-                self.scaleInput.setText(f"{1.0 / obj.ScaleValue.Value}")
-                self.upscaleCheckbox.setChecked(True)
+                self._form.scaleInput.setText(f"{1.0 / obj.ScaleValue.Value}")
+                self._form.upscaleCheckbox.setChecked(True)
             else:
-                self.scaleInput.setText(f"{obj.ScaleValue.Value}")
-                self.upscaleCheckbox.setChecked(False)
+                self._form.scaleInput.setText(f"{obj.ScaleValue.Value}")
+                self._form.upscaleCheckbox.setChecked(False)
         else:
-            self.scaleInput.setText("0")
+            self._form.scaleInput.setText("0")
         if obj.ScaleByRootChord:
-            self.scaleRootInput.setText(obj.ScaleValue.UserString)
+            self._form.scaleRootInput.setText(obj.ScaleValue.UserString)
         else:
-            # self.scaleRootInput.setText(FreeCAD.Units.Quantity(0, FreeCAD.Units.Length).UserString)
-            self.scaleRootInput.setText(obj.RootChord.UserString)
+            # self._form.scaleRootInput.setText(FreeCAD.Units.Quantity(0, FreeCAD.Units.Length).UserString)
+            self._form.scaleRootInput.setText(obj.RootChord.UserString)
         if obj.ScaleByHeight:
-            self.scaleHeightInput.setText(obj.ScaleValue.UserString)
+            self._form.scaleHeightInput.setText(obj.ScaleValue.UserString)
         else:
-            # self.scaleHeightInput.setText(FreeCAD.Units.Quantity(0, FreeCAD.Units.Length).UserString)
-            self.scaleHeightInput.setText(obj.Height.UserString)
+            # self._form.scaleHeightInput.setText(FreeCAD.Units.Quantity(0, FreeCAD.Units.Length).UserString)
+            self._form.scaleHeightInput.setText(obj.Height.UserString)
 
         self._loading = False
 
@@ -775,7 +748,7 @@ class ScalingTabFins(ScalingTab):
             return
         try:
             self._obj.ScaleByRootChord = checked
-            self._obj.ScaleValue = FreeCAD.Units.Quantity(self.scaleRootInput.text())
+            self._obj.ScaleValue = FreeCAD.Units.Quantity(self._form.scaleRootInput.text())
             self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
@@ -787,7 +760,7 @@ class ScalingTabFins(ScalingTab):
             return
         try:
             self._obj.ScaleByHeight = checked
-            self._obj.ScaleValue = FreeCAD.Units.Quantity(self.scaleHeightInput.text())
+            self._obj.ScaleValue = FreeCAD.Units.Quantity(self._form.scaleHeightInput.text())
             self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
@@ -816,89 +789,89 @@ class ScalingTabFins(ScalingTab):
 
 class ScalingTabRocketStage(ScalingTab):
 
-    def __init__(self, obj : Any, parent : QtGui.QWidget = None) -> None:
-        super().__init__(obj, parent)
+    def __init__(self, obj : Any) -> None:
+        super().__init__(obj)
 
-    def _scalingGroup(self, ui : FreeCADGui.UiLoader) -> QtGui.QGroupBox:
-
+    def _scalingGroup(self) -> None:
+        ...
         # Scaling
-        group = QtGui.QGroupBox(translate('Rocket', "Scaling"), self)
-        group.setCheckable(True)
-        group.setChecked(False)
+        # group = QtGui.QGroupBox(translate('Rocket', "Scaling"), self)
+        # group.setCheckable(True)
+        # group.setChecked(False)
 
-        self.scaleLabel = QtGui.QLabel(translate('Rocket', "By value"), group)
+        # self.scaleLabel = QtGui.QLabel(translate('Rocket', "By value"), group)
 
-        self.scaleInput = ui.createWidget("Gui::InputField")
-        self.scaleInput.setMinimumWidth(20)
+        # self._form.scaleInput = ui.createWidget("Gui::InputField")
+        # self._form.scaleInput.setMinimumWidth(20)
 
-        self.upscaleCheckbox = QtGui.QCheckBox(translate('Rocket', "Upscale"), self)
-        self.upscaleCheckbox.setCheckState(QtCore.Qt.Unchecked)
+        # self._form.upscaleCheckbox = QtGui.QCheckBox(translate('Rocket', "Upscale"), self)
+        # self._form.upscaleCheckbox.setCheckState(QtCore.Qt.Unchecked)
 
-        grid = QGridLayout()
-        row = 0
+        # grid = QGridLayout()
+        # row = 0
 
-        grid.addWidget(self.scaleLabel, row, 0)
-        grid.addWidget(self.scaleInput, row, 1, 1, 2)
-        grid.addWidget(self.upscaleCheckbox, row, 3)
-        row += 1
-
-        group.setLayout(grid)
-        return group
-
-    def _reportingGroup(self, ui : FreeCADGui.UiLoader) -> QtGui.QGroupBox:
-
-        # Show the results
-        group = QtGui.QGroupBox(translate('Rocket', "Scaled Values"), self)
-
-        self.scaledLabel = QtGui.QLabel(translate('Rocket', "Scale"), self)
-
-        self.scaledInput = ui.createWidget("Gui::InputField")
-        self.scaledInput.setMinimumWidth(20)
-        self.scaledInput.setEnabled(False)
-
-        # self.scaledLengthLabel = QtGui.QLabel(translate('Rocket', "Length"), self)
-
-        # self.scaledLengthInput = ui.createWidget("Gui::InputField")
-        # self.scaledLengthInput.unit = FreeCAD.Units.Length
-        # self.scaledLengthInput.setMinimumWidth(20)
-        # self.scaledLengthInput.setEnabled(False)
-
-        self.scaledSetValuesButton = QtGui.QPushButton(translate('Rocket', 'Set as values'), self)
-        self.scaledSetValuesButton.setSizePolicy(QSizePolicy.Minimum, QSizePolicy.Preferred)
-
-        grid = QGridLayout()
-        row = 0
-
-        grid.addWidget(self.scaledLabel, row, 0)
-        grid.addWidget(self.scaledInput, row, 1, 1, 2)
-        row += 1
-
-        # grid.addWidget(self.scaledLengthLabel, row, 0)
-        # grid.addWidget(self.scaledLengthInput, row, 1, 1, 2)
+        # grid.addWidget(self.scaleLabel, row, 0)
+        # grid.addWidget(self._form.scaleInput, row, 1, 1, 2)
+        # grid.addWidget(self._form.upscaleCheckbox, row, 3)
         # row += 1
 
-        grid.addWidget(self.scaledSetValuesButton, row, 2)
-        row += 1
+        # group.setLayout(grid)
+        # return group
 
-        group.setLayout(grid)
-        return group
+    def _reportingGroup(self) -> None:
+        ...
+        # # Show the results
+        # group = QtGui.QGroupBox(translate('Rocket', "Scaled Values"), self)
+
+        # self.scaledLabel = QtGui.QLabel(translate('Rocket', "Scale"), self)
+
+        # self.scaledInput = ui.createWidget("Gui::InputField")
+        # self.scaledInput.setMinimumWidth(20)
+        # self.scaledInput.setEnabled(False)
+
+        # # self.scaledLengthLabel = QtGui.QLabel(translate('Rocket', "Length"), self)
+
+        # # self.scaledLengthInput = ui.createWidget("Gui::InputField")
+        # # self.scaledLengthInput.unit = FreeCAD.Units.Length
+        # # self.scaledLengthInput.setMinimumWidth(20)
+        # # self.scaledLengthInput.setEnabled(False)
+
+        # self.scaledSetValuesButton = QtGui.QPushButton(translate('Rocket', 'Set as values'), self)
+        # self.scaledSetValuesButton.setSizePolicy(QSizePolicy.Minimum, QSizePolicy.Preferred)
+
+        # grid = QGridLayout()
+        # row = 0
+
+        # grid.addWidget(self.scaledLabel, row, 0)
+        # grid.addWidget(self.scaledInput, row, 1, 1, 2)
+        # row += 1
+
+        # # grid.addWidget(self.scaledLengthLabel, row, 0)
+        # # grid.addWidget(self.scaledLengthInput, row, 1, 1, 2)
+        # # row += 1
+
+        # grid.addWidget(self.scaledSetValuesButton, row, 2)
+        # row += 1
+
+        # group.setLayout(grid)
+        # return group
 
     def _setConnections(self) -> None:
-        self.scalingGroup.toggled.connect(self.onScalingGroup)
-        self.upscaleCheckbox.stateChanged.connect(self.onUpscale)
-        self.scaleInput.textEdited.connect(self.onScaleValue)
+        self._form.scalingGroup.toggled.connect(self.onScalingGroup)
+        self._form.upscaleCheckbox.stateChanged.connect(self.onUpscale)
+        self._form.scaleInput.textEdited.connect(self.onScaleValue)
 
     def _setScaleState(self) -> None:
-        if self.scalingGroup.isChecked():
-            self.scaleInput.setEnabled(True)
-            self.upscaleCheckbox.setEnabled(True)
+        if self._form.scalingGroup.isChecked():
+            self._form.scaleInput.setEnabled(True)
+            self._form.upscaleCheckbox.setEnabled(True)
 
     def transferTo(self, obj : Any) -> None:
         "Transfer from the dialog to the object"
-        obj.Scale = self.scalingGroup.isChecked()
+        obj.Scale = self._form.scalingGroup.isChecked()
         obj.ScaleByValue = True
-        value = FreeCAD.Units.Quantity(self.scaleInput.text()).Value
-        if self.upscaleCheckbox.isChecked():
+        value = FreeCAD.Units.Quantity(self._form.scaleInput.text()).Value
+        if self._form.upscaleCheckbox.isChecked():
             if value > 0:
                 obj.ScaleValue = 1.0 / value
             else:
@@ -910,13 +883,13 @@ class ScalingTabRocketStage(ScalingTab):
         "Transfer from the object to the dialog"
         self._loading = True
 
-        self.scalingGroup.setChecked(obj.Scale)
+        self._form.scalingGroup.setChecked(obj.Scale)
         if obj.ScaleValue.Value < 1.0:
-            self.scaleInput.setText(f"{1.0 / obj.ScaleValue.Value}")
-            self.upscaleCheckbox.setChecked(True)
+            self._form.scaleInput.setText(f"{1.0 / obj.ScaleValue.Value}")
+            self._form.upscaleCheckbox.setChecked(True)
         else:
-            self.scaleInput.setText(f"{obj.ScaleValue.Value}")
-            self.upscaleCheckbox.setChecked(False)
+            self._form.scaleInput.setText(f"{obj.ScaleValue.Value}")
+            self._form.upscaleCheckbox.setChecked(False)
 
         self._loading = False
 

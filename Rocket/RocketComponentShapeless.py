@@ -91,6 +91,8 @@ class RocketComponentShapeless(Subject, Observer):
         # Basic scaling options
         if not hasattr(obj, 'Scale'):
             obj.addProperty('App::PropertyBool', 'Scale', 'RocketComponent', translate('App::Property', 'Scale the object')).Scale = False
+        if not hasattr(obj, 'ScaleOverride'):
+            obj.addProperty('App::PropertyBool', 'ScaleOverride', 'RocketComponent', translate('App::Property', 'Overriding the scale set by the parent')).ScaleOverride = False
         if not hasattr(obj, 'ScaleByValue'):
             obj.addProperty('App::PropertyBool', 'ScaleByValue', 'RocketComponent', translate('App::Property', 'Scale the object by value')).ScaleByValue = True
         if not hasattr(obj, 'ScaleValue'):
