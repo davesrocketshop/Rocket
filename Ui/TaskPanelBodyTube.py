@@ -374,7 +374,8 @@ class TaskPanelBodyTube:
         diameter = _valueOnly(result["inner_diameter"], result["inner_diameter_units"])
         self._obj.Proxy.setOuterDiameter(_valueOnly(result["outer_diameter"], result["outer_diameter_units"]))
         self._obj.Proxy.setThickness((self._obj.Diameter.Value - diameter) / 2.0)
-        self._obj.Proxy.setLength(_valueOnly(result["length"], result["length_units"]))
+        if not self._db.getLookupMatch():
+            self._obj.Proxy.setLength(_valueOnly(result["length"], result["length_units"]))
         try:
             self._obj.ShapeMaterial = Materials.MaterialManager().getMaterial(result["uuid"])
         except LookupError:

@@ -112,6 +112,7 @@ class TaskPanelDatabase(QObject):
         self._obj = obj
         self._lookup = lookup # Default component type
         self._lookupResult = None
+        self._lookupMatch = False
         self._form = _databaseLookupDialog(lookup, parent)
 
         self._form.setWindowIcon(QtGui.QIcon(FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/RocketWorkbench.svg"))
@@ -132,6 +133,9 @@ class TaskPanelDatabase(QObject):
 
     def getLookupResult(self):
         return self._lookupResult
+
+    def getLookupMatch(self):
+        return self._lookupMatch
 
     def transferTo(self):
         "Transfer from the dialog to the object"
@@ -196,11 +200,13 @@ class TaskPanelDatabase(QObject):
         self.dbLoad.emit()
 
     def onLookup(self):
-        form = DialogLookup(self._lookup)
-        form.exec_()
+        form = DialogLookup(self._lookup, self._obj)
+        form.exec()
+        # form.exec_()
 
         if len(form.result) > 0:
             self._lookupResult = form.result
+            self._lookupMatch = form.match
             self._lookupUpdate(form.result)
 
     def update(self):

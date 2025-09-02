@@ -119,26 +119,28 @@ def listBodyTubes(connection, tubeType=None, orderByOD=False):
     rows = cursor.fetchall()
     return rows
 
-def listBodyTubesBySize(connection, minimumOD, maximumOD, orderByOD=False):
+def listBodyTubesBySize(connection, minimumOD, maximumOD, tubeType=None, orderByOD=False):
     cursor = connection.cursor()
+
+    where = " AND t.type = 'Body Tube'"
+    if tubeType:
+        where = f" AND t.type = '{tubeType}'"
+
+    if minimumOD:
+        where += f" AND b.normalized_diameter > {minimumOD}"
+
+    if maximumOD:
+        where += f" AND b.normalized_diameter < {maximumOD}"
 
     orderBy = ""
     if orderByOD:
         orderBy = " ORDER BY b.normalized_diameter"
 
-    minimumSize = ""
-    if minimumOD is not None:
-        minimumSize = f" AND b.normalized_diameter > {minimumOD}"
-
-    maximumSize = ""
-    if maximumOD is not None:
-        maximumSize = f" AND b.normalized_diameter < {maximumOD}"
-
     cursor.execute("""SELECT body_tube_index, type, manufacturer, part_number, description, inner_diameter, inner_diameter_units,
                         outer_diameter, outer_diameter_units, normalized_diameter, length, length_units
                     FROM component c, body_tube b, tube_type t
-                    WHERE b.component_index = c.component_index AND b.tube_type_index = t.tube_type_index
-                        AND t.type = 'Body Tube' """ + minimumSize + maximumSize + orderBy)
+                    WHERE b.component_index = c.component_index AND b.tube_type_index = t.tube_type_index""" \
+                        + where + orderBy)
 
     rows = cursor.fetchall()
     return rows

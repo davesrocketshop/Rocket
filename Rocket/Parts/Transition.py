@@ -24,6 +24,8 @@ __title__ = "FreeCAD Open Rocket Part Transition"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
+import FreeCAD
+
 from Rocket.Parts.Component import Component
 from Rocket.Constants import TYPE_CONE, TYPE_ELLIPTICAL, TYPE_HAACK, TYPE_OGIVE, TYPE_VON_KARMAN, TYPE_PARABOLA, TYPE_PARABOLIC, TYPE_POWER
 from Rocket.Constants import STYLE_SOLID, STYLE_CAPPED
@@ -46,6 +48,10 @@ class Transition(Component):
         self._length = (0.0, "")
         self._thickness = (0.0, "")
 
+        self._normalizedForeDiameter = 0
+        self._normalizedAftDiameter = 0
+        self._normalizedLength = 0
+
     def validate(self):
         super().validate()
 
@@ -59,6 +65,13 @@ class Transition(Component):
         self.validateNonNegative(self._aftShoulderDiameter[0], "Aft Shoulder Diameter invalid")
         self.validateNonNegative(self._aftShoulderLength[0], "Aft Shoulder Length invalid")
         self.validatePositive(self._length[0], "Length invalid")
+
+        self._normalizedForeDiameter = FreeCAD.Units.Quantity(str(self._foreOutsideDiameter[0]) + str(self._foreOutsideDiameter[1])).Value
+        self.validatePositive(self._normalizedForeDiameter, "Normalized fore diameter invalid")
+        self._normalizedAftDiameter = FreeCAD.Units.Quantity(str(self._aftOutsideDiameter[0]) + str(self._aftOutsideDiameter[1])).Value
+        self.validatePositive(self._normalizedAftDiameter, "Normalized aft diameter invalid")
+        self._normalizedLength = FreeCAD.Units.Quantity(str(self._length[0]) + str(self._length[1])).Value
+        self.validatePositive(self._normalizedLength, "Normalized length invalid")
 
         if self._thickness[0] == 0.0:
             self._filled = True
@@ -91,13 +104,13 @@ class Transition(Component):
         cursor.execute("""INSERT INTO transition (component_index, shape, style,
                 fore_outside_diameter, fore_outside_diameter_units, fore_shoulder_diameter, fore_shoulder_diameter_units, fore_shoulder_length, fore_shoulder_length_units,
                 aft_outside_diameter, aft_outside_diameter_units, aft_shoulder_diameter, aft_shoulder_diameter_units, aft_shoulder_length, aft_shoulder_length_units,
-                length, length_units, thickness, thickness_units)
+                length, length_units, thickness, thickness_units, normalized_fore_diameter, normalized_aft_diameter, normalized_length)
             VALUES
-                (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)""",
+                (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)""",
                     (component_id, self._noseType, style,
                     self._foreOutsideDiameter[0], self._foreOutsideDiameter[1], self._foreShoulderDiameter[0], self._foreShoulderDiameter[1], self._foreShoulderLength[0], self._foreShoulderLength[1],
                     self._aftOutsideDiameter[0], self._aftOutsideDiameter[1], self._aftShoulderDiameter[0], self._aftShoulderDiameter[1], self._aftShoulderLength[0], self._aftShoulderLength[1],
-                    self._length[0], self._length[1], self._thickness[0], self._thickness[1]))
+                    self._length[0], self._length[1], self._thickness[0], self._thickness[1], self._normalizedForeDiameter, self._normalizedAftDiameter, self._normalizedLength))
         id = cursor.lastrowid
 
         connection.commit()
@@ -110,8 +123,41 @@ def listTransitions(connection):
     cursor.execute("""SELECT transition_index, manufacturer, part_number, description,
                         shape, length, length_units,
                         fore_outside_diameter, fore_outside_diameter_units, fore_shoulder_diameter, fore_shoulder_diameter_units, fore_shoulder_length, fore_shoulder_length_units,
-                        aft_outside_diameter, aft_outside_diameter_units, aft_shoulder_diameter, aft_shoulder_diameter_units, aft_shoulder_length, aft_shoulder_length_units
+                        aft_outside_diameter, aft_outside_diameter_units, aft_shoulder_diameter, aft_shoulder_diameter_units, aft_shoulder_length, aft_shoulder_length_units,
+                        normalized_fore_diameter, normalized_aft_diameter, normalized_length
                     FROM component c, transition t WHERE t.component_index = c.component_index""")
+
+    rows = cursor.fetchall()
+    return rows
+
+def listTransitionsBySize(connection, minForeDiameter, maxForeDiameter, minAftDiameter, maxAftDiameter, minLength, maxLength):
+    cursor = connection.cursor()
+
+    where = ""
+    if minForeDiameter:
+        where += f" AND t.normalized_fore_diameter > {minForeDiameter}"
+
+    if maxForeDiameter:
+        where += f" AND t.normalized_fore_diameter < {maxForeDiameter}"
+
+    if minAftDiameter:
+        where += f" AND t.normalized_aft_diameter > {minAftDiameter}"
+
+    if maxAftDiameter:
+        where += f" AND t.normalized_aft_diameter < {maxAftDiameter}"
+
+    if minLength:
+        where += f" AND t.normalized_length > {minLength}"
+
+    if maxLength:
+        where += f" AND t.normalized_length < {maxLength}"
+
+    cursor.execute("""SELECT transition_index, manufacturer, part_number, description,
+                        shape, length, length_units,
+                        fore_outside_diameter, fore_outside_diameter_units, fore_shoulder_diameter, fore_shoulder_diameter_units, fore_shoulder_length, fore_shoulder_length_units,
+                        aft_outside_diameter, aft_outside_diameter_units, aft_shoulder_diameter, aft_shoulder_diameter_units, aft_shoulder_length, aft_shoulder_length_units,
+                        normalized_fore_diameter, normalized_aft_diameter, normalized_length
+                    FROM component c, transition t WHERE t.component_index = c.component_index""" + where)
 
     rows = cursor.fetchall()
     return rows
@@ -122,7 +168,8 @@ def getTransition(connection, index):
     cursor.execute("""SELECT transition_index, c.manufacturer, part_number, description, material_name, uuid, mass, mass_units,
                         shape, style, length, length_units, thickness, thickness_units,
                         fore_outside_diameter, fore_outside_diameter_units, fore_shoulder_diameter, fore_shoulder_diameter_units, fore_shoulder_length, fore_shoulder_length_units,
-                        aft_outside_diameter, aft_outside_diameter_units, aft_shoulder_diameter, aft_shoulder_diameter_units, aft_shoulder_length, aft_shoulder_length_units
+                        aft_outside_diameter, aft_outside_diameter_units, aft_shoulder_diameter, aft_shoulder_diameter_units, aft_shoulder_length, aft_shoulder_length_units,
+                        normalized_fore_diameter, normalized_aft_diameter, normalized_length
                     FROM component c, transition t, material m WHERE t.component_index = c.component_index AND c.material_index = m.material_index AND t.transition_index = :index""", {
                         "index" : index
                     })

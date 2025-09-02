@@ -26,8 +26,14 @@ __url__ = "https://www.davesrocketshop.com"
 
 import FreeCAD
 
+def getPreferencesLocation(dialogName):
+    return f"User parameter:BaseApp/Preferences/Mod/Material/Resources/Modules/Rocket/Dialog/{dialogName}"
+
+def getParams(dialogName):
+    return FreeCAD.ParamGet(getPreferencesLocation(dialogName))
+
 def saveDialog(dialog, dialogName):
-    param = FreeCAD.ParamGet(f"User parameter:BaseApp/Preferences/Mod/Material/Resources/Modules/Rocket/Dialog/{dialogName}")
+    param = getParams(dialogName)
 
     geom = dialog.geometry()
     param.SetInt("Width", geom.width())
@@ -36,7 +42,7 @@ def saveDialog(dialog, dialogName):
     param.SetInt("y", geom.y())
 
 def restoreDialog(dialog, dialogName, defaultWidth, defaultHeight):
-    param = FreeCAD.ParamGet(f"User parameter:BaseApp/Preferences/Mod/Material/Resources/Modules/Rocket/Dialog/{dialogName}")
+    param = getParams(dialogName)
     width = param.GetInt("Width", defaultWidth)
     height = param.GetInt("Height", defaultHeight)
     x = param.GetInt("x", 100)

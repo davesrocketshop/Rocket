@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>641</height>
+    <height>642</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -37,9 +37,6 @@
         </property>
        </widget>
       </item>
-      <item row="1" column="1">
-       <widget class="QLineEdit" name="lineEdit_5"/>
-      </item>
       <item row="1" column="2">
        <widget class="QCheckBox" name="checkBox_2">
         <property name="text">
@@ -53,9 +50,6 @@
          <string>By body diameter</string>
         </property>
        </widget>
-      </item>
-      <item row="0" column="1">
-       <widget class="QLineEdit" name="lineEdit"/>
       </item>
       <item row="2" column="1">
        <layout class="QHBoxLayout" name="horizontalLayout">
@@ -89,11 +83,33 @@
         </property>
        </widget>
       </item>
+      <item row="0" column="1">
+       <widget class="Gui::InputField" name="inputField">
+        <property name="unit" stdset="0">
+         <string notr="true"/>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="Gui::InputField" name="inputField_2">
+        <property name="unit" stdset="0">
+         <string notr="true"/>
+        </property>
+       </widget>
+      </item>
       <item row="3" column="1">
-       <widget class="QLineEdit" name="lineEdit_6"/>
+       <widget class="Gui::InputField" name="inputField_3">
+        <property name="unit" stdset="0">
+         <string notr="true"/>
+        </property>
+       </widget>
       </item>
       <item row="4" column="1">
-       <widget class="QLineEdit" name="lineEdit_7"/>
+       <widget class="Gui::InputField" name="inputField_4">
+        <property name="unit" stdset="0">
+         <string notr="true"/>
+        </property>
+       </widget>
       </item>
      </layout>
     </widget>
@@ -104,39 +120,6 @@
       <string>Scaled Values</string>
      </property>
      <layout class="QGridLayout" name="gridLayout_2">
-      <item row="6" column="0">
-       <widget class="QLabel" name="label_7">
-        <property name="text">
-         <string>Root Thickness</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="1">
-       <widget class="QLineEdit" name="lineEdit_4"/>
-      </item>
-      <item row="3" column="1">
-       <widget class="QLineEdit" name="lineEdit_8"/>
-      </item>
-      <item row="1" column="1">
-       <widget class="QLineEdit" name="lineEdit_3"/>
-      </item>
-      <item row="0" column="1">
-       <widget class="QLineEdit" name="lineEdit_2"/>
-      </item>
-      <item row="2" column="0">
-       <widget class="QLabel" name="label_3">
-        <property name="text">
-         <string>Diameter</string>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="0">
-       <widget class="QLabel" name="label_4">
-        <property name="text">
-         <string>Ogive Diameter</string>
-        </property>
-       </widget>
-      </item>
       <item row="7" column="0">
        <widget class="QLabel" name="label_8">
         <property name="text">
@@ -144,34 +127,44 @@
         </property>
        </widget>
       </item>
-      <item row="4" column="1">
-       <widget class="QLineEdit" name="lineEdit_9"/>
-      </item>
-      <item row="0" column="0">
-       <widget class="QLabel" name="label">
-        <property name="text">
-         <string>Scale</string>
+      <item row="8" column="1">
+       <widget class="Gui::InputField" name="inputField_13">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="unit" stdset="0">
+         <string notr="true"/>
         </property>
        </widget>
       </item>
-      <item row="1" column="0">
-       <widget class="QLabel" name="label_2">
+      <item row="9" column="0">
+       <widget class="QLabel" name="label_10">
         <property name="text">
-         <string>Length</string>
+         <string>Height</string>
         </property>
        </widget>
       </item>
-      <item row="4" column="0">
-       <widget class="QLabel" name="label_5">
-        <property name="text">
-         <string>Blunted Diameter</string>
+      <item row="9" column="1">
+       <widget class="Gui::InputField" name="inputField_14">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="unit" stdset="0">
+         <string notr="true"/>
         </property>
        </widget>
       </item>
-      <item row="5" column="0">
-       <widget class="QLabel" name="label_6">
+      <item row="6" column="0">
+       <widget class="QLabel" name="label_7">
         <property name="text">
-         <string>Root Chord</string>
+         <string>Root Thickness</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="label_3">
+        <property name="text">
+         <string>Diameter</string>
         </property>
        </widget>
       </item>
@@ -184,30 +177,17 @@
       </item>
       <item row="10" column="0" colspan="2">
        <layout class="QGridLayout" name="gridLayout_3">
-        <item row="1" column="0">
-         <spacer name="horizontalSpacer_2">
-          <property name="orientation">
-           <enum>Qt::Orientation::Horizontal</enum>
+        <item row="1" column="3">
+         <widget class="QPushButton" name="pushButton">
+          <property name="text">
+           <string>Set Rocket</string>
           </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
+         </widget>
         </item>
         <item row="1" column="1">
          <widget class="QPushButton" name="pushButton_2">
           <property name="text">
            <string>Set Part</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="3">
-         <widget class="QPushButton" name="pushButton">
-          <property name="text">
-           <string>Set Rocket</string>
           </property>
          </widget>
         </item>
@@ -218,29 +198,135 @@
           </property>
          </widget>
         </item>
+        <item row="1" column="0">
+         <spacer name="horizontalSpacer">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>0</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
        </layout>
       </item>
-      <item row="9" column="0">
-       <widget class="QLabel" name="label_10">
+      <item row="7" column="1">
+       <widget class="Gui::InputField" name="inputField_12">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="unit" stdset="0">
+         <string notr="true"/>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="1">
+       <widget class="Gui::InputField" name="inputField_9">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="unit" stdset="0">
+         <string notr="true"/>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0">
+       <widget class="QLabel" name="label">
         <property name="text">
-         <string>Height</string>
+         <string>Scale</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0">
+       <widget class="QLabel" name="label_4">
+        <property name="text">
+         <string>Ogive Diameter</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="label_2">
+        <property name="text">
+         <string>Length</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="Gui::InputField" name="inputField_5">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="unit" stdset="0">
+         <string notr="true"/>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="1">
+       <widget class="Gui::InputField" name="inputField_11">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="unit" stdset="0">
+         <string notr="true"/>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <widget class="Gui::InputField" name="inputField_8">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="unit" stdset="0">
+         <string notr="true"/>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="Gui::InputField" name="inputField_7">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="unit" stdset="0">
+         <string notr="true"/>
         </property>
        </widget>
       </item>
       <item row="5" column="1">
-       <widget class="QLineEdit" name="lineEdit_10"/>
+       <widget class="Gui::InputField" name="inputField_10">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="unit" stdset="0">
+         <string notr="true"/>
+        </property>
+       </widget>
       </item>
-      <item row="6" column="1">
-       <widget class="QLineEdit" name="lineEdit_11"/>
+      <item row="4" column="0">
+       <widget class="QLabel" name="label_5">
+        <property name="text">
+         <string>Blunted Diameter</string>
+        </property>
+       </widget>
       </item>
-      <item row="7" column="1">
-       <widget class="QLineEdit" name="lineEdit_12"/>
+      <item row="1" column="1">
+       <widget class="Gui::InputField" name="inputField_6">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="unit" stdset="0">
+         <string notr="true"/>
+        </property>
+       </widget>
       </item>
-      <item row="8" column="1">
-       <widget class="QLineEdit" name="lineEdit_13"/>
-      </item>
-      <item row="9" column="1">
-       <widget class="QLineEdit" name="lineEdit_14"/>
+      <item row="5" column="0">
+       <widget class="QLabel" name="label_6">
+        <property name="text">
+         <string>Root Chord</string>
+        </property>
+       </widget>
       </item>
      </layout>
     </widget>
@@ -248,18 +334,53 @@
    <item>
     <spacer name="verticalSpacer">
      <property name="orientation">
-      <enum>Qt::Orientation::Vertical</enum>
+      <enum>Qt::Vertical</enum>
      </property>
      <property name="sizeHint" stdset="0">
       <size>
        <width>20</width>
-       <height>40</height>
+       <height>0</height>
       </size>
      </property>
     </spacer>
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>Gui::InputField</class>
+   <extends>QLineEdit</extends>
+   <header>Gui/InputField.h</header>
+  </customwidget>
+ </customwidgets>
+ <tabstops>
+  <tabstop>groupBox</tabstop>
+  <tabstop>radioButton</tabstop>
+  <tabstop>inputField</tabstop>
+  <tabstop>checkBox</tabstop>
+  <tabstop>radioButton_2</tabstop>
+  <tabstop>inputField_2</tabstop>
+  <tabstop>checkBox_2</tabstop>
+  <tabstop>radioButton_3</tabstop>
+  <tabstop>radioButton_4</tabstop>
+  <tabstop>radioButton_5</tabstop>
+  <tabstop>inputField_3</tabstop>
+  <tabstop>radioButton_6</tabstop>
+  <tabstop>inputField_4</tabstop>
+  <tabstop>inputField_5</tabstop>
+  <tabstop>inputField_6</tabstop>
+  <tabstop>inputField_7</tabstop>
+  <tabstop>inputField_8</tabstop>
+  <tabstop>inputField_9</tabstop>
+  <tabstop>inputField_10</tabstop>
+  <tabstop>inputField_11</tabstop>
+  <tabstop>inputField_12</tabstop>
+  <tabstop>inputField_13</tabstop>
+  <tabstop>inputField_14</tabstop>
+  <tabstop>pushButton_2</tabstop>
+  <tabstop>pushButton_3</tabstop>
+  <tabstop>pushButton</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

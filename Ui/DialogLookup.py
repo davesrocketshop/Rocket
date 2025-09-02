@@ -25,10 +25,10 @@ __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
 import sqlite3
+import os
 
 import FreeCAD
-
-from Rocket.Utilities import translate
+import FreeCADGui
 
 from PySide import QtGui, QtCore
 from PySide.QtGui import QStandardItemModel, QStandardItem
@@ -40,12 +40,17 @@ from Rocket.Constants import COMPONENT_TYPE_BODYTUBE, COMPONENT_TYPE_BULKHEAD, C
     COMPONENT_TYPE_ANY
 from Rocket.Utilities import _valueWithUnits, _err
 
-from Rocket.Parts.BodyTube import listBodyTubes, getBodyTube
-from Rocket.Parts.NoseCone import listNoseCones, getNoseCone
-from Rocket.Parts.Transition import listTransitions, getTransition
+from Rocket.Parts.BodyTube import listBodyTubes, listBodyTubesBySize, getBodyTube
+from Rocket.Parts.NoseCone import listNoseCones, listNoseConesBySize, getNoseCone
+from Rocket.Parts.Transition import listTransitions, listTransitionsBySize, getTransition
 from Rocket.Parts.RailButton import listRailButton, getRailButton
 
 from Rocket.Parts.Exceptions import MultipleEntryError, NotFoundError
+
+from Rocket.Utilities import translate
+
+from Ui.UIPaths import getUIPath
+from Ui.DialogUtilities import saveDialog, restoreDialog, getParams
 
 # Constant definitions
 userCancelled   = "Cancelled"
@@ -81,12 +86,14 @@ _translated = {
 }
 
 
-class DialogLookup(QtGui.QDialog):
-    def __init__(self, lookup):
+class DialogLookup: #(QtGui.QDialog):
+    def __init__(self, lookup, component = None):
         super().__init__()
 
         self._lookup = lookup
+        self._component = component
         self._model = QStandardItemModel() # (4, 4)
+        self._form = FreeCADGui.PySideUic.loadUi(os.path.join(getUIPath(), 'Ui', "DialogLookup.ui"))
 
         # self.initSortColumns(lookup)
         self.initUI()
@@ -94,6 +101,7 @@ class DialogLookup(QtGui.QDialog):
 
         # Default result is an empty dict
         self.result = {}
+        self.match = False
 
     def initUI(self):
         global _compatible
@@ -102,70 +110,68 @@ class DialogLookup(QtGui.QDialog):
 
         # create our window
         # define window		xLoc,yLoc,xDim,yDim
-        self.setGeometry(	250, 250, 640, 480)
-        self.setWindowTitle(translate('Rocket', "Component lookup..."))
-        self.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
+        restoreDialog(self._form, "DialogLookup", 640, 480)
+        # self._form.setGeometry(	250, 250, 640, 480)
+        self._form.setWindowTitle(translate('Rocket', "Component lookup..."))
+        self._form.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
 
-        searchLabel = QtGui.QLabel(translate('Rocket', "Search"), self)
+        # searchLabel = QtGui.QLabel(translate('Rocket', "Search"), self)
 
-        self._searchInput = QtGui.QLineEdit(self)
-        self._searchInput.setMinimumWidth(80)
-        self._searchInput.textEdited.connect(self.onSearch)
+        # self._form.searchInput = QtGui.QLineEdit(self)
+        # self._form.searchInput.setMinimumWidth(80)
+        self._form.searchInput.textEdited.connect(self.onSearch)
+        self._form.matchCheckbox.clicked.connect(self.onMatchComponent)
 
-        lookupTypeLabel = QtGui.QLabel(translate('Rocket', "Component"), self)
+        # lookupTypeLabel = QtGui.QLabel(translate('Rocket', "Component"), self)
 
-        self._lookupTypeCombo = QtGui.QComboBox(self)
+        # self._form.lookupTypeCombo = QtGui.QComboBox(self)
         for item in _compatible[self._lookup]:
-            self._lookupTypeCombo.addItem(_translated[item], item)
-        self._lookupTypeCombo.setCurrentText(_translated[self._lookup])
-        self._lookupTypeCombo.currentTextChanged.connect(self.onLookupType)
+            self._form.lookupTypeCombo.addItem(_translated[item], item)
+        self._form.lookupTypeCombo.setCurrentText(_translated[self._lookup])
+        self._form.lookupTypeCombo.currentTextChanged.connect(self.onLookupType)
 
-        self._dbTable = QtGui.QTableView(self)
-        self._dbTable.setModel(self._model)
+        # self._form.dbTable = QtGui.QTableView(self)
+        self._form.dbTable.setModel(self._model)
 
-        self._dbTable.setSelectionBehavior(QtGui.QTableView.SelectRows)
-        self._dbTable.setSelectionMode(QtGui.QTableView.SingleSelection)
-        self._dbTable.setSortingEnabled(True)
-        self._dbTable.doubleClicked.connect(self.onTableDoubleClick)
+        self._form.dbTable.setSelectionBehavior(QtGui.QTableView.SelectRows)
+        self._form.dbTable.setSelectionMode(QtGui.QTableView.SingleSelection)
+        self._form.dbTable.setSortingEnabled(True)
+        self._form.dbTable.doubleClicked.connect(self.onTableDoubleClick)
 
-        # cancel button
-        cancelButton = QtGui.QPushButton('Cancel', self)
-        cancelButton.clicked.connect(self.onCancel)
-        cancelButton.setAutoDefault(True)
+        self._form.buttonBox.accepted.connect(self.onOk)
+        self._form.buttonBox.rejected.connect(self.onCancel)
 
-        # OK button
-        okButton = QtGui.QPushButton('OK', self)
-        okButton.setDefault(True)
-        okButton.clicked.connect(self.onOk)
+        param = getParams("DialogLookup")
+        self._form.matchSpinbox.setValue(param.GetInt("Tolerance", 5))
 
-        layout = QVBoxLayout()
-        line = QHBoxLayout()
-        line.addWidget(searchLabel)
-        line.addWidget(self._searchInput)
-        line.addStretch()
-        line.addWidget(lookupTypeLabel)
-        line.addWidget(self._lookupTypeCombo)
-        layout.addLayout(line)
-
-        layout.addWidget(self._dbTable)
-
-        line = QHBoxLayout()
-        line.addStretch()
-        line.addWidget(okButton)
-        line.addWidget(cancelButton)
-        layout.addLayout(line)
-
-        self.setLayout(layout)
+        if not self._component:
+            self._form.matchCheckbox.setVisible(False)
+            self._form.matchSpinbox.setVisible(False)
+            self._form.toleranceLabel.setVisible(False)
+        else:
+            self._form.matchCheckbox.setChecked(True)
 
         # now make the window visible
-        self.show()
+        self._form.show()
 
     def initDB(self):
         self._connection = sqlite3.connect("file:" + FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/parts/Parts.db?mode=ro", uri=True)
         self._connection.row_factory = sqlite3.Row
         self._updateModel()
 
+    def exec(self):
+        self._form.exec_()
+
+    def onClose(self):
+        saveDialog(self._form, "DialogLookup")
+        param = getParams("DialogLookup")
+        param.SetInt("Tolerance", self._form.matchSpinbox.value())
+        self._form.close()
+
     def onLookupType(self, value):
+        self._updateModel()
+
+    def onMatchComponent(self, value):
         self._updateModel()
 
     def onSearch(self, value):
@@ -181,29 +187,29 @@ class DialogLookup(QtGui.QDialog):
 
             for row in range(self._model.rowCount()):
                 if row in rows:
-                    self._dbTable.showRow(row)
+                    self._form.dbTable.showRow(row)
                 else:
-                    self._dbTable.hideRow(row)
+                    self._form.dbTable.hideRow(row)
         else:
             for row in range(self._model.rowCount()):
-                self._dbTable.showRow(row)
+                self._form.dbTable.showRow(row)
 
     def onTableDoubleClick(self, selected):
         self.result = self._getSelected(selected.row())
-        self.close()
+        self.onClose()
 
     def onCancel(self):
         self.result = {}
-        self.close()
+        self.onClose()
 
     def onOk(self):
-        selected = self._dbTable.selectedIndexes()
+        selected = self._form.dbTable.selectedIndexes()
         if len(selected) > 0:
             row = selected[0].row()
             self.result = self._getSelected(row)
         else:
             self.result = {}
-        self.close()
+        self.onClose()
 
     def _getItemFromRow(self, row):
         item = self._model.item(row, 0)
@@ -254,7 +260,7 @@ class DialogLookup(QtGui.QDialog):
         return {}
 
     def _getSelected(self, row):
-        queryType = str(self._lookupTypeCombo.currentData())
+        queryType = str(self._form.lookupTypeCombo.currentData())
         if queryType == COMPONENT_TYPE_ANY:
             query = self._lookup
         else:
@@ -284,15 +290,27 @@ class DialogLookup(QtGui.QDialog):
         return item
 
     def _queryBodyTube(self, queryType):
-        rows = listBodyTubes(self._connection, queryType)
+        if self._component and self._form.matchCheckbox.isChecked():
+            tolerance = self._form.matchSpinbox.value()
+            if tolerance == 0:
+                tolerance = 5
+            minimum = self._component.Proxy.getOuterDiameter(0)
+            maximum = minimum
+            minimum -= minimum * (tolerance / 100.0)
+            maximum += maximum * (tolerance / 100.0)
+            rows = listBodyTubesBySize(self._connection, minimum, maximum, queryType)
+            self.match = True
+        else:
+            rows = listBodyTubes(self._connection, queryType)
+            self.match = False
 
         self._model.setRowCount(len(rows))
         if queryType == COMPONENT_TYPE_BULKHEAD:
             self._model.setColumnCount(7)
         else:
             self._model.setColumnCount(8)
-        self._dbTable.hideColumn(0) # This holds index for lookups
-        self._dbTable.setVerticalHeader(None)
+        self._form.dbTable.hideColumn(0) # This holds index for lookups
+        self._form.dbTable.setVerticalHeader(None)
 
         # Add the column headers
         self._model.setHorizontalHeaderItem(1, self._newItem(translate('Rocket', "Type")))
@@ -323,12 +341,28 @@ class DialogLookup(QtGui.QDialog):
             rowCount += 1
 
     def _queryNoseCone(self):
-        rows = listNoseCones(self._connection)
+        if self._component and self._form.matchCheckbox.isChecked():
+            tolerance = self._form.matchSpinbox.value()
+            if tolerance == 0:
+                tolerance = 5
+            minDiameter = self._component.Proxy.getAftDiameter()
+            maxDiameter = minDiameter
+            minDiameter -= minDiameter * (tolerance / 100.0)
+            maxDiameter += maxDiameter * (tolerance / 100.0)
+            minLength = self._component.Proxy.getLength()
+            maxLength = minLength
+            minLength -= minLength * (tolerance / 100.0)
+            maxLength += maxLength * (tolerance / 100.0)
+            rows = listNoseConesBySize(self._connection, minDiameter, maxDiameter, minLength, maxLength)
+            self.match = True
+        else:
+            rows = listNoseCones(self._connection)
+            self.match = False
 
         self._model.setRowCount(len(rows))
         self._model.setColumnCount(9)
-        self._dbTable.hideColumn(0) # This holds index for lookups
-        self._dbTable.setVerticalHeader(None)
+        self._form.dbTable.hideColumn(0) # This holds index for lookups
+        self._form.dbTable.setVerticalHeader(None)
 
         # Add the column headers
         self._model.setHorizontalHeaderItem(1, self._newItem(translate('Rocket', "Manufacturer")))
@@ -355,12 +389,32 @@ class DialogLookup(QtGui.QDialog):
             rowCount += 1
 
     def _queryTransition(self):
-        rows = listTransitions(self._connection)
+        if self._component and self._form.matchCheckbox.isChecked():
+            tolerance = self._form.matchSpinbox.value()
+            if tolerance == 0:
+                tolerance = 5
+            minForeDiameter = self._component.Proxy.getForeDiameter()
+            maxForeDiameter = minForeDiameter
+            minForeDiameter -= minForeDiameter * (tolerance / 100.0)
+            maxForeDiameter += maxForeDiameter * (tolerance / 100.0)
+            minAftDiameter = self._component.Proxy.getAftDiameter()
+            maxAftDiameter = minAftDiameter
+            minAftDiameter -= minAftDiameter * (tolerance / 100.0)
+            maxAftDiameter += maxAftDiameter * (tolerance / 100.0)
+            minLength = self._component.Proxy.getLength()
+            maxLength = minLength
+            minLength -= minLength * (tolerance / 100.0)
+            maxLength += maxLength * (tolerance / 100.0)
+            rows = listTransitionsBySize(self._connection, minForeDiameter, maxForeDiameter, minAftDiameter, maxAftDiameter, minLength, maxLength)
+            self.match = True
+        else:
+            rows = listTransitions(self._connection)
+            self.match = False
 
         self._model.setRowCount(len(rows))
         self._model.setColumnCount(12)
-        self._dbTable.hideColumn(0) # This holds index for lookups
-        self._dbTable.setVerticalHeader(None)
+        self._form.dbTable.hideColumn(0) # This holds index for lookups
+        self._form.dbTable.setVerticalHeader(None)
 
         # Add the column headers
         self._model.setHorizontalHeaderItem(1, self._newItem(translate('Rocket', "Manufacturer")))
@@ -397,8 +451,8 @@ class DialogLookup(QtGui.QDialog):
 
         self._model.setRowCount(len(rows))
         self._model.setColumnCount(11)
-        self._dbTable.hideColumn(0) # This holds index for lookups
-        self._dbTable.setVerticalHeader(None)
+        self._form.dbTable.hideColumn(0) # This holds index for lookups
+        self._form.dbTable.setVerticalHeader(None)
 
         # Add the column headers
         self._model.setHorizontalHeaderItem(1, self._newItem(translate('Rocket', "Manufacturer")))
@@ -432,7 +486,7 @@ class DialogLookup(QtGui.QDialog):
             rowCount += 1
 
     def _updateModel(self):
-        queryType = str(self._lookupTypeCombo.currentData())
+        queryType = str(self._form.lookupTypeCombo.currentData())
         if queryType == COMPONENT_TYPE_ANY:
             query = self._lookup
         else:
