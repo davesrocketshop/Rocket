@@ -152,7 +152,7 @@ class TaskPanelTransition:
         self._tranForm.form.aftShoulderThicknessInput.textEdited.connect(self.onAftShoulderThickness)
 
         self._tranForm.tabScaling.scaled.connect(self.onScale)
-        # self._tranForm.tabScaling.scaledSetValuesButton.clicked.connect(self.onSetToScale)
+        # self._tranForm.tabScaling._form.scaledSetPartButton.clicked.connect(self.onSetToScale)
 
         self._db.dbLoad.connect(self.onLookup)
 

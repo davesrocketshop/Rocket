@@ -45,7 +45,7 @@ class _StageDialog(QDialog):
         self.tabWidget = QtGui.QTabWidget()
         self.tabScaling = ScalingTabRocketStage(obj)
         self.tabComment = CommentTab()
-        self.tabWidget.addTab(self.tabScaling, translate('Rocket', "Scaling"))
+        self.tabWidget.addTab(self.tabScaling.widget(), translate('Rocket', "Scaling"))
         self.tabWidget.addTab(self.tabComment, translate('Rocket', "Comment"))
 
         layout = QVBoxLayout()
@@ -63,7 +63,7 @@ class TaskPanelStage:
         self._stageForm.setWindowIcon(QtGui.QIcon(FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Stage.svg"))
 
         self._stageForm.tabScaling.scaled.connect(self.onScale)
-        self._stageForm.tabScaling.scaledSetValuesButton.clicked.connect(self.onSetToScale)
+        self._stageForm.tabScaling._form.scaledSetPartButton.clicked.connect(self.onSetToScale)
 
         self.update()
 
@@ -93,11 +93,11 @@ class TaskPanelStage:
         scale = self._stageForm.tabScaling.getScale()
 
         if scale < 1.0:
-            self._stageForm.tabScaling.scaledLabel.setText(translate('Rocket', "Upscale"))
-            self._stageForm.tabScaling.scaledInput.setText(f"{1.0/scale}")
+            self._stageForm.tabScaling._form.scaledLabel.setText(translate('Rocket', "Upscale"))
+            self._stageForm.tabScaling._form.scaledInput.setText(f"{1.0/scale}")
         else:
-            self._stageForm.tabScaling.scaledLabel.setText(translate('Rocket', "Scale"))
-            self._stageForm.tabScaling.scaledInput.setText(f"{scale}")
+            self._stageForm.tabScaling._form.scaledLabel.setText(translate('Rocket', "Scale"))
+            self._stageForm.tabScaling._form.scaledInput.setText(f"{scale}")
         self.setEdited()
 
     def onSetToScale(self) -> None:

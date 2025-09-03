@@ -898,7 +898,7 @@ class RocketComponentShapeless(Subject, Observer):
         In cases where the parent is scaled, that is the value returned. Otherwise
         the components are expected to calculate the scale based on their parameters.
         """
-        if self.isParentScaled():
+        if self.isParentScaled():# and not self._obj.ScaleOverride:
             return self.getParent().getScale()
 
         scale = 1.0
@@ -919,7 +919,7 @@ class RocketComponentShapeless(Subject, Observer):
         """ Return True if the object or any of its parental lineage is scaled """
         if self._obj.Scale:
             return True
-        return self.isParentScaled()
+        return self.isParentScaled()# and not self._obj.ScaleOverride
 
     def isParentScaled(self) -> bool:
         """ Return True if the parent is scaled """

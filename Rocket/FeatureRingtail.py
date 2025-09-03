@@ -265,6 +265,29 @@ class FeatureRingtail(SymmetricComponent, BoxBounded, Coaxial):
         self._obj.AutoLength = value
         self._setAutoLength()
 
+    def getScale(self) -> float:
+        """
+        Return the scale value
+
+        In cases where the parent is scaled, that is the value returned. Otherwise
+        the components are expected to calculate the scale based on their parameters.
+        """
+        if self.isParentScaled():
+            return self.getParent().getScale()
+
+        scale = 1.0
+        if self._obj.Scale:
+            if self._obj.ScaleByValue and self._obj.ScaleValue.Value > 0.0:
+                scale = self._obj.ScaleValue.Value
+            elif self._obj.ScaleByDiameter:
+                # Calling getForRadius() introduces infinite recursion. We need to assume
+                # the diameter value has been set
+                # diameter = self.getForeRadius() * 2.0
+                diameter = float(self._obj.Diameter)
+                if diameter > 0 and self._obj.ScaleValue > 0:
+                    scale =  float(diameter / self._obj.ScaleValue)
+        return scale
+
     def execute(self, obj : Any) -> None:
         shape = RingtailShapeHandler(obj)
         if shape is not None:

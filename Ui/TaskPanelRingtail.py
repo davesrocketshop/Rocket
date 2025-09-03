@@ -58,7 +58,7 @@ class _RingtailDialog(QDialog):
         self.tabMaterial = MaterialTab()
         self.tabComment = CommentTab()
         self.tabWidget.addTab(self.tabGeneral, translate('Rocket', "General"))
-        self.tabWidget.addTab(self.tabScaling, translate('Rocket', "Scaling"))
+        self.tabWidget.addTab(self.tabScaling.widget(), translate('Rocket', "Scaling"))
         self.tabWidget.addTab(self.tabMaterial, translate('Rocket', "Material"))
         self.tabWidget.addTab(self.tabComment, translate('Rocket', "Comment"))
 
@@ -159,7 +159,7 @@ class TaskPanelRingtail:
         self._btForm.autoLengthCheckbox.stateChanged.connect(self.onAutoLength)
 
         self._btForm.tabScaling.scaled.connect(self.onScale)
-        self._btForm.tabScaling.scaledSetValuesButton.clicked.connect(self.onSetToScale)
+        self._btForm.tabScaling._form.scaledSetPartButton.clicked.connect(self.onSetToScale)
 
         self._db.dbLoad.connect(self.onLookup)
         self._location.locationChange.connect(self.onLocation)
@@ -212,13 +212,13 @@ class TaskPanelRingtail:
         length = self._obj.Length / scale
         diameter = self._obj.Diameter / scale
         if scale < 1.0:
-            self._btForm.tabScaling.scaledLabel.setText(translate('Rocket', "Upscale"))
-            self._btForm.tabScaling.scaledInput.setText(f"{1.0/scale}")
+            self._btForm.tabScaling._form.scaledLabel.setText(translate('Rocket', "Upscale"))
+            self._btForm.tabScaling._form.scaledInput.setText(f"{1.0/scale}")
         else:
-            self._btForm.tabScaling.scaledLabel.setText(translate('Rocket', "Scale"))
-            self._btForm.tabScaling.scaledInput.setText(f"{scale}")
-        self._btForm.tabScaling.scaledLengthInput.setText(length.UserString)
-        self._btForm.tabScaling.scaledDiameterInput.setText(diameter.UserString)
+            self._btForm.tabScaling._form.scaledLabel.setText(translate('Rocket', "Scale"))
+            self._btForm.tabScaling._form.scaledInput.setText(f"{scale}")
+        self._btForm.tabScaling._form.scaledLengthInput.setText(length.UserString)
+        self._btForm.tabScaling._form.scaledDiameterInput.setText(diameter.UserString)
 
     def onOd(self, value : str) -> None:
         try:

@@ -175,7 +175,7 @@ class TaskPanelNoseCone:
 
         self._db.dbLoad.connect(self.onLookup)
         self._noseForm.tabScaling.scaled.connect(self.onScale)
-        # self._noseForm.tabScaling.scaledSetValuesButton.clicked.connect(self.onSetToScale)
+        self._noseForm.tabScaling._form.scaledSetPartButton.clicked.connect(self.onSetToScale)
 
         self.update()
 

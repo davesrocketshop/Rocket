@@ -69,7 +69,7 @@ class _FinCanDialog(_FinDialog):
         self.tabScaling = ScalingTabFins(obj)
         self.tabMaterial = MaterialTab()
         self.tabComment = CommentTab()
-        self.form.tabWidget.addTab(self.tabScaling, translate('Rocket', "Scaling"))
+        self.form.tabWidget.addTab(self.tabScaling.widget(), translate('Rocket', "Scaling"))
         self.form.tabWidget.addTab(self.tabMaterial, translate('Rocket', "Material"))
         self.form.tabWidget.addTab(self.tabComment, translate('Rocket', "Comment"))
 
@@ -195,7 +195,7 @@ class TaskPanelFinCan(QObject):
         self._finForm.form.sweepAngleInput.textEdited.connect(self.onSweepAngle)
 
         self._finForm.tabScaling.scaled.connect(self.onScale)
-        self._finForm.tabScaling.scaledSetValuesButton.clicked.connect(self.onSetToScale)
+        self._finForm.tabScaling._form.scaledSetPartButton.clicked.connect(self.onSetToScale)
 
         self._finForm.form.canDiameterInput.textEdited.connect(self.onCanDiameter)
         self._finForm.form.canAutoDiameterCheckbox.stateChanged.connect(self.onCanAutoDiameter)
@@ -411,33 +411,33 @@ class TaskPanelFinCan(QObject):
         scale = self._finForm.tabScaling.getScale()
 
         if scale < 1.0:
-            self._finForm.tabScaling.scaledLabel.setText(translate('Rocket', "Upscale"))
-            self._finForm.tabScaling.scaledInput.setText(f"{1.0/scale}")
+            self._finForm.tabScaling._form.scaledLabel.setText(translate('Rocket', "Upscale"))
+            self._finForm.tabScaling._form.scaledInput.setText(f"{1.0/scale}")
         else:
-            self._finForm.tabScaling.scaledLabel.setText(translate('Rocket', "Scale"))
-            self._finForm.tabScaling.scaledInput.setText(f"{scale}")
+            self._finForm.tabScaling._form.scaledLabel.setText(translate('Rocket', "Scale"))
+            self._finForm.tabScaling._form.scaledInput.setText(f"{scale}")
 
         rootChord = self._obj.RootChord / scale
         rootThickness = self._obj.RootThickness / scale
         height = self._obj.Height / scale
-        self._finForm.tabScaling.scaledRootInput.setText(rootChord.UserString)
-        self._finForm.tabScaling.scaledRootThicknessInput.setText(rootThickness.UserString)
-        self._finForm.tabScaling.scaledHeightInput.setText(height.UserString)
+        self._finForm.tabScaling._form.scaledRootInput.setText(rootChord.UserString)
+        self._finForm.tabScaling._form.scaledRootThicknessInput.setText(rootThickness.UserString)
+        self._finForm.tabScaling._form.scaledHeightInput.setText(height.UserString)
 
         if self._obj.FinType == FIN_TYPE_TRAPEZOID:
             tipChord = self._obj.TipChord / scale
             tipThickness = self._obj.TipThickness / scale
-            self._finForm.tabScaling.scaledTipInput.setText(tipChord.UserString)
-            self._finForm.tabScaling.scaledTipThicknessInput.setText(tipThickness.UserString)
-            self._finForm.tabScaling.scaledTipLabel.setVisible(True)
-            self._finForm.tabScaling.scaledTipInput.setVisible(True)
-            self._finForm.tabScaling.scaledTipThicknessLabel.setVisible(True)
-            self._finForm.tabScaling.scaledTipThicknessInput.setVisible(True)
+            self._finForm.tabScaling._form.scaledTipInput.setText(tipChord.UserString)
+            self._finForm.tabScaling._form.scaledTipThicknessInput.setText(tipThickness.UserString)
+            self._finForm.tabScaling._form.scaledTipLabel.setVisible(True)
+            self._finForm.tabScaling._form.scaledTipInput.setVisible(True)
+            self._finForm.tabScaling._form.scaledTipThicknessLabel.setVisible(True)
+            self._finForm.tabScaling._form.scaledTipThicknessInput.setVisible(True)
         else:
-            self._finForm.tabScaling.scaledTipLabel.setVisible(False)
-            self._finForm.tabScaling.scaledTipInput.setVisible(False)
-            self._finForm.tabScaling.scaledTipThicknessLabel.setVisible(False)
-            self._finForm.tabScaling.scaledTipThicknessInput.setVisible(False)
+            self._finForm.tabScaling._form.scaledTipLabel.setVisible(False)
+            self._finForm.tabScaling._form.scaledTipInput.setVisible(False)
+            self._finForm.tabScaling._form.scaledTipThicknessLabel.setVisible(False)
+            self._finForm.tabScaling._form.scaledTipThicknessInput.setVisible(False)
 
     def onCount(self, value):
         self._obj.FinCount = value

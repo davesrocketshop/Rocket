@@ -189,7 +189,7 @@ class TaskPanelBodyTube:
 
         if self._btForm.tabScaling is not None:
             self._btForm.tabScaling.scaled.connect(self.onScale)
-            # self._btForm.tabScaling.scaledSetValuesButton.clicked.connect(self.onSetToScale)
+            self._btForm.tabScaling._form.scaledSetPartButton.clicked.connect(self.onSetToScale)
 
         self._db.dbLoad.connect(self.onLookup)
         self._location.locationChange.connect(self.onLocation)
@@ -244,7 +244,7 @@ class TaskPanelBodyTube:
 
     def onScale(self) -> None:
         # Update the scale values
-        if self._btForm.tabScaling is not None:
+        if self._btForm.tabScaling:
             scale = self._btForm.tabScaling.getScale()
             length = self._obj.Length / scale
             diameter = self._obj.Diameter / scale
