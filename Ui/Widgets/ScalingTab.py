@@ -68,8 +68,7 @@ class ScalingTab(QObject):
 
         self._form.scaleDiameterCheckbox.setVisible(False)
 
-        self._form.scaleForeRadio.setVisible(False)
-        self._form.scaleAftRadio.setVisible(False)
+        self._form.scaleForeAftGroup.setVisible(False)
 
         self._form.scaleRootRadio.setVisible(False)
         self._form.scaleRootInput.setVisible(False)
@@ -78,53 +77,29 @@ class ScalingTab(QObject):
         self._form.scaleHeightInput.setVisible(False)
 
     def _reportingGroup(self) -> None:
-        ...
-        # Show the results
-        # group = QtGui.QGroupBox(translate('Rocket', "Scaled Values"), self)
+        self._form.scaledAftDiameterLabel.setVisible(False)
+        self._form.scaledAftDiameterInput.setVisible(False)
 
-        # self.scaledLabel = QtGui.QLabel(translate('Rocket', "Scale"), self)
+        self._form.scaledOgiveDiameterLabel.setVisible(False)
+        self._form.scaledOgiveDiameterInput.setVisible(False)
 
-        # self.scaledInput = ui.createWidget("Gui::InputField")
-        # self.scaledInput.setMinimumWidth(20)
-        # self.scaledInput.setEnabled(False)
+        self._form.scaledBluntedDiameterLabel.setVisible(False)
+        self._form.scaledBluntedDiameterInput.setVisible(False)
 
-        # self.scaledLengthLabel = QtGui.QLabel(translate('Rocket', "Length"), self)
+        self._form.scaledRootLabel.setVisible(False)
+        self._form.scaledRootInput.setVisible(False)
 
-        # self.scaledLengthInput = ui.createWidget("Gui::InputField")
-        # self.scaledLengthInput.unit = FreeCAD.Units.Length
-        # self.scaledLengthInput.setMinimumWidth(20)
-        # self.scaledLengthInput.setEnabled(False)
+        self._form.scaledRootThicknessLabel.setVisible(False)
+        self._form.scaledRootThicknessInput.setVisible(False)
 
-        # self.scaledDiameterLabel = QtGui.QLabel(translate('Rocket', "Diameter"), self)
+        self._form.scaledTipLabel.setVisible(False)
+        self._form.scaledTipInput.setVisible(False)
 
-        # self.scaledDiameterInput = ui.createWidget("Gui::InputField")
-        # self.scaledDiameterInput.unit = FreeCAD.Units.Length
-        # self.scaledDiameterInput.setMinimumWidth(20)
-        # self.scaledDiameterInput.setEnabled(False)
+        self._form.scaledTipThicknessLabel.setVisible(False)
+        self._form.scaledTipThicknessInput.setVisible(False)
 
-        # self.scaledSetValuesButton = QtGui.QPushButton(translate('Rocket', 'Set as values'), self)
-        # self.scaledSetValuesButton.setSizePolicy(QSizePolicy.Minimum, QSizePolicy.Preferred)
-
-        # grid = QGridLayout()
-        # row = 0
-
-        # grid.addWidget(self.scaledLabel, row, 0)
-        # grid.addWidget(self.scaledInput, row, 1, 1, 2)
-        # row += 1
-
-        # grid.addWidget(self.scaledLengthLabel, row, 0)
-        # grid.addWidget(self.scaledLengthInput, row, 1, 1, 2)
-        # row += 1
-
-        # grid.addWidget(self.scaledDiameterLabel, row, 0)
-        # grid.addWidget(self.scaledDiameterInput, row, 1, 1, 2)
-        # row += 1
-
-        # grid.addWidget(self.scaledSetValuesButton, row, 2)
-        # row += 1
-
-        # group.setLayout(grid)
-        # return group
+        self._form.scaledHeightLabel.setVisible(False)
+        self._form.scaledHeightInput.setVisible(False)
 
     def _setConnections(self) -> None:
         self._form.scalingGroup.toggled.connect(self.onScalingGroup)
@@ -311,75 +286,23 @@ class ScalingTabNose(ScalingTab):
         super().__init__(obj)
 
     def _reportingGroup(self) -> None:
-        ...
-        # Show the results
-        # group = QtGui.QGroupBox(translate('Rocket', "Scaled Values"), self)
+        self._form.scaledAftDiameterLabel.setVisible(False)
+        self._form.scaledAftDiameterInput.setVisible(False)
 
-        # self.scaledLabel = QtGui.QLabel(translate('Rocket', "Scale"), self)
+        self._form.scaledRootLabel.setVisible(False)
+        self._form.scaledRootInput.setVisible(False)
 
-        # self.scaledInput = ui.createWidget("Gui::InputField")
-        # self.scaledInput.setMinimumWidth(20)
-        # self.scaledInput.setEnabled(False)
+        self._form.scaledRootThicknessLabel.setVisible(False)
+        self._form.scaledRootThicknessInput.setVisible(False)
 
-        # self.scaledLengthLabel = QtGui.QLabel(translate('Rocket', "Length"), self)
+        self._form.scaledTipLabel.setVisible(False)
+        self._form.scaledTipInput.setVisible(False)
 
-        # self.scaledLengthInput = ui.createWidget("Gui::InputField")
-        # self.scaledLengthInput.unit = FreeCAD.Units.Length
-        # self.scaledLengthInput.setMinimumWidth(20)
-        # self.scaledLengthInput.setEnabled(False)
+        self._form.scaledTipThicknessLabel.setVisible(False)
+        self._form.scaledTipThicknessInput.setVisible(False)
 
-        # self.scaledDiameterLabel = QtGui.QLabel(translate('Rocket', "Diameter"), self)
-
-        # self.scaledDiameterInput = ui.createWidget("Gui::InputField")
-        # self.scaledDiameterInput.unit = FreeCAD.Units.Length
-        # self.scaledDiameterInput.setMinimumWidth(20)
-        # self.scaledDiameterInput.setEnabled(False)
-
-        # self.scaledOgiveDiameterLabel = QtGui.QLabel(translate('Rocket', "Ogive Diameter"), self)
-
-        # self.scaledOgiveDiameterInput = ui.createWidget("Gui::InputField")
-        # self.scaledOgiveDiameterInput.unit = FreeCAD.Units.Length
-        # self.scaledOgiveDiameterInput.setMinimumWidth(20)
-        # self.scaledOgiveDiameterInput.setEnabled(False)
-
-        # self.scaledBluntedDiameterLabel = QtGui.QLabel(translate('Rocket', "Blunted Diameter"), self)
-
-        # self.scaledBluntedDiameterInput = ui.createWidget("Gui::InputField")
-        # self.scaledBluntedDiameterInput.unit = FreeCAD.Units.Length
-        # self.scaledBluntedDiameterInput.setMinimumWidth(20)
-        # self.scaledBluntedDiameterInput.setEnabled(False)
-
-        # self.scaledSetValuesButton = QtGui.QPushButton(translate('Rocket', 'Set as values'), self)
-        # self.scaledSetValuesButton.setSizePolicy(QSizePolicy.Minimum, QSizePolicy.Preferred)
-
-        # grid = QGridLayout()
-        # row = 0
-
-        # grid.addWidget(self.scaledLabel, row, 0)
-        # grid.addWidget(self.scaledInput, row, 1, 1, 2)
-        # row += 1
-
-        # grid.addWidget(self.scaledLengthLabel, row, 0)
-        # grid.addWidget(self.scaledLengthInput, row, 1, 1, 2)
-        # row += 1
-
-        # grid.addWidget(self.scaledDiameterLabel, row, 0)
-        # grid.addWidget(self.scaledDiameterInput, row, 1, 1, 2)
-        # row += 1
-
-        # grid.addWidget(self.scaledOgiveDiameterLabel, row, 0)
-        # grid.addWidget(self.scaledOgiveDiameterInput, row, 1, 1, 2)
-        # row += 1
-
-        # grid.addWidget(self.scaledBluntedDiameterLabel, row, 0)
-        # grid.addWidget(self.scaledBluntedDiameterInput, row, 1, 1, 2)
-        # row += 1
-
-        # grid.addWidget(self.scaledSetValuesButton, row, 2)
-        # row += 1
-
-        # group.setLayout(grid)
-        # return group
+        self._form.scaledHeightLabel.setVisible(False)
+        self._form.scaledHeightInput.setVisible(False)
 
 class ScalingTabTransition(ScalingTab):
 
@@ -393,7 +316,17 @@ class ScalingTabTransition(ScalingTab):
         self._form.scaleAftRadio.toggled.connect(self.onScaleAft)
 
     def _scalingGroup(self) -> None:
-        ...
+
+        self._form.scaleDiameterCheckbox.setVisible(False)
+
+        # self._form.scaleForeRadio.setVisible(False)
+        # self._form.scaleAftRadio.setVisible(False)
+
+        self._form.scaleRootRadio.setVisible(False)
+        self._form.scaleRootInput.setVisible(False)
+
+        self._form.scaleHeightRadio.setVisible(False)
+        self._form.scaleHeightInput.setVisible(False)
 
         # group = super()._scalingGroup(ui)
 
@@ -416,7 +349,23 @@ class ScalingTabTransition(ScalingTab):
         # return group
 
     def _reportingGroup(self) -> None:
-        ...
+        self._form.scaledDiameterLabel.setText(translate('Rocket', "Fore Diameter"))
+
+        self._form.scaledRootLabel.setVisible(False)
+        self._form.scaledRootInput.setVisible(False)
+
+        self._form.scaledRootThicknessLabel.setVisible(False)
+        self._form.scaledRootThicknessInput.setVisible(False)
+
+        self._form.scaledTipLabel.setVisible(False)
+        self._form.scaledTipInput.setVisible(False)
+
+        self._form.scaledTipThicknessLabel.setVisible(False)
+        self._form.scaledTipThicknessInput.setVisible(False)
+
+        self._form.scaledHeightLabel.setVisible(False)
+        self._form.scaledHeightInput.setVisible(False)
+
         # Show the results
         # group = super()._reportingGroup(ui)
 

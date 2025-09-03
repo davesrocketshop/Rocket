@@ -61,7 +61,7 @@ class _NoseConeDialog(QDialog):
         self.tabScaling = ScalingTabNose(obj)
         self.tabMaterial = MaterialTab()
         self.tabComment = CommentTab()
-        self.form.tabWidget.addTab(self.tabScaling, translate('Rocket', "Scaling"))
+        self.form.tabWidget.addTab(self.tabScaling.widget(), translate('Rocket', "Scaling"))
         self.form.tabWidget.addTab(self.tabMaterial, translate('Rocket', "Material"))
         self.form.tabWidget.addTab(self.tabComment, translate('Rocket', "Comment"))
 
@@ -175,7 +175,7 @@ class TaskPanelNoseCone:
 
         self._db.dbLoad.connect(self.onLookup)
         self._noseForm.tabScaling.scaled.connect(self.onScale)
-        self._noseForm.tabScaling.scaledSetValuesButton.clicked.connect(self.onSetToScale)
+        # self._noseForm.tabScaling.scaledSetValuesButton.clicked.connect(self.onSetToScale)
 
         self.update()
 
@@ -387,27 +387,27 @@ class TaskPanelNoseCone:
         noseDiameter = self._obj.BluntedDiameter / scale
         ogiveDiameter = self._obj.OgiveDiameter / scale
         if scale < 1.0:
-            self._noseForm.tabScaling.scaledLabel.setText(translate('Rocket', "Upscale"))
-            self._noseForm.tabScaling.scaledInput.setText(f"{1.0/scale}")
+            self._noseForm.tabScaling._form.scaledLabel.setText(translate('Rocket', "Upscale"))
+            self._noseForm.tabScaling._form.scaledInput.setText(f"{1.0/scale}")
         else:
-            self._noseForm.tabScaling.scaledLabel.setText(translate('Rocket', "Scale"))
-            self._noseForm.tabScaling.scaledInput.setText(f"{scale}")
-        self._noseForm.tabScaling.scaledLengthInput.setText(length.UserString)
-        self._noseForm.tabScaling.scaledDiameterInput.setText(diameter.UserString)
+            self._noseForm.tabScaling._form.scaledLabel.setText(translate('Rocket', "Scale"))
+            self._noseForm.tabScaling._form.scaledInput.setText(f"{scale}")
+        self._noseForm.tabScaling._form.scaledLengthInput.setText(length.UserString)
+        self._noseForm.tabScaling._form.scaledDiameterInput.setText(diameter.UserString)
         if self._obj.NoseType in [TYPE_OGIVE, TYPE_BLUNTED_OGIVE, TYPE_SECANT_OGIVE]:
-            self._noseForm.tabScaling.scaledOgiveDiameterInput.setText(ogiveDiameter.UserString)
-            self._noseForm.tabScaling.scaledOgiveDiameterInput.setVisible(True)
-            self._noseForm.tabScaling.scaledOgiveDiameterLabel.setVisible(True)
+            self._noseForm.tabScaling._form.scaledOgiveDiameterInput.setText(ogiveDiameter.UserString)
+            self._noseForm.tabScaling._form.scaledOgiveDiameterInput.setVisible(True)
+            self._noseForm.tabScaling._form.scaledOgiveDiameterLabel.setVisible(True)
         else:
-            self._noseForm.tabScaling.scaledOgiveDiameterInput.setVisible(False)
-            self._noseForm.tabScaling.scaledOgiveDiameterLabel.setVisible(False)
+            self._noseForm.tabScaling._form.scaledOgiveDiameterInput.setVisible(False)
+            self._noseForm.tabScaling._form.scaledOgiveDiameterLabel.setVisible(False)
         if self._obj.NoseType in [TYPE_BLUNTED_CONE, TYPE_BLUNTED_OGIVE]:
-            self._noseForm.tabScaling.scaledBluntedDiameterInput.setText(noseDiameter.UserString)
-            self._noseForm.tabScaling.scaledBluntedDiameterInput.setVisible(True)
-            self._noseForm.tabScaling.scaledBluntedDiameterLabel.setVisible(True)
+            self._noseForm.tabScaling._form.scaledBluntedDiameterInput.setText(noseDiameter.UserString)
+            self._noseForm.tabScaling._form.scaledBluntedDiameterInput.setVisible(True)
+            self._noseForm.tabScaling._form.scaledBluntedDiameterLabel.setVisible(True)
         else:
-            self._noseForm.tabScaling.scaledBluntedDiameterInput.setVisible(False)
-            self._noseForm.tabScaling.scaledBluntedDiameterLabel.setVisible(False)
+            self._noseForm.tabScaling._form.scaledBluntedDiameterInput.setVisible(False)
+            self._noseForm.tabScaling._form.scaledBluntedDiameterLabel.setVisible(False)
 
     def onNoseStyle(self, value):
         self._obj.NoseStyle = value

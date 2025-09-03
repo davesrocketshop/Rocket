@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>642</height>
+    <height>660</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -26,45 +26,31 @@
       <bool>false</bool>
      </property>
      <layout class="QGridLayout" name="gridLayout">
-      <item row="3" column="1">
-       <layout class="QHBoxLayout" name="horizontalLayout">
-        <item>
-         <widget class="QRadioButton" name="scaleForeRadio">
-          <property name="text">
-           <string>Fore</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QRadioButton" name="scaleAftRadio">
-          <property name="text">
-           <string>Aft</string>
-          </property>
-          <property name="checked">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-      <item row="1" column="1">
-       <widget class="Gui::InputField" name="scaleInput">
-        <property name="unit" stdset="0">
-         <string notr="true"/>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="1">
-       <widget class="Gui::InputField" name="scaleRootInput">
-        <property name="unit" stdset="0">
-         <string notr="true"/>
-        </property>
-       </widget>
-      </item>
       <item row="2" column="0">
        <widget class="QRadioButton" name="scaleDiameterRadio">
         <property name="text">
          <string>By body diameter</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0">
+       <widget class="QCheckBox" name="scaleOverrideCheckbox">
+        <property name="text">
+         <string>Override</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="Gui::InputField" name="scaleDiameterInput">
+        <property name="unit" stdset="0">
+         <string notr="true"/>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="0">
+       <widget class="QRadioButton" name="scaleRootRadio">
+        <property name="text">
+         <string>By root chord</string>
         </property>
        </widget>
       </item>
@@ -75,8 +61,8 @@
         </property>
        </widget>
       </item>
-      <item row="5" column="1">
-       <widget class="Gui::InputField" name="scaleHeightInput">
+      <item row="4" column="1">
+       <widget class="Gui::InputField" name="scaleRootInput">
         <property name="unit" stdset="0">
          <string notr="true"/>
         </property>
@@ -96,11 +82,34 @@
         </property>
        </widget>
       </item>
-      <item row="4" column="0">
-       <widget class="QRadioButton" name="scaleRootRadio">
-        <property name="text">
-         <string>By root chord</string>
+      <item row="5" column="1">
+       <widget class="Gui::InputField" name="scaleHeightInput">
+        <property name="unit" stdset="0">
+         <string notr="true"/>
         </property>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <widget class="QGroupBox" name="scaleForeAftGroup">
+        <property name="title">
+         <string/>
+        </property>
+        <layout class="QHBoxLayout" name="horizontalLayout_2">
+         <item>
+          <widget class="QRadioButton" name="scaleForeRadio">
+           <property name="text">
+            <string>Fore</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QRadioButton" name="scaleAftRadio">
+           <property name="text">
+            <string>Aft</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </widget>
       </item>
       <item row="1" column="0">
@@ -110,17 +119,10 @@
         </property>
        </widget>
       </item>
-      <item row="2" column="1">
-       <widget class="Gui::InputField" name="scaleDiameterInput">
+      <item row="1" column="1">
+       <widget class="Gui::InputField" name="scaleInput">
         <property name="unit" stdset="0">
          <string notr="true"/>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="0">
-       <widget class="QCheckBox" name="scaleOverrideCheckbox">
-        <property name="text">
-         <string>Override</string>
         </property>
        </widget>
       </item>
@@ -171,7 +173,7 @@
        </widget>
       </item>
       <item row="4" column="1">
-       <widget class="Gui::InputField" name="scaledOgiveDiameterLabel_2">
+       <widget class="Gui::InputField" name="scaledOgiveDiameterInput">
         <property name="enabled">
          <bool>false</bool>
         </property>
@@ -192,6 +194,13 @@
       </item>
       <item row="11" column="0" colspan="2">
        <layout class="QGridLayout" name="gridLayout_3">
+        <item row="1" column="2">
+         <widget class="QPushButton" name="scaledSetStageButton">
+          <property name="text">
+           <string>Set Stage</string>
+          </property>
+         </widget>
+        </item>
         <item row="1" column="3">
          <widget class="QPushButton" name="scaleSetRocketButton">
           <property name="text">
@@ -206,15 +215,8 @@
           </property>
          </widget>
         </item>
-        <item row="1" column="2">
-         <widget class="QPushButton" name="scaledSetStageButton">
-          <property name="text">
-           <string>Set Stage</string>
-          </property>
-         </widget>
-        </item>
         <item row="1" column="0">
-         <spacer name="horizontalSpacer">
+         <spacer name="horizontalSpacer_2">
           <property name="orientation">
            <enum>Qt::Orientation::Horizontal</enum>
           </property>
@@ -342,7 +344,7 @@
        </widget>
       </item>
       <item row="3" column="0">
-       <widget class="QLabel" name="scaleAftDiameterLabel">
+       <widget class="QLabel" name="scaledAftDiameterLabel">
         <property name="text">
          <string>Aft Diameter</string>
         </property>
@@ -402,7 +404,7 @@
   <tabstop>scaledLengthInput</tabstop>
   <tabstop>scaledDiameterInput</tabstop>
   <tabstop>scaledAftDiameterInput</tabstop>
-  <tabstop>scaledOgiveDiameterLabel_2</tabstop>
+  <tabstop>scaledOgiveDiameterInput</tabstop>
   <tabstop>scaledBluntedDiameterInput</tabstop>
   <tabstop>scaledRootInput</tabstop>
   <tabstop>scaledRootThicknessInput</tabstop>

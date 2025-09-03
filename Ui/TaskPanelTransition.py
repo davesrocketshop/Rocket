@@ -58,7 +58,7 @@ class _TransitionDialog(QDialog):
         self.tabScaling = ScalingTabTransition(obj)
         self.tabMaterial = MaterialTab()
         self.tabComment = CommentTab()
-        self.form.tabWidget.addTab(self.tabScaling, translate('Rocket', "Scaling"))
+        self.form.tabWidget.addTab(self.tabScaling.widget(), translate('Rocket', "Scaling"))
         self.form.tabWidget.addTab(self.tabMaterial, translate('Rocket', "Material"))
         self.form.tabWidget.addTab(self.tabComment, translate('Rocket', "Comment"))
 
@@ -152,7 +152,7 @@ class TaskPanelTransition:
         self._tranForm.form.aftShoulderThicknessInput.textEdited.connect(self.onAftShoulderThickness)
 
         self._tranForm.tabScaling.scaled.connect(self.onScale)
-        self._tranForm.tabScaling.scaledSetValuesButton.clicked.connect(self.onSetToScale)
+        # self._tranForm.tabScaling.scaledSetValuesButton.clicked.connect(self.onSetToScale)
 
         self._db.dbLoad.connect(self.onLookup)
 
@@ -278,25 +278,25 @@ class TaskPanelTransition:
         scale = self._tranForm.tabScaling.getScale()
         length = self._obj.Length / scale
         if scale < 1.0:
-            self._tranForm.tabScaling.scaledLabel.setText(translate('Rocket', "Upscale"))
-            self._tranForm.tabScaling.scaledInput.setText(f"{1.0/scale}")
+            self._tranForm.tabScaling._form.scaledLabel.setText(translate('Rocket', "Upscale"))
+            self._tranForm.tabScaling._form.scaledInput.setText(f"{1.0/scale}")
         else:
-            self._tranForm.tabScaling.scaledLabel.setText(translate('Rocket', "Scale"))
-            self._tranForm.tabScaling.scaledInput.setText(f"{scale}")
-        self._tranForm.tabScaling.scaledLengthInput.setText(length.UserString)
+            self._tranForm.tabScaling._form.scaledLabel.setText(translate('Rocket', "Scale"))
+            self._tranForm.tabScaling._form.scaledInput.setText(f"{scale}")
+        self._tranForm.tabScaling._form.scaledLengthInput.setText(length.UserString)
 
         diameter = self._obj.Proxy.getForeDiameter() / scale
         diameter = FreeCAD.Units.Quantity(f"{diameter} mm")
-        self._tranForm.tabScaling.scaledDiameterInput.setText(diameter.UserString)
+        self._tranForm.tabScaling._form.scaledDiameterInput.setText(diameter.UserString)
 
         diameter = self._obj.Proxy.getAftDiameter() / scale
         diameter = FreeCAD.Units.Quantity(f"{diameter} mm")
-        self._tranForm.tabScaling.scaledAftDiameterInput.setText(diameter.UserString)
-        self._tranForm.tabScaling.scaledAftDiameterLabel.setVisible(True)
-        self._tranForm.tabScaling.scaledAftDiameterInput.setVisible(True)
+        self._tranForm.tabScaling._form.scaledAftDiameterInput.setText(diameter.UserString)
+        self._tranForm.tabScaling._form.scaledAftDiameterLabel.setVisible(True)
+        self._tranForm.tabScaling._form.scaledAftDiameterInput.setVisible(True)
 
-        self._tranForm.tabScaling.scaleForeRadio.setVisible(True)
-        self._tranForm.tabScaling.scaleAftRadio.setVisible(True)
+        self._tranForm.tabScaling._form.scaleForeRadio.setVisible(True)
+        self._tranForm.tabScaling._form.scaleAftRadio.setVisible(True)
 
     def onTransitionType(self, value):
         self._obj.TransitionType = value
