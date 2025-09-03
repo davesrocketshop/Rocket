@@ -449,7 +449,7 @@ class FeatureNoseCone(SymmetricComponent):
             FEATURE_FIN]
 
     def getScale(self) -> float:
-        if self.hasParent():
+        if self.hasParent() and not self._obj.ScaleOverride:
             if self.getParent().isScaled():
                 return self.getParent().getScale()
 

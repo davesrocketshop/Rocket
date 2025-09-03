@@ -437,6 +437,10 @@ class FeatureTransition(SymmetricComponent):
             FEATURE_FIN]
 
     def getScale(self) -> float:
+        if self.hasParent() and not self._obj.ScaleOverride:
+            if self.getParent().isScaled():
+                return self.getParent().getScale()
+
         scale = 1.0
         if self._obj.Scale:
             if self._obj.ScaleByValue and self._obj.ScaleValue.Value > 0.0:

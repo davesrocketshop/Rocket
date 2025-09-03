@@ -104,6 +104,7 @@ class ScalingTab(QObject):
 
     def _setConnections(self) -> None:
         self._form.scalingGroup.toggled.connect(self.onScalingGroup)
+        self._form.scaleOverrideCheckbox.stateChanged.connect(self.onOverride)
         self._form.scaleRadio.toggled.connect(self.onScale)
         self._form.scaleDiameterRadio.toggled.connect(self.onScaleDiameter)
         self._form.scaleDiameterCheckbox.stateChanged.connect(self.onScaleAutoDiameter)
@@ -112,19 +113,37 @@ class ScalingTab(QObject):
         self._form.scaleDiameterInput.textEdited.connect(self.onScaleDiameterValue)
 
     def _setScaleState(self) -> None:
-        if self._form.scalingGroup.isChecked():
-            byValue = self._form.scaleRadio.isChecked()
-            self._form.scaleInput.setEnabled(byValue)
-            self._form.upscaleCheckbox.setEnabled(byValue)
+        if self._obj.Proxy.isParentScaled():
+            self._form.scalingGroup.setChecked(True)
+            self._form.scaleOverrideCheckbox.setEnabled(True)
+        else:
+            self._form.scaleOverrideCheckbox.setEnabled(False)
 
-            byDiameter = self._form.scaleDiameterRadio.isChecked()
-            self._form.scaleDiameterInput.setEnabled(byDiameter)
-            # self._form.scaleDiameterCheckbox.setEnabled(byDiameter)
+        if self._form.scalingGroup.isChecked():
+            if (self._obj.Proxy.isParentScaled() and self._obj.ScaleOverride) or \
+                not self._obj.Proxy.isParentScaled():
+                self._form.scaleRadio.setEnabled(True)
+                byValue = self._form.scaleRadio.isChecked()
+                self._form.scaleInput.setEnabled(byValue)
+                self._form.upscaleCheckbox.setEnabled(byValue)
+
+                self._form.scaleDiameterRadio.setEnabled(True)
+                byDiameter = self._form.scaleDiameterRadio.isChecked()
+                self._form.scaleDiameterInput.setEnabled(byDiameter)
+                # self._form.scaleDiameterCheckbox.setEnabled(byDiameter)
+            else:
+                self._form.scaleRadio.setEnabled(False)
+                self._form.scaleInput.setEnabled(False)
+                self._form.upscaleCheckbox.setEnabled(False)
+                self._form.scaleDiameterRadio.setEnabled(False)
+                self._form.scaleDiameterInput.setEnabled(False)
+                self._form.scaleDiameterCheckbox.setEnabled(False)
         self._form.scaleDiameterCheckbox.setVisible(False)
 
     def transferTo(self, obj : Any) -> None:
         "Transfer from the dialog to the object"
         obj.Scale = self._form.scalingGroup.isChecked()
+        obj.ScaleOverride = self._form.scaleOverrideCheckbox.isChecked()
         obj.ScaleByValue = self._form.scaleRadio.isChecked()
         obj.ScaleByDiameter = self._form.scaleDiameterRadio.isChecked()
         obj.AutoScaleDiameter = self._form.scaleDiameterCheckbox.isChecked()
@@ -138,6 +157,7 @@ class ScalingTab(QObject):
         self._loading = True
 
         self._form.scalingGroup.setChecked(obj.Scale)
+        self._form.scaleOverrideCheckbox.setChecked(obj.ScaleOverride)
         self._form.scaleRadio.setChecked(obj.ScaleByValue)
         self._form.scaleDiameterRadio.setChecked(obj.ScaleByDiameter)
         self._form.scaleDiameterCheckbox.setChecked(obj.AutoScaleDiameter)
@@ -195,6 +215,17 @@ class ScalingTab(QObject):
             return
         try:
             self._obj.Scale = on
+            self._obj.Proxy.execute(self._obj)
+        except ValueError:
+            pass
+        self._setScaleState()
+        self.setEdited()
+
+    def onOverride(self, checked : bool) -> None:
+        if self._loading:
+            return
+        try:
+            self._obj.ScaleOverride = checked
             self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
@@ -347,9 +378,13 @@ class ScalingTabTransition(ScalingTab):
     def _setScaleState(self) -> None:
         super()._setScaleState()
         if self._form.scalingGroup.isChecked():
-            byDiameter = self._form.scaleDiameterRadio.isChecked()
-            self._form.scaleForeRadio.setEnabled(byDiameter)
-            self._form.scaleAftRadio.setEnabled(byDiameter)
+            if (self._obj.Proxy.isParentScaled() and self._obj.ScaleOverride) or \
+                self._form.scaleForeAftGroup.setEnabled(True):
+                byDiameter = self._form.scaleDiameterRadio.isChecked()
+                self._form.scaleForeRadio.setEnabled(byDiameter)
+                self._form.scaleAftRadio.setEnabled(byDiameter)
+            else:
+                self._form.scaleForeAftGroup.setEnabled(False)
 
     def transferTo(self, obj : Any) -> None:
         "Transfer from the dialog to the object"
@@ -458,6 +493,7 @@ class ScalingTabFins(ScalingTab):
 
     def _setConnections(self) -> None:
         self._form.scalingGroup.toggled.connect(self.onScalingGroup)
+        self._form.scaleOverrideCheckbox.stateChanged.connect(self.onOverride)
         self._form.scaleRadio.toggled.connect(self.onScale)
         self._form.scaleRootRadio.toggled.connect(self.onScaleRoot)
         self._form.scaleHeightRadio.toggled.connect(self.onScaleHeight)
@@ -467,16 +503,38 @@ class ScalingTabFins(ScalingTab):
         self._form.scaleHeightInput.textEdited.connect(self.onScaleHeightValue)
 
     def _setScaleState(self) -> None:
+        if self._obj.Proxy.isParentScaled():
+            self._form.scalingGroup.setChecked(True)
+            self._form.scaleOverrideCheckbox.setEnabled(True)
+        else:
+            self._form.scaleOverrideCheckbox.setEnabled(False)
+
         if self._form.scalingGroup.isChecked():
-            byValue = self._form.scaleRadio.isChecked()
-            self._form.scaleInput.setEnabled(byValue)
-            self._form.upscaleCheckbox.setEnabled(byValue)
+            if (self._obj.Proxy.isParentScaled() and self._obj.ScaleOverride) or \
+                not self._obj.Proxy.isParentScaled():
+                self._form.scaleRadio.setEnabled(True)
+                byValue = self._form.scaleRadio.isChecked()
+                self._form.scaleInput.setEnabled(byValue)
+                self._form.upscaleCheckbox.setEnabled(byValue)
 
-            byRoot = self._form.scaleRootRadio.isChecked()
-            self._form.scaleRootInput.setEnabled(byRoot)
+                self._form.scaleRootRadio.setEnabled(True)
+                byRoot = self._form.scaleRootRadio.isChecked()
+                self._form.scaleRootInput.setEnabled(byRoot)
 
-            byHeight = self._form.scaleHeightRadio.isChecked()
-            self._form.scaleHeightInput.setEnabled(byHeight)
+                self._form.scaleHeightRadio.setEnabled(True)
+                byHeight = self._form.scaleHeightRadio.isChecked()
+                self._form.scaleHeightInput.setEnabled(byHeight)
+            else:
+                self._form.scaleRadio.setEnabled(False)
+                self._form.scaleInput.setEnabled(False)
+                self._form.upscaleCheckbox.setEnabled(False)
+
+                self._form.scaleRootRadio.setEnabled(False)
+                self._form.scaleRootInput.setEnabled(False)
+
+                self._form.scaleHeightRadio.setEnabled(False)
+                self._form.scaleHeightInput.setEnabled(False)
+        self._form.scaleDiameterCheckbox.setVisible(False)
 
         isTrapezoid = (self._obj.FinType == FIN_TYPE_TRAPEZOID)
         self._form.scaledTipLabel.setVisible(isTrapezoid)
@@ -637,13 +695,15 @@ class ScalingTabRocketStage(ScalingTab):
 
     def _setConnections(self) -> None:
         self._form.scalingGroup.toggled.connect(self.onScalingGroup)
+        self._form.scaleOverrideCheckbox.stateChanged.connect(self.onOverride)
         self._form.upscaleCheckbox.stateChanged.connect(self.onUpscale)
         self._form.scaleInput.textEdited.connect(self.onScaleValue)
 
     def _setScaleState(self) -> None:
-        if self._form.scalingGroup.isChecked():
-            self._form.scaleInput.setEnabled(True)
-            self._form.upscaleCheckbox.setEnabled(True)
+        super()._setScaleState()
+        # if self._form.scalingGroup.isChecked():
+        #     self._form.scaleInput.setEnabled(True)
+        #     self._form.upscaleCheckbox.setEnabled(True)
 
     def transferTo(self, obj : Any) -> None:
         "Transfer from the dialog to the object"
