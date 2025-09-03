@@ -50,7 +50,7 @@ def doCFD():
             if hasattr(rocket,"Proxy") and hasattr(rocket.Proxy,"getRocket"):
                 try:
                     root = rocket.Proxy.getRocket()
-                    if root is not None:
+                    if root:
                         taskd = TaskPanelCFD(root)
                         FreeCADGui.Control.showDialog(taskd)
                 except TypeError as ex:

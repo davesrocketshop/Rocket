@@ -88,7 +88,7 @@ class NoseProxyShapeHandler:
         return float(scale)
 
     def _getShape(self) -> Part.Solid:
-        if self._shape is not None:
+        if self._shape:
             return self._shape
 
         if self._base is None:

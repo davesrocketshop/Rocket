@@ -111,7 +111,7 @@ class Coordinate():
          x1*x2+y1*y2+z1*z2
     """
     def dot(self, other : Coordinate, v2 : Coordinate | None = None) -> float:
-        if v2 is not None:
+        if v2:
             return self._dot(other, v2)
         return float(self._x) * float(other._x) + float(self._y) * float(other._y) + float(self._z) * float(other._z)
 

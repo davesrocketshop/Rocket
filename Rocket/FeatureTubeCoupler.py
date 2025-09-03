@@ -56,7 +56,7 @@ class FeatureTubeCoupler(ThicknessRingComponent, RadialParent):
 
     def execute(self, obj : Any) -> None:
         shape = BodyTubeShapeHandler(obj)
-        if shape is not None:
+        if shape:
             shape.draw()
 
     def isAfter(self) -> bool:

@@ -205,7 +205,7 @@ class TaskPanelMultiCFD:
 
     def gotErrorLines(self, lines):
         print_err = self._obj.Proxy._cfdProcess.processErrorOutput(lines)
-        if print_err is not None:
+        if print_err:
             self.consoleMessage(print_err, 'Error')
             self.check_mesh_error = True
 
@@ -469,7 +469,7 @@ class TaskPanelMultiCFD:
         #     "  from CfdOF.Solve import CfdRunnableFoam\n" +
         #     "  solver_runner = CfdRunnableFoam.CfdRunnableFoam(analysis_object, solver_object)\n" +
         #     "  cmd = solver_runner.getSolverCmd(solver_directory)\n" +
-        #     "  if cmd is not None:\n" +
+        #     "  if cmd:\n" +
         #     "    env_vars = solver_runner.getRunEnvironment()\n" +
         #     "    solver_process = CfdConsoleProcess.CfdConsoleProcess(stdout_hook=solver_runner.)\n" +
         #     "    solver_process.start(cmd, env_vars=env_vars, working_dir=solver_directory)\n" +

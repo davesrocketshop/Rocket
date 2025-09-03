@@ -100,7 +100,7 @@ class FreeformFinsetElement(FinsetElement):
         self._feature._obj.Profile = self.sketch
         # self._feature._obj.Group = [self.sketch]
 
-        if self._parentObj is not None:
+        if self._parentObj:
             self._parentObj.addChild(self._feature)
         self.sketch.Visibility = False
 

@@ -207,7 +207,7 @@ class FeatureFinCan(SymmetricComponent, FeatureFin):
         self._obj.setEditorMode('FinSpacing', EDITOR_NONE)  # show
 
     def onDocumentRestored(self, obj : Any) -> None:
-        if obj is not None:
+        if obj:
             self._obj = obj
 
             # Migrate from length to angle
@@ -248,14 +248,14 @@ class FeatureFinCan(SymmetricComponent, FeatureFin):
             inner = -1
             c = self.getPreviousSymmetricComponent()
             # Don't use the radius of a component who already has its auto diameter enabled
-            if c is not None and not c.usesNextCompAutomatic():
+            if c and not c.usesNextCompAutomatic():
                 d = float(c.getFrontAutoDiameter())
                 inner = float(c.getFrontAutoInnerDiameter())
                 self._refComp = c
             if d < 0:
                 c = self.getNextSymmetricComponent()
                 # Don't use the radius of a component who already has its auto diameter enabled
-                if c is not None and not c.usesPreviousCompAutomatic():
+                if c and not c.usesPreviousCompAutomatic():
                     d = float(c.getRearAutoDiameter())
                     inner = float(c.getRearAutoInnerDiameter())
                     self._refComp = c
@@ -306,7 +306,7 @@ class FeatureFinCan(SymmetricComponent, FeatureFin):
         elif obj.FinType == FIN_TYPE_SKETCH:
             shape = FinCanSketchShapeHandler(obj)
 
-        if shape is not None:
+        if shape:
             shape.draw()
 
     def eligibleChild(self, childType : str) -> bool:
@@ -329,7 +329,7 @@ class FeatureFinCan(SymmetricComponent, FeatureFin):
         if self.isOuterDiameterAutomatic():
             # Search for previous SymmetricComponent
             c = self.getPreviousSymmetricComponent()
-            if c is not None:
+            if c:
                 return c.getFrontAutoDiameter()
             else:
                 return -1
@@ -349,7 +349,7 @@ class FeatureFinCan(SymmetricComponent, FeatureFin):
         if self.isOuterDiameterAutomatic():
             # Search for next SymmetricComponent
             c = self.getNextSymmetricComponent()
-            if c is not None:
+            if c:
                 return c.getRearAutoDiameter()
             else:
                 return -1

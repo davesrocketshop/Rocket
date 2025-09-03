@@ -49,7 +49,7 @@ class RingtailElement(FinsetElement):
         self._feature = makeFin()
         self._feature._obj.FinType = FIN_TYPE_TRAPEZOID
 
-        if self._parentObj is not None:
+        if self._parentObj:
             self._parentObj.addChild(self._feature)
 
 
@@ -72,7 +72,7 @@ class RingtailElement(FinsetElement):
     def end(self):
         self._feature2 = makeRingtail()
 
-        if self._feature is not None:
+        if self._feature:
             self._feature.addChild(self._feature2)
 
         self._feature2._obj.Diameter = self._outerDiameter

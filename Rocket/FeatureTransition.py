@@ -200,7 +200,7 @@ class FeatureTransition(SymmetricComponent):
             # Get the automatic radius from the front
             d = -1
             c = self.getPreviousSymmetricComponent()
-            if c is not None:
+            if c:
                 d = c.getFrontAutoDiameter()
             if d < 0:
                 d = SymmetricComponent.DEFAULT_RADIUS * 2.0
@@ -216,7 +216,7 @@ class FeatureTransition(SymmetricComponent):
             # Get the automatic radius from the front
             d = -1
             c = self.getPreviousSymmetricComponent()
-            if c is not None:
+            if c:
                 d = c.getFrontAutoInnerDiameter()
             if d < 0:
                 d = SymmetricComponent.DEFAULT_RADIUS * 2.0
@@ -279,7 +279,7 @@ class FeatureTransition(SymmetricComponent):
             # Return the auto radius from the rear
             d = -1
             c = self.getNextSymmetricComponent()
-            if c is not None:
+            if c:
                 d = c.getRearAutoDiameter()
 
             if d < 0:
@@ -293,7 +293,7 @@ class FeatureTransition(SymmetricComponent):
             # Return the auto radius from the rear
             d = -1
             c = self.getNextSymmetricComponent()
-            if c is not None:
+            if c:
                 d = c.getRearAutoInnerDiameter()
 
             if d < 0:
@@ -427,7 +427,7 @@ class FeatureTransition(SymmetricComponent):
 
     def execute(self, obj : Any) -> None:
         self._setShapeHandler()
-        if self._shapeHandler is not None:
+        if self._shapeHandler:
             self._shapeHandler.draw()
 
     def eligibleChild(self, childType : str) -> bool:

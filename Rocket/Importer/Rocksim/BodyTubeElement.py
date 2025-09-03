@@ -39,7 +39,7 @@ class MotorMountElement(ComponentElement):
         self._knownTags.extend(["overhang", "ignitionevent", "ignitiondelay", "ignitionconfiguration"])
 
     def makeObject(self):
-        if self._parentObj is not None:
+        if self._parentObj:
             self._feature = self._parentObj
             self._feature._obj.MotorMount = True
 
@@ -66,7 +66,7 @@ class BodyTubeElement(ComponentElement):
 
     def makeObject(self):
         self._feature = makeBodyTube()
-        if self._parentObj is not None:
+        if self._parentObj:
             self._parentObj.addChild(self._feature)
 
     def handleEndTag(self, tag, content):
@@ -111,5 +111,5 @@ class InnerTubeElement(BodyTubeElement):
 
     def makeObject(self):
         self._feature = makeInnerTube()
-        if self._parentObj is not None:
+        if self._parentObj:
             self._parentObj.addChild(self._feature)

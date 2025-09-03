@@ -227,7 +227,7 @@ class FeatureFin(ExternalComponent):
         pass
 
     def onDocumentRestored(self, obj : Any) -> None:
-        if obj is not None:
+        if obj:
             FeatureFin(obj) # Update any properties
 
             # Convert from the pre-1.0 material system if required
@@ -470,7 +470,7 @@ class FeatureFin(ExternalComponent):
     def execute(self, obj : Any) -> None:
         self._setShapeHandler()
 
-        if self._shapeHandler is not None:
+        if self._shapeHandler:
             self._shapeHandler.draw()
 
     def eligibleChild(self, childType : str) -> bool:

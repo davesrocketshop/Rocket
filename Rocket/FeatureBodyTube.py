@@ -193,7 +193,7 @@ class FeatureBodyTube(SymmetricComponent, BoxBounded, Coaxial):
             d = -1
             c = self.getPreviousSymmetricComponent()
             # Don't use the radius of a component who already has its auto diameter enabled
-            if c is not None and not c.usesNextCompAutomatic():
+            if c and not c.usesNextCompAutomatic():
                 self._refComp = c
                 d = c.getFrontAutoDiameter()
                 # if not self.isScaled():
@@ -201,7 +201,7 @@ class FeatureBodyTube(SymmetricComponent, BoxBounded, Coaxial):
             if d < 0:
                 c = self.getNextSymmetricComponent()
                 # Don't use the radius of a component who already has its auto diameter enabled
-                if c is not None and not c.usesPreviousCompAutomatic():
+                if c and not c.usesPreviousCompAutomatic():
                     self._refComp = c
                     d = c.getRearAutoDiameter()
                     # if not self.isScaled():
@@ -230,7 +230,7 @@ class FeatureBodyTube(SymmetricComponent, BoxBounded, Coaxial):
         if self.isOuterDiameterAutomatic():
             # Search for previous SymmetricComponent
             c = self.getPreviousSymmetricComponent()
-            if c is not None:
+            if c:
                 return c.getFrontAutoDiameter()
             else:
                 return -1
@@ -247,7 +247,7 @@ class FeatureBodyTube(SymmetricComponent, BoxBounded, Coaxial):
         if self.isOuterDiameterAutomatic():
             # Search for next SymmetricComponent
             c = self.getNextSymmetricComponent()
-            if c is not None:
+            if c:
                 return c.getRearAutoDiameter()
             else:
                 return -1
@@ -274,13 +274,13 @@ class FeatureBodyTube(SymmetricComponent, BoxBounded, Coaxial):
 
     def execute(self, obj : Any) -> None:
         shape = BodyTubeShapeHandler(obj)
-        if shape is not None:
+        if shape:
             shape.draw()
 
     def getSolidShape(self, obj : Any) -> Part.Solid:
         """ Return a filled version of the shape. Useful for CFD """
         shape = BodyTubeShapeHandler(obj)
-        if shape is not None:
+        if shape:
             x = shape.drawSolidShape()
             return shape.drawSolidShape()
         return None
@@ -325,3 +325,12 @@ class FeatureBodyTube(SymmetricComponent, BoxBounded, Coaxial):
                 if diameter > 0 and self._obj.ScaleValue > 0:
                     scale =  float(diameter / self._obj.ScaleValue)
         return scale
+
+    def setPartScale(self, scale : float) -> None:
+        if self._obj.ScaleOverride:
+            scale = self._obj.Proxy.getScale()
+
+        self._obj.Scale = False
+
+        self._obj.Length /= scale
+        self._obj.Diameter /= scale

@@ -45,7 +45,7 @@ class NoseElement(ComponentElement):
 
     def makeObject(self):
         self._feature = makeNoseCone()
-        if self._parentObj is not None:
+        if self._parentObj:
             self._parentObj.addChild(self._feature)
 
     def handleEndTag(self, tag, content):

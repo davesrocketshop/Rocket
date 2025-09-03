@@ -61,7 +61,7 @@ class _BodyTubeDialog(QDialog):
             self.tabScaling = ScalingTabBodyTube(obj)
 
         self.tabWidget.addTab(self.tabGeneral, translate('Rocket', "General"))
-        if self.tabScaling is not None:
+        if self.tabScaling:
             self.tabWidget.addTab(self.tabScaling.widget(), translate('Rocket', "Scaling"))
         self.tabWidget.addTab(self.tabMaterial, translate('Rocket', "Material"))
         self.tabWidget.addTab(self.tabComment, translate('Rocket', "Comment"))
@@ -187,9 +187,11 @@ class TaskPanelBodyTube:
             self._btForm.motorGroup.toggled.connect(self.onMotor)
             self._btForm.overhangInput.textEdited.connect(self.onOverhang)
 
-        if self._btForm.tabScaling is not None:
+        if self._btForm.tabScaling:
             self._btForm.tabScaling.scaled.connect(self.onScale)
-            self._btForm.tabScaling._form.scaledSetPartButton.clicked.connect(self.onSetToScale)
+            self._btForm.tabScaling._form.scaledSetPartButton.clicked.connect(self.onSetPartScale)
+            self._btForm.tabScaling._form.scaledSetStageButton.clicked.connect(self.onSetStageScale)
+            self._btForm.tabScaling._form.scaleSetRocketButton.clicked.connect(self.onSetRocketScale)
 
         self._db.dbLoad.connect(self.onLookup)
         self._location.locationChange.connect(self.onLocation)
@@ -210,7 +212,7 @@ class TaskPanelBodyTube:
             self._obj.MotorMount = self._btForm.motorGroup.isChecked()
             self._obj.Overhang = self._btForm.overhangInput.text()
 
-        if self._btForm.tabScaling is not None:
+        if self._btForm.tabScaling:
             self._btForm.tabScaling.transferTo(self._obj)
         self._btForm.tabMaterial.transferTo(self._obj)
         self._btForm.tabComment.transferTo(self._obj)
@@ -226,7 +228,7 @@ class TaskPanelBodyTube:
             self._btForm.motorGroup.setChecked(self._obj.MotorMount)
             self._btForm.overhangInput.setText(self._obj.Overhang.UserString)
 
-        if self._btForm.tabScaling is not None:
+        if self._btForm.tabScaling:
             self._btForm.tabScaling.transferFrom(self._obj)
         self._btForm.tabMaterial.transferFrom(self._obj)
         self._btForm.tabComment.transferFrom(self._obj)
@@ -391,17 +393,26 @@ class TaskPanelBodyTube:
         self._obj.Proxy.execute(self._obj)
         self.setEdited()
 
-    def onSetToScale(self) -> None:
+    def onSetPartScale(self) -> None:
         # Update the scale values
-        if self._btForm.tabScaling is not None:
+        if self._btForm.tabScaling:
             scale = self._btForm.tabScaling.getScale()
-            self._obj.Scale = False
-
-            self._obj.Length /= scale
-            self._obj.Diameter /= scale
+            self._obj.Proxy.setPartScale(scale)
 
             scale = self._btForm.tabScaling.resetScale()
             self.update()
+
+    def onSetStageScale(self) -> None:
+        # Update the scale values
+        if self._btForm.tabScaling:
+            scale = self._btForm.tabScaling.getScale()
+            self._obj.Proxy.setStageScale(scale)
+
+    def onSetRocketScale(self) -> None:
+        # Update the scale values
+        if self._btForm.tabScaling:
+            scale = self._btForm.tabScaling.getScale()
+            self._obj.Proxy.setRocketScale(scale)
 
     def getStandardButtons(self):
         return QtGui.QDialogButtonBox.Ok | QtGui.QDialogButtonBox.Cancel | QtGui.QDialogButtonBox.Apply

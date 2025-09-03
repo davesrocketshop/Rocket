@@ -104,7 +104,7 @@ class FeatureLaunchLug(Tube, AnglePositionable, BoxBounded, LineInstanceable):
 
     def execute(self, obj : Any) -> None:
         shape = LaunchLugShapeHandler(obj)
-        if shape is not None:
+        if shape:
             shape.draw()
 
     def eligibleChild(self, childType : str) -> bool:
@@ -198,7 +198,7 @@ class FeatureLaunchLug(Tube, AnglePositionable, BoxBounded, LineInstanceable):
 
         if self.hasParent():
             body = self.getParent()
-        while body is not None:
+        while body:
             if isinstance(body, SymmetricComponent):
                 break
             if body.Type in [FEATURE_FIN, FEATURE_FINCAN]:

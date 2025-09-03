@@ -338,7 +338,7 @@ class TransitionShapeHandler():
             _err(translate('Rocket', "Transition parameters produce an invalid shape"))
             return
 
-        if edges is not None:
+        if edges:
             try:
                 if self._debugShape:
                     for edge in edges:
@@ -362,7 +362,7 @@ class TransitionShapeHandler():
                 elif self._foreCapStyle == STYLE_CAP_CROSS:
                     mask = self._foreCrossCap()
 
-                if mask is not None:
+                if mask:
                     shape = shape.cut(mask)
         except Part.OCCError:
             _err(translate('Rocket', "Forward cap style produces an invalid shape"))
@@ -376,7 +376,7 @@ class TransitionShapeHandler():
                 elif self._aftCapStyle == STYLE_CAP_CROSS:
                     mask = self._aftCrossCap()
 
-                if mask is not None:
+                if mask:
                     shape = shape.cut(mask)
         except Part.OCCError:
             _err(translate('Rocket', "Forward cap style produces an invalid shape"))

@@ -84,7 +84,7 @@ class FeatureRingtail(SymmetricComponent, BoxBounded, Coaxial):
 
         if self.hasParent():
             body = self.getParent()
-        while body is not None:
+        while body:
             if body.Type in [FEATURE_FIN, FEATURE_FINCAN]:
                 break
             if body.hasParent():
@@ -98,7 +98,7 @@ class FeatureRingtail(SymmetricComponent, BoxBounded, Coaxial):
         body = self.getParentBody()
 
         sweep = 0.0
-        if body is not None:
+        if body:
             sweep = body.getSweepLength()
             if hasattr(body, "getLeadingEdgeOffset"):
                 sweep += body.getLeadingEdgeOffset()
@@ -239,7 +239,7 @@ class FeatureRingtail(SymmetricComponent, BoxBounded, Coaxial):
         parentDiameter = SymmetricComponent.DEFAULT_RADIUS * 2.0
 
         body = self.getParentBody()
-        if body is not None:
+        if body:
             body.setParentDiameter() # Set any auto values
             parentDiameter = 2.0 * float(body.getForeRadius())
 
@@ -256,7 +256,7 @@ class FeatureRingtail(SymmetricComponent, BoxBounded, Coaxial):
         tipLength = 30.48 # Default tip length
 
         body = self.getParentBody()
-        if body is not None:
+        if body:
             tipLength = body.getTipChord()
 
         self._obj.Length = tipLength
@@ -290,13 +290,13 @@ class FeatureRingtail(SymmetricComponent, BoxBounded, Coaxial):
 
     def execute(self, obj : Any) -> None:
         shape = RingtailShapeHandler(obj)
-        if shape is not None:
+        if shape:
             shape.draw()
 
     def getSolidShape(self, obj : Any) -> Part.Solid:
         """ Return a filled version of the shape. Useful for CFD """
         shape = RingtailShapeHandler(obj)
-        if shape is not None:
+        if shape:
             return shape.drawSolidShape()
         return None
 

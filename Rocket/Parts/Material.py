@@ -84,7 +84,7 @@ class Material:
                                 "type" :self._type
                             })
         row = cursor.fetchone()
-        if row is not None:
+        if row:
             # See if this is a complete duplicate
             if row['density'] == self._density and row['units'] == self._units:
                 return row['material_index']

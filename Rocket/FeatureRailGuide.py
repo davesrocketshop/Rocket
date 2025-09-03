@@ -163,7 +163,7 @@ class FeatureRailGuide(ExternalComponent, AnglePositionable, BoxBounded, LineIns
 
     def execute(self, obj : Any) -> None:
         shape = RailGuideShapeHandler(obj)
-        if shape is not None:
+        if shape:
             shape.draw()
 
     def getLength(self) -> float:
@@ -187,7 +187,7 @@ class FeatureRailGuide(ExternalComponent, AnglePositionable, BoxBounded, LineIns
 
         if self.hasParent():
             body = self.getParent()
-        while body is not None:
+        while body:
             if isinstance(body, SymmetricComponent):
                 break
             if body.hasParent():

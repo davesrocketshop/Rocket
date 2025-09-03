@@ -43,7 +43,7 @@ class BulkheadElement(RadiusRingComponentElement):
 
     def makeObject(self):
         self._feature = makeBulkhead()
-        if self._parentObj is not None:
+        if self._parentObj:
             self._parentObj.addChild(self._feature)
 
     def handleEndTag(self, tag, content):
@@ -84,5 +84,5 @@ class CenteringRingElement(BulkheadElement):
 
     def makeObject(self):
         self._feature = makeCenteringRing()
-        if self._parentObj is not None:
+        if self._parentObj:
             self._parentObj.addChild(self._feature)

@@ -66,7 +66,7 @@ class BodyTubeElement(Element):
 
     def makeObject(self):
         self._feature = makeBodyTube()
-        if self._parentObj is not None:
+        if self._parentObj:
             self._parentObj.addChild(self._feature)
 
     def handleEndTag(self, tag, content):

@@ -216,7 +216,7 @@ class DialogScaling(QtCore.QObject):
     def onProgress(self, progress):
         items = progress[0]
         value = progress[1]
-        if items is not None:
+        if items:
             self._model.appendRow(items)
         self.form.progressBar.setValue(value)
 
@@ -352,7 +352,7 @@ class DialogScalingPairs(DialogScaling):
                 if maximumOD is None or target < maximumOD:
                     min_diameter = target - (target * (tolerance / 100.0))
                     max_diameter = target + (target * (tolerance / 100.0))
-                    if maximumOD is not None:
+                    if maximumOD:
                         max_diameter = min(max_diameter, maximumOD)
                     scaled = searchBodyTube(connection, min_diameter, max_diameter, COMPONENT_TYPE_BODYTUBE)
                     if len(scaled) > 0:

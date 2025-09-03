@@ -137,7 +137,7 @@ class RocketComponentShapeless(Subject, Observer):
         parent = None
         if self.hasParent():
             parent = self.getParent()
-        while parent is not None:
+        while parent:
             if parent.Type == FEATURE_ROCKET:
                 return True
 
@@ -235,7 +235,7 @@ class RocketComponentShapeless(Subject, Observer):
     def getPrevious(self, obj : Any = None) -> Any:
         "Previous item along the rocket axis"
         if obj is None:
-            if self._parent is not None:
+            if self._parent:
                 return self.getProxy(self._parent).getPrevious(self)
             else:
                 return None
@@ -247,7 +247,7 @@ class RocketComponentShapeless(Subject, Observer):
                         return self._obj.Group[index - 1]
             return self._obj
 
-        if self._parent is not None:
+        if self._parent:
             return self.getProxy(self._parent).getPrevious(obj)
 
         return None
@@ -255,7 +255,7 @@ class RocketComponentShapeless(Subject, Observer):
     def getNext(self, obj : Any = None) -> Any:
         "Next item along the rocket axis"
         if obj is None:
-            if self._parent is not None:
+            if self._parent:
                 return self.getProxy(self._parent).getNext(self)
             else:
                 return None
@@ -267,7 +267,7 @@ class RocketComponentShapeless(Subject, Observer):
                         return self._obj.Group[index + 1]
             return self._obj
 
-        if self._parent is not None:
+        if self._parent:
             return self.getProxy(self._parent).getNext(obj)
 
         return None
@@ -357,7 +357,7 @@ class RocketComponentShapeless(Subject, Observer):
                             grandparent = None
 
                         parent = grandparent
-                        while parent is not None:
+                        while parent:
                             if hasattr(parent, "_obj"):
                                 parent = parent._obj
                             if parent.Proxy.eligibleChild(obj.Proxy.Type):
@@ -368,7 +368,7 @@ class RocketComponentShapeless(Subject, Observer):
                             elif parent.Proxy.Type == FEATURE_STAGE:
                                 # Get the previous eligible feature
                                 eligible = parent.Proxy.previousEligibleChild(self, obj)
-                                if eligible is not None:
+                                if eligible:
                                     self._obj.removeObject(obj)
                                     obj.Proxy.setParent(None)
                                     eligible.addChildPosition(obj, 0)
@@ -380,7 +380,7 @@ class RocketComponentShapeless(Subject, Observer):
                                     nextStage = grandparent.getChild(index - 1)
                                     eligible = nextStage.Proxy.lastEligibleChild(obj)
 
-                                    if eligible is not None:
+                                    if eligible:
                                         self._obj.removeObject(obj)
                                         obj.Proxy.setParent(None)
                                         eligible.addChild(obj)
@@ -394,7 +394,7 @@ class RocketComponentShapeless(Subject, Observer):
                                     nextStage = parent.Proxy.getChild(index - 1)
                                     eligible = nextStage.Proxy.lastEligibleChild(obj)
 
-                                    if eligible is not None:
+                                    if eligible:
                                         self._obj.removeObject(obj)
                                         obj.Proxy.setParent(None)
                                         eligible.addChild(obj)
@@ -438,7 +438,7 @@ class RocketComponentShapeless(Subject, Observer):
                         parent = None
                         if self.hasParent():
                             parent = self.getParent()._obj
-                        while parent is not None:
+                        while parent:
                             if parent.Proxy.eligibleChild(obj.Proxy.Type):
                                 # parentLen = len(parent.Group)
                                 for index1, child in enumerate(parent.Group):
@@ -451,7 +451,7 @@ class RocketComponentShapeless(Subject, Observer):
                                         return
                             else:
                                 eligible = parent.Proxy.nextEligibleChild(current, obj)
-                                if eligible is not None:
+                                if eligible:
                                     self._obj.removeObject(obj)
                                     obj.Proxy.setParent(None)
                                     eligible.addChildPosition(obj, 0)
@@ -469,7 +469,7 @@ class RocketComponentShapeless(Subject, Observer):
                     nextStage = parent.getParent().getChild(index + 1)
                     eligible = nextStage.Proxy.firstEligibleChild(obj)
 
-                    if eligible is not None:
+                    if eligible:
                         self._obj.removeObject(obj)
                         obj.Proxy.setParent(None)
                         eligible.addChildPosition(obj, 0)
@@ -484,7 +484,7 @@ class RocketComponentShapeless(Subject, Observer):
                     nextStage = parent.getChild(index + 1)
                     eligible = nextStage.Proxy.firstEligibleChild(obj)
 
-                    if eligible is not None:
+                    if eligible:
                         self._obj.removeObject(obj)
                         obj.Proxy.setParent(None)
                         eligible.addChildPosition(obj, 0)
@@ -502,7 +502,7 @@ class RocketComponentShapeless(Subject, Observer):
                 return child.Proxy
             # Check the children
             eligible = child.firstEligibleChild(obj)
-            if eligible is not None:
+            if eligible:
                 return eligible
 
         return None
@@ -516,7 +516,7 @@ class RocketComponentShapeless(Subject, Observer):
                     return child.Proxy
                 # Check the children
                 eligible = child.firstEligibleChild(obj)
-                if eligible is not None:
+                if eligible:
                     return eligible
             elif child.Proxy == current:
                 currentFound = True
@@ -533,7 +533,7 @@ class RocketComponentShapeless(Subject, Observer):
                 eligible = child.Proxy
             # Check the children
             lastChild = child.Proxy.lastEligibleChild(obj)
-            if lastChild is not None:
+            if lastChild:
                 eligible = lastChild
 
         return eligible
@@ -549,7 +549,7 @@ class RocketComponentShapeless(Subject, Observer):
                 eligible = child.Proxy
             # Check the children
             lastChild = child.Proxy.lastEligibleChild(obj)
-            if lastChild is not None:
+            if lastChild:
                 eligible = lastChild
 
         return eligible
@@ -687,7 +687,7 @@ class RocketComponentShapeless(Subject, Observer):
 
         if component.Proxy.getType() == FEATURE_STAGE:
             rocket = self.getRocket()
-            if rocket is not None:
+            if rocket:
                 rocket.trackStage(component.Proxy)
 
         self.checkComponentStructure()
@@ -755,7 +755,7 @@ class RocketComponentShapeless(Subject, Observer):
     # Get the root component of the component tree.
     def getRoot(self) -> Any:
         gp = self
-        if gp is not None:
+        if gp:
             while gp.hasParent():
                 gp = gp.getParent()
 
@@ -776,11 +776,11 @@ class RocketComponentShapeless(Subject, Observer):
     # IllegalStateException if a Stage is not in the parentage of this component.
     def getStage(self) -> Any:
         current = self
-        while current is not None:
+        while current:
             if current.Type == FEATURE_STAGE:
                 return current
             if current.hasParent():
-                current = current.getParent().Proxy
+                current = current.getParent()
             else:
                 raise Exception(translate("Rocket", "getStage() called on hierarchy without a FeatureStage component."))
 
@@ -788,7 +788,7 @@ class RocketComponentShapeless(Subject, Observer):
     def getSubStages(self) -> list[Any]:
         result = []
         for current in self.getChildren():
-            proxy = current.Proxy
+            proxy = self.getProxy(current)
             if proxy.Type == FEATURE_STAGE:
                 result.append(proxy)
 
@@ -828,7 +828,7 @@ class RocketComponentShapeless(Subject, Observer):
             return
 
         root = self.getRoot()
-        if root is not None:
+        if root:
             root.notifyComponentChanged()
 
     def setAfter(self) -> None:
@@ -846,15 +846,9 @@ class RocketComponentShapeless(Subject, Observer):
         thisIndex = self.getParent().getChildIndex(self)
         if thisIndex == 0:
             self._obj.Placement.Base.x = self.getParent()._obj.Placement.Base.x
-            # self._obj.Placement.Base.x = 0.0
         elif 0 < thisIndex:
             index = thisIndex - 1
             referenceComponent = self.getParent()._getChild( index )
-            # while referenceComponent is not None:
-            #     if referenceComponent.Proxy.isAfter():
-            #         break
-            #     index = index + 1
-            #     referenceComponent = self.getParent()._getChild( index )
 
             if referenceComponent is None:
                 self._obj.Placement.Base.x = self.getParent()._obj.Placement.Base.x
@@ -864,7 +858,6 @@ class RocketComponentShapeless(Subject, Observer):
             refRelX = float(referenceComponent.Placement.Base.x)
 
             self._obj.Placement.Base.x = refRelX + refLength
-            # self._obj.Placement.Base.x = refRelX - (refLength + float(self.getLength()))
 
     """
         Get the characteristic length of the component, for example the length of a body tube
@@ -942,6 +935,33 @@ class RocketComponentShapeless(Subject, Observer):
     def setScaled(self, scaled : bool) -> None:
         self._obj.Scale = scaled
         self.setEdited()
+
+    def setPartScale(self, scale : float) -> None:
+        """ This will be overridden as required to scale a part by a value """
+        pass
+
+    def setPartScaleRecursive(self, scale : float) -> None:
+        if self._obj.ScaleOverride:
+            scale = self._obj.Proxy.getScale()
+
+        self.setPartScale(scale)
+        for current in self.getChildren():
+            proxy = current.Proxy
+            proxy.setPartScaleRecursive(scale)
+
+    def setStageScale(self, scale : float) -> None:
+        stage = self.getStage()
+        if stage:
+            for current in stage.getChildren():
+                proxy = current.Proxy
+                proxy.setPartScaleRecursive(scale)
+
+    def setRocketScale(self, scale : float) -> None:
+        rocket = self.getRocket()
+        if rocket:
+            for current in rocket.getChildren():
+                proxy = current.Proxy
+                proxy.setPartScaleRecursive(scale)
 
     def getPosition(self) -> Any:
         return self._obj.Placement.Base

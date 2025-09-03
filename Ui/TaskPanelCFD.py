@@ -120,7 +120,7 @@ class TaskPanelCFD(QtCore.QObject):
     def onAOAChanged(self):
         """ Calculate the frontal area when the AOA or rotation changes """
         angles = self.getAOAList()
-        if self._CFDrocket is not None:
+        if self._CFDrocket:
             if len(angles) > 0:
                 self._CFDrocket._obj.AngleOfAttack = angles[0]
             else:
@@ -135,7 +135,7 @@ class TaskPanelCFD(QtCore.QObject):
         self.form.inputArea.setText(FreeCAD.Units.Quantity("{} mm^2".format(self._frontalArea)).UserString)
 
     def onSpinChanged(self, value):
-        if self._CFDrocket is not None:
+        if self._CFDrocket:
             self._CFDrocket._obj.AngleOfRotation = value
         self.AOAChanged()
         FreeCAD.ActiveDocument.recompute()

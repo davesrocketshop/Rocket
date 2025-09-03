@@ -100,7 +100,7 @@ class RingElement(ComponentElement):
 
     def createBulkhead(self):
         self._feature = makeBulkhead()
-        if self._parentObj is not None:
+        if self._parentObj:
             self._parentObj.addChild(self._feature)
 
         self._feature._obj.Diameter = self._outerDiameter
@@ -112,7 +112,7 @@ class RingElement(ComponentElement):
 
     def createEngineBlock(self):
         self._feature = makeEngineBlock()
-        if self._parentObj is not None:
+        if self._parentObj:
             self._parentObj.addChild(self._feature)
 
         self._feature._obj.Diameter = self._outerDiameter
@@ -125,7 +125,7 @@ class RingElement(ComponentElement):
 
     def createTubeCoupler(self):
         self._feature = makeCoupler()
-        if self._parentObj is not None:
+        if self._parentObj:
             self._parentObj.addChild(self._feature)
 
         self._feature._obj.Diameter = self._outerDiameter
@@ -138,7 +138,7 @@ class RingElement(ComponentElement):
 
     def createCenteringRing(self):
         self._feature = makeCenteringRing()
-        if self._parentObj is not None:
+        if self._parentObj:
             self._parentObj.addChild(self._feature)
 
         self._feature._obj.Diameter = self._outerDiameter

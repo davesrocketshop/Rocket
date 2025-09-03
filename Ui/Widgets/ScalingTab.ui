@@ -196,6 +196,9 @@
        <layout class="QGridLayout" name="gridLayout_3">
         <item row="1" column="2">
          <widget class="QPushButton" name="scaledSetStageButton">
+          <property name="toolTip">
+           <string>Assign the scaled dimensions to the stage</string>
+          </property>
           <property name="text">
            <string>Set Stage</string>
           </property>
@@ -203,6 +206,9 @@
         </item>
         <item row="1" column="3">
          <widget class="QPushButton" name="scaleSetRocketButton">
+          <property name="toolTip">
+           <string>Assign the scaled dimensions to the rocket</string>
+          </property>
           <property name="text">
            <string>Set Rocket</string>
           </property>
@@ -210,6 +216,9 @@
         </item>
         <item row="1" column="1">
          <widget class="QPushButton" name="scaledSetPartButton">
+          <property name="toolTip">
+           <string>Assign the scaled dimensions to the part</string>
+          </property>
           <property name="text">
            <string>Set Part</string>
           </property>

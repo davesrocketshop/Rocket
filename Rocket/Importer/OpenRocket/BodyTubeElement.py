@@ -41,7 +41,7 @@ class MotorMountElement(BodyComponentElement):
         self._knownTags.extend(["overhang", "ignitionevent", "ignitiondelay", "ignitionconfiguration"])
 
     def makeObject(self):
-        if self._parentObj is not None:
+        if self._parentObj:
             self._feature = self._parentObj
             self._feature._obj.MotorMount = True
 
@@ -64,7 +64,7 @@ class BodyTubeElement(SymmetricComponentElement):
 
     def makeObject(self):
         self._feature = makeBodyTube()
-        if self._parentObj is not None:
+        if self._parentObj:
             self._parentObj.addChild(self._feature)
 
     def handleEndTag(self, tag, content):
@@ -94,7 +94,7 @@ class TubeCouplerElement(BodyTubeElement):
 
     def makeObject(self):
         self._feature = makeCoupler()
-        if self._parentObj is not None:
+        if self._parentObj:
             self._parentObj.addChild(self._feature)
 
 class EngineBlockElement(BodyTubeElement):
@@ -106,5 +106,5 @@ class EngineBlockElement(BodyTubeElement):
 
     def makeObject(self):
         self._feature = makeEngineBlock()
-        if self._parentObj is not None:
+        if self._parentObj:
             self._parentObj.addChild(self._feature)

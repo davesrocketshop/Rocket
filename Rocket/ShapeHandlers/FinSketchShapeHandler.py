@@ -210,7 +210,7 @@ class FinSketchShapeHandler(FinShapeHandler):
         halfThickness = self._rootThickness / 2.0
 
         face1 = shape.copy()
-        if face1 is not None:
+        if face1:
             face1.translate(FreeCAD.Vector(0, -halfThickness, 0))
 
             face2 = shape.copy()

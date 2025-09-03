@@ -418,7 +418,7 @@ class TaskPanelFin(QObject):
         self._finForm.form.minimumEdgeGroup.setChecked(self._obj.MinimumEdge)
         self._finForm.form.minimumEdgeSizeInput.setText(self._obj.MinimumEdgeSize.UserString)
 
-        if self._obj.Base is not None:
+        if self._obj.Base:
             self._finForm.form.proxyBaseObjectInput.setText(self._obj.Base.Label)
         else:
             self._finForm.form.proxyBaseObjectInput.setText("")

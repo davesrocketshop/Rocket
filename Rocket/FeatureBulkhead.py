@@ -85,5 +85,5 @@ class FeatureBulkhead(RadiusRingComponent):
 
     def execute(self, obj : Any) -> None:
         shape = BulkheadShapeHandler(obj)
-        if shape is not None:
+        if shape:
             shape.draw()

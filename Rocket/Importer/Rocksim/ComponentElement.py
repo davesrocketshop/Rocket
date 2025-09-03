@@ -148,7 +148,7 @@ class ComponentElement(Element):
             self._feature._obj.AxialOffset = content
 
     def onAngleOffset(self, content):
-        if self._feature is not None and hasattr(self._feature._obj, "AngleOffset"):
+        if self._feature and hasattr(self._feature._obj, "AngleOffset"):
             self._feature._obj.AngleOffset = FreeCAD.Units.Quantity(content + " rad").Value
 
     def onLocationMode(self, content):

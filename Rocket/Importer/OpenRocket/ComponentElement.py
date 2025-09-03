@@ -206,7 +206,7 @@ class ExternalComponentElement(ComponentElement):
 
 
     def end(self):
-        if self._deferredAppearance is not None:
+        if self._deferredAppearance:
             if hasattr(self._feature, "setAppearance"):
                 self._feature.setAppearance(self._deferredAppearance)
         return super().end()

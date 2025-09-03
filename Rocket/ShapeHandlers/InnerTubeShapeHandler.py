@@ -46,7 +46,7 @@ class InnerTubeShapeHandler(BodyTubeShapeHandler):
         edges = None
         edges = self._drawTubeEdges()
 
-        if edges is not None:
+        if edges:
             wire = Part.Wire(edges)
             face = Part.Face(wire)
             shape = face.revolve(FreeCAD.Vector(0, 0, 0),FreeCAD.Vector(1, 0, 0), 360)

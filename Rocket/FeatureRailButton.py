@@ -170,7 +170,7 @@ class FeatureRailButton(ExternalComponent, AnglePositionable, BoxBounded, LineIn
 
     def execute(self, obj : Any) -> None:
         shape = RailButtonShapeHandler(obj)
-        if shape is not None:
+        if shape:
             shape.draw()
 
     def getLength(self) -> float:
@@ -198,7 +198,7 @@ class FeatureRailButton(ExternalComponent, AnglePositionable, BoxBounded, LineIn
 
         if self.hasParent():
             body = self.getParent()
-        while body is not None:
+        while body:
             if isinstance(body, SymmetricComponent):
                 break
             if body.Type in [FEATURE_FIN, FEATURE_FINCAN]:

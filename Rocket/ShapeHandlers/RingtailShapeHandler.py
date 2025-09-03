@@ -107,7 +107,7 @@ class RingtailShapeHandler():
             _err(translate('Rocket', "Body tube parameters produce an invalid shape"))
             return
 
-        if edges is not None:
+        if edges:
             try:
                 wire = Part.Wire(edges)
                 face = Part.Face(wire)
@@ -131,7 +131,7 @@ class RingtailShapeHandler():
             _err(translate('Rocket', "Body tube parameters produce an invalid shape"))
             return None
 
-        if edges is not None:
+        if edges:
             try:
                 wire = Part.Wire(edges)
                 face = Part.Face(wire)

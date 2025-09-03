@@ -422,15 +422,15 @@ class FinCanShapeHandler(FinShapeHandler):
 
         # Shape the leading and trailing edges
         shape = self._getLeadingEdge()
-        if shape is not None:
+        if shape:
             can = can.cut(shape)
         shape = self._getTrailingEdge()
-        if shape is not None:
+        if shape:
             can = can.cut(shape)
 
         # Add the launch lug
         shape = self._launchLug()
-        if shape is not None:
+        if shape:
             can = can.fuse(shape)
 
         # Add the fins

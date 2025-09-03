@@ -80,13 +80,13 @@ class FeatureInnerTube(ThicknessRingComponent, Clusterable, AxialPositionable, B
 
     def execute(self, obj : Any) -> None:
         shape = InnerTubeShapeHandler(obj)
-        if shape is not None:
+        if shape:
             shape.draw()
 
     def getSolidShape(self, obj : Any) -> Part.Solid:
         """ Return a filled version of the shape. Useful for CFD """
         shape = InnerTubeShapeHandler(obj)
-        if shape is not None:
+        if shape:
             return shape.drawSolidShape()
         return None
 

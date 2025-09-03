@@ -37,7 +37,7 @@ from Ui.Commands.CmdStage import makeStage
 
 def updateRocket():
     rocket = FreeCADGui.ActiveDocument.ActiveView.getActiveObject("rocket")
-    if rocket is not None:
+    if rocket:
         rocket.Proxy.updateChildren()
 
 def makeRocket(name='Rocket', makeSustainer=False):

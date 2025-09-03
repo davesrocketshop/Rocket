@@ -637,7 +637,7 @@ class FinShapeHandler(ABC):
         # This can be used to determine characteristics such as mass, cg, and volume
         loft = None
         profiles = self._makeProfiles()
-        if profiles is not None and len(profiles) > 0:
+        if profiles and len(profiles) > 0:
             if isinstance(profiles[0], list):
                 # Using a compound instead of a fuse makes drawing much faster, but also leads to
                 # a number of 'BOPAlgo SelfIntersect' errors. So we stick with the fuse
@@ -652,18 +652,18 @@ class FinShapeHandler(ABC):
 
             if hasattr(self, "_makeTip"):
                 tip = self._makeTip()
-                if tip is not None and loft is not None:
+                if tip and loft:
                     loft = loft.fuse(tip)
 
-            if loft is not None:
+            if loft:
                 mask = self._makeCommon()
                 if debug == FIN_DEBUG_MASK_ONLY:
                     loft = mask
-                elif mask is not None and (debug != FIN_DEBUG_PROFILE_ONLY):
+                elif mask and (debug != FIN_DEBUG_PROFILE_ONLY):
                     loft = loft.common(mask)
 
                 # cut = self._makeCut()
-                # if cut is not None:
+                # if cut:
                 #     print("cut")
                 #     # Part.show(cut)
 
@@ -674,11 +674,11 @@ class FinShapeHandler(ABC):
         height = self._radius + self._thickness
 
         profiles = self._makeExtensionProfiles(self._thickness - 0.0001)
-        if profiles is not None and len(profiles) > 0:
+        if profiles and len(profiles) > 0:
             loft = Part.makeLoft(profiles, True)
 
             # Make a cutout of the body tube center
-            if loft is not None:
+            if loft:
                 center = Part.makeCylinder(self._radius,
                                            2.0 * self._rootChord,
                                            FreeCAD.Vector(-self._rootChord / 2.0, 0, -height),
@@ -696,10 +696,10 @@ class FinShapeHandler(ABC):
 
         profiles = self._makeFilletProfiles(self._filletRadius)
 
-        if profiles is not None and len(profiles) > 0:
+        if profiles and len(profiles) > 0:
             loft = Part.makeLoft(profiles, True)
             # Make a cutout of the body tube center
-            if loft is not None:
+            if loft:
                 center = Part.makeCylinder(radius + 0.001,
                                            2.0 * self._rootChord,
                                            FreeCAD.Vector(-self._rootChord / 2.0, 0, -radius),
@@ -713,7 +713,7 @@ class FinShapeHandler(ABC):
 
     def _drawFinDebug(self, debug : str) -> Shape:
         fin = self._finOnlyShape(debug)
-        if fin is not None:
+        if fin:
             if self._fillets:
                 fillet = self._makeFillet()
                 if fillet:

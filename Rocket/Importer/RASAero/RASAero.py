@@ -97,7 +97,7 @@ class RocketElement(Element):
 
         self._rocket = makeRocket(makeSustainer=False)
         self._feature = makeStage()
-        if self._rocket is not None:
+        if self._rocket:
             self._rocket.addChild(self._feature)
 
     def handleEndTag(self, tag, content):
@@ -126,7 +126,7 @@ class RASAeroImporter(xml.sax.ContentHandler):
     # Call when an element starts
     def startElement(self, tag, attributes):
         loc = self._locator
-        if loc is not None:
+        if loc:
             line = loc.getLineNumber()
         if self._current.isChildElement(tag) and self._current.testCreateChild(tag):
             self._current = self._current.createChild(tag, attributes, self._filename, line)

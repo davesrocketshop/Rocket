@@ -161,7 +161,7 @@ class FinTriangleShapeHandler(FinShapeHandler):
         profiles.append(self._makeRootProfile())
         profiles.append(self._makeTipProfile())
         top = self._makeTopProfile()
-        if top is not None:
+        if top:
             profiles.append(top)
         return profiles
 

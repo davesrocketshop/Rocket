@@ -42,7 +42,7 @@ class TubeFinsetElement(FinsetElement):
         self._feature = makeFin()
         self._feature._obj.FinType = FIN_TYPE_TUBE
 
-        if self._parentObj is not None:
+        if self._parentObj:
             self._parentObj.addChild(self._feature)
 
 

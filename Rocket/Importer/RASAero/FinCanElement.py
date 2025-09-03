@@ -64,7 +64,7 @@ class FinCanElement(BodyTubeElement):
     def makeObject(self):
         stage = makeStage()
         self._feature = makeBodyTube()
-        if stage is not None:
+        if stage:
             addToStage(stage)
             self._parentObj = stage
             # stage.addChild(self._feature)
@@ -93,7 +93,7 @@ class FinCanElement(BodyTubeElement):
 
             self._parentObj.addChild(transition)
 
-        if self._parentObj is not None:
+        if self._parentObj:
             self._parentObj.addChild(self._feature)
 
         if self._boatTailLength > 0:

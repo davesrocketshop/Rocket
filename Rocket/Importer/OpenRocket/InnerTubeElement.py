@@ -42,7 +42,7 @@ class InnerTubeElement(BodyTubeElement):
 
     def makeObject(self):
         self._feature = makeInnerTube()
-        if self._parentObj is not None:
+        if self._parentObj:
             self._parentObj.addChild(self._feature)
 
     def handleEndTag(self, tag, content):

@@ -53,7 +53,7 @@ class TransitionElement(SymmetricComponentElement):
 
     def makeObject(self):
         self._feature = makeTransition()
-        if self._parentObj is not None:
+        if self._parentObj:
             self._parentObj.addChild(self._feature)
 
     def handleEndTag(self, tag, content):

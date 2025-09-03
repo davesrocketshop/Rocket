@@ -108,7 +108,7 @@ class OpenRocketImporter(xml.sax.ContentHandler):
     # Call when an element starts
     def startElement(self, tag, attributes):
         loc = self._locator
-        if loc is not None:
+        if loc:
             line = loc.getLineNumber()
         if self._current.isChildElement(tag) and self._current.testCreateChild(tag):
             self._current = self._current.createChild(tag, attributes, self._filename, line)

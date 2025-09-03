@@ -87,7 +87,7 @@ class Element:
         obj = self._feature
         if obj is None:
             obj = self._parentObj
-        # if obj is not None:
+        # if obj:
         #     if hasattr(obj, '_obj'):
         #         obj = obj._obj
         return self._validChildren[_tag](self, tag, attributes, obj, filename, line)

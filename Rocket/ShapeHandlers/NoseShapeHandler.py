@@ -212,7 +212,7 @@ class NoseShapeHandler(ABC):
             return
 
         shape = None
-        if edges is not None:
+        if edges:
             try:
                 wire = Part.Wire(edges)
                 face = Part.Face(wire)
@@ -233,7 +233,7 @@ class NoseShapeHandler(ABC):
                 elif self._capStyle == STYLE_CAP_CROSS:
                     mask = self._crossCap()
 
-                if mask is not None:
+                if mask:
                     # Part.show(mask)
                     shape = shape.cut(mask)
         except Part.OCCError:
@@ -259,7 +259,7 @@ class NoseShapeHandler(ABC):
             return None
 
         shape = None
-        if edges is not None:
+        if edges:
             try:
                 wire = Part.Wire(edges)
                 face = Part.Face(wire)

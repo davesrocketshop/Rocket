@@ -219,7 +219,7 @@ class FeatureNoseCone(SymmetricComponent):
             # Return the auto radius from the rear
             d = -1
             c = self.getNextSymmetricComponent()
-            if c is not None:
+            if c:
                 d = c.getRearAutoDiameter()
                 if not self.isScaled():
                     d /= c.getScale() # Apply reference component scale
@@ -237,7 +237,7 @@ class FeatureNoseCone(SymmetricComponent):
             # Return the auto radius from the rear
             d = -1
             c = self.getNextSymmetricComponent()
-            if c is not None:
+            if c:
                 d = c.getRearAutoInnerDiameter()
             if d < 0:
                 d = SymmetricComponent.DEFAULT_RADIUS * 2.0
@@ -382,11 +382,11 @@ class FeatureNoseCone(SymmetricComponent):
         if self._obj.AutoDiameter:
             radius = 0.0
             previous = self.getPrevious()
-            if previous is not None:
+            if previous:
                 radius = previous.Proxy.getAftRadius()
             if radius <= 0.0:
                 next = self.getNext()
-                if next is not None:
+                if next:
                     radius = next.Proxy.getForeRadius()
             if radius <= 0.0:
                 radius = 24.79 # Default to BT50
@@ -432,13 +432,13 @@ class FeatureNoseCone(SymmetricComponent):
 
     def execute(self, obj : Any) -> None:
         self._setShapeHandler()
-        if self._shapeHandler is not None:
+        if self._shapeHandler:
             self._shapeHandler.draw()
 
     def getSolidShape(self, obj : Any) -> Part.Solid:
         """ Return a filled version of the shape. Useful for CFD """
         self._setShapeHandler()
-        if self._shapeHandler is not None:
+        if self._shapeHandler:
             return self._shapeHandler.drawSolidShape()
         return None
 
@@ -472,3 +472,14 @@ class FeatureNoseCone(SymmetricComponent):
                 if diameter > 0 and self._obj.ScaleValue > 0:
                     scale =  diameter / self._obj.ScaleValue
         return float(scale)
+
+    def setPartScale(self, scale : float) -> None:
+        if self._obj.ScaleOverride:
+            scale = self._obj.Proxy.getScale()
+
+        self._obj.Scale = False
+
+        self._obj.Length /= scale
+        self._obj.Diameter /= scale
+        self._obj.OgiveDiameter /= scale
+        self._obj.BluntedDiameter /= scale

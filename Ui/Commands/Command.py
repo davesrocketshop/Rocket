@@ -73,7 +73,7 @@ class Command:
         """
             True if the selected object has fins (Fin, FinCan)
         """
-        if FreeCADGui.ActiveDocument is not None:
+        if FreeCADGui.ActiveDocument:
             sel = FreeCADGui.Selection.getSelection()
             if len(sel) == 1 and sel[0].isDerivedFrom("Part::FeaturePython"):
                 if hasattr(sel[0],"FinType"):
@@ -108,7 +108,7 @@ class Command:
         """
             Checks to see if we're at a point where we can add a stage. Stages can't be a standalone feature
         """
-        if FreeCADGui.ActiveDocument is not None:
+        if FreeCADGui.ActiveDocument:
             sel = FreeCADGui.Selection.getSelection()
             if len(sel) == 1 and (sel[0].isDerivedFrom("Part::FeaturePython") or sel[0].isDerivedFrom("App::GeometryPython")):
                 if isinstance(feature, list):
@@ -124,7 +124,7 @@ class Command:
             Checks to see if we can add a part. If a rocket or one of its parts is selected, then we check to see if the
             part can be added to the current feature. Outside of a rocket, parts can be added as standalone objects.
         """
-        if FreeCADGui.ActiveDocument is not None:
+        if FreeCADGui.ActiveDocument:
             if getRocket() is None:
                 return True
             sel = FreeCADGui.Selection.getSelection()

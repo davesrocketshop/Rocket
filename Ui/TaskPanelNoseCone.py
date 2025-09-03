@@ -174,8 +174,11 @@ class TaskPanelNoseCone:
         self._noseForm.form.offsetInput.textEdited.connect(self.onOffset)
 
         self._db.dbLoad.connect(self.onLookup)
-        self._noseForm.tabScaling.scaled.connect(self.onScale)
-        self._noseForm.tabScaling._form.scaledSetPartButton.clicked.connect(self.onSetToScale)
+        if self._noseForm.tabScaling:
+            self._noseForm.tabScaling.scaled.connect(self.onScale)
+            self._noseForm.tabScaling._form.scaledSetPartButton.clicked.connect(self.onSetPartScale)
+            self._noseForm.tabScaling._form.scaledSetStageButton.clicked.connect(self.onSetStageScale)
+            self._noseForm.tabScaling._form.scaleSetRocketButton.clicked.connect(self.onSetRocketScale)
 
         self.update()
 
@@ -206,12 +209,6 @@ class TaskPanelNoseCone:
         self._obj.ShoulderAutoDiameter = self._noseForm.form.shoulderAutoDiameterCheckbox.isChecked()
         self._obj.ShoulderLength = self._noseForm.form.shoulderLengthInput.text()
         self._obj.ShoulderThickness = self._noseForm.form.shoulderThicknessInput.text()
-
-        # if self._obj.Base is not None:
-        #     self._noseForm.form.proxyBaseObjectInput.setText(self._obj.Base.Label)
-        # else:
-        #     self._noseForm.form.proxyBaseObjectInput.setText("")
-        # self._obj.Diameter = self._noseForm.form.proxyEffectiveDiameterInput.text()
 
         placement = FreeCAD.Placement()
         yaw = FreeCAD.Units.Quantity(self._noseForm.form.zRotationInput.text()).Value
@@ -245,7 +242,7 @@ class TaskPanelNoseCone:
         self._noseForm.form.shoulderLengthInput.setText(self._obj.ShoulderLength.UserString)
         self._noseForm.form.shoulderThicknessInput.setText(self._obj.ShoulderThickness.UserString)
 
-        if self._obj.Base is not None:
+        if self._obj.Base:
             self._noseForm.form.proxyBaseObjectInput.setText(self._obj.Base.Label)
         else:
             self._noseForm.form.proxyBaseObjectInput.setText("")
@@ -661,18 +658,26 @@ class TaskPanelNoseCone:
             pass
         self.setEdited()
 
-    def onSetToScale(self) -> None:
+    def onSetPartScale(self) -> None:
         # Update the scale values
-        scale = self._noseForm.tabScaling.getScale()
-        self._obj.Scale = False
+        if self._noseForm.tabScaling:
+            scale = self._noseForm.tabScaling.getScale()
+            self._obj.Proxy.setPartScale(scale)
 
-        self._obj.Length /= scale
-        self._obj.Diameter /= scale
-        self._obj.OgiveDiameter /= scale
-        self._obj.BluntedDiameter /= scale
+            scale = self._noseForm.tabScaling.resetScale()
+            self.update()
 
-        scale = self._noseForm.tabScaling.resetScale()
-        self.update()
+    def onSetStageScale(self) -> None:
+        # Update the scale values
+        if self._noseForm.tabScaling:
+            scale = self._noseForm.tabScaling.getScale()
+            self._obj.Proxy.setStageScale(scale)
+
+    def onSetRocketScale(self) -> None:
+        # Update the scale values
+        if self._noseForm.tabScaling:
+            scale = self._noseForm.tabScaling.getScale()
+            self._obj.Proxy.setRocketScale(scale)
 
     def getStandardButtons(self):
         return QtGui.QDialogButtonBox.Ok | QtGui.QDialogButtonBox.Cancel | QtGui.QDialogButtonBox.Apply

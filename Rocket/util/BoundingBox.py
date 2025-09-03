@@ -40,9 +40,9 @@ class BoundingBox(object):
     def __init__(self, min : Coordinate | None = None, max : Coordinate | None = None) -> None:
         self.clear()
 
-        if min is not None:
+        if min:
             self._min = copy.deepcopy(min)
-        if max is not None:
+        if max:
             self._max = copy.deepcopy(max)
 
     def clear(self) -> None:

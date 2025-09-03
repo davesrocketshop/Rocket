@@ -102,5 +102,5 @@ class FeatureCenteringRing(FeatureBulkhead):
 
     def execute(self, obj : Any) -> None:
         shape = CenteringRingShapeHandler(obj)
-        if shape is not None:
+        if shape:
             shape.draw()

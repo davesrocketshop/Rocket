@@ -62,5 +62,5 @@ class FeatureWindTunnel:
 
     def execute(self, obj):
         shape = WindTunnelShapeHandler(obj)
-        if shape is not None:
+        if shape:
             shape.draw()
