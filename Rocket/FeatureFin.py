@@ -562,3 +562,33 @@ class FeatureFin(ExternalComponent):
         self._obj.TubeAutoOuterDiameter = auto
         self.notifyComponentChanged()
         self.clearPreset()
+
+    def setPartScale(self, scale : float) -> None:
+        if self._obj.ScaleOverride:
+            scale = self._obj.Proxy.getScale()
+
+        self._obj.Scale = False
+
+        self._obj.RootChord /= scale
+        self._obj.RootThickness /= scale
+        self._obj.RootLength1 /= scale
+        self._obj.RootLength2 /= scale
+
+        self._obj.TipChord /= scale
+        self._obj.TipThickness /= scale
+        self._obj.TipLength1 /= scale
+        self._obj.TipLength2 /= scale
+
+        self._obj.TubeOuterDiameter /= scale
+        self._obj.TubeThickness /= scale
+
+        self._obj.Height /= scale
+        self._obj.Span /= scale
+        self._obj.SweepLength /= scale
+
+        self._obj.TtwOffset /= scale
+        self._obj.TtwLength /= scale
+        self._obj.TtwHeight /= scale
+        self._obj.TtwThickness /= scale
+
+        self._obj.FilletRadius /= scale

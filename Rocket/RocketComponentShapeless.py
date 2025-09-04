@@ -938,7 +938,7 @@ class RocketComponentShapeless(Subject, Observer):
 
     def setPartScale(self, scale : float) -> None:
         """ This will be overridden as required to scale a part by a value """
-        pass
+        self._obj.Scale = False
 
     def setPartScaleRecursive(self, scale : float) -> None:
         if self._obj.ScaleOverride:

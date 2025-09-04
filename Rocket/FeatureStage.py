@@ -74,4 +74,3 @@ class FeatureStage(ComponentAssembly):
                 length += float(child.Proxy.getLength())
 
         return length
-

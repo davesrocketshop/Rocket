@@ -319,3 +319,11 @@ class FeatureRingtail(SymmetricComponent, BoxBounded, Coaxial):
             # Already deleted object
             pass
 
+    def setPartScale(self, scale : float) -> None:
+        if self._obj.ScaleOverride:
+            scale = self._obj.Proxy.getScale()
+
+        self._obj.Scale = False
+
+        self._obj.Length /= scale
+        self._obj.Diameter /= scale

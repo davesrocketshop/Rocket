@@ -152,7 +152,6 @@ class TaskPanelTransition:
         self._tranForm.form.aftShoulderThicknessInput.textEdited.connect(self.onAftShoulderThickness)
 
         self._tranForm.tabScaling.scaled.connect(self.onScale)
-        # self._tranForm.tabScaling._form.scaledSetPartButton.clicked.connect(self.onSetToScale)
 
         self._db.dbLoad.connect(self.onLookup)
 
@@ -645,18 +644,6 @@ class TaskPanelTransition:
         self.update()
         self._obj.Proxy.execute(self._obj)
         self.setEdited()
-
-    def onSetToScale(self) -> None:
-        # Update the scale values
-        scale = self._tranForm.tabScaling.getScale()
-        self._obj.Scale = False
-
-        self._obj.Length /= scale
-        self._obj.ForeDiameter /= scale
-        self._obj.AftDiameter /= scale
-
-        scale = self._tranForm.tabScaling.resetScale()
-        self.update()
 
     def getStandardButtons(self):
         return QtGui.QDialogButtonBox.Ok | QtGui.QDialogButtonBox.Cancel | QtGui.QDialogButtonBox.Apply

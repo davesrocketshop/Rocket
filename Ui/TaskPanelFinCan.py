@@ -195,7 +195,6 @@ class TaskPanelFinCan(QObject):
         self._finForm.form.sweepAngleInput.textEdited.connect(self.onSweepAngle)
 
         self._finForm.tabScaling.scaled.connect(self.onScale)
-        self._finForm.tabScaling._form.scaledSetPartButton.clicked.connect(self.onSetToScale)
 
         self._finForm.form.canDiameterInput.textEdited.connect(self.onCanDiameter)
         self._finForm.form.canAutoDiameterCheckbox.stateChanged.connect(self.onCanAutoDiameter)
@@ -1268,38 +1267,6 @@ class TaskPanelFinCan(QObject):
     def onRedraw(self):
         self._obj.Proxy.execute(self._obj)
         self._redrawPending = False
-
-    def onSetToScale(self) -> None:
-        # Update the scale values
-        scale = self._finForm.tabScaling.getScale()
-        self._obj.Scale = False
-
-        self._obj.RootChord /= scale
-        self._obj.RootThickness /= scale
-        self._obj.RootLength1 /= scale
-        self._obj.RootLength2 /= scale
-
-        self._obj.TipChord /= scale
-        self._obj.TipThickness /= scale
-        self._obj.TipLength1 /= scale
-        self._obj.TipLength2 /= scale
-
-        self._obj.FilletRadius /= scale
-
-        self._obj.Height /= scale
-        self._obj.Span /= scale
-        self._obj.SweepLength /= scale
-
-        self._obj.Diameter /= scale
-        self._obj.Thickness /= scale
-        self._obj.Length /= scale
-        self._obj.LeadingEdgeOffset /= scale
-
-        self._obj.LeadingLength /= scale
-        self._obj.TrailingLength /= scale
-
-        scale = self._finForm.tabScaling.resetScale()
-        self.update()
 
     def getStandardButtons(self):
         return QtGui.QDialogButtonBox.Ok | QtGui.QDialogButtonBox.Cancel | QtGui.QDialogButtonBox.Apply

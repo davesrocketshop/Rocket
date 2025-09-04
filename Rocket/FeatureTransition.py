@@ -453,3 +453,13 @@ class FeatureTransition(SymmetricComponent):
                 if diameter > 0 and self._obj.ScaleValue > 0:
                     scale =  diameter / self._obj.ScaleValue
         return float(scale)
+
+    def setPartScale(self, scale : float) -> None:
+        if self._obj.ScaleOverride:
+            scale = self._obj.Proxy.getScale()
+
+        self._obj.Scale = False
+
+        self._obj.Length /= scale
+        self._obj.ForeDiameter /= scale
+        self._obj.AftDiameter /= scale

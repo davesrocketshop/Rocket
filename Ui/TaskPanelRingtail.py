@@ -159,7 +159,6 @@ class TaskPanelRingtail:
         self._btForm.autoLengthCheckbox.stateChanged.connect(self.onAutoLength)
 
         self._btForm.tabScaling.scaled.connect(self.onScale)
-        self._btForm.tabScaling._form.scaledSetPartButton.clicked.connect(self.onSetToScale)
 
         self._db.dbLoad.connect(self.onLookup)
         self._location.locationChange.connect(self.onLocation)
@@ -342,17 +341,6 @@ class TaskPanelRingtail:
         self._obj.Proxy.updateChildren()
         self._obj.Proxy.execute(self._obj)
         self.setEdited()
-
-    def onSetToScale(self) -> None:
-        # Update the scale values
-        scale = self._btForm.tabScaling.getScale()
-        self._obj.Scale = False
-
-        self._obj.Length /= scale
-        self._obj.Diameter /= scale
-
-        scale = self._btForm.tabScaling.resetScale()
-        self.update()
 
     def getStandardButtons(self) -> Any:
         return QtGui.QDialogButtonBox.Ok | QtGui.QDialogButtonBox.Cancel | QtGui.QDialogButtonBox.Apply

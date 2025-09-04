@@ -63,7 +63,6 @@ class TaskPanelStage:
         self._stageForm.setWindowIcon(QtGui.QIcon(FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Stage.svg"))
 
         self._stageForm.tabScaling.scaled.connect(self.onScale)
-        self._stageForm.tabScaling._form.scaledSetPartButton.clicked.connect(self.onSetToScale)
 
         self.update()
 
@@ -99,13 +98,6 @@ class TaskPanelStage:
             self._stageForm.tabScaling._form.scaledLabel.setText(translate('Rocket', "Scale"))
             self._stageForm.tabScaling._form.scaledInput.setText(f"{scale}")
         self.setEdited()
-
-    def onSetToScale(self) -> None:
-        # Update the scale values
-        scale = self._stageForm.tabScaling.getScale()
-
-        scale = self._stageForm.tabScaling.resetScale()
-        self.update()
 
     def getStandardButtons(self):
         return QtGui.QDialogButtonBox.Ok | QtGui.QDialogButtonBox.Cancel | QtGui.QDialogButtonBox.Apply

@@ -364,7 +364,7 @@ class FeatureFinCan(SymmetricComponent, FeatureFin):
 
     def getOuterDiameter(self, pos : float = 0) -> float:
         return float(self._obj.Diameter) / self.getDiameterScale()
-    
+
     def getOuterRadius(self, pos : float = 0) -> float:
         return self.getOuterDiameter() / 2.0
 
@@ -394,3 +394,33 @@ class FeatureFinCan(SymmetricComponent, FeatureFin):
 
     def getLeadingEdgeOffset(self) -> float:
         return float(self._obj.LeadingEdgeOffset) / self.getScale()
+
+    def setPartScale(self, scale : float) -> None:
+        if self._obj.ScaleOverride:
+            scale = self._obj.Proxy.getScale()
+
+        self._obj.Scale = False
+
+        self._obj.RootChord /= scale
+        self._obj.RootThickness /= scale
+        self._obj.RootLength1 /= scale
+        self._obj.RootLength2 /= scale
+
+        self._obj.TipChord /= scale
+        self._obj.TipThickness /= scale
+        self._obj.TipLength1 /= scale
+        self._obj.TipLength2 /= scale
+
+        self._obj.FilletRadius /= scale
+
+        self._obj.Height /= scale
+        self._obj.Span /= scale
+        self._obj.SweepLength /= scale
+
+        self._obj.Diameter /= scale
+        self._obj.Thickness /= scale
+        self._obj.Length /= scale
+        self._obj.LeadingEdgeOffset /= scale
+
+        self._obj.LeadingLength /= scale
+        self._obj.TrailingLength /= scale

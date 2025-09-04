@@ -176,9 +176,6 @@ class TaskPanelNoseCone:
         self._db.dbLoad.connect(self.onLookup)
         if self._noseForm.tabScaling:
             self._noseForm.tabScaling.scaled.connect(self.onScale)
-            self._noseForm.tabScaling._form.scaledSetPartButton.clicked.connect(self.onSetPartScale)
-            self._noseForm.tabScaling._form.scaledSetStageButton.clicked.connect(self.onSetStageScale)
-            self._noseForm.tabScaling._form.scaleSetRocketButton.clicked.connect(self.onSetRocketScale)
 
         self.update()
 
@@ -657,27 +654,6 @@ class TaskPanelNoseCone:
         except ValueError:
             pass
         self.setEdited()
-
-    def onSetPartScale(self) -> None:
-        # Update the scale values
-        if self._noseForm.tabScaling:
-            scale = self._noseForm.tabScaling.getScale()
-            self._obj.Proxy.setPartScale(scale)
-
-            scale = self._noseForm.tabScaling.resetScale()
-            self.update()
-
-    def onSetStageScale(self) -> None:
-        # Update the scale values
-        if self._noseForm.tabScaling:
-            scale = self._noseForm.tabScaling.getScale()
-            self._obj.Proxy.setStageScale(scale)
-
-    def onSetRocketScale(self) -> None:
-        # Update the scale values
-        if self._noseForm.tabScaling:
-            scale = self._noseForm.tabScaling.getScale()
-            self._obj.Proxy.setRocketScale(scale)
 
     def getStandardButtons(self):
         return QtGui.QDialogButtonBox.Ok | QtGui.QDialogButtonBox.Cancel | QtGui.QDialogButtonBox.Apply

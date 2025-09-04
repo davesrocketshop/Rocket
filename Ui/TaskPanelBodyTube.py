@@ -189,9 +189,6 @@ class TaskPanelBodyTube:
 
         if self._btForm.tabScaling:
             self._btForm.tabScaling.scaled.connect(self.onScale)
-            self._btForm.tabScaling._form.scaledSetPartButton.clicked.connect(self.onSetPartScale)
-            self._btForm.tabScaling._form.scaledSetStageButton.clicked.connect(self.onSetStageScale)
-            self._btForm.tabScaling._form.scaleSetRocketButton.clicked.connect(self.onSetRocketScale)
 
         self._db.dbLoad.connect(self.onLookup)
         self._location.locationChange.connect(self.onLocation)
@@ -392,27 +389,6 @@ class TaskPanelBodyTube:
         self._obj.Proxy.updateChildren()
         self._obj.Proxy.execute(self._obj)
         self.setEdited()
-
-    def onSetPartScale(self) -> None:
-        # Update the scale values
-        if self._btForm.tabScaling:
-            scale = self._btForm.tabScaling.getScale()
-            self._obj.Proxy.setPartScale(scale)
-
-            scale = self._btForm.tabScaling.resetScale()
-            self.update()
-
-    def onSetStageScale(self) -> None:
-        # Update the scale values
-        if self._btForm.tabScaling:
-            scale = self._btForm.tabScaling.getScale()
-            self._obj.Proxy.setStageScale(scale)
-
-    def onSetRocketScale(self) -> None:
-        # Update the scale values
-        if self._btForm.tabScaling:
-            scale = self._btForm.tabScaling.getScale()
-            self._obj.Proxy.setRocketScale(scale)
 
     def getStandardButtons(self):
         return QtGui.QDialogButtonBox.Ok | QtGui.QDialogButtonBox.Cancel | QtGui.QDialogButtonBox.Apply

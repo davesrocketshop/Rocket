@@ -111,6 +111,9 @@ class ScalingTab(QObject):
         self._form.upscaleCheckbox.stateChanged.connect(self.onUpscale)
         self._form.scaleInput.textEdited.connect(self.onScaleValue)
         self._form.scaleDiameterInput.textEdited.connect(self.onScaleDiameterValue)
+        self._form.scaledSetPartButton.clicked.connect(self.onSetPartScale)
+        self._form.scaledSetStageButton.clicked.connect(self.onSetStageScale)
+        self._form.scaleSetRocketButton.clicked.connect(self.onSetRocketScale)
 
     def _setScaleState(self) -> None:
         if self._obj.Proxy.isParentScaled():
@@ -311,6 +314,28 @@ class ScalingTab(QObject):
         except ValueError:
             pass
         self.setEdited()
+
+    def onSetPartScale(self) -> None:
+        scale = self.getScale()
+        self._obj.Proxy.setPartScale(scale)
+
+        scale = self.resetScale()
+        self.update()
+        self.setEdited()
+
+    def onSetStageScale(self) -> None:
+        # Update the scale values
+        scale = self.getScale()
+        self._obj.Proxy.setStageScale(scale)
+
+    def onSetRocketScale(self) -> None:
+        # Update the scale values
+        scale = self.getScale()
+        self._obj.Proxy.setRocketScale(scale)
+
+    def update(self):
+        'fills the widgets'
+        self.transferFrom(self._obj)
 
 class ScalingTabNose(ScalingTab):
 
