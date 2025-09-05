@@ -108,11 +108,11 @@ class DialogLookup: #(QtGui.QDialog):
         global _compatible
 
         self.result = userCancelled
+        param = getParams("DialogLookup")
 
         # create our window
-        # define window		xLoc,yLoc,xDim,yDim
         restoreDialog(self._form, "DialogLookup", 640, 480)
-        # self._form.setGeometry(	250, 250, 640, 480)
+
         self._form.setWindowTitle(translate('Rocket', "Component lookup..."))
         self._form.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
 
@@ -123,6 +123,12 @@ class DialogLookup: #(QtGui.QDialog):
         self._form.searchInput.textEdited.connect(self.onSearch)
         self._form.matchCheckbox.clicked.connect(self.onMatchComponent)
         self._form.matchSpinbox.valueChanged.connect(self.onMatchTolerance)
+        self._form.matchDiameterCheckbox.setChecked(param.GetBool("MatchDiameter", True))
+        self._form.matchAftDiameterCheckbox.setChecked(param.GetBool("MatchAftDiameter", True))
+        self._form.matchLengthCheckbox.setChecked(param.GetBool("MatchLengthDiameter", True))
+        self._form.matchDiameterCheckbox.clicked.connect(self.onMatchDiameter)
+        self._form.matchAftDiameterCheckbox.clicked.connect(self.onMatchAftDiameter)
+        self._form.matchLengthCheckbox.clicked.connect(self.onMatchLength)
 
         # lookupTypeLabel = QtGui.QLabel(translate('Rocket', "Component"), self)
 
@@ -143,15 +149,18 @@ class DialogLookup: #(QtGui.QDialog):
         self._form.buttonBox.accepted.connect(self.onOk)
         self._form.buttonBox.rejected.connect(self.onCancel)
 
-        param = getParams("DialogLookup")
         self._form.matchSpinbox.setValue(param.GetInt("Tolerance", 5))
 
-        if not self._component:
+        if not self._component or self._lookup == COMPONENT_TYPE_RAILBUTTON:
             self._form.matchCheckbox.setVisible(False)
             self._form.matchSpinbox.setVisible(False)
             self._form.toleranceLabel.setVisible(False)
+            self._form.matchDiameterCheckbox.setVisible(False)
+            self._form.matchAftDiameterCheckbox.setVisible(False)
+            self._form.matchLengthCheckbox.setVisible(False)
         else:
             self._form.matchCheckbox.setChecked(True)
+            self._setMatchState()
 
         # now make the window visible
         self._form.show()
@@ -161,6 +170,27 @@ class DialogLookup: #(QtGui.QDialog):
         self._connection.row_factory = sqlite3.Row
         self._updateModel()
 
+    def _setMatchState(self):
+        if self._component:
+            query = self._getQueryType()
+            if query in [COMPONENT_TYPE_BODYTUBE, COMPONENT_TYPE_COUPLER, COMPONENT_TYPE_ENGINEBLOCK,
+                    COMPONENT_TYPE_LAUNCHLUG, COMPONENT_TYPE_CENTERINGRING, COMPONENT_TYPE_BULKHEAD]:
+                self._form.matchDiameterCheckbox.setText(translate("Rocket", "Diameter"))
+                self._form.matchAftDiameterCheckbox.setVisible(False)
+                self._form.matchLengthCheckbox.setVisible(False)
+            elif query == COMPONENT_TYPE_TRANSITION:
+                self._form.matchDiameterCheckbox.setText(translate("Rocket", "Fore Diameter"))
+                self._form.matchAftDiameterCheckbox.setVisible(True)
+                self._form.matchLengthCheckbox.setVisible(True)
+            elif query == COMPONENT_TYPE_RAILBUTTON:
+                self._form.matchDiameterCheckbox.setVisible(False)
+                self._form.matchAftDiameterCheckbox.setVisible(False)
+                self._form.matchLengthCheckbox.setVisible(False)
+            else:
+                self._form.matchDiameterCheckbox.setText(translate("Rocket", "Diameter"))
+                self._form.matchAftDiameterCheckbox.setVisible(False)
+                self._form.matchLengthCheckbox.setVisible(True)
+
     def exec(self):
         self._form.exec_()
 
@@ -168,10 +198,14 @@ class DialogLookup: #(QtGui.QDialog):
         saveDialog(self._form, "DialogLookup")
         param = getParams("DialogLookup")
         param.SetInt("Tolerance", self._form.matchSpinbox.value())
+        param.SetBool("MatchDiameter", self._form.matchDiameterCheckbox.isChecked())
+        param.SetBool("MatchAftDiameter", self._form.matchAftDiameterCheckbox.isChecked())
+        param.SetBool("MatchLengthDiameter", self._form.matchLengthCheckbox.isChecked())
         self._form.close()
 
     def onLookupType(self, value):
         with WaitCursor():
+            self._setMatchState()
             self._updateModel()
 
     def onMatchComponent(self, value):
@@ -179,6 +213,18 @@ class DialogLookup: #(QtGui.QDialog):
             self._updateModel()
 
     def onMatchTolerance(self, value):
+        with WaitCursor():
+            self._updateModel()
+
+    def onMatchDiameter(self, value):
+        with WaitCursor():
+            self._updateModel()
+
+    def onMatchAftDiameter(self, value):
+        with WaitCursor():
+            self._updateModel()
+
+    def onMatchLength(self, value):
         with WaitCursor():
             self._updateModel()
 
@@ -267,13 +313,15 @@ class DialogLookup: #(QtGui.QDialog):
         except MultipleEntryError:
             _err(translate('Rocket', "Multiple identical entries found"))
         return {}
-
-    def _getSelected(self, row):
+    
+    def _getQueryType(self):
         queryType = str(self._form.lookupTypeCombo.currentData())
         if queryType == COMPONENT_TYPE_ANY:
-            query = self._lookup
-        else:
-            query = queryType
+            return self._lookup
+        return queryType
+
+    def _getSelected(self, row):
+        query = self._getQueryType()
 
         if query in [COMPONENT_TYPE_BODYTUBE, COMPONENT_TYPE_COUPLER, COMPONENT_TYPE_ENGINEBLOCK,
                 COMPONENT_TYPE_LAUNCHLUG, COMPONENT_TYPE_CENTERINGRING, COMPONENT_TYPE_BULKHEAD]:
@@ -300,11 +348,15 @@ class DialogLookup: #(QtGui.QDialog):
 
     def _queryBodyTube(self, queryType):
         if self._component and self._form.matchCheckbox.isChecked():
-            tolerance = self._form.matchSpinbox.value()
-            minimum = self._component.Proxy.getOuterDiameter(0)
-            maximum = minimum
-            minimum -= minimum * (tolerance / 100.0)
-            maximum += maximum * (tolerance / 100.0)
+            if self._form.matchDiameterCheckbox.isChecked():
+                tolerance = self._form.matchSpinbox.value()
+                minimum = self._component.Proxy.getOuterDiameter(0)
+                maximum = minimum
+                minimum -= minimum * (tolerance / 100.0)
+                maximum += maximum * (tolerance / 100.0)
+            else:
+                minimum = None
+                maximum = None
             rows = listBodyTubesBySize(self._connection, minimum, maximum, queryType)
             self.match = True
         else:
@@ -316,6 +368,7 @@ class DialogLookup: #(QtGui.QDialog):
             self._model.setColumnCount(7)
         else:
             self._model.setColumnCount(8)
+        self._form.rowsEdit.setText(f"{len(rows)}")
         self._form.dbTable.hideColumn(0) # This holds index for lookups
         self._form.dbTable.setVerticalHeader(None)
 
@@ -350,14 +403,22 @@ class DialogLookup: #(QtGui.QDialog):
     def _queryNoseCone(self):
         if self._component and self._form.matchCheckbox.isChecked():
             tolerance = self._form.matchSpinbox.value()
-            minDiameter = self._component.Proxy.getAftDiameter()
-            maxDiameter = minDiameter
-            minDiameter -= minDiameter * (tolerance / 100.0)
-            maxDiameter += maxDiameter * (tolerance / 100.0)
-            minLength = self._component.Proxy.getLength()
-            maxLength = minLength
-            minLength -= minLength * (tolerance / 100.0)
-            maxLength += maxLength * (tolerance / 100.0)
+            if self._form.matchDiameterCheckbox.isChecked():
+                minDiameter = self._component.Proxy.getAftDiameter()
+                maxDiameter = minDiameter
+                minDiameter -= minDiameter * (tolerance / 100.0)
+                maxDiameter += maxDiameter * (tolerance / 100.0)
+            else:
+                minDiameter = None
+                maxDiameter = None
+            if self._form.matchLengthCheckbox.isChecked():
+                minLength = self._component.Proxy.getLength()
+                maxLength = minLength
+                minLength -= minLength * (tolerance / 100.0)
+                maxLength += maxLength * (tolerance / 100.0)
+            else:
+                minLength = None
+                maxLength = None
             rows = listNoseConesBySize(self._connection, minDiameter, maxDiameter, minLength, maxLength)
             self.match = True
         else:
@@ -366,6 +427,7 @@ class DialogLookup: #(QtGui.QDialog):
 
         self._model.setRowCount(len(rows))
         self._model.setColumnCount(9)
+        self._form.rowsEdit.setText(f"{len(rows)}")
         self._form.dbTable.hideColumn(0) # This holds index for lookups
         self._form.dbTable.setVerticalHeader(None)
 
@@ -396,18 +458,30 @@ class DialogLookup: #(QtGui.QDialog):
     def _queryTransition(self):
         if self._component and self._form.matchCheckbox.isChecked():
             tolerance = self._form.matchSpinbox.value()
-            minForeDiameter = self._component.Proxy.getForeDiameter()
-            maxForeDiameter = minForeDiameter
-            minForeDiameter -= minForeDiameter * (tolerance / 100.0)
-            maxForeDiameter += maxForeDiameter * (tolerance / 100.0)
-            minAftDiameter = self._component.Proxy.getAftDiameter()
-            maxAftDiameter = minAftDiameter
-            minAftDiameter -= minAftDiameter * (tolerance / 100.0)
-            maxAftDiameter += maxAftDiameter * (tolerance / 100.0)
-            minLength = self._component.Proxy.getLength()
-            maxLength = minLength
-            minLength -= minLength * (tolerance / 100.0)
-            maxLength += maxLength * (tolerance / 100.0)
+            if self._form.matchDiameterCheckbox.isChecked():
+                minForeDiameter = self._component.Proxy.getForeDiameter()
+                maxForeDiameter = minForeDiameter
+                minForeDiameter -= minForeDiameter * (tolerance / 100.0)
+                maxForeDiameter += maxForeDiameter * (tolerance / 100.0)
+            else:
+                minForeDiameter = None
+                maxForeDiameter = None
+            if self._form.matchAftDiameterCheckbox.isChecked():
+                minAftDiameter = self._component.Proxy.getAftDiameter()
+                maxAftDiameter = minAftDiameter
+                minAftDiameter -= minAftDiameter * (tolerance / 100.0)
+                maxAftDiameter += maxAftDiameter * (tolerance / 100.0)
+            else:
+                minAftDiameter = None
+                maxAftDiameter = None
+            if self._form.matchLengthCheckbox.isChecked():
+                minLength = self._component.Proxy.getLength()
+                maxLength = minLength
+                minLength -= minLength * (tolerance / 100.0)
+                maxLength += maxLength * (tolerance / 100.0)
+            else:
+                minLength = None
+                maxLength = None
             rows = listTransitionsBySize(self._connection, minForeDiameter, maxForeDiameter, minAftDiameter, maxAftDiameter, minLength, maxLength)
             self.match = True
         else:
@@ -416,6 +490,7 @@ class DialogLookup: #(QtGui.QDialog):
 
         self._model.setRowCount(len(rows))
         self._model.setColumnCount(12)
+        self._form.rowsEdit.setText(f"{len(rows)}")
         self._form.dbTable.hideColumn(0) # This holds index for lookups
         self._form.dbTable.setVerticalHeader(None)
 
@@ -454,6 +529,7 @@ class DialogLookup: #(QtGui.QDialog):
 
         self._model.setRowCount(len(rows))
         self._model.setColumnCount(11)
+        self._form.rowsEdit.setText(f"{len(rows)}")
         self._form.dbTable.hideColumn(0) # This holds index for lookups
         self._form.dbTable.setVerticalHeader(None)
 

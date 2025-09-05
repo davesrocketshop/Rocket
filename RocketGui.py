@@ -65,7 +65,6 @@ from Ui.Commands.CmdCFDAnalysis import CmdCFDAnalysis
 # except:
 #     pass
 from Ui.Commands.CmdMaterialEditor import CmdMaterialEditor
-from Ui.Commands.CmdMaterialMapping import CmdMaterialMapping
 
 from Rocket.Constants import FEATURE_BODY_TUBE
 from Rocket.Constants import FEATURE_LAUNCH_LUG, FEATURE_RAIL_BUTTON, FEATURE_RAIL_GUIDE, FEATURE_OFFSET
