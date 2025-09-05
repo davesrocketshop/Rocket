@@ -327,3 +327,4 @@ class FeatureRingtail(SymmetricComponent, BoxBounded, Coaxial):
 
         self._obj.Length /= scale
         self._obj.Diameter /= scale
+        self.setEdited()

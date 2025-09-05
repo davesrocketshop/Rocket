@@ -592,3 +592,4 @@ class FeatureFin(ExternalComponent):
         self._obj.TtwThickness /= scale
 
         self._obj.FilletRadius /= scale
+        self.setEdited()

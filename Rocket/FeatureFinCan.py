@@ -424,3 +424,4 @@ class FeatureFinCan(SymmetricComponent, FeatureFin):
 
         self._obj.LeadingLength /= scale
         self._obj.TrailingLength /= scale
+        self.setEdited()

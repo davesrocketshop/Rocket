@@ -36,6 +36,7 @@ from PySide.QtWidgets import QDialog, QGridLayout
 
 from Rocket.Parts.PartDatabase import PartDatabase
 from Ui.DialogLookup import DialogLookup
+from Ui.Widgets.WaitCursor import WaitCursor
 
 from Rocket.Utilities import _err
 
@@ -181,20 +182,6 @@ class TaskPanelDatabase(QObject):
         except Exception:
             _err(translate("Rocket", "Material '{}' not found - using default material").format(result["uuid"]))
 
-        # self._obj.Material = result["material_name"]
-        # self._obj.MaterialUUID = result["uuid"]
-
-        # self._obj.NoseType = str(result["shape"])
-        # self._obj.NoseStyle = str(result["style"])
-        # self._obj.Length = _valueWithUnits(result["length"], result["length_units"])
-        # self._obj.Radius = _valueWithUnits(result["diameter"], result["diameter_units"]) / 2.0
-        # self._obj.Thickness = _valueWithUnits(result["thickness"], result["thickness_units"])
-        # # self._obj.Coefficient = _toFloat(self._noseForm.coefficientInput.text())
-        # self._obj.ShoulderRadius = _valueWithUnits(result["shoulder_diameter"], result["shoulder_diameter_units"]) / 2.0
-        # self._obj.ShoulderLength = _valueWithUnits(result["shoulder_length"], result["shoulder_length_units"])
-        # self._obj.Shoulder = (self._obj.ShoulderRadius > 0.0) or (self._obj.ShoulderLength >= 0)
-        # self._obj.ShoulderThickness = self._obj.Thickness
-
         self.transferFrom()
 
         self.dbLoad.emit()
@@ -204,10 +191,11 @@ class TaskPanelDatabase(QObject):
         form.exec()
         # form.exec_()
 
-        if len(form.result) > 0:
-            self._lookupResult = form.result
-            self._lookupMatch = form.match
-            self._lookupUpdate(form.result)
+        with WaitCursor():
+            if len(form.result) > 0:
+                self._lookupResult = form.result
+                self._lookupMatch = form.match
+                self._lookupUpdate(form.result)
 
     def update(self):
         'fills the widgets'

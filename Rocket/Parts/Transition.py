@@ -135,22 +135,22 @@ def listTransitionsBySize(connection, minForeDiameter, maxForeDiameter, minAftDi
 
     where = ""
     if minForeDiameter:
-        where += f" AND t.normalized_fore_diameter > {minForeDiameter}"
+        where += f" AND t.normalized_fore_diameter >= {minForeDiameter}"
 
     if maxForeDiameter:
-        where += f" AND t.normalized_fore_diameter < {maxForeDiameter}"
+        where += f" AND t.normalized_fore_diameter <= {maxForeDiameter}"
 
     if minAftDiameter:
-        where += f" AND t.normalized_aft_diameter > {minAftDiameter}"
+        where += f" AND t.normalized_aft_diameter >= {minAftDiameter}"
 
     if maxAftDiameter:
-        where += f" AND t.normalized_aft_diameter < {maxAftDiameter}"
+        where += f" AND t.normalized_aft_diameter <= {maxAftDiameter}"
 
     if minLength:
-        where += f" AND t.normalized_length > {minLength}"
+        where += f" AND t.normalized_length >= {minLength}"
 
     if maxLength:
-        where += f" AND t.normalized_length < {maxLength}"
+        where += f" AND t.normalized_length <= {maxLength}"
 
     cursor.execute("""SELECT transition_index, manufacturer, part_number, description,
                         shape, length, length_units,

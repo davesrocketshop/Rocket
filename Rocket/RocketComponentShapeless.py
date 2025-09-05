@@ -922,6 +922,7 @@ class RocketComponentShapeless(Subject, Observer):
 
     def resetScale(self) -> None:
         self._obj.Scale = False
+        self._obj.ScaleOverride = False
         self._obj.ScaleByValue = True
         self._obj.ScaleValue = FreeCAD.Units.Quantity("1.0")
         self.setEdited()
@@ -939,6 +940,7 @@ class RocketComponentShapeless(Subject, Observer):
     def setPartScale(self, scale : float) -> None:
         """ This will be overridden as required to scale a part by a value """
         self._obj.Scale = False
+        self.setEdited()
 
     def setPartScaleRecursive(self, scale : float) -> None:
         if self._obj.ScaleOverride:

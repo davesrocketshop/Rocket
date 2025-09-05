@@ -463,3 +463,4 @@ class FeatureTransition(SymmetricComponent):
         self._obj.Length /= scale
         self._obj.ForeDiameter /= scale
         self._obj.AftDiameter /= scale
+        self.setEdited()

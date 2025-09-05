@@ -34,15 +34,16 @@ from Rocket.Utilities import translate
 
 from PySide import QtGui, QtCore
 from PySide.QtCore import QObject, Signal
-from PySide.QtWidgets import QGridLayout, QVBoxLayout, QSizePolicy
 
 from Rocket.Constants import FIN_TYPE_TRAPEZOID
 from Rocket.Constants import FEATURE_ROCKET
 
+from Ui.Widgets.WaitCursor import WaitCursor
 from Ui.UIPaths import getUIPath
 
 class ScalingTab(QObject):
     scaled = Signal()   # emitted when scale parameters have changed
+    updated = Signal()   # emitted when the owner parameters need to be reloaded
 
     def __init__(self, obj : Any) -> None:
         super().__init__()
@@ -216,126 +217,145 @@ class ScalingTab(QObject):
     def onScalingGroup(self, on : bool) -> None:
         if self._loading:
             return
-        try:
-            self._obj.Scale = on
-            self._obj.Proxy.execute(self._obj)
-        except ValueError:
-            pass
-        self._setScaleState()
-        self.setEdited()
+        with WaitCursor():
+            try:
+                self._obj.Scale = on
+                self._obj.Proxy.execute(self._obj)
+            except ValueError:
+                pass
+            self._setScaleState()
+            self.setEdited()
 
     def onOverride(self, checked : bool) -> None:
         if self._loading:
             return
-        try:
-            self._obj.ScaleOverride = checked
-            self._obj.Proxy.execute(self._obj)
-        except ValueError:
-            pass
-        self._setScaleState()
-        self.setEdited()
+        with WaitCursor():
+            try:
+                self._obj.ScaleOverride = checked
+                self._obj.Proxy.execute(self._obj)
+            except ValueError:
+                pass
+            self._setScaleState()
+            self.setEdited()
 
     def onScale(self, checked : bool) -> None:
         if self._loading:
             return
-        try:
-            self._obj.ScaleByValue = checked
-            self._obj.ScaleValue = self.getScaleValue()
-            self._obj.Proxy.execute(self._obj)
-        except ValueError:
-            pass
-        self._setScaleState()
-        self.setEdited()
+        with WaitCursor():
+            try:
+                self._obj.ScaleByValue = checked
+                self._obj.ScaleValue = self.getScaleValue()
+                self._obj.Proxy.execute(self._obj)
+            except ValueError:
+                pass
+            self._setScaleState()
+            self.setEdited()
 
     def onScaleDiameter(self, checked: bool) -> None:
         if self._loading:
             return
-        try:
-            self._obj.ScaleByDiameter = checked
-            self._obj.ScaleValue = FreeCAD.Units.Quantity(self._form.scaleDiameterInput.text())
-            self._obj.Proxy.execute(self._obj)
-        except ValueError:
-            pass
-        self._setScaleState()
-        self.setEdited()
+        with WaitCursor():
+            try:
+                self._obj.ScaleByDiameter = checked
+                self._obj.ScaleValue = FreeCAD.Units.Quantity(self._form.scaleDiameterInput.text())
+                self._obj.Proxy.execute(self._obj)
+            except ValueError:
+                pass
+            self._setScaleState()
+            self.setEdited()
 
     def onScaleAutoDiameter(self, checked : bool) -> None:
         if self._loading:
             return
-        try:
-            self._obj.AutoScaleDiameter = checked
-            self._obj.Proxy.execute(self._obj)
-        except ValueError:
-            pass
-        self._setScaleState()
-        self.setEdited()
+        with WaitCursor():
+            try:
+                self._obj.AutoScaleDiameter = checked
+                self._obj.Proxy.execute(self._obj)
+            except ValueError:
+                pass
+            self._setScaleState()
+            self.setEdited()
 
     def onUpscale(self, checked : bool) -> None:
         if self._loading:
             return
-        try:
-            scale = FreeCAD.Units.Quantity(self._form.scaleInput.text()).Value
-            if checked:
-                if scale > 0:
-                    self._obj.ScaleValue = 1 / scale
+        with WaitCursor():
+            try:
+                scale = FreeCAD.Units.Quantity(self._form.scaleInput.text()).Value
+                if checked:
+                    if scale > 0:
+                        self._obj.ScaleValue = 1 / scale
+                    else:
+                        self._obj.ScaleValue = 1.0
                 else:
-                    self._obj.ScaleValue = 1.0
-            else:
-                self._obj.ScaleValue = scale
-            self._obj.Proxy.execute(self._obj)
-        except ValueError:
-            pass
-        self._setScaleState()
-        self.setEdited()
+                    self._obj.ScaleValue = scale
+                self._obj.Proxy.execute(self._obj)
+            except ValueError:
+                pass
+            self._setScaleState()
+            self.setEdited()
 
     def onScaleValue(self, value : str) -> None:
         if self._loading:
             return
-        try:
-            scale = FreeCAD.Units.Quantity(value).Value
-            if self._form.upscaleCheckbox.isChecked():
-                if scale > 0:
-                    self._obj.ScaleValue = 1 / scale
+        with WaitCursor():
+            try:
+                scale = FreeCAD.Units.Quantity(value).Value
+                if self._form.upscaleCheckbox.isChecked():
+                    if scale > 0:
+                        self._obj.ScaleValue = 1 / scale
+                    else:
+                        self._obj.ScaleValue = 1.0
                 else:
-                    self._obj.ScaleValue = 1.0
-            else:
-                self._obj.ScaleValue = scale
-            self._obj.Proxy.execute(self._obj)
-        except ValueError:
-            pass
-        self.setEdited()
+                    self._obj.ScaleValue = scale
+                self._obj.Proxy.execute(self._obj)
+            except ValueError:
+                pass
+            self.setEdited()
 
     def onScaleDiameterValue(self, value : str) -> None:
         if self._loading:
             return
-        try:
-            self._obj.ScaleValue = FreeCAD.Units.Quantity(value)
-            self._obj.Proxy.execute(self._obj)
-        except ValueError:
-            pass
-        self.setEdited()
+        with WaitCursor():
+            try:
+                self._obj.ScaleValue = FreeCAD.Units.Quantity(value)
+                self._obj.Proxy.execute(self._obj)
+            except ValueError:
+                pass
+            self.setEdited()
 
     def onSetPartScale(self) -> None:
-        scale = self.getScale()
-        self._obj.Proxy.setPartScale(scale)
+        with WaitCursor():
+            scale = self.getScale()
+            self._obj.Proxy.setPartScale(scale)
 
-        scale = self.resetScale()
-        self.update()
-        self.setEdited()
+            scale = self.resetScale()
+            self.update()
+            self.setEdited()
 
     def onSetStageScale(self) -> None:
         # Update the scale values
-        scale = self.getScale()
-        self._obj.Proxy.setStageScale(scale)
+        with WaitCursor():
+            scale = self.getScale()
+            self._obj.Proxy.setStageScale(scale)
+
+            scale = self.resetScale()
+            self.update()
+            self.setEdited()
 
     def onSetRocketScale(self) -> None:
         # Update the scale values
-        scale = self.getScale()
-        self._obj.Proxy.setRocketScale(scale)
+        with WaitCursor():
+            scale = self.getScale()
+            self._obj.Proxy.setRocketScale(scale)
+
+            scale = self.resetScale()
+            self.update()
+            self.setEdited()
 
     def update(self):
         'fills the widgets'
-        self.transferFrom(self._obj)
+        self.updated.emit()
 
 class ScalingTabNose(ScalingTab):
 
@@ -464,24 +484,26 @@ class ScalingTabTransition(ScalingTab):
     def onScaleFore(self, checked : bool) -> None:
         if self._loading:
             return
-        try:
-            self._obj.ScaleForeDiameter = checked
-            self._obj.Proxy.execute(self._obj)
-        except ValueError:
-            pass
-        self._setScaleState()
-        self.setEdited()
+        with WaitCursor():
+            try:
+                self._obj.ScaleForeDiameter = checked
+                self._obj.Proxy.execute(self._obj)
+            except ValueError:
+                pass
+            self._setScaleState()
+            self.setEdited()
 
     def onScaleAft(self, checked : bool) -> None:
         if self._loading:
             return
-        try:
-            self._obj.ScaleForeDiameter = not checked
-            self._obj.Proxy.execute(self._obj)
-        except ValueError:
-            pass
-        self._setScaleState()
-        self.setEdited()
+        with WaitCursor():
+            try:
+                self._obj.ScaleForeDiameter = not checked
+                self._obj.Proxy.execute(self._obj)
+            except ValueError:
+                pass
+            self._setScaleState()
+            self.setEdited()
 
 class ScalingTabBodyTube(ScalingTab):
 
@@ -624,46 +646,50 @@ class ScalingTabFins(ScalingTab):
     def onScaleRoot(self, checked: bool) -> None:
         if self._loading:
             return
-        try:
-            self._obj.ScaleByRootChord = checked
-            self._obj.ScaleValue = FreeCAD.Units.Quantity(self._form.scaleRootInput.text())
-            self._obj.Proxy.execute(self._obj)
-        except ValueError:
-            pass
-        self._setScaleState()
-        self.setEdited()
+        with WaitCursor():
+            try:
+                self._obj.ScaleByRootChord = checked
+                self._obj.ScaleValue = FreeCAD.Units.Quantity(self._form.scaleRootInput.text())
+                self._obj.Proxy.execute(self._obj)
+            except ValueError:
+                pass
+            self._setScaleState()
+            self.setEdited()
 
     def onScaleHeight(self, checked: bool) -> None:
         if self._loading:
             return
-        try:
-            self._obj.ScaleByHeight = checked
-            self._obj.ScaleValue = FreeCAD.Units.Quantity(self._form.scaleHeightInput.text())
-            self._obj.Proxy.execute(self._obj)
-        except ValueError:
-            pass
-        self._setScaleState()
-        self.setEdited()
+        with WaitCursor():
+            try:
+                self._obj.ScaleByHeight = checked
+                self._obj.ScaleValue = FreeCAD.Units.Quantity(self._form.scaleHeightInput.text())
+                self._obj.Proxy.execute(self._obj)
+            except ValueError:
+                pass
+            self._setScaleState()
+            self.setEdited()
 
     def onScaleRootValue(self, value : str) -> None:
         if self._loading:
             return
-        try:
-            self._obj.ScaleValue = FreeCAD.Units.Quantity(value)
-            self._obj.Proxy.execute(self._obj)
-        except ValueError:
-            pass
-        self.setEdited()
+        with WaitCursor():
+            try:
+                self._obj.ScaleValue = FreeCAD.Units.Quantity(value)
+                self._obj.Proxy.execute(self._obj)
+            except ValueError:
+                pass
+            self.setEdited()
 
     def onScaleHeightValue(self, value : str) -> None:
         if self._loading:
             return
-        try:
-            self._obj.ScaleValue = FreeCAD.Units.Quantity(value)
-            self._obj.Proxy.execute(self._obj)
-        except ValueError:
-            pass
-        self.setEdited()
+        with WaitCursor():
+            try:
+                self._obj.ScaleValue = FreeCAD.Units.Quantity(value)
+                self._obj.Proxy.execute(self._obj)
+            except ValueError:
+                pass
+            self.setEdited()
 
 class ScalingTabRocketStage(ScalingTab):
 
@@ -726,9 +752,6 @@ class ScalingTabRocketStage(ScalingTab):
 
     def _setScaleState(self) -> None:
         super()._setScaleState()
-        # if self._form.scalingGroup.isChecked():
-        #     self._form.scaleInput.setEnabled(True)
-        #     self._form.upscaleCheckbox.setEnabled(True)
 
     def transferTo(self, obj : Any) -> None:
         "Transfer from the dialog to the object"

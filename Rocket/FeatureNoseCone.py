@@ -483,3 +483,4 @@ class FeatureNoseCone(SymmetricComponent):
         self._obj.Diameter /= scale
         self._obj.OgiveDiameter /= scale
         self._obj.BluntedDiameter /= scale
+        self.setEdited()

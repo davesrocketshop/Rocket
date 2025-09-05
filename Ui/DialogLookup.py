@@ -51,6 +51,7 @@ from Rocket.Utilities import translate
 
 from Ui.UIPaths import getUIPath
 from Ui.DialogUtilities import saveDialog, restoreDialog, getParams
+from Ui.Widgets.WaitCursor import WaitCursor
 
 # Constant definitions
 userCancelled   = "Cancelled"
@@ -95,13 +96,13 @@ class DialogLookup: #(QtGui.QDialog):
         self._model = QStandardItemModel() # (4, 4)
         self._form = FreeCADGui.PySideUic.loadUi(os.path.join(getUIPath(), 'Ui', "DialogLookup.ui"))
 
-        # self.initSortColumns(lookup)
-        self.initUI()
-        self.initDB()
-
         # Default result is an empty dict
         self.result = {}
         self.match = False
+
+        # self.initSortColumns(lookup)
+        self.initUI()
+        self.initDB()
 
     def initUI(self):
         global _compatible
@@ -121,6 +122,7 @@ class DialogLookup: #(QtGui.QDialog):
         # self._form.searchInput.setMinimumWidth(80)
         self._form.searchInput.textEdited.connect(self.onSearch)
         self._form.matchCheckbox.clicked.connect(self.onMatchComponent)
+        self._form.matchSpinbox.valueChanged.connect(self.onMatchTolerance)
 
         # lookupTypeLabel = QtGui.QLabel(translate('Rocket', "Component"), self)
 
@@ -169,30 +171,37 @@ class DialogLookup: #(QtGui.QDialog):
         self._form.close()
 
     def onLookupType(self, value):
-        self._updateModel()
+        with WaitCursor():
+            self._updateModel()
 
     def onMatchComponent(self, value):
-        self._updateModel()
+        with WaitCursor():
+            self._updateModel()
+
+    def onMatchTolerance(self, value):
+        with WaitCursor():
+            self._updateModel()
 
     def onSearch(self, value):
-        rows = []
-        value = str(value).strip()
-        if len(value) > 0:
-            for column in range(self._model.columnCount()):
-                items = self._model.findItems(value, QtCore.Qt.MatchContains, column)
-                for item in items:
-                    row = item.row()
-                    if not row in rows:
-                        rows.append(row)
+        with WaitCursor():
+            rows = []
+            value = str(value).strip()
+            if len(value) > 0:
+                for column in range(self._model.columnCount()):
+                    items = self._model.findItems(value, QtCore.Qt.MatchContains, column)
+                    for item in items:
+                        row = item.row()
+                        if not row in rows:
+                            rows.append(row)
 
-            for row in range(self._model.rowCount()):
-                if row in rows:
+                for row in range(self._model.rowCount()):
+                    if row in rows:
+                        self._form.dbTable.showRow(row)
+                    else:
+                        self._form.dbTable.hideRow(row)
+            else:
+                for row in range(self._model.rowCount()):
                     self._form.dbTable.showRow(row)
-                else:
-                    self._form.dbTable.hideRow(row)
-        else:
-            for row in range(self._model.rowCount()):
-                self._form.dbTable.showRow(row)
 
     def onTableDoubleClick(self, selected):
         self.result = self._getSelected(selected.row())
@@ -292,8 +301,6 @@ class DialogLookup: #(QtGui.QDialog):
     def _queryBodyTube(self, queryType):
         if self._component and self._form.matchCheckbox.isChecked():
             tolerance = self._form.matchSpinbox.value()
-            if tolerance == 0:
-                tolerance = 5
             minimum = self._component.Proxy.getOuterDiameter(0)
             maximum = minimum
             minimum -= minimum * (tolerance / 100.0)
@@ -343,8 +350,6 @@ class DialogLookup: #(QtGui.QDialog):
     def _queryNoseCone(self):
         if self._component and self._form.matchCheckbox.isChecked():
             tolerance = self._form.matchSpinbox.value()
-            if tolerance == 0:
-                tolerance = 5
             minDiameter = self._component.Proxy.getAftDiameter()
             maxDiameter = minDiameter
             minDiameter -= minDiameter * (tolerance / 100.0)
@@ -391,8 +396,6 @@ class DialogLookup: #(QtGui.QDialog):
     def _queryTransition(self):
         if self._component and self._form.matchCheckbox.isChecked():
             tolerance = self._form.matchSpinbox.value()
-            if tolerance == 0:
-                tolerance = 5
             minForeDiameter = self._component.Proxy.getForeDiameter()
             maxForeDiameter = minForeDiameter
             minForeDiameter -= minForeDiameter * (tolerance / 100.0)

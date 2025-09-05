@@ -189,6 +189,7 @@ class TaskPanelBodyTube:
 
         if self._btForm.tabScaling:
             self._btForm.tabScaling.scaled.connect(self.onScale)
+            self._btForm.tabScaling.updated.connect(self.onUpdated)
 
         self._db.dbLoad.connect(self.onLookup)
         self._location.locationChange.connect(self.onLocation)
@@ -255,6 +256,9 @@ class TaskPanelBodyTube:
                 self._btForm.tabScaling._form.scaledInput.setText(f"{scale}")
             self._btForm.tabScaling._form.scaledLengthInput.setText(length.UserString)
             self._btForm.tabScaling._form.scaledDiameterInput.setText(diameter.UserString)
+
+    def onUpdated(self) -> None:
+        self.transferFrom()
 
     def onOd(self, value):
         try:

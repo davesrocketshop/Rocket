@@ -127,10 +127,10 @@ def listBodyTubesBySize(connection, minimumOD, maximumOD, tubeType=None, orderBy
         where = f" AND t.type = '{tubeType}'"
 
     if minimumOD:
-        where += f" AND b.normalized_diameter > {minimumOD}"
+        where += f" AND b.normalized_diameter >= {minimumOD}"
 
     if maximumOD:
-        where += f" AND b.normalized_diameter < {maximumOD}"
+        where += f" AND b.normalized_diameter <= {maximumOD}"
 
     orderBy = ""
     if orderByOD:

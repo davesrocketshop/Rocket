@@ -117,16 +117,16 @@ def listNoseConesBySize(connection, minDiameter, maxDiameter, minLength, maxLeng
 
     where = ""
     if minDiameter:
-        where += f" AND n.normalized_diameter > {minDiameter}"
+        where += f" AND n.normalized_diameter >= {minDiameter}"
 
     if maxDiameter:
-        where += f" AND n.normalized_diameter < {maxDiameter}"
+        where += f" AND n.normalized_diameter <= {maxDiameter}"
 
     if minLength:
-        where += f" AND n.normalized_length > {minLength}"
+        where += f" AND n.normalized_length >= {minLength}"
 
     if maxLength:
-        where += f" AND n.normalized_length < {maxLength}"
+        where += f" AND n.normalized_length <= {maxLength}"
 
     cursor.execute("""SELECT nose_index, manufacturer, part_number, description, shape, diameter, diameter_units, length, length_units,
                         shoulder_diameter, shoulder_diameter_units, shoulder_length, shoulder_length_units, normalized_diameter, normalized_length
