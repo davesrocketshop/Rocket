@@ -569,6 +569,8 @@ class FeatureFin(ExternalComponent):
 
         self._obj.Scale = False
 
+        self._obj.Length /= scale
+
         self._obj.RootChord /= scale
         self._obj.RootThickness /= scale
         self._obj.RootLength1 /= scale
