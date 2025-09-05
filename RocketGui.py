@@ -121,7 +121,6 @@ try:
 except:
     pass
 FreeCADGui.addCommand('Rocket_MaterialEditor', CmdMaterialEditor())
-FreeCADGui.addCommand('Rocket_MaterialMapping', CmdMaterialMapping())
 
 class _CalculatorGroupCommand:
 

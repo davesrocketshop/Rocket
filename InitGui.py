@@ -83,11 +83,11 @@ class RocketWorkbench ( Workbench ):
         #                 ['Separator', 'Rocket_ParachuteGore'])
         try:
             self.appendToolbar(translate('Rocket', 'Rocket'),
-                        # ['Separator', 'Rocket_FinFlutter', 'Rocket_FemAnalysis', 'FEM_MeshGmshFromShape', "Rocket_MaterialEditor", 'Rocket_MaterialMapping'])
+                        # ['Separator', 'Rocket_FinFlutter', 'Rocket_FemAnalysis', 'FEM_MeshGmshFromShape', "Rocket_MaterialEditor"])
                         ['Separator', 'Rocket_FinFlutter', 'Rocket_CFDAnalysis', "Rocket_MaterialEditor"])
         except:
             self.appendToolbar(translate('Rocket', 'Rocket'),
-                        # ['Separator', 'Rocket_FinFlutter', 'Rocket_FemAnalysis', 'FEM_MeshGmshFromShape', "Rocket_MaterialEditor", 'Rocket_MaterialMapping'])
+                        # ['Separator', 'Rocket_FinFlutter', 'Rocket_FemAnalysis', 'FEM_MeshGmshFromShape', "Rocket_MaterialEditor"])
                         ['Separator', 'Rocket_FinFlutter', "Rocket_MaterialEditor"])
 
         self.appendMenu(translate('Rocket', 'Rocket'),
@@ -106,12 +106,12 @@ class RocketWorkbench ( Workbench ):
         try:
             self.appendMenu([translate("Rocket", "Rocket"),
                             translate("Rocket", "Analysis")],
-                            # ['Rocket_FinFlutter', 'Rocket_FemAnalysis', 'FEM_MeshGmshFromShape', "Rocket_MaterialEditor", 'Rocket_MaterialMapping'])
+                            # ['Rocket_FinFlutter', 'Rocket_FemAnalysis', 'FEM_MeshGmshFromShape', "Rocket_MaterialEditor"])
                             ['Rocket_FinFlutter', 'Rocket_CFDAnalysis', "Rocket_MaterialEditor"])
         except:
             self.appendMenu([translate("Rocket", "Rocket"),
                          translate("Rocket", "Analysis")],
-                        # ['Rocket_FinFlutter', 'Rocket_FemAnalysis', 'FEM_MeshGmshFromShape', "Rocket_MaterialEditor", 'Rocket_MaterialMapping'])
+                        # ['Rocket_FinFlutter', 'Rocket_FemAnalysis', 'FEM_MeshGmshFromShape', "Rocket_MaterialEditor"])
                         ['Rocket_FinFlutter', "Rocket_MaterialEditor"])
 
     def GetClassName(self):
