@@ -32,6 +32,7 @@ from pivy import coin
 
 from Ui.ViewProvider import ViewProvider
 from Ui.TaskPanelStage import TaskPanelStage
+from Ui.Widgets.WaitCursor import WaitCursor
 
 from Rocket.Utilities import translate
 
@@ -66,18 +67,21 @@ class ViewProviderStage(ViewProvider):
         menu.addAction(action1)
 
     def toggleStage(self):
-        FreeCADGui.runCommand("Rocket_ToggleStage")
+        with WaitCursor():
+            FreeCADGui.runCommand("Rocket_ToggleStage")
 
     def setEdit(self, vobj, mode):
         if mode == 0:
-            self.startTransaction(vobj)
-            taskd = TaskPanelStage(self.Object, mode)
-            taskd.obj = vobj.Object
-            taskd.update()
-            FreeCADGui.Control.showDialog(taskd)
-            return True
+            with WaitCursor():
+                self.startTransaction(vobj)
+                taskd = TaskPanelStage(self.Object, mode)
+                taskd.obj = vobj.Object
+                taskd.update()
+                FreeCADGui.Control.showDialog(taskd)
+                return True
 
     def unsetEdit(self, vobj, mode):
         if mode == 0:
-            FreeCADGui.Control.closeDialog()
-            return
+            with WaitCursor():
+                FreeCADGui.Control.closeDialog()
+                return

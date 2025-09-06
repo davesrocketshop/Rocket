@@ -29,6 +29,7 @@ import FreeCADGui
 
 from Ui.TaskPanelRingtail import TaskPanelRingtail
 from Ui.ViewProvider import ViewProvider
+from Ui.Widgets.WaitCursor import WaitCursor
 
 class ViewProviderRingtail(ViewProvider):
 
@@ -40,14 +41,16 @@ class ViewProviderRingtail(ViewProvider):
 
     def setEdit(self, vobj, mode):
         if mode == 0:
-            self.startTransaction(vobj)
-            taskd = TaskPanelRingtail(self.Object, mode)
-            taskd.obj = vobj.Object
-            taskd.update()
-            FreeCADGui.Control.showDialog(taskd)
-            return True
+            with WaitCursor():
+                self.startTransaction(vobj)
+                taskd = TaskPanelRingtail(self.Object, mode)
+                taskd.obj = vobj.Object
+                taskd.update()
+                FreeCADGui.Control.showDialog(taskd)
+                return True
 
     def unsetEdit(self, vobj, mode):
         if mode == 0:
-            FreeCADGui.Control.closeDialog()
-            return
+            with WaitCursor():
+                FreeCADGui.Control.closeDialog()
+                return

@@ -29,6 +29,7 @@ import FreeCADGui
 
 from Ui.TaskPanelBulkhead import TaskPanelBulkhead
 from Ui.ViewProvider import ViewProvider
+from Ui.Widgets.WaitCursor import WaitCursor
 
 class ViewProviderCenteringRing(ViewProvider):
 
@@ -40,14 +41,16 @@ class ViewProviderCenteringRing(ViewProvider):
 
     def setEdit(self, vobj, mode):
         if mode == 0:
-            self.startTransaction(vobj)
-            taskd = TaskPanelBulkhead(self.Object, True, mode)
-            taskd.obj = vobj.Object
-            taskd.update()
-            FreeCADGui.Control.showDialog(taskd)
-            return True
+            with WaitCursor():
+                self.startTransaction(vobj)
+                taskd = TaskPanelBulkhead(self.Object, True, mode)
+                taskd.obj = vobj.Object
+                taskd.update()
+                FreeCADGui.Control.showDialog(taskd)
+                return True
 
     def unsetEdit(self, vobj, mode):
         if mode == 0:
-            FreeCADGui.Control.closeDialog()
-            return
+            with WaitCursor():
+                FreeCADGui.Control.closeDialog()
+                return

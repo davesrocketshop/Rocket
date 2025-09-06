@@ -31,6 +31,7 @@ from Ui.TaskPanelRailGuide import TaskPanelRailGuide
 from Ui.TaskPanelRailButton import TaskPanelRailButton
 from Ui.TaskPanelLaunchLug import TaskPanelLaunchLug
 from Ui.ViewProvider import ViewProvider
+from Ui.Widgets.WaitCursor import WaitCursor
 
 class ViewProviderRailGuide(ViewProvider):
 
@@ -42,17 +43,19 @@ class ViewProviderRailGuide(ViewProvider):
 
     def setEdit(self, vobj, mode):
         if mode == 0:
-            self.startTransaction(vobj)
-            taskd = TaskPanelRailGuide(self.Object, mode)
-            taskd.obj = vobj.Object
-            taskd.update()
-            FreeCADGui.Control.showDialog(taskd)
-            return True
+            with WaitCursor():
+                self.startTransaction(vobj)
+                taskd = TaskPanelRailGuide(self.Object, mode)
+                taskd.obj = vobj.Object
+                taskd.update()
+                FreeCADGui.Control.showDialog(taskd)
+                return True
 
     def unsetEdit(self, vobj, mode):
         if mode == 0:
-            FreeCADGui.Control.closeDialog()
-            return
+            with WaitCursor():
+                FreeCADGui.Control.closeDialog()
+                return
 
 class ViewProviderRailButton(ViewProviderRailGuide):
 
@@ -61,12 +64,13 @@ class ViewProviderRailButton(ViewProviderRailGuide):
 
     def setEdit(self, vobj, mode):
         if mode == 0:
-            self.startTransaction(vobj)
-            taskd = TaskPanelRailButton(self.Object, mode)
-            taskd.obj = vobj.Object
-            taskd.update()
-            FreeCADGui.Control.showDialog(taskd)
-            return True
+            with WaitCursor():
+                self.startTransaction(vobj)
+                taskd = TaskPanelRailButton(self.Object, mode)
+                taskd.obj = vobj.Object
+                taskd.update()
+                FreeCADGui.Control.showDialog(taskd)
+                return True
 
 class ViewProviderLaunchLug(ViewProvider):
 
@@ -75,14 +79,16 @@ class ViewProviderLaunchLug(ViewProvider):
 
     def setEdit(self, vobj, mode):
         if mode == 0:
-            self.startTransaction(vobj)
-            taskd = TaskPanelLaunchLug(self.Object, mode)
-            taskd.obj = vobj.Object
-            taskd.update()
-            FreeCADGui.Control.showDialog(taskd)
-            return True
+            with WaitCursor():
+                self.startTransaction(vobj)
+                taskd = TaskPanelLaunchLug(self.Object, mode)
+                taskd.obj = vobj.Object
+                taskd.update()
+                FreeCADGui.Control.showDialog(taskd)
+                return True
 
     def unsetEdit(self, vobj, mode):
         if mode == 0:
-            FreeCADGui.Control.closeDialog()
-            return
+            with WaitCursor():
+                FreeCADGui.Control.closeDialog()
+                return

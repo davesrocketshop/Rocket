@@ -78,6 +78,7 @@ class ViewProvider:
         return None
 
     def setAppearance(self, appearance):
+        print(f"setAppearance({type(appearance)})")
         self.ViewObject.ShapeAppearance = (
             appearance
         )
