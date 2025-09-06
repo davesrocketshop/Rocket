@@ -29,7 +29,9 @@ import FreeCAD
 import FreeCADGui
 
 from Rocket.FeatureParallelStage import FeatureParallelStage
-from Ui.ViewParallelStage import ViewProviderParallelStage
+if FreeCAD.GuiUp:
+    from Ui.ViewParallelStage import ViewProviderParallelStage
+    from Ui.Widgets.WaitCursor import WaitCursor
 from Ui.Commands.Command import Command
 
 from Rocket.Constants import FEATURE_PARALLEL_STAGE
@@ -65,13 +67,14 @@ def makeParallelStage(name='Stage'):
 
 class CmdParallelStage(Command):
     def Activated(self):
-        FreeCAD.ActiveDocument.openTransaction("Create rocket parallel stage")
-        FreeCADGui.addModule("Ui.Commands.CmdParallelStage")
-        FreeCADGui.doCommand("obj=Ui.Commands.CmdParallelStage.makeParallelStage('Stage')")
-        FreeCADGui.doCommand("Ui.Commands.CmdStage.addToStage(obj)")
-        FreeCADGui.doCommand("FreeCADGui.Selection.clearSelection()")
-        FreeCADGui.doCommand("FreeCADGui.Selection.addSelection(obj._obj)")
-        FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
+        with WaitCursor():
+            FreeCAD.ActiveDocument.openTransaction("Create rocket parallel stage")
+            FreeCADGui.addModule("Ui.Commands.CmdParallelStage")
+            FreeCADGui.doCommand("obj=Ui.Commands.CmdParallelStage.makeParallelStage('Stage')")
+            FreeCADGui.doCommand("Ui.Commands.CmdStage.addToStage(obj)")
+            FreeCADGui.doCommand("FreeCADGui.Selection.clearSelection()")
+            FreeCADGui.doCommand("FreeCADGui.Selection.addSelection(obj._obj)")
+            FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
 
     def IsActive(self):
         if FreeCAD.ActiveDocument:
@@ -94,10 +97,11 @@ class CmdToggleParallelStage:
         return bool(FreeCADGui.Selection.getSelection())
 
     def Activated(self):
-        view = FreeCADGui.ActiveDocument.ActiveView
+        with WaitCursor():
+            view = FreeCADGui.ActiveDocument.ActiveView
 
-        for obj in FreeCADGui.Selection.getSelection():
-            if view.getActiveObject('stage') == obj:
-                view.setActiveObject("stage", None)
-            else:
-                view.setActiveObject("stage", obj)
+            for obj in FreeCADGui.Selection.getSelection():
+                if view.getActiveObject('stage') == obj:
+                    view.setActiveObject("stage", None)
+                else:
+                    view.setActiveObject("stage", obj)

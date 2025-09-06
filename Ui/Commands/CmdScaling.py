@@ -30,6 +30,7 @@ import FreeCADGui
 from Rocket.Utilities import translate
 
 from Ui.DialogScaling import DialogScaling, DialogScalingPairs
+from Ui.Widgets.WaitCursor import WaitCursor
 
 def scalingPairs():
     form = DialogScalingPairs()
@@ -41,8 +42,9 @@ def scalingTubes():
 
 class CmdScalingPairs:
     def Activated(self):
-        FreeCADGui.addModule("Ui.Commands.CmdScaling")
-        FreeCADGui.doCommand("Ui.Commands.CmdScaling.scalingPairs()")
+        with WaitCursor():
+            FreeCADGui.addModule("Ui.Commands.CmdScaling")
+            FreeCADGui.doCommand("Ui.Commands.CmdScaling.scalingPairs()")
 
     def IsActive(self):
         # Always available, even without active document
@@ -55,8 +57,9 @@ class CmdScalingPairs:
 
 class CmdScalingTubes:
     def Activated(self):
-        FreeCADGui.addModule("Ui.Commands.CmdScaling")
-        FreeCADGui.doCommand("Ui.Commands.CmdScaling.scalingTubes()")
+        with WaitCursor():
+            FreeCADGui.addModule("Ui.Commands.CmdScaling")
+            FreeCADGui.doCommand("Ui.Commands.CmdScaling.scalingTubes()")
 
     def IsActive(self):
         # Always available, even without active document

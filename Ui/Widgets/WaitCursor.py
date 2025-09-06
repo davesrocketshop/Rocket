@@ -42,3 +42,9 @@ class WaitCursor(QObject):
     def __exit__(self, exc_type, exc_value, traceback) -> bool:
         QApplication.restoreOverrideCursor()
         return True
+
+    def setWait(self) -> None:
+        QApplication.setOverrideCursor(QCursor(QtCore.Qt.WaitCursor))
+
+    def resetWait(self) -> None:
+        QApplication.restoreOverrideCursor()

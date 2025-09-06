@@ -30,6 +30,7 @@ import FreeCADGui
 from Rocket.FeatureCenteringRing import FeatureCenteringRing
 if FreeCAD.GuiUp:
     from Ui.ViewCenteringRing import ViewProviderCenteringRing
+    from Ui.Widgets.WaitCursor import WaitCursor
 from Ui.Commands.Command import Command
 
 from Rocket.Constants import FEATURE_CENTERING_RING
@@ -48,11 +49,12 @@ def makeCenteringRing(name='CenteringRing'):
 
 class CmdCenteringRing(Command):
     def Activated(self):
-        FreeCAD.ActiveDocument.openTransaction("Create centering ring")
-        FreeCADGui.addModule("Ui.Commands.CmdCenteringRing")
-        FreeCADGui.doCommand("obj=Ui.Commands.CmdCenteringRing.makeCenteringRing('CenteringRing')")
-        FreeCADGui.doCommand("Ui.Commands.CmdStage.addToStage(obj)")
-        FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
+        with WaitCursor():
+            FreeCAD.ActiveDocument.openTransaction("Create centering ring")
+            FreeCADGui.addModule("Ui.Commands.CmdCenteringRing")
+            FreeCADGui.doCommand("obj=Ui.Commands.CmdCenteringRing.makeCenteringRing('CenteringRing')")
+            FreeCADGui.doCommand("Ui.Commands.CmdStage.addToStage(obj)")
+            FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
 
     def IsActive(self):
         if FreeCAD.ActiveDocument:

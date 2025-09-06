@@ -28,6 +28,7 @@ import FreeCAD
 import FreeCADGui
 
 from Rocket.Utilities import translate
+from Ui.Widgets.WaitCursor import WaitCursor
 
 def newSketchNoEdit(name='Sketch'):
     obj = FreeCAD.ActiveDocument.addObject("Sketcher::SketchObject", name)
@@ -45,8 +46,9 @@ def newSketch(name='Sketch'):
 
 class CmdNewSketch:
     def Activated(self):
-        FreeCADGui.addModule("Ui.Commands.CmdSketcher")
-        FreeCADGui.doCommand("Ui.Commands.CmdSketcher.newSketch()")
+        with WaitCursor():
+            FreeCADGui.addModule("Ui.Commands.CmdSketcher")
+            FreeCADGui.doCommand("Ui.Commands.CmdSketcher.newSketch()")
 
     def IsActive(self):
         if FreeCAD.ActiveDocument:

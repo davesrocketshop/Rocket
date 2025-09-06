@@ -27,11 +27,13 @@ __url__ = "https://www.davesrocketshop.com"
 import FreeCADGui
 
 from Rocket.Utilities import translate
+from Ui.Widgets.WaitCursor import WaitCursor
 
 class CmdMaterialEditor:
     def Activated(self):
-        FreeCADGui.addModule("MaterialEditor")
-        FreeCADGui.doCommand("MaterialEditor.openEditor()")
+        with WaitCursor():
+            FreeCADGui.addModule("MaterialEditor")
+            FreeCADGui.doCommand("MaterialEditor.openEditor()")
 
     def IsActive(self):
         return True

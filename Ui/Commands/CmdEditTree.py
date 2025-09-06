@@ -28,6 +28,7 @@ import FreeCAD
 import FreeCADGui
 
 from Ui.Commands.Command import Command
+from Ui.Widgets.WaitCursor import WaitCursor
 
 from Rocket.Utilities import translate
 
@@ -53,11 +54,12 @@ def delete():
 
 class CmdMoveUp(Command):
     def Activated(self):
-        FreeCAD.ActiveDocument.openTransaction("Move up")
-        FreeCADGui.addModule("Ui.Commands.CmdEditTree")
-        FreeCADGui.doCommand("Ui.Commands.CmdEditTree.moveUp()")
-        FreeCADGui.doCommand("App.ActiveDocument.commitTransaction()")
-        FreeCADGui.doCommand("App.activeDocument().recompute(None,True,True)")
+        with WaitCursor():
+            FreeCAD.ActiveDocument.openTransaction("Move up")
+            FreeCADGui.addModule("Ui.Commands.CmdEditTree")
+            FreeCADGui.doCommand("Ui.Commands.CmdEditTree.moveUp()")
+            FreeCADGui.doCommand("App.ActiveDocument.commitTransaction()")
+            FreeCADGui.doCommand("App.activeDocument().recompute(None,True,True)")
 
     def IsActive(self):
         if self.partMoveableFeatureSelected():
@@ -71,11 +73,12 @@ class CmdMoveUp(Command):
 
 class CmdMoveDown(Command):
     def Activated(self):
-        FreeCAD.ActiveDocument.openTransaction("Move down")
-        FreeCADGui.addModule("Ui.Commands.CmdEditTree")
-        FreeCADGui.doCommand("Ui.Commands.CmdEditTree.moveDown()")
-        FreeCADGui.doCommand("App.ActiveDocument.commitTransaction()")
-        FreeCADGui.doCommand("App.activeDocument().recompute(None,True,True)")
+        with WaitCursor():
+            FreeCAD.ActiveDocument.openTransaction("Move down")
+            FreeCADGui.addModule("Ui.Commands.CmdEditTree")
+            FreeCADGui.doCommand("Ui.Commands.CmdEditTree.moveDown()")
+            FreeCADGui.doCommand("App.ActiveDocument.commitTransaction()")
+            FreeCADGui.doCommand("App.activeDocument().recompute(None,True,True)")
 
     def IsActive(self):
         if self.partMoveableFeatureSelected():

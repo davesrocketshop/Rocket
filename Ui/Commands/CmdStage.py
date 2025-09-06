@@ -32,6 +32,7 @@ from Rocket.FeatureStage import FeatureStage
 from Ui.Commands.Command import Command, getRocket
 if FreeCAD.GuiUp:
     from Ui.ViewStage import ViewProviderStage
+    from Ui.Widgets.WaitCursor import WaitCursor
 
 from Rocket.Constants import FEATURE_STAGE
 
@@ -65,14 +66,15 @@ def makeStage(name='Stage'):
 
 class CmdStage(Command):
     def Activated(self):
-        FreeCAD.ActiveDocument.openTransaction("Create rocket stage")
-        FreeCADGui.addModule("Ui.Commands.CmdStage")
-        FreeCADGui.doCommand("obj=Ui.Commands.CmdStage.makeStage('Stage')")
-        FreeCADGui.doCommand("Ui.Commands.CmdStage.addToStage(obj)")
-        FreeCADGui.doCommand("FreeCADGui.Selection.clearSelection()")
-        FreeCADGui.doCommand("FreeCADGui.Selection.addSelection(obj._obj)")
-        FreeCADGui.doCommand("App.ActiveDocument.commitTransaction()")
-        FreeCADGui.doCommand("App.activeDocument().recompute(None,True,True)")
+        with WaitCursor():
+            FreeCAD.ActiveDocument.openTransaction("Create rocket stage")
+            FreeCADGui.addModule("Ui.Commands.CmdStage")
+            FreeCADGui.doCommand("obj=Ui.Commands.CmdStage.makeStage('Stage')")
+            FreeCADGui.doCommand("Ui.Commands.CmdStage.addToStage(obj)")
+            FreeCADGui.doCommand("FreeCADGui.Selection.clearSelection()")
+            FreeCADGui.doCommand("FreeCADGui.Selection.addSelection(obj._obj)")
+            FreeCADGui.doCommand("App.ActiveDocument.commitTransaction()")
+            FreeCADGui.doCommand("App.activeDocument().recompute(None,True,True)")
 
     def IsActive(self):
         if FreeCAD.ActiveDocument:
@@ -95,10 +97,11 @@ class CmdToggleStage:
         return bool(FreeCADGui.Selection.getSelection())
 
     def Activated(self):
-        view = FreeCADGui.ActiveDocument.ActiveView
+        with WaitCursor():
+            view = FreeCADGui.ActiveDocument.ActiveView
 
-        for obj in FreeCADGui.Selection.getSelection():
-            if view.getActiveObject('stage') == obj:
-                view.setActiveObject("stage", None)
-            else:
-                view.setActiveObject("stage", obj)
+            for obj in FreeCADGui.Selection.getSelection():
+                if view.getActiveObject('stage') == obj:
+                    view.setActiveObject("stage", None)
+                else:
+                    view.setActiveObject("stage", obj)

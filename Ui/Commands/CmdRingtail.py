@@ -30,6 +30,7 @@ import FreeCADGui
 from Rocket.FeatureRingtail import FeatureRingtail
 if FreeCAD.GuiUp:
     from Ui.ViewRingtail import ViewProviderRingtail
+    from Ui.Widgets.WaitCursor import WaitCursor
 from Ui.Commands.Command import Command
 
 from Rocket.Constants import FEATURE_RINGTAIL
@@ -48,13 +49,14 @@ def makeRingtail(name='Ringtail'):
 
 class CmdRingtail(Command):
     def Activated(self):
-        FreeCAD.ActiveDocument.openTransaction("Create ring tail")
-        FreeCADGui.addModule("Ui.Commands.CmdRingtail")
-        FreeCADGui.doCommand("obj=Ui.Commands.CmdRingtail.makeRingtail('Ringtail')")
-        FreeCADGui.doCommand("Ui.Commands.CmdStage.addToStage(obj)")
-        FreeCADGui.doCommand("FreeCADGui.Selection.clearSelection()")
-        FreeCADGui.doCommand("FreeCADGui.Selection.addSelection(obj._obj)")
-        FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
+        with WaitCursor():
+            FreeCAD.ActiveDocument.openTransaction("Create ring tail")
+            FreeCADGui.addModule("Ui.Commands.CmdRingtail")
+            FreeCADGui.doCommand("obj=Ui.Commands.CmdRingtail.makeRingtail('Ringtail')")
+            FreeCADGui.doCommand("Ui.Commands.CmdStage.addToStage(obj)")
+            FreeCADGui.doCommand("FreeCADGui.Selection.clearSelection()")
+            FreeCADGui.doCommand("FreeCADGui.Selection.addSelection(obj._obj)")
+            FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
 
     def IsActive(self):
         if FreeCAD.ActiveDocument:

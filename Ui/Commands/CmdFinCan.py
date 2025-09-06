@@ -27,12 +27,15 @@ __url__ = "https://www.davesrocketshop.com"
 import FreeCAD
 import FreeCADGui
 
-from Rocket.Constants import FIN_TYPE_SKETCH
 from Rocket.FeatureFinCan import FeatureFinCan
 
+if FreeCAD.GuiUp:
+    from Ui.ViewFinCan import ViewProviderFinCan
+    from Ui.Widgets.WaitCursor import WaitCursor
 from Ui.Commands.Command import Command
 
 from Rocket.Constants import FEATURE_FINCAN
+from Rocket.Constants import FIN_TYPE_SKETCH
 
 from Rocket.Utilities import translate
 
@@ -50,20 +53,20 @@ def makeFinCan(name='FinCan'):
                 obj.Profile = sketch
                 sketch.Visibility = False
 
-        from Ui.ViewFinCan import ViewProviderFinCan
         ViewProviderFinCan(obj.ViewObject)
 
     return obj.Proxy
 
 class CmdFinCan(Command):
     def Activated(self):
-        FreeCAD.ActiveDocument.openTransaction("Create fin can")
-        FreeCADGui.addModule("Ui.Commands.CmdFinCan")
-        FreeCADGui.doCommand("obj=Ui.Commands.CmdFinCan.makeFinCan('FinCan')")
-        FreeCADGui.doCommand("Ui.Commands.CmdStage.addToStage(obj)")
-        FreeCADGui.doCommand("FreeCADGui.Selection.clearSelection()")
-        FreeCADGui.doCommand("FreeCADGui.Selection.addSelection(obj._obj)")
-        FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
+        with WaitCursor():
+            FreeCAD.ActiveDocument.openTransaction("Create fin can")
+            FreeCADGui.addModule("Ui.Commands.CmdFinCan")
+            FreeCADGui.doCommand("obj=Ui.Commands.CmdFinCan.makeFinCan('FinCan')")
+            FreeCADGui.doCommand("Ui.Commands.CmdStage.addToStage(obj)")
+            FreeCADGui.doCommand("FreeCADGui.Selection.clearSelection()")
+            FreeCADGui.doCommand("FreeCADGui.Selection.addSelection(obj._obj)")
+            FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
 
     def IsActive(self):
         if FreeCAD.ActiveDocument:

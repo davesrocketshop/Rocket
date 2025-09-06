@@ -28,7 +28,9 @@ import FreeCAD
 import FreeCADGui
 
 from Rocket.FeaturePod import FeaturePod
-from Ui.ViewPod import ViewProviderPod
+if FreeCAD.GuiUp:
+    from Ui.ViewPod import ViewProviderPod
+    from Ui.Widgets.WaitCursor import WaitCursor
 from Ui.Commands.Command import Command
 
 from Rocket.Constants import FEATURE_POD
@@ -47,13 +49,14 @@ def makePod(name='Pod'):
 
 class CmdPod(Command):
     def Activated(self):
-        FreeCAD.ActiveDocument.openTransaction("Create pod")
-        FreeCADGui.addModule("Ui.Commands.CmdPod")
-        FreeCADGui.doCommand("obj=Ui.Commands.CmdPod.makePod('Pod')")
-        FreeCADGui.doCommand("Ui.Commands.CmdStage.addToStage(obj)")
-        FreeCADGui.doCommand("FreeCADGui.Selection.clearSelection()")
-        FreeCADGui.doCommand("FreeCADGui.Selection.addSelection(obj._obj)")
-        FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
+        with WaitCursor():
+            FreeCAD.ActiveDocument.openTransaction("Create pod")
+            FreeCADGui.addModule("Ui.Commands.CmdPod")
+            FreeCADGui.doCommand("obj=Ui.Commands.CmdPod.makePod('Pod')")
+            FreeCADGui.doCommand("Ui.Commands.CmdStage.addToStage(obj)")
+            FreeCADGui.doCommand("FreeCADGui.Selection.clearSelection()")
+            FreeCADGui.doCommand("FreeCADGui.Selection.addSelection(obj._obj)")
+            FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
 
     def IsActive(self):
         if FreeCAD.ActiveDocument:

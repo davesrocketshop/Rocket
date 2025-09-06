@@ -30,6 +30,7 @@ import FreeCADGui
 from Rocket.FeatureBulkhead import FeatureBulkhead
 if FreeCAD.GuiUp:
     from Ui.ViewBulkhead import ViewProviderBulkhead
+    from Ui.Widgets.WaitCursor import WaitCursor
 from Ui.Commands.Command import Command
 
 from Rocket.Constants import FEATURE_BULKHEAD
@@ -48,11 +49,12 @@ def makeBulkhead(name='Bulkhead'):
 
 class CmdBulkhead(Command):
     def Activated(self):
-        FreeCAD.ActiveDocument.openTransaction("Create bulkhead")
-        FreeCADGui.addModule("Ui.Commands.CmdBulkhead")
-        FreeCADGui.doCommand("obj=Ui.Commands.CmdBulkhead.makeBulkhead('Bulkhead')")
-        FreeCADGui.doCommand("Ui.Commands.CmdStage.addToStage(obj)")
-        FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
+        with WaitCursor():
+            FreeCAD.ActiveDocument.openTransaction("Create bulkhead")
+            FreeCADGui.addModule("Ui.Commands.CmdBulkhead")
+            FreeCADGui.doCommand("obj=Ui.Commands.CmdBulkhead.makeBulkhead('Bulkhead')")
+            FreeCADGui.doCommand("Ui.Commands.CmdStage.addToStage(obj)")
+            FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
 
     def IsActive(self):
         if FreeCAD.ActiveDocument:

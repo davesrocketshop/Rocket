@@ -31,6 +31,7 @@ import FreeCADGui
 from Rocket.FeatureTransition import FeatureTransition
 if FreeCAD.GuiUp:
     from Ui.ViewTransition import ViewProviderTransition
+    from Ui.Widgets.WaitCursor import WaitCursor
 from Ui.Commands.Command import Command
 
 from Rocket.Constants import FEATURE_TRANSITION
@@ -49,11 +50,12 @@ def makeTransition(name='Transition'):
 
 class CmdTransition(Command):
     def Activated(self):
-        FreeCAD.ActiveDocument.openTransaction("Create transition")
-        FreeCADGui.addModule("Ui.Commands.CmdTransition")
-        FreeCADGui.doCommand("obj=Ui.Commands.CmdTransition.makeTransition('Transition')")
-        FreeCADGui.doCommand("Ui.Commands.CmdStage.addToStage(obj)")
-        FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
+        with WaitCursor():
+            FreeCAD.ActiveDocument.openTransaction("Create transition")
+            FreeCADGui.addModule("Ui.Commands.CmdTransition")
+            FreeCADGui.doCommand("obj=Ui.Commands.CmdTransition.makeTransition('Transition')")
+            FreeCADGui.doCommand("Ui.Commands.CmdStage.addToStage(obj)")
+            FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
 
     def IsActive(self):
         if FreeCAD.ActiveDocument:

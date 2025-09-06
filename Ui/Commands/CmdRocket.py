@@ -32,6 +32,8 @@ from Rocket.Utilities import translate
 
 from Rocket.FeatureRocket import FeatureRocket
 
+if FreeCAD.GuiUp:
+    from Ui.Widgets.WaitCursor import WaitCursor
 from Ui.Commands.Command import Command
 from Ui.Commands.CmdStage import makeStage
 
@@ -63,12 +65,13 @@ def makeRocket(name='Rocket', makeSustainer=False):
 
 class CmdRocket(Command):
     def Activated(self):
-        FreeCAD.ActiveDocument.openTransaction("Create rocket assembly")
-        FreeCADGui.addModule("Ui.Commands.CmdRocket")
-        FreeCADGui.doCommand("rocket=Ui.Commands.CmdRocket.makeRocket('Rocket', True)")
-        FreeCADGui.doCommand("rocket.enableEvents()")
-        FreeCADGui.doCommand("App.ActiveDocument.commitTransaction()")
-        FreeCADGui.doCommand("App.activeDocument().recompute(None,True,True)")
+        with WaitCursor():
+            FreeCAD.ActiveDocument.openTransaction("Create rocket assembly")
+            FreeCADGui.addModule("Ui.Commands.CmdRocket")
+            FreeCADGui.doCommand("rocket=Ui.Commands.CmdRocket.makeRocket('Rocket', True)")
+            FreeCADGui.doCommand("rocket.enableEvents()")
+            FreeCADGui.doCommand("App.ActiveDocument.commitTransaction()")
+            FreeCADGui.doCommand("App.activeDocument().recompute(None,True,True)")
 
     def IsActive(self):
         return self.noRocketBuilder()
@@ -87,10 +90,11 @@ class CmdToggleRocket:
         return bool(FreeCADGui.Selection.getSelection())
 
     def Activated(self):
-        view = FreeCADGui.ActiveDocument.ActiveView
+        with WaitCursor():
+            view = FreeCADGui.ActiveDocument.ActiveView
 
-        for obj in FreeCADGui.Selection.getSelection():
-            if view.getActiveObject('rocket') == obj:
-                view.setActiveObject("rocket", None)
-            else:
-                view.setActiveObject("rocket", obj)
+            for obj in FreeCADGui.Selection.getSelection():
+                if view.getActiveObject('rocket') == obj:
+                    view.setActiveObject("rocket", None)
+                else:
+                    view.setActiveObject("rocket", obj)

@@ -31,6 +31,7 @@ import FreeCADGui
 from Rocket.FeatureNoseCone import FeatureNoseCone
 if FreeCAD.GuiUp:
     from Ui.ViewNoseCone import ViewProviderNoseCone
+    from Ui.Widgets.WaitCursor import WaitCursor
 from Ui.Commands.Command import Command
 
 from Rocket.Constants import FEATURE_NOSE_CONE
@@ -49,11 +50,12 @@ def makeNoseCone(name='NoseCone'):
 
 class CmdNoseCone(Command):
     def Activated(self):
-        FreeCAD.ActiveDocument.openTransaction("Create nose cone")
-        FreeCADGui.addModule("Ui.Commands.CmdNoseCone")
-        FreeCADGui.doCommand("obj=Ui.Commands.CmdNoseCone.makeNoseCone('NoseCone')")
-        FreeCADGui.doCommand("Ui.Commands.CmdStage.addToStage(obj)")
-        FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
+        with WaitCursor():
+            FreeCAD.ActiveDocument.openTransaction("Create nose cone")
+            FreeCADGui.addModule("Ui.Commands.CmdNoseCone")
+            FreeCADGui.doCommand("obj=Ui.Commands.CmdNoseCone.makeNoseCone('NoseCone')")
+            FreeCADGui.doCommand("Ui.Commands.CmdStage.addToStage(obj)")
+            FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
 
     def IsActive(self):
         if FreeCAD.ActiveDocument:

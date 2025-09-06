@@ -30,7 +30,7 @@ import FreeCADGui
 from Rocket.FeatureFin import FeatureFin
 if FreeCAD.GuiUp:
     from Ui.ViewParachuteGore import ViewProviderParachuteGore
-# import Sketcher
+    from Ui.Widgets.WaitCursor import WaitCursor
 
 from Rocket.Utilities import translate
 
@@ -52,10 +52,11 @@ def makeParachuteGore(name):
 
 class CmdParachuteGore:
     def Activated(self):
-        FreeCAD.ActiveDocument.openTransaction("Create parachute  gore")
-        FreeCADGui.addModule("Ui.Commands.CmdParachuteGore")
-        FreeCADGui.doCommand("Ui.Commands.CmdParachuteGore.makeParachuteGore('Gore')")
-        FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
+        with WaitCursor():
+            FreeCAD.ActiveDocument.openTransaction("Create parachute  gore")
+            FreeCADGui.addModule("Ui.Commands.CmdParachuteGore")
+            FreeCADGui.doCommand("Ui.Commands.CmdParachuteGore.makeParachuteGore('Gore')")
+            FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
 
     def IsActive(self):
         if FreeCAD.ActiveDocument:

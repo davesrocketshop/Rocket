@@ -29,6 +29,10 @@ import FreeCADGui
 
 from Rocket.Constants import FEATURE_FIN, FIN_TYPE_SKETCH
 from Rocket.FeatureFin import FeatureFin
+
+if FreeCAD.GuiUp:
+    from Ui.ViewFin import ViewProviderFin
+    from Ui.Widgets.WaitCursor import WaitCursor
 from Ui.Commands.Command import Command
 
 from Rocket.Utilities import translate
@@ -47,20 +51,20 @@ def makeFin(name='Fin'):
                 obj.Profile = sketch
                 sketch.Visibility = False
 
-        from Ui.ViewFin import ViewProviderFin
         ViewProviderFin(obj.ViewObject)
 
     return obj.Proxy
 
 class CmdFin(Command):
     def Activated(self):
-        FreeCAD.ActiveDocument.openTransaction("Create fin")
-        FreeCADGui.addModule("Ui.Commands.CmdFin")
-        FreeCADGui.doCommand("obj=Ui.Commands.CmdFin.makeFin('Fin')")
-        FreeCADGui.doCommand("Ui.Commands.CmdStage.addToStage(obj)")
-        FreeCADGui.doCommand("FreeCADGui.Selection.clearSelection()")
-        FreeCADGui.doCommand("FreeCADGui.Selection.addSelection(obj._obj)")
-        FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
+        with WaitCursor():
+            FreeCAD.ActiveDocument.openTransaction("Create fin")
+            FreeCADGui.addModule("Ui.Commands.CmdFin")
+            FreeCADGui.doCommand("obj=Ui.Commands.CmdFin.makeFin('Fin')")
+            FreeCADGui.doCommand("Ui.Commands.CmdStage.addToStage(obj)")
+            FreeCADGui.doCommand("FreeCADGui.Selection.clearSelection()")
+            FreeCADGui.doCommand("FreeCADGui.Selection.addSelection(obj._obj)")
+            FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
 
     def IsActive(self):
         if FreeCAD.ActiveDocument:

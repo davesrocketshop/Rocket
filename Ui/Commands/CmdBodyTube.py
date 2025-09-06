@@ -33,6 +33,7 @@ from Rocket.FeatureTubeCoupler import FeatureTubeCoupler
 from Rocket.FeatureEngineBlock import FeatureEngineBlock
 if FreeCAD.GuiUp:
     from Ui.ViewBodyTube import ViewProviderBodyTube, ViewProviderInnerTube, ViewProviderCoupler, ViewProviderEngineBlock
+    from Ui.Widgets.WaitCursor import WaitCursor
 from Ui.Commands.Command import Command
 
 from Rocket.Constants import FEATURE_BODY_TUBE, FEATURE_INNER_TUBE, FEATURE_TUBE_COUPLER, FEATURE_ENGINE_BLOCK
@@ -81,13 +82,14 @@ def makeEngineBlock(name='EngineBlock'):
 
 class CmdBodyTube(Command):
     def Activated(self):
-        FreeCAD.ActiveDocument.openTransaction("Create body tube")
-        FreeCADGui.addModule("Ui.Commands.CmdBodyTube")
-        FreeCADGui.doCommand("obj=Ui.Commands.CmdBodyTube.makeBodyTube('BodyTube')")
-        FreeCADGui.doCommand("Ui.Commands.CmdStage.addToStage(obj)")
-        FreeCADGui.doCommand("FreeCADGui.Selection.clearSelection()")
-        FreeCADGui.doCommand("FreeCADGui.Selection.addSelection(obj._obj)")
-        FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
+        with WaitCursor():
+            FreeCAD.ActiveDocument.openTransaction("Create body tube")
+            FreeCADGui.addModule("Ui.Commands.CmdBodyTube")
+            FreeCADGui.doCommand("obj=Ui.Commands.CmdBodyTube.makeBodyTube('BodyTube')")
+            FreeCADGui.doCommand("Ui.Commands.CmdStage.addToStage(obj)")
+            FreeCADGui.doCommand("FreeCADGui.Selection.clearSelection()")
+            FreeCADGui.doCommand("FreeCADGui.Selection.addSelection(obj._obj)")
+            FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
 
     def IsActive(self):
         if FreeCAD.ActiveDocument:
@@ -101,13 +103,14 @@ class CmdBodyTube(Command):
 
 class CmdCoupler(Command):
     def Activated(self):
-        FreeCAD.ActiveDocument.openTransaction("Create coupler")
-        FreeCADGui.addModule("Ui.Commands.CmdBodyTube")
-        FreeCADGui.doCommand("obj=Ui.Commands.CmdBodyTube.makeCoupler('Coupler')")
-        FreeCADGui.doCommand("Ui.Commands.CmdStage.addToStage(obj)")
-        FreeCADGui.doCommand("FreeCADGui.Selection.clearSelection()")
-        FreeCADGui.doCommand("FreeCADGui.Selection.addSelection(obj._obj)")
-        FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
+        with WaitCursor():
+            FreeCAD.ActiveDocument.openTransaction("Create coupler")
+            FreeCADGui.addModule("Ui.Commands.CmdBodyTube")
+            FreeCADGui.doCommand("obj=Ui.Commands.CmdBodyTube.makeCoupler('Coupler')")
+            FreeCADGui.doCommand("Ui.Commands.CmdStage.addToStage(obj)")
+            FreeCADGui.doCommand("FreeCADGui.Selection.clearSelection()")
+            FreeCADGui.doCommand("FreeCADGui.Selection.addSelection(obj._obj)")
+            FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
 
     def IsActive(self):
         if FreeCAD.ActiveDocument:
@@ -121,13 +124,14 @@ class CmdCoupler(Command):
 
 class CmdInnerTube(Command):
     def Activated(self):
-        FreeCAD.ActiveDocument.openTransaction("Create inner tube")
-        FreeCADGui.addModule("Ui.Commands.CmdBodyTube")
-        FreeCADGui.doCommand("obj=Ui.Commands.CmdBodyTube.makeInnerTube('InnerTube')")
-        FreeCADGui.doCommand("Ui.Commands.CmdStage.addToStage(obj)")
-        FreeCADGui.doCommand("FreeCADGui.Selection.clearSelection()")
-        FreeCADGui.doCommand("FreeCADGui.Selection.addSelection(obj._obj)")
-        FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
+        with WaitCursor():
+            FreeCAD.ActiveDocument.openTransaction("Create inner tube")
+            FreeCADGui.addModule("Ui.Commands.CmdBodyTube")
+            FreeCADGui.doCommand("obj=Ui.Commands.CmdBodyTube.makeInnerTube('InnerTube')")
+            FreeCADGui.doCommand("Ui.Commands.CmdStage.addToStage(obj)")
+            FreeCADGui.doCommand("FreeCADGui.Selection.clearSelection()")
+            FreeCADGui.doCommand("FreeCADGui.Selection.addSelection(obj._obj)")
+            FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
 
     def IsActive(self):
         if FreeCAD.ActiveDocument:
@@ -141,13 +145,14 @@ class CmdInnerTube(Command):
 
 class CmdEngineBlock(Command):
     def Activated(self):
-        FreeCAD.ActiveDocument.openTransaction("Create engine block")
-        FreeCADGui.addModule("Ui.Commands.CmdBodyTube")
-        FreeCADGui.doCommand("obj=Ui.Commands.CmdBodyTube.makeEngineBlock('EngineBlock')")
-        FreeCADGui.doCommand("Ui.Commands.CmdStage.addToStage(obj)")
-        FreeCADGui.doCommand("FreeCADGui.Selection.clearSelection()")
-        FreeCADGui.doCommand("FreeCADGui.Selection.addSelection(obj._obj)")
-        FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
+        with WaitCursor():
+            FreeCAD.ActiveDocument.openTransaction("Create engine block")
+            FreeCADGui.addModule("Ui.Commands.CmdBodyTube")
+            FreeCADGui.doCommand("obj=Ui.Commands.CmdBodyTube.makeEngineBlock('EngineBlock')")
+            FreeCADGui.doCommand("Ui.Commands.CmdStage.addToStage(obj)")
+            FreeCADGui.doCommand("FreeCADGui.Selection.clearSelection()")
+            FreeCADGui.doCommand("FreeCADGui.Selection.addSelection(obj._obj)")
+            FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
 
     def IsActive(self):
         if FreeCAD.ActiveDocument:
