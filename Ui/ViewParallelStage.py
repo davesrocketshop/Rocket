@@ -32,9 +32,7 @@ from PySide import QtCore,QtGui
 from Rocket.Utilities import translate
 
 from Ui.ViewProvider import ViewProvider
-
 from Ui.TaskPanelParallelStage import TaskPanelParallelStage
-from Ui.Widgets.WaitCursor import WaitCursor
 
 class ViewProviderParallelStage(ViewProvider):
 
@@ -57,18 +55,5 @@ class ViewProviderParallelStage(ViewProvider):
     def toggleParallelStage(self):
         FreeCADGui.runCommand("Rocket_ToggleParallelStage")
 
-    def setEdit(self, vobj, mode):
-        if True: #mode == 0:
-            with WaitCursor():
-                self.startTransaction(vobj)
-                taskd = TaskPanelParallelStage(self.Object, mode)
-                taskd.obj = vobj.Object
-                taskd.update()
-                FreeCADGui.Control.showDialog(taskd)
-                return True
-
-    def unsetEdit(self, vobj, mode):
-        if mode == 0:
-            with WaitCursor():
-                FreeCADGui.Control.closeDialog()
-                return
+    def getDialog(self, obj, mode):
+        return TaskPanelParallelStage(obj, mode)

@@ -71,18 +71,5 @@ class ViewProviderRocket(ViewProvider):
             FreeCADGui.runCommand("Rocket_ToggleRocket")
             FreeCADGui.runCommand("Rocket_ToggleStage")
 
-    def setEdit(self, vobj, mode):
-        if mode == 0:
-            with WaitCursor():
-                self.startTransaction(vobj)
-                taskd = TaskPanelRocket(self.Object, mode)
-                taskd.obj = vobj.Object
-                taskd.update()
-                FreeCADGui.Control.showDialog(taskd)
-                return True
-
-    def unsetEdit(self, vobj, mode):
-        if mode == 0:
-            with WaitCursor():
-                FreeCADGui.Control.closeDialog()
-                return
+    def getDialog(self, obj, mode):
+        return TaskPanelRocket(obj, mode)

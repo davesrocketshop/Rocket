@@ -25,11 +25,9 @@ __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
 import FreeCAD
-import FreeCADGui
 
 from Ui.TaskPanelBodyTube import TaskPanelBodyTube
 from Ui.ViewProvider import ViewProvider
-from Ui.Widgets.WaitCursor import WaitCursor
 
 class ViewProviderBodyTube(ViewProvider):
 
@@ -39,21 +37,8 @@ class ViewProviderBodyTube(ViewProvider):
     def getIcon(self):
         return FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_BodyTube.svg"
 
-    def setEdit(self, vobj, mode):
-        if mode == 0:
-            with WaitCursor():
-                self.startTransaction(vobj)
-                taskd = TaskPanelBodyTube(self.Object, mode)
-                taskd.obj = vobj.Object
-                taskd.update()
-                FreeCADGui.Control.showDialog(taskd)
-                return True
-
-    def unsetEdit(self, vobj, mode):
-        if mode == 0:
-            with WaitCursor():
-                FreeCADGui.Control.closeDialog()
-                return
+    def getDialog(self, obj, mode):
+        return TaskPanelBodyTube(obj, mode)
 
 class ViewProviderInnerTube(ViewProviderBodyTube):
 

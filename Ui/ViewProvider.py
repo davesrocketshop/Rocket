@@ -24,9 +24,11 @@ __title__ = "FreeCAD View Provider"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
-from pivy import coin
+import FreeCADGui
 
 from Rocket.Utilities import translate
+
+from Ui.Widgets.WaitCursor import WaitCursor
 
 class ViewProvider:
 
@@ -78,7 +80,6 @@ class ViewProvider:
         return None
 
     def setAppearance(self, appearance):
-        print(f"setAppearance({type(appearance)})")
         self.ViewObject.ShapeAppearance = (
             appearance
         )
@@ -89,3 +90,22 @@ class ViewProvider:
         if not document.HasPendingTransaction:
             text = translate('Rocket', 'Edit %1').replace('%1', vobj.Object.Label)
             document.openTransaction(text)
+
+    def getDialog(self, obj, mode):
+        return None
+
+    def setEdit(self, vobj, mode):
+        if mode == 0:
+            with WaitCursor():
+                self.startTransaction(vobj)
+                taskd = self.getDialog(self.Object,mode)
+                taskd.obj = vobj.Object
+                taskd.update()
+                FreeCADGui.Control.showDialog(taskd)
+                return True
+
+    def unsetEdit(self, vobj, mode):
+        if mode == 0:
+            with WaitCursor():
+                FreeCADGui.Control.closeDialog()
+                return

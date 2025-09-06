@@ -25,70 +25,32 @@ __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
 import FreeCAD
-import FreeCADGui
 
 from Ui.TaskPanelRailGuide import TaskPanelRailGuide
 from Ui.TaskPanelRailButton import TaskPanelRailButton
 from Ui.TaskPanelLaunchLug import TaskPanelLaunchLug
 from Ui.ViewProvider import ViewProvider
-from Ui.Widgets.WaitCursor import WaitCursor
 
 class ViewProviderRailGuide(ViewProvider):
-
-    def __init__(self, vobj):
-        super().__init__(vobj)
 
     def getIcon(self):
         return FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_RailGuide.svg"
 
-    def setEdit(self, vobj, mode):
-        if mode == 0:
-            with WaitCursor():
-                self.startTransaction(vobj)
-                taskd = TaskPanelRailGuide(self.Object, mode)
-                taskd.obj = vobj.Object
-                taskd.update()
-                FreeCADGui.Control.showDialog(taskd)
-                return True
+    def getDialog(self, obj, mode):
+        return TaskPanelRailGuide(obj, mode)
 
-    def unsetEdit(self, vobj, mode):
-        if mode == 0:
-            with WaitCursor():
-                FreeCADGui.Control.closeDialog()
-                return
-
-class ViewProviderRailButton(ViewProviderRailGuide):
+class ViewProviderRailButton(ViewProvider):
 
     def getIcon(self):
         return FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_RailButton.svg"
 
-    def setEdit(self, vobj, mode):
-        if mode == 0:
-            with WaitCursor():
-                self.startTransaction(vobj)
-                taskd = TaskPanelRailButton(self.Object, mode)
-                taskd.obj = vobj.Object
-                taskd.update()
-                FreeCADGui.Control.showDialog(taskd)
-                return True
+    def getDialog(self, obj, mode):
+        return TaskPanelRailButton(obj, mode)
 
 class ViewProviderLaunchLug(ViewProvider):
 
     def getIcon(self):
         return FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_LaunchLug.svg"
 
-    def setEdit(self, vobj, mode):
-        if mode == 0:
-            with WaitCursor():
-                self.startTransaction(vobj)
-                taskd = TaskPanelLaunchLug(self.Object, mode)
-                taskd.obj = vobj.Object
-                taskd.update()
-                FreeCADGui.Control.showDialog(taskd)
-                return True
-
-    def unsetEdit(self, vobj, mode):
-        if mode == 0:
-            with WaitCursor():
-                FreeCADGui.Control.closeDialog()
-                return
+    def getDialog(self, obj, mode):
+        return TaskPanelLaunchLug(obj, mode)

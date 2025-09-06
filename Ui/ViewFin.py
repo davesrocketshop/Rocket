@@ -25,34 +25,17 @@ __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
 import FreeCAD
-import FreeCADGui
 
 from Ui.TaskPanelFin import TaskPanelFin
 from Ui.ViewProvider import ViewProvider
-from Ui.Widgets.WaitCursor import WaitCursor
 
 class ViewProviderFin(ViewProvider):
 
     def __init__(self, vobj):
         super().__init__(vobj)
 
-        # vobj.addExtension("Gui::ViewProviderGroupExtensionPython")
-
     def getIcon(self):
         return FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Fin.svg"
 
-    def setEdit(self, vobj, mode):
-        if mode == 0:
-            with WaitCursor():
-                self.startTransaction(vobj)
-                taskd = TaskPanelFin(self.Object,mode)
-                taskd.obj = vobj.Object
-                taskd.update()
-                FreeCADGui.Control.showDialog(taskd)
-                return True
-
-    def unsetEdit(self, vobj, mode):
-        if mode == 0:
-            with WaitCursor():
-                FreeCADGui.Control.closeDialog()
-                return
+    def getDialog(self, obj, mode):
+        return TaskPanelFin(obj, mode)
