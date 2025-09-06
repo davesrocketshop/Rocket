@@ -58,9 +58,9 @@ class DialogScaling(QtCore.QObject):
 
     def worker(self):
         connection = self.initDB()
-        ref1 = FreeCAD.Units.Quantity(self.form.inputReference1.text()).Value
-        scale = self.form.spinScale.value()
-        tolerance = self.form.spinTolerance.value()
+        ref1 = FreeCAD.Units.Quantity(self.form.reference1Input.text()).Value
+        scale = self.form.scaleValueSpinbox.value()
+        tolerance = self.form.toleranceSpinbox.value()
 
         if ref1 > 0 and scale > 0 and tolerance > 0:
             target = ref1 / scale
@@ -109,7 +109,7 @@ class DialogScaling(QtCore.QObject):
 
         self.form = FreeCADGui.PySideUic.loadUi(os.path.join(getUIPath(), 'Resources', 'ui', "DialogBodyScale.ui"))
 
-        self.form.tableResults.setModel(self._model)
+        self.form.resultsTable.setModel(self._model)
         self.form.progressBar.setHidden(True)
 
         self.customizeUI()
@@ -118,35 +118,35 @@ class DialogScaling(QtCore.QObject):
         self.progressUpdate.connect(self.onProgress)
         self.threadComplete.connect(self.onThreadComplete)
 
-        self.form.tableResults.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
-        self.form.tableResults.setSelectionMode(QtWidgets.QAbstractItemView.SingleSelection)
-        selectionModel = self.form.tableResults.selectionModel()
+        self.form.resultsTable.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
+        self.form.resultsTable.setSelectionMode(QtWidgets.QAbstractItemView.SingleSelection)
+        selectionModel = self.form.resultsTable.selectionModel()
         selectionModel.selectionChanged.connect(self.onSelection)
 
-        self.form.checkMinimum.stateChanged.connect(self.onMinimum)
-        self.form.checkMaximum.stateChanged.connect(self.onMaximum)
-        self.form.buttonSearch.clicked.connect(self.onSearch)
-        self.form.buttonAddToDocument.clicked.connect(self.onAddToDocument)
-        self.form.buttonCSV.clicked.connect(self.onExportCSV)
+        self.form.minimumCheckbox.stateChanged.connect(self.onMinimum)
+        self.form.maximumCheckbox.stateChanged.connect(self.onMaximum)
+        self.form.searchButton.clicked.connect(self.onSearch)
+        self.form.addToDocumentButton.clicked.connect(self.onAddToDocument)
+        self.form.exportCSVButton.clicked.connect(self.onExportCSV)
         self.form.accepted.connect(self.saveWindow)
         self.form.rejected.connect(self.saveWindow)
 
         # Not enabled until we have some search results
-        self.form.buttonCSV.setEnabled(False)
-        self.form.buttonAddToDocument.setEnabled(False)
-    
+        self.form.exportCSVButton.setEnabled(False)
+        self.form.addToDocumentButton.setEnabled(False)
+
         self.restoreParameters()
 
     def customizeUI(self):
         self.form.setWindowTitle(translate('Rocket', "Body Scaler"))
-        self.form.labelReference1.setText(translate('Rocket', "Reference Diameter"))
-        self.form.labelReference2.setHidden(True)
-        self.form.inputReference2.setHidden(True)
+        self.form.reference1Label.setText(translate('Rocket', "Reference Diameter"))
+        self.form.reference2Label.setHidden(True)
+        self.form.reference2Input.setHidden(True)
 
-        self.form.checkMinimum.setHidden(True)
-        self.form.checkMaximum.setHidden(True)
-        self.form.inputMinimum.setHidden(True)
-        self.form.inputMaximum.setHidden(True)
+        self.form.minimumCheckbox.setHidden(True)
+        self.form.maximumCheckbox.setHidden(True)
+        self.form.minimumInput.setHidden(True)
+        self.form.maximumInput.setHidden(True)
 
     def _newItem(self, text):
         item = QStandardItem(text)
@@ -157,12 +157,12 @@ class DialogScaling(QtCore.QObject):
         return self._newItem(_valueWithUnits(value, dim))
 
     def enableButtons(self, enabled):
-        self.form.buttonSearch.setEnabled(enabled)
-        self.form.buttonCSV.setEnabled(enabled)
+        self.form.searchButton.setEnabled(enabled)
+        self.form.exportCSVButton.setEnabled(enabled)
 
     def onSearch(self, checked):
         self.enableButtons(False)
-        self.form.buttonAddToDocument.setEnabled(False)
+        self.form.addToDocumentButton.setEnabled(False)
 
         # Do search
         self._model.clear()
@@ -186,7 +186,7 @@ class DialogScaling(QtCore.QObject):
             translate('Rocket', "Error (%)")
         ]
         self._model.setHorizontalHeaderLabels(headers)
-        self.form.tableResults.hideColumn(0) # This holds index for lookups
+        self.form.resultsTable.hideColumn(0) # This holds index for lookups
 
     def onThreadComplete(self, value):
         self.form.progressBar.setHidden(True)
@@ -221,19 +221,19 @@ class DialogScaling(QtCore.QObject):
         self.form.progressBar.setValue(value)
 
     def onMinimum(self, state):
-        self.form.inputMinimum.setEnabled(self.form.checkMinimum.checkState() == QtCore.Qt.Checked)
+        self.form.minimumInput.setEnabled(self.form.minimumCheckbox.checkState() == QtCore.Qt.Checked)
 
     def onMaximum(self, state):
-        self.form.inputMaximum.setEnabled(self.form.checkMaximum.checkState() == QtCore.Qt.Checked)
+        self.form.maximumInput.setEnabled(self.form.maximumCheckbox.checkState() == QtCore.Qt.Checked)
 
     def onSelection(self, selected, deselected):
         if FreeCAD.ActiveDocument:
-            self.form.buttonAddToDocument.setEnabled(True)
+            self.form.addToDocumentButton.setEnabled(True)
         else:
-            self.form.buttonAddToDocument.setEnabled(False)
+            self.form.addToDocumentButton.setEnabled(False)
 
     def onAddToDocument(self):
-        selectionModel = self.form.tableResults.selectionModel()
+        selectionModel = self.form.resultsTable.selectionModel()
         for row in selectionModel.selectedRows():
             self.addBodyTubes(row.row())
 
@@ -287,53 +287,53 @@ class DialogScaling(QtCore.QObject):
 
     def saveParameters(self):
         param = self.getParam()
-        param.SetString("ReferenceDiameter1", self.form.inputReference1.text())
-        param.SetString("ReferenceDiameter2", self.form.inputReference2.text())
-        param.SetFloat("Scale", self.form.spinScale.value())
-        param.SetFloat("Tolerance", self.form.spinTolerance.value())
-        param.SetBool("HasMinimumDiameter", self.form.checkMinimum.checkState() == QtCore.Qt.Checked)
-        param.SetBool("HasMaximumDiameter", self.form.checkMaximum.checkState() == QtCore.Qt.Checked)
-        param.SetString("MinimumDiameter", self.form.inputMinimum.text())
-        param.SetString("MaximumDiameter", self.form.inputMaximum.text())
+        param.SetString("ReferenceDiameter1", self.form.reference1Input.text())
+        param.SetString("ReferenceDiameter2", self.form.reference2Input.text())
+        param.SetFloat("Scale", self.form.scaleValueSpinbox.value())
+        param.SetFloat("Tolerance", self.form.toleranceSpinbox.value())
+        param.SetBool("HasMinimumDiameter", self.form.minimumCheckbox.checkState() == QtCore.Qt.Checked)
+        param.SetBool("HasMaximumDiameter", self.form.maximumCheckbox.checkState() == QtCore.Qt.Checked)
+        param.SetString("MinimumDiameter", self.form.minimumInput.text())
+        param.SetString("MaximumDiameter", self.form.maximumInput.text())
 
     def restoreParameters(self):
         param = self.getParam()
         value = param.GetString("ReferenceDiameter1", "0.0 mm")
-        self.form.inputReference1.setText(value)
+        self.form.reference1Input.setText(value)
         value = param.GetString("ReferenceDiameter2", "0.0 mm")
-        self.form.inputReference2.setText(value)
+        self.form.reference2Input.setText(value)
         value = param.GetFloat("Scale", 1.0)
-        self.form.spinScale.setValue(value)
+        self.form.scaleValueSpinbox.setValue(value)
         value = param.GetFloat("Tolerance", 5.0)
-        self.form.spinTolerance.setValue(value)
+        self.form.toleranceSpinbox.setValue(value)
         value = param.GetBool("HasMinimumDiameter", False)
         if value:
-            self.form.checkMinimum.setCheckState(QtCore.Qt.Checked)
+            self.form.minimumCheckbox.setCheckState(QtCore.Qt.Checked)
         else:
-            self.form.checkMinimum.setCheckState(QtCore.Qt.Unchecked)
+            self.form.minimumCheckbox.setCheckState(QtCore.Qt.Unchecked)
         value = param.GetBool("HasMaximumDiameter", False)
         if value:
-            self.form.checkMaximum.setCheckState(QtCore.Qt.Checked)
+            self.form.maximumCheckbox.setCheckState(QtCore.Qt.Checked)
         else:
-            self.form.checkMaximum.setCheckState(QtCore.Qt.Unchecked)
+            self.form.maximumCheckbox.setCheckState(QtCore.Qt.Unchecked)
         value = param.GetString("MinimumDiameter", "0.0 mm")
-        self.form.inputMinimum.setText(value)
+        self.form.minimumInput.setText(value)
         value = param.GetString("MaximumDiameter", "0.0 mm")
-        self.form.inputMaximum.setText(value)
+        self.form.maximumInput.setText(value)
 
 class DialogScalingPairs(DialogScaling):
 
     def worker(self):
         connection = self.initDB()
-        ref1 = FreeCAD.Units.Quantity(self.form.inputReference1.text()).Value
-        ref2 = FreeCAD.Units.Quantity(self.form.inputReference2.text()).Value
-        tolerance = self.form.spinTolerance.value()
+        ref1 = FreeCAD.Units.Quantity(self.form.reference1Input.text()).Value
+        ref2 = FreeCAD.Units.Quantity(self.form.reference2Input.text()).Value
+        tolerance = self.form.toleranceSpinbox.value()
         minimumOD = None
-        if self.form.checkMinimum.checkState() == QtCore.Qt.Checked:
-            minimumOD = FreeCAD.Units.Quantity(self.form.inputMinimum.text()).Value
+        if self.form.minimumCheckbox.checkState() == QtCore.Qt.Checked:
+            minimumOD = FreeCAD.Units.Quantity(self.form.minimumInput.text()).Value
         maximumOD = None
-        if self.form.checkMaximum.checkState() == QtCore.Qt.Checked:
-            maximumOD = FreeCAD.Units.Quantity(self.form.inputMaximum.text()).Value
+        if self.form.maximumCheckbox.checkState() == QtCore.Qt.Checked:
+            maximumOD = FreeCAD.Units.Quantity(self.form.maximumInput.text()).Value
 
         if ref1 > 0 and ref2 > 0 and tolerance > 0:
             if ref1 > ref2:
@@ -383,8 +383,8 @@ class DialogScalingPairs(DialogScaling):
         super().__init__()
 
     def customizeUI(self):
-        self.form.labelScale.setHidden(True)
-        self.form.spinScale.setHidden(True)
+        self.form.scaleValueRadio.setHidden(True)
+        self.form.scaleValueSpinbox.setHidden(True)
 
     def setColumnHeaders(self):
         # Add the column headers
@@ -403,8 +403,8 @@ class DialogScalingPairs(DialogScaling):
             translate('Rocket', "Error (%)")
         ]
         self._model.setHorizontalHeaderLabels(headers)
-        self.form.tableResults.hideColumn(0) # This holds index for lookups
-        self.form.tableResults.hideColumn(5)
+        self.form.resultsTable.hideColumn(0) # This holds index for lookups
+        self.form.resultsTable.hideColumn(5)
 
     def getDialogName(self) -> str:
         return "DialogScalingPairs"
