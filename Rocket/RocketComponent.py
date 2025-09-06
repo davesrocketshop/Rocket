@@ -105,15 +105,16 @@ class RocketComponent(RocketComponentShapeless):
             self.convertMaterial(obj, obj.Material)
             obj.removeProperty("Material")
         if hasattr(obj, "ViewObject"):
-            mat = FreeCAD.Material()
-            if hasattr(obj.ViewObject, "ShapeMaterial"):
-                mat = obj.ViewObject.ShapeMaterial
-            if hasattr(obj.ViewObject, "ShapeColor"):
-                mat.DiffuseColor = obj.ViewObject.ShapeColor
-            obj.ViewObject.ShapeAppearance = (
-                mat
-            )
-            obj.ViewObject.LineColor = mat.DiffuseColor
+            if not hasattr(obj.ViewObject, "ShapeAppearance"):
+                mat = FreeCAD.Material()
+                if hasattr(obj.ViewObject, "ShapeMaterial"):
+                    mat = obj.ViewObject.ShapeMaterial
+                if hasattr(obj.ViewObject, "ShapeColor"):
+                    mat.DiffuseColor = obj.ViewObject.ShapeColor
+                obj.ViewObject.ShapeAppearance = (
+                    mat
+                )
+                obj.ViewObject.LineColor = mat.DiffuseColor
 
     def convertMaterial(self, obj : Any, old : Any) -> None:
         database = PartDatabase(FreeCAD.getUserAppDataDir() + "Mod/Rocket/")
