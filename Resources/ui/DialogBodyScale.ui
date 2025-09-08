@@ -14,30 +14,50 @@
    <string>Body Scale Pair Matching</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="5" column="1">
-    <widget class="Gui::DoubleSpinBox" name="toleranceSpinbox">
-     <property name="toolTip">
-      <string>Maximum error in body diameter</string>
-     </property>
+   <item row="9" column="0" colspan="4">
+    <widget class="QProgressBar" name="progressBar">
      <property name="value">
-      <double>5.000000000000000</double>
+      <number>0</number>
      </property>
     </widget>
    </item>
-   <item row="0" column="0">
-    <widget class="QLabel" name="reference1Label">
+   <item row="6" column="0">
+    <widget class="QLabel" name="toleranceLabel">
      <property name="text">
-      <string>Reference Diameter 1</string>
+      <string>Tolerance (%)</string>
      </property>
     </widget>
    </item>
-   <item row="6" column="1">
-    <widget class="Gui::InputField" name="minimumInput">
-     <property name="enabled">
-      <bool>false</bool>
+   <item row="3" column="0">
+    <widget class="QRadioButton" name="scaleValueRadio">
+     <property name="text">
+      <string>Scale By Value</string>
      </property>
-     <property name="unit" stdset="0">
-      <string notr="true">mm</string>
+     <property name="checked">
+      <bool>true</bool>
+     </property>
+     <attribute name="buttonGroup">
+      <string notr="true">buttonGroup</string>
+     </attribute>
+    </widget>
+   </item>
+   <item row="10" column="0" colspan="4">
+    <widget class="QTableView" name="resultsTable"/>
+   </item>
+   <item row="7" column="0">
+    <widget class="QCheckBox" name="minimumCheckbox">
+     <property name="text">
+      <string>Minimum Diameter</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="2">
+    <widget class="QPushButton" name="searchButton">
+     <property name="toolTip">
+      <string>Search for body tube pairs</string>
+     </property>
+     <property name="text">
+      <string>Search</string>
      </property>
     </widget>
    </item>
@@ -48,7 +68,14 @@
      </property>
     </widget>
    </item>
-   <item row="10" column="0" colspan="4">
+   <item row="3" column="1">
+    <widget class="Gui::DoubleSpinBox" name="scaleValueSpinbox">
+     <property name="maximum">
+      <double>10000.000000000000000</double>
+     </property>
+    </widget>
+   </item>
+   <item row="11" column="0" colspan="4">
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
       <spacer name="horizontalSpacer">
@@ -89,124 +116,7 @@
      </item>
     </layout>
    </item>
-   <item row="6" column="0">
-    <widget class="QCheckBox" name="minimumCheckbox">
-     <property name="text">
-      <string>Minimum Diameter</string>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="1">
-    <widget class="Gui::InputField" name="reference2Input">
-     <property name="toolTip">
-      <string>Scale reference diameter</string>
-     </property>
-     <property name="unit" stdset="0">
-      <string notr="true">mm</string>
-     </property>
-    </widget>
-   </item>
-   <item row="9" column="0" colspan="4">
-    <widget class="QTableView" name="resultsTable"/>
-   </item>
-   <item row="0" column="2">
-    <widget class="QPushButton" name="searchButton">
-     <property name="toolTip">
-      <string>Search for body tube pairs</string>
-     </property>
-     <property name="text">
-      <string>Search</string>
-     </property>
-    </widget>
-   </item>
-   <item row="7" column="1">
-    <widget class="Gui::InputField" name="maximumInput">
-     <property name="enabled">
-      <bool>false</bool>
-     </property>
-     <property name="unit" stdset="0">
-      <string notr="true">mm</string>
-     </property>
-    </widget>
-   </item>
-   <item row="11" column="0" colspan="4">
-    <widget class="QDialogButtonBox" name="buttonBox">
-     <property name="orientation">
-      <enum>Qt::Orientation::Horizontal</enum>
-     </property>
-     <property name="standardButtons">
-      <set>QDialogButtonBox::StandardButton::Close</set>
-     </property>
-     <property name="centerButtons">
-      <bool>true</bool>
-     </property>
-    </widget>
-   </item>
-   <item row="7" column="0">
-    <widget class="QCheckBox" name="maximumCheckbox">
-     <property name="text">
-      <string>Maximum Diameter</string>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="3">
-    <spacer name="horizontalSpacer_2">
-     <property name="orientation">
-      <enum>Qt::Orientation::Horizontal</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>40</width>
-       <height>20</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
-   <item row="3" column="1">
-    <widget class="Gui::DoubleSpinBox" name="scaleDiameterSpinbox"/>
-   </item>
-   <item row="2" column="0">
-    <widget class="QRadioButton" name="scaleValueRadio">
-     <property name="text">
-      <string>Scale By Value</string>
-     </property>
-     <property name="checked">
-      <bool>true</bool>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="1">
-    <widget class="Gui::DoubleSpinBox" name="scaleValueSpinbox">
-     <property name="maximum">
-      <double>10000.000000000000000</double>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="1">
-    <widget class="Gui::InputField" name="reference1Input">
-     <property name="toolTip">
-      <string>Scale reference diameter</string>
-     </property>
-     <property name="unit" stdset="0">
-      <string notr="true">mm</string>
-     </property>
-    </widget>
-   </item>
-   <item row="5" column="0">
-    <widget class="QLabel" name="toleranceLabel">
-     <property name="text">
-      <string>Tolerance (%)</string>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="0">
-    <widget class="QRadioButton" name="scaleDiameterRadio">
-     <property name="text">
-      <string>Scale By Diameter</string>
-     </property>
-    </widget>
-   </item>
-   <item row="4" column="1">
+   <item row="5" column="1">
     <widget class="QGroupBox" name="scaleReferenceGroup">
      <property name="title">
       <string>Reference</string>
@@ -232,11 +142,121 @@
      </layout>
     </widget>
    </item>
-   <item row="8" column="0" colspan="4">
-    <widget class="QProgressBar" name="progressBar">
-     <property name="value">
-      <number>0</number>
+   <item row="12" column="0" colspan="4">
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="orientation">
+      <enum>Qt::Orientation::Horizontal</enum>
      </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::StandardButton::Close</set>
+     </property>
+     <property name="centerButtons">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="8" column="1">
+    <widget class="Gui::InputField" name="maximumInput">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <property name="unit" stdset="0">
+      <string notr="true">mm</string>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="1">
+    <widget class="Gui::InputField" name="minimumInput">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <property name="unit" stdset="0">
+      <string notr="true">mm</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="1">
+    <widget class="Gui::InputField" name="reference2Input">
+     <property name="toolTip">
+      <string>Scale reference diameter</string>
+     </property>
+     <property name="unit" stdset="0">
+      <string notr="true">mm</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="3">
+    <spacer name="horizontalSpacer_2">
+     <property name="orientation">
+      <enum>Qt::Orientation::Horizontal</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>40</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="0" column="0">
+    <widget class="QLabel" name="reference1Label">
+     <property name="text">
+      <string>Reference Diameter 1</string>
+     </property>
+    </widget>
+   </item>
+   <item row="8" column="0">
+    <widget class="QCheckBox" name="maximumCheckbox">
+     <property name="text">
+      <string>Maximum Diameter</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="1">
+    <widget class="Gui::InputField" name="reference1Input">
+     <property name="toolTip">
+      <string>Scale reference diameter</string>
+     </property>
+     <property name="unit" stdset="0">
+      <string notr="true">mm</string>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="1">
+    <widget class="Gui::DoubleSpinBox" name="toleranceSpinbox">
+     <property name="toolTip">
+      <string>Maximum error in body diameter</string>
+     </property>
+     <property name="value">
+      <double>5.000000000000000</double>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="1">
+    <widget class="Gui::InputField" name="scaleDiameterInput">
+     <property name="unit" stdset="0">
+      <string>mm</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="0">
+    <widget class="QRadioButton" name="scaleDiameterRadio">
+     <property name="text">
+      <string>Scale By Diameter</string>
+     </property>
+     <attribute name="buttonGroup">
+      <string notr="true">buttonGroup</string>
+     </attribute>
+    </widget>
+   </item>
+   <item row="2" column="0">
+    <widget class="QRadioButton" name="scaleAnyRadio">
+     <property name="text">
+      <string>Any Scale</string>
+     </property>
+     <attribute name="buttonGroup">
+      <string notr="true">buttonGroup</string>
+     </attribute>
     </widget>
    </item>
   </layout>
@@ -256,10 +276,11 @@
  <tabstops>
   <tabstop>reference1Input</tabstop>
   <tabstop>reference2Input</tabstop>
+  <tabstop>scaleAnyRadio</tabstop>
   <tabstop>scaleValueRadio</tabstop>
   <tabstop>scaleValueSpinbox</tabstop>
   <tabstop>scaleDiameterRadio</tabstop>
-  <tabstop>scaleDiameterSpinbox</tabstop>
+  <tabstop>scaleDiameterInput</tabstop>
   <tabstop>scaleReference1</tabstop>
   <tabstop>scaleReference2</tabstop>
   <tabstop>toleranceSpinbox</tabstop>
@@ -308,4 +329,7 @@
    </hints>
   </connection>
  </connections>
+ <buttongroups>
+  <buttongroup name="buttonGroup"/>
+ </buttongroups>
 </ui>

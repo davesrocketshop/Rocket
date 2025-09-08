@@ -56,16 +56,26 @@ class DialogScaling(QtCore.QObject):
     progressUpdate = QtCore.Signal(object)
     threadComplete = QtCore.Signal(object)
 
+    def _getParameters(self):
+        ref1 = FreeCAD.Units.Quantity(self.form.reference1Input.text()).Value
+        scale = 1.0
+        if self.form.scaleValueRadio.isChecked():
+            scale = self.form.scaleValueSpinbox.value()
+        else:
+            diameter = FreeCAD.Units.Quantity(self.form.scaleDiameterInput.text()).Value
+            if diameter > 0:
+                scale = ref1 / diameter
+        tolerance = self.form.toleranceSpinbox.value() / 100.0 # per cent to decimal
+        return ref1, scale, tolerance
+
     def worker(self):
         connection = self.initDB()
-        ref1 = FreeCAD.Units.Quantity(self.form.reference1Input.text()).Value
-        scale = self.form.scaleValueSpinbox.value()
-        tolerance = self.form.toleranceSpinbox.value()
+        ref1, scale, tolerance = self._getParameters()
 
         if ref1 > 0 and scale > 0 and tolerance > 0:
             target = ref1 / scale
-            min_diameter = target - (target * (tolerance / 100.0))
-            max_diameter = target + (target * (tolerance / 100.0))
+            min_diameter = target - (target * tolerance)
+            max_diameter = target + (target * tolerance)
             scaled = searchBodyTube(connection, min_diameter, max_diameter, COMPONENT_TYPE_BODYTUBE)
 
             steps = len(scaled)
@@ -89,10 +99,12 @@ class DialogScaling(QtCore.QObject):
 
         self.threadComplete.emit(None)
 
-    def __init__(self):
+    def __init__(self, tube1=None, tube2=None):
         super().__init__()
 
         self._model = QStandardItemModel()
+        self._tube1 = tube1
+        self._tube2 = tube2
 
         self.initUI()
         # self.initDB()
@@ -123,6 +135,10 @@ class DialogScaling(QtCore.QObject):
         selectionModel = self.form.resultsTable.selectionModel()
         selectionModel.selectionChanged.connect(self.onSelection)
 
+        self.form.scaleAnyRadio.clicked.connect(self.onScaleAny)
+        self.form.scaleValueRadio.clicked.connect(self.onScaleValue)
+        self.form.scaleDiameterRadio.clicked.connect(self.onScaleDiameter)
+
         self.form.minimumCheckbox.stateChanged.connect(self.onMinimum)
         self.form.maximumCheckbox.stateChanged.connect(self.onMaximum)
         self.form.searchButton.clicked.connect(self.onSearch)
@@ -142,6 +158,9 @@ class DialogScaling(QtCore.QObject):
         self.form.reference1Label.setText(translate('Rocket', "Reference Diameter"))
         self.form.reference2Label.setHidden(True)
         self.form.reference2Input.setHidden(True)
+
+        self.form.scaleAnyRadio.setHidden(True)
+        self.form.scaleReferenceGroup.setHidden(True)
 
         self.form.minimumCheckbox.setHidden(True)
         self.form.maximumCheckbox.setHidden(True)
@@ -220,6 +239,27 @@ class DialogScaling(QtCore.QObject):
             self._model.appendRow(items)
         self.form.progressBar.setValue(value)
 
+    def _setScaleState(self):
+        if self.form.scaleAnyRadio.isChecked():
+            # Not a valid state for a single body tube
+            self.form.scaleValueRadio.setChecked(True)
+
+        if self.form.scaleValueRadio.isChecked():
+            self.form.scaleValueSpinbox.setEnabled(True)
+            self.form.scaleDiameterInput.setEnabled(False)
+        else:
+            self.form.scaleValueSpinbox.setEnabled(False)
+            self.form.scaleDiameterInput.setEnabled(True)
+
+    def onScaleAny(self, checked):
+        self._setScaleState()
+
+    def onScaleValue(self, checked):
+        self._setScaleState()
+
+    def onScaleDiameter(self, checked):
+        self._setScaleState()
+
     def onMinimum(self, state):
         self.form.minimumInput.setEnabled(self.form.minimumCheckbox.checkState() == QtCore.Qt.Checked)
 
@@ -289,23 +329,44 @@ class DialogScaling(QtCore.QObject):
         param = self.getParam()
         param.SetString("ReferenceDiameter1", self.form.reference1Input.text())
         param.SetString("ReferenceDiameter2", self.form.reference2Input.text())
+        param.SetBool("ScaleAnyChecked", self.form.scaleAnyRadio.isChecked())
+        param.SetBool("ScaleValueChecked", self.form.scaleValueRadio.isChecked())
+        param.SetBool("ScaleDiameterChecked", self.form.scaleDiameterRadio.isChecked())
         param.SetFloat("Scale", self.form.scaleValueSpinbox.value())
+        param.SetString("ScaleDiameter", self.form.scaleDiameterInput.text())
         param.SetFloat("Tolerance", self.form.toleranceSpinbox.value())
-        param.SetBool("HasMinimumDiameter", self.form.minimumCheckbox.checkState() == QtCore.Qt.Checked)
-        param.SetBool("HasMaximumDiameter", self.form.maximumCheckbox.checkState() == QtCore.Qt.Checked)
+        param.SetBool("HasMinimumDiameter", self.form.minimumCheckbox.isChecked())
+        param.SetBool("HasMaximumDiameter", self.form.maximumCheckbox.isChecked())
         param.SetString("MinimumDiameter", self.form.minimumInput.text())
         param.SetString("MaximumDiameter", self.form.maximumInput.text())
 
     def restoreParameters(self):
         param = self.getParam()
-        value = param.GetString("ReferenceDiameter1", "0.0 mm")
+        if self._tube1:
+            value = self._tube1.Diameter.UserString
+        else:
+            value = param.GetString("ReferenceDiameter1", "25.0 mm")
         self.form.reference1Input.setText(value)
-        value = param.GetString("ReferenceDiameter2", "0.0 mm")
+        if self._tube2:
+            value = self._tube2.Diameter.UserString
+        else:
+            value = param.GetString("ReferenceDiameter2", "50.0 mm")
+
         self.form.reference2Input.setText(value)
         value = param.GetFloat("Scale", 1.0)
         self.form.scaleValueSpinbox.setValue(value)
+        value = param.GetString("ScaleDiameter", "50.0 mm")
+        self.form.scaleDiameterInput.setText(value)
+        value = param.GetBool("ScaleAnyChecked", False)
+        self.form.scaleAnyRadio.setChecked(value)
+        value = param.GetBool("ScaleValueChecked", True)
+        self.form.scaleValueRadio.setChecked(value)
+        value = param.GetBool("ScaleDiameterChecked", False)
+        self.form.scaleDiameterRadio.setChecked(value)
+
         value = param.GetFloat("Tolerance", 5.0)
         self.form.toleranceSpinbox.setValue(value)
+
         value = param.GetBool("HasMinimumDiameter", False)
         if value:
             self.form.minimumCheckbox.setCheckState(QtCore.Qt.Checked)
@@ -321,13 +382,31 @@ class DialogScaling(QtCore.QObject):
         value = param.GetString("MaximumDiameter", "0.0 mm")
         self.form.maximumInput.setText(value)
 
+        self._setScaleState()
+
 class DialogScalingPairs(DialogScaling):
+
+    def _get2BodyParameters(self):
+        ref1 = FreeCAD.Units.Quantity(self.form.reference1Input.text()).Value
+        ref2 = FreeCAD.Units.Quantity(self.form.reference2Input.text()).Value
+        scale = 1.0
+        if self.form.scaleAnyRadio.isChecked():
+            scale = 0.0
+        elif self.form.scaleValueRadio.isChecked():
+            scale = self.form.scaleValueSpinbox.value()
+        else:
+            diameter = FreeCAD.Units.Quantity(self.form.scaleDiameterInput.text()).Value
+            if diameter > 0:
+                scale = ref1 / diameter
+        tolerance = self.form.toleranceSpinbox.value() / 100.0 # per cent to decimal
+        return ref1, ref2, scale, tolerance
 
     def worker(self):
         connection = self.initDB()
-        ref1 = FreeCAD.Units.Quantity(self.form.reference1Input.text()).Value
-        ref2 = FreeCAD.Units.Quantity(self.form.reference2Input.text()).Value
-        tolerance = self.form.toleranceSpinbox.value()
+        ref1, ref2, scale, tolerance = self._get2BodyParameters()
+        # ref1 = FreeCAD.Units.Quantity(self.form.reference1Input.text()).Value
+        # ref2 = FreeCAD.Units.Quantity(self.form.reference2Input.text()).Value
+        # tolerance = self.form.toleranceSpinbox.value()
         minimumOD = None
         if self.form.minimumCheckbox.checkState() == QtCore.Qt.Checked:
             minimumOD = FreeCAD.Units.Quantity(self.form.minimumInput.text()).Value
@@ -379,12 +458,27 @@ class DialogScalingPairs(DialogScaling):
 
         self.threadComplete.emit(None)
 
-    def __init__(self):
-        super().__init__()
+    def __init__(self, tube1=None, tube2=None):
+        super().__init__(tube1, tube2)
 
     def customizeUI(self):
-        self.form.scaleValueRadio.setHidden(True)
-        self.form.scaleValueSpinbox.setHidden(True)
+        # self.form.scaleValueRadio.setHidden(True)
+        # self.form.scaleValueSpinbox.setHidden(True)
+        ...
+
+    def _setScaleState(self):
+        if self.form.scaleAnyRadio.isChecked():
+            self.form.scaleValueSpinbox.setEnabled(False)
+            self.form.scaleDiameterInput.setEnabled(False)
+            self.form.scaleReferenceGroup.setEnabled(False)
+        elif self.form.scaleValueRadio.isChecked():
+            self.form.scaleValueSpinbox.setEnabled(True)
+            self.form.scaleDiameterInput.setEnabled(False)
+            self.form.scaleReferenceGroup.setEnabled(False)
+        else:
+            self.form.scaleValueSpinbox.setEnabled(False)
+            self.form.scaleDiameterInput.setEnabled(True)
+            self.form.scaleReferenceGroup.setEnabled(True)
 
     def setColumnHeaders(self):
         # Add the column headers

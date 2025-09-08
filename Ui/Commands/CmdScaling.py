@@ -27,24 +27,71 @@ __url__ = "https://www.davesrocketshop.com"
 import FreeCAD
 import FreeCADGui
 
+from PySide import QtGui
+
 from Rocket.Utilities import translate
 
+from Rocket.Constants import FEATURE_BODY_TUBE
+
 from Ui.DialogScaling import DialogScaling, DialogScalingPairs
-from Ui.Widgets.WaitCursor import WaitCursor
+
+def getSelectedBodyTubes() -> list:
+
+    # See if we have a body tube selected
+    tubes = []
+    for tube in FreeCADGui.Selection.getSelection():
+        if tube.isDerivedFrom('Part::FeaturePython'):
+            if hasattr(tube.Proxy,"Type") and tube.Proxy.Type in [FEATURE_BODY_TUBE]:
+                tubes.append(tube)
+            else:
+                raise TypeError(translate('Rocket', "Invalid part selected"))
+        else:
+            raise TypeError(translate('Rocket', "Invalid part selected"))
+
+    return tubes
 
 def scalingPairs():
-    form = DialogScalingPairs()
-    form.exec_()
+    # See if we have a type selected
+    try:
+        tubes = getSelectedBodyTubes()
+        if len(tubes) == 2:
+            form = DialogScalingPairs(tubes[0], tubes[1])
+            form.exec_()
+            return
+
+        elif len(tubes) == 0:
+            # Otherwise the user can manually enter the data
+            form = DialogScalingPairs()
+            form.exec_()
+            return
+
+        QtGui.QMessageBox.information(None, "", translate('Rocket', "Please select a pair of body tubes"))
+    except TypeError as ex:
+        QtGui.QMessageBox.information(None, "", str(ex))
 
 def scalingTubes():
-    form = DialogScaling()
-    form.exec_()
+    # See if we have a type selected
+    try:
+        tubes = getSelectedBodyTubes()
+        if len(tubes) == 1:
+            form = DialogScaling(tubes[0])
+            form.exec_()
+            return
+
+        elif len(tubes) == 0:
+            # Otherwise the user can manually enter the data
+            form = DialogScaling()
+            form.exec_()
+            return
+
+        QtGui.QMessageBox.information(None, "", translate('Rocket', "Please select a pair of body tubes"))
+    except TypeError as ex:
+        QtGui.QMessageBox.information(None, "", str(ex))
 
 class CmdScalingPairs:
     def Activated(self):
-        with WaitCursor():
-            FreeCADGui.addModule("Ui.Commands.CmdScaling")
-            FreeCADGui.doCommand("Ui.Commands.CmdScaling.scalingPairs()")
+        FreeCADGui.addModule("Ui.Commands.CmdScaling")
+        FreeCADGui.doCommand("Ui.Commands.CmdScaling.scalingPairs()")
 
     def IsActive(self):
         # Always available, even without active document
@@ -57,9 +104,8 @@ class CmdScalingPairs:
 
 class CmdScalingTubes:
     def Activated(self):
-        with WaitCursor():
-            FreeCADGui.addModule("Ui.Commands.CmdScaling")
-            FreeCADGui.doCommand("Ui.Commands.CmdScaling.scalingTubes()")
+        FreeCADGui.addModule("Ui.Commands.CmdScaling")
+        FreeCADGui.doCommand("Ui.Commands.CmdScaling.scalingTubes()")
 
     def IsActive(self):
         # Always available, even without active document
