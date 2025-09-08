@@ -397,16 +397,17 @@ class DialogScalingPairs(DialogScaling):
         else:
             diameter = FreeCAD.Units.Quantity(self.form.scaleDiameterInput.text()).Value
             if diameter > 0:
-                scale = ref1 / diameter
+                if self.form.scaleReference1.isChecked():
+                    scale = ref1 / diameter
+                else:
+                    scale = ref2 / diameter
         tolerance = self.form.toleranceSpinbox.value() / 100.0 # per cent to decimal
         return ref1, ref2, scale, tolerance
 
     def worker(self):
         connection = self.initDB()
         ref1, ref2, scale, tolerance = self._get2BodyParameters()
-        # ref1 = FreeCAD.Units.Quantity(self.form.reference1Input.text()).Value
-        # ref2 = FreeCAD.Units.Quantity(self.form.reference2Input.text()).Value
-        # tolerance = self.form.toleranceSpinbox.value()
+
         minimumOD = None
         if self.form.minimumCheckbox.checkState() == QtCore.Qt.Checked:
             minimumOD = FreeCAD.Units.Quantity(self.form.minimumInput.text()).Value
@@ -420,17 +421,24 @@ class DialogScalingPairs(DialogScaling):
                 ref1 = ref2
                 ref2 = temp
 
-            scale = ref2 / ref1
-            tubes = listBodyTubesBySize(connection, minimumOD, maximumOD, orderByOD=True)
+            target = ref1 / scale
+            min_diameter = target - (target * tolerance)
+            max_diameter = target + (target * tolerance)
+
+            relative = ref2 / ref1
+            # tubes = listBodyTubesBySize(connection, minimumOD, maximumOD, orderByOD=True)
+
+            # Get scale data for the first tube
+            tubes = searchBodyTube(connection, min_diameter, max_diameter, COMPONENT_TYPE_BODYTUBE)
 
             steps = len(tubes)
             step = 1
             for tube in tubes:
                 od = float(tube["normalized_diameter"])
-                target = od * scale
+                target = od * relative
                 if maximumOD is None or target < maximumOD:
-                    min_diameter = target - (target * (tolerance / 100.0))
-                    max_diameter = target + (target * (tolerance / 100.0))
+                    min_diameter = target - (target * tolerance)
+                    max_diameter = target + (target * tolerance)
                     if maximumOD:
                         max_diameter = min(max_diameter, maximumOD)
                     scaled = searchBodyTube(connection, min_diameter, max_diameter, COMPONENT_TYPE_BODYTUBE)
