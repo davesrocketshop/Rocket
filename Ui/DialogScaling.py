@@ -316,7 +316,7 @@ class DialogScaling(QtCore.QObject):
 
     def getParam(self):
         name = self.getDialogName()
-        return FreeCAD.ParamGet(f"User parameter:BaseApp/Preferences/Mod/Material/Resources/Modules/Rocket/Dialog/{name}")
+        return FreeCAD.ParamGet(f"User parameter:BaseApp/Preferences/Mod/Rocket/Dialog/{name}")
 
     def getDialogName(self) -> str:
         return "DialogScaling"
