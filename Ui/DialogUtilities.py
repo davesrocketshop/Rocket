@@ -27,7 +27,7 @@ __url__ = "https://www.davesrocketshop.com"
 import FreeCAD
 
 def getPreferencesLocation(dialogName):
-    return f"User parameter:BaseApp/Preferences/Mod/Material/Resources/Modules/Rocket/Dialog/{dialogName}"
+    return f"User parameter:BaseApp/Preferences/Mod/Rocket/Dialog/{dialogName}"
 
 def getParams(dialogName):
     return FreeCAD.ParamGet(getPreferencesLocation(dialogName))
