@@ -27,6 +27,7 @@ __url__ = "https://www.davesrocketshop.com"
 import io
 import uuid
 from typing import Any
+import zipfile
 
 import FreeCAD
 
@@ -138,8 +139,10 @@ class OpenRocketExporter:
         entry = self._exportList[0]
         # print(dir(entry.Document))
         name=entry.Document.Name
-        with open(self._filename, "w", encoding='utf-8') as file:
-            file.write(f"""<?xml version='1.0' encoding='utf-8'?>
+        with zipfile.ZipFile(self._filename, "w") as archive:
+            # with archive.open(self._filename, "w", encoding='utf-8') as file:
+            with archive.open("rocket.ork", "w") as file:
+                self.write(file, f"""<?xml version='1.0' encoding='utf-8'?>
 <openrocket version="1.10" creator="Rocket Workbench">
   <rocket>
     <name>{name}</name>
@@ -151,8 +154,8 @@ class OpenRocketExporter:
 
     <subcomponents>
 """)
-            self.writeStages(file, entry)
-            file.write("""    </subcomponents>
+                self.writeStages(file, entry)
+                self.write(file, """    </subcomponents>
   </rocket>
 
   <simulations>
@@ -171,14 +174,17 @@ class OpenRocketExporter:
             if isinstance(childProxy, FeatureStage):
                 self.writeStage(file, childProxy)
 
+    def write(self, file : io.TextIOBase, string : str) -> None:
+        file.write(string.encode('utf-8'))
+
     def writeStage(self, file : io.TextIOBase, feature : RocketComponentShapeless):
         stageName = feature.getName()
-        file.write(f"""      <stage>
+        self.write(file, f"""      <stage>
         <name>{stageName}</name>
         <id>{uuid.uuid4()}</id>\n""")
         indent = 8
         self.writeSubcomponents(file, feature, indent)
-        file.write("      </stage>\n")
+        self.write(file, "      </stage>\n")
 
     def getProxy(self, obj : Any) -> RocketComponentShapeless:
         if hasattr(obj, "Proxy"):
@@ -190,7 +196,7 @@ class OpenRocketExporter:
 
     def writeSubcomponents(self, file : io.TextIOBase, feature : RocketComponentShapeless, indent : int, extra : RocketComponentShapeless | None = None) -> None:
         if feature.hasChildren() or extra:
-            file.write(f"{' ' * indent}<subcomponents>\n")
+            self.write(file, f"{' ' * indent}<subcomponents>\n")
             if extra:
                 type = extra.getType()
                 if type == FEATURE_FINCAN:
@@ -208,23 +214,23 @@ class OpenRocketExporter:
                     self._feature[type](file, childProxy, indent + 2)
                 else:
                     print(f"Unknown feature {type}")
-            file.write(f"{' ' * indent}</subcomponents>\n")
+            self.write(file, f"{' ' * indent}</subcomponents>\n")
 
     def writeNull(self, file : io.TextIOBase, feature : RocketComponentShapeless, indent : int) -> None:
         pass
 
     def writeNosecone(self, file : io.TextIOBase, feature : RocketComponentShapeless, indent : int) -> None:
-        file.write(f"{' ' * indent}<nosecone>\n")
-        file.write(f"{' ' * (indent + 2)}<name>{feature.getName()}</name>\n")
-        file.write(f"{' ' * (indent + 2)}<id>{uuid.uuid4()}</id>\n")
+        self.write(file, f"{' ' * indent}<nosecone>\n")
+        self.write(file, f"{' ' * (indent + 2)}<name>{feature.getName()}</name>\n")
+        self.write(file, f"{' ' * (indent + 2)}<id>{uuid.uuid4()}</id>\n")
         if len(feature._obj.Comment) > 0:
-            file.write(f"{' ' * (indent + 2)}<comment>{feature._obj.Comment}</comment>\n")
+            self.write(file, f"{' ' * (indent + 2)}<comment>{feature._obj.Comment}</comment>\n")
         noseType = feature._obj.NoseType
         if noseType in self._noseTypes:
             self._noseTypes[noseType](file, feature, indent + 2)
         else:
             print(f"Unknown nose type {noseType}")
-        file.write(f"{' ' * indent}</nosecone>\n\n")
+        self.write(file, f"{' ' * indent}</nosecone>\n\n")
 
     def writeNoseTypeCone(self, file : io.TextIOBase, feature : RocketComponentShapeless, indent : int) -> None:
         self.writeNoseParameters(file, feature, indent, "conical")
@@ -245,43 +251,43 @@ class OpenRocketExporter:
         self.writeNoseParameters(file, feature, indent, "haack")
 
     def writeNoseParameters(self, file : io.TextIOBase, feature : RocketComponentShapeless, indent : int, shape : str) -> None:
-        file.write(f"{' ' * (indent)}<length>{self.toMeters(float(feature.getLength()))}</length>\n")
+        self.write(file, f"{' ' * (indent)}<length>{self.toMeters(float(feature.getLength()))}</length>\n")
         if feature._obj.NoseStyle == STYLE_SOLID:
-            file.write(f"{' ' * (indent)}<thickness>filled</thickness>\n")
+            self.write(file, f"{' ' * (indent)}<thickness>filled</thickness>\n")
         else:
-            file.write(f"{' ' * (indent)}<thickness>{self.toMeters(feature._obj.Thickness.Value)}</thickness>\n")
+            self.write(file, f"{' ' * (indent)}<thickness>{self.toMeters(feature._obj.Thickness.Value)}</thickness>\n")
         if feature._obj.NoseType in [TYPE_SECANT_OGIVE, TYPE_POWER, TYPE_PARABOLA, TYPE_PARABOLIC, TYPE_HAACK, TYPE_VON_KARMAN]:
-            file.write(f"{' ' * (indent)}<shapeparameter>{feature._obj.Coefficient}</shapeparameter>\n")
+            self.write(file, f"{' ' * (indent)}<shapeparameter>{feature._obj.Coefficient}</shapeparameter>\n")
         else:
-            file.write(f"{' ' * (indent)}<shapeparameter>1.0</shapeparameter>\n")
-        file.write(f"{' ' * (indent)}<shape>{shape}</shape>\n")
+            self.write(file, f"{' ' * (indent)}<shapeparameter>1.0</shapeparameter>\n")
+        self.write(file, f"{' ' * (indent)}<shape>{shape}</shape>\n")
         # <shapeclipped>false</shapeclipped>
-        file.write(f"{' ' * (indent)}<aftradius>{self.toMeters(float(feature.getAftRadius()))}</aftradius>\n")
+        self.write(file, f"{' ' * (indent)}<aftradius>{self.toMeters(float(feature.getAftRadius()))}</aftradius>\n")
         self.writeNoseShoulder(file, feature, indent)
-        file.write(f"{' ' * (indent)}<isflipped>false</isflipped>\n")
+        self.write(file, f"{' ' * (indent)}<isflipped>false</isflipped>\n")
 
     def writeNoseShoulder(self, file : io.TextIOBase, feature : RocketComponentShapeless, indent : int) -> None:
         if feature._obj.Shoulder:
-            file.write(f"{' ' * (indent)}<aftshoulderradius>{self.toMeters(float(feature.getAftShoulderRadius()))}</aftshoulderradius>\n")
-            file.write(f"{' ' * (indent)}<aftshoulderlength>{self.toMeters(feature._obj.ShoulderLength.Value)}</aftshoulderlength>\n")
-            file.write(f"{' ' * (indent)}<aftshoulderthickness>{self.toMeters(feature._obj.ShoulderThickness.Value)}</aftshoulderthickness>\n")
+            self.write(file, f"{' ' * (indent)}<aftshoulderradius>{self.toMeters(float(feature.getAftShoulderRadius()))}</aftshoulderradius>\n")
+            self.write(file, f"{' ' * (indent)}<aftshoulderlength>{self.toMeters(feature._obj.ShoulderLength.Value)}</aftshoulderlength>\n")
+            self.write(file, f"{' ' * (indent)}<aftshoulderthickness>{self.toMeters(feature._obj.ShoulderThickness.Value)}</aftshoulderthickness>\n")
             if feature._obj.NoseStyle != STYLE_HOLLOW:
-                file.write(f"{' ' * (indent)}<aftshouldercapped>true</aftshouldercapped>\n")
+                self.write(file, f"{' ' * (indent)}<aftshouldercapped>true</aftshouldercapped>\n")
             else:
-                file.write(f"{' ' * (indent)}<aftshouldercapped>false</aftshouldercapped>\n")
+                self.write(file, f"{' ' * (indent)}<aftshouldercapped>false</aftshouldercapped>\n")
 
     def writeTransition(self, file : io.TextIOBase, feature : RocketComponentShapeless, indent : int) -> None:
-        file.write(f"{' ' * indent}<transition>\n")
-        file.write(f"{' ' * (indent + 2)}<name>{feature.getName()}</name>\n")
-        file.write(f"{' ' * (indent + 2)}<id>{uuid.uuid4()}</id>\n")
+        self.write(file, f"{' ' * indent}<transition>\n")
+        self.write(file, f"{' ' * (indent + 2)}<name>{feature.getName()}</name>\n")
+        self.write(file, f"{' ' * (indent + 2)}<id>{uuid.uuid4()}</id>\n")
         if len(feature._obj.Comment) > 0:
-            file.write(f"{' ' * (indent + 2)}<comment>{feature._obj.Comment}</comment>\n")
+            self.write(file, f"{' ' * (indent + 2)}<comment>{feature._obj.Comment}</comment>\n")
         transitionType = feature._obj.TransitionType
         if transitionType in self._transitionTypes:
             self._transitionTypes[transitionType](file, feature, indent + 2)
         else:
             print(f"Unknown nose type {transitionType}")
-        file.write(f"{' ' * indent}</transition>\n\n")
+        self.write(file, f"{' ' * indent}</transition>\n\n")
 
     def writeTransitionTypeCone(self, file : io.TextIOBase, feature : RocketComponentShapeless, indent : int) -> None:
         self.writeTransitionParameters(file, feature, indent, "conical")
@@ -302,218 +308,219 @@ class OpenRocketExporter:
         self.writeTransitionParameters(file, feature, indent, "haack")
 
     def writeTransitionParameters(self, file : io.TextIOBase, feature : RocketComponentShapeless, indent : int, shape : str) -> None:
-        file.write(f"{' ' * (indent)}<length>{self.toMeters(float(feature.getLength()))}</length>\n")
+        self.write(file, f"{' ' * (indent)}<length>{self.toMeters(float(feature.getLength()))}</length>\n")
         if feature._obj.TransitionStyle == STYLE_SOLID:
-            file.write(f"{' ' * (indent)}<thickness>filled</thickness>\n")
+            self.write(file, f"{' ' * (indent)}<thickness>filled</thickness>\n")
         else:
-            file.write(f"{' ' * (indent)}<thickness>{self.toMeters(feature._obj.Thickness.Value)}</thickness>\n")
-        file.write(f"{' ' * (indent)}<shape>{shape}</shape>\n")
+            self.write(file, f"{' ' * (indent)}<thickness>{self.toMeters(feature._obj.Thickness.Value)}</thickness>\n")
+        self.write(file, f"{' ' * (indent)}<shape>{shape}</shape>\n")
         if feature._obj.TransitionType in [TYPE_ELLIPTICAL, TYPE_POWER, TYPE_PARABOLA, TYPE_HAACK, TYPE_VON_KARMAN]:
             if feature._obj.Clipped:
-                file.write(f"{' ' * (indent)}<shapeclipped>true</shapeclipped>\n")
+                self.write(file, f"{' ' * (indent)}<shapeclipped>true</shapeclipped>\n")
             else:
-                file.write(f"{' ' * (indent)}<shapeclipped>false</shapeclipped>\n")
+                self.write(file, f"{' ' * (indent)}<shapeclipped>false</shapeclipped>\n")
         if feature._obj.TransitionType in [TYPE_SECANT_OGIVE, TYPE_POWER, TYPE_PARABOLA, TYPE_PARABOLIC, TYPE_HAACK, TYPE_VON_KARMAN]:
-            file.write(f"{' ' * (indent)}<shapeparameter>{feature._obj.Coefficient}</shapeparameter>\n")
+            self.write(file, f"{' ' * (indent)}<shapeparameter>{feature._obj.Coefficient}</shapeparameter>\n")
         elif feature._obj.TransitionType in [TYPE_OGIVE, TYPE_BLUNTED_OGIVE]:
-            file.write(f"{' ' * (indent)}<shapeparameter>1.0</shapeparameter>\n")
+            self.write(file, f"{' ' * (indent)}<shapeparameter>1.0</shapeparameter>\n")
         if feature.isForeRadiusAutomatic():
-            file.write(f"{' ' * (indent)}<foreradius>auto {self.toMeters(float(feature.getForeRadius()))}</foreradius>\n")
+            self.write(file, f"{' ' * (indent)}<foreradius>auto {self.toMeters(float(feature.getForeRadius()))}</foreradius>\n")
         else:
-            file.write(f"{' ' * (indent)}<foreradius>{self.toMeters(float(feature.getForeRadius()))}</foreradius>\n")
+            self.write(file, f"{' ' * (indent)}<foreradius>{self.toMeters(float(feature.getForeRadius()))}</foreradius>\n")
         if feature.isAftRadiusAutomatic():
-            file.write(f"{' ' * (indent)}<aftradius>auto {self.toMeters(float(feature.getAftRadius()))}</aftradius>\n")
+            self.write(file, f"{' ' * (indent)}<aftradius>auto {self.toMeters(float(feature.getAftRadius()))}</aftradius>\n")
         else:
-            file.write(f"{' ' * (indent)}<aftradius>{self.toMeters(float(feature.getAftRadius()))}</aftradius>\n")
+            self.write(file, f"{' ' * (indent)}<aftradius>{self.toMeters(float(feature.getAftRadius()))}</aftradius>\n")
         self.writeTransitionForeShoulder(file, feature, indent)
         self.writeTransitionAftShoulder(file, feature, indent)
 
     def writeTransitionForeShoulder(self, file : io.TextIOBase, feature : RocketComponentShapeless, indent : int) -> None:
         if feature._obj.ForeShoulder:
-            file.write(f"{' ' * (indent)}<foreshoulderradius>{self.toMeters(feature.getForeShoulderRadius())}</foreshoulderradius>\n")
-            file.write(f"{' ' * (indent)}<foreshoulderlength>{self.toMeters(feature._obj.ForeShoulderLength.Value)}</foreshoulderlength>\n")
-            file.write(f"{' ' * (indent)}<foreshoulderthickness>{self.toMeters(feature._obj.ForeShoulderThickness.Value)}</foreshoulderthickness>\n")
+            self.write(file, f"{' ' * (indent)}<foreshoulderradius>{self.toMeters(feature.getForeShoulderRadius())}</foreshoulderradius>\n")
+            self.write(file, f"{' ' * (indent)}<foreshoulderlength>{self.toMeters(feature._obj.ForeShoulderLength.Value)}</foreshoulderlength>\n")
+            self.write(file, f"{' ' * (indent)}<foreshoulderthickness>{self.toMeters(feature._obj.ForeShoulderThickness.Value)}</foreshoulderthickness>\n")
             if feature._obj.TransitionStyle not in [STYLE_HOLLOW, STYLE_SOLID_CORE]:
-                file.write(f"{' ' * (indent)}<foreshouldercapped>true</foreshouldercapped>\n")
+                self.write(file, f"{' ' * (indent)}<foreshouldercapped>true</foreshouldercapped>\n")
             else:
-                file.write(f"{' ' * (indent)}<foreshouldercapped>false</foreshouldercapped>\n")
+                self.write(file, f"{' ' * (indent)}<foreshouldercapped>false</foreshouldercapped>\n")
         else:
-            file.write(f"{' ' * (indent)}<foreshoulderradius>0.0</foreshoulderradius>\n")
-            file.write(f"{' ' * (indent)}<foreshoulderlength>0.0</foreshoulderlength>\n")
-            file.write(f"{' ' * (indent)}<foreshoulderthickness>0.0</foreshoulderthickness>\n")
-            file.write(f"{' ' * (indent)}<foreshouldercapped>false</foreshouldercapped>\n")
+            self.write(file, f"{' ' * (indent)}<foreshoulderradius>0.0</foreshoulderradius>\n")
+            self.write(file, f"{' ' * (indent)}<foreshoulderlength>0.0</foreshoulderlength>\n")
+            self.write(file, f"{' ' * (indent)}<foreshoulderthickness>0.0</foreshoulderthickness>\n")
+            self.write(file, f"{' ' * (indent)}<foreshouldercapped>false</foreshouldercapped>\n")
 
     def writeTransitionAftShoulder(self, file : io.TextIOBase, feature : RocketComponentShapeless, indent : int) -> None:
         if feature._obj.AftShoulder:
-            file.write(f"{' ' * (indent)}<aftshoulderradius>{self.toMeters(float(feature.getAftShoulderRadius()))}</aftshoulderradius>\n")
-            file.write(f"{' ' * (indent)}<aftshoulderlength>{self.toMeters(feature._obj.AftShoulderLength.Value)}</aftshoulderlength>\n")
-            file.write(f"{' ' * (indent)}<aftshoulderthickness>{self.toMeters(feature._obj.AftShoulderThickness.Value)}</aftshoulderthickness>\n")
+            self.write(file, f"{' ' * (indent)}<aftshoulderradius>{self.toMeters(float(feature.getAftShoulderRadius()))}</aftshoulderradius>\n")
+            self.write(file, f"{' ' * (indent)}<aftshoulderlength>{self.toMeters(feature._obj.AftShoulderLength.Value)}</aftshoulderlength>\n")
+            self.write(file, f"{' ' * (indent)}<aftshoulderthickness>{self.toMeters(feature._obj.AftShoulderThickness.Value)}</aftshoulderthickness>\n")
             if feature._obj.TransitionStyle not in [STYLE_HOLLOW, STYLE_SOLID_CORE]:
-                file.write(f"{' ' * (indent)}<aftshouldercapped>true</aftshouldercapped>\n")
+                self.write(file, f"{' ' * (indent)}<aftshouldercapped>true</aftshouldercapped>\n")
             else:
-                file.write(f"{' ' * (indent)}<aftshouldercapped>false</aftshouldercapped>\n")
+                self.write(file, f"{' ' * (indent)}<aftshouldercapped>false</aftshouldercapped>\n")
         else:
-            file.write(f"{' ' * (indent)}<aftshoulderradius>0.0</aftshoulderradius>\n")
-            file.write(f"{' ' * (indent)}<aftshoulderlength>0.0</aftshoulderlength>\n")
-            file.write(f"{' ' * (indent)}<aftshoulderthickness>0.0</aftshoulderthickness>\n")
-            file.write(f"{' ' * (indent)}<aftshouldercapped>false</aftshouldercapped>\n")
+            self.write(file, f"{' ' * (indent)}<aftshoulderradius>0.0</aftshoulderradius>\n")
+            self.write(file, f"{' ' * (indent)}<aftshoulderlength>0.0</aftshoulderlength>\n")
+            self.write(file, f"{' ' * (indent)}<aftshoulderthickness>0.0</aftshoulderthickness>\n")
+            self.write(file, f"{' ' * (indent)}<aftshouldercapped>false</aftshouldercapped>\n")
 
     def writeBodytube(self, file : io.TextIOBase, feature : RocketComponentShapeless, indent : int, finCan : RocketComponentShapeless | None = None) -> None:
-        file.write(f"{' ' * indent}<bodytube>\n")
-        file.write(f"{' ' * (indent + 2)}<name>{feature.getName()}</name>\n")
-        file.write(f"{' ' * (indent + 2)}<id>{uuid.uuid4()}</id>\n")
-        file.write(f"{' ' * (indent + 2)}<length>{self.toMeters(float(feature.getLength()))}</length>\n")
-        file.write(f"{' ' * (indent + 2)}<thickness>{self.toMeters(feature._obj.Thickness.Value)}</thickness>\n")
+        self.write(file, f"{' ' * indent}<bodytube>\n")
+        self.write(file, f"{' ' * (indent + 2)}<name>{feature.getName()}</name>\n")
+        self.write(file, f"{' ' * (indent + 2)}<id>{uuid.uuid4()}</id>\n")
+        self.write(file, f"{' ' * (indent + 2)}<length>{self.toMeters(float(feature.getLength()))}</length>\n")
+        self.write(file, f"{' ' * (indent + 2)}<thickness>{self.toMeters(feature._obj.Thickness.Value)}</thickness>\n")
         if hasattr(feature, "isOuterRadiusAutomatic") and feature.isOuterRadiusAutomatic():
-            file.write(f"{' ' * (indent + 2)}<radius>auto {self.toMeters(float(feature.getForeRadius()))}</radius>\n")
+            self.write(file, f"{' ' * (indent + 2)}<radius>auto {self.toMeters(float(feature.getForeRadius()))}</radius>\n")
         else:
-            file.write(f"{' ' * (indent + 2)}<radius>{self.toMeters(float(feature.getForeRadius()))}</radius>\n")
+            self.write(file, f"{' ' * (indent + 2)}<radius>{self.toMeters(float(feature.getForeRadius()))}</radius>\n")
         self.writeMotorMount(file, feature, indent + 2)
         # if finCan:
         #     # Fincans aren't directly supported by OpenRocket. This is a kludge
         #     self.writeFin(file, finCan, indent + 2)
         self.writeSubcomponents(file, feature, indent + 2, finCan)
-        file.write(f"{' ' * indent}</bodytube>\n\n")
+        self.write(file, f"{' ' * indent}</bodytube>\n\n")
 
     def writeTubeCoupler(self, file : io.TextIOBase, feature : RocketComponentShapeless, indent : int) -> None:
-        file.write(f"{' ' * indent}<tubecoupler>\n")
-        file.write(f"{' ' * (indent + 2)}<name>{feature.getName()}</name>\n")
-        file.write(f"{' ' * (indent + 2)}<id>{uuid.uuid4()}</id>\n")
-        file.write(f"{' ' * (indent + 2)}<axialoffset method=\"{self.getAxialMethod(feature)}\">{self.toMeters(feature._obj.AxialOffset.Value)}</axialoffset>\n")
-        file.write(f"{' ' * (indent + 2)}<position type=\"{self.getPositionType(feature)}\">{self.toMeters(feature._obj.AxialOffset.Value)}</position>\n")
-        file.write(f"{' ' * (indent + 2)}<length>{self.toMeters(float(feature.getLength()))}</length>\n")
+        self.write(file, f"{' ' * indent}<tubecoupler>\n")
+        self.write(file, f"{' ' * (indent + 2)}<name>{feature.getName()}</name>\n")
+        self.write(file, f"{' ' * (indent + 2)}<id>{uuid.uuid4()}</id>\n")
+        self.write(file, f"{' ' * (indent + 2)}<axialoffset method=\"{self.getAxialMethod(feature)}\">{self.toMeters(feature._obj.AxialOffset.Value)}</axialoffset>\n")
+        self.write(file, f"{' ' * (indent + 2)}<position type=\"{self.getPositionType(feature)}\">{self.toMeters(feature._obj.AxialOffset.Value)}</position>\n")
+        self.write(file, f"{' ' * (indent + 2)}<length>{self.toMeters(float(feature.getLength()))}</length>\n")
         # <radialposition>0.0</radialposition>
         # <radialdirection>0.0</radialdirection>
         if feature.isOuterRadiusAutomatic():
-            file.write(f"{' ' * (indent + 2)}<outerradius>auto {self.toMeters(float(feature.getOuterRadius(0)))}</outerradius>\n")
+            self.write(file, f"{' ' * (indent + 2)}<outerradius>auto {self.toMeters(float(feature.getOuterRadius(0)))}</outerradius>\n")
         else:
-            file.write(f"{' ' * (indent + 2)}<outerradius>{self.toMeters(float(feature.getOuterRadius(0)))}</outerradius>\n")
-        file.write(f"{' ' * (indent + 2)}<thickness>{self.toMeters(feature._obj.Thickness.Value)}</thickness>\n")
+            self.write(file, f"{' ' * (indent + 2)}<outerradius>{self.toMeters(float(feature.getOuterRadius(0)))}</outerradius>\n")
+        self.write(file, f"{' ' * (indent + 2)}<thickness>{self.toMeters(feature._obj.Thickness.Value)}</thickness>\n")
         self.writeSubcomponents(file, feature, indent + 2)
-        file.write(f"{' ' * indent}</tubecoupler>\n\n")
+        self.write(file, f"{' ' * indent}</tubecoupler>\n\n")
 
     def writeInnerTube(self, file : io.TextIOBase, feature : RocketComponentShapeless, indent : int) -> None:
-        file.write(f"{' ' * indent}<innertube>\n")
-        file.write(f"{' ' * (indent + 2)}<name>{feature.getName()}</name>\n")
-        file.write(f"{' ' * (indent + 2)}<id>{uuid.uuid4()}</id>\n")
-        file.write(f"{' ' * (indent + 2)}<axialoffset method=\"{self.getAxialMethod(feature)}\">{self.toMeters(feature._obj.AxialOffset.Value)}</axialoffset>\n")
-        file.write(f"{' ' * (indent + 2)}<position type=\"{self.getPositionType(feature)}\">{self.toMeters(feature._obj.AxialOffset.Value)}</position>\n")
-        file.write(f"{' ' * (indent + 2)}<length>{self.toMeters(float(feature.getLength()))}</length>\n")
+        self.write(file, f"{' ' * indent}<innertube>\n")
+        self.write(file, f"{' ' * (indent + 2)}<name>{feature.getName()}</name>\n")
+        self.write(file, f"{' ' * (indent + 2)}<id>{uuid.uuid4()}</id>\n")
+        self.write(file, f"{' ' * (indent + 2)}<axialoffset method=\"{self.getAxialMethod(feature)}\">{self.toMeters(feature._obj.AxialOffset.Value)}</axialoffset>\n")
+        self.write(file, f"{' ' * (indent + 2)}<position type=\"{self.getPositionType(feature)}\">{self.toMeters(feature._obj.AxialOffset.Value)}</position>\n")
+        self.write(file, f"{' ' * (indent + 2)}<length>{self.toMeters(float(feature.getLength()))}</length>\n")
         # <radialposition>0.0</radialposition>
         # <radialdirection>0.0</radialdirection>
         if feature.isOuterRadiusAutomatic():
-            file.write(f"{' ' * (indent + 2)}<outerradius>auto {self.toMeters(float(feature.getOuterRadius(0)))}</outerradius>\n")
+            self.write(file, f"{' ' * (indent + 2)}<outerradius>auto {self.toMeters(float(feature.getOuterRadius(0)))}</outerradius>\n")
         else:
-            file.write(f"{' ' * (indent + 2)}<outerradius>{self.toMeters(float(feature.getOuterRadius(0)))}</outerradius>\n")
-        file.write(f"{' ' * (indent + 2)}<thickness>{self.toMeters(feature._obj.Thickness.Value)}</thickness>\n")
+            self.write(file, f"{' ' * (indent + 2)}<outerradius>{self.toMeters(float(feature.getOuterRadius(0)))}</outerradius>\n")
+        self.write(file, f"{' ' * (indent + 2)}<thickness>{self.toMeters(feature._obj.Thickness.Value)}</thickness>\n")
         self.writeMotorMount(file, feature, indent + 2)
         self.writeSubcomponents(file, feature, indent + 2)
-        file.write(f"{' ' * indent}</innertube>\n\n")
+        self.write(file, f"{' ' * indent}</innertube>\n\n")
 
     def writeMotorMount(self, file : io.TextIOBase, feature : RocketComponentShapeless, indent : int) -> None:
         if feature.isMotorMount():
-            file.write(f"{' ' * indent}<motormount>\n")
-            file.write(f"{' ' * (indent + 2)}<overhang>{self.toMeters(feature._obj.Overhang.Value)}</overhang>\n")
-            self.writeSubcomponents(file, feature, indent + 2)
-            file.write(f"{' ' * indent}</motormount>\n\n")
+            self.write(file, f"{' ' * indent}<motormount>\n")
+            self.write(file, f"{' ' * (indent + 2)}<ignitionevent>automatic</ignitionevent>\n")
+            self.write(file, f"{' ' * (indent + 2)}<ignitiondelay>0.0</ignitiondelay>\n")
+            self.write(file, f"{' ' * (indent + 2)}<overhang>{self.toMeters(feature._obj.Overhang.Value)}</overhang>\n")
+            self.write(file, f"{' ' * indent}</motormount>\n\n")
 
     def writeBulkhead(self, file : io.TextIOBase, feature : RocketComponentShapeless, indent : int) -> None:
-        file.write(f"{' ' * indent}<bulkhead>\n")
-        file.write(f"{' ' * (indent + 2)}<name>{feature.getName()}</name>\n")
-        file.write(f"{' ' * (indent + 2)}<id>{uuid.uuid4()}</id>\n")
-        file.write(f"{' ' * (indent + 2)}<instancecount>1</instancecount>\n")
-        file.write(f"{' ' * (indent + 2)}<instanceseparation>0</instanceseparation>\n")
-        file.write(f"{' ' * (indent + 2)}<axialoffset method=\"{self.getAxialMethod(feature)}\">{self.toMeters(feature._obj.AxialOffset.Value)}</axialoffset>\n")
-        file.write(f"{' ' * (indent + 2)}<position type=\"{self.getPositionType(feature)}\">{self.toMeters(feature._obj.AxialOffset.Value)}</position>\n")
-        file.write(f"{' ' * (indent + 2)}<length>{self.toMeters(float(feature.getLength()))}</length>\n")
+        self.write(file, f"{' ' * indent}<bulkhead>\n")
+        self.write(file, f"{' ' * (indent + 2)}<name>{feature.getName()}</name>\n")
+        self.write(file, f"{' ' * (indent + 2)}<id>{uuid.uuid4()}</id>\n")
+        self.write(file, f"{' ' * (indent + 2)}<instancecount>1</instancecount>\n")
+        self.write(file, f"{' ' * (indent + 2)}<instanceseparation>0</instanceseparation>\n")
+        self.write(file, f"{' ' * (indent + 2)}<axialoffset method=\"{self.getAxialMethod(feature)}\">{self.toMeters(feature._obj.AxialOffset.Value)}</axialoffset>\n")
+        self.write(file, f"{' ' * (indent + 2)}<position type=\"{self.getPositionType(feature)}\">{self.toMeters(feature._obj.AxialOffset.Value)}</position>\n")
+        self.write(file, f"{' ' * (indent + 2)}<length>{self.toMeters(float(feature.getLength()))}</length>\n")
         # <radialposition>0.0</radialposition>
         # <radialdirection>0.0</radialdirection>
         if feature.isOuterRadiusAutomatic():
-            file.write(f"{' ' * (indent + 2)}<outerradius>auto {self.toMeters(float(feature.getOuterRadius(0)))}</outerradius>\n")
+            self.write(file, f"{' ' * (indent + 2)}<outerradius>auto {self.toMeters(float(feature.getOuterRadius(0)))}</outerradius>\n")
         else:
-            file.write(f"{' ' * (indent + 2)}<outerradius>{self.toMeters(float(feature.getOuterRadius(0)))}</outerradius>\n")
-        file.write(f"{' ' * indent}</bulkhead>\n\n")
+            self.write(file, f"{' ' * (indent + 2)}<outerradius>{self.toMeters(float(feature.getOuterRadius(0)))}</outerradius>\n")
+        self.write(file, f"{' ' * indent}</bulkhead>\n\n")
 
     def writeCenteringRing(self, file : io.TextIOBase, feature : RocketComponentShapeless, indent : int) -> None:
-        file.write(f"{' ' * indent}<centeringring>\n")
-        file.write(f"{' ' * (indent + 2)}<name>{feature.getName()}</name>\n")
-        file.write(f"{' ' * (indent + 2)}<id>{uuid.uuid4()}</id>\n")
-        file.write(f"{' ' * (indent + 2)}<instancecount>1</instancecount>\n")
-        file.write(f"{' ' * (indent + 2)}<instanceseparation>0</instanceseparation>\n")
-        file.write(f"{' ' * (indent + 2)}<axialoffset method=\"{self.getAxialMethod(feature)}\">{self.toMeters(feature._obj.AxialOffset.Value)}</axialoffset>\n")
-        file.write(f"{' ' * (indent + 2)}<position type=\"{self.getPositionType(feature)}\">{self.toMeters(feature._obj.AxialOffset.Value)}</position>\n")
-        file.write(f"{' ' * (indent + 2)}<length>{self.toMeters(float(feature.getLength()))}</length>\n")
+        self.write(file, f"{' ' * indent}<centeringring>\n")
+        self.write(file, f"{' ' * (indent + 2)}<name>{feature.getName()}</name>\n")
+        self.write(file, f"{' ' * (indent + 2)}<id>{uuid.uuid4()}</id>\n")
+        self.write(file, f"{' ' * (indent + 2)}<instancecount>1</instancecount>\n")
+        self.write(file, f"{' ' * (indent + 2)}<instanceseparation>0</instanceseparation>\n")
+        self.write(file, f"{' ' * (indent + 2)}<axialoffset method=\"{self.getAxialMethod(feature)}\">{self.toMeters(feature._obj.AxialOffset.Value)}</axialoffset>\n")
+        self.write(file, f"{' ' * (indent + 2)}<position type=\"{self.getPositionType(feature)}\">{self.toMeters(feature._obj.AxialOffset.Value)}</position>\n")
+        self.write(file, f"{' ' * (indent + 2)}<length>{self.toMeters(float(feature.getLength()))}</length>\n")
         # <radialposition>0.0</radialposition>
         # <radialdirection>0.0</radialdirection>
         if feature.isOuterRadiusAutomatic():
-            file.write(f"{' ' * (indent + 2)}<outerradius>auto {self.toMeters(float(feature.getOuterRadius(0)))}</outerradius>\n")
+            self.write(file, f"{' ' * (indent + 2)}<outerradius>auto {self.toMeters(float(feature.getOuterRadius(0)))}</outerradius>\n")
         else:
-            file.write(f"{' ' * (indent + 2)}<outerradius>{self.toMeters(float(feature.getOuterRadius(0)))}</outerradius>\n")
+            self.write(file, f"{' ' * (indent + 2)}<outerradius>{self.toMeters(float(feature.getOuterRadius(0)))}</outerradius>\n")
         if feature.isInnerRadiusAutomatic():
-            file.write(f"{' ' * (indent + 2)}<innerradius>auto</innerradius>\n")
+            self.write(file, f"{' ' * (indent + 2)}<innerradius>auto</innerradius>\n")
         else:
-            file.write(f"{' ' * (indent + 2)}<innerradius>{self.toMeters(float(feature.getInnerRadius(0)))}</innerradius>\n")
-        file.write(f"{' ' * indent}</centeringring>\n\n")
+            self.write(file, f"{' ' * (indent + 2)}<innerradius>{self.toMeters(float(feature.getInnerRadius(0)))}</innerradius>\n")
+        self.write(file, f"{' ' * indent}</centeringring>\n\n")
 
     def writeEngineBlock(self, file : io.TextIOBase, feature : RocketComponentShapeless, indent : int) -> None:
-        file.write(f"{' ' * indent}<engineblock>\n")
-        file.write(f"{' ' * (indent + 2)}<name>{feature.getName()}</name>\n")
-        file.write(f"{' ' * (indent + 2)}<id>{uuid.uuid4()}</id>\n")
-        file.write(f"{' ' * (indent + 2)}<axialoffset method=\"{self.getAxialMethod(feature)}\">{self.toMeters(feature._obj.AxialOffset.Value)}</axialoffset>\n")
-        file.write(f"{' ' * (indent + 2)}<position type=\"{self.getPositionType(feature)}\">{self.toMeters(feature._obj.AxialOffset.Value)}</position>\n")
-        file.write(f"{' ' * (indent + 2)}<length>{self.toMeters(float(feature.getLength()))}</length>\n")
+        self.write(file, f"{' ' * indent}<engineblock>\n")
+        self.write(file, f"{' ' * (indent + 2)}<name>{feature.getName()}</name>\n")
+        self.write(file, f"{' ' * (indent + 2)}<id>{uuid.uuid4()}</id>\n")
+        self.write(file, f"{' ' * (indent + 2)}<axialoffset method=\"{self.getAxialMethod(feature)}\">{self.toMeters(feature._obj.AxialOffset.Value)}</axialoffset>\n")
+        self.write(file, f"{' ' * (indent + 2)}<position type=\"{self.getPositionType(feature)}\">{self.toMeters(feature._obj.AxialOffset.Value)}</position>\n")
+        self.write(file, f"{' ' * (indent + 2)}<length>{self.toMeters(float(feature.getLength()))}</length>\n")
         if feature.isOuterRadiusAutomatic():
-            file.write(f"{' ' * (indent + 2)}<outerradius>auto {self.toMeters(float(feature.getOuterRadius(0)))}</outerradius>\n")
+            self.write(file, f"{' ' * (indent + 2)}<outerradius>auto {self.toMeters(float(feature.getOuterRadius(0)))}</outerradius>\n")
         else:
-            file.write(f"{' ' * (indent + 2)}<outerradius>{self.toMeters(float(feature.getOuterRadius(0)))}</outerradius>\n")
-        file.write(f"{' ' * (indent + 2)}<thickness>{self.toMeters(float(feature.getThickness()))}</thickness>\n")
-        file.write(f"{' ' * indent}</engineblock>\n\n")
+            self.write(file, f"{' ' * (indent + 2)}<outerradius>{self.toMeters(float(feature.getOuterRadius(0)))}</outerradius>\n")
+        self.write(file, f"{' ' * (indent + 2)}<thickness>{self.toMeters(float(feature.getThickness()))}</thickness>\n")
+        self.write(file, f"{' ' * indent}</engineblock>\n\n")
 
     def writeLaunchLug(self, file : io.TextIOBase, feature : RocketComponentShapeless, indent : int, suffix : str | None = None) -> None:
-        file.write(f"{' ' * indent}<launchlug>\n")
+        self.write(file, f"{' ' * indent}<launchlug>\n")
         if suffix:
-            file.write(f"{' ' * (indent + 2)}<name>{feature.getName()}-{suffix}</name>\n")
+            self.write(file, f"{' ' * (indent + 2)}<name>{feature.getName()}-{suffix}</name>\n")
         else:
-            file.write(f"{' ' * (indent + 2)}<name>{feature.getName()}</name>\n")
-        file.write(f"{' ' * (indent + 2)}<id>{uuid.uuid4()}</id>\n")
+            self.write(file, f"{' ' * (indent + 2)}<name>{feature.getName()}</name>\n")
+        self.write(file, f"{' ' * (indent + 2)}<id>{uuid.uuid4()}</id>\n")
         if hasattr(feature, "getInstanceCount"):
-            file.write(f"{' ' * (indent + 2)}<instancecount>{feature.getInstanceCount()}</instancecount>\n")
-            file.write(f"{' ' * (indent + 2)}<instanceseparation>{feature.getInstanceSeparation()}</instanceseparation>\n")
+            self.write(file, f"{' ' * (indent + 2)}<instancecount>{feature.getInstanceCount()}</instancecount>\n")
+            self.write(file, f"{' ' * (indent + 2)}<instanceseparation>{feature.getInstanceSeparation()}</instanceseparation>\n")
         if feature.getType() == FEATURE_FINCAN:
             offset = float(feature._obj.FinSpacing) / 2.0
-            file.write(f"{' ' * (indent + 2)}<angleoffset method=\"relative\">{-offset}</angleoffset>\n")
-            file.write(f"{' ' * (indent + 2)}<radialdirection>{-offset}</radialdirection>\n")
-            file.write(f"{' ' * (indent + 2)}<axialoffset method=\"{self.getAxialMethod(feature)}\">{self.toMeters(feature._obj.LugLeadingEdgeOffset.Value)}</axialoffset>\n")
-            file.write(f"{' ' * (indent + 2)}<position type=\"top\">{self.toMeters(feature._obj.LugLeadingEdgeOffset.Value)}</position>\n")
-            file.write(f"{' ' * (indent + 2)}<radius>{self.toMeters(float(feature._obj.LugInnerDiameter) / 2.0 + float(feature._obj.LugThickness))}</radius>\n")
-            file.write(f"{' ' * (indent + 2)}<length>{self.toMeters(float(feature._obj.LugLength))}</length>\n")
-            file.write(f"{' ' * (indent + 2)}<thickness>{self.toMeters(float(feature._obj.LugThickness))}</thickness>\n")
+            self.write(file, f"{' ' * (indent + 2)}<angleoffset method=\"relative\">{-offset}</angleoffset>\n")
+            self.write(file, f"{' ' * (indent + 2)}<radialdirection>{-offset}</radialdirection>\n")
+            self.write(file, f"{' ' * (indent + 2)}<axialoffset method=\"{self.getAxialMethod(feature)}\">{self.toMeters(feature._obj.LugLeadingEdgeOffset.Value)}</axialoffset>\n")
+            self.write(file, f"{' ' * (indent + 2)}<position type=\"top\">{self.toMeters(feature._obj.LugLeadingEdgeOffset.Value)}</position>\n")
+            self.write(file, f"{' ' * (indent + 2)}<radius>{self.toMeters(float(feature._obj.LugInnerDiameter) / 2.0 + float(feature._obj.LugThickness))}</radius>\n")
+            self.write(file, f"{' ' * (indent + 2)}<length>{self.toMeters(float(feature._obj.LugLength))}</length>\n")
+            self.write(file, f"{' ' * (indent + 2)}<thickness>{self.toMeters(float(feature._obj.LugThickness))}</thickness>\n")
         else:
-            file.write(f"{' ' * (indent + 2)}<angleoffset method=\"relative\">{feature._obj.AngleOffset.Value}</angleoffset>\n")
-            file.write(f"{' ' * (indent + 2)}<radialdirection>{feature._obj.AngleOffset.Value}</radialdirection>\n")
-            file.write(f"{' ' * (indent + 2)}<axialoffset method=\"{self.getAxialMethod(feature)}\">{self.toMeters(feature._obj.AxialOffset.Value)}</axialoffset>\n")
-            file.write(f"{' ' * (indent + 2)}<position type=\"{self.getPositionType(feature)}\">{self.toMeters(feature._obj.AxialOffset.Value)}</position>\n")
-            file.write(f"{' ' * (indent + 2)}<radius>{self.toMeters(float(feature.getOuterRadius(0)))}</radius>\n")
-            file.write(f"{' ' * (indent + 2)}<length>{self.toMeters(float(feature.getLength()))}</length>\n")
-            file.write(f"{' ' * (indent + 2)}<thickness>{self.toMeters(feature._obj.Thickness.Value)}</thickness>\n")
-        file.write(f"{' ' * indent}</launchlug>\n\n")
+            self.write(file, f"{' ' * (indent + 2)}<angleoffset method=\"relative\">{feature._obj.AngleOffset.Value}</angleoffset>\n")
+            self.write(file, f"{' ' * (indent + 2)}<radialdirection>{feature._obj.AngleOffset.Value}</radialdirection>\n")
+            self.write(file, f"{' ' * (indent + 2)}<axialoffset method=\"{self.getAxialMethod(feature)}\">{self.toMeters(feature._obj.AxialOffset.Value)}</axialoffset>\n")
+            self.write(file, f"{' ' * (indent + 2)}<position type=\"{self.getPositionType(feature)}\">{self.toMeters(feature._obj.AxialOffset.Value)}</position>\n")
+            self.write(file, f"{' ' * (indent + 2)}<radius>{self.toMeters(float(feature.getOuterRadius(0)))}</radius>\n")
+            self.write(file, f"{' ' * (indent + 2)}<length>{self.toMeters(float(feature.getLength()))}</length>\n")
+            self.write(file, f"{' ' * (indent + 2)}<thickness>{self.toMeters(feature._obj.Thickness.Value)}</thickness>\n")
+        self.write(file, f"{' ' * indent}</launchlug>\n\n")
 
     def writeRailButton(self, file : io.TextIOBase, feature : RocketComponentShapeless, indent : int) -> None:
-        file.write(f"{' ' * indent}<railbutton>\n")
-        file.write(f"{' ' * (indent + 2)}<name>{feature.getName()}</name>\n")
-        file.write(f"{' ' * (indent + 2)}<id>{uuid.uuid4()}</id>\n")
-        file.write(f"{' ' * (indent + 2)}<instancecount>{feature.getInstanceCount()}</instancecount>\n")
-        file.write(f"{' ' * (indent + 2)}<instanceseparation>{feature.getInstanceSeparation()}</instanceseparation>\n")
-        file.write(f"{' ' * (indent + 2)}<angleoffset method=\"relative\">{feature._obj.AngleOffset.Value}</angleoffset>\n")
-        file.write(f"{' ' * (indent + 2)}<axialoffset method=\"{self.getAxialMethod(feature)}\">{self.toMeters(feature._obj.AxialOffset.Value)}</axialoffset>\n")
-        file.write(f"{' ' * (indent + 2)}<position type=\"{self.getPositionType(feature)}\">{self.toMeters(feature._obj.AxialOffset.Value)}</position>\n")
-        file.write(f"{' ' * (indent + 2)}<outerdiameter>{self.toMeters(feature._obj.Diameter.Value)}</outerdiameter>\n")
-        file.write(f"{' ' * (indent + 2)}<innerdiameter>{self.toMeters(feature._obj.InnerDiameter.Value)}</innerdiameter>\n")
-        file.write(f"{' ' * (indent + 2)}<height>{self.toMeters(feature._obj.Height.Value)}</height>\n")
-        file.write(f"{' ' * (indent + 2)}<baseheight>{self.toMeters(feature._obj.BaseHeight.Value)}</baseheight>\n")
-        file.write(f"{' ' * (indent + 2)}<flangeheight>{self.toMeters(feature._obj.FlangeHeight.Value)}</flangeheight>\n")
-        file.write(f"{' ' * (indent + 2)}<screwheight>0.0</screwheight>\n")
-        file.write(f"{' ' * indent}</railbutton>\n\n")
+        self.write(file, f"{' ' * indent}<railbutton>\n")
+        self.write(file, f"{' ' * (indent + 2)}<name>{feature.getName()}</name>\n")
+        self.write(file, f"{' ' * (indent + 2)}<id>{uuid.uuid4()}</id>\n")
+        self.write(file, f"{' ' * (indent + 2)}<instancecount>{feature.getInstanceCount()}</instancecount>\n")
+        self.write(file, f"{' ' * (indent + 2)}<instanceseparation>{feature.getInstanceSeparation()}</instanceseparation>\n")
+        self.write(file, f"{' ' * (indent + 2)}<angleoffset method=\"relative\">{feature._obj.AngleOffset.Value}</angleoffset>\n")
+        self.write(file, f"{' ' * (indent + 2)}<axialoffset method=\"{self.getAxialMethod(feature)}\">{self.toMeters(feature._obj.AxialOffset.Value)}</axialoffset>\n")
+        self.write(file, f"{' ' * (indent + 2)}<position type=\"{self.getPositionType(feature)}\">{self.toMeters(feature._obj.AxialOffset.Value)}</position>\n")
+        self.write(file, f"{' ' * (indent + 2)}<outerdiameter>{self.toMeters(feature._obj.Diameter.Value)}</outerdiameter>\n")
+        self.write(file, f"{' ' * (indent + 2)}<innerdiameter>{self.toMeters(feature._obj.InnerDiameter.Value)}</innerdiameter>\n")
+        self.write(file, f"{' ' * (indent + 2)}<height>{self.toMeters(feature._obj.Height.Value)}</height>\n")
+        self.write(file, f"{' ' * (indent + 2)}<baseheight>{self.toMeters(feature._obj.BaseHeight.Value)}</baseheight>\n")
+        self.write(file, f"{' ' * (indent + 2)}<flangeheight>{self.toMeters(feature._obj.FlangeHeight.Value)}</flangeheight>\n")
+        self.write(file, f"{' ' * (indent + 2)}<screwheight>0.0</screwheight>\n")
+        self.write(file, f"{' ' * indent}</railbutton>\n\n")
 
     def writeFin(self, file : io.TextIOBase, feature : RocketComponentShapeless, indent : int, suffix : str | None = None) -> None:
         if feature._obj.FinType == FIN_TYPE_TRAPEZOID:
@@ -538,139 +545,139 @@ class OpenRocketExporter:
         # self.writeFin(file, feature, indent)
 
     def writeFinTrapezoid(self, file : io.TextIOBase, feature : RocketComponentShapeless, indent : int, suffix : str | None = None) -> None:
-        file.write(f"{' ' * indent}<trapezoidfinset>\n")
+        self.write(file, f"{' ' * indent}<trapezoidfinset>\n")
         if suffix:
-            file.write(f"{' ' * (indent + 2)}<name>{feature.getName()}-{suffix}</name>\n")
+            self.write(file, f"{' ' * (indent + 2)}<name>{feature.getName()}-{suffix}</name>\n")
         else:
-            file.write(f"{' ' * (indent + 2)}<name>{feature.getName()}</name>\n")
-        file.write(f"{' ' * (indent + 2)}<id>{uuid.uuid4()}</id>\n")
+            self.write(file, f"{' ' * (indent + 2)}<name>{feature.getName()}</name>\n")
+        self.write(file, f"{' ' * (indent + 2)}<id>{uuid.uuid4()}</id>\n")
         if feature.isFinSet():
             fins = feature.getFinCount()
         else:
             fins = 1
-        file.write(f"{' ' * (indent + 2)}<instancecount>{fins}</instancecount>\n")
-        file.write(f"{' ' * (indent + 2)}<fincount>{fins}</fincount>\n")
-        file.write(f"{' ' * (indent + 2)}<radiusoffset method=\"{self.getRadialMethod(feature)}\">{self.toMeters(feature._obj.RadialOffset.Value)}</radiusoffset>\n")
-        file.write(f"{' ' * (indent + 2)}<angleoffset method=\"relative\">{feature._obj.AngleOffset.Value}</angleoffset>\n")
-        file.write(f"{' ' * (indent + 2)}<rotation>{feature._obj.AngleOffset.Value}</rotation>\n")
-        file.write(f"{' ' * (indent + 2)}<axialoffset method=\"{self.getAxialMethod(feature)}\">{self.toMeters(feature._obj.AxialOffset.Value)}</axialoffset>\n")
-        file.write(f"{' ' * (indent + 2)}<position type=\"{self.getPositionType(feature)}\">{self.toMeters(feature._obj.AxialOffset.Value)}</position>\n")
-        # file.write(f"{' ' * (indent + 2)}<length>{self.toMeters(float(feature.getLength()))}</length>\n")
-        file.write(f"{' ' * (indent + 2)}<thickness>{self.toMeters(feature.getRootThickness())}</thickness>\n")
-        file.write(f"{' ' * (indent + 2)}<crosssection>{self.getCrossSection(feature)}</crosssection>\n")
-        file.write(f"{' ' * (indent + 2)}<cant>{feature._obj.Cant.Value}</cant>\n")
+        self.write(file, f"{' ' * (indent + 2)}<instancecount>{fins}</instancecount>\n")
+        self.write(file, f"{' ' * (indent + 2)}<fincount>{fins}</fincount>\n")
+        self.write(file, f"{' ' * (indent + 2)}<radiusoffset method=\"{self.getRadialMethod(feature)}\">{self.toMeters(feature._obj.RadialOffset.Value)}</radiusoffset>\n")
+        self.write(file, f"{' ' * (indent + 2)}<angleoffset method=\"relative\">{feature._obj.AngleOffset.Value}</angleoffset>\n")
+        self.write(file, f"{' ' * (indent + 2)}<rotation>{feature._obj.AngleOffset.Value}</rotation>\n")
+        self.write(file, f"{' ' * (indent + 2)}<axialoffset method=\"{self.getAxialMethod(feature)}\">{self.toMeters(feature._obj.AxialOffset.Value)}</axialoffset>\n")
+        self.write(file, f"{' ' * (indent + 2)}<position type=\"{self.getPositionType(feature)}\">{self.toMeters(feature._obj.AxialOffset.Value)}</position>\n")
+        # self.write(file, f"{' ' * (indent + 2)}<length>{self.toMeters(float(feature.getLength()))}</length>\n")
+        self.write(file, f"{' ' * (indent + 2)}<thickness>{self.toMeters(feature.getRootThickness())}</thickness>\n")
+        self.write(file, f"{' ' * (indent + 2)}<crosssection>{self.getCrossSection(feature)}</crosssection>\n")
+        self.write(file, f"{' ' * (indent + 2)}<cant>{feature._obj.Cant.Value}</cant>\n")
         self.writeFinTab(file, feature, indent + 2)
         if feature._obj.Fillets:
-            file.write(f"{' ' * (indent + 2)}<filletradius>{self.toMeters(feature._obj.FilletRadius.Value)}</filletradius>\n")
+            self.write(file, f"{' ' * (indent + 2)}<filletradius>{self.toMeters(feature._obj.FilletRadius.Value)}</filletradius>\n")
         else:
-            file.write(f"{' ' * (indent + 2)}<filletradius>0.0</filletradius>\n")
-        file.write(f"{' ' * (indent + 2)}<rootchord>{self.toMeters(feature.getRootChord())}</rootchord>\n")
+            self.write(file, f"{' ' * (indent + 2)}<filletradius>0.0</filletradius>\n")
+        self.write(file, f"{' ' * (indent + 2)}<rootchord>{self.toMeters(feature.getRootChord())}</rootchord>\n")
         if feature._obj.FinType == FIN_TYPE_TRIANGLE:
-            file.write(f"{' ' * (indent + 2)}<tipchord>0.0</tipchord>\n")
+            self.write(file, f"{' ' * (indent + 2)}<tipchord>0.0</tipchord>\n")
         else:
-            file.write(f"{' ' * (indent + 2)}<tipchord>{self.toMeters(feature.getTipChord())}</tipchord>\n")
-        file.write(f"{' ' * (indent + 2)}<sweeplength>{self.toMeters(feature.getSweepLength())}</sweeplength>\n")
-        file.write(f"{' ' * (indent + 2)}<height>{self.toMeters(feature.getHeight())}</height>\n")
+            self.write(file, f"{' ' * (indent + 2)}<tipchord>{self.toMeters(feature.getTipChord())}</tipchord>\n")
+        self.write(file, f"{' ' * (indent + 2)}<sweeplength>{self.toMeters(feature.getSweepLength())}</sweeplength>\n")
+        self.write(file, f"{' ' * (indent + 2)}<height>{self.toMeters(feature.getHeight())}</height>\n")
         self.writeSubcomponents(file, feature, indent + 2)
-        file.write(f"{' ' * indent}</trapezoidfinset>\n\n")
+        self.write(file, f"{' ' * indent}</trapezoidfinset>\n\n")
 
     def writeFinEllipse(self, file : io.TextIOBase, feature : RocketComponentShapeless, indent : int, suffix : str | None = None) -> None:
-        file.write(f"{' ' * indent}<ellipticalfinset>\n")
+        self.write(file, f"{' ' * indent}<ellipticalfinset>\n")
         if suffix:
-            file.write(f"{' ' * (indent + 2)}<name>{feature.getName()}-{suffix}</name>\n")
+            self.write(file, f"{' ' * (indent + 2)}<name>{feature.getName()}-{suffix}</name>\n")
         else:
-            file.write(f"{' ' * (indent + 2)}<name>{feature.getName()}</name>\n")
-        file.write(f"{' ' * (indent + 2)}<id>{uuid.uuid4()}</id>\n")
+            self.write(file, f"{' ' * (indent + 2)}<name>{feature.getName()}</name>\n")
+        self.write(file, f"{' ' * (indent + 2)}<id>{uuid.uuid4()}</id>\n")
         if feature.isFinSet():
             fins = feature.getFinCount()
         else:
             fins = 1
-        file.write(f"{' ' * (indent + 2)}<instancecount>{fins}</instancecount>\n")
-        file.write(f"{' ' * (indent + 2)}<fincount>{fins}</fincount>\n")
-        file.write(f"{' ' * (indent + 2)}<radiusoffset method=\"{self.getRadialMethod(feature)}\">{self.toMeters(feature._obj.RadialOffset.Value)}</radiusoffset>\n")
-        file.write(f"{' ' * (indent + 2)}<angleoffset method=\"relative\">{feature._obj.AngleOffset.Value}</angleoffset>\n")
-        file.write(f"{' ' * (indent + 2)}<rotation>{feature._obj.AngleOffset.Value}</rotation>\n")
-        file.write(f"{' ' * (indent + 2)}<axialoffset method=\"{self.getAxialMethod(feature)}\">{self.toMeters(feature._obj.AxialOffset.Value)}</axialoffset>\n")
-        file.write(f"{' ' * (indent + 2)}<position type=\"{self.getPositionType(feature)}\">{self.toMeters(feature._obj.AxialOffset.Value)}</position>\n")
-        # file.write(f"{' ' * (indent + 2)}<length>{self.toMeters(float(feature.getLength()))}</length>\n")
-        file.write(f"{' ' * (indent + 2)}<thickness>{self.toMeters(feature.getRootThickness())}</thickness>\n")
-        file.write(f"{' ' * (indent + 2)}<crosssection>{self.getCrossSection(feature)}</crosssection>\n")
-        file.write(f"{' ' * (indent + 2)}<cant>{feature._obj.Cant.Value}</cant>\n")
+        self.write(file, f"{' ' * (indent + 2)}<instancecount>{fins}</instancecount>\n")
+        self.write(file, f"{' ' * (indent + 2)}<fincount>{fins}</fincount>\n")
+        self.write(file, f"{' ' * (indent + 2)}<radiusoffset method=\"{self.getRadialMethod(feature)}\">{self.toMeters(feature._obj.RadialOffset.Value)}</radiusoffset>\n")
+        self.write(file, f"{' ' * (indent + 2)}<angleoffset method=\"relative\">{feature._obj.AngleOffset.Value}</angleoffset>\n")
+        self.write(file, f"{' ' * (indent + 2)}<rotation>{feature._obj.AngleOffset.Value}</rotation>\n")
+        self.write(file, f"{' ' * (indent + 2)}<axialoffset method=\"{self.getAxialMethod(feature)}\">{self.toMeters(feature._obj.AxialOffset.Value)}</axialoffset>\n")
+        self.write(file, f"{' ' * (indent + 2)}<position type=\"{self.getPositionType(feature)}\">{self.toMeters(feature._obj.AxialOffset.Value)}</position>\n")
+        # self.write(file, f"{' ' * (indent + 2)}<length>{self.toMeters(float(feature.getLength()))}</length>\n")
+        self.write(file, f"{' ' * (indent + 2)}<thickness>{self.toMeters(feature.getRootThickness())}</thickness>\n")
+        self.write(file, f"{' ' * (indent + 2)}<crosssection>{self.getCrossSection(feature)}</crosssection>\n")
+        self.write(file, f"{' ' * (indent + 2)}<cant>{feature._obj.Cant.Value}</cant>\n")
         self.writeFinTab(file, feature, indent + 2)
         if feature._obj.Fillets:
-            file.write(f"{' ' * (indent + 2)}<filletradius>{self.toMeters(feature._obj.FilletRadius.Value)}</filletradius>\n")
+            self.write(file, f"{' ' * (indent + 2)}<filletradius>{self.toMeters(feature._obj.FilletRadius.Value)}</filletradius>\n")
         else:
-            file.write(f"{' ' * (indent + 2)}<filletradius>0.0</filletradius>\n")
-        file.write(f"{' ' * (indent + 2)}<rootchord>{self.toMeters(feature.getRootChord())}</rootchord>\n")
-        file.write(f"{' ' * (indent + 2)}<height>{self.toMeters(feature.getHeight())}</height>\n")
+            self.write(file, f"{' ' * (indent + 2)}<filletradius>0.0</filletradius>\n")
+        self.write(file, f"{' ' * (indent + 2)}<rootchord>{self.toMeters(feature.getRootChord())}</rootchord>\n")
+        self.write(file, f"{' ' * (indent + 2)}<height>{self.toMeters(feature.getHeight())}</height>\n")
         self.writeSubcomponents(file, feature, indent + 2)
-        file.write(f"{' ' * indent}</ellipticalfinset>\n\n")
+        self.write(file, f"{' ' * indent}</ellipticalfinset>\n\n")
 
     def writeFinTube(self, file : io.TextIOBase, feature : RocketComponentShapeless, indent : int, suffix : str | None = None) -> None:
-        file.write(f"{' ' * indent}<tubefinset>\n")
+        self.write(file, f"{' ' * indent}<tubefinset>\n")
         if suffix:
-            file.write(f"{' ' * (indent + 2)}<name>{feature.getName()}-{suffix}</name>\n")
+            self.write(file, f"{' ' * (indent + 2)}<name>{feature.getName()}-{suffix}</name>\n")
         else:
-            file.write(f"{' ' * (indent + 2)}<name>{feature.getName()}</name>\n")
-        file.write(f"{' ' * (indent + 2)}<id>{uuid.uuid4()}</id>\n")
+            self.write(file, f"{' ' * (indent + 2)}<name>{feature.getName()}</name>\n")
+        self.write(file, f"{' ' * (indent + 2)}<id>{uuid.uuid4()}</id>\n")
         if feature.isFinSet():
             fins = feature.getFinCount()
         else:
             fins = 1
-        file.write(f"{' ' * (indent + 2)}<instancecount>{fins}</instancecount>\n")
-        file.write(f"{' ' * (indent + 2)}<fincount>{fins}</fincount>\n")
-        file.write(f"{' ' * (indent + 2)}<radiusoffset method=\"{self.getRadialMethod(feature)}\">{self.toMeters(feature._obj.RadialOffset.Value)}</radiusoffset>\n")
-        file.write(f"{' ' * (indent + 2)}<angleoffset method=\"relative\">{feature._obj.AngleOffset.Value}</angleoffset>\n")
-        file.write(f"{' ' * (indent + 2)}<rotation>{feature._obj.AngleOffset.Value}</rotation>\n")
-        file.write(f"{' ' * (indent + 2)}<axialoffset method=\"{self.getAxialMethod(feature)}\">{self.toMeters(feature._obj.AxialOffset.Value)}</axialoffset>\n")
-        file.write(f"{' ' * (indent + 2)}<position type=\"{self.getPositionType(feature)}\">{self.toMeters(feature._obj.AxialOffset.Value)}</position>\n")
+        self.write(file, f"{' ' * (indent + 2)}<instancecount>{fins}</instancecount>\n")
+        self.write(file, f"{' ' * (indent + 2)}<fincount>{fins}</fincount>\n")
+        self.write(file, f"{' ' * (indent + 2)}<radiusoffset method=\"{self.getRadialMethod(feature)}\">{self.toMeters(feature._obj.RadialOffset.Value)}</radiusoffset>\n")
+        self.write(file, f"{' ' * (indent + 2)}<angleoffset method=\"relative\">{feature._obj.AngleOffset.Value}</angleoffset>\n")
+        self.write(file, f"{' ' * (indent + 2)}<rotation>{feature._obj.AngleOffset.Value}</rotation>\n")
+        self.write(file, f"{' ' * (indent + 2)}<axialoffset method=\"{self.getAxialMethod(feature)}\">{self.toMeters(feature._obj.AxialOffset.Value)}</axialoffset>\n")
+        self.write(file, f"{' ' * (indent + 2)}<position type=\"{self.getPositionType(feature)}\">{self.toMeters(feature._obj.AxialOffset.Value)}</position>\n")
         if feature.isTubeOuterRadiusAutomatic():
-            file.write(f"{' ' * (indent + 2)}<radius>auto</radius>\n")
+            self.write(file, f"{' ' * (indent + 2)}<radius>auto</radius>\n")
         else:
-            file.write(f"{' ' * (indent + 2)}<radius>{feature.getTubeOuterRadius()}</radius>\n")
-        file.write(f"{' ' * (indent + 2)}<length>{self.toMeters(float(feature.getLength()))}</length>\n")
-        file.write(f"{' ' * (indent + 2)}<thickness>{self.toMeters(feature._obj.TubeThickness.Value)}</thickness>\n")
+            self.write(file, f"{' ' * (indent + 2)}<radius>{feature.getTubeOuterRadius()}</radius>\n")
+        self.write(file, f"{' ' * (indent + 2)}<length>{self.toMeters(float(feature.getLength()))}</length>\n")
+        self.write(file, f"{' ' * (indent + 2)}<thickness>{self.toMeters(feature._obj.TubeThickness.Value)}</thickness>\n")
         self.writeSubcomponents(file, feature, indent + 2)
-        file.write(f"{' ' * indent}</tubefinset>\n\n")
+        self.write(file, f"{' ' * indent}</tubefinset>\n\n")
 
     def writeFinSketch(self, file : io.TextIOBase, feature : RocketComponentShapeless, indent : int, suffix : str | None = None) -> None:
-        file.write(f"{' ' * indent}<freeformfinset>\n")
+        self.write(file, f"{' ' * indent}<freeformfinset>\n")
         if suffix:
-            file.write(f"{' ' * (indent + 2)}<name>{feature.getName()}-{suffix}</name>\n")
+            self.write(file, f"{' ' * (indent + 2)}<name>{feature.getName()}-{suffix}</name>\n")
         else:
-            file.write(f"{' ' * (indent + 2)}<name>{feature.getName()}</name>\n")
-        file.write(f"{' ' * (indent + 2)}<id>{uuid.uuid4()}</id>\n")
+            self.write(file, f"{' ' * (indent + 2)}<name>{feature.getName()}</name>\n")
+        self.write(file, f"{' ' * (indent + 2)}<id>{uuid.uuid4()}</id>\n")
         if feature.isFinSet():
             fins = feature.getFinCount()
         else:
             fins = 1
-        file.write(f"{' ' * (indent + 2)}<instancecount>{fins}</instancecount>\n")
-        file.write(f"{' ' * (indent + 2)}<fincount>{fins}</fincount>\n")
-        file.write(f"{' ' * (indent + 2)}<radiusoffset method=\"{self.getRadialMethod(feature)}\">{self.toMeters(feature._obj.RadialOffset.Value)}</radiusoffset>\n")
-        file.write(f"{' ' * (indent + 2)}<angleoffset method=\"relative\">{feature._obj.AngleOffset.Value}</angleoffset>\n")
-        file.write(f"{' ' * (indent + 2)}<rotation>{feature._obj.AngleOffset.Value}</rotation>\n")
-        file.write(f"{' ' * (indent + 2)}<axialoffset method=\"{self.getAxialMethod(feature)}\">{self.toMeters(feature._obj.AxialOffset.Value)}</axialoffset>\n")
-        file.write(f"{' ' * (indent + 2)}<position type=\"{self.getPositionType(feature)}\">{self.toMeters(feature._obj.AxialOffset.Value)}</position>\n")
-        file.write(f"{' ' * (indent + 2)}<thickness>{self.toMeters(feature.getRootThickness())}</thickness>\n")
-        file.write(f"{' ' * (indent + 2)}<crosssection>{self.getCrossSection(feature)}</crosssection>\n")
-        file.write(f"{' ' * (indent + 2)}<cant>{feature._obj.Cant.Value}</cant>\n")
+        self.write(file, f"{' ' * (indent + 2)}<instancecount>{fins}</instancecount>\n")
+        self.write(file, f"{' ' * (indent + 2)}<fincount>{fins}</fincount>\n")
+        self.write(file, f"{' ' * (indent + 2)}<radiusoffset method=\"{self.getRadialMethod(feature)}\">{self.toMeters(feature._obj.RadialOffset.Value)}</radiusoffset>\n")
+        self.write(file, f"{' ' * (indent + 2)}<angleoffset method=\"relative\">{feature._obj.AngleOffset.Value}</angleoffset>\n")
+        self.write(file, f"{' ' * (indent + 2)}<rotation>{feature._obj.AngleOffset.Value}</rotation>\n")
+        self.write(file, f"{' ' * (indent + 2)}<axialoffset method=\"{self.getAxialMethod(feature)}\">{self.toMeters(feature._obj.AxialOffset.Value)}</axialoffset>\n")
+        self.write(file, f"{' ' * (indent + 2)}<position type=\"{self.getPositionType(feature)}\">{self.toMeters(feature._obj.AxialOffset.Value)}</position>\n")
+        self.write(file, f"{' ' * (indent + 2)}<thickness>{self.toMeters(feature.getRootThickness())}</thickness>\n")
+        self.write(file, f"{' ' * (indent + 2)}<crosssection>{self.getCrossSection(feature)}</crosssection>\n")
+        self.write(file, f"{' ' * (indent + 2)}<cant>{feature._obj.Cant.Value}</cant>\n")
         self.writeFinTab(file, feature, indent + 2)
         if feature._obj.Fillets:
-            file.write(f"{' ' * (indent + 2)}<filletradius>{self.toMeters(feature._obj.FilletRadius.Value)}</filletradius>\n")
+            self.write(file, f"{' ' * (indent + 2)}<filletradius>{self.toMeters(feature._obj.FilletRadius.Value)}</filletradius>\n")
         else:
-            file.write(f"{' ' * (indent + 2)}<filletradius>0.0</filletradius>\n")
-        file.write(f"{' ' * (indent + 2)}<finpoints>\n")
+            self.write(file, f"{' ' * (indent + 2)}<filletradius>0.0</filletradius>\n")
+        self.write(file, f"{' ' * (indent + 2)}<finpoints>\n")
         for point in self.getVertexes(feature):
-            file.write(f"{' ' * (indent + 4)}<point x=\"{self.toMeters(point.Point.x)}\" y=\"{self.toMeters(point.Point.z)}\"/>\n")
-        file.write(f"{' ' * (indent + 2)}</finpoints>\n")
+            self.write(file, f"{' ' * (indent + 4)}<point x=\"{self.toMeters(point.Point.x)}\" y=\"{self.toMeters(point.Point.z)}\"/>\n")
+        self.write(file, f"{' ' * (indent + 2)}</finpoints>\n")
         self.writeSubcomponents(file, feature, indent + 2)
-        file.write(f"{' ' * indent}</freeformfinset>\n\n")
+        self.write(file, f"{' ' * indent}</freeformfinset>\n\n")
 
     def writeFinTab(self, file : io.TextIOBase, feature : RocketComponentShapeless, indent : int) -> None:
         if feature._obj.Ttw:
-            file.write(f"{' ' * indent}<tabheight>{self.toMeters(feature._obj.TtwHeight.Value)}</tabheight>\n")
-            file.write(f"{' ' * indent}<tablength>{self.toMeters(feature._obj.TtwLength.Value)}</tablength>\n")
-            file.write(f"{' ' * indent}<tabposition relativeto=\"top\">{self.toMeters(feature._obj.TtwOffset.Value)}</tabposition>\n")
+            self.write(file, f"{' ' * indent}<tabheight>{self.toMeters(feature._obj.TtwHeight.Value)}</tabheight>\n")
+            self.write(file, f"{' ' * indent}<tablength>{self.toMeters(feature._obj.TtwLength.Value)}</tablength>\n")
+            self.write(file, f"{' ' * indent}<tabposition relativeto=\"top\">{self.toMeters(feature._obj.TtwOffset.Value)}</tabposition>\n")
 
     def getVertexes(self, feature : RocketComponentShapeless) -> list:
         """Get the vertexes starting at the origin.
