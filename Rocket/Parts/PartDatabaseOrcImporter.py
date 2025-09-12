@@ -92,6 +92,66 @@ class Element:
             return None
         return self._validChildren[_tag](self, tag, attributes, self._connection, filename, line)
 
+    def _defaultManufacturer(self):
+        # The default manufacturer is based on the filename
+        manufacturers = {
+            "preseed.orc" : "unspecified",
+            "openrocket_hardcoded.orc" : "unspecified",
+            "apogee.orc" : "Apogee",
+            "competition_chutes.orc" : "Generic competition",
+            "bluetube.orc" : "Always Ready Rocketry",
+            "bluetube-legacy.orc" : "Always Ready Rocketry",
+            "bms.orc" : "BalsaMachining.com",
+            "bms-legacy.orc" : "BalsaMachining.com",
+            "estes_classic.orc" : "Estes",
+            "estes_ps2.orc" : "Estes",
+            "estes-legacy.orc" : "Estes",
+            "generic_materials.orc" : "unspecified",
+            "giantleaprocketry.orc" : "Giant Leap",
+            "giantleaprocketry-legacy.orc" : "Giant Leap",
+            "loc_precision.orc" : "LOC Precision",
+            "locprecision-legacy.orc" : "LOC Precision",
+            "madcow.orc" : "Madcow",
+            "mpc.orc" : "MPC",
+            "publicmissiles.orc" : "Public Missiles",
+            "publicmissiles-legacy.orc" : "Public Missiles",
+            "quest.orc" : "Quest",
+            "quest-legacy.orc" : "Quest",
+            "rocketarium.orc" : "Rocketarium",
+            "semroc.orc" : "SEMROC",
+            "semroc-legacy.orc" : "SEMROC",
+            "top_flight.orc" : "Top Flight Recovery",
+            "b2_rocketry_parachutes.orc" : "b2 Rocketry Company",
+            "fliskits-legacy.orc" : "FlisKits",
+            "front_range_rocket_recovery.orc" : "Front Range Rocket Recovery",
+            "fruity_chutes_enhanced.orc" : "Fruity Chutes",
+            "railbutton_database.orc" : "unspecified",
+            "rocketman.orc" : "Rocketman",
+            "spherachutes_parachutes.orc" : "Spherachutes",
+        }
+
+        name = PurePath(self._filename).name.lower()
+        if name not in manufacturers:
+            print("Unknown manufacturer for '%s'" % name)
+            raise UnknownManufacturerError("Unknown manufacturer for '%s'" % name)
+        return manufacturers[name]
+
+    def _unaliasManufacturer(self, content):
+        # Ensure manufacturer names are consistent
+        manufacturers = {
+            "loc" : "LOC Precision",
+            "loc/precision" : "LOC Precision",
+            "semroc astronautics" : "SEMROC",
+            "balsamachining" : "BalsaMachining.com",
+            "binder design-rail button supply house" : "Binder Design",
+        }
+
+        name = content.strip().lower()
+        if name in manufacturers:
+            return manufacturers[name]
+
+        return content
+
 class RootElement(Element):
 
     def __init__(self, parent, tag, attributes, connection, filename, line):
@@ -146,50 +206,6 @@ class MaterialElement(Element):
         self._type = None
         self._density = 0.0
         self._units = "kg/m^3" # attributes["UnitsOfMeasure"] OpenRocket ignores the units, and they're often wrong
-
-    def _defaultManufacturer(self):
-        # The default manufacturer is based on the filename
-        manufacturers = {
-            "preseed.orc" : "unspecified",
-            "openrocket_hardcoded.orc" : "unspecified",
-            "apogee.orc" : "Apogee",
-            "competition_chutes.orc" : "Generic competition",
-            "bluetube.orc" : "Always Ready Rocketry",
-            "bluetube-legacy.orc" : "Always Ready Rocketry",
-            "bms.orc" : "BalsaMachining.com",
-            "bms-legacy.orc" : "BalsaMachining.com",
-            "estes_classic.orc" : "Estes",
-            "estes_ps2.orc" : "Estes",
-            "estes-legacy.orc" : "Estes",
-            "generic_materials.orc" : "unspecified",
-            "giantleaprocketry.orc" : "Giant Leap",
-            "giantleaprocketry-legacy.orc" : "Giant Leap",
-            "loc_precision.orc" : "LOC Precision",
-            "locprecision-legacy.orc" : "LOC Precision",
-            "madcow.orc" : "Madcow",
-            "mpc.orc" : "MPC",
-            "publicmissiles.orc" : "Public Missiles",
-            "publicmissiles-legacy.orc" : "Public Missiles",
-            "quest.orc" : "Quest",
-            "quest-legacy.orc" : "Quest",
-            "rocketarium.orc" : "Rocketarium",
-            "semroc.orc" : "SEMROC",
-            "semroc-legacy.orc" : "SEMROC",
-            "top_flight.orc" : "Top Flight Recovery",
-            "b2_rocketry_parachutes.orc" : "b2 Rocketry Company",
-            "fliskits-legacy.orc" : "FlisKits",
-            "front_range_rocket_recovery.orc" : "Front Range Rocket Recovery",
-            "fruity_chutes_enhanced.orc" : "Fruity Chutes",
-            "railbutton_database.orc" : "unspecified",
-            "rocketman.orc" : "Rocketman",
-            "spherachutes_parachutes.orc" : "Spherachutes",
-        }
-
-        name = PurePath(self._filename).name.lower()
-        if name not in manufacturers:
-            print("Unknown manufacturer for '%s'" % name)
-            raise UnknownManufacturerError("Unknown manufacturer for '%s'" % name)
-        return manufacturers[name]
 
     def _sanitizeName(self, content):
         # LOCPrecision data has [material:name...] format
@@ -273,62 +289,6 @@ class ComponentElement(Element):
         self._description = ""
         self._material = ("", MATERIAL_TYPE_BULK)
         self._mass = (0.0, "")
-
-    def _defaultManufacturer(self):
-        # The default manufacturer is based on the filename
-        manufacturers = {
-            "preseed.orc" : "unspecified",
-            "apogee.orc" : "Apogee",
-            "competition_chutes.orc" : "Generic competition",
-            "bluetube.orc" : "Always Ready Rocketry",
-            "bluetube-legacy.orc" : "Always Ready Rocketry",
-            "bms.orc" : "BalsaMachining.com",
-            "bms-legacy.orc" : "BalsaMachining.com",
-            "estes_classic.orc" : "Estes",
-            "estes_ps2.orc" : "Estes",
-            "estes-legacy.orc" : "Estes",
-            "generic_materials.orc" : "unspecified",
-            "giantleaprocketry.orc" : "Giant Leap",
-            "giantleaprocketry-legacy.orc" : "Giant Leap",
-            "loc_precision.orc" : "LOC Precision",
-            "locprecision-legacy.orc" : "LOC Precision",
-            "madcow.orc" : "Madcow",
-            "mpc.orc" : "MPC",
-            "publicmissiles.orc" : "Public Missiles",
-            "publicmissiles-legacy.orc" : "Public Missiles",
-            "quest.orc" : "Quest",
-            "quest-legacy.orc" : "Quest",
-            "rocketarium.orc" : "Rocketarium",
-            "semroc.orc" : "SEMROC",
-            "semroc-legacy.orc" : "SEMROC",
-            "top_flight.orc" : "Top Flight Recovery",
-            "b2_rocketry_parachutes.orc" : "b2 Rocketry Company",
-            "fliskits-legacy.orc" : "FlisKits",
-            "front_range_rocket_recovery.orc" : "Front Range Rocket Recovery",
-            "fruity_chutes_enhanced.orc" : "Fruity Chutes",
-            "railbutton_database.orc" : "unspecified",
-            "rocketman.orc" : "Rocketman",
-            "spherachutes_parachutes.orc" : "Spherachutes",
-        }
-
-        name = PurePath(self._filename).name.lower()
-        if name not in manufacturers:
-            print("Unknown manufacturer for '%s'" % name)
-            raise UnknownManufacturerError("Unknown manufacturer for '%s'" % name)
-        return manufacturers[name]
-
-    def _unaliasManufacturer(self, content):
-        # Ensure manufacturer names are consistent
-        manufacturers = {
-            "loc" : "LOC/Precision",
-            "SEMROC Astronautics" : "SEMROC"
-        }
-
-        name = content.strip().lower()
-        if name in manufacturers:
-            return manufacturers[name]
-
-        return content
 
     def _sanitizeName(self, content):
         # LOCPrecision data has [material:name...] format

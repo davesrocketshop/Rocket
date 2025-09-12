@@ -164,7 +164,6 @@ class PartDatabase:
         cursor = connection.cursor()
         with open(filename, 'r') as file:
             for line in file:
-                print(line.strip())  # .strip() removes leading/trailing whitespace, including newline characters
                 cursor.execute(line.strip())
         connection.commit()
 
