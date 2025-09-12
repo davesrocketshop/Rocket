@@ -84,6 +84,7 @@ class Component:
                 material_index = getMaterialAnyType(connection, self._manufacturer, self._material[0])
             except MaterialNotFoundError:
                 pass
+        print(f"Material not found - using generic '{self._manufacturer}' '{self._material[0]}' '{self._material[1]}' ")
         if material_index < 0:
             try:
                 print("Unable to find material for '%s':'%s' - setting to Generic" % (self._manufacturer, self._partNumber))

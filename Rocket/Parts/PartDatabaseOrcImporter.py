@@ -320,7 +320,8 @@ class ComponentElement(Element):
     def _unaliasManufacturer(self, content):
         # Ensure manufacturer names are consistent
         manufacturers = {
-            "loc" : "LOC/Precision"
+            "loc" : "LOC/Precision",
+            "SEMROC Astronautics" : "SEMROC"
         }
 
         name = content.strip().lower()
