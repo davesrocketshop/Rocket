@@ -1,3 +1,0 @@
-[submodule "Resources/parts/openrocket-database"]
-	path = Resources/parts/openrocket-dbcook
-	url = https://github.com/dbcook/openrocket-database.git
