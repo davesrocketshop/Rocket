@@ -78,19 +78,28 @@ class PartDatabase:
             for line in connection.iterdump():
                 f.write("%s\n" % line)
 
+        with open('Resources/parts/workbench/material.sql', 'w') as f:
+            for line in connection.iterdump():
+                # Check if the line pertains to the target table
+                if 'CREATE TABLE "material"' in line or \
+                'INSERT INTO "material"' in line or \
+                'BEGIN TRANSACTION;' in line or \
+                'COMMIT;' in line:
+                    f.write(f'{line}\n')
+
         connection.close()
 
     def _createTables(self, connection):
         cursor = connection.cursor()
 
-        # cursor.execute("DROP TABLE IF EXISTS alias")
+        cursor.execute("DROP TABLE IF EXISTS alias")
         cursor.execute("CREATE TABLE IF NOT EXISTS alias (alias_index INTEGER PRIMARY KEY ASC, alias_type, name, alias_name)")
 
-        # cursor.execute("DROP TABLE IF EXISTS material")
+        cursor.execute("DROP TABLE IF EXISTS material")
         cursor.execute("CREATE TABLE IF NOT EXISTS material (material_index INTEGER PRIMARY KEY ASC, manufacturer, material_name, uuid, type, density, units)")
         cursor.execute("CREATE INDEX IF NOT EXISTS idx_material ON material(manufacturer, material_name, type)")
 
-        # cursor.execute("DROP TABLE IF EXISTS component")
+        cursor.execute("DROP TABLE IF EXISTS component")
         cursor.execute("CREATE TABLE IF NOT EXISTS component (component_index INTEGER PRIMARY KEY ASC, manufacturer, part_number, description, material_index, mass, mass_units)")
         cursor.execute("CREATE INDEX IF NOT EXISTS idx_component_manufacturer ON component(manufacturer)")
 
@@ -101,42 +110,46 @@ class PartDatabase:
                        VALUES ('Body Tube'), ('Centering Ring'), ('Tube Coupler'), ('Engine Block'), ('Launch Lug'), ('Bulkhead')
                        ON CONFLICT(type) DO NOTHING""")
 
-        # cursor.execute("DROP TABLE IF EXISTS body_tube")
+        cursor.execute("DROP TABLE IF EXISTS body_tube")
         cursor.execute("""CREATE TABLE IF NOT EXISTS body_tube (body_tube_index INTEGER PRIMARY KEY ASC, component_index,
                             tube_type_index, inner_diameter, inner_diameter_units, outer_diameter, outer_diameter_units,
                             normalized_diameter, length, length_units)""")
         cursor.execute("CREATE INDEX IF NOT EXISTS idx_body_tube ON body_tube(component_index, tube_type_index)")
         cursor.execute("CREATE INDEX IF NOT EXISTS idx_body_tube_diameter ON body_tube(normalized_diameter)")
 
-        # cursor.execute("DROP TABLE IF EXISTS nose")
+        cursor.execute("DROP TABLE IF EXISTS nose")
         cursor.execute("""CREATE TABLE IF NOT EXISTS nose (nose_index INTEGER PRIMARY KEY ASC, component_index, shape,
             style, diameter, diameter_units, length, length_units, thickness, thickness_units, shoulder_diameter,
             shoulder_diameter_units, shoulder_length, shoulder_length_units, normalized_diameter, normalized_length)""")
 
-        # cursor.execute("DROP TABLE IF EXISTS transition")
+        cursor.execute("DROP TABLE IF EXISTS transition")
         cursor.execute("""CREATE TABLE IF NOT EXISTS transition (transition_index INTEGER PRIMARY KEY ASC, component_index, shape, style,
             fore_outside_diameter, fore_outside_diameter_units, fore_shoulder_diameter, fore_shoulder_diameter_units, fore_shoulder_length, fore_shoulder_length_units,
             aft_outside_diameter, aft_outside_diameter_units, aft_shoulder_diameter, aft_shoulder_diameter_units, aft_shoulder_length, aft_shoulder_length_units,
             length, length_units, thickness, thickness_units, normalized_fore_diameter, normalized_aft_diameter, normalized_length)""")
 
-        # cursor.execute("DROP TABLE IF EXISTS rail_button")
+        cursor.execute("DROP TABLE IF EXISTS rail_button")
         cursor.execute("""CREATE TABLE IF NOT EXISTS rail_button (rail_button_index INTEGER PRIMARY KEY ASC, component_index, finish, outer_diameter, outer_diameter_units,
                 inner_diameter, inner_diameter_units, height, height_units, base_height, base_height_units, flange_height, flange_height_units, screw_height, screw_height_units,
                 drag_coefficient, screw_mass, screw_mass_units, nut_mass, nut_mass_units, screw_diameter, screw_diameter_units, countersink_diameter, countersink_diameter_units, countersink_angle)""")
 
-        # cursor.execute("DROP TABLE IF EXISTS parachute")
+        cursor.execute("DROP TABLE IF EXISTS parachute")
         cursor.execute("CREATE TABLE IF NOT EXISTS parachute (parachute_index INTEGER PRIMARY KEY ASC, component_index, line_material_index, sides, lines, diameter, diameter_units, line_length, line_length_units)")
 
-        # cursor.execute("DROP TABLE IF EXISTS streamer")
+        cursor.execute("DROP TABLE IF EXISTS streamer")
         cursor.execute("CREATE TABLE IF NOT EXISTS streamer (streamer_index INTEGER PRIMARY KEY ASC, component_index, length, length_units, width, width_units, thickness, thickness_units)")
 
         connection.commit()
 
     def _importFiles(self, connection):
         # Import files with initial definitions, or corrections to incomplete definitions
+        materialFile = self._rootFolder + "/Resources/parts/workbench/material.sql"
+        self._importMaterials(connection, materialFile)
+
         for (dirpath, dirnames, filenames) in walk(self._rootFolder + "/Resources/parts/workbench/"):
             for file in filenames:
-                self._importOrcPartFile(connection, dirpath + file)
+                if not file.endswith(".sql"):
+                    self._importOrcPartFile(connection, dirpath + file)
 
         for (dirpath, dirnames, filenames) in walk(self._rootFolder + "/Resources/parts/openrocket-dbcook/orc/"):
             self._importOrcPartFile(connection, dirpath + 'generic_materials.orc')
@@ -146,6 +159,14 @@ class PartDatabase:
         for (dirpath, dirnames, filenames) in walk(self._rootFolder + "/Resources/parts/openrocket-openrocket/"):
             for file in filenames:
                 self._importOrcPartFile(connection, dirpath + file)
+
+    def _importMaterials(self, connection, filename):
+        cursor = connection.cursor()
+        with open(filename, 'r') as file:
+            for line in file:
+                print(line.strip())  # .strip() removes leading/trailing whitespace, including newline characters
+                cursor.execute(line.strip())
+        connection.commit()
 
     def _importOrcPartFile(self, connection, filename):
         _msg("Importing %s..." % filename)
