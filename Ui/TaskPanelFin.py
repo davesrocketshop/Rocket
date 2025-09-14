@@ -130,7 +130,9 @@ class _FinDialog(QDialog):
         self.form.xRotationInput.unit = FreeCAD.Units.Angle
         self.form.yRotationInput.unit = FreeCAD.Units.Angle
         self.form.zRotationInput.unit = FreeCAD.Units.Angle
-        self.form.offsetInput.unit = FreeCAD.Units.Length
+        self.form.xOffsetInput.unit = FreeCAD.Units.Length
+        self.form.yOffsetInput.unit = FreeCAD.Units.Length
+        self.form.zOffsetInput.unit = FreeCAD.Units.Length
 
     def setTabFinRoot(self) -> None:
 
@@ -287,7 +289,9 @@ class TaskPanelFin(QObject):
         self._finForm.form.xRotationInput.textEdited.connect(self.onRotation)
         self._finForm.form.yRotationInput.textEdited.connect(self.onRotation)
         self._finForm.form.zRotationInput.textEdited.connect(self.onRotation)
-        self._finForm.form.offsetInput.textEdited.connect(self.onOffset)
+        self._finForm.form.xOffsetInput.textEdited.connect(self.onOffset)
+        self._finForm.form.yOffsetInput.textEdited.connect(self.onOffset)
+        self._finForm.form.zOffsetInput.textEdited.connect(self.onOffset)
 
         self._finForm.tabScaling.scaled.connect(self.onScale)
 
@@ -358,7 +362,9 @@ class TaskPanelFin(QObject):
         pitch = FreeCAD.Units.Quantity(self._finForm.form.yRotationInput.text()).Value
         roll = FreeCAD.Units.Quantity(self._finForm.form.xRotationInput.text()).Value
         placement.Rotation.setYawPitchRoll(yaw, pitch, roll)
-        placement.Base.x = FreeCAD.Units.Quantity(self._finForm.form.offsetInput.text()).Value
+        placement.Base.x = FreeCAD.Units.Quantity(self._finForm.form.xOffsetInput.text()).Value
+        placement.Base.y = FreeCAD.Units.Quantity(self._finForm.form.yOffsetInput.text()).Value
+        placement.Base.z = FreeCAD.Units.Quantity(self._finForm.form.zOffsetInput.text()).Value
         self._obj.ProxyPlacement = placement
 
         self._finForm.tabScaling.transferTo(self._obj)
@@ -428,7 +434,9 @@ class TaskPanelFin(QObject):
         self._finForm.form.xRotationInput.setText(f"{roll} deg")
         self._finForm.form.yRotationInput.setText(f"{pitch} deg")
         self._finForm.form.zRotationInput.setText(f"{yaw} deg")
-        self._finForm.form.offsetInput.setText(FreeCAD.Units.Quantity(placement.Base.x, FreeCAD.Units.Length).UserString)
+        self._finForm.form.xOffsetInput.setText(FreeCAD.Units.Quantity(placement.Base.x, FreeCAD.Units.Length).UserString)
+        self._finForm.form.yOffsetInput.setText(FreeCAD.Units.Quantity(placement.Base.y, FreeCAD.Units.Length).UserString)
+        self._finForm.form.zOffsetInput.setText(FreeCAD.Units.Quantity(placement.Base.z, FreeCAD.Units.Length).UserString)
 
         self._finForm.tabScaling.transferFrom(self._obj)
         self._finForm.tabMaterial.transferFrom(self._obj)
@@ -1262,7 +1270,9 @@ class TaskPanelFin(QObject):
 
     def onOffset(self, value):
         try:
-            self._obj.ProxyPlacement.Base.x = FreeCAD.Units.Quantity(self._finForm.form.offsetInput.text()).Value
+            self._obj.ProxyPlacement.Base.x = FreeCAD.Units.Quantity(self._finForm.form.xOffsetInput.text()).Value
+            self._obj.ProxyPlacement.Base.y = FreeCAD.Units.Quantity(self._finForm.form.yOffsetInput.text()).Value
+            self._obj.ProxyPlacement.Base.z = FreeCAD.Units.Quantity(self._finForm.form.zOffsetInput.text()).Value
             self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass

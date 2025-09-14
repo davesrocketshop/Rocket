@@ -165,8 +165,7 @@ class FinProxyShapeHandler:
             # if self._cant != 0:
             #     fin.rotate(FreeCAD.Vector(self._rootChord / 2, 0, 0), FreeCAD.Vector(0,0,1), self._cant)
             radius = self._getTubeRadius()
-            # fin.translate(FreeCAD.Vector(baseX, 0, radius + self._thickness))
-            fin.translate(FreeCAD.Vector(baseX, 0, radius))
+            fin.translate(FreeCAD.Vector(baseX, (fin.BoundBox.YLength / 2.0) + self._proxyPlacement.Base.y, radius + self._proxyPlacement.Base.z))
             fin.rotate(FreeCAD.Vector(0, 0, 0), FreeCAD.Vector(1,0,0), i * self._finSpacing)
             fins.append(fin)
 
