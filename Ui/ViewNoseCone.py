@@ -29,7 +29,7 @@ import FreeCAD
 from Ui.TaskPanelNoseCone import TaskPanelNoseCone
 from Ui.ViewProvider import ViewProvider
 
-from Rocket.Utilities import translate
+translate = FreeCAD.Qt.translate
 
 class ViewProviderNoseCone(ViewProvider):
 

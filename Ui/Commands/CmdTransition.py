@@ -36,7 +36,8 @@ from Ui.Commands.Command import Command
 
 from Rocket.Constants import FEATURE_TRANSITION
 
-from Rocket.Utilities import translate
+def QT_TRANSLATE_NOOP(context, text):
+    return text
 
 def makeTransition(name='Transition'):
     '''makeTransition(name): makes a Transition'''
@@ -63,6 +64,6 @@ class CmdTransition(Command):
         return False
 
     def GetResources(self):
-        return {'MenuText': translate("Rocket", 'Transition'),
-                'ToolTip': translate("Rocket", 'Transition design'),
+        return {'MenuText': QT_TRANSLATE_NOOP("Rocket", 'Transition'),
+                'ToolTip': QT_TRANSLATE_NOOP("Rocket", 'Transition design'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Transition.svg"}

@@ -27,7 +27,8 @@ __url__ = "https://www.davesrocketshop.com"
 import math
 from typing import Any
 
-from Rocket.Utilities import translate
+import FreeCAD
+translate = FreeCAD.Qt.translate
 
 from Rocket.Utilities import reduce2Pi
 from Rocket.position.DistanceMethod import DistanceMethod

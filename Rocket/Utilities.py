@@ -30,14 +30,10 @@ import FreeCAD
 import math
 
 from PySide import QtCore
-Qtranslate = QtCore.QCoreApplication.translate
 
 # Tolerance value for effective zero
 # EPSILON = 0.00000001 # 10mm^3 in m^3
 EPSILON = 0.000001
-
-def translate(context, text, comment=None):
-    return Qtranslate(context, text, comment)
 
 def _msg(message : str) -> None:
     """Write messages to the console including the line ending."""

@@ -27,7 +27,8 @@ __url__ = "https://www.davesrocketshop.com"
 import FreeCAD
 import FreeCADGui
 
-from Rocket.Utilities import translate
+def QT_TRANSLATE_NOOP(context, text):
+    return text
 
 from Ui.DialogThrustToWeight import DialogThrustToWeight
 
@@ -45,6 +46,6 @@ class CmdCalcThrustToWeight:
         return True
 
     def GetResources(self):
-        return {'MenuText': translate("Rocket", 'Calculate Thrust To Weight'),
-                'ToolTip': translate("Rocket", 'Calculate Thrust To Weight'),
+        return {'MenuText': QT_TRANSLATE_NOOP("Rocket", 'Calculate Thrust To Weight'),
+                'ToolTip': QT_TRANSLATE_NOOP("Rocket", 'Calculate Thrust To Weight'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Calculator.svg"}

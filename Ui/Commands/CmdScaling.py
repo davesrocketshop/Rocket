@@ -29,7 +29,9 @@ import FreeCADGui
 
 from PySide import QtGui
 
-from Rocket.Utilities import translate
+translate = FreeCAD.Qt.translate
+def QT_TRANSLATE_NOOP(context, text):
+    return text
 
 from Rocket.Constants import FEATURE_BODY_TUBE
 
@@ -65,7 +67,7 @@ def scalingPairs():
             form.exec_()
             return
 
-        QtGui.QMessageBox.information(None, "", translate('Rocket', "Please select a pair of body tubes"))
+        QtGui.QMessageBox.information(None, "", QT_TRANSLATE_NOOP('Rocket', "Please select a pair of body tubes"))
     except TypeError as ex:
         QtGui.QMessageBox.information(None, "", str(ex))
 
@@ -84,7 +86,7 @@ def scalingTubes():
             form.exec_()
             return
 
-        QtGui.QMessageBox.information(None, "", translate('Rocket', "Please select a pair of body tubes"))
+        QtGui.QMessageBox.information(None, "", QT_TRANSLATE_NOOP('Rocket', "Please select a pair of body tubes"))
     except TypeError as ex:
         QtGui.QMessageBox.information(None, "", str(ex))
 
@@ -98,8 +100,8 @@ class CmdScalingPairs:
         return True
 
     def GetResources(self):
-        return {'MenuText': translate("Rocket", 'Match body tube pairs'),
-                'ToolTip': translate("Rocket", 'Match body tube pairs suitable for scale'),
+        return {'MenuText': QT_TRANSLATE_NOOP("Rocket", 'Match body tube pairs'),
+                'ToolTip': QT_TRANSLATE_NOOP("Rocket", 'Match body tube pairs suitable for scale'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Scaling.svg"}
 
 class CmdScalingTubes:
@@ -112,6 +114,6 @@ class CmdScalingTubes:
         return True
 
     def GetResources(self):
-        return {'MenuText': translate("Rocket", 'Find scale body tubes'),
-                'ToolTip': translate("Rocket", 'Find scale body tubes'),
+        return {'MenuText': QT_TRANSLATE_NOOP("Rocket", 'Find scale body tubes'),
+                'ToolTip': QT_TRANSLATE_NOOP("Rocket", 'Find scale body tubes'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Scaling.svg"}

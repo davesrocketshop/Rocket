@@ -28,7 +28,7 @@ from typing import Any
 
 import FreeCAD
 
-from Rocket.Utilities import translate
+translate = FreeCAD.Qt.translate
 
 from Rocket.FeatureStage import FeatureStage
 from Rocket.Constants import FEATURE_ROCKET, FEATURE_STAGE, FEATURE_PARALLEL_STAGE

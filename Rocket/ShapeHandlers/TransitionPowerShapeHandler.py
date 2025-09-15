@@ -26,7 +26,8 @@ __url__ = "https://www.davesrocketshop.com"
 
 import math
 
-from Rocket.Utilities import translate
+import FreeCAD
+translate = FreeCAD.Qt.translate
 
 from Rocket.ShapeHandlers.TransitionShapeHandler import TransitionShapeHandler
 

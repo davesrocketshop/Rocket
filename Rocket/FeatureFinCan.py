@@ -26,6 +26,10 @@ __url__ = "https://www.davesrocketshop.com"
 
 from typing import Any
 
+import FreeCAD
+
+translate = FreeCAD.Qt.translate
+
 from Rocket.SymmetricComponent import SymmetricComponent
 from Rocket.FeatureFin import FeatureFin
 from Rocket.Constants import FEATURE_FINCAN, FEATURE_LAUNCH_LUG, FEATURE_RAIL_BUTTON, FEATURE_RAIL_GUIDE, \
@@ -44,8 +48,6 @@ from Rocket.ShapeHandlers.FinCanShapeHandler import FinCanTrapezoidShapeHandler
 from Rocket.ShapeHandlers.FinCanShapeHandler import FinCanTriangleShapeHandler
 from Rocket.ShapeHandlers.FinCanShapeHandler import FinCanEllipseShapeHandler
 from Rocket.ShapeHandlers.FinCanShapeHandler import FinCanSketchShapeHandler
-
-from Rocket.Utilities import translate
 
 class FeatureFinCan(SymmetricComponent, FeatureFin):
 

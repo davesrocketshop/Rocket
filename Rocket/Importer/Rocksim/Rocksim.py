@@ -29,7 +29,7 @@ from io import TextIOWrapper
 import xml.sax
 import FreeCAD
 
-from Rocket.Utilities import translate
+translate = FreeCAD.Qt.translate
 
 from Rocket.Exceptions import UnsupportedVersion
 

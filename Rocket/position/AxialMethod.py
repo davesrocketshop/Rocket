@@ -26,7 +26,8 @@ __url__ = "https://www.davesrocketshop.com"
 
 from abc import abstractmethod
 
-from Rocket.Utilities import translate
+import FreeCAD
+translate = FreeCAD.Qt.translate
 
 from Rocket.Constants import LOCATION_PARENT_TOP, LOCATION_PARENT_MIDDLE, LOCATION_PARENT_BOTTOM, \
     LOCATION_BASE, LOCATION_AFTER

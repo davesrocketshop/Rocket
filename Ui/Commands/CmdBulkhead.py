@@ -35,7 +35,8 @@ from Ui.Commands.Command import Command
 
 from Rocket.Constants import FEATURE_BULKHEAD
 
-from Rocket.Utilities import translate
+def QT_TRANSLATE_NOOP(context, text):
+    return text
 
 def makeBulkhead(name='Bulkhead'):
     '''makeBulkhead(name): makes a bulkhead'''
@@ -62,6 +63,6 @@ class CmdBulkhead(Command):
         return False
 
     def GetResources(self):
-        return {'MenuText': translate("Rocket", 'Bulkhead'),
-                'ToolTip': translate("Rocket", 'Bulkhead design'),
+        return {'MenuText': QT_TRANSLATE_NOOP("Rocket", 'Bulkhead'),
+                'ToolTip': QT_TRANSLATE_NOOP("Rocket", 'Bulkhead design'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Bulkhead.svg"}

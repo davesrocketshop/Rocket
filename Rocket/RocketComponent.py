@@ -30,6 +30,8 @@ import FreeCAD
 import Materials
 import Part
 
+translate = FreeCAD.Qt.translate
+
 from Rocket.Parts.PartDatabase import PartDatabase
 from Rocket.Parts.Material import getUuid
 from Rocket.Parts.Exceptions import MaterialNotFoundError
@@ -45,8 +47,6 @@ from Rocket.interfaces.Observer import Observer
 from Rocket.util.Coordinate import Coordinate, ZERO
 
 from Rocket.Utilities import _err
-
-from Rocket.Utilities import translate
 
 class RocketComponent(RocketComponentShapeless):
 

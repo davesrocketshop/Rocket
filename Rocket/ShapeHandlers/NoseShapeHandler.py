@@ -33,7 +33,7 @@ import math
 from abc import ABC, abstractmethod
 from typing import Any
 
-from Rocket.Utilities import translate
+translate = FreeCAD.Qt.translate
 
 from Rocket.Constants import STYLE_CAPPED, STYLE_HOLLOW, STYLE_SOLID
 from Rocket.Constants import STYLE_CAP_BAR, STYLE_CAP_CROSS

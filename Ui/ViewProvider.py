@@ -26,7 +26,7 @@ __url__ = "https://www.davesrocketshop.com"
 
 import FreeCADGui
 
-from Rocket.Utilities import translate
+translate = FreeCAD.Qt.translate
 
 from Ui.Widgets.WaitCursor import WaitCursor
 

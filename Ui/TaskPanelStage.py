@@ -29,7 +29,7 @@ from typing import Any
 import FreeCAD
 import FreeCADGui
 
-from Rocket.Utilities import translate
+translate = FreeCAD.Qt.translate
 
 from PySide import QtGui
 from PySide.QtWidgets import QDialog, QVBoxLayout

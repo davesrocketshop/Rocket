@@ -26,14 +26,16 @@ __url__ = "https://www.davesrocketshop.com"
 
 from typing import Any
 
+import FreeCAD
+
+translate = FreeCAD.Qt.translate
+
 from Rocket.FeatureBulkhead import FeatureBulkhead
 from Rocket.FeatureInnerTube import FeatureInnerTube
 from Rocket.util.Coordinate import Coordinate, NUL
 from Rocket.Constants import FEATURE_CENTERING_RING
 
 from Rocket.ShapeHandlers.CenteringRingShapeHandler import CenteringRingShapeHandler
-
-from Rocket.Utilities import translate
 
 #
 # Centering rings are an extension of bulkheads

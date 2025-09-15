@@ -25,7 +25,8 @@ __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
 
-from Rocket.Utilities import translate
+import FreeCAD
+translate = FreeCAD.Qt.translate
 
 from PySide import QtGui
 from PySide.QtWidgets import QVBoxLayout, QTextEdit

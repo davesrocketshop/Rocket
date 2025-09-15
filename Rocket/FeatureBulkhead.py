@@ -26,12 +26,14 @@ __url__ = "https://www.davesrocketshop.com"
 
 from typing import Any
 
+import FreeCAD
+
+translate = FreeCAD.Qt.translate
+
 from Rocket.RadiusRingComponent import RadiusRingComponent
 from Rocket.Constants import FEATURE_BULKHEAD
 
 from Rocket.ShapeHandlers.BulkheadShapeHandler import BulkheadShapeHandler
-
-from Rocket.Utilities import translate
 
 class FeatureBulkhead(RadiusRingComponent):
 

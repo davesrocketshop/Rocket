@@ -26,7 +26,9 @@ __url__ = "https://www.davesrocketshop.com"
 
 from typing import Any
 
-from Rocket.Utilities import translate
+import FreeCAD
+
+translate = FreeCAD.Qt.translate
 
 from Rocket.ComponentAssembly import ComponentAssembly
 

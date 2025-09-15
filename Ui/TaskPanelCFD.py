@@ -30,7 +30,7 @@ import Part
 import os
 import math
 
-from Rocket.Utilities import translate
+translate = FreeCAD.Qt.translate
 
 from PySide import  QtCore, QtGui
 

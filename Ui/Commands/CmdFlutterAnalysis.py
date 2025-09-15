@@ -27,7 +27,9 @@ __url__ = "https://www.davesrocketshop.com"
 import FreeCAD
 import FreeCADGui
 
-from Rocket.Utilities import translate
+translate = FreeCAD.Qt.translate
+def QT_TRANSLATE_NOOP(context, text):
+    return text
 
 from PySide import QtGui
 
@@ -60,6 +62,6 @@ class CmdFinFlutter(Command):
         return self.partFinSelected()
 
     def GetResources(self):
-        return {'MenuText': translate("Rocket", 'Fin Flutter Analysis'),
-                'ToolTip': translate("Rocket", 'Calculate fin flutter'),
+        return {'MenuText': QT_TRANSLATE_NOOP("Rocket", 'Fin Flutter Analysis'),
+                'ToolTip': QT_TRANSLATE_NOOP("Rocket", 'Calculate fin flutter'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_FinFlutter.svg"}

@@ -32,7 +32,8 @@ from Rocket.FeatureFin import FeatureFin
 from Ui.ViewFin import ViewProviderFin
 # import Sketcher
 
-from Rocket.Utilities import translate
+def QT_TRANSLATE_NOOP(context, text):
+    return text
 
 def makeFin(name):
     '''makeFin(name): makes a Fin'''
@@ -70,6 +71,6 @@ class CmdFin:
         return False
 
     def GetResources(self):
-        return {'MenuText': translate("Rocket", 'Fin'),
-                'ToolTip': translate("Rocket", 'Fin design'),
+        return {'MenuText': QT_TRANSLATE_NOOP("Rocket", 'Fin'),
+                'ToolTip': QT_TRANSLATE_NOOP("Rocket", 'Fin design'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Fin.svg"}

@@ -33,7 +33,8 @@ import math
 from Rocket.Constants import RAIL_GUIDE_BASE_CONFORMAL, RAIL_GUIDE_BASE_V
 
 from Rocket.Utilities import _err, validationError
-from Rocket.Utilities import translate
+
+translate = FreeCAD.Qt.translate
 
 TOLERANCE_OFFSET = 0.5     # Distance to offset a vertex
 

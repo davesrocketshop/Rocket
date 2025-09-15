@@ -25,7 +25,8 @@ __url__ = "https://www.davesrocketshop.com"
 import FreeCAD
 import FreeCADGui
 
-from Rocket.Utilities import translate
+def QT_TRANSLATE_NOOP(context, text):
+    return text
 
 from Ui.Commands.Command import Command
 from Ui.Commands.CmdRocket import CmdRocket, CmdToggleRocket
@@ -127,8 +128,8 @@ class _CalculatorGroupCommand:
         return tuple(['Rocket_CalcBlackPowder', 'Rocket_CalcParachute', 'Rocket_CalcThrustToWeight', 'Rocket_CalcVentHoles'])
     def GetResources(self):
         return {
-            'MenuText': translate('Rocket', 'Calculators'),
-            'ToolTip': translate('Rocket', 'Calculators'),
+            'MenuText': QT_TRANSLATE_NOOP('Rocket', 'Calculators'),
+            'ToolTip': QT_TRANSLATE_NOOP('Rocket', 'Calculators'),
             'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Calculator.svg"
         }
     def IsActive(self):
@@ -141,8 +142,8 @@ class _ScalingGroupCommand:
         return tuple(['Rocket_ScalingTubes', 'Rocket_ScalingPairs'])
     def GetResources(self):
         return {
-            'MenuText': translate('Rocket', 'Scaling Tools'),
-            'ToolTip': translate('Rocket', 'Scaling Tools'),
+            'MenuText': QT_TRANSLATE_NOOP('Rocket', 'Scaling Tools'),
+            'ToolTip': QT_TRANSLATE_NOOP('Rocket', 'Scaling Tools'),
             'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Scaling.svg"
         }
     def IsActive(self):
@@ -155,8 +156,8 @@ class _TubeGroupCommand(Command):
         return tuple(['Rocket_BodyTube', 'Rocket_Coupler', 'Rocket_InnerTube'])
     def GetResources(self):
         return {
-            'MenuText': translate('Rocket', 'Body Tubes'),
-            'ToolTip': translate('Rocket', 'Body Tubes'),
+            'MenuText': QT_TRANSLATE_NOOP('Rocket', 'Body Tubes'),
+            'ToolTip': QT_TRANSLATE_NOOP('Rocket', 'Body Tubes'),
             'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_BodyTube.svg"
         }
     def IsActive(self):
@@ -170,8 +171,8 @@ class _GuidesGroupCommand(Command):
         return tuple(['Rocket_LaunchLug', 'Rocket_RailButton', 'Rocket_RailGuide'])
     def GetResources(self):
         return {
-            'MenuText': translate('Rocket', 'Launch Guides'),
-            'ToolTip': translate('Rocket', 'Launch Guides'),
+            'MenuText': QT_TRANSLATE_NOOP('Rocket', 'Launch Guides'),
+            'ToolTip': QT_TRANSLATE_NOOP('Rocket', 'Launch Guides'),
             'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_LaunchLug.svg"
         }
     def IsActive(self):

@@ -32,7 +32,8 @@ if FreeCAD.GuiUp:
     from Ui.ViewParachute import ViewProviderParachute
     from Ui.Widgets.WaitCursor import WaitCursor
 
-from Rocket.Utilities import translate
+def QT_TRANSLATE_NOOP(context, text):
+    return text
 
 def makeParachute(name):
     '''makeParachute(name): makes a Parachute'''
@@ -60,6 +61,6 @@ class CmdParachute:
         return False
 
     def GetResources(self):
-        return {'MenuText': translate("Rocket", 'Parachute'),
-                'ToolTip': translate("Rocket", 'Parachute design'),
+        return {'MenuText': QT_TRANSLATE_NOOP("Rocket", 'Parachute'),
+                'ToolTip': QT_TRANSLATE_NOOP("Rocket", 'Parachute design'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Parachute.svg"}

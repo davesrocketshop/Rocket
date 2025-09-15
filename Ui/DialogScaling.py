@@ -33,7 +33,7 @@ import FreeCAD
 import FreeCADGui
 import Materials
 
-from Rocket.Utilities import translate
+translate = FreeCAD.Qt.translate
 
 from PySide import QtGui, QtCore, QtWidgets
 # from PySide.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QGridLayout

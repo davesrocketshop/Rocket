@@ -31,6 +31,8 @@ import FreeCAD
 import Part
 import math
 
+translate = FreeCAD.Qt.translate
+
 import Ui
 
 from Rocket.Utilities import EPSILON
@@ -45,8 +47,6 @@ from Rocket.Constants import FEATURE_ROCKET, FEATURE_STAGE
 from Rocket.Constants import LOCATION_SURFACE, LOCATION_CENTER
 
 from Rocket.Exceptions import UnsupportedConfiguration, ObjectNotFound
-
-from Rocket.Utilities import translate
 
 class RocketComponentShapeless(Subject, Observer):
 

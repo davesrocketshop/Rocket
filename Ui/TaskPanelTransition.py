@@ -33,7 +33,7 @@ import Materials
 from PySide import QtGui, QtCore
 from PySide.QtWidgets import QDialog, QGridLayout, QVBoxLayout, QSizePolicy
 
-from Rocket.Utilities import translate
+translate = FreeCAD.Qt.translate
 
 from Ui.TaskPanelDatabase import TaskPanelDatabase
 from Ui.Widgets.MaterialTab import MaterialTab

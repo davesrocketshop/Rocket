@@ -32,7 +32,7 @@ import Materials
 from PySide import QtGui, QtCore
 from PySide.QtWidgets import QDialog, QGridLayout, QVBoxLayout
 
-from Rocket.Utilities import translate
+translate = FreeCAD.Qt.translate
 
 from Ui.TaskPanelDatabase import TaskPanelDatabase
 from Ui.TaskPanelLocation import TaskPanelLocation

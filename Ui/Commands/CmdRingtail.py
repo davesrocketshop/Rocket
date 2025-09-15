@@ -35,7 +35,8 @@ from Ui.Commands.Command import Command
 
 from Rocket.Constants import FEATURE_RINGTAIL
 
-from Rocket.Utilities import translate
+def QT_TRANSLATE_NOOP(context, text):
+    return text
 
 def makeRingtail(name='Ringtail'):
     '''makeRingtail(name): makes a ring tail'''
@@ -64,6 +65,6 @@ class CmdRingtail(Command):
         return False
 
     def GetResources(self):
-        return {'MenuText': translate("Rocket", 'Ring tail'),
-                'ToolTip': translate("Rocket", 'Ring tail design'),
+        return {'MenuText': QT_TRANSLATE_NOOP("Rocket", 'Ring tail'),
+                'ToolTip': QT_TRANSLATE_NOOP("Rocket", 'Ring tail design'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Ringtail.svg"}

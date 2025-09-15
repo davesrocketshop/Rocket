@@ -24,11 +24,13 @@ __title__ = "FreeCAD Wind Tunnel"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
+import FreeCAD
+
+translate = FreeCAD.Qt.translate
+
 from Rocket.Constants import FEATURE_WIND_TUNNEL
 
 from Rocket.cfd.ShapeHandlers.WindTunnelShapeHandler import WindTunnelShapeHandler
-
-from Rocket.Utilities import translate
 
 class FeatureWindTunnel:
 

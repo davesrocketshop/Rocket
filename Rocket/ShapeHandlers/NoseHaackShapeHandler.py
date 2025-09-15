@@ -28,7 +28,7 @@ import FreeCAD
 import Part
 import math
 
-from Rocket.Utilities import translate
+translate = FreeCAD.Qt.translate
 
 from Rocket.ShapeHandlers.NoseShapeHandler import NoseShapeHandler
 from Rocket.Utilities import validationError

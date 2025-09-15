@@ -28,7 +28,8 @@ import FreeCAD
 import Part
 
 from Rocket.Utilities import validationError, _err
-from Rocket.Utilities import translate
+
+translate = FreeCAD.Qt.translate
 
 class WindTunnelShapeHandler():
     def __init__(self, obj):
