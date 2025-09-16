@@ -24,10 +24,10 @@ __title__ = "FreeCAD Materials"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
+import FreeCAD
 import FreeCADGui
 
-def QT_TRANSLATE_NOOP(context, text):
-    return text
+translate = FreeCAD.Qt.translate
 
 from Ui.Widgets.WaitCursor import WaitCursor
 
@@ -41,6 +41,6 @@ class CmdMaterialEditor:
         return True
 
     def GetResources(self):
-        return {'MenuText': QT_TRANSLATE_NOOP("Rocket", 'Material editor'),
-                'ToolTip': QT_TRANSLATE_NOOP("Rocket", 'Opens the FreeCAD material editor'),
+        return {'MenuText': translate("Rocket", 'Material editor'),
+                'ToolTip': translate("Rocket", 'Opens the FreeCAD material editor'),
                 'Pixmap': "Arch_Material" }

@@ -28,8 +28,6 @@ import FreeCAD
 import FreeCADGui
 
 translate = FreeCAD.Qt.translate
-def QT_TRANSLATE_NOOP(context, text):
-    return text
 
 from PySide import QtGui
 
@@ -102,6 +100,6 @@ class CmdFemAnalysis(Command):
         return self.partFinSelected()
 
     def GetResources(self):
-        return {'MenuText': QT_TRANSLATE_NOOP("Rocket", 'Fin FEM Analysis'),
-                'ToolTip': QT_TRANSLATE_NOOP("Rocket", 'Fin FEM Analysis'),
+        return {'MenuText': translate("Rocket", 'Fin FEM Analysis'),
+                'ToolTip': translate("Rocket", 'Fin FEM Analysis'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_FinFem.svg"}

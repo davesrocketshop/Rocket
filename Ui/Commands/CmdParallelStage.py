@@ -36,8 +36,7 @@ from Ui.Commands.Command import Command
 
 from Rocket.Constants import FEATURE_PARALLEL_STAGE
 
-def QT_TRANSLATE_NOOP(context, text):
-    return text
+translate = FreeCAD.Qt.translate
 
 def _addChild(stage, parent, child):
     child.Proxy.setParent(parent)
@@ -83,16 +82,16 @@ class CmdParallelStage(Command):
         return False
 
     def GetResources(self):
-        return {'MenuText': QT_TRANSLATE_NOOP("Rocket", 'Parallel Stage'),
-                'ToolTip': QT_TRANSLATE_NOOP("Rocket", 'Rocket Parallel Stage'),
+        return {'MenuText': translate("Rocket", 'Parallel Stage'),
+                'ToolTip': translate("Rocket", 'Rocket Parallel Stage'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_ParallelStage.svg"}
 
 
 class CmdToggleParallelStage:
     "the ToggleParallelStage command definition"
     def GetResources(self):
-        return {'MenuText': QT_TRANSLATE_NOOP("Rocket","Toggle active stage"),
-                'ToolTip' : QT_TRANSLATE_NOOP("Rocket","Toggle the active stage")}
+        return {'MenuText': translate("Rocket","Toggle active stage"),
+                'ToolTip' : translate("Rocket","Toggle the active stage")}
 
     def IsActive(self):
         return bool(FreeCADGui.Selection.getSelection())

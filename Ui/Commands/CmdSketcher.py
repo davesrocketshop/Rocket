@@ -27,8 +27,7 @@ __url__ = "https://www.davesrocketshop.com"
 import FreeCAD
 import FreeCADGui
 
-def QT_TRANSLATE_NOOP(context, text):
-    return text
+translate = FreeCAD.Qt.translate
 
 from Ui.Widgets.WaitCursor import WaitCursor
 
@@ -58,6 +57,6 @@ class CmdNewSketch:
         return False
 
     def GetResources(self):
-        return {'MenuText': QT_TRANSLATE_NOOP("Rocket", 'Create sketch'),
-                'ToolTip': QT_TRANSLATE_NOOP("Rocket", 'Create a new sketch'),
+        return {'MenuText': translate("Rocket", 'Create sketch'),
+                'ToolTip': translate("Rocket", 'Create a new sketch'),
                 'Pixmap': "Sketcher_NewSketch" }

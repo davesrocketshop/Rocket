@@ -35,8 +35,7 @@ if FreeCAD.GuiUp:
     from Ui.Widgets.WaitCursor import WaitCursor
 from Ui.Commands.Command import Command
 
-def QT_TRANSLATE_NOOP(context, text):
-    return text
+translate = FreeCAD.Qt.translate
 
 def makeFin(name='Fin'):
     '''makeFin(name): makes a Fin'''
@@ -73,6 +72,6 @@ class CmdFin(Command):
         return False
 
     def GetResources(self):
-        return {'MenuText': QT_TRANSLATE_NOOP("Rocket", 'Fin'),
-                'ToolTip': QT_TRANSLATE_NOOP("Rocket", 'Fin design'),
+        return {'MenuText': translate("Rocket", 'Fin'),
+                'ToolTip': translate("Rocket", 'Fin design'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Fin.svg"}

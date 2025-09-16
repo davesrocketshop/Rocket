@@ -35,8 +35,7 @@ from Ui.Commands.Command import Command
 
 from Rocket.Constants import FEATURE_POD
 
-def QT_TRANSLATE_NOOP(context, text):
-    return text
+translate = FreeCAD.Qt.translate
 
 def makePod(name='Pod'):
     '''makePod(name): makes a Pod'''
@@ -65,6 +64,6 @@ class CmdPod(Command):
         return False
 
     def GetResources(self):
-        return {'MenuText': QT_TRANSLATE_NOOP("Rocket", 'Pod'),
-                'ToolTip': QT_TRANSLATE_NOOP("Rocket", 'Pod design'),
+        return {'MenuText': translate("Rocket", 'Pod'),
+                'ToolTip': translate("Rocket", 'Pod design'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Pod.svg"}
