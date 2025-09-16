@@ -35,6 +35,7 @@
         <file>icons/RocketWorkbench.svg</file>
         <file>ui/DialogBodyScale.ui</file>
         <file>ui/DialogCFD.ui</file>
+        <file>ui/DialogMultiCFD.ui</file>
         <file>translations/Rocket_pl.qm</file>
         <file>translations/Rocket_sv-SE.qm</file>
         <file>translations/Rocket_es-ES.qm</file>
