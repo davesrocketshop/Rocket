@@ -117,8 +117,8 @@ class _TransitionDialog(QDialog):
         self.form.transitionProxyTypesCombo.addItem(translate('Rocket', TYPE_HAACK), TYPE_HAACK)
         self.form.transitionProxyTypesCombo.addItem(translate('Rocket', TYPE_PROXY), TYPE_PROXY)
 
-        self.form.proxyForeEffectiveDiameterInput = FreeCAD.Units.Length
-        self.form.proxyAftEffectiveDiameterInput = FreeCAD.Units.Length
+        self.form.proxyForeEffectiveDiameterInput.unit = FreeCAD.Units.Length
+        self.form.proxyAftEffectiveDiameterInput.unit = FreeCAD.Units.Length
         self.form.xRotationInput.unit = FreeCAD.Units.Angle
         self.form.yRotationInput.unit = FreeCAD.Units.Angle
         self.form.zRotationInput.unit = FreeCAD.Units.Angle
@@ -176,7 +176,19 @@ class TaskPanelTransition:
         self._tranForm.form.aftShoulderLengthInput.textEdited.connect(self.onAftShoulderLength)
         self._tranForm.form.aftShoulderThicknessInput.textEdited.connect(self.onAftShoulderThickness)
 
+        self._tranForm.form.proxyBaseObjectButton.clicked.connect(self.onSelect)
+        self._tranForm.form.proxyForeEffectiveDiameterInput.textEdited.connect(self.onForeEffectiveDiameter)
+        self._tranForm.form.proxyAftEffectiveDiameterInput.textEdited.connect(self.onAftEffectiveDiameter)
+
         self._tranForm.tabScaling.scaled.connect(self.onScale)
+
+        placement = FreeCAD.Placement()
+        yaw = FreeCAD.Units.Quantity(self._tranForm.form.zRotationInput.text()).Value
+        pitch = FreeCAD.Units.Quantity(self._tranForm.form.yRotationInput.text()).Value
+        roll = FreeCAD.Units.Quantity(self._tranForm.form.xRotationInput.text()).Value
+        placement.Rotation.setYawPitchRoll(yaw, pitch, roll)
+        placement.Base.x = FreeCAD.Units.Quantity(self._tranForm.form.offsetInput.text()).Value
+        self._obj.ProxyPlacement = placement
 
         self._db.dbLoad.connect(self.onLookup)
 
@@ -221,6 +233,20 @@ class TaskPanelTransition:
         self._obj.AftShoulderAutoDiameter = self._tranForm.form.aftShoulderAutoDiameterCheckbox.isChecked()
         self._obj.AftShoulderLength = self._tranForm.form.aftShoulderLengthInput.text()
         self._obj.AftShoulderThickness = self._tranForm.form.aftShoulderThicknessInput.text()
+
+        if self._obj.Base:
+            self._tranForm.form.proxyBaseObjectInput.setText(self._obj.Base.Label)
+        else:
+            self._tranForm.form.proxyBaseObjectInput.setText("")
+        self._tranForm.form.proxyForeEffectiveDiameterInput.setText(self._obj.ForeDiameter.UserString)
+        self._tranForm.form.proxyAftEffectiveDiameterInput.setText(self._obj.AftDiameter.UserString)
+
+        placement = self._obj.ProxyPlacement
+        yaw, pitch, roll = placement.Rotation.getYawPitchRoll()
+        self._tranForm.form.xRotationInput.setText(f"{roll} deg")
+        self._tranForm.form.yRotationInput.setText(f"{pitch} deg")
+        self._tranForm.form.zRotationInput.setText(f"{yaw} deg")
+        self._tranForm.form.foreOffsetInput.setText(FreeCAD.Units.Quantity(placement.Base.x, FreeCAD.Units.Length).UserString)
 
         self._tranForm.tabScaling.transferTo(self._obj)
         self._tranForm.tabMaterial.transferTo(self._obj)
@@ -697,6 +723,59 @@ class TaskPanelTransition:
 
         self.update()
         self._obj.Proxy.execute(self._obj)
+        self.setEdited()
+
+    def onSelect(self):
+        # FreeCADGui.Control.closeDialog()
+        # FreeCADGui.Control.showDialog(TaskPanelSelection())
+        FreeCAD.RocketObserver = self
+        FreeCADGui.Selection.addObserver(FreeCAD.RocketObserver)
+
+        self._tranForm.form.proxyBaseObjectLabelSelect.setText(translate('Rocket', 'Select an object'))
+
+    def addSelection(self,document, object, element, position):
+        """Method called when a selection is made on the Gui.
+
+        Parameters
+        ----------
+        document: str
+            The document's Name.
+        object: str
+            The selected object's Name.
+        element: str
+            The element on the object that was selected, such as an edge or
+            face.
+        position:
+            The location in XYZ space the selection was made.
+        """
+
+        FreeCADGui.Selection.removeObserver(FreeCAD.RocketObserver)
+
+        try:
+            obj = FreeCAD.getDocument(document).getObject(object)
+            self._obj.Base = obj
+            self._tranForm.form.proxyBaseObjectInput.setText(obj.Label)
+            self._obj.Proxy.execute(self._obj)
+        except ValueError:
+            pass
+
+        self._tranForm.form.proxyBaseObjectLabelSelect.setText("")
+        del FreeCAD.RocketObserver
+
+    def onForeEffectiveDiameter(self, value):
+        try:
+            self._obj.ForeDiameter = FreeCAD.Units.Quantity(value).Value
+            self._obj.Proxy.execute(self._obj)
+        except ValueError:
+            pass
+        self.setEdited()
+
+    def onAftEffectiveDiameter(self, value):
+        try:
+            self._obj.AftDiameter = FreeCAD.Units.Quantity(value).Value
+            self._obj.Proxy.execute(self._obj)
+        except ValueError:
+            pass
         self.setEdited()
 
     def getStandardButtons(self):

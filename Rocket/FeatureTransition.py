@@ -97,6 +97,9 @@ class FeatureTransition(SymmetricComponent):
         if not hasattr(obj, 'AftCapBarWidth'):
             obj.addProperty('App::PropertyLength', 'AftCapBarWidth', 'RocketComponent', translate('App::Property', 'Width of the aft cap bar')).AftCapBarWidth = 3.0
 
+        if not hasattr(obj, 'ProxyPlacement'):
+            obj.addProperty('App::PropertyPlacement', 'ProxyPlacement', 'RocketComponent', translate('App::Property', 'This is the local coordinate system within the rocket object that will be used for the proxy feature')).ProxyPlacement
+
         if not hasattr(obj, 'TransitionType'):
             obj.addProperty('App::PropertyEnumeration', 'TransitionType', 'RocketComponent', translate('App::Property', 'Transition type'))
             obj.TransitionType = [TYPE_CONE,
@@ -154,6 +157,9 @@ class FeatureTransition(SymmetricComponent):
             obj.AftCapStyle = [STYLE_CAP_SOLID,
                                 STYLE_CAP_BAR,
                                 STYLE_CAP_CROSS]
+
+        if not hasattr(obj, 'Base'):
+            obj.addProperty('App::PropertyLink', 'Base', 'RocketComponent', translate('App::Property', 'The base object used to define the transition shape'))
 
     def setDefaults(self) -> None:
         super().setDefaults()
