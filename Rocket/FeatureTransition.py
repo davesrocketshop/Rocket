@@ -33,7 +33,8 @@ from Rocket.ShapeHandlers.TransitionOgiveShapeHandler import TransitionOgiveShap
 from Rocket.ShapeHandlers.TransitionParabolicShapeHandler import TransitionParabolicShapeHandler
 from Rocket.ShapeHandlers.TransitionPowerShapeHandler import TransitionPowerShapeHandler
 
-from Rocket.Constants import TYPE_CONE, TYPE_ELLIPTICAL, TYPE_HAACK, TYPE_OGIVE, TYPE_VON_KARMAN, TYPE_PARABOLA, TYPE_PARABOLIC, TYPE_POWER
+from Rocket.Constants import TYPE_CONE, TYPE_ELLIPTICAL, TYPE_HAACK, TYPE_OGIVE, TYPE_VON_KARMAN, TYPE_PARABOLA, \
+    TYPE_PARABOLIC, TYPE_POWER, TYPE_PROXY
 from Rocket.Constants import STYLE_CAPPED, STYLE_HOLLOW, STYLE_SOLID, STYLE_SOLID_CORE
 from Rocket.Constants import STYLE_CAP_SOLID, STYLE_CAP_BAR, STYLE_CAP_CROSS
 from Rocket.Constants import FEATURE_TRANSITION, FEATURE_CENTERING_RING, FEATURE_INNER_TUBE, FEATURE_FIN
@@ -103,7 +104,8 @@ class FeatureTransition(SymmetricComponent):
                         TYPE_PARABOLA,
                         TYPE_PARABOLIC,
                         TYPE_POWER,
-                        TYPE_HAACK]
+                        TYPE_HAACK,
+                        TYPE_PROXY]
             obj.TransitionType = TYPE_CONE
         else:
             obj.TransitionType = [TYPE_CONE,
@@ -113,7 +115,8 @@ class FeatureTransition(SymmetricComponent):
                         TYPE_PARABOLA,
                         TYPE_PARABOLIC,
                         TYPE_POWER,
-                        TYPE_HAACK]
+                        TYPE_HAACK,
+                        TYPE_PROXY]
 
         if not hasattr(obj, 'TransitionStyle'):
             obj.addProperty('App::PropertyEnumeration', 'TransitionStyle', 'RocketComponent', translate('App::Property', 'Transition style'))

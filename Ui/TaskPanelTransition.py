@@ -41,7 +41,8 @@ from Ui.Widgets.CommentTab import CommentTab
 from Ui.Widgets.ScalingTab import ScalingTabTransition
 from Ui.UIPaths import getUIPath
 
-from Rocket.Constants import TYPE_CONE, TYPE_ELLIPTICAL, TYPE_HAACK, TYPE_OGIVE, TYPE_VON_KARMAN, TYPE_PARABOLA, TYPE_PARABOLIC, TYPE_POWER
+from Rocket.Constants import TYPE_CONE, TYPE_ELLIPTICAL, TYPE_HAACK, TYPE_OGIVE, TYPE_VON_KARMAN, \
+    TYPE_PARABOLA, TYPE_PARABOLIC, TYPE_POWER, TYPE_PROXY
 from Rocket.Constants import STYLE_CAPPED, STYLE_HOLLOW, STYLE_SOLID, STYLE_SOLID_CORE
 from Rocket.Constants import STYLE_CAP_SOLID, STYLE_CAP_BAR, STYLE_CAP_CROSS
 from Rocket.Constants import COMPONENT_TYPE_TRANSITION
@@ -76,6 +77,7 @@ class _TransitionDialog(QDialog):
         self.form.transitionTypesCombo.addItem(translate('Rocket', TYPE_POWER), TYPE_POWER)
         self.form.transitionTypesCombo.addItem(translate('Rocket', TYPE_VON_KARMAN), TYPE_VON_KARMAN)
         self.form.transitionTypesCombo.addItem(translate('Rocket', TYPE_HAACK), TYPE_HAACK)
+        self.form.transitionTypesCombo.addItem(translate('Rocket', TYPE_PROXY), TYPE_PROXY)
 
         self.coefficientValidator = QtGui.QDoubleValidator(self)
         self.coefficientValidator.setBottom(0.0)
@@ -104,6 +106,25 @@ class _TransitionDialog(QDialog):
         self.form.foreCapBarWidthInput.unit = FreeCAD.Units.Length
         self.form.aftCapBarWidthInput.unit = FreeCAD.Units.Length
 
+        # Proxy
+        self.form.transitionProxyTypesCombo.addItem(translate('Rocket', TYPE_CONE), TYPE_CONE)
+        self.form.transitionProxyTypesCombo.addItem(translate('Rocket', TYPE_ELLIPTICAL), TYPE_ELLIPTICAL)
+        self.form.transitionProxyTypesCombo.addItem(translate('Rocket', TYPE_OGIVE), TYPE_OGIVE)
+        self.form.transitionProxyTypesCombo.addItem(translate('Rocket', TYPE_PARABOLA), TYPE_PARABOLA)
+        self.form.transitionProxyTypesCombo.addItem(translate('Rocket', TYPE_PARABOLIC), TYPE_PARABOLIC)
+        self.form.transitionProxyTypesCombo.addItem(translate('Rocket', TYPE_POWER), TYPE_POWER)
+        self.form.transitionProxyTypesCombo.addItem(translate('Rocket', TYPE_VON_KARMAN), TYPE_VON_KARMAN)
+        self.form.transitionProxyTypesCombo.addItem(translate('Rocket', TYPE_HAACK), TYPE_HAACK)
+        self.form.transitionProxyTypesCombo.addItem(translate('Rocket', TYPE_PROXY), TYPE_PROXY)
+
+        self.form.proxyForeEffectiveDiameterInput = FreeCAD.Units.Length
+        self.form.proxyAftEffectiveDiameterInput = FreeCAD.Units.Length
+        self.form.xRotationInput.unit = FreeCAD.Units.Angle
+        self.form.yRotationInput.unit = FreeCAD.Units.Angle
+        self.form.zRotationInput.unit = FreeCAD.Units.Angle
+        self.form.foreOffsetInput = FreeCAD.Units.Length
+        self.form.aftOffsetInput = FreeCAD.Units.Length
+
     def setTabShoulder(self):
         self.form.foreShoulderDiameterInput.unit = FreeCAD.Units.Length
         self.form.foreShoulderLengthInput.unit = FreeCAD.Units.Length
@@ -118,6 +139,9 @@ class TaskPanelTransition:
         self._obj = obj
         self._isAssembly = self._obj.Proxy.isRocketAssembly()
 
+        # Used to prevent recursion
+        self._updateTransitionType = True
+
         self._tranForm = _TransitionDialog(obj)
         self._db = TaskPanelDatabase(obj, COMPONENT_TYPE_TRANSITION)
         self._dbForm = self._db.getForm()
@@ -126,6 +150,7 @@ class TaskPanelTransition:
         self._tranForm.form.setWindowIcon(QtGui.QIcon(FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Transition.svg"))
 
         self._tranForm.form.transitionTypesCombo.currentTextChanged.connect(self.onTransitionType)
+        self._tranForm.form.transitionProxyTypesCombo.currentTextChanged.connect(self.onTransitionType)
         self._tranForm.form.transitionStylesCombo.currentTextChanged.connect(self.onTransitionStyle)
         self._tranForm.form.foreCapStylesCombo.currentTextChanged.connect(self.onForeCapStyle)
         self._tranForm.form.foreCapBarWidthInput.textEdited.connect(self.onForeBarWidth)
@@ -163,7 +188,15 @@ class TaskPanelTransition:
 
     def transferTo(self):
         "Transfer from the dialog to the object"
-        self._obj.TransitionType = str(self._tranForm.form.transitionTypesCombo.currentData())
+        if self._obj.TransitionType == TYPE_PROXY:
+            self._obj.TransitionType = str(self._tranForm.form.transitionProxyTypesCombo.currentData())
+            self._obj.Proxy.setForeDiameter(FreeCAD.Units.Quantity(self._tranForm.form.proxyAftEffectiveDiameterInput.text()).Value)
+            self._obj.Proxy.setForeDiameter(FreeCAD.Units.Quantity(self._tranForm.form.proxyForeEffectiveDiameterInput.text()).Value)
+            self._obj.Proxy.setAftDiameter(FreeCAD.Units.Quantity(self._tranForm.form.proxyAftEffectiveDiameterInput.text()).Value)
+        else:
+            self._obj.TransitionType = str(self._tranForm.form.transitionTypesCombo.currentData())
+            self._obj.Proxy.setForeDiameter(FreeCAD.Units.Quantity(self._tranForm.form.foreDiameterInput.text()).Value)
+            self._obj.Proxy.setAftDiameter(FreeCAD.Units.Quantity(self._tranForm.form.aftDiameterInput.text()).Value)
         self._obj.TransitionStyle = str(self._tranForm.form.transitionStylesCombo.currentData())
         self._obj.ForeCapStyle = str(self._tranForm.form.foreCapStylesCombo.currentData())
         self._obj.ForeCapBarWidth = self._tranForm.form.foreCapBarWidthInput.text()
@@ -196,6 +229,7 @@ class TaskPanelTransition:
     def transferFrom(self):
         "Transfer from the object to the dialog"
         self._tranForm.form.transitionTypesCombo.setCurrentIndex(self._tranForm.form.transitionTypesCombo.findData(self._obj.TransitionType))
+        self._tranForm.form.transitionProxyTypesCombo.setCurrentIndex(self._tranForm.form.transitionProxyTypesCombo.findData(self._obj.TransitionType))
         self._tranForm.form.transitionStylesCombo.setCurrentIndex(self._tranForm.form.transitionStylesCombo.findData(self._obj.TransitionStyle))
         self._tranForm.form.foreCapStylesCombo.setCurrentIndex(self._tranForm.form.foreCapStylesCombo.findData(self._obj.ForeCapStyle))
         self._tranForm.form.foreCapBarWidthInput.setText(self._obj.ForeCapBarWidth.UserString)
@@ -249,8 +283,25 @@ class TaskPanelTransition:
         else:
             self._tranForm.form.clippedCheckbox.setEnabled(True)
 
+    def _setProxyStateVisible(self, visible):
+        if visible:
+            index = 0
+        else:
+            index = 1
+        self._tranForm.form.stackedWidget.setCurrentIndex(index)
+
+    def _setProxyState(self):
+        self._setProxyStateVisible(self._obj.TransitionType != TYPE_PROXY)
+        # Hide the shoulder tab
+        self._tranForm.form.tabWidget.setTabVisible(1, self._obj.TransitionType != TYPE_PROXY)
+
+        self._updateTransitionType = False
+        self._tranForm.form.transitionTypesCombo.setCurrentIndex(self._tranForm.form.transitionTypesCombo.findData(self._obj.TransitionType))
+        self._tranForm.form.transitionProxyTypesCombo.setCurrentIndex(self._tranForm.form.transitionProxyTypesCombo.findData(self._obj.TransitionType))
+        self._updateTransitionType = True
 
     def _showTransitionType(self):
+        self._setProxyState()
         value = self._obj.TransitionType
         if value == TYPE_HAACK or value == TYPE_PARABOLIC:
             self._tranForm.form.coefficientInput.setEnabled(True)
@@ -265,6 +316,8 @@ class TaskPanelTransition:
             # Set the coefficient, but don't enable it
             self._obj.Coefficient = 0.0
             self._tranForm.form.coefficientInput.setText("%f" % self._obj.Coefficient)
+            self._tranForm.form.coefficientInput.setEnabled(False)
+        elif value == TYPE_PROXY:
             self._tranForm.form.coefficientInput.setEnabled(False)
         else:
             self._tranForm.form.coefficientInput.setEnabled(False)
@@ -298,13 +351,14 @@ class TaskPanelTransition:
         self._tranForm.tabScaling._form.scaleAftRadio.setVisible(True)
 
     def onTransitionType(self, value):
-        self._obj.TransitionType = value
+        if self._updateTransitionType:
+            self._obj.TransitionType = value
 
-        self._showTransitionType()
-        self._showClippable()
+            self._showTransitionType()
+            self._showClippable()
 
-        self._obj.Proxy.execute(self._obj)
-        self.setEdited()
+            self._obj.Proxy.execute(self._obj)
+            self.setEdited()
 
     def _showTransitionStyle(self):
         value = self._obj.TransitionStyle
