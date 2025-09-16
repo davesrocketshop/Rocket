@@ -37,8 +37,7 @@ from Ui.Commands.Command import Command
 from Rocket.Constants import FEATURE_FINCAN
 from Rocket.Constants import FIN_TYPE_SKETCH
 
-def QT_TRANSLATE_NOOP(context, text):
-    return text
+translate = FreeCAD.Qt.translate
 
 def makeFinCan(name='FinCan'):
     '''makeFinCan(name): makes a Fin Can'''
@@ -75,6 +74,6 @@ class CmdFinCan(Command):
         return False
 
     def GetResources(self):
-        return {'MenuText': QT_TRANSLATE_NOOP("Rocket", 'Fin Can'),
-                'ToolTip': QT_TRANSLATE_NOOP("Rocket", 'Fin can design'),
+        return {'MenuText': translate("Rocket", 'Fin Can'),
+                'ToolTip': translate("Rocket", 'Fin can design'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_FinCan.svg"}

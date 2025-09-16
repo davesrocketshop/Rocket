@@ -27,8 +27,7 @@ __url__ = "https://www.davesrocketshop.com"
 import FreeCAD
 import FreeCADGui
 
-def QT_TRANSLATE_NOOP(context, text):
-    return text
+translate = FreeCAD.Qt.translate
 
 from Ui.DialogVentHoles import DialogVentHole
 
@@ -46,6 +45,6 @@ class CmdCalcVentHoles:
         return True
 
     def GetResources(self):
-        return {'MenuText': QT_TRANSLATE_NOOP("Rocket", 'Calculate vent hole size'),
-                'ToolTip': QT_TRANSLATE_NOOP("Rocket", 'Calculate vent hole size'),
+        return {'MenuText': translate("Rocket", 'Calculate vent hole size'),
+                'ToolTip': translate("Rocket", 'Calculate vent hole size'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Calculator.svg"}

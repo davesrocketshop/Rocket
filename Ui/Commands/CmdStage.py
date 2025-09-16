@@ -36,8 +36,7 @@ if FreeCAD.GuiUp:
 
 from Rocket.Constants import FEATURE_STAGE
 
-def QT_TRANSLATE_NOOP(context, text):
-    return text
+translate = FreeCAD.Qt.translate
 
 def addToStage(obj):
     if FreeCADGui.ActiveDocument is None:
@@ -82,16 +81,16 @@ class CmdStage(Command):
         return False
 
     def GetResources(self):
-        return {'MenuText': QT_TRANSLATE_NOOP("Rocket", 'Stage'),
-                'ToolTip': QT_TRANSLATE_NOOP("Rocket", 'Rocket Stage'),
+        return {'MenuText': translate("Rocket", 'Stage'),
+                'ToolTip': translate("Rocket", 'Rocket Stage'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Stage.svg"}
 
 
 class CmdToggleStage:
     "the ToggleStage command definition"
     def GetResources(self):
-        return {'MenuText': QT_TRANSLATE_NOOP("Rocket","Toggle active stage"),
-                'ToolTip' : QT_TRANSLATE_NOOP("Rocket","Toggle the active stage")}
+        return {'MenuText': translate("Rocket","Toggle active stage"),
+                'ToolTip' : translate("Rocket","Toggle the active stage")}
 
     def IsActive(self):
         return bool(FreeCADGui.Selection.getSelection())

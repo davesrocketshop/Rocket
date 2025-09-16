@@ -38,8 +38,7 @@ from Ui.Commands.Command import Command
 
 from Rocket.Constants import FEATURE_BODY_TUBE, FEATURE_INNER_TUBE, FEATURE_TUBE_COUPLER, FEATURE_ENGINE_BLOCK
 
-def QT_TRANSLATE_NOOP(context, text):
-    return text
+translate = FreeCAD.Qt.translate
 
 def makeBodyTube(name='BodyTube'):
     '''makeBodyTube(name): makes a Body Tube'''
@@ -98,8 +97,8 @@ class CmdBodyTube(Command):
         return False
 
     def GetResources(self):
-        return {'MenuText': QT_TRANSLATE_NOOP("Rocket", 'Body Tube'),
-                'ToolTip': QT_TRANSLATE_NOOP("Rocket", 'Body tube design'),
+        return {'MenuText': translate("Rocket", 'Body Tube'),
+                'ToolTip': translate("Rocket", 'Body tube design'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_BodyTube.svg"}
 
 class CmdCoupler(Command):
@@ -119,8 +118,8 @@ class CmdCoupler(Command):
         return False
 
     def GetResources(self):
-        return {'MenuText': QT_TRANSLATE_NOOP("Rocket", 'Coupler'),
-                'ToolTip': QT_TRANSLATE_NOOP("Rocket", 'Coupler design'),
+        return {'MenuText': translate("Rocket", 'Coupler'),
+                'ToolTip': translate("Rocket", 'Coupler design'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Coupler.svg"}
 
 class CmdInnerTube(Command):
@@ -140,8 +139,8 @@ class CmdInnerTube(Command):
         return False
 
     def GetResources(self):
-        return {'MenuText': QT_TRANSLATE_NOOP("Rocket", 'Inner Tube'),
-                'ToolTip': QT_TRANSLATE_NOOP("Rocket", 'Inner tube design'),
+        return {'MenuText': translate("Rocket", 'Inner Tube'),
+                'ToolTip': translate("Rocket", 'Inner tube design'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_InnerTube.svg"}
 
 class CmdEngineBlock(Command):
@@ -161,6 +160,6 @@ class CmdEngineBlock(Command):
         return False
 
     def GetResources(self):
-        return {'MenuText': QT_TRANSLATE_NOOP("Rocket", 'Engine Block'),
-                'ToolTip': QT_TRANSLATE_NOOP("Rocket", 'Engine block design'),
+        return {'MenuText': translate("Rocket", 'Engine Block'),
+                'ToolTip': translate("Rocket", 'Engine block design'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_EngineBlock.svg"}

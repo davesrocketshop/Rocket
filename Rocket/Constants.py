@@ -24,8 +24,9 @@ __title__ = "FreeCAD Rocket Workbench Constants"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
-def QT_TRANSLATE_NOOP(scope, text):
-    return text
+import FreeCAD
+
+translate = FreeCAD.Qt.translate
 
 #  Default values
 DEFAULT_REFERENCE_LENGTH = 0.01
@@ -159,13 +160,13 @@ COMPONENT_TYPE_TRANSITION = "Transition"
 COMPONENT_TYPE_RAILBUTTON = "Rail Button"
 
 # Location Reference
-LOCATION_PARENT_TOP = QT_TRANSLATE_NOOP('Rocket', "Top of the parent component")
-LOCATION_PARENT_MIDDLE = QT_TRANSLATE_NOOP('Rocket', "Middle of the parent component")
-LOCATION_PARENT_BOTTOM = QT_TRANSLATE_NOOP('Rocket', "Bottom of the parent component")
-LOCATION_BASE = QT_TRANSLATE_NOOP('Rocket', "Base of the rocket")
-LOCATION_AFTER = QT_TRANSLATE_NOOP('Rocket', "After the target component")
-LOCATION_SURFACE = QT_TRANSLATE_NOOP('Rocket', "Surface of the parent component")
-LOCATION_CENTER = QT_TRANSLATE_NOOP('Rocket', "Center of the parent component")
+LOCATION_PARENT_TOP = translate('Rocket', "Top of the parent component")
+LOCATION_PARENT_MIDDLE = translate('Rocket', "Middle of the parent component")
+LOCATION_PARENT_BOTTOM = translate('Rocket', "Bottom of the parent component")
+LOCATION_BASE = translate('Rocket', "Base of the rocket")
+LOCATION_AFTER = translate('Rocket', "After the target component")
+LOCATION_SURFACE = translate('Rocket', "Surface of the parent component")
+LOCATION_CENTER = translate('Rocket', "Center of the parent component")
 
 # Part properties, defined in /App/PropertyContainer.h for cpp
 # These can be bitwise or'ed to combine properties, when calling addProperty
