@@ -31,7 +31,8 @@ from Rocket.ClusterConfiguration import CONFIGURATIONS
 from Ui.Commands.CmdBodyTube import makeInnerTube
 
 from Rocket.Utilities import _err
-from Rocket.Utilities import translate
+
+translate = FreeCAD.Qt.translate
 
 class InnerTubeElement(BodyTubeElement):
 

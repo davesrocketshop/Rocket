@@ -28,9 +28,11 @@ from abc import abstractmethod
 
 from PySide import QtGui
 
-from Rocket.Utilities import _msg, _err
+import FreeCAD
 
-from Rocket.Utilities import translate
+translate = FreeCAD.Qt.translate
+
+from Rocket.Utilities import _msg, _err
 
 class Element:
 

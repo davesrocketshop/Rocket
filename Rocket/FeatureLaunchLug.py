@@ -27,6 +27,10 @@ __url__ = "https://www.davesrocketshop.com"
 import math
 from typing import Any
 
+import FreeCAD
+
+translate = FreeCAD.Qt.translate
+
 from Rocket.Constants import FEATURE_LAUNCH_LUG, FEATURE_FIN, FEATURE_FINCAN
 
 from Rocket.Tube import Tube
@@ -40,8 +44,6 @@ from Rocket.util.Coordinate import Coordinate, NUL
 from Rocket import Utilities
 from Rocket.SymmetricComponent import SymmetricComponent
 from Rocket.ShapeHandlers.LaunchLugShapeHandler import LaunchLugShapeHandler
-
-from Rocket.Utilities import translate
 
 class FeatureLaunchLug(Tube, AnglePositionable, BoxBounded, LineInstanceable):
 

@@ -29,7 +29,7 @@ import FreeCADGui
 import time
 import os
 
-from Rocket.Utilities import translate
+translate = FreeCAD.Qt.translate
 
 from PySide import QtGui, QtCore
 # from PySide.QtWidgets import QDialog, QGridLayout, QVBoxLayout, QSizePolicy

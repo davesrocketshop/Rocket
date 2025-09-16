@@ -32,7 +32,7 @@ import FreeCAD
 import Part
 from Part import Shape, Wire, BSplineCurve
 
-from Rocket.Utilities import translate
+translate = FreeCAD.Qt.translate
 
 from Rocket.Constants import FEATURE_FINCAN
 from Rocket.Constants import FIN_CROSS_SAME, FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE, \

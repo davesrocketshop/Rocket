@@ -26,7 +26,10 @@ __url__ = "https://www.davesrocketshop.com"
 
 from typing import Any
 
+import FreeCAD
 import Part
+
+translate = FreeCAD.Qt.translate
 
 from Rocket.SymmetricComponent import SymmetricComponent
 
@@ -49,8 +52,6 @@ from Rocket.Constants import STYLE_CAPPED, STYLE_HOLLOW, STYLE_SOLID
 from Rocket.Constants import STYLE_CAP_SOLID, STYLE_CAP_BAR, STYLE_CAP_CROSS
 from Rocket.Constants import FEATURE_NOSE_CONE, FEATURE_TRANSITION, FEATURE_INNER_TUBE, \
     FEATURE_CENTERING_RING, FEATURE_FIN
-
-from Rocket.Utilities import translate
 
 class FeatureNoseCone(SymmetricComponent):
 

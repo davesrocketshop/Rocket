@@ -27,6 +27,10 @@ __url__ = "https://www.davesrocketshop.com"
 import math
 from typing import Any
 
+import FreeCAD
+
+translate = FreeCAD.Qt.translate
+
 from Rocket.position.AxialMethod import BOTTOM
 from Rocket.ExternalComponent import ExternalComponent
 from Rocket.SymmetricComponent import SymmetricComponent
@@ -48,8 +52,6 @@ from Rocket.ShapeHandlers.FinTubeShapeHandler import FinTubeShapeHandler
 from Rocket.ShapeHandlers.FinProxyShapeHandler import FinProxyShapeHandler
 
 from Rocket.Utilities import _err, _toFloat
-
-from Rocket.Utilities import translate
 
 DEBUG_SKETCH_FINS = 0 # Set > 0 when debugging sketch based fins
 

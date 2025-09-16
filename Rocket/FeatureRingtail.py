@@ -26,7 +26,10 @@ __url__ = "https://www.davesrocketshop.com"
 
 from typing import Any
 
+import FreeCAD
 import Part
+
+translate = FreeCAD.Qt.translate
 
 from Rocket.position import AxialMethod
 
@@ -37,8 +40,6 @@ from Rocket.SymmetricComponent import SymmetricComponent
 from Rocket.Constants import FEATURE_RINGTAIL, FEATURE_FIN, FEATURE_FINCAN
 
 from Rocket.ShapeHandlers.RingtailShapeHandler import RingtailShapeHandler
-
-from Rocket.Utilities import translate
 
 class FeatureRingtail(SymmetricComponent, BoxBounded, Coaxial):
 

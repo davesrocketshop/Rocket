@@ -30,7 +30,7 @@ from CfdOF import CfdAnalysis, CfdTools
 
 from Rocket.cfd.Ui.TaskPanelMultiCFD import TaskPanelMultiCFD
 
-from Rocket.Utilities import translate
+translate = FreeCAD.Qt.translate
 
 class ViewProviderMutliCFDAnalysis(CfdAnalysis.ViewProviderCfdAnalysis):
 

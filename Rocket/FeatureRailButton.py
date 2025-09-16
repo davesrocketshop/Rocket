@@ -27,6 +27,10 @@ __url__ = "https://www.davesrocketshop.com"
 import math
 from typing import Any
 
+import FreeCAD
+
+translate = FreeCAD.Qt.translate
+
 from Rocket.ExternalComponent import ExternalComponent
 from Rocket.util.BoundingBox import BoundingBox
 from Rocket.position.AxialMethod import AxialMethod, MIDDLE
@@ -46,8 +50,6 @@ from Rocket.Constants import COUNTERSINK_ANGLE_60, COUNTERSINK_ANGLE_82, COUNTER
 
 from Rocket.ShapeHandlers.RailButtonShapeHandler import RailButtonShapeHandler
 from Rocket.Utilities import _wrn
-
-from Rocket.Utilities import translate
 
 #
 # Button dimensions were obtained here: https://www.rocketryforum.com/threads/rail-button-dimensions.30354/

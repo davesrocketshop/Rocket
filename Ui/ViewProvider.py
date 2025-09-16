@@ -24,9 +24,10 @@ __title__ = "FreeCAD View Provider"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
+import FreeCAD
 import FreeCADGui
 
-from Rocket.Utilities import translate
+translate = FreeCAD.Qt.translate
 
 from Ui.Widgets.WaitCursor import WaitCursor
 

@@ -30,7 +30,8 @@ import FreeCADGui
 from Ui.Commands.Command import Command
 from Ui.Widgets.WaitCursor import WaitCursor
 
-from Rocket.Utilities import translate
+def QT_TRANSLATE_NOOP(context, text):
+    return text
 
 def moveUp():
     for obj in FreeCADGui.Selection.getSelection():
@@ -67,8 +68,8 @@ class CmdMoveUp(Command):
         return False
 
     def GetResources(self):
-        return {'MenuText': translate("Rocket", 'Move Up'),
-                'ToolTip': translate("Rocket", 'Move the object up in the rocket tree'),
+        return {'MenuText': QT_TRANSLATE_NOOP("Rocket", 'Move Up'),
+                'ToolTip': QT_TRANSLATE_NOOP("Rocket", 'Move the object up in the rocket tree'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/button_up.svg"}
 
 class CmdMoveDown(Command):
@@ -86,6 +87,6 @@ class CmdMoveDown(Command):
         return False
 
     def GetResources(self):
-        return {'MenuText': translate("Rocket", 'Move Down'),
-                'ToolTip': translate("Rocket", 'Move the object down in the rocket tree'),
+        return {'MenuText': QT_TRANSLATE_NOOP("Rocket", 'Move Down'),
+                'ToolTip': QT_TRANSLATE_NOOP("Rocket", 'Move the object down in the rocket tree'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/button_down.svg"}

@@ -28,7 +28,9 @@ import FreeCAD
 import FreeCADGui
 import os
 
-from Rocket.Utilities import translate
+translate = FreeCAD.Qt.translate
+def QT_TRANSLATE_NOOP(context, text):
+    return text
 
 from PySide import QtGui
 
@@ -102,6 +104,6 @@ class CmdCFDAnalysis(Command):
 
     def GetResources(self):
         icon_path = os.path.join(CfdTools.getModulePath(), "Gui", "Icons", "cfd.svg")
-        return {'MenuText': translate("Rocket", 'CFD Analysis'),
-                'ToolTip': translate("Rocket", 'Perform a CFD Analysis'),
+        return {'MenuText': QT_TRANSLATE_NOOP("Rocket", 'CFD Analysis'),
+                'ToolTip': QT_TRANSLATE_NOOP("Rocket", 'Perform a CFD Analysis'),
                 'Pixmap': icon_path}

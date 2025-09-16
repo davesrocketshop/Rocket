@@ -37,7 +37,8 @@ from Ui.Commands.Command import Command
 
 from Rocket.Constants import FEATURE_LAUNCH_LUG, FEATURE_RAIL_BUTTON, FEATURE_RAIL_GUIDE, FEATURE_OFFSET
 
-from Rocket.Utilities import translate
+def QT_TRANSLATE_NOOP(context, text):
+    return text
 
 def makeLaunchLug(name='LaunchLug'):
     '''makeLaunchLug(name): makes a Launch Lug'''
@@ -84,8 +85,8 @@ class CmdLaunchLug(Command):
         return False
 
     def GetResources(self):
-        return {'MenuText': translate("Rocket", 'Launch Lug'),
-                'ToolTip': translate("Rocket", 'Launch lug design'),
+        return {'MenuText': QT_TRANSLATE_NOOP("Rocket", 'Launch Lug'),
+                'ToolTip': QT_TRANSLATE_NOOP("Rocket", 'Launch lug design'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_LaunchLug.svg"}
 
 class CmdRailButton(Command):
@@ -103,8 +104,8 @@ class CmdRailButton(Command):
         return False
 
     def GetResources(self):
-        return {'MenuText': translate("Rocket", 'Rail Button'),
-                'ToolTip': translate("Rocket", 'Rail button design'),
+        return {'MenuText': QT_TRANSLATE_NOOP("Rocket", 'Rail Button'),
+                'ToolTip': QT_TRANSLATE_NOOP("Rocket", 'Rail button design'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_RailButton.svg"}
 
 class CmdRailGuide(Command):
@@ -122,8 +123,8 @@ class CmdRailGuide(Command):
         return False
 
     def GetResources(self):
-        return {'MenuText': translate("Rocket", 'Rail Guide'),
-                'ToolTip': translate("Rocket", 'Rail guide design'),
+        return {'MenuText': QT_TRANSLATE_NOOP("Rocket", 'Rail Guide'),
+                'ToolTip': QT_TRANSLATE_NOOP("Rocket", 'Rail guide design'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_RailGuide.svg"}
 
 class CmdStandOff(Command):
@@ -141,6 +142,6 @@ class CmdStandOff(Command):
         return False
 
     def GetResources(self):
-        return {'MenuText': translate("Rocket", 'Stand Off'),
-                'ToolTip': translate("Rocket", 'Stand off design'),
+        return {'MenuText': QT_TRANSLATE_NOOP("Rocket", 'Stand Off'),
+                'ToolTip': QT_TRANSLATE_NOOP("Rocket", 'Stand off design'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Standoff.svg"}

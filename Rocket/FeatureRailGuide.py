@@ -27,6 +27,10 @@ __url__ = "https://www.davesrocketshop.com"
 import math
 from typing import Any
 
+import FreeCAD
+
+translate = FreeCAD.Qt.translate
+
 from Rocket.ExternalComponent import ExternalComponent
 from Rocket.util.BoundingBox import BoundingBox
 from Rocket.position.AxialMethod import MIDDLE
@@ -43,8 +47,6 @@ from Rocket.Constants import RAIL_GUIDE_BASE_FLAT, RAIL_GUIDE_BASE_CONFORMAL, RA
 
 from Rocket.ShapeHandlers.RailGuideShapeHandler import RailGuideShapeHandler
 from Rocket.Utilities import _wrn
-
-from Rocket.Utilities import translate
 
 class FeatureRailGuide(ExternalComponent, AnglePositionable, BoxBounded, LineInstanceable):
 

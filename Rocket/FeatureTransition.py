@@ -24,6 +24,10 @@ __url__ = "https://www.davesrocketshop.com"
 
 from typing import Any
 
+import FreeCAD
+
+translate = FreeCAD.Qt.translate
+
 from Rocket.SymmetricComponent import SymmetricComponent
 
 from Rocket.ShapeHandlers.TransitionConeShapeHandler import TransitionConeShapeHandler
@@ -40,8 +44,6 @@ from Rocket.Constants import STYLE_CAP_SOLID, STYLE_CAP_BAR, STYLE_CAP_CROSS
 from Rocket.Constants import FEATURE_TRANSITION, FEATURE_CENTERING_RING, FEATURE_INNER_TUBE, FEATURE_FIN
 
 from Rocket.Utilities import _wrn
-
-from Rocket.Utilities import translate
 
 class FeatureTransition(SymmetricComponent):
 

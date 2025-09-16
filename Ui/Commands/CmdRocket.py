@@ -28,7 +28,8 @@ __url__ = "https://www.davesrocketshop.com"
 import FreeCAD
 import FreeCADGui
 
-from Rocket.Utilities import translate
+def QT_TRANSLATE_NOOP(context, text):
+    return text
 
 from Rocket.FeatureRocket import FeatureRocket
 
@@ -77,14 +78,14 @@ class CmdRocket(Command):
         return self.noRocketBuilder()
 
     def GetResources(self):
-        return {'MenuText': translate("Rocket", 'Rocket'),
-                'ToolTip': translate("Rocket", 'Rocket assembly'),
+        return {'MenuText': QT_TRANSLATE_NOOP("Rocket", 'Rocket'),
+                'ToolTip': QT_TRANSLATE_NOOP("Rocket", 'Rocket assembly'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Rocket.svg"}
 
 class CmdToggleRocket:
     def GetResources(self):
-        return {'MenuText': translate("Rocket","Toggle active rocket"),
-                'ToolTip' : translate("Rocket","Toggle the active rocket")}
+        return {'MenuText': QT_TRANSLATE_NOOP("Rocket","Toggle active rocket"),
+                'ToolTip' : QT_TRANSLATE_NOOP("Rocket","Toggle the active rocket")}
 
     def IsActive(self):
         return bool(FreeCADGui.Selection.getSelection())

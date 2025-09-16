@@ -36,7 +36,7 @@ from PySide.QtCore import QObject, Signal
 from PySide.QtWidgets import QDialog, QGridLayout, QVBoxLayout, QSizePolicy
 import math
 
-from Rocket.Utilities import translate
+translate = FreeCAD.Qt.translate
 
 from Rocket.Constants import FIN_TYPE_TRAPEZOID, FIN_TYPE_TRIANGLE, FIN_TYPE_ELLIPSE, FIN_TYPE_SKETCH
 from Rocket.Constants import FIN_CROSS_SAME, FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE, \

@@ -26,6 +26,7 @@ __url__ = "https://www.davesrocketshop.com"
 
 from typing import Any
 
+import FreeCAD
 import Part
 
 from Rocket.interfaces.BoxBounded import BoxBounded
@@ -38,7 +39,7 @@ from Rocket.Constants import FEATURE_BODY_TUBE, FEATURE_INNER_TUBE, FEATURE_TUBE
 from Rocket.ShapeHandlers.BodyTubeShapeHandler import BodyTubeShapeHandler
 from Rocket.Utilities import _wrn
 
-from Rocket.Utilities import translate
+translate = FreeCAD.Qt.translate
 
 class FeatureBodyTube(SymmetricComponent, BoxBounded, Coaxial):
 

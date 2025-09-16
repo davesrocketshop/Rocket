@@ -31,7 +31,7 @@ import FreeCAD
 import Part
 from Part import Shape, Wire, BSplineCurve, Vertex
 
-from Rocket.Utilities import translate
+translate = FreeCAD.Qt.translate
 
 from Rocket.Constants import FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE, \
     FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE, FIN_CROSS_BICONVEX, FIN_CROSS_ELLIPSE

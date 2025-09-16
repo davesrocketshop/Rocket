@@ -30,7 +30,7 @@ import FreeCAD
 import Part
 from Part import Wire
 
-from Rocket.Utilities import translate
+translate = FreeCAD.Qt.translate
 
 from Rocket.Utilities import validationError
 

@@ -27,7 +27,9 @@ __url__ = "https://www.davesrocketshop.com"
 import math
 from typing import Any
 
-from Rocket.Utilities import translate
+import FreeCAD
+
+translate = FreeCAD.Qt.translate
 
 from Rocket.interfaces.RingInstanceable import RingInstanceable
 import Rocket.position.AngleMethod as AngleMethod

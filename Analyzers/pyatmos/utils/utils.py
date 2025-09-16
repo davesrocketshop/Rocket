@@ -2,7 +2,8 @@ import numpy as np
 import warnings
 from . import Const
 
-from Rocket.Utilities import translate
+import FreeCAD
+translate = FreeCAD.Qt.translate
 
 def vectorize(x):
     '''

@@ -47,7 +47,7 @@ from Rocket.Parts.RailButton import listRailButton, getRailButton
 
 from Rocket.Parts.Exceptions import MultipleEntryError, NotFoundError
 
-from Rocket.Utilities import translate
+translate = FreeCAD.Qt.translate
 
 from Ui.UIPaths import getUIPath
 from Ui.DialogUtilities import saveDialog, restoreDialog, getParams

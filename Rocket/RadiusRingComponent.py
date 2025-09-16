@@ -26,13 +26,15 @@ __url__ = "https://www.davesrocketshop.com"
 
 from typing import Any
 
+import FreeCAD
+
+translate = FreeCAD.Qt.translate
+
 from Rocket.util.Coordinate import Coordinate, NUL
 from Rocket.RingComponent import RingComponent
 from Rocket.Utilities import clamp
 from Rocket.interfaces.LineInstanceable import LineInstanceable
 from Rocket.interfaces.RadialParent import RadialParent
-
-from Rocket.Utilities import translate
 
 class RadiusRingComponent(RingComponent, LineInstanceable):
 

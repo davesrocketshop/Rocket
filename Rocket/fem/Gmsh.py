@@ -26,7 +26,9 @@ __url__ = "https://www.davesrocketshop.com"
 
 import os
 
-from Rocket.Utilities import translate
+import FreeCAD
+
+translate = FreeCAD.Qt.translate
 
 from femmesh.gmshtools import GmshTools, GmshError
 

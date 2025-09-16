@@ -58,11 +58,14 @@ class RocketWorkbench ( Workbench ):
 
     def Initialize(self):
         FreeCADGui.addLanguagePath(FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/translations")
+        FreeCADGui.updateLocale()
 
         # load the module
         import RocketGui
         import SketcherGui
-        from Rocket.Utilities import translate
+
+        def QT_TRANSLATE_NOOP(context, text):
+            return text
 
         self._loadFemModule()
         self._loadMaterialsModule()
@@ -71,46 +74,46 @@ class RocketWorkbench ( Workbench ):
         except:
             pass
 
-        self.appendToolbar(translate('Rocket', 'Rocket'),
+        self.appendToolbar(QT_TRANSLATE_NOOP('Rocket', 'Rocket'),
                         ['Rocket_Rocket', 'Rocket_Stage', 'Rocket_ParallelStage', 'Rocket_Pod', 'Rocket_NoseCone', 'Rocket_Transition', 'Rocket_BodyTube', 'Rocket_InnerTube', 'Rocket_Coupler', 'Rocket_EngineBlock',
                         'Rocket_CenteringRing', 'Rocket_Bulkhead', 'Rocket_Fin', 'Rocket_FinCan', 'Rocket_Ringtail', 'Rocket_LaunchLug', 'Rocket_RailButton', 'Rocket_RailGuide',
                         ])
-        self.appendToolbar(translate('Rocket', 'Rocket'),
+        self.appendToolbar(QT_TRANSLATE_NOOP('Rocket', 'Rocket'),
                         ['Separator', 'Rocket_MoveUp', 'Rocket_MoveDown'])
-        self.appendToolbar(translate('Rocket', 'Rocket'),
+        self.appendToolbar(QT_TRANSLATE_NOOP('Rocket', 'Rocket'),
                         ['Separator', 'Rocket_NewSketch', 'Sketcher_EditSketch', 'Separator', 'Rocket_Calculators', 'Rocket_Scaling'])
-        # self.appendToolbar(translate('Rocket', 'Rocket'),
+        # self.appendToolbar(QT_TRANSLATE_NOOP('Rocket', 'Rocket'),
         #                 ['Separator', 'Rocket_ParachuteGore'])
         try:
-            self.appendToolbar(translate('Rocket', 'Rocket'),
+            self.appendToolbar(QT_TRANSLATE_NOOP('Rocket', 'Rocket'),
                         # ['Separator', 'Rocket_FinFlutter', 'Rocket_FemAnalysis', 'FEM_MeshGmshFromShape', "Rocket_MaterialEditor"])
                         ['Separator', 'Rocket_FinFlutter', 'Rocket_CFDAnalysis', "Rocket_MaterialEditor"])
         except:
-            self.appendToolbar(translate('Rocket', 'Rocket'),
+            self.appendToolbar(QT_TRANSLATE_NOOP('Rocket', 'Rocket'),
                         # ['Separator', 'Rocket_FinFlutter', 'Rocket_FemAnalysis', 'FEM_MeshGmshFromShape', "Rocket_MaterialEditor"])
                         ['Separator', 'Rocket_FinFlutter', "Rocket_MaterialEditor"])
 
-        self.appendMenu(translate('Rocket', 'Rocket'),
+        self.appendMenu(QT_TRANSLATE_NOOP('Rocket', 'Rocket'),
                         ['Rocket_Rocket', 'Rocket_Stage', 'Rocket_ParallelStage', 'Rocket_Pod', 'Rocket_NoseCone', 'Rocket_Transition', 'Rocket_BodyTube', 'Rocket_InnerTube', 'Rocket_Coupler', 'Rocket_EngineBlock',
                         'Rocket_CenteringRing', 'Rocket_Bulkhead', 'Rocket_Fin', 'Rocket_FinCan', 'Rocket_Ringtail', 'Rocket_LaunchLug', 'Rocket_RailButton', 'Rocket_RailGuide',
                         #'Rocket_Parachute'
                         ])
-        self.appendMenu(translate('Rocket', 'Rocket'),
+        self.appendMenu(QT_TRANSLATE_NOOP('Rocket', 'Rocket'),
                         ['Separator'])
-        self.appendMenu([translate("Rocket", "Rocket"),
-                         translate("Rocket", "Calculators")],
+        self.appendMenu([QT_TRANSLATE_NOOP("Rocket", "Rocket"),
+                         QT_TRANSLATE_NOOP("Rocket", "Calculators")],
                         ['Rocket_CalcBlackPowder', 'Rocket_CalcParachute', 'Rocket_CalcThrustToWeight', 'Rocket_CalcVentHoles'])
-        self.appendMenu([translate("Rocket", "Rocket"),
-                         translate("Rocket", "Scaling Tools")],
+        self.appendMenu([QT_TRANSLATE_NOOP("Rocket", "Rocket"),
+                         QT_TRANSLATE_NOOP("Rocket", "Scaling Tools")],
                         ['Rocket_ScalingTubes', 'Rocket_ScalingPairs'])
         try:
-            self.appendMenu([translate("Rocket", "Rocket"),
-                            translate("Rocket", "Analysis")],
+            self.appendMenu([QT_TRANSLATE_NOOP("Rocket", "Rocket"),
+                            QT_TRANSLATE_NOOP("Rocket", "Analysis")],
                             # ['Rocket_FinFlutter', 'Rocket_FemAnalysis', 'FEM_MeshGmshFromShape', "Rocket_MaterialEditor"])
                             ['Rocket_FinFlutter', 'Rocket_CFDAnalysis', "Rocket_MaterialEditor"])
         except:
-            self.appendMenu([translate("Rocket", "Rocket"),
-                         translate("Rocket", "Analysis")],
+            self.appendMenu([QT_TRANSLATE_NOOP("Rocket", "Rocket"),
+                         QT_TRANSLATE_NOOP("Rocket", "Analysis")],
                         # ['Rocket_FinFlutter', 'Rocket_FemAnalysis', 'FEM_MeshGmshFromShape', "Rocket_MaterialEditor"])
                         ['Rocket_FinFlutter', "Rocket_MaterialEditor"])
 

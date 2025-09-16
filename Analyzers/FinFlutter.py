@@ -26,7 +26,8 @@ __url__ = "https://www.davesrocketshop.com"
 
 import math
 
-from Rocket.Utilities import translate
+import FreeCAD
+translate = FreeCAD.Qt.translate
 
 from Analyzers.pyatmos import coesa76
 from Analyzers.pyatmos.utils.Const import p0, gamma, R_air

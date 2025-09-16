@@ -25,9 +25,10 @@ __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
 
+import FreeCAD
 import FreeCADGui
 
-from Rocket.Utilities import translate
+translate = FreeCAD.Qt.translate
 
 import Materials
 import MatGui

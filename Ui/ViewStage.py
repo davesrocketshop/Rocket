@@ -34,7 +34,7 @@ from Ui.ViewProvider import ViewProvider
 from Ui.TaskPanelStage import TaskPanelStage
 from Ui.Widgets.WaitCursor import WaitCursor
 
-from Rocket.Utilities import translate
+translate = FreeCAD.Qt.translate
 
 class ViewProviderStage(ViewProvider):
 

@@ -27,6 +27,7 @@ __url__ = "https://www.davesrocketshop.com"
 import math
 from typing import Any
 
+import FreeCAD
 import Part
 
 from Rocket.interfaces.BoxBounded import BoxBounded
@@ -43,7 +44,7 @@ from Rocket.ShapeHandlers.InnerTubeShapeHandler import InnerTubeShapeHandler
 
 from Rocket.Constants import FEATURE_INNER_TUBE, FEATURE_TUBE_COUPLER, FEATURE_ENGINE_BLOCK, FEATURE_BULKHEAD, FEATURE_CENTERING_RING
 
-from Rocket.Utilities import translate
+translate = FreeCAD.Qt.translate
 
 class FeatureInnerTube(ThicknessRingComponent, Clusterable, AxialPositionable, BoxBounded, RadialParent):
 

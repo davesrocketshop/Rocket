@@ -28,6 +28,10 @@ from abc import abstractmethod
 import math
 from typing import Any
 
+import FreeCAD
+
+translate = FreeCAD.Qt.translate
+
 from Rocket.InternalComponent import InternalComponent
 from Rocket.interfaces.BoxBounded import BoxBounded
 from Rocket.interfaces.Coaxial import Coaxial
@@ -35,8 +39,6 @@ from Rocket.interfaces.Coaxial import Coaxial
 from Rocket.Utilities import reducePi
 from Rocket.util.BoundingBox import BoundingBox
 from Rocket.util.Coordinate import Coordinate
-
-from Rocket.Utilities import translate
 
 """
     An inner component that consists of a hollow cylindrical component.  This can be

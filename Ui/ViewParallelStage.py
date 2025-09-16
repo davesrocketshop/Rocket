@@ -29,7 +29,7 @@ import FreeCADGui
 
 from PySide import QtCore,QtGui
 
-from Rocket.Utilities import translate
+translate = FreeCAD.Qt.translate
 
 from Ui.ViewProvider import ViewProvider
 from Ui.TaskPanelParallelStage import TaskPanelParallelStage

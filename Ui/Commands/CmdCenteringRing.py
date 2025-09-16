@@ -35,7 +35,8 @@ from Ui.Commands.Command import Command
 
 from Rocket.Constants import FEATURE_CENTERING_RING
 
-from Rocket.Utilities import translate
+def QT_TRANSLATE_NOOP(context, text):
+    return text
 
 def makeCenteringRing(name='CenteringRing'):
     '''makeCenteringRing(name): makes a centering ring'''
@@ -62,6 +63,6 @@ class CmdCenteringRing(Command):
         return False
 
     def GetResources(self):
-        return {'MenuText': translate("Rocket", 'Centering Ring'),
-                'ToolTip': translate("Rocket", 'Centering Ring design'),
+        return {'MenuText': QT_TRANSLATE_NOOP("Rocket", 'Centering Ring'),
+                'ToolTip': QT_TRANSLATE_NOOP("Rocket", 'Centering Ring design'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_CenteringRing.svg"}

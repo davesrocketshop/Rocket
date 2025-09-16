@@ -30,7 +30,7 @@ from CfdOF import CfdAnalysis, CfdTools
 
 from Rocket.Constants import FEATURE_CFD_ANALYSIS
 
-from Rocket.Utilities import translate
+translate = FreeCAD.Qt.translate
 
 class FeatureMultiCFDAnalysis(CfdAnalysis.CfdAnalysis):
 

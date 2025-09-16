@@ -27,10 +27,11 @@ __url__ = "https://www.davesrocketshop.com"
 from typing import Any
 import math
 
+import FreeCAD
 import Part
 from Part import Shape, Wire, BSplineCurve, Vertex
 
-from Rocket.Utilities import translate
+translate = FreeCAD.Qt.translate
 
 from Rocket.Utilities import validationError
 

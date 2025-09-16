@@ -36,7 +36,8 @@ from Ui.Commands.Command import Command
 
 from Rocket.Constants import FEATURE_NOSE_CONE
 
-from Rocket.Utilities import translate
+def QT_TRANSLATE_NOOP(context, text):
+    return text
 
 def makeNoseCone(name='NoseCone'):
     '''makeNoseCone(name): makes a Nose Cone'''
@@ -63,6 +64,6 @@ class CmdNoseCone(Command):
         return False
 
     def GetResources(self):
-        return {'MenuText': translate("Rocket", 'Nose Cone'),
-                'ToolTip': translate("Rocket", 'Nose cone design'),
+        return {'MenuText': QT_TRANSLATE_NOOP("Rocket", 'Nose Cone'),
+                'ToolTip': QT_TRANSLATE_NOOP("Rocket", 'Nose cone design'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_NoseCone.svg"}
