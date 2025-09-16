@@ -81,7 +81,7 @@ QT_VERSION_MAJOR = ""
 
 def find_tools(noobsolete=True):
 
-    print(Usage + "\nFirst, lets find all necessary tools on your system")
+    print(Usage + "\nFirst, let's find all necessary tools on your system")
     global QMAKE, LUPDATE, PYLUPDATE, LCONVERT, QT_VERSION_MAJOR
 
     p = subprocess.run(["lupdate", "-version"], check=True, stdout=subprocess.PIPE)
@@ -95,7 +95,7 @@ def find_tools(noobsolete=True):
     QT_VERSION = f"{QT_VERSION_MAJOR}.{QT_VERSION_MINOR}.{QT_VERSION_PATCH}"
     print(f"Found Qt {QT_VERSION}")
 
-    if QT_VERSION_MAJOR < 6:
+    if QT_VERSION_MAJOR == 5:
         if os.system("lupdate -version") == 0:
             LUPDATE = "lupdate"
             # TODO: we suppose lupdate is a symlink to lupdate-qt4 for now
@@ -110,7 +110,7 @@ def find_tools(noobsolete=True):
     else:
         LUPDATE = "lupdate"
 
-    if QT_VERSION_MAJOR < 6:
+    if QT_VERSION_MAJOR == 5:
         if os.system("qmake -version") == 0:
             QMAKE = "qmake"
         elif os.system("qmake-qt5 -version") == 0:
@@ -139,7 +139,7 @@ def find_tools(noobsolete=True):
         PYLUPDATE = "(pylupdate not needed for Qt 6 and later)"
     if os.system("lconvert -h") == 0:
         LCONVERT = "lconvert"
-        if noobsolete and QT_VERSION_MAJOR < 6:
+        if noobsolete and QT_VERSION_MAJOR == 5:
             LCONVERT += " -no-obsolete"
     else:
         raise Exception("Cannot find lconvert")
@@ -172,14 +172,16 @@ def update_translation(entry):
         execline.append(
             f"touch dummy_cpp_file_for_lupdate.cpp"
         )  # lupdate 5.x requires at least one source file to process the UI files
-        execline.append(f"touch {tsBasename}py.ts")
-        execline.append(f'{PYLUPDATE} `find ./ -name "*.py"` -ts {tsBasename}py.ts {log_redirect}')
+        # execline.append(f"touch {tsBasename}py.ts")
+        execline.append(f'echo "<?xml version=\\\"1.0\\\" encoding=\\\"UTF-8\\\"?>\n<!DOCTYPE TS>\n<TS version=\\\"2.1\\\" language=\\\"en\\\">\n<!-- Your translations will go here -->\n</TS>" > {tsBasename}py.ts')
+        execline.append(f'echo "<?xml version=\\\"1.0\\\" encoding=\\\"UTF-8\\\"?>\n<!DOCTYPE TS>\n<TS version=\\\"2.1\\\" language=\\\"en\\\">\n<!-- Your translations will go here -->\n</TS>" > {tsBasename}.ts')
+        execline.append(f'{PYLUPDATE} `find ./ -name "*.py" | grep -v "/Resources/"` -ts {tsBasename}py.ts {log_redirect}')
         execline.append(f"{QMAKE} -project -o {project_filename} -r")
         execline.append(f"{LUPDATE} {project_filename} -ts {tsBasename}.ts {log_redirect}")
-        execline.append(
-            f"sed 's/<translation.*>.*<\/translation>/<translation type=\"unfinished\"><\/translation>/g' {tsBasename}.ts > {tsBasename}.ts.temp"
-        )
-        execline.append(f"mv {tsBasename}.ts.temp {tsBasename}.ts")
+        # execline.append(
+        #     f"sed 's/<translation.*>.*</translation>/<translation type=\"unfinished\"></translation>/g' {tsBasename}.ts > {tsBasename}.ts.temp"
+        # )
+        # execline.append(f"mv {tsBasename}.ts.temp {tsBasename}.ts")
         execline.append(
             f"{LCONVERT} -i {tsBasename}py.ts {tsBasename}.ts -o {tsBasename}.ts {log_redirect}"
         )

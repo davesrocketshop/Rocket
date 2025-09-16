@@ -92,14 +92,7 @@ LEGACY_NAMING_MAP = {"Draft.ts": "draft.ts"}
 
 # Locations that require QM file generation (predominantly Python workbenches)
 GENERATE_QM = {
-    "AddonManager",
-    "Arch",
-    "Cloud",
-    "Draft",
-    "Inspection",
-    "OpenSCAD",
-    "Tux",
-    "Help",
+    "Rocket",
 }
 
 # locations list contains Module name, relative path to translation folder and relative path to qrc file
@@ -219,6 +212,7 @@ class CrowdinUpdater:
 
         # This blocks until all futures are complete and will also throw any exception
         for future in futures:
+            print(f"{future.result()} done.")
             future.result()
 
 
@@ -333,40 +327,41 @@ def updateTranslatorCpp(lncode):
     pass
 
 
-def doFile(tsfilepath, targetpath, lncode, qrcpath):
+def doFile(tsfilepath, basename, targetpath, lncode, qrcpath):
 
     "updates a single ts file, and creates a corresponding qm file"
 
-    basename = os.path.basename(tsfilepath)[:-3]
-    # filename fixes
-    if basename + ".ts" in LEGACY_NAMING_MAP.values():
-        basename = list(LEGACY_NAMING_MAP)[
-            list(LEGACY_NAMING_MAP.values()).index(basename + ".ts")
-        ][:-3]
-    # newname = basename + "_" + lncode + ".ts"
+    # basename = os.path.basename(tsfilepath)[:-3]
+    # # filename fixes
+    # if basename + ".ts" in LEGACY_NAMING_MAP.values():
+    #     basename = list(LEGACY_NAMING_MAP)[
+    #         list(LEGACY_NAMING_MAP.values()).index(basename + ".ts")
+    #     ][:-3]
+    # # newname = basename + "_" + lncode + ".ts"
     newname = basename + ".ts"
     newpath = targetpath + os.sep + newname
     if not os.path.exists(tsfilepath):
         # If this language code does not exist for the given TS file, bail out
         return
     shutil.copyfile(tsfilepath, newpath)
-    if basename in GENERATE_QM:
-        # print("generating qm files for",newpath,"...")
-        try:
-            subprocess.run(
-                [
-                    "lrelease",
-                    newpath,
-                ],
-                timeout=5,
-            )
-        except Exception as e:
-            print(e)
-        newqm = targetpath + os.sep + basename + "_" + lncode + ".qm"
-        if not os.path.exists(newqm):
-            print("ERROR: failed to create " + newqm + ", aborting")
-            sys.exit()
-        updateqrc(qrcpath, lncode)
+    # if basename in GENERATE_QM:
+
+    # print("generating qm files for",newpath,"...")
+    try:
+        subprocess.run(
+            [
+                "lrelease",
+                newpath,
+            ],
+            timeout=5,
+        )
+    except Exception as e:
+        print(e)
+    newqm = targetpath + os.sep + basename + ".qm"
+    if not os.path.exists(newqm):
+        print("ERROR: failed to create " + newqm + ", aborting")
+        sys.exit()
+    updateqrc(qrcpath, lncode)
 
 
 def doLanguage(lncode):
@@ -383,13 +378,17 @@ def doLanguage(lncode):
         suffix = "\033[0m"
     print("Updating files for " + prefix + lncode + suffix + "...", end="")
     for target in locations:
-        basefilepath = os.path.join(tempfolder, target[0], target[0] + "_" + lncode + ".ts")
+        basename = target[0] + "_" + lncode
+        newln = lncode
+        if len(newln) == 2:
+            newln = newln + "-" + newln.upper()
+        basefilepath = os.path.join(tempfolder, target[0], target[0] + "_" + newln + ".ts")
         targetpath = os.path.abspath(target[1])
         qrcpath = os.path.abspath(target[2])
         # print("basefilepath {}".format(basefilepath))
         # print("targetpath {}".format(targetpath))
         # print("qrcpath {}".format(qrcpath))
-        doFile(basefilepath, targetpath, lncode, qrcpath)
+        doFile(basefilepath, basename, targetpath, lncode, qrcpath)
     print(" done")
 
 

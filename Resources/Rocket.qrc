@@ -35,5 +35,36 @@
         <file>icons/RocketWorkbench.svg</file>
         <file>ui/DialogBodyScale.ui</file>
         <file>ui/DialogCFD.ui</file>
+        <file>translations/Rocket_pl.qm</file>
+        <file>translations/Rocket_sv-SE.qm</file>
+        <file>translations/Rocket_es-ES.qm</file>
+        <file>translations/Rocket_fr.qm</file>
+        <file>translations/Rocket_pt-BR.qm</file>
+        <file>translations/Rocket_de.qm</file>
+        <file>translations/Rocket_pt-PT.qm</file>
+        <file>translations/Rocket_ru.qm</file>
+        <file>translations/Rocket_it.qm</file>
+        <file>translations/Rocket_zh-TW.qm</file>
+        <file>translations/Rocket_hu.qm</file>
+        <file>translations/Rocket_es-AR.qm</file>
+        <file>translations/Rocket_hr.qm</file>
+        <file>translations/Rocket_tr.qm</file>
+        <file>translations/Rocket_zh-CN.qm</file>
+        <file>translations/Rocket_es-CO.qm</file>
+        <file>translations/Rocket_es-VE.qm</file>
+        <file>translations/Rocket_nl.qm</file>
+        <file>translations/Rocket_val-ES.qm</file>
+        <file>translations/Rocket_bg.qm</file>
+        <file>translations/Rocket_fi.qm</file>
+        <file>translations/Rocket_hy-AM.qm</file>
+        <file>translations/Rocket_id.qm</file>
+        <file>translations/Rocket_lt.qm</file>
+        <file>translations/Rocket_ro.qm</file>
+        <file>translations/Rocket_sk.qm</file>
+        <file>translations/Rocket_az.qm</file>
+        <file>translations/Rocket_no.qm</file>
+        <file>translations/Rocket_sr-CS.qm</file>
+        <file>translations/Rocket_th.qm</file>
+        <file>translations/Rocket_ur-PK.qm</file>
     </qresource>
 </RCC>
