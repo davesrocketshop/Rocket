@@ -122,8 +122,8 @@ class _TransitionDialog(QDialog):
         self.form.xRotationInput.unit = FreeCAD.Units.Angle
         self.form.yRotationInput.unit = FreeCAD.Units.Angle
         self.form.zRotationInput.unit = FreeCAD.Units.Angle
-        self.form.foreOffsetInput = FreeCAD.Units.Length
-        self.form.aftOffsetInput = FreeCAD.Units.Length
+        self.form.foreOffsetInput.unit = FreeCAD.Units.Length
+        self.form.aftOffsetInput.unit = FreeCAD.Units.Length
 
     def setTabShoulder(self):
         self.form.foreShoulderDiameterInput.unit = FreeCAD.Units.Length
@@ -182,14 +182,6 @@ class TaskPanelTransition:
 
         self._tranForm.tabScaling.scaled.connect(self.onScale)
 
-        placement = FreeCAD.Placement()
-        yaw = FreeCAD.Units.Quantity(self._tranForm.form.zRotationInput.text()).Value
-        pitch = FreeCAD.Units.Quantity(self._tranForm.form.yRotationInput.text()).Value
-        roll = FreeCAD.Units.Quantity(self._tranForm.form.xRotationInput.text()).Value
-        placement.Rotation.setYawPitchRoll(yaw, pitch, roll)
-        placement.Base.x = FreeCAD.Units.Quantity(self._tranForm.form.offsetInput.text()).Value
-        self._obj.ProxyPlacement = placement
-
         self._db.dbLoad.connect(self.onLookup)
 
         self.update()
@@ -241,12 +233,13 @@ class TaskPanelTransition:
         self._tranForm.form.proxyForeEffectiveDiameterInput.setText(self._obj.ForeDiameter.UserString)
         self._tranForm.form.proxyAftEffectiveDiameterInput.setText(self._obj.AftDiameter.UserString)
 
-        placement = self._obj.ProxyPlacement
-        yaw, pitch, roll = placement.Rotation.getYawPitchRoll()
-        self._tranForm.form.xRotationInput.setText(f"{roll} deg")
-        self._tranForm.form.yRotationInput.setText(f"{pitch} deg")
-        self._tranForm.form.zRotationInput.setText(f"{yaw} deg")
-        self._tranForm.form.foreOffsetInput.setText(FreeCAD.Units.Quantity(placement.Base.x, FreeCAD.Units.Length).UserString)
+        # placement = FreeCAD.Placement()
+        # yaw = FreeCAD.Units.Quantity(self._tranForm.form.zRotationInput.text()).Value
+        # pitch = FreeCAD.Units.Quantity(self._tranForm.form.yRotationInput.text()).Value
+        # roll = FreeCAD.Units.Quantity(self._tranForm.form.xRotationInput.text()).Value
+        # placement.Rotation.setYawPitchRoll(yaw, pitch, roll)
+        # placement.Base.x = FreeCAD.Units.Quantity(self._tranForm.form.foreOffsetInput.text()).Value
+        # self._obj.ProxyPlacement = placement
 
         self._tranForm.tabScaling.transferTo(self._obj)
         self._tranForm.tabMaterial.transferTo(self._obj)
@@ -280,6 +273,17 @@ class TaskPanelTransition:
         self._tranForm.form.aftShoulderAutoDiameterCheckbox.setChecked(self._obj.AftShoulderAutoDiameter)
         self._tranForm.form.aftShoulderLengthInput.setText(self._obj.AftShoulderLength.UserString)
         self._tranForm.form.aftShoulderThicknessInput.setText(self._obj.AftShoulderThickness.UserString)
+
+        self._tranForm.form.proxyForeEffectiveDiameterInput.setText(self._obj.ForeDiameter.UserString)
+        self._tranForm.form.proxyAftEffectiveDiameterInput.setText(self._obj.AftDiameter.UserString)
+
+        placement = self._obj.ProxyPlacement
+        yaw, pitch, roll = placement.Rotation.getYawPitchRoll()
+        self._tranForm.form.xRotationInput.setText(f"{roll} deg")
+        self._tranForm.form.yRotationInput.setText(f"{pitch} deg")
+        self._tranForm.form.zRotationInput.setText(f"{yaw} deg")
+        self._tranForm.form.foreOffsetInput.setText(FreeCAD.Units.Quantity(placement.Base.x, FreeCAD.Units.Length).UserString)
+        self._tranForm.form.aftOffsetInput.setText(FreeCAD.Units.Quantity(0, FreeCAD.Units.Length).UserString)
 
         self._tranForm.tabScaling.transferFrom(self._obj)
         self._tranForm.tabMaterial.transferFrom(self._obj)
