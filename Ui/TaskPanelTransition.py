@@ -179,6 +179,11 @@ class TaskPanelTransition:
         self._tranForm.form.proxyBaseObjectButton.clicked.connect(self.onSelect)
         self._tranForm.form.proxyForeEffectiveDiameterInput.textEdited.connect(self.onForeEffectiveDiameter)
         self._tranForm.form.proxyAftEffectiveDiameterInput.textEdited.connect(self.onAftEffectiveDiameter)
+        self._tranForm.form.xRotationInput.textEdited.connect(self.onRotation)
+        self._tranForm.form.yRotationInput.textEdited.connect(self.onRotation)
+        self._tranForm.form.zRotationInput.textEdited.connect(self.onRotation)
+        self._tranForm.form.foreOffsetInput.textEdited.connect(self.onForeOffset)
+        self._tranForm.form.aftOffsetInput.textEdited.connect(self.onAftOffset)
 
         self._tranForm.tabScaling.scaled.connect(self.onScale)
 
@@ -233,13 +238,14 @@ class TaskPanelTransition:
         self._tranForm.form.proxyForeEffectiveDiameterInput.setText(self._obj.ForeDiameter.UserString)
         self._tranForm.form.proxyAftEffectiveDiameterInput.setText(self._obj.AftDiameter.UserString)
 
-        # placement = FreeCAD.Placement()
-        # yaw = FreeCAD.Units.Quantity(self._tranForm.form.zRotationInput.text()).Value
-        # pitch = FreeCAD.Units.Quantity(self._tranForm.form.yRotationInput.text()).Value
-        # roll = FreeCAD.Units.Quantity(self._tranForm.form.xRotationInput.text()).Value
-        # placement.Rotation.setYawPitchRoll(yaw, pitch, roll)
-        # placement.Base.x = FreeCAD.Units.Quantity(self._tranForm.form.foreOffsetInput.text()).Value
-        # self._obj.ProxyPlacement = placement
+        placement = FreeCAD.Placement()
+        yaw = FreeCAD.Units.Quantity(self._tranForm.form.zRotationInput.text()).Value
+        pitch = FreeCAD.Units.Quantity(self._tranForm.form.yRotationInput.text()).Value
+        roll = FreeCAD.Units.Quantity(self._tranForm.form.xRotationInput.text()).Value
+        placement.Rotation.setYawPitchRoll(yaw, pitch, roll)
+        placement.Base.x = FreeCAD.Units.Quantity(self._tranForm.form.foreOffsetInput.text()).Value
+        self._obj.ProxyPlacement = placement
+        self._obj.ProxyAftOffset = FreeCAD.Units.Quantity(self._tranForm.form.aftOffsetInput.text())
 
         self._tranForm.tabScaling.transferTo(self._obj)
         self._tranForm.tabMaterial.transferTo(self._obj)
@@ -283,7 +289,7 @@ class TaskPanelTransition:
         self._tranForm.form.yRotationInput.setText(f"{pitch} deg")
         self._tranForm.form.zRotationInput.setText(f"{yaw} deg")
         self._tranForm.form.foreOffsetInput.setText(FreeCAD.Units.Quantity(placement.Base.x, FreeCAD.Units.Length).UserString)
-        self._tranForm.form.aftOffsetInput.setText(FreeCAD.Units.Quantity(0, FreeCAD.Units.Length).UserString)
+        self._tranForm.form.aftOffsetInput.setText(self._obj.ProxyAftOffset.UserString)
 
         self._tranForm.tabScaling.transferFrom(self._obj)
         self._tranForm.tabMaterial.transferFrom(self._obj)
@@ -777,6 +783,33 @@ class TaskPanelTransition:
     def onAftEffectiveDiameter(self, value):
         try:
             self._obj.AftDiameter = FreeCAD.Units.Quantity(value).Value
+            self._obj.Proxy.execute(self._obj)
+        except ValueError:
+            pass
+        self.setEdited()
+
+    def onRotation(self, value):
+        try:
+            yaw = FreeCAD.Units.Quantity(self._tranForm.form.zRotationInput.text()).Value
+            pitch = FreeCAD.Units.Quantity(self._tranForm.form.yRotationInput.text()).Value
+            roll = FreeCAD.Units.Quantity(self._tranForm.form.xRotationInput.text()).Value
+            self._obj.ProxyPlacement.Rotation.setYawPitchRoll(yaw, pitch, roll)
+            self._obj.Proxy.execute(self._obj)
+        except ValueError:
+            pass
+        self.setEdited()
+
+    def onForeOffset(self, value):
+        try:
+            self._obj.ProxyPlacement.Base.x = FreeCAD.Units.Quantity(self._tranForm.form.foreOffsetInput.text()).Value
+            self._obj.Proxy.execute(self._obj)
+        except ValueError:
+            pass
+        self.setEdited()
+
+    def onAftOffset(self, value):
+        try:
+            self._obj.ProxyAftOffset = FreeCAD.Units.Quantity(self._tranForm.form.aftOffsetInput.text())
             self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass

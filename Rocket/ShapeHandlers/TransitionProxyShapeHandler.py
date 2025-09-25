@@ -18,9 +18,9 @@
 # *   USA                                                                   *
 # *                                                                         *
 # ***************************************************************************
-"""Class for drawing proxy nose cones"""
+"""Base class for drawing proxy transitions"""
 
-__title__ = "FreeCAD proxy Nose Shape Handler"
+__title__ = "FreeCAD Proxy Transition Shape Handler"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
@@ -30,7 +30,7 @@ import math
 import FreeCAD
 import Part
 
-class NoseProxyShapeHandler:
+class TransitionProxyShapeHandler:
     def __init__(self, obj : Any) -> None:
 
         # This gets changed when redrawn so it's very important to save a copy
@@ -40,14 +40,16 @@ class NoseProxyShapeHandler:
         self._shape = None
 
         # Common parameters
-        self._type = str(obj.NoseType)
+        self._type = str(obj.TransitionType)
         if hasattr(obj, "Base"):
             self._base = obj.Base
         else:
             self._base = None
 
-        self._diameter = self._obj.Diameter
+        self._foreDiameter = self._obj.ForeDiameter
+        self._aftDiameter = self._obj.AftDiameter
         self._proxyPlacement = self._obj.ProxyPlacement
+        self._proxyAftOffset = self._obj.ProxyAftOffset
         self._scale = self._obj.Scale
         self._scaleByValue = self._obj.ScaleByValue
         self._scaleByDiameter = self._obj.ScaleByDiameter
@@ -117,7 +119,10 @@ class NoseProxyShapeHandler:
         shape = self._getShape()
         if shape is None:
             return 0
-        return float(shape.BoundBox.XLength - self._proxyPlacement.Base.x) / self._getScale()
+        length = float(shape.BoundBox.XLength - self._proxyPlacement.Base.x - self._proxyAftOffset.Value) / self._getScale()
+        if length < 0:
+            length = 0
+        return length
 
     def draw(self) -> None:
         # shape = None

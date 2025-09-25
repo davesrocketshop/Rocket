@@ -36,6 +36,7 @@ from Rocket.ShapeHandlers.TransitionHaackShapeHandler import TransitionHaackShap
 from Rocket.ShapeHandlers.TransitionOgiveShapeHandler import TransitionOgiveShapeHandler
 from Rocket.ShapeHandlers.TransitionParabolicShapeHandler import TransitionParabolicShapeHandler
 from Rocket.ShapeHandlers.TransitionPowerShapeHandler import TransitionPowerShapeHandler
+from Rocket.ShapeHandlers.TransitionProxyShapeHandler import TransitionProxyShapeHandler
 
 from Rocket.Constants import TYPE_CONE, TYPE_ELLIPTICAL, TYPE_HAACK, TYPE_OGIVE, TYPE_VON_KARMAN, TYPE_PARABOLA, \
     TYPE_PARABOLIC, TYPE_POWER, TYPE_PROXY
@@ -99,6 +100,8 @@ class FeatureTransition(SymmetricComponent):
 
         if not hasattr(obj, 'ProxyPlacement'):
             obj.addProperty('App::PropertyPlacement', 'ProxyPlacement', 'RocketComponent', translate('App::Property', 'This is the local coordinate system within the rocket object that will be used for the proxy feature')).ProxyPlacement
+        if not hasattr(obj, 'ProxyAftOffset'):
+            obj.addProperty('App::PropertyLength', 'ProxyAftOffset', 'RocketComponent', translate('App::Property', 'Offset at the aft end of the proxy object')).ProxyAftOffset = 0.0
 
         if not hasattr(obj, 'TransitionType'):
             obj.addProperty('App::PropertyEnumeration', 'TransitionType', 'RocketComponent', translate('App::Property', 'Transition type'))
@@ -414,6 +417,14 @@ class FeatureTransition(SymmetricComponent):
             return self._obj.CoreDiameter
         return max(self.getRadius(0) - float(self._obj.Thickness), 0)
 
+    def getLength(self) -> float:
+        # Return the length of this component along the central axis
+        if self._obj.TransitionType == TYPE_PROXY:
+            if self._shapeHandler == None:
+                self._setShapeHandler()
+            return self._shapeHandler.getLength() / self.getScale()
+        return float(self._obj.Length) / self.getScale()
+
     def _setShapeHandler(self) -> None:
         obj = self._obj
         self._shapeHandler = None
@@ -435,6 +446,8 @@ class FeatureTransition(SymmetricComponent):
             self._shapeHandler = TransitionPowerShapeHandler(obj)
         elif obj.TransitionType == TYPE_POWER:
             self._shapeHandler = TransitionPowerShapeHandler(obj)
+        elif obj.TransitionType == TYPE_PROXY:
+            self._shapeHandler = TransitionProxyShapeHandler(obj)
 
     def execute(self, obj : Any) -> None:
         self._setShapeHandler()
