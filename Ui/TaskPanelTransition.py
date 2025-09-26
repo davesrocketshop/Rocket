@@ -325,8 +325,8 @@ class TaskPanelTransition:
 
     def _setProxyState(self):
         self._setProxyStateVisible(self._obj.TransitionType != TYPE_PROXY)
-        # Hide the shoulder tab
-        self._tranForm.form.tabWidget.setTabVisible(1, self._obj.TransitionType != TYPE_PROXY)
+        # # Hide the shoulder tab
+        # self._tranForm.form.tabWidget.setTabVisible(1, self._obj.TransitionType != TYPE_PROXY)
 
         self._updateTransitionType = False
         self._tranForm.form.transitionTypesCombo.setCurrentIndex(self._tranForm.form.transitionTypesCombo.findData(self._obj.TransitionType))

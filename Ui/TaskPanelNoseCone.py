@@ -282,8 +282,6 @@ class TaskPanelNoseCone:
 
     def _setProxyState(self):
         self._setProxyStateVisible(self._obj.NoseType != TYPE_PROXY)
-        # Hide the shoulder tab
-        self._noseForm.form.tabWidget.setTabVisible(1, self._obj.NoseType != TYPE_PROXY)
 
         self._updateNoseType = False
         self._noseForm.form.noseConeTypesCombo.setCurrentIndex(self._noseForm.form.noseConeTypesCombo.findData(self._obj.NoseType))

@@ -30,6 +30,10 @@ import math
 import FreeCAD
 import Part
 
+translate = FreeCAD.Qt.translate
+
+from Rocket.Utilities import _err, validationError
+
 class NoseProxyShapeHandler:
     def __init__(self, obj : Any) -> None:
 
@@ -53,6 +57,12 @@ class NoseProxyShapeHandler:
         self._scaleByDiameter = self._obj.ScaleByDiameter
         self._autoScaleDiameter = self._obj.AutoScaleDiameter
         self._scaleValue = self._obj.ScaleValue
+
+        self._shoulder = bool(obj.Shoulder)
+        self._shoulderLength = obj.ShoulderLength.Value
+        self._shoulderRadius = obj.ShoulderDiameter.Value / 2.0
+        self._shoulderAutoDiameter = bool(obj.ShoulderAutoDiameter)
+        self._shoulderThickness = obj.ShoulderThickness.Value
 
         self._obj = obj
 
@@ -83,6 +93,26 @@ class NoseProxyShapeHandler:
                     scale = self._scaleValue / self._diameter
 
         return float(scale)
+
+    def _createShoulder(self, length : float) -> Part.Solid:
+        end1 = FreeCAD.Vector(length, self._shoulderRadius - self._shoulderThickness)
+        end2 = FreeCAD.Vector(length, self._shoulderRadius)
+        end3 = FreeCAD.Vector(length + self._shoulderLength, self._shoulderRadius)
+        end4 = FreeCAD.Vector(length + self._shoulderLength, self._shoulderRadius - self._shoulderThickness)
+        line1 = Part.LineSegment(end1, end2)
+        line2 = Part.LineSegment(end2, end3)
+        line3 = Part.LineSegment(end3, end4)
+        line4 = Part.LineSegment(end4, end1)
+
+        edges = [line1.toShape(), line2.toShape(), line3.toShape(), line4.toShape()]
+        try:
+            wire = Part.Wire(edges)
+            face = Part.Face(wire)
+            shape = face.revolve(FreeCAD.Vector(0, 0, 0),FreeCAD.Vector(1, 0, 0), 360)
+        except Part.OCCError:
+            _err(translate('Rocket', "Nose cone shoulder parameters produce an invalid shape"))
+            return None
+        return shape
 
     def _getShape(self) -> Part.Solid:
         if self._shape:
@@ -115,15 +145,34 @@ class NoseProxyShapeHandler:
 
     def getLength(self) -> float:
         shape = self._getShape()
-        if shape is None:
+        return self._getShapeLength(shape)
+
+    def _getShapeLength(self, shape : Part.Solid) -> float:
+        if not shape:
             return 0
         return float(shape.BoundBox.XLength - self._proxyPlacement.Base.x) / self._getScale()
 
-    def draw(self) -> None:
-        # shape = None
+    def drawNose(self) -> Part.Solid:
+        shape = self._getShape()
+        
+        try:
+            if shape and self._shoulder:
+                if self._shoulderRadius > max(shape.BoundBox.YMax, shape.BoundBox.ZMax):
+                    _err(translate('Rocket', "Nose cone shoulder parameters produce an invalid shape"))
+                    return Part.Shape()
+                length = self._getShapeLength(shape)
+                shoulder = self._createShoulder(length)
+                if shoulder:
+                    shape = shape.fuse(shoulder)
+        except Part.OCCError:
+            _err(translate('Rocket', "Nose cone shoulder parameters produce an invalid shape"))
+            return Part.Shape()
 
-        self._obj.Shape = self._getShape()
+        return shape
+
+    def draw(self) -> None:
+        self._obj.Shape = self.drawNose()
         self._obj.Placement = self._placement
 
     def drawSolidShape(self) -> Part.Solid:
-        return self._getShape()
+        return self.drawNose()

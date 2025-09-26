@@ -56,6 +56,20 @@ class TransitionProxyShapeHandler:
         self._autoScaleDiameter = self._obj.AutoScaleDiameter
         self._scaleValue = self._obj.ScaleValue
 
+        self._foreShoulder = bool(obj.ForeShoulder)
+        self._foreShoulderLength = float(obj.ForeShoulderLength)
+        self._foreShoulderRadius = float(obj.ForeShoulderDiameter) / 2.0
+        self._foreShoulderAuto = bool(obj.ForeShoulderAutoDiameter)
+        self._foreShoulderThickness = float(obj.ForeShoulderThickness)
+
+        self._aftShoulder = bool(obj.AftShoulder)
+        self._aftShoulderLength = float(obj.AftShoulderLength)
+        self._aftShoulderRadius = float(obj.AftShoulderDiameter) / 2.0
+        self._aftShoulderAuto = bool(obj.AftShoulderAutoDiameter)
+        self._aftShoulderThickness = float(obj.AftShoulderThickness)
+
+        self._shoulder = (self._foreShoulder or self._aftShoulder)
+
         self._obj = obj
 
     def _shapeUnion(self, shape : Part.Shape) -> Part.Shape:
@@ -118,18 +132,99 @@ class TransitionProxyShapeHandler:
 
     def getLength(self) -> float:
         shape = self._getShape()
-        if shape is None:
+        return self._getShapeLength(shape)
+
+    def _getShapeLength(self, shape : Part.Solid) -> float:
+        if not shape:
             return 0
         length = float(shape.BoundBox.XLength - self._proxyPlacement.Base.x - self._proxyAftOffset.Value) / self._getScale()
         if length < 0:
             length = 0
         return length
 
-    def draw(self) -> None:
-        # shape = None
+    def _createForeShoulder(self, length : float) -> Part.Solid:
+        end1 = FreeCAD.Vector(0.0, self._foreShoulderRadius - self._foreShoulderThickness)
+        end2 = FreeCAD.Vector(0.0, self._foreShoulderRadius)
+        end3 = FreeCAD.Vector(-self._foreShoulderLength, self._foreShoulderRadius)
+        end4 = FreeCAD.Vector(-self._foreShoulderLength, self._foreShoulderRadius - self._foreShoulderThickness)
+        line1 = Part.LineSegment(end1, end2)
+        line2 = Part.LineSegment(end2, end3)
+        line3 = Part.LineSegment(end3, end4)
+        line4 = Part.LineSegment(end4, end1)
 
-        self._obj.Shape = self._getShape()
+        edges = [line1.toShape(), line2.toShape(), line3.toShape(), line4.toShape()]
+        try:
+            wire = Part.Wire(edges)
+            face = Part.Face(wire)
+            shape = face.revolve(FreeCAD.Vector(0, 0, 0),FreeCAD.Vector(1, 0, 0), 360)
+        except Part.OCCError:
+            _err(translate('Rocket', "Transition fore shoulder parameters produce an invalid shape"))
+            return None
+        return shape
+
+    def _createAftShoulder(self, length : float) -> Part.Solid:
+        end1 = FreeCAD.Vector(length, self._aftShoulderRadius - self._aftShoulderThickness)
+        end2 = FreeCAD.Vector(length, self._aftShoulderRadius)
+        end3 = FreeCAD.Vector(length + self._aftShoulderLength, self._aftShoulderRadius)
+        end4 = FreeCAD.Vector(length + self._aftShoulderLength, self._aftShoulderRadius - self._aftShoulderThickness)
+        line1 = Part.LineSegment(end1, end2)
+        line2 = Part.LineSegment(end2, end3)
+        line3 = Part.LineSegment(end3, end4)
+        line4 = Part.LineSegment(end4, end1)
+
+        edges = [line1.toShape(), line2.toShape(), line3.toShape(), line4.toShape()]
+        try:
+            wire = Part.Wire(edges)
+            face = Part.Face(wire)
+            shape = face.revolve(FreeCAD.Vector(0, 0, 0),FreeCAD.Vector(1, 0, 0), 360)
+        except Part.OCCError:
+            _err(translate('Rocket', "Transition aft shoulder parameters produce an invalid shape"))
+            return None
+        return shape
+
+    def drawTransition(self) -> Part.Solid:
+        shape = self._getShape()
+        
+        try:
+            if shape and self._shoulder:
+                length = self._getShapeLength(shape)
+                if self._foreShoulder:
+                    if self._foreShoulderRadius > max(shape.BoundBox.YMax, shape.BoundBox.ZMax):
+                        _err(translate('Rocket', "Transition for shoulder parameters produce an invalid shape"))
+                        return Part.Shape()
+                    shoulder = self._createForeShoulder(length)
+                    if shoulder:
+                        shape = shape.fuse(shoulder)
+                if self._aftShoulder:
+                    if self._aftShoulderRadius > max(shape.BoundBox.YMax, shape.BoundBox.ZMax):
+                        _err(translate('Rocket', "Transition for shoulder parameters produce an invalid shape"))
+                        return Part.Shape()
+                    shoulder = self._createAftShoulder(length)
+                    if shoulder:
+                        shape = shape.fuse(shoulder)
+        except Part.OCCError:
+            _err(translate('Rocket', "Transition shoulder parameters produce an invalid shape"))
+            return Part.Shape()
+
+        return shape
+
+        # self._foreShoulder = bool(obj.ForeShoulder)
+        # self._foreShoulderLength = float(obj.ForeShoulderLength)
+        # self._foreShoulderRadius = float(obj.ForeShoulderDiameter) / 2.0
+        # self._foreShoulderAuto = bool(obj.ForeShoulderAutoDiameter)
+        # self._foreShoulderThickness = float(obj.ForeShoulderThickness)
+
+        # self._aftShoulder = bool(obj.AftShoulder)
+        # self._aftShoulderLength = float(obj.AftShoulderLength)
+        # self._aftShoulderRadius = float(obj.AftShoulderDiameter) / 2.0
+        # self._aftShoulderAuto = bool(obj.AftShoulderAutoDiameter)
+        # self._aftShoulderThickness = float(obj.AftShoulderThickness)
+
+        # self._shoulder = (self._foreShoulder or self._aftShoulder)
+
+    def draw(self) -> None:
+        self._obj.Shape = self.drawTransition()
         self._obj.Placement = self._placement
 
     def drawSolidShape(self) -> Part.Solid:
-        return self._getShape()
+        return self.drawTransition()
