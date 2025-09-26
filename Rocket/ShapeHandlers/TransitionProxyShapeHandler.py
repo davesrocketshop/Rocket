@@ -105,7 +105,8 @@ class TransitionProxyShapeHandler:
 
         # Translate so the nose is at (0, 0, 0)
         min = shape.BoundBox.XMin
-        shape.translate(FreeCAD.Vector(-min, 0, 0))
+        #     fin.translate(FreeCAD.Vector(self._proxyPlacement.Base.x, 0.0, 0.0))
+        shape.translate(FreeCAD.Vector(-min - self._proxyPlacement.Base.x, 0, 0))
 
         self._shape = self._shapeUnion(shape)
         return self._shape

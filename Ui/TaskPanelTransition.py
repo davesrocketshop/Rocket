@@ -231,13 +231,6 @@ class TaskPanelTransition:
         self._obj.AftShoulderLength = self._tranForm.form.aftShoulderLengthInput.text()
         self._obj.AftShoulderThickness = self._tranForm.form.aftShoulderThicknessInput.text()
 
-        if self._obj.Base:
-            self._tranForm.form.proxyBaseObjectInput.setText(self._obj.Base.Label)
-        else:
-            self._tranForm.form.proxyBaseObjectInput.setText("")
-        self._tranForm.form.proxyForeEffectiveDiameterInput.setText(self._obj.ForeDiameter.UserString)
-        self._tranForm.form.proxyAftEffectiveDiameterInput.setText(self._obj.AftDiameter.UserString)
-
         placement = FreeCAD.Placement()
         yaw = FreeCAD.Units.Quantity(self._tranForm.form.zRotationInput.text()).Value
         pitch = FreeCAD.Units.Quantity(self._tranForm.form.yRotationInput.text()).Value
@@ -280,6 +273,10 @@ class TaskPanelTransition:
         self._tranForm.form.aftShoulderLengthInput.setText(self._obj.AftShoulderLength.UserString)
         self._tranForm.form.aftShoulderThicknessInput.setText(self._obj.AftShoulderThickness.UserString)
 
+        if self._obj.Base:
+            self._tranForm.form.proxyBaseObjectInput.setText(self._obj.Base.Label)
+        else:
+            self._tranForm.form.proxyBaseObjectInput.setText("")
         self._tranForm.form.proxyForeEffectiveDiameterInput.setText(self._obj.ForeDiameter.UserString)
         self._tranForm.form.proxyAftEffectiveDiameterInput.setText(self._obj.AftDiameter.UserString)
 

@@ -51,6 +51,7 @@ class FeatureTransition(SymmetricComponent):
     def __init__(self, obj : Any) -> None:
         super().__init__(obj)
         self.Type = FEATURE_TRANSITION
+        self._shapeHandler = None
 
         if not hasattr(obj, 'ForeDiameter'):
             obj.addProperty('App::PropertyLength', 'ForeDiameter', 'RocketComponent', translate('App::Property', 'Diameter at the front of the transition')).ForeDiameter = 20.0

@@ -53,8 +53,10 @@ class RocketTest(unittest.TestCase):
         self.Doc = FreeCAD.newDocument("RocketTest")
 
     def tearDown(self):
-        # FreeCAD.closeDocument(self.Doc.Name)
-        ...
+        if any(error for _, error in self._outcome.result.failures if error is not None):
+            print("Skipping tearDown due to test failure.")
+            return
+        FreeCAD.closeDocument(self.Doc.Name)
 
     def getStage(self, rocket, stageNumber):
         return rocket.getChild(stageNumber).Proxy
