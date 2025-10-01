@@ -453,7 +453,7 @@ class OpenRocketExporter:
         # <radialposition>0.0</radialposition>
         # <radialdirection>0.0</radialdirection>
         if feature.isOuterRadiusAutomatic():
-            self.write(file, f"{' ' * (indent + 2)}<outerradius>auto {self.toMeters(float(feature.getOuterRadius(0)))}</outerradius>\n")
+            self.write(file, f"{' ' * (indent + 2)}<outerradius>auto</outerradius>\n")
         else:
             self.write(file, f"{' ' * (indent + 2)}<outerradius>{self.toMeters(float(feature.getOuterRadius(0)))}</outerradius>\n")
         if feature.isInnerRadiusAutomatic():
