@@ -216,15 +216,25 @@ class OpenRocketExporter:
                     print(f"Unknown feature {type}")
             self.write(file, f"{' ' * indent}</subcomponents>\n")
 
-    def writeAppearance(self, file : io.TextIOBase, feature : RocketComponentShapeless, indent : int) -> None:
+    def writeAppearance(self, file : io.TextIOBase, feature : RocketComponentShapeless, indent : int, finish : bool = True) -> None:
+        appearance = None
+        try:
+            appearance = feature._obj.ViewObject.ShapeAppearance[0]
+        except Exception:
+            # No appearance available
+            return
+
         self.write(file, f"{' ' * indent}<appearance>\n")
-        appearance = feature._obj.ViewObject.ShapeAppearance[0]
-        print(dir(appearance.DiffuseColor))
-        # print(feature._obj.ShapeAppearance)
-        # self.write(file, f"{' ' * (indent + 2)}<name>{feature.getName()}</name>\n")
-        self.write(file, f"{' ' * (indent + 2)}<shine>0.3</shine>\n")
+        color = appearance.DiffuseColor
+        red = round(color[0] * 255.0)
+        green = round(color[1] * 255.0)
+        blue = round(color[2] * 255.0)
+        opacity = round((1.0 - color[3]) * 255.0)
+        self.write(file, f"{' ' * (indent + 2)}<paint red=\"{red}\" green=\"{green}\" blue=\"{blue}\" alpha=\"{opacity}\"/>\n")
+        self.write(file, f"{' ' * (indent + 2)}<shine>{appearance.Shininess}</shine>\n")
         self.write(file, f"{' ' * indent}</appearance>\n\n")
-        self.write(file, f"{' ' * indent}<finish>polished</finish>\n\n")
+        if finish:
+            self.write(file, f"{' ' * indent}<finish>polished</finish>\n\n")
 
     def writeNull(self, file : io.TextIOBase, feature : RocketComponentShapeless, indent : int) -> None:
         pass
@@ -291,6 +301,7 @@ class OpenRocketExporter:
         self.write(file, f"{' ' * indent}<transition>\n")
         self.write(file, f"{' ' * (indent + 2)}<name>{feature.getName()}</name>\n")
         self.write(file, f"{' ' * (indent + 2)}<id>{uuid.uuid4()}</id>\n")
+        self.writeAppearance(file, feature, indent+2)
         if len(feature._obj.Comment) > 0:
             self.write(file, f"{' ' * (indent + 2)}<comment>{feature._obj.Comment}</comment>\n")
         transitionType = feature._obj.TransitionType
@@ -379,6 +390,7 @@ class OpenRocketExporter:
         self.write(file, f"{' ' * indent}<bodytube>\n")
         self.write(file, f"{' ' * (indent + 2)}<name>{feature.getName()}</name>\n")
         self.write(file, f"{' ' * (indent + 2)}<id>{uuid.uuid4()}</id>\n")
+        self.writeAppearance(file, feature, indent+2)
         self.write(file, f"{' ' * (indent + 2)}<length>{self.toMeters(float(feature.getLength()))}</length>\n")
         self.write(file, f"{' ' * (indent + 2)}<thickness>{self.toMeters(feature._obj.Thickness.Value)}</thickness>\n")
         if hasattr(feature, "isOuterRadiusAutomatic") and feature.isOuterRadiusAutomatic():
@@ -396,6 +408,7 @@ class OpenRocketExporter:
         self.write(file, f"{' ' * indent}<tubecoupler>\n")
         self.write(file, f"{' ' * (indent + 2)}<name>{feature.getName()}</name>\n")
         self.write(file, f"{' ' * (indent + 2)}<id>{uuid.uuid4()}</id>\n")
+        self.writeAppearance(file, feature, indent+2, False)
         self.write(file, f"{' ' * (indent + 2)}<axialoffset method=\"{self.getAxialMethod(feature)}\">{self.toMeters(feature._obj.AxialOffset.Value)}</axialoffset>\n")
         self.write(file, f"{' ' * (indent + 2)}<position type=\"{self.getPositionType(feature)}\">{self.toMeters(feature._obj.AxialOffset.Value)}</position>\n")
         self.write(file, f"{' ' * (indent + 2)}<length>{self.toMeters(float(feature.getLength()))}</length>\n")
@@ -413,6 +426,7 @@ class OpenRocketExporter:
         self.write(file, f"{' ' * indent}<innertube>\n")
         self.write(file, f"{' ' * (indent + 2)}<name>{feature.getName()}</name>\n")
         self.write(file, f"{' ' * (indent + 2)}<id>{uuid.uuid4()}</id>\n")
+        self.writeAppearance(file, feature, indent+2, False)
         self.write(file, f"{' ' * (indent + 2)}<axialoffset method=\"{self.getAxialMethod(feature)}\">{self.toMeters(feature._obj.AxialOffset.Value)}</axialoffset>\n")
         self.write(file, f"{' ' * (indent + 2)}<position type=\"{self.getPositionType(feature)}\">{self.toMeters(feature._obj.AxialOffset.Value)}</position>\n")
         self.write(file, f"{' ' * (indent + 2)}<length>{self.toMeters(float(feature.getLength()))}</length>\n")
@@ -439,6 +453,7 @@ class OpenRocketExporter:
         self.write(file, f"{' ' * indent}<bulkhead>\n")
         self.write(file, f"{' ' * (indent + 2)}<name>{feature.getName()}</name>\n")
         self.write(file, f"{' ' * (indent + 2)}<id>{uuid.uuid4()}</id>\n")
+        self.writeAppearance(file, feature, indent+2, False)
         self.write(file, f"{' ' * (indent + 2)}<instancecount>1</instancecount>\n")
         self.write(file, f"{' ' * (indent + 2)}<instanceseparation>0</instanceseparation>\n")
         self.write(file, f"{' ' * (indent + 2)}<axialoffset method=\"{self.getAxialMethod(feature)}\">{self.toMeters(feature._obj.AxialOffset.Value)}</axialoffset>\n")
@@ -456,6 +471,7 @@ class OpenRocketExporter:
         self.write(file, f"{' ' * indent}<centeringring>\n")
         self.write(file, f"{' ' * (indent + 2)}<name>{feature.getName()}</name>\n")
         self.write(file, f"{' ' * (indent + 2)}<id>{uuid.uuid4()}</id>\n")
+        self.writeAppearance(file, feature, indent+2, False)
         self.write(file, f"{' ' * (indent + 2)}<instancecount>1</instancecount>\n")
         self.write(file, f"{' ' * (indent + 2)}<instanceseparation>0</instanceseparation>\n")
         self.write(file, f"{' ' * (indent + 2)}<axialoffset method=\"{self.getAxialMethod(feature)}\">{self.toMeters(feature._obj.AxialOffset.Value)}</axialoffset>\n")
@@ -477,6 +493,7 @@ class OpenRocketExporter:
         self.write(file, f"{' ' * indent}<engineblock>\n")
         self.write(file, f"{' ' * (indent + 2)}<name>{feature.getName()}</name>\n")
         self.write(file, f"{' ' * (indent + 2)}<id>{uuid.uuid4()}</id>\n")
+        self.writeAppearance(file, feature, indent+2, False)
         self.write(file, f"{' ' * (indent + 2)}<axialoffset method=\"{self.getAxialMethod(feature)}\">{self.toMeters(feature._obj.AxialOffset.Value)}</axialoffset>\n")
         self.write(file, f"{' ' * (indent + 2)}<position type=\"{self.getPositionType(feature)}\">{self.toMeters(feature._obj.AxialOffset.Value)}</position>\n")
         self.write(file, f"{' ' * (indent + 2)}<length>{self.toMeters(float(feature.getLength()))}</length>\n")
@@ -494,6 +511,7 @@ class OpenRocketExporter:
         else:
             self.write(file, f"{' ' * (indent + 2)}<name>{feature.getName()}</name>\n")
         self.write(file, f"{' ' * (indent + 2)}<id>{uuid.uuid4()}</id>\n")
+        self.writeAppearance(file, feature, indent+2, False)
         if hasattr(feature, "getInstanceCount"):
             self.write(file, f"{' ' * (indent + 2)}<instancecount>{feature.getInstanceCount()}</instancecount>\n")
             self.write(file, f"{' ' * (indent + 2)}<instanceseparation>{feature.getInstanceSeparation()}</instanceseparation>\n")
@@ -520,6 +538,7 @@ class OpenRocketExporter:
         self.write(file, f"{' ' * indent}<railbutton>\n")
         self.write(file, f"{' ' * (indent + 2)}<name>{feature.getName()}</name>\n")
         self.write(file, f"{' ' * (indent + 2)}<id>{uuid.uuid4()}</id>\n")
+        self.writeAppearance(file, feature, indent+2, False)
         self.write(file, f"{' ' * (indent + 2)}<instancecount>{feature.getInstanceCount()}</instancecount>\n")
         self.write(file, f"{' ' * (indent + 2)}<instanceseparation>{feature.getInstanceSeparation()}</instanceseparation>\n")
         self.write(file, f"{' ' * (indent + 2)}<angleoffset method=\"relative\">{feature._obj.AngleOffset.Value}</angleoffset>\n")
@@ -562,6 +581,7 @@ class OpenRocketExporter:
         else:
             self.write(file, f"{' ' * (indent + 2)}<name>{feature.getName()}</name>\n")
         self.write(file, f"{' ' * (indent + 2)}<id>{uuid.uuid4()}</id>\n")
+        self.writeAppearance(file, feature, indent+2)
         if feature.isFinSet():
             fins = feature.getFinCount()
         else:
@@ -599,6 +619,7 @@ class OpenRocketExporter:
         else:
             self.write(file, f"{' ' * (indent + 2)}<name>{feature.getName()}</name>\n")
         self.write(file, f"{' ' * (indent + 2)}<id>{uuid.uuid4()}</id>\n")
+        self.writeAppearance(file, feature, indent+2)
         if feature.isFinSet():
             fins = feature.getFinCount()
         else:
@@ -631,6 +652,7 @@ class OpenRocketExporter:
         else:
             self.write(file, f"{' ' * (indent + 2)}<name>{feature.getName()}</name>\n")
         self.write(file, f"{' ' * (indent + 2)}<id>{uuid.uuid4()}</id>\n")
+        self.writeAppearance(file, feature, indent+2)
         if feature.isFinSet():
             fins = feature.getFinCount()
         else:
@@ -658,6 +680,7 @@ class OpenRocketExporter:
         else:
             self.write(file, f"{' ' * (indent + 2)}<name>{feature.getName()}</name>\n")
         self.write(file, f"{' ' * (indent + 2)}<id>{uuid.uuid4()}</id>\n")
+        self.writeAppearance(file, feature, indent+2)
         if feature.isFinSet():
             fins = feature.getFinCount()
         else:
