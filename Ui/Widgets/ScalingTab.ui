@@ -26,55 +26,6 @@
       <bool>false</bool>
      </property>
      <layout class="QGridLayout" name="gridLayout">
-      <item row="2" column="0">
-       <widget class="QRadioButton" name="scaleDiameterRadio">
-        <property name="text">
-         <string>By body diameter</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="0">
-       <widget class="QCheckBox" name="scaleOverrideCheckbox">
-        <property name="text">
-         <string>Override</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="1">
-       <widget class="Gui::InputField" name="scaleDiameterInput">
-        <property name="unit" stdset="0">
-         <string notr="true"/>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="0">
-       <widget class="QRadioButton" name="scaleRootRadio">
-        <property name="text">
-         <string>By root chord</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="2">
-       <widget class="QCheckBox" name="upscaleCheckbox">
-        <property name="text">
-         <string>Upscale</string>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="1">
-       <widget class="Gui::InputField" name="scaleRootInput">
-        <property name="unit" stdset="0">
-         <string notr="true"/>
-        </property>
-       </widget>
-      </item>
-      <item row="5" column="0">
-       <widget class="QRadioButton" name="scaleHeightRadio">
-        <property name="text">
-         <string>By height</string>
-        </property>
-       </widget>
-      </item>
       <item row="2" column="2">
        <widget class="QCheckBox" name="scaleDiameterCheckbox">
         <property name="text">
@@ -83,7 +34,7 @@
        </widget>
       </item>
       <item row="5" column="1">
-       <widget class="Gui::InputField" name="scaleHeightInput">
+       <widget class="Gui::InputField" name="scaleRootInput">
         <property name="unit" stdset="0">
          <string notr="true"/>
         </property>
@@ -112,10 +63,54 @@
         </layout>
        </widget>
       </item>
+      <item row="0" column="0">
+       <widget class="QCheckBox" name="scaleOverrideCheckbox">
+        <property name="text">
+         <string>Override</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="2">
+       <widget class="QCheckBox" name="upscaleCheckbox">
+        <property name="text">
+         <string>Upscale</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="Gui::InputField" name="scaleDiameterInput">
+        <property name="unit" stdset="0">
+         <string notr="true"/>
+        </property>
+       </widget>
+      </item>
       <item row="1" column="0">
        <widget class="QRadioButton" name="scaleRadio">
         <property name="text">
          <string>By Value</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+        <attribute name="buttonGroup">
+         <string notr="true">buttonGroup_2</string>
+        </attribute>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QRadioButton" name="scaleDiameterRadio">
+        <property name="text">
+         <string>By body diameter</string>
+        </property>
+        <attribute name="buttonGroup">
+         <string notr="true">buttonGroup_2</string>
+        </attribute>
+       </widget>
+      </item>
+      <item row="6" column="1">
+       <widget class="Gui::InputField" name="scaleHeightInput">
+        <property name="unit" stdset="0">
+         <string notr="true"/>
         </property>
        </widget>
       </item>
@@ -123,6 +118,33 @@
        <widget class="Gui::InputField" name="scaleInput">
         <property name="unit" stdset="0">
          <string notr="true"/>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="0">
+       <widget class="QRadioButton" name="scaleHeightRadio">
+        <property name="text">
+         <string>By height</string>
+        </property>
+        <attribute name="buttonGroup">
+         <string notr="true">buttonGroup_2</string>
+        </attribute>
+       </widget>
+      </item>
+      <item row="5" column="0">
+       <widget class="QRadioButton" name="scaleRootRadio">
+        <property name="text">
+         <string>By root chord</string>
+        </property>
+        <attribute name="buttonGroup">
+         <string notr="true">buttonGroup_2</string>
+        </attribute>
+       </widget>
+      </item>
+      <item row="4" column="1">
+       <widget class="QPushButton" name="lookupButton">
+        <property name="text">
+         <string>Lookup...</string>
         </property>
        </widget>
       </item>
@@ -405,6 +427,7 @@
   <tabstop>scaleDiameterCheckbox</tabstop>
   <tabstop>scaleForeRadio</tabstop>
   <tabstop>scaleAftRadio</tabstop>
+  <tabstop>lookupButton</tabstop>
   <tabstop>scaleRootRadio</tabstop>
   <tabstop>scaleRootInput</tabstop>
   <tabstop>scaleHeightRadio</tabstop>
@@ -426,4 +449,7 @@
  </tabstops>
  <resources/>
  <connections/>
+ <buttongroups>
+  <buttongroup name="buttonGroup_2"/>
+ </buttongroups>
 </ui>

@@ -37,9 +37,13 @@ from PySide.QtCore import QObject, Signal
 
 from Rocket.Constants import FIN_TYPE_TRAPEZOID
 from Rocket.Constants import FEATURE_ROCKET
+from Rocket.Constants import COMPONENT_TYPE_BODYTUBE, COMPONENT_TYPE_NOSECONE, COMPONENT_TYPE_TRANSITION
 
 from Ui.Widgets.WaitCursor import WaitCursor
 from Ui.UIPaths import getUIPath
+from Ui.DialogLookup import DialogLookup
+
+from Rocket.Utilities import _valueWithUnits
 
 class ScalingTab(QObject):
     scaled = Signal()   # emitted when scale parameters have changed
@@ -115,6 +119,7 @@ class ScalingTab(QObject):
         self._form.scaledSetPartButton.clicked.connect(self.onSetPartScale)
         self._form.scaledSetStageButton.clicked.connect(self.onSetStageScale)
         self._form.scaleSetRocketButton.clicked.connect(self.onSetRocketScale)
+        self._form.lookupButton.clicked.connect(self.onLookup)
 
     def _setScaleState(self) -> None:
         if self._obj.Proxy.isParentScaled():
@@ -135,6 +140,7 @@ class ScalingTab(QObject):
                 byDiameter = self._form.scaleDiameterRadio.isChecked()
                 self._form.scaleDiameterInput.setEnabled(byDiameter)
                 # self._form.scaleDiameterCheckbox.setEnabled(byDiameter)
+                self._form.lookupButton.setEnabled(byDiameter)
             else:
                 self._form.scaleRadio.setEnabled(False)
                 self._form.scaleInput.setEnabled(False)
@@ -142,6 +148,7 @@ class ScalingTab(QObject):
                 self._form.scaleDiameterRadio.setEnabled(False)
                 self._form.scaleDiameterInput.setEnabled(False)
                 self._form.scaleDiameterCheckbox.setEnabled(False)
+                self._form.lookupButton.setEnabled(False)
         self._form.scaleDiameterCheckbox.setVisible(False)
 
     def transferTo(self, obj : Any) -> None:
@@ -353,6 +360,16 @@ class ScalingTab(QObject):
             self.update()
             self.setEdited()
 
+    def onLookup(self) -> None:
+        form = DialogLookup(COMPONENT_TYPE_BODYTUBE)
+        form.exec()
+
+        if len(form.result) > 0:
+            result = form.result
+            diameter = _valueWithUnits(result["outer_diameter"], result["outer_diameter_units"])
+            self._form.scaleDiameterInput.setText(f"{diameter}")
+            self.onScaleDiameterValue(f"{diameter}")
+
     def update(self):
         'fills the widgets'
         self.updated.emit()
@@ -380,6 +397,17 @@ class ScalingTabNose(ScalingTab):
 
         self._form.scaledHeightLabel.setVisible(False)
         self._form.scaledHeightInput.setVisible(False)
+
+    def onLookup(self) -> None:
+        form = DialogLookup(COMPONENT_TYPE_NOSECONE)
+        form.exec()
+
+        if len(form.result) > 0:
+            result = form.result
+            print(result.keys())
+            diameter = _valueWithUnits(result["diameter"], result["diameter_units"])
+            self._form.scaleDiameterInput.setText(f"{diameter}")
+            self.onScaleDiameterValue(f"{diameter}")
 
 class ScalingTabTransition(ScalingTab):
 
@@ -424,10 +452,13 @@ class ScalingTabTransition(ScalingTab):
         super()._setScaleState()
         if self._form.scalingGroup.isChecked():
             if (self._obj.Proxy.isParentScaled() and self._obj.ScaleOverride) or \
-                self._form.scaleForeAftGroup.setEnabled(True):
-                byDiameter = self._form.scaleDiameterRadio.isChecked()
-                self._form.scaleForeRadio.setEnabled(byDiameter)
-                self._form.scaleAftRadio.setEnabled(byDiameter)
+                self._form.scaleDiameterRadio.isChecked():
+                self._form.scaleForeAftGroup.setEnabled(True)
+                # byDiameter = self._form.scaleDiameterRadio.isChecked()
+                # self._form.scaleForeRadio.setEnabled(byDiameter)
+                # self._form.scaleAftRadio.setEnabled(byDiameter)
+                self._form.scaleForeRadio.setEnabled(True)
+                self._form.scaleAftRadio.setEnabled(True)
             else:
                 self._form.scaleForeAftGroup.setEnabled(False)
 
@@ -505,6 +536,19 @@ class ScalingTabTransition(ScalingTab):
             self._setScaleState()
             self.setEdited()
 
+    def onLookup(self) -> None:
+        form = DialogLookup(COMPONENT_TYPE_TRANSITION)
+        form.exec()
+
+        if len(form.result) > 0:
+            result = form.result
+            if self._form.scaleForeRadio.isChecked():
+                diameter = _valueWithUnits(result["fore_outside_diameter"], result["fore_outside_diameter_units"])
+            else:
+                diameter = _valueWithUnits(result["aft_outside_diameter"], result["aft_outside_diameter_units"])
+            self._form.scaleDiameterInput.setText(f"{diameter}")
+            self.onScaleDiameterValue(f"{diameter}")
+
 class ScalingTabBodyTube(ScalingTab):
 
     def __init__(self, obj : Any) -> None:
@@ -521,6 +565,7 @@ class ScalingTabFins(ScalingTab):
         self._form.scaleDiameterCheckbox.setVisible(False)
 
         self._form.scaleForeAftGroup.setVisible(False)
+        self._form.lookupButton.setVisible(False)
 
     def _reportingGroup(self) -> None:
         self._form.scaledLengthLabel.setVisible(False)
@@ -709,6 +754,7 @@ class ScalingTabRocketStage(ScalingTab):
         self._form.scaleDiameterCheckbox.setVisible(False)
 
         self._form.scaleForeAftGroup.setVisible(False)
+        self._form.lookupButton.setVisible(False)
 
         self._form.scaleRootRadio.setVisible(False)
         self._form.scaleRootInput.setVisible(False)
