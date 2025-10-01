@@ -216,6 +216,16 @@ class OpenRocketExporter:
                     print(f"Unknown feature {type}")
             self.write(file, f"{' ' * indent}</subcomponents>\n")
 
+    def writeAppearance(self, file : io.TextIOBase, feature : RocketComponentShapeless, indent : int) -> None:
+        self.write(file, f"{' ' * indent}<appearance>\n")
+        appearance = feature._obj.ViewObject.ShapeAppearance[0]
+        print(dir(appearance.DiffuseColor))
+        # print(feature._obj.ShapeAppearance)
+        # self.write(file, f"{' ' * (indent + 2)}<name>{feature.getName()}</name>\n")
+        self.write(file, f"{' ' * (indent + 2)}<shine>0.3</shine>\n")
+        self.write(file, f"{' ' * indent}</appearance>\n\n")
+        self.write(file, f"{' ' * indent}<finish>polished</finish>\n\n")
+
     def writeNull(self, file : io.TextIOBase, feature : RocketComponentShapeless, indent : int) -> None:
         pass
 
@@ -223,6 +233,7 @@ class OpenRocketExporter:
         self.write(file, f"{' ' * indent}<nosecone>\n")
         self.write(file, f"{' ' * (indent + 2)}<name>{feature.getName()}</name>\n")
         self.write(file, f"{' ' * (indent + 2)}<id>{uuid.uuid4()}</id>\n")
+        self.writeAppearance(file, feature, indent+2)
         if len(feature._obj.Comment) > 0:
             self.write(file, f"{' ' * (indent + 2)}<comment>{feature._obj.Comment}</comment>\n")
         noseType = feature._obj.NoseType
