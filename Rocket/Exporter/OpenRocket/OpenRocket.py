@@ -229,8 +229,8 @@ class OpenRocketExporter:
         red = round(color[0] * 255.0)
         green = round(color[1] * 255.0)
         blue = round(color[2] * 255.0)
-        opacity = round((1.0 - color[3]) * 255.0)
-        self.write(file, f"{' ' * (indent + 2)}<paint red=\"{red}\" green=\"{green}\" blue=\"{blue}\" alpha=\"{opacity}\"/>\n")
+        alpha = round(color[3] * 255.0)
+        self.write(file, f"{' ' * (indent + 2)}<paint red=\"{red}\" green=\"{green}\" blue=\"{blue}\" alpha=\"{alpha}\"/>\n")
         self.write(file, f"{' ' * (indent + 2)}<shine>{appearance.Shininess}</shine>\n")
         self.write(file, f"{' ' * indent}</appearance>\n\n")
         if finish:
@@ -498,7 +498,7 @@ class OpenRocketExporter:
         self.write(file, f"{' ' * (indent + 2)}<position type=\"{self.getPositionType(feature)}\">{self.toMeters(feature._obj.AxialOffset.Value)}</position>\n")
         self.write(file, f"{' ' * (indent + 2)}<length>{self.toMeters(float(feature.getLength()))}</length>\n")
         if feature.isOuterRadiusAutomatic():
-            self.write(file, f"{' ' * (indent + 2)}<outerradius>auto {self.toMeters(float(feature.getOuterRadius(0)))}</outerradius>\n")
+            self.write(file, f"{' ' * (indent + 2)}<outerradius>auto</outerradius>\n")
         else:
             self.write(file, f"{' ' * (indent + 2)}<outerradius>{self.toMeters(float(feature.getOuterRadius(0)))}</outerradius>\n")
         self.write(file, f"{' ' * (indent + 2)}<thickness>{self.toMeters(float(feature.getThickness()))}</thickness>\n")

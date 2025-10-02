@@ -303,6 +303,9 @@ class FeatureTransition(SymmetricComponent):
 
         return float(self._obj.AftDiameter) / self.getAftDiameterScale()
 
+    def getAftShoulderRadius(self) -> float:
+        return self.getAftShoulderDiameter() / 2.0
+
     def getAftShoulderDiameter(self) -> float:
         if self.isAftInnerDiameterAutomatic():
             # Return the auto radius from the rear
