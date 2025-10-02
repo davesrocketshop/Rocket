@@ -3,7 +3,7 @@
   <name>Rocket</name>
   <description>A workbench for designing model rockets.</description>
   <version>5.0.0</version>
-  <date>2025-01-18</date>
+  <date>2025-10-02</date>
   <maintainer email="dcarter@davidcarter.ca">David Carter</maintainer>
   <license file="LICENSE">LGPL-2.1-or-later</license>
   <url type="repository" branch="master">https://github.com/davesrocketshop/Rocket</url>
