@@ -125,6 +125,8 @@ class _NoseConeDialog(QDialog):
         self.form.zRotationInput.unit = FreeCAD.Units.Angle
         self.form.offsetInput.unit = FreeCAD.Units.Length
 
+        self.form.proxyShowBasePlaneCheckbox.setVisible(False) # Not yet supported
+
     def setTabShoulder(self):
         self.form.shoulderDiameterInput.unit = FreeCAD.Units.Length
         self.form.shoulderLengthInput.unit = FreeCAD.Units.Length

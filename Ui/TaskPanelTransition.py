@@ -125,6 +125,9 @@ class _TransitionDialog(QDialog):
         self.form.foreOffsetInput.unit = FreeCAD.Units.Length
         self.form.aftOffsetInput.unit = FreeCAD.Units.Length
 
+        self.form.proxyShowForeBasePlaneCheckbox.setVisible(False) # Not yet supported
+        self.form.proxyShowAftBasePlaneCheckbox.setVisible(False)
+
     def setTabShoulder(self):
         self.form.foreShoulderDiameterInput.unit = FreeCAD.Units.Length
         self.form.foreShoulderLengthInput.unit = FreeCAD.Units.Length
