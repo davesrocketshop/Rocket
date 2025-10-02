@@ -4,306 +4,8 @@
   <context>
     <name>App::Property</name>
     <message>
-      <location filename="../../Rocket/FeatureCenteringRing.py" line="50"/>
-      <source>Include a notch for an engine hook</source>
-      <translation>Inkludera en skåra för en motorkrok</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureCenteringRing.py" line="52"/>
-      <source>Width of the engine hook notch</source>
-      <translation>Bredd på motorkrokens skåra</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureCenteringRing.py" line="54"/>
-      <source>Height of the engine hook notch</source>
-      <translation>Höjd på motorkrokens skåra</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureInnerTube.py" line="56"/>
-      <source>Layout of a clustered motor mount</source>
-      <translation>Layout av ett klustrat motorfäste</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureInnerTube.py" line="58"/>
-      <source>Size scaling for the motor mount cluster</source>
-      <translation>Storleksskalning för klustret med motorfästen</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureInnerTube.py" line="60"/>
-      <source>Rotation applied to the motor mount cluster</source>
-      <translation>Rotation applicerad på motorfästets kluster</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureBodyTube.py" line="65"/>
-      <location filename="../../Rocket/FeatureInnerTube.py" line="63"/>
-      <source>Motor overhang</source>
-      <translation>Motorns överhäng</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureBodyTube.py" line="63"/>
-      <location filename="../../Rocket/FeatureInnerTube.py" line="65"/>
-      <source>This component is a motor mount</source>
-      <translation>Denna komponent är ett motorfäste</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/position/AxialMethod.py" line="63"/>
-      <source>Tip of the nose cone</source>
-      <translation>Spetsen på näskonen</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/position/AxialMethod.py" line="77"/>
-      <source>After the sibling component</source>
-      <translation>Efter syskonkomponenten</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/position/AxialMethod.py" line="92"/>
-      <source>Bottom of the parent component</source>
-      <translation>Botten på den överordnade komponenten</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/position/AxialMethod.py" line="106"/>
-      <source>Middle of the parent component</source>
-      <translation>Mitten av den överordnade komponenten</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/position/AxialMethod.py" line="120"/>
-      <source>Top of the parent component</source>
-      <translation>Överst på den överordnade komponenten</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/position/AngleMethod.py" line="55"/>
-      <source>Relative to the parent component</source>
-      <translation>Relativ till den överordnade komponenten</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/position/AngleMethod.py" line="66"/>
-      <source>Angle is fixed</source>
-      <translation>Vinkeln är fast</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/position/AngleMethod.py" line="77"/>
-      <source>Mirror relative to the rocket&apos;s x-y plane</source>
-      <translation>Spegel i förhållande till raketens x-y-plan</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/position/RadiusMethod.py" line="57"/>
-      <source>Same axis as the target component</source>
-      <translation>Samma axel som målkomponenten</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/position/RadiusMethod.py" line="71"/>
-      <source>Center of the parent component</source>
-      <translation>Den överordnade komponentens mittpunkt</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/position/RadiusMethod.py" line="85"/>
-      <source>Surface of the parent component</source>
-      <translation>Ytan på den överordnade komponenten</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/position/RadiusMethod.py" line="115"/>
-      <source>Surface of the parent component (without offset)</source>
-      <translation>Ytan på den överordnade komponenten (utan offset)</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/cfd/FeatureWindTunnel.py" line="46"/>
-      <source>Diameter of the wind tunnel</source>
-      <translation>Vindtunnelns diameter</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/cfd/FeatureWindTunnel.py" line="48"/>
-      <source>Length of the wind tunnel</source>
-      <translation>Vindtunnelns längd</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/cfd/FeatureCFDRocket.py" line="66"/>
-      <location filename="../../Rocket/cfd/FeatureWindTunnel.py" line="51"/>
-      <source>Shape of the wind tunnel</source>
-      <translation>Vindtunnelns form</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/cfd/FeatureMultiCFDAnalysis.py" line="49"/>
-      <source>Shape of the base rocket</source>
-      <translation type="unfinished"/>
-    </message>
-    <message>
-      <location filename="../../Rocket/cfd/FeatureMultiCFDAnalysis.py" line="51"/>
-      <source>List of AOAs to calculate</source>
-      <translation type="unfinished"/>
-    </message>
-    <message>
-      <location filename="../../Rocket/cfd/FeatureMultiCFDAnalysis.py" line="56"/>
-      <location filename="../../Rocket/cfd/FeatureMultiCFDAnalysis.py" line="54"/>
-      <source>The rocket under study</source>
-      <translation type="unfinished"/>
-    </message>
-    <message>
-      <location filename="../../Rocket/cfd/FeatureMultiCFDAnalysis.py" line="58"/>
-      <source>Use average of last N values</source>
-      <translation type="unfinished"/>
-    </message>
-    <message>
-      <location filename="../../Rocket/cfd/FeatureCFDRocket.py" line="68"/>
-      <source>Angle of attack in degrees</source>
-      <translation type="unfinished"/>
-    </message>
-    <message>
-      <location filename="../../Rocket/cfd/FeatureCFDRocket.py" line="70"/>
-      <source>Angle of rotation in degrees</source>
-      <translation type="unfinished"/>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureFinCan.py" line="64"/>
-      <source>Fin can style</source>
-      <translation>Fin kan stil</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureFinCan.py" line="71"/>
-      <source>Diameter of the inside or outside of the fin can depending on the style</source>
-      <translation>Diameter på insidan eller utsidan av fenan kan beroende på stil</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureFinCan.py" line="73"/>
-      <source>Thickness of the fin can</source>
-      <translation>Tjockleken på fenan kan</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureFinCan.py" line="75"/>
-      <source>Distance between the fin can leading edge and the fin leading edge</source>
-      <translation>Avstånd mellan fenans främre kant och fenans främre kant</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureFinCan.py" line="78"/>
-      <source>Leading Edge</source>
-      <translation>Ledande kant</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureFinCan.py" line="85"/>
-      <source>Leading Edge Length</source>
-      <translation>Ledande kant Längd</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureFinCan.py" line="88"/>
-      <source>Trailing Edge</source>
-      <translation>Bakre kant</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureFinCan.py" line="94"/>
-      <source>Trailing Edge Length</source>
-      <translation>Bakre kantlängd</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureFinCan.py" line="97"/>
-      <source>Fin can includes a launch lug</source>
-      <translation>Finkanalen innehåller en utskjutningsögla</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureFinCan.py" line="99"/>
-      <source>Diameter of the inside of the launch lug</source>
-      <translation>Diameter på insidan av lanseringsklämman</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureFinCan.py" line="101"/>
-      <source>Thickness of the launch lug</source>
-      <translation>Tjockleken på startöglan</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureFinCan.py" line="103"/>
-      <source>Launch lug thickness is the same as the fin can</source>
-      <translation>Lanseringsklackens tjocklek är densamma som fenans</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureFinCan.py" line="105"/>
-      <source>Length of the launch lug</source>
-      <translation>Längd på utskjutningsöglan</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureFinCan.py" line="107"/>
-      <source>Automatically adjust the length of the launch lug</source>
-      <translation>Automatisk justering av längden på utskjutningsöglan</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureFinCan.py" line="109"/>
-      <source>Distance between the fin can leading edge and the launch lug leading edge</source>
-      <translation>Avstånd mellan fenburkens framkant och uppskjutningsöglans framkant</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureFinCan.py" line="111"/>
-      <source>Launch lug fillet radius</source>
-      <translation>Radie för avrundning av lanseringsklack</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureFinCan.py" line="138"/>
-      <location filename="../../Rocket/FeatureFinCan.py" line="114"/>
-      <source>Launch lug size preset</source>
-      <translation>Förinställd storlek på lanseringsklack</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureFinCan.py" line="127"/>
-      <source>Forward side of the launch lug is swept</source>
-      <translation>Framsidan av utskjutningsöglan är svept</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureFinCan.py" line="129"/>
-      <source>Forward sweep angle</source>
-      <translation>Framåtriktad svepvinkel</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureFinCan.py" line="131"/>
-      <source>Aft side of the launch lug is swept</source>
-      <translation>Aktersidan av startöglan är svept</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureFinCan.py" line="133"/>
-      <source>Aft sweep angle</source>
-      <translation>Bakre svepvinkel</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureFinCan.py" line="136"/>
-      <source>Fin can includes coupler</source>
-      <translation>Fin burk inkluderar koppling</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureFinCan.py" line="146"/>
-      <source>Thickness of the coupler</source>
-      <translation>Kopplingens tjocklek</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureFinCan.py" line="148"/>
-      <source>Diameter of the outside of the coupler</source>
-      <translation>Diameter på utsidan av kopplingsanordningen</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureFinCan.py" line="150"/>
-      <source>Set coupler diameter automatically</source>
-      <translation>Ställ in kopplingsdiametern automatiskt</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureFinCan.py" line="152"/>
-      <source>Length of the coupler</source>
-      <translation>Kopplingens längd</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/RadiusRingComponent.py" line="45"/>
-      <source>Diameter of the central hole</source>
-      <translation>Diameter på det centrala hålet</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureRailGuide.py" line="99"/>
-      <location filename="../../Rocket/FeatureRailButton.py" line="109"/>
-      <location filename="../../Rocket/FeatureLaunchLug.py" line="62"/>
-      <location filename="../../Rocket/RadiusRingComponent.py" line="48"/>
-      <source>Instance count</source>
-      <translation>Antal instanser</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/RadiusRingComponent.py" line="50"/>
-      <source>Front to front along the positive rocket axis</source>
-      <translation>Fram till fram längs den positiva raketaxeln</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureRingtail.py" line="54"/>
       <location filename="../../Rocket/FeatureBodyTube.py" line="56"/>
+      <location filename="../../Rocket/FeatureRingtail.py" line="54"/>
       <location filename="../../Rocket/FeatureLaunchLug.py" line="57"/>
       <source>Diameter of the outside of the body tube</source>
       <translation>Diameter på utsidan av kroppsröret</translation>
@@ -314,6 +16,14 @@
       <location filename="../../Rocket/FeatureLaunchLug.py" line="59"/>
       <source>Diameter of the inside of the body tube</source>
       <translation>Diameter på insidan av kroppsröret</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureRailGuide.py" line="99"/>
+      <location filename="../../Rocket/RadiusRingComponent.py" line="48"/>
+      <location filename="../../Rocket/FeatureRailButton.py" line="109"/>
+      <location filename="../../Rocket/FeatureLaunchLug.py" line="62"/>
+      <source>Instance count</source>
+      <translation>Antal instanser</translation>
     </message>
     <message>
       <location filename="../../Rocket/FeatureRailGuide.py" line="101"/>
@@ -345,352 +55,6 @@
       <location filename="../../Rocket/FeatureLaunchLug.py" line="73"/>
       <source>Angle for the aft end sweep</source>
       <translation>Vinkel för svep i bakre änden</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/RingComponent.py" line="57"/>
-      <location filename="../../Rocket/FeatureRingtail.py" line="56"/>
-      <location filename="../../Rocket/FeatureBodyTube.py" line="58"/>
-      <source>Automatically set the outer diameter when possible</source>
-      <translation>Ställ in ytterdiametern automatiskt när det är möjligt</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureBodyTube.py" line="68"/>
-      <source>This component is solid</source>
-      <translation>Denna komponent är solid</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureRailButton.py" line="67"/>
-      <source>Rail button type</source>
-      <translation>Typ av skenknapp</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureRailButton.py" line="74"/>
-      <source>Diameter of the outside of the rail button</source>
-      <translation>Diameter på utsidan av rälsknappen</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureRailButton.py" line="76"/>
-      <source>Diameter of the inside of the rail button</source>
-      <translation>Diameter på insidan av rälsknappen</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureRailButton.py" line="78"/>
-      <source>Height of the top part of the rail button</source>
-      <translation>Höjd på den övre delen av rälsknappen</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureRailButton.py" line="80"/>
-      <source>Height of the bottom part of the rail button</source>
-      <translation>Höjd på den nedre delen av rälsknappen</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureRailButton.py" line="82"/>
-      <source>Total height of the rail button</source>
-      <translation>Total höjd på rälsknappen</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureRailButton.py" line="86"/>
-      <source>Create a countersunk hole for the fastener</source>
-      <translation>Skapa ett försänkt hål för fästelementet</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureRailButton.py" line="88"/>
-      <source>Fastener countersink angle</source>
-      <translation>Fästelementets försänkningsvinkel</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureRailButton.py" line="99"/>
-      <source>Fastener shank diameter</source>
-      <translation>Diameter på fästelementets skaft</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureRailButton.py" line="101"/>
-      <source>Fastener head diameter</source>
-      <translation>Diameter på fästelementets huvud</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureRailButton.py" line="104"/>
-      <source>Apply a fillet to the top of the rail button</source>
-      <translation>Applicera en avrundning på toppen av skenknappen</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureFin.py" line="192"/>
-      <location filename="../../Rocket/FeatureRailButton.py" line="106"/>
-      <source>Fillet radius</source>
-      <translation>Radie för avrundning</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureParallelStage.py" line="45"/>
-      <source>Number of stages in a radial pattern</source>
-      <translation>Antal steg i ett radiellt mönster</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureParallelStage.py" line="47"/>
-      <source>Angle between consecutive stages</source>
-      <translation>Vinkel mellan på varandra följande steg</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/RocketComponent.py" line="58"/>
-      <source>Component manufacturer</source>
-      <translation>Tillverkare av komponenter</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/RocketComponent.py" line="60"/>
-      <source>Component manufacturer part number</source>
-      <translation>Komponenttillverkarens artikelnummer</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/RocketComponent.py" line="64"/>
-      <source>Component description</source>
-      <translation>Komponentbeskrivning</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/RocketComponent.py" line="67"/>
-      <source>Reference location for the location</source>
-      <translation>Referensplats för platsen</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/RocketComponent.py" line="85"/>
-      <source>Length of the component</source>
-      <translation>Komponentens längd</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/RocketComponentShapeless.py" line="69"/>
-      <location filename="../../Rocket/RocketComponent.py" line="87"/>
-      <source>Method for calculating axial offsets</source>
-      <translation>Metod för beräkning av axiella förskjutningar</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/RocketComponent.py" line="91"/>
-      <source>Scale the object by body diameter</source>
-      <translation type="unfinished"/>
-    </message>
-    <message>
-      <location filename="../../Rocket/RocketComponent.py" line="93"/>
-      <source>Automatically scale the object by body diameter</source>
-      <translation type="unfinished"/>
-    </message>
-    <message>
-      <location filename="../../Rocket/RocketComponent.py" line="95"/>
-      <source>Use the fore value for objects with different fore and aft diameters</source>
-      <translation type="unfinished"/>
-    </message>
-    <message>
-      <location filename="../../Rocket/RocketComponent.py" line="98"/>
-      <source>Texture file</source>
-      <translation>Texturfil</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/RocketComponent.py" line="101"/>
-      <source>Shape of the component</source>
-      <translation>Form på komponenten</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureRingtail.py" line="58"/>
-      <source>Thickness of the body tube</source>
-      <translation>Tjocklek på karosseriröret</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureRingtail.py" line="60"/>
-      <source>Automatically set the length when possible</source>
-      <translation>Ställ in längden automatiskt när det är möjligt</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureTransition.py" line="54"/>
-      <source>Diameter at the front of the transition</source>
-      <translation>Diameter längst fram i övergången</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureTransition.py" line="56"/>
-      <source>Automatically set the forward diameter when possible</source>
-      <translation>Ställ automatiskt in framdiametern när så är möjligt</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureTransition.py" line="58"/>
-      <source>Diameter at the base of the transition</source>
-      <translation>Diameter vid basen av övergången</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureTransition.py" line="60"/>
-      <source>Automatically set the aft diameter when possible</source>
-      <translation>Ställ automatiskt in den bakre diametern när så är möjligt</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureTransition.py" line="62"/>
-      <source>Diameter of the transition core</source>
-      <translation>Diameter på övergångskärnan</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureTransition.py" line="64"/>
-      <source>Transition thickness</source>
-      <translation>Övergångstjocklek</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureTransition.py" line="66"/>
-      <source>If the transition is not clipped, then the profile is extended at the center by the corresponding radius</source>
-      <translation>Om övergången inte är klippt, förlängs profilen i mitten med motsvarande radie</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureTransition.py" line="69"/>
-      <source>Set to true if the part includes a forward shoulder</source>
-      <translation>Ställs in på true om delen har en främre axel</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureTransition.py" line="71"/>
-      <source>Forward Shoulder Length</source>
-      <translation>Framåt axellängd</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureTransition.py" line="73"/>
-      <source>Forward Shoulder diameter</source>
-      <translation>Framåt axel diameter</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureTransition.py" line="75"/>
-      <source>Automatically set the forward transition shoulder diameter when possible</source>
-      <translation>Ställ automatiskt in axeldiametern för den främre övergången när så är möjligt</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureTransition.py" line="77"/>
-      <source>Forward Shoulder thickness</source>
-      <translation>Framåt axeltjocklek</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureTransition.py" line="80"/>
-      <source>Set to true if the part includes an aft shoulder</source>
-      <translation>Ställ in till true om delen innehåller en bakre axel</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureTransition.py" line="82"/>
-      <source>Aft Shoulder Length</source>
-      <translation>Aft axellängd</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureTransition.py" line="84"/>
-      <source>Aft Shoulder diameter</source>
-      <translation>Akter axeldiameter</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureTransition.py" line="86"/>
-      <source>Automatically set the aft transition shoulder diameter when possible</source>
-      <translation>Ställ automatiskt in den bakre övergångsaxelns diameter när så är möjligt</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureTransition.py" line="88"/>
-      <source>Aft Shoulder thickness</source>
-      <translation>Akter axeltjocklek</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureNoseCone.py" line="84"/>
-      <location filename="../../Rocket/FeatureTransition.py" line="91"/>
-      <source>Coefficient</source>
-      <translation>Koefficient</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureNoseCone.py" line="88"/>
-      <location filename="../../Rocket/FeatureTransition.py" line="93"/>
-      <source>Resolution</source>
-      <translation>Upplösning</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureTransition.py" line="95"/>
-      <source>Width of the forward cap bar</source>
-      <translation>Bredd på den främre taklisten</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureTransition.py" line="97"/>
-      <source>Width of the aft cap bar</source>
-      <translation>Bredd på den bakre taklisten</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureTransition.py" line="100"/>
-      <source>Transition type</source>
-      <translation>Typ av övergång</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureTransition.py" line="121"/>
-      <source>Transition style</source>
-      <translation>Övergångsstil</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureTransition.py" line="134"/>
-      <source>Forward cap style</source>
-      <translation>Stil för främre lock</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureTransition.py" line="145"/>
-      <source>Aft cap style</source>
-      <translation>Typ av akterkapsel</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureRailGuide.py" line="58"/>
-      <source>Rail guide base type</source>
-      <translation>Typ av skenstyrningsbas</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureRailGuide.py" line="66"/>
-      <source>Width of the top of the launch guide</source>
-      <translation>Bredd på toppen av utskjutningsstyrningen</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureRailGuide.py" line="68"/>
-      <source>Width of the inside of the launch guide</source>
-      <translation>Bredd på insidan av startguiden</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureRailGuide.py" line="70"/>
-      <source>Width of the base or bottom of the launch guide</source>
-      <translation>Bredd på basen eller botten av startguiden</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureRailGuide.py" line="72"/>
-      <source>Height of the top part of the launch guide</source>
-      <translation>Höjd på den övre delen av utskjutningsstyrningen</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureRailGuide.py" line="74"/>
-      <source>Height of the inside part of the launch guide</source>
-      <translation>Höjd på den inre delen av utskjutningsstyrningen</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureRailGuide.py" line="76"/>
-      <source>Total height of the launch guide</source>
-      <translation>Total höjd på utskjutningsstyrningen</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureRailGuide.py" line="78"/>
-      <source>Diameter of the outside of the body tube for conformal base type</source>
-      <translation>Diameter på utsidan av kroppsröret för konform bas typ</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureRailGuide.py" line="80"/>
-      <source>Automatically set the diameter when possible</source>
-      <translation>Ställ in diametern automatiskt när det är möjligt</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureRailGuide.py" line="82"/>
-      <source>Angle for V base type</source>
-      <translation>Vinkel för V-bas typ</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureRailGuide.py" line="92"/>
-      <source>The component has a notch down the middle</source>
-      <translation>Komponenten har en skåra i mitten</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureRailGuide.py" line="94"/>
-      <source>Width of the notch</source>
-      <translation>Bredd på skåran</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureRailGuide.py" line="96"/>
-      <source>Depth of the notch</source>
-      <translation>Skårans djup</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureStage.py" line="51"/>
-      <source>Stage number</source>
-      <translation>Nummer på scenen</translation>
     </message>
     <message>
       <location filename="../../Rocket/FeatureBulkhead.py" line="45"/>
@@ -792,15 +156,28 @@
       <translation>Tjocklek på axeln</translation>
     </message>
     <message>
+      <location filename="../../Rocket/FeatureTransition.py" line="94"/>
+      <location filename="../../Rocket/FeatureNoseCone.py" line="84"/>
+      <source>Coefficient</source>
+      <translation>Koefficient</translation>
+    </message>
+    <message>
       <location filename="../../Rocket/FeatureNoseCone.py" line="86"/>
       <source>The radius of the circle used to define a secant ogive</source>
       <translation>Radien på den cirkel som används för att definiera en sekant ogive</translation>
     </message>
     <message>
+      <location filename="../../Rocket/FeatureTransition.py" line="96"/>
+      <location filename="../../Rocket/FeatureNoseCone.py" line="88"/>
+      <source>Resolution</source>
+      <translation>Upplösning</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureTransition.py" line="103"/>
       <location filename="../../Rocket/FeatureFin.py" line="203"/>
       <location filename="../../Rocket/FeatureNoseCone.py" line="91"/>
       <source>This is the local coordinate system within the rocket object that will be used for the proxy feature</source>
-      <translation type="unfinished"/>
+      <translation>Detta är det lokala koordinatsystem inom raketobjektet som kommer att användas för proxyfunktionen</translation>
     </message>
     <message>
       <location filename="../../Rocket/FeatureNoseCone.py" line="94"/>
@@ -821,7 +198,202 @@
       <location filename="../../Rocket/FeatureFin.py" line="205"/>
       <location filename="../../Rocket/FeatureNoseCone.py" line="149"/>
       <source>The base object used to define the nose cone shape</source>
-      <translation type="unfinished"/>
+      <translation>Basobjektet som används för att definiera formen på näskonen</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureBodyTube.py" line="58"/>
+      <location filename="../../Rocket/RingComponent.py" line="57"/>
+      <location filename="../../Rocket/FeatureRingtail.py" line="56"/>
+      <source>Automatically set the outer diameter when possible</source>
+      <translation>Ställ in ytterdiametern automatiskt när det är möjligt</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureRingtail.py" line="58"/>
+      <source>Thickness of the body tube</source>
+      <translation>Tjocklek på karosseriröret</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureRingtail.py" line="60"/>
+      <source>Automatically set the length when possible</source>
+      <translation>Ställ in längden automatiskt när det är möjligt</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureCenteringRing.py" line="50"/>
+      <source>Include a notch for an engine hook</source>
+      <translation>Inkludera en skåra för en motorkrok</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureCenteringRing.py" line="52"/>
+      <source>Width of the engine hook notch</source>
+      <translation>Bredd på motorkrokens skåra</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureCenteringRing.py" line="54"/>
+      <source>Height of the engine hook notch</source>
+      <translation>Höjd på motorkrokens skåra</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/position/AxialMethod.py" line="63"/>
+      <source>Tip of the nose cone</source>
+      <translation>Spetsen på näskonen</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/position/AxialMethod.py" line="77"/>
+      <source>After the sibling component</source>
+      <translation>Efter syskonkomponenten</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/position/AxialMethod.py" line="92"/>
+      <source>Bottom of the parent component</source>
+      <translation>Botten på den överordnade komponenten</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/position/AxialMethod.py" line="106"/>
+      <source>Middle of the parent component</source>
+      <translation>Mitten av den överordnade komponenten</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/position/AxialMethod.py" line="120"/>
+      <source>Top of the parent component</source>
+      <translation>Överst på den överordnade komponenten</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/position/RadiusMethod.py" line="57"/>
+      <source>Same axis as the target component</source>
+      <translation>Samma axel som målkomponenten</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/position/RadiusMethod.py" line="71"/>
+      <source>Center of the parent component</source>
+      <translation>Den överordnade komponentens mittpunkt</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/position/RadiusMethod.py" line="85"/>
+      <source>Surface of the parent component</source>
+      <translation>Ytan på den överordnade komponenten</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/position/RadiusMethod.py" line="115"/>
+      <source>Surface of the parent component (without offset)</source>
+      <translation>Ytan på den överordnade komponenten (utan offset)</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/position/AngleMethod.py" line="55"/>
+      <source>Relative to the parent component</source>
+      <translation>Relativ till den överordnade komponenten</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/position/AngleMethod.py" line="66"/>
+      <source>Angle is fixed</source>
+      <translation>Vinkeln är fast</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/position/AngleMethod.py" line="77"/>
+      <source>Mirror relative to the rocket&apos;s x-y plane</source>
+      <translation>Spegel i förhållande till raketens x-y-plan</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureInnerTube.py" line="56"/>
+      <source>Layout of a clustered motor mount</source>
+      <translation>Layout av ett klustrat motorfäste</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureInnerTube.py" line="58"/>
+      <source>Size scaling for the motor mount cluster</source>
+      <translation>Storleksskalning för klustret med motorfästen</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureInnerTube.py" line="60"/>
+      <source>Rotation applied to the motor mount cluster</source>
+      <translation>Rotation applicerad på motorfästets kluster</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureBodyTube.py" line="65"/>
+      <location filename="../../Rocket/FeatureInnerTube.py" line="63"/>
+      <source>Motor overhang</source>
+      <translation>Motorns överhäng</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureBodyTube.py" line="63"/>
+      <location filename="../../Rocket/FeatureInnerTube.py" line="65"/>
+      <source>This component is a motor mount</source>
+      <translation>Denna komponent är ett motorfäste</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureParallelStage.py" line="45"/>
+      <source>Number of stages in a radial pattern</source>
+      <translation>Antal steg i ett radiellt mönster</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureParallelStage.py" line="47"/>
+      <source>Angle between consecutive stages</source>
+      <translation>Vinkel mellan på varandra följande steg</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/RingComponent.py" line="55"/>
+      <source>Outer diameter of the object</source>
+      <translation>Objektets ytterdiameter</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/RingComponent.py" line="59"/>
+      <source>Automatically set the center diameter when possible</source>
+      <translation>Ställ in centrumdiametern automatiskt när det är möjligt</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/RingComponent.py" line="61"/>
+      <source>Inner diameter of the bulkhead</source>
+      <translation>Skottets innerdiameter</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/RocketComponentShapeless.py" line="66"/>
+      <source>User comment</source>
+      <translation>Användarkommentar</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/RocketComponent.py" line="87"/>
+      <location filename="../../Rocket/RocketComponentShapeless.py" line="69"/>
+      <source>Method for calculating axial offsets</source>
+      <translation>Metod för beräkning av axiella förskjutningar</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/RocketComponentShapeless.py" line="71"/>
+      <source>Offset from the reference point</source>
+      <translation>Offset från referenspunkten</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/RocketComponentShapeless.py" line="73"/>
+      <source>Angle of offset around the center axis</source>
+      <translation>Vinkel för förskjutning runt mittaxeln</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/RocketComponentShapeless.py" line="76"/>
+      <source>Reference location for the radial offset</source>
+      <translation>Referensplats för den radiella förskjutningen</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/RocketComponentShapeless.py" line="89"/>
+      <source>Radial offset from the reference</source>
+      <translation>Radiell förskjutning från referensen</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/RocketComponentShapeless.py" line="93"/>
+      <source>Scale the object</source>
+      <translation>Skala objektet</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/RocketComponentShapeless.py" line="95"/>
+      <source>Overriding the scale set by the parent</source>
+      <translation>Åsidosätta den skala som ställts in av föräldern</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/RocketComponentShapeless.py" line="97"/>
+      <source>Scale the object by value</source>
+      <translation>Skala objektet med värde</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/RocketComponentShapeless.py" line="99"/>
+      <source>Scaling value or dimension</source>
+      <translation>Skalningsvärde eller dimension</translation>
     </message>
     <message>
       <location filename="../../Rocket/FeatureFin.py" line="66"/>
@@ -1001,22 +573,28 @@
     <message>
       <location filename="../../Rocket/FeatureFin.py" line="181"/>
       <source>Fin fillet cross section</source>
-      <translation type="unfinished"/>
+      <translation>Tvärsnitt av fenans filé</translation>
     </message>
     <message>
       <location filename="../../Rocket/FeatureFin.py" line="190"/>
       <source>Apply fin fillets</source>
-      <translation type="unfinished"/>
+      <translation>Applicera fenfiléer</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureRailButton.py" line="106"/>
+      <location filename="../../Rocket/FeatureFin.py" line="192"/>
+      <source>Fillet radius</source>
+      <translation>Radie för avrundning</translation>
     </message>
     <message>
       <location filename="../../Rocket/FeatureFin.py" line="195"/>
       <source>Scale the object by root chord</source>
-      <translation type="unfinished"/>
+      <translation>Skala objektet efter grundackord</translation>
     </message>
     <message>
       <location filename="../../Rocket/FeatureFin.py" line="197"/>
       <source>Scale the object by fin height</source>
-      <translation type="unfinished"/>
+      <translation>Skala objektet med finhöjd</translation>
     </message>
     <message>
       <location filename="../../Rocket/FeatureFin.py" line="200"/>
@@ -1027,6 +605,53 @@
       <location filename="../../Rocket/FeatureFin.py" line="213"/>
       <source>Sketch based fin debugging options</source>
       <translation>Skissbaserade alternativ för felsökning av fenor</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/FeatureWindTunnel.py" line="51"/>
+      <location filename="../../Rocket/cfd/FeatureCFDRocket.py" line="66"/>
+      <source>Shape of the wind tunnel</source>
+      <translation>Vindtunnelns form</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/FeatureCFDRocket.py" line="68"/>
+      <source>Angle of attack in degrees</source>
+      <translation>Anfallsvinkel i grader</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/FeatureCFDRocket.py" line="70"/>
+      <source>Angle of rotation in degrees</source>
+      <translation>Rotationsvinkel i grader</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/FeatureMultiCFDAnalysis.py" line="49"/>
+      <source>Shape of the base rocket</source>
+      <translation>Basraketens form</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/FeatureMultiCFDAnalysis.py" line="51"/>
+      <source>List of AOAs to calculate</source>
+      <translation>Lista över AOA:er att beräkna</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/FeatureMultiCFDAnalysis.py" line="56"/>
+      <location filename="../../Rocket/cfd/FeatureMultiCFDAnalysis.py" line="54"/>
+      <source>The rocket under study</source>
+      <translation>Den undersökta raketen</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/FeatureMultiCFDAnalysis.py" line="58"/>
+      <source>Use average of last N values</source>
+      <translation>Använd medelvärdet av de senaste N värdena</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/FeatureWindTunnel.py" line="46"/>
+      <source>Diameter of the wind tunnel</source>
+      <translation>Vindtunnelns diameter</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/FeatureWindTunnel.py" line="48"/>
+      <source>Length of the wind tunnel</source>
+      <translation>Vindtunnelns längd</translation>
     </message>
     <message>
       <location filename="../../Rocket/FeaturePod.py" line="52"/>
@@ -1059,210 +684,535 @@
       <translation>Radieförskjutning</translation>
     </message>
     <message>
-      <location filename="../../Rocket/RocketComponentShapeless.py" line="66"/>
-      <source>User comment</source>
-      <translation>Användarkommentar</translation>
+      <location filename="../../Rocket/FeatureTransition.py" line="57"/>
+      <source>Diameter at the front of the transition</source>
+      <translation>Diameter längst fram i övergången</translation>
     </message>
     <message>
-      <location filename="../../Rocket/RocketComponentShapeless.py" line="71"/>
-      <source>Offset from the reference point</source>
-      <translation>Offset från referenspunkten</translation>
+      <location filename="../../Rocket/FeatureTransition.py" line="59"/>
+      <source>Automatically set the forward diameter when possible</source>
+      <translation>Ställ automatiskt in framdiametern när så är möjligt</translation>
     </message>
     <message>
-      <location filename="../../Rocket/RocketComponentShapeless.py" line="73"/>
-      <source>Angle of offset around the center axis</source>
-      <translation>Vinkel för förskjutning runt mittaxeln</translation>
+      <location filename="../../Rocket/FeatureTransition.py" line="61"/>
+      <source>Diameter at the base of the transition</source>
+      <translation>Diameter vid basen av övergången</translation>
     </message>
     <message>
-      <location filename="../../Rocket/RocketComponentShapeless.py" line="76"/>
-      <source>Reference location for the radial offset</source>
-      <translation>Referensplats för den radiella förskjutningen</translation>
+      <location filename="../../Rocket/FeatureTransition.py" line="63"/>
+      <source>Automatically set the aft diameter when possible</source>
+      <translation>Ställ automatiskt in den bakre diametern när så är möjligt</translation>
     </message>
     <message>
-      <location filename="../../Rocket/RocketComponentShapeless.py" line="89"/>
-      <source>Radial offset from the reference</source>
-      <translation>Radiell förskjutning från referensen</translation>
+      <location filename="../../Rocket/FeatureTransition.py" line="65"/>
+      <source>Diameter of the transition core</source>
+      <translation>Diameter på övergångskärnan</translation>
     </message>
     <message>
-      <location filename="../../Rocket/RocketComponentShapeless.py" line="93"/>
-      <source>Scale the object</source>
+      <location filename="../../Rocket/FeatureTransition.py" line="67"/>
+      <source>Transition thickness</source>
+      <translation>Övergångstjocklek</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureTransition.py" line="69"/>
+      <source>If the transition is not clipped, then the profile is extended at the center by the corresponding radius</source>
+      <translation>Om övergången inte är klippt, förlängs profilen i mitten med motsvarande radie</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureTransition.py" line="72"/>
+      <source>Set to true if the part includes a forward shoulder</source>
+      <translation>Ställs in på true om delen har en främre axel</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureTransition.py" line="74"/>
+      <source>Forward Shoulder Length</source>
+      <translation>Framåt axellängd</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureTransition.py" line="76"/>
+      <source>Forward Shoulder diameter</source>
+      <translation>Framåt axel diameter</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureTransition.py" line="78"/>
+      <source>Automatically set the forward transition shoulder diameter when possible</source>
+      <translation>Ställ automatiskt in axeldiametern för den främre övergången när så är möjligt</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureTransition.py" line="80"/>
+      <source>Forward Shoulder thickness</source>
+      <translation>Framåt axeltjocklek</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureTransition.py" line="83"/>
+      <source>Set to true if the part includes an aft shoulder</source>
+      <translation>Ställ in till true om delen innehåller en bakre axel</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureTransition.py" line="85"/>
+      <source>Aft Shoulder Length</source>
+      <translation>Aft axellängd</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureTransition.py" line="87"/>
+      <source>Aft Shoulder diameter</source>
+      <translation>Akter axeldiameter</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureTransition.py" line="89"/>
+      <source>Automatically set the aft transition shoulder diameter when possible</source>
+      <translation>Ställ automatiskt in den bakre övergångsaxelns diameter när så är möjligt</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureTransition.py" line="91"/>
+      <source>Aft Shoulder thickness</source>
+      <translation>Akter axeltjocklek</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureTransition.py" line="98"/>
+      <source>Width of the forward cap bar</source>
+      <translation>Bredd på den främre taklisten</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureTransition.py" line="100"/>
+      <source>Width of the aft cap bar</source>
+      <translation>Bredd på den bakre taklisten</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureTransition.py" line="105"/>
+      <source>Offset at the aft end of the proxy object</source>
       <translation type="unfinished"/>
     </message>
     <message>
-      <location filename="../../Rocket/RocketComponentShapeless.py" line="95"/>
-      <source>Overriding the scale set by the parent</source>
+      <location filename="../../Rocket/FeatureTransition.py" line="108"/>
+      <source>Transition type</source>
+      <translation>Typ av övergång</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureTransition.py" line="131"/>
+      <source>Transition style</source>
+      <translation>Övergångsstil</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureTransition.py" line="144"/>
+      <source>Forward cap style</source>
+      <translation>Stil för främre lock</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureTransition.py" line="155"/>
+      <source>Aft cap style</source>
+      <translation>Typ av akterkapsel</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureTransition.py" line="166"/>
+      <source>The base object used to define the transition shape</source>
       <translation type="unfinished"/>
     </message>
     <message>
-      <location filename="../../Rocket/RocketComponentShapeless.py" line="97"/>
-      <source>Scale the object by value</source>
-      <translation type="unfinished"/>
+      <location filename="../../Rocket/FeatureStage.py" line="51"/>
+      <source>Stage number</source>
+      <translation>Nummer på scenen</translation>
     </message>
     <message>
-      <location filename="../../Rocket/RocketComponentShapeless.py" line="99"/>
-      <source>Scaling value or dimension</source>
-      <translation type="unfinished"/>
+      <location filename="../../Rocket/FeatureRailButton.py" line="67"/>
+      <source>Rail button type</source>
+      <translation>Typ av skenknapp</translation>
     </message>
     <message>
-      <location filename="../../Rocket/RingComponent.py" line="55"/>
-      <source>Outer diameter of the object</source>
-      <translation>Objektets ytterdiameter</translation>
+      <location filename="../../Rocket/FeatureRailButton.py" line="74"/>
+      <source>Diameter of the outside of the rail button</source>
+      <translation>Diameter på utsidan av rälsknappen</translation>
     </message>
     <message>
-      <location filename="../../Rocket/RingComponent.py" line="59"/>
-      <source>Automatically set the center diameter when possible</source>
-      <translation>Ställ in centrumdiametern automatiskt när det är möjligt</translation>
+      <location filename="../../Rocket/FeatureRailButton.py" line="76"/>
+      <source>Diameter of the inside of the rail button</source>
+      <translation>Diameter på insidan av rälsknappen</translation>
     </message>
     <message>
-      <location filename="../../Rocket/RingComponent.py" line="61"/>
-      <source>Inner diameter of the bulkhead</source>
-      <translation>Skottets innerdiameter</translation>
+      <location filename="../../Rocket/FeatureRailButton.py" line="78"/>
+      <source>Height of the top part of the rail button</source>
+      <translation>Höjd på den övre delen av rälsknappen</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureRailButton.py" line="80"/>
+      <source>Height of the bottom part of the rail button</source>
+      <translation>Höjd på den nedre delen av rälsknappen</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureRailButton.py" line="82"/>
+      <source>Total height of the rail button</source>
+      <translation>Total höjd på rälsknappen</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureRailButton.py" line="86"/>
+      <source>Create a countersunk hole for the fastener</source>
+      <translation>Skapa ett försänkt hål för fästelementet</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureRailButton.py" line="88"/>
+      <source>Fastener countersink angle</source>
+      <translation>Fästelementets försänkningsvinkel</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureRailButton.py" line="99"/>
+      <source>Fastener shank diameter</source>
+      <translation>Diameter på fästelementets skaft</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureRailButton.py" line="101"/>
+      <source>Fastener head diameter</source>
+      <translation>Diameter på fästelementets huvud</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureRailButton.py" line="104"/>
+      <source>Apply a fillet to the top of the rail button</source>
+      <translation>Applicera en avrundning på toppen av skenknappen</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureFinCan.py" line="64"/>
+      <source>Fin can style</source>
+      <translation>Fin kan stil</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureFinCan.py" line="71"/>
+      <source>Diameter of the inside or outside of the fin can depending on the style</source>
+      <translation>Diameter på insidan eller utsidan av fenan kan beroende på stil</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureFinCan.py" line="73"/>
+      <source>Thickness of the fin can</source>
+      <translation>Tjockleken på fenan kan</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureFinCan.py" line="75"/>
+      <source>Distance between the fin can leading edge and the fin leading edge</source>
+      <translation>Avstånd mellan fenans främre kant och fenans främre kant</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureFinCan.py" line="78"/>
+      <source>Leading Edge</source>
+      <translation>Ledande kant</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureFinCan.py" line="85"/>
+      <source>Leading Edge Length</source>
+      <translation>Ledande kant Längd</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureFinCan.py" line="88"/>
+      <source>Trailing Edge</source>
+      <translation>Bakre kant</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureFinCan.py" line="94"/>
+      <source>Trailing Edge Length</source>
+      <translation>Bakre kantlängd</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureFinCan.py" line="97"/>
+      <source>Fin can includes a launch lug</source>
+      <translation>Finkanalen innehåller en utskjutningsögla</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureFinCan.py" line="99"/>
+      <source>Diameter of the inside of the launch lug</source>
+      <translation>Diameter på insidan av lanseringsklämman</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureFinCan.py" line="101"/>
+      <source>Thickness of the launch lug</source>
+      <translation>Tjockleken på startöglan</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureFinCan.py" line="103"/>
+      <source>Launch lug thickness is the same as the fin can</source>
+      <translation>Lanseringsklackens tjocklek är densamma som fenans</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureFinCan.py" line="105"/>
+      <source>Length of the launch lug</source>
+      <translation>Längd på utskjutningsöglan</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureFinCan.py" line="107"/>
+      <source>Automatically adjust the length of the launch lug</source>
+      <translation>Automatisk justering av längden på utskjutningsöglan</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureFinCan.py" line="109"/>
+      <source>Distance between the fin can leading edge and the launch lug leading edge</source>
+      <translation>Avstånd mellan fenburkens framkant och uppskjutningsöglans framkant</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureFinCan.py" line="111"/>
+      <source>Launch lug fillet radius</source>
+      <translation>Radie för avrundning av lanseringsklack</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureFinCan.py" line="138"/>
+      <location filename="../../Rocket/FeatureFinCan.py" line="114"/>
+      <source>Launch lug size preset</source>
+      <translation>Förinställd storlek på lanseringsklack</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureFinCan.py" line="127"/>
+      <source>Forward side of the launch lug is swept</source>
+      <translation>Framsidan av utskjutningsöglan är svept</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureFinCan.py" line="129"/>
+      <source>Forward sweep angle</source>
+      <translation>Framåtriktad svepvinkel</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureFinCan.py" line="131"/>
+      <source>Aft side of the launch lug is swept</source>
+      <translation>Aktersidan av startöglan är svept</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureFinCan.py" line="133"/>
+      <source>Aft sweep angle</source>
+      <translation>Bakre svepvinkel</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureFinCan.py" line="136"/>
+      <source>Fin can includes coupler</source>
+      <translation>Fin burk inkluderar koppling</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureFinCan.py" line="146"/>
+      <source>Thickness of the coupler</source>
+      <translation>Kopplingens tjocklek</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureFinCan.py" line="148"/>
+      <source>Diameter of the outside of the coupler</source>
+      <translation>Diameter på utsidan av kopplingsanordningen</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureFinCan.py" line="150"/>
+      <source>Set coupler diameter automatically</source>
+      <translation>Ställ in kopplingsdiametern automatiskt</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureFinCan.py" line="152"/>
+      <source>Length of the coupler</source>
+      <translation>Kopplingens längd</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/RadiusRingComponent.py" line="45"/>
+      <source>Diameter of the central hole</source>
+      <translation>Diameter på det centrala hålet</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/RadiusRingComponent.py" line="50"/>
+      <source>Front to front along the positive rocket axis</source>
+      <translation>Fram till fram längs den positiva raketaxeln</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureRailGuide.py" line="58"/>
+      <source>Rail guide base type</source>
+      <translation>Typ av skenstyrningsbas</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureRailGuide.py" line="66"/>
+      <source>Width of the top of the launch guide</source>
+      <translation>Bredd på toppen av utskjutningsstyrningen</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureRailGuide.py" line="68"/>
+      <source>Width of the inside of the launch guide</source>
+      <translation>Bredd på insidan av startguiden</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureRailGuide.py" line="70"/>
+      <source>Width of the base or bottom of the launch guide</source>
+      <translation>Bredd på basen eller botten av startguiden</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureRailGuide.py" line="72"/>
+      <source>Height of the top part of the launch guide</source>
+      <translation>Höjd på den övre delen av utskjutningsstyrningen</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureRailGuide.py" line="74"/>
+      <source>Height of the inside part of the launch guide</source>
+      <translation>Höjd på den inre delen av utskjutningsstyrningen</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureRailGuide.py" line="76"/>
+      <source>Total height of the launch guide</source>
+      <translation>Total höjd på utskjutningsstyrningen</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureRailGuide.py" line="78"/>
+      <source>Diameter of the outside of the body tube for conformal base type</source>
+      <translation>Diameter på utsidan av kroppsröret för konform bas typ</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureRailGuide.py" line="80"/>
+      <source>Automatically set the diameter when possible</source>
+      <translation>Ställ in diametern automatiskt när det är möjligt</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureRailGuide.py" line="82"/>
+      <source>Angle for V base type</source>
+      <translation>Vinkel för V-bas typ</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureRailGuide.py" line="92"/>
+      <source>The component has a notch down the middle</source>
+      <translation>Komponenten har en skåra i mitten</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureRailGuide.py" line="94"/>
+      <source>Width of the notch</source>
+      <translation>Bredd på skåran</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureRailGuide.py" line="96"/>
+      <source>Depth of the notch</source>
+      <translation>Skårans djup</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/RocketComponent.py" line="58"/>
+      <source>Component manufacturer</source>
+      <translation>Tillverkare av komponenter</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/RocketComponent.py" line="60"/>
+      <source>Component manufacturer part number</source>
+      <translation>Komponenttillverkarens artikelnummer</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/RocketComponent.py" line="64"/>
+      <source>Component description</source>
+      <translation>Komponentbeskrivning</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/RocketComponent.py" line="67"/>
+      <source>Reference location for the location</source>
+      <translation>Referensplats för platsen</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/RocketComponent.py" line="85"/>
+      <source>Length of the component</source>
+      <translation>Komponentens längd</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/RocketComponent.py" line="91"/>
+      <source>Scale the object by body diameter</source>
+      <translation>Skala objektet efter kroppens diameter</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/RocketComponent.py" line="93"/>
+      <source>Automatically scale the object by body diameter</source>
+      <translation>Automatisk skalning av objektet efter kroppsdiameter</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/RocketComponent.py" line="95"/>
+      <source>Use the fore value for objects with different fore and aft diameters</source>
+      <translation>Använd det främre värdet för objekt med olika främre och bakre diametrar</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/RocketComponent.py" line="98"/>
+      <source>Texture file</source>
+      <translation>Texturfil</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/RocketComponent.py" line="101"/>
+      <source>Shape of the component</source>
+      <translation>Form på komponenten</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureBodyTube.py" line="68"/>
+      <source>This component is solid</source>
+      <translation>Denna komponent är solid</translation>
     </message>
   </context>
   <context>
     <name>Rocket</name>
     <message>
-      <location filename="../../Ui/Commands/CmdRocket.py" line="81"/>
-      <location filename="../../InitGui.py" line="115"/>
-      <location filename="../../InitGui.py" line="110"/>
-      <location filename="../../InitGui.py" line="106"/>
-      <location filename="../../InitGui.py" line="103"/>
-      <location filename="../../InitGui.py" line="101"/>
-      <location filename="../../InitGui.py" line="96"/>
-      <location filename="../../InitGui.py" line="92"/>
-      <location filename="../../InitGui.py" line="88"/>
-      <location filename="../../InitGui.py" line="83"/>
-      <location filename="../../InitGui.py" line="81"/>
-      <location filename="../../InitGui.py" line="77"/>
-      <source>Rocket</source>
-      <translation>Raket</translation>
+      <location filename="../../Analyzers/pyatmos/utils/utils.py" line="128"/>
+      <source>Geometric altitudes are outside the range of [{}, {}] km. Output values will be extrapolated for those heights.</source>
+      <translation>Geometriska höjder ligger utanför intervallet [{}, {}] km. Utgångsvärdena kommer att extrapoleras för dessa höjder.</translation>
     </message>
     <message>
-      <location filename="../../RocketGui.py" line="132"/>
-      <location filename="../../RocketGui.py" line="131"/>
-      <location filename="../../InitGui.py" line="104"/>
-      <source>Calculators</source>
-      <translation>Kalkylatorer</translation>
+      <location filename="../../Analyzers/pyatmos/utils/utils.py" line="129"/>
+      <source>Geometric altitudes are outside the range of [{}, {}] km.</source>
+      <translation>Geometriska höjder ligger utanför intervallet [{}, {}] km.</translation>
     </message>
     <message>
-      <location filename="../../RocketGui.py" line="146"/>
-      <location filename="../../RocketGui.py" line="145"/>
-      <location filename="../../InitGui.py" line="107"/>
-      <source>Scaling Tools</source>
-      <translation type="unfinished"/>
+      <location filename="../../Analyzers/FinFlutter.py" line="70"/>
+      <location filename="../../Analyzers/FinFlutter.py" line="64"/>
+      <source>Elliptical fins are not supported at this time</source>
+      <translation>Elliptiska fenor stöds inte för närvarande</translation>
     </message>
     <message>
-      <location filename="../../InitGui.py" line="116"/>
-      <location filename="../../InitGui.py" line="111"/>
-      <source>Analysis</source>
-      <translation>Analys</translation>
+      <location filename="../../Analyzers/FinFlutter.py" line="66"/>
+      <source>Triangular fins are not supported at this time</source>
+      <translation>Triangulära fenor stöds inte för närvarande</translation>
     </message>
     <message>
-      <location filename="../../Ui/TaskPanelFin.py" line="81"/>
-      <source>Fin Parameter</source>
-      <translation type="unfinished"/>
+      <location filename="../../Analyzers/FinFlutter.py" line="68"/>
+      <source>Tube fins are not supported at this time</source>
+      <translation>Rörfenor stöds inte i nuläget</translation>
     </message>
     <message>
-      <location filename="../../Ui/TaskPanelTransition.py" line="61"/>
-      <location filename="../../Ui/TaskPanelBodyTube.py" line="65"/>
-      <location filename="../../Ui/TaskPanelFinCan.py" line="72"/>
-      <location filename="../../Ui/TaskPanelNoseCone.py" line="64"/>
-      <location filename="../../Ui/TaskPanelRingtail.py" line="61"/>
-      <location filename="../../Ui/TaskPanelStage.py" line="48"/>
-      <location filename="../../Ui/TaskPanelFin.py" line="86"/>
-      <source>Scaling</source>
-      <translation type="unfinished"/>
+      <location filename="../../Analyzers/FinFlutter.py" line="77"/>
+      <source>Tapered thickness fins are not supported at this time</source>
+      <translation>Koniska tjockleksfenor stöds inte i nuläget</translation>
     </message>
     <message>
-      <location filename="../../Ui/TaskPanelTransition.py" line="62"/>
-      <location filename="../../Ui/TaskPanelRailGuide.py" line="52"/>
-      <location filename="../../Ui/DialogFinFlutter.py" line="99"/>
-      <location filename="../../Ui/TaskPanelBodyTube.py" line="66"/>
-      <location filename="../../Ui/TaskPanelDatabase.py" line="69"/>
-      <location filename="../../Ui/TaskPanelFinCan.py" line="73"/>
-      <location filename="../../Ui/TaskPanelBulkhead.py" line="56"/>
-      <location filename="../../Ui/TaskPanelNoseCone.py" line="65"/>
-      <location filename="../../Ui/TaskPanelRingtail.py" line="62"/>
-      <location filename="../../Ui/TaskPanelLaunchLug.py" line="56"/>
-      <location filename="../../Ui/TaskPanelRailButton.py" line="64"/>
-      <location filename="../../Ui/TaskPanelFin.py" line="87"/>
-      <source>Material</source>
-      <translation>Material</translation>
+      <location filename="../../Analyzers/FinFlutter.py" line="92"/>
+      <source>Custom fins are not supported at this time</source>
+      <translation>Anpassade fenor stöds inte i nuläget</translation>
     </message>
     <message>
-      <location filename="../../Ui/TaskPanelTransition.py" line="63"/>
-      <location filename="../../Ui/TaskPanelRailGuide.py" line="53"/>
-      <location filename="../../Ui/TaskPanelParallelStage.py" line="48"/>
-      <location filename="../../Ui/TaskPanelBodyTube.py" line="67"/>
-      <location filename="../../Ui/Widgets/CommentTab.py" line="43"/>
-      <location filename="../../Ui/TaskPanelFinCan.py" line="74"/>
-      <location filename="../../Ui/TaskPanelBulkhead.py" line="57"/>
-      <location filename="../../Ui/TaskPanelNoseCone.py" line="66"/>
-      <location filename="../../Ui/TaskPanelRingtail.py" line="63"/>
-      <location filename="../../Ui/TaskPanelLaunchLug.py" line="57"/>
-      <location filename="../../Ui/TaskPanelRailButton.py" line="65"/>
-      <location filename="../../Ui/TaskPanelStage.py" line="49"/>
-      <location filename="../../Ui/TaskPanelPod.py" line="48"/>
-      <location filename="../../Ui/TaskPanelFin.py" line="88"/>
-      <source>Comment</source>
-      <translation>Kommentar</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/TaskPanelTransition.py" line="280"/>
-      <location filename="../../Ui/TaskPanelBodyTube.py" line="252"/>
-      <location filename="../../Ui/TaskPanelFinCan.py" line="413"/>
-      <location filename="../../Ui/TaskPanelNoseCone.py" line="384"/>
-      <location filename="../../Ui/TaskPanelRingtail.py" line="214"/>
-      <location filename="../../Ui/TaskPanelStage.py" line="95"/>
-      <location filename="../../Ui/TaskPanelFin.py" line="472"/>
-      <source>Upscale</source>
-      <translation type="unfinished"/>
-    </message>
-    <message>
-      <location filename="../../Ui/TaskPanelTransition.py" line="283"/>
-      <location filename="../../Ui/TaskPanelBodyTube.py" line="255"/>
-      <location filename="../../Ui/TaskPanelFinCan.py" line="416"/>
-      <location filename="../../Ui/TaskPanelNoseCone.py" line="387"/>
-      <location filename="../../Ui/DialogScaling.py" line="504"/>
-      <location filename="../../Ui/DialogScaling.py" line="204"/>
-      <location filename="../../Ui/TaskPanelRingtail.py" line="217"/>
-      <location filename="../../Ui/TaskPanelStage.py" line="98"/>
-      <location filename="../../Ui/TaskPanelFin.py" line="475"/>
-      <source>Scale</source>
-      <translation type="unfinished"/>
-    </message>
-    <message>
-      <location filename="../../Ui/TaskPanelNoseCone.py" line="600"/>
-      <location filename="../../Ui/TaskPanelFin.py" line="1221"/>
-      <source>Select an object</source>
-      <translation type="unfinished"/>
-    </message>
-    <message>
-      <location filename="../../Ui/TaskPanelRailGuide.py" line="51"/>
       <location filename="../../Ui/TaskPanelParallelStage.py" line="47"/>
-      <location filename="../../Ui/TaskPanelBodyTube.py" line="63"/>
+      <location filename="../../Ui/TaskPanelPod.py" line="47"/>
+      <location filename="../../Ui/TaskPanelRailGuide.py" line="51"/>
       <location filename="../../Ui/TaskPanelBulkhead.py" line="55"/>
       <location filename="../../Ui/TaskPanelRingtail.py" line="60"/>
       <location filename="../../Ui/TaskPanelLaunchLug.py" line="55"/>
+      <location filename="../../Ui/TaskPanelBodyTube.py" line="63"/>
       <location filename="../../Ui/TaskPanelRailButton.py" line="63"/>
-      <location filename="../../Ui/TaskPanelPod.py" line="47"/>
       <source>General</source>
       <translation>Allmänt</translation>
     </message>
     <message>
-      <location filename="../../Ui/TaskPanelPod.py" line="62"/>
-      <source>Pod Parameter</source>
-      <translation type="unfinished"/>
+      <location filename="../../Ui/TaskPanelTransition.py" line="63"/>
+      <location filename="../../Ui/TaskPanelFin.py" line="87"/>
+      <location filename="../../Ui/DialogFinFlutter.py" line="99"/>
+      <location filename="../../Ui/TaskPanelRailGuide.py" line="52"/>
+      <location filename="../../Ui/TaskPanelNoseCone.py" line="65"/>
+      <location filename="../../Ui/TaskPanelBulkhead.py" line="56"/>
+      <location filename="../../Ui/TaskPanelRingtail.py" line="62"/>
+      <location filename="../../Ui/TaskPanelFinCan.py" line="73"/>
+      <location filename="../../Ui/TaskPanelLaunchLug.py" line="56"/>
+      <location filename="../../Ui/TaskPanelBodyTube.py" line="66"/>
+      <location filename="../../Ui/TaskPanelDatabase.py" line="69"/>
+      <location filename="../../Ui/TaskPanelRailButton.py" line="64"/>
+      <source>Material</source>
+      <translation>Material</translation>
     </message>
     <message>
-      <location filename="../../Ui/TaskPanelPod.py" line="66"/>
-      <source>Pod Count</source>
-      <translation>Antal poddar</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/TaskPanelPod.py" line="73"/>
-      <source>Pod Spacing</source>
-      <translation>Avstånd mellan skida</translation>
+      <location filename="../../Ui/TaskPanelTransition.py" line="64"/>
+      <location filename="../../Ui/TaskPanelParallelStage.py" line="48"/>
+      <location filename="../../Ui/TaskPanelFin.py" line="88"/>
+      <location filename="../../Ui/TaskPanelPod.py" line="48"/>
+      <location filename="../../Ui/TaskPanelRailGuide.py" line="53"/>
+      <location filename="../../Ui/Widgets/CommentTab.py" line="43"/>
+      <location filename="../../Ui/TaskPanelStage.py" line="49"/>
+      <location filename="../../Ui/TaskPanelNoseCone.py" line="66"/>
+      <location filename="../../Ui/TaskPanelBulkhead.py" line="57"/>
+      <location filename="../../Ui/TaskPanelRingtail.py" line="63"/>
+      <location filename="../../Ui/TaskPanelFinCan.py" line="74"/>
+      <location filename="../../Ui/TaskPanelLaunchLug.py" line="57"/>
+      <location filename="../../Ui/TaskPanelBodyTube.py" line="67"/>
+      <location filename="../../Ui/TaskPanelRailButton.py" line="65"/>
+      <source>Comment</source>
+      <translation>Kommentar</translation>
     </message>
     <message>
       <location filename="../../Ui/TaskPanelRailButton.py" line="79"/>
@@ -1275,42 +1225,42 @@
       <translation>Rälsknappens form</translation>
     </message>
     <message>
-      <location filename="../../Ui/TaskPanelBodyTube.py" line="90"/>
-      <location filename="../../Ui/TaskPanelFinCan.py" line="950"/>
+      <location filename="../../Ui/DialogLookup.py" line="541"/>
+      <location filename="../../Ui/DialogLookup.py" line="380"/>
       <location filename="../../Ui/TaskPanelBulkhead.py" line="77"/>
+      <location filename="../../Ui/TaskPanelRingtail.py" line="86"/>
       <location filename="../../Ui/DialogScaling.py" line="503"/>
       <location filename="../../Ui/DialogScaling.py" line="498"/>
       <location filename="../../Ui/DialogScaling.py" line="203"/>
-      <location filename="../../Ui/TaskPanelRingtail.py" line="86"/>
-      <location filename="../../Ui/DialogLookup.py" line="541"/>
-      <location filename="../../Ui/DialogLookup.py" line="380"/>
+      <location filename="../../Ui/TaskPanelFinCan.py" line="950"/>
       <location filename="../../Ui/TaskPanelLaunchLug.py" line="80"/>
+      <location filename="../../Ui/TaskPanelBodyTube.py" line="90"/>
       <location filename="../../Ui/TaskPanelRailButton.py" line="88"/>
       <source>Outer Diameter</source>
       <translation>Yttre diameter</translation>
     </message>
     <message>
-      <location filename="../../Ui/TaskPanelBodyTube.py" line="84"/>
-      <location filename="../../Ui/TaskPanelFinCan.py" line="942"/>
-      <location filename="../../Ui/TaskPanelBulkhead.py" line="93"/>
-      <location filename="../../Ui/TaskPanelRingtail.py" line="80"/>
       <location filename="../../Ui/DialogLookup.py" line="542"/>
       <location filename="../../Ui/DialogLookup.py" line="384"/>
+      <location filename="../../Ui/TaskPanelBulkhead.py" line="93"/>
+      <location filename="../../Ui/TaskPanelRingtail.py" line="80"/>
+      <location filename="../../Ui/TaskPanelFinCan.py" line="942"/>
       <location filename="../../Ui/TaskPanelLaunchLug.py" line="74"/>
+      <location filename="../../Ui/TaskPanelBodyTube.py" line="84"/>
       <location filename="../../Ui/TaskPanelRailButton.py" line="94"/>
       <source>Inner Diameter</source>
       <translation>Innerdiameter</translation>
     </message>
     <message>
-      <location filename="../../Ui/TaskPanelRailGuide.py" line="95"/>
       <location filename="../../Ui/DialogLookup.py" line="545"/>
+      <location filename="../../Ui/TaskPanelRailGuide.py" line="95"/>
       <location filename="../../Ui/TaskPanelRailButton.py" line="100"/>
       <source>Flange Height</source>
       <translation>Flänsens höjd</translation>
     </message>
     <message>
-      <location filename="../../Ui/TaskPanelRailGuide.py" line="101"/>
       <location filename="../../Ui/DialogLookup.py" line="544"/>
+      <location filename="../../Ui/TaskPanelRailGuide.py" line="101"/>
       <location filename="../../Ui/TaskPanelRailButton.py" line="106"/>
       <source>Base Height</source>
       <translation>Bashöjd</translation>
@@ -1323,14 +1273,14 @@
     </message>
     <message>
       <location filename="../../Rocket/cfd/Ui/TaskPanelWindTunnel.py" line="66"/>
-      <location filename="../../Ui/TaskPanelRailGuide.py" line="113"/>
-      <location filename="../../Ui/TaskPanelBodyTube.py" line="105"/>
-      <location filename="../../Ui/TaskPanelRingtail.py" line="101"/>
       <location filename="../../Ui/DialogLookup.py" line="504"/>
       <location filename="../../Ui/DialogLookup.py" line="440"/>
       <location filename="../../Ui/DialogLookup.py" line="385"/>
       <location filename="../../Ui/DialogLookup.py" line="382"/>
+      <location filename="../../Ui/TaskPanelRailGuide.py" line="113"/>
+      <location filename="../../Ui/TaskPanelRingtail.py" line="101"/>
       <location filename="../../Ui/TaskPanelLaunchLug.py" line="92"/>
+      <location filename="../../Ui/TaskPanelBodyTube.py" line="105"/>
       <location filename="../../Ui/TaskPanelRailButton.py" line="118"/>
       <source>Length</source>
       <translation>Längd</translation>
@@ -1376,7 +1326,7 @@
       <location filename="../../Ui/TaskPanelLaunchLug.py" line="118"/>
       <location filename="../../Ui/TaskPanelRailButton.py" line="169"/>
       <source>Instances</source>
-      <translation type="unfinished"/>
+      <translation>Instanser</translation>
     </message>
     <message>
       <location filename="../../Ui/TaskPanelRailGuide.py" line="175"/>
@@ -1384,7 +1334,7 @@
       <location filename="../../Ui/TaskPanelLaunchLug.py" line="121"/>
       <location filename="../../Ui/TaskPanelRailButton.py" line="172"/>
       <source>Instance Count</source>
-      <translation type="unfinished"/>
+      <translation>Antal instanser</translation>
     </message>
     <message>
       <location filename="../../Ui/TaskPanelRailGuide.py" line="183"/>
@@ -1392,238 +1342,171 @@
       <location filename="../../Ui/TaskPanelLaunchLug.py" line="129"/>
       <location filename="../../Ui/TaskPanelRailButton.py" line="180"/>
       <source>Instance Separation</source>
-      <translation type="unfinished"/>
+      <translation>Separation av instanser</translation>
     </message>
     <message>
-      <location filename="../../Ui/TaskPanelTransition.py" line="639"/>
-      <location filename="../../Ui/TaskPanelBodyTube.py" line="386"/>
+      <location filename="../../Ui/TaskPanelTransition.py" line="726"/>
+      <location filename="../../Ui/TaskPanelNoseCone.py" line="586"/>
       <location filename="../../Ui/TaskPanelBulkhead.py" line="582"/>
-      <location filename="../../Ui/TaskPanelNoseCone.py" line="588"/>
       <location filename="../../Ui/TaskPanelRingtail.py" line="334"/>
       <location filename="../../Ui/TaskPanelLaunchLug.py" line="342"/>
+      <location filename="../../Ui/TaskPanelBodyTube.py" line="386"/>
       <location filename="../../Ui/TaskPanelRailButton.py" line="583"/>
       <source>Unable to find material &apos;{}&apos;</source>
       <translation>Det går inte att hitta materialet &apos;{}&apos;</translation>
     </message>
     <message>
-      <location filename="../../Ui/TaskPanelLaunchLug.py" line="71"/>
-      <source>Launch Lug Parameter</source>
-      <translation type="unfinished"/>
+      <location filename="../../Ui/TaskPanelDatabase.py" line="52"/>
+      <source>Rocket Component Parameter</source>
+      <translation>Raketkomponent Parameter</translation>
     </message>
     <message>
-      <location filename="../../Ui/TaskPanelBodyTube.py" line="99"/>
-      <location filename="../../Ui/TaskPanelRingtail.py" line="95"/>
-      <location filename="../../Ui/TaskPanelLaunchLug.py" line="86"/>
-      <source>Wall Thickness</source>
-      <translation>Väggtjocklek</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/TaskPanelRailGuide.py" line="137"/>
-      <location filename="../../Ui/TaskPanelLaunchLug.py" line="99"/>
-      <source>Forward Sweep</source>
-      <translation>Framåtriktad svepning</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/TaskPanelRailGuide.py" line="149"/>
-      <location filename="../../Ui/TaskPanelRailGuide.py" line="140"/>
-      <location filename="../../Ui/TaskPanelLaunchLug.py" line="111"/>
-      <location filename="../../Ui/TaskPanelLaunchLug.py" line="102"/>
-      <source>Sweep Angle</source>
-      <translation>Vinkel för svepning</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/TaskPanelRailGuide.py" line="146"/>
-      <location filename="../../Ui/TaskPanelLaunchLug.py" line="108"/>
-      <source>Aft Sweep</source>
-      <translation>Aft svep</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/ViewStage.py" line="65"/>
-      <location filename="../../Ui/Commands/CmdStage.py" line="93"/>
-      <location filename="../../Ui/Commands/CmdParallelStage.py" line="94"/>
-      <location filename="../../Ui/ViewParallelStage.py" line="47"/>
-      <source>Toggle active stage</source>
-      <translation>Växla aktiv fas</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/cfd/ViewProviders/ViewProviderCFDRocket.py" line="69"/>
-      <location filename="../../Rocket/cfd/ViewProviders/ViewProviderCFDRocket.py" line="62"/>
-      <location filename="../../Rocket/cfd/ViewProviders/ViewProviderMultiCFDAnalysis.py" line="64"/>
-      <location filename="../../Rocket/cfd/ViewProviders/ViewProviderWindTunnel.py" line="68"/>
-      <location filename="../../Rocket/cfd/ViewProviders/ViewProviderWindTunnel.py" line="61"/>
-      <location filename="../../Ui/ViewProvider.py" line="92"/>
-      <location filename="../../Ui/ViewProvider.py" line="50"/>
-      <location filename="../../Ui/ViewParallelStage.py" line="51"/>
-      <source>Edit %1</source>
-      <translation>Redigera %1</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/DialogLookup.py" line="116"/>
-      <source>Component lookup...</source>
-      <translation>Komponentuppslagning...</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/cfd/Ui/TaskPanelWindTunnel.py" line="60"/>
-      <location filename="../../Ui/TaskPanelBulkhead.py" line="138"/>
-      <location filename="../../Ui/TaskPanelBulkhead.py" line="120"/>
-      <location filename="../../Ui/DialogParachute.py" line="104"/>
-      <location filename="../../Ui/DialogLookup.py" line="439"/>
-      <location filename="../../Ui/DialogLookup.py" line="190"/>
-      <location filename="../../Ui/DialogLookup.py" line="178"/>
-      <source>Diameter</source>
-      <translation>Diameter</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/Widgets/ScalingTab.py" line="406"/>
-      <location filename="../../Ui/DialogLookup.py" line="502"/>
-      <location filename="../../Ui/DialogLookup.py" line="182"/>
-      <source>Fore Diameter</source>
-      <translation>Diameter framtill</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/DialogScaling.py" line="528"/>
-      <location filename="../../Ui/DialogScaling.py" line="288"/>
-      <location filename="../../Ui/DialogLookup.py" line="279"/>
-      <source>Body tube not found</source>
-      <translation>Kroppsröret hittades inte</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/DialogScaling.py" line="530"/>
-      <location filename="../../Ui/DialogScaling.py" line="290"/>
-      <location filename="../../Ui/DialogLookup.py" line="314"/>
-      <location filename="../../Ui/DialogLookup.py" line="303"/>
-      <location filename="../../Ui/DialogLookup.py" line="292"/>
-      <location filename="../../Ui/DialogLookup.py" line="281"/>
-      <source>Multiple identical entries found</source>
-      <translation>Flera identiska poster hittades</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/DialogLookup.py" line="290"/>
-      <source>Nose cone not found</source>
-      <translation>Nose cone hittades inte</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/DialogLookup.py" line="301"/>
-      <source>Transition not found</source>
-      <translation>Övergång hittades inte</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/DialogLookup.py" line="312"/>
-      <source>Rail button not found</source>
-      <translation>Järnvägsknappen hittades inte</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/DialogLookup.py" line="376"/>
-      <source>Type</source>
-      <translation>Typ</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/TaskPanelDatabase.py" line="54"/>
-      <location filename="../../Ui/DialogScaling.py" line="500"/>
-      <location filename="../../Ui/DialogScaling.py" line="495"/>
-      <location filename="../../Ui/DialogScaling.py" line="200"/>
       <location filename="../../Ui/DialogLookup.py" line="537"/>
       <location filename="../../Ui/DialogLookup.py" line="498"/>
       <location filename="../../Ui/DialogLookup.py" line="435"/>
       <location filename="../../Ui/DialogLookup.py" line="377"/>
+      <location filename="../../Ui/DialogScaling.py" line="500"/>
+      <location filename="../../Ui/DialogScaling.py" line="495"/>
+      <location filename="../../Ui/DialogScaling.py" line="200"/>
+      <location filename="../../Ui/TaskPanelDatabase.py" line="54"/>
       <source>Manufacturer</source>
       <translation>Tillverkare</translation>
     </message>
     <message>
-      <location filename="../../Ui/TaskPanelDatabase.py" line="59"/>
-      <location filename="../../Ui/DialogScaling.py" line="501"/>
-      <location filename="../../Ui/DialogScaling.py" line="496"/>
-      <location filename="../../Ui/DialogScaling.py" line="201"/>
       <location filename="../../Ui/DialogLookup.py" line="538"/>
       <location filename="../../Ui/DialogLookup.py" line="499"/>
       <location filename="../../Ui/DialogLookup.py" line="436"/>
       <location filename="../../Ui/DialogLookup.py" line="378"/>
+      <location filename="../../Ui/DialogScaling.py" line="501"/>
+      <location filename="../../Ui/DialogScaling.py" line="496"/>
+      <location filename="../../Ui/DialogScaling.py" line="201"/>
+      <location filename="../../Ui/TaskPanelDatabase.py" line="59"/>
       <source>Part Number</source>
       <translation>Artikelnummer</translation>
     </message>
     <message>
-      <location filename="../../Ui/TaskPanelDatabase.py" line="64"/>
-      <location filename="../../Ui/DialogScaling.py" line="502"/>
-      <location filename="../../Ui/DialogScaling.py" line="497"/>
-      <location filename="../../Ui/DialogScaling.py" line="202"/>
       <location filename="../../Ui/DialogLookup.py" line="539"/>
       <location filename="../../Ui/DialogLookup.py" line="500"/>
       <location filename="../../Ui/DialogLookup.py" line="437"/>
       <location filename="../../Ui/DialogLookup.py" line="379"/>
+      <location filename="../../Ui/DialogScaling.py" line="502"/>
+      <location filename="../../Ui/DialogScaling.py" line="497"/>
+      <location filename="../../Ui/DialogScaling.py" line="202"/>
+      <location filename="../../Ui/TaskPanelDatabase.py" line="64"/>
       <source>Description</source>
       <translation>Beskrivning</translation>
     </message>
     <message>
-      <location filename="../../Ui/DialogLookup.py" line="501"/>
-      <location filename="../../Ui/DialogLookup.py" line="438"/>
-      <source>Shape</source>
-      <translation>Form</translation>
+      <location filename="../../Ui/TaskPanelDatabase.py" line="77"/>
+      <source>Lookup...</source>
+      <translation>Kolla upp...</translation>
     </message>
     <message>
-      <location filename="../../Ui/DialogLookup.py" line="441"/>
-      <source>Shoulder Diameter</source>
-      <translation>Diameter på axel</translation>
+      <location filename="../../Rocket/Importer/OpenRocket/ComponentElement.py" line="192"/>
+      <location filename="../../Rocket/Importer/Rocksim/ComponentElement.py" line="195"/>
+      <location filename="../../Rocket/RocketComponent.py" line="128"/>
+      <location filename="../../Ui/DialogScaling.py" line="301"/>
+      <location filename="../../Ui/TaskPanelDatabase.py" line="183"/>
+      <location filename="../../Ui/TaskPanelDatabase.py" line="151"/>
+      <source>Material &apos;{}&apos; not found - using default material</source>
+      <translation>Material '{}' hittades inte - använder standardmaterial</translation>
     </message>
     <message>
-      <location filename="../../Ui/DialogLookup.py" line="442"/>
-      <source>Shoulder Length</source>
-      <translation>Axellängd</translation>
+      <location filename="../../Ui/TaskPanelTransition.py" line="62"/>
+      <location filename="../../Ui/TaskPanelFin.py" line="86"/>
+      <location filename="../../Ui/TaskPanelStage.py" line="48"/>
+      <location filename="../../Ui/TaskPanelNoseCone.py" line="64"/>
+      <location filename="../../Ui/TaskPanelRingtail.py" line="61"/>
+      <location filename="../../Ui/TaskPanelFinCan.py" line="72"/>
+      <location filename="../../Ui/TaskPanelBodyTube.py" line="65"/>
+      <source>Scaling</source>
+      <translation>Skalning</translation>
     </message>
     <message>
-      <location filename="../../Ui/DialogLookup.py" line="503"/>
-      <source>Aft Diameter</source>
-      <translation>Akterdiameter</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/DialogLookup.py" line="505"/>
-      <source>Fore Shoulder Diameter</source>
-      <translation>Diameter på främre axeln</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/DialogLookup.py" line="506"/>
-      <source>Fore Shoulder Length</source>
-      <translation>Fram axellängd</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/DialogLookup.py" line="507"/>
-      <source>Aft Shoulder Diameter</source>
-      <translation>Akter axeldiameter</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/DialogLookup.py" line="508"/>
-      <source>Aft Shoulder Length</source>
-      <translation>Aft axellängd</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/DialogLookup.py" line="540"/>
-      <source>Finish</source>
-      <translation>Slutför</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/TaskPanelBulkhead.py" line="111"/>
-      <location filename="../../Ui/DialogLookup.py" line="543"/>
-      <source>Height</source>
-      <translation>Höjd</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/DialogLookup.py" line="546"/>
-      <source>Screw Height</source>
-      <translation>Skruvhöjd</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/TaskPanelRingtail.py" line="77"/>
-      <source>Ring tail Parameter</source>
-      <translation>Ring svans Parameter</translation>
+      <location filename="../../Ui/TaskPanelBodyTube.py" line="81"/>
+      <source>Body Tube Parameter</source>
+      <translation>Parameter för kroppsrör</translation>
     </message>
     <message>
       <location filename="../../Ui/TaskPanelRailGuide.py" line="126"/>
-      <location filename="../../Ui/TaskPanelBodyTube.py" line="96"/>
       <location filename="../../Ui/TaskPanelBulkhead.py" line="99"/>
       <location filename="../../Ui/TaskPanelBulkhead.py" line="83"/>
       <location filename="../../Ui/TaskPanelRingtail.py" line="107"/>
       <location filename="../../Ui/TaskPanelRingtail.py" line="92"/>
+      <location filename="../../Ui/TaskPanelBodyTube.py" line="96"/>
       <source>auto</source>
       <translation>auto</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelRingtail.py" line="95"/>
+      <location filename="../../Ui/TaskPanelLaunchLug.py" line="86"/>
+      <location filename="../../Ui/TaskPanelBodyTube.py" line="99"/>
+      <source>Wall Thickness</source>
+      <translation>Väggtjocklek</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelBodyTube.py" line="111"/>
+      <source>Motor Mount</source>
+      <translation>Motorfäste</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelBodyTube.py" line="114"/>
+      <source>Overhang</source>
+      <translation>Överhäng</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelTransition.py" line="366"/>
+      <location filename="../../Ui/TaskPanelFin.py" line="472"/>
+      <location filename="../../Ui/TaskPanelStage.py" line="95"/>
+      <location filename="../../Ui/TaskPanelNoseCone.py" line="382"/>
+      <location filename="../../Ui/TaskPanelRingtail.py" line="214"/>
+      <location filename="../../Ui/TaskPanelFinCan.py" line="413"/>
+      <location filename="../../Ui/TaskPanelBodyTube.py" line="252"/>
+      <source>Upscale</source>
+      <translation>Högklassig</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelTransition.py" line="369"/>
+      <location filename="../../Ui/TaskPanelFin.py" line="475"/>
+      <location filename="../../Ui/TaskPanelStage.py" line="98"/>
+      <location filename="../../Ui/TaskPanelNoseCone.py" line="385"/>
+      <location filename="../../Ui/TaskPanelRingtail.py" line="217"/>
+      <location filename="../../Ui/DialogScaling.py" line="504"/>
+      <location filename="../../Ui/DialogScaling.py" line="204"/>
+      <location filename="../../Ui/TaskPanelFinCan.py" line="416"/>
+      <location filename="../../Ui/TaskPanelBodyTube.py" line="255"/>
+      <source>Scale</source>
+      <translation>Skala</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelLocation.py" line="49"/>
+      <source>Location Parameter</source>
+      <translation>Plats Parameter</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelLocation.py" line="52"/>
+      <source>Radial Reference</source>
+      <translation>Radiell referens</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelLocation.py" line="58"/>
+      <source>Radial Offset</source>
+      <translation>Radiell förskjutning</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelLocation.py" line="66"/>
+      <source>Location Reference</source>
+      <translation>Plats Referens</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelLocation.py" line="74"/>
+      <source>Location</source>
+      <translation>Plats</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelLocation.py" line="80"/>
+      <source>Angle Offset</source>
+      <translation>Vinkelförskjutning</translation>
     </message>
     <message>
       <location filename="../../Ui/DialogBlackPowder.py" line="37"/>
@@ -1683,42 +1566,145 @@
       <translation>Dragkoefficient</translation>
     </message>
     <message>
+      <location filename="../../Rocket/cfd/Ui/TaskPanelWindTunnel.py" line="60"/>
+      <location filename="../../Ui/DialogLookup.py" line="439"/>
+      <location filename="../../Ui/DialogLookup.py" line="190"/>
+      <location filename="../../Ui/DialogLookup.py" line="178"/>
+      <location filename="../../Ui/TaskPanelBulkhead.py" line="138"/>
+      <location filename="../../Ui/TaskPanelBulkhead.py" line="120"/>
+      <location filename="../../Ui/DialogParachute.py" line="104"/>
+      <source>Diameter</source>
+      <translation>Diameter</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelLaunchLug.py" line="71"/>
+      <source>Launch Lug Parameter</source>
+      <translation>Parameter för startfäste</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelRailGuide.py" line="137"/>
+      <location filename="../../Ui/TaskPanelLaunchLug.py" line="99"/>
+      <source>Forward Sweep</source>
+      <translation>Framåtriktad svepning</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelRailGuide.py" line="149"/>
+      <location filename="../../Ui/TaskPanelRailGuide.py" line="140"/>
+      <location filename="../../Ui/TaskPanelLaunchLug.py" line="111"/>
+      <location filename="../../Ui/TaskPanelLaunchLug.py" line="102"/>
+      <source>Sweep Angle</source>
+      <translation>Vinkel för svepning</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelRailGuide.py" line="146"/>
+      <location filename="../../Ui/TaskPanelLaunchLug.py" line="108"/>
+      <source>Aft Sweep</source>
+      <translation>Aft svep</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelFinCan.py" line="67"/>
+      <source>Fin Can Parameter</source>
+      <translation>Parameter för fenbox</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelFinCan.py" line="125"/>
+      <source>Flush with fin can</source>
+      <translation>I jämnhöjd med finkanna</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelFinCan.py" line="126"/>
+      <source>Stepped</source>
+      <translation>Stegad</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelCFD.py" line="90"/>
+      <source>Create</source>
+      <translation>Skapa</translation>
+    </message>
+    <message>
       <location filename="../../Ui/DialogScaling.py" line="157"/>
       <source>Body Scaler</source>
-      <translation type="unfinished"/>
+      <translation>Kroppsskalare</translation>
     </message>
     <message>
       <location filename="../../Ui/DialogScaling.py" line="158"/>
       <source>Reference Diameter</source>
-      <translation type="unfinished"/>
+      <translation>Referensdiameter</translation>
     </message>
     <message>
       <location filename="../../Ui/DialogScaling.py" line="499"/>
       <location filename="../../Ui/DialogScaling.py" line="494"/>
       <location filename="../../Ui/DialogScaling.py" line="199"/>
       <source>Index</source>
-      <translation type="unfinished"/>
+      <translation>Index</translation>
     </message>
     <message>
       <location filename="../../Ui/DialogScaling.py" line="505"/>
       <location filename="../../Ui/DialogScaling.py" line="205"/>
       <source>Error (%)</source>
-      <translation type="unfinished"/>
+      <translation>Fel (%)</translation>
     </message>
     <message>
       <location filename="../../Ui/DialogScaling.py" line="218"/>
       <source>Export CSV File</source>
-      <translation type="unfinished"/>
+      <translation>Exportera CSV-fil</translation>
     </message>
     <message>
-      <location filename="../../Rocket/Importer/OpenRocket/ComponentElement.py" line="192"/>
-      <location filename="../../Rocket/Importer/Rocksim/ComponentElement.py" line="195"/>
-      <location filename="../../Rocket/RocketComponent.py" line="128"/>
-      <location filename="../../Ui/TaskPanelDatabase.py" line="183"/>
-      <location filename="../../Ui/TaskPanelDatabase.py" line="151"/>
-      <location filename="../../Ui/DialogScaling.py" line="301"/>
-      <source>Material &apos;{}&apos; not found - using default material</source>
-      <translation>Material '{}' hittades inte - använder standardmaterial</translation>
+      <location filename="../../Ui/DialogLookup.py" line="279"/>
+      <location filename="../../Ui/DialogScaling.py" line="528"/>
+      <location filename="../../Ui/DialogScaling.py" line="288"/>
+      <source>Body tube not found</source>
+      <translation>Kroppsröret hittades inte</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/DialogLookup.py" line="314"/>
+      <location filename="../../Ui/DialogLookup.py" line="303"/>
+      <location filename="../../Ui/DialogLookup.py" line="292"/>
+      <location filename="../../Ui/DialogLookup.py" line="281"/>
+      <location filename="../../Ui/DialogScaling.py" line="530"/>
+      <location filename="../../Ui/DialogScaling.py" line="290"/>
+      <source>Multiple identical entries found</source>
+      <translation>Flera identiska poster hittades</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/DialogThrustToWeight.py" line="49"/>
+      <source>Minimum Thrust to Weight Calculator</source>
+      <translation>Kalkylator för minsta tryckkraft i förhållande till vikt</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/DialogThrustToWeight.py" line="53"/>
+      <source>Weight</source>
+      <translation>Vikt</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/DialogThrustToWeight.py" line="61"/>
+      <source>Minimum Thrust</source>
+      <translation>Minsta tryckkraft</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelRingtail.py" line="77"/>
+      <source>Ring tail Parameter</source>
+      <translation>Ring svans Parameter</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/ViewParallelStage.py" line="47"/>
+      <location filename="../../Ui/Commands/CmdParallelStage.py" line="93"/>
+      <location filename="../../Ui/Commands/CmdStage.py" line="92"/>
+      <location filename="../../Ui/ViewStage.py" line="65"/>
+      <source>Toggle active stage</source>
+      <translation>Växla aktiv fas</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/ViewProviders/ViewProviderWindTunnel.py" line="68"/>
+      <location filename="../../Rocket/cfd/ViewProviders/ViewProviderWindTunnel.py" line="61"/>
+      <location filename="../../Rocket/cfd/ViewProviders/ViewProviderMultiCFDAnalysis.py" line="64"/>
+      <location filename="../../Rocket/cfd/ViewProviders/ViewProviderCFDRocket.py" line="69"/>
+      <location filename="../../Rocket/cfd/ViewProviders/ViewProviderCFDRocket.py" line="62"/>
+      <location filename="../../Ui/ViewParallelStage.py" line="51"/>
+      <location filename="../../Ui/ViewProvider.py" line="92"/>
+      <location filename="../../Ui/ViewProvider.py" line="50"/>
+      <source>Edit %1</source>
+      <translation>Redigera %1</translation>
     </message>
     <message>
       <location filename="../../Ui/TaskPanelBulkhead.py" line="72"/>
@@ -1746,6 +1732,12 @@
       <location filename="../../Ui/TaskPanelBulkhead.py" line="105"/>
       <source>Width</source>
       <translation>Bredd</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/DialogLookup.py" line="543"/>
+      <location filename="../../Ui/TaskPanelBulkhead.py" line="111"/>
+      <source>Height</source>
+      <translation>Höjd</translation>
     </message>
     <message>
       <location filename="../../Ui/TaskPanelBulkhead.py" line="117"/>
@@ -1778,19 +1770,11 @@
       <translation>Förskjutning</translation>
     </message>
     <message>
-      <location filename="../../Ui/TaskPanelFinCan.py" line="67"/>
-      <source>Fin Can Parameter</source>
-      <translation type="unfinished"/>
-    </message>
-    <message>
-      <location filename="../../Ui/TaskPanelFinCan.py" line="125"/>
-      <source>Flush with fin can</source>
-      <translation>I jämnhöjd med finkanna</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/TaskPanelFinCan.py" line="126"/>
-      <source>Stepped</source>
-      <translation>Stegad</translation>
+      <location filename="../../Ui/TaskPanelTransition.py" line="741"/>
+      <location filename="../../Ui/TaskPanelFin.py" line="1221"/>
+      <location filename="../../Ui/TaskPanelNoseCone.py" line="598"/>
+      <source>Select an object</source>
+      <translation>Välj ett objekt</translation>
     </message>
     <message>
       <location filename="../../Ui/DialogBlackPowder.py" line="38"/>
@@ -1823,8 +1807,8 @@
         </translation>
     </message>
     <message>
-      <location filename="../../Ui/TaskPanelRailGuide.py" line="120"/>
       <location filename="../../Ui/DialogVentHoles.py" line="55"/>
+      <location filename="../../Ui/TaskPanelRailGuide.py" line="120"/>
       <location filename="../../Ui/DialogBlackPowder.py" line="70"/>
       <source>Body Tube Diameter</source>
       <translation>Rördiameter för kropp</translation>
@@ -1851,413 +1835,72 @@
       <translation>FFFFg Pulver</translation>
     </message>
     <message>
-      <location filename="../../Ui/Commands/CmdRocket.py" line="87"/>
-      <location filename="../../Ui/ViewRocket.py" line="65"/>
-      <source>Toggle active rocket</source>
-      <translation>Växla aktiv raket</translation>
+      <location filename="../../Ui/DialogLookup.py" line="502"/>
+      <location filename="../../Ui/DialogLookup.py" line="182"/>
+      <location filename="../../Ui/Widgets/ScalingTab.py" line="434"/>
+      <source>Fore Diameter</source>
+      <translation>Diameter framtill</translation>
     </message>
     <message>
-      <location filename="../../Ui/TaskPanelDatabase.py" line="52"/>
-      <source>Rocket Component Parameter</source>
-      <translation>Raketkomponent Parameter</translation>
+      <location filename="../../Ui/TaskPanelRailGuide.py" line="67"/>
+      <source>Rail Guide Parameter</source>
+      <translation>Rälsstyrning Parameter</translation>
     </message>
     <message>
-      <location filename="../../Ui/TaskPanelDatabase.py" line="77"/>
-      <source>Lookup...</source>
-      <translation>Kolla upp...</translation>
+      <location filename="../../Ui/TaskPanelRailGuide.py" line="70"/>
+      <source>Rail Guide Base</source>
+      <translation>Rälsstyrningsbas</translation>
     </message>
     <message>
-      <location filename="../../Ui/TaskPanelBodyTube.py" line="81"/>
-      <source>Body Tube Parameter</source>
-      <translation>Kropp Rör Parameter</translation>
+      <location filename="../../Ui/TaskPanelRailGuide.py" line="77"/>
+      <source>Flange Width</source>
+      <translation>Flänsbredd</translation>
     </message>
     <message>
-      <location filename="../../Ui/TaskPanelBodyTube.py" line="111"/>
-      <source>Motor Mount</source>
-      <translation>Motorfäste</translation>
+      <location filename="../../Ui/TaskPanelRailGuide.py" line="83"/>
+      <source>Middle Width</source>
+      <translation>Mellanbredd</translation>
     </message>
     <message>
-      <location filename="../../Ui/TaskPanelBodyTube.py" line="114"/>
-      <source>Overhang</source>
-      <translation>Överhäng</translation>
+      <location filename="../../Ui/TaskPanelRailGuide.py" line="89"/>
+      <source>Base Width</source>
+      <translation>Basbredd</translation>
     </message>
     <message>
-      <location filename="../../Ui/Commands/CmdParachute.py" line="64"/>
-      <source>Parachute</source>
-      <translation>Fallskärm</translation>
+      <location filename="../../Ui/TaskPanelRailGuide.py" line="130"/>
+      <source>V Angle</source>
+      <translation>V-vinkel</translation>
     </message>
     <message>
-      <location filename="../../Ui/Commands/CmdParachute.py" line="65"/>
-      <source>Parachute design</source>
-      <translation>Fallskärmsdesign</translation>
+      <location filename="../../Ui/TaskPanelRailGuide.py" line="156"/>
+      <source>Notch</source>
+      <translation>Hack</translation>
     </message>
     <message>
-      <location filename="../../Ui/Commands/CmdCalcVentHoles.py" line="50"/>
-      <location filename="../../Ui/Commands/CmdCalcVentHoles.py" line="49"/>
-      <source>Calculate vent hole size</source>
-      <translation>Beräkna ventilationshålets storlek</translation>
+      <location filename="../../Ui/TaskPanelRailGuide.py" line="165"/>
+      <source>Depth</source>
+      <translation>Djup</translation>
     </message>
     <message>
-      <location filename="../../Ui/Commands/CmdFinCan.py" line="78"/>
-      <source>Fin Can</source>
-      <translation>Fin burk</translation>
+      <location filename="../../Ui/DialogVentHoles.py" line="51"/>
+      <source>Vent Hole Size Calculator</source>
+      <translation>Kalkylator för storlek på ventilationshål</translation>
     </message>
     <message>
-      <location filename="../../Ui/Commands/CmdFinCan.py" line="79"/>
-      <source>Fin can design</source>
-      <translation>Fin kan designa</translation>
+      <location filename="../../Ui/DialogVentHoles.py" line="71"/>
+      <source>Vent Hole Count</source>
+      <translation>Antal ventilationshål</translation>
     </message>
     <message>
-      <location filename="../../Ui/Commands/CmdCalcBlackPowder.py" line="50"/>
-      <location filename="../../Ui/Commands/CmdCalcBlackPowder.py" line="49"/>
-      <source>Calculate ejection charge</source>
-      <translation>Beräkna utskjutningsladdning</translation>
+      <location filename="../../Ui/DialogVentHoles.py" line="80"/>
+      <source>Vent Hole Size</source>
+      <translation>Storlek på ventilationshål</translation>
     </message>
     <message>
-      <location filename="../../Ui/Commands/CmdCalcThrustToWeight.py" line="50"/>
-      <location filename="../../Ui/Commands/CmdCalcThrustToWeight.py" line="49"/>
-      <source>Calculate Thrust To Weight</source>
-      <translation>Beräkna tryckkraft till vikt</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdCFDAnalysis.py" line="62"/>
-      <source>Please select a rocket first</source>
-      <translation>Vänligen välj en raket först</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdCFDAnalysis.py" line="107"/>
-      <source>CFD Analysis</source>
-      <translation>CFD-analys</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdCFDAnalysis.py" line="108"/>
-      <source>Perform a CFD Analysis</source>
-      <translation>Utför en CFD-analys</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdEditTree.py" line="71"/>
-      <source>Move Up</source>
-      <translation>Flytta upp</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdEditTree.py" line="72"/>
-      <source>Move the object up in the rocket tree</source>
-      <translation>Flytta objektet uppåt i raketträdet</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdEditTree.py" line="90"/>
-      <source>Move Down</source>
-      <translation>Flytta ner</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdEditTree.py" line="91"/>
-      <source>Move the object down in the rocket tree</source>
-      <translation>Flytta objektet nedåt i raketträdet</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdFin.py" line="76"/>
-      <location filename="../../Ui/Commands/CmdParachuteDesigner.py" line="74"/>
-      <source>Fin</source>
-      <translation>Fena</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdFin.py" line="77"/>
-      <location filename="../../Ui/Commands/CmdParachuteDesigner.py" line="75"/>
-      <source>Fin design</source>
-      <translation>Design av fenor</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdBodyTube.py" line="101"/>
-      <source>Body Tube</source>
-      <translation>Kropp Rör</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdBodyTube.py" line="102"/>
-      <source>Body tube design</source>
-      <translation>Design av kroppsrör</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdBodyTube.py" line="122"/>
-      <source>Coupler</source>
-      <translation>Koppling</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdBodyTube.py" line="123"/>
-      <source>Coupler design</source>
-      <translation>Kopplingens utformning</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdBodyTube.py" line="143"/>
-      <source>Inner Tube</source>
-      <translation>Innerrör</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdBodyTube.py" line="144"/>
-      <source>Inner tube design</source>
-      <translation>Innerrörets utformning</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdBodyTube.py" line="164"/>
-      <source>Engine Block</source>
-      <translation>Motorblock</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdBodyTube.py" line="165"/>
-      <source>Engine block design</source>
-      <translation>Motorblockets utformning</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdParallelStage.py" line="86"/>
-      <source>Parallel Stage</source>
-      <translation>Parallell scen</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdParallelStage.py" line="87"/>
-      <source>Rocket Parallel Stage</source>
-      <translation>Parallellsteg till raket</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdStage.py" line="94"/>
-      <location filename="../../Ui/Commands/CmdParallelStage.py" line="95"/>
-      <source>Toggle the active stage</source>
-      <translation>Växla den aktiva fasen</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdMaterialEditor.py" line="44"/>
-      <source>Material editor</source>
-      <translation>Materialredigerare</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdMaterialEditor.py" line="45"/>
-      <source>Opens the FreeCAD material editor</source>
-      <translation>Öppnar FreeCAD:s materialredigerare</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdFemAnalysis.py" line="93"/>
-      <location filename="../../Ui/Commands/CmdFlutterAnalysis.py" line="53"/>
-      <source>Please select a fin first</source>
-      <translation>Vänligen välj en fena först</translation>
-    </message>
-    <message>
+      <location filename="../../Ui/Commands/CmdFlutterAnalysis.py" line="63"/>
       <location filename="../../Ui/DialogFinFlutter.py" line="95"/>
-      <location filename="../../Ui/Commands/CmdFlutterAnalysis.py" line="65"/>
       <source>Fin Flutter Analysis</source>
       <translation>Analys av finfladder</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdFlutterAnalysis.py" line="66"/>
-      <source>Calculate fin flutter</source>
-      <translation>Beräkna fenfladder</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdSketcher.py" line="61"/>
-      <source>Create sketch</source>
-      <translation>Skapa skiss</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdSketcher.py" line="62"/>
-      <source>Create a new sketch</source>
-      <translation>Skapa en ny skiss</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdRocket.py" line="82"/>
-      <source>Rocket assembly</source>
-      <translation>Raketmontering</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdRocket.py" line="88"/>
-      <source>Toggle the active rocket</source>
-      <translation>Växla den aktiva raketen</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdLaunchGuides.py" line="88"/>
-      <source>Launch Lug</source>
-      <translation>Uppskjutningsfäste</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdLaunchGuides.py" line="89"/>
-      <source>Launch lug design</source>
-      <translation>Design för startklack</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdLaunchGuides.py" line="107"/>
-      <source>Rail Button</source>
-      <translation>Rälsknapp</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdLaunchGuides.py" line="108"/>
-      <source>Rail button design</source>
-      <translation>Design för skenknapp</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdLaunchGuides.py" line="126"/>
-      <source>Rail Guide</source>
-      <translation>Järnvägsguide</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdLaunchGuides.py" line="127"/>
-      <source>Rail guide design</source>
-      <translation>Utformning av skenstyrning</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdLaunchGuides.py" line="145"/>
-      <source>Stand Off</source>
-      <translation>Avvakta</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdLaunchGuides.py" line="146"/>
-      <source>Stand off design</source>
-      <translation>Avskiljande design</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdRingtail.py" line="68"/>
-      <source>Ring tail</source>
-      <translation>Ring svans</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdRingtail.py" line="69"/>
-      <source>Ring tail design</source>
-      <translation>Design med ringformad svans</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdScaling.py" line="51"/>
-      <location filename="../../Ui/Commands/CmdScaling.py" line="49"/>
-      <source>Invalid part selected</source>
-      <translation type="unfinished"/>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdScaling.py" line="89"/>
-      <location filename="../../Ui/Commands/CmdScaling.py" line="70"/>
-      <source>Please select a pair of body tubes</source>
-      <translation type="unfinished"/>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdScaling.py" line="103"/>
-      <source>Match body tube pairs</source>
-      <translation type="unfinished"/>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdScaling.py" line="104"/>
-      <source>Match body tube pairs suitable for scale</source>
-      <translation type="unfinished"/>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdScaling.py" line="118"/>
-      <location filename="../../Ui/Commands/CmdScaling.py" line="117"/>
-      <source>Find scale body tubes</source>
-      <translation type="unfinished"/>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdBulkhead.py" line="66"/>
-      <source>Bulkhead</source>
-      <translation>Skott</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdBulkhead.py" line="67"/>
-      <source>Bulkhead design</source>
-      <translation>Utformning av skott</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdCalcParachute.py" line="50"/>
-      <location filename="../../Ui/Commands/CmdCalcParachute.py" line="49"/>
-      <source>Calculate parachute size</source>
-      <translation>Beräkna fallskärmens storlek</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdNoseCone.py" line="67"/>
-      <source>Nose Cone</source>
-      <translation>Noskon</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdNoseCone.py" line="68"/>
-      <source>Nose cone design</source>
-      <translation>Design av nos kona</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdParachuteGore.py" line="68"/>
-      <source>Parachute Gore</source>
-      <translation type="unfinished"/>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdParachuteGore.py" line="69"/>
-      <source>Parachute gore design</source>
-      <translation>Parachute-design för slitsar</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdFemAnalysis.py" line="106"/>
-      <location filename="../../Ui/Commands/CmdFemAnalysis.py" line="105"/>
-      <source>Fin FEM Analysis</source>
-      <translation>Fin FEM-analys</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdTransition.py" line="67"/>
-      <source>Transition</source>
-      <translation>Övergång</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdTransition.py" line="68"/>
-      <source>Transition design</source>
-      <translation>Design av övergångar</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdCenteringRing.py" line="66"/>
-      <source>Centering Ring</source>
-      <translation>Centreringsring</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdCenteringRing.py" line="67"/>
-      <source>Centering Ring design</source>
-      <translation>Design av centreringsring</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdPod.py" line="68"/>
-      <source>Pod</source>
-      <translation type="unfinished"/>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdPod.py" line="69"/>
-      <source>Pod design</source>
-      <translation>Pod-design</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdStage.py" line="85"/>
-      <source>Stage</source>
-      <translation>Scen</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdStage.py" line="86"/>
-      <source>Rocket Stage</source>
-      <translation>Raketsteg</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/TaskPanelLocation.py" line="49"/>
-      <source>Location Parameter</source>
-      <translation>Plats Parameter</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/TaskPanelLocation.py" line="52"/>
-      <source>Radial Reference</source>
-      <translation>Radiell referens</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/TaskPanelLocation.py" line="58"/>
-      <source>Radial Offset</source>
-      <translation>Radiell förskjutning</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/TaskPanelLocation.py" line="66"/>
-      <source>Location Reference</source>
-      <translation>Plats Referens</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/TaskPanelLocation.py" line="74"/>
-      <source>Location</source>
-      <translation>Plats</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/TaskPanelLocation.py" line="80"/>
-      <source>Angle Offset</source>
-      <translation>Vinkelförskjutning</translation>
     </message>
     <message>
       <location filename="../../Ui/DialogFinFlutter.py" line="113"/>
@@ -2311,6 +1954,389 @@
       <translation type="unfinished"/>
     </message>
     <message>
+      <location filename="../../Ui/Commands/CmdScaling.py" line="49"/>
+      <location filename="../../Ui/Commands/CmdScaling.py" line="47"/>
+      <source>Invalid part selected</source>
+      <translation>Ogiltig del vald</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdScaling.py" line="87"/>
+      <location filename="../../Ui/Commands/CmdScaling.py" line="68"/>
+      <source>Please select a pair of body tubes</source>
+      <translation>Vänligen välj ett par kroppsrör</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdScaling.py" line="101"/>
+      <source>Match body tube pairs</source>
+      <translation>Matcha par av kroppsrör</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdScaling.py" line="102"/>
+      <source>Match body tube pairs suitable for scale</source>
+      <translation>Matcha par av kroppsrör som är lämpliga för skalan</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdScaling.py" line="116"/>
+      <location filename="../../Ui/Commands/CmdScaling.py" line="115"/>
+      <source>Find scale body tubes</source>
+      <translation>Hitta skalenliga kroppsrör</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdParachuteDesigner.py" line="72"/>
+      <location filename="../../Ui/Commands/CmdFin.py" line="75"/>
+      <source>Fin</source>
+      <translation>Fena</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdParachuteDesigner.py" line="73"/>
+      <location filename="../../Ui/Commands/CmdFin.py" line="76"/>
+      <source>Fin design</source>
+      <translation>Design av fenor</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdCFDAnalysis.py" line="60"/>
+      <source>Please select a rocket first</source>
+      <translation>Vänligen välj en raket först</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdCFDAnalysis.py" line="105"/>
+      <source>CFD Analysis</source>
+      <translation>CFD-analys</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdCFDAnalysis.py" line="106"/>
+      <source>Perform a CFD Analysis</source>
+      <translation>Utför en CFD-analys</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdPod.py" line="67"/>
+      <source>Pod</source>
+      <translation>Kapsel</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdPod.py" line="68"/>
+      <source>Pod design</source>
+      <translation>Pod-design</translation>
+    </message>
+    <message>
+      <location filename="../../InitGui.py" line="116"/>
+      <location filename="../../InitGui.py" line="111"/>
+      <location filename="../../InitGui.py" line="104"/>
+      <location filename="../../InitGui.py" line="102"/>
+      <location filename="../../InitGui.py" line="97"/>
+      <location filename="../../InitGui.py" line="93"/>
+      <location filename="../../InitGui.py" line="89"/>
+      <location filename="../../InitGui.py" line="83"/>
+      <location filename="../../InitGui.py" line="81"/>
+      <location filename="../../InitGui.py" line="77"/>
+      <location filename="../../Ui/Commands/CmdRocket.py" line="80"/>
+      <source>Rocket</source>
+      <translation>Raket</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdRocket.py" line="81"/>
+      <source>Rocket assembly</source>
+      <translation>Raketmontering</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/ViewRocket.py" line="65"/>
+      <location filename="../../Ui/Commands/CmdRocket.py" line="86"/>
+      <source>Toggle active rocket</source>
+      <translation>Växla aktiv raket</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdRocket.py" line="87"/>
+      <source>Toggle the active rocket</source>
+      <translation>Växla den aktiva raketen</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdStage.py" line="84"/>
+      <source>Stage</source>
+      <translation>Scen</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdStage.py" line="85"/>
+      <source>Rocket Stage</source>
+      <translation>Raketsteg</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdParallelStage.py" line="94"/>
+      <location filename="../../Ui/Commands/CmdStage.py" line="93"/>
+      <source>Toggle the active stage</source>
+      <translation>Växla den aktiva fasen</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdCalcVentHoles.py" line="49"/>
+      <location filename="../../Ui/Commands/CmdCalcVentHoles.py" line="48"/>
+      <source>Calculate vent hole size</source>
+      <translation>Beräkna ventilationshålets storlek</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdCalcBlackPowder.py" line="49"/>
+      <location filename="../../Ui/Commands/CmdCalcBlackPowder.py" line="48"/>
+      <source>Calculate ejection charge</source>
+      <translation>Beräkna utskjutningsladdning</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdSketcher.py" line="60"/>
+      <source>Create sketch</source>
+      <translation>Skapa skiss</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdSketcher.py" line="61"/>
+      <source>Create a new sketch</source>
+      <translation>Skapa en ny skiss</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdRingtail.py" line="67"/>
+      <source>Ring tail</source>
+      <translation>Ring svans</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdRingtail.py" line="68"/>
+      <source>Ring tail design</source>
+      <translation>Design med ringformad svans</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdBulkhead.py" line="65"/>
+      <source>Bulkhead</source>
+      <translation>Skott</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdBulkhead.py" line="66"/>
+      <source>Bulkhead design</source>
+      <translation>Utformning av skott</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdNoseCone.py" line="66"/>
+      <source>Nose Cone</source>
+      <translation>Noskon</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdNoseCone.py" line="67"/>
+      <source>Nose cone design</source>
+      <translation>Design av nos kona</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdEditTree.py" line="70"/>
+      <source>Move Up</source>
+      <translation>Flytta upp</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdEditTree.py" line="71"/>
+      <source>Move the object up in the rocket tree</source>
+      <translation>Flytta objektet uppåt i raketträdet</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdEditTree.py" line="89"/>
+      <source>Move Down</source>
+      <translation>Flytta ner</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdEditTree.py" line="90"/>
+      <source>Move the object down in the rocket tree</source>
+      <translation>Flytta objektet nedåt i raketträdet</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdCalcThrustToWeight.py" line="49"/>
+      <location filename="../../Ui/Commands/CmdCalcThrustToWeight.py" line="48"/>
+      <source>Calculate Thrust To Weight</source>
+      <translation>Beräkna tryckkraft till vikt</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdParallelStage.py" line="85"/>
+      <source>Parallel Stage</source>
+      <translation>Parallell scen</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdParallelStage.py" line="86"/>
+      <source>Rocket Parallel Stage</source>
+      <translation>Parallellsteg till raket</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdCalcParachute.py" line="49"/>
+      <location filename="../../Ui/Commands/CmdCalcParachute.py" line="48"/>
+      <source>Calculate parachute size</source>
+      <translation>Beräkna fallskärmens storlek</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdFinCan.py" line="77"/>
+      <source>Fin Can</source>
+      <translation>Fin burk</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdFinCan.py" line="78"/>
+      <source>Fin can design</source>
+      <translation>Fin kan designa</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdMaterialEditor.py" line="44"/>
+      <source>Material editor</source>
+      <translation>Materialredigerare</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdMaterialEditor.py" line="45"/>
+      <source>Opens the FreeCAD material editor</source>
+      <translation>Öppnar FreeCAD:s materialredigerare</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdBodyTube.py" line="100"/>
+      <source>Body Tube</source>
+      <translation>Kroppsrör</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdBodyTube.py" line="101"/>
+      <source>Body tube design</source>
+      <translation>Design av kroppsrör</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdBodyTube.py" line="121"/>
+      <source>Coupler</source>
+      <translation>Koppling</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdBodyTube.py" line="122"/>
+      <source>Coupler design</source>
+      <translation>Kopplingens utformning</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdBodyTube.py" line="142"/>
+      <source>Inner Tube</source>
+      <translation>Innerrör</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdBodyTube.py" line="143"/>
+      <source>Inner tube design</source>
+      <translation>Innerrörets utformning</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdBodyTube.py" line="163"/>
+      <source>Engine Block</source>
+      <translation>Motorblock</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdBodyTube.py" line="164"/>
+      <source>Engine block design</source>
+      <translation>Motorblockets utformning</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdParachuteGore.py" line="67"/>
+      <source>Parachute Gore</source>
+      <translation>Gore för fallskärm</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdParachuteGore.py" line="68"/>
+      <source>Parachute gore design</source>
+      <translation>Parachute-design för slitsar</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdLaunchGuides.py" line="87"/>
+      <source>Launch Lug</source>
+      <translation>Uppskjutningsfäste</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdLaunchGuides.py" line="88"/>
+      <source>Launch lug design</source>
+      <translation>Design för startklack</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdLaunchGuides.py" line="106"/>
+      <source>Rail Button</source>
+      <translation>Rälsknapp</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdLaunchGuides.py" line="107"/>
+      <source>Rail button design</source>
+      <translation>Design för skenknapp</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdLaunchGuides.py" line="125"/>
+      <source>Rail Guide</source>
+      <translation>Järnvägsguide</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdLaunchGuides.py" line="126"/>
+      <source>Rail guide design</source>
+      <translation>Utformning av skenstyrning</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdLaunchGuides.py" line="144"/>
+      <source>Stand Off</source>
+      <translation>Avvakta</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdLaunchGuides.py" line="145"/>
+      <source>Stand off design</source>
+      <translation>Avskiljande design</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdCenteringRing.py" line="65"/>
+      <source>Centering Ring</source>
+      <translation>Centreringsring</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdCenteringRing.py" line="66"/>
+      <source>Centering Ring design</source>
+      <translation>Design av centreringsring</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdFlutterAnalysis.py" line="51"/>
+      <location filename="../../Ui/Commands/CmdFemAnalysis.py" line="91"/>
+      <source>Please select a fin first</source>
+      <translation>Vänligen välj en fena först</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdFemAnalysis.py" line="104"/>
+      <location filename="../../Ui/Commands/CmdFemAnalysis.py" line="103"/>
+      <source>Fin FEM Analysis</source>
+      <translation>Fin FEM-analys</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdTransition.py" line="66"/>
+      <source>Transition</source>
+      <translation>Övergång</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdTransition.py" line="67"/>
+      <source>Transition design</source>
+      <translation>Design av övergångar</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdFlutterAnalysis.py" line="64"/>
+      <source>Calculate fin flutter</source>
+      <translation>Beräkna fenfladder</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdParachute.py" line="63"/>
+      <source>Parachute</source>
+      <translation>Fallskärm</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdParachute.py" line="64"/>
+      <source>Parachute design</source>
+      <translation>Fallskärmsdesign</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelPod.py" line="62"/>
+      <source>Pod Parameter</source>
+      <translation>Parameter för kapsel</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelPod.py" line="66"/>
+      <source>Pod Count</source>
+      <translation>Antal poddar</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelPod.py" line="73"/>
+      <source>Pod Spacing</source>
+      <translation>Avstånd mellan skida</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelFin.py" line="81"/>
+      <source>Fin Parameter</source>
+      <translation>Fenparameter</translation>
+    </message>
+    <message>
       <location filename="../../Ui/TaskPanelParallelStage.py" line="62"/>
       <source>Parallel Stage Parameter</source>
       <translation>Parameter för parallellsteg</translation>
@@ -2326,369 +2352,339 @@
       <translation>Avstånd mellan scener</translation>
     </message>
     <message>
-      <location filename="../../Ui/TaskPanelCFD.py" line="90"/>
-      <source>Create</source>
-      <translation>Skapa</translation>
+      <location filename="../../Ui/DialogLookup.py" line="116"/>
+      <source>Component lookup...</source>
+      <translation>Komponentuppslagning...</translation>
     </message>
     <message>
-      <location filename="../../Ui/DialogVentHoles.py" line="51"/>
-      <source>Vent Hole Size Calculator</source>
-      <translation>Kalkylator för storlek på ventilationshål</translation>
+      <location filename="../../Ui/DialogLookup.py" line="290"/>
+      <source>Nose cone not found</source>
+      <translation>Nose cone hittades inte</translation>
     </message>
     <message>
-      <location filename="../../Ui/DialogVentHoles.py" line="71"/>
-      <source>Vent Hole Count</source>
-      <translation>Antal ventilationshål</translation>
+      <location filename="../../Ui/DialogLookup.py" line="301"/>
+      <source>Transition not found</source>
+      <translation>Övergång hittades inte</translation>
     </message>
     <message>
-      <location filename="../../Ui/DialogVentHoles.py" line="80"/>
-      <source>Vent Hole Size</source>
-      <translation>Storlek på ventilationshål</translation>
+      <location filename="../../Ui/DialogLookup.py" line="312"/>
+      <source>Rail button not found</source>
+      <translation>Järnvägsknappen hittades inte</translation>
     </message>
     <message>
-      <location filename="../../Ui/TaskPanelRailGuide.py" line="67"/>
-      <source>Rail Guide Parameter</source>
-      <translation>Rälsstyrning Parameter</translation>
+      <location filename="../../Ui/DialogLookup.py" line="376"/>
+      <source>Type</source>
+      <translation>Typ</translation>
     </message>
     <message>
-      <location filename="../../Ui/TaskPanelRailGuide.py" line="70"/>
-      <source>Rail Guide Base</source>
-      <translation>Rälsstyrningsbas</translation>
+      <location filename="../../Ui/DialogLookup.py" line="501"/>
+      <location filename="../../Ui/DialogLookup.py" line="438"/>
+      <source>Shape</source>
+      <translation>Form</translation>
     </message>
     <message>
-      <location filename="../../Ui/TaskPanelRailGuide.py" line="77"/>
-      <source>Flange Width</source>
-      <translation>Flänsbredd</translation>
+      <location filename="../../Ui/DialogLookup.py" line="441"/>
+      <source>Shoulder Diameter</source>
+      <translation>Diameter på axel</translation>
     </message>
     <message>
-      <location filename="../../Ui/TaskPanelRailGuide.py" line="83"/>
-      <source>Middle Width</source>
-      <translation>Mellanbredd</translation>
+      <location filename="../../Ui/DialogLookup.py" line="442"/>
+      <source>Shoulder Length</source>
+      <translation>Axellängd</translation>
     </message>
     <message>
-      <location filename="../../Ui/TaskPanelRailGuide.py" line="89"/>
-      <source>Base Width</source>
-      <translation>Basbredd</translation>
+      <location filename="../../Ui/DialogLookup.py" line="503"/>
+      <source>Aft Diameter</source>
+      <translation>Akterdiameter</translation>
     </message>
     <message>
-      <location filename="../../Ui/TaskPanelRailGuide.py" line="130"/>
-      <source>V Angle</source>
-      <translation>V-vinkel</translation>
+      <location filename="../../Ui/DialogLookup.py" line="505"/>
+      <source>Fore Shoulder Diameter</source>
+      <translation>Diameter på främre axeln</translation>
     </message>
     <message>
-      <location filename="../../Ui/TaskPanelRailGuide.py" line="156"/>
-      <source>Notch</source>
-      <translation>Hack</translation>
+      <location filename="../../Ui/DialogLookup.py" line="506"/>
+      <source>Fore Shoulder Length</source>
+      <translation>Fram axellängd</translation>
     </message>
     <message>
-      <location filename="../../Ui/TaskPanelRailGuide.py" line="165"/>
-      <source>Depth</source>
-      <translation>Djup</translation>
+      <location filename="../../Ui/DialogLookup.py" line="507"/>
+      <source>Aft Shoulder Diameter</source>
+      <translation>Akter axeldiameter</translation>
     </message>
     <message>
-      <location filename="../../Ui/DialogThrustToWeight.py" line="49"/>
-      <source>Minimum Thrust to Weight Calculator</source>
-      <translation>Kalkylator för minsta tryckkraft i förhållande till vikt</translation>
+      <location filename="../../Ui/DialogLookup.py" line="508"/>
+      <source>Aft Shoulder Length</source>
+      <translation>Aft axellängd</translation>
     </message>
     <message>
-      <location filename="../../Ui/DialogThrustToWeight.py" line="53"/>
-      <source>Weight</source>
-      <translation>Vikt</translation>
+      <location filename="../../Ui/DialogLookup.py" line="540"/>
+      <source>Finish</source>
+      <translation>Slutför</translation>
     </message>
     <message>
-      <location filename="../../Ui/DialogThrustToWeight.py" line="61"/>
-      <source>Minimum Thrust</source>
-      <translation>Minsta tryckkraft</translation>
+      <location filename="../../Ui/DialogLookup.py" line="546"/>
+      <source>Screw Height</source>
+      <translation>Skruvhöjd</translation>
     </message>
     <message>
-      <location filename="../../RocketGui.py" line="160"/>
+      <location filename="../../RocketGui.py" line="131"/>
+      <location filename="../../RocketGui.py" line="130"/>
+      <location filename="../../InitGui.py" line="105"/>
+      <source>Calculators</source>
+      <translation>Kalkylatorer</translation>
+    </message>
+    <message>
+      <location filename="../../InitGui.py" line="117"/>
+      <location filename="../../InitGui.py" line="112"/>
+      <source>Analysis</source>
+      <translation>Analys</translation>
+    </message>
+    <message>
+      <location filename="../../RocketGui.py" line="145"/>
+      <location filename="../../RocketGui.py" line="144"/>
+      <source>Scaling Tools</source>
+      <translation>Verktyg för skalning</translation>
+    </message>
+    <message>
       <location filename="../../RocketGui.py" line="159"/>
+      <location filename="../../RocketGui.py" line="158"/>
       <source>Body Tubes</source>
       <translation>Kroppsrör</translation>
     </message>
     <message>
-      <location filename="../../RocketGui.py" line="175"/>
       <location filename="../../RocketGui.py" line="174"/>
+      <location filename="../../RocketGui.py" line="173"/>
       <source>Launch Guides</source>
       <translation>Lanseringsguider</translation>
     </message>
     <message>
-      <location filename="../../Rocket/ShapeHandlers/RailGuideShapeHandler.py" line="109"/>
+      <location filename="../../Rocket/Constants.py" line="163"/>
+      <source>Top of the parent component</source>
+      <translation>Överst på den överordnade komponenten</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/Constants.py" line="164"/>
+      <source>Middle of the parent component</source>
+      <translation>Mitten av den överordnade komponenten</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/Constants.py" line="165"/>
+      <source>Bottom of the parent component</source>
+      <translation>Botten på den överordnade komponenten</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/Constants.py" line="166"/>
+      <source>Base of the rocket</source>
+      <translation>Raketens bas</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/Constants.py" line="167"/>
+      <source>After the target component</source>
+      <translation>Efter målkomponenten</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/Constants.py" line="168"/>
+      <source>Surface of the parent component</source>
+      <translation>Ytan på den överordnade komponenten</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/Constants.py" line="169"/>
+      <source>Center of the parent component</source>
+      <translation>Den överordnade komponentens mittpunkt</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/RocketComponentShapeless.py" line="590"/>
+      <source>setAxialOffset is broken -- attempted to update as NaN: </source>
+      <translation>setAxialOffset är trasig -- försökte uppdatera som NaN: </translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/RocketComponentShapeless.py" line="674"/>
+      <source>component {} is already in a tree</source>
+      <translation>komponent {} är redan i ett träd</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/RocketComponentShapeless.py" line="678"/>
+      <source>Component {} is a parent of {}, attempting to create cycle in tree.</source>
+      <translation>Komponent {} är förälder till {} och försöker skapa en cykel i trädet.</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/RocketComponentShapeless.py" line="682"/>
+      <source>Unsupported configuration: {}  not currently compatible with component: {}</source>
+      <translation>Konfiguration som inte stöds: {} för närvarande inte kompatibel med komponent: {}</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/RocketComponentShapeless.py" line="773"/>
+      <source>getRocket() called with root component {}</source>
+      <translation>getRocket() anropas med rotkomponent {}</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/RocketComponentShapeless.py" line="785"/>
+      <source>getStage() called on hierarchy without a FeatureStage component.</source>
+      <translation>getStage() anropas på en hierarki utan en FeatureStage-komponent.</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/ShapeHandlers/WindTunnelShapeHandler.py" line="48"/>
+      <source>Wind tunnel diameter must be greater than zero</source>
+      <translation>Vindtunnelns diameter måste vara större än noll</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/ShapeHandlers/WindTunnelShapeHandler.py" line="51"/>
+      <source>Wind tunnel length must be greater than zero</source>
+      <translation>Vindtunnelns längd måste vara större än noll</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/ShapeHandlers/WindTunnelShapeHandler.py" line="64"/>
+      <source>Wind tunnel parameters produce an invalid shape</source>
+      <translation>Vindtunnelparametrar ger en ogiltig form</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Ui/TaskPanelCFDRocket.py" line="45"/>
+      <source>CFD Rocket Parameter</source>
+      <translation>CFD Raket Parameter</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Ui/TaskPanelCFDRocket.py" line="48"/>
+      <source>Angle of Attack</source>
+      <translation>Angreppsvinkel</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Ui/TaskPanelCFDRocket.py" line="54"/>
+      <source>Rotation</source>
+      <translation>Rotation</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Ui/TaskPanelWindTunnel.py" line="57"/>
+      <source>Wind Tunnel Parameter</source>
+      <translation>Parameter för vindtunnel</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Ui/TaskPanelMultiCFD.py" line="181"/>
+      <source>Time: </source>
+      <translation>Tid: </translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Ui/TaskPanelMultiCFD.py" line="253"/>
+      <source>Preparing report...</source>
+      <translation>Förbereda rapport...</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Ui/TaskPanelMultiCFD.py" line="259"/>
+      <source>Report complete</source>
+      <translation>Rapporten är komplett</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Ui/TaskPanelMultiCFD.py" line="291"/>
+      <source>Preparing for AOA={}...</source>
+      <translation>Förbereder för AOA={}...</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Ui/TaskPanelMultiCFD.py" line="298"/>
+      <source>No rocket found</source>
+      <translation>Ingen raket hittades</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeaturePod.py" line="147"/>
+      <source>found a pod positioned via: AFTER, but is not on the centerline?!: {}  is {}</source>
+      <translation>hittade en pod placerad via: AFTER, men är inte på mittlinjen?! {} är {}</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureFinCan.py" line="195"/>
+      <source>Unknown fin can style</source>
+      <translation>Okänd fin kan stil</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/Importer/OpenRocket/OpenRocket.py" line="177"/>
+      <location filename="../../Rocket/Importer/Rocksim/Rocksim.py" line="208"/>
+      <source>Unable to complete import</source>
+      <translation>Det går inte att slutföra importen</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/Importer/OpenRocket/OpenRocket.py" line="63"/>
+      <source>Unsupported OpenRocket file version {}</source>
+      <translation>Filversion OpenRocket stöds inte {}</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/Importer/OpenRocket/InnerTubeElement.py" line="65"/>
+      <source>Unknown cluster configuration</source>
+      <translation>Okänd konfiguration av kluster</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ComponentAssembly.py" line="66"/>
+      <source>A Stage requires a parent before any positioning!</source>
+      <translation>En Stage kräver en förälder innan positionering!</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/RailGuideShapeHandler.py" line="80"/>
+      <source>Middle width must be greater than zero</source>
+      <translation>Mittenbredden måste vara större än noll</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/RailGuideShapeHandler.py" line="84"/>
+      <source>Flange width must be greater than the middle width</source>
+      <translation>Flänsens bredd måste vara större än mittbredden</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/RailGuideShapeHandler.py" line="88"/>
+      <source>Base width must be greater than the middle width</source>
+      <translation>Basbredden måste vara större än mittbredden</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/RailGuideShapeHandler.py" line="92"/>
+      <source>Top height must be greater than zero</source>
+      <translation>Topphöjden måste vara större än noll</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/RailGuideShapeHandler.py" line="96"/>
+      <source>Base height must be greater than zero</source>
+      <translation>Bashöjden måste vara större än noll</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/RailGuideShapeHandler.py" line="100"/>
+      <source>Total height must be greater than the sum of top and base height</source>
+      <translation>Totalhöjden måste vara större än summan av topp- och bashöjden</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/RailGuideShapeHandler.py" line="104"/>
+      <source>Length must be greater than zero</source>
+      <translation>Längd måste vara större än noll</translation>
+    </message>
+    <message>
       <location filename="../../Rocket/ShapeHandlers/LaunchLugShapeHandler.py" line="61"/>
+      <location filename="../../Rocket/ShapeHandlers/RailGuideShapeHandler.py" line="109"/>
       <source>Forward sweep angle must be greater than 0 degrees and less than 90 degrees</source>
       <translation>Framåtriktad svepvinkel måste vara större än 0 grader och mindre än 90 grader</translation>
     </message>
     <message>
-      <location filename="../../Rocket/ShapeHandlers/RailGuideShapeHandler.py" line="114"/>
       <location filename="../../Rocket/ShapeHandlers/LaunchLugShapeHandler.py" line="66"/>
+      <location filename="../../Rocket/ShapeHandlers/RailGuideShapeHandler.py" line="114"/>
       <source>Aft sweep angle must be greater than 0 degrees and less than 90 degrees</source>
       <translation>Aft-svepvinkeln måste vara större än 0 grader och mindre än 90 grader</translation>
     </message>
     <message>
-      <location filename="../../Rocket/ShapeHandlers/FinCanShapeHandler.py" line="358"/>
-      <location filename="../../Rocket/ShapeHandlers/LaunchLugShapeHandler.py" line="172"/>
-      <source>Launch lug parameters produce an invalid shape</source>
-      <translation>Parametrarna för startklackar ger en ogiltig form</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/ShapeHandlers/InnerTubeShapeHandler.py" line="94"/>
-      <source>Inner tube parameters produce an invalid shape</source>
-      <translation>Parametrarna för innerröret ger en ogiltig form</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/ShapeHandlers/BodyTubeShapeHandler.py" line="71"/>
-      <source>Body tube inner diameter must be greater than zero</source>
-      <translation>Kroppsrörets innerdiameter måste vara större än noll</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/ShapeHandlers/BodyTubeShapeHandler.py" line="74"/>
-      <source>Body tube outer diameter must be greater than the inner</source>
-      <translation>Kroppsrörets ytterdiameter måste vara större än innerdiametern</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/ShapeHandlers/BodyTubeShapeHandler.py" line="77"/>
-      <source>Body tube length must be greater than zero</source>
-      <translation>Kroppsrörets längd måste vara större än noll</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/ShapeHandlers/RingtailShapeHandler.py" line="147"/>
-      <location filename="../../Rocket/ShapeHandlers/RingtailShapeHandler.py" line="144"/>
-      <location filename="../../Rocket/ShapeHandlers/RingtailShapeHandler.py" line="132"/>
-      <location filename="../../Rocket/ShapeHandlers/RingtailShapeHandler.py" line="121"/>
-      <location filename="../../Rocket/ShapeHandlers/RingtailShapeHandler.py" line="118"/>
-      <location filename="../../Rocket/ShapeHandlers/RingtailShapeHandler.py" line="108"/>
-      <location filename="../../Rocket/ShapeHandlers/BodyTubeShapeHandler.py" line="152"/>
-      <location filename="../../Rocket/ShapeHandlers/BodyTubeShapeHandler.py" line="149"/>
-      <location filename="../../Rocket/ShapeHandlers/BodyTubeShapeHandler.py" line="137"/>
-      <location filename="../../Rocket/ShapeHandlers/BodyTubeShapeHandler.py" line="126"/>
-      <location filename="../../Rocket/ShapeHandlers/BodyTubeShapeHandler.py" line="123"/>
-      <location filename="../../Rocket/ShapeHandlers/BodyTubeShapeHandler.py" line="113"/>
-      <source>Body tube parameters produce an invalid shape</source>
-      <translation>Parametrar för kroppsrör ger en ogiltig form</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/ShapeHandlers/TransitionParabolicShapeHandler.py" line="38"/>
-      <source>For %s transitions the coefficient must be in the range (0 &lt;= coefficient &lt;= 1)</source>
-      <translation>För %s-övergångar måste koefficienten ligga inom intervallet (0 &lt;= koefficient &lt;= 1)</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/ShapeHandlers/RingtailShapeHandler.py" line="66"/>
-      <source>Ring tail inner diameter must be greater than zero</source>
-      <translation>Ringens innerdiameter måste vara större än noll</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/ShapeHandlers/RingtailShapeHandler.py" line="69"/>
-      <source>Ring tail outer diameter must be greater than the inner</source>
-      <translation>Ringens ytterdiameter måste vara större än innerdiametern</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/ShapeHandlers/RingtailShapeHandler.py" line="72"/>
-      <source>Ring tail length must be greater than zero</source>
-      <translation>Ringens svanslängd måste vara större än noll</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/ShapeHandlers/FinTriangleShapeHandler.py" line="146"/>
-      <location filename="../../Rocket/ShapeHandlers/FinShapeHandler.py" line="551"/>
-      <location filename="../../Rocket/ShapeHandlers/FinTrapezoidShapeHandler.py" line="80"/>
-      <source>Ttw offset must be less than the root chord</source>
-      <translation>Ttw-förskjutningen måste vara mindre än grundackordet</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/ShapeHandlers/FinTriangleShapeHandler.py" line="149"/>
-      <location filename="../../Rocket/ShapeHandlers/FinShapeHandler.py" line="554"/>
-      <location filename="../../Rocket/ShapeHandlers/FinTrapezoidShapeHandler.py" line="83"/>
-      <source>Ttw length must be greater than 0</source>
-      <translation>Ttw-längden måste vara större än 0</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/ShapeHandlers/FinTriangleShapeHandler.py" line="152"/>
-      <location filename="../../Rocket/ShapeHandlers/FinShapeHandler.py" line="557"/>
-      <location filename="../../Rocket/ShapeHandlers/FinTrapezoidShapeHandler.py" line="86"/>
-      <source>Ttw height must be greater than 0</source>
-      <translation>Ttw-höjden måste vara större än 0</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/ShapeHandlers/FinTriangleShapeHandler.py" line="155"/>
-      <location filename="../../Rocket/ShapeHandlers/FinShapeHandler.py" line="560"/>
-      <location filename="../../Rocket/ShapeHandlers/FinTrapezoidShapeHandler.py" line="89"/>
-      <source>Ttw thickness must be greater than 0</source>
-      <translation>Ttw-tjockleken måste vara större än 0</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/ShapeHandlers/NoseHaackShapeHandler.py" line="40"/>
-      <source>For %s nose cones the coefficient must be &gt;= 0</source>
-      <translation>För %s nosflänsar måste koefficienten vara &gt;= 0</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/ShapeHandlers/TransitionPowerShapeHandler.py" line="40"/>
-      <source>For %s transitions the coefficient must be in the range (0 &lt; coefficient &lt;= 1)</source>
-      <translation>För %s-övergångar måste koefficienten ligga inom intervallet (0 &lt; koefficient &lt;= 1)</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/ShapeHandlers/CenteringRingShapeHandler.py" line="59"/>
-      <source>Centering ring center diameter must be less than the outer diameter</source>
-      <translation>Centreringsringens centrumdiameter måste vara mindre än ytterdiametern</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/ShapeHandlers/CenteringRingShapeHandler.py" line="64"/>
-      <source>Centering ring center diameter must be less than the step diameter</source>
-      <translation>Centreringsringens centrumdiameter måste vara mindre än stegdiametern</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/ShapeHandlers/CenteringRingShapeHandler.py" line="69"/>
-      <source>The notch width must be less than or equal to the center diameter</source>
-      <translation>Skårans bredd måste vara mindre än eller lika med centrumdiametern</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/ShapeHandlers/CenteringRingShapeHandler.py" line="72"/>
-      <source>The notch width must be greater than zero</source>
+      <location filename="../../Rocket/ShapeHandlers/RailGuideShapeHandler.py" line="119"/>
+      <source>Notch width must be greater than zero</source>
       <translation>Skårans bredd måste vara större än noll</translation>
     </message>
     <message>
-      <location filename="../../Rocket/ShapeHandlers/CenteringRingShapeHandler.py" line="75"/>
-      <source>The notch height must be greater than zero</source>
-      <translation>Skårans höjd måste vara större än noll</translation>
+      <location filename="../../Rocket/ShapeHandlers/RailGuideShapeHandler.py" line="123"/>
+      <source>Notch width can not exceed the middle width</source>
+      <translation>Skårans bredd får inte överstiga mittbredden</translation>
     </message>
     <message>
-      <location filename="../../Rocket/ShapeHandlers/CenteringRingShapeHandler.py" line="80"/>
-      <source>Hole extends inside the center diameter</source>
-      <translation>Hålet sträcker sig innanför centrumdiametern</translation>
+      <location filename="../../Rocket/ShapeHandlers/RailGuideShapeHandler.py" line="127"/>
+      <source>Notch depth must be greater than zero</source>
+      <translation>Skårans djup måste vara större än noll</translation>
     </message>
     <message>
-      <location filename="../../Rocket/ShapeHandlers/CenteringRingShapeHandler.py" line="124"/>
-      <source>Centering ring parameters produce an invalid shape</source>
-      <translation>Parametrarna för centreringsringen ger en ogiltig form</translation>
+      <location filename="../../Rocket/ShapeHandlers/RailGuideShapeHandler.py" line="131"/>
+      <source>Notch depth can not exceed the total height</source>
+      <translation>Skårans djup får inte överstiga den totala höjden</translation>
     </message>
     <message>
-      <location filename="../../Rocket/ShapeHandlers/FinCanShapeHandler.py" line="94"/>
-      <source>Fin can thickness must be greater than zero</source>
-      <translation>Finfördelningens tjocklek måste vara större än noll</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/ShapeHandlers/FinCanShapeHandler.py" line="97"/>
-      <source>Fin can length must be greater than zero</source>
-      <translation>Finburkens längd måste vara större än noll</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/ShapeHandlers/FinCanShapeHandler.py" line="106"/>
-      <source>Fin can leading and trailing edges can not exceed total length</source>
-      <translation>Finnernas fram- och bakkanter får inte överstiga den totala längden</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/ShapeHandlers/FinCanShapeHandler.py" line="111"/>
-      <source>Coupler length must be greater than zero</source>
-      <translation>Kopplingens längd måste vara större än noll</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/ShapeHandlers/FinCanShapeHandler.py" line="114"/>
-      <source>Coupler thickness must be greater than zero</source>
-      <translation>Kopplingens tjocklek måste vara större än noll</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/ShapeHandlers/FinCanShapeHandler.py" line="117"/>
-      <source>Coupler outer diameter must be greater than the inner diameter</source>
-      <translation>Kopplingens ytterdiameter måste vara större än innerdiametern</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/ShapeHandlers/FinCanShapeHandler.py" line="120"/>
-      <source>Coupler inner diameter must be less than or equal to the fin can inner diameter</source>
-      <translation>Kopplingens innerdiameter måste vara mindre än eller lika med fenburkens innerdiameter</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/ShapeHandlers/FinCanShapeHandler.py" line="123"/>
-      <source>Coupler outer diameter must be less than fin can outer diameter</source>
-      <translation>Kopplingens ytterdiameter måste vara mindre än fenburkens ytterdiameter</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/ShapeHandlers/FinCanShapeHandler.py" line="453"/>
-      <source>Fin can parameters produce an invalid shape</source>
-      <translation>Fin kan parametrar producera en ogiltig form</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/ShapeHandlers/RailButtonShapeHandler.py" line="72"/>
-      <location filename="../../Rocket/ShapeHandlers/BulkheadShapeHandler.py" line="68"/>
-      <source>Outer diameter must be greater than zero</source>
-      <translation>Ytterdiametern måste vara större än noll</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/ShapeHandlers/BulkheadShapeHandler.py" line="73"/>
-      <source>Step diameter must be greater than zero</source>
-      <translation>Stegdiametern måste vara större än noll</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/ShapeHandlers/BulkheadShapeHandler.py" line="76"/>
-      <source>Step diameter must less than the outer diameter</source>
-      <translation>Stegdiametern måste vara mindre än ytterdiametern</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/ShapeHandlers/BulkheadShapeHandler.py" line="81"/>
-      <source>Hole diameter must be greater than zero</source>
-      <translation>Hålets diameter måste vara större än noll</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/ShapeHandlers/BulkheadShapeHandler.py" line="84"/>
-      <source>Hole extends outside the outer diameter</source>
-      <translation>Hålet sträcker sig utanför ytterdiametern</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/ShapeHandlers/BulkheadShapeHandler.py" line="88"/>
-      <source>Hole extends outside the step diameter</source>
-      <translation>Hålet sträcker sig utanför stegdiametern</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/ShapeHandlers/BulkheadShapeHandler.py" line="136"/>
-      <source>Bulkhead parameters produce an invalid shape</source>
-      <translation>Parametrar för skott ger en ogiltig form</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/ShapeHandlers/RailButtonShapeHandler.py" line="75"/>
-      <source>Inner diameter must be greater than zero</source>
-      <translation>Innerdiametern måste vara större än noll</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/ShapeHandlers/RailButtonShapeHandler.py" line="78"/>
-      <source>Outer diameter must be greater than the inner diameter</source>
-      <translation>Ytterdiametern måste vara större än innerdiametern</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/ShapeHandlers/RailButtonShapeHandler.py" line="81"/>
-      <source>Top height must be greater than or equal to zero</source>
-      <translation>Topphöjden måste vara större än eller lika med noll</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/ShapeHandlers/RailButtonShapeHandler.py" line="84"/>
-      <source>Base height must be greater than or equal to zero</source>
-      <translation>Bashöjden måste vara större än eller lika med noll</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/ShapeHandlers/RailButtonShapeHandler.py" line="87"/>
-      <source>Height must be greater than zero</source>
-      <translation>Höjden måste vara större än noll</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/ShapeHandlers/RailButtonShapeHandler.py" line="90"/>
-      <source>Top and base height can not exceed the total height</source>
-      <translation>Topp- och bashöjd får inte överstiga totalhöjden</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/ShapeHandlers/RailButtonShapeHandler.py" line="95"/>
-      <source>Length must be greater than zero for airfoil rail buttons</source>
-      <translation>Längd måste vara större än noll för knappar på profilskenor</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/ShapeHandlers/RailButtonShapeHandler.py" line="99"/>
-      <source>Length must be greater than the outer diameter for airfoil rail buttons</source>
-      <translation>Längden måste vara större än ytterdiametern för profilskena</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/ShapeHandlers/RailButtonShapeHandler.py" line="224"/>
-      <source>Rail button parameters produce an invalid shape</source>
-      <translation>Parametrar för järnvägsknapp ger en ogiltig form</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/ShapeHandlers/FinShapeHandler.py" line="774"/>
-      <source>Fin parameters produce an invalid shape</source>
-      <translation type="unfinished"/>
+      <location filename="../../Rocket/ShapeHandlers/RailGuideShapeHandler.py" line="328"/>
+      <source>Rail Guide parameters produce an invalid shape</source>
+      <translation>Parametrarna för Rail Guide ger en ogiltig form</translation>
     </message>
     <message>
       <location filename="../../Rocket/ShapeHandlers/TransitionShapeHandler.py" line="124"/>
@@ -2768,6 +2764,84 @@
       <translation>Forward cap style ger en ogiltig form</translation>
     </message>
     <message>
+      <location filename="../../Rocket/ShapeHandlers/CenteringRingShapeHandler.py" line="59"/>
+      <source>Centering ring center diameter must be less than the outer diameter</source>
+      <translation>Centreringsringens centrumdiameter måste vara mindre än ytterdiametern</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/CenteringRingShapeHandler.py" line="64"/>
+      <source>Centering ring center diameter must be less than the step diameter</source>
+      <translation>Centreringsringens centrumdiameter måste vara mindre än stegdiametern</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/CenteringRingShapeHandler.py" line="69"/>
+      <source>The notch width must be less than or equal to the center diameter</source>
+      <translation>Skårans bredd måste vara mindre än eller lika med centrumdiametern</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/CenteringRingShapeHandler.py" line="72"/>
+      <source>The notch width must be greater than zero</source>
+      <translation>Skårans bredd måste vara större än noll</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/CenteringRingShapeHandler.py" line="75"/>
+      <source>The notch height must be greater than zero</source>
+      <translation>Skårans höjd måste vara större än noll</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/CenteringRingShapeHandler.py" line="80"/>
+      <source>Hole extends inside the center diameter</source>
+      <translation>Hålet sträcker sig innanför centrumdiametern</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/CenteringRingShapeHandler.py" line="124"/>
+      <source>Centering ring parameters produce an invalid shape</source>
+      <translation>Parametrarna för centreringsringen ger en ogiltig form</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/BodyTubeShapeHandler.py" line="71"/>
+      <source>Body tube inner diameter must be greater than zero</source>
+      <translation>Kroppsrörets innerdiameter måste vara större än noll</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/BodyTubeShapeHandler.py" line="74"/>
+      <source>Body tube outer diameter must be greater than the inner</source>
+      <translation>Kroppsrörets ytterdiameter måste vara större än innerdiametern</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/BodyTubeShapeHandler.py" line="77"/>
+      <source>Body tube length must be greater than zero</source>
+      <translation>Kroppsrörets längd måste vara större än noll</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/RingtailShapeHandler.py" line="147"/>
+      <location filename="../../Rocket/ShapeHandlers/RingtailShapeHandler.py" line="144"/>
+      <location filename="../../Rocket/ShapeHandlers/RingtailShapeHandler.py" line="132"/>
+      <location filename="../../Rocket/ShapeHandlers/RingtailShapeHandler.py" line="121"/>
+      <location filename="../../Rocket/ShapeHandlers/RingtailShapeHandler.py" line="118"/>
+      <location filename="../../Rocket/ShapeHandlers/RingtailShapeHandler.py" line="108"/>
+      <location filename="../../Rocket/ShapeHandlers/BodyTubeShapeHandler.py" line="152"/>
+      <location filename="../../Rocket/ShapeHandlers/BodyTubeShapeHandler.py" line="149"/>
+      <location filename="../../Rocket/ShapeHandlers/BodyTubeShapeHandler.py" line="137"/>
+      <location filename="../../Rocket/ShapeHandlers/BodyTubeShapeHandler.py" line="126"/>
+      <location filename="../../Rocket/ShapeHandlers/BodyTubeShapeHandler.py" line="123"/>
+      <location filename="../../Rocket/ShapeHandlers/BodyTubeShapeHandler.py" line="113"/>
+      <source>Body tube parameters produce an invalid shape</source>
+      <translation>Parametrar för kroppsrör ger en ogiltig form</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/NoseProxyShapeHandler.py" line="168"/>
+      <location filename="../../Rocket/ShapeHandlers/NoseProxyShapeHandler.py" line="161"/>
+      <location filename="../../Rocket/ShapeHandlers/NoseProxyShapeHandler.py" line="113"/>
+      <source>Nose cone shoulder parameters produce an invalid shape</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/NosePowerShapeHandler.py" line="40"/>
+      <source>For %s nose cones the coefficient must be in the range (0 &lt; coefficient &lt;= 1)</source>
+      <translation>För %s näskoner måste koefficienten ligga inom intervallet (0 &lt; koefficient &lt;= 1)</translation>
+    </message>
+    <message>
       <location filename="../../Rocket/ShapeHandlers/FinSketchShapeHandler.py" line="48"/>
       <source>shape is empty</source>
       <translation>formen är tom</translation>
@@ -2788,24 +2862,144 @@
       <translation>Kan inte hantera andra former än linjer</translation>
     </message>
     <message>
-      <location filename="../../Rocket/ShapeHandlers/FinTubeShapeHandler.py" line="47"/>
-      <source>Ttw tabs are not supported for tube fins</source>
-      <translation>Ttw-flikar stöds inte för rörfenor</translation>
+      <location filename="../../Rocket/ShapeHandlers/FinShapeHandler.py" line="551"/>
+      <location filename="../../Rocket/ShapeHandlers/FinTrapezoidShapeHandler.py" line="80"/>
+      <location filename="../../Rocket/ShapeHandlers/FinTriangleShapeHandler.py" line="146"/>
+      <source>Ttw offset must be less than the root chord</source>
+      <translation>Ttw-förskjutningen måste vara mindre än grundackordet</translation>
     </message>
     <message>
-      <location filename="../../Rocket/ShapeHandlers/NoseParabolicShapeHandler.py" line="39"/>
-      <source>For %s nose cones the coefficient must be in the range (0 &lt;= coefficient &lt;= 1)</source>
-      <translation>För %s näskoner måste koefficienten ligga inom intervallet (0 &lt;= koefficient &lt;= 1)</translation>
+      <location filename="../../Rocket/ShapeHandlers/FinShapeHandler.py" line="554"/>
+      <location filename="../../Rocket/ShapeHandlers/FinTrapezoidShapeHandler.py" line="83"/>
+      <location filename="../../Rocket/ShapeHandlers/FinTriangleShapeHandler.py" line="149"/>
+      <source>Ttw length must be greater than 0</source>
+      <translation>Ttw-längden måste vara större än 0</translation>
     </message>
     <message>
-      <location filename="../../Rocket/ShapeHandlers/NosePowerShapeHandler.py" line="40"/>
-      <source>For %s nose cones the coefficient must be in the range (0 &lt; coefficient &lt;= 1)</source>
-      <translation>För %s näskoner måste koefficienten ligga inom intervallet (0 &lt; koefficient &lt;= 1)</translation>
+      <location filename="../../Rocket/ShapeHandlers/FinShapeHandler.py" line="557"/>
+      <location filename="../../Rocket/ShapeHandlers/FinTrapezoidShapeHandler.py" line="86"/>
+      <location filename="../../Rocket/ShapeHandlers/FinTriangleShapeHandler.py" line="152"/>
+      <source>Ttw height must be greater than 0</source>
+      <translation>Ttw-höjden måste vara större än 0</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/FinShapeHandler.py" line="560"/>
+      <location filename="../../Rocket/ShapeHandlers/FinTrapezoidShapeHandler.py" line="89"/>
+      <location filename="../../Rocket/ShapeHandlers/FinTriangleShapeHandler.py" line="155"/>
+      <source>Ttw thickness must be greater than 0</source>
+      <translation>Ttw-tjockleken måste vara större än 0</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/RailButtonShapeHandler.py" line="72"/>
+      <location filename="../../Rocket/ShapeHandlers/BulkheadShapeHandler.py" line="68"/>
+      <source>Outer diameter must be greater than zero</source>
+      <translation>Ytterdiametern måste vara större än noll</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/BulkheadShapeHandler.py" line="73"/>
+      <source>Step diameter must be greater than zero</source>
+      <translation>Stegdiametern måste vara större än noll</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/BulkheadShapeHandler.py" line="76"/>
+      <source>Step diameter must less than the outer diameter</source>
+      <translation>Stegdiametern måste vara mindre än ytterdiametern</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/BulkheadShapeHandler.py" line="81"/>
+      <source>Hole diameter must be greater than zero</source>
+      <translation>Hålets diameter måste vara större än noll</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/BulkheadShapeHandler.py" line="84"/>
+      <source>Hole extends outside the outer diameter</source>
+      <translation>Hålet sträcker sig utanför ytterdiametern</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/BulkheadShapeHandler.py" line="88"/>
+      <source>Hole extends outside the step diameter</source>
+      <translation>Hålet sträcker sig utanför stegdiametern</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/BulkheadShapeHandler.py" line="136"/>
+      <source>Bulkhead parameters produce an invalid shape</source>
+      <translation>Parametrar för skott ger en ogiltig form</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/FinCanShapeHandler.py" line="94"/>
+      <source>Fin can thickness must be greater than zero</source>
+      <translation>Finfördelningens tjocklek måste vara större än noll</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/FinCanShapeHandler.py" line="97"/>
+      <source>Fin can length must be greater than zero</source>
+      <translation>Finburkens längd måste vara större än noll</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/FinCanShapeHandler.py" line="106"/>
+      <source>Fin can leading and trailing edges can not exceed total length</source>
+      <translation>Finnernas fram- och bakkanter får inte överstiga den totala längden</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/FinCanShapeHandler.py" line="111"/>
+      <source>Coupler length must be greater than zero</source>
+      <translation>Kopplingens längd måste vara större än noll</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/FinCanShapeHandler.py" line="114"/>
+      <source>Coupler thickness must be greater than zero</source>
+      <translation>Kopplingens tjocklek måste vara större än noll</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/FinCanShapeHandler.py" line="117"/>
+      <source>Coupler outer diameter must be greater than the inner diameter</source>
+      <translation>Kopplingens ytterdiameter måste vara större än innerdiametern</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/FinCanShapeHandler.py" line="120"/>
+      <source>Coupler inner diameter must be less than or equal to the fin can inner diameter</source>
+      <translation>Kopplingens innerdiameter måste vara mindre än eller lika med fenburkens innerdiameter</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/FinCanShapeHandler.py" line="123"/>
+      <source>Coupler outer diameter must be less than fin can outer diameter</source>
+      <translation>Kopplingens ytterdiameter måste vara mindre än fenburkens ytterdiameter</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/LaunchLugShapeHandler.py" line="172"/>
+      <location filename="../../Rocket/ShapeHandlers/FinCanShapeHandler.py" line="358"/>
+      <source>Launch lug parameters produce an invalid shape</source>
+      <translation>Parametrarna för startklackar ger en ogiltig form</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/FinCanShapeHandler.py" line="453"/>
+      <source>Fin can parameters produce an invalid shape</source>
+      <translation>Fin kan parametrar producera en ogiltig form</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/RingtailShapeHandler.py" line="66"/>
+      <source>Ring tail inner diameter must be greater than zero</source>
+      <translation>Ringens innerdiameter måste vara större än noll</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/RingtailShapeHandler.py" line="69"/>
+      <source>Ring tail outer diameter must be greater than the inner</source>
+      <translation>Ringens ytterdiameter måste vara större än innerdiametern</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/RingtailShapeHandler.py" line="72"/>
+      <source>Ring tail length must be greater than zero</source>
+      <translation>Ringens svanslängd måste vara större än noll</translation>
     </message>
     <message>
       <location filename="../../Rocket/ShapeHandlers/TransitionHaackShapeHandler.py" line="40"/>
       <source>For %s transitions the coefficient must be &gt;= 0</source>
       <translation>För %s-övergångar måste koefficienten vara &gt;= 0</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/TransitionParabolicShapeHandler.py" line="38"/>
+      <source>For %s transitions the coefficient must be in the range (0 &lt;= coefficient &lt;= 1)</source>
+      <translation>För %s-övergångar måste koefficienten ligga inom intervallet (0 &lt;= koefficient &lt;= 1)</translation>
     </message>
     <message>
       <location filename="../../Rocket/ShapeHandlers/NoseShapeHandler.py" line="121"/>
@@ -2863,279 +3057,123 @@
       <translation>Nose cone cap-stilen ger en ogiltig form</translation>
     </message>
     <message>
-      <location filename="../../Rocket/ShapeHandlers/RailGuideShapeHandler.py" line="80"/>
-      <source>Middle width must be greater than zero</source>
-      <translation>Mittenbredden måste vara större än noll</translation>
+      <location filename="../../Rocket/ShapeHandlers/NoseHaackShapeHandler.py" line="40"/>
+      <source>For %s nose cones the coefficient must be &gt;= 0</source>
+      <translation>För %s nosflänsar måste koefficienten vara &gt;= 0</translation>
     </message>
     <message>
-      <location filename="../../Rocket/ShapeHandlers/RailGuideShapeHandler.py" line="84"/>
-      <source>Flange width must be greater than the middle width</source>
-      <translation>Flänsens bredd måste vara större än mittbredden</translation>
+      <location filename="../../Rocket/ShapeHandlers/TransitionPowerShapeHandler.py" line="40"/>
+      <source>For %s transitions the coefficient must be in the range (0 &lt; coefficient &lt;= 1)</source>
+      <translation>För %s-övergångar måste koefficienten ligga inom intervallet (0 &lt; koefficient &lt;= 1)</translation>
     </message>
     <message>
-      <location filename="../../Rocket/ShapeHandlers/RailGuideShapeHandler.py" line="88"/>
-      <source>Base width must be greater than the middle width</source>
-      <translation>Basbredden måste vara större än mittbredden</translation>
+      <location filename="../../Rocket/ShapeHandlers/InnerTubeShapeHandler.py" line="94"/>
+      <source>Inner tube parameters produce an invalid shape</source>
+      <translation>Parametrarna för innerröret ger en ogiltig form</translation>
     </message>
     <message>
-      <location filename="../../Rocket/ShapeHandlers/RailGuideShapeHandler.py" line="92"/>
-      <source>Top height must be greater than zero</source>
-      <translation>Topphöjden måste vara större än noll</translation>
+      <location filename="../../Rocket/ShapeHandlers/FinTubeShapeHandler.py" line="47"/>
+      <source>Ttw tabs are not supported for tube fins</source>
+      <translation>Ttw-flikar stöds inte för rörfenor</translation>
     </message>
     <message>
-      <location filename="../../Rocket/ShapeHandlers/RailGuideShapeHandler.py" line="96"/>
-      <source>Base height must be greater than zero</source>
-      <translation>Bashöjden måste vara större än noll</translation>
+      <location filename="../../Rocket/ShapeHandlers/FinShapeHandler.py" line="774"/>
+      <source>Fin parameters produce an invalid shape</source>
+      <translation>Fin-parametrar ger en ogiltig form</translation>
     </message>
     <message>
-      <location filename="../../Rocket/ShapeHandlers/RailGuideShapeHandler.py" line="100"/>
-      <source>Total height must be greater than the sum of top and base height</source>
-      <translation>Totalhöjden måste vara större än summan av topp- och bashöjden</translation>
+      <location filename="../../Rocket/ShapeHandlers/RailButtonShapeHandler.py" line="75"/>
+      <source>Inner diameter must be greater than zero</source>
+      <translation>Innerdiametern måste vara större än noll</translation>
     </message>
     <message>
-      <location filename="../../Rocket/ShapeHandlers/RailGuideShapeHandler.py" line="104"/>
-      <source>Length must be greater than zero</source>
-      <translation>Längd måste vara större än noll</translation>
+      <location filename="../../Rocket/ShapeHandlers/RailButtonShapeHandler.py" line="78"/>
+      <source>Outer diameter must be greater than the inner diameter</source>
+      <translation>Ytterdiametern måste vara större än innerdiametern</translation>
     </message>
     <message>
-      <location filename="../../Rocket/ShapeHandlers/RailGuideShapeHandler.py" line="119"/>
-      <source>Notch width must be greater than zero</source>
-      <translation>Skårans bredd måste vara större än noll</translation>
+      <location filename="../../Rocket/ShapeHandlers/RailButtonShapeHandler.py" line="81"/>
+      <source>Top height must be greater than or equal to zero</source>
+      <translation>Topphöjden måste vara större än eller lika med noll</translation>
     </message>
     <message>
-      <location filename="../../Rocket/ShapeHandlers/RailGuideShapeHandler.py" line="123"/>
-      <source>Notch width can not exceed the middle width</source>
-      <translation>Skårans bredd får inte överstiga mittbredden</translation>
+      <location filename="../../Rocket/ShapeHandlers/RailButtonShapeHandler.py" line="84"/>
+      <source>Base height must be greater than or equal to zero</source>
+      <translation>Bashöjden måste vara större än eller lika med noll</translation>
     </message>
     <message>
-      <location filename="../../Rocket/ShapeHandlers/RailGuideShapeHandler.py" line="127"/>
-      <source>Notch depth must be greater than zero</source>
-      <translation>Skårans djup måste vara större än noll</translation>
+      <location filename="../../Rocket/ShapeHandlers/RailButtonShapeHandler.py" line="87"/>
+      <source>Height must be greater than zero</source>
+      <translation>Höjden måste vara större än noll</translation>
     </message>
     <message>
-      <location filename="../../Rocket/ShapeHandlers/RailGuideShapeHandler.py" line="131"/>
-      <source>Notch depth can not exceed the total height</source>
-      <translation>Skårans djup får inte överstiga den totala höjden</translation>
+      <location filename="../../Rocket/ShapeHandlers/RailButtonShapeHandler.py" line="90"/>
+      <source>Top and base height can not exceed the total height</source>
+      <translation>Topp- och bashöjd får inte överstiga totalhöjden</translation>
     </message>
     <message>
-      <location filename="../../Rocket/ShapeHandlers/RailGuideShapeHandler.py" line="328"/>
-      <source>Rail Guide parameters produce an invalid shape</source>
-      <translation>Parametrarna för Rail Guide ger en ogiltig form</translation>
+      <location filename="../../Rocket/ShapeHandlers/RailButtonShapeHandler.py" line="95"/>
+      <source>Length must be greater than zero for airfoil rail buttons</source>
+      <translation>Längd måste vara större än noll för knappar på profilskenor</translation>
     </message>
     <message>
-      <location filename="../../Rocket/ComponentAssembly.py" line="66"/>
-      <source>A Stage requires a parent before any positioning!</source>
-      <translation>En Stage kräver en förälder innan positionering!</translation>
+      <location filename="../../Rocket/ShapeHandlers/RailButtonShapeHandler.py" line="99"/>
+      <source>Length must be greater than the outer diameter for airfoil rail buttons</source>
+      <translation>Längden måste vara större än ytterdiametern för profilskena</translation>
     </message>
     <message>
-      <location filename="../../Rocket/cfd/ShapeHandlers/WindTunnelShapeHandler.py" line="48"/>
-      <source>Wind tunnel diameter must be greater than zero</source>
-      <translation>Vindtunnelns diameter måste vara större än noll</translation>
+      <location filename="../../Rocket/ShapeHandlers/RailButtonShapeHandler.py" line="224"/>
+      <source>Rail button parameters produce an invalid shape</source>
+      <translation>Parametrar för järnvägsknapp ger en ogiltig form</translation>
     </message>
     <message>
-      <location filename="../../Rocket/cfd/ShapeHandlers/WindTunnelShapeHandler.py" line="51"/>
-      <source>Wind tunnel length must be greater than zero</source>
-      <translation>Vindtunnelns längd måste vara större än noll</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/cfd/ShapeHandlers/WindTunnelShapeHandler.py" line="64"/>
-      <source>Wind tunnel parameters produce an invalid shape</source>
-      <translation>Vindtunnelparametrar ger en ogiltig form</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/cfd/Ui/TaskPanelWindTunnel.py" line="57"/>
-      <source>Wind Tunnel Parameter</source>
-      <translation>Parameter för vindtunnel</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/cfd/Ui/TaskPanelCFDRocket.py" line="45"/>
-      <source>CFD Rocket Parameter</source>
+      <location filename="../../Rocket/ShapeHandlers/TransitionProxyShapeHandler.py" line="161"/>
+      <source>Transition fore shoulder parameters produce an invalid shape</source>
       <translation type="unfinished"/>
     </message>
     <message>
-      <location filename="../../Rocket/cfd/Ui/TaskPanelCFDRocket.py" line="48"/>
-      <source>Angle of Attack</source>
+      <location filename="../../Rocket/ShapeHandlers/TransitionProxyShapeHandler.py" line="181"/>
+      <source>Transition aft shoulder parameters produce an invalid shape</source>
       <translation type="unfinished"/>
     </message>
     <message>
-      <location filename="../../Rocket/cfd/Ui/TaskPanelCFDRocket.py" line="54"/>
-      <source>Rotation</source>
+      <location filename="../../Rocket/ShapeHandlers/TransitionProxyShapeHandler.py" line="200"/>
+      <location filename="../../Rocket/ShapeHandlers/TransitionProxyShapeHandler.py" line="193"/>
+      <source>Transition for shoulder parameters produce an invalid shape</source>
       <translation type="unfinished"/>
     </message>
     <message>
-      <location filename="../../Rocket/cfd/Ui/TaskPanelMultiCFD.py" line="181"/>
-      <source>Time: </source>
+      <location filename="../../Rocket/ShapeHandlers/TransitionProxyShapeHandler.py" line="206"/>
+      <source>Transition shoulder parameters produce an invalid shape</source>
       <translation type="unfinished"/>
     </message>
     <message>
-      <location filename="../../Rocket/cfd/Ui/TaskPanelMultiCFD.py" line="253"/>
-      <source>Preparing report...</source>
-      <translation type="unfinished"/>
-    </message>
-    <message>
-      <location filename="../../Rocket/cfd/Ui/TaskPanelMultiCFD.py" line="259"/>
-      <source>Report complete</source>
-      <translation type="unfinished"/>
-    </message>
-    <message>
-      <location filename="../../Rocket/cfd/Ui/TaskPanelMultiCFD.py" line="291"/>
-      <source>Preparing for AOA={}...</source>
-      <translation type="unfinished"/>
-    </message>
-    <message>
-      <location filename="../../Rocket/cfd/Ui/TaskPanelMultiCFD.py" line="298"/>
-      <source>No rocket found</source>
-      <translation type="unfinished"/>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureFinCan.py" line="195"/>
-      <source>Unknown fin can style</source>
-      <translation>Okänd fin kan stil</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeaturePod.py" line="147"/>
-      <source>found a pod positioned via: AFTER, but is not on the centerline?!: {}  is {}</source>
-      <translation>hittade en pod placerad via: AFTER, men är inte på mittlinjen?! {} är {}</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/Importer/OpenRocket/OpenRocket.py" line="177"/>
-      <location filename="../../Rocket/Importer/Rocksim/Rocksim.py" line="208"/>
-      <source>Unable to complete import</source>
-      <translation>Det går inte att slutföra importen</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/Importer/OpenRocket/OpenRocket.py" line="63"/>
-      <source>Unsupported OpenRocket file version {}</source>
-      <translation>Filversion OpenRocket stöds inte {}</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/Importer/OpenRocket/InnerTubeElement.py" line="65"/>
-      <source>Unknown cluster configuration</source>
-      <translation>Okänd konfiguration av kluster</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/RocketComponentShapeless.py" line="590"/>
-      <source>setAxialOffset is broken -- attempted to update as NaN: </source>
-      <translation>setAxialOffset är trasig -- försökte uppdatera som NaN: </translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/RocketComponentShapeless.py" line="674"/>
-      <source>component {} is already in a tree</source>
-      <translation>komponent {} är redan i ett träd</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/RocketComponentShapeless.py" line="678"/>
-      <source>Component {} is a parent of {}, attempting to create cycle in tree.</source>
-      <translation>Komponent {} är förälder till {} och försöker skapa en cykel i trädet.</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/RocketComponentShapeless.py" line="682"/>
-      <source>Unsupported configuration: {}  not currently compatible with component: {}</source>
-      <translation type="unfinished"/>
-    </message>
-    <message>
-      <location filename="../../Rocket/RocketComponentShapeless.py" line="773"/>
-      <source>getRocket() called with root component {}</source>
-      <translation>getRocket() anropas med rotkomponent {}</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/RocketComponentShapeless.py" line="785"/>
-      <source>getStage() called on hierarchy without a FeatureStage component.</source>
-      <translation>getStage() anropas på en hierarki utan en FeatureStage-komponent.</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/Constants.py" line="162"/>
-      <source>Top of the parent component</source>
-      <translation>Överst på den överordnade komponenten</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/Constants.py" line="163"/>
-      <source>Middle of the parent component</source>
-      <translation>Mitten av den överordnade komponenten</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/Constants.py" line="164"/>
-      <source>Bottom of the parent component</source>
-      <translation>Botten på den överordnade komponenten</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/Constants.py" line="165"/>
-      <source>Base of the rocket</source>
-      <translation>Raketens bas</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/Constants.py" line="166"/>
-      <source>After the target component</source>
-      <translation>Efter målkomponenten</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/Constants.py" line="167"/>
-      <source>Surface of the parent component</source>
-      <translation>Ytan på den överordnade komponenten</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/Constants.py" line="168"/>
-      <source>Center of the parent component</source>
-      <translation>Den överordnade komponentens mittpunkt</translation>
-    </message>
-    <message>
-      <location filename="../../Analyzers/pyatmos/utils/utils.py" line="128"/>
-      <source>Geometric altitudes are outside the range of [{}, {}] km. Output values will be extrapolated for those heights.</source>
-      <translation>Geometriska höjder ligger utanför intervallet [{}, {}] km. Utgångsvärdena kommer att extrapoleras för dessa höjder.</translation>
-    </message>
-    <message>
-      <location filename="../../Analyzers/pyatmos/utils/utils.py" line="129"/>
-      <source>Geometric altitudes are outside the range of [{}, {}] km.</source>
-      <translation>Geometriska höjder ligger utanför intervallet [{}, {}] km.</translation>
-    </message>
-    <message>
-      <location filename="../../Analyzers/FinFlutter.py" line="70"/>
-      <location filename="../../Analyzers/FinFlutter.py" line="64"/>
-      <source>Elliptical fins are not supported at this time</source>
-      <translation>Elliptiska fenor stöds inte för närvarande</translation>
-    </message>
-    <message>
-      <location filename="../../Analyzers/FinFlutter.py" line="66"/>
-      <source>Triangular fins are not supported at this time</source>
-      <translation>Triangulära fenor stöds inte för närvarande</translation>
-    </message>
-    <message>
-      <location filename="../../Analyzers/FinFlutter.py" line="68"/>
-      <source>Tube fins are not supported at this time</source>
-      <translation>Rörfenor stöds inte i nuläget</translation>
-    </message>
-    <message>
-      <location filename="../../Analyzers/FinFlutter.py" line="77"/>
-      <source>Tapered thickness fins are not supported at this time</source>
-      <translation>Koniska tjockleksfenor stöds inte i nuläget</translation>
-    </message>
-    <message>
-      <location filename="../../Analyzers/FinFlutter.py" line="92"/>
-      <source>Custom fins are not supported at this time</source>
-      <translation>Anpassade fenor stöds inte i nuläget</translation>
+      <location filename="../../Rocket/ShapeHandlers/NoseParabolicShapeHandler.py" line="39"/>
+      <source>For %s nose cones the coefficient must be in the range (0 &lt;= coefficient &lt;= 1)</source>
+      <translation>För %s näskoner måste koefficienten ligga inom intervallet (0 &lt;= koefficient &lt;= 1)</translation>
     </message>
   </context>
   <context>
     <name>Dialog</name>
     <message>
       <source>Body Scale Pair Matching</source>
-      <translation type="unfinished"/>
+      <translation>Matchning av par i kroppsskala</translation>
     </message>
     <message>
       <source>Tolerance (%)</source>
-      <translation type="unfinished"/>
+      <translation>Tolerans (%)</translation>
     </message>
     <message>
       <source>Scale By Value</source>
-      <translation type="unfinished"/>
+      <translation>Skala efter värde</translation>
     </message>
     <message>
       <source>Minimum Diameter</source>
-      <translation type="unfinished"/>
+      <translation>Minsta diameter</translation>
     </message>
     <message>
       <source>Search for body tube pairs</source>
-      <translation type="unfinished"/>
+      <translation>Sök efter kroppsrörspar</translation>
     </message>
     <message>
       <source>Search</source>
@@ -3143,23 +3181,23 @@
     </message>
     <message>
       <source>Reference Diameter 2</source>
-      <translation type="unfinished"/>
+      <translation>Referens Diameter 2</translation>
     </message>
     <message>
       <source>Set Scale</source>
-      <translation type="unfinished"/>
+      <translation>Ställ in skala</translation>
     </message>
     <message>
       <source>Add to Document</source>
-      <translation type="unfinished"/>
+      <translation>Lägg till i dokument</translation>
     </message>
     <message>
       <source>Export results to CSV</source>
-      <translation type="unfinished"/>
+      <translation>Exportera resultat till CSV</translation>
     </message>
     <message>
       <source>Export CSV</source>
-      <translation type="unfinished"/>
+      <translation>Exportera CSV</translation>
     </message>
     <message>
       <source>Reference</source>
@@ -3167,27 +3205,27 @@
     </message>
     <message>
       <source>Diameter 1</source>
-      <translation type="unfinished"/>
+      <translation>Diameter 1</translation>
     </message>
     <message>
       <source>Diameter 2</source>
-      <translation type="unfinished"/>
+      <translation>Diameter 2</translation>
     </message>
     <message>
       <source>Scale reference diameter</source>
-      <translation type="unfinished"/>
+      <translation>Skala referensdiameter</translation>
     </message>
     <message>
       <source>Reference Diameter 1</source>
-      <translation type="unfinished"/>
+      <translation>Referens Diameter 1</translation>
     </message>
     <message>
       <source>Maximum Diameter</source>
-      <translation type="unfinished"/>
+      <translation>Maximal diameter</translation>
     </message>
     <message>
       <source>Maximum error in body diameter</source>
-      <translation type="unfinished"/>
+      <translation>Maximalt fel i kroppens diameter</translation>
     </message>
     <message>
       <source>mm</source>
@@ -3195,15 +3233,15 @@
     </message>
     <message>
       <source>Scale By Diameter</source>
-      <translation type="unfinished"/>
+      <translation>Skala efter diameter</translation>
     </message>
     <message>
       <source>Any Scale</source>
-      <translation type="unfinished"/>
+      <translation>Alla skalor</translation>
     </message>
     <message>
       <source>Nose Cone Parameter</source>
-      <translation type="unfinished"/>
+      <translation>Parameter för noskon</translation>
     </message>
     <message>
       <source>General</source>
@@ -3211,7 +3249,7 @@
     </message>
     <message>
       <source>Shape Parameter</source>
-      <translation type="unfinished"/>
+      <translation>Form Parameter</translation>
     </message>
     <message>
       <source>Length</source>
@@ -3223,31 +3261,31 @@
     </message>
     <message>
       <source>Nose Cone Shape</source>
-      <translation type="unfinished"/>
+      <translation>Form på näskonan</translation>
     </message>
     <message>
       <source>Blunted Diameter</source>
-      <translation type="unfinished"/>
+      <translation>Avstumpad diameter</translation>
     </message>
     <message>
       <source>Ogive Diameter</source>
-      <translation type="unfinished"/>
+      <translation>Ogivans diameter</translation>
     </message>
     <message>
       <source>Nose Cap</source>
-      <translation type="unfinished"/>
+      <translation>Näslock</translation>
     </message>
     <message>
       <source>Cap Style</source>
-      <translation type="unfinished"/>
+      <translation>Kepstyp</translation>
     </message>
     <message>
       <source>Bar Width</source>
-      <translation type="unfinished"/>
+      <translation>Stapelbredd</translation>
     </message>
     <message>
       <source>Style</source>
-      <translation type="unfinished"/>
+      <translation>Stil</translation>
     </message>
     <message>
       <source>Thickness</source>
@@ -3267,23 +3305,23 @@
     </message>
     <message>
       <source>Effective Diameter</source>
-      <translation type="unfinished"/>
+      <translation>Effektiv diameter</translation>
     </message>
     <message>
       <source>Placement</source>
-      <translation type="unfinished"/>
+      <translation>Placering</translation>
     </message>
     <message>
       <source>y</source>
-      <translation type="unfinished"/>
+      <translation>Y</translation>
     </message>
     <message>
       <source>z</source>
-      <translation type="unfinished"/>
+      <translation>z</translation>
     </message>
     <message>
       <source>Rotation</source>
-      <translation type="unfinished"/>
+      <translation>Rotation</translation>
     </message>
     <message>
       <source>x</source>
@@ -3295,31 +3333,31 @@
     </message>
     <message>
       <source>Show Base Plane</source>
-      <translation type="unfinished"/>
+      <translation>Visa basplan</translation>
     </message>
     <message>
       <source>Shoulder</source>
-      <translation type="unfinished"/>
+      <translation>Skuldra</translation>
     </message>
     <message>
       <source>Transition Parameter</source>
-      <translation type="unfinished"/>
+      <translation>Övergångsparameter</translation>
     </message>
     <message>
       <source>Aft Cap</source>
-      <translation type="unfinished"/>
+      <translation>Akterkapsel</translation>
     </message>
     <message>
       <source>Transition Shape</source>
-      <translation type="unfinished"/>
+      <translation>Övergångsform</translation>
     </message>
     <message>
       <source>Forward Cap</source>
-      <translation type="unfinished"/>
+      <translation>Framåtriktad keps</translation>
     </message>
     <message>
       <source>Forward Diameter</source>
-      <translation type="unfinished"/>
+      <translation>Diameter framåt</translation>
     </message>
     <message>
       <source>Aft Diameter</source>
@@ -3327,43 +3365,43 @@
     </message>
     <message>
       <source>Core Diameter</source>
-      <translation type="unfinished"/>
+      <translation>Kärnans diameter</translation>
     </message>
     <message>
       <source>Clipped</source>
-      <translation type="unfinished"/>
+      <translation>Klippt</translation>
     </message>
     <message>
       <source>Effective Foreward Diameter</source>
-      <translation type="unfinished"/>
+      <translation>Effektiv främre diameter</translation>
     </message>
     <message>
       <source>Effective Aft Diameter</source>
-      <translation type="unfinished"/>
+      <translation>Effektiv akterdiameter</translation>
     </message>
     <message>
       <source>Foreward Offset</source>
-      <translation type="unfinished"/>
+      <translation>Förskjutning framåt</translation>
     </message>
     <message>
       <source>Aft Offset</source>
-      <translation type="unfinished"/>
+      <translation>Akterförskjutning</translation>
     </message>
     <message>
       <source>Show Forward Base Plane</source>
-      <translation type="unfinished"/>
+      <translation>Visa basplanet framåt</translation>
     </message>
     <message>
       <source>Show Aft Base Plane</source>
-      <translation type="unfinished"/>
+      <translation>Visa bakre basplan</translation>
     </message>
     <message>
       <source>Foreward Shoulder</source>
-      <translation type="unfinished"/>
+      <translation>Framåt axel</translation>
     </message>
     <message>
       <source>Aft Shoulder</source>
-      <translation type="unfinished"/>
+      <translation>Akter axel</translation>
     </message>
     <message>
       <source>Dialog</source>
@@ -3371,27 +3409,7 @@
     </message>
     <message>
       <source>Scaling</source>
-      <translation type="unfinished"/>
-    </message>
-    <message>
-      <source>By body diameter</source>
-      <translation type="unfinished"/>
-    </message>
-    <message>
-      <source>Override</source>
-      <translation type="unfinished"/>
-    </message>
-    <message>
-      <source>By root chord</source>
-      <translation type="unfinished"/>
-    </message>
-    <message>
-      <source>Upscale</source>
-      <translation type="unfinished"/>
-    </message>
-    <message>
-      <source>By height</source>
-      <translation type="unfinished"/>
+      <translation>Skalning</translation>
     </message>
     <message>
       <source>Fore</source>
@@ -3399,43 +3417,67 @@
     </message>
     <message>
       <source>Aft</source>
-      <translation type="unfinished"/>
+      <translation>Akter</translation>
+    </message>
+    <message>
+      <source>Override</source>
+      <translation>Överlappa</translation>
+    </message>
+    <message>
+      <source>Upscale</source>
+      <translation>Högklassig</translation>
     </message>
     <message>
       <source>By Value</source>
-      <translation type="unfinished"/>
+      <translation>Efter värde</translation>
+    </message>
+    <message>
+      <source>By body diameter</source>
+      <translation>Efter kroppsdiameter</translation>
+    </message>
+    <message>
+      <source>By height</source>
+      <translation>I höjdled</translation>
+    </message>
+    <message>
+      <source>By root chord</source>
+      <translation>Efter grundackord</translation>
+    </message>
+    <message>
+      <source>Lookup...</source>
+      <translation>Kolla upp...</translation>
     </message>
     <message>
       <source>Scaled Values</source>
-      <translation type="unfinished"/>
+      <translation>Skalade värden</translation>
     </message>
     <message>
       <source>Assign the scaled dimensions to the stage</source>
-      <translation type="unfinished"/>
+      <translation>Tilldela de skalade dimensionerna till scenen</translation>
     </message>
     <message>
       <source>Set Stage</source>
-      <translation type="unfinished"/>
+      <translation>Ställ in scenen</translation>
     </message>
     <message>
       <source>Assign the scaled dimensions to the rocket</source>
-      <translation type="unfinished"/>
+      <translation>Tilldela de skalade dimensionerna till raketen</translation>
     </message>
     <message>
       <source>Set Rocket</source>
-      <translation type="unfinished"/>
+      <translation>Ställ in raket</translation>
     </message>
     <message>
       <source>Assign the scaled dimensions to the part</source>
-      <translation type="unfinished"/>
+      <translation>Tilldela de skalade dimensionerna till detaljen</translation>
     </message>
     <message>
       <source>Set Part</source>
-      <translation type="unfinished"/>
+      <translation>Ställ in del</translation>
     </message>
     <message>
       <source>Scale</source>
-      <translation type="unfinished"/>
+      <translation>Skala</translation>
     </message>
     <message>
       <source>Height</source>
@@ -3443,19 +3485,19 @@
     </message>
     <message>
       <source>Tip Thickness</source>
-      <translation type="unfinished"/>
+      <translation>Spetsens tjocklek</translation>
     </message>
     <message>
       <source>Root Thickness</source>
-      <translation type="unfinished"/>
+      <translation>Rotens tjocklek</translation>
     </message>
     <message>
       <source>Root Chord</source>
-      <translation type="unfinished"/>
+      <translation>Grundackord</translation>
     </message>
     <message>
       <source>Tip Chord</source>
-      <translation type="unfinished"/>
+      <translation>Tip-ackord</translation>
     </message>
   </context>
   <context>
@@ -3526,7 +3568,7 @@
     </message>
     <message>
       <source>Angle(s) Of Attack</source>
-      <translation type="unfinished"/>
+      <translation>Angreppsvinkel(n)</translation>
     </message>
     <message>
       <source>Angle of rotation</source>
@@ -3546,11 +3588,11 @@
     </message>
     <message>
       <source>Angles of attack in degrees, one per line</source>
-      <translation type="unfinished"/>
+      <translation>Anfallsvinklar i grader, en per rad</translation>
     </message>
     <message>
       <source>2</source>
-      <translation type="unfinished"/>
+      <translation>2</translation>
     </message>
   </context>
   <context>
@@ -3561,11 +3603,11 @@
     </message>
     <message>
       <source>Tolerance (%)</source>
-      <translation type="unfinished"/>
+      <translation>Tolerans (%)</translation>
     </message>
     <message>
       <source>Match Component</source>
-      <translation type="unfinished"/>
+      <translation>Matchningskomponent</translation>
     </message>
     <message>
       <source>Search</source>
@@ -3573,7 +3615,7 @@
     </message>
     <message>
       <source>Match the diameter of the component</source>
-      <translation type="unfinished"/>
+      <translation>Anpassa komponentens diameter</translation>
     </message>
     <message>
       <source>Diameter</source>
@@ -3581,7 +3623,7 @@
     </message>
     <message>
       <source>Match the aft diameter of the component</source>
-      <translation type="unfinished"/>
+      <translation>Matcha den bakre diametern på komponenten</translation>
     </message>
     <message>
       <source>Aft Diameter</source>
@@ -3589,7 +3631,7 @@
     </message>
     <message>
       <source>Match the length of the component</source>
-      <translation type="unfinished"/>
+      <translation>Anpassa komponentens längd</translation>
     </message>
     <message>
       <source>Length</source>
@@ -3597,11 +3639,11 @@
     </message>
     <message>
       <source>Component</source>
-      <translation type="unfinished"/>
+      <translation>Komponent</translation>
     </message>
     <message>
       <source>Rows</source>
-      <translation type="unfinished"/>
+      <translation>Rader</translation>
     </message>
     <message>
       <source>0</source>
@@ -3620,23 +3662,23 @@
     </message>
     <message>
       <source>Angle(s) of Attack</source>
-      <translation type="unfinished"/>
+      <translation>Angreppsvinkel(n)</translation>
     </message>
     <message>
       <source>Average Last N</source>
-      <translation type="unfinished"/>
+      <translation>Genomsnitt Senaste N</translation>
     </message>
     <message>
       <source>Use average of last N values</source>
-      <translation type="unfinished"/>
+      <translation>Använd medelvärdet av de senaste N värdena</translation>
     </message>
     <message>
       <source>Use the same folder for each mesh. This can result in a substantial reduction of required disk space</source>
-      <translation type="unfinished"/>
+      <translation>Använd samma mapp för varje nät. Detta kan leda till en avsevärd minskning av det diskutrymme som krävs</translation>
     </message>
     <message>
       <source>Reuse mesh folder</source>
-      <translation type="unfinished"/>
+      <translation>Återanvänd nätmapp</translation>
     </message>
     <message>
       <source>Start</source>
@@ -3652,14 +3694,14 @@
     </message>
     <message>
       <source>Time:</source>
-      <translation type="unfinished"/>
+      <translation>Tid:</translation>
     </message>
   </context>
   <context>
     <name>TaskPanelFin</name>
     <message>
       <source>Fin Parameter</source>
-      <translation type="unfinished"/>
+      <translation>Fenparameter</translation>
     </message>
     <message>
       <source>General</source>
@@ -3675,7 +3717,7 @@
     </message>
     <message>
       <source>Span</source>
-      <translation type="unfinished"/>
+      <translation>Spännvidd</translation>
     </message>
     <message>
       <source>auto</source>
@@ -3683,39 +3725,39 @@
     </message>
     <message>
       <source>Sweep Length</source>
-      <translation type="unfinished"/>
+      <translation>Svepets längd</translation>
     </message>
     <message>
       <source>Fin Type</source>
-      <translation type="unfinished"/>
+      <translation>Typ av fena</translation>
     </message>
     <message>
       <source>Fin Cant</source>
-      <translation type="unfinished"/>
+      <translation>Fin kant</translation>
     </message>
     <message>
       <source>Fin Set</source>
-      <translation type="unfinished"/>
+      <translation>Fin uppsättning</translation>
     </message>
     <message>
       <source>Fin Count</source>
-      <translation type="unfinished"/>
+      <translation>Fin räkning</translation>
     </message>
     <message>
       <source>Fin Spacing</source>
-      <translation type="unfinished"/>
+      <translation>Avstånd mellan fenor</translation>
     </message>
     <message>
       <source>FIn Root</source>
-      <translation type="unfinished"/>
+      <translation>FIn Rot</translation>
     </message>
     <message>
       <source>When checked lengths are a percentage of the root chord</source>
-      <translation type="unfinished"/>
+      <translation>När kontrollerade längder är en procentandel av grundackordet</translation>
     </message>
     <message>
       <source>Use Percentage</source>
-      <translation type="unfinished"/>
+      <translation>Användning Procent</translation>
     </message>
     <message>
       <source>Thickness</source>
@@ -3723,43 +3765,43 @@
     </message>
     <message>
       <source>Chord</source>
-      <translation type="unfinished"/>
+      <translation>Ackord</translation>
     </message>
     <message>
       <source>Length 1</source>
-      <translation type="unfinished"/>
+      <translation>Längd 1</translation>
     </message>
     <message>
       <source>Length 2</source>
-      <translation type="unfinished"/>
+      <translation>Längd 2</translation>
     </message>
     <message>
       <source>Cross Section</source>
-      <translation type="unfinished"/>
+      <translation>Tvärsnitt</translation>
     </message>
     <message>
       <source>Fin Tip</source>
-      <translation type="unfinished"/>
+      <translation>Fin Tips</translation>
     </message>
     <message>
       <source>Tip thickness same as root</source>
-      <translation type="unfinished"/>
+      <translation>Spetsens tjocklek samma som roten</translation>
     </message>
     <message>
       <source>When checked lengths are a percentage of the tip chord</source>
-      <translation type="unfinished"/>
+      <translation>När kontrollerade längder är en procentandel av spetsens korda</translation>
     </message>
     <message>
       <source>Use percentage</source>
-      <translation type="unfinished"/>
+      <translation>Använd procent</translation>
     </message>
     <message>
       <source>Length1</source>
-      <translation type="unfinished"/>
+      <translation>Längd1</translation>
     </message>
     <message>
       <source>Tube Fin</source>
-      <translation type="unfinished"/>
+      <translation>Rörfinne</translation>
     </message>
     <message>
       <source>Length</source>
@@ -3775,19 +3817,19 @@
     </message>
     <message>
       <source>Fillets</source>
-      <translation type="unfinished"/>
+      <translation>Filéer</translation>
     </message>
     <message>
       <source>Fillet Radius</source>
-      <translation type="unfinished"/>
+      <translation>Radie för avrundning</translation>
     </message>
     <message>
       <source>Apply Fillets</source>
-      <translation type="unfinished"/>
+      <translation>Applicera filéer</translation>
     </message>
     <message>
       <source>Minimum Edge</source>
-      <translation type="unfinished"/>
+      <translation>Minsta kant</translation>
     </message>
     <message>
       <source>Size</source>
@@ -3803,11 +3845,11 @@
     </message>
     <message>
       <source>Effective Diameter</source>
-      <translation type="unfinished"/>
+      <translation>Effektiv diameter</translation>
     </message>
     <message>
       <source>Placement</source>
-      <translation type="unfinished"/>
+      <translation>Placering</translation>
     </message>
     <message>
       <source>x</source>
@@ -3815,7 +3857,7 @@
     </message>
     <message>
       <source>y</source>
-      <translation type="unfinished"/>
+      <translation>Y</translation>
     </message>
     <message>
       <source>Offset</source>
@@ -3823,15 +3865,15 @@
     </message>
     <message>
       <source>z</source>
-      <translation type="unfinished"/>
+      <translation>z</translation>
     </message>
     <message>
       <source>Rotation</source>
-      <translation type="unfinished"/>
+      <translation>Rotation</translation>
     </message>
     <message>
       <source>Fin Tabs</source>
-      <translation type="unfinished"/>
+      <translation>Feninfästningar</translation>
     </message>
     <message>
       <source>TTW Tab</source>
@@ -3843,7 +3885,7 @@
     </message>
     <message>
       <source>Leading Edge Offset</source>
-      <translation type="unfinished"/>
+      <translation>Förskjutning av ledande kant</translation>
     </message>
     <message>
       <source>Inner Diameter</source>
@@ -3855,7 +3897,7 @@
     </message>
     <message>
       <source>Edge Style</source>
-      <translation type="unfinished"/>
+      <translation>Kantstil</translation>
     </message>
     <message>
       <source>Trailing Edge</source>
@@ -3867,7 +3909,7 @@
     </message>
     <message>
       <source>Coupler Style</source>
-      <translation type="unfinished"/>
+      <translation>Kopplingstyp</translation>
     </message>
     <message>
       <source>Launch Lug</source>
