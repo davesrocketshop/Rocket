@@ -81,7 +81,8 @@ class RocketWorkbench ( Workbench ):
         self.appendToolbar(translate('Rocket', 'Rocket'),
                         ['Separator', 'Rocket_MoveUp', 'Rocket_MoveDown'])
         self.appendToolbar(translate('Rocket', 'Rocket'),
-                        ['Separator', 'Rocket_NewSketch', 'Sketcher_EditSketch', 'Separator', 'Rocket_Calculators', 'Rocket_Scaling'])
+                        # ['Separator', 'Rocket_NewSketch', 'Sketcher_EditSketch', 'Separator', 'Rocket_Calculators', 'Rocket_Scaling'])
+                        ['Separator', 'Rocket_NewSketch', 'Sketcher_EditSketch', 'Separator', 'Rocket_Calculators'])
         # self.appendToolbar(translate('Rocket', 'Rocket'),
         #                 ['Separator', 'Rocket_ParachuteGore'])
         try:
@@ -103,9 +104,9 @@ class RocketWorkbench ( Workbench ):
         self.appendMenu([translate("Rocket", "Rocket"),
                          translate("Rocket", "Calculators")],
                         ['Rocket_CalcBlackPowder', 'Rocket_CalcParachute', 'Rocket_CalcThrustToWeight', 'Rocket_CalcVentHoles'])
-        self.appendMenu([translate("Rocket", "Rocket"),
-                         translate("Rocket", "Scaling Tools")],
-                        ['Rocket_ScalingTubes', 'Rocket_ScalingPairs'])
+        # self.appendMenu([translate("Rocket", "Rocket"),
+        #                  translate("Rocket", "Scaling Tools")],
+        #                 ['Rocket_ScalingTubes', 'Rocket_ScalingPairs'])
         try:
             self.appendMenu([translate("Rocket", "Rocket"),
                             translate("Rocket", "Analysis")],
