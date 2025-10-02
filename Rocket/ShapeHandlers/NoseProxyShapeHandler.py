@@ -32,7 +32,7 @@ import Part
 
 translate = FreeCAD.Qt.translate
 
-from Rocket.Utilities import _err, validationError
+from Rocket.Utilities import _err
 
 class NoseProxyShapeHandler:
     def __init__(self, obj : Any) -> None:
@@ -160,7 +160,7 @@ class NoseProxyShapeHandler:
                 if self._shoulderRadius > max(shape.BoundBox.YMax, shape.BoundBox.ZMax):
                     _err(translate('Rocket', "Nose cone shoulder parameters produce an invalid shape"))
                     return Part.Shape()
-                length = self._getShapeLength(shape)
+                length = float(shape.BoundBox.XLength - self._proxyPlacement.Base.x)
                 shoulder = self._createShoulder(length)
                 if shoulder:
                     shape = shape.fuse(shoulder)

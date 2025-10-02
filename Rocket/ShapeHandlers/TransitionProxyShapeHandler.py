@@ -30,6 +30,10 @@ import math
 import FreeCAD
 import Part
 
+translate = FreeCAD.Qt.translate
+
+from Rocket.Utilities import _err
+
 class TransitionProxyShapeHandler:
     def __init__(self, obj : Any) -> None:
 
@@ -187,17 +191,17 @@ class TransitionProxyShapeHandler:
         
         try:
             if shape and self._shoulder:
-                length = self._getShapeLength(shape)
+                length = float(shape.BoundBox.XLength - self._proxyPlacement.Base.x - self._proxyAftOffset.Value)
                 if self._foreShoulder:
                     if self._foreShoulderRadius > max(shape.BoundBox.YMax, shape.BoundBox.ZMax):
-                        _err(translate('Rocket', "Transition for shoulder parameters produce an invalid shape"))
+                        _err(translate('Rocket', "Transition fore shoulder parameters produce an invalid shape"))
                         return Part.Shape()
                     shoulder = self._createForeShoulder(length)
                     if shoulder:
                         shape = shape.fuse(shoulder)
                 if self._aftShoulder:
                     if self._aftShoulderRadius > max(shape.BoundBox.YMax, shape.BoundBox.ZMax):
-                        _err(translate('Rocket', "Transition for shoulder parameters produce an invalid shape"))
+                        _err(translate('Rocket', "Transition aft shoulder parameters produce an invalid shape"))
                         return Part.Shape()
                     shoulder = self._createAftShoulder(length)
                     if shoulder:
@@ -207,20 +211,6 @@ class TransitionProxyShapeHandler:
             return Part.Shape()
 
         return shape
-
-        # self._foreShoulder = bool(obj.ForeShoulder)
-        # self._foreShoulderLength = float(obj.ForeShoulderLength)
-        # self._foreShoulderRadius = float(obj.ForeShoulderDiameter) / 2.0
-        # self._foreShoulderAuto = bool(obj.ForeShoulderAutoDiameter)
-        # self._foreShoulderThickness = float(obj.ForeShoulderThickness)
-
-        # self._aftShoulder = bool(obj.AftShoulder)
-        # self._aftShoulderLength = float(obj.AftShoulderLength)
-        # self._aftShoulderRadius = float(obj.AftShoulderDiameter) / 2.0
-        # self._aftShoulderAuto = bool(obj.AftShoulderAutoDiameter)
-        # self._aftShoulderThickness = float(obj.AftShoulderThickness)
-
-        # self._shoulder = (self._foreShoulder or self._aftShoulder)
 
     def draw(self) -> None:
         self._obj.Shape = self.drawTransition()
