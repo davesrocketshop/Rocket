@@ -136,7 +136,7 @@
            <item row="9" column="1">
             <spacer name="verticalSpacer">
              <property name="orientation">
-              <enum>Qt::Vertical</enum>
+              <enum>Qt::Orientation::Vertical</enum>
              </property>
              <property name="sizeHint" stdset="0">
               <size>
@@ -317,7 +317,7 @@
                  <double>180.000000000000000</double>
                 </property>
                 <property name="minimum">
-                 <double>180.000000000000000</double>
+                 <double>-180.000000000000000</double>
                 </property>
                 <property name="unit" stdset="0">
                  <string notr="true"/>
@@ -351,7 +351,7 @@
            <item>
             <spacer name="verticalSpacer_2">
              <property name="orientation">
-              <enum>Qt::Vertical</enum>
+              <enum>Qt::Orientation::Vertical</enum>
              </property>
              <property name="sizeHint" stdset="0">
               <size>
@@ -436,7 +436,7 @@
        <item>
         <spacer name="verticalSpacer_3">
          <property name="orientation">
-          <enum>Qt::Vertical</enum>
+          <enum>Qt::Orientation::Vertical</enum>
          </property>
          <property name="sizeHint" stdset="0">
           <size>
