@@ -30,6 +30,7 @@ import os
 import FreeCAD
 
 from Rocket.Importer.Rocksim.Rocksim import RocksimImporter
+from Rocket.Exporter.Rocksim.Rocksim import RocksimExporter
 
 def open(filename):
     """Open filename and parse using the orkHandler().
@@ -82,3 +83,7 @@ def insert(filename, docname):
     RocksimImporter.importFile(doc, filename)
 
     doc.recompute()
+
+def export(exportList: list[FreeCAD.DocumentObject], filename: str) -> None:
+    exporter = RocksimExporter(exportList, filename)
+    exporter.export()
