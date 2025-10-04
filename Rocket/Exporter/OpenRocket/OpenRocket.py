@@ -149,10 +149,10 @@ class OpenRocketExporter:
         if hasattr(proxy, "getRocket"):
             rocket = proxy.getRocket()
         if not rocket:
-            _err(translate("rocket", "Please select a rocket object"))
+            _err(translate("Rocket", "Please select a rocket object"))
             if FreeCAD.GuiUp:
                 from PySide import QtGui
-                QtGui.QMessageBox.information(None, "", translate("rocket", "Please select a rocket object"))
+                QtGui.QMessageBox.information(None, "", translate("Rocket", "Please select a rocket object"))
             return
 
         name=entry.Document.Name
