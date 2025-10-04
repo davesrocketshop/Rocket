@@ -663,11 +663,6 @@ class FinShapeHandler(ABC):
                 elif mask and (debug != FIN_DEBUG_PROFILE_ONLY):
                     loft = loft.common(mask)
 
-                # cut = self._makeCut()
-                # if cut:
-                #     print("cut")
-                #     # Part.show(cut)
-
         return loft
 
     def _makeRootExtension(self) -> Shape:
@@ -727,8 +722,6 @@ class FinShapeHandler(ABC):
             if self._ttw:
                 ttw = self._makeTtw()
                 if ttw:
-                    Part.show(fin)
-                    Part.show(ttw)
                     fin = fin.fuse(ttw)
 
         return fin
