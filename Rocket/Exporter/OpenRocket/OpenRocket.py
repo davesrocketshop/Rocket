@@ -140,14 +140,22 @@ class OpenRocketExporter:
             FIN_CROSS_TAPER_LETE : "square",
         }
 
+    def _getRocket(self, obj : FreeCAD.DocumentObject) -> FeatureRocket:
+        proxy = self.getProxy(obj)
+        if not hasattr(proxy, "Type"):
+            return None
+        if proxy.Type == FEATURE_ROCKET:
+            return proxy
+        rocket = None
+        if hasattr(proxy, "getRocket"):
+            rocket = proxy.getRocket()
+        return rocket
+
     def export(self):
         entry = self._exportList[0]
 
         # Ensure we have a rocket selected
-        proxy = self.getProxy(entry)
-        rocket = None
-        if hasattr(proxy, "getRocket"):
-            rocket = proxy.getRocket()
+        rocket = self._getRocket(entry)
         if not rocket:
             _err(translate("Rocket", "Please select a rocket object"))
             if FreeCAD.GuiUp:
