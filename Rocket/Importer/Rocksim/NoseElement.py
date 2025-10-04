@@ -57,7 +57,7 @@ class NoseElement(ComponentElement):
                 self._feature._obj.NoseType = TYPE_CONE
             elif shapeCode == 1: # OGIVE
                 self._feature._obj.NoseType = TYPE_OGIVE
-            elif shapeCode == 2: # PARABOLIC - closeest is elliptical in OR
+            elif shapeCode == 2: # PARABOLIC - closest is elliptical in OR
                 self._feature._obj.NoseType = TYPE_ELLIPTICAL
             elif shapeCode == 3: # ELLIPTICAL
                 self._feature._obj.NoseType = TYPE_ELLIPTICAL

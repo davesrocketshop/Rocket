@@ -801,7 +801,7 @@ class CFDReport:
             row_cells[1].text = bc.TurbulentKineticEnergy.UserString
 
             row_cells = table.add_row().cells
-            row_cells[0].text = "Specifc dissipation rate (ω)"
+            row_cells[0].text = "Specific dissipation rate (ω)"
             row_cells[1].text = bc.SpecificDissipationRate.UserString
 
         if bc.TurbulenceInletSpecification in ['TurbulentViscosityAndK']:

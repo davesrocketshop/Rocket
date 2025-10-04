@@ -39,7 +39,7 @@ can make all the difference.
 # Accessibility / Usability
 
 What can be done to improve your experience? It is easy to overlook an accessibility issue when you're not personally affected
-but it's often easy to accomodate once the issue is known.
+but it's often easy to accommodate once the issue is known.
 
 # Testers
 

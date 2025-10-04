@@ -493,7 +493,7 @@ class RocketComponentShapeless(Subject, Observer):
         return
 
     def firstEligibleChild(self, obj : Any) -> Any:
-        """ Find the first element eligiible to recieve the child object """
+        """ Find the first element eligiible to receive the child object """
         if self.eligibleChild(obj.Proxy.Type):
             return self
 
@@ -508,7 +508,7 @@ class RocketComponentShapeless(Subject, Observer):
         return None
 
     def nextEligibleChild(self, current : Any, obj : Any) -> Any:
-        """ Find the first element eligiible to recieve the child object """
+        """ Find the first element eligiible to receive the child object """
         currentFound = False
         for child in self._obj.Group:
             if currentFound:
@@ -524,7 +524,7 @@ class RocketComponentShapeless(Subject, Observer):
         return None
 
     def lastEligibleChild(self, obj : Any) -> Any:
-        """ Find the last element eligiible to recieve the child object """
+        """ Find the last element eligiible to receive the child object """
         eligible = None
         if self.eligibleChild(obj.Proxy.Type):
             eligible = self
@@ -539,7 +539,7 @@ class RocketComponentShapeless(Subject, Observer):
         return eligible
 
     def previousEligibleChild(self, current : Any, obj : Any) -> Any:
-        """ Find the last element eligiible to recieve the child object """
+        """ Find the last element eligiible to receive the child object """
         eligible = None
         for child in self._obj.Group:
             if child.Proxy == current:
