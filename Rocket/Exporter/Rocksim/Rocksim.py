@@ -60,23 +60,44 @@ class RocksimExporter:
             FEATURE_ROCKET : self.writeNull,
             FEATURE_STAGE : self.writeNull,
             FEATURE_PARALLEL_STAGE : self.writeNull,
-            FEATURE_BULKHEAD : self.writeBulkhead,
+            FEATURE_BULKHEAD : self.writeNull,
             FEATURE_POD : self.writeNull,
-            FEATURE_BODY_TUBE : self.writeBodytube,
-            FEATURE_INNER_TUBE : self.writeInnerTube,
-            FEATURE_TUBE_COUPLER : self.writeTubeCoupler,
-            FEATURE_ENGINE_BLOCK : self.writeEngineBlock,
-            FEATURE_CENTERING_RING : self.writeCenteringRing,
-            FEATURE_FIN : self.writeFin,
-            FEATURE_FINCAN : self.writeFinCan,
+            FEATURE_BODY_TUBE : self.writeNull,
+            FEATURE_INNER_TUBE : self.writeNull,
+            FEATURE_TUBE_COUPLER : self.writeNull,
+            FEATURE_ENGINE_BLOCK : self.writeNull,
+            FEATURE_CENTERING_RING : self.writeNull,
+            FEATURE_FIN : self.writeNull,
+            FEATURE_FINCAN : self.writeNull,
             FEATURE_NOSE_CONE : self.writeNosecone,
-            FEATURE_TRANSITION : self.writeTransition,
-            FEATURE_LAUNCH_LUG : self.writeLaunchLug,
-            FEATURE_RAIL_BUTTON : self.writeRailButton,
+            FEATURE_TRANSITION : self.writeNull,
+            FEATURE_LAUNCH_LUG : self.writeNull,
+            FEATURE_RAIL_BUTTON : self.writeNull,
             FEATURE_RAIL_GUIDE : self.writeNull,
             FEATURE_OFFSET : self.writeNull,
             FEATURE_RINGTAIL : self.writeNull,
         }
+        # self._feature = {
+        #     FEATURE_ROCKET : self.writeNull,
+        #     FEATURE_STAGE : self.writeNull,
+        #     FEATURE_PARALLEL_STAGE : self.writeNull,
+        #     FEATURE_BULKHEAD : self.writeBulkhead,
+        #     FEATURE_POD : self.writeNull,
+        #     FEATURE_BODY_TUBE : self.writeBodytube,
+        #     FEATURE_INNER_TUBE : self.writeInnerTube,
+        #     FEATURE_TUBE_COUPLER : self.writeTubeCoupler,
+        #     FEATURE_ENGINE_BLOCK : self.writeEngineBlock,
+        #     FEATURE_CENTERING_RING : self.writeCenteringRing,
+        #     FEATURE_FIN : self.writeFin,
+        #     FEATURE_FINCAN : self.writeFinCan,
+        #     FEATURE_NOSE_CONE : self.writeNosecone,
+        #     FEATURE_TRANSITION : self.writeTransition,
+        #     FEATURE_LAUNCH_LUG : self.writeLaunchLug,
+        #     FEATURE_RAIL_BUTTON : self.writeRailButton,
+        #     FEATURE_RAIL_GUIDE : self.writeNull,
+        #     FEATURE_OFFSET : self.writeNull,
+        #     FEATURE_RINGTAIL : self.writeNull,
+        # }
 
         self._noseTypes = {
             TYPE_CONE : self.writeNoseTypeCone,
@@ -346,8 +367,8 @@ class RocksimExporter:
         if stageNumber <= 3 and stageNumber > 0:
             # stageName = feature.getName()
             self.write(file, f"<Stage{stageNumber}Parts>\n")
-            # indent = 8
-            # self.writeSubcomponents(file, feature, indent)
+            indent = 0
+            self.writeSubcomponents(file, feature, indent)
             self.write(file, f"</Stage{stageNumber}Parts>\n")
 
     def getProxy(self, obj : Any) -> RocketComponentShapeless:
@@ -360,25 +381,25 @@ class RocksimExporter:
 
     def writeSubcomponents(self, file : io.TextIOBase, feature : RocketComponentShapeless, indent : int, extra : RocketComponentShapeless | None = None) -> None:
         if feature.hasChildren() or extra:
-            self.write(file, f"{' ' * indent}<subcomponents>\n")
-            if extra:
-                type = extra.getType()
-                if type == FEATURE_FINCAN:
-                    type = FEATURE_FIN # Avoid recursion
-                    if type in self._feature:
-                        self._feature[type](file, extra, indent + 2, "fin")
-                    if extra._obj.LaunchLug:
-                        type = FEATURE_LAUNCH_LUG
-                    if type in self._feature:
-                        self._feature[type](file, extra, indent + 2, "lug")
+            # self.write(file, f"{' ' * indent}<subcomponents>\n")
+            # if extra:
+            #     type = extra.getType()
+            #     if type == FEATURE_FINCAN:
+            #         type = FEATURE_FIN # Avoid recursion
+            #         if type in self._feature:
+            #             self._feature[type](file, extra, indent + 2, "fin")
+            #         if extra._obj.LaunchLug:
+            #             type = FEATURE_LAUNCH_LUG
+            #         if type in self._feature:
+            #             self._feature[type](file, extra, indent + 2, "lug")
             for child in feature.getChildren():
                 childProxy = self.getProxy(child)
                 type = childProxy.getType()
                 if type in self._feature:
-                    self._feature[type](file, childProxy, indent + 2)
+                    self._feature[type](file, childProxy, indent)
                 else:
                     print(f"Unknown feature {type}")
-            self.write(file, f"{' ' * indent}</subcomponents>\n")
+            # self.write(file, f"{' ' * indent}</subcomponents>\n")
 
     def writeAppearance(self, file : io.TextIOBase, feature : RocketComponentShapeless, indent : int, finish : bool = True) -> None:
         appearance = None
@@ -403,19 +424,80 @@ class RocksimExporter:
     def writeNull(self, file : io.TextIOBase, feature : RocketComponentShapeless, indent : int) -> None:
         pass
 
+    def isEmpty(self, string : str) -> bool:
+        """
+        Checks if a string is empty or contains only whitespace characters.
+        """
+        return not string or string.isspace()
+
     def writeNosecone(self, file : io.TextIOBase, feature : RocketComponentShapeless, indent : int) -> None:
-        self.write(file, f"{' ' * indent}<nosecone>\n")
-        self.write(file, f"{' ' * (indent + 2)}<name>{feature.getName()}</name>\n")
-        self.write(file, f"{' ' * (indent + 2)}<id>{uuid.uuid4()}</id>\n")
-        self.writeAppearance(file, feature, indent+2)
-        if len(feature._obj.Comment) > 0:
-            self.write(file, f"{' ' * (indent + 2)}<comment>{feature._obj.Comment}</comment>\n")
-        noseType = feature._obj.NoseType
-        if noseType in self._noseTypes:
-            self._noseTypes[noseType](file, feature, indent + 2)
-        else:
-            print(f"Unknown nose type {noseType}")
-        self.write(file, f"{' ' * indent}</nosecone>\n\n")
+        manufacturer = feature._obj.Manufacturer
+        if self.isEmpty(manufacturer):
+            manufacturer = "Custom"
+        self.write(file, "<NoseCone>\n")
+        self.write(file, f"<PartMfg>{manufacturer}</PartMfg>\n")
+        self.write(file, "<KnownMass>0.</KnownMass>\n")
+        self.write(file, "<Density>128.148</Density>\n")
+        self.write(file, "<Material>Balsa</Material>\n")
+        self.write(file, f"<Name>{feature.getName()}</Name>\n")
+        self.write(file, """<KnownCG>0.</KnownCG>
+<UseKnownCG>0</UseKnownCG>
+<Xb>0.</Xb>
+""")
+        self.write(file, """<RadialLoc>0.</RadialLoc>
+<RadialAngle>0.</RadialAngle>
+<Texture>file=()|position=(0,0,0)|origin=(0.5,0.5,0.5)|scale=(1,1,1)|repeat=(1)|interpolate=(0)|flipr=(0)|flips=(0)|flipt=(0)|preventseam=(1)|rotate=(0)</Texture>
+<Opacity>1.</Opacity>
+<Specular>0.</Specular>
+<SpecularPower>1.</SpecularPower>
+<Ambient>0.</Ambient>
+<Diffuse>1.</Diffuse>
+<AbientColor>blue</AbientColor>
+<DiffuseColor>blue</DiffuseColor>
+<SpecularColor>white</SpecularColor>
+<UseSingleColor>1</UseSingleColor>
+<SerialNo>1</SerialNo>
+<DisplayFlags>0</DisplayFlags>
+<MetricsFlags>0</MetricsFlags>
+<LocationMode>0</LocationMode>
+<Color>blue</Color>
+<BarrowmanCNa>2.</BarrowmanCNa>
+<BarrowmanXN>0.0232573</BarrowmanXN>
+<RockSimCNa>2.</RockSimCNa>
+<RockSimXN>0.0232573</RockSimXN>
+<SimpleColorModel>1</SimpleColorModel>
+<ProduceTemplate>0</ProduceTemplate>
+<TemplateUnits>8</TemplateUnits>
+<Removed>0</Removed>
+<Station>0.</Station>
+<Len>50.</Len>
+<BaseDia>10.</BaseDia>
+<FinishCode>0</FinishCode>
+<ShapeCode>1</ShapeCode>
+<ConstructionType>0</ConstructionType>
+<ShoulderLen>0.</ShoulderLen>
+<WallThickness>0.</WallThickness>
+<ShapeParameter>0.</ShapeParameter>
+<ShoulderOD>0.</ShoulderOD>
+<BaseExtensionLen>0.</BaseExtensionLen>
+<CoreDia>0.</CoreDia>
+<CoreLen>0.</CoreLen>
+<AttachedParts>
+</AttachedParts>
+</NoseCone>
+""")
+        # self.write(file, f"{' ' * indent}<nosecone>\n")
+        # self.write(file, f"{' ' * (indent + 2)}<name>{feature.getName()}</name>\n")
+        # self.write(file, f"{' ' * (indent + 2)}<id>{uuid.uuid4()}</id>\n")
+        # self.writeAppearance(file, feature, indent+2)
+        # if len(feature._obj.Comment) > 0:
+        #     self.write(file, f"{' ' * (indent + 2)}<comment>{feature._obj.Comment}</comment>\n")
+        # noseType = feature._obj.NoseType
+        # if noseType in self._noseTypes:
+        #     self._noseTypes[noseType](file, feature, indent + 2)
+        # else:
+        #     print(f"Unknown nose type {noseType}")
+        # self.write(file, f"{' ' * indent}</nosecone>\n\n")
 
     def writeNoseTypeCone(self, file : io.TextIOBase, feature : RocketComponentShapeless, indent : int) -> None:
         self.writeNoseParameters(file, feature, indent, "conical")
