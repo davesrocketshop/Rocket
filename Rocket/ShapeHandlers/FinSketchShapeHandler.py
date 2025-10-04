@@ -297,13 +297,14 @@ class FinSketchShapeHandler(FinShapeHandler):
         mask = Part.Face(face).extrude(FreeCAD.Vector(0, 2.0 * self._rootThickness, 0))
         return mask
 
-    def _makeTtw(self) -> Shape:
-        # Create the Ttw tab - No clear root chord like regular fins
-        shape = self.getFace()
-        if shape is None:
-            return None
+    # def _makeTtw(self) -> Shape:
+    #     # Create the Ttw tab - No clear root chord like regular fins
+    #     shape = self.getFace()
+    #     if shape is None:
+    #         return None
 
-        xmin, xmax = self.findRootChord(shape)
+    #     # xmin, xmax = self.findRootChord(shape)
 
-        origin = FreeCAD.Vector(float(xmax) - self._ttwOffset - self._ttwLength, -0.5 * self._ttwThickness, -1.0 * self._ttwHeight)
-        return Part.makeBox(self._ttwLength, self._ttwThickness, self._ttwHeight, origin)
+    #     # origin = FreeCAD.Vector(float(xmax) - self._ttwOffset - self._ttwLength, -0.5 * self._ttwThickness, -1.0 * self._ttwHeight)
+    #     origin = FreeCAD.Vector(self._ttwOffset, -0.5 * self._ttwThickness, -1.0 * self._ttwHeight)
+    #     return Part.makeBox(self._ttwLength, self._ttwThickness, self._ttwHeight, origin)

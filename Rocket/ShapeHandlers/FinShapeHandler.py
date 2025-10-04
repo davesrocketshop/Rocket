@@ -541,7 +541,8 @@ class FinShapeHandler(ABC):
 
     def _makeTtw(self) -> Shape:
         # Create the Ttw tab
-        origin = FreeCAD.Vector(self._rootChord - self._ttwOffset - self._ttwLength, -0.5 * self._ttwThickness, -1.0 * self._ttwHeight)
+        # origin = FreeCAD.Vector(self._rootChord - self._ttwOffset - self._ttwLength, -0.5 * self._ttwThickness, -1.0 * self._ttwHeight)
+        origin = FreeCAD.Vector(self._ttwOffset, -0.5 * self._ttwThickness, -1.0 * self._ttwHeight)
         return Part.makeBox(self._ttwLength, self._ttwThickness, self._ttwHeight, origin)
 
     def isValidShape(self) -> bool:
@@ -726,6 +727,8 @@ class FinShapeHandler(ABC):
             if self._ttw:
                 ttw = self._makeTtw()
                 if ttw:
+                    Part.show(fin)
+                    Part.show(ttw)
                     fin = fin.fuse(ttw)
 
         return fin
