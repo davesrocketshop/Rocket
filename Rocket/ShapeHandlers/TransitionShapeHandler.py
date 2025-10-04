@@ -353,6 +353,7 @@ class TransitionShapeHandler():
                 return
         else:
             _err(translate('Rocket', "Transition parameters produce an invalid shape"))
+            return
 
         try:
             if self._style == STYLE_CAPPED:
