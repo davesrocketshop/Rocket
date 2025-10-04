@@ -31,7 +31,10 @@ import zipfile
 
 import FreeCAD
 
+translate = FreeCAD.Qt.translate
+
 from Rocket.RocketComponentShapeless import RocketComponentShapeless
+from Rocket.FeatureRocket import FeatureRocket
 from Rocket.FeatureStage import FeatureStage
 
 from Rocket.Constants import FEATURE_ROCKET, FEATURE_STAGE, FEATURE_PARALLEL_STAGE, FEATURE_BULKHEAD, FEATURE_POD, \
@@ -48,6 +51,8 @@ from Rocket.Constants import FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_ELLIPS
     FIN_CROSS_AIRFOIL, FIN_CROSS_WEDGE, FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE
 from Rocket.Constants import FIN_TYPE_TRAPEZOID, FIN_TYPE_TRIANGLE, FIN_TYPE_ELLIPSE, FIN_TYPE_TUBE, FIN_TYPE_SKETCH
 from Rocket.Constants import FINCAN_STYLE_SLEEVE
+
+from Rocket.Utilities import _err
 
 
 class OpenRocketExporter:
@@ -137,7 +142,19 @@ class OpenRocketExporter:
 
     def export(self):
         entry = self._exportList[0]
-        # print(dir(entry.Document))
+
+        # Ensure we have a rocket selected
+        proxy = self.getProxy(entry)
+        rocket = None
+        if hasattr(proxy, "getRocket"):
+            rocket = proxy.getRocket()
+        if not rocket:
+            _err(translate("Rocket", "Please select a rocket object"))
+            if FreeCAD.GuiUp:
+                from PySide import QtGui
+                QtGui.QMessageBox.information(None, "", translate("Rocket", "Please select a rocket object"))
+            return
+
         name=entry.Document.Name
         with zipfile.ZipFile(self._filename, "w") as archive:
             # with archive.open(self._filename, "w", encoding='utf-8') as file:
@@ -154,7 +171,7 @@ class OpenRocketExporter:
 
     <subcomponents>
 """)
-                self.writeStages(file, entry)
+                self.writeStages(file, rocket)
                 self.write(file, """    </subcomponents>
   </rocket>
 
@@ -167,9 +184,8 @@ class OpenRocketExporter:
 </openrocket>
 """)
 
-    def writeStages(self, file : io.TextIOBase, obj : FreeCAD.DocumentObject) -> None:
-        proxy = self.getProxy(obj)
-        for child in proxy.getChildren():
+    def writeStages(self, file : io.TextIOBase, rocket : FeatureRocket) -> None:
+        for child in rocket.getChildren():
             childProxy = self.getProxy(child)
             if isinstance(childProxy, FeatureStage):
                 self.writeStage(file, childProxy)
