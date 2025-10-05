@@ -58,7 +58,7 @@ Your name here...
 
 Component database originally taken from the Open Rocket project. (https://github.com/openrocket/openrocket) Whole sections of the Open Rocket code have been shamelessly plagiarized.
 
-Now using the improved and curated parts database (https://github.com/dbcook/openrocket-database).
+Now using the improved and curated parts database (https://github.com/openrocket/openrocket-database.git).
 
 Portions of the pyatmos module by Chunxiao Li are included with this software (https://github.com/lcx366/ATMOS)
 
