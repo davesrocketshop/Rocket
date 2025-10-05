@@ -31,7 +31,10 @@ import zipfile
 
 import FreeCAD
 
+translate = FreeCAD.Qt.translate
+
 from Rocket.RocketComponentShapeless import RocketComponentShapeless
+from Rocket.FeatureRocket import FeatureRocket
 from Rocket.FeatureStage import FeatureStage
 
 from Rocket.Constants import FEATURE_ROCKET, FEATURE_STAGE, FEATURE_PARALLEL_STAGE, FEATURE_BULKHEAD, FEATURE_POD, \
@@ -49,6 +52,7 @@ from Rocket.Constants import FIN_CROSS_SQUARE, FIN_CROSS_ROUND, FIN_CROSS_ELLIPS
 from Rocket.Constants import FIN_TYPE_TRAPEZOID, FIN_TYPE_TRIANGLE, FIN_TYPE_ELLIPSE, FIN_TYPE_TUBE, FIN_TYPE_SKETCH
 from Rocket.Constants import FINCAN_STYLE_SLEEVE
 
+from Rocket.Utilities import _err
 
 class RocksimExporter:
 
@@ -158,7 +162,19 @@ class RocksimExporter:
 
     def export(self):
         entry = self._exportList[0]
-        # print(dir(entry.Document))
+
+        # Ensure we have a rocket selected
+        proxy = self.getProxy(entry)
+        rocket = None
+        if hasattr(proxy, "getRocket"):
+            rocket = proxy.getRocket()
+        if not rocket:
+            _err(translate("Rocket", "Please select a rocket object"))
+            if FreeCAD.GuiUp:
+                from PySide import QtGui
+                QtGui.QMessageBox.information(None, "", translate("Rocket", "Please select a rocket object"))
+            return
+
         name=entry.Document.Name
         with open(self._filename, "w") as file:
             self.write(file, f"""<RockSimDocument>
@@ -174,7 +190,7 @@ class RocksimExporter:
       <FixedCd2Alone>0.95</FixedCd2Alone>
       <FixedCd3Alone>0.95</FixedCd3Alone>
 """)
-            self.writeStages(file, entry)
+            self.writeStages(file, rocket)
             self.write(file, """<SideViewDims>
 </SideViewDims>
 <BaseViewDims>
@@ -188,9 +204,8 @@ class RocksimExporter:
 </RockSimDocument>
 """)
 
-    def writeStages(self, file : io.TextIOBase, obj : FreeCAD.DocumentObject) -> None:
-        proxy = self.getProxy(obj)
-        stages = proxy.getStageCount()
+    def writeStages(self, file : io.TextIOBase, rocket : FeatureRocket) -> None:
+        stages = rocket.getStageCount()
         self.write(file, f"      <StageCount>{stages}</StageCount>")
         self.write(file, """<Stage3Mass>0.</Stage3Mass>
       <Stage2Mass>0.</Stage2Mass>
@@ -349,7 +364,7 @@ class RocksimExporter:
 <SimulationEventList>
 </SimulationEventList>
 """)
-        for child in proxy.getChildren():
+        for child in rocket.getChildren():
             childProxy = self.getProxy(child)
             if isinstance(childProxy, FeatureStage):
                 self.writeStage(file, childProxy)
