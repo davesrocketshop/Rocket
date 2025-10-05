@@ -381,7 +381,7 @@ class DialogFinFlutter(QDialog):
         self.shearInput.setText(FreeCAD.Units.Quantity(str(shear) + " Pa").UserString)
 
     def interpolateProperties(self):
-        """ Infer missing properties from thos available """
+        """ Infer missing properties from those available """
         shearModulus = self._material.getPhysicalValue("ShearModulus")
         youngsModulus = self._material.getPhysicalValue("YoungsModulus")
         poissonRatio = self._material.getPhysicalValue("PoissonRatio")

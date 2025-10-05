@@ -37,7 +37,7 @@ translate = FreeCAD.Qt.translate
 _linearDeflection = 0.5 # Linear deflection for a rough mesh with a fast calculation
 
 def calcFrontalArea(shape):
-    # Create a crude mesh and project it on to the YZ plane to caclulate the frontal area
+    # Create a crude mesh and project it on to the YZ plane to calculate the frontal area
     mesh = MeshPart.meshFromShape(shape, LinearDeflection=_linearDeflection)
 
     area = calculateProjectedArea(mesh)
