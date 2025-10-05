@@ -278,7 +278,7 @@
              <item row="3" column="0">
               <widget class="QLabel" name="proxyForeEffectiveDiamaterLabel">
                <property name="text">
-                <string>Effective Foreward Diameter</string>
+                <string>Effective Forward Diameter</string>
                </property>
               </widget>
              </item>
@@ -338,7 +338,7 @@
               <item row="1" column="0">
                <widget class="QLabel" name="foreOffsetLabel">
                 <property name="text">
-                 <string>Foreward Offset</string>
+                 <string>Forward Offset</string>
                 </property>
                </widget>
               </item>
@@ -453,7 +453,7 @@
        <item>
         <widget class="QGroupBox" name="foreGroup">
          <property name="title">
-          <string>Foreward Shoulder</string>
+          <string>Forward Shoulder</string>
          </property>
          <property name="checkable">
           <bool>true</bool>
