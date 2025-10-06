@@ -1345,8 +1345,8 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Ui/TaskPanelTransition.py" line="726"/>
-        <location filename="../../Ui/TaskPanelNoseCone.py" line="586"/>
+        <location filename="../../Ui/TaskPanelTransition.py" line="729"/>
+        <location filename="../../Ui/TaskPanelNoseCone.py" line="588"/>
         <location filename="../../Ui/TaskPanelBulkhead.py" line="582"/>
         <location filename="../../Ui/TaskPanelRingtail.py" line="334"/>
         <location filename="../../Ui/TaskPanelLaunchLug.py" line="342"/>
@@ -1455,10 +1455,10 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Ui/TaskPanelTransition.py" line="366"/>
+        <location filename="../../Ui/TaskPanelTransition.py" line="369"/>
         <location filename="../../Ui/TaskPanelFin.py" line="472"/>
         <location filename="../../Ui/TaskPanelStage.py" line="95"/>
-        <location filename="../../Ui/TaskPanelNoseCone.py" line="382"/>
+        <location filename="../../Ui/TaskPanelNoseCone.py" line="384"/>
         <location filename="../../Ui/TaskPanelRingtail.py" line="214"/>
         <location filename="../../Ui/TaskPanelFinCan.py" line="413"/>
         <location filename="../../Ui/TaskPanelBodyTube.py" line="252"/>
@@ -1466,10 +1466,10 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Ui/TaskPanelTransition.py" line="369"/>
+        <location filename="../../Ui/TaskPanelTransition.py" line="372"/>
         <location filename="../../Ui/TaskPanelFin.py" line="475"/>
         <location filename="../../Ui/TaskPanelStage.py" line="98"/>
-        <location filename="../../Ui/TaskPanelNoseCone.py" line="385"/>
+        <location filename="../../Ui/TaskPanelNoseCone.py" line="387"/>
         <location filename="../../Ui/TaskPanelRingtail.py" line="217"/>
         <location filename="../../Ui/DialogScaling.py" line="504"/>
         <location filename="../../Ui/DialogScaling.py" line="204"/>
@@ -1770,9 +1770,9 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Ui/TaskPanelTransition.py" line="741"/>
+        <location filename="../../Ui/TaskPanelTransition.py" line="744"/>
         <location filename="../../Ui/TaskPanelFin.py" line="1221"/>
-        <location filename="../../Ui/TaskPanelNoseCone.py" line="598"/>
+        <location filename="../../Ui/TaskPanelNoseCone.py" line="600"/>
         <source>Select an object</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2454,6 +2454,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../../Rocket/Exporter/OpenRocket/OpenRocket.py" line="163"/>
+        <location filename="../../Rocket/Exporter/OpenRocket/OpenRocket.py" line="160"/>
+        <source>Please select a rocket object</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../../Rocket/Constants.py" line="163"/>
         <source>Top of the parent component</source>
         <translation type="unfinished"></translation>
@@ -2753,8 +2759,8 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Rocket/ShapeHandlers/TransitionShapeHandler.py" line="382"/>
-        <location filename="../../Rocket/ShapeHandlers/TransitionShapeHandler.py" line="368"/>
+        <location filename="../../Rocket/ShapeHandlers/TransitionShapeHandler.py" line="383"/>
+        <location filename="../../Rocket/ShapeHandlers/TransitionShapeHandler.py" line="369"/>
         <source>Forward cap style produces an invalid shape</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2857,28 +2863,28 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Rocket/ShapeHandlers/FinShapeHandler.py" line="551"/>
+        <location filename="../../Rocket/ShapeHandlers/FinShapeHandler.py" line="552"/>
         <location filename="../../Rocket/ShapeHandlers/FinTrapezoidShapeHandler.py" line="80"/>
         <location filename="../../Rocket/ShapeHandlers/FinTriangleShapeHandler.py" line="146"/>
         <source>Ttw offset must be less than the root chord</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Rocket/ShapeHandlers/FinShapeHandler.py" line="554"/>
+        <location filename="../../Rocket/ShapeHandlers/FinShapeHandler.py" line="555"/>
         <location filename="../../Rocket/ShapeHandlers/FinTrapezoidShapeHandler.py" line="83"/>
         <location filename="../../Rocket/ShapeHandlers/FinTriangleShapeHandler.py" line="149"/>
         <source>Ttw length must be greater than 0</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Rocket/ShapeHandlers/FinShapeHandler.py" line="557"/>
+        <location filename="../../Rocket/ShapeHandlers/FinShapeHandler.py" line="558"/>
         <location filename="../../Rocket/ShapeHandlers/FinTrapezoidShapeHandler.py" line="86"/>
         <location filename="../../Rocket/ShapeHandlers/FinTriangleShapeHandler.py" line="152"/>
         <source>Ttw height must be greater than 0</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Rocket/ShapeHandlers/FinShapeHandler.py" line="560"/>
+        <location filename="../../Rocket/ShapeHandlers/FinShapeHandler.py" line="561"/>
         <location filename="../../Rocket/ShapeHandlers/FinTrapezoidShapeHandler.py" line="89"/>
         <location filename="../../Rocket/ShapeHandlers/FinTriangleShapeHandler.py" line="155"/>
         <source>Ttw thickness must be greater than 0</source>
@@ -3072,7 +3078,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Rocket/ShapeHandlers/FinShapeHandler.py" line="774"/>
+        <location filename="../../Rocket/ShapeHandlers/FinShapeHandler.py" line="770"/>
         <source>Fin parameters produce an invalid shape</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3122,23 +3128,19 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Rocket/ShapeHandlers/TransitionProxyShapeHandler.py" line="161"/>
+        <location filename="../../Rocket/ShapeHandlers/TransitionProxyShapeHandler.py" line="197"/>
+        <location filename="../../Rocket/ShapeHandlers/TransitionProxyShapeHandler.py" line="165"/>
         <source>Transition fore shoulder parameters produce an invalid shape</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Rocket/ShapeHandlers/TransitionProxyShapeHandler.py" line="181"/>
+        <location filename="../../Rocket/ShapeHandlers/TransitionProxyShapeHandler.py" line="204"/>
+        <location filename="../../Rocket/ShapeHandlers/TransitionProxyShapeHandler.py" line="185"/>
         <source>Transition aft shoulder parameters produce an invalid shape</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Rocket/ShapeHandlers/TransitionProxyShapeHandler.py" line="200"/>
-        <location filename="../../Rocket/ShapeHandlers/TransitionProxyShapeHandler.py" line="193"/>
-        <source>Transition for shoulder parameters produce an invalid shape</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../Rocket/ShapeHandlers/TransitionProxyShapeHandler.py" line="206"/>
+        <location filename="../../Rocket/ShapeHandlers/TransitionProxyShapeHandler.py" line="210"/>
         <source>Transition shoulder parameters produce an invalid shape</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3367,7 +3369,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Effective Foreward Diameter</source>
+        <source>Effective Forward Diameter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3375,7 +3377,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Foreward Offset</source>
+        <source>Forward Offset</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3391,7 +3393,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Foreward Shoulder</source>
+        <source>Forward Shoulder</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
