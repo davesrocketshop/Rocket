@@ -40,10 +40,11 @@ from Rocket.position import AxialMethod
 
 from Rocket.interfaces.Observer import Subject, Observer
 from Rocket.util.Coordinate import Coordinate
+from Rocket.position.AxialMethod import AXIAL_METHOD_MAP
 
 import Ui.Commands as Commands
 
-from Rocket.Constants import FEATURE_ROCKET, FEATURE_STAGE
+from Rocket.Constants import FEATURE_ROCKET, FEATURE_STAGE, FEATURE_PARALLEL_STAGE, FEATURE_POD
 from Rocket.Constants import LOCATION_SURFACE, LOCATION_CENTER
 
 from Rocket.Exceptions import UnsupportedConfiguration, ObjectNotFound
@@ -554,14 +555,21 @@ class RocketComponentShapeless(Subject, Observer):
 
         return eligible
 
+    def setLocationReference(self, reference : str) -> None:
+        self.setAxialMethod(AXIAL_METHOD_MAP[reference])
 
     def getAxialOffsetFromMethod(self, method : AxialMethod.AxialMethod) -> float:
         parentLength = 0
         if self.hasParent():
-            parentLength = self.getParent().getLength()
+            parent = self.getParent()
+            if parent.Type in [FEATURE_PARALLEL_STAGE, FEATURE_POD]:
+                parentLength = 0
+            else:
+                parentLength = self.getParent().getLength()
+            print(f"Parent {parent.getName()}, length {parentLength}")
 
         if method == AxialMethod.ABSOLUTE:
-            return float(self.getComponentLocations()[0]._x)
+            return float(self.getComponentLocations()[0].X)
         else:
             return method.getAsOffset(self._obj.Placement.Base.x, self.getLength(), parentLength)
 
@@ -577,11 +585,15 @@ class RocketComponentShapeless(Subject, Observer):
         elif method == AxialMethod.ABSOLUTE:
             # in this case, this is simply the intended result
             newX = float(newAxialOffset) - float(self.getParent().getComponentLocations()[0]._x)
-        elif self.isAfter():
-            self.setAfter()
-            return
         else:
-            newX = method.getAsPosition(float(newAxialOffset), float(self.getLength()), float(self.getParent().getLength())) + float(self.getParent().getPosition().x)
+            parent = self.getParent()
+            if self.isAfter() and (parent.getChildIndex(self) > 0 or parent.Type not in [FEATURE_PARALLEL_STAGE, FEATURE_POD]):
+                self.setAfter()
+                return
+            else:
+                newX = method.getAsPosition(float(newAxialOffset), float(self.getLength()), float(parent.getLength()))
+                if parent.Type not in [FEATURE_PARALLEL_STAGE, FEATURE_POD]:
+                    newX += float(parent.getPosition().x)
 
         # snap to zero if less than the threshold 'EPSILON'
         if EPSILON > math.fabs(newX):
@@ -633,6 +645,15 @@ class RocketComponentShapeless(Subject, Observer):
     def update(self) -> None:
         self._setAxialOffset(self._obj.AxialMethod, self._obj.AxialOffset)
         self._setRotation()
+
+        from Rocket.position.RadiusPositionable import RadiusPositionable # Avoid a circular import
+        if self.hasParent() and isinstance(self, RadiusPositionable):
+            try:
+                radius = self._obj.RadiusMethod.getRadius(self.getParent(), self, self._obj.RadiusOffset.Value)	# Radius from the parent's center
+                print(f"Radius: {radius}")
+                self.setRadiusByMethod(self._obj.RadiusMethod, radius)
+            except Exception as ex:
+                print(ex)
 
     def updateChildren(self) -> None:
         if not self._updating:

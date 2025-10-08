@@ -38,15 +38,28 @@ class Coordinate():
 
     _translate = None
     _rotation = [[0 for i in range(3)] for j in range(3)]
-    X = 0
-    Y = 1
-    Z = 2
 
     def __init__(self, x : float = 0, y : float = 0, z : float = 0, weight : float = 0) -> None:
         self._x = x
         self._y = y
         self._z = z
         self._weight = weight
+
+    @property
+    def X(self) -> float:
+        return self._x
+
+    @property
+    def Y(self) -> float:
+        return self._y
+
+    @property
+    def Z(self) -> float:
+        return self._z
+
+    @property
+    def weight(self) -> float:
+        return self._weight
 
     def __str__(self) -> str:
         return f'({self._x},{self._y},{self._z},{self._weight})'
