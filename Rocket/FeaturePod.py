@@ -91,7 +91,7 @@ class FeaturePod(ComponentAssembly, RingInstanceable):
     def getInstanceAngleIncrement(self) -> float:
         return self._obj.AngleSeparation
 
-    def getInstanceAngles(self) -> list:
+    def getInstanceAngles(self) -> list[float]:
         #		, angleMethod, angleOffset_rad
         baseAngle = self.getAngleOffset()
         incrAngle = self.getInstanceAngleIncrement()
@@ -102,11 +102,11 @@ class FeaturePod(ComponentAssembly, RingInstanceable):
 
         return result
 
-    def getInstanceLocations(self) -> list:
+    def getInstanceLocations(self) -> list[Coordinate]:
         return []
 
-    def getInstanceOffsets(self) -> list:
-        radius = self.radiusMethod.getRadius(self.getParent(), self, self._obj.RadiusOffset)
+    def getInstanceOffsets(self) -> list[Coordinate]:
+        radius = self._obj.radiusMethod.getRadius(self.getParent(), self, self._obj.RadiusOffset)
 
         toReturn = []
         angles = self.getInstanceAngles()
@@ -150,7 +150,7 @@ class FeaturePod(ComponentAssembly, RingInstanceable):
             returnValue = super().getAxialOffset(method)
 
 
-        if EPSILON > math.abs(returnValue):
+        if EPSILON > abs(returnValue):
             returnValue = 0.0
 
         return returnValue
@@ -159,7 +159,7 @@ class FeaturePod(ComponentAssembly, RingInstanceable):
         return self._obj.AngleOffset
 
     def getPatternName(self) -> str:
-        return (self.getInstanceCount() + "-ring")
+        return f"{self.getInstanceCount()}-ring"
 
     def getRadiusOffset(self) -> float:
         return self._obj.RadiusOffset

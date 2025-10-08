@@ -142,4 +142,4 @@ class RadiusRingComponent(RingComponent, LineInstanceable):
         return self._obj.InstanceCount
 
     def getPatternName(self) -> str:
-        return str(self.getInstanceCount()) + "-Line"
+        return f"{self.getInstanceCount()}-Line"
