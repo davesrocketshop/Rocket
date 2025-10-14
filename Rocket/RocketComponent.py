@@ -115,6 +115,8 @@ class RocketComponent(RocketComponentShapeless):
                     mat
                 )
                 obj.ViewObject.LineColor = mat.DiffuseColor
+        # Use this to detect if alpha channels need correction
+        #  Gui.ActiveDocument.Document.getProgramVersion() e.g. '0.21R33668 +7 (Git)'
 
     def convertMaterial(self, obj : Any, old : Any) -> None:
         database = PartDatabase(FreeCAD.getUserAppDataDir() + "Mod/Rocket/")
