@@ -65,8 +65,8 @@ class RadiusRingComponent(RingComponent, LineInstanceable):
         if self.hasParent():
             parent = self.getParent()
             if self._obj.AutoDiameter and isinstance(parent, RadialParent):
-                pos1 = self.toRelative(NUL, parent)[0]._x
-                pos2 = self.toRelative(Coordinate(self.getLength()), parent)[0]._x
+                pos1 = self.toRelative(NUL, parent)[0].x
+                pos2 = self.toRelative(Coordinate(self.getLength()), parent)[0].x
                 pos1 = clamp(pos1, 0, parent.getLength())
                 pos2 = clamp(pos2, 0, parent.getLength())
                 self._obj.Diameter = min(parent.getInnerDiameter(pos1), parent.getInnerDiameter(pos2))

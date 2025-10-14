@@ -150,7 +150,7 @@ class FeaturePod(ComponentAssembly, RingInstanceable):
         if self.isAfter():
             # remember the implicit (this instanceof Stage)
             raise Exception(translate("Rocket", "found a pod positioned via: AFTER, but is not on the centerline?!: {}  is {}")
-                            .format(self.getName(), self.getAxialMethod().name()))
+                            .format(self.getName(), self.getAxialMethod().getMethodName()))
         else:
             returnValue = super().getAxialOffsetFromMethod(method)
 
@@ -221,9 +221,9 @@ class FeaturePod(ComponentAssembly, RingInstanceable):
         offsets = self.getInstanceOffsets()
         if len(offsets) > 0:
             print(offsets[0])
-            print(f"Offsets: {offsets[0].X}, {offsets[0].Y}, {offsets[0].Z}")
-            self._obj.Placement.Base.y = offsets[0].Y
-            self._obj.Placement.Base.z = offsets[0].Z
+            print(f"Offsets: {offsets[0].x}, {offsets[0].y}, {offsets[0].z}")
+            self._obj.Placement.Base.y = offsets[0].y
+            self._obj.Placement.Base.z = offsets[0].z
         self.notifyComponentChanged()
 
     def getLength(self) -> float:

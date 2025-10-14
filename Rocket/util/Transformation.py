@@ -37,16 +37,16 @@ class Transformation():
     _translate = Coordinate()
     _rotation = [[0 for i in range(3)] for j in range(3)]
 
-    X = 0
-    Y = 1
-    Z = 2
+    _X = 0
+    _Y = 1
+    _Z = 2
 
     # Create transformation with given rotation matrix and translation.
     def __init__(self, rotation : Any | None = None, translation : Coordinate | None = None) -> None:
         if rotation is None:
-            self._rotation[self.X][self.X] = 1
-            self._rotation[self.Y][self.Y] = 1
-            self._rotation[self.Z][self.Z] = 1
+            self._rotation[self._X][self._X] = 1
+            self._rotation[self._Y][self._Y] = 1
+            self._rotation[self._Z][self._Z] = 1
         else:
             for i in range(3):
                 for j in range(3):
@@ -59,8 +59,8 @@ class Transformation():
 
     # Transform a coordinate according to this transformation.
     def transform(self, orig : Coordinate) -> Coordinate:
-        x = self._rotation[self.X][self.X]*orig._x + self._rotation[self.X][self.Y]*orig._y + self._rotation[self.X][self.Z]*orig._z + self._translate._x
-        y = self._rotation[self.Y][self.X]*orig._x + self._rotation[self.Y][self.Y]*orig._y + self._rotation[self.Y][self.Z]*orig._z + self._translate._y
-        z = self._rotation[self.Z][self.X]*orig._x + self._rotation[self.Z][self.Y]*orig._y + self._rotation[self.Z][self.Z]*orig._z + self._translate._z
+        x = self._rotation[self._X][self._X]*orig.x + self._rotation[self._X][self._Y]*orig.y + self._rotation[self._X][self._Z]*orig.z + self._translate.x
+        y = self._rotation[self._Y][self._X]*orig.x + self._rotation[self._Y][self._Y]*orig.y + self._rotation[self._Y][self._Z]*orig.z + self._translate.y
+        z = self._rotation[self._Z][self._X]*orig.x + self._rotation[self._Z][self._Y]*orig.y + self._rotation[self._Z][self._Z]*orig.z + self._translate.z
 
         return Coordinate(x,y,z,orig._weight)

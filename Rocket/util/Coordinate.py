@@ -39,33 +39,21 @@ class Coordinate():
     _translate = None
     _rotation = [[0 for i in range(3)] for j in range(3)]
 
+    _X = 0
+    _Y = 1
+    _Z = 2
+
     def __init__(self, x : float = 0, y : float = 0, z : float = 0, weight : float = 0) -> None:
-        self._x = x
-        self._y = y
-        self._z = z
+        self.x = x
+        self.y = y
+        self.z = z
         self._weight = weight
 
-    @property
-    def X(self) -> float:
-        return self._x
-
-    @property
-    def Y(self) -> float:
-        return self._y
-
-    @property
-    def Z(self) -> float:
-        return self._z
-
-    @property
-    def weight(self) -> float:
-        return self._weight
-
     def __str__(self) -> str:
-        return f'({self._x},{self._y},{self._z},{self._weight})'
+        return f'({self.x},{self.y},{self.z},{self._weight})'
 
     def __eq__(self, other) -> bool:
-        return self._x == other._x and self._y == other._y and self._z == other._z and self._weight == other._weight
+        return self.x == other.x and self.y == other.y and self.z == other.z and self._weight == other._weight
 
     # Create transformation with given rotation matrix and translation.
     def transformation(self, rotation, translation : Coordinate | None = None) -> None:
@@ -83,33 +71,33 @@ class Coordinate():
         if self._translate is None:
             self._translate = Coordinate(0,0,0,0)
 
-        x = self._rotation[self.X][self.X]*orig._x + self._rotation[self.X][self.Y]*orig._y + self._rotation[self.X][self.Z]*orig._z + self._translate._x
-        y = self._rotation[self.Y][self.X]*orig._x + self._rotation[self.Y][self.Y]*orig._y + self._rotation[self.Y][self.Z]*orig._z + self._translate._y
-        z = self._rotation[self.Z][self.X]*orig._x + self._rotation[self.Z][self.Y]*orig._y + self._rotation[self.Z][self.Z]*orig._z + self._translate._z
+        x = self._rotation[self._X][self._X]*orig.x + self._rotation[self._X][self._Y]*orig.y + self._rotation[self._X][self._Z]*orig.z + self._translate.x
+        y = self._rotation[self._Y][self._X]*orig.x + self._rotation[self._Y][self._Y]*orig.y + self._rotation[self._Y][self._Z]*orig.z + self._translate.y
+        z = self._rotation[self._Z][self._X]*orig.x + self._rotation[self._Z][self._Y]*orig.y + self._rotation[self._Z][self._Z]*orig.z + self._translate.z
 
         return Coordinate(x,y,z,orig._weight)
 
     """ Add the coordinate and weight of two coordinates. """
     def add(self, other : Coordinate) -> Coordinate:
-        return Coordinate(float(self._x) + float(other._x), float(self._y) + float(other._y), float(self._z) + float(other._z),
+        return Coordinate(float(self.x) + float(other.x), float(self.y) + float(other.y), float(self.z) + float(other.z),
                 float(self._weight) + float(other._weight))
 
     def addValues(self, x1 : float, y1 : float, z1 : float, w1 : float = 0.0) -> Coordinate:
-        return Coordinate(float(self._x) + float(x1), float(self._y) + float(y1), float(self._z) + float(z1), float(self._weight) + float(w1))
+        return Coordinate(float(self.x) + float(x1), float(self.y) + float(y1), float(self.z) + float(z1), float(self._weight) + float(w1))
 
     """
         Subtract a Coordinate from this Coordinate.  The weight of the resulting Coordinate
         is the same as of this Coordinate; i.e. the weight of the argument is ignored.
     """
     def sub(self, other : Coordinate) -> Coordinate:
-        return Coordinate(float(self._x) - float(other._x), float(self._y) - float(other._y), float(self._z) - float(other._z), float(self._weight))
+        return Coordinate(float(self.x) - float(other.x), float(self.y) - float(other.y), float(self.z) - float(other.z), float(self._weight))
 
     """
         Subtract the specified values from this Coordinate.  The weight of the result
         is the same as the weight of this Coordinate.
     """
     def subValues(self, x1 : float, y1 : float, z1 : float) -> Coordinate:
-        return Coordinate(float(self._x) - float(x1), float(self._y) - float(y1), float(self._z) - float(z1), float(self._weight))
+        return Coordinate(float(self.x) - float(x1), float(self.y) - float(y1), float(self.z) - float(z1), float(self._weight))
 
 
     """
@@ -117,7 +105,7 @@ class Coordinate():
         weight are multiplied by the given scalar.
     """
     def multiply(self, m : float) -> Coordinate:
-        return Coordinate(float(self._x) * float(m), float(self._y) * float(m), float(self._z) * float(m), float(self._weight) * float(m))
+        return Coordinate(float(self.x) * float(m), float(self.y) * float(m), float(self.z) * float(m), float(self._weight) * float(m))
 
     """
          Dot product of two Coordinates, taken as vectors.  Equal to
@@ -126,19 +114,19 @@ class Coordinate():
     def dot(self, other : Coordinate, v2 : Coordinate | None = None) -> float:
         if v2:
             return self._dot(other, v2)
-        return float(self._x) * float(other._x) + float(self._y) * float(other._y) + float(self._z) * float(other._z)
+        return float(self.x) * float(other.x) + float(self.y) * float(other.y) + float(self.z) * float(other.z)
 
     """
         Dot product of two Coordinates.
     """
     def _dot(self, v1 : Coordinate, v2 : Coordinate) -> float:
-        return float(v1._x) * float(v2._x) + float(v1._y) * float(v2._y) + float(v1._z) * float(v2._z)
+        return float(v1.x) * float(v2.x) + float(v1.y) * float(v2.y) + float(v1.z) * float(v2.z)
 
     """
         Cross product of two Coordinates taken as vectors
     """
     def cross(self, other : Coordinate) -> Coordinate:
-        return Coordinate(float(self._y) * float(other._z) - float(self._z) * float(other._y), float(self._z) * float(other._x) - float(self._x) * float(other._z), float(self._x) * float(other._y) - float(self._y) * float(other._x))
+        return Coordinate(float(self.y) * float(other.z) - float(self.z) * float(other.y), float(self.z) * float(other.x) - float(self.x) * float(other.z), float(self.x) * float(other.y) - float(self.y) * float(other.x))
 
     """
         Distance from the origin to the Coordinate.
@@ -150,7 +138,7 @@ class Coordinate():
         Square of the distance from the origin to the Coordinate.
     """
     def length2(self) -> float:
-        return float(self._x) * float(self._x) + float(self._y) * float(self._y) + float(self._z) * float(self._z)
+        return float(self.x) * float(self.x) + float(self.y) * float(self.y) + float(self.z) * float(self.z)
 
 
     """
@@ -159,7 +147,7 @@ class Coordinate():
         2-norm.
     """
     def max(self) -> float:
-        return max(math.fabs(self._x), math.fabs(self._y), math.fabs(self._z))
+        return max(math.fabs(self.x), math.fabs(self.y), math.fabs(self.z))
 
 
     """
@@ -174,7 +162,7 @@ class Coordinate():
             #raise IllegalStateException("Cannot normalize zero coordinate")
             raise Exception("Cannot normalize zero coordinate")
 
-        return Coordinate(self._x / l, self._y / l, self._z / l, self._weight)
+        return Coordinate(self.x / l, self.y / l, self.z / l, self._weight)
 
     """
         Weighted average of two coordinates.  If either of the weights are positive,
@@ -193,14 +181,14 @@ class Coordinate():
 
         w1 = self._weight + other._weight
         if abs(w1) < self.pow2(EPSILON):
-            x1 = (self._x + other._x) / 2
-            y1 = (self._y + other._y) / 2
-            z1 = (self._z + other._z) / 2
+            x1 = (self.x + other.x) / 2
+            y1 = (self.y + other.y) / 2
+            z1 = (self.z + other.z) / 2
             w1 = 0
         else:
-            x1 = (self._x * self._weight + other._x * other._weight) / w1
-            y1 = (self._y * self._weight + other._y * other._weight) / w1
-            z1 = (self._z * self._weight + other._z * other._weight) / w1
+            x1 = (self.x * self._weight + other.x * other._weight) / w1
+            y1 = (self.y * self._weight + other.y * other._weight) / w1
+            z1 = (self.z * self._weight + other.z * other._weight) / w1
 
         return Coordinate(x1, y1, z1, w1)
     

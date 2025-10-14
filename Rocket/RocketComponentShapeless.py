@@ -569,7 +569,7 @@ class RocketComponentShapeless(Subject, Observer):
             print(f"Parent {parent.getName()}, length {parentLength}")
 
         if method == AxialMethod.ABSOLUTE:
-            return float(self.getComponentLocations()[0].X)
+            return float(self.getComponentLocations()[0].x)
         else:
             return method.getAsOffset(self._obj.Placement.Base.x, self.getLength(), parentLength)
 
@@ -584,7 +584,7 @@ class RocketComponentShapeless(Subject, Observer):
             newX = newAxialOffset
         elif method == AxialMethod.ABSOLUTE:
             # in this case, this is simply the intended result
-            newX = float(newAxialOffset) - float(self.getParent().getComponentLocations()[0]._x)
+            newX = float(newAxialOffset) - float(self.getParent().getComponentLocations()[0].x)
         else:
             parent = self.getParent()
             if self.isAfter() and (parent.getChildIndex(self) > 0 or parent.Type not in [FEATURE_PARALLEL_STAGE, FEATURE_POD]):
