@@ -39,7 +39,7 @@ from Rocket.Constants import FEATURE_LAUNCH_LUG, FEATURE_RAIL_BUTTON, FEATURE_RA
 
 translate = FreeCAD.Qt.translate
 
-def makeLaunchLug(name='LaunchLug'):
+def makeLaunchLug(name : str = 'LaunchLug') -> None:
     '''makeLaunchLug(name): makes a Launch Lug'''
     obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
     FeatureLaunchLug(obj)
@@ -49,7 +49,7 @@ def makeLaunchLug(name='LaunchLug'):
 
     return obj.Proxy
 
-def makeRailButton(name='RailButton'):
+def makeRailButton(name : str = 'RailButton') -> None:
     '''makeRailButton(name): makes a Rail Button'''
     obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
     FeatureRailButton(obj)
@@ -59,7 +59,7 @@ def makeRailButton(name='RailButton'):
 
     return obj.Proxy
 
-def makeRailGuide(name='RailGuide'):
+def makeRailGuide(name : str = 'RailGuide') -> None:
     '''makeRailGuide(name): makes a Launch Guide'''
     obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
     FeatureRailGuide(obj)
@@ -70,7 +70,7 @@ def makeRailGuide(name='RailGuide'):
     return obj.Proxy
 
 class CmdLaunchLug(Command):
-    def Activated(self):
+    def Activated(self) -> None:
         with WaitCursor():
             FreeCAD.ActiveDocument.openTransaction("Create launch lug")
             FreeCADGui.addModule("Ui.Commands.CmdLaunchGuides")
@@ -78,18 +78,18 @@ class CmdLaunchLug(Command):
             FreeCADGui.doCommand("Ui.Commands.CmdStage.addToStage(obj)")
             FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
 
-    def IsActive(self):
+    def IsActive(self) -> bool:
         if FreeCAD.ActiveDocument:
             return self.partEligibleFeature(FEATURE_LAUNCH_LUG)
         return False
 
-    def GetResources(self):
+    def GetResources(self) -> dict:
         return {'MenuText': translate("Rocket", 'Launch Lug'),
                 'ToolTip': translate("Rocket", 'Launch lug design'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_LaunchLug.svg"}
 
 class CmdRailButton(Command):
-    def Activated(self):
+    def Activated(self) -> None:
         with WaitCursor():
             FreeCAD.ActiveDocument.openTransaction("Create rail button")
             FreeCADGui.addModule("Ui.Commands.CmdLaunchGuides")
@@ -97,18 +97,18 @@ class CmdRailButton(Command):
             FreeCADGui.doCommand("Ui.Commands.CmdStage.addToStage(obj)")
             FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
 
-    def IsActive(self):
+    def IsActive(self) -> bool:
         if FreeCAD.ActiveDocument:
             return self.partEligibleFeature(FEATURE_RAIL_BUTTON)
         return False
 
-    def GetResources(self):
+    def GetResources(self) -> dict:
         return {'MenuText': translate("Rocket", 'Rail Button'),
                 'ToolTip': translate("Rocket", 'Rail button design'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_RailButton.svg"}
 
 class CmdRailGuide(Command):
-    def Activated(self):
+    def Activated(self) -> None:
         with WaitCursor():
             FreeCAD.ActiveDocument.openTransaction("Create rail guide")
             FreeCADGui.addModule("Ui.Commands.CmdLaunchGuides")
@@ -116,18 +116,18 @@ class CmdRailGuide(Command):
             FreeCADGui.doCommand("Ui.Commands.CmdStage.addToStage(obj)")
             FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
 
-    def IsActive(self):
+    def IsActive(self) -> bool:
         if FreeCAD.ActiveDocument:
             return self.partEligibleFeature(FEATURE_RAIL_GUIDE)
         return False
 
-    def GetResources(self):
+    def GetResources(self) -> dict:
         return {'MenuText': translate("Rocket", 'Rail Guide'),
                 'ToolTip': translate("Rocket", 'Rail guide design'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_RailGuide.svg"}
 
 class CmdStandOff(Command):
-    def Activated(self):
+    def Activated(self) -> None:
         with WaitCursor():
             FreeCAD.ActiveDocument.openTransaction("Create stand off")
             FreeCADGui.addModule("Ui.Commands.CmdLaunchGuides")
@@ -135,12 +135,12 @@ class CmdStandOff(Command):
             FreeCADGui.doCommand("Ui.Commands.CmdStage.addToStage(obj)")
             FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
 
-    def IsActive(self):
+    def IsActive(self) -> bool:
         if FreeCAD.ActiveDocument:
             return self.partEligibleFeature(FEATURE_OFFSET)
         return False
 
-    def GetResources(self):
+    def GetResources(self) -> dict:
         return {'MenuText': translate("Rocket", 'Stand Off'),
                 'ToolTip': translate("Rocket", 'Stand off design'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Standoff.svg"}

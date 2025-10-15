@@ -34,7 +34,7 @@ from PySide import QtGui
 from Ui.Commands.Command import Command
 from Ui.DialogFinFlutter import DialogFinFlutter
 
-def calcFinFlutter():
+def calcFinFlutter() -> None:
 
     # See if we have a fin selected
     for fin in FreeCADGui.Selection.getSelection():
@@ -51,15 +51,15 @@ def calcFinFlutter():
     QtGui.QMessageBox.information(None, "", translate('Rocket', "Please select a fin first"))
 
 class CmdFinFlutter(Command):
-    def Activated(self):
+    def Activated(self) -> None:
         FreeCADGui.addModule("Ui.Commands.CmdFlutterAnalysis")
         FreeCADGui.doCommand("Ui.Commands.CmdFlutterAnalysis.calcFinFlutter()")
 
-    def IsActive(self):
+    def IsActive(self) -> bool:
         # Available when a part is selected
         return self.partFinSelected()
 
-    def GetResources(self):
+    def GetResources(self) -> dict:
         return {'MenuText': translate("Rocket", 'Fin Flutter Analysis'),
                 'ToolTip': translate("Rocket", 'Calculate fin flutter'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_FinFlutter.svg"}

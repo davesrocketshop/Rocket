@@ -37,7 +37,7 @@ from Rocket.Constants import FEATURE_CENTERING_RING
 
 translate = FreeCAD.Qt.translate
 
-def makeCenteringRing(name='CenteringRing'):
+def makeCenteringRing(name : str = 'CenteringRing') -> FeatureCenteringRing:
     '''makeCenteringRing(name): makes a centering ring'''
     obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
     FeatureCenteringRing(obj)
@@ -48,7 +48,7 @@ def makeCenteringRing(name='CenteringRing'):
     return obj.Proxy
 
 class CmdCenteringRing(Command):
-    def Activated(self):
+    def Activated(self) -> None:
         with WaitCursor():
             FreeCAD.ActiveDocument.openTransaction("Create centering ring")
             FreeCADGui.addModule("Ui.Commands.CmdCenteringRing")
@@ -56,12 +56,12 @@ class CmdCenteringRing(Command):
             FreeCADGui.doCommand("Ui.Commands.CmdStage.addToStage(obj)")
             FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
 
-    def IsActive(self):
+    def IsActive(self) -> bool:
         if FreeCAD.ActiveDocument:
             return self.partEligibleFeature(FEATURE_CENTERING_RING)
         return False
 
-    def GetResources(self):
+    def GetResources(self) -> dict:
         return {'MenuText': translate("Rocket", 'Centering Ring'),
                 'ToolTip': translate("Rocket", 'Centering Ring design'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_CenteringRing.svg"}

@@ -34,7 +34,7 @@ if FreeCAD.GuiUp:
 
 translate = FreeCAD.Qt.translate
 
-def makeParachute(name):
+def makeParachute(name : str) -> FeatureFin:
     '''makeParachute(name): makes a Parachute'''
     obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
     FeatureFin(obj)
@@ -46,7 +46,7 @@ def makeParachute(name):
     return obj.Proxy
 
 class CmdParachute:
-    def Activated(self):
+    def Activated(self) -> None:
         with WaitCursor():
             FreeCAD.ActiveDocument.openTransaction("Create parachute")
             FreeCADGui.addModule("Ui.Commands.CmdParachute")
@@ -54,12 +54,12 @@ class CmdParachute:
             FreeCADGui.doCommand("Ui.Commands.CmdStage.addToStage(obj)")
             FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
 
-    def IsActive(self):
+    def IsActive(self) -> bool:
         if FreeCAD.ActiveDocument:
             return True
         return False
 
-    def GetResources(self):
+    def GetResources(self) -> dict:
         return {'MenuText': translate("Rocket", 'Parachute'),
                 'ToolTip': translate("Rocket", 'Parachute design'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Parachute.svg"}

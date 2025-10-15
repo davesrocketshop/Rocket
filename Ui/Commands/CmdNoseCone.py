@@ -38,7 +38,7 @@ from Rocket.Constants import FEATURE_NOSE_CONE
 
 translate = FreeCAD.Qt.translate
 
-def makeNoseCone(name='NoseCone'):
+def makeNoseCone(name : str = 'NoseCone') -> FeatureNoseCone:
     '''makeNoseCone(name): makes a Nose Cone'''
     obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
     FeatureNoseCone(obj)
@@ -49,7 +49,7 @@ def makeNoseCone(name='NoseCone'):
     return obj.Proxy
 
 class CmdNoseCone(Command):
-    def Activated(self):
+    def Activated(self) -> None:
         with WaitCursor():
             FreeCAD.ActiveDocument.openTransaction("Create nose cone")
             FreeCADGui.addModule("Ui.Commands.CmdNoseCone")
@@ -57,12 +57,12 @@ class CmdNoseCone(Command):
             FreeCADGui.doCommand("Ui.Commands.CmdStage.addToStage(obj)")
             FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
 
-    def IsActive(self):
+    def IsActive(self) -> bool:
         if FreeCAD.ActiveDocument:
             return self.partEligibleFeature(FEATURE_NOSE_CONE)
         return False
 
-    def GetResources(self):
+    def GetResources(self) -> dict:
         return {'MenuText': translate("Rocket", 'Nose Cone'),
                 'ToolTip': translate("Rocket", 'Nose cone design'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_NoseCone.svg"}

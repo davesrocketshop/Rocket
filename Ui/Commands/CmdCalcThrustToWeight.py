@@ -31,20 +31,20 @@ translate = FreeCAD.Qt.translate
 
 from Ui.DialogThrustToWeight import DialogThrustToWeight
 
-def calcThrustToWeight():
+def calcThrustToWeight() -> None:
     form = DialogThrustToWeight()
     form.exec_()
 
 class CmdCalcThrustToWeight:
-    def Activated(self):
+    def Activated(self) -> None:
         FreeCADGui.addModule("Ui.Commands.CmdCalcThrustToWeight")
         FreeCADGui.doCommand("Ui.Commands.CmdCalcThrustToWeight.calcThrustToWeight()")
 
-    def IsActive(self):
+    def IsActive(self) -> bool:
         # Always available, even without active document
         return True
 
-    def GetResources(self):
+    def GetResources(self) -> dict:
         return {'MenuText': translate("Rocket", 'Calculate Thrust To Weight'),
                 'ToolTip': translate("Rocket", 'Calculate Thrust To Weight'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Calculator.svg"}

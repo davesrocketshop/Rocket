@@ -41,7 +41,7 @@ def getRocket():
 
 class Command:
 
-    def partFeatureSelected(self):
+    def partFeatureSelected(self) -> bool:
         """
             True if the selected object is a workbench feature
         """
@@ -50,10 +50,9 @@ class Command:
         sel = FreeCADGui.Selection.getSelection()
         if len(sel) == 1 and (sel[0].isDerivedFrom("Part::FeaturePython") or sel[0].isDerivedFrom("App::GeometryPython")):
             return True
-        else:
-            return False
+        return False
 
-    def partMoveableFeatureSelected(self):
+    def partMoveableFeatureSelected(self) -> bool:
         """
             True if the selected object is a workbench feature, and can be moved in the tree
         """
@@ -69,7 +68,7 @@ class Command:
 
         return False
 
-    def partFinSelected(self):
+    def partFinSelected(self) -> bool:
         """
             True if the selected object has fins (Fin, FinCan)
         """
@@ -80,9 +79,9 @@ class Command:
                     return True
         return False
 
-    def partHasShape(self, part):
+    def partHasShape(self, part : RocketComponent) -> bool:
         if part is None:
-            return
+            return False
         for child in part.getChildren():
             if isinstance(child.Proxy,RocketComponent):
                 return True
@@ -90,7 +89,7 @@ class Command:
                 return True
         return False
 
-    def partRocketSelected(self):
+    def partRocketSelected(self) -> bool:
         """
             Checks to see if the selected part is part of a rocket
         """
@@ -104,7 +103,7 @@ class Command:
                 return self.partHasShape(rocket)
         return False
 
-    def partStageEligibleFeature(self, feature):
+    def partStageEligibleFeature(self, feature : RocketComponent) -> bool:
         """
             Checks to see if we're at a point where we can add a stage. Stages can't be a standalone feature
         """
@@ -119,7 +118,7 @@ class Command:
                     return True
         return False
 
-    def partEligibleFeature(self, feature):
+    def partEligibleFeature(self,  feature : str | list[str]) -> bool:
         """
             Checks to see if we can add a part. If a rocket or one of its parts is selected, then we check to see if the
             part can be added to the current feature. Outside of a rocket, parts can be added as standalone objects.
@@ -138,9 +137,10 @@ class Command:
                 return False
         return True
 
-    def noRocketBuilder(self):
+    def noRocketBuilder(self) -> bool:
         if FreeCADGui.ActiveDocument is None:
             return False
 
         if getRocket() is None:
             return True
+        return False

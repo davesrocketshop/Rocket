@@ -38,7 +38,7 @@ from Rocket.Constants import FEATURE_TRANSITION
 
 translate = FreeCAD.Qt.translate
 
-def makeTransition(name='Transition'):
+def makeTransition(name : str = 'Transition') -> FeatureTransition:
     '''makeTransition(name): makes a Transition'''
     obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
     FeatureTransition(obj)
@@ -49,7 +49,7 @@ def makeTransition(name='Transition'):
     return obj.Proxy
 
 class CmdTransition(Command):
-    def Activated(self):
+    def Activated(self) -> None:
         with WaitCursor():
             FreeCAD.ActiveDocument.openTransaction("Create transition")
             FreeCADGui.addModule("Ui.Commands.CmdTransition")
@@ -57,12 +57,12 @@ class CmdTransition(Command):
             FreeCADGui.doCommand("Ui.Commands.CmdStage.addToStage(obj)")
             FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
 
-    def IsActive(self):
+    def IsActive(self) -> bool:
         if FreeCAD.ActiveDocument:
             return self.partEligibleFeature(FEATURE_TRANSITION)
         return False
 
-    def GetResources(self):
+    def GetResources(self) -> dict:
         return {'MenuText': translate("Rocket", 'Transition'),
                 'ToolTip': translate("Rocket", 'Transition design'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Transition.svg"}

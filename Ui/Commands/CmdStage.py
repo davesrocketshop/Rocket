@@ -38,7 +38,7 @@ from Rocket.Constants import FEATURE_STAGE
 
 translate = FreeCAD.Qt.translate
 
-def addToStage(obj):
+def addToStage(obj : FreeCAD.DocumentObject) -> None:
     if FreeCADGui.ActiveDocument is None:
         return
 
@@ -53,7 +53,7 @@ def addToStage(obj):
                 sel[0].Proxy.addChild(obj)
         FreeCADGui.runCommand('Std_TreeExpand')
 
-def makeStage(name='Stage'):
+def makeStage(name : str = 'Stage') -> FeatureStage:
     obj = FreeCAD.ActiveDocument.addObject("App::GeometryPython",name)
     FeatureStage(obj)
     obj.Proxy.setDefaults()
@@ -64,7 +64,7 @@ def makeStage(name='Stage'):
     return obj.Proxy
 
 class CmdStage(Command):
-    def Activated(self):
+    def Activated(self) -> None:
         with WaitCursor():
             FreeCAD.ActiveDocument.openTransaction("Create rocket stage")
             FreeCADGui.addModule("Ui.Commands.CmdStage")
@@ -75,12 +75,12 @@ class CmdStage(Command):
             FreeCADGui.doCommand("App.ActiveDocument.commitTransaction()")
             FreeCADGui.doCommand("App.activeDocument().recompute(None,True,True)")
 
-    def IsActive(self):
+    def IsActive(self) -> bool:
         if FreeCAD.ActiveDocument:
             return self.partStageEligibleFeature(FEATURE_STAGE)
         return False
 
-    def GetResources(self):
+    def GetResources(self) -> dict:
         return {'MenuText': translate("Rocket", 'Stage'),
                 'ToolTip': translate("Rocket", 'Rocket Stage'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Stage.svg"}
@@ -88,14 +88,14 @@ class CmdStage(Command):
 
 class CmdToggleStage:
     "the ToggleStage command definition"
-    def GetResources(self):
+    def GetResources(self) -> dict:
         return {'MenuText': translate("Rocket","Toggle active stage"),
                 'ToolTip' : translate("Rocket","Toggle the active stage")}
 
-    def IsActive(self):
+    def IsActive(self) -> bool:
         return bool(FreeCADGui.Selection.getSelection())
 
-    def Activated(self):
+    def Activated(self) -> None:
         with WaitCursor():
             view = FreeCADGui.ActiveDocument.ActiveView
 

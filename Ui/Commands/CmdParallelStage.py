@@ -38,7 +38,7 @@ from Rocket.Constants import FEATURE_PARALLEL_STAGE
 
 translate = FreeCAD.Qt.translate
 
-def _addChild(stage, parent, child):
+def _addChild(stage, parent, child) -> None:
     child.Proxy.setParent(parent)
     parent.addObject(child)
     stage.Proxy.positionChildren()
@@ -55,7 +55,7 @@ def addToParallelStage(obj):
 
         _addChild(stage, stage, obj)
 
-def makeParallelStage(name='Stage'):
+def makeParallelStage(name : str = 'Stage') -> FeatureParallelStage:
     obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
     FeatureParallelStage(obj)
     obj.Proxy.setDefaults()
@@ -66,7 +66,7 @@ def makeParallelStage(name='Stage'):
     return obj.Proxy
 
 class CmdParallelStage(Command):
-    def Activated(self):
+    def Activated(self) -> None:
         with WaitCursor():
             FreeCAD.ActiveDocument.openTransaction("Create rocket parallel stage")
             FreeCADGui.addModule("Ui.Commands.CmdParallelStage")
@@ -76,12 +76,12 @@ class CmdParallelStage(Command):
             FreeCADGui.doCommand("FreeCADGui.Selection.addSelection(obj._obj)")
             FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
 
-    def IsActive(self):
+    def IsActive(self) -> bool:
         if FreeCAD.ActiveDocument:
             return self.partStageEligibleFeature(FEATURE_PARALLEL_STAGE)
         return False
 
-    def GetResources(self):
+    def GetResources(self) -> dict:
         return {'MenuText': translate("Rocket", 'Parallel Stage'),
                 'ToolTip': translate("Rocket", 'Rocket Parallel Stage'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_ParallelStage.svg"}
@@ -89,14 +89,14 @@ class CmdParallelStage(Command):
 
 class CmdToggleParallelStage:
     "the ToggleParallelStage command definition"
-    def GetResources(self):
+    def GetResources(self) -> dict:
         return {'MenuText': translate("Rocket","Toggle active stage"),
                 'ToolTip' : translate("Rocket","Toggle the active stage")}
 
-    def IsActive(self):
+    def IsActive(self) -> bool:
         return bool(FreeCADGui.Selection.getSelection())
 
-    def Activated(self):
+    def Activated(self) -> None:
         with WaitCursor():
             view = FreeCADGui.ActiveDocument.ActiveView
 

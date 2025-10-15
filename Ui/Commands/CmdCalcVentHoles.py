@@ -31,20 +31,20 @@ translate = FreeCAD.Qt.translate
 
 from Ui.DialogVentHoles import DialogVentHole
 
-def calcVentHoles():
+def calcVentHoles() -> None:
     form = DialogVentHole()
     form.exec_()
 
 class CmdCalcVentHoles:
-    def Activated(self):
+    def Activated(self) -> None:
         FreeCADGui.addModule("Ui.Commands.CmdCalcVentHoles")
         FreeCADGui.doCommand("Ui.Commands.CmdCalcVentHoles.calcVentHoles()")
 
-    def IsActive(self):
+    def IsActive(self) -> bool:
         # Always available, even without active document
         return True
 
-    def GetResources(self):
+    def GetResources(self) -> dict:
         return {'MenuText': translate("Rocket", 'Calculate vent hole size'),
                 'ToolTip': translate("Rocket", 'Calculate vent hole size'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Calculator.svg"}

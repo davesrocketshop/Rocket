@@ -32,20 +32,20 @@ from Ui.Widgets.WaitCursor import WaitCursor
 
 translate = FreeCAD.Qt.translate
 
-def moveUp():
+def moveUp() -> None:
     for obj in FreeCADGui.Selection.getSelection():
         obj.Proxy.moveUp()
 
-def moveDown():
+def moveDown() -> None:
     for obj in FreeCADGui.Selection.getSelection():
         obj.Proxy.moveDown()
 
-def edit():
+def edit() -> None:
     for obj in FreeCADGui.Selection.getSelection():
         FreeCADGui.activeDocument().setEdit(obj.Label,0)
         return # Only process the first in the selection
 
-def delete():
+def delete() -> None:
     for obj in FreeCADGui.Selection.getSelection():
         if obj.Proxy.hasParent():
             parent = obj.Proxy.getParent()
@@ -53,7 +53,7 @@ def delete():
         FreeCAD.ActiveDocument.removeObject(obj.Label)
 
 class CmdMoveUp(Command):
-    def Activated(self):
+    def Activated(self) -> None:
         with WaitCursor():
             FreeCAD.ActiveDocument.openTransaction("Move up")
             FreeCADGui.addModule("Ui.Commands.CmdEditTree")
@@ -61,18 +61,18 @@ class CmdMoveUp(Command):
             FreeCADGui.doCommand("App.ActiveDocument.commitTransaction()")
             FreeCADGui.doCommand("App.activeDocument().recompute(None,True,True)")
 
-    def IsActive(self):
+    def IsActive(self) -> bool:
         if self.partMoveableFeatureSelected():
             return True
         return False
 
-    def GetResources(self):
+    def GetResources(self) -> dict:
         return {'MenuText': translate("Rocket", 'Move Up'),
                 'ToolTip': translate("Rocket", 'Move the object up in the rocket tree'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/button_up.svg"}
 
 class CmdMoveDown(Command):
-    def Activated(self):
+    def Activated(self) -> None:
         with WaitCursor():
             FreeCAD.ActiveDocument.openTransaction("Move down")
             FreeCADGui.addModule("Ui.Commands.CmdEditTree")
@@ -80,12 +80,12 @@ class CmdMoveDown(Command):
             FreeCADGui.doCommand("App.ActiveDocument.commitTransaction()")
             FreeCADGui.doCommand("App.activeDocument().recompute(None,True,True)")
 
-    def IsActive(self):
+    def IsActive(self) -> bool:
         if self.partMoveableFeatureSelected():
             return True
         return False
 
-    def GetResources(self):
+    def GetResources(self) -> dict:
         return {'MenuText': translate("Rocket", 'Move Down'),
                 'ToolTip': translate("Rocket", 'Move the object down in the rocket tree'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/button_down.svg"}

@@ -42,7 +42,7 @@ from Rocket.cfd.ViewProviders.ViewProviderWindTunnel import ViewProviderWindTunn
 from Ui.Commands.Command import Command
 from Ui.TaskPanelCFD import TaskPanelCFD
 
-def doCFD():
+def doCFD() -> None:
 
     # See if we have a rocket selected
     for rocket in FreeCADGui.Selection.getSelection():
@@ -59,7 +59,7 @@ def doCFD():
 
     QtGui.QMessageBox.information(None, "", translate('Rocket', "Please select a rocket first"))
 
-def makeCFDRocket(name='CFDRocket'):
+def makeCFDRocket(name : str = 'CFDRocket') -> FeatureCFDRocket:
     '''makeCFDRocket(name): makes a CFD Rocket'''
     obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
     FeatureCFDRocket(obj)
@@ -68,7 +68,7 @@ def makeCFDRocket(name='CFDRocket'):
 
     return obj.Proxy
 
-def makeWindTunnel(name='WindTunnel', diameter=10.0, length=20.0, offset=0.0):
+def makeWindTunnel(name : str = 'WindTunnel', diameter: float = 10.0, length : float = 20.0, offset : float = 0.0) -> FeatureWindTunnel:
     '''makeWindTunnel(name): makes a Wind Tunnel'''
     obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
     FeatureWindTunnel(obj)
@@ -82,7 +82,7 @@ def makeWindTunnel(name='WindTunnel', diameter=10.0, length=20.0, offset=0.0):
     return obj.Proxy
 
 class CmdCFDAnalysis(Command):
-    def Activated(self):
+    def Activated(self) -> None:
         FreeCAD.ActiveDocument.openTransaction("Create CFD Analysis")
         FreeCADGui.addModule("Ui.Commands.CmdCFDAnalysis")
         FreeCADGui.doCommand("Ui.Commands.CmdCFDAnalysis.doCFD()")
@@ -90,7 +90,7 @@ class CmdCFDAnalysis(Command):
 
         FreeCADGui.doCommand("App.activeDocument().recompute(None,True,True)")
 
-    def IsActive(self):
+    def IsActive(self) -> bool:
         # Available when a part is selected and CfdOF is available
         try:
             import CfdOF
@@ -100,7 +100,7 @@ class CmdCFDAnalysis(Command):
 
         return self.partRocketSelected()
 
-    def GetResources(self):
+    def GetResources(self) -> dict:
         icon_path = os.path.join(CfdTools.getModulePath(), "Gui", "Icons", "cfd.svg")
         return {'MenuText': translate("Rocket", 'CFD Analysis'),
                 'ToolTip': translate("Rocket", 'Perform a CFD Analysis'),

@@ -37,7 +37,7 @@ from Rocket.Constants import FEATURE_POD
 
 translate = FreeCAD.Qt.translate
 
-def makePod(name='Pod'):
+def makePod(name : str = 'Pod') -> FeaturePod:
     '''makePod(name): makes a Pod'''
     obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
     FeaturePod(obj)
@@ -48,7 +48,7 @@ def makePod(name='Pod'):
     return obj.Proxy
 
 class CmdPod(Command):
-    def Activated(self):
+    def Activated(self) -> None:
         with WaitCursor():
             FreeCAD.ActiveDocument.openTransaction("Create pod")
             FreeCADGui.addModule("Ui.Commands.CmdPod")
@@ -58,12 +58,12 @@ class CmdPod(Command):
             FreeCADGui.doCommand("FreeCADGui.Selection.addSelection(obj._obj)")
             FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
 
-    def IsActive(self):
+    def IsActive(self) -> bool:
         if FreeCAD.ActiveDocument:
             return self.partStageEligibleFeature(FEATURE_POD)
         return False
 
-    def GetResources(self):
+    def GetResources(self) -> dict:
         return {'MenuText': translate("Rocket", 'Pod'),
                 'ToolTip': translate("Rocket", 'Pod design'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Pod.svg"}

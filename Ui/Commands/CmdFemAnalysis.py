@@ -37,7 +37,7 @@ import FemGui
 import ObjectsFem
 from Rocket.fem.Gmsh import RocketGmsh
 
-def createAnalysis():
+def createAnalysis() -> None:
     doc = FreeCAD.ActiveDocument
 
     analyzer = ObjectsFem.makeAnalysis(doc, 'Analysis')
@@ -47,7 +47,7 @@ def createAnalysis():
     ObjectsFem.makeSolverCalculixCcxTools(doc)
     analyzer.addObject(doc.ActiveObject)
 
-def doFemAnalysis():
+def doFemAnalysis() -> None:
     doc = FreeCAD.ActiveDocument
 
     # See if we have a fin selected
@@ -91,15 +91,15 @@ def doFemAnalysis():
     QtGui.QMessageBox.information(None, "", translate('Rocket', "Please select a fin first"))
 
 class CmdFemAnalysis(Command):
-    def Activated(self):
+    def Activated(self) -> None:
         FreeCADGui.addModule("Ui.Commands.CmdFemAnalysis")
         FreeCADGui.doCommand("Ui.Commands.CmdFemAnalysis.doFemAnalysis()")
 
-    def IsActive(self):
+    def IsActive(self) -> bool:
         # Always available, even without active document
         return self.partFinSelected()
 
-    def GetResources(self):
+    def GetResources(self) -> dict:
         return {'MenuText': translate("Rocket", 'Fin FEM Analysis'),
                 'ToolTip': translate("Rocket", 'Fin FEM Analysis'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_FinFem.svg"}
