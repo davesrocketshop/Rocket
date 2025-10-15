@@ -58,6 +58,7 @@ class TransitionProxyShapeHandler:
         self._scaleByValue = self._obj.ScaleByValue
         self._scaleByDiameter = self._obj.ScaleByDiameter
         self._autoScaleDiameter = self._obj.AutoScaleDiameter
+        self._scaleForeDiameter = self._obj.ScaleForeDiameter
         self._scaleValue = self._obj.ScaleValue
 
         self._foreShoulder = bool(obj.ForeShoulder)
@@ -99,8 +100,12 @@ class TransitionProxyShapeHandler:
             if self._scaleByValue and self._scaleValue.Value > 0.0:
                 scale = 1.0 / self._scaleValue.Value
             elif self._scaleByDiameter:
-                if self._diameter > 0 and self._scaleValue > 0:
-                    scale = self._scaleValue / self._diameter
+                if self._scaleForeDiameter:
+                    if self._foreDiameter > 0 and self._scaleValue > 0:
+                        scale = self._scaleValue / self._foreDiameter
+                else:
+                    if self._aftDiameter > 0 and self._scaleValue > 0:
+                        scale = self._scaleValue / self._aftDiameter
 
         return float(scale)
 
