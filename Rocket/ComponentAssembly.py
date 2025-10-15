@@ -52,7 +52,7 @@ class ComponentAssembly(RocketComponentShapeless, AxialPositionable):
         return self.getAxialOffsetFromMethod(self._obj.AxialMethod)
 
     def setAxialOffset(self, newAxialOffset : float) -> None:
-        # self._updateBounds()
+        self.updateBounds()
         super()._setAxialOffset(self._obj.AxialMethod, newAxialOffset)
         self.notifyComponentChanged()
 

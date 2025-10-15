@@ -75,9 +75,6 @@ class FeaturePod(ComponentAssembly, RingInstanceable):
     def onDocumentRestored(self, obj : Any) -> None:
         FeaturePod(obj)
 
-        # Pods weren't supported in the old material era
-        # self.convertMaterialAndAppearance(obj)
-
         self._obj = obj
 
     def execute(self, obj : Any) -> None:

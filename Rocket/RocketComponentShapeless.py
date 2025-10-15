@@ -562,9 +562,7 @@ class RocketComponentShapeless(Subject, Observer):
         parentLength = 0
         if self.hasParent():
             parent = self.getParent()
-            if parent.Type in [FEATURE_PARALLEL_STAGE, FEATURE_POD]:
-                parentLength = 0
-            else:
+            if parent.Type not in [FEATURE_ROCKET]:
                 parentLength = self.getParent().getLength()
 
         if method == AxialMethod.ABSOLUTE:
