@@ -160,8 +160,8 @@ class FeatureRailGuide(ExternalComponent, AnglePositionable, BoxBounded, LineIns
         self._setRadialOffset()
         location = self.getInstanceOffsets()
 
-        self._obj.Placement.Base.y = location[0]._y
-        self._obj.Placement.Base.z = location[0]._z
+        self._obj.Placement.Base.y = location[0].y
+        self._obj.Placement.Base.z = location[0].z
 
     def execute(self, obj : Any) -> None:
         shape = RailGuideShapeHandler(obj)
@@ -200,8 +200,8 @@ class FeatureRailGuide(ExternalComponent, AnglePositionable, BoxBounded, LineIns
         if body is None:
             parentRadius = 0
         else:
-            x1 = self.toRelative(NUL, body)[0]._x
-            x2 = self.toRelative(Coordinate(self._obj.Length, 0, 0), body)[0]._x
+            x1 = self.toRelative(NUL, body)[0].x
+            x2 = self.toRelative(Coordinate(self._obj.Length, 0, 0), body)[0].x
             x1 = Utilities.clamp(x1, 0, body.getLength())
             x2 = Utilities.clamp(x2, 0, body.getLength())
             parentRadius = max(body.getRadius(x1), body.getRadius(x2))
@@ -212,7 +212,7 @@ class FeatureRailGuide(ExternalComponent, AnglePositionable, BoxBounded, LineIns
         self._obj.RadialOffset = parentRadius
 
     def getPatternName(self) -> str:
-        return "{0}-Line".format(self.getInstanceCount())
+        return f"{self.getInstanceCount()}-Line"
 
     def getAngleMethod(self) -> AngleMethod:
         return RELATIVE

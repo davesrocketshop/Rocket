@@ -42,7 +42,6 @@ from Rocket.RocketComponentShapeless import RocketComponentShapeless
 from Rocket.Constants import LOCATION_PARENT_TOP, LOCATION_PARENT_MIDDLE, LOCATION_PARENT_BOTTOM, LOCATION_BASE
 from Rocket.Constants import MATERIAL_TYPE_BULK
 
-from Rocket.position.AxialMethod import AXIAL_METHOD_MAP
 from Rocket.interfaces.Observer import Observer
 from Rocket.util.Coordinate import Coordinate, ZERO
 
@@ -161,9 +160,6 @@ class RocketComponent(RocketComponentShapeless):
             self.notifyComponentChanged()
         except ValueError:
             pass
-
-    def setLocationReference(self, reference : str) -> None:
-        self.setAxialMethod(AXIAL_METHOD_MAP[reference])
 
     # Adds an observer to the rocket tree.  The observer is added to the root
     # component, which must be of type Rocket (which overrides this method).  Events of all

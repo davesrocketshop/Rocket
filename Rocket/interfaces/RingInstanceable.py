@@ -27,48 +27,50 @@ __url__ = "https://www.davesrocketshop.com"
 from abc import abstractmethod
 
 from Rocket.interfaces.Instanceable import Instanceable
+from Rocket.position.AngleMethod import AngleMethod
 from Rocket.position.AnglePositionable import AnglePositionable
+from Rocket.position.RadiusMethod import RadiusMethod
 from Rocket.position.RadiusPositionable import RadiusPositionable
 
 class RingInstanceable(Instanceable, AnglePositionable, RadiusPositionable):
 
     @abstractmethod
-    def getAngleOffset(self):
-        pass
+    def getAngleOffset(self) -> float:
+        ...
 
     @abstractmethod
-    def setAngleOffset(self, angle):
-        pass
+    def setAngleOffset(self, angle : float) -> None:
+        ...
 
     @abstractmethod
-    def getAngleMethod(self):
-        pass
+    def getAngleMethod(self) -> AngleMethod:
+        ...
 
     @abstractmethod
-    def setAngleMethod(self, method):
-        pass
+    def setAngleMethod(self, newMethod : AngleMethod) -> None:
+        ...
 
     @abstractmethod
-    def getInstanceAngleIncrement(self):
-        pass
+    def getInstanceAngleIncrement(self) -> float:
+        ...
 
     @abstractmethod
-    def getInstanceAngles(self):
-        pass
+    def getInstanceAngles(self) -> list[float]:
+        ...
 
     @abstractmethod
-    def getRadiusOffset(self):
-        pass
+    def getRadiusOffset(self) -> float:
+        ...
 
     @abstractmethod
-    def setRadiusOffset(self, radius):
-        pass
+    def setRadiusOffset(self, radius : float) -> None:
+        ...
 
     @abstractmethod
-    def getRadiusMethod(self):
-        pass
+    def getRadiusMethod(self) -> RadiusMethod:
+        ...
 
     @abstractmethod
-    def setRadiusMethod(self, method):
-        pass
+    def setRadiusMethod(self, method : RadiusMethod) -> None:
+        ...
 
