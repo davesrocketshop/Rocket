@@ -52,8 +52,8 @@ class FeatureParallelStage(FeatureStage):
     def onDocumentRestored(self, obj : Any) -> None:
         FeatureParallelStage(obj)
 
-        # Convert from the pre-1.0 material system if required
-        self.convertMaterialAndAppearance(obj)
+        # Parallel stages weren't supported in the old material era
+        # self.convertMaterialAndAppearance(obj)
 
         self._obj = obj
 
@@ -67,7 +67,7 @@ class FeatureParallelStage(FeatureStage):
         roll = 0.0
         self._obj.Placement = FreeCAD.Placement(FreeCAD.Vector(base), FreeCAD.Rotation(FreeCAD.Vector(1,0,0), roll))
 
-        self.positionChildren(base)
+        # self.positionChildren(base)
 
     def eligibleChild(self, childType : str) -> bool:
         return childType not in [FEATURE_ROCKET, FEATURE_STAGE, FEATURE_PARALLEL_STAGE]

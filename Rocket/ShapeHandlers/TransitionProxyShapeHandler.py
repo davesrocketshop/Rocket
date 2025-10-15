@@ -134,10 +134,30 @@ class TransitionProxyShapeHandler:
         self._shape = self._shapeUnion(shape)
         return self._shape
 
+    def _radiusAt(self, r1 : float, r2 : float, length : float, pos : float) -> float:
+        # Treat as a conical transition
+        if r1 < r2:
+            intercept = r1
+            x = pos
+            slope = (r2 - r1) / length
+        else:
+            intercept = r2
+            x = length - pos
+            slope = (r1 - r2) / length
+
+        y = x * slope + intercept
+        return y
+
+    # def getRadius(self, x : float) -> float:
+    #     # Apply the scaling
+    #     scale = self._getScale()
+    #     return scale * (self._diameter / 2.0)
     def getRadius(self, x : float) -> float:
-        # Apply the scaling
         scale = self._getScale()
-        return scale * (self._diameter / 2.0)
+        foreRadius = (self._foreDiameter / 2.0) / scale
+        aftRadius = (self._aftDiameter / 2.0) / scale
+        radius = self._radiusAt(foreRadius, aftRadius, self.getLength(), x)
+        return radius
 
     def getLength(self) -> float:
         shape = self._getShape()
