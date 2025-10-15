@@ -39,7 +39,7 @@ from Rocket.Constants import FEATURE_LAUNCH_LUG, FEATURE_RAIL_BUTTON, FEATURE_RA
 
 translate = FreeCAD.Qt.translate
 
-def makeLaunchLug(name : str = 'LaunchLug') -> None:
+def makeLaunchLug(name : str = 'LaunchLug') -> FeatureLaunchLug:
     '''makeLaunchLug(name): makes a Launch Lug'''
     obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
     FeatureLaunchLug(obj)
@@ -49,7 +49,7 @@ def makeLaunchLug(name : str = 'LaunchLug') -> None:
 
     return obj.Proxy
 
-def makeRailButton(name : str = 'RailButton') -> None:
+def makeRailButton(name : str = 'RailButton') -> FeatureRailButton:
     '''makeRailButton(name): makes a Rail Button'''
     obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
     FeatureRailButton(obj)
@@ -59,7 +59,7 @@ def makeRailButton(name : str = 'RailButton') -> None:
 
     return obj.Proxy
 
-def makeRailGuide(name : str = 'RailGuide') -> None:
+def makeRailGuide(name : str = 'RailGuide') -> FeatureRailGuide:
     '''makeRailGuide(name): makes a Launch Guide'''
     obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
     FeatureRailGuide(obj)

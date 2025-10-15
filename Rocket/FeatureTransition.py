@@ -428,6 +428,9 @@ class FeatureTransition(SymmetricComponent):
                 self._setShapeHandler()
             return self._shapeHandler.getLength() / self.getScale()
         return float(self._obj.Length) / self.getScale()
+    
+    def setLength(self, length : float) -> None:
+        self._obj.Length = length
 
     def _setShapeHandler(self) -> None:
         obj = self._obj

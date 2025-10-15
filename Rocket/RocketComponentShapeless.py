@@ -566,7 +566,6 @@ class RocketComponentShapeless(Subject, Observer):
                 parentLength = 0
             else:
                 parentLength = self.getParent().getLength()
-            print(f"Parent {parent.getName()}, length {parentLength}")
 
         if method == AxialMethod.ABSOLUTE:
             return float(self.getComponentLocations()[0].x)
