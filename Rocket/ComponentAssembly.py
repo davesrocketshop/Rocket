@@ -42,6 +42,11 @@ class ComponentAssembly(RocketComponentShapeless, AxialPositionable):
     def __init__(self, obj : Any) -> None:
         super().__init__(obj)
 
+        if not obj.hasExtension("App::GeoFeatureGroupExtensionPython"):
+            obj.addExtension("App::GeoFeatureGroupExtensionPython")
+        # if not obj.hasExtension("App::GroupExtensionPython"):
+        #     obj.addExtension("App::GroupExtensionPython")
+
         super().setAxialMethod(AxialMethod.AFTER)
         self._length = 0
 

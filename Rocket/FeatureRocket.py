@@ -61,7 +61,19 @@ class FeatureRocket(ComponentAssembly):
         super().setDefaults()
 
     def onDocumentRestored(self, obj : Any) -> None:
+        list = None
+        if hasattr(obj, "Group"):
+            list = obj.Group
+            if obj.hasExtension("App::GroupExtensionPython"):
+                print("Pre Has extension App::GroupExtensionPython")
+            if obj.hasExtension("App::GeoFeatureGroupExtensionPython"):
+                print("Pre Has extension App::GeoFeatureGroupExtensionPython")
         FeatureRocket(obj)
+        if hasattr(obj, "Group"):
+            if obj.hasExtension("App::GroupExtensionPython"):
+                print("Post Has extension App::GroupExtensionPython")
+            if obj.hasExtension("App::GeoFeatureGroupExtensionPython"):
+                print("Post Has extension App::GeoFeatureGroupExtensionPython")
         self._obj = obj
         obj.Proxy=self # Required because of the local variables
         self._updating = False

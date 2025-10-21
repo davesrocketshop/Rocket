@@ -99,9 +99,6 @@ class RocketComponentShapeless(Subject, Observer):
         if not hasattr(obj, 'ScaleValue'):
             obj.addProperty('App::PropertyLength', 'ScaleValue', 'RocketComponent', translate('App::Property', 'Scaling value or dimension')).ScaleValue = 1.0
 
-        if not hasattr(obj,"Group"):
-            obj.addExtension("App::GroupExtensionPython")
-
     def __getstate__(self) -> tuple:
         return self.Type, self.version
 

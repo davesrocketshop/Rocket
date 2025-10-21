@@ -73,7 +73,17 @@ class FeatureBodyTube(SymmetricComponent, BoxBounded, Coaxial):
         self._obj.Length = 457.0
 
     def onDocumentRestored(self, obj : Any) -> None:
+        if hasattr(obj, "Group"):
+            if obj.hasExtension("App::GroupExtensionPython"):
+                print("Pre Body Has extension App::GroupExtensionPython")
+            if obj.hasExtension("App::GeoFeatureGroupExtensionPython"):
+                print("Pre Body Has extension App::GeoFeatureGroupExtensionPython")
         FeatureBodyTube(obj)
+        if hasattr(obj, "Group"):
+            if obj.hasExtension("App::GroupExtensionPython"):
+                print("Post Body Has extension App::GroupExtensionPython")
+            if obj.hasExtension("App::GeoFeatureGroupExtensionPython"):
+                print("Post Body Has extension App::GeoFeatureGroupExtensionPython")
 
         # Convert from the pre-1.0 material system if required
         self.convertMaterialAndAppearance(obj)

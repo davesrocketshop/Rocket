@@ -35,6 +35,9 @@ class ViewProvider:
 
     def __init__(self, vobj):
         vobj.Proxy = self
+        self._addExtension(vobj)
+
+    def _addExtension(self, vobj):
         vobj.addExtension("Gui::ViewProviderGroupExtensionPython")
 
     def attach(self, vobj):

@@ -41,6 +41,9 @@ class ViewProviderStage(ViewProvider):
     def __init__(self, vobj):
         super().__init__(vobj)
 
+    def _addExtension(self, vobj):
+        vobj.addExtension("Gui::ViewProviderGeoFeatureGroupExtensionPython")
+
     def getIcon(self):
         return FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Stage.svg"
 
