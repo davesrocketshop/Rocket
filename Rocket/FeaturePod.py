@@ -63,10 +63,6 @@ class FeaturePod(ComponentAssembly, RingInstanceable):
         if not hasattr(obj, 'RadiusOffset'):
             obj.addProperty('App::PropertyLength', 'RadiusOffset', 'RocketComponent', translate('App::Property', 'Radius offset')).RadiusOffset = 0
 
-
-        # if not hasattr(obj,"Group"):
-        #     obj.addExtension("App::GroupExtensionPython")
-
     def setDefaults(self) -> None:
         super().setDefaults()
         self._obj.PodCount = 2
@@ -226,8 +222,8 @@ class FeaturePod(ComponentAssembly, RingInstanceable):
     def getLength(self) -> float:
         # Return the length of this component along the central axis
         length = 0.0
-        if hasattr(self._obj, "Group"):
-            for child in self._obj.Group:
+        if hasattr(self._obj, "SubComponent"):
+            for child in self._obj.SubComponent:
                 if child.Proxy.Type not in [FEATURE_PARALLEL_STAGE, FEATURE_POD]:
                     length += float(child.Proxy.getLength())
 

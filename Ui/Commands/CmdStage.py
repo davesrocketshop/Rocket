@@ -54,7 +54,8 @@ def addToStage(obj : FreeCAD.DocumentObject) -> None:
         FreeCADGui.runCommand('Std_TreeExpand')
 
 def makeStage(name : str = 'Stage') -> FeatureStage:
-    obj = FreeCAD.ActiveDocument.addObject("App::GeometryPython",name)
+    # obj = FreeCAD.ActiveDocument.addObject("App::GeometryPython",name)
+    obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
     FeatureStage(obj)
     obj.Proxy.setDefaults()
     if FreeCAD.GuiUp:

@@ -38,7 +38,8 @@ class ViewProvider:
         self._addExtension(vobj)
 
     def _addExtension(self, vobj):
-        vobj.addExtension("Gui::ViewProviderGroupExtensionPython")
+        # vobj.addExtension("Gui::ViewProviderGroupExtensionPython")
+        pass
 
     def attach(self, vobj):
         self.ViewObject = vobj
@@ -52,7 +53,6 @@ class ViewProvider:
     def setupContextMenu(self, viewObject, menu):
         action = menu.addAction(translate('Rocket', 'Edit %1').replace('%1', viewObject.Object.Label))
         action.triggered.connect(lambda: self.startDefaultEditMode(viewObject))
-        return False
 
     def startDefaultEditMode(self, viewObject):
         self.startTransaction(viewObject)
@@ -68,7 +68,7 @@ class ViewProvider:
         """
         objs = []
         if hasattr(self,"Object"):
-            objs = self.Object.Group
+            objs = self.Object.SubComponent
             for obj in objs:
                 if hasattr(obj, "Proxy"):
                     obj.Proxy.setParent(self.Object)

@@ -47,8 +47,8 @@ def addToParallelStage(obj):
     stage=FreeCADGui.ActiveDocument.ActiveView.getActiveObject("stage")
     if stage:
         # Add to the last item in the stage if it is a group object
-        if len(stage.Group) > 0:
-            groupObj = stage.Group[len(stage.Group) - 1]
+        if len(stage.SubComponent) > 0:
+            groupObj = stage.SubComponent[len(stage.SubComponent) - 1]
             if groupObj.Proxy.eligibleChild(obj.Proxy.Type):
                 _addChild(stage, groupObj, obj)
                 return
