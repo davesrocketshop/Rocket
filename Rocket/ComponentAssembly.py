@@ -39,11 +39,15 @@ from Rocket.Constants import FEATURE_ROCKET, FEATURE_STAGE, FEATURE_PARALLEL_STA
 
 class ComponentAssembly(RocketComponentShapeless, AxialPositionable):
 
-    def __init__(self, obj : Any) -> None:
+    def __init__(self, obj : Any, isRocket : bool = False) -> None:
         super().__init__(obj)
 
-        if not obj.hasExtension("App::GeoFeatureGroupExtensionPython"):
-            obj.addExtension("App::GeoFeatureGroupExtensionPython")
+        if isRocket:
+            if not obj.hasExtension("App::GroupExtensionPython"):
+                obj.addExtension("App::GroupExtensionPython")
+        else:
+            if not obj.hasExtension("App::GeoFeatureGroupExtensionPython"):
+                obj.addExtension("App::GeoFeatureGroupExtensionPython")
 
         super().setAxialMethod(AxialMethod.AFTER)
         self._length = 0
