@@ -98,7 +98,7 @@ class CmdBodyTube(Command):
 
     def GetResources(self):
         return {'MenuText': translate("Rocket", 'Body Tube'),
-                'ToolTip': translate("Rocket", 'Body tube design'),
+                'ToolTip': translate("Rocket", 'Add a body tube'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_BodyTube.svg"}
 
 class CmdCoupler(Command):

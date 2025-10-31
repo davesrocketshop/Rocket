@@ -85,7 +85,7 @@ class CmdLaunchLug(Command):
 
     def GetResources(self):
         return {'MenuText': translate("Rocket", 'Launch Lug'),
-                'ToolTip': translate("Rocket", 'Launch lug design'),
+                'ToolTip': translate("Rocket", 'Add a launch lug'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_LaunchLug.svg"}
 
 class CmdRailButton(Command):
@@ -104,7 +104,7 @@ class CmdRailButton(Command):
 
     def GetResources(self):
         return {'MenuText': translate("Rocket", 'Rail Button'),
-                'ToolTip': translate("Rocket", 'Rail button design'),
+                'ToolTip': translate("Rocket", 'Add a rail button'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_RailButton.svg"}
 
 class CmdRailGuide(Command):
@@ -123,7 +123,7 @@ class CmdRailGuide(Command):
 
     def GetResources(self):
         return {'MenuText': translate("Rocket", 'Rail Guide'),
-                'ToolTip': translate("Rocket", 'Rail guide design'),
+                'ToolTip': translate("Rocket", 'Add a rail guide'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_RailGuide.svg"}
 
 class CmdStandOff(Command):
@@ -142,5 +142,5 @@ class CmdStandOff(Command):
 
     def GetResources(self):
         return {'MenuText': translate("Rocket", 'Stand Off'),
-                'ToolTip': translate("Rocket", 'Stand off design'),
+                'ToolTip': translate("Rocket", 'Add a launch guide stand off'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Standoff.svg"}

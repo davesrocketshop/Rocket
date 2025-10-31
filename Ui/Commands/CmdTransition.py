@@ -64,5 +64,5 @@ class CmdTransition(Command):
 
     def GetResources(self):
         return {'MenuText': translate("Rocket", 'Transition'),
-                'ToolTip': translate("Rocket", 'Transition design'),
+                'ToolTip': translate("Rocket", 'Add a transition'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Transition.svg"}

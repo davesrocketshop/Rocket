@@ -65,5 +65,5 @@ class CmdPod(Command):
 
     def GetResources(self):
         return {'MenuText': translate("Rocket", 'Pod'),
-                'ToolTip': translate("Rocket", 'Pod design'),
+                'ToolTip': translate("Rocket", 'Add a pod'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Pod.svg"}

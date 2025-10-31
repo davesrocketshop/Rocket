@@ -83,7 +83,7 @@ class CmdParallelStage(Command):
 
     def GetResources(self):
         return {'MenuText': translate("Rocket", 'Parallel Stage'),
-                'ToolTip': translate("Rocket", 'Rocket Parallel Stage'),
+                'ToolTip': translate("Rocket", 'Add a parallel stage'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_ParallelStage.svg"}
 
 

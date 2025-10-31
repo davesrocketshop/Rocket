@@ -63,5 +63,5 @@ class CmdBulkhead(Command):
 
     def GetResources(self):
         return {'MenuText': translate("Rocket", 'Bulkhead'),
-                'ToolTip': translate("Rocket", 'Bulkhead design'),
+                'ToolTip': translate("Rocket", 'Add a bulkhead'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Bulkhead.svg"}

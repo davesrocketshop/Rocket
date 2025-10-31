@@ -73,5 +73,5 @@ class CmdFin(Command):
 
     def GetResources(self):
         return {'MenuText': translate("Rocket", 'Fin'),
-                'ToolTip': translate("Rocket", 'Fin design'),
+                'ToolTip': translate("Rocket", 'Add a fin or fin set'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Fin.svg"}

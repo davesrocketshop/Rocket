@@ -65,5 +65,5 @@ class CmdRingtail(Command):
 
     def GetResources(self):
         return {'MenuText': translate("Rocket", 'Ring tail'),
-                'ToolTip': translate("Rocket", 'Ring tail design'),
+                'ToolTip': translate("Rocket", 'Add a ring tail'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Ringtail.svg"}

@@ -78,7 +78,7 @@ class CmdRocket(Command):
 
     def GetResources(self):
         return {'MenuText': translate("Rocket", 'Rocket'),
-                'ToolTip': translate("Rocket", 'Rocket assembly'),
+                'ToolTip': translate("Rocket", 'Create a rocket assembly'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Rocket.svg"}
 
 class CmdToggleRocket:

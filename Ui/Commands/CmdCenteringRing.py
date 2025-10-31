@@ -63,5 +63,5 @@ class CmdCenteringRing(Command):
 
     def GetResources(self):
         return {'MenuText': translate("Rocket", 'Centering Ring'),
-                'ToolTip': translate("Rocket", 'Centering Ring design'),
+                'ToolTip': translate("Rocket", 'Add a centering ring'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_CenteringRing.svg"}
