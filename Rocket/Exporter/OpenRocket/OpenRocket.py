@@ -264,10 +264,7 @@ class OpenRocketExporter:
         red = round(color[0] * 255.0)
         green = round(color[1] * 255.0)
         blue = round(color[2] * 255.0)
-        if self._v1_1:
-            alpha = round(color[3] * 255.0)
-        else:
-            alpha = round((1.0 - color[3]) * 255.0)
+        alpha = round(color[3] * 255.0)
         self.write(file, f"{' ' * (indent + 2)}<paint red=\"{red}\" green=\"{green}\" blue=\"{blue}\" alpha=\"{alpha}\"/>\n")
         self.write(file, f"{' ' * (indent + 2)}<shine>{appearance.Shininess}</shine>\n")
         self.write(file, f"{' ' * indent}</appearance>\n\n")
