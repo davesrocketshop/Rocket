@@ -1,0 +1,349 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<RocketComponent>
+    <!-- Source: https://aeropack.net/pages/info-data -->
+    <!-- Since the source is from a technologically archaic country, units are inches -->
+    <Components>
+        <Retainer>
+            <Manufacturer>Aero Pack</Manufacturer>
+            <PartNumber>RA24L</PartNumber>
+            <Description>24 mm Retainer Assembly, Apogee, Estes, and Madcow paper</Description>
+            <Material Type="BULK">6061-T6 Aluminum</Material>
+            <RetainerID>0.976</RetainerID>
+            <MMTDepth>0.25</MMTDepth>
+            <RetainerOD>1.04</RetainerOD>
+            <CapDiameter>1.225</CapDiameter>
+            <CapHeight>0.5</CapHeight>
+            <HeightWithAC>0.67</HeightWithAC>
+        </Retainer>
+        <Retainer>
+            <Manufacturer>Aero Pack</Manufacturer>
+            <PartNumber>RA24L2</PartNumber>
+            <Description>24 mm Retainer Assembly, AeroTech and LOC/Precision paper</Description>
+            <Material Type="BULK">6061-T6 Aluminum</Material>
+            <RetainerID>1.0</RetainerID>
+            <MMTDepth>0.25</MMTDepth>
+            <RetainerOD>1.04</RetainerOD>
+            <CapDiameter>1.225</CapDiameter>
+            <CapHeight>0.5</CapHeight>
+            <HeightWithAC>0.67</HeightWithAC>
+        </Retainer>
+        <Retainer>
+            <Manufacturer>Aero Pack</Manufacturer>
+            <PartNumber>RA24P</PartNumber>
+            <Description>24 mm Retainer Assembly, Performance Rocketry Fiberglass</Description>
+            <Material Type="BULK">6061-T6 Aluminum</Material>
+            <RetainerID>1.045</RetainerID>
+            <MMTDepth>0.25</MMTDepth>
+            <RetainerOD>1.04</RetainerOD>
+            <CapDiameter>1.225</CapDiameter>
+            <CapHeight>0.5</CapHeight>
+            <HeightWithAC>0.67</HeightWithAC>
+        </Retainer>
+        <Retainer>
+            <Manufacturer>Aero Pack</Manufacturer>
+            <PartNumber>RA29L</PartNumber>
+            <Description>29 mm Retainer Assembly, Apogee, LOC/Precision, and Madcow paper</Description>
+            <Material Type="BULK">6061-T6 Aluminum</Material>
+            <RetainerID>1.215</RetainerID>
+            <MMTDepth>0.25</MMTDepth>
+            <RetainerOD>1.37</RetainerOD>
+            <CapDiameter>1.575</CapDiameter>
+            <CapHeight>0.55</CapHeight>
+            <HeightWithAC>0.6</HeightWithAC>
+        </Retainer>
+        <Retainer>
+            <Manufacturer>Aero Pack</Manufacturer>
+            <PartNumber>RA29L2</PartNumber>
+            <Description>29 mm Retainer Assembly, Aerotech paper</Description>
+            <Material Type="BULK">6061-T6 Aluminum</Material>
+            <RetainerID>1.225</RetainerID>
+            <MMTDepth>0.25</MMTDepth>
+            <RetainerOD>1.37</RetainerOD>
+            <CapDiameter>1.575</CapDiameter>
+            <CapHeight>0.55</CapHeight>
+            <HeightWithAC>0.6</HeightWithAC>
+        </Retainer>
+        <Retainer>
+            <Manufacturer>Aero Pack</Manufacturer>
+            <PartNumber>RA29L3</PartNumber>
+            <Description>29 mm Retainer Assembly, Madcow fiberglass, Performance Rocketry and Wildman thin-wall fiberglass</Description>
+            <Material Type="BULK">6061-T6 Aluminum</Material>
+            <RetainerID>1.255</RetainerID>
+            <MMTDepth>0.25</MMTDepth>
+            <RetainerOD>1.37</RetainerOD>
+            <CapDiameter>1.575</CapDiameter>
+            <CapHeight>0.55</CapHeight>
+            <HeightWithAC>0.6</HeightWithAC>
+        </Retainer>
+        <Retainer>
+            <Manufacturer>Aero Pack</Manufacturer>
+            <PartNumber>RA29P</PartNumber>
+            <Description>29 mm Retainer Assembly, Blue Tube, PML, and GLR Phenolic, Hawk MT and Performance Rocketry fiberglass</Description>
+            <Material Type="BULK">6061-T6 Aluminum</Material>
+            <RetainerID>1.27</RetainerID>
+            <MMTDepth>0.25</MMTDepth>
+            <RetainerOD>1.37</RetainerOD>
+            <CapDiameter>1.575</CapDiameter>
+            <CapHeight>0.55</CapHeight>
+            <HeightWithAC>0.6</HeightWithAC>
+        </Retainer>
+        <Retainer>
+            <Manufacturer>Aero Pack</Manufacturer>
+            <PartNumber>RA38L2</PartNumber>
+            <Description>38 mm Retainer Assembly, Wildman thin-wall fiberglass</Description>
+            <Material Type="BULK">6061-T6 Aluminum</Material>
+            <RetainerID>1.602</RetainerID>
+            <MMTDepth>0.375</MMTDepth>
+            <RetainerOD>1.75</RetainerOD>
+            <CapDiameter>1.96</CapDiameter>
+            <CapHeight>0.5</CapHeight>
+            <HeightWithAC>0.85</HeightWithAC>
+        </Retainer>
+        <Retainer>
+            <Manufacturer>Aero Pack</Manufacturer>
+            <PartNumber>RA38L</PartNumber>
+            <Description>38 mm Retainer Assembly, Apogee and LOC/Precision paper</Description>
+            <Material Type="BULK">6061-T6 Aluminum</Material>
+            <RetainerID>1.63</RetainerID>
+            <MMTDepth>0.375</MMTDepth>
+            <RetainerOD>1.75</RetainerOD>
+            <CapDiameter>1.96</CapDiameter>
+            <CapHeight>0.5</CapHeight>
+            <HeightWithAC>0.85</HeightWithAC>
+        </Retainer>
+        <Retainer>
+            <Manufacturer>Aero Pack</Manufacturer>
+            <PartNumber>RA38P</PartNumber>
+            <Description>38 mm Retainer Assembly, Blue Tube, PML, and GLR phenolic, Hawk Mt, Performance Rocketry, and Madcow fiberglass</Description>
+            <Material Type="BULK">6061-T6 Aluminum</Material>
+            <RetainerID>1.65</RetainerID>
+            <MMTDepth>0.375</MMTDepth>
+            <RetainerOD>1.75</RetainerOD>
+            <CapDiameter>1.96</CapDiameter>
+            <CapHeight>0.5</CapHeight>
+            <HeightWithAC>0.85</HeightWithAC>
+        </Retainer>
+        <Retainer>
+            <Manufacturer>Aero Pack</Manufacturer>
+            <PartNumber>RA54</PartNumber>
+            <Description>54 mm Flanged Retainer Assembly</Description>
+            <Material Type="BULK">6061-T6 Aluminum</Material>
+            <RetainerOD>2.4</RetainerOD>
+            <CapDiameter>2.62</CapDiameter>
+            <CapHeight>0.6</CapHeight>
+            <FlangeDiameter>2.985</FlangeDiameter>
+            <ScrewHolePattern>2.7</ScrewHolePattern>
+            <HeightWithSR>1.185</HeightWithSR>
+            <HeightWithAC>1.0</HeightWithAC>
+            <ScrewCount>6</ScrewCount>
+            <ScrewSize>6-32x1/2</ScrewSize>
+        </Retainer>
+        <Retainer>
+            <Manufacturer>Aero Pack</Manufacturer>
+            <PartNumber>RA54L</PartNumber>
+            <Description>54 mm Retainer Assembly, LOC/Precision and Madcow paper</Description>
+            <Material Type="BULK">6061-T6 Aluminum</Material>
+            <RetainerID>2.265</RetainerID>
+            <MMTDepth>0.5</MMTDepth>
+            <RetainerOD>2.4</RetainerOD>
+            <CapDiameter>2.62</CapDiameter>
+            <CapHeight>0.6</CapHeight>
+            <HeightWithSR>1.185</HeightWithSR>
+            <HeightWithAC>1.0</HeightWithAC>
+        </Retainer>
+        <Retainer>
+            <Manufacturer>Aero Pack</Manufacturer>
+            <PartNumber>RA54P</PartNumber>
+            <Description>54 mm Retainer Assembly, Blue Tube, PML, and GLR phenolic, Hawk Mt and Performance ROcketry fiberglass</Description>
+            <Material Type="BULK">6061-T6 Aluminum</Material>
+            <RetainerID>2.278</RetainerID>
+            <MMTDepth>0.5</MMTDepth>
+            <RetainerOD>2.4</RetainerOD>
+            <CapDiameter>2.62</CapDiameter>
+            <CapHeight>0.6</CapHeight>
+            <HeightWithSR>1.185</HeightWithSR>
+            <HeightWithAC>1.0</HeightWithAC>
+        </Retainer>
+        <Retainer>
+            <Manufacturer>Aero Pack</Manufacturer>
+            <PartNumber>RA75</PartNumber>
+            <Description>75 mm Flanged Retainer Assembly</Description>
+            <Material Type="BULK">6061-T6 Aluminum</Material>
+            <RetainerOD>3.26</RetainerOD>
+            <CapDiameter>3.65</CapDiameter>
+            <CapHeight>0.97</CapHeight>
+            <FlangeDiameter>3.875</FlangeDiameter>
+            <ScrewHolePattern>3.64</ScrewHolePattern>
+            <HeightWithSR>1.5</HeightWithSR>
+            <HeightWithAC>1.2</HeightWithAC>
+            <ScrewCount>12</ScrewCount>
+            <ScrewSize>6-32x1/2</ScrewSize>
+        </Retainer>
+        <Retainer>
+            <Manufacturer>Aero Pack</Manufacturer>
+            <PartNumber>RA75L</PartNumber>
+            <Description>75 mm Retainer Assembly, LOC/Precision heavy-wall paper</Description>
+            <Material Type="BULK">6061-T6 Aluminum</Material>
+            <RetainerID>3.18</RetainerID>
+            <MMTDepth>0.75</MMTDepth>
+            <RetainerOD>3.26</RetainerOD>
+            <CapDiameter>3.65</CapDiameter>
+            <CapHeight>0.97</CapHeight>
+            <HeightWithSR>1.7</HeightWithSR>
+            <HeightWithAC>1.4</HeightWithAC>
+        </Retainer>
+        <Retainer>
+            <Manufacturer>Aero Pack</Manufacturer>
+            <PartNumber>RA75P</PartNumber>
+            <Description>75 mm Retainer Assembly, Blue Tube, PML, and GLR phenolic, Hawk Mt and Performance Rocketry fiberglass</Description>
+            <Material Type="BULK">6061-T6 Aluminum</Material>
+            <RetainerID>3.125</RetainerID>
+            <MMTDepth>0.75</MMTDepth>
+            <RetainerOD>3.26</RetainerOD>
+            <CapDiameter>3.65</CapDiameter>
+            <CapHeight>0.97</CapHeight>
+            <HeightWithSR>1.7</HeightWithSR>
+            <HeightWithAC>1.4</HeightWithAC>
+        </Retainer>
+        <Retainer>
+            <Manufacturer>Aero Pack</Manufacturer>
+            <PartNumber>RA98</PartNumber>
+            <Description>98 mm Flanged Retainer Assembly</Description>
+            <Material Type="BULK">6061-T6 Aluminum</Material>
+            <RetainerOD>4.2</RetainerOD>
+            <CapDiameter>4.75</CapDiameter>
+            <CapHeight>1.1</CapHeight>
+            <FlangeDiameter>4.96</FlangeDiameter>
+            <ScrewHolePattern>4.66</ScrewHolePattern>
+            <HeightWithAC>1.4</HeightWithAC>
+            <ScrewCount>12</ScrewCount>
+            <ScrewSize>8-32x1/2</ScrewSize>
+        </Retainer>
+        <TailconeRetainer>
+            <Manufacturer>Aero Pack</Manufacturer>
+            <PartNumber>TA3830L2</PartNumber>
+            <Description>38 mm Tailcone Retainer Assembly</Description>
+            <Material Type="BULK">6061-T6 Aluminum</Material>
+            <RetainerID>1.602</RetainerID>
+            <MMTDepth>0.375</MMTDepth>
+            <ConeDiameterLarge>3.1</ConeDiameterLarge>
+            <ConeDiameterSmall>1.95</ConeDiameterSmall>
+            <OpenDiameterSmall>1.4</OpenDiameterSmall>
+            <Length>1.95</Length>
+            <AirframeToMMT>1.5</AirframeToMMT>
+            <Lip>0.06</Lip>
+        </TailconeRetainer>
+        <TailconeRetainer>
+            <Manufacturer>Aero Pack</Manufacturer>
+            <PartNumber>TA3830L</PartNumber>
+            <Description>38 mm Tailcone Retainer Assembly</Description>
+            <Material Type="BULK">6061-T6 Aluminum</Material>
+            <RetainerID>1.63</RetainerID>
+            <MMTDepth>0.375</MMTDepth>
+            <ConeDiameterLarge>3.1</ConeDiameterLarge>
+            <ConeDiameterSmall>1.95</ConeDiameterSmall>
+            <OpenDiameterSmall>1.4</OpenDiameterSmall>
+            <Length>1.95</Length>
+            <AirframeToMMT>1.5</AirframeToMMT>
+            <Lip>0.06</Lip>
+        </TailconeRetainer>
+        <TailconeRetainer>
+            <Manufacturer>Aero Pack</Manufacturer>
+            <PartNumber>TA3830P</PartNumber>
+            <Description>38 mm Tailcone Retainer Assembly</Description>
+            <Material Type="BULK">6061-T6 Aluminum</Material>
+            <RetainerID>1.65</RetainerID>
+            <MMTDepth>0.375</MMTDepth>
+            <ConeDiameterLarge>3.1</ConeDiameterLarge>
+            <ConeDiameterSmall>1.95</ConeDiameterSmall>
+            <OpenDiameterSmall>1.4</OpenDiameterSmall>
+            <Length>1.95</Length>
+            <AirframeToMMT>1.5</AirframeToMMT>
+            <Lip>0.06</Lip>
+        </TailconeRetainer>
+        <TailconeRetainer>
+            <Manufacturer>Aero Pack</Manufacturer>
+            <PartNumber>TA5430L</PartNumber>
+            <Description>54 mm Tailcone Retainer Assembly</Description>
+            <Material Type="BULK">6061-T6 Aluminum</Material>
+            <RetainerID>2.265</RetainerID>
+            <MMTDepth>0.5</MMTDepth>
+            <ConeDiameterLarge>3.1</ConeDiameterLarge>
+            <ConeDiameterSmall>2.6</ConeDiameterSmall>
+            <OpenDiameterSmall>2.0</OpenDiameterSmall>
+            <Length>1.45</Length>
+            <AirframeToMMT>0.74</AirframeToMMT>
+            <Lip>0.06</Lip>
+        </TailconeRetainer>
+        <TailconeRetainer>
+            <Manufacturer>Aero Pack</Manufacturer>
+            <PartNumber>TA5430P</PartNumber>
+            <Description>54 mm Tailcone Retainer Assembly</Description>
+            <Material Type="BULK">6061-T6 Aluminum</Material>
+            <RetainerID>2.278</RetainerID>
+            <MMTDepth>0.5</MMTDepth>
+            <ConeDiameterLarge>3.1</ConeDiameterLarge>
+            <ConeDiameterSmall>2.6</ConeDiameterSmall>
+            <OpenDiameterSmall>2.0</OpenDiameterSmall>
+            <Length>1.45</Length>
+            <AirframeToMMT>0.74</AirframeToMMT>
+            <Lip>0.06</Lip>
+        </TailconeRetainer>
+        <TailconeRetainer>
+            <Manufacturer>Aero Pack</Manufacturer>
+            <PartNumber>TA5439L</PartNumber>
+            <Description>54 mm Tailcone Retainer Assembly</Description>
+            <Material Type="BULK">6061-T6 Aluminum</Material>
+            <RetainerID>2.265</RetainerID>
+            <MMTDepth>0.5</MMTDepth>
+            <ConeDiameterLarge>4.0</ConeDiameterLarge>
+            <ConeDiameterSmall>2.6</ConeDiameterSmall>
+            <OpenDiameterSmall>2.0</OpenDiameterSmall>
+            <Length>2.55</Length>
+            <AirframeToMMT>1.87</AirframeToMMT>
+            <Lip>0.06</Lip>
+        </TailconeRetainer>
+        <TailconeRetainer>
+            <Manufacturer>Aero Pack</Manufacturer>
+            <PartNumber>TA5439P</PartNumber>
+            <Description>54 mm Tailcone Retainer Assembly</Description>
+            <Material Type="BULK">6061-T6 Aluminum</Material>
+            <RetainerID>2.278</RetainerID>
+            <MMTDepth>0.5</MMTDepth>
+            <ConeDiameterLarge>4.0</ConeDiameterLarge>
+            <ConeDiameterSmall>2.6</ConeDiameterSmall>
+            <OpenDiameterSmall>2.0</OpenDiameterSmall>
+            <Length>2.55</Length>
+            <AirframeToMMT>1.87</AirframeToMMT>
+            <Lip>0.06</Lip>
+        </TailconeRetainer>
+        <TailconeRetainer>
+            <Manufacturer>Aero Pack</Manufacturer>
+            <PartNumber>TA7539L</PartNumber>
+            <Description>75 mm Tailcone Retainer Assembly</Description>
+            <Material Type="BULK">6061-T6 Aluminum</Material>
+            <RetainerID>3.18</RetainerID>
+            <MMTDepth>0.75</MMTDepth>
+            <ConeDiameterLarge>4.0</ConeDiameterLarge>
+            <ConeDiameterSmall>3.6</ConeDiameterSmall>
+            <OpenDiameterSmall>2.83</OpenDiameterSmall>
+            <Length>2.0</Length>
+            <AirframeToMMT>1.06</AirframeToMMT>
+            <Lip>0.1</Lip>
+        </TailconeRetainer>
+        <TailconeRetainer>
+            <Manufacturer>Aero Pack</Manufacturer>
+            <PartNumber>TA7539P</PartNumber>
+            <Description>75 mm Tailcone Retainer Assembly</Description>
+            <Material Type="BULK">6061-T6 Aluminum</Material>
+            <RetainerID>3.125</RetainerID>
+            <MMTDepth>0.75</MMTDepth>
+            <ConeDiameterLarge>4.0</ConeDiameterLarge>
+            <ConeDiameterSmall>3.6</ConeDiameterSmall>
+            <OpenDiameterSmall>2.83</OpenDiameterSmall>
+            <Length>2.0</Length>
+            <AirframeToMMT>1.06</AirframeToMMT>
+            <Lip>0.1</Lip>
+        </TailconeRetainer>
+    </Components>
+</RocketComponent>
