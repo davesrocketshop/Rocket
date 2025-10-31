@@ -211,30 +211,30 @@ class RocketComponentShapeless(Subject, Observer):
             return self._obj.SubComponent[index]
         except IndexError:
             return None
-        
+
     def _hasGeoFeature(self, value : Any) -> bool:
         if hasattr(self._obj, "getParentGeoFeatureGroup"):
             group = self._obj.getParentGeoFeatureGroup()
             if group:
                 return True
         return False
-    
+
     def _addGeoFeature(self, value : Any) -> None:
         try:
             if hasattr(self._obj, "Group"):
-                list = self._obj.Group
-                if not value in list:
-                    list.append(value)
-                    self._obj.Group = list
+                self._addGeoFeatureToGroup(self._obj, value)
             elif hasattr(self._obj, "getParentGeoFeatureGroup"):
                 group = self._obj.getParentGeoFeatureGroup()
                 if group:
-                    list = group.Group
-                    if not value in list:
-                        list.append(value)
-                        group.Group = list
+                    self._addGeoFeatureToGroup(group, value)
         except Exception as ex:
             print(ex)
+
+    def _addGeoFeatureToGroup(self, obj : Any, value : Any) -> None:
+        list = obj.Group
+        if not value in list:
+            list.append(value)
+            obj.Group = list
 
     def _removeGeoFeature(self, value : Any) -> None:
         if hasattr(self._obj, "getParentGeoFeatureGroup"):
@@ -245,10 +245,10 @@ class RocketComponentShapeless(Subject, Observer):
                 group._obj.Group = list
 
     def _setChild(self, index : int, value : Any) -> None:
-        self._addGeoFeature(value)
         list = self._obj.SubComponent
         list.insert(index, value)
         self._obj.SubComponent = list
+        self._addGeoFeature(value)
 
     def _moveChild(self, index : int, value : Any) -> None:
         self._addGeoFeature(value)
