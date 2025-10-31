@@ -27,6 +27,7 @@ __url__ = "https://www.davesrocketshop.com"
 from typing import Any
 
 import FreeCAD
+import FreeCADGui
 import math
 
 from PySide import QtCore
@@ -128,3 +129,21 @@ def oldMaterials() -> bool:
 
 def newMaterials() -> bool:
     return not oldMaterials()
+
+def checkProgramVersion(major : int, minor : int) -> bool:
+    version = FreeCAD.Version()
+    print(f"Program major {version[0]}, minor {version[1]}")
+    if major > int(version[0]):
+        return True
+    elif major == int(version[0]):
+        return minor <= int(version[1])
+    return False
+
+def isFileVersion(major : int, minor : int) -> bool:
+    #  Gui.ActiveDocument.Document.getProgramVersion() e.g. '0.21R33668 +7 (Git)'
+    fileVersion = FreeCADGui.ActiveDocument.Document.getProgramVersion()
+    print(f"File version {fileVersion}")
+    base = fileVersion.split('R')
+    version = base[0].split('.')
+    print(f"File major {version[0]}, minor {version[1]}")
+    return major == int(version[0]) and minor == int(version[1])

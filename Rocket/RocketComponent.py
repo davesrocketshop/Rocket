@@ -45,7 +45,7 @@ from Rocket.Constants import MATERIAL_TYPE_BULK
 from Rocket.interfaces.Observer import Observer
 from Rocket.util.Coordinate import Coordinate, ZERO
 
-from Rocket.Utilities import _err
+from Rocket.Utilities import _err, isFileVersion, checkProgramVersion
 
 class RocketComponent(RocketComponentShapeless):
 
@@ -100,6 +100,8 @@ class RocketComponent(RocketComponentShapeless):
             obj.addProperty('Part::PropertyPartShape', 'Shape', 'RocketComponent', translate('App::Property', 'Shape of the component')).Shape
 
     def convertMaterialAndAppearance(self, obj : Any) -> None:
+        prog1_1 = checkProgramVersion(1, 1)
+        file1_1 = isFileVersion(1, 1)
         if hasattr(obj, "Material"):
             self.convertMaterial(obj, obj.Material)
             obj.removeProperty("Material")
@@ -114,8 +116,27 @@ class RocketComponent(RocketComponentShapeless):
                     mat
                 )
                 obj.ViewObject.LineColor = mat.DiffuseColor
-        # Use this to detect if alpha channels need correction
-        #  Gui.ActiveDocument.Document.getProgramVersion() e.g. '0.21R33668 +7 (Git)'
+            elif not (prog1_1 and file1_1):
+                newAppearance = []
+                for appearance in obj.ViewObject.ShapeAppearance:
+                    newAppearance.append(self.setAlphas(appearance))
+                obj.ViewObject.ShapeAppearance = tuple(newAppearance)
+
+    def setAlphas(self, color : FreeCAD.Material) -> FreeCAD.Material:
+        if color.Transparency == 0.0:
+            color.DiffuseColor = self.setAlpha(color.DiffuseColor)
+            color.AmbientColor = self.setAlpha(color.AmbientColor)
+            color.EmissiveColor = self.setAlpha(color.EmissiveColor)
+            color.SpecularColor = self.setAlpha(color.SpecularColor)
+        return color
+    
+    def setAlpha(self, color : tuple[float]) -> tuple[float]:
+        if len(color) == 4 and color[3] != 0.0:
+            return color
+        if len(color) == 4:
+            newcolor = color[0:3]
+        newcolor = newcolor + (1.0,)
+        return newcolor
 
     def convertMaterial(self, obj : Any, old : Any) -> None:
         database = PartDatabase(FreeCAD.getUserAppDataDir() + "Mod/Rocket/")
@@ -130,7 +151,7 @@ class RocketComponent(RocketComponentShapeless):
 
     """
         Get the characteristic length of the component, for example the length of a body tube
-        of the length of the root chord of a fin.  This is used in positioning the component
+        or the length of the root chord of a fin.  This is used in positioning the component
         relative to its parent.
 
         If the length of a component is settable, the class must define the setter method
