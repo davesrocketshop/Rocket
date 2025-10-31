@@ -44,7 +44,7 @@ def updateRocket() -> None:
 
 def makeRocket(name : str = 'Rocket', makeSustainer: bool = False) -> FeatureRocket:
     # obj = FreeCAD.ActiveDocument.addObject("App::GeometryPython",name)
-    obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
+    obj = FreeCAD.ActiveDocument.addObject("App::GeometryPython",name)
     FeatureRocket(obj)
     obj.Proxy.setDefaults()
     if FreeCAD.GuiUp:

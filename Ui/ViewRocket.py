@@ -42,7 +42,7 @@ class ViewProviderRocket(ViewProvider):
         super().__init__(vobj)
 
     def _addExtension(self, vobj):
-        vobj.addExtension("Gui::ViewProviderGeoFeatureGroupExtensionPython")
+        vobj.addExtension("Gui::ViewProviderGroupExtensionPython")
 
     def getIcon(self):
         return FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Rocket.svg"
@@ -63,7 +63,7 @@ class ViewProviderRocket(ViewProvider):
     # def setDisplayMode(self,mode):
     #     return mode
 
-    def setupContextMenu(self, vobj, menu):
+    def setupContextMenu(self, viewObject, menu):
         """Add the component specific options to the context menu."""
         action1 = QtGui.QAction(translate("Rocket","Toggle active rocket"),menu)
         QtCore.QObject.connect(action1,QtCore.SIGNAL("triggered()"),self.toggleRocket)
