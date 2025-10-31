@@ -61,5 +61,5 @@ class CmdFinFlutter(Command):
 
     def GetResources(self):
         return {'MenuText': translate("Rocket", 'Fin Flutter Analysis'),
-                'ToolTip': translate("Rocket", 'Calculate fin flutter'),
+                'ToolTip': translate("Rocket", 'Perform fin flutter analysis'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_FinFlutter.svg"}
