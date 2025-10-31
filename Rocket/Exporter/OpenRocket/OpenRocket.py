@@ -61,9 +61,6 @@ class OpenRocketExporter:
         self._exportList = exportList
         self._filename = filename
 
-        self._v1_1 = self.checkVersion(1, 1)
-        # print(f"Version 1.1 or later: {self._v1_1}")
-
         self._feature = {
             FEATURE_ROCKET : self.writeNull,
             FEATURE_STAGE : self.writeNull,
@@ -142,14 +139,6 @@ class OpenRocketExporter:
             FIN_CROSS_TAPER_TE : "square",
             FIN_CROSS_TAPER_LETE : "square",
         }
-
-    def checkVersion(self, major : int, minor : int) -> bool:
-        version = FreeCAD.Version()
-        if major > int(version[0]):
-            return True
-        elif major == int(version[0]):
-            return minor <= int(version[1])
-        return False
 
     def _getRocket(self, obj : FreeCAD.DocumentObject) -> FeatureRocket:
         proxy = self.getProxy(obj)
