@@ -345,53 +345,53 @@
       <translation type="unfinished"/>
     </message>
     <message>
-      <location filename="../../Rocket/RocketComponentShapeless.py" line="66"/>
+      <location filename="../../Rocket/RocketComponentShapeless.py" line="67"/>
       <source>User comment</source>
       <translation type="unfinished"/>
     </message>
     <message>
-      <location filename="../../Rocket/RocketComponent.py" line="87"/>
-      <location filename="../../Rocket/RocketComponentShapeless.py" line="69"/>
+      <location filename="../../Rocket/RocketComponent.py" line="86"/>
+      <location filename="../../Rocket/RocketComponentShapeless.py" line="70"/>
       <source>Method for calculating axial offsets</source>
       <translation type="unfinished"/>
     </message>
     <message>
-      <location filename="../../Rocket/RocketComponentShapeless.py" line="71"/>
+      <location filename="../../Rocket/RocketComponentShapeless.py" line="72"/>
       <source>Offset from the reference point</source>
       <translation type="unfinished"/>
     </message>
     <message>
-      <location filename="../../Rocket/RocketComponentShapeless.py" line="73"/>
+      <location filename="../../Rocket/RocketComponentShapeless.py" line="74"/>
       <source>Angle of offset around the center axis</source>
       <translation type="unfinished"/>
     </message>
     <message>
-      <location filename="../../Rocket/RocketComponentShapeless.py" line="76"/>
+      <location filename="../../Rocket/RocketComponentShapeless.py" line="77"/>
       <source>Reference location for the radial offset</source>
       <translation type="unfinished"/>
     </message>
     <message>
-      <location filename="../../Rocket/RocketComponentShapeless.py" line="89"/>
+      <location filename="../../Rocket/RocketComponentShapeless.py" line="90"/>
       <source>Radial offset from the reference</source>
       <translation type="unfinished"/>
     </message>
     <message>
-      <location filename="../../Rocket/RocketComponentShapeless.py" line="93"/>
+      <location filename="../../Rocket/RocketComponentShapeless.py" line="94"/>
       <source>Scale the object</source>
       <translation type="unfinished"/>
     </message>
     <message>
-      <location filename="../../Rocket/RocketComponentShapeless.py" line="95"/>
+      <location filename="../../Rocket/RocketComponentShapeless.py" line="96"/>
       <source>Overriding the scale set by the parent</source>
       <translation type="unfinished"/>
     </message>
     <message>
-      <location filename="../../Rocket/RocketComponentShapeless.py" line="97"/>
+      <location filename="../../Rocket/RocketComponentShapeless.py" line="98"/>
       <source>Scale the object by value</source>
       <translation type="unfinished"/>
     </message>
     <message>
-      <location filename="../../Rocket/RocketComponentShapeless.py" line="99"/>
+      <location filename="../../Rocket/RocketComponentShapeless.py" line="100"/>
       <source>Scaling value or dimension</source>
       <translation type="unfinished"/>
     </message>
@@ -809,7 +809,7 @@
       <translation type="unfinished"/>
     </message>
     <message>
-      <location filename="../../Rocket/FeatureStage.py" line="51"/>
+      <location filename="../../Rocket/FeatureStage.py" line="52"/>
       <source>Stage number</source>
       <translation type="unfinished"/>
     </message>
@@ -1075,52 +1075,52 @@
       <translation type="unfinished"/>
     </message>
     <message>
-      <location filename="../../Rocket/RocketComponent.py" line="58"/>
+      <location filename="../../Rocket/RocketComponent.py" line="57"/>
       <source>Component manufacturer</source>
       <translation type="unfinished"/>
     </message>
     <message>
-      <location filename="../../Rocket/RocketComponent.py" line="60"/>
+      <location filename="../../Rocket/RocketComponent.py" line="59"/>
       <source>Component manufacturer part number</source>
       <translation type="unfinished"/>
     </message>
     <message>
-      <location filename="../../Rocket/RocketComponent.py" line="64"/>
+      <location filename="../../Rocket/RocketComponent.py" line="63"/>
       <source>Component description</source>
       <translation type="unfinished"/>
     </message>
     <message>
-      <location filename="../../Rocket/RocketComponent.py" line="67"/>
+      <location filename="../../Rocket/RocketComponent.py" line="66"/>
       <source>Reference location for the location</source>
       <translation type="unfinished"/>
     </message>
     <message>
-      <location filename="../../Rocket/RocketComponent.py" line="85"/>
+      <location filename="../../Rocket/RocketComponent.py" line="84"/>
       <source>Length of the component</source>
       <translation type="unfinished"/>
     </message>
     <message>
-      <location filename="../../Rocket/RocketComponent.py" line="91"/>
+      <location filename="../../Rocket/RocketComponent.py" line="90"/>
       <source>Scale the object by body diameter</source>
       <translation type="unfinished"/>
     </message>
     <message>
-      <location filename="../../Rocket/RocketComponent.py" line="93"/>
+      <location filename="../../Rocket/RocketComponent.py" line="92"/>
       <source>Automatically scale the object by body diameter</source>
       <translation type="unfinished"/>
     </message>
     <message>
-      <location filename="../../Rocket/RocketComponent.py" line="95"/>
+      <location filename="../../Rocket/RocketComponent.py" line="94"/>
       <source>Use the fore value for objects with different fore and aft diameters</source>
       <translation type="unfinished"/>
     </message>
     <message>
-      <location filename="../../Rocket/RocketComponent.py" line="98"/>
+      <location filename="../../Rocket/RocketComponent.py" line="97"/>
       <source>Texture file</source>
       <translation type="unfinished"/>
     </message>
     <message>
-      <location filename="../../Rocket/RocketComponent.py" line="101"/>
+      <location filename="../../Rocket/RocketComponent.py" line="100"/>
       <source>Shape of the component</source>
       <translation type="unfinished"/>
     </message>
@@ -1404,7 +1404,7 @@
     <message>
       <location filename="../../Rocket/Importer/OpenRocket/ComponentElement.py" line="192"/>
       <location filename="../../Rocket/Importer/Rocksim/ComponentElement.py" line="195"/>
-      <location filename="../../Rocket/RocketComponent.py" line="128"/>
+      <location filename="../../Rocket/RocketComponent.py" line="150"/>
       <location filename="../../Ui/DialogScaling.py" line="301"/>
       <location filename="../../Ui/TaskPanelDatabase.py" line="183"/>
       <location filename="../../Ui/TaskPanelDatabase.py" line="151"/>
@@ -1787,6 +1787,7 @@
       <translation type="unfinished"/>
     </message>
     <message>
+      <location filename="../../Ui/Commands/CmdCalcBlackPowder.py" line="48"/>
       <location filename="../../Ui/DialogBlackPowder.py" line="55"/>
       <source>Ejection Charge Calculator</source>
       <translation type="unfinished"/>
@@ -1877,6 +1878,7 @@
       <translation>Profondeur</translation>
     </message>
     <message>
+      <location filename="../../Ui/Commands/CmdCalcVentHoles.py" line="48"/>
       <location filename="../../Ui/DialogVentHoles.py" line="51"/>
       <source>Vent Hole Size Calculator</source>
       <translation type="unfinished"/>
@@ -1967,13 +1969,17 @@
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdScaling.py" line="102"/>
-      <source>Match body tube pairs suitable for scale</source>
+      <source>Matches body tube pairs suitable for scaling</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdScaling.py" line="115"/>
+      <source>Find scale body tubes</source>
       <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdScaling.py" line="116"/>
-      <location filename="../../Ui/Commands/CmdScaling.py" line="115"/>
-      <source>Find scale body tubes</source>
+      <source>Finds scale body tubes</source>
       <translation type="unfinished"/>
     </message>
     <message>
@@ -1983,9 +1989,8 @@
       <translation type="unfinished"/>
     </message>
     <message>
-      <location filename="../../Ui/Commands/CmdParachuteDesigner.py" line="73"/>
       <location filename="../../Ui/Commands/CmdFin.py" line="76"/>
-      <source>Fin design</source>
+      <source>Adds a fin or fin set to the selected component</source>
       <translation type="unfinished"/>
     </message>
     <message>
@@ -2000,17 +2005,17 @@
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdCFDAnalysis.py" line="106"/>
-      <source>Perform a CFD Analysis</source>
-      <translation type="unfinished"/>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdPod.py" line="67"/>
-      <source>Pod</source>
+      <source>Performs a CFD Analysis</source>
       <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdPod.py" line="68"/>
-      <source>Pod design</source>
+      <source>Pod</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdPod.py" line="69"/>
+      <source>Adds an external pod to the selected component</source>
       <translation type="unfinished"/>
     </message>
     <message>
@@ -2030,7 +2035,7 @@
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdRocket.py" line="81"/>
-      <source>Rocket assembly</source>
+      <source>Creates a rocket assembly</source>
       <translation type="unfinished"/>
     </message>
     <message>
@@ -2041,7 +2046,7 @@
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdRocket.py" line="87"/>
-      <source>Toggle the active rocket</source>
+      <source>Toggles the active rocket assembly</source>
       <translation type="unfinished"/>
     </message>
     <message>
@@ -2051,25 +2056,22 @@
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdStage.py" line="85"/>
-      <source>Rocket Stage</source>
+      <source>Adds a stage to the rocket assembly</source>
       <translation type="unfinished"/>
     </message>
     <message>
-      <location filename="../../Ui/Commands/CmdParallelStage.py" line="94"/>
       <location filename="../../Ui/Commands/CmdStage.py" line="93"/>
       <source>Toggle the active stage</source>
       <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdCalcVentHoles.py" line="49"/>
-      <location filename="../../Ui/Commands/CmdCalcVentHoles.py" line="48"/>
-      <source>Calculate vent hole size</source>
+      <source>Calculates required vent hole size</source>
       <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdCalcBlackPowder.py" line="49"/>
-      <location filename="../../Ui/Commands/CmdCalcBlackPowder.py" line="48"/>
-      <source>Calculate ejection charge</source>
+      <source>Calculates required ejection charge</source>
       <translation type="unfinished"/>
     </message>
     <message>
@@ -2079,7 +2081,7 @@
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdSketcher.py" line="61"/>
-      <source>Create a new sketch</source>
+      <source>Creates a new sketch</source>
       <translation type="unfinished"/>
     </message>
     <message>
@@ -2089,7 +2091,7 @@
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdRingtail.py" line="68"/>
-      <source>Ring tail design</source>
+      <source>Adds a ring tail to the selected component</source>
       <translation type="unfinished"/>
     </message>
     <message>
@@ -2099,7 +2101,7 @@
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdBulkhead.py" line="66"/>
-      <source>Bulkhead design</source>
+      <source>Adds a bulkhead to the selected component</source>
       <translation type="unfinished"/>
     </message>
     <message>
@@ -2109,7 +2111,7 @@
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdNoseCone.py" line="67"/>
-      <source>Nose cone design</source>
+      <source>Adds a nose cone to the selected pod or stage</source>
       <translation type="unfinished"/>
     </message>
     <message>
@@ -2119,7 +2121,7 @@
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdEditTree.py" line="71"/>
-      <source>Move the object up in the rocket tree</source>
+      <source>Moves the object up in the rocket tree</source>
       <translation type="unfinished"/>
     </message>
     <message>
@@ -2129,13 +2131,17 @@
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdEditTree.py" line="90"/>
-      <source>Move the object down in the rocket tree</source>
+      <source>Moves the object down in the rocket tree</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdCalcThrustToWeight.py" line="48"/>
+      <source>Thrust to Weight Calculator</source>
       <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdCalcThrustToWeight.py" line="49"/>
-      <location filename="../../Ui/Commands/CmdCalcThrustToWeight.py" line="48"/>
-      <source>Calculate Thrust To Weight</source>
+      <source>Calculates minimum thrust to weight</source>
       <translation type="unfinished"/>
     </message>
     <message>
@@ -2145,13 +2151,27 @@
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdParallelStage.py" line="86"/>
-      <source>Rocket Parallel Stage</source>
+      <source>Adds a parallel stage to the rocket assembly</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdParallelStage.py" line="94"/>
+      <source>Toggles the active stage</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdCalcParachute.py" line="48"/>
+      <source>Parachute Size Calculator</source>
       <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdCalcParachute.py" line="49"/>
-      <location filename="../../Ui/Commands/CmdCalcParachute.py" line="48"/>
-      <source>Calculate parachute size</source>
+      <source>Calculates required parachute size</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdParachuteDesigner.py" line="73"/>
+      <source>Fin design</source>
       <translation type="unfinished"/>
     </message>
     <message>
@@ -2161,7 +2181,7 @@
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdFinCan.py" line="78"/>
-      <source>Fin can design</source>
+      <source>Adds a fin can to the selected component</source>
       <translation type="unfinished"/>
     </message>
     <message>
@@ -2181,7 +2201,7 @@
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdBodyTube.py" line="101"/>
-      <source>Body tube design</source>
+      <source>Adds a body tube to the selected pod or stage</source>
       <translation type="unfinished"/>
     </message>
     <message>
@@ -2191,7 +2211,7 @@
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdBodyTube.py" line="122"/>
-      <source>Coupler design</source>
+      <source>Adds a coupler to the selected component</source>
       <translation type="unfinished"/>
     </message>
     <message>
@@ -2201,7 +2221,7 @@
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdBodyTube.py" line="143"/>
-      <source>Inner tube design</source>
+      <source>Adds an inner tube or motor mount to the selected component</source>
       <translation type="unfinished"/>
     </message>
     <message>
@@ -2211,7 +2231,7 @@
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdBodyTube.py" line="164"/>
-      <source>Engine block design</source>
+      <source>Adds an engine block to the selected component</source>
       <translation type="unfinished"/>
     </message>
     <message>
@@ -2221,7 +2241,7 @@
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdParachuteGore.py" line="68"/>
-      <source>Parachute gore design</source>
+      <source>Creates a parachute gore</source>
       <translation type="unfinished"/>
     </message>
     <message>
@@ -2231,7 +2251,7 @@
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdLaunchGuides.py" line="88"/>
-      <source>Launch lug design</source>
+      <source>Adds a launch lug to the selected component</source>
       <translation type="unfinished"/>
     </message>
     <message>
@@ -2241,7 +2261,7 @@
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdLaunchGuides.py" line="107"/>
-      <source>Rail button design</source>
+      <source>Adds a rail button to the selected component</source>
       <translation type="unfinished"/>
     </message>
     <message>
@@ -2251,7 +2271,7 @@
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdLaunchGuides.py" line="126"/>
-      <source>Rail guide design</source>
+      <source>Adds a rail guide to the selected component</source>
       <translation type="unfinished"/>
     </message>
     <message>
@@ -2261,7 +2281,7 @@
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdLaunchGuides.py" line="145"/>
-      <source>Stand off design</source>
+      <source>Adds a launch guide stand off to the selected component</source>
       <translation type="unfinished"/>
     </message>
     <message>
@@ -2271,7 +2291,7 @@
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdCenteringRing.py" line="66"/>
-      <source>Centering Ring design</source>
+      <source>Adds a centering ring to the selected component</source>
       <translation type="unfinished"/>
     </message>
     <message>
@@ -2281,9 +2301,13 @@
       <translation type="unfinished"/>
     </message>
     <message>
-      <location filename="../../Ui/Commands/CmdFemAnalysis.py" line="104"/>
       <location filename="../../Ui/Commands/CmdFemAnalysis.py" line="103"/>
       <source>Fin FEM Analysis</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdFemAnalysis.py" line="104"/>
+      <source>Performs a FEM analysis of the selected fin</source>
       <translation type="unfinished"/>
     </message>
     <message>
@@ -2293,12 +2317,12 @@
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdTransition.py" line="67"/>
-      <source>Transition design</source>
+      <source>Adds a transition to the selected pod or stage</source>
       <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdFlutterAnalysis.py" line="64"/>
-      <source>Calculate fin flutter</source>
+      <source>Performs a fin flutter analysis of the selected fin</source>
       <translation type="unfinished"/>
     </message>
     <message>
@@ -2308,7 +2332,7 @@
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdParachute.py" line="64"/>
-      <source>Parachute design</source>
+      <source>Adds a parachute to the selected component</source>
       <translation type="unfinished"/>
     </message>
     <message>
@@ -2495,32 +2519,32 @@
       <translation type="unfinished"/>
     </message>
     <message>
-      <location filename="../../Rocket/RocketComponentShapeless.py" line="590"/>
+      <location filename="../../Rocket/RocketComponentShapeless.py" line="602"/>
       <source>setAxialOffset is broken -- attempted to update as NaN: </source>
       <translation type="unfinished"/>
     </message>
     <message>
-      <location filename="../../Rocket/RocketComponentShapeless.py" line="674"/>
+      <location filename="../../Rocket/RocketComponentShapeless.py" line="695"/>
       <source>component {} is already in a tree</source>
       <translation type="unfinished"/>
     </message>
     <message>
-      <location filename="../../Rocket/RocketComponentShapeless.py" line="678"/>
+      <location filename="../../Rocket/RocketComponentShapeless.py" line="699"/>
       <source>Component {} is a parent of {}, attempting to create cycle in tree.</source>
       <translation type="unfinished"/>
     </message>
     <message>
-      <location filename="../../Rocket/RocketComponentShapeless.py" line="682"/>
+      <location filename="../../Rocket/RocketComponentShapeless.py" line="703"/>
       <source>Unsupported configuration: {}  not currently compatible with component: {}</source>
       <translation type="unfinished"/>
     </message>
     <message>
-      <location filename="../../Rocket/RocketComponentShapeless.py" line="773"/>
+      <location filename="../../Rocket/RocketComponentShapeless.py" line="794"/>
       <source>getRocket() called with root component {}</source>
       <translation type="unfinished"/>
     </message>
     <message>
-      <location filename="../../Rocket/RocketComponentShapeless.py" line="785"/>
+      <location filename="../../Rocket/RocketComponentShapeless.py" line="806"/>
       <source>getStage() called on hierarchy without a FeatureStage component.</source>
       <translation type="unfinished"/>
     </message>
@@ -2585,7 +2609,7 @@
       <translation type="unfinished"/>
     </message>
     <message>
-      <location filename="../../Rocket/FeaturePod.py" line="147"/>
+      <location filename="../../Rocket/FeaturePod.py" line="152"/>
       <source>found a pod positioned via: AFTER, but is not on the centerline?!: {}  is {}</source>
       <translation type="unfinished"/>
     </message>
@@ -3128,19 +3152,19 @@
       <translation type="unfinished"/>
     </message>
     <message>
-      <location filename="../../Rocket/ShapeHandlers/TransitionProxyShapeHandler.py" line="197"/>
-      <location filename="../../Rocket/ShapeHandlers/TransitionProxyShapeHandler.py" line="165"/>
+      <location filename="../../Rocket/ShapeHandlers/TransitionProxyShapeHandler.py" line="222"/>
+      <location filename="../../Rocket/ShapeHandlers/TransitionProxyShapeHandler.py" line="190"/>
       <source>Transition fore shoulder parameters produce an invalid shape</source>
       <translation type="unfinished"/>
     </message>
     <message>
-      <location filename="../../Rocket/ShapeHandlers/TransitionProxyShapeHandler.py" line="204"/>
-      <location filename="../../Rocket/ShapeHandlers/TransitionProxyShapeHandler.py" line="185"/>
+      <location filename="../../Rocket/ShapeHandlers/TransitionProxyShapeHandler.py" line="229"/>
+      <location filename="../../Rocket/ShapeHandlers/TransitionProxyShapeHandler.py" line="210"/>
       <source>Transition aft shoulder parameters produce an invalid shape</source>
       <translation type="unfinished"/>
     </message>
     <message>
-      <location filename="../../Rocket/ShapeHandlers/TransitionProxyShapeHandler.py" line="210"/>
+      <location filename="../../Rocket/ShapeHandlers/TransitionProxyShapeHandler.py" line="235"/>
       <source>Transition shoulder parameters produce an invalid shape</source>
       <translation type="unfinished"/>
     </message>
@@ -3322,7 +3346,7 @@
     </message>
     <message>
       <source>x</source>
-      <translation>X</translation>
+      <translation>x</translation>
     </message>
     <message>
       <source>Offset</source>
@@ -3850,7 +3874,7 @@
     </message>
     <message>
       <source>x</source>
-      <translation>X</translation>
+      <translation>x</translation>
     </message>
     <message>
       <source>y</source>

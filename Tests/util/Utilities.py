@@ -35,9 +35,9 @@ def assertCoordinateEqual(testCase : unittest.TestCase,
                           msg : str,
                           precision : int = 7) -> None:
     try:
-        testCase.assertAlmostEqual(actual._x, expected._x, places=precision)
-        testCase.assertAlmostEqual(actual._y, expected._y, places=precision)
-        testCase.assertAlmostEqual(actual._z, expected._z, places=precision)
+        testCase.assertAlmostEqual(actual.x, expected.x, places=precision)
+        testCase.assertAlmostEqual(actual.y, expected.y, places=precision)
+        testCase.assertAlmostEqual(actual.z, expected.z, places=precision)
         testCase.assertAlmostEqual(actual._weight, expected._weight, places=precision)
     except AssertionError:
         msg = "actual %s, expected %s: %s" % (str(actual), str(expected), msg)

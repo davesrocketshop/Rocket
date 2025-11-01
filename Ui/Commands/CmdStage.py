@@ -82,7 +82,7 @@ class CmdStage(Command):
 
     def GetResources(self):
         return {'MenuText': translate("Rocket", 'Stage'),
-                'ToolTip': translate("Rocket", 'Rocket Stage'),
+                'ToolTip': translate("Rocket", 'Adds a stage to the rocket assembly'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Stage.svg"}
 
 

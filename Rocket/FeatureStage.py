@@ -32,7 +32,8 @@ translate = FreeCAD.Qt.translate
 
 from Rocket.ComponentAssembly import ComponentAssembly
 
-from Rocket.Constants import FEATURE_STAGE, FEATURE_NOSE_CONE, FEATURE_BODY_TUBE, FEATURE_TRANSITION, FEATURE_FINCAN
+from Rocket.Constants import FEATURE_STAGE, FEATURE_NOSE_CONE, FEATURE_BODY_TUBE, FEATURE_TRANSITION, FEATURE_FINCAN, \
+    FEATURE_PARALLEL_STAGE, FEATURE_POD
 
 class FeatureStage(ComponentAssembly):
 
@@ -73,6 +74,7 @@ class FeatureStage(ComponentAssembly):
         length = 0.0
         if hasattr(self._obj, "Group"):
             for child in self._obj.Group:
-                length += float(child.Proxy.getLength())
+                if child.Proxy.Type not in [FEATURE_PARALLEL_STAGE, FEATURE_POD]:
+                    length += float(child.Proxy.getLength())
 
         return length

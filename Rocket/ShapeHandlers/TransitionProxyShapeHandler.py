@@ -58,6 +58,7 @@ class TransitionProxyShapeHandler:
         self._scaleByValue = self._obj.ScaleByValue
         self._scaleByDiameter = self._obj.ScaleByDiameter
         self._autoScaleDiameter = self._obj.AutoScaleDiameter
+        self._scaleForeDiameter = self._obj.ScaleForeDiameter
         self._scaleValue = self._obj.ScaleValue
 
         self._foreShoulder = bool(obj.ForeShoulder)
@@ -99,8 +100,12 @@ class TransitionProxyShapeHandler:
             if self._scaleByValue and self._scaleValue.Value > 0.0:
                 scale = 1.0 / self._scaleValue.Value
             elif self._scaleByDiameter:
-                if self._diameter > 0 and self._scaleValue > 0:
-                    scale = self._scaleValue / self._diameter
+                if self._scaleForeDiameter:
+                    if self._foreDiameter > 0 and self._scaleValue > 0:
+                        scale = self._scaleValue / self._foreDiameter
+                else:
+                    if self._aftDiameter > 0 and self._scaleValue > 0:
+                        scale = self._scaleValue / self._aftDiameter
 
         return float(scale)
 
@@ -129,10 +134,30 @@ class TransitionProxyShapeHandler:
         self._shape = self._shapeUnion(shape)
         return self._shape
 
+    def _radiusAt(self, r1 : float, r2 : float, length : float, pos : float) -> float:
+        # Treat as a conical transition
+        if r1 < r2:
+            intercept = r1
+            x = pos
+            slope = (r2 - r1) / length
+        else:
+            intercept = r2
+            x = length - pos
+            slope = (r1 - r2) / length
+
+        y = x * slope + intercept
+        return y
+
+    # def getRadius(self, x : float) -> float:
+    #     # Apply the scaling
+    #     scale = self._getScale()
+    #     return scale * (self._diameter / 2.0)
     def getRadius(self, x : float) -> float:
-        # Apply the scaling
         scale = self._getScale()
-        return scale * (self._diameter / 2.0)
+        foreRadius = (self._foreDiameter / 2.0) / scale
+        aftRadius = (self._aftDiameter / 2.0) / scale
+        radius = self._radiusAt(foreRadius, aftRadius, self.getLength(), x)
+        return radius
 
     def getLength(self) -> float:
         shape = self._getShape()

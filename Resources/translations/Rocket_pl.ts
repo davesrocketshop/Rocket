@@ -345,53 +345,53 @@
       <translation>Średnica wewnętrzna wręgi</translation>
     </message>
     <message>
-      <location filename="../../Rocket/RocketComponentShapeless.py" line="66"/>
+      <location filename="../../Rocket/RocketComponentShapeless.py" line="67"/>
       <source>User comment</source>
       <translation>Komentarz użytkownika</translation>
     </message>
     <message>
-      <location filename="../../Rocket/RocketComponent.py" line="87"/>
-      <location filename="../../Rocket/RocketComponentShapeless.py" line="69"/>
+      <location filename="../../Rocket/RocketComponent.py" line="86"/>
+      <location filename="../../Rocket/RocketComponentShapeless.py" line="70"/>
       <source>Method for calculating axial offsets</source>
       <translation>Metoda obliczania przesunięć osiowych</translation>
     </message>
     <message>
-      <location filename="../../Rocket/RocketComponentShapeless.py" line="71"/>
+      <location filename="../../Rocket/RocketComponentShapeless.py" line="72"/>
       <source>Offset from the reference point</source>
       <translation>Przesunięcie względem punktu odniesienia</translation>
     </message>
     <message>
-      <location filename="../../Rocket/RocketComponentShapeless.py" line="73"/>
+      <location filename="../../Rocket/RocketComponentShapeless.py" line="74"/>
       <source>Angle of offset around the center axis</source>
       <translation>Kąt przesunięcia wokół osi środkowej</translation>
     </message>
     <message>
-      <location filename="../../Rocket/RocketComponentShapeless.py" line="76"/>
+      <location filename="../../Rocket/RocketComponentShapeless.py" line="77"/>
       <source>Reference location for the radial offset</source>
       <translation>Lokalizacja odniesienia dla przesunięcia promieniowego</translation>
     </message>
     <message>
-      <location filename="../../Rocket/RocketComponentShapeless.py" line="89"/>
+      <location filename="../../Rocket/RocketComponentShapeless.py" line="90"/>
       <source>Radial offset from the reference</source>
       <translation>Przesunięcie promieniowe względem punktu odniesienia</translation>
     </message>
     <message>
-      <location filename="../../Rocket/RocketComponentShapeless.py" line="93"/>
+      <location filename="../../Rocket/RocketComponentShapeless.py" line="94"/>
       <source>Scale the object</source>
       <translation>Przeskaluj obiekt</translation>
     </message>
     <message>
-      <location filename="../../Rocket/RocketComponentShapeless.py" line="95"/>
+      <location filename="../../Rocket/RocketComponentShapeless.py" line="96"/>
       <source>Overriding the scale set by the parent</source>
       <translation>Nadpisanie skali ustawionej przez obiekt nadrzędny</translation>
     </message>
     <message>
-      <location filename="../../Rocket/RocketComponentShapeless.py" line="97"/>
+      <location filename="../../Rocket/RocketComponentShapeless.py" line="98"/>
       <source>Scale the object by value</source>
       <translation>Przeskaluj obiekt według wartości</translation>
     </message>
     <message>
-      <location filename="../../Rocket/RocketComponentShapeless.py" line="99"/>
+      <location filename="../../Rocket/RocketComponentShapeless.py" line="100"/>
       <source>Scaling value or dimension</source>
       <translation>Przeskaluj według wartości lub wymiaru</translation>
     </message>
@@ -809,7 +809,7 @@
       <translation>Obiekt bazowy używany do zdefiniowania kształtu przejścia</translation>
     </message>
     <message>
-      <location filename="../../Rocket/FeatureStage.py" line="51"/>
+      <location filename="../../Rocket/FeatureStage.py" line="52"/>
       <source>Stage number</source>
       <translation>Numer stopnia rakiety</translation>
     </message>
@@ -1075,52 +1075,52 @@
       <translation>Głębokość wycięcia</translation>
     </message>
     <message>
-      <location filename="../../Rocket/RocketComponent.py" line="58"/>
+      <location filename="../../Rocket/RocketComponent.py" line="57"/>
       <source>Component manufacturer</source>
       <translation>Producent części</translation>
     </message>
     <message>
-      <location filename="../../Rocket/RocketComponent.py" line="60"/>
+      <location filename="../../Rocket/RocketComponent.py" line="59"/>
       <source>Component manufacturer part number</source>
       <translation>Numer części producenta</translation>
     </message>
     <message>
-      <location filename="../../Rocket/RocketComponent.py" line="64"/>
+      <location filename="../../Rocket/RocketComponent.py" line="63"/>
       <source>Component description</source>
       <translation>Opis komponentu</translation>
     </message>
     <message>
-      <location filename="../../Rocket/RocketComponent.py" line="67"/>
+      <location filename="../../Rocket/RocketComponent.py" line="66"/>
       <source>Reference location for the location</source>
       <translation>Odniesienie dla położenia</translation>
     </message>
     <message>
-      <location filename="../../Rocket/RocketComponent.py" line="85"/>
+      <location filename="../../Rocket/RocketComponent.py" line="84"/>
       <source>Length of the component</source>
       <translation>Długość komponentu</translation>
     </message>
     <message>
-      <location filename="../../Rocket/RocketComponent.py" line="91"/>
+      <location filename="../../Rocket/RocketComponent.py" line="90"/>
       <source>Scale the object by body diameter</source>
       <translation>Skaluj obiekt względem średnicy korpusu</translation>
     </message>
     <message>
-      <location filename="../../Rocket/RocketComponent.py" line="93"/>
+      <location filename="../../Rocket/RocketComponent.py" line="92"/>
       <source>Automatically scale the object by body diameter</source>
       <translation>Skaluj obiekt automatycznie względem średnicy korpusu</translation>
     </message>
     <message>
-      <location filename="../../Rocket/RocketComponent.py" line="95"/>
+      <location filename="../../Rocket/RocketComponent.py" line="94"/>
       <source>Use the fore value for objects with different fore and aft diameters</source>
       <translation>Użyj wartości przedniej dla obiektów o różnych średnicach przodu i tyłu</translation>
     </message>
     <message>
-      <location filename="../../Rocket/RocketComponent.py" line="98"/>
+      <location filename="../../Rocket/RocketComponent.py" line="97"/>
       <source>Texture file</source>
       <translation>Plik z teksturą</translation>
     </message>
     <message>
-      <location filename="../../Rocket/RocketComponent.py" line="101"/>
+      <location filename="../../Rocket/RocketComponent.py" line="100"/>
       <source>Shape of the component</source>
       <translation>Kształt komponentu</translation>
     </message>
@@ -1404,7 +1404,7 @@
     <message>
       <location filename="../../Rocket/Importer/OpenRocket/ComponentElement.py" line="192"/>
       <location filename="../../Rocket/Importer/Rocksim/ComponentElement.py" line="195"/>
-      <location filename="../../Rocket/RocketComponent.py" line="128"/>
+      <location filename="../../Rocket/RocketComponent.py" line="150"/>
       <location filename="../../Ui/DialogScaling.py" line="301"/>
       <location filename="../../Ui/TaskPanelDatabase.py" line="183"/>
       <location filename="../../Ui/TaskPanelDatabase.py" line="151"/>
@@ -1787,6 +1787,7 @@
       <translation>Wysokie</translation>
     </message>
     <message>
+      <location filename="../../Ui/Commands/CmdCalcBlackPowder.py" line="48"/>
       <location filename="../../Ui/DialogBlackPowder.py" line="55"/>
       <source>Ejection Charge Calculator</source>
       <translation>Kalkulator ładunku wyrzutowego</translation>
@@ -1882,6 +1883,7 @@
       <translation>Głębokość</translation>
     </message>
     <message>
+      <location filename="../../Ui/Commands/CmdCalcVentHoles.py" line="48"/>
       <location filename="../../Ui/DialogVentHoles.py" line="51"/>
       <source>Vent Hole Size Calculator</source>
       <translation>Kalkulator rozmiaru otworu wentylacyjnego</translation>
@@ -1972,14 +1974,18 @@
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdScaling.py" line="102"/>
-      <source>Match body tube pairs suitable for scale</source>
-      <translation>Dopasuj pary rur kadłuba odpowiednie dla skali</translation>
+      <source>Matches body tube pairs suitable for scaling</source>
+      <translation>Dopasowuje pary rur kadłuba odpowiednie do skalowania</translation>
     </message>
     <message>
-      <location filename="../../Ui/Commands/CmdScaling.py" line="116"/>
       <location filename="../../Ui/Commands/CmdScaling.py" line="115"/>
       <source>Find scale body tubes</source>
       <translation>Znajdź rury kadłuba w skali</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdScaling.py" line="116"/>
+      <source>Finds scale body tubes</source>
+      <translation>Wyszukuje rury kadłuba do skalowania</translation>
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdParachuteDesigner.py" line="72"/>
@@ -1988,10 +1994,9 @@
       <translation>Statecznik</translation>
     </message>
     <message>
-      <location filename="../../Ui/Commands/CmdParachuteDesigner.py" line="73"/>
       <location filename="../../Ui/Commands/CmdFin.py" line="76"/>
-      <source>Fin design</source>
-      <translation>Projekt statecznika</translation>
+      <source>Adds a fin or fin set to the selected component</source>
+      <translation>Dodaje statecznik lub zestaw stateczników do wybranego komponentu</translation>
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdCFDAnalysis.py" line="60"/>
@@ -2005,18 +2010,18 @@
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdCFDAnalysis.py" line="106"/>
-      <source>Perform a CFD Analysis</source>
-      <translation>Przeprowadź analizę CFD</translation>
+      <source>Performs a CFD Analysis</source>
+      <translation>Wykonuje analizę CFD</translation>
     </message>
     <message>
-      <location filename="../../Ui/Commands/CmdPod.py" line="67"/>
+      <location filename="../../Ui/Commands/CmdPod.py" line="68"/>
       <source>Pod</source>
       <translation>Pędnik</translation>
     </message>
     <message>
-      <location filename="../../Ui/Commands/CmdPod.py" line="68"/>
-      <source>Pod design</source>
-      <translation>Konstrukcja pędnika</translation>
+      <location filename="../../Ui/Commands/CmdPod.py" line="69"/>
+      <source>Adds an external pod to the selected component</source>
+      <translation>Dodaje zewnętrzną gondolę do wybranego komponentu</translation>
     </message>
     <message>
       <location filename="../../InitGui.py" line="116"/>
@@ -2035,8 +2040,8 @@
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdRocket.py" line="81"/>
-      <source>Rocket assembly</source>
-      <translation>Złożenie rakiety</translation>
+      <source>Creates a rocket assembly</source>
+      <translation>Tworzy zespół rakietowy</translation>
     </message>
     <message>
       <location filename="../../Ui/ViewRocket.py" line="65"/>
@@ -2046,8 +2051,8 @@
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdRocket.py" line="87"/>
-      <source>Toggle the active rocket</source>
-      <translation>Przełącz aktywną rakietę</translation>
+      <source>Toggles the active rocket assembly</source>
+      <translation>Przełącza aktywny zespół rakiety</translation>
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdStage.py" line="84"/>
@@ -2056,26 +2061,23 @@
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdStage.py" line="85"/>
-      <source>Rocket Stage</source>
-      <translation>Stopień rakiety</translation>
+      <source>Adds a stage to the rocket assembly</source>
+      <translation>Dodaje stopień do zespołu rakiety</translation>
     </message>
     <message>
-      <location filename="../../Ui/Commands/CmdParallelStage.py" line="94"/>
       <location filename="../../Ui/Commands/CmdStage.py" line="93"/>
       <source>Toggle the active stage</source>
       <translation>Przełącz aktywny stopień rakiety</translation>
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdCalcVentHoles.py" line="49"/>
-      <location filename="../../Ui/Commands/CmdCalcVentHoles.py" line="48"/>
-      <source>Calculate vent hole size</source>
-      <translation>Oblicz rozmiar otworu wentylacyjnego.</translation>
+      <source>Calculates required vent hole size</source>
+      <translation>Oblicza wymaganą średnicę otworu odpowietrzającego</translation>
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdCalcBlackPowder.py" line="49"/>
-      <location filename="../../Ui/Commands/CmdCalcBlackPowder.py" line="48"/>
-      <source>Calculate ejection charge</source>
-      <translation>Oblicz ładunek wyrzutowy</translation>
+      <source>Calculates required ejection charge</source>
+      <translation>Oblicza wymaganą ładunek wyrzucający</translation>
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdSketcher.py" line="60"/>
@@ -2084,8 +2086,8 @@
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdSketcher.py" line="61"/>
-      <source>Create a new sketch</source>
-      <translation>Utwórz nowy szkic</translation>
+      <source>Creates a new sketch</source>
+      <translation>Tworzy nowy szkic</translation>
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdRingtail.py" line="67"/>
@@ -2094,8 +2096,8 @@
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdRingtail.py" line="68"/>
-      <source>Ring tail design</source>
-      <translation>Konstrukcja pierścienia ogonowego</translation>
+      <source>Adds a ring tail to the selected component</source>
+      <translation>Dodaje pierścień ogonowy do wybranego komponentu</translation>
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdBulkhead.py" line="65"/>
@@ -2104,8 +2106,8 @@
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdBulkhead.py" line="66"/>
-      <source>Bulkhead design</source>
-      <translation>Projekt wręgi</translation>
+      <source>Adds a bulkhead to the selected component</source>
+      <translation>Dodaje grodź do wybranego komponentu</translation>
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdNoseCone.py" line="66"/>
@@ -2114,8 +2116,8 @@
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdNoseCone.py" line="67"/>
-      <source>Nose cone design</source>
-      <translation>Projekt stożka nosowego</translation>
+      <source>Adds a nose cone to the selected pod or stage</source>
+      <translation>Dodaje stożek nosowy do wybranego zasobnika lub stopnia</translation>
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdEditTree.py" line="70"/>
@@ -2124,8 +2126,8 @@
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdEditTree.py" line="71"/>
-      <source>Move the object up in the rocket tree</source>
-      <translation>Przesuń obiekt w górę na drzewku rakiety</translation>
+      <source>Moves the object up in the rocket tree</source>
+      <translation>Przesuwa obiekt wyżej w strukturze rakiety</translation>
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdEditTree.py" line="89"/>
@@ -2134,14 +2136,18 @@
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdEditTree.py" line="90"/>
-      <source>Move the object down in the rocket tree</source>
-      <translation>Przesuń obiekt w dół na drzewku rakiety</translation>
+      <source>Moves the object down in the rocket tree</source>
+      <translation>Przesuwa obiekt niżej w strukturze rakiety</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdCalcThrustToWeight.py" line="48"/>
+      <source>Thrust to Weight Calculator</source>
+      <translation>Kalkulator stosunku ciągu do masy</translation>
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdCalcThrustToWeight.py" line="49"/>
-      <location filename="../../Ui/Commands/CmdCalcThrustToWeight.py" line="48"/>
-      <source>Calculate Thrust To Weight</source>
-      <translation>Oblicz stosunek siły ciągu do masy</translation>
+      <source>Calculates minimum thrust to weight</source>
+      <translation>Oblicza minimalny stosunek ciągu do masy</translation>
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdParallelStage.py" line="85"/>
@@ -2150,14 +2156,28 @@
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdParallelStage.py" line="86"/>
-      <source>Rocket Parallel Stage</source>
-      <translation>Równoległy stopień rakiety</translation>
+      <source>Adds a parallel stage to the rocket assembly</source>
+      <translation>Dodaje równoległy stopień do zespołu rakiety</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdParallelStage.py" line="94"/>
+      <source>Toggles the active stage</source>
+      <translation>Przełącza aktywny stopień</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdCalcParachute.py" line="48"/>
+      <source>Parachute Size Calculator</source>
+      <translation>Kalkulator rozmiaru spadochronu</translation>
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdCalcParachute.py" line="49"/>
-      <location filename="../../Ui/Commands/CmdCalcParachute.py" line="48"/>
-      <source>Calculate parachute size</source>
-      <translation>Oblicz średnicę spadochronu</translation>
+      <source>Calculates required parachute size</source>
+      <translation>Oblicza wymagany rozmiar spadochronu</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdParachuteDesigner.py" line="73"/>
+      <source>Fin design</source>
+      <translation>Projekt statecznika</translation>
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdFinCan.py" line="77"/>
@@ -2166,8 +2186,8 @@
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdFinCan.py" line="78"/>
-      <source>Fin can design</source>
-      <translation>Konstrukcja korpusu ze statecznikiem</translation>
+      <source>Adds a fin can to the selected component</source>
+      <translation>Dodaje płetwę do wybranego komponentu</translation>
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdMaterialEditor.py" line="44"/>
@@ -2186,8 +2206,8 @@
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdBodyTube.py" line="101"/>
-      <source>Body tube design</source>
-      <translation>Projekt rury korpusowej</translation>
+      <source>Adds a body tube to the selected pod or stage</source>
+      <translation>Dodaje sekcję kadłuba do wybranego zasobnika lub stopnia</translation>
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdBodyTube.py" line="121"/>
@@ -2196,8 +2216,8 @@
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdBodyTube.py" line="122"/>
-      <source>Coupler design</source>
-      <translation>Konstrukcja łącznika</translation>
+      <source>Adds a coupler to the selected component</source>
+      <translation>Dodaje łącznik do wybranego komponentu</translation>
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdBodyTube.py" line="142"/>
@@ -2206,8 +2226,8 @@
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdBodyTube.py" line="143"/>
-      <source>Inner tube design</source>
-      <translation>Konstrukcja rury wewnętrznej</translation>
+      <source>Adds an inner tube or motor mount to the selected component</source>
+      <translation>Dodaje wewnętrzną sekcję kadłuba lub mocowanie silnika do wybranego komponentu</translation>
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdBodyTube.py" line="163"/>
@@ -2216,8 +2236,8 @@
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdBodyTube.py" line="164"/>
-      <source>Engine block design</source>
-      <translation>Projekt bloku silnika</translation>
+      <source>Adds an engine block to the selected component</source>
+      <translation>Dodaje blok silnika do wybranego komponentu</translation>
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdParachuteGore.py" line="67"/>
@@ -2226,8 +2246,8 @@
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdParachuteGore.py" line="68"/>
-      <source>Parachute gore design</source>
-      <translation>Konstrukcja segmentu spadochronu</translation>
+      <source>Creates a parachute gore</source>
+      <translation>Tworzy segment czaszy spadochronu</translation>
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdLaunchGuides.py" line="87"/>
@@ -2236,8 +2256,8 @@
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdLaunchGuides.py" line="88"/>
-      <source>Launch lug design</source>
-      <translation>Konstrukcja uchwytu startowego</translation>
+      <source>Adds a launch lug to the selected component</source>
+      <translation>Dodaje prowadnicę startową do wybranego komponentu</translation>
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdLaunchGuides.py" line="106"/>
@@ -2246,8 +2266,8 @@
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdLaunchGuides.py" line="107"/>
-      <source>Rail button design</source>
-      <translation>Konstrukcja przycisku szynowego</translation>
+      <source>Adds a rail button to the selected component</source>
+      <translation>Dodaje uchwyt prowadnicy szynowej do wybranego komponentu</translation>
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdLaunchGuides.py" line="125"/>
@@ -2256,8 +2276,8 @@
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdLaunchGuides.py" line="126"/>
-      <source>Rail guide design</source>
-      <translation>Konstrukcja prowadnicy</translation>
+      <source>Adds a rail guide to the selected component</source>
+      <translation>Dodaje prowadnicę szynową do wybranego komponentu</translation>
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdLaunchGuides.py" line="144"/>
@@ -2266,8 +2286,8 @@
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdLaunchGuides.py" line="145"/>
-      <source>Stand off design</source>
-      <translation>Konstrukcja przedłużki do przycisku prowadnicy</translation>
+      <source>Adds a launch guide stand off to the selected component</source>
+      <translation>Dodaje dystans prowadnicy startowej do wybranego komponentu</translation>
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdCenteringRing.py" line="65"/>
@@ -2276,8 +2296,8 @@
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdCenteringRing.py" line="66"/>
-      <source>Centering Ring design</source>
-      <translation>Projekt pierścienia centrującego</translation>
+      <source>Adds a centering ring to the selected component</source>
+      <translation>Dodaje pierścień centrujący do wybranego komponentu</translation>
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdFlutterAnalysis.py" line="51"/>
@@ -2286,10 +2306,14 @@
       <translation>Najpierw proszę wybrać statecznik</translation>
     </message>
     <message>
-      <location filename="../../Ui/Commands/CmdFemAnalysis.py" line="104"/>
       <location filename="../../Ui/Commands/CmdFemAnalysis.py" line="103"/>
       <source>Fin FEM Analysis</source>
       <translation>Analiza MES statecznika</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdFemAnalysis.py" line="104"/>
+      <source>Performs a FEM analysis of the selected fin</source>
+      <translation>Wykonuje analizę MES wybranego statecznika</translation>
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdTransition.py" line="66"/>
@@ -2298,13 +2322,13 @@
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdTransition.py" line="67"/>
-      <source>Transition design</source>
-      <translation>Projekt przejścia</translation>
+      <source>Adds a transition to the selected pod or stage</source>
+      <translation>Dodaje przejściówkę kadłubową do wybranego zasobnika lub stopnia</translation>
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdFlutterAnalysis.py" line="64"/>
-      <source>Calculate fin flutter</source>
-      <translation>Oblicza drżenie płetw</translation>
+      <source>Performs a fin flutter analysis of the selected fin</source>
+      <translation>Wykonuje analizę drgań wybranego statecznika</translation>
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdParachute.py" line="63"/>
@@ -2313,8 +2337,8 @@
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdParachute.py" line="64"/>
-      <source>Parachute design</source>
-      <translation>Projekt spadochronu</translation>
+      <source>Adds a parachute to the selected component</source>
+      <translation>Dodaje spadochron do wybranego komponentu</translation>
     </message>
     <message>
       <location filename="../../Ui/TaskPanelPod.py" line="62"/>
@@ -2462,7 +2486,7 @@
       <location filename="../../Rocket/Exporter/OpenRocket/OpenRocket.py" line="163"/>
       <location filename="../../Rocket/Exporter/OpenRocket/OpenRocket.py" line="160"/>
       <source>Please select a rocket object</source>
-      <translation type="unfinished"/>
+      <translation>Proszę wybrać obiekt rakiety</translation>
     </message>
     <message>
       <location filename="../../Rocket/Constants.py" line="163"/>
@@ -2500,32 +2524,32 @@
       <translation>Środek komponentu nadrzędnego</translation>
     </message>
     <message>
-      <location filename="../../Rocket/RocketComponentShapeless.py" line="590"/>
+      <location filename="../../Rocket/RocketComponentShapeless.py" line="602"/>
       <source>setAxialOffset is broken -- attempted to update as NaN: </source>
       <translation>funkcja setAxialOffset jest uszkodzona -- próbowano ustawić wartość NaN: </translation>
     </message>
     <message>
-      <location filename="../../Rocket/RocketComponentShapeless.py" line="674"/>
+      <location filename="../../Rocket/RocketComponentShapeless.py" line="695"/>
       <source>component {} is already in a tree</source>
       <translation>komponent {} jest już w drzewie</translation>
     </message>
     <message>
-      <location filename="../../Rocket/RocketComponentShapeless.py" line="678"/>
+      <location filename="../../Rocket/RocketComponentShapeless.py" line="699"/>
       <source>Component {} is a parent of {}, attempting to create cycle in tree.</source>
       <translation>Komponent {} jest komponentem nadrzędnym dla {}, próba utworzenia cyklu w strukturze drzewa.</translation>
     </message>
     <message>
-      <location filename="../../Rocket/RocketComponentShapeless.py" line="682"/>
+      <location filename="../../Rocket/RocketComponentShapeless.py" line="703"/>
       <source>Unsupported configuration: {}  not currently compatible with component: {}</source>
       <translation>Nieobsługiwana konfiguracja: {}  obecnie niekompatybilna z komponentem: {}</translation>
     </message>
     <message>
-      <location filename="../../Rocket/RocketComponentShapeless.py" line="773"/>
+      <location filename="../../Rocket/RocketComponentShapeless.py" line="794"/>
       <source>getRocket() called with root component {}</source>
       <translation>wywołano getRocket() z komponentem głównym {}</translation>
     </message>
     <message>
-      <location filename="../../Rocket/RocketComponentShapeless.py" line="785"/>
+      <location filename="../../Rocket/RocketComponentShapeless.py" line="806"/>
       <source>getStage() called on hierarchy without a FeatureStage component.</source>
       <translation>wywołano getStage() dla hierarchii niezawierającej komponentu FeatureStage.</translation>
     </message>
@@ -2590,7 +2614,7 @@
       <translation>Nie znaleziono rakiety</translation>
     </message>
     <message>
-      <location filename="../../Rocket/FeaturePod.py" line="147"/>
+      <location filename="../../Rocket/FeaturePod.py" line="152"/>
       <source>found a pod positioned via: AFTER, but is not on the centerline?!: {}  is {}</source>
       <translation>wykryto moduł pozycjonowany przez: AFTER, który nie jest na osi centralnej! {} jest {}</translation>
     </message>
@@ -3134,19 +3158,19 @@ Wysokość górna musi być większa niż zero</translation>
       <translation>Parametry przycisków prowadnic tworzą nieprawidłowy kształt</translation>
     </message>
     <message>
-      <location filename="../../Rocket/ShapeHandlers/TransitionProxyShapeHandler.py" line="197"/>
-      <location filename="../../Rocket/ShapeHandlers/TransitionProxyShapeHandler.py" line="165"/>
+      <location filename="../../Rocket/ShapeHandlers/TransitionProxyShapeHandler.py" line="222"/>
+      <location filename="../../Rocket/ShapeHandlers/TransitionProxyShapeHandler.py" line="190"/>
       <source>Transition fore shoulder parameters produce an invalid shape</source>
       <translation>Parametry kołnierza przedniego przejścia generują nieprawidłowy kształt</translation>
     </message>
     <message>
-      <location filename="../../Rocket/ShapeHandlers/TransitionProxyShapeHandler.py" line="204"/>
-      <location filename="../../Rocket/ShapeHandlers/TransitionProxyShapeHandler.py" line="185"/>
+      <location filename="../../Rocket/ShapeHandlers/TransitionProxyShapeHandler.py" line="229"/>
+      <location filename="../../Rocket/ShapeHandlers/TransitionProxyShapeHandler.py" line="210"/>
       <source>Transition aft shoulder parameters produce an invalid shape</source>
       <translation>Parametry kołnierza tylnego przejścia generują nieprawidłowy kształt</translation>
     </message>
     <message>
-      <location filename="../../Rocket/ShapeHandlers/TransitionProxyShapeHandler.py" line="210"/>
+      <location filename="../../Rocket/ShapeHandlers/TransitionProxyShapeHandler.py" line="235"/>
       <source>Transition shoulder parameters produce an invalid shape</source>
       <translation>Parametry przejścia nasady powodują utworzenie nieprawidłowego kształtu</translation>
     </message>
@@ -3376,7 +3400,7 @@ Wysokość górna musi być większa niż zero</translation>
     </message>
     <message>
       <source>Effective Forward Diameter</source>
-      <translation type="unfinished"/>
+      <translation>Efektywna średnica przednia</translation>
     </message>
     <message>
       <source>Effective Aft Diameter</source>
@@ -3384,7 +3408,7 @@ Wysokość górna musi być większa niż zero</translation>
     </message>
     <message>
       <source>Forward Offset</source>
-      <translation type="unfinished"/>
+      <translation>Odsunięcie przednie</translation>
     </message>
     <message>
       <source>Aft Offset</source>
@@ -3400,7 +3424,7 @@ Wysokość górna musi być większa niż zero</translation>
     </message>
     <message>
       <source>Forward Shoulder</source>
-      <translation type="unfinished"/>
+      <translation>Przedni pierścień łączeniowy</translation>
     </message>
     <message>
       <source>Aft Shoulder</source>

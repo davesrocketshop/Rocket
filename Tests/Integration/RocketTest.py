@@ -126,13 +126,13 @@ class RocketTest(unittest.TestCase):
         assertCoordinateEqual(self, actual, expected, ring.getName()+" not positioned correctly")
 
         bounds = rocket.getBoundingBox()
-        # self.assertEqual(bounds._min._x, 0.0)
-        # self.assertEqual(bounds._max._x, 270.0)
+        # self.assertEqual(bounds._min.x, 0.0)
+        # self.assertEqual(bounds._max.x, 270.0)
 
-        # self.assertEqual(bounds._min._y, -32.385640)
-        # self.assertEqual(bounds._min._z, -54.493575)
-        # self.assertEqual(bounds._max._y,  62.000000)
-        # self.assertEqual(bounds._max._z,  52.893575)
+        # self.assertEqual(bounds._min.y, -32.385640)
+        # self.assertEqual(bounds._min.z, -54.493575)
+        # self.assertEqual(bounds._max.y,  62.000000)
+        # self.assertEqual(bounds._max.z,  52.893575)
 
     def verify3StagePositioning(self, rocket, coordinates):
         self.assertEqual(rocket.getChildCount(), 3)

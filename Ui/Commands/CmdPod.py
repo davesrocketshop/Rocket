@@ -59,11 +59,12 @@ class CmdPod(Command):
             FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
 
     def IsActive(self):
-        if FreeCAD.ActiveDocument:
-            return self.partStageEligibleFeature(FEATURE_POD)
+        # Pods are still under development
+        # if FreeCAD.ActiveDocument:
+        #     return self.partStageEligibleFeature(FEATURE_POD)
         return False
 
     def GetResources(self):
         return {'MenuText': translate("Rocket", 'Pod'),
-                'ToolTip': translate("Rocket", 'Pod design'),
+                'ToolTip': translate("Rocket", 'Adds an external pod to the selected component'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Pod.svg"}

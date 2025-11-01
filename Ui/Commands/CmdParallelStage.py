@@ -83,7 +83,7 @@ class CmdParallelStage(Command):
 
     def GetResources(self):
         return {'MenuText': translate("Rocket", 'Parallel Stage'),
-                'ToolTip': translate("Rocket", 'Rocket Parallel Stage'),
+                'ToolTip': translate("Rocket", 'Adds a parallel stage to the rocket assembly'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_ParallelStage.svg"}
 
 
@@ -91,7 +91,7 @@ class CmdToggleParallelStage:
     "the ToggleParallelStage command definition"
     def GetResources(self):
         return {'MenuText': translate("Rocket","Toggle active stage"),
-                'ToolTip' : translate("Rocket","Toggle the active stage")}
+                'ToolTip' : translate("Rocket","Toggles the active stage")}
 
     def IsActive(self):
         return bool(FreeCADGui.Selection.getSelection())

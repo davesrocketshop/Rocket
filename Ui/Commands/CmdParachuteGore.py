@@ -65,5 +65,5 @@ class CmdParachuteGore:
 
     def GetResources(self):
         return {'MenuText': translate("Rocket", 'Parachute Gore'),
-                'ToolTip': translate("Rocket", 'Parachute gore design'),
+                'ToolTip': translate("Rocket", 'Creates a parachute gore'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_ParachuteGore.svg"}

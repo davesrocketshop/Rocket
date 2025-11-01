@@ -101,5 +101,5 @@ class CmdFemAnalysis(Command):
 
     def GetResources(self):
         return {'MenuText': translate("Rocket", 'Fin FEM Analysis'),
-                'ToolTip': translate("Rocket", 'Fin FEM Analysis'),
+                'ToolTip': translate("Rocket", 'Performs a FEM analysis of the selected fin'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_FinFem.svg"}
