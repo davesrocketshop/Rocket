@@ -1975,7 +1975,7 @@
     <message>
       <location filename="../../Ui/Commands/CmdScaling.py" line="102"/>
       <source>Matches body tube pairs suitable for scaling</source>
-      <translation type="unfinished"/>
+      <translation>Dopasowuje pary rur kadłuba odpowiednie do skalowania</translation>
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdScaling.py" line="115"/>
@@ -1985,7 +1985,7 @@
     <message>
       <location filename="../../Ui/Commands/CmdScaling.py" line="116"/>
       <source>Finds scale body tubes</source>
-      <translation type="unfinished"/>
+      <translation>Wyszukuje rury kadłuba do skalowania</translation>
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdParachuteDesigner.py" line="72"/>
@@ -1996,7 +1996,7 @@
     <message>
       <location filename="../../Ui/Commands/CmdFin.py" line="76"/>
       <source>Adds a fin or fin set to the selected component</source>
-      <translation type="unfinished"/>
+      <translation>Dodaje statecznik lub zestaw stateczników do wybranego komponentu</translation>
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdCFDAnalysis.py" line="60"/>
@@ -2011,7 +2011,7 @@
     <message>
       <location filename="../../Ui/Commands/CmdCFDAnalysis.py" line="106"/>
       <source>Performs a CFD Analysis</source>
-      <translation type="unfinished"/>
+      <translation>Wykonuje analizę CFD</translation>
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdPod.py" line="68"/>
@@ -2021,7 +2021,7 @@
     <message>
       <location filename="../../Ui/Commands/CmdPod.py" line="69"/>
       <source>Adds an external pod to the selected component</source>
-      <translation type="unfinished"/>
+      <translation>Dodaje zewnętrzną gondolę do wybranego komponentu</translation>
     </message>
     <message>
       <location filename="../../InitGui.py" line="116"/>
@@ -2041,7 +2041,7 @@
     <message>
       <location filename="../../Ui/Commands/CmdRocket.py" line="81"/>
       <source>Creates a rocket assembly</source>
-      <translation type="unfinished"/>
+      <translation>Tworzy zespół rakietowy</translation>
     </message>
     <message>
       <location filename="../../Ui/ViewRocket.py" line="65"/>
@@ -2052,7 +2052,7 @@
     <message>
       <location filename="../../Ui/Commands/CmdRocket.py" line="87"/>
       <source>Toggles the active rocket assembly</source>
-      <translation type="unfinished"/>
+      <translation>Przełącza aktywny zespół rakiety</translation>
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdStage.py" line="84"/>
@@ -2062,7 +2062,7 @@
     <message>
       <location filename="../../Ui/Commands/CmdStage.py" line="85"/>
       <source>Adds a stage to the rocket assembly</source>
-      <translation type="unfinished"/>
+      <translation>Dodaje stopień do zespołu rakiety</translation>
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdStage.py" line="93"/>
@@ -2072,12 +2072,12 @@
     <message>
       <location filename="../../Ui/Commands/CmdCalcVentHoles.py" line="49"/>
       <source>Calculates required vent hole size</source>
-      <translation type="unfinished"/>
+      <translation>Oblicza wymaganą średnicę otworu odpowietrzającego</translation>
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdCalcBlackPowder.py" line="49"/>
       <source>Calculates required ejection charge</source>
-      <translation type="unfinished"/>
+      <translation>Oblicza wymaganą ładunek wyrzucający</translation>
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdSketcher.py" line="60"/>
@@ -2087,7 +2087,7 @@
     <message>
       <location filename="../../Ui/Commands/CmdSketcher.py" line="61"/>
       <source>Creates a new sketch</source>
-      <translation type="unfinished"/>
+      <translation>Tworzy nowy szkic</translation>
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdRingtail.py" line="67"/>
@@ -2097,7 +2097,7 @@
     <message>
       <location filename="../../Ui/Commands/CmdRingtail.py" line="68"/>
       <source>Adds a ring tail to the selected component</source>
-      <translation type="unfinished"/>
+      <translation>Dodaje pierścień ogonowy do wybranego komponentu</translation>
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdBulkhead.py" line="65"/>
@@ -2107,7 +2107,7 @@
     <message>
       <location filename="../../Ui/Commands/CmdBulkhead.py" line="66"/>
       <source>Adds a bulkhead to the selected component</source>
-      <translation type="unfinished"/>
+      <translation>Dodaje grodź do wybranego komponentu</translation>
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdNoseCone.py" line="66"/>
@@ -2117,7 +2117,7 @@
     <message>
       <location filename="../../Ui/Commands/CmdNoseCone.py" line="67"/>
       <source>Adds a nose cone to the selected pod or stage</source>
-      <translation type="unfinished"/>
+      <translation>Dodaje stożek nosowy do wybranego zasobnika lub stopnia</translation>
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdEditTree.py" line="70"/>
@@ -2127,7 +2127,7 @@
     <message>
       <location filename="../../Ui/Commands/CmdEditTree.py" line="71"/>
       <source>Moves the object up in the rocket tree</source>
-      <translation type="unfinished"/>
+      <translation>Przesuwa obiekt wyżej w strukturze rakiety</translation>
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdEditTree.py" line="89"/>
@@ -2137,17 +2137,17 @@
     <message>
       <location filename="../../Ui/Commands/CmdEditTree.py" line="90"/>
       <source>Moves the object down in the rocket tree</source>
-      <translation type="unfinished"/>
+      <translation>Przesuwa obiekt niżej w strukturze rakiety</translation>
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdCalcThrustToWeight.py" line="48"/>
       <source>Thrust to Weight Calculator</source>
-      <translation type="unfinished"/>
+      <translation>Kalkulator stosunku ciągu do masy</translation>
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdCalcThrustToWeight.py" line="49"/>
       <source>Calculates minimum thrust to weight</source>
-      <translation type="unfinished"/>
+      <translation>Oblicza minimalny stosunek ciągu do masy</translation>
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdParallelStage.py" line="85"/>
@@ -2157,22 +2157,22 @@
     <message>
       <location filename="../../Ui/Commands/CmdParallelStage.py" line="86"/>
       <source>Adds a parallel stage to the rocket assembly</source>
-      <translation type="unfinished"/>
+      <translation>Dodaje równoległy stopień do zespołu rakiety</translation>
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdParallelStage.py" line="94"/>
       <source>Toggles the active stage</source>
-      <translation type="unfinished"/>
+      <translation>Przełącza aktywny stopień</translation>
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdCalcParachute.py" line="48"/>
       <source>Parachute Size Calculator</source>
-      <translation type="unfinished"/>
+      <translation>Kalkulator rozmiaru spadochronu</translation>
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdCalcParachute.py" line="49"/>
       <source>Calculates required parachute size</source>
-      <translation type="unfinished"/>
+      <translation>Oblicza wymagany rozmiar spadochronu</translation>
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdParachuteDesigner.py" line="73"/>
@@ -2187,7 +2187,7 @@
     <message>
       <location filename="../../Ui/Commands/CmdFinCan.py" line="78"/>
       <source>Adds a fin can to the selected component</source>
-      <translation type="unfinished"/>
+      <translation>Dodaje płetwę do wybranego komponentu</translation>
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdMaterialEditor.py" line="44"/>
@@ -2207,7 +2207,7 @@
     <message>
       <location filename="../../Ui/Commands/CmdBodyTube.py" line="101"/>
       <source>Adds a body tube to the selected pod or stage</source>
-      <translation type="unfinished"/>
+      <translation>Dodaje sekcję kadłuba do wybranego zasobnika lub stopnia</translation>
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdBodyTube.py" line="121"/>
@@ -2217,7 +2217,7 @@
     <message>
       <location filename="../../Ui/Commands/CmdBodyTube.py" line="122"/>
       <source>Adds a coupler to the selected component</source>
-      <translation type="unfinished"/>
+      <translation>Dodaje łącznik do wybranego komponentu</translation>
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdBodyTube.py" line="142"/>
@@ -2227,7 +2227,7 @@
     <message>
       <location filename="../../Ui/Commands/CmdBodyTube.py" line="143"/>
       <source>Adds an inner tube or motor mount to the selected component</source>
-      <translation type="unfinished"/>
+      <translation>Dodaje wewnętrzną sekcję kadłuba lub mocowanie silnika do wybranego komponentu</translation>
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdBodyTube.py" line="163"/>
@@ -2237,7 +2237,7 @@
     <message>
       <location filename="../../Ui/Commands/CmdBodyTube.py" line="164"/>
       <source>Adds an engine block to the selected component</source>
-      <translation type="unfinished"/>
+      <translation>Dodaje blok silnika do wybranego komponentu</translation>
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdParachuteGore.py" line="67"/>
@@ -2247,7 +2247,7 @@
     <message>
       <location filename="../../Ui/Commands/CmdParachuteGore.py" line="68"/>
       <source>Creates a parachute gore</source>
-      <translation type="unfinished"/>
+      <translation>Tworzy segment czaszy spadochronu</translation>
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdLaunchGuides.py" line="87"/>
@@ -2257,7 +2257,7 @@
     <message>
       <location filename="../../Ui/Commands/CmdLaunchGuides.py" line="88"/>
       <source>Adds a launch lug to the selected component</source>
-      <translation type="unfinished"/>
+      <translation>Dodaje prowadnicę startową do wybranego komponentu</translation>
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdLaunchGuides.py" line="106"/>
@@ -2267,7 +2267,7 @@
     <message>
       <location filename="../../Ui/Commands/CmdLaunchGuides.py" line="107"/>
       <source>Adds a rail button to the selected component</source>
-      <translation type="unfinished"/>
+      <translation>Dodaje uchwyt prowadnicy szynowej do wybranego komponentu</translation>
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdLaunchGuides.py" line="125"/>
@@ -2277,7 +2277,7 @@
     <message>
       <location filename="../../Ui/Commands/CmdLaunchGuides.py" line="126"/>
       <source>Adds a rail guide to the selected component</source>
-      <translation type="unfinished"/>
+      <translation>Dodaje prowadnicę szynową do wybranego komponentu</translation>
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdLaunchGuides.py" line="144"/>
@@ -2287,7 +2287,7 @@
     <message>
       <location filename="../../Ui/Commands/CmdLaunchGuides.py" line="145"/>
       <source>Adds a launch guide stand off to the selected component</source>
-      <translation type="unfinished"/>
+      <translation>Dodaje dystans prowadnicy startowej do wybranego komponentu</translation>
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdCenteringRing.py" line="65"/>
@@ -2297,7 +2297,7 @@
     <message>
       <location filename="../../Ui/Commands/CmdCenteringRing.py" line="66"/>
       <source>Adds a centering ring to the selected component</source>
-      <translation type="unfinished"/>
+      <translation>Dodaje pierścień centrujący do wybranego komponentu</translation>
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdFlutterAnalysis.py" line="51"/>
@@ -2313,7 +2313,7 @@
     <message>
       <location filename="../../Ui/Commands/CmdFemAnalysis.py" line="104"/>
       <source>Performs a FEM analysis of the selected fin</source>
-      <translation type="unfinished"/>
+      <translation>Wykonuje analizę MES wybranego statecznika</translation>
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdTransition.py" line="66"/>
@@ -2323,12 +2323,12 @@
     <message>
       <location filename="../../Ui/Commands/CmdTransition.py" line="67"/>
       <source>Adds a transition to the selected pod or stage</source>
-      <translation type="unfinished"/>
+      <translation>Dodaje przejściówkę kadłubową do wybranego zasobnika lub stopnia</translation>
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdFlutterAnalysis.py" line="64"/>
       <source>Performs a fin flutter analysis of the selected fin</source>
-      <translation type="unfinished"/>
+      <translation>Wykonuje analizę drgań wybranego statecznika</translation>
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdParachute.py" line="63"/>
@@ -2338,7 +2338,7 @@
     <message>
       <location filename="../../Ui/Commands/CmdParachute.py" line="64"/>
       <source>Adds a parachute to the selected component</source>
-      <translation type="unfinished"/>
+      <translation>Dodaje spadochron do wybranego komponentu</translation>
     </message>
     <message>
       <location filename="../../Ui/TaskPanelPod.py" line="62"/>
