@@ -204,9 +204,6 @@ class FeatureFin(ExternalComponent):
         if not hasattr(obj, 'Base'):
             obj.addProperty('App::PropertyLink', 'Base', 'RocketComponent', translate('App::Property', 'The base object used to define the nose cone shape'))
 
-        if not hasattr(obj,"Group"):
-            obj.addExtension("App::GroupExtensionPython")
-
         # A transient property for debugging sketch based fins
         if DEBUG_SKETCH_FINS > 0:
             if not hasattr(obj,"DebugSketch"):
