@@ -54,7 +54,7 @@ class RocketComponentShapeless(Subject, Observer):
     def __init__(self, obj : Any) -> None:
         super().__init__()
         self.Type = "RocketComponent"
-        self.version = '3.0'
+        self.version = '5.0'
 
         self._obj = obj
         self._parent = None
