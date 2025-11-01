@@ -1787,6 +1787,7 @@
       <translation>Hög</translation>
     </message>
     <message>
+      <location filename="../../Ui/Commands/CmdCalcBlackPowder.py" line="48"/>
       <location filename="../../Ui/DialogBlackPowder.py" line="55"/>
       <source>Ejection Charge Calculator</source>
       <translation>Kalkylator för utskjutningsladdning</translation>
@@ -1882,6 +1883,7 @@
       <translation>Djup</translation>
     </message>
     <message>
+      <location filename="../../Ui/Commands/CmdCalcVentHoles.py" line="48"/>
       <location filename="../../Ui/DialogVentHoles.py" line="51"/>
       <source>Vent Hole Size Calculator</source>
       <translation>Kalkylator för storlek på ventilationshål</translation>
@@ -1972,14 +1974,18 @@
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdScaling.py" line="102"/>
-      <source>Match body tube pairs suitable for scale</source>
-      <translation>Matcha par av kroppsrör som är lämpliga för skalan</translation>
+      <source>Matches body tube pairs suitable for scaling</source>
+      <translation type="unfinished"/>
     </message>
     <message>
-      <location filename="../../Ui/Commands/CmdScaling.py" line="116"/>
       <location filename="../../Ui/Commands/CmdScaling.py" line="115"/>
       <source>Find scale body tubes</source>
       <translation>Hitta skalenliga kroppsrör</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdScaling.py" line="116"/>
+      <source>Finds scale body tubes</source>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdParachuteDesigner.py" line="72"/>
@@ -1989,7 +1995,7 @@
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdFin.py" line="76"/>
-      <source>Add a fin or fin set</source>
+      <source>Adds a fin or fin set to the selected component</source>
       <translation type="unfinished"/>
     </message>
     <message>
@@ -2004,17 +2010,17 @@
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdCFDAnalysis.py" line="106"/>
-      <source>Perform a CFD Analysis</source>
-      <translation>Utför en CFD-analys</translation>
+      <source>Performs a CFD Analysis</source>
+      <translation type="unfinished"/>
     </message>
     <message>
-      <location filename="../../Ui/Commands/CmdPod.py" line="67"/>
+      <location filename="../../Ui/Commands/CmdPod.py" line="68"/>
       <source>Pod</source>
       <translation>Kapsel</translation>
     </message>
     <message>
-      <location filename="../../Ui/Commands/CmdPod.py" line="68"/>
-      <source>Add a pod</source>
+      <location filename="../../Ui/Commands/CmdPod.py" line="69"/>
+      <source>Adds an external pod to the selected component</source>
       <translation type="unfinished"/>
     </message>
     <message>
@@ -2034,7 +2040,7 @@
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdRocket.py" line="81"/>
-      <source>Create a rocket assembly</source>
+      <source>Creates a rocket assembly</source>
       <translation type="unfinished"/>
     </message>
     <message>
@@ -2045,8 +2051,8 @@
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdRocket.py" line="87"/>
-      <source>Toggle the active rocket</source>
-      <translation>Växla den aktiva raketen</translation>
+      <source>Toggles the active rocket assembly</source>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdStage.py" line="84"/>
@@ -2055,29 +2061,22 @@
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdStage.py" line="85"/>
-      <source>Add a rocket stage</source>
+      <source>Adds a stage to the rocket assembly</source>
       <translation type="unfinished"/>
     </message>
     <message>
-      <location filename="../../Ui/Commands/CmdParallelStage.py" line="94"/>
       <location filename="../../Ui/Commands/CmdStage.py" line="93"/>
       <source>Toggle the active stage</source>
       <translation>Växla den aktiva fasen</translation>
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdCalcVentHoles.py" line="49"/>
-      <location filename="../../Ui/Commands/CmdCalcVentHoles.py" line="48"/>
-      <source>Calculate vent hole size</source>
-      <translation>Beräkna ventilationshålets storlek</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdCalcBlackPowder.py" line="48"/>
-      <source>Calculate ejection charge</source>
-      <translation>Beräkna utskjutningsladdning</translation>
+      <source>Calculates required vent hole size</source>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdCalcBlackPowder.py" line="49"/>
-      <source>Calculate the ejection charge required</source>
+      <source>Calculates required ejection charge</source>
       <translation type="unfinished"/>
     </message>
     <message>
@@ -2087,8 +2086,8 @@
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdSketcher.py" line="61"/>
-      <source>Create a new sketch</source>
-      <translation>Skapa en ny skiss</translation>
+      <source>Creates a new sketch</source>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdRingtail.py" line="67"/>
@@ -2097,7 +2096,7 @@
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdRingtail.py" line="68"/>
-      <source>Add a ring tail</source>
+      <source>Adds a ring tail to the selected component</source>
       <translation type="unfinished"/>
     </message>
     <message>
@@ -2107,7 +2106,7 @@
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdBulkhead.py" line="66"/>
-      <source>Add a bulkhead</source>
+      <source>Adds a bulkhead to the selected component</source>
       <translation type="unfinished"/>
     </message>
     <message>
@@ -2117,7 +2116,7 @@
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdNoseCone.py" line="67"/>
-      <source>Add a nose cone</source>
+      <source>Adds a nose cone to the selected pod or stage</source>
       <translation type="unfinished"/>
     </message>
     <message>
@@ -2127,8 +2126,8 @@
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdEditTree.py" line="71"/>
-      <source>Move the object up in the rocket tree</source>
-      <translation>Flytta objektet uppåt i raketträdet</translation>
+      <source>Moves the object up in the rocket tree</source>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdEditTree.py" line="89"/>
@@ -2137,17 +2136,17 @@
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdEditTree.py" line="90"/>
-      <source>Move the object down in the rocket tree</source>
-      <translation>Flytta objektet nedåt i raketträdet</translation>
+      <source>Moves the object down in the rocket tree</source>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdCalcThrustToWeight.py" line="48"/>
-      <source>Calculate Thrust To Weight</source>
-      <translation>Beräkna tryckkraft till vikt</translation>
+      <source>Thrust to Weight Calculator</source>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdCalcThrustToWeight.py" line="49"/>
-      <source>Calculate minimum Thrust To Weight</source>
+      <source>Calculates minimum thrust to weight</source>
       <translation type="unfinished"/>
     </message>
     <message>
@@ -2157,14 +2156,23 @@
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdParallelStage.py" line="86"/>
-      <source>Add a parallel stage</source>
+      <source>Adds a parallel stage to the rocket assembly</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdParallelStage.py" line="94"/>
+      <source>Toggles the active stage</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdCalcParachute.py" line="48"/>
+      <source>Parachute Size Calculator</source>
       <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdCalcParachute.py" line="49"/>
-      <location filename="../../Ui/Commands/CmdCalcParachute.py" line="48"/>
-      <source>Calculate parachute size</source>
-      <translation>Beräkna fallskärmens storlek</translation>
+      <source>Calculates required parachute size</source>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdParachuteDesigner.py" line="73"/>
@@ -2178,7 +2186,7 @@
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdFinCan.py" line="78"/>
-      <source>Add a fin can</source>
+      <source>Adds a fin can to the selected component</source>
       <translation type="unfinished"/>
     </message>
     <message>
@@ -2198,7 +2206,7 @@
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdBodyTube.py" line="101"/>
-      <source>Add a body tube</source>
+      <source>Adds a body tube to the selected pod or stage</source>
       <translation type="unfinished"/>
     </message>
     <message>
@@ -2208,7 +2216,7 @@
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdBodyTube.py" line="122"/>
-      <source>Add a coupler</source>
+      <source>Adds a coupler to the selected component</source>
       <translation type="unfinished"/>
     </message>
     <message>
@@ -2218,7 +2226,7 @@
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdBodyTube.py" line="143"/>
-      <source>Add an inner tube or motor mount</source>
+      <source>Adds an inner tube or motor mount to the selected component</source>
       <translation type="unfinished"/>
     </message>
     <message>
@@ -2228,7 +2236,7 @@
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdBodyTube.py" line="164"/>
-      <source>Add an engine block</source>
+      <source>Adds an engine block to the selected component</source>
       <translation type="unfinished"/>
     </message>
     <message>
@@ -2238,8 +2246,8 @@
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdParachuteGore.py" line="68"/>
-      <source>Parachute gore design</source>
-      <translation>Parachute-design för slitsar</translation>
+      <source>Creates a parachute gore</source>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdLaunchGuides.py" line="87"/>
@@ -2248,7 +2256,7 @@
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdLaunchGuides.py" line="88"/>
-      <source>Add a launch lug</source>
+      <source>Adds a launch lug to the selected component</source>
       <translation type="unfinished"/>
     </message>
     <message>
@@ -2258,7 +2266,7 @@
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdLaunchGuides.py" line="107"/>
-      <source>Add a rail button</source>
+      <source>Adds a rail button to the selected component</source>
       <translation type="unfinished"/>
     </message>
     <message>
@@ -2268,7 +2276,7 @@
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdLaunchGuides.py" line="126"/>
-      <source>Add a rail guide</source>
+      <source>Adds a rail guide to the selected component</source>
       <translation type="unfinished"/>
     </message>
     <message>
@@ -2278,7 +2286,7 @@
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdLaunchGuides.py" line="145"/>
-      <source>Add a launch guide stand off</source>
+      <source>Adds a launch guide stand off to the selected component</source>
       <translation type="unfinished"/>
     </message>
     <message>
@@ -2288,7 +2296,7 @@
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdCenteringRing.py" line="66"/>
-      <source>Add a centering ring</source>
+      <source>Adds a centering ring to the selected component</source>
       <translation type="unfinished"/>
     </message>
     <message>
@@ -2298,10 +2306,14 @@
       <translation>Vänligen välj en fena först</translation>
     </message>
     <message>
-      <location filename="../../Ui/Commands/CmdFemAnalysis.py" line="104"/>
       <location filename="../../Ui/Commands/CmdFemAnalysis.py" line="103"/>
       <source>Fin FEM Analysis</source>
       <translation>Fin FEM-analys</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdFemAnalysis.py" line="104"/>
+      <source>Performs a FEM analysis of the selected fin</source>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdTransition.py" line="66"/>
@@ -2310,12 +2322,12 @@
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdTransition.py" line="67"/>
-      <source>Add a transition</source>
+      <source>Adds a transition to the selected pod or stage</source>
       <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdFlutterAnalysis.py" line="64"/>
-      <source>Perform fin flutter analysis</source>
+      <source>Performs a fin flutter analysis of the selected fin</source>
       <translation type="unfinished"/>
     </message>
     <message>
@@ -2325,7 +2337,7 @@
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdParachute.py" line="64"/>
-      <source>Add a parachute</source>
+      <source>Adds a parachute to the selected component</source>
       <translation type="unfinished"/>
     </message>
     <message>
