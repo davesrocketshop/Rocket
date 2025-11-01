@@ -99,7 +99,7 @@ class CmdScalingPairs:
 
     def GetResources(self):
         return {'MenuText': translate("Rocket", 'Match body tube pairs'),
-                'ToolTip': translate("Rocket", 'Match body tube pairs suitable for scale'),
+                'ToolTip': translate("Rocket", 'Matches body tube pairs suitable for scaling'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Scaling.svg"}
 
 class CmdScalingTubes:
@@ -113,5 +113,5 @@ class CmdScalingTubes:
 
     def GetResources(self):
         return {'MenuText': translate("Rocket", 'Find scale body tubes'),
-                'ToolTip': translate("Rocket", 'Find scale body tubes'),
+                'ToolTip': translate("Rocket", 'Finds scale body tubes'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Scaling.svg"}

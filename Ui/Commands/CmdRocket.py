@@ -78,13 +78,13 @@ class CmdRocket(Command):
 
     def GetResources(self):
         return {'MenuText': translate("Rocket", 'Rocket'),
-                'ToolTip': translate("Rocket", 'Create a rocket assembly'),
+                'ToolTip': translate("Rocket", 'Creates a rocket assembly'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Rocket.svg"}
 
 class CmdToggleRocket:
     def GetResources(self):
         return {'MenuText': translate("Rocket","Toggle active rocket"),
-                'ToolTip' : translate("Rocket","Toggle the active rocket")}
+                'ToolTip' : translate("Rocket","Toggles the active rocket assembly")}
 
     def IsActive(self):
         return bool(FreeCADGui.Selection.getSelection())

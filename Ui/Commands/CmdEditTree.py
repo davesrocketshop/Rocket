@@ -68,7 +68,7 @@ class CmdMoveUp(Command):
 
     def GetResources(self):
         return {'MenuText': translate("Rocket", 'Move Up'),
-                'ToolTip': translate("Rocket", 'Move the object up in the rocket tree'),
+                'ToolTip': translate("Rocket", 'Moves the object up in the rocket tree'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/button_up.svg"}
 
 class CmdMoveDown(Command):
@@ -87,5 +87,5 @@ class CmdMoveDown(Command):
 
     def GetResources(self):
         return {'MenuText': translate("Rocket", 'Move Down'),
-                'ToolTip': translate("Rocket", 'Move the object down in the rocket tree'),
+                'ToolTip': translate("Rocket", 'Moves the object down in the rocket tree'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/button_down.svg"}

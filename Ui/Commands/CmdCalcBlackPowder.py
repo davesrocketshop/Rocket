@@ -45,6 +45,6 @@ class CmdCalcBlackPowder:
         return True
 
     def GetResources(self):
-        return {'MenuText': translate("Rocket", 'Calculate ejection charge'),
-                'ToolTip': translate("Rocket", 'Calculate the ejection charge required'),
+        return {'MenuText': translate("Rocket", 'Ejection Charge Calculator'),
+                'ToolTip': translate("Rocket", 'Calculates required ejection charge'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Calculator.svg"}

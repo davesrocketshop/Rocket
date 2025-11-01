@@ -98,7 +98,7 @@ class CmdBodyTube(Command):
 
     def GetResources(self):
         return {'MenuText': translate("Rocket", 'Body Tube'),
-                'ToolTip': translate("Rocket", 'Add a body tube'),
+                'ToolTip': translate("Rocket", 'Adds a body tube to the selected pod or stage'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_BodyTube.svg"}
 
 class CmdCoupler(Command):
@@ -119,7 +119,7 @@ class CmdCoupler(Command):
 
     def GetResources(self):
         return {'MenuText': translate("Rocket", 'Coupler'),
-                'ToolTip': translate("Rocket", 'Add a coupler'),
+                'ToolTip': translate("Rocket", 'Adds a coupler to the selected component'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Coupler.svg"}
 
 class CmdInnerTube(Command):
@@ -140,7 +140,7 @@ class CmdInnerTube(Command):
 
     def GetResources(self):
         return {'MenuText': translate("Rocket", 'Inner Tube'),
-                'ToolTip': translate("Rocket", 'Add an inner tube or motor mount'),
+                'ToolTip': translate("Rocket", 'Adds an inner tube or motor mount to the selected component'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_InnerTube.svg"}
 
 class CmdEngineBlock(Command):
@@ -161,5 +161,5 @@ class CmdEngineBlock(Command):
 
     def GetResources(self):
         return {'MenuText': translate("Rocket", 'Engine Block'),
-                'ToolTip': translate("Rocket", 'Add an engine block'),
+                'ToolTip': translate("Rocket", 'Adds an engine block to the selected component'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_EngineBlock.svg"}

@@ -103,5 +103,5 @@ class CmdCFDAnalysis(Command):
     def GetResources(self):
         icon_path = os.path.join(CfdTools.getModulePath(), "Gui", "Icons", "cfd.svg")
         return {'MenuText': translate("Rocket", 'CFD Analysis'),
-                'ToolTip': translate("Rocket", 'Perform a CFD Analysis'),
+                'ToolTip': translate("Rocket", 'Performs a CFD Analysis'),
                 'Pixmap': icon_path}

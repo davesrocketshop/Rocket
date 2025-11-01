@@ -58,5 +58,5 @@ class CmdNewSketch:
 
     def GetResources(self):
         return {'MenuText': translate("Rocket", 'Create sketch'),
-                'ToolTip': translate("Rocket", 'Create a new sketch'),
+                'ToolTip': translate("Rocket", 'Creates a new sketch'),
                 'Pixmap': "Sketcher_NewSketch" }

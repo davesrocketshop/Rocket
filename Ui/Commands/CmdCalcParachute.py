@@ -45,6 +45,6 @@ class CmdCalcParachute:
         return True
 
     def GetResources(self):
-        return {'MenuText': translate("Rocket", 'Calculate parachute size'),
-                'ToolTip': translate("Rocket", 'Calculate parachute size'),
+        return {'MenuText': translate("Rocket", 'Parachute Size Calculator'),
+                'ToolTip': translate("Rocket", 'Calculates required parachute size'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Calculator.svg"}

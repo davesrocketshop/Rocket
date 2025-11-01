@@ -45,6 +45,6 @@ class CmdCalcVentHoles:
         return True
 
     def GetResources(self):
-        return {'MenuText': translate("Rocket", 'Calculate vent hole size'),
-                'ToolTip': translate("Rocket", 'Calculate vent hole size'),
+        return {'MenuText': translate("Rocket", 'Vent Hole Size Calculator'),
+                'ToolTip': translate("Rocket", 'Calculates required vent hole size'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Calculator.svg"}

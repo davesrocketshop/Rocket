@@ -45,6 +45,6 @@ class CmdCalcThrustToWeight:
         return True
 
     def GetResources(self):
-        return {'MenuText': translate("Rocket", 'Calculate Thrust To Weight'),
-                'ToolTip': translate("Rocket", 'Calculate minimum Thrust To Weight'),
+        return {'MenuText': translate("Rocket", 'Thrust to Weight Calculator'),
+                'ToolTip': translate("Rocket", 'Calculates minimum thrust to weight'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Calculator.svg"}
