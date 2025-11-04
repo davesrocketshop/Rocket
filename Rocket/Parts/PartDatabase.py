@@ -34,6 +34,7 @@ import FreeCAD
 import Materials
 
 from Rocket.Parts.PartDatabaseOrcImporter import PartDatabaseOrcImporter
+from Rocket.Parts.PartDatabaseRWBImporter import PartDatabaseRWBImporter
 from Rocket.Parts.Component import Component
 from Rocket.Parts.Exceptions import NotFoundError
 from Rocket.Parts.Material import listBulkMaterials, updateUuid
@@ -148,8 +149,10 @@ class PartDatabase:
 
         for (dirpath, dirnames, filenames) in walk(self._rootFolder + "/Resources/parts/workbench/"):
             for file in filenames:
-                if not file.endswith(".sql"):
+                if file.endswith(".orc"):
                     self._importOrcPartFile(connection, dirpath + file)
+                elif file.endswith(".rwb"):
+                    self._importRWBPartFile(connection, dirpath + file)
 
         for (dirpath, dirnames, filenames) in walk(self._rootFolder + "/Resources/parts/openrocket-database/orc/"):
             self._importOrcPartFile(connection, dirpath + 'generic_materials.orc')
@@ -166,6 +169,20 @@ class PartDatabase:
             for line in file:
                 cursor.execute(line.strip())
         connection.commit()
+
+    def _importRWBPartFile(self, connection, filename):
+        _msg("Importing %s..." % filename)
+
+        # create an XMLReader
+        parser = xml.sax.make_parser()
+
+        # turn off namespaces
+        parser.setFeature(xml.sax.handler.feature_namespaces, 0)
+
+        # override the default ContextHandler
+        handler = PartDatabaseRWBImporter(connection, filename)
+        parser.setContentHandler(handler)
+        parser.parse(filename)
 
     def _importOrcPartFile(self, connection, filename):
         _msg("Importing %s..." % filename)
