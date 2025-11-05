@@ -145,6 +145,11 @@ RAIL_GUIDE_BASE_FLAT = "Flat"
 RAIL_GUIDE_BASE_CONFORMAL = "Conformal"
 RAIL_GUIDE_BASE_V = "V Shaped"
 
+# Retainer styles
+RETAINER_TUBE_MOUNT = "Tube mount"
+RETAINER_FLANGE_MOUNT = "Flange mount"
+RETAINER_TAILCONE = "Tailcone"
+
 # Components in the database
 COMPONENT_TYPE_ANY = "Any"
 COMPONENT_TYPE_BODYTUBE = "Body Tube"
@@ -158,6 +163,7 @@ COMPONENT_TYPE_PARACHUTE = "Parachute"
 COMPONENT_TYPE_STREAMER = "Streamer"
 COMPONENT_TYPE_TRANSITION = "Transition"
 COMPONENT_TYPE_RAILBUTTON = "Rail Button"
+COMPONENT_TYPE_RETAINER = "Retainer"
 
 # Location Reference
 LOCATION_PARENT_TOP = translate('Rocket', "Top of the parent component")

@@ -140,6 +140,17 @@ class PartDatabase:
         cursor.execute("DROP TABLE IF EXISTS streamer")
         cursor.execute("CREATE TABLE IF NOT EXISTS streamer (streamer_index INTEGER PRIMARY KEY ASC, component_index, length, length_units, width, width_units, thickness, thickness_units)")
 
+        cursor.execute("DROP TABLE IF EXISTS retainer")
+        cursor.execute("""CREATE TABLE IF NOT EXISTS retainer (retainer_index INTEGER PRIMARY KEY ASC, component_index,
+                       style, inner_diameter, inner_diameter_units, outer_diameter, outer_diameter_units,
+                       mmt_depth, mmt_depth_units, cap_diameter, cap_diameter_units, cap_height, cap_height_units,
+                       height_with_ac, height_with_ac_units, height_with_sr, height_with_sr_units,
+                       flange_diameter, flange_diameter_units, screwhole_pattern, screwhole_pattern_units,
+                       screw_count, screw_size, cone_diameter_large, cone_diameter_large_units,
+                       cone_diameter_small, cone_diameter_small_units, open_diameter_small, open_diameter_small_units,
+                       length, length_units, airframe_to_mmt, airframe_to_mmt_units, lip, lip_units,
+                       mass, mass_units)""")
+
         connection.commit()
 
     def _importFiles(self, connection):

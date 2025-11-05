@@ -24,19 +24,12 @@ __title__ = "FreeCAD Rocket Workbench Importer"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
-import FreeCAD
-
-from pathlib import PurePath
-
 import xml.sax
+
+from Rocket.Parts.Retainer import Retainer
 
 from Rocket.Parts.Utilities import _msg, _err, _toFloat, _toBoolean, _toInt
 from Rocket.Parts.PartDatabaseOrcImporter import Element, ComponentElement
-
-from Rocket.Parts.Exceptions import InvalidError, MultipleEntryError, UnknownManufacturerError
-
-from Rocket.Constants import TYPE_CONE, TYPE_ELLIPTICAL, TYPE_HAACK, TYPE_OGIVE, TYPE_PARABOLA, TYPE_POWER
-from Rocket.Constants import MATERIAL_TYPE_BULK, MATERIAL_TYPE_LINE, MATERIAL_TYPE_SURFACE
 
 class RootElement(Element):
 
@@ -71,7 +64,7 @@ class ComponentsElement(Element):
         super().__init__(parent, tag, attributes, connection, filename, line)
 
         self._validChildren = { 'retainer' : RetainerElement,
-                                'tailconeretainer' : TailconeRetainerElement
+                                'tailconeretainer' : RetainerElement
                               }
 
 class RetainerElement(ComponentElement):
@@ -81,18 +74,59 @@ class RetainerElement(ComponentElement):
 
         self._knownTags = self._knownTags + ["insidediameter", "outsidediameter", "length"]
 
-        self._ID = (0.0, "")
-        self._OD = (0.0, "")
+        self._innerDiameter = (0.0, "")
+        self._outerDiameter = (0.0, "")
+        self._mmtDepth = (0.0, "")
+        self._capDiameter = (0.0, "")
+        self._capHeight = (0.0, "")
+        self._heightWithAC = (0.0, "")
+        self._heightWithSR = (0.0, "")
+        self._flangeDiameter = (0.0, "")
+        self._screwholePattern = (0.0, "")
+        self._screwCount = 0
+        self._screwSize = ""
+        self._coneDiameterLarge = (0.0, "")
+        self._coneDiameterSmall = (0.0, "")
+        self._openDiameterSmall = (0.0, "")
         self._length = (0.0, "")
+        self._airframeToMMT = (0.0, "")
+        self._lip = (0.0, "")
+        self._mass = (0.0, "")
 
     def handleTag(self, tag, attributes):
         _tag = tag.lower().strip()
-        if _tag == "insidediameter":
-            self._ID = (self._ID[0], attributes['Unit'])
-        elif _tag == "outsidediameter":
-            self._OD = (self._OD[0], attributes['Unit'])
+        if _tag == "retainerid":
+            self._innerDiameter = (self._innerDiameter[0], attributes['Unit'])
+        elif _tag == "retainerod":
+            self._outerDiameter = (self._outerDiameter[0], attributes['Unit'])
+        elif _tag == "mmtdepth":
+            self._mmtDepth = (self._mmtDepth[0], attributes['Unit'])
+        elif _tag == "capdiameter":
+            self._capDiameter = (self._capDiameter[0], attributes['Unit'])
+        elif _tag == "capheight":
+            self._capHeight = (self._capHeight[0], attributes['Unit'])
+        elif _tag == "heightwithac":
+            self._heightWithAC = (self._heightWithAC[0], attributes['Unit'])
+        elif _tag == "heightwithsr":
+            self._heightWithSR = (self._heightWithSR[0], attributes['Unit'])
+        elif _tag == "flangediameter":
+            self._flangeDiameter = (self._flangeDiameter[0], attributes['Unit'])
+        elif _tag == "screwholepattern":
+            self._screwholePattern = (self._screwholePattern[0], attributes['Unit'])
+        elif _tag == "conediameterlarge":
+            self._coneDiameterLarge = (self._coneDiameterLarge[0], attributes['Unit'])
+        elif _tag == "conediametersmall":
+            self._coneDiameterSmall = (self._coneDiameterSmall[0], attributes['Unit'])
+        elif _tag == "opendiametersmall":
+            self._openDiameterSmall = (self._openDiameterSmall[0], attributes['Unit'])
         elif _tag == "length":
             self._length = (self._length[0], attributes['Unit'])
+        elif _tag == "airframetommt":
+            self._airframeToMMT = (self._airframeToMMT[0], attributes['Unit'])
+        elif _tag == "Lip":
+            self._lip = (self._lip[0], attributes['Unit'])
+        elif _tag == "mass":
+            self._mass = (self._mass[0], attributes['Unit'])
         else:
             super().handleTag(tag, attributes)
 
@@ -110,72 +144,31 @@ class RetainerElement(ComponentElement):
     def setValues(self, obj):
         super().setValues(obj)
 
-        obj._ID = self._ID
-        obj._OD = self._OD
+        obj._innerDiameter = self._innerDiameter
+        obj._outerDiameter = self._outerDiameter
+        obj._mmtDepth = self._mmtDepth
+        obj._capDiameter = self._capDiamete = (0.0, "")
+        obj._capHeight = self._capHeight
+        obj._heightWithAC = self._heightWithAC
+        obj._heightWithSR = self._heightWithSR
+        obj._flangeDiameter = self._flangeDiameter
+        obj._screwholePattern = self._screwholePattern
+        obj._screwCount = self._screwCount
+        obj._screwSize = self._screwSize
+        obj._coneDiameterLarge = self._coneDiameterLarge
+        obj._coneDiameterSmall = self._coneDiameterSmall
+        obj._openDiameterSmall = self._openDiameterSmall
         obj._length = self._length
+        obj._airframeToMMT = self._airframeToMMT
+        obj._lip = self._lip
+        obj._mass = self._mass
 
     def end(self):
-        # if self._tag.lower() == "bodytube":
-        #     obj = BodyTube()
-        # elif self._tag.lower() == "tubecoupler":
-        #     obj = Coupler()
-        # elif self._tag.lower() == "engineblock":
-        #     obj = EngineBlock()
-        # elif self._tag.lower() == "launchlug":
-        #     obj = LaunchLug()
-        # elif self._tag.lower() == "centeringring":
-        #     obj = CenteringRing()
-        # else:
-        #     _err("Unable to close body tube object for %s" % self._tag)
-        #     return super().end()
+        obj = Retainer()
 
-        # self.setValues(obj)
-        # self.validate(obj)
-        # self.persist(obj, self._connection)
-
-        return super().end()
-
-class TailconeRetainerElement(ComponentElement):
-
-    def __init__(self, parent, tag, attributes, connection, filename, line):
-        super().__init__(parent, tag, attributes, connection, filename, line)
-
-        # The 'filled' tag is recognized but not used
-        self._knownTags = self._knownTags + ["filled", "outsidediameter", "length"]
-
-        self._OD = (0.0, "")
-        self._length = (0.0, "")
-
-    def handleTag(self, tag, attributes):
-        _tag = tag.lower().strip()
-        if _tag == "outsidediameter":
-            self._OD = (self._OD[0], attributes['Unit'])
-        elif _tag == "length":
-            self._length = (self._length[0], attributes['Unit'])
-        else:
-            super().handleTag(tag, attributes)
-
-    def handleEndTag(self, tag, content):
-        _tag = tag.lower().strip()
-        if _tag == "outsidediameter":
-            self._OD = (_toFloat(content), self._OD[1])
-        elif _tag == "length":
-            self._length = (_toFloat(content), self._length[1])
-        else:
-            super().handleEndTag(tag, content)
-
-    def setValues(self, obj):
-        super().setValues(obj)
-
-        obj._OD = self._OD
-        obj._length = self._length
-
-    def end(self):
-        # obj = Bulkhead()
-
-        # self.setValues(obj)
-        # self.validate(obj)
-        # self.persist(obj, self._connection)
+        self.setValues(obj)
+        self.validate(obj)
+        self.persist(obj, self._connection)
 
         return super().end()
 
