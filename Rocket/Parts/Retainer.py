@@ -84,7 +84,7 @@ class Retainer(Component):
         self.validatePositive(self._capDiameter[0], "Cap Diameter invalid")
         self.validatePositive(self._capHeight[0], "Cap height invalid")
         self.validatePositive(self._heightWithAC[0], "Height with aft closure invalid")
-        self.validatePositive(self._heightWithSR[0], "Height with snap ring invalid")
+        self.validateNonNegative(self._heightWithSR[0], "Height with snap ring invalid")
         self.validatePositive(self._flangeDiameter[0], "Flange Diameter invalid")
         self.validatePositive(self._screwholePattern[0], "Screw hole pattern invalid")
         self.validatePositive(self._screwCount, "Screw count invalid")
@@ -94,7 +94,7 @@ class Retainer(Component):
         self.validateNonEmptyString(self._capDiameter[1], "Cap Diameter Units invalid '%s" % self._capDiameter[1])
         self.validateNonEmptyString(self._capHeight[1], "Cap height Units invalid '%s" % self._capHeight[1])
         self.validateNonEmptyString(self._heightWithAC[1], "Height with aft closure Units invalid '%s" % self._heightWithAC[1])
-        self.validateNonEmptyString(self._heightWithSR[1], "Height with snap ring Units invalid '%s" % self._heightWithSR[1])
+        # self.validateNonEmptyString(self._heightWithSR[1], "Height with snap ring Units invalid '%s" % self._heightWithSR[1])
         self.validateNonEmptyString(self._flangeDiameter[1], "Flang Diameter Units invalid '%s" % self._flangeDiameter[1])
         self.validateNonEmptyString(self._screwholePattern[1], "Screw hole pattern Units invalid '%s" % self._screwholePattern[1])
 

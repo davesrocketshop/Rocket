@@ -29,7 +29,7 @@ import xml.sax
 from Rocket.Parts.Retainer import Retainer
 
 from Rocket.Parts.Utilities import _msg, _err, _toFloat, _toBoolean, _toInt
-from Rocket.Parts.PartDatabaseOrcImporter import Element, ComponentElement
+from Rocket.Parts.PartDatabaseOrcImporter import Element, ComponentElement, MaterialsElement
 
 class RootElement(Element):
 
@@ -43,7 +43,8 @@ class RWBComponentElement(Element):
     def __init__(self, parent, tag, attributes, connection, filename, line):
         super().__init__(parent, tag, attributes, connection, filename, line)
 
-        self._validChildren = { 'components' : ComponentsElement
+        self._validChildren = { 'materials' : MaterialsElement,
+                                'components' : ComponentsElement
                               }
         self._knownTags = ["version", "creator", "legacy"]
         self._supportedVersions = ["0.1", "1.0"]
@@ -72,7 +73,9 @@ class RetainerElement(ComponentElement):
     def __init__(self, parent, tag, attributes, connection, filename, line):
         super().__init__(parent, tag, attributes, connection, filename, line)
 
-        self._knownTags = self._knownTags + ["insidediameter", "outsidediameter", "length"]
+        self._knownTags = self._knownTags + ["retainerid", "retainerod", "mmtdepth", "capdiameter", "capheight",
+            "heightwithac", "heightwithsr", "flangediameter", "screwholepattern", "screwcount", "screwsize",
+            "conediameterlarge", "conediametersmall", "opendiametersmall", "length", "airframetommt", "lip", "mass"]
 
         self._innerDiameter = (0.0, "")
         self._outerDiameter = (0.0, "")
@@ -123,7 +126,7 @@ class RetainerElement(ComponentElement):
             self._length = (self._length[0], attributes['Unit'])
         elif _tag == "airframetommt":
             self._airframeToMMT = (self._airframeToMMT[0], attributes['Unit'])
-        elif _tag == "Lip":
+        elif _tag == "lip":
             self._lip = (self._lip[0], attributes['Unit'])
         elif _tag == "mass":
             self._mass = (self._mass[0], attributes['Unit'])
@@ -132,12 +135,42 @@ class RetainerElement(ComponentElement):
 
     def handleEndTag(self, tag, content):
         _tag = tag.lower().strip()
-        if _tag == "insidediameter":
-            self._ID = (_toFloat(content), self._ID[1])
-        elif _tag == "outsidediameter":
-            self._OD = (_toFloat(content), self._OD[1])
+        if _tag == "retainerid":
+            self._innerDiameter = (_toFloat(content), self._innerDiameter[1])
+        elif _tag == "retainerod":
+            self._outerDiameter = (_toFloat(content), self._outerDiameter[1])
+        elif _tag == "mmtdepth":
+            self._mmtDepth = (_toFloat(content), self._mmtDepth[1])
+        elif _tag == "capdiameter":
+            self._capDiameter = (_toFloat(content), self._capDiameter[1])
+        elif _tag == "capheight":
+            self._capHeight = (_toFloat(content), self._capHeight[1])
+        elif _tag == "heightwithac":
+            self._heightWithAC = (_toFloat(content), self._heightWithAC[1])
+        elif _tag == "heightwithsr":
+            self._heightWithSR = (_toFloat(content), self._heightWithSR[1])
+        elif _tag == "flangediameter":
+            self._flangeDiameter = (_toFloat(content), self._flangeDiameter[1])
+        elif _tag == "screwholepattern":
+            self._screwholePattern = (_toFloat(content), self._screwholePattern[1])
+        elif _tag == "screwcount":
+            self._screwCount = _toInt(content)
+        elif _tag == "screwsize":
+            self._screwSize = content.strip()
+        elif _tag == "conediameterlarge":
+            self._coneDiameterLarge = (_toFloat(content), self._coneDiameterLarge[1])
+        elif _tag == "conediametersmall":
+            self._coneDiameterSmall = (_toFloat(content), self._coneDiameterSmall[1])
+        elif _tag == "opendiametersmall":
+            self._openDiameterSmall = (_toFloat(content), self._openDiameterSmall[1])
         elif _tag == "length":
             self._length = (_toFloat(content), self._length[1])
+        elif _tag == "airframetommt":
+            self._airframeToMMT = (_toFloat(content), self._airframeToMMT[1])
+        elif _tag == "lip":
+            self._lip = (_toFloat(content), self._lip[1])
+        elif _tag == "mass":
+            self._mass =(_toFloat(content), self._mass[1])
         else:
             super().handleEndTag(tag, content)
 
@@ -147,7 +180,7 @@ class RetainerElement(ComponentElement):
         obj._innerDiameter = self._innerDiameter
         obj._outerDiameter = self._outerDiameter
         obj._mmtDepth = self._mmtDepth
-        obj._capDiameter = self._capDiamete = (0.0, "")
+        obj._capDiameter = self._capDiameter
         obj._capHeight = self._capHeight
         obj._heightWithAC = self._heightWithAC
         obj._heightWithSR = self._heightWithSR

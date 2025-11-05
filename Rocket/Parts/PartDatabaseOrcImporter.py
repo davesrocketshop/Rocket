@@ -128,6 +128,7 @@ class Element:
             "railbutton_database.orc" : "unspecified",
             "rocketman.orc" : "Rocketman",
             "spherachutes_parachutes.orc" : "Spherachutes",
+            "aeropack.rwb" : "Aero Pack",
         }
 
         name = PurePath(self._filename).name.lower()
