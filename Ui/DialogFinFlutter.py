@@ -110,7 +110,7 @@ class DialogFinFlutter(QDialog):
         self.allFilter.Name = "All"
         self.materialTreePy.setFilter([self.filter, self.allFilter])
 
-        self.shearLabel = QtGui.QLabel(translate('Rocket', "Shear Modulus"), self)
+        self.shearLabel = QtGui.QLabel(translate('Rocket', "Shear modulus"), self)
 
         self.shearInput = ui.createWidget("Gui::InputField")
         self.shearInput.unit = self._shearUnits() #'Unit::ShearModulus'
@@ -120,7 +120,7 @@ class DialogFinFlutter(QDialog):
         self.calculatedCheckbox = QtGui.QCheckBox(translate('Rocket', "Calculated"), self)
         self.calculatedCheckbox.setCheckState(QtCore.Qt.Unchecked)
 
-        self.youngsLabel = QtGui.QLabel(translate('Rocket', "Young's Modulus"), self)
+        self.youngsLabel = QtGui.QLabel(translate('Rocket', "Young's modulus"), self)
 
         self.youngsInput = ui.createWidget("Gui::InputField")
         self.youngsInput.unit = self._shearUnits() #'Unit::ShearModulus'
@@ -128,7 +128,7 @@ class DialogFinFlutter(QDialog):
         self.youngsInput.setText(self._formatPressure(FreeCAD.Units.Quantity("2.620008e+9Pa")))
         self.youngsInput.setEnabled(False)
 
-        self.poissonLabel = QtGui.QLabel(translate('Rocket', "Poisson Ratio"), self)
+        self.poissonLabel = QtGui.QLabel(translate('Rocket', "Poisson ratio"), self)
 
         self.poissonInput = ui.createWidget("Gui::InputField")
         self.poissonInput.setMinimumWidth(100)
@@ -137,12 +137,12 @@ class DialogFinFlutter(QDialog):
 
         self.flutterGroup = QtGui.QGroupBox(translate('Rocket', "Fin Flutter"), self)
 
-        self.maxAltitudeLabel = QtGui.QLabel(translate('Rocket', "Maximum Altitude"), self)
+        self.maxAltitudeLabel = QtGui.QLabel(translate('Rocket', "Maximum altitude"), self)
 
         self.maxAltitudeCombo = QtGui.QComboBox(self)
         self.fillAltitudeCombo()
 
-        self.altitudeLabel = QtGui.QLabel(translate('Rocket', "Altitude at Max Speed"), self)
+        self.altitudeLabel = QtGui.QLabel(translate('Rocket', "Altitude at max speed"), self)
 
         self.altitudeInput = ui.createWidget("Gui::InputField")
         self.altitudeInput.unit = 'Unit::Length'
@@ -160,8 +160,8 @@ class DialogFinFlutter(QDialog):
 
         self._static_ax = self.static_canvas.figure.subplots()
         t = np.linspace(0, 10, 501)
-        self._flutterLine, = self._static_ax.plot(t, t, label="flutter")
-        self._divergenceLine, = self._static_ax.plot(t, t, label="divergence")
+        self._flutterLine, = self._static_ax.plot(t, t, label=translate('Rocket', "Flutter"))
+        self._divergenceLine, = self._static_ax.plot(t, t, label=translate('Rocket', "Divergence"))
         self._cursorLine, = self._static_ax.plot([0,0], [0,0])
         self._static_ax.set_xlabel("Altitude (km)")
         self._static_ax.set_ylabel("Velocity (m/s)")
@@ -173,7 +173,7 @@ class DialogFinFlutter(QDialog):
         self._yMin = 0
         self._yMax = 0
 
-        self.flutterLabel = QtGui.QLabel(translate('Rocket', "Flutter Speed"), self)
+        self.flutterLabel = QtGui.QLabel(translate('Rocket', "Flutter speed"), self)
 
         self.flutterInput = ui.createWidget("Gui::InputField")
         self.flutterInput.unit = 'Unit::Velocity'
@@ -181,7 +181,7 @@ class DialogFinFlutter(QDialog):
         self.flutterInput.setMinimumWidth(100)
         self.flutterInput.setReadOnly(True)
 
-        self.divergenceLabel = QtGui.QLabel(translate('Rocket', "Divergence Speed"), self)
+        self.divergenceLabel = QtGui.QLabel(translate('Rocket', "Divergence speed"), self)
 
         self.divergenceInput = ui.createWidget("Gui::InputField")
         self.divergenceInput.unit = self._velocityUnits() #"Unit::Velocity"

@@ -34,7 +34,7 @@
            <item row="6" column="0">
             <widget class="QLabel" name="coefficientLabel">
              <property name="text">
-              <string>Shape Parameter</string>
+              <string>Shape parameter</string>
              </property>
             </widget>
            </item>
@@ -58,21 +58,21 @@
            <item row="0" column="0">
             <widget class="QLabel" name="noseConeTypeLabel">
              <property name="text">
-              <string>Nose Cone Shape</string>
+              <string>Nose cone shape</string>
              </property>
             </widget>
            </item>
            <item row="8" column="0">
             <widget class="QLabel" name="bluntedLabel">
              <property name="text">
-              <string>Blunted Diameter</string>
+              <string>Blunted diameter</string>
              </property>
             </widget>
            </item>
            <item row="7" column="0">
             <widget class="QLabel" name="ogiveDiameterLabel">
              <property name="text">
-              <string>Ogive Diameter</string>
+              <string>Ogive diameter</string>
              </property>
             </widget>
            </item>
@@ -88,7 +88,7 @@
               <item row="0" column="0">
                <widget class="QLabel" name="noseCapStyleLabel">
                 <property name="text">
-                 <string>Cap Style</string>
+                 <string>Cap style</string>
                 </property>
                </widget>
               </item>
@@ -98,7 +98,7 @@
               <item row="1" column="0">
                <widget class="QLabel" name="noseCapBarWidthLabel">
                 <property name="text">
-                 <string>Bar Width</string>
+                 <string>Bar width</string>
                 </property>
                </widget>
               </item>
@@ -197,7 +197,7 @@
              <item row="0" column="0">
               <widget class="QLabel" name="noseConeProxyTypeLabel">
                <property name="text">
-                <string>Nose Cone Shape</string>
+                <string>Nose cone shape</string>
                </property>
               </widget>
              </item>
@@ -218,7 +218,7 @@
              <item row="1" column="0">
               <widget class="QLabel" name="proxyBaseObjectLabel">
                <property name="text">
-                <string>Base Object</string>
+                <string>Base object</string>
                </property>
               </widget>
              </item>
@@ -235,7 +235,7 @@
              <item row="3" column="0">
               <widget class="QLabel" name="proxyEffectiveDiamaterLabel">
                <property name="text">
-                <string>Effective Diameter</string>
+                <string>Effective diameter</string>
                </property>
               </widget>
              </item>
@@ -344,7 +344,7 @@
            <item>
             <widget class="QCheckBox" name="proxyShowBasePlaneCheckbox">
              <property name="text">
-              <string>Show Base Plane</string>
+              <string>Show base plane</string>
              </property>
             </widget>
            </item>

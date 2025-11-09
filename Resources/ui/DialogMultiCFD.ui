@@ -20,7 +20,6 @@
       <widget class="QLabel" name="label">
        <property name="font">
         <font>
-         <weight>75</weight>
          <bold>true</bold>
         </font>
        </property>
@@ -34,14 +33,14 @@
        <item row="0" column="0">
         <widget class="QLabel" name="label_2">
          <property name="text">
-          <string>Angle(s) of Attack</string>
+          <string>Angle(s) of Attack (AOA)</string>
          </property>
         </widget>
        </item>
        <item row="1" column="0">
         <widget class="QLabel" name="label_4">
          <property name="text">
-          <string>Average Last N</string>
+          <string>Average last N</string>
          </property>
         </widget>
        </item>
@@ -121,7 +120,6 @@
       <widget class="QLabel" name="label_3">
        <property name="font">
         <font>
-         <weight>75</weight>
          <bold>true</bold>
         </font>
        </property>

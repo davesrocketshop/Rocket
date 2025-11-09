@@ -87,7 +87,7 @@
       <item row="1" column="0">
        <widget class="QRadioButton" name="scaleRadio">
         <property name="text">
-         <string>By Value</string>
+         <string>By value</string>
         </property>
         <property name="checked">
          <bool>true</bool>
@@ -160,7 +160,7 @@
       <item row="4" column="0">
        <widget class="QLabel" name="scaledOgiveDiameterLabel">
         <property name="text">
-         <string>Ogive Diameter</string>
+         <string>Ogive diameter</string>
         </property>
        </widget>
       </item>
@@ -285,7 +285,7 @@
       <item row="9" column="0">
        <widget class="QLabel" name="scaledTipThicknessLabel">
         <property name="text">
-         <string>Tip Thickness</string>
+         <string>Tip thickness</string>
         </property>
        </widget>
       </item>
@@ -319,7 +319,7 @@
       <item row="7" column="0">
        <widget class="QLabel" name="scaledRootThicknessLabel">
         <property name="text">
-         <string>Root Thickness</string>
+         <string>Root thickness</string>
         </property>
        </widget>
       </item>
@@ -336,14 +336,14 @@
       <item row="5" column="0">
        <widget class="QLabel" name="scaledBluntedDiameterLabel">
         <property name="text">
-         <string>Blunted Diameter</string>
+         <string>Blunted diameter</string>
         </property>
        </widget>
       </item>
       <item row="6" column="0">
        <widget class="QLabel" name="scaledRootLabel">
         <property name="text">
-         <string>Root Chord</string>
+         <string>Root chord</string>
         </property>
        </widget>
       </item>
@@ -370,14 +370,14 @@
       <item row="8" column="0">
        <widget class="QLabel" name="scaledTipLabel">
         <property name="text">
-         <string>Tip Chord</string>
+         <string>Tip chord</string>
         </property>
        </widget>
       </item>
       <item row="3" column="0">
        <widget class="QLabel" name="scaledAftDiameterLabel">
         <property name="text">
-         <string>Aft Diameter</string>
+         <string>Aft diameter</string>
         </property>
        </widget>
       </item>

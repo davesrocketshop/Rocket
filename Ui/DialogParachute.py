@@ -62,7 +62,7 @@ class DialogParachute(QDialog):
         self.resize(QtCore.QSize(100,100).expandedTo(self.minimumSizeHint())) # sets size of the widget
         self.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
 
-        self.weightLabel = QtGui.QLabel(translate('Rocket', "Rocket Weight"), self)
+        self.weightLabel = QtGui.QLabel(translate('Rocket', "Rocket weight"), self)
 
         self.weightInput = ui.createWidget("Gui::InputField")
         self.weightInput.unit = 'kg'
@@ -70,7 +70,7 @@ class DialogParachute(QDialog):
         self.weightInput.setText("0.0")
         self.weightInput.textEdited.connect(self.onWeight)
 
-        self.velocityLabel = QtGui.QLabel(translate('Rocket', "Terminal Velocity"), self)
+        self.velocityLabel = QtGui.QLabel(translate('Rocket', "Terminal velocity"), self)
 
         self.velocityInput = ui.createWidget("Gui::InputField")
         self.velocityInput.unit = "m/s"
@@ -85,7 +85,7 @@ class DialogParachute(QDialog):
         self.velocityCombo.setCurrentText(translate('Rocket', VELOCITY_MAIN))
         self.velocityCombo.currentTextChanged.connect(self.onVelocityCombo)
 
-        self.dragLabel = QtGui.QLabel(translate('Rocket', "Drag Coefficient"), self)
+        self.dragLabel = QtGui.QLabel(translate('Rocket', "Drag coefficient"), self)
 
         self.dragInput = QtGui.QLineEdit()
         self.dragInput.setText("0.75")

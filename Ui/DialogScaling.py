@@ -155,7 +155,7 @@ class DialogScaling(QtCore.QObject):
 
     def customizeUI(self):
         self.form.setWindowTitle(translate('Rocket', "Body Scaler"))
-        self.form.reference1Label.setText(translate('Rocket', "Reference Diameter"))
+        self.form.reference1Label.setText(translate('Rocket', "Reference diameter"))
         self.form.reference2Label.setHidden(True)
         self.form.reference2Input.setHidden(True)
 

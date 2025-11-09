@@ -78,38 +78,38 @@ class _RailButtonDialog(QDialog):
         self.setGeometry(250, 250, 400, 350)
         self.setWindowTitle(translate('Rocket', "Rail Button Parameter"))
 
-        self.railButtonTypeLabel = QtGui.QLabel(translate('Rocket', "Rail Button Shape"), self)
+        self.railButtonTypeLabel = QtGui.QLabel(translate('Rocket', "Rail button shape"), self)
 
         self.railButtonTypeCombo = QtGui.QComboBox(self)
         self.railButtonTypeCombo.addItem(translate('Rocket', RAIL_BUTTON_ROUND), RAIL_BUTTON_ROUND)
         self.railButtonTypeCombo.addItem(translate('Rocket', RAIL_BUTTON_AIRFOIL), RAIL_BUTTON_AIRFOIL)
 
         # Get the rail button parameters
-        self.odLabel = QtGui.QLabel(translate('Rocket', "Outer Diameter"), self)
+        self.odLabel = QtGui.QLabel(translate('Rocket', "Outer diameter"), self)
 
         self.odInput = ui.createWidget("Gui::InputField")
         self.odInput.unit = FreeCAD.Units.Length
         self.odInput.setMinimumWidth(100)
 
-        self.idLabel = QtGui.QLabel(translate('Rocket', "Inner Diameter"), self)
+        self.idLabel = QtGui.QLabel(translate('Rocket', "Inner diameter"), self)
 
         self.idInput = ui.createWidget("Gui::InputField")
         self.idInput.unit = FreeCAD.Units.Length
         self.idInput.setMinimumWidth(100)
 
-        self.flangeHeightLabel = QtGui.QLabel(translate('Rocket', "Flange Height"), self)
+        self.flangeHeightLabel = QtGui.QLabel(translate('Rocket', "Flange height"), self)
 
         self.flangeHeightInput = ui.createWidget("Gui::InputField")
         self.flangeHeightInput.unit = FreeCAD.Units.Length
         self.flangeHeightInput.setMinimumWidth(100)
 
-        self.baseHeightLabel = QtGui.QLabel(translate('Rocket', "Base Height"), self)
+        self.baseHeightLabel = QtGui.QLabel(translate('Rocket', "Base height"), self)
 
         self.baseHeightInput = ui.createWidget("Gui::InputField")
         self.baseHeightInput.unit = FreeCAD.Units.Length
         self.baseHeightInput.setMinimumWidth(100)
 
-        self.heightLabel = QtGui.QLabel(translate('Rocket', "Total Height"), self)
+        self.heightLabel = QtGui.QLabel(translate('Rocket', "Total height"), self)
 
         self.heightInput = ui.createWidget("Gui::InputField")
         self.heightInput.unit = FreeCAD.Units.Length
@@ -124,7 +124,7 @@ class _RailButtonDialog(QDialog):
         self.fastenerGroup = QtGui.QGroupBox(translate('Rocket', "Fastener"), self)
         self.fastenerGroup.setCheckable(True)
 
-        self.countersinkLabel = QtGui.QLabel(translate('Rocket', "Countersink Angle"), self)
+        self.countersinkLabel = QtGui.QLabel(translate('Rocket', "Countersink angle"), self)
 
         self.countersinkTypeCombo = QtGui.QComboBox(self)
         self.countersinkTypeCombo.addItem(translate('Rocket', COUNTERSINK_ANGLE_NONE), COUNTERSINK_ANGLE_NONE)
@@ -135,13 +135,13 @@ class _RailButtonDialog(QDialog):
         self.countersinkTypeCombo.addItem(translate('Rocket', COUNTERSINK_ANGLE_110), COUNTERSINK_ANGLE_110)
         self.countersinkTypeCombo.addItem(translate('Rocket', COUNTERSINK_ANGLE_120), COUNTERSINK_ANGLE_120)
 
-        self.headDiameterLabel = QtGui.QLabel(translate('Rocket', "Head Diameter"), self)
+        self.headDiameterLabel = QtGui.QLabel(translate('Rocket', "Head diameter"), self)
 
         self.headDiameterInput = ui.createWidget("Gui::InputField")
         self.headDiameterInput.unit = FreeCAD.Units.Length
         self.headDiameterInput.setMinimumWidth(100)
 
-        self.shankDiameterLabel = QtGui.QLabel(translate('Rocket', "Shank Diameter"), self)
+        self.shankDiameterLabel = QtGui.QLabel(translate('Rocket', "Shank diameter"), self)
 
         self.shankDiameterInput = ui.createWidget("Gui::InputField")
         self.shankDiameterInput.unit = FreeCAD.Units.Length
@@ -156,7 +156,7 @@ class _RailButtonDialog(QDialog):
         self.fastenerPresetCombo.addItem(translate('Rocket', FASTENER_PRESET_10), FASTENER_PRESET_10)
         self.fastenerPresetCombo.addItem(translate('Rocket', FASTENER_PRESET_1_4), FASTENER_PRESET_1_4)
 
-        self.filletGroup = QtGui.QGroupBox(translate('Rocket', "Top Fillet"), self)
+        self.filletGroup = QtGui.QGroupBox(translate('Rocket', "Top fillet"), self)
         self.filletGroup.setCheckable(True)
 
         self.filletRadiusLevel = QtGui.QLabel(translate('Rocket', "Radius"), self)
@@ -169,7 +169,7 @@ class _RailButtonDialog(QDialog):
         self.instanceGroup = QtGui.QGroupBox(translate('Rocket', "Instances"), self)
         self.instanceGroup.setCheckable(False)
 
-        self.instanceCountLabel = QtGui.QLabel(translate('Rocket', "Instance Count"), self)
+        self.instanceCountLabel = QtGui.QLabel(translate('Rocket', "Instance count"), self)
 
         self.instanceCountSpinBox = QtGui.QSpinBox(self)
         self.instanceCountSpinBox.setMinimumWidth(100)
@@ -177,7 +177,7 @@ class _RailButtonDialog(QDialog):
         self.instanceCountSpinBox.setMaximum(10000)
         self.instanceCountSpinBox.setValue(1)
 
-        self.instanceSeparationLabel = QtGui.QLabel(translate('Rocket', "Instance Separation"), self)
+        self.instanceSeparationLabel = QtGui.QLabel(translate('Rocket', "Instance separation"), self)
 
         self.instanceSeparationInput = ui.createWidget("Gui::InputField")
         self.instanceSeparationInput.unit = FreeCAD.Units.Length

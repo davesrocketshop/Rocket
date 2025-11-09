@@ -56,7 +56,7 @@ class _databaseLookupDialog(QDialog):
         self.manufacturerInput = QtGui.QLineEdit(self)
         self.manufacturerInput.setMinimumWidth(100)
 
-        self.partNumberLabel = QtGui.QLabel(translate('Rocket', "Part Number"), self)
+        self.partNumberLabel = QtGui.QLabel(translate('Rocket', "Part number"), self)
 
         self.partNumberInput = QtGui.QLineEdit(self)
         self.partNumberInput.setMinimumWidth(100)

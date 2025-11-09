@@ -67,44 +67,44 @@ class _RailGuideDialog(QDialog):
         self.setWindowTitle(translate('Rocket', "Rail Guide Parameter"))
 
         # Get the rail guide parameters
-        self.railGuideBaseTypeLabel = QtGui.QLabel(translate('Rocket', "Rail Guide Base"), self)
+        self.railGuideBaseTypeLabel = QtGui.QLabel(translate('Rocket', "Rail guide base"), self)
 
         self.railGuideBaseTypeCombo = QtGui.QComboBox(self)
         self.railGuideBaseTypeCombo.addItem(translate('Rocket', RAIL_GUIDE_BASE_FLAT), RAIL_GUIDE_BASE_FLAT)
         self.railGuideBaseTypeCombo.addItem(translate('Rocket', RAIL_GUIDE_BASE_CONFORMAL), RAIL_GUIDE_BASE_CONFORMAL)
         self.railGuideBaseTypeCombo.addItem(translate('Rocket', RAIL_GUIDE_BASE_V), RAIL_GUIDE_BASE_V)
 
-        self.flangeWidthLabel = QtGui.QLabel(translate('Rocket', "Flange Width"), self)
+        self.flangeWidthLabel = QtGui.QLabel(translate('Rocket', "Flange width"), self)
 
         self.flangeWidthInput = ui.createWidget("Gui::InputField")
         self.flangeWidthInput.unit = FreeCAD.Units.Length
         self.flangeWidthInput.setMinimumWidth(100)
 
-        self.middleWidthLabel = QtGui.QLabel(translate('Rocket', "Middle Width"), self)
+        self.middleWidthLabel = QtGui.QLabel(translate('Rocket', "Middle width"), self)
 
         self.middleWidthInput = ui.createWidget("Gui::InputField")
         self.middleWidthInput.unit = FreeCAD.Units.Length
         self.middleWidthInput.setMinimumWidth(100)
 
-        self.baseWidthLabel = QtGui.QLabel(translate('Rocket', "Base Width"), self)
+        self.baseWidthLabel = QtGui.QLabel(translate('Rocket', "Base width"), self)
 
         self.baseWidthInput = ui.createWidget("Gui::InputField")
         self.baseWidthInput.unit = FreeCAD.Units.Length
         self.baseWidthInput.setMinimumWidth(100)
 
-        self.flangeHeightLabel = QtGui.QLabel(translate('Rocket', "Flange Height"), self)
+        self.flangeHeightLabel = QtGui.QLabel(translate('Rocket', "Flange height"), self)
 
         self.flangeHeightInput = ui.createWidget("Gui::InputField")
         self.flangeHeightInput.unit = FreeCAD.Units.Length
         self.flangeHeightInput.setMinimumWidth(100)
 
-        self.baseHeightLabel = QtGui.QLabel(translate('Rocket', "Base Height"), self)
+        self.baseHeightLabel = QtGui.QLabel(translate('Rocket', "Base height"), self)
 
         self.baseHeightInput = ui.createWidget("Gui::InputField")
         self.baseHeightInput.unit = FreeCAD.Units.Length
         self.baseHeightInput.setMinimumWidth(100)
 
-        self.heightLabel = QtGui.QLabel(translate('Rocket', "Total Height"), self)
+        self.heightLabel = QtGui.QLabel(translate('Rocket', "Total height"), self)
 
         self.heightInput = ui.createWidget("Gui::InputField")
         self.heightInput.unit = FreeCAD.Units.Length
@@ -117,7 +117,7 @@ class _RailGuideDialog(QDialog):
         self.lengthInput.setMinimumWidth(100)
 
         # Conformal base parameters
-        self.diameterLabel = QtGui.QLabel(translate('Rocket', "Body Tube Diameter"), self)
+        self.diameterLabel = QtGui.QLabel(translate('Rocket', "Body tube diameter"), self)
 
         self.diameterInput = ui.createWidget("Gui::InputField")
         self.diameterInput.unit = FreeCAD.Units.Length
@@ -127,26 +127,26 @@ class _RailGuideDialog(QDialog):
         self.autoDiameterCheckbox.setCheckState(QtCore.Qt.Unchecked)
 
         # V base parameters
-        self.vAngleLabel = QtGui.QLabel(translate('Rocket', "V Angle"), self)
+        self.vAngleLabel = QtGui.QLabel(translate('Rocket', "V angle"), self)
 
         self.vAngleInput = ui.createWidget("Gui::InputField")
         self.vAngleInput.unit = FreeCAD.Units.Angle
         self.vAngleInput.setMinimumWidth(100)
 
         # Sweep parameters
-        self.forwardSweepGroup = QtGui.QGroupBox(translate('Rocket', "Forward Sweep"), self)
+        self.forwardSweepGroup = QtGui.QGroupBox(translate('Rocket', "Forward sweep"), self)
         self.forwardSweepGroup.setCheckable(True)
 
-        self.forwardSweepLabel = QtGui.QLabel(translate('Rocket', "Sweep Angle"), self)
+        self.forwardSweepLabel = QtGui.QLabel(translate('Rocket', "Sweep angle"), self)
 
         self.forwardSweepInput = ui.createWidget("Gui::InputField")
         self.forwardSweepInput.unit = FreeCAD.Units.Angle
         self.forwardSweepInput.setMinimumWidth(100)
 
-        self.aftSweepGroup = QtGui.QGroupBox(translate('Rocket', "Aft Sweep"), self)
+        self.aftSweepGroup = QtGui.QGroupBox(translate('Rocket', "Aft sweep"), self)
         self.aftSweepGroup.setCheckable(True)
 
-        self.aftSweepLabel = QtGui.QLabel(translate('Rocket', "Sweep Angle"), self)
+        self.aftSweepLabel = QtGui.QLabel(translate('Rocket', "Sweep angle"), self)
 
         self.aftSweepInput = ui.createWidget("Gui::InputField")
         self.aftSweepInput.unit = FreeCAD.Units.Angle
@@ -172,7 +172,7 @@ class _RailGuideDialog(QDialog):
         self.instanceGroup = QtGui.QGroupBox(translate('Rocket', "Instances"), self)
         self.instanceGroup.setCheckable(False)
 
-        self.instanceCountLabel = QtGui.QLabel(translate('Rocket', "Instance Count"), self)
+        self.instanceCountLabel = QtGui.QLabel(translate('Rocket', "Instance count"), self)
 
         self.instanceCountSpinBox = QtGui.QSpinBox(self)
         self.instanceCountSpinBox.setMinimumWidth(100)
@@ -180,7 +180,7 @@ class _RailGuideDialog(QDialog):
         self.instanceCountSpinBox.setMaximum(10000)
         self.instanceCountSpinBox.setValue(1)
 
-        self.instanceSeparationLabel = QtGui.QLabel(translate('Rocket', "Instance Separation"), self)
+        self.instanceSeparationLabel = QtGui.QLabel(translate('Rocket', "Instance separation"), self)
 
         self.instanceSeparationInput = ui.createWidget("Gui::InputField")
         self.instanceSeparationInput.unit = FreeCAD.Units.Length

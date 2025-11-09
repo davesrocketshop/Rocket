@@ -31,7 +31,7 @@
    <item row="3" column="0">
     <widget class="QRadioButton" name="scaleValueRadio">
      <property name="text">
-      <string>Scale By Value</string>
+      <string>Scale by value</string>
      </property>
      <property name="checked">
       <bool>true</bool>
@@ -47,7 +47,7 @@
    <item row="7" column="0">
     <widget class="QCheckBox" name="minimumCheckbox">
      <property name="text">
-      <string>Minimum Diameter</string>
+      <string>Minimum diameter</string>
      </property>
     </widget>
    </item>
@@ -64,7 +64,7 @@
    <item row="1" column="0">
     <widget class="QLabel" name="reference2Label">
      <property name="text">
-      <string>Reference Diameter 2</string>
+      <string>Reference diameter 2</string>
      </property>
     </widget>
    </item>
@@ -201,14 +201,14 @@
    <item row="0" column="0">
     <widget class="QLabel" name="reference1Label">
      <property name="text">
-      <string>Reference Diameter 1</string>
+      <string>Reference diameter 1</string>
      </property>
     </widget>
    </item>
    <item row="8" column="0">
     <widget class="QCheckBox" name="maximumCheckbox">
      <property name="text">
-      <string>Maximum Diameter</string>
+      <string>Maximum diameter</string>
      </property>
     </widget>
    </item>
@@ -242,7 +242,7 @@
    <item row="4" column="0">
     <widget class="QRadioButton" name="scaleDiameterRadio">
      <property name="text">
-      <string>Scale By Diameter</string>
+      <string>Scale by diameter</string>
      </property>
      <attribute name="buttonGroup">
       <string notr="true">buttonGroup</string>
@@ -252,7 +252,7 @@
    <item row="2" column="0">
     <widget class="QRadioButton" name="scaleAnyRadio">
      <property name="text">
-      <string>Any Scale</string>
+      <string>Any scale</string>
      </property>
      <attribute name="buttonGroup">
       <string notr="true">buttonGroup</string>

@@ -63,14 +63,14 @@ class _ParallelStageDialog(QDialog):
 
         # Get the body tube parameters: length, ID, etc...
 
-        self.stageCountLabel = QtGui.QLabel(translate('Rocket', "Stage Count"), self)
+        self.stageCountLabel = QtGui.QLabel(translate('Rocket', "Stage count"), self)
 
         self.stageCountSpinBox = QtGui.QSpinBox(self)
         self.stageCountSpinBox.setMinimumWidth(80)
         self.stageCountSpinBox.setMinimum(1)
         self.stageCountSpinBox.setMaximum(10000)
 
-        self.stageSpacingLabel = QtGui.QLabel(translate('Rocket', "Stage Spacing"), self)
+        self.stageSpacingLabel = QtGui.QLabel(translate('Rocket', "Stage spacing"), self)
 
         self.stageSpacingInput = ui.createWidget("Gui::InputField")
         self.stageSpacingInput.unit = FreeCAD.Units.Angle

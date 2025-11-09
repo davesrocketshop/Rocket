@@ -45,7 +45,7 @@
         <item row="2" column="0">
          <widget class="QLabel" name="label_4">
           <property name="text">
-           <string>Minimum Fin Thickness</string>
+           <string>Minimum fin thickness</string>
           </property>
          </widget>
         </item>
@@ -85,7 +85,7 @@
         <item row="3" column="0">
          <widget class="QLabel" name="label_10">
           <property name="text">
-           <string>Frontal Area</string>
+           <string>Frontal area</string>
           </property>
          </widget>
         </item>
@@ -161,7 +161,7 @@
      <item row="3" column="0">
       <widget class="QLabel" name="label_5">
        <property name="text">
-        <string>Number of Processors</string>
+        <string>Number of processors</string>
        </property>
       </widget>
      </item>
@@ -188,7 +188,7 @@
      <item row="1" column="0">
       <widget class="QLabel" name="label_6">
        <property name="text">
-        <string>Angle(s) Of Attack</string>
+        <string>Angle(s) Of Attack (AOA)</string>
        </property>
       </widget>
      </item>
@@ -231,7 +231,7 @@
         <string>Angles of attack in degrees, one per line</string>
        </property>
        <property name="lineWrapMode">
-        <enum>QPlainTextEdit::NoWrap</enum>
+        <enum>QPlainTextEdit::LineWrapMode::NoWrap</enum>
        </property>
        <property name="plainText">
         <string>2</string>
