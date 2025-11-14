@@ -27,6 +27,8 @@ __url__ = "https://www.davesrocketshop.com"
 import FreeCAD
 import FreeCADGui
 
+import FemGui
+
 from Rocket.Constants import FEATURE_ROCKET
 from Rocket.RocketComponent import RocketComponent
 
@@ -144,3 +146,12 @@ class Command:
 
         if getRocket() is None:
             return True
+        return False
+        
+    def hasActiveAnalysis(self):
+        return (FemGui.getActiveAnalysis() is not None)
+        
+    def hasActiveAnalysisAndFin(self):
+        if FemGui.getActiveAnalysis():
+            return self.partFinSelected()
+        return False

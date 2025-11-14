@@ -59,7 +59,7 @@ from Ui.Commands.CmdParachuteGore import CmdParachuteGore
 
 # Analysis
 from Ui.Commands.CmdFlutterAnalysis import CmdFinFlutter
-from Ui.Commands.CmdFemAnalysis import CmdFemAnalysis
+from Ui.Commands.CmdFemAnalysis import CmdFemAnalysis, CmdFemRootConstraint, CmdFemStripMesh, CmdFemAeroelastic
 # try:
 from Ui.Commands.CmdCFDAnalysis import CmdCFDAnalysis
 # except:
@@ -115,6 +115,9 @@ FreeCADGui.addCommand('Rocket_ParachuteGore', CmdParachuteGore())
 
 FreeCADGui.addCommand('Rocket_FinFlutter', CmdFinFlutter())
 FreeCADGui.addCommand('Rocket_FemAnalysis', CmdFemAnalysis())
+FreeCADGui.addCommand('Rocket_FemRootConstraint', CmdFemRootConstraint())
+FreeCADGui.addCommand('Rocket_FemStripMesh', CmdFemStripMesh())
+FreeCADGui.addCommand('Rocket_FemAeroelastic', CmdFemAeroelastic())
 try:
     FreeCADGui.addCommand('Rocket_CFDAnalysis', CmdCFDAnalysis())
 except:

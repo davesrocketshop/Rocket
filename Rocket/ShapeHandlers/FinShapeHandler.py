@@ -199,6 +199,25 @@ class FinShapeHandler(ABC):
         wire = Part.Wire([line1.toShape(), line2.toShape(), line3.toShape(), line4.toShape()])
         return wire
 
+    def _makeChordFemProfileSquare(self, foreX, chord, thickness, height, nPoints):
+        profile = []
+        chordFore = foreX
+        chordAft = foreX + chord
+        halfThickness = thickness / 2
+        step = chord / nPoints
+        count = nPoints
+
+        # profile.append(FreeCAD.Vector(chordFore, 0, height))
+        x = chordFore
+        while (count > 0):
+            profile.append(FreeCAD.Vector(x, halfThickness, height))
+            x = x + step
+            count = count - 1
+        profile.append(FreeCAD.Vector(chordAft, halfThickness, height))
+        # profile.append(FreeCAD.Vector(chordAft, 0, height))
+
+        return profile
+
     def _makeChordProfileRound(self, foreX : float, chord : float, thickness : float, height : float) -> Wire:
         chordFore = foreX
         chordAft = foreX + chord
@@ -321,6 +340,24 @@ class FinShapeHandler(ABC):
 
         return splines
 
+    def _airfoilFemCurve(self, foreX, chord, thickness, height, resolution):
+        min = self.minimumEdge() / 2
+        points = []
+        for i in range(0, resolution):
+            
+            x = float(i) / float(resolution)
+            y = self._airfoilY(x, thickness)
+            if y < min and x > 0:
+                y = min
+            points.append(FreeCAD.Vector(foreX + (x * chord), y, height))
+
+        if min > 0:
+            points.append(FreeCAD.Vector(foreX + chord, min, height))
+        else:
+            points.append(FreeCAD.Vector(foreX + chord, 0.0, height))
+
+        return points 
+
     def _makeSpline(self, points : list) -> BSplineCurve:
         spline = Part.BSplineCurve()
         spline.buildFromPoles(points)
@@ -338,6 +375,13 @@ class FinShapeHandler(ABC):
 
         wire = Part.Wire(splines)
         return wire
+
+    def _makeChordFemProfileAirfoil(self, foreX, chord, thickness, height, nPoints):
+        # Standard NACA 4 digit symmetrical airfoil
+
+        profile = self._airfoilFemCurve(foreX, chord, thickness, height, nPoints)
+
+        return profile
 
     def _makeChordProfileWedge(self, foreX : float, chord : float, thickness : float, height : float) -> Wire:
         # Create the root rectangle
@@ -539,6 +583,15 @@ class FinShapeHandler(ABC):
 
         return None
 
+    def _makeChordFemProfile(self, crossSection, foreX, chord, thickness, height, length1, length2, nPoints, midChordLimit = False):
+
+        if crossSection == FIN_CROSS_SQUARE:
+            return self._makeChordFemProfileSquare(foreX, chord, thickness, height, nPoints)
+        elif crossSection == FIN_CROSS_AIRFOIL:
+            return self._makeChordFemProfileAirfoil(foreX, chord, thickness, height, nPoints)
+
+        return None
+
     def _makeTtw(self) -> Shape:
         # Create the Ttw tab
         # origin = FreeCAD.Vector(self._rootChord - self._ttwOffset - self._ttwLength, -0.5 * self._ttwThickness, -1.0 * self._ttwHeight)
@@ -563,6 +616,10 @@ class FinShapeHandler(ABC):
         return True
 
     def _makeProfiles(self) -> list:
+        profiles = []
+        return profiles
+
+    def _makeFemProfiles(self, nPoints):
         profiles = []
         return profiles
 
@@ -626,6 +683,10 @@ class FinShapeHandler(ABC):
     def _extendRoot(self) -> bool:
         # Override this if the fin root needs an extension to connect it to the body tube
         return False
+    
+    def finFemProfiles(self, nPoints):
+        profiles = self._makeFemProfiles(nPoints)
+        return profiles
 
     def finOnlyShape(self) -> Shape:
         fin = self._finOnlyShape(FIN_DEBUG_FULL)

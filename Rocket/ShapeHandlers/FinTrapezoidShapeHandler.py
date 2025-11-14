@@ -43,11 +43,18 @@ class FinTrapezoidShapeHandler(FinShapeHandler):
         super().__init__(obj)
 
     def _makeRootProfile(self, height : float = 0.0) -> Wire:
-        # Create the root profile
-        l1, l2 = self._lengthsFromPercent(self._rootChord, self._rootPerCent,
-                                          self._rootLength1, self._rootLength2)
-        return self._makeChordProfile(self._rootCrossSection, 0.0, self._rootChord,
-            self._rootThickness, height, l1, l2)
+        # Create the root profile, casting everything to float to avoid typing issues
+        l1, l2 = self._lengthsFromPercent(float(self._obj.RootChord), self._obj.RootPerCent,
+                                          float(self._obj.RootLength1), float(self._obj.RootLength2))
+        return self._makeChordProfile(self._obj.RootCrossSection, 0.0, float(self._obj.RootChord), 
+            float(self._obj.RootThickness), height, l1, l2)
+    
+    def _makeRootFemProfile(self, nPoints : int, heigh : float = 0.0) -> Wire:
+        # Create the root profile, casting everything to float to avoid typing issues
+        l1, l2 = self._lengthsFromPercent(float(self._obj.RootChord), self._obj.RootPerCent,
+                                          float(self._obj.RootLength1), float(self._obj.RootLength2))
+        return self._makeChordFemProfile(self._obj.RootCrossSection, 0.0, float(self._obj.RootChord), 
+            float(self._obj.RootThickness), height, l1, l2, nPoints)
 
     def _makeTipProfile(self) -> Wire:
         # Create the tip profile
@@ -73,6 +80,21 @@ class FinTrapezoidShapeHandler(FinShapeHandler):
         return self._makeChordProfile(crossSection, -offset + self._sweepAtHeight(height), chord,
             thickness, height, l1, l2)
 
+    def _makeTipFemProfile(self, nPoints):
+        # Create the tip profile, casting everything to float to avoid typing issues
+        crossSection = self._obj.TipCrossSection
+        if crossSection == FIN_CROSS_SAME:
+            crossSection = self._obj.RootCrossSection
+
+        tipThickness = float(self._obj.TipThickness)
+        if self._obj.TipSameThickness:
+            tipThickness = float(self._obj.RootThickness)
+
+        l1, l2 = self._lengthsFromPercent(float(self._obj.TipChord), self._obj.TipPerCent, 
+                                          float(self._obj.TipLength1), float(self._obj.TipLength2))
+        return self._makeChordFemProfile(crossSection, float(self._obj.SweepLength), float(self._obj.TipChord), 
+            tipThickness, float(self._obj.Height), l1, l2, nPoints)
+
     def isValidShape(self) -> bool:
         # Add error checking here
         if self._ttw:
@@ -94,4 +116,16 @@ class FinTrapezoidShapeHandler(FinShapeHandler):
         profiles = []
         profiles.append(self._makeRootProfile())
         profiles.append(self._makeTipProfile())
+        return profiles
+
+    def _makeFemProfiles(self, nPoints):
+        profiles = []
+        profiles.append(self._makeRootFemProfile(nPoints))
+        profiles.append(self._makeTipFemProfile(nPoints))
+        return profiles
+
+    def _makeExtensionProfiles(self, height):
+        profiles = []
+        profiles.append(self._makeRootProfile(-height))
+        profiles.append(self._makeRootProfile())
         return profiles

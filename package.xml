@@ -23,6 +23,7 @@
       <depend>Material</depend>
       <depend>MeshPart</depend>
       <depend>matplotlib</depend>
+      <depend>scipy</depend>
       <depend>shapely</depend>
       <depend>python-docx</depend>
 
