@@ -34,7 +34,7 @@ from Rocket.interfaces.Coaxial import Coaxial
 
 from Rocket.SymmetricComponent import SymmetricComponent
 from Rocket.Constants import FEATURE_BODY_TUBE, FEATURE_INNER_TUBE, FEATURE_TUBE_COUPLER, FEATURE_ENGINE_BLOCK, FEATURE_BULKHEAD, FEATURE_CENTERING_RING, FEATURE_FIN, \
-    FEATURE_FINCAN, FEATURE_LAUNCH_LUG, FEATURE_PARALLEL_STAGE, FEATURE_POD, FEATURE_RAIL_BUTTON, FEATURE_RAIL_GUIDE
+    FEATURE_FINCAN, FEATURE_LAUNCH_LUG, FEATURE_PARALLEL_STAGE, FEATURE_POD, FEATURE_RAIL_BUTTON, FEATURE_RAIL_GUIDE, FEATURE_RETAINER
 
 from Rocket.ShapeHandlers.BodyTubeShapeHandler import BodyTubeShapeHandler
 from Rocket.Utilities import _wrn
@@ -300,7 +300,8 @@ class FeatureBodyTube(SymmetricComponent, BoxBounded, Coaxial):
             # FEATURE_PARALLEL_STAGE,
             FEATURE_POD,
             FEATURE_RAIL_BUTTON,
-            FEATURE_RAIL_GUIDE]
+            FEATURE_RAIL_GUIDE,
+            FEATURE_RETAINER]
 
     def onChildEdited(self) -> None:
         try:

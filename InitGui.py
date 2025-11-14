@@ -76,7 +76,7 @@ class RocketWorkbench ( Workbench ):
 
         self.appendToolbar(translate('Rocket', 'Rocket'),
                         ['Rocket_Rocket', 'Rocket_Stage', 'Rocket_ParallelStage', 'Rocket_Pod', 'Rocket_NoseCone', 'Rocket_Transition', 'Rocket_BodyTube', 'Rocket_InnerTube', 'Rocket_Coupler', 'Rocket_EngineBlock',
-                        'Rocket_CenteringRing', 'Rocket_Bulkhead', 'Rocket_Fin', 'Rocket_FinCan', 'Rocket_Ringtail', 'Rocket_LaunchLug', 'Rocket_RailButton', 'Rocket_RailGuide',
+                        'Rocket_CenteringRing', 'Rocket_Bulkhead', 'Rocket_Fin', 'Rocket_FinCan', 'Rocket_Ringtail', 'Rocket_Retainer', 'Rocket_LaunchLug', 'Rocket_RailButton', 'Rocket_RailGuide',
                         ])
         self.appendToolbar(translate('Rocket', 'Rocket'),
                         ['Separator', 'Rocket_MoveUp', 'Rocket_MoveDown'])
@@ -96,7 +96,7 @@ class RocketWorkbench ( Workbench ):
 
         self.appendMenu(translate('Rocket', 'Rocket'),
                         ['Rocket_Rocket', 'Rocket_Stage', 'Rocket_ParallelStage', 'Rocket_Pod', 'Rocket_NoseCone', 'Rocket_Transition', 'Rocket_BodyTube', 'Rocket_InnerTube', 'Rocket_Coupler', 'Rocket_EngineBlock',
-                        'Rocket_CenteringRing', 'Rocket_Bulkhead', 'Rocket_Fin', 'Rocket_FinCan', 'Rocket_Ringtail', 'Rocket_LaunchLug', 'Rocket_RailButton', 'Rocket_RailGuide',
+                        'Rocket_CenteringRing', 'Rocket_Bulkhead', 'Rocket_Fin', 'Rocket_FinCan', 'Rocket_Ringtail', 'Rocket_Retainer', 'Rocket_LaunchLug', 'Rocket_RailButton', 'Rocket_RailGuide',
                         #'Rocket_Parachute'
                         ])
         self.appendMenu(translate('Rocket', 'Rocket'),

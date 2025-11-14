@@ -1,0 +1,667 @@
+# ***************************************************************************
+# *   Copyright (c) 2021-2025 David Carter <dcarter@davidcarter.ca>         *
+# *                                                                         *
+# *   This program is free software; you can redistribute it and/or modify  *
+# *   it under the terms of the GNU Lesser General Public License (LGPL)    *
+# *   as published by the Free Software Foundation; either version 2 of     *
+# *   the License, or (at your option) any later version.                   *
+# *   for detail see the LICENCE text file.                                 *
+# *                                                                         *
+# *   This program is distributed in the hope that it will be useful,       *
+# *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+# *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+# *   GNU Library General Public License for more details.                  *
+# *                                                                         *
+# *   You should have received a copy of the GNU Library General Public     *
+# *   License along with this program; if not, write to the Free Software   *
+# *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  *
+# *   USA                                                                   *
+# *                                                                         *
+# ***************************************************************************
+"""Class for drawing retainers"""
+
+__title__ = "FreeCAD Retainers"
+__author__ = "David Carter"
+__url__ = "https://www.davesrocketshop.com"
+
+from typing import Any
+import os
+
+import FreeCAD
+import FreeCADGui
+import Materials
+
+from PySide import QtGui
+from PySide.QtWidgets import QDialog, QVBoxLayout
+
+translate = FreeCAD.Qt.translate
+
+from Ui.TaskPanelDatabase import TaskPanelDatabase
+from Ui.Widgets.MaterialTab import MaterialTab
+from Ui.Widgets.CommentTab import CommentTab
+from Ui.Widgets.ScalingTab import ScalingTab
+from Ui.UIPaths import getUIPath
+
+from Rocket.Constants import TYPE_CONE, TYPE_BLUNTED_CONE, TYPE_SPHERICAL, TYPE_ELLIPTICAL, TYPE_HAACK, TYPE_OGIVE, \
+    TYPE_BLUNTED_OGIVE, TYPE_SECANT_OGIVE, TYPE_VON_KARMAN, TYPE_PARABOLA, TYPE_PARABOLIC, TYPE_POWER, TYPE_NIKE_SMOKE, \
+    TYPE_PROXY
+from Rocket.Constants import STYLE_CAPPED, STYLE_HOLLOW, STYLE_SOLID
+from Rocket.Constants import STYLE_CAP_SOLID, STYLE_CAP_BAR, STYLE_CAP_CROSS
+from Rocket.Constants import COMPONENT_TYPE_NOSECONE
+
+from Rocket.Utilities import _toFloat, _valueWithUnits, _valueOnly, _err
+
+class _RetainerDialog(QDialog):
+
+    def __init__(self, obj : Any, parent : QtGui.QWidget = None) -> None:
+        super().__init__(parent)
+
+        self.form = FreeCADGui.PySideUic.loadUi(os.path.join(getUIPath(), 'Ui', "TaskPanelRetainer.ui"))
+
+        self.tabScaling = ScalingTab(obj)
+        self.tabMaterial = MaterialTab()
+        self.tabComment = CommentTab()
+        self.form.tabWidget.addTab(self.tabScaling.widget(), translate('Rocket', "Scaling"))
+        self.form.tabWidget.addTab(self.tabMaterial, translate('Rocket', "Material"))
+        self.form.tabWidget.addTab(self.tabComment, translate('Rocket', "Comment"))
+
+        self.setTabGeneral()
+
+    def setTabGeneral(self) -> None:
+        # # Select the type of nose cone
+        # self.form.noseConeTypesCombo.addItem(translate('Rocket', TYPE_CONE), TYPE_CONE)
+        # self.form.noseConeTypesCombo.addItem(translate('Rocket', TYPE_BLUNTED_CONE), TYPE_BLUNTED_CONE)
+        # self.form.noseConeTypesCombo.addItem(translate('Rocket', TYPE_SPHERICAL), TYPE_SPHERICAL)
+        # self.form.noseConeTypesCombo.addItem(translate('Rocket', TYPE_ELLIPTICAL), TYPE_ELLIPTICAL)
+        # self.form.noseConeTypesCombo.addItem(translate('Rocket', TYPE_OGIVE), TYPE_OGIVE)
+        # self.form.noseConeTypesCombo.addItem(translate('Rocket', TYPE_BLUNTED_OGIVE), TYPE_BLUNTED_OGIVE)
+        # self.form.noseConeTypesCombo.addItem(translate('Rocket', TYPE_SECANT_OGIVE), TYPE_SECANT_OGIVE)
+        # self.form.noseConeTypesCombo.addItem(translate('Rocket', TYPE_PARABOLA), TYPE_PARABOLA)
+        # self.form.noseConeTypesCombo.addItem(translate('Rocket', TYPE_PARABOLIC), TYPE_PARABOLIC)
+        # self.form.noseConeTypesCombo.addItem(translate('Rocket', TYPE_POWER), TYPE_POWER)
+        # self.form.noseConeTypesCombo.addItem(translate('Rocket', TYPE_VON_KARMAN), TYPE_VON_KARMAN)
+        # self.form.noseConeTypesCombo.addItem(translate('Rocket', TYPE_HAACK), TYPE_HAACK)
+        # # self.form.noseConeTypesCombo.addItem(translate('Rocket', TYPE_NIKE_SMOKE), TYPE_NIKE_SMOKE)
+        # self.form.noseConeTypesCombo.addItem(translate('Rocket', TYPE_PROXY), TYPE_PROXY)
+
+        # self.form.noseStylesCombo.addItem(translate('Rocket', STYLE_SOLID), STYLE_SOLID)
+        # self.form.noseStylesCombo.addItem(translate('Rocket', STYLE_HOLLOW), STYLE_HOLLOW)
+        # self.form.noseStylesCombo.addItem(translate('Rocket', STYLE_CAPPED), STYLE_CAPPED)
+
+        # self.form.noseCapStylesCombo.addItem(translate('Rocket', STYLE_CAP_SOLID), STYLE_CAP_SOLID)
+        # self.form.noseCapStylesCombo.addItem(translate('Rocket', STYLE_CAP_BAR), STYLE_CAP_BAR)
+        # self.form.noseCapStylesCombo.addItem(translate('Rocket', STYLE_CAP_CROSS), STYLE_CAP_CROSS)
+
+        # self.form.lengthInput.unit = FreeCAD.Units.Length
+        # self.form.diameterInput.unit = FreeCAD.Units.Length
+        # self.form.thicknessInput.unit = FreeCAD.Units.Length
+        # self.form.ogiveDiameterInput.unit = FreeCAD.Units.Length
+        # self.form.bluntedInput.unit = FreeCAD.Units.Length
+        # self.form.noseCapBarWidthInput.unit = FreeCAD.Units.Length
+
+        # self.coefficientValidator = QtGui.QDoubleValidator(self)
+        # self.coefficientValidator.setBottom(0.0)
+        # self.form.coefficientInput.setValidator(self.coefficientValidator)
+
+        # # Proxy
+        # self.form.noseConeProxyTypesCombo.addItem(translate('Rocket', TYPE_CONE), TYPE_CONE)
+        # self.form.noseConeProxyTypesCombo.addItem(translate('Rocket', TYPE_BLUNTED_CONE), TYPE_BLUNTED_CONE)
+        # self.form.noseConeProxyTypesCombo.addItem(translate('Rocket', TYPE_SPHERICAL), TYPE_SPHERICAL)
+        # self.form.noseConeProxyTypesCombo.addItem(translate('Rocket', TYPE_ELLIPTICAL), TYPE_ELLIPTICAL)
+        # self.form.noseConeProxyTypesCombo.addItem(translate('Rocket', TYPE_OGIVE), TYPE_OGIVE)
+        # self.form.noseConeProxyTypesCombo.addItem(translate('Rocket', TYPE_BLUNTED_OGIVE), TYPE_BLUNTED_OGIVE)
+        # self.form.noseConeProxyTypesCombo.addItem(translate('Rocket', TYPE_SECANT_OGIVE), TYPE_SECANT_OGIVE)
+        # self.form.noseConeProxyTypesCombo.addItem(translate('Rocket', TYPE_PARABOLA), TYPE_PARABOLA)
+        # self.form.noseConeProxyTypesCombo.addItem(translate('Rocket', TYPE_PARABOLIC), TYPE_PARABOLIC)
+        # self.form.noseConeProxyTypesCombo.addItem(translate('Rocket', TYPE_POWER), TYPE_POWER)
+        # self.form.noseConeProxyTypesCombo.addItem(translate('Rocket', TYPE_VON_KARMAN), TYPE_VON_KARMAN)
+        # self.form.noseConeProxyTypesCombo.addItem(translate('Rocket', TYPE_HAACK), TYPE_HAACK)
+        # self.form.noseConeProxyTypesCombo.addItem(translate('Rocket', TYPE_PROXY), TYPE_PROXY)
+
+        # self.form.proxyEffectiveDiameterInput.unit = FreeCAD.Units.Length
+        # self.form.xRotationInput.unit = FreeCAD.Units.Angle
+        # self.form.yRotationInput.unit = FreeCAD.Units.Angle
+        # self.form.zRotationInput.unit = FreeCAD.Units.Angle
+        # self.form.offsetInput.unit = FreeCAD.Units.Length
+
+        # self.form.proxyShowBasePlaneCheckbox.setVisible(False) # Not yet supported
+        ...
+
+class TaskPanelRetainer:
+
+    def __init__(self,obj,mode):
+        self._obj = obj
+        self._isAssembly = self._obj.Proxy.isRocketAssembly()
+
+        # Used to prevent recursion
+        self._updateNoseType = True
+
+        self._retainerForm = _RetainerDialog(obj)
+        self._db = TaskPanelDatabase(obj, COMPONENT_TYPE_NOSECONE)
+        self._dbForm = self._db.getForm()
+
+        self.form = [self._retainerForm.form, self._dbForm]
+        # self._retainerForm.form.setWindowIcon(QtGui.QIcon(FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_NoseCone.svg"))
+
+        # self._retainerForm.form.noseConeTypesCombo.currentTextChanged.connect(self.onNoseType)
+        # self._retainerForm.form.noseConeProxyTypesCombo.currentTextChanged.connect(self.onNoseType)
+        # self._retainerForm.form.noseStylesCombo.currentTextChanged.connect(self.onNoseStyle)
+        # self._retainerForm.form.noseCapStylesCombo.currentTextChanged.connect(self.onNoseCapStyle)
+        # self._retainerForm.form.noseCapBarWidthInput.textEdited.connect(self.onBarWidthChanged)
+
+        # self._retainerForm.form.lengthInput.textEdited.connect(self.onLength)
+        # self._retainerForm.form.diameterInput.textEdited.connect(self.onDiameter)
+        # self._retainerForm.form.autoDiameterCheckbox.stateChanged.connect(self.onAutoDiameter)
+        # self._retainerForm.form.thicknessInput.textEdited.connect(self.onThickness)
+        # self._retainerForm.form.coefficientInput.textEdited.connect(self.onCoefficient)
+        # self._retainerForm.form.bluntedInput.textEdited.connect(self.onBlunted)
+        # self._retainerForm.form.ogiveDiameterInput.textEdited.connect(self.onOgiveDiameter)
+
+        # self._retainerForm.form.shoulderGroup.clicked.connect(self.onShoulder)
+        # self._retainerForm.form.shoulderDiameterInput.textEdited.connect(self.onShoulderDiameter)
+        # self._retainerForm.form.shoulderAutoDiameterCheckbox.stateChanged.connect(self.onShoulderAutoDiameter)
+        # self._retainerForm.form.shoulderLengthInput.textEdited.connect(self.onShoulderLength)
+        # self._retainerForm.form.shoulderThicknessInput.textEdited.connect(self.onShoulderThickness)
+
+        # self._retainerForm.form.proxyBaseObjectButton.clicked.connect(self.onSelect)
+        # self._retainerForm.form.proxyEffectiveDiameterInput.textEdited.connect(self.onEffectiveDiameter)
+        # self._retainerForm.form.xRotationInput.textEdited.connect(self.onRotation)
+        # self._retainerForm.form.yRotationInput.textEdited.connect(self.onRotation)
+        # self._retainerForm.form.zRotationInput.textEdited.connect(self.onRotation)
+        # self._retainerForm.form.offsetInput.textEdited.connect(self.onOffset)
+
+        self._db.dbLoad.connect(self.onLookup)
+        if self._retainerForm.tabScaling:
+            self._retainerForm.tabScaling.scaled.connect(self.onScale)
+
+        self.update()
+
+        if mode == 0: # fresh created
+            self._obj.Proxy.execute(self._obj)  # calculate once
+            FreeCAD.Gui.SendMsgToActiveView("ViewFit")
+
+    def transferTo(self):
+        "Transfer from the dialog to the object"
+        # if self._obj.NoseType == TYPE_PROXY:
+        #     self._obj.NoseType = str(self._retainerForm.form.noseConeProxyTypesCombo.currentData())
+        #     self._obj.Proxy.setAftDiameter(FreeCAD.Units.Quantity(self._retainerForm.form.proxyEffectiveDiameterInput.text()).Value)
+        # else:
+        #     self._obj.NoseType = str(self._retainerForm.form.noseConeTypesCombo.currentData())
+        #     self._obj.Proxy.setAftDiameter(FreeCAD.Units.Quantity(self._retainerForm.form.diameterInput.text()).Value)
+        # self._obj.NoseStyle = str(self._retainerForm.form.noseStylesCombo.currentData())
+        # self._obj.CapStyle = str(self._retainerForm.form.noseCapStylesCombo.currentData())
+        # self._obj.CapBarWidth = self._retainerForm.form.noseCapBarWidthInput.text()
+        # # self._retainerForm.form.proxyBaseObjectInput.setText(object)
+        # self._obj.Proxy.setLength(FreeCAD.Units.Quantity(self._retainerForm.form.lengthInput.text()).Value)
+        # self._obj.Proxy.setAftDiameterAutomatic(self._retainerForm.form.autoDiameterCheckbox.isChecked())
+        # self._obj.Proxy.setThickness(FreeCAD.Units.Quantity(self._retainerForm.form.thicknessInput.text()).Value)
+        # self._obj.Coefficient = _toFloat(self._retainerForm.form.coefficientInput.text())
+        # self._obj.BluntedDiameter = self._retainerForm.form.bluntedInput.text()
+        # self._obj.OgiveDiameter = self._retainerForm.form.ogiveDiameterInput.text()
+        # self._obj.Shoulder = self._retainerForm.form.shoulderGroup.isChecked()
+        # self._obj.ShoulderDiameter = self._retainerForm.form.shoulderDiameterInput.text()
+        # self._obj.ShoulderAutoDiameter = self._retainerForm.form.shoulderAutoDiameterCheckbox.isChecked()
+        # self._obj.ShoulderLength = self._retainerForm.form.shoulderLengthInput.text()
+        # self._obj.ShoulderThickness = self._retainerForm.form.shoulderThicknessInput.text()
+
+        # placement = FreeCAD.Placement()
+        # yaw = FreeCAD.Units.Quantity(self._retainerForm.form.zRotationInput.text()).Value
+        # pitch = FreeCAD.Units.Quantity(self._retainerForm.form.yRotationInput.text()).Value
+        # roll = FreeCAD.Units.Quantity(self._retainerForm.form.xRotationInput.text()).Value
+        # placement.Rotation.setYawPitchRoll(yaw, pitch, roll)
+        # placement.Base.x = FreeCAD.Units.Quantity(self._retainerForm.form.offsetInput.text()).Value
+        # self._obj.ProxyPlacement = placement
+
+        # self._retainerForm.tabScaling.transferTo(self._obj)
+        self._retainerForm.tabMaterial.transferTo(self._obj)
+        self._retainerForm.tabComment.transferTo(self._obj)
+
+    def transferFrom(self):
+        "Transfer from the object to the dialog"
+        # self._retainerForm.form.noseConeTypesCombo.setCurrentIndex(self._retainerForm.form.noseConeTypesCombo.findData(self._obj.NoseType))
+        # self._retainerForm.form.noseConeProxyTypesCombo.setCurrentIndex(self._retainerForm.form.noseConeProxyTypesCombo.findData(self._obj.NoseType))
+        # self._retainerForm.form.noseStylesCombo.setCurrentIndex(self._retainerForm.form.noseStylesCombo.findData(self._obj.NoseStyle))
+        # self._retainerForm.form.noseCapStylesCombo.setCurrentIndex(self._retainerForm.form.noseCapStylesCombo.findData(self._obj.CapStyle))
+        # self._retainerForm.form.noseCapBarWidthInput.setText(self._obj.CapBarWidth.UserString)
+        # self._retainerForm.form.lengthInput.setText(self._obj.Length.UserString)
+        # self._retainerForm.form.diameterInput.setText(self._obj.Diameter.UserString)
+        # self._retainerForm.form.autoDiameterCheckbox.setChecked(self._obj.AutoDiameter)
+        # self._retainerForm.form.thicknessInput.setText(self._obj.Thickness.UserString)
+        # self._retainerForm.form.coefficientInput.setText("%f" % self._obj.Coefficient)
+        # self._retainerForm.form.bluntedInput.setText(self._obj.BluntedDiameter.UserString)
+        # self._retainerForm.form.ogiveDiameterInput.setText(self._obj.OgiveDiameter.UserString)
+        # self._retainerForm.form.shoulderGroup.setChecked(self._obj.Shoulder)
+        # self._retainerForm.form.shoulderDiameterInput.setText(self._obj.ShoulderDiameter.UserString)
+        # self._retainerForm.form.shoulderAutoDiameterCheckbox.setChecked(self._obj.ShoulderAutoDiameter)
+        # self._retainerForm.form.shoulderLengthInput.setText(self._obj.ShoulderLength.UserString)
+        # self._retainerForm.form.shoulderThicknessInput.setText(self._obj.ShoulderThickness.UserString)
+
+        # if self._obj.Base:
+        #     self._retainerForm.form.proxyBaseObjectInput.setText(self._obj.Base.Label)
+        # else:
+        #     self._retainerForm.form.proxyBaseObjectInput.setText("")
+        # self._retainerForm.form.proxyEffectiveDiameterInput.setText(self._obj.Diameter.UserString)
+
+        # placement = self._obj.ProxyPlacement
+        # yaw, pitch, roll = placement.Rotation.getYawPitchRoll()
+        # self._retainerForm.form.xRotationInput.setText(f"{roll} deg")
+        # self._retainerForm.form.yRotationInput.setText(f"{pitch} deg")
+        # self._retainerForm.form.zRotationInput.setText(f"{yaw} deg")
+        # self._retainerForm.form.offsetInput.setText(FreeCAD.Units.Quantity(placement.Base.x, FreeCAD.Units.Length).UserString)
+
+        # self._retainerForm.tabScaling.transferFrom(self._obj)
+        self._retainerForm.tabMaterial.transferFrom(self._obj)
+        self._retainerForm.tabComment.transferFrom(self._obj)
+
+        # self._setTypeState()
+        # self._setStyleState()
+        # self._setAutoDiameterState()
+        # self._setShoulderState()
+        # self._setProxyState()
+
+    def setEdited(self):
+        try:
+            self._obj.Proxy.setEdited()
+        except ReferenceError:
+            # Object may be deleted
+            pass
+
+    def _setProxyStateVisible(self, visible):
+        if visible:
+            index = 0
+        else:
+            index = 1
+        self._retainerForm.form.stackedWidget.setCurrentIndex(index)
+
+    def _setProxyState(self):
+        self._setProxyStateVisible(self._obj.NoseType != TYPE_PROXY)
+
+        self._updateNoseType = False
+        self._retainerForm.form.noseConeTypesCombo.setCurrentIndex(self._retainerForm.form.noseConeTypesCombo.findData(self._obj.NoseType))
+        self._retainerForm.form.noseConeProxyTypesCombo.setCurrentIndex(self._retainerForm.form.noseConeProxyTypesCombo.findData(self._obj.NoseType))
+        self._updateNoseType = True
+
+    def _setCoeffientState(self):
+        value = self._obj.NoseType
+        if value == TYPE_HAACK or value == TYPE_PARABOLIC:
+            self._retainerForm.form.coefficientInput.setEnabled(True)
+        elif value == TYPE_POWER:
+            self._retainerForm.form.coefficientInput.setEnabled(True)
+        elif value == TYPE_VON_KARMAN:
+            self._obj.Coefficient = 0.0
+            self._retainerForm.form.coefficientInput.setText("%f" % self._obj.Coefficient)
+            self._retainerForm.form.coefficientInput.setEnabled(False)
+        elif value == TYPE_PARABOLA:
+            self._obj.Coefficient = 0.5
+            self._retainerForm.form.coefficientInput.setText("%f" % self._obj.Coefficient)
+            self._retainerForm.form.coefficientInput.setEnabled(False)
+        else:
+            self._retainerForm.form.coefficientInput.setEnabled(False)
+
+    def _setBluntState(self):
+        value = self._obj.NoseType
+        if value in [TYPE_BLUNTED_CONE, TYPE_BLUNTED_OGIVE]:
+            self._retainerForm.form.bluntedInput.setEnabled(True)
+        else:
+            self._retainerForm.form.bluntedInput.setEnabled(False)
+
+    def _setOgiveDiameterState(self):
+        value = self._obj.NoseType
+        if value == TYPE_SECANT_OGIVE:
+            self._retainerForm.form.ogiveDiameterInput.setEnabled(True)
+        else:
+            self._retainerForm.form.ogiveDiameterInput.setEnabled(False)
+
+    def _setLengthState(self):
+        value = self._obj.NoseType
+        if value == TYPE_SPHERICAL:
+            self._obj.Proxy.setLength(float(self._obj.Diameter) / 2.0)
+            self._retainerForm.form.lengthInput.setText(self._obj.Length.UserString)
+            self._retainerForm.form.lengthInput.setEnabled(False)
+        else:
+            self._retainerForm.form.lengthInput.setEnabled(True)
+
+    def _setTypeState(self):
+        self._setProxyState()
+        self._setCoeffientState()
+        self._setBluntState()
+        self._setOgiveDiameterState()
+        self._setLengthState()
+
+        # Scaling information is nose cone type dependent
+        self.onScale()
+
+    def onNoseType(self, value):
+        if self._updateNoseType:
+            self._obj.NoseType = value
+            # print("Nose type set to {}".format(value))
+            self._setTypeState()
+
+            self._obj.Proxy.execute(self._obj)
+            self.setEdited()
+
+    def _setStyleState(self):
+        value = self._obj.NoseStyle
+        if value == STYLE_HOLLOW or value == STYLE_CAPPED:
+            self._retainerForm.form.thicknessInput.setEnabled(True)
+
+            if self._retainerForm.form.shoulderGroup.isChecked():
+                self._retainerForm.form.shoulderThicknessInput.setEnabled(True)
+            else:
+                self._retainerForm.form.shoulderThicknessInput.setEnabled(False)
+        else:
+            self._retainerForm.form.thicknessInput.setEnabled(False)
+            self._retainerForm.form.shoulderThicknessInput.setEnabled(False)
+
+        if value == STYLE_CAPPED:
+            self._retainerForm.form.noseCapGroup.setEnabled(True)
+            self._setCapStyleState()
+        else:
+            self._retainerForm.form.noseCapGroup.setEnabled(False)
+
+    def onScale(self) -> None:
+        # Update the scale values
+        scale = self._retainerForm.tabScaling.getScale()
+        length = self._obj.Length / scale
+        diameter = self._obj.Diameter / scale
+        noseDiameter = self._obj.BluntedDiameter / scale
+        ogiveDiameter = self._obj.OgiveDiameter / scale
+        if scale < 1.0:
+            self._retainerForm.tabScaling._form.scaledLabel.setText(translate('Rocket', "Upscale"))
+            self._retainerForm.tabScaling._form.scaledInput.setText(f"{1.0/scale}")
+        else:
+            self._retainerForm.tabScaling._form.scaledLabel.setText(translate('Rocket', "Scale"))
+            self._retainerForm.tabScaling._form.scaledInput.setText(f"{scale}")
+        self._retainerForm.tabScaling._form.scaledLengthInput.setText(length.UserString)
+        self._retainerForm.tabScaling._form.scaledDiameterInput.setText(diameter.UserString)
+        if self._obj.NoseType in [TYPE_OGIVE, TYPE_BLUNTED_OGIVE, TYPE_SECANT_OGIVE]:
+            self._retainerForm.tabScaling._form.scaledOgiveDiameterInput.setText(ogiveDiameter.UserString)
+            self._retainerForm.tabScaling._form.scaledOgiveDiameterInput.setVisible(True)
+            self._retainerForm.tabScaling._form.scaledOgiveDiameterLabel.setVisible(True)
+        else:
+            self._retainerForm.tabScaling._form.scaledOgiveDiameterInput.setVisible(False)
+            self._retainerForm.tabScaling._form.scaledOgiveDiameterLabel.setVisible(False)
+        if self._obj.NoseType in [TYPE_BLUNTED_CONE, TYPE_BLUNTED_OGIVE]:
+            self._retainerForm.tabScaling._form.scaledBluntedDiameterInput.setText(noseDiameter.UserString)
+            self._retainerForm.tabScaling._form.scaledBluntedDiameterInput.setVisible(True)
+            self._retainerForm.tabScaling._form.scaledBluntedDiameterLabel.setVisible(True)
+        else:
+            self._retainerForm.tabScaling._form.scaledBluntedDiameterInput.setVisible(False)
+            self._retainerForm.tabScaling._form.scaledBluntedDiameterLabel.setVisible(False)
+
+    def onNoseStyle(self, value):
+        self._obj.NoseStyle = value
+        self._setStyleState()
+
+        self._obj.Proxy.execute(self._obj)
+
+    def _setCapStyleState(self):
+        value = self._obj.CapStyle
+        if value == STYLE_CAP_SOLID:
+            self._retainerForm.form.noseCapBarWidthInput.setEnabled(False)
+        else:
+            self._retainerForm.form.noseCapBarWidthInput.setEnabled(True)
+
+    def onNoseCapStyle(self, value):
+        self._obj.CapStyle = value
+        self._setCapStyleState()
+
+        self._obj.Proxy.execute(self._obj)
+        self.setEdited()
+
+    def onBarWidthChanged(self, value):
+        try:
+            self._obj.CapBarWidth = FreeCAD.Units.Quantity(value).Value
+            self._obj.Proxy.execute(self._obj)
+        except ValueError:
+            pass
+        self.setEdited()
+
+    def onLength(self, value):
+        try:
+            self._obj.Proxy.setLength(FreeCAD.Units.Quantity(value).Value)
+            self._obj.Proxy.execute(self._obj)
+        except ValueError:
+            pass
+        self.setEdited()
+
+    def onDiameter(self, value):
+        try:
+            self._obj.Proxy.setAftDiameter(FreeCAD.Units.Quantity(value).Value)
+            self._obj.Proxy.setAftDiameterAutomatic(False)
+            self._obj.Proxy.execute(self._obj)
+
+            self._setLengthState() # Update for spherical noses
+        except ValueError:
+            pass
+        self.setEdited()
+
+    def _setAutoDiameterState(self):
+        if self._isAssembly:
+            self._retainerForm.form.diameterInput.setEnabled(not self._obj.AutoDiameter)
+            self._retainerForm.form.autoDiameterCheckbox.setEnabled(True)
+        else:
+            self._retainerForm.form.diameterInput.setEnabled(True)
+            self._obj.AutoDiameter = False
+            self._retainerForm.form.autoDiameterCheckbox.setEnabled(False)
+        self._retainerForm.form.autoDiameterCheckbox.setChecked(self._obj.AutoDiameter)
+
+        if self._obj.AutoDiameter:
+            self._obj.Diameter = self._obj.Proxy.getAftDiameter()
+            self._retainerForm.form.diameterInput.setText(self._obj.Diameter.UserString)
+
+    def onAutoDiameter(self, value):
+        self._obj.Proxy.setAftDiameterAutomatic(value)
+        self._setAutoDiameterState()
+
+        self._obj.Proxy.execute(self._obj)
+        self.setEdited()
+
+    def onThickness(self, value):
+        try:
+            self._obj.Proxy.setThickness(FreeCAD.Units.Quantity(value).Value)
+            self._obj.Proxy.execute(self._obj)
+        except ValueError:
+            pass
+        self.setEdited()
+
+    def onCoefficient(self, value):
+        self._obj.Coefficient = _toFloat(value)
+        self._obj.Proxy.execute(self._obj)
+        self.setEdited()
+
+    def onBlunted(self, value):
+        try:
+            self._obj.BluntedDiameter = FreeCAD.Units.Quantity(value).Value
+            self._obj.Proxy.execute(self._obj)
+        except ValueError:
+            pass
+        self.setEdited()
+
+    def onOgiveDiameter(self, value):
+        try:
+            self._obj.OgiveDiameter = FreeCAD.Units.Quantity(value).Value
+            self._obj.Proxy.execute(self._obj)
+        except ValueError:
+            pass
+        self.setEdited()
+
+    def _setShoulderState(self):
+        if self._obj.Shoulder:
+            self._retainerForm.form.shoulderDiameterInput.setEnabled(True)
+            self._retainerForm.form.shoulderLengthInput.setEnabled(True)
+
+            selectedText = self._retainerForm.form.noseStylesCombo.currentData()
+            if selectedText == STYLE_HOLLOW or selectedText == STYLE_CAPPED:
+                self._retainerForm.form.shoulderThicknessInput.setEnabled(True)
+            else:
+                self._retainerForm.form.shoulderThicknessInput.setEnabled(False)
+        else:
+            self._retainerForm.form.shoulderDiameterInput.setEnabled(False)
+            self._retainerForm.form.shoulderLengthInput.setEnabled(False)
+            self._retainerForm.form.shoulderThicknessInput.setEnabled(False)
+
+        self._setAutoShoulderDiameterState()
+
+    def onShoulder(self, value):
+        self._obj.Shoulder = self._retainerForm.form.shoulderGroup.isChecked()
+        self._setShoulderState()
+
+        self._obj.Proxy.execute(self._obj)
+        self.setEdited()
+
+    def onShoulderDiameter(self, value):
+        try:
+            self._obj.ShoulderDiameter = FreeCAD.Units.Quantity(value).Value
+            self._obj.Proxy.setAftShoulderDiameterAutomatic(False)
+            self._obj.Proxy.execute(self._obj)
+        except ValueError:
+            pass
+        self.setEdited()
+
+    def _setAutoShoulderDiameterState(self):
+        if self._isAssembly:
+            self._retainerForm.form.shoulderDiameterInput.setEnabled((not self._obj.ShoulderAutoDiameter) and self._obj.Shoulder)
+            self._retainerForm.form.shoulderAutoDiameterCheckbox.setChecked(self._obj.ShoulderAutoDiameter)
+            self._retainerForm.form.shoulderAutoDiameterCheckbox.setEnabled(self._obj.Shoulder)
+        else:
+            self._obj.ShoulderAutoDiameter = False
+            self._retainerForm.form.shoulderDiameterInput.setEnabled(self._obj.Shoulder)
+            self._retainerForm.form.shoulderAutoDiameterCheckbox.setChecked(self._obj.ShoulderAutoDiameter)
+            self._retainerForm.form.shoulderAutoDiameterCheckbox.setEnabled(self._obj.ShoulderAutoDiameter)
+
+    def onShoulderAutoDiameter(self, value):
+        self._obj.Proxy.setAftShoulderDiameterAutomatic(value)
+        self._setAutoShoulderDiameterState()
+
+        self._obj.Proxy.execute(self._obj)
+        self.setEdited()
+
+    def onShoulderLength(self, value):
+        try:
+            self._obj.ShoulderLength = FreeCAD.Units.Quantity(value).Value
+            self._obj.Proxy.execute(self._obj)
+        except ValueError:
+            pass
+        self.setEdited()
+
+    def onShoulderThickness(self, value):
+        try:
+            self._obj.ShoulderThickness = FreeCAD.Units.Quantity(value).Value
+            self._obj.Proxy.execute(self._obj)
+        except ValueError:
+            pass
+        self.setEdited()
+
+    def onLookup(self):
+        result = self._db.getLookupResult()
+
+        self._obj.NoseType = str(result["shape"])
+        self._obj.NoseStyle = str(result["style"])
+        self._obj.Proxy.setLength(_valueOnly(result["length"], result["length_units"]))
+        self._obj.Proxy.setAftDiameter(_valueOnly(result["diameter"], result["diameter_units"]))
+        self._obj.Proxy.setThickness(_valueOnly(result["thickness"], result["thickness_units"]))
+        # self._obj.Coefficient = _toFloat(self._retainerForm.form.coefficientInput.text())
+        # self._obj.BluntedDiameter = _valueWithUnits("0", "mm")
+        self._obj.ShoulderDiameter = _valueWithUnits(result["shoulder_diameter"], result["shoulder_diameter_units"])
+        self._obj.ShoulderLength = _valueWithUnits(result["shoulder_length"], result["shoulder_length_units"])
+        self._obj.Shoulder = (self._obj.ShoulderDiameter > 0.0) and (self._obj.ShoulderLength >= 0)
+        self._obj.ShoulderThickness = self._obj.Thickness
+        try:
+            self._obj.ShapeMaterial = Materials.MaterialManager().getMaterial(result["uuid"])
+        except LookupError:
+            # Use the default
+            _err(translate('Rocket', "Unable to find material '{}'").format(result["uuid"]))
+
+        self.update()
+        self._obj.Proxy.execute(self._obj)
+        self.setEdited()
+
+    def onSelect(self):
+        # FreeCADGui.Control.closeDialog()
+        # FreeCADGui.Control.showDialog(TaskPanelSelection())
+        FreeCAD.RocketObserver = self
+        FreeCADGui.Selection.addObserver(FreeCAD.RocketObserver)
+
+        self._retainerForm.form.proxyBaseObjectLabelSelect.setText(translate('Rocket', 'Select an object'))
+
+    def addSelection(self,document, object, element, position):
+        """Method called when a selection is made on the Gui.
+
+        Parameters
+        ----------
+        document: str
+            The document's Name.
+        object: str
+            The selected object's Name.
+        element: str
+            The element on the object that was selected, such as an edge or
+            face.
+        position:
+            The location in XYZ space the selection was made.
+        """
+
+        FreeCADGui.Selection.removeObserver(FreeCAD.RocketObserver)
+
+        try:
+            obj = FreeCAD.getDocument(document).getObject(object)
+            self._obj.Base = obj
+            self._retainerForm.form.proxyBaseObjectInput.setText(obj.Label)
+            self._obj.Proxy.execute(self._obj)
+        except ValueError:
+            pass
+
+        self._retainerForm.form.proxyBaseObjectLabelSelect.setText("")
+        del FreeCAD.RocketObserver
+
+    def onEffectiveDiameter(self, value):
+        try:
+            self._obj.Diameter = FreeCAD.Units.Quantity(value).Value
+            self._obj.Proxy.execute(self._obj)
+        except ValueError:
+            pass
+        self.setEdited()
+
+    def onRotation(self, value):
+        try:
+            yaw = FreeCAD.Units.Quantity(self._retainerForm.form.zRotationInput.text()).Value
+            pitch = FreeCAD.Units.Quantity(self._retainerForm.form.yRotationInput.text()).Value
+            roll = FreeCAD.Units.Quantity(self._retainerForm.form.xRotationInput.text()).Value
+            self._obj.ProxyPlacement.Rotation.setYawPitchRoll(yaw, pitch, roll)
+            self._obj.Proxy.execute(self._obj)
+        except ValueError:
+            pass
+        self.setEdited()
+
+    def onOffset(self, value):
+        try:
+            self._obj.ProxyPlacement.Base.x = FreeCAD.Units.Quantity(self._retainerForm.form.offsetInput.text()).Value
+            self._obj.Proxy.execute(self._obj)
+        except ValueError:
+            pass
+        self.setEdited()
+
+    def getStandardButtons(self):
+        return QtGui.QDialogButtonBox.Ok | QtGui.QDialogButtonBox.Cancel | QtGui.QDialogButtonBox.Apply
+
+    def clicked(self,button):
+        if button == QtGui.QDialogButtonBox.Apply:
+            self.transferTo()
+            self._obj.Proxy.execute(self._obj)
+
+    def update(self):
+        'fills the widgets'
+        self.transferFrom()
+
+    def accept(self):
+        self.transferTo()
+        FreeCAD.ActiveDocument.commitTransaction()
+        FreeCAD.ActiveDocument.recompute()
+        FreeCADGui.ActiveDocument.resetEdit()
+
+
+    def reject(self):
+        FreeCAD.ActiveDocument.abortTransaction()
+        self.setEdited()
+        FreeCAD.ActiveDocument.recompute()
+        FreeCADGui.ActiveDocument.resetEdit()

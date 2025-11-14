@@ -51,6 +51,7 @@ FEATURE_RAIL_BUTTON = "RocketRailButton"
 FEATURE_RAIL_GUIDE = "RocketRailGuide"
 FEATURE_OFFSET = "RocketOffset"
 FEATURE_RINGTAIL = "RocketRingtail"
+FEATURE_RETAINER = "RocketRetainer"
 
 FEATURE_WIND_TUNNEL = "RocketWindTunnel"
 FEATURE_CFD_ROCKET = "RocketCFDRocket"

@@ -41,6 +41,7 @@ from Ui.Commands.CmdLaunchGuides import CmdLaunchLug, CmdRailButton, CmdRailGuid
 from Ui.Commands.CmdFin import CmdFin
 from Ui.Commands.CmdFinCan import CmdFinCan
 from Ui.Commands.CmdRingtail import CmdRingtail
+from Ui.Commands.CmdRetainer import CmdRetainer
 from Ui.Commands.CmdParachute import CmdParachute
 from Ui.Commands.CmdEditTree import CmdMoveUp, CmdMoveDown
 
@@ -95,6 +96,8 @@ FreeCADGui.addCommand('Rocket_LaunchLug', CmdLaunchLug())
 FreeCADGui.addCommand('Rocket_RailButton', CmdRailButton())
 FreeCADGui.addCommand('Rocket_RailGuide', CmdRailGuide())
 FreeCADGui.addCommand('Rocket_Standoff', CmdStandOff())
+
+FreeCADGui.addCommand('Rocket_Retainer', CmdRetainer())
 
 FreeCADGui.addCommand('Rocket_Parachute', CmdParachute())
 
