@@ -36,6 +36,7 @@ translate = FreeCAD.Qt.translate
 from Rocket.Utilities import validationError
 
 from Rocket.ShapeHandlers.FinShapeHandler import FinShapeHandler
+from Rocket.Constants import FIN_CROSS_SAME
 
 class FinTrapezoidShapeHandler(FinShapeHandler):
 
@@ -49,7 +50,7 @@ class FinTrapezoidShapeHandler(FinShapeHandler):
         return self._makeChordProfile(self._obj.RootCrossSection, 0.0, float(self._obj.RootChord), 
             float(self._obj.RootThickness), height, l1, l2)
     
-    def _makeRootFemProfile(self, nPoints : int, heigh : float = 0.0) -> Wire:
+    def _makeRootFemProfile(self, nPoints : int, height : float = 0.0) -> Wire:
         # Create the root profile, casting everything to float to avoid typing issues
         l1, l2 = self._lengthsFromPercent(float(self._obj.RootChord), self._obj.RootPerCent,
                                           float(self._obj.RootLength1), float(self._obj.RootLength2))
@@ -80,7 +81,7 @@ class FinTrapezoidShapeHandler(FinShapeHandler):
         return self._makeChordProfile(crossSection, -offset + self._sweepAtHeight(height), chord,
             thickness, height, l1, l2)
 
-    def _makeTipFemProfile(self, nPoints):
+    def _makeTipFemProfile(self, nPoints : int) -> Wire:
         # Create the tip profile, casting everything to float to avoid typing issues
         crossSection = self._obj.TipCrossSection
         if crossSection == FIN_CROSS_SAME:
@@ -118,13 +119,13 @@ class FinTrapezoidShapeHandler(FinShapeHandler):
         profiles.append(self._makeTipProfile())
         return profiles
 
-    def _makeFemProfiles(self, nPoints):
+    def _makeFemProfiles(self, nPoints : int) -> list[Wire]:
         profiles = []
         profiles.append(self._makeRootFemProfile(nPoints))
         profiles.append(self._makeTipFemProfile(nPoints))
         return profiles
 
-    def _makeExtensionProfiles(self, height):
+    def _makeExtensionProfiles(self, height : float) -> list[Wire]:
         profiles = []
         profiles.append(self._makeRootProfile(-height))
         profiles.append(self._makeRootProfile())

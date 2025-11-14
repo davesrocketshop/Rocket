@@ -70,7 +70,7 @@ class FinEllipseShapeHandler(FinShapeHandler):
         wire = Part.Wire([arc.toShape(), line])
         return wire
 
-    def _taperedEllipse(self) -> list:
+    def _taperedEllipse(self) -> list[Wire]:
         # The loft is 3 (or 4) ellipses, center and both sides
         min = self.minimumEdge() / 2
         height = self._height
@@ -91,7 +91,7 @@ class FinEllipseShapeHandler(FinShapeHandler):
             return [[side1, center2], [center2, center1], [center1, side2]]
         return [[side1, center1], [center1, side2]]
 
-    def _squareEllipse(self) -> list:
+    def _squareEllipse(self) -> list[Wire]:
         # The loft is 2 ellipses - both sides
         height = self._height
         halfThickness = self._rootThickness / 2.0
@@ -160,7 +160,7 @@ class FinEllipseShapeHandler(FinShapeHandler):
     def _makeRootProfile(self, height : float = 0.0) -> Wire:
         return self._makeAtHeightProfile(self._rootCrossSection, height)
 
-    def _makeProfiles(self) -> list:
+    def _makeProfiles(self) -> list[Wire]:
         if self._rootCrossSection == FIN_CROSS_TAPER_LETE:
             return self._taperedEllipse()
         if self._rootCrossSection in [FIN_CROSS_SQUARE]:

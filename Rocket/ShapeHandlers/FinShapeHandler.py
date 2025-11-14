@@ -199,7 +199,7 @@ class FinShapeHandler(ABC):
         wire = Part.Wire([line1.toShape(), line2.toShape(), line3.toShape(), line4.toShape()])
         return wire
 
-    def _makeChordFemProfileSquare(self, foreX, chord, thickness, height, nPoints):
+    def _makeChordFemProfileSquare(self, foreX : float, chord : float, thickness : float, height : float, nPoints : int) -> Wire:
         profile = []
         chordFore = foreX
         chordAft = foreX + chord
@@ -340,7 +340,7 @@ class FinShapeHandler(ABC):
 
         return splines
 
-    def _airfoilFemCurve(self, foreX, chord, thickness, height, resolution):
+    def _airfoilFemCurve(self, foreX : float, chord : float, thickness : float, height : float, resolution : int) -> BSplineCurve:
         min = self.minimumEdge() / 2
         points = []
         for i in range(0, resolution):
@@ -376,7 +376,7 @@ class FinShapeHandler(ABC):
         wire = Part.Wire(splines)
         return wire
 
-    def _makeChordFemProfileAirfoil(self, foreX, chord, thickness, height, nPoints):
+    def _makeChordFemProfileAirfoil(self, foreX : float, chord : float, thickness : float, height : float, nPoints : int) -> Wire:
         # Standard NACA 4 digit symmetrical airfoil
 
         profile = self._airfoilFemCurve(foreX, chord, thickness, height, nPoints)
@@ -583,7 +583,8 @@ class FinShapeHandler(ABC):
 
         return None
 
-    def _makeChordFemProfile(self, crossSection, foreX, chord, thickness, height, length1, length2, nPoints, midChordLimit = False):
+    def _makeChordFemProfile(self, crossSection : str, foreX : float, chord : float, thickness : float, height : float,
+                             length1 : float, length2 : float, nPoints : int, midChordLimit : float = False) -> Wire:
 
         if crossSection == FIN_CROSS_SQUARE:
             return self._makeChordFemProfileSquare(foreX, chord, thickness, height, nPoints)
@@ -615,21 +616,21 @@ class FinShapeHandler(ABC):
                 return False
         return True
 
-    def _makeProfiles(self) -> list:
+    def _makeProfiles(self) -> list[Wire]:
         profiles = []
         return profiles
 
-    def _makeFemProfiles(self, nPoints):
+    def _makeFemProfiles(self, nPoints : int) -> list[Wire]:
         profiles = []
         return profiles
 
-    def _makeExtensionProfiles(self, height : float) -> list:
+    def _makeExtensionProfiles(self, height : float) -> list[Wire]:
         profiles = []
         profiles.append(self._makeRootProfile(-height))
         profiles.append(self._makeRootProfile(0))
         return profiles
 
-    def _makeFilletProfiles(self, radius : float) -> list:
+    def _makeFilletProfiles(self, radius : float) -> list[Wire]:
         profiles = []
         height, hSpan = self._getTubeOffsets(radius)
         profiles.append(self._makeAtHeightProfile(self._rootCrossSection, radius, 0.001))
@@ -684,7 +685,7 @@ class FinShapeHandler(ABC):
         # Override this if the fin root needs an extension to connect it to the body tube
         return False
     
-    def finFemProfiles(self, nPoints):
+    def finFemProfiles(self, nPoints : int) -> list[Wire]:
         profiles = self._makeFemProfiles(nPoints)
         return profiles
 

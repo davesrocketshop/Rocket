@@ -319,7 +319,8 @@ class StripMesh(GmshTools):
 
     def makeNodes(self, mesh, profiles, divisions):
         self._nodes = []
-        self.mesh_obj.Part.Proxy.setParentRadius()
+        # self.mesh_obj.Part.Proxy.setParentRadius()
+        self.mesh_obj.Shape.Proxy.setParentRadius()
         index = 0
         while (index <= divisions):
             self._nodes.append(self.makeNodesN(mesh, profiles, divisions, index))
@@ -328,7 +329,10 @@ class StripMesh(GmshTools):
     def strip_mesh(self):
         strips = 10
         mesh = Fem.FemMesh()
-        handler = getShapeHandler(self.mesh_obj.Part)
+        # handler = getShapeHandler(self.mesh_obj.Part)
+        handler = getShapeHandler(self.mesh_obj.Shape)
+        if not handler:
+            return
         profiles = handler.finFemProfiles(strips)
 
         divisions = 10

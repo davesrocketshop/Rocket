@@ -146,7 +146,7 @@ def doFemRootConstraint():
 
 def makeMesh(doc, name="FemMesh"):
     """makeMesh(document, [name]): makes a FEM mesh object"""
-    obj = doc.addObject("Fem::FemMeshObjectPython", name)
+    obj = doc.addObject("Fem::FemMeshShapeBaseObjectPython", name)
     from femobjects import mesh_gmsh
     mesh_gmsh.MeshGmsh(obj)
     if FreeCAD.GuiUp:
@@ -174,7 +174,9 @@ def doFemStripMesh():
                     # mesh = doc.addObject("Fem::FemMeshObjectPython", mesh_obj_name)
                     # gmsh_mesh = StripMesh(mesh, FemGui.getActiveAnalysis())
                     # doc.ActiveObject.Part = fin
-                    mesh.Part = fin
+                    # mesh.Part = fin
+                    print(dir(mesh))
+                    mesh.Shape = fin
 
                     # Mesh object could be added without an active analysis
                     # but if there is an active analysis move it in there
@@ -264,7 +266,7 @@ def doFemAeroelastic():
                     # mesh = doc.addObject("Fem::FemMeshObjectPython", mesh_obj_name)
                     # gmsh_mesh = StripMesh(mesh, FemGui.getActiveAnalysis())
                     # doc.ActiveObject.Part = fin
-                    mesh.Part = fin
+                    mesh.Shape = fin
 
                     # Mesh object could be added without an active analysis
                     # but if there is an active analysis move it in there

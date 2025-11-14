@@ -135,7 +135,8 @@ class TaskPanelSolverCalculix:
     def getStandardButtons(self):
         # only show a close button
         # def accept() in no longer needed, since there is no OK button
-        return int(QtGui.QDialogButtonBox.Close)
+        # return int(QtGui.QDialogButtonBox.Close)
+        return QtGui.QDialogButtonBox.Close
 
     def reject(self):
         FreeCADGui.ActiveDocument.resetEdit()
