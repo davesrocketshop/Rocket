@@ -5,7 +5,11 @@ General:
   Name: "1-16-Aircraft-Plywood"
   Author: "Created by the Rocket Workbench"
   License: "Apache-2.0"
-  Description: "1-16-Aircraft-Plywood"
+  Description: >
+    1-16-Aircraft-Plywood<br/>
+    <br/>
+    Default values for Sheer Modulus obtained from Peak of Flight newsletter 615<br/>
+    <url>https://www.apogeerockets.com/education/downloads/Newsletter615.pdf</url>
 Inherits:
   Plywood-aircraft-1-16-in-bulk:
     UUID: "c91f4807-3f26-4f21-8eac-b56dacc86ba9"
@@ -13,3 +17,6 @@ Models:
   Density:
     UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"
     Density: "361.38 kg/m^3"
+  Isotropic Linear Elastic:
+    UUID: "f6f9e48c-b116-4e82-ad7f-3659a9219c50"
+    ShearModulus: "613633 kPa"

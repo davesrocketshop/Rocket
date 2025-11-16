@@ -5,7 +5,11 @@ General:
   Name: "Balsa-bulk-5lb-ft3"
   Author: "Created by the Rocket Workbench"
   License: "Apache-2.0"
-  Description: "Balsa-bulk-5lb-ft3"
+  Description: >
+    Balsa-bulk-5lb-ft3<br/>
+    <br/>
+    Default values for Sheer Modulus obtained from Peak of Flight newsletter 615<br/>
+    <url>https://www.apogeerockets.com/education/downloads/Newsletter615.pdf</url>
 Inherits:
   Balsa-bulk-5-lb-ft3:
     UUID: "bcd6888b-83f8-4095-ae57-8f5a5ecce99e"
@@ -13,3 +17,6 @@ Models:
   Density:
     UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"
     Density: "80.00 kg/m^3"
+  Isotropic Linear Elastic:
+    UUID: "f6f9e48c-b116-4e82-ad7f-3659a9219c50"
+    ShearModulus: "230 MPa"

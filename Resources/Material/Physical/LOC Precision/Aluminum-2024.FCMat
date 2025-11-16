@@ -5,7 +5,11 @@ General:
   Name: "Aluminum-2024"
   Author: "Created by the Rocket Workbench"
   License: "Apache-2.0"
-  Description: "Aluminum-2024"
+  Description: >
+    Aluminum-2024<br/>
+    <br/>
+    Default values for Sheer Modulus obtained from Peak of Flight newsletter 615<br/>
+    <url>https://www.apogeerockets.com/education/downloads/Newsletter615.pdf</url>
 Inherits:
   Aluminum-2024-bulk:
     UUID: "b06de2d7-14db-4f43-8152-eec7962c65e6"
@@ -13,3 +17,6 @@ Models:
   Density:
     UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"
     Density: "2780.00 kg/m^3"
+  Isotropic Linear Elastic:
+    UUID: "f6f9e48c-b116-4e82-ad7f-3659a9219c50"
+    ShearModulus: "26200078 kPa"
