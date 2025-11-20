@@ -16,6 +16,9 @@
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <widget class="QGroupBox" name="scalingGroup">
+     <property name="toolTip">
+      <string>Enables scaling.</string>
+     </property>
      <property name="title">
       <string>Scaling</string>
      </property>
@@ -65,6 +68,9 @@
       </item>
       <item row="0" column="0">
        <widget class="QCheckBox" name="scaleOverrideCheckbox">
+        <property name="toolTip">
+         <string>Scaling values are inherited from the parent component. Enabling override uses the current values instead.</string>
+        </property>
         <property name="text">
          <string>Override</string>
         </property>

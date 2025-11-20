@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Dialog</class>
+ <widget class="QDialog" name="Dialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>571</width>
+    <height>634</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Fin Flutter Anlysis</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QGroupBox" name="materialGroup">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="MinimumExpanding" vsizetype="Minimum">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="title">
+      <string>Material</string>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_2">
+      <item>
+       <widget class="QWidget" name="materialTreeWidget" native="true"/>
+      </item>
+      <item>
+       <layout class="QGridLayout" name="gridLayout">
+        <item row="0" column="2">
+         <widget class="QCheckBox" name="calculatedCheckbox">
+          <property name="text">
+           <string>Calculated</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="0">
+         <widget class="QLabel" name="shearLabel">
+          <property name="text">
+           <string>Shear modulus</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QLabel" name="youngsLabel">
+          <property name="text">
+           <string>Young's modulus</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="Gui::InputField" name="shearInput">
+          <property name="unit" stdset="0">
+           <string notr="true"/>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="QLabel" name="poissonLabel">
+          <property name="text">
+           <string>Poisson ratio</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="Gui::InputField" name="youngsInput">
+          <property name="unit" stdset="0">
+           <string notr="true"/>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="1">
+         <widget class="Gui::InputField" name="poissonInput">
+          <property name="unit" stdset="0">
+           <string notr="true"/>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="flutterGroup">
+     <property name="title">
+      <string>Fin Flutter</string>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_3">
+      <item>
+       <layout class="QGridLayout" name="gridLayout_2">
+        <item row="1" column="0">
+         <widget class="QLabel" name="altitudeLabel">
+          <property name="text">
+           <string>Altitude at max speed</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="0">
+         <widget class="QLabel" name="maxAltitudeLabel">
+          <property name="text">
+           <string>Maximum altitude</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QComboBox" name="maxAltitudeCombo"/>
+        </item>
+        <item row="1" column="1">
+         <widget class="Gui::InputField" name="altitudeInput">
+          <property name="unit" stdset="0">
+           <string notr="true"/>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <widget class="QWidget" name="widgetGraph" native="true"/>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <item>
+         <widget class="QSlider" name="altitudeSlider">
+          <property name="orientation">
+           <enum>Qt::Orientation::Horizontal</enum>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QGridLayout" name="gridLayout_3">
+        <item row="0" column="1">
+         <widget class="Gui::InputField" name="flutterInput">
+          <property name="unit" stdset="0">
+           <string notr="true"/>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="2">
+         <widget class="QLabel" name="divergenceMachLabel">
+          <property name="text">
+           <string>Mach</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QLabel" name="divergenceLabel">
+          <property name="text">
+           <string>Divergence speed</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="0">
+         <widget class="QLabel" name="flutterLabel">
+          <property name="text">
+           <string>Flutter speed</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="2">
+         <widget class="QLabel" name="flutterMachLabel">
+          <property name="text">
+           <string>Mach</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="3">
+         <widget class="Gui::InputField" name="flutterMachInput">
+          <property name="unit" stdset="0">
+           <string notr="true"/>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="Gui::InputField" name="divergenceInput">
+          <property name="unit" stdset="0">
+           <string notr="true"/>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="3">
+         <widget class="Gui::InputField" name="divergenceMachInput">
+          <property name="unit" stdset="0">
+           <string notr="true"/>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="orientation">
+      <enum>Qt::Orientation::Horizontal</enum>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::StandardButton::Ok</set>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>Gui::InputField</class>
+   <extends>QLineEdit</extends>
+   <header>Gui/InputField.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>accepted()</signal>
+   <receiver>Dialog</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>248</x>
+     <y>254</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>157</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>rejected()</signal>
+   <receiver>Dialog</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>316</x>
+     <y>260</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>286</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>
