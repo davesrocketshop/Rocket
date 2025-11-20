@@ -923,7 +923,7 @@ class CFDReport:
         self._document.add_paragraph(translate('Rocket',"Center of Pressure at multiple angles of attack with the rocket rotated "\
                                      "around the center point."))
 
-        p = self._document.add_paragraph(translate('Rocket',"CP = X0 - My / (Fz * cos(AOA) + Fx * sin(AOA)))", style="Block Quotation")
+        p = self._document.add_paragraph(translate('Rocket',"CP = X0 - My / (Fz * cos(AOA) + Fx * sin(AOA))"), style="Block Quotation")
         p.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
         p = self._document.add_paragraph("X0 = {} mm".format(int(self._x0)), style="Block Quotation")
         p.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
