@@ -279,7 +279,7 @@ class TaskPanelCFD(QtCore.QObject):
         FreeCAD.ActiveDocument.recompute()
 
     def makeCompound(self):
-        self._compound = FreeCAD.activeDocument().addObject("Part::Compound", "WindTunnelCompund")
+        self._compound = FreeCAD.activeDocument().addObject("Part::Compound", "WindTunnelCompound")
         self._compound.Links = [self._CFDrocket._obj, self._outer._obj]
         self._compound.ViewObject.Transparency = 70
 
@@ -289,6 +289,8 @@ class TaskPanelCFD(QtCore.QObject):
         analysis.AOAList = self.getAOAList()
         analysis.CFDRocket = self._CFDrocket._obj
         analysis.Rocket = self._rocket._obj
+        analysis.WindTunnel = [self._outer._obj, self._refinement_wake._obj,
+                                self._refinement_transition1._obj, self._refinement_transition2._obj]
         CfdTools.setActiveAnalysis(analysis)
 
         # Objects ordered according to expected workflow

@@ -289,8 +289,19 @@ class TaskPanelMultiCFD:
     def setupCFD(self, aoa):
         """ Ensures the objects are set for the required AOA """
         self.consoleMessage(translate('Rocket', 'Preparing for AOA={}...').format(aoa))
-        self.setupRocket(aoa)
+        # self.setupRocket(aoa)
+        self.setupWindTunnel(aoa)
         self.setupCaseName(aoa)
+
+    def setupWindTunnel(self, aoa):
+        windTunnels = self.getWIndTunnels(self._obj)
+        if windTunnels is None:
+            self.consoleMessage(translate('Rocket', 'No wind tunnel found'), 'Error')
+            return 0
+        for tunnel in windTunnels:
+            tunnel._obj.AngleOfAttack = aoa
+
+        FreeCAD.ActiveDocument.recompute()
 
     def setupRocket(self, aoa):
         rocket = self.getCFDRocket(self._obj)
@@ -499,7 +510,10 @@ class TaskPanelMultiCFD:
         QApplication.restoreOverrideCursor()
 
     def getCFDRocket(self, obj):
-        return self._obj.CFDRocket.Proxy
+        return obj.CFDRocket.Proxy
+    
+    def getWIndTunnels(self, obj):
+        return obj.WindTunnel
 
     def progressCallback(self, message):
         self.consoleMessage(message)

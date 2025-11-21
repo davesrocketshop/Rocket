@@ -46,6 +46,8 @@ class FeatureWindTunnel:
             obj.addProperty('App::PropertyLength', 'Diameter', 'RocketComponent', translate('App::Property', 'Diameter of the wind tunnel')).Diameter = 10.0
         if not hasattr(obj,"Length"):
             obj.addProperty('App::PropertyLength', 'Length', 'RocketComponent', translate('App::Property', 'Length of the wind tunnel')).Length = 20
+        if not hasattr(obj,"AngleOfAttack"):
+            obj.addProperty('App::PropertyAngle', 'AngleOfAttack', 'RocketComponent', translate('App::Property', 'Angle of attack in degrees')).AngleOfAttack = 0.0
 
         if not hasattr(obj,"Shape"):
             obj.addProperty('Part::PropertyPartShape', 'Shape', 'RocketComponent', translate('App::Property', 'Shape of the wind tunnel'))
@@ -66,3 +68,9 @@ class FeatureWindTunnel:
         shape = WindTunnelShapeHandler(obj)
         if shape:
             shape.draw()
+        self.applyTranslations(obj)
+
+    def applyTranslations(self, obj):
+        obj.Placement = FreeCAD.Placement()
+        if obj.AngleOfAttack != 0.0:
+            obj.Placement.rotate(FreeCAD.Vector(0, 0, 0),FreeCAD.Vector(0, 1, 0), obj.AngleOfAttack, comp=True)
