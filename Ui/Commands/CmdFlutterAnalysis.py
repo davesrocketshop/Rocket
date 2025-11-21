@@ -42,7 +42,7 @@ def calcFinFlutter():
             if hasattr(fin,"FinType"):
                 try:
                     form = DialogFinFlutter(fin)
-                    form.exec_()
+                    form.exec()
                 except TypeError as ex:
                     QtGui.QMessageBox.information(None, "", str(ex))
 

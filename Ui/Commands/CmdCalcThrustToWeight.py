@@ -33,7 +33,7 @@ from Ui.DialogThrustToWeight import DialogThrustToWeight
 
 def calcThrustToWeight():
     form = DialogThrustToWeight()
-    form.exec_()
+    form.exec()
 
 class CmdCalcThrustToWeight:
     def Activated(self):
