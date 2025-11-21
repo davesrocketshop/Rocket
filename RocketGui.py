@@ -66,6 +66,8 @@ from Ui.Commands.CmdCFDAnalysis import CmdCFDAnalysis
 #     pass
 from Ui.Commands.CmdMaterialEditor import CmdMaterialEditor
 
+from Ui.Commands.CmdTestUI import CmdTestUI
+
 from Rocket.Constants import FEATURE_BODY_TUBE
 from Rocket.Constants import FEATURE_LAUNCH_LUG, FEATURE_RAIL_BUTTON, FEATURE_RAIL_GUIDE, FEATURE_OFFSET
 
@@ -120,6 +122,8 @@ try:
 except:
     pass
 FreeCADGui.addCommand('Rocket_MaterialEditor', CmdMaterialEditor())
+
+FreeCADGui.addCommand('Rocket_TestUI', CmdTestUI())
 
 class _CalculatorGroupCommand:
 

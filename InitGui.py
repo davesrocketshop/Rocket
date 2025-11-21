@@ -93,6 +93,8 @@ class RocketWorkbench ( Workbench ):
             self.appendToolbar(translate('Rocket', 'Rocket'),
                         # ['Separator', 'Rocket_FinFlutter', 'Rocket_FemAnalysis', 'FEM_MeshGmshFromShape', "Rocket_MaterialEditor"])
                         ['Separator', 'Rocket_FinFlutter', "Rocket_MaterialEditor"])
+        self.appendToolbar(translate('Rocket', 'Rocket'),
+                        ['Separator', 'Rocket_TestUI'])
 
         self.appendMenu(translate('Rocket', 'Rocket'),
                         ['Rocket_Rocket', 'Rocket_Stage', 'Rocket_ParallelStage', 'Rocket_Pod', 'Rocket_NoseCone', 'Rocket_Transition', 'Rocket_BodyTube', 'Rocket_InnerTube', 'Rocket_Coupler', 'Rocket_EngineBlock',
