@@ -32,34 +32,34 @@ from PySide.QtWidgets import QDialog
 from Ui.UIPaths import getUIPath
 
 class UiDialog(QDialog):
-    def __init__(self, file):
+    def __init__(self, file : str) -> None:
         super().__init__()
 
         self.initUI(file)
 
-    def initUI(self, file):
+    def initUI(self, file : str) -> None:
         self.ui = FreeCADGui.PySideUic.loadUi(os.path.join(getUIPath(), 'Ui', file), self)
 
         self.ui.accepted.connect(self.onAccepted)
         self.ui.finished.connect(self.onFinished)
         self.ui.rejected.connect(self.onRejected)
 
-    def exec(self):
-        self.ui.exec()
+    def exec(self) -> int:
+        return self.ui.exec()
 
-    def open(self):
+    def open(self) -> None:
         self.ui.open()
 
-    def onAccepted(self):
+    def onAccepted(self) -> None:
         self.accept()
 
-    def onFinished(self, result):
+    def onFinished(self, result) -> None:
         self.done(result)
 
-    def onRejected(self):
+    def onRejected(self) -> None:
         self.reject()
 
-    def result(self):
+    def result(self) -> int:
         return self.ui.result()
 
 class DialogTestUI(UiDialog):

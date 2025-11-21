@@ -43,15 +43,15 @@ def testUI():
         QtGui.QMessageBox.information(None, "", str(ex))
 
 class CmdTestUI(Command):
-    def Activated(self):
+    def Activated(self) -> None:
         FreeCADGui.addModule("Ui.Commands.CmdTestUI")
         FreeCADGui.doCommand("Ui.Commands.CmdTestUI.testUI()")
 
-    def IsActive(self):
+    def IsActive(self) -> bool:
         # Available when a part is selected
         return True
 
-    def GetResources(self):
+    def GetResources(self) -> dict:
         return {'MenuText': translate("Rocket", 'Test UI'),
                 'ToolTip': translate("Rocket", 'Test framework for UI loading'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_TestUI.svg"}
