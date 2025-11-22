@@ -311,8 +311,8 @@ class DialogScaling(QtCore.QObject):
         addToStage(bodyTube)
         FreeCAD.ActiveDocument.recompute()
 
-    def exec_(self):
-        self.form.exec_()
+    def exec(self):
+        self.form.exec()
 
     def getParam(self):
         name = self.getDialogName()

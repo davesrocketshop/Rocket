@@ -189,7 +189,6 @@ class TaskPanelDatabase(QObject):
     def onLookup(self):
         form = DialogLookup(self._lookup, self._obj)
         form.exec()
-        # form.exec_()
 
         with WaitCursor():
             if len(form.result) > 0:

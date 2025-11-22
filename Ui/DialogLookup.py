@@ -192,7 +192,7 @@ class DialogLookup: #(QtGui.QDialog):
                 self._form.matchLengthCheckbox.setVisible(True)
 
     def exec(self):
-        self._form.exec_()
+        self._form.exec()
 
     def onClose(self):
         saveDialog(self._form, "DialogLookup")
