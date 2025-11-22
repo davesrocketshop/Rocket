@@ -18,9 +18,9 @@
 # *   USA                                                                   *
 # *                                                                         *
 # ***************************************************************************
-"""Class for Thrust To Weight calculator"""
+"""Class for Fin Flutter calculator"""
 
-__title__ = "FreeCAD Thrust To Weight Calculator"
+__title__ = "FreeCAD Fin Flutter Calculator"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
@@ -30,6 +30,7 @@ import Materials
 import MatGui
 import math
 import numpy as np
+import os
 
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_qt5agg import FigureCanvas
@@ -42,9 +43,13 @@ from PySide.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QGridLayout, QSi
 
 from Analyzers.FinFlutter import FinFlutter
 
+from Ui.UIPaths import getUIPath
+
 class DialogFinFlutter(QDialog):
     def __init__(self, fin):
         super().__init__()
+
+        self._form = FreeCADGui.PySideUic.loadUi(os.path.join(getUIPath(), 'Ui', "DialogFinFlutter.ui"))
 
         self._fin = fin
         self._flutter = FinFlutter(fin)
@@ -91,13 +96,13 @@ class DialogFinFlutter(QDialog):
 
         # create our window
         # define window		xLoc,yLoc,xDim,yDim
-        self.setGeometry(250, 250, 640, 480)
-        self.setWindowTitle(translate('Rocket', "Fin Flutter Analysis"))
-        self.resize(QtCore.QSize(640,700).expandedTo(self.minimumSizeHint())) # sets size of the widget
-        self.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
+        self._form.setGeometry(250, 250, 640, 480)
+        self._form.setWindowTitle(translate('Rocket', "Fin Flutter Analysis"))
+        self._form.resize(QtCore.QSize(640,700).expandedTo(self.minimumSizeHint())) # sets size of the widget
+        self._form.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
 
-        self.materialGroup = QtGui.QGroupBox(translate('Rocket', "Material"), self)
-        self.materialGroup.setSizePolicy(QSizePolicy.MinimumExpanding, QSizePolicy.Minimum)
+        # self._form.materialGroup = QtGui.QGroupBox(translate('Rocket', "Material"), self)
+        self._form.materialGroup.setSizePolicy(QSizePolicy.MinimumExpanding, QSizePolicy.Minimum)
 
         self.materialTreeWidget = ui.createWidget("MatGui::MaterialTreeWidget")
         self.materialTreePy = MatGui.MaterialTreeWidget(self.materialTreeWidget)
@@ -110,46 +115,49 @@ class DialogFinFlutter(QDialog):
         self.allFilter.Name = "All"
         self.materialTreePy.setFilter([self.filter, self.allFilter])
 
-        self.shearLabel = QtGui.QLabel(translate('Rocket', "Shear modulus"), self)
+        self._form.materialGridLayout.replaceWidget(self._form.materialTreeWidget, self.materialTreeWidget)
+        self.materialTreeWidget.setSizePolicy(QSizePolicy.MinimumExpanding, QSizePolicy.Minimum)
 
-        self.shearInput = ui.createWidget("Gui::InputField")
-        self.shearInput.unit = self._shearUnits() #'Unit::ShearModulus'
-        self.shearInput.setMinimumWidth(100)
-        self.shearInput.setText(self._formatPressure(FreeCAD.Units.Quantity("2.620008e+9Pa")))
+        # self.shearLabel = QtGui.QLabel(translate('Rocket', "Shear modulus"), self)
 
-        self.calculatedCheckbox = QtGui.QCheckBox(translate('Rocket', "Calculated"), self)
-        self.calculatedCheckbox.setCheckState(QtCore.Qt.Unchecked)
+        # self._form.shearInput = ui.createWidget("Gui::InputField")
+        self._form.shearInput.unit = FreeCAD.Units.ShearModulus #self._shearUnits()
+        # self._form.shearInput.setMinimumWidth(100)
+        self._form.shearInput.setText(FreeCAD.Units.Quantity("2.620008e+9Pa").UserString)
 
-        self.youngsLabel = QtGui.QLabel(translate('Rocket', "Young's modulus"), self)
+        # self._form.calculatedCheckbox = QtGui.QCheckBox(translate('Rocket', "Calculated"), self)
+        self._form.calculatedCheckbox.setCheckState(QtCore.Qt.Unchecked)
 
-        self.youngsInput = ui.createWidget("Gui::InputField")
-        self.youngsInput.unit = self._shearUnits() #'Unit::ShearModulus'
-        self.youngsInput.setMinimumWidth(100)
-        self.youngsInput.setText(self._formatPressure(FreeCAD.Units.Quantity("2.620008e+9Pa")))
-        self.youngsInput.setEnabled(False)
+        # self.youngsLabel = QtGui.QLabel(translate('Rocket', "Young's modulus"), self)
 
-        self.poissonLabel = QtGui.QLabel(translate('Rocket', "Poisson ratio"), self)
+        # self._form.youngsInput = ui.createWidget("Gui::InputField")
+        self._form.youngsInput.unit = FreeCAD.Units.ShearModulus #'Unit::ShearModulus'
+        # self._form.youngsInput.setMinimumWidth(100)
+        self._form.youngsInput.setText(FreeCAD.Units.Quantity("2.620008e+9Pa").UserString)
+        self._form.youngsInput.setEnabled(False)
 
-        self.poissonInput = ui.createWidget("Gui::InputField")
-        self.poissonInput.setMinimumWidth(100)
-        self.poissonInput.setText("0.0")
-        self.poissonInput.setEnabled(False)
+        # self.poissonLabel = QtGui.QLabel(translate('Rocket', "Poisson ratio"), self)
 
-        self.flutterGroup = QtGui.QGroupBox(translate('Rocket', "Fin Flutter"), self)
+        # self._form.poissonInput = ui.createWidget("Gui::InputField")
+        # self._form.poissonInput.setMinimumWidth(100)
+        self._form.poissonInput.setText("0.0")
+        self._form.poissonInput.setEnabled(False)
 
-        self.maxAltitudeLabel = QtGui.QLabel(translate('Rocket', "Maximum altitude"), self)
+        # self._form.flutterGroup = QtGui.QGroupBox(translate('Rocket', "Fin Flutter"), self)
 
-        self.maxAltitudeCombo = QtGui.QComboBox(self)
+        # self._form.maxAltitudeLabel = QtGui.QLabel(translate('Rocket', "Maximum altitude"), self)
+
+        # self._form.maxAltitudeCombo = QtGui.QComboBox(self)
         self.fillAltitudeCombo()
 
-        self.altitudeLabel = QtGui.QLabel(translate('Rocket', "Altitude at max speed"), self)
+        # self._form.altitudeLabel = QtGui.QLabel(translate('Rocket', "Altitude at max speed"), self)
 
-        self.altitudeInput = ui.createWidget("Gui::InputField")
-        self.altitudeInput.unit = 'Unit::Length'
-        self.altitudeInput.setText("914.4m")
-        self.altitudeInput.setMinimumWidth(100)
+        # self._form.altitudeInput = ui.createWidget("Gui::InputField")
+        self._form.altitudeInput.unit = FreeCAD.Units.Length
+        self._form.altitudeInput.setText("914.4m")
+        # self._form.altitudeInput.setMinimumWidth(100)
 
-        self.altitudeSlider = QtGui.QSlider(QtCore.Qt.Horizontal, self)
+        # self._form.altitudeSlider = QtGui.QSlider(QtCore.Qt.Horizontal, self)
 
         # Creating graph
         plt.rcParams['figure.constrained_layout.use'] = True
@@ -169,137 +177,139 @@ class DialogFinFlutter(QDialog):
         # self._static_ax.set_title("Flutter")
         self._static_ax.legend()
 
+        self._form.flutterGroupLayout.replaceWidget(self._form.widgetGraph, self.static_canvas)
+
         # flutter and divergence min/max
         self._yMin = 0
         self._yMax = 0
 
-        self.flutterLabel = QtGui.QLabel(translate('Rocket', "Flutter speed"), self)
+        # self._form.flutterLabel = QtGui.QLabel(translate('Rocket', "Flutter speed"), self)
 
-        self.flutterInput = ui.createWidget("Gui::InputField")
-        self.flutterInput.unit = 'Unit::Velocity'
-        self.flutterInput.setText("0")
-        self.flutterInput.setMinimumWidth(100)
-        self.flutterInput.setReadOnly(True)
+        # self._form.flutterInput = ui.createWidget("Gui::InputField")
+        self._form.flutterInput.unit = FreeCAD.Units.Velocity
+        self._form.flutterInput.setText("0")
+        # self._form.flutterInput.setMinimumWidth(100)
+        self._form.flutterInput.setReadOnly(True)
 
-        self.divergenceLabel = QtGui.QLabel(translate('Rocket', "Divergence speed"), self)
+        # self._form.divergenceLabel = QtGui.QLabel(translate('Rocket', "Divergence speed"), self)
 
-        self.divergenceInput = ui.createWidget("Gui::InputField")
-        self.divergenceInput.unit = self._velocityUnits() #"Unit::Velocity"
-        self.divergenceInput.setText("0")
-        self.divergenceInput.setMinimumWidth(100)
-        self.divergenceInput.setReadOnly(True)
+        # self._form.divergenceInput = ui.createWidget("Gui::InputField")
+        self._form.divergenceInput.unit = FreeCAD.Units.Velocity #"Unit::Velocity"
+        self._form.divergenceInput.setText("0")
+        # self._form.divergenceInput.setMinimumWidth(100)
+        self._form.divergenceInput.setReadOnly(True)
 
-        self.flutterMachLabel = QtGui.QLabel(translate('Rocket', "Mach"), self)
+        # self._form.flutterMachLabel = QtGui.QLabel(translate('Rocket', "Mach"), self)
 
-        self.flutterMachInput = ui.createWidget("Gui::InputField")
-        self.flutterMachInput.setText("0")
-        self.flutterMachInput.setMinimumWidth(100)
-        self.flutterMachInput.setReadOnly(True)
+        # self._form.flutterMachInput = ui.createWidget("Gui::InputField")
+        self._form.flutterMachInput.setText("0")
+        # self._form.flutterMachInput.setMinimumWidth(100)
+        self._form.flutterMachInput.setReadOnly(True)
 
-        self.divergenceMachLabel = QtGui.QLabel(translate('Rocket', "Mach"), self)
+        # self._form.divergenceMachLabel = QtGui.QLabel(translate('Rocket', "Mach"), self)
 
-        self.divergenceMachInput = ui.createWidget("Gui::InputField")
-        self.divergenceMachInput.setText("0")
-        self.divergenceMachInput.setMinimumWidth(100)
-        self.divergenceMachInput.setReadOnly(True)
+        # self._form.divergenceMachInput = ui.createWidget("Gui::InputField")
+        self._form.divergenceMachInput.setText("0")
+        # self._form.divergenceMachInput.setMinimumWidth(100)
+        self._form.divergenceMachInput.setReadOnly(True)
 
-        # OK button
-        okButton = QtGui.QPushButton('OK', self)
-        okButton.setDefault(False)
-        okButton.setAutoDefault(False)
+        # # OK button
+        # okButton = QtGui.QPushButton('OK', self)
+        # okButton.setDefault(False)
+        # okButton.setAutoDefault(False)
 
-        # Material group
-        vbox = QVBoxLayout()
+        # # Material group
+        # vbox = QVBoxLayout()
 
-        row = 0
-        grid = QGridLayout()
+        # row = 0
+        # grid = QGridLayout()
 
-        grid.addWidget(self.shearLabel, row, 0)
-        grid.addWidget(self.shearInput, row, 1)
-        grid.addWidget(self.calculatedCheckbox, row, 2)
-        row += 1
+        # grid.addWidget(self.shearLabel, row, 0)
+        # grid.addWidget(self._form.shearInput, row, 1)
+        # grid.addWidget(self._form.calculatedCheckbox, row, 2)
+        # row += 1
 
-        grid.addWidget(self.youngsLabel, row, 0)
-        grid.addWidget(self.youngsInput, row, 1)
-        row += 1
+        # grid.addWidget(self.youngsLabel, row, 0)
+        # grid.addWidget(self._form.youngsInput, row, 1)
+        # row += 1
 
-        grid.addWidget(self.poissonLabel, row, 0)
-        grid.addWidget(self.poissonInput, row, 1)
-        row += 1
+        # grid.addWidget(self.poissonLabel, row, 0)
+        # grid.addWidget(self._form.poissonInput, row, 1)
+        # row += 1
 
-        vbox.addWidget(self.materialTreeWidget)
-        vbox.addLayout(grid)
+        # vbox.addWidget(self.materialTreeWidget)
+        # vbox.addLayout(grid)
 
-        self.materialGroup.setLayout(vbox)
+        # self._form.materialGroup.setLayout(vbox)
 
-        # Fin Flutter group
-        vbox = QVBoxLayout()
+        # # Fin Flutter group
+        # vbox = QVBoxLayout()
 
-        row = 0
-        grid = QGridLayout()
+        # row = 0
+        # grid = QGridLayout()
 
-        grid.addWidget(self.maxAltitudeLabel, row, 0)
-        grid.addWidget(self.maxAltitudeCombo, row, 1)
-        row += 1
+        # grid.addWidget(self._form.maxAltitudeLabel, row, 0)
+        # grid.addWidget(self._form.maxAltitudeCombo, row, 1)
+        # row += 1
 
-        grid.addWidget(self.altitudeLabel, row, 0)
-        grid.addWidget(self.altitudeInput, row, 1)
-        row += 1
+        # grid.addWidget(self._form.altitudeLabel, row, 0)
+        # grid.addWidget(self._form.altitudeInput, row, 1)
+        # row += 1
 
-        vbox.addLayout(grid)
+        # vbox.addLayout(grid)
 
-        # vbox.addWidget(NavigationToolbar(static_canvas, self))
-        vbox.addWidget(self.static_canvas)
+        # # vbox.addWidget(NavigationToolbar(static_canvas, self))
+        # vbox.addWidget(self.static_canvas)
 
-        sliderLine = QHBoxLayout()
-        sliderLine.addWidget(self.altitudeSlider)
+        # sliderLine = QHBoxLayout()
+        # sliderLine.addWidget(self._form.altitudeSlider)
 
-        vbox.addLayout(sliderLine)
+        # vbox.addLayout(sliderLine)
 
-        line = QGridLayout()
+        # line = QGridLayout()
 
-        row = 0
+        # row = 0
 
-        line.addWidget(self.flutterLabel, row, 0)
-        line.addWidget(self.flutterInput, row, 1)
-        line.addWidget(self.flutterMachLabel, row, 2)
-        line.addWidget(self.flutterMachInput, row, 3)
-        row += 1
+        # line.addWidget(self._form.flutterLabel, row, 0)
+        # line.addWidget(self._form.flutterInput, row, 1)
+        # line.addWidget(self._form.flutterMachLabel, row, 2)
+        # line.addWidget(self._form.flutterMachInput, row, 3)
+        # row += 1
 
-        line.addWidget(self.divergenceLabel, row, 0)
-        line.addWidget(self.divergenceInput, row, 1)
-        line.addWidget(self.divergenceMachLabel, row, 2)
-        line.addWidget(self.divergenceMachInput, row, 3)
-        vbox.addLayout(line)
-        self.flutterGroup.setLayout(vbox)
+        # line.addWidget(self._form.divergenceLabel, row, 0)
+        # line.addWidget(self._form.divergenceInput, row, 1)
+        # line.addWidget(self._form.divergenceMachLabel, row, 2)
+        # line.addWidget(self._form.divergenceMachInput, row, 3)
+        # vbox.addLayout(line)
+        # self._form.flutterGroup.setLayout(vbox)
 
-        line = QHBoxLayout()
-        line.addStretch()
-        line.addWidget(okButton)
+        # line = QHBoxLayout()
+        # line.addStretch()
+        # line.addWidget(okButton)
 
-        layout = QVBoxLayout()
-        layout.addWidget(self.materialGroup)
-        layout.addWidget(self.flutterGroup)
-        layout.addLayout(line)
-        self.setLayout(layout)
+        # layout = QVBoxLayout()
+        # layout.addWidget(self._form.materialGroup)
+        # layout.addWidget(self._form.flutterGroup)
+        # layout.addLayout(line)
+        # self.setLayout(layout)
 
         self.materialTreeWidget.onMaterial.connect(self.onMaterial)
         self.materialTreeWidget.onExpanded.connect(self.onExpanded)
-        self.calculatedCheckbox.clicked.connect(self.onCalculated)
-        self.shearInput.textEdited.connect(self.onShear)
-        self.youngsInput.textEdited.connect(self.onYoungs)
-        self.poissonInput.textEdited.connect(self.onPoisson)
-        self.altitudeInput.textEdited.connect(self.onAltitude)
-        self.maxAltitudeCombo.currentTextChanged.connect(self.onMaxAltitude)
-        self.altitudeSlider.valueChanged.connect(self.onSlider)
-        okButton.clicked.connect(self.onOk)
+        self._form.calculatedCheckbox.clicked.connect(self.onCalculated)
+        self._form.shearInput.textEdited.connect(self.onShear)
+        self._form.youngsInput.textEdited.connect(self.onYoungs)
+        self._form.poissonInput.textEdited.connect(self.onPoisson)
+        self._form.altitudeInput.textEdited.connect(self.onAltitude)
+        self._form.maxAltitudeCombo.currentTextChanged.connect(self.onMaxAltitude)
+        self._form.altitudeSlider.valueChanged.connect(self.onSlider)
+        # okButton.clicked.connect(self.onOk)
 
         self._setSlider()
 
         self.update()
 
         # now make the window visible
-        self.show()
+        self._form.show()
 
     def transferFrom(self):
         "Transfer from the object to the dialog"
@@ -307,8 +317,8 @@ class DialogFinFlutter(QDialog):
 
     def _setSeries(self):
 
-        modulus = float(FreeCAD.Units.Quantity(str(self.shearInput.text())))
-        maxHeight = int(FreeCAD.Units.Quantity(self.maxAltitudeCombo.currentText()).getValueAs(FreeCAD.Units.Quantity(self._heightUnits())) / 1000)
+        modulus = float(FreeCAD.Units.Quantity(str(self._form.shearInput.text())))
+        maxHeight = int(FreeCAD.Units.Quantity(self._form.maxAltitudeCombo.currentText()).getValueAs(FreeCAD.Units.Quantity(self._heightUnits())) / 1000)
 
         x_axis = []
         flutterSeries = []
@@ -356,29 +366,29 @@ class DialogFinFlutter(QDialog):
 
     def fillAltitudeCombo(self):
         for i in range(0, 110, 10):
-            self.maxAltitudeCombo.addItem("{0:d}".format(i * 1000) + ' ' + self._heightUnits())
-        self.maxAltitudeCombo.setCurrentText("{0:d}".format(10000) + ' ' + self._heightUnits())
+            self._form.maxAltitudeCombo.addItem("{0:d}".format(i * 1000) + ' ' + self._heightUnits())
+        self._form.maxAltitudeCombo.setCurrentText("{0:d}".format(10000) + ' ' + self._heightUnits())
 
     def setShearSpecified(self):
-        self.shearInput.setEnabled(True)
-        self.calculatedCheckbox.setChecked(False)
+        self._form.shearInput.setEnabled(True)
+        self._form.calculatedCheckbox.setChecked(False)
 
-        self.youngsInput.setEnabled(False)
-        self.poissonInput.setEnabled(False)
+        self._form.youngsInput.setEnabled(False)
+        self._form.poissonInput.setEnabled(False)
 
     def setShearCalculated(self):
-        self.shearInput.setEnabled(False)
-        self.calculatedCheckbox.setChecked(True)
+        self._form.shearInput.setEnabled(False)
+        self._form.calculatedCheckbox.setChecked(True)
 
-        self.youngsInput.setEnabled(True)
-        self.poissonInput.setEnabled(True)
+        self._form.youngsInput.setEnabled(True)
+        self._form.poissonInput.setEnabled(True)
 
     def calculateShear(self):
-        young = float(FreeCAD.Units.Quantity(self.youngsInput.text()).getValueAs(FreeCAD.Units.Pascal))
-        poisson = float(FreeCAD.Units.Quantity(self.poissonInput.text()))
+        young = float(FreeCAD.Units.Quantity(self._form.youngsInput.text()).getValueAs(FreeCAD.Units.Pascal))
+        poisson = float(FreeCAD.Units.Quantity(self._form.poissonInput.text()))
         shear = self._flutter.shearModulus(young, poisson)
 
-        self.shearInput.setText(FreeCAD.Units.Quantity(str(shear) + " Pa").UserString)
+        self._form.shearInput.setText(FreeCAD.Units.Quantity(str(shear) + " Pa").UserString)
 
     def interpolateProperties(self):
         """ Infer missing properties from those available """
@@ -389,17 +399,17 @@ class DialogFinFlutter(QDialog):
         hasYoungs = not (youngsModulus is None or math.isnan(youngsModulus))
         hasPoisson = not (poissonRatio is None or math.isnan(poissonRatio))
         if hasShear:
-            self.shearInput.setText(self._formatPressure(FreeCAD.Units.Quantity(shearModulus)))
+            self._form.shearInput.setText(self._formatPressure(FreeCAD.Units.Quantity(shearModulus)))
         else:
-            self.shearInput.setText(self._formatPressure(FreeCAD.Units.Quantity("0 kPa")))
+            self._form.shearInput.setText(self._formatPressure(FreeCAD.Units.Quantity("0 kPa")))
         if hasYoungs:
-            self.youngsInput.setText(self._formatPressure(FreeCAD.Units.Quantity(youngsModulus)))
+            self._form.youngsInput.setText(self._formatPressure(FreeCAD.Units.Quantity(youngsModulus)))
         else:
-            self.youngsInput.setText(self._formatPressure(FreeCAD.Units.Quantity("0 kPa")))
+            self._form.youngsInput.setText(self._formatPressure(FreeCAD.Units.Quantity("0 kPa")))
         if hasPoisson:
-            self.poissonInput.setText("{0:.4f}".format(poissonRatio))
+            self._form.poissonInput.setText("{0:.4f}".format(poissonRatio))
         else:
-            self.poissonInput.setText("0")
+            self._form.poissonInput.setText("0")
 
         if hasShear:
             self.setShearSpecified()
@@ -417,7 +427,7 @@ class DialogFinFlutter(QDialog):
         self.onFlutter(None)
 
     def onExpanded(self, expanded):
-        self.materialGroup.adjustSize()
+        self._form.materialGroup.adjustSize()
         self.window().adjustSize()
 
     def onCalculated(self, value):
@@ -443,12 +453,12 @@ class DialogFinFlutter(QDialog):
 
     def _setSlider(self):
         try:
-            max = float(FreeCAD.Units.Quantity(self.maxAltitudeCombo.currentText()).getValueAs(FreeCAD.Units.Quantity(self._heightUnits())))
-            current = float(FreeCAD.Units.Quantity(self.altitudeInput.text()).getValueAs(FreeCAD.Units.Quantity(self._heightUnits())))
+            max = float(FreeCAD.Units.Quantity(self._form.maxAltitudeCombo.currentText()).getValueAs(FreeCAD.Units.Quantity(self._heightUnits())))
+            current = float(FreeCAD.Units.Quantity(self._form.altitudeInput.text()).getValueAs(FreeCAD.Units.Quantity(self._heightUnits())))
 
-            self.altitudeSlider.setMinimum(0)
-            self.altitudeSlider.setMaximum(max)
-            self.altitudeSlider.setValue(current)
+            self._form.altitudeSlider.setMinimum(0)
+            self._form.altitudeSlider.setMaximum(max)
+            self._form.altitudeSlider.setValue(current)
         except ValueError:
             # This can happen when editing a field and not yet complete
             pass
@@ -463,7 +473,8 @@ class DialogFinFlutter(QDialog):
         self.onFlutter(None)
 
     def showSlider(self):
-        current = float(FreeCAD.Units.Quantity(self.altitudeInput.text()).getValueAs(FreeCAD.Units.Quantity(self._heightUnits())))
+        # current = float(FreeCAD.Units.Quantity(self._form.altitudeInput.text()).getValueAs(FreeCAD.Units.Quantity(self._heightUnits())))
+        current = float(FreeCAD.Units.Quantity(self._form.altitudeInput.text()).Value)
         x = current / 1000.0
 
         xSeries = [x, x]
@@ -473,7 +484,7 @@ class DialogFinFlutter(QDialog):
         self._redraw()
 
     def onSlider(self, value):
-        self.altitudeInput.setText(self._formatAltitude(FreeCAD.Units.Quantity(str(value) + self._heightUnits())))
+        self._form.altitudeInput.setText(self._formatAltitude(FreeCAD.Units.Quantity(str(value) + self._heightUnits())))
 
         self.showSlider()
         self._redraw()
@@ -500,18 +511,18 @@ class DialogFinFlutter(QDialog):
     def onFlutter(self, value):
         self._graphFlutter()
         try:
-            modulus = float(FreeCAD.Units.Quantity(str(self.shearInput.text())))
-            altitude = float(FreeCAD.Units.Quantity(str(self.altitudeInput.text())))
+            modulus = float(FreeCAD.Units.Quantity(str(self._form.shearInput.text())))
+            altitude = float(FreeCAD.Units.Quantity(str(self._form.altitudeInput.text())))
             flutter = self._flutter.flutter(altitude, modulus)
             divergence = self._flutter.divergence(altitude, modulus)
 
             Vf = FreeCAD.Units.Quantity(str(flutter[1]) + " m/s")
-            self.flutterInput.setText(self._formatVelocity(Vf))
-            self.flutterMachInput.setText("{0:.2f}".format(flutter[0]))
+            self._form.flutterInput.setText(self._formatVelocity(Vf))
+            self._form.flutterMachInput.setText("{0:.2f}".format(flutter[0]))
 
             Vd = FreeCAD.Units.Quantity(str(divergence[1]) + " m/s")
-            self.divergenceInput.setText(self._formatVelocity(Vd))
-            self.divergenceMachInput.setText("{0:.2f}".format(divergence[0]))
+            self._form.divergenceInput.setText(self._formatVelocity(Vd))
+            self._form.divergenceMachInput.setText("{0:.2f}".format(divergence[0]))
 
         except ValueError:
             pass

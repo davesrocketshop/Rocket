@@ -25,9 +25,16 @@
      <property name="title">
       <string>Material</string>
      </property>
-     <layout class="QVBoxLayout" name="verticalLayout_2">
+     <layout class="QVBoxLayout" name="materialGridLayout">
       <item>
-       <widget class="QWidget" name="materialTreeWidget" native="true"/>
+       <widget class="QWidget" name="materialTreeWidget" native="true">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="MinimumExpanding" vsizetype="Minimum">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+       </widget>
       </item>
       <item>
        <layout class="QGridLayout" name="gridLayout">
@@ -87,10 +94,16 @@
    </item>
    <item>
     <widget class="QGroupBox" name="flutterGroup">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
      <property name="title">
       <string>Fin Flutter</string>
      </property>
-     <layout class="QVBoxLayout" name="verticalLayout_3">
+     <layout class="QVBoxLayout" name="flutterGroupLayout">
       <item>
        <layout class="QGridLayout" name="gridLayout_2">
         <item row="1" column="0">
@@ -120,7 +133,14 @@
        </layout>
       </item>
       <item>
-       <widget class="QWidget" name="widgetGraph" native="true"/>
+       <widget class="QWidget" name="widgetGraph" native="true">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+       </widget>
       </item>
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout">
