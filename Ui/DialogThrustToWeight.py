@@ -58,7 +58,7 @@ class DialogThrustToWeight(QDialog):
         self.weightInput.setText("1.0")
         self.weightInput.textEdited.connect(self.onWeight)
 
-        self.thrustLabel = QtGui.QLabel(translate('Rocket', "Minimum Thrust"), self)
+        self.thrustLabel = QtGui.QLabel(translate('Rocket', "Minimum thrust"), self)
 
         self.thrustInput = ui.createWidget("Gui::InputField")
         self.thrustInput.unit = 'N'

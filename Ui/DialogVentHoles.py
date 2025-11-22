@@ -52,7 +52,7 @@ class DialogVentHole(QDialog):
         self.resize(QtCore.QSize(100,100).expandedTo(self.minimumSizeHint())) # sets size of the widget
         self.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
 
-        self.diameterLabel = QtGui.QLabel(translate('Rocket', "Body Tube Diameter"), self)
+        self.diameterLabel = QtGui.QLabel(translate('Rocket', "Body tube diameter"), self)
 
         self.diameterInput = ui.createWidget("Gui::InputField")
         self.diameterInput.unit = FreeCAD.Units.Length
@@ -60,7 +60,7 @@ class DialogVentHole(QDialog):
         self.diameterInput.setText("54.0")
         self.diameterInput.textEdited.connect(self.onDiameter)
 
-        self.lengthLabel = QtGui.QLabel(translate('Rocket', "Body Tube Length"), self)
+        self.lengthLabel = QtGui.QLabel(translate('Rocket', "Body tube length"), self)
 
         self.lengthInput = ui.createWidget("Gui::InputField")
         self.lengthInput.unit = FreeCAD.Units.Length
@@ -68,7 +68,7 @@ class DialogVentHole(QDialog):
         self.lengthInput.setText("1000.0")
         self.lengthInput.textEdited.connect(self.onLength)
 
-        self.holeCountLabel = QtGui.QLabel(translate('Rocket', "Vent Hole Count"), self)
+        self.holeCountLabel = QtGui.QLabel(translate('Rocket', "Vent hole count"), self)
 
         self.holeCountSpinBox = QtGui.QSpinBox(self)
         self.holeCountSpinBox.setMinimumWidth(100)
@@ -77,7 +77,7 @@ class DialogVentHole(QDialog):
         self.holeCountSpinBox.setValue(3)
         self.holeCountSpinBox.valueChanged.connect(self.onHoleCount)
 
-        self.sizeLabel = QtGui.QLabel(translate('Rocket', "Vent Hole Size"), self)
+        self.sizeLabel = QtGui.QLabel(translate('Rocket', "Vent hole size"), self)
 
         self.sizeInput = ui.createWidget("Gui::InputField")
         self.sizeInput.unit = FreeCAD.Units.Length

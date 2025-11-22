@@ -74,7 +74,7 @@ class _BulkheadDialog(QDialog):
             self.setWindowTitle(translate('Rocket', "Bulkhead Parameter"))
 
         # Get the body tube parameters: length, ID, etc...
-        self.diameterLabel = QtGui.QLabel(translate('Rocket', "Outer Diameter"), self)
+        self.diameterLabel = QtGui.QLabel(translate('Rocket', "Outer diameter"), self)
 
         self.diameterInput = ui.createWidget("Gui::InputField")
         self.diameterInput.unit = FreeCAD.Units.Length
@@ -90,7 +90,7 @@ class _BulkheadDialog(QDialog):
         self.thicknessInput.setMinimumWidth(80)
 
         if crPanel:
-            self.centerDiameterLabel = QtGui.QLabel(translate('Rocket', "Inner Diameter"), self)
+            self.centerDiameterLabel = QtGui.QLabel(translate('Rocket', "Inner diameter"), self)
 
             self.centerDiameterInput = ui.createWidget("Gui::InputField")
             self.centerDiameterInput.unit = FreeCAD.Units.Length
@@ -179,7 +179,7 @@ class _BulkheadDialog(QDialog):
         self.instanceGroup = QtGui.QGroupBox(translate('Rocket', "Instances"), self)
         self.instanceGroup.setCheckable(False)
 
-        self.instanceCountLabel = QtGui.QLabel(translate('Rocket', "Instance Count"), self)
+        self.instanceCountLabel = QtGui.QLabel(translate('Rocket', "Instance count"), self)
 
         self.instanceCountSpinBox = QtGui.QSpinBox(self)
         self.instanceCountSpinBox.setMinimumWidth(100)
@@ -187,7 +187,7 @@ class _BulkheadDialog(QDialog):
         self.instanceCountSpinBox.setMaximum(10000)
         self.instanceCountSpinBox.setValue(1)
 
-        self.instanceSeparationLabel = QtGui.QLabel(translate('Rocket', "Instance Separation"), self)
+        self.instanceSeparationLabel = QtGui.QLabel(translate('Rocket', "Instance separation"), self)
 
         self.instanceSeparationInput = ui.createWidget("Gui::InputField")
         self.instanceSeparationInput.unit = FreeCAD.Units.Length

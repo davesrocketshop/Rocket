@@ -36,7 +36,7 @@
              <item row="4" column="0">
               <widget class="QLabel" name="sweepAngleLabel">
                <property name="text">
-                <string>Sweep Angle</string>
+                <string>Sweep angle</string>
                </property>
               </widget>
              </item>
@@ -88,7 +88,7 @@
              <item row="3" column="0">
               <widget class="QLabel" name="sweepLengthLabel">
                <property name="text">
-                <string>Sweep Length</string>
+                <string>Sweep length</string>
                </property>
               </widget>
              </item>
@@ -102,14 +102,14 @@
              <item row="0" column="0">
               <widget class="QLabel" name="finTypeLabel">
                <property name="text">
-                <string>Fin Type</string>
+                <string>Fin type</string>
                </property>
               </widget>
              </item>
              <item row="5" column="0">
               <widget class="QLabel" name="finCantLabel">
                <property name="text">
-                <string>Fin Cant</string>
+                <string>Fin cant</string>
                </property>
               </widget>
              </item>
@@ -150,14 +150,14 @@
               <item row="0" column="0">
                <widget class="QLabel" name="finCountLabel">
                 <property name="text">
-                 <string>Fin Count</string>
+                 <string>Fin count</string>
                 </property>
                </widget>
               </item>
               <item row="1" column="0">
                <widget class="QLabel" name="finSpacingLabel">
                 <property name="text">
-                 <string>Fin Spacing</string>
+                 <string>Fin spacing</string>
                 </property>
                </widget>
               </item>
@@ -189,7 +189,7 @@
                     <string>When checked lengths are a percentage of the root chord</string>
                    </property>
                    <property name="text">
-                    <string>Use Percentage</string>
+                    <string>Use percentage</string>
                    </property>
                   </widget>
                  </item>
@@ -255,7 +255,7 @@
                  <item row="0" column="0">
                   <widget class="QLabel" name="rootCrossSectionLabel">
                    <property name="text">
-                    <string>Cross Section</string>
+                    <string>Cross section</string>
                    </property>
                   </widget>
                  </item>
@@ -289,7 +289,7 @@
                  <item row="0" column="0">
                   <widget class="QLabel" name="tipCrossSectionLabel">
                    <property name="text">
-                    <string>Cross Section</string>
+                    <string>Cross section</string>
                    </property>
                   </widget>
                  </item>
@@ -400,7 +400,7 @@
                  <item row="1" column="0">
                   <widget class="QLabel" name="tubeOuterDiameterLabel_2">
                    <property name="text">
-                    <string>Outer Diameter</string>
+                    <string>Outer diameter</string>
                    </property>
                   </widget>
                  </item>
@@ -431,7 +431,7 @@
                  <item row="2" column="0">
                   <widget class="QLabel" name="tubeThicknessLabel_2">
                    <property name="text">
-                    <string>Wall Thickness</string>
+                    <string>Wall thickness</string>
                    </property>
                   </widget>
                  </item>
@@ -469,14 +469,14 @@
                  <item row="2" column="0">
                   <widget class="QLabel" name="filletCrossSectionLabel">
                    <property name="text">
-                    <string>Cross Section</string>
+                    <string>Cross section</string>
                    </property>
                   </widget>
                  </item>
                  <item row="3" column="0">
                   <widget class="QLabel" name="filletRadiusLabel">
                    <property name="text">
-                    <string>Fillet Radius</string>
+                    <string>Fillet radius</string>
                    </property>
                   </widget>
                  </item>
@@ -493,7 +493,7 @@
                  <item row="0" column="1">
                   <widget class="QCheckBox" name="filletsCheckbox">
                    <property name="text">
-                    <string>Apply Fillets</string>
+                    <string>Apply fillets</string>
                    </property>
                   </widget>
                  </item>
@@ -570,14 +570,14 @@
              <item row="0" column="0">
               <widget class="QLabel" name="finTypeLabel_2">
                <property name="text">
-                <string>Fin Type</string>
+                <string>Fin type</string>
                </property>
               </widget>
              </item>
              <item row="1" column="0">
               <widget class="QLabel" name="proxyBaseObjectLabel">
                <property name="text">
-                <string>Base Object</string>
+                <string>Base object</string>
                </property>
               </widget>
              </item>
@@ -591,7 +591,7 @@
              <item row="3" column="0">
               <widget class="QLabel" name="proxyEffectiveDiameterLabel">
                <property name="text">
-                <string>Effective Diameter</string>
+                <string>Effective diameter</string>
                </property>
               </widget>
              </item>
@@ -649,14 +649,14 @@
               <item row="0" column="0">
                <widget class="QLabel" name="finCountProxyLabel">
                 <property name="text">
-                 <string>Fin Count</string>
+                 <string>Fin count</string>
                 </property>
                </widget>
               </item>
               <item row="1" column="0">
                <widget class="QLabel" name="finSpacingProxyLabel">
                 <property name="text">
-                 <string>Fin Spacing</string>
+                 <string>Fin spacing</string>
                 </property>
                </widget>
               </item>
@@ -957,14 +957,14 @@
          <item row="3" column="0">
           <widget class="QLabel" name="canLeadingOffsetLabel">
            <property name="text">
-            <string>Leading Edge Offset</string>
+            <string>Leading edge offset</string>
            </property>
           </widget>
          </item>
          <item row="0" column="0">
           <widget class="QLabel" name="canDiameterLabel">
            <property name="text">
-            <string>Inner Diameter</string>
+            <string>Inner diameter</string>
            </property>
           </widget>
          </item>
@@ -1000,7 +1000,7 @@
           <item row="0" column="0">
            <widget class="QLabel" name="canLeadingLabel">
             <property name="text">
-             <string>Edge Style</string>
+             <string>Edge style</string>
             </property>
            </widget>
           </item>
@@ -1026,7 +1026,7 @@
           <item row="0" column="0">
            <widget class="QLabel" name="canTrailingLabel">
             <property name="text">
-             <string>Edge Style</string>
+             <string>Edge style</string>
             </property>
            </widget>
           </item>
@@ -1092,7 +1092,7 @@
           <item row="0" column="0">
            <widget class="QLabel" name="couplerStyleLabel">
             <property name="text">
-             <string>Coupler Style</string>
+             <string>Coupler style</string>
             </property>
            </widget>
           </item>
@@ -1116,7 +1116,7 @@
           <item row="1" column="0">
            <widget class="QLabel" name="couplerDiameterLabel">
             <property name="text">
-             <string>Outer Diameter</string>
+             <string>Outer diameter</string>
             </property>
            </widget>
           </item>
@@ -1206,7 +1206,7 @@
             <item row="0" column="0">
              <widget class="QLabel" name="lugInnerDiameterLabel">
               <property name="text">
-               <string>Inner Diameter</string>
+               <string>Inner diameter</string>
               </property>
              </widget>
             </item>
@@ -1216,7 +1216,7 @@
             <item row="4" column="0">
              <widget class="QLabel" name="lugLeadingOffsetLabel">
               <property name="text">
-               <string>Leading Edge Offset</string>
+               <string>Leading edge offset</string>
               </property>
              </widget>
             </item>
@@ -1283,7 +1283,7 @@
              <item row="0" column="0">
               <widget class="QLabel" name="forwardSweepLabel">
                <property name="text">
-                <string>Sweep Angle</string>
+                <string>Sweep angle</string>
                </property>
               </widget>
              </item>
@@ -1309,7 +1309,7 @@
              <item row="0" column="0">
               <widget class="QLabel" name="aftSweepLabel">
                <property name="text">
-                <string>Sweep Angle</string>
+                <string>Sweep angle</string>
                </property>
               </widget>
              </item>

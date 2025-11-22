@@ -56,13 +56,13 @@ def scalingPairs():
         tubes = getSelectedBodyTubes()
         if len(tubes) == 2:
             form = DialogScalingPairs(tubes[0], tubes[1])
-            form.exec_()
+            form.exec()
             return
 
         elif len(tubes) == 0:
             # Otherwise the user can manually enter the data
             form = DialogScalingPairs()
-            form.exec_()
+            form.exec()
             return
 
         QtGui.QMessageBox.information(None, "", translate('Rocket', "Please select a pair of body tubes"))
@@ -75,13 +75,13 @@ def scalingTubes():
         tubes = getSelectedBodyTubes()
         if len(tubes) == 1:
             form = DialogScaling(tubes[0])
-            form.exec_()
+            form.exec()
             return
 
         elif len(tubes) == 0:
             # Otherwise the user can manually enter the data
             form = DialogScaling()
-            form.exec_()
+            form.exec()
             return
 
         QtGui.QMessageBox.information(None, "", translate('Rocket', "Please select a pair of body tubes"))

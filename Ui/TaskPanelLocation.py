@@ -49,13 +49,13 @@ class _locationDialog(QDialog):
         self.setWindowTitle(translate('Rocket', "Location Parameter"))
 
         if radial:
-            self.radialReferenceLabel = QtGui.QLabel(translate('Rocket', "Radial Reference"), self)
+            self.radialReferenceLabel = QtGui.QLabel(translate('Rocket', "Radial reference"), self)
 
             self.radialReferenceCombo = QtGui.QComboBox(self)
             self.radialReferenceCombo.addItem(translate('Rocket', LOCATION_SURFACE), LOCATION_SURFACE)
             self.radialReferenceCombo.addItem(translate('Rocket', LOCATION_CENTER), LOCATION_CENTER)
 
-            self.radialOffsetLabel = QtGui.QLabel(translate('Rocket', "Radial Offset"), self)
+            self.radialOffsetLabel = QtGui.QLabel(translate('Rocket', "Radial offset"), self)
 
             self.radialOffsetInput = ui.createWidget("Gui::InputField")
             self.radialOffsetInput.unit = FreeCAD.Units.Length
@@ -63,7 +63,7 @@ class _locationDialog(QDialog):
 
         # Select the location reference
         if axial:
-            self.referenceLabel = QtGui.QLabel(translate('Rocket', "Location Reference"), self)
+            self.referenceLabel = QtGui.QLabel(translate('Rocket', "Location reference"), self)
 
             self.referenceCombo = QtGui.QComboBox(self)
             self.referenceCombo.addItem(translate('Rocket', LOCATION_PARENT_TOP), LOCATION_PARENT_TOP)
@@ -77,7 +77,7 @@ class _locationDialog(QDialog):
             self.locationInput.unit = FreeCAD.Units.Length
             self.locationInput.setMinimumWidth(80)
 
-        self.angleOffsetLabel = QtGui.QLabel(translate('Rocket', "Angle Offset"), self)
+        self.angleOffsetLabel = QtGui.QLabel(translate('Rocket', "Angle offset"), self)
 
         self.angleOffsetInput = ui.createWidget("Gui::InputField")
         self.angleOffsetInput.unit = FreeCAD.Units.Angle

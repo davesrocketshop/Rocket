@@ -56,7 +56,7 @@ class _databaseLookupDialog(QDialog):
         self.manufacturerInput = QtGui.QLineEdit(self)
         self.manufacturerInput.setMinimumWidth(100)
 
-        self.partNumberLabel = QtGui.QLabel(translate('Rocket', "Part Number"), self)
+        self.partNumberLabel = QtGui.QLabel(translate('Rocket', "Part number"), self)
 
         self.partNumberInput = QtGui.QLineEdit(self)
         self.partNumberInput.setMinimumWidth(100)
@@ -189,7 +189,6 @@ class TaskPanelDatabase(QObject):
     def onLookup(self):
         form = DialogLookup(self._lookup, self._obj)
         form.exec()
-        # form.exec_()
 
         with WaitCursor():
             if len(form.result) > 0:

@@ -1,5 +1,5 @@
 # ***************************************************************************
-# *   Copyright (c) 2021-2025 David Carter <dcarter@davidcarter.ca>         *
+# *   Copyright (c) 2025 David Carter <dcarter@davidcarter.ca>              *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU Lesser General Public License (LGPL)    *
@@ -18,48 +18,56 @@
 # *   USA                                                                   *
 # *                                                                         *
 # ***************************************************************************
-"""Class for calculating fin flutter"""
+"""Class for UI Based Dialogs"""
 
-__title__ = "FreeCAD Fin Flutter Calculator"
+__title__ = "FreeCAD UI Dialog base class"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
-import FreeCAD
 import FreeCADGui
+import os
 
-translate = FreeCAD.Qt.translate
+from PySide.QtWidgets import QDialog
 
-from PySide import QtGui
+from Ui.DialogUtilities import saveDialog, restoreDialog, getParams
+from Ui.UIPaths import getUIPath
 
-from Ui.Commands.Command import Command
-from Ui.DialogFinFlutter import DialogFinFlutter
+class UiDialog(QDialog):
+    def __init__(self, dialogName : str, filePath : str) -> None:
+        super().__init__()
 
-def calcFinFlutter():
+        self._dialogName = dialogName
+        self._filePath = filePath
 
-    # See if we have a fin selected
-    for fin in FreeCADGui.Selection.getSelection():
-        if fin.isDerivedFrom('Part::FeaturePython'):
-            if hasattr(fin,"FinType"):
-                try:
-                    form = DialogFinFlutter(fin)
-                    form.exec()
-                except TypeError as ex:
-                    QtGui.QMessageBox.information(None, "", str(ex))
+        # self.initUI()
 
-                return
+    def initUI(self) -> None:
+        self._ui = FreeCADGui.PySideUic.loadUi(os.path.join(getUIPath(), 'Ui', self._filePath), self)
 
-    QtGui.QMessageBox.information(None, "", translate('Rocket', "Please select a fin first"))
+        self._param = getParams(self._dialogName)
 
-class CmdFinFlutter(Command):
-    def Activated(self):
-        FreeCADGui.addModule("Ui.Commands.CmdFlutterAnalysis")
-        FreeCADGui.doCommand("Ui.Commands.CmdFlutterAnalysis.calcFinFlutter()")
+        # create our window
+        restoreDialog(self._ui, self._dialogName, 640, 480)
 
-    def IsActive(self):
-        # Available when a part is selected
-        return self.partFinSelected()
+        self._ui.accepted.connect(self.onAccepted)
+        self._ui.finished.connect(self.onFinished)
+        self._ui.rejected.connect(self.onRejected)
 
-    def GetResources(self):
-        return {'MenuText': translate("Rocket", 'Fin Flutter Analysis'),
-                'ToolTip': translate("Rocket", 'Performs a fin flutter analysis of the selected fin'),
-                'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_FinFlutter.svg"}
+    def exec(self) -> int:
+        return self._ui.exec()
+
+    def open(self) -> None:
+        self._ui.open()
+
+    def onAccepted(self) -> None:
+        self.accept()
+
+    def onFinished(self, result) -> None:
+        saveDialog(self._ui, self._dialogName)
+        self.done(result)
+
+    def onRejected(self) -> None:
+        self.reject()
+
+    def result(self) -> int:
+        return self._ui.result()

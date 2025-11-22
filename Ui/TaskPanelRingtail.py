@@ -37,9 +37,7 @@ from PySide.QtWidgets import QDialog, QGridLayout, QVBoxLayout, QSizePolicy
 
 from Ui.TaskPanelDatabase import TaskPanelDatabase
 from Ui.TaskPanelLocation import TaskPanelLocation
-from Rocket.Constants import COMPONENT_TYPE_BODYTUBE, COMPONENT_TYPE_LAUNCHLUG, COMPONENT_TYPE_COUPLER, COMPONENT_TYPE_ENGINEBLOCK
-
-from Rocket.Constants import FEATURE_LAUNCH_LUG, FEATURE_TUBE_COUPLER, FEATURE_ENGINE_BLOCK
+from Rocket.Constants import COMPONENT_TYPE_BODYTUBE
 
 from Ui.Widgets.MaterialTab import MaterialTab
 from Ui.Widgets.CommentTab import CommentTab
@@ -77,13 +75,13 @@ class _RingtailDialog(QDialog):
         self.setWindowTitle(translate('Rocket', "Ring tail Parameter"))
 
         # Get the ring tail parameters: length, ID, etc...
-        self.idLabel = QtGui.QLabel(translate('Rocket', "Inner Diameter"), self)
+        self.idLabel = QtGui.QLabel(translate('Rocket', "Inner diameter"), self)
 
         self.idInput = ui.createWidget("Gui::InputField")
         self.idInput.unit = FreeCAD.Units.Length
         self.idInput.setMinimumWidth(100)
 
-        self.odLabel = QtGui.QLabel(translate('Rocket', "Outer Diameter"), self)
+        self.odLabel = QtGui.QLabel(translate('Rocket', "Outer diameter"), self)
 
         self.odInput = ui.createWidget("Gui::InputField")
         self.odInput.unit = FreeCAD.Units.Length
@@ -92,7 +90,7 @@ class _RingtailDialog(QDialog):
         self.autoDiameterCheckbox = QtGui.QCheckBox(translate('Rocket', "auto"), self)
         self.autoDiameterCheckbox.setCheckState(QtCore.Qt.Unchecked)
 
-        self.thicknessLabel = QtGui.QLabel(translate('Rocket', "Wall Thickness"), self)
+        self.thicknessLabel = QtGui.QLabel(translate('Rocket', "Wall thickness"), self)
 
         self.thicknessInput = ui.createWidget("Gui::InputField")
         self.thicknessInput.unit = FreeCAD.Units.Length
@@ -139,7 +137,6 @@ class TaskPanelRingtail:
     def __init__(self, obj : Any, mode : int) -> None:
         self._obj = obj
         self._isAssembly = self._obj.Proxy.isRocketAssembly()
-        self._motorMount = hasattr(self._obj, "MotorMount")
 
         self._btForm = _RingtailDialog(obj)
         self._db = TaskPanelDatabase(obj, COMPONENT_TYPE_BODYTUBE)
