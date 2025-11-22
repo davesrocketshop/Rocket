@@ -81,13 +81,13 @@ class _BodyTubeDialog(QDialog):
         self.setWindowTitle(translate('Rocket', "Body Tube Parameter"))
 
         # Get the body tube parameters: length, ID, etc...
-        self.idLabel = QtGui.QLabel(translate('Rocket', "Inner Diameter"), self)
+        self.idLabel = QtGui.QLabel(translate('Rocket', "Inner diameter"), self)
 
         self.idInput = ui.createWidget("Gui::InputField")
         self.idInput.unit = FreeCAD.Units.Length
         self.idInput.setMinimumWidth(100)
 
-        self.odLabel = QtGui.QLabel(translate('Rocket', "Outer Diameter"), self)
+        self.odLabel = QtGui.QLabel(translate('Rocket', "Outer diameter"), self)
 
         self.odInput = ui.createWidget("Gui::InputField")
         self.odInput.unit = FreeCAD.Units.Length
@@ -96,7 +96,7 @@ class _BodyTubeDialog(QDialog):
         self.autoDiameterCheckbox = QtGui.QCheckBox(translate('Rocket', "auto"), self)
         self.autoDiameterCheckbox.setCheckState(QtCore.Qt.Unchecked)
 
-        self.thicknessLabel = QtGui.QLabel(translate('Rocket', "Wall Thickness"), self)
+        self.thicknessLabel = QtGui.QLabel(translate('Rocket', "Wall thickness"), self)
 
         self.thicknessInput = ui.createWidget("Gui::InputField")
         self.thicknessInput.unit = FreeCAD.Units.Length
@@ -108,7 +108,7 @@ class _BodyTubeDialog(QDialog):
         self.lengthInput.unit = FreeCAD.Units.Length
         self.lengthInput.setMinimumWidth(100)
 
-        self.motorGroup = QtGui.QGroupBox(translate('Rocket', "Motor Mount"), self)
+        self.motorGroup = QtGui.QGroupBox(translate('Rocket', "Motor mount"), self)
         self.motorGroup.setCheckable(True)
 
         self.overhangLabel = QtGui.QLabel(translate('Rocket', "Overhang"), self)

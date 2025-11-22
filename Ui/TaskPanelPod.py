@@ -63,14 +63,14 @@ class _PodDialog(QDialog):
 
         # Get the body tube parameters: length, ID, etc...
 
-        self.podCountLabel = QtGui.QLabel(translate('Rocket', "Pod Count"), self)
+        self.podCountLabel = QtGui.QLabel(translate('Rocket', "Pod count"), self)
 
         self.podCountSpinBox = QtGui.QSpinBox(self)
         self.podCountSpinBox.setMinimumWidth(80)
         self.podCountSpinBox.setMinimum(1)
         self.podCountSpinBox.setMaximum(10000)
 
-        self.podSpacingLabel = QtGui.QLabel(translate('Rocket', "Pod Spacing"), self)
+        self.podSpacingLabel = QtGui.QLabel(translate('Rocket', "Pod spacing"), self)
 
         self.podSpacingInput = ui.createWidget("Gui::InputField")
         self.podSpacingInput.unit = FreeCAD.Units.Angle

@@ -33,7 +33,7 @@ from Ui.DialogBlackPowder import DialogBlackPowder
 
 def calcBlackPowder():
     form = DialogBlackPowder()
-    form.exec_()
+    form.exec()
 
 class CmdCalcBlackPowder:
     def Activated(self):
