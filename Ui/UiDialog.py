@@ -29,35 +29,45 @@ import os
 
 from PySide.QtWidgets import QDialog
 
+from Ui.DialogUtilities import saveDialog, restoreDialog, getParams
 from Ui.UIPaths import getUIPath
 
 class UiDialog(QDialog):
-    def __init__(self, filePath : str) -> None:
+    def __init__(self, dialogName : str, filePath : str) -> None:
         super().__init__()
 
-        self.initUI(filePath)
+        self._dialogName = dialogName
+        self._filePath = filePath
 
-    def initUI(self, filePath : str) -> None:
-        self.ui = FreeCADGui.PySideUic.loadUi(os.path.join(getUIPath(), 'Ui', filePath), self)
+        # self.initUI()
 
-        self.ui.accepted.connect(self.onAccepted)
-        self.ui.finished.connect(self.onFinished)
-        self.ui.rejected.connect(self.onRejected)
+    def initUI(self) -> None:
+        self._ui = FreeCADGui.PySideUic.loadUi(os.path.join(getUIPath(), 'Ui', self._filePath), self)
+
+        self._param = getParams(self._dialogName)
+
+        # create our window
+        restoreDialog(self._ui, self._dialogName, 640, 480)
+
+        self._ui.accepted.connect(self.onAccepted)
+        self._ui.finished.connect(self.onFinished)
+        self._ui.rejected.connect(self.onRejected)
 
     def exec(self) -> int:
-        return self.ui.exec()
+        return self._ui.exec()
 
     def open(self) -> None:
-        self.ui.open()
+        self._ui.open()
 
     def onAccepted(self) -> None:
         self.accept()
 
     def onFinished(self, result) -> None:
+        saveDialog(self._ui, self._dialogName)
         self.done(result)
 
     def onRejected(self) -> None:
         self.reject()
 
     def result(self) -> int:
-        return self.ui.result()
+        return self._ui.result()
