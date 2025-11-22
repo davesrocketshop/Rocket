@@ -241,7 +241,9 @@ class DialogFinFlutter(UiDialog):
         self.static_canvas.draw()
 
     def fillAltitudeCombo(self):
-        for i in range(0, 110, 10):
+        self._ui.maxAltitudeCombo.addItem("{0:d}".format(1000) + ' ' + self._heightUnits())
+        self._ui.maxAltitudeCombo.addItem("{0:d}".format(5000) + ' ' + self._heightUnits())
+        for i in range(10, 110, 10):
             self._ui.maxAltitudeCombo.addItem("{0:d}".format(i * 1000) + ' ' + self._heightUnits())
         self._ui.maxAltitudeCombo.setCurrentText("{0:d}".format(10000) + ' ' + self._heightUnits())
 
