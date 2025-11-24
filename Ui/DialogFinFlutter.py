@@ -97,9 +97,9 @@ class DialogFinFlutter(UiDialog):
         # create our window
         self._ui.setWindowTitle(translate('Rocket', "Fin Flutter Analysis"))
         self._ui.resize(QtCore.QSize(640,700).expandedTo(self.minimumSizeHint())) # sets size of the widget
-        self._ui.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
+        # self._ui.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
 
-        self._ui.materialGroup.setSizePolicy(QSizePolicy.MinimumExpanding, QSizePolicy.Minimum)
+        # self._ui.materialGroup.setSizePolicy(QSizePolicy.MinimumExpanding, QSizePolicy.Minimum)
 
         self.materialTreeWidget = ui.createWidget("MatGui::MaterialTreeWidget")
         self.materialTreePy = MatGui.MaterialTreeWidget(self.materialTreeWidget)
@@ -129,8 +129,10 @@ class DialogFinFlutter(UiDialog):
 
         self.fillAltitudeCombo()
 
+        self._ui.speedInput.unit = FreeCAD.Units.Velocity
+        self._ui.speedInput.setText("0.0 m/s")
         self._ui.altitudeInput.unit = FreeCAD.Units.Length
-        self._ui.altitudeInput.setText("914.4m")
+        self._ui.altitudeInput.setText("914.4 m")
 
         # Creating graph
         plt.rcParams['figure.constrained_layout.use'] = True
@@ -201,7 +203,7 @@ class DialogFinFlutter(UiDialog):
         divergenceSeries = []
         for i in range(0, maxHeight+1):
             altitude = i * 1000000.0 # to mm
-            flutter = self._flutter.flutter(altitude, modulus)
+            flutter = self._flutter.flutterPOF615(altitude, modulus, 0, 0)
             divergence = self._flutter.divergence(altitude, modulus)
             # Getting the data
             x = float(i)
@@ -305,7 +307,7 @@ class DialogFinFlutter(UiDialog):
         self.onFlutter(None)
 
     def onExpanded(self, expanded):
-        self._ui.materialGroup.adjustSize()
+        # self._ui.materialGroup.adjustSize()
         self._ui.window().adjustSize()
 
     def onCalculated(self, value):
@@ -389,13 +391,19 @@ class DialogFinFlutter(UiDialog):
         self._graphFlutter()
         try:
             modulus = float(FreeCAD.Units.Quantity(str(self._ui.shearInput.text())))
+            speed = float(FreeCAD.Units.Quantity(str(self._ui.speedInput.text())))
             altitude = float(FreeCAD.Units.Quantity(str(self._ui.altitudeInput.text())))
-            flutter = self._flutter.flutter(altitude, modulus)
+            flutter = self._flutter.flutterPOF615(altitude, modulus, 0, 0)
             divergence = self._flutter.divergence(altitude, modulus)
 
             Vf = FreeCAD.Units.Quantity(str(flutter[1]) + " m/s")
             self._ui.flutterInput.setText(self._formatVelocity(Vf))
             self._ui.flutterMachInput.setText("{0:.2f}".format(flutter[0]))
+            if speed > 0.0:
+                margin = (Vf.Value - speed)  * 100.0 / speed
+                self._ui.flutterMarginInput.setText("{0:.1f}".format(margin))
+            else:
+                self._ui.flutterMarginInput.setText("")
 
             Vd = FreeCAD.Units.Quantity(str(divergence[1]) + " m/s")
             self._ui.divergenceInput.setText(self._formatVelocity(Vd))
@@ -409,7 +417,6 @@ class DialogFinFlutter(UiDialog):
         self.transferFrom()
 
     def onFinished(self, result) -> None:
-        print('onFinished')
         self._param.SetBool("MaterialTreeExpanded", self.materialTreePy.expanded)
 
         super().onFinished(result)

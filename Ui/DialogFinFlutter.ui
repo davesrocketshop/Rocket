@@ -2,218 +2,380 @@
 <ui version="4.0">
  <class>Dialog</class>
  <widget class="QDialog" name="Dialog">
+  <property name="windowModality">
+   <enum>Qt::WindowModality::NonModal</enum>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>571</width>
-    <height>634</height>
+    <width>604</width>
+    <height>574</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Fin Flutter Anlysis</string>
+   <string>Fin Flutter Analysis</string>
+  </property>
+  <property name="modal">
+   <bool>false</bool>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <widget class="QGroupBox" name="materialGroup">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="MinimumExpanding" vsizetype="Minimum">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
+    <widget class="QTabWidget" name="tabWidget">
+     <property name="currentIndex">
+      <number>0</number>
      </property>
-     <property name="title">
-      <string>Material</string>
-     </property>
-     <layout class="QVBoxLayout" name="materialGridLayout">
-      <item>
-       <widget class="QWidget" name="materialTreeWidget" native="true">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="MinimumExpanding" vsizetype="Minimum">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <layout class="QGridLayout" name="gridLayout">
-        <item row="0" column="2">
-         <widget class="QCheckBox" name="calculatedCheckbox">
-          <property name="text">
-           <string>Calculated</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="0">
-         <widget class="QLabel" name="shearLabel">
-          <property name="text">
-           <string>Shear modulus</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="0">
-         <widget class="QLabel" name="youngsLabel">
-          <property name="text">
-           <string>Young's modulus</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="1">
-         <widget class="Gui::InputField" name="shearInput">
-          <property name="unit" stdset="0">
-           <string notr="true"/>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="0">
-         <widget class="QLabel" name="poissonLabel">
-          <property name="text">
-           <string>Poisson ratio</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="1">
-         <widget class="Gui::InputField" name="youngsInput">
-          <property name="unit" stdset="0">
-           <string notr="true"/>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="1">
-         <widget class="Gui::InputField" name="poissonInput">
-          <property name="unit" stdset="0">
-           <string notr="true"/>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item>
-    <widget class="QGroupBox" name="flutterGroup">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="title">
-      <string>Fin Flutter</string>
-     </property>
-     <layout class="QVBoxLayout" name="flutterGroupLayout">
-      <item>
-       <layout class="QGridLayout" name="gridLayout_2">
-        <item row="1" column="0">
-         <widget class="QLabel" name="altitudeLabel">
-          <property name="text">
-           <string>Altitude at max speed</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="0">
-         <widget class="QLabel" name="maxAltitudeLabel">
-          <property name="text">
-           <string>Maximum altitude</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="1">
-         <widget class="QComboBox" name="maxAltitudeCombo"/>
-        </item>
-        <item row="1" column="1">
-         <widget class="Gui::InputField" name="altitudeInput">
-          <property name="unit" stdset="0">
-           <string notr="true"/>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-      <item>
-       <widget class="QWidget" name="widgetGraph" native="true">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <layout class="QHBoxLayout" name="horizontalLayout">
-        <item>
-         <widget class="QSlider" name="altitudeSlider">
-          <property name="orientation">
-           <enum>Qt::Orientation::Horizontal</enum>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-      <item>
-       <layout class="QGridLayout" name="gridLayout_3">
-        <item row="0" column="1">
-         <widget class="Gui::InputField" name="flutterInput">
-          <property name="unit" stdset="0">
-           <string notr="true"/>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="2">
-         <widget class="QLabel" name="divergenceMachLabel">
-          <property name="text">
-           <string>Mach</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="0">
-         <widget class="QLabel" name="divergenceLabel">
-          <property name="text">
-           <string>Divergence speed</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="0">
-         <widget class="QLabel" name="flutterLabel">
-          <property name="text">
-           <string>Flutter speed</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="2">
-         <widget class="QLabel" name="flutterMachLabel">
-          <property name="text">
-           <string>Mach</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="3">
-         <widget class="Gui::InputField" name="flutterMachInput">
-          <property name="unit" stdset="0">
-           <string notr="true"/>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="1">
-         <widget class="Gui::InputField" name="divergenceInput">
-          <property name="unit" stdset="0">
-           <string notr="true"/>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="3">
-         <widget class="Gui::InputField" name="divergenceMachInput">
-          <property name="unit" stdset="0">
-           <string notr="true"/>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-     </layout>
+     <widget class="QWidget" name="tabMaterial">
+      <attribute name="title">
+       <string>Material</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="materialGridLayout">
+       <item>
+        <widget class="QWidget" name="materialTreeWidget" native="true">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer">
+         <property name="orientation">
+          <enum>Qt::Orientation::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>0</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_2">
+         <item>
+          <spacer name="horizontalSpacer">
+           <property name="orientation">
+            <enum>Qt::Orientation::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QPushButton" name="pushButton">
+           <property name="text">
+            <string>Assign Material to FIn</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QGridLayout" name="gridLayout">
+         <item row="2" column="1">
+          <widget class="Gui::InputField" name="youngsInput">
+           <property name="unit" stdset="0">
+            <string notr="true"/>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="0">
+          <widget class="QLabel" name="youngsLabel">
+           <property name="text">
+            <string>Young's modulus</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="1">
+          <widget class="Gui::InputField" name="poissonInput">
+           <property name="unit" stdset="0">
+            <string notr="true"/>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="Gui::InputField" name="shearInput">
+           <property name="unit" stdset="0">
+            <string notr="true"/>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="2">
+          <widget class="QCheckBox" name="calculatedCheckbox">
+           <property name="text">
+            <string>Calculated</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="0">
+          <widget class="QLabel" name="poissonLabel">
+           <property name="text">
+            <string>Poisson ratio</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="shearLabel">
+           <property name="text">
+            <string>Shear modulus</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tabLaunchConditions">
+      <attribute name="title">
+       <string>Launch Conditions</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <item>
+        <widget class="QGroupBox" name="launchSiteGroupbox">
+         <property name="title">
+          <string>Launch Site</string>
+         </property>
+         <layout class="QGridLayout" name="gridLayout_4">
+          <item row="1" column="0">
+           <widget class="QLabel" name="launchSiteAltitudeLabel">
+            <property name="text">
+             <string>Altitude</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0">
+           <widget class="QLabel" name="launchSiteLabel">
+            <property name="text">
+             <string>Launch site</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QComboBox" name="launchSiteCombo"/>
+          </item>
+          <item row="1" column="1">
+           <widget class="Gui::InputField" name="launchSiteAltitudeInput">
+            <property name="unit" stdset="0">
+             <string notr="true"/>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="groupBox_2">
+         <property name="title">
+          <string>Temperature</string>
+         </property>
+         <layout class="QGridLayout" name="gridLayout_5">
+          <item row="0" column="0">
+           <widget class="QLabel" name="launchTemperatureLabel">
+            <property name="text">
+             <string>Air temperature</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="Gui::InputField" name="launchTemperatureInput">
+            <property name="unit" stdset="0">
+             <string notr="true"/>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="atmosphericModelLabel">
+            <property name="text">
+             <string>Atmospheric model</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QComboBox" name="atmosphericModelCombobox"/>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Orientation::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>0</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tabFlutter">
+      <attribute name="title">
+       <string>Fin Flutter</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="flutterGroupLayout">
+       <item>
+        <layout class="QGridLayout" name="gridLayout_2">
+         <item row="0" column="0">
+          <widget class="QLabel" name="maxAltitudeLabel">
+           <property name="text">
+            <string>Maximum altitude</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <widget class="Gui::InputField" name="altitudeInput">
+           <property name="unit" stdset="0">
+            <string notr="true"/>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="0">
+          <widget class="QLabel" name="altitudeLabel">
+           <property name="text">
+            <string>Altitude at max speed</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QComboBox" name="maxAltitudeCombo"/>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="speedLabel">
+           <property name="text">
+            <string>Maximum speed</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="Gui::InputField" name="speedInput">
+           <property name="unit" stdset="0">
+            <string notr="true"/>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QWidget" name="widgetGraph" native="true">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout">
+         <item>
+          <widget class="QSlider" name="altitudeSlider">
+           <property name="orientation">
+            <enum>Qt::Orientation::Horizontal</enum>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QGridLayout" name="gridLayout_3">
+         <item row="0" column="3">
+          <widget class="Gui::InputField" name="flutterMachInput">
+           <property name="unit" stdset="0">
+            <string notr="true"/>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="3">
+          <widget class="Gui::InputField" name="divergenceMachInput">
+           <property name="unit" stdset="0">
+            <string notr="true"/>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <widget class="Gui::InputField" name="divergenceInput">
+           <property name="unit" stdset="0">
+            <string notr="true"/>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="0">
+          <widget class="QLabel" name="divergenceLabel">
+           <property name="text">
+            <string>Divergence speed</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="0">
+          <widget class="QLabel" name="flutterLabel">
+           <property name="text">
+            <string>Flutter speed</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="2">
+          <widget class="QLabel" name="flutterMarginLabel">
+           <property name="text">
+            <string>Margin</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="2">
+          <widget class="QLabel" name="flutterMachLabel">
+           <property name="text">
+            <string>Mach</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="Gui::InputField" name="flutterInput">
+           <property name="unit" stdset="0">
+            <string notr="true"/>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="2">
+          <widget class="QLabel" name="divergenceMachLabel">
+           <property name="text">
+            <string>Mach</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="2">
+          <widget class="QLabel" name="divergenceMarginLabel">
+           <property name="text">
+            <string>Margin</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="3">
+          <widget class="Gui::InputField" name="flutterMarginInput">
+           <property name="unit" stdset="0">
+            <string notr="true"/>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="3">
+          <widget class="Gui::InputField" name="divergenceMarginInput">
+           <property name="unit" stdset="0">
+            <string notr="true"/>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
     </widget>
    </item>
    <item>

@@ -100,13 +100,23 @@ class FinFlutter:
     def shearModulus(self, young, poisson):
         return young / (2.0 * (1.0 + poisson))
 
-    def atmosphericConditions(self, altitude):
+    def temperatureCompensation(self, agl : float, T_agl : float) -> float:
+        '''
+            Temperature compensation for the altitude of the launch site
+
+            agl = altitude of the launch site in meters
+            T_agl = temperature at the launch site in C
+        '''
+        Tc = T_agl - 15.0 - (0.0065 * agl)
+        return Tc
+
+    def atmosphericConditions(self, altitude : float, agl : float = 0, T_agl : float = 15) -> tuple[float, float]:
 
         # Get the atmospheric conditions at the specified altitude (convert mm to km)
         # Uses the coesa76 model which is an extension of US Standard Atmosphere 1976 model to work above 84K
-        atmo = coesa76([altitude / (1000.0 * 1000.0)])
+        atmo = coesa76([altitude / (1000.0 * 1000.0)], alt_type='geopotential')
 
-        temp = float(atmo.T[0])
+        temp = float(atmo.T[0]) + self.temperatureCompensation(agl, T_agl)
         pressure = float(atmo.P[0])
 
         # speed of sound
@@ -128,6 +138,23 @@ class FinFlutter:
         # Vfe = math.sqrt(shear / ((270964.068 * self._epsilon * (self._aspectRatio**3)) / (pow(self._thickness / self._rootChord, 3) * (self._aspectRatio + 2)) * ((self._lambda + 1) / 2) * (pressure / p0)))
         # print("Vf %f" % (Vf))
         # print("Vfe %f" % (Vfe))
+
+        # Flutter velocity in m/s
+        Vfa = a * Vf
+
+        return Vf, Vfa
+
+    def flutterPOF615(self, altitude : float, shear : float, agl : float, T_agl : float) -> tuple[float, float]:
+        #
+        # Calculate flutter using the formula outlined in Peak of Flight issue 615
+        #
+
+        a,pressure = self.atmosphericConditions(altitude, agl, T_agl)
+
+        shear *= 1000.0 # Convert from kPa to Pa
+
+        # Flutter velocity in Mach
+        Vf = math.sqrt((shear * 2 * (self._aspectRatio + 2) * pow(self._thickness / self._rootChord, 3)) / (1.337 * pow(self._aspectRatio, 3) * pressure * (self._lambda + 1)))
 
         # Flutter velocity in m/s
         Vfa = a * Vf
