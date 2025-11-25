@@ -7,8 +7,8 @@
 ; See https://whatismyelevation.com/ for altitude at a location
 ;
 4 Corners Rocketry Association:36.50965:-107.830711:2024:https://www.4CRA.org
-Advanced Rocketry Queensland::389:http://advrocketry.com
-AARC South Australia::70:http://www.australianrocketryclub.com.au/forum/index.php/board,28.0.html
+Advanced Rocketry Queensland:-27.82533:151.48001:389:http://advrocketry.com
+AARC South Australia:-35.092063:140.014786:70:http://www.australianrocketryclub.com.au/forum/index.php/board,28.0.html
 AHPRA BALLS:40.808:-119.15:1190:http://www.ahpra.org
 Alaska Northstars Rocketry Club (Big Lake):61.5272194:-149.9152943:45:http://aknorthstars.org/
 Alaska Northstars Rocketry Club (Knick Sand Bar):61.503635:-149.057023:15:http://aknorthstars.org/
@@ -18,21 +18,21 @@ ARS Rio Rancho:35.33475:-106.75361:1786:http://arsabq.org
 Austin Area Rocketry Group (Hutto):30.61341:-97.49714:198:https://www.aarg.org
 Bama Blastoff:33.108947:-88.319130:52:https://www.bamablastoff.com
 BARS Vista View Park:26.069436:-80.342995:18:http://narbars.org
-BÅ‚Ä™dowska Desert:50.336995:19.530984:317:http://rakiety.org.pl
-Cesis Airfield:57.3278996:25.3256011::https://www.facebook.com/profile.php?id=100063820943449
-Ciel d"octobre:45.9991:-72.7144::https://clubqf.ca
-COSROCS Challenger:38.99624:-104.773979::http://cosrocs.org
-COSROCS Peyton:39.072695:-104.430031::http://cosrocs.org
-CRMRC Macquam Shore Road:44.824644:-73.164345::http://www.crmrc.org/
-Dallas Area Rocket Society (Gunter):33.4359058:-96.8046010::http://dars.org/
-Dalzell Launch Site:34.055667:-80.425111::https://rocketrysouthcarolina.org/
-Drawsko Pomorskie:53.356613:15.636952::http://rakiety.org.pl
-Edge of Space Science (EOSS) Limon:39.2361263:-103.6969606::https://eoss.org
-FAR Friends of Amateur Rocketry:35.3471:-117.80905::http://friendsofamateurrocketry.org/
-Fort Myers Tripoli:26.749861:-81.268500::https://tripolifortmyers.weebly.com/
-FSA Florida Spacemodeling Association Dyer Park:26.7837:-80.1233::https://fsa-twp.webs.com/
-FusÃ©e Fete:45.6832:-71.6678::https://clubqf.ca
-Gorge Rocket Club:45.761200:-120.845070::http://www.gorgerocketclub.com
+Błędowska Desert:50.336995:19.530984:317:http://rakiety.org.pl
+Cesis Airfield:57.3278996:25.3256011:106:https://www.facebook.com/profile.php?id=100063820943449
+Ciel d'octobre:45.9991:-72.7144:48:https://clubqf.ca
+COSROCS Challenger:38.99624:-104.773979:2089:http://cosrocs.org
+COSROCS Peyton:39.072695:-104.430031:2093:http://cosrocs.org
+CRMRC Macquam Shore Road:44.824644:-73.164345:34:http://www.crmrc.org/
+Dallas Area Rocket Society (Gunter):33.4359058:-96.8046010:216:http://dars.org/
+Dalzell Launch Site:34.055667:-80.425111:80:https://rocketrysouthcarolina.org/
+Drawsko Pomorskie:53.356613:15.636952:111:http://rakiety.org.pl
+Edge of Space Science (EOSS) Limon:39.2361263:-103.6969606:1641:https://eoss.org
+FAR Friends of Amateur Rocketry:35.3471:-117.80905:628:http://friendsofamateurrocketry.org/
+Fort Myers Tripoli:26.749861:-81.268500:6:https://tripolifortmyers.weebly.com/
+FSA Florida Spacemodeling Association Dyer Park:26.7837:-80.1233:4:https://fsa-twp.webs.com/
+Fusée Fete:45.6832:-71.6678:348:https://clubqf.ca
+Gorge Rocket Club:45.761200:-120.845070:495:http://www.gorgerocketclub.com
 GRITS Gaskins Farm:31.283055555555556:-83.349444444444444::http://www/gritslaunch.com
 HARA Bragg Farms:34.895875:-86.616211::http://www.hararocketry.org/HARA/Main.html
 HARA Manchester:35.489537:-85.962438::http://www.hararocketry.org/HARA/Main.html
@@ -92,9 +92,9 @@ SMASH:43.2626951:-86.0323107::http://www.smashrocketry.org/
 Spaceport America, NM:32.9406:-106.91492::http://spaceportamerica.com/
 SRA Rocket Ranch:26.244963112404648:-80.84268459643212::http://www.spaceportrocketry.org/
 SSS KOFA:33.552366666667:113.614666666667::https://sssrocketry.com/
-St. Ceciliaâ€™s College, Mati Airport:6.947222:126.275556::http://stceciliascollegeedu.ph
-St. Ceciliaâ€™s College, Minglanilla Oval:10.243611:123.797222::http://stceciliascollegeedu.ph
-St. Ceciliaâ€™s College, Talisay City:10.254389:123.832167::http://stceciliascollegeedu.ph
+St. Cecilia's College, Mati Airport:6.947222:126.275556::http://stceciliascollegeedu.ph
+St. Cecilia's College, Minglanilla Oval:10.243611:123.797222::http://stceciliascollegeedu.ph
+St. Cecilia's College, Talisay City:10.254389:123.832167::http://stceciliascollegeedu.ph
 St. Louis Rocketry Elsberry, MO:39.160217:-90.763356::http://stlouisrocketry.com/
 SystemsGO South, Houston, TX:29.562952777777778:-94.731458333333333::http://www.systemsgo.org/
 THOR / Tripoli Nebraska (Concord):42.387210:-96.952138::https://www.nebraskarocketry.com/

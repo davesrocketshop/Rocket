@@ -183,19 +183,18 @@
             </property>
            </widget>
           </item>
-          <item row="0" column="1">
-           <widget class="Gui::InputField" name="launchTemperatureInput">
-            <property name="unit" stdset="0">
-             <string notr="true"/>
-            </property>
-           </widget>
-          </item>
           <item row="1" column="0">
            <widget class="QLabel" name="atmosphericModelLabel">
             <property name="text">
              <string>Atmospheric model</string>
             </property>
            </widget>
+          </item>
+          <item row="0" column="3">
+           <widget class="QComboBox" name="temperatureUnitsCombo"/>
+          </item>
+          <item row="0" column="1">
+           <widget class="QLineEdit" name="launchTemperatureInput"/>
           </item>
           <item row="1" column="1">
            <widget class="QComboBox" name="atmosphericModelCombobox"/>

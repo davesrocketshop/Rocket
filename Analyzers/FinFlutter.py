@@ -73,6 +73,7 @@ class FinFlutter:
             # Convert from mm to m
             self._tipChord = self._fromMM(fin.TipChord)
             self._rootChord = self._fromMM(fin.RootChord)
+            self._sweep = self._fromMM(fin.SweepLength)
             if float(fin.RootThickness) != float(fin.TipThickness):
                 raise TypeError(translate('Rocket', "Tapered thickness fins are not supported at this time"))
 
@@ -80,6 +81,12 @@ class FinFlutter:
             self._area = (self._rootChord + self._tipChord) * self._span / 2.0
             self._volume = float(self._Shape.Volume) * 1e-9 # mm^3 to m^3
             self._thickness = self._volume / self._area
+
+            Cx = ((2 * self._tipChord * self._sweep) + (self._tipChord * self._tipChord) + (self._sweep * self._rootChord) + \
+                        (self._tipChord * self._rootChord) + (self._rootChord * self._rootChord)) / \
+                        (3 * (self._tipChord + self._rootChord))
+            epsilon = (Cx / self._rootChord) - 0.25
+            self._DN = (24 * epsilon * 1.4 * 101325) / math.pi
 
             # This is experimental. It's veracity still needs to be confirmed
             # cg = self._Shape.CenterOfGravity
@@ -94,6 +101,20 @@ class FinFlutter:
         self._aspectRatio = self._span**2 / self._area
         self._lambda = self._tipChord / self._rootChord
 
+        print(f"Thickness {self._thickness}")
+        print(f"Sweep length {self._sweep}")
+        print(f"TC {self._tipChord}")
+        print(f"RC {self._rootChord}")
+        print(f"SSL {self._span}")
+
+        print(f"Cx {Cx}")
+        print(f"t/c {self._thickness / self._rootChord}")
+        print(f"Lambda {self._lambda}")
+        print(f"Area {self._area}")
+        print(f"Aspect ratio {self._aspectRatio}")
+        print(f"epsilon {epsilon}")
+        print(f"DN {self._DN}")
+
     def _fromMM(self, value):
         return float(value) / 1000.0
 
@@ -105,12 +126,12 @@ class FinFlutter:
             Temperature compensation for the altitude of the launch site
 
             agl = altitude of the launch site in meters
-            T_agl = temperature at the launch site in C
+            T_agl = temperature at the launch site in K
         '''
-        Tc = T_agl - 15.0 - (0.0065 * agl)
+        Tc = (273.15 + 15.0) - T_agl #- (0.0065 * agl)
         return Tc
 
-    def atmosphericConditions(self, altitude : float, agl : float = 0, T_agl : float = 15) -> tuple[float, float]:
+    def atmosphericConditions(self, altitude : float, agl : float = 0, T_agl : float = 288.15) -> tuple[float, float]:
 
         # Get the atmospheric conditions at the specified altitude (convert mm to km)
         # Uses the coesa76 model which is an extension of US Standard Atmosphere 1976 model to work above 84K
@@ -121,6 +142,10 @@ class FinFlutter:
 
         # speed of sound
         mach = math.sqrt(gamma * R_air * temp)
+
+        print(f"Tc {temp}")
+        print(f"alpha {mach}")
+        print(f"pressure {pressure}")
 
         return mach,pressure
 
@@ -154,7 +179,10 @@ class FinFlutter:
         shear *= 1000.0 # Convert from kPa to Pa
 
         # Flutter velocity in Mach
-        Vf = math.sqrt((shear * 2 * (self._aspectRatio + 2) * pow(self._thickness / self._rootChord, 3)) / (1.337 * pow(self._aspectRatio, 3) * pressure * (self._lambda + 1)))
+        Vf = math.sqrt(
+            shear / 
+            ((self._DN * (self._aspectRatio**3)) / (pow(self._thickness / self._rootChord, 3) * (self._aspectRatio + 2)) * 
+                ((self._lambda + 1) / 2) * (pressure / p0)))
 
         # Flutter velocity in m/s
         Vfa = a * Vf

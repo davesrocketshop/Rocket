@@ -47,7 +47,7 @@ from Ui.UIPaths import getUIPath
 from Ui.UiDialog import UiDialog
 
 class DialogFinFlutter(UiDialog):
-    def __init__(self, fin):
+    def __init__(self, fin) -> None:
         super().__init__("DialogFinFlutter", "DialogFinFlutter.ui")
 
         self._fin = fin
@@ -60,9 +60,9 @@ class DialogFinFlutter(UiDialog):
 
         self.initUI()
         self._setSeries()
-        self.onFlutter(None)
+        self.updateFlutter()
 
-    def _isMetricUnitPref(self):
+    def _isMetricUnitPref(self) -> bool:
         param = FreeCAD.ParamGet("User parameter:BaseApp/Preferences/Units")
         schema = param.GetInt('UserSchema')
         if schema in [2,3,5,7]:
@@ -70,26 +70,31 @@ class DialogFinFlutter(UiDialog):
 
         return True
 
-    def _shearUnits(self):
+    def _shearUnits(self) -> str:
         if self._isMetricUnitPref():
             return "GPa"
         return "psi"
 
-    def _heightUnits(self):
+    def _heightUnits(self) -> str:
         if self._isMetricUnitPref():
             return "m"
         return "ft"
 
-    def _velocityUnits(self):
+    def _velocityUnits(self) -> str:
         if self._isMetricUnitPref():
             return "m/s"
         return "ft/s"
 
-    def _formatted(self, value, units):
-        qty = FreeCAD.Units.Quantity(value)
-        return str(qty.getValueAs(FreeCAD.Units.Quantity(units))) #+ " " + units
+    def _temperatureUnits(self) -> str:
+        if self._isMetricUnitPref():
+            return "C"
+        return "F"
 
-    def initUI(self):
+    # def _formatted(self, value, units) -> str:
+    #     qty = FreeCAD.Units.Quantity(value)
+    #     return str(qty.getValueAs(FreeCAD.Units.Quantity(units))) #+ " " + units
+
+    def initUI(self) -> None:
         super().initUI()
 
         ui = FreeCADGui.UiLoader()
@@ -126,6 +131,15 @@ class DialogFinFlutter(UiDialog):
 
         self._ui.poissonInput.setText("0.0")
         self._ui.poissonInput.setEnabled(False)
+
+        # Launch conditions
+        self.fillLaunchSiteCombo()
+        self._ui.launchSiteAltitudeInput.unit = FreeCAD.Units.Length
+        self._ui.launchSiteAltitudeInput.setText("0 m")
+
+        self.fillTemperatureUnitsCombo()
+        # self._ui.launchTemperatureInput.unit = FreeCAD.Units.Temperature
+        self._ui.launchTemperatureInput.setText("15.0")
 
         self.fillAltitudeCombo()
 
@@ -178,6 +192,11 @@ class DialogFinFlutter(UiDialog):
         self._ui.shearInput.textEdited.connect(self.onShear)
         self._ui.youngsInput.textEdited.connect(self.onYoungs)
         self._ui.poissonInput.textEdited.connect(self.onPoisson)
+
+        self._ui.launchSiteCombo.currentTextChanged.connect(self.onLaunchSite)
+        self._ui.temperatureUnitsCombo.currentTextChanged.connect(self.onTemperatureUnits)
+        self._ui.launchTemperatureInput.textEdited.connect(self.onLaunchTemperature)
+
         self._ui.altitudeInput.textEdited.connect(self.onAltitude)
         self._ui.maxAltitudeCombo.currentTextChanged.connect(self.onMaxAltitude)
         self._ui.altitudeSlider.valueChanged.connect(self.onSlider)
@@ -189,21 +208,32 @@ class DialogFinFlutter(UiDialog):
         # now make the window visible
         self._ui.show()
 
-    def transferFrom(self):
+    def transferFrom(self) -> None:
         "Transfer from the object to the dialog"
         self.materialTreePy.UUID = self._fin.ShapeMaterial.UUID
 
-    def _setSeries(self):
+    def tempToKelvin(self, temperature : float, units : str) -> float:
+        if units == 'F':
+            return (temperature - 32) * 5 / 9 + 273.15
+        elif units == 'C':
+            return temperature + 273.15
+        return temperature
+
+    def _setSeries(self) -> None:
 
         modulus = float(FreeCAD.Units.Quantity(str(self._ui.shearInput.text())))
         maxHeight = int(FreeCAD.Units.Quantity(self._ui.maxAltitudeCombo.currentText()).getValueAs(FreeCAD.Units.Quantity(self._heightUnits())) / 1000)
+        launchHeight = int(FreeCAD.Units.Quantity(self._ui.launchSiteAltitudeInput.text()).getValueAs(FreeCAD.Units.Quantity(self._heightUnits())) / 1000)
+
+        temperatureUnits = self._ui.temperatureUnitsCombo.currentText()
+        launchTemperature = self.tempToKelvin(float(self._ui.launchTemperatureInput.text()), temperatureUnits)
 
         x_axis = []
         flutterSeries = []
         divergenceSeries = []
         for i in range(0, maxHeight+1):
             altitude = i * 1000000.0 # to mm
-            flutter = self._flutter.flutterPOF615(altitude, modulus, 0, 0)
+            flutter = self._flutter.flutterPOF615(altitude, modulus, launchHeight, launchTemperature)
             divergence = self._flutter.divergence(altitude, modulus)
             # Getting the data
             x = float(i)
@@ -234,7 +264,7 @@ class DialogFinFlutter(UiDialog):
         self.showSlider() # calls _redraw()
         # self._redraw()
 
-    def _redraw(self):
+    def _redraw(self) -> None:
         # recompute the ax.dataLim
         self._static_ax.relim()
         # update ax.viewLim using the new dataLim
@@ -242,35 +272,60 @@ class DialogFinFlutter(UiDialog):
 
         self.static_canvas.draw()
 
-    def fillAltitudeCombo(self):
+    def fillLaunchSiteCombo(self) -> None:
+        filename = os.path.join(getUIPath(), 'Resources', 'data', 'launch-sites.txt')
+        altitude = 0
+        self._ui.launchSiteCombo.addItem('', altitude)
+        with open(filename, 'r', encoding="utf-8") as file:
+            for line in file:
+                if not line.startswith('#'):
+                    data = line.split(":")
+                    if len(data) >= 4:
+                        # print(data)
+                        if data[3]:
+                            altitude = int(data[3])
+                        else:
+                            altitude = 0
+                        self._ui.launchSiteCombo.addItem(data[0], altitude)
+    
+    def fillTemperatureUnitsCombo(self) -> None:
+        self._ui.temperatureUnitsCombo.addItem('C')
+        self._ui.temperatureUnitsCombo.addItem('F')
+        self._ui.temperatureUnitsCombo.addItem('K')
+        if self._isMetricUnitPref():
+            self._ui.temperatureUnitsCombo.setCurrentText('C')
+        else:
+            self._ui.temperatureUnitsCombo.setCurrentText('F')
+
+    def fillAltitudeCombo(self) -> None:
         self._ui.maxAltitudeCombo.addItem("{0:d}".format(1000) + ' ' + self._heightUnits())
         self._ui.maxAltitudeCombo.addItem("{0:d}".format(5000) + ' ' + self._heightUnits())
         for i in range(10, 110, 10):
             self._ui.maxAltitudeCombo.addItem("{0:d}".format(i * 1000) + ' ' + self._heightUnits())
         self._ui.maxAltitudeCombo.setCurrentText("{0:d}".format(10000) + ' ' + self._heightUnits())
 
-    def setShearSpecified(self):
+    def setShearSpecified(self) -> None:
         self._ui.shearInput.setEnabled(True)
         self._ui.calculatedCheckbox.setChecked(False)
 
         self._ui.youngsInput.setEnabled(False)
         self._ui.poissonInput.setEnabled(False)
 
-    def setShearCalculated(self):
+    def setShearCalculated(self) -> None:
         self._ui.shearInput.setEnabled(False)
         self._ui.calculatedCheckbox.setChecked(True)
 
         self._ui.youngsInput.setEnabled(True)
         self._ui.poissonInput.setEnabled(True)
 
-    def calculateShear(self):
+    def calculateShear(self) -> None:
         young = float(FreeCAD.Units.Quantity(self._ui.youngsInput.text()).getValueAs(FreeCAD.Units.Pascal))
         poisson = float(FreeCAD.Units.Quantity(self._ui.poissonInput.text()))
         shear = self._flutter.shearModulus(young, poisson)
 
         self._ui.shearInput.setText(FreeCAD.Units.Quantity(str(shear) + " Pa").UserString)
 
-    def interpolateProperties(self):
+    def interpolateProperties(self) -> None:
         """ Infer missing properties from those available """
         shearModulus = self._material.getPhysicalValue("ShearModulus")
         youngsModulus = self._material.getPhysicalValue("YoungsModulus")
@@ -299,39 +354,39 @@ class DialogFinFlutter(UiDialog):
         else:
             self.setShearSpecified()
 
-    def onMaterial(self, uuid):
+    def onMaterial(self, uuid : str) -> None:
         self._material = self._materialManager.getMaterial(uuid)
         self.interpolateProperties()
 
         self._setSeries()
-        self.onFlutter(None)
+        self.updateFlutter()
 
-    def onExpanded(self, expanded):
+    def onExpanded(self, expanded : bool) -> None:
         # self._ui.materialGroup.adjustSize()
         self._ui.window().adjustSize()
 
-    def onCalculated(self, value):
+    def onCalculated(self, value : bool) -> None:
         if value:
             self.setShearCalculated()
             self.calculateShear()
         else:
             self.setShearSpecified()
 
-    def onShear(self, value):
+    def onShear(self, value : str) -> None:
         self._setSeries()
-        self.onFlutter(None)
+        self.updateFlutter()
 
-    def onYoungs(self, value):
+    def onYoungs(self, value : str) -> None:
         self.calculateShear()
         self._setSeries()
-        self.onFlutter(None)
+        self.updateFlutter()
 
-    def onPoisson(self, value):
+    def onPoisson(self, value : str) -> None:
         self.calculateShear()
         self._setSeries()
-        self.onFlutter(None)
+        self.updateFlutter()
 
-    def _setSlider(self):
+    def _setSlider(self) -> None:
         try:
             max = float(FreeCAD.Units.Quantity(self._ui.maxAltitudeCombo.currentText()).getValueAs(FreeCAD.Units.Quantity(self._heightUnits())))
             current = float(FreeCAD.Units.Quantity(self._ui.altitudeInput.text()).getValueAs(FreeCAD.Units.Quantity(self._heightUnits())))
@@ -343,16 +398,35 @@ class DialogFinFlutter(UiDialog):
             # This can happen when editing a field and not yet complete
             pass
 
-    def onMaxAltitude(self, value):
+    def onLaunchSite(self, value : str) -> None:
+        altitude = self._ui.launchSiteCombo.currentData()
+        self._ui.launchSiteAltitudeInput.setText(self._formatAltitude(FreeCAD.Units.Quantity(f"{altitude} m")))
+
+    def onTemperatureUnits(self, value : str) -> None:
+        self._setSeries()
+        self._setSlider()
+        self.updateFlutter()
+
+    def onLaunchTemperature(self, value : str) -> None:
+        self._setSeries()
+        self._setSlider()
+        self.updateFlutter()
+
+    def onLaunchSiteAltitude(self, value : str) -> None:
+        self._setSeries()
+        self._setSlider()
+        self.updateFlutter()
+
+    def onMaxAltitude(self, value : str) -> None:
         self._setSeries()
         self._setSlider()
 
-    def onAltitude(self, value):
+    def onAltitude(self, value : str) -> None:
         self._setSeries()
         self._setSlider()
-        self.onFlutter(None)
+        self.updateFlutter()
 
-    def showSlider(self):
+    def showSlider(self) -> None:
         current = float(FreeCAD.Units.Quantity(self._ui.altitudeInput.text()).getValueAs(FreeCAD.Units.Quantity(self._heightUnits())))
         x = current / 1000.0
 
@@ -362,38 +436,42 @@ class DialogFinFlutter(UiDialog):
 
         self._redraw()
 
-    def onSlider(self, value):
+    def onSlider(self, value : str) -> None:
         self._ui.altitudeInput.setText(self._formatAltitude(FreeCAD.Units.Quantity(str(value) + self._heightUnits())))
 
         self.showSlider()
         self._redraw()
-        self.onFlutter(None)
+        self.updateFlutter()
 
-    def _graphFlutter(self):
+    def _graphFlutter(self) -> None:
         pass
 
-    def _formatQuantity(self, formatString, quantity, units):
+    def _formatQuantity(self, formatString : str, quantity : FreeCAD.Units.Quantity, units : str) -> str:
         return formatString.format(float(quantity.getValueAs(FreeCAD.Units.Quantity(units)))) + ' ' + units
 
-    def _formatIntQuantity(self, formatString, quantity, units):
+    def _formatIntQuantity(self, formatString, quantity : FreeCAD.Units.Quantity, units : str) -> str:
         return formatString.format(int(quantity.getValueAs(FreeCAD.Units.Quantity(units)))) + ' ' + units
 
-    def _formatVelocity(self, quantity):
+    def _formatVelocity(self, quantity : FreeCAD.Units.Quantity) -> str:
         return self._formatQuantity("{0:.2f}", quantity, self._velocityUnits())
 
-    def _formatPressure(self, quantity):
+    def _formatPressure(self, quantity : FreeCAD.Units.Quantity) -> str:
         return self._formatQuantity("{0:.4f}", quantity, self._shearUnits())
 
-    def _formatAltitude(self, quantity):
+    def _formatAltitude(self, quantity : FreeCAD.Units.Quantity) -> str:
         return self._formatIntQuantity("{0:d}", quantity, self._heightUnits())
 
-    def onFlutter(self, value):
+    def updateFlutter(self) -> None:
         self._graphFlutter()
         try:
             modulus = float(FreeCAD.Units.Quantity(str(self._ui.shearInput.text())))
             speed = float(FreeCAD.Units.Quantity(str(self._ui.speedInput.text())))
             altitude = float(FreeCAD.Units.Quantity(str(self._ui.altitudeInput.text())))
-            flutter = self._flutter.flutterPOF615(altitude, modulus, 0, 0)
+            launchHeight = int(FreeCAD.Units.Quantity(self._ui.launchSiteAltitudeInput.text()).getValueAs(FreeCAD.Units.Quantity(self._heightUnits())) / 1000)
+            temperatureUnits = self._ui.temperatureUnitsCombo.currentText()
+            launchTemperature = self.tempToKelvin(float(self._ui.launchTemperatureInput.text()), temperatureUnits)
+
+            flutter = self._flutter.flutterPOF615(altitude, modulus, launchHeight, launchTemperature)
             divergence = self._flutter.divergence(altitude, modulus)
 
             Vf = FreeCAD.Units.Quantity(str(flutter[1]) + " m/s")
@@ -412,11 +490,11 @@ class DialogFinFlutter(UiDialog):
         except ValueError:
             pass
 
-    def update(self):
+    def update(self) -> None:
         'fills the widgets'
         self.transferFrom()
 
-    def onFinished(self, result) -> None:
+    def onFinished(self, result : int) -> None:
         self._param.SetBool("MaterialTreeExpanded", self.materialTreePy.expanded)
 
         super().onFinished(result)
