@@ -29,7 +29,7 @@ import math
 import FreeCAD
 translate = FreeCAD.Qt.translate
 
-from Analyzers.pyatmos import coesa76
+from Analyzers.pyatmos import coesa76, ussa76
 from Analyzers.pyatmos.utils.Const import p0, gamma, R_air
 
 from Rocket.Constants import FIN_TYPE_TRAPEZOID, FIN_TYPE_ELLIPSE, FIN_TYPE_SKETCH, FIN_TYPE_TRIANGLE, FIN_TYPE_TUBE
@@ -135,15 +135,19 @@ class FinFlutter:
 
         # Get the atmospheric conditions at the specified altitude (convert mm to km)
         # Uses the coesa76 model which is an extension of US Standard Atmosphere 1976 model to work above 84K
-        atmo = coesa76([altitude / (1000.0 * 1000.0)], alt_type='geopotential')
+        # atmo = coesa76([altitude / (1000.0 * 1000.0)], alt_type='geopotential')
+        altitude_agl = (altitude / (1000.0 * 1000.0)) + agl
+        atmo = coesa76([altitude_agl], alt_type='geometric')
+        # atmo = coesa76([altitude / (1000.0 * 1000.0)], alt_type='geometric')
+        # atmo = ussa76([altitude / (1000.0 * 1000.0)])
 
-        temp = float(atmo.T[0]) + self.temperatureCompensation(agl, T_agl)
+        temp = float(atmo.T[0]) #+ self.temperatureCompensation(agl, T_agl)
         pressure = float(atmo.P[0])
 
         # speed of sound
         mach = math.sqrt(gamma * R_air * temp)
 
-        print(f"Tc {temp}")
+        print(f"Tc {temp - 273.15}")
         print(f"alpha {mach}")
         print(f"pressure {pressure}")
 
@@ -180,8 +184,8 @@ class FinFlutter:
 
         # Flutter velocity in Mach
         Vf = math.sqrt(
-            shear / 
-            ((self._DN * (self._aspectRatio**3)) / (pow(self._thickness / self._rootChord, 3) * (self._aspectRatio + 2)) * 
+            shear /
+            ((self._DN * (self._aspectRatio**3)) / (pow(self._thickness / self._rootChord, 3) * (self._aspectRatio + 2)) *
                 ((self._lambda + 1) / 2) * (pressure / p0)))
 
         # Flutter velocity in m/s
