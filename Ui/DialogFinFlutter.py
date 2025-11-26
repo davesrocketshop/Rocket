@@ -110,7 +110,6 @@ class DialogFinFlutter(UiDialog):
 
         self.materialTreeWidget = ui.createWidget("MatGui::MaterialTreeWidget")
         self.materialTreePy = MatGui.MaterialTreeWidget(self.materialTreeWidget)
-        self.materialTreePy.expanded = self._param.GetBool("MaterialTreeExpanded", False)
 
         # Create the filters
         self.filter = Materials.MaterialFilter()
@@ -147,7 +146,7 @@ class DialogFinFlutter(UiDialog):
 
         self.fillAltitudeCombo()
 
-        self._ui.speedInput.unit = FreeCAD.Units.Velocity
+        self._ui.speedInput.unit = self._velocityUnits() #FreeCAD.Units.Velocity
         self._ui.speedInput.setText("0.0 m/s")
         self._ui.altitudeInput.unit = FreeCAD.Units.Length
         self._ui.altitudeInput.setText("914.4 m")
@@ -206,6 +205,7 @@ class DialogFinFlutter(UiDialog):
         self._ui.maxAltitudeCombo.currentTextChanged.connect(self.onMaxAltitude)
         self._ui.altitudeSlider.valueChanged.connect(self.onSlider)
 
+        self.restoreParameters()
         self._setSlider()
 
         self.update()
@@ -231,7 +231,10 @@ class DialogFinFlutter(UiDialog):
         launchHeight = float(FreeCAD.Units.Quantity(self._ui.launchSiteAltitudeInput.text())) / 1000.0 # in meters
 
         temperatureUnits = self._ui.temperatureUnitsCombo.currentText()
-        launchTemperature = self.tempToKelvin(float(self._ui.launchTemperatureInput.text()), temperatureUnits)
+        if self._ui.defaultTemperatureCheckbox.isChecked():
+            launchTemperature = (15 + 273.15)
+        else:
+            launchTemperature = self.tempToKelvin(float(self._ui.launchTemperatureInput.text()), temperatureUnits)
         atmosphericModel = self.getAtmosphericModel()
 
         x_axis = []
@@ -496,7 +499,10 @@ class DialogFinFlutter(UiDialog):
             launchHeight = float(FreeCAD.Units.Quantity(self._ui.launchSiteAltitudeInput.text())) / 1000.0
 
             temperatureUnits = self._ui.temperatureUnitsCombo.currentText()
-            launchTemperature = self.tempToKelvin(float(self._ui.launchTemperatureInput.text()), temperatureUnits)
+            if self._ui.defaultTemperatureCheckbox.isChecked():
+                launchTemperature = (15 + 273.15)
+            else:
+                launchTemperature = self.tempToKelvin(float(self._ui.launchTemperatureInput.text()), temperatureUnits)
             atmosphericModel = self.getAtmosphericModel()
 
             flutter = self._flutter.flutterPOF615(atmosphericModel, altitude, modulus, launchHeight, launchTemperature)
@@ -523,6 +529,42 @@ class DialogFinFlutter(UiDialog):
         self.transferFrom()
 
     def onFinished(self, result : int) -> None:
-        self._param.SetBool("MaterialTreeExpanded", self.materialTreePy.expanded)
+        self.saveParameters()
 
         super().onFinished(result)
+
+    def saveParameters(self) -> None:
+        # Material tab
+        self._param.SetBool("MaterialTreeExpanded", self.materialTreePy.expanded)
+
+        # Launch conditions tab
+        self._param.SetString("LaunchSite", self._ui.launchSiteCombo.currentText())
+        self._param.SetString("LaunchAltitude", self._ui.launchSiteAltitudeInput.text())
+        self._param.SetString("LaunchTemperature", self._ui.launchTemperatureInput.text())
+        self._param.SetInt("LaunchTemperatureUnits", self._ui.temperatureUnitsCombo.currentIndex())
+        self._param.SetBool("UseSeaLevelTemperature", self._ui.defaultTemperatureCheckbox.isChecked())
+        self._param.SetInt("AtmosphericModel", self._ui.atmosphericModelCombo.currentIndex())
+
+        # Flutter tab
+        self._param.SetString("MaximumAltitude", self._ui.maxAltitudeCombo.currentText())
+        self._param.SetString("MaximumSpeed", self._ui.speedInput.text())
+        self._param.SetString("AltitudeAtMaximumSpeed", self._ui.altitudeInput.text())
+
+    def restoreParameters(self) -> None:
+        # Material tab
+        self.materialTreePy.expanded = self._param.GetBool("MaterialTreeExpanded", False)
+
+        # Launch conditions tab
+        self._ui.launchSiteCombo.setCurrentText(self._param.GetString("LaunchSite", ""))
+        self._ui.launchSiteAltitudeInput.setText(self._param.GetString("LaunchAltitude", "0.0 m"))
+        self._ui.launchTemperatureInput.setText(self._param.GetString("LaunchTemperature", "15"))
+        self._ui.temperatureUnitsCombo.setCurrentIndex(self._param.GetInt("LaunchTemperatureUnits", 0))
+        self._ui.defaultTemperatureCheckbox.setChecked(self._param.GetBool("UseSeaLevelTemperature", True))
+        self._ui.atmosphericModelCombo.setCurrentIndex(self._param.GetInt("AtmosphericModel", 0))
+
+        # Flutter tab
+        self._ui.maxAltitudeCombo.setCurrentText(self._param.GetString("MaximumAltitude", "10000 m"))
+        self._ui.speedInput.setText(self._param.GetString("MaximumSpeed", "0.0 m/s"))
+        self._ui.altitudeInput.setText(self._param.GetString("AltitudeAtMaximumSpeed", "914.00 m"))
+
+        print(dir(self._ui.speedInput))
