@@ -179,16 +179,19 @@
           <item row="0" column="0">
            <widget class="QLabel" name="launchTemperatureLabel">
             <property name="text">
-             <string>Air temperature</string>
+             <string>Launch air temperature</string>
             </property>
            </widget>
           </item>
-          <item row="1" column="0">
+          <item row="2" column="0">
            <widget class="QLabel" name="atmosphericModelLabel">
             <property name="text">
              <string>Atmospheric model</string>
             </property>
            </widget>
+          </item>
+          <item row="2" column="1">
+           <widget class="QComboBox" name="atmosphericModelCombo"/>
           </item>
           <item row="0" column="3">
            <widget class="QComboBox" name="temperatureUnitsCombo"/>
@@ -196,8 +199,12 @@
           <item row="0" column="1">
            <widget class="QLineEdit" name="launchTemperatureInput"/>
           </item>
-          <item row="1" column="1">
-           <widget class="QComboBox" name="atmosphericModelCombobox"/>
+          <item row="1" column="1" colspan="3">
+           <widget class="QCheckBox" name="defaultTemperatureCheckbox">
+            <property name="text">
+             <string>Use default sea level temperature (15 C/ 59 F)</string>
+            </property>
+           </widget>
           </item>
          </layout>
         </widget>

@@ -43,6 +43,8 @@ from PySide.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QGridLayout, QSi
 
 from Analyzers.FinFlutter import FinFlutter
 
+from Rocket.Constants import ATMOS_POF_615, ATMOS_USSA, ATMOS_COESA_GEOMETRIC, ATMOS_COESA_GEOPOTENTIAL
+
 from Ui.UIPaths import getUIPath
 from Ui.UiDialog import UiDialog
 
@@ -141,6 +143,8 @@ class DialogFinFlutter(UiDialog):
         # self._ui.launchTemperatureInput.unit = FreeCAD.Units.Temperature
         self._ui.launchTemperatureInput.setText("15.0")
 
+        self.fillAtmosphericModelCombo()
+
         self.fillAltitudeCombo()
 
         self._ui.speedInput.unit = FreeCAD.Units.Velocity
@@ -196,6 +200,7 @@ class DialogFinFlutter(UiDialog):
         self._ui.launchSiteCombo.currentTextChanged.connect(self.onLaunchSite)
         self._ui.temperatureUnitsCombo.currentTextChanged.connect(self.onTemperatureUnits)
         self._ui.launchTemperatureInput.textEdited.connect(self.onLaunchTemperature)
+        self._ui.atmosphericModelCombo.currentTextChanged.connect(self.onAtmosphericModel)
 
         self._ui.altitudeInput.textEdited.connect(self.onAltitude)
         self._ui.maxAltitudeCombo.currentTextChanged.connect(self.onMaxAltitude)
@@ -223,18 +228,19 @@ class DialogFinFlutter(UiDialog):
 
         modulus = float(FreeCAD.Units.Quantity(str(self._ui.shearInput.text())))
         maxHeight = int(FreeCAD.Units.Quantity(self._ui.maxAltitudeCombo.currentText()).getValueAs(FreeCAD.Units.Quantity(self._heightUnits())) / 1000)
-        launchHeight = int(FreeCAD.Units.Quantity(self._ui.launchSiteAltitudeInput.text()).getValueAs(FreeCAD.Units.Quantity(self._heightUnits())) / 1000)
+        launchHeight = float(FreeCAD.Units.Quantity(self._ui.launchSiteAltitudeInput.text())) / 1000.0 # in meters
 
         temperatureUnits = self._ui.temperatureUnitsCombo.currentText()
         launchTemperature = self.tempToKelvin(float(self._ui.launchTemperatureInput.text()), temperatureUnits)
+        atmosphericModel = self.getAtmosphericModel()
 
         x_axis = []
         flutterSeries = []
         divergenceSeries = []
         for i in range(0, maxHeight+1):
-            altitude = i * 1000000.0 # to mm
-            flutter = self._flutter.flutterPOF615(altitude, modulus, launchHeight, launchTemperature)
-            divergence = self._flutter.divergence(altitude, modulus)
+            altitude = i * 1000.0 # to m
+            flutter = self._flutter.flutterPOF615(atmosphericModel, altitude, modulus, launchHeight, launchTemperature)
+            divergence = self._flutter.divergence(atmosphericModel, altitude, modulus, launchHeight, launchTemperature)
             # Getting the data
             x = float(i)
             x_axis.append(x)
@@ -297,12 +303,25 @@ class DialogFinFlutter(UiDialog):
         else:
             self._ui.temperatureUnitsCombo.setCurrentText('F')
 
+    def fillAtmosphericModelCombo(self) -> None:
+        self._ui.atmosphericModelCombo.addItem(translate("Rocket", "Peak of Flight 615"), ATMOS_POF_615)
+        self._ui.atmosphericModelCombo.addItem(translate("Rocket", "US Standard Atmosphere (USSA) 1976"), ATMOS_USSA)
+        self._ui.atmosphericModelCombo.addItem(
+            translate("Rocket", "Committee on Extension to the Standard Atmosphere (COESA) 1976 - Geometric"),
+            ATMOS_COESA_GEOMETRIC)
+        self._ui.atmosphericModelCombo.addItem(
+            translate("Rocket", "Committee on Extension to the Standard Atmosphere (COESA) 1976 - Geopotential"),
+            ATMOS_COESA_GEOPOTENTIAL)
+
     def fillAltitudeCombo(self) -> None:
         self._ui.maxAltitudeCombo.addItem("{0:d}".format(1000) + ' ' + self._heightUnits())
         self._ui.maxAltitudeCombo.addItem("{0:d}".format(5000) + ' ' + self._heightUnits())
         for i in range(10, 110, 10):
             self._ui.maxAltitudeCombo.addItem("{0:d}".format(i * 1000) + ' ' + self._heightUnits())
         self._ui.maxAltitudeCombo.setCurrentText("{0:d}".format(10000) + ' ' + self._heightUnits())
+
+    def getAtmosphericModel(self) -> int:
+        return int(self._ui.atmosphericModelCombo.currentData())
 
     def setShearSpecified(self) -> None:
         self._ui.shearInput.setEnabled(True)
@@ -412,6 +431,11 @@ class DialogFinFlutter(UiDialog):
         self._setSlider()
         self.updateFlutter()
 
+    def onAtmosphericModel(self, value : str) -> None:
+        self._setSeries()
+        self._setSlider()
+        self.updateFlutter()
+
     def onLaunchSiteAltitude(self, value : str) -> None:
         self._setSeries()
         self._setSlider()
@@ -466,13 +490,17 @@ class DialogFinFlutter(UiDialog):
         try:
             modulus = float(FreeCAD.Units.Quantity(str(self._ui.shearInput.text())))
             speed = float(FreeCAD.Units.Quantity(str(self._ui.speedInput.text())))
-            altitude = float(FreeCAD.Units.Quantity(str(self._ui.altitudeInput.text())))
-            launchHeight = int(FreeCAD.Units.Quantity(self._ui.launchSiteAltitudeInput.text()).getValueAs(FreeCAD.Units.Quantity(self._heightUnits())) / 1000)
+
+            # Heights in meters
+            altitude = float(FreeCAD.Units.Quantity(str(self._ui.altitudeInput.text()))) / 1000.0
+            launchHeight = float(FreeCAD.Units.Quantity(self._ui.launchSiteAltitudeInput.text())) / 1000.0
+
             temperatureUnits = self._ui.temperatureUnitsCombo.currentText()
             launchTemperature = self.tempToKelvin(float(self._ui.launchTemperatureInput.text()), temperatureUnits)
+            atmosphericModel = self.getAtmosphericModel()
 
-            flutter = self._flutter.flutterPOF615(altitude, modulus, launchHeight, launchTemperature)
-            divergence = self._flutter.divergence(altitude, modulus)
+            flutter = self._flutter.flutterPOF615(atmosphericModel, altitude, modulus, launchHeight, launchTemperature)
+            divergence = self._flutter.divergence(atmosphericModel, altitude, modulus, launchHeight, launchTemperature)
 
             Vf = FreeCAD.Units.Quantity(str(flutter[1]) + " m/s")
             self._ui.flutterInput.setText(self._formatVelocity(Vf))

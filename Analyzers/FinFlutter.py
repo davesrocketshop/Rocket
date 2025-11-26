@@ -33,6 +33,7 @@ from Analyzers.pyatmos import coesa76, ussa76
 from Analyzers.pyatmos.utils.Const import p0, gamma, R_air
 
 from Rocket.Constants import FIN_TYPE_TRAPEZOID, FIN_TYPE_ELLIPSE, FIN_TYPE_SKETCH, FIN_TYPE_TRIANGLE, FIN_TYPE_TUBE
+from Rocket.Constants import ATMOS_POF_615, ATMOS_USSA, ATMOS_COESA_GEOMETRIC, ATMOS_COESA_GEOPOTENTIAL
 
 from Rocket.ShapeHandlers.FinTrapezoidShapeHandler import FinTrapezoidShapeHandler
 from Rocket.ShapeHandlers.FinTriangleShapeHandler import FinTriangleShapeHandler
@@ -131,18 +132,66 @@ class FinFlutter:
         Tc = (273.15 + 15.0) - T_agl #- (0.0065 * agl)
         return Tc
 
-    def atmosphericConditions(self, altitude : float, agl : float = 0, T_agl : float = 288.15) -> tuple[float, float]:
+    def atmospherePOF615(self, altitude : float, agl : float = 0, T_agl : float = 288.15) -> tuple[float, float]:
+
+        # Get the atmospheric conditions at the specified altitude in m
+        altitude_agl = altitude + agl
+        print(f"altitude {altitude} m, agl {agl} m, altitude_agl {altitude_agl} m")
+
+        temp = T_agl - (0.0065 * altitude_agl)
+        pressure = (101.325 * math.pow((temp / 288.16), 5.256)) * 1000.0
+
+        return temp, pressure
+
+    def atmosphereUSSA(self, altitude : float, agl : float = 0, T_agl : float = 288.15) -> tuple[float, float]:
+
+        # Get the atmospheric conditions at the specified altitude (convert m to km)
+        altitude_agl = ((altitude + agl) / 1000.0)
+        print(f"altitude {altitude} m, agl {agl} m, altitude_agl {altitude_agl} km")
+        atmo = ussa76([altitude_agl])
+
+        temp = float(atmo.T[0]) + self.temperatureCompensation(agl, T_agl)
+        pressure = float(atmo.P[0])
+
+        return temp, pressure
+
+    def atmosphereCOESAGeometric(self, altitude : float, agl : float = 0, T_agl : float = 288.15) -> tuple[float, float]:
+
+        # Get the atmospheric conditions at the specified altitude (convert m to km)
+        # Uses the coesa76 model which is an extension of US Standard Atmosphere 1976 model to work above 84K
+        altitude_agl = ((altitude + agl) / 1000.0)
+        print(f"altitude {altitude} m, agl {agl} m, altitude_agl {altitude_agl} km")
+        atmo = coesa76([altitude_agl], alt_type='geometric')
+
+        temp = float(atmo.T[0]) + self.temperatureCompensation(agl, T_agl)
+        pressure = float(atmo.P[0])
+
+        return temp, pressure
+
+    def atmosphereCOESAGeopotential(self, altitude : float, agl : float = 0, T_agl : float = 288.15) -> tuple[float, float]:
+
+        # Get the atmospheric conditions at the specified altitude (convert m to km)
+        # Uses the coesa76 model which is an extension of US Standard Atmosphere 1976 model to work above 84K
+        altitude_agl = ((altitude + agl) / 1000.0)
+        print(f"altitude {altitude} m, agl {agl} m, altitude_agl {altitude_agl} km")
+        atmo = coesa76([altitude_agl], alt_type='geometric')
+
+        temp = float(atmo.T[0]) + self.temperatureCompensation(agl, T_agl)
+        pressure = float(atmo.P[0])
+
+        return temp, pressure
+
+    def atmosphericConditions(self, model : int, altitude : float, agl : float = 0, T_agl : float = 288.15) -> tuple[float, float]:
 
         # Get the atmospheric conditions at the specified altitude (convert mm to km)
-        # Uses the coesa76 model which is an extension of US Standard Atmosphere 1976 model to work above 84K
-        # atmo = coesa76([altitude / (1000.0 * 1000.0)], alt_type='geopotential')
-        altitude_agl = (altitude / (1000.0 * 1000.0)) + agl
-        atmo = coesa76([altitude_agl], alt_type='geometric')
-        # atmo = coesa76([altitude / (1000.0 * 1000.0)], alt_type='geometric')
-        # atmo = ussa76([altitude / (1000.0 * 1000.0)])
-
-        temp = float(atmo.T[0]) #+ self.temperatureCompensation(agl, T_agl)
-        pressure = float(atmo.P[0])
+        if model == ATMOS_POF_615:
+            temp, pressure = self.atmospherePOF615(altitude, agl, T_agl)
+        elif model == ATMOS_COESA_GEOMETRIC:
+            temp, pressure = self.atmosphereCOESAGeometric(altitude, agl, T_agl)
+        elif model == ATMOS_COESA_GEOPOTENTIAL:
+            temp, pressure = self.atmosphereCOESAGeopotential(altitude, agl, T_agl)
+        else:
+            temp, pressure = self.atmosphereUSSA(altitude, agl, T_agl)
 
         # speed of sound
         mach = math.sqrt(gamma * R_air * temp)
@@ -153,32 +202,30 @@ class FinFlutter:
 
         return mach,pressure
 
-    def flutter(self, altitude, shear):
+    def flutter(self, model : int, altitude : float, shear : float) -> tuple[float, float]:
         # Calculate fin flutter using the method outlined in NACA Technical Note 4197
 
-        a,pressure = self.atmosphericConditions(altitude)
+        a,pressure = self.atmosphericConditions(model, altitude)
 
         shear *= 1000.0 # Convert from kPa to Pa
 
         # The coefficient is adjusted for SI units
-        Vf = math.sqrt(shear / ((270964.068 * (self._aspectRatio**3)) / (pow(self._thickness / self._rootChord, 3) * (self._aspectRatio + 2)) * ((self._lambda + 1) / 2) * (pressure / p0)))
-
-        # This is experimental. Its validity is not yet confirmed
-        # Vfe = math.sqrt(shear / ((270964.068 * self._epsilon * (self._aspectRatio**3)) / (pow(self._thickness / self._rootChord, 3) * (self._aspectRatio + 2)) * ((self._lambda + 1) / 2) * (pressure / p0)))
-        # print("Vf %f" % (Vf))
-        # print("Vfe %f" % (Vfe))
+        Vf = math.sqrt(shear / 
+                       ((270964.068 * (self._aspectRatio**3)) / 
+                        (pow(self._thickness / self._rootChord, 3) * (self._aspectRatio + 2)) * ((self._lambda + 1) / 2) * (pressure / p0)))
 
         # Flutter velocity in m/s
         Vfa = a * Vf
 
         return Vf, Vfa
 
-    def flutterPOF615(self, altitude : float, shear : float, agl : float, T_agl : float) -> tuple[float, float]:
+    def flutterPOF615(self, model : int, altitude : float, shear : float, agl : float, T_agl : float) -> tuple[float, float]:
         #
         # Calculate flutter using the formula outlined in Peak of Flight issue 615
         #
+        print(f"Atmospheric model {model}")
 
-        a,pressure = self.atmosphericConditions(altitude, agl, T_agl)
+        a,pressure = self.atmosphericConditions(model, altitude, agl, T_agl)
 
         shear *= 1000.0 # Convert from kPa to Pa
 
@@ -193,33 +240,36 @@ class FinFlutter:
 
         return Vf, Vfa
 
-    def flutterPOF(self, altitude, shear):
+    def flutterPOF(self, model : int, altitude : float, shear : float) -> tuple[float, float]:
         #
         # Calculate flutter using the formula outlined in Peak of Flight issue 291
         # There is some discussion that this may over estimate the flutter by a factor of sqrt(2) vs the NACA method
         #
 
-        a,pressure = self.atmosphericConditions(altitude)
+        a,pressure = self.atmosphericConditions(model, altitude)
 
         shear *= 1000.0 # Convert from kPa to Pa
 
         # Flutter velocity in Mach
-        Vf = math.sqrt((shear * 2 * (self._aspectRatio + 2) * pow(self._thickness / self._rootChord, 3)) / (1.337 * pow(self._aspectRatio, 3) * pressure * (self._lambda + 1)))
+        Vf = math.sqrt((shear * 2 * (self._aspectRatio + 2) * pow(self._thickness / self._rootChord, 3)) / 
+                       (1.337 * pow(self._aspectRatio, 3) * pressure * (self._lambda + 1)))
 
         # Flutter velocity in m/s
         Vfa = a * Vf
 
         return Vf, Vfa
 
-    def divergence(self, altitude, shear):
+    def divergence(self, model : int, altitude : float, shear : float, agl : float, T_agl : float) -> tuple[float, float]:
         # Calculate fin divergence using the method outlined in NACA Technical Note 4197
 
-        a,pressure = self.atmosphericConditions(altitude)
+        a,pressure = self.atmosphericConditions(model, altitude, agl, T_agl)
 
         shear *= 1000.0 # Convert from kPa to Pa
 
         # Divergent velocity in Mach
-        Vd = math.sqrt(shear / (((3.3 * pressure) / (1 + (2 / self._aspectRatio))) * ((self._rootChord + self._tipChord) / self._thickness**3) * (self._span**2)))
+        Vd = math.sqrt(shear /
+                       (((3.3 * pressure) / (1 + (2 / self._aspectRatio))) * 
+                        ((self._rootChord + self._tipChord) / self._thickness**3) * (self._span**2)))
 
         # Divergent velocity in m/s
         Vda = a * Vd
