@@ -46,59 +46,56 @@ class FinFlutter:
     def __init__(self, fin):
         self._fin = fin
 
+        if fin.FinType == FIN_TYPE_TUBE:
+            raise TypeError(translate('Rocket', "Tube fins are not supported at this time"))
+        elif fin.FinType == FIN_TYPE_SKETCH:
+            raise TypeError(translate('Rocket', "Custom fins are not supported at this time"))
+
         # Create the fin shape without any extras such as TTW tabs, fin cans, etc
         # From this we can get properties such as CG, Volume, etc...
-        handler = None
         if fin.FinType == FIN_TYPE_TRAPEZOID:
             handler = FinTrapezoidShapeHandler(fin)
         elif fin.FinType == FIN_TYPE_TRIANGLE:
             handler = FinTriangleShapeHandler(fin)
         elif fin.FinType == FIN_TYPE_ELLIPSE:
             handler = FinEllipseShapeHandler(fin)
-        elif fin.FinType == FIN_TYPE_TUBE:
-            handler = FinTubeShapeHandler(fin)
-        elif fin.FinType == FIN_TYPE_SKETCH:
+        else: # fin.FinType == FIN_TYPE_SKETCH:
             handler = FinSketchShapeHandler(fin)
         self._Shape = handler.finOnlyShape()
 
-        if fin.FinType == FIN_TYPE_ELLIPSE:
-            raise TypeError(translate('Rocket', "Elliptical fins are not supported at this time"))
-        elif fin.FinType == FIN_TYPE_TRIANGLE:
-            raise TypeError(translate('Rocket', "Triangular fins are not supported at this time"))
-        elif fin.FinType == FIN_TYPE_TUBE:
-            raise TypeError(translate('Rocket', "Tube fins are not supported at this time"))
-        if fin.FinType == FIN_TYPE_ELLIPSE:
-            raise TypeError(translate('Rocket', "Elliptical fins are not supported at this time"))
-        elif fin.FinType == FIN_TYPE_TRAPEZOID:
+        self._rootChord = self._fromMM(fin.RootChord)
+        self._span = self._fromMM(fin.Height)
+        if fin.FinType in [FIN_TYPE_TRAPEZOID, FIN_TYPE_TRIANGLE]:
 
             # Convert from mm to m
-            self._tipChord = self._fromMM(fin.TipChord)
-            self._rootChord = self._fromMM(fin.RootChord)
-            self._sweep = self._fromMM(fin.SweepLength)
-            if float(fin.RootThickness) != float(fin.TipThickness):
-                raise TypeError(translate('Rocket', "Tapered thickness fins are not supported at this time"))
-
-            self._span = self._fromMM(fin.Height)
+            if fin.FinType == FIN_TYPE_TRIANGLE:
+                self._tipChord = 0.0
+            else:
+                self._tipChord = self._fromMM(fin.TipChord)
             self._area = (self._rootChord + self._tipChord) * self._span / 2.0
-            self._volume = float(self._Shape.Volume) * 1e-9 # mm^3 to m^3
-            self._thickness = self._volume / self._area
+            self._sweep = self._fromMM(fin.SweepLength)
+        elif fin.FinType == FIN_TYPE_ELLIPSE:
+            self._area = (self._span * math.pi * (self._rootChord / 2.0)) / 2.0
+            self._tipChord = ((self._area / self._span) * 2.0) - self._rootChord
+            self._sweep = (self._rootChord - self._tipChord) / 2.0
 
+        if float(fin.RootThickness) != float(fin.TipThickness):
+            raise TypeError(translate('Rocket', "Tapered thickness fins are not supported at this time"))
+
+        self._volume = float(self._Shape.Volume) * 1e-9 # mm^3 to m^3
+        self._thickness = self._volume / self._area
+
+        if fin.FinType == FIN_TYPE_ELLIPSE:
+            # True for all symettric fins
+            Cx = (self._rootChord * 0.5)
+            self._epsilon = 0.25
+        else:
             Cx = ((2 * self._tipChord * self._sweep) + (self._tipChord * self._tipChord) + (self._sweep * self._rootChord) + \
                         (self._tipChord * self._rootChord) + (self._rootChord * self._rootChord)) / \
                         (3 * (self._tipChord + self._rootChord))
-            epsilon = (Cx / self._rootChord) - 0.25
-            self._DN = (24 * epsilon * 1.4 * 101325) / math.pi
 
-            # This is experimental. It's veracity still needs to be confirmed
-            # cg = self._Shape.CenterOfGravity
-            # print("CG(%f, %fm %f)" % (cg.x, cg.y, cg.z))
-            # self._epsilon = math.fabs((0.75 * self._rootChord) - self._fromMM(cg.x)) / self._rootChord # Does this work for forward sweeps?
-            # print("epsilon %f" % (self._epsilon))
-
-            # self._epsilon = self._epsilon / 0.25 # NACA Eqn 18 already has an epsilon value of 0.25, so need to compensate
-        else:
-            raise TypeError(translate('Rocket', "Custom fins are not supported at this time"))
-
+            self._epsilon = (Cx / self._rootChord) - 0.25
+        self._DN = (24 * self._epsilon * 1.4 * 101325) / math.pi
         self._aspectRatio = self._span**2 / self._area
         self._lambda = self._tipChord / self._rootChord
 
@@ -113,7 +110,7 @@ class FinFlutter:
         print(f"Lambda {self._lambda}")
         print(f"Area {self._area}")
         print(f"Aspect ratio {self._aspectRatio}")
-        print(f"epsilon {epsilon}")
+        print(f"epsilon {self._epsilon}")
         print(f"DN {self._DN}")
 
     def _fromMM(self, value):
