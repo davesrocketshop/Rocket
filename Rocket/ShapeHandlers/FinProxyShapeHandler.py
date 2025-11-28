@@ -30,8 +30,13 @@ import math
 import FreeCAD
 import Part
 from Part import Shape
+import MeshPart
+
+from Rocket.cfd.parea import calculateProjectedArea
 
 from Rocket.Constants import FEATURE_FINCAN
+
+_linearDeflection = 0.5 # Linear deflection for a rough mesh with a fast calculation
 
 class FinProxyShapeHandler:
     def __init__(self, obj : Any) -> None:
@@ -182,3 +187,29 @@ class FinProxyShapeHandler:
 
     def drawSolidShape(self) -> Part.Solid:
         return self._getShape()
+
+    def area(self) -> float:
+        #
+        # Returns the areaa of the fin in the XZ palne
+        shape = self._getShape()
+        if shape is None:
+            return 0.0
+        
+        # Create a crude mesh and project it on to the YZ plane to calculate the frontal area
+        mesh = MeshPart.meshFromShape(shape, LinearDeflection=_linearDeflection)
+
+        area = calculateProjectedArea(mesh, plane='XZ')
+        return area
+
+    def findHeight(self) -> float:
+        shape = self._getShape()
+        if shape is None:
+            return 0.0
+
+        return shape.BoundBox.ZMax
+    
+    def finOnlyShape(self) -> Shape:
+        fin = self._getShape()
+        if fin is None:
+            return Part.Shape()
+        return fin

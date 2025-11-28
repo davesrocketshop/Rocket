@@ -103,7 +103,10 @@ def _mungeTriangle(v1, v2, v3, min_area=0):
     return t_verts
 
 def _projectTriangleToXYPlane(tri_3d):
-    return [(v[1], v[2]) for v in tri_3d]
+    return [(v[1], v[2], 0.0) for v in tri_3d]
+
+def _projectTriangleToXZPlane(tri_3d):
+    return [(v[0], v[2]) for v in tri_3d]
 
 def _meshTriangleGenerator(mesh):
     # initialize
@@ -122,7 +125,7 @@ def _meshTriangleGenerator(mesh):
             yield triangle
             triangle = []
 
-def _loadMesh(mesh):
+def _loadMesh(mesh, plane):
     '''LOAD STL
 
     Parameters
@@ -137,13 +140,17 @@ def _loadMesh(mesh):
     # assemble stl
     triangles = []
     for i, t in enumerate(_meshTriangleGenerator(mesh)):
-        v1, v2, v3 = _projectTriangleToXYPlane(t)
+        if plane == 'XZ':
+            v1, v2, v3 = _projectTriangleToXZPlane(t)
+        else:
+            v1, v2, v3 = _projectTriangleToXYPlane(t)
         verts = _mungeTriangle(v1, v2, v3)
-        if len(verts) == 3: triangles.append(Polygon(verts))
+        if len(verts) == 3:
+            triangles.append(Polygon(verts))
 
     return triangles
 
-def calculateProjectedArea(mesh):
+def calculateProjectedArea(mesh, plane='XY'):
     '''CALCULATE PROJECTED AREA
 
     Parameters
@@ -156,7 +163,7 @@ def calculateProjectedArea(mesh):
     '''
 
     # bulk load all triangles from stl
-    triangles = _loadMesh(mesh)
+    triangles = _loadMesh(mesh, plane)
 
     # merge triangles into single polygon
     sub_polys = unary_union(triangles)

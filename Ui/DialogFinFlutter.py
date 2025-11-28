@@ -201,6 +201,7 @@ class DialogFinFlutter(UiDialog):
         self._ui.launchTemperatureInput.textEdited.connect(self.onLaunchTemperature)
         self._ui.atmosphericModelCombo.currentTextChanged.connect(self.onAtmosphericModel)
 
+        self._ui.speedInput.textChanged.connect(self.onSpeed)
         self._ui.altitudeInput.textEdited.connect(self.onAltitude)
         self._ui.maxAltitudeCombo.currentTextChanged.connect(self.onMaxAltitude)
         self._ui.altitudeSlider.valueChanged.connect(self.onSlider)
@@ -448,6 +449,9 @@ class DialogFinFlutter(UiDialog):
         self._setSeries()
         self._setSlider()
 
+    def onSpeed(self, value : str) -> None:
+        ...
+        
     def onAltitude(self, value : str) -> None:
         self._setSeries()
         self._setSlider()
@@ -486,7 +490,7 @@ class DialogFinFlutter(UiDialog):
         return self._formatQuantity("{0:.4f}", quantity, self._shearUnits())
 
     def _formatAltitude(self, quantity : FreeCAD.Units.Quantity) -> str:
-        return self._formatIntQuantity("{0:d}", quantity, self._heightUnits())
+        return self._formatQuantity("{0:.2f}", quantity, self._heightUnits())
 
     def updateFlutter(self) -> None:
         self._graphFlutter()
@@ -513,13 +517,18 @@ class DialogFinFlutter(UiDialog):
             self._ui.flutterMachInput.setText("{0:.2f}".format(flutter[0]))
             if speed > 0.0:
                 margin = (Vf.Value - speed)  * 100.0 / speed
-                self._ui.flutterMarginInput.setText("{0:.1f}".format(margin))
+                self._ui.flutterMarginInput.setText("{0:.1f} %".format(margin))
             else:
                 self._ui.flutterMarginInput.setText("")
 
             Vd = FreeCAD.Units.Quantity(str(divergence[1]) + " m/s")
             self._ui.divergenceInput.setText(self._formatVelocity(Vd))
             self._ui.divergenceMachInput.setText("{0:.2f}".format(divergence[0]))
+            if speed > 0.0:
+                margin = (Vd.Value - speed)  * 100.0 / speed
+                self._ui.divergenceMarginInput.setText("{0:.1f} %".format(margin))
+            else:
+                self._ui.divergenceMarginInput.setText("")
 
         except ValueError:
             pass

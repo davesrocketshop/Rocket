@@ -32,7 +32,7 @@ translate = FreeCAD.Qt.translate
 from Analyzers.pyatmos import coesa76, ussa76
 from Analyzers.pyatmos.utils.Const import p0, gamma, R_air
 
-from Rocket.Constants import FIN_TYPE_TRAPEZOID, FIN_TYPE_ELLIPSE, FIN_TYPE_SKETCH, FIN_TYPE_TRIANGLE, FIN_TYPE_TUBE
+from Rocket.Constants import FIN_TYPE_TRAPEZOID, FIN_TYPE_ELLIPSE, FIN_TYPE_SKETCH, FIN_TYPE_TRIANGLE, FIN_TYPE_TUBE, FIN_TYPE_PROXY
 from Rocket.Constants import ATMOS_POF_615, ATMOS_USSA, ATMOS_COESA_GEOMETRIC, ATMOS_COESA_GEOPOTENTIAL
 
 from Rocket.ShapeHandlers.FinTrapezoidShapeHandler import FinTrapezoidShapeHandler
@@ -40,6 +40,7 @@ from Rocket.ShapeHandlers.FinTriangleShapeHandler import FinTriangleShapeHandler
 from Rocket.ShapeHandlers.FinEllipseShapeHandler import FinEllipseShapeHandler
 from Rocket.ShapeHandlers.FinTubeShapeHandler import FinTubeShapeHandler
 from Rocket.ShapeHandlers.FinSketchShapeHandler import FinSketchShapeHandler
+from Rocket.ShapeHandlers.FinProxyShapeHandler import FinProxyShapeHandler
 
 class FinFlutter:
 
@@ -48,8 +49,10 @@ class FinFlutter:
 
         if fin.FinType == FIN_TYPE_TUBE:
             raise TypeError(translate('Rocket', "Tube fins are not supported at this time"))
-        elif fin.FinType == FIN_TYPE_SKETCH:
-            raise TypeError(translate('Rocket', "Custom fins are not supported at this time"))
+        # elif fin.FinType == FIN_TYPE_SKETCH:
+        #     raise TypeError(translate('Rocket', "Custom fins are not supported at this time"))
+        # elif fin.FinType == FIN_TYPE_PROXY:
+        #     raise TypeError(translate('Rocket', "Proxy fins are not supported at this time"))
 
         # Create the fin shape without any extras such as TTW tabs, fin cans, etc
         # From this we can get properties such as CG, Volume, etc...
@@ -59,8 +62,10 @@ class FinFlutter:
             handler = FinTriangleShapeHandler(fin)
         elif fin.FinType == FIN_TYPE_ELLIPSE:
             handler = FinEllipseShapeHandler(fin)
-        else: # fin.FinType == FIN_TYPE_SKETCH:
+        elif fin.FinType == FIN_TYPE_SKETCH:
             handler = FinSketchShapeHandler(fin)
+        else: # fin.FinType == FIN_TYPE_PROXY:
+            handler = FinProxyShapeHandler(fin)
         self._Shape = handler.finOnlyShape()
 
         self._rootChord = self._fromMM(fin.RootChord)
@@ -79,7 +84,12 @@ class FinFlutter:
         elif fin.FinType == FIN_TYPE_SKETCH and isinstance(handler, FinSketchShapeHandler):
             self._area = handler.area() * 1e-6 # mm^2 to m^2
             self._span = self._fromMM(handler.findHeight())
-            self._rootChord = self._fromMM(handler.rootChordLength())
+            # self._rootChord = self._fromMM(handler.rootChordLength())
+            self._tipChord = ((self._area / self._span) * 2.0) - self._rootChord
+        elif fin.FinType == FIN_TYPE_PROXY and isinstance(handler, FinProxyShapeHandler):
+            self._area = handler.area() * 1e-6 # mm^2 to m^2
+            self._span = self._fromMM(handler.findHeight())
+            # self._rootChord = self._fromMM(handler.rootChordLength())
             self._tipChord = ((self._area / self._span) * 2.0) - self._rootChord
 
         if float(fin.RootThickness) != float(fin.TipThickness):
