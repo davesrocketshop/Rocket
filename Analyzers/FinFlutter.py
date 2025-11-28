@@ -73,11 +73,14 @@ class FinFlutter:
             else:
                 self._tipChord = self._fromMM(fin.TipChord)
             self._area = (self._rootChord + self._tipChord) * self._span / 2.0
-            self._sweep = self._fromMM(fin.SweepLength)
         elif fin.FinType == FIN_TYPE_ELLIPSE:
             self._area = (self._span * math.pi * (self._rootChord / 2.0)) / 2.0
             self._tipChord = ((self._area / self._span) * 2.0) - self._rootChord
-            self._sweep = (self._rootChord - self._tipChord) / 2.0
+        elif fin.FinType == FIN_TYPE_SKETCH and isinstance(handler, FinSketchShapeHandler):
+            self._area = handler.area() * 1e-6 # mm^2 to m^2
+            self._span = self._fromMM(handler.findHeight())
+            self._rootChord = self._fromMM(handler.rootChordLength())
+            self._tipChord = ((self._area / self._span) * 2.0) - self._rootChord
 
         if float(fin.RootThickness) != float(fin.TipThickness):
             raise TypeError(translate('Rocket', "Tapered thickness fins are not supported at this time"))
@@ -85,27 +88,18 @@ class FinFlutter:
         self._volume = float(self._Shape.Volume) * 1e-9 # mm^3 to m^3
         self._thickness = self._volume / self._area
 
-        if fin.FinType == FIN_TYPE_ELLIPSE:
-            # True for all symettric fins
-            Cx = (self._rootChord * 0.5)
-            self._epsilon = 0.25
-        else:
-            Cx = ((2 * self._tipChord * self._sweep) + (self._tipChord * self._tipChord) + (self._sweep * self._rootChord) + \
-                        (self._tipChord * self._rootChord) + (self._rootChord * self._rootChord)) / \
-                        (3 * (self._tipChord + self._rootChord))
-
-            self._epsilon = (Cx / self._rootChord) - 0.25
+        self._Cx = (self._Shape.CenterOfGravity.x * 1e-3) # mm to m
+        self._epsilon = (self._Cx / self._rootChord) - 0.25
         self._DN = (24 * self._epsilon * 1.4 * 101325) / math.pi
         self._aspectRatio = self._span**2 / self._area
         self._lambda = self._tipChord / self._rootChord
 
         print(f"Thickness {self._thickness}")
-        print(f"Sweep length {self._sweep}")
         print(f"TC {self._tipChord}")
         print(f"RC {self._rootChord}")
         print(f"SSL {self._span}")
 
-        print(f"Cx {Cx}")
+        print(f"Cx {self._Cx}")
         print(f"t/c {self._thickness / self._rootChord}")
         print(f"Lambda {self._lambda}")
         print(f"Area {self._area}")

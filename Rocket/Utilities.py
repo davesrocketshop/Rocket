@@ -56,6 +56,13 @@ def validationError(message : str) -> None:
     # FreeCAD.Console.PrintError(message + "\n")
     pass
 
+def unsupportedError(message : str) -> None:
+    """
+        Write errors  to the console including the line ending.
+        Placeholder for future error handling
+    """
+    FreeCAD.Console.PrintError(message + "\n")
+
 def _trace(className : str, functionName : str, message : str | None = None) -> None:
     """Write errors  to the console including the line ending."""
     trace = True

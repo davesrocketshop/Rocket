@@ -566,5 +566,3 @@ class DialogFinFlutter(UiDialog):
         self._ui.maxAltitudeCombo.setCurrentText(self._param.GetString("MaximumAltitude", "10000 m"))
         self._ui.speedInput.setText(self._param.GetString("MaximumSpeed", "0.0 m/s"))
         self._ui.altitudeInput.setText(self._param.GetString("AltitudeAtMaximumSpeed", "914.00 m"))
-
-        print(dir(self._ui.speedInput))

@@ -36,7 +36,7 @@ from Rocket.Constants import FIN_CROSS_SQUARE, FIN_CROSS_WEDGE, \
     FIN_CROSS_DIAMOND, FIN_CROSS_TAPER_LE, FIN_CROSS_TAPER_TE, FIN_CROSS_TAPER_LETE
 
 from Rocket.ShapeHandlers.FinShapeHandler import FinShapeHandler
-from Rocket.Utilities import _err, validationError
+from Rocket.Utilities import _err, validationError, unsupportedError
 
 class FinSketchShapeHandler(FinShapeHandler):
 
@@ -49,7 +49,7 @@ class FinSketchShapeHandler(FinShapeHandler):
             return False
 
         if issubclass(type(shape), Part.Compound):
-            validationError(translate('Rocket', "Compound objects not supported"))
+            unsupportedError(translate('Rocket', "Compound objects not supported"))
             return False
 
         # Verify the shape creates a closed face
@@ -162,6 +162,7 @@ class FinSketchShapeHandler(FinShapeHandler):
         return (xmin, xmax)
 
     def findRootChord(self, shape : Shape) -> tuple[float, float]:
+        # return self.findChord(0.0, shape)
         tolerance = shape.getTolerance(1, Part.Shape) # Maximum tolerance
 
         # Find all x's associated with all z's
@@ -182,6 +183,12 @@ class FinSketchShapeHandler(FinShapeHandler):
             elif xmax < x:
                 xmax = x
         return (xmin, xmax)
+
+    def findHeight(self) -> float:
+        profile = self._obj.Profile
+        shape = profile.Shape
+
+        return shape.BoundBox.ZMax
 
     def getFace(self) -> Any:
         profile = self._obj.Profile
@@ -308,3 +315,21 @@ class FinSketchShapeHandler(FinShapeHandler):
     #     # origin = FreeCAD.Vector(float(xmax) - self._ttwOffset - self._ttwLength, -0.5 * self._ttwThickness, -1.0 * self._ttwHeight)
     #     origin = FreeCAD.Vector(self._ttwOffset, -0.5 * self._ttwThickness, -1.0 * self._ttwHeight)
     #     return Part.makeBox(self._ttwLength, self._ttwThickness, self._ttwHeight, origin)
+
+    def area(self) -> float:
+        #
+        # Returns the areaa of the sketch
+        shape = self.getFace()
+        if shape is None:
+            return 0.0
+
+        face = Part.Face(shape)
+        return face.Area
+
+    def rootChordLength(self) -> float:
+        shape = self.getFace()
+        if shape is None:
+            return 0.0
+        xmin, xmax = self.findRootChord(shape)
+        print(f"xmin {xmin}, xmax {xmax}")
+        return abs(xmax - xmin)
