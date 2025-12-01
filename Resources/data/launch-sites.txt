@@ -33,37 +33,37 @@ Fort Myers Tripoli:26.749861:-81.268500:6:https://tripolifortmyers.weebly.com/
 FSA Florida Spacemodeling Association Dyer Park:26.7837:-80.1233:4:https://fsa-twp.webs.com/
 Fusée Fete:45.6832:-71.6678:348:https://clubqf.ca
 Gorge Rocket Club:45.761200:-120.845070:495:http://www.gorgerocketclub.com
-GRITS Gaskins Farm:31.283055555555556:-83.349444444444444::http://www/gritslaunch.com
-HARA Bragg Farms:34.895875:-86.616211::http://www.hararocketry.org/HARA/Main.html
-HARA Manchester:35.489537:-85.962438::http://www.hararocketry.org/HARA/Main.html
-Homestead Public Rocketry Club:25.51366648923275:-80.3915995916461::https://www.facebook.com/hprc.cc/
-Indiana Rocketry Tab Field:40.386175:-87.513318::https://www.indianarocketry.org/
-IREC Spaceport Midland:31.042640:-103.541932::https://www.soundingrocket.org/
-James Ranch:37.4276694:-107.8155833::http://www.nar.org/local_club/cloudbusters-cb-807
-KLOUDBusters Rocket Pasture:37.167833333:-97.73975::http://kloudbusters.org
-KOSMO Ellinwood Airport:38.3728403:-98.5986431::http://www.kosmo427.org
-LRA Roc Lake:49.4456194:-112.0118083::http://www.lethbridgerocketry.com/roclake
-Latin American Space Challenge:-23.3691882:-48.0115186::http://www.lasc.space/
-LUNAR Snow Ranch:37.949198:-120.795944::http://www.lunar.org/
-LUNAR Moffett Field:37.412582:-122.052290::http://www.lunar.org/
-MDARS Tripoli Mojave Desert:35.1044666667:-117.795666667::http://www.mdars.info/
-MDRA Central Sod Farm:39.000638:-76.105988::http://www.mdrocketry.org
-MDRA Higgs Farm:39.07854167:-75.87634583::http://www.mdrocketry.org
-METRA Pine Island:41.31939:-74.47077::http://metrarocketclub.org
-Michiana Rocketry Three Oaks:41.777190:-86.576265::http://www.michianarocketry.org
-MMMMSC Tuckahoe Turf Farms:43.318945:-70.892135::http://mmmsclub.org/
-Mojave Desert Advanced Rocket Society:35.10472:-117.79444::http://www.mojavedesertrocketry.org/
-MRC Twycross:52.663891:-1.527357::https://www.midlandrocketry.org.uk/
-NASA Houston Rocket Club:29.558833:-95.09945::http://nasahoustonrocketclub.net
-NCR Atlas Site:40.65:-104.38333::http://ncrocketry.org
-NCR Pawnee North Site:40.885955:-104.63793::http://ncrocketry.org
-New Brunswick Rocketry Gagetown Site:45.606979:-66.254710::
-New Brunswick Rocketry Glenvale Site:45.940678:-65.248700::
-NRVR Kentland Farms:37.198236:-80.582786::http://nrvr.org
-NEFAR Clegg sod farm:29.331950:-81.352590::http://www.nefar.net
-NOVAAR Great Meadow:38.829743:-77.806898::http://novaar.org
-NSWRA Doonside Sydney:-33.78567:150.866862::http://www.nswrocketry.org.au
-NZRA Taupiri:-37.5492:175.261966666666667::http://www.nzrocketry.org.nz
+GRITS Gaskins Farm:31.283055555555556:-83.349444444444444:76:http://www/gritslaunch.com
+HARA Bragg Farms:34.895875:-86.616211:246:http://www.hararocketry.org/HARA/Main.html
+HARA Manchester:35.489537:-85.962438:341:http://www.hararocketry.org/HARA/Main.html
+Homestead Public Rocketry Club:25.51366648923275:-80.3915995916461:2:https://www.facebook.com/hprc.cc/
+Indiana Rocketry Tab Field:40.386175:-87.513318:215:https://www.indianarocketry.org/
+IREC Spaceport Midland:31.042640:-103.541932:908:https://www.soundingrocket.org/
+James Ranch:37.4276694:-107.8155833:2043:http://www.nar.org/local_club/cloudbusters-cb-807
+KLOUDBusters Rocket Pasture:37.167833333:-97.73975:382:http://kloudbusters.org
+KOSMO Ellinwood Airport:38.3728403:-98.5986431:548:http://www.kosmo427.org
+LRA Roc Lake:49.4456194:-112.0118083:931:http://www.lethbridgerocketry.com/roclake
+Latin American Space Challenge:-23.3691882:-48.0115186:656:http://www.lasc.space/
+LUNAR Snow Ranch:37.949198:-120.795944:88:http://www.lunar.org/
+LUNAR Moffett Field:37.412582:-122.052290:6:http://www.lunar.org/
+MDARS Tripoli Mojave Desert:35.1044666667:-117.795666667:754:http://www.mdars.info/
+MDRA Central Sod Farm:39.000638:-76.105988:20:http://www.mdrocketry.org
+MDRA Higgs Farm:39.07854167:-75.87634583:17:http://www.mdrocketry.org
+METRA Pine Island:41.31939:-74.47077:116:http://metrarocketclub.org
+Michiana Rocketry Three Oaks:41.777190:-86.576265:195:http://www.michianarocketry.org
+MMMMSC Tuckahoe Turf Farms:43.318945:-70.892135:66:http://mmmsclub.org/
+Mojave Desert Advanced Rocket Society:35.10472:-117.79444:754:http://www.mojavedesertrocketry.org/
+MRC Twycross:52.663891:-1.527357:110:https://www.midlandrocketry.org.uk/
+NASA Houston Rocket Club:29.558833:-95.09945:5:http://nasahoustonrocketclub.net
+NCR Atlas Site:40.65:-104.38333:1515:http://ncrocketry.org
+NCR Pawnee North Site:40.885955:-104.63793:1663:http://ncrocketry.org
+New Brunswick Rocketry Gagetown Site:45.606979:-66.254710:219:
+New Brunswick Rocketry Glenvale Site:45.940678:-65.248700:74:
+NRVR Kentland Farms:37.198236:-80.582786:543:http://nrvr.org
+NEFAR Clegg sod farm:29.331950:-81.352590:4:http://www.nefar.net
+NOVAAR Great Meadow:38.829743:-77.806898:178:http://novaar.org
+NSWRA Doonside Sydney:-33.78567:150.866862:46:http://www.nswrocketry.org.au
+NZRA Taupiri:-37.5492:175.261966666666667:17:http://www.nzrocketry.org.nz
 Old Fort Lewis College:37.228850:-108.063984::http://www.nar.org/local_club/cloudbusters-cb-807
 OPROC Discovery Bay:47.97808:-122.896383::http://4hrockets.blogspot.com
 OROC Brothers:43.79949786336483:-120.6485810681392::http://www.oregonrocketry.com
@@ -99,7 +99,7 @@ St. Louis Rocketry Elsberry, MO:39.160217:-90.763356::http://stlouisrocketry.com
 SystemsGO South, Houston, TX:29.562952777777778:-94.731458333333333::http://www.systemsgo.org/
 THOR / Tripoli Nebraska (Concord):42.387210:-96.952138::https://www.nebraskarocketry.com/
 THOR / Tripoli Nebraska (Jansen):40.150556:-97.032222::https://www.nebraskarocketry.com/
-Torrey Farms of Potter, NY:42.7008967:-77.183656::http://urrg.org/
+Torrey Farms of Potter, NY:42.7008967:-77.183656:269:http://urrg.org/
 TRAAU Serpentine:-36.4823466:144.0180150::http://traau.com/
 Tri-Cities Rocketeers:46.40879:-119.01591::https://tri-cities-rocketeers.weebly.com/
 Tripoli Central California:36.532323:-120.051785::http://www.tccrockets.com/

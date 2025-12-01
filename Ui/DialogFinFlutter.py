@@ -297,7 +297,7 @@ class DialogFinFlutter(UiDialog):
                         else:
                             altitude = 0
                         self._ui.launchSiteCombo.addItem(data[0], altitude)
-    
+
     def fillTemperatureUnitsCombo(self) -> None:
         self._ui.temperatureUnitsCombo.addItem('C')
         self._ui.temperatureUnitsCombo.addItem('F')
@@ -450,8 +450,9 @@ class DialogFinFlutter(UiDialog):
         self._setSlider()
 
     def onSpeed(self, value : str) -> None:
+        print(f"Cursor position {self._ui.speedInput.cursorPosition()}")
         ...
-        
+
     def onAltitude(self, value : str) -> None:
         self._setSeries()
         self._setSlider()
