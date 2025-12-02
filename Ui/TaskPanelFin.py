@@ -126,7 +126,7 @@ class _FinDialog(QDialog):
         self.form.finProxyTypesCombo.addItem(translate('Rocket', FIN_TYPE_SKETCH), FIN_TYPE_SKETCH)
         self.form.finProxyTypesCombo.addItem(translate('Rocket', FIN_TYPE_PROXY), FIN_TYPE_PROXY)
 
-        self.form.proxyEffectiveDiameterInput.unit = FreeCAD.Units.Length
+        self.form.proxyEffectiveRootChordInput.unit = FreeCAD.Units.Length
         self.form.xRotationInput.unit = FreeCAD.Units.Angle
         self.form.yRotationInput.unit = FreeCAD.Units.Angle
         self.form.zRotationInput.unit = FreeCAD.Units.Angle
@@ -285,7 +285,7 @@ class TaskPanelFin(QObject):
         self._finForm.form.minimumEdgeSizeInput.textEdited.connect(self.onMinimumEdgeSize)
 
         self._finForm.form.proxyBaseObjectButton.clicked.connect(self.onSelect)
-        # self._finForm.form.proxyEffectiveDiameterInput.textEdited.connect(self.onEffectiveDiameter)
+        self._finForm.form.proxyEffectiveRootChordInput.textEdited.connect(self.onEffectiveRootChord)
         self._finForm.form.xRotationInput.textEdited.connect(self.onRotation)
         self._finForm.form.yRotationInput.textEdited.connect(self.onRotation)
         self._finForm.form.zRotationInput.textEdited.connect(self.onRotation)
@@ -308,7 +308,13 @@ class TaskPanelFin(QObject):
 
     def transferTo(self) -> None:
         "Transfer from the dialog to the object"
-        self._obj.FinType = str(self._finForm.form.finTypesCombo.currentData())
+        if self._obj.FinType == FIN_TYPE_PROXY:
+            self._obj.FinType = str(self._finForm.form.finProxyTypesCombo.currentData())
+            self._obj.RootChord = FreeCAD.Units.Quantity(self._finForm.form.proxyEffectiveRootChordInput.text()).Value
+        else:
+            self._obj.FinType = str(self._finForm.form.finTypesCombo.currentData())
+            if self._obj.FinType != FIN_TYPE_TUBE:
+                self._obj.RootChord = self._finForm.form.rootChordInput.text()
 
         self._obj.FinSet = self._finForm.form.finSetGroup.isChecked()
         self._obj.FinCount = self._finForm.form.finCountSpinBox.value()
@@ -316,8 +322,8 @@ class TaskPanelFin(QObject):
         self._obj.Cant = self._finForm.form.finCantInput.text()
 
         self._obj.RootCrossSection = str(self._finForm.form.rootCrossSectionsCombo.currentData())
-        if self._obj.FinType != FIN_TYPE_TUBE:
-            self._obj.RootChord = self._finForm.form.rootChordInput.text()
+        # if self._obj.FinType != FIN_TYPE_TUBE:
+        #     self._obj.RootChord = self._finForm.form.rootChordInput.text()
         self._obj.RootThickness = self._finForm.form.rootThicknessInput.text()
         self._obj.RootPerCent = self._finForm.form.rootPerCentCheckbox.isChecked()
         self._obj.RootLength1 = self._finForm.form.rootLength1Input.text()
@@ -374,6 +380,7 @@ class TaskPanelFin(QObject):
     def transferFrom(self) -> None:
         "Transfer from the object to the dialog"
         self._finForm.form.finTypesCombo.setCurrentIndex(self._finForm.form.finTypesCombo.findData(self._obj.FinType))
+        self._finForm.form.finProxyTypesCombo.setCurrentIndex(self._finForm.form.finProxyTypesCombo.findData(self._obj.FinType))
 
         self._finForm.form.finSetGroup.setChecked(self._obj.FinSet)
         self._finForm.form.finSetProxyGroup.setChecked(self._obj.FinSet)
@@ -427,7 +434,7 @@ class TaskPanelFin(QObject):
             self._finForm.form.proxyBaseObjectInput.setText(self._obj.Base.Label)
         else:
             self._finForm.form.proxyBaseObjectInput.setText("")
-        # self._finForm.form.proxyEffectiveDiameterInput.setText(self._obj.Diameter.UserString)
+        self._finForm.form.proxyEffectiveRootChordInput.setText(self._obj.RootChord.UserString)
 
         placement = self._obj.ProxyPlacement
         yaw, pitch, roll = placement.Rotation.getYawPitchRoll()
@@ -1249,9 +1256,9 @@ class TaskPanelFin(QObject):
         self._finForm.form.proxyBaseObjectLabelSelect.setText("")
         del FreeCAD.RocketObserver
 
-    def onEffectiveDiameter(self, value):
+    def onEffectiveRootChord(self, value):
         try:
-            self._obj.Diameter = FreeCAD.Units.Quantity(value).Value
+            self._obj.RootChord = FreeCAD.Units.Quantity(value).Value
             self._obj.Proxy.execute(self._obj)
         except ValueError:
             pass
