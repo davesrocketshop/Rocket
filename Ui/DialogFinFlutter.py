@@ -59,14 +59,21 @@ class DialogFinFlutter(UiDialog):
         self._material = None
 
         self._materialManager = Materials.MaterialManager()
+        doc = FreeCADGui.ActiveDocument.Document
+        self._schemas = doc.getEnumerationsOfProperty("UnitSystem")
 
         self.initUI()
         self._setSeries()
         self.updateFlutter()
 
     def _isMetricUnitPref(self) -> bool:
+        doc = FreeCADGui.ActiveDocument.Document
         param = FreeCAD.ParamGet("User parameter:BaseApp/Preferences/Units")
-        schema = param.GetInt('UserSchema')
+        ignore = param.GetBool("IgnoreProjectSchema", False);
+        if ignore:
+            schema = param.GetInt('UserSchema', 0)
+        else:
+            schema = self._schemas.index(doc.UnitSystem)
         if schema in [2,3,5,7]:
             return False
 
@@ -423,7 +430,7 @@ class DialogFinFlutter(UiDialog):
 
     def onLaunchSite(self, value : str) -> None:
         altitude = self._ui.launchSiteCombo.currentData()
-        self._ui.launchSiteAltitudeInput.setText(self._formatAltitude(FreeCAD.Units.Quantity(f"{altitude} m")))
+        self._ui.launchSiteAltitudeInput.setText(self._formatAltitude(FreeCAD.Units.Quantity(f"{altitude}")))
 
     def onTemperatureUnits(self, value : str) -> None:
         self._setSeries()

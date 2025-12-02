@@ -104,18 +104,23 @@ class FinFlutter:
         self._aspectRatio = self._span**2 / self._area
         self._lambda = self._tipChord / self._rootChord
 
-        print(f"Thickness {self._thickness}")
-        print(f"TC {self._tipChord}")
-        print(f"RC {self._rootChord}")
-        print(f"SSL {self._span}")
+        print(f"Thickness {self._formatFloat(self._thickness, 'm', 'cm', 'in')}")
+        print(f"TC {self._formatFloat(self._tipChord, 'm', 'cm', 'in')}")
+        print(f"RC {self._formatFloat(self._rootChord, 'm', 'cm', 'in')}")
+        print(f"SSL {self._formatFloat(self._span, 'm', 'cm', 'in')}")
 
-        print(f"Cx {self._Cx}")
+        print(f"Cx {self._formatFloat(self._Cx, 'm', 'cm', 'in')}")
         print(f"t/c {self._thickness / self._rootChord}")
         print(f"Lambda {self._lambda}")
-        print(f"Area {self._area}")
+        print(f"Area {self._formatFloat(self._area, 'm^2', 'cm^2', 'in^2')}")
         print(f"Aspect ratio {self._aspectRatio}")
         print(f"epsilon {self._epsilon}")
-        print(f"DN {self._DN}")
+        print(f"DN {self._formatFloat(self._DN, 'Pa', 'kPa', 'psi')}")
+
+    def _formatFloat(self, value : float, units : str, metric : str, imperial : str) -> str:
+        quantity = FreeCAD.Units.Quantity(f"{value:.8g} {units}")
+        return f"{float(quantity.getValueAs(FreeCAD.Units.Quantity(metric))):.4f} {metric}, " \
+            f"{float(quantity.getValueAs(FreeCAD.Units.Quantity(imperial))):.4f} {imperial}"
 
     def _fromMM(self, value):
         return float(value) / 1000.0
