@@ -64,29 +64,29 @@ NEFAR Clegg sod farm:29.331950:-81.352590:4:http://www.nefar.net
 NOVAAR Great Meadow:38.829743:-77.806898:178:http://novaar.org
 NSWRA Doonside Sydney:-33.78567:150.866862:46:http://www.nswrocketry.org.au
 NZRA Taupiri:-37.5492:175.261966666666667:17:http://www.nzrocketry.org.nz
-Old Fort Lewis College:37.228850:-108.063984::http://www.nar.org/local_club/cloudbusters-cb-807
-OPROC Discovery Bay:47.97808:-122.896383::http://4hrockets.blogspot.com
-OROC Brothers:43.79949786336483:-120.6485810681392::http://www.oregonrocketry.com
-OROC Sheridan:45.044176:-123.314323::http://www.oregonrocketry.com
-OROC Silverton:44.948666666666667:-122.6875::http://www.oregonrocketry.com
-OROC Wilsonville:45.297186:-122.759067::http://www.oregonrocketry.com
-PARS Metamora, IL:40.774052:-89.398280::http://tripolipeoria95.com/
-PMW Talladega, AL:33.3158:-86.1711::http://www.phoenixmissileworks.com
-POTROCS Keyes, OK:36.707778:-101.169389::http://www.potrocks.org
-POTROCS Sunray, TX:36.0063:-101.7089639::http://www.potrocs.org
-QCRS Princeton, IL:41.492183333333333:-89.503033333333333::http://qcrs.us/
-QRS Cedar Grove:-27.8512283:152.9624000::https://qldrocketry.com
-QRS Funny Farm:-28.128375:149.7025472::https://qldrocketry.com
-Radical Rocketeers:40.899878:-74.867381::http://www.radrocketeers.org
-RGV Rocket Club Wilde Field:26.371333333333333:-97.878305555555556::https://www.rgvrockets.org/
-Richard Bong State Recreation Area:42.626167:-88.160507::http://www.tripoliwisconsin.com
-ROC Launch Site:34.4968528:-116.960578::https://rocstock.org
-Rocketry South Carolina:34.109209:-80.551657::http://rocketrysouthcarolina.org
-San Luis Valley Rocketeers:37.3838515:-106.1043903::https://www.facebook.com/SLVROC
-SARA Reservation Road:32.264739:-111.273861::http://sararocketry.org
-SARA Fairlie Moor:55.726944:-4.811111::http://sara.rocketry.org.uk
-SAROS Fall Fire:53.435056:-110.299417::http://www.saskatoonrocketry.org
-SCORE Hudson Ranch:38.155602777777778:-104.809119444444444::http://scronline.net
+Old Fort Lewis College:37.228850:-108.063984:2322:http://www.nar.org/local_club/cloudbusters-cb-807
+OPROC Discovery Bay:47.97808:-122.896383:23:http://4hrockets.blogspot.com
+OROC Brothers:43.79949786336483:-120.6485810681392:1383:http://www.oregonrocketry.com
+OROC Sheridan:45.044176:-123.314323:61:http://www.oregonrocketry.com
+OROC Silverton:44.948666666666667:-122.6875:467:http://www.oregonrocketry.com
+OROC Wilsonville:45.297186:-122.759067:30:http://www.oregonrocketry.com
+PARS Metamora, IL:40.774052:-89.398280:238:http://tripolipeoria95.com/
+PMW Talladega, AL:33.3158:-86.1711:159:http://www.phoenixmissileworks.com
+POTROCS Keyes, OK:36.707778:-101.169389:867:http://www.potrocks.org
+POTROCS Sunray, TX:36.0063:-101.7089639:1051:http://www.potrocs.org
+QCRS Princeton, IL:41.492183333333333:-89.503033333333333:223:http://qcrs.us/
+QRS Cedar Grove:-27.8512283:152.9624000:21:https://qldrocketry.com
+QRS Funny Farm:-28.128375:149.7025472:245:https://qldrocketry.com
+Radical Rocketeers:40.899878:-74.867381:162:http://www.radrocketeers.org
+RGV Rocket Club Wilde Field:26.371333333333333:-97.878305555555556:13:https://www.rgvrockets.org/
+Richard Bong State Recreation Area:42.626167:-88.160507:244:http://www.tripoliwisconsin.com
+ROC Launch Site:34.4968528:-116.960578:869:https://rocstock.org
+Rocketry South Carolina:34.109209:-80.551657:55:http://rocketrysouthcarolina.org
+San Luis Valley Rocketeers:37.3838515:-106.1043903:2364:https://www.facebook.com/SLVROC
+SARA Reservation Road:32.264739:-111.273861:667:http://sararocketry.org
+SARA Fairlie Moor:55.726944:-4.811111:242:http://sara.rocketry.org.uk
+SAROS Fall Fire:53.435056:-110.299417:633:http://www.saskatoonrocketry.org
+SCORE Hudson Ranch:38.155602777777778:-104.809119444444444:1666:http://scronline.net
 SEARS Samson, AL:31.118849:-86.091031::http://www.sears572.com
 SMASH:43.2626951:-86.0323107::http://www.smashrocketry.org/
 Spaceport America, NM:32.9406:-106.91492::http://spaceportamerica.com/

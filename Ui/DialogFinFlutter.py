@@ -191,6 +191,7 @@ class DialogFinFlutter(UiDialog):
 
         self.materialTreeWidget.onMaterial.connect(self.onMaterial)
         self.materialTreeWidget.onExpanded.connect(self.onExpanded)
+        self._ui.assignMaterialButton.clicked.connect(self.onAssignMaterial)
         self._ui.calculatedCheckbox.clicked.connect(self.onCalculated)
         self._ui.shearInput.textEdited.connect(self.onShear)
         self._ui.youngsInput.textEdited.connect(self.onYoungs)
@@ -228,6 +229,9 @@ class DialogFinFlutter(UiDialog):
     def _setSeries(self) -> None:
 
         modulus = float(FreeCAD.Units.Quantity(str(self._ui.shearInput.text())))
+        if self._ui.tipToTipCheckbox.isChecked():
+            # Approximate tip to tip reinforcment by doubling shear modulus
+            modulus *= 2.0
         maxHeight = int(FreeCAD.Units.Quantity(self._ui.maxAltitudeCombo.currentText()).getValueAs(FreeCAD.Units.Quantity(self._heightUnits())) / 1000)
         launchHeight = float(FreeCAD.Units.Quantity(self._ui.launchSiteAltitudeInput.text())) / 1000.0 # in meters
 
@@ -388,6 +392,9 @@ class DialogFinFlutter(UiDialog):
         # self._ui.materialGroup.adjustSize()
         self._ui.window().adjustSize()
 
+    def onAssignMaterial(self, checked: bool) -> None:
+        ...
+
     def onCalculated(self, value : bool) -> None:
         if value:
             self.setShearCalculated()
@@ -497,6 +504,9 @@ class DialogFinFlutter(UiDialog):
         self._graphFlutter()
         try:
             modulus = float(FreeCAD.Units.Quantity(str(self._ui.shearInput.text())))
+            if self._ui.tipToTipCheckbox.isChecked():
+                # Approximate tip to tip reinforcment by doubling shear modulus
+                modulus *= 2.0
             speed = float(FreeCAD.Units.Quantity(str(self._ui.speedInput.text())))
 
             # Heights in meters
