@@ -59,14 +59,21 @@ class DialogFinFlutter(UiDialog):
         self._material = None
 
         self._materialManager = Materials.MaterialManager()
+        doc = FreeCADGui.ActiveDocument.Document
+        self._schemas = doc.getEnumerationsOfProperty("UnitSystem")
 
         self.initUI()
         self._setSeries()
         self.updateFlutter()
 
     def _isMetricUnitPref(self) -> bool:
+        doc = FreeCADGui.ActiveDocument.Document
         param = FreeCAD.ParamGet("User parameter:BaseApp/Preferences/Units")
-        schema = param.GetInt('UserSchema')
+        ignore = param.GetBool("IgnoreProjectSchema", False);
+        if ignore:
+            schema = param.GetInt('UserSchema', 0)
+        else:
+            schema = self._schemas.index(doc.UnitSystem)
         if schema in [2,3,5,7]:
             return False
 
@@ -163,8 +170,12 @@ class DialogFinFlutter(UiDialog):
         self._flutterLine, = self._static_ax.plot(t, t, label=translate('Rocket', "Flutter"))
         self._divergenceLine, = self._static_ax.plot(t, t, label=translate('Rocket', "Divergence"))
         self._cursorLine, = self._static_ax.plot([0,0], [0,0])
-        self._static_ax.set_xlabel("Altitude (km)")
-        self._static_ax.set_ylabel("Velocity (m/s)")
+        if self._isMetricUnitPref():
+            self._static_ax.set_xlabel(translate('Rocket', "Altitude (km AGL)"))
+            self._static_ax.set_ylabel(translate('Rocket', "Velocity (m/s)"))
+        else:
+            self._static_ax.set_xlabel(translate('Rocket', "Altitude (x1000 ft AGL)"))
+            self._static_ax.set_ylabel(translate('Rocket', "Velocity (ft/s)"))
         self._static_ax.grid(visible=True)
         # self._static_ax.set_title("Flutter")
         self._static_ax.legend()
@@ -226,9 +237,17 @@ class DialogFinFlutter(UiDialog):
             return temperature + 273.15
         return temperature
 
+    def _getModulus(self) -> float:
+        return float(FreeCAD.Units.Quantity(str(self._ui.shearInput.text())))
+
+    def _formatFloat(self, value : float, units : str, metric : str, imperial : str) -> str:
+        quantity = FreeCAD.Units.Quantity(f"{value:.8g} {units}")
+        return f"{float(quantity.getValueAs(FreeCAD.Units.Quantity(metric))):.4f} {metric}, " \
+            f"{float(quantity.getValueAs(FreeCAD.Units.Quantity(imperial))):.4f} {imperial}"
+
     def _setSeries(self) -> None:
 
-        modulus = float(FreeCAD.Units.Quantity(str(self._ui.shearInput.text())))
+        modulus = self._getModulus()
         if self._ui.tipToTipCheckbox.isChecked():
             # Approximate tip to tip reinforcment by doubling shear modulus
             modulus *= 2.0
@@ -246,21 +265,25 @@ class DialogFinFlutter(UiDialog):
         flutterSeries = []
         divergenceSeries = []
         for i in range(0, maxHeight+1):
-            altitude = i * 1000.0 # to m
+            altitude = FreeCAD.Units.Quantity(f"{float(i * 1000.0)} {self._heightUnits()}").Value / 1000.0 # to m
             flutter = self._flutter.flutterPOF615(atmosphericModel, altitude, modulus, launchHeight, launchTemperature)
             divergence = self._flutter.divergence(atmosphericModel, altitude, modulus, launchHeight, launchTemperature)
             # Getting the data
             x = float(i)
             x_axis.append(x)
 
-            flutterY = float(flutter[1])
+            quantity = FreeCAD.Units.Quantity(f"{float(flutter[1])} m/s")
+            flutterY = quantity.getValueAs(FreeCAD.Units.Quantity(self._velocityUnits())).Value
+            print(f"Altitude {self._formatFloat(altitude, 'm', 'm', 'ft')} -> {flutterY}")
+            print(f"Flutter {self._formatFloat(float(flutter[1]), 'm/s', 'm/s', 'ft/s')} -> {flutterY}")
             if x >= 0:
                 if (flutterY >=0):
                     flutterSeries.append(flutterY)
                 else:
                     flutterSeries.append(0)
 
-            divergenceY = float(divergence[1])
+            quantity = FreeCAD.Units.Quantity(f"{float(divergence[1])} m/s")
+            divergenceY = quantity.getValueAs(FreeCAD.Units.Quantity(self._velocityUnits())).Value
             if x >= 0:
                 if (divergenceY >=0):
                     divergenceSeries.append(divergenceY)
@@ -430,7 +453,7 @@ class DialogFinFlutter(UiDialog):
 
     def onLaunchSite(self, value : str) -> None:
         altitude = self._ui.launchSiteCombo.currentData()
-        self._ui.launchSiteAltitudeInput.setText(self._formatAltitude(FreeCAD.Units.Quantity(f"{altitude} m")))
+        self._ui.launchSiteAltitudeInput.setText(self._formatAltitude(FreeCAD.Units.Quantity(f"{altitude}")))
 
     def onTemperatureUnits(self, value : str) -> None:
         self._setSeries()
@@ -503,14 +526,14 @@ class DialogFinFlutter(UiDialog):
     def updateFlutter(self) -> None:
         self._graphFlutter()
         try:
-            modulus = float(FreeCAD.Units.Quantity(str(self._ui.shearInput.text())))
+            modulus = self._getModulus()
             if self._ui.tipToTipCheckbox.isChecked():
                 # Approximate tip to tip reinforcment by doubling shear modulus
                 modulus *= 2.0
-            speed = float(FreeCAD.Units.Quantity(str(self._ui.speedInput.text())))
+            speed = float(FreeCAD.Units.Quantity(self._ui.speedInput.text()).Value)
 
             # Heights in meters
-            altitude = float(FreeCAD.Units.Quantity(str(self._ui.altitudeInput.text()))) / 1000.0
+            altitude = float(FreeCAD.Units.Quantity(self._ui.altitudeInput.text()).Value) / 1000.0
             launchHeight = float(FreeCAD.Units.Quantity(self._ui.launchSiteAltitudeInput.text())) / 1000.0
 
             temperatureUnits = self._ui.temperatureUnitsCombo.currentText()
