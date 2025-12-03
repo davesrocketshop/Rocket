@@ -142,7 +142,7 @@ class FinFlutter:
 
         # Get the atmospheric conditions at the specified altitude in m
         altitude_agl = altitude + agl
-        print(f"altitude {altitude} m, agl {agl} m, altitude_agl {altitude_agl} m")
+        print(f"altitude {self._formatFloat(altitude, 'm', 'm', 'ft')}")
 
         temp = T_agl - (0.0065 * altitude_agl)
         pressure = (101.325 * math.pow((temp / 288.16), 5.256)) * 1000.0
@@ -153,7 +153,7 @@ class FinFlutter:
 
         # Get the atmospheric conditions at the specified altitude (convert m to km)
         altitude_agl = ((altitude + agl) / 1000.0)
-        print(f"altitude {altitude} m, agl {agl} m, altitude_agl {altitude_agl} km")
+        print(f"altitude {self._formatFloat(altitude, 'm', 'm', 'ft')}")
         atmo = ussa76([altitude_agl])
 
         temp = float(atmo.T[0]) + self.temperatureCompensation(agl, T_agl)
@@ -166,7 +166,7 @@ class FinFlutter:
         # Get the atmospheric conditions at the specified altitude (convert m to km)
         # Uses the coesa76 model which is an extension of US Standard Atmosphere 1976 model to work above 84K
         altitude_agl = ((altitude + agl) / 1000.0)
-        print(f"altitude {altitude} m, agl {agl} m, altitude_agl {altitude_agl} km")
+        print(f"altitude {self._formatFloat(altitude, 'm', 'm', 'ft')}")
         atmo = coesa76([altitude_agl], alt_type='geometric')
 
         temp = float(atmo.T[0]) + self.temperatureCompensation(agl, T_agl)
@@ -179,7 +179,7 @@ class FinFlutter:
         # Get the atmospheric conditions at the specified altitude (convert m to km)
         # Uses the coesa76 model which is an extension of US Standard Atmosphere 1976 model to work above 84K
         altitude_agl = ((altitude + agl) / 1000.0)
-        print(f"altitude {altitude} m, agl {agl} m, altitude_agl {altitude_agl} km")
+        print(f"altitude {self._formatFloat(altitude, 'm', 'm', 'ft')}")
         atmo = coesa76([altitude_agl], alt_type='geometric')
 
         temp = float(atmo.T[0]) + self.temperatureCompensation(agl, T_agl)
@@ -204,13 +204,14 @@ class FinFlutter:
 
         print(f"Tc {temp - 273.15}")
         print(f"alpha {mach}")
-        print(f"pressure {pressure}")
+        print(f"pressure {self._formatFloat(pressure, 'Pa', 'kPa', 'psi')}")
 
         return mach,pressure
 
     def flutter(self, model : int, altitude : float, shear : float) -> tuple[float, float]:
         # Calculate fin flutter using the method outlined in NACA Technical Note 4197
 
+        print(f"Shear {self._formatFloat(shear, 'kPa', 'kPa', 'psi')}")
         a,pressure = self.atmosphericConditions(model, altitude)
 
         shear *= 1000.0 # Convert from kPa to Pa
