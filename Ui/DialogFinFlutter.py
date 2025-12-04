@@ -155,7 +155,7 @@ class DialogFinFlutter(UiDialog):
 
         self._ui.speedInput.unit = self._velocityUnits() #FreeCAD.Units.Velocity
         self._ui.speedInput.setText("0.0 m/s")
-        self._ui.altitudeInput.unit = FreeCAD.Units.Length
+        self._ui.altitudeInput.unit = self._heightUnits() #FreeCAD.Units.Length
         self._ui.altitudeInput.setText("914.4 m")
 
         # Creating graph
@@ -186,7 +186,8 @@ class DialogFinFlutter(UiDialog):
         self._yMin = 0
         self._yMax = 0
 
-        self._ui.flutterInput.unit = FreeCAD.Units.Velocity
+        self._ui.flutterInput.unit = self._velocityUnits() #FreeCAD.Units.Velocity
+        print(dir(self._ui.flutterInput))
         self._ui.flutterInput.setText("0")
         self._ui.flutterInput.setReadOnly(True)
 
@@ -274,8 +275,8 @@ class DialogFinFlutter(UiDialog):
 
             quantity = FreeCAD.Units.Quantity(f"{float(flutter[1])} m/s")
             flutterY = quantity.getValueAs(FreeCAD.Units.Quantity(self._velocityUnits())).Value
-            print(f"Altitude {self._formatFloat(altitude, 'm', 'm', 'ft')} -> {flutterY}")
-            print(f"Flutter {self._formatFloat(float(flutter[1]), 'm/s', 'm/s', 'ft/s')} -> {flutterY}")
+            # print(f"Altitude {self._formatFloat(altitude, 'm', 'm', 'ft')} -> {flutterY}")
+            # print(f"Flutter {self._formatFloat(float(flutter[1]), 'm/s', 'm/s', 'ft/s')} -> {flutterY}")
             if x >= 0:
                 if (flutterY >=0):
                     flutterSeries.append(flutterY)
@@ -480,8 +481,7 @@ class DialogFinFlutter(UiDialog):
         self._setSlider()
 
     def onSpeed(self, value : str) -> None:
-        print(f"Cursor position {self._ui.speedInput.cursorPosition()}")
-        ...
+        self.updateFlutter()
 
     def onAltitude(self, value : str) -> None:
         self._setSeries()
@@ -593,19 +593,32 @@ class DialogFinFlutter(UiDialog):
         self._param.SetString("MaximumSpeed", self._ui.speedInput.text())
         self._param.SetString("AltitudeAtMaximumSpeed", self._ui.altitudeInput.text())
 
+    def _restoreQuantity(self, parameter : str, default : str) -> FreeCAD.Units.Quantity:
+        value = self._param.GetString(parameter, default)
+        return FreeCAD.Units.Quantity(value)
+
+    def _restoreHeight(self, parameter : str, default : str) -> str:
+        quantity = self._restoreQuantity(parameter, default)
+        # print(f"_restoreHeight {self._formatAltitude(quantity)}")
+        return self._formatAltitude(quantity)
+
+    def _restoreVelocity(self, parameter : str, default : str) -> str:
+        quantity = self._restoreQuantity(parameter, default)
+        return self._formatVelocity(quantity)
+
     def restoreParameters(self) -> None:
         # Material tab
         self.materialTreePy.expanded = self._param.GetBool("MaterialTreeExpanded", False)
 
         # Launch conditions tab
         self._ui.launchSiteCombo.setCurrentText(self._param.GetString("LaunchSite", ""))
-        self._ui.launchSiteAltitudeInput.setText(self._param.GetString("LaunchAltitude", "0.0 m"))
+        self._ui.launchSiteAltitudeInput.setText(self._restoreHeight("LaunchAltitude", "0.0 m"))
         self._ui.launchTemperatureInput.setText(self._param.GetString("LaunchTemperature", "15"))
         self._ui.temperatureUnitsCombo.setCurrentIndex(self._param.GetInt("LaunchTemperatureUnits", 0))
         self._ui.defaultTemperatureCheckbox.setChecked(self._param.GetBool("UseSeaLevelTemperature", True))
         self._ui.atmosphericModelCombo.setCurrentIndex(self._param.GetInt("AtmosphericModel", 0))
 
         # Flutter tab
-        self._ui.maxAltitudeCombo.setCurrentText(self._param.GetString("MaximumAltitude", "10000 m"))
-        self._ui.speedInput.setText(self._param.GetString("MaximumSpeed", "0.0 m/s"))
-        self._ui.altitudeInput.setText(self._param.GetString("AltitudeAtMaximumSpeed", "914.00 m"))
+        self._ui.maxAltitudeCombo.setCurrentText(self._restoreHeight("MaximumAltitude", "10000 m"))
+        self._ui.speedInput.setText(self._restoreVelocity("MaximumSpeed", "0.0 m/s"))
+        self._ui.altitudeInput.setText(self._restoreHeight("AltitudeAtMaximumSpeed", "914.00 m"))
