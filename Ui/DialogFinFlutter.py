@@ -204,6 +204,7 @@ class DialogFinFlutter(UiDialog):
         self.materialTreeWidget.onExpanded.connect(self.onExpanded)
         self._ui.assignMaterialButton.clicked.connect(self.onAssignMaterial)
         self._ui.calculatedCheckbox.clicked.connect(self.onCalculated)
+        self._ui.tipToTipCheckbox.clicked.connect(self.onTipToTip)
         self._ui.shearInput.textEdited.connect(self.onShear)
         self._ui.youngsInput.textEdited.connect(self.onYoungs)
         self._ui.poissonInput.textEdited.connect(self.onPoisson)
@@ -424,7 +425,11 @@ class DialogFinFlutter(UiDialog):
             self.setShearCalculated()
             self.calculateShear()
         else:
+            self.interpolateProperties()
             self.setShearSpecified()
+
+    def onTipToTip(self, value : bool) -> None:
+        self.updateFlutter()
 
     def onShear(self, value : str) -> None:
         self._setSeries()
