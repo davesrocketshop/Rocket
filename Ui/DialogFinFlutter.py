@@ -69,7 +69,7 @@ class DialogFinFlutter(UiDialog):
     def _isMetricUnitPref(self) -> bool:
         doc = FreeCADGui.ActiveDocument.Document
         param = FreeCAD.ParamGet("User parameter:BaseApp/Preferences/Units")
-        ignore = param.GetBool("IgnoreProjectSchema", False);
+        ignore = param.GetBool("IgnoreProjectSchema", False)
         if ignore:
             schema = param.GetInt('UserSchema', 0)
         else:
@@ -187,7 +187,6 @@ class DialogFinFlutter(UiDialog):
         self._yMax = 0
 
         self._ui.flutterInput.unit = self._velocityUnits() #FreeCAD.Units.Velocity
-        print(dir(self._ui.flutterInput))
         self._ui.flutterInput.setText("0")
         self._ui.flutterInput.setReadOnly(True)
 
@@ -230,6 +229,7 @@ class DialogFinFlutter(UiDialog):
     def transferFrom(self) -> None:
         "Transfer from the object to the dialog"
         self.materialTreePy.UUID = self._fin.ShapeMaterial.UUID
+        self._material = self._fin.ShapeMaterial
 
     def tempToKelvin(self, temperature : float, units : str) -> float:
         if units == 'F':
@@ -413,11 +413,11 @@ class DialogFinFlutter(UiDialog):
         self.updateFlutter()
 
     def onExpanded(self, expanded : bool) -> None:
-        # self._ui.materialGroup.adjustSize()
         self._ui.window().adjustSize()
 
     def onAssignMaterial(self, checked: bool) -> None:
-        ...
+        self._fin.ShapeMaterial = self._material
+        FreeCAD.ActiveDocument.recompute()
 
     def onCalculated(self, value : bool) -> None:
         if value:
