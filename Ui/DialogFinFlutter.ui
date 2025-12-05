@@ -302,17 +302,11 @@
        <item>
         <layout class="QGridLayout" name="gridLayout_3">
          <item row="0" column="3">
-          <widget class="Gui::InputField" name="flutterMachInput">
-           <property name="unit" stdset="0">
-            <string notr="true"/>
-           </property>
+          <widget class="QLineEdit" name="flutterMachInput">
           </widget>
          </item>
          <item row="2" column="3">
-          <widget class="Gui::InputField" name="divergenceMachInput">
-           <property name="unit" stdset="0">
-            <string notr="true"/>
-           </property>
+          <widget class="QLineEdit" name="divergenceMachInput">
           </widget>
          </item>
          <item row="2" column="1">
@@ -372,17 +366,11 @@
           </widget>
          </item>
          <item row="1" column="3">
-          <widget class="Gui::InputField" name="flutterMarginInput">
-           <property name="unit" stdset="0">
-            <string notr="true"/>
-           </property>
+          <widget class="QLineEdit" name="flutterMarginInput">
           </widget>
          </item>
          <item row="3" column="3">
-          <widget class="Gui::InputField" name="divergenceMarginInput">
-           <property name="unit" stdset="0">
-            <string notr="true"/>
-           </property>
+          <widget class="QLineEdit" name="divergenceMarginInput">
           </widget>
          </item>
         </layout>
