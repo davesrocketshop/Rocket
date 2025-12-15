@@ -70,6 +70,9 @@
          </item>
          <item>
           <widget class="QPushButton" name="assignMaterialButton">
+           <property name="toolTip">
+            <string>Assign the currently selected material to the fin</string>
+           </property>
            <property name="text">
             <string>Assign Material to FIn</string>
            </property>
@@ -80,7 +83,11 @@
        <item>
         <layout class="QGridLayout" name="gridLayout">
          <item row="1" column="1">
-          <widget class="RocketQuantityField" name="shearInput"/>
+          <widget class="RocketQuantityField" name="shearInput">
+           <property name="toolTip">
+            <string>The shear modulus of the fin material. This can be obtained from the material properties, or calculated using the Young's modulus and poisson ratio.</string>
+           </property>
+          </widget>
          </item>
          <item row="1" column="0">
           <widget class="QLabel" name="shearLabel">
@@ -97,7 +104,11 @@
           </widget>
          </item>
          <item row="3" column="1">
-          <widget class="RocketQuantityField" name="youngsInput"/>
+          <widget class="RocketQuantityField" name="youngsInput">
+           <property name="toolTip">
+            <string>The Young's modulus of the fin material. This is only required to calculate shear modulus.</string>
+           </property>
+          </widget>
          </item>
          <item row="3" column="0">
           <widget class="QLabel" name="youngsLabel">
@@ -107,10 +118,17 @@
           </widget>
          </item>
          <item row="4" column="1">
-          <widget class="QLineEdit" name="poissonInput"/>
+          <widget class="QLineEdit" name="poissonInput">
+           <property name="toolTip">
+            <string>The poisson ratio of the fin material. This is only required to calculate shear modulus.</string>
+           </property>
+          </widget>
          </item>
          <item row="1" column="2">
           <widget class="QCheckBox" name="calculatedCheckbox">
+           <property name="toolTip">
+            <string>Calculates the shear modulus using the Young's modulus and poisson ration when checked.</string>
+           </property>
            <property name="text">
             <string>Calculated</string>
            </property>
@@ -118,6 +136,9 @@
          </item>
          <item row="2" column="1" colspan="2">
           <widget class="QCheckBox" name="tipToTipCheckbox">
+           <property name="toolTip">
+            <string>Approximates the effect of tip to tip reinforcement by doubling the value of the shear modulus. This is ONLY an approximation.</string>
+           </property>
            <property name="text">
             <string>Aproximate Tip to Tip Reinforcement</string>
            </property>
@@ -153,10 +174,18 @@
            </widget>
           </item>
           <item row="0" column="1">
-           <widget class="QComboBox" name="launchSiteCombo"/>
+           <widget class="QComboBox" name="launchSiteCombo">
+            <property name="toolTip">
+             <string>A list of known launch sites. Selecting the site will automatically set the launch site altitude.</string>
+            </property>
+           </widget>
           </item>
           <item row="1" column="1">
-           <widget class="RocketQuantityField" name="launchSiteAltitudeInput"/>
+           <widget class="RocketQuantityField" name="launchSiteAltitudeInput">
+            <property name="toolTip">
+             <string>The altitude of the launch site. This can be set manually or by selecting a known launch site.</string>
+            </property>
+           </widget>
           </item>
          </layout>
         </widget>
@@ -182,16 +211,31 @@
            </widget>
           </item>
           <item row="2" column="1">
-           <widget class="QComboBox" name="atmosphericModelCombo"/>
+           <widget class="QComboBox" name="atmosphericModelCombo">
+            <property name="toolTip">
+             <string>The atmospheric model used to calculate temperatures at different altitudes.</string>
+            </property>
+           </widget>
           </item>
           <item row="0" column="3">
-           <widget class="QComboBox" name="temperatureUnitsCombo"/>
+           <widget class="QComboBox" name="temperatureUnitsCombo">
+            <property name="toolTip">
+             <string>Units used for air temperature.</string>
+            </property>
+           </widget>
           </item>
           <item row="0" column="1">
-           <widget class="QLineEdit" name="launchTemperatureInput"/>
+           <widget class="QLineEdit" name="launchTemperatureInput">
+            <property name="toolTip">
+             <string>The air temperature at the launch site.</string>
+            </property>
+           </widget>
           </item>
           <item row="1" column="1" colspan="3">
            <widget class="QCheckBox" name="defaultTemperatureCheckbox">
+            <property name="toolTip">
+             <string>Use a default sea level temperature instead of the launch site temperature. This will often be used when the launch site temperature is unknown.</string>
+            </property>
             <property name="text">
              <string>Use default sea level temperature (15 C/ 59 F)</string>
             </property>
@@ -237,7 +281,11 @@
           </widget>
          </item>
          <item row="0" column="1">
-          <widget class="QComboBox" name="maxAltitudeCombo"/>
+          <widget class="QComboBox" name="maxAltitudeCombo">
+           <property name="toolTip">
+            <string>Sets the altitude range for the slider and graph.</string>
+           </property>
+          </widget>
          </item>
          <item row="1" column="0">
           <widget class="QLabel" name="speedLabel">
@@ -247,10 +295,18 @@
           </widget>
          </item>
          <item row="2" column="1">
-          <widget class="RocketQuantityField" name="altitudeInput"/>
+          <widget class="RocketQuantityField" name="altitudeInput">
+           <property name="toolTip">
+            <string>The expected altitude Above Ground Level (AGL) at which the rocket will be travelling at max speed.</string>
+           </property>
+          </widget>
          </item>
          <item row="1" column="1">
-          <widget class="RocketQuantityField" name="speedInput"/>
+          <widget class="RocketQuantityField" name="speedInput">
+           <property name="toolTip">
+            <string>The expected maximum speed for the rocket. This is not required to calculate flutter or divergence but is required to determine safety margins.</string>
+           </property>
+          </widget>
          </item>
         </layout>
        </item>
@@ -268,6 +324,9 @@
         <layout class="QHBoxLayout" name="horizontalLayout">
          <item>
           <widget class="QSlider" name="altitudeSlider">
+           <property name="toolTip">
+            <string>Sets the altitude at max speed in the range from 0 to maximum altitude.</string>
+           </property>
            <property name="orientation">
             <enum>Qt::Orientation::Horizontal</enum>
            </property>
@@ -278,13 +337,25 @@
        <item>
         <layout class="QGridLayout" name="gridLayout_3">
          <item row="0" column="3">
-          <widget class="QLineEdit" name="flutterMachInput"/>
+          <widget class="QLineEdit" name="flutterMachInput">
+           <property name="toolTip">
+            <string>The flutter speed in Mach for the fin at the selected altitude.</string>
+           </property>
+          </widget>
          </item>
          <item row="2" column="3">
-          <widget class="QLineEdit" name="divergenceMachInput"/>
+          <widget class="QLineEdit" name="divergenceMachInput">
+           <property name="toolTip">
+            <string>The divergence speed in Mach for the fin at the selected altitude.</string>
+           </property>
+          </widget>
          </item>
          <item row="2" column="1">
-          <widget class="RocketQuantityField" name="divergenceInput"/>
+          <widget class="RocketQuantityField" name="divergenceInput">
+           <property name="toolTip">
+            <string>The divergence speed for the fin at the selected altitude.</string>
+           </property>
+          </widget>
          </item>
          <item row="2" column="0">
           <widget class="QLabel" name="divergenceLabel">
@@ -315,7 +386,11 @@
           </widget>
          </item>
          <item row="0" column="1">
-          <widget class="RocketQuantityField" name="flutterInput"/>
+          <widget class="RocketQuantityField" name="flutterInput">
+           <property name="toolTip">
+            <string>The flutter speed for the fin at the selected altitude.</string>
+           </property>
+          </widget>
          </item>
          <item row="2" column="2">
           <widget class="QLabel" name="divergenceMachLabel">
@@ -332,10 +407,18 @@
           </widget>
          </item>
          <item row="1" column="3">
-          <widget class="QLineEdit" name="flutterMarginInput"/>
+          <widget class="QLineEdit" name="flutterMarginInput">
+           <property name="toolTip">
+            <string>The safety margin of the fin based on the flutter speed and the specified maximum speed.</string>
+           </property>
+          </widget>
          </item>
          <item row="3" column="3">
-          <widget class="QLineEdit" name="divergenceMarginInput"/>
+          <widget class="QLineEdit" name="divergenceMarginInput">
+           <property name="toolTip">
+            <string>The safety margin of the fin based on the divergence speed and the specified maximum speed.</string>
+           </property>
+          </widget>
          </item>
         </layout>
        </item>
