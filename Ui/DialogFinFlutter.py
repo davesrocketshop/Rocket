@@ -69,7 +69,7 @@ class DialogFinFlutter(UiDialog):
 
     def _isMetricUnitPref(self) -> bool:
         param = FreeCAD.ParamGet("User parameter:BaseApp/Preferences/Units")
-        ignore = param.GetBool("IgnoreProjectSchema", False);
+        ignore = param.GetBool("IgnoreProjectSchema", False)
         if ignore:
             schema = param.GetInt('UserSchema', 0)
         else:
@@ -193,14 +193,19 @@ class DialogFinFlutter(UiDialog):
 
         self._ui.flutterMachInput.setText("0")
         self._ui.flutterMachInput.setReadOnly(True)
+        self._ui.flutterMarginInput.setText("0 %")
+        self._ui.flutterMarginInput.setReadOnly(True)
 
         self._ui.divergenceMachInput.setText("0")
         self._ui.divergenceMachInput.setReadOnly(True)
+        self._ui.divergenceMarginInput.setText("0 %")
+        self._ui.divergenceMarginInput.setReadOnly(True)
 
         self.materialTreeWidget.onMaterial.connect(self.onMaterial)
         self.materialTreeWidget.onExpanded.connect(self.onExpanded)
         self._ui.assignMaterialButton.clicked.connect(self.onAssignMaterial)
         self._ui.calculatedCheckbox.clicked.connect(self.onCalculated)
+        self._ui.tipToTipCheckbox.clicked.connect(self.onTipToTip)
         self._ui.shearInput.quantityChanged.connect(self.onShear)
         self._ui.youngsInput.quantityChanged.connect(self.onYoungs)
         self._ui.poissonInput.textEdited.connect(self.onPoisson)
@@ -226,6 +231,7 @@ class DialogFinFlutter(UiDialog):
     def transferFrom(self) -> None:
         "Transfer from the object to the dialog"
         self.materialTreePy.UUID = self._fin.ShapeMaterial.UUID
+        self._material = self._fin.ShapeMaterial
 
     def tempToKelvin(self, temperature : float, units : str) -> float:
         if units == 'F':
@@ -406,18 +412,23 @@ class DialogFinFlutter(UiDialog):
         self.updateFlutter()
 
     def onExpanded(self, expanded : bool) -> None:
-        # self._ui.materialGroup.adjustSize()
         self._ui.window().adjustSize()
 
     def onAssignMaterial(self, checked: bool) -> None:
-        ...
+        self._fin.ShapeMaterial = self._material
+        FreeCAD.ActiveDocument.recompute()
 
     def onCalculated(self, value : bool) -> None:
         if value:
             self.setShearCalculated()
             self.calculateShear()
         else:
+            self.interpolateProperties()
             self.setShearSpecified()
+        self.updateFlutter()
+
+    def onTipToTip(self, value : bool) -> None:
+        self.updateFlutter()
 
     def onShear(self, quantity : FreeCAD.Units.Quantity) -> None:
         self._setSeries()
@@ -433,17 +444,35 @@ class DialogFinFlutter(UiDialog):
         self._setSeries()
         self.updateFlutter()
 
-    def _setSlider(self) -> None:
+    def _getMaxAltitude(self) -> float:
         try:
-            max = float(FreeCAD.Units.Quantity(self._ui.maxAltitudeCombo.currentText()).getValueAs(FreeCAD.Units.Quantity(self._heightUnits()))) 
-            current = float(self._ui.altitudeInput.quantity.getValueAs(FreeCAD.Units.Quantity(self._heightUnits())))
-
-            self._ui.altitudeSlider.setMinimum(0)
-            self._ui.altitudeSlider.setMaximum(max)
-            self._ui.altitudeSlider.setValue(current)
+            try:
+                altitude = FreeCAD.Units.Quantity(self._ui.maxAltitudeCombo.currentText())
+            except ValueError:
+                altitude = FreeCAD.Units.Quantity(self._ui.maxAltitudeCombo.currentText() + self._heightUnits())
+            max = float(altitude.getValueAs(FreeCAD.Units.Quantity(self._heightUnits())))
         except ValueError:
-            # This can happen when editing a field and not yet complete
-            pass
+            return 0.0
+        return max
+
+    def _getAltitude(self) -> float:
+        try:
+            try:
+                altitude = FreeCAD.Units.Quantity(self._ui.altitudeInput.text())
+            except ValueError:
+                altitude = FreeCAD.Units.Quantity(self._ui.altitudeInput.text() + self._heightUnits())
+            current = float(altitude.getValueAs(FreeCAD.Units.Quantity(self._heightUnits())))
+        except ValueError:
+            return 0.0
+        return current
+
+    def _setSlider(self) -> None:
+        max = self._getMaxAltitude()
+        current = self._getAltitude()
+
+        self._ui.altitudeSlider.setMinimum(0)
+        self._ui.altitudeSlider.setMaximum(max)
+        self._ui.altitudeSlider.setValue(current)
 
     def onLaunchSite(self, value : str) -> None:
         altitude = self._ui.launchSiteCombo.currentData()
@@ -482,7 +511,7 @@ class DialogFinFlutter(UiDialog):
         self.updateFlutter()
 
     def showSlider(self) -> None:
-        current = float(self._ui.altitudeInput.quantity.getValueAs(FreeCAD.Units.Quantity(self._heightUnits())))
+        current = self._getAltitude()
         x = current / 1000.0
 
         xSeries = [x, x]
@@ -502,10 +531,15 @@ class DialogFinFlutter(UiDialog):
         try:
             return formatString.format(float(quantity.getValueAs(FreeCAD.Units.Quantity(units)))) + ' ' + units
         except ValueError:
-            return formatString.format(quantity.Value)
+            pass
+        return formatString.format(0.0) + ' ' + units
 
     def _formatIntQuantity(self, formatString, quantity : FreeCAD.Units.Quantity, units : str) -> str:
-        return formatString.format(int(quantity.getValueAs(FreeCAD.Units.Quantity(units)))) + ' ' + units
+        try:
+            return formatString.format(int(quantity.getValueAs(FreeCAD.Units.Quantity(units)))) + ' ' + units
+        except ValueError:
+            pass
+        return formatString.format(0) + ' ' + units
 
     def _formatVelocity(self, quantity : FreeCAD.Units.Quantity) -> str:
         return self._formatQuantity(FORMAT_VELOCITY, quantity, self._velocityUnits())
@@ -516,48 +550,51 @@ class DialogFinFlutter(UiDialog):
     def _formatAltitude(self, quantity : FreeCAD.Units.Quantity) -> str:
         return self._formatQuantity(FORMAT_ALTITUDE, quantity, self._heightUnits())
 
+    def _formatMargin(self, margin : float) -> str:
+        if margin <= 20.0:
+            return f"Unsafe {margin:.1f} %"
+        if margin <= 25.0:
+            return f"Marginal {margin:.1f} %"
+        return f"{margin:.1f} %"
+
     def updateFlutter(self) -> None:
-        try:
-            modulus = self._getModulus()
-            if self._ui.tipToTipCheckbox.isChecked():
-                # Approximate tip to tip reinforcment by doubling shear modulus
-                modulus *= 2.0
-            speed = float(self._ui.speedInput.quantity.Value)
+        modulus = self._getModulus()
+        if self._ui.tipToTipCheckbox.isChecked():
+            # Approximate tip to tip reinforcment by doubling shear modulus
+            modulus *= 2.0
+        speed = float(self._ui.speedInput.quantity.Value)
 
-            # Heights in meters
-            altitude = float(self._ui.altitudeInput.quantity.Value) / 1000.0
-            launchHeight = float(self._ui.launchSiteAltitudeInput.quantity.Value) / 1000.0
+        # Heights in meters
+        altitude = float(self._ui.altitudeInput.quantity.Value) / 1000.0
+        launchHeight = float(self._ui.launchSiteAltitudeInput.quantity.Value) / 1000.0
 
-            temperatureUnits = self._ui.temperatureUnitsCombo.currentText()
-            if self._ui.defaultTemperatureCheckbox.isChecked():
-                launchTemperature = (15 + 273.15)
-            else:
-                launchTemperature = self.tempToKelvin(float(self._ui.launchTemperatureInput.text()), temperatureUnits)
-            atmosphericModel = self.getAtmosphericModel()
+        temperatureUnits = self._ui.temperatureUnitsCombo.currentText()
+        if self._ui.defaultTemperatureCheckbox.isChecked():
+            launchTemperature = (15 + 273.15)
+        else:
+            launchTemperature = self.tempToKelvin(float(self._ui.launchTemperatureInput.text()), temperatureUnits)
+        atmosphericModel = self.getAtmosphericModel()
 
-            flutter = self._flutter.flutterPOF615(atmosphericModel, altitude, modulus, launchHeight, launchTemperature)
-            divergence = self._flutter.divergence(atmosphericModel, altitude, modulus, launchHeight, launchTemperature)
+        flutter = self._flutter.flutterPOF615(atmosphericModel, altitude, modulus, launchHeight, launchTemperature)
+        divergence = self._flutter.divergence(atmosphericModel, altitude, modulus, launchHeight, launchTemperature)
 
-            Vf = FreeCAD.Units.Quantity(str(flutter[1]) + " m/s")
-            self._ui.flutterInput.setText(self._formatVelocity(Vf))
-            self._ui.flutterMachInput.setText("{0:.2f}".format(flutter[0]))
-            if speed > 0.0:
-                margin = (Vf.Value - speed)  * 100.0 / speed
-                self._ui.flutterMarginInput.setText("{0:.1f} %".format(margin))
-            else:
-                self._ui.flutterMarginInput.setText("")
+        Vf = FreeCAD.Units.Quantity(str(flutter[1]) + " m/s")
+        self._ui.flutterInput.setText(self._formatVelocity(Vf))
+        self._ui.flutterMachInput.setText("{0:.2f}".format(flutter[0]))
+        if speed > 0.0:
+            margin = (Vf.Value - speed)  * 100.0 / speed
+            self._ui.flutterMarginInput.setText(self._formatMargin(margin))
+        else:
+            self._ui.flutterMarginInput.setText("")
 
-            Vd = FreeCAD.Units.Quantity(str(divergence[1]) + " m/s")
-            self._ui.divergenceInput.setText(self._formatVelocity(Vd))
-            self._ui.divergenceMachInput.setText("{0:.2f}".format(divergence[0]))
-            if speed > 0.0:
-                margin = (Vd.Value - speed)  * 100.0 / speed
-                self._ui.divergenceMarginInput.setText("{0:.1f} %".format(margin))
-            else:
-                self._ui.divergenceMarginInput.setText("")
-
-        except ValueError:
-            pass
+        Vd = FreeCAD.Units.Quantity(str(divergence[1]) + " m/s")
+        self._ui.divergenceInput.setText(self._formatVelocity(Vd))
+        self._ui.divergenceMachInput.setText("{0:.2f}".format(divergence[0]))
+        if speed > 0.0:
+            margin = (Vd.Value - speed)  * 100.0 / speed
+            self._ui.divergenceMarginInput.setText(self._formatMargin(margin))
+        else:
+            self._ui.divergenceMarginInput.setText("")
 
     def update(self) -> None:
         'fills the widgets'
