@@ -82,7 +82,7 @@ class DialogFinFlutter(UiDialog):
 
     def _shearUnits(self) -> str:
         if self._isMetricUnitPref():
-            return "GPa"
+            return "MPa"
         return "psi"
 
     def _heightUnits(self) -> str:
