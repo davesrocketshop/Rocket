@@ -80,11 +80,7 @@
        <item>
         <layout class="QGridLayout" name="gridLayout">
          <item row="1" column="1">
-          <widget class="Gui::InputField" name="shearInput">
-           <property name="unit" stdset="0">
-            <string notr="true"/>
-           </property>
-          </widget>
+          <widget class="RocketQuantityField" name="shearInput"/>
          </item>
          <item row="1" column="0">
           <widget class="QLabel" name="shearLabel">
@@ -101,11 +97,7 @@
           </widget>
          </item>
          <item row="3" column="1">
-          <widget class="Gui::InputField" name="youngsInput">
-           <property name="unit" stdset="0">
-            <string notr="true"/>
-           </property>
-          </widget>
+          <widget class="RocketQuantityField" name="youngsInput"/>
          </item>
          <item row="3" column="0">
           <widget class="QLabel" name="youngsLabel">
@@ -115,11 +107,7 @@
           </widget>
          </item>
          <item row="4" column="1">
-          <widget class="Gui::InputField" name="poissonInput">
-           <property name="unit" stdset="0">
-            <string notr="true"/>
-           </property>
-          </widget>
+          <widget class="QLineEdit" name="poissonInput"/>
          </item>
          <item row="1" column="2">
           <widget class="QCheckBox" name="calculatedCheckbox">
@@ -168,11 +156,7 @@
            <widget class="QComboBox" name="launchSiteCombo"/>
           </item>
           <item row="1" column="1">
-           <widget class="Gui::InputField" name="launchSiteAltitudeInput">
-            <property name="unit" stdset="0">
-             <string notr="true"/>
-            </property>
-           </widget>
+           <widget class="RocketQuantityField" name="launchSiteAltitudeInput"/>
           </item>
          </layout>
         </widget>
@@ -245,13 +229,6 @@
            </property>
           </widget>
          </item>
-         <item row="2" column="1">
-          <widget class="Gui::InputField" name="altitudeInput">
-           <property name="unit" stdset="0">
-            <string notr="true"/>
-           </property>
-          </widget>
-         </item>
          <item row="2" column="0">
           <widget class="QLabel" name="altitudeLabel">
            <property name="text">
@@ -269,12 +246,11 @@
            </property>
           </widget>
          </item>
+         <item row="2" column="1">
+          <widget class="RocketQuantityField" name="altitudeInput"/>
+         </item>
          <item row="1" column="1">
-          <widget class="Gui::InputField" name="speedInput">
-           <property name="unit" stdset="0">
-            <string notr="true"/>
-           </property>
-          </widget>
+          <widget class="RocketQuantityField" name="speedInput"/>
          </item>
         </layout>
        </item>
@@ -302,25 +278,13 @@
        <item>
         <layout class="QGridLayout" name="gridLayout_3">
          <item row="0" column="3">
-          <widget class="Gui::InputField" name="flutterMachInput">
-           <property name="unit" stdset="0">
-            <string notr="true"/>
-           </property>
-          </widget>
+          <widget class="QLineEdit" name="flutterMachInput"/>
          </item>
          <item row="2" column="3">
-          <widget class="Gui::InputField" name="divergenceMachInput">
-           <property name="unit" stdset="0">
-            <string notr="true"/>
-           </property>
-          </widget>
+          <widget class="QLineEdit" name="divergenceMachInput"/>
          </item>
          <item row="2" column="1">
-          <widget class="Gui::InputField" name="divergenceInput">
-           <property name="unit" stdset="0">
-            <string notr="true"/>
-           </property>
-          </widget>
+          <widget class="RocketQuantityField" name="divergenceInput"/>
          </item>
          <item row="2" column="0">
           <widget class="QLabel" name="divergenceLabel">
@@ -351,11 +315,7 @@
           </widget>
          </item>
          <item row="0" column="1">
-          <widget class="Gui::InputField" name="flutterInput">
-           <property name="unit" stdset="0">
-            <string notr="true"/>
-           </property>
-          </widget>
+          <widget class="RocketQuantityField" name="flutterInput"/>
          </item>
          <item row="2" column="2">
           <widget class="QLabel" name="divergenceMachLabel">
@@ -372,18 +332,10 @@
           </widget>
          </item>
          <item row="1" column="3">
-          <widget class="Gui::InputField" name="flutterMarginInput">
-           <property name="unit" stdset="0">
-            <string notr="true"/>
-           </property>
-          </widget>
+          <widget class="QLineEdit" name="flutterMarginInput"/>
          </item>
          <item row="3" column="3">
-          <widget class="Gui::InputField" name="divergenceMarginInput">
-           <property name="unit" stdset="0">
-            <string notr="true"/>
-           </property>
-          </widget>
+          <widget class="QLineEdit" name="divergenceMarginInput"/>
          </item>
         </layout>
        </item>
@@ -405,11 +357,36 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>Gui::InputField</class>
+   <class>RocketQuantityField</class>
    <extends>QLineEdit</extends>
-   <header>Gui/InputField.h</header>
+   <header>RocketQuantityField</header>
   </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>tabWidget</tabstop>
+  <tabstop>assignMaterialButton</tabstop>
+  <tabstop>shearInput</tabstop>
+  <tabstop>calculatedCheckbox</tabstop>
+  <tabstop>tipToTipCheckbox</tabstop>
+  <tabstop>youngsInput</tabstop>
+  <tabstop>poissonInput</tabstop>
+  <tabstop>launchSiteCombo</tabstop>
+  <tabstop>launchSiteAltitudeInput</tabstop>
+  <tabstop>launchTemperatureInput</tabstop>
+  <tabstop>temperatureUnitsCombo</tabstop>
+  <tabstop>defaultTemperatureCheckbox</tabstop>
+  <tabstop>atmosphericModelCombo</tabstop>
+  <tabstop>maxAltitudeCombo</tabstop>
+  <tabstop>speedInput</tabstop>
+  <tabstop>altitudeInput</tabstop>
+  <tabstop>altitudeSlider</tabstop>
+  <tabstop>flutterInput</tabstop>
+  <tabstop>flutterMachInput</tabstop>
+  <tabstop>flutterMarginInput</tabstop>
+  <tabstop>divergenceInput</tabstop>
+  <tabstop>divergenceMachInput</tabstop>
+  <tabstop>divergenceMarginInput</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>
