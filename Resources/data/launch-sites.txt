@@ -87,52 +87,52 @@ SARA Reservation Road:32.264739:-111.273861:667:http://sararocketry.org
 SARA Fairlie Moor:55.726944:-4.811111:242:http://sara.rocketry.org.uk
 SAROS Fall Fire:53.435056:-110.299417:633:http://www.saskatoonrocketry.org
 SCORE Hudson Ranch:38.155602777777778:-104.809119444444444:1666:http://scronline.net
-SEARS Samson, AL:31.118849:-86.091031::http://www.sears572.com
-SMASH:43.2626951:-86.0323107::http://www.smashrocketry.org/
-Spaceport America, NM:32.9406:-106.91492::http://spaceportamerica.com/
-SRA Rocket Ranch:26.244963112404648:-80.84268459643212::http://www.spaceportrocketry.org/
-SSS KOFA:33.552366666667:113.614666666667::https://sssrocketry.com/
-St. Cecilia's College, Mati Airport:6.947222:126.275556::http://stceciliascollegeedu.ph
-St. Cecilia's College, Minglanilla Oval:10.243611:123.797222::http://stceciliascollegeedu.ph
-St. Cecilia's College, Talisay City:10.254389:123.832167::http://stceciliascollegeedu.ph
-St. Louis Rocketry Elsberry, MO:39.160217:-90.763356::http://stlouisrocketry.com/
-SystemsGO South, Houston, TX:29.562952777777778:-94.731458333333333::http://www.systemsgo.org/
-THOR / Tripoli Nebraska (Concord):42.387210:-96.952138::https://www.nebraskarocketry.com/
-THOR / Tripoli Nebraska (Jansen):40.150556:-97.032222::https://www.nebraskarocketry.com/
+SEARS Samson, AL:31.118849:-86.091031:42:http://www.sears572.com
+SMASH:43.2626951:-86.0323107:207:http://www.smashrocketry.org/
+Spaceport America, NM:32.9406:-106.91492:1387:http://spaceportamerica.com/
+SRA Rocket Ranch:26.244963112404648:-80.84268459643212:3:http://www.spaceportrocketry.org/
+SSS KOFA:33.552366666667:113.614666666667:76:https://sssrocketry.com/
+St. Cecilia's College, Mati Airport:6.947222:126.275556:39:http://stceciliascollegeedu.ph
+St. Cecilia's College, Minglanilla Oval:10.243611:123.797222:5:http://stceciliascollegeedu.ph
+St. Cecilia's College, Talisay City:10.254389:123.832167:9:http://stceciliascollegeedu.ph
+St. Louis Rocketry Elsberry, MO:39.160217:-90.763356:132:http://stlouisrocketry.com/
+SystemsGO South, Houston, TX:29.562952777777778:-94.731458333333333:2:http://www.systemsgo.org/
+THOR / Tripoli Nebraska (Concord):42.387210:-96.952138:444:https://www.nebraskarocketry.com/
+THOR / Tripoli Nebraska (Jansen):40.150556:-97.032222:441:https://www.nebraskarocketry.com/
 Torrey Farms of Potter, NY:42.7008967:-77.183656:269:http://urrg.org/
-TRAAU Serpentine:-36.4823466:144.0180150::http://traau.com/
-Tri-Cities Rocketeers:46.40879:-119.01591::https://tri-cities-rocketeers.weebly.com/
-Tripoli Central California:36.532323:-120.051785::http://www.tccrockets.com/
-Tripoli Central Virginia Battle Park:38.398055:-78.065::http://www.battlepark.org
-Tripoli Colorado Hartsel:39.009247:-105.702338::http://tripolicolorado.org
-Tripoli Gerlach:40.877352:-119.114535::http://www.rimworld.com/tripoligerlach/about.html
-Tripoli Houston Hearne Airport:30.861146:-96.622149::http://www.tripolihouston.com/
-Tripoli Houston South Site:29.22849:-95.09134::http://www.tripolihouston.com/
-Tripoli Idaho Swan Falls:43.23765:-116.32373::http://www.tripoliidaho.org
-Tripoli Louisiana Goldmine Plantation:32.2073:-91.8567::http://www.tra-la.org
-Tripoli Mid Ohio:39.854359:-83.65544::https://www.tripolimidohio31.com
-Tripoli MoKan Walnut Grove:37.448033:-93.6150833::http://www.teeniemunde.org/
-Tripoli NSW, Ardlethan, Australia:-34.229832:146.897979::https://crg.tidyhq.com/
-Tripoli NSW, Manton Road, Australia:-34.877799:149.009560::https://crg.tidyhq.com/
-Tripoli NSW, Mullaley, Australia:-31.15119325571859:149.91797774321296::http://www.nswrocketry.org.au/
-Tripoli NSW, Whalan, Australia:-33.76059894547595:150.7975583540048::http://www.nswrocketry.org.au/
-Tripoli North Texas (Akroville):33.390331:-97.360575::https://www.tripolinorthtexas.org
-Tripoli North Texas (Cache Creek):33.5006828:-99.3360034::https://www.tripolinorthtexas.org
-Tripoli Oklahoma Sayre Airport:35.1677092:-99.6578061::https://www.tripolioklahoma.org/
-Tripoli Phoenix (Eagle Eye):33.82083:-113.13750::http://www.traphx.com/
-Tripoli Vegas Delamar:37.318910:-114.959095::http://www.tripolivegas.com/
-TTRA Rocking V Ranch:28.091666666666667:-82.17::http://www.tripoli-tampa.com/
-University of Canterbury Aerospace:-43.83302:172.59053::https://www.canterbury.ac.nz/engineering/schools/mechanical/clubs/uc-aerospace/
-UROC Frank Hunt Field:40.21879:-112.24618::http://www.uroc.org
-UROC Bonneville Salt Flats:40.79128:-113.82155::http://www.uroc.org
-VAST Monterey, VA:38.376898:-79.607717::http://www.valleyaerospace.com
-Vefa Roket Hisar:38.3880178:33.7411889::https://www.roketsan.com.tr/
-Vipe:48.6056:-72.4012::https://clubqf.ca
-WAC Sportsman Club:47.816944:-119.656111::http://www.washingtonaerospace.org
-WAC Snell Ranch:47.793449:-119.427660::http://www.washingtonaerospace.org
-Weber Farms:41.1786878:-80.0406684::http://www.psc473.org/
-White Sands Missle Range NW:33.21167:-106.46667::https://wsmrmuseum.com/
-White Sands Missle Range NE:33.21167:-106.33333::https://wsmrmuseum.com/
-White Sands Missle Range SW:33.10167:-106.46667::https://wsmrmuseum.com/
-White Sands Missle Range SE:33.10167:-106.33333::https://wsmrmuseum.com/
-Zia Spacemodelers:36.09861:-106.03194::https://www.zia-spacemodelers.org/
+TRAAU Serpentine:-36.4823466:144.0180150:123:http://traau.com/
+Tri-Cities Rocketeers:46.40879:-119.01591:204:https://tri-cities-rocketeers.weebly.com/
+Tripoli Central California:36.532323:-120.051785:57:http://www.tccrockets.com/
+Tripoli Central Virginia Battle Park:38.398055:-78.065:127:http://www.battlepark.org
+Tripoli Colorado Hartsel:39.009247:-105.702338:2665:http://tripolicolorado.org
+Tripoli Gerlach:40.877352:-119.114535:1191:http://www.rimworld.com/tripoligerlach/about.html
+Tripoli Houston Hearne Airport:30.861146:-96.622149:84:http://www.tripolihouston.com/
+Tripoli Houston South Site:29.22849:-95.09134:2:http://www.tripolihouston.com/
+Tripoli Idaho Swan Falls:43.23765:-116.32373:942:http://www.tripoliidaho.org
+Tripoli Louisiana Goldmine Plantation:32.2073:-91.8567:22:http://www.tra-la.org
+Tripoli Mid Ohio:39.854359:-83.65544:329:https://www.tripolimidohio31.com
+Tripoli MoKan Walnut Grove:37.448033:-93.6150833:330:http://www.teeniemunde.org/
+Tripoli NSW, Ardlethan, Australia:-34.229832:146.897979:232:https://crg.tidyhq.com/
+Tripoli NSW, Manton Road, Australia:-34.877799:149.009560:540:https://crg.tidyhq.com/
+Tripoli NSW, Mullaley, Australia:-31.15119325571859:149.91797774321296:303:http://www.nswrocketry.org.au/
+Tripoli NSW, Whalan, Australia:-33.76059894547595:150.7975583540048:29:http://www.nswrocketry.org.au/
+Tripoli North Texas (Akroville):33.390331:-97.360575:253:https://www.tripolinorthtexas.org
+Tripoli North Texas (Cache Creek):33.5006828:-99.3360034:419:https://www.tripolinorthtexas.org
+Tripoli Oklahoma Sayre Airport:35.1677092:-99.6578061:586:https://www.tripolioklahoma.org/
+Tripoli Phoenix (Eagle Eye):33.82083:-113.13750:686:http://www.traphx.com/
+Tripoli Vegas Delamar:37.318910:-114.959095:1384:http://www.tripolivegas.com/
+TTRA Rocking V Ranch:28.091666666666667:-82.17:29:http://www.tripoli-tampa.com/
+University of Canterbury Aerospace:-43.83302:172.59053:3:https://www.canterbury.ac.nz/engineering/schools/mechanical/clubs/uc-aerospace/
+UROC Frank Hunt Field:40.21879:-112.24618:1543:http://www.uroc.org
+UROC Bonneville Salt Flats:40.79128:-113.82155:1286:http://www.uroc.org
+VAST Monterey, VA:38.376898:-79.607717:814:http://www.valleyaerospace.com
+Vefa Roket Hisar:38.3880178:33.7411889:920:https://www.roketsan.com.tr/
+Vipe:48.6056:-72.4012:111:https://clubqf.ca
+WAC Sportsman Club:47.816944:-119.656111:689:http://www.washingtonaerospace.org
+WAC Snell Ranch:47.793449:-119.427660:646:http://www.washingtonaerospace.org
+Weber Farms:41.1786878:-80.0406684:404:http://www.psc473.org/
+White Sands Missle Range NW:33.21167:-106.46667:1236:https://wsmrmuseum.com/
+White Sands Missle Range NE:33.21167:-106.33333:1244:https://wsmrmuseum.com/
+White Sands Missle Range SW:33.10167:-106.46667:1204:https://wsmrmuseum.com/
+White Sands Missle Range SE:33.10167:-106.33333:1224:https://wsmrmuseum.com/
+Zia Spacemodelers:36.09861:-106.03194:1775:https://www.zia-spacemodelers.org/
