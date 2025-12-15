@@ -336,7 +336,7 @@ class DialogFinFlutter(UiDialog):
 
     def fillAtmosphericModelCombo(self) -> None:
         self._ui.atmosphericModelCombo.addItem(translate("Rocket", "Peak of Flight 615"), ATMOS_POF_615)
-        self._ui.atmosphericModelCombo.addItem(translate("Rocket", "US Standard Atmosphere (USSA) 1976"), ATMOS_USSA)
+        # self._ui.atmosphericModelCombo.addItem(translate("Rocket", "US Standard Atmosphere (USSA) 1976"), ATMOS_USSA)
         self._ui.atmosphericModelCombo.addItem(
             translate("Rocket", "Committee on Extension to the Standard Atmosphere (COESA) 1976 - Geometric"),
             ATMOS_COESA_GEOMETRIC)

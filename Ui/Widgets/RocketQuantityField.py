@@ -56,8 +56,17 @@ class RocketQuantityField(QLineEdit):
         current = self._quantityFromText(text)
         formatted = self._formatQuantity(current)
         if text != formatted:
-            self.setText(formatted)
+            self._setText(formatted)
             self.quantity = current
+
+    # Override the base function to ensure the quantity is set
+    def setText(self, text : str) -> None:
+        self._quantity = self._quantityFromText(text)
+        formatted = self._formatQuantity(self._quantity)
+        self._setText(formatted)
+
+    def _setText(self, text : str) -> None:
+        super().setText(text)
 
     #
     # Property : unit
@@ -113,7 +122,7 @@ class RocketQuantityField(QLineEdit):
         text = self.text()
         formatted = self._formatQuantity(self._quantity)
         if text != formatted:
-            self.setText(formatted)
+            self._setText(formatted)
 
     def _formatQuantity(self, quantity : FreeCAD.Units.Quantity) -> str:
         try:
