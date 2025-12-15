@@ -138,7 +138,7 @@ class DialogFinFlutter(UiDialog):
         self.fillLaunchSiteCombo()
         self._ui.launchSiteAltitudeInput.unit = self._heightUnits()
         self._ui.launchSiteAltitudeInput.format = FORMAT_ALTITUDE
-        self._ui.launchSiteAltitudeInput.setText("0 m")
+        self._ui.launchSiteAltitudeInput.quantity = FreeCAD.Units.Quantity("0 m")
 
         self.fillTemperatureUnitsCombo()
         # self._ui.launchTemperatureInput.unit = FreeCAD.Units.Temperature

@@ -50,18 +50,14 @@ class RocketQuantityField(QLineEdit):
 
     # def focusInEvent(self, event : QFocusEvent) -> None:
     #     print(f"focusInEvent({self.objectName()})")
-        
+
     def focusOutEvent(self, event : QFocusEvent) -> None:
         text = self.text()
-        try:
-            current = FreeCAD.Units.Quantity(text) #.getValueAs(FreeCAD.Units.Quantity(self._units))
-        except ValueError:
-            current = FreeCAD.Units.Quantity(text + " " + self._units)
+        current = self._quantityFromText(text)
         formatted = self._formatQuantity(current)
         if text != formatted:
             self.setText(formatted)
             self.quantity = current
-        # print(f"focusOut text {text} -> {current}")
 
     #
     # Property : unit
@@ -75,7 +71,7 @@ class RocketQuantityField(QLineEdit):
     def unit(self, newUnits: str) -> None:
         if self._units == newUnits:
             return
-        
+
         self._units = newUnits
         self._update()
         self.unitsChanged.emit(self._units)
@@ -91,7 +87,7 @@ class RocketQuantityField(QLineEdit):
     def format(self, newFormat: str) -> None:
         if self._format == newFormat:
             return
-        
+
         self._format = newFormat
         self._update()
         self.formatChanged.emit(self._format)
@@ -101,15 +97,14 @@ class RocketQuantityField(QLineEdit):
     #
     @Property(FreeCAD.Units.Quantity, notify=quantityChanged)
     def quantity(self) -> FreeCAD.Units.Quantity:
-        # print(f"get quantity {type(self._quantity)}")
         return self._quantity
 
     @quantity.setter
     def quantity(self, value: FreeCAD.Units.Quantity) -> None:
+        value = self._quantityWithUnits(value)
         if self._quantity == value:
             return
-        
-        # print(f"set quantity {type(self._quantity)}")
+
         self._quantity = value
         self._update()
         self.quantityChanged.emit(self._quantity)
@@ -119,12 +114,38 @@ class RocketQuantityField(QLineEdit):
         formatted = self._formatQuantity(self._quantity)
         if text != formatted:
             self.setText(formatted)
-        # print(f"_update text {text} -> {formatted}")
 
     def _formatQuantity(self, quantity : FreeCAD.Units.Quantity) -> str:
         try:
             return self._format.format(float(quantity.getValueAs(FreeCAD.Units.Quantity(self._units)))) + ' ' + self._units
-        except ValueError:
+        except ValueError as ex:
             pass
         return self._format.format(quantity.Value)
+
+    def _quantityWithUnits(self, value : FreeCAD.Units.Quantity) -> FreeCAD.Units.Quantity:
+        if self._units and not self._hasUnits(value):
+            value = FreeCAD.Units.Quantity(f"{value.Value} {self._units}")
+        return value
+
+    def _quantityFromText(self, text : str) -> FreeCAD.Units.Quantity:
+        quantity = FreeCAD.Units.Quantity(text)
+        return self._quantityWithUnits(quantity)
+
+    def _hasUnits(self, quantity : FreeCAD.Units.Quantity) -> bool:
+        """
+        Checks if a FreeCAD Base.Quantity object has any units specified.
+        """
+        try:
+            if FreeCAD.Units.Unit(quantity) != FreeCAD.Units.Unit(FreeCAD.Units.Quantity()):
+                return True
+
+        except ValueError:
+            # If the input isn't a valid Quantity object or unit parsing fails
+            return False
+        except Exception as e:
+            # Handle other potential errors
+            print(f"An error occurred: {e}")
+            return False
+        return False
+
 
