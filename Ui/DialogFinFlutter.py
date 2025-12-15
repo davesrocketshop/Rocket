@@ -476,7 +476,7 @@ class DialogFinFlutter(UiDialog):
 
     def onLaunchSite(self, value : str) -> None:
         altitude = self._ui.launchSiteCombo.currentData()
-        self._ui.launchSiteAltitudeInput.setText(self._formatAltitude(FreeCAD.Units.Quantity(f"{altitude}")))
+        self._ui.launchSiteAltitudeInput.quantity = FreeCAD.Units.Quantity(f"{altitude} m")
 
     def onTemperatureUnits(self, value : str) -> None:
         self._setSeries()
