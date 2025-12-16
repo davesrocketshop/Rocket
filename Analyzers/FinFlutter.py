@@ -154,10 +154,10 @@ class FinFlutter:
         # Get the atmospheric conditions at the specified altitude (convert m to km)
         altitude_agl = ((altitude + agl) / 1000.0)
         # print(f"altitude {self._formatFloat(altitude, 'm', 'm', 'ft')}")
-        atmo = ussa76([altitude_agl])
+        rho,T,P,Cs,eta,Kc = ussa76(altitude_agl)
 
-        temp = float(atmo.T[0]) + self.temperatureCompensation(agl, T_agl)
-        pressure = float(atmo.P[0])
+        temp = float(T) + self.temperatureCompensation(agl, T_agl)
+        pressure = float(P)
 
         return temp, pressure
 
@@ -217,8 +217,8 @@ class FinFlutter:
         shear *= 1000.0 # Convert from kPa to Pa
 
         # The coefficient is adjusted for SI units
-        Vf = math.sqrt(shear / 
-                       ((270964.068 * (self._aspectRatio**3)) / 
+        Vf = math.sqrt(shear /
+                       ((270964.068 * (self._aspectRatio**3)) /
                         (pow(self._thickness / self._rootChord, 3) * (self._aspectRatio + 2)) * ((self._lambda + 1) / 2) * (pressure / p0)))
 
         # Flutter velocity in m/s
@@ -258,7 +258,7 @@ class FinFlutter:
         shear *= 1000.0 # Convert from kPa to Pa
 
         # Flutter velocity in Mach
-        Vf = math.sqrt((shear * 2 * (self._aspectRatio + 2) * pow(self._thickness / self._rootChord, 3)) / 
+        Vf = math.sqrt((shear * 2 * (self._aspectRatio + 2) * pow(self._thickness / self._rootChord, 3)) /
                        (1.337 * pow(self._aspectRatio, 3) * pressure * (self._lambda + 1)))
 
         # Flutter velocity in m/s
@@ -275,7 +275,7 @@ class FinFlutter:
 
         # Divergent velocity in Mach
         Vd = math.sqrt(shear /
-                       (((3.3 * pressure) / (1 + (2 / self._aspectRatio))) * 
+                       (((3.3 * pressure) / (1 + (2 / self._aspectRatio))) *
                         ((self._rootChord + self._tipChord) / self._thickness**3) * (self._span**2)))
 
         # Divergent velocity in m/s
