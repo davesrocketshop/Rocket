@@ -80,7 +80,7 @@ class DialogFinFlutter(UiDialog):
 
         return True
 
-    def _shearUnits(self) -> str:
+    def _pressureUnits(self) -> str:
         if self._isMetricUnitPref():
             return "MPa"
         return "psi"
@@ -120,13 +120,13 @@ class DialogFinFlutter(UiDialog):
 
         self._ui.materialGridLayout.replaceWidget(self._ui.materialTreeWidget, self.materialTreeWidget)
 
-        self._ui.shearInput.unit = self._shearUnits()
+        self._ui.shearInput.unit = self._pressureUnits()
         self._ui.shearInput.format = FORMAT_PRESSURE
         self._ui.shearInput.quantity = FreeCAD.Units.Quantity("2.620008e+9Pa")
 
         self._ui.calculatedCheckbox.setCheckState(QtCore.Qt.Unchecked)
 
-        self._ui.youngsInput.unit = self._shearUnits()
+        self._ui.youngsInput.unit = self._pressureUnits()
         self._ui.youngsInput.format = FORMAT_PRESSURE
         self._ui.youngsInput.quantity = FreeCAD.Units.Quantity("2.620008e+9Pa")
         self._ui.youngsInput.setEnabled(False)
@@ -241,12 +241,7 @@ class DialogFinFlutter(UiDialog):
         return temperature
 
     def _getModulus(self) -> float:
-        return float(FreeCAD.Units.Quantity(str(self._ui.shearInput.text())))
-
-    def _formatFloat(self, value : float, units : str, metric : str, imperial : str) -> str:
-        quantity = FreeCAD.Units.Quantity(f"{value:.8g} {units}")
-        return f"{float(quantity.getValueAs(FreeCAD.Units.Quantity(metric))):.4f} {metric}, " \
-            f"{float(quantity.getValueAs(FreeCAD.Units.Quantity(imperial))):.4f} {imperial}"
+        return self._ui.shearInput.quantity.Value
 
     def _setSeries(self) -> None:
 
@@ -369,11 +364,11 @@ class DialogFinFlutter(UiDialog):
         self._ui.poissonInput.setEnabled(True)
 
     def calculateShear(self) -> None:
-        young = float(FreeCAD.Units.Quantity(self._ui.youngsInput.text()).getValueAs(FreeCAD.Units.Pascal))
+        young = float(self._ui.youngsInput.quantity.getValueAs(FreeCAD.Units.Pascal))
         poisson = float(FreeCAD.Units.Quantity(self._ui.poissonInput.text()))
         shear = self._flutter.shearModulus(young, poisson)
 
-        self._ui.shearInput.setText(FreeCAD.Units.Quantity(str(shear) + " Pa").UserString)
+        self._ui.shearInput.quantity = FreeCAD.Units.Quantity(str(shear) + " Pa")
 
     def interpolateProperties(self) -> None:
         """ Infer missing properties from those available """
@@ -384,13 +379,13 @@ class DialogFinFlutter(UiDialog):
         hasYoungs = not (youngsModulus is None or math.isnan(youngsModulus))
         hasPoisson = not (poissonRatio is None or math.isnan(poissonRatio))
         if hasShear:
-            self._ui.shearInput.setText(self._formatPressure(FreeCAD.Units.Quantity(shearModulus)))
+            self._ui.shearInput.quantity = FreeCAD.Units.Quantity(shearModulus)
         else:
-            self._ui.shearInput.setText(self._formatPressure(FreeCAD.Units.Quantity("0 kPa")))
+            self._ui.shearInput.quantity = FreeCAD.Units.Quantity("0 kPa")
         if hasYoungs:
-            self._ui.youngsInput.setText(self._formatPressure(FreeCAD.Units.Quantity(youngsModulus)))
+            self._ui.youngsInput.quantity = FreeCAD.Units.Quantity(youngsModulus)
         else:
-            self._ui.youngsInput.setText(self._formatPressure(FreeCAD.Units.Quantity("0 kPa")))
+            self._ui.youngsInput.quantity = FreeCAD.Units.Quantity("0 kPa")
         if hasPoisson:
             self._ui.poissonInput.setText(FORMAT_PRESSURE.format(poissonRatio))
         else:
@@ -435,14 +430,16 @@ class DialogFinFlutter(UiDialog):
         self.updateFlutter()
 
     def onYoungs(self, quantity : FreeCAD.Units.Quantity) -> None:
-        self.calculateShear()
-        self._setSeries()
-        self.updateFlutter()
+        if self._ui.calculatedCheckbox.isChecked() or self._ui.shearInput.quantity.Value == 0:
+            self.calculateShear()
+            self._setSeries()
+            self.updateFlutter()
 
     def onPoisson(self, value : str) -> None:
-        self.calculateShear()
-        self._setSeries()
-        self.updateFlutter()
+        if self._ui.calculatedCheckbox.isChecked() or self._ui.shearInput.quantity.Value == 0:
+            self.calculateShear()
+            self._setSeries()
+            self.updateFlutter()
 
     def _getMaxAltitude(self) -> float:
         try:
@@ -457,11 +454,7 @@ class DialogFinFlutter(UiDialog):
 
     def _getAltitude(self) -> float:
         try:
-            try:
-                altitude = FreeCAD.Units.Quantity(self._ui.altitudeInput.text())
-            except ValueError:
-                altitude = FreeCAD.Units.Quantity(self._ui.altitudeInput.text() + self._heightUnits())
-            current = float(altitude.getValueAs(FreeCAD.Units.Quantity(self._heightUnits())))
+            current = float(self._ui.altitudeInput.quantity.getValueAs(FreeCAD.Units.Quantity(self._heightUnits())))
         except ValueError:
             return 0.0
         return current
@@ -534,18 +527,11 @@ class DialogFinFlutter(UiDialog):
             pass
         return formatString.format(0.0) + ' ' + units
 
-    def _formatIntQuantity(self, formatString, quantity : FreeCAD.Units.Quantity, units : str) -> str:
-        try:
-            return formatString.format(int(quantity.getValueAs(FreeCAD.Units.Quantity(units)))) + ' ' + units
-        except ValueError:
-            pass
-        return formatString.format(0) + ' ' + units
-
     def _formatVelocity(self, quantity : FreeCAD.Units.Quantity) -> str:
         return self._formatQuantity(FORMAT_VELOCITY, quantity, self._velocityUnits())
 
     def _formatPressure(self, quantity : FreeCAD.Units.Quantity) -> str:
-        return self._formatQuantity(FORMAT_PRESSURE, quantity, self._shearUnits())
+        return self._formatQuantity(FORMAT_PRESSURE, quantity, self._pressureUnits())
 
     def _formatAltitude(self, quantity : FreeCAD.Units.Quantity) -> str:
         return self._formatQuantity(FORMAT_ALTITUDE, quantity, self._heightUnits())
