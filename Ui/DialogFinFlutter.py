@@ -33,7 +33,7 @@ import numpy as np
 import os
 
 import matplotlib.pyplot as plt
-from matplotlib.backends.backend_qt5agg import FigureCanvas
+from matplotlib.backends.backend_qtagg import FigureCanvas
 from matplotlib.figure import Figure
 
 translate = FreeCAD.Qt.translate
