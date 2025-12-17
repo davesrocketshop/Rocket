@@ -42,6 +42,8 @@ from Rocket.ShapeHandlers.FinTubeShapeHandler import FinTubeShapeHandler
 from Rocket.ShapeHandlers.FinSketchShapeHandler import FinSketchShapeHandler
 from Rocket.ShapeHandlers.FinProxyShapeHandler import FinProxyShapeHandler
 
+from Rocket.Utilities import _err
+
 class FinFlutter:
 
     def __init__(self, fin):
@@ -104,18 +106,19 @@ class FinFlutter:
         self._aspectRatio = self._span**2 / self._area
         self._lambda = self._tipChord / self._rootChord
 
-        print(f"Thickness {self._formatFloat(self._thickness, 'm', 'cm', 'in')}")
-        print(f"TC {self._formatFloat(self._tipChord, 'm', 'cm', 'in')}")
-        print(f"RC {self._formatFloat(self._rootChord, 'm', 'cm', 'in')}")
-        print(f"SSL {self._formatFloat(self._span, 'm', 'cm', 'in')}")
+        # Parameters used for POF 615 calculations
+        # print(f"Thickness {self._formatFloat(self._thickness, 'm', 'cm', 'in')}")
+        # print(f"TC {self._formatFloat(self._tipChord, 'm', 'cm', 'in')}")
+        # print(f"RC {self._formatFloat(self._rootChord, 'm', 'cm', 'in')}")
+        # print(f"SSL {self._formatFloat(self._span, 'm', 'cm', 'in')}")
 
-        print(f"Cx {self._formatFloat(self._Cx, 'm', 'cm', 'in')}")
-        print(f"t/c {self._thickness / self._rootChord}")
-        print(f"Lambda {self._lambda}")
-        print(f"Area {self._formatFloat(self._area, 'm^2', 'cm^2', 'in^2')}")
-        print(f"Aspect ratio {self._aspectRatio}")
-        print(f"epsilon {self._epsilon}")
-        print(f"DN {self._formatFloat(self._DN, 'Pa', 'kPa', 'psi')}")
+        # print(f"Cx {self._formatFloat(self._Cx, 'm', 'cm', 'in')}")
+        # print(f"t/c {self._thickness / self._rootChord}")
+        # print(f"Lambda {self._lambda}")
+        # print(f"Area {self._formatFloat(self._area, 'm^2', 'cm^2', 'in^2')}")
+        # print(f"Aspect ratio {self._aspectRatio}")
+        # print(f"epsilon {self._epsilon}")
+        # print(f"DN {self._formatFloat(self._DN, 'Pa', 'kPa', 'psi')}")
 
     def _formatFloat(self, value : float, units : str, metric : str, imperial : str) -> str:
         quantity = FreeCAD.Units.Quantity(f"{value:.8g} {units}")
@@ -141,20 +144,22 @@ class FinFlutter:
     def atmospherePOF615(self, altitude : float, agl : float = 0, T_agl : float = 288.15) -> tuple[float, float]:
 
         # Get the atmospheric conditions at the specified altitude in m
-        altitude_agl = altitude + agl
-        # print(f"altitude {self._formatFloat(altitude, 'm', 'm', 'ft')}")
+        altitude_asl = altitude + agl
 
-        temp = T_agl - (0.0065 * altitude_agl)
-        pressure = (101.325 * math.pow((temp / 288.16), 5.256)) * 1000.0
+        try:
+            temp = T_agl - (0.0065 * altitude_asl)
+            pressure = (101.325 * math.pow((temp / 288.16), 5.256)) * 1000.0
+        except ValueError:
+            _err(translate("Rocket", "This atmospheric model doesn't support the specified altitude. Using the COESA76 geometric model instead."))
+            return self.atmosphereCOESAGeometric(altitude, agl, T_agl)
 
         return temp, pressure
 
     def atmosphereUSSA(self, altitude : float, agl : float = 0, T_agl : float = 288.15) -> tuple[float, float]:
 
         # Get the atmospheric conditions at the specified altitude (convert m to km)
-        altitude_agl = ((altitude + agl) / 1000.0)
-        # print(f"altitude {self._formatFloat(altitude, 'm', 'm', 'ft')}")
-        rho,T,P,Cs,eta,Kc = ussa76(altitude_agl)
+        altitude_asl = ((altitude + agl) / 1000.0)
+        rho,T,P,Cs,eta,Kc = ussa76(altitude_asl)
 
         temp = float(T) + self.temperatureCompensation(agl, T_agl)
         pressure = float(P)
@@ -165,9 +170,8 @@ class FinFlutter:
 
         # Get the atmospheric conditions at the specified altitude (convert m to km)
         # Uses the coesa76 model which is an extension of US Standard Atmosphere 1976 model to work above 84K
-        altitude_agl = ((altitude + agl) / 1000.0)
-        # print(f"altitude {self._formatFloat(altitude, 'm', 'm', 'ft')}")
-        atmo = coesa76([altitude_agl], alt_type='geometric')
+        altitude_asl = ((altitude + agl) / 1000.0)
+        atmo = coesa76([altitude_asl], alt_type='geometric')
 
         temp = float(atmo.T[0]) + self.temperatureCompensation(agl, T_agl)
         pressure = float(atmo.P[0])
@@ -178,9 +182,8 @@ class FinFlutter:
 
         # Get the atmospheric conditions at the specified altitude (convert m to km)
         # Uses the coesa76 model which is an extension of US Standard Atmosphere 1976 model to work above 84K
-        altitude_agl = ((altitude + agl) / 1000.0)
-        # print(f"altitude {self._formatFloat(altitude, 'm', 'm', 'ft')}")
-        atmo = coesa76([altitude_agl], alt_type='geometric')
+        altitude_asl = ((altitude + agl) / 1000.0)
+        atmo = coesa76([altitude_asl], alt_type='geopotential')
 
         temp = float(atmo.T[0]) + self.temperatureCompensation(agl, T_agl)
         pressure = float(atmo.P[0])
@@ -202,16 +205,11 @@ class FinFlutter:
         # speed of sound
         mach = math.sqrt(gamma * R_air * temp)
 
-        # print(f"Tc {temp - 273.15}")
-        # print(f"alpha {mach}")
-        # print(f"pressure {self._formatFloat(pressure, 'Pa', 'kPa', 'psi')}")
-
         return mach,pressure
 
     def flutter(self, model : int, altitude : float, shear : float) -> tuple[float, float]:
         # Calculate fin flutter using the method outlined in NACA Technical Note 4197
 
-        # print(f"Shear {self._formatFloat(shear, 'kPa', 'kPa', 'psi')}")
         a,pressure = self.atmosphericConditions(model, altitude)
 
         shear *= 1000.0 # Convert from kPa to Pa
@@ -230,8 +228,6 @@ class FinFlutter:
         #
         # Calculate flutter using the formula outlined in Peak of Flight issue 615
         #
-        # print(f"Atmospheric model {model}")
-
         a,pressure = self.atmosphericConditions(model, altitude, agl, T_agl)
 
         shear *= 1000.0 # Convert from kPa to Pa
