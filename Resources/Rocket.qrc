@@ -67,5 +67,6 @@
         <file>translations/Rocket_sr-CS.qm</file>
         <file>translations/Rocket_th.qm</file>
         <file>translations/Rocket_ur-PK.qm</file>
+        <file>translations/Rocket_be.qm</file>
     </qresource>
 </RCC>
