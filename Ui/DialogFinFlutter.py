@@ -462,10 +462,18 @@ class DialogFinFlutter(UiDialog):
     def _setSlider(self) -> None:
         max = self._getMaxAltitude()
         current = self._getAltitude()
+        if current > max:
+            # Automatically adjust max altitude if it is currentl exceeded
+            combo = self._ui.maxAltitudeCombo
+            for i in range(combo.currentIndex(), combo.count()):
+                text = combo.itemText(i)
+                max = float(text.strip(self._heightUnits()))
+                if max > current:
+                    combo.setCurrentIndex(i)
+                    break
 
         self._ui.altitudeSlider.setMinimum(0)
         self._ui.altitudeSlider.setMaximum(max)
-        self._ui.altitudeSlider.setValue(current)
 
     def onLaunchSite(self, value : str) -> None:
         altitude = self._ui.launchSiteCombo.currentData()
@@ -501,6 +509,8 @@ class DialogFinFlutter(UiDialog):
     def onAltitude(self, quantity : FreeCAD.Units.Quantity) -> None:
         self._setSeries()
         self._setSlider()
+
+        self._ui.altitudeSlider.setValue(float(quantity.getValueAs(FreeCAD.Units.Quantity(self._heightUnits()))))
         self.updateFlutter()
 
     def showSlider(self) -> None:

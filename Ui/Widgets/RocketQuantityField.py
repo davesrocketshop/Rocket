@@ -54,10 +54,7 @@ class RocketQuantityField(QLineEdit):
     def focusOutEvent(self, event : QFocusEvent) -> None:
         text = self.text()
         current = self._quantityFromText(text)
-        formatted = self._formatQuantity(current)
-        if text != formatted:
-            self._setText(formatted)
-            self.quantity = current
+        self.quantity = current
 
     # Override the base function to ensure the quantity is set
     def setText(self, text : str) -> None:
