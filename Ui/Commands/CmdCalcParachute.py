@@ -33,7 +33,7 @@ from Ui.DialogParachute import DialogParachute
 
 def calcParachute():
     form = DialogParachute()
-    form.exec_()
+    form.exec()
 
 class CmdCalcParachute:
     def Activated(self):

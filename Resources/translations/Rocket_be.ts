@@ -1,0 +1,4836 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="be" sourcelanguage="en">
+  <context>
+    <name>App::Property</name>
+    <message>
+      <location filename="../../Rocket/FeatureRailGuide.py" line="58"/>
+      <source>Rail guide base type</source>
+      <translation>Асноўны тып накіраванай рэйкі</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureRailGuide.py" line="66"/>
+      <source>Width of the top of the launch guide</source>
+      <translation>Шырыня верхняй частцы стартавай рэйкі</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureRailGuide.py" line="68"/>
+      <source>Width of the inside of the launch guide</source>
+      <translation>Шырыня ўнутранай частцы стартавай рэйкі</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureRailGuide.py" line="70"/>
+      <source>Width of the base or bottom of the launch guide</source>
+      <translation>Шырыня асноўнай ці верхняй частцы стартавай рэйкі</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureRailGuide.py" line="72"/>
+      <source>Height of the top part of the launch guide</source>
+      <translation>Вышыня верху корпусу стартавай рэйкі</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureRailGuide.py" line="74"/>
+      <source>Height of the inside part of the launch guide</source>
+      <translation>Вышыня ўнутранага корпусу стартавай рэйкі</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureRailGuide.py" line="76"/>
+      <source>Total height of the launch guide</source>
+      <translation>Агульная вышыня стартавай рэйкі</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureRailGuide.py" line="78"/>
+      <source>Diameter of the outside of the body tube for conformal base type</source>
+      <translation>Дыяметр вонкавага корпуса фюзеляжа для зададзенага тыпу асновы</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureRailGuide.py" line="80"/>
+      <source>Automatically set the diameter when possible</source>
+      <translation>Аўтаматычна задае дыяметр, калі гэтае магчыма</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureRailGuide.py" line="82"/>
+      <source>Angle for V base type</source>
+      <translation>Вугал для V-вобразнага тыпу асновы</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureLaunchLug.py" line="67"/>
+      <location filename="../../Rocket/FeatureRailGuide.py" line="84"/>
+      <source>The component has a sweep at the forward end</source>
+      <translation>Кампанент мае выступ на пярэднім скосу</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureLaunchLug.py" line="69"/>
+      <location filename="../../Rocket/FeatureRailGuide.py" line="86"/>
+      <source>Angle for the forward end sweep</source>
+      <translation>Вугал павароту пярэдняга скосу</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureLaunchLug.py" line="71"/>
+      <location filename="../../Rocket/FeatureRailGuide.py" line="88"/>
+      <source>The component has a sweep at the aft end</source>
+      <translation>Кампанент мае выступ на заднім скосу</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureLaunchLug.py" line="73"/>
+      <location filename="../../Rocket/FeatureRailGuide.py" line="90"/>
+      <source>Angle for the aft end sweep</source>
+      <translation>Вугал павароту задняга скосу</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureRailGuide.py" line="92"/>
+      <source>The component has a notch down the middle</source>
+      <translation>Кампанент мае выразанне пасярэдзіне</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureRailGuide.py" line="94"/>
+      <source>Width of the notch</source>
+      <translation>Шырыня выразання</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureRailGuide.py" line="96"/>
+      <source>Depth of the notch</source>
+      <translation>Глыбіня выразання</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureRailButton.py" line="109"/>
+      <location filename="../../Rocket/FeatureLaunchLug.py" line="62"/>
+      <location filename="../../Rocket/RadiusRingComponent.py" line="48"/>
+      <location filename="../../Rocket/FeatureRailGuide.py" line="99"/>
+      <source>Instance count</source>
+      <translation>Колькасць асобнікаў</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureRailButton.py" line="111"/>
+      <location filename="../../Rocket/FeatureLaunchLug.py" line="64"/>
+      <location filename="../../Rocket/FeatureRailGuide.py" line="101"/>
+      <source>Instance separation</source>
+      <translation>Падзел асобнікаў</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/RocketComponent.py" line="57"/>
+      <source>Component manufacturer</source>
+      <translation>Вытворца кампанента</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/RocketComponent.py" line="59"/>
+      <source>Component manufacturer part number</source>
+      <translation>Артыкул дэталі вытворцы кампанента</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/RocketComponent.py" line="63"/>
+      <source>Component description</source>
+      <translation>Апісанне кампанента</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/RocketComponent.py" line="66"/>
+      <source>Reference location for the location</source>
+      <translation>Апорнае становішча для становішча</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/RocketComponent.py" line="84"/>
+      <source>Length of the component</source>
+      <translation>Даўжыня кампанента</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/RocketComponentShapeless.py" line="70"/>
+      <location filename="../../Rocket/RocketComponent.py" line="86"/>
+      <source>Method for calculating axial offsets</source>
+      <translation>Спосаб разліку восевых зрушэнняў</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/RocketComponent.py" line="90"/>
+      <source>Scale the object by body diameter</source>
+      <translation>Маштабаваць аб'ект па дыяметры цела</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/RocketComponent.py" line="92"/>
+      <source>Automatically scale the object by body diameter</source>
+      <translation>Аўтаматычна маштабаваць аб'ект па дыяметры цела</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/RocketComponent.py" line="94"/>
+      <source>Use the fore value for objects with different fore and aft diameters</source>
+      <translation>Ужыць пярэдняе значэнне для аб'ектаў з розным пярэднім і заднім дыяметрамі</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/RocketComponent.py" line="97"/>
+      <source>Texture file</source>
+      <translation>Файл тэкстуры</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/RocketComponent.py" line="100"/>
+      <source>Shape of the component</source>
+      <translation>Фігура кампанента</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureRingtail.py" line="54"/>
+      <location filename="../../Rocket/FeatureLaunchLug.py" line="57"/>
+      <location filename="../../Rocket/FeatureBodyTube.py" line="56"/>
+      <source>Diameter of the outside of the body tube</source>
+      <translation>Дыяметр вонкавага корпуса фюзеляжа</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureRingtail.py" line="56"/>
+      <location filename="../../Rocket/RingComponent.py" line="57"/>
+      <location filename="../../Rocket/FeatureBodyTube.py" line="58"/>
+      <source>Automatically set the outer diameter when possible</source>
+      <translation>Аўтаматычна задае вонкавы дыяметр, калі гэтае магчыма</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ThicknessRingComponent.py" line="51"/>
+      <location filename="../../Rocket/FeatureLaunchLug.py" line="59"/>
+      <location filename="../../Rocket/FeatureBodyTube.py" line="60"/>
+      <source>Diameter of the inside of the body tube</source>
+      <translation>Дыяметр унутранага корпуса фюзеляжа</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureInnerTube.py" line="65"/>
+      <location filename="../../Rocket/FeatureBodyTube.py" line="63"/>
+      <source>This component is a motor mount</source>
+      <translation>Кампанент уяўляе сабой мацаванне рухавіка</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureInnerTube.py" line="63"/>
+      <location filename="../../Rocket/FeatureBodyTube.py" line="65"/>
+      <source>Motor overhang</source>
+      <translation>Навісь рухавіка</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureBodyTube.py" line="68"/>
+      <source>This component is solid</source>
+      <translation>Кампанент - суцэльнае цела</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureTransition.py" line="57"/>
+      <source>Diameter at the front of the transition</source>
+      <translation>Дыяметр у пярэдняй частцы пераходу</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureTransition.py" line="59"/>
+      <source>Automatically set the forward diameter when possible</source>
+      <translation>Аўтаматычна задаць пярэдні дыяметр, калі гэтае магчыма</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureTransition.py" line="61"/>
+      <source>Diameter at the base of the transition</source>
+      <translation>Дыяметр у асноўнай частцы пераходу</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureTransition.py" line="63"/>
+      <source>Automatically set the aft diameter when possible</source>
+      <translation>Аўтаматычна задаць задні дыяметр, калі гэтае магчыма</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureTransition.py" line="65"/>
+      <source>Diameter of the transition core</source>
+      <translation>Дыяметр стрыжня пераходу</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureTransition.py" line="67"/>
+      <source>Transition thickness</source>
+      <translation>Таўшчыня пераходу</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureTransition.py" line="69"/>
+      <source>If the transition is not clipped, then the profile is extended at the center by the corresponding radius</source>
+      <translation>Калі пераход не абрэзаны, то профіль пашыраецца ў цэнтры на адпаведны радыус</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureTransition.py" line="72"/>
+      <source>Set to true if the part includes a forward shoulder</source>
+      <translation>Калі птушка, корпус утрымлівае пярэдняе плячо</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureTransition.py" line="74"/>
+      <source>Forward Shoulder Length</source>
+      <translation>Даўжыня пярэдняга пляча</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureTransition.py" line="76"/>
+      <source>Forward Shoulder diameter</source>
+      <translation>Дыяметр пярэдняга пляча</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureTransition.py" line="78"/>
+      <source>Automatically set the forward transition shoulder diameter when possible</source>
+      <translation>Аўтаматычна задаць дыяметр пярэдняга пераходнага пляча, калі гэтае магчыма</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureTransition.py" line="80"/>
+      <source>Forward Shoulder thickness</source>
+      <translation>Таўшчыня пярэдняга пляча</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureTransition.py" line="83"/>
+      <source>Set to true if the part includes an aft shoulder</source>
+      <translation>Калі птушка, корпус утрымлівае задняе плячо</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureTransition.py" line="85"/>
+      <source>Aft Shoulder Length</source>
+      <translation>Даўжыня задняга пляча</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureTransition.py" line="87"/>
+      <source>Aft Shoulder diameter</source>
+      <translation>Дыяметр задняга пляча</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureTransition.py" line="89"/>
+      <source>Automatically set the aft transition shoulder diameter when possible</source>
+      <translation>Аўтаматычна задаць дыяметр задняга пераходнага пляча, калі гэтае магчыма</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureTransition.py" line="91"/>
+      <source>Aft Shoulder thickness</source>
+      <translation>Таўшчыня задняга пляча</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureNoseCone.py" line="84"/>
+      <location filename="../../Rocket/FeatureTransition.py" line="94"/>
+      <source>Coefficient</source>
+      <translation>Каэфіцыэнт</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureNoseCone.py" line="88"/>
+      <location filename="../../Rocket/FeatureTransition.py" line="96"/>
+      <source>Resolution</source>
+      <translation>Дазвол</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureTransition.py" line="98"/>
+      <source>Width of the forward cap bar</source>
+      <translation>Шырыня планкі пярэдняга кончыка</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureTransition.py" line="100"/>
+      <source>Width of the aft cap bar</source>
+      <translation>Шырыня планкі задняга кончыка</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureNoseCone.py" line="91"/>
+      <location filename="../../Rocket/FeatureFin.py" line="203"/>
+      <location filename="../../Rocket/FeatureTransition.py" line="103"/>
+      <source>This is the local coordinate system within the rocket object that will be used for the proxy feature</source>
+      <translation>Лакальная сістэма каардынат унутры аб'екта ракеты, які будзе ўжывацца для проксі-характарыстыкі</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureTransition.py" line="105"/>
+      <source>Offset at the aft end of the proxy object</source>
+      <translation>Зрушэнне на заднім канцы проксі-аб'екта</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureTransition.py" line="108"/>
+      <source>Transition type</source>
+      <translation>Тып пераходу</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureTransition.py" line="131"/>
+      <source>Transition style</source>
+      <translation>Стыль пераходу</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureTransition.py" line="144"/>
+      <source>Forward cap style</source>
+      <translation>Стыль пярэдняга кончыка</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureTransition.py" line="155"/>
+      <source>Aft cap style</source>
+      <translation>Стыль задняга кончыка</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureTransition.py" line="166"/>
+      <source>The base object used to define the transition shape</source>
+      <translation>Асноўны аб'ект, які ўжываецца для вызначэння фігуры пераходу</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/FeatureWindTunnel.py" line="46"/>
+      <source>Diameter of the wind tunnel</source>
+      <translation>Дыяметр аэрадынамічнай трубы</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/FeatureWindTunnel.py" line="48"/>
+      <source>Length of the wind tunnel</source>
+      <translation>Даўжыня аэрадынамічнай трубы</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/FeatureCFDRocket.py" line="66"/>
+      <location filename="../../Rocket/cfd/FeatureWindTunnel.py" line="51"/>
+      <source>Shape of the wind tunnel</source>
+      <translation>Фігура аэрадынамічнай трубы</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/FeatureMultiCFDAnalysis.py" line="49"/>
+      <source>Shape of the base rocket</source>
+      <translation>Фігура асноўнай ракеты</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/FeatureMultiCFDAnalysis.py" line="51"/>
+      <source>List of AOAs to calculate</source>
+      <translation>Спіс вуглоў атакі для разліку</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/FeatureMultiCFDAnalysis.py" line="56"/>
+      <location filename="../../Rocket/cfd/FeatureMultiCFDAnalysis.py" line="54"/>
+      <source>The rocket under study</source>
+      <translation>Ракета падвяргаецца аналізу</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/FeatureMultiCFDAnalysis.py" line="58"/>
+      <source>Use average of last N values</source>
+      <translation>Ужыць сярэдняе значэнне апошніх N значэнняў</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/FeatureCFDRocket.py" line="68"/>
+      <source>Angle of attack in degrees</source>
+      <translation>Вугал атакі ў градусах</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/FeatureCFDRocket.py" line="70"/>
+      <source>Angle of rotation in degrees</source>
+      <translation>Вугал вярчэння ў градусах</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/RingComponent.py" line="55"/>
+      <source>Outer diameter of the object</source>
+      <translation>Вонкавы дыяметр аб'екту</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/RingComponent.py" line="59"/>
+      <source>Automatically set the center diameter when possible</source>
+      <translation>Аўтаматычна задаць цэнтральны дыяметр, калі гэтае магчыма</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/RingComponent.py" line="61"/>
+      <source>Inner diameter of the bulkhead</source>
+      <translation>Унутраны дыяметр пераборкі</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureBulkhead.py" line="65"/>
+      <location filename="../../Rocket/RingComponent.py" line="67"/>
+      <location filename="../../Rocket/RingComponent.py" line="65"/>
+      <location filename="../../Rocket/RingComponent.py" line="63"/>
+      <source>Outer diameter of the bulkhead</source>
+      <translation>Вонкавы дыяметр пераборкі</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/RocketComponentShapeless.py" line="67"/>
+      <source>User comment</source>
+      <translation>Карыстальніцкі каментар</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/RocketComponentShapeless.py" line="72"/>
+      <source>Offset from the reference point</source>
+      <translation>Зрушэнне ад апорнай кропкі</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/RocketComponentShapeless.py" line="74"/>
+      <source>Angle of offset around the center axis</source>
+      <translation>Вугал зрушэння вакол цэнтральнай восі</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/RocketComponentShapeless.py" line="77"/>
+      <source>Reference location for the radial offset</source>
+      <translation>Апорнае становішча для радыяльнага зрушэння</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/RocketComponentShapeless.py" line="90"/>
+      <source>Radial offset from the reference</source>
+      <translation>Радыяльнае зрушэнне ад апорнага</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/RocketComponentShapeless.py" line="94"/>
+      <source>Scale the object</source>
+      <translation>Маштабаваць аб'ект</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/RocketComponentShapeless.py" line="96"/>
+      <source>Overriding the scale set by the parent</source>
+      <translation>Перавызначэнне маштабу, які зададзены бацькоўскім</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/RocketComponentShapeless.py" line="98"/>
+      <source>Scale the object by value</source>
+      <translation>Маштабаванне аб'екта па значэнні</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/RocketComponentShapeless.py" line="100"/>
+      <source>Scaling value or dimension</source>
+      <translation>Маштабаванне на значэнні ці вымярэнні</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/position/AngleMethod.py" line="55"/>
+      <source>Relative to the parent component</source>
+      <translation>Адносна бацькоўскага кампанента</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/position/AngleMethod.py" line="66"/>
+      <source>Angle is fixed</source>
+      <translation>Вугал фіксаваны</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/position/AngleMethod.py" line="77"/>
+      <source>Mirror relative to the rocket&apos;s x-y plane</source>
+      <translation>Люстраваць адносна плоскасці XY ракеты</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/position/RadiusMethod.py" line="57"/>
+      <source>Same axis as the target component</source>
+      <translation>Тая ж вось, што і ў мэтавага кампанента</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/position/RadiusMethod.py" line="71"/>
+      <source>Center of the parent component</source>
+      <translation>Цэнтр бацькоўскага кампанента</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/position/RadiusMethod.py" line="85"/>
+      <source>Surface of the parent component</source>
+      <translation>Паверхня бацькоўскага кампанента</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/position/RadiusMethod.py" line="115"/>
+      <source>Surface of the parent component (without offset)</source>
+      <translation>Паверхня бацькоўскага кампанента (без зрушэння)</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/position/AxialMethod.py" line="63"/>
+      <source>Tip of the nose cone</source>
+      <translation>Наканечнік носіка абцякальніка</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/position/AxialMethod.py" line="77"/>
+      <source>After the sibling component</source>
+      <translation>Пасля даччынага кампанента</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/position/AxialMethod.py" line="92"/>
+      <source>Bottom of the parent component</source>
+      <translation>Ніжні бок бацькоўскага кампанента</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/position/AxialMethod.py" line="106"/>
+      <source>Middle of the parent component</source>
+      <translation>Сярэдзіна бацькоўскага кампанента</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/position/AxialMethod.py" line="120"/>
+      <source>Top of the parent component</source>
+      <translation>Верхні бок бацькоўскага кампанента</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureFin.py" line="66"/>
+      <source>Fin type</source>
+      <translation>Тып крыла</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureFin.py" line="85"/>
+      <source>Fin root cross section</source>
+      <translation>Папярочны перасек кораня крыла</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureFin.py" line="94"/>
+      <source>Length of the base of the fin</source>
+      <translation>Даўжыня асновы крыла</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureFin.py" line="96"/>
+      <source>Fin root thickness</source>
+      <translation>Таўшчыня кораня крыла</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureFin.py" line="98"/>
+      <source>Root chord lengths are percentages</source>
+      <translation>Даўжыня кораня хорды, якая выказаная ў адсотках</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureFin.py" line="100"/>
+      <source>Root chord length 1</source>
+      <translation>Даўжыня кораня хорды 1</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureFin.py" line="102"/>
+      <source>Root chord length 2</source>
+      <translation>Даўжыня кораня хорды 2</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureFin.py" line="105"/>
+      <source>Fin tip cross section</source>
+      <translation>Папярочны перасек наканечніка крыла</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureFin.py" line="115"/>
+      <source>Length of the tip of the fin</source>
+      <translation>Даўжыня наканечніка крыла</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureFin.py" line="117"/>
+      <source>Fin tip thickness</source>
+      <translation>Таўшчыня наканечніка крыла</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureFin.py" line="119"/>
+      <source>Fin tip thickness is the same as the root thickness</source>
+      <translation>Таўшчыня наканечніка крыла такая ж, як і ў кораня</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureFin.py" line="121"/>
+      <source>Tip chord lengths are percentages</source>
+      <translation>Даўжыня наканечніка хорды, якая выказаная ў адсотках</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureFin.py" line="123"/>
+      <source>Tip chord length 1</source>
+      <translation>Даўжыня наканечніка хорды 1</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureFin.py" line="125"/>
+      <source>Tip chord length 2</source>
+      <translation>Даўжыня наканечніка хорды 2</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureFin.py" line="128"/>
+      <source>Fin semi-span</source>
+      <translation>Палова пралёта крыла</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureFin.py" line="130"/>
+      <source>Sweep length</source>
+      <translation>Даўжыня скосу</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureFin.py" line="132"/>
+      <source>Sweep angle</source>
+      <translation>Вугал скосу</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureFin.py" line="134"/>
+      <source>Fin cant</source>
+      <translation>Хвост крыла</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureFin.py" line="137"/>
+      <source>Automatically set the fin height to reach the desired spans</source>
+      <translation>Аўтаматычна задаваць вышыню крылаў для дасягнення пажаданых пралётаў</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureFin.py" line="139"/>
+      <source>Fin total span</source>
+      <translation>Агульны размах крылаў</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureFin.py" line="142"/>
+      <source>Through the wall (TTW) tab</source>
+      <translation>Рабро скрозь сцяну</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureFin.py" line="144"/>
+      <source>TTW Offset from fin root</source>
+      <translation>Зрушэнне рабра скрозь сцяну ад кораня крыла</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureFin.py" line="146"/>
+      <source>TTW Length</source>
+      <translation>Даўжыня рабра скрозь сцяну</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureFin.py" line="148"/>
+      <source>TTW Height</source>
+      <translation>Вышыня рабра скрозь сцяну</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureFin.py" line="150"/>
+      <source>Automatically set the TTW Height</source>
+      <translation>Аўтаматычна задаць вышыню рабра скрозь сцяну</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureFin.py" line="152"/>
+      <source>TTW thickness</source>
+      <translation>Таўшчыня рабра скрозь сцяну</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureFin.py" line="155"/>
+      <source>True when describing a set of fins</source>
+      <translation>Дакладна пры апісанні набору крылаў</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureFin.py" line="157"/>
+      <source>Number of fins in a radial pattern</source>
+      <translation>Колькасць крылаў у радыяльным шаблоне</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureFin.py" line="159"/>
+      <source>Angle between consecutive fins</source>
+      <translation>Вугал паміж паслядоўнымі крыламі</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureFin.py" line="162"/>
+      <source>Tube fin outer diameter</source>
+      <translation>Вонкавы дыяметр крыла фюзеляжа</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureFin.py" line="164"/>
+      <source>Tube fin auto outer diameter</source>
+      <translation>Аўтаматычны вонкавы дыяметр крыла фюзеляжа</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureFin.py" line="166"/>
+      <source>Tube fin thickness</source>
+      <translation>Таўшчыня крыла фюзеляжа</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureFin.py" line="169"/>
+      <source>Set a minimum edge size for fins that would normally have a sharp edge</source>
+      <translation>Задаць найменшы памер рабра для крылаў, якія звычайна маюць вострае рабро</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureFin.py" line="171"/>
+      <source>Minimum edge size</source>
+      <translation>Найменшы памер рабра</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureFin.py" line="177"/>
+      <source>Automatically set diameter</source>
+      <translation>Аўтаматычна задаць дыяметр</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureFin.py" line="181"/>
+      <source>Fin fillet cross section</source>
+      <translation>Папярочны перасек акруглення крыла</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureFin.py" line="190"/>
+      <source>Apply fin fillets</source>
+      <translation>Прымяніць акругленні крыла</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureRailButton.py" line="106"/>
+      <location filename="../../Rocket/FeatureFin.py" line="192"/>
+      <source>Fillet radius</source>
+      <translation>Радыус акруглення</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureFin.py" line="195"/>
+      <source>Scale the object by root chord</source>
+      <translation>Маштабаванне аб'екту па кораню хорды</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureFin.py" line="197"/>
+      <source>Scale the object by fin height</source>
+      <translation>Маштабаванне аб'екта па вышыні крыла</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureFin.py" line="200"/>
+      <source>Custom fin sketch</source>
+      <translation>Карыстальніцкі эскіз крыла</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureNoseCone.py" line="149"/>
+      <location filename="../../Rocket/FeatureFin.py" line="205"/>
+      <source>The base object used to define the nose cone shape</source>
+      <translation>Асноўны аб'ект, які ўжываецца для вызначэння фігуры носіка абцякальніка</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureFin.py" line="210"/>
+      <source>Sketch based fin debugging options</source>
+      <translation>Налады адладкі крыла на аснове эскіза</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureInnerTube.py" line="56"/>
+      <source>Layout of a clustered motor mount</source>
+      <translation>Схема вузла мацавання рухавіка</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureInnerTube.py" line="58"/>
+      <source>Size scaling for the motor mount cluster</source>
+      <translation>Маштабаванне памераў вузла мацавання рухавіка</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureInnerTube.py" line="60"/>
+      <source>Rotation applied to the motor mount cluster</source>
+      <translation>Кручэнне, прыкладзенае да вузла мацавання рухавіка</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeaturePod.py" line="52"/>
+      <source>Number of pods in a radial pattern</source>
+      <translation>Колькасць рухавікоў у радыяльным шаблоне</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeaturePod.py" line="54"/>
+      <source>Angle between consecutive pods</source>
+      <translation>Вугал паміж паслядоўнымі рухавікамі</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeaturePod.py" line="57"/>
+      <source>Method for calculating angle offsets</source>
+      <translation>Спосаб разліку вуглавых зрушэнняў</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeaturePod.py" line="59"/>
+      <source>Angle separation</source>
+      <translation>Падзел вугла</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeaturePod.py" line="62"/>
+      <source>Method for calculating radius offsets</source>
+      <translation>Спосаб разліку радыуса зрушэнняў</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeaturePod.py" line="64"/>
+      <source>Radius offset</source>
+      <translation>Радыус зрушэння</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureParallelStage.py" line="45"/>
+      <source>Number of stages in a radial pattern</source>
+      <translation>Колькасць прыступак у радыяльным шаблоне</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureParallelStage.py" line="47"/>
+      <source>Angle between consecutive stages</source>
+      <translation>Вугал паміж паслядоўнымі прыступкамі</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/RadiusRingComponent.py" line="45"/>
+      <source>Diameter of the central hole</source>
+      <translation>Дыяметр цэнтральнай адтуліны</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/RadiusRingComponent.py" line="50"/>
+      <source>Front to front along the positive rocket axis</source>
+      <translation>Ад пярэдняй да задняй часткі наўздоўж станоўчай восі ракеты</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureFinCan.py" line="64"/>
+      <source>Fin can style</source>
+      <translation>Стыль корпуса крыла</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureFinCan.py" line="71"/>
+      <source>Diameter of the inside or outside of the fin can depending on the style</source>
+      <translation>Дыяметр унутранага ці вонкавага крыла ў залежнасці ад стылю</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureFinCan.py" line="73"/>
+      <source>Thickness of the fin can</source>
+      <translation>Таўшчыня корпуса крыла</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureFinCan.py" line="75"/>
+      <source>Distance between the fin can leading edge and the fin leading edge</source>
+      <translation>Адлегласць паміж пярэднім рабром корпуса крыла і пярэдняй рабром крыла</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureFinCan.py" line="78"/>
+      <source>Leading Edge</source>
+      <translation>Пярэдняе рабро</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureFinCan.py" line="85"/>
+      <source>Leading Edge Length</source>
+      <translation>Даўжыня пярэдняга рабра</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureFinCan.py" line="88"/>
+      <source>Trailing Edge</source>
+      <translation>Задняе рабро</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureFinCan.py" line="94"/>
+      <source>Trailing Edge Length</source>
+      <translation>Даўжыня задняга рабра</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureFinCan.py" line="97"/>
+      <source>Fin can includes a launch lug</source>
+      <translation>Крыло можа ўключаць у сябе пускавую ручку</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureFinCan.py" line="99"/>
+      <source>Diameter of the inside of the launch lug</source>
+      <translation>Дыяметр унутранай пускавой ручкі</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureFinCan.py" line="101"/>
+      <source>Thickness of the launch lug</source>
+      <translation>Таўшчыня пускавой ручкі</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureFinCan.py" line="103"/>
+      <source>Launch lug thickness is the same as the fin can</source>
+      <translation>Таўшчыня пускавой ручкі такая ж, як і корпуса крыла</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureFinCan.py" line="105"/>
+      <source>Length of the launch lug</source>
+      <translation>Даўжыня пускавой ручкі</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureFinCan.py" line="107"/>
+      <source>Automatically adjust the length of the launch lug</source>
+      <translation>Аўтаматычнае рэгуляванне даўжыні пускавой ручкі</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureFinCan.py" line="109"/>
+      <source>Distance between the fin can leading edge and the launch lug leading edge</source>
+      <translation>Адлегласць паміж пярэднім рабром корпуса крыла і пярэдняй рабром пускавой ручкі</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureFinCan.py" line="111"/>
+      <source>Launch lug fillet radius</source>
+      <translation>Радыус акруглення пускавой ручкі</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureFinCan.py" line="138"/>
+      <location filename="../../Rocket/FeatureFinCan.py" line="114"/>
+      <source>Launch lug size preset</source>
+      <translation>Прадусталяваны памер пускавой ручкі</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureFinCan.py" line="127"/>
+      <source>Forward side of the launch lug is swept</source>
+      <translation>Пярэдні бок пускавой ручкі нахілены</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureFinCan.py" line="129"/>
+      <source>Forward sweep angle</source>
+      <translation>Вугал пярэдняга скосу</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureFinCan.py" line="131"/>
+      <source>Aft side of the launch lug is swept</source>
+      <translation>Задні бок пускавой ручкі нахілены</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureFinCan.py" line="133"/>
+      <source>Aft sweep angle</source>
+      <translation>Вугал задняга скосу</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureFinCan.py" line="136"/>
+      <source>Fin can includes coupler</source>
+      <translation>Корпус крыла ўключае злучальнік</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureFinCan.py" line="146"/>
+      <source>Thickness of the coupler</source>
+      <translation>Таўшчыня злучальніка</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureFinCan.py" line="148"/>
+      <source>Diameter of the outside of the coupler</source>
+      <translation>Дыяметр вонкавага злучальніка</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureFinCan.py" line="150"/>
+      <source>Set coupler diameter automatically</source>
+      <translation>Аўтаматычна задаць дыяметр злучальніка</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureFinCan.py" line="152"/>
+      <source>Length of the coupler</source>
+      <translation>Даўжыня злучальніка</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureCenteringRing.py" line="50"/>
+      <source>Include a notch for an engine hook</source>
+      <translation>Уключае выразанне для мацавання рухавіка</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureCenteringRing.py" line="52"/>
+      <source>Width of the engine hook notch</source>
+      <translation>Шырыня выразання для мацавання рухавіка</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureCenteringRing.py" line="54"/>
+      <source>Height of the engine hook notch</source>
+      <translation>Вышыня выразання для мацавання рухавіка</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureBulkhead.py" line="45"/>
+      <source>Thickness of the bulkhead without any inner step</source>
+      <translation>Таўшчыня пераборкі без унутранай прыступкі</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureBulkhead.py" line="50"/>
+      <location filename="../../Rocket/FeatureBulkhead.py" line="48"/>
+      <source>Bulkheads may have a step that fits a smaller diameter</source>
+      <translation>Пераборкі могуць мець прыступку меншага дыяметра</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureBulkhead.py" line="52"/>
+      <source>Outer diameter of the step</source>
+      <translation>Вонкавы дыяметр прыступкі</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureBulkhead.py" line="54"/>
+      <source>Thickness of the step</source>
+      <translation>Таўшчыня прыступкі</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureBulkhead.py" line="57"/>
+      <source>Bulkheads may have holes for attaching eyebolts or retainers</source>
+      <translation>У пераборках могуць быць адтуліны для мацавання рым-балтоў ці фіксатараў</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureBulkhead.py" line="59"/>
+      <source>Hole diameter</source>
+      <translation>Дыяметр адтуліны</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureBulkhead.py" line="61"/>
+      <source>Distance from the center of the bulkhead to the center of the hole</source>
+      <translation>Адлегласць ад цэнтра пераборкі да цэнтра адтуліны</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureBulkhead.py" line="63"/>
+      <source>Number of holes in a radial pattern</source>
+      <translation>Колькасць адтулін у радыяльным шаблоне</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureNoseCone.py" line="64"/>
+      <source>Width of the nose cap bar</source>
+      <translation>Шырыня планкі носіка кончыка</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureNoseCone.py" line="66"/>
+      <source>Nose Radius for a blunted nose cone</source>
+      <translation>Радыус носіка для затупленага носіка абцякальніка</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureNoseCone.py" line="68"/>
+      <source>Diameter at the base of the nose</source>
+      <translation>Дыяметр у асновы носіка</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureNoseCone.py" line="70"/>
+      <source>Automatically set the nose diameter when possible</source>
+      <translation>Аўтаматычна задаць дыяметр носіка, калі гэтае магчыма</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureNoseCone.py" line="72"/>
+      <source>Nose cone thickness</source>
+      <translation>Таўшчыня абцякальніка носіка</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureNoseCone.py" line="74"/>
+      <source>Set to true if the part includes a shoulder</source>
+      <translation>Калі птушка, корпус утрымлівае плячо</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureNoseCone.py" line="76"/>
+      <source>Shoulder Length</source>
+      <translation>Даўжыня пляча</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureNoseCone.py" line="78"/>
+      <source>Shoulder diameter</source>
+      <translation>Дыяметр пляча</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureNoseCone.py" line="80"/>
+      <source>Automatically set the nose shoulder diameter when possible</source>
+      <translation>Аўтаматычна задаць дыяметр пляча носіка, калі гэтае магчыма</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureNoseCone.py" line="82"/>
+      <source>Shoulder thickness</source>
+      <translation>Таўшчыня пляча</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureNoseCone.py" line="86"/>
+      <source>The radius of the circle used to define a secant ogive</source>
+      <translation>Радыус акружнасці, які ўжываецца для вызначэння разца</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureNoseCone.py" line="94"/>
+      <source>Nose cone type</source>
+      <translation>Тып конусу носіка</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureNoseCone.py" line="127"/>
+      <source>Nose cone style</source>
+      <translation>Стыль носіка абцякальніка</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureNoseCone.py" line="138"/>
+      <source>Nose cone cap style</source>
+      <translation>Стыль кончыка носіка абцякальніка</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureRailButton.py" line="67"/>
+      <source>Rail button type</source>
+      <translation>Тып кнопкі рэйкі</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureRailButton.py" line="74"/>
+      <source>Diameter of the outside of the rail button</source>
+      <translation>Дыяметр вонкавай кнопкі рэйкі</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureRailButton.py" line="76"/>
+      <source>Diameter of the inside of the rail button</source>
+      <translation>Дыяметр унутранай кнопкі рэйкі</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureRailButton.py" line="78"/>
+      <source>Height of the top part of the rail button</source>
+      <translation>Вышыня верху корпусу кнопкі рэйкі</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureRailButton.py" line="80"/>
+      <source>Height of the bottom part of the rail button</source>
+      <translation>Вышыня нізу корпусу кнопкі рэйкі</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureRailButton.py" line="82"/>
+      <source>Total height of the rail button</source>
+      <translation>Агульная вышыня кнопкі рэйкі</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureRailButton.py" line="86"/>
+      <source>Create a countersunk hole for the fastener</source>
+      <translation>Стварыць патаемную адтуліну для крапяжу</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureRailButton.py" line="88"/>
+      <source>Fastener countersink angle</source>
+      <translation>Вугал зянкоўкі крапяжу</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureRailButton.py" line="99"/>
+      <source>Fastener shank diameter</source>
+      <translation>Дыяметр хваставіка крапяжу</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureRailButton.py" line="101"/>
+      <source>Fastener head diameter</source>
+      <translation>Дыяметр галавы крапяжу</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureRailButton.py" line="104"/>
+      <source>Apply a fillet to the top of the rail button</source>
+      <translation>Прымяніць скругленыя на верхнюю частку кнопку рэйкі</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureStage.py" line="52"/>
+      <source>Stage number</source>
+      <translation>Нумар ступені</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureRingtail.py" line="58"/>
+      <source>Thickness of the body tube</source>
+      <translation>Таўшчыня корпуса фюзеляжа</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureRingtail.py" line="60"/>
+      <source>Automatically set the length when possible</source>
+      <translation>Аўтаматычна задаць даўжыню, калі гэтае магчыма</translation>
+    </message>
+  </context>
+  <context>
+    <name>Rocket</name>
+    <message>
+      <location filename="../../Ui/Commands/CmdRocket.py" line="80"/>
+      <location filename="../../InitGui.py" line="124"/>
+      <location filename="../../InitGui.py" line="119"/>
+      <location filename="../../InitGui.py" line="112"/>
+      <location filename="../../InitGui.py" line="110"/>
+      <location filename="../../InitGui.py" line="105"/>
+      <location filename="../../InitGui.py" line="101"/>
+      <location filename="../../InitGui.py" line="97"/>
+      <location filename="../../InitGui.py" line="91"/>
+      <location filename="../../InitGui.py" line="89"/>
+      <location filename="../../InitGui.py" line="85"/>
+      <source>Rocket</source>
+      <translation>Ракета</translation>
+    </message>
+    <message>
+      <location filename="../../RocketGui.py" line="131"/>
+      <location filename="../../RocketGui.py" line="130"/>
+      <location filename="../../InitGui.py" line="113"/>
+      <source>Calculators</source>
+      <translation>Калькулятары</translation>
+    </message>
+    <message>
+      <location filename="../../InitGui.py" line="125"/>
+      <location filename="../../InitGui.py" line="120"/>
+      <source>Analysis</source>
+      <translation>Аналіз</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelLocation.py" line="49"/>
+      <source>Location Parameter</source>
+      <translation>Налада месцазнаходжання</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelLocation.py" line="52"/>
+      <source>Radial reference</source>
+      <translation>Радыяльная прывязка</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelLocation.py" line="58"/>
+      <source>Radial offset</source>
+      <translation>Радыяльнае зрушэнне</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelLocation.py" line="66"/>
+      <source>Location reference</source>
+      <translation>Апорнае месцазнаходжанне</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelLocation.py" line="74"/>
+      <source>Location</source>
+      <translation>Месцазнаходжанне</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelLocation.py" line="80"/>
+      <source>Angle offset</source>
+      <translation>Вуглавое зрушэнне</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdFlutterAnalysis.py" line="51"/>
+      <location filename="../../Ui/Commands/CmdFemAnalysis.py" line="91"/>
+      <source>Please select a fin first</source>
+      <translation>Спачатку абярыце крыло</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdFemAnalysis.py" line="103"/>
+      <source>Fin FEM Analysis</source>
+      <translation>Аналіз МКЭ крыла</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdFemAnalysis.py" line="104"/>
+      <source>Performs a FEM analysis of the selected fin</source>
+      <translation>Праводзіць аналіз МКЭ абранага крыла</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdRocket.py" line="81"/>
+      <source>Creates a rocket assembly</source>
+      <translation>Стварае зборку ракеты</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/ViewRocket.py" line="65"/>
+      <location filename="../../Ui/Commands/CmdRocket.py" line="86"/>
+      <source>Toggle active rocket</source>
+      <translation>Пераключыць бягучую ракету</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdRocket.py" line="87"/>
+      <source>Toggles the active rocket assembly</source>
+      <translation>Пераключае бягучую зборку ракету</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdLaunchGuides.py" line="87"/>
+      <source>Launch Lug</source>
+      <translation>Пускавая ручка</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdLaunchGuides.py" line="88"/>
+      <source>Adds a launch lug to the selected component</source>
+      <translation>Дадае пускавую ручку да абранага кампанента</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdLaunchGuides.py" line="106"/>
+      <source>Rail Button</source>
+      <translation>Кнопка рэйкі</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdLaunchGuides.py" line="107"/>
+      <source>Adds a rail button to the selected component</source>
+      <translation>Дадае кнопку рэйкі да абранага кампанента</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdLaunchGuides.py" line="125"/>
+      <source>Rail Guide</source>
+      <translation>Накіраваная рэйка</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdLaunchGuides.py" line="126"/>
+      <source>Adds a rail guide to the selected component</source>
+      <translation>Дадае накіраваную рэйку да абранага кампанента</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdLaunchGuides.py" line="144"/>
+      <source>Stand Off</source>
+      <translation>Распорка</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdLaunchGuides.py" line="145"/>
+      <source>Adds a launch guide stand off to the selected component</source>
+      <translation>Дадае стартавую рэйку да абранага кампанента</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdFin.py" line="75"/>
+      <location filename="../../Ui/Commands/CmdParachuteDesigner.py" line="72"/>
+      <source>Fin</source>
+      <translation>Крыло</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdParachuteDesigner.py" line="73"/>
+      <source>Fin design</source>
+      <translation>Канструкцыя крыла</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/DialogBlackPowder.py" line="55"/>
+      <location filename="../../Ui/Commands/CmdCalcBlackPowder.py" line="48"/>
+      <source>Ejection Charge Calculator</source>
+      <translation>Калькулятар зарада выкіду</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdCalcBlackPowder.py" line="49"/>
+      <source>Calculates required ejection charge</source>
+      <translation>Вылічае неабходны зарад выкіду</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdRingtail.py" line="67"/>
+      <source>Ring tail</source>
+      <translation>Кальцавы хвост</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdRingtail.py" line="68"/>
+      <source>Adds a ring tail to the selected component</source>
+      <translation>Дадае кальцавы хвост да абранага кампанента</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdNoseCone.py" line="66"/>
+      <source>Nose Cone</source>
+      <translation>Носік абцякальніка</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdNoseCone.py" line="67"/>
+      <source>Adds a nose cone to the selected pod or stage</source>
+      <translation>Дадае носік абцякальніка да абранага рухавіка ці ступені</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdBulkhead.py" line="65"/>
+      <source>Bulkhead</source>
+      <translation>Пераборка</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdBulkhead.py" line="66"/>
+      <source>Adds a bulkhead to the selected component</source>
+      <translation>Дадае пераборку да абранага кампанента</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/DialogVentHoles.py" line="51"/>
+      <location filename="../../Ui/Commands/CmdCalcVentHoles.py" line="48"/>
+      <source>Vent Hole Size Calculator</source>
+      <translation>Калькулятар памеру адтуліны вентыляцыі</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdCalcVentHoles.py" line="49"/>
+      <source>Calculates required vent hole size</source>
+      <translation>Вылічае неабходны памер адтуліны вентыляцыі</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdSketcher.py" line="60"/>
+      <source>Create sketch</source>
+      <translation>Стварыць эскіз</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdSketcher.py" line="61"/>
+      <source>Creates a new sketch</source>
+      <translation>Стварае новы эскіз</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/DialogFinFlutter.py" line="104"/>
+      <location filename="../../Ui/Commands/CmdFlutterAnalysis.py" line="63"/>
+      <source>Fin Flutter Analysis</source>
+      <translation>Аналіз дрыгацення крыла</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdFlutterAnalysis.py" line="64"/>
+      <source>Performs a fin flutter analysis of the selected fin</source>
+      <translation>Праводзіць трапятанне крыла абранага крыла</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdCenteringRing.py" line="65"/>
+      <source>Centering Ring</source>
+      <translation>Цэнтравальнае кальцо</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdCenteringRing.py" line="66"/>
+      <source>Adds a centering ring to the selected component</source>
+      <translation>Дадае цэнтравальнае кальцо да абранага кампанента</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdMaterialEditor.py" line="44"/>
+      <source>Material editor</source>
+      <translation>Сродак праўкі матэрыялу</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdMaterialEditor.py" line="45"/>
+      <source>Opens the FreeCAD material editor</source>
+      <translation>Адчыняе сродак праўкі матэрыялу FreeCAD</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdCalcThrustToWeight.py" line="48"/>
+      <source>Thrust to Weight Calculator</source>
+      <translation>Вылічэнне суадносін цягі да вагі</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdCalcThrustToWeight.py" line="49"/>
+      <source>Calculates minimum thrust to weight</source>
+      <translation>Вылічае найменшыя суадносіны цягі да вагі</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdScaling.py" line="49"/>
+      <location filename="../../Ui/Commands/CmdScaling.py" line="47"/>
+      <source>Invalid part selected</source>
+      <translation>Абраны хібны корпус</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdScaling.py" line="87"/>
+      <location filename="../../Ui/Commands/CmdScaling.py" line="68"/>
+      <source>Please select a pair of body tubes</source>
+      <translation>Абярыце пару карпусоў фюзеляжа</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdScaling.py" line="101"/>
+      <source>Match body tube pairs</source>
+      <translation>Адпаведныя пары карпусоў фюзеляжа</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdScaling.py" line="102"/>
+      <source>Matches body tube pairs suitable for scaling</source>
+      <translation>Падбірае адпаведныя пары карпусоў фюзеляжа, якія прыдатныя для маштабавання</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdScaling.py" line="115"/>
+      <source>Find scale body tubes</source>
+      <translation>Знайсці маштабаванне корпусу фюзеляжа</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdScaling.py" line="116"/>
+      <source>Finds scale body tubes</source>
+      <translation>Шукае маштабаванне корпусу фюзеляжа</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdBodyTube.py" line="100"/>
+      <source>Body Tube</source>
+      <translation>Корпус фюзеляжа</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdBodyTube.py" line="101"/>
+      <source>Adds a body tube to the selected pod or stage</source>
+      <translation>Дадае корпус фюзеляжа да абранага рухавіка ці ступені</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdBodyTube.py" line="121"/>
+      <source>Coupler</source>
+      <translation>Злучальнік</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdBodyTube.py" line="122"/>
+      <source>Adds a coupler to the selected component</source>
+      <translation>Дадае злучальнік да абранага кампанента</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdBodyTube.py" line="142"/>
+      <source>Inner Tube</source>
+      <translation>Унутраная труба</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdBodyTube.py" line="143"/>
+      <source>Adds an inner tube or motor mount to the selected component</source>
+      <translation>Дадае ўнутраную трубу ці мацаванне рухавіка да абранага кампанента</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdBodyTube.py" line="163"/>
+      <source>Engine Block</source>
+      <translation>Блок рухавіка</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdBodyTube.py" line="164"/>
+      <source>Adds an engine block to the selected component</source>
+      <translation>Дадае блок цыліндраў рухавіка да абранага кампанента</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdEditTree.py" line="70"/>
+      <source>Move Up</source>
+      <translation>Рухаць уверх</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdEditTree.py" line="71"/>
+      <source>Moves the object up in the rocket tree</source>
+      <translation>Перамяшчае аб'ект уверх па дрэве ракет</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdEditTree.py" line="89"/>
+      <source>Move Down</source>
+      <translation>Рухаць уніз</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdEditTree.py" line="90"/>
+      <source>Moves the object down in the rocket tree</source>
+      <translation>Перамяшчае аб'ект уніз па дрэве ракет</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdFinCan.py" line="77"/>
+      <source>Fin Can</source>
+      <translation>Корпус крыла</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdFinCan.py" line="78"/>
+      <source>Adds a fin can to the selected component</source>
+      <translation>Дадае крыло да абранага кампанента</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdParachuteGore.py" line="67"/>
+      <source>Parachute Gore</source>
+      <translation>Сегмент парашута</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdParachuteGore.py" line="68"/>
+      <source>Creates a parachute gore</source>
+      <translation>Стварае сегмент парашуту</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdStage.py" line="84"/>
+      <source>Stage</source>
+      <translation>Ступень</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdStage.py" line="85"/>
+      <source>Adds a stage to the rocket assembly</source>
+      <translation>Дадае ступень да зборкі ракеты</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/ViewParallelStage.py" line="47"/>
+      <location filename="../../Ui/ViewStage.py" line="65"/>
+      <location filename="../../Ui/Commands/CmdParallelStage.py" line="93"/>
+      <location filename="../../Ui/Commands/CmdStage.py" line="92"/>
+      <source>Toggle active stage</source>
+      <translation>Пераключыць бягучую ступень</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdStage.py" line="93"/>
+      <source>Toggle the active stage</source>
+      <translation>Пераключыць бягучую ступень</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdCalcParachute.py" line="48"/>
+      <source>Parachute Size Calculator</source>
+      <translation>Вылічэнне памераў парашута</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdCalcParachute.py" line="49"/>
+      <source>Calculates required parachute size</source>
+      <translation>Вылічае неабходны памер парашута</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdParachute.py" line="63"/>
+      <source>Parachute</source>
+      <translation>Парашут</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdParachute.py" line="64"/>
+      <source>Adds a parachute to the selected component</source>
+      <translation>Дадае парашут да абранага кампанента</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdTransition.py" line="66"/>
+      <source>Transition</source>
+      <translation>Пераход</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdTransition.py" line="67"/>
+      <source>Adds a transition to the selected pod or stage</source>
+      <translation>Дадае пераход да абранага рухавіка ці ступені</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdParallelStage.py" line="85"/>
+      <source>Parallel Stage</source>
+      <translation>Паралельная ступень</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdParallelStage.py" line="86"/>
+      <source>Adds a parallel stage to the rocket assembly</source>
+      <translation>Дадае паралельную ступень да зборкі ракеты</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdParallelStage.py" line="94"/>
+      <source>Toggles the active stage</source>
+      <translation>Пераключае бягучую ступень</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdCFDAnalysis.py" line="60"/>
+      <source>Please select a rocket first</source>
+      <translation>Спачатку абярыце ракету</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdCFDAnalysis.py" line="105"/>
+      <source>CFD Analysis</source>
+      <translation>Аналіз вылічальнай гідрадынамікі</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdCFDAnalysis.py" line="106"/>
+      <source>Performs a CFD Analysis</source>
+      <translation>Праводзіць аналіз вылічальнай гідрадынамікі</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdFin.py" line="76"/>
+      <source>Adds a fin or fin set to the selected component</source>
+      <translation>Дадае крыло ці набор крылаў да абранага кампанента</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdPod.py" line="68"/>
+      <source>Pod</source>
+      <translation>Рухавік</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdPod.py" line="69"/>
+      <source>Adds an external pod to the selected component</source>
+      <translation>Дадае вонкавы рухавік да абранага кампанента</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/DialogFinFlutter.py" line="167"/>
+      <source>Flutter</source>
+      <translation>Дрыгаценне</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/DialogFinFlutter.py" line="168"/>
+      <source>Divergence</source>
+      <translation>Разыходжанне</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/DialogFinFlutter.py" line="171"/>
+      <source>Altitude (km AGL)</source>
+      <translation>Вышыня (км над узроўнем зямлі)</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/DialogFinFlutter.py" line="172"/>
+      <source>Velocity (m/s)</source>
+      <translation>Хуткасць (м/с)</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/DialogFinFlutter.py" line="174"/>
+      <source>Altitude (x1000 ft AGL)</source>
+      <translation>Вышыня (*1000 футаў над узроўнем зямлі)</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/DialogFinFlutter.py" line="175"/>
+      <source>Velocity (ft/s)</source>
+      <translation>Хуткасць (фут/с)</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/DialogFinFlutter.py" line="333"/>
+      <source>Peak of Flight 615</source>
+      <translation>Рэйс 615: самая высокая кропка</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/DialogFinFlutter.py" line="334"/>
+      <source>US Standard Atmosphere (USSA) 1976</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/DialogFinFlutter.py" line="336"/>
+      <source>Committee on Extension to the Standard Atmosphere (COESA) 1976 - Geometric</source>
+      <translation>Камітэт па распаўсюджванні на стандартную атмасферу (COESA) 1976 - Геаметрычны</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/DialogFinFlutter.py" line="339"/>
+      <source>Committee on Extension to the Standard Atmosphere (COESA) 1976 - Geopotential</source>
+      <translation>Камітэт па распаўсюджванні на стандартную атмасферу (COESA) 1976 - Геапатэнцыйны</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelRingtail.py" line="58"/>
+      <location filename="../../Ui/TaskPanelParallelStage.py" line="47"/>
+      <location filename="../../Ui/TaskPanelBulkhead.py" line="55"/>
+      <location filename="../../Ui/TaskPanelRailGuide.py" line="51"/>
+      <location filename="../../Ui/TaskPanelPod.py" line="47"/>
+      <location filename="../../Ui/TaskPanelRailButton.py" line="63"/>
+      <location filename="../../Ui/TaskPanelLaunchLug.py" line="55"/>
+      <location filename="../../Ui/TaskPanelBodyTube.py" line="63"/>
+      <source>General</source>
+      <translation>Агульны</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelRingtail.py" line="59"/>
+      <location filename="../../Ui/TaskPanelNoseCone.py" line="64"/>
+      <location filename="../../Ui/TaskPanelTransition.py" line="62"/>
+      <location filename="../../Ui/TaskPanelFin.py" line="86"/>
+      <location filename="../../Ui/TaskPanelFinCan.py" line="72"/>
+      <location filename="../../Ui/TaskPanelStage.py" line="48"/>
+      <location filename="../../Ui/TaskPanelBodyTube.py" line="65"/>
+      <source>Scaling</source>
+      <translation>Маштабаванне</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelRingtail.py" line="60"/>
+      <location filename="../../Ui/TaskPanelBulkhead.py" line="56"/>
+      <location filename="../../Ui/TaskPanelNoseCone.py" line="65"/>
+      <location filename="../../Ui/TaskPanelRailGuide.py" line="52"/>
+      <location filename="../../Ui/TaskPanelTransition.py" line="63"/>
+      <location filename="../../Ui/TaskPanelFin.py" line="87"/>
+      <location filename="../../Ui/TaskPanelFinCan.py" line="73"/>
+      <location filename="../../Ui/TaskPanelRailButton.py" line="64"/>
+      <location filename="../../Ui/TaskPanelLaunchLug.py" line="56"/>
+      <location filename="../../Ui/TaskPanelDatabase.py" line="69"/>
+      <location filename="../../Ui/TaskPanelBodyTube.py" line="66"/>
+      <source>Material</source>
+      <translation>Матэрыял</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelRingtail.py" line="61"/>
+      <location filename="../../Ui/TaskPanelParallelStage.py" line="48"/>
+      <location filename="../../Ui/TaskPanelBulkhead.py" line="57"/>
+      <location filename="../../Ui/TaskPanelNoseCone.py" line="66"/>
+      <location filename="../../Ui/TaskPanelRailGuide.py" line="53"/>
+      <location filename="../../Ui/TaskPanelTransition.py" line="64"/>
+      <location filename="../../Ui/TaskPanelPod.py" line="48"/>
+      <location filename="../../Ui/TaskPanelFin.py" line="88"/>
+      <location filename="../../Ui/TaskPanelFinCan.py" line="74"/>
+      <location filename="../../Ui/TaskPanelStage.py" line="49"/>
+      <location filename="../../Ui/TaskPanelRailButton.py" line="65"/>
+      <location filename="../../Ui/TaskPanelLaunchLug.py" line="57"/>
+      <location filename="../../Ui/Widgets/CommentTab.py" line="43"/>
+      <location filename="../../Ui/TaskPanelBodyTube.py" line="67"/>
+      <source>Comment</source>
+      <translation>Каментар</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelBodyTube.py" line="81"/>
+      <source>Body Tube Parameter</source>
+      <translation>Налада корпуса фюзеляжа</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelRingtail.py" line="78"/>
+      <location filename="../../Ui/TaskPanelBulkhead.py" line="93"/>
+      <location filename="../../Ui/TaskPanelRailButton.py" line="94"/>
+      <location filename="../../Ui/TaskPanelLaunchLug.py" line="74"/>
+      <location filename="../../Ui/TaskPanelBodyTube.py" line="84"/>
+      <source>Inner diameter</source>
+      <translation>Унутраны дыяметр</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelRingtail.py" line="84"/>
+      <location filename="../../Ui/TaskPanelBulkhead.py" line="77"/>
+      <location filename="../../Ui/TaskPanelRailButton.py" line="88"/>
+      <location filename="../../Ui/TaskPanelLaunchLug.py" line="80"/>
+      <location filename="../../Ui/TaskPanelBodyTube.py" line="90"/>
+      <source>Outer diameter</source>
+      <translation>Вонкавы дыяметр</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelRingtail.py" line="105"/>
+      <location filename="../../Ui/TaskPanelRingtail.py" line="90"/>
+      <location filename="../../Ui/TaskPanelBulkhead.py" line="99"/>
+      <location filename="../../Ui/TaskPanelBulkhead.py" line="83"/>
+      <location filename="../../Ui/TaskPanelRailGuide.py" line="126"/>
+      <location filename="../../Ui/TaskPanelBodyTube.py" line="96"/>
+      <source>auto</source>
+      <translation>аўтаматычны</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelRingtail.py" line="93"/>
+      <location filename="../../Ui/TaskPanelLaunchLug.py" line="86"/>
+      <location filename="../../Ui/TaskPanelBodyTube.py" line="99"/>
+      <source>Wall thickness</source>
+      <translation>Таўшчыня сценкі</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Ui/TaskPanelWindTunnel.py" line="66"/>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="167"/>
+      <location filename="../../Ui/TaskPanelRingtail.py" line="99"/>
+      <location filename="../../Ui/DialogLookup.py" line="504"/>
+      <location filename="../../Ui/DialogLookup.py" line="440"/>
+      <location filename="../../Ui/DialogLookup.py" line="385"/>
+      <location filename="../../Ui/DialogLookup.py" line="382"/>
+      <location filename="../../Ui/TaskPanelRailGuide.py" line="113"/>
+      <location filename="../../Ui/TaskPanelRailButton.py" line="118"/>
+      <location filename="../../Ui/TaskPanelLaunchLug.py" line="92"/>
+      <location filename="../../Ui/TaskPanelBodyTube.py" line="105"/>
+      <source>Length</source>
+      <translation>Даўжыня</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelBodyTube.py" line="111"/>
+      <source>Motor mount</source>
+      <translation>Мацаванне рухавіка</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelBodyTube.py" line="114"/>
+      <source>Overhang</source>
+      <translation>Навісь</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelRingtail.py" line="211"/>
+      <location filename="../../Ui/TaskPanelNoseCone.py" line="384"/>
+      <location filename="../../Ui/TaskPanelTransition.py" line="369"/>
+      <location filename="../../Ui/TaskPanelFin.py" line="479"/>
+      <location filename="../../Ui/TaskPanelFinCan.py" line="413"/>
+      <location filename="../../Ui/TaskPanelStage.py" line="95"/>
+      <location filename="../../Ui/TaskPanelBodyTube.py" line="252"/>
+      <source>Upscale</source>
+      <translation>Пашырэнне</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelRingtail.py" line="214"/>
+      <location filename="../../Ui/TaskPanelNoseCone.py" line="387"/>
+      <location filename="../../Ui/TaskPanelTransition.py" line="372"/>
+      <location filename="../../Ui/TaskPanelFin.py" line="482"/>
+      <location filename="../../Ui/TaskPanelFinCan.py" line="416"/>
+      <location filename="../../Ui/TaskPanelStage.py" line="98"/>
+      <location filename="../../Ui/DialogScaling.py" line="504"/>
+      <location filename="../../Ui/DialogScaling.py" line="204"/>
+      <location filename="../../Ui/TaskPanelBodyTube.py" line="255"/>
+      <source>Scale</source>
+      <translation>Маштабаванне</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelRingtail.py" line="331"/>
+      <location filename="../../Ui/TaskPanelBulkhead.py" line="582"/>
+      <location filename="../../Ui/TaskPanelNoseCone.py" line="588"/>
+      <location filename="../../Ui/TaskPanelTransition.py" line="729"/>
+      <location filename="../../Ui/TaskPanelRailButton.py" line="583"/>
+      <location filename="../../Ui/TaskPanelLaunchLug.py" line="342"/>
+      <location filename="../../Ui/TaskPanelBodyTube.py" line="386"/>
+      <source>Unable to find material &apos;{}&apos;</source>
+      <translation>Не атрымалася знайсці матэрыял '{}'</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelDatabase.py" line="52"/>
+      <source>Rocket Component Parameter</source>
+      <translation>Налада кампаненту ракеты</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/DialogLookup.py" line="537"/>
+      <location filename="../../Ui/DialogLookup.py" line="498"/>
+      <location filename="../../Ui/DialogLookup.py" line="435"/>
+      <location filename="../../Ui/DialogLookup.py" line="377"/>
+      <location filename="../../Ui/DialogScaling.py" line="500"/>
+      <location filename="../../Ui/DialogScaling.py" line="495"/>
+      <location filename="../../Ui/DialogScaling.py" line="200"/>
+      <location filename="../../Ui/TaskPanelDatabase.py" line="54"/>
+      <source>Manufacturer</source>
+      <translation>Вытворца</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelDatabase.py" line="59"/>
+      <source>Part number</source>
+      <translation>Артыкул дэталі</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="901"/>
+      <location filename="../../Ui/DialogLookup.py" line="539"/>
+      <location filename="../../Ui/DialogLookup.py" line="500"/>
+      <location filename="../../Ui/DialogLookup.py" line="437"/>
+      <location filename="../../Ui/DialogLookup.py" line="379"/>
+      <location filename="../../Ui/DialogScaling.py" line="502"/>
+      <location filename="../../Ui/DialogScaling.py" line="497"/>
+      <location filename="../../Ui/DialogScaling.py" line="202"/>
+      <location filename="../../Ui/TaskPanelDatabase.py" line="64"/>
+      <source>Description</source>
+      <translation>Апісанне</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelDatabase.py" line="77"/>
+      <source>Lookup...</source>
+      <translation>Пошук…</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/Importer/Rocksim/ComponentElement.py" line="195"/>
+      <location filename="../../Rocket/Importer/OpenRocket/ComponentElement.py" line="192"/>
+      <location filename="../../Rocket/RocketComponent.py" line="150"/>
+      <location filename="../../Ui/DialogScaling.py" line="301"/>
+      <location filename="../../Ui/TaskPanelDatabase.py" line="183"/>
+      <location filename="../../Ui/TaskPanelDatabase.py" line="151"/>
+      <source>Material &apos;{}&apos; not found - using default material</source>
+      <translation>Матэрыял '{}' не знойдзены - ужываецца першапачатковы матэрыял</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelCFD.py" line="90"/>
+      <source>Create</source>
+      <translation>Стварыць</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/DialogScaling.py" line="157"/>
+      <source>Body Scaler</source>
+      <translation>Маштабаванне аб'екта</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/DialogScaling.py" line="158"/>
+      <source>Reference diameter</source>
+      <translation>Апорны дыяметр</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/DialogScaling.py" line="499"/>
+      <location filename="../../Ui/DialogScaling.py" line="494"/>
+      <location filename="../../Ui/DialogScaling.py" line="199"/>
+      <source>Index</source>
+      <translation>Індэкс</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/DialogLookup.py" line="538"/>
+      <location filename="../../Ui/DialogLookup.py" line="499"/>
+      <location filename="../../Ui/DialogLookup.py" line="436"/>
+      <location filename="../../Ui/DialogLookup.py" line="378"/>
+      <location filename="../../Ui/DialogScaling.py" line="501"/>
+      <location filename="../../Ui/DialogScaling.py" line="496"/>
+      <location filename="../../Ui/DialogScaling.py" line="201"/>
+      <source>Part Number</source>
+      <translation>Артыкул дэталі</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/DialogLookup.py" line="541"/>
+      <location filename="../../Ui/DialogLookup.py" line="380"/>
+      <location filename="../../Ui/TaskPanelFinCan.py" line="950"/>
+      <location filename="../../Ui/DialogScaling.py" line="503"/>
+      <location filename="../../Ui/DialogScaling.py" line="498"/>
+      <location filename="../../Ui/DialogScaling.py" line="203"/>
+      <source>Outer Diameter</source>
+      <translation>Вонкавы дыяметр</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/DialogScaling.py" line="505"/>
+      <location filename="../../Ui/DialogScaling.py" line="205"/>
+      <source>Error (%)</source>
+      <translation>Памылка (%)</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/DialogScaling.py" line="218"/>
+      <source>Export CSV File</source>
+      <translation>Экспартаваць файл CSV</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/DialogLookup.py" line="279"/>
+      <location filename="../../Ui/DialogScaling.py" line="528"/>
+      <location filename="../../Ui/DialogScaling.py" line="288"/>
+      <source>Body tube not found</source>
+      <translation>Корпус фюзеляжа не знойдзены</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/DialogLookup.py" line="314"/>
+      <location filename="../../Ui/DialogLookup.py" line="303"/>
+      <location filename="../../Ui/DialogLookup.py" line="292"/>
+      <location filename="../../Ui/DialogLookup.py" line="281"/>
+      <location filename="../../Ui/DialogScaling.py" line="530"/>
+      <location filename="../../Ui/DialogScaling.py" line="290"/>
+      <source>Multiple identical entries found</source>
+      <translation>Знойдзена некалькі ідэнтычных запісаў</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/DialogLookup.py" line="502"/>
+      <location filename="../../Ui/DialogLookup.py" line="182"/>
+      <location filename="../../Ui/Widgets/ScalingTab.py" line="434"/>
+      <source>Fore Diameter</source>
+      <translation>Пярэдні дыяметр</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/DialogBlackPowder.py" line="37"/>
+      <location filename="../../Ui/DialogParachute.py" line="41"/>
+      <location filename="../../Ui/DialogParachute.py" line="37"/>
+      <source>Custom</source>
+      <translation>Карыстальніцкі</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/DialogParachute.py" line="38"/>
+      <source>Drogue</source>
+      <translation>Тармазны парашут</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/DialogParachute.py" line="39"/>
+      <source>Main</source>
+      <translation>Галоўны</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/DialogParachute.py" line="42"/>
+      <source>Dome</source>
+      <translation>Купал</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/DialogParachute.py" line="43"/>
+      <source>Round</source>
+      <translation>Закруглены</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/DialogParachute.py" line="44"/>
+      <source>Hexagonal</source>
+      <translation>Шасцікутны</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/DialogParachute.py" line="45"/>
+      <source>Square</source>
+      <translation>Квадратны</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/DialogParachute.py" line="61"/>
+      <source>Parachute Calculator</source>
+      <translation>Парашутны калькулятар</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/DialogParachute.py" line="65"/>
+      <source>Rocket weight</source>
+      <translation>Вышыня ракеты</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/DialogParachute.py" line="73"/>
+      <source>Terminal velocity</source>
+      <translation>Канчатковая хуткасць</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/DialogParachute.py" line="88"/>
+      <source>Drag coefficient</source>
+      <translation>Каэфіцыент лабавога супраціву</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Ui/TaskPanelWindTunnel.py" line="60"/>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="168"/>
+      <location filename="../../Ui/TaskPanelBulkhead.py" line="138"/>
+      <location filename="../../Ui/TaskPanelBulkhead.py" line="120"/>
+      <location filename="../../Ui/DialogLookup.py" line="439"/>
+      <location filename="../../Ui/DialogLookup.py" line="190"/>
+      <location filename="../../Ui/DialogLookup.py" line="178"/>
+      <location filename="../../Ui/DialogParachute.py" line="104"/>
+      <source>Diameter</source>
+      <translation>Дыяметр</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelLaunchLug.py" line="71"/>
+      <source>Launch Lug Parameter</source>
+      <translation>Налада пускавой ручкі</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelRailGuide.py" line="137"/>
+      <location filename="../../Ui/TaskPanelLaunchLug.py" line="99"/>
+      <source>Forward sweep</source>
+      <translation>Пярэдні скос</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelRailGuide.py" line="149"/>
+      <location filename="../../Ui/TaskPanelRailGuide.py" line="140"/>
+      <location filename="../../Ui/TaskPanelLaunchLug.py" line="111"/>
+      <location filename="../../Ui/TaskPanelLaunchLug.py" line="102"/>
+      <source>Sweep angle</source>
+      <translation>Вугал скосу</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelRailGuide.py" line="146"/>
+      <location filename="../../Ui/TaskPanelLaunchLug.py" line="108"/>
+      <source>Aft sweep</source>
+      <translation>Задні скос</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelBulkhead.py" line="179"/>
+      <location filename="../../Ui/TaskPanelRailGuide.py" line="172"/>
+      <location filename="../../Ui/TaskPanelRailButton.py" line="169"/>
+      <location filename="../../Ui/TaskPanelLaunchLug.py" line="118"/>
+      <source>Instances</source>
+      <translation>Асобнікі</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelBulkhead.py" line="182"/>
+      <location filename="../../Ui/TaskPanelRailGuide.py" line="175"/>
+      <location filename="../../Ui/TaskPanelRailButton.py" line="172"/>
+      <location filename="../../Ui/TaskPanelLaunchLug.py" line="121"/>
+      <source>Instance count</source>
+      <translation>Колькасць асобнікаў</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelBulkhead.py" line="190"/>
+      <location filename="../../Ui/TaskPanelRailGuide.py" line="183"/>
+      <location filename="../../Ui/TaskPanelRailButton.py" line="180"/>
+      <location filename="../../Ui/TaskPanelLaunchLug.py" line="129"/>
+      <source>Instance separation</source>
+      <translation>Падзел асобнікаў</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelRailButton.py" line="79"/>
+      <source>Rail Button Parameter</source>
+      <translation>Налады кнопкі рэйкі</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelRailButton.py" line="81"/>
+      <source>Rail button shape</source>
+      <translation>Фігура кнопкі рэйкі</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelRailGuide.py" line="95"/>
+      <location filename="../../Ui/TaskPanelRailButton.py" line="100"/>
+      <source>Flange height</source>
+      <translation>Вышыня фланца</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelRailGuide.py" line="101"/>
+      <location filename="../../Ui/TaskPanelRailButton.py" line="106"/>
+      <source>Base height</source>
+      <translation>Асноўная вышыня</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelRailGuide.py" line="107"/>
+      <location filename="../../Ui/TaskPanelRailButton.py" line="112"/>
+      <source>Total height</source>
+      <translation>Агульная вышыня</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelRailButton.py" line="124"/>
+      <source>Fastener</source>
+      <translation>Крапежныя дэталі</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelRailButton.py" line="127"/>
+      <source>Countersink angle</source>
+      <translation>Вугал зянкоўкі</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelRailButton.py" line="138"/>
+      <source>Head diameter</source>
+      <translation>Дыяметр галоўкі</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelRailButton.py" line="144"/>
+      <source>Shank diameter</source>
+      <translation>Дыяметр хваставіка</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelRailButton.py" line="150"/>
+      <source>Presets</source>
+      <translation>Перадустаноўка</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelRailButton.py" line="159"/>
+      <source>Top fillet</source>
+      <translation>Верхняе акругленне</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelRailButton.py" line="162"/>
+      <source>Radius</source>
+      <translation>Радыус</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelFinCan.py" line="67"/>
+      <source>Fin Can Parameter</source>
+      <translation>Налада корпуса крыла</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelFinCan.py" line="125"/>
+      <source>Flush with fin can</source>
+      <translation>Западліцо з корпусам крыла</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelFinCan.py" line="126"/>
+      <source>Stepped</source>
+      <translation>Ступеньчаты</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/DialogLookup.py" line="542"/>
+      <location filename="../../Ui/DialogLookup.py" line="384"/>
+      <location filename="../../Ui/TaskPanelFinCan.py" line="942"/>
+      <source>Inner Diameter</source>
+      <translation>Унутраны дыяметр</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelFin.py" line="81"/>
+      <source>Fin Parameter</source>
+      <translation>Налада крыла</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelNoseCone.py" line="600"/>
+      <location filename="../../Ui/TaskPanelTransition.py" line="744"/>
+      <location filename="../../Ui/TaskPanelFin.py" line="1228"/>
+      <source>Select an object</source>
+      <translation>Абраць аб'ект</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelPod.py" line="62"/>
+      <source>Pod Parameter</source>
+      <translation>Налады рухавіка</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelPod.py" line="66"/>
+      <source>Pod count</source>
+      <translation>Колькасць рухавікоў</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelPod.py" line="73"/>
+      <source>Pod spacing</source>
+      <translation>Адлегласць паміж рухавікамі</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelRailGuide.py" line="67"/>
+      <source>Rail Guide Parameter</source>
+      <translation>Налада накіраванай рэйкі</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelRailGuide.py" line="70"/>
+      <source>Rail guide base</source>
+      <translation>Аснова накіраванай рэйкі</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelRailGuide.py" line="77"/>
+      <source>Flange width</source>
+      <translation>Шырыня фланца</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelRailGuide.py" line="83"/>
+      <source>Middle width</source>
+      <translation>Шырыня сярэдзіны</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelRailGuide.py" line="89"/>
+      <source>Base width</source>
+      <translation>Шырыня асновы</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/DialogBlackPowder.py" line="70"/>
+      <location filename="../../Ui/DialogVentHoles.py" line="55"/>
+      <location filename="../../Ui/TaskPanelRailGuide.py" line="120"/>
+      <source>Body tube diameter</source>
+      <translation>Дыметр корпуса фюзеляжа</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelRailGuide.py" line="130"/>
+      <source>V angle</source>
+      <translation>Вугал V</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelRailGuide.py" line="156"/>
+      <source>Notch</source>
+      <translation>Выразанне</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelBulkhead.py" line="105"/>
+      <location filename="../../Ui/TaskPanelRailGuide.py" line="159"/>
+      <source>Width</source>
+      <translation>Шырыня</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelRailGuide.py" line="165"/>
+      <source>Depth</source>
+      <translation>Глыбіня</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/ViewProviders/ViewProviderMultiCFDAnalysis.py" line="64"/>
+      <location filename="../../Rocket/cfd/ViewProviders/ViewProviderCFDRocket.py" line="69"/>
+      <location filename="../../Rocket/cfd/ViewProviders/ViewProviderCFDRocket.py" line="62"/>
+      <location filename="../../Rocket/cfd/ViewProviders/ViewProviderWindTunnel.py" line="68"/>
+      <location filename="../../Rocket/cfd/ViewProviders/ViewProviderWindTunnel.py" line="61"/>
+      <location filename="../../Ui/ViewProvider.py" line="92"/>
+      <location filename="../../Ui/ViewProvider.py" line="50"/>
+      <location filename="../../Ui/ViewParallelStage.py" line="51"/>
+      <source>Edit %1</source>
+      <translation>Змяніць %1</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/DialogLookup.py" line="116"/>
+      <source>Component lookup...</source>
+      <translation>Пошук кампанентаў…</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/DialogLookup.py" line="290"/>
+      <source>Nose cone not found</source>
+      <translation>Носік абцякальніка не знойдзены</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/DialogLookup.py" line="301"/>
+      <source>Transition not found</source>
+      <translation>Пераход не знойдзены</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/DialogLookup.py" line="312"/>
+      <source>Rail button not found</source>
+      <translation>Кнопка рэйкі не знойдзеная</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="661"/>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="305"/>
+      <location filename="../../Ui/DialogLookup.py" line="376"/>
+      <source>Type</source>
+      <translation>Тып</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/DialogLookup.py" line="501"/>
+      <location filename="../../Ui/DialogLookup.py" line="438"/>
+      <source>Shape</source>
+      <translation>Фігура</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/DialogLookup.py" line="441"/>
+      <source>Shoulder Diameter</source>
+      <translation>Дыяметр пляча</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/DialogLookup.py" line="442"/>
+      <source>Shoulder Length</source>
+      <translation>Даўжыня пляча</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/DialogLookup.py" line="503"/>
+      <source>Aft Diameter</source>
+      <translation>Задні дыяметр</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/DialogLookup.py" line="505"/>
+      <source>Fore Shoulder Diameter</source>
+      <translation>Дяметр пярэдняга пляча</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/DialogLookup.py" line="506"/>
+      <source>Fore Shoulder Length</source>
+      <translation>Даўжыня пярэдняга пляча</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/DialogLookup.py" line="507"/>
+      <source>Aft Shoulder Diameter</source>
+      <translation>Дыяметр задняга пляча</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/DialogLookup.py" line="508"/>
+      <source>Aft Shoulder Length</source>
+      <translation>Даўжыня задняга пляча</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/DialogLookup.py" line="540"/>
+      <source>Finish</source>
+      <translation>Скончыць</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelBulkhead.py" line="111"/>
+      <location filename="../../Ui/DialogLookup.py" line="543"/>
+      <source>Height</source>
+      <translation>Вышыня</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/DialogLookup.py" line="544"/>
+      <source>Base Height</source>
+      <translation>Асноўная вышыня</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/DialogLookup.py" line="545"/>
+      <source>Flange Height</source>
+      <translation>Вышыня фланца</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/DialogLookup.py" line="546"/>
+      <source>Screw Height</source>
+      <translation>Даўжыня балта</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelBulkhead.py" line="72"/>
+      <source>Centering Ring Parameter</source>
+      <translation>Налада цэнтравальнага кальца</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelBulkhead.py" line="74"/>
+      <source>Bulkhead Parameter</source>
+      <translation>Налада пераборкі</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="567"/>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="541"/>
+      <location filename="../../Ui/TaskPanelBulkhead.py" line="126"/>
+      <location filename="../../Ui/TaskPanelBulkhead.py" line="86"/>
+      <source>Thickness</source>
+      <translation>Таўшчыня</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelBulkhead.py" line="102"/>
+      <source>Notched</source>
+      <translation>Выразаны</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelBulkhead.py" line="117"/>
+      <source>Step</source>
+      <translation>Прыступак</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelBulkhead.py" line="132"/>
+      <source>reverse</source>
+      <translation>перавярнуць</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelBulkhead.py" line="135"/>
+      <source>Holes</source>
+      <translation>Адтуліны</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelBulkhead.py" line="144"/>
+      <source>Center</source>
+      <translation>Цэнтр</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelBulkhead.py" line="150"/>
+      <source>Count</source>
+      <translation>Колькасць</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelBulkhead.py" line="157"/>
+      <source>Offset</source>
+      <translation>Зрушэнне</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/DialogThrustToWeight.py" line="49"/>
+      <source>Minimum Thrust to Weight Calculator</source>
+      <translation>Калькулятар суадносін найменшай цягі да вагі</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/DialogThrustToWeight.py" line="53"/>
+      <source>Weight</source>
+      <translation>Вага</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/DialogThrustToWeight.py" line="61"/>
+      <source>Minimum thrust</source>
+      <translation>Найменшая цяга</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/DialogBlackPowder.py" line="78"/>
+      <location filename="../../Ui/DialogVentHoles.py" line="63"/>
+      <source>Body tube length</source>
+      <translation>Даўжыня корпуса фюзеляжа</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/DialogVentHoles.py" line="71"/>
+      <source>Vent hole count</source>
+      <translation>Колькасць адтулін вентыляцыі</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/DialogVentHoles.py" line="80"/>
+      <source>Vent hole size</source>
+      <translation>Памер адтуліны вентыляцыі</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelParallelStage.py" line="62"/>
+      <source>Parallel Stage Parameter</source>
+      <translation>Налада паралельнай ступені</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelParallelStage.py" line="66"/>
+      <source>Stage count</source>
+      <translation>Колькасць ступеней</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelParallelStage.py" line="73"/>
+      <source>Stage spacing</source>
+      <translation>Адлегласць паміж ступенямі</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelRingtail.py" line="75"/>
+      <source>Ring tail Parameter</source>
+      <translation>Налада кальцавога хваста</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/DialogBlackPowder.py" line="38"/>
+      <source>Low</source>
+      <translation>Нізкі</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/DialogBlackPowder.py" line="39"/>
+      <source>High</source>
+      <translation>Высокі</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/DialogBlackPowder.py" line="61"/>
+      <source>
+        &lt;html&gt;
+        &lt;h1&gt;WARNING&lt;/h1&gt;
+        &lt;p&gt;This calculator is an estimate only. Ground test your ejection system before flying. In certain cases this calculation may overestimate the amount of powder required.&lt;/p&gt;
+        &lt;/html&gt;
+        </source>
+      <translation>Увага!
+Калькулятар прызначаны толькі для ацэнкі.
+Перад палётам праверце сістэму катапультавання на зямлі.
+У некаторых выпадках разлік можа прывесці да завышэння неабходнай колькасці пораху.</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/DialogBlackPowder.py" line="86"/>
+      <source>Force</source>
+      <translation>Сіла</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="731"/>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="710"/>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="337"/>
+      <location filename="../../Ui/DialogBlackPowder.py" line="94"/>
+      <source>Pressure</source>
+      <translation>Ціск</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/DialogBlackPowder.py" line="109"/>
+      <source>FFFFg powder</source>
+      <translation>Порах FFFFg</translation>
+    </message>
+    <message>
+      <location filename="../../RocketGui.py" line="145"/>
+      <location filename="../../RocketGui.py" line="144"/>
+      <source>Scaling Tools</source>
+      <translation>Інструменты маштабавання</translation>
+    </message>
+    <message>
+      <location filename="../../RocketGui.py" line="159"/>
+      <location filename="../../RocketGui.py" line="158"/>
+      <source>Body Tubes</source>
+      <translation>Корпусы фюзеляжа</translation>
+    </message>
+    <message>
+      <location filename="../../RocketGui.py" line="174"/>
+      <location filename="../../RocketGui.py" line="173"/>
+      <source>Launch Guides</source>
+      <translation>Стартавая рэйка</translation>
+    </message>
+    <message>
+      <location filename="../../Analyzers/FinFlutter.py" line="53"/>
+      <source>Tube fins are not supported at this time</source>
+      <translation>Крылы фюзеляжа ў дадзены момант не падтрымліваюцца</translation>
+    </message>
+    <message>
+      <location filename="../../Analyzers/FinFlutter.py" line="98"/>
+      <source>Tapered thickness fins are not supported at this time</source>
+      <translation>Крылы канічнай таўшчыні ў дадзены момант не падтрымліваюцца</translation>
+    </message>
+    <message>
+      <location filename="../../Analyzers/FinFlutter.py" line="153"/>
+      <source>This atmospheric model doesn&apos;t support the specified altitude. Using the COESA76 geometric model instead.</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Analyzers/pyatmos/utils/utils.py" line="128"/>
+      <source>Geometric altitudes are outside the range of [{}, {}] km. Output values will be extrapolated for those heights.</source>
+      <translation>Геаметрычныя вышыні знаходзяцца па-за межамі дыяпазону [{}, {}] км.
+Выходныя значэнні будуць экстрапаляваныя на вышыні.</translation>
+    </message>
+    <message>
+      <location filename="../../Analyzers/pyatmos/utils/utils.py" line="129"/>
+      <source>Geometric altitudes are outside the range of [{}, {}] km.</source>
+      <translation>Геаметрычныя вышыні палёту знаходзяцца па-за межамі дыяпазону [{}, {}] км.</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/InnerTubeShapeHandler.py" line="94"/>
+      <source>Inner tube parameters produce an invalid shape</source>
+      <translation>Налады ўнутранай трубы прыводзяць да няправільнай фігуры</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/RailGuideShapeHandler.py" line="109"/>
+      <location filename="../../Rocket/ShapeHandlers/LaunchLugShapeHandler.py" line="61"/>
+      <source>Forward sweep angle must be greater than 0 degrees and less than 90 degrees</source>
+      <translation>Вугал пярэдняга скосу павінен быць у дыяпазоне (0..90) градусаў</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/RailGuideShapeHandler.py" line="114"/>
+      <location filename="../../Rocket/ShapeHandlers/LaunchLugShapeHandler.py" line="66"/>
+      <source>Aft sweep angle must be greater than 0 degrees and less than 90 degrees</source>
+      <translation>Вугал задняга скосу павінен быць у дыяпазоне (0..90) градусаў</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/FinCanShapeHandler.py" line="358"/>
+      <location filename="../../Rocket/ShapeHandlers/LaunchLugShapeHandler.py" line="172"/>
+      <source>Launch lug parameters produce an invalid shape</source>
+      <translation>Налады пускавой ручкі прыводзяць да няправільнай фігуры</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/TransitionHaackShapeHandler.py" line="40"/>
+      <source>For %s transitions the coefficient must be &gt;= 0</source>
+      <translation>Для перамяшчэння %s каэфіцыент павінна быць больш за 0</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/NoseShapeHandler.py" line="121"/>
+      <source>For %s nose cones thickness must be &gt; 0</source>
+      <translation>Для %s таўшчыня носіка абцякальнікаў павінна быць больш за 0</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/NoseShapeHandler.py" line="124"/>
+      <source>Nose cones thickness must be less than the nose cone radius</source>
+      <translation>Таўшчыня носіка абцякальнікаў павінна быць менш радыусу носіка абцякальніка</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/NoseShapeHandler.py" line="128"/>
+      <source>Nose diameter must be less than the base diameter</source>
+      <translation>Дыяметр носіка павінен быць менш асноўнага дыяметру</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/NoseShapeHandler.py" line="131"/>
+      <source>Nose diameter must be greater than zero</source>
+      <translation>Дыяметр носіка павінен быць больш за нуль</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/NoseShapeHandler.py" line="140"/>
+      <source>Shoulder length must be &gt; 0</source>
+      <translation>Даўжыня пляча павінна быць больш за 0</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/NoseShapeHandler.py" line="143"/>
+      <source>Shoulder diameter must be &gt; 0</source>
+      <translation>Дыяметр пляча павінен быць больш за 0</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/NoseShapeHandler.py" line="151"/>
+      <source>Shoulder diameter can not exceed the nose cone diameter</source>
+      <translation>Дыяметр пляча не можа перавышаць дыяметр носіка абцякальніка</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/NoseShapeHandler.py" line="155"/>
+      <source>For %s nose cones with a shoulder, shoulder thickness must be &gt; 0</source>
+      <translation>Для носіка абцякальнікаў %s з плячом таўшчыня пляча павінна быць больш за 0</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/TransitionShapeHandler.py" line="186"/>
+      <location filename="../../Rocket/ShapeHandlers/TransitionShapeHandler.py" line="163"/>
+      <location filename="../../Rocket/ShapeHandlers/NoseShapeHandler.py" line="158"/>
+      <source>Shoulder thickness must be less than the shoulder radius</source>
+      <translation>Таўшчыня пляча павінна быць менш радыусу пляча</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/NoseShapeHandler.py" line="272"/>
+      <location filename="../../Rocket/ShapeHandlers/NoseShapeHandler.py" line="269"/>
+      <location filename="../../Rocket/ShapeHandlers/NoseShapeHandler.py" line="258"/>
+      <location filename="../../Rocket/ShapeHandlers/NoseShapeHandler.py" line="225"/>
+      <location filename="../../Rocket/ShapeHandlers/NoseShapeHandler.py" line="222"/>
+      <location filename="../../Rocket/ShapeHandlers/NoseShapeHandler.py" line="211"/>
+      <source>Nose cone parameters produce an invalid shape</source>
+      <translation>Налады носіка абцякальніка прыводзяць да няправільнай фігуры</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/NoseShapeHandler.py" line="240"/>
+      <source>Nose cone cap style produces an invalid shape</source>
+      <translation>Стыль кончыка носіка абцякальніка прыводзіць да няправільнай фігуры</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/CenteringRingShapeHandler.py" line="59"/>
+      <source>Centering ring center diameter must be less than the outer diameter</source>
+      <translation>Цэнтральны дыяметр цэнтравальнага кальца павінен быць менш вонкавага дыяметру</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/CenteringRingShapeHandler.py" line="64"/>
+      <source>Centering ring center diameter must be less than the step diameter</source>
+      <translation>Цэнтральны дыяметр цэнтравальнага кальца павінен быць менш дыяметра прыступкі</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/CenteringRingShapeHandler.py" line="69"/>
+      <source>The notch width must be less than or equal to the center diameter</source>
+      <translation>Шырыня выразання павінна быць менш ці роўная цэнтральнаму дыяметру</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/CenteringRingShapeHandler.py" line="72"/>
+      <source>The notch width must be greater than zero</source>
+      <translation>Шырыня выразання павінна быць больш за нуль</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/CenteringRingShapeHandler.py" line="75"/>
+      <source>The notch height must be greater than zero</source>
+      <translation>Вышыня выразання павінна быць больш за нуль</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/CenteringRingShapeHandler.py" line="80"/>
+      <source>Hole extends inside the center diameter</source>
+      <translation>Адтуліна праходзіць унутры цэнтральнага дыяметру</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/CenteringRingShapeHandler.py" line="124"/>
+      <source>Centering ring parameters produce an invalid shape</source>
+      <translation>Налады цэнтральнага кальца прыводзяць да няправільнай фігуры</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/FinCanShapeHandler.py" line="94"/>
+      <source>Fin can thickness must be greater than zero</source>
+      <translation>Таўшчыня корпуса крыла павінна быць больш за 0</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/FinCanShapeHandler.py" line="97"/>
+      <source>Fin can length must be greater than zero</source>
+      <translation>Даўжыня корпуса крыла павінна быць больш за 0</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/FinCanShapeHandler.py" line="106"/>
+      <source>Fin can leading and trailing edges can not exceed total length</source>
+      <translation>Пярэдняе і задняе рабро крыла не могуць перавышаць агульную даўжыню</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/FinCanShapeHandler.py" line="111"/>
+      <source>Coupler length must be greater than zero</source>
+      <translation>Даўжыня злучальніка павінна быць больш за 0</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/FinCanShapeHandler.py" line="114"/>
+      <source>Coupler thickness must be greater than zero</source>
+      <translation>Таўшчыня злучальніка павінна быць больш за 0</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/FinCanShapeHandler.py" line="117"/>
+      <source>Coupler outer diameter must be greater than the inner diameter</source>
+      <translation>Вонкавы дыяметр злучальніка павінен быць больш унутранага дыяметру</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/FinCanShapeHandler.py" line="120"/>
+      <source>Coupler inner diameter must be less than or equal to the fin can inner diameter</source>
+      <translation>Унутраны дыяметр злучальніка павінен быць менш ці роўны ўнутранаму дыяметру корпуса крыла</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/FinCanShapeHandler.py" line="123"/>
+      <source>Coupler outer diameter must be less than fin can outer diameter</source>
+      <translation>Вонкавы дыяметр злучальніка павінен быць менш вонкавага дыяметра корпуса крыла</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/FinCanShapeHandler.py" line="453"/>
+      <source>Fin can parameters produce an invalid shape</source>
+      <translation>Налады корпуса крыла прыводзяць да няправільнай фігуры</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/NoseHaackShapeHandler.py" line="40"/>
+      <source>For %s nose cones the coefficient must be &gt;= 0</source>
+      <translation>Для %s носіка абцякальнікаў каэфіцыент павінен быць больш ці роўны 0</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/TransitionShapeHandler.py" line="124"/>
+      <source>For %s transitions thickness must be &gt; 0</source>
+      <translation>Для перамяшчэння %s таўшчыня павінна быць больш за 0</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/TransitionShapeHandler.py" line="127"/>
+      <source>Transition thickness must be less than the front or back radius</source>
+      <translation>Таўшчыня пераходу павінна быць менш пярэдняга ці задняга радыусу</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/TransitionShapeHandler.py" line="132"/>
+      <source>Transition core must be less than the front or back diameter</source>
+      <translation>Дыяметр пераходнага стрыжня павінен быць менш пярэдняга ці задняга дыяметра</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/TransitionShapeHandler.py" line="140"/>
+      <location filename="../../Rocket/ShapeHandlers/TransitionShapeHandler.py" line="136"/>
+      <source>Transition core must be less than the shoulder diameter</source>
+      <translation>Дыяметр пераходнага стрыжня павінен быць менш дыяметра пляча</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/TransitionShapeHandler.py" line="145"/>
+      <source>Forward shoulder length must be &gt; 0</source>
+      <translation>Даўжыня пярэдняга пляча павінна быць больш за 0</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/TransitionShapeHandler.py" line="148"/>
+      <source>Forward shoulder diameter must be &gt; 0</source>
+      <translation>Дыяметр пярэдняга пляча павінен быць больш за 0</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/TransitionShapeHandler.py" line="156"/>
+      <source>Forward shoulder diameter can not exceed the transition diameter at the shoulder</source>
+      <translation>Дыяметр пярэдняга пляча не можа перавышаць дыяметра пераходу на плячы</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/TransitionShapeHandler.py" line="183"/>
+      <location filename="../../Rocket/ShapeHandlers/TransitionShapeHandler.py" line="160"/>
+      <source>For %s transitions with a shoulder, shoulder thickness must be &gt; 0</source>
+      <translation>Для пераходу %s з плячом таўшчыня пляча павінна быць больш за 0</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/TransitionShapeHandler.py" line="168"/>
+      <source>Aft shoulder length must be &gt; 0</source>
+      <translation>Даўжыня пярэдняга пляча павінна быць больш за 0</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/TransitionShapeHandler.py" line="171"/>
+      <source>Aft shoulder diameter must be &gt; 0</source>
+      <translation>Дыяметр пярэдняга пляча павінен быць больш за 0</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/TransitionShapeHandler.py" line="179"/>
+      <source>Aft shoulder diameter can not exceed the transition diameter at the shoulder</source>
+      <translation>Дыяметр задняга пляча не можа перавышаць дыяметра пераходу на плячы</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/TransitionShapeHandler.py" line="355"/>
+      <location filename="../../Rocket/ShapeHandlers/TransitionShapeHandler.py" line="352"/>
+      <location filename="../../Rocket/ShapeHandlers/TransitionShapeHandler.py" line="338"/>
+      <source>Transition parameters produce an invalid shape</source>
+      <translation>Налады пераходу прыводзяць да няправільнай фігуры</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/TransitionShapeHandler.py" line="383"/>
+      <location filename="../../Rocket/ShapeHandlers/TransitionShapeHandler.py" line="369"/>
+      <source>Forward cap style produces an invalid shape</source>
+      <translation>Стыль пярэдняга кончыка прыводзіць да няправільнай фігуры</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/FinTrapezoidShapeHandler.py" line="80"/>
+      <location filename="../../Rocket/ShapeHandlers/FinShapeHandler.py" line="552"/>
+      <location filename="../../Rocket/ShapeHandlers/FinTriangleShapeHandler.py" line="146"/>
+      <source>Ttw offset must be less than the root chord</source>
+      <translation>Зрушэнне рабра скрозь сцяну павінна быць менш кораня хорды</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/FinTrapezoidShapeHandler.py" line="83"/>
+      <location filename="../../Rocket/ShapeHandlers/FinShapeHandler.py" line="555"/>
+      <location filename="../../Rocket/ShapeHandlers/FinTriangleShapeHandler.py" line="149"/>
+      <source>Ttw length must be greater than 0</source>
+      <translation>Даўжыня рабра скрозь сцяну павінна быць больш за 0</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/FinTrapezoidShapeHandler.py" line="86"/>
+      <location filename="../../Rocket/ShapeHandlers/FinShapeHandler.py" line="558"/>
+      <location filename="../../Rocket/ShapeHandlers/FinTriangleShapeHandler.py" line="152"/>
+      <source>Ttw height must be greater than 0</source>
+      <translation>Вышыня рабра скрозь сцяну павінна быць больш за 0</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/FinTrapezoidShapeHandler.py" line="89"/>
+      <location filename="../../Rocket/ShapeHandlers/FinShapeHandler.py" line="561"/>
+      <location filename="../../Rocket/ShapeHandlers/FinTriangleShapeHandler.py" line="155"/>
+      <source>Ttw thickness must be greater than 0</source>
+      <translation>Таўшчыня рабра скрозь сцяну павінна быць больш за 0</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/FinTubeShapeHandler.py" line="47"/>
+      <source>Ttw tabs are not supported for tube fins</source>
+      <translation>Выступы рэбраў скрозь сцяну не падтрымліваюцца для крылаў фюзеляжа</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/TransitionParabolicShapeHandler.py" line="38"/>
+      <source>For %s transitions the coefficient must be in the range (0 &lt;= coefficient &lt;= 1)</source>
+      <translation>Для перамяшчэння %s каэфіцыент павінен знаходзіцца ў дыяпазоне [0..1]</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/NoseParabolicShapeHandler.py" line="39"/>
+      <source>For %s nose cones the coefficient must be in the range (0 &lt;= coefficient &lt;= 1)</source>
+      <translation>Для носіка абцякальніка %s каэфіцыент павінен знаходзіцца ў дыяпазоне [0..1]</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/FinSketchShapeHandler.py" line="48"/>
+      <source>shape is empty</source>
+      <translation>Фігура пустая</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/FinSketchShapeHandler.py" line="52"/>
+      <source>Compound objects not supported</source>
+      <translation>Складовыя аб'екты не падтрымліваюцца</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/FinSketchShapeHandler.py" line="58"/>
+      <source>Sketch must create a valid face</source>
+      <translation>Эскіз павінен ствараць правільную грань</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/FinSketchShapeHandler.py" line="82"/>
+      <source>Unable to handle shapes other than lines</source>
+      <translation>Немагчыма апрацоўваць фігуры, якія адрозныя ад ліній</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/FinShapeHandler.py" line="776"/>
+      <source>Fin parameters produce an invalid shape</source>
+      <translation>Налады крыла прыводзяць да няправільнай фігуры</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/TransitionPowerShapeHandler.py" line="40"/>
+      <source>For %s transitions the coefficient must be in the range (0 &lt; coefficient &lt;= 1)</source>
+      <translation>Для перамяшчэння %s каэфіцыент павінен знаходзіцца ў дыяпазоне (0..1]</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/BodyTubeShapeHandler.py" line="71"/>
+      <source>Body tube inner diameter must be greater than zero</source>
+      <translation>Унутраны дыяметр корпусу фюзеляжа павінен быць больш за нуль</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/BodyTubeShapeHandler.py" line="74"/>
+      <source>Body tube outer diameter must be greater than the inner</source>
+      <translation>Вонкавы дыяметр корпусу фюзеляжа павінен быць больш за ўнутраны дыяметр</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/BodyTubeShapeHandler.py" line="77"/>
+      <source>Body tube length must be greater than zero</source>
+      <translation>Даўжыня корпусу фюзеляжа павінна быць больш за 0</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/RingtailShapeHandler.py" line="147"/>
+      <location filename="../../Rocket/ShapeHandlers/RingtailShapeHandler.py" line="144"/>
+      <location filename="../../Rocket/ShapeHandlers/RingtailShapeHandler.py" line="132"/>
+      <location filename="../../Rocket/ShapeHandlers/RingtailShapeHandler.py" line="121"/>
+      <location filename="../../Rocket/ShapeHandlers/RingtailShapeHandler.py" line="118"/>
+      <location filename="../../Rocket/ShapeHandlers/RingtailShapeHandler.py" line="108"/>
+      <location filename="../../Rocket/ShapeHandlers/BodyTubeShapeHandler.py" line="152"/>
+      <location filename="../../Rocket/ShapeHandlers/BodyTubeShapeHandler.py" line="149"/>
+      <location filename="../../Rocket/ShapeHandlers/BodyTubeShapeHandler.py" line="137"/>
+      <location filename="../../Rocket/ShapeHandlers/BodyTubeShapeHandler.py" line="126"/>
+      <location filename="../../Rocket/ShapeHandlers/BodyTubeShapeHandler.py" line="123"/>
+      <location filename="../../Rocket/ShapeHandlers/BodyTubeShapeHandler.py" line="113"/>
+      <source>Body tube parameters produce an invalid shape</source>
+      <translation>Налады корпуса фюзеляжа прыводзяць да няправільнай фігуры</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/TransitionProxyShapeHandler.py" line="222"/>
+      <location filename="../../Rocket/ShapeHandlers/TransitionProxyShapeHandler.py" line="190"/>
+      <source>Transition fore shoulder parameters produce an invalid shape</source>
+      <translation>Налады пераходу пярэдняга пляча прыводзяць да няправільнай фігуры</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/TransitionProxyShapeHandler.py" line="229"/>
+      <location filename="../../Rocket/ShapeHandlers/TransitionProxyShapeHandler.py" line="210"/>
+      <source>Transition aft shoulder parameters produce an invalid shape</source>
+      <translation>Налады пераходу задняга пляча прыводзяць да няправільнай фігуры</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/TransitionProxyShapeHandler.py" line="235"/>
+      <source>Transition shoulder parameters produce an invalid shape</source>
+      <translation>Налады пераходу пляча прыводзяць да няправільнай фігуры</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/BulkheadShapeHandler.py" line="68"/>
+      <location filename="../../Rocket/ShapeHandlers/RailButtonShapeHandler.py" line="72"/>
+      <source>Outer diameter must be greater than zero</source>
+      <translation>Вонкавы дыяметр павінен быць больш за нуль</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/RailButtonShapeHandler.py" line="75"/>
+      <source>Inner diameter must be greater than zero</source>
+      <translation>Унутраны дыяметр павінен быць больш за нуль</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/RailButtonShapeHandler.py" line="78"/>
+      <source>Outer diameter must be greater than the inner diameter</source>
+      <translation>Вонкавы дыяметр павінен быць больш унутранага дыяметру</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/RailButtonShapeHandler.py" line="81"/>
+      <source>Top height must be greater than or equal to zero</source>
+      <translation>Вышыня верху павінна быць больш ці роўная нулю</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/RailButtonShapeHandler.py" line="84"/>
+      <source>Base height must be greater than or equal to zero</source>
+      <translation>Вышыня асновы павінна быць больш ці роўная нулю</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/RailButtonShapeHandler.py" line="87"/>
+      <source>Height must be greater than zero</source>
+      <translation>Вышыня павінна быць больш за нуль</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/RailButtonShapeHandler.py" line="90"/>
+      <source>Top and base height can not exceed the total height</source>
+      <translation>Вышыня верху і асновы не можа перавышаць агульную вышыню</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/RailButtonShapeHandler.py" line="95"/>
+      <source>Length must be greater than zero for airfoil rail buttons</source>
+      <translation>Даўжыня кнопак рэйкі профілю павінна быць больш за нуль</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/RailButtonShapeHandler.py" line="99"/>
+      <source>Length must be greater than the outer diameter for airfoil rail buttons</source>
+      <translation>Даўжыня кнопак рэйкі профілю павінна быць больш вонкавага дыяметру</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/RailButtonShapeHandler.py" line="224"/>
+      <source>Rail button parameters produce an invalid shape</source>
+      <translation>Налады кнопкі рэйкі прыводзяць да няправільнай фігуры</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/RailGuideShapeHandler.py" line="80"/>
+      <source>Middle width must be greater than zero</source>
+      <translation>Сярэдняя шырыня павінна быць больш за нуль</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/RailGuideShapeHandler.py" line="84"/>
+      <source>Flange width must be greater than the middle width</source>
+      <translation>Шырыня фланца павінна быць больш за шырыню сярэдзіны</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/RailGuideShapeHandler.py" line="88"/>
+      <source>Base width must be greater than the middle width</source>
+      <translation>Асноўная шырыня павінна быць больш за шырыню сярэдзіны</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/RailGuideShapeHandler.py" line="92"/>
+      <source>Top height must be greater than zero</source>
+      <translation>Вышыня верху павінна быць больш за нуль</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/RailGuideShapeHandler.py" line="96"/>
+      <source>Base height must be greater than zero</source>
+      <translation>Асноўная вышыня павінна быць больш за нуль</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/RailGuideShapeHandler.py" line="100"/>
+      <source>Total height must be greater than the sum of top and base height</source>
+      <translation>Агульная вышыня павінна быць больш сумы вышыні верху і асноўнай вышыні</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/RailGuideShapeHandler.py" line="104"/>
+      <source>Length must be greater than zero</source>
+      <translation>Даўжыня павінна быць больш за нуль</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/RailGuideShapeHandler.py" line="119"/>
+      <source>Notch width must be greater than zero</source>
+      <translation>Шырыня выразання павінна быць больш за нуль</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/RailGuideShapeHandler.py" line="123"/>
+      <source>Notch width can not exceed the middle width</source>
+      <translation>Шырыня выразання не можа перавышаць сярэднюю шырыню</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/RailGuideShapeHandler.py" line="127"/>
+      <source>Notch depth must be greater than zero</source>
+      <translation>Глыбіня выразання павінна быць больш за нуль</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/RailGuideShapeHandler.py" line="131"/>
+      <source>Notch depth can not exceed the total height</source>
+      <translation>Глыбіня выразання не можа перавышаць агульную вышыню</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/RailGuideShapeHandler.py" line="328"/>
+      <source>Rail Guide parameters produce an invalid shape</source>
+      <translation>Налады накіраванай рэйкі прыводзяць да няправільнай фігуры</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/BulkheadShapeHandler.py" line="73"/>
+      <source>Step diameter must be greater than zero</source>
+      <translation>Дыяметр прыступкі павінен быць больш за нуль</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/BulkheadShapeHandler.py" line="76"/>
+      <source>Step diameter must less than the outer diameter</source>
+      <translation>Дыяметр прыступкі павінен быць менш вонкавага дыяметра</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/BulkheadShapeHandler.py" line="81"/>
+      <source>Hole diameter must be greater than zero</source>
+      <translation>Дыяметр адтуліны павінен быць больш за нуль</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/BulkheadShapeHandler.py" line="84"/>
+      <source>Hole extends outside the outer diameter</source>
+      <translation>Адтуліна выходзіць за межы вонкавага дыяметра</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/BulkheadShapeHandler.py" line="88"/>
+      <source>Hole extends outside the step diameter</source>
+      <translation>Адтуліна выходзіць за межы дыяметра прыступкі</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/BulkheadShapeHandler.py" line="136"/>
+      <source>Bulkhead parameters produce an invalid shape</source>
+      <translation>Налады пераборкі прыводзяць да няправільнай фігуры</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/NoseProxyShapeHandler.py" line="168"/>
+      <location filename="../../Rocket/ShapeHandlers/NoseProxyShapeHandler.py" line="161"/>
+      <location filename="../../Rocket/ShapeHandlers/NoseProxyShapeHandler.py" line="113"/>
+      <source>Nose cone shoulder parameters produce an invalid shape</source>
+      <translation>Налады пляча носіка абцякальніка прыводзяць да няправільнай фігуры</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/RingtailShapeHandler.py" line="66"/>
+      <source>Ring tail inner diameter must be greater than zero</source>
+      <translation>Унутраны дыяметр кальцавога хваста павінен быць больш за нуль</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/RingtailShapeHandler.py" line="69"/>
+      <source>Ring tail outer diameter must be greater than the inner</source>
+      <translation>Вонкавы дыяметр кальцавога хваста павінен быць больш за ўнутраны дыяметр</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/RingtailShapeHandler.py" line="72"/>
+      <source>Ring tail length must be greater than zero</source>
+      <translation>Даўжыня кальцавога хваста павінна быць больш за 0</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/NosePowerShapeHandler.py" line="40"/>
+      <source>For %s nose cones the coefficient must be in the range (0 &lt; coefficient &lt;= 1)</source>
+      <translation>Для носіка абцякальніка %s каэфіцыент павінен знаходзіцца ў дыяпазоне (0..1]</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="58"/>
+      <source>CFD Report.docx</source>
+      <translation>CFD Report.docx</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="159"/>
+      <source>This is an automated report generated by the Rocket Workbench. It was created by running a CFD analysis on the document &apos;{}&apos;.</source>
+      <translation>Аўтаматычная справаздача, якая створаны варштатам ракеты.
+Была створаная шляхам выканання аналізу вылічальнай гідрадынамікі дакумента '{}'</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="163"/>
+      <source>Details about the study, including the rocket</source>
+      <translation>Падрабязнасці пра даследаванні, уключаючы ракету</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="169"/>
+      <source>Minimum Fin Thickness</source>
+      <translation>Найменшая таўшчыня крыла</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="170"/>
+      <source>Frontal Area</source>
+      <translation>Пярэдняя вобласць</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="177"/>
+      <source>Study Parameters</source>
+      <translation>Налады даследавання</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="179"/>
+      <source>This study varied the following parameters:</source>
+      <translation>Наступныя налады былі змененыя ў ходзе даследавання:</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Ui/TaskPanelCFDRocket.py" line="48"/>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="1030"/>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="936"/>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="898"/>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="183"/>
+      <source>Angle of Attack</source>
+      <translation>Вугал атакі</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="920"/>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="194"/>
+      <source>NOTE: It is not possible to calculate the center of pressure at an angle of attack of 0. It must be calculated at multiple points close to 0 and inferred using l&apos;Hôpital&apos;s rule.</source>
+      <translation>Заўвага: немагчыма вылічыць цэнтр ціску пры вугле атакі, які роўны 0.
+Ён павінен быць разлічаны ў некалькіх кропках, блізкіх да 0, і выведзены з ужываннем правілы Лопіталя.</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="198"/>
+      <source>This study is unable to determine Center of Pressure at a 0 angle of attack.</source>
+      <translation>У дадзеным даследаванні немагчыма вызначыць цэнтр ціску пры вугле атакі 0.</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="200"/>
+      <source>Configuration</source>
+      <translation>Канфігурацыя</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="212"/>
+      <source>Physics Model</source>
+      <translation>Фізічная мадэль</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="219"/>
+      <source>Time</source>
+      <translation>Час</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="223"/>
+      <source>Flow</source>
+      <translation>Працяканне</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="227"/>
+      <source>Isothermal</source>
+      <translation>Ізатэрмічны</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="231"/>
+      <source>High Mach number</source>
+      <translation>Высокі лік Маха</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="235"/>
+      <source>Viscous</source>
+      <translation>Глейкасць</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="239"/>
+      <source>Rotating frame (SRF)</source>
+      <translation>Вярчальная сістэма адліку (SRF)</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="785"/>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="371"/>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="244"/>
+      <source>Turbulence</source>
+      <translation>Турбулентнасць</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="248"/>
+      <source>Turbulence Model</source>
+      <translation>Мадэль турбулентнасці</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="253"/>
+      <source>Gravity (x, y, z)</source>
+      <translation>Сіла цяжару (x, y, z)</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="263"/>
+      <source>Moving Reference Frame (SRF)</source>
+      <translation>Рухомая сістэма адліку (SRF)</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="266"/>
+      <source>RPM</source>
+      <translation>Абаротаў у хвіліну (RPM)</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="270"/>
+      <source>Center of Rotation</source>
+      <translation>Цэнтр вярчэння</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="278"/>
+      <source>Rotational Axis</source>
+      <translation>Вось вярчэння</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="286"/>
+      <source>Fluid Properties</source>
+      <translation>Уласцівасці вадкасці</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="292"/>
+      <source>Not defined.</source>
+      <translation>Не вызначаны.</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="301"/>
+      <source>Material Name</source>
+      <translation>Назва матэрыялу</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="315"/>
+      <source>Initialize Flow Field</source>
+      <translation>Ініцыялізаваць поле патоку</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="766"/>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="758"/>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="324"/>
+      <source>Velocity</source>
+      <translation>Хуткасць</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="339"/>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="326"/>
+      <source>Potential flow</source>
+      <translation>Патэнцыйны паток</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="373"/>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="365"/>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="341"/>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="328"/>
+      <source>Use values from boundary &apos;{}&apos;</source>
+      <translation>Ужыць значэнні з мяжы '{}'</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="347"/>
+      <source>Volume Fractions</source>
+      <translation>Аб'ёмныя суадносіны</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="351"/>
+      <source>None</source>
+      <translation>Нічога</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="364"/>
+      <source>Thermal</source>
+      <translation>Цеплавы</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="367"/>
+      <source>Temperature</source>
+      <translation>Тэмпература</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="378"/>
+      <source>Model</source>
+      <translation>Мадэль</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="417"/>
+      <source>Solver</source>
+      <translation>Сродак рашэння</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="426"/>
+      <source>Convergence tolerance</source>
+      <translation>Допуск канвергенцыі</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="430"/>
+      <source>Max iterations</source>
+      <translation>Найбольшая колькасць крокаў</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="434"/>
+      <source>Iteration write interval</source>
+      <translation>Інтэрвал запісу кроку</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="439"/>
+      <source>Parallel cores</source>
+      <translation>Паралельныя стрыжні</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="443"/>
+      <source>Starting from</source>
+      <translation>Пачаць з</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="448"/>
+      <source>End time</source>
+      <translation>Час заканчэння</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="452"/>
+      <source>Time step</source>
+      <translation>Перыяд часу</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="456"/>
+      <source>Max CFL number</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="460"/>
+      <source>Max free-surface CFL number</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="464"/>
+      <source>Transient write interval</source>
+      <translation>Часовы запісу кроку</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="468"/>
+      <source>Mesher</source>
+      <translation>Сродак стварэння паліганальных сетак</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="476"/>
+      <source>Mesh utility</source>
+      <translation>Утыліты сеткі</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="480"/>
+      <source>Base element size</source>
+      <translation>Памер асноўнага элементу</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="485"/>
+      <source>Cells between levels</source>
+      <translation>Клетак паміж узроўнямі</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="489"/>
+      <source>Relative edge refinement</source>
+      <translation>Адноснае ўдакладненне рэбраў</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="493"/>
+      <source>Edge detection</source>
+      <translation>Выяўленне рабра</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="495"/>
+      <source>Implicit</source>
+      <translation>Няяўны</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="497"/>
+      <source>Explicit</source>
+      <translation>Яўны</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="500"/>
+      <source>STL relative linear deflection</source>
+      <translation>Адноснае лінейнае адхіленне STL</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="504"/>
+      <source>STL angulat mesh density</source>
+      <translation>Шчыльнасць вуглавой сеткі STL</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="508"/>
+      <source>Convert to dual mesh</source>
+      <translation>Пераўтварыць у падвоеную сетку</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="511"/>
+      <source>Refinements</source>
+      <translation>Удакладненне</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="656"/>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="521"/>
+      <source>Name</source>
+      <translation>Назва</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="525"/>
+      <source>Refinement type</source>
+      <translation>Тып удакладнення</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="527"/>
+      <source>Volume</source>
+      <translation>Аб'ём</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="615"/>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="530"/>
+      <source>Relative element size</source>
+      <translation>Адносны памер элемента</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="533"/>
+      <source>Extrusion</source>
+      <translation>Выдушванне</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="536"/>
+      <source>Extrusion type</source>
+      <translation>Тып выдушвання</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="596"/>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="546"/>
+      <source>Axis point</source>
+      <translation>Кропка восі</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="604"/>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="554"/>
+      <source>Axis direction</source>
+      <translation>Напрамак восі</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="580"/>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="563"/>
+      <source>Keep existing mesh</source>
+      <translation>Пакінуць існуючую сетку</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="588"/>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="571"/>
+      <source>Number of layers</source>
+      <translation>Колькасць узроўняў</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="628"/>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="592"/>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="575"/>
+      <source>Expansion ratio</source>
+      <translation>Каэфіцыент пашырэння</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="584"/>
+      <source>Angle</source>
+      <translation>Вугал</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="612"/>
+      <source>Surface</source>
+      <translation>Паверхня</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="619"/>
+      <source>Refinement thickness</source>
+      <translation>Таўшчыня ўдакладнення</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="624"/>
+      <source>Boundary layers</source>
+      <translation>Межы ўзроўняў</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="632"/>
+      <source>Max first cell height</source>
+      <translation>Найбольшая вышыня першай клеткі</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="643"/>
+      <source>Boundary Conditions</source>
+      <translation>Межавыя ўмовы</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="665"/>
+      <source>Sub type</source>
+      <translation>Укладзены тып</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="669"/>
+      <source>Default boundary</source>
+      <translation>Першапачатковая мяжа</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="690"/>
+      <source>Slip ratio</source>
+      <translation>Каэфіцыент слізгацення</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="698"/>
+      <source>Roughness height (Ks)</source>
+      <translation>Вышыня шурпатасці (Ks)</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="702"/>
+      <source>Roughness constant (Cs)</source>
+      <translation>Пастаянная шурпатасць (Cs)</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="717"/>
+      <source>Volume flow rate</source>
+      <translation>Аб'ёмны расход</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="724"/>
+      <source>Mass flow rate</source>
+      <translation>Масавы расход</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="770"/>
+      <source>Face</source>
+      <translation>Грань</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="774"/>
+      <source>Inward normal</source>
+      <translation>Адваротная нармаль</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="789"/>
+      <source>Intensity &amp; Length scale</source>
+      <translation>Шкала інтэнсіўнасці і працягласці</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="792"/>
+      <source>Turbulence intensity (I)</source>
+      <translation>Інтэнсіўнасць турбулентнасці (I)</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="796"/>
+      <source>Length scale (l)</source>
+      <translation>Шкала даўжыні (l)</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="800"/>
+      <source>Kinetic energy &amp; Specific dissipation rate</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="814"/>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="803"/>
+      <source>Turbulence kinetic energy (k)</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="807"/>
+      <source>Specific dissipation rate (ω)</source>
+      <translation>Удзельная хуткасць рассейвання (ω)</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="811"/>
+      <source>Kinetic Energy &amp; Turbulent viscosity</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="818"/>
+      <source>Turbulent viscosity (v)</source>
+      <translation>Турбулентная глейкасць (v)</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="886"/>
+      <source>True</source>
+      <translation>Так</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="888"/>
+      <source>False</source>
+      <translation>Не</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="891"/>
+      <source>Run status</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="893"/>
+      <source>Total run time: {}</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="899"/>
+      <source>Run Time</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="900"/>
+      <source>Status</source>
+      <translation>Стан</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="912"/>
+      <source>Unknown</source>
+      <translation>Невядомы</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="918"/>
+      <source>Center of Pressure</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="923"/>
+      <source>Center of Pressure at multiple angles of attack with the rocket rotated around the center point.</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="926"/>
+      <source>CP = X0 - My / (Fz * cos(AOA) + Fx * sin(AOA))</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="1087"/>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="1012"/>
+      <source>Angle of Attack (degrees)</source>
+      <translation>Вугал атакі (градусы)</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="1013"/>
+      <source>Center of Pressure (mm)</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="1023"/>
+      <source>Lift and Drag</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="1024"/>
+      <source>Lift and Drag coefficients at multiple angles of attack with the rocket rotated around the center point.</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="1325"/>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="1088"/>
+      <source>Coefficient</source>
+      <translation>Каэфіцыэнт</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="1098"/>
+      <source>Run Data</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="1101"/>
+      <source>Angle of Attack={}</source>
+      <translation>Вугал атакі={}</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="1324"/>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="1292"/>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="1271"/>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="1231"/>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="1210"/>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="1145"/>
+      <source>Iteration</source>
+      <translation>Крок</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="1146"/>
+      <source>Residual</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="1232"/>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="1211"/>
+      <source>Force [N]</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="1293"/>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="1272"/>
+      <source>Moment</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Ui/TaskPanelMultiCFD.py" line="181"/>
+      <source>Time: </source>
+      <translation>Час: </translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Ui/TaskPanelMultiCFD.py" line="253"/>
+      <source>Preparing report...</source>
+      <translation>Падрыхтоўка справаздачы…</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Ui/TaskPanelMultiCFD.py" line="259"/>
+      <source>Report complete</source>
+      <translation>Справаздача завершана</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Ui/TaskPanelMultiCFD.py" line="291"/>
+      <source>Preparing for AOA={}...</source>
+      <translation>Падрыхтоўка да вугла атакі = {}…</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Ui/TaskPanelMultiCFD.py" line="298"/>
+      <source>No rocket found</source>
+      <translation>Ракета не выяўлена</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Ui/TaskPanelCFDRocket.py" line="45"/>
+      <source>CFD Rocket Parameter</source>
+      <translation>Налады вылічальнай гідрадынамікі ракеты</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Ui/TaskPanelCFDRocket.py" line="54"/>
+      <source>Rotation</source>
+      <translation>Вярчэнне</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Ui/TaskPanelWindTunnel.py" line="57"/>
+      <source>Wind Tunnel Parameter</source>
+      <translation>Налада аэрадынамічнай трубы</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/ShapeHandlers/WindTunnelShapeHandler.py" line="48"/>
+      <source>Wind tunnel diameter must be greater than zero</source>
+      <translation>Дыяметр аэрадынамічнай трубы павінен быць больш за нуль</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/ShapeHandlers/WindTunnelShapeHandler.py" line="51"/>
+      <source>Wind tunnel length must be greater than zero</source>
+      <translation>Даўжыня аэрадынамічнай трубы павінна быць больш за 0</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/ShapeHandlers/WindTunnelShapeHandler.py" line="64"/>
+      <source>Wind tunnel parameters produce an invalid shape</source>
+      <translation>Налады аэрадынамічнай трубы прыводзяць да няправільнай фігуры</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/RocketComponentShapeless.py" line="602"/>
+      <source>setAxialOffset is broken -- attempted to update as NaN: </source>
+      <translation>Функцыя setAxialOffset пашкоджана -- спроба ўсталяваць значэнне NaN: </translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/RocketComponentShapeless.py" line="695"/>
+      <source>component {} is already in a tree</source>
+      <translation>кампанент {} ужо знаходзіцца ў дрэве</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/RocketComponentShapeless.py" line="699"/>
+      <source>Component {} is a parent of {}, attempting to create cycle in tree.</source>
+      <translation>Кампанент {} з'яўляецца бацькоўскім для {}, які спрабуе стварыць цыкл у дрэве.</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/RocketComponentShapeless.py" line="703"/>
+      <source>Unsupported configuration: {}  not currently compatible with component: {}</source>
+      <translation>Непадтрыманая канфігурацыя: {} у бягучы час не сумяшчальная з кампанентам: {}</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/RocketComponentShapeless.py" line="794"/>
+      <source>getRocket() called with root component {}</source>
+      <translation>Функцыя getRocket () выклікаецца з каранёвым кампанентам {}</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/RocketComponentShapeless.py" line="806"/>
+      <source>getStage() called on hierarchy without a FeatureStage component.</source>
+      <translation>Функцыя getStage () выклікаецца для іерархіі без кампанента характарыстыкі ступені (FeatureStage).</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/Exporter/OpenRocket/OpenRocket.py" line="163"/>
+      <location filename="../../Rocket/Exporter/OpenRocket/OpenRocket.py" line="160"/>
+      <source>Please select a rocket object</source>
+      <translation>Абярыце аб'ект ракеты</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeaturePod.py" line="152"/>
+      <source>found a pod positioned via: AFTER, but is not on the centerline?!: {}  is {}</source>
+      <translation>Знойдзены рухавік, які размешчаны: пасля, але не на цэнтральнай лініі?!: {} ёсць {}</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ComponentAssembly.py" line="66"/>
+      <source>A Stage requires a parent before any positioning!</source>
+      <translation>Ступень патрабуе прысутнасці бацькоўскага элементу перад любым пазіцыянаваннем!</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/Importer/OpenRocket/InnerTubeElement.py" line="65"/>
+      <source>Unknown cluster configuration</source>
+      <translation>Невядомая канфігурацыя вузла</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/Importer/OpenRocket/OpenRocket.py" line="63"/>
+      <source>Unsupported OpenRocket file version {}</source>
+      <translation>Непадтрыманая версія файла OpenRocket {}</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/Importer/Rocksim/Rocksim.py" line="208"/>
+      <location filename="../../Rocket/Importer/OpenRocket/OpenRocket.py" line="177"/>
+      <source>Unable to complete import</source>
+      <translation>Не атрымалася завяршыць імпартаванне</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/Constants.py" line="163"/>
+      <source>Top of the parent component</source>
+      <translation>Верхні бок бацькоўскага кампанента</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/Constants.py" line="164"/>
+      <source>Middle of the parent component</source>
+      <translation>Сярэдзіна бацькоўскага кампанента</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/Constants.py" line="165"/>
+      <source>Bottom of the parent component</source>
+      <translation>Ніжні бок бацькоўскага кампанента</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/Constants.py" line="166"/>
+      <source>Base of the rocket</source>
+      <translation>Аснова ракеты</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/Constants.py" line="167"/>
+      <source>After the target component</source>
+      <translation>Пасля мэтавага кампанента</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/Constants.py" line="168"/>
+      <source>Surface of the parent component</source>
+      <translation>Паверхня бацькоўскага кампанента</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/Constants.py" line="169"/>
+      <source>Center of the parent component</source>
+      <translation>Цэнтр бацькоўскага кампанента</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureFinCan.py" line="195"/>
+      <source>Unknown fin can style</source>
+      <translation>Невядомы стыль корпуса крыла</translation>
+    </message>
+  </context>
+  <context>
+    <name>Dialog</name>
+    <message>
+      <source>Body Scale Pair Matching</source>
+      <translation>Супастаўленне пары маштабавання корпусаў</translation>
+    </message>
+    <message>
+      <source>Tolerance (%)</source>
+      <translation>Дакладнасць (%)</translation>
+    </message>
+    <message>
+      <source>Matches a specific scale value.</source>
+      <translation>Адпавядае пэўнаму значэнню маштабавання.</translation>
+    </message>
+    <message>
+      <source>Scale by value</source>
+      <translation>Маштабаваць па значэнні</translation>
+    </message>
+    <message>
+      <source>Specifies a minumum body diameter.</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Minimum diameter</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Search for body tube pairs.</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Search</source>
+      <translation>Знайсці</translation>
+    </message>
+    <message>
+      <source>Reference diameter 2</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Sets a specific scale value for matching.</source>
+      <translation>Задае пэўнае значэнне маштабавання для супастаўлення.</translation>
+    </message>
+    <message>
+      <source>Sets the scale value using the currently selected body tube.</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Set Scale</source>
+      <translation>Задаць маштабаванне</translation>
+    </message>
+    <message>
+      <source>Adds the currently selected body tube to the rocket assembly.</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Add to Document</source>
+      <translation>Дадаць да дакументу</translation>
+    </message>
+    <message>
+      <source>Export matching results to CSV.</source>
+      <translation>Экспартаваць вынікі супастаўлення ў CSV.</translation>
+    </message>
+    <message>
+      <source>Export CSV</source>
+      <translation>Экспартаваць у CSV</translation>
+    </message>
+    <message>
+      <source>Reference</source>
+      <translation>Апорная паверхня</translation>
+    </message>
+    <message>
+      <source>Diameter is matched to the first reference diameter.</source>
+      <translation>Дыяметр адпавядае першаму апорнаму дыяметру.</translation>
+    </message>
+    <message>
+      <source>Diameter 1</source>
+      <translation>Дыяметр 1</translation>
+    </message>
+    <message>
+      <source>Diameter is matched to the second reference diameter.</source>
+      <translation>Дыяметр адпавядае другому апорнаму дыяметру.</translation>
+    </message>
+    <message>
+      <source>Diameter 2</source>
+      <translation>Дыяметр 2</translation>
+    </message>
+    <message>
+      <source>Specifies a maximum body diameter.</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Scale reference used to match diameter.</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Reference diameter 1</source>
+      <translation>Апорны дыяметр 1</translation>
+    </message>
+    <message>
+      <source>Maximum diameter</source>
+      <translation>Найбольшы дыяметр</translation>
+    </message>
+    <message>
+      <source>Maximum error in the matched body diameter.</source>
+      <translation>Найбольшая хібнасць у падборы дыяметра корпуса.</translation>
+    </message>
+    <message>
+      <source>Sets the desired body diameter.</source>
+      <translation>Задае жаданы дыяметр корпуса.</translation>
+    </message>
+    <message>
+      <source>mm</source>
+      <translation>мм</translation>
+    </message>
+    <message>
+      <source>Sets the scale by matching the reference diameter to aa desired diameter,</source>
+      <translation>Задае маштабаванне, супастаўляючы апорны дыяметр з жаданым дыяметрам,</translation>
+    </message>
+    <message>
+      <source>Scale by diameter</source>
+      <translation>Маштабаваць па дыяметры</translation>
+    </message>
+    <message>
+      <source>Matches aany scale value.</source>
+      <translation>Адпавядае любому значэнні маштабавання.</translation>
+    </message>
+    <message>
+      <source>Any scale</source>
+      <translation>Любое маштабаванне</translation>
+    </message>
+    <message>
+      <source>Fin Flutter Analysis</source>
+      <translation>Аналіз дрыгацення крыла</translation>
+    </message>
+    <message>
+      <source>Material</source>
+      <translation>Матэрыял</translation>
+    </message>
+    <message>
+      <source>Assign the currently selected material to the fin</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Assign Material to FIn</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>The shear modulus of the fin material. This can be obtained from the material properties, or calculated using the Young&apos;s modulus and poisson ratio.</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Shear modulus</source>
+      <translation>Модуль пругкасці зруху</translation>
+    </message>
+    <message>
+      <source>Poisson ratio</source>
+      <translation>Каэфіцыент Пуасона</translation>
+    </message>
+    <message>
+      <source>The Young&apos;s modulus of the fin material. This is only required to calculate shear modulus.</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Young&apos;s modulus</source>
+      <translation>Модуль Юнга</translation>
+    </message>
+    <message>
+      <source>The poisson ratio of the fin material. This is only required to calculate shear modulus.</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Calculates the shear modulus using the Young&apos;s modulus and poisson ration when checked.</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Calculated</source>
+      <translation>Вылічаны</translation>
+    </message>
+    <message>
+      <source>Approximates the effect of tip to tip reinforcement by doubling the value of the shear modulus. This is ONLY an approximation.</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Aproximate Tip to Tip Reinforcement</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Launch Conditions</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Launch Site</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Altitude</source>
+      <translation>Вышыня палёту</translation>
+    </message>
+    <message>
+      <source>Launch site</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>A list of known launch sites. Selecting the site will automatically set the launch site altitude.</source>
+      <translation>Спіс вядомых месцаў запуску.
+Пры выбары месца аўтаматычна задаецца вышыня над узроўнем мора.</translation>
+    </message>
+    <message>
+      <source>The altitude of the launch site. This can be set manually or by selecting a known launch site.</source>
+      <translation>Вышыня месца запуску.
+Значэнне можна задаць уручную, альбо абраўшы вядомае месца запуску.</translation>
+    </message>
+    <message>
+      <source>Temperature</source>
+      <translation>Тэмпература</translation>
+    </message>
+    <message>
+      <source>Launch air temperature</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Atmospheric model</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>The atmospheric model used to calculate temperatures at different altitudes.</source>
+      <translation>Атмасферная мадэль, якая ўжываецца для разліку тэмператур на розных вышынях.</translation>
+    </message>
+    <message>
+      <source>Units used for air temperature.</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>The air temperature at the launch site.</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Use a default sea level temperature instead of the launch site temperature. This will often be used when the launch site temperature is unknown.</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Use default sea level temperature (15 C/ 59 F)</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Fin Flutter</source>
+      <translation>Дрыгаценне крыла</translation>
+    </message>
+    <message>
+      <source>Maximum altitude</source>
+      <translation>Найбольшая вышыня палёту</translation>
+    </message>
+    <message>
+      <source>Altitude at max speed</source>
+      <translation>Вышыня палёту на найбольшай хуткасці</translation>
+    </message>
+    <message>
+      <source>Sets the altitude range for the slider and graph.</source>
+      <translation>Задае дыяпазон вышынь для паўзунка і графіка.</translation>
+    </message>
+    <message>
+      <source>Maximum speed</source>
+      <translation>Найбольшая хуткасць</translation>
+    </message>
+    <message>
+      <source>The expected altitude Above Ground Level (AGL) at which the rocket will be travelling at max speed.</source>
+      <translation>Чаканая вышыня над узроўнем зямлі, на якой ракета будзе рухацца з найбольшай хуткасцю.</translation>
+    </message>
+    <message>
+      <source>The expected maximum speed for the rocket. This is not required to calculate flutter or divergence but is required to determine safety margins.</source>
+      <translation>Чаканая найбольшая хуткасць ракеты.
+Не патрабуецца для разліку дрыгацення ці разыходжання, але неабходна для вызначэння запасу трываласці.</translation>
+    </message>
+    <message>
+      <source>Sets the altitude at max speed in the range from 0 to maximum altitude.</source>
+      <translation>Задае вышыню палёту на найбольшай хуткасці ў дыяпазоне ад 0 да найбольшай вышыні.</translation>
+    </message>
+    <message>
+      <source>The flutter speed in Mach for the fin at the selected altitude.</source>
+      <translation>Хуткасць дрыгацення ў Маха для крыла на абранай вышыні.</translation>
+    </message>
+    <message>
+      <source>The divergence speed in Mach for the fin at the selected altitude.</source>
+      <translation>Хуткасць разыходжання ў Маха для крыла на абранай вышыні.</translation>
+    </message>
+    <message>
+      <source>The divergence speed for the fin at the selected altitude.</source>
+      <translation>Хуткасць разыходжання для крыла на абранай вышыні.</translation>
+    </message>
+    <message>
+      <source>Divergence speed</source>
+      <translation>Хуткасць разыходжання</translation>
+    </message>
+    <message>
+      <source>Flutter speed</source>
+      <translation>Хуткасць дрыгацення</translation>
+    </message>
+    <message>
+      <source>Margin</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Mach</source>
+      <translation>Мах</translation>
+    </message>
+    <message>
+      <source>The flutter speed for the fin at the selected altitude.</source>
+      <translation>Хуткасць дрыгацення для крыла на абранай вышыні.</translation>
+    </message>
+    <message>
+      <source>The safety margin of the fin based on the flutter speed and the specified maximum speed.</source>
+      <translation>Запас трываласці крыла залежыць ад хуткасці дрыгацення і паказанай найбольшай хуткасці.</translation>
+    </message>
+    <message>
+      <source>The safety margin of the fin based on the divergence speed and the specified maximum speed.</source>
+      <translation>Запас трываласці крыла залежыць ад хуткасці разыходжання і паказанай найбольшай хуткасці.</translation>
+    </message>
+    <message>
+      <source>Nose Cone Parameter</source>
+      <translation>Налада носіка абцякальніка</translation>
+    </message>
+    <message>
+      <source>General</source>
+      <translation>Агульны</translation>
+    </message>
+    <message>
+      <source>Shape parameter</source>
+      <translation>Налада фігуры</translation>
+    </message>
+    <message>
+      <source>Length</source>
+      <translation>Даўжыня</translation>
+    </message>
+    <message>
+      <source>Diameter</source>
+      <translation>Дыяметр</translation>
+    </message>
+    <message>
+      <source>Nose cone shape</source>
+      <translation>Фігура носіка абцякальніка</translation>
+    </message>
+    <message>
+      <source>Blunted diameter</source>
+      <translation>Прытуплены дыяметр</translation>
+    </message>
+    <message>
+      <source>Ogive diameter</source>
+      <translation>Дыяметр ажывальнай формы</translation>
+    </message>
+    <message>
+      <source>Nose Cap</source>
+      <translation>Носік кончыка</translation>
+    </message>
+    <message>
+      <source>Cap style</source>
+      <translation>Стыль кончыка</translation>
+    </message>
+    <message>
+      <source>Bar width</source>
+      <translation>Шырыня панэлі</translation>
+    </message>
+    <message>
+      <source>Style</source>
+      <translation>Стыль</translation>
+    </message>
+    <message>
+      <source>Thickness</source>
+      <translation>Таўшчыня</translation>
+    </message>
+    <message>
+      <source>Auto</source>
+      <translation>Аўтаматычны</translation>
+    </message>
+    <message>
+      <source>Select</source>
+      <translation>Абраць</translation>
+    </message>
+    <message>
+      <source>Base object</source>
+      <translation>Асноўны аб'ект</translation>
+    </message>
+    <message>
+      <source>Effective diameter</source>
+      <translation>Эфектыўны дыяметр</translation>
+    </message>
+    <message>
+      <source>Placement</source>
+      <translation>Размяшчэнне</translation>
+    </message>
+    <message>
+      <source>y</source>
+      <translation>Y</translation>
+    </message>
+    <message>
+      <source>z</source>
+      <translation>Z</translation>
+    </message>
+    <message>
+      <source>Rotation</source>
+      <translation>Вярчэнне</translation>
+    </message>
+    <message>
+      <source>x</source>
+      <translation>X</translation>
+    </message>
+    <message>
+      <source>Offset</source>
+      <translation>Зрушэнне</translation>
+    </message>
+    <message>
+      <source>Show base plane</source>
+      <translation>Паказаць асноўную плоскасць</translation>
+    </message>
+    <message>
+      <source>Shoulder</source>
+      <translation>Плячо</translation>
+    </message>
+    <message>
+      <source>Transition Parameter</source>
+      <translation>Налады пераходу</translation>
+    </message>
+    <message>
+      <source>Aft Cap</source>
+      <translation>Задні кончык</translation>
+    </message>
+    <message>
+      <source>Transition shape</source>
+      <translation>Фігура пераходу</translation>
+    </message>
+    <message>
+      <source>Forward Cap</source>
+      <translation>Пярэдні кончык</translation>
+    </message>
+    <message>
+      <source>Forward diameter</source>
+      <translation>Пярэдні дыяметр</translation>
+    </message>
+    <message>
+      <source>Aft diameter</source>
+      <translation>Задні дыяметр</translation>
+    </message>
+    <message>
+      <source>Core diameter</source>
+      <translation>Дыяметр стрыжня</translation>
+    </message>
+    <message>
+      <source>Clipped</source>
+      <translation>Абрэзаны</translation>
+    </message>
+    <message>
+      <source>Effective forward diameter</source>
+      <translation>Эфектыўны пярэдні дыяметр</translation>
+    </message>
+    <message>
+      <source>Effective aft diameter</source>
+      <translation>Эфектыўны задні дыяметр</translation>
+    </message>
+    <message>
+      <source>Forward offset</source>
+      <translation>Пярэдяне зрушэнне</translation>
+    </message>
+    <message>
+      <source>Aft offset</source>
+      <translation>Задняе зрушэнне</translation>
+    </message>
+    <message>
+      <source>Show forward base plane</source>
+      <translation>Паказаць пярэднюю асноўную плоскасць</translation>
+    </message>
+    <message>
+      <source>Show aft base plane</source>
+      <translation>Паказаць заднюю асноўную плоскасць</translation>
+    </message>
+    <message>
+      <source>Forward Shoulder</source>
+      <translation>Пярэдняе плячо</translation>
+    </message>
+    <message>
+      <source>Aft Shoulder</source>
+      <translation>Задняе плячо</translation>
+    </message>
+    <message>
+      <source>Dialog</source>
+      <translation>Дыялогавае акно</translation>
+    </message>
+    <message>
+      <source>Enables scaling.</source>
+      <translation>Уключае маштабаванне</translation>
+    </message>
+    <message>
+      <source>Scaling</source>
+      <translation>Маштабаванне</translation>
+    </message>
+    <message>
+      <source>Fore</source>
+      <translation>Пярэдні</translation>
+    </message>
+    <message>
+      <source>Aft</source>
+      <translation>Задні</translation>
+    </message>
+    <message>
+      <source>Scaling values are inherited from the parent component. Enabling override uses the current values instead.</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Override</source>
+      <translation>Перавызначаны</translation>
+    </message>
+    <message>
+      <source>Upscale</source>
+      <translation>Пашырэнне</translation>
+    </message>
+    <message>
+      <source>By value</source>
+      <translation>Па значэнні</translation>
+    </message>
+    <message>
+      <source>By body diameter</source>
+      <translation>Па дыяметры корпуса</translation>
+    </message>
+    <message>
+      <source>By height</source>
+      <translation>Па вышыні</translation>
+    </message>
+    <message>
+      <source>By root chord</source>
+      <translation>Па хордзе кораня</translation>
+    </message>
+    <message>
+      <source>Lookup...</source>
+      <translation>Пошук…</translation>
+    </message>
+    <message>
+      <source>Scaled Values</source>
+      <translation>Маштабаваныя значэнні</translation>
+    </message>
+    <message>
+      <source>Assign the scaled dimensions to the stage</source>
+      <translation>Прызначыць маштабаванне вымярэнню ступені</translation>
+    </message>
+    <message>
+      <source>Set Stage</source>
+      <translation>Задаць ступень</translation>
+    </message>
+    <message>
+      <source>Assign the scaled dimensions to the rocket</source>
+      <translation>Прызначыць маштабаванне вымярэнню ракеты</translation>
+    </message>
+    <message>
+      <source>Set Rocket</source>
+      <translation>Задаць ракету</translation>
+    </message>
+    <message>
+      <source>Assign the scaled dimensions to the part</source>
+      <translation>Прызначыць маштабаванне вымярэнню фюзеляжа</translation>
+    </message>
+    <message>
+      <source>Set Part</source>
+      <translation>Задаць фюзеляж</translation>
+    </message>
+    <message>
+      <source>Scale</source>
+      <translation>Маштабаванне</translation>
+    </message>
+    <message>
+      <source>Height</source>
+      <translation>Вышыня</translation>
+    </message>
+    <message>
+      <source>Tip thickness</source>
+      <translation>Таўшчыня наканечніка</translation>
+    </message>
+    <message>
+      <source>Root thickness</source>
+      <translation>Таўшчыня кораня</translation>
+    </message>
+    <message>
+      <source>Root chord</source>
+      <translation>Хорда кораня</translation>
+    </message>
+    <message>
+      <source>Tip chord</source>
+      <translation>Хорда наканечніка</translation>
+    </message>
+  </context>
+  <context>
+    <name>DialogCFD</name>
+    <message>
+      <source>CFD Study</source>
+      <translation>Даследванне вылічальнай гідрадынамікі</translation>
+    </message>
+    <message>
+      <source>Rocket Parameters</source>
+      <translation>Налады ракеты</translation>
+    </message>
+    <message>
+      <source>Minimum thickness of all fins.</source>
+      <translation>Найменшыя таўшчыні ўсіх крылаў.</translation>
+    </message>
+    <message>
+      <source>Length</source>
+      <translation>Даўжыня</translation>
+    </message>
+    <message>
+      <source>Minimum fin thickness</source>
+      <translation>Найменшая таўшчыня крыла</translation>
+    </message>
+    <message>
+      <source>The total length of the rocket assembly</source>
+      <translation>Агульная даўжыня зборкі ракеты</translation>
+    </message>
+    <message>
+      <source>Main body diameter.</source>
+      <translation>Дыяметр галоўнага корпусу.</translation>
+    </message>
+    <message>
+      <source>Diameter</source>
+      <translation>Дыяметр</translation>
+    </message>
+    <message>
+      <source>Frontal area</source>
+      <translation>Пярэдняя вобласць</translation>
+    </message>
+    <message>
+      <source>Area facing the direction of travel.</source>
+      <translation>Вобласць, якая звернутая да напрамку руху.</translation>
+    </message>
+    <message>
+      <source>Altitude above sea level.</source>
+      <translation>Вышыня палёту над узроўнем мора.</translation>
+    </message>
+    <message>
+      <source>Speed of the rocket during the simulation.</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Altitude</source>
+      <translation>Вышыня палёту</translation>
+    </message>
+    <message>
+      <source>Speed</source>
+      <translation>Хуткасць</translation>
+    </message>
+    <message>
+      <source>Number of processors</source>
+      <translation>Колькасць працэсараў</translation>
+    </message>
+    <message>
+      <source>Mach</source>
+      <translation>Мах</translation>
+    </message>
+    <message>
+      <source>Rotation around the X axis.</source>
+      <translation>Вярчэнне вакол восі X.</translation>
+    </message>
+    <message>
+      <source>Angle(s) Of Attack (AOA)</source>
+      <translation>Вуглы атакі (AOA)</translation>
+    </message>
+    <message>
+      <source>Angle of rotation</source>
+      <translation>Вугал вярчэння</translation>
+    </message>
+    <message>
+      <source>Mach number of the rocket during the simulation.</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>0 </source>
+      <translation>0 </translation>
+    </message>
+    <message>
+      <source>Number of processors to use during CFD simulation.</source>
+      <translation>Колькасць працэсараў, якая ўжываецца пры мадэляванні вылічальнай гідрадынамікі.</translation>
+    </message>
+    <message>
+      <source>Angles of attack in degrees, one entry per line</source>
+      <translation>Вуглы атакі ў градусах, па аднаму запісу на радок</translation>
+    </message>
+    <message>
+      <source>2</source>
+      <translation>2</translation>
+    </message>
+  </context>
+  <context>
+    <name>DialogLookup</name>
+    <message>
+      <source>Component lookup...</source>
+      <translation>Пошук кампанентаў…</translation>
+    </message>
+    <message>
+      <source>Tolerance (%)</source>
+      <translation>Дакладнасць (%)</translation>
+    </message>
+    <message>
+      <source>Match component</source>
+      <translation>Супаставіць кампанент</translation>
+    </message>
+    <message>
+      <source>Search</source>
+      <translation>Знайсці</translation>
+    </message>
+    <message>
+      <source>Match the diameter of the component</source>
+      <translation>Супаставіць дыяметр кампанента</translation>
+    </message>
+    <message>
+      <source>Diameter</source>
+      <translation>Дыяметр</translation>
+    </message>
+    <message>
+      <source>Match the aft diameter of the component</source>
+      <translation>Супаставіць задні дыяметр кампанента</translation>
+    </message>
+    <message>
+      <source>Aft diameter</source>
+      <translation>Задні дыяметр</translation>
+    </message>
+    <message>
+      <source>Match the length of the component</source>
+      <translation>Супаставіць даўжыню кампанента</translation>
+    </message>
+    <message>
+      <source>Length</source>
+      <translation>Даўжыня</translation>
+    </message>
+    <message>
+      <source>Component</source>
+      <translation>Кампанент</translation>
+    </message>
+    <message>
+      <source>Rows</source>
+      <translation>Радкі</translation>
+    </message>
+    <message>
+      <source>0</source>
+      <translation>0</translation>
+    </message>
+  </context>
+  <context>
+    <name>Form</name>
+    <message>
+      <source>Form</source>
+      <translation>Форма</translation>
+    </message>
+    <message>
+      <source>Parameters</source>
+      <translation>Налады</translation>
+    </message>
+    <message>
+      <source>Angle of the rocket relative to the airstream aalso known as the Angle of Attack (AOA)</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Angle(s) of Attack (AOA)</source>
+      <translation>Вуглы атакі (AOA)</translation>
+    </message>
+    <message>
+      <source>Use average of last N values</source>
+      <translation>Ужыць сярэдняе значэнне апошніх N значэнняў</translation>
+    </message>
+    <message>
+      <source>Average last N</source>
+      <translation>Сярэдняе апошніх N значэнняў</translation>
+    </message>
+    <message>
+      <source>Use average of last N values.</source>
+      <translation>Ужыць сярэдняе значэнне апошніх N значэнняў.</translation>
+    </message>
+    <message>
+      <source>Use the same folder for each mesh. This can result in a substantial reduction of required disk space</source>
+      <translation>Ужыць той жа каталог для кожнай сеткі.
+Можа прывесці да істотнага скарачэння запатрабаванай дыскавай прасторы</translation>
+    </message>
+    <message>
+      <source>Reuse mesh folder</source>
+      <translation>Паўторнае выкарыстанне каталога сеткі</translation>
+    </message>
+    <message>
+      <source>Start the simulation.</source>
+      <translation>Пачаць мадэляванне.</translation>
+    </message>
+    <message>
+      <source>Start</source>
+      <translation>Пачаць</translation>
+    </message>
+    <message>
+      <source>Stop the simulation.</source>
+      <translation>Спыніць мадэляванне.</translation>
+    </message>
+    <message>
+      <source>Stop</source>
+      <translation>Спыніць</translation>
+    </message>
+    <message>
+      <source>Status</source>
+      <translation>Стан</translation>
+    </message>
+    <message>
+      <source>Time:</source>
+      <translation>Час:</translation>
+    </message>
+  </context>
+  <context>
+    <name>TaskPanelFin</name>
+    <message>
+      <source>Fin Parameter</source>
+      <translation>Налада крыла</translation>
+    </message>
+    <message>
+      <source>General</source>
+      <translation>Агульны</translation>
+    </message>
+    <message>
+      <source>Sweep angle</source>
+      <translation>Вугал скосу</translation>
+    </message>
+    <message>
+      <source>Height</source>
+      <translation>Вышыня</translation>
+    </message>
+    <message>
+      <source>Span</source>
+      <translation>Пралёт</translation>
+    </message>
+    <message>
+      <source>auto</source>
+      <translation>аўтаматычны</translation>
+    </message>
+    <message>
+      <source>Sweep length</source>
+      <translation>Даўжыня скосу</translation>
+    </message>
+    <message>
+      <source>Fin type</source>
+      <translation>Тып крыла</translation>
+    </message>
+    <message>
+      <source>Fin cant</source>
+      <translation>Хвост крыла</translation>
+    </message>
+    <message>
+      <source>Fin Set</source>
+      <translation>Набор крылаў</translation>
+    </message>
+    <message>
+      <source>Fin count</source>
+      <translation>Колькасць крылаў</translation>
+    </message>
+    <message>
+      <source>Fin spacing</source>
+      <translation>Адлегласць паміж крыламі</translation>
+    </message>
+    <message>
+      <source>FIn Root</source>
+      <translation>Корань крыла</translation>
+    </message>
+    <message>
+      <source>When checked lengths are a percentage of the root chord</source>
+      <translation>Калі птушка, даўжыня вызначаецца ў адсотках ад даўжыні хорды кораня</translation>
+    </message>
+    <message>
+      <source>Use percentage</source>
+      <translation>Ужыць адсоткі</translation>
+    </message>
+    <message>
+      <source>Thickness</source>
+      <translation>Таўшчыня</translation>
+    </message>
+    <message>
+      <source>Chord</source>
+      <translation>Хорда</translation>
+    </message>
+    <message>
+      <source>Length 1</source>
+      <translation>Даўжыня 1</translation>
+    </message>
+    <message>
+      <source>Length 2</source>
+      <translation>Даўжыня 2</translation>
+    </message>
+    <message>
+      <source>Cross section</source>
+      <translation>Папярочны перасек</translation>
+    </message>
+    <message>
+      <source>Fin Tip</source>
+      <translation>Наканечнік крыла</translation>
+    </message>
+    <message>
+      <source>Tip thickness same as root</source>
+      <translation>Таўшчыня наканечніка такая ж, як і ў кораня</translation>
+    </message>
+    <message>
+      <source>When checked lengths are a percentage of the tip chord</source>
+      <translation>Калі птушка, даўжыня вызначаецца ў адсотках ад даўжыні хорды наканечніка</translation>
+    </message>
+    <message>
+      <source>Length1</source>
+      <translation>Даўжыня 1</translation>
+    </message>
+    <message>
+      <source>Tube Fin</source>
+      <translation>Крыло фюзеляжа</translation>
+    </message>
+    <message>
+      <source>Length</source>
+      <translation>Даўжыня</translation>
+    </message>
+    <message>
+      <source>Outer diameter</source>
+      <translation>Вонкавы дыяметр</translation>
+    </message>
+    <message>
+      <source>Wall thickness</source>
+      <translation>Таўшчыня сценкі</translation>
+    </message>
+    <message>
+      <source>Fillets</source>
+      <translation>Акругленні</translation>
+    </message>
+    <message>
+      <source>Fillet radius</source>
+      <translation>Радыус акруглення</translation>
+    </message>
+    <message>
+      <source>Apply fillets</source>
+      <translation>Прымяніць акругленні</translation>
+    </message>
+    <message>
+      <source>Minimum Edge</source>
+      <translation>Найменшае рабро</translation>
+    </message>
+    <message>
+      <source>Size</source>
+      <translation>Памер</translation>
+    </message>
+    <message>
+      <source>Base object</source>
+      <translation>Асноўны аб'ект</translation>
+    </message>
+    <message>
+      <source>Select</source>
+      <translation>Абраць</translation>
+    </message>
+    <message>
+      <source>Effective root chord</source>
+      <translation>Эфектыўная хорда кораня</translation>
+    </message>
+    <message>
+      <source>Placement</source>
+      <translation>Размяшчэнне</translation>
+    </message>
+    <message>
+      <source>x</source>
+      <translation>X</translation>
+    </message>
+    <message>
+      <source>y</source>
+      <translation>Y</translation>
+    </message>
+    <message>
+      <source>Offset</source>
+      <translation>Зрушэнне</translation>
+    </message>
+    <message>
+      <source>z</source>
+      <translation>Z</translation>
+    </message>
+    <message>
+      <source>Rotation</source>
+      <translation>Вярчэнне</translation>
+    </message>
+    <message>
+      <source>Fin Tabs</source>
+      <translation>Выступ крыла</translation>
+    </message>
+    <message>
+      <source>TTW Tab</source>
+      <translation>Рабро скрозь сцяну</translation>
+    </message>
+    <message>
+      <source>Fin Can</source>
+      <translation>Корпус крыла</translation>
+    </message>
+    <message>
+      <source>Leading edge offset</source>
+      <translation>Зрушэнне пярэдняга рабра</translation>
+    </message>
+    <message>
+      <source>Inner diameter</source>
+      <translation>Унутраны дыяметр</translation>
+    </message>
+    <message>
+      <source>Leading Edge</source>
+      <translation>Пярэдняе рабро</translation>
+    </message>
+    <message>
+      <source>Edge style</source>
+      <translation>Стыль рабра</translation>
+    </message>
+    <message>
+      <source>Trailing Edge</source>
+      <translation>Задняе рабро</translation>
+    </message>
+    <message>
+      <source>Coupler</source>
+      <translation>Злучальнік</translation>
+    </message>
+    <message>
+      <source>Coupler style</source>
+      <translation>Стыль злучальніка</translation>
+    </message>
+    <message>
+      <source>Launch Lug</source>
+      <translation>Пускавая ручка</translation>
+    </message>
+    <message>
+      <source>Presets</source>
+      <translation>Перадустаноўка</translation>
+    </message>
+    <message>
+      <source>Fillet Radius</source>
+      <translation>Радыусы акруглення</translation>
+    </message>
+    <message>
+      <source>Forward Sweep</source>
+      <translation>Пярэдні скос</translation>
+    </message>
+    <message>
+      <source>Aft Sweep</source>
+      <translation>Задні скос</translation>
+    </message>
+  </context>
+</TS>

@@ -61,13 +61,13 @@ class DialogBlackPowder(QDialog):
         self.warningLabel.setHtml(translate('Rocket','''
         <html>
         <h1>WARNING</h1>
-        <p>This calculator is an estimate only. Ground test your ejection system before flying. In certain cases this calculation may overestimate the amount of powder required</p>
+        <p>This calculator is an estimate only. Ground test your ejection system before flying. In certain cases this calculation may overestimate the amount of powder required.</p>
         </html>
         '''))
         # self.warningLabel.setMinimumWidth(250)
         self.warningLabel.setReadOnly(True)
 
-        self.diameterLabel = QtGui.QLabel(translate('Rocket', "Body Tube Diameter"), self)
+        self.diameterLabel = QtGui.QLabel(translate('Rocket', "Body tube diameter"), self)
 
         self.diameterInput = ui.createWidget("Gui::InputField")
         self.diameterInput.unit = FreeCAD.Units.Length
@@ -75,7 +75,7 @@ class DialogBlackPowder(QDialog):
         self.diameterInput.setText("98.0 mm")
         self.diameterInput.textEdited.connect(self.onDiameter)
 
-        self.lengthLabel = QtGui.QLabel(translate('Rocket', "Body Tube Length"), self)
+        self.lengthLabel = QtGui.QLabel(translate('Rocket', "Body tube length"), self)
 
         self.lengthInput = ui.createWidget("Gui::InputField")
         self.lengthInput.unit = FreeCAD.Units.Length
@@ -106,7 +106,7 @@ class DialogBlackPowder(QDialog):
         self.forceCombo.setCurrentText(FORCE_LOW)
         self.forceCombo.currentTextChanged.connect(self.onForceCombo)
 
-        self.powderLabel = QtGui.QLabel(translate('Rocket', "FFFFg Powder"), self)
+        self.powderLabel = QtGui.QLabel(translate('Rocket', "FFFFg powder"), self)
 
         self.powderInput = QtGui.QLineEdit()
         self.powderInput.setText("49.0 g")

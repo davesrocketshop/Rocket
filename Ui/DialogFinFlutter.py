@@ -18,9 +18,9 @@
 # *   USA                                                                   *
 # *                                                                         *
 # ***************************************************************************
-"""Class for Thrust To Weight calculator"""
+"""Class for Fin Flutter calculator"""
 
-__title__ = "FreeCAD Thrust To Weight Calculator"
+__title__ = "FreeCAD Fin Flutter Calculator"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
@@ -30,9 +30,10 @@ import Materials
 import MatGui
 import math
 import numpy as np
+import os
 
 import matplotlib.pyplot as plt
-from matplotlib.backends.backend_qt5agg import FigureCanvas
+from matplotlib.backends.backend_qtagg import FigureCanvas
 from matplotlib.figure import Figure
 
 translate = FreeCAD.Qt.translate
@@ -42,9 +43,15 @@ from PySide.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QGridLayout, QSi
 
 from Analyzers.FinFlutter import FinFlutter
 
-class DialogFinFlutter(QDialog):
-    def __init__(self, fin):
-        super().__init__()
+from Rocket.Constants import ATMOS_POF_615, ATMOS_USSA, ATMOS_COESA_GEOMETRIC, ATMOS_COESA_GEOPOTENTIAL
+
+from Ui.UIPaths import getUIPath
+from Ui.UiDialog import UiDialog
+from Ui.Widgets.RocketQuantityField import FORMAT_ALTITUDE, FORMAT_PRESSURE, FORMAT_VELOCITY
+
+class DialogFinFlutter(UiDialog):
+    def __init__(self, fin) -> None:
+        super().__init__("DialogFinFlutter", "DialogFinFlutter.ui")
 
         self._fin = fin
         self._flutter = FinFlutter(fin)
@@ -53,51 +60,52 @@ class DialogFinFlutter(QDialog):
         self._material = None
 
         self._materialManager = Materials.MaterialManager()
+        doc = FreeCADGui.ActiveDocument.Document
+        self._schemas = doc.getEnumerationsOfProperty("UnitSystem")
 
         self.initUI()
         self._setSeries()
-        self.onFlutter(None)
+        self.updateFlutter()
 
-    def _isMetricUnitPref(self):
+    def _isMetricUnitPref(self) -> bool:
         param = FreeCAD.ParamGet("User parameter:BaseApp/Preferences/Units")
-        schema = param.GetInt('UserSchema')
+        ignore = param.GetBool("IgnoreProjectSchema", False)
+        if ignore:
+            schema = param.GetInt('UserSchema', 0)
+        else:
+            doc = FreeCADGui.ActiveDocument.Document
+            schema = self._schemas.index(doc.UnitSystem)
         if schema in [2,3,5,7]:
             return False
 
         return True
 
-    def _shearUnits(self):
+    def _pressureUnits(self) -> str:
         if self._isMetricUnitPref():
-            return "GPa"
+            return "MPa"
         return "psi"
 
-    def _heightUnits(self):
+    def _heightUnits(self) -> str:
         if self._isMetricUnitPref():
             return "m"
         return "ft"
 
-    def _velocityUnits(self):
+    def _velocityUnits(self) -> str:
         if self._isMetricUnitPref():
             return "m/s"
         return "ft/s"
 
-    def _formatted(self, value, units):
-        qty = FreeCAD.Units.Quantity(value)
-        return str(qty.getValueAs(FreeCAD.Units.Quantity(units))) #+ " " + units
-
-    def initUI(self):
+    def initUI(self) -> None:
+        super().initUI()
 
         ui = FreeCADGui.UiLoader()
 
         # create our window
-        # define window		xLoc,yLoc,xDim,yDim
-        self.setGeometry(250, 250, 640, 480)
-        self.setWindowTitle(translate('Rocket', "Fin Flutter Analysis"))
-        self.resize(QtCore.QSize(640,700).expandedTo(self.minimumSizeHint())) # sets size of the widget
-        self.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
+        self._ui.setWindowTitle(translate('Rocket', "Fin Flutter Analysis"))
+        self._ui.resize(QtCore.QSize(640,700).expandedTo(self.minimumSizeHint())) # sets size of the widget
+        # self._ui.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
 
-        self.materialGroup = QtGui.QGroupBox(translate('Rocket', "Material"), self)
-        self.materialGroup.setSizePolicy(QSizePolicy.MinimumExpanding, QSizePolicy.Minimum)
+        # self._ui.materialGroup.setSizePolicy(QSizePolicy.MinimumExpanding, QSizePolicy.Minimum)
 
         self.materialTreeWidget = ui.createWidget("MatGui::MaterialTreeWidget")
         self.materialTreePy = MatGui.MaterialTreeWidget(self.materialTreeWidget)
@@ -110,46 +118,42 @@ class DialogFinFlutter(QDialog):
         self.allFilter.Name = "All"
         self.materialTreePy.setFilter([self.filter, self.allFilter])
 
-        self.shearLabel = QtGui.QLabel(translate('Rocket', "Shear Modulus"), self)
+        self._ui.materialGridLayout.replaceWidget(self._ui.materialTreeWidget, self.materialTreeWidget)
 
-        self.shearInput = ui.createWidget("Gui::InputField")
-        self.shearInput.unit = self._shearUnits() #'Unit::ShearModulus'
-        self.shearInput.setMinimumWidth(100)
-        self.shearInput.setText(self._formatPressure(FreeCAD.Units.Quantity("2.620008e+9Pa")))
+        self._ui.shearInput.unit = self._pressureUnits()
+        self._ui.shearInput.format = FORMAT_PRESSURE
+        self._ui.shearInput.quantity = FreeCAD.Units.Quantity("2.620008e+9Pa")
 
-        self.calculatedCheckbox = QtGui.QCheckBox(translate('Rocket', "Calculated"), self)
-        self.calculatedCheckbox.setCheckState(QtCore.Qt.Unchecked)
+        self._ui.calculatedCheckbox.setCheckState(QtCore.Qt.Unchecked)
 
-        self.youngsLabel = QtGui.QLabel(translate('Rocket', "Young's Modulus"), self)
+        self._ui.youngsInput.unit = self._pressureUnits()
+        self._ui.youngsInput.format = FORMAT_PRESSURE
+        self._ui.youngsInput.quantity = FreeCAD.Units.Quantity("2.620008e+9Pa")
+        self._ui.youngsInput.setEnabled(False)
 
-        self.youngsInput = ui.createWidget("Gui::InputField")
-        self.youngsInput.unit = self._shearUnits() #'Unit::ShearModulus'
-        self.youngsInput.setMinimumWidth(100)
-        self.youngsInput.setText(self._formatPressure(FreeCAD.Units.Quantity("2.620008e+9Pa")))
-        self.youngsInput.setEnabled(False)
+        self._ui.poissonInput.setText("0.0")
+        self._ui.poissonInput.setEnabled(False)
 
-        self.poissonLabel = QtGui.QLabel(translate('Rocket', "Poisson Ratio"), self)
+        # Launch conditions
+        self.fillLaunchSiteCombo()
+        self._ui.launchSiteAltitudeInput.unit = self._heightUnits()
+        self._ui.launchSiteAltitudeInput.format = FORMAT_ALTITUDE
+        self._ui.launchSiteAltitudeInput.quantity = FreeCAD.Units.Quantity("0 m")
 
-        self.poissonInput = ui.createWidget("Gui::InputField")
-        self.poissonInput.setMinimumWidth(100)
-        self.poissonInput.setText("0.0")
-        self.poissonInput.setEnabled(False)
+        self.fillTemperatureUnitsCombo()
+        # self._ui.launchTemperatureInput.unit = FreeCAD.Units.Temperature
+        self._ui.launchTemperatureInput.setText("15.0")
 
-        self.flutterGroup = QtGui.QGroupBox(translate('Rocket', "Fin Flutter"), self)
+        self.fillAtmosphericModelCombo()
 
-        self.maxAltitudeLabel = QtGui.QLabel(translate('Rocket', "Maximum Altitude"), self)
-
-        self.maxAltitudeCombo = QtGui.QComboBox(self)
         self.fillAltitudeCombo()
 
-        self.altitudeLabel = QtGui.QLabel(translate('Rocket', "Altitude at Max Speed"), self)
-
-        self.altitudeInput = ui.createWidget("Gui::InputField")
-        self.altitudeInput.unit = 'Unit::Length'
-        self.altitudeInput.setText("914.4m")
-        self.altitudeInput.setMinimumWidth(100)
-
-        self.altitudeSlider = QtGui.QSlider(QtCore.Qt.Horizontal, self)
+        self._ui.speedInput.unit = self._velocityUnits()
+        self._ui.speedInput.format = FORMAT_VELOCITY
+        self._ui.speedInput.quantity = FreeCAD.Units.Quantity("0.0 m/s")
+        self._ui.altitudeInput.unit = self._heightUnits()
+        self._ui.altitudeInput.format = FORMAT_ALTITUDE
+        self._ui.altitudeInput.quantity = FreeCAD.Units.Quantity("914.4 m")
 
         # Creating graph
         plt.rcParams['figure.constrained_layout.use'] = True
@@ -160,175 +164,122 @@ class DialogFinFlutter(QDialog):
 
         self._static_ax = self.static_canvas.figure.subplots()
         t = np.linspace(0, 10, 501)
-        self._flutterLine, = self._static_ax.plot(t, t, label="flutter")
-        self._divergenceLine, = self._static_ax.plot(t, t, label="divergence")
+        self._flutterLine, = self._static_ax.plot(t, t, label=translate('Rocket', "Flutter"))
+        self._divergenceLine, = self._static_ax.plot(t, t, label=translate('Rocket', "Divergence"))
         self._cursorLine, = self._static_ax.plot([0,0], [0,0])
-        self._static_ax.set_xlabel("Altitude (km)")
-        self._static_ax.set_ylabel("Velocity (m/s)")
+        if self._isMetricUnitPref():
+            self._static_ax.set_xlabel(translate('Rocket', "Altitude (km AGL)"))
+            self._static_ax.set_ylabel(translate('Rocket', "Velocity (m/s)"))
+        else:
+            self._static_ax.set_xlabel(translate('Rocket', "Altitude (x1000 ft AGL)"))
+            self._static_ax.set_ylabel(translate('Rocket', "Velocity (ft/s)"))
         self._static_ax.grid(visible=True)
         # self._static_ax.set_title("Flutter")
         self._static_ax.legend()
+
+        self._ui.flutterGroupLayout.replaceWidget(self._ui.widgetGraph, self.static_canvas)
 
         # flutter and divergence min/max
         self._yMin = 0
         self._yMax = 0
 
-        self.flutterLabel = QtGui.QLabel(translate('Rocket', "Flutter Speed"), self)
+        self._ui.flutterInput.unit = self._velocityUnits() #FreeCAD.Units.Velocity
+        self._ui.flutterInput.quantity = FreeCAD.Units.Quantity("0 m/s")
+        self._ui.flutterInput.setReadOnly(True)
 
-        self.flutterInput = ui.createWidget("Gui::InputField")
-        self.flutterInput.unit = 'Unit::Velocity'
-        self.flutterInput.setText("0")
-        self.flutterInput.setMinimumWidth(100)
-        self.flutterInput.setReadOnly(True)
+        self._ui.divergenceInput.unit = self._velocityUnits()
+        self._ui.divergenceInput.quantity = FreeCAD.Units.Quantity("0 m/s")
+        self._ui.divergenceInput.setReadOnly(True)
 
-        self.divergenceLabel = QtGui.QLabel(translate('Rocket', "Divergence Speed"), self)
+        self._ui.flutterMachInput.setText("0")
+        self._ui.flutterMachInput.setReadOnly(True)
+        self._ui.flutterMarginInput.setText("0 %")
+        self._ui.flutterMarginInput.setReadOnly(True)
 
-        self.divergenceInput = ui.createWidget("Gui::InputField")
-        self.divergenceInput.unit = self._velocityUnits() #"Unit::Velocity"
-        self.divergenceInput.setText("0")
-        self.divergenceInput.setMinimumWidth(100)
-        self.divergenceInput.setReadOnly(True)
-
-        self.flutterMachLabel = QtGui.QLabel(translate('Rocket', "Mach"), self)
-
-        self.flutterMachInput = ui.createWidget("Gui::InputField")
-        self.flutterMachInput.setText("0")
-        self.flutterMachInput.setMinimumWidth(100)
-        self.flutterMachInput.setReadOnly(True)
-
-        self.divergenceMachLabel = QtGui.QLabel(translate('Rocket', "Mach"), self)
-
-        self.divergenceMachInput = ui.createWidget("Gui::InputField")
-        self.divergenceMachInput.setText("0")
-        self.divergenceMachInput.setMinimumWidth(100)
-        self.divergenceMachInput.setReadOnly(True)
-
-        # OK button
-        okButton = QtGui.QPushButton('OK', self)
-        okButton.setDefault(False)
-        okButton.setAutoDefault(False)
-
-        # Material group
-        vbox = QVBoxLayout()
-
-        row = 0
-        grid = QGridLayout()
-
-        grid.addWidget(self.shearLabel, row, 0)
-        grid.addWidget(self.shearInput, row, 1)
-        grid.addWidget(self.calculatedCheckbox, row, 2)
-        row += 1
-
-        grid.addWidget(self.youngsLabel, row, 0)
-        grid.addWidget(self.youngsInput, row, 1)
-        row += 1
-
-        grid.addWidget(self.poissonLabel, row, 0)
-        grid.addWidget(self.poissonInput, row, 1)
-        row += 1
-
-        vbox.addWidget(self.materialTreeWidget)
-        vbox.addLayout(grid)
-
-        self.materialGroup.setLayout(vbox)
-
-        # Fin Flutter group
-        vbox = QVBoxLayout()
-
-        row = 0
-        grid = QGridLayout()
-
-        grid.addWidget(self.maxAltitudeLabel, row, 0)
-        grid.addWidget(self.maxAltitudeCombo, row, 1)
-        row += 1
-
-        grid.addWidget(self.altitudeLabel, row, 0)
-        grid.addWidget(self.altitudeInput, row, 1)
-        row += 1
-
-        vbox.addLayout(grid)
-
-        # vbox.addWidget(NavigationToolbar(static_canvas, self))
-        vbox.addWidget(self.static_canvas)
-
-        sliderLine = QHBoxLayout()
-        sliderLine.addWidget(self.altitudeSlider)
-
-        vbox.addLayout(sliderLine)
-
-        line = QGridLayout()
-
-        row = 0
-
-        line.addWidget(self.flutterLabel, row, 0)
-        line.addWidget(self.flutterInput, row, 1)
-        line.addWidget(self.flutterMachLabel, row, 2)
-        line.addWidget(self.flutterMachInput, row, 3)
-        row += 1
-
-        line.addWidget(self.divergenceLabel, row, 0)
-        line.addWidget(self.divergenceInput, row, 1)
-        line.addWidget(self.divergenceMachLabel, row, 2)
-        line.addWidget(self.divergenceMachInput, row, 3)
-        vbox.addLayout(line)
-        self.flutterGroup.setLayout(vbox)
-
-        line = QHBoxLayout()
-        line.addStretch()
-        line.addWidget(okButton)
-
-        layout = QVBoxLayout()
-        layout.addWidget(self.materialGroup)
-        layout.addWidget(self.flutterGroup)
-        layout.addLayout(line)
-        self.setLayout(layout)
+        self._ui.divergenceMachInput.setText("0")
+        self._ui.divergenceMachInput.setReadOnly(True)
+        self._ui.divergenceMarginInput.setText("0 %")
+        self._ui.divergenceMarginInput.setReadOnly(True)
 
         self.materialTreeWidget.onMaterial.connect(self.onMaterial)
         self.materialTreeWidget.onExpanded.connect(self.onExpanded)
-        self.calculatedCheckbox.clicked.connect(self.onCalculated)
-        self.shearInput.textEdited.connect(self.onShear)
-        self.youngsInput.textEdited.connect(self.onYoungs)
-        self.poissonInput.textEdited.connect(self.onPoisson)
-        self.altitudeInput.textEdited.connect(self.onAltitude)
-        self.maxAltitudeCombo.currentTextChanged.connect(self.onMaxAltitude)
-        self.altitudeSlider.valueChanged.connect(self.onSlider)
-        okButton.clicked.connect(self.onOk)
+        self._ui.assignMaterialButton.clicked.connect(self.onAssignMaterial)
+        self._ui.calculatedCheckbox.clicked.connect(self.onCalculated)
+        self._ui.tipToTipCheckbox.clicked.connect(self.onTipToTip)
+        self._ui.shearInput.quantityChanged.connect(self.onShear)
+        self._ui.youngsInput.quantityChanged.connect(self.onYoungs)
+        self._ui.poissonInput.textEdited.connect(self.onPoisson)
 
+        self._ui.launchSiteCombo.currentTextChanged.connect(self.onLaunchSite)
+        self._ui.temperatureUnitsCombo.currentTextChanged.connect(self.onTemperatureUnits)
+        self._ui.launchTemperatureInput.textEdited.connect(self.onLaunchTemperature)
+        self._ui.atmosphericModelCombo.currentTextChanged.connect(self.onAtmosphericModel)
+
+        self._ui.speedInput.quantityChanged.connect(self.onSpeed)
+        self._ui.altitudeInput.quantityChanged.connect(self.onAltitude)
+        self._ui.maxAltitudeCombo.currentTextChanged.connect(self.onMaxAltitude)
+        self._ui.altitudeSlider.valueChanged.connect(self.onSlider)
+
+        self.restoreParameters()
         self._setSlider()
 
         self.update()
 
         # now make the window visible
-        self.show()
+        self._ui.show()
 
-    def transferFrom(self):
+    def transferFrom(self) -> None:
         "Transfer from the object to the dialog"
         self.materialTreePy.UUID = self._fin.ShapeMaterial.UUID
+        self._material = self._fin.ShapeMaterial
 
-    def _setSeries(self):
+    def tempToKelvin(self, temperature : float, units : str) -> float:
+        if units == 'F':
+            return (temperature - 32) * 5 / 9 + 273.15
+        elif units == 'C':
+            return temperature + 273.15
+        return temperature
 
-        modulus = float(FreeCAD.Units.Quantity(str(self.shearInput.text())))
-        maxHeight = int(FreeCAD.Units.Quantity(self.maxAltitudeCombo.currentText()).getValueAs(FreeCAD.Units.Quantity(self._heightUnits())) / 1000)
+    def _getModulus(self) -> float:
+        return self._ui.shearInput.quantity.Value
+
+    def _setSeries(self) -> None:
+
+        modulus = self._getModulus()
+        if self._ui.tipToTipCheckbox.isChecked():
+            # Approximate tip to tip reinforcment by doubling shear modulus
+            modulus *= 2.0
+        maxHeight = int(FreeCAD.Units.Quantity(self._ui.maxAltitudeCombo.currentText()).getValueAs(FreeCAD.Units.Quantity(self._heightUnits())) / 1000)
+        launchHeight = float(self._ui.launchSiteAltitudeInput.quantity.Value) / 1000.0 # in meters
+
+        temperatureUnits = self._ui.temperatureUnitsCombo.currentText()
+        if self._ui.defaultTemperatureCheckbox.isChecked():
+            launchTemperature = (15 + 273.15)
+        else:
+            launchTemperature = self.tempToKelvin(float(self._ui.launchTemperatureInput.text()), temperatureUnits)
+        atmosphericModel = self.getAtmosphericModel()
 
         x_axis = []
         flutterSeries = []
         divergenceSeries = []
         for i in range(0, maxHeight+1):
-            altitude = i * 1000000.0 # to mm
-            flutter = self._flutter.flutter(altitude, modulus)
-            divergence = self._flutter.divergence(altitude, modulus)
+            altitude = FreeCAD.Units.Quantity(f"{float(i * 1000.0)} {self._heightUnits()}").Value / 1000.0 # to m
+            flutter = self._flutter.flutterPOF615(atmosphericModel, altitude, modulus, launchHeight, launchTemperature)
+            divergence = self._flutter.divergence(atmosphericModel, altitude, modulus, launchHeight, launchTemperature)
             # Getting the data
             x = float(i)
             x_axis.append(x)
 
-            flutterY = float(flutter[1])
+            quantity = FreeCAD.Units.Quantity(f"{float(flutter[1])} m/s")
+            flutterY = quantity.getValueAs(FreeCAD.Units.Quantity(self._velocityUnits())).Value
             if x >= 0:
                 if (flutterY >=0):
                     flutterSeries.append(flutterY)
                 else:
                     flutterSeries.append(0)
 
-            divergenceY = float(divergence[1])
+            quantity = FreeCAD.Units.Quantity(f"{float(divergence[1])} m/s")
+            divergenceY = quantity.getValueAs(FreeCAD.Units.Quantity(self._velocityUnits())).Value
             if x >= 0:
                 if (divergenceY >=0):
                     divergenceSeries.append(divergenceY)
@@ -346,7 +297,7 @@ class DialogFinFlutter(QDialog):
         self.showSlider() # calls _redraw()
         # self._redraw()
 
-    def _redraw(self):
+    def _redraw(self) -> None:
         # recompute the ax.dataLim
         self._static_ax.relim()
         # update ax.viewLim using the new dataLim
@@ -354,33 +305,72 @@ class DialogFinFlutter(QDialog):
 
         self.static_canvas.draw()
 
-    def fillAltitudeCombo(self):
-        for i in range(0, 110, 10):
-            self.maxAltitudeCombo.addItem("{0:d}".format(i * 1000) + ' ' + self._heightUnits())
-        self.maxAltitudeCombo.setCurrentText("{0:d}".format(10000) + ' ' + self._heightUnits())
+    def fillLaunchSiteCombo(self) -> None:
+        filename = os.path.join(getUIPath(), 'Resources', 'data', 'launch-sites.txt')
+        altitude = 0
+        self._ui.launchSiteCombo.addItem('', altitude)
+        with open(filename, 'r', encoding="utf-8") as file:
+            for line in file:
+                if not line.startswith('#'):
+                    data = line.split(":")
+                    if len(data) >= 4:
+                        if data[3]:
+                            altitude = int(data[3])
+                        else:
+                            altitude = 0
+                        self._ui.launchSiteCombo.addItem(data[0], altitude)
 
-    def setShearSpecified(self):
-        self.shearInput.setEnabled(True)
-        self.calculatedCheckbox.setChecked(False)
+    def fillTemperatureUnitsCombo(self) -> None:
+        self._ui.temperatureUnitsCombo.addItem('C')
+        self._ui.temperatureUnitsCombo.addItem('F')
+        self._ui.temperatureUnitsCombo.addItem('K')
+        if self._isMetricUnitPref():
+            self._ui.temperatureUnitsCombo.setCurrentText('C')
+        else:
+            self._ui.temperatureUnitsCombo.setCurrentText('F')
 
-        self.youngsInput.setEnabled(False)
-        self.poissonInput.setEnabled(False)
+    def fillAtmosphericModelCombo(self) -> None:
+        self._ui.atmosphericModelCombo.addItem(translate("Rocket", "Peak of Flight 615"), ATMOS_POF_615)
+        self._ui.atmosphericModelCombo.addItem(translate("Rocket", "US Standard Atmosphere (USSA) 1976"), ATMOS_USSA)
+        self._ui.atmosphericModelCombo.addItem(
+            translate("Rocket", "Committee on Extension to the Standard Atmosphere (COESA) 1976 - Geometric"),
+            ATMOS_COESA_GEOMETRIC)
+        self._ui.atmosphericModelCombo.addItem(
+            translate("Rocket", "Committee on Extension to the Standard Atmosphere (COESA) 1976 - Geopotential"),
+            ATMOS_COESA_GEOPOTENTIAL)
 
-    def setShearCalculated(self):
-        self.shearInput.setEnabled(False)
-        self.calculatedCheckbox.setChecked(True)
+    def fillAltitudeCombo(self) -> None:
+        self._ui.maxAltitudeCombo.addItem("{0:d}".format(1000) + ' ' + self._heightUnits())
+        self._ui.maxAltitudeCombo.addItem("{0:d}".format(5000) + ' ' + self._heightUnits())
+        for i in range(10, 110, 10):
+            self._ui.maxAltitudeCombo.addItem("{0:d}".format(i * 1000) + ' ' + self._heightUnits())
+        self._ui.maxAltitudeCombo.setCurrentText("{0:d}".format(10000) + ' ' + self._heightUnits())
 
-        self.youngsInput.setEnabled(True)
-        self.poissonInput.setEnabled(True)
+    def getAtmosphericModel(self) -> int:
+        return int(self._ui.atmosphericModelCombo.currentData())
 
-    def calculateShear(self):
-        young = float(FreeCAD.Units.Quantity(self.youngsInput.text()).getValueAs(FreeCAD.Units.Pascal))
-        poisson = float(FreeCAD.Units.Quantity(self.poissonInput.text()))
+    def setShearSpecified(self) -> None:
+        self._ui.shearInput.setEnabled(True)
+        self._ui.calculatedCheckbox.setChecked(False)
+
+        self._ui.youngsInput.setEnabled(False)
+        self._ui.poissonInput.setEnabled(False)
+
+    def setShearCalculated(self) -> None:
+        self._ui.shearInput.setEnabled(False)
+        self._ui.calculatedCheckbox.setChecked(True)
+
+        self._ui.youngsInput.setEnabled(True)
+        self._ui.poissonInput.setEnabled(True)
+
+    def calculateShear(self) -> None:
+        young = float(self._ui.youngsInput.quantity.getValueAs(FreeCAD.Units.Pascal))
+        poisson = float(FreeCAD.Units.Quantity(self._ui.poissonInput.text()))
         shear = self._flutter.shearModulus(young, poisson)
 
-        self.shearInput.setText(FreeCAD.Units.Quantity(str(shear) + " Pa").UserString)
+        self._ui.shearInput.quantity = FreeCAD.Units.Quantity(str(shear) + " Pa")
 
-    def interpolateProperties(self):
+    def interpolateProperties(self) -> None:
         """ Infer missing properties from those available """
         shearModulus = self._material.getPhysicalValue("ShearModulus")
         youngsModulus = self._material.getPhysicalValue("YoungsModulus")
@@ -389,17 +379,17 @@ class DialogFinFlutter(QDialog):
         hasYoungs = not (youngsModulus is None or math.isnan(youngsModulus))
         hasPoisson = not (poissonRatio is None or math.isnan(poissonRatio))
         if hasShear:
-            self.shearInput.setText(self._formatPressure(FreeCAD.Units.Quantity(shearModulus)))
+            self._ui.shearInput.quantity = FreeCAD.Units.Quantity(shearModulus)
         else:
-            self.shearInput.setText(self._formatPressure(FreeCAD.Units.Quantity("0 kPa")))
+            self._ui.shearInput.quantity = FreeCAD.Units.Quantity("0 kPa")
         if hasYoungs:
-            self.youngsInput.setText(self._formatPressure(FreeCAD.Units.Quantity(youngsModulus)))
+            self._ui.youngsInput.quantity = FreeCAD.Units.Quantity(youngsModulus)
         else:
-            self.youngsInput.setText(self._formatPressure(FreeCAD.Units.Quantity("0 kPa")))
+            self._ui.youngsInput.quantity = FreeCAD.Units.Quantity("0 kPa")
         if hasPoisson:
-            self.poissonInput.setText("{0:.4f}".format(poissonRatio))
+            self._ui.poissonInput.setText(FORMAT_PRESSURE.format(poissonRatio))
         else:
-            self.poissonInput.setText("0")
+            self._ui.poissonInput.setText("0")
 
         if hasShear:
             self.setShearSpecified()
@@ -409,61 +399,122 @@ class DialogFinFlutter(QDialog):
         else:
             self.setShearSpecified()
 
-    def onMaterial(self, uuid):
+    def onMaterial(self, uuid : str) -> None:
         self._material = self._materialManager.getMaterial(uuid)
         self.interpolateProperties()
 
         self._setSeries()
-        self.onFlutter(None)
+        self.updateFlutter()
 
-    def onExpanded(self, expanded):
-        self.materialGroup.adjustSize()
-        self.window().adjustSize()
+    def onExpanded(self, expanded : bool) -> None:
+        self._ui.window().adjustSize()
 
-    def onCalculated(self, value):
+    def onAssignMaterial(self, checked: bool) -> None:
+        self._fin.ShapeMaterial = self._material
+        FreeCAD.ActiveDocument.recompute()
+
+    def onCalculated(self, value : bool) -> None:
         if value:
             self.setShearCalculated()
             self.calculateShear()
         else:
+            self.interpolateProperties()
             self.setShearSpecified()
+        self.updateFlutter()
 
-    def onShear(self, value):
+    def onTipToTip(self, value : bool) -> None:
+        self.updateFlutter()
+
+    def onShear(self, quantity : FreeCAD.Units.Quantity) -> None:
         self._setSeries()
-        self.onFlutter(None)
+        self.updateFlutter()
 
-    def onYoungs(self, value):
-        self.calculateShear()
-        self._setSeries()
-        self.onFlutter(None)
+    def onYoungs(self, quantity : FreeCAD.Units.Quantity) -> None:
+        if self._ui.calculatedCheckbox.isChecked() or self._ui.shearInput.quantity.Value == 0:
+            self.calculateShear()
+            self._setSeries()
+            self.updateFlutter()
 
-    def onPoisson(self, value):
-        self.calculateShear()
-        self._setSeries()
-        self.onFlutter(None)
+    def onPoisson(self, value : str) -> None:
+        if self._ui.calculatedCheckbox.isChecked() or self._ui.shearInput.quantity.Value == 0:
+            self.calculateShear()
+            self._setSeries()
+            self.updateFlutter()
 
-    def _setSlider(self):
+    def _getMaxAltitude(self) -> float:
         try:
-            max = float(FreeCAD.Units.Quantity(self.maxAltitudeCombo.currentText()).getValueAs(FreeCAD.Units.Quantity(self._heightUnits())))
-            current = float(FreeCAD.Units.Quantity(self.altitudeInput.text()).getValueAs(FreeCAD.Units.Quantity(self._heightUnits())))
-
-            self.altitudeSlider.setMinimum(0)
-            self.altitudeSlider.setMaximum(max)
-            self.altitudeSlider.setValue(current)
+            try:
+                altitude = FreeCAD.Units.Quantity(self._ui.maxAltitudeCombo.currentText())
+            except ValueError:
+                altitude = FreeCAD.Units.Quantity(self._ui.maxAltitudeCombo.currentText() + self._heightUnits())
+            max = float(altitude.getValueAs(FreeCAD.Units.Quantity(self._heightUnits())))
         except ValueError:
-            # This can happen when editing a field and not yet complete
-            pass
+            return 0.0
+        return max
 
-    def onMaxAltitude(self, value):
+    def _getAltitude(self) -> float:
+        try:
+            current = float(self._ui.altitudeInput.quantity.getValueAs(FreeCAD.Units.Quantity(self._heightUnits())))
+        except ValueError:
+            return 0.0
+        return current
+
+    def _setSlider(self) -> None:
+        max = self._getMaxAltitude()
+        current = self._getAltitude()
+        if current > max:
+            # Automatically adjust max altitude if it is currentl exceeded
+            combo = self._ui.maxAltitudeCombo
+            for i in range(combo.currentIndex(), combo.count()):
+                text = combo.itemText(i)
+                max = float(text.strip(self._heightUnits()))
+                if max > current:
+                    combo.setCurrentIndex(i)
+                    break
+
+        self._ui.altitudeSlider.setMinimum(0)
+        self._ui.altitudeSlider.setMaximum(max)
+
+    def onLaunchSite(self, value : str) -> None:
+        altitude = self._ui.launchSiteCombo.currentData()
+        self._ui.launchSiteAltitudeInput.quantity = FreeCAD.Units.Quantity(f"{altitude} m")
+
+    def onTemperatureUnits(self, value : str) -> None:
+        self._setSeries()
+        self._setSlider()
+        self.updateFlutter()
+
+    def onLaunchTemperature(self, value : str) -> None:
+        self._setSeries()
+        self._setSlider()
+        self.updateFlutter()
+
+    def onAtmosphericModel(self, value : str) -> None:
+        self._setSeries()
+        self._setSlider()
+        self.updateFlutter()
+
+    def onLaunchSiteAltitude(self, value : str) -> None:
+        self._setSeries()
+        self._setSlider()
+        self.updateFlutter()
+
+    def onMaxAltitude(self, value : str) -> None:
         self._setSeries()
         self._setSlider()
 
-    def onAltitude(self, value):
+    def onSpeed(self, quantity : FreeCAD.Units.Quantity) -> None:
+        self.updateFlutter()
+
+    def onAltitude(self, quantity : FreeCAD.Units.Quantity) -> None:
         self._setSeries()
         self._setSlider()
-        self.onFlutter(None)
 
-    def showSlider(self):
-        current = float(FreeCAD.Units.Quantity(self.altitudeInput.text()).getValueAs(FreeCAD.Units.Quantity(self._heightUnits())))
+        self._ui.altitudeSlider.setValue(float(quantity.getValueAs(FreeCAD.Units.Quantity(self._heightUnits()))))
+        self.updateFlutter()
+
+    def showSlider(self) -> None:
+        current = self._getAltitude()
         x = current / 1000.0
 
         xSeries = [x, x]
@@ -472,53 +523,126 @@ class DialogFinFlutter(QDialog):
 
         self._redraw()
 
-    def onSlider(self, value):
-        self.altitudeInput.setText(self._formatAltitude(FreeCAD.Units.Quantity(str(value) + self._heightUnits())))
+    def onSlider(self, value : str) -> None:
+        self._ui.altitudeInput.quantity = FreeCAD.Units.Quantity(str(value) + self._heightUnits())
 
         self.showSlider()
         self._redraw()
-        self.onFlutter(None)
+        self.updateFlutter()
 
-    def _graphFlutter(self):
-        pass
-
-    def _formatQuantity(self, formatString, quantity, units):
-        return formatString.format(float(quantity.getValueAs(FreeCAD.Units.Quantity(units)))) + ' ' + units
-
-    def _formatIntQuantity(self, formatString, quantity, units):
-        return formatString.format(int(quantity.getValueAs(FreeCAD.Units.Quantity(units)))) + ' ' + units
-
-    def _formatVelocity(self, quantity):
-        return self._formatQuantity("{0:.2f}", quantity, self._velocityUnits())
-
-    def _formatPressure(self, quantity):
-        return self._formatQuantity("{0:.4f}", quantity, self._shearUnits())
-
-    def _formatAltitude(self, quantity):
-        return self._formatIntQuantity("{0:d}", quantity, self._heightUnits())
-
-    def onFlutter(self, value):
-        self._graphFlutter()
+    def _formatQuantity(self, formatString : str, quantity : FreeCAD.Units.Quantity, units : str) -> str:
         try:
-            modulus = float(FreeCAD.Units.Quantity(str(self.shearInput.text())))
-            altitude = float(FreeCAD.Units.Quantity(str(self.altitudeInput.text())))
-            flutter = self._flutter.flutter(altitude, modulus)
-            divergence = self._flutter.divergence(altitude, modulus)
-
-            Vf = FreeCAD.Units.Quantity(str(flutter[1]) + " m/s")
-            self.flutterInput.setText(self._formatVelocity(Vf))
-            self.flutterMachInput.setText("{0:.2f}".format(flutter[0]))
-
-            Vd = FreeCAD.Units.Quantity(str(divergence[1]) + " m/s")
-            self.divergenceInput.setText(self._formatVelocity(Vd))
-            self.divergenceMachInput.setText("{0:.2f}".format(divergence[0]))
-
+            return formatString.format(float(quantity.getValueAs(FreeCAD.Units.Quantity(units)))) + ' ' + units
         except ValueError:
             pass
+        return formatString.format(0.0) + ' ' + units
 
-    def update(self):
+    def _formatVelocity(self, quantity : FreeCAD.Units.Quantity) -> str:
+        return self._formatQuantity(FORMAT_VELOCITY, quantity, self._velocityUnits())
+
+    def _formatPressure(self, quantity : FreeCAD.Units.Quantity) -> str:
+        return self._formatQuantity(FORMAT_PRESSURE, quantity, self._pressureUnits())
+
+    def _formatAltitude(self, quantity : FreeCAD.Units.Quantity) -> str:
+        return self._formatQuantity(FORMAT_ALTITUDE, quantity, self._heightUnits())
+
+    def _formatMargin(self, margin : float) -> str:
+        if margin <= 20.0:
+            return f"Unsafe {margin:.1f} %"
+        if margin <= 25.0:
+            return f"Marginal {margin:.1f} %"
+        return f"{margin:.1f} %"
+
+    def updateFlutter(self) -> None:
+        modulus = self._getModulus()
+        if self._ui.tipToTipCheckbox.isChecked():
+            # Approximate tip to tip reinforcment by doubling shear modulus
+            modulus *= 2.0
+        speed = float(self._ui.speedInput.quantity.Value)
+
+        # Heights in meters
+        altitude = float(self._ui.altitudeInput.quantity.Value) / 1000.0
+        launchHeight = float(self._ui.launchSiteAltitudeInput.quantity.Value) / 1000.0
+
+        temperatureUnits = self._ui.temperatureUnitsCombo.currentText()
+        if self._ui.defaultTemperatureCheckbox.isChecked():
+            launchTemperature = (15 + 273.15)
+        else:
+            launchTemperature = self.tempToKelvin(float(self._ui.launchTemperatureInput.text()), temperatureUnits)
+        atmosphericModel = self.getAtmosphericModel()
+
+        flutter = self._flutter.flutterPOF615(atmosphericModel, altitude, modulus, launchHeight, launchTemperature)
+        divergence = self._flutter.divergence(atmosphericModel, altitude, modulus, launchHeight, launchTemperature)
+
+        Vf = FreeCAD.Units.Quantity(str(flutter[1]) + " m/s")
+        self._ui.flutterInput.setText(self._formatVelocity(Vf))
+        self._ui.flutterMachInput.setText("{0:.2f}".format(flutter[0]))
+        if speed > 0.0:
+            margin = (Vf.Value - speed)  * 100.0 / speed
+            self._ui.flutterMarginInput.setText(self._formatMargin(margin))
+        else:
+            self._ui.flutterMarginInput.setText("")
+
+        Vd = FreeCAD.Units.Quantity(str(divergence[1]) + " m/s")
+        self._ui.divergenceInput.setText(self._formatVelocity(Vd))
+        self._ui.divergenceMachInput.setText("{0:.2f}".format(divergence[0]))
+        if speed > 0.0:
+            margin = (Vd.Value - speed)  * 100.0 / speed
+            self._ui.divergenceMarginInput.setText(self._formatMargin(margin))
+        else:
+            self._ui.divergenceMarginInput.setText("")
+
+    def update(self) -> None:
         'fills the widgets'
         self.transferFrom()
 
-    def onOk(self):
-        self.close()
+    def onFinished(self, result : int) -> None:
+        self.saveParameters()
+
+        super().onFinished(result)
+
+    def saveParameters(self) -> None:
+        # Material tab
+        self._param.SetBool("MaterialTreeExpanded", self.materialTreePy.expanded)
+
+        # Launch conditions tab
+        self._param.SetString("LaunchSite", self._ui.launchSiteCombo.currentText())
+        self._param.SetString("LaunchAltitude", self._ui.launchSiteAltitudeInput.text())
+        self._param.SetString("LaunchTemperature", self._ui.launchTemperatureInput.text())
+        self._param.SetInt("LaunchTemperatureUnits", self._ui.temperatureUnitsCombo.currentIndex())
+        self._param.SetBool("UseSeaLevelTemperature", self._ui.defaultTemperatureCheckbox.isChecked())
+        self._param.SetInt("AtmosphericModel", self._ui.atmosphericModelCombo.currentIndex())
+
+        # Flutter tab
+        self._param.SetString("MaximumAltitude", self._ui.maxAltitudeCombo.currentText())
+        self._param.SetString("MaximumSpeed", self._ui.speedInput.text())
+        self._param.SetString("AltitudeAtMaximumSpeed", self._ui.altitudeInput.text())
+
+    def _restoreQuantity(self, parameter : str, default : str) -> FreeCAD.Units.Quantity:
+        value = self._param.GetString(parameter, default)
+        return FreeCAD.Units.Quantity(value)
+
+    def _restoreHeight(self, parameter : str, default : str) -> str:
+        quantity = self._restoreQuantity(parameter, default)
+        return self._formatAltitude(quantity)
+
+    def _restoreVelocity(self, parameter : str, default : str) -> str:
+        quantity = self._restoreQuantity(parameter, default)
+        return self._formatVelocity(quantity)
+
+    def restoreParameters(self) -> None:
+        # Material tab
+        self.materialTreePy.expanded = self._param.GetBool("MaterialTreeExpanded", False)
+
+        # Launch conditions tab
+        self._ui.launchSiteCombo.setCurrentText(self._param.GetString("LaunchSite", ""))
+        self._ui.launchSiteAltitudeInput.quantity = self._restoreQuantity("LaunchAltitude", "0.0 m")
+        self._ui.launchTemperatureInput.setText(self._param.GetString("LaunchTemperature", "15"))
+        self._ui.temperatureUnitsCombo.setCurrentIndex(self._param.GetInt("LaunchTemperatureUnits", 0))
+        self._ui.defaultTemperatureCheckbox.setChecked(self._param.GetBool("UseSeaLevelTemperature", True))
+        self._ui.atmosphericModelCombo.setCurrentIndex(self._param.GetInt("AtmosphericModel", 0))
+
+        # Flutter tab
+        self._ui.maxAltitudeCombo.setCurrentText(self._restoreHeight("MaximumAltitude", "10000 m"))
+        self._ui.speedInput.quantity = self._restoreQuantity("MaximumSpeed", "0.0 m/s")
+        self._ui.altitudeInput.quantity = self._restoreQuantity("AltitudeAtMaximumSpeed", "914.00 m")

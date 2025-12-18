@@ -44,7 +44,7 @@
            <item row="1" column="0">
             <widget class="QLabel" name="coefficientLabel">
              <property name="text">
-              <string>Shape Parameter</string>
+              <string>Shape parameter</string>
              </property>
             </widget>
            </item>
@@ -57,7 +57,7 @@
               <item row="0" column="0">
                <widget class="QLabel" name="aftCapStyleLabel">
                 <property name="text">
-                 <string>Cap Style</string>
+                 <string>Cap style</string>
                 </property>
                </widget>
               </item>
@@ -67,7 +67,7 @@
               <item row="1" column="0">
                <widget class="QLabel" name="aftCapBarWidthLabel">
                 <property name="text">
-                 <string>Bar Width</string>
+                 <string>Bar width</string>
                 </property>
                </widget>
               </item>
@@ -84,7 +84,7 @@
            <item row="0" column="0">
             <widget class="QLabel" name="transitionTypeLabel">
              <property name="text">
-              <string>Transition Shape</string>
+              <string>Transition shape</string>
              </property>
             </widget>
            </item>
@@ -104,7 +104,7 @@
               <item row="0" column="0">
                <widget class="QLabel" name="foreCapStyleLabel">
                 <property name="text">
-                 <string>Cap Style</string>
+                 <string>Cap style</string>
                 </property>
                </widget>
               </item>
@@ -114,7 +114,7 @@
               <item row="1" column="0">
                <widget class="QLabel" name="foreCapBarWidthLabel">
                 <property name="text">
-                 <string>Bar Width</string>
+                 <string>Bar width</string>
                 </property>
                </widget>
               </item>
@@ -145,7 +145,7 @@
            <item row="6" column="0">
             <widget class="QLabel" name="foreDiameterLabel">
              <property name="text">
-              <string>Forward Diameter</string>
+              <string>Forward diameter</string>
              </property>
             </widget>
            </item>
@@ -172,7 +172,7 @@
            <item row="10" column="1">
             <spacer name="verticalSpacer">
              <property name="orientation">
-              <enum>Qt::Vertical</enum>
+              <enum>Qt::Orientation::Vertical</enum>
              </property>
              <property name="sizeHint" stdset="0">
               <size>
@@ -192,14 +192,14 @@
            <item row="7" column="0">
             <widget class="QLabel" name="aftDiameterLabel">
              <property name="text">
-              <string>Aft Diameter</string>
+              <string>Aft diameter</string>
              </property>
             </widget>
            </item>
            <item row="8" column="0">
             <widget class="QLabel" name="coreDiameterLabel">
              <property name="text">
-              <string>Core Diameter</string>
+              <string>Core diameter</string>
              </property>
             </widget>
            </item>
@@ -247,7 +247,7 @@
              <item row="1" column="0">
               <widget class="QLabel" name="proxyBaseObjectLabel">
                <property name="text">
-                <string>Base Object</string>
+                <string>Base object</string>
                </property>
               </widget>
              </item>
@@ -271,14 +271,14 @@
              <item row="0" column="0">
               <widget class="QLabel" name="transitionProxyTypeLabel">
                <property name="text">
-                <string>Transition Shape</string>
+                <string>Transition shape</string>
                </property>
               </widget>
              </item>
              <item row="3" column="0">
               <widget class="QLabel" name="proxyForeEffectiveDiamaterLabel">
                <property name="text">
-                <string>Effective Forward Diameter</string>
+                <string>Effective forward diameter</string>
                </property>
               </widget>
              </item>
@@ -295,7 +295,7 @@
              <item row="4" column="0">
               <widget class="QLabel" name="proxyAftEffectiveDiameterLabel">
                <property name="text">
-                <string>Effective Aft Diameter</string>
+                <string>Effective aft diameter</string>
                </property>
               </widget>
              </item>
@@ -338,7 +338,7 @@
               <item row="1" column="0">
                <widget class="QLabel" name="foreOffsetLabel">
                 <property name="text">
-                 <string>Forward Offset</string>
+                 <string>Forward offset</string>
                 </property>
                </widget>
               </item>
@@ -398,7 +398,7 @@
               <item row="2" column="0">
                <widget class="QLabel" name="aftOffsetLabel">
                 <property name="text">
-                 <string>Aft Offset</string>
+                 <string>Aft offset</string>
                 </property>
                </widget>
               </item>
@@ -415,21 +415,21 @@
            <item>
             <widget class="QCheckBox" name="proxyShowForeBasePlaneCheckbox">
              <property name="text">
-              <string>Show Forward Base Plane</string>
+              <string>Show forward base plane</string>
              </property>
             </widget>
            </item>
            <item>
             <widget class="QCheckBox" name="proxyShowAftBasePlaneCheckbox">
              <property name="text">
-              <string>Show Aft Base Plane</string>
+              <string>Show aft base plane</string>
              </property>
             </widget>
            </item>
            <item>
             <spacer name="verticalSpacer_2">
              <property name="orientation">
-              <enum>Qt::Vertical</enum>
+              <enum>Qt::Orientation::Vertical</enum>
              </property>
              <property name="sizeHint" stdset="0">
               <size>
@@ -575,7 +575,7 @@
        <item>
         <spacer name="verticalSpacer_3">
          <property name="orientation">
-          <enum>Qt::Vertical</enum>
+          <enum>Qt::Orientation::Vertical</enum>
          </property>
          <property name="sizeHint" stdset="0">
           <size>

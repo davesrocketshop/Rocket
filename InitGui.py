@@ -56,9 +56,17 @@ class RocketWorkbench ( Workbench ):
         # dummy usage to get flake8 and lgtm quiet
         False if CfdOF.__name__ else True
 
+    def registerWidgets(self) -> None:
+        # These imports don't seem to be available until now
+        from PySide.QtUiTools import QUiLoader
+        from Ui.Widgets.RocketQuantityField import RocketQuantityField
+        loader = QUiLoader()
+        loader.registerCustomWidget(RocketQuantityField)
+
     def Initialize(self):
         FreeCADGui.addLanguagePath(FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/translations")
         FreeCADGui.updateLocale()
+        self.registerWidgets()
 
         # load the module
         # import FreeCAD

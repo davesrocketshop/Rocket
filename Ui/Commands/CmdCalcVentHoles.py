@@ -33,7 +33,7 @@ from Ui.DialogVentHoles import DialogVentHole
 
 def calcVentHoles():
     form = DialogVentHole()
-    form.exec_()
+    form.exec()
 
 class CmdCalcVentHoles:
     def Activated(self):

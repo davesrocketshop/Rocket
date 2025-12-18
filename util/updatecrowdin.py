@@ -381,7 +381,10 @@ def doLanguage(lncode):
         basename = target[0] + "_" + lncode
         newln = lncode
         if len(newln) == 2:
-            newln = newln + "-" + newln.upper()
+            if newln == 'be':
+                newln = 'be-BY'
+            else:
+                newln = newln + "-" + newln.upper()
         basefilepath = os.path.join(tempfolder, target[0], target[0] + "_" + newln + ".ts")
         targetpath = os.path.abspath(target[1])
         qrcpath = os.path.abspath(target[2])

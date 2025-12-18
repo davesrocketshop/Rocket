@@ -13,3 +13,6 @@ Models:
   Density:
     UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"
     Density: "1740.00 kg/m^3"
+  Isotropic Linear Elastic:
+    UUID: "f6f9e48c-b116-4e82-ad7f-3659a9219c50"
+    ShearModulus: "4136854 kPa"

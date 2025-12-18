@@ -1,0 +1,508 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Dialog</class>
+ <widget class="QDialog" name="Dialog">
+  <property name="windowModality">
+   <enum>Qt::WindowModality::NonModal</enum>
+  </property>
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>604</width>
+    <height>574</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Fin Flutter Analysis</string>
+  </property>
+  <property name="modal">
+   <bool>false</bool>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QTabWidget" name="tabWidget">
+     <property name="currentIndex">
+      <number>0</number>
+     </property>
+     <widget class="QWidget" name="tabMaterial">
+      <attribute name="title">
+       <string>Material</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="materialGridLayout">
+       <item>
+        <widget class="QWidget" name="materialTreeWidget" native="true">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer">
+         <property name="orientation">
+          <enum>Qt::Orientation::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>0</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_2">
+         <item>
+          <spacer name="horizontalSpacer">
+           <property name="orientation">
+            <enum>Qt::Orientation::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QPushButton" name="assignMaterialButton">
+           <property name="toolTip">
+            <string>Assign the currently selected material to the fin</string>
+           </property>
+           <property name="text">
+            <string>Assign Material to FIn</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QGridLayout" name="gridLayout">
+         <item row="1" column="1">
+          <widget class="RocketQuantityField" name="shearInput">
+           <property name="toolTip">
+            <string>The shear modulus of the fin material. This can be obtained from the material properties, or calculated using the Young's modulus and poisson ratio.</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="shearLabel">
+           <property name="text">
+            <string>Shear modulus</string>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="0">
+          <widget class="QLabel" name="poissonLabel">
+           <property name="text">
+            <string>Poisson ratio</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="1">
+          <widget class="RocketQuantityField" name="youngsInput">
+           <property name="toolTip">
+            <string>The Young's modulus of the fin material. This is only required to calculate shear modulus.</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="0">
+          <widget class="QLabel" name="youngsLabel">
+           <property name="text">
+            <string>Young's modulus</string>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="1">
+          <widget class="QLineEdit" name="poissonInput">
+           <property name="toolTip">
+            <string>The poisson ratio of the fin material. This is only required to calculate shear modulus.</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="2">
+          <widget class="QCheckBox" name="calculatedCheckbox">
+           <property name="toolTip">
+            <string>Calculates the shear modulus using the Young's modulus and poisson ration when checked.</string>
+           </property>
+           <property name="text">
+            <string>Calculated</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1" colspan="2">
+          <widget class="QCheckBox" name="tipToTipCheckbox">
+           <property name="toolTip">
+            <string>Approximates the effect of tip to tip reinforcement by doubling the value of the shear modulus. This is ONLY an approximation.</string>
+           </property>
+           <property name="text">
+            <string>Aproximate Tip to Tip Reinforcement</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tabLaunchConditions">
+      <attribute name="title">
+       <string>Launch Conditions</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <item>
+        <widget class="QGroupBox" name="launchSiteGroupbox">
+         <property name="title">
+          <string>Launch Site</string>
+         </property>
+         <layout class="QGridLayout" name="gridLayout_4">
+          <item row="1" column="0">
+           <widget class="QLabel" name="launchSiteAltitudeLabel">
+            <property name="text">
+             <string>Altitude</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0">
+           <widget class="QLabel" name="launchSiteLabel">
+            <property name="text">
+             <string>Launch site</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QComboBox" name="launchSiteCombo">
+            <property name="toolTip">
+             <string>A list of known launch sites. Selecting the site will automatically set the launch site altitude.</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="RocketQuantityField" name="launchSiteAltitudeInput">
+            <property name="toolTip">
+             <string>The altitude of the launch site. This can be set manually or by selecting a known launch site.</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="groupBox_2">
+         <property name="title">
+          <string>Temperature</string>
+         </property>
+         <layout class="QGridLayout" name="gridLayout_5">
+          <item row="0" column="0">
+           <widget class="QLabel" name="launchTemperatureLabel">
+            <property name="text">
+             <string>Launch air temperature</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0">
+           <widget class="QLabel" name="atmosphericModelLabel">
+            <property name="text">
+             <string>Atmospheric model</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1">
+           <widget class="QComboBox" name="atmosphericModelCombo">
+            <property name="toolTip">
+             <string>The atmospheric model used to calculate temperatures at different altitudes.</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="3">
+           <widget class="QComboBox" name="temperatureUnitsCombo">
+            <property name="toolTip">
+             <string>Units used for air temperature.</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QLineEdit" name="launchTemperatureInput">
+            <property name="toolTip">
+             <string>The air temperature at the launch site.</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1" colspan="3">
+           <widget class="QCheckBox" name="defaultTemperatureCheckbox">
+            <property name="toolTip">
+             <string>Use a default sea level temperature instead of the launch site temperature. This will often be used when the launch site temperature is unknown.</string>
+            </property>
+            <property name="text">
+             <string>Use default sea level temperature (15 C/ 59 F)</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Orientation::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>0</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tabFlutter">
+      <attribute name="title">
+       <string>Fin Flutter</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="flutterGroupLayout">
+       <item>
+        <layout class="QGridLayout" name="gridLayout_2">
+         <item row="0" column="0">
+          <widget class="QLabel" name="maxAltitudeLabel">
+           <property name="text">
+            <string>Maximum altitude</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="0">
+          <widget class="QLabel" name="altitudeLabel">
+           <property name="text">
+            <string>Altitude at max speed</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QComboBox" name="maxAltitudeCombo">
+           <property name="toolTip">
+            <string>Sets the altitude range for the slider and graph.</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="speedLabel">
+           <property name="text">
+            <string>Maximum speed</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <widget class="RocketQuantityField" name="altitudeInput">
+           <property name="toolTip">
+            <string>The expected altitude Above Ground Level (AGL) at which the rocket will be travelling at max speed.</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="RocketQuantityField" name="speedInput">
+           <property name="toolTip">
+            <string>The expected maximum speed for the rocket. This is not required to calculate flutter or divergence but is required to determine safety margins.</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QWidget" name="widgetGraph" native="true">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout">
+         <item>
+          <widget class="QSlider" name="altitudeSlider">
+           <property name="toolTip">
+            <string>Sets the altitude at max speed in the range from 0 to maximum altitude.</string>
+           </property>
+           <property name="orientation">
+            <enum>Qt::Orientation::Horizontal</enum>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QGridLayout" name="gridLayout_3">
+         <item row="0" column="3">
+          <widget class="QLineEdit" name="flutterMachInput">
+           <property name="toolTip">
+            <string>The flutter speed in Mach for the fin at the selected altitude.</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="3">
+          <widget class="QLineEdit" name="divergenceMachInput">
+           <property name="toolTip">
+            <string>The divergence speed in Mach for the fin at the selected altitude.</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <widget class="RocketQuantityField" name="divergenceInput">
+           <property name="toolTip">
+            <string>The divergence speed for the fin at the selected altitude.</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="0">
+          <widget class="QLabel" name="divergenceLabel">
+           <property name="text">
+            <string>Divergence speed</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="0">
+          <widget class="QLabel" name="flutterLabel">
+           <property name="text">
+            <string>Flutter speed</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="2">
+          <widget class="QLabel" name="flutterMarginLabel">
+           <property name="text">
+            <string>Margin</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="2">
+          <widget class="QLabel" name="flutterMachLabel">
+           <property name="text">
+            <string>Mach</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="RocketQuantityField" name="flutterInput">
+           <property name="toolTip">
+            <string>The flutter speed for the fin at the selected altitude.</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="2">
+          <widget class="QLabel" name="divergenceMachLabel">
+           <property name="text">
+            <string>Mach</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="2">
+          <widget class="QLabel" name="divergenceMarginLabel">
+           <property name="text">
+            <string>Margin</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="3">
+          <widget class="QLineEdit" name="flutterMarginInput">
+           <property name="toolTip">
+            <string>The safety margin of the fin based on the flutter speed and the specified maximum speed.</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="3">
+          <widget class="QLineEdit" name="divergenceMarginInput">
+           <property name="toolTip">
+            <string>The safety margin of the fin based on the divergence speed and the specified maximum speed.</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </item>
+   <item>
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="orientation">
+      <enum>Qt::Orientation::Horizontal</enum>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::StandardButton::Ok</set>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>RocketQuantityField</class>
+   <extends>QLineEdit</extends>
+   <header>RocketQuantityField</header>
+  </customwidget>
+ </customwidgets>
+ <tabstops>
+  <tabstop>tabWidget</tabstop>
+  <tabstop>assignMaterialButton</tabstop>
+  <tabstop>shearInput</tabstop>
+  <tabstop>calculatedCheckbox</tabstop>
+  <tabstop>tipToTipCheckbox</tabstop>
+  <tabstop>youngsInput</tabstop>
+  <tabstop>poissonInput</tabstop>
+  <tabstop>launchSiteCombo</tabstop>
+  <tabstop>launchSiteAltitudeInput</tabstop>
+  <tabstop>launchTemperatureInput</tabstop>
+  <tabstop>temperatureUnitsCombo</tabstop>
+  <tabstop>defaultTemperatureCheckbox</tabstop>
+  <tabstop>atmosphericModelCombo</tabstop>
+  <tabstop>maxAltitudeCombo</tabstop>
+  <tabstop>speedInput</tabstop>
+  <tabstop>altitudeInput</tabstop>
+  <tabstop>altitudeSlider</tabstop>
+  <tabstop>flutterInput</tabstop>
+  <tabstop>flutterMachInput</tabstop>
+  <tabstop>flutterMarginInput</tabstop>
+  <tabstop>divergenceInput</tabstop>
+  <tabstop>divergenceMachInput</tabstop>
+  <tabstop>divergenceMarginInput</tabstop>
+ </tabstops>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>accepted()</signal>
+   <receiver>Dialog</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>248</x>
+     <y>254</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>157</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>rejected()</signal>
+   <receiver>Dialog</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>316</x>
+     <y>260</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>286</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

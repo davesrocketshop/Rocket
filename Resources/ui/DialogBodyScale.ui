@@ -30,8 +30,11 @@
    </item>
    <item row="3" column="0">
     <widget class="QRadioButton" name="scaleValueRadio">
+     <property name="toolTip">
+      <string>Matches a specific scale value.</string>
+     </property>
      <property name="text">
-      <string>Scale By Value</string>
+      <string>Scale by value</string>
      </property>
      <property name="checked">
       <bool>true</bool>
@@ -46,15 +49,18 @@
    </item>
    <item row="7" column="0">
     <widget class="QCheckBox" name="minimumCheckbox">
+     <property name="toolTip">
+      <string>Specifies a minumum body diameter.</string>
+     </property>
      <property name="text">
-      <string>Minimum Diameter</string>
+      <string>Minimum diameter</string>
      </property>
     </widget>
    </item>
    <item row="0" column="2">
     <widget class="QPushButton" name="searchButton">
      <property name="toolTip">
-      <string>Search for body tube pairs</string>
+      <string>Search for body tube pairs.</string>
      </property>
      <property name="text">
       <string>Search</string>
@@ -64,12 +70,15 @@
    <item row="1" column="0">
     <widget class="QLabel" name="reference2Label">
      <property name="text">
-      <string>Reference Diameter 2</string>
+      <string>Reference diameter 2</string>
      </property>
     </widget>
    </item>
    <item row="3" column="1">
     <widget class="Gui::DoubleSpinBox" name="scaleValueSpinbox">
+     <property name="toolTip">
+      <string>Sets a specific scale value for matching.</string>
+     </property>
      <property name="maximum">
       <double>10000.000000000000000</double>
      </property>
@@ -92,6 +101,9 @@
      </item>
      <item>
       <widget class="QPushButton" name="setScaleButton">
+       <property name="toolTip">
+        <string>Sets the scale value using the currently selected body tube.</string>
+       </property>
        <property name="text">
         <string>Set Scale</string>
        </property>
@@ -99,6 +111,9 @@
      </item>
      <item>
       <widget class="QPushButton" name="addToDocumentButton">
+       <property name="toolTip">
+        <string>Adds the currently selected body tube to the rocket assembly.</string>
+       </property>
        <property name="text">
         <string>Add to Document</string>
        </property>
@@ -107,7 +122,7 @@
      <item>
       <widget class="QPushButton" name="exportCSVButton">
        <property name="toolTip">
-        <string>Export results to CSV</string>
+        <string>Export matching results to CSV.</string>
        </property>
        <property name="text">
         <string>Export CSV</string>
@@ -124,6 +139,9 @@
      <layout class="QGridLayout" name="gridLayout_2">
       <item row="0" column="0">
        <widget class="QRadioButton" name="scaleReference1">
+        <property name="toolTip">
+         <string>Diameter is matched to the first reference diameter.</string>
+        </property>
         <property name="text">
          <string>Diameter 1</string>
         </property>
@@ -134,6 +152,9 @@
       </item>
       <item row="0" column="1">
        <widget class="QRadioButton" name="scaleReference2">
+        <property name="toolTip">
+         <string>Diameter is matched to the second reference diameter.</string>
+        </property>
         <property name="text">
          <string>Diameter 2</string>
         </property>
@@ -160,6 +181,9 @@
      <property name="enabled">
       <bool>false</bool>
      </property>
+     <property name="toolTip">
+      <string>Specifies a maximum body diameter.</string>
+     </property>
      <property name="unit" stdset="0">
       <string notr="true">mm</string>
      </property>
@@ -170,6 +194,9 @@
      <property name="enabled">
       <bool>false</bool>
      </property>
+     <property name="toolTip">
+      <string>Specifies a minumum body diameter.</string>
+     </property>
      <property name="unit" stdset="0">
       <string notr="true">mm</string>
      </property>
@@ -178,7 +205,7 @@
    <item row="1" column="1">
     <widget class="Gui::InputField" name="reference2Input">
      <property name="toolTip">
-      <string>Scale reference diameter</string>
+      <string>Scale reference used to match diameter.</string>
      </property>
      <property name="unit" stdset="0">
       <string notr="true">mm</string>
@@ -201,21 +228,24 @@
    <item row="0" column="0">
     <widget class="QLabel" name="reference1Label">
      <property name="text">
-      <string>Reference Diameter 1</string>
+      <string>Reference diameter 1</string>
      </property>
     </widget>
    </item>
    <item row="8" column="0">
     <widget class="QCheckBox" name="maximumCheckbox">
+     <property name="toolTip">
+      <string>Specifies a maximum body diameter.</string>
+     </property>
      <property name="text">
-      <string>Maximum Diameter</string>
+      <string>Maximum diameter</string>
      </property>
     </widget>
    </item>
    <item row="0" column="1">
     <widget class="Gui::InputField" name="reference1Input">
      <property name="toolTip">
-      <string>Scale reference diameter</string>
+      <string>Scale reference used to match diameter.</string>
      </property>
      <property name="unit" stdset="0">
       <string notr="true">mm</string>
@@ -225,7 +255,7 @@
    <item row="6" column="1">
     <widget class="Gui::DoubleSpinBox" name="toleranceSpinbox">
      <property name="toolTip">
-      <string>Maximum error in body diameter</string>
+      <string>Maximum error in the matched body diameter.</string>
      </property>
      <property name="value">
       <double>5.000000000000000</double>
@@ -234,6 +264,9 @@
    </item>
    <item row="4" column="1">
     <widget class="Gui::InputField" name="scaleDiameterInput">
+     <property name="toolTip">
+      <string>Sets the desired body diameter.</string>
+     </property>
      <property name="unit" stdset="0">
       <string>mm</string>
      </property>
@@ -241,8 +274,11 @@
    </item>
    <item row="4" column="0">
     <widget class="QRadioButton" name="scaleDiameterRadio">
+     <property name="toolTip">
+      <string>Sets the scale by matching the reference diameter to aa desired diameter,</string>
+     </property>
      <property name="text">
-      <string>Scale By Diameter</string>
+      <string>Scale by diameter</string>
      </property>
      <attribute name="buttonGroup">
       <string notr="true">buttonGroup</string>
@@ -251,8 +287,11 @@
    </item>
    <item row="2" column="0">
     <widget class="QRadioButton" name="scaleAnyRadio">
+     <property name="toolTip">
+      <string>Matches aany scale value.</string>
+     </property>
      <property name="text">
-      <string>Any Scale</string>
+      <string>Any scale</string>
      </property>
      <attribute name="buttonGroup">
       <string notr="true">buttonGroup</string>

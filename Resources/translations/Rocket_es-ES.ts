@@ -4,376 +4,441 @@
   <context>
     <name>App::Property</name>
     <message>
-      <location filename="../../Rocket/FeatureBodyTube.py" line="56"/>
+      <location filename="../../Rocket/FeatureRailGuide.py" line="58"/>
+      <source>Rail guide base type</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureRailGuide.py" line="66"/>
+      <source>Width of the top of the launch guide</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureRailGuide.py" line="68"/>
+      <source>Width of the inside of the launch guide</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureRailGuide.py" line="70"/>
+      <source>Width of the base or bottom of the launch guide</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureRailGuide.py" line="72"/>
+      <source>Height of the top part of the launch guide</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureRailGuide.py" line="74"/>
+      <source>Height of the inside part of the launch guide</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureRailGuide.py" line="76"/>
+      <source>Total height of the launch guide</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureRailGuide.py" line="78"/>
+      <source>Diameter of the outside of the body tube for conformal base type</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureRailGuide.py" line="80"/>
+      <source>Automatically set the diameter when possible</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureRailGuide.py" line="82"/>
+      <source>Angle for V base type</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureLaunchLug.py" line="67"/>
+      <location filename="../../Rocket/FeatureRailGuide.py" line="84"/>
+      <source>The component has a sweep at the forward end</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureLaunchLug.py" line="69"/>
+      <location filename="../../Rocket/FeatureRailGuide.py" line="86"/>
+      <source>Angle for the forward end sweep</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureLaunchLug.py" line="71"/>
+      <location filename="../../Rocket/FeatureRailGuide.py" line="88"/>
+      <source>The component has a sweep at the aft end</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureLaunchLug.py" line="73"/>
+      <location filename="../../Rocket/FeatureRailGuide.py" line="90"/>
+      <source>Angle for the aft end sweep</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureRailGuide.py" line="92"/>
+      <source>The component has a notch down the middle</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureRailGuide.py" line="94"/>
+      <source>Width of the notch</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureRailGuide.py" line="96"/>
+      <source>Depth of the notch</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureRailButton.py" line="109"/>
+      <location filename="../../Rocket/FeatureLaunchLug.py" line="62"/>
+      <location filename="../../Rocket/RadiusRingComponent.py" line="48"/>
+      <location filename="../../Rocket/FeatureRailGuide.py" line="99"/>
+      <source>Instance count</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureRailButton.py" line="111"/>
+      <location filename="../../Rocket/FeatureLaunchLug.py" line="64"/>
+      <location filename="../../Rocket/FeatureRailGuide.py" line="101"/>
+      <source>Instance separation</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/RocketComponent.py" line="57"/>
+      <source>Component manufacturer</source>
+      <translation>Fabricante de componentes</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/RocketComponent.py" line="59"/>
+      <source>Component manufacturer part number</source>
+      <translation>Número de pieza del componente del fabricante</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/RocketComponent.py" line="63"/>
+      <source>Component description</source>
+      <translation>Descripción de Componente</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/RocketComponent.py" line="66"/>
+      <source>Reference location for the location</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/RocketComponent.py" line="84"/>
+      <source>Length of the component</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/RocketComponentShapeless.py" line="70"/>
+      <location filename="../../Rocket/RocketComponent.py" line="86"/>
+      <source>Method for calculating axial offsets</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/RocketComponent.py" line="90"/>
+      <source>Scale the object by body diameter</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/RocketComponent.py" line="92"/>
+      <source>Automatically scale the object by body diameter</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/RocketComponent.py" line="94"/>
+      <source>Use the fore value for objects with different fore and aft diameters</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/RocketComponent.py" line="97"/>
+      <source>Texture file</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/RocketComponent.py" line="100"/>
+      <source>Shape of the component</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
       <location filename="../../Rocket/FeatureRingtail.py" line="54"/>
       <location filename="../../Rocket/FeatureLaunchLug.py" line="57"/>
+      <location filename="../../Rocket/FeatureBodyTube.py" line="56"/>
       <source>Diameter of the outside of the body tube</source>
       <translation>Diámetro exterior del cuerpo tubular</translation>
     </message>
     <message>
+      <location filename="../../Rocket/FeatureRingtail.py" line="56"/>
+      <location filename="../../Rocket/RingComponent.py" line="57"/>
+      <location filename="../../Rocket/FeatureBodyTube.py" line="58"/>
+      <source>Automatically set the outer diameter when possible</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
       <location filename="../../Rocket/ThicknessRingComponent.py" line="51"/>
-      <location filename="../../Rocket/FeatureBodyTube.py" line="60"/>
       <location filename="../../Rocket/FeatureLaunchLug.py" line="59"/>
+      <location filename="../../Rocket/FeatureBodyTube.py" line="60"/>
       <source>Diameter of the inside of the body tube</source>
       <translation>Diámetro del interior del cuerpo tubular</translation>
     </message>
     <message>
-      <location filename="../../Rocket/FeatureRailGuide.py" line="99"/>
-      <location filename="../../Rocket/RadiusRingComponent.py" line="48"/>
-      <location filename="../../Rocket/FeatureRailButton.py" line="109"/>
-      <location filename="../../Rocket/FeatureLaunchLug.py" line="62"/>
-      <source>Instance count</source>
-      <translation>Número de instancias</translation>
+      <location filename="../../Rocket/FeatureInnerTube.py" line="65"/>
+      <location filename="../../Rocket/FeatureBodyTube.py" line="63"/>
+      <source>This component is a motor mount</source>
+      <translation type="unfinished"/>
     </message>
     <message>
-      <location filename="../../Rocket/FeatureRailGuide.py" line="101"/>
-      <location filename="../../Rocket/FeatureRailButton.py" line="111"/>
-      <location filename="../../Rocket/FeatureLaunchLug.py" line="64"/>
-      <source>Instance separation</source>
-      <translation>Separación de instancias</translation>
+      <location filename="../../Rocket/FeatureInnerTube.py" line="63"/>
+      <location filename="../../Rocket/FeatureBodyTube.py" line="65"/>
+      <source>Motor overhang</source>
+      <translation type="unfinished"/>
     </message>
     <message>
-      <location filename="../../Rocket/FeatureRailGuide.py" line="84"/>
-      <location filename="../../Rocket/FeatureLaunchLug.py" line="67"/>
-      <source>The component has a sweep at the forward end</source>
-      <translation>La componente tiene un barrido en el extremo delantero</translation>
+      <location filename="../../Rocket/FeatureBodyTube.py" line="68"/>
+      <source>This component is solid</source>
+      <translation type="unfinished"/>
     </message>
     <message>
-      <location filename="../../Rocket/FeatureRailGuide.py" line="86"/>
-      <location filename="../../Rocket/FeatureLaunchLug.py" line="69"/>
-      <source>Angle for the forward end sweep</source>
-      <translation>Ángulo para el barrido en el extremo delantero</translation>
+      <location filename="../../Rocket/FeatureTransition.py" line="57"/>
+      <source>Diameter at the front of the transition</source>
+      <translation>Diámetro en la parte delantera de la transición</translation>
     </message>
     <message>
-      <location filename="../../Rocket/FeatureRailGuide.py" line="88"/>
-      <location filename="../../Rocket/FeatureLaunchLug.py" line="71"/>
-      <source>The component has a sweep at the aft end</source>
-      <translation>La componente tiene un barrido en el extremo trasero</translation>
+      <location filename="../../Rocket/FeatureTransition.py" line="59"/>
+      <source>Automatically set the forward diameter when possible</source>
+      <translation type="unfinished"/>
     </message>
     <message>
-      <location filename="../../Rocket/FeatureRailGuide.py" line="90"/>
-      <location filename="../../Rocket/FeatureLaunchLug.py" line="73"/>
-      <source>Angle for the aft end sweep</source>
-      <translation>Ángulo para el barrido en el extremo trasero</translation>
+      <location filename="../../Rocket/FeatureTransition.py" line="61"/>
+      <source>Diameter at the base of the transition</source>
+      <translation>Diámetro en la base de la transición</translation>
     </message>
     <message>
-      <location filename="../../Rocket/FeatureBulkhead.py" line="45"/>
-      <source>Thickness of the bulkhead without any inner step</source>
-      <translation>Espesor del mamparo sin escalón interior</translation>
+      <location filename="../../Rocket/FeatureTransition.py" line="63"/>
+      <source>Automatically set the aft diameter when possible</source>
+      <translation type="unfinished"/>
     </message>
     <message>
-      <location filename="../../Rocket/FeatureBulkhead.py" line="50"/>
-      <location filename="../../Rocket/FeatureBulkhead.py" line="48"/>
-      <source>Bulkheads may have a step that fits a smaller diameter</source>
-      <translation>Los mamparos pueden tener un escalón que se ajusta a un diámetro más pequeño</translation>
+      <location filename="../../Rocket/FeatureTransition.py" line="65"/>
+      <source>Diameter of the transition core</source>
+      <translation>Diámetro del núcleo de transición</translation>
     </message>
     <message>
-      <location filename="../../Rocket/FeatureBulkhead.py" line="52"/>
-      <source>Outer diameter of the step</source>
-      <translation>Diámetro exterior del escalón</translation>
+      <location filename="../../Rocket/FeatureTransition.py" line="67"/>
+      <source>Transition thickness</source>
+      <translation>Espesor de transición</translation>
     </message>
     <message>
-      <location filename="../../Rocket/FeatureBulkhead.py" line="54"/>
-      <source>Thickness of the step</source>
-      <translation>Espesor del escalón</translation>
+      <location filename="../../Rocket/FeatureTransition.py" line="69"/>
+      <source>If the transition is not clipped, then the profile is extended at the center by the corresponding radius</source>
+      <translation>Si la transición no está recortada, entonces el perfil se extiende en el centro por el radio correspondiente</translation>
     </message>
     <message>
-      <location filename="../../Rocket/FeatureBulkhead.py" line="57"/>
-      <source>Bulkheads may have holes for attaching eyebolts or retainers</source>
-      <translation>Los mamparos pueden tener orificios para colocar cáncamos o retenedores</translation>
+      <location filename="../../Rocket/FeatureTransition.py" line="72"/>
+      <source>Set to true if the part includes a forward shoulder</source>
+      <translation>Establecer a verdadero si la parte incluye un hombro delantero</translation>
     </message>
     <message>
-      <location filename="../../Rocket/FeatureBulkhead.py" line="59"/>
-      <source>Hole diameter</source>
-      <translation>Diámetro del agujero</translation>
+      <location filename="../../Rocket/FeatureTransition.py" line="74"/>
+      <source>Forward Shoulder Length</source>
+      <translation>Longitud de hombro delantero</translation>
     </message>
     <message>
-      <location filename="../../Rocket/FeatureBulkhead.py" line="61"/>
-      <source>Distance from the center of the bulkhead to the center of the hole</source>
-      <translation>Distancia desde el centro del mamparo hasta el centro del agujero</translation>
+      <location filename="../../Rocket/FeatureTransition.py" line="76"/>
+      <source>Forward Shoulder diameter</source>
+      <translation>Diámetro de hombro delantero</translation>
     </message>
     <message>
-      <location filename="../../Rocket/FeatureBulkhead.py" line="63"/>
-      <source>Number of holes in a radial pattern</source>
-      <translation>Número de agujeros en un patrón radial</translation>
+      <location filename="../../Rocket/FeatureTransition.py" line="78"/>
+      <source>Automatically set the forward transition shoulder diameter when possible</source>
+      <translation type="unfinished"/>
     </message>
     <message>
-      <location filename="../../Rocket/RingComponent.py" line="67"/>
-      <location filename="../../Rocket/RingComponent.py" line="65"/>
-      <location filename="../../Rocket/RingComponent.py" line="63"/>
-      <location filename="../../Rocket/FeatureBulkhead.py" line="65"/>
-      <source>Outer diameter of the bulkhead</source>
-      <translation>Diámetro exterior del mamparo</translation>
+      <location filename="../../Rocket/FeatureTransition.py" line="80"/>
+      <source>Forward Shoulder thickness</source>
+      <translation>Espesor de hombro delantero</translation>
     </message>
     <message>
-      <location filename="../../Rocket/FeatureNoseCone.py" line="64"/>
-      <source>Width of the nose cap bar</source>
-      <translation>Ancho de la barra de la tapa de nariz</translation>
+      <location filename="../../Rocket/FeatureTransition.py" line="83"/>
+      <source>Set to true if the part includes an aft shoulder</source>
+      <translation>Establecer a verdadero si la parte incluye un hombro trasero</translation>
     </message>
     <message>
-      <location filename="../../Rocket/FeatureNoseCone.py" line="66"/>
-      <source>Nose Radius for a blunted nose cone</source>
-      <translation>Radio de nariz para un cono de nariz embotada</translation>
+      <location filename="../../Rocket/FeatureTransition.py" line="85"/>
+      <source>Aft Shoulder Length</source>
+      <translation>Longitud de hombro trasero</translation>
     </message>
     <message>
-      <location filename="../../Rocket/FeatureNoseCone.py" line="68"/>
-      <source>Diameter at the base of the nose</source>
-      <translation>Diámetro en la base de la nariz</translation>
+      <location filename="../../Rocket/FeatureTransition.py" line="87"/>
+      <source>Aft Shoulder diameter</source>
+      <translation>Diámetro de hombro trasero</translation>
     </message>
     <message>
-      <location filename="../../Rocket/FeatureNoseCone.py" line="70"/>
-      <source>Automatically set the nose diameter when possible</source>
-      <translation>Establecer automáticamente el diámetro de nariz cuando sea posible</translation>
+      <location filename="../../Rocket/FeatureTransition.py" line="89"/>
+      <source>Automatically set the aft transition shoulder diameter when possible</source>
+      <translation type="unfinished"/>
     </message>
     <message>
-      <location filename="../../Rocket/FeatureNoseCone.py" line="72"/>
-      <source>Nose cone thickness</source>
-      <translation>Espesor del cono de la nariz</translation>
+      <location filename="../../Rocket/FeatureTransition.py" line="91"/>
+      <source>Aft Shoulder thickness</source>
+      <translation>Espesor de hombro trasero</translation>
     </message>
     <message>
-      <location filename="../../Rocket/FeatureNoseCone.py" line="74"/>
-      <source>Set to true if the part includes a shoulder</source>
-      <translation>Establecer a verdadero si la parte incluye un hombro</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureNoseCone.py" line="76"/>
-      <source>Shoulder Length</source>
-      <translation>Longitud de hombro</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureNoseCone.py" line="78"/>
-      <source>Shoulder diameter</source>
-      <translation>Diámetro de hombro</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureNoseCone.py" line="80"/>
-      <source>Automatically set the nose shoulder diameter when possible</source>
-      <translation>Establecer automáticamente el diámetro de hombro de la nariz cuando sea posible</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureNoseCone.py" line="82"/>
-      <source>Shoulder thickness</source>
-      <translation>Espesor de hombro</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureTransition.py" line="94"/>
       <location filename="../../Rocket/FeatureNoseCone.py" line="84"/>
+      <location filename="../../Rocket/FeatureTransition.py" line="94"/>
       <source>Coefficient</source>
       <translation>Coeficiente</translation>
     </message>
     <message>
-      <location filename="../../Rocket/FeatureNoseCone.py" line="86"/>
-      <source>The radius of the circle used to define a secant ogive</source>
-      <translation>El radio del círculo utilizado para definir una ojiva secante</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureTransition.py" line="96"/>
       <location filename="../../Rocket/FeatureNoseCone.py" line="88"/>
+      <location filename="../../Rocket/FeatureTransition.py" line="96"/>
       <source>Resolution</source>
       <translation>Resolución</translation>
     </message>
     <message>
-      <location filename="../../Rocket/FeatureTransition.py" line="103"/>
-      <location filename="../../Rocket/FeatureFin.py" line="203"/>
+      <location filename="../../Rocket/FeatureTransition.py" line="98"/>
+      <source>Width of the forward cap bar</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureTransition.py" line="100"/>
+      <source>Width of the aft cap bar</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
       <location filename="../../Rocket/FeatureNoseCone.py" line="91"/>
+      <location filename="../../Rocket/FeatureFin.py" line="203"/>
+      <location filename="../../Rocket/FeatureTransition.py" line="103"/>
       <source>This is the local coordinate system within the rocket object that will be used for the proxy feature</source>
       <translation type="unfinished"/>
     </message>
     <message>
-      <location filename="../../Rocket/FeatureNoseCone.py" line="94"/>
-      <source>Nose cone type</source>
-      <translation>Tipo de cono de nariz</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureNoseCone.py" line="127"/>
-      <source>Nose cone style</source>
-      <translation>Estilo de cono de nariz</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureNoseCone.py" line="138"/>
-      <source>Nose cone cap style</source>
-      <translation>Estilo de la tapa del cono de nariz</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureFin.py" line="205"/>
-      <location filename="../../Rocket/FeatureNoseCone.py" line="149"/>
-      <source>The base object used to define the nose cone shape</source>
+      <location filename="../../Rocket/FeatureTransition.py" line="105"/>
+      <source>Offset at the aft end of the proxy object</source>
       <translation type="unfinished"/>
     </message>
     <message>
-      <location filename="../../Rocket/FeatureBodyTube.py" line="58"/>
-      <location filename="../../Rocket/RingComponent.py" line="57"/>
-      <location filename="../../Rocket/FeatureRingtail.py" line="56"/>
-      <source>Automatically set the outer diameter when possible</source>
-      <translation>Establecer automáticamente el diámetro exterior cuando sea posible</translation>
+      <location filename="../../Rocket/FeatureTransition.py" line="108"/>
+      <source>Transition type</source>
+      <translation>Tipo de transición</translation>
     </message>
     <message>
-      <location filename="../../Rocket/FeatureRingtail.py" line="58"/>
-      <source>Thickness of the body tube</source>
-      <translation>Espesor del tubo del cuerpo</translation>
+      <location filename="../../Rocket/FeatureTransition.py" line="131"/>
+      <source>Transition style</source>
+      <translation>Estilo de transición</translation>
     </message>
     <message>
-      <location filename="../../Rocket/FeatureRingtail.py" line="60"/>
-      <source>Automatically set the length when possible</source>
-      <translation>Establecer automáticamente la longitud cuando sea posible</translation>
+      <location filename="../../Rocket/FeatureTransition.py" line="144"/>
+      <source>Forward cap style</source>
+      <translation type="unfinished"/>
     </message>
     <message>
-      <location filename="../../Rocket/FeatureCenteringRing.py" line="50"/>
-      <source>Include a notch for an engine hook</source>
-      <translation>Incluye una muesca para un gancho de motor</translation>
+      <location filename="../../Rocket/FeatureTransition.py" line="155"/>
+      <source>Aft cap style</source>
+      <translation type="unfinished"/>
     </message>
     <message>
-      <location filename="../../Rocket/FeatureCenteringRing.py" line="52"/>
-      <source>Width of the engine hook notch</source>
-      <translation>Ancho de la muesca del gancho del motor</translation>
+      <location filename="../../Rocket/FeatureTransition.py" line="166"/>
+      <source>The base object used to define the transition shape</source>
+      <translation type="unfinished"/>
     </message>
     <message>
-      <location filename="../../Rocket/FeatureCenteringRing.py" line="54"/>
-      <source>Height of the engine hook notch</source>
-      <translation>Altura de la muesca del gancho del motor</translation>
+      <location filename="../../Rocket/cfd/FeatureWindTunnel.py" line="46"/>
+      <source>Diameter of the wind tunnel</source>
+      <translation type="unfinished"/>
     </message>
     <message>
-      <location filename="../../Rocket/position/AxialMethod.py" line="63"/>
-      <source>Tip of the nose cone</source>
-      <translation>Punta del cono de la nariz</translation>
+      <location filename="../../Rocket/cfd/FeatureWindTunnel.py" line="48"/>
+      <source>Length of the wind tunnel</source>
+      <translation type="unfinished"/>
     </message>
     <message>
-      <location filename="../../Rocket/position/AxialMethod.py" line="77"/>
-      <source>After the sibling component</source>
-      <translation>Después del componente hermano</translation>
+      <location filename="../../Rocket/cfd/FeatureCFDRocket.py" line="66"/>
+      <location filename="../../Rocket/cfd/FeatureWindTunnel.py" line="51"/>
+      <source>Shape of the wind tunnel</source>
+      <translation type="unfinished"/>
     </message>
     <message>
-      <location filename="../../Rocket/position/AxialMethod.py" line="92"/>
-      <source>Bottom of the parent component</source>
-      <translation>Parte inferior del componente padre</translation>
+      <location filename="../../Rocket/cfd/FeatureMultiCFDAnalysis.py" line="49"/>
+      <source>Shape of the base rocket</source>
+      <translation type="unfinished"/>
     </message>
     <message>
-      <location filename="../../Rocket/position/AxialMethod.py" line="106"/>
-      <source>Middle of the parent component</source>
-      <translation>Parte del medio del componente padre</translation>
+      <location filename="../../Rocket/cfd/FeatureMultiCFDAnalysis.py" line="51"/>
+      <source>List of AOAs to calculate</source>
+      <translation type="unfinished"/>
     </message>
     <message>
-      <location filename="../../Rocket/position/AxialMethod.py" line="120"/>
-      <source>Top of the parent component</source>
-      <translation>Parte superior del componente padre</translation>
+      <location filename="../../Rocket/cfd/FeatureMultiCFDAnalysis.py" line="56"/>
+      <location filename="../../Rocket/cfd/FeatureMultiCFDAnalysis.py" line="54"/>
+      <source>The rocket under study</source>
+      <translation type="unfinished"/>
     </message>
     <message>
-      <location filename="../../Rocket/position/RadiusMethod.py" line="57"/>
-      <source>Same axis as the target component</source>
-      <translation>Mismo eje que el componente de destino</translation>
+      <location filename="../../Rocket/cfd/FeatureMultiCFDAnalysis.py" line="58"/>
+      <source>Use average of last N values</source>
+      <translation type="unfinished"/>
     </message>
     <message>
-      <location filename="../../Rocket/position/RadiusMethod.py" line="71"/>
-      <source>Center of the parent component</source>
-      <translation>Centro del componente padre</translation>
+      <location filename="../../Rocket/cfd/FeatureCFDRocket.py" line="68"/>
+      <source>Angle of attack in degrees</source>
+      <translation type="unfinished"/>
     </message>
     <message>
-      <location filename="../../Rocket/position/RadiusMethod.py" line="85"/>
-      <source>Surface of the parent component</source>
-      <translation>Superficie del componente padre</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/position/RadiusMethod.py" line="115"/>
-      <source>Surface of the parent component (without offset)</source>
-      <translation>Superficie del componente principal (sin desplazamiento)</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/position/AngleMethod.py" line="55"/>
-      <source>Relative to the parent component</source>
-      <translation>Relativo al componente padre</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/position/AngleMethod.py" line="66"/>
-      <source>Angle is fixed</source>
-      <translation>El ángulo está fijo</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/position/AngleMethod.py" line="77"/>
-      <source>Mirror relative to the rocket&apos;s x-y plane</source>
-      <translation>Espejo relativo al plano XY del cohete</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureInnerTube.py" line="56"/>
-      <source>Layout of a clustered motor mount</source>
-      <translation>Disposición de un soporte de motor agrupado</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureInnerTube.py" line="58"/>
-      <source>Size scaling for the motor mount cluster</source>
-      <translation>Escala de tamaño para el grupo de soporte de motor</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureInnerTube.py" line="60"/>
-      <source>Rotation applied to the motor mount cluster</source>
-      <translation>Rotación aplicada al grupo de soporte de motor</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureBodyTube.py" line="65"/>
-      <location filename="../../Rocket/FeatureInnerTube.py" line="63"/>
-      <source>Motor overhang</source>
-      <translation>Saliente del motor</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureBodyTube.py" line="63"/>
-      <location filename="../../Rocket/FeatureInnerTube.py" line="65"/>
-      <source>This component is a motor mount</source>
-      <translation>Este componente es un soporte de motor</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureParallelStage.py" line="45"/>
-      <source>Number of stages in a radial pattern</source>
-      <translation>Número de etapas en un patrón radial</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureParallelStage.py" line="47"/>
-      <source>Angle between consecutive stages</source>
-      <translation>Ángulo entre etapas consecutivas</translation>
+      <location filename="../../Rocket/cfd/FeatureCFDRocket.py" line="70"/>
+      <source>Angle of rotation in degrees</source>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Rocket/RingComponent.py" line="55"/>
       <source>Outer diameter of the object</source>
-      <translation>Diámetro exterior del objeto</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Rocket/RingComponent.py" line="59"/>
       <source>Automatically set the center diameter when possible</source>
-      <translation>Establecer automáticamente el diámetro central cuando sea posible</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Rocket/RingComponent.py" line="61"/>
       <source>Inner diameter of the bulkhead</source>
-      <translation>Diámetro interior del mamparo</translation>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureBulkhead.py" line="65"/>
+      <location filename="../../Rocket/RingComponent.py" line="67"/>
+      <location filename="../../Rocket/RingComponent.py" line="65"/>
+      <location filename="../../Rocket/RingComponent.py" line="63"/>
+      <source>Outer diameter of the bulkhead</source>
+      <translation>Diámetro exterior del mamparo</translation>
     </message>
     <message>
       <location filename="../../Rocket/RocketComponentShapeless.py" line="67"/>
       <source>User comment</source>
-      <translation>Comentario de usuario</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/RocketComponent.py" line="86"/>
-      <location filename="../../Rocket/RocketComponentShapeless.py" line="70"/>
-      <source>Method for calculating axial offsets</source>
-      <translation>Método para calcular desplazamientos axiales</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Rocket/RocketComponentShapeless.py" line="72"/>
       <source>Offset from the reference point</source>
-      <translation>Desplazamiento desde el punto de referencia</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Rocket/RocketComponentShapeless.py" line="74"/>
       <source>Angle of offset around the center axis</source>
-      <translation>Ángulo de desplazamiento alrededor del eje central</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Rocket/RocketComponentShapeless.py" line="77"/>
       <source>Reference location for the radial offset</source>
-      <translation>Ubicación de referencia para el desplazamiento radial</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Rocket/RocketComponentShapeless.py" line="90"/>
       <source>Radial offset from the reference</source>
-      <translation>Desplazamiento radial desde la referencia</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Rocket/RocketComponentShapeless.py" line="94"/>
@@ -393,6 +458,66 @@
     <message>
       <location filename="../../Rocket/RocketComponentShapeless.py" line="100"/>
       <source>Scaling value or dimension</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/position/AngleMethod.py" line="55"/>
+      <source>Relative to the parent component</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/position/AngleMethod.py" line="66"/>
+      <source>Angle is fixed</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/position/AngleMethod.py" line="77"/>
+      <source>Mirror relative to the rocket&apos;s x-y plane</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/position/RadiusMethod.py" line="57"/>
+      <source>Same axis as the target component</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/position/RadiusMethod.py" line="71"/>
+      <source>Center of the parent component</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/position/RadiusMethod.py" line="85"/>
+      <source>Surface of the parent component</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/position/RadiusMethod.py" line="115"/>
+      <source>Surface of the parent component (without offset)</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/position/AxialMethod.py" line="63"/>
+      <source>Tip of the nose cone</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/position/AxialMethod.py" line="77"/>
+      <source>After the sibling component</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/position/AxialMethod.py" line="92"/>
+      <source>Bottom of the parent component</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/position/AxialMethod.py" line="106"/>
+      <source>Middle of the parent component</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/position/AxialMethod.py" line="120"/>
+      <source>Top of the parent component</source>
       <translation type="unfinished"/>
     </message>
     <message>
@@ -448,7 +573,7 @@
     <message>
       <location filename="../../Rocket/FeatureFin.py" line="119"/>
       <source>Fin tip thickness is the same as the root thickness</source>
-      <translation>El espesor de la punta de la aleta es el mismo que el grosor de la raíz</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Rocket/FeatureFin.py" line="121"/>
@@ -483,17 +608,17 @@
     <message>
       <location filename="../../Rocket/FeatureFin.py" line="134"/>
       <source>Fin cant</source>
-      <translation>Inclinación de aleta</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Rocket/FeatureFin.py" line="137"/>
       <source>Automatically set the fin height to reach the desired spans</source>
-      <translation>Establecer automáticamente la altura de las aletas para alcanzar los tramos deseados</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Rocket/FeatureFin.py" line="139"/>
       <source>Fin total span</source>
-      <translation>Envergadura total de las aletas</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Rocket/FeatureFin.py" line="142"/>
@@ -518,7 +643,7 @@
     <message>
       <location filename="../../Rocket/FeatureFin.py" line="150"/>
       <source>Automatically set the TTW Height</source>
-      <translation>Establecer automáticamente la altura TTW</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Rocket/FeatureFin.py" line="152"/>
@@ -528,47 +653,47 @@
     <message>
       <location filename="../../Rocket/FeatureFin.py" line="155"/>
       <source>True when describing a set of fins</source>
-      <translation>Verdadero al describir un conjunto de aletas</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Rocket/FeatureFin.py" line="157"/>
       <source>Number of fins in a radial pattern</source>
-      <translation>Número de aletas en un patrón radial</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Rocket/FeatureFin.py" line="159"/>
       <source>Angle between consecutive fins</source>
-      <translation>Ángulo entre aletas consecutivas</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Rocket/FeatureFin.py" line="162"/>
       <source>Tube fin outer diameter</source>
-      <translation>Diámetro exterior de aleta tubular</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Rocket/FeatureFin.py" line="164"/>
       <source>Tube fin auto outer diameter</source>
-      <translation>Diámetro exterior de aleta tubular automático</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Rocket/FeatureFin.py" line="166"/>
       <source>Tube fin thickness</source>
-      <translation>Espesor de aleta tubular</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Rocket/FeatureFin.py" line="169"/>
       <source>Set a minimum edge size for fins that would normally have a sharp edge</source>
-      <translation>Establecer un tamaño de borde mínimo para aletas que normalmente tendrían un borde afilado</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Rocket/FeatureFin.py" line="171"/>
       <source>Minimum edge size</source>
-      <translation>Tamaño mínimo de borde</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Rocket/FeatureFin.py" line="177"/>
       <source>Automatically set diameter</source>
-      <translation>Establecer automáticamente el diámetro</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Rocket/FeatureFin.py" line="181"/>
@@ -584,7 +709,7 @@
       <location filename="../../Rocket/FeatureRailButton.py" line="106"/>
       <location filename="../../Rocket/FeatureFin.py" line="192"/>
       <source>Fillet radius</source>
-      <translation>Radio de redondeo</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Rocket/FeatureFin.py" line="195"/>
@@ -599,405 +724,73 @@
     <message>
       <location filename="../../Rocket/FeatureFin.py" line="200"/>
       <source>Custom fin sketch</source>
-      <translation>Boceto personalizado de la aleta</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
-      <location filename="../../Rocket/FeatureFin.py" line="213"/>
+      <location filename="../../Rocket/FeatureNoseCone.py" line="149"/>
+      <location filename="../../Rocket/FeatureFin.py" line="205"/>
+      <source>The base object used to define the nose cone shape</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureFin.py" line="210"/>
       <source>Sketch based fin debugging options</source>
-      <translation>Opciones de depuración para aleta basada en boceto</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/cfd/FeatureWindTunnel.py" line="51"/>
-      <location filename="../../Rocket/cfd/FeatureCFDRocket.py" line="66"/>
-      <source>Shape of the wind tunnel</source>
-      <translation>Forma del túnel de viento</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/cfd/FeatureCFDRocket.py" line="68"/>
-      <source>Angle of attack in degrees</source>
       <translation type="unfinished"/>
     </message>
     <message>
-      <location filename="../../Rocket/cfd/FeatureCFDRocket.py" line="70"/>
-      <source>Angle of rotation in degrees</source>
+      <location filename="../../Rocket/FeatureInnerTube.py" line="56"/>
+      <source>Layout of a clustered motor mount</source>
       <translation type="unfinished"/>
     </message>
     <message>
-      <location filename="../../Rocket/cfd/FeatureMultiCFDAnalysis.py" line="49"/>
-      <source>Shape of the base rocket</source>
+      <location filename="../../Rocket/FeatureInnerTube.py" line="58"/>
+      <source>Size scaling for the motor mount cluster</source>
       <translation type="unfinished"/>
     </message>
     <message>
-      <location filename="../../Rocket/cfd/FeatureMultiCFDAnalysis.py" line="51"/>
-      <source>List of AOAs to calculate</source>
+      <location filename="../../Rocket/FeatureInnerTube.py" line="60"/>
+      <source>Rotation applied to the motor mount cluster</source>
       <translation type="unfinished"/>
-    </message>
-    <message>
-      <location filename="../../Rocket/cfd/FeatureMultiCFDAnalysis.py" line="56"/>
-      <location filename="../../Rocket/cfd/FeatureMultiCFDAnalysis.py" line="54"/>
-      <source>The rocket under study</source>
-      <translation type="unfinished"/>
-    </message>
-    <message>
-      <location filename="../../Rocket/cfd/FeatureMultiCFDAnalysis.py" line="58"/>
-      <source>Use average of last N values</source>
-      <translation type="unfinished"/>
-    </message>
-    <message>
-      <location filename="../../Rocket/cfd/FeatureWindTunnel.py" line="46"/>
-      <source>Diameter of the wind tunnel</source>
-      <translation>Diámetro del túnel de viento</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/cfd/FeatureWindTunnel.py" line="48"/>
-      <source>Length of the wind tunnel</source>
-      <translation>Longitud del túnel de viento</translation>
     </message>
     <message>
       <location filename="../../Rocket/FeaturePod.py" line="52"/>
       <source>Number of pods in a radial pattern</source>
-      <translation>Número de cápsulas en un patrón radial</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Rocket/FeaturePod.py" line="54"/>
       <source>Angle between consecutive pods</source>
-      <translation>Ángulo entre cápsulas consecutivas</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Rocket/FeaturePod.py" line="57"/>
       <source>Method for calculating angle offsets</source>
-      <translation>Método para calcular desplazamientos de ángulos</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Rocket/FeaturePod.py" line="59"/>
       <source>Angle separation</source>
-      <translation>Ángulo de separación</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Rocket/FeaturePod.py" line="62"/>
       <source>Method for calculating radius offsets</source>
-      <translation>Método para calcular desplazamientos de radios</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Rocket/FeaturePod.py" line="64"/>
       <source>Radius offset</source>
-      <translation>Desplazamiento de radio</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureTransition.py" line="57"/>
-      <source>Diameter at the front of the transition</source>
-      <translation>Diámetro en la parte delantera de la transición</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureTransition.py" line="59"/>
-      <source>Automatically set the forward diameter when possible</source>
-      <translation>Establecer automáticamente el diámetro delantero cuando sea posible</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureTransition.py" line="61"/>
-      <source>Diameter at the base of the transition</source>
-      <translation>Diámetro en la base de la transición</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureTransition.py" line="63"/>
-      <source>Automatically set the aft diameter when possible</source>
-      <translation>Establecer automáticamente el diámetro trasero cuando sea posible</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureTransition.py" line="65"/>
-      <source>Diameter of the transition core</source>
-      <translation>Diámetro del núcleo de transición</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureTransition.py" line="67"/>
-      <source>Transition thickness</source>
-      <translation>Espesor de transición</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureTransition.py" line="69"/>
-      <source>If the transition is not clipped, then the profile is extended at the center by the corresponding radius</source>
-      <translation>Si la transición no está recortada, entonces el perfil se extiende en el centro por el radio correspondiente</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureTransition.py" line="72"/>
-      <source>Set to true if the part includes a forward shoulder</source>
-      <translation>Establecer a verdadero si la parte incluye un hombro delantero</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureTransition.py" line="74"/>
-      <source>Forward Shoulder Length</source>
-      <translation>Longitud de hombro delantero</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureTransition.py" line="76"/>
-      <source>Forward Shoulder diameter</source>
-      <translation>Diámetro de hombro delantero</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureTransition.py" line="78"/>
-      <source>Automatically set the forward transition shoulder diameter when possible</source>
-      <translation>Establecer automáticamente el diámetro de transición de hombro delantero cuando sea posible</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureTransition.py" line="80"/>
-      <source>Forward Shoulder thickness</source>
-      <translation>Espesor de hombro delantero</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureTransition.py" line="83"/>
-      <source>Set to true if the part includes an aft shoulder</source>
-      <translation>Establecer a verdadero si la parte incluye un hombro trasero</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureTransition.py" line="85"/>
-      <source>Aft Shoulder Length</source>
-      <translation>Longitud de hombro trasero</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureTransition.py" line="87"/>
-      <source>Aft Shoulder diameter</source>
-      <translation>Diámetro de hombro trasero</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureTransition.py" line="89"/>
-      <source>Automatically set the aft transition shoulder diameter when possible</source>
-      <translation>Establecer automáticamente el diámetro de transición de hombro trasero cuando sea posible</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureTransition.py" line="91"/>
-      <source>Aft Shoulder thickness</source>
-      <translation>Espesor de hombro trasero</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureTransition.py" line="98"/>
-      <source>Width of the forward cap bar</source>
-      <translation>Ancho de la barra de la tapa delantera</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureTransition.py" line="100"/>
-      <source>Width of the aft cap bar</source>
-      <translation>Ancho de la barra de la tapa trasera</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureTransition.py" line="105"/>
-      <source>Offset at the aft end of the proxy object</source>
       <translation type="unfinished"/>
     </message>
     <message>
-      <location filename="../../Rocket/FeatureTransition.py" line="108"/>
-      <source>Transition type</source>
-      <translation>Tipo de transición</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureTransition.py" line="131"/>
-      <source>Transition style</source>
-      <translation>Estilo de transición</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureTransition.py" line="144"/>
-      <source>Forward cap style</source>
-      <translation>Estilo de tapa delantera</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureTransition.py" line="155"/>
-      <source>Aft cap style</source>
-      <translation>Estilo de tapa trasera</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureTransition.py" line="166"/>
-      <source>The base object used to define the transition shape</source>
+      <location filename="../../Rocket/FeatureParallelStage.py" line="45"/>
+      <source>Number of stages in a radial pattern</source>
       <translation type="unfinished"/>
     </message>
     <message>
-      <location filename="../../Rocket/FeatureStage.py" line="52"/>
-      <source>Stage number</source>
-      <translation>Número de etapa</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureRailButton.py" line="67"/>
-      <source>Rail button type</source>
-      <translation>Tipo de botón de riel</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureRailButton.py" line="74"/>
-      <source>Diameter of the outside of the rail button</source>
-      <translation>Diámetro del exterior del botón de riel</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureRailButton.py" line="76"/>
-      <source>Diameter of the inside of the rail button</source>
-      <translation>Diámetro del interior del botón de riel</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureRailButton.py" line="78"/>
-      <source>Height of the top part of the rail button</source>
-      <translation>Altura de la parte superior del botón del riel</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureRailButton.py" line="80"/>
-      <source>Height of the bottom part of the rail button</source>
-      <translation>Altura de la parte inferior del botón del riel</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureRailButton.py" line="82"/>
-      <source>Total height of the rail button</source>
-      <translation>Altura total del botón de riel</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureRailButton.py" line="86"/>
-      <source>Create a countersunk hole for the fastener</source>
-      <translation>Crear un barreno avellanado para el elemento de sujeción</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureRailButton.py" line="88"/>
-      <source>Fastener countersink angle</source>
-      <translation>Ángulo del avellanado del elemento de sujeción</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureRailButton.py" line="99"/>
-      <source>Fastener shank diameter</source>
-      <translation>Diámetro de vástago  del elemento de sujeción</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureRailButton.py" line="101"/>
-      <source>Fastener head diameter</source>
-      <translation>Diámetro de la cabeza del elemento de sujeción</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureRailButton.py" line="104"/>
-      <source>Apply a fillet to the top of the rail button</source>
-      <translation>Aplicar un redondeo a la parte superior del botón de riel</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureFinCan.py" line="64"/>
-      <source>Fin can style</source>
-      <translation>Estilo de lata de aletas</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureFinCan.py" line="71"/>
-      <source>Diameter of the inside or outside of the fin can depending on the style</source>
-      <translation>El diámetro interior o exterior de la lata de aletas depende del estilo</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureFinCan.py" line="73"/>
-      <source>Thickness of the fin can</source>
-      <translation>Espesor de la lata de aletas</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureFinCan.py" line="75"/>
-      <source>Distance between the fin can leading edge and the fin leading edge</source>
-      <translation>Distancia entre el borde de ataque de la lata de aletas y el borde de ataque de la aleta</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureFinCan.py" line="78"/>
-      <source>Leading Edge</source>
-      <translation>Borde de ataque</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureFinCan.py" line="85"/>
-      <source>Leading Edge Length</source>
-      <translation>Longitud de borde de ataque</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureFinCan.py" line="88"/>
-      <source>Trailing Edge</source>
-      <translation>Borde de salida</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureFinCan.py" line="94"/>
-      <source>Trailing Edge Length</source>
-      <translation>Longitud de borde de salida</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureFinCan.py" line="97"/>
-      <source>Fin can includes a launch lug</source>
-      <translation>La lata de aletas incluye una orejeta de lanzamiento</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureFinCan.py" line="99"/>
-      <source>Diameter of the inside of the launch lug</source>
-      <translation>Diámetro del interior de la orejeta de lanzamiento</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureFinCan.py" line="101"/>
-      <source>Thickness of the launch lug</source>
-      <translation>Espesor de la orejeta de lanzamiento</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureFinCan.py" line="103"/>
-      <source>Launch lug thickness is the same as the fin can</source>
-      <translation>El espesor de la orejeta de lanzamiento es el mismo que el de la lata de aletas</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureFinCan.py" line="105"/>
-      <source>Length of the launch lug</source>
-      <translation>Longitud de la orejeta de lanzamiento</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureFinCan.py" line="107"/>
-      <source>Automatically adjust the length of the launch lug</source>
-      <translation>Ajustar automáticmente la longitud de la orejeta de lanzamiento</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureFinCan.py" line="109"/>
-      <source>Distance between the fin can leading edge and the launch lug leading edge</source>
-      <translation>Distancia entre el borde de ataque de la lata de aletas y el borde de ataque de la orejeta de lanzamiento</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureFinCan.py" line="111"/>
-      <source>Launch lug fillet radius</source>
-      <translation>Radio de redondeo de la orejeta de lanzamiento</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureFinCan.py" line="138"/>
-      <location filename="../../Rocket/FeatureFinCan.py" line="114"/>
-      <source>Launch lug size preset</source>
-      <translation>Tamaño de orejeta de lanzamiento preestablecido</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureFinCan.py" line="127"/>
-      <source>Forward side of the launch lug is swept</source>
-      <translation>La parte delantera de la orejeta de lanzamiento es barrida</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureFinCan.py" line="129"/>
-      <source>Forward sweep angle</source>
-      <translation>Ángulo de barrido hacia adelante</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureFinCan.py" line="131"/>
-      <source>Aft side of the launch lug is swept</source>
-      <translation>La parte trasera de la orejeta de lanzamiento es barrida</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureFinCan.py" line="133"/>
-      <source>Aft sweep angle</source>
-      <translation>Ángulo de barrido trasero</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureFinCan.py" line="136"/>
-      <source>Fin can includes coupler</source>
-      <translation>La lata de aletas incluye un acoplador</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureFinCan.py" line="146"/>
-      <source>Thickness of the coupler</source>
-      <translation>Espesor del acoplador</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureFinCan.py" line="148"/>
-      <source>Diameter of the outside of the coupler</source>
-      <translation>Diámetro del exterior del acoplador</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureFinCan.py" line="150"/>
-      <source>Set coupler diameter automatically</source>
-      <translation>Establecer el diámetro del acoplador automáticamente</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureFinCan.py" line="152"/>
-      <source>Length of the coupler</source>
-      <translation>Longitud del acoplador</translation>
+      <location filename="../../Rocket/FeatureParallelStage.py" line="47"/>
+      <source>Angle between consecutive stages</source>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Rocket/RadiusRingComponent.py" line="45"/>
@@ -1007,353 +800,997 @@
     <message>
       <location filename="../../Rocket/RadiusRingComponent.py" line="50"/>
       <source>Front to front along the positive rocket axis</source>
-      <translation>De frente a frente a lo largo del eje positivo del cohete</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureRailGuide.py" line="58"/>
-      <source>Rail guide base type</source>
-      <translation>Tipo de base de guía de riel</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureRailGuide.py" line="66"/>
-      <source>Width of the top of the launch guide</source>
-      <translation>Ancho de la parte superior de la guía de lanzamiento</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureRailGuide.py" line="68"/>
-      <source>Width of the inside of the launch guide</source>
-      <translation>Ancho del interior de la guía de lanzamiento</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureRailGuide.py" line="70"/>
-      <source>Width of the base or bottom of the launch guide</source>
-      <translation>Ancho de la base o parte inferior de la guía de lanzamiento</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureRailGuide.py" line="72"/>
-      <source>Height of the top part of the launch guide</source>
-      <translation>Altura de la parte superior de la guía de lanzamiento</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureRailGuide.py" line="74"/>
-      <source>Height of the inside part of the launch guide</source>
-      <translation>Altura de la parte interior de la guía de lanzamiento</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureRailGuide.py" line="76"/>
-      <source>Total height of the launch guide</source>
-      <translation>Altura total de la guía de lanzamiento</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureRailGuide.py" line="78"/>
-      <source>Diameter of the outside of the body tube for conformal base type</source>
-      <translation>Diámetro exterior del cuerpo tubular para tipo de base conformada</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureRailGuide.py" line="80"/>
-      <source>Automatically set the diameter when possible</source>
-      <translation>Establecer automáticamente el diámetro cuando sea posible</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureRailGuide.py" line="82"/>
-      <source>Angle for V base type</source>
-      <translation>Ángulo para base tipo V</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureRailGuide.py" line="92"/>
-      <source>The component has a notch down the middle</source>
-      <translation>El componente tiene una muesca en el medio</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureRailGuide.py" line="94"/>
-      <source>Width of the notch</source>
-      <translation>Ancho de la muesca</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureRailGuide.py" line="96"/>
-      <source>Depth of the notch</source>
-      <translation>Profundidad de la muesca</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/RocketComponent.py" line="57"/>
-      <source>Component manufacturer</source>
-      <translation>Fabricante de componentes</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/RocketComponent.py" line="59"/>
-      <source>Component manufacturer part number</source>
-      <translation>Número de pieza del componente del fabricante</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/RocketComponent.py" line="63"/>
-      <source>Component description</source>
-      <translation>Descripción de Componente</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/RocketComponent.py" line="66"/>
-      <source>Reference location for the location</source>
-      <translation>Ubicación de referencia para la ubicación</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/RocketComponent.py" line="84"/>
-      <source>Length of the component</source>
-      <translation>Longitud del componente</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/RocketComponent.py" line="90"/>
-      <source>Scale the object by body diameter</source>
       <translation type="unfinished"/>
     </message>
     <message>
-      <location filename="../../Rocket/RocketComponent.py" line="92"/>
-      <source>Automatically scale the object by body diameter</source>
+      <location filename="../../Rocket/FeatureFinCan.py" line="64"/>
+      <source>Fin can style</source>
       <translation type="unfinished"/>
     </message>
     <message>
-      <location filename="../../Rocket/RocketComponent.py" line="94"/>
-      <source>Use the fore value for objects with different fore and aft diameters</source>
+      <location filename="../../Rocket/FeatureFinCan.py" line="71"/>
+      <source>Diameter of the inside or outside of the fin can depending on the style</source>
       <translation type="unfinished"/>
     </message>
     <message>
-      <location filename="../../Rocket/RocketComponent.py" line="97"/>
-      <source>Texture file</source>
-      <translation>Archivo de textura</translation>
+      <location filename="../../Rocket/FeatureFinCan.py" line="73"/>
+      <source>Thickness of the fin can</source>
+      <translation type="unfinished"/>
     </message>
     <message>
-      <location filename="../../Rocket/RocketComponent.py" line="100"/>
-      <source>Shape of the component</source>
-      <translation>Forma del componente</translation>
+      <location filename="../../Rocket/FeatureFinCan.py" line="75"/>
+      <source>Distance between the fin can leading edge and the fin leading edge</source>
+      <translation type="unfinished"/>
     </message>
     <message>
-      <location filename="../../Rocket/FeatureBodyTube.py" line="68"/>
-      <source>This component is solid</source>
-      <translation>Este componente es sólido</translation>
+      <location filename="../../Rocket/FeatureFinCan.py" line="78"/>
+      <source>Leading Edge</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureFinCan.py" line="85"/>
+      <source>Leading Edge Length</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureFinCan.py" line="88"/>
+      <source>Trailing Edge</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureFinCan.py" line="94"/>
+      <source>Trailing Edge Length</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureFinCan.py" line="97"/>
+      <source>Fin can includes a launch lug</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureFinCan.py" line="99"/>
+      <source>Diameter of the inside of the launch lug</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureFinCan.py" line="101"/>
+      <source>Thickness of the launch lug</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureFinCan.py" line="103"/>
+      <source>Launch lug thickness is the same as the fin can</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureFinCan.py" line="105"/>
+      <source>Length of the launch lug</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureFinCan.py" line="107"/>
+      <source>Automatically adjust the length of the launch lug</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureFinCan.py" line="109"/>
+      <source>Distance between the fin can leading edge and the launch lug leading edge</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureFinCan.py" line="111"/>
+      <source>Launch lug fillet radius</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureFinCan.py" line="138"/>
+      <location filename="../../Rocket/FeatureFinCan.py" line="114"/>
+      <source>Launch lug size preset</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureFinCan.py" line="127"/>
+      <source>Forward side of the launch lug is swept</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureFinCan.py" line="129"/>
+      <source>Forward sweep angle</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureFinCan.py" line="131"/>
+      <source>Aft side of the launch lug is swept</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureFinCan.py" line="133"/>
+      <source>Aft sweep angle</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureFinCan.py" line="136"/>
+      <source>Fin can includes coupler</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureFinCan.py" line="146"/>
+      <source>Thickness of the coupler</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureFinCan.py" line="148"/>
+      <source>Diameter of the outside of the coupler</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureFinCan.py" line="150"/>
+      <source>Set coupler diameter automatically</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureFinCan.py" line="152"/>
+      <source>Length of the coupler</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureCenteringRing.py" line="50"/>
+      <source>Include a notch for an engine hook</source>
+      <translation>Incluye una muesca para un gancho de motor</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureCenteringRing.py" line="52"/>
+      <source>Width of the engine hook notch</source>
+      <translation>Ancho de la muesca del gancho del motor</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureCenteringRing.py" line="54"/>
+      <source>Height of the engine hook notch</source>
+      <translation>Altura de la muesca del gancho del motor</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureBulkhead.py" line="45"/>
+      <source>Thickness of the bulkhead without any inner step</source>
+      <translation>Espesor del mamparo sin escalón interior</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureBulkhead.py" line="50"/>
+      <location filename="../../Rocket/FeatureBulkhead.py" line="48"/>
+      <source>Bulkheads may have a step that fits a smaller diameter</source>
+      <translation>Los mamparos pueden tener un escalón que se ajusta a un diámetro más pequeño</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureBulkhead.py" line="52"/>
+      <source>Outer diameter of the step</source>
+      <translation>Diámetro exterior del escalón</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureBulkhead.py" line="54"/>
+      <source>Thickness of the step</source>
+      <translation>Espesor del escalón</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureBulkhead.py" line="57"/>
+      <source>Bulkheads may have holes for attaching eyebolts or retainers</source>
+      <translation>Los mamparos pueden tener orificios para colocar cáncamos o retenedores</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureBulkhead.py" line="59"/>
+      <source>Hole diameter</source>
+      <translation>Diámetro del agujero</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureBulkhead.py" line="61"/>
+      <source>Distance from the center of the bulkhead to the center of the hole</source>
+      <translation>Distancia desde el centro del mamparo hasta el centro del agujero</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureBulkhead.py" line="63"/>
+      <source>Number of holes in a radial pattern</source>
+      <translation>Número de agujeros en un patrón radial</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureNoseCone.py" line="64"/>
+      <source>Width of the nose cap bar</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureNoseCone.py" line="66"/>
+      <source>Nose Radius for a blunted nose cone</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureNoseCone.py" line="68"/>
+      <source>Diameter at the base of the nose</source>
+      <translation>Diámetro en la base de la nariz</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureNoseCone.py" line="70"/>
+      <source>Automatically set the nose diameter when possible</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureNoseCone.py" line="72"/>
+      <source>Nose cone thickness</source>
+      <translation>Espesor del cono de la nariz</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureNoseCone.py" line="74"/>
+      <source>Set to true if the part includes a shoulder</source>
+      <translation>Establecer a verdadero si la parte incluye un hombro</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureNoseCone.py" line="76"/>
+      <source>Shoulder Length</source>
+      <translation>Longitud de hombro</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureNoseCone.py" line="78"/>
+      <source>Shoulder diameter</source>
+      <translation>Diámetro de hombro</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureNoseCone.py" line="80"/>
+      <source>Automatically set the nose shoulder diameter when possible</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureNoseCone.py" line="82"/>
+      <source>Shoulder thickness</source>
+      <translation>Espesor de hombro</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureNoseCone.py" line="86"/>
+      <source>The radius of the circle used to define a secant ogive</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureNoseCone.py" line="94"/>
+      <source>Nose cone type</source>
+      <translation>Tipo de cono de nariz</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureNoseCone.py" line="127"/>
+      <source>Nose cone style</source>
+      <translation>Estilo de cono de nariz</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureNoseCone.py" line="138"/>
+      <source>Nose cone cap style</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureRailButton.py" line="67"/>
+      <source>Rail button type</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureRailButton.py" line="74"/>
+      <source>Diameter of the outside of the rail button</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureRailButton.py" line="76"/>
+      <source>Diameter of the inside of the rail button</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureRailButton.py" line="78"/>
+      <source>Height of the top part of the rail button</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureRailButton.py" line="80"/>
+      <source>Height of the bottom part of the rail button</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureRailButton.py" line="82"/>
+      <source>Total height of the rail button</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureRailButton.py" line="86"/>
+      <source>Create a countersunk hole for the fastener</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureRailButton.py" line="88"/>
+      <source>Fastener countersink angle</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureRailButton.py" line="99"/>
+      <source>Fastener shank diameter</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureRailButton.py" line="101"/>
+      <source>Fastener head diameter</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureRailButton.py" line="104"/>
+      <source>Apply a fillet to the top of the rail button</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureStage.py" line="52"/>
+      <source>Stage number</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureRingtail.py" line="58"/>
+      <source>Thickness of the body tube</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureRingtail.py" line="60"/>
+      <source>Automatically set the length when possible</source>
+      <translation type="unfinished"/>
     </message>
   </context>
   <context>
     <name>Rocket</name>
     <message>
-      <location filename="../../Analyzers/pyatmos/utils/utils.py" line="128"/>
-      <source>Geometric altitudes are outside the range of [{}, {}] km. Output values will be extrapolated for those heights.</source>
-      <translation>Las altitudes geométricas están fuera del rango de [{}, {}] km. Los valores de salida se extrapolarán para esas alturas.</translation>
+      <location filename="../../Ui/Commands/CmdRocket.py" line="80"/>
+      <location filename="../../InitGui.py" line="124"/>
+      <location filename="../../InitGui.py" line="119"/>
+      <location filename="../../InitGui.py" line="112"/>
+      <location filename="../../InitGui.py" line="110"/>
+      <location filename="../../InitGui.py" line="105"/>
+      <location filename="../../InitGui.py" line="101"/>
+      <location filename="../../InitGui.py" line="97"/>
+      <location filename="../../InitGui.py" line="91"/>
+      <location filename="../../InitGui.py" line="89"/>
+      <location filename="../../InitGui.py" line="85"/>
+      <source>Rocket</source>
+      <translation>Cohete</translation>
     </message>
     <message>
-      <location filename="../../Analyzers/pyatmos/utils/utils.py" line="129"/>
-      <source>Geometric altitudes are outside the range of [{}, {}] km.</source>
-      <translation>Las altitudes geométricas están fuera del rango de [{}, {}] km.</translation>
+      <location filename="../../RocketGui.py" line="131"/>
+      <location filename="../../RocketGui.py" line="130"/>
+      <location filename="../../InitGui.py" line="113"/>
+      <source>Calculators</source>
+      <translation>Calculadoras</translation>
     </message>
     <message>
-      <location filename="../../Analyzers/FinFlutter.py" line="70"/>
-      <location filename="../../Analyzers/FinFlutter.py" line="64"/>
-      <source>Elliptical fins are not supported at this time</source>
-      <translation>Las aletas elípticas no son compatibles en este momento</translation>
+      <location filename="../../InitGui.py" line="125"/>
+      <location filename="../../InitGui.py" line="120"/>
+      <source>Analysis</source>
+      <translation type="unfinished"/>
     </message>
     <message>
-      <location filename="../../Analyzers/FinFlutter.py" line="66"/>
-      <source>Triangular fins are not supported at this time</source>
-      <translation>Las aletas triangulares no son compatibles en este momento</translation>
+      <location filename="../../Ui/TaskPanelLocation.py" line="49"/>
+      <source>Location Parameter</source>
+      <translation type="unfinished"/>
     </message>
     <message>
-      <location filename="../../Analyzers/FinFlutter.py" line="68"/>
-      <source>Tube fins are not supported at this time</source>
-      <translation>Las aletas tubulares no son compatibles en este momento</translation>
+      <location filename="../../Ui/TaskPanelLocation.py" line="52"/>
+      <source>Radial reference</source>
+      <translation type="unfinished"/>
     </message>
     <message>
-      <location filename="../../Analyzers/FinFlutter.py" line="77"/>
-      <source>Tapered thickness fins are not supported at this time</source>
-      <translation>Las aletas de espesor cónico no son compatibles en este momento</translation>
+      <location filename="../../Ui/TaskPanelLocation.py" line="58"/>
+      <source>Radial offset</source>
+      <translation type="unfinished"/>
     </message>
     <message>
-      <location filename="../../Analyzers/FinFlutter.py" line="92"/>
-      <source>Custom fins are not supported at this time</source>
-      <translation>Las aletas personalizadas no son compatibles en este momento</translation>
+      <location filename="../../Ui/TaskPanelLocation.py" line="66"/>
+      <source>Location reference</source>
+      <translation type="unfinished"/>
     </message>
     <message>
+      <location filename="../../Ui/TaskPanelLocation.py" line="74"/>
+      <source>Location</source>
+      <translation>Ubicación</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelLocation.py" line="80"/>
+      <source>Angle offset</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdFlutterAnalysis.py" line="51"/>
+      <location filename="../../Ui/Commands/CmdFemAnalysis.py" line="91"/>
+      <source>Please select a fin first</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdFemAnalysis.py" line="103"/>
+      <source>Fin FEM Analysis</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdFemAnalysis.py" line="104"/>
+      <source>Performs a FEM analysis of the selected fin</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdRocket.py" line="81"/>
+      <source>Creates a rocket assembly</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/ViewRocket.py" line="65"/>
+      <location filename="../../Ui/Commands/CmdRocket.py" line="86"/>
+      <source>Toggle active rocket</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdRocket.py" line="87"/>
+      <source>Toggles the active rocket assembly</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdLaunchGuides.py" line="87"/>
+      <source>Launch Lug</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdLaunchGuides.py" line="88"/>
+      <source>Adds a launch lug to the selected component</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdLaunchGuides.py" line="106"/>
+      <source>Rail Button</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdLaunchGuides.py" line="107"/>
+      <source>Adds a rail button to the selected component</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdLaunchGuides.py" line="125"/>
+      <source>Rail Guide</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdLaunchGuides.py" line="126"/>
+      <source>Adds a rail guide to the selected component</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdLaunchGuides.py" line="144"/>
+      <source>Stand Off</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdLaunchGuides.py" line="145"/>
+      <source>Adds a launch guide stand off to the selected component</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdFin.py" line="75"/>
+      <location filename="../../Ui/Commands/CmdParachuteDesigner.py" line="72"/>
+      <source>Fin</source>
+      <translation>Aleta</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdParachuteDesigner.py" line="73"/>
+      <source>Fin design</source>
+      <translation>Diseño de aleta</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/DialogBlackPowder.py" line="55"/>
+      <location filename="../../Ui/Commands/CmdCalcBlackPowder.py" line="48"/>
+      <source>Ejection Charge Calculator</source>
+      <translation>Calculadora de carga de eyección</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdCalcBlackPowder.py" line="49"/>
+      <source>Calculates required ejection charge</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdRingtail.py" line="67"/>
+      <source>Ring tail</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdRingtail.py" line="68"/>
+      <source>Adds a ring tail to the selected component</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdNoseCone.py" line="66"/>
+      <source>Nose Cone</source>
+      <translation>Cono de nariz</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdNoseCone.py" line="67"/>
+      <source>Adds a nose cone to the selected pod or stage</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdBulkhead.py" line="65"/>
+      <source>Bulkhead</source>
+      <translation>Mamparo</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdBulkhead.py" line="66"/>
+      <source>Adds a bulkhead to the selected component</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/DialogVentHoles.py" line="51"/>
+      <location filename="../../Ui/Commands/CmdCalcVentHoles.py" line="48"/>
+      <source>Vent Hole Size Calculator</source>
+      <translation>Calculadora de tamaño de orificio de ventilación</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdCalcVentHoles.py" line="49"/>
+      <source>Calculates required vent hole size</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdSketcher.py" line="60"/>
+      <source>Create sketch</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdSketcher.py" line="61"/>
+      <source>Creates a new sketch</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/DialogFinFlutter.py" line="104"/>
+      <location filename="../../Ui/Commands/CmdFlutterAnalysis.py" line="63"/>
+      <source>Fin Flutter Analysis</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdFlutterAnalysis.py" line="64"/>
+      <source>Performs a fin flutter analysis of the selected fin</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdCenteringRing.py" line="65"/>
+      <source>Centering Ring</source>
+      <translation>Anillo de centrado</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdCenteringRing.py" line="66"/>
+      <source>Adds a centering ring to the selected component</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdMaterialEditor.py" line="44"/>
+      <source>Material editor</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdMaterialEditor.py" line="45"/>
+      <source>Opens the FreeCAD material editor</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdCalcThrustToWeight.py" line="48"/>
+      <source>Thrust to Weight Calculator</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdCalcThrustToWeight.py" line="49"/>
+      <source>Calculates minimum thrust to weight</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdScaling.py" line="49"/>
+      <location filename="../../Ui/Commands/CmdScaling.py" line="47"/>
+      <source>Invalid part selected</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdScaling.py" line="87"/>
+      <location filename="../../Ui/Commands/CmdScaling.py" line="68"/>
+      <source>Please select a pair of body tubes</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdScaling.py" line="101"/>
+      <source>Match body tube pairs</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdScaling.py" line="102"/>
+      <source>Matches body tube pairs suitable for scaling</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdScaling.py" line="115"/>
+      <source>Find scale body tubes</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdScaling.py" line="116"/>
+      <source>Finds scale body tubes</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdBodyTube.py" line="100"/>
+      <source>Body Tube</source>
+      <translation>Cuerpo Tubular</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdBodyTube.py" line="101"/>
+      <source>Adds a body tube to the selected pod or stage</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdBodyTube.py" line="121"/>
+      <source>Coupler</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdBodyTube.py" line="122"/>
+      <source>Adds a coupler to the selected component</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdBodyTube.py" line="142"/>
+      <source>Inner Tube</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdBodyTube.py" line="143"/>
+      <source>Adds an inner tube or motor mount to the selected component</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdBodyTube.py" line="163"/>
+      <source>Engine Block</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdBodyTube.py" line="164"/>
+      <source>Adds an engine block to the selected component</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdEditTree.py" line="70"/>
+      <source>Move Up</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdEditTree.py" line="71"/>
+      <source>Moves the object up in the rocket tree</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdEditTree.py" line="89"/>
+      <source>Move Down</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdEditTree.py" line="90"/>
+      <source>Moves the object down in the rocket tree</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdFinCan.py" line="77"/>
+      <source>Fin Can</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdFinCan.py" line="78"/>
+      <source>Adds a fin can to the selected component</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdParachuteGore.py" line="67"/>
+      <source>Parachute Gore</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdParachuteGore.py" line="68"/>
+      <source>Creates a parachute gore</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdStage.py" line="84"/>
+      <source>Stage</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdStage.py" line="85"/>
+      <source>Adds a stage to the rocket assembly</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/ViewParallelStage.py" line="47"/>
+      <location filename="../../Ui/ViewStage.py" line="65"/>
+      <location filename="../../Ui/Commands/CmdParallelStage.py" line="93"/>
+      <location filename="../../Ui/Commands/CmdStage.py" line="92"/>
+      <source>Toggle active stage</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdStage.py" line="93"/>
+      <source>Toggle the active stage</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdCalcParachute.py" line="48"/>
+      <source>Parachute Size Calculator</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdCalcParachute.py" line="49"/>
+      <source>Calculates required parachute size</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdParachute.py" line="63"/>
+      <source>Parachute</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdParachute.py" line="64"/>
+      <source>Adds a parachute to the selected component</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdTransition.py" line="66"/>
+      <source>Transition</source>
+      <translation>Transición</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdTransition.py" line="67"/>
+      <source>Adds a transition to the selected pod or stage</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdParallelStage.py" line="85"/>
+      <source>Parallel Stage</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdParallelStage.py" line="86"/>
+      <source>Adds a parallel stage to the rocket assembly</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdParallelStage.py" line="94"/>
+      <source>Toggles the active stage</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdCFDAnalysis.py" line="60"/>
+      <source>Please select a rocket first</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdCFDAnalysis.py" line="105"/>
+      <source>CFD Analysis</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdCFDAnalysis.py" line="106"/>
+      <source>Performs a CFD Analysis</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdFin.py" line="76"/>
+      <source>Adds a fin or fin set to the selected component</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdPod.py" line="68"/>
+      <source>Pod</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/Commands/CmdPod.py" line="69"/>
+      <source>Adds an external pod to the selected component</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/DialogFinFlutter.py" line="167"/>
+      <source>Flutter</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/DialogFinFlutter.py" line="168"/>
+      <source>Divergence</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/DialogFinFlutter.py" line="171"/>
+      <source>Altitude (km AGL)</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/DialogFinFlutter.py" line="172"/>
+      <source>Velocity (m/s)</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/DialogFinFlutter.py" line="174"/>
+      <source>Altitude (x1000 ft AGL)</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/DialogFinFlutter.py" line="175"/>
+      <source>Velocity (ft/s)</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/DialogFinFlutter.py" line="333"/>
+      <source>Peak of Flight 615</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/DialogFinFlutter.py" line="334"/>
+      <source>US Standard Atmosphere (USSA) 1976</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/DialogFinFlutter.py" line="336"/>
+      <source>Committee on Extension to the Standard Atmosphere (COESA) 1976 - Geometric</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/DialogFinFlutter.py" line="339"/>
+      <source>Committee on Extension to the Standard Atmosphere (COESA) 1976 - Geopotential</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelRingtail.py" line="58"/>
       <location filename="../../Ui/TaskPanelParallelStage.py" line="47"/>
-      <location filename="../../Ui/TaskPanelPod.py" line="47"/>
-      <location filename="../../Ui/TaskPanelRailGuide.py" line="51"/>
       <location filename="../../Ui/TaskPanelBulkhead.py" line="55"/>
-      <location filename="../../Ui/TaskPanelRingtail.py" line="60"/>
+      <location filename="../../Ui/TaskPanelRailGuide.py" line="51"/>
+      <location filename="../../Ui/TaskPanelPod.py" line="47"/>
+      <location filename="../../Ui/TaskPanelRailButton.py" line="63"/>
       <location filename="../../Ui/TaskPanelLaunchLug.py" line="55"/>
       <location filename="../../Ui/TaskPanelBodyTube.py" line="63"/>
-      <location filename="../../Ui/TaskPanelRailButton.py" line="63"/>
       <source>General</source>
-      <translation>General</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
+      <location filename="../../Ui/TaskPanelRingtail.py" line="59"/>
+      <location filename="../../Ui/TaskPanelNoseCone.py" line="64"/>
+      <location filename="../../Ui/TaskPanelTransition.py" line="62"/>
+      <location filename="../../Ui/TaskPanelFin.py" line="86"/>
+      <location filename="../../Ui/TaskPanelFinCan.py" line="72"/>
+      <location filename="../../Ui/TaskPanelStage.py" line="48"/>
+      <location filename="../../Ui/TaskPanelBodyTube.py" line="65"/>
+      <source>Scaling</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelRingtail.py" line="60"/>
+      <location filename="../../Ui/TaskPanelBulkhead.py" line="56"/>
+      <location filename="../../Ui/TaskPanelNoseCone.py" line="65"/>
+      <location filename="../../Ui/TaskPanelRailGuide.py" line="52"/>
       <location filename="../../Ui/TaskPanelTransition.py" line="63"/>
       <location filename="../../Ui/TaskPanelFin.py" line="87"/>
-      <location filename="../../Ui/DialogFinFlutter.py" line="99"/>
-      <location filename="../../Ui/TaskPanelRailGuide.py" line="52"/>
-      <location filename="../../Ui/TaskPanelNoseCone.py" line="65"/>
-      <location filename="../../Ui/TaskPanelBulkhead.py" line="56"/>
-      <location filename="../../Ui/TaskPanelRingtail.py" line="62"/>
       <location filename="../../Ui/TaskPanelFinCan.py" line="73"/>
-      <location filename="../../Ui/TaskPanelLaunchLug.py" line="56"/>
-      <location filename="../../Ui/TaskPanelBodyTube.py" line="66"/>
-      <location filename="../../Ui/TaskPanelDatabase.py" line="69"/>
       <location filename="../../Ui/TaskPanelRailButton.py" line="64"/>
+      <location filename="../../Ui/TaskPanelLaunchLug.py" line="56"/>
+      <location filename="../../Ui/TaskPanelDatabase.py" line="69"/>
+      <location filename="../../Ui/TaskPanelBodyTube.py" line="66"/>
       <source>Material</source>
       <translation>Material</translation>
     </message>
     <message>
-      <location filename="../../Ui/TaskPanelTransition.py" line="64"/>
+      <location filename="../../Ui/TaskPanelRingtail.py" line="61"/>
       <location filename="../../Ui/TaskPanelParallelStage.py" line="48"/>
-      <location filename="../../Ui/TaskPanelFin.py" line="88"/>
-      <location filename="../../Ui/TaskPanelPod.py" line="48"/>
-      <location filename="../../Ui/TaskPanelRailGuide.py" line="53"/>
-      <location filename="../../Ui/Widgets/CommentTab.py" line="43"/>
-      <location filename="../../Ui/TaskPanelStage.py" line="49"/>
-      <location filename="../../Ui/TaskPanelNoseCone.py" line="66"/>
       <location filename="../../Ui/TaskPanelBulkhead.py" line="57"/>
-      <location filename="../../Ui/TaskPanelRingtail.py" line="63"/>
+      <location filename="../../Ui/TaskPanelNoseCone.py" line="66"/>
+      <location filename="../../Ui/TaskPanelRailGuide.py" line="53"/>
+      <location filename="../../Ui/TaskPanelTransition.py" line="64"/>
+      <location filename="../../Ui/TaskPanelPod.py" line="48"/>
+      <location filename="../../Ui/TaskPanelFin.py" line="88"/>
       <location filename="../../Ui/TaskPanelFinCan.py" line="74"/>
-      <location filename="../../Ui/TaskPanelLaunchLug.py" line="57"/>
-      <location filename="../../Ui/TaskPanelBodyTube.py" line="67"/>
+      <location filename="../../Ui/TaskPanelStage.py" line="49"/>
       <location filename="../../Ui/TaskPanelRailButton.py" line="65"/>
+      <location filename="../../Ui/TaskPanelLaunchLug.py" line="57"/>
+      <location filename="../../Ui/Widgets/CommentTab.py" line="43"/>
+      <location filename="../../Ui/TaskPanelBodyTube.py" line="67"/>
       <source>Comment</source>
-      <translation>Comentario</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
-      <location filename="../../Ui/TaskPanelRailButton.py" line="79"/>
-      <source>Rail Button Parameter</source>
-      <translation>Parámetro de botón de riel</translation>
+      <location filename="../../Ui/TaskPanelBodyTube.py" line="81"/>
+      <source>Body Tube Parameter</source>
+      <translation>Parámetro del cuerpo tubular</translation>
     </message>
     <message>
-      <location filename="../../Ui/TaskPanelRailButton.py" line="81"/>
-      <source>Rail Button Shape</source>
-      <translation>Forma de botón de riel</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/DialogLookup.py" line="541"/>
-      <location filename="../../Ui/DialogLookup.py" line="380"/>
-      <location filename="../../Ui/TaskPanelBulkhead.py" line="77"/>
-      <location filename="../../Ui/TaskPanelRingtail.py" line="86"/>
-      <location filename="../../Ui/DialogScaling.py" line="503"/>
-      <location filename="../../Ui/DialogScaling.py" line="498"/>
-      <location filename="../../Ui/DialogScaling.py" line="203"/>
-      <location filename="../../Ui/TaskPanelFinCan.py" line="950"/>
-      <location filename="../../Ui/TaskPanelLaunchLug.py" line="80"/>
-      <location filename="../../Ui/TaskPanelBodyTube.py" line="90"/>
-      <location filename="../../Ui/TaskPanelRailButton.py" line="88"/>
-      <source>Outer Diameter</source>
-      <translation>Diámetro externo</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/DialogLookup.py" line="542"/>
-      <location filename="../../Ui/DialogLookup.py" line="384"/>
+      <location filename="../../Ui/TaskPanelRingtail.py" line="78"/>
       <location filename="../../Ui/TaskPanelBulkhead.py" line="93"/>
-      <location filename="../../Ui/TaskPanelRingtail.py" line="80"/>
-      <location filename="../../Ui/TaskPanelFinCan.py" line="942"/>
+      <location filename="../../Ui/TaskPanelRailButton.py" line="94"/>
       <location filename="../../Ui/TaskPanelLaunchLug.py" line="74"/>
       <location filename="../../Ui/TaskPanelBodyTube.py" line="84"/>
-      <location filename="../../Ui/TaskPanelRailButton.py" line="94"/>
-      <source>Inner Diameter</source>
-      <translation>Diámetro interno</translation>
+      <source>Inner diameter</source>
+      <translation type="unfinished"/>
     </message>
     <message>
-      <location filename="../../Ui/DialogLookup.py" line="545"/>
-      <location filename="../../Ui/TaskPanelRailGuide.py" line="95"/>
-      <location filename="../../Ui/TaskPanelRailButton.py" line="100"/>
-      <source>Flange Height</source>
-      <translation>Altura de brida</translation>
+      <location filename="../../Ui/TaskPanelRingtail.py" line="84"/>
+      <location filename="../../Ui/TaskPanelBulkhead.py" line="77"/>
+      <location filename="../../Ui/TaskPanelRailButton.py" line="88"/>
+      <location filename="../../Ui/TaskPanelLaunchLug.py" line="80"/>
+      <location filename="../../Ui/TaskPanelBodyTube.py" line="90"/>
+      <source>Outer diameter</source>
+      <translation type="unfinished"/>
     </message>
     <message>
-      <location filename="../../Ui/DialogLookup.py" line="544"/>
-      <location filename="../../Ui/TaskPanelRailGuide.py" line="101"/>
-      <location filename="../../Ui/TaskPanelRailButton.py" line="106"/>
-      <source>Base Height</source>
-      <translation>Altura de base</translation>
+      <location filename="../../Ui/TaskPanelRingtail.py" line="105"/>
+      <location filename="../../Ui/TaskPanelRingtail.py" line="90"/>
+      <location filename="../../Ui/TaskPanelBulkhead.py" line="99"/>
+      <location filename="../../Ui/TaskPanelBulkhead.py" line="83"/>
+      <location filename="../../Ui/TaskPanelRailGuide.py" line="126"/>
+      <location filename="../../Ui/TaskPanelBodyTube.py" line="96"/>
+      <source>auto</source>
+      <translation type="unfinished"/>
     </message>
     <message>
-      <location filename="../../Ui/TaskPanelRailGuide.py" line="107"/>
-      <location filename="../../Ui/TaskPanelRailButton.py" line="112"/>
-      <source>Total Height</source>
-      <translation>Peso total</translation>
+      <location filename="../../Ui/TaskPanelRingtail.py" line="93"/>
+      <location filename="../../Ui/TaskPanelLaunchLug.py" line="86"/>
+      <location filename="../../Ui/TaskPanelBodyTube.py" line="99"/>
+      <source>Wall thickness</source>
+      <translation>Espesor de muro</translation>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Ui/TaskPanelWindTunnel.py" line="66"/>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="167"/>
+      <location filename="../../Ui/TaskPanelRingtail.py" line="99"/>
       <location filename="../../Ui/DialogLookup.py" line="504"/>
       <location filename="../../Ui/DialogLookup.py" line="440"/>
       <location filename="../../Ui/DialogLookup.py" line="385"/>
       <location filename="../../Ui/DialogLookup.py" line="382"/>
       <location filename="../../Ui/TaskPanelRailGuide.py" line="113"/>
-      <location filename="../../Ui/TaskPanelRingtail.py" line="101"/>
+      <location filename="../../Ui/TaskPanelRailButton.py" line="118"/>
       <location filename="../../Ui/TaskPanelLaunchLug.py" line="92"/>
       <location filename="../../Ui/TaskPanelBodyTube.py" line="105"/>
-      <location filename="../../Ui/TaskPanelRailButton.py" line="118"/>
       <source>Length</source>
       <translation>Largo</translation>
     </message>
     <message>
-      <location filename="../../Ui/TaskPanelRailButton.py" line="124"/>
-      <source>Fastener</source>
-      <translation>Elemento de sujeción</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/TaskPanelRailButton.py" line="127"/>
-      <source>Countersink Angle</source>
-      <translation>Ángulo de avellanado</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/TaskPanelRailButton.py" line="138"/>
-      <source>Head Diameter</source>
-      <translation>Diámetro de cabeza</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/TaskPanelRailButton.py" line="144"/>
-      <source>Shank Diameter</source>
-      <translation>Diámetro de vástago</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/TaskPanelRailButton.py" line="150"/>
-      <source>Presets</source>
-      <translation>Ajustes preestablecidos</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/TaskPanelRailButton.py" line="159"/>
-      <source>Top Fillet</source>
-      <translation>Redondeo superior</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/TaskPanelRailButton.py" line="162"/>
-      <source>Radius</source>
-      <translation>Radio</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/TaskPanelRailGuide.py" line="172"/>
-      <location filename="../../Ui/TaskPanelBulkhead.py" line="179"/>
-      <location filename="../../Ui/TaskPanelLaunchLug.py" line="118"/>
-      <location filename="../../Ui/TaskPanelRailButton.py" line="169"/>
-      <source>Instances</source>
+      <location filename="../../Ui/TaskPanelBodyTube.py" line="111"/>
+      <source>Motor mount</source>
       <translation type="unfinished"/>
     </message>
     <message>
-      <location filename="../../Ui/TaskPanelRailGuide.py" line="175"/>
-      <location filename="../../Ui/TaskPanelBulkhead.py" line="182"/>
-      <location filename="../../Ui/TaskPanelLaunchLug.py" line="121"/>
-      <location filename="../../Ui/TaskPanelRailButton.py" line="172"/>
-      <source>Instance Count</source>
+      <location filename="../../Ui/TaskPanelBodyTube.py" line="114"/>
+      <source>Overhang</source>
       <translation type="unfinished"/>
     </message>
     <message>
-      <location filename="../../Ui/TaskPanelRailGuide.py" line="183"/>
-      <location filename="../../Ui/TaskPanelBulkhead.py" line="190"/>
-      <location filename="../../Ui/TaskPanelLaunchLug.py" line="129"/>
-      <location filename="../../Ui/TaskPanelRailButton.py" line="180"/>
-      <source>Instance Separation</source>
+      <location filename="../../Ui/TaskPanelRingtail.py" line="211"/>
+      <location filename="../../Ui/TaskPanelNoseCone.py" line="384"/>
+      <location filename="../../Ui/TaskPanelTransition.py" line="369"/>
+      <location filename="../../Ui/TaskPanelFin.py" line="479"/>
+      <location filename="../../Ui/TaskPanelFinCan.py" line="413"/>
+      <location filename="../../Ui/TaskPanelStage.py" line="95"/>
+      <location filename="../../Ui/TaskPanelBodyTube.py" line="252"/>
+      <source>Upscale</source>
       <translation type="unfinished"/>
     </message>
     <message>
-      <location filename="../../Ui/TaskPanelTransition.py" line="729"/>
-      <location filename="../../Ui/TaskPanelNoseCone.py" line="588"/>
+      <location filename="../../Ui/TaskPanelRingtail.py" line="214"/>
+      <location filename="../../Ui/TaskPanelNoseCone.py" line="387"/>
+      <location filename="../../Ui/TaskPanelTransition.py" line="372"/>
+      <location filename="../../Ui/TaskPanelFin.py" line="482"/>
+      <location filename="../../Ui/TaskPanelFinCan.py" line="416"/>
+      <location filename="../../Ui/TaskPanelStage.py" line="98"/>
+      <location filename="../../Ui/DialogScaling.py" line="504"/>
+      <location filename="../../Ui/DialogScaling.py" line="204"/>
+      <location filename="../../Ui/TaskPanelBodyTube.py" line="255"/>
+      <source>Scale</source>
+      <translation>Escala</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelRingtail.py" line="331"/>
       <location filename="../../Ui/TaskPanelBulkhead.py" line="582"/>
-      <location filename="../../Ui/TaskPanelRingtail.py" line="334"/>
+      <location filename="../../Ui/TaskPanelNoseCone.py" line="588"/>
+      <location filename="../../Ui/TaskPanelTransition.py" line="729"/>
+      <location filename="../../Ui/TaskPanelRailButton.py" line="583"/>
       <location filename="../../Ui/TaskPanelLaunchLug.py" line="342"/>
       <location filename="../../Ui/TaskPanelBodyTube.py" line="386"/>
-      <location filename="../../Ui/TaskPanelRailButton.py" line="583"/>
       <source>Unable to find material &apos;{}&apos;</source>
-      <translation>No se puede encontrar el material &apos;{}&apos;</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Ui/TaskPanelDatabase.py" line="52"/>
@@ -1373,18 +1810,12 @@
       <translation>Fabricante</translation>
     </message>
     <message>
-      <location filename="../../Ui/DialogLookup.py" line="538"/>
-      <location filename="../../Ui/DialogLookup.py" line="499"/>
-      <location filename="../../Ui/DialogLookup.py" line="436"/>
-      <location filename="../../Ui/DialogLookup.py" line="378"/>
-      <location filename="../../Ui/DialogScaling.py" line="501"/>
-      <location filename="../../Ui/DialogScaling.py" line="496"/>
-      <location filename="../../Ui/DialogScaling.py" line="201"/>
       <location filename="../../Ui/TaskPanelDatabase.py" line="59"/>
-      <source>Part Number</source>
-      <translation>Número de pieza</translation>
+      <source>Part number</source>
+      <translation type="unfinished"/>
     </message>
     <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="901"/>
       <location filename="../../Ui/DialogLookup.py" line="539"/>
       <location filename="../../Ui/DialogLookup.py" line="500"/>
       <location filename="../../Ui/DialogLookup.py" line="437"/>
@@ -1402,111 +1833,92 @@
       <translation>Búsqueda...</translation>
     </message>
     <message>
-      <location filename="../../Rocket/Importer/OpenRocket/ComponentElement.py" line="192"/>
       <location filename="../../Rocket/Importer/Rocksim/ComponentElement.py" line="195"/>
+      <location filename="../../Rocket/Importer/OpenRocket/ComponentElement.py" line="192"/>
       <location filename="../../Rocket/RocketComponent.py" line="150"/>
       <location filename="../../Ui/DialogScaling.py" line="301"/>
       <location filename="../../Ui/TaskPanelDatabase.py" line="183"/>
       <location filename="../../Ui/TaskPanelDatabase.py" line="151"/>
       <source>Material &apos;{}&apos; not found - using default material</source>
-      <translation>Material &apos;{}&apos; no encontrado - usando material por defecto</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/TaskPanelTransition.py" line="62"/>
-      <location filename="../../Ui/TaskPanelFin.py" line="86"/>
-      <location filename="../../Ui/TaskPanelStage.py" line="48"/>
-      <location filename="../../Ui/TaskPanelNoseCone.py" line="64"/>
-      <location filename="../../Ui/TaskPanelRingtail.py" line="61"/>
-      <location filename="../../Ui/TaskPanelFinCan.py" line="72"/>
-      <location filename="../../Ui/TaskPanelBodyTube.py" line="65"/>
-      <source>Scaling</source>
       <translation type="unfinished"/>
     </message>
     <message>
-      <location filename="../../Ui/TaskPanelBodyTube.py" line="81"/>
-      <source>Body Tube Parameter</source>
-      <translation>Parámetro del cuerpo tubular</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/TaskPanelRailGuide.py" line="126"/>
-      <location filename="../../Ui/TaskPanelBulkhead.py" line="99"/>
-      <location filename="../../Ui/TaskPanelBulkhead.py" line="83"/>
-      <location filename="../../Ui/TaskPanelRingtail.py" line="107"/>
-      <location filename="../../Ui/TaskPanelRingtail.py" line="92"/>
-      <location filename="../../Ui/TaskPanelBodyTube.py" line="96"/>
-      <source>auto</source>
-      <translation>automático</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/TaskPanelRingtail.py" line="95"/>
-      <location filename="../../Ui/TaskPanelLaunchLug.py" line="86"/>
-      <location filename="../../Ui/TaskPanelBodyTube.py" line="99"/>
-      <source>Wall Thickness</source>
-      <translation>Espesor de pared</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/TaskPanelBodyTube.py" line="111"/>
-      <source>Motor Mount</source>
-      <translation>Soporte de motor</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/TaskPanelBodyTube.py" line="114"/>
-      <source>Overhang</source>
-      <translation>Voladizo</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/TaskPanelTransition.py" line="369"/>
-      <location filename="../../Ui/TaskPanelFin.py" line="472"/>
-      <location filename="../../Ui/TaskPanelStage.py" line="95"/>
-      <location filename="../../Ui/TaskPanelNoseCone.py" line="384"/>
-      <location filename="../../Ui/TaskPanelRingtail.py" line="214"/>
-      <location filename="../../Ui/TaskPanelFinCan.py" line="413"/>
-      <location filename="../../Ui/TaskPanelBodyTube.py" line="252"/>
-      <source>Upscale</source>
+      <location filename="../../Ui/TaskPanelCFD.py" line="90"/>
+      <source>Create</source>
       <translation type="unfinished"/>
     </message>
     <message>
-      <location filename="../../Ui/TaskPanelTransition.py" line="372"/>
-      <location filename="../../Ui/TaskPanelFin.py" line="475"/>
-      <location filename="../../Ui/TaskPanelStage.py" line="98"/>
-      <location filename="../../Ui/TaskPanelNoseCone.py" line="387"/>
-      <location filename="../../Ui/TaskPanelRingtail.py" line="217"/>
-      <location filename="../../Ui/DialogScaling.py" line="504"/>
-      <location filename="../../Ui/DialogScaling.py" line="204"/>
-      <location filename="../../Ui/TaskPanelFinCan.py" line="416"/>
-      <location filename="../../Ui/TaskPanelBodyTube.py" line="255"/>
-      <source>Scale</source>
-      <translation>Escala</translation>
+      <location filename="../../Ui/DialogScaling.py" line="157"/>
+      <source>Body Scaler</source>
+      <translation type="unfinished"/>
     </message>
     <message>
-      <location filename="../../Ui/TaskPanelLocation.py" line="49"/>
-      <source>Location Parameter</source>
-      <translation>Parámetro de ubicación</translation>
+      <location filename="../../Ui/DialogScaling.py" line="158"/>
+      <source>Reference diameter</source>
+      <translation type="unfinished"/>
     </message>
     <message>
-      <location filename="../../Ui/TaskPanelLocation.py" line="52"/>
-      <source>Radial Reference</source>
-      <translation>Referencia radial</translation>
+      <location filename="../../Ui/DialogScaling.py" line="499"/>
+      <location filename="../../Ui/DialogScaling.py" line="494"/>
+      <location filename="../../Ui/DialogScaling.py" line="199"/>
+      <source>Index</source>
+      <translation type="unfinished"/>
     </message>
     <message>
-      <location filename="../../Ui/TaskPanelLocation.py" line="58"/>
-      <source>Radial Offset</source>
-      <translation>Desplazamiento radial</translation>
+      <location filename="../../Ui/DialogLookup.py" line="538"/>
+      <location filename="../../Ui/DialogLookup.py" line="499"/>
+      <location filename="../../Ui/DialogLookup.py" line="436"/>
+      <location filename="../../Ui/DialogLookup.py" line="378"/>
+      <location filename="../../Ui/DialogScaling.py" line="501"/>
+      <location filename="../../Ui/DialogScaling.py" line="496"/>
+      <location filename="../../Ui/DialogScaling.py" line="201"/>
+      <source>Part Number</source>
+      <translation>Número de pieza</translation>
     </message>
     <message>
-      <location filename="../../Ui/TaskPanelLocation.py" line="66"/>
-      <source>Location Reference</source>
-      <translation>Referencia de ubicación</translation>
+      <location filename="../../Ui/DialogLookup.py" line="541"/>
+      <location filename="../../Ui/DialogLookup.py" line="380"/>
+      <location filename="../../Ui/TaskPanelFinCan.py" line="950"/>
+      <location filename="../../Ui/DialogScaling.py" line="503"/>
+      <location filename="../../Ui/DialogScaling.py" line="498"/>
+      <location filename="../../Ui/DialogScaling.py" line="203"/>
+      <source>Outer Diameter</source>
+      <translation>Diámetro externo</translation>
     </message>
     <message>
-      <location filename="../../Ui/TaskPanelLocation.py" line="74"/>
-      <source>Location</source>
-      <translation>Ubicación</translation>
+      <location filename="../../Ui/DialogScaling.py" line="505"/>
+      <location filename="../../Ui/DialogScaling.py" line="205"/>
+      <source>Error (%)</source>
+      <translation type="unfinished"/>
     </message>
     <message>
-      <location filename="../../Ui/TaskPanelLocation.py" line="80"/>
-      <source>Angle Offset</source>
-      <translation>Desplazamiento de ángulo</translation>
+      <location filename="../../Ui/DialogScaling.py" line="218"/>
+      <source>Export CSV File</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/DialogLookup.py" line="279"/>
+      <location filename="../../Ui/DialogScaling.py" line="528"/>
+      <location filename="../../Ui/DialogScaling.py" line="288"/>
+      <source>Body tube not found</source>
+      <translation>No se encontró el cuerpo tubular</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/DialogLookup.py" line="314"/>
+      <location filename="../../Ui/DialogLookup.py" line="303"/>
+      <location filename="../../Ui/DialogLookup.py" line="292"/>
+      <location filename="../../Ui/DialogLookup.py" line="281"/>
+      <location filename="../../Ui/DialogScaling.py" line="530"/>
+      <location filename="../../Ui/DialogScaling.py" line="290"/>
+      <source>Multiple identical entries found</source>
+      <translation>Se encontraron varias entradas idénticas</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/DialogLookup.py" line="502"/>
+      <location filename="../../Ui/DialogLookup.py" line="182"/>
+      <location filename="../../Ui/Widgets/ScalingTab.py" line="434"/>
+      <source>Fore Diameter</source>
+      <translation>Diámetro delantero</translation>
     </message>
     <message>
       <location filename="../../Ui/DialogBlackPowder.py" line="37"/>
@@ -1552,26 +1964,27 @@
     </message>
     <message>
       <location filename="../../Ui/DialogParachute.py" line="65"/>
-      <source>Rocket Weight</source>
-      <translation>Peso del cohete</translation>
+      <source>Rocket weight</source>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Ui/DialogParachute.py" line="73"/>
-      <source>Terminal Velocity</source>
-      <translation>Velocidad terminal</translation>
+      <source>Terminal velocity</source>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Ui/DialogParachute.py" line="88"/>
-      <source>Drag Coefficient</source>
-      <translation>Coeficiente de arrastre</translation>
+      <source>Drag coefficient</source>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Ui/TaskPanelWindTunnel.py" line="60"/>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="168"/>
+      <location filename="../../Ui/TaskPanelBulkhead.py" line="138"/>
+      <location filename="../../Ui/TaskPanelBulkhead.py" line="120"/>
       <location filename="../../Ui/DialogLookup.py" line="439"/>
       <location filename="../../Ui/DialogLookup.py" line="190"/>
       <location filename="../../Ui/DialogLookup.py" line="178"/>
-      <location filename="../../Ui/TaskPanelBulkhead.py" line="138"/>
-      <location filename="../../Ui/TaskPanelBulkhead.py" line="120"/>
       <location filename="../../Ui/DialogParachute.py" line="104"/>
       <source>Diameter</source>
       <translation>Diámetro</translation>
@@ -1579,27 +1992,114 @@
     <message>
       <location filename="../../Ui/TaskPanelLaunchLug.py" line="71"/>
       <source>Launch Lug Parameter</source>
-      <translation>Parámetro de orejeta de lanzamiento</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Ui/TaskPanelRailGuide.py" line="137"/>
       <location filename="../../Ui/TaskPanelLaunchLug.py" line="99"/>
-      <source>Forward Sweep</source>
-      <translation>Barrido hacia delante</translation>
+      <source>Forward sweep</source>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Ui/TaskPanelRailGuide.py" line="149"/>
       <location filename="../../Ui/TaskPanelRailGuide.py" line="140"/>
       <location filename="../../Ui/TaskPanelLaunchLug.py" line="111"/>
       <location filename="../../Ui/TaskPanelLaunchLug.py" line="102"/>
-      <source>Sweep Angle</source>
+      <source>Sweep angle</source>
       <translation>Ángulo de barrido</translation>
     </message>
     <message>
       <location filename="../../Ui/TaskPanelRailGuide.py" line="146"/>
       <location filename="../../Ui/TaskPanelLaunchLug.py" line="108"/>
-      <source>Aft Sweep</source>
-      <translation>Barrido trasero</translation>
+      <source>Aft sweep</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelBulkhead.py" line="179"/>
+      <location filename="../../Ui/TaskPanelRailGuide.py" line="172"/>
+      <location filename="../../Ui/TaskPanelRailButton.py" line="169"/>
+      <location filename="../../Ui/TaskPanelLaunchLug.py" line="118"/>
+      <source>Instances</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelBulkhead.py" line="182"/>
+      <location filename="../../Ui/TaskPanelRailGuide.py" line="175"/>
+      <location filename="../../Ui/TaskPanelRailButton.py" line="172"/>
+      <location filename="../../Ui/TaskPanelLaunchLug.py" line="121"/>
+      <source>Instance count</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelBulkhead.py" line="190"/>
+      <location filename="../../Ui/TaskPanelRailGuide.py" line="183"/>
+      <location filename="../../Ui/TaskPanelRailButton.py" line="180"/>
+      <location filename="../../Ui/TaskPanelLaunchLug.py" line="129"/>
+      <source>Instance separation</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelRailButton.py" line="79"/>
+      <source>Rail Button Parameter</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelRailButton.py" line="81"/>
+      <source>Rail button shape</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelRailGuide.py" line="95"/>
+      <location filename="../../Ui/TaskPanelRailButton.py" line="100"/>
+      <source>Flange height</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelRailGuide.py" line="101"/>
+      <location filename="../../Ui/TaskPanelRailButton.py" line="106"/>
+      <source>Base height</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelRailGuide.py" line="107"/>
+      <location filename="../../Ui/TaskPanelRailButton.py" line="112"/>
+      <source>Total height</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelRailButton.py" line="124"/>
+      <source>Fastener</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelRailButton.py" line="127"/>
+      <source>Countersink angle</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelRailButton.py" line="138"/>
+      <source>Head diameter</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelRailButton.py" line="144"/>
+      <source>Shank diameter</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelRailButton.py" line="150"/>
+      <source>Presets</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelRailButton.py" line="159"/>
+      <source>Top fillet</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelRailButton.py" line="162"/>
+      <source>Radius</source>
+      <translation>Radio</translation>
     </message>
     <message>
       <location filename="../../Ui/TaskPanelFinCan.py" line="67"/>
@@ -1609,751 +2109,19 @@
     <message>
       <location filename="../../Ui/TaskPanelFinCan.py" line="125"/>
       <source>Flush with fin can</source>
-      <translation>A ras con la lata de aletas</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Ui/TaskPanelFinCan.py" line="126"/>
       <source>Stepped</source>
-      <translation>Escalonado</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/TaskPanelCFD.py" line="90"/>
-      <source>Create</source>
-      <translation>Crear</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/DialogScaling.py" line="157"/>
-      <source>Body Scaler</source>
       <translation type="unfinished"/>
     </message>
     <message>
-      <location filename="../../Ui/DialogScaling.py" line="158"/>
-      <source>Reference Diameter</source>
-      <translation type="unfinished"/>
-    </message>
-    <message>
-      <location filename="../../Ui/DialogScaling.py" line="499"/>
-      <location filename="../../Ui/DialogScaling.py" line="494"/>
-      <location filename="../../Ui/DialogScaling.py" line="199"/>
-      <source>Index</source>
-      <translation type="unfinished"/>
-    </message>
-    <message>
-      <location filename="../../Ui/DialogScaling.py" line="505"/>
-      <location filename="../../Ui/DialogScaling.py" line="205"/>
-      <source>Error (%)</source>
-      <translation type="unfinished"/>
-    </message>
-    <message>
-      <location filename="../../Ui/DialogScaling.py" line="218"/>
-      <source>Export CSV File</source>
-      <translation type="unfinished"/>
-    </message>
-    <message>
-      <location filename="../../Ui/DialogLookup.py" line="279"/>
-      <location filename="../../Ui/DialogScaling.py" line="528"/>
-      <location filename="../../Ui/DialogScaling.py" line="288"/>
-      <source>Body tube not found</source>
-      <translation>No se encontró el cuerpo tubular</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/DialogLookup.py" line="314"/>
-      <location filename="../../Ui/DialogLookup.py" line="303"/>
-      <location filename="../../Ui/DialogLookup.py" line="292"/>
-      <location filename="../../Ui/DialogLookup.py" line="281"/>
-      <location filename="../../Ui/DialogScaling.py" line="530"/>
-      <location filename="../../Ui/DialogScaling.py" line="290"/>
-      <source>Multiple identical entries found</source>
-      <translation>Se encontraron varias entradas idénticas</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/DialogThrustToWeight.py" line="49"/>
-      <source>Minimum Thrust to Weight Calculator</source>
-      <translation>Calculadora de empuje a peso mínimo</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/DialogThrustToWeight.py" line="53"/>
-      <source>Weight</source>
-      <translation>Peso</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/DialogThrustToWeight.py" line="61"/>
-      <source>Minimum Thrust</source>
-      <translation>Empuje mínimo</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/TaskPanelRingtail.py" line="77"/>
-      <source>Ring tail Parameter</source>
-      <translation>Parámetro de cola de anillo</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/ViewParallelStage.py" line="47"/>
-      <location filename="../../Ui/Commands/CmdParallelStage.py" line="93"/>
-      <location filename="../../Ui/Commands/CmdStage.py" line="92"/>
-      <location filename="../../Ui/ViewStage.py" line="65"/>
-      <source>Toggle active stage</source>
-      <translation>Alternar etapa activa</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/cfd/ViewProviders/ViewProviderWindTunnel.py" line="68"/>
-      <location filename="../../Rocket/cfd/ViewProviders/ViewProviderWindTunnel.py" line="61"/>
-      <location filename="../../Rocket/cfd/ViewProviders/ViewProviderMultiCFDAnalysis.py" line="64"/>
-      <location filename="../../Rocket/cfd/ViewProviders/ViewProviderCFDRocket.py" line="69"/>
-      <location filename="../../Rocket/cfd/ViewProviders/ViewProviderCFDRocket.py" line="62"/>
-      <location filename="../../Ui/ViewParallelStage.py" line="51"/>
-      <location filename="../../Ui/ViewProvider.py" line="92"/>
-      <location filename="../../Ui/ViewProvider.py" line="50"/>
-      <source>Edit %1</source>
-      <translation>Editar %1</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/TaskPanelBulkhead.py" line="72"/>
-      <source>Centering Ring Parameter</source>
-      <translation>Parámetro del anillo de centrado</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/TaskPanelBulkhead.py" line="74"/>
-      <source>Bulkhead Parameter</source>
-      <translation>Parámetro de mamparo</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/TaskPanelBulkhead.py" line="126"/>
-      <location filename="../../Ui/TaskPanelBulkhead.py" line="86"/>
-      <source>Thickness</source>
-      <translation>Espesor</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/TaskPanelBulkhead.py" line="102"/>
-      <source>Notched</source>
-      <translation>Con muesca</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/TaskPanelRailGuide.py" line="159"/>
-      <location filename="../../Ui/TaskPanelBulkhead.py" line="105"/>
-      <source>Width</source>
-      <translation>Ancho</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/DialogLookup.py" line="543"/>
-      <location filename="../../Ui/TaskPanelBulkhead.py" line="111"/>
-      <source>Height</source>
-      <translation>Altura</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/TaskPanelBulkhead.py" line="117"/>
-      <source>Step</source>
-      <translation>Paso</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/TaskPanelBulkhead.py" line="132"/>
-      <source>reverse</source>
-      <translation>invertir</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/TaskPanelBulkhead.py" line="135"/>
-      <source>Holes</source>
-      <translation>Agujeros</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/TaskPanelBulkhead.py" line="144"/>
-      <source>Center</source>
-      <translation>Centrar</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/TaskPanelBulkhead.py" line="150"/>
-      <source>Count</source>
-      <translation>Cuenta</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/TaskPanelBulkhead.py" line="157"/>
-      <source>Offset</source>
-      <translation>Compensación</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/TaskPanelTransition.py" line="744"/>
-      <location filename="../../Ui/TaskPanelFin.py" line="1221"/>
-      <location filename="../../Ui/TaskPanelNoseCone.py" line="600"/>
-      <source>Select an object</source>
-      <translation type="unfinished"/>
-    </message>
-    <message>
-      <location filename="../../Ui/DialogBlackPowder.py" line="38"/>
-      <source>Low</source>
-      <translation>Bajo</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/DialogBlackPowder.py" line="39"/>
-      <source>High</source>
-      <translation>Alto</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdCalcBlackPowder.py" line="48"/>
-      <location filename="../../Ui/DialogBlackPowder.py" line="55"/>
-      <source>Ejection Charge Calculator</source>
-      <translation>Calculadora de carga de eyección</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/DialogBlackPowder.py" line="61"/>
-      <source>
-        &lt;html&gt;
-        &lt;h1&gt;WARNING&lt;/h1&gt;
-        &lt;p&gt;This calculator is an estimate only. Ground test your ejection system before flying. In certain cases this calculation may overestimate the amount of powder required&lt;/p&gt;
-        &lt;/html&gt;
-        </source>
-      <translation>
-        &lt;html&gt;
-        &lt;h1&gt;ADVERTENCIA&lt;/h1&gt;
-        &lt;p&gt;Esta calculadora es solo una estimación. Pruebe en tierra su sistema de expulsión antes de volar. En ciertos casos, este cálculo puede sobrestimar la cantidad de polvo necesaria&lt;/p&gt;
-        &lt;/html&gt;
-        </translation>
-    </message>
-    <message>
-      <location filename="../../Ui/DialogVentHoles.py" line="55"/>
-      <location filename="../../Ui/TaskPanelRailGuide.py" line="120"/>
-      <location filename="../../Ui/DialogBlackPowder.py" line="70"/>
-      <source>Body Tube Diameter</source>
-      <translation>Diámetro del cuerpo tubular</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/DialogVentHoles.py" line="63"/>
-      <location filename="../../Ui/DialogBlackPowder.py" line="78"/>
-      <source>Body Tube Length</source>
-      <translation>Longitud del cuerpo tubular</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/DialogBlackPowder.py" line="86"/>
-      <source>Force</source>
-      <translation>Fuerza</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/DialogBlackPowder.py" line="94"/>
-      <source>Pressure</source>
-      <translation>Presión</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/DialogBlackPowder.py" line="109"/>
-      <source>FFFFg Powder</source>
-      <translation>Polvo FFFFg</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/DialogLookup.py" line="502"/>
-      <location filename="../../Ui/DialogLookup.py" line="182"/>
-      <location filename="../../Ui/Widgets/ScalingTab.py" line="434"/>
-      <source>Fore Diameter</source>
-      <translation>Diámetro delantero</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/TaskPanelRailGuide.py" line="67"/>
-      <source>Rail Guide Parameter</source>
-      <translation>Parámetro de guía de riel</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/TaskPanelRailGuide.py" line="70"/>
-      <source>Rail Guide Base</source>
-      <translation>Base de guía de riel</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/TaskPanelRailGuide.py" line="77"/>
-      <source>Flange Width</source>
-      <translation>Ancho de brida</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/TaskPanelRailGuide.py" line="83"/>
-      <source>Middle Width</source>
-      <translation>Ancho medio</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/TaskPanelRailGuide.py" line="89"/>
-      <source>Base Width</source>
-      <translation>Ancho de base</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/TaskPanelRailGuide.py" line="130"/>
-      <source>V Angle</source>
-      <translation>Ángulo V</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/TaskPanelRailGuide.py" line="156"/>
-      <source>Notch</source>
-      <translation>Muesca</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/TaskPanelRailGuide.py" line="165"/>
-      <source>Depth</source>
-      <translation>Profundidad</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdCalcVentHoles.py" line="48"/>
-      <location filename="../../Ui/DialogVentHoles.py" line="51"/>
-      <source>Vent Hole Size Calculator</source>
-      <translation>Calculadora de tamaño de orificio de ventilación</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/DialogVentHoles.py" line="71"/>
-      <source>Vent Hole Count</source>
-      <translation>Recuento de orificios de ventilación</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/DialogVentHoles.py" line="80"/>
-      <source>Vent Hole Size</source>
-      <translation>Tamaño del orificio de ventilación</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdFlutterAnalysis.py" line="63"/>
-      <location filename="../../Ui/DialogFinFlutter.py" line="95"/>
-      <source>Fin Flutter Analysis</source>
-      <translation>Análisis de aleteo de aletas</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/DialogFinFlutter.py" line="113"/>
-      <source>Shear Modulus</source>
-      <translation>Módulo de cizalladura</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/DialogFinFlutter.py" line="120"/>
-      <source>Calculated</source>
-      <translation>Calculado</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/DialogFinFlutter.py" line="123"/>
-      <source>Young&apos;s Modulus</source>
-      <translation>Módulo de Young</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/DialogFinFlutter.py" line="131"/>
-      <source>Poisson Ratio</source>
-      <translation>Razón de Poisson</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/DialogFinFlutter.py" line="138"/>
-      <source>Fin Flutter</source>
-      <translation>Aleteo de aletas</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/DialogFinFlutter.py" line="140"/>
-      <source>Maximum Altitude</source>
-      <translation>Máxima altitud</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/DialogFinFlutter.py" line="145"/>
-      <source>Altitude at Max Speed</source>
-      <translation>Altitud a velocidad máxima</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/DialogFinFlutter.py" line="176"/>
-      <source>Flutter Speed</source>
-      <translation>Velocidad de aleteo</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/DialogFinFlutter.py" line="184"/>
-      <source>Divergence Speed</source>
-      <translation>Velocidad de divergencia</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/DialogFinFlutter.py" line="199"/>
-      <location filename="../../Ui/DialogFinFlutter.py" line="192"/>
-      <source>Mach</source>
-      <translation>Mach</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdScaling.py" line="49"/>
-      <location filename="../../Ui/Commands/CmdScaling.py" line="47"/>
-      <source>Invalid part selected</source>
-      <translation type="unfinished"/>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdScaling.py" line="87"/>
-      <location filename="../../Ui/Commands/CmdScaling.py" line="68"/>
-      <source>Please select a pair of body tubes</source>
-      <translation type="unfinished"/>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdScaling.py" line="101"/>
-      <source>Match body tube pairs</source>
-      <translation type="unfinished"/>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdScaling.py" line="102"/>
-      <source>Matches body tube pairs suitable for scaling</source>
-      <translation type="unfinished"/>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdScaling.py" line="115"/>
-      <source>Find scale body tubes</source>
-      <translation type="unfinished"/>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdScaling.py" line="116"/>
-      <source>Finds scale body tubes</source>
-      <translation type="unfinished"/>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdParachuteDesigner.py" line="72"/>
-      <location filename="../../Ui/Commands/CmdFin.py" line="75"/>
-      <source>Fin</source>
-      <translation>Aleta</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdFin.py" line="76"/>
-      <source>Adds a fin or fin set to the selected component</source>
-      <translation type="unfinished"/>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdCFDAnalysis.py" line="60"/>
-      <source>Please select a rocket first</source>
-      <translation>Por favor, seleccione un cohete primero</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdCFDAnalysis.py" line="105"/>
-      <source>CFD Analysis</source>
-      <translation>Análisis CFD</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdCFDAnalysis.py" line="106"/>
-      <source>Performs a CFD Analysis</source>
-      <translation type="unfinished"/>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdPod.py" line="68"/>
-      <source>Pod</source>
-      <translation>Cápsula</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdPod.py" line="69"/>
-      <source>Adds an external pod to the selected component</source>
-      <translation type="unfinished"/>
-    </message>
-    <message>
-      <location filename="../../InitGui.py" line="116"/>
-      <location filename="../../InitGui.py" line="111"/>
-      <location filename="../../InitGui.py" line="104"/>
-      <location filename="../../InitGui.py" line="102"/>
-      <location filename="../../InitGui.py" line="97"/>
-      <location filename="../../InitGui.py" line="93"/>
-      <location filename="../../InitGui.py" line="89"/>
-      <location filename="../../InitGui.py" line="83"/>
-      <location filename="../../InitGui.py" line="81"/>
-      <location filename="../../InitGui.py" line="77"/>
-      <location filename="../../Ui/Commands/CmdRocket.py" line="80"/>
-      <source>Rocket</source>
-      <translation>Cohete</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdRocket.py" line="81"/>
-      <source>Creates a rocket assembly</source>
-      <translation type="unfinished"/>
-    </message>
-    <message>
-      <location filename="../../Ui/ViewRocket.py" line="65"/>
-      <location filename="../../Ui/Commands/CmdRocket.py" line="86"/>
-      <source>Toggle active rocket</source>
-      <translation>Alternar cohete activo</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdRocket.py" line="87"/>
-      <source>Toggles the active rocket assembly</source>
-      <translation type="unfinished"/>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdStage.py" line="84"/>
-      <source>Stage</source>
-      <translation>Etapa</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdStage.py" line="85"/>
-      <source>Adds a stage to the rocket assembly</source>
-      <translation type="unfinished"/>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdStage.py" line="93"/>
-      <source>Toggle the active stage</source>
-      <translation>Alternar la etapa activa</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdCalcVentHoles.py" line="49"/>
-      <source>Calculates required vent hole size</source>
-      <translation type="unfinished"/>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdCalcBlackPowder.py" line="49"/>
-      <source>Calculates required ejection charge</source>
-      <translation type="unfinished"/>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdSketcher.py" line="60"/>
-      <source>Create sketch</source>
-      <translation>Crear boceto</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdSketcher.py" line="61"/>
-      <source>Creates a new sketch</source>
-      <translation type="unfinished"/>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdRingtail.py" line="67"/>
-      <source>Ring tail</source>
-      <translation>Cola de anillo</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdRingtail.py" line="68"/>
-      <source>Adds a ring tail to the selected component</source>
-      <translation type="unfinished"/>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdBulkhead.py" line="65"/>
-      <source>Bulkhead</source>
-      <translation>Mamparo</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdBulkhead.py" line="66"/>
-      <source>Adds a bulkhead to the selected component</source>
-      <translation type="unfinished"/>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdNoseCone.py" line="66"/>
-      <source>Nose Cone</source>
-      <translation>Cono de nariz</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdNoseCone.py" line="67"/>
-      <source>Adds a nose cone to the selected pod or stage</source>
-      <translation type="unfinished"/>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdEditTree.py" line="70"/>
-      <source>Move Up</source>
-      <translation>Mover hacia arriba</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdEditTree.py" line="71"/>
-      <source>Moves the object up in the rocket tree</source>
-      <translation type="unfinished"/>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdEditTree.py" line="89"/>
-      <source>Move Down</source>
-      <translation>Mover hacia abajo</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdEditTree.py" line="90"/>
-      <source>Moves the object down in the rocket tree</source>
-      <translation type="unfinished"/>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdCalcThrustToWeight.py" line="48"/>
-      <source>Thrust to Weight Calculator</source>
-      <translation type="unfinished"/>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdCalcThrustToWeight.py" line="49"/>
-      <source>Calculates minimum thrust to weight</source>
-      <translation type="unfinished"/>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdParallelStage.py" line="85"/>
-      <source>Parallel Stage</source>
-      <translation>Etapa paralela</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdParallelStage.py" line="86"/>
-      <source>Adds a parallel stage to the rocket assembly</source>
-      <translation type="unfinished"/>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdParallelStage.py" line="94"/>
-      <source>Toggles the active stage</source>
-      <translation type="unfinished"/>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdCalcParachute.py" line="48"/>
-      <source>Parachute Size Calculator</source>
-      <translation type="unfinished"/>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdCalcParachute.py" line="49"/>
-      <source>Calculates required parachute size</source>
-      <translation type="unfinished"/>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdParachuteDesigner.py" line="73"/>
-      <source>Fin design</source>
-      <translation>Diseño de aleta</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdFinCan.py" line="77"/>
-      <source>Fin Can</source>
-      <translation>Lata de aletas</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdFinCan.py" line="78"/>
-      <source>Adds a fin can to the selected component</source>
-      <translation type="unfinished"/>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdMaterialEditor.py" line="44"/>
-      <source>Material editor</source>
-      <translation>Editor de materiales</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdMaterialEditor.py" line="45"/>
-      <source>Opens the FreeCAD material editor</source>
-      <translation>Abrir el editor de materiales de FreeCAD</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdBodyTube.py" line="100"/>
-      <source>Body Tube</source>
-      <translation>Cuerpo Tubular</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdBodyTube.py" line="101"/>
-      <source>Adds a body tube to the selected pod or stage</source>
-      <translation type="unfinished"/>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdBodyTube.py" line="121"/>
-      <source>Coupler</source>
-      <translation>Acoplador</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdBodyTube.py" line="122"/>
-      <source>Adds a coupler to the selected component</source>
-      <translation type="unfinished"/>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdBodyTube.py" line="142"/>
-      <source>Inner Tube</source>
-      <translation>Tubo interior</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdBodyTube.py" line="143"/>
-      <source>Adds an inner tube or motor mount to the selected component</source>
-      <translation type="unfinished"/>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdBodyTube.py" line="163"/>
-      <source>Engine Block</source>
-      <translation>Bloque de motor</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdBodyTube.py" line="164"/>
-      <source>Adds an engine block to the selected component</source>
-      <translation type="unfinished"/>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdParachuteGore.py" line="67"/>
-      <source>Parachute Gore</source>
-      <translation>Gajo de paracaídas</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdParachuteGore.py" line="68"/>
-      <source>Creates a parachute gore</source>
-      <translation type="unfinished"/>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdLaunchGuides.py" line="87"/>
-      <source>Launch Lug</source>
-      <translation>Orejeta de lanzamiento</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdLaunchGuides.py" line="88"/>
-      <source>Adds a launch lug to the selected component</source>
-      <translation type="unfinished"/>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdLaunchGuides.py" line="106"/>
-      <source>Rail Button</source>
-      <translation>Botón de riel</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdLaunchGuides.py" line="107"/>
-      <source>Adds a rail button to the selected component</source>
-      <translation type="unfinished"/>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdLaunchGuides.py" line="125"/>
-      <source>Rail Guide</source>
-      <translation>Guía de riel</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdLaunchGuides.py" line="126"/>
-      <source>Adds a rail guide to the selected component</source>
-      <translation type="unfinished"/>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdLaunchGuides.py" line="144"/>
-      <source>Stand Off</source>
-      <translation>Separador</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdLaunchGuides.py" line="145"/>
-      <source>Adds a launch guide stand off to the selected component</source>
-      <translation type="unfinished"/>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdCenteringRing.py" line="65"/>
-      <source>Centering Ring</source>
-      <translation>Anillo de centrado</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdCenteringRing.py" line="66"/>
-      <source>Adds a centering ring to the selected component</source>
-      <translation type="unfinished"/>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdFlutterAnalysis.py" line="51"/>
-      <location filename="../../Ui/Commands/CmdFemAnalysis.py" line="91"/>
-      <source>Please select a fin first</source>
-      <translation>Por favor seleccione una aleta primero</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdFemAnalysis.py" line="103"/>
-      <source>Fin FEM Analysis</source>
-      <translation>Análisis FEM de aleta</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdFemAnalysis.py" line="104"/>
-      <source>Performs a FEM analysis of the selected fin</source>
-      <translation type="unfinished"/>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdTransition.py" line="66"/>
-      <source>Transition</source>
-      <translation>Transición</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdTransition.py" line="67"/>
-      <source>Adds a transition to the selected pod or stage</source>
-      <translation type="unfinished"/>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdFlutterAnalysis.py" line="64"/>
-      <source>Performs a fin flutter analysis of the selected fin</source>
-      <translation type="unfinished"/>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdParachute.py" line="63"/>
-      <source>Parachute</source>
-      <translation>Paracaídas</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/Commands/CmdParachute.py" line="64"/>
-      <source>Adds a parachute to the selected component</source>
-      <translation type="unfinished"/>
-    </message>
-    <message>
-      <location filename="../../Ui/TaskPanelPod.py" line="62"/>
-      <source>Pod Parameter</source>
-      <translation>Parámetro de cápsula</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/TaskPanelPod.py" line="66"/>
-      <source>Pod Count</source>
-      <translation>Número de cápsulas</translation>
-    </message>
-    <message>
-      <location filename="../../Ui/TaskPanelPod.py" line="73"/>
-      <source>Pod Spacing</source>
-      <translation>Espaciamiento da cápsula</translation>
+      <location filename="../../Ui/DialogLookup.py" line="542"/>
+      <location filename="../../Ui/DialogLookup.py" line="384"/>
+      <location filename="../../Ui/TaskPanelFinCan.py" line="942"/>
+      <source>Inner Diameter</source>
+      <translation>Diámetro interno</translation>
     </message>
     <message>
       <location filename="../../Ui/TaskPanelFin.py" line="81"/>
@@ -2361,19 +2129,91 @@
       <translation>Parámetro de aleta</translation>
     </message>
     <message>
-      <location filename="../../Ui/TaskPanelParallelStage.py" line="62"/>
-      <source>Parallel Stage Parameter</source>
-      <translation>Parámetro de etapa paralela</translation>
+      <location filename="../../Ui/TaskPanelNoseCone.py" line="600"/>
+      <location filename="../../Ui/TaskPanelTransition.py" line="744"/>
+      <location filename="../../Ui/TaskPanelFin.py" line="1228"/>
+      <source>Select an object</source>
+      <translation type="unfinished"/>
     </message>
     <message>
-      <location filename="../../Ui/TaskPanelParallelStage.py" line="66"/>
-      <source>Stage Count</source>
-      <translation>Número de etapas</translation>
+      <location filename="../../Ui/TaskPanelPod.py" line="62"/>
+      <source>Pod Parameter</source>
+      <translation type="unfinished"/>
     </message>
     <message>
-      <location filename="../../Ui/TaskPanelParallelStage.py" line="73"/>
-      <source>Stage Spacing</source>
-      <translation>Espaciado de etapas</translation>
+      <location filename="../../Ui/TaskPanelPod.py" line="66"/>
+      <source>Pod count</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelPod.py" line="73"/>
+      <source>Pod spacing</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelRailGuide.py" line="67"/>
+      <source>Rail Guide Parameter</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelRailGuide.py" line="70"/>
+      <source>Rail guide base</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelRailGuide.py" line="77"/>
+      <source>Flange width</source>
+      <translation>Ancho de brida</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelRailGuide.py" line="83"/>
+      <source>Middle width</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelRailGuide.py" line="89"/>
+      <source>Base width</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/DialogBlackPowder.py" line="70"/>
+      <location filename="../../Ui/DialogVentHoles.py" line="55"/>
+      <location filename="../../Ui/TaskPanelRailGuide.py" line="120"/>
+      <source>Body tube diameter</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelRailGuide.py" line="130"/>
+      <source>V angle</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelRailGuide.py" line="156"/>
+      <source>Notch</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelBulkhead.py" line="105"/>
+      <location filename="../../Ui/TaskPanelRailGuide.py" line="159"/>
+      <source>Width</source>
+      <translation>Ancho</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelRailGuide.py" line="165"/>
+      <source>Depth</source>
+      <translation>Profundidad</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/ViewProviders/ViewProviderMultiCFDAnalysis.py" line="64"/>
+      <location filename="../../Rocket/cfd/ViewProviders/ViewProviderCFDRocket.py" line="69"/>
+      <location filename="../../Rocket/cfd/ViewProviders/ViewProviderCFDRocket.py" line="62"/>
+      <location filename="../../Rocket/cfd/ViewProviders/ViewProviderWindTunnel.py" line="68"/>
+      <location filename="../../Rocket/cfd/ViewProviders/ViewProviderWindTunnel.py" line="61"/>
+      <location filename="../../Ui/ViewProvider.py" line="92"/>
+      <location filename="../../Ui/ViewProvider.py" line="50"/>
+      <location filename="../../Ui/ViewParallelStage.py" line="51"/>
+      <source>Edit %1</source>
+      <translation>Editar %1</translation>
     </message>
     <message>
       <location filename="../../Ui/DialogLookup.py" line="116"/>
@@ -2393,9 +2233,11 @@
     <message>
       <location filename="../../Ui/DialogLookup.py" line="312"/>
       <source>Rail button not found</source>
-      <translation>Botón de riel no encontrado</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="661"/>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="305"/>
       <location filename="../../Ui/DialogLookup.py" line="376"/>
       <source>Type</source>
       <translation>Tipo</translation>
@@ -2444,25 +2286,170 @@
     <message>
       <location filename="../../Ui/DialogLookup.py" line="540"/>
       <source>Finish</source>
-      <translation>Acabado</translation>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelBulkhead.py" line="111"/>
+      <location filename="../../Ui/DialogLookup.py" line="543"/>
+      <source>Height</source>
+      <translation>Altura</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/DialogLookup.py" line="544"/>
+      <source>Base Height</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/DialogLookup.py" line="545"/>
+      <source>Flange Height</source>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Ui/DialogLookup.py" line="546"/>
       <source>Screw Height</source>
-      <translation>Altura de tornillo</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
-      <location filename="../../RocketGui.py" line="131"/>
-      <location filename="../../RocketGui.py" line="130"/>
-      <location filename="../../InitGui.py" line="105"/>
-      <source>Calculators</source>
-      <translation>Calculadoras</translation>
+      <location filename="../../Ui/TaskPanelBulkhead.py" line="72"/>
+      <source>Centering Ring Parameter</source>
+      <translation>Parámetro del anillo de centrado</translation>
     </message>
     <message>
-      <location filename="../../InitGui.py" line="117"/>
-      <location filename="../../InitGui.py" line="112"/>
-      <source>Analysis</source>
-      <translation>Análisis</translation>
+      <location filename="../../Ui/TaskPanelBulkhead.py" line="74"/>
+      <source>Bulkhead Parameter</source>
+      <translation>Parámetro de mamparo</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="567"/>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="541"/>
+      <location filename="../../Ui/TaskPanelBulkhead.py" line="126"/>
+      <location filename="../../Ui/TaskPanelBulkhead.py" line="86"/>
+      <source>Thickness</source>
+      <translation>Espesor</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelBulkhead.py" line="102"/>
+      <source>Notched</source>
+      <translation>Con muesca</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelBulkhead.py" line="117"/>
+      <source>Step</source>
+      <translation>Paso</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelBulkhead.py" line="132"/>
+      <source>reverse</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelBulkhead.py" line="135"/>
+      <source>Holes</source>
+      <translation>Agujeros</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelBulkhead.py" line="144"/>
+      <source>Center</source>
+      <translation>Centrar</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelBulkhead.py" line="150"/>
+      <source>Count</source>
+      <translation>Cuenta</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelBulkhead.py" line="157"/>
+      <source>Offset</source>
+      <translation>Compensación</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/DialogThrustToWeight.py" line="49"/>
+      <source>Minimum Thrust to Weight Calculator</source>
+      <translation>Calculadora de empuje a peso mínimo</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/DialogThrustToWeight.py" line="53"/>
+      <source>Weight</source>
+      <translation>Peso</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/DialogThrustToWeight.py" line="61"/>
+      <source>Minimum thrust</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/DialogBlackPowder.py" line="78"/>
+      <location filename="../../Ui/DialogVentHoles.py" line="63"/>
+      <source>Body tube length</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/DialogVentHoles.py" line="71"/>
+      <source>Vent hole count</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/DialogVentHoles.py" line="80"/>
+      <source>Vent hole size</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelParallelStage.py" line="62"/>
+      <source>Parallel Stage Parameter</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelParallelStage.py" line="66"/>
+      <source>Stage count</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelParallelStage.py" line="73"/>
+      <source>Stage spacing</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/TaskPanelRingtail.py" line="75"/>
+      <source>Ring tail Parameter</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/DialogBlackPowder.py" line="38"/>
+      <source>Low</source>
+      <translation>Bajo</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/DialogBlackPowder.py" line="39"/>
+      <source>High</source>
+      <translation>Alto</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/DialogBlackPowder.py" line="61"/>
+      <source>
+        &lt;html&gt;
+        &lt;h1&gt;WARNING&lt;/h1&gt;
+        &lt;p&gt;This calculator is an estimate only. Ground test your ejection system before flying. In certain cases this calculation may overestimate the amount of powder required.&lt;/p&gt;
+        &lt;/html&gt;
+        </source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Ui/DialogBlackPowder.py" line="86"/>
+      <source>Force</source>
+      <translation>Fuerza</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="731"/>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="710"/>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="337"/>
+      <location filename="../../Ui/DialogBlackPowder.py" line="94"/>
+      <source>Pressure</source>
+      <translation>Presión</translation>
+    </message>
+    <message>
+      <location filename="../../Ui/DialogBlackPowder.py" line="109"/>
+      <source>FFFFg powder</source>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../RocketGui.py" line="145"/>
@@ -2474,247 +2461,213 @@
       <location filename="../../RocketGui.py" line="159"/>
       <location filename="../../RocketGui.py" line="158"/>
       <source>Body Tubes</source>
-      <translation>Tubos del cuerpo</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../RocketGui.py" line="174"/>
       <location filename="../../RocketGui.py" line="173"/>
       <source>Launch Guides</source>
-      <translation>Guías de lanzamiento</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/Exporter/OpenRocket/OpenRocket.py" line="163"/>
-      <location filename="../../Rocket/Exporter/OpenRocket/OpenRocket.py" line="160"/>
-      <source>Please select a rocket object</source>
       <translation type="unfinished"/>
     </message>
     <message>
-      <location filename="../../Rocket/Constants.py" line="163"/>
-      <source>Top of the parent component</source>
-      <translation>Parte superior del componente padre</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/Constants.py" line="164"/>
-      <source>Middle of the parent component</source>
-      <translation>Parte del medio del componente padre</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/Constants.py" line="165"/>
-      <source>Bottom of the parent component</source>
-      <translation>Parte inferior del componente padre</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/Constants.py" line="166"/>
-      <source>Base of the rocket</source>
-      <translation>Base del cohete</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/Constants.py" line="167"/>
-      <source>After the target component</source>
-      <translation>Después del componente objetivo</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/Constants.py" line="168"/>
-      <source>Surface of the parent component</source>
-      <translation>Superficie del componente padre</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/Constants.py" line="169"/>
-      <source>Center of the parent component</source>
-      <translation>Centro del componente padre</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/RocketComponentShapeless.py" line="602"/>
-      <source>setAxialOffset is broken -- attempted to update as NaN: </source>
-      <translation>setAxialOffset no funciona; se intentó actualizar como NaN: </translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/RocketComponentShapeless.py" line="695"/>
-      <source>component {} is already in a tree</source>
-      <translation>el componente {} ya está en un árbol</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/RocketComponentShapeless.py" line="699"/>
-      <source>Component {} is a parent of {}, attempting to create cycle in tree.</source>
-      <translation>El componente {} es padre de {} e intenta crear un ciclo en el árbol.</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/RocketComponentShapeless.py" line="703"/>
-      <source>Unsupported configuration: {}  not currently compatible with component: {}</source>
+      <location filename="../../Analyzers/FinFlutter.py" line="53"/>
+      <source>Tube fins are not supported at this time</source>
       <translation type="unfinished"/>
     </message>
     <message>
-      <location filename="../../Rocket/RocketComponentShapeless.py" line="794"/>
-      <source>getRocket() called with root component {}</source>
-      <translation>getRocket() llamado con el componente raíz {}</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/RocketComponentShapeless.py" line="806"/>
-      <source>getStage() called on hierarchy without a FeatureStage component.</source>
-      <translation>getStage() llamado a la jerarquía sin un componente FeatureStage.</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/cfd/ShapeHandlers/WindTunnelShapeHandler.py" line="48"/>
-      <source>Wind tunnel diameter must be greater than zero</source>
-      <translation>El diámetro del túnel de viento debe ser mayor que cero</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/cfd/ShapeHandlers/WindTunnelShapeHandler.py" line="51"/>
-      <source>Wind tunnel length must be greater than zero</source>
-      <translation>La longitud del túnel de viento debe ser mayor que cero</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/cfd/ShapeHandlers/WindTunnelShapeHandler.py" line="64"/>
-      <source>Wind tunnel parameters produce an invalid shape</source>
-      <translation>Los parámetros del túnel de viento producen una forma inválida</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/cfd/Ui/TaskPanelCFDRocket.py" line="45"/>
-      <source>CFD Rocket Parameter</source>
+      <location filename="../../Analyzers/FinFlutter.py" line="98"/>
+      <source>Tapered thickness fins are not supported at this time</source>
       <translation type="unfinished"/>
     </message>
     <message>
-      <location filename="../../Rocket/cfd/Ui/TaskPanelCFDRocket.py" line="48"/>
-      <source>Angle of Attack</source>
+      <location filename="../../Analyzers/FinFlutter.py" line="153"/>
+      <source>This atmospheric model doesn&apos;t support the specified altitude. Using the COESA76 geometric model instead.</source>
       <translation type="unfinished"/>
     </message>
     <message>
-      <location filename="../../Rocket/cfd/Ui/TaskPanelCFDRocket.py" line="54"/>
-      <source>Rotation</source>
-      <translation>Rotación</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/cfd/Ui/TaskPanelWindTunnel.py" line="57"/>
-      <source>Wind Tunnel Parameter</source>
-      <translation>Parámetro del túnel de viento</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/cfd/Ui/TaskPanelMultiCFD.py" line="181"/>
-      <source>Time: </source>
+      <location filename="../../Analyzers/pyatmos/utils/utils.py" line="128"/>
+      <source>Geometric altitudes are outside the range of [{}, {}] km. Output values will be extrapolated for those heights.</source>
       <translation type="unfinished"/>
     </message>
     <message>
-      <location filename="../../Rocket/cfd/Ui/TaskPanelMultiCFD.py" line="253"/>
-      <source>Preparing report...</source>
+      <location filename="../../Analyzers/pyatmos/utils/utils.py" line="129"/>
+      <source>Geometric altitudes are outside the range of [{}, {}] km.</source>
       <translation type="unfinished"/>
     </message>
     <message>
-      <location filename="../../Rocket/cfd/Ui/TaskPanelMultiCFD.py" line="259"/>
-      <source>Report complete</source>
+      <location filename="../../Rocket/ShapeHandlers/InnerTubeShapeHandler.py" line="94"/>
+      <source>Inner tube parameters produce an invalid shape</source>
       <translation type="unfinished"/>
     </message>
     <message>
-      <location filename="../../Rocket/cfd/Ui/TaskPanelMultiCFD.py" line="291"/>
-      <source>Preparing for AOA={}...</source>
-      <translation type="unfinished"/>
-    </message>
-    <message>
-      <location filename="../../Rocket/cfd/Ui/TaskPanelMultiCFD.py" line="298"/>
-      <source>No rocket found</source>
-      <translation type="unfinished"/>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeaturePod.py" line="152"/>
-      <source>found a pod positioned via: AFTER, but is not on the centerline?!: {}  is {}</source>
-      <translation>se encontró una cápsula colocada a través de: AFTER, ¡¿pero no está en la línea central?!: {} es {}</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/FeatureFinCan.py" line="195"/>
-      <source>Unknown fin can style</source>
-      <translation>Estilo de lata de aleta desconocido</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/Importer/OpenRocket/OpenRocket.py" line="177"/>
-      <location filename="../../Rocket/Importer/Rocksim/Rocksim.py" line="208"/>
-      <source>Unable to complete import</source>
-      <translation>No se puede completar la importación</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/Importer/OpenRocket/OpenRocket.py" line="63"/>
-      <source>Unsupported OpenRocket file version {}</source>
-      <translation>Versión de archivo OpenRocket no compatible {}</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/Importer/OpenRocket/InnerTubeElement.py" line="65"/>
-      <source>Unknown cluster configuration</source>
-      <translation>Configuración de grupo desconocida</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/ComponentAssembly.py" line="66"/>
-      <source>A Stage requires a parent before any positioning!</source>
-      <translation>¡Una etapa requiere de un padre antes de cualquier posicionamiento!</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/ShapeHandlers/RailGuideShapeHandler.py" line="80"/>
-      <source>Middle width must be greater than zero</source>
-      <translation>Ancho de la parte del medio debe ser mayor que cero</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/ShapeHandlers/RailGuideShapeHandler.py" line="84"/>
-      <source>Flange width must be greater than the middle width</source>
-      <translation>El ancho de la brida debe ser mayor que el ancho de en medio</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/ShapeHandlers/RailGuideShapeHandler.py" line="88"/>
-      <source>Base width must be greater than the middle width</source>
-      <translation>El ancho de la base debe ser mayor que el ancho de en medio</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/ShapeHandlers/RailGuideShapeHandler.py" line="92"/>
-      <source>Top height must be greater than zero</source>
-      <translation>La altura superior debe ser mayor que cero</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/ShapeHandlers/RailGuideShapeHandler.py" line="96"/>
-      <source>Base height must be greater than zero</source>
-      <translation>La altura de la base debe ser mayor que cero</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/ShapeHandlers/RailGuideShapeHandler.py" line="100"/>
-      <source>Total height must be greater than the sum of top and base height</source>
-      <translation>La altura total debe ser mayor que la suma de la altura superior y de la base</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/ShapeHandlers/RailGuideShapeHandler.py" line="104"/>
-      <source>Length must be greater than zero</source>
-      <translation>La longitud debe ser mayor que 0</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/ShapeHandlers/LaunchLugShapeHandler.py" line="61"/>
       <location filename="../../Rocket/ShapeHandlers/RailGuideShapeHandler.py" line="109"/>
+      <location filename="../../Rocket/ShapeHandlers/LaunchLugShapeHandler.py" line="61"/>
       <source>Forward sweep angle must be greater than 0 degrees and less than 90 degrees</source>
-      <translation>El ángulo de barrido hacia adelante debe ser mayor que 0 grados y menor que 90 grados</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
-      <location filename="../../Rocket/ShapeHandlers/LaunchLugShapeHandler.py" line="66"/>
       <location filename="../../Rocket/ShapeHandlers/RailGuideShapeHandler.py" line="114"/>
+      <location filename="../../Rocket/ShapeHandlers/LaunchLugShapeHandler.py" line="66"/>
       <source>Aft sweep angle must be greater than 0 degrees and less than 90 degrees</source>
-      <translation>El ángulo de barrido hacia atrás debe ser mayor que 0 grados y menor que 90 grados</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
-      <location filename="../../Rocket/ShapeHandlers/RailGuideShapeHandler.py" line="119"/>
-      <source>Notch width must be greater than zero</source>
+      <location filename="../../Rocket/ShapeHandlers/FinCanShapeHandler.py" line="358"/>
+      <location filename="../../Rocket/ShapeHandlers/LaunchLugShapeHandler.py" line="172"/>
+      <source>Launch lug parameters produce an invalid shape</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/TransitionHaackShapeHandler.py" line="40"/>
+      <source>For %s transitions the coefficient must be &gt;= 0</source>
+      <translation>Para las transiciones %s, el coeficiente debe ser &gt;= 0</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/NoseShapeHandler.py" line="121"/>
+      <source>For %s nose cones thickness must be &gt; 0</source>
+      <translation>Para espesor de los conos de nariz %s debe ser &gt; 0</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/NoseShapeHandler.py" line="124"/>
+      <source>Nose cones thickness must be less than the nose cone radius</source>
+      <translation>El espesor de los conos de la nariz debe ser menor que el radio del cono de la nariz</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/NoseShapeHandler.py" line="128"/>
+      <source>Nose diameter must be less than the base diameter</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/NoseShapeHandler.py" line="131"/>
+      <source>Nose diameter must be greater than zero</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/NoseShapeHandler.py" line="140"/>
+      <source>Shoulder length must be &gt; 0</source>
+      <translation>La longitud del hombro debe ser &gt; 0</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/NoseShapeHandler.py" line="143"/>
+      <source>Shoulder diameter must be &gt; 0</source>
+      <translation>El diámetro del hombro debe ser &gt; 0</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/NoseShapeHandler.py" line="151"/>
+      <source>Shoulder diameter can not exceed the nose cone diameter</source>
+      <translation>El diámetro del hombro no puede exceder el diámetro del cono de la nariz</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/NoseShapeHandler.py" line="155"/>
+      <source>For %s nose cones with a shoulder, shoulder thickness must be &gt; 0</source>
+      <translation>Para%s conos de nariz con hombro, el espesor del hombro debe ser &gt; 0</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/TransitionShapeHandler.py" line="186"/>
+      <location filename="../../Rocket/ShapeHandlers/TransitionShapeHandler.py" line="163"/>
+      <location filename="../../Rocket/ShapeHandlers/NoseShapeHandler.py" line="158"/>
+      <source>Shoulder thickness must be less than the shoulder radius</source>
+      <translation>El espesor del hombro debe ser menor que el radio de hombro</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/NoseShapeHandler.py" line="272"/>
+      <location filename="../../Rocket/ShapeHandlers/NoseShapeHandler.py" line="269"/>
+      <location filename="../../Rocket/ShapeHandlers/NoseShapeHandler.py" line="258"/>
+      <location filename="../../Rocket/ShapeHandlers/NoseShapeHandler.py" line="225"/>
+      <location filename="../../Rocket/ShapeHandlers/NoseShapeHandler.py" line="222"/>
+      <location filename="../../Rocket/ShapeHandlers/NoseShapeHandler.py" line="211"/>
+      <source>Nose cone parameters produce an invalid shape</source>
+      <translation>Los parámetros del cono de la nariz producen una forma no válida</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/NoseShapeHandler.py" line="240"/>
+      <source>Nose cone cap style produces an invalid shape</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/CenteringRingShapeHandler.py" line="59"/>
+      <source>Centering ring center diameter must be less than the outer diameter</source>
+      <translation>El diámetro del centro del anillo de centrado debe ser menor que el diámetro exterior</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/CenteringRingShapeHandler.py" line="64"/>
+      <source>Centering ring center diameter must be less than the step diameter</source>
+      <translation>El diámetro del centro del anillo de centrado debe ser menor que el diámetro del escalón</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/CenteringRingShapeHandler.py" line="69"/>
+      <source>The notch width must be less than or equal to the center diameter</source>
+      <translation>El ancho de la muesca debe ser menor o igual que el diámetro central</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/CenteringRingShapeHandler.py" line="72"/>
+      <source>The notch width must be greater than zero</source>
       <translation>El ancho de la muesca debe ser mayor que cero</translation>
     </message>
     <message>
-      <location filename="../../Rocket/ShapeHandlers/RailGuideShapeHandler.py" line="123"/>
-      <source>Notch width can not exceed the middle width</source>
-      <translation>El ancho de la muesca no puede exceder el ancho de en medio</translation>
+      <location filename="../../Rocket/ShapeHandlers/CenteringRingShapeHandler.py" line="75"/>
+      <source>The notch height must be greater than zero</source>
+      <translation>La altura de la muesca debe ser mayor que cero</translation>
     </message>
     <message>
-      <location filename="../../Rocket/ShapeHandlers/RailGuideShapeHandler.py" line="127"/>
-      <source>Notch depth must be greater than zero</source>
-      <translation>La profundidad de la muesca debe ser mayor que cero</translation>
+      <location filename="../../Rocket/ShapeHandlers/CenteringRingShapeHandler.py" line="80"/>
+      <source>Hole extends inside the center diameter</source>
+      <translation>El agujero se extiende dentro del diámetro central</translation>
     </message>
     <message>
-      <location filename="../../Rocket/ShapeHandlers/RailGuideShapeHandler.py" line="131"/>
-      <source>Notch depth can not exceed the total height</source>
-      <translation>La profundidad de la muesca no puede exceder la altura total</translation>
+      <location filename="../../Rocket/ShapeHandlers/CenteringRingShapeHandler.py" line="124"/>
+      <source>Centering ring parameters produce an invalid shape</source>
+      <translation>Los parámetros del anillo de centrado producen una forma no válida</translation>
     </message>
     <message>
-      <location filename="../../Rocket/ShapeHandlers/RailGuideShapeHandler.py" line="328"/>
-      <source>Rail Guide parameters produce an invalid shape</source>
-      <translation>Los parámetros de la guía de riel producen una forma inválida</translation>
+      <location filename="../../Rocket/ShapeHandlers/FinCanShapeHandler.py" line="94"/>
+      <source>Fin can thickness must be greater than zero</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/FinCanShapeHandler.py" line="97"/>
+      <source>Fin can length must be greater than zero</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/FinCanShapeHandler.py" line="106"/>
+      <source>Fin can leading and trailing edges can not exceed total length</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/FinCanShapeHandler.py" line="111"/>
+      <source>Coupler length must be greater than zero</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/FinCanShapeHandler.py" line="114"/>
+      <source>Coupler thickness must be greater than zero</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/FinCanShapeHandler.py" line="117"/>
+      <source>Coupler outer diameter must be greater than the inner diameter</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/FinCanShapeHandler.py" line="120"/>
+      <source>Coupler inner diameter must be less than or equal to the fin can inner diameter</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/FinCanShapeHandler.py" line="123"/>
+      <source>Coupler outer diameter must be less than fin can outer diameter</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/FinCanShapeHandler.py" line="453"/>
+      <source>Fin can parameters produce an invalid shape</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/NoseHaackShapeHandler.py" line="40"/>
+      <source>For %s nose cones the coefficient must be &gt;= 0</source>
+      <translation>Para conos de nariz %s, el coeficiente debe ser &gt;= 0</translation>
     </message>
     <message>
       <location filename="../../Rocket/ShapeHandlers/TransitionShapeHandler.py" line="124"/>
@@ -2759,13 +2712,6 @@
       <translation>Para%s transiciones con hombro, el espesor de hombro debe ser &gt; 0</translation>
     </message>
     <message>
-      <location filename="../../Rocket/ShapeHandlers/NoseShapeHandler.py" line="158"/>
-      <location filename="../../Rocket/ShapeHandlers/TransitionShapeHandler.py" line="186"/>
-      <location filename="../../Rocket/ShapeHandlers/TransitionShapeHandler.py" line="163"/>
-      <source>Shoulder thickness must be less than the shoulder radius</source>
-      <translation>El espesor del hombro debe ser menor que el radio de hombro</translation>
-    </message>
-    <message>
       <location filename="../../Rocket/ShapeHandlers/TransitionShapeHandler.py" line="168"/>
       <source>Aft shoulder length must be &gt; 0</source>
       <translation>La longitud del hombro trasero debe ser &gt; 0</translation>
@@ -2791,42 +2737,80 @@
       <location filename="../../Rocket/ShapeHandlers/TransitionShapeHandler.py" line="383"/>
       <location filename="../../Rocket/ShapeHandlers/TransitionShapeHandler.py" line="369"/>
       <source>Forward cap style produces an invalid shape</source>
-      <translation>El estilo de la tapa delantera produce una forma inválida</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
-      <location filename="../../Rocket/ShapeHandlers/CenteringRingShapeHandler.py" line="59"/>
-      <source>Centering ring center diameter must be less than the outer diameter</source>
-      <translation>El diámetro del centro del anillo de centrado debe ser menor que el diámetro exterior</translation>
+      <location filename="../../Rocket/ShapeHandlers/FinTrapezoidShapeHandler.py" line="80"/>
+      <location filename="../../Rocket/ShapeHandlers/FinShapeHandler.py" line="552"/>
+      <location filename="../../Rocket/ShapeHandlers/FinTriangleShapeHandler.py" line="146"/>
+      <source>Ttw offset must be less than the root chord</source>
+      <translation>La compensación Ttw debe ser menor que la cuerda de origen</translation>
     </message>
     <message>
-      <location filename="../../Rocket/ShapeHandlers/CenteringRingShapeHandler.py" line="64"/>
-      <source>Centering ring center diameter must be less than the step diameter</source>
-      <translation>El diámetro del centro del anillo de centrado debe ser menor que el diámetro del escalón</translation>
+      <location filename="../../Rocket/ShapeHandlers/FinTrapezoidShapeHandler.py" line="83"/>
+      <location filename="../../Rocket/ShapeHandlers/FinShapeHandler.py" line="555"/>
+      <location filename="../../Rocket/ShapeHandlers/FinTriangleShapeHandler.py" line="149"/>
+      <source>Ttw length must be greater than 0</source>
+      <translation>La longitud de Ttw debe ser mayor que 0</translation>
     </message>
     <message>
-      <location filename="../../Rocket/ShapeHandlers/CenteringRingShapeHandler.py" line="69"/>
-      <source>The notch width must be less than or equal to the center diameter</source>
-      <translation>El ancho de la muesca debe ser menor o igual que el diámetro central</translation>
+      <location filename="../../Rocket/ShapeHandlers/FinTrapezoidShapeHandler.py" line="86"/>
+      <location filename="../../Rocket/ShapeHandlers/FinShapeHandler.py" line="558"/>
+      <location filename="../../Rocket/ShapeHandlers/FinTriangleShapeHandler.py" line="152"/>
+      <source>Ttw height must be greater than 0</source>
+      <translation>La altura de Ttw debe ser mayor que 0</translation>
     </message>
     <message>
-      <location filename="../../Rocket/ShapeHandlers/CenteringRingShapeHandler.py" line="72"/>
-      <source>The notch width must be greater than zero</source>
-      <translation>El ancho de la muesca debe ser mayor que cero</translation>
+      <location filename="../../Rocket/ShapeHandlers/FinTrapezoidShapeHandler.py" line="89"/>
+      <location filename="../../Rocket/ShapeHandlers/FinShapeHandler.py" line="561"/>
+      <location filename="../../Rocket/ShapeHandlers/FinTriangleShapeHandler.py" line="155"/>
+      <source>Ttw thickness must be greater than 0</source>
+      <translation>El espesor de Ttw debe ser mayor que 0</translation>
     </message>
     <message>
-      <location filename="../../Rocket/ShapeHandlers/CenteringRingShapeHandler.py" line="75"/>
-      <source>The notch height must be greater than zero</source>
-      <translation>La altura de la muesca debe ser mayor que cero</translation>
+      <location filename="../../Rocket/ShapeHandlers/FinTubeShapeHandler.py" line="47"/>
+      <source>Ttw tabs are not supported for tube fins</source>
+      <translation type="unfinished"/>
     </message>
     <message>
-      <location filename="../../Rocket/ShapeHandlers/CenteringRingShapeHandler.py" line="80"/>
-      <source>Hole extends inside the center diameter</source>
-      <translation>El agujero se extiende dentro del diámetro central</translation>
+      <location filename="../../Rocket/ShapeHandlers/TransitionParabolicShapeHandler.py" line="38"/>
+      <source>For %s transitions the coefficient must be in the range (0 &lt;= coefficient &lt;= 1)</source>
+      <translation>Para las transiciones %s, el coeficiente debe estar en el rango (0 &lt; = coeficiente &lt;= 1)</translation>
     </message>
     <message>
-      <location filename="../../Rocket/ShapeHandlers/CenteringRingShapeHandler.py" line="124"/>
-      <source>Centering ring parameters produce an invalid shape</source>
-      <translation>Los parámetros del anillo de centrado producen una forma no válida</translation>
+      <location filename="../../Rocket/ShapeHandlers/NoseParabolicShapeHandler.py" line="39"/>
+      <source>For %s nose cones the coefficient must be in the range (0 &lt;= coefficient &lt;= 1)</source>
+      <translation>Para los conos de nariz %s, el coeficiente debe estar en el rango (0 &lt;= coeficiente &lt;= 1)</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/FinSketchShapeHandler.py" line="48"/>
+      <source>shape is empty</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/FinSketchShapeHandler.py" line="52"/>
+      <source>Compound objects not supported</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/FinSketchShapeHandler.py" line="58"/>
+      <source>Sketch must create a valid face</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/FinSketchShapeHandler.py" line="82"/>
+      <source>Unable to handle shapes other than lines</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/FinShapeHandler.py" line="776"/>
+      <source>Fin parameters produce an invalid shape</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/TransitionPowerShapeHandler.py" line="40"/>
+      <source>For %s transitions the coefficient must be in the range (0 &lt; coefficient &lt;= 1)</source>
+      <translation>Para las transiciones %s, el coeficiente debe estar en el rango (0 &lt; coeficiente &lt;= 1)</translation>
     </message>
     <message>
       <location filename="../../Rocket/ShapeHandlers/BodyTubeShapeHandler.py" line="71"/>
@@ -2860,70 +2844,132 @@
       <translation>Los parámetros del cuerpo tubular producen una forma no válida</translation>
     </message>
     <message>
-      <location filename="../../Rocket/ShapeHandlers/NoseProxyShapeHandler.py" line="168"/>
-      <location filename="../../Rocket/ShapeHandlers/NoseProxyShapeHandler.py" line="161"/>
-      <location filename="../../Rocket/ShapeHandlers/NoseProxyShapeHandler.py" line="113"/>
-      <source>Nose cone shoulder parameters produce an invalid shape</source>
+      <location filename="../../Rocket/ShapeHandlers/TransitionProxyShapeHandler.py" line="222"/>
+      <location filename="../../Rocket/ShapeHandlers/TransitionProxyShapeHandler.py" line="190"/>
+      <source>Transition fore shoulder parameters produce an invalid shape</source>
       <translation type="unfinished"/>
     </message>
     <message>
-      <location filename="../../Rocket/ShapeHandlers/NosePowerShapeHandler.py" line="40"/>
-      <source>For %s nose cones the coefficient must be in the range (0 &lt; coefficient &lt;= 1)</source>
-      <translation>Para los conos de nariz %s, el coeficiente debe estar en el rango (0 &lt; coeficiente &lt;= 1)</translation>
+      <location filename="../../Rocket/ShapeHandlers/TransitionProxyShapeHandler.py" line="229"/>
+      <location filename="../../Rocket/ShapeHandlers/TransitionProxyShapeHandler.py" line="210"/>
+      <source>Transition aft shoulder parameters produce an invalid shape</source>
+      <translation type="unfinished"/>
     </message>
     <message>
-      <location filename="../../Rocket/ShapeHandlers/FinSketchShapeHandler.py" line="48"/>
-      <source>shape is empty</source>
-      <translation>la forma está vacía</translation>
+      <location filename="../../Rocket/ShapeHandlers/TransitionProxyShapeHandler.py" line="235"/>
+      <source>Transition shoulder parameters produce an invalid shape</source>
+      <translation type="unfinished"/>
     </message>
     <message>
-      <location filename="../../Rocket/ShapeHandlers/FinSketchShapeHandler.py" line="52"/>
-      <source>Compound objects not supported</source>
-      <translation>Objetos compuestos no soportados</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/ShapeHandlers/FinSketchShapeHandler.py" line="58"/>
-      <source>Sketch must create a valid face</source>
-      <translation>El boceto debe de crear una cara válida</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/ShapeHandlers/FinSketchShapeHandler.py" line="82"/>
-      <source>Unable to handle shapes other than lines</source>
-      <translation>Incapaz de manejar formas distintas a líneas</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/ShapeHandlers/FinShapeHandler.py" line="552"/>
-      <location filename="../../Rocket/ShapeHandlers/FinTrapezoidShapeHandler.py" line="80"/>
-      <location filename="../../Rocket/ShapeHandlers/FinTriangleShapeHandler.py" line="146"/>
-      <source>Ttw offset must be less than the root chord</source>
-      <translation>La compensación Ttw debe ser menor que la cuerda de origen</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/ShapeHandlers/FinShapeHandler.py" line="555"/>
-      <location filename="../../Rocket/ShapeHandlers/FinTrapezoidShapeHandler.py" line="83"/>
-      <location filename="../../Rocket/ShapeHandlers/FinTriangleShapeHandler.py" line="149"/>
-      <source>Ttw length must be greater than 0</source>
-      <translation>La longitud de Ttw debe ser mayor que 0</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/ShapeHandlers/FinShapeHandler.py" line="558"/>
-      <location filename="../../Rocket/ShapeHandlers/FinTrapezoidShapeHandler.py" line="86"/>
-      <location filename="../../Rocket/ShapeHandlers/FinTriangleShapeHandler.py" line="152"/>
-      <source>Ttw height must be greater than 0</source>
-      <translation>La altura de Ttw debe ser mayor que 0</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/ShapeHandlers/FinShapeHandler.py" line="561"/>
-      <location filename="../../Rocket/ShapeHandlers/FinTrapezoidShapeHandler.py" line="89"/>
-      <location filename="../../Rocket/ShapeHandlers/FinTriangleShapeHandler.py" line="155"/>
-      <source>Ttw thickness must be greater than 0</source>
-      <translation>El espesor de Ttw debe ser mayor que 0</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/ShapeHandlers/RailButtonShapeHandler.py" line="72"/>
       <location filename="../../Rocket/ShapeHandlers/BulkheadShapeHandler.py" line="68"/>
+      <location filename="../../Rocket/ShapeHandlers/RailButtonShapeHandler.py" line="72"/>
       <source>Outer diameter must be greater than zero</source>
       <translation>El diámetro exterior debe ser mayor que cero</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/RailButtonShapeHandler.py" line="75"/>
+      <source>Inner diameter must be greater than zero</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/RailButtonShapeHandler.py" line="78"/>
+      <source>Outer diameter must be greater than the inner diameter</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/RailButtonShapeHandler.py" line="81"/>
+      <source>Top height must be greater than or equal to zero</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/RailButtonShapeHandler.py" line="84"/>
+      <source>Base height must be greater than or equal to zero</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/RailButtonShapeHandler.py" line="87"/>
+      <source>Height must be greater than zero</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/RailButtonShapeHandler.py" line="90"/>
+      <source>Top and base height can not exceed the total height</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/RailButtonShapeHandler.py" line="95"/>
+      <source>Length must be greater than zero for airfoil rail buttons</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/RailButtonShapeHandler.py" line="99"/>
+      <source>Length must be greater than the outer diameter for airfoil rail buttons</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/RailButtonShapeHandler.py" line="224"/>
+      <source>Rail button parameters produce an invalid shape</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/RailGuideShapeHandler.py" line="80"/>
+      <source>Middle width must be greater than zero</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/RailGuideShapeHandler.py" line="84"/>
+      <source>Flange width must be greater than the middle width</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/RailGuideShapeHandler.py" line="88"/>
+      <source>Base width must be greater than the middle width</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/RailGuideShapeHandler.py" line="92"/>
+      <source>Top height must be greater than zero</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/RailGuideShapeHandler.py" line="96"/>
+      <source>Base height must be greater than zero</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/RailGuideShapeHandler.py" line="100"/>
+      <source>Total height must be greater than the sum of top and base height</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/RailGuideShapeHandler.py" line="104"/>
+      <source>Length must be greater than zero</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/RailGuideShapeHandler.py" line="119"/>
+      <source>Notch width must be greater than zero</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/RailGuideShapeHandler.py" line="123"/>
+      <source>Notch width can not exceed the middle width</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/RailGuideShapeHandler.py" line="127"/>
+      <source>Notch depth must be greater than zero</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/RailGuideShapeHandler.py" line="131"/>
+      <source>Notch depth can not exceed the total height</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/ShapeHandlers/RailGuideShapeHandler.py" line="328"/>
+      <source>Rail Guide parameters produce an invalid shape</source>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Rocket/ShapeHandlers/BulkheadShapeHandler.py" line="73"/>
@@ -2956,227 +3002,794 @@
       <translation>Los parámetros de mamparo producen una forma no válida</translation>
     </message>
     <message>
-      <location filename="../../Rocket/ShapeHandlers/FinCanShapeHandler.py" line="94"/>
-      <source>Fin can thickness must be greater than zero</source>
-      <translation>El espesor de la lata de aletas debe ser mayor que 0</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/ShapeHandlers/FinCanShapeHandler.py" line="97"/>
-      <source>Fin can length must be greater than zero</source>
-      <translation>La longitud de la lata de aletas debe ser mayor que 0</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/ShapeHandlers/FinCanShapeHandler.py" line="106"/>
-      <source>Fin can leading and trailing edges can not exceed total length</source>
-      <translation>Los bordes de ataque y salida de las aletas no pueden exceder la longitud total</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/ShapeHandlers/FinCanShapeHandler.py" line="111"/>
-      <source>Coupler length must be greater than zero</source>
-      <translation>La longitud del acoplador debe ser mayor que cero</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/ShapeHandlers/FinCanShapeHandler.py" line="114"/>
-      <source>Coupler thickness must be greater than zero</source>
-      <translation>El espesor del acoplador debe ser mayor que cero</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/ShapeHandlers/FinCanShapeHandler.py" line="117"/>
-      <source>Coupler outer diameter must be greater than the inner diameter</source>
-      <translation>El diámetro exterior del acoplador debe ser mayor que el diámetro interior</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/ShapeHandlers/FinCanShapeHandler.py" line="120"/>
-      <source>Coupler inner diameter must be less than or equal to the fin can inner diameter</source>
-      <translation>El diámetro interior del acoplador debe ser menor o igual que el diámetro interior de la lata de aletas</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/ShapeHandlers/FinCanShapeHandler.py" line="123"/>
-      <source>Coupler outer diameter must be less than fin can outer diameter</source>
-      <translation>El diámetro exterior del acoplador debe ser menor que el diámetro exterior de la lata de aletas</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/ShapeHandlers/LaunchLugShapeHandler.py" line="172"/>
-      <location filename="../../Rocket/ShapeHandlers/FinCanShapeHandler.py" line="358"/>
-      <source>Launch lug parameters produce an invalid shape</source>
-      <translation>Los parámetros de la orejeta de lanzamiento producen una forma inválida</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/ShapeHandlers/FinCanShapeHandler.py" line="453"/>
-      <source>Fin can parameters produce an invalid shape</source>
-      <translation>Los parámetros de la lata de aletas producen una forma inválida</translation>
+      <location filename="../../Rocket/ShapeHandlers/NoseProxyShapeHandler.py" line="168"/>
+      <location filename="../../Rocket/ShapeHandlers/NoseProxyShapeHandler.py" line="161"/>
+      <location filename="../../Rocket/ShapeHandlers/NoseProxyShapeHandler.py" line="113"/>
+      <source>Nose cone shoulder parameters produce an invalid shape</source>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Rocket/ShapeHandlers/RingtailShapeHandler.py" line="66"/>
       <source>Ring tail inner diameter must be greater than zero</source>
-      <translation>El diámetro interior de la cola del anillo debe ser mayor que cero</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Rocket/ShapeHandlers/RingtailShapeHandler.py" line="69"/>
       <source>Ring tail outer diameter must be greater than the inner</source>
-      <translation>El diámetro exterior de la cola del anillo debe ser mayor que el interior</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Rocket/ShapeHandlers/RingtailShapeHandler.py" line="72"/>
       <source>Ring tail length must be greater than zero</source>
-      <translation>La longitud de la cola del anillo debe ser mayor que cero</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/ShapeHandlers/TransitionHaackShapeHandler.py" line="40"/>
-      <source>For %s transitions the coefficient must be &gt;= 0</source>
-      <translation>Para las transiciones %s, el coeficiente debe ser &gt;= 0</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/ShapeHandlers/TransitionParabolicShapeHandler.py" line="38"/>
-      <source>For %s transitions the coefficient must be in the range (0 &lt;= coefficient &lt;= 1)</source>
-      <translation>Para las transiciones %s, el coeficiente debe estar en el rango (0 &lt; = coeficiente &lt;= 1)</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/ShapeHandlers/NoseShapeHandler.py" line="121"/>
-      <source>For %s nose cones thickness must be &gt; 0</source>
-      <translation>Para espesor de los conos de nariz %s debe ser &gt; 0</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/ShapeHandlers/NoseShapeHandler.py" line="124"/>
-      <source>Nose cones thickness must be less than the nose cone radius</source>
-      <translation>El espesor de los conos de la nariz debe ser menor que el radio del cono de la nariz</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/ShapeHandlers/NoseShapeHandler.py" line="128"/>
-      <source>Nose diameter must be less than the base diameter</source>
-      <translation>El diámetro de la nariz debe ser menor que el diámetro de la base</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/ShapeHandlers/NoseShapeHandler.py" line="131"/>
-      <source>Nose diameter must be greater than zero</source>
-      <translation>El diámetro de la nariz debe ser mayor que cero</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/ShapeHandlers/NoseShapeHandler.py" line="140"/>
-      <source>Shoulder length must be &gt; 0</source>
-      <translation>La longitud del hombro debe ser &gt; 0</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/ShapeHandlers/NoseShapeHandler.py" line="143"/>
-      <source>Shoulder diameter must be &gt; 0</source>
-      <translation>El diámetro del hombro debe ser &gt; 0</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/ShapeHandlers/NoseShapeHandler.py" line="151"/>
-      <source>Shoulder diameter can not exceed the nose cone diameter</source>
-      <translation>El diámetro del hombro no puede exceder el diámetro del cono de la nariz</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/ShapeHandlers/NoseShapeHandler.py" line="155"/>
-      <source>For %s nose cones with a shoulder, shoulder thickness must be &gt; 0</source>
-      <translation>Para%s conos de nariz con hombro, el espesor del hombro debe ser &gt; 0</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/ShapeHandlers/NoseShapeHandler.py" line="272"/>
-      <location filename="../../Rocket/ShapeHandlers/NoseShapeHandler.py" line="269"/>
-      <location filename="../../Rocket/ShapeHandlers/NoseShapeHandler.py" line="258"/>
-      <location filename="../../Rocket/ShapeHandlers/NoseShapeHandler.py" line="225"/>
-      <location filename="../../Rocket/ShapeHandlers/NoseShapeHandler.py" line="222"/>
-      <location filename="../../Rocket/ShapeHandlers/NoseShapeHandler.py" line="211"/>
-      <source>Nose cone parameters produce an invalid shape</source>
-      <translation>Los parámetros del cono de la nariz producen una forma no válida</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/ShapeHandlers/NoseShapeHandler.py" line="240"/>
-      <source>Nose cone cap style produces an invalid shape</source>
-      <translation>El estilo de la tapa del cono de la nariz produce una forma inválida</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/ShapeHandlers/NoseHaackShapeHandler.py" line="40"/>
-      <source>For %s nose cones the coefficient must be &gt;= 0</source>
-      <translation>Para conos de nariz %s, el coeficiente debe ser &gt;= 0</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/ShapeHandlers/TransitionPowerShapeHandler.py" line="40"/>
-      <source>For %s transitions the coefficient must be in the range (0 &lt; coefficient &lt;= 1)</source>
-      <translation>Para las transiciones %s, el coeficiente debe estar en el rango (0 &lt; coeficiente &lt;= 1)</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/ShapeHandlers/InnerTubeShapeHandler.py" line="94"/>
-      <source>Inner tube parameters produce an invalid shape</source>
-      <translation>Los parámetros del tubo interno producen una forma inválida</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/ShapeHandlers/FinTubeShapeHandler.py" line="47"/>
-      <source>Ttw tabs are not supported for tube fins</source>
-      <translation>Las pestañas TTW no son compatibles con las aletas tubulares</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/ShapeHandlers/FinShapeHandler.py" line="770"/>
-      <source>Fin parameters produce an invalid shape</source>
       <translation type="unfinished"/>
     </message>
     <message>
-      <location filename="../../Rocket/ShapeHandlers/RailButtonShapeHandler.py" line="75"/>
-      <source>Inner diameter must be greater than zero</source>
-      <translation>El diámetro interior debe ser mayor que cero</translation>
+      <location filename="../../Rocket/ShapeHandlers/NosePowerShapeHandler.py" line="40"/>
+      <source>For %s nose cones the coefficient must be in the range (0 &lt; coefficient &lt;= 1)</source>
+      <translation>Para los conos de nariz %s, el coeficiente debe estar en el rango (0 &lt; coeficiente &lt;= 1)</translation>
     </message>
     <message>
-      <location filename="../../Rocket/ShapeHandlers/RailButtonShapeHandler.py" line="78"/>
-      <source>Outer diameter must be greater than the inner diameter</source>
-      <translation>El diámetro exterior debe ser mayor que el diámetro interior</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/ShapeHandlers/RailButtonShapeHandler.py" line="81"/>
-      <source>Top height must be greater than or equal to zero</source>
-      <translation>La altura superior debe ser mayor o igual a cero</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/ShapeHandlers/RailButtonShapeHandler.py" line="84"/>
-      <source>Base height must be greater than or equal to zero</source>
-      <translation>La altura inferior debe ser mayor o igual a cero</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/ShapeHandlers/RailButtonShapeHandler.py" line="87"/>
-      <source>Height must be greater than zero</source>
-      <translation>La altura debe ser mayor que cero</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/ShapeHandlers/RailButtonShapeHandler.py" line="90"/>
-      <source>Top and base height can not exceed the total height</source>
-      <translation>La altura superior e inferior no puede exceder la altura total</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/ShapeHandlers/RailButtonShapeHandler.py" line="95"/>
-      <source>Length must be greater than zero for airfoil rail buttons</source>
-      <translation>La longitud debe de ser mayor que cero para botones de riel aerodinámicos</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/ShapeHandlers/RailButtonShapeHandler.py" line="99"/>
-      <source>Length must be greater than the outer diameter for airfoil rail buttons</source>
-      <translation>La longitud debe de ser mayor el diámetro externo para botones de riel aerodinámicos</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/ShapeHandlers/RailButtonShapeHandler.py" line="224"/>
-      <source>Rail button parameters produce an invalid shape</source>
-      <translation>Los parámetros de botón de riel producen una forma inválida</translation>
-    </message>
-    <message>
-      <location filename="../../Rocket/ShapeHandlers/TransitionProxyShapeHandler.py" line="222"/>
-      <location filename="../../Rocket/ShapeHandlers/TransitionProxyShapeHandler.py" line="190"/>
-      <source>Transition fore shoulder parameters produce an invalid shape</source>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="58"/>
+      <source>CFD Report.docx</source>
       <translation type="unfinished"/>
     </message>
     <message>
-      <location filename="../../Rocket/ShapeHandlers/TransitionProxyShapeHandler.py" line="229"/>
-      <location filename="../../Rocket/ShapeHandlers/TransitionProxyShapeHandler.py" line="210"/>
-      <source>Transition aft shoulder parameters produce an invalid shape</source>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="159"/>
+      <source>This is an automated report generated by the Rocket Workbench. It was created by running a CFD analysis on the document &apos;{}&apos;.</source>
       <translation type="unfinished"/>
     </message>
     <message>
-      <location filename="../../Rocket/ShapeHandlers/TransitionProxyShapeHandler.py" line="235"/>
-      <source>Transition shoulder parameters produce an invalid shape</source>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="163"/>
+      <source>Details about the study, including the rocket</source>
       <translation type="unfinished"/>
     </message>
     <message>
-      <location filename="../../Rocket/ShapeHandlers/NoseParabolicShapeHandler.py" line="39"/>
-      <source>For %s nose cones the coefficient must be in the range (0 &lt;= coefficient &lt;= 1)</source>
-      <translation>Para los conos de nariz %s, el coeficiente debe estar en el rango (0 &lt;= coeficiente &lt;= 1)</translation>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="169"/>
+      <source>Minimum Fin Thickness</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="170"/>
+      <source>Frontal Area</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="177"/>
+      <source>Study Parameters</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="179"/>
+      <source>This study varied the following parameters:</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Ui/TaskPanelCFDRocket.py" line="48"/>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="1030"/>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="936"/>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="898"/>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="183"/>
+      <source>Angle of Attack</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="920"/>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="194"/>
+      <source>NOTE: It is not possible to calculate the center of pressure at an angle of attack of 0. It must be calculated at multiple points close to 0 and inferred using l&apos;Hôpital&apos;s rule.</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="198"/>
+      <source>This study is unable to determine Center of Pressure at a 0 angle of attack.</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="200"/>
+      <source>Configuration</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="212"/>
+      <source>Physics Model</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="219"/>
+      <source>Time</source>
+      <translation>Tiempo</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="223"/>
+      <source>Flow</source>
+      <translation>Flujo</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="227"/>
+      <source>Isothermal</source>
+      <translation>Isotérmico</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="231"/>
+      <source>High Mach number</source>
+      <translation>Número de Mach alto</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="235"/>
+      <source>Viscous</source>
+      <translation>Viscoso</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="239"/>
+      <source>Rotating frame (SRF)</source>
+      <translation>Marco giratorio (SRF)</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="785"/>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="371"/>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="244"/>
+      <source>Turbulence</source>
+      <translation>Turbulencia</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="248"/>
+      <source>Turbulence Model</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="253"/>
+      <source>Gravity (x, y, z)</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="263"/>
+      <source>Moving Reference Frame (SRF)</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="266"/>
+      <source>RPM</source>
+      <translation>RPM</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="270"/>
+      <source>Center of Rotation</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="278"/>
+      <source>Rotational Axis</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="286"/>
+      <source>Fluid Properties</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="292"/>
+      <source>Not defined.</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="301"/>
+      <source>Material Name</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="315"/>
+      <source>Initialize Flow Field</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="766"/>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="758"/>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="324"/>
+      <source>Velocity</source>
+      <translation>Velocidad</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="339"/>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="326"/>
+      <source>Potential flow</source>
+      <translation>Flujo potencial</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="373"/>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="365"/>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="341"/>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="328"/>
+      <source>Use values from boundary &apos;{}&apos;</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="347"/>
+      <source>Volume Fractions</source>
+      <translation>Fracciones de volumen</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="351"/>
+      <source>None</source>
+      <translation>Ninguno</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="364"/>
+      <source>Thermal</source>
+      <translation>Térmica</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="367"/>
+      <source>Temperature</source>
+      <translation>Temperatura</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="378"/>
+      <source>Model</source>
+      <translation>Modelo</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="417"/>
+      <source>Solver</source>
+      <translation>Solucionador</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="426"/>
+      <source>Convergence tolerance</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="430"/>
+      <source>Max iterations</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="434"/>
+      <source>Iteration write interval</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="439"/>
+      <source>Parallel cores</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="443"/>
+      <source>Starting from</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="448"/>
+      <source>End time</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="452"/>
+      <source>Time step</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="456"/>
+      <source>Max CFL number</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="460"/>
+      <source>Max free-surface CFL number</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="464"/>
+      <source>Transient write interval</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="468"/>
+      <source>Mesher</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="476"/>
+      <source>Mesh utility</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="480"/>
+      <source>Base element size</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="485"/>
+      <source>Cells between levels</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="489"/>
+      <source>Relative edge refinement</source>
+      <translation>Refinamiento relativo de aristas</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="493"/>
+      <source>Edge detection</source>
+      <translation>Detección de aristas</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="495"/>
+      <source>Implicit</source>
+      <translation>Implícito</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="497"/>
+      <source>Explicit</source>
+      <translation>Explícito</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="500"/>
+      <source>STL relative linear deflection</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="504"/>
+      <source>STL angulat mesh density</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="508"/>
+      <source>Convert to dual mesh</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="511"/>
+      <source>Refinements</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="656"/>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="521"/>
+      <source>Name</source>
+      <translation>Nombre</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="525"/>
+      <source>Refinement type</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="527"/>
+      <source>Volume</source>
+      <translation>Volumen</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="615"/>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="530"/>
+      <source>Relative element size</source>
+      <translation>Tamaño relativo del elemento</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="533"/>
+      <source>Extrusion</source>
+      <translation>Extrusión</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="536"/>
+      <source>Extrusion type</source>
+      <translation>Tipo de extrusión</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="596"/>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="546"/>
+      <source>Axis point</source>
+      <translation>Punto de eje</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="604"/>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="554"/>
+      <source>Axis direction</source>
+      <translation>Dirección de eje</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="580"/>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="563"/>
+      <source>Keep existing mesh</source>
+      <translation>Mantener malla existente</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="588"/>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="571"/>
+      <source>Number of layers</source>
+      <translation>Número de capas</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="628"/>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="592"/>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="575"/>
+      <source>Expansion ratio</source>
+      <translation>Tasa de expansión</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="584"/>
+      <source>Angle</source>
+      <translation>Ángulo</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="612"/>
+      <source>Surface</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="619"/>
+      <source>Refinement thickness</source>
+      <translation>Grosor de refinamiento</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="624"/>
+      <source>Boundary layers</source>
+      <translation>Capas frontera</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="632"/>
+      <source>Max first cell height</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="643"/>
+      <source>Boundary Conditions</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="665"/>
+      <source>Sub type</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="669"/>
+      <source>Default boundary</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="690"/>
+      <source>Slip ratio</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="698"/>
+      <source>Roughness height (Ks)</source>
+      <translation>Altura de rugosidad (Ks)</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="702"/>
+      <source>Roughness constant (Cs)</source>
+      <translation>Constante de rugosidad (Cs)</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="717"/>
+      <source>Volume flow rate</source>
+      <translation>Caudal volumétrico</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="724"/>
+      <source>Mass flow rate</source>
+      <translation>Caudal másico</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="770"/>
+      <source>Face</source>
+      <translation>Cara</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="774"/>
+      <source>Inward normal</source>
+      <translation>Normal hacia dentro</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="789"/>
+      <source>Intensity &amp; Length scale</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="792"/>
+      <source>Turbulence intensity (I)</source>
+      <translation>Intensidad de turbulencia (I)</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="796"/>
+      <source>Length scale (l)</source>
+      <translation>Escala de longitud (l)</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="800"/>
+      <source>Kinetic energy &amp; Specific dissipation rate</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="814"/>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="803"/>
+      <source>Turbulence kinetic energy (k)</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="807"/>
+      <source>Specific dissipation rate (ω)</source>
+      <translation>Tasa de disipación específica (ω)</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="811"/>
+      <source>Kinetic Energy &amp; Turbulent viscosity</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="818"/>
+      <source>Turbulent viscosity (v)</source>
+      <translation>Viscosidad turbulenta (v)</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="886"/>
+      <source>True</source>
+      <translation>Verdadero</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="888"/>
+      <source>False</source>
+      <translation>Falso</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="891"/>
+      <source>Run status</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="893"/>
+      <source>Total run time: {}</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="899"/>
+      <source>Run Time</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="900"/>
+      <source>Status</source>
+      <translation>Estado</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="912"/>
+      <source>Unknown</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="918"/>
+      <source>Center of Pressure</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="923"/>
+      <source>Center of Pressure at multiple angles of attack with the rocket rotated around the center point.</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="926"/>
+      <source>CP = X0 - My / (Fz * cos(AOA) + Fx * sin(AOA))</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="1087"/>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="1012"/>
+      <source>Angle of Attack (degrees)</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="1013"/>
+      <source>Center of Pressure (mm)</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="1023"/>
+      <source>Lift and Drag</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="1024"/>
+      <source>Lift and Drag coefficients at multiple angles of attack with the rocket rotated around the center point.</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="1325"/>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="1088"/>
+      <source>Coefficient</source>
+      <translation>Coeficiente</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="1098"/>
+      <source>Run Data</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="1101"/>
+      <source>Angle of Attack={}</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="1324"/>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="1292"/>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="1271"/>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="1231"/>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="1210"/>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="1145"/>
+      <source>Iteration</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="1146"/>
+      <source>Residual</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="1232"/>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="1211"/>
+      <source>Force [N]</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="1293"/>
+      <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="1272"/>
+      <source>Moment</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Ui/TaskPanelMultiCFD.py" line="181"/>
+      <source>Time: </source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Ui/TaskPanelMultiCFD.py" line="253"/>
+      <source>Preparing report...</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Ui/TaskPanelMultiCFD.py" line="259"/>
+      <source>Report complete</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Ui/TaskPanelMultiCFD.py" line="291"/>
+      <source>Preparing for AOA={}...</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Ui/TaskPanelMultiCFD.py" line="298"/>
+      <source>No rocket found</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Ui/TaskPanelCFDRocket.py" line="45"/>
+      <source>CFD Rocket Parameter</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Ui/TaskPanelCFDRocket.py" line="54"/>
+      <source>Rotation</source>
+      <translation>Rotación</translation>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/Ui/TaskPanelWindTunnel.py" line="57"/>
+      <source>Wind Tunnel Parameter</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/ShapeHandlers/WindTunnelShapeHandler.py" line="48"/>
+      <source>Wind tunnel diameter must be greater than zero</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/ShapeHandlers/WindTunnelShapeHandler.py" line="51"/>
+      <source>Wind tunnel length must be greater than zero</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/cfd/ShapeHandlers/WindTunnelShapeHandler.py" line="64"/>
+      <source>Wind tunnel parameters produce an invalid shape</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/RocketComponentShapeless.py" line="602"/>
+      <source>setAxialOffset is broken -- attempted to update as NaN: </source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/RocketComponentShapeless.py" line="695"/>
+      <source>component {} is already in a tree</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/RocketComponentShapeless.py" line="699"/>
+      <source>Component {} is a parent of {}, attempting to create cycle in tree.</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/RocketComponentShapeless.py" line="703"/>
+      <source>Unsupported configuration: {}  not currently compatible with component: {}</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/RocketComponentShapeless.py" line="794"/>
+      <source>getRocket() called with root component {}</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/RocketComponentShapeless.py" line="806"/>
+      <source>getStage() called on hierarchy without a FeatureStage component.</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/Exporter/OpenRocket/OpenRocket.py" line="163"/>
+      <location filename="../../Rocket/Exporter/OpenRocket/OpenRocket.py" line="160"/>
+      <source>Please select a rocket object</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeaturePod.py" line="152"/>
+      <source>found a pod positioned via: AFTER, but is not on the centerline?!: {}  is {}</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/ComponentAssembly.py" line="66"/>
+      <source>A Stage requires a parent before any positioning!</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/Importer/OpenRocket/InnerTubeElement.py" line="65"/>
+      <source>Unknown cluster configuration</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/Importer/OpenRocket/OpenRocket.py" line="63"/>
+      <source>Unsupported OpenRocket file version {}</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/Importer/Rocksim/Rocksim.py" line="208"/>
+      <location filename="../../Rocket/Importer/OpenRocket/OpenRocket.py" line="177"/>
+      <source>Unable to complete import</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/Constants.py" line="163"/>
+      <source>Top of the parent component</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/Constants.py" line="164"/>
+      <source>Middle of the parent component</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/Constants.py" line="165"/>
+      <source>Bottom of the parent component</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/Constants.py" line="166"/>
+      <source>Base of the rocket</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/Constants.py" line="167"/>
+      <source>After the target component</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/Constants.py" line="168"/>
+      <source>Surface of the parent component</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/Constants.py" line="169"/>
+      <source>Center of the parent component</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <location filename="../../Rocket/FeatureFinCan.py" line="195"/>
+      <source>Unknown fin can style</source>
+      <translation type="unfinished"/>
     </message>
   </context>
   <context>
@@ -3190,15 +3803,23 @@
       <translation type="unfinished"/>
     </message>
     <message>
-      <source>Scale By Value</source>
+      <source>Matches a specific scale value.</source>
       <translation type="unfinished"/>
     </message>
     <message>
-      <source>Minimum Diameter</source>
+      <source>Scale by value</source>
       <translation type="unfinished"/>
     </message>
     <message>
-      <source>Search for body tube pairs</source>
+      <source>Specifies a minumum body diameter.</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Minimum diameter</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Search for body tube pairs.</source>
       <translation type="unfinished"/>
     </message>
     <message>
@@ -3206,7 +3827,15 @@
       <translation>Buscar</translation>
     </message>
     <message>
-      <source>Reference Diameter 2</source>
+      <source>Reference diameter 2</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Sets a specific scale value for matching.</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Sets the scale value using the currently selected body tube.</source>
       <translation type="unfinished"/>
     </message>
     <message>
@@ -3214,11 +3843,15 @@
       <translation type="unfinished"/>
     </message>
     <message>
+      <source>Adds the currently selected body tube to the rocket assembly.</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
       <source>Add to Document</source>
       <translation type="unfinished"/>
     </message>
     <message>
-      <source>Export results to CSV</source>
+      <source>Export matching results to CSV.</source>
       <translation type="unfinished"/>
     </message>
     <message>
@@ -3230,7 +3863,15 @@
       <translation>Referencia</translation>
     </message>
     <message>
+      <source>Diameter is matched to the first reference diameter.</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
       <source>Diameter 1</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Diameter is matched to the second reference diameter.</source>
       <translation type="unfinished"/>
     </message>
     <message>
@@ -3238,19 +3879,27 @@
       <translation type="unfinished"/>
     </message>
     <message>
-      <source>Scale reference diameter</source>
+      <source>Specifies a maximum body diameter.</source>
       <translation type="unfinished"/>
     </message>
     <message>
-      <source>Reference Diameter 1</source>
+      <source>Scale reference used to match diameter.</source>
       <translation type="unfinished"/>
     </message>
     <message>
-      <source>Maximum Diameter</source>
+      <source>Reference diameter 1</source>
       <translation type="unfinished"/>
     </message>
     <message>
-      <source>Maximum error in body diameter</source>
+      <source>Maximum diameter</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Maximum error in the matched body diameter.</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Sets the desired body diameter.</source>
       <translation type="unfinished"/>
     </message>
     <message>
@@ -3258,11 +3907,203 @@
       <translation>mm</translation>
     </message>
     <message>
-      <source>Scale By Diameter</source>
+      <source>Sets the scale by matching the reference diameter to aa desired diameter,</source>
       <translation type="unfinished"/>
     </message>
     <message>
-      <source>Any Scale</source>
+      <source>Scale by diameter</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Matches aany scale value.</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Any scale</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Fin Flutter Analysis</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Material</source>
+      <translation>Material</translation>
+    </message>
+    <message>
+      <source>Assign the currently selected material to the fin</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Assign Material to FIn</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>The shear modulus of the fin material. This can be obtained from the material properties, or calculated using the Young&apos;s modulus and poisson ratio.</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Shear modulus</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Poisson ratio</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>The Young&apos;s modulus of the fin material. This is only required to calculate shear modulus.</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Young&apos;s modulus</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>The poisson ratio of the fin material. This is only required to calculate shear modulus.</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Calculates the shear modulus using the Young&apos;s modulus and poisson ration when checked.</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Calculated</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Approximates the effect of tip to tip reinforcement by doubling the value of the shear modulus. This is ONLY an approximation.</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Aproximate Tip to Tip Reinforcement</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Launch Conditions</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Launch Site</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Altitude</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Launch site</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>A list of known launch sites. Selecting the site will automatically set the launch site altitude.</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>The altitude of the launch site. This can be set manually or by selecting a known launch site.</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Temperature</source>
+      <translation>Temperatura</translation>
+    </message>
+    <message>
+      <source>Launch air temperature</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Atmospheric model</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>The atmospheric model used to calculate temperatures at different altitudes.</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Units used for air temperature.</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>The air temperature at the launch site.</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Use a default sea level temperature instead of the launch site temperature. This will often be used when the launch site temperature is unknown.</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Use default sea level temperature (15 C/ 59 F)</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Fin Flutter</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Maximum altitude</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Altitude at max speed</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Sets the altitude range for the slider and graph.</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Maximum speed</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>The expected altitude Above Ground Level (AGL) at which the rocket will be travelling at max speed.</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>The expected maximum speed for the rocket. This is not required to calculate flutter or divergence but is required to determine safety margins.</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Sets the altitude at max speed in the range from 0 to maximum altitude.</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>The flutter speed in Mach for the fin at the selected altitude.</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>The divergence speed in Mach for the fin at the selected altitude.</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>The divergence speed for the fin at the selected altitude.</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Divergence speed</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Flutter speed</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Margin</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Mach</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>The flutter speed for the fin at the selected altitude.</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>The safety margin of the fin based on the flutter speed and the specified maximum speed.</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>The safety margin of the fin based on the divergence speed and the specified maximum speed.</source>
       <translation type="unfinished"/>
     </message>
     <message>
@@ -3274,7 +4115,7 @@
       <translation type="unfinished"/>
     </message>
     <message>
-      <source>Shape Parameter</source>
+      <source>Shape parameter</source>
       <translation type="unfinished"/>
     </message>
     <message>
@@ -3286,15 +4127,15 @@
       <translation>Diámetro</translation>
     </message>
     <message>
-      <source>Nose Cone Shape</source>
+      <source>Nose cone shape</source>
       <translation type="unfinished"/>
     </message>
     <message>
-      <source>Blunted Diameter</source>
+      <source>Blunted diameter</source>
       <translation type="unfinished"/>
     </message>
     <message>
-      <source>Ogive Diameter</source>
+      <source>Ogive diameter</source>
       <translation type="unfinished"/>
     </message>
     <message>
@@ -3302,11 +4143,11 @@
       <translation type="unfinished"/>
     </message>
     <message>
-      <source>Cap Style</source>
+      <source>Cap style</source>
       <translation type="unfinished"/>
     </message>
     <message>
-      <source>Bar Width</source>
+      <source>Bar width</source>
       <translation type="unfinished"/>
     </message>
     <message>
@@ -3326,11 +4167,11 @@
       <translation>Seleccionar</translation>
     </message>
     <message>
-      <source>Base Object</source>
+      <source>Base object</source>
       <translation>Objeto base</translation>
     </message>
     <message>
-      <source>Effective Diameter</source>
+      <source>Effective diameter</source>
       <translation type="unfinished"/>
     </message>
     <message>
@@ -3358,7 +4199,7 @@
       <translation>Desfase (inicio/fin)</translation>
     </message>
     <message>
-      <source>Show Base Plane</source>
+      <source>Show base plane</source>
       <translation type="unfinished"/>
     </message>
     <message>
@@ -3374,7 +4215,7 @@
       <translation type="unfinished"/>
     </message>
     <message>
-      <source>Transition Shape</source>
+      <source>Transition shape</source>
       <translation type="unfinished"/>
     </message>
     <message>
@@ -3382,15 +4223,15 @@
       <translation type="unfinished"/>
     </message>
     <message>
-      <source>Forward Diameter</source>
+      <source>Forward diameter</source>
       <translation type="unfinished"/>
     </message>
     <message>
-      <source>Aft Diameter</source>
-      <translation>Diámetro de popa</translation>
+      <source>Aft diameter</source>
+      <translation type="unfinished"/>
     </message>
     <message>
-      <source>Core Diameter</source>
+      <source>Core diameter</source>
       <translation type="unfinished"/>
     </message>
     <message>
@@ -3398,27 +4239,27 @@
       <translation type="unfinished"/>
     </message>
     <message>
-      <source>Effective Forward Diameter</source>
+      <source>Effective forward diameter</source>
       <translation type="unfinished"/>
     </message>
     <message>
-      <source>Effective Aft Diameter</source>
+      <source>Effective aft diameter</source>
       <translation type="unfinished"/>
     </message>
     <message>
-      <source>Forward Offset</source>
+      <source>Forward offset</source>
       <translation type="unfinished"/>
     </message>
     <message>
-      <source>Aft Offset</source>
+      <source>Aft offset</source>
       <translation type="unfinished"/>
     </message>
     <message>
-      <source>Show Forward Base Plane</source>
+      <source>Show forward base plane</source>
       <translation type="unfinished"/>
     </message>
     <message>
-      <source>Show Aft Base Plane</source>
+      <source>Show aft base plane</source>
       <translation type="unfinished"/>
     </message>
     <message>
@@ -3434,6 +4275,10 @@
       <translation>Diálogo</translation>
     </message>
     <message>
+      <source>Enables scaling.</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
       <source>Scaling</source>
       <translation type="unfinished"/>
     </message>
@@ -3446,6 +4291,10 @@
       <translation type="unfinished"/>
     </message>
     <message>
+      <source>Scaling values are inherited from the parent component. Enabling override uses the current values instead.</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
       <source>Override</source>
       <translation type="unfinished"/>
     </message>
@@ -3454,7 +4303,7 @@
       <translation type="unfinished"/>
     </message>
     <message>
-      <source>By Value</source>
+      <source>By value</source>
       <translation type="unfinished"/>
     </message>
     <message>
@@ -3510,19 +4359,19 @@
       <translation>Altura</translation>
     </message>
     <message>
-      <source>Tip Thickness</source>
+      <source>Tip thickness</source>
       <translation type="unfinished"/>
     </message>
     <message>
-      <source>Root Thickness</source>
+      <source>Root thickness</source>
       <translation type="unfinished"/>
     </message>
     <message>
-      <source>Root Chord</source>
+      <source>Root chord</source>
       <translation type="unfinished"/>
     </message>
     <message>
-      <source>Tip Chord</source>
+      <source>Tip chord</source>
       <translation type="unfinished"/>
     </message>
   </context>
@@ -3530,90 +4379,94 @@
     <name>DialogCFD</name>
     <message>
       <source>CFD Study</source>
-      <translation>Estudio CFD</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Rocket Parameters</source>
-      <translation>Parámetros de cohete</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
-      <source>Minimum thickness of all fins</source>
-      <translation>Espesor mínimo de todas las aletas</translation>
+      <source>Minimum thickness of all fins.</source>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Length</source>
       <translation>Largo</translation>
     </message>
     <message>
-      <source>Minimum Fin Thickness</source>
-      <translation>Espesor mínimo de aleta</translation>
+      <source>Minimum fin thickness</source>
+      <translation type="unfinished"/>
     </message>
     <message>
-      <source>Rocket length</source>
-      <translation>Longitud del cohete</translation>
+      <source>The total length of the rocket assembly</source>
+      <translation type="unfinished"/>
     </message>
     <message>
-      <source>Main body diameter</source>
-      <translation>Diámetro del cuerpo principal</translation>
+      <source>Main body diameter.</source>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Diameter</source>
       <translation>Diámetro</translation>
     </message>
     <message>
-      <source>Frontal Area</source>
-      <translation>Área Frontal</translation>
+      <source>Frontal area</source>
+      <translation type="unfinished"/>
     </message>
     <message>
-      <source>Area facing the direction of travel</source>
-      <translation>Área orientada hacia la dirección de viaje</translation>
+      <source>Area facing the direction of travel.</source>
+      <translation type="unfinished"/>
     </message>
     <message>
-      <source>Altitude above sea level</source>
-      <translation>Altitud sobre el nivel del mar</translation>
+      <source>Altitude above sea level.</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Speed of the rocket during the simulation.</source>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Altitude</source>
-      <translation>Altitud</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Speed</source>
-      <translation>Velocidad</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
-      <source>Number of Processors</source>
-      <translation>Número de procesadores</translation>
+      <source>Number of processors</source>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Mach</source>
-      <translation>Mach</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
-      <source>Rotation around the X axis</source>
-      <translation>Rotacion alrededor del eje X</translation>
+      <source>Rotation around the X axis.</source>
+      <translation type="unfinished"/>
     </message>
     <message>
-      <source>Angle(s) Of Attack</source>
+      <source>Angle(s) Of Attack (AOA)</source>
       <translation type="unfinished"/>
     </message>
     <message>
       <source>Angle of rotation</source>
-      <translation>Ángulo de rotación</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
-      <source>Mach number</source>
-      <translation>Número Mach</translation>
+      <source>Mach number of the rocket during the simulation.</source>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>0 </source>
-      <translation>0 </translation>
+      <translation type="unfinished"/>
     </message>
     <message>
-      <source>Number of processors to use during CFD simulation</source>
-      <translation>Número de procesadores a utilizar durante la simulación CFD</translation>
+      <source>Number of processors to use during CFD simulation.</source>
+      <translation type="unfinished"/>
     </message>
     <message>
-      <source>Angles of attack in degrees, one per line</source>
+      <source>Angles of attack in degrees, one entry per line</source>
       <translation type="unfinished"/>
     </message>
     <message>
@@ -3632,7 +4485,7 @@
       <translation type="unfinished"/>
     </message>
     <message>
-      <source>Match Component</source>
+      <source>Match component</source>
       <translation type="unfinished"/>
     </message>
     <message>
@@ -3652,8 +4505,8 @@
       <translation type="unfinished"/>
     </message>
     <message>
-      <source>Aft Diameter</source>
-      <translation>Diámetro de popa</translation>
+      <source>Aft diameter</source>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Match the length of the component</source>
@@ -3687,15 +4540,23 @@
       <translation>Parámetros</translation>
     </message>
     <message>
-      <source>Angle(s) of Attack</source>
+      <source>Angle of the rocket relative to the airstream aalso known as the Angle of Attack (AOA)</source>
       <translation type="unfinished"/>
     </message>
     <message>
-      <source>Average Last N</source>
+      <source>Angle(s) of Attack (AOA)</source>
       <translation type="unfinished"/>
     </message>
     <message>
       <source>Use average of last N values</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Average last N</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Use average of last N values.</source>
       <translation type="unfinished"/>
     </message>
     <message>
@@ -3707,8 +4568,16 @@
       <translation type="unfinished"/>
     </message>
     <message>
+      <source>Start the simulation.</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
       <source>Start</source>
       <translation>Iniciar</translation>
+    </message>
+    <message>
+      <source>Stop the simulation.</source>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Stop</source>
@@ -3734,7 +4603,7 @@
       <translation type="unfinished"/>
     </message>
     <message>
-      <source>Sweep Angle</source>
+      <source>Sweep angle</source>
       <translation>Ángulo de barrido</translation>
     </message>
     <message>
@@ -3747,18 +4616,18 @@
     </message>
     <message>
       <source>auto</source>
-      <translation>automático</translation>
-    </message>
-    <message>
-      <source>Sweep Length</source>
       <translation type="unfinished"/>
     </message>
     <message>
-      <source>Fin Type</source>
-      <translation type="unfinished"/>
+      <source>Sweep length</source>
+      <translation>Longitud de barrido</translation>
     </message>
     <message>
-      <source>Fin Cant</source>
+      <source>Fin type</source>
+      <translation>Tipo de aleta</translation>
+    </message>
+    <message>
+      <source>Fin cant</source>
       <translation type="unfinished"/>
     </message>
     <message>
@@ -3766,11 +4635,11 @@
       <translation type="unfinished"/>
     </message>
     <message>
-      <source>Fin Count</source>
+      <source>Fin count</source>
       <translation type="unfinished"/>
     </message>
     <message>
-      <source>Fin Spacing</source>
+      <source>Fin spacing</source>
       <translation type="unfinished"/>
     </message>
     <message>
@@ -3782,7 +4651,7 @@
       <translation type="unfinished"/>
     </message>
     <message>
-      <source>Use Percentage</source>
+      <source>Use percentage</source>
       <translation type="unfinished"/>
     </message>
     <message>
@@ -3802,7 +4671,7 @@
       <translation type="unfinished"/>
     </message>
     <message>
-      <source>Cross Section</source>
+      <source>Cross section</source>
       <translation type="unfinished"/>
     </message>
     <message>
@@ -3818,10 +4687,6 @@
       <translation type="unfinished"/>
     </message>
     <message>
-      <source>Use percentage</source>
-      <translation type="unfinished"/>
-    </message>
-    <message>
       <source>Length1</source>
       <translation type="unfinished"/>
     </message>
@@ -3834,23 +4699,23 @@
       <translation>Largo</translation>
     </message>
     <message>
-      <source>Outer Diameter</source>
-      <translation>Diámetro externo</translation>
+      <source>Outer diameter</source>
+      <translation type="unfinished"/>
     </message>
     <message>
-      <source>Wall Thickness</source>
-      <translation>Espesor de pared</translation>
+      <source>Wall thickness</source>
+      <translation>Espesor de muro</translation>
     </message>
     <message>
       <source>Fillets</source>
       <translation type="unfinished"/>
     </message>
     <message>
-      <source>Fillet Radius</source>
+      <source>Fillet radius</source>
       <translation type="unfinished"/>
     </message>
     <message>
-      <source>Apply Fillets</source>
+      <source>Apply fillets</source>
       <translation type="unfinished"/>
     </message>
     <message>
@@ -3862,7 +4727,7 @@
       <translation>Tamaño</translation>
     </message>
     <message>
-      <source>Base Object</source>
+      <source>Base object</source>
       <translation>Objeto base</translation>
     </message>
     <message>
@@ -3870,7 +4735,7 @@
       <translation>Seleccionar</translation>
     </message>
     <message>
-      <source>Effective Diameter</source>
+      <source>Effective root chord</source>
       <translation type="unfinished"/>
     </message>
     <message>
@@ -3907,51 +4772,55 @@
     </message>
     <message>
       <source>Fin Can</source>
-      <translation>Lata de aletas</translation>
-    </message>
-    <message>
-      <source>Leading Edge Offset</source>
       <translation type="unfinished"/>
     </message>
     <message>
-      <source>Inner Diameter</source>
-      <translation>Diámetro interno</translation>
+      <source>Leading edge offset</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Inner diameter</source>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Leading Edge</source>
-      <translation>Borde de ataque</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
-      <source>Edge Style</source>
+      <source>Edge style</source>
       <translation type="unfinished"/>
     </message>
     <message>
       <source>Trailing Edge</source>
-      <translation>Borde de salida</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Coupler</source>
-      <translation>Acoplador</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
-      <source>Coupler Style</source>
+      <source>Coupler style</source>
       <translation type="unfinished"/>
     </message>
     <message>
       <source>Launch Lug</source>
-      <translation>Orejeta de lanzamiento</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Presets</source>
-      <translation>Ajustes preestablecidos</translation>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Fillet Radius</source>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Forward Sweep</source>
-      <translation>Barrido hacia delante</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Aft Sweep</source>
-      <translation>Barrido trasero</translation>
+      <translation type="unfinished"/>
     </message>
   </context>
 </TS>

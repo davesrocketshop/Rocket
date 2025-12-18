@@ -733,24 +733,26 @@ class FinShapeHandler(ABC):
         fin = self._drawSingleFin()
         if self._cant != 0:
             fin.rotate(FreeCAD.Vector(self._rootChord / 2, 0, 0), FreeCAD.Vector(0,0,1), self._cant)
-        fin.translate(FreeCAD.Vector(0,0,self._parentRadius))
+        if fin:
+            fin.translate(FreeCAD.Vector(0,0,self._parentRadius))
         # return Part.makeCompound([fin])
         return fin
 
     def _drawFinSet(self) -> Shape:
         fins = []
         base = self._drawSingleFin()
-        baseX = 0
-        if hasattr(self._obj, "LeadingEdgeOffset"):
-            baseX = self._leadingEdgeOffset
-        for i in range(self._fincount):
-            fin = Part.Shape(base) # Create a copy
-            if self._cant != 0:
-                fin.rotate(FreeCAD.Vector(self._rootChord / 2, 0, 0), FreeCAD.Vector(0,0,1), self._cant)
-            radius = self._getTubeRadius()
-            fin.translate(FreeCAD.Vector(baseX, 0, radius))
-            fin.rotate(FreeCAD.Vector(0, 0, 0), FreeCAD.Vector(1,0,0), i * self._finSpacing)
-            fins.append(fin)
+        if base:
+            baseX = 0
+            if hasattr(self._obj, "LeadingEdgeOffset"):
+                baseX = self._leadingEdgeOffset
+            for i in range(self._fincount):
+                fin = Part.Shape(base) # Create a copy
+                if self._cant != 0:
+                    fin.rotate(FreeCAD.Vector(self._rootChord / 2, 0, 0), FreeCAD.Vector(0,0,1), self._cant)
+                radius = self._getTubeRadius()
+                fin.translate(FreeCAD.Vector(baseX, 0, radius))
+                fin.rotate(FreeCAD.Vector(0, 0, 0), FreeCAD.Vector(1,0,0), i * self._finSpacing)
+                fins.append(fin)
 
         return Part.makeCompound(fins)
 
@@ -761,9 +763,13 @@ class FinShapeHandler(ABC):
 
         try:
             if self._finSet:
-                self._obj.Shape = self._drawFinSet()
+                shape = self._drawFinSet()
             else:
-                self._obj.Shape = self._drawFin()
+                shape = self._drawFin()
+            if shape:
+                self._obj.Shape = shape
+            else:
+                self._obj.Shape = Part.Shape()
             self._obj.Placement = self._placement
 
         except (ZeroDivisionError, Part.OCCError) as ex:

@@ -5,7 +5,11 @@ General:
   Name: "Steel"
   Author: "Created by the Rocket Workbench"
   License: "Apache-2.0"
-  Description: "Steel"
+  Description: >
+    Steel<br/>
+    <br/>
+    Default values for Sheer Modulus obtained from Peak of Flight newsletter 615<br/>
+    <url>https://www.apogeerockets.com/education/downloads/Newsletter615.pdf</url>
 Inherits:
   Steel:
     UUID: "56bf7ae1-9cc7-43e2-918d-9cb6ca9035bc"
@@ -13,3 +17,6 @@ Models:
   Density:
     UUID: "454661e5-265b-4320-8e6f-fcf6223ac3af"
     Density: "7850.00 kg/m^3"
+  Isotropic Linear Elastic:
+    UUID: "f6f9e48c-b116-4e82-ad7f-3659a9219c50"
+    ShearModulus: "82737087 kPa"

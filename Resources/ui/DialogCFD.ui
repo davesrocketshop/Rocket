@@ -25,7 +25,7 @@
         <item row="2" column="1">
          <widget class="Gui::InputField" name="inputFinThickness">
           <property name="toolTip">
-           <string>Minimum thickness of all fins</string>
+           <string>Minimum thickness of all fins.</string>
           </property>
           <property name="readOnly">
            <bool>true</bool>
@@ -45,14 +45,14 @@
         <item row="2" column="0">
          <widget class="QLabel" name="label_4">
           <property name="text">
-           <string>Minimum Fin Thickness</string>
+           <string>Minimum fin thickness</string>
           </property>
          </widget>
         </item>
         <item row="0" column="1">
          <widget class="Gui::InputField" name="inputLength">
           <property name="toolTip">
-           <string>Rocket length</string>
+           <string>The total length of the rocket assembly</string>
           </property>
           <property name="readOnly">
            <bool>true</bool>
@@ -65,7 +65,7 @@
         <item row="1" column="1">
          <widget class="Gui::InputField" name="inputDiameter">
           <property name="toolTip">
-           <string>Main body diameter</string>
+           <string>Main body diameter.</string>
           </property>
           <property name="readOnly">
            <bool>true</bool>
@@ -85,14 +85,14 @@
         <item row="3" column="0">
          <widget class="QLabel" name="label_10">
           <property name="text">
-           <string>Frontal Area</string>
+           <string>Frontal area</string>
           </property>
          </widget>
         </item>
         <item row="3" column="1">
          <widget class="Gui::InputField" name="inputArea">
           <property name="toolTip">
-           <string>Area facing the direction of travel</string>
+           <string>Area facing the direction of travel.</string>
           </property>
           <property name="readOnly">
            <bool>true</bool>
@@ -112,7 +112,7 @@
      <item row="0" column="2">
       <widget class="Gui::InputField" name="inputAltitude">
        <property name="toolTip">
-        <string>Altitude above sea level</string>
+        <string>Altitude above sea level.</string>
        </property>
        <property name="minimum">
         <double>0.000000000000000</double>
@@ -127,6 +127,9 @@
      </item>
      <item row="4" column="2">
       <widget class="Gui::InputField" name="inputSpeed">
+       <property name="toolTip">
+        <string>Speed of the rocket during the simulation.</string>
+       </property>
        <property name="readOnly">
         <bool>true</bool>
        </property>
@@ -161,7 +164,7 @@
      <item row="3" column="0">
       <widget class="QLabel" name="label_5">
        <property name="text">
-        <string>Number of Processors</string>
+        <string>Number of processors</string>
        </property>
       </widget>
      </item>
@@ -175,7 +178,7 @@
      <item row="2" column="2">
       <widget class="Gui::DoubleSpinBox" name="spinRotation">
        <property name="toolTip">
-        <string>Rotation around the X axis</string>
+        <string>Rotation around the X axis.</string>
        </property>
        <property name="minimum">
         <double>-180.000000000000000</double>
@@ -188,7 +191,7 @@
      <item row="1" column="0">
       <widget class="QLabel" name="label_6">
        <property name="text">
-        <string>Angle(s) Of Attack</string>
+        <string>Angle(s) Of Attack (AOA)</string>
        </property>
       </widget>
      </item>
@@ -202,7 +205,7 @@
      <item row="5" column="2">
       <widget class="Gui::InputField" name="inputMach">
        <property name="toolTip">
-        <string>Mach number</string>
+        <string>Mach number of the rocket during the simulation.</string>
        </property>
        <property name="text">
         <string>0 </string>
@@ -218,7 +221,7 @@
      <item row="3" column="2">
       <widget class="Gui::IntSpinBox" name="spinNproc">
        <property name="toolTip">
-        <string>Number of processors to use during CFD simulation</string>
+        <string>Number of processors to use during CFD simulation.</string>
        </property>
        <property name="maximum">
         <number>9999</number>
@@ -228,10 +231,10 @@
      <item row="1" column="2">
       <widget class="QPlainTextEdit" name="editAOA">
        <property name="toolTip">
-        <string>Angles of attack in degrees, one per line</string>
+        <string>Angles of attack in degrees, one entry per line</string>
        </property>
        <property name="lineWrapMode">
-        <enum>QPlainTextEdit::NoWrap</enum>
+        <enum>QPlainTextEdit::LineWrapMode::NoWrap</enum>
        </property>
        <property name="plainText">
         <string>2</string>

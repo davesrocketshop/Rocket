@@ -71,19 +71,19 @@ class _LaunchLugDialog(QDialog):
         self.setWindowTitle(translate('Rocket', "Launch Lug Parameter"))
 
         # Get the body tube parameters: length, ID, etc...
-        self.idLabel = QtGui.QLabel(translate('Rocket', "Inner Diameter"), self)
+        self.idLabel = QtGui.QLabel(translate('Rocket', "Inner diameter"), self)
 
         self.idInput = ui.createWidget("Gui::InputField")
         self.idInput.unit = FreeCAD.Units.Length
         self.idInput.setMinimumWidth(100)
 
-        self.odLabel = QtGui.QLabel(translate('Rocket', "Outer Diameter"), self)
+        self.odLabel = QtGui.QLabel(translate('Rocket', "Outer diameter"), self)
 
         self.odInput = ui.createWidget("Gui::InputField")
         self.odInput.unit = FreeCAD.Units.Length
         self.odInput.setMinimumWidth(100)
 
-        self.thicknessLabel = QtGui.QLabel(translate('Rocket', "Wall Thickness"), self)
+        self.thicknessLabel = QtGui.QLabel(translate('Rocket', "Wall thickness"), self)
 
         self.thicknessInput = ui.createWidget("Gui::InputField")
         self.thicknessInput.unit = FreeCAD.Units.Length
@@ -96,19 +96,19 @@ class _LaunchLugDialog(QDialog):
         self.lengthInput.setMinimumWidth(100)
 
         # Sweep parameters
-        self.forwardSweepGroup = QtGui.QGroupBox(translate('Rocket', "Forward Sweep"), self)
+        self.forwardSweepGroup = QtGui.QGroupBox(translate('Rocket', "Forward sweep"), self)
         self.forwardSweepGroup.setCheckable(True)
 
-        self.forwardSweepLabel = QtGui.QLabel(translate('Rocket', "Sweep Angle"), self)
+        self.forwardSweepLabel = QtGui.QLabel(translate('Rocket', "Sweep angle"), self)
 
         self.forwardSweepInput = ui.createWidget("Gui::InputField")
         self.forwardSweepInput.unit = FreeCAD.Units.Angle
         self.forwardSweepInput.setMinimumWidth(100)
 
-        self.aftSweepGroup = QtGui.QGroupBox(translate('Rocket', "Aft Sweep"), self)
+        self.aftSweepGroup = QtGui.QGroupBox(translate('Rocket', "Aft sweep"), self)
         self.aftSweepGroup.setCheckable(True)
 
-        self.aftSweepLabel = QtGui.QLabel(translate('Rocket', "Sweep Angle"), self)
+        self.aftSweepLabel = QtGui.QLabel(translate('Rocket', "Sweep angle"), self)
 
         self.aftSweepInput = ui.createWidget("Gui::InputField")
         self.aftSweepInput.unit = FreeCAD.Units.Angle
@@ -118,7 +118,7 @@ class _LaunchLugDialog(QDialog):
         self.instanceGroup = QtGui.QGroupBox(translate('Rocket', "Instances"), self)
         self.instanceGroup.setCheckable(False)
 
-        self.instanceCountLabel = QtGui.QLabel(translate('Rocket', "Instance Count"), self)
+        self.instanceCountLabel = QtGui.QLabel(translate('Rocket', "Instance count"), self)
 
         self.instanceCountSpinBox = QtGui.QSpinBox(self)
         self.instanceCountSpinBox.setMinimumWidth(100)
@@ -126,7 +126,7 @@ class _LaunchLugDialog(QDialog):
         self.instanceCountSpinBox.setMaximum(10000)
         self.instanceCountSpinBox.setValue(1)
 
-        self.instanceSeparationLabel = QtGui.QLabel(translate('Rocket', "Instance Separation"), self)
+        self.instanceSeparationLabel = QtGui.QLabel(translate('Rocket', "Instance separation"), self)
 
         self.instanceSeparationInput = ui.createWidget("Gui::InputField")
         self.instanceSeparationInput.unit = FreeCAD.Units.Length
