@@ -1491,7 +1491,7 @@
     <message>
       <location filename="../../Ui/Commands/CmdStage.py" line="84"/>
       <source>Stage</source>
-      <translation type="unfinished"/>
+      <translation>Stufe</translation>
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdStage.py" line="85"/>
@@ -4264,7 +4264,7 @@
     </message>
     <message>
       <source>Forward Shoulder</source>
-      <translation>Vordere Schulter</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Aft Shoulder</source>

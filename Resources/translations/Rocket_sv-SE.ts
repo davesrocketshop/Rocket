@@ -1168,17 +1168,17 @@
     <message>
       <location filename="../../Ui/TaskPanelLocation.py" line="52"/>
       <source>Radial reference</source>
-      <translation>Radiell referens</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Ui/TaskPanelLocation.py" line="58"/>
       <source>Radial offset</source>
-      <translation>Radiell förskjutning</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Ui/TaskPanelLocation.py" line="66"/>
       <source>Location reference</source>
-      <translation>Platsreferens</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Ui/TaskPanelLocation.py" line="74"/>
@@ -1188,7 +1188,7 @@
     <message>
       <location filename="../../Ui/TaskPanelLocation.py" line="80"/>
       <source>Angle offset</source>
-      <translation>Vinkelavvikelse</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdFlutterAnalysis.py" line="51"/>
@@ -1594,32 +1594,32 @@
     <message>
       <location filename="../../Ui/DialogFinFlutter.py" line="168"/>
       <source>Divergence</source>
-      <translation>Divergens</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Ui/DialogFinFlutter.py" line="171"/>
       <source>Altitude (km AGL)</source>
-      <translation>Höjd (km AGL)</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Ui/DialogFinFlutter.py" line="172"/>
       <source>Velocity (m/s)</source>
-      <translation>Hastighet (m/s)</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Ui/DialogFinFlutter.py" line="174"/>
       <source>Altitude (x1000 ft AGL)</source>
-      <translation>Höjd (x1000 fot över havet)</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Ui/DialogFinFlutter.py" line="175"/>
       <source>Velocity (ft/s)</source>
-      <translation>Hastighet (ft/s)</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Ui/DialogFinFlutter.py" line="333"/>
       <source>Peak of Flight 615</source>
-      <translation>Flyg 615:s högsta punkt</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Ui/DialogFinFlutter.py" line="334"/>
@@ -1629,12 +1629,12 @@
     <message>
       <location filename="../../Ui/DialogFinFlutter.py" line="336"/>
       <source>Committee on Extension to the Standard Atmosphere (COESA) 1976 - Geometric</source>
-      <translation>Kommittén för utvidgning av standardatmosfären (COESA) 1976 – Geometrisk</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Ui/DialogFinFlutter.py" line="339"/>
       <source>Committee on Extension to the Standard Atmosphere (COESA) 1976 - Geopotential</source>
-      <translation>Kommittén för utvidgning av standardatmosfären (COESA) 1976 – Geopotential</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Ui/TaskPanelRingtail.py" line="58"/>
@@ -1704,7 +1704,7 @@
       <location filename="../../Ui/TaskPanelLaunchLug.py" line="74"/>
       <location filename="../../Ui/TaskPanelBodyTube.py" line="84"/>
       <source>Inner diameter</source>
-      <translation>Innerdiameter</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Ui/TaskPanelRingtail.py" line="84"/>
@@ -1713,7 +1713,7 @@
       <location filename="../../Ui/TaskPanelLaunchLug.py" line="80"/>
       <location filename="../../Ui/TaskPanelBodyTube.py" line="90"/>
       <source>Outer diameter</source>
-      <translation>Ytterdiameter</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Ui/TaskPanelRingtail.py" line="105"/>
@@ -1750,7 +1750,7 @@
     <message>
       <location filename="../../Ui/TaskPanelBodyTube.py" line="111"/>
       <source>Motor mount</source>
-      <translation>Motorfäste</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Ui/TaskPanelBodyTube.py" line="114"/>
@@ -1812,7 +1812,7 @@
     <message>
       <location filename="../../Ui/TaskPanelDatabase.py" line="59"/>
       <source>Part number</source>
-      <translation>Artikelnummer</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="901"/>
@@ -1855,7 +1855,7 @@
     <message>
       <location filename="../../Ui/DialogScaling.py" line="158"/>
       <source>Reference diameter</source>
-      <translation>Referensdiameter</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Ui/DialogScaling.py" line="499"/>
@@ -1965,17 +1965,17 @@
     <message>
       <location filename="../../Ui/DialogParachute.py" line="65"/>
       <source>Rocket weight</source>
-      <translation>Raketens vikt</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Ui/DialogParachute.py" line="73"/>
       <source>Terminal velocity</source>
-      <translation>Terminalhastighet</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Ui/DialogParachute.py" line="88"/>
       <source>Drag coefficient</source>
-      <translation>Luftmotståndskoefficient</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Ui/TaskPanelWindTunnel.py" line="60"/>
@@ -1998,7 +1998,7 @@
       <location filename="../../Ui/TaskPanelRailGuide.py" line="137"/>
       <location filename="../../Ui/TaskPanelLaunchLug.py" line="99"/>
       <source>Forward sweep</source>
-      <translation>Framåtgående svep</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Ui/TaskPanelRailGuide.py" line="149"/>
@@ -2012,7 +2012,7 @@
       <location filename="../../Ui/TaskPanelRailGuide.py" line="146"/>
       <location filename="../../Ui/TaskPanelLaunchLug.py" line="108"/>
       <source>Aft sweep</source>
-      <translation>Akterut</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Ui/TaskPanelBulkhead.py" line="179"/>
@@ -2046,25 +2046,25 @@
     <message>
       <location filename="../../Ui/TaskPanelRailButton.py" line="81"/>
       <source>Rail button shape</source>
-      <translation>Spårknappens form</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Ui/TaskPanelRailGuide.py" line="95"/>
       <location filename="../../Ui/TaskPanelRailButton.py" line="100"/>
       <source>Flange height</source>
-      <translation>Flänshöjd</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Ui/TaskPanelRailGuide.py" line="101"/>
       <location filename="../../Ui/TaskPanelRailButton.py" line="106"/>
       <source>Base height</source>
-      <translation>Basens höjd</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Ui/TaskPanelRailGuide.py" line="107"/>
       <location filename="../../Ui/TaskPanelRailButton.py" line="112"/>
       <source>Total height</source>
-      <translation>Total höjd</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Ui/TaskPanelRailButton.py" line="124"/>
@@ -2074,17 +2074,17 @@
     <message>
       <location filename="../../Ui/TaskPanelRailButton.py" line="127"/>
       <source>Countersink angle</source>
-      <translation>Fräsvinkel</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Ui/TaskPanelRailButton.py" line="138"/>
       <source>Head diameter</source>
-      <translation>Huvuddiameter</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Ui/TaskPanelRailButton.py" line="144"/>
       <source>Shank diameter</source>
-      <translation>Skaftdiameter</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Ui/TaskPanelRailButton.py" line="150"/>
@@ -2094,7 +2094,7 @@
     <message>
       <location filename="../../Ui/TaskPanelRailButton.py" line="159"/>
       <source>Top fillet</source>
-      <translation>Övre filé</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Ui/TaskPanelRailButton.py" line="162"/>
@@ -2143,12 +2143,12 @@
     <message>
       <location filename="../../Ui/TaskPanelPod.py" line="66"/>
       <source>Pod count</source>
-      <translation>Antal kapslar</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Ui/TaskPanelPod.py" line="73"/>
       <source>Pod spacing</source>
-      <translation>Podavstånd</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Ui/TaskPanelRailGuide.py" line="67"/>
@@ -2158,7 +2158,7 @@
     <message>
       <location filename="../../Ui/TaskPanelRailGuide.py" line="70"/>
       <source>Rail guide base</source>
-      <translation>Rälsstyrbas</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Ui/TaskPanelRailGuide.py" line="77"/>
@@ -2168,24 +2168,24 @@
     <message>
       <location filename="../../Ui/TaskPanelRailGuide.py" line="83"/>
       <source>Middle width</source>
-      <translation>Medelbredd</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Ui/TaskPanelRailGuide.py" line="89"/>
       <source>Base width</source>
-      <translation>Basbredd</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Ui/DialogBlackPowder.py" line="70"/>
       <location filename="../../Ui/DialogVentHoles.py" line="55"/>
       <location filename="../../Ui/TaskPanelRailGuide.py" line="120"/>
       <source>Body tube diameter</source>
-      <translation>Kroppens rördiameter</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Ui/TaskPanelRailGuide.py" line="130"/>
       <source>V angle</source>
-      <translation>V-vinkel</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Ui/TaskPanelRailGuide.py" line="156"/>
@@ -2375,23 +2375,23 @@
     <message>
       <location filename="../../Ui/DialogThrustToWeight.py" line="61"/>
       <source>Minimum thrust</source>
-      <translation>Minsta dragkraft</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Ui/DialogBlackPowder.py" line="78"/>
       <location filename="../../Ui/DialogVentHoles.py" line="63"/>
       <source>Body tube length</source>
-      <translation>Kroppsrörslängd</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Ui/DialogVentHoles.py" line="71"/>
       <source>Vent hole count</source>
-      <translation>Antal ventilationshål</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Ui/DialogVentHoles.py" line="80"/>
       <source>Vent hole size</source>
-      <translation>Ventilationshålets storlek</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Ui/TaskPanelParallelStage.py" line="62"/>
@@ -2401,12 +2401,12 @@
     <message>
       <location filename="../../Ui/TaskPanelParallelStage.py" line="66"/>
       <source>Stage count</source>
-      <translation>Antal steg</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Ui/TaskPanelParallelStage.py" line="73"/>
       <source>Stage spacing</source>
-      <translation>Scenspridning</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Ui/TaskPanelRingtail.py" line="75"/>
@@ -2431,12 +2431,7 @@
         &lt;p&gt;This calculator is an estimate only. Ground test your ejection system before flying. In certain cases this calculation may overestimate the amount of powder required.&lt;/p&gt;
         &lt;/html&gt;
         </source>
-      <translation>
-        &lt;html&gt;
-        &lt;h1&gt;VARNING&lt;/h1&gt;
-        &lt;p&gt;Denna kalkylator ger endast en uppskattning. Testa ditt utskjutningssystem på marken innan du flyger. I vissa fall kan denna beräkning överskatta den mängd krut som krävs.&lt;/p&gt;
-        &lt;/html&gt;
-        </translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Ui/DialogBlackPowder.py" line="86"/>
@@ -2454,7 +2449,7 @@
     <message>
       <location filename="../../Ui/DialogBlackPowder.py" line="109"/>
       <source>FFFFg powder</source>
-      <translation>FFFFg-pulver</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../RocketGui.py" line="145"/>
@@ -3036,37 +3031,37 @@
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="58"/>
       <source>CFD Report.docx</source>
-      <translation>CFD-rapport.docx</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="159"/>
       <source>This is an automated report generated by the Rocket Workbench. It was created by running a CFD analysis on the document &apos;{}&apos;.</source>
-      <translation>Detta är en automatiserad rapport som genererats av Rocket Workbench. Den skapades genom att köra en CFD-analys på dokumentet '{}'.</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="163"/>
       <source>Details about the study, including the rocket</source>
-      <translation>Detaljer om studien, inklusive raketen</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="169"/>
       <source>Minimum Fin Thickness</source>
-      <translation>Minsta fenetjocklek</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="170"/>
       <source>Frontal Area</source>
-      <translation>Frontalområde</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="177"/>
       <source>Study Parameters</source>
-      <translation>Studieparametrar</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="179"/>
       <source>This study varied the following parameters:</source>
-      <translation>I denna studie varierades följande parametrar:</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Ui/TaskPanelCFDRocket.py" line="48"/>
@@ -3081,22 +3076,22 @@
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="920"/>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="194"/>
       <source>NOTE: It is not possible to calculate the center of pressure at an angle of attack of 0. It must be calculated at multiple points close to 0 and inferred using l&apos;Hôpital&apos;s rule.</source>
-      <translation>OBSERVERA: Det är inte möjligt att beräkna tryckcentrum vid en anfallsvinkel på 0. Det måste beräknas vid flera punkter nära 0 och härledas med hjälp av L'Hôpitals regel.</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="198"/>
       <source>This study is unable to determine Center of Pressure at a 0 angle of attack.</source>
-      <translation>Denna studie kan inte fastställa tyngdpunkten vid en anfallsvinkel på 0 grader.</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="200"/>
       <source>Configuration</source>
-      <translation>Konfiguration</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="212"/>
       <source>Physics Model</source>
-      <translation>Fysikmodell</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="219"/>
@@ -3138,17 +3133,17 @@
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="248"/>
       <source>Turbulence Model</source>
-      <translation>Turbulensmodell</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="253"/>
       <source>Gravity (x, y, z)</source>
-      <translation>Gravitation (x, y, z)</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="263"/>
       <source>Moving Reference Frame (SRF)</source>
-      <translation>Rörlig referensram (SRF)</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="266"/>
@@ -3158,32 +3153,32 @@
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="270"/>
       <source>Center of Rotation</source>
-      <translation>Rotationscentrum</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="278"/>
       <source>Rotational Axis</source>
-      <translation>Rotationsaxel</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="286"/>
       <source>Fluid Properties</source>
-      <translation>Vätskeegenskaper</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="292"/>
       <source>Not defined.</source>
-      <translation>Inte definierad.</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="301"/>
       <source>Material Name</source>
-      <translation>Materialnamn</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="315"/>
       <source>Initialize Flow Field</source>
-      <translation>Initialisera flödesfält</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="766"/>
@@ -3204,7 +3199,7 @@
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="341"/>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="328"/>
       <source>Use values from boundary &apos;{}&apos;</source>
-      <translation>Använd värden från gränsen '{}'</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="347"/>
@@ -3239,52 +3234,52 @@
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="426"/>
       <source>Convergence tolerance</source>
-      <translation>Konvergenstolerans</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="430"/>
       <source>Max iterations</source>
-      <translation>Max antal iterationer</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="434"/>
       <source>Iteration write interval</source>
-      <translation>Iterationsskrivintervall</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="439"/>
       <source>Parallel cores</source>
-      <translation>Parallella kärnor</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="443"/>
       <source>Starting from</source>
-      <translation>Startar med</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="448"/>
       <source>End time</source>
-      <translation>Sluttid</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="452"/>
       <source>Time step</source>
-      <translation>Tidssteg</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="456"/>
       <source>Max CFL number</source>
-      <translation>Max antal CFL</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="460"/>
       <source>Max free-surface CFL number</source>
-      <translation>Maximalt CFL-tal för fri yta</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="464"/>
       <source>Transient write interval</source>
-      <translation>Övergående skrivintervall</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="468"/>
@@ -3294,17 +3289,17 @@
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="476"/>
       <source>Mesh utility</source>
-      <translation>Nätverktyg</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="480"/>
       <source>Base element size</source>
-      <translation>Baselementets storlek</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="485"/>
       <source>Cells between levels</source>
-      <translation>Celler mellan nivåer</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="489"/>
@@ -3329,22 +3324,22 @@
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="500"/>
       <source>STL relative linear deflection</source>
-      <translation>STL relativ linjär avböjning</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="504"/>
       <source>STL angulat mesh density</source>
-      <translation>STL-vinklad nätdensitet</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="508"/>
       <source>Convert to dual mesh</source>
-      <translation>Konvertera till dubbelt nät</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="511"/>
       <source>Refinements</source>
-      <translation>Förfiningar</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="656"/>
@@ -3355,7 +3350,7 @@
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="525"/>
       <source>Refinement type</source>
-      <translation>Förädlingstyp</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="527"/>
@@ -3417,7 +3412,7 @@
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="612"/>
       <source>Surface</source>
-      <translation>Yta</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="619"/>
@@ -3432,27 +3427,27 @@
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="632"/>
       <source>Max first cell height</source>
-      <translation>Maximal höjd på första cellen</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="643"/>
       <source>Boundary Conditions</source>
-      <translation>Gränsvillkor</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="665"/>
       <source>Sub type</source>
-      <translation>Undertyp</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="669"/>
       <source>Default boundary</source>
-      <translation>Standardgräns</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="690"/>
       <source>Slip ratio</source>
-      <translation>Slipförhållande</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="698"/>
@@ -3487,7 +3482,7 @@
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="789"/>
       <source>Intensity &amp; Length scale</source>
-      <translation>Intensitet och längdskala</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="792"/>
@@ -3502,13 +3497,13 @@
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="800"/>
       <source>Kinetic energy &amp; Specific dissipation rate</source>
-      <translation>Kinetisk energi och specifik dissipationshastighet</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="814"/>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="803"/>
       <source>Turbulence kinetic energy (k)</source>
-      <translation>Turbulensens kinetiska energi (k)</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="807"/>
@@ -3518,7 +3513,7 @@
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="811"/>
       <source>Kinetic Energy &amp; Turbulent viscosity</source>
-      <translation>Kinetisk energi och turbulent viskositet</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="818"/>
@@ -3538,17 +3533,17 @@
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="891"/>
       <source>Run status</source>
-      <translation>Körstatus</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="893"/>
       <source>Total run time: {}</source>
-      <translation>Total körtid: {}</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="899"/>
       <source>Run Time</source>
-      <translation>Körtid</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="900"/>
@@ -3558,43 +3553,43 @@
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="912"/>
       <source>Unknown</source>
-      <translation>Okänd</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="918"/>
       <source>Center of Pressure</source>
-      <translation>Tryckcentrum</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="923"/>
       <source>Center of Pressure at multiple angles of attack with the rocket rotated around the center point.</source>
-      <translation>Tryckcentrum vid flera anfallsvinklar med raketen roterad runt mittpunkten.</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="926"/>
       <source>CP = X0 - My / (Fz * cos(AOA) + Fx * sin(AOA))</source>
-      <translation>CP = X0 - Min / (Fz * cos(AOA) + Fx * sin(AOA))</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="1087"/>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="1012"/>
       <source>Angle of Attack (degrees)</source>
-      <translation>Anfallsvinkel (grader)</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="1013"/>
       <source>Center of Pressure (mm)</source>
-      <translation>Tryckcentrum (mm)</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="1023"/>
       <source>Lift and Drag</source>
-      <translation>Lyft och drag</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="1024"/>
       <source>Lift and Drag coefficients at multiple angles of attack with the rocket rotated around the center point.</source>
-      <translation>Lyft- och dragkoefficienter vid flera anfallsvinklar med raketen roterad runt mittpunkten.</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="1325"/>
@@ -3605,12 +3600,12 @@
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="1098"/>
       <source>Run Data</source>
-      <translation>Kör data</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="1101"/>
       <source>Angle of Attack={}</source>
-      <translation>Anfallsvinkel={}</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="1324"/>
@@ -3625,19 +3620,19 @@
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="1146"/>
       <source>Residual</source>
-      <translation>Återstående</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="1232"/>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="1211"/>
       <source>Force [N]</source>
-      <translation>Kraft [N]</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="1293"/>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="1272"/>
       <source>Moment</source>
-      <translation>Moment</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Ui/TaskPanelMultiCFD.py" line="181"/>
@@ -3809,23 +3804,23 @@
     </message>
     <message>
       <source>Matches a specific scale value.</source>
-      <translation>Matchar ett specifikt skalvärde.</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Scale by value</source>
-      <translation>Skala efter värde</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Specifies a minumum body diameter.</source>
-      <translation>Anger en minsta kroppsdiameter.</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Minimum diameter</source>
-      <translation>Minsta diameter</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Search for body tube pairs.</source>
-      <translation>Sök efter kroppsrörspar.</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Search</source>
@@ -3833,15 +3828,15 @@
     </message>
     <message>
       <source>Reference diameter 2</source>
-      <translation>Referensdiameter 2</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Sets a specific scale value for matching.</source>
-      <translation>Ställer in ett specifikt skalvärde för matchning.</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Sets the scale value using the currently selected body tube.</source>
-      <translation>Ställer in skalvärdet med hjälp av det för närvarande valda kroppsröret.</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Set Scale</source>
@@ -3849,7 +3844,7 @@
     </message>
     <message>
       <source>Adds the currently selected body tube to the rocket assembly.</source>
-      <translation>Lägger till den aktuella valda kroppsröret till raketmonteringen.</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Add to Document</source>
@@ -3857,7 +3852,7 @@
     </message>
     <message>
       <source>Export matching results to CSV.</source>
-      <translation>Exportera matchningsresultat till CSV.</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Export CSV</source>
@@ -3869,7 +3864,7 @@
     </message>
     <message>
       <source>Diameter is matched to the first reference diameter.</source>
-      <translation>Diametern matchas med den första referensdiametern.</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Diameter 1</source>
@@ -3877,7 +3872,7 @@
     </message>
     <message>
       <source>Diameter is matched to the second reference diameter.</source>
-      <translation>Diametern matchas med den andra referensdiametern.</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Diameter 2</source>
@@ -3885,27 +3880,27 @@
     </message>
     <message>
       <source>Specifies a maximum body diameter.</source>
-      <translation>Anger maximal kroppsdiameter.</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Scale reference used to match diameter.</source>
-      <translation>Skala som används för att matcha diametern.</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Reference diameter 1</source>
-      <translation>Referensdiameter 1</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Maximum diameter</source>
-      <translation>Maximal diameter</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Maximum error in the matched body diameter.</source>
-      <translation>Maximalt fel i den matchade kroppsdiametern.</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Sets the desired body diameter.</source>
-      <translation>Ställer in önskad kroppsdiameter.</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>mm</source>
@@ -3913,19 +3908,19 @@
     </message>
     <message>
       <source>Sets the scale by matching the reference diameter to aa desired diameter,</source>
-      <translation>Ställer in skalan genom att matcha referensdiametern med önskad diameter.</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Scale by diameter</source>
-      <translation>Skala efter diameter</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Matches aany scale value.</source>
-      <translation>Matchar vilket skalvärde som helst.</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Any scale</source>
-      <translation>Alla skalor</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Fin Flutter Analysis</source>
@@ -3937,59 +3932,59 @@
     </message>
     <message>
       <source>Assign the currently selected material to the fin</source>
-      <translation>Tilldela det valda materialet till fenan</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Assign Material to FIn</source>
-      <translation>Tilldela material till FIn</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>The shear modulus of the fin material. This can be obtained from the material properties, or calculated using the Young&apos;s modulus and poisson ratio.</source>
-      <translation>Skjuvmodulen för fenmaterialet. Denna kan erhållas från materialegenskaperna eller beräknas med hjälp av Youngs modul och Poissons tal.</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Shear modulus</source>
-      <translation>Skjuvmodul</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Poisson ratio</source>
-      <translation>Poissons tal</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>The Young&apos;s modulus of the fin material. This is only required to calculate shear modulus.</source>
-      <translation>Youngs modul för fenans material. Detta krävs endast för att beräkna skjuvmodulen.</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Young&apos;s modulus</source>
-      <translation>Youngs modul</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>The poisson ratio of the fin material. This is only required to calculate shear modulus.</source>
-      <translation>Poisson-tal för fenmaterialet. Detta krävs endast för att beräkna skjuvmodulen.</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Calculates the shear modulus using the Young&apos;s modulus and poisson ration when checked.</source>
-      <translation>Beräknar skjuvmodulen med hjälp av Youngs modul och Poissons tal när detta är markerat.</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Calculated</source>
-      <translation>Beräknad</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Approximates the effect of tip to tip reinforcement by doubling the value of the shear modulus. This is ONLY an approximation.</source>
-      <translation>Närmar sig effekten av förstärkning från spets till spets genom att fördubbla värdet på skjuvmodulen. Detta är ENDAST en approximation.</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Aproximate Tip to Tip Reinforcement</source>
-      <translation>Ungefärlig förstärkning från spets till spets</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Launch Conditions</source>
-      <translation>Startvillkor</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Launch Site</source>
-      <translation>Startplats</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Altitude</source>
@@ -3997,15 +3992,15 @@
     </message>
     <message>
       <source>Launch site</source>
-      <translation>Startplats</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>A list of known launch sites. Selecting the site will automatically set the launch site altitude.</source>
-      <translation>En lista över kända avfyrningsplatser. När du väljer platsen ställs automatiskt startplatsens höjd in.</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>The altitude of the launch site. This can be set manually or by selecting a known launch site.</source>
-      <translation>Höjden på uppskjutningsplatsen. Detta kan ställas in manuellt eller genom att välja en känd uppskjutningsplats.</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Temperature</source>
@@ -4013,87 +4008,87 @@
     </message>
     <message>
       <source>Launch air temperature</source>
-      <translation>Startlufttemperatur</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Atmospheric model</source>
-      <translation>Atmosfärisk modell</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>The atmospheric model used to calculate temperatures at different altitudes.</source>
-      <translation>Den atmosfäriska modell som används för att beräkna temperaturer på olika höjder.</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Units used for air temperature.</source>
-      <translation>Enheter som används för lufttemperatur.</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>The air temperature at the launch site.</source>
-      <translation>Lufttemperaturen vid uppskjutningsplatsen.</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Use a default sea level temperature instead of the launch site temperature. This will often be used when the launch site temperature is unknown.</source>
-      <translation>Använd en standardtemperatur vid havsnivå istället för temperaturen på uppskjutningsplatsen. Detta används ofta när temperaturen på uppskjutningsplatsen är okänd.</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Use default sea level temperature (15 C/ 59 F)</source>
-      <translation>Använd standardtemperatur vid havsnivå (15 °C/59 °F)</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Fin Flutter</source>
-      <translation>Fenfladder</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Maximum altitude</source>
-      <translation>Maximal höjd</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Altitude at max speed</source>
-      <translation>Höjd vid maximal hastighet</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Sets the altitude range for the slider and graph.</source>
-      <translation>Ställer in höjdintervallet för skjutreglaget och grafen.</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Maximum speed</source>
-      <translation>Maximal hastighet</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>The expected altitude Above Ground Level (AGL) at which the rocket will be travelling at max speed.</source>
-      <translation>Den förväntade höjden över marknivån (AGL) där raketen kommer att färdas med maximal hastighet.</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>The expected maximum speed for the rocket. This is not required to calculate flutter or divergence but is required to determine safety margins.</source>
-      <translation>Raketens förväntade maximala hastighet. Detta krävs inte för att beräkna fladder eller divergens, men krävs för att fastställa säkerhetsmarginaler.</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Sets the altitude at max speed in the range from 0 to maximum altitude.</source>
-      <translation>Ställer in höjden vid maximal hastighet i intervallet från 0 till maximal höjd.</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>The flutter speed in Mach for the fin at the selected altitude.</source>
-      <translation>Flutterhastigheten i Mach för fenan vid vald höjd.</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>The divergence speed in Mach for the fin at the selected altitude.</source>
-      <translation>Avvikelsens hastighet i Mach för fenan vid vald höjd.</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>The divergence speed for the fin at the selected altitude.</source>
-      <translation>Divergenshastigheten för fenan vid vald höjd.</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Divergence speed</source>
-      <translation>Divergenshastighet</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Flutter speed</source>
-      <translation>Flutterhastighet</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Margin</source>
-      <translation>Marginal</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Mach</source>
@@ -4101,15 +4096,15 @@
     </message>
     <message>
       <source>The flutter speed for the fin at the selected altitude.</source>
-      <translation>Flutterhastigheten för fenan vid vald höjd.</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>The safety margin of the fin based on the flutter speed and the specified maximum speed.</source>
-      <translation>Säkerhetsmarginalen för fenan baserad på fladderhastigheten och den angivna maximala hastigheten.</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>The safety margin of the fin based on the divergence speed and the specified maximum speed.</source>
-      <translation>Säkerhetsmarginalen för fenan baserad på divergenshastigheten och den angivna maximala hastigheten.</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Nose Cone Parameter</source>
@@ -4121,7 +4116,7 @@
     </message>
     <message>
       <source>Shape parameter</source>
-      <translation>Formparameter</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Length</source>
@@ -4133,15 +4128,15 @@
     </message>
     <message>
       <source>Nose cone shape</source>
-      <translation>Näsans form</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Blunted diameter</source>
-      <translation>Avrundad diameter</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Ogive diameter</source>
-      <translation>Ogivdiameter</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Nose Cap</source>
@@ -4149,11 +4144,11 @@
     </message>
     <message>
       <source>Cap style</source>
-      <translation>Kepsmodell</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Bar width</source>
-      <translation>Stångbredd</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Style</source>
@@ -4177,7 +4172,7 @@
     </message>
     <message>
       <source>Effective diameter</source>
-      <translation>Effektiv diameter</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Placement</source>
@@ -4205,7 +4200,7 @@
     </message>
     <message>
       <source>Show base plane</source>
-      <translation>Visa basplan</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Shoulder</source>
@@ -4221,7 +4216,7 @@
     </message>
     <message>
       <source>Transition shape</source>
-      <translation>Övergångsform</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Forward Cap</source>
@@ -4229,15 +4224,15 @@
     </message>
     <message>
       <source>Forward diameter</source>
-      <translation>Framdiameter</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Aft diameter</source>
-      <translation>Akterdiameter</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Core diameter</source>
-      <translation>Kärndiameter</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Clipped</source>
@@ -4245,27 +4240,27 @@
     </message>
     <message>
       <source>Effective forward diameter</source>
-      <translation>Effektiv framdiameter</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Effective aft diameter</source>
-      <translation>Effektiv akterdiameter</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Forward offset</source>
-      <translation>Framåtförskjutning</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Aft offset</source>
-      <translation>Akterförskjutning</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Show forward base plane</source>
-      <translation>Visa framåtbasplan</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Show aft base plane</source>
-      <translation>Visa akterbasplan</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Forward Shoulder</source>
@@ -4281,7 +4276,7 @@
     </message>
     <message>
       <source>Enables scaling.</source>
-      <translation>Aktiverar skalning.</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Scaling</source>
@@ -4297,7 +4292,7 @@
     </message>
     <message>
       <source>Scaling values are inherited from the parent component. Enabling override uses the current values instead.</source>
-      <translation>Skalningsvärden ärvs från överordnad komponent. Om du aktiverar åsidosättning används istället de aktuella värdena.</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Override</source>
@@ -4309,7 +4304,7 @@
     </message>
     <message>
       <source>By value</source>
-      <translation>Efter värde</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>By body diameter</source>
@@ -4365,19 +4360,19 @@
     </message>
     <message>
       <source>Tip thickness</source>
-      <translation>Spetsens tjocklek</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Root thickness</source>
-      <translation>Rotens tjocklek</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Root chord</source>
-      <translation>Grundackord</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Tip chord</source>
-      <translation>Tipsackord</translation>
+      <translation type="unfinished"/>
     </message>
   </context>
   <context>
@@ -4392,7 +4387,7 @@
     </message>
     <message>
       <source>Minimum thickness of all fins.</source>
-      <translation>Minsta tjocklek på alla fenor.</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Length</source>
@@ -4400,15 +4395,15 @@
     </message>
     <message>
       <source>Minimum fin thickness</source>
-      <translation>Minsta fenetjocklek</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>The total length of the rocket assembly</source>
-      <translation>Raketens totala längd</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Main body diameter.</source>
-      <translation>Huvuddelens diameter.</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Diameter</source>
@@ -4416,19 +4411,19 @@
     </message>
     <message>
       <source>Frontal area</source>
-      <translation>Frontal område</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Area facing the direction of travel.</source>
-      <translation>Område som vetter mot färdriktningen.</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Altitude above sea level.</source>
-      <translation>Höjd över havet.</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Speed of the rocket during the simulation.</source>
-      <translation>Raketens hastighet under simuleringen.</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Altitude</source>
@@ -4440,7 +4435,7 @@
     </message>
     <message>
       <source>Number of processors</source>
-      <translation>Antal processorer</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Mach</source>
@@ -4448,11 +4443,11 @@
     </message>
     <message>
       <source>Rotation around the X axis.</source>
-      <translation>Rotation runt X-axeln.</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Angle(s) Of Attack (AOA)</source>
-      <translation>Angreppsvinkel (AOA)</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Angle of rotation</source>
@@ -4460,7 +4455,7 @@
     </message>
     <message>
       <source>Mach number of the rocket during the simulation.</source>
-      <translation>Raketens Mach-tal under simuleringen.</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>0 </source>
@@ -4468,11 +4463,11 @@
     </message>
     <message>
       <source>Number of processors to use during CFD simulation.</source>
-      <translation>Antal processorer som ska användas under CFD-simuleringen.</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Angles of attack in degrees, one entry per line</source>
-      <translation>Anfallsvinklar i grader, en post per rad</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>2</source>
@@ -4491,7 +4486,7 @@
     </message>
     <message>
       <source>Match component</source>
-      <translation>Matcha komponent</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Search</source>
@@ -4511,7 +4506,7 @@
     </message>
     <message>
       <source>Aft diameter</source>
-      <translation>Akterdiameter</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Match the length of the component</source>
@@ -4546,11 +4541,11 @@
     </message>
     <message>
       <source>Angle of the rocket relative to the airstream aalso known as the Angle of Attack (AOA)</source>
-      <translation>Raketens vinkel i förhållande till luftströmmen, även känd som anfallsvinkel (AOA).</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Angle(s) of Attack (AOA)</source>
-      <translation>Anfallsvinkel (AOA)</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Use average of last N values</source>
@@ -4558,11 +4553,11 @@
     </message>
     <message>
       <source>Average last N</source>
-      <translation>Genomsnittliga senaste N</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Use average of last N values.</source>
-      <translation>Använd genomsnittet av de senaste N värdena.</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Use the same folder for each mesh. This can result in a substantial reduction of required disk space</source>
@@ -4574,7 +4569,7 @@
     </message>
     <message>
       <source>Start the simulation.</source>
-      <translation>Starta simuleringen.</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Start</source>
@@ -4582,7 +4577,7 @@
     </message>
     <message>
       <source>Stop the simulation.</source>
-      <translation>Avbryt simuleringen.</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Stop</source>
@@ -4641,11 +4636,11 @@
     </message>
     <message>
       <source>Fin count</source>
-      <translation>Antal fenor</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Fin spacing</source>
-      <translation>Finavstånd</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>FIn Root</source>
@@ -4677,7 +4672,7 @@
     </message>
     <message>
       <source>Cross section</source>
-      <translation>Tvärsnitt</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Fin Tip</source>
@@ -4705,7 +4700,7 @@
     </message>
     <message>
       <source>Outer diameter</source>
-      <translation>Ytterdiameter</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Wall thickness</source>
@@ -4721,7 +4716,7 @@
     </message>
     <message>
       <source>Apply fillets</source>
-      <translation>Applicera filéer</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Minimum Edge</source>
@@ -4741,7 +4736,7 @@
     </message>
     <message>
       <source>Effective root chord</source>
-      <translation>Effektiv grundackord</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Placement</source>
@@ -4781,11 +4776,11 @@
     </message>
     <message>
       <source>Leading edge offset</source>
-      <translation>Ledande kantförskjutning</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Inner diameter</source>
-      <translation>Innerdiameter</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Leading Edge</source>
@@ -4793,7 +4788,7 @@
     </message>
     <message>
       <source>Edge style</source>
-      <translation>Kantstil</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Trailing Edge</source>
@@ -4805,7 +4800,7 @@
     </message>
     <message>
       <source>Coupler style</source>
-      <translation>Kopplingsstil</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Launch Lug</source>

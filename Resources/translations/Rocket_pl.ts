@@ -4264,7 +4264,7 @@
     </message>
     <message>
       <source>Forward Shoulder</source>
-      <translation>Przedni pierścień łączeniowy</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Aft Shoulder</source>
