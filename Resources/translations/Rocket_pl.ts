@@ -90,7 +90,7 @@
     <message>
       <location filename="../../Rocket/FeatureRailGuide.py" line="96"/>
       <source>Depth of the notch</source>
-      <translation type="unfinished"/>
+      <translation>Głębokość wycięcia</translation>
     </message>
     <message>
       <location filename="../../Rocket/FeatureRailButton.py" line="109"/>
@@ -105,7 +105,7 @@
       <location filename="../../Rocket/FeatureLaunchLug.py" line="64"/>
       <location filename="../../Rocket/FeatureRailGuide.py" line="101"/>
       <source>Instance separation</source>
-      <translation type="unfinished"/>
+      <translation>Rozdzielenie instancji</translation>
     </message>
     <message>
       <location filename="../../Rocket/RocketComponent.py" line="57"/>
@@ -156,12 +156,12 @@
     <message>
       <location filename="../../Rocket/RocketComponent.py" line="97"/>
       <source>Texture file</source>
-      <translation type="unfinished"/>
+      <translation>Plik tekstury</translation>
     </message>
     <message>
       <location filename="../../Rocket/RocketComponent.py" line="100"/>
       <source>Shape of the component</source>
-      <translation type="unfinished"/>
+      <translation>Kształt elementu</translation>
     </message>
     <message>
       <location filename="../../Rocket/FeatureRingtail.py" line="54"/>
@@ -608,7 +608,7 @@
     <message>
       <location filename="../../Rocket/FeatureFin.py" line="134"/>
       <source>Fin cant</source>
-      <translation type="unfinished"/>
+      <translation>Kąt skręcenia stateczników</translation>
     </message>
     <message>
       <location filename="../../Rocket/FeatureFin.py" line="137"/>
@@ -709,7 +709,7 @@
       <location filename="../../Rocket/FeatureRailButton.py" line="106"/>
       <location filename="../../Rocket/FeatureFin.py" line="192"/>
       <source>Fillet radius</source>
-      <translation type="unfinished"/>
+      <translation>Promień zaokrąglenia</translation>
     </message>
     <message>
       <location filename="../../Rocket/FeatureFin.py" line="195"/>
@@ -1704,7 +1704,7 @@
       <location filename="../../Ui/TaskPanelLaunchLug.py" line="74"/>
       <location filename="../../Ui/TaskPanelBodyTube.py" line="84"/>
       <source>Inner diameter</source>
-      <translation type="unfinished"/>
+      <translation>⌀ wewnętrzna</translation>
     </message>
     <message>
       <location filename="../../Ui/TaskPanelRingtail.py" line="84"/>
@@ -1713,7 +1713,7 @@
       <location filename="../../Ui/TaskPanelLaunchLug.py" line="80"/>
       <location filename="../../Ui/TaskPanelBodyTube.py" line="90"/>
       <source>Outer diameter</source>
-      <translation type="unfinished"/>
+      <translation>Średnica zewnętrzna</translation>
     </message>
     <message>
       <location filename="../../Ui/TaskPanelRingtail.py" line="105"/>
@@ -2036,7 +2036,7 @@
       <location filename="../../Ui/TaskPanelRailButton.py" line="180"/>
       <location filename="../../Ui/TaskPanelLaunchLug.py" line="129"/>
       <source>Instance separation</source>
-      <translation type="unfinished"/>
+      <translation>Rozdzielenie instancji</translation>
     </message>
     <message>
       <location filename="../../Ui/TaskPanelRailButton.py" line="79"/>
@@ -3543,7 +3543,7 @@
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="899"/>
       <source>Run Time</source>
-      <translation type="unfinished"/>
+      <translation>Czas lotu</translation>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="900"/>
@@ -3553,43 +3553,43 @@
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="912"/>
       <source>Unknown</source>
-      <translation type="unfinished"/>
+      <translation>Nieznany</translation>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="918"/>
       <source>Center of Pressure</source>
-      <translation type="unfinished"/>
+      <translation>Środek parcia</translation>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="923"/>
       <source>Center of Pressure at multiple angles of attack with the rocket rotated around the center point.</source>
-      <translation type="unfinished"/>
+      <translation>Środek parcia dla wielu kątów natarcia przy obrocie rakiety wokół punktu centralnego.</translation>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="926"/>
       <source>CP = X0 - My / (Fz * cos(AOA) + Fx * sin(AOA))</source>
-      <translation type="unfinished"/>
+      <translation>CP = X0 - My / (Fz * cos(AOA) + Fx * sin(AOA))</translation>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="1087"/>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="1012"/>
       <source>Angle of Attack (degrees)</source>
-      <translation type="unfinished"/>
+      <translation>Kąt natarcia [ ° ]</translation>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="1013"/>
       <source>Center of Pressure (mm)</source>
-      <translation type="unfinished"/>
+      <translation>Środek parcia [mm]</translation>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="1023"/>
       <source>Lift and Drag</source>
-      <translation type="unfinished"/>
+      <translation>Siła nośna i opór aerodynamiczny</translation>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="1024"/>
       <source>Lift and Drag coefficients at multiple angles of attack with the rocket rotated around the center point.</source>
-      <translation type="unfinished"/>
+      <translation>Współczynniki siły nośnej i oporu aerodynamicznego dla wielu kątów natarcia przy obrocie rakiety wokół punktu centralnego.</translation>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="1325"/>
@@ -3980,27 +3980,29 @@
     </message>
     <message>
       <source>Launch Conditions</source>
-      <translation type="unfinished"/>
+      <translation>Warunki startowe</translation>
     </message>
     <message>
       <source>Launch Site</source>
-      <translation type="unfinished"/>
+      <translation>Miejsce startu</translation>
     </message>
     <message>
       <source>Altitude</source>
-      <translation type="unfinished"/>
+      <translation>Wysokość</translation>
     </message>
     <message>
       <source>Launch site</source>
-      <translation type="unfinished"/>
+      <translation>Miejsce startu</translation>
     </message>
     <message>
       <source>A list of known launch sites. Selecting the site will automatically set the launch site altitude.</source>
-      <translation type="unfinished"/>
+      <translation>Lista znanych miejsc startu. 
+Wybranie miejsca automatycznie ustawi wysokość startu.</translation>
     </message>
     <message>
       <source>The altitude of the launch site. This can be set manually or by selecting a known launch site.</source>
-      <translation type="unfinished"/>
+      <translation>Wysokość miejsca startu. 
+Można ją ustawić ręcznie lub wybrać z listy znanych miejsc startu.</translation>
     </message>
     <message>
       <source>Temperature</source>
@@ -4008,103 +4010,105 @@
     </message>
     <message>
       <source>Launch air temperature</source>
-      <translation type="unfinished"/>
+      <translation>Temperatura powietrza w miejscu startu</translation>
     </message>
     <message>
       <source>Atmospheric model</source>
-      <translation type="unfinished"/>
+      <translation>Model atmosfery</translation>
     </message>
     <message>
       <source>The atmospheric model used to calculate temperatures at different altitudes.</source>
-      <translation type="unfinished"/>
+      <translation>Model atmosfery używany do obliczania temperatur na różnych wysokościach.</translation>
     </message>
     <message>
       <source>Units used for air temperature.</source>
-      <translation type="unfinished"/>
+      <translation>Jednostki używane do wyrażania temperatury powietrza.</translation>
     </message>
     <message>
       <source>The air temperature at the launch site.</source>
-      <translation type="unfinished"/>
+      <translation>Temperatura powietrza w miejscu startu.</translation>
     </message>
     <message>
       <source>Use a default sea level temperature instead of the launch site temperature. This will often be used when the launch site temperature is unknown.</source>
-      <translation type="unfinished"/>
+      <translation>Użyj domyślnej temperatury na poziomie morza zamiast temperatury w miejscu startu. 
+Często stosuje się to, gdy temperatura w miejscu startu jest nieznana.</translation>
     </message>
     <message>
       <source>Use default sea level temperature (15 C/ 59 F)</source>
-      <translation type="unfinished"/>
+      <translation>Użyj domyślnej temperatury na poziomie morza (15 °C / 59 °F)</translation>
     </message>
     <message>
       <source>Fin Flutter</source>
-      <translation type="unfinished"/>
+      <translation>Drgania samowzbudne statecznika</translation>
     </message>
     <message>
       <source>Maximum altitude</source>
-      <translation type="unfinished"/>
+      <translation>Wysokość maksymalna</translation>
     </message>
     <message>
       <source>Altitude at max speed</source>
-      <translation type="unfinished"/>
+      <translation>Wysokość przy maksymalnej prędkości</translation>
     </message>
     <message>
       <source>Sets the altitude range for the slider and graph.</source>
-      <translation type="unfinished"/>
+      <translation>Ustawia zakres wysokości dla suwaka i wykresu.</translation>
     </message>
     <message>
       <source>Maximum speed</source>
-      <translation type="unfinished"/>
+      <translation>Prędkość maksymalna</translation>
     </message>
     <message>
       <source>The expected altitude Above Ground Level (AGL) at which the rocket will be travelling at max speed.</source>
-      <translation type="unfinished"/>
+      <translation>Przewidywana wysokość nad poziomem terenu (AGL), na której rakieta będzie poruszała się z prędkością maksymalną.</translation>
     </message>
     <message>
       <source>The expected maximum speed for the rocket. This is not required to calculate flutter or divergence but is required to determine safety margins.</source>
-      <translation type="unfinished"/>
+      <translation>Przewidywana prędkość maksymalna rakiety. 
+Nie jest ona wymagana do obliczeń drgań samowzbudnych ani dywergencji, lecz jest niezbędna do wyznaczenia marginesów bezpieczeństwa.</translation>
     </message>
     <message>
       <source>Sets the altitude at max speed in the range from 0 to maximum altitude.</source>
-      <translation type="unfinished"/>
+      <translation>Ustawia wysokość, na której występuje prędkość maksymalna, w zakresie od 0 do wysokości maksymalnej.</translation>
     </message>
     <message>
       <source>The flutter speed in Mach for the fin at the selected altitude.</source>
-      <translation type="unfinished"/>
+      <translation>Prędkość drgań samowzbudnych statecznika w liczbie Macha na wybranej wysokości.</translation>
     </message>
     <message>
       <source>The divergence speed in Mach for the fin at the selected altitude.</source>
-      <translation type="unfinished"/>
+      <translation>Prędkość dywergencji statecznika w liczbie Macha na wybranej wysokości.</translation>
     </message>
     <message>
       <source>The divergence speed for the fin at the selected altitude.</source>
-      <translation type="unfinished"/>
+      <translation>Prędkość dywergencji statecznika na wybranej wysokości.</translation>
     </message>
     <message>
       <source>Divergence speed</source>
-      <translation type="unfinished"/>
+      <translation>Prędkość rozbiegania</translation>
     </message>
     <message>
       <source>Flutter speed</source>
-      <translation type="unfinished"/>
+      <translation>Prędkość drgań samowzbudnych</translation>
     </message>
     <message>
       <source>Margin</source>
-      <translation type="unfinished"/>
+      <translation>Margines</translation>
     </message>
     <message>
       <source>Mach</source>
-      <translation type="unfinished"/>
+      <translation>Mach</translation>
     </message>
     <message>
       <source>The flutter speed for the fin at the selected altitude.</source>
-      <translation type="unfinished"/>
+      <translation>Prędkość drgań samowzbudnych statecznika na wybranej wysokości.</translation>
     </message>
     <message>
       <source>The safety margin of the fin based on the flutter speed and the specified maximum speed.</source>
-      <translation type="unfinished"/>
+      <translation>Margines bezpieczeństwa statecznika, wyznaczony na podstawie prędkości drgań samowzbudnych oraz określonej prędkości maksymalnej.</translation>
     </message>
     <message>
       <source>The safety margin of the fin based on the divergence speed and the specified maximum speed.</source>
-      <translation type="unfinished"/>
+      <translation>Margines bezpieczeństwa statecznika, wyznaczony na podstawie prędkości dywergencji oraz określonej prędkości maksymalnej.</translation>
     </message>
     <message>
       <source>Nose Cone Parameter</source>
@@ -4116,7 +4120,7 @@
     </message>
     <message>
       <source>Shape parameter</source>
-      <translation type="unfinished"/>
+      <translation>Parametr kształtu</translation>
     </message>
     <message>
       <source>Length</source>
@@ -4128,15 +4132,15 @@
     </message>
     <message>
       <source>Nose cone shape</source>
-      <translation type="unfinished"/>
+      <translation>Kształt stożka nosa</translation>
     </message>
     <message>
       <source>Blunted diameter</source>
-      <translation type="unfinished"/>
+      <translation>Średnica stępienia</translation>
     </message>
     <message>
       <source>Ogive diameter</source>
-      <translation type="unfinished"/>
+      <translation>Średnica owiewki nosa</translation>
     </message>
     <message>
       <source>Nose Cap</source>
@@ -4144,11 +4148,11 @@
     </message>
     <message>
       <source>Cap style</source>
-      <translation type="unfinished"/>
+      <translation>Styl nasadki</translation>
     </message>
     <message>
       <source>Bar width</source>
-      <translation type="unfinished"/>
+      <translation>Szerokość słupka</translation>
     </message>
     <message>
       <source>Style</source>
@@ -4172,7 +4176,7 @@
     </message>
     <message>
       <source>Effective diameter</source>
-      <translation type="unfinished"/>
+      <translation>Średnica efektywna</translation>
     </message>
     <message>
       <source>Placement</source>
@@ -4200,7 +4204,7 @@
     </message>
     <message>
       <source>Show base plane</source>
-      <translation type="unfinished"/>
+      <translation>Wyświetl płaszczyznę bazową</translation>
     </message>
     <message>
       <source>Shoulder</source>
@@ -4216,7 +4220,7 @@
     </message>
     <message>
       <source>Transition shape</source>
-      <translation type="unfinished"/>
+      <translation>Kształt przejścia</translation>
     </message>
     <message>
       <source>Forward Cap</source>
@@ -4224,15 +4228,15 @@
     </message>
     <message>
       <source>Forward diameter</source>
-      <translation type="unfinished"/>
+      <translation>⌀ dziobowa</translation>
     </message>
     <message>
       <source>Aft diameter</source>
-      <translation type="unfinished"/>
+      <translation>⌀ rufowa</translation>
     </message>
     <message>
       <source>Core diameter</source>
-      <translation type="unfinished"/>
+      <translation>⌀ rdzenia</translation>
     </message>
     <message>
       <source>Clipped</source>
@@ -4240,27 +4244,27 @@
     </message>
     <message>
       <source>Effective forward diameter</source>
-      <translation type="unfinished"/>
+      <translation>Efektywna ⌀ przednia</translation>
     </message>
     <message>
       <source>Effective aft diameter</source>
-      <translation type="unfinished"/>
+      <translation>Efektywna ⌀ tylna</translation>
     </message>
     <message>
       <source>Forward offset</source>
-      <translation type="unfinished"/>
+      <translation>Odsunięcie przednie</translation>
     </message>
     <message>
       <source>Aft offset</source>
-      <translation type="unfinished"/>
+      <translation>Odsunięcie rufowe</translation>
     </message>
     <message>
       <source>Show forward base plane</source>
-      <translation type="unfinished"/>
+      <translation>Wyświetl przednią płaszczyznę bazową</translation>
     </message>
     <message>
       <source>Show aft base plane</source>
-      <translation type="unfinished"/>
+      <translation>Wyświetl tylną płaszczyznę bazową</translation>
     </message>
     <message>
       <source>Forward Shoulder</source>
@@ -4276,7 +4280,7 @@
     </message>
     <message>
       <source>Enables scaling.</source>
-      <translation type="unfinished"/>
+      <translation>Włącza skalowanie.</translation>
     </message>
     <message>
       <source>Scaling</source>
@@ -4292,7 +4296,8 @@
     </message>
     <message>
       <source>Scaling values are inherited from the parent component. Enabling override uses the current values instead.</source>
-      <translation type="unfinished"/>
+      <translation>Wartości skalowania są dziedziczone z komponentu nadrzędnego. 
+Włączenie nadpisania powoduje użycie bieżących wartości zamiast tego.</translation>
     </message>
     <message>
       <source>Override</source>
@@ -4304,7 +4309,7 @@
     </message>
     <message>
       <source>By value</source>
-      <translation type="unfinished"/>
+      <translation>Według wartości</translation>
     </message>
     <message>
       <source>By body diameter</source>
@@ -4360,19 +4365,19 @@
     </message>
     <message>
       <source>Tip thickness</source>
-      <translation type="unfinished"/>
+      <translation>Grubość końcówki</translation>
     </message>
     <message>
       <source>Root thickness</source>
-      <translation type="unfinished"/>
+      <translation>Grubość nasady</translation>
     </message>
     <message>
       <source>Root chord</source>
-      <translation type="unfinished"/>
+      <translation>Cięciwa przy nasadzie</translation>
     </message>
     <message>
       <source>Tip chord</source>
-      <translation type="unfinished"/>
+      <translation>Cięciwa górnej krawędzi płetwy</translation>
     </message>
   </context>
   <context>
@@ -4387,7 +4392,7 @@
     </message>
     <message>
       <source>Minimum thickness of all fins.</source>
-      <translation type="unfinished"/>
+      <translation>Minimalna grubość wszystkich stateczników.</translation>
     </message>
     <message>
       <source>Length</source>
@@ -4395,15 +4400,15 @@
     </message>
     <message>
       <source>Minimum fin thickness</source>
-      <translation type="unfinished"/>
+      <translation>Minimalna grubość statecznika</translation>
     </message>
     <message>
       <source>The total length of the rocket assembly</source>
-      <translation type="unfinished"/>
+      <translation>Całkowita długość zespołu rakiety</translation>
     </message>
     <message>
       <source>Main body diameter.</source>
-      <translation type="unfinished"/>
+      <translation>Średnica korpusu głównego.</translation>
     </message>
     <message>
       <source>Diameter</source>
@@ -4411,19 +4416,19 @@
     </message>
     <message>
       <source>Frontal area</source>
-      <translation type="unfinished"/>
+      <translation>Powierzchnia czołowa</translation>
     </message>
     <message>
       <source>Area facing the direction of travel.</source>
-      <translation type="unfinished"/>
+      <translation>Obszar zwrócony w kierunku ruchu.</translation>
     </message>
     <message>
       <source>Altitude above sea level.</source>
-      <translation type="unfinished"/>
+      <translation>Wysokość nad poziomem morza.</translation>
     </message>
     <message>
       <source>Speed of the rocket during the simulation.</source>
-      <translation type="unfinished"/>
+      <translation>Prędkość rakiety podczas symulacji.</translation>
     </message>
     <message>
       <source>Altitude</source>
@@ -4435,19 +4440,19 @@
     </message>
     <message>
       <source>Number of processors</source>
-      <translation type="unfinished"/>
+      <translation>Liczba procesorów</translation>
     </message>
     <message>
       <source>Mach</source>
-      <translation type="unfinished"/>
+      <translation>Mach</translation>
     </message>
     <message>
       <source>Rotation around the X axis.</source>
-      <translation type="unfinished"/>
+      <translation>Obrót wokół osi X.</translation>
     </message>
     <message>
       <source>Angle(s) Of Attack (AOA)</source>
-      <translation type="unfinished"/>
+      <translation>Kąt(y) natarcia (AOA)</translation>
     </message>
     <message>
       <source>Angle of rotation</source>
@@ -4455,7 +4460,7 @@
     </message>
     <message>
       <source>Mach number of the rocket during the simulation.</source>
-      <translation type="unfinished"/>
+      <translation>Liczba Macha rakiety podczas symulacji.</translation>
     </message>
     <message>
       <source>0 </source>
@@ -4463,11 +4468,11 @@
     </message>
     <message>
       <source>Number of processors to use during CFD simulation.</source>
-      <translation type="unfinished"/>
+      <translation>Liczba procesorów używanych podczas symulacji CFD.</translation>
     </message>
     <message>
       <source>Angles of attack in degrees, one entry per line</source>
-      <translation type="unfinished"/>
+      <translation>Kąty natarcia w stopniach, po jednym w każdej linii</translation>
     </message>
     <message>
       <source>2</source>
@@ -4486,7 +4491,7 @@
     </message>
     <message>
       <source>Match component</source>
-      <translation type="unfinished"/>
+      <translation>Dopasuj komponent</translation>
     </message>
     <message>
       <source>Search</source>
@@ -4506,7 +4511,7 @@
     </message>
     <message>
       <source>Aft diameter</source>
-      <translation type="unfinished"/>
+      <translation>⌀ rufowa</translation>
     </message>
     <message>
       <source>Match the length of the component</source>
@@ -4541,11 +4546,11 @@
     </message>
     <message>
       <source>Angle of the rocket relative to the airstream aalso known as the Angle of Attack (AOA)</source>
-      <translation type="unfinished"/>
+      <translation>Kąt rakiety względem strumienia powietrza, zwany również kątem natarcia (AOA)</translation>
     </message>
     <message>
       <source>Angle(s) of Attack (AOA)</source>
-      <translation type="unfinished"/>
+      <translation>Kąt(y) natarcia (AOA)</translation>
     </message>
     <message>
       <source>Use average of last N values</source>
@@ -4553,11 +4558,11 @@
     </message>
     <message>
       <source>Average last N</source>
-      <translation type="unfinished"/>
+      <translation>Średnia z ostatnich N</translation>
     </message>
     <message>
       <source>Use average of last N values.</source>
-      <translation type="unfinished"/>
+      <translation>Użyj średniej z ostatnich N wartości.</translation>
     </message>
     <message>
       <source>Use the same folder for each mesh. This can result in a substantial reduction of required disk space</source>
@@ -4569,7 +4574,7 @@
     </message>
     <message>
       <source>Start the simulation.</source>
-      <translation type="unfinished"/>
+      <translation>Uruchom symulację.</translation>
     </message>
     <message>
       <source>Start</source>
@@ -4577,7 +4582,7 @@
     </message>
     <message>
       <source>Stop the simulation.</source>
-      <translation type="unfinished"/>
+      <translation>Zatrzymaj symulację.</translation>
     </message>
     <message>
       <source>Stop</source>
@@ -4628,7 +4633,7 @@
     </message>
     <message>
       <source>Fin cant</source>
-      <translation type="unfinished"/>
+      <translation>Kąt skręcenia stateczników</translation>
     </message>
     <message>
       <source>Fin Set</source>
@@ -4636,11 +4641,11 @@
     </message>
     <message>
       <source>Fin count</source>
-      <translation type="unfinished"/>
+      <translation>Liczba stateczników</translation>
     </message>
     <message>
       <source>Fin spacing</source>
-      <translation type="unfinished"/>
+      <translation>Rozmieszczenie stateczników</translation>
     </message>
     <message>
       <source>FIn Root</source>
@@ -4672,7 +4677,7 @@
     </message>
     <message>
       <source>Cross section</source>
-      <translation type="unfinished"/>
+      <translation>Przekrój poprzeczny</translation>
     </message>
     <message>
       <source>Fin Tip</source>
@@ -4700,7 +4705,7 @@
     </message>
     <message>
       <source>Outer diameter</source>
-      <translation type="unfinished"/>
+      <translation>Średnica zewnętrzna</translation>
     </message>
     <message>
       <source>Wall thickness</source>
@@ -4712,11 +4717,11 @@
     </message>
     <message>
       <source>Fillet radius</source>
-      <translation type="unfinished"/>
+      <translation>Promień zaokrąglenia</translation>
     </message>
     <message>
       <source>Apply fillets</source>
-      <translation type="unfinished"/>
+      <translation>Zastosuj zaokrąglenia</translation>
     </message>
     <message>
       <source>Minimum Edge</source>
@@ -4736,7 +4741,7 @@
     </message>
     <message>
       <source>Effective root chord</source>
-      <translation type="unfinished"/>
+      <translation>Efektywna cięciwa nasady</translation>
     </message>
     <message>
       <source>Placement</source>
@@ -4776,11 +4781,11 @@
     </message>
     <message>
       <source>Leading edge offset</source>
-      <translation type="unfinished"/>
+      <translation>Odsunięcie krawędzi natarcia</translation>
     </message>
     <message>
       <source>Inner diameter</source>
-      <translation type="unfinished"/>
+      <translation>⌀ wewnętrzna</translation>
     </message>
     <message>
       <source>Leading Edge</source>
@@ -4788,7 +4793,7 @@
     </message>
     <message>
       <source>Edge style</source>
-      <translation type="unfinished"/>
+      <translation>Styl krawędzi</translation>
     </message>
     <message>
       <source>Trailing Edge</source>
@@ -4800,7 +4805,7 @@
     </message>
     <message>
       <source>Coupler style</source>
-      <translation type="unfinished"/>
+      <translation>Styl łącznika</translation>
     </message>
     <message>
       <source>Launch Lug</source>

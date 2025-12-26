@@ -1168,17 +1168,17 @@
     <message>
       <location filename="../../Ui/TaskPanelLocation.py" line="52"/>
       <source>Radial reference</source>
-      <translation type="unfinished"/>
+      <translation>Радыяльная прывязка</translation>
     </message>
     <message>
       <location filename="../../Ui/TaskPanelLocation.py" line="58"/>
       <source>Radial offset</source>
-      <translation type="unfinished"/>
+      <translation>Радыяльнае зрушэнне</translation>
     </message>
     <message>
       <location filename="../../Ui/TaskPanelLocation.py" line="66"/>
       <source>Location reference</source>
-      <translation type="unfinished"/>
+      <translation>Апорнае месцазнаходжанне</translation>
     </message>
     <message>
       <location filename="../../Ui/TaskPanelLocation.py" line="74"/>
@@ -1188,7 +1188,7 @@
     <message>
       <location filename="../../Ui/TaskPanelLocation.py" line="80"/>
       <source>Angle offset</source>
-      <translation type="unfinished"/>
+      <translation>Вуглавое зрушэнне</translation>
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdFlutterAnalysis.py" line="51"/>
@@ -1589,52 +1589,52 @@
     <message>
       <location filename="../../Ui/DialogFinFlutter.py" line="167"/>
       <source>Flutter</source>
-      <translation type="unfinished"/>
+      <translation>Дрыгаценне</translation>
     </message>
     <message>
       <location filename="../../Ui/DialogFinFlutter.py" line="168"/>
       <source>Divergence</source>
-      <translation type="unfinished"/>
+      <translation>Разыходжанне</translation>
     </message>
     <message>
       <location filename="../../Ui/DialogFinFlutter.py" line="171"/>
       <source>Altitude (km AGL)</source>
-      <translation type="unfinished"/>
+      <translation>Вышыня (км над узроўнем зямлі)</translation>
     </message>
     <message>
       <location filename="../../Ui/DialogFinFlutter.py" line="172"/>
       <source>Velocity (m/s)</source>
-      <translation type="unfinished"/>
+      <translation>Хуткасць (м/с)</translation>
     </message>
     <message>
       <location filename="../../Ui/DialogFinFlutter.py" line="174"/>
       <source>Altitude (x1000 ft AGL)</source>
-      <translation type="unfinished"/>
+      <translation>Вышыня (*1000 футаў над узроўнем зямлі)</translation>
     </message>
     <message>
       <location filename="../../Ui/DialogFinFlutter.py" line="175"/>
       <source>Velocity (ft/s)</source>
-      <translation type="unfinished"/>
+      <translation>Хуткасць (фут/с)</translation>
     </message>
     <message>
       <location filename="../../Ui/DialogFinFlutter.py" line="333"/>
       <source>Peak of Flight 615</source>
-      <translation type="unfinished"/>
+      <translation>Рэйс 615: самая высокая кропка</translation>
     </message>
     <message>
       <location filename="../../Ui/DialogFinFlutter.py" line="334"/>
       <source>US Standard Atmosphere (USSA) 1976</source>
-      <translation type="unfinished"/>
+      <translation>Стандартная атмасфера ЗША (USSA) 1976</translation>
     </message>
     <message>
       <location filename="../../Ui/DialogFinFlutter.py" line="336"/>
       <source>Committee on Extension to the Standard Atmosphere (COESA) 1976 - Geometric</source>
-      <translation type="unfinished"/>
+      <translation>Камітэт па распаўсюджванні на стандартную атмасферу (COESA) 1976 - Геаметрычны</translation>
     </message>
     <message>
       <location filename="../../Ui/DialogFinFlutter.py" line="339"/>
       <source>Committee on Extension to the Standard Atmosphere (COESA) 1976 - Geopotential</source>
-      <translation type="unfinished"/>
+      <translation>Камітэт па распаўсюджванні на стандартную атмасферу (COESA) 1976 - Геапатэнцыйны</translation>
     </message>
     <message>
       <location filename="../../Ui/TaskPanelRingtail.py" line="58"/>
@@ -1704,7 +1704,7 @@
       <location filename="../../Ui/TaskPanelLaunchLug.py" line="74"/>
       <location filename="../../Ui/TaskPanelBodyTube.py" line="84"/>
       <source>Inner diameter</source>
-      <translation type="unfinished"/>
+      <translation>Унутраны дыяметр</translation>
     </message>
     <message>
       <location filename="../../Ui/TaskPanelRingtail.py" line="84"/>
@@ -1713,7 +1713,7 @@
       <location filename="../../Ui/TaskPanelLaunchLug.py" line="80"/>
       <location filename="../../Ui/TaskPanelBodyTube.py" line="90"/>
       <source>Outer diameter</source>
-      <translation type="unfinished"/>
+      <translation>Вонкавы дыяметр</translation>
     </message>
     <message>
       <location filename="../../Ui/TaskPanelRingtail.py" line="105"/>
@@ -1750,7 +1750,7 @@
     <message>
       <location filename="../../Ui/TaskPanelBodyTube.py" line="111"/>
       <source>Motor mount</source>
-      <translation type="unfinished"/>
+      <translation>Мацаванне рухавіка</translation>
     </message>
     <message>
       <location filename="../../Ui/TaskPanelBodyTube.py" line="114"/>
@@ -1812,7 +1812,7 @@
     <message>
       <location filename="../../Ui/TaskPanelDatabase.py" line="59"/>
       <source>Part number</source>
-      <translation type="unfinished"/>
+      <translation>Артыкул дэталі</translation>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="901"/>
@@ -1855,7 +1855,7 @@
     <message>
       <location filename="../../Ui/DialogScaling.py" line="158"/>
       <source>Reference diameter</source>
-      <translation type="unfinished"/>
+      <translation>Апорны дыяметр</translation>
     </message>
     <message>
       <location filename="../../Ui/DialogScaling.py" line="499"/>
@@ -1965,17 +1965,17 @@
     <message>
       <location filename="../../Ui/DialogParachute.py" line="65"/>
       <source>Rocket weight</source>
-      <translation type="unfinished"/>
+      <translation>Вышыня ракеты</translation>
     </message>
     <message>
       <location filename="../../Ui/DialogParachute.py" line="73"/>
       <source>Terminal velocity</source>
-      <translation type="unfinished"/>
+      <translation>Канчатковая хуткасць</translation>
     </message>
     <message>
       <location filename="../../Ui/DialogParachute.py" line="88"/>
       <source>Drag coefficient</source>
-      <translation type="unfinished"/>
+      <translation>Каэфіцыент лабавога супраціву</translation>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Ui/TaskPanelWindTunnel.py" line="60"/>
@@ -1998,7 +1998,7 @@
       <location filename="../../Ui/TaskPanelRailGuide.py" line="137"/>
       <location filename="../../Ui/TaskPanelLaunchLug.py" line="99"/>
       <source>Forward sweep</source>
-      <translation type="unfinished"/>
+      <translation>Пярэдні скос</translation>
     </message>
     <message>
       <location filename="../../Ui/TaskPanelRailGuide.py" line="149"/>
@@ -2012,7 +2012,7 @@
       <location filename="../../Ui/TaskPanelRailGuide.py" line="146"/>
       <location filename="../../Ui/TaskPanelLaunchLug.py" line="108"/>
       <source>Aft sweep</source>
-      <translation type="unfinished"/>
+      <translation>Задні скос</translation>
     </message>
     <message>
       <location filename="../../Ui/TaskPanelBulkhead.py" line="179"/>
@@ -2046,25 +2046,25 @@
     <message>
       <location filename="../../Ui/TaskPanelRailButton.py" line="81"/>
       <source>Rail button shape</source>
-      <translation type="unfinished"/>
+      <translation>Фігура кнопкі рэйкі</translation>
     </message>
     <message>
       <location filename="../../Ui/TaskPanelRailGuide.py" line="95"/>
       <location filename="../../Ui/TaskPanelRailButton.py" line="100"/>
       <source>Flange height</source>
-      <translation type="unfinished"/>
+      <translation>Вышыня фланца</translation>
     </message>
     <message>
       <location filename="../../Ui/TaskPanelRailGuide.py" line="101"/>
       <location filename="../../Ui/TaskPanelRailButton.py" line="106"/>
       <source>Base height</source>
-      <translation type="unfinished"/>
+      <translation>Асноўная вышыня</translation>
     </message>
     <message>
       <location filename="../../Ui/TaskPanelRailGuide.py" line="107"/>
       <location filename="../../Ui/TaskPanelRailButton.py" line="112"/>
       <source>Total height</source>
-      <translation type="unfinished"/>
+      <translation>Агульная вышыня</translation>
     </message>
     <message>
       <location filename="../../Ui/TaskPanelRailButton.py" line="124"/>
@@ -2074,17 +2074,17 @@
     <message>
       <location filename="../../Ui/TaskPanelRailButton.py" line="127"/>
       <source>Countersink angle</source>
-      <translation type="unfinished"/>
+      <translation>Вугал зянкоўкі</translation>
     </message>
     <message>
       <location filename="../../Ui/TaskPanelRailButton.py" line="138"/>
       <source>Head diameter</source>
-      <translation type="unfinished"/>
+      <translation>Дыяметр галоўкі</translation>
     </message>
     <message>
       <location filename="../../Ui/TaskPanelRailButton.py" line="144"/>
       <source>Shank diameter</source>
-      <translation type="unfinished"/>
+      <translation>Дыяметр хваставіка</translation>
     </message>
     <message>
       <location filename="../../Ui/TaskPanelRailButton.py" line="150"/>
@@ -2094,7 +2094,7 @@
     <message>
       <location filename="../../Ui/TaskPanelRailButton.py" line="159"/>
       <source>Top fillet</source>
-      <translation type="unfinished"/>
+      <translation>Верхняе акругленне</translation>
     </message>
     <message>
       <location filename="../../Ui/TaskPanelRailButton.py" line="162"/>
@@ -2143,12 +2143,12 @@
     <message>
       <location filename="../../Ui/TaskPanelPod.py" line="66"/>
       <source>Pod count</source>
-      <translation type="unfinished"/>
+      <translation>Колькасць рухавікоў</translation>
     </message>
     <message>
       <location filename="../../Ui/TaskPanelPod.py" line="73"/>
       <source>Pod spacing</source>
-      <translation type="unfinished"/>
+      <translation>Адлегласць паміж рухавікамі</translation>
     </message>
     <message>
       <location filename="../../Ui/TaskPanelRailGuide.py" line="67"/>
@@ -2158,7 +2158,7 @@
     <message>
       <location filename="../../Ui/TaskPanelRailGuide.py" line="70"/>
       <source>Rail guide base</source>
-      <translation type="unfinished"/>
+      <translation>Аснова накіраванай рэйкі</translation>
     </message>
     <message>
       <location filename="../../Ui/TaskPanelRailGuide.py" line="77"/>
@@ -2168,24 +2168,24 @@
     <message>
       <location filename="../../Ui/TaskPanelRailGuide.py" line="83"/>
       <source>Middle width</source>
-      <translation type="unfinished"/>
+      <translation>Шырыня сярэдзіны</translation>
     </message>
     <message>
       <location filename="../../Ui/TaskPanelRailGuide.py" line="89"/>
       <source>Base width</source>
-      <translation type="unfinished"/>
+      <translation>Шырыня асновы</translation>
     </message>
     <message>
       <location filename="../../Ui/DialogBlackPowder.py" line="70"/>
       <location filename="../../Ui/DialogVentHoles.py" line="55"/>
       <location filename="../../Ui/TaskPanelRailGuide.py" line="120"/>
       <source>Body tube diameter</source>
-      <translation type="unfinished"/>
+      <translation>Дыметр корпуса фюзеляжа</translation>
     </message>
     <message>
       <location filename="../../Ui/TaskPanelRailGuide.py" line="130"/>
       <source>V angle</source>
-      <translation type="unfinished"/>
+      <translation>Вугал V</translation>
     </message>
     <message>
       <location filename="../../Ui/TaskPanelRailGuide.py" line="156"/>
@@ -2375,23 +2375,23 @@
     <message>
       <location filename="../../Ui/DialogThrustToWeight.py" line="61"/>
       <source>Minimum thrust</source>
-      <translation type="unfinished"/>
+      <translation>Найменшая цяга</translation>
     </message>
     <message>
       <location filename="../../Ui/DialogBlackPowder.py" line="78"/>
       <location filename="../../Ui/DialogVentHoles.py" line="63"/>
       <source>Body tube length</source>
-      <translation type="unfinished"/>
+      <translation>Даўжыня корпуса фюзеляжа</translation>
     </message>
     <message>
       <location filename="../../Ui/DialogVentHoles.py" line="71"/>
       <source>Vent hole count</source>
-      <translation type="unfinished"/>
+      <translation>Колькасць адтулін вентыляцыі</translation>
     </message>
     <message>
       <location filename="../../Ui/DialogVentHoles.py" line="80"/>
       <source>Vent hole size</source>
-      <translation type="unfinished"/>
+      <translation>Памер адтуліны вентыляцыі</translation>
     </message>
     <message>
       <location filename="../../Ui/TaskPanelParallelStage.py" line="62"/>
@@ -2401,12 +2401,12 @@
     <message>
       <location filename="../../Ui/TaskPanelParallelStage.py" line="66"/>
       <source>Stage count</source>
-      <translation type="unfinished"/>
+      <translation>Колькасць ступеней</translation>
     </message>
     <message>
       <location filename="../../Ui/TaskPanelParallelStage.py" line="73"/>
       <source>Stage spacing</source>
-      <translation type="unfinished"/>
+      <translation>Адлегласць паміж ступенямі</translation>
     </message>
     <message>
       <location filename="../../Ui/TaskPanelRingtail.py" line="75"/>
@@ -2431,7 +2431,10 @@
         &lt;p&gt;This calculator is an estimate only. Ground test your ejection system before flying. In certain cases this calculation may overestimate the amount of powder required.&lt;/p&gt;
         &lt;/html&gt;
         </source>
-      <translation type="unfinished"/>
+      <translation>Увага!
+Калькулятар прызначаны толькі для ацэнкі.
+Перад палётам праверце сістэму катапультавання на зямлі.
+У некаторых выпадках разлік можа прывесці да завышэння неабходнай колькасці пораху.</translation>
     </message>
     <message>
       <location filename="../../Ui/DialogBlackPowder.py" line="86"/>
@@ -2449,7 +2452,7 @@
     <message>
       <location filename="../../Ui/DialogBlackPowder.py" line="109"/>
       <source>FFFFg powder</source>
-      <translation type="unfinished"/>
+      <translation>Порах FFFFg</translation>
     </message>
     <message>
       <location filename="../../RocketGui.py" line="145"/>
@@ -2482,7 +2485,8 @@
     <message>
       <location filename="../../Analyzers/FinFlutter.py" line="153"/>
       <source>This atmospheric model doesn&apos;t support the specified altitude. Using the COESA76 geometric model instead.</source>
-      <translation type="unfinished"/>
+      <translation>Дадзеная атмасферная мадэль не падтрымлівае паказаную вышыню.
+Замест гэтага ўжывайце геаметрычную мадэль COESA76.</translation>
     </message>
     <message>
       <location filename="../../Analyzers/pyatmos/utils/utils.py" line="128"/>
@@ -3032,37 +3036,38 @@
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="58"/>
       <source>CFD Report.docx</source>
-      <translation type="unfinished"/>
+      <translation>CFD Report.docx</translation>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="159"/>
       <source>This is an automated report generated by the Rocket Workbench. It was created by running a CFD analysis on the document &apos;{}&apos;.</source>
-      <translation type="unfinished"/>
+      <translation>Аўтаматычная справаздача, якая створаны варштатам ракеты.
+Была створаная шляхам выканання аналізу вылічальнай гідрадынамікі дакумента '{}'</translation>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="163"/>
       <source>Details about the study, including the rocket</source>
-      <translation type="unfinished"/>
+      <translation>Падрабязнасці пра даследаванні, уключаючы ракету</translation>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="169"/>
       <source>Minimum Fin Thickness</source>
-      <translation type="unfinished"/>
+      <translation>Найменшая таўшчыня крыла</translation>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="170"/>
       <source>Frontal Area</source>
-      <translation type="unfinished"/>
+      <translation>Пярэдняя вобласць</translation>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="177"/>
       <source>Study Parameters</source>
-      <translation type="unfinished"/>
+      <translation>Налады даследавання</translation>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="179"/>
       <source>This study varied the following parameters:</source>
-      <translation type="unfinished"/>
+      <translation>Наступныя налады былі змененыя ў ходзе даследавання:</translation>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Ui/TaskPanelCFDRocket.py" line="48"/>
@@ -3077,22 +3082,23 @@
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="920"/>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="194"/>
       <source>NOTE: It is not possible to calculate the center of pressure at an angle of attack of 0. It must be calculated at multiple points close to 0 and inferred using l&apos;Hôpital&apos;s rule.</source>
-      <translation type="unfinished"/>
+      <translation>Заўвага: немагчыма вылічыць цэнтр ціску пры вугле атакі, які роўны 0.
+Ён павінен быць разлічаны ў некалькіх кропках, блізкіх да 0, і выведзены з ужываннем правілы Лопіталя.</translation>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="198"/>
       <source>This study is unable to determine Center of Pressure at a 0 angle of attack.</source>
-      <translation type="unfinished"/>
+      <translation>У дадзеным даследаванні немагчыма вызначыць цэнтр ціску пры вугле атакі 0.</translation>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="200"/>
       <source>Configuration</source>
-      <translation type="unfinished"/>
+      <translation>Канфігурацыя</translation>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="212"/>
       <source>Physics Model</source>
-      <translation type="unfinished"/>
+      <translation>Фізічная мадэль</translation>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="219"/>
@@ -3134,17 +3140,17 @@
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="248"/>
       <source>Turbulence Model</source>
-      <translation type="unfinished"/>
+      <translation>Мадэль турбулентнасці</translation>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="253"/>
       <source>Gravity (x, y, z)</source>
-      <translation type="unfinished"/>
+      <translation>Сіла цяжару (x, y, z)</translation>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="263"/>
       <source>Moving Reference Frame (SRF)</source>
-      <translation type="unfinished"/>
+      <translation>Рухомая сістэма адліку (SRF)</translation>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="266"/>
@@ -3154,32 +3160,32 @@
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="270"/>
       <source>Center of Rotation</source>
-      <translation type="unfinished"/>
+      <translation>Цэнтр вярчэння</translation>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="278"/>
       <source>Rotational Axis</source>
-      <translation type="unfinished"/>
+      <translation>Вось вярчэння</translation>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="286"/>
       <source>Fluid Properties</source>
-      <translation type="unfinished"/>
+      <translation>Уласцівасці вадкасці</translation>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="292"/>
       <source>Not defined.</source>
-      <translation type="unfinished"/>
+      <translation>Не вызначаны.</translation>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="301"/>
       <source>Material Name</source>
-      <translation type="unfinished"/>
+      <translation>Назва матэрыялу</translation>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="315"/>
       <source>Initialize Flow Field</source>
-      <translation type="unfinished"/>
+      <translation>Ініцыялізаваць поле патоку</translation>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="766"/>
@@ -3200,7 +3206,7 @@
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="341"/>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="328"/>
       <source>Use values from boundary &apos;{}&apos;</source>
-      <translation type="unfinished"/>
+      <translation>Ужыць значэнні з мяжы '{}'</translation>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="347"/>
@@ -3235,72 +3241,72 @@
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="426"/>
       <source>Convergence tolerance</source>
-      <translation type="unfinished"/>
+      <translation>Допуск канвергенцыі</translation>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="430"/>
       <source>Max iterations</source>
-      <translation type="unfinished"/>
+      <translation>Найбольшая колькасць крокаў</translation>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="434"/>
       <source>Iteration write interval</source>
-      <translation type="unfinished"/>
+      <translation>Інтэрвал запісу кроку</translation>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="439"/>
       <source>Parallel cores</source>
-      <translation type="unfinished"/>
+      <translation>Паралельныя стрыжні</translation>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="443"/>
       <source>Starting from</source>
-      <translation type="unfinished"/>
+      <translation>Пачаць з</translation>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="448"/>
       <source>End time</source>
-      <translation type="unfinished"/>
+      <translation>Час заканчэння</translation>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="452"/>
       <source>Time step</source>
-      <translation type="unfinished"/>
+      <translation>Перыяд часу</translation>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="456"/>
       <source>Max CFL number</source>
-      <translation type="unfinished"/>
+      <translation>Найбольшая колькасць CFL</translation>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="460"/>
       <source>Max free-surface CFL number</source>
-      <translation type="unfinished"/>
+      <translation>Найбольшая колькасць CFL на вольнай паверхні</translation>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="464"/>
       <source>Transient write interval</source>
-      <translation type="unfinished"/>
+      <translation>Часовы запісу кроку</translation>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="468"/>
       <source>Mesher</source>
-      <translation type="unfinished"/>
+      <translation>Сродак стварэння сетак</translation>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="476"/>
       <source>Mesh utility</source>
-      <translation type="unfinished"/>
+      <translation>Утыліты сеткі</translation>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="480"/>
       <source>Base element size</source>
-      <translation type="unfinished"/>
+      <translation>Памер асноўнага элементу</translation>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="485"/>
       <source>Cells between levels</source>
-      <translation type="unfinished"/>
+      <translation>Клетак паміж узроўнямі</translation>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="489"/>
@@ -3325,22 +3331,22 @@
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="500"/>
       <source>STL relative linear deflection</source>
-      <translation type="unfinished"/>
+      <translation>Адноснае лінейнае адхіленне STL</translation>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="504"/>
       <source>STL angulat mesh density</source>
-      <translation type="unfinished"/>
+      <translation>Шчыльнасць вуглавой сеткі STL</translation>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="508"/>
       <source>Convert to dual mesh</source>
-      <translation type="unfinished"/>
+      <translation>Пераўтварыць у падвоеную сетку</translation>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="511"/>
       <source>Refinements</source>
-      <translation type="unfinished"/>
+      <translation>Удакладненне</translation>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="656"/>
@@ -3351,7 +3357,7 @@
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="525"/>
       <source>Refinement type</source>
-      <translation type="unfinished"/>
+      <translation>Тып удакладнення</translation>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="527"/>
@@ -3413,7 +3419,7 @@
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="612"/>
       <source>Surface</source>
-      <translation type="unfinished"/>
+      <translation>Паверхня</translation>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="619"/>
@@ -3428,27 +3434,27 @@
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="632"/>
       <source>Max first cell height</source>
-      <translation type="unfinished"/>
+      <translation>Найбольшая вышыня першай клеткі</translation>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="643"/>
       <source>Boundary Conditions</source>
-      <translation type="unfinished"/>
+      <translation>Межавыя ўмовы</translation>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="665"/>
       <source>Sub type</source>
-      <translation type="unfinished"/>
+      <translation>Укладзены тып</translation>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="669"/>
       <source>Default boundary</source>
-      <translation type="unfinished"/>
+      <translation>Першапачатковая мяжа</translation>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="690"/>
       <source>Slip ratio</source>
-      <translation type="unfinished"/>
+      <translation>Каэфіцыент слізгацення</translation>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="698"/>
@@ -3483,7 +3489,7 @@
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="789"/>
       <source>Intensity &amp; Length scale</source>
-      <translation type="unfinished"/>
+      <translation>Шкала інтэнсіўнасці і працягласці</translation>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="792"/>
@@ -3498,13 +3504,13 @@
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="800"/>
       <source>Kinetic energy &amp; Specific dissipation rate</source>
-      <translation type="unfinished"/>
+      <translation>Кінетычная энергія і ўдзельная хуткасць рассейвання</translation>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="814"/>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="803"/>
       <source>Turbulence kinetic energy (k)</source>
-      <translation type="unfinished"/>
+      <translation>Кінэтычная энергія турбулентнасці (к)</translation>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="807"/>
@@ -3514,7 +3520,7 @@
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="811"/>
       <source>Kinetic Energy &amp; Turbulent viscosity</source>
-      <translation type="unfinished"/>
+      <translation>Кінэтычная энергія і турбулентная глейкасць</translation>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="818"/>
@@ -3534,17 +3540,17 @@
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="891"/>
       <source>Run status</source>
-      <translation type="unfinished"/>
+      <translation>Статус запуску</translation>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="893"/>
       <source>Total run time: {}</source>
-      <translation type="unfinished"/>
+      <translation>Агульны час выканання: {}</translation>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="899"/>
       <source>Run Time</source>
-      <translation type="unfinished"/>
+      <translation>Час выканання</translation>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="900"/>
@@ -3554,43 +3560,43 @@
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="912"/>
       <source>Unknown</source>
-      <translation type="unfinished"/>
+      <translation>Невядомы</translation>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="918"/>
       <source>Center of Pressure</source>
-      <translation type="unfinished"/>
+      <translation>Цэнтр ціску</translation>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="923"/>
       <source>Center of Pressure at multiple angles of attack with the rocket rotated around the center point.</source>
-      <translation type="unfinished"/>
+      <translation>Цэнтр ціску пры розных вуглах атакі пры кручэнні ракеты вакол цэнтральнай кропкі.</translation>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="926"/>
       <source>CP = X0 - My / (Fz * cos(AOA) + Fx * sin(AOA))</source>
-      <translation type="unfinished"/>
+      <translation>CP = X0 - My / (Fz * cos(AOA) + Fx * sin(AOA))</translation>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="1087"/>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="1012"/>
       <source>Angle of Attack (degrees)</source>
-      <translation type="unfinished"/>
+      <translation>Вугал атакі (градусы)</translation>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="1013"/>
       <source>Center of Pressure (mm)</source>
-      <translation type="unfinished"/>
+      <translation>Цэнтр ціску (мм)</translation>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="1023"/>
       <source>Lift and Drag</source>
-      <translation type="unfinished"/>
+      <translation>Пад'ёмная сіла і лабавы супраціў</translation>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="1024"/>
       <source>Lift and Drag coefficients at multiple angles of attack with the rocket rotated around the center point.</source>
-      <translation type="unfinished"/>
+      <translation>Каэфіцыенты пад'ёмнай сілы і лабавога супраціву пры розных вуглах атакі пры кручэнні ракеты вакол цэнтральнай кропкі.</translation>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="1325"/>
@@ -3601,12 +3607,12 @@
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="1098"/>
       <source>Run Data</source>
-      <translation type="unfinished"/>
+      <translation>Запуск дадзеных</translation>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="1101"/>
       <source>Angle of Attack={}</source>
-      <translation type="unfinished"/>
+      <translation>Вугал атакі = {}</translation>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="1324"/>
@@ -3616,24 +3622,24 @@
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="1210"/>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="1145"/>
       <source>Iteration</source>
-      <translation type="unfinished"/>
+      <translation>Крок</translation>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="1146"/>
       <source>Residual</source>
-      <translation type="unfinished"/>
+      <translation>Рэшткавы</translation>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="1232"/>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="1211"/>
       <source>Force [N]</source>
-      <translation type="unfinished"/>
+      <translation>Сіла [Н]</translation>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="1293"/>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="1272"/>
       <source>Moment</source>
-      <translation type="unfinished"/>
+      <translation>Імгненне</translation>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Ui/TaskPanelMultiCFD.py" line="181"/>
@@ -3805,23 +3811,23 @@
     </message>
     <message>
       <source>Matches a specific scale value.</source>
-      <translation type="unfinished"/>
+      <translation>Адпавядае пэўнаму значэнню маштабавання.</translation>
     </message>
     <message>
       <source>Scale by value</source>
-      <translation type="unfinished"/>
+      <translation>Маштабаваць па значэнні</translation>
     </message>
     <message>
       <source>Specifies a minumum body diameter.</source>
-      <translation type="unfinished"/>
+      <translation>Паказвае найменшы дыяметр корпуса.</translation>
     </message>
     <message>
       <source>Minimum diameter</source>
-      <translation type="unfinished"/>
+      <translation>Найменшы дыяметр</translation>
     </message>
     <message>
       <source>Search for body tube pairs.</source>
-      <translation type="unfinished"/>
+      <translation>Знайсці пары корпусаў фюзеляжа.</translation>
     </message>
     <message>
       <source>Search</source>
@@ -3829,15 +3835,15 @@
     </message>
     <message>
       <source>Reference diameter 2</source>
-      <translation type="unfinished"/>
+      <translation>Апорны дыяметр 2</translation>
     </message>
     <message>
       <source>Sets a specific scale value for matching.</source>
-      <translation type="unfinished"/>
+      <translation>Задае пэўнае значэнне маштабавання для супастаўлення.</translation>
     </message>
     <message>
       <source>Sets the scale value using the currently selected body tube.</source>
-      <translation type="unfinished"/>
+      <translation>Задае значэнне маштабавання, ужываючы абраны ў дадзены момант корпус фюзеляжа.</translation>
     </message>
     <message>
       <source>Set Scale</source>
@@ -3845,7 +3851,7 @@
     </message>
     <message>
       <source>Adds the currently selected body tube to the rocket assembly.</source>
-      <translation type="unfinished"/>
+      <translation>Дадае абраную ў дадзены момант корпус фюзеляжа да зборкі ракеты.</translation>
     </message>
     <message>
       <source>Add to Document</source>
@@ -3853,7 +3859,7 @@
     </message>
     <message>
       <source>Export matching results to CSV.</source>
-      <translation type="unfinished"/>
+      <translation>Экспартаваць вынікі супастаўлення ў CSV.</translation>
     </message>
     <message>
       <source>Export CSV</source>
@@ -3865,7 +3871,7 @@
     </message>
     <message>
       <source>Diameter is matched to the first reference diameter.</source>
-      <translation type="unfinished"/>
+      <translation>Дыяметр адпавядае першаму апорнаму дыяметру.</translation>
     </message>
     <message>
       <source>Diameter 1</source>
@@ -3873,7 +3879,7 @@
     </message>
     <message>
       <source>Diameter is matched to the second reference diameter.</source>
-      <translation type="unfinished"/>
+      <translation>Дыяметр адпавядае другому апорнаму дыяметру.</translation>
     </message>
     <message>
       <source>Diameter 2</source>
@@ -3881,27 +3887,27 @@
     </message>
     <message>
       <source>Specifies a maximum body diameter.</source>
-      <translation type="unfinished"/>
+      <translation>Паказвае найбольшы дыяметр корпуса.</translation>
     </message>
     <message>
       <source>Scale reference used to match diameter.</source>
-      <translation type="unfinished"/>
+      <translation>Апорнае маштабаванне, ужытае для супастаўлення дыяметра.</translation>
     </message>
     <message>
       <source>Reference diameter 1</source>
-      <translation type="unfinished"/>
+      <translation>Апорны дыяметр 1</translation>
     </message>
     <message>
       <source>Maximum diameter</source>
-      <translation type="unfinished"/>
+      <translation>Найбольшы дыяметр</translation>
     </message>
     <message>
       <source>Maximum error in the matched body diameter.</source>
-      <translation type="unfinished"/>
+      <translation>Найбольшая хібнасць у падборы дыяметра корпуса.</translation>
     </message>
     <message>
       <source>Sets the desired body diameter.</source>
-      <translation type="unfinished"/>
+      <translation>Задае жаданы дыяметр корпуса.</translation>
     </message>
     <message>
       <source>mm</source>
@@ -3909,19 +3915,19 @@
     </message>
     <message>
       <source>Sets the scale by matching the reference diameter to aa desired diameter,</source>
-      <translation type="unfinished"/>
+      <translation>Задае маштабаванне, супастаўляючы апорны дыяметр з жаданым дыяметрам,</translation>
     </message>
     <message>
       <source>Scale by diameter</source>
-      <translation type="unfinished"/>
+      <translation>Маштабаваць па дыяметры</translation>
     </message>
     <message>
       <source>Matches aany scale value.</source>
-      <translation type="unfinished"/>
+      <translation>Адпавядае любому значэнні маштабавання.</translation>
     </message>
     <message>
       <source>Any scale</source>
-      <translation type="unfinished"/>
+      <translation>Любое маштабаванне</translation>
     </message>
     <message>
       <source>Fin Flutter Analysis</source>
@@ -3933,59 +3939,63 @@
     </message>
     <message>
       <source>Assign the currently selected material to the fin</source>
-      <translation type="unfinished"/>
+      <translation>Прызначыць бягучы абраны матэрыял крыла</translation>
     </message>
     <message>
       <source>Assign Material to FIn</source>
-      <translation type="unfinished"/>
+      <translation>Прызначыць матэрыял для крыла</translation>
     </message>
     <message>
       <source>The shear modulus of the fin material. This can be obtained from the material properties, or calculated using the Young&apos;s modulus and poisson ratio.</source>
-      <translation type="unfinished"/>
+      <translation>Модуль пругкасці пры зруху матэрыялу крыла.
+Можа быць атрыманы з уласцівасцяў матэрыялу, альбо разлічаны з ужываннем модуля Юнга і каэфіцыента Пуасона.</translation>
     </message>
     <message>
       <source>Shear modulus</source>
-      <translation type="unfinished"/>
+      <translation>Модуль пругкасці зруху</translation>
     </message>
     <message>
       <source>Poisson ratio</source>
-      <translation type="unfinished"/>
+      <translation>Каэфіцыент Пуасона</translation>
     </message>
     <message>
       <source>The Young&apos;s modulus of the fin material. This is only required to calculate shear modulus.</source>
-      <translation type="unfinished"/>
+      <translation>Модуль Юнга матэрыялу крыла.
+Патрабуецца толькі для разліку модуля пругкасці зруху.</translation>
     </message>
     <message>
       <source>Young&apos;s modulus</source>
-      <translation type="unfinished"/>
+      <translation>Модуль Юнга</translation>
     </message>
     <message>
       <source>The poisson ratio of the fin material. This is only required to calculate shear modulus.</source>
-      <translation type="unfinished"/>
+      <translation>Каэфіцыент Пуасона матэрыялу крыла.
+Патрабуецца толькі для разліку модуля пругкасці зруху.</translation>
     </message>
     <message>
       <source>Calculates the shear modulus using the Young&apos;s modulus and poisson ration when checked.</source>
-      <translation type="unfinished"/>
+      <translation>Пры праверцы разлічваецца модуль пругкасці зруху з ужываннем модуля Юнга і каэфіцыента Пуасона.</translation>
     </message>
     <message>
       <source>Calculated</source>
-      <translation type="unfinished"/>
+      <translation>Вылічаны</translation>
     </message>
     <message>
       <source>Approximates the effect of tip to tip reinforcement by doubling the value of the shear modulus. This is ONLY an approximation.</source>
-      <translation type="unfinished"/>
+      <translation>Прыкладны эфект армавання ад кончыка да кончыка за кошт падваення значэнні модуля пругкасці зруху.
+Толькі прыблізнае значэнне!</translation>
     </message>
     <message>
       <source>Aproximate Tip to Tip Reinforcement</source>
-      <translation type="unfinished"/>
+      <translation>Прыкладнае армаванне ад кончыка да кончыка</translation>
     </message>
     <message>
       <source>Launch Conditions</source>
-      <translation type="unfinished"/>
+      <translation>Умовы запуску</translation>
     </message>
     <message>
       <source>Launch Site</source>
-      <translation type="unfinished"/>
+      <translation>Стартавая пляцоўка</translation>
     </message>
     <message>
       <source>Altitude</source>
@@ -3993,15 +4003,17 @@
     </message>
     <message>
       <source>Launch site</source>
-      <translation type="unfinished"/>
+      <translation>Стартавая пляцоўка</translation>
     </message>
     <message>
       <source>A list of known launch sites. Selecting the site will automatically set the launch site altitude.</source>
-      <translation type="unfinished"/>
+      <translation>Спіс вядомых месцаў запуску.
+Пры выбары месца аўтаматычна задаецца вышыня над узроўнем мора.</translation>
     </message>
     <message>
       <source>The altitude of the launch site. This can be set manually or by selecting a known launch site.</source>
-      <translation type="unfinished"/>
+      <translation>Вышыня месца запуску.
+Значэнне можна задаць уручную, альбо абраўшы вядомае месца запуску.</translation>
     </message>
     <message>
       <source>Temperature</source>
@@ -4009,103 +4021,105 @@
     </message>
     <message>
       <source>Launch air temperature</source>
-      <translation type="unfinished"/>
+      <translation>Тэмпература паветра пры запуску</translation>
     </message>
     <message>
       <source>Atmospheric model</source>
-      <translation type="unfinished"/>
+      <translation>Атмасферная мадэль</translation>
     </message>
     <message>
       <source>The atmospheric model used to calculate temperatures at different altitudes.</source>
-      <translation type="unfinished"/>
+      <translation>Атмасферная мадэль, якая ўжываецца для разліку тэмператур на розных вышынях.</translation>
     </message>
     <message>
       <source>Units used for air temperature.</source>
-      <translation type="unfinished"/>
+      <translation>Адзінкі вымярэння, якія ўжываюцца для вымярэння тэмпературы паветра.</translation>
     </message>
     <message>
       <source>The air temperature at the launch site.</source>
-      <translation type="unfinished"/>
+      <translation>Тэмпература паветра на стартавай пляцоўцы.</translation>
     </message>
     <message>
       <source>Use a default sea level temperature instead of the launch site temperature. This will often be used when the launch site temperature is unknown.</source>
-      <translation type="unfinished"/>
+      <translation>Ужыць першапачатковую тэмпературу на ўзроўні мора замест тэмпературы на стартавай пляцоўцы.
+Часта ўжываецца, калі тэмпература на стартавай пляцоўцы невядомая.</translation>
     </message>
     <message>
       <source>Use default sea level temperature (15 C/ 59 F)</source>
-      <translation type="unfinished"/>
+      <translation>Ужыць першапачатковую тэмпературу на ўзроўні мора (15°C / 59°F)</translation>
     </message>
     <message>
       <source>Fin Flutter</source>
-      <translation type="unfinished"/>
+      <translation>Дрыгаценне крыла</translation>
     </message>
     <message>
       <source>Maximum altitude</source>
-      <translation type="unfinished"/>
+      <translation>Найбольшая вышыня палёту</translation>
     </message>
     <message>
       <source>Altitude at max speed</source>
-      <translation type="unfinished"/>
+      <translation>Вышыня палёту на найбольшай хуткасці</translation>
     </message>
     <message>
       <source>Sets the altitude range for the slider and graph.</source>
-      <translation type="unfinished"/>
+      <translation>Задае дыяпазон вышынь для паўзунка і графіка.</translation>
     </message>
     <message>
       <source>Maximum speed</source>
-      <translation type="unfinished"/>
+      <translation>Найбольшая хуткасць</translation>
     </message>
     <message>
       <source>The expected altitude Above Ground Level (AGL) at which the rocket will be travelling at max speed.</source>
-      <translation type="unfinished"/>
+      <translation>Чаканая вышыня над узроўнем зямлі, на якой ракета будзе рухацца з найбольшай хуткасцю.</translation>
     </message>
     <message>
       <source>The expected maximum speed for the rocket. This is not required to calculate flutter or divergence but is required to determine safety margins.</source>
-      <translation type="unfinished"/>
+      <translation>Чаканая найбольшая хуткасць ракеты.
+Не патрабуецца для разліку дрыгацення ці разыходжання, але неабходна для вызначэння запасу трываласці.</translation>
     </message>
     <message>
       <source>Sets the altitude at max speed in the range from 0 to maximum altitude.</source>
-      <translation type="unfinished"/>
+      <translation>Задае вышыню палёту на найбольшай хуткасці ў дыяпазоне ад 0 да найбольшай вышыні.</translation>
     </message>
     <message>
       <source>The flutter speed in Mach for the fin at the selected altitude.</source>
-      <translation type="unfinished"/>
+      <translation>Хуткасць дрыгацення ў Маха для крыла на абранай вышыні.</translation>
     </message>
     <message>
       <source>The divergence speed in Mach for the fin at the selected altitude.</source>
-      <translation type="unfinished"/>
+      <translation>Хуткасць разыходжання ў Маха для крыла на абранай вышыні.</translation>
     </message>
     <message>
       <source>The divergence speed for the fin at the selected altitude.</source>
-      <translation type="unfinished"/>
+      <translation>Хуткасць разыходжання для крыла на абранай вышыні.</translation>
     </message>
     <message>
       <source>Divergence speed</source>
-      <translation type="unfinished"/>
+      <translation>Хуткасць разыходжання</translation>
     </message>
     <message>
       <source>Flutter speed</source>
-      <translation type="unfinished"/>
+      <translation>Хуткасць дрыгацення</translation>
     </message>
     <message>
       <source>Margin</source>
-      <translation type="unfinished"/>
+      <translation>Прыбытак</translation>
     </message>
     <message>
       <source>Mach</source>
-      <translation type="unfinished"/>
+      <translation>Лік Маха</translation>
     </message>
     <message>
       <source>The flutter speed for the fin at the selected altitude.</source>
-      <translation type="unfinished"/>
+      <translation>Хуткасць дрыгацення для крыла на абранай вышыні.</translation>
     </message>
     <message>
       <source>The safety margin of the fin based on the flutter speed and the specified maximum speed.</source>
-      <translation type="unfinished"/>
+      <translation>Запас трываласці крыла залежыць ад хуткасці дрыгацення і паказанай найбольшай хуткасці.</translation>
     </message>
     <message>
       <source>The safety margin of the fin based on the divergence speed and the specified maximum speed.</source>
-      <translation type="unfinished"/>
+      <translation>Запас трываласці крыла залежыць ад хуткасці разыходжання і паказанай найбольшай хуткасці.</translation>
     </message>
     <message>
       <source>Nose Cone Parameter</source>
@@ -4117,7 +4131,7 @@
     </message>
     <message>
       <source>Shape parameter</source>
-      <translation type="unfinished"/>
+      <translation>Налада фігуры</translation>
     </message>
     <message>
       <source>Length</source>
@@ -4129,15 +4143,15 @@
     </message>
     <message>
       <source>Nose cone shape</source>
-      <translation type="unfinished"/>
+      <translation>Фігура носіка абцякальніка</translation>
     </message>
     <message>
       <source>Blunted diameter</source>
-      <translation type="unfinished"/>
+      <translation>Прытуплены дыяметр</translation>
     </message>
     <message>
       <source>Ogive diameter</source>
-      <translation type="unfinished"/>
+      <translation>Дыяметр ажывальнай формы</translation>
     </message>
     <message>
       <source>Nose Cap</source>
@@ -4145,11 +4159,11 @@
     </message>
     <message>
       <source>Cap style</source>
-      <translation type="unfinished"/>
+      <translation>Стыль кончыка</translation>
     </message>
     <message>
       <source>Bar width</source>
-      <translation type="unfinished"/>
+      <translation>Шырыня панэлі</translation>
     </message>
     <message>
       <source>Style</source>
@@ -4173,7 +4187,7 @@
     </message>
     <message>
       <source>Effective diameter</source>
-      <translation type="unfinished"/>
+      <translation>Эфектыўны дыяметр</translation>
     </message>
     <message>
       <source>Placement</source>
@@ -4201,7 +4215,7 @@
     </message>
     <message>
       <source>Show base plane</source>
-      <translation type="unfinished"/>
+      <translation>Паказаць асноўную плоскасць</translation>
     </message>
     <message>
       <source>Shoulder</source>
@@ -4217,7 +4231,7 @@
     </message>
     <message>
       <source>Transition shape</source>
-      <translation type="unfinished"/>
+      <translation>Фігура пераходу</translation>
     </message>
     <message>
       <source>Forward Cap</source>
@@ -4225,15 +4239,15 @@
     </message>
     <message>
       <source>Forward diameter</source>
-      <translation type="unfinished"/>
+      <translation>Пярэдні дыяметр</translation>
     </message>
     <message>
       <source>Aft diameter</source>
-      <translation type="unfinished"/>
+      <translation>Задні дыяметр</translation>
     </message>
     <message>
       <source>Core diameter</source>
-      <translation type="unfinished"/>
+      <translation>Дыяметр стрыжня</translation>
     </message>
     <message>
       <source>Clipped</source>
@@ -4241,27 +4255,27 @@
     </message>
     <message>
       <source>Effective forward diameter</source>
-      <translation type="unfinished"/>
+      <translation>Эфектыўны пярэдні дыяметр</translation>
     </message>
     <message>
       <source>Effective aft diameter</source>
-      <translation type="unfinished"/>
+      <translation>Эфектыўны задні дыяметр</translation>
     </message>
     <message>
       <source>Forward offset</source>
-      <translation type="unfinished"/>
+      <translation>Пярэдяне зрушэнне</translation>
     </message>
     <message>
       <source>Aft offset</source>
-      <translation type="unfinished"/>
+      <translation>Задняе зрушэнне</translation>
     </message>
     <message>
       <source>Show forward base plane</source>
-      <translation type="unfinished"/>
+      <translation>Паказаць пярэднюю асноўную плоскасць</translation>
     </message>
     <message>
       <source>Show aft base plane</source>
-      <translation type="unfinished"/>
+      <translation>Паказаць заднюю асноўную плоскасць</translation>
     </message>
     <message>
       <source>Forward Shoulder</source>
@@ -4277,7 +4291,7 @@
     </message>
     <message>
       <source>Enables scaling.</source>
-      <translation type="unfinished"/>
+      <translation>Уключае маштабаванне.</translation>
     </message>
     <message>
       <source>Scaling</source>
@@ -4293,7 +4307,8 @@
     </message>
     <message>
       <source>Scaling values are inherited from the parent component. Enabling override uses the current values instead.</source>
-      <translation type="unfinished"/>
+      <translation>Значэнні маштабавання ўспадкоўваюцца ад бацькоўскага кампанента.
+Пры ўключэнні пераазначэння замест іх ужываюцца бягучыя значэнні.</translation>
     </message>
     <message>
       <source>Override</source>
@@ -4305,7 +4320,7 @@
     </message>
     <message>
       <source>By value</source>
-      <translation type="unfinished"/>
+      <translation>Па значэнні</translation>
     </message>
     <message>
       <source>By body diameter</source>
@@ -4361,19 +4376,19 @@
     </message>
     <message>
       <source>Tip thickness</source>
-      <translation type="unfinished"/>
+      <translation>Таўшчыня наканечніка</translation>
     </message>
     <message>
       <source>Root thickness</source>
-      <translation type="unfinished"/>
+      <translation>Таўшчыня кораня</translation>
     </message>
     <message>
       <source>Root chord</source>
-      <translation type="unfinished"/>
+      <translation>Хорда кораня</translation>
     </message>
     <message>
       <source>Tip chord</source>
-      <translation type="unfinished"/>
+      <translation>Хорда наканечніка</translation>
     </message>
   </context>
   <context>
@@ -4388,7 +4403,7 @@
     </message>
     <message>
       <source>Minimum thickness of all fins.</source>
-      <translation type="unfinished"/>
+      <translation>Найменшыя таўшчыні ўсіх крылаў.</translation>
     </message>
     <message>
       <source>Length</source>
@@ -4396,15 +4411,15 @@
     </message>
     <message>
       <source>Minimum fin thickness</source>
-      <translation type="unfinished"/>
+      <translation>Найменшая таўшчыня крыла</translation>
     </message>
     <message>
       <source>The total length of the rocket assembly</source>
-      <translation type="unfinished"/>
+      <translation>Агульная даўжыня зборкі ракеты</translation>
     </message>
     <message>
       <source>Main body diameter.</source>
-      <translation type="unfinished"/>
+      <translation>Дыяметр галоўнага корпусу.</translation>
     </message>
     <message>
       <source>Diameter</source>
@@ -4412,19 +4427,19 @@
     </message>
     <message>
       <source>Frontal area</source>
-      <translation type="unfinished"/>
+      <translation>Пярэдняя вобласць</translation>
     </message>
     <message>
       <source>Area facing the direction of travel.</source>
-      <translation type="unfinished"/>
+      <translation>Вобласць, якая звернутая да напрамку руху.</translation>
     </message>
     <message>
       <source>Altitude above sea level.</source>
-      <translation type="unfinished"/>
+      <translation>Вышыня палёту над узроўнем мора.</translation>
     </message>
     <message>
       <source>Speed of the rocket during the simulation.</source>
-      <translation type="unfinished"/>
+      <translation>Хуткасць ракеты падчас мадэлявання.</translation>
     </message>
     <message>
       <source>Altitude</source>
@@ -4436,7 +4451,7 @@
     </message>
     <message>
       <source>Number of processors</source>
-      <translation type="unfinished"/>
+      <translation>Колькасць працэсараў</translation>
     </message>
     <message>
       <source>Mach</source>
@@ -4444,11 +4459,11 @@
     </message>
     <message>
       <source>Rotation around the X axis.</source>
-      <translation type="unfinished"/>
+      <translation>Вярчэнне вакол восі X.</translation>
     </message>
     <message>
       <source>Angle(s) Of Attack (AOA)</source>
-      <translation type="unfinished"/>
+      <translation>Вуглы атакі (AOA)</translation>
     </message>
     <message>
       <source>Angle of rotation</source>
@@ -4456,7 +4471,7 @@
     </message>
     <message>
       <source>Mach number of the rocket during the simulation.</source>
-      <translation type="unfinished"/>
+      <translation>Лік Маха ракеты падчас мадэлявання.</translation>
     </message>
     <message>
       <source>0 </source>
@@ -4464,11 +4479,11 @@
     </message>
     <message>
       <source>Number of processors to use during CFD simulation.</source>
-      <translation type="unfinished"/>
+      <translation>Колькасць працэсараў, якая ўжываецца пры мадэляванні вылічальнай гідрадынамікі.</translation>
     </message>
     <message>
       <source>Angles of attack in degrees, one entry per line</source>
-      <translation type="unfinished"/>
+      <translation>Вуглы атакі ў градусах, па аднаму запісу на радок</translation>
     </message>
     <message>
       <source>2</source>
@@ -4487,7 +4502,7 @@
     </message>
     <message>
       <source>Match component</source>
-      <translation type="unfinished"/>
+      <translation>Супаставіць кампанент</translation>
     </message>
     <message>
       <source>Search</source>
@@ -4507,7 +4522,7 @@
     </message>
     <message>
       <source>Aft diameter</source>
-      <translation type="unfinished"/>
+      <translation>Задні дыяметр</translation>
     </message>
     <message>
       <source>Match the length of the component</source>
@@ -4542,11 +4557,11 @@
     </message>
     <message>
       <source>Angle of the rocket relative to the airstream aalso known as the Angle of Attack (AOA)</source>
-      <translation type="unfinished"/>
+      <translation>Вугал нахілу ракеты адносна паветранага патоку, таксама вядомы як вугал атакі (AOA).</translation>
     </message>
     <message>
       <source>Angle(s) of Attack (AOA)</source>
-      <translation type="unfinished"/>
+      <translation>Вуглы атакі (AOA)</translation>
     </message>
     <message>
       <source>Use average of last N values</source>
@@ -4554,11 +4569,11 @@
     </message>
     <message>
       <source>Average last N</source>
-      <translation type="unfinished"/>
+      <translation>Сярэдняе апошніх N значэнняў</translation>
     </message>
     <message>
       <source>Use average of last N values.</source>
-      <translation type="unfinished"/>
+      <translation>Ужыць сярэдняе значэнне апошніх N значэнняў.</translation>
     </message>
     <message>
       <source>Use the same folder for each mesh. This can result in a substantial reduction of required disk space</source>
@@ -4571,7 +4586,7 @@
     </message>
     <message>
       <source>Start the simulation.</source>
-      <translation type="unfinished"/>
+      <translation>Пачаць мадэляванне.</translation>
     </message>
     <message>
       <source>Start</source>
@@ -4579,7 +4594,7 @@
     </message>
     <message>
       <source>Stop the simulation.</source>
-      <translation type="unfinished"/>
+      <translation>Спыніць мадэляванне.</translation>
     </message>
     <message>
       <source>Stop</source>
@@ -4638,11 +4653,11 @@
     </message>
     <message>
       <source>Fin count</source>
-      <translation type="unfinished"/>
+      <translation>Колькасць крылаў</translation>
     </message>
     <message>
       <source>Fin spacing</source>
-      <translation type="unfinished"/>
+      <translation>Адлегласць паміж крыламі</translation>
     </message>
     <message>
       <source>FIn Root</source>
@@ -4674,7 +4689,7 @@
     </message>
     <message>
       <source>Cross section</source>
-      <translation type="unfinished"/>
+      <translation>Папярочны перасек</translation>
     </message>
     <message>
       <source>Fin Tip</source>
@@ -4702,7 +4717,7 @@
     </message>
     <message>
       <source>Outer diameter</source>
-      <translation type="unfinished"/>
+      <translation>Вонкавы дыяметр</translation>
     </message>
     <message>
       <source>Wall thickness</source>
@@ -4718,7 +4733,7 @@
     </message>
     <message>
       <source>Apply fillets</source>
-      <translation type="unfinished"/>
+      <translation>Прымяніць акругленні</translation>
     </message>
     <message>
       <source>Minimum Edge</source>
@@ -4738,7 +4753,7 @@
     </message>
     <message>
       <source>Effective root chord</source>
-      <translation type="unfinished"/>
+      <translation>Эфектыўная хорда кораня</translation>
     </message>
     <message>
       <source>Placement</source>
@@ -4778,11 +4793,11 @@
     </message>
     <message>
       <source>Leading edge offset</source>
-      <translation type="unfinished"/>
+      <translation>Зрушэнне пярэдняга рабра</translation>
     </message>
     <message>
       <source>Inner diameter</source>
-      <translation type="unfinished"/>
+      <translation>Унутраны дыяметр</translation>
     </message>
     <message>
       <source>Leading Edge</source>
@@ -4790,7 +4805,7 @@
     </message>
     <message>
       <source>Edge style</source>
-      <translation type="unfinished"/>
+      <translation>Стыль рабра</translation>
     </message>
     <message>
       <source>Trailing Edge</source>
@@ -4802,7 +4817,7 @@
     </message>
     <message>
       <source>Coupler style</source>
-      <translation type="unfinished"/>
+      <translation>Стыль злучальніка</translation>
     </message>
     <message>
       <source>Launch Lug</source>

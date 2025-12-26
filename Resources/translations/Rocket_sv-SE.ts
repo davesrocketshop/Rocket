@@ -1168,12 +1168,12 @@
     <message>
       <location filename="../../Ui/TaskPanelLocation.py" line="52"/>
       <source>Radial reference</source>
-      <translation type="unfinished"/>
+      <translation>Radiell referens</translation>
     </message>
     <message>
       <location filename="../../Ui/TaskPanelLocation.py" line="58"/>
       <source>Radial offset</source>
-      <translation type="unfinished"/>
+      <translation>Radiell förskjutning</translation>
     </message>
     <message>
       <location filename="../../Ui/TaskPanelLocation.py" line="66"/>
@@ -1188,7 +1188,7 @@
     <message>
       <location filename="../../Ui/TaskPanelLocation.py" line="80"/>
       <source>Angle offset</source>
-      <translation type="unfinished"/>
+      <translation>Vinkelförskjutning</translation>
     </message>
     <message>
       <location filename="../../Ui/Commands/CmdFlutterAnalysis.py" line="51"/>
@@ -1594,47 +1594,47 @@
     <message>
       <location filename="../../Ui/DialogFinFlutter.py" line="168"/>
       <source>Divergence</source>
-      <translation type="unfinished"/>
+      <translation>Divergens</translation>
     </message>
     <message>
       <location filename="../../Ui/DialogFinFlutter.py" line="171"/>
       <source>Altitude (km AGL)</source>
-      <translation type="unfinished"/>
+      <translation>Höjd över havet (km AGL)</translation>
     </message>
     <message>
       <location filename="../../Ui/DialogFinFlutter.py" line="172"/>
       <source>Velocity (m/s)</source>
-      <translation type="unfinished"/>
+      <translation>Hastighet (m/s)</translation>
     </message>
     <message>
       <location filename="../../Ui/DialogFinFlutter.py" line="174"/>
       <source>Altitude (x1000 ft AGL)</source>
-      <translation type="unfinished"/>
+      <translation>Höjd (x1000 fot över marken)</translation>
     </message>
     <message>
       <location filename="../../Ui/DialogFinFlutter.py" line="175"/>
       <source>Velocity (ft/s)</source>
-      <translation type="unfinished"/>
+      <translation>Hastighet (ft/s)</translation>
     </message>
     <message>
       <location filename="../../Ui/DialogFinFlutter.py" line="333"/>
       <source>Peak of Flight 615</source>
-      <translation type="unfinished"/>
+      <translation>Peak of Flight 615</translation>
     </message>
     <message>
       <location filename="../../Ui/DialogFinFlutter.py" line="334"/>
       <source>US Standard Atmosphere (USSA) 1976</source>
-      <translation type="unfinished"/>
+      <translation>Amerikansk standardatmosfär (USSA) 1976</translation>
     </message>
     <message>
       <location filename="../../Ui/DialogFinFlutter.py" line="336"/>
       <source>Committee on Extension to the Standard Atmosphere (COESA) 1976 - Geometric</source>
-      <translation type="unfinished"/>
+      <translation>Kommittén för utvidgning av standardatmosfären (COESA) 1976 – Geometrisk</translation>
     </message>
     <message>
       <location filename="../../Ui/DialogFinFlutter.py" line="339"/>
       <source>Committee on Extension to the Standard Atmosphere (COESA) 1976 - Geopotential</source>
-      <translation type="unfinished"/>
+      <translation>Kommittén för utvidgning av standardatmosfären (COESA) 1976 – Geopotential</translation>
     </message>
     <message>
       <location filename="../../Ui/TaskPanelRingtail.py" line="58"/>
@@ -1704,7 +1704,7 @@
       <location filename="../../Ui/TaskPanelLaunchLug.py" line="74"/>
       <location filename="../../Ui/TaskPanelBodyTube.py" line="84"/>
       <source>Inner diameter</source>
-      <translation type="unfinished"/>
+      <translation>Innerdiameter</translation>
     </message>
     <message>
       <location filename="../../Ui/TaskPanelRingtail.py" line="84"/>
@@ -1713,7 +1713,7 @@
       <location filename="../../Ui/TaskPanelLaunchLug.py" line="80"/>
       <location filename="../../Ui/TaskPanelBodyTube.py" line="90"/>
       <source>Outer diameter</source>
-      <translation type="unfinished"/>
+      <translation>Ytterdiameter</translation>
     </message>
     <message>
       <location filename="../../Ui/TaskPanelRingtail.py" line="105"/>
@@ -1750,7 +1750,7 @@
     <message>
       <location filename="../../Ui/TaskPanelBodyTube.py" line="111"/>
       <source>Motor mount</source>
-      <translation type="unfinished"/>
+      <translation>Motorfäste</translation>
     </message>
     <message>
       <location filename="../../Ui/TaskPanelBodyTube.py" line="114"/>
@@ -1812,7 +1812,7 @@
     <message>
       <location filename="../../Ui/TaskPanelDatabase.py" line="59"/>
       <source>Part number</source>
-      <translation type="unfinished"/>
+      <translation>Artikelnummer</translation>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="901"/>
@@ -1855,7 +1855,7 @@
     <message>
       <location filename="../../Ui/DialogScaling.py" line="158"/>
       <source>Reference diameter</source>
-      <translation type="unfinished"/>
+      <translation>Referensdiameter</translation>
     </message>
     <message>
       <location filename="../../Ui/DialogScaling.py" line="499"/>
@@ -1965,7 +1965,7 @@
     <message>
       <location filename="../../Ui/DialogParachute.py" line="65"/>
       <source>Rocket weight</source>
-      <translation type="unfinished"/>
+      <translation>Raketvikt</translation>
     </message>
     <message>
       <location filename="../../Ui/DialogParachute.py" line="73"/>
@@ -2052,19 +2052,19 @@
       <location filename="../../Ui/TaskPanelRailGuide.py" line="95"/>
       <location filename="../../Ui/TaskPanelRailButton.py" line="100"/>
       <source>Flange height</source>
-      <translation type="unfinished"/>
+      <translation>Flänshöjd</translation>
     </message>
     <message>
       <location filename="../../Ui/TaskPanelRailGuide.py" line="101"/>
       <location filename="../../Ui/TaskPanelRailButton.py" line="106"/>
       <source>Base height</source>
-      <translation type="unfinished"/>
+      <translation>Basens höjd</translation>
     </message>
     <message>
       <location filename="../../Ui/TaskPanelRailGuide.py" line="107"/>
       <location filename="../../Ui/TaskPanelRailButton.py" line="112"/>
       <source>Total height</source>
-      <translation type="unfinished"/>
+      <translation>Total höjd</translation>
     </message>
     <message>
       <location filename="../../Ui/TaskPanelRailButton.py" line="124"/>
@@ -2074,17 +2074,17 @@
     <message>
       <location filename="../../Ui/TaskPanelRailButton.py" line="127"/>
       <source>Countersink angle</source>
-      <translation type="unfinished"/>
+      <translation>Försänkningsvinkel</translation>
     </message>
     <message>
       <location filename="../../Ui/TaskPanelRailButton.py" line="138"/>
       <source>Head diameter</source>
-      <translation type="unfinished"/>
+      <translation>Huvuddiameter</translation>
     </message>
     <message>
       <location filename="../../Ui/TaskPanelRailButton.py" line="144"/>
       <source>Shank diameter</source>
-      <translation type="unfinished"/>
+      <translation>Skaftdiameter</translation>
     </message>
     <message>
       <location filename="../../Ui/TaskPanelRailButton.py" line="150"/>
@@ -2143,12 +2143,12 @@
     <message>
       <location filename="../../Ui/TaskPanelPod.py" line="66"/>
       <source>Pod count</source>
-      <translation type="unfinished"/>
+      <translation>Kapselantal</translation>
     </message>
     <message>
       <location filename="../../Ui/TaskPanelPod.py" line="73"/>
       <source>Pod spacing</source>
-      <translation type="unfinished"/>
+      <translation>Kapselmellanrum</translation>
     </message>
     <message>
       <location filename="../../Ui/TaskPanelRailGuide.py" line="67"/>
@@ -2168,24 +2168,24 @@
     <message>
       <location filename="../../Ui/TaskPanelRailGuide.py" line="83"/>
       <source>Middle width</source>
-      <translation type="unfinished"/>
+      <translation>Medelbredd</translation>
     </message>
     <message>
       <location filename="../../Ui/TaskPanelRailGuide.py" line="89"/>
       <source>Base width</source>
-      <translation type="unfinished"/>
+      <translation>Basbredd</translation>
     </message>
     <message>
       <location filename="../../Ui/DialogBlackPowder.py" line="70"/>
       <location filename="../../Ui/DialogVentHoles.py" line="55"/>
       <location filename="../../Ui/TaskPanelRailGuide.py" line="120"/>
       <source>Body tube diameter</source>
-      <translation type="unfinished"/>
+      <translation>Kroppens rördiameter</translation>
     </message>
     <message>
       <location filename="../../Ui/TaskPanelRailGuide.py" line="130"/>
       <source>V angle</source>
-      <translation type="unfinished"/>
+      <translation>V-vinkel</translation>
     </message>
     <message>
       <location filename="../../Ui/TaskPanelRailGuide.py" line="156"/>
@@ -2375,7 +2375,7 @@
     <message>
       <location filename="../../Ui/DialogThrustToWeight.py" line="61"/>
       <source>Minimum thrust</source>
-      <translation type="unfinished"/>
+      <translation>Minsta dragkraft</translation>
     </message>
     <message>
       <location filename="../../Ui/DialogBlackPowder.py" line="78"/>
@@ -2386,12 +2386,12 @@
     <message>
       <location filename="../../Ui/DialogVentHoles.py" line="71"/>
       <source>Vent hole count</source>
-      <translation type="unfinished"/>
+      <translation>Antal ventilationshål</translation>
     </message>
     <message>
       <location filename="../../Ui/DialogVentHoles.py" line="80"/>
       <source>Vent hole size</source>
-      <translation type="unfinished"/>
+      <translation>Ventilationshålets storlek</translation>
     </message>
     <message>
       <location filename="../../Ui/TaskPanelParallelStage.py" line="62"/>
@@ -2401,12 +2401,12 @@
     <message>
       <location filename="../../Ui/TaskPanelParallelStage.py" line="66"/>
       <source>Stage count</source>
-      <translation type="unfinished"/>
+      <translation>Antal steg</translation>
     </message>
     <message>
       <location filename="../../Ui/TaskPanelParallelStage.py" line="73"/>
       <source>Stage spacing</source>
-      <translation type="unfinished"/>
+      <translation>Stegmellanrum</translation>
     </message>
     <message>
       <location filename="../../Ui/TaskPanelRingtail.py" line="75"/>
@@ -3031,7 +3031,7 @@
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="58"/>
       <source>CFD Report.docx</source>
-      <translation type="unfinished"/>
+      <translation>CFD-rapport.docx</translation>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="159"/>
@@ -3056,12 +3056,12 @@
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="177"/>
       <source>Study Parameters</source>
-      <translation type="unfinished"/>
+      <translation>Studieparametrar</translation>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="179"/>
       <source>This study varied the following parameters:</source>
-      <translation type="unfinished"/>
+      <translation>I denna studie varierades följande parametrar:</translation>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Ui/TaskPanelCFDRocket.py" line="48"/>
@@ -3076,22 +3076,22 @@
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="920"/>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="194"/>
       <source>NOTE: It is not possible to calculate the center of pressure at an angle of attack of 0. It must be calculated at multiple points close to 0 and inferred using l&apos;Hôpital&apos;s rule.</source>
-      <translation type="unfinished"/>
+      <translation>OBSERVERA: Det är inte möjligt att beräkna tryckcentrum vid en anfallsvinkel på 0. Det måste beräknas vid flera punkter nära 0 och härledas med hjälp av L&apos;Hôpitals regel.</translation>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="198"/>
       <source>This study is unable to determine Center of Pressure at a 0 angle of attack.</source>
-      <translation type="unfinished"/>
+      <translation>Denna studie kan inte fastställa tyngdpunkten vid en anfallsvinkel på 0 grader.</translation>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="200"/>
       <source>Configuration</source>
-      <translation type="unfinished"/>
+      <translation>Konfiguration</translation>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="212"/>
       <source>Physics Model</source>
-      <translation type="unfinished"/>
+      <translation>Fysikmodell</translation>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="219"/>
@@ -3133,12 +3133,12 @@
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="248"/>
       <source>Turbulence Model</source>
-      <translation type="unfinished"/>
+      <translation>Turbulensmodell</translation>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="253"/>
       <source>Gravity (x, y, z)</source>
-      <translation type="unfinished"/>
+      <translation>Gravitation (x, y, z)</translation>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="263"/>
@@ -3153,32 +3153,32 @@
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="270"/>
       <source>Center of Rotation</source>
-      <translation type="unfinished"/>
+      <translation>Rotationscentrum</translation>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="278"/>
       <source>Rotational Axis</source>
-      <translation type="unfinished"/>
+      <translation>Rotationsaxel</translation>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="286"/>
       <source>Fluid Properties</source>
-      <translation type="unfinished"/>
+      <translation>Vätskeegenskaper</translation>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="292"/>
       <source>Not defined.</source>
-      <translation type="unfinished"/>
+      <translation>Inte definierad.</translation>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="301"/>
       <source>Material Name</source>
-      <translation type="unfinished"/>
+      <translation>Materialnamn</translation>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="315"/>
       <source>Initialize Flow Field</source>
-      <translation type="unfinished"/>
+      <translation>Initialisera flödesfält</translation>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="766"/>
@@ -3199,7 +3199,7 @@
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="341"/>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="328"/>
       <source>Use values from boundary &apos;{}&apos;</source>
-      <translation type="unfinished"/>
+      <translation>Använd värden från gränsen &apos;{}&apos;</translation>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="347"/>
@@ -3234,12 +3234,12 @@
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="426"/>
       <source>Convergence tolerance</source>
-      <translation type="unfinished"/>
+      <translation>Konvergenstolerans</translation>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="430"/>
       <source>Max iterations</source>
-      <translation type="unfinished"/>
+      <translation>Max antal iterationer</translation>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="434"/>
@@ -3249,22 +3249,22 @@
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="439"/>
       <source>Parallel cores</source>
-      <translation type="unfinished"/>
+      <translation>Parallella kärnor</translation>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="443"/>
       <source>Starting from</source>
-      <translation type="unfinished"/>
+      <translation>Startar med</translation>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="448"/>
       <source>End time</source>
-      <translation type="unfinished"/>
+      <translation>Sluttid</translation>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="452"/>
       <source>Time step</source>
-      <translation type="unfinished"/>
+      <translation>Tidssteg</translation>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="456"/>
@@ -3412,7 +3412,7 @@
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="612"/>
       <source>Surface</source>
-      <translation type="unfinished"/>
+      <translation>Yta</translation>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="619"/>
@@ -3538,12 +3538,12 @@
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="893"/>
       <source>Total run time: {}</source>
-      <translation type="unfinished"/>
+      <translation>Total körtid: {}</translation>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="899"/>
       <source>Run Time</source>
-      <translation type="unfinished"/>
+      <translation>Körtid</translation>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="900"/>
@@ -3553,12 +3553,12 @@
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="912"/>
       <source>Unknown</source>
-      <translation type="unfinished"/>
+      <translation>Okänd</translation>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="918"/>
       <source>Center of Pressure</source>
-      <translation type="unfinished"/>
+      <translation>Tryckcentrum</translation>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="923"/>
@@ -3600,12 +3600,12 @@
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="1098"/>
       <source>Run Data</source>
-      <translation type="unfinished"/>
+      <translation>Kör data</translation>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="1101"/>
       <source>Angle of Attack={}</source>
-      <translation type="unfinished"/>
+      <translation>Anfallsvinkel={}</translation>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="1324"/>
@@ -3615,7 +3615,7 @@
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="1210"/>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="1145"/>
       <source>Iteration</source>
-      <translation type="unfinished"/>
+      <translation>Iteration</translation>
     </message>
     <message>
       <location filename="../../Rocket/cfd/Reports/CFDReport.py" line="1146"/>
@@ -3808,7 +3808,7 @@
     </message>
     <message>
       <source>Scale by value</source>
-      <translation type="unfinished"/>
+      <translation>Skala efter värde</translation>
     </message>
     <message>
       <source>Specifies a minumum body diameter.</source>
@@ -3888,11 +3888,11 @@
     </message>
     <message>
       <source>Reference diameter 1</source>
-      <translation type="unfinished"/>
+      <translation>Referensdiameter 1</translation>
     </message>
     <message>
       <source>Maximum diameter</source>
-      <translation type="unfinished"/>
+      <translation>Maximal diameter</translation>
     </message>
     <message>
       <source>Maximum error in the matched body diameter.</source>
@@ -3912,7 +3912,7 @@
     </message>
     <message>
       <source>Scale by diameter</source>
-      <translation type="unfinished"/>
+      <translation>Skala efter diameter</translation>
     </message>
     <message>
       <source>Matches aany scale value.</source>
@@ -4700,7 +4700,7 @@
     </message>
     <message>
       <source>Outer diameter</source>
-      <translation type="unfinished"/>
+      <translation>Ytterdiameter</translation>
     </message>
     <message>
       <source>Wall thickness</source>
@@ -4780,7 +4780,7 @@
     </message>
     <message>
       <source>Inner diameter</source>
-      <translation type="unfinished"/>
+      <translation>Innerdiameter</translation>
     </message>
     <message>
       <source>Leading Edge</source>
