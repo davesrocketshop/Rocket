@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: MIT
+
+
 class ATMOS(object):
     '''
     class ATMOS

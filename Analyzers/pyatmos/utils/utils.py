@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: MIT
+
 import numpy as np
 import warnings
 from . import Const

@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: MIT
+
+
 '''
 Because of the interest of aerospace engineers and atmospheric scientists in 
 conditions at much higher altitudes than those of the U.S. Standard Atmosphere 

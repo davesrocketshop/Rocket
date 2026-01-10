@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: MIT
+
+
 """
 The U.S. Standard Atmosphere 1976(USSA76) is an idealized, steady-state model of
 mean annual conditions of Earth's atmosphere from the surface to 86 km at
