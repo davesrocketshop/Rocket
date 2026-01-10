@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: LGPL-2.1-or-later
+
 # ***************************************************************************
 # *   Copyright (c) 2022-20202524 David Carter <dcarter@davidcarter.ca>         *
 # *                                                                         *

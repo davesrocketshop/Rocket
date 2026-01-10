@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: MIT
+
+
 import numpy as np
 # Some physical constants at sea level
 R0 = 6371.0008 # volumetric radius of the Earth, [km] 
