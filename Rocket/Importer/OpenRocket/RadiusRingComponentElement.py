@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: LGPL-2.1-or-later
+# SPDX-File-Notice: Part of the Rocket addon.
+
 # ***************************************************************************
 # *   Copyright (c) 2021-2025 David Carter <dcarter@davidcarter.ca>         s*
 # *                                                                         *

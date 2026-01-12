@@ -5,7 +5,8 @@
   <version>5.1.1</version>
   <date>2025-12-26</date>
   <maintainer email="dcarter@davidcarter.ca">David Carter</maintainer>
-  <license file="LICENSE">LGPL-2.1-or-later</license>
+  <license file="LICENSE-Code">LGPL-2.1-or-later</license>
+  <license file="LICENSE-PyAtmos">MIT</license>
   <url type="repository" branch="master">https://github.com/davesrocketshop/Rocket</url>
   <icon>Resources/icons/RocketWorkbench.svg</icon>
   <freecadmin>1.0</freecadmin>
