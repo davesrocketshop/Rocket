@@ -35,15 +35,15 @@ translate = FreeCAD.Qt.translate
 from Ui.Widgets.WaitCursor import WaitCursor
 
 class CmdMaterialEditor:
-    def Activated(self):
+    def Activated(self) -> None:
         with WaitCursor():
             FreeCADGui.addModule("MaterialEditor")
             FreeCADGui.doCommand("MaterialEditor.openEditor()")
 
-    def IsActive(self):
+    def IsActive(self) -> bool:
         return True
 
-    def GetResources(self):
+    def GetResources(self) -> dict:
         return {'MenuText': translate("Rocket", 'Material editor'),
                 'ToolTip': translate("Rocket", 'Opens the FreeCAD material editor'),
                 'Pixmap': "Arch_Material" }

@@ -36,7 +36,7 @@ from Ui.ViewFin import ViewProviderFin
 
 translate = FreeCAD.Qt.translate
 
-def makeFin(name):
+def makeFin(name : str) -> FeatureFin:
     '''makeFin(name): makes a Fin'''
     obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
     FeatureFin(obj)
@@ -60,18 +60,18 @@ def makeFin(name):
     return obj
 
 class CmdFin:
-    def Activated(self):
+    def Activated(self) -> None:
         FreeCAD.ActiveDocument.openTransaction("Create fin")
         FreeCADGui.addModule("Ui.Commands.CmdFin")
         FreeCADGui.doCommand("Ui.Commands.CmdFin.makeFin('Fin')")
         FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
 
-    def IsActive(self):
+    def IsActive(self) -> bool:
         if FreeCAD.ActiveDocument:
             return True
         return False
 
-    def GetResources(self):
+    def GetResources(self) -> dict:
         return {'MenuText': translate("Rocket", 'Fin'),
                 'ToolTip': translate("Rocket", 'Fin design'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Fin.svg"}

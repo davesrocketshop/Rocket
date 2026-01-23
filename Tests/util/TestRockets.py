@@ -32,7 +32,9 @@ import FreeCAD
 from Rocket.Constants import TYPE_CONE, TYPE_BLUNTED_CONE, TYPE_SPHERICAL, TYPE_ELLIPTICAL, TYPE_HAACK, TYPE_OGIVE, TYPE_BLUNTED_OGIVE, TYPE_SECANT_OGIVE, TYPE_VON_KARMAN, TYPE_PARABOLA, TYPE_PARABOLIC, TYPE_POWER
 from Rocket.Constants import FINCAN_STYLE_SLEEVE, FINCAN_STYLE_BODYTUBE
 
-from Ui.Commands.CmdBodyTube import makeBodyTube, makeEngineBlock, makeInnerTube
+from Rocket.FeatureRocket import FeatureRocket
+
+from Ui.Commands.CmdBodyTube import makeBodyTube, makeEngineBlock, makeInnerTube, makeCoupler
 from Ui.Commands.CmdRocket import makeRocket
 from Ui.Commands.CmdStage import makeStage
 from Ui.Commands.CmdNoseCone import makeNoseCone
@@ -40,6 +42,7 @@ from Ui.Commands.CmdFin import makeFin
 from Ui.Commands.CmdFinCan import makeFinCan
 from Ui.Commands.CmdLaunchGuides import makeLaunchLug
 from Ui.Commands.CmdCenteringRing import makeCenteringRing
+from Ui.Commands.CmdTransition import makeTransition
 from Rocket.position import AxialMethod
 
 class TestRockets:
@@ -51,10 +54,12 @@ class TestRockets:
         This function is used for unit, integration tests, DO NOT CHANGE (without updating tests).
     """
     @classmethod
-    def makeEstesAlphaIII(cls):
+    def makeEstesAlphaIII(cls, name : str | None = None) -> FeatureRocket:
         rocket = makeRocket('Alpha III', False)
-        # rocket.enableEvents(False)
-        rocket.setName("Estes Alpha III / Code Verification Rocket")
+        if name is None:
+            rocket.setName("Estes Alpha III / Code Verification Rocket")
+        else:
+            rocket.setName(name)
 
         stage = makeStage()
         stage.setName("Stage")
@@ -105,6 +110,7 @@ class TestRockets:
         lug.setLength(50.0)
         lug.setOuterRadius(2.2)
         lug.setInnerRadius(2.0)
+        lug.setAngleOffset(60.0)
         bodytube.addChild(lug)
 
         inner = makeInnerTube() # InnerTube?
@@ -145,9 +151,99 @@ class TestRockets:
         rocket.enableEvents()
         FreeCAD.activeDocument().recompute(None,True,True)
         return rocket
+    
+    """
+        This is an extra stage tacked onto the end of an Estes Alpha III
+	    http://www.rocketreviews.com/alpha-iii---estes-221256.html
+
+        This function is used for unit, integration tests, DO NOT CHANGE WITHOUT
+	    UPDATING TESTS
+    """
+    @classmethod
+    def makeBeta(cls, name : str | None = None) -> FeatureRocket:
+        rocket = TestRockets.makeEstesAlphaIII()
+        if name is None:
+            rocket.setName("Kit-bash Beta")
+        else:
+            rocket.setName(name)
+
+        stage = rocket.getChild(0).Proxy
+        stage.setName("Sustainer Stage")
+        sustainerBody = stage.getChild(1).Proxy
+        sustainerBody.setName("Sustainer Body Tube")
+        sustainerRadius = sustainerBody.getAftRadius()
+        sustainerThickness = sustainerBody.getThickness()
+
+        boosterStage = makeStage()
+        boosterStage.setName("Booster Stage")
+        rocket.addChild(boosterStage)
+
+        boosterLength = 60.0
+        boosterBody = makeBodyTube()
+        boosterBody.setLength(boosterLength)
+        boosterBody.setOuterRadius(sustainerRadius)
+        boosterBody.setThickness(sustainerThickness)
+        boosterBody.setName("Booster Body")
+        boosterStage.addChild(boosterBody)
+
+        coupler = makeCoupler()
+        coupler.setName("Coupler")
+        coupler.setOuterRadiusAutomatic(True)
+        coupler.setThickness(sustainerThickness)
+        coupler.setLength(30)
+        coupler.setAxialMethod(AxialMethod.TOP)
+        coupler.setAxialOffset(-15)
+        boosterBody.addChild(coupler)
+
+        finCount = 3
+        finRootChord = 50.0
+        finTipChord = 30.0
+        finSweep = 20.0
+        finHeight = 50.0
+        finset = makeFin()
+        finset.setFinCount(finCount)
+        finset.setRootChord(finRootChord)
+        finset.setTipChord(finTipChord)
+        finset.setSweepLength(finSweep)
+        finset.setHeight(finHeight)
+        finset.setThickness(3.2)
+        finset.setAxialMethod(AxialMethod.BOTTOM)
+        finset.setName("Booster Fins")
+        boosterBody.addChild(finset)
+
+        boosterMMT = makeInnerTube()
+        boosterMMT.setAxialMethod(AxialMethod.BOTTOM)
+        boosterMMT.setAxialOffset(5.0)
+        boosterMMT.setLength(50.0)
+        boosterMMT.setOuterDiameter(19.0)
+        boosterMMT.setInnerDiameter(18.0)
+        boosterMMT.setMotorMount(True)
+        boosterMMT.setName("Booster MMT")
+        boosterBody.addChild(boosterMMT)
+
+        lug = makeLaunchLug()
+        lug.setName("Launch Lugs")
+        lug.setAxialMethod(AxialMethod.TOP)
+        lug.setAxialOffset(0.0)
+        lug.setLength(50.0)
+        lug.setOuterRadius(2.2)
+        lug.setInnerRadius(2.0)
+        lug.setAngleOffset(60.0)
+        boosterBody.addChild(lug)
+
+        boosterTail = makeTransition()
+        boosterTail.setForeRadius(12)
+        boosterTail.setAftRadius(11)
+        boosterTail.setLength(5)
+        boosterTail.setName("Booster Tail Cone")
+        boosterStage.addChild(boosterTail)
+
+        rocket.enableEvents()
+        FreeCAD.activeDocument().recompute(None,True,True)
+        return rocket
 
     @classmethod
-    def make3stage(cls, name=None):
+    def make3stage(cls, name : str | None = None) -> FeatureRocket:
         rocket = makeRocket('3Stage', False)
         # rocket.enableEvents(False)
         if name is None:

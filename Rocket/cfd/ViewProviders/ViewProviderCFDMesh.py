@@ -83,7 +83,7 @@ class ViewProviderCFDMesh:
 
     # def onDelete(self, feature, subelements):
     #     try:
-    #         for obj in self.Object.Group:
+    #         for obj in self.Object.SubComponent:
     #             obj.ViewObject.show()
     #     except Exception as err:
     #         FreeCAD.Console.PrintError("Error in onDelete: " + str(err))

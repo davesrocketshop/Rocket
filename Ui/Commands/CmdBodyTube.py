@@ -43,7 +43,7 @@ from Rocket.Constants import FEATURE_BODY_TUBE, FEATURE_INNER_TUBE, FEATURE_TUBE
 
 translate = FreeCAD.Qt.translate
 
-def makeBodyTube(name='BodyTube'):
+def makeBodyTube(name : str = 'BodyTube') -> FeatureBodyTube:
     '''makeBodyTube(name): makes a Body Tube'''
     obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
     FeatureBodyTube(obj)
@@ -53,7 +53,7 @@ def makeBodyTube(name='BodyTube'):
 
     return obj.Proxy
 
-def makeInnerTube(name='InnerTube'):
+def makeInnerTube(name : str = 'InnerTube') -> FeatureInnerTube:
     '''makeInnerTube(name): makes an inner Tube'''
     obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
     FeatureInnerTube(obj)
@@ -63,7 +63,7 @@ def makeInnerTube(name='InnerTube'):
 
     return obj.Proxy
 
-def makeCoupler(name='Coupler'):
+def makeCoupler(name : str = 'Coupler') -> FeatureTubeCoupler:
     '''makeCoupler(name): makes a tube coupler'''
     obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
     FeatureTubeCoupler(obj)
@@ -73,7 +73,7 @@ def makeCoupler(name='Coupler'):
 
     return obj.Proxy
 
-def makeEngineBlock(name='EngineBlock'):
+def makeEngineBlock(name : str = 'EngineBlock') -> FeatureEngineBlock:
     '''makeInnerTube(name): makes an engine block'''
     obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
     FeatureEngineBlock(obj)
@@ -84,7 +84,7 @@ def makeEngineBlock(name='EngineBlock'):
     return obj.Proxy
 
 class CmdBodyTube(Command):
-    def Activated(self):
+    def Activated(self) -> None:
         with WaitCursor():
             FreeCAD.ActiveDocument.openTransaction("Create body tube")
             FreeCADGui.addModule("Ui.Commands.CmdBodyTube")
@@ -94,18 +94,18 @@ class CmdBodyTube(Command):
             FreeCADGui.doCommand("FreeCADGui.Selection.addSelection(obj._obj)")
             FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
 
-    def IsActive(self):
+    def IsActive(self) -> bool:
         if FreeCAD.ActiveDocument:
             return self.partEligibleFeature(FEATURE_BODY_TUBE)
         return False
 
-    def GetResources(self):
+    def GetResources(self) -> dict:
         return {'MenuText': translate("Rocket", 'Body Tube'),
                 'ToolTip': translate("Rocket", 'Adds a body tube to the selected pod or stage'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_BodyTube.svg"}
 
 class CmdCoupler(Command):
-    def Activated(self):
+    def Activated(self) -> None:
         with WaitCursor():
             FreeCAD.ActiveDocument.openTransaction("Create coupler")
             FreeCADGui.addModule("Ui.Commands.CmdBodyTube")
@@ -115,18 +115,18 @@ class CmdCoupler(Command):
             FreeCADGui.doCommand("FreeCADGui.Selection.addSelection(obj._obj)")
             FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
 
-    def IsActive(self):
+    def IsActive(self) -> bool:
         if FreeCAD.ActiveDocument:
             return self.partEligibleFeature(FEATURE_TUBE_COUPLER)
         return False
 
-    def GetResources(self):
+    def GetResources(self) -> dict:
         return {'MenuText': translate("Rocket", 'Coupler'),
                 'ToolTip': translate("Rocket", 'Adds a coupler to the selected component'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Coupler.svg"}
 
 class CmdInnerTube(Command):
-    def Activated(self):
+    def Activated(self) -> None:
         with WaitCursor():
             FreeCAD.ActiveDocument.openTransaction("Create inner tube")
             FreeCADGui.addModule("Ui.Commands.CmdBodyTube")
@@ -136,18 +136,18 @@ class CmdInnerTube(Command):
             FreeCADGui.doCommand("FreeCADGui.Selection.addSelection(obj._obj)")
             FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
 
-    def IsActive(self):
+    def IsActive(self) -> bool:
         if FreeCAD.ActiveDocument:
             return self.partEligibleFeature(FEATURE_INNER_TUBE)
         return False
 
-    def GetResources(self):
+    def GetResources(self) -> dict:
         return {'MenuText': translate("Rocket", 'Inner Tube'),
                 'ToolTip': translate("Rocket", 'Adds an inner tube or motor mount to the selected component'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_InnerTube.svg"}
 
 class CmdEngineBlock(Command):
-    def Activated(self):
+    def Activated(self) -> None:
         with WaitCursor():
             FreeCAD.ActiveDocument.openTransaction("Create engine block")
             FreeCADGui.addModule("Ui.Commands.CmdBodyTube")
@@ -157,12 +157,12 @@ class CmdEngineBlock(Command):
             FreeCADGui.doCommand("FreeCADGui.Selection.addSelection(obj._obj)")
             FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
 
-    def IsActive(self):
+    def IsActive(self) -> bool:
         if FreeCAD.ActiveDocument:
             return self.partEligibleFeature(FEATURE_ENGINE_BLOCK)
         return False
 
-    def GetResources(self):
+    def GetResources(self) -> dict:
         return {'MenuText': translate("Rocket", 'Engine Block'),
                 'ToolTip': translate("Rocket", 'Adds an engine block to the selected component'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_EngineBlock.svg"}

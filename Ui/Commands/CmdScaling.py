@@ -53,7 +53,7 @@ def getSelectedBodyTubes() -> list:
 
     return tubes
 
-def scalingPairs():
+def scalingPairs() -> None:
     # See if we have a type selected
     try:
         tubes = getSelectedBodyTubes()
@@ -72,7 +72,7 @@ def scalingPairs():
     except TypeError as ex:
         QtGui.QMessageBox.information(None, "", str(ex))
 
-def scalingTubes():
+def scalingTubes() -> None:
     # See if we have a type selected
     try:
         tubes = getSelectedBodyTubes()
@@ -92,29 +92,29 @@ def scalingTubes():
         QtGui.QMessageBox.information(None, "", str(ex))
 
 class CmdScalingPairs:
-    def Activated(self):
+    def Activated(self) -> None:
         FreeCADGui.addModule("Ui.Commands.CmdScaling")
         FreeCADGui.doCommand("Ui.Commands.CmdScaling.scalingPairs()")
 
-    def IsActive(self):
+    def IsActive(self) -> bool:
         # Always available, even without active document
         return True
 
-    def GetResources(self):
+    def GetResources(self) -> dict:
         return {'MenuText': translate("Rocket", 'Match body tube pairs'),
                 'ToolTip': translate("Rocket", 'Matches body tube pairs suitable for scaling'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Scaling.svg"}
 
 class CmdScalingTubes:
-    def Activated(self):
+    def Activated(self) -> None:
         FreeCADGui.addModule("Ui.Commands.CmdScaling")
         FreeCADGui.doCommand("Ui.Commands.CmdScaling.scalingTubes()")
 
-    def IsActive(self):
+    def IsActive(self) -> bool:
         # Always available, even without active document
         return True
 
-    def GetResources(self):
+    def GetResources(self) -> dict:
         return {'MenuText': translate("Rocket", 'Find scale body tubes'),
                 'ToolTip': translate("Rocket", 'Finds scale body tubes'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Scaling.svg"}

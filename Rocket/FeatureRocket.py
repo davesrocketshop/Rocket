@@ -47,7 +47,7 @@ class FeatureRocket(ComponentAssembly):
     _stageMap = {}
 
     def __init__(self, obj : Any) -> None:
-        super().__init__(obj)
+        super().__init__(obj, isRocket=True)
         self.Type = FEATURE_ROCKET
 
         self.initialize()

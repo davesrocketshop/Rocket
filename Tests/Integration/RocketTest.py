@@ -88,7 +88,7 @@ class RocketTest(unittest.TestCase):
         lugs = body.getChild(1).Proxy
         self.assertEqual(lugs.getInstanceCount(), 1, lugs.getName()+" have incorrect count")
         # actLocs = lugs.getComponentLocations()
-        expected = Coordinate(181.0, 0.0, 14.2)
+        expected = Coordinate(181.0, -12.2975607, 7.1)
         actual = lugs.getPositionAsCoordinate()
         assertCoordinateEqual(self, actual, expected, lugs.getName()+" not positioned correctly")
 
@@ -136,6 +136,70 @@ class RocketTest(unittest.TestCase):
         # self.assertEqual(bounds._min.z, -54.493575)
         # self.assertEqual(bounds._max.y,  62.000000)
         # self.assertEqual(bounds._max.z,  52.893575)
+
+    def testBeta(self):
+        rocket = TestRockets.makeBeta()
+        stage = self.getStage(rocket, 0)
+
+        nose = stage.getChild(0).Proxy
+        expected = Coordinate(0.0,0,0)
+        actual = nose.getPositionAsCoordinate()
+        assertCoordinateEqual(self, actual, expected, nose.getName() + " not positioned correctly")
+
+        body = stage.getChild(1).Proxy
+        expected = Coordinate(70.0,0,0)
+        actual = body.getPositionAsCoordinate()
+        assertCoordinateEqual(self, actual, expected, body.getName() + " not positioned correctly")
+
+        fins = body.getChild(0).Proxy
+        self.assertTrue(fins.isFinSet(), fins.getName()+" is not a fin set")
+        self.assertEqual(fins.getFinCount(), 3, fins.getName()+" have incorrect count")
+        expected = Coordinate(220.0,0,0)
+        actual = fins.getPositionAsCoordinate()
+        assertCoordinateEqual(self, actual, expected, fins.getName()+" not positioned correctly")
+
+        lugs = body.getChild(1).Proxy
+        self.assertEqual(lugs.getInstanceCount(), 1, lugs.getName()+" have incorrect count")
+        # actLocs = lugs.getComponentLocations()
+        expected = Coordinate(181.0, -12.2975607, 7.1)
+        actual = lugs.getPositionAsCoordinate()
+        assertCoordinateEqual(self, actual, expected, lugs.getName()+" not positioned correctly")
+
+        mmt = body.getChild(2).Proxy
+        # expLoc = Coordinate(203.0,0,0)
+        expected = Coordinate(203.0,0,0)
+        actual = mmt.getPositionAsCoordinate()
+        assertCoordinateEqual(self, actual, expected, mmt.getName()+" not positioned correctly")
+
+        block = mmt.getChild(0).Proxy
+        expected = Coordinate(203.0,0,0)
+        actual = block.getPositionAsCoordinate()
+        assertCoordinateEqual(self, actual, expected, block.getName()+" not positioned correctly")
+
+        ring = body.getChild(3).Proxy
+        self.assertEqual(ring.getInstanceCount(), 2, ring.getName()+" have incorrect count")
+
+        # singleton instances follow different code paths
+        ring.setInstanceCount(1)
+        self.assertEqual(ring.getInstanceCount(), 1, ring.getName()+" have incorrect count")
+        # expLoc = Coordinate(210.0,0,0)
+        expected = Coordinate(210.0,0,0)
+        actual = ring.getPositionAsCoordinate()
+        assertCoordinateEqual(self, actual, expected, ring.getName()+" not positioned correctly")
+
+        ring.setInstanceCount(2)
+        actLocs = ring.getComponentLocations()
+        # first instance
+        expected = Coordinate(210.0, 0, 0)
+        # expected = Coordinate(0.0, 0, 0)
+        actual = actLocs[0]
+        assertCoordinateEqual(self, actual, expected, ring.getName()+" not positioned correctly")
+        # second instance
+        self.assertEqual(ring.getInstanceCount(), 2, ring.getName()+" have incorrect count")
+        expected = Coordinate(245.0, 0, 0)
+        # expected = Coordinate(35.0, 0, 0)
+        actual = actLocs[1]
+        assertCoordinateEqual(self, actual, expected, ring.getName()+" not positioned correctly")
 
     def verify3StagePositioning(self, rocket, coordinates):
         self.assertEqual(rocket.getChildCount(), 3)

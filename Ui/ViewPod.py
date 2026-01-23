@@ -30,9 +30,9 @@ __url__ = "https://www.davesrocketshop.com"
 import FreeCAD
 
 from Ui.TaskPanelPod import TaskPanelPod
-from Ui.ViewProvider import ViewProvider
+from Ui.ViewProviderGeoFeature import ViewProviderGeoFeature
 
-class ViewProviderPod(ViewProvider):
+class ViewProviderPod(ViewProviderGeoFeature):
 
     def __init__(self, vobj):
         super().__init__(vobj)

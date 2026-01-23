@@ -40,7 +40,7 @@ from Rocket.Constants import FEATURE_RINGTAIL
 
 translate = FreeCAD.Qt.translate
 
-def makeRingtail(name='Ringtail'):
+def makeRingtail(name : str = 'Ringtail') -> FeatureRingtail:
     '''makeRingtail(name): makes a ring tail'''
     obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
     FeatureRingtail(obj)
@@ -51,7 +51,7 @@ def makeRingtail(name='Ringtail'):
     return obj.Proxy
 
 class CmdRingtail(Command):
-    def Activated(self):
+    def Activated(self) -> None:
         with WaitCursor():
             FreeCAD.ActiveDocument.openTransaction("Create ring tail")
             FreeCADGui.addModule("Ui.Commands.CmdRingtail")
@@ -61,12 +61,12 @@ class CmdRingtail(Command):
             FreeCADGui.doCommand("FreeCADGui.Selection.addSelection(obj._obj)")
             FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
 
-    def IsActive(self):
+    def IsActive(self) -> bool:
         if FreeCAD.ActiveDocument:
             return self.partEligibleFeature(FEATURE_RINGTAIL)
         return False
 
-    def GetResources(self):
+    def GetResources(self) -> dict:
         return {'MenuText': translate("Rocket", 'Ring tail'),
                 'ToolTip': translate("Rocket", 'Adds a ring tail to the selected component'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Ringtail.svg"}

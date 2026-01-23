@@ -34,16 +34,16 @@ translate = FreeCAD.Qt.translate
 
 from Ui.DialogParachute import DialogParachute
 
-def calcParachute():
+def calcParachute() -> None:
     form = DialogParachute()
     form.exec()
 
 class CmdCalcParachute:
-    def Activated(self):
+    def Activated(self) -> None:
         FreeCADGui.addModule("Ui.Commands.CmdCalcParachute")
         FreeCADGui.doCommand("Ui.Commands.CmdCalcParachute.calcParachute()")
 
-    def IsActive(self):
+    def IsActive(self) -> bool:
         # Always available, even without active document
         return True
 

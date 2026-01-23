@@ -40,12 +40,13 @@ if FreeCAD.GuiUp:
 from Ui.Commands.Command import Command
 from Ui.Commands.CmdStage import makeStage
 
-def updateRocket():
+def updateRocket() -> None:
     rocket = FreeCADGui.ActiveDocument.ActiveView.getActiveObject("rocket")
     if rocket:
         rocket.Proxy.updateChildren()
 
-def makeRocket(name='Rocket', makeSustainer=False):
+def makeRocket(name : str = 'Rocket', makeSustainer: bool = False) -> FeatureRocket:
+    # obj = FreeCAD.ActiveDocument.addObject("App::GeometryPython",name)
     obj = FreeCAD.ActiveDocument.addObject("App::GeometryPython",name)
     FeatureRocket(obj)
     obj.Proxy.setDefaults()
@@ -67,7 +68,7 @@ def makeRocket(name='Rocket', makeSustainer=False):
     return obj.Proxy
 
 class CmdRocket(Command):
-    def Activated(self):
+    def Activated(self) -> None:
         with WaitCursor():
             FreeCAD.ActiveDocument.openTransaction("Create rocket assembly")
             FreeCADGui.addModule("Ui.Commands.CmdRocket")
@@ -76,23 +77,23 @@ class CmdRocket(Command):
             FreeCADGui.doCommand("App.ActiveDocument.commitTransaction()")
             FreeCADGui.doCommand("App.activeDocument().recompute(None,True,True)")
 
-    def IsActive(self):
+    def IsActive(self) -> bool:
         return self.noRocketBuilder()
 
-    def GetResources(self):
+    def GetResources(self) -> dict:
         return {'MenuText': translate("Rocket", 'Rocket'),
                 'ToolTip': translate("Rocket", 'Creates a rocket assembly'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Rocket.svg"}
 
 class CmdToggleRocket:
-    def GetResources(self):
+    def GetResources(self) -> dict:
         return {'MenuText': translate("Rocket","Toggle active rocket"),
                 'ToolTip' : translate("Rocket","Toggles the active rocket assembly")}
 
-    def IsActive(self):
+    def IsActive(self) -> bool:
         return bool(FreeCADGui.Selection.getSelection())
 
-    def Activated(self):
+    def Activated(self) -> None:
         with WaitCursor():
             view = FreeCADGui.ActiveDocument.ActiveView
 

@@ -34,16 +34,16 @@ translate = FreeCAD.Qt.translate
 
 from Ui.DialogBlackPowder import DialogBlackPowder
 
-def calcBlackPowder():
+def calcBlackPowder() -> None:
     form = DialogBlackPowder()
     form.exec()
 
 class CmdCalcBlackPowder:
-    def Activated(self):
+    def Activated(self) -> None:
         FreeCADGui.addModule("Ui.Commands.CmdCalcBlackPowder")
         FreeCADGui.doCommand("Ui.Commands.CmdCalcBlackPowder.calcBlackPowder()")
 
-    def IsActive(self):
+    def IsActive(self) -> bool:
         # Always available, even without active document
         return True
 

@@ -102,6 +102,9 @@ class RocketComponent(RocketComponentShapeless):
         if not hasattr(obj,"Shape"):
             obj.addProperty('Part::PropertyPartShape', 'Shape', 'RocketComponent', translate('App::Property', 'Shape of the component')).Shape
 
+        if not hasattr(obj,"Group"):
+            obj.addExtension("App::GroupExtensionPython")
+
     def convertMaterialAndAppearance(self, obj : Any) -> None:
         prog1_1 = checkProgramVersion(1, 1)
         file1_1 = isFileVersion(1, 1)

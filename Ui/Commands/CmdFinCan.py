@@ -42,7 +42,7 @@ from Rocket.Constants import FIN_TYPE_SKETCH
 
 translate = FreeCAD.Qt.translate
 
-def makeFinCan(name='FinCan'):
+def makeFinCan(name : str = 'FinCan') -> FeatureFinCan:
     '''makeFinCan(name): makes a Fin Can'''
     obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
     FeatureFinCan(obj)
@@ -61,7 +61,7 @@ def makeFinCan(name='FinCan'):
     return obj.Proxy
 
 class CmdFinCan(Command):
-    def Activated(self):
+    def Activated(self) -> None:
         with WaitCursor():
             FreeCAD.ActiveDocument.openTransaction("Create fin can")
             FreeCADGui.addModule("Ui.Commands.CmdFinCan")
@@ -71,12 +71,12 @@ class CmdFinCan(Command):
             FreeCADGui.doCommand("FreeCADGui.Selection.addSelection(obj._obj)")
             FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
 
-    def IsActive(self):
+    def IsActive(self) -> bool:
         if FreeCAD.ActiveDocument:
             return self.partEligibleFeature(FEATURE_FINCAN)
         return False
 
-    def GetResources(self):
+    def GetResources(self) -> dict:
         return {'MenuText': translate("Rocket", 'Fin Can'),
                 'ToolTip': translate("Rocket", 'Adds a fin can to the selected component'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_FinCan.svg"}

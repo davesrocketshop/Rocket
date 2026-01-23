@@ -40,7 +40,7 @@ from Ui.Commands.Command import Command
 
 translate = FreeCAD.Qt.translate
 
-def makeFin(name='Fin'):
+def makeFin(name : str = 'Fin') -> FeatureFin:
     '''makeFin(name): makes a Fin'''
     obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
     FeatureFin(obj)
@@ -59,7 +59,7 @@ def makeFin(name='Fin'):
     return obj.Proxy
 
 class CmdFin(Command):
-    def Activated(self):
+    def Activated(self) -> None:
         with WaitCursor():
             FreeCAD.ActiveDocument.openTransaction("Create fin")
             FreeCADGui.addModule("Ui.Commands.CmdFin")
@@ -69,12 +69,12 @@ class CmdFin(Command):
             FreeCADGui.doCommand("FreeCADGui.Selection.addSelection(obj._obj)")
             FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
 
-    def IsActive(self):
+    def IsActive(self) -> bool:
         if FreeCAD.ActiveDocument:
             return self.partEligibleFeature(FEATURE_FIN)
         return False
 
-    def GetResources(self):
+    def GetResources(self) -> dict:
         return {'MenuText': translate("Rocket", 'Fin'),
                 'ToolTip': translate("Rocket", 'Adds a fin or fin set to the selected component'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Fin.svg"}

@@ -33,6 +33,7 @@ import FreeCADGui
 from PySide import QtCore,QtGui
 from pivy import coin
 
+from Ui.ViewProviderGeoFeature import ViewProviderGeoFeature
 from Ui.ViewProvider import ViewProvider
 from Ui.TaskPanelRocket import TaskPanelRocket
 from Ui.Widgets.WaitCursor import WaitCursor
@@ -47,23 +48,7 @@ class ViewProviderRocket(ViewProvider):
     def getIcon(self):
         return FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Rocket.svg"
 
-    def attach(self, vobj):
-        super().attach(vobj)
-
-        self.sep = coin.SoSeparator()
-        # self.sep.addChild(coin.SoSphere()) # Show a sphere at the Placement.
-        vobj.addDisplayMode(self.sep, "Default")
-
-    def getDisplayModes(self,vobj):
-        return ["Default"]
-
-    def getDefaultDisplayMode(self):
-        return "Default"
-
-    def setDisplayMode(self,mode):
-        return mode
-
-    def setupContextMenu(self, vobj, menu):
+    def setupContextMenu(self, viewObject, menu):
         """Add the component specific options to the context menu."""
         action1 = QtGui.QAction(translate("Rocket","Toggle active rocket"),menu)
         QtCore.QObject.connect(action1,QtCore.SIGNAL("triggered()"),self.toggleRocket)

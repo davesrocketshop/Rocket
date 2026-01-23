@@ -34,7 +34,7 @@ translate = FreeCAD.Qt.translate
 
 from Ui.Widgets.WaitCursor import WaitCursor
 
-def newSketchNoEdit(name='Sketch'):
+def newSketchNoEdit(name : str = 'Sketch') -> FreeCAD.DocumentObject:
     obj = FreeCAD.ActiveDocument.addObject("Sketcher::SketchObject", name)
     # Select the XZ plane for consistency
     obj.Placement = FreeCAD.Placement(FreeCAD.Vector(0, 0, 0), FreeCAD.Vector(1, 0, 0), 90)
@@ -42,24 +42,24 @@ def newSketchNoEdit(name='Sketch'):
 
     return obj
 
-def newSketch(name='Sketch'):
+def newSketch(name : str = 'Sketch') -> FreeCAD.DocumentObject:
     obj = newSketchNoEdit(name)
     FreeCADGui.activeDocument().setEdit(obj.Name,0)
 
     return obj
 
 class CmdNewSketch:
-    def Activated(self):
+    def Activated(self) -> None:
         with WaitCursor():
             FreeCADGui.addModule("Ui.Commands.CmdSketcher")
             FreeCADGui.doCommand("Ui.Commands.CmdSketcher.newSketch()")
 
-    def IsActive(self):
+    def IsActive(self) -> bool:
         if FreeCAD.ActiveDocument:
             return True
         return False
 
-    def GetResources(self):
+    def GetResources(self) -> dict:
         return {'MenuText': translate("Rocket", 'Create sketch'),
                 'ToolTip': translate("Rocket", 'Creates a new sketch'),
                 'Pixmap': "Sketcher_NewSketch" }

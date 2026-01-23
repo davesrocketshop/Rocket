@@ -42,8 +42,15 @@ from Rocket.Constants import FEATURE_ROCKET, FEATURE_STAGE, FEATURE_PARALLEL_STA
 
 class ComponentAssembly(RocketComponentShapeless, AxialPositionable):
 
-    def __init__(self, obj : Any) -> None:
+    def __init__(self, obj : Any, isRocket : bool = False) -> None:
         super().__init__(obj)
+
+        if isRocket:
+            if not obj.hasExtension("App::GroupExtensionPython"):
+                obj.addExtension("App::GroupExtensionPython")
+        else:
+            if not obj.hasExtension("App::GeoFeatureGroupExtensionPython"):
+                obj.addExtension("App::GeoFeatureGroupExtensionPython")
 
         super().setAxialMethod(AxialMethod.AFTER)
         self._length = 0
@@ -55,7 +62,7 @@ class ComponentAssembly(RocketComponentShapeless, AxialPositionable):
         return self.getAxialOffsetFromMethod(self._obj.AxialMethod)
 
     def setAxialOffset(self, newAxialOffset : float) -> None:
-        # self._updateBounds()
+        self.updateBounds()
         super()._setAxialOffset(self._obj.AxialMethod, newAxialOffset)
         self.notifyComponentChanged()
 

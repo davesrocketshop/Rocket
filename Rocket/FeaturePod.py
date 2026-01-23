@@ -66,10 +66,6 @@ class FeaturePod(ComponentAssembly, RingInstanceable):
         if not hasattr(obj, 'RadiusOffset'):
             obj.addProperty('App::PropertyLength', 'RadiusOffset', 'RocketComponent', translate('App::Property', 'Radius offset')).RadiusOffset = 0
 
-
-        # if not hasattr(obj,"Group"):
-        #     obj.addExtension("App::GroupExtensionPython")
-
     def setDefaults(self) -> None:
         super().setDefaults()
         self._obj.PodCount = 2
@@ -77,9 +73,6 @@ class FeaturePod(ComponentAssembly, RingInstanceable):
 
     def onDocumentRestored(self, obj : Any) -> None:
         FeaturePod(obj)
-
-        # Pods weren't supported in the old material era
-        # self.convertMaterialAndAppearance(obj)
 
         self._obj = obj
 

@@ -40,7 +40,7 @@ from Rocket.Constants import FEATURE_BULKHEAD
 
 translate = FreeCAD.Qt.translate
 
-def makeBulkhead(name='Bulkhead'):
+def makeBulkhead(name : str = 'Bulkhead') -> FeatureBulkhead:
     '''makeBulkhead(name): makes a bulkhead'''
     obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
     FeatureBulkhead(obj)
@@ -51,7 +51,7 @@ def makeBulkhead(name='Bulkhead'):
     return obj.Proxy
 
 class CmdBulkhead(Command):
-    def Activated(self):
+    def Activated(self) -> None:
         with WaitCursor():
             FreeCAD.ActiveDocument.openTransaction("Create bulkhead")
             FreeCADGui.addModule("Ui.Commands.CmdBulkhead")
@@ -59,12 +59,12 @@ class CmdBulkhead(Command):
             FreeCADGui.doCommand("Ui.Commands.CmdStage.addToStage(obj)")
             FreeCADGui.doCommand("FreeCADGui.activeDocument().setEdit(FreeCAD.ActiveDocument.ActiveObject.Name,0)")
 
-    def IsActive(self):
+    def IsActive(self) -> bool:
         if FreeCAD.ActiveDocument:
             return self.partEligibleFeature(FEATURE_BULKHEAD)
         return False
 
-    def GetResources(self):
+    def GetResources(self) -> dict:
         return {'MenuText': translate("Rocket", 'Bulkhead'),
                 'ToolTip': translate("Rocket", 'Adds a bulkhead to the selected component'),
                 'Pixmap': FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Bulkhead.svg"}

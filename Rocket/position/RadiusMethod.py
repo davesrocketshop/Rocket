@@ -46,7 +46,7 @@ class RadiusMethod(DistanceMethod):
         return self._description
 
     def clampToZero(self) -> bool:
-        return False
+        return True
 
     def getRadius(self, parentComponent : Any, thisComponent : Any, requestedOffset : float) -> float:
         return 0.0
@@ -58,9 +58,6 @@ class CoaxialRadiusMethod(RadiusMethod):
 
     def __init__(self):
         super().__init__(translate('App::Property', 'Same axis as the target component'))
-
-    def clampToZero(self) -> bool:
-        return False
 
     def getRadius(self, parentComponent : Any, thisComponent : Any, requestedOffset : float) -> float:
         return 0.0
@@ -116,9 +113,6 @@ class SurfaceRadiusMethod(RadiusMethod):
 
     def __init__(self):
         super().__init__(translate('App::Property', 'Surface of the parent component (without offset)'))
-
-    def clampToZero(self) -> bool:
-        return False
 
     def getRadius(self, parentComponent : Any, thisComponent : Any, requestedOffset : float) -> float:
         radius = 0.0

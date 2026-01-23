@@ -54,8 +54,7 @@ class Command:
         sel = FreeCADGui.Selection.getSelection()
         if len(sel) == 1 and (sel[0].isDerivedFrom("Part::FeaturePython") or sel[0].isDerivedFrom("App::GeometryPython")):
             return True
-        else:
-            return False
+        return False
 
     def partMoveableFeatureSelected(self) -> bool:
         """
@@ -84,7 +83,7 @@ class Command:
                     return True
         return False
 
-    def partHasShape(self, part) -> bool:
+    def partHasShape(self, part : RocketComponent) -> bool:
         if part is None:
             return False
         for child in part.getChildren():
@@ -108,7 +107,7 @@ class Command:
                 return self.partHasShape(rocket)
         return False
 
-    def partStageEligibleFeature(self, feature) -> bool:
+    def partStageEligibleFeature(self, feature : RocketComponent) -> bool:
         """
             Checks to see if we're at a point where we can add a stage. Stages can't be a standalone feature
         """
@@ -123,7 +122,7 @@ class Command:
                     return True
         return False
 
-    def partEligibleFeature(self, feature) -> bool:
+    def partEligibleFeature(self,  feature : str | list[str]) -> bool:
         """
             Checks to see if we can add a part. If a rocket or one of its parts is selected, then we check to see if the
             part can be added to the current feature. Outside of a rocket, parts can be added as standalone objects.

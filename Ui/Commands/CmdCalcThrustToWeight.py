@@ -34,16 +34,16 @@ translate = FreeCAD.Qt.translate
 
 from Ui.DialogThrustToWeight import DialogThrustToWeight
 
-def calcThrustToWeight():
+def calcThrustToWeight() -> None:
     form = DialogThrustToWeight()
     form.exec()
 
 class CmdCalcThrustToWeight:
-    def Activated(self):
+    def Activated(self) -> None:
         FreeCADGui.addModule("Ui.Commands.CmdCalcThrustToWeight")
         FreeCADGui.doCommand("Ui.Commands.CmdCalcThrustToWeight.calcThrustToWeight()")
 
-    def IsActive(self):
+    def IsActive(self) -> bool:
         # Always available, even without active document
         return True
 

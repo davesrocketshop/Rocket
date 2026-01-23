@@ -102,9 +102,6 @@ class RocketComponentShapeless(Subject, Observer):
         if not hasattr(obj, 'ScaleValue'):
             obj.addProperty('App::PropertyLength', 'ScaleValue', 'RocketComponent', translate('App::Property', 'Scaling value or dimension')).ScaleValue = 1.0
 
-        if not hasattr(obj,"Group"):
-            obj.addExtension("App::GroupExtensionPython")
-
     def __getstate__(self) -> tuple:
         return self.Type, self.version
 
@@ -215,18 +212,53 @@ class RocketComponentShapeless(Subject, Observer):
         except IndexError:
             return None
 
+    def _hasGeoFeature(self, value : Any) -> bool:
+        if hasattr(self._obj, "getParentGeoFeatureGroup"):
+            group = self._obj.getParentGeoFeatureGroup()
+            if group:
+                return True
+        return False
+
+    def _addGeoFeature(self, value : Any) -> None:
+        try:
+            if hasattr(self._obj, "Group"):
+                self._addGeoFeatureToGroup(self._obj, value)
+            elif hasattr(self._obj, "getParentGeoFeatureGroup"):
+                group = self._obj.getParentGeoFeatureGroup()
+                if group:
+                    self._addGeoFeatureToGroup(group, value)
+        except Exception as ex:
+            print(ex)
+
+    def _addGeoFeatureToGroup(self, obj : Any, value : Any) -> None:
+        list = obj.Group
+        if not value in list:
+            list.append(value)
+            obj.Group = list
+
+    def _removeGeoFeature(self, value : Any) -> None:
+        if hasattr(self._obj, "getParentGeoFeatureGroup"):
+            group = self._obj.getParentGeoFeatureGroup()
+            list = group._obj.Group
+            if value in list:
+                list.remove(value)
+                group._obj.Group = list
+
     def _setChild(self, index : int, value : Any) -> None:
         list = self._obj.Group
         list.insert(index, value)
         self._obj.Group = list
+        self._addGeoFeature(value)
 
     def _moveChild(self, index : int, value : Any) -> None:
+        self._addGeoFeature(value)
         list = self._obj.Group
         list.remove(value)
         list.insert(index, value)
         self._obj.Group = list
 
     def _removeChild(self, value : Any) -> None:
+        self._removeGeoFeature(value)
         list = self._obj.Group
         list.remove(value)
         self._obj.Group = list
@@ -234,6 +266,11 @@ class RocketComponentShapeless(Subject, Observer):
     def getProxy(self, obj : Any) -> Any:
         if hasattr(obj, "Proxy"):
             return obj.Proxy
+        return obj
+
+    def getObject(self, obj : Any) -> Any:
+        if hasattr(obj, "_obj"):
+            return obj._obj
         return obj
 
     def getPrevious(self, obj : Any = None) -> Any:
@@ -565,11 +602,8 @@ class RocketComponentShapeless(Subject, Observer):
         parentLength = 0
         if self.hasParent():
             parent = self.getParent()
-            if parent.Type in [FEATURE_PARALLEL_STAGE, FEATURE_POD]:
-                parentLength = 0
-            else:
+            if parent.Type not in [FEATURE_ROCKET]:
                 parentLength = self.getParent().getLength()
-            print(f"Parent {parent.getName()}, length {parentLength}")
 
         if method == AxialMethod.ABSOLUTE:
             return float(self.getComponentLocations()[0].x)
@@ -590,12 +624,13 @@ class RocketComponentShapeless(Subject, Observer):
             newX = float(newAxialOffset) - float(self.getParent().getComponentLocations()[0].x)
         else:
             parent = self.getParent()
-            if self.isAfter() and (parent.getChildIndex(self) > 0 or parent.Type not in [FEATURE_PARALLEL_STAGE, FEATURE_POD]):
+            if self.isAfter(): #and parent.getChildIndex(self) > 0: # and (parent.getChildIndex(self) > 0 or parent.Type not in [FEATURE_PARALLEL_STAGE, FEATURE_POD]):
                 self.setAfter()
                 return
             else:
                 newX = method.getAsPosition(float(newAxialOffset), float(self.getLength()), float(parent.getLength()))
-                if parent.Type not in [FEATURE_PARALLEL_STAGE, FEATURE_POD]:
+                from Rocket.ComponentAssembly import ComponentAssembly
+                if not isinstance(parent, ComponentAssembly): #parent.Type not in [FEATURE_PARALLEL_STAGE, FEATURE_POD]:
                     newX += float(parent.getPosition().x)
 
         # snap to zero if less than the threshold 'EPSILON'
@@ -683,10 +718,7 @@ class RocketComponentShapeless(Subject, Observer):
     # Adds a child to the rocket component tree.  The component is added to the end
     # of the component's child list.  This is a helper method that calls
     def addChild(self, component : Self) -> None:
-        if hasattr(component, "_obj"):
-            self.addChildPosition(component._obj, len(self._obj.Group))
-        else:
-            self.addChildPosition(component, len(self._obj.Group))
+        self.addChildPosition(self.getObject(component), len(self._obj.Group))
 
     # Adds a child to the rocket component tree.  The component is added to
     # the given position of the component's child list.
@@ -808,6 +840,19 @@ class RocketComponentShapeless(Subject, Observer):
             else:
                 raise Exception(translate("Rocket", "getStage() called on hierarchy without a FeatureStage component."))
 
+    # Return the container component that this component belongs to.  Throws an
+    # IllegalStateException if a container is not in the parentage of this component.
+    def getContainer(self) -> Any:
+        current = self
+        while current:
+            from Rocket.ComponentAssembly import ComponentAssembly
+            if isinstance(current, ComponentAssembly):
+                return current
+            if current.hasParent():
+                current = current.getParent()
+            else:
+                raise Exception(translate("Rocket", "getStage() called on hierarchy without a FeatureStage component."))
+
     # Returns all the stages that are a child or sub-child of this component.
     def getSubStages(self) -> list[Any]:
         result = []
@@ -863,19 +908,19 @@ class RocketComponentShapeless(Subject, Observer):
         self._obj.AxialMethod = AxialMethod.AFTER
         self._obj.AxialOffset = 0.0
 
-        # Stages are reversed from OpenRocket
-        count = self.getParent().getChildCount()
+        # # Stages are reversed from OpenRocket
+        # count = self.getParent().getChildCount()
 
         # if first component in the stage. => position from the top of the parent
         thisIndex = self.getParent().getChildIndex(self)
         if thisIndex == 0:
-            self._obj.Placement.Base.x = self.getParent()._obj.Placement.Base.x
+            self._obj.Placement.Base.x = 0.0 #self.getParent()._obj.Placement.Base.x
         elif 0 < thisIndex:
             index = thisIndex - 1
             referenceComponent = self.getParent()._getChild( index )
 
             if referenceComponent is None:
-                self._obj.Placement.Base.x = self.getParent()._obj.Placement.Base.x
+                self._obj.Placement.Base.x = 0.0 #self.getParent()._obj.Placement.Base.x
                 return
 
             refLength = float(referenceComponent.Proxy.getLength())
