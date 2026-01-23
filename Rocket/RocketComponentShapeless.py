@@ -99,9 +99,6 @@ class RocketComponentShapeless(Subject, Observer):
         if not hasattr(obj, 'ScaleValue'):
             obj.addProperty('App::PropertyLength', 'ScaleValue', 'RocketComponent', translate('App::Property', 'Scaling value or dimension')).ScaleValue = 1.0
 
-        if not hasattr(obj, "SubComponent"):
-            obj.addProperty('App::PropertyLinkList', 'SubComponent', 'RocketComponent', translate('App::Property', 'SubComponents of the current component')).SubComponent
-
     def __getstate__(self) -> tuple:
         return self.Type, self.version
 
@@ -194,21 +191,21 @@ class RocketComponentShapeless(Subject, Observer):
         return self.getProxy(self._parent)
 
     def hasChildren(self) -> bool:
-        if hasattr(self._obj, "SubComponent") and len(self._obj.SubComponent) > 0:
+        if hasattr(self._obj, "Group") and len(self._obj.Group) > 0:
             return True
         return False
 
     def getChildren(self) -> list:
-        if hasattr(self._obj, "SubComponent"):
-            return self._obj.SubComponent
+        if hasattr(self._obj, "Group"):
+            return self._obj.Group
         return []
 
     def setChildren(self, list : list) -> None:
-        self._obj.SubComponent = list
+        self._obj.Group = list
 
     def _getChild(self, index : int) -> Any:
         try:
-            return self._obj.SubComponent[index]
+            return self._obj.Group[index]
         except IndexError:
             return None
 
@@ -245,23 +242,23 @@ class RocketComponentShapeless(Subject, Observer):
                 group._obj.Group = list
 
     def _setChild(self, index : int, value : Any) -> None:
-        list = self._obj.SubComponent
+        list = self._obj.Group
         list.insert(index, value)
-        self._obj.SubComponent = list
+        self._obj.Group = list
         self._addGeoFeature(value)
 
     def _moveChild(self, index : int, value : Any) -> None:
         self._addGeoFeature(value)
-        list = self._obj.SubComponent
+        list = self._obj.Group
         list.remove(value)
         list.insert(index, value)
-        self._obj.SubComponent = list
+        self._obj.Group = list
 
     def _removeChild(self, value : Any) -> None:
         self._removeGeoFeature(value)
-        list = self._obj.SubComponent
+        list = self._obj.Group
         list.remove(value)
-        self._obj.SubComponent = list
+        self._obj.Group = list
 
     def getProxy(self, obj : Any) -> Any:
         if hasattr(obj, "Proxy"):
@@ -281,11 +278,11 @@ class RocketComponentShapeless(Subject, Observer):
             else:
                 return None
 
-        if hasattr(self._obj, "SubComponent"):
-            for index in range(len(self._obj.SubComponent)):
-                if self._obj.SubComponent[index].Proxy == obj:
+        if hasattr(self._obj, "Group"):
+            for index in range(len(self._obj.Group)):
+                if self._obj.Group[index].Proxy == obj:
                     if index > 0:
-                        return self._obj.SubComponent[index - 1]
+                        return self._obj.Group[index - 1]
             return self._obj
 
         if self._parent:
@@ -301,11 +298,11 @@ class RocketComponentShapeless(Subject, Observer):
             else:
                 return None
 
-        if hasattr(self._obj, "SubComponent"):
-            for index in range(len(self._obj.SubComponent)):
-                if self._obj.SubComponent[index].Proxy == obj:
-                    if index < len(self._obj.SubComponent) - 1:
-                        return self._obj.SubComponent[index + 1]
+        if hasattr(self._obj, "Group"):
+            for index in range(len(self._obj.Group)):
+                if self._obj.Group[index].Proxy == obj:
+                    if index < len(self._obj.Group) - 1:
+                        return self._obj.Group[index + 1]
             return self._obj
 
         if self._parent:
@@ -316,8 +313,8 @@ class RocketComponentShapeless(Subject, Observer):
     def getMaxForwardPosition(self) -> float:
         # Return the length of this component along the central axis
         length = 0.0
-        if hasattr(self._obj, "SubComponent"):
-            for child in self._obj.SubComponent:
+        if hasattr(self._obj, "Group"):
+            for child in self._obj.Group:
                 length = max(length, float(child.Proxy.getMaxForwardPosition()))
 
         return length
@@ -366,14 +363,14 @@ class RocketComponentShapeless(Subject, Observer):
         #     Commands.CmdStage.addToStage(self)
 
     def _moveChildUp(self, obj : Any) -> None:
-        if hasattr(self._obj, "SubComponent"):
-            for index, child in enumerate(self._obj.SubComponent):
+        if hasattr(self._obj, "Group"):
+            for index, child in enumerate(self._obj.Group):
                 if child.Proxy == obj.Proxy:
                     if index > 0:
-                        if self._obj.SubComponent[index - 1].Proxy.eligibleChild(obj.Proxy.Type):
+                        if self._obj.Group[index - 1].Proxy.eligibleChild(obj.Proxy.Type):
                             # Append to the end of the previous entry
                             self._obj.removeObject(obj)
-                            parent = self._obj.SubComponent[index - 1]
+                            parent = self._obj.Group[index - 1]
                             obj.Proxy.setParent(parent)
                             parent.addObject(obj)
                             return
@@ -386,13 +383,13 @@ class RocketComponentShapeless(Subject, Observer):
                         if self.hasParent():
                             grandparent = self.getParent()._obj
                             parent = self
-                            for index1, child in enumerate(grandparent.SubComponent):
+                            for index1, child in enumerate(grandparent.Group):
                                 if child.Proxy == parent and grandparent.Proxy.eligibleChild(obj.Proxy.Type):
                                     parent._obj.removeObject(obj)
                                     obj.Proxy.setParent(grandparent)
-                                    group = grandparent.SubComponent
+                                    group = grandparent.Group
                                     group.insert(index1, obj)
-                                    grandparent.SubComponent = group
+                                    grandparent.Group = group
                                     return
                         else:
                             grandparent = None
@@ -456,19 +453,19 @@ class RocketComponentShapeless(Subject, Observer):
             Ui.Commands.CmdRocket.updateRocket()
 
     def _moveChildDown(self, obj : Any) -> None:
-        if hasattr(self._obj, "SubComponent"):
-            last = len(self._obj.SubComponent) - 1
-            for index, child in enumerate(self._obj.SubComponent):
+        if hasattr(self._obj, "Group"):
+            last = len(self._obj.Group) - 1
+            for index, child in enumerate(self._obj.Group):
                 if child.Proxy == obj.Proxy:
                     if index < last:
                         # If the next entry is a group object, add it to that
-                        if self._obj.SubComponent[index + 1].Proxy.eligibleChild(obj.Proxy.Type):
-                            parent = self._obj.SubComponent[index + 1]
+                        if self._obj.Group[index + 1].Proxy.eligibleChild(obj.Proxy.Type):
+                            parent = self._obj.Group[index + 1]
                             self._obj.removeObject(obj)
                             obj.Proxy.setParent(parent)
-                            group = parent.SubComponent
+                            group = parent.Group
                             group.insert(0, obj)
-                            parent.SubComponent = group
+                            parent.Group = group
                             return
                         else:
                             # Swap with the next entry
@@ -481,14 +478,14 @@ class RocketComponentShapeless(Subject, Observer):
                             parent = self.getParent()._obj
                         while parent:
                             if parent.Proxy.eligibleChild(obj.Proxy.Type):
-                                # parentLen = len(parent.SubComponent)
-                                for index1, child in enumerate(parent.SubComponent):
+                                # parentLen = len(parent.Group)
+                                for index1, child in enumerate(parent.Group):
                                     if child.Proxy == current:
                                         self._obj.removeObject(obj)
                                         obj.Proxy.setParent(parent)
-                                        group = parent.SubComponent
+                                        group = parent.Group
                                         group.insert(index1 + 1, obj)
-                                        parent.SubComponent = group
+                                        parent.Group = group
                                         return
                             else:
                                 eligible = parent.Proxy.nextEligibleChild(current, obj)
@@ -538,7 +535,7 @@ class RocketComponentShapeless(Subject, Observer):
         if self.eligibleChild(obj.Proxy.Type):
             return self
 
-        for child in self._obj.SubComponent:
+        for child in self._obj.Group:
             if child.Proxy.eligibleChild(obj.Proxy.Type):
                 return child.Proxy
             # Check the children
@@ -551,7 +548,7 @@ class RocketComponentShapeless(Subject, Observer):
     def nextEligibleChild(self, current : Any, obj : Any) -> Any:
         """ Find the first element eligiible to receive the child object """
         currentFound = False
-        for child in self._obj.SubComponent:
+        for child in self._obj.Group:
             if currentFound:
                 if child.Proxy.eligibleChild(obj.Proxy.Type):
                     return child.Proxy
@@ -569,7 +566,7 @@ class RocketComponentShapeless(Subject, Observer):
         eligible = None
         if self.eligibleChild(obj.Proxy.Type):
             eligible = self
-        for child in self._obj.SubComponent:
+        for child in self._obj.Group:
             if child.Proxy.eligibleChild(obj.Proxy.Type):
                 eligible = child.Proxy
             # Check the children
@@ -582,7 +579,7 @@ class RocketComponentShapeless(Subject, Observer):
     def previousEligibleChild(self, current : Any, obj : Any) -> Any:
         """ Find the last element eligiible to receive the child object """
         eligible = None
-        for child in self._obj.SubComponent:
+        for child in self._obj.Group:
             if child.Proxy == current:
                 return eligible
 
@@ -699,7 +696,7 @@ class RocketComponentShapeless(Subject, Observer):
             self.update()
             self._updating = True
             self.execute(self._obj)
-            for child in self._obj.SubComponent:
+            for child in self._obj.Group:
                 if hasattr(child, "Proxy"):
                     # Sketches for custom fins won't have a proxy
                     child.Proxy.updateChildren()
@@ -718,7 +715,7 @@ class RocketComponentShapeless(Subject, Observer):
     # Adds a child to the rocket component tree.  The component is added to the end
     # of the component's child list.  This is a helper method that calls
     def addChild(self, component : Self) -> None:
-        self.addChildPosition(self.getObject(component), len(self._obj.SubComponent))
+        self.addChildPosition(self.getObject(component), len(self._obj.Group))
 
     # Adds a child to the rocket component tree.  The component is added to
     # the given position of the component's child list.
@@ -806,7 +803,7 @@ class RocketComponentShapeless(Subject, Observer):
 
     def getChild(self, n : int) -> Any:
         self.checkComponentStructure()
-        return self._obj.SubComponent[n]
+        return self._obj.Group[n]
 
     # Get the root component of the component tree.
     def getRoot(self) -> Any:

@@ -27,15 +27,12 @@ __url__ = "https://www.davesrocketshop.com"
 import FreeCAD
 
 from Ui.TaskPanelPod import TaskPanelPod
-from Ui.ViewProvider import ViewProvider
+from Ui.ViewProviderGeoFeature import ViewProviderGeoFeature
 
-class ViewProviderPod(ViewProvider):
+class ViewProviderPod(ViewProviderGeoFeature):
 
     def __init__(self, vobj):
         super().__init__(vobj)
-
-    def _addExtension(self, vobj):
-        vobj.addExtension("Gui::ViewProviderGeoFeatureGroupExtensionPython")
 
     def getIcon(self):
         return FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Pod.svg"

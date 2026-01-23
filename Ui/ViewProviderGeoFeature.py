@@ -18,41 +18,24 @@
 # *   USA                                                                   *
 # *                                                                         *
 # ***************************************************************************
-"""Class for drawing stages"""
+"""Superclass for view providers"""
 
-__title__ = "FreeCAD Stage View Provider"
+__title__ = "FreeCAD View Provider"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
 import FreeCAD
-import FreeCADGui
-
-from PySide import QtCore,QtGui
-from pivy import coin
-
-from Ui.ViewProviderGeoFeature import ViewProviderGeoFeature
-from Ui.TaskPanelStage import TaskPanelStage
-from Ui.Widgets.WaitCursor import WaitCursor
 
 translate = FreeCAD.Qt.translate
 
-class ViewProviderStage(ViewProviderGeoFeature):
+from Ui.ViewProviderBase import ViewProviderBase
+
+class ViewProviderGeoFeature(ViewProviderBase):
 
     def __init__(self, vobj):
         super().__init__(vobj)
+        vobj.addExtension("Gui::ViewProviderGeoFeatureGroupExtensionPython")
 
-    def getIcon(self):
-        return FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Stage.svg"
-
-    def setupContextMenu(self, vobj, menu):
-        """Add the component specific options to the context menu."""
-        action1 = QtGui.QAction(translate("Rocket","Toggle active stage"),menu)
-        QtCore.QObject.connect(action1,QtCore.SIGNAL("triggered()"),self.toggleStage)
-        menu.addAction(action1)
-
-    def toggleStage(self):
-        with WaitCursor():
-            FreeCADGui.runCommand("Rocket_ToggleStage")
-
-    def getDialog(self, obj, mode):
-        return TaskPanelStage(obj, mode)
+    # def claimChildren(self):
+    #     print("claimChildren()")
+    #     super().claimChildren()

@@ -18,43 +18,74 @@
 # *   USA                                                                   *
 # *                                                                         *
 # ***************************************************************************
-"""Class for drawing rockets"""
+"""Superclass for view providers"""
 
-__title__ = "FreeCAD Rocket View Provider"
+__title__ = "FreeCAD View Provider"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
 import FreeCAD
 import FreeCADGui
 
-from PySide import QtCore,QtGui
-from pivy import coin
-
-from Ui.ViewProviderGeoFeature import ViewProviderGeoFeature
-from Ui.ViewProvider import ViewProvider
-from Ui.TaskPanelRocket import TaskPanelRocket
-from Ui.Widgets.WaitCursor import WaitCursor
-
 translate = FreeCAD.Qt.translate
 
-class ViewProviderRocket(ViewProvider):
+from Ui.Widgets.WaitCursor import WaitCursor
+
+class ViewProviderBase:
 
     def __init__(self, vobj):
-        super().__init__(vobj)
+        vobj.Proxy = self
 
-    def getIcon(self):
-        return FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Rocket.svg"
+    def attach(self, vobj):
+        self.ViewObject = vobj
+        self.Object = vobj.Object
+
+    def canDropObject(self, obj):
+        if not self.Object.Proxy.isRocketAssembly():
+            return False
+        return self.Object.Proxy.eligibleChild(obj.Proxy.Type)
 
     def setupContextMenu(self, viewObject, menu):
-        """Add the component specific options to the context menu."""
-        action1 = QtGui.QAction(translate("Rocket","Toggle active rocket"),menu)
-        QtCore.QObject.connect(action1,QtCore.SIGNAL("triggered()"),self.toggleRocket)
-        menu.addAction(action1)
+        action = menu.addAction(translate('Rocket', 'Edit %1').replace('%1', viewObject.Object.Label))
+        action.triggered.connect(lambda: self.startDefaultEditMode(viewObject))
 
-    def toggleRocket(self):
-        with WaitCursor():
-            FreeCADGui.runCommand("Rocket_ToggleRocket")
-            FreeCADGui.runCommand("Rocket_ToggleStage")
+    def startDefaultEditMode(self, viewObject):
+        self.startTransaction(viewObject)
+        viewObject.Document.setEdit(viewObject.Object, 0)
+
+    def __getstate__(self):
+        return None
+
+    def __setstate__(self, state):
+        return None
+
+    def setAppearance(self, appearance):
+        self.ViewObject.ShapeAppearance = (
+            appearance
+        )
+        self.ViewObject.LineColor = appearance.DiffuseColor
+
+    def startTransaction(self, vobj):
+        document = vobj.Document.Document
+        if not document.HasPendingTransaction:
+            text = translate('Rocket', 'Edit %1').replace('%1', vobj.Object.Label)
+            document.openTransaction(text)
 
     def getDialog(self, obj, mode):
-        return TaskPanelRocket(obj, mode)
+        return None
+
+    def setEdit(self, vobj, mode):
+        if mode == 0:
+            with WaitCursor():
+                self.startTransaction(vobj)
+                taskd = self.getDialog(self.Object,mode)
+                taskd.obj = vobj.Object
+                taskd.update()
+                FreeCADGui.Control.showDialog(taskd)
+                return True
+
+    def unsetEdit(self, vobj, mode):
+        if mode == 0:
+            with WaitCursor():
+                FreeCADGui.Control.closeDialog()
+                return

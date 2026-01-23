@@ -99,6 +99,9 @@ class RocketComponent(RocketComponentShapeless):
         if not hasattr(obj,"Shape"):
             obj.addProperty('Part::PropertyPartShape', 'Shape', 'RocketComponent', translate('App::Property', 'Shape of the component')).Shape
 
+        if not hasattr(obj,"Group"):
+            obj.addExtension("App::GroupExtensionPython")
+
     def convertMaterialAndAppearance(self, obj : Any) -> None:
         if hasattr(obj, "Material"):
             self.convertMaterial(obj, obj.Material)

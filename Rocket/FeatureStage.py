@@ -72,8 +72,8 @@ class FeatureStage(ComponentAssembly):
     def getLength(self) -> float:
         # Return the length of this component along the central axis
         length = 0.0
-        if hasattr(self._obj, "SubComponent"):
-            for child in self._obj.SubComponent:
+        if hasattr(self._obj, "Group"):
+            for child in self._obj.Group:
                 if child.Proxy.Type not in [FEATURE_PARALLEL_STAGE, FEATURE_POD]:
                     length += float(child.Proxy.getLength())
 
