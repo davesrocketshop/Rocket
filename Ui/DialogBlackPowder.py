@@ -31,152 +31,151 @@ import FreeCADGui
 
 translate = FreeCAD.Qt.translate
 
-from PySide import QtGui, QtCore
-from PySide.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QGridLayout
+from PySide import QtCore
+# from PySide import QtGui, QtCore
+# from PySide.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QGridLayout
+
+from Ui.UiDialog import UiDialog
 
 FORCE_CUSTOM = translate('Rocket', 'Custom')
 FORCE_LOW = translate('Rocket', 'Low')
 FORCE_HIGH = translate('Rocket', 'High')
 
-class DialogBlackPowder(QDialog):
+class DialogBlackPowder(UiDialog):
     def __init__(self):
-        super().__init__()
+        super().__init__("DialogBlackPowder", "DialogBlackPowder.ui")
 
 
         self.initUI()
 
     def initUI(self):
-
-        ui = FreeCADGui.UiLoader()
+        super().initUI()
 
         # create our window
-        # define window		xLoc,yLoc,xDim,yDim
-        self.setGeometry(	250, 250, 640, 480)
-        self.setWindowTitle(translate('Rocket', "Ejection Charge Calculator"))
-        self.resize(QtCore.QSize(100,100).expandedTo(self.minimumSizeHint())) # sets size of the widget
-        self.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
+        self._ui.setWindowTitle(translate('Rocket', "Ejection Charge Calculator"))
+        self._ui.resize(QtCore.QSize(100,100).expandedTo(self.minimumSizeHint())) # sets size of the widget
 
-        self.warningLabel = QtGui.QTextEdit()
-        self.warningLabel.setLineWrapMode(QtGui.QTextEdit.WidgetWidth)
-        self.warningLabel.setHtml(translate('Rocket','''
-        <html>
-        <h1>WARNING</h1>
-        <p>This calculator is an estimate only. Ground test your ejection system before flying. In certain cases this calculation may overestimate the amount of powder required.</p>
-        </html>
-        '''))
-        # self.warningLabel.setMinimumWidth(250)
-        self.warningLabel.setReadOnly(True)
+        # self.warningLabel = QtGui.QTextEdit()
+        # self.warningLabel.setLineWrapMode(QtGui.QTextEdit.WidgetWidth)
+        # self.warningLabel.setHtml(translate('Rocket','''
+        # <html>
+        # <h1>WARNING</h1>
+        # <p>This calculator is an estimate only. Ground test your ejection system before flying. In certain cases this calculation may overestimate the amount of powder required.</p>
+        # </html>
+        # '''))
+        # # self.warningLabel.setMinimumWidth(250)
+        # self.warningLabel.setReadOnly(True)
 
-        self.diameterLabel = QtGui.QLabel(translate('Rocket', "Body tube diameter"), self)
+        # self.diameterLabel = QtGui.QLabel(translate('Rocket', "Body tube diameter"), self)
 
-        self.diameterInput = ui.createWidget("Gui::InputField")
-        self.diameterInput.unit = FreeCAD.Units.Length
-        self.diameterInput.setMinimumWidth(100)
-        self.diameterInput.setText("98.0 mm")
-        self.diameterInput.textEdited.connect(self.onDiameter)
+        # self.diameterInput = ui.createWidget("Gui::InputField")
+        # self.diameterInput.unit = FreeCAD.Units.Length
+        # self.diameterInput.setMinimumWidth(100)
+        self._ui.diameterInput.setText("98.0 mm")
+        self._ui.diameterInput.textEdited.connect(self.onDiameter)
 
-        self.lengthLabel = QtGui.QLabel(translate('Rocket', "Body tube length"), self)
+        # self.lengthLabel = QtGui.QLabel(translate('Rocket', "Body tube length"), self)
 
-        self.lengthInput = ui.createWidget("Gui::InputField")
-        self.lengthInput.unit = FreeCAD.Units.Length
-        self.lengthInput.setText("300.0 mm")
-        self.lengthInput.setMinimumWidth(100)
-        self.lengthInput.textEdited.connect(self.onLength)
+        # self.lengthInput = ui.createWidget("Gui::InputField")
+        # self.lengthInput.unit = FreeCAD.Units.Length
+        self._ui.lengthInput.setText("300.0 mm")
+        # self.lengthInput.setMinimumWidth(100)
+        self._ui.lengthInput.textEdited.connect(self.onLength)
 
-        self.forceLabel = QtGui.QLabel(translate('Rocket', "Force"), self)
+        # self.forceLabel = QtGui.QLabel(translate('Rocket', "Force"), self)
 
-        self.forceInput = ui.createWidget("Gui::InputField")
-        self.forceInput.unit = 'N'
-        self.forceInput.setText("667.233 N")
-        self.forceInput.setMinimumWidth(100)
-        self.forceInput.textEdited.connect(self.onForce)
+        # self.forceInput = ui.createWidget("Gui::InputField")
+        # self.forceInput.unit = 'N'
+        self._ui.forceInput.setText("667.233 N")
+        # self.forceInput.setMinimumWidth(100)
+        self._ui.forceInput.textEdited.connect(self.onForce)
 
-        self.pressureLabel = QtGui.QLabel(translate('Rocket', "Pressure"), self)
+        # self.forceCombo = QtGui.QComboBox(self)
+        self._ui.forceCombo.addItem(translate('Rocket', FORCE_CUSTOM), FORCE_CUSTOM)
+        self._ui.forceCombo.addItem(translate('Rocket', FORCE_LOW), FORCE_LOW)
+        self._ui.forceCombo.addItem(translate('Rocket', FORCE_HIGH), FORCE_HIGH)
+        self._ui.forceCombo.setCurrentText(FORCE_LOW)
+        self._ui.forceCombo.currentTextChanged.connect(self.onForceCombo)
 
-        self.pressureInput = ui.createWidget("Gui::InputField")
-        self.pressureInput.unit = 'kPa'
-        self.pressureInput.setText("1034.25 kPa")
-        self.pressureInput.setMinimumWidth(100)
-        self.pressureInput.textEdited.connect(self.onPressure)
+        # self.pressureLabel = QtGui.QLabel(translate('Rocket', "Pressure"), self)
 
-        self.forceCombo = QtGui.QComboBox(self)
-        self.forceCombo.addItem(translate('Rocket', FORCE_CUSTOM), FORCE_CUSTOM)
-        self.forceCombo.addItem(translate('Rocket', FORCE_LOW), FORCE_LOW)
-        self.forceCombo.addItem(translate('Rocket', FORCE_HIGH), FORCE_HIGH)
-        self.forceCombo.setCurrentText(FORCE_LOW)
-        self.forceCombo.currentTextChanged.connect(self.onForceCombo)
+        # self.pressureInput = ui.createWidget("Gui::InputField")
+        # self.pressureInput.unit = 'kPa'
+        self._ui.pressureInput.setText("1034.25 kPa")
+        # self.pressureInput.setMinimumWidth(100)
+        self._ui.pressureInput.textEdited.connect(self.onPressure)
 
-        self.powderLabel = QtGui.QLabel(translate('Rocket', "FFFFg powder"), self)
+        # self.powderLabel = QtGui.QLabel(translate('Rocket', "FFFFg powder"), self)
 
-        self.powderInput = QtGui.QLineEdit()
-        self.powderInput.setText("49.0 g")
-        self.powderInput.setMinimumWidth(100)
-        self.powderInput.setReadOnly(True)
+        # self.powderInput = QtGui.QLineEdit()
+        self._ui.powderInput.setText("49.0 g")
+        # self.powderInput.setMinimumWidth(100)
+        # self.powderInput.setReadOnly(True)
 
         # OK button
-        okButton = QtGui.QPushButton('OK', self)
-        okButton.setDefault(False)
-        okButton.setAutoDefault(False)
-        okButton.clicked.connect(self.onOk)
+        # okButton = QtGui.QPushButton('OK', self)
+        # okButton.setDefault(False)
+        # okButton.setAutoDefault(False)
+        # okButton.clicked.connect(self.onOk)
 
-        layout = QVBoxLayout()
+        # layout = QVBoxLayout()
 
-        line = QHBoxLayout()
-        line.addWidget(self.warningLabel)
-        layout.addLayout(line)
+        # line = QHBoxLayout()
+        # line.addWidget(self.warningLabel)
+        # layout.addLayout(line)
 
-        line = QGridLayout()
+        # line = QGridLayout()
 
-        row = 0
-        line.addWidget(self.diameterLabel, row, 0, 1, 2)
-        line.addWidget(self.diameterInput, row, 1)
-        row += 1
+        # row = 0
+        # line.addWidget(self.diameterLabel, row, 0, 1, 2)
+        # line.addWidget(self.diameterInput, row, 1)
+        # row += 1
 
-        line.addWidget(self.lengthLabel, row, 0)
-        line.addWidget(self.lengthInput, row, 1)
-        row += 1
+        # line.addWidget(self.lengthLabel, row, 0)
+        # line.addWidget(self.lengthInput, row, 1)
+        # row += 1
 
-        line.addWidget(self.forceLabel, row, 0)
-        line.addWidget(self.forceInput, row, 1)
-        line.addWidget(self.forceCombo, row, 2)
-        row += 1
+        # line.addWidget(self.forceLabel, row, 0)
+        # line.addWidget(self.forceInput, row, 1)
+        # line.addWidget(self.forceCombo, row, 2)
+        # row += 1
 
-        line.addWidget(self.pressureLabel, row, 0)
-        line.addWidget(self.pressureInput, row, 1)
-        row += 1
+        # line.addWidget(self.pressureLabel, row, 0)
+        # line.addWidget(self.pressureInput, row, 1)
+        # row += 1
 
-        line.addWidget(self.powderLabel, row, 0)
-        line.addWidget(self.powderInput, row, 1)
+        # line.addWidget(self.powderLabel, row, 0)
+        # line.addWidget(self.powderInput, row, 1)
 
-        layout.addLayout(line)
+        # layout.addLayout(line)
 
-        line = QHBoxLayout()
-        line.addStretch()
-        line.addWidget(okButton)
-        layout.addLayout(line)
+        # line = QHBoxLayout()
+        # line.addStretch()
+        # line.addWidget(okButton)
+        # layout.addLayout(line)
 
-        self.setLayout(layout)
+        # self.setLayout(layout)
 
         self._setPressureFromForce()
         self._calc()
 
         # now make the window visible
-        self.show()
+        self._ui.show()
 
     def _calc(self):
         # Use the quantity object for units conversion
-        diameter = float(FreeCAD.Units.Quantity(self.diameterInput.text()).Value) / 1000.0 # Convert to meters
-        length = float(FreeCAD.Units.Quantity(self.lengthInput.text()).Value) / 1000.0
-        pressure = float(FreeCAD.Units.Quantity(self.pressureInput.text()).Value) * 1000.0
+        diameter = float(FreeCAD.Units.Quantity(self._ui.diameterInput.text()).Value) / 1000.0 # Convert to meters
+        length = float(FreeCAD.Units.Quantity(self._ui.lengthInput.text()).Value) / 1000.0
+        pressure = float(FreeCAD.Units.Quantity(self._ui.pressureInput.text()).Value) * 1000.0
 
         coefficient = 1.0 / (9.807 * 12.1579 * 1739.0) # 1 / (g * R * T) [(m / sec /sec) (m / K) (K)]
         bp = coefficient * pressure * (diameter * diameter) / 4.0 * math.pi * length
 
-        self.powderInput.setText("%f g" % (bp * 1000.0)) # Always report in grams
+        self._ui.powderInput.setText("%f g" % (bp * 1000.0)) # Always report in grams
 
     def onDiameter(self, value):
         try:
-            self.diameterInput.setText(value)
+            self._ui.diameterInput.setText(value)
             self._setPressureFromForce()
             self._calc()
         except ValueError:
@@ -184,49 +183,49 @@ class DialogBlackPowder(QDialog):
 
     def onLength(self, value):
         try:
-            self.lengthInput.setText(value)
+            self._ui.lengthInput.setText(value)
             self._calc()
         except ValueError:
             pass
 
     def _setPressureFromForce(self):
-        diameter = float(FreeCAD.Units.Quantity(self.diameterInput.text()).Value) / 1000.0 # Convert to meters
-        force = float(FreeCAD.Units.Quantity(self.forceInput.text()).Value) / 1000.0
+        diameter = float(FreeCAD.Units.Quantity(self._ui.diameterInput.text()).Value) / 1000.0 # Convert to meters
+        force = float(FreeCAD.Units.Quantity(self._ui.forceInput.text()).Value) / 1000.0
 
         area = (diameter * diameter) / 4.0 * math.pi
         pressure = force / area
-        self.pressureInput.setText(FreeCAD.Units.Quantity(str(pressure) + "Pa").UserString)
+        self._ui.pressureInput.setText(FreeCAD.Units.Quantity(str(pressure) + "Pa").UserString)
 
     def onForce(self, value):
         try:
-            self.forceCombo.setCurrentIndex(self.forceCombo.findData(FORCE_CUSTOM))
+            self._ui.forceCombo.setCurrentIndex(self._ui.forceCombo.findData(FORCE_CUSTOM))
             self._setPressureFromForce()
             self._calc()
         except ValueError:
             pass
 
     def _setForceFromPressure(self):
-        diameter = float(FreeCAD.Units.Quantity(self.diameterInput.text()).Value) / 1000.0 # Convert to meters
-        pressure = float(FreeCAD.Units.Quantity(self.pressureInput.text()).Value) * 1000.0
+        diameter = float(FreeCAD.Units.Quantity(self._ui.diameterInput.text()).Value) / 1000.0 # Convert to meters
+        pressure = float(FreeCAD.Units.Quantity(self._ui.pressureInput.text()).Value) * 1000.0
 
         area = (diameter * diameter) / 4.0 * math.pi
         force = pressure * area
-        self.forceInput.setText(FreeCAD.Units.Quantity(str(force) + "N").UserString)
+        self._ui.forceInput.setText(FreeCAD.Units.Quantity(str(force) + "N").UserString)
 
     def onPressure(self, value):
         try:
-            self.forceCombo.setCurrentIndex(self.forceCombo.findData(FORCE_CUSTOM))
+            self._ui.forceCombo.setCurrentIndex(self._ui.forceCombo.findData(FORCE_CUSTOM))
             self._setForceFromPressure()
             self._calc()
         except ValueError:
             pass
 
     def onForceCombo(self, value):
-        data = self.forceCombo.currentData()
+        data = self._ui.forceCombo.currentData()
         if data == FORCE_HIGH:
-            self.forceInput.setText("889.644 N")
+            self._ui.forceInput.setText("889.644 N")
         elif data == FORCE_LOW:
-            self.forceInput.setText("667.233 N")
+            self._ui.forceInput.setText("667.233 N")
         self._setPressureFromForce()
         self._calc()
 
