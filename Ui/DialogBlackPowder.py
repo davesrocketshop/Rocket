@@ -41,6 +41,12 @@ FORCE_CUSTOM = translate('Rocket', 'Custom')
 FORCE_LOW = translate('Rocket', 'Low')
 FORCE_HIGH = translate('Rocket', 'High')
 
+SHEAR_TYPE_M2 = translate('Rocket', 'M2')
+SHEAR_TYPE_2_56 = translate('Rocket', '2-56')
+SHEAR_TYPE_4_40 = translate('Rocket', '4-40')
+SHEAR_TYPE_M3 = translate('Rocket', 'M3')
+SHEAR_TYPE_6_32 = translate('Rocket', '6-32')
+
 class DialogBlackPowder(UiDialog):
     def __init__(self):
         super().__init__("DialogBlackPowder", "DialogBlackPowder.ui")
@@ -81,6 +87,17 @@ class DialogBlackPowder(UiDialog):
         self._ui.lengthInput.setText("300.0 mm")
         # self.lengthInput.setMinimumWidth(100)
         self._ui.lengthInput.textEdited.connect(self.onLength)
+
+        self._ui.shearSpinBox.setValue(0)
+        self._ui.shearSpinBox.valueChanged.connect(self.onShearSpinBox)
+
+        self._ui.shearTypeCombo.addItem(translate('Rocket', SHEAR_TYPE_M2), SHEAR_TYPE_M2)
+        self._ui.shearTypeCombo.addItem(translate('Rocket', SHEAR_TYPE_2_56), SHEAR_TYPE_2_56)
+        self._ui.shearTypeCombo.addItem(translate('Rocket', SHEAR_TYPE_4_40), SHEAR_TYPE_4_40)
+        self._ui.shearTypeCombo.addItem(translate('Rocket', SHEAR_TYPE_M3), SHEAR_TYPE_M3)
+        self._ui.shearTypeCombo.addItem(translate('Rocket', SHEAR_TYPE_6_32), SHEAR_TYPE_6_32)
+        self._ui.shearTypeCombo.setCurrentText(SHEAR_TYPE_2_56)
+        self._ui.shearTypeCombo.currentTextChanged.connect(self.onShearTypeCombo)
 
         # self.forceLabel = QtGui.QLabel(translate('Rocket', "Force"), self)
 
@@ -188,6 +205,13 @@ class DialogBlackPowder(UiDialog):
         except ValueError:
             pass
 
+    def onShearSpinBox(self, value):
+        try:
+            self._ui.shearSpinBox.setValue(value)
+            self._calc()
+        except ValueError:
+            pass
+
     def _setPressureFromForce(self):
         diameter = float(FreeCAD.Units.Quantity(self._ui.diameterInput.text()).Value) / 1000.0 # Convert to meters
         force = float(FreeCAD.Units.Quantity(self._ui.forceInput.text()).Value) / 1000.0
@@ -219,6 +243,15 @@ class DialogBlackPowder(UiDialog):
             self._calc()
         except ValueError:
             pass
+
+    def onShearTypeCombo(self, value):
+        data = self._ui.shearTypeCombo.currentData()
+        # if data == SHEAR_TYPE_2_56:
+        #     self._ui.forceInput.setText("889.644 N")
+        # elif data == SHEAR_TYPE_M2:
+        #     self._ui.forceInput.setText("667.233 N")
+        # self._setPressureFromForce()
+        # self._calc()
 
     def onForceCombo(self, value):
         data = self._ui.forceCombo.currentData()
