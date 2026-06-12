@@ -35,11 +35,17 @@ class ViewProvider:
 
     def __init__(self, vobj):
         vobj.Proxy = self
-        vobj.addExtension("Gui::ViewProviderGroupExtensionPython")
+        if not vobj.hasExtension("Part::ViewProviderGroupExtensionPython"):
+            vobj.addExtension("Gui::ViewProviderGroupExtensionPython")
+        if not vobj.hasExtension("Part::PreviewExtensionPython"):
+            vobj.addExtension("Part::PreviewExtensionPython")
+
 
     def attach(self, vobj):
         self.ViewObject = vobj
         self.Object = vobj.Object
+        if not vobj.hasExtension("PartGui::ViewProviderPreviewExtensionPython"):
+            vobj.addExtension("PartGui::ViewProviderPreviewExtensionPython")
 
     def canDropObject(self, obj):
         if not self.Object.Proxy.isRocketAssembly():
@@ -86,11 +92,24 @@ class ViewProvider:
         )
         self.ViewObject.LineColor = appearance.DiffuseColor
 
+    def recomputePreview(self, ext):
+        """Build the preview shape from the window solids."""
+
+        import Part
+
+        obj = ext.ExtendedObject
+        has_shape = hasattr(obj, "Shape") and obj.Shape and not obj.Shape.isNull()
+
+        obj.PreviewShape = obj.Shape if has_shape else Part.Shape()
+
     def startTransaction(self, vobj):
         document = vobj.Document.Document
         if not document.HasPendingTransaction:
             text = translate('Rocket', 'Edit %1').replace('%1', vobj.Object.Label)
             document.openTransaction(text)
+
+            if hasattr(vobj, "showPreview"):
+                vobj.showPreview(True)
 
     def getDialog(self, obj, mode):
         return None
@@ -108,5 +127,7 @@ class ViewProvider:
     def unsetEdit(self, vobj, mode):
         if mode == 0:
             with WaitCursor():
+                if hasattr(vobj, "showPreview"):
+                    vobj.showPreview(False)
                 FreeCADGui.Control.closeDialog()
                 return
