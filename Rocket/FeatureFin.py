@@ -288,6 +288,14 @@ class FeatureFin(ExternalComponent):
     def isAfter(self) -> bool:
         return False
 
+    def getOffset(self) -> float:
+        offset = 0.0
+
+        if self.hasParent():
+            offset = self.toRelative(NUL, self.getParent())[0].x
+            # print(f"Fin offset from parent: {offset}")
+        return offset
+
     def setParentRadius(self) -> None:
         self.setParentDiameter()
 
@@ -297,7 +305,8 @@ class FeatureFin(ExternalComponent):
             if self.hasParent():
                 parent = self.getParent()
                 if hasattr(parent, "getOuterDiameter"):
-                    self._obj.ParentRadius = parent.getOuterDiameter(0) / 2.0
+                    offset = self.getOffset()
+                    self._obj.ParentRadius = parent.getOuterDiameter(offset) / 2.0
 
     def setAutoHeight(self, auto : bool) -> None:
         if self._obj.AutoHeight != auto:
