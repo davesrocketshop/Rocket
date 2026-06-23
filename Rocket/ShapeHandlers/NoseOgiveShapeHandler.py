@@ -35,6 +35,9 @@ from Rocket.ShapeHandlers.NoseShapeHandler import NoseShapeHandler
 
 class NoseOgiveShapeHandler(NoseShapeHandler):
 
+    def _radiusAt(self, r1 : float, r2 : float, length : float, pos : float) -> float:
+        return self._ogiveRadiusAt(r1, r2, length, pos)
+
     def ogive_y(self, x : float, length : float, radius : float, rho : float) -> float:
         y = math.sqrt(rho * rho - math.pow(length - x, 2)) + radius - rho
         return y

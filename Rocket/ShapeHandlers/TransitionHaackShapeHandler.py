@@ -44,20 +44,5 @@ class TransitionHaackShapeHandler(TransitionShapeHandler):
             return False
         return super().isValidShape()
 
-    def _theta(self, x : float, length : float) -> float:
-        return  math.acos(1 - 2*x/length)
-
     def _radiusAt(self, r1 : float, r2 : float, length : float, pos : float) -> float:
-        if r1 > r2:
-            radius = r1 - r2
-            center = r2
-            x = length - pos
-        else:
-            radius = r2 - r1
-            center = r1
-            x = pos
-
-        theta = self._theta(x, length)
-        y = radius * math.sqrt(theta - math.sin(2 * theta)/2
-            + self._coefficient * math.pow(math.sin(theta), 3)) / math.sqrt(math.pi)
-        return y + center
+        return self._haackRadiusAt(r1, r2, length, pos, self._coefficient)

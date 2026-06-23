@@ -37,7 +37,9 @@ translate = FreeCAD.Qt.translate
 
 from Rocket.Utilities import _err
 
-class TransitionProxyShapeHandler:
+from Rocket.ShapeHandlers.ShapeHandlerFunctions import ShapeHandlerFunctions
+
+class TransitionProxyShapeHandler(ShapeHandlerFunctions):
     def __init__(self, obj : Any) -> None:
 
         # This gets changed when redrawn so it's very important to save a copy
@@ -139,22 +141,8 @@ class TransitionProxyShapeHandler:
 
     def _radiusAt(self, r1 : float, r2 : float, length : float, pos : float) -> float:
         # Treat as a conical transition
-        if r1 < r2:
-            intercept = r1
-            x = pos
-            slope = (r2 - r1) / length
-        else:
-            intercept = r2
-            x = length - pos
-            slope = (r1 - r2) / length
+        return self._coneRadiusAt(r1, r2, length, pos)
 
-        y = x * slope + intercept
-        return y
-
-    # def getRadius(self, x : float) -> float:
-    #     # Apply the scaling
-    #     scale = self._getScale()
-    #     return scale * (self._diameter / 2.0)
     def getRadius(self, x : float) -> float:
         scale = self._getScale()
         foreRadius = (self._foreDiameter / 2.0) / scale
@@ -216,7 +204,7 @@ class TransitionProxyShapeHandler:
 
     def drawTransition(self) -> Part.Solid:
         shape = self._getShape()
-        
+
         try:
             if shape and self._shoulder:
                 length = float(shape.BoundBox.XLength - self._proxyPlacement.Base.x - self._proxyAftOffset.Value)

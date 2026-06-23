@@ -44,6 +44,9 @@ class NosePowerShapeHandler(NoseShapeHandler):
             return False
         return super().isValidShape()
 
+    def _radiusAt(self, r1 : float, r2 : float, length : float, pos : float) -> float:
+        return self._powerRadiusAt(r1, r2, length, pos, self._coefficient)
+
     def power_y(self, x : float, length : float, radius : float, k : float) -> float:
         y = radius * math.pow((x / length), k)
         return y

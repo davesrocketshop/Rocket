@@ -38,6 +38,9 @@ from Rocket.ShapeHandlers.NoseShapeHandler import NoseShapeHandler
 
 class NoseEllipseShapeHandler(NoseShapeHandler):
 
+    def _radiusAt(self, r1 : float, r2 : float, length : float, pos : float) -> float:
+        return self._ellipseRadiusAt(r1, r2, length, pos)
+
     def innerMinor(self, last : float) -> float:
         a = last
         b = self._radius - self._thickness

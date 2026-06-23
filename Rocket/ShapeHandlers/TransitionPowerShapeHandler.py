@@ -45,14 +45,4 @@ class TransitionPowerShapeHandler(TransitionShapeHandler):
         return super().isValidShape()
 
     def _radiusAt(self, r1 : float, r2 : float, length : float, pos : float) -> float:
-        if r1 > r2:
-            radius = r1 - r2
-            center = r2
-            x = length - pos
-        else:
-            radius = r2 - r1
-            center = r1
-            x = pos
-
-        y = radius * math.pow((x / length), self._coefficient)
-        return y + center
+        return self._powerRadiusAt(r1, r2, length, pos, self._coefficient)

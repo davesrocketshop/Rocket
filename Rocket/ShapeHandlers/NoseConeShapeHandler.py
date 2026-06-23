@@ -34,6 +34,9 @@ from Rocket.ShapeHandlers.NoseShapeHandler import NoseShapeHandler
 
 class NoseConeShapeHandler(NoseShapeHandler):
 
+    def _radiusAt(self, r1 : float, r2 : float, length : float, pos : float) -> float:
+        return self._coneRadiusAt(r1, r2, length, pos)
+
     def innerMinor(self, x : float) -> float:
         intercept = self._radius - self._thickness
         # slope = intercept * -1 / (offset - self._thickness)

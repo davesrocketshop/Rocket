@@ -33,7 +33,7 @@ import FreeCAD
 import Part
 
 import math
-from abc import ABC, abstractmethod
+from abc import abstractmethod
 from typing import Any
 
 translate = FreeCAD.Qt.translate
@@ -44,7 +44,9 @@ from Rocket.Constants import TYPE_BLUNTED_CONE, TYPE_BLUNTED_OGIVE, TYPE_SECANT_
 
 from Rocket.Utilities import _err, validationError
 
-class NoseShapeHandler(ABC):
+from Rocket.ShapeHandlers.ShapeHandlerFunctions import ShapeHandlerFunctions
+
+class NoseShapeHandler(ShapeHandlerFunctions):
     def __init__(self, obj : Any) -> None:
 
         # This gets changed when redrawn so it's very important to save a copy
@@ -110,7 +112,8 @@ class NoseShapeHandler(ABC):
         ...
 
     def getRadius(self, x : float) -> float:
-        return 0.0
+        radius = self._radiusAt(0.0, self._radius, self._length, x)
+        return radius
 
     def makeSpline(self, points : list) -> Any:
         spline = Part.BSplineCurve()

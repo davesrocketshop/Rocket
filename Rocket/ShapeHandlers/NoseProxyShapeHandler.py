@@ -35,9 +35,11 @@ import Part
 
 translate = FreeCAD.Qt.translate
 
+from Rocket.ShapeHandlers.ShapeHandlerFunctions import ShapeHandlerFunctions
+
 from Rocket.Utilities import _err
 
-class NoseProxyShapeHandler:
+class NoseProxyShapeHandler(ShapeHandlerFunctions):
     def __init__(self, obj : Any) -> None:
 
         # This gets changed when redrawn so it's very important to save a copy
@@ -68,6 +70,9 @@ class NoseProxyShapeHandler:
         self._shoulderThickness = obj.ShoulderThickness.Value
 
         self._obj = obj
+
+    def _radiusAt(self, r1 : float, r2 : float, length : float, pos : float) -> float:
+        return self._coneRadiusAt(r1, r2, length, pos)
 
     def _shapeUnion(self, shape : Part.Shape) -> Part.Shape:
         # This is a hack.
@@ -157,7 +162,7 @@ class NoseProxyShapeHandler:
 
     def drawNose(self) -> Part.Solid:
         shape = self._getShape()
-        
+
         try:
             if shape and self._shoulder:
                 if self._shoulderRadius > max(shape.BoundBox.YMax, shape.BoundBox.ZMax):

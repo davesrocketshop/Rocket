@@ -43,6 +43,9 @@ class NoseParabolicShapeHandler(NoseShapeHandler):
             return False
         return super().isValidShape()
 
+    def _radiusAt(self, r1 : float, r2 : float, length : float, pos : float) -> float:
+        return self._parabolicRadiusAt(r1, r2, length, pos, self._coefficient)
+
     def para_y(self, x : float, length : float, radius : float, k : float) -> float:
         ratio = x / length
         y = radius * ((2 * ratio) - (k * ratio * ratio)) / (2 - k)

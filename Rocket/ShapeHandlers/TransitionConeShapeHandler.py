@@ -42,17 +42,7 @@ class TransitionConeShapeHandler(TransitionShapeHandler):
         return False
 
     def _radiusAt(self, r1 : float, r2 : float, length : float, pos : float) -> float:
-        if r1 < r2:
-            intercept = r1
-            x = pos
-            slope = (r2 - r1) / length
-        else:
-            intercept = r2
-            x = length - pos
-            slope = (r1 - r2) / length
-
-        y = x * slope + intercept
-        return y
+        return self._coneRadiusAt(r1, r2, length, pos)
 
     # Override the default to use native shapes
     def _generateCurve(self, r1 : float, r2 : float, length : float, min : float = 0, max : float = 0) -> Any:

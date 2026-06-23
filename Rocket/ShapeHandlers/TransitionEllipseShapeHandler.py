@@ -38,21 +38,7 @@ from Rocket.ShapeHandlers.TransitionShapeHandler import TransitionShapeHandler
 class TransitionEllipseShapeHandler(TransitionShapeHandler):
 
     def _radiusAt(self, r1 : float, r2 : float, length : float, pos : float) -> float:
-        major = length
-        if r1 > r2:
-            minor = r1 - r2
-            center = r2
-            x = pos
-        else:
-            minor = r2 - r1
-            center = r1
-            x = length - pos
-
-        try:
-            y = (minor / major) * math.sqrt(major * major - x * x)
-        except Exception as ex:
-            raise ex
-        return y + center
+        return self._ellipseRadiusAt(r1, r2, length, pos)
 
     def _eTheta(self, major : float, minor : float, tanTheta : float) -> float:
         #

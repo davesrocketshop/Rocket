@@ -44,6 +44,9 @@ class NoseHaackShapeHandler(NoseShapeHandler):
             return False
         return super().isValidShape()
 
+    def _radiusAt(self, r1 : float, r2 : float, length : float, pos : float) -> float:
+        return self._haackRadiusAt(r1, r2, length, pos, self._coefficient)
+
     def innerMinor(self, last : float) -> float:
         radius = self._radius - self._thickness
         length = last

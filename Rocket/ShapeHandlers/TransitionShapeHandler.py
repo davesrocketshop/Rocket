@@ -35,6 +35,8 @@ import math
 
 from abc import abstractmethod
 
+from Rocket.ShapeHandlers.ShapeHandlerFunctions import ShapeHandlerFunctions
+
 translate = FreeCAD.Qt.translate
 
 from Rocket.Constants import STYLE_CAPPED, STYLE_HOLLOW, STYLE_SOLID, STYLE_SOLID_CORE
@@ -44,7 +46,7 @@ from Rocket.Utilities import _err, validationError
 
 CLIP_PRECISION = 0.00001
 
-class TransitionShapeHandler():
+class TransitionShapeHandler(ShapeHandlerFunctions):
     def __init__(self, obj : Any) -> None:
 
         # This gets changed when redrawn so it's very important to save a copy
@@ -186,10 +188,6 @@ class TransitionShapeHandler():
                     return False
 
         return True
-
-    @abstractmethod
-    def _radiusAt(self, r1 : float, r2 : float, length : float, pos : float) -> float:
-        ...
 
     def getRadius(self, x : float) -> float:
         if self._clipped:
