@@ -33,6 +33,8 @@ from Analyzers.FinFlutter import FinFlutter
 from Ui.Commands.CmdFin import makeFin
 from Ui.Commands.CmdFinCan import makeFinCan
 
+from Rocket.Constants import ATMOS_USSA, ATMOS_POF_615
+
 class FinFlutterTestCases(unittest.TestCase):
     def setUp(self):
         self.Doc = FreeCAD.newDocument("FlutterTest")
@@ -129,13 +131,13 @@ class FinFlutterTestCases(unittest.TestCase):
             self._setFinTab(row)
             flutter = FinFlutter(self._fin)
 
-            results = flutter.flutter(altitude, shearModulus)
+            results = flutter.flutter(ATMOS_USSA, altitude, shearModulus)
             self._checkTolerance(results[1], row[6], "Vf")
 
-            results = flutter.divergence(altitude, shearModulus)
+            results = flutter.divergence(ATMOS_USSA, altitude, shearModulus, 0, 288.15)
             self._checkTolerance(results[1], row[7], "Vd")
 
-            results = flutter.flutterPOF(altitude, shearModulus)
+            results = flutter.flutterPOF(ATMOS_POF_615, altitude, shearModulus)
             self._checkTolerance(results[1], row[6] * math.sqrt(2), "Vf")
 
     def testFinWithTabs(self):
@@ -148,13 +150,13 @@ class FinFlutterTestCases(unittest.TestCase):
             self._setFin(row)
             flutter = FinFlutter(self._fin)
 
-            results = flutter.flutter(altitude, shearModulus)
+            results = flutter.flutter(ATMOS_USSA, altitude, shearModulus)
             self._checkTolerance(results[1], row[6], "Vf")
 
-            results = flutter.divergence(altitude, shearModulus)
+            results = flutter.divergence(ATMOS_USSA, altitude, shearModulus, 0, 288.15)
             self._checkTolerance(results[1], row[7], "Vd")
 
-            results = flutter.flutterPOF(altitude, shearModulus)
+            results = flutter.flutterPOF(ATMOS_POF_615, altitude, shearModulus)
             self._checkTolerance(results[1], row[6] * math.sqrt(2), "Vf")
 
     def testFinCan(self):
@@ -167,13 +169,13 @@ class FinFlutterTestCases(unittest.TestCase):
             self._setFin(row)
             flutter = FinFlutter(self._fin)
 
-            results = flutter.flutter(altitude, shearModulus)
+            results = flutter.flutter(ATMOS_USSA, altitude, shearModulus)
             self._checkTolerance(results[1], row[6], "Vf")
 
-            results = flutter.divergence(altitude, shearModulus)
+            results = flutter.divergence(ATMOS_USSA, altitude, shearModulus, 0, 288.15)
             self._checkTolerance(results[1], row[7], "Vd")
 
-            results = flutter.flutterPOF(altitude, shearModulus)
+            results = flutter.flutterPOF(ATMOS_POF_615, altitude, shearModulus)
             self._checkTolerance(results[1], row[6] * math.sqrt(2), "Vf")
 
 
