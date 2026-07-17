@@ -42,6 +42,9 @@ from Ui.Widgets.CommentTab import CommentTab
 from Ui.Widgets.ScalingTab import ScalingTab
 from Ui.UIPaths import getUIPath
 
+from Rocket.Constants import RETAINER_TUBE_MOUNT, RETAINER_FLANGE_MOUNT, RETAINER_TAILCONE, TYPE_PROXY
+from Rocket.Constants import FASTENER_PRESET_6, FASTENER_PRESET_8
+
 from Rocket.Constants import TYPE_CONE, TYPE_BLUNTED_CONE, TYPE_SPHERICAL, TYPE_ELLIPTICAL, TYPE_HAACK, TYPE_OGIVE, \
     TYPE_BLUNTED_OGIVE, TYPE_SECANT_OGIVE, TYPE_VON_KARMAN, TYPE_PARABOLA, TYPE_PARABOLIC, TYPE_POWER, TYPE_NIKE_SMOKE, \
     TYPE_PROXY
@@ -68,64 +71,30 @@ class _RetainerDialog(QDialog):
         self.setTabGeneral()
 
     def setTabGeneral(self) -> None:
-        # # Select the type of nose cone
-        # self.form.noseConeTypesCombo.addItem(translate('Rocket', TYPE_CONE), TYPE_CONE)
-        # self.form.noseConeTypesCombo.addItem(translate('Rocket', TYPE_BLUNTED_CONE), TYPE_BLUNTED_CONE)
-        # self.form.noseConeTypesCombo.addItem(translate('Rocket', TYPE_SPHERICAL), TYPE_SPHERICAL)
-        # self.form.noseConeTypesCombo.addItem(translate('Rocket', TYPE_ELLIPTICAL), TYPE_ELLIPTICAL)
-        # self.form.noseConeTypesCombo.addItem(translate('Rocket', TYPE_OGIVE), TYPE_OGIVE)
-        # self.form.noseConeTypesCombo.addItem(translate('Rocket', TYPE_BLUNTED_OGIVE), TYPE_BLUNTED_OGIVE)
-        # self.form.noseConeTypesCombo.addItem(translate('Rocket', TYPE_SECANT_OGIVE), TYPE_SECANT_OGIVE)
-        # self.form.noseConeTypesCombo.addItem(translate('Rocket', TYPE_PARABOLA), TYPE_PARABOLA)
-        # self.form.noseConeTypesCombo.addItem(translate('Rocket', TYPE_PARABOLIC), TYPE_PARABOLIC)
-        # self.form.noseConeTypesCombo.addItem(translate('Rocket', TYPE_POWER), TYPE_POWER)
-        # self.form.noseConeTypesCombo.addItem(translate('Rocket', TYPE_VON_KARMAN), TYPE_VON_KARMAN)
-        # self.form.noseConeTypesCombo.addItem(translate('Rocket', TYPE_HAACK), TYPE_HAACK)
-        # # self.form.noseConeTypesCombo.addItem(translate('Rocket', TYPE_NIKE_SMOKE), TYPE_NIKE_SMOKE)
-        # self.form.noseConeTypesCombo.addItem(translate('Rocket', TYPE_PROXY), TYPE_PROXY)
+        # Select the type of retainer
+        self.form.retainerStyleCombo.addItem(translate('Rocket', RETAINER_TUBE_MOUNT), RETAINER_TUBE_MOUNT)
+        self.form.retainerStyleCombo.addItem(translate('Rocket', RETAINER_FLANGE_MOUNT), RETAINER_FLANGE_MOUNT)
+        self.form.retainerStyleCombo.addItem(translate('Rocket', RETAINER_TAILCONE), RETAINER_TAILCONE)
 
-        # self.form.noseStylesCombo.addItem(translate('Rocket', STYLE_SOLID), STYLE_SOLID)
-        # self.form.noseStylesCombo.addItem(translate('Rocket', STYLE_HOLLOW), STYLE_HOLLOW)
-        # self.form.noseStylesCombo.addItem(translate('Rocket', STYLE_CAPPED), STYLE_CAPPED)
+        self.form.screwSizeCombo.addItem("6-32x1/2", FASTENER_PRESET_6)
+        self.form.screwSizeCombo.addItem("8-32x1/2", FASTENER_PRESET_8)
 
-        # self.form.noseCapStylesCombo.addItem(translate('Rocket', STYLE_CAP_SOLID), STYLE_CAP_SOLID)
-        # self.form.noseCapStylesCombo.addItem(translate('Rocket', STYLE_CAP_BAR), STYLE_CAP_BAR)
-        # self.form.noseCapStylesCombo.addItem(translate('Rocket', STYLE_CAP_CROSS), STYLE_CAP_CROSS)
-
-        # self.form.lengthInput.unit = FreeCAD.Units.Length
-        # self.form.diameterInput.unit = FreeCAD.Units.Length
-        # self.form.thicknessInput.unit = FreeCAD.Units.Length
-        # self.form.ogiveDiameterInput.unit = FreeCAD.Units.Length
-        # self.form.bluntedInput.unit = FreeCAD.Units.Length
-        # self.form.noseCapBarWidthInput.unit = FreeCAD.Units.Length
-
-        # self.coefficientValidator = QtGui.QDoubleValidator(self)
-        # self.coefficientValidator.setBottom(0.0)
-        # self.form.coefficientInput.setValidator(self.coefficientValidator)
-
-        # # Proxy
-        # self.form.noseConeProxyTypesCombo.addItem(translate('Rocket', TYPE_CONE), TYPE_CONE)
-        # self.form.noseConeProxyTypesCombo.addItem(translate('Rocket', TYPE_BLUNTED_CONE), TYPE_BLUNTED_CONE)
-        # self.form.noseConeProxyTypesCombo.addItem(translate('Rocket', TYPE_SPHERICAL), TYPE_SPHERICAL)
-        # self.form.noseConeProxyTypesCombo.addItem(translate('Rocket', TYPE_ELLIPTICAL), TYPE_ELLIPTICAL)
-        # self.form.noseConeProxyTypesCombo.addItem(translate('Rocket', TYPE_OGIVE), TYPE_OGIVE)
-        # self.form.noseConeProxyTypesCombo.addItem(translate('Rocket', TYPE_BLUNTED_OGIVE), TYPE_BLUNTED_OGIVE)
-        # self.form.noseConeProxyTypesCombo.addItem(translate('Rocket', TYPE_SECANT_OGIVE), TYPE_SECANT_OGIVE)
-        # self.form.noseConeProxyTypesCombo.addItem(translate('Rocket', TYPE_PARABOLA), TYPE_PARABOLA)
-        # self.form.noseConeProxyTypesCombo.addItem(translate('Rocket', TYPE_PARABOLIC), TYPE_PARABOLIC)
-        # self.form.noseConeProxyTypesCombo.addItem(translate('Rocket', TYPE_POWER), TYPE_POWER)
-        # self.form.noseConeProxyTypesCombo.addItem(translate('Rocket', TYPE_VON_KARMAN), TYPE_VON_KARMAN)
-        # self.form.noseConeProxyTypesCombo.addItem(translate('Rocket', TYPE_HAACK), TYPE_HAACK)
-        # self.form.noseConeProxyTypesCombo.addItem(translate('Rocket', TYPE_PROXY), TYPE_PROXY)
-
-        # self.form.proxyEffectiveDiameterInput.unit = FreeCAD.Units.Length
-        # self.form.xRotationInput.unit = FreeCAD.Units.Angle
-        # self.form.yRotationInput.unit = FreeCAD.Units.Angle
-        # self.form.zRotationInput.unit = FreeCAD.Units.Angle
-        # self.form.offsetInput.unit = FreeCAD.Units.Length
-
-        # self.form.proxyShowBasePlaneCheckbox.setVisible(False) # Not yet supported
-        ...
+        self.form.motorDiameterInput.unit = FreeCAD.Units.Length
+        self.form.retainerIDInput.unit = FreeCAD.Units.Length
+        self.form.mmtDepthInput.unit = FreeCAD.Units.Length
+        self.form.retainerODInput.unit = FreeCAD.Units.Length
+        self.form.capDiameterInput.unit = FreeCAD.Units.Length
+        self.form.capHeightInput.unit = FreeCAD.Units.Length
+        self.form.heightWithACInput.unit = FreeCAD.Units.Length
+        self.form.heightWithSRInput.unit = FreeCAD.Units.Length
+        self.form.flangeDiameterInput.unit = FreeCAD.Units.Length
+        self.form.screwHolePatternInput.unit = FreeCAD.Units.Length
+        self.form.coneDiameterLargeInput.unit = FreeCAD.Units.Length
+        self.form.coneDiameterSmallInput.unit = FreeCAD.Units.Length
+        self.form.openDiameterSmallInput.unit = FreeCAD.Units.Length
+        self.form.lengthInput.unit = FreeCAD.Units.Length
+        self.form.airframeToMMTInput.unit = FreeCAD.Units.Length
+        self.form.lipInput.unit = FreeCAD.Units.Length
 
 class TaskPanelRetainer:
 
@@ -182,6 +151,8 @@ class TaskPanelRetainer:
 
     def transferTo(self):
         "Transfer from the dialog to the object"
+        self._obj.RetainerStyle = str(self._retainerForm.form.retainerStyleCombo.currentData())
+
         # if self._obj.NoseType == TYPE_PROXY:
         #     self._obj.NoseType = str(self._retainerForm.form.noseConeProxyTypesCombo.currentData())
         #     self._obj.Proxy.setAftDiameter(FreeCAD.Units.Quantity(self._retainerForm.form.proxyEffectiveDiameterInput.text()).Value)
@@ -218,6 +189,31 @@ class TaskPanelRetainer:
 
     def transferFrom(self):
         "Transfer from the object to the dialog"
+        try:
+            self._retainerForm.form.retainerStyleCombo.setCurrentIndex(self._retainerForm.form.retainerStyleCombo.findData(self._obj.RetainerStyle))
+            self._retainerForm.form.screwSizeCombo.setCurrentIndex(self._retainerForm.form.screwSizeCombo.findData(self._obj.ScrewSize))
+
+            self._retainerForm.form.motorDiameterInput.setText(self._obj.RetainerInnerDiameter.UserString)
+            self._retainerForm.form.retainerIDInput.setText(self._obj.InnerDiameterForMMT.UserString)
+            self._retainerForm.form.mmtDepthInput.setText(self._obj.MMTDepthIntoBody.UserString)
+            self._retainerForm.form.retainerODInput.setText(self._obj.RetainerOuterDiameter.UserString)
+            self._retainerForm.form.capDiameterInput.setText(self._obj.CapDiameter.UserString)
+            self._retainerForm.form.capHeightInput.setText(self._obj.CapHeight.UserString)
+            self._retainerForm.form.heightWithACInput.setText(self._obj.HeightWithAftClosure.UserString)
+            self._retainerForm.form.heightWithSRInput.setText(self._obj.HeightWithSnapRing.UserString)
+            self._retainerForm.form.flangeDiameterInput.setText(self._obj.FlangeDiameter.UserString)
+            self._retainerForm.form.screwCountSpinner.setValue(self._obj.ScrewCount)
+            self._retainerForm.form.screwHolePatternInput.setText(self._obj.ScrewHolePatternDiameter.UserString)
+            self._retainerForm.form.coneDiameterLargeInput.setText(self._obj.LargeConeDiameter.UserString)
+            self._retainerForm.form.coneDiameterSmallInput.setText(self._obj.SmallConeDiameter.UserString)
+            self._retainerForm.form.openDiameterSmallInput.setText(self._obj.SmallOpeningDiameter.UserString)
+            self._retainerForm.form.lengthInput.setText(self._obj.ConeLength.UserString)
+            self._retainerForm.form.airframeToMMTInput.setText(self._obj.AirframeToMMT.UserString)
+            self._retainerForm.form.lipInput.setText(self._obj.Lip.UserString)
+        except Exception as e:
+            _err(translate('Rocket', "Error transferring data from object to dialog: {}").format(str(e)))
+            # raise
+
         # self._retainerForm.form.noseConeTypesCombo.setCurrentIndex(self._retainerForm.form.noseConeTypesCombo.findData(self._obj.NoseType))
         # self._retainerForm.form.noseConeProxyTypesCombo.setCurrentIndex(self._retainerForm.form.noseConeProxyTypesCombo.findData(self._obj.NoseType))
         # self._retainerForm.form.noseStylesCombo.setCurrentIndex(self._retainerForm.form.noseStylesCombo.findData(self._obj.NoseStyle))
