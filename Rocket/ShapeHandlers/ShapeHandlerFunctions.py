@@ -46,33 +46,35 @@ class ShapeHandlerFunctions(ABC):
             x = length - pos
             slope = (r1 - r2) / length
 
-        y = x * slope + intercept
+        y = float(x) * float(slope) + float(intercept)
+        print(f"Cone radius at pos {pos}: {y}")
         return y
 
     def _ogiveRadiusAt(self, r1 : float, r2 : float, length : float, pos : float) -> float:
+        length = float(length)
         if r1 > r2:
-            radius = r1 - r2
-            center = r2
-            x = pos
+            radius = float(r1) - float(r2)
+            center = float(r2)
+            x = float(pos)
         else:
-            radius = r2 - r1
-            center = r1
-            x = length - pos
+            radius = float(r2) - float(r1)
+            center = float(r1)
+            x = length - float(pos)
         rho = (radius * radius + length * length) / (2.0 * radius)
 
         y = math.sqrt(rho * rho - math.pow(x, 2)) + radius - rho
         return y + center
 
     def _ellipseRadiusAt(self, r1 : float, r2 : float, length : float, pos : float) -> float:
-        major = length
+        major = float(length)
         if r1 > r2:
-            minor = r1 - r2
-            center = r2
-            x = pos
+            minor = float(r1) - float(r2)
+            center = float(r2)
+            x = float(pos)
         else:
-            minor = r2 - r1
-            center = r1
-            x = length - pos
+            minor = float(r2) - float(r1)
+            center = float(r1)
+            x = float(length) - float(pos)
 
         try:
             y = (minor / major) * math.sqrt(major * major - x * x)
@@ -81,17 +83,17 @@ class ShapeHandlerFunctions(ABC):
         return y + center
 
     def _haackTheta(self, x : float, length : float) -> float:
-        return  math.acos(1 - 2*x/length)
+        return  math.acos(1 - 2 * float(x) / float(length))
 
     def _haackRadiusAt(self, r1 : float, r2 : float, length : float, pos : float, coefficient : float) -> float:
         if r1 > r2:
-            radius = r1 - r2
-            center = r2
-            x = length - pos
+            radius = float(r1) - float(r2)
+            center = float(r2)
+            x = float(length) - float(pos)
         else:
-            radius = r2 - r1
-            center = r1
-            x = pos
+            radius = float(r2) - float(r1)
+            center = float(r1)
+            x = float(pos)
 
         theta = self._haackTheta(x, length)
         y = radius * math.sqrt(theta - math.sin(2 * theta)/2
@@ -100,27 +102,27 @@ class ShapeHandlerFunctions(ABC):
 
     def _parabolicRadiusAt(self, r1 : float, r2 : float, length : float, pos : float, coefficient : float) -> float:
         if r1 > r2:
-            radius = r1 - r2
-            center = r2
-            x = length - pos
+            radius = float(r1) - float(r2)
+            center = float(r2)
+            x = float(length) - float(pos)
         else:
-            radius = r2 - r1
-            center = r1
-            x = pos
+            radius = float(r2) - float(r1)
+            center = float(r1)
+            x = float(pos)
 
-        ratio = x / length
+        ratio = x / float(length)
         y = radius * ((2 * ratio) - (coefficient * ratio * ratio)) / (2 - coefficient)
         return y + center
 
     def _powerRadiusAt(self, r1 : float, r2 : float, length : float, pos : float, coefficient : float) -> float:
         if r1 > r2:
-            radius = r1 - r2
-            center = r2
-            x = length - pos
+            radius = float(r1) - float(r2)
+            center = float(r2)
+            x = float(length) - float(pos)
         else:
-            radius = r2 - r1
-            center = r1
-            x = pos
+            radius = float(r2) - float(r1)
+            center = float(r1)
+            x = float(pos)
 
-        y = radius * math.pow((x / length), coefficient)
+        y = radius * math.pow((x / float(length)), coefficient)
         return y + center

@@ -43,6 +43,9 @@ class NoseNikeSmokeShapeHandler(NoseShapeHandler):
         # Set the scale based on the body diameter being 16.5 inches on the original
         self._scale = (16.5 * 25.4) / (self._radius * 2.0)
 
+    def _radiusAt(self, r1 : float, r2 : float, length : float, pos : float) -> float:
+        return 0.0
+
     def innerMinor(self, x) -> float:
         intercept = self._radius - self._thickness
         # slope = intercept * -1 / (offset - self._thickness)

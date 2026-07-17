@@ -35,6 +35,17 @@ from Rocket.ShapeHandlers.NoseShapeHandler import NoseShapeHandler
 
 class NoseSecantOgiveShapeHandler(NoseShapeHandler):
 
+    def _radiusAt(self, r1 : float, r2 : float, length : float, pos : float) -> float:
+        try:
+            rho = self.getRho()
+            alpha = self.getAlpha(length, self._radius)
+
+            y = self.ogive_y(float(pos), length, rho, alpha)
+            return y
+        except Exception as e:
+            print(f"Error in _radiusAt: {e}")
+            return 0.0
+
     def getRho(self) -> float:
         # For a secant ogive, rho is user defined.
         return self._ogiveRadius

@@ -37,6 +37,20 @@ from Rocket.ShapeHandlers.NoseShapeHandler import NoseShapeHandler
 
 class NoseBluntedOgiveShapeHandler(NoseShapeHandler):
 
+    def _radiusAt(self, r1 : float, r2 : float, length : float, pos : float) -> float:
+        try:
+            (rho, vLength, Xt, Yt, Xo, Xa) = self.getBluntedLength(length, self._radius, self._noseRadius)
+            centerX = length - vLength + Xt
+            if pos < centerX:
+                y = math.sqrt(math.pow(self._noseRadius, 2) - math.pow(self._noseRadius - float(pos), 2))
+                return y
+            else:
+                y = self.ogive_y(float(pos) - centerX, vLength - Xt, self._radius, rho)
+                return y
+        except Exception as e:
+            print(f"Error in _radiusAt: {e}")
+            return 0.0
+
     def getRho(self, radius : float, length : float) -> float:
         rho = (radius * radius + length * length) / (2.0 * radius)
         return rho

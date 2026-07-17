@@ -43,6 +43,20 @@ class NoseBluntedConeShapeHandler(NoseShapeHandler):
 
         self._offsetRadius = self._radius   # Scratch value, only valid immediately after a call to getCurve()
 
+    def _radiusAt(self, r1 : float, r2 : float, length : float, pos : float) -> float:
+        try:
+            (vLength, Xt, Yt, Xo, Xa) = self.getBluntedLength(length, self._radius, self._noseRadius)
+            centerX = length - vLength + Xt
+            if pos < centerX:
+                y = math.sqrt(math.pow(self._noseRadius, 2) - math.pow(self._noseRadius - float(pos), 2))
+                return y
+            else:
+                y = self._coneRadiusAt(float(Yt), self._radius, vLength - Xt, float(pos) - centerX)
+                return y
+        except Exception as e:
+            print(f"Error in _radiusAt: {e}")
+            return 0.0
+
     def getXt(self, length : float, radius : float, noseRadius : float) -> float:
         return math.pow(length, 2) / radius * math.sqrt(math.pow(noseRadius, 2) / (math.pow(radius, 2) + math.pow(length, 2)))
 
@@ -104,11 +118,20 @@ class NoseBluntedConeShapeHandler(NoseShapeHandler):
             FreeCAD.Vector(offset, 0.0)
         )
         self._offsetRadius = radius
-        # if offset > 0:
-        #     self._offsetRadius = self.innerMinor(vLength, radius, offset)
         line = Part.LineSegment(FreeCAD.Vector(length, self._offsetRadius), FreeCAD.Vector(length - vLength + Xt + offset, Yt))
         curve = Part.Wire([blunt.toShape(), line.toShape()])
-        # curve = Part.Wire([blunt.toShape()])
+
+        # points = []
+        # resolution = self._resolution
+        # for i in range(0, resolution):
+
+        #     x = float(i) * ((length) / float(resolution))
+        #     y = self._radiusAt(0.0, radius, length, x)
+        #     points.append(FreeCAD.Vector(x, y))
+
+        # points.append(FreeCAD.Vector(length, radius))
+        # spline = self.makeSpline(points)
+        # Part.show(spline.toShape())
 
         return curve
 
