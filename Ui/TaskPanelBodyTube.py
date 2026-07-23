@@ -50,7 +50,7 @@ from Ui.Widgets.ScalingTab import ScalingTabBodyTube
 
 from Rocket.Utilities import _valueOnly, _err
 
-class _BodyTubeDialog(QDialog):
+class BodyTubeDialog(QDialog):
 
     def __init__(self, obj: Any, parent : Any = None) -> None:
         super().__init__(parent)
@@ -158,12 +158,15 @@ class _BodyTubeDialog(QDialog):
 
 class TaskPanelBodyTube:
 
-    def __init__(self, obj : Any, mode : int) -> None:
+    def __init__(self, obj : Any, mode : int, form : QDialog | None = None) -> None:
         self._obj = obj
         self._isAssembly = self._obj.Proxy.isRocketAssembly()
         self._motorMount = hasattr(self._obj, "MotorMount")
 
-        self._btForm = _BodyTubeDialog(obj)
+        if form is not None:
+            self._btForm = form
+        else:
+            self._btForm = BodyTubeDialog(obj)
         if self._obj.Proxy.Type == FEATURE_LAUNCH_LUG:
             self._db = TaskPanelDatabase(obj, COMPONENT_TYPE_LAUNCHLUG)
         elif self._obj.Proxy.Type == FEATURE_TUBE_COUPLER:

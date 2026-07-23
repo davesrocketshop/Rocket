@@ -23,41 +23,53 @@
 
 """Class for drawing body tubes"""
 
-__title__ = "FreeCAD Body Tube View Provider"
+__title__ = "FreeCAD Body Tubes"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
+from typing import Any
+
 import FreeCAD
+from Ui.TaskPanelBodyTube import TaskPanelBodyTube, BodyTubeDialog
 
-from Ui.TaskPanelBodyTube import TaskPanelBodyTube
-from Ui.TaskPanelInnerTube import TaskPanelInnerTube
-from Ui.ViewProvider import ViewProvider
+translate = FreeCAD.Qt.translate
 
-class ViewProviderBodyTube(ViewProvider):
+from Ui.Widgets.ClusterTab import ClusterTab
 
-    def __init__(self, vobj):
-        super().__init__(vobj)
+from Rocket.Utilities import _valueOnly, _err
 
-    def getIcon(self):
-        return FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_BodyTube.svg"
+class InnerTubeDialog(BodyTubeDialog):
 
-    def getDialog(self, obj, mode):
-        return TaskPanelBodyTube(obj, mode)
+    def __init__(self, obj: Any, parent : Any = None) -> None:
+        super().__init__(obj, parent)
 
-class ViewProviderInnerTube(ViewProviderBodyTube):
+        self.tabCluster = ClusterTab(obj, parent=self)
+        self.tabWidget.insertTab(1, self.tabCluster.widget(), translate('Rocket', "Cluster"))
 
-    def getIcon(self):
-        return FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_InnerTube.svg"
+class TaskPanelInnerTube(TaskPanelBodyTube):
 
-    def getDialog(self, obj, mode):
-        return TaskPanelInnerTube(obj, mode)
+    def __init__(self, obj : Any, mode : int) -> None:
+        super().__init__(obj, mode, form=InnerTubeDialog(obj))
 
-class ViewProviderCoupler(ViewProviderBodyTube):
+        if self._btForm.tabCluster:
+            self._btForm.tabCluster.cluster.connect(self.onClusterChanged)
 
-    def getIcon(self):
-        return FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_Coupler.svg"
+    def onClusterChanged(self) -> None:
+        ...
 
-class ViewProviderEngineBlock(ViewProviderBodyTube):
+    def transferTo(self):
+        "Transfer from the dialog to the object"
+        super().transferTo()
 
-    def getIcon(self):
-        return FreeCAD.getUserAppDataDir() + "Mod/Rocket/Resources/icons/Rocket_EngineBlock.svg"
+        if self._btForm.tabCluster:
+            self._btForm.tabCluster.transferTo(self._obj)
+
+    def transferFrom(self):
+        "Transfer from the object to the dialog"
+        super().transferFrom()
+
+        try:
+            if self._btForm.tabCluster:
+                self._btForm.tabCluster.transferFrom(self._obj)
+        except Exception as e:
+            FreeCAD.Console.PrintError("Error occurred while transferring from object: {}".format(e))

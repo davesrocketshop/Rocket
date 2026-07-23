@@ -57,10 +57,36 @@ class FeatureInnerTube(ThicknessRingComponent, Clusterable, AxialPositionable, B
 
         if not hasattr(obj,"ClusterConfiguration"):
             obj.addProperty('App::PropertyPythonObject', 'ClusterConfiguration', 'RocketComponent', translate('App::Property', 'Layout of a clustered motor mount')).ClusterConfiguration = SINGLE
+        if not hasattr(obj,"Clustered"):
+            obj.addProperty('App::PropertyBool', 'Clustered', 'RocketComponent', translate('App::Property', 'Whether the component is part of a cluster')).Clustered = False
+        if not hasattr(obj, "ClusterRadial"):
+            obj.addProperty('App::PropertyBool', 'ClusterRadial', 'RocketComponent', translate('App::Property', 'Whether the cluster is arranged radially')).ClusterRadial = True
+        if not hasattr(obj, "ClusterRadialCount"):
+            obj.addProperty('App::PropertyInteger', 'ClusterRadialCount', 'RocketComponent', translate('App::Property', 'Number of radial components')).ClusterRadialCount = 1
+        if not hasattr(obj, "ClusterRows"):
+            obj.addProperty('App::PropertyInteger', 'ClusterRows', 'RocketComponent', translate('App::Property', 'Number of rows in the cluster')).ClusterRows = 1
+        if not hasattr(obj, "ClusterColumns"):
+            obj.addProperty('App::PropertyInteger', 'ClusterColumns', 'RocketComponent', translate('App::Property', 'Number of columns in the cluster')).ClusterColumns = 1
+        if not hasattr(obj, "ClusterIncludeCenter"):
+            obj.addProperty('App::PropertyBool', 'ClusterIncludeCenter', 'RocketComponent', translate('App::Property', 'Whether to include a component at the center of the cluster')).ClusterIncludeCenter = True
         if not hasattr(obj, 'ClusterScale'):
             obj.addProperty('App::PropertyFloat', 'ClusterScale', 'RocketComponent', translate('App::Property', 'Size scaling for the motor mount cluster')).ClusterScale = 1.0
+        if not hasattr(obj, "ClusterSeparation"):
+            obj.addProperty('App::PropertyDistance', 'ClusterSeparation', 'RocketComponent', translate('App::Property', 'Distance between the closest two cluster components')).ClusterSeparation = 0.0
+        if not hasattr(obj, "ClusterSeparationAbsolute"):
+            obj.addProperty('App::PropertyBool', 'ClusterSeparationAbsolute', 'RocketComponent', translate('App::Property', 'Whether the cluster separation is absolute or relative')).ClusterSeparationAbsolute = False
         if not hasattr(obj,"ClusterRotation"):
             obj.addProperty('App::PropertyAngle', 'ClusterRotation', 'RocketComponent', translate('App::Property', 'Rotation applied to the motor mount cluster')).ClusterRotation = 0.0
+        if not hasattr(obj, "ClusterCant"):
+            obj.addProperty('App::PropertyBool', 'ClusterCant', 'RocketComponent', translate('App::Property', 'Cant angle applied to the motor mount cluster')).ClusterCant = False
+        if not hasattr(obj, "ClusterCantUseAngle"):
+            obj.addProperty('App::PropertyBool', 'ClusterCantUseAngle', 'RocketComponent', translate('App::Property', 'Whether to use the cant angle or cant focus')).ClusterCantUseAngle = True
+        if not hasattr(obj, "ClusterCantAngle"):
+            obj.addProperty('App::PropertyAngle', 'ClusterCantAngle', 'RocketComponent', translate('App::Property', 'Cant angle applied to the motor mount cluster')).ClusterCantAngle = 0.0
+        if not hasattr(obj, "ClusterCantFocus"):
+            obj.addProperty('App::PropertyDistance', 'ClusterCantFocus', 'RocketComponent', translate('App::Property', 'Distance to the focus point for the cant angle')).ClusterCantFocus = 0.0
+        if not hasattr(obj, "ClusterCantFocusAbsolute"):
+            obj.addProperty('App::PropertyBool', 'ClusterCantFocusAbsolute', 'RocketComponent', translate('App::Property', 'Whether the cant focus distance is absolute or relative')).ClusterCantFocusAbsolute = False
 
         if not hasattr(obj,"Overhang"):
             obj.addProperty('App::PropertyDistance', 'Overhang', 'RocketComponent', translate('App::Property', 'Motor overhang')).Overhang = 3.0

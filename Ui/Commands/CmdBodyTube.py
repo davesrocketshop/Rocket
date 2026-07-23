@@ -55,11 +55,17 @@ def makeBodyTube(name='BodyTube'):
 
 def makeInnerTube(name='InnerTube'):
     '''makeInnerTube(name): makes an inner Tube'''
-    obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
-    FeatureInnerTube(obj)
-    obj.Proxy.setDefaults()
-    if FreeCAD.GuiUp:
-        ViewProviderInnerTube(obj.ViewObject)
+    try:
+        obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
+        FeatureInnerTube(obj)
+        obj.Proxy.setDefaults()
+        if FreeCAD.GuiUp:
+            ViewProviderInnerTube(obj.ViewObject)
+
+        return obj.Proxy
+    except Exception as e:
+        print("Error occurred while creating InnerTube: {}".format(e))
+        return None
 
     return obj.Proxy
 

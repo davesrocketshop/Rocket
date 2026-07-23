@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Dialog</class>
+ <widget class="QDialog" name="Dialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>396</width>
+    <height>534</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QGroupBox" name="clusterGroup">
+     <property name="title">
+      <string>Cluster configuration</string>
+     </property>
+     <property name="checkable">
+      <bool>true</bool>
+     </property>
+     <property name="checked">
+      <bool>false</bool>
+     </property>
+     <layout class="QGridLayout" name="gridLayout">
+      <item row="3" column="0">
+       <widget class="QRadioButton" name="clusterXYRadio">
+        <property name="text">
+         <string>XY Grid</string>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="0" colspan="2">
+       <widget class="QCheckBox" name="clusterIncludeCenterCheckbox">
+        <property name="text">
+         <string>Include center</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="0">
+       <widget class="QLabel" name="label_3">
+        <property name="text">
+         <string>Columns</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0">
+       <widget class="QRadioButton" name="clusterRadialRadio">
+        <property name="text">
+         <string>Radial</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="label">
+        <property name="text">
+         <string>Radial count</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="0">
+       <widget class="QLabel" name="label_2">
+        <property name="text">
+         <string>Rows</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QSpinBox" name="clusterRadialCountSpinBox">
+        <property name="minimum">
+         <number>1</number>
+        </property>
+        <property name="maximum">
+         <number>1000</number>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="1">
+       <widget class="QSpinBox" name="clusterRowsSpinBox">
+        <property name="minimum">
+         <number>1</number>
+        </property>
+        <property name="maximum">
+         <number>1000</number>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="1">
+       <widget class="QSpinBox" name="clusterColumnsSpinBox">
+        <property name="minimum">
+         <number>1</number>
+        </property>
+        <property name="maximum">
+         <number>1000</number>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="separationGroupBox">
+     <property name="title">
+      <string>Tube separation</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_2">
+      <item row="1" column="1">
+       <widget class="QRadioButton" name="separationRelativeRadio">
+        <property name="text">
+         <string>Relative</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="2">
+       <widget class="QRadioButton" name="separationAbsoluteRadio">
+        <property name="text">
+         <string>Absolute</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0" colspan="3">
+       <widget class="Gui::QuantitySpinBox" name="separationSpinBox">
+        <property name="unit" stdset="0">
+         <string notr="true">mm</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="rotationGroupBox">
+     <property name="title">
+      <string>Rotation</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_3">
+      <item row="0" column="0">
+       <widget class="Gui::QuantitySpinBox" name="rotationSpinBox">
+        <property name="unit" stdset="0">
+         <string notr="true">deg</string>
+        </property>
+        <property name="minimum">
+         <double>-180.000000000000000</double>
+        </property>
+        <property name="maximum">
+         <double>180.000000000000000</double>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="cantGroupBox">
+     <property name="title">
+      <string>Cant</string>
+     </property>
+     <property name="checkable">
+      <bool>true</bool>
+     </property>
+     <property name="checked">
+      <bool>false</bool>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_4">
+      <item row="1" column="1" colspan="2">
+       <widget class="Gui::QuantitySpinBox" name="cantFocusSpinBox">
+        <property name="unit" stdset="0">
+         <string notr="true"/>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1" colspan="2">
+       <widget class="Gui::QuantitySpinBox" name="cantAngleSpinBox">
+        <property name="unit" stdset="0">
+         <string notr="true"/>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0">
+       <widget class="QRadioButton" name="cantAngleRadio">
+        <property name="text">
+         <string>Angle</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+        <attribute name="buttonGroup">
+         <string notr="true">buttonGroupCant</string>
+        </attribute>
+       </widget>
+      </item>
+      <item row="2" column="2">
+       <widget class="QRadioButton" name="cantFocusAbsoluteRadio">
+        <property name="text">
+         <string>Absolute</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+        <attribute name="buttonGroup">
+         <string notr="true">buttonGroupCantRelative</string>
+        </attribute>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QRadioButton" name="cantFocusRelativeRadio">
+        <property name="text">
+         <string>Relative</string>
+        </property>
+        <attribute name="buttonGroup">
+         <string notr="true">buttonGroupCantRelative</string>
+        </attribute>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QRadioButton" name="cantFocusRadio">
+        <property name="text">
+         <string>Focus</string>
+        </property>
+        <attribute name="buttonGroup">
+         <string notr="true">buttonGroupCant</string>
+        </attribute>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Orientation::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="splitClusterButton">
+       <property name="text">
+        <string>Split cluster</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="resetButton">
+       <property name="text">
+        <string>Reset</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Orientation::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>Gui::QuantitySpinBox</class>
+   <extends>QAbstractSpinBox</extends>
+   <header>Gui/QuantitySpinBox.h</header>
+  </customwidget>
+ </customwidgets>
+ <tabstops>
+  <tabstop>clusterGroup</tabstop>
+  <tabstop>clusterRadialRadio</tabstop>
+  <tabstop>clusterRadialCountSpinBox</tabstop>
+  <tabstop>clusterXYRadio</tabstop>
+  <tabstop>clusterRowsSpinBox</tabstop>
+  <tabstop>clusterColumnsSpinBox</tabstop>
+  <tabstop>clusterIncludeCenterCheckbox</tabstop>
+  <tabstop>separationSpinBox</tabstop>
+  <tabstop>separationRelativeRadio</tabstop>
+  <tabstop>separationAbsoluteRadio</tabstop>
+  <tabstop>rotationSpinBox</tabstop>
+  <tabstop>cantGroupBox</tabstop>
+  <tabstop>cantAngleRadio</tabstop>
+  <tabstop>cantAngleSpinBox</tabstop>
+  <tabstop>cantFocusRadio</tabstop>
+  <tabstop>cantFocusSpinBox</tabstop>
+  <tabstop>cantFocusRelativeRadio</tabstop>
+  <tabstop>cantFocusAbsoluteRadio</tabstop>
+  <tabstop>splitClusterButton</tabstop>
+  <tabstop>resetButton</tabstop>
+ </tabstops>
+ <resources/>
+ <connections/>
+ <buttongroups>
+  <buttongroup name="buttonGroupCantRelative"/>
+  <buttongroup name="buttonGroupCant"/>
+ </buttongroups>
+</ui>
