@@ -93,10 +93,10 @@ class InnerTubeShapeHandler(BodyTubeShapeHandler):
 
         for i in range(self._clusterRadialCount):
             # scale = 0.5
+            scale = 0.5 / math.sin(math.pi/self._clusterRadialCount)
             if self._clusterIncludeCenter:
-                scale = 1.0
-            else:
-                scale = 0.5 / math.sin(math.pi/self._clusterRadialCount)
+                if scale < 1.0:
+                    scale = 1.0
             x = scale * math.sin(2*i*math.pi/self._clusterRadialCount)
             y = scale * math.cos(2*i*math.pi/self._clusterRadialCount)
             points.append(x)
