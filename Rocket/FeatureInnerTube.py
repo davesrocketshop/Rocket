@@ -60,9 +60,9 @@ class FeatureInnerTube(ThicknessRingComponent, Clusterable, AxialPositionable, B
         if not hasattr(obj,"Clustered"):
             obj.addProperty('App::PropertyBool', 'Clustered', 'RocketComponent', translate('App::Property', 'Whether the component is part of a cluster')).Clustered = False
         if not hasattr(obj, "ClusterRadial"):
-            obj.addProperty('App::PropertyBool', 'ClusterRadial', 'RocketComponent', translate('App::Property', 'Whether the cluster is arranged radially')).ClusterRadial = True
+            obj.addProperty('App::PropertyBool', 'ClusterRadial', 'RocketComponent', translate('App::Property', 'Whether the cluster is arranged radially')).ClusterRadial = False
         if not hasattr(obj, "ClusterRadialCount"):
-            obj.addProperty('App::PropertyInteger', 'ClusterRadialCount', 'RocketComponent', translate('App::Property', 'Number of radial components')).ClusterRadialCount = 1
+            obj.addProperty('App::PropertyInteger', 'ClusterRadialCount', 'RocketComponent', translate('App::Property', 'Number of radial components')).ClusterRadialCount = 3
         if not hasattr(obj, "ClusterRows"):
             obj.addProperty('App::PropertyInteger', 'ClusterRows', 'RocketComponent', translate('App::Property', 'Number of rows in the cluster')).ClusterRows = 1
         if not hasattr(obj, "ClusterColumns"):

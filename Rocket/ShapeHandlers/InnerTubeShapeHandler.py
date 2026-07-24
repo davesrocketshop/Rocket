@@ -31,6 +31,7 @@ from typing import Any
 
 import FreeCAD
 import Part
+import math
 
 from Rocket.ShapeHandlers.BodyTubeShapeHandler import BodyTubeShapeHandler
 
@@ -45,6 +46,97 @@ class InnerTubeShapeHandler(BodyTubeShapeHandler):
         self._configuration = obj.ClusterConfiguration
         self._scale = float(obj.ClusterScale)
         self._rotation = float(obj.ClusterRotation)
+
+        self._clustered = bool(obj.Clustered)
+        self._clusterRadial = bool(obj.ClusterRadial)
+        self._clusterRadialCount = int(obj.ClusterRadialCount)
+        self._clusterRows = int(obj.ClusterRows)
+        self._clusterColumns = int(obj.ClusterColumns)
+        self._clusterIncludeCenter = bool(obj.ClusterIncludeCenter)
+        # if not hasattr(obj, 'ClusterScale'):
+        #     obj.addProperty('App::PropertyFloat', 'ClusterScale', 'RocketComponent', translate('App::Property', 'Size scaling for the motor mount cluster')).ClusterScale = 1.0
+        # if not hasattr(obj, "ClusterSeparation"):
+        #     obj.addProperty('App::PropertyDistance', 'ClusterSeparation', 'RocketComponent', translate('App::Property', 'Distance between the closest two cluster components')).ClusterSeparation = 0.0
+        # if not hasattr(obj, "ClusterSeparationAbsolute"):
+        #     obj.addProperty('App::PropertyBool', 'ClusterSeparationAbsolute', 'RocketComponent', translate('App::Property', 'Whether the cluster separation is absolute or relative')).ClusterSeparationAbsolute = False
+        # if not hasattr(obj,"ClusterRotation"):
+        #     obj.addProperty('App::PropertyAngle', 'ClusterRotation', 'RocketComponent', translate('App::Property', 'Rotation applied to the motor mount cluster')).ClusterRotation = 0.0
+        # if not hasattr(obj, "ClusterCant"):
+        #     obj.addProperty('App::PropertyBool', 'ClusterCant', 'RocketComponent', translate('App::Property', 'Cant angle applied to the motor mount cluster')).ClusterCant = False
+        # if not hasattr(obj, "ClusterCantUseAngle"):
+        #     obj.addProperty('App::PropertyBool', 'ClusterCantUseAngle', 'RocketComponent', translate('App::Property', 'Whether to use the cant angle or cant focus')).ClusterCantUseAngle = True
+        # if not hasattr(obj, "ClusterCantAngle"):
+        #     obj.addProperty('App::PropertyAngle', 'ClusterCantAngle', 'RocketComponent', translate('App::Property', 'Cant angle applied to the motor mount cluster')).ClusterCantAngle = 0.0
+        # if not hasattr(obj, "ClusterCantFocus"):
+        #     obj.addProperty('App::PropertyDistance', 'ClusterCantFocus', 'RocketComponent', translate('App::Property', 'Distance to the focus point for the cant angle')).ClusterCantFocus = 0.0
+        # if not hasattr(obj, "ClusterCantFocusAbsolute"):
+        #     obj.addProperty('App::PropertyBool', 'ClusterCantFocusAbsolute', 'RocketComponent', translate('App::Property', 'Whether the cant focus distance is absolute or relative')).ClusterCantFocusAbsolute = False
+
+   
+    def getPoints(self) -> tuple[float, ...]:
+        if self._clustered:
+            if self._clusterRadial:
+                return self.getPointsRadial()
+            else:
+                return self.getPointsXY()
+        return self.getPointsUnclustered()
+
+    def getPointsUnclustered(self) -> tuple[float, ...]:
+        return (0.0, 0.0)
+
+    def getPointsRadial(self) -> tuple[float, ...]:
+        points = []
+        if self._clusterIncludeCenter:
+            # Add the center point
+            points.append(0.0)
+            points.append(0.0)
+
+        for i in range(self._clusterRadialCount):
+            # scale = 0.5
+            if self._clusterIncludeCenter:
+                scale = 1.0
+            else:
+                scale = 0.5 / math.sin(math.pi/self._clusterRadialCount)
+            x = scale * math.sin(2*i*math.pi/self._clusterRadialCount)
+            y = scale * math.cos(2*i*math.pi/self._clusterRadialCount)
+            points.append(x)
+            points.append(y)
+
+        return tuple(points)
+
+    def gridPosition(self, n : int, count : int) -> float:
+        position =  -1.0 * math.floor(count / 2) + float(n)
+        if count % 2 == 0:
+            # even number
+            position += 0.5
+        print(f"Position({n}, {count}) = {position}")
+        return position
+
+    def getPointsXY(self) -> tuple[float, ...]:
+        points = []
+        for i in range(self._clusterRows):
+            y = self.gridPosition(i, self._clusterRows)
+            for j in range(self._clusterColumns):
+                if self._clusterIncludeCenter \
+                        or ((i == 0) or (i == self._clusterRows - 1)) \
+                        or ((j == 0) or (j == self._clusterColumns - 1)):
+                    x = self.gridPosition(j, self._clusterColumns)
+                    points.append(x)
+                    points.append(y)
+        return tuple(points)
+    
+    def getPointsRotated(self, rotation) -> tuple[float, ...]:
+        points = self.getPoints()
+        cos = math.cos(rotation)
+        sin = math.sin(rotation)
+        ret = []
+        for i in range(int(len(points) / 2)):
+            x = points[2 * i]
+            y = points[2 * i + 1]
+            ret.append( x*cos + y*sin)
+            ret.append(-x*sin + y*cos)
+
+        return tuple(ret)
 
     def drawSingle(self) -> Any:
         edges = None
@@ -68,11 +160,11 @@ class InnerTubeShapeHandler(BodyTubeShapeHandler):
         tubes = []
         base = self.drawSingle()
         if self._rotation == 0:
-            points = self._configuration.getPoints()
+            points = self.getPoints()
         else:
-            points = self._configuration.getPointsRotated(self._rotation)
+            points = self.getPointsRotated(self._rotation)
 
-        for i in range(self._configuration.getClusterCount()):
+        for i in range(int(len(points) / 2)):
             tube = Part.Shape(base) # Create a copy
 
             y = points[2 * i]
