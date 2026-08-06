@@ -133,7 +133,10 @@
       <item row="0" column="0" colspan="3">
        <widget class="Gui::QuantitySpinBox" name="separationSpinBox">
         <property name="unit" stdset="0">
-         <string notr="true">mm</string>
+         <string>mm</string>
+        </property>
+        <property name="minimum">
+         <double>0.000000000000000</double>
         </property>
        </widget>
       </item>
@@ -315,7 +318,7 @@
  <resources/>
  <connections/>
  <buttongroups>
-  <buttongroup name="buttonGroupCantRelative"/>
   <buttongroup name="buttonGroupCant"/>
+  <buttongroup name="buttonGroupCantRelative"/>
  </buttongroups>
 </ui>

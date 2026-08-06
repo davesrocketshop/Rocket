@@ -33,6 +33,7 @@ from typing import Any
 
 import FreeCAD
 import FreeCADGui
+from FreeCAD import Units
 from Ui.UIPaths import getUIPath
 from Ui.Widgets.WaitCursor import WaitCursor
 translate = FreeCAD.Qt.translate
@@ -60,7 +61,7 @@ class ClusterTab(QObject):
         return self._form
 
     def setTabCluster(self):
-        self._form.separationSpinBox.unit = FreeCAD.Units.Length
+        # self._form.separationSpinBox.unit = FreeCAD.Units.Length
         self._form.rotationSpinBox.unit = FreeCAD.Units.Angle
         self._form.cantAngleSpinBox.unit = FreeCAD.Units.Angle
         self._form.cantFocusSpinBox.unit = FreeCAD.Units.Length
@@ -93,43 +94,57 @@ class ClusterTab(QObject):
 
     def transferTo(self, obj):
         "Transfer from the dialog to the object"
-        obj.Clustered = self._form.clusterGroup.isChecked()
-        obj.ClusterRadial = self._form.clusterRadialRadio.isChecked()
-        obj.ClusterRadialCount = self._form.clusterRadialCountSpinBox.value()
-        obj.ClusterRows = self._form.clusterRowsSpinBox.value()
-        obj.ClusterColumns = self._form.clusterColumnsSpinBox.value()
-        obj.ClusterIncludeCenter = self._form.clusterIncludeCenterCheckbox.isChecked()
-        obj.ClusterSeparation = self._form.separationSpinBox.property("value")
-        obj.ClusterSeparationAbsolute = self._form.separationAbsoluteRadio.isChecked()
-        obj.ClusterRotation = self._form.rotationSpinBox.property("value")
-        obj.ClusterCant = self._form.cantGroupBox.isChecked()
-        obj.ClusterCantUseAngle = self._form.cantAngleRadio.isChecked()
-        obj.ClusterCantAngle = self._form.cantAngleSpinBox.property("value")
-        obj.ClusterCantFocus = self._form.cantFocusSpinBox.property("value")
-        obj.ClusterCantFocusAbsolute = self._form.cantFocusAbsoluteRadio.isChecked()
+        try:
+            obj.Clustered = self._form.clusterGroup.isChecked()
+            obj.ClusterRadial = self._form.clusterRadialRadio.isChecked()
+            obj.ClusterRadialCount = self._form.clusterRadialCountSpinBox.value()
+            obj.ClusterRows = self._form.clusterRowsSpinBox.value()
+            obj.ClusterColumns = self._form.clusterColumnsSpinBox.value()
+            obj.ClusterIncludeCenter = self._form.clusterIncludeCenterCheckbox.isChecked()
+            if obj.ClusterSeparationAbsolute:
+                obj.Proxy.setClusterScaleAbsolute(self._form.separationSpinBox.property("value").Value)
+                # self._form.separationSpinBox.setProperty("value", obj.Proxy.getClusterScaleAbsoluteQuantity())
+            else:
+                obj.Proxy.setClusterScale(self._form.separationSpinBox.property("value").Value)
+                # self._form.separationSpinBox.setProperty("value", obj.Proxy.getClusterScaleQuantity())
+            obj.ClusterRotation = self._form.rotationSpinBox.property("value")
+            obj.ClusterCant = self._form.cantGroupBox.isChecked()
+            obj.ClusterCantUseAngle = self._form.cantAngleRadio.isChecked()
+            obj.ClusterCantAngle = self._form.cantAngleSpinBox.property("value")
+            obj.ClusterCantFocus = self._form.cantFocusSpinBox.property("value")
+            obj.ClusterCantFocusAbsolute = self._form.cantFocusAbsoluteRadio.isChecked()
+        except Exception as e:
+            print(f"transferTo: {e}")
 
     def transferFrom(self, obj):
         "Transfer from the object to the dialog"
-        self._loading = True
+        try:
+            self._loading = True
 
-        self._form.clusterGroup.setChecked(obj.Clustered)
-        self._form.clusterRadialRadio.setChecked(obj.ClusterRadial)
-        self._form.clusterXYRadio.setChecked(not obj.ClusterRadial)
-        self._form.clusterRadialCountSpinBox.setValue(int(obj.ClusterRadialCount))
-        self._form.clusterRowsSpinBox.setValue(int(obj.ClusterRows))
-        self._form.clusterColumnsSpinBox.setValue(int(obj.ClusterColumns))
-        self._form.clusterIncludeCenterCheckbox.setChecked(obj.ClusterIncludeCenter)
-        self._form.separationSpinBox.setProperty("value", obj.ClusterSeparation)
-        self._form.separationRelativeRadio.setChecked(not obj.ClusterSeparationAbsolute)
-        self._form.separationAbsoluteRadio.setChecked(obj.ClusterSeparationAbsolute)
-        self._form.rotationSpinBox.setProperty("value", obj.ClusterRotation)
-        self._form.cantGroupBox.setChecked(obj.ClusterCant)
-        self._form.cantAngleRadio.setChecked(obj.ClusterCantUseAngle)
-        self._form.cantFocusRadio.setChecked(not obj.ClusterCantUseAngle)
-        self._form.cantAngleSpinBox.setProperty("value", obj.ClusterCantAngle)
-        self._form.cantFocusSpinBox.setProperty("value", obj.ClusterCantFocus)
-        self._form.cantFocusRelativeRadio.setChecked(not obj.ClusterCantFocusAbsolute)
-        self._form.cantFocusAbsoluteRadio.setChecked(obj.ClusterCantFocusAbsolute)
+            self._form.clusterGroup.setChecked(obj.Clustered)
+            self._form.clusterRadialRadio.setChecked(obj.ClusterRadial)
+            self._form.clusterXYRadio.setChecked(not obj.ClusterRadial)
+            self._form.clusterRadialCountSpinBox.setValue(int(obj.ClusterRadialCount))
+            self._form.clusterRowsSpinBox.setValue(int(obj.ClusterRows))
+            self._form.clusterColumnsSpinBox.setValue(int(obj.ClusterColumns))
+            self._form.clusterIncludeCenterCheckbox.setChecked(obj.ClusterIncludeCenter)
+            self._form.separationRelativeRadio.setChecked(not obj.ClusterSeparationAbsolute)
+            self._form.separationAbsoluteRadio.setChecked(obj.ClusterSeparationAbsolute)
+            if obj.ClusterSeparationAbsolute:
+                quantity = obj.Proxy.getClusterScaleAbsoluteQuantity()
+            else:
+                quantity = obj.Proxy.getClusterScaleQuantity()
+            self._form.separationSpinBox.setProperty("value", quantity)
+            self._form.rotationSpinBox.setProperty("value", obj.ClusterRotation)
+            self._form.cantGroupBox.setChecked(obj.ClusterCant)
+            self._form.cantAngleRadio.setChecked(obj.ClusterCantUseAngle)
+            self._form.cantFocusRadio.setChecked(not obj.ClusterCantUseAngle)
+            self._form.cantAngleSpinBox.setProperty("value", obj.ClusterCantAngle)
+            self._form.cantFocusSpinBox.setProperty("value", obj.ClusterCantFocus)
+            self._form.cantFocusRelativeRadio.setChecked(not obj.ClusterCantFocusAbsolute)
+            self._form.cantFocusAbsoluteRadio.setChecked(obj.ClusterCantFocusAbsolute)
+        except Exception as e:
+            print(f"transferFrom: {e}")
 
         self._loading = False
         self._setClusterState()
@@ -143,45 +158,52 @@ class ClusterTab(QObject):
             pass
 
     def _setClusterState(self) -> None:
-        enabled = self._form.clusterGroup.isChecked()
-        self._form.separationGroupBox.setEnabled(enabled)
-        self._form.rotationGroupBox.setEnabled(enabled)
-        self._form.cantGroupBox.setEnabled(enabled)
-        if enabled:
-            radial = self._obj.ClusterRadial
-            # self._form.clusterRadialRadio.setChecked(radial)
-            # self._form.clusterXYRadio.setChecked(not radial)
+        try:
+            enabled = self._form.clusterGroup.isChecked()
+            self._form.separationGroupBox.setEnabled(enabled)
+            self._form.rotationGroupBox.setEnabled(enabled)
+            self._form.cantGroupBox.setEnabled(enabled)
+            if enabled:
+                radial = self._obj.ClusterRadial
+                # self._form.clusterRadialRadio.setChecked(radial)
+                # self._form.clusterXYRadio.setChecked(not radial)
 
-            if radial:
-                self._form.clusterRadialCountSpinBox.setEnabled(True)
-                self._form.clusterRowsSpinBox.setEnabled(False)
-                self._form.clusterColumnsSpinBox.setEnabled(False)
-            else:
-                self._form.clusterRadialCountSpinBox.setEnabled(False)
-                self._form.clusterRowsSpinBox.setEnabled(True)
-                self._form.clusterColumnsSpinBox.setEnabled(True)
-            # self._form.clusterIncludeCenterCheckbox.setEnabled(enabled)
-
-            # self._form.separationAbsoluteRadio.setChecked(self._obj.ClusterSeparationAbsolute)
-            # self._form.separationRelativeRadio.setChecked(not self._obj.ClusterSeparationAbsolute)
-
-            # self._form.rotationSpinBox.setEnabled(enabled)
-
-            if self._obj.ClusterCant:
-                # self._form.cantAngleRadio.setChecked(self._obj.ClusterCantUseAngle)
-                # self._form.cantFocusRadio.setChecked(not self._obj.ClusterCantUseAngle)
-                if self._obj.ClusterCantUseAngle:
-                    self._form.cantAngleSpinBox.setEnabled(True)
-                    self._form.cantFocusSpinBox.setEnabled(False)
-                    self._form.cantFocusRelativeRadio.setEnabled(False)
-                    self._form.cantFocusAbsoluteRadio.setEnabled(False)
+                if radial:
+                    self._form.clusterRadialCountSpinBox.setEnabled(True)
+                    self._form.clusterRowsSpinBox.setEnabled(False)
+                    self._form.clusterColumnsSpinBox.setEnabled(False)
                 else:
-                    self._form.cantAngleSpinBox.setEnabled(False)
-                    self._form.cantFocusSpinBox.setEnabled(True)
-                    self._form.cantFocusRelativeRadio.setEnabled(True)
-                    self._form.cantFocusAbsoluteRadio.setEnabled(True)
-                # self._form.cantFocusRelativeRadio.setChecked(not self._obj.ClusterCantFocusAbsolute)
-                # self._form.cantFocusAbsoluteRadio.setChecked(self._obj.ClusterCantFocusAbsolute)
+                    self._form.clusterRadialCountSpinBox.setEnabled(False)
+                    self._form.clusterRowsSpinBox.setEnabled(True)
+                    self._form.clusterColumnsSpinBox.setEnabled(True)
+                # self._form.clusterIncludeCenterCheckbox.setEnabled(enabled)
+
+                if self._obj.ClusterSeparationAbsolute:
+                    self._form.separationSpinBox.units = FreeCAD.Units.Length
+                else:
+                    self._form.separationSpinBox.units = ''
+                # self._form.separationAbsoluteRadio.setChecked(self._obj.ClusterSeparationAbsolute)
+                # self._form.separationRelativeRadio.setChecked(not self._obj.ClusterSeparationAbsolute)
+
+                # self._form.rotationSpinBox.setEnabled(enabled)
+
+                if self._obj.ClusterCant:
+                    # self._form.cantAngleRadio.setChecked(self._obj.ClusterCantUseAngle)
+                    # self._form.cantFocusRadio.setChecked(not self._obj.ClusterCantUseAngle)
+                    if self._obj.ClusterCantUseAngle:
+                        self._form.cantAngleSpinBox.setEnabled(True)
+                        self._form.cantFocusSpinBox.setEnabled(False)
+                        self._form.cantFocusRelativeRadio.setEnabled(False)
+                        self._form.cantFocusAbsoluteRadio.setEnabled(False)
+                    else:
+                        self._form.cantAngleSpinBox.setEnabled(False)
+                        self._form.cantFocusSpinBox.setEnabled(True)
+                        self._form.cantFocusRelativeRadio.setEnabled(True)
+                        self._form.cantFocusAbsoluteRadio.setEnabled(True)
+                    # self._form.cantFocusRelativeRadio.setChecked(not self._obj.ClusterCantFocusAbsolute)
+                    # self._form.cantFocusAbsoluteRadio.setChecked(self._obj.ClusterCantFocusAbsolute)
+        except Exception as e:
+            print(f"setClusterState: {e}")
 
     def onClusterGroup(self, checked: bool) -> None:
         if self._loading:
@@ -258,12 +280,18 @@ class ClusterTab(QObject):
                 pass
             self.setEdited()
 
-    def onClusterSeparation(self, value: float) -> None:
+    def onClusterSeparation(self, value: float | Units.Quantity) -> None:
         if self._loading:
             return
         with WaitCursor():
             try:
-                self._obj.ClusterSeparation = value
+                try:
+                    if self._obj.ClusterSeparationAbsolute:
+                        self._obj.Proxy.setClusterScaleAbsolute(value)
+                    else:
+                        self._obj.Proxy.setClusterScale(value.Value)
+                except Exception as e:
+                    print(f"onClusterSeparation({value}): {e}")
                 self._obj.Proxy.execute(self._obj)
             except ValueError:
                 pass
@@ -278,9 +306,16 @@ class ClusterTab(QObject):
         with WaitCursor():
             try:
                 self._obj.ClusterSeparationAbsolute = checked
+                if checked:
+                    quantity = self._obj.Proxy.getClusterScaleAbsoluteQuantity()
+                else:
+                    quantity = self._obj.Proxy.getClusterScaleQuantity()
+                self._form.separationSpinBox.setProperty("value", quantity)
                 self._obj.Proxy.execute(self._obj)
             except ValueError:
                 pass
+            except Exception as e:
+                print(f"onClusterSeparationAbsolute: {e}")
             self.setEdited()
 
     def onClusterRotation(self, value: float) -> None:

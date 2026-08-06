@@ -43,7 +43,6 @@ class InnerTubeShapeHandler(BodyTubeShapeHandler):
     def __init__(self, obj : Any) -> None:
         super().__init__(obj)
 
-        self._configuration = obj.ClusterConfiguration
         self._scale = float(obj.ClusterScale)
         self._rotation = float(obj.ClusterRotation)
 
@@ -53,26 +52,7 @@ class InnerTubeShapeHandler(BodyTubeShapeHandler):
         self._clusterRows = int(obj.ClusterRows)
         self._clusterColumns = int(obj.ClusterColumns)
         self._clusterIncludeCenter = bool(obj.ClusterIncludeCenter)
-        # if not hasattr(obj, 'ClusterScale'):
-        #     obj.addProperty('App::PropertyFloat', 'ClusterScale', 'RocketComponent', translate('App::Property', 'Size scaling for the motor mount cluster')).ClusterScale = 1.0
-        # if not hasattr(obj, "ClusterSeparation"):
-        #     obj.addProperty('App::PropertyDistance', 'ClusterSeparation', 'RocketComponent', translate('App::Property', 'Distance between the closest two cluster components')).ClusterSeparation = 0.0
-        # if not hasattr(obj, "ClusterSeparationAbsolute"):
-        #     obj.addProperty('App::PropertyBool', 'ClusterSeparationAbsolute', 'RocketComponent', translate('App::Property', 'Whether the cluster separation is absolute or relative')).ClusterSeparationAbsolute = False
-        # if not hasattr(obj,"ClusterRotation"):
-        #     obj.addProperty('App::PropertyAngle', 'ClusterRotation', 'RocketComponent', translate('App::Property', 'Rotation applied to the motor mount cluster')).ClusterRotation = 0.0
-        # if not hasattr(obj, "ClusterCant"):
-        #     obj.addProperty('App::PropertyBool', 'ClusterCant', 'RocketComponent', translate('App::Property', 'Cant angle applied to the motor mount cluster')).ClusterCant = False
-        # if not hasattr(obj, "ClusterCantUseAngle"):
-        #     obj.addProperty('App::PropertyBool', 'ClusterCantUseAngle', 'RocketComponent', translate('App::Property', 'Whether to use the cant angle or cant focus')).ClusterCantUseAngle = True
-        # if not hasattr(obj, "ClusterCantAngle"):
-        #     obj.addProperty('App::PropertyAngle', 'ClusterCantAngle', 'RocketComponent', translate('App::Property', 'Cant angle applied to the motor mount cluster')).ClusterCantAngle = 0.0
-        # if not hasattr(obj, "ClusterCantFocus"):
-        #     obj.addProperty('App::PropertyDistance', 'ClusterCantFocus', 'RocketComponent', translate('App::Property', 'Distance to the focus point for the cant angle')).ClusterCantFocus = 0.0
-        # if not hasattr(obj, "ClusterCantFocusAbsolute"):
-        #     obj.addProperty('App::PropertyBool', 'ClusterCantFocusAbsolute', 'RocketComponent', translate('App::Property', 'Whether the cant focus distance is absolute or relative')).ClusterCantFocusAbsolute = False
 
-   
     def getPoints(self) -> tuple[float, ...]:
         if self._clustered:
             if self._clusterRadial:

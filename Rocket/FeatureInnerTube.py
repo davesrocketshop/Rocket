@@ -71,8 +71,8 @@ class FeatureInnerTube(ThicknessRingComponent, Clusterable, AxialPositionable, B
             obj.addProperty('App::PropertyBool', 'ClusterIncludeCenter', 'RocketComponent', translate('App::Property', 'Whether to include a component at the center of the cluster')).ClusterIncludeCenter = True
         if not hasattr(obj, 'ClusterScale'):
             obj.addProperty('App::PropertyFloat', 'ClusterScale', 'RocketComponent', translate('App::Property', 'Size scaling for the motor mount cluster')).ClusterScale = 1.0
-        if not hasattr(obj, "ClusterSeparation"):
-            obj.addProperty('App::PropertyDistance', 'ClusterSeparation', 'RocketComponent', translate('App::Property', 'Distance between the closest two cluster components')).ClusterSeparation = 0.0
+        # if not hasattr(obj, "ClusterSeparation"):
+        #     obj.addProperty('App::PropertyDistance', 'ClusterSeparation', 'RocketComponent', translate('App::Property', 'Distance between the closest two cluster components')).ClusterSeparation = 0.0
         if not hasattr(obj, "ClusterSeparationAbsolute"):
             obj.addProperty('App::PropertyBool', 'ClusterSeparationAbsolute', 'RocketComponent', translate('App::Property', 'Whether the cluster separation is absolute or relative')).ClusterSeparationAbsolute = False
         if not hasattr(obj,"ClusterRotation"):
@@ -177,12 +177,15 @@ class FeatureInnerTube(ThicknessRingComponent, Clusterable, AxialPositionable, B
     def getClusterScale(self) -> float:
         return float(self._obj.ClusterScale)
 
+    def getClusterScaleQuantity(self) -> FreeCAD.Units.Quantity:
+        return FreeCAD.Units.Quantity(self.getClusterScale(), "")
+
     """
         Set the cluster scaling.
         @see #getClusterScale()
     """
     def setClusterScale(self, scale : float) -> None:
-        scale = max(scale, 0)
+        scale = max(float(scale), 0)
 
         if self._obj.ClusterScale == scale:
             return
@@ -191,10 +194,31 @@ class FeatureInnerTube(ThicknessRingComponent, Clusterable, AxialPositionable, B
         self.notifyComponentChanged()
 
     """
+        Get the cluster scaling as an absolute distance measurement.  A value of 0 indicates that the tubes are packed
+        touching each other, larger values separate the tubes and smaller values pack inside each other.
+    """
+    def getClusterScaleAbsolute(self) -> float:
+        return (self.getClusterScale() - 1) * self.getOuterRadius(0) * 2
+
+    def getClusterScaleAbsoluteQuantity(self) -> FreeCAD.Units.Quantity:
+        return FreeCAD.Units.Quantity(self.getClusterScaleAbsolute(), "mm")
+
+    """
+        Set the absolute cluster scaling (in terms of distance).
+        @see #getClusterScaleAbsolute()
+    """
+    def setClusterScaleAbsolute(self, scale : float) -> None:
+        scaleRel = float(scale) / (self.getOuterRadius(0) * 2) + 1
+        self.setClusterScale(scaleRel)
+
+    """
         return the clusterRotation
     """
     def getClusterRotation(self) -> float:
         return float(self._obj.ClusterRotation)
+
+    def getClusterRotationQuantity(self) -> FreeCAD.Units.Quantity:
+        return FreeCAD.Units.Quantity(self.getClusterRotation(), "deg")
 
     """
         the clusterRotation to set
