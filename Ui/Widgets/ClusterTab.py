@@ -103,10 +103,8 @@ class ClusterTab(QObject):
             obj.ClusterIncludeCenter = self._form.clusterIncludeCenterCheckbox.isChecked()
             if obj.ClusterSeparationAbsolute:
                 obj.Proxy.setClusterScaleAbsolute(self._form.separationSpinBox.property("value").Value)
-                # self._form.separationSpinBox.setProperty("value", obj.Proxy.getClusterScaleAbsoluteQuantity())
             else:
                 obj.Proxy.setClusterScale(self._form.separationSpinBox.property("value").Value)
-                # self._form.separationSpinBox.setProperty("value", obj.Proxy.getClusterScaleQuantity())
             obj.ClusterRotation = self._form.rotationSpinBox.property("value")
             obj.ClusterCant = self._form.cantGroupBox.isChecked()
             obj.ClusterCantUseAngle = self._form.cantAngleRadio.isChecked()
@@ -165,8 +163,6 @@ class ClusterTab(QObject):
             self._form.cantGroupBox.setEnabled(enabled)
             if enabled:
                 radial = self._obj.ClusterRadial
-                # self._form.clusterRadialRadio.setChecked(radial)
-                # self._form.clusterXYRadio.setChecked(not radial)
 
                 if radial:
                     self._form.clusterRadialCountSpinBox.setEnabled(True)
@@ -176,20 +172,17 @@ class ClusterTab(QObject):
                     self._form.clusterRadialCountSpinBox.setEnabled(False)
                     self._form.clusterRowsSpinBox.setEnabled(True)
                     self._form.clusterColumnsSpinBox.setEnabled(True)
-                # self._form.clusterIncludeCenterCheckbox.setEnabled(enabled)
 
                 if self._obj.ClusterSeparationAbsolute:
                     self._form.separationSpinBox.units = FreeCAD.Units.Length
+                    self._form.separationSpinBox.setToolTip(translate('Rocket', "The separation of the tubes. 0.0 = touching each other"))
+                    self._form.separationSpinBox.minimum = 0.0
                 else:
                     self._form.separationSpinBox.units = ''
-                # self._form.separationAbsoluteRadio.setChecked(self._obj.ClusterSeparationAbsolute)
-                # self._form.separationRelativeRadio.setChecked(not self._obj.ClusterSeparationAbsolute)
-
-                # self._form.rotationSpinBox.setEnabled(enabled)
+                    self._form.separationSpinBox.setToolTip(translate('Rocket', "The separation of the tubes. 1.0 = touching each other"))
+                    self._form.separationSpinBox.minimum = 1.0
 
                 if self._obj.ClusterCant:
-                    # self._form.cantAngleRadio.setChecked(self._obj.ClusterCantUseAngle)
-                    # self._form.cantFocusRadio.setChecked(not self._obj.ClusterCantUseAngle)
                     if self._obj.ClusterCantUseAngle:
                         self._form.cantAngleSpinBox.setEnabled(True)
                         self._form.cantFocusSpinBox.setEnabled(False)
@@ -200,26 +193,22 @@ class ClusterTab(QObject):
                         self._form.cantFocusSpinBox.setEnabled(True)
                         self._form.cantFocusRelativeRadio.setEnabled(True)
                         self._form.cantFocusAbsoluteRadio.setEnabled(True)
-                    # self._form.cantFocusRelativeRadio.setChecked(not self._obj.ClusterCantFocusAbsolute)
-                    # self._form.cantFocusAbsoluteRadio.setChecked(self._obj.ClusterCantFocusAbsolute)
         except Exception as e:
             print(f"setClusterState: {e}")
 
     def onClusterGroup(self, checked: bool) -> None:
         if self._loading:
             return
-        self._setClusterState()
-        self.setEdited()
+        with WaitCursor():
+            self._obj.Clustered = checked
+            self._setClusterState()
+            self.setEdited()
 
     def onClusterRadial(self, checked: bool) -> None:
         if self._loading:
             return
         with WaitCursor():
-            try:
-                self._obj.ClusterRadial = checked
-                self._obj.Proxy.execute(self._obj)
-            except ValueError:
-                pass
+            self._obj.ClusterRadial = checked
             self._setClusterState()
             self.setEdited()
 
@@ -229,21 +218,15 @@ class ClusterTab(QObject):
         with WaitCursor():
             try:
                 self._obj.ClusterRadialCount = value
-                self._obj.Proxy.execute(self._obj)
             except ValueError:
                 pass
-            count = self._form.clusterRadialCountSpinBox.value()
             self.setEdited()
 
     def onClusterXY(self, checked: bool) -> None:   
         if self._loading:
             return
         with WaitCursor():
-            try:
-                self._obj.ClusterRadial = not checked
-                self._obj.Proxy.execute(self._obj)
-            except ValueError:
-                pass
+            self._obj.ClusterRadial = not checked
             self._setClusterState()
             self.setEdited()
 
@@ -253,7 +236,6 @@ class ClusterTab(QObject):
         with WaitCursor():
             try:
                 self._obj.ClusterRows = value
-                self._obj.Proxy.execute(self._obj)
             except ValueError:
                 pass
             self.setEdited()
@@ -264,7 +246,6 @@ class ClusterTab(QObject):
         with WaitCursor():
             try:
                 self._obj.ClusterColumns = value
-                self._obj.Proxy.execute(self._obj)
             except ValueError:
                 pass
             self.setEdited()
@@ -273,11 +254,7 @@ class ClusterTab(QObject):
         if self._loading:
             return
         with WaitCursor():
-            try:
-                self._obj.ClusterIncludeCenter = checked
-                self._obj.Proxy.execute(self._obj)
-            except ValueError:
-                pass
+            self._obj.ClusterIncludeCenter = checked
             self.setEdited()
 
     def onClusterSeparation(self, value: float | Units.Quantity) -> None:
@@ -285,14 +262,17 @@ class ClusterTab(QObject):
             return
         with WaitCursor():
             try:
-                try:
-                    if self._obj.ClusterSeparationAbsolute:
-                        self._obj.Proxy.setClusterScaleAbsolute(value)
-                    else:
-                        self._obj.Proxy.setClusterScale(value.Value)
-                except Exception as e:
-                    print(f"onClusterSeparation({value}): {e}")
-                self._obj.Proxy.execute(self._obj)
+                value = float(value)
+                if value < self._form.separationSpinBox.minimum:
+                    # This should be handled by the spin box, but for some reason it isn't. So we handle it here.
+                    value = self._form.separationSpinBox.minimum
+                if self._obj.ClusterSeparationAbsolute:
+                    self._obj.Proxy.setClusterScaleAbsolute(value)
+                    quantity = self._obj.Proxy.getClusterScaleAbsoluteQuantity()
+                else:
+                    self._obj.Proxy.setClusterScale(value)
+                    quantity = self._obj.Proxy.getClusterScaleQuantity()
+                self._form.separationSpinBox.setProperty("value", quantity)
             except ValueError:
                 pass
             self.setEdited()
@@ -311,11 +291,9 @@ class ClusterTab(QObject):
                 else:
                     quantity = self._obj.Proxy.getClusterScaleQuantity()
                 self._form.separationSpinBox.setProperty("value", quantity)
-                self._obj.Proxy.execute(self._obj)
             except ValueError:
                 pass
-            except Exception as e:
-                print(f"onClusterSeparationAbsolute: {e}")
+            self._setClusterState()
             self.setEdited()
 
     def onClusterRotation(self, value: float) -> None:
@@ -324,7 +302,6 @@ class ClusterTab(QObject):
         with WaitCursor():
             try:
                 self._obj.ClusterRotation = value
-                self._obj.Proxy.execute(self._obj)
             except ValueError:
                 pass
             self.setEdited()
@@ -333,11 +310,7 @@ class ClusterTab(QObject):
         if self._loading:
             return
         with WaitCursor():
-            try:
-                self._obj.ClusterCant = checked
-                self._obj.Proxy.execute(self._obj)
-            except ValueError:
-                pass
+            self._obj.ClusterCant = checked
             self._setClusterState()
             self.setEdited()
 
@@ -345,11 +318,7 @@ class ClusterTab(QObject):
         if self._loading:
             return
         with WaitCursor():
-            try:
-                self._obj.ClusterCantUseAngle = checked
-                self._obj.Proxy.execute(self._obj)
-            except ValueError:
-                pass
+            self._obj.ClusterCantUseAngle = checked
             self._setClusterState()
             self.setEdited()
 
@@ -359,7 +328,6 @@ class ClusterTab(QObject):
         with WaitCursor():
             try:
                 self._obj.ClusterCantAngle = value
-                self._obj.Proxy.execute(self._obj)
             except ValueError:
                 pass
             self.setEdited()
@@ -373,7 +341,6 @@ class ClusterTab(QObject):
         with WaitCursor():
             try:
                 self._obj.ClusterCantFocus = value
-                self._obj.Proxy.execute(self._obj)
             except ValueError:
                 pass
             self.setEdited()
@@ -385,11 +352,7 @@ class ClusterTab(QObject):
         if self._loading:
             return
         with WaitCursor():
-            try:
-                self._obj.ClusterCantFocusAbsolute = checked
-                self._obj.Proxy.execute(self._obj)
-            except ValueError:
-                pass
+            self._obj.ClusterCantFocusAbsolute = checked
             self.setEdited()
 
     def onSplitCluster(self) -> None:
@@ -403,5 +366,6 @@ class ClusterTab(QObject):
         if self._loading:
             return
         with WaitCursor():
-            pass # To be implemented
+            self._obj.Proxy.resetCluster()
+            self.transferFrom(self._obj)
             self.setEdited()

@@ -39,7 +39,6 @@ from Rocket.interfaces.Clusterable import Clusterable
 from Rocket.interfaces.RadialParent import RadialParent
 
 from Rocket.ThicknessRingComponent import ThicknessRingComponent
-from Rocket.ClusterConfiguration import ClusterConfiguration, SINGLE
 from Rocket.util.BoundingBox import BoundingBox
 from Rocket.util.Coordinate import Coordinate, ZERO
 from Rocket.Utilities import reducePi
@@ -55,8 +54,6 @@ class FeatureInnerTube(ThicknessRingComponent, Clusterable, AxialPositionable, B
         super().__init__(obj)
         self.Type = FEATURE_INNER_TUBE
 
-        if not hasattr(obj,"ClusterConfiguration"):
-            obj.addProperty('App::PropertyPythonObject', 'ClusterConfiguration', 'RocketComponent', translate('App::Property', 'Layout of a clustered motor mount')).ClusterConfiguration = SINGLE
         if not hasattr(obj,"Clustered"):
             obj.addProperty('App::PropertyBool', 'Clustered', 'RocketComponent', translate('App::Property', 'Whether the component is part of a cluster')).Clustered = False
         if not hasattr(obj, "ClusterRadial"):
@@ -71,8 +68,6 @@ class FeatureInnerTube(ThicknessRingComponent, Clusterable, AxialPositionable, B
             obj.addProperty('App::PropertyBool', 'ClusterIncludeCenter', 'RocketComponent', translate('App::Property', 'Whether to include a component at the center of the cluster')).ClusterIncludeCenter = True
         if not hasattr(obj, 'ClusterScale'):
             obj.addProperty('App::PropertyFloat', 'ClusterScale', 'RocketComponent', translate('App::Property', 'Size scaling for the motor mount cluster')).ClusterScale = 1.0
-        # if not hasattr(obj, "ClusterSeparation"):
-        #     obj.addProperty('App::PropertyDistance', 'ClusterSeparation', 'RocketComponent', translate('App::Property', 'Distance between the closest two cluster components')).ClusterSeparation = 0.0
         if not hasattr(obj, "ClusterSeparationAbsolute"):
             obj.addProperty('App::PropertyBool', 'ClusterSeparationAbsolute', 'RocketComponent', translate('App::Property', 'Whether the cluster separation is absolute or relative')).ClusterSeparationAbsolute = False
         if not hasattr(obj,"ClusterRotation"):
@@ -96,9 +91,27 @@ class FeatureInnerTube(ThicknessRingComponent, Clusterable, AxialPositionable, B
     def setDefaults(self) -> None:
         super().setDefaults()
 
+        self.resetCluster()
+
         self._obj.Diameter = 19.0
         self._obj.Thickness = 0.5
         self._obj.Length = 70.0
+
+    def resetCluster(self) -> None:
+        self._obj.Clustered = False
+        self._obj.ClusterRadial = False
+        self._obj.ClusterRadialCount = 3
+        self._obj.ClusterRows = 1
+        self._obj.ClusterColumns = 1
+        self._obj.ClusterIncludeCenter = True
+        self._obj.ClusterScale = 1.0
+        self._obj.ClusterSeparationAbsolute = False
+        self._obj.ClusterRotation = 0.0
+        self._obj.ClusterCant = False
+        self._obj.ClusterCantUseAngle = True
+        self._obj.ClusterCantAngle = 0.0
+        self._obj.ClusterCantFocus = 0.0
+        self._obj.ClusterCantFocusAbsolute = False
 
     def onDocumentRestored(self, obj : Any) -> None:
         FeatureInnerTube(obj)
@@ -109,6 +122,7 @@ class FeatureInnerTube(ThicknessRingComponent, Clusterable, AxialPositionable, B
         self._obj = obj
 
     def execute(self, obj : Any) -> None:
+        # print(f"Executing {self.Type} {obj.Name}")
         shape = InnerTubeShapeHandler(obj)
         if shape:
             shape.draw()
@@ -124,7 +138,7 @@ class FeatureInnerTube(ThicknessRingComponent, Clusterable, AxialPositionable, B
         return False
 
     def getPatternName(self) -> str:
-        return self._obj.ClusterConfiguration.getXMLName()
+        return None
 
     def eligibleChild(self, childType : str) -> bool:
         return childType in [
@@ -134,23 +148,6 @@ class FeatureInnerTube(ThicknessRingComponent, Clusterable, AxialPositionable, B
             FEATURE_ENGINE_BLOCK,
             # FEATURE_BODY_TUBE,
             FEATURE_CENTERING_RING]
-
-    """
-        Get the current cluster configuration.
-    """
-    def getClusterConfiguration(self) -> ClusterConfiguration:
-        return self._obj.ClusterConfiguration
-
-    """
-        Set the current cluster configuration.
-    """
-    def setClusterConfiguration(self, cluster : ClusterConfiguration) -> None:
-        if cluster == self._obj.ClusterConfiguration:
-            # no change
-            return
-
-        self._obj.ClusterConfiguration = cluster
-        self.notifyComponentChanged()
 
     def getInstanceBoundingBox(self) -> BoundingBox:
         instanceBounds = BoundingBox()
@@ -164,7 +161,14 @@ class FeatureInnerTube(ThicknessRingComponent, Clusterable, AxialPositionable, B
         return instanceBounds
 
     def getInstanceCount(self) -> int:
-        return self._obj.ClusterConfiguration.getClusterCount()
+        if self._obj.Clustered:
+            if self._obj.ClusterRadial:
+                return self._obj.ClusterRadialCount
+            else:
+                if self._obj.ClusterIncludeCenter or self._obj.ClusterRows < 2 or self._obj.ClusterColumns < 2:
+                    return self._obj.ClusterRows * self._obj.ClusterColumns
+                return 2 * self._obj.ClusterColumns + 2 * self._obj.ClusterRows - 4
+        return 1
 
     def setInstanceCount(self, newCount : int) -> None:
         raise ValueError("Setting the cluster instance count directly is not allowed")
@@ -241,19 +245,20 @@ class FeatureInnerTube(ThicknessRingComponent, Clusterable, AxialPositionable, B
 
     def getClusterPoints(self) -> list:
         list = []
-        points = self._obj.ClusterConfiguration.getPointsRotated(float(self._obj.ClusterRotation) - self.getRadialDirection())
-        separation = self.getClusterSeparation()
-        for i in range(self._obj.ClusterConfiguration.getClusterCount()):
-            list.append(Coordinate(0, points[2 * i] * separation, points[2 * i + 1] * separation))
+        # points = self._obj.ClusterConfiguration.getPointsRotated(float(self._obj.ClusterRotation) - self.getRadialDirection())
+        # separation = self.getClusterSeparation()
+        # for i in range(self._obj.ClusterConfiguration.getClusterCount()):
+        #     list.append(Coordinate(0, points[2 * i] * separation, points[2 * i + 1] * separation))
+        list.append(Coordinate(0, 0, 0))
 
         return list
 
     def getInstanceOffsets(self) -> list:
 
-        if self.getInstanceCount() == 1:
-            yOffset = self.getRadialPosition() * math.cos(self.getRadialDirection())
-            zOffset = self.getRadialPosition() * math.sin(self.getRadialDirection())
-            return [ZERO.addValues(0.0, yOffset, zOffset)]
+        # if self.getInstanceCount() == 1:
+        #     yOffset = self.getRadialPosition() * math.cos(self.getRadialDirection())
+        #     zOffset = self.getRadialPosition() * math.sin(self.getRadialDirection())
+        #     return [ZERO.addValues(0.0, yOffset, zOffset)]
 
         points = self.getClusterPoints()
 

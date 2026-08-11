@@ -62,10 +62,78 @@ class InnerTubeElement(BodyTubeElement):
 
     def onClusterConfiguration(self, name):
         try:
-            # self._feature._obj.ClusterConfiguration = CONFIGURATIONS[name]
-            pass # Not yet complete
-        except:
-            _err(translate('Rocket', "Unknown cluster configuration"))
+            if name == "single":
+                self._feature._obj.Clustered = False
+            elif name == "double":
+                self._feature._obj.Clustered = True
+                self._feature._obj.ClusterRadial = False
+                self._feature._obj.ClusterRows = 1
+                self._feature._obj.ClusterColumns = 2
+            elif name == "3-row":
+                self._feature._obj.Clustered = True
+                self._feature._obj.ClusterRadial = False
+                self._feature._obj.ClusterRows = 1
+                self._feature._obj.ClusterColumns = 3
+            elif name == "4-row":
+                self._feature._obj.Clustered = True
+                self._feature._obj.ClusterRadial = False
+                self._feature._obj.ClusterRows = 1
+                self._feature._obj.ClusterColumns = 4
+            elif name == "3-ring":
+                self._feature._obj.Clustered = True
+                self._feature._obj.ClusterRadial = True
+                self._feature._obj.ClusterRadialCount = 3
+                self._feature._obj.ClusterIncludeCenter = False
+            elif name == "4-ring":
+                self._feature._obj.Clustered = True
+                self._feature._obj.ClusterRadial = True
+                self._feature._obj.ClusterRadialCount = 4
+                self._feature._obj.ClusterIncludeCenter = False
+            elif name == "5-ring":
+                self._feature._obj.Clustered = True
+                self._feature._obj.ClusterRadial = True
+                self._feature._obj.ClusterRadialCount = 5
+                self._feature._obj.ClusterIncludeCenter = False
+            elif name == "6-ring":
+                self._feature._obj.Clustered = True
+                self._feature._obj.ClusterRadial = True
+                self._feature._obj.ClusterRadialCount = 6
+                self._feature._obj.ClusterIncludeCenter = False
+            elif name == "3-star":
+                self._feature._obj.Clustered = True
+                self._feature._obj.ClusterRadial = True
+                self._feature._obj.ClusterRadialCount = 3
+                self._feature._obj.ClusterIncludeCenter = True
+            elif name == "4-star":
+                self._feature._obj.Clustered = True
+                self._feature._obj.ClusterRadial = True
+                self._feature._obj.ClusterRadialCount = 4
+                self._feature._obj.ClusterIncludeCenter = True
+            elif name == "5-star":
+                self._feature._obj.Clustered = True
+                self._feature._obj.ClusterRadial = True
+                self._feature._obj.ClusterRadialCount = 5
+                self._feature._obj.ClusterIncludeCenter = True
+            elif name == "6-star":
+                self._feature._obj.Clustered = True
+                self._feature._obj.ClusterRadial = True
+                self._feature._obj.ClusterRadialCount = 6
+                self._feature._obj.ClusterIncludeCenter = True
+            elif name == "9-grid":
+                self._feature._obj.Clustered = True
+                self._feature._obj.ClusterRadial = False
+                self._feature._obj.ClusterRows = 3
+                self._feature._obj.ClusterColumns = 3
+            elif name == "9-star":
+                self._feature._obj.Clustered = True
+                self._feature._obj.ClusterRadial = True
+                self._feature._obj.ClusterRadialCount = 8
+                self._feature._obj.ClusterIncludeCenter = True
+            else:
+                _err(translate('Rocket', "Unknown cluster configuration: {}").format(name))
+        except Exception as e:
+            # _err(translate('Rocket', "Unknown cluster configuration"))
+            _err(translate('Rocket', "Error occurred while setting cluster configuration: {}").format(e))
 
     def onClusterScale(self, value):
         self._feature._obj.ClusterScale = value

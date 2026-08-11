@@ -89,7 +89,6 @@ class InnerTubeShapeHandler(BodyTubeShapeHandler):
         if count % 2 == 0:
             # even number
             position += 0.5
-        print(f"Position({n}, {count}) = {position}")
         return position
 
     def getPointsXY(self) -> tuple[float, ...]:

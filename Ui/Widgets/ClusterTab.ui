@@ -16,6 +16,9 @@
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <widget class="QGroupBox" name="clusterGroup">
+     <property name="toolTip">
+      <string>Enable clustering</string>
+     </property>
      <property name="title">
       <string>Cluster configuration</string>
      </property>
@@ -28,6 +31,9 @@
      <layout class="QGridLayout" name="gridLayout">
       <item row="3" column="0">
        <widget class="QRadioButton" name="clusterXYRadio">
+        <property name="toolTip">
+         <string>Cluster is arranged in a grid pattern</string>
+        </property>
         <property name="text">
          <string>XY Grid</string>
         </property>
@@ -38,8 +44,11 @@
       </item>
       <item row="6" column="0" colspan="2">
        <widget class="QCheckBox" name="clusterIncludeCenterCheckbox">
+        <property name="toolTip">
+         <string>Include the inner tubes in the cluster</string>
+        </property>
         <property name="text">
-         <string>Include center</string>
+         <string>Include inner</string>
         </property>
        </widget>
       </item>
@@ -52,6 +61,9 @@
       </item>
       <item row="0" column="0">
        <widget class="QRadioButton" name="clusterRadialRadio">
+        <property name="toolTip">
+         <string>Cluster is arranged in a circle</string>
+        </property>
         <property name="text">
          <string>Radial</string>
         </property>
@@ -76,6 +88,9 @@
       </item>
       <item row="1" column="1">
        <widget class="QSpinBox" name="clusterRadialCountSpinBox">
+        <property name="toolTip">
+         <string>Number of tubes in a cluster excluding the center tube if any</string>
+        </property>
         <property name="minimum">
          <number>3</number>
         </property>
@@ -86,6 +101,9 @@
       </item>
       <item row="4" column="1">
        <widget class="QSpinBox" name="clusterRowsSpinBox">
+        <property name="toolTip">
+         <string>The number of rows in the cluster</string>
+        </property>
         <property name="minimum">
          <number>1</number>
         </property>
@@ -96,6 +114,9 @@
       </item>
       <item row="5" column="1">
        <widget class="QSpinBox" name="clusterColumnsSpinBox">
+        <property name="toolTip">
+         <string>The number of columns in the cluster</string>
+        </property>
         <property name="minimum">
          <number>1</number>
         </property>
@@ -115,6 +136,9 @@
      <layout class="QGridLayout" name="gridLayout_2">
       <item row="1" column="1">
        <widget class="QRadioButton" name="separationRelativeRadio">
+        <property name="toolTip">
+         <string>The separation is measured relative to the outer diameter of the tube</string>
+        </property>
         <property name="text">
          <string>Relative</string>
         </property>
@@ -122,6 +146,9 @@
       </item>
       <item row="1" column="2">
        <widget class="QRadioButton" name="separationAbsoluteRadio">
+        <property name="toolTip">
+         <string>The separation is measured as a distance</string>
+        </property>
         <property name="text">
          <string>Absolute</string>
         </property>
@@ -132,6 +159,9 @@
       </item>
       <item row="0" column="0" colspan="3">
        <widget class="Gui::QuantitySpinBox" name="separationSpinBox">
+        <property name="toolTip">
+         <string>The separation of the tubes. 0 = touching each other</string>
+        </property>
         <property name="unit" stdset="0">
          <string>mm</string>
         </property>
@@ -151,6 +181,9 @@
      <layout class="QGridLayout" name="gridLayout_3">
       <item row="0" column="0">
        <widget class="Gui::QuantitySpinBox" name="rotationSpinBox">
+        <property name="toolTip">
+         <string>Rotation angle of the cluster</string>
+        </property>
         <property name="unit" stdset="0">
          <string notr="true">deg</string>
         </property>
@@ -167,6 +200,9 @@
    </item>
    <item>
     <widget class="QGroupBox" name="cantGroupBox">
+     <property name="toolTip">
+      <string>Enable canted cluster configuration</string>
+     </property>
      <property name="title">
       <string>Cant</string>
      </property>
@@ -179,20 +215,29 @@
      <layout class="QGridLayout" name="gridLayout_4">
       <item row="1" column="1" colspan="2">
        <widget class="Gui::QuantitySpinBox" name="cantFocusSpinBox">
+        <property name="toolTip">
+         <string>Specify a focal point along the center line relative to the base of the tube</string>
+        </property>
         <property name="unit" stdset="0">
-         <string notr="true"/>
+         <string notr="true">mm</string>
         </property>
        </widget>
       </item>
       <item row="0" column="1" colspan="2">
        <widget class="Gui::QuantitySpinBox" name="cantAngleSpinBox">
+        <property name="toolTip">
+         <string>Specify the angle of the outer tubes relative to the center line</string>
+        </property>
         <property name="unit" stdset="0">
-         <string notr="true"/>
+         <string notr="true">deg</string>
         </property>
        </widget>
       </item>
       <item row="0" column="0">
        <widget class="QRadioButton" name="cantAngleRadio">
+        <property name="toolTip">
+         <string>Specify the angle of the outer tubes relative to the center line</string>
+        </property>
         <property name="text">
          <string>Angle</string>
         </property>
@@ -229,6 +274,9 @@
       </item>
       <item row="1" column="0">
        <widget class="QRadioButton" name="cantFocusRadio">
+        <property name="toolTip">
+         <string>Specify a focal point along the center line relative to the base of the tube</string>
+        </property>
         <property name="text">
          <string>Focus</string>
         </property>
@@ -257,6 +305,12 @@
      </item>
      <item>
       <widget class="QPushButton" name="splitClusterButton">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="toolTip">
+        <string>Separate the cluster into independant components. This also duplicates all components attached to the inner tube</string>
+       </property>
        <property name="text">
         <string>Split cluster</string>
        </property>
@@ -264,6 +318,9 @@
      </item>
      <item>
       <widget class="QPushButton" name="resetButton">
+       <property name="toolTip">
+        <string>Resets the cluster to the default configuration</string>
+       </property>
        <property name="text">
         <string>Reset</string>
        </property>
@@ -318,7 +375,7 @@
  <resources/>
  <connections/>
  <buttongroups>
-  <buttongroup name="buttonGroupCant"/>
   <buttongroup name="buttonGroupCantRelative"/>
+  <buttongroup name="buttonGroupCant"/>
  </buttongroups>
 </ui>

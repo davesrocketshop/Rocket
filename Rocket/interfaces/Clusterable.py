@@ -32,13 +32,5 @@ from Rocket.interfaces.Instanceable import Instanceable
 class Clusterable(Instanceable):
 
     # @abstractmethod
-    def getClusterConfiguration(self):
-        raise NotImplementedError
-
-    # @abstractmethod
-    def setClusterConfiguration(self, cluster):
-        raise NotImplementedError
-
-    # @abstractmethod
     def getClusterSeparation(self):
         raise NotImplementedError

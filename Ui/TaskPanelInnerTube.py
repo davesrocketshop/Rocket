@@ -55,7 +55,7 @@ class TaskPanelInnerTube(TaskPanelBodyTube):
             self._btForm.tabCluster.cluster.connect(self.onClusterChanged)
 
     def onClusterChanged(self) -> None:
-        ...
+        self.setEdited()
 
     def transferTo(self):
         "Transfer from the dialog to the object"
