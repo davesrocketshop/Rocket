@@ -53,23 +53,22 @@ class InnerTubeShapeHandler(BodyTubeShapeHandler):
         self._clusterColumns = int(obj.ClusterColumns)
         self._clusterIncludeCenter = bool(obj.ClusterIncludeCenter)
 
-    def getPoints(self) -> tuple[float, ...]:
+    def getPoints(self) -> list[FreeCAD.Vector]:
         if self._clustered:
             if self._clusterRadial:
                 return self.getPointsRadial()
             else:
-                return self.getPointsXY()
+                return self.getPointsGrid()
         return self.getPointsUnclustered()
 
-    def getPointsUnclustered(self) -> tuple[float, ...]:
-        return (0.0, 0.0)
+    def getPointsUnclustered(self) -> list[FreeCAD.Vector]:
+        return [FreeCAD.Vector(0.0, 0.0, 0.0)]
 
-    def getPointsRadial(self) -> tuple[float, ...]:
+    def getPointsRadial(self) -> list[FreeCAD.Vector]:
         points = []
         if self._clusterIncludeCenter:
             # Add the center point
-            points.append(0.0)
-            points.append(0.0)
+            points.append(FreeCAD.Vector(0.0, 0.0, 0.0))
 
         for i in range(self._clusterRadialCount):
             # scale = 0.5
@@ -77,12 +76,11 @@ class InnerTubeShapeHandler(BodyTubeShapeHandler):
             if self._clusterIncludeCenter:
                 if scale < 1.0:
                     scale = 1.0
-            x = scale * math.sin(2*i*math.pi/self._clusterRadialCount)
-            y = scale * math.cos(2*i*math.pi/self._clusterRadialCount)
-            points.append(x)
-            points.append(y)
+            y = scale * math.sin(2*i*math.pi/self._clusterRadialCount)
+            z = scale * math.cos(2*i*math.pi/self._clusterRadialCount)
+            points.append(FreeCAD.Vector(0.0, y, z))
 
-        return tuple(points)
+        return points
 
     def gridPosition(self, n : int, count : int) -> float:
         position =  -1.0 * math.floor(count / 2) + float(n)
@@ -91,31 +89,29 @@ class InnerTubeShapeHandler(BodyTubeShapeHandler):
             position += 0.5
         return position
 
-    def getPointsXY(self) -> tuple[float, ...]:
+    def getPointsGrid(self) -> list[FreeCAD.Vector]:
         points = []
         for i in range(self._clusterRows):
-            y = self.gridPosition(i, self._clusterRows)
+            z = self.gridPosition(i, self._clusterRows)
             for j in range(self._clusterColumns):
                 if self._clusterIncludeCenter \
                         or ((i == 0) or (i == self._clusterRows - 1)) \
                         or ((j == 0) or (j == self._clusterColumns - 1)):
-                    x = self.gridPosition(j, self._clusterColumns)
-                    points.append(x)
-                    points.append(y)
-        return tuple(points)
-    
-    def getPointsRotated(self, rotation) -> tuple[float, ...]:
+                    y = self.gridPosition(j, self._clusterColumns)
+                    points.append(FreeCAD.Vector(0.0, y, z))
+        return points
+
+    def getPointsRotated(self, rotation) -> list[FreeCAD.Vector]:
         points = self.getPoints()
         cos = math.cos(rotation)
         sin = math.sin(rotation)
         ret = []
-        for i in range(int(len(points) / 2)):
-            x = points[2 * i]
-            y = points[2 * i + 1]
-            ret.append( x*cos + y*sin)
-            ret.append(-x*sin + y*cos)
+        for i in range(len(points)):
+            y = points[i].y
+            z = points[i].z
+            ret.append(FreeCAD.Vector(0.0, y*cos + z*sin, -y*sin + z*cos))
 
-        return tuple(ret)
+        return ret
 
     def drawSingle(self) -> Any:
         edges = None
@@ -129,11 +125,11 @@ class InnerTubeShapeHandler(BodyTubeShapeHandler):
 
         return None
 
-    def _translateCenter(self, x : float, y : float) -> tuple[float, float]:
-        x1 = x * self._OD * self._scale
+    def _translateCenter(self, y : float, z : float) -> FreeCAD.Vector:
         y1 = y * self._OD * self._scale
+        z1 = z * self._OD * self._scale
 
-        return x1, y1
+        return FreeCAD.Vector(0.0, y1, z1)
 
     def drawInstances(self) -> Any:
         tubes = []
@@ -143,14 +139,14 @@ class InnerTubeShapeHandler(BodyTubeShapeHandler):
         else:
             points = self.getPointsRotated(self._rotation)
 
-        for i in range(int(len(points) / 2)):
+        for i in range(len(points)):
             tube = Part.Shape(base) # Create a copy
 
-            y = points[2 * i]
-            z = points[2 * i + 1]
-            y1, z1 = self._translateCenter(y, z)
+            y = points[i].y
+            z = points[i].z
+            translation = self._translateCenter(y, z)
 
-            tube.translate(FreeCAD.Vector(0,y1,z1))
+            tube.translate(translation)
             tubes.append(tube)
 
         return Part.makeCompound(tubes)

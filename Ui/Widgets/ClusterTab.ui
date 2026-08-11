@@ -35,7 +35,7 @@
          <string>Cluster is arranged in a grid pattern</string>
         </property>
         <property name="text">
-         <string>XY Grid</string>
+         <string>Grid</string>
         </property>
         <property name="checked">
          <bool>true</bool>
