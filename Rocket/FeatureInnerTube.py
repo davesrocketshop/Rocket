@@ -243,26 +243,80 @@ class FeatureInnerTube(ThicknessRingComponent, Clusterable, AxialPositionable, B
     def getClusterSeparation(self) -> float:
         return self.getOuterDiameter(0) * float(self._obj.ClusterScale)
 
-    def getClusterPoints(self) -> list:
+    def _getPoints(self) -> list[FreeCAD.Vector]:
+        if self._obj.Clustered:
+            if self._obj.ClusterRadial:
+                return self._getPointsRadial()
+            else:
+                return self._getPointsGrid()
+        return self._getPointsUnclustered()
+
+    def _getPointsUnclustered(self) -> list[FreeCAD.Vector]:
+        return [FreeCAD.Vector(0.0, 0.0, 0.0)]
+
+    def _getPointsRadial(self) -> list[FreeCAD.Vector]:
+        points = []
+        if self._obj.ClusterIncludeCenter:
+            # Add the center point
+            points.append(FreeCAD.Vector(0.0, 0.0, 0.0))
+
+        for i in range(self._obj.ClusterRadialCount):
+            # scale = 0.5
+            scale = 0.5 / math.sin(math.pi/self._obj.ClusterRadialCount)
+            if self._obj.ClusterIncludeCenter:
+                if scale < 1.0:
+                    scale = 1.0
+            y = scale * math.sin(2*i*math.pi/self._obj.ClusterRadialCount)
+            z = scale * math.cos(2*i*math.pi/self._obj.ClusterRadialCount)
+            points.append(FreeCAD.Vector(0.0, y, z))
+
+        return points
+
+    def _gridPosition(self, n : int, count : int) -> float:
+        position =  -1.0 * math.floor(count / 2) + float(n)
+        if count % 2 == 0:
+            # even number
+            position += 0.5
+        return position
+
+    def _getPointsGrid(self) -> list[FreeCAD.Vector]:
+        points = []
+        for i in range(self._obj.ClusterRows):
+            z = self._gridPosition(i, self._obj.ClusterRows)
+            for j in range(self._obj.ClusterColumns):
+                if self._obj.ClusterIncludeCenter \
+                        or ((i == 0) or (i == self._obj.ClusterRows - 1)) \
+                        or ((j == 0) or (j == self._obj.ClusterColumns - 1)):
+                    y = self._gridPosition(j, self._obj.ClusterColumns)
+                    points.append(FreeCAD.Vector(0.0, y, z))
+        return points
+
+    def _getPointsRotated(self, rotation) -> list[FreeCAD.Vector]:
+        points = self._getPoints()
+        cos = math.cos(rotation)
+        sin = math.sin(rotation)
+        ret = []
+        for i in range(len(points)):
+            y = points[i].y
+            z = points[i].z
+            ret.append(FreeCAD.Vector(0.0, y*cos + z*sin, -y*sin + z*cos))
+
+        return ret
+
+    def getClusterPoints(self) -> list[FreeCAD.Vector]:
         list = []
-        # points = self._obj.ClusterConfiguration.getPointsRotated(float(self._obj.ClusterRotation) - self.getRadialDirection())
-        # separation = self.getClusterSeparation()
-        # for i in range(self._obj.ClusterConfiguration.getClusterCount()):
-        #     list.append(Coordinate(0, points[2 * i] * separation, points[2 * i + 1] * separation))
-        list.append(Coordinate(0, 0, 0))
+
+        points = self._getPointsRotated(float(self._obj.ClusterRotation) - self.getRadialDirection())
+        separation = self.getClusterSeparation()
+        for i in range(len(points)):
+            list.append(FreeCAD.Vector(0, points[i].y * separation, points[i].z * separation))
 
         return list
 
-    def getInstanceOffsets(self) -> list:
-
-        # if self.getInstanceCount() == 1:
-        #     yOffset = self.getRadialPosition() * math.cos(self.getRadialDirection())
-        #     zOffset = self.getRadialPosition() * math.sin(self.getRadialDirection())
-        #     return [ZERO.addValues(0.0, yOffset, zOffset)]
-
+    def getInstanceOffsets(self) -> list[Coordinate]:
         points = self.getClusterPoints()
-
-        return points
+        list = [Coordinate(point.x, point.y, point.z) for point in points]
+        return list
 
     def getMotorOverhang(self) -> float:
         return float(self._obj.Overhang) / self.getScale()
