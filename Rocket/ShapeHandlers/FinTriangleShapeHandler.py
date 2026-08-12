@@ -101,7 +101,7 @@ class FinTriangleShapeHandler(FinShapeHandler):
 
     def _makeAtHeightProfile(self, crossSection : str, height : float = 0.0, offset : float = 0.0) -> Wire:
         chord = self._chordAtHeight(height) + 2.0 * offset
-        thickness = self._rootThickness + 2.0 * offset
+        thickness = self._thicknessAtHeight(height) + 2.0 * offset
         l1, l2 = self._lengthsFromPercent(chord, self._rootPerCent,
                                           self._rootLength1, self._rootLength2)
         return self._makeChordProfile(crossSection, -offset + self._sweepAtHeight(height), chord,

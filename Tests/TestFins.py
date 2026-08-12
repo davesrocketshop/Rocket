@@ -53,6 +53,26 @@ class FinTests(unittest.TestCase):
 
         self._checkShape(feature, "Basic")
 
+    def testTaperedFinWithFillets(self):
+        feature = makeFin('Fin')
+        feature._obj.FinType = FIN_TYPE_TRAPEZOID
+        feature._obj.FinSet = False
+        feature.setSweepLength(feature._obj.RootChord / 2)
+        feature._obj.RootCrossSection = FIN_CROSS_TAPER_LE
+        feature._obj.TipCrossSection = FIN_CROSS_TAPER_LE
+        feature._obj.RootPerCent = False
+        feature._obj.RootLength1 = 10.0
+        feature._obj.RootLength2 = float(feature._obj.RootChord) - 10.0
+        feature._obj.RootThickness = 2.0
+        feature._obj.TipSameThickness = False
+        feature._obj.TipThickness = 0.5
+        feature._obj.Fillets = True
+        feature._obj.FilletRadius = 5.0
+        feature._obj.FilletCrossSection = FIN_CROSS_ROUND
+        self.Doc.recompute()
+
+        self._checkShape(feature, "Trapezoid tapered fin with fillets")
+
     def _testCenterTrapezoid(self, crosssection, minEdge):
         feature = makeFin('Fin')
         feature._obj.FinType = FIN_TYPE_TRAPEZOID

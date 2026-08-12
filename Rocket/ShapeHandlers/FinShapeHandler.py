@@ -575,10 +575,22 @@ class FinShapeHandler(ABC):
         profiles.append(self._makeRootProfile(0))
         return profiles
 
+    def _thicknessAtHeight(self, height : float) -> float:
+        """Return fin thickness at a given spanwise height.
+
+        For tapered fins this interpolates linearly between root and tip
+        thickness. Values below the root use root thickness.
+        """
+        if height < self._filletRadius or self._height <= 0.0:
+            return self._rootThickness
+
+        clampedHeight = min(height, self._height)
+        return self._rootThickness + (self._tipThickness - self._rootThickness) * (clampedHeight / self._height)
+
     def _makeFilletProfiles(self, radius : float) -> list:
         profiles = []
         height, hSpan = self._getTubeOffsets(radius)
-        profiles.append(self._makeAtHeightProfile(self._rootCrossSection, radius, 0.001))
+        profiles.append(self._makeAtHeightProfile(self._rootCrossSection, radius, 0.0))
         profiles.append(self._makeAtHeightProfile(self._filletCrossSection, hSpan * 0.75 - height, radius * 0.032))
         profiles.append(self._makeAtHeightProfile(self._filletCrossSection, hSpan * 0.50 - height, radius * 0.134))
         profiles.append(self._makeAtHeightProfile(self._filletCrossSection, hSpan * 0.25 - height, radius * 0.339))
