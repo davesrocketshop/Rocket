@@ -28,8 +28,7 @@ __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
 from abc import ABC, abstractmethod
-
-from Rocket.util.Coordinate import Coordinate
+import FreeCAD
 
 class Instanceable(ABC):
 
@@ -40,7 +39,7 @@ class Instanceable(ABC):
         If getInstanceCount() returns anything besides 1 this function should be overridden as well.
     """
     @abstractmethod
-    def getInstanceLocations(self) -> list[Coordinate]:
+    def getInstanceLocations(self) -> list[FreeCAD.Vector]:
         ...
 
     """
@@ -50,7 +49,7 @@ class Instanceable(ABC):
         If getInstanceCount() returns anything besides 1 this function should be overridden as well.
     """
     @abstractmethod
-    def getInstanceOffsets(self) -> list[Coordinate]:
+    def getInstanceOffsets(self) -> list[FreeCAD.Vector]:
         ...
 
     """

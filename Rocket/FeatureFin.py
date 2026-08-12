@@ -38,7 +38,6 @@ from Rocket.position.AxialMethod import BOTTOM
 from Rocket.ExternalComponent import ExternalComponent
 from Rocket.SymmetricComponent import SymmetricComponent
 from Rocket.FeatureInnerTube import FeatureInnerTube
-from Rocket.util.Coordinate import Coordinate, NUL
 
 from Rocket.Constants import FEATURE_FIN, FEATURE_LAUNCH_LUG, FEATURE_RAIL_BUTTON, FEATURE_POD, FEATURE_RINGTAIL
 from Rocket.Constants import FIN_TYPE_TRAPEZOID, FIN_TYPE_TRIANGLE, FIN_TYPE_ELLIPSE, FIN_TYPE_TUBE, FIN_TYPE_SKETCH, FIN_TYPE_PROXY
@@ -292,7 +291,7 @@ class FeatureFin(ExternalComponent):
         offset = 0.0
 
         if self.hasParent():
-            offset = self.toRelative(NUL, self.getParent())[0].x
+            offset = self.toRelative(FreeCAD.Vector(0,0,0), self.getParent())[0].x
             # print(f"Fin offset from parent: {offset}")
         return offset
 
@@ -330,8 +329,8 @@ class FeatureFin(ExternalComponent):
                     if not isinstance(sibling.Proxy, FeatureInnerTube): # Excludes itself
                         continue
 
-                    pos1 = self.toRelative(NUL, sibling.Proxy)[0].x
-                    pos2 = self.toRelative(Coordinate(self.getLength()), sibling.Proxy)[0].x
+                    pos1 = self.toRelative(FreeCAD.Vector(0,0,0), sibling.Proxy)[0].x
+                    pos2 = self.toRelative(FreeCAD.Vector(self.getLength(),0,0), sibling.Proxy)[0].x
                     if pos2 < 0 or pos1 > sibling.Proxy.getLength():
                         continue
 
@@ -494,14 +493,14 @@ class FeatureFin(ExternalComponent):
             ]
 
     """ Returns the geometry of a trapezoidal fin. """
-    def getFinPoints(self) -> list[Coordinate]:
+    def getFinPoints(self) -> list[FreeCAD.Vector]:
         list = []
 
-        list.append(NUL)
-        list.append(Coordinate(self._obj.SweepLength, self._obj.Height))
+        list.append(FreeCAD.Vector(0, 0, 0))
+        list.append(FreeCAD.Vector(self._obj.SweepLength, self._obj.Height, 0))
         if self._obj.TipChord > 0.0001:
-            list.append(Coordinate(self._obj.SweepLength + self._obj.TipChord, self._obj.Height));
-        list.append(Coordinate(max(self._obj.RootChord, 0.0001), 0));
+            list.append(FreeCAD.Vector(self._obj.SweepLength + self._obj.TipChord, self._obj.Height, 0))
+        list.append(FreeCAD.Vector(max(self._obj.RootChord, 0.0001), 0, 0))
 
         return list
 

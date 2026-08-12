@@ -36,8 +36,6 @@ from Rocket.FeatureStage import FeatureStage
 from Rocket.position import AxialMethod
 
 from Rocket.util.BoundingBox import BoundingBox
-from Rocket.util.Coordinate import ZERO, X_UNIT
-from Rocket.util.UniqueID import UniqueID
 
 from Rocket.Constants import FEATURE_ROCKET, FEATURE_STAGE
 
@@ -100,7 +98,7 @@ class FeatureRocket(ComponentAssembly):
     # Note: this function gets the bounding box for the entire rocket.
     def getBoundingBox(self) -> BoundingBox:
         # return selectedConfiguration.getBoundingBoxAerodynamic();
-        return BoundingBox(ZERO, X_UNIT) # default from default flight config
+        return BoundingBox(FreeCAD.Vector(0, 0, 0), FreeCAD.Vector(1, 0, 0)) # default from default flight config
 
     def eligibleChild(self, childType : str) -> bool:
         return childType == FEATURE_STAGE
@@ -173,7 +171,7 @@ class FeatureRocket(ComponentAssembly):
 
     def setAxialOffset(self, newAxialOffset : float) -> None:
         self.AxialOffset = 0.0
-        self.Position = ZERO
+        self.Position = FreeCAD.Vector(0, 0, 0)
 
     def getBoundingRadius(self) -> float:
         bounding = 0

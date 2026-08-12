@@ -39,7 +39,6 @@ import Rocket.position.AngleMethod as AngleMethod
 import Rocket.position.AxialMethod as AxialMethod
 import Rocket.position.RadiusMethod as RadiusMethod
 from Rocket.ComponentAssembly import ComponentAssembly
-from Rocket.util.Coordinate import Coordinate
 from Rocket.Utilities import EPSILON
 
 from Rocket.Constants import FEATURE_ROCKET, FEATURE_STAGE, FEATURE_PARALLEL_STAGE, FEATURE_POD
@@ -107,10 +106,10 @@ class FeaturePod(ComponentAssembly, RingInstanceable):
 
         return result
 
-    def getInstanceLocations(self) -> list[Coordinate]:
+    def getInstanceLocations(self) -> list[FreeCAD.Vector]:
         return []
 
-    def getInstanceOffsets(self) -> list[Coordinate]:
+    def getInstanceOffsets(self) -> list[FreeCAD.Vector]:
         radius = self._obj.RadiusMethod.getRadius(self.getParent(), self, self._obj.RadiusOffset.Value)
         print(f"getInstanceOffsets: Radius {radius}")
 
@@ -121,7 +120,7 @@ class FeaturePod(ComponentAssembly, RingInstanceable):
             curY = radius * math.cos(angle)
             curZ = radius * math.sin(angle)
             print(f"\t{instanceNumber}: angle {angle}, Y {curY}, Z {curZ}")
-            toReturn.append(Coordinate(0, curY, curZ))
+            toReturn.append(FreeCAD.Vector(0, curY, curZ))
 
         return toReturn
 

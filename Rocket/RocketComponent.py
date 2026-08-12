@@ -39,14 +39,12 @@ from Rocket.Parts.PartDatabase import PartDatabase
 from Rocket.Parts.Material import getUuid
 from Rocket.Parts.Exceptions import MaterialNotFoundError
 
-from Rocket.util.Coordinate import Coordinate
 from Rocket.RocketComponentShapeless import RocketComponentShapeless
 
 from Rocket.Constants import LOCATION_PARENT_TOP, LOCATION_PARENT_MIDDLE, LOCATION_PARENT_BOTTOM, LOCATION_BASE
 from Rocket.Constants import MATERIAL_TYPE_BULK
 
 from Rocket.interfaces.Observer import Observer
-from Rocket.util.Coordinate import Coordinate, ZERO
 
 from Rocket.Utilities import _err, isFileVersion, checkProgramVersion
 
@@ -86,7 +84,7 @@ class RocketComponent(RocketComponentShapeless):
         if not hasattr(obj,"Length"):
             obj.addProperty('App::PropertyLength', 'Length', 'RocketComponent', translate('App::Property', 'Length of the component')).Length = 0.0
         if not hasattr(obj, 'Position'):
-            obj.addProperty('App::PropertyPythonObject', 'Position', 'RocketComponent', translate('App::Property', 'Method for calculating axial offsets')).Position = Coordinate()
+            obj.addProperty('App::PropertyPythonObject', 'Position', 'RocketComponent', translate('App::Property', 'Method for calculating axial offsets')).Position = FreeCAD.Vector(0, 0, 0)
 
         # More scaling options
         if not hasattr(obj, 'ScaleByDiameter'):
@@ -207,9 +205,9 @@ class RocketComponent(RocketComponentShapeless):
 
         NOTE: the length of this array returned always equals this.getInstanceCount()
     """
-    def getInstanceLocations(self) -> list:
+    def getInstanceLocations(self) -> list[FreeCAD.Vector]:
         base = self._obj.Placement.Base
-        center = Coordinate(base.x, base.y, base.z)
+        center = FreeCAD.Vector(base.x, base.y, base.z)
         offsets = self.getInstanceOffsets()
 
         locations = []
@@ -228,8 +226,8 @@ class RocketComponent(RocketComponentShapeless):
     """
         Provides locations of all instances of component relative to this component's reference point
     """
-    def getInstanceOffsets(self) -> list:
-        return [ZERO]
+    def getInstanceOffsets(self) -> list[FreeCAD.Vector]:
+        return [FreeCAD.Vector(0, 0, 0)]
 
     """
         Return coordinate <code>c</code> described in the coordinate system of
@@ -242,7 +240,7 @@ class RocketComponent(RocketComponentShapeless):
 
         The current implementation does not support rotating components.
     """
-    def toRelative(self, c : Coordinate, dest : Any) -> list:
+    def toRelative(self, c : FreeCAD.Vector, dest : Any) -> list[FreeCAD.Vector]:
         if dest is None:
             raise Exception("calling toRelative(c,null) is being refactored. ")
 
@@ -258,12 +256,12 @@ class RocketComponent(RocketComponentShapeless):
 
 
         NOTE: the length of this array MAY OR MAY NOT EQUAL this.getInstanceCount()
-           --> RocketComponent::getInstanceCount() counts how many times this component replicates on its own
-           --> vs. the total instance count due to parent assembly instancing
+            --> RocketComponent::getInstanceCount() counts how many times this component replicates on its own
+            --> vs. the total instance count due to parent assembly instancing
 
         DAC: This may not be correct as the Workbench already supplies absolute coordinates
     """
-    def getComponentLocations(self) -> list:
+    def getComponentLocations(self) -> list[FreeCAD.Vector]:
         if not self.hasParent() or not hasattr(self.getParent(), "getComponentLocations"):
             # == improperly initialized components OR the root Rocket instance
             return self.getInstanceOffsets()

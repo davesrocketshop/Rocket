@@ -33,7 +33,6 @@ import FreeCAD
 
 translate = FreeCAD.Qt.translate
 
-from Rocket.util.Coordinate import Coordinate, NUL
 from Rocket.RingComponent import RingComponent
 from Rocket.Utilities import clamp
 from Rocket.interfaces.LineInstanceable import LineInstanceable
@@ -68,8 +67,8 @@ class RadiusRingComponent(RingComponent, LineInstanceable):
         if self.hasParent():
             parent = self.getParent()
             if self._obj.AutoDiameter and isinstance(parent, RadialParent):
-                pos1 = self.toRelative(NUL, parent)[0].x
-                pos2 = self.toRelative(Coordinate(self.getLength()), parent)[0].x
+                pos1 = self.toRelative(FreeCAD.Vector(0, 0, 0), parent)[0].x
+                pos2 = self.toRelative(FreeCAD.Vector(self.getLength(), 0, 0), parent)[0].x
                 pos1 = clamp(pos1, 0, parent.getLength())
                 pos2 = clamp(pos2, 0, parent.getLength())
                 self._obj.Diameter = min(parent.getInnerDiameter(pos1), parent.getInnerDiameter(pos2))
@@ -134,10 +133,10 @@ class RadiusRingComponent(RingComponent, LineInstanceable):
         if 0 < newCount:
             self._obj.InstanceCount = newCount
 
-    def getInstanceOffsets(self) -> list:
+    def getInstanceOffsets(self) -> list[FreeCAD.Vector]:
         toReturn = []
         for index in range(self.getInstanceCount()):
-            toReturn.append(Coordinate( index * float(self._obj.InstanceSeparation), 0, 0))
+            toReturn.append(FreeCAD.Vector(index * float(self._obj.InstanceSeparation), 0, 0))
 
         return toReturn
 

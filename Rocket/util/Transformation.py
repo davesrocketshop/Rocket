@@ -28,8 +28,7 @@ __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
 from typing import Any
-
-from Rocket.util.Coordinate import Coordinate
+import FreeCAD
 
 class Transformation():
     """ Defines an affine transformation of the form  A*x+c,  where x and c are Coordinates and
@@ -37,7 +36,7 @@ class Transformation():
 
         The Transformations are immutable.  All modification methods return a new transformation."""
 
-    _translate = Coordinate()
+    _translate = FreeCAD.Vector()
     _rotation = [[0 for i in range(3)] for j in range(3)]
 
     _X = 0
@@ -45,7 +44,7 @@ class Transformation():
     _Z = 2
 
     # Create transformation with given rotation matrix and translation.
-    def __init__(self, rotation : Any | None = None, translation : Coordinate | None = None) -> None:
+    def __init__(self, rotation : Any | None = None, translation : FreeCAD.Vector | None = None) -> None:
         if rotation is None:
             self._rotation[self._X][self._X] = 1
             self._rotation[self._Y][self._Y] = 1
@@ -56,14 +55,14 @@ class Transformation():
                     self._rotation[i][j] = rotation[i][j]
 
         if translation is None:
-            self._translate = Coordinate(0,0,0,0)
+            self._translate = FreeCAD.Vector(0,0,0)
         else:
             self._translate = translation
 
     # Transform a coordinate according to this transformation.
-    def transform(self, orig : Coordinate) -> Coordinate:
+    def transform(self, orig : FreeCAD.Vector) -> FreeCAD.Vector:
         x = self._rotation[self._X][self._X]*orig.x + self._rotation[self._X][self._Y]*orig.y + self._rotation[self._X][self._Z]*orig.z + self._translate.x
         y = self._rotation[self._Y][self._X]*orig.x + self._rotation[self._Y][self._Y]*orig.y + self._rotation[self._Y][self._Z]*orig.z + self._translate.y
         z = self._rotation[self._Z][self._X]*orig.x + self._rotation[self._Z][self._Y]*orig.y + self._rotation[self._Z][self._Z]*orig.z + self._translate.z
 
-        return Coordinate(x,y,z,orig._weight)
+        return FreeCAD.Vector(x,y,z)

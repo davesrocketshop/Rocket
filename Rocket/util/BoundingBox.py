@@ -29,18 +29,19 @@ __title__ = "FreeCAD Rocket Components"
 __author__ = "David Carter"
 __url__ = "https://www.davesrocketshop.com"
 
+import sys
 from typing import Self
+import FreeCAD
 
 import copy
-from Rocket.util.Coordinate import Coordinate, MAX, MIN
 from Rocket.util.Transformation import Transformation
 
 class BoundingBox(object):
 
-    _min : Coordinate = Coordinate()
-    _max : Coordinate = Coordinate()
+    _min : FreeCAD.Vector = FreeCAD.Vector()
+    _max : FreeCAD.Vector = FreeCAD.Vector()
 
-    def __init__(self, min : Coordinate | None = None, max : Coordinate | None = None) -> None:
+    def __init__(self, min : FreeCAD.Vector | None = None, max : FreeCAD.Vector | None = None) -> None:
         self.clear()
 
         if min:
@@ -49,12 +50,10 @@ class BoundingBox(object):
             self._max = copy.deepcopy(max)
 
     def clear(self) -> None:
-        self._min = MAX
-        self._min._weight = 0.0
-        self._max = MIN
-        self._max._weight = 0.0
+        self._min = FreeCAD.Vector(-sys.float_info.max, -sys.float_info.max, -sys.float_info.max)
+        self._max = FreeCAD.Vector(sys.float_info.max, sys.float_info.max, sys.float_info.max)
 
-    def setMinMax(self, min : Coordinate, max : Coordinate) -> None:
+    def setMinMax(self, min : FreeCAD.Vector, max : FreeCAD.Vector) -> None:
         self._min = min
         self._max = max
 
@@ -73,7 +72,7 @@ class BoundingBox(object):
 
     def update_x_min(self, xVal : float) -> None:
         if self._min.x > xVal:
-           self._min.x = xVal
+            self._min.x = xVal
 
     def update_y_min(self, yVal : float) -> None:
         if self._min.y > yVal:
@@ -95,7 +94,7 @@ class BoundingBox(object):
         if self._max.z < zVal:
             self._max.z = zVal
 
-    def update(self, c : Coordinate) -> Self:
+    def update(self, c : FreeCAD.Vector) -> Self:
         self.update_x_min(c.x)
         self.update_y_min(c.y)
         self.update_z_min(c.z)
@@ -106,5 +105,5 @@ class BoundingBox(object):
 
         return self
 
-    def span(self) -> Coordinate:
+    def span(self) -> FreeCAD.Vector:
         return self._max.sub(self._min)

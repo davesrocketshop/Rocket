@@ -40,7 +40,6 @@ from Rocket.interfaces.RadialParent import RadialParent
 
 from Rocket.ThicknessRingComponent import ThicknessRingComponent
 from Rocket.util.BoundingBox import BoundingBox
-from Rocket.util.Coordinate import Coordinate, ZERO
 from Rocket.Utilities import reducePi
 from Rocket.ShapeHandlers.InnerTubeShapeHandler import InnerTubeShapeHandler
 
@@ -152,11 +151,11 @@ class FeatureInnerTube(ThicknessRingComponent, Clusterable, AxialPositionable, B
     def getInstanceBoundingBox(self) -> BoundingBox:
         instanceBounds = BoundingBox()
 
-        instanceBounds.update(Coordinate(self.getLength(), 0,0))
+        instanceBounds.update(FreeCAD.Vector(self.getLength(), 0,0))
 
         r = self.getOuterRadius(0)
-        instanceBounds.update(Coordinate(0,r,r))
-        instanceBounds.update(Coordinate(0,-r,-r))
+        instanceBounds.update(FreeCAD.Vector(0,r,r))
+        instanceBounds.update(FreeCAD.Vector(0,-r,-r))
 
         return instanceBounds
 
@@ -313,9 +312,9 @@ class FeatureInnerTube(ThicknessRingComponent, Clusterable, AxialPositionable, B
 
         return list
 
-    def getInstanceOffsets(self) -> list[Coordinate]:
+    def getInstanceOffsets(self) -> list[FreeCAD.Vector]:
         points = self.getClusterPoints()
-        list = [Coordinate(point.x, point.y, point.z) for point in points]
+        list = [FreeCAD.Vector(point.x, point.y, point.z) for point in points]
         return list
 
     def getMotorOverhang(self) -> float:

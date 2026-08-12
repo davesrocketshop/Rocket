@@ -41,7 +41,6 @@ from Rocket.interfaces.Coaxial import Coaxial
 
 from Rocket.Utilities import reducePi
 from Rocket.util.BoundingBox import BoundingBox
-from Rocket.util.Coordinate import Coordinate
 
 """
     An inner component that consists of a hollow cylindrical component.  This can be
@@ -178,11 +177,11 @@ class RingComponent(InternalComponent, BoxBounded, Coaxial):
     def getInstanceBoundingBox(self) -> BoundingBox:
         instanceBounds = BoundingBox()
 
-        instanceBounds.update(Coordinate(self.getLength(), 0,0))
+        instanceBounds.update(FreeCAD.Vector(self.getLength(), 0,0))
 
         r = self.getOuterRadius(0)
-        instanceBounds.update(Coordinate(0,r,r))
-        instanceBounds.update(Coordinate(0,-r,-r))
+        instanceBounds.update(FreeCAD.Vector(0,r,r))
+        instanceBounds.update(FreeCAD.Vector(0,-r,-r))
 
         return instanceBounds
 

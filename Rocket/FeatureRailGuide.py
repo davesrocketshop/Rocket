@@ -41,7 +41,6 @@ from Rocket.position.AngleMethod import AngleMethod, RELATIVE
 from Rocket.position.AnglePositionable import AnglePositionable
 from Rocket.interfaces.BoxBounded import BoxBounded
 from Rocket.interfaces.LineInstanceable import LineInstanceable
-from Rocket.util.Coordinate import Coordinate, NUL
 from Rocket import Utilities
 from Rocket.SymmetricComponent import SymmetricComponent
 
@@ -203,8 +202,8 @@ class FeatureRailGuide(ExternalComponent, AnglePositionable, BoxBounded, LineIns
         if body is None:
             parentRadius = 0
         else:
-            x1 = self.toRelative(NUL, body)[0].x
-            x2 = self.toRelative(Coordinate(self._obj.Length, 0, 0), body)[0].x
+            x1 = self.toRelative(FreeCAD.Vector(0, 0, 0), body)[0].x
+            x2 = self.toRelative(FreeCAD.Vector(self._obj.Length, 0, 0), body)[0].x
             x1 = Utilities.clamp(x1, 0, body.getLength())
             x2 = Utilities.clamp(x2, 0, body.getLength())
             parentRadius = max(body.getRadius(x1), body.getRadius(x2))
@@ -252,22 +251,22 @@ class FeatureRailGuide(ExternalComponent, AnglePositionable, BoxBounded, LineIns
     def getInstanceBoundingBox(self) -> BoundingBox:
         instanceBounds = BoundingBox()
 
-        # instanceBounds.update(Coordinate(self.getLength(), 0,0))
+        # instanceBounds.update(FreeCAD.Vector(self.getLength(), 0,0))
 
         # r = self.getOuterRadius(0)
-        # instanceBounds.update(Coordinate(0,r,r))
-        # instanceBounds.update(Coordinate(0,-r,-r))
+        # instanceBounds.update(FreeCAD.Vector(0,r,r))
+        # instanceBounds.update(FreeCAD.Vector(0,-r,-r))
 
         return instanceBounds
 
-    def getInstanceOffsets(self) -> list:
+    def getInstanceOffsets(self) -> list[FreeCAD.Vector]:
         toReturn = []
 
         yOffset = math.sin(math.radians(-self._obj.AngleOffset)) * (self._obj.RadialOffset)
         zOffset = math.cos(math.radians(-self._obj.AngleOffset)) * (self._obj.RadialOffset)
 
         for index in range(self.getInstanceCount()):
-            toReturn.append(Coordinate(index*self._obj.InstanceSeparation, yOffset, zOffset))
+            toReturn.append(FreeCAD.Vector(index*self._obj.InstanceSeparation, yOffset, zOffset))
 
         return toReturn
 

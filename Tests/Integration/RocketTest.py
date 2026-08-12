@@ -30,8 +30,6 @@ __url__ = "https://www.davesrocketshop.com"
 import FreeCAD
 import unittest
 
-from Rocket.util.Coordinate import Coordinate
-
 from Tests.util.TestRockets import TestRockets
 from Tests.util.Utilities import assertCoordinateEqual
 
@@ -69,38 +67,38 @@ class RocketTest(unittest.TestCase):
         stage = self.getStage(rocket, 0)
 
         nose = stage.getChild(0).Proxy
-        expected = Coordinate(0.0,0,0)
-        actual = nose.getPositionAsCoordinate()
+        expected = FreeCAD.Vector(0.0,0,0)
+        actual = nose.getPosition()
         assertCoordinateEqual(self, actual, expected, nose.getName() + " not positioned correctly")
 
         body = stage.getChild(1).Proxy
-        expected = Coordinate(70.0,0,0)
-        actual = body.getPositionAsCoordinate()
+        expected = FreeCAD.Vector(70.0,0,0)
+        actual = body.getPosition()
         assertCoordinateEqual(self, actual, expected, body.getName() + " not positioned correctly")
 
         fins = body.getChild(0).Proxy
         self.assertTrue(fins.isFinSet(), fins.getName()+" is not a fin set")
         self.assertEqual(fins.getFinCount(), 3, fins.getName()+" have incorrect count")
-        expected = Coordinate(220.0,0,0)
-        actual = fins.getPositionAsCoordinate()
+        expected = FreeCAD.Vector(220.0,0,0)
+        actual = fins.getPosition()
         assertCoordinateEqual(self, actual, expected, fins.getName()+" not positioned correctly")
 
         lugs = body.getChild(1).Proxy
         self.assertEqual(lugs.getInstanceCount(), 1, lugs.getName()+" have incorrect count")
         # actLocs = lugs.getComponentLocations()
-        expected = Coordinate(181.0, 0.0, 14.2)
-        actual = lugs.getPositionAsCoordinate()
+        expected = FreeCAD.Vector(181.0, 0.0, 14.2)
+        actual = lugs.getPosition()
         assertCoordinateEqual(self, actual, expected, lugs.getName()+" not positioned correctly")
 
         mmt = body.getChild(2).Proxy
-        # expLoc = Coordinate(203.0,0,0)
-        expected = Coordinate(203.0,0,0)
-        actual = mmt.getPositionAsCoordinate()
+        # expLoc = FreeCAD.Vector(203.0,0,0)
+        expected = FreeCAD.Vector(203.0,0,0)
+        actual = mmt.getPosition()
         assertCoordinateEqual(self, actual, expected, mmt.getName()+" not positioned correctly")
 
         block = mmt.getChild(0).Proxy
-        expected = Coordinate(203.0,0,0)
-        actual = block.getPositionAsCoordinate()
+        expected = FreeCAD.Vector(203.0,0,0)
+        actual = block.getPosition()
         assertCoordinateEqual(self, actual, expected, block.getName()+" not positioned correctly")
 
         ring = body.getChild(3).Proxy
@@ -109,22 +107,22 @@ class RocketTest(unittest.TestCase):
         # singleton instances follow different code paths
         ring.setInstanceCount(1)
         self.assertEqual(ring.getInstanceCount(), 1, ring.getName()+" have incorrect count")
-        # expLoc = Coordinate(210.0,0,0)
-        expected = Coordinate(210.0,0,0)
-        actual = ring.getPositionAsCoordinate()
+        # expLoc = FreeCAD.Vector(210.0,0,0)
+        expected = FreeCAD.Vector(210.0,0,0)
+        actual = ring.getPosition()
         assertCoordinateEqual(self, actual, expected, ring.getName()+" not positioned correctly")
 
         ring.setInstanceCount(2)
         actLocs = ring.getComponentLocations()
         # first instance
-        expected = Coordinate(210.0, 0, 0)
-        # expected = Coordinate(0.0, 0, 0)
+        expected = FreeCAD.Vector(210.0, 0, 0)
+        # expected = FreeCAD.Vector(0.0, 0, 0)
         actual = actLocs[0]
         assertCoordinateEqual(self, actual, expected, ring.getName()+" not positioned correctly")
         # second instance
         self.assertEqual(ring.getInstanceCount(), 2, ring.getName()+" have incorrect count")
-        expected = Coordinate(245.0, 0, 0)
-        # expected = Coordinate(35.0, 0, 0)
+        expected = FreeCAD.Vector(245.0, 0, 0)
+        # expected = FreeCAD.Vector(35.0, 0, 0)
         actual = actLocs[1]
         assertCoordinateEqual(self, actual, expected, ring.getName()+" not positioned correctly")
 
@@ -145,74 +143,74 @@ class RocketTest(unittest.TestCase):
         stage3 = self.getStage(rocket, 2)
 
         expected = coordinates[STAGE1]
-        actual = stage1.getPositionAsCoordinate()
+        actual = stage1.getPosition()
         assertCoordinateEqual(self, actual, expected, stage1.getName() + " not positioned correctly")
 
         nose = stage1.getChild(0).Proxy
         expected = coordinates[STAGE1_NOSE]
-        actual = nose.getPositionAsCoordinate()
+        actual = nose.getPosition()
         assertCoordinateEqual(self, actual, expected, nose.getName() + " not positioned correctly")
 
         body = stage1.getChild(1).Proxy
         expected = coordinates[STAGE1_BODY]
-        actual = body.getPositionAsCoordinate()
+        actual = body.getPosition()
         assertCoordinateEqual(self, actual, expected, body.getName() + " not positioned correctly")
 
         fins = body.getChild(0).Proxy
         self.assertTrue(fins.isFinSet(), fins.getName()+" is not a fin set")
         self.assertEqual(fins.getFinCount(), 3, fins.getName()+" have incorrect count")
         expected = coordinates[STAGE1_FINS]
-        actual = fins.getPositionAsCoordinate()
+        actual = fins.getPosition()
         assertCoordinateEqual(self, actual, expected, fins.getName()+" not positioned correctly")
 
         lugs = body.getChild(1).Proxy
         self.assertEqual(lugs.getInstanceCount(), 1, lugs.getName()+" have incorrect count")
         # actLocs = lugs.getComponentLocations()
         expected = coordinates[STAGE1_LUG]
-        actual = lugs.getPositionAsCoordinate()
+        actual = lugs.getPosition()
         assertCoordinateEqual(self, actual, expected, lugs.getName()+" not positioned correctly")
 
         innerTube = body.getChild(2).Proxy
         expected = coordinates[STAGE1_ENGINE_MOUNT]
-        actual = innerTube.getPositionAsCoordinate()
+        actual = innerTube.getPosition()
         assertCoordinateEqual(self, actual, expected, innerTube.getName()+" not positioned correctly")
 
         block = innerTube.getChild(0).Proxy
         expected = coordinates[STAGE1_ENGINE_BLOCK]
-        actual = block.getPositionAsCoordinate()
+        actual = block.getPosition()
         assertCoordinateEqual(self, actual, expected, block.getName()+" not positioned correctly")
 
         rings = body.getChild(3).Proxy
         self.assertEqual(rings.getInstanceCount(), 2, rings.getName()+" have incorrect count")
         expected = coordinates[STAGE1_CR]
-        actual = rings.getPositionAsCoordinate()
+        actual = rings.getPosition()
         assertCoordinateEqual(self, actual, expected, rings.getName()+" not positioned correctly")
 
         expected = coordinates[STAGE2]
-        actual = stage2.getPositionAsCoordinate()
+        actual = stage2.getPosition()
         assertCoordinateEqual(self, actual, expected, stage2.getName() + " not positioned correctly")
 
         body = stage2.getChild(0).Proxy
         expected = coordinates[STAGE2_BODY]
-        actual = body.getPositionAsCoordinate()
+        actual = body.getPosition()
         assertCoordinateEqual(self, actual, expected, body.getName() + " not positioned correctly")
 
         fins = body.getChild(0).Proxy
         self.assertTrue(fins.isFinSet(), fins.getName()+" is not a fin set")
         self.assertEqual(fins.getFinCount(), 3, fins.getName()+" have incorrect count")
         expected = coordinates[STAGE2_FINS]
-        actual = fins.getPositionAsCoordinate()
+        actual = fins.getPosition()
         assertCoordinateEqual(self, actual, expected, fins.getName()+" not positioned correctly")
 
         expected = coordinates[STAGE3]
-        actual = stage3.getPositionAsCoordinate()
+        actual = stage3.getPosition()
         assertCoordinateEqual(self, actual, expected, stage3.getName() + " not positioned correctly")
 
         fincan = stage3.getChild(0).Proxy
         self.assertTrue(fincan.isFinSet(), fincan.getName()+" is not a fin set")
         self.assertEqual(fincan.getFinCount(), 3, fincan.getName()+" has incorrect fin count")
         expected = coordinates[STAGE3_FINCAN]
-        actual = fincan.getPositionAsCoordinate()
+        actual = fincan.getPosition()
         assertCoordinateEqual(self, actual, expected, fincan.getName()+" not positioned correctly")
 
     def verifyBody(self, body, scale, length, radius, thickness, referenceRadius):
@@ -320,19 +318,19 @@ class RocketTest(unittest.TestCase):
         coordinates = []
 
         # Added in the same sequence as our reference constants
-        coordinates.append(Coordinate(0,0,0)) # Stage 1
-        coordinates.append(Coordinate(0.0,0,0)) # Nose
-        coordinates.append(Coordinate(100.0,0,0)) # Body
-        coordinates.append(Coordinate(499.85,0,0)) # Fins
-        coordinates.append(Coordinate(303.5,-12.63964076,7.2975)) # Lug
-        coordinates.append(Coordinate(492.0,0,0)) # Engine mount
-        coordinates.append(Coordinate(492.0,0,0)) # Engine block
-        coordinates.append(Coordinate(501.0,0,0)) # Centering rings
-        coordinates.append(Coordinate(557.0,0,0)) # Stage 2
-        coordinates.append(Coordinate(557.0,0,0)) # Body
-        coordinates.append(Coordinate(569.85,0,0)) # Fins
-        coordinates.append(Coordinate(627.0,0,0)) # Stage 3
-        coordinates.append(Coordinate(627.0,0,0)) # Fin can
+        coordinates.append(FreeCAD.Vector(0,0,0)) # Stage 1
+        coordinates.append(FreeCAD.Vector(0.0,0,0)) # Nose
+        coordinates.append(FreeCAD.Vector(100.0,0,0)) # Body
+        coordinates.append(FreeCAD.Vector(499.85,0,0)) # Fins
+        coordinates.append(FreeCAD.Vector(303.5,-12.63964076,7.2975)) # Lug
+        coordinates.append(FreeCAD.Vector(492.0,0,0)) # Engine mount
+        coordinates.append(FreeCAD.Vector(492.0,0,0)) # Engine block
+        coordinates.append(FreeCAD.Vector(501.0,0,0)) # Centering rings
+        coordinates.append(FreeCAD.Vector(557.0,0,0)) # Stage 2
+        coordinates.append(FreeCAD.Vector(557.0,0,0)) # Body
+        coordinates.append(FreeCAD.Vector(569.85,0,0)) # Fins
+        coordinates.append(FreeCAD.Vector(627.0,0,0)) # Stage 3
+        coordinates.append(FreeCAD.Vector(627.0,0,0)) # Fin can
         return coordinates
 
     def test3Stage(self):
@@ -484,9 +482,9 @@ class RocketTest(unittest.TestCase):
         rocket = TestRockets.make3stage('testStage2HalfScale')
         coordinates = self.referenceCoordinates()
         coordinates_scaled = self.referenceCoordinates()
-        coordinates_scaled[STAGE2_FINS] = Coordinate(582.7,0,0)
-        coordinates_scaled[STAGE3] = Coordinate(697.0,0,0)
-        coordinates_scaled[STAGE3_FINCAN] = Coordinate(697.0,0,0)
+        coordinates_scaled[STAGE2_FINS] = FreeCAD.Vector(582.7,0,0)
+        coordinates_scaled[STAGE3] = FreeCAD.Vector(697.0,0,0)
+        coordinates_scaled[STAGE3_FINCAN] = FreeCAD.Vector(697.0,0,0)
 
         self.verify3StagePositioning(rocket, coordinates)
         self.verifyRocket(rocket, 1.0)
@@ -519,9 +517,9 @@ class RocketTest(unittest.TestCase):
         rocket = TestRockets.make3stage('testStage2TwoScale')
         coordinates = self.referenceCoordinates()
         coordinates_scaled = self.referenceCoordinates()
-        coordinates_scaled[STAGE2_FINS] = Coordinate(563.425,0,0)
-        coordinates_scaled[STAGE3] = Coordinate(592,0,0)
-        coordinates_scaled[STAGE3_FINCAN] = Coordinate(592.0,0,0)
+        coordinates_scaled[STAGE2_FINS] = FreeCAD.Vector(563.425,0,0)
+        coordinates_scaled[STAGE3] = FreeCAD.Vector(592,0,0)
+        coordinates_scaled[STAGE3_FINCAN] = FreeCAD.Vector(592.0,0,0)
 
         self.verify3StagePositioning(rocket, coordinates)
         self.verifyRocket(rocket, 1.0)
@@ -589,17 +587,17 @@ class RocketTest(unittest.TestCase):
         rocket = TestRockets.make3stage('testStage1HalfScale')
         coordinates = self.referenceCoordinates()
         coordinates_scaled = self.referenceCoordinates()
-        coordinates_scaled[STAGE1_BODY] = Coordinate(200.0,0,0)
-        coordinates_scaled[STAGE1_FINS] = Coordinate(999.7,0,0)
-        coordinates_scaled[STAGE1_LUG] = Coordinate(632.0,-23.374025648141995,13.495)
-        coordinates_scaled[STAGE1_ENGINE_MOUNT] = Coordinate(1049.0,0,0)
-        coordinates_scaled[STAGE1_ENGINE_BLOCK] = Coordinate(1049.0,0,0)
-        coordinates_scaled[STAGE1_CR] = Coordinate(1052.0,0,0)
-        coordinates_scaled[STAGE2] = Coordinate(1114.0,0,0)
-        coordinates_scaled[STAGE2_BODY] = Coordinate(1114.0,0,0)
-        coordinates_scaled[STAGE2_FINS] = Coordinate(1126.85,0,0)
-        coordinates_scaled[STAGE3] = Coordinate(1184.0,0,0)
-        coordinates_scaled[STAGE3_FINCAN] = Coordinate(1184.0,0,0)
+        coordinates_scaled[STAGE1_BODY] = FreeCAD.Vector(200.0,0,0)
+        coordinates_scaled[STAGE1_FINS] = FreeCAD.Vector(999.7,0,0)
+        coordinates_scaled[STAGE1_LUG] = FreeCAD.Vector(632.0,-23.374025648141995,13.495)
+        coordinates_scaled[STAGE1_ENGINE_MOUNT] = FreeCAD.Vector(1049.0,0,0)
+        coordinates_scaled[STAGE1_ENGINE_BLOCK] = FreeCAD.Vector(1049.0,0,0)
+        coordinates_scaled[STAGE1_CR] = FreeCAD.Vector(1052.0,0,0)
+        coordinates_scaled[STAGE2] = FreeCAD.Vector(1114.0,0,0)
+        coordinates_scaled[STAGE2_BODY] = FreeCAD.Vector(1114.0,0,0)
+        coordinates_scaled[STAGE2_FINS] = FreeCAD.Vector(1126.85,0,0)
+        coordinates_scaled[STAGE3] = FreeCAD.Vector(1184.0,0,0)
+        coordinates_scaled[STAGE3_FINCAN] = FreeCAD.Vector(1184.0,0,0)
 
         self.verify3StagePositioning(rocket, coordinates)
         self.verifyRocket(rocket, 1.0)
@@ -631,17 +629,17 @@ class RocketTest(unittest.TestCase):
         rocket = TestRockets.make3stage('testStage1TwoScale')
         coordinates = self.referenceCoordinates()
         coordinates_scaled = self.referenceCoordinates()
-        coordinates_scaled[STAGE1_BODY] = Coordinate(50.0,0,0)
-        coordinates_scaled[STAGE1_FINS] = Coordinate(249.925,0,0)
-        coordinates_scaled[STAGE1_LUG] = Coordinate(139.25,-7.272448328279824,4.19875)
-        coordinates_scaled[STAGE1_ENGINE_MOUNT] = Coordinate(213.5,0,0)
-        coordinates_scaled[STAGE1_ENGINE_BLOCK] = Coordinate(213.5,0,0)
-        coordinates_scaled[STAGE1_CR] = Coordinate(225.5,0,0)
-        coordinates_scaled[STAGE2] = Coordinate(278.5,0,0)
-        coordinates_scaled[STAGE2_BODY] = Coordinate(278.5,0,0)
-        coordinates_scaled[STAGE2_FINS] = Coordinate(291.35,0,0)
-        coordinates_scaled[STAGE3] = Coordinate(348.5,0,0)
-        coordinates_scaled[STAGE3_FINCAN] = Coordinate(348.5,0,0)
+        coordinates_scaled[STAGE1_BODY] = FreeCAD.Vector(50.0,0,0)
+        coordinates_scaled[STAGE1_FINS] = FreeCAD.Vector(249.925,0,0)
+        coordinates_scaled[STAGE1_LUG] = FreeCAD.Vector(139.25,-7.272448328279824,4.19875)
+        coordinates_scaled[STAGE1_ENGINE_MOUNT] = FreeCAD.Vector(213.5,0,0)
+        coordinates_scaled[STAGE1_ENGINE_BLOCK] = FreeCAD.Vector(213.5,0,0)
+        coordinates_scaled[STAGE1_CR] = FreeCAD.Vector(225.5,0,0)
+        coordinates_scaled[STAGE2] = FreeCAD.Vector(278.5,0,0)
+        coordinates_scaled[STAGE2_BODY] = FreeCAD.Vector(278.5,0,0)
+        coordinates_scaled[STAGE2_FINS] = FreeCAD.Vector(291.35,0,0)
+        coordinates_scaled[STAGE3] = FreeCAD.Vector(348.5,0,0)
+        coordinates_scaled[STAGE3_FINCAN] = FreeCAD.Vector(348.5,0,0)
 
         self.verify3StagePositioning(rocket, coordinates)
         self.verifyRocket(rocket, 1.0)
@@ -697,17 +695,17 @@ class RocketTest(unittest.TestCase):
         rocket = TestRockets.make3stage('testRocketHalfScale')
         coordinates = self.referenceCoordinates()
         coordinates_scaled = self.referenceCoordinates()
-        coordinates_scaled[STAGE1_BODY] = Coordinate(200.0,0,0)
-        coordinates_scaled[STAGE1_FINS] = Coordinate(999.7,0,0)
-        coordinates_scaled[STAGE1_LUG] = Coordinate(632.0,-23.374025648141995,13.495)
-        coordinates_scaled[STAGE1_ENGINE_MOUNT] = Coordinate(1049.0,0,0)
-        coordinates_scaled[STAGE1_ENGINE_BLOCK] = Coordinate(1049.0,0,0)
-        coordinates_scaled[STAGE1_CR] = Coordinate(1052.0,0,0)
-        coordinates_scaled[STAGE2] = Coordinate(1114.0,0,0)
-        coordinates_scaled[STAGE2_BODY] = Coordinate(1114.0,0,0)
-        coordinates_scaled[STAGE2_FINS] = Coordinate(1139.7,0,0)
-        coordinates_scaled[STAGE3] = Coordinate(1254.0,0,0)
-        coordinates_scaled[STAGE3_FINCAN] = Coordinate(1254.0,0,0)
+        coordinates_scaled[STAGE1_BODY] = FreeCAD.Vector(200.0,0,0)
+        coordinates_scaled[STAGE1_FINS] = FreeCAD.Vector(999.7,0,0)
+        coordinates_scaled[STAGE1_LUG] = FreeCAD.Vector(632.0,-23.374025648141995,13.495)
+        coordinates_scaled[STAGE1_ENGINE_MOUNT] = FreeCAD.Vector(1049.0,0,0)
+        coordinates_scaled[STAGE1_ENGINE_BLOCK] = FreeCAD.Vector(1049.0,0,0)
+        coordinates_scaled[STAGE1_CR] = FreeCAD.Vector(1052.0,0,0)
+        coordinates_scaled[STAGE2] = FreeCAD.Vector(1114.0,0,0)
+        coordinates_scaled[STAGE2_BODY] = FreeCAD.Vector(1114.0,0,0)
+        coordinates_scaled[STAGE2_FINS] = FreeCAD.Vector(1139.7,0,0)
+        coordinates_scaled[STAGE3] = FreeCAD.Vector(1254.0,0,0)
+        coordinates_scaled[STAGE3_FINCAN] = FreeCAD.Vector(1254.0,0,0)
 
         self.verify3StagePositioning(rocket, coordinates)
         self.verifyRocket(rocket, 1.0)
@@ -733,17 +731,17 @@ class RocketTest(unittest.TestCase):
         rocket = TestRockets.make3stage('testRocketTwoScale')
         coordinates = self.referenceCoordinates()
         coordinates_scaled = self.referenceCoordinates()
-        coordinates_scaled[STAGE1_BODY] = Coordinate(50.0,0,0)
-        coordinates_scaled[STAGE1_FINS] = Coordinate(249.925,0,0)
-        coordinates_scaled[STAGE1_LUG] = Coordinate(139.25,-7.272448328279824,4.19875)
-        coordinates_scaled[STAGE1_ENGINE_MOUNT] = Coordinate(213.5,0,0)
-        coordinates_scaled[STAGE1_ENGINE_BLOCK] = Coordinate(213.5,0,0)
-        coordinates_scaled[STAGE1_CR] = Coordinate(225.5,0,0)
-        coordinates_scaled[STAGE2] = Coordinate(278.5,0,0)
-        coordinates_scaled[STAGE2_BODY] = Coordinate(278.5,0,0)
-        coordinates_scaled[STAGE2_FINS] = Coordinate(284.925,0,0)
-        coordinates_scaled[STAGE3] = Coordinate(313.5,0,0)
-        coordinates_scaled[STAGE3_FINCAN] = Coordinate(313.5,0,0)
+        coordinates_scaled[STAGE1_BODY] = FreeCAD.Vector(50.0,0,0)
+        coordinates_scaled[STAGE1_FINS] = FreeCAD.Vector(249.925,0,0)
+        coordinates_scaled[STAGE1_LUG] = FreeCAD.Vector(139.25,-7.272448328279824,4.19875)
+        coordinates_scaled[STAGE1_ENGINE_MOUNT] = FreeCAD.Vector(213.5,0,0)
+        coordinates_scaled[STAGE1_ENGINE_BLOCK] = FreeCAD.Vector(213.5,0,0)
+        coordinates_scaled[STAGE1_CR] = FreeCAD.Vector(225.5,0,0)
+        coordinates_scaled[STAGE2] = FreeCAD.Vector(278.5,0,0)
+        coordinates_scaled[STAGE2_BODY] = FreeCAD.Vector(278.5,0,0)
+        coordinates_scaled[STAGE2_FINS] = FreeCAD.Vector(284.925,0,0)
+        coordinates_scaled[STAGE3] = FreeCAD.Vector(313.5,0,0)
+        coordinates_scaled[STAGE3_FINCAN] = FreeCAD.Vector(313.5,0,0)
 
         self.verify3StagePositioning(rocket, coordinates)
         self.verifyRocket(rocket, 1.0)

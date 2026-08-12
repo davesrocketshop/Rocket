@@ -42,7 +42,6 @@ from Rocket.Utilities import EPSILON
 from Rocket.position import AxialMethod
 
 from Rocket.interfaces.Observer import Subject, Observer
-from Rocket.util.Coordinate import Coordinate
 from Rocket.position.AxialMethod import AXIAL_METHOD_MAP
 
 import Ui.Commands as Commands
@@ -63,6 +62,7 @@ class RocketComponentShapeless(Subject, Observer):
         self._parent = None
         obj.Proxy=self
         self._scratch = {} # Non-persistent property storage, for import properties and similar
+        self._subComponents : list[FreeCAD.Vector] = []
 
         self._updating = False
 
@@ -992,6 +992,14 @@ class RocketComponentShapeless(Subject, Observer):
     def getPosition(self) -> Any:
         return self._obj.Placement.Base
 
-    def getPositionAsCoordinate(self) -> Coordinate:
-        pos = self._obj.Placement.Base
-        return Coordinate(pos.x, pos.y, pos.z)
+    def addSubComponent(self, position : FreeCAD.Vector) -> None:
+        """ Add a sub-component at the given position """
+        self._subComponents.append(position)
+
+    def getSubComponents(self) -> list[FreeCAD.Vector]:
+        """ Return the list of sub-components """
+        return self._subComponents
+
+    def clearSubComponents(self) -> None:
+        """ Clear the list of sub-components """
+        self._subComponents.clear()

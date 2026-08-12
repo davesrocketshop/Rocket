@@ -30,7 +30,6 @@ __url__ = "https://www.davesrocketshop.com"
 import FreeCAD
 import unittest
 
-from Rocket.util.Coordinate import Coordinate
 from Rocket.position import AxialMethod
 
 from Ui.Commands.CmdBodyTube import makeBodyTube
@@ -134,8 +133,8 @@ class PositionTests(unittest.TestCase):
         self.assertEqual(200.0, body.getLength(), "incorrect body length:")
         self.assertEqual(50.0, fins.getLength(), "incorrect fin length:")
         # fin #1
-        # expLoc = Coordinate(0, 0, 0)
-        expLoc = Coordinate(220, 0, 0)
+        # expLoc = FreeCAD.Vector(0, 0, 0)
+        expLoc = FreeCAD.Vector(220, 0, 0)
         actLocs = fins.getComponentLocations()
         self.assertCoordinateEqual(actLocs[0], expLoc, fins.getName() + " not positioned correctly: ")
 
