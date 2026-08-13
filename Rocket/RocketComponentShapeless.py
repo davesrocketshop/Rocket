@@ -989,12 +989,12 @@ class RocketComponentShapeless(Subject, Observer):
                 proxy = current.Proxy
                 proxy.setPartScaleRecursive(scale)
 
-    def getPosition(self) -> Any:
+    def getPosition(self) -> FreeCAD.Vector:
         return self._obj.Placement.Base
 
     def addSubComponent(self, position : FreeCAD.Vector) -> None:
         """ Add a sub-component at the given position """
-        self._subComponents.append(position)
+        self._subComponents.append(position + self.getPosition())
 
     def getSubComponents(self) -> list[FreeCAD.Vector]:
         """ Return the list of sub-components """
