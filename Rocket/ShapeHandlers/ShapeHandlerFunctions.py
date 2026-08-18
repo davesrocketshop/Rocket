@@ -47,7 +47,6 @@ class ShapeHandlerFunctions(ABC):
             slope = (r1 - r2) / length
 
         y = float(x) * float(slope) + float(intercept)
-        print(f"Cone radius at pos {pos}: {y}")
         return y
 
     def _ogiveRadiusAt(self, r1 : float, r2 : float, length : float, pos : float) -> float:

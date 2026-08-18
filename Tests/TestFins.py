@@ -68,7 +68,7 @@ class FinTests(unittest.TestCase):
         feature._obj.TipThickness = 0.5
         feature._obj.Fillets = True
         feature._obj.FilletRadius = 5.0
-        feature._obj.FilletCrossSection = FIN_CROSS_ROUND
+        feature._obj.FilletCrossSection = FIN_CROSS_TAPER_LE
         self.Doc.recompute()
 
         self._checkShape(feature, "Trapezoid tapered fin with fillets")
